@@ -211,25 +211,20 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 			cnt = 1;
 			for (int i = 0; i < goodSize; i++) { 
         QGraphicsTextItem *qaText = getTextItem(30);
-        QString hintText = TquestionAsWdg::questionTxt() + ": " + 
-									TquestionAsWdg::qaTypeText(sortedLists[i].first()->questionAs) + "<br>" +
-									TquestionAsWdg::answerTxt() + ": " + 
-									TquestionAsWdg::qaTypeText(sortedLists[i].first()->answerAs) + "<br>";
+				int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
+        QString hintText = 
+						TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->questionAs) + "?", nootFontSize) + 
+						"<br>" + TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->answerAs) + "!", nootFontSize);
         qaText->setHtml(hintText);
 				TgraphicsTextTip::alignCenter(qaText);
 				qreal sc = 1.0;
         if (sortedLists[i].size() * xAxis->questWidth() < qaText->boundingRect().width()) {
-						hintText.replace(": ", ":<br>");
-						delete qaText;
-						qaText = getTextItem(30);
-						qaText->setHtml(hintText);
-						TgraphicsTextTip::alignCenter(qaText);
             sc = (sortedLists[i].size() * xAxis->questWidth()) / qaText->boundingRect().width();
             qaText->setScale(sc);
         }
         qaText->setPos(xAxis->mapValue(cnt) + 
         (sortedLists[i].size() * xAxis->questWidth() - qaText->boundingRect().width() * sc) / 2, 
-                         yAxis->mapValue(yAxis->maxValue()));        
+                         yAxis->mapValue(0) - yAxis->length());        
         cnt += sortedLists[i].size();
       }
 		}  
@@ -248,7 +243,7 @@ QGraphicsTextItem* TlinearChart::getTextItem(int fontSize) {
 	Tcolor::merge(C, palette().base().color());
 	item->setDefaultTextColor(C);
 	scene->addItem(item);
-	item->setZValue(3);
+	item->setZValue(15);
 	return item;
 }
 
