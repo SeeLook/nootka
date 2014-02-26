@@ -380,9 +380,9 @@ if(UNIX AND NOT APPLE)
     INSTALL(FILES picts/nootka.svg DESTINATION "${INS_PREF}/picts")
     if (DPKG_CMD) # deb packager doesn't accept symbolic links
 			INSTALL(FILES picts/nootka.svg picts/levelCreator.png picts/nootka-exam.png DESTINATION share/pixmaps)
-    else if (DPKG_CMD) # but others do
+    if (DPKG_CMD) # but others do
 			INSTALL(FILES mime/nootka.svg mime/levelCreator.png mime/nootka-exam.png DESTINATION share/pixmaps)
-    if (DPKG_CMD)
+    endif (DPKG_CMD)
     INSTALL( CODE "
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/mime/install-mime.sh ${CMAKE_INSTALL_PREFIX} ${CMAKE_CURRENT_BINARY_DIR}/mime ${CMAKE_CURRENT_SOURCE_DIR}/mime)" )
