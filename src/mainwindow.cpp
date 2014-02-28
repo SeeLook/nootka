@@ -555,14 +555,14 @@ void MainWindow::setWidgetsFont() {
 
 
 void MainWindow::fixNoteNameSize() {
-	if (qApp->desktop()->availableGeometry().height() <= 600) {
+// 	if (qApp->desktop()->availableGeometry().height() <= 600) {
 		// We have to decrease font size in noteName and set it maximized
-		m_extraFontOffset--;
-		setWidgetsFont();
-		showMaximized();
-	} else { // or increase window size
+// 		m_extraFontOffset--;
+// 		setWidgetsFont();
+// 		showMaximized();
+// 	} else { // or increase window size
 		resize(width(), height() + noteName->smallSpace() + 2);
-	}
+// 	}
 }
 
 
