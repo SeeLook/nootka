@@ -286,8 +286,10 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 	m_correctAnim = new TcombinedAnim(m_flyEllipse, this);
 	m_correctAnim->setDuration(600);
 	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
-	m_correctAnim->setMoving(m_flyEllipse->pos(), 
-					mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos)))));
+	QPointF destP = mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos))));
+	if (!gl->GisRightHanded)
+		destP.setX(width() - destP.x());
+	m_correctAnim->setMoving(m_flyEllipse->pos(), destP);
 	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
 	if (goodPos.fret() != 0) {
 			m_correctAnim->setScaling(m_parent->guitar->fingerRect().width() / m_flyEllipse->rect().width(), 2.0);
@@ -299,12 +301,6 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p1()))));
 		QPointF p2(mapToScene(m_parent->guitar->mapToParent(
 							m_parent->guitar->mapFromScene(m_parent->guitar->stringLine(goodPos.str()).p2()))));
-		if (!gl->GisRightHanded) {
-			QPointF tmpP = p1;
-			p1 = p2;
-			p2 = tmpP;
-		}
-		qDebug() << p1 << p2;
 		m_correctAnim->setMorphing(QLineF(p1, p2), m_parent->guitar->stringWidth(goodPos.str() - 1));
 	}
 	m_correctAnim->startAnimations();
