@@ -102,7 +102,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
         case TQAtype::e_asName:
-          aS = "<span style=\"font-size: 25px;\">" + point->question()->qa.note.toRichText(point->question()->styleOfQuestion())
+          aS = "<span style=\"font-size: 25px;\">" + point->question()->qa.note.toRichText(point->question()->styleOfAnswer())
               + "</span>";
           break;
         case TQAtype::e_asFretPos:
