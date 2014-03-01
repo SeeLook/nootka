@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,10 +39,12 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     QLabel *lab = new QLabel(this);
     QString supp;
     supp += "<ul>";
-    supp += "<li><b>Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://nootka.googlecode.com/hg/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>";
-    supp += "<li><b>Maintain Nootka package</b><br>Windows, MacOs and various Linux distributions 32 or 64 bits.<br>Life is too short...<br>If you know how to compile Nootka from sources you could keep Nootka version for your platform.<br></li>";
-    supp += "<li><b>Make a donation</b><br>Nootka is free of charge but it requires some expenses. To make donation by PayPal:<br> use <a href=\"http://nootka.sourceforge.net/index.php?L=en&C=sup\"> Nootka site</a><br></li>";
-    supp += "<li><b>Vote on Nootka</b><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br></li>";
+		supp += "<li><b style=\"color: #008000;\">Many thanks</b><br>For all who has helped already!<br></li>";
+    supp += "<li><b style=\"color: #0000C0;\">Translate Nootka</b><br>It does not require any programming skills. Just read <a href=\"http://nootka.googlecode.com/hg/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>";
+//     supp += "<li><b>Maintain Nootka package</b><br>Windows, MacOs and various Linux distributions 32 or 64 bits.<br>Life is too short...<br>If you know how to compile Nootka from sources you could keep Nootka version for your platform.<br></li>";
+    supp += "<li><b style=\"color: #FF8000;\">Make a donation</b><br>Nootka is free of charge but it requires some expenses.<br>To make donation use <a href=\"http://nootka.sourceforge.net\">nootka site</a><br></li>";
+		supp += "<li><b style=\"color: #FF0000;\">Request an issue</b><br>If you find any issue or a bug request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a><br></li>";
+    supp += "<li><b style=\"color: #C000C0;\">Vote on Nootka</b><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br></li>";
     supp += "<li><b>Express your opinion</b><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>";
     supp += "</ul><p>&nbsp;&nbsp;Thanks in advance<br>&nbsp;&nbsp;Author</p><br>";
     lab->setText(supp);

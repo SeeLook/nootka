@@ -1,3 +1,8 @@
+0.9.8 rc4
+    BUGS FIXES
+     - fixed animation of corrected position for left-handed players layout
+
+
 0.9.7 rc3
   Nootka says: I speak German
      - added German translation
@@ -106,7 +111,7 @@
      - fixed crashes related with preferences window
      - proper displaying natural signs in questions preview
      - proper counting of number of mandatory questions in exams
-     - fixed translation of color/open/save dialogs
+     - fixed translation of color/open/save dialogues
 
 0.8.3 beta 
   Nootka says: I speak French
@@ -124,12 +129,12 @@
 
 0.8.2 beta    
      - Added new charts - data sorted by note pitch and fret number
-     - improved dilog window to start/continue exams
-     - new, more detailed dialogs with question during exams
+     - improved dialog window to start/continue exams
+     - new, more detailed dialogues with question during exams
      - A few settings of a chart
 
 0.8.1 beta
-     - !!! Added analyse of an exam results - first chart !!!
+     - !!! Added analyze of an exam results - first chart !!!
      - opening Level Creator from starting exam dialog
      - starting exams from Level Creator dialog
     Under the hood
@@ -138,14 +143,14 @@
 0.8 final	  
   Nootka says: I can hear You
      - added support for MacOs and related issues
-     - during exams double accids buttons in Note Name are hiden if no needed
+     - during exams double accidentals buttons in Note Name are hidden if no needed
      - GUI texts improved
-     - adjustements and bugfixes for some rare question/answer combinations
+     - adjustments and bug-fixes for some rare question/answer combinations
     BUGS FIXES
      - fixed behaviour of the buttons in Note Name Widget
      - fixed segmentation fault after probing audio input
-     - fixed forceing accidentals on ear training level
-     - a lot of smalest
+     - fixed forcing accidentals on ear training level
+     - a lot of smallest
 
 0.8 beta
      - !!! Added sound input and pitch detection !!!
@@ -155,11 +160,11 @@
      - help window during exams
      - better sound output under Windows (in Linux it remains good)
      - layout of widgets was improved
-     - Bespin QT style "frendly" - more clear look of buttons
+     - Bespin QT style "friendly" - more clear look of buttons
   BUGS FIXES
      - right mouse button does what it has to do
      - fixed hanging up on an exam start for some levels
-     - a lot of small bugfixes
+     - a lot of small bug-fixes
   Under the hood
      - cpack rules for building deb & rpm & src packages
      - ported audio lib to "Qt native" QtMultimedia
@@ -170,9 +175,9 @@
      - added language selector to settings
      - added translations for associated Nootka files under Windows 
   BUGS FIXES
-     - key signatures sufixes are translated properly
+     - key signatures suffixes are translated properly
      - removed untranslated strings
-     - fixed segmentation fault occured after run on some 
+     - fixed segmentation fault occurred after run on some 
       platforms (Fedora, Debian)
 
 0.7.7
@@ -201,7 +206,7 @@
      - !!! executing exams !!!
      - storing user settings
      - created nootka font
-     - added first run wizzard
+     - added first run wizard
 
 0.6
      - Levels creator dialog

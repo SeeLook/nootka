@@ -561,6 +561,7 @@ void MainWindow::fixNoteNameSize() {
 // 		setWidgetsFont();
 // 		showMaximized();
 // 	} else { // or increase window size
+	if (!isMaximized())
 		resize(width(), height() + noteName->smallSpace() + 2);
 // 	}
 }

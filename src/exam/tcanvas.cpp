@@ -287,8 +287,12 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 	m_correctAnim->setDuration(600);
 	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
 	QPointF destP = mapToScene(m_parent->guitar->mapToParent(m_parent->guitar->mapFromScene(m_parent->guitar->fretToPos(goodPos))));
-	if (!gl->GisRightHanded)
-		destP.setX(width() - destP.x());
+	if (!gl->GisRightHanded) { // fix destination position point for left-handed guitars
+		if (goodPos.fret())
+			destP.setX(destP.x() - m_parent->guitar->fingerRect().width());
+		else
+			destP.setX(width() - destP.x());
+	}
 	m_correctAnim->setMoving(m_flyEllipse->pos(), destP);
 	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
 	if (goodPos.fret() != 0) {
