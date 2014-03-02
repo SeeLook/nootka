@@ -27,7 +27,6 @@
 #include <texamparams.h>
 #include "tchart.h"
 #include "tmainchart.h"
-#include "tgraphicstexttip.h"
 #include "tlinearchart.h"
 #include "tbarchart.h"
 #include "tquestionpoint.h"
@@ -82,15 +81,22 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_moreButton->setIconSize(QSize(24, 24));
   m_moreButton->setDisabled(true);
   m_moreButton->setToolTip(tr("Level summary:"));
+	m_tuningLab = new QLabel(tr("Tuning"), this);
+	m_tuningLab->hide();
+	m_tuningButton = new QPushButton(this);
+	m_tuningButton->hide();
+	m_tuningButton->setFont(QFont("nootka", 20));
+	
   QHBoxLayout *levLay = new QHBoxLayout;
-  levLay->addWidget(m_levelLab);
-  levLay->addWidget(m_moreButton);
-//  headLay->addWidget(m_levelLab, 1, 2, Qt::AlignCenter);
+		levLay->addWidget(m_levelLab);
+		levLay->addWidget(m_moreButton);
   headLay->addLayout(levLay, 1, 2, Qt::AlignCenter);
+	headLay->addWidget(m_tuningLab, 0, 3, Qt::AlignCenter);
+	headLay->addWidget(m_tuningButton, 1, 3, Qt::AlignCenter);
   m_questNrLab = new QLabel(" ", this);
-  headLay->addWidget(m_questNrLab, 0, 3, Qt::AlignCenter);
+  headLay->addWidget(m_questNrLab, 0, 4, Qt::AlignCenter);
   m_effectLab = new QLabel(" ", this);
-  headLay->addWidget(m_effectLab, 1, 3, Qt::AlignCenter);
+  headLay->addWidget(m_effectLab, 1, 4, Qt::AlignCenter);
 
   lay->addLayout(headLay);
 
@@ -120,15 +126,16 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
             tr("Use %1 + mouse wheel or %2 buttons to zoom a chart.").
             arg(modKey).arg(pixToHtml(gl->path + "picts/zoom-in.png", 26) + " " + pixToHtml(gl->path + "picts/zoom-out.png", 26)) + "<br>" +
             tr("Click and Drag the cursor to move the chart.") + "<br>";
-    TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, gl->EanswerColor);
-      m_chart->scene->addItem(helpTip);
-      helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-      helpTip->setPos(100, 80);
+					TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, gl->EanswerColor);
+						m_chart->scene->addItem(helpTip);
+						helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+						helpTip->setPos(100, 80);
       helpTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
       connect(helpTip, SIGNAL(linkActivated(QString)), this, SLOT(linkOnTipClicked()));
   }
   
   connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)));
+	connect(m_tuningButton, SIGNAL(clicked()), SLOT(showTuningPreview()));
 
 }
 
@@ -153,6 +160,21 @@ void TanalysDialog::setExam(Texam* exam) {
   m_effectLab->setText(TexamView::effectTxt() + QString(": <b>%1%</b>")
                        .arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
   m_moreButton->setDisabled(false);
+	if (exam->level()->instrument != e_noInstrument) {
+		bool showTun = false;
+		if (exam->level()->instrument == e_bassGuitar)
+			showTun = true; // always display tuning preview button for bass
+		else if (exam->tune() != Ttune::stdTune)
+			showTun = true;
+		if (showTun) {
+			m_tuningButton->setText(instrumentToGlyph(exam->level()->instrument));
+			m_tuningLab->show();
+			m_tuningButton->show();
+		} else {
+			m_tuningLab->hide();
+			m_tuningButton->hide();
+		}
+	}
   connect(m_moreButton, SIGNAL(clicked()), this, SLOT(moreLevelInfo()));
   // sort by note
   if (m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound())
@@ -527,6 +549,28 @@ void TanalysDialog::chartTypeChanged() {
           createChart(m_chartSetts);
         }
       }
+}
+
+
+void TanalysDialog::showTuningPreview() {
+	if (m_tunTip) {
+		delete m_tunTip;
+		return;
+	}
+	QString prevText = "<b>" + m_exam->tune().name + "</b><table style=\"text-align: center;\"><tr>";
+	for (int i = m_exam->tune().stringNr() - 1; i >= 0; i--)
+		prevText += "<td>" + m_exam->tune().str(i + 1).toRichText() + "<br>" + 
+			QString("<span style=\"font-family: nootka; font-size: 20px;\">%1</span>").arg(i + 1) + "</td>";
+	prevText += "</tr></table>";
+	QPointF offP = m_chart->mapToScene(0, 0);
+	m_tunTip = new TgraphicsTextTip(prevText, palette().highlight().color());
+	m_chart->scene->addItem(m_tunTip);
+	m_tunTip->setZValue(250);
+// 	m_tunTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+	m_tunTip->setScale(2.0);
+	m_tunTip->setPos(offP.x() + (m_chart->width() - m_tunTip->boundingRect().width() * 2.0) / 2,
+									offP.y() + (m_chart->height() - m_tunTip->boundingRect().height() * 2.0) / 2);
+	
 }
 
 
