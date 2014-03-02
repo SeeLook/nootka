@@ -759,6 +759,10 @@
         <source>Analysis of exercise</source>
         <translation>Analyse der Übungsergebnisse</translation>
     </message>
+    <message>
+        <source>Tuning</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Tcanvas</name>

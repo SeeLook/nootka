@@ -435,63 +435,63 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="112"/>
         <source>main toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="139"/>
+        <location filename="../src/mainwindow.cpp" line="140"/>
         <source>show correct answer for every mistake</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Analyze</source>
         <comment>could be Chart as well</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>Analysis of exam results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="244"/>
+        <location filename="../src/mainwindow.cpp" line="246"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="260"/>
+        <location filename="../src/mainwindow.cpp" line="262"/>
         <source>Level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="265"/>
+        <location filename="../src/mainwindow.cpp" line="267"/>
         <source>Start!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="266"/>
+        <location filename="../src/mainwindow.cpp" line="268"/>
         <source>Start exercises or an exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="208"/>
+        <location filename="../src/mainwindow.cpp" line="210"/>
         <source>Problems with sound output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="226"/>
+        <location filename="../src/mainwindow.cpp" line="228"/>
         <source>Application preferences</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="225"/>
+        <location filename="../src/mainwindow.cpp" line="227"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="245"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>About Nootka</source>
         <translation type="unfinished"></translation>
     </message>
@@ -645,7 +645,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/info/tsupportnootka.cpp" line="66"/>
+        <location filename="../src/info/tsupportnootka.cpp" line="68"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation type="unfinished"></translation>
     </message>
@@ -773,130 +773,135 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="65"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
         <source>student name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="68"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
         <source>level:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="69"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
         <source>note pitch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
         <source>fret number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
         <source>key signature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
         <source>accidentals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
         <source>question type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="76"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
         <source>mistake</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
         <source>Level summary:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <source>Tuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="128"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
         <source>Question number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="224"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="212"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="234"/>
         <source>Open an exam to analyze</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="222"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="244"/>
         <source>Recent exercise on level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="228"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="250"/>
         <source>recent opened exams:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Close analyzer window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="269"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="291"/>
         <source>Settings of a chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="299"/>
         <source>Maximize</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="281"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="303"/>
         <source>linear chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="284"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="306"/>
         <source>bar chart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="487"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="509"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="124"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="126"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -907,32 +912,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="249"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="271"/>
         <source>zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="252"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="274"/>
         <source>zoom out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="255"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
         <source>include time of wrong answers to average</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="257"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="279"/>
         <source>show wrong answers separately</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="48"/>
+        <location filename="../src/charts/tanalysdialog.h" line="49"/>
         <source>Analysis of exam results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="49"/>
+        <location filename="../src/charts/tanalysdialog.h" line="50"/>
         <source>Analysis of exercise</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2356,14 +2361,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="142"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="168"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="194"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="143"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="169"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="195"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="199"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="200"/>
         <source>without accidentals</source>
         <translation type="unfinished"></translation>
     </message>

@@ -437,63 +437,63 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="111"/>
+        <location filename="../src/mainwindow.cpp" line="112"/>
         <source>main toolbar</source>
         <translation>главная панель</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="139"/>
+        <location filename="../src/mainwindow.cpp" line="140"/>
         <source>show correct answer for every mistake</source>
         <translation>показывать правильный ответ при каждой ошибке</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="238"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>Analyze</source>
         <comment>could be Chart as well</comment>
         <translation>Анализ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>Analysis of exam results</source>
         <translation>Анализ результатов экзамена</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="244"/>
+        <location filename="../src/mainwindow.cpp" line="246"/>
         <source>About</source>
         <translation>О..</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="260"/>
+        <location filename="../src/mainwindow.cpp" line="262"/>
         <source>Level</source>
         <translation>Уровень</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="265"/>
+        <location filename="../src/mainwindow.cpp" line="267"/>
         <source>Start!</source>
         <translation>Начать!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="266"/>
+        <location filename="../src/mainwindow.cpp" line="268"/>
         <source>Start exercises or an exam</source>
         <translation>Начать упражнение или экзамен</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="208"/>
+        <location filename="../src/mainwindow.cpp" line="210"/>
         <source>Problems with sound output</source>
         <translation>Проблема с выводом звука</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="226"/>
+        <location filename="../src/mainwindow.cpp" line="228"/>
         <source>Application preferences</source>
         <translation>Настройки приложения</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="225"/>
+        <location filename="../src/mainwindow.cpp" line="227"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="245"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>About Nootka</source>
         <translation>О Нутке</translation>
     </message>
@@ -648,7 +648,7 @@
         <translation>Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
     </message>
     <message>
-        <location filename="../src/info/tsupportnootka.cpp" line="66"/>
+        <location filename="../src/info/tsupportnootka.cpp" line="68"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Не беспокойтесь: это окно появляется только раз, после выхода каждой новой версии программы.&lt;br&gt;Повторно эту информацию можно просмотреть в диалоге «О программе».</translation>
     </message>
@@ -776,131 +776,136 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="65"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>упорядочить по:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
         <source>student name:</source>
         <translation>имя ученика:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="68"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
         <source>level:</source>
         <translation>уровень:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="69"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
         <translation>номеру вопроса</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
         <source>note pitch</source>
         <translation>высоте ноты</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
         <source>fret number</source>
         <translation>номеру лада</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
         <source>key signature</source>
         <translation>тональности</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
         <source>accidentals</source>
         <translation>знакам альтерации</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
         <source>question type</source>
         <translation>типу вопроса</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="76"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
         <source>mistake</source>
         <translation>ошибкам</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
         <source>Level summary:</source>
         <translation>Сводка уровня:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <source>Tuning</source>
+        <translation>Строй</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="128"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Щелкните мышью и тащите, чтобы передвинуть график.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
         <source>Question number</source>
         <translation>Количество вопросов</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="224"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Файл: %1 
  это не файл с экзаменом!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="212"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="234"/>
         <source>Open an exam to analyze</source>
         <translation>Открыть экзамен для анализа</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="222"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="244"/>
         <source>Recent exercise on level</source>
         <translation>Недавнее упражнение</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="228"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="250"/>
         <source>recent opened exams:</source>
         <translation>недавно открытые экзамены:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Close analyzer window</source>
         <translation>Закрыть анализ</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="269"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="291"/>
         <source>Settings of a chart</source>
         <translation>Настройки диаграммы</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="299"/>
         <source>Maximize</source>
         <translation>Максимально увеличить</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="281"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="303"/>
         <source>linear chart</source>
         <translation>линейная диаграмма</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="284"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="306"/>
         <source>bar chart</source>
         <translation>столбчатый график</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="487"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="509"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="124"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Нажмите кнопку %1 для загрузки экзамена из файла.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="126"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Используйте %1 + колесо мыши или кнопки %2 для изменения масштаба диаграммы.</translation>
     </message>
@@ -911,32 +916,32 @@
         <translation>Количество вопросов</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="249"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="271"/>
         <source>zoom in</source>
         <translation>увеличить</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="252"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="274"/>
         <source>zoom out</source>
         <translation>уменьшить</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="255"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
         <source>include time of wrong answers to average</source>
         <translation>включить время неправильных ответов в среднее</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="257"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="279"/>
         <source>show wrong answers separately</source>
         <translation>показывать неправильные ответы отдельно</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="48"/>
+        <location filename="../src/charts/tanalysdialog.h" line="49"/>
         <source>Analysis of exam results</source>
         <translation>Анализ результатов экзамена</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="49"/>
+        <location filename="../src/charts/tanalysdialog.h" line="50"/>
         <source>Analysis of exercise</source>
         <translation>Анализ упражнения</translation>
     </message>
@@ -2379,15 +2384,15 @@
         <translation>для нот без знаков альтерации</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="142"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="168"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="194"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="143"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="169"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="195"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translatorcomment>can&apos;t found</translatorcomment>
         <translation>вопросы не связанные&lt;br&gt;с типом диаграммы</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="199"/>
+        <location filename="../src/charts/tlinearchart.cpp" line="200"/>
         <source>without accidentals</source>
         <translatorcomment>can&apos;t found</translatorcomment>
         <translation>без знаков альтерации</translation>
