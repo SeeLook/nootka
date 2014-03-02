@@ -75,6 +75,7 @@ fi
 "/usr/share/nootka/lang/nootka_ru.qm"
 "/usr/share/nootka/lang/nootka_pl.qm"
 "/usr/share/nootka/lang/nootka_cs.qm"
+"/usr/share/nootka/lang/nootka_de.qm"
 %dir "/usr/share/nootka/picts"
 "/usr/share/nootka/picts/body.png"
 "/usr/share/nootka/picts/flags-pl.png"

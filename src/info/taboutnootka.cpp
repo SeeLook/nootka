@@ -157,15 +157,20 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 	
 	QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
 
-// LICENSE GPL
+// LICENSE GPL or Copyright for Debian based
     QTextEdit *licenseTxt = new QTextEdit();
     licenseTxt->setReadOnly(true);
     QFile file(gl->path + "gpl");
+		if (!file.exists()) { // Debian based
+				QDir d(gl->path);
+				d.cdUp();
+				file.setFileName(d.path() + "/doc/nootka/copyright");
+		}
     if(file.open(QFile::ReadOnly | QFile::Text)) {
 	      QTextStream in(&file);
         in.setCodec("UTF-8");
 	      licenseTxt->setPlainText(in.readAll());
-    }
+    } 
     file.close();
 
     TsupportNootka *support = new TsupportNootka(this);

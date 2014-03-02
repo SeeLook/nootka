@@ -35,17 +35,18 @@ endif (ENABLE_PULSEAUDIO)
 
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqtcore4 | libqt4-core, libqtgui4 | libqt4-gui, ${DEB_DEPENDS} libfftw3-3, libvorbisfile3, libsoundtouch0")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to help with learning classical score notation.
- Mostly it is for guitarists,
- but it can be used for ear training as well.
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "An application to learn classical score notation.
+ It helps to understand the rules of reading and writing scores
+ and develops skills for playing and singing notes.
  .
  Features:
- numerous settings to personalise for user needs and capabilities
+ interactive interface to discover the rules of musical notation
+ exercises with possibility to create own sets
  accurate method for detecting sung and played sounds
- different name-callings of the notes
- support for scordatures
- exam mode with different levels to registry progresses
- levels creator with wide range of settings
+ natural sound of guitars
+ clefs (treble, bass and others) and grand stave
+ analyze of results
+ different kinds of guitars and theirs tuning
  .
  http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
 set(CPACK_DEBIAN_PACKAGE_SECTION "science")

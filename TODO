@@ -5,8 +5,8 @@ TODOES
 - test pitch detection and its ambitus after setting approved for non guitar
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
 - test 48000 input dev under windows
+- check copyright (license) under different os-es
 
-- display scordature in analyze window
 
 - try to remove re-sizing a status label in exams/exercises
 - piano staff brace height is still random
