@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 #include "tgroupedqaunit.h"
 #include "tlevel.h"
 #include "tgraphicstexttip.h"
+#include <tnamestylefilter.h>
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QWidget>
@@ -65,7 +66,13 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
     QString txt;
     if (questNr)
         txt = QString("%1.<br>").arg(questNr);
-		txt += QString("<b>%1</b>").arg(unit.qa.note.toRichText());
+		Tnote::EnameStyle altStyle;
+		if (Tnote::defaultStyle == Tnote::e_italiano_Si || Tnote::defaultStyle == Tnote::e_russian_Ci)
+			altStyle = TnameStyleFilter::get(Tnote::e_english_Bb);
+		else
+			altStyle = TnameStyleFilter::get(Tnote::e_italiano_Si);
+		txt += QString("<b>%1</b> <small><i>(%2)</small></i>").arg(unit.qa.note.toRichText()).
+				arg(unit.qa.note.toRichText(altStyle, false));
     if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
         txt += "<br>" + QString("<span style=\"font-size: 15px; font-family: nootka\">%1</span><span style=\"font-size: 15px;\">%2</span>").
                 arg((int)unit.qa.pos.str()).arg(TfingerPos::romanFret(unit.qa.pos.fret()));
@@ -136,8 +143,7 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 
 QRectF TXaxis::boundingRect()
 {
-  QRectF rect(0 ,0, length(), axisWidth);
-//  rect.translate(1, axisWidth / 2.0);
+  QRectF rect(0, 0, length(), axisWidth);
   return rect;
 }
 
