@@ -648,7 +648,7 @@
         <translation>Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
     </message>
     <message>
-        <location filename="../src/info/tsupportnootka.cpp" line="66"/>
+        <location filename="../src/info/tsupportnootka.cpp" line="68"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
     </message>
@@ -776,131 +776,136 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="65"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>Seřazeno podle:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
         <source>student name:</source>
         <translation>Žákovo jméno:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="68"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
         <source>level:</source>
         <translation>Úroveň:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="69"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
         <translation>Otázka číslo</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
         <source>note pitch</source>
         <translation>Výška tónu noty</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
         <source>fret number</source>
         <translation>Číslo pražce</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
         <source>key signature</source>
         <translation>Předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
         <source>accidentals</source>
         <translation>Posuvky</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
         <source>question type</source>
         <translation>Typ otázky</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="76"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
         <source>mistake</source>
         <translation>Omyl</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
         <source>Level summary:</source>
         <translation>Přehled úrovně:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <source>Tuning</source>
+        <translation>Zvuk</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="128"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Klepněte a táhněte ukazovátko pro posun grafu.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
         <source>Question number</source>
         <translation>Číslo otázky</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="224"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Soubor: %1 
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="212"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="234"/>
         <source>Open an exam to analyze</source>
         <translation>Otevřít zkoušku k rozebrání</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="222"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="244"/>
         <source>Recent exercise on level</source>
         <translation>Nedávné cvičení na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="228"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="250"/>
         <source>recent opened exams:</source>
         <translation>Naposledy otevřené zkoušky:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Close analyzer window</source>
         <translation>Zavřít analyzátor</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="269"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="291"/>
         <source>Settings of a chart</source>
         <translation>Nastavení grafu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="299"/>
         <source>Maximize</source>
         <translation>Zvětšit</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="281"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="303"/>
         <source>linear chart</source>
         <translation>Lineární graf</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="284"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="306"/>
         <source>bar chart</source>
         <translation>Sloupcový graf</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="487"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="509"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="124"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Stiskněte tlačítko %1, abyste vybrali zkoušku ze souboru.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="126"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Použijte %1 + kolečko myši nebo tlačítka %2 pro přiblížení grafu.</translation>
     </message>
@@ -911,32 +916,32 @@ není platným souborem zkoušky!</translation>
         <translation>Číslo otázky</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="249"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="271"/>
         <source>zoom in</source>
         <translation>Přiblížit</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="252"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="274"/>
         <source>zoom out</source>
         <translation>Oddálit</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="255"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
         <source>include time of wrong answers to average</source>
         <translation>Zahrnout čas nesprávných odpovědí do průměru</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="257"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="279"/>
         <source>show wrong answers separately</source>
         <translation>Ukázat nesprávné odpovědi každou zvlášť</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="48"/>
+        <location filename="../src/charts/tanalysdialog.h" line="49"/>
         <source>Analysis of exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="49"/>
+        <location filename="../src/charts/tanalysdialog.h" line="50"/>
         <source>Analysis of exercise</source>
         <translation>Rozbor cvičení</translation>
     </message>

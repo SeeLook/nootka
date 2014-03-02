@@ -648,7 +648,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/info/tsupportnootka.cpp" line="66"/>
+        <location filename="../src/info/tsupportnootka.cpp" line="68"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu &quot;À propos de Nootka&quot;</translation>
     </message>
@@ -776,131 +776,136 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="65"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>Tri par:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="66"/>
         <source>student name:</source>
         <translation>Nom de l&apos;étudiant:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="68"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="67"/>
         <source>level:</source>
         <translation>Niveau:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="69"/>
         <source>question number</source>
         <comment>see coment in &apos;ordered by:&apos; entry</comment>
         <translation>Numéro de question</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="70"/>
         <source>note pitch</source>
         <translation>Hauteur de note</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="71"/>
         <source>fret number</source>
         <translation>Numéro de frette</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="72"/>
         <source>key signature</source>
         <translation>Armature</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="73"/>
         <source>accidentals</source>
         <translation>Altérations</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="74"/>
         <source>question type</source>
         <translation>type de question</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="76"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="75"/>
         <source>mistake</source>
         <translation>erreur</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="83"/>
         <source>Level summary:</source>
         <translation>Résumé du niveau:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="122"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="84"/>
+        <source>Tuning</source>
+        <translation>Accord</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tanalysdialog.cpp" line="128"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Cliquer et glisser le curseur pour déplacer le graphique.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
         <source>Question number</source>
         <translation>Nombre de questions</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="202"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="224"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Le fichier: %1 
  n&apos;est pas un fichier examen valide!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="212"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="234"/>
         <source>Open an exam to analyze</source>
         <translation>Ouvrir un examen pour analyse</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="222"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="244"/>
         <source>Recent exercise on level</source>
         <translation>Exercice récent au niveau</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="228"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="250"/>
         <source>recent opened exams:</source>
         <translation>Examens ouverts récemment:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="246"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="268"/>
         <source>Close analyzer window</source>
         <translation>Fermer la fenêtre d&apos;analyse</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="269"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="291"/>
         <source>Settings of a chart</source>
         <translation>Paramètres du graphique</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="299"/>
         <source>Maximize</source>
         <translation>Maximiser</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="281"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="303"/>
         <source>linear chart</source>
         <translation>Graphique linéaire</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="284"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="306"/>
         <source>bar chart</source>
         <translation>Graphique en barres</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="487"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="509"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="118"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="124"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Presser le bouton %1 pour sélectionner un examen dans un fichier. </translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="120"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="126"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Utiliser le bouton %1 + molette de la souris ou le bouton %2 pour zoomer un graphique. </translation>
     </message>
@@ -911,32 +916,32 @@
         <translation>Nombre de questions</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="249"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="271"/>
         <source>zoom in</source>
         <translation>Zoomer</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="252"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="274"/>
         <source>zoom out</source>
         <translation>Dézoomer</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="255"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="277"/>
         <source>include time of wrong answers to average</source>
         <translation>Inclure le temps des mauvaises réponses dans la moyenne</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="257"/>
+        <location filename="../src/charts/tanalysdialog.cpp" line="279"/>
         <source>show wrong answers separately</source>
         <translation>Afficher séparément les réponses incorrectes</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="48"/>
+        <location filename="../src/charts/tanalysdialog.h" line="49"/>
         <source>Analysis of exam results</source>
         <translation>Analyser les résultats d&apos;un examen</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="49"/>
+        <location filename="../src/charts/tanalysdialog.h" line="50"/>
         <source>Analysis of exercise</source>
         <translation>Analyse de l&apos;exercice</translation>
     </message>
