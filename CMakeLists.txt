@@ -355,13 +355,14 @@ if(APPLE)
 	INSTALL(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
 endif(APPLE)
 
-INSTALL(FILES gpl DESTINATION "${INS_PREF}")
+
 INSTALL(FILES changes DESTINATION "${INS_PREF}")
 FILE(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
 INSTALL(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
 INSTALL(DIRECTORY fonts DESTINATION "${INS_PREF}")
 FILE(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
 if(APPLE OR WIN32)
+	INSTALL(FILES gpl DESTINATION "${INS_PREF}")
   LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qt_de.qm" "${QT_TRANSLATIONS_DIR}/qt_fr.qm" "${QT_TRANSLATIONS_DIR}/qt_pl.qm" "${QT_TRANSLATIONS_DIR}/qt_ru.qm" )
 endif(APPLE OR WIN32)
 INSTALL(FILES ${langs} DESTINATION "${INS_PREF}/lang")
@@ -382,6 +383,7 @@ if(UNIX AND NOT APPLE)
 			INSTALL(FILES picts/nootka.svg picts/levelCreator.png picts/nootka-exam.png DESTINATION share/pixmaps)
     else (DPKG_CMD) # but others do
 			INSTALL(FILES mime/nootka.svg mime/levelCreator.png mime/nootka-exam.png DESTINATION share/pixmaps)
+			INSTALL(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
     endif (DPKG_CMD)
     INSTALL( CODE "
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )

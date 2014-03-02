@@ -1,11 +1,14 @@
- Mostly it is for guitarists,
- but it can be used for ear training as well.
+ An application to learn classical score notation.
+ It helps to understand the rules of reading and writing scores
+ and develops skills for playing and singing notes.
  .
  Features:
- numerous settings to personalize for user needs and capabilities,
- natural, classical guitar sound output and midi also,
- support for different name-callings of the notes,
- scordatures, exams with different levels,
- levels creator with wide range of settings
+ interactive interface to discover the rules of musical notation
+ exercises with possibility to create own sets
+ accurate method for detecting sung and played sounds
+ natural sound of guitars
+ clefs (treble, bass and others) and grand stave
+ analyze of results
+ different kinds of guitars and theirs tuning
  .
  http://nootka.sf.net
