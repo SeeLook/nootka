@@ -1,6 +1,7 @@
 0.9.8 rc4
     BUGS FIXES
      - fixed animation of corrected position for left-handed players layout
+     - styles of note names on linear charts are displayed properly
 
 
 0.9.7 rc3

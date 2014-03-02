@@ -357,11 +357,12 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) 
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-				QString txt = "<big>" + m_notes[0].toRichText() + "</big>";
+				QString txt = "<big>" + m_notes[0].toRichText(gl->NoctaveInNoteNameFormat) + "</big>";
         if (m_notes[1].note) {
-            txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->enharmNotesColor.name()) + m_notes[1].toRichText();
+            txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->enharmNotesColor.name()) + 
+							m_notes[1].toRichText(gl->NoctaveInNoteNameFormat);
             if (m_notes[2].note)
-                txt = txt + "  " + m_notes[2].toRichText();
+                txt = txt + "  " + m_notes[2].toRichText(gl->NoctaveInNoteNameFormat);
             txt = txt + ")</small>";
         }
         m_nameLabel->setText(txt);
