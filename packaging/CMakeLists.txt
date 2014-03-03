@@ -35,7 +35,7 @@ endif (ENABLE_PULSEAUDIO)
 
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqtcore4 | libqt4-core, libqtgui4 | libqt4-gui, ${DEB_DEPENDS} libfftw3-3, libvorbisfile3, libsoundtouch0")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "An application to learn classical score notation.
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to learn classical score notation.
  It helps to understand the rules of reading and writing scores
  and develops skills for playing and singing notes.
  .
