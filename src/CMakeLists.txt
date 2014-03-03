@@ -177,7 +177,6 @@ SET( NOOTKA_SRCS
 	animations/tcrossfadetextanim.cpp
 	animations/tmovedanim.cpp
 	animations/tblinkingitem.cpp
-	animations/tthrownitem.cpp
 	animations/tscaledanim.cpp
 	animations/tcoloredanim.cpp
 	animations/tmorphedanim.cpp
@@ -286,7 +285,6 @@ SET( NOOTKA_MOC_SRCS
 	animations/tmovedanim.h
 	animations/tcrossfadetextanim.h
 	animations/tblinkingitem.h
-	animations/tthrownitem.h
 	animations/tscaledanim.h
 	animations/tcoloredanim.h
 	animations/tmorphedanim.h

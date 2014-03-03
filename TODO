@@ -4,15 +4,11 @@ Plan for the Nootka One
 TODOES
 - test pitch detection and its ambitus after setting approved for non guitar
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
-- test 48000 input dev under windows
 - check copyright (license) under different os-es
 
 
 - try to remove re-sizing a status label in exams/exercises
 - piano staff brace height is still random
-
-- make order with Qt::WA_TransparentForMouseEvents in canvas
-- remove unused classes: widgets/animations
 
 - add english entries used in desktop file and win installer to *.ts
 
