@@ -153,8 +153,7 @@ void TfirstRunWizzard::nextSlot() {
               gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
             else
               gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
-        }
-        else {
+        } else {
             gl->seventhIs_B = false;
             gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
             if (m_page3->keyNameStyle() == "solfege")
@@ -162,6 +161,8 @@ void TfirstRunWizzard::nextSlot() {
             else
               gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
         }
+        if (QLocale::system().name().contains("ru")) // override name style for Russian localization
+					gl->NnameStyleInNoteName = Tnote::e_russian_Ci;        
         gl->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
         gl->showEnharmNotes = m_page3->enharmChB->isChecked();
         gl->SkeySignatureEnabled = m_page3->useKeyChB->isChecked();
