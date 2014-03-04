@@ -66,13 +66,17 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
     QString txt;
     if (questNr)
         txt = QString("%1.<br>").arg(questNr);
-		Tnote::EnameStyle altStyle;
-		if (Tnote::defaultStyle == Tnote::e_italiano_Si || Tnote::defaultStyle == Tnote::e_russian_Ci)
-			altStyle = TnameStyleFilter::get(Tnote::e_english_Bb);
-		else
-			altStyle = TnameStyleFilter::get(Tnote::e_italiano_Si);
-		txt += QString("<b>%1</b> <small><i>(%2)</small></i>").arg(unit.qa.note.toRichText()).
-				arg(unit.qa.note.toRichText(altStyle, false));
+		QString altStyleText = "";
+		if (m_level->requireStyle || (m_level->questionAs.isName() && m_level->answersAs[TQAtype::e_asName].isName())) {
+			/** Displays alternate to user pref names but only for levels where different styles can occur */
+			Tnote::EnameStyle altStyle;
+			if (Tnote::defaultStyle == Tnote::e_italiano_Si || Tnote::defaultStyle == Tnote::e_russian_Ci)
+				altStyle = TnameStyleFilter::get(Tnote::e_english_Bb);
+			else
+				altStyle = TnameStyleFilter::get(Tnote::e_italiano_Si);
+			altStyleText = QString(" <small><i>(%1)</small></i>").arg(unit.qa.note.toRichText(altStyle, false));
+		}
+		txt += QString("<b>%1</b>").arg(unit.qa.note.toRichText()) + altStyleText;
     if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
         txt += "<br>" + QString("<span style=\"font-size: 15px; font-family: nootka\">%1</span><span style=\"font-size: 15px;\">%2</span>").
                 arg((int)unit.qa.pos.str()).arg(TfingerPos::romanFret(unit.qa.pos.fret()));
