@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +28,7 @@ class TaudioIN;
 
 /** Tsound is a wrapper of TaudioIN & TaudioOUT classes
  * to manage them. It enables/disables them depends on Tglobals,
- * pauses sniffing when playback is proceding.
+ * pauses sniffing when playback is proceeding.
  * Also it has got TpitchView to show volume meter & pitch detection state.
  */
 class Tsound : public QObject
@@ -46,35 +46,31 @@ public:
   void play(Tnote note);
   bool isPlayable();
   bool isSniffable() { return (sniffer ? true : false) ; }
+  
     /** Before Nootka config dialog is created a few things have to be done.
      * stop sniffing, playing
-     * delete midi, whitch bloks audio devices,
+     * delete midi, which blocks audio devices,
      * delete audioIN, config creates its own to test. */
   void prepareToConf();
-    /** Also, when user will discard config, it has to restore its state. */
-  void restoreAfterConf();
+  void restoreAfterConf(); /** Also, when user will discard config, it has to restore its state. */
   void acceptSettings();
   void setPitchView(TpitchView *pView);
-    /** Stops sniffing. It is called when en exam is starting. */
-  void wait();
-    /** Starts sniffing again. */
-  void go();
-    /** Returns recently detected note. */
-  Tnote note() { return m_detectedNote; }
-		/** Returns recently detected pitch of note. */
-  float pitch();
+  void wait(); /** Stops sniffing. It is called when en exam is starting. */
+  void go(); /** Starts sniffing again. */
+  Tnote note() { return m_detectedNote; } /** Returns recently detected note. */
+  float pitch(); /** Returns recently detected pitch of note. */
   void pauseSinffing();
   void unPauseSniffing();
   bool isSnifferPaused();
+	
 			/** Prepares sound to exam.
 			 * Given notes in params are level range notes and are put to sniffer ambitus. */
   void prepareToExam(Tnote loNote, Tnote hiNote);
   void restoreAfterExam();
-    /** Sets bg color to question color and enables TpitchView. */
-  void prepareAnswer();
-    /** Clears bg color and disables TpitchView. */
-  void restoreAfterAnswer();
+  void prepareAnswer(); /** Sets bg color to question color and enables TpitchView. */
+  void restoreAfterAnswer(); /** Clears bg color and disables TpitchView. */
   void stopPlaying();
+	void setDefaultAmbitus(); /** Instrument scale extended of perfect 4th up and down. */
   
 signals:
   void detectedNote(Tnote note);
