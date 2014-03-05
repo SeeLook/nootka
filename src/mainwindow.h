@@ -122,10 +122,15 @@ protected slots:
 				 * If not, Invokes TnoteName::resize() with smallest font size to decrease it.
 				 * Also does the same for TexamView (examResults) and TprogressWidget */
 		void fixNoteNameSize();
+		
+				/** This slot is invoked when clef is changed by clicking score.
+				 * It adjust ambitus to score possibilities if clef is differ than default
+				 * or to instrument scale if clef backs to default */
+		void adjustAmbitus();
 
 private:
 
-    TroundedLabel 				*m_statLab;
+    TroundedLabel 			  *m_statLab;
     QString 							m_statusText, m_prevMsg;
 		
         /** Keeps true when statusMesage is locked by temporary message

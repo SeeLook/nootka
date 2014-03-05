@@ -201,6 +201,8 @@ MainWindow::MainWindow(QWidget *parent) :
     createActions();
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
+		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
@@ -320,9 +322,8 @@ QPoint MainWindow::relatedPoint() {
 }
 
 //##########################################################################################
-//#######################     SLOTS       ################################################
+//#######################     PUBLIC SLOTS       ###########################################
 //##########################################################################################
-
 
 void MainWindow::openFile(QString runArg) {
     if (ex || m_levelCreatorExist)
@@ -362,9 +363,6 @@ void MainWindow::createSettingsDialog() {
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			score->acceptSettings();
-// 			if (gl->instrument == e_noInstrument) // Tsound sets ambitus to guitar range
-// 				if (sound->isSniffable()) // but if no guitar - adjust it to score - clef range
-// 					sound->sniffer->setAmbitus(score->lowestNote(), score->highestNote());
 			noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 			noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
 			noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
@@ -525,6 +523,9 @@ void MainWindow::soundWasPlayed(Tnote note) {
 			guitar->setFinger(note);
 }
 
+//##########################################################################################
+//#######################     PROTECTED SLOTS       ########################################
+//##########################################################################################
 
 void MainWindow::restoreMessage() {
     m_lockStat = false;
@@ -600,6 +601,27 @@ void MainWindow::fixPitchViewPos() {
 	} else
 			score->setMaximumHeight(16777215);
 }
+
+
+void MainWindow::adjustAmbitus() {
+	if (!sound->sniffer)
+		return;
+	Tnote hiNote, loNote;
+	const int noteOffset = 2; // major 2nd up and down 
+	if (score->clef().type() != gl->Sclef) {
+		if (score->highestNote().getChromaticNrOfNote() < gl->hiNote().getChromaticNrOfNote())
+			hiNote = Tnote(gl->hiNote().getChromaticNrOfNote() + noteOffset);
+		else
+			hiNote = Tnote(score->highestNote().getChromaticNrOfNote() + noteOffset);
+		if (score->lowestNote().getChromaticNrOfNote() > gl->loNote().getChromaticNrOfNote())
+			loNote = Tnote(gl->loNote().getChromaticNrOfNote() - noteOffset);
+		else
+			loNote = Tnote(score->lowestNote().getChromaticNrOfNote() - noteOffset);
+		sound->sniffer->setAmbitus(loNote, hiNote);
+	} else
+		sound->setDefaultAmbitus();
+}
+
 
 
 //##########################################################################################

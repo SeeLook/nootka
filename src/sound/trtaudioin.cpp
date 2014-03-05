@@ -250,6 +250,7 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
   m_pitch->setAmbitus(loNote.getChromaticNrOfNote() + 46, hiNote.getChromaticNrOfNote() + 48);
 	m_loNote = loNote;
 	m_hiNote = hiNote;
+	qDebug() << "Ambitus set to:" << loNote.toText() << "--" << hiNote.toText();
 }
 
 //------------------------------------------------------------------------------------
