@@ -4,19 +4,12 @@ Plan for the Nootka One
 TODOES
 - test pitch detection and its ambitus after setting approved for non guitar
 - check 'tune' of non guitar - does it correspond with instrument/clef scale and levels works proper
-- check copyright (license) under different os-es
 
-
-- try to remove re-sizing a status label in exams/exercises
-- piano staff brace height is still random
+- piano staff brace height is still random (MacOs)
 
 - add english entries used in desktop file and win installer to *.ts
 
 
-
-TEXAMEXECUTOR
-  - think about hide octave in note name format when octaves are not required in answers. 
-     Also for questions in "hint" - don't show octave when only name is required   
     
 ================================================================================================================
 Somewhere in time
@@ -38,3 +31,7 @@ Somewhere in time
 Tnote
 			- overload + and - operators to raise/drop a note
 			- consider to change TnotesList type to QList<Tnote>
+			
+TEXAMEXECUTOR
+  - think about hide octave in note name format when octaves are not required in answers. 
+     Also for questions in "hint" - don't show octave when only name is required   

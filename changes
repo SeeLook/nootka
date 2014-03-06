@@ -1,8 +1,10 @@
 0.9.8 rc4
      - alternate note names on an axis chart for better understanding
+     - adjusting pitch detection range to possibilities of a clef changed by user
     BUGS FIXES
      - fixed animation of corrected position for left-handed players layout
      - styles of note names on linear charts are displayed properly
+     - fixed desktop entry for rpm packages
 
 0.9.7 rc3
   Nootka says: I speak German

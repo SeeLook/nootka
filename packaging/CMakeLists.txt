@@ -37,9 +37,10 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqtcore4 | libqt4-core, libq
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to learn classical score notation.
  It helps to understand the rules of reading and writing scores
- and develops skills for playing and singing notes.
+ and helps with developing skills of playing and singing notes.
  .
  Features:
+ .
  interactive interface to discover the rules of musical notation
  exercises with possibility to create own sets
  accurate method for detecting sung and played sounds

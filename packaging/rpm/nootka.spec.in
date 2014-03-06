@@ -11,7 +11,7 @@ Vendor:         @CPACK_RPM_PACKAGE_VENDOR@
 
 
 %if 0%{?suse_version}
-Requires: libqt4 >= 4.6, libqt4-devel, fftw3, libvorbis, libpulse0, libSoundTouch0
+Requires: libqt4 >= 4.6, fftw3, soundtouch
 %endif
 
 %if 0%{?fedora}
