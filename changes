@@ -1,6 +1,6 @@
 0.9.8 rc4
      - alternate note names on an axis chart for better understanding
-     - adjusting pitch detection range to possibilities of a clef changed by user
+     - adjusting pitch detection range to possibilities of a clef
     BUGS FIXES
      - fixed animation of corrected position for left-handed players layout
      - styles of note names on linear charts are displayed properly
