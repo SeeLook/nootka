@@ -47,13 +47,22 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	QGraphicsSimpleTextItem *brace = new QGraphicsSimpleTextItem();
 	registryItem(brace);
 	QFont ff = QFont("nootka");
+#if defined (Q_OS_MAC)
+    ff.setPointSizeF(27.5);
+#else
   ff.setPointSizeF(25.5);
+#endif
   QFontMetrics fm(ff);
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
   brace->setFont(ff);
 	brace->setText(QString(QChar(0xe16c)));
-	qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8 - upperLinePos();
+#if defined (Q_OS_MAC)
+    qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8.3 - upperLinePos();
+    qreal fact = (distance + 1.3) / brace->boundingRect().height();
+#else
+    qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8 - upperLinePos();
 	qreal fact = (distance + 0.2) / brace->boundingRect().height();
+#endif
 	brace->setScale(fact);
 	brace->setBrush(qApp->palette().text().color());
 	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.4);
