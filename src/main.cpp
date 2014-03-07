@@ -32,10 +32,6 @@ int main(int argc, char *argv[])
 	bool firstTime = true;
 	QString confFile;
 	resetConfig = false;
-#if defined (Q_OS_MAC)
-    QApplication::setStyle(new QPlastiqueStyle);
-#endif
-	
 	do {		
 		if (a) delete a;
 		if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
@@ -44,6 +40,9 @@ int main(int argc, char *argv[])
 		}
 		resetConfig = false;
 		a = new QApplication(argc, argv);
+#if defined (Q_OS_MAC)
+        QApplication::setStyle(new QPlastiqueStyle);
+#endif
 // 		qDebug() << a->style()->objectName();
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
