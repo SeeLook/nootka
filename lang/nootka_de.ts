@@ -349,6 +349,14 @@
         <source>Nootka exam file</source>
         <translation>Nootka-Prüfungs Datei</translation>
     </message>
+    <message>
+        <source>to play scores</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application for learning musical score notation</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

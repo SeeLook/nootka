@@ -417,18 +417,28 @@
 <context>
     <name>File association entries</name>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="201"/>
+        <location filename="../src/info/translationHeader.h" line="6"/>
+        <source>to play scores</source>
+        <translation>Pour jouer des gammes</translation>
+    </message>
+    <message>
+        <location filename="../src/info/translationHeader.h" line="7"/>
+        <source>Application for learning musical score notation</source>
+        <translation>Application pour apprendre la notation musicale sur partitions</translation>
+    </message>
+    <message>
+        <location filename="../src/info/translationHeader.h" line="8"/>
         <source>Nootka level file</source>
         <comment>for file browsers</comment>
         <translation>Fichier de niveau Nootka</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="202"/>
+        <location filename="../src/info/translationHeader.h" line="9"/>
         <source>Open with Nootka</source>
         <translation>Ouvrir avec Nootka</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="203"/>
+        <location filename="../src/info/translationHeader.h" line="10"/>
         <source>Nootka exam file</source>
         <translation>Fichier d&apos;examen Nootka</translation>
     </message>
@@ -446,53 +456,53 @@
         <translation>montrer la réponse correcte pour chaque erreur</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>Analyze</source>
         <comment>could be Chart as well</comment>
         <translation>Analyse</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="242"/>
+        <location filename="../src/mainwindow.cpp" line="244"/>
         <source>Analysis of exam results</source>
         <translation>Analyse des résultats d&apos;un examen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="246"/>
+        <location filename="../src/mainwindow.cpp" line="248"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="262"/>
+        <location filename="../src/mainwindow.cpp" line="264"/>
         <source>Level</source>
         <translation>Niveau</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="267"/>
+        <location filename="../src/mainwindow.cpp" line="269"/>
         <source>Start!</source>
         <translation>Commencer!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="268"/>
+        <location filename="../src/mainwindow.cpp" line="270"/>
         <source>Start exercises or an exam</source>
         <translation>Débuter un exercice ou un examen</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="210"/>
+        <location filename="../src/mainwindow.cpp" line="212"/>
         <source>Problems with sound output</source>
         <translation>Problème avec la sortie son</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="228"/>
+        <location filename="../src/mainwindow.cpp" line="230"/>
         <source>Application preferences</source>
         <translation>Préférences de Nootka</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="227"/>
+        <location filename="../src/mainwindow.cpp" line="229"/>
         <source>Settings</source>
         <translation>Préfs.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="247"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <source>About Nootka</source>
         <translation>À propos de Nootka</translation>
     </message>
@@ -680,22 +690,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="246"/>
+        <location filename="../src/info/taboutnootka.cpp" line="251"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
         <translation>Bienvenue à bord !&lt;br&gt; Nootka est une application libre vous permettant d&apos;apprendre (et aussi d&apos;enseigner) la notation de la musique sur partitions. &lt;br&gt;Cette application est tout particulièrement destinée aux guitaristes mais elle peut également être utile à d&apos;autres instrumentistes.</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="247"/>
+        <location filename="../src/info/taboutnootka.cpp" line="252"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Ceci est une version beta qui peut présenter des bugs ou se comporter de manière inattendue. Le développement de certaines fonctionnalités n&apos;est pas terminé. Vous pouvez malgré tout l&apos;essayer si vous le souhaitez!!</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="248"/>
+        <location filename="../src/info/taboutnootka.cpp" line="253"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Voir le site &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;&lt;/a&gt; pour plus de détails et pour les version futures.&lt;/p&gt;&lt;p&gt;Veuillez nous faire part de vos bugs, suggestions, traductions etc.  à: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;Cordialement&lt;br&gt;Auteur</translation>
     </message>
     <message>
-        <location filename="../src/info/taboutnootka.cpp" line="252"/>
+        <location filename="../src/info/taboutnootka.cpp" line="257"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;S&apos;il vous plait, utilisez le site du projet pour télécharges les mises à jour ou les nouvelles versions, et pour vous tenir informés des nouvelles.&lt;/b&gt;</translation>
     </message>
@@ -1809,12 +1819,12 @@
         <translation>De quel instrument jouez-vous?</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="203"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="204"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
         <translation>Pour écrire les notes pour la guitare basse, la &lt;b&gt; clé de Fa&lt;b&gt; est utilisée mais les notes sont jouées une octave plus bas. La clé appropriée est la &lt;b&gt; clé de Fa abaissée &lt;/b&gt; (avec le chiffre &quot;8&quot; noté en dessous) pour laquelle les notes sonnent exactement telles quelles sont écrites. C&apos;est cette clé qui est utilisée dans Nootka. </translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="206"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="207"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>La notation pour guitare utilise la clé de sol avec le chiffre &quot;8&quot; en-dessous (bien que certains éditeurs oublient ce chiffre).&lt;br&gt;&lt;br&gt;Essayez de comprendre ceci. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1 &quot;%2&quot;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Les deux images ci-dessus montrent la même note: do&lt;sup&gt;1&lt;/sup&gt; / c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note do / c de la première petite octave)&lt;/p&gt;</translation>
     </message>
@@ -2689,7 +2699,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>Tpage_2</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="263"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="264"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Sélectionnez une clé et une gamme de notes appropriées pour votre instrument.</translation>
     </message>
@@ -2697,22 +2707,22 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="283"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="284"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation>La 7e note peut être Si (B) ou H (notation allemande) suivant le pays. &lt;br&gt;Quelle notation utilisez-vous?</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="300"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="301"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Je connais les doubles dièses (x) et doubles bémols (bb)</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="305"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="306"/>
         <source>I know that e# is the same as f</source>
         <translation>Je sais que mi# (e#) est la même chose que fa (f)</translation>
     </message>
     <message>
-        <location filename="../src/info/tfirstrunwizzard.cpp" line="310"/>
+        <location filename="../src/info/tfirstrunwizzard.cpp" line="311"/>
         <source>I know about key signatures</source>
         <translation>Je connais les armatures</translation>
     </message>
@@ -3214,7 +3224,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="183"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="337"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="331"/>
         <source>Start exercise on level:</source>
         <translation>Débuter un exercice du niveau:</translation>
     </message>
@@ -3224,24 +3234,24 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation>Continuer le dernier examen:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="258"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="252"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="324"/>
         <source>No level was selected!</source>
         <translation>Aucun niveau n&apos;a été sélectionné!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="270"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="279"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="264"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="273"/>
         <source>Give a user name!</source>
         <translation>Donnez un nom d&apos;utilisateur!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="336"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
         <source>Pass new exam on level:</source>
         <translation>Passer un nouvel examen du niveau:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="350"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="344"/>
         <source>To exercise or to pass an exam?</source>
         <translation>Exercice ou examen?</translation>
     </message>
@@ -3390,7 +3400,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>Windows installer entries</name>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="204"/>
+        <location filename="../src/info/translationHeader.h" line="12"/>
         <source>Do you really want to remove Nootka and all its components?</source>
         <translation>Voulez-vous vraiment supprimer Nootka et tous ses composants?</translation>
     </message>
