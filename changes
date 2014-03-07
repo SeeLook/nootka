@@ -1,5 +1,8 @@
+1.0.0
+  Nootka says: I'm number one
+
 0.9.8 rc4
-     - alternate note names on an axis chart for better understanding
+     - alternate note names on an axis chart
      - adjusting pitch detection range to possibilities of a clef
     BUGS FIXES
      - fixed animation of corrected position for left-handed players layout
