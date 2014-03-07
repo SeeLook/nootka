@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
-!define PRODUCT_VERSION "0.9.7-rc3"
+!define PRODUCT_VERSION "1.0.0"
 !define PRODUCT_PUBLISHER "Nootka"
 !define PRODUCT_WEB_SITE "http://nootka.sf.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
