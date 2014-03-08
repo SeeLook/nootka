@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -158,6 +158,9 @@ protected:
 				/** This method adds additional staff under itself end becomes piano staff. */
 		void addLowerStaff();
 		
+				/** Calculates current width of a staff depends on is key sign. enabled. */
+		void updateWidth();
+		
 protected slots:
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
@@ -167,10 +170,6 @@ protected slots:
 		void toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
 		void fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
 		void accidAnimFinished();
-    
-private:
-				/** Calculates current width of a staff depends on is key sign. enabled. */
-		void updateWidth();
 		
 private:    
     QGraphicsLineItem       *m_lines[5]; // five staff lines

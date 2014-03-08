@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,6 +59,9 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 #if defined (Q_OS_MAC)
     qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8.3 - upperLinePos();
     qreal fact = (distance + 1.3) / brace->boundingRect().height();
+#elif defined (Q_OS_WIN)
+    qreal distance = lower()->pos().y() + lower()->upperLinePos() + 7 - upperLinePos();
+    qreal fact = (distance + 1.8) / brace->boundingRect().height();
 #else
     qreal distance = lower()->pos().y() + lower()->upperLinePos() + 8 - upperLinePos();
 	qreal fact = (distance + 0.2) / brace->boundingRect().height();
@@ -66,6 +69,7 @@ TscorePianoStaff::TscorePianoStaff(TscoreScene* scene, int notesNr) :
 	brace->setScale(fact);
 	brace->setBrush(qApp->palette().text().color());
 	brace->setPos(-2.0, upperLinePos() + distance / 2 - (brace->boundingRect().height() * brace->scale()) / 2 + 0.4);
+	updateWidth();
 }
 
 TscorePianoStaff::~TscorePianoStaff() {}
@@ -111,8 +115,7 @@ void TscorePianoStaff::setNoteDisabled(int index, bool isDisabled) {
 
 
 
-void TscorePianoStaff::setEnableKeySign(bool isEnabled)
-{
+void TscorePianoStaff::setEnableKeySign(bool isEnabled) {
 	TscoreStaff::setEnableKeySign(isEnabled);
 	lower()->setEnableKeySign(isEnabled);
 	if (isEnabled) {

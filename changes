@@ -1,6 +1,8 @@
 1.0.0
   Nootka says: I'm number one
-
+    BUGS FIXES
+     - fixed grand staff lines width and switching to single staff
+     
 0.9.8 rc4
      - alternate note names on an axis chart
      - adjusting pitch detection range to possibilities of a clef

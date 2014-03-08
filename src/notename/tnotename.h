@@ -122,9 +122,10 @@ private slots:
     void noteWasChanged(int noteNr);
     void accidWasChanged();
     void octaveWasChanged(int octNr);
-		void correctAnimationFinished();
-		void invokeBlinkingAgain();
-		void emitSmallHeight();
+    void correctAnimationFinished();
+    void invokeBlinkingAgain();
+    void emitSmallHeight();
+    void showVersionNumber(); /** Under Win it has to be called after constructor. */
 
 };
 
