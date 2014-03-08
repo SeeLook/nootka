@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -298,6 +298,7 @@ void TscoreStaff::onClefChanged( ) {
       m_offset = TnoteOffset(4, 1); break;
     case Tclef::e_tenor_C:
       m_offset = TnoteOffset(2, 1); break;
+		default : break;
   }
   if (m_keySignature)
       m_keySignature->setClef(m_clef->clef());
@@ -387,6 +388,8 @@ void TscoreStaff::updateWidth() {
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
 	for (int i = 0; i < 5; i++) // adjust staff lines length
 				m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 2, upperLinePos() + i * 2);
+	if (lower())
+		lower()->updateWidth();
 	scoreScene()->update();
 }
 

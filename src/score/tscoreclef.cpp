@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,7 @@
 #include <QApplication>
 #include <QPalette>
 #include <QGraphicsView>
-// #include <QDebug>
+#include <QDebug>
 
 /*static*/
 QChar TscoreClef::clefToChar(Tclef clef) {
@@ -44,7 +44,9 @@ QChar TscoreClef::clefToChar(Tclef clef) {
     case Tclef::e_bass_F_8down:
       ch = QChar(0xe171); break;
     case Tclef::e_tenor_C:
-      ch = QChar(0xe16e); break;  
+      ch = QChar(0xe16e); break;
+		default : 
+			ch = QChar(0x20); break; // space
   }
   return ch;
 }
@@ -180,6 +182,8 @@ int TscoreClef::getClefPosInList(Tclef clef) {
     if (m_typesList[i] == clef.type()) {
       return i;
     }
+    qDebug() << "getClefPosInList(): no clef was found";
+		return 0;    
 }
 
 

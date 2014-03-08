@@ -416,6 +416,7 @@ void TsimpleScore::switchToPianoStaff(Tclef clef) {
 		if(tmpList[i].note)
 				setNote(i, tmpList[i]);
 	emit pianoStaffSwitched();
+	resizeEvent(0);
 }
 
 

@@ -50,12 +50,11 @@ TnoteName::TnoteName(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
-		m_nameLabel = new TnoteNameLabel("", this);
-		QColor C = palette().text().color();
-		C.setAlpha(30);
-    C = prepareBgColor(C);
-    m_nameLabel->setText(QString("<b><big><span style=\"color: %1;\">").arg(C.name()) + gl->version + "</span></big></b>");
-		connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
+    m_nameLabel = new TnoteNameLabel("", this);
+#if !defined(Q_OS_WIN)
+    showVersionNumber();
+#endif
+    connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
     resize();
 
     mainLay->addStretch(1);
@@ -129,7 +128,9 @@ TnoteName::TnoteName(QWidget *parent) :
     for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
     resize();
-
+#if defined(Q_OS_WIN)
+    QTimer::singleShot(2, this, SLOT(showVersionNumber()));
+#endif
 }
 
 
@@ -543,6 +544,14 @@ void TnoteName::emitSmallHeight() {
 		emit heightTooSmall();
 }
 
+
+void TnoteName::showVersionNumber() {
+    QColor C = palette().text().color();
+    C.setAlpha(30);
+    C = prepareBgColor(C);
+    m_nameLabel->setText(QString("<b><big><span style=\"color: %1;\">").arg(C.name()) +
+                         gl->version + "</span></big></b>");
+}
 
 
 

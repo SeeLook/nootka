@@ -149,7 +149,11 @@ MainWindow::MainWindow(QWidget *parent) :
 		progress->hide();
     examResults->hide();
 		QColor C(palette().text().color());
+#if defined (Q_OS_WIN)
+		C.setAlpha(20);
+#else
 		C.setAlpha(15);
+#endif
 		C = Tcolor::merge(C, palette().window().color());
 		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget, C);
 		

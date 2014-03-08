@@ -1,12 +1,5 @@
-Plan for the Nootka One
 
-			
-TODOES
-- piano staff brace height is still random (MacOs)
 
-    
-================================================================================================================
-Somewhere in time
 - keep exam file in /tmp and restore it when crash or so
 - improve cooperation a staff with piano staff - merge them somehow
 - merge out&in sounds into single call-back method (class)
