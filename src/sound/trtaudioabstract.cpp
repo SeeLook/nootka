@@ -189,8 +189,12 @@ void TrtAudioAbstract::determineSampleRate(RtAudio::DeviceInfo& devInfo) {
       break;
     }
   }
-  if (!rateFound)
-    sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+  if (!rateFound) {
+    if (devInfo.sampleRates.size() > 0)
+      sampleRate = devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+    else
+      sampleRate = 44100;
+  }
 }
 
 
