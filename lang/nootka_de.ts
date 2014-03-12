@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE" sourcelanguage="en">
+<TS version="2.0" language="de" sourcelanguage="en">
 <context>
     <name>AnswerText</name>
     <message>
@@ -164,11 +164,9 @@
         <source>Frequency of detected note. You can use this for tuning.</source>
         <translation>Frequenz der erkannten Note. Du kannst sie zum Stimmen verwenden.</translation>
     </message>
-    <message numerus="yes">
+    <message>
         <source>%n semitone(s)</source>
-        <translation type="unfinished">
-            <numerusform>%n Halbton/-töne       </numerusform>
-            <numerusform></numerusform>
+        <translation>%n Halbton/-töne
         </translation>
     </message>
     <message>
@@ -349,14 +347,6 @@
         <source>Nootka exam file</source>
         <translation>Nootka-Prüfungs Datei</translation>
     </message>
-    <message>
-        <source>to play scores</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Application for learning musical score notation</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -383,7 +373,7 @@
     </message>
     <message>
         <source>Level</source>
-        <translation>Stufe</translation>
+        <translation>Level</translation>
     </message>
     <message>
         <source>Start!</source>
@@ -444,15 +434,15 @@
     </message>
     <message>
         <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation>Aus der C-Dur Tonleiter Notenname angeben, oder Ton auf der Notation anzeigen.</translation>
+        <translation> Notenname aus der C-Dur Tonleiter angeben, oder Ton auf der Notation anzeigen.</translation>
     </message>
     <message>
         <source>All to V fret</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles bis zum 5. Bund</translation>
     </message>
     <message>
         <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Bis zum 5. Bund, kein Ton.&lt;br&gt;Keine Doppelvorzeichen. Generalvorzeichen: C, G, D, A</translation>
     </message>
     <message>
         <source>Ear training</source>
@@ -464,19 +454,19 @@
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="unfinished">Nimm dein Instrument und spiel...&lt;br&gt;Keine Notennamen, kein Griffbrett. </translation>
+        <translation>Nimm dein Instrument und spiel...&lt;br&gt;Keine Notennamen, kein Griffbrett. Bis zu 4 Vorzeichen und Doppelvorzeichen aktiviert.</translation>
     </message>
     <message>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine Partitur singen ...&lt;br&gt;Keine Notennamen, kein Griffbrett, keine Vorzeichen und Doppelvorzeichen. Die Tonleiter spielt keine Rolle weil Oktaven ignoriert werden - du kannst transponieren.</translation>
     </message>
     <message>
         <source>Play scores</source>
-        <translation type="unfinished"></translation>
+        <translation>Partituren spielen</translation>
     </message>
     <message>
         <source>Sing scores</source>
-        <translation type="unfinished"></translation>
+        <translation>Partituren singen</translation>
     </message>
     <message>
         <source>major</source>
@@ -492,19 +482,19 @@
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Dropped D: D A D G B E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Dummy Lute: D A D F# B E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation type="unfinished"></translation>
+        <translation>Offen: D A D G A D </translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation type="unfinished"></translation>
+        <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
         <source>Standard bass: E A D G</source>
@@ -528,7 +518,7 @@
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Man benötigt eine wenig Englisch, wenn du den unteren Text lesen kannst, gibt es etwas wo du dich einbringen kannst.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
@@ -548,11 +538,11 @@
     </message>
     <message>
         <source>7th note is &lt;b&gt;B&lt;/b&gt; and with flat is &lt;b&gt;Bb&lt;/b&gt; or &lt;b&gt;bes&lt;/b&gt; or &lt;b&gt;bs&lt;/b&gt;</source>
-        <translation type="unfinished"> </translation>
+        <translation>Die 7. Note ist ein &lt;b&gt;B&lt;/b&gt; und mit b ist es &lt;b&gt;Bb&lt;/b&gt;oder &lt;b&gt;bes&lt;/b&gt; oder &lt;b&gt;bs&lt;/b&gt;</translation>
     </message>
     <message>
         <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Die 7. Note ist ein &lt;b&gt;H&lt;/b&gt; und mit b ist es &lt;b&gt;Hb&lt;/b&gt; oder &lt;b&gt;B&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -646,7 +636,7 @@
     </message>
     <message>
         <source>level:</source>
-        <translation>Stufe:</translation>
+        <translation>Level:</translation>
     </message>
     <message>
         <source>question number</source>
@@ -679,7 +669,7 @@
     </message>
     <message>
         <source>Level summary:</source>
-        <translation>Zusammenfassung der Stufe:</translation>
+        <translation>Zusammenfassung des Levels:</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
@@ -701,7 +691,7 @@
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation>Letze Prüfung auf dieser Stufe</translation>
+        <translation>Letze Prüfung in diesem Level</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
@@ -733,11 +723,11 @@
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>%1 Knopf Drücken um eine Prüfung aus einer Datei zu öffnen.</translation>
+        <translation>%1 Button Drücken um eine Prüfung aus einer Datei zu öffnen.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Benutze %1 + Mausrad oder %2 Knöpfe um Diagramm zu zoomen.</translation>
+        <translation>Benutze %1 + Mausrad oder %2 Buttons um Diagramm zu zoomen.</translation>
     </message>
     <message>
         <source>Questions number</source>
@@ -766,10 +756,6 @@
     <message>
         <source>Analysis of exercise</source>
         <translation>Analyse der Übungsergebnisse</translation>
-    </message>
-    <message>
-        <source>Tuning</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -812,7 +798,7 @@
     <name>Tclef</name>
     <message>
         <source>treble</source>
-        <translation type="unfinished"></translation>
+        <translation>Sopran</translation>
     </message>
     <message>
         <source>treble dropped</source>
@@ -820,7 +806,7 @@
     </message>
     <message>
         <source>bass</source>
-        <translation type="unfinished"></translation>
+        <translation>Bass</translation>
     </message>
     <message>
         <source>bass dropped</source>
@@ -828,46 +814,46 @@
     </message>
     <message>
         <source>alto</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt</translation>
     </message>
     <message>
         <source>tenor</source>
-        <translation type="unfinished"></translation>
+        <translation>Tenor</translation>
     </message>
     <message>
         <source>grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Akkolade</translation>
     </message>
     <message>
         <source>clef G</source>
-        <translation type="unfinished"></translation>
+        <translation>G-Schlüssel</translation>
     </message>
     <message>
         <source>clef G dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>nach unten oktavierender G-Schlüssel</translation>
     </message>
     <message>
         <source>clef F</source>
-        <translation type="unfinished"></translation>
+        <translation>F-Schlüssel</translation>
     </message>
     <message>
         <source>clef F dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>nach unten oktavierender F-Schlüssel</translation>
     </message>
     <message>
         <source>clef C</source>
-        <translation type="unfinished"></translation>
+        <translation>C-Schlüssel</translation>
     </message>
     <message>
         <source>treble and bass clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Violin- und Bassschlüssel</translation>
     </message>
 </context>
 <context>
     <name>TexamExecutor</name>
     <message>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
-        <translation>&lt;b&gt;Prüfungsdatei scheint beschädigt zu sein&lt;/b&gt;&lt;br&gt;Beginn lieber eine neue Prüfung auf der selben Stufe</translation>
+        <translation>&lt;b&gt;Prüfungsdatei scheint beschädigt zu sein&lt;/b&gt;&lt;br&gt;Beginn lieber eine neue Prüfung im selben Level</translation>
     </message>
     <message>
         <source>next question
@@ -905,7 +891,7 @@
     </message>
     <message>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation>Stufe &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;ergibt keinen Sinn, da sie keine Fragen enthält.&lt;br&gt;Sie kann neu eingestellt werden.&lt;br&gt;Reparier sie im Level Creator und versuch es nochmal.</translation>
+        <translation>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;ergibt keinen Sinn, da es keine Fragen enthält.&lt;br&gt;Es kann neu eingestellt werden.&lt;br&gt;Reparier es im Level Creator und versuch es nochmal.</translation>
     </message>
     <message>
         <source>Help</source>
@@ -979,11 +965,11 @@
     </message>
     <message>
         <source>You are exercising on level</source>
-        <translation>Du übst auf Stufe</translation>
+        <translation>Du übst auf Level</translation>
     </message>
     <message>
         <source>Exam started on level</source>
-        <translation>Prüfung startet auf Stufe</translation>
+        <translation>Prüfung beginnt auf Level</translation>
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
@@ -1018,7 +1004,7 @@
     </message>
     <message>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
-        <translation>Die Prüfung ist Abgeschlossen, wenn du alle Fragen beantwortet hast.&lt;br&gt;Die Anzahl der Fragen hängt von der Stufe der Prüfung ab.</translation>
+        <translation>Die Prüfung ist Abgeschlossen, wenn du alle Fragen beantwortet hast.&lt;br&gt;Die Anzahl der Fragen hängt vom Level der Prüfung ab.</translation>
     </message>
     <message>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
@@ -1046,7 +1032,7 @@
     </message>
     <message>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle die Antwort in dem&lt;span style=&quot;%1&quot;&gt;Nootka Element mit dieser Farbe.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <source>By selecting the 3rd check box, answers will be checked immediately without confirmation required.</source>
@@ -1066,7 +1052,7 @@
     </message>
     <message>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
-        <translation>Du kannst jederzeit den %1 Knopf drücken um die Übung zu unterbrechen und die Ergebnisse zu sehen.</translation>
+        <translation>Du kannst jederzeit den %1 Button drücken um die Übung zu unterbrechen und die Ergebnisse zu sehen.</translation>
     </message>
     <message>
         <source>Exams</source>
@@ -1094,7 +1080,7 @@
     </message>
     <message>
         <source>click %1 button</source>
-        <translation>%1 Knopf klicken</translation>
+        <translation>%1 Button klicken</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -1118,11 +1104,7 @@
     </message>
     <message>
         <source>To stop the exam click %1 button.</source>
-        <translation type="obsolete">Um die Prüfung zu beenden klick den %1 Knopf.</translation>
-    </message>
-    <message>
-        <source>Click %1 button to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um die Prüfung zu beenden klick den %1 Button.</translation>
     </message>
 </context>
 <context>
@@ -1149,7 +1131,7 @@
     </message>
     <message>
         <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation>Beobachte den Übungsfortschritt und wenn es gut läuft, wird eine Prüfung auf dieser Stufe vorgeschlagen.</translation>
+        <translation>Beobachte den Übungsfortschritt und wenn es gut läuft, wird eine Prüfung in diesem Level vorgeschlagen.</translation>
     </message>
     <message>
         <source>show wrong played</source>
@@ -1257,7 +1239,7 @@
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>wählt die Frage ohne sie noch einmal zu bestätigen</translation>
     </message>
     <message>
         <source>correct mistakes (exercises only)</source>
@@ -1344,7 +1326,7 @@
     </message>
     <message>
         <source>Finish exercise and pass an exam on this level.</source>
-        <translation>Beende Übung und belege eine Prüfung auf dieser Stufe.</translation>
+        <translation>Beende Übung und belege eine Prüfung in diesem Level.</translation>
     </message>
     <message>
         <source>Finish this exercise</source>
@@ -1363,43 +1345,44 @@
     <name>TexamView</name>
     <message>
         <source>[in seconds]</source>
-        <translation type="unfinished"></translation>
+        <translation>[in Sekunden]</translation>
     </message>
     <message>
         <source>Number of mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl der Fehler</translation>
     </message>
     <message>
         <source>Average time taken to answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Durchschnittliche Antwortzeit</translation>
     </message>
     <message>
         <source>Time for an answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeit für Antwort</translation>
     </message>
     <message>
         <source>Total time</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesamtzeit</translation>
     </message>
     <message>
         <source>Number of correct answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Richtige Antworten
+</translation>
     </message>
     <message>
         <source>Effectiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>Effektivität</translation>
     </message>
     <message>
         <source>&apos;Not bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;nicht schlecht&quot; Antworten</translation>
     </message>
     <message>
         <source>(counted as half of a mistake)</source>
-        <translation type="unfinished"></translation>
+        <translation>(als halber Fehler gewertet)</translation>
     </message>
     <message>
         <source>Exam results</source>
-        <translation type="unfinished">Prüfungsergebnisse</translation>
+        <translation>Prüfungsergebnisse</translation>
     </message>
 </context>
 <context>
@@ -1433,7 +1416,7 @@
     </message>
     <message>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation>Wenn die Antwort aus einem Notennamen besteht,&lt;b&gt;wähle zuerst das Vorzeichen und die Oktave aus&lt;/b&gt; und dann klicken auf den Notenknopf - dadurch erfolgt eine automatische Bestätigung.</translation>
+        <translation>Wenn die Antwort aus einem Notennamen besteht,&lt;b&gt;wähle zuerst das Vorzeichen und die Oktave aus&lt;/b&gt; und dann klicken auf den Notenbutton - dadurch wird die Antwort automatisch ausgewählt.</translation>
     </message>
     <message>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
@@ -1459,11 +1442,11 @@
     <name>TfirstRunWizzard</name>
     <message>
         <source>First run wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>Wizard für den ersten Start</translation>
     </message>
     <message>
         <source>skip wizard</source>
-        <translation type="unfinished"></translation>
+        <translation>überspringe Wizard</translation>
     </message>
     <message>
         <source>previous</source>
@@ -1475,11 +1458,11 @@
     </message>
     <message>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei der Notation für die Bassgitarre, wird der &lt;b&gt;Bassschlüssel&lt;/b&gt; verwendet aber die gespielten Töne sind eine Oktave tiefer. Der richtige Schlüssel ist der&lt;b&gt;nach unten oktavierende Basschlüssel&lt;/b&gt; (mit einer kleinen 8 darunter) Mit diesem Schlüssel, klingen die Töne genau, wie sie geschrieben sind. Dieser Schlüssel wird in Nootka für die Basgitarre verwendet.</translation>
     </message>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
     </message>
     <message>
         <source>Finish</source>
@@ -1494,166 +1477,170 @@
     <name>TfixLevelDialog</name>
     <message>
         <source>fix an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation> Instrument festlegen</translation>
     </message>
     <message>
         <source>Due to bug in &lt;b&gt;Nootka version 0.8.95&lt;/b&gt; instrument type can be incorrect.&lt;br&gt;Please, select a correct instrument for the level %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Wegen eines Bugs in&lt;b&gt;Nootka Version 0.8.95&lt;/b&gt; kann der Instrumententyp falsch sein.&lt;br&gt;Bitte wähle das richtige Instrument für Level %1</translation>
     </message>
     <message>
         <source>fix levels automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>repariere Levels automatisch</translation>
     </message>
     <message>
         <source>When you are sure that &lt;b&gt;all your Nootka files&lt;/b&gt; were created exactly for selected instrument&lt;br&gt;you can check this box and&lt;br&gt;&lt;b&gt;all incorrect files will be fixing automatically.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn du dir sicher bist, &lt;b&gt;dass alle deine Nootka Dateien&lt;/b&gt; genau für das gewählte Instrument stimmen,&lt;br&gt;kannst du diese Box anwählen und alle fehlerhaften Dateien werden automatisch angepasst.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
     <name>TglobalSettings</name>
     <message>
         <source>show enharmonic variants of notes</source>
-        <translation type="unfinished"></translation>
+        <translation>zeige enharmonische Varianten von Noten</translation>
     </message>
     <message>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige enharmonische Varianten von Noten.&lt;br&gt;z. B. die Note E ist auch Fes (F mit Be)&lt;i&gt;und&lt;/i&gt; Dx (D mit Doppelkreuz).</translation>
     </message>
     <message>
         <source>color of enharmonic notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Farbe der enharmonischen Noten</translation>
     </message>
     <message>
         <source>use double accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>benutze Doppelvorzeichen</translation>
     </message>
     <message>
         <source>If checked, you can use double sharps and double flats.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Auswahl können Doppelkreuze und Doppelbes benutzt werden.</translation>
     </message>
     <message>
         <source>show hints</source>
-        <translation type="unfinished"></translation>
+        <translation>zeige Hinweise</translation>
     </message>
     <message>
         <source>Show description of Nootka&apos;s elements.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige die Beschreibung der Nootka Elemente.</translation>
     </message>
     <message>
         <source>Application language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache der Anwendung</translation>
     </message>
     <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle eine Sprache aus.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Damit die Einstellung aktiv werden, muss das Programm neu gestartet werden!&lt;/span&gt;</translation>
     </message>
     <message>
         <source>Restore all default settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Standarteinstellungen wiederherstellen</translation>
     </message>
     <message>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>standard</translation>
     </message>
     <message>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Nach Updates suchen</translation>
     </message>
     <message>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Einstellungen werden wieder auf die Standardwerte gesetzt!&lt;br&gt;Nootka wird wieder mit dem Einstellungsassistenten starten.</translation>
     </message>
 </context>
 <context>
     <name>TgraphicsLine</name>
     <message>
         <source>progress line</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortschrittslinie</translation>
     </message>
     <message>
         <source>descending - you are progressing better</source>
-        <translation type="unfinished"></translation>
+        <translation>absteigend - dein Fortschritt wird besser</translation>
     </message>
     <message>
         <source>ascending - you are thinking too much</source>
-        <translation type="unfinished"></translation>
+        <translation>aufsteigend - du musst zuviel nachdenken</translation>
     </message>
 </context>
 <context>
     <name>TguitarSettings</name>
     <message>
         <source>number of frets:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl der Bünde:</translation>
     </message>
     <message>
         <source>number of strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl der Saiten:</translation>
     </message>
     <message>
         <source>tuning of the guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Stimmung der Gitarre</translation>
     </message>
     <message>
         <source>scale of an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonleiter von einem Instrument</translation>
     </message>
     <message>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählei eine geeignete Stimmung aus der Liste oder erstelle deine eigene.</translation>
     </message>
     <message>
         <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vergiss nicht den richtigen Schlüssel in den Partitureinstelllungen auzuwählen.</translation>
     </message>
     <message>
         <source>Instrument</source>
-        <translation type="unfinished">Instrument</translation>
+        <translation>Instrument</translation>
     </message>
     <message>
         <source>right-handed players</source>
         <comment>When translation will be too long try to add &apos;
 &apos; - line break between words.</comment>
-        <translation type="unfinished"></translation>
+        <translation>rechtshändige Spieler</translation>
     </message>
     <message>
         <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
-        <translation type="unfinished"></translation>
+        <translation>Abwählen wenn du linkshändig bist&lt;br&gt;und deine Gitarre für linkshändiges Spielen besaitet ist (veränderte Saitenanordnung)</translation>
     </message>
     <message>
         <source>preferred accidentals:</source>
-        <translation type="unfinished"></translation>
+        <translation>bevorzugte Vorzeichen:</translation>
     </message>
     <message>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle, welche Vorzeichen in der Notation angezeigt werden.</translation>
     </message>
     <message>
         <source># - sharps</source>
-        <translation type="unfinished"></translation>
+        <translation># - Kreuze</translation>
     </message>
     <message>
         <source>b - flats</source>
-        <translation type="unfinished"></translation>
+        <translation>b - Bes</translation>
     </message>
     <message>
         <source>show all possibilities of a note</source>
-        <translation type="unfinished"></translation>
+        <translation>zeige alle Varianten einer Note</translation>
     </message>
     <message>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wie du weißt, kann der selbe Ton an verschiedenen Stellen auf dem Griffbrett gespielt werden.&lt;br&gt;Bei Auswahl, werden alle davon angezeigt.</translation>
     </message>
     <message>
         <source>color of string/fret pointer</source>
-        <translation type="unfinished"></translation>
+        <translation>Farbe der Saiten-/Bundanzeige</translation>
     </message>
     <message>
         <source>color of selected string/fret</source>
-        <translation type="unfinished"></translation>
+        <translation>Farbe der/des ausgewälten Saite/Bundes</translation>
     </message>
     <message>
         <source>Custom tuning</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefinierte Stimmung</translation>
+    </message>
+    <message>
+        <source>Custom tune</source>
+        <translation>Benutzerdefinierte Stimmung</translation>
     </message>
 </context>
 <context>
@@ -1724,39 +1711,39 @@
     </message>
     <message>
         <source>Check, Are your settings for the level possible to perform.</source>
-        <translation>Prüfe, ob deine Einstellungen für die Stufe ausgeführt werden können.</translation>
+        <translation>Prüfe, ob deine Einstellungen für dieses Level ausgeführt werden können.</translation>
     </message>
     <message>
         <source>level not saved!</source>
-        <translation>Stufe nicht gespeichert!</translation>
+        <translation>Level nicht gespeichert!</translation>
     </message>
     <message>
         <source>Level was changed and not saved!</source>
-        <translation>Stufe wurde geändert und nicht gespeichert!</translation>
+        <translation>Level wurde geändert und nicht gespeichert!</translation>
     </message>
     <message>
         <source>Save exam level</source>
-        <translation>Speichere Prüfungsstufe</translation>
+        <translation>Speichere Prüfungslevel</translation>
     </message>
     <message>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es sind keine Fragen oder Antworten ausgewählt.&lt;br&gt;Das Level ergibt keinen Sinn.</translation>
     </message>
     <message>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Der Bundbereich ist außerhalb des Bereichs in diesem Level&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;In dem Tonbereich werden einige Versetzungszeichen verwendet&lt;br&gt;sie sind aber in diesem Level nicht verfügbar&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Erzwinge Gebrauch von Versetzungszeichen, aber keine Versetzungszeichen wurden ausgewählt.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;In Fragen und Antworten werden die Notennamen gleich sein, um zu vermeiden, dass im Level Bes und Kreuze und/oder Doppelversetzungszeichen und/oder verschiedene Notennamen verwendet werden&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
@@ -1784,7 +1771,7 @@
     </message>
     <message>
         <source>Cannot open file for writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Datei zum schreiben nicht öffnen</translation>
     </message>
     <message>
         <source>Level seems to be correct</source>
@@ -1811,14 +1798,14 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TlevelPreview</name>
     <message>
         <source>Level summary:</source>
-        <translation type="unfinished">Zusammenfassung der Stufe:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>no level selected</source>
@@ -1838,7 +1825,7 @@
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished">kein</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>proper octave is required</source>
@@ -1867,11 +1854,13 @@
         <source>Cannot open file
  %1 
  for reading</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann Datei zum lesen
+ %1 
+nicht öffnen</translation>
     </message>
     <message>
         <source>No file name specified</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Dateiname festgelegt</translation>
     </message>
     <message>
         <source>Level is not suitable for current tuning and/or fret number</source>
@@ -1879,7 +1868,7 @@
     </message>
     <message>
         <source>Load</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade</translation>
     </message>
     <message>
         <source>Load level from file</source>
@@ -1887,12 +1876,13 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Entfernen</translation>
+        <translation>Entfernen</translation>
     </message>
     <message>
         <source>File: %1 
  is not Nootka level file!</source>
-        <translation type="unfinished"></translation>
+        <translation>Datei: %1 
+ ist keine Nootka Level Datei!</translation>
     </message>
     <message>
         <source>Level file
@@ -1913,28 +1903,24 @@
         <source>Range of notes in the level is beyond the scale of your instrument</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Level is not suitable for current instrument type</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TlinearChart</name>
     <message>
         <source>Key signatures given by user</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonart vom Nutzer vorgegeben</translation>
     </message>
     <message>
         <source>for notes without accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>für Noten ohne Vorzeichen</translation>
     </message>
     <message>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation type="unfinished"></translation>
+        <translation>Fragen ohne Beziehung mit Diagrammtyp</translation>
     </message>
     <message>
         <source>without accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>ohne Vorzeichen</translation>
     </message>
 </context>
 <context>
@@ -2177,36 +2163,36 @@
     <name>Tpage_2</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle einen geeigneten Schlüssel und eine Tonleiter für dein Instument.</translation>
     </message>
 </context>
 <context>
     <name>Tpage_3</name>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation type="unfinished"></translation>
+        <translation>Der 7. Ton kann ein B oder H sein, abhängig vom Land&lt;br&gt;Wie heißt der 7. Ton in deinem Land?</translation>
     </message>
     <message>
         <source>I know about double sharps (x) and double flats (bb)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ich kenne mich mit Doppelkreuzen und Doppelbes aus</translation>
     </message>
     <message>
         <source>I know that e# is the same as f</source>
-        <translation type="unfinished"></translation>
+        <translation>Ich weis das eis das gleiche wie f ist</translation>
     </message>
     <message>
         <source>I know about key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>Ich kenne die Generalvorzeichen</translation>
     </message>
     <message>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translation type="unfinished"></translation>
+        <translation>h</translation>
     </message>
     <message>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation type="unfinished"></translation>
+        <translation>Buchstaben</translation>
     </message>
 </context>
 <context>
@@ -2236,86 +2222,86 @@
     <name>TprogressWidget</name>
     <message>
         <source>Answered questions</source>
-        <translation type="unfinished"></translation>
+        <translation>Beantwortete Fragen</translation>
     </message>
     <message>
         <source>Unanswered questions</source>
         <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Restliche Fragen</translation>
     </message>
     <message>
         <source>penalties</source>
-        <translation type="unfinished"></translation>
+        <translation>Strafpunkte</translation>
     </message>
     <message>
         <source>Total questions in this exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesamte Anzahl der Fragen in dieser Prüfung</translation>
     </message>
     <message>
         <source>Progress of the exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Fortschritt der Prüfung</translation>
     </message>
     <message>
         <source>Exam was finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Prüfung wurde beendet</translation>
     </message>
 </context>
 <context>
     <name>TquestionAsWdg</name>
     <message>
         <source>question</source>
-        <translation type="unfinished"></translation>
+        <translation>Frage</translation>
     </message>
     <message>
         <source>questions</source>
-        <translation type="unfinished">Fragen</translation>
+        <translation>Fragen</translation>
     </message>
     <message>
         <source>answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Antwort</translation>
     </message>
     <message>
         <source>answers</source>
-        <translation type="unfinished">Antworten</translation>
+        <translation>Antworten</translation>
     </message>
     <message>
         <source>as note on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>als Ton auf der Notation</translation>
     </message>
     <message>
         <source>as note name</source>
-        <translation type="unfinished"></translation>
+        <translation>als Notenname</translation>
     </message>
     <message>
         <source>as position on the fingerboard</source>
-        <translation type="unfinished"></translation>
+        <translation>als Position auf dem Griffbrett</translation>
     </message>
     <message>
         <source>as played sound</source>
-        <translation type="unfinished"></translation>
+        <translation>als gespielter Ton</translation>
     </message>
     <message>
         <source>Select the type of answers for a question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle den Antworttyp für die Frage.</translation>
     </message>
 </context>
 <context>
     <name>TquestionTip</name>
     <message>
         <source>Use %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze %1</translation>
     </message>
     <message>
         <source> Don&apos;t use accidentals!</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutze kene Vorzeichen!</translation>
     </message>
     <message>
         <source>on %1 string.</source>
-        <translation type="unfinished"></translation>
+        <translation>auf %1 Saite.</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished">Wiedergeben</translation>
+        <translation>Spielen</translation>
     </message>
     <message>
         <source>Change enharmonically and show on the staff</source>
@@ -2389,11 +2375,11 @@
     <name>TradioClef</name>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebräuchlicher Schlüssel (für Violine, Flöte, Saxophon, etc.)</translation>
     </message>
     <message>
         <source>Clef for guitars (classical, electric and so)</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlüssel für Gitarren (Konzertgitarre, E-Gitarre, usw.)</translation>
     </message>
     <message>
         <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
@@ -2420,14 +2406,14 @@
     </message>
     <message>
         <source>Remove level %1 from the list</source>
-        <translation>Entferne Stufe %1 von der Liste</translation>
+        <translation>Entferne Level %1 von der Liste</translation>
     </message>
 </context>
 <context>
     <name>TscoreClef</name>
     <message>
         <source>Click to select another clef.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anklicken um einen anderen Schlüssel zu wählen.</translation>
     </message>
 </context>
 <context>
@@ -2491,19 +2477,19 @@
     </message>
     <message>
         <source>Default clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardschlüssel</translation>
     </message>
     <message>
         <source>Select default clef for the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle den Standardschlüssel für die Anwendung.</translation>
     </message>
     <message>
         <source>for example</source>
-        <translation type="unfinished"></translation>
+        <translation>zum Beispiel</translation>
     </message>
     <message>
         <source>show names of key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Namen der Tonart</translation>
     </message>
 </context>
 <context>
@@ -2514,16 +2500,16 @@
     </message>
     <message>
         <source>Common</source>
-        <translation>Üblich</translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <source>Score</source>
-        <translation>Punkte</translation>
+        <translation>Tonart</translation>
     </message>
     <message>
         <source>Names</source>
         <comment>name-calling</comment>
-        <translation>Namen</translation>
+        <translation>Notennamen</translation>
     </message>
     <message>
         <source>Exam</source>
@@ -2570,11 +2556,11 @@
     </message>
     <message>
         <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
-        <translation>Wähle eine für dich geeignete Stufe&lt;br&gt;oder erstelle eine neue.</translation>
+        <translation>Wähle ein für dich geeignetes Level&lt;br&gt;oder erstelle ein neues.</translation>
     </message>
     <message>
         <source>Create new level</source>
-        <translation>Stufe erstellen</translation>
+        <translation>Neues Level erstellen</translation>
     </message>
     <message>
         <source>exercises</source>
@@ -2594,7 +2580,7 @@
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation>Um eine neue Übung oder Prüfung zu starten, gibst du deinen Namen ein und wählst eine Stufe. Um die letzte Prüfung fortzusetzen wählst du sie aus der Liste oder aus einer Datei aus.</translation>
+        <translation>Um eine neue Übung oder Prüfung zu starten, gibst du deinen Namen ein und wählst ein Level. Um die letzte Prüfung fortzusetzen wählst du sie aus der Liste oder aus einer Datei aus.</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
@@ -2602,7 +2588,7 @@
     </message>
     <message>
         <source>Start exercise on level:</source>
-        <translation>Starte Übung auf Stufe:</translation>
+        <translation>Starte Übung auf Level:</translation>
     </message>
     <message>
         <source>Continue the latest exam:</source>
@@ -2610,7 +2596,7 @@
     </message>
     <message>
         <source>No level was selected!</source>
-        <translation>Keine Stufe ausgewählt!</translation>
+        <translation>Kein Level ausgewählt!</translation>
     </message>
     <message>
         <source>Give a user name!</source>
@@ -2618,7 +2604,7 @@
     </message>
     <message>
         <source>Pass new exam on level:</source>
-        <translation>Lege neue Prüfung ab, auf Stufe:</translation>
+        <translation>Lege neue Prüfung ab, auf Level:</translation>
     </message>
     <message>
         <source>To exercise or to pass an exam?</source>
@@ -2626,7 +2612,7 @@
     </message>
     <message>
         <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
-        <translation>Dialogfenster um eine neue Stufe zu erstellen&lt;br&gt;wird geöffnet.</translation>
+        <translation>Dialogfenster um ein neues Level zu erstellen&lt;br&gt;wird geöffnet.</translation>
     </message>
     <message>
         <source>continue exam</source>
@@ -2660,7 +2646,7 @@
     </message>
     <message>
         <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
-        <translation>Du bist sehr gut in dieser Übung!&lt;br&gt;Möchtest du eine Prüfung auf dieser Stufe ablegen und ein Zertifikat erhalten?</translation>
+        <translation>Du bist sehr gut in dieser Übung!&lt;br&gt;Möchtest du eine Prüfung auf diesem Level ablegen und ein Zertifikat erhalten?</translation>
     </message>
     <message>
         <source>Sure! Lets start an exam!</source>
@@ -2759,67 +2745,67 @@
     <name>accidSettings</name>
     <message>
         <source># - sharps</source>
-        <translation type="unfinished"></translation>
+        <translation># - Kreuze</translation>
     </message>
     <message>
         <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreuze werden in Fragen und Antworten verwendet.&lt;br&gt;Es muss ausgewählt sein, wenn Tonarten mit Kreuzen verwendet werden.</translation>
     </message>
     <message>
         <source>b - flats</source>
-        <translation type="unfinished"></translation>
+        <translation>b - Bes</translation>
     </message>
     <message>
         <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bes werden in Fragen und Antworten verwendet.&lt;br&gt;Es muss ausgewählt sein, wenn Tonarten mit Bes verwendet werden.</translation>
     </message>
     <message>
         <source>x, bb - double accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>x, bb - Doppelvorzeichen</translation>
     </message>
     <message>
         <source>Accidentals used in exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorzeichen, die in der Prüfung verwendet werden.</translation>
     </message>
     <message>
         <source>single key</source>
-        <translation type="unfinished"></translation>
+        <translation>einzelner Schlüssel</translation>
     </message>
     <message>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>nur eine ausgewählte Tonart&lt;br&gt;für die ganze Prüfung.</translation>
     </message>
     <message>
         <source>range of keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonartbereich</translation>
     </message>
     <message>
         <source>random key signature from selected range.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zufällige Tonart aus dem ausgewählten Bereich.</translation>
     </message>
     <message>
         <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle eine Tonart.&lt;br&gt;Entsprechende Vorzeichen für die Prüfung&lt;br&gt;werden automatisch ausgewählt!</translation>
     </message>
     <message>
         <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elemente sind deaktiviert weil entsprechende Frage- oder Antworttypen nicht ausgewählt sind.</translation>
     </message>
     <message>
         <source>select a key signature manually</source>
-        <translation type="unfinished"></translation>
+        <translation>wähle Tonart manuell</translation>
     </message>
     <message>
         <source>use key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>benutze Generalvorzeichen</translation>
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn ausgewählt, muss du die Generalvorzeichen in der Prüfung angeben,&lt;br&gt;ansonsten werden sie von dem Programm angezeigt.</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished">Vorzeichen</translation>
+        <translation>Vorzeichen</translation>
     </message>
 </context>
 <context>
@@ -2857,7 +2843,7 @@
     </message>
     <message>
         <source>Save level settings to file</source>
-        <translation>Speichere Stufen-Einstellungen in Datei</translation>
+        <translation>Speichere Level-Einstellungen in Datei</translation>
     </message>
     <message>
         <source>Start exam</source>
@@ -2865,7 +2851,7 @@
     </message>
     <message>
         <source>Start an exam on selected level</source>
-        <translation>Starte Prüfung mit ausgewählter Stufe</translation>
+        <translation>Starte Prüfung mit ausgewähltem Level</translation>
     </message>
     <message>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
@@ -2876,97 +2862,93 @@
     <name>main</name>
     <message>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Kann Schrift nicht laden.&lt;br&gt;Versuch nootka.otf mauell zu intallieren.&lt;/center&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;center&gt;Kann Schrift nicht laden.&lt;br&gt;Versuch nootka.otf mauell zu intallieren.&lt;/center&gt;</translation>
     </message>
 </context>
 <context>
     <name>questionsSettings</name>
     <message>
         <source>require octave</source>
-        <translation type="unfinished"></translation>
+        <translation>benötigt Oktave</translation>
     </message>
     <message>
         <source>if checked, selecting of valid octave is required</source>
-        <translation type="unfinished"></translation>
+        <translation>wenn ausgewählt, wird die Auswahl einer gültigen Oktave benötigt</translation>
     </message>
     <message>
         <source>force using appropriate accidental</source>
-        <translation type="unfinished"></translation>
+        <translation>zwingen dazugehörige Vorzeichen zu verwenden</translation>
     </message>
     <message>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn ausgewählt ist es nur möglich, eine Note mit dem gegebenen Vorzeichen auszuwählen.</translation>
     </message>
     <message>
         <source>use different naming styles</source>
-        <translation type="unfinished"></translation>
+        <translation>benutze unterschiedliche Namensarten</translation>
     </message>
     <message>
         <source>if checked, note names are switched between letters and solfege.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn ausgewählt wechseln die Notennamen zwischen Buchstaben und Solfege.</translation>
     </message>
     <message>
         <source>show string number in questions</source>
-        <translation type="unfinished"></translation>
+        <translation>zeige Saitennummer in der Frage</translation>
     </message>
     <message>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeigt auf welcher Saite die Antwort zu geben ist.&lt;br&gt;Sei vorsichtig, manchmal wird es benötigt und manchmal ergibt es keinen Sinn.</translation>
     </message>
     <message>
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation type="unfinished"></translation>
+        <translation>wenn ausgewählt wird die unterste Lage in dem gewählten Bundbereich benötigt,&lt;br&gt;ansonsten sind alle möglichen Positionen von dem Ton möglich.&lt;br&gt;Um diese Einstellung zu nutzen, müssen alle Saiten zur verfügung stehen!</translation>
     </message>
     <message>
         <source>notes in the lowest position only</source>
-        <translation type="unfinished"></translation>
+        <translation>nur Töne in der untersten Lage</translation>
     </message>
     <message>
         <source>notes in current key signature only</source>
-        <translation type="unfinished"></translation>
+        <translation>nur Töne in der aktuellen Tonart</translation>
     </message>
     <message>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Töne von der aktuellen Tonart werden verwendet.&lt;br&gt;Wenn die Tonart deaktiviert ist verden die Vorzeichen nicht genutzt.</translation>
     </message>
 </context>
 <context>
     <name>rangeSettings</name>
     <message>
         <source>adjust fret range</source>
-        <translation type="unfinished"></translation>
+        <translation>wähle Bundbereich</translation>
     </message>
     <message>
         <source>Adjust fret range in a level to currently selected note range</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle Bunbereich entsprechend dem aktuell ausgewählten Tonbereich</translation>
     </message>
     <message>
         <source>from</source>
-        <translation type="unfinished"></translation>
+        <translation>von</translation>
     </message>
     <message>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation>bis</translation>
     </message>
     <message>
         <source>adjust note range</source>
-        <translation type="unfinished"></translation>
+        <translation>wähle Tonbereich</translation>
     </message>
     <message>
         <source>Adjust note range in a level to currently selected fret range</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle Tonbereich entsprechend dem aktuell ausgewählten Bunbereich</translation>
     </message>
     <message>
         <source>available strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>verfügbare Saiten:</translation>
     </message>
     <message>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle Saiten ab, die du in der Prüfung auslassen möchtest.</translation>
     </message>
 </context>
 </TS>
