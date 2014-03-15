@@ -1,3 +1,6 @@
+- scalled X-axis texts have wrong pos
+- accidentals on name buttons are too big
+
 
 
 - keep exam file in /tmp and restore it when crash or so
