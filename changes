@@ -1,3 +1,9 @@
+1.0.1
+     - finished German translation
+    BUGS FIXES
+     - fixed crash with some JACK configurations
+     - small scaling issues in a chart 
+
 1.0.0
   Nootka says: I'm number one
     BUGS FIXES
