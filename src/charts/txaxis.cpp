@@ -123,7 +123,7 @@ void TXaxis::setAnswersForBarChart(QList<TgroupedQAunit>& listOfLists) {
     if ((ticTip->boundingRect().width() * scale()) > m_qWidth)
       ticTip->setScale(((qreal)m_qWidth * scale()) / ticTip->boundingRect().width());
     scene()->addItem(ticTip);
-    ticTip->setPos(pos().x() + mapValue(i + 1) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
+    ticTip->setPos(pos().x() + mapValue(i + 1) - (ticTip->boundingRect().width() * ticTip->scale()) / 2 , pos().y() + 15);
     m_ticTips << ticTip;
   }
 }
