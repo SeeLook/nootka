@@ -1,0 +1,6 @@
+syntax: glob
+.kdev4
+nootka.kdev4
+.directory
+CMakeLists.txt.user
+
