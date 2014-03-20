@@ -1,0 +1,121 @@
+
+                N O O T K A
+              HOW TO COMPILE
+
+##########################################################
+#############   Requirements:                #############
+##########################################################
+- Qt libraries (at least 4.7 version)
+- Ogg Vorbis (http://www.xiph.org/downloads/) 
+  both ogg and vorbis. Dll libraries are on this site in vorbis-tools 
+  and headers are in libogg and libvorbis archives.
+  Under Linux: libvorbis-dev & libogg-dev (or similar)
+- FFTW libraries (http://www.fftw.org/)
+	Under Linux: libfftw3-dev (or similar)
+- under Linux only
+  SoundTouch library (http://www.surina.net/soundtouch/)
+  (libsoundtouch and libsoundtouch-dev)
+
+- libasound-dev under linux
+
+##########################################################
+###############    Building                  #############
+##########################################################
+- Unpack Nootka tarball
+- go into unpacked directory
+- create some dir (f. e. "build")
+- go into created dir (f. e. cd build)
+  ---------------------------------------------------------------------------------------------------------
+- cmake ../ (or ccmake or qtcmake with GUI)
+  ---------------------------------------------------------------------------------------------------------
+  if You get error about not found libfftw or libvorbis
+  put it manually:
+      -DFFTW3_LIBRARIES=/path_to/libfftw3f.la(dll)
+      -DFFTW3_INCLUDE_DIRS=/path_to_dir_with/fftw3.h
+      -DVORBIS_LIBRARIES =/path_to/libvorbisfile.so(dll) 
+      -DVORBIS_INCLUDE_DIRS=/path_to_dir_with/vorbis/vorbisfile.h
+      -DOGG_INCLUDE_DIRS=/path_to_dir_with/ogg/ogg.h      
+    also
+      -DCMAKE_INSTALL_PREFIX=/install/dir to change instalation target
+      -DCMAKE_BUILD_TYPE=debug to build Nootka in debug mode
+    so You can invoke:
+      cmake -DCMAKE_INSTALL_PREFIX=/my/special/dir ../
+      or do the same in GUI
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    NOTE for Windows buid:
+    If You put unpacked archives of fftw and ogg-vorbis in the same location where build dir is, just
+    next to it, and you remove the versions numbers from their names, to have:
+    libogg, libvorbis, fftw and vorbis-tools dirs,
+    cmake will find all of them automagicaly.
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  ---------------------------------------------------------------------------------------------------------
+  - There is an option for building Nootka with checking for new versions
+  ---------------------------------------------------------------------------------------------------------
+  - Also under Linux are options to build Nootka with native support for:
+    - PulseAudio (requires libpulse-dev)
+      When those headers/libs are found - options are selected automaticaly
+      They can be controled by:
+	    -DENABLE_PULSEAUDIO=OFF (OFF or ON)
+	---------------------------------------------------------------------------------------------------------
+- then call
+  make 
+  or 
+  make -j[number of CPU cores], f.e.: make -j4
+  ---------------------------------------------------------------------------------------------------------
+- If you want to launch Nootka without installing - in a place where it is compiled
+	call
+		make runinplace
+		it will copy or link all necessary staff next to builded executable
+  ---------------------------------------------------------------------------------------------------------
+- make install (usually as root)
+  alternatively You can invoke 
+     make install DESTDIR=/Your/Dir
+  and push the instalation wherever You want (similary to -DCMAKE_INSTALL_PREFIX)
+  ---------------------------------------------------------------------------------------------------------
+to remove (uninstall)
+- make uninstall (usually as root)
+
+##########################################################
+###################### Packaging #########################
+##########################################################
+You can easyly generate rpm and deb package.
+1. For deb call:
+  cpack -G DEB
+  (obviously packages for build debian packages are needed)
+2. For rpm call
+  cpack -G RPM
+  
+  
+  !!!!!!!!!!!! GOOD LUCK !!!!!!!!!
+
+##########################################################
+#### How to prepare developement enviroment under MacOs ##
+##########################################################
+1. Install Xcode & X11 (from MacOs install DVD). XCode SDK is not required
+2. Install MacPorts 
+	http://www.macports.org/install.php
+	and in terminal type:
+    sudo port install pkgconfig cmake mercurial fftw-3-single libvorbis
+  alternatively You can use Fink
+
+
+3. Download and install QT libraries:
+  go to 
+    http://qt-project.org/downloads
+    and take Qt libraries version 4.8 for Mac (not 5.0 nor 4.8)
+    and install.
+
+4. Now You can go to to Building section
+
+5. make install under MacOs generates independent boundle with all needed frameworks inside
+   however You mast put during invokeing cmake -DFFTW3_LIBRARIES=/path_to_real_file_with_libfftw3f
+   and -DVORBIS_LIBRARIES=/path_to_real_file_with_libvorbisfile
+   (cmake automagicaly finds only symbolic link)
+
+
+ 
+
+
+
+
+

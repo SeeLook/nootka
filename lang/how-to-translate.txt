@@ -1,0 +1,83 @@
+
+********************************************************************
+	HOW TO TRANSLATE NOOTKA
+********************************************************************
+
+
+Welcome !!!
+Nice that You glanced here :-)
+
+THANK YOU IN ADVANCE
+For any question message me: seelook@gmail.com
+
+=====================================================================
+This process is very easy and doesn't require any programming skills,
+ only some time and a bit of patience.
+=====================================================================
+
+
+I) Recommended method - translation with Qt Linguist
+  1. Install Qt Linguist:
+    Linux users will prefer useing package manager of their distibution. Linguist will be there.
+    For Mac and Windows users:
+      - form http://qt-project.org/downloads download Qt libraries version 4.8 appropriate for Your system and install it.
+      - You will find Qtlinguist in Your programms menu (Windows) or in /Developer/Applications/Qt in root file system (Mac).
+	NOTE: There is also standalone version of Qt Linguist for Windows (7MB only): 
+	http://sourceforge.net/projects/gns-3/files/GNS3/Translations/Qt%20Linguist%20for%20Windows.zip/download
+	You need just unpack downloaded file and run linguist.exe
+  2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
+      and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
+  3. Open this file by Qt Linguist and translate - this is very easy.
+  4. In every moment You can generate a "lang package" form menu File->Release (file with *.qm extension)
+      and put that file in Nootka instalation dir into the lang directory 
+      f.e.: path_to_nootka/lang/nootka_en.qm
+      and run Nootka to see effects of the translation
+  
+  ***************************************************************
+  ************* A Few Hints *************************************
+    * To approve transtaled entry You can use [CTRL+Enter] - it will be automatically marked as finished.
+    * Do not remove any special characters like \n %1 or HTML tags like <br> and <whatever>.
+    * To copy oryginal entry use [CTRL+b] and then just translate.
+      Obviously You can move this mischievous characters and tags
+      to make whole transtaled sentence proper in Your language
+    * Often use [CTRL+s] to save Your work
+    * PLEASE BE RESPONSIBLE !!! USE KIND WORDS AND OFFICIAL MUSICAL TERMS.
+      DO NOT USE SOME SLANG WORDS EVEN MUSICAL. Nootka is used by children and pupils 
+  ***************************************************************
+  ***************************************************************
+
+  =====================================================================
+When translation will be ready or You give up :-( , send me what You have:
+		seelook@gmail.com
+      How to give some info about translator (You) You will find during translation
+      Have good fun !!!!!!!!!!!!!
+  
+      
+      
+II) Alternate method - translate in text editor
+    1. MS NotePad is good for nothing so first got some editor with syntax hightlight
+       f.e.: Notepad++. Also there are online editors 
+       (f.e.: create free acount on Cloud9 http://c9.io and upload the *.ts file there)
+    2. Download Nootka language file: http://code.google.com/p/nootka/source/browse/lang/nootka_xx.ts
+      and change that xx in file name to Your language code to get file name like f.e.: nootka_en.ts
+    3. Open this file in Your editor
+    4. Adjust entry
+      <TS version="2.0" language="xx_XX">
+      to Your language f.e.:
+      <TS version="2.0" language="en_EN">
+    5. Translate every message:
+      <message>
+	  <location filename="../src/charts/tnotepixmap.cpp" line="173"/>
+	  <source>It was good!</source>
+	  <translation type="unfinished"></translation>
+      </message>
+      to
+      <message>
+        <location filename="../src/charts/tnotepixmap.cpp" line="173"/>
+        <source>It was good!</source>
+        <translation> !!!!!!!!! HERE PUT A TRANSLATION !!!!!!!!!!!! </translation>
+      </message>
+      When finished - remove type="unfinished" from a tag.
+    6. See hints above
+      
+      
