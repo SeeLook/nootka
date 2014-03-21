@@ -5,7 +5,7 @@
 add_definitions(-DNOOTKACORE_LIBRARY)
 
 set(LIB_NOOTKACORE_SRC
-	tinitcorelib.h
+	tinitcorelib.cpp
 	texamparams.h
 	taudioparams.h
 	tcolor.cpp

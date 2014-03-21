@@ -20,7 +20,7 @@
 #include "texam.h"
 #include "tlevel.h"
 // #include "tlevelselector.h" TODO
-#include "tglobals.h"
+#include "tinitcorelib.h"
 #include <QFile>
 #include <QDataStream>
 #include <QMessageBox>
@@ -28,7 +28,6 @@
 #include <QDebug>
 
 
-extern Tglobals *gl;
 
 /*static*/
 /** Versions history:
@@ -191,7 +190,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
               isExamFileOk = false;
           if ((qaUnit.questionAs == TQAtype::e_asName || qaUnit.answerAs == TQAtype::e_asName) 
                 && qaUnit.styleOfQuestion() < 0) {
-                  qaUnit.setStyle(gl->NnameStyleInNoteName, qaUnit.styleOfAnswer());
+                  qaUnit.setStyle(glob->NnameStyleInNoteName, qaUnit.styleOfAnswer());
                   fixedNr++;
               } /** In old versions, style was set to 0 so now it gives styleOfQuestion = -1
                 * Also in transition Nootka versions it was left unchanged.
@@ -336,7 +335,7 @@ void Texam::convertToVersion2() {
     qsrand(QDateTime::currentDateTime().toTime_t());
    if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
-      if (gl->seventhIs_B) {
+      if (glob->seventhIs_B) {
         randStyles[1] = Tnote::e_english_Bb;
         randStyles[2] = Tnote::e_nederl_Bis;
       } else {
@@ -362,13 +361,13 @@ void Texam::convertToVersion2() {
           m_answList[i].setStyle(qSt, aSt);
         } else
           if (m_answList[i].questionAs == TQAtype::e_asName) {
-            m_answList[i].setStyle(randStyles[qrand() % 3], gl->NnameStyleInNoteName);
+            m_answList[i].setStyle(randStyles[qrand() % 3], glob->NnameStyleInNoteName);
           } else
             if (m_answList[i].questionAs == TQAtype::e_asName) {
-              m_answList[i].setStyle(gl->NnameStyleInNoteName, randStyles[qrand() % 3]);
+              m_answList[i].setStyle(glob->NnameStyleInNoteName, randStyles[qrand() % 3]);
             }
       } else // fixed style - we changing to user preferred
-          m_answList[i].setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
+          m_answList[i].setStyle(glob->NnameStyleInNoteName, glob->NnameStyleInNoteName);
     }
       
     if (!m_answList[i].isCorrect()) {

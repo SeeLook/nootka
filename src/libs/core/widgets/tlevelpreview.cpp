@@ -20,14 +20,13 @@
 #include <exam/tlevel.h>
 #include <graphics/tnotepixmap.h>
 #include "tquestionaswdg.h"
-#include "tglobals.h"
+#include "tinitcorelib.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextBrowser>
 #include <QPainter>
 #include <QDebug>
 
-extern Tglobals *gl;
 
 /** Returns size of 'A' letter in current widget font. */
 int heightOfA(QWidget *w) {
@@ -115,10 +114,10 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     }
     if (tl.useKeySign) {
         S += "<tr><td>" + tr("key signature:") + " </td><td>";
-        S += tl.loKey.getMajorName().remove("-"+gl->SmajKeyNameSufix);
+        S += tl.loKey.getMajorName().remove("-"+glob->SmajKeyNameSufix);
         S += " (" + tl.loKey.accidNumber(true) +")";
         if (!tl.isSingleKey) {
-            S += " - " + tl.hiKey.getMajorName().remove("-"+gl->SmajKeyNameSufix);
+            S += " - " + tl.hiKey.getMajorName().remove("-"+glob->SmajKeyNameSufix);
             S += " (" + tl.hiKey.accidNumber(true) + ")";
         }
         S += "</td></tr>";
