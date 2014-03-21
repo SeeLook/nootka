@@ -20,29 +20,19 @@
 #define TINITCORELIB_H
 
 #include <nootkacoreglobal.h>
-#include "music/ttune.h"
-#include "music/tkeysignature.h"
-#include "widgets/tpushbutton.h"
 #include "tglobals.h"
-#include "tcolor.h"
 
+
+/** Internal instance of Tglobals pointer initialized  in initCoreLibrary. */
+static Tglobals* glob; 
 
 /** Initializes static values in library:
+ * - pointer to Tglobals initialized by external executable !!!
+ *   it is accessible through @p glob variable 
  * - tuning definitions
  * - TpushButton colors
  */
-NOOTKACORE_EXPORT void initCoreLibrary(QWidget *anyW, Tglobals *gl) {
-		Ttune::prepareDefinedTunes();
-		Tcolor::setShadow(anyW);
-#if defined(Q_OS_MAC)
-    TpushButton::setCheckColor(gl->SpointerColor, anyW->palette().base().color());
-#else
-    TpushButton::setCheckColor(anyW->palette().highlight().color(), anyW->palette().highlightedText().color() );
-#endif
-		TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
-}
-
-
+NOOTKACORE_EXPORT void initCoreLibrary(QWidget *anyW, Tglobals *gl);
 
 
 #endif // TINITCORELIB_H

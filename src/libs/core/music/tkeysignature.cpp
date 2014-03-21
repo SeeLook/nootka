@@ -18,9 +18,8 @@
 
 
 #include "tkeysignature.h"
-#include "tglobals.h"
+#include "tinitcorelib.h"
 
-extern Tglobals *gl;
 
 /*static*/
 const char TkeySignature::scalesDefArr[15][7] = {
@@ -52,14 +51,14 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QStrin
 	QString majS = "", minS = "";
 	if (majSuf == "") {
 		majS = "-" + majorSufixTxt();
-		gl->SmajKeyNameSufix = majorSufixTxt();
+		glob->SmajKeyNameSufix = majorSufixTxt();
 	} else
 		if (majSuf != " ")
 			majS = "-" + majSuf;
 		
 	if (minSuf == "") {
 		minS = "-" + minorSufixTxt();
-		gl->SminKeyNameSufix = minorSufixTxt();
+		glob->SminKeyNameSufix = minorSufixTxt();
 	}
 	else
 		if (minSuf != " ")

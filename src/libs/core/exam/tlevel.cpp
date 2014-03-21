@@ -19,14 +19,12 @@
 
 
 #include "tlevel.h"
-#include "tglobals.h"
+#include "tinitcorelib.h"
 #include <music/ttune.h>
 #include <taudioparams.h>
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
-
-extern Tglobals *gl;
 
 
 /*static-------------------------------------------------------------------------------------------*/
@@ -78,7 +76,7 @@ Tlevel::Tlevel() :
    name = QObject::tr("master of masters");
    desc = QObject::tr("All possible options are turned on");
 	 bool hasGuitar = true;
-	 if (gl->instrument == e_noInstrument)
+	 if (glob->instrument == e_noInstrument)
 		 hasGuitar = false;
    questionAs = TQAtype(true, true, hasGuitar, true);
    answersAs[0] = TQAtype(true, true, hasGuitar, true);
@@ -101,28 +99,28 @@ Tlevel::Tlevel() :
  // ANSWERS - as position on fingerboard
    showStrNr = hasGuitar;
   // RANGE - for non guitar Tglobals will returns scale determined by clef
-   loNote = gl->loString();
-   hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber);
+   loNote = glob->loString();
+   hiNote = Tnote(glob->hiString().getChromaticNrOfNote() + glob->GfretsNumber);
    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
 		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
 		*  It can store multiple clefs (maybe in unknown future it will be used)
 		*  0 - no clef and up to 15 different clefs	  */
-	 clef = Tclef(gl->Sclef);
+	 clef = Tclef(glob->Sclef);
 //    isNoteLo = false;   isNoteHi = false;
 //    isFretHi = false; 
-	 instrument = gl->instrument;
+	 instrument = glob->instrument;
    //-------------------
    loFret = 0;
-   hiFret = gl->GfretsNumber;
+   hiFret = glob->GfretsNumber;
 	 for (int i = 0; i < 6; i++) {
-		 if (i <= gl->Gtune()->stringNr())
+		 if (i <= glob->Gtune()->stringNr())
 				usedStrings[i] = true; 
 		 else
 				usedStrings[i] = false; 
 	 }
    onlyLowPos = false;
    onlyCurrKey = false;
-	 intonation = gl->A->intonation;
+	 intonation = glob->A->intonation;
 }
 
 
@@ -182,7 +180,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
         ok = false;
     }
     if (hi < 0 || hi > 24) { // max frets number
-        hi = gl->GfretsNumber;
+        hi = glob->GfretsNumber;
         ok = false;
     }
     lev.loFret = char(lo);
@@ -244,7 +242,7 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 		if (instr == 255) {
 			if (canBeGuitar() || canBeSound()) {
 					hasInstrToFix = true;
-					return gl->instrument;
+					return glob->instrument;
 			} else // instrument has no matter
 					return e_noInstrument;
 		} else if (instr == 0 || instr == 1) {
@@ -257,7 +255,7 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 					return (Einstrument)instr;
 		else {
 			qDebug() << "Tlevel::instrument has some stupid value. FIXED";
-			return gl->instrument;
+			return glob->instrument;
 		}
 }
 
@@ -373,7 +371,7 @@ bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
 
 
 bool Tlevel::inScaleOf() {
-	return inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiNote().getChromaticNrOfNote());
+	return inScaleOf(glob->loString().getChromaticNrOfNote(), glob->hiNote().getChromaticNrOfNote());
 }
 
 
@@ -381,17 +379,17 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
 	if (!inScaleOf()) // when note range is not in an instrument scale
 		return false; // get rid - makes no sense to further check
 	
-	int lowest = gl->GfretsNumber, highest = 0;
+	int lowest = glob->GfretsNumber, highest = 0;
 	for (int no = loNote.getChromaticNrOfNote(); no <= hiNote.getChromaticNrOfNote(); no++) {
 		if (!withFlats && !withSharps)
 			if (Tnote(no).acidental) // skip note with accidental when not available in the level
 					continue;
-		int tmpLow = gl->GfretsNumber;
-		for(int st = 0 ; st < gl->Gtune()->stringNr(); st++) {
+		int tmpLow = glob->GfretsNumber;
+		for(int st = 0 ; st < glob->Gtune()->stringNr(); st++) {
 			if (!usedStrings[st]) 
 					continue;
-			int diff = no - gl->Gtune()->str(gl->strOrder(st) + 1).getChromaticNrOfNote();
-			if (diff >= 0 && diff <= gl->GfretsNumber) { // found
+			int diff = no - glob->Gtune()->str(glob->strOrder(st) + 1).getChromaticNrOfNote();
+			if (diff >= 0 && diff <= glob->GfretsNumber) { // found
 					lowest = qMin<int>(lowest, diff);
 					tmpLow = qMin<int>(tmpLow, diff);
 			}
