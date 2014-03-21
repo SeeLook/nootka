@@ -23,7 +23,8 @@
 #include <QMessageBox>
 #include <QFontDatabase>
 #include "tanalysdialog.h"
-#include <tglobals.h>
+#include <tinitcorelib.h>
+#include <QDebug>
 
 Tglobals *gl;
 
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
 #endif
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+		initCoreLibrary(gl);
 // loading translations
 		QString ll = gl->lang;
 		if (ll == "")
@@ -62,7 +64,6 @@ int main(int argc, char *argv[])
 // 	// to allow opening nootka files by clicking them in MacOs finder
 //     a->installEventFilter(w);
 // #endif
-		
     analyzer.show();
 		return a.exec();
 }

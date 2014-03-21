@@ -24,7 +24,6 @@
 #include <graphics/tnotepixmap.h>
 #include <tglobals.h>
 #include <texamparams.h>
-#include <tinitcorelib.h>
 #include "tchart.h"
 #include "tmainchart.h"
 #include "tlinearchart.h"
@@ -45,7 +44,6 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_wasExamCreated(false),
     m_isMaximized(false)
 {
-	initCoreLibrary(this, gl);
 #if defined(Q_OS_MAC)
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
                               QColor(gl->EnotBadColor.name()), Tcolor::shadow, palette().window().color());

@@ -24,7 +24,17 @@
 
 
 /** Internal instance of Tglobals pointer initialized  in initCoreLibrary. */
-static Tglobals* glob; 
+class Tglob
+{
+
+public:
+	static void setGlobals(Tglobals *g) { m_gl = g; }
+	static Tglobals* glob() { return m_gl; }
+	
+private:
+	static Tglobals *m_gl; 
+
+};
 
 /** Initializes static values in library:
  * - pointer to Tglobals initialized by external executable !!!
@@ -32,7 +42,7 @@ static Tglobals* glob;
  * - tuning definitions
  * - TpushButton colors
  */
-NOOTKACORE_EXPORT void initCoreLibrary(QWidget *anyW, Tglobals *gl);
+NOOTKACORE_EXPORT void initCoreLibrary(Tglobals *gl);
 
 
 #endif // TINITCORELIB_H
