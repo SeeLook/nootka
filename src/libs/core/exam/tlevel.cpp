@@ -76,7 +76,7 @@ Tlevel::Tlevel() :
    name = QObject::tr("master of masters");
    desc = QObject::tr("All possible options are turned on");
 	 bool hasGuitar = true;
-	 if (glob->instrument == e_noInstrument)
+	 if (Tglob::glob()->instrument == e_noInstrument)
 		 hasGuitar = false;
    questionAs = TQAtype(true, true, hasGuitar, true);
    answersAs[0] = TQAtype(true, true, hasGuitar, true);
@@ -99,28 +99,28 @@ Tlevel::Tlevel() :
  // ANSWERS - as position on fingerboard
    showStrNr = hasGuitar;
   // RANGE - for non guitar Tglobals will returns scale determined by clef
-   loNote = glob->loString();
-   hiNote = Tnote(glob->hiString().getChromaticNrOfNote() + glob->GfretsNumber);
+   loNote = Tglob::glob()->loString();
+   hiNote = Tnote(Tglob::glob()->hiString().getChromaticNrOfNote() + Tglob::glob()->GfretsNumber);
    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
 		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
 		*  It can store multiple clefs (maybe in unknown future it will be used)
 		*  0 - no clef and up to 15 different clefs	  */
-	 clef = Tclef(glob->Sclef);
+	 clef = Tclef(Tglob::glob()->Sclef);
 //    isNoteLo = false;   isNoteHi = false;
 //    isFretHi = false; 
-	 instrument = glob->instrument;
+	 instrument = Tglob::glob()->instrument;
    //-------------------
    loFret = 0;
-   hiFret = glob->GfretsNumber;
+   hiFret = Tglob::glob()->GfretsNumber;
 	 for (int i = 0; i < 6; i++) {
-		 if (i <= glob->Gtune()->stringNr())
+		 if (i <= Tglob::glob()->Gtune()->stringNr())
 				usedStrings[i] = true; 
 		 else
 				usedStrings[i] = false; 
 	 }
    onlyLowPos = false;
    onlyCurrKey = false;
-	 intonation = glob->A->intonation;
+	 intonation = Tglob::glob()->A->intonation;
 }
 
 
@@ -180,7 +180,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
         ok = false;
     }
     if (hi < 0 || hi > 24) { // max frets number
-        hi = glob->GfretsNumber;
+        hi = Tglob::glob()->GfretsNumber;
         ok = false;
     }
     lev.loFret = char(lo);
@@ -242,7 +242,7 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 		if (instr == 255) {
 			if (canBeGuitar() || canBeSound()) {
 					hasInstrToFix = true;
-					return glob->instrument;
+					return Tglob::glob()->instrument;
 			} else // instrument has no matter
 					return e_noInstrument;
 		} else if (instr == 0 || instr == 1) {
@@ -255,7 +255,7 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 					return (Einstrument)instr;
 		else {
 			qDebug() << "Tlevel::instrument has some stupid value. FIXED";
-			return glob->instrument;
+			return Tglob::glob()->instrument;
 		}
 }
 
@@ -371,7 +371,7 @@ bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
 
 
 bool Tlevel::inScaleOf() {
-	return inScaleOf(glob->loString().getChromaticNrOfNote(), glob->hiNote().getChromaticNrOfNote());
+	return inScaleOf(Tglob::glob()->loString().getChromaticNrOfNote(), Tglob::glob()->hiNote().getChromaticNrOfNote());
 }
 
 
@@ -379,17 +379,17 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
 	if (!inScaleOf()) // when note range is not in an instrument scale
 		return false; // get rid - makes no sense to further check
 	
-	int lowest = glob->GfretsNumber, highest = 0;
+	int lowest = Tglob::glob()->GfretsNumber, highest = 0;
 	for (int no = loNote.getChromaticNrOfNote(); no <= hiNote.getChromaticNrOfNote(); no++) {
 		if (!withFlats && !withSharps)
 			if (Tnote(no).acidental) // skip note with accidental when not available in the level
 					continue;
-		int tmpLow = glob->GfretsNumber;
-		for(int st = 0 ; st < glob->Gtune()->stringNr(); st++) {
+		int tmpLow = Tglob::glob()->GfretsNumber;
+		for(int st = 0 ; st < Tglob::glob()->Gtune()->stringNr(); st++) {
 			if (!usedStrings[st]) 
 					continue;
-			int diff = no - glob->Gtune()->str(glob->strOrder(st) + 1).getChromaticNrOfNote();
-			if (diff >= 0 && diff <= glob->GfretsNumber) { // found
+			int diff = no - Tglob::glob()->Gtune()->str(Tglob::glob()->strOrder(st) + 1).getChromaticNrOfNote();
+			if (diff >= 0 && diff <= Tglob::glob()->GfretsNumber) { // found
 					lowest = qMin<int>(lowest, diff);
 					tmpLow = qMin<int>(tmpLow, diff);
 			}

@@ -75,7 +75,7 @@ public:
 	static QColor shadow;
 	
 								/** Sets default shadow color of tips */
-	static void setShadow(QWidget *anyW);
+	static void setShadow(const QPalette& pal);
 	
 };
 

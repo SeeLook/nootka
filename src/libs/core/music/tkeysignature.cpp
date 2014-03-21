@@ -47,18 +47,18 @@ QString TkeySignature::majorNames[15] = { "", "", "", "", "", "", "", "", "", ""
 QString TkeySignature::minorNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
 void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QString minSuf) {
-    Tnote n;
+	Tnote n;
 	QString majS = "", minS = "";
 	if (majSuf == "") {
 		majS = "-" + majorSufixTxt();
-		glob->SmajKeyNameSufix = majorSufixTxt();
+		Tglob::glob()->SmajKeyNameSufix = majorSufixTxt();
 	} else
 		if (majSuf != " ")
 			majS = "-" + majSuf;
 		
 	if (minSuf == "") {
 		minS = "-" + minorSufixTxt();
-		glob->SminKeyNameSufix = minorSufixTxt();
+		Tglob::glob()->SminKeyNameSufix = minorSufixTxt();
 	}
 	else
 		if (minSuf != " ")

@@ -16,17 +16,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include "tinitcorelib.h"
+#include "music/ttune.h"
+#include "music/tkeysignature.h"
+#include "widgets/tpushbutton.h"
 #include "tcolor.h"
+#include <QApplication>
 
-QColor Tcolor::shadow = Qt::gray;
+Tglobals* Tglob::m_gl = 0;
 
 
-void Tcolor::setShadow(const QPalette& pal) {
+void initCoreLibrary(Tglobals* gl) {
+		Tglob::setGlobals(gl);
+		Ttune::prepareDefinedTunes();
+		Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
-		QColor shadowC(pal.text().color());
-		shadowC.setAlpha(50);
-		shadow = merge(shadowC, pal.base().color());
+    TpushButton::setCheckColor(gl->SpointerColor, qApp->palette().base().color());
 #else
-		shadow = pal.shadow().color();
+    TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
 #endif
+		TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 }
+
+
