@@ -23,5 +23,5 @@ include_directories( libs/core )
 
 add_subdirectory( charts )
 
-# add_subdirectory(updater)
+add_subdirectory(updater)
 
