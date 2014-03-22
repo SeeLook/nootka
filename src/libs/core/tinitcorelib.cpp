@@ -22,8 +22,14 @@
 #include "widgets/tpushbutton.h"
 #include "tcolor.h"
 #include <QApplication>
+#include <QMessageBox>
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QFontDatabase>
 
 Tglobals* Tglob::m_gl = 0;
+QTranslator qtTranslator;
+QTranslator nooTranslator;
 
 
 void initCoreLibrary(Tglobals* gl) {
@@ -37,5 +43,37 @@ void initCoreLibrary(Tglobals* gl) {
 #endif
 		TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
 }
+
+
+void prepareTranslations(QApplication* a) {
+	QString ll = "";
+	if (Tglob::glob())
+	ll = Tglob::glob()->lang;
+	if (ll == "")
+			ll = QLocale::system().name();
+// 	QTranslator qtTranslator;
+#if defined(Q_OS_LINUX)
+    qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#else
+    qtTranslator.load("qt_" + ll, gl->path + "lang");
+#endif
+	a->installTranslator(&qtTranslator);
+
+//     QTranslator nooTranslator;
+	nooTranslator.load("nootka_" + ll, Tglob::glob()->path + "lang");
+	a->installTranslator(&nooTranslator);
+}
+
+
+bool loadNootkaFont(QApplication* a) {
+	QFontDatabase fd;
+	int fid = fd.addApplicationFont(Tglob::glob()->path + "fonts/nootka.ttf");
+	if (fid == -1) {
+			QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
+			return false;
+	} else
+			return true;
+}
+
 
 

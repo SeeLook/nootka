@@ -22,6 +22,7 @@
 #include <nootkacoreglobal.h>
 #include "tglobals.h"
 
+class QApplication;
 
 /** Internal instance of Tglobals pointer initialized  in initCoreLibrary. */
 class Tglob
@@ -44,5 +45,11 @@ private:
  */
 NOOTKACORE_EXPORT void initCoreLibrary(Tglobals *gl);
 
+/** Loads translations files for appropriate language (system or user preferred) */
+NOOTKACORE_EXPORT void prepareTranslations(QApplication* a);
+
+/** Checks nootka.ttf file and loads it. Returns true Tglob::glob()if successful.  
+ * libNootkaCore has to be initialized first by initCoreLibrary() */
+NOOTKACORE_EXPORT bool loadNootkaFont(QApplication* a);
 
 #endif // TINITCORELIB_H

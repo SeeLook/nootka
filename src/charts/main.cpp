@@ -18,10 +18,6 @@
 
 
 #include <QApplication>
-#include <QLibraryInfo>
-#include <QTranslator>
-#include <QMessageBox>
-#include <QFontDatabase>
 #include "tanalysdialog.h"
 #include <tinitcorelib.h>
 #include <QDebug>
@@ -37,33 +33,11 @@ int main(int argc, char *argv[])
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		initCoreLibrary(gl);
-// loading translations
-		QString ll = gl->lang;
-		if (ll == "")
-				ll = QLocale::system().name();
-    QTranslator qtTranslator;
-#if defined(Q_OS_LINUX)
-    qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-#else
-    qtTranslator.load("qt_" + ll, gl->path + "lang");
-#endif
-    a.installTranslator(&qtTranslator);
+		prepareTranslations(&a);
+		if (!loadNootkaFont(&a))
+			return 111;
 
-    QTranslator nooTranslator;
-    nooTranslator.load("nootka_" + ll, gl->path + "lang");
-    a.installTranslator(&nooTranslator);
-    QFontDatabase fd;
-    int fid = fd.addApplicationFont(gl->path + "fonts/nootka.ttf");
-    if (fid == -1) {
-        QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
-        return 111;
-    }
-// creating main window
     TanalysDialog analyzer;
-// #if defined (Q_OS_MAC)
-// 	// to allow opening nootka files by clicking them in MacOs finder
-//     a->installEventFilter(w);
-// #endif
     analyzer.show();
 		return a.exec();
 }

@@ -1,5 +1,5 @@
 TODO List
-- main note has no pen (Qt5 pixmap is ugly with it)- but markNote adds it or clears - check it when score will be implemented 
+
 
 
 - keep exam file in /tmp and restore it when crash or so
@@ -24,3 +24,8 @@ Tnote
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required   
+     
+cpack 
+- add man page for nootka-analyzer
+- update Qt5 dependencies for deb package 
+
