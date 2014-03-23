@@ -25,9 +25,6 @@
 #define SPACE_GAP (7)
 
 
-const QString TexamView::halfMistakenTxt() { return tr("'Not bad' answers"); } 
-const QString TexamView::halfMistakenAddTxt() { return tr("(counted as half of a mistake)"); }
-
 QString borderStyleTxt = "border: 1px solid palette(Text); border-radius: 4px;";
 
 
@@ -198,31 +195,6 @@ void TexamView::countTime() {
     if (m_showReact)
         m_reactTimeLab->setText(QString(" %1 ").arg(formatReactTime(m_reactTime.elapsed() / 100)));
     m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime * 1000 + m_totalTime.elapsed()) + " ");
-}
-
-
-QString TexamView::formatReactTime(quint16 timeX10, bool withUnit) {
-    QString hh = "", mm = "", ss = "";
-    int dig = 0;
-    if (timeX10 / 36000) {
-        hh = QString("%1").arg(timeX10 / 36000);
-        dig = 2;
-    }
-    int dig2 = 0;
-    if ((timeX10 % 36000) / 600) {
-        mm = QString("%1").arg((timeX10 % 36000) / 600, dig, 'i', 0, '0');
-        dig2 = 2;
-    }
-    ss = QString("%1").arg(((timeX10 % 36000) % 600) / 10, dig2, 'i', 0, '0' );
-    QString res = "";
-    if (hh != "")
-        res = hh + ":";
-    if (mm != "")
-        res += mm + ":";
-    QString unitS = "";
-    if (withUnit && timeX10 < 600)
-        unitS = " s";
-    return res + ss + QString(".%1").arg(timeX10 % 10) + unitS;
 }
 
 

@@ -220,13 +220,6 @@ QList<Tlevel> getExampleLevels() {
 }
 
 /*static*/
-void TlevelSelector::fileIOerrorMsg(QFile &f, QWidget *parent) {
-	if (f.fileName() != "") {
-	  QMessageBox::critical(parent, "", tr("Cannot open file\n %1 \n for reading").arg(f.fileName()));
-	} else
-	  QMessageBox::critical(parent, "", tr("No file name specified"));
-}
-
 
 QString TlevelSelector::checkLevel(Tlevel& l) {
 	QString warringText = "";

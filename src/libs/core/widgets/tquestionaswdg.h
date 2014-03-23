@@ -50,10 +50,7 @@ public:
         /** Returns string with kind of question/answer text. */
     static QString qaTypeText(TQAtype::Etype type);
         /** Returns a letter in nootka font with symbol represents type. */
-    static QString qaTypeSymbol(TQAtype::Etype type);
-        /** Returns html span tag with style font to nootka and given size wrapping given text. */
-    static QString spanNootka(QString text, int fontSize = 0);
-    
+    static QString qaTypeSymbol(TQAtype::Etype type);    
 
     bool answerAsNote() { return asNoteChB->isChecked(); }
     bool answerAsName() { return asNameChB->isChecked(); }

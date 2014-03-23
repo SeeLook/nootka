@@ -20,10 +20,12 @@
 #include "tanalysdialog.h"
 #include <exam/texam.h>
 #include <exam/tlevel.h>
+#include <exam/textrans.h>
 #include <widgets/tlevelpreview.h>
 #include <graphics/tnotepixmap.h>
 #include <tglobals.h>
 #include <texamparams.h>
+#include <tnoofont.h>
 #include "tchart.h"
 #include "tmainchart.h"
 #include "tlinearchart.h"
@@ -164,7 +166,7 @@ void TanalysDialog::setExam(Texam* exam) {
   m_userLab->setText("<b>" + m_exam->userName() + "</b>");
   m_levelLab->setText("<b>" + m_exam->level()->name + "</b>");
   m_questNrLab->setText(tr("Question number") + QString(": <b>%1</b>").arg(exam->count()) );
-  m_effectLab->setText(Texam::effectTxt() + QString(": <b>%1%</b>")
+  m_effectLab->setText(TexTrans::effectTxt() + QString(": <b>%1%</b>")
                        .arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
   m_moreButton->setDisabled(false);
 	if (exam->level()->instrument != e_noInstrument) {
@@ -375,8 +377,8 @@ void TanalysDialog::linkOnTipClicked() {
 
 
 void TanalysDialog::loadExamSlot() {
-  QString fileName = QFileDialog::getOpenFileName(this, Texam::loadExamFileTxt(), gl->E->examsDir,
-												  Texam::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
+  QString fileName = QFileDialog::getOpenFileName(this, TexTrans::loadExamFileTxt(), gl->E->examsDir,
+												  TexTrans::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   if (fileName != "") {
       gl->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
       loadExam(fileName);
@@ -563,8 +565,7 @@ void TanalysDialog::showTuningPreview() {
 	}
 	QString prevText = "<b>" + m_exam->tune().name + "</b><table style=\"text-align: center;\"><tr>";
 	for (int i = m_exam->tune().stringNr() - 1; i >= 0; i--)
-		prevText += "<td>" + m_exam->tune().str(i + 1).toRichText() + "<br>" + 
-			QString("<span style=\"font-family: nootka; font-size: 20px;\">%1</span>").arg(i + 1) + "</td>";
+		prevText += "<td>" + m_exam->tune().str(i + 1).toRichText() + "<br>" + TnooFont::span(QString("%1").arg(i + 1), 20) + "</td>";
 	prevText += "</tr></table>";
 	QPointF offP = m_chart->mapToScene(0, 0);
 	m_tunTip = new TgraphicsTextTip(prevText, palette().highlight().color());

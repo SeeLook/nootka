@@ -19,7 +19,6 @@
 
 #include "texam.h"
 #include "tlevel.h"
-// #include "tlevelselector.h" TODO
 #include "tinitcorelib.h"
 #include <QFile>
 #include <QDataStream>
@@ -237,11 +236,10 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
           result = e_file_corrupted;
       file.close();
      } else {
-//          TlevelSelector::fileIOerrorMsg(file, 0);
+					Tlevel::fileIOerrorMsg(file, 0);
           result = e_cant_open;
      }
   updateBlackCount();
-//   qDebug() << "black questions:" << blackCount() << "Mistakes:" << m_mistNr << "Not so bad:" << m_halfMistNr;
   return result;
 }
 

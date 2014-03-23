@@ -21,6 +21,7 @@
 #include <exam/tgroupedqaunit.h>
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
+#include <exam/textrans.h>
 #include <tglobals.h>
 #include <tcolor.h>
 #include <QApplication>
@@ -43,22 +44,22 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
     tipText += "<table>";
     if (m_kind != e_mistakes)
         tipText += "<tr><td>" + 
-            Texam::effectTxt() + ": </td><td> <b>" + QString("%1 %").arg(qaGroup->effectiveness(), 2, 'f', 0, '0') + 
+            TexTrans::effectTxt() + ": </td><td> <b>" + QString("%1 %").arg(qaGroup->effectiveness(), 2, 'f', 0, '0') + 
             "</b></td></tr>";
-    tipText += "<tr><td>" + Texam::averAnsverTimeTxt() + ": </td><td> <b>" + Texam::formatReactTime(qaGroup->averTime(), true) + "</b></td></tr>";
+    tipText += "<tr><td>" + TexTrans::averAnsverTimeTxt() + ": </td><td> <b>" + Texam::formatReactTime(qaGroup->averTime(), true) + "</b></td></tr>";
     if (m_kind != e_mistakes)
         tipText += "<tr><td>" + 
         QApplication::translate("TanalysDialog", "Questions number") + QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->size());
     if (qaGroup->size() > (qaGroup->mistakes() + qaGroup->notBad())) {
       tipText += "<tr " + trStyle(gl->EanswerColor) + "><td>";
-      tipText += Texam::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
+      tipText += TexTrans::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
         .arg(qaGroup->size() - qaGroup->mistakes() - qaGroup->notBad());
     }
     if (qaGroup->mistakes())
-      tipText += "<tr " + trStyle(gl->EquestionColor)  + "><td>" + Texam::mistakesNrTxt() +
+      tipText += "<tr " + trStyle(gl->EquestionColor)  + "><td>" + TexTrans::mistakesNrTxt() +
               QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->mistakes());
     if (qaGroup->notBad())
-      tipText += "<tr " + trStyle(gl->EnotBadColor) + "><td>" + Texam::halfMistakenTxt() +
+      tipText += "<tr " + trStyle(gl->EnotBadColor) + "><td>" + TexTrans::halfMistakenTxt() +
               QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->notBad());
     tipText += "</table>";
     return tipText;
@@ -66,7 +67,7 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
 
 QString TstatisticsTip::getAverTimeStat(TgroupedQAunit* qaGroup, QString ofSomething) {
     if (qaGroup)
-      return "<p>" + ofSomething + "<br>" + Texam::averAnsverTimeTxt() + "<br>" + "<span style=\"font-size: 20px;\"><b>" +
+      return "<p>" + ofSomething + "<br>" + TexTrans::averAnsverTimeTxt() + "<br>" + "<span style=\"font-size: 20px;\"><b>" +
         Texam::formatReactTime(qRound(qaGroup->averTime()), true) +"</b></span></p>";
     else 
       return ofSomething;

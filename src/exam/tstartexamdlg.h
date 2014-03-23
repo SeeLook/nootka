@@ -52,9 +52,6 @@ public:
         * or exam file path, depends on returned @param Eactions,
         * and returns selected level. */
     Eactions showDialog(QString &txt, Tlevel &lev);
-        /** exam file extension and its description */
-    static const QString examFilterTxt() { return tr("Exam results")  + " (*.noo)" ; }
-    static const QString loadExamFileTxt() { return tr("Load an exam file"); } /** Load an exam file */
     
         /** Returns system user name (log-in name)  */
     static QString systemUserName();

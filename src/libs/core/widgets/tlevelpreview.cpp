@@ -21,6 +21,7 @@
 #include <graphics/tnotepixmap.h>
 #include "tquestionaswdg.h"
 #include "tinitcorelib.h"
+#include <tnoofont.h>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextBrowser>
@@ -126,9 +127,9 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     if (!tl.withSharps && !tl.withFlats && !tl.withDblAcc)
         S += tr("none");
     else {
-        if (tl.withSharps) S += " <span style=\"font-family: nootka;\">#</span>";
-        if (tl.withFlats) S += " <span style=\"font-family: nootka;\">b</span>";
-        if (tl.withDblAcc) S += " <span style=\"font-family: nootka;\">xB</span>";
+        if (tl.withSharps) S += TnooFont::span(" #");
+        if (tl.withFlats) S += TnooFont::span(" b");
+        if (tl.withDblAcc) S += TnooFont::span(" x B");
     }
     S += "</td></tr>";
     S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td><td align=\"center\">"; // QUESTIONS
@@ -142,7 +143,7 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     if (tl.questionAs.isSound())
       tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
     int fontSize = heightOfA(this) * 1.3;
-    S += TquestionAsWdg::spanNootka(tmp, fontSize);
+    S += TnooFont::span(tmp, fontSize);
     S += "</td></tr>";
     tmp   = "";
     S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td align=\"center\">"; // ANSWERS
@@ -154,7 +155,7 @@ void TlevelPreview::setLevel(Tlevel& tl) {
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
     if (tl.answerIsSound())
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
-    S += TquestionAsWdg::spanNootka(tmp, fontSize);
+    S += TnooFont::span(tmp, fontSize);
     S += "</td></tr>";
     if (tl.canBeName() || tl.canBeScore() || tl.canBeSound()) {
       S += "<tr><td colspan=\"2\" align=\"center\">";
@@ -193,8 +194,7 @@ void TlevelPreview::paintEvent(QPaintEvent* ) {
 	painter.setPen(Qt::NoPen);
 	painter.drawRect(m_summaryEdit->geometry());
 	if (m_instrText != "") {
-			QFont nFont = QFont("nootka", 20, QFont::Normal);
-			nFont.setPixelSize(20);
+			TnooFont nFont;
 			QFontMetrics fm = QFontMetrics(nFont);
 			nFont.setPixelSize(nFont.pixelSize() * ((qreal)m_summaryEdit->height() / (qreal)fm.boundingRect(m_instrText).height()));
 			painter.setFont(nFont);

@@ -29,6 +29,7 @@
 #include <QString>
 #include <QDataStream>
 
+class QFile;
 class QWidget;
 
 		/** Displays dialog message about existence of newer Nootka version than current. */
@@ -61,6 +62,9 @@ public:
 		
 				/** Saves level to given file and returns true for success or opposite. */
 		static bool saveToFile(Tlevel &level, const QString& levelFile);
+		
+				/** Shows message box with error if file cannot be opened.*/
+    static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
   //--------------------------- level parameters ------------------------------------------------------------
     QString name; /** Level name */
