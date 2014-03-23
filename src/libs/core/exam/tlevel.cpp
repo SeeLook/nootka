@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
+#include <QApplication>
 
 
 /*static-------------------------------------------------------------------------------------------*/
@@ -61,6 +62,17 @@ bool Tlevel::couldBeLevel(qint32 ver) {
 	else
 		return false;
 }
+
+
+/** TlevelSelector context of translate() is used for backward compatibility with translations */
+void Tlevel::fileIOerrorMsg(QFile& f, QWidget* parent) {
+	if (f.fileName() != "") {
+			QMessageBox::critical(parent, "", QApplication::translate("TlevelSelector",
+																			"Cannot open file\n %1 \n for reading").arg(f.fileName()));
+	} else
+			QMessageBox::critical(parent, "", QApplication::translate("TlevelSelector", "No file name specified"));
+}
+
 
 /*end static--------------------------------------------------------------------------------------*/
 

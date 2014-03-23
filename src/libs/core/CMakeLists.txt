@@ -11,6 +11,7 @@ set(LIB_NOOTKACORE_SRC
 	tcolor.cpp
 	tfingerpos.cpp
 	tglobals.cpp
+	tnoofont.cpp
 	
 	animations/tabstractanim.cpp
 	animations/tblinkingitem.cpp
@@ -38,6 +39,7 @@ set(LIB_NOOTKACORE_SRC
 	exam/tgroupedqaunit.cpp
 	exam/tlevel.cpp
 	exam/texam.cpp
+	exam/textrans.h
 	
 	score/tscoreitem.cpp
 	score/tscoreclef.cpp
@@ -55,10 +57,12 @@ set(LIB_NOOTKACORE_SRC
 	widgets/tlevelpreview.cpp
 )
 
+add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
+qt5_use_modules(NootkaCore Widgets)
+
+
 # get_directory_property( CoreDIrDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
 # message(STATUS "${CMAKE_CURRENT_SOURCE_DIR} : ${CoreDIrDefs}" )
 
-add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
-qt5_use_modules(NootkaCore Widgets)
 
 

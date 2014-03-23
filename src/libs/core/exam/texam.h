@@ -69,24 +69,6 @@ public:
         * When withUnit is true adds s (seconds) unit*/
     static QString formatReactTime(quint16 timeX10, bool withUnit = false);
 		
-		static const QString effectTxt() { return QApplication::translate("TexamView", "Effectiveness"); } // Effectiveness
-		
-				/** Average time taken to answer */
-		static const QString averAnsverTimeTxt() { return QApplication::translate("TexamView", "Average time taken to answer"); }
-		
-				/** Number of correct answers */
-		static const QString corrAnswersNrTxt() { return QApplication::translate("TexamView", "Number of correct answers"); }
-		static const QString reactTimeTxt() { return QApplication::translate("TexamView", "Time for an answer"); } // Time for an answer
-		static const QString mistakesNrTxt() { return QApplication::translate("TexamView", "Number of mistakes"); } // Number of mistakes
-		
-				/** Number of not bad answers */
-		static const QString halfMistakenTxt() { return QApplication::translate("TexamView", "'Not bad' answers"); } 
-		
-		static const QString examFilterTxt() { return QApplication::translate("TstartExamDlg", "Exam results")  + " (*.noo)" ; }
-		
-				/** Load an exam file */
-    static const QString loadExamFileTxt() { return QApplication::translate("TstartExamDlg", "Load an exam file"); } 
-
 				/** Possible errors during opening and saving exam file.*/
     enum EerrorType { e_file_OK = 0,
                     e_file_not_valid, // occurs when examVersion is different

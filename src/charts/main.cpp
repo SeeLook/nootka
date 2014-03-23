@@ -20,16 +20,15 @@
 #include <QApplication>
 #include "tanalysdialog.h"
 #include <tinitcorelib.h>
-#include <QDebug>
 
 Tglobals *gl;
 
 int main(int argc, char *argv[])
 {    	
 		QApplication a(argc, argv);
-#if defined (Q_OS_MAC)
-		QApplication::setStyle(new QPlastiqueStyle);
-#endif
+// #if defined (Q_OS_MAC)
+// 		QApplication::setStyle(new QPlastiqueStyle);
+// #endif
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		initCoreLibrary(gl);

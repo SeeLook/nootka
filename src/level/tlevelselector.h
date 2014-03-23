@@ -56,9 +56,6 @@ public:
     
 				/** Range of notes in the level is beyond the scale of your instrument */
     static QString rangeBeyondScaleTxt() { return tr("Range of notes in the level is beyond the scale of your instrument"); }
-    
-        /** Shows message box with error if file cannot be opened.*/
-    static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
 
     struct SlevelContener {
         Tlevel 						level;

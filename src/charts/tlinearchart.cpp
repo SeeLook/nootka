@@ -25,9 +25,11 @@
 #include "tstatisticstip.h"
 #include <exam/texam.h>
 #include <exam/tlevel.h>
+#include <exam/textrans.h>
 #include <widgets/tquestionaswdg.h>
 #include <graphics/tgraphicstexttip.h>
 #include <tcolor.h>
+#include <tnoofont.h>
 #include <QApplication>
 #include <QDebug>
 
@@ -78,7 +80,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       
       if (exam->averageReactonTime() > 0) {
           TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
-              Texam::averAnsverTimeTxt() + 
+              TexTrans::averAnsverTimeTxt() + 
               QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(Texam::formatReactTime(exam->averageReactonTime(), true)) );
           scene->addItem(averLine);
           averLine->setZValue(15);
@@ -212,8 +214,8 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         QGraphicsTextItem *qaText = getTextItem(30);
 				int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
         QString hintText = 
-						TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->questionAs) + "?", nootFontSize) + 
-						"<br>" + TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->answerAs) + "!", nootFontSize);
+						TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->questionAs) + "?", nootFontSize) + 
+						"<br>" + TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->answerAs) + "!", nootFontSize);
         qaText->setHtml(hintText);
 				TgraphicsTextTip::alignCenter(qaText);
 				qreal sc = 1.0;

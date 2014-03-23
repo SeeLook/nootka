@@ -17,11 +17,13 @@
  ***************************************************************************/
 
 #include "ttipchart.h"
+#include "tquestionpoint.h"
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
+#include <exam/textrans.h>
 #include <widgets/tquestionaswdg.h>
-#include "tquestionpoint.h"
 #include <graphics/tnotepixmap.h>
+#include <tnoofont.h>
 #include <QApplication>
 #include <QBuffer>
 
@@ -30,7 +32,7 @@
 Tclef TtipChart::defaultClef = Tclef(Tclef::e_treble_G_8down);
 
 QString TtipChart::insertQMark() {
-    return QString("<span style=\"color: red; font-family: nootka; font-size: 45px;\">?</span>");
+    return TnooFont::span("?", 45, "color: red");
 }
 
 
@@ -95,7 +97,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
           break;
         case TQAtype::e_asSound:
           if (point->question()->questionAs == TQAtype::e_asNote)
-              aS = QString("<span style=\"font-family: nootka; font-size: 45px;\">n</span>");
+							aS = TnooFont::span("n",45);
           else
               aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
@@ -104,7 +106,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
   }
   txt += "<table valign=\"middle\" align=\"center\"><tr><td> " + qS + " </td><td>" + insertQMark() + " </td><td> " + aS + " </td></tr></table>";
   txt += wasAnswerOKtext(point->question(), point->color());
-  txt += Texam::reactTimeTxt() +
+  txt += TexTrans::reactTimeTxt() +
         QString("<span style=\"font-size: 20px\">  %1</span>").arg(Texam::formatReactTime(point->question()->time, true));
   
   setBgColor(point->color());

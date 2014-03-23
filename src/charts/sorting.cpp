@@ -21,6 +21,7 @@
 #include <exam/tlevel.h>
 #include <widgets/tquestionaswdg.h>
 #include <tfingerpos.h>
+#include <tnoofont.h>
 #include <QApplication>
 
 
@@ -320,8 +321,8 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
     for (int a = 0; a < 4; a++) {
       if (!qaTypesArr[q][a].isEmpty()) {
         qaTypesArr[q][a].resume( // short: symbols of types, full: texts
-                TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
-                TquestionAsWdg::spanNootka(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
+                TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
+                TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
                 "<b>" + TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
                 TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs) + "</b>" );
         result << qaTypesArr[q][a];
@@ -436,15 +437,15 @@ QString accidToNotka(char acc, int fontSize) {
   QString result = "";
   switch (acc) {
       case -2:
-        result = TquestionAsWdg::spanNootka("B", fontSize); break;
+        result = TnooFont::span("B", fontSize); break;
       case -1:
-        result = TquestionAsWdg::spanNootka("b", fontSize); break;
+        result = TnooFont::span("b", fontSize); break;
       case 0:
         result = QApplication::translate("chartStats", "none"); break;
       case 1:
-        result = TquestionAsWdg::spanNootka("#", fontSize); break;
+        result = TnooFont::span("#", fontSize); break;
       case 2:
-        result = TquestionAsWdg::spanNootka("x", fontSize); break;
+        result = TnooFont::span("x", fontSize); break;
       case 3:
         result = QApplication::translate("chartStats", "none"); break;
   }

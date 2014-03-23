@@ -16,43 +16,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TINITCORELIB_H
-#define TINITCORELIB_H
+#ifndef TNOOFONT_H
+#define TNOOFONT_H
 
 #include <nootkacoreglobal.h>
-#include "tglobals.h"
+#include <QFont>
+#include <QString>
 
-class QApplication;
-
-/** 
- * Internal instance of Tglobals pointer used by in initCoreLibrary. *
- * It is set during invoking initCoreLibrary()
+/**
+ * This is QFont with nootka.ttf initialized with size of 20 pixels
+ * It has many helpers to quickly generate HTML spans with nootka as font and so
  */
-class Tglob
+class NOOTKACORE_EXPORT TnooFont : public QFont
 {
 
 public:
-	static void setGlobals(Tglobals *g) { m_gl = g; }
-	static Tglobals* glob() { return m_gl; }
+	TnooFont(int pointSize = 20);
 	
-private:
-	static Tglobals *m_gl; 
+			/** Returns given text wrapped with given HTML tag and:
+			* - font size (if set)
+			* - extra Style (if set)
+			* like 
+			* <tag style="font-family: nootka; extraStyle; font-size: XXpx;">text</tag>
+			*/
+	static QString tag(const QString& tag, const QString& text, int fontSize = 0, const QString& extraStyle = "");
+	
+			/** tag() method with span tag */
+	static QString span(const QString& text, int fontSize = 0, const QString& extraStyle = "") { 
+									return	tag("span", text, fontSize, extraStyle); }
+									
+	
+			/** Overloaded method with current font size */
+	QString span(const QString& text, const QString& extraStyle = "") { return span(text, pointSize(), extraStyle); }
+	
+	
+	
 
 };
 
-/** Initializes static values in library:
- * - pointer to Tglobals initialized by external executable !!!
- *   it is accessible through @p glob variable 
- * - tuning definitions
- * - TpushButton colors
- */
-NOOTKACORE_EXPORT void initCoreLibrary(Tglobals *gl);
-
-/** Loads translations files for appropriate language (system or user preferred) */
-NOOTKACORE_EXPORT void prepareTranslations(QApplication* a);
-
-/** Checks nootka.ttf file and loads it. Returns true if successful.  
- * libNootkaCore has to be initialized first by initCoreLibrary() */
-NOOTKACORE_EXPORT bool loadNootkaFont(QApplication* a);
-
-#endif // TINITCORELIB_H
+#endif // TNOOFONT_H

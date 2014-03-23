@@ -16,43 +16,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TINITCORELIB_H
-#define TINITCORELIB_H
 
-#include <nootkacoreglobal.h>
-#include "tglobals.h"
+#include "tnoofont.h"
 
-class QApplication;
-
-/** 
- * Internal instance of Tglobals pointer used by in initCoreLibrary. *
- * It is set during invoking initCoreLibrary()
- */
-class Tglob
+TnooFont::TnooFont(int pointSize) :
+	QFont("nootka", pointSize)
 {
+	setPixelSize(pointSize);
+}
 
-public:
-	static void setGlobals(Tglobals *g) { m_gl = g; }
-	static Tglobals* glob() { return m_gl; }
-	
-private:
-	static Tglobals *m_gl; 
 
-};
+QString TnooFont::tag(const QString& tag, const QString& text, int fontSize, const QString& extraStyle) {
+	QString fSize = "";
+	if (fontSize)
+			fSize = QString("font-size: %1px;").arg(fontSize);
+	QString ex = extraStyle;
+	if (!extraStyle.isEmpty() && !extraStyle.endsWith(";"))
+			ex = extraStyle + ";";
+	return "<" + tag + " style=\"font-family: nootka;" + fSize + ex + "\">" + text + "</" + tag + ">";
+}
 
-/** Initializes static values in library:
- * - pointer to Tglobals initialized by external executable !!!
- *   it is accessible through @p glob variable 
- * - tuning definitions
- * - TpushButton colors
- */
-NOOTKACORE_EXPORT void initCoreLibrary(Tglobals *gl);
 
-/** Loads translations files for appropriate language (system or user preferred) */
-NOOTKACORE_EXPORT void prepareTranslations(QApplication* a);
 
-/** Checks nootka.ttf file and loads it. Returns true if successful.  
- * libNootkaCore has to be initialized first by initCoreLibrary() */
-NOOTKACORE_EXPORT bool loadNootkaFont(QApplication* a);
 
-#endif // TINITCORELIB_H
+

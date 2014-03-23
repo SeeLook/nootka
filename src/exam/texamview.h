@@ -36,25 +36,12 @@ class TexamView : public QWidget
     Q_OBJECT
 public:
     explicit TexamView(QWidget *parent = 0);
-    
-    static const QString averAnsverTimeTxt() { return tr("Average time taken to answer"); } // Average time taken to answer
-    static const QString inSecondsTxt() { return tr("[in seconds]"); } // [in seconds]
-    static const QString reactTimeTxt() { return tr("Time for an answer"); } // Time for an answer
-    static const QString mistakesNrTxt() { return tr("Number of mistakes"); } // Number of mistakes
-    static const QString totalTimetxt() { return tr("Total time"); } // Total time
-    static const QString corrAnswersNrTxt() { return tr("Number of correct answers"); } // Number of correct answers
-    static const QString effectTxt() { return tr("Effectiveness"); } // Effectiveness
-    static const QString halfMistakenTxt(); // Number of not bad answers
-    static const QString halfMistakenAddTxt(); // (counted as half of a mistake)
-    
+		
       /** Returns time given in milisec. in format h:mm:ss */
     static QString formatedTotalTime(int t) { return QString("%1:%2:%3")
             .arg(t/3600000)
             .arg((t%3600000)/60000, 2, 'f', 0, '0')
             .arg((t%60000)/1000, 2, 'f', 0, '0'); }
-      /** returns nice formated time (1:05:15.3). Time is in seconds multiplied by 10.
-        * When withUnit is true adds s (seconds) unit*/
-    static QString formatReactTime(quint16 timeX10, bool withUnit = false);
 
     void startExam( int passTimeInSec = 0, int questNumber = 0,int averTime = 0, int mistakes = 0, int halfMist = 0);
     void questionStart();
