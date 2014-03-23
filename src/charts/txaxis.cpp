@@ -23,6 +23,7 @@
 #include <exam/tlevel.h>
 #include <graphics/tgraphicstexttip.h>
 #include <music/tnamestylefilter.h>
+#include <tnoofont.h>
 #include <QPainter>
 #include <QGraphicsScene>
 #include <QWidget>
@@ -78,8 +79,8 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
 		}
 		txt += QString("<b>%1</b>").arg(unit.qa.note.toRichText()) + altStyleText;
     if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
-        txt += "<br>" + QString("<span style=\"font-size: 15px; font-family: nootka\">%1</span><span style=\"font-size: 15px;\">%2</span>").
-                arg((int)unit.qa.pos.str()).arg(TfingerPos::romanFret(unit.qa.pos.fret()));
+        txt += "<br>" + TnooFont::span(QString::number((int)unit.qa.pos.str()), 15) + 
+              QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit.qa.pos.fret()));
     if (m_level->useKeySign &&
       (unit.questionAs == TQAtype::e_asNote || unit.answerAs == TQAtype::e_asNote)) {
         txt += "<br><i>" + unit.key.getName() + "</i>";

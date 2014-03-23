@@ -47,7 +47,7 @@ public:
 									
 	
 			/** Overloaded method with current font size */
-	QString span(const QString& text, const QString& extraStyle = "") { return span(text, pointSize(), extraStyle); }
+// 	QString span(const QString& text, const QString& extraStyle = "") { return span(text, pointSize(), extraStyle); }
 	
 	
 	

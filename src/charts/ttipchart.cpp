@@ -75,7 +75,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
         qS = point->question()->qa.pos.toHtml();
       break;
     case TQAtype::e_asSound:
-        qS = QString("<span style=\"font-family: nootka; font-size: 45px;\">n</span>");
+        qS = TnooFont::span("n", 45);
         if (point->question()->answerAs == TQAtype::e_asSound)
             aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
       break;
