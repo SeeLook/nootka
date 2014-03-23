@@ -368,7 +368,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, boo
      if (answList[i].qaPtr->wrongNote())
        mistakesArr[1].addQAunit(answList[i]);
        /** TODO Unfortunately, when a mistake is cardinal it doesn't store was key signature correct
-       * To have correct key but wrong note, TexamExecutor::checkAnswer() has to implement this discimination */
+       * To have correct key but wrong note, TexamExecutor::checkAnswer() has to implement this discrimination */
      else
        if (answList[i].qaPtr->wrongPos())
         mistakesArr[9].addQAunit(answList[i]);
@@ -454,13 +454,12 @@ QString accidToNotka(char acc, int fontSize) {
 
 
 QString getWasInAnswOrQuest(TQAtype::Etype type, TQAunit* question) {
-    QString hintText = "<span style=\"font-family: nootka; font-size: 20px\">";
+    QString hintText;
     if (question->answerAs == type)
       hintText += "!";
     else
       hintText += "?";
-    hintText += "</span></b>";
-    return hintText;
+    return TnooFont::span(hintText);
 }
 
 
