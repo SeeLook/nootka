@@ -96,18 +96,16 @@ TgraphicsTextTip::~TgraphicsTextTip() {}
 void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   if (m_bgColor != -1) {
     QRectF rect = boundingRect();
-//     painter->setPen(Qt::NoPen);
     QColor startColor = m_bgColor;
     startColor.setAlpha(25);
     QColor endColor = startColor;
     endColor.setAlpha(75);
     painter->setPen(QPen(endColor, 1));
-//     painter->setBrush(QBrush(TquestionPoint::bgColor())); TODO
 		painter->setBrush(QBrush(widget->palette().base().color()));
     painter->drawRoundedRect(rect, 5, 5);
     QLinearGradient grad(rect.topLeft(), rect.bottomRight());
-    grad.setColorAt(0.1, startColor);
-    grad.setColorAt(0.9, endColor);
+    grad.setColorAt(0.2, startColor);
+    grad.setColorAt(0.95, endColor);
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 5, 5);
   }
