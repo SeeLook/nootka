@@ -19,18 +19,19 @@
 #define TNOTE_H
 
 #include <string>
-#include <vector>
 #include <QDataStream>
+#include <vector>
 #include <nootkacoreglobal.h>
 
 
 class Tnote;
 
+// typedef QList<Tnote> TnotesList;
 typedef std::vector<Tnote> TnotesList;
 
 
-const std::string Letters [7] = {"C","D","E","F","G","A","H"};
-const std::string signsAcid[5] = {"bb","b","","#","x",};
+NOOTKACORE_EXPORT const std::string Letters [7] = {"C","D","E","F","G","A","H"};
+NOOTKACORE_EXPORT const std::string signsAcid[5] = {"bb","b","","#","x",};
 
 
 /**
@@ -150,7 +151,7 @@ private:
 };
     /** This function is substitute of >> operator for @class Tnote.
     * It checks is Tnote valid, and return Boolean about it. */
-bool getNoteFromStream(QDataStream &in, Tnote &n);
+NOOTKACORE_EXPORT bool getNoteFromStream(QDataStream &in, Tnote &n);
 
 NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, const Tnote &n);
 NOOTKACORE_EXPORT QDataStream &operator>> (QDataStream &in, Tnote &n);

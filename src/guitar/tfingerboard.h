@@ -19,8 +19,8 @@
 #ifndef TFINGERBOARD_H
 #define TFINGERBOARD_H
 
-#include "tnote.h"
-#include "tfingerpos.h"
+#include <music/tnote.h>
+#include <tfingerpos.h>
 #include <QWidget>
 #include <QGraphicsView>
 #include <QGraphicsLineItem>

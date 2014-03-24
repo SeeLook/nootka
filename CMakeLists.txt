@@ -20,8 +20,8 @@ ${PROJECT_NAME}-${Nootka_VERSION_FULL}
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src) 
 
-add_subdirectory(src)
 
+add_subdirectory(src)
 
 ###########################################################################
 # uninstall target

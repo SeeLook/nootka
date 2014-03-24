@@ -55,7 +55,7 @@ void prepareTranslations(QApplication* a) {
 #if defined(Q_OS_LINUX)
     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 #else
-    qtTranslator.load("qt_" + ll, gl->path + "lang");
+    qtTranslator.load("qt_" + ll, Tglob::glob()->path + "lang");
 #endif
 	a->installTranslator(&qtTranslator);
 

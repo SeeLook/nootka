@@ -17,16 +17,16 @@
  ***************************************************************************/
 
 #include "tmainscore.h"
-#include "tscorestaff.h"
-#include "tscorenote.h"
-#include "tscorekeysignature.h"
-#include "tscorecontrol.h"
-#include "tscoreclef.h"
-#include "tscorescene.h"
+#include <score/tscorestaff.h>
+#include <score/tscorenote.h>
+#include <score/tscorekeysignature.h>
+#include <score/tscorecontrol.h>
+#include <score/tscoreclef.h>
+#include <score/tscorescene.h>
 #include "tscoreview.h"
-#include "ttune.h"
-#include "tglobals.h"
-#include <tgraphicstexttip.h>
+#include <music/ttune.h>
+#include <tglobals.h>
+#include <graphics/tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
 #include <tcolor.h>

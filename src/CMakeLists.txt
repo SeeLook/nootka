@@ -8,6 +8,9 @@ set(CMAKE_AUTOMOC ON)
 
 
 find_package(Qt5Widgets)
+# set(QtCore_location Qt5::Core "" CACHE INTERNAL "" FORCE)
+# get_target_property(QtCore_location Qt5::Core LOCATION)
+
 
 if(UNIX AND NOT APPLE)
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
@@ -24,9 +27,29 @@ add_subdirectory( libs/core )
 		
 include_directories( libs/core )
 
-add_subdirectory( charts ) # nootka analyzer
+# add_subdirectory( charts ) # nootka analyzer
 
-add_subdirectory( updater ) # nootka updater
+# add_subdirectory( updater ) # nootka updater
+
+# nootka executable
+set(NOOTKA_SRC
+	main.cpp
+	mainwindow.cpp
+	
+	guitar/tfingerboard.cpp
+	
+	score/tscoreview.cpp
+	score/tsimplescore.cpp
+	score/tmainscore.cpp
+	
+	widgets/troundedlabel.cpp
+	
+	animations/tstrikedoutitem.cpp
+)
+
+
+add_executable(nootka WIN32 ${NOOTKA_SRC} )
+target_link_libraries(nootka NootkaCore Qt5::Widgets)
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )

@@ -17,13 +17,13 @@
  ***************************************************************************/
 
 #include "tfingerboard.h"
-#include "tglobals.h"
-#include "ttune.h"
-#include <tgraphicstexttip.h>
+#include <tglobals.h>
+#include <music/ttune.h>
+#include <graphics/tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
 #include <animations/tcombinedanim.h>
 #include <tcolor.h>
-#include <QtGui>
+#include <QtWidgets>
 #include <QDebug>
 
 extern Tglobals *gl;
@@ -816,7 +816,7 @@ void TfingerBoard::paintQuestMark() {
     m_questMark->setFont(f);
     int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {
-        m_questMark->scale(-1, 1);
+//         m_questMark->scale(-1, 1); TODO
         if (m_questPos.fret() == 1)
             off = 1;
         else

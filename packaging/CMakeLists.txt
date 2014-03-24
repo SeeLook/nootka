@@ -160,6 +160,11 @@ message(STATUS "
 	Binary nootka is in src folder, so launch it invoking: ./src/nootka
 	")
 
+
+# message(STATUS "
+# QT5: ${QtCore_location} ${CMAKE_MAKE_PROGRAM}
+# ")
+
 if(WIN32)
 	GET_FILENAME_COMPONENT(VORBIS_DIR ${VORBIS_LIBRARIES} PATH)
 	GET_FILENAME_COMPONENT(MAKE_DIR ${CMAKE_MAKE_PROGRAM} PATH)
@@ -169,13 +174,13 @@ if(WIN32)
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtCore4.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtGui4.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtNetwork4.dll ${CMAKE_BINARY_DIR}/src/.
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}/src/.
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_BINARY_DIR}/src/. #libvorbisfile.dll
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_BINARY_DIR}/src/.
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libogg.dll ${CMAKE_BINARY_DIR}/src/.
+# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}/src/.
+# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_BINARY_DIR}/src/. #libvorbisfile.dll
+# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_BINARY_DIR}/src/.
+# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libogg.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/libgcc_s_dw2-1.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/libstdc++-6.dll ${CMAKE_BINARY_DIR}/src/.
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/mingwm10.dll ${CMAKE_BINARY_DIR}/src/.
+# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/mingwm10.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND echo Copying files...
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/gpl ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_SOURCE_DIR}/changes ${CMAKE_BINARY_DIR}/src/.

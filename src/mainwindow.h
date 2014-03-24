@@ -19,13 +19,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "tnote.h"
-#include "tlevel.h"
-#include <texamexecutor.h>
+#include <music/tnote.h>
+#include <exam/tlevel.h>
+// #include <texamexecutor.h>
 #include <QMainWindow>
 
 
-class TanimedChBox;
+// class TanimedChBox;
 class QVBoxLayout;
 class TnootkaLabel;
 class TroundedLabel;
@@ -41,8 +41,8 @@ class Tsound;
 
 class MainWindow : public QMainWindow
 {
-    friend class TexamExecutor;
-    friend class Tcanvas;
+//     friend class TexamExecutor;
+//     friend class Tcanvas;
 
     Q_OBJECT
 
@@ -57,76 +57,76 @@ public:
         /**  Returns font size used in status message label in pixels.
         * Its size depends on whole window size and is used for fonts' sizes
         * of others widgets. */
-    int getFontSize() {return m_statFontSize; }
+//     int getFontSize() {return m_statFontSize; }
     QString statusMessage() { return m_statusText; }
     QWidget *innerWidget;
     
         /** Returns point of bottomLeft examResults.*/
-    QPoint relatedPoint();
+//     QPoint relatedPoint();
 
 public slots:
-    void openFile(QString runArg); // opens *.nel or *.noo file
-    void createSettingsDialog();
-    void openLevelCreator(QString levelFile = "");
-    void startExamSlot();
-    void aboutSlot();
-    void analyseSlot();
-
+//     void openFile(QString runArg); // opens *.nel or *.noo file
+//     void createSettingsDialog();
+//     void openLevelCreator(QString levelFile = "");
+//     void startExamSlot();
+//     void aboutSlot();
+//     void analyseSlot();
+// 
     void noteWasClicked(int index, Tnote note);
-    void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(Tnote note);
-    void soundWasPlayed(Tnote note);
+//     void noteNameWasChanged(Tnote note);
+//     void guitarWasClicked(Tnote note);
+//     void soundWasPlayed(Tnote note);
     
-signals:
-    void sizeChanged(QSize size);
+// signals:
+//     void sizeChanged(QSize size);
 
 
 protected:
     TmainScore *score;
-    TnoteName *noteName;
+//     TnoteName *noteName;
     TfingerBoard *guitar;
-    Tsound *sound;
-    TexamView *examResults;
-    TexamExecutor *ex;
-		TnootkaLabel *nootLabel; // displays Nootka logo
-    TanimedChBox *autoRepeatChB, *expertAnswChB, *correctChB;
-    TpitchView *pitchView;
-    TprogressWidget *progress;
+//     Tsound *sound;
+//     TexamView *examResults;
+//     TexamExecutor *ex;
+// 		TnootkaLabel *nootLabel; // displays Nootka logo
+//     TanimedChBox *autoRepeatChB, *expertAnswChB, *correctChB;
+//     TpitchView *pitchView;
+//     TprogressWidget *progress;
 
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
-    void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
+//     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
 		
-				/* Invokes TnoteName::resize(). Also does the same for TexamView (examResults) and TprogressWidget.
-				 * Font size is calculated from m_statFontSize + m_extraFontOffset */
-		void setWidgetsFont();
-
+// 				/* Invokes TnoteName::resize(). Also does the same for TexamView (examResults) and TprogressWidget.
+// 				 * Font size is calculated from m_statFontSize + m_extraFontOffset */
+// 		void setWidgetsFont();
+// 
     void resizeEvent(QResizeEvent *event);
     bool event(QEvent *event);
-    void closeEvent(QCloseEvent *event);
-    bool eventFilter(QObject* obj, QEvent* event);
-    void paintEvent(QPaintEvent *);
+//     void closeEvent(QCloseEvent *event);
+//     bool eventFilter(QObject* obj, QEvent* event);
+//     void paintEvent(QPaintEvent *);
         
 protected slots:
     void restoreMessage();
-    void showSupportDialog();
+//     void showSupportDialog();
 		
 				/** Checks is score not too width and places pitchView under when it is.
 				 * Or opposite - moves pitchView.
 				 * Also avoid collision score and note name. */
-		void fixPitchViewPos();
+// 		void fixPitchViewPos();
 		
 				/** In first attempt it tries to increase window size if there is screen space in spare.
 				 * If not, Invokes TnoteName::resize() with smallest font size to decrease it.
 				 * Also does the same for TexamView (examResults) and TprogressWidget */
-		void fixNoteNameSize();
+// 		void fixNoteNameSize();
 		
 				/** This slot is invoked when clef is changed by clicking score.
 				 * It adjust ambitus to score possibilities if clef is differ than default
 				 * or to instrument scale if clef backs to default */
-		void adjustAmbitus();
+// 		void adjustAmbitus();
 
 private:
 
@@ -137,15 +137,16 @@ private:
         * and stops any status messages in this time.*/
     bool 									m_lockStat;
     QColor 								m_prevBg, m_curBG;
-    QPixmap 							m_bgPixmap, m_rosettePixmap;
-    int 									m_statFontSize, m_extraFontOffset;
-    bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
-    Tlevel 						    m_level;
-		bool 									m_isPlayerFree;
-		QWidget 							*m_pitchContainer;
-		QVBoxLayout 					*m_rightLay, *m_scoreLay;
-
-
+//     QPixmap 							m_bgPixmap, m_rosettePixmap;
+    int 									m_statFontSize;
+// 		int 									m_extraFontOffset;
+//     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
+//     Tlevel 						    m_level;
+// 		bool 									m_isPlayerFree;
+// 		QWidget 							*m_pitchContainer;
+// 		QVBoxLayout 					*m_rightLay, *m_scoreLay;
+// 
+// 
     void createActions();
     void setStartExamActParams(); /** it sets icon and status text in startExamAct. */
 
