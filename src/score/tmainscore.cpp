@@ -31,13 +31,17 @@
 #include <animations/tblinkingitem.h>
 #include <tcolor.h>
 #include <QPen>
+#include <QMouseEvent>
 #include <QLayout>
+#include <QStyle>
+#include <qgraphicswidget.h>
 #include <QTimer>
 #include <QDebug>
 
 
 extern Tglobals *gl;
 
+QWidget *m_parent;
 
 TmainScore::TmainScore(QWidget* parent) :
 	TsimpleScore(3, parent),
@@ -47,6 +51,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle)
 {
+  m_parent = parent;
 // set preferred clef
 	if (gl->Sclef == Tclef::e_pianoStaff)
 			TsimpleScore::setPianoStaff(true);
@@ -89,6 +94,7 @@ void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setClef(Tclef(gl->Sclef));
 	setEnableKeySign(gl->SkeySignatureEnabled);
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
 	else
@@ -508,7 +514,33 @@ void TmainScore::finishCorrection() {
 
 
 void TmainScore::resizeEvent(QResizeEvent* event) {
-	TsimpleScore::resizeEvent(event);
+// 	TsimpleScore::resizeEvent(event);
+  int hh = height();
+  if (event) {
+    hh = event->size().height();
+  }
+  qreal styleOff = 1.0; // some styles quirks - it steals some space
+  if (style()->objectName() == "oxygen" || style()->objectName() == "oxygen transparent" || style()->objectName() == "qtcurve")
+      styleOff = 0.0;
+  qreal factor = (((qreal)hh / 40.0) / score()->transform().m11()) /** m_pianoFactor*/;
+  score()->scale(factor, factor);
+//   scene()->setSceneRect(0, 0, (staff()->boundingRect().width() + styleOff) * score()->transform().m11(), 
+//                         staff()->boundingRect().height() * score()->transform().m11() );
+//   score()->setMaximumSize(scene()->sceneRect().width(), scene()->sceneRect().height() /*/ m_pianoFactor*/);
+//   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
+  qreal staffOff = 0.0;
+  if (isPianoStaff())
+    staffOff = score()->transform().m11() * 5;
+  staff()->setPos(score()->mapToScene(staffOff, 0));
+  int xOff = 0;
+  if (scoreController() && layoutHasControl)
+      xOff = scoreController()->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
+//   setFixedWidth(scene()->sceneRect().width() + xOff);
+  scene()->setSceneRect(0, 0, m_parent->width() - xOff , 
+                        staff()->boundingRect().height() * score()->transform().m11() );
+  score()->setMaximumSize(scene()->sceneRect().width(), scene()->sceneRect().height() /*/ m_pianoFactor*/);
+  setFixedWidth(m_parent->width());
+  
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
 

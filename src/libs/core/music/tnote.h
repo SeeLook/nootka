@@ -30,8 +30,8 @@ class Tnote;
 typedef std::vector<Tnote> TnotesList;
 
 
-NOOTKACORE_EXPORT const std::string Letters [7] = {"C","D","E","F","G","A","H"};
-NOOTKACORE_EXPORT const std::string signsAcid[5] = {"bb","b","","#","x",};
+const std::string Letters [7] = {"C","D","E","F","G","A","H"};
+const std::string signsAcid[5] = {"bb","b","","#","x",};
 
 
 /**
