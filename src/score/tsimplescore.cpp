@@ -18,15 +18,15 @@
 
 
 #include "tsimplescore.h"
-#include "tscorescene.h"
-#include "tscorestaff.h"
-#include "tscorecontrol.h"
-#include "tscorenote.h"
-#include "tscorekeysignature.h"
-#include "tscoreclef.h"
-#include "tscorepianostaff.h"
-#include "tscoreview.h"
-#include "tinstrument.h"
+#include <score/tscorescene.h>
+#include <score/tscorestaff.h>
+#include <score/tscorecontrol.h>
+#include <score/tscorenote.h>
+#include <score/tscorekeysignature.h>
+#include <score/tscoreclef.h>
+#include <score/tscorepianostaff.h>
+#include <score/tscoreview.h>
+#include <music/tinstrument.h>
 #include <tcolor.h>
 #include <QHBoxLayout>
 #include <QMouseEvent>
@@ -54,9 +54,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setFrameShape(QFrame::NoFrame);
-// 	QSizePolicy policy(sizePolicy());
-// 	policy.setHeightForWidth(true);
-// 	m_score->setSizePolicy(policy);	
   
   m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));

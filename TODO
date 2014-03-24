@@ -1,5 +1,6 @@
 TODO List
 
+- check question mark scaling for left-handed (TODO)
 
 
 - keep exam file in /tmp and restore it when crash or so
@@ -19,7 +20,6 @@ TODO List
 
 Tnote
 			- overload + and - operators to raise/drop a note
-			- consider to change TnotesList type to QList<Tnote>
 			
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 

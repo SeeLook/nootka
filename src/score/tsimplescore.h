@@ -21,9 +21,9 @@
 #define TSIMPLESCORE_H
 
 #include <QWidget>
-#include "tclef.h"
-#include "tnote.h"
-#include "tkeysignature.h"
+#include <music/tclef.h>
+#include <music/tnote.h>
+#include <music/tkeysignature.h>
 
 class QGraphicsSimpleTextItem;
 class TscoreView;

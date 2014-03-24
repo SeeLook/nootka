@@ -17,203 +17,149 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
-#include "tglobals.h"
-#include "tsettingsdialog.h"
-#include "tlevelcreatordlg.h"
-#include "tlevelselector.h"
-#include "taboutnootka.h"
-#include "tfirstrunwizzard.h"
-#include "tsupportnootka.h"
-#include "tnootkalabel.h"
+#include <tglobals.h>
+#include "score/tmainscore.h"
 #include "widgets/troundedlabel.h"
-#include "widgets/tanimedchbox.h"
-#include "texamsettings.h"
-#include <tupdateprocess.h>
-#include <tcolor.h>
-#include "tsound.h"
-#include "tpushbutton.h"
-#include "tmainscore.h"
-#include "texam.h"
-#include "tprogresswidget.h"
-#include "texamview.h"
-#include "taudioparams.h"
-#include "tpitchview.h"
-#include "tanalysdialog.h"
-#include "tquestionpoint.h"
-#include "tnotename.h"
-#include "tfingerboard.h"
-#include <QtGui>
+#include "guitar/tfingerboard.h"
+// // #include "tsettingsdialog.h"
+// // #include "tlevelcreatordlg.h"
+// // #include "tlevelselector.h"
+// // #include "taboutnootka.h"
+// // #include "tfirstrunwizzard.h"
+// // #include "tsupportnootka.h"
+// // #include "tnootkalabel.h"
+// #include "widgets/tanimedchbox.h"
+// #include "texamsettings.h"
+// #include <tupdateprocess.h>
+// #include <tcolor.h>
+// #include "tsound.h"
+// #include "tpushbutton.h"
+// #include "tmainscore.h"
+// #include "texam.h"
+// #include "tprogresswidget.h"
+// #include "texamview.h"
+// #include "taudioparams.h"
+// #include "tpitchview.h"
+// #include "tanalysdialog.h"
+// #include "tquestionpoint.h"
+// #include "tnotename.h"
+#include <QtWidgets>
 
 
 extern Tglobals *gl;
 extern bool resetConfig;
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
-    ex(0),
-    m_isPlayerFree(true),
-    m_pitchContainer(0),
-    m_rightLay(0),
-    m_extraFontOffset(0)
+		m_statusText(""),
+		m_curBG(-1), m_prevBg(-1),
+		m_lockStat(false)
+//     ex(0),
+//     m_isPlayerFree(true),
+//     m_pitchContainer(0),
+//     m_rightLay(0),
+//     m_extraFontOffset(0)
 {
-    Ttune::prepareDefinedTunes();
-#if defined(Q_OS_MAC)
-		QColor shadowC(palette().text().color());
-		shadowC.setAlpha(50);
-		shadowC = Tcolor::merge(shadowC, palette().base().color());
-    TpushButton::setCheckColor(gl->SpointerColor, palette().base().color());
-    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
-                              QColor(gl->EnotBadColor.name()), shadowC, palette().window().color());
-#else
-    TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color() );
-    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
-                              QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
-#endif
+// #if defined(Q_OS_MAC)
+//     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
+//                               QColor(gl->EnotBadColor.name()), shadowC, palette().window().color());
+// #else
+//     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
+//                               QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
+// #endif
 #if defined(Q_OS_LINUX)
-    setWindowIcon(QIcon(gl->path+"picts/nootka.svg"));
+    setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
 #else
-    setWindowIcon(QIcon(gl->path+"picts/nootka.png"));
+    setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
 #endif
     
     setMinimumSize(720, 480);
 		gl->config->beginGroup("General");
     setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
     
-    if (gl->isFirstRun) {
-        TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
-        firstWizz->exec();
-        delete firstWizz;
-        gl->isFirstRun = false;
-    } else { // show support window once but not with first run wizard
-				QString newVersion = gl->config->value("version", "").toString();
-        if (newVersion != gl->version) {
-          QTimer::singleShot(200, this, SLOT(showSupportDialog()));
-				} else { // check for updates
-          gl->config->endGroup();
-          gl->config->beginGroup("Updates");
-          if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
-              TupdateProcess *process = new TupdateProcess(true, this);
-              process->start();
-          }
-        }
-    }
+//     if (gl->isFirstRun) {
+//         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
+//         firstWizz->exec();
+//         delete firstWizz;
+//         gl->isFirstRun = false;
+//     } else { // show support window once but not with first run wizard
+// 				QString newVersion = gl->config->value("version", "").toString();
+//         if (newVersion != gl->version) {
+//           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
+// 				} else { // check for updates
+//           gl->config->endGroup();
+//           gl->config->beginGroup("Updates");
+//           if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
+//               TupdateProcess *process = new TupdateProcess(true, this);
+//               process->start();
+//           }
+//         }
+//     }
 		gl->config->endGroup();
 		
-    TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
-
-    sound = new Tsound(this);
+//     sound = new Tsound(this);
 		
 		
-// 		qDebug() << style()->objectName();
 //-------------------------------------------------------------------
 // Creating GUI elements
     innerWidget = new QWidget(this);
     nootBar = new QToolBar(tr("main toolbar"), innerWidget);
-		nootBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+// 		nootBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
 		if (gl->hintsEnabled)
 				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		else
 				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     score = new TmainScore(innerWidget);
-		score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    pitchView = new TpitchView(sound->sniffer, this);
-    sound->setPitchView(pitchView);
+// 		score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+//     pitchView = new TpitchView(sound->sniffer, this);
+//     sound->setPitchView(pitchView);
  // Hints - label with clues
-    QHBoxLayout *statLay = new QHBoxLayout;
     m_statLab = new TroundedLabel(innerWidget);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
 		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
-		statLay->addWidget(m_statLab, 0, Qt::AlignTop);
- // Expert corner
-		autoRepeatChB = new TanimedChBox(innerWidget);
-			autoRepeatChB->hide();
-			autoRepeatChB->setStatusTip(TexamSettings::autoNextQuestTxt());
-			autoRepeatChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-		expertAnswChB = new TanimedChBox(innerWidget);
-			expertAnswChB->hide();
-			expertAnswChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-			expertAnswChB->setStatusTip(TexamSettings::expertsAnswerTxt());
-		correctChB = new TanimedChBox(innerWidget);
-			correctChB->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-			correctChB->setStatusTip(tr("show correct answer for every mistake"));
-			correctChB->hide();
     
-    progress = new TprogressWidget(innerWidget);
-    
-    examResults = new TexamView(innerWidget);
-    examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
-                            Tcolor::bgTag(gl->EnotBadColor));
-		
-		progress->hide();
-    examResults->hide();
 		QColor C(palette().text().color());
-#if defined (Q_OS_WIN)
-		C.setAlpha(20);
-#else
-		C.setAlpha(15);
-#endif
-		C = Tcolor::merge(C, palette().window().color());
-		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget, C);
+// #if defined (Q_OS_WIN)
+// 		C.setAlpha(20);
+// #else
+// 		C.setAlpha(15);
+// #endif
+// 		C = Tcolor::merge(C, palette().window().color());
+// 		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget, C);
 		
-    noteName = new TnoteName(innerWidget);
-    noteName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+//     noteName = new TnoteName(innerWidget);
+//     noteName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+//     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 
     guitar = new TfingerBoard(innerWidget);
 		
 //-------------------------------------------------------------------		
 // Setting layout
-		QVBoxLayout *chBlay = new QVBoxLayout;
-			chBlay->addWidget(correctChB);
-			chBlay->addWidget(autoRepeatChB);
-			chBlay->addWidget(expertAnswChB);
-			chBlay->addStretch(1);
-			statLay->addLayout(chBlay);
-		QHBoxLayout *toolAndHintLay = new QHBoxLayout;
-			toolAndHintLay->addWidget(nootBar, 0, Qt::AlignTop);
-			toolAndHintLay->addLayout(statLay);			
-		m_scoreLay = new QVBoxLayout;
-			m_scoreLay->addWidget(score);
-			m_scoreLay->addWidget(pitchView);
-		QVBoxLayout *rightPaneLay = new QVBoxLayout;
-			rightPaneLay->addStretch(1);
-			rightPaneLay->addWidget(progress);
-			rightPaneLay->addWidget(examResults);
-			rightPaneLay->addWidget(nootLabel);
-      rightPaneLay->addStretch(1);
-			rightPaneLay->addWidget(noteName);
-			rightPaneLay->addStretch(1);
-		m_rightLay = rightPaneLay;
-		QHBoxLayout *scoreAndNameLay = new QHBoxLayout;
-			scoreAndNameLay->addLayout(m_scoreLay);
-			scoreAndNameLay->addLayout(rightPaneLay);
-		QVBoxLayout *mainLay = new QVBoxLayout;
-			mainLay->addLayout(toolAndHintLay);
-			mainLay->addLayout(scoreAndNameLay);
-			mainLay->addWidget(guitar);
-    innerWidget->setLayout(mainLay);
-    setCentralWidget(innerWidget);
+	QVBoxLayout *mainLay = new QVBoxLayout;
+		mainLay->addWidget(nootBar);
+		mainLay->addWidget(m_statLab);
+		mainLay->addWidget(score);
+		mainLay->addWidget(guitar);
+	innerWidget->setLayout(mainLay);
+	setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
-    m_statusText = "";
-    m_prevBg = -1;
-    m_curBG = -1;
-    m_lockStat = false;
-    m_levelCreatorExist = false;
+//     m_levelCreatorExist = false;
 
     createActions();
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
-		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
-		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
-    connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
-		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
-    connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
-    connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
+// 		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
+// 		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
+//     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
+// 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
+//     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
+//     connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
 
-    if (gl->A->OUTenabled && !sound->isPlayable())
-        QMessageBox::warning(this, "", tr("Problems with sound output"));
+//     if (gl->A->OUTenabled && !sound->isPlayable())
+//         QMessageBox::warning(this, "", tr("Problems with sound output"));
     
 }
 
@@ -232,28 +178,25 @@ MainWindow::~MainWindow()
 void MainWindow::createActions() {
     settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
-//		settingsAct->setToolTip(settingsAct->statusTip());
     settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
-    connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+//     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
     levelCreatorAct = new QAction(this);
-    connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+//     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
 
     startExamAct = new QAction(this);
-    connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+//     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
     setStartExamActParams(); // set text and icon also for levelCreatorAct
     
     analyseAct = new QAction(tr("Analyze", "could be Chart as well"), this);
     analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
     analyseAct->setStatusTip(tr("Analysis of exam results"));
-//		analyseAct->setToolTip(analyseAct->statusTip());
-    connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
+//     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
     aboutAct = new QAction(tr("About"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
-//		aboutAct->setToolTip(aboutAct->statusTip());
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
-    connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
+//     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 
     nootBar->addAction(settingsAct);
     nootBar->addAction(levelCreatorAct);
@@ -264,9 +207,10 @@ void MainWindow::createActions() {
     nootBar->setMovable(false);
 }
 
+
 void MainWindow::setStartExamActParams() {
     levelCreatorAct->setText(tr("Level"));
-    levelCreatorAct->setStatusTip(TlevelCreatorDlg::levelCreatorTxt());
+//     levelCreatorAct->setStatusTip(TlevelCreatorDlg::levelCreatorTxt());
 //		levelCreatorAct->setToolTip(levelCreatorAct->statusTip());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   
@@ -275,6 +219,7 @@ void MainWindow::setStartExamActParams() {
 //		startExamAct->setToolTip(startExamAct->statusTip());
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
 }
+
 
 void MainWindow::setStatusMessage(QString msg) {
     if (!m_lockStat)
@@ -302,7 +247,7 @@ void MainWindow::setMessageBg(QColor bg) {
     m_curBG = bg;
 }
 
-
+/*
 void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
     setStartExamActParams();
     delete ex;
@@ -468,25 +413,25 @@ void MainWindow::analyseSlot() {
     delete ad;
     sound->go();
 }
-
+*/
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
     Q_UNUSED(index)
-    if (m_isPlayerFree)
-        sound->play(note);
-    if (gl->showEnharmNotes){
-        TnotesList noteList;
-        noteList.push_back(note);
-        noteList.push_back(score->getNote(1));
-        noteList.push_back(score->getNote(2));
-        noteName->setNoteName(noteList);
-    } else
-        noteName->setNoteName(note);
+//     if (m_isPlayerFree)
+//         sound->play(note);
+//     if (gl->showEnharmNotes){
+//         TnotesList noteList;
+//         noteList << (note);
+//         noteList << (score->getNote(1));
+//         noteList << (score->getNote(2));
+//         noteName->setNoteName(noteList);
+//     } //else
+//         noteName->setNoteName(note);
 		if (guitar->isVisible())
 				guitar->setFinger(note);
 }
 
-
+/*
 void MainWindow::noteNameWasChanged(Tnote note) {
     sound->play(note);
     score->setNote(0, note);
@@ -525,7 +470,7 @@ void MainWindow::soundWasPlayed(Tnote note) {
   score->setNote(0, note);
 	if (guitar->isVisible())
 			guitar->setFinger(note);
-}
+}*/
 
 //##########################################################################################
 //#######################     PROTECTED SLOTS       ########################################
@@ -538,7 +483,7 @@ void MainWindow::restoreMessage() {
     m_prevMsg = "";
 }
 
-
+/*
 void MainWindow::showSupportDialog() {
     sound->wait();
     sound->stopPlaying();
@@ -625,7 +570,7 @@ void MainWindow::adjustAmbitus() {
 	} else
 		sound->setDefaultAmbitus();
 }
-
+*/
 
 
 //##########################################################################################
@@ -644,10 +589,10 @@ bool MainWindow::event(QEvent *event) {
             setMessageBg(-1);
             m_statLab->setText("<center>" + se->tip() + "</center>");
         }
-    } else
-      if (ex && (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)) {
-        ex->event(event);
-      }
+    } // else // TODO
+//       if (ex && (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)) {
+//         ex->event(event);
+//       }
     return QMainWindow::event(event);
 }
 
@@ -663,84 +608,84 @@ void MainWindow::updateSize(QSize newS) {
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
-	int newGuitH = (newS.height() - nootBar->height()) * 0.25;
-	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
-		QPixmap rosePix(gl->path + "picts/pickup.png");
-		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
-		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
-		pickCoef = (newGuitH * 3.3) / 535;
-		int xPic = (newS.width()) * 0.8571428571 + 20 * pickCoef;;
-    int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
-		if (!gl->GisRightHanded)
-				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
-		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
-	}
+// 	int newGuitH = (newS.height() - nootBar->height()) * 0.25;
+// 	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
+// 		QPixmap rosePix(gl->path + "picts/pickup.png");
+// 		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
+// 		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
+// 		pickCoef = (newGuitH * 3.3) / 535;
+// 		int xPic = (newS.width()) * 0.8571428571 + 20 * pickCoef;;
+//     int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
+// 		if (!gl->GisRightHanded)
+// 				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
+// 		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
+// 	}
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
-	setWidgetsFont();
+// 	setWidgetsFont();
 	
-	if (gl->instrument != e_noInstrument) {
-		pitchView->resize(m_statFontSize);
-		if (m_pitchContainer) {
-			m_pitchContainer->layout()->removeWidget(pitchView);
-			m_pitchContainer->deleteLater();
-			m_pitchContainer = 0;
-			guitar->show();
-			m_rightLay->addWidget(pitchView);
-		}
-		QPixmap bgPix;
-		qreal guitH;
-		qreal ratio;
-		if (gl->instrument == e_classicalGuitar) {
-			guitar->setPickUpRect(QRect());
-			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
-			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
-			int guitW = centralWidget()->width() / 2;
-			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-		} else {
-			if (gl->instrument == e_bassGuitar)
-					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
-			else
-					bgPix = QPixmap(gl->path + "picts/body-electro.png");
-			guitH = guitar->height() * 2.9;
-			ratio = guitH / bgPix.height();
-			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
-		}
+// 	if (gl->instrument != e_noInstrument) {
+// 		pitchView->resize(m_statFontSize);
+// 		if (m_pitchContainer) {
+// 			m_pitchContainer->layout()->removeWidget(pitchView);
+// 			m_pitchContainer->deleteLater();
+// 			m_pitchContainer = 0;
+// 			guitar->show();
+// 			m_rightLay->addWidget(pitchView);
+// 		}
+// 		QPixmap bgPix;
+// 		qreal guitH;
+// 		qreal ratio;
+// 		if (gl->instrument == e_classicalGuitar) {
+// 			guitar->setPickUpRect(QRect());
+// 			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
+// 			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
+// 			int guitW = centralWidget()->width() / 2;
+// 			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
+// 		} else {
+// 			if (gl->instrument == e_bassGuitar)
+// 					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
+// 			else
+// 					bgPix = QPixmap(gl->path + "picts/body-electro.png");
+// 			guitH = guitar->height() * 2.9;
+// 			ratio = guitH / bgPix.height();
+// 			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
+// 		}
 		// 			if (gl->instrument == e_classicalGuitar) {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 // 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
-	} else { // no guitar - pitch view instead
-			pitchView->resize(m_statFontSize * 1.7);
-			if (!m_pitchContainer) {
-				guitar->hide();
-				m_pitchContainer = new QWidget(innerWidget);
-				m_pitchContainer->setObjectName("m_pitchContainer");
-				m_pitchContainer->setStyleSheet("QWidget#m_pitchContainer {" + Tcolor::bgTag(palette().window().color()) + 
-					"border-radius: 10px;" + QString("background-image: url(%1);}").arg(gl->path + "picts/scoresettbg.png"));
-				m_rightLay->removeWidget(pitchView);
-				QVBoxLayout *pitchLay = new QVBoxLayout;
-				pitchLay->addStretch(1);
-				pitchLay->addWidget(pitchView);
-				pitchLay->addStretch(1);
-				m_pitchContainer->setLayout(pitchLay);
-				innerWidget->layout()->addWidget(m_pitchContainer);
-			}
-	}
-	if (m_pitchContainer)
-		m_pitchContainer->setFixedHeight((height() - nootBar->height()) * 0.25);
-	
+// 	} else { // no guitar - pitch view instead
+// 			pitchView->resize(m_statFontSize * 1.7);
+// 			if (!m_pitchContainer) {
+// 				guitar->hide();
+// 				m_pitchContainer = new QWidget(innerWidget);
+// 				m_pitchContainer->setObjectName("m_pitchContainer");
+// 				m_pitchContainer->setStyleSheet("QWidget#m_pitchContainer {" + Tcolor::bgTag(palette().window().color()) + 
+// 					"border-radius: 10px;" + QString("background-image: url(%1);}").arg(gl->path + "picts/scoresettbg.png"));
+// 				m_rightLay->removeWidget(pitchView);
+// 				QVBoxLayout *pitchLay = new QVBoxLayout;
+// 				pitchLay->addStretch(1);
+// 				pitchLay->addWidget(pitchView);
+// 				pitchLay->addStretch(1);
+// 				m_pitchContainer->setLayout(pitchLay);
+// 				innerWidget->layout()->addWidget(m_pitchContainer);
+// 			}
+// 	}
+// 	if (m_pitchContainer)
+// 		m_pitchContainer->setFixedHeight((height() - nootBar->height()) * 0.25);
+// 	
 	setUpdatesEnabled(true);
-	fixPitchViewPos();
+// 	fixPitchViewPos();
 	QTimer::singleShot(2, this, SLOT(update()));
 }
 
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
 	updateSize(innerWidget->size());
-	emit sizeChanged(innerWidget->size());
+// 	emit sizeChanged(innerWidget->size());
   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
 }
 
-
+/*
 void MainWindow::closeEvent(QCloseEvent *event) {
     if (!settingsAct->isEnabled() && ex) {
         if (ex->closeNootka())
@@ -759,12 +704,12 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 					painter.scale(-1, 1);
 			}
 			if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
-				painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom()/*height()*/ - m_bgPixmap.height(), m_bgPixmap);
+				painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom() - m_bgPixmap.height(), m_bgPixmap);
 // 				painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
 // 												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
 			} else {
 					qreal ratio = (guitar->height() * 3.3) / 535;
-					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() /*+ 20 * ratio*/, m_bgPixmap);
+					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() , m_bgPixmap);
           if (!gl->GisRightHanded)
 							painter.resetTransform();
           painter.drawPixmap(guitar->pickRect()->x(), guitar->pickRect()->y(), m_rosettePixmap);
@@ -782,3 +727,4 @@ bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
 				return QObject::eventFilter(obj, event);
 		}
 }
+ */

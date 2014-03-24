@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 #include "tnote.h"
-#include <music/tnamestylefilter.h>
+#include "tnamestylefilter.h"
 
 #include <sstream>
 #include <string>
@@ -225,13 +225,18 @@ short Tnote::compareNotes( Tnote otherNote, short ignoreOctave ) {
 TnotesList Tnote::getTheSameNotes(bool enableDbAccids) {
 	TnotesList notesL;
 	short cnt;//counter of notes. With double accids is 5 (4) without 3 (2)
-	notesL.push_back(Tnote(note,octave,acidental));
-	if (notesL[0].acidental != Tnote::e_Natural) notesL.push_back(notesL[0].showAsNatural());
-	if (notesL[0].acidental != Tnote::e_Sharp) notesL.push_back(notesL[0].showWithSharp());
-	if (notesL[0].acidental != Tnote::e_Flat) notesL.push_back(notesL[0].showWithFlat());
+	notesL << (Tnote(note, octave, acidental));
+	if (notesL[0].acidental != Tnote::e_Natural) 
+			notesL << (notesL[0].showAsNatural());
+	if (notesL[0].acidental != Tnote::e_Sharp)
+			notesL << (notesL[0].showWithSharp());
+	if (notesL[0].acidental != Tnote::e_Flat) 
+			notesL << (notesL[0].showWithFlat());
 	if (enableDbAccids)	{
-		if (notesL[0].acidental != Tnote::e_DoubleSharp) notesL.push_back(notesL[0].showWithDoubleSharp());
-		if (notesL[0].acidental != Tnote::e_DoubleFlat) notesL.push_back(notesL[0].showWithDoubleFlat());
+		if (notesL[0].acidental != Tnote::e_DoubleSharp) 
+				notesL << (notesL[0].showWithDoubleSharp());
+		if (notesL[0].acidental != Tnote::e_DoubleFlat) 
+				notesL << (notesL[0].showWithDoubleFlat());
 		cnt = 4;
 	}
 	else cnt = 2;
@@ -246,7 +251,6 @@ TnotesList Tnote::getTheSameNotes(bool enableDbAccids) {
 		--m;
 		if (!(*m).note) notesL.erase(m);
 	}
-	//notesL.erase(notesL.begin());
 	return notesL;
 }
 

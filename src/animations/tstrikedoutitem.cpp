@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tstrikedoutitem.h"
-#include "tblinkingitem.h"
+#include <animations/tblinkingitem.h>
 #include <QPen>
 #include <QGraphicsScene>
 

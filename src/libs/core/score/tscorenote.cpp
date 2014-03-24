@@ -161,7 +161,8 @@ void TscoreNote::setColor(QColor color) {
 
 void TscoreNote::setPointedColor(QColor color) {
     m_workColor = color;
-    m_workNote->setPen(QPen(m_workColor));
+    m_workNote->setPen(QPen(m_workColor, 0.2));
+// 		m_workNote->setPen(Qt::NoPen);
     m_workNote->setBrush(QBrush(m_workColor, Qt::SolidPattern));
     m_workAccid->setBrush(QBrush(m_workColor));
     for (int i = 0; i < m_upLines.size(); i++)
