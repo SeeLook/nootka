@@ -118,7 +118,7 @@ MainWindow::MainWindow(QWidget *parent) :
  // Hints - label with clues
     m_statLab = new TroundedLabel(innerWidget);
     m_statLab->setWordWrap(true);
-    m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
+    m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
     
 		QColor C(palette().text().color());
@@ -197,12 +197,15 @@ void MainWindow::createActions() {
     aboutAct->setStatusTip(tr("About Nootka"));
     aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
 //     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
+		playAct = new QAction(tr("Play"), this);
+		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
 
     nootBar->addAction(settingsAct);
     nootBar->addAction(levelCreatorAct);
     nootBar->addAction(analyseAct);
     nootBar->addAction(aboutAct);
     nootBar->addAction(startExamAct);
+		nootBar->addAction(playAct);
     
     nootBar->setMovable(false);
 }
@@ -608,22 +611,22 @@ void MainWindow::updateSize(QSize newS) {
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
-// 	int newGuitH = (newS.height() - nootBar->height()) * 0.25;
-// 	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
-// 		QPixmap rosePix(gl->path + "picts/pickup.png");
-// 		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
-// 		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
-// 		pickCoef = (newGuitH * 3.3) / 535;
-// 		int xPic = (newS.width()) * 0.8571428571 + 20 * pickCoef;;
-//     int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
-// 		if (!gl->GisRightHanded)
-// 				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
-// 		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
-// 	}
+	int newGuitH = (newS.height() - nootBar->height()) * 0.25;
+	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
+		QPixmap rosePix(gl->path + "picts/pickup.png");
+		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
+		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
+		pickCoef = (newGuitH * 3.3) / 535;
+		int xPic = (newS.width()) * 0.8571428571 + 20 * pickCoef;;
+    int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
+		if (!gl->GisRightHanded)
+				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
+		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
+	}
 	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
 // 	setWidgetsFont();
 	
-// 	if (gl->instrument != e_noInstrument) {
+	if (gl->instrument != e_noInstrument) {
 // 		pitchView->resize(m_statFontSize);
 // 		if (m_pitchContainer) {
 // 			m_pitchContainer->layout()->removeWidget(pitchView);
@@ -632,24 +635,24 @@ void MainWindow::updateSize(QSize newS) {
 // 			guitar->show();
 // 			m_rightLay->addWidget(pitchView);
 // 		}
-// 		QPixmap bgPix;
-// 		qreal guitH;
-// 		qreal ratio;
-// 		if (gl->instrument == e_classicalGuitar) {
-// 			guitar->setPickUpRect(QRect());
-// 			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
-// 			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
-// 			int guitW = centralWidget()->width() / 2;
-// 			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-// 		} else {
-// 			if (gl->instrument == e_bassGuitar)
-// 					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
-// 			else
-// 					bgPix = QPixmap(gl->path + "picts/body-electro.png");
-// 			guitH = guitar->height() * 2.9;
-// 			ratio = guitH / bgPix.height();
-// 			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
-// 		}
+		QPixmap bgPix;
+		qreal guitH;
+		qreal ratio;
+		if (gl->instrument == e_classicalGuitar) {
+			guitar->setPickUpRect(QRect());
+			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
+			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
+			int guitW = centralWidget()->width() / 2;
+			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
+		} else {
+			if (gl->instrument == e_bassGuitar)
+					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
+			else
+					bgPix = QPixmap(gl->path + "picts/body-electro.png");
+			guitH = guitar->height() * 2.9;
+			ratio = guitH / bgPix.height();
+			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
+		}
 		// 			if (gl->instrument == e_classicalGuitar) {
 // 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
 // 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
@@ -669,7 +672,7 @@ void MainWindow::updateSize(QSize newS) {
 // 				m_pitchContainer->setLayout(pitchLay);
 // 				innerWidget->layout()->addWidget(m_pitchContainer);
 // 			}
-// 	}
+	}
 // 	if (m_pitchContainer)
 // 		m_pitchContainer->setFixedHeight((height() - nootBar->height()) * 0.25);
 // 	
@@ -682,7 +685,7 @@ void MainWindow::updateSize(QSize newS) {
 void MainWindow::resizeEvent(QResizeEvent * event) {
 	updateSize(innerWidget->size());
 // 	emit sizeChanged(innerWidget->size());
-  QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
+//   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
 }
 
 /*
@@ -694,7 +697,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
             event->ignore();
     }
 }
-
+*/
 
 void MainWindow::paintEvent(QPaintEvent* ) {
 		if (gl->instrument != e_noInstrument) {
@@ -717,7 +720,7 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 		}
 }
 
-
+/*
 bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
     if (event->type() == QEvent::FileOpen) {
 				QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);

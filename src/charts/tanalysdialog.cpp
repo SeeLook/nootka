@@ -97,7 +97,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 	m_tuningLab->hide();
 	m_tuningButton = new QPushButton(this);
 	m_tuningButton->hide();
-	m_tuningButton->setFont(QFont("nootka", 20));
+	m_tuningButton->setFont(TnooFont());
 	
   QHBoxLayout *levLay = new QHBoxLayout;
 		levLay->addWidget(m_levelLab);

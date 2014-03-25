@@ -30,7 +30,7 @@ public:
     TscoreView(QWidget* parent = 0);
 
 protected:
-    virtual void scrollContentsBy(int dx, int dy) {};
+//     virtual void scrollContentsBy(int dx, int dy) {};
 
 };
 
