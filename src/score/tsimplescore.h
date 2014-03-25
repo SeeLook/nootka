@@ -116,6 +116,7 @@ protected:
 				 * connection with newer staff instances and this class emits appropirate signals. */
 		TscoreStaff* staff() { return m_staff; }
 		TscoreControl* scoreController() { return m_scoreControl; }
+		qreal pianoFactor() { return m_pianoFactor; }
     
     
 protected slots:

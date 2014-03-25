@@ -146,8 +146,8 @@ TscoreNote::~TscoreNote() {}
 
 void TscoreNote::setColor(QColor color) {
     m_mainColor = color;
-//     m_mainNote->setPen(QPen(m_mainColor));
-		m_mainNote->setPen(Qt::NoPen);
+    m_mainNote->setPen(QPen(m_mainColor, 0.2));
+// 		m_mainNote->setPen(Qt::NoPen);
     m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
     m_mainAccid->setBrush(QBrush(m_mainColor));
     for (int i = 0; i < m_mainUpLines.size(); i++)

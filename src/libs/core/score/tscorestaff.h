@@ -131,6 +131,11 @@ public:
 		
 				/** Return Y position of given note */
 		int noteToPos(Tnote& note); 
+		
+				/** Width of a staff set by external function. 
+				 * It is preferred when it is bigger than width calculated by updateWidth() */
+		void setExternalWidth(qreal w) { m_externWidth = w; if (lower()) lower()->setExternalWidth(w); updateWidth(); }
+		qreal externalWidth() { return m_externWidth; }
     
     virtual void setScoreControler(TscoreControl *scoreControl);
 		
@@ -179,7 +184,7 @@ private:
     QList<TscoreNote*>      m_scoreNotes;
     qreal                   m_upperLinePos;
     qreal                   m_height, m_width;
-		qreal										m_extraWidth;
+		qreal										m_externWidth; // width set from outside
     Ekind                   m_kindOfStaff;
     TnoteOffset             m_offset;
 		TscoreControl						*m_scoreControl;

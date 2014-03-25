@@ -45,7 +45,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_offset(TnoteOffset(3, 2)),
   m_keySignature(0),
   m_scordature(0),
-  m_extraWidth(0.0),
+  m_externWidth(0.0),
 	m_enableScord(false),
 	m_lower(0),
 	m_accidAnim(0), m_flyAccid(0)
@@ -383,6 +383,8 @@ void TscoreStaff::updateWidth() {
 			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width() + 2.0;
 	else
 			m_width = 10.0 + off + 2.0;
+	if (m_externWidth > m_width)
+		m_width = m_externWidth;
 	
 	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);

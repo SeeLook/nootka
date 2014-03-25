@@ -94,7 +94,7 @@ protected:
 //     TprogressWidget *progress;
 
     QToolBar *nootBar;
-    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
+    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct, *playAct;
 //     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
@@ -107,7 +107,7 @@ protected:
     bool event(QEvent *event);
 //     void closeEvent(QCloseEvent *event);
 //     bool eventFilter(QObject* obj, QEvent* event);
-//     void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent *);
         
 protected slots:
     void restoreMessage();
@@ -137,7 +137,7 @@ private:
         * and stops any status messages in this time.*/
     bool 									m_lockStat;
     QColor 								m_prevBg, m_curBG;
-//     QPixmap 							m_bgPixmap, m_rosettePixmap;
+    QPixmap 							m_bgPixmap, m_rosettePixmap;
     int 									m_statFontSize;
 // 		int 									m_extraFontOffset;
 //     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
