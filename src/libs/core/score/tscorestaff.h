@@ -87,8 +87,20 @@ public:
 		
 				/** Returns current @p index note or Tnot(0,0,0) if not set. */
 		Tnote* getNote(int index) { return m_notes[index]; }
-		virtual void setNote(int index, Tnote &note);
+		virtual void setNote(int index, Tnote& note);
 		virtual void setNoteDisabled(int index, bool isDisabled);
+				
+				/** adds note at the end of the staff 
+				 * Empty Tnote creates new instance of TscoreNote item. */
+		void addNote(Tnote& note, bool disabled = false);
+		
+		int count() { return m_scoreNotes.size(); } /** Note number on the score */
+		
+				/** Inserts note in given position (index). 
+				 * When @p index is out of scope adds it at the end. */
+		void insertNote(int index, Tnote& note, bool disabled = false);
+		void removeNote(int index); /** Deletes given note from staff */
+		int currentIndex() { return m_index; }
 		
 		virtual void setEnableKeySign(bool isEnabled);
 		
@@ -195,6 +207,7 @@ private:
 		TscoreStaff 						*m_lower;
 		TcombinedAnim						*m_accidAnim;
 		QGraphicsSimpleTextItem *m_flyAccid;
+		int											m_index; // index of currently selected note
 		
 };
 

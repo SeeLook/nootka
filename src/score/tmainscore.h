@@ -93,6 +93,18 @@ public:
 		
 		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
 		
+		void setNote(Tnote note);
+		
+				/** Describes insert mode of a score */
+		enum EinMode {
+			e_single, // single note mode
+			e_multi, // editing/setting the last note adds next one
+			e_record // calling setNote() from outside switches current index to the next note or adds one
+		};
+		
+		EinMode insertMode() { return m_inMode; }
+		void setInsertMode(EinMode mode);
+		
 signals:
 		void noteChanged(int index, Tnote note);
 		
@@ -133,6 +145,7 @@ private:
 		TkeySignature								 m_goodKey;
 		bool 												 m_showNameInCorrection;
 		Tnote::EnameStyle						 m_corrStyle;
+		EinMode											 m_inMode;
 };
 
 #endif // TMAINSCORE_H

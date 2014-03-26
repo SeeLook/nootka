@@ -38,26 +38,16 @@ extern Tglobals *gl;
 QWidget *m_parent;
 
 TmainScore::TmainScore(QWidget* parent) :
-	TsimpleScore(30, parent),
+	TsimpleScore(1, parent),
 	m_questMark(0),
 	m_questKey(0),
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
+	m_inMode(e_multi),
 	m_corrStyle(Tnote::defaultStyle)
 {
   m_parent = parent;
 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-// 	score()->horizontalScrollBar()->setObjectName("mainScoreScroll");
-// 	score()->setStyleSheet(score()->styleSheet() + "QScrollBar::handle:vertical {background: palette(highlight);}");
-// 	score()->horizontalScrollBar()->setStyleSheet("QScrollBar::handle:vertical {background: native; background-color: native }");
-// 	score()->setDragMode(QGraphicsView::ScrollHandDrag);
-// 	score()->setFrameShape(QFrame::Box);
-// 	score()->setStyleSheet("");
-// 	score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-// 	setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-// 	layout()->removeWidget(scoreController());
-// 	QHBoxLayout *lay = static_cast<QHBoxLayout *>(layout());
-// 	lay->insertWidget(0, scoreController(), 0, Qt::AlignLeft);
 // set preferred clef
 	if (gl->Sclef == Tclef::e_pianoStaff)
 			TsimpleScore::setPianoStaff(true);
@@ -122,6 +112,24 @@ void TmainScore::acceptSettings() {
 	if (gl->SkeySignatureEnabled)
 		setKeySignature(keySignature());
 	enableAccidToKeyAnim(true);
+}
+
+
+void TmainScore::setInsertMode(TmainScore::EinMode mode) {
+	m_inMode = mode;
+}
+
+
+void TmainScore::setNote(Tnote note) {
+	TsimpleScore::setNote(staff()->currentIndex(), note);
+	if (insertMode() == e_single)
+		return;
+	if (sender() != this) {
+		if (staff()->currentIndex() == staff()->count() - 1) {
+			Tnote nn(0, 0, 0);
+			staff()->addNote(nn);
+		}
+	}
 }
 
 
@@ -304,7 +312,7 @@ void TmainScore::clearScore() {
 
 
 void TmainScore::askQuestion(Tnote note, char realStr) {
-		setNote(1, note);
+		TsimpleScore::setNote(1, note);
     setBGcolor(Tcolor::merge(gl->EquestionColor, palette().window().color()));
     m_questMark->show();
     if (realStr) 
@@ -438,18 +446,18 @@ void TmainScore::correctKeySignature(TkeySignature newKey) {
 
 void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 	//We are sure that index is 0, cause others are disabled :-)
-    if (gl->showEnharmNotes) {
+    if (m_inMode == e_single && gl->showEnharmNotes) {
         TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
         TnotesList::iterator it = enharmList.begin();
         ++it;
         if (it != enharmList.end())
-            setNote(1, *(it));
+            TsimpleScore::setNote(1, *(it));
         else
             clearNote(1);
         if (gl->doubleAccidentalsEnabled) {
             ++it;
             if (it != enharmList.end())
-                setNote(2, *(it));
+                TsimpleScore::setNote(2, *(it));
             else
                 clearNote(2);
         }
@@ -486,7 +494,7 @@ void TmainScore::strikeBlinkingFinished() {
 	}
 	bool animEnabled = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations - it looks ugly with correction animations
-	setNote(0, m_goodNote);
+	TsimpleScore::setNote(0, m_goodNote);
 	enableAccidToKeyAnim(animEnabled);
 	QTimer::singleShot(320, this, SLOT(finishCorrection()));	
 }
@@ -560,26 +568,26 @@ void TmainScore::performScordatureSet() {
 //####################################################################################################
 
 void TmainScore::restoreNotesSettings() {
-		if (gl->enharmNotesColor == -1)
-					gl->enharmNotesColor = palette().highlight().color();
-		if (gl->SpointerColor == -1) {
-					gl->SpointerColor = Tcolor::invert(palette().highlight().color());
-					gl->SpointerColor.setAlpha(200);
-		}
-		staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
-		staff()->noteSegment(1)->setReadOnly(true);
-		staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
-		staff()->noteSegment(2)->setReadOnly(true);
-		staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
-		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
-		if (staff()->lower()) {
-				staff()->lower()->noteSegment(0)->setPointedColor(gl->SpointerColor);
-				staff()->lower()->noteSegment(1)->setReadOnly(true);
-				staff()->lower()->noteSegment(1)->setColor(gl->enharmNotesColor);
-				staff()->lower()->noteSegment(2)->setReadOnly(true);
-				staff()->lower()->noteSegment(2)->setColor(gl->enharmNotesColor);
-				staff()->lower()->noteSegment(0)->enableAccidToKeyAnim(true);
-		}
+// 		if (gl->enharmNotesColor == -1)
+// 					gl->enharmNotesColor = palette().highlight().color();
+// 		if (gl->SpointerColor == -1) {
+// 					gl->SpointerColor = Tcolor::invert(palette().highlight().color());
+// 					gl->SpointerColor.setAlpha(200);
+// 		}
+// 		staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+// 		staff()->noteSegment(1)->setReadOnly(true);
+// 		staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
+// 		staff()->noteSegment(2)->setReadOnly(true);
+// 		staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
+// 		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
+// 		if (staff()->lower()) {
+// 				staff()->lower()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+// 				staff()->lower()->noteSegment(1)->setReadOnly(true);
+// 				staff()->lower()->noteSegment(1)->setColor(gl->enharmNotesColor);
+// 				staff()->lower()->noteSegment(2)->setReadOnly(true);
+// 				staff()->lower()->noteSegment(2)->setColor(gl->enharmNotesColor);
+// 				staff()->lower()->noteSegment(0)->enableAccidToKeyAnim(true);
+// 		}
 		
 }
 
