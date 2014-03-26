@@ -155,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // 		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
 //     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 // 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
-//     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
+    connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
 //     connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
@@ -445,22 +445,23 @@ void MainWindow::noteNameWasChanged(Tnote note) {
     if (guitar->isVisible())
 				guitar->setFinger(note);
 }
-
+*/
 
 void MainWindow::guitarWasClicked(Tnote note) {
-    sound->play(note);
+//     sound->play(note);
     if (gl->showEnharmNotes) {
         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-        noteName->setNoteName(noteList);
-        score->setNote(1, noteName->getNoteName(1));
-				if (gl->doubleAccidentalsEnabled)
-						score->setNote(2, noteName->getNoteName(2));
-    } else
-        noteName->setNoteName(note);
-    score->setNote(0, note);
+//         noteName->setNoteName(noteList);
+//         score->setNote(1, noteName->getNoteName(1));
+// 				if (gl->doubleAccidentalsEnabled)
+// 						score->setNote(2, noteName->getNoteName(2));
+    } //else
+//         noteName->setNoteName(note);
+//     score->setNote(0, note);
+	score->setNote(note);
 }
 
-
+/*
 void MainWindow::soundWasPlayed(Tnote note) {
   if (gl->showEnharmNotes) {
       TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);

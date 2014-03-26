@@ -48,7 +48,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
   m_externWidth(0.0),
 	m_enableScord(false),
 	m_lower(0),
-	m_accidAnim(0), m_flyAccid(0)
+	m_accidAnim(0), m_flyAccid(0),
+	m_index(0)
 {
 	setZValue(10);
   if (m_kindOfStaff == e_normal) {
@@ -140,8 +141,36 @@ void TscoreStaff::setNote(int index, Tnote& note) {
 				*(m_notes[index]) = note;
 		else
 				*(m_notes[index]) = Tnote(0, 0, 0);
+		m_index = index;
 	}
 }
+
+
+void TscoreStaff::insertNote(int index, Tnote& note, bool disabled) {
+	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() adds at the end
+	m_scoreNotes.insert(index, new TscoreNote(scoreScene(), this, index));
+	m_notes.insert(index, new Tnote());
+	updateWidth();
+	setNote(index, note);
+	setNoteDisabled(index, disabled);
+	if (!disabled)
+		m_index = index;
+}
+
+
+void TscoreStaff::addNote(Tnote& note, bool disabled) {
+	insertNote(m_scoreNotes.size(), note, disabled);
+}
+
+
+void TscoreStaff::removeNote(int index) {
+	if (index >= 0 && index < m_scoreNotes.size()) {
+		m_scoreNotes.removeAt(index);
+		m_notes.removeAt(index);
+		updateWidth();
+	}
+}
+
 
 
 void TscoreStaff::setNoteDisabled(int index, bool isDisabled) {
@@ -329,6 +358,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_notes[noteIndex]->note = (char)(56 + globalNr) % 7 + 1;
 	m_notes[noteIndex]->octave = (char)(56 + globalNr) / 7 - 8;
 	m_notes[noteIndex]->acidental = (char)m_scoreNotes[noteIndex]->accidental();
+	m_index = noteIndex;
 	emit noteChanged(noteIndex);
 }
 
