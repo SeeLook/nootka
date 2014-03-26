@@ -112,8 +112,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="7.9195959"
-     inkscape:cx="57.281669"
-     inkscape:cy="21.184675"
+     inkscape:cx="72.174878"
+     inkscape:cy="20.676284"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -144,17 +144,17 @@
      id="layer1"
      transform="translate(-413.76276,-404.8898)">
     <rect
-       style="fill:#e6e6e6;fill-opacity:1;stroke:none"
+       style="opacity:0.75;fill:#e6e6e6;fill-opacity:1;stroke:none"
        id="rect3841"
        width="52.196697"
        height="46.785717"
        x="413.76276"
        y="404.8898"
-       ry="4.0178571"
-       rx="2.0262694"
-       inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/picts/charts.png"
-       inkscape:export-xdpi="144"
-       inkscape:export-ydpi="144" />
+       ry="3.63906"
+       rx="3.476279"
+       inkscape:export-filename="/home/tom/DEVELOP/QT5/nootka/picts/charts.png"
+       inkscape:export-xdpi="440.51907"
+       inkscape:export-ydpi="440.51907" />
     <path
        sodipodi:nodetypes="cscssscc"
        inkscape:connector-curvature="0"
