@@ -17,9 +17,21 @@
  ***************************************************************************/
 
 #include "tscoreview.h"
+// #include <QMouseEvent>
+// #include <QDebug>
 
 TscoreView::TscoreView(QWidget* parent) :
 	QGraphicsView(parent)
 {
+	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
+
+/*
+void TscoreView::wheelEvent(QWheelEvent* event) {
+	qDebug() << (int)event->buttons();
+}*/
+
+
+
+
 

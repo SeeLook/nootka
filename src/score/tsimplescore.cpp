@@ -33,6 +33,7 @@
 #include <QApplication>
 #include <QStyle>
 #include <QLayout>
+#include <QScrollBar>
 
 #include <QDebug>
 
@@ -47,7 +48,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
-  lay->addWidget(m_score, 0, Qt::AlignLeft);
    
   m_score->setMouseTracking(true);
   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -64,6 +64,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
   
+	lay->addWidget(m_score);
 	if (controler) {
 			m_scoreControl = new TscoreControl(this);
 			lay->addWidget(m_scoreControl, 0, Qt::AlignRight);
@@ -75,6 +76,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	
 	setBGcolor(palette().base().color());
 	setEnabledDblAccid(false);
+	
 	resizeEvent(0);
   
 }
@@ -371,26 +373,40 @@ void TsimpleScore::noteWasClicked(int index) {
 //##########################################################################################################
 
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
-	int hh = height();
-	if (event)
+	int hh = height(), ww = width();
+	if (event) {
 		hh = event->size().height();
+		ww = event->size().width();
+	}
+	int scrollV;
+	if (m_score->horizontalScrollBar()->isVisible()) {
+		hh -= m_score->horizontalScrollBar()->height();
+		scrollV = m_score->horizontalScrollBar()->value();
+	}
 	qreal styleOff = 1.0; // some styles quirks - it steals some space
   if (style()->objectName() == "oxygen" || style()->objectName() == "oxygen transparent" || style()->objectName() == "qtcurve")
 			styleOff = 0.0;
   qreal factor = (((qreal)hh / 40.0) / m_score->transform().m11()) * m_pianoFactor;
   m_score->scale(factor, factor);
-	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * m_score->transform().m11(), 
-												m_staff->boundingRect().height() * m_score->transform().m11()	);
-	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height() / m_pianoFactor);
+// 	m_score->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
+// 												m_staff->boundingRect().height() * factor	);
+// 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
+// 												m_staff->boundingRect().height() * factor	);
+// 	qDebug() << m_scene->sceneRect() << m_scene->itemsBoundingRect();
+// 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height() / m_pianoFactor);
 //   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
-  qreal staffOff = 0.0;
+	if (m_score->horizontalScrollBar()->isVisible()) {
+		m_score->horizontalScrollBar()->setValue(scrollV);
+	}
+  qreal staffOff = 1.0;
   if (isPianoStaff())
-    staffOff = m_score->transform().m11() * 5;
-	m_staff->setPos(m_score->mapToScene(staffOff, 0));
-	int xOff = 0;
-	if (m_scoreControl && layoutHasControl)
-			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
-	setFixedWidth(m_scene->sceneRect().width() + xOff);
+    staffOff = 2.0;
+// 	m_staff->setPos(m_score->mapToScene(staffOff, 0));
+	m_staff->setPos(staffOff, 0.0);
+// 	int xOff = 0;
+// 	if (m_scoreControl && layoutHasControl)
+// 			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
+// 	setFixedWidth(m_scene->sceneRect().width() + xOff);
 //   setMinimumWidth(m_scene->sceneRect().width() + xOff);
 }
 

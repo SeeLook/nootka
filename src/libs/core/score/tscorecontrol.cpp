@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,7 @@
 TscoreControl::TscoreControl(QWidget* parent):
   QWidget(parent)
 {    
+		setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_dblSharpBut = new TpushButton("x", this);
     setButtons(m_dblSharpBut);
 		m_dblSharpBut->setStatusTip(tr("<b>double sharp</b> - raises a note by two semitones (whole tone).<br>On the guitar it is two frets up."));
@@ -45,10 +46,11 @@ TscoreControl::TscoreControl(QWidget* parent):
     butLay->addWidget(m_dblFlatBut);
     butLay->addStretch(1);
     setLayout(butLay);
-    m_dblFlatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    m_flatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    m_sharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    m_dblSharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+// some Mac quirks (Mac style) - probably fixed in Qt5 - TODO
+//     m_dblFlatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+//     m_flatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+//     m_sharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+//     m_dblSharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
 
 		
 		connect(m_dblFlatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
