@@ -110,7 +110,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
                           "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>");
   // German
-    translStr += transRow("de", "deutsch", "JCW", "");
+    translStr += transRow("de", "deutsch", "Johann C. Weihe", "");
   // English
 		translStr += transRow("en", "english", "Luster", 
                           "<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>");
@@ -141,7 +141,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 		thankStr += "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>";
 		thankStr += "<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>";
 		thankStr += "<b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.<br>";
-		thankStr += "<b>Translators (Pavel, Olivier, Sergei)</b> for many, maaaany clues and comments.<br>";
+		thankStr += "<b>Translators (Pavel, Olivier, Sergei and Johann)</b> for many, maaaany clues and comments.<br>";
 		thankStr += "<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>";
 		thankStr += "<b>And all others that helped.</b><br>";
     QLabel *authorsLab = new QLabel(authorStr + translStr + otherStr + thankStr);

@@ -75,6 +75,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
     if (!m_exam->isFinished())
       Fake = "<h3>Translators preview of</h3>";
     m_certHeadI = createCertItem(Fake + tr("<h1>Certificate Of Exam Completion</h1>", "Main header - centered"));
+		TgraphicsTextTip::alignCenter(m_certHeadI);
 //     m_certHeadI->setGraphicsEffect(new QGraphicsDropShadowEffect);
     m_certHeadI->setPos((width() - m_certHeadI->boundingRect().width()) / 2, height());
     m_height += m_certHeadI->boundingRect().height() + 2 * SPACER;
