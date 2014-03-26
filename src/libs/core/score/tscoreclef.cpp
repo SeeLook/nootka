@@ -21,6 +21,7 @@
 #include "tscorestaff.h"
 #include <music/tclef.h>
 #include "widgets/tselectclef.h"
+#include <tnoofont.h>
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
 #include <QPalette>
@@ -72,9 +73,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   registryItem(m_textClef);
   m_textClef->setBrush(qApp->palette().text().color());
   
-  QFont f("nootka", 18, QFont::Normal);
-  f.setPixelSize(18);
-  m_textClef->setFont(f);
+  m_textClef->setFont(TnooFont(18));
   
   setClef(clef);
 }

@@ -38,7 +38,7 @@ extern Tglobals *gl;
 QWidget *m_parent;
 
 TmainScore::TmainScore(QWidget* parent) :
-	TsimpleScore(20, parent),
+	TsimpleScore(30, parent),
 	m_questMark(0),
 	m_questKey(0),
 	m_strikeOut(0),
@@ -47,11 +47,14 @@ TmainScore::TmainScore(QWidget* parent) :
 {
   m_parent = parent;
 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	score()->setDragMode(QGraphicsView::ScrollHandDrag);
+// 	score()->horizontalScrollBar()->setObjectName("mainScoreScroll");
+// 	score()->setStyleSheet(score()->styleSheet() + "QScrollBar::handle:vertical {background: palette(highlight);}");
+// 	score()->horizontalScrollBar()->setStyleSheet("QScrollBar::handle:vertical {background: native; background-color: native }");
+// 	score()->setDragMode(QGraphicsView::ScrollHandDrag);
 // 	score()->setFrameShape(QFrame::Box);
 // 	score()->setStyleSheet("");
-	score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-	setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+// 	score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+// 	setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
 // 	layout()->removeWidget(scoreController());
 // 	QHBoxLayout *lay = static_cast<QHBoxLayout *>(layout());
 // 	lay->insertWidget(0, scoreController(), 0, Qt::AlignLeft);
@@ -517,8 +520,8 @@ void TmainScore::finishCorrection() {
 
 
 void TmainScore::resizeEvent(QResizeEvent* event) {  
-// 	TsimpleScore::resizeEvent(event);
-  int hh = height();
+	TsimpleScore::resizeEvent(event);
+  /*int hh = height();
   if (event) {
     hh = event->size().height();
   }
@@ -536,8 +539,8 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 //       xOff = scoreController()->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
 	if (event) {
 		score()->setMinimumWidth(width() - xOff);
-		
-	}
+	*/	
+// 	}
   
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
