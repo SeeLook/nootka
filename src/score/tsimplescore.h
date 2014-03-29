@@ -103,7 +103,7 @@ signals:
 		void clefChanged(Tclef);
 		
 public slots:
-		void noteWasClicked(int index);
+		virtual void noteWasClicked(int index);
 		
 protected:
 		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller

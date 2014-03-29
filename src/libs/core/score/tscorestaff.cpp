@@ -142,7 +142,8 @@ void TscoreStaff::setNote(int index, Tnote& note) {
 				*(m_notes[index]) = note;
 		else
 				*(m_notes[index]) = Tnote(0, 0, 0);
-		setCurrentIndex(index);
+    if (note.note)
+      setCurrentIndex(index);
 	}
 }
 
@@ -439,7 +440,8 @@ void TscoreStaff::updateWidth() {
 				m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 2, upperLinePos() + i * 2);
 	if (lower())
 		lower()->updateWidth();
-	scoreScene()->update();
+  scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
+// 	scoreScene()->update();
 }
 
 

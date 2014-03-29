@@ -43,8 +43,8 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_questKey(0),
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
-	m_inMode(e_record),
-	m_corrStyle(Tnote::defaultStyle)
+	m_corrStyle(Tnote::defaultStyle),
+  m_inMode(e_record)
 {
   m_parent = parent;
 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -121,29 +121,18 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::setNote(Tnote note) {
-	qDebug() << staff()->currentIndex() << staff()->count();
-	if (insertMode() != e_single && staff()->currentIndex() == staff()->count() - 1) {
-			Tnote nn(0, 0, 0);
-			staff()->addNote(nn);
-	}
-	if (insertMode() == e_record && sender() != staff())
+	qDebug() << staff()->currentIndex() << staff()->count() << note.toText();
+  checkAndAddNote();
+	if (insertMode() == e_record)
 		TsimpleScore::setNote(staff()->currentIndex() + 1, note);
 	else
 		TsimpleScore::setNote(staff()->currentIndex(), note);
-// 			TsimpleScore::setNote(staff()->currentIndex() + 1, getNote(staff()->currentIndex() + 1));
-// 	else {
-// 			
-// 			if (sender() == staff())
-// 					TsimpleScore::setNote(staff()->currentIndex(), note);
-// 			else {
-// 				if (staff()->currentIndex() >= staff()->count())
-// 					qDebug() << "wrong note index";
-// 				else if (staff()->currentIndex() + 1 <= staff()->count() - 1)
-// 					TsimpleScore::setNote(staff()->currentIndex() + 1, note);
-// 				else 
-// 					TsimpleScore::setNote(staff()->currentIndex(), note);
-// 			}
-// 	}
+}
+
+
+void TmainScore::noteWasClicked(int index) {
+  TsimpleScore::noteWasClicked(index);
+  checkAndAddNote();
 }
 
 
@@ -628,6 +617,12 @@ void TmainScore::deleteNoteName(int id) {
 }
 
 
+void TmainScore::checkAndAddNote() {
+  if (insertMode() != e_single && staff()->currentIndex() == staff()->count() - 1) {
+      Tnote nn(0, 0, 0);
+      staff()->addNote(nn);
+  }
+}
 
 
 
