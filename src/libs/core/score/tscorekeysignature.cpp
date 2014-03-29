@@ -21,6 +21,7 @@
 #include "tscorescene.h"
 #include "tscorenote.h"
 #include "tscorestaff.h"
+#include <tnoofont.h>
 #include <QGraphicsView>
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
@@ -59,7 +60,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
 	setParentItem(staff);
   m_height = staff->height();
 
-  QFont font(TscoreNote::getAccidFont());
+  TnooFont font(5);
   for (int i = 0; i < 7; i++) {
         m_accidentals[i] = new QGraphicsSimpleTextItem();
         registryItem(m_accidentals[i]);

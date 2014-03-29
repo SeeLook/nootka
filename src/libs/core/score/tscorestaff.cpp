@@ -25,6 +25,7 @@
 #include "tscorescordature.h"
 #include <music/tnote.h>
 #include <animations/tcombinedanim.h>
+#include <tnoofont.h>
 #include <QApplication>
 #include <QPalette>
 
@@ -148,7 +149,12 @@ void TscoreStaff::setNote(int index, Tnote& note) {
 
 void TscoreStaff::insertNote(int index, Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() adds at the end
-	m_scoreNotes.insert(index, new TscoreNote(scoreScene(), this, index));
+	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
+	connect(newNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+	connect(newNote, SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
+	m_scoreNotes.insert(index, newNote);
+	for (int i = index + 1; i < m_scoreNotes.size(); i++)
+		m_scoreNotes[i]->changeIndex(i); // Update index of next notes in the list
 	m_notes.insert(index, new Tnote());
 	updateWidth();
 	setNote(index, note);
@@ -189,7 +195,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
 			m_flyAccid = new QGraphicsSimpleTextItem;
 			registryItem(m_flyAccid);
-			m_flyAccid->setFont(TscoreNote::getAccidFont());
+			m_flyAccid->setFont(TnooFont(5));
 			m_flyAccid->setScale(TscoreNote::accidScale());
 			m_flyAccid->hide();
 			if (m_scoreNotes.size())				

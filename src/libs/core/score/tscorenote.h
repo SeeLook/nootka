@@ -40,8 +40,9 @@ public:
     TscoreNote(TscoreScene *scene, TscoreStaff *staff, int index);
     ~TscoreNote();
     
-				/** Index of this note instance. */
+				/** Index of this note instance. It is connected with note number in the list */
 		int index() { return m_index; }
+		void changeIndex(int newIndex) { m_index = newIndex; }
 		
         /** Hides main note */
     void hideNote();
@@ -84,8 +85,6 @@ public:
         /** Returns QString with accidental symbol*/
     static QString getAccid(int accNr);
 		
-				/** nootka font with well scaled accidental glyph. */
-    static QFont getAccidFont();
 		static qreal accidYoffset() { return m_accidYoffset; }
 		static qreal accidScale() { return m_accidScale; }
 		
@@ -100,7 +99,7 @@ public:
 		bool isReadOnly() { return m_readOnly; }
 		
 				/** Changes accidental of a working note cursor. */
-		void setWorkAccid(int accNr);
+		static void setWorkAccid(int accNr);
 		
 				/** Enables moving note animation during its position (pitch) change.
 				 * In fact, when accidental is visible it is animated as well. */
@@ -133,35 +132,45 @@ protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-    QGraphicsEllipseItem          *m_workNote, *m_mainNote;
-    QGraphicsSimpleTextItem       *m_workAccid, *m_mainAccid;
+    QGraphicsEllipseItem          *m_mainNote;
+    QGraphicsSimpleTextItem       *m_mainAccid;
 		QGraphicsSimpleTextItem 			*m_stringText;
-    QList<QGraphicsLineItem*>     m_upLines, m_mainUpLines, m_mainDownLines, m_downLines;
-    QColor                        m_workColor, m_mainColor;
+    QList<QGraphicsLineItem*>      m_mainUpLines, m_mainDownLines;
+    QColor                         m_mainColor;
 		TcombinedAnim									*m_noteAnim;
 		TcrossFadeTextAnim 						*m_accidAnim;
-    bool													m_accidToKeyAnim;
+    bool													 m_accidToKeyAnim;
     
-    int                           m_workPosY, m_mainPosY;
-    int                           m_curentAccid, m_accidental;
-    int                           m_index; // note index in external list
+    int                            m_mainPosY, m_accidental;
+    int                            m_index; // note index in external list
 //     int 													m_noteNr; // note number depends on octave
-    int 													m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
-    int                           m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
-		int 													m_stringNr;
-    qreal                         m_height;
-		bool													m_readOnly;
-		QColor                        m_bgColor;
+    int 													 m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
+    int                            m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
+		int 													 m_stringNr;
+    qreal                          m_height;
+		bool													 m_readOnly;
+		QColor                         m_bgColor;
 		
-		static qreal 									m_accidYoffset; // difference to note y position.
-    static qreal									m_accidScale;
+		static qreal 									 m_accidYoffset; // difference to note y position.
+    static qreal									 m_accidScale;
+	// static note cursor
+		static int                            m_curentAccid, m_workPosY;
+		static QGraphicsEllipseItem          *m_workNote;
+		static QGraphicsSimpleTextItem       *m_workAccid;
+		static QList<QGraphicsLineItem*>      m_upLines, m_downLines;
+		static QColor                         m_workColor;
     
 private:
         /** Prepares note-head (ellipse) */
     QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
+		
+				/** Common method creating upper and lower staff lines */
+		void createLines(QList<QGraphicsLineItem*> &low, QList<QGraphicsLineItem*> &upp);
     void hideLines(QList<QGraphicsLineItem*> &linesList);
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
+		void initNoteCursor(); /** Creates static members of cursor when first TscoreNote instance is created */
+		void setCursorParent(); /** Sets parent of note cursor to this instance */
 // 		void checkOctavation();
 		
 		    

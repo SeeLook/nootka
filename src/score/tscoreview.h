@@ -21,17 +21,28 @@
 
 #include <QGraphicsView>
 
+class TscoreStaff;
+class TscoreScene;
 
-/** Main purpose of this class (and only one for this moment)
- * is to cover scrollContentsBy() method and disable scrolling by wheel. */
+/** 
+ * 
+ */
 class TscoreView : public QGraphicsView
 {
 public:
     TscoreView(QWidget* parent = 0);
+		
+		void setStaff(TscoreStaff* staff) { m_staff = staff; }
+		TscoreScene* scoreScene() { return m_scoreScene; }
 
 protected:
 //     virtual void scrollContentsBy(int dx, int dy) {};
 // 	virtual void wheelEvent(QWheelEvent*);
+// 	virtual void resizeEvent(QResizeEvent* event);
+	
+private:
+	TscoreScene				*m_scoreScene;
+	TscoreStaff				*m_staff;
 
 };
 
