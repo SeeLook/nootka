@@ -388,12 +388,16 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	qreal styleOff = 1.0; // some styles quirks - it steals some space
   if (style()->objectName() == "oxygen" || style()->objectName() == "oxygen transparent" || style()->objectName() == "qtcurve")
 			styleOff = 0.0;
-  qreal factor = (((qreal)hh / 40.0) / m_score->transform().m11()) * m_pianoFactor;
+  qreal factor = (((qreal)hh / 42.0) / m_score->transform().m11()) * m_pianoFactor;
+// 	qreal factor = (qreal)m_score->frameRect().height() / (m_scene->sceneRect().height() * m_score->transform().m11());
   m_score->scale(factor, factor);
+	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - 2.0);
+// 	qDebug() << m_scene->sceneRect() << m_scene->itemsBoundingRect();
 // 	m_score->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
 // 												m_staff->boundingRect().height() * factor	);
+	m_scene->setSceneRect(0.0, -factor, m_scene->itemsBoundingRect().width(), m_scene->itemsBoundingRect().height());
 // 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
-// 												m_staff->boundingRect().height() * factor	);
+// 												m_staff->boundingRect().height() * factor);
 // 	qDebug() << m_scene->sceneRect() << m_scene->itemsBoundingRect();
 // 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height() / m_pianoFactor);
 //   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());

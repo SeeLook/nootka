@@ -166,6 +166,8 @@ signals:
 public slots:
 				/** It is connected with clef, but also refresh m_offset appropirate to current clef. */
 		void onClefChanged();
+		void setCurrentIndex(int index);
+		void noteChangedAccid(int accid); // TscoreNote wheel event - changes accidental
 		
 protected:
 				/** It doesn't add scordature like setScordature() method, 
@@ -182,7 +184,6 @@ protected:
 protected slots:
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
-		void noteChangedAccid(int accid); // TscoreNote wheel event - changes accidental
 		void onAccidButtonPressed(int accid); // TscoreControl accid button pressed
 		void onPianoStaffChanged(Tclef clef) { emit pianoStaffSwitched(clef); } // clef demands piano staff
 		void toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
