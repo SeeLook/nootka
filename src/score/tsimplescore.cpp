@@ -49,17 +49,19 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
    
-  m_score->setMouseTracking(true);
-  m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  m_score->setFrameShape(QFrame::NoFrame);
+//   m_score->setMouseTracking(true);
+//   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+// 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+//   m_score->setFrameShape(QFrame::NoFrame);
   
-  m_scene = new TscoreScene(m_score);
+//   m_scene = new TscoreScene(m_score);
+	m_scene = m_score->scoreScene();
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
-  m_score->setScene(m_scene);
+//   m_score->setScene(m_scene);
   
   m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
+	m_score->setStaff(m_staff);
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));

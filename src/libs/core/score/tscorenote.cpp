@@ -23,6 +23,7 @@
 #include <graphics/tdropshadoweffect.h>
 #include <animations/tcrossfadetextanim.h>
 #include <animations/tcombinedanim.h>
+#include <tnoofont.h>
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
@@ -42,20 +43,22 @@ QString TscoreNote::getAccid(int accNr) {
 }
 
 
-QFont TscoreNote::getAccidFont() {
-  QFont font(QFont("nootka"));
-  font.setPixelSize(5);
-  return font;
-}
-
 qreal TscoreNote::m_accidYoffset = 0.0;
 qreal TscoreNote::m_accidScale = 1.0;
+int TscoreNote::m_curentAccid = 0;
+int TscoreNote::m_workPosY = 0;
+QGraphicsEllipseItem* TscoreNote::m_workNote = 0;
+QGraphicsSimpleTextItem* TscoreNote::m_workAccid = 0;
+QList<QGraphicsLineItem*> TscoreNote::m_upLines;
+QList<QGraphicsLineItem*> TscoreNote::m_downLines;
+QColor TscoreNote::m_workColor = -1;
+/*------------------------*/
 
 //################################## CONSTRUCTOR ###################################
 TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
-  m_workPosY(0.0), m_mainPosY(0.0),
-  m_curentAccid(0), m_accidental(0),
+  m_mainPosY(0.0),
+  m_accidental(0),
   m_index(index),
   m_readOnly(false),
   m_stringText(0), m_stringNr(0),
@@ -67,64 +70,21 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   setStaff(staff);
 	setParentItem(staff);
   m_height = staff->height();
-  m_workColor = qApp->palette().highlight().color();
-  m_workColor.setAlpha(200);
   m_mainColor = qApp->palette().text().color();
+	if (m_workNote == 0)
+		initNoteCursor();
   
-  int i = staff->upperLinePos() - 2;
-  while (i > 0) {
-		m_mainUpLines << createNoteLine(i);
-    m_upLines << createNoteLine(i);
-    i -= 2;
-  }
-  i = staff->upperLinePos() + 10;
-  while (i < m_height) {
-		m_mainDownLines << createNoteLine(i);
-    m_downLines << createNoteLine(i);    
-    i += 2;
-  }
-  
-  m_workNote = createNoteHead();
-// 	m_workNote->setParentItem(0);
-// 	m_workNote->setScale(5);
-//   QGraphicsBlurEffect *blur = new QGraphicsBlurEffect;
-//   blur->setBlurRadius(0.5);
-  m_workNote->setGraphicsEffect(new TdropShadowEffect(m_workColor));
-// 	m_workNote->setParentItem(this);
-// 	m_workNote->setScale(1);
-//   scoreScene()->addBlur(m_workNote, 3.0);
-  
+  createLines(m_mainDownLines, m_mainUpLines);  
   m_mainNote = createNoteHead();
 	
   m_mainAccid = new QGraphicsSimpleTextItem();
 	m_mainAccid->setParentItem(m_mainNote);
 	
-  
-//   QGraphicsBlurEffect *accidBlur = new QGraphicsBlurEffect;
-//   accidBlur->setBlurRadius(blur->blurRadius());
-  m_workAccid = new QGraphicsSimpleTextItem();
-  m_workAccid->setBrush(QBrush(m_workColor));
-//   m_workAccid->setGraphicsEffect(accidBlur);
-	m_workAccid->setParentItem(m_workNote);
-  m_workAccid->hide();
-  
-  QFont font(getAccidFont());
-  m_workAccid->setFont(font);
-  m_mainAccid->setFont(font);
-  m_workAccid->hide();
-  m_workAccid->setText(getAccid(1));
-  m_accidScale = 6.0 / m_workAccid->boundingRect().height();
-  m_workAccid->setScale(m_accidScale);
+  m_mainAccid->setFont(TnooFont(5));
   m_mainAccid->setScale(m_accidScale);
-	m_accidYoffset = m_workAccid->boundingRect().height() * m_accidScale * 0.34;
-	m_workAccid->setPos(-3.0, -m_accidYoffset);
-	m_mainAccid->setPos(-3.0, -m_accidYoffset);
-	m_workAccid->setText(" ");
+	m_mainAccid->setPos(-3.0, - m_accidYoffset);
   
   setColor(m_mainColor);
-  setPointedColor(m_workColor);
-  m_workNote->setZValue(35);
-  m_workAccid->setZValue(m_workNote->zValue());
   m_mainNote->setZValue(34); // under
   m_mainAccid->setZValue(m_mainNote->zValue());
   if (staff->kindOfStaff() == TscoreStaff::e_normal)
@@ -364,9 +324,11 @@ void TscoreNote::keyAnimFinished() {
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
+	if (m_workNote->parentItem() != this)
+			setCursorParent();
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
-      m_workNote->show();
-      m_workAccid->show();
+			m_workNote->show();
+			m_workAccid->show();
   }
   TscoreItem::hoverEnterEvent(event);
 }
@@ -454,29 +416,78 @@ QGraphicsEllipseItem* TscoreNote::createNoteHead() {
 
 
 QGraphicsLineItem* TscoreNote::createNoteLine(int yPos) {
-    QGraphicsLineItem *line = new QGraphicsLineItem();
-    line->hide();
-    registryItem(line);
-    line->setLine(2.5, yPos, boundingRect().width(), yPos);
-    return line;
+	QGraphicsLineItem *line = new QGraphicsLineItem();
+	line->hide();
+	registryItem(line);
+	line->setLine(2.5, yPos, boundingRect().width(), yPos);
+	return line;
 }
 
 
 void TscoreNote::hideLines(QList< QGraphicsLineItem* >& linesList) {
-    for (int i=0; i < linesList.size(); i++) 
-      linesList[i]->hide();
+	for (int i=0; i < linesList.size(); i++)
+		linesList[i]->hide();
 }
 
 
 void TscoreNote::setStringPos() {
-		if (m_stringText) {
-        qreal yy = staff()->upperLinePos() + 9.0; // below the staff
-        if (m_mainPosY > staff()->upperLinePos() + 4.0) 
-						yy = staff()->upperLinePos() - 7.0; // above the staff 
-        m_stringText->setPos(6.5 - m_stringText->boundingRect().width() * m_stringText->scale(), yy);
-				// 6.5 is right position of note head
-    }
+	if (m_stringText) {
+			qreal yy = staff()->upperLinePos() + 9.0; // below the staff
+			if (m_mainPosY > staff()->upperLinePos() + 4.0) 
+					yy = staff()->upperLinePos() - 7.0; // above the staff 
+			m_stringText->setPos(6.5 - m_stringText->boundingRect().width() * m_stringText->scale(), yy);
+			// 6.5 is right position of note head
+	}
 }
+
+
+void TscoreNote::initNoteCursor() {
+	m_workColor = qApp->palette().highlight().color();
+  m_workColor.setAlpha(200);
+	createLines(m_downLines, m_upLines);
+	m_workNote = createNoteHead();
+  m_workNote->setGraphicsEffect(new TdropShadowEffect(m_workColor));
+	m_workAccid = new QGraphicsSimpleTextItem();
+  m_workAccid->setBrush(QBrush(m_workColor));
+	m_workAccid->setParentItem(m_workNote);
+  m_workAccid->hide();
+	m_workAccid->setFont(TnooFont(5));
+	m_workAccid->hide();
+  m_workAccid->setText(getAccid(1));
+  m_accidScale = 6.0 / m_workAccid->boundingRect().height();
+	m_workAccid->setScale(m_accidScale);
+	m_accidYoffset = m_workAccid->boundingRect().height() * m_accidScale * 0.34;
+	m_workAccid->setPos(-3.0, - m_accidYoffset);
+	m_workAccid->setText(" ");
+	m_workNote->setZValue(35);
+  m_workAccid->setZValue(m_workNote->zValue());
+	setPointedColor(m_workColor);
+}
+
+
+void TscoreNote::setCursorParent() {
+	m_workNote->setParentItem(this);
+// 	m_workAccid->setParentItem(this);
+	for (int i = 0; i < m_downLines.size(); i++)
+		m_downLines[i]->setParentItem(this);
+	for (int i = 0; i < m_upLines.size(); i++)
+		m_upLines[i]->setParentItem(this);
+}
+
+
+void TscoreNote::createLines(QList< QGraphicsLineItem* >& low, QList< QGraphicsLineItem* >& upp) {
+  int i = staff()->upperLinePos() - 2;
+  while (i > 0) {
+		upp << createNoteLine(i);
+    i -= 2;
+  }
+  i = staff()->upperLinePos() + 10;
+  while (i < m_height - 2) {
+		low << createNoteLine(i);
+    i += 2;
+  }
+}
+
 
 
 /*
