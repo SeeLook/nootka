@@ -23,7 +23,8 @@
 // #include <QMouseEvent>
 // #include <QStyle>
 // #include <QScrollBar>
-// #include <QDebug>
+#include <QDebug>
+
 
 TscoreView::TscoreView(QWidget* parent) :
 	QGraphicsView(parent)
@@ -58,10 +59,12 @@ void TscoreView::wheelEvent(QWheelEvent* event) {
         scoreScene()->setCurrentAccid(acc);
 //         emit accidWasChanged(m_curentAccid);
     }
-}
+}*/
 
-
+/*
 void TscoreView::resizeEvent(QResizeEvent* event) {
+	qDebug() << width();
+	
 	int hh = height(), ww = width();
 	if (event) {
 		hh = event->size().height();
@@ -93,10 +96,10 @@ void TscoreView::resizeEvent(QResizeEvent* event) {
 //   if (isPianoStaff())
 //     staffOff = 2.0;
 // 	m_staff->setPos(m_score->mapToScene(staffOff, 0));
-	m_staff->setPos(staffOff, 0.0);
+	m_staff->setPos(staffOff, 0.0); */
 
-}
-*/
+// }
+
 
 
 

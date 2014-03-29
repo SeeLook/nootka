@@ -83,7 +83,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
       m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
 			m_scoreNotes[i]->setZValue(50);
       connect(m_scoreNotes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-			connect(m_scoreNotes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
+// 			connect(m_scoreNotes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
   }
   
   if (m_scoreNotes.size())
@@ -142,7 +142,7 @@ void TscoreStaff::setNote(int index, Tnote& note) {
 				*(m_notes[index]) = note;
 		else
 				*(m_notes[index]) = Tnote(0, 0, 0);
-		m_index = index;
+		setCurrentIndex(index);
 	}
 }
 
@@ -151,7 +151,7 @@ void TscoreStaff::insertNote(int index, Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() adds at the end
 	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
 	connect(newNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-	connect(newNote, SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
+// 	connect(newNote, SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
 	m_scoreNotes.insert(index, newNote);
 	for (int i = index + 1; i < m_scoreNotes.size(); i++)
 		m_scoreNotes[i]->changeIndex(i); // Update index of next notes in the list
@@ -159,8 +159,9 @@ void TscoreStaff::insertNote(int index, Tnote& note, bool disabled) {
 	updateWidth();
 	setNote(index, note);
 	setNoteDisabled(index, disabled);
-	if (!disabled)
-		m_index = index;
+	if (!disabled) {
+// 		setCurrentIndex(index);
+	}
 }
 
 
@@ -313,8 +314,15 @@ void TscoreStaff::addLowerStaff() {
 }
 
 //##########################################################################################################
-//####################################### PROTECTED SLOTS  #################################################
+//####################################### PUBLIC SLOTS     #################################################
 //##########################################################################################################
+
+void TscoreStaff::setCurrentIndex(int index) {
+	m_scoreNotes[currentIndex()]->setBackgroundColor(-1);
+	m_index = index;
+	m_scoreNotes[currentIndex()]->setBackgroundColor(qApp->palette().highlight().color());
+}
+
 
 void TscoreStaff::onClefChanged( ) {
 	int globalNr;
@@ -351,6 +359,16 @@ void TscoreStaff::onClefChanged( ) {
 }
 
 
+void TscoreStaff::noteChangedAccid(int accid) {
+	if (m_scoreControl) {
+			m_scoreControl->setAccidental(accid);
+	}
+}
+
+//##########################################################################################################
+//####################################### PROTECTED SLOTS  #################################################
+//##########################################################################################################
+
 void TscoreStaff::onKeyChanged() {
   for (int i = 0; i < m_scoreNotes.size(); i++) {
     if (m_scoreNotes[i]->notePos())
@@ -364,15 +382,8 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_notes[noteIndex]->note = (char)(56 + globalNr) % 7 + 1;
 	m_notes[noteIndex]->octave = (char)(56 + globalNr) / 7 - 8;
 	m_notes[noteIndex]->acidental = (char)m_scoreNotes[noteIndex]->accidental();
-	m_index = noteIndex;
+	setCurrentIndex(noteIndex);
 	emit noteChanged(noteIndex);
-}
-
-
-void TscoreStaff::noteChangedAccid(int accid) {
-	if (m_scoreControl) {
-			m_scoreControl->setAccidental(accid);
-	}
 }
 
 

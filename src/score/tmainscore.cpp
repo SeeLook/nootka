@@ -43,7 +43,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_questKey(0),
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
-	m_inMode(e_multi),
+	m_inMode(e_record),
 	m_corrStyle(Tnote::defaultStyle)
 {
   m_parent = parent;
@@ -121,15 +121,29 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::setNote(Tnote note) {
-	TsimpleScore::setNote(staff()->currentIndex(), note);
-	if (insertMode() == e_single)
-		return;
-	if (sender() != this) {
-		if (staff()->currentIndex() == staff()->count() - 1) {
+	qDebug() << staff()->currentIndex() << staff()->count();
+	if (insertMode() != e_single && staff()->currentIndex() == staff()->count() - 1) {
 			Tnote nn(0, 0, 0);
 			staff()->addNote(nn);
-		}
 	}
+	if (insertMode() == e_record && sender() != staff())
+		TsimpleScore::setNote(staff()->currentIndex() + 1, note);
+	else
+		TsimpleScore::setNote(staff()->currentIndex(), note);
+// 			TsimpleScore::setNote(staff()->currentIndex() + 1, getNote(staff()->currentIndex() + 1));
+// 	else {
+// 			
+// 			if (sender() == staff())
+// 					TsimpleScore::setNote(staff()->currentIndex(), note);
+// 			else {
+// 				if (staff()->currentIndex() >= staff()->count())
+// 					qDebug() << "wrong note index";
+// 				else if (staff()->currentIndex() + 1 <= staff()->count() - 1)
+// 					TsimpleScore::setNote(staff()->currentIndex() + 1, note);
+// 				else 
+// 					TsimpleScore::setNote(staff()->currentIndex(), note);
+// 			}
+// 	}
 }
 
 

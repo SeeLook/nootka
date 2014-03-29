@@ -397,7 +397,8 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
     if (prevAcc != m_curentAccid) {
 				setWorkAccid(m_curentAccid);
         scoreScene()->setCurrentAccid(m_curentAccid);
-        emit accidWasChanged(m_curentAccid);
+				staff()->noteChangedAccid(m_curentAccid);
+//         emit accidWasChanged(m_curentAccid);
     }
 }
 

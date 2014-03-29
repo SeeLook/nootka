@@ -44,12 +44,12 @@ void TscoreItem::setStatusTip(QString status) {
 void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
 	QLinearGradient gr(boundingRect().topLeft(), boundingRect().topRight());
 	QColor c1 = bgColor;
-	c1.setAlpha(40);
+	c1.setAlpha(80);
 	QColor c2 = bgColor;
-	c2.setAlpha(80);
+	c2.setAlpha(40);
 	gr.setColorAt(0.0, c1);
-	gr.setColorAt(0.4, c2);
-	gr.setColorAt(0.6, c2);
+	gr.setColorAt(0.1, c2);
+	gr.setColorAt(0.9, c2);
 	gr.setColorAt(1.0, c1);
 	painter->setBrush(gr);
 	painter->setPen(Qt::NoPen);
