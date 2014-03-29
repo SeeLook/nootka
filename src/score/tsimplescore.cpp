@@ -395,7 +395,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 // 	qDebug() << m_scene->sceneRect() << m_scene->itemsBoundingRect();
 // 	m_score->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
 // 												m_staff->boundingRect().height() * factor	);
-	m_scene->setSceneRect(0.0, -factor, m_scene->itemsBoundingRect().width(), m_scene->itemsBoundingRect().height());
+// 	m_scene->setSceneRect(0.0, -factor, m_scene->itemsBoundingRect().width(), m_scene->itemsBoundingRect().height());
 // 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
 // 												m_staff->boundingRect().height() * factor);
 // 	qDebug() << m_scene->sceneRect() << m_scene->itemsBoundingRect();

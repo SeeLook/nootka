@@ -115,6 +115,7 @@ public slots:
     void whenNoteWasChanged(int index, Tnote note);
     void expertNoteChanged();
     void setScordature(); /** Sets scordature to value kept in Tglobal. */
+    void noteWasClicked(int index);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -133,6 +134,7 @@ private:
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
+    void checkAndAddNote();
 
 private:
 		QGraphicsSimpleTextItem 		*m_questMark;
