@@ -29,7 +29,7 @@ include_directories( libs/core )
 
 # add_subdirectory( charts ) # nootka analyzer
 
-add_subdirectory( level ) # level creator
+# add_subdirectory( level ) # level creator
 
 # add_subdirectory( updater ) # nootka updater
 

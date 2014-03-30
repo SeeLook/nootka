@@ -20,6 +20,7 @@
 #include "tscorenote.h"
 #include "tscorescene.h"
 #include "tscorestaff.h"
+#include "tnotecontrol.h"
 #include <graphics/tdropshadoweffect.h>
 #include <animations/tcrossfadetextanim.h>
 #include <animations/tcombinedanim.h>
@@ -52,6 +53,9 @@ QGraphicsSimpleTextItem* TscoreNote::m_workAccid = 0;
 QList<QGraphicsLineItem*> TscoreNote::m_upLines;
 QList<QGraphicsLineItem*> TscoreNote::m_downLines;
 QColor TscoreNote::m_workColor = -1;
+
+TnoteControl* TscoreNote::m_rightBox = 0;
+TnoteControl* TscoreNote::m_leftBox = 0;
 /*------------------------*/
 
 //################################## CONSTRUCTOR ###################################
@@ -324,6 +328,10 @@ void TscoreNote::keyAnimFinished() {
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
+	m_rightBox->setScoreNote(this);
+	m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
+	m_leftBox->setScoreNote(this);
+	m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
 	if (m_workNote->parentItem() != this)
 			setCursorParent();
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
@@ -337,6 +345,10 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverLeaveEvent";
   hideWorkNote();
+	if (!m_rightBox->hasMouseCursor())
+			m_rightBox->hideWithDelay();
+	if (!m_leftBox->hasMouseCursor())
+			m_leftBox->hideWithDelay();
   TscoreItem::hoverLeaveEvent(event);
 }
 
@@ -463,12 +475,14 @@ void TscoreNote::initNoteCursor() {
 	m_workNote->setZValue(35);
   m_workAccid->setZValue(m_workNote->zValue());
 	setPointedColor(m_workColor);
+	
+	m_rightBox = new TnoteControl(staff(), scoreScene());
+	m_leftBox = new TnoteControl(staff(), scoreScene());
 }
 
 
 void TscoreNote::setCursorParent() {
 	m_workNote->setParentItem(this);
-// 	m_workAccid->setParentItem(this);
 	for (int i = 0; i < m_downLines.size(); i++)
 		m_downLines[i]->setParentItem(this);
 	for (int i = 0; i < m_upLines.size(); i++)

@@ -87,7 +87,7 @@ public:
 		
 				/** Returns current @p index note or Tnot(0,0,0) if not set. */
 		Tnote* getNote(int index) { return m_notes[index]; }
-		virtual void setNote(int index, Tnote& note);
+		virtual void setNote(int index, const Tnote& note);
 		virtual void setNoteDisabled(int index, bool isDisabled);
 				
 				/** adds note at the end of the staff 
@@ -98,7 +98,8 @@ public:
 		
 				/** Inserts note in given position (index). 
 				 * When @p index is out of scope adds it at the end. */
-		void insertNote(int index, Tnote& note, bool disabled = false);
+		void insertNote(int index, const Tnote& note, bool disabled = false);
+		void insertNote(int index, bool disabled = false); /** Insert empty note */
 		void removeNote(int index); /** Deletes given note from staff */
 		int currentIndex() { return m_index; }
 		
@@ -142,7 +143,7 @@ public:
     int accidNrInKey(int noteNr, char key);
 		
 				/** Return Y position of given note */
-		int noteToPos(Tnote& note); 
+		int noteToPos(const Tnote& note); 
 		
 				/** Width of a staff set by external function. 
 				 * It is preferred when it is bigger than width calculated by updateWidth() */

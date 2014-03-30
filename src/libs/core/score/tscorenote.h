@@ -22,6 +22,7 @@
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
 
+class TnoteControl;
 class TcombinedAnim;
 class TcrossFadeTextAnim;
 class TscoreControl;
@@ -113,6 +114,8 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
     
+		bool isCursorVisible() { return m_workNote->isVisible(); }
+		
 signals:
     void noteWasClicked(int);
 		
@@ -158,6 +161,8 @@ private:
 		static QGraphicsSimpleTextItem       *m_workAccid;
 		static QList<QGraphicsLineItem*>      m_upLines, m_downLines;
 		static QColor                         m_workColor;
+		static TnoteControl									 *m_rightBox;
+		static TnoteControl									 *m_leftBox;
     
 private:
         /** Prepares note-head (ellipse) */
