@@ -21,7 +21,7 @@
 #define QUESTIONSSETTINGS_H
 
 #include <QWidget>
-#include "tlevel.h"
+#include <exam/tlevel.h>
 
 class QComboBox;
 class QCheckBox;

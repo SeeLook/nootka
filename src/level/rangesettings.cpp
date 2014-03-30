@@ -19,11 +19,11 @@
 
 #include "rangesettings.h"
 #include "tglobals.h"
-#include "tlevelpreview.h"
-#include "tsimplescore.h"
-#include "tlevel.h"
-#include <ttune.h>
-#include <QtGui>
+#include <widgets/tlevelpreview.h>
+#include "../score/tsimplescore.h"
+#include <exam/tlevel.h>
+#include <music/ttune.h>
+#include <QtWidgets>
 
 extern Tglobals *gl;
 extern bool isNotSaved;

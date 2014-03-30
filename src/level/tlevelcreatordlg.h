@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -20,8 +20,8 @@
 #ifndef EXAMSETTINGSDLG_H
 #define EXAMSETTINGSDLG_H
 
-#include "tsettingsdialogbase.h"
-#include "tlevel.h"
+#include <widgets/tsettingsdialogbase.h>
+#include <exam/tlevel.h>
 
 class accidSettings;
 class levelSettings;
@@ -49,27 +49,30 @@ private:
     rangeSettings *rangeSett;
 
     void saveLevel();
-        /** Returns formated string with problms in given &l level
+		
+        /** Returns formatted string with problems in given &l level
         * or empty QString if all is right.*/
     QString validateLevel(Tlevel &l);
+		
         /** Displays QMessageBox with given text wrapped with:
          * 'It seems the level has got some mistakes:' */
     void showValidationMessage(QString message);
 
 private slots:
-        /** This slot is called when user is chooseing exam's level.
+        /** This slot is called when user is choosing exam's level.
             It loads level's parameters to questSett and rangeSett.    */
     void levelWasSelected(Tlevel level);
+		
         /** Is called when user changes level or want to close dialog window
-            without saveing changed level*/
+            without saving changed level*/
     void levelNotSaved();
     void saveToFile();
+		
         /** This method restored levelSettings tab icon and
             @param isNotSaved value to @p false and window title.*/
     void levelSaved();
     void loadFromFile();
-        /** Performed when user cliks StartExam Button. */
-    void startExam();
+    void startExam(); /** Performed when user clicks StartExam Button. */
     void checkLevelSlot();
 
 };

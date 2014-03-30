@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,9 +62,11 @@ private slots:
         /** is called when radio button are checked
         * to enable/disable second TkeySignComboBox. */
     void keyRangeChanged();
+		
         /** Is called when user changes any parameter.
             It emits asNoteChanged() signal. */
     void whenParamsChanged();
+		
         /** It is called when user changes TkeySignComboBox-es
         * and goal is to check sharps or flats, otherwise exam level
         * has no sense. */

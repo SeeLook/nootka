@@ -18,10 +18,10 @@
 
 
 #include "questionssettings.h"
-#include "tquestionaswdg.h"
+#include <widgets/tquestionaswdg.h>
 #include "tkeysigncombobox.h"
-#include <tintonationview.h>
-#include <QtGui>
+// #include <tintonationview.h> TODO
+#include <QtWidgets>
 
 extern bool isNotSaved;
 
@@ -132,9 +132,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
     chLay->addWidget(currKeySignChBox, 2, 1, Qt::AlignLeft);
 		
-		TintonationCombo *intoCombo = new TintonationCombo(this);
-		m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
-		mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
+// 		TintonationCombo *intoCombo = new TintonationCombo(this);
+// 		m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
+// 		mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
       
     setLayout(mainLay);
 
@@ -149,7 +149,7 @@ questionsSettings::questionsSettings(QWidget *parent) :
     connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-		connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
+// 		connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
 }
 
 
@@ -170,7 +170,7 @@ void questionsSettings::loadLevel(Tlevel& level) {
     showStrNrChB->setChecked(level.showStrNr);
     lowPosOnlyChBox->setChecked(level.onlyLowPos);
     currKeySignChBox->setChecked(level.onlyCurrKey);
-		m_intonationCombo->setCurrentIndex(level.intonation);
+// 		m_intonationCombo->setCurrentIndex(level.intonation);
 	m_levelIsLoading = false;
 }
 
@@ -210,10 +210,10 @@ void questionsSettings::whenParamsChanged() {
     else
           emit accidEnabled(true);
 	// Is sound input enabled to enable intonation
-		if (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())
-				m_intonationCombo->setDisabled(false);
-		else
-				m_intonationCombo->setDisabled(true);
+// 		if (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())
+// 				m_intonationCombo->setDisabled(false);
+// 		else
+// 				m_intonationCombo->setDisabled(true);
     if (!isNotSaved) {
         isNotSaved = true;
         emit questSettChanged();
@@ -255,7 +255,7 @@ void questionsSettings::saveLevel(Tlevel &level) {
     level.showStrNr = showStrNrChB->isChecked();
     level.onlyLowPos = lowPosOnlyChBox->isChecked();
     level.onlyCurrKey = currKeySignChBox->isChecked();
-		level.intonation = m_intonationCombo->currentIndex();
+// 		level.intonation = m_intonationCombo->currentIndex();
 }
 
 

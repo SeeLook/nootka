@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,13 +19,16 @@
 #ifndef TROUNDEDLABEL_H
 #define TROUNDEDLABEL_H
 
+#include <nootkacoreglobal.h>
 #include <QLabel>
 
 
-/** This is subclass of QLabel with defined background and rounded rectangle shape. 
+/** 
+ * This is subclass of QLabel with defined background and rounded rectangle shape. 
  * By default a background color is a variation of window color
- * but it can be set by calling setBackroundColor() */
-class TroundedLabel : public QLabel
+ * but it can be set by calling setBackroundColor() 
+ */
+class NOOTKACORE_EXPORT TroundedLabel : public QLabel
 {
 
 public:

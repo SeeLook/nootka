@@ -25,9 +25,9 @@
 #include "levelsettings.h"
 #include "rangesettings.h"
 #include <texamparams.h>
-#include <ttune.h>
+#include <music/ttune.h>
 #include <widgets/troundedlabel.h>
-#include <QtGui>
+#include <QtWidgets>
 
 extern Tglobals *gl;
 bool isNotSaved;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,8 +19,8 @@
 
 #include "accidsettings.h"
 #include "tkeysigncombobox.h"
-#include "tlevel.h"
-#include "QtGui"
+#include <exam/tlevel.h>
+#include <QtWidgets>
 
 extern bool isNotSaved;
 

@@ -29,6 +29,8 @@ include_directories( libs/core )
 
 # add_subdirectory( charts ) # nootka analyzer
 
+add_subdirectory( level ) # level creator
+
 # add_subdirectory( updater ) # nootka updater
 
 # nootka executable
@@ -41,8 +43,6 @@ set(NOOTKA_SRC
 	score/tscoreview.cpp
 	score/tsimplescore.cpp
 	score/tmainscore.cpp
-	
-	widgets/troundedlabel.cpp
 	
 	animations/tstrikedoutitem.cpp
 )
