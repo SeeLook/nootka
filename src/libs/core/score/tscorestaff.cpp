@@ -123,7 +123,7 @@ void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 }
 
 
-int TscoreStaff::noteToPos(Tnote& note)	{ 
+int TscoreStaff::noteToPos(const Tnote& note)	{ 
 	return m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1)); 
 }
 
@@ -132,7 +132,7 @@ int TscoreStaff::noteToPos(Tnote& note)	{
 		 * 2) (note.octave * 7 + (note.note - 1)) is number of note to be set.
 		 * 3) Subtraction of them gives position of the note on staff with current clef and it is displayed 
 		 * when this value is in staff scale. */
-void TscoreStaff::setNote(int index, Tnote& note) {
+void TscoreStaff::setNote(int index, const Tnote& note) {
 	if (index >= 0 && index < m_scoreNotes.size()) {
 		if (note.note)
 				m_scoreNotes[index]->setNote(noteToPos(note), (int)note.acidental);
@@ -148,9 +148,10 @@ void TscoreStaff::setNote(int index, Tnote& note) {
 }
 
 
-void TscoreStaff::insertNote(int index, Tnote& note, bool disabled) {
+void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() adds at the end
 	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
+	newNote->setZValue(50);
 	connect(newNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 // 	connect(newNote, SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
 	m_scoreNotes.insert(index, newNote);
@@ -163,6 +164,11 @@ void TscoreStaff::insertNote(int index, Tnote& note, bool disabled) {
 	if (!disabled) {
 // 		setCurrentIndex(index);
 	}
+}
+
+
+void TscoreStaff::insertNote(int index, bool disabled) {
+	insertNote(index, Tnote(0, 0, 0), disabled);
 }
 
 
