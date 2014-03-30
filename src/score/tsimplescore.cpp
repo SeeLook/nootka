@@ -25,7 +25,7 @@
 #include <score/tscorekeysignature.h>
 #include <score/tscoreclef.h>
 #include <score/tscorepianostaff.h>
-#include <score/tscoreview.h>
+#include "tscoreview.h"
 #include <music/tinstrument.h>
 #include <tcolor.h>
 #include <QHBoxLayout>
@@ -99,6 +99,9 @@ Tnote TsimpleScore::getNote(int index) {
 
 void TsimpleScore::setNote(int index, Tnote note) {
 		m_staff->setNote(index, note);
+		if (m_score->horizontalScrollBar()->isVisible())
+			if (index * 5 * m_score->transform().m11() > m_score->horizontalScrollBar()->value())
+				m_score->centerOn(m_staff->noteSegment(index)->mapToScene(m_staff->noteSegment(index)->pos()));
 }
 
 

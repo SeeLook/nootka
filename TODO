@@ -3,6 +3,10 @@ TODO List
 - check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
 
+level executable
+- 'fix exam dialog' was excluded from build - maybe for ever
+- intonation combo box was disabled - it is common with audio settings
+
 
 - keep exam file in /tmp and restore it when crash or so
 - improve cooperation a staff with piano staff - merge them somehow

@@ -21,6 +21,7 @@
 #define TSETTINGSDIALOGBASE_H
 
 #include <QDialog>
+#include <nootkacoreglobal.h>
 
 class QDialogButtonBox;
 class QVBoxLayout;
@@ -37,7 +38,7 @@ class QStackedLayout;
   * It has hidden "default" button - @p defaultBut
 */
 
-class TsettingsDialogBase : public QDialog
+class NOOTKACORE_EXPORT TsettingsDialogBase : public QDialog
 {
     Q_OBJECT
 public:

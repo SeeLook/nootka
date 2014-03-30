@@ -20,7 +20,7 @@
 #ifndef TLEVELSELECTOR_H
 #define TLEVELSELECTOR_H
 
-#include "tlevel.h"
+#include <exam/tlevel.h>
 #include <QWidget>
 #include <QListWidget>
 #include <QDialog>

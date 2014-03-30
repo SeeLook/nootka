@@ -18,8 +18,8 @@
 
 #include "mainwindow.h"
 #include <tglobals.h>
+#include <widgets/troundedlabel.h>
 #include "score/tmainscore.h"
-#include "widgets/troundedlabel.h"
 #include "guitar/tfingerboard.h"
 // // #include "tsettingsdialog.h"
 // // #include "tlevelcreatordlg.h"

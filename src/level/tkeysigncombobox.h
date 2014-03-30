@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -21,13 +21,12 @@
 #define TKEYSIGNCOMBOBOX_H
 
 #include <QComboBox>
-#include "tkeysignature.h"
+#include <music/tkeysignature.h>
 
 class TkeySignComboBox : public QComboBox
 {
     Q_OBJECT
 public:
-//    explicit TkeySignComboBox(QWidget *parent = 0, bool isMinor = false);
     explicit TkeySignComboBox(QWidget *parent = 0);
 
     void setKeySignature(TkeySignature key);

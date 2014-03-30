@@ -55,6 +55,8 @@ set(LIB_NOOTKACORE_SRC
 	widgets/tselectclef.cpp
 	widgets/tquestionaswdg.cpp
 	widgets/tlevelpreview.cpp
+	widgets/tsettingsdialogbase.cpp
+	widgets/troundedlabel.cpp
 )
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
