@@ -18,6 +18,7 @@
 
 
 #include "tsimplescore.h"
+#include "tscoreview.h"
 #include <score/tscorescene.h>
 #include <score/tscorestaff.h>
 #include <score/tscorecontrol.h>
@@ -25,7 +26,6 @@
 #include <score/tscorekeysignature.h>
 #include <score/tscoreclef.h>
 #include <score/tscorepianostaff.h>
-#include "tscoreview.h"
 #include <music/tinstrument.h>
 #include <tcolor.h>
 #include <QHBoxLayout>
@@ -99,8 +99,8 @@ Tnote TsimpleScore::getNote(int index) {
 
 void TsimpleScore::setNote(int index, Tnote note) {
 		m_staff->setNote(index, note);
-		if (m_score->horizontalScrollBar()->isVisible())
-			if (index * 5 * m_score->transform().m11() > m_score->horizontalScrollBar()->value())
+// 		if (m_score->horizontalScrollBar()->isVisible())
+			if (staff()->noteSegment(index)->pos().x() * m_score->transform().m11() > m_score->width() / 1.75)
 				m_score->centerOn(m_staff->noteSegment(index)->mapToScene(m_staff->noteSegment(index)->pos()));
 }
 
@@ -407,6 +407,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	if (m_score->horizontalScrollBar()->isVisible()) {
 		m_score->horizontalScrollBar()->setValue(scrollV);
 	}
+	m_scene->setSceneRect(0.0, 0.0, staff()->width() * staff()->scale(), staff()->height() * staff()->scale());
   qreal staffOff = 1.0;
   if (isPianoStaff())
     staffOff = 2.0;

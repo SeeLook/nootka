@@ -67,11 +67,11 @@ QRectF TnoteControl::boundingRect() const {
 
 
 void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-// 	painter->setPen(Qt::NoPen);
-// 	QColor bc = qApp->palette().text().color();
-// 	bc.setAlpha(20);
-// 	painter->setBrush(QBrush(bc));
-// 	painter->drawRect(boundingRect());
+	painter->setPen(Qt::NoPen);
+	QColor bc = qApp->palette().text().color();
+	bc.setAlpha(20);
+	painter->setBrush(QBrush(bc));
+	painter->drawRect(boundingRect());
 }
 
 
@@ -108,9 +108,11 @@ void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (event->pos().y() < 5.0) { // add a note
 		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
 			staff()->insertNote(m_scoreNote->index() + 1);
+// 			setPos(m_scoreNote->pos().x() + m_scoreNote->boundingRect().width(), 0.0);
 			qDebug() << "append" << m_scoreNote->index() + 1;
 		} else { // left control - preppend a note
 			staff()->insertNote(m_scoreNote->index() - 1);
+// 			setPos(m_scoreNote->pos().x() - boundingRect().width(), 0.0);
 			qDebug() << "preppend" << m_scoreNote->index() - 1;
 		}
 	} else if (event->pos().y() < 25.0)
