@@ -148,6 +148,8 @@ private:
 		bool 												 m_showNameInCorrection;
 		Tnote::EnameStyle						 m_corrStyle;
 		EinMode											 m_inMode;
+				/** Index of the last note clicked on the score or 0 at the start */
+		int													 m_clickedIndex;
 };
 
 #endif // TMAINSCORE_H

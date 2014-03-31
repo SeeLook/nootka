@@ -44,10 +44,12 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle),
-  m_inMode(e_record)
+  m_inMode(e_record), 
+  m_clickedIndex(0)
 {
   m_parent = parent;
 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	staff()->setSelectableNotes(true);
 // set preferred clef
 	if (gl->Sclef == Tclef::e_pianoStaff)
 			TsimpleScore::setPianoStaff(true);
@@ -121,18 +123,31 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::setNote(Tnote note) {
-	qDebug() << staff()->currentIndex() << staff()->count() << note.toText();
   checkAndAddNote();
-	if (insertMode() == e_record)
-		TsimpleScore::setNote(staff()->currentIndex() + 1, note);
-	else
-		TsimpleScore::setNote(staff()->currentIndex(), note);
+	if (insertMode() == e_record) {
+			if (m_clickedIndex >= staff()->count()) { // note was selected with !
+// 			if (m_clickedIndex != staff()->currentIndex()) { // note was selected with !
+				for (int i = 0; i < staff()->count(); i++)
+					if (staff()->noteSegment(i)->isSelected()) { // find which one
+						m_clickedIndex = i;
+						break;
+					}
+			}
+			TsimpleScore::setNote(m_clickedIndex, note);
+			m_clickedIndex++;
+// 		TsimpleScore::setNote(staff()->currentIndex() + 1, note);
+	} else
+			TsimpleScore::setNote(staff()->currentIndex(), note);
+	
+	qDebug() << staff()->currentIndex() << staff()->count() << note.toText() << m_clickedIndex;
 }
 
 
 void TmainScore::noteWasClicked(int index) {
+	m_clickedIndex = index;
   TsimpleScore::noteWasClicked(index);
   checkAndAddNote();
+	qDebug() << staff()->currentIndex() << staff()->count() << m_clickedIndex;
 }
 
 
@@ -573,11 +588,13 @@ void TmainScore::performScordatureSet() {
 void TmainScore::restoreNotesSettings() {
 // 		if (gl->enharmNotesColor == -1)
 // 					gl->enharmNotesColor = palette().highlight().color();
-// 		if (gl->SpointerColor == -1) {
-// 					gl->SpointerColor = Tcolor::invert(palette().highlight().color());
-// 					gl->SpointerColor.setAlpha(200);
-// 		}
-// 		staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+	if (gl->SpointerColor == -1) {
+				gl->SpointerColor = Tcolor::invert(palette().highlight().color());
+				gl->SpointerColor.setAlpha(200);
+	} else
+			staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+	for (int i = 0; i < staff()->count(); i++)
+			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 // 		staff()->noteSegment(1)->setReadOnly(true);
 // 		staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
 // 		staff()->noteSegment(2)->setReadOnly(true);

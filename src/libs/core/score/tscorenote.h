@@ -65,6 +65,10 @@ public:
     void moveNote(int posY);
 		void moveWorkNote(const QPointF& newPos);
 		
+				/** Returns true if note was selected */
+		bool isSelected() { return m_selected; }
+		void selectNote(bool sel);
+		
 				/** Sets note-head at given position and given accidental accidental. */
 		void setNote(int notePos, int accNr);
 		
@@ -152,6 +156,7 @@ private:
     qreal                          m_height;
 		bool													 m_readOnly;
 		QColor                         m_bgColor;
+		bool													 m_selected;
 		
 		static qreal 									 m_accidYoffset; // difference to note y position.
     static qreal									 m_accidScale;

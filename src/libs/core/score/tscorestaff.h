@@ -149,12 +149,15 @@ public:
 				 * It is preferred when it is bigger than width calculated by updateWidth() */
 		void setExternalWidth(qreal w) { m_externWidth = w; if (lower()) lower()->setExternalWidth(w); updateWidth(); }
 		qreal externalWidth() { return m_externWidth; }
+		
+				/** Switches when note segments have colored background after their note are set */
+		void setSelectableNotes(bool selectable) { m_selectableNotes = selectable; }
+		bool selectableNotes() { return m_selectableNotes; }
     
     virtual void setScoreControler(TscoreControl *scoreControl);
 		
 				/** Stops/starts capturing any mouse events. */
-		virtual void setDisabled(bool disabled);
-		
+		virtual void setDisabled(bool disabled);		
 		
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
     virtual QRectF boundingRect() const;
@@ -182,6 +185,10 @@ protected:
 				/** Calculates current width of a staff depends on is key sign. enabled. */
 		void updateWidth();
 		
+				/** Iterates through all notes, sets theirs indexes and updates staff index of selected note.
+				 * It must to be invoked after inserting or removing a note. */
+		void updateIndex();
+		
 protected slots:
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
@@ -195,21 +202,23 @@ private:
     QGraphicsLineItem       *m_lines[5]; // five staff lines
     TscoreClef              *m_clef;
     TscoreKeySignature      *m_keySignature;
-    QList<TscoreNote*>      m_scoreNotes;
-    qreal                   m_upperLinePos;
-    qreal                   m_height, m_width;
-		qreal										m_externWidth; // width set from outside
-    Ekind                   m_kindOfStaff;
-    TnoteOffset             m_offset;
+    QList<TscoreNote*>       m_scoreNotes;
+    qreal                    m_upperLinePos;
+    qreal                    m_height, m_width;
+		qreal										 m_externWidth; // width set from outside
+    Ekind                    m_kindOfStaff;
+    TnoteOffset              m_offset;
 		TscoreControl						*m_scoreControl;
 		TscoreScordature				*m_scordature;
-		QList<Tnote*>						m_notes;
-		bool										m_enableScord;
+		QList<Tnote*>						 m_notes;
+		bool										 m_enableScord;
 				/** Grand (left hand) staff. It exist in piano staff only. In normal staff it is 0. */
 		TscoreStaff 						*m_lower;
 		TcombinedAnim						*m_accidAnim;
 		QGraphicsSimpleTextItem *m_flyAccid;
-		int											m_index; // index of currently selected note
+		int											 m_index; // index of currently selected note
+		bool 										 m_selectableNotes;
+    bool a;
 		
 };
 

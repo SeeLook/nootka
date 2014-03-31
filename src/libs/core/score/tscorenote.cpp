@@ -69,7 +69,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 //   m_noteNr(100),
   m_ottava(0),
   m_bgColor(-1),
-  m_noteAnim(0), m_accidToKeyAnim(false)
+  m_noteAnim(0), m_accidToKeyAnim(false),
+  m_selected(false)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -126,13 +127,17 @@ void TscoreNote::setColor(QColor color) {
 void TscoreNote::setPointedColor(QColor color) {
     m_workColor = color;
     m_workNote->setPen(QPen(m_workColor, 0.2));
-// 		m_workNote->setPen(Qt::NoPen);
     m_workNote->setBrush(QBrush(m_workColor, Qt::SolidPattern));
     m_workAccid->setBrush(QBrush(m_workColor));
     for (int i = 0; i < m_upLines.size(); i++)
         m_upLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_downLines.size(); i++)
       m_downLines[i]->setPen(QPen(color, 0.2));
+}
+
+
+void TscoreNote::selectNote(bool sel) {
+	m_selected = sel;
 }
 
 
@@ -328,10 +333,12 @@ void TscoreNote::keyAnimFinished() {
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
-	m_rightBox->setScoreNote(this);
-	m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
-	m_leftBox->setScoreNote(this);
-	m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
+	if (staff()->selectableNotes()) {
+			m_rightBox->setScoreNote(this);
+			m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
+			m_leftBox->setScoreNote(this);
+			m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
+	}
 	if (m_workNote->parentItem() != this)
 			setCursorParent();
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
@@ -345,10 +352,12 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverLeaveEvent";
   hideWorkNote();
-	if (!m_rightBox->hasMouseCursor())
-			m_rightBox->hideWithDelay();
-	if (!m_leftBox->hasMouseCursor())
-			m_leftBox->hideWithDelay();
+	if (staff()->selectableNotes()) {
+			if (!m_rightBox->hasMouseCursor())
+					m_rightBox->hideWithDelay();
+			if (!m_leftBox->hasMouseCursor())
+					m_leftBox->hideWithDelay();
+	}
   TscoreItem::hoverLeaveEvent(event);
 }
 

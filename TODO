@@ -1,7 +1,8 @@
 TODO List
 
-- after adding a note and changing note indexes current index hat to change as well
-- check question mark scaling for left-handed (TODO)
+- after adding a note and changing note indexes current index has to change as well
+- consider to remove TscoreView - QGraphicsView instance is sufficient
+- (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
 
 level executable

@@ -50,7 +50,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
 	m_enableScord(false),
 	m_lower(0),
 	m_accidAnim(0), m_flyAccid(0),
-	m_index(0)
+	m_index(0), m_selectableNotes(false)
 {
 	setZValue(10);
   if (m_kindOfStaff == e_normal) {
@@ -83,7 +83,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
       m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
 			m_scoreNotes[i]->setZValue(50);
       connect(m_scoreNotes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-// 			connect(m_scoreNotes[i], SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
   }
   
   if (m_scoreNotes.size())
@@ -149,21 +148,19 @@ void TscoreStaff::setNote(int index, const Tnote& note) {
 
 
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
-	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() adds at the end
+	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
 	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
 	newNote->setZValue(50);
 	connect(newNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-// 	connect(newNote, SIGNAL(accidWasChanged(int)), this, SLOT(noteChangedAccid(int)));
 	m_scoreNotes.insert(index, newNote);
-	for (int i = index + 1; i < m_scoreNotes.size(); i++)
-		m_scoreNotes[i]->changeIndex(i); // Update index of next notes in the list
+	if (index < m_scoreNotes.size())
+			updateIndex();
 	m_notes.insert(index, new Tnote());
 	updateWidth();
-	setNote(index, note);
+// 	setNote(index, note);
+	*(m_notes[index]) = note; // Do not set note 
 	setNoteDisabled(index, disabled);
-	if (!disabled) {
-// 		setCurrentIndex(index);
-	}
+	scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
 }
 
 
@@ -181,10 +178,11 @@ void TscoreStaff::removeNote(int index) {
 	if (index >= 0 && index < m_scoreNotes.size()) {
 		m_scoreNotes.removeAt(index);
 		m_notes.removeAt(index);
+		updateIndex();
 		updateWidth();
+		scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
 	}
 }
-
 
 
 void TscoreStaff::setNoteDisabled(int index, bool isDisabled) {
@@ -325,9 +323,17 @@ void TscoreStaff::addLowerStaff() {
 //##########################################################################################################
 
 void TscoreStaff::setCurrentIndex(int index) {
-	m_scoreNotes[currentIndex()]->setBackgroundColor(-1);
-	m_index = index;
-	m_scoreNotes[currentIndex()]->setBackgroundColor(qApp->palette().highlight().color());
+	if (m_selectableNotes) {
+			if (currentIndex() != -1) { // unset the previous
+				m_scoreNotes[currentIndex()]->setBackgroundColor(-1);
+				m_scoreNotes[currentIndex()]->selectNote(false);
+			}
+			m_index = index;
+			if (currentIndex() != -1) {
+				m_scoreNotes[currentIndex()]->setBackgroundColor(qApp->palette().highlight().color());
+				m_scoreNotes[currentIndex()]->selectNote(true);
+			}
+	}
 }
 
 
@@ -427,6 +433,17 @@ void TscoreStaff::accidAnimFinished() {
 //########################################## PRIVATE     ###################################################
 //##########################################################################################################
 
+void TscoreStaff::updateIndex() {
+	m_index = -1;
+	for (int i = 0; i < m_scoreNotes.size(); i++) {
+		m_scoreNotes[i]->changeIndex(i); // Update index of next notes in the list
+		if (m_scoreNotes[i]->isSelected())
+			m_index = i;
+	}
+}
+
+
+
 void TscoreStaff::updateWidth() {
 	qreal off = 0.0;
 	if (m_keySignature)
@@ -446,7 +463,7 @@ void TscoreStaff::updateWidth() {
 				m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 2, upperLinePos() + i * 2);
 	if (lower())
 		lower()->updateWidth();
-  scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
+//   scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
 // 	scoreScene()->update();
 }
 
