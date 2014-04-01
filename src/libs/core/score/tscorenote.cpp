@@ -54,7 +54,7 @@ QList<QGraphicsLineItem*> TscoreNote::m_upLines;
 QList<QGraphicsLineItem*> TscoreNote::m_downLines;
 QColor TscoreNote::m_workColor = -1;
 
-TnoteControl* TscoreNote::m_rightBox = 0;
+QPointer<TnoteControl> TscoreNote::m_rightBox;
 TnoteControl* TscoreNote::m_leftBox = 0;
 /*------------------------*/
 
@@ -76,7 +76,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	setParentItem(staff);
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
-	if (m_workNote == 0)
+	if (m_rightBox == 0)
 		initNoteCursor();
   
   createLines(m_mainDownLines, m_mainUpLines);  
@@ -464,8 +464,11 @@ void TscoreNote::setStringPos() {
 
 
 void TscoreNote::initNoteCursor() {
+	qDebug() << "initNoteCursor";
 	m_workColor = qApp->palette().highlight().color();
   m_workColor.setAlpha(200);
+	m_downLines.clear();
+	m_upLines.clear();
 	createLines(m_downLines, m_upLines);
 	m_workNote = createNoteHead();
   m_workNote->setGraphicsEffect(new TdropShadowEffect(m_workColor));

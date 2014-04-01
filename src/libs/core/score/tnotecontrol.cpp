@@ -36,8 +36,10 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	setStaff(staff);
 	setParentItem(staff);
 	m_height = staff->height();
+	if (staff->lower())
+		m_height += staff->lower()->height();
 	hide();
-	setStatusTip(tr("Click '<b>+</b>' to add new note or<br>'<b>!</b>' to select."));
+	setStatusTip(tr("Click <big><b>+</b></big> to add new note or<br><big><b>-</b></big> remove it."));
 	setZValue(60);
 // 	painter->setPen(Qt::NoPen);
 // 	QColor bc = qApp->palette().text().color();
@@ -47,11 +49,11 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_plus->setScale(boundingRect().width() / m_plus->boundingRect().width());
 	m_plus->setBrush(QBrush(Qt::green));
 	m_plus->setPos(0.0, 2.0);
-	m_select = new QGraphicsSimpleTextItem("!");
-	m_select->setParentItem(this);
-	m_select->setScale(boundingRect().width() / m_select->boundingRect().width());
-	m_select->setBrush(QBrush(Qt::darkBlue));
-	m_select->setPos(0.0, 10.0);
+	m_minus = new QGraphicsSimpleTextItem("-");
+	m_minus->setParentItem(this);
+	m_minus->setScale(boundingRect().width() / m_minus->boundingRect().width());
+	m_minus->setBrush(QBrush(Qt::red));
+	m_minus->setPos(0.0, m_height - 6.0);
 }
 
 
@@ -69,7 +71,7 @@ QRectF TnoteControl::boundingRect() const {
 void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 	painter->setPen(Qt::NoPen);
 	QColor bc = qApp->palette().text().color();
-	bc.setAlpha(20);
+	bc.setAlpha(15);
 	painter->setBrush(QBrush(bc));
 	painter->drawRect(boundingRect());
 }
@@ -115,8 +117,9 @@ void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 // 			setPos(m_scoreNote->pos().x() - boundingRect().width(), 0.0);
 			qDebug() << "preppend" << m_scoreNote->index() - 1;
 		}
-	} else if (event->pos().y() < 25.0)
-			staff()->setCurrentIndex(m_scoreNote->index());
+	} 
+// 	else if (event->pos().y() < 25.0)
+// 			staff()->setCurrentIndex(m_scoreNote->index());
 }
 
 

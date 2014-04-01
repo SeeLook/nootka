@@ -13,9 +13,6 @@ set(LEVEL_SRC
   questionssettings.cpp
   rangesettings.cpp
   tlevelselector.cpp
-  
-  ../score/tsimplescore.cpp
-  ../score/tscoreview.cpp	
 )
 
 if(MINGW)

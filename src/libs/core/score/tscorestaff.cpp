@@ -149,10 +149,13 @@ void TscoreStaff::setNote(int index, const Tnote& note) {
 
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
-	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
-	newNote->setZValue(50);
-	connect(newNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-	m_scoreNotes.insert(index, newNote);
+	insert(index);
+	if (lower()) {
+		TscoreNote *newLowerNote = new TscoreNote(scoreScene(), this, index);
+		newLowerNote->setZValue(50);
+		connect(newLowerNote, SIGNAL(noteWasClicked(int)), lower(), SLOT(onNoteClicked(int)));
+		lower()->insert(index);
+	}
 	if (index < m_scoreNotes.size())
 			updateIndex();
 	m_notes.insert(index, new Tnote());
@@ -303,6 +306,14 @@ int TscoreStaff::accidNrInKey(int noteNr, char key) {
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
+
+void TscoreStaff::insert(int index) {
+	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
+	newNote->setZValue(50);
+	connect(newNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+	m_scoreNotes.insert(index, newNote);
+}
+
 
 void TscoreStaff::setEnableScordtature(bool enable) {
 	if (enable != m_enableScord) {

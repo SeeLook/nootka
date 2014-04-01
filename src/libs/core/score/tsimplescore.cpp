@@ -18,7 +18,6 @@
 
 
 #include "tsimplescore.h"
-#include "tscoreview.h"
 #include <score/tscorescene.h>
 #include <score/tscorestaff.h>
 #include <score/tscorecontrol.h>
@@ -34,6 +33,7 @@
 #include <QStyle>
 #include <QLayout>
 #include <QScrollBar>
+#include <QGraphicsView>
 
 #include <QDebug>
 
@@ -47,21 +47,19 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	layoutHasControl(false)
 {
   QHBoxLayout *lay = new QHBoxLayout;
-  m_score = new TscoreView(this);
+  m_score = new QGraphicsView(this);
    
-//   m_score->setMouseTracking(true);
-//   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-// 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//   m_score->setFrameShape(QFrame::NoFrame);
+  m_score->setMouseTracking(true);
+  m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  m_score->setFrameShape(QFrame::NoFrame);
   
-//   m_scene = new TscoreScene(m_score);
-	m_scene = m_score->scoreScene();
+  m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
-//   m_score->setScene(m_scene);
+  m_score->setScene(m_scene);
   
   m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
-	m_score->setStaff(m_staff);
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
@@ -200,6 +198,8 @@ void TsimpleScore::setEnabledDblAccid(bool isEnabled) {
 int m_prevBGglyph = -1;
 void TsimpleScore::setPianoStaff(bool isPiano) {
 	if (isPiano != isPianoStaff()) {
+		m_notesNr = m_staff->count();
+		bool selectableNotes = m_staff->selectableNotes();
 		bool keyEnabled = (bool)m_staff->scoreKey();
 		char key = 0;
 		bool disNotes[m_notesNr];
@@ -220,6 +220,7 @@ void TsimpleScore::setPianoStaff(bool isPiano) {
 				m_staff->setScoreControler(m_scoreControl);
 				m_pianoFactor = 1.0;
 		}
+		m_staff->setSelectableNotes(selectableNotes);
 		if (keyEnabled) {
 				m_staff->setEnableKeySign(true);
         m_staff->scoreKey()->showKeyName(true);
@@ -423,6 +424,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 
 void TsimpleScore::switchToPianoStaff(Tclef clef) {
 // staff will be deleted so let's store its notes
+	m_notesNr = m_staff->count();
 	QList<Tnote> tmpList;
 	for (int i = 0; i < m_notesNr; i++)
 		tmpList << *(m_staff->getNote(i));

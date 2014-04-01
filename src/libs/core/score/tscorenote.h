@@ -21,6 +21,7 @@
 
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
+#include <QPointer>
 
 class TnoteControl;
 class TcombinedAnim;
@@ -166,7 +167,7 @@ private:
 		static QGraphicsSimpleTextItem       *m_workAccid;
 		static QList<QGraphicsLineItem*>      m_upLines, m_downLines;
 		static QColor                         m_workColor;
-		static TnoteControl									 *m_rightBox;
+		static QPointer<TnoteControl>				  m_rightBox;
 		static TnoteControl									 *m_leftBox;
     
 private:

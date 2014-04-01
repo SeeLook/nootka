@@ -189,6 +189,10 @@ protected:
 				 * It must to be invoked after inserting or removing a note. */
 		void updateIndex();
 		
+				/** Protected method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
+				 * It doesn't perform any checks */
+		void insert(int index);
+		
 protected slots:
     void onKeyChanged();
     void onNoteClicked(int noteIndex);

@@ -20,13 +20,14 @@
 #ifndef TSIMPLESCORE_H
 #define TSIMPLESCORE_H
 
-#include <QWidget>
+#include <nootkacoreglobal.h>
 #include <music/tclef.h>
 #include <music/tnote.h>
 #include <music/tkeysignature.h>
+#include <QWidget>
 
+class QGraphicsView;
 class QGraphicsSimpleTextItem;
-class TscoreView;
 class QGraphicsView;
 class TscoreControl;
 class TscoreStaff;
@@ -34,7 +35,7 @@ class TscoreScene;
 
 
 /** This class implements score.  */
-class TsimpleScore : public QWidget
+class NOOTKACORE_EXPORT TsimpleScore : public QWidget
 {
   Q_OBJECT
   
@@ -107,7 +108,7 @@ public slots:
 		
 protected:
 		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller
-		TscoreView* score() { return m_score; }
+		QGraphicsView* score() { return m_score; }
 		TscoreScene* scene() { return m_scene; }
 		
 				/** Pointer to TscoreStaff should never go to public !!!!
@@ -137,7 +138,7 @@ private:
     TscoreScene     						*m_scene;
     TscoreStaff     						*m_staff, *m_lowerStaff;
     TscoreControl   						*m_scoreControl;
-    TscoreView		  						*m_score;
+    QGraphicsView	  						*m_score;
 		QGraphicsSimpleTextItem 		*m_bgGlyph;
 		bool 												m_isPianoStaff;
 		int 												m_notesNr;
