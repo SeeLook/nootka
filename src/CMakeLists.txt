@@ -29,7 +29,7 @@ include_directories( libs/core )
 
 # add_subdirectory( charts ) # nootka analyzer
 
-# add_subdirectory( level ) # level creator
+add_subdirectory( level ) # level creator
 
 # add_subdirectory( updater ) # nootka updater
 
@@ -48,8 +48,8 @@ set(NOOTKA_SRC
 )
 
 
-add_executable(nootka WIN32 ${NOOTKA_SRC} )
-target_link_libraries(nootka NootkaCore Qt5::Widgets)
+# add_executable(nootka WIN32 ${NOOTKA_SRC} )
+# target_link_libraries(nootka NootkaCore Qt5::Widgets)
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )

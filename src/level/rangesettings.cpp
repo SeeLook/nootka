@@ -20,7 +20,7 @@
 #include "rangesettings.h"
 #include "tglobals.h"
 #include <widgets/tlevelpreview.h>
-#include "../score/tsimplescore.h"
+#include <score/tsimplescore.h>
 #include <exam/tlevel.h>
 #include <music/ttune.h>
 #include <QtWidgets>

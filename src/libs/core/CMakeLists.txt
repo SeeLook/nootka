@@ -51,6 +51,7 @@ set(LIB_NOOTKACORE_SRC
 	score/tscorescordature.cpp
 	score/tscorestaff.cpp
 	score/tnotecontrol.cpp
+	score/tsimplescore.cpp
 	
 	widgets/tpushbutton.cpp
 	widgets/tselectclef.cpp

@@ -125,21 +125,19 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 void TmainScore::setNote(Tnote note) {
   checkAndAddNote();
 	if (insertMode() == e_record) {
-			if (m_clickedIndex >= staff()->count()) { // note was selected with !
-// 			if (m_clickedIndex != staff()->currentIndex()) { // note was selected with !
-				for (int i = 0; i < staff()->count(); i++)
-					if (staff()->noteSegment(i)->isSelected()) { // find which one
-						m_clickedIndex = i;
-						break;
-					}
-			}
+// 			if (m_clickedIndex >= staff()->count()) { // note was selected with !
+// // 			if (m_clickedIndex != staff()->currentIndex()) { // note was selected with !
+// 				for (int i = 0; i < staff()->count(); i++)
+// 					if (staff()->noteSegment(i)->isSelected()) { // find which one
+// 						m_clickedIndex = i;
+// 						break;
+// 					}
+// 			}
 			TsimpleScore::setNote(m_clickedIndex, note);
 			m_clickedIndex++;
 // 		TsimpleScore::setNote(staff()->currentIndex() + 1, note);
 	} else
 			TsimpleScore::setNote(staff()->currentIndex(), note);
-	
-	qDebug() << staff()->currentIndex() << staff()->count() << note.toText() << m_clickedIndex;
 }
 
 
@@ -147,7 +145,6 @@ void TmainScore::noteWasClicked(int index) {
 	m_clickedIndex = index;
   TsimpleScore::noteWasClicked(index);
   checkAndAddNote();
-	qDebug() << staff()->currentIndex() << staff()->count() << m_clickedIndex;
 }
 
 
@@ -591,8 +588,9 @@ void TmainScore::restoreNotesSettings() {
 	if (gl->SpointerColor == -1) {
 				gl->SpointerColor = Tcolor::invert(palette().highlight().color());
 				gl->SpointerColor.setAlpha(200);
-	} else
-			staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+	}
+// 	if (staff()->count())
+// 			staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
 	for (int i = 0; i < staff()->count(); i++)
 			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 // 		staff()->noteSegment(1)->setReadOnly(true);
@@ -638,6 +636,7 @@ void TmainScore::checkAndAddNote() {
   if (insertMode() != e_single && staff()->currentIndex() == staff()->count() - 1) {
       Tnote nn(0, 0, 0);
       staff()->addNote(nn);
+			staff()->noteSegment(staff()->count() - 1)->enableAccidToKeyAnim(true);
   }
 }
 
