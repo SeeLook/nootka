@@ -46,7 +46,6 @@ set(LIB_NOOTKACORE_SRC
 	score/tscorecontrol.cpp
 	score/tscorekeysignature.cpp
 	score/tscorenote.cpp
-	score/tscorepianostaff.cpp
 	score/tscorescene.cpp
 	score/tscorescordature.cpp
 	score/tscorestaff.cpp

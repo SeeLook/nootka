@@ -23,13 +23,13 @@
 #include <score/tscorecontrol.h>
 #include <score/tscoreclef.h>
 #include <score/tscorescene.h>
-#include "tscoreview.h"
 #include <music/ttune.h>
 #include <tglobals.h>
 #include <graphics/tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
 #include <tcolor.h>
+#include <tnoofont.h>
 #include <QtWidgets>
 
 
@@ -51,10 +51,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	staff()->setSelectableNotes(true);
 // set preferred clef
-	if (gl->Sclef == Tclef::e_pianoStaff)
-			TsimpleScore::setPianoStaff(true);
-	else
-			setClef(gl->Sclef);
+	setClef(gl->Sclef);
 	m_noteName << 0 << 0;
 // set note colors
 	restoreNotesSettings();
@@ -68,7 +65,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	isExamExecuting(false);
 
 	
-	connect(this, SIGNAL(pianoStaffSwitched()), this, SLOT(onPianoSwitch()));
+// 	connect(this, SIGNAL(pianoStaffSwitched()), this, SLOT(onPianoSwitch()));
 }
 
 
@@ -92,15 +89,11 @@ void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setClef(Tclef(gl->Sclef));
 	setEnableKeySign(gl->SkeySignatureEnabled);
-  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
 	else
-			if (staff()->hasScordature()) {
+			if (staff()->hasScordature())
 				staff()->removeScordatute();
-				if (staff()->lower())
-					staff()->lower()->removeScordatute();
-			}
 	if (!gl->doubleAccidentalsEnabled)
 		clearNote(2);
 	setEnableEnharmNotes(gl->showEnharmNotes);
@@ -168,11 +161,6 @@ void TmainScore::unLockScore() {
 	QPointF nPos = staff()->noteSegment(0)->mapFromScene(score()->mapToScene(score()->mapFromParent(mapFromGlobal(cursor().pos()))));
 	if (nPos.x() > 0.0 && nPos.x() < 7.0) {
 		staff()->noteSegment(0)->moveWorkNote(nPos);
-		if (staff()->lower()) {
-			nPos = staff()->lower()->
-							noteSegment(0)->mapFromScene(score()->mapToScene(score()->mapFromParent(mapFromGlobal(cursor().pos()))));
-			staff()->lower()->noteSegment(0)->moveWorkNote(nPos);
-		}
 	}
 }
 
@@ -192,9 +180,7 @@ QRectF TmainScore::noteRect(int noteNr) {
 
 QPoint TmainScore::notePos(int noteNr) {
 	QPointF nPos;
-	if (staff()->lower() && staff()->lower()->noteSegment(noteNr)->mainNote()->isVisible())
-		nPos = staff()->lower()->noteSegment(noteNr)->mainNote()->mapToScene(staff()->lower()->noteSegment(noteNr)->mainNote()->pos());
-	else if (staff()->noteSegment(noteNr)->mainNote()->isVisible())
+	if (staff()->noteSegment(noteNr)->mainNote()->isVisible())
 		nPos = staff()->noteSegment(noteNr)->mainNote()->mapToScene(staff()->noteSegment(noteNr)->mainNote()->pos());
 	QPoint vPos = score()->mapFromScene(staff()->pos().x() + staff()->noteSegment(noteNr)->pos().x() + staff()->noteSegment(noteNr)->mainNote()->pos().x(), staff()->noteSegment(noteNr)->mainNote()->pos().y());
 	return mapToParent(score()->mapToParent(vPos));
@@ -203,8 +189,6 @@ QPoint TmainScore::notePos(int noteNr) {
 
 void TmainScore::enableAccidToKeyAnim(bool enable) {
 	staff()->noteSegment(0)->enableAccidToKeyAnim(enable);
-	if (staff()->lower())
-		staff()->lower()->noteSegment(0)->enableAccidToKeyAnim(enable);
 }
 
 
@@ -229,19 +213,16 @@ void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 		if (getNote(i).note) {
 			m_noteName[i] = new TgraphicsTextTip(getNote(i).toRichText(st));
 			m_noteName[i]->setZValue(30);
-			TscoreStaff *st = staff();
-			if (staff()->lower() && staff()->lower()->noteSegment(i)->notePos()) 
-					st = staff()->lower();
-			m_noteName[i]->setDropShadow(m_noteName[i], QColor(st->noteSegment(i)->mainNote()->pen().color().name()));
+			m_noteName[i]->setDropShadow(m_noteName[i], QColor(staff()->noteSegment(i)->mainNote()->pen().color().name()));
 			m_noteName[i]->setDefaultTextColor(palette().text().color());
-			m_noteName[i]->setParentItem(st->noteSegment(i));
+			m_noteName[i]->setParentItem(staff()->noteSegment(i));
 // 			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
 			m_noteName[i]->setScale(8.0 / m_noteName[i]->boundingRect().height());
 			m_noteName[i]->setPos((7.0 - m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
-					st->noteSegment(i)->notePos() > st->upperLinePos() ? 
-								st->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
-								st->noteSegment(i)->notePos() + st->noteSegment(i)->mainNote()->boundingRect().height()); // below note
-			st->noteSegment(i)->removeString(); // String number is not needed here and could collide with name
+					staff()->noteSegment(i)->notePos() > staff()->upperLinePos() ? 
+								staff()->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
+								staff()->noteSegment(i)->notePos() + staff()->noteSegment(i)->mainNote()->boundingRect().height()); // below note
+			staff()->noteSegment(i)->removeString(); // String number is not needed here and could collide with name
 		}
 	}
 	if (m_noteName[0])
@@ -261,17 +242,14 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questMark = new QGraphicsSimpleTextItem();
 			m_questMark->hide();
 		#if defined(Q_OS_MACX)
-			m_questMark->setFont(QFont("nootka", 10));
+			m_questMark->setFont(TnooFont(10));
 		#else
-			m_questMark->setFont(QFont("nootka", 8));
+			m_questMark->setFont(TnooFont(8));
 		#endif
 			m_questMark->setParentItem(staff()->noteSegment(2));
 			QColor c = gl->EquestionColor;
 			c.setAlpha(220);
 			staff()->noteSegment(1)->setColor(c);
-			if (staff()->lower()) {
-				staff()->lower()->noteSegment(1)->setColor(c);
-			}
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
 			m_questMark->setScale(12.0 / m_questMark->boundingRect().width()); // 7.0 is not scaled segment width (12.0 is a bit bigger)
@@ -304,10 +282,6 @@ void TmainScore::clearScore() {
 	m_showNameInCorrection = false;
 	staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 	staff()->noteSegment(0)->hideWorkNote();
-	if (staff()->lower()) {
-		staff()->lower()->noteSegment(1)->removeString();
-		staff()->lower()->noteSegment(0)->hideWorkNote();
-	}
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
 			if (m_questKey) {
@@ -353,15 +327,11 @@ void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
 
 void TmainScore::markAnswered(QColor blurColor) {
 		staff()->noteSegment(0)->markNote(QColor(blurColor.lighter().name()));
-		if (staff()->lower())
-				staff()->lower()->noteSegment(0)->markNote(QColor(blurColor.lighter().name()));
 }
 
 
 void TmainScore::markQuestion(QColor blurColor) {
 		staff()->noteSegment(1)->markNote(QColor(blurColor.lighter().name()));
-		if (staff()->lower())
-				staff()->lower()->noteSegment(1)->markNote(QColor(blurColor.lighter().name()));
 }
 
 
@@ -401,16 +371,11 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
 		m_goodNote = goodNote;
 		if (staff()->noteSegment(0)->mainNote()->isVisible())
 				m_strikeOut = new TstrikedOutItem(staff()->noteSegment(0)->mainNote());
-		else if (staff()->lower() && staff()->lower()->noteSegment(0)->mainNote()->isVisible())
-				m_strikeOut = new TstrikedOutItem(staff()->lower()->noteSegment(0)->mainNote());
 		else {
-			qreal mult = 2.0;
-			if (staff()->lower())
-				mult= 1.0;
 			m_strikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, 
 																staff()->noteSegment(0)->boundingRect().width() - 3.0, 8.0), staff()->noteSegment(0));
 			m_strikeOut->setPos((staff()->noteSegment(0)->boundingRect().width() - m_strikeOut->boundingRect().width()) / 2, 
-														(staff()->noteSegment(0)->boundingRect().height() - m_strikeOut->boundingRect().height()) / mult);
+														(staff()->noteSegment(0)->boundingRect().height() - m_strikeOut->boundingRect().height()) / 2.0);
 		}
 		QPen pp(QColor(color.name()), 0.5);
 		m_strikeOut->setPen(pp);
@@ -423,23 +388,12 @@ void TmainScore::correctAccidental(Tnote& goodNote) {
 		m_goodNote = goodNote;
 		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
 		if (getNote(0).acidental != m_goodNote.acidental) {
-			if (staff()->lower())
-				m_bliking = new TblinkingItem(staff()->lower()->noteSegment(0)->mainAccid());
-			else
 				m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
 		} else {
-			if (staff()->lower()) {
-					m_bliking = new TblinkingItem(staff()->lower()->noteSegment(0));
-					staff()->lower()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
-			} else {
 					m_bliking = new TblinkingItem(staff()->noteSegment(0));
 					staff()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
-			}
 		}
-		if (staff()->lower())
-				staff()->lower()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
-		else
-				staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
+		staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
 		m_bliking->startBlinking(3);
 		connect(m_bliking, SIGNAL(finished()), this, SLOT(strikeBlinkingFinished()));
 }
@@ -502,11 +456,6 @@ void TmainScore::strikeBlinkingFinished() {
 	staff()->noteSegment(0)->setColor(palette().text().color());
 	staff()->noteSegment(0)->enableNoteAnim(true, 300);
 	staff()->noteSegment(0)->markNote(-1);
-	if (staff()->lower()) {
-			staff()->lower()->noteSegment(0)->setColor(palette().text().color());
-			staff()->lower()->noteSegment(0)->markNote(-1);
-			staff()->lower()->noteSegment(0)->enableNoteAnim(true, 300);
-	}
 	bool animEnabled = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations - it looks ugly with correction animations
 	TsimpleScore::setNote(0, m_goodNote);
@@ -533,10 +482,6 @@ void TmainScore::keyBlinkingFinished() {
 void TmainScore::finishCorrection() {
 	staff()->noteSegment(0)->enableNoteAnim(false);
 	staff()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
-	if (staff()->lower()) {
-			staff()->lower()->noteSegment(0)->enableNoteAnim(false);
-			staff()->lower()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
-	}
 	if (m_showNameInCorrection)
 			showNames(m_corrStyle);
 }
@@ -544,27 +489,6 @@ void TmainScore::finishCorrection() {
 
 void TmainScore::resizeEvent(QResizeEvent* event) {  
 	TsimpleScore::resizeEvent(event);
-  /*int hh = height();
-  if (event) {
-    hh = event->size().height();
-  }
-  qreal factor = (((qreal)hh / 40.0) / score()->transform().m11()) * pianoFactor();
-  score()->scale(factor, factor);
-	staff()->setExternalWidth((score()->width()) / score()->transform().m11());
-  qreal staffOff = 0.0;
-  if (isPianoStaff())
-    staffOff = score()->transform().m11() * 5;
-  staff()->setPos(score()->mapToScene(staffOff, 0));
-  int xOff = 0;
-  if (scoreController() && layoutHasControl)
-// 		xOff = scoreController()->width() + scoreController()->geometry().x();
-		xOff = width() - scoreController()->geometry().x() + 10;
-//       xOff = scoreController()->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
-	if (event) {
-		score()->setMinimumWidth(width() - xOff);
-	*/	
-// 	}
-  
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
 

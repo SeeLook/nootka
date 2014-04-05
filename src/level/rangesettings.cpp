@@ -40,21 +40,22 @@ rangeSettings::rangeSettings(QWidget *parent) :
     QHBoxLayout *allLay = new QHBoxLayout;
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
-    m_scoreRang = new TsimpleScore(3, this); // third note is dummy
-			m_scoreRang->setNoteDisabled(2, true); // and is disabled and empty
+    m_scoreRang = new TsimpleScore(2, this);
 			m_scoreRang->setClef(Tclef(gl->Sclef));
-			m_scoreRang->addBGglyph((int)gl->instrument);
 			m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
 			m_scoreRang->setNote(0, Tnote(1, 0));
 			m_scoreRang->setNote(1, Tnote(1, 1));
+			m_scoreRang->addBGglyph((int)gl->instrument);
+			m_scoreRang->setEnableKeySign(true); // TODO remove it!
 		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
     scoreLay->addWidget(m_scoreRang);
 		scoreLay->addWidget(m_fretAdjustButt, 1, Qt::AlignCenter);
     notesRangGr->setLayout(scoreLay);
+		m_scoreRang->setFixedSize(400, 300);
 // #if defined(Q_OS_WIN)
-    m_scoreRang->setFixedHeight(300);
+//     m_scoreRang->setFixedHeight(300);
 // #endif
     allLay->addWidget(notesRangGr);
 
@@ -116,11 +117,12 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     connect(m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
 		connect(m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
-		connect(m_scoreRang, SIGNAL(pianoStaffSwitched()), this, SLOT(whenParamsChanged()));
     connect(m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
     connect(m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 		connect(m_fretAdjustButt, SIGNAL(clicked()), this, SLOT(adjustFrets()));
 		connect(m_noteAdjustButt, SIGNAL(clicked()), this, SLOT(adjustNotes()));
+		
+		m_scoreRang->setClef(Tclef(Tclef::e_pianoStaff));
 }
 
 

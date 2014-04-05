@@ -36,8 +36,6 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	setStaff(staff);
 	setParentItem(staff);
 	m_height = staff->height();
-	if (staff->lower())
-		m_height += staff->lower()->height();
 	hide();
 	setStatusTip(tr("Click <big><b>+</b></big> to add new note or<br><big><b>-</b></big> remove it."));
 	setZValue(60);

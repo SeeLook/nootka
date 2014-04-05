@@ -46,6 +46,9 @@ public:
 		int index() { return m_index; }
 		void changeIndex(int newIndex) { m_index = newIndex; }
 		
+		
+		void adjustSize(); /** Grabs height from staff and adjust to it. */
+		
         /** Hides main note */
     void hideNote();
 		
@@ -85,7 +88,7 @@ public:
         /** This return value of -2 is bb,  1 is #,  etc... */ 
     int accidental() {return m_accidental;}
     int ottava() { return m_ottava; } // NOTE: for this moment it is unused and set to 0
-    int notePos() { return m_mainPosY; }
+    int notePos();
     
 
         /** Returns QString with accidental symbol*/
@@ -142,7 +145,7 @@ private:
     QGraphicsEllipseItem          *m_mainNote;
     QGraphicsSimpleTextItem       *m_mainAccid;
 		QGraphicsSimpleTextItem 			*m_stringText;
-    QList<QGraphicsLineItem*>      m_mainUpLines, m_mainDownLines;
+    QList<QGraphicsLineItem*>      m_mainUpLines, m_mainDownLines, m_mainMidLines;
     QColor                         m_mainColor;
 		TcombinedAnim									*m_noteAnim;
 		TcrossFadeTextAnim 						*m_accidAnim;
@@ -165,7 +168,7 @@ private:
 		static int                            m_curentAccid, m_workPosY;
 		static QGraphicsEllipseItem          *m_workNote;
 		static QGraphicsSimpleTextItem       *m_workAccid;
-		static QList<QGraphicsLineItem*>      m_upLines, m_downLines;
+		static QList<QGraphicsLineItem*>      m_upLines, m_downLines, m_midLines;
 		static QColor                         m_workColor;
 		static QPointer<TnoteControl>				  m_rightBox;
 		static TnoteControl									 *m_leftBox;
@@ -175,8 +178,10 @@ private:
     QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
 		
-				/** Common method creating upper and lower staff lines */
-		void createLines(QList<QGraphicsLineItem*> &low, QList<QGraphicsLineItem*> &upp);
+				/** Common method creating upper and lower staff lines.
+				 * It appends new lines to list 
+				 * so do not forget to clear list before every next call. */
+		void createLines(QList<QGraphicsLineItem*> &low, QList<QGraphicsLineItem*> &upp, QList<QGraphicsLineItem*> &mid);
     void hideLines(QList<QGraphicsLineItem*> &linesList);
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
 		void initNoteCursor(); /** Creates static members of cursor when first TscoreNote instance is created */

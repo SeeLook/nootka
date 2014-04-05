@@ -24,9 +24,9 @@
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
 #include <score/tscoreclef.h>
-#include <score/tscorepianostaff.h>
 #include <music/tinstrument.h>
 #include <tcolor.h>
+#include <tnoofont.h>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QApplication>
@@ -39,12 +39,12 @@
 
 TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   QWidget(parent),
-	m_isPianoStaff(false),
 	m_notesNr(notesNumber),
 	m_scoreControl(0),
 	m_pianoFactor(1.0),
 	m_bgGlyph(0),
-	layoutHasControl(false)
+	layoutHasControl(false),
+	m_prevBGglyph(-1)
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new QGraphicsView(this);
@@ -59,10 +59,11 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
   m_score->setScene(m_scene);
   
-  m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
+  m_staff = new TscoreStaff(m_scene, m_notesNr);
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
-	connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
+// 	connect(m_staff, SIGNAL(pianoStaffSwitched()), this, SLOT(switchToPianoStaff()));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+// 	connect(m_staff, SIGNAL(staffSizeChanged()), this, SLOT(onStaffSizeChanged()));
   
 	lay->addWidget(m_score);
 	if (controler) {
@@ -89,51 +90,47 @@ TsimpleScore::~TsimpleScore() {}
 
 Tnote TsimpleScore::getNote(int index) {
 	if (index >= 0 && index < m_notesNr)
-		return *(m_staff->getNote(index));
+		return *(staff()->getNote(index));
 	else
 		return Tnote();
 }
 
 
 void TsimpleScore::setNote(int index, Tnote note) {
-		m_staff->setNote(index, note);
-// 		if (m_score->horizontalScrollBar()->isVisible())
-			if (staff()->noteSegment(index)->pos().x() * m_score->transform().m11() > m_score->width() / 1.75)
-				m_score->centerOn(m_staff->noteSegment(index)->mapToScene(m_staff->noteSegment(index)->pos()));
+		staff()->setNote(index, note);
+		if (staff()->noteSegment(index)->pos().x() * m_score->transform().m11() > m_score->width() * 0.75)
+				m_score->centerOn(staff()->noteSegment(index)->mapToScene(staff()->noteSegment(index)->pos()));
 }
 
 
 void TsimpleScore::clearNote(int index) {
-	m_staff->noteSegment(index)->markNote(-1);
-	if (m_staff->lower()) {
-		m_staff->lower()->noteSegment(index)->markNote(-1);
-	}
+	staff()->noteSegment(index)->markNote(-1);
 	setNote(index, Tnote(0, 0, 0));
 }
 
 
 void TsimpleScore::setStringNumber(int index, int realNr) {
 	if (index >= 0 && index < m_notesNr)
-		m_staff->noteSegment(index)->setString(realNr);
+		staff()->noteSegment(index)->setString(realNr);
 }
 
 
 void TsimpleScore::clearStringNumber(int index) {
 	if (index >= 0 && index < m_notesNr)
-			m_staff->noteSegment(index)->removeString();
+			staff()->noteSegment(index)->removeString();
 }
 
 
 void TsimpleScore::setClef(Tclef clef) {
 	if (this->clef().type() != clef.type()) {
-		if (clef.type() == Tclef::e_pianoStaff)
-			setPianoStaff(true);
-		else {
-			if (isPianoStaff())
-				setPianoStaff(false);
-			m_staff->scoreClef()->setClef(clef);
-		}
-		m_staff->onClefChanged();
+// 		if (clef.type() == Tclef::e_pianoStaff)
+// 			setPianoStaff(true);
+// 		else {
+// 			if (isPianoStaff())
+// 				setPianoStaff(false);
+// 			staff()->scoreClef()->setClef(clef);
+// 		}
+		staff()->onClefChanged(clef);
 	}
 }
 
@@ -141,49 +138,42 @@ void TsimpleScore::setClef(Tclef clef) {
 Tclef TsimpleScore::clef() {
 	if (isPianoStaff())
 		return Tclef(Tclef::e_pianoStaff);
-	else if (m_staff->scoreClef())
-					return m_staff->scoreClef()->clef();
+	else if (staff()->scoreClef())
+					return staff()->scoreClef()->clef();
 			else 
 					return Tclef(Tclef::e_none);
 }
 
 
 void TsimpleScore::setClefDisabled(bool isDisabled) {
-	if (m_staff->scoreClef()) {
-		if (isDisabled) {
-			m_staff->scoreClef()->setReadOnly(true);
-			if (m_staff->lower()) {
-					m_staff->lower()->scoreClef()->setReadOnly(true);
-			}
-		} else {
-			m_staff->scoreClef()->setReadOnly(false);
-			if (m_staff->lower()) {
-					m_staff->lower()->scoreClef()->setReadOnly(false);
-			}
-		}
+	if (staff()->scoreClef()) {
+		if (isDisabled)
+				staff()->scoreClef()->setReadOnly(true);
+		else
+			staff()->scoreClef()->setReadOnly(false);
 	}
 }
 
 
 void TsimpleScore::setKeySignature(TkeySignature keySign) {
-	if (m_staff->scoreKey())
-		m_staff->scoreKey()->setKeySignature(keySign.value());
+	if (staff()->scoreKey())
+		staff()->scoreKey()->setKeySignature(keySign.value());
 }
 
 
 TkeySignature TsimpleScore::keySignature() {
 	TkeySignature key(0);
-	if (m_staff->scoreKey())
-		key = TkeySignature(m_staff->scoreKey()->keySignature());
+	if (staff()->scoreKey())
+		key = TkeySignature(staff()->scoreKey()->keySignature());
 	return key;
 }
 
 
 void TsimpleScore::setEnableKeySign(bool isEnabled) {
-	if (isEnabled != (bool)m_staff->scoreKey()) {
-		m_staff->setEnableKeySign(isEnabled);
+	if (isEnabled != (bool)staff()->scoreKey()) {
+		staff()->setEnableKeySign(isEnabled);
 		if (isEnabled)
-				m_staff->scoreKey()->showKeyName(true);
+				staff()->scoreKey()->showKeyName(true);
 		resizeEvent(0);
 	}
 }
@@ -195,80 +185,28 @@ void TsimpleScore::setEnabledDblAccid(bool isEnabled) {
 	m_scene->setDoubleAccidsEnabled(isEnabled);
 }
 
-int m_prevBGglyph = -1;
-void TsimpleScore::setPianoStaff(bool isPiano) {
-	if (isPiano != isPianoStaff()) {
-		m_notesNr = m_staff->count();
-		bool selectableNotes = m_staff->selectableNotes();
-		bool keyEnabled = (bool)m_staff->scoreKey();
-		char key = 0;
-		bool disNotes[m_notesNr];
-		for (int i = 0; i < m_notesNr; i++)
-			disNotes[i] = isNoteDisabled(i);
-		if (keyEnabled)
-			key = m_staff->scoreKey()->keySignature();
-		if (isPiano) {
-				m_isPianoStaff = true;
-				delete m_staff;
-				m_staff = new TscorePianoStaff(m_scene, m_notesNr);
-				m_staff->setScoreControler(m_scoreControl);
-				m_pianoFactor = 0.80;
-		} else {
-				m_isPianoStaff = false;
-				delete m_staff;
-				m_staff = new TscoreStaff(m_scene, m_notesNr, TscoreStaff::e_normal);
-				m_staff->setScoreControler(m_scoreControl);
-				m_pianoFactor = 1.0;
-		}
-		m_staff->setSelectableNotes(selectableNotes);
-		if (keyEnabled) {
-				m_staff->setEnableKeySign(true);
-        m_staff->scoreKey()->showKeyName(true);
-				m_staff->scoreKey()->setKeySignature(key);
-		}
-		if (m_bgGlyph) {
-			m_bgGlyph = 0; // it was deleted with staff
-			addBGglyph(m_prevBGglyph);
-		}
-		for (int i = 0; i < m_notesNr; i++)
-			setNoteDisabled(i, disNotes[i]);
-		connect(m_staff, SIGNAL(pianoStaffSwitched(Tclef)), this, SLOT(switchToPianoStaff(Tclef)));
-		connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
-		connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-// 		updateGeometry();
-		resizeEvent(0);
-	}
-}
-
 
 void TsimpleScore::setNoteDisabled(int index, bool isDisabled) {
-	m_staff->noteSegment(index)->setReadOnly(isDisabled);
-	if (m_staff->lower())
-			m_staff->lower()->noteSegment(index)->setReadOnly(isDisabled);
+	staff()->noteSegment(index)->setReadOnly(isDisabled);
 }
 
 
 bool TsimpleScore::isNoteDisabled(int index) {
-	return m_staff->noteSegment(index)->isReadOnly();
+	return staff()->noteSegment(index)->isReadOnly();
 }
 
 
 void TsimpleScore::setScoreDisabled(bool disabled) {
 	if (m_scoreControl)
 		m_scoreControl->setDisabled(disabled);
-	m_staff->setDisabled(disabled);
+	staff()->setDisabled(disabled);
   setAttribute(Qt::WA_TransparentForMouseEvents, disabled);
 }
 
 
 void TsimpleScore::setAmbitus(int index, Tnote lo, Tnote hi) {
-	if (index >= 0 && index < m_notesNr) {
-		if (staff()->lower()) {
-				staff()->noteSegment(index)->setAmbitus(staff()->height() - 2, staff()->noteToPos(hi) + 1);
-				staff()->lower()->noteSegment(index)->setAmbitus(staff()->lower()->noteToPos(lo) + 1, 2);
-		} else
-				staff()->noteSegment(index)->setAmbitus(staff()->noteToPos(lo) + 1, staff()->noteToPos(hi) + 1);
-	}
+	if (index >= 0 && index < m_notesNr)
+			staff()->noteSegment(index)->setAmbitus((staff()->noteToPos(lo)) + 1, (staff()->noteToPos(hi)) + 1);
 }
 
 
@@ -279,7 +217,7 @@ void TsimpleScore::setAmbitus(Tnote lo, Tnote hi) {
 
 /** !!!!All values are hard coded */
 Tnote TsimpleScore::lowestNote() {
-	if (staff()->lower()) // piano staff for sure
+	if (staff()->isPianoStaff())
 			return Tnote(4, -2);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
 			return Tnote(6, -1);
@@ -299,7 +237,7 @@ Tnote TsimpleScore::lowestNote() {
 
 
 Tnote TsimpleScore::highestNote() {
-	if (staff()->lower()) // piano staff for sure
+	if (staff()->isPianoStaff())
 		return Tnote(1, 4);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
 		return Tnote(4, 4);
@@ -325,51 +263,25 @@ void TsimpleScore::addBGglyph(int instr) {
 	if (m_bgGlyph)
 		delete m_bgGlyph;
 	m_bgGlyph = new QGraphicsSimpleTextItem(instrumentToGlyph(Einstrument(instr)));
-	m_bgGlyph->setFont(QFont("nootka", 20, QFont::Normal));
+	m_bgGlyph->setParentItem(staff());
+	m_bgGlyph->setFont(TnooFont());
 	QColor bgColor = palette().highlight().color();
 	bgColor.setAlpha(75);
 	m_bgGlyph->setBrush(bgColor);
-	m_bgGlyph->setParentItem(m_staff);
-	qreal factor = (m_staff->boundingRect().height() / m_bgGlyph->boundingRect().height());
+	qreal factor = (staff()->height() / m_bgGlyph->boundingRect().height());
 	m_bgGlyph->setScale(factor);
-	m_bgGlyph->setPos((m_staff->boundingRect().width() - m_bgGlyph->boundingRect().width() * factor) / 2, 
-									(m_staff->boundingRect().height() - m_bgGlyph->boundingRect().height() * factor) / 2);
+	m_bgGlyph->setPos(/*(staff()->width() - m_bgGlyph->boundingRect().width() * factor) / 2*/ 12.0, 
+									(staff()->height() - m_bgGlyph->boundingRect().height() * factor) / 2);
 	m_bgGlyph->setZValue(1);
 	
 }
-
-/*
-int TsimpleScore::heightForWidth(int w) const {
-	int xOff = 0;
-	if (m_scoreControl && layoutHasControl)
-			xOff = m_scoreControl->width() + 10;
-	if (w < xOff)
-			return -1;
-	qreal styleOff = 0.0; // some styles quirks - it steals some space
-  if (style()->objectName() == "bespin" || style()->objectName() == "windowsvista" || style()->objectName() == "plastique")
-			styleOff = 1.0;
-	qDebug() << "preferred H:" << ((w - xOff) / (m_staff->boundingRect().width() + styleOff)) * m_staff->boundingRect().height() <<
-			"for W:" << w;
-	return ((w - xOff) / (m_staff->boundingRect().width() + styleOff)) * m_staff->boundingRect().height();
-}
-
-
-QSize TsimpleScore::sizeHint() const {
-// 	int xOff = 0;
-// 	if (m_scoreControl && layoutHasControl)
-// 			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
-// 	return QSize(m_scene->sceneRect().width() + xOff, heightForWidth(m_scene->sceneRect().width() + xOff));
-//   return QSize(m_scene->sceneRect().width() + xOff, m_scene->sceneRect().height());
-	return QSize(-1, -1);
-}
-*/
 
 //##########################################################################################################
 //########################################## PUBLIC SLOTS ##################################################
 //##########################################################################################################
 
 void TsimpleScore::noteWasClicked(int index) {
-	Tnote note = *(m_staff->getNote(index));
+	Tnote note = *(staff()->getNote(index));
 	emit noteWasChanged(index, note);
 }
 
@@ -389,59 +301,32 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 		hh -= m_score->horizontalScrollBar()->height();
 		scrollV = m_score->horizontalScrollBar()->value();
 	}
-	qreal styleOff = 1.0; // some styles quirks - it steals some space
-  if (style()->objectName() == "oxygen" || style()->objectName() == "oxygen transparent" || style()->objectName() == "qtcurve")
-			styleOff = 0.0;
-  qreal factor = (((qreal)hh / 42.0) / m_score->transform().m11()) * m_pianoFactor;
+
+  qreal factor = (((qreal)hh / (staff()->height() + 4.0)) / m_score->transform().m11()) * m_pianoFactor;
+// 	qreal factor = ((qreal)hh / (staff()->height() + 2.0)) * m_pianoFactor;
 // 	qreal factor = (qreal)m_score->frameRect().height() / (m_scene->sceneRect().height() * m_score->transform().m11());
   m_score->scale(factor, factor);
 	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - 2.0);
-// 	qDebug() << m_scene->sceneRect() << m_scene->itemsBoundingRect();
-// 	m_score->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
-// 												m_staff->boundingRect().height() * factor	);
-// 	m_scene->setSceneRect(0.0, -factor, m_scene->itemsBoundingRect().width(), m_scene->itemsBoundingRect().height());
-// 	m_scene->setSceneRect(0, 0, (m_staff->boundingRect().width() + styleOff) * factor, 
-// 												m_staff->boundingRect().height() * factor);
-// 	qDebug() << m_scene->sceneRect() << m_scene->itemsBoundingRect();
-// 	m_score->setMaximumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height() / m_pianoFactor);
-//   m_score->setMinimumSize(m_scene->sceneRect().width(), m_scene->sceneRect().height());
 	if (m_score->horizontalScrollBar()->isVisible()) {
 		m_score->horizontalScrollBar()->setValue(scrollV);
 	}
-	m_scene->setSceneRect(0.0, 0.0, staff()->width() * staff()->scale(), staff()->height() * staff()->scale());
   qreal staffOff = 1.0;
-  if (isPianoStaff())
+  if (staff()->isPianoStaff())
     staffOff = 2.0;
-// 	m_staff->setPos(m_score->mapToScene(staffOff, 0));
-	m_staff->setPos(staffOff, 0.0);
-// 	int xOff = 0;
-// 	if (m_scoreControl && layoutHasControl)
-// 			xOff = m_scoreControl->width() + 10; // 10 is space between m_scoreControl and m_score - looks good
-// 	setFixedWidth(m_scene->sceneRect().width() + xOff);
-//   setMinimumWidth(m_scene->sceneRect().width() + xOff);
+	staff()->setPos(staffOff, 1.0);
+	QRectF scRec = staff()->mapToScene(staff()->boundingRect()).boundingRect();
+	m_scene->setSceneRect(0.0, 0.0, scRec.width() + staffOff, scRec.height());
 }
 
 
-void TsimpleScore::switchToPianoStaff(Tclef clef) {
-// staff will be deleted so let's store its notes
-	m_notesNr = m_staff->count();
-	QList<Tnote> tmpList;
-	for (int i = 0; i < m_notesNr; i++)
-		tmpList << *(m_staff->getNote(i));
-// Key signature is restored in setPianoStaff method
-	if (isPianoStaff() && clef.type() != Tclef::e_pianoStaff) {
-		setPianoStaff(false);
-		m_staff->scoreClef()->setClef(clef);
-		m_staff->onClefChanged(); // refresh note offset for selected staff
-	}
-	if (!isPianoStaff() && clef.type() == Tclef::e_pianoStaff)
-		setPianoStaff(true);
-	// restore notes
-	for (int i = 0; i < m_notesNr; i++)
-		if(tmpList[i].note)
-				setNote(i, tmpList[i]);
-	emit pianoStaffSwitched();
-	resizeEvent(0);
+bool TsimpleScore::isPianoStaff() {
+	return staff()->isPianoStaff(); 
+}
+
+
+void TsimpleScore::switchToPianoStaff() {
+// 	emit pianoStaffSwitched();
+// 	resizeEvent(0);
 }
 
 
@@ -463,8 +348,12 @@ void TsimpleScore::onClefChanged(Tclef clef) {
 		emit clefChanged(Tclef(Tclef::e_pianoStaff));
 	else
 		emit clefChanged(staff()->scoreClef()->clef());
+	resizeEvent(0);
 }
 
+void TsimpleScore::onStaffSizeChanged() {
+	resizeEvent(0);
+}
 
 
 //##########################################################################################################

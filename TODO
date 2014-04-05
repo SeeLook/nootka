@@ -1,7 +1,6 @@
 TODO List
 
-- after adding a note and changing note indexes current index has to change as well
-- consider to remove TscoreView - QGraphicsView instance is sufficient
+- after deleting clef menu work note lines doesn't change current TscoreNote parent - use moveWorkNote() for it
 - (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
 
@@ -10,11 +9,12 @@ level executable
 - intonation combo box was disabled - it is common with audio settings
 
 analyzer executable
+- pointer note lines are static and they are deleted with pixmap scene, next pixmap calls it and crashes
 - note pixmap works wrongly
 
+- check setAmbitus of TsimpleScore - is it working with properly piano staff
 
 - keep exam file in /tmp and restore it when crash or so
-- improve cooperation a staff with piano staff - merge them somehow
 - merge out&in sounds into single call-back method (class)
 - add option of playing sound during capture
 - add option for configuring fret marks (dots)
