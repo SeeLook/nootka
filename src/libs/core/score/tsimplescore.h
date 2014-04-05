@@ -68,9 +68,7 @@ public:
 		
 		void setEnabledDblAccid(bool isEnabled);
 		
-				/** Sets TsimpleScore to piano staff view. Clefs are readOnly. */
-		void setPianoStaff(bool isPiano);
-		bool isPianoStaff() { return m_isPianoStaff; }
+		bool isPianoStaff();
 		
 				/** Sets background color. Alpha value will be overriden. */
     void setBGcolor(QColor bgColor);
@@ -100,7 +98,6 @@ signals:
 		void noteWasChanged(int index, Tnote note);
 		
 				/** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
-		void pianoStaffSwitched();
 		void clefChanged(Tclef);
 		
 public slots:
@@ -131,8 +128,9 @@ protected slots:
     void resizeEvent(QResizeEvent* event);
 		
 				/** This is response for user demand to change to or from piano staff. */
-		void switchToPianoStaff(Tclef clef);
+		void switchToPianoStaff();
 		void onClefChanged(Tclef clef);
+		void onStaffSizeChanged();
   
 private:
     TscoreScene     						*m_scene;
@@ -140,9 +138,9 @@ private:
     TscoreControl   						*m_scoreControl;
     QGraphicsView	  						*m_score;
 		QGraphicsSimpleTextItem 		*m_bgGlyph;
-		bool 												m_isPianoStaff;
 		int 												m_notesNr;
 		qreal 											m_pianoFactor; // factor of a score size depends on is it piano staff(smaller) or not
+		int 												m_prevBGglyph;
   
 };
 

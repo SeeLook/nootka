@@ -22,6 +22,7 @@
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
 #include <music/tclef.h>
+#include <QPointer>
 
 class TclefMenu;
 
@@ -32,7 +33,7 @@ class TclefMenu;
 * Piano staff can be selected or deselected then. In this case @p switchPianoStaff(Tclef) is emited,
 * with selected clef as a parameter.
 * @p readOnly() controls when @class TscoreClef can work that way.
-* Static @p clefToChar(Tclef) method converts Tclef::type() to appropirate glyph in nootka font.
+* Static @p clefToChar(Tclef) method converts Tclef::type() to appropriate glyph in nootka font.
 */
 class NOOTKACORE_EXPORT TscoreClef : public TscoreItem
 {
@@ -42,10 +43,10 @@ public:
     TscoreClef(TscoreScene *scene, TscoreStaff *staff, Tclef clef);
     ~TscoreClef();
 
-    Tclef clef() { return m_clef; }
+    Tclef clef() { return m_lowerClef ? Tclef::e_pianoStaff : m_clef; }
     void setClef(Tclef clef);
     
-				/** Converts Tclef to appropirate QChar with clef glyph in nootka font. */
+				/** Converts Tclef to appropriate QChar with clef glyph in nootka font. */
     static QChar clefToChar(Tclef clef);
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -55,14 +56,15 @@ public:
     bool readOnly() { return m_readOnly; } // when TRUE clef is locked
     
 signals:
-    void clefChanged();
+    void clefChanged(Tclef);
 		void switchPianoStaff(Tclef);
     
 protected:
 		void mousePressEvent(QGraphicsSceneMouseEvent* event);
 		
 protected slots:
-		void clefMenuStatusTip(QString tip);
+		void clefMenuStatusTip(QString tip) { emit statusTip(tip); }
+		void lowerClefCganged(Tclef clef);
 		
 private:
     int getYclefPos(Tclef clef);
@@ -71,14 +73,15 @@ private:
 		void getStatusTip();
 
 private:
-    Tclef                             m_clef;
+    Tclef                              m_clef;
+		QPointer<TscoreClef>							 m_lowerClef;
     QGraphicsSimpleTextItem           *m_textClef;
-		TclefMenu													*m_clefMenu;
+		QPointer<TclefMenu>								 m_clefMenu;
     
-    int                               m_currClefInList;    
+    int                                m_currClefInList;    
         /** List of all clef types exept empty (none clef) and piano staff. */
-    static QList<Tclef::Etype>        m_typesList;
-    bool                              m_readOnly; // when TRUE clef is locked
+    static QList<Tclef::Etype>         m_typesList;
+    bool                               m_readOnly; // when TRUE clef is locked
 
 };
 

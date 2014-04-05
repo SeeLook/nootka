@@ -89,6 +89,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     connect(questSett, SIGNAL(scoreEnabled(bool)), accSett, SLOT(enableKeys(bool)));
     connect(questSett, SIGNAL(accidEnabled(bool)), accSett, SLOT(enableAccids(bool)));
     connect(rangeSett, SIGNAL(allStringsChecked(bool)), questSett, SLOT(stringsCheckedSlot(bool)));
+		
+		stackLayout->setCurrentIndex(3);
 }
 
 

@@ -27,6 +27,7 @@
 #include <animations/tcombinedanim.h>
 #include <tnoofont.h>
 #include <QApplication>
+#include <QGraphicsView>
 #include <QPalette>
 
 #include <QDebug>
@@ -39,43 +40,28 @@ TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
 
 
 
-TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kindOfStaff) :
+TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   TscoreItem(scene),
-  m_scoreControl(0),
-  m_kindOfStaff(kindOfStaff),
   m_offset(TnoteOffset(3, 2)),
-  m_keySignature(0),
-  m_scordature(0),
   m_externWidth(0.0),
-	m_enableScord(false),
-	m_lower(0),
+	m_enableScord(false), m_scordature(0),
 	m_accidAnim(0), m_flyAccid(0),
-	m_index(0), m_selectableNotes(false)
+	m_index(0), m_selectableNotes(false),
+	m_lowerStaffPos(0.0),
+	m_isPianoStaff(false),
+	m_upperLinePos(16.0),
+	m_height(40.0),
+	m_keySignature(0)
 {
+	m_lines[0] = 0;
+	m_lowLines[0] = 0; // first array item points are all items exist or not
 	setZValue(10);
-  if (m_kindOfStaff == e_normal) {
-    m_height = 40;
-    m_upperLinePos = 16;
-  } else {
-    if (m_kindOfStaff == e_upper) {
-      m_upperLinePos = 14;
-			m_height = 26; 
-		} else if (m_kindOfStaff == e_lower) {
-      m_upperLinePos = 4;
-			m_height = 22; 
-		}
-  }
   setAcceptHoverEvents(true);
 // Clef
   Tclef cl = Tclef();
-  if (kindOfStaff == e_lower) {
-    cl = Tclef(Tclef::e_bass_F);
-    m_offset = TnoteOffset(5, 0);
-  }
   m_clef = new TscoreClef(scene, this, cl);
-  connect(m_clef, SIGNAL(clefChanged()), this, SLOT(onClefChanged()));
+  connect(m_clef, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 	m_clef->setZValue(55);
-	connect(m_clef, SIGNAL(switchPianoStaff(Tclef)), this, SLOT(onPianoStaffChanged(Tclef)));
 // Notes
   for (int i = 0; i < notesNr; i++) {
 			m_notes << new Tnote(0, 0, 0);
@@ -85,22 +71,11 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr, TscoreStaff::Ekind kin
       connect(m_scoreNotes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
   }
   
-  if (m_scoreNotes.size())
-		m_width = m_clef->boundingRect().width() + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width() + 3;
-	else 
-		m_width = m_clef->boundingRect().width() + 3;
-// Staff lines
-  for (int i = 0; i < 5; i++) {
-    m_lines[i] = new QGraphicsLineItem();
-    registryItem(m_lines[i]);
-    m_lines[i]->setPen(QPen(qApp->palette().text().color(), 0.15));
-    m_lines[i]->setLine(1, upperLinePos() + i * 2, boundingRect().width() - 2, upperLinePos() + i * 2);
-    m_lines[i]->setZValue(5);
-  }
-  
+// Staff lines, it also sets m_width of staff
+	prepareStaffLines();
+	
   for (int i = 0; i < 7; i++)
     accidInKeyArray[i] = 0;
-  
 }
 
 
@@ -122,8 +97,12 @@ void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
 }
 
 
-int TscoreStaff::noteToPos(const Tnote& note)	{ 
-	return m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1)); 
+int TscoreStaff::noteToPos(const Tnote& note)	{
+	int nPos = m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1));
+	if (isPianoStaff() && nPos > lowerLinePos() - 5)
+		return nPos + 2;
+	else
+		return nPos;
 }
 
 		/** Calculation of note position works As folow:
@@ -150,12 +129,6 @@ void TscoreStaff::setNote(int index, const Tnote& note) {
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
 	insert(index);
-	if (lower()) {
-		TscoreNote *newLowerNote = new TscoreNote(scoreScene(), this, index);
-		newLowerNote->setZValue(50);
-		connect(newLowerNote, SIGNAL(noteWasClicked(int)), lower(), SLOT(onNoteClicked(int)));
-		lower()->insert(index);
-	}
 	if (index < m_scoreNotes.size())
 			updateIndex();
 	m_notes.insert(index, new Tnote());
@@ -245,8 +218,6 @@ void TscoreStaff::setScordature(Ttune& tune) {
 		m_scordature = new TscoreScordature(scoreScene(), this);
 		m_scordature->setParentItem(this);
 		m_scordature->setZValue(35); // above key signature
-		if (kindOfStaff() == e_upper)
-			m_scordature->hide();
 	}
 	m_scordature->setTune(tune);
 	if (m_scordature->isScordatured())	{ 
@@ -303,9 +274,59 @@ int TscoreStaff::accidNrInKey(int noteNr, char key) {
 }
 
 
+void TscoreStaff::setPianoStaff(bool isPiano) {
+	if (isPiano != m_isPianoStaff) {
+		m_isPianoStaff = isPiano;
+		if (isPiano) {
+				m_upperLinePos = 14.0;
+				m_lowerStaffPos = 28.0;
+				m_height = 46.0;
+		} else {
+				m_upperLinePos = 16.0;
+				m_lowerStaffPos = 0.0;
+				m_height = 40.0;
+		}
+		prepareStaffLines();
+		for (int i = 0; i < count(); i++)
+			noteSegment(i)->adjustSize();
+		emit pianoStaffSwitched();
+	}
+}
+
+
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
+
+void TscoreStaff::prepareStaffLines() {
+	if (!m_lines[0]) // create main staff lines
+			for (int i = 0; i < 5; i++) {
+				m_lines[i] = new QGraphicsLineItem();
+				registryItem(m_lines[i]);
+				m_lines[i]->setPen(QPen(qApp->palette().text().color(), 0.15));
+				m_lines[i]->setZValue(5);
+			}
+	if (isPianoStaff()) {
+		if (!m_lowLines[0]) { // create lower staff lines
+			for (int i = 0; i < 5; i++) {
+				m_lowLines[i] = new QGraphicsLineItem();
+				registryItem(m_lowLines[i]);
+				m_lowLines[i]->setPen(QPen(qApp->palette().text().color(), 0.15));
+				m_lowLines[i]->setZValue(5);
+			}
+			createBrace();
+		}
+	} else {
+		if (m_lowLines[0]) { // delete lower staff lines
+			for (int i = 0; i < 5; i++)
+				delete m_lowLines[i];
+			m_lowLines[0] = 0;
+			delete m_brace;
+		}
+	}
+	updateWidth();
+}
+
 
 void TscoreStaff::insert(int index) {
 	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
@@ -323,11 +344,13 @@ void TscoreStaff::setEnableScordtature(bool enable) {
 }
 
 
-void TscoreStaff::addLowerStaff() {
-	if (!m_lower) {
-		m_lower = new TscoreStaff(scoreScene(), m_scoreNotes.size(), e_lower);
-	}
+int TscoreStaff::fixNotePos(int pianoPos) {
+	if (isPianoStaff() && pianoPos > lowerLinePos() - 4)
+		return pianoPos - 2; // piano staves gap
+	else
+		return pianoPos;
 }
+
 
 //##########################################################################################################
 //####################################### PUBLIC SLOTS     #################################################
@@ -348,11 +371,9 @@ void TscoreStaff::setCurrentIndex(int index) {
 }
 
 
-void TscoreStaff::onClefChanged( ) {
-	int globalNr;
-	if (m_scoreNotes.size())
-		globalNr = notePosRelatedToClef(m_scoreNotes[0]->notePos(), m_offset);
-  switch(m_clef->clef().type()) {
+void TscoreStaff::onClefChanged(Tclef clef) {
+	setPianoStaff(clef.type() == Tclef::e_pianoStaff);
+	switch(clef.type()) {
     case Tclef::e_treble_G:
       m_offset = TnoteOffset(3, 2); break;
     case Tclef::e_treble_G_8down:
@@ -365,17 +386,17 @@ void TscoreStaff::onClefChanged( ) {
       m_offset = TnoteOffset(4, 1); break;
     case Tclef::e_tenor_C:
       m_offset = TnoteOffset(2, 1); break;
-		default : break;
+		case Tclef::e_pianoStaff:
+      m_offset = TnoteOffset(3, 2); break;
+		default: break;
   }
+  scoreClef()->setClef(clef);
   if (m_keySignature)
       m_keySignature->setClef(m_clef->clef());
 	if (m_scoreNotes.size()) {
-			int newNr = notePosRelatedToClef(m_scoreNotes[0]->notePos(), m_offset);
 			for (int i = 0; i < m_scoreNotes.size(); i++) {
 				if (m_scoreNotes[i]->notePos()) {
-						m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos() + m_scoreNotes[i]->ottava() * 7 - (globalNr - newNr));
-						if (m_scoreNotes[i]->notePos() == 0) // reset Tnote list to 0 when new note is not on the staff
-							*(m_notes[i]) = Tnote(0, 0, 0);
+						setNote(i, *(m_notes[i]));
 				} 
 			}
 	}
@@ -393,6 +414,12 @@ void TscoreStaff::noteChangedAccid(int accid) {
 //####################################### PROTECTED SLOTS  #################################################
 //##########################################################################################################
 
+void TscoreStaff::onPianoStaffChanged(Tclef clef) {
+	setPianoStaff(clef.type() == Tclef::e_pianoStaff);
+	scoreClef()->setClef(clef);
+}
+
+
 void TscoreStaff::onKeyChanged() {
   for (int i = 0; i < m_scoreNotes.size(); i++) {
     if (m_scoreNotes[i]->notePos())
@@ -402,11 +429,13 @@ void TscoreStaff::onKeyChanged() {
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
-  int globalNr = notePosRelatedToClef(m_scoreNotes[noteIndex]->notePos() + m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
+  int globalNr = notePosRelatedToClef(fixNotePos(m_scoreNotes[noteIndex]->notePos())
+				+ m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
 	m_notes[noteIndex]->note = (char)(56 + globalNr) % 7 + 1;
 	m_notes[noteIndex]->octave = (char)(56 + globalNr) / 7 - 8;
 	m_notes[noteIndex]->acidental = (char)m_scoreNotes[noteIndex]->accidental();
 	setCurrentIndex(noteIndex);
+	qDebug() << m_notes[noteIndex]->toText();
 	emit noteChanged(noteIndex);
 }
 
@@ -470,13 +499,50 @@ void TscoreStaff::updateWidth() {
 	
 	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
-	for (int i = 0; i < 5; i++) // adjust staff lines length
-				m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 2, upperLinePos() + i * 2);
-	if (lower())
-		lower()->updateWidth();
-//   scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
+	for (int i = 0; i < 5; i++) { // adjust staff lines length
+			m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 2, upperLinePos() + i * 2);
+			if (isPianoStaff())
+				m_lowLines[i]->setLine(1, lowerLinePos() + i * 2, width() - 2, lowerLinePos() + i * 2);
+	}
+// 	if (!scene()->views().isEmpty())
+// 		scoreScene()->setSceneRect(0.0, 0.0, 
+// 									width() * scene()->views()[0]->transform().m11(), height() * scene()->views()[0]->transform().m11());
+	emit staffSizeChanged();
 // 	scoreScene()->update();
 }
+
+
+void TscoreStaff::createBrace() {
+	m_brace = new QGraphicsSimpleTextItem();
+	registryItem(m_brace);
+	QFont ff = QFont("nootka");
+#if defined (Q_OS_MAC)
+    ff.setPointSizeF(27.5);
+#else
+  ff.setPointSizeF(25.5);
+#endif
+  QFontMetrics fm(ff);
+  ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
+  m_brace->setFont(ff);
+	m_brace->setText(QString(QChar(0xe16c)));
+#if defined (Q_OS_MAC)
+    qreal distance = lowerLinePos() + 8.3 - upperLinePos();
+    qreal fact = (distance + 1.3) / brace->boundingRect().height();
+#elif defined (Q_OS_WIN)
+    qreal distance = lowerLinePos() + 7 - upperLinePos();
+    qreal fact = (distance + 1.8) / brace->boundingRect().height();
+#else
+	qreal distance = lowerLinePos() + 8 - upperLinePos();
+	qreal fact = (distance + 0.2) / m_brace->boundingRect().height();
+#endif
+	m_brace->setScale(fact);
+	m_brace->setBrush(qApp->palette().text().color());
+	m_brace->setPos(-2.0, upperLinePos() + distance / 2 - (m_brace->boundingRect().height() * m_brace->scale()) / 2 + 0.4);
+}
+
+
+
+
 
 
 

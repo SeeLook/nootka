@@ -19,7 +19,7 @@
 #ifndef TMAINSCORE_H
 #define TMAINSCORE_H
 
-#include "tsimplescore.h"
+#include <score/tsimplescore.h>
 #include <QPointer>
 
 class TgraphicsTextTip;

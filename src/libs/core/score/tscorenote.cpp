@@ -52,6 +52,7 @@ QGraphicsEllipseItem* TscoreNote::m_workNote = 0;
 QGraphicsSimpleTextItem* TscoreNote::m_workAccid = 0;
 QList<QGraphicsLineItem*> TscoreNote::m_upLines;
 QList<QGraphicsLineItem*> TscoreNote::m_downLines;
+QList<QGraphicsLineItem*> TscoreNote::m_midLines;
 QColor TscoreNote::m_workColor = -1;
 
 QPointer<TnoteControl> TscoreNote::m_rightBox;
@@ -79,7 +80,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	if (m_rightBox == 0)
 		initNoteCursor();
   
-  createLines(m_mainDownLines, m_mainUpLines);  
+  createLines(m_mainDownLines, m_mainUpLines, m_mainMidLines);  
   m_mainNote = createNoteHead();
 	
   m_mainAccid = new QGraphicsSimpleTextItem();
@@ -92,12 +93,10 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   setColor(m_mainColor);
   m_mainNote->setZValue(34); // under
   m_mainAccid->setZValue(m_mainNote->zValue());
-  if (staff->kindOfStaff() == TscoreStaff::e_normal)
-      setAmbitus(34, 1);
-  else if (staff->kindOfStaff() == TscoreStaff::e_upper)
-        setAmbitus(m_height - 3, 1);
-	else if (staff->kindOfStaff() == TscoreStaff::e_lower)
-				setAmbitus(m_height - 3, 1);
+  if (staff->isPianoStaff())
+		setAmbitus(40, 1);
+	else
+		setAmbitus(34, 1);
   
   setStatusTip(tr("Click to select a note, use mouse wheel to change accidentals."));
 }
@@ -109,6 +108,15 @@ TscoreNote::~TscoreNote() {}
 //#################### PUBLIC METHODS    #######################################
 //##############################################################################
 
+void TscoreNote::adjustSize() {
+	m_height = staff()->height();
+	createLines(m_mainDownLines, m_mainUpLines, m_mainMidLines);
+	createLines(m_downLines, m_upLines, m_midLines);
+	setColor(m_mainColor);
+	setPointedColor(m_workColor);
+}
+
+
 void TscoreNote::setColor(QColor color) {
     m_mainColor = color;
     m_mainNote->setPen(QPen(m_mainColor, 0.2));
@@ -119,6 +127,8 @@ void TscoreNote::setColor(QColor color) {
         m_mainUpLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_mainDownLines.size(); i++)
       m_mainDownLines[i]->setPen(QPen(color, 0.2));
+		for (int i = 0; i < m_mainMidLines.size(); i++)
+      m_mainMidLines[i]->setPen(QPen(color, 0.2));
     if (m_stringText)
         m_stringText->setBrush(QBrush(m_mainColor));
 }
@@ -131,6 +141,8 @@ void TscoreNote::setPointedColor(QColor color) {
     m_workAccid->setBrush(QBrush(m_workColor));
     for (int i = 0; i < m_upLines.size(); i++)
         m_upLines[i]->setPen(QPen(color, 0.2));
+		for (int i = 0; i < m_midLines.size(); i++)
+        m_midLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < m_downLines.size(); i++)
       m_downLines[i]->setPen(QPen(color, 0.2));
 }
@@ -141,6 +153,14 @@ void TscoreNote::selectNote(bool sel) {
 }
 
 
+int TscoreNote::notePos() {
+// 	if (staff()->isPianoStaff() && m_mainPosY > staff()->lowerLinePos() - 4)
+// 		return m_mainPosY - 2; // piano staves gap
+// 	else
+		return m_mainPosY;
+}
+
+
 void TscoreNote::setWorkAccid(int accNr) {
 		m_curentAccid = accNr;
 		m_workAccid->setText(getAccid(accNr));
@@ -148,7 +168,8 @@ void TscoreNote::setWorkAccid(int accNr) {
 
 
 void TscoreNote::moveNote(int posY) {
-		if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
+// 		if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
+		if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
 				hideNote();
 				m_mainAccid->setText(" ");
 				m_accidental = 0;
@@ -165,7 +186,7 @@ void TscoreNote::moveNote(int posY) {
 			m_mainNote->setPos(3.0, posY);
 		}
 		m_mainPosY = posY;
-    int noteNr = (56 + staff()->notePosRelatedToClef(posY)) % 7;
+    int noteNr = (56 + staff()->notePosRelatedToClef(staff()->fixNotePos(posY))) % 7;
 		QString newAccid = getAccid(m_accidental);
 		if (staff()->accidInKeyArray[noteNr]) {
       if (m_accidental == 0) {
@@ -195,6 +216,16 @@ void TscoreNote::moveNote(int posY) {
       else 
         m_mainUpLines[i]->hide();
     }
+    if (staff()->isPianoStaff()) {
+				if (posY == m_mainMidLines[0]->line().y1() - 1)
+					m_mainMidLines[0]->show();
+				else
+					m_mainMidLines[0]->hide();
+				if (posY == m_mainMidLines[1]->line().y1() - 1)
+					m_mainMidLines[1]->show();
+				else
+					m_mainMidLines[1]->hide();
+		}
     for (int i = 0; i < m_mainDownLines.size(); i++) {
       if (posY > m_mainDownLines[i]->line().y1() - 2)
         m_mainDownLines[i]->show();
@@ -215,6 +246,8 @@ void TscoreNote::hideNote() {
     m_mainAccid->hide();
     hideLines(m_mainUpLines);
     hideLines(m_mainDownLines);
+		if (staff()->isPianoStaff())
+			hideLines(m_mainMidLines);
     m_mainPosY = 0;
     m_accidental = 0;
 		m_mainNote->setPos(3.0, 0);
@@ -234,6 +267,8 @@ void TscoreNote::hideWorkNote() {
     m_workAccid->hide();
     hideLines(m_upLines);
     hideLines(m_downLines);
+		if (staff()->isPianoStaff())
+			hideLines(m_midLines);
     m_workPosY = 0.0;
 	}
 }
@@ -364,7 +399,13 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverMoveEvent" << event->pos();
-  if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
+//   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
+	if ((event->pos().y() >= 1) && (event->pos().y() <= m_height - 3.0)) {
+		if (staff()->isPianoStaff() && 
+			(event->pos().y() >= staff()->upperLinePos() + 10.6) && (event->pos().y() <= staff()->lowerLinePos() - 2.4)) {
+				hideWorkNote();
+				return;
+		}
     if (event->pos().y() != m_workPosY) {
 			if (m_curentAccid != scoreScene()->currentAccid()) { // update accidental symbol
 					m_curentAccid = scoreScene()->currentAccid();
@@ -381,6 +422,16 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
           m_upLines[i]->show();
         else 
           m_upLines[i]->hide();
+      }
+      if (staff()->isPianoStaff()) {
+				if (m_workPosY == m_midLines[0]->line().y1() - 1)
+					m_midLines[0]->show();
+				else
+					m_midLines[0]->hide();
+				if (m_workPosY == m_midLines[1]->line().y1() - 1)
+					m_midLines[1]->show();
+				else
+					m_midLines[1]->hide();
       }
       for (int i = 0; i < m_downLines.size(); i++) {
         if (m_workPosY > m_downLines[i]->line().y1() - 2) 
@@ -467,9 +518,7 @@ void TscoreNote::initNoteCursor() {
 	qDebug() << "initNoteCursor";
 	m_workColor = qApp->palette().highlight().color();
   m_workColor.setAlpha(200);
-	m_downLines.clear();
-	m_upLines.clear();
-	createLines(m_downLines, m_upLines);
+	createLines(m_downLines, m_upLines, m_midLines);
 	m_workNote = createNoteHead();
   m_workNote->setGraphicsEffect(new TdropShadowEffect(m_workColor));
 	m_workAccid = new QGraphicsSimpleTextItem();
@@ -497,18 +546,35 @@ void TscoreNote::setCursorParent() {
 	m_workNote->setParentItem(this);
 	for (int i = 0; i < m_downLines.size(); i++)
 		m_downLines[i]->setParentItem(this);
+	for (int i = 0; i < m_midLines.size(); i++)
+		m_midLines[i]->setParentItem(this);
 	for (int i = 0; i < m_upLines.size(); i++)
 		m_upLines[i]->setParentItem(this);
 }
 
 
-void TscoreNote::createLines(QList< QGraphicsLineItem* >& low, QList< QGraphicsLineItem* >& upp) {
+void TscoreNote::createLines(QList< QGraphicsLineItem* >& low,
+														 QList< QGraphicsLineItem* >& upp, QList< QGraphicsLineItem* >& mid) {
+	for (int i = 0; i < upp.size(); i++)
+		delete upp[i];
+	for (int i = 0; i < mid.size(); i++)
+		delete mid[i];
+	for (int i = 0; i < low.size(); i++)
+		delete low[i];
+	low.clear();
+	mid.clear();
+	upp.clear();
   int i = staff()->upperLinePos() - 2;
-  while (i > 0) {
+  while (i > 0) { // upper lines
 		upp << createNoteLine(i);
     i -= 2;
   }
-  i = staff()->upperLinePos() + 10;
+  i = staff()->upperLinePos() + 10.0; // distance between upper and lower (or lower grand staff) staff line
+  if (staff()->isPianoStaff()) {
+		i = staff()->lowerLinePos() + 10.0;
+		mid << createNoteLine(staff()->upperLinePos() + 10);
+		mid << createNoteLine(staff()->lowerLinePos() - 2);
+	}
   while (i < m_height - 2) {
 		low << createNoteLine(i);
     i += 2;

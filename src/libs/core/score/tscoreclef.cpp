@@ -60,8 +60,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   TscoreItem(scene),
   m_clef(Tclef(Tclef::e_none)),
   m_textClef(0),
-  m_readOnly(false),
-  m_clefMenu(0)
+  m_readOnly(false)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -74,7 +73,6 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   m_textClef->setBrush(qApp->palette().text().color());
   
   m_textClef->setFont(TnooFont(18));
-  
   setClef(clef);
 }
   
@@ -83,17 +81,26 @@ TscoreClef::~TscoreClef() {}
 
 
 void TscoreClef::setClef(Tclef clef) {
-  if (clef.type() != m_clef.type()) { 
-    m_clef = clef;
-    m_currClefInList = getClefPosInList(m_clef);
-    m_textClef->setText(QString(clefToChar(m_clef.type())));
-		qreal fineOff = 0.1;
-		if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
-			fineOff = 0.0;
-    setPos(1, getYclefPos(m_clef) - (16 - staff()->upperLinePos()) + fineOff);
-    getStatusTip();
-//     emit statusTip(statusTip());
-  }
+	if (clef.type() == Tclef::e_pianoStaff) {
+		if (!m_lowerClef) {
+			m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::e_bass_F));
+			m_lowerClef->setPos(1.0, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()) + 0.1);
+			connect(m_lowerClef, SIGNAL(clefChanged(Tclef)), this, SLOT(lowerClefCganged(Tclef)));
+		} else // clefs already set to piano mode
+				return;
+		clef.setClef(Tclef::e_treble_G);
+	} else {
+		if (m_lowerClef)
+			delete m_lowerClef;
+	}
+			m_clef = clef;
+			m_currClefInList = getClefPosInList(m_clef);
+			m_textClef->setText(QString(clefToChar(m_clef.type())));
+			qreal fineOff = 0.1;
+			if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
+				fineOff = 0.0;
+			setPos(1.0, getYclefPos(m_clef) - (16.0 - staff()->upperLinePos()) + fineOff);
+			getStatusTip();
 }
 
 
@@ -108,45 +115,35 @@ void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-		if (m_readOnly) {
-			TscoreItem::mousePressEvent(event);
-		} else {
+	if (m_readOnly) {
+		TscoreItem::mousePressEvent(event);
+	} else {
 			if (!m_clefMenu) {
-					QMenu *menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
-					m_clefMenu = new TclefMenu(menu);
-					Tclef curClef = m_clef;
-					if (staff()->lower())
-						curClef = Tclef(Tclef::e_pianoStaff);
-					m_clefMenu->selectClef(curClef);
-					connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
-					Tclef cl = m_clefMenu->exec(event->screenPos());
-					delete m_clefMenu;
-					m_clefMenu = 0;
-					delete menu;
-					if (cl.type() == Tclef::e_none)
-						return;
-				// This is hard logic that I love so much...
-					if (staff()->kindOfStaff() != TscoreStaff::e_normal) {
-						if (cl.type() != Tclef::e_pianoStaff) { // user selected other clef than piano
-								emit switchPianoStaff(cl); // this staff will be deleted and emited clef will set
-						} else
-								return; // when user selected piano staff again - do nothing
-					} else // ordinary single staff
-						if (cl.type() != Tclef::e_pianoStaff) { // simply set another clef
-							if (cl.type() != m_clef.type()) {
-								setClef(cl);
-								emit clefChanged();
-							}
-						} else // demand to change it on piano staff
-								emit switchPianoStaff(Tclef(Tclef::e_pianoStaff));
+				QMenu *menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
+				m_clefMenu = new TclefMenu(menu);
+				Tclef curClef = m_clef;
+				if (staff()->isPianoStaff())
+					curClef = Tclef(Tclef::e_pianoStaff);
+				m_clefMenu->selectClef(curClef);
+				connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
+				Tclef cl = m_clefMenu->exec(event->screenPos());
+				delete m_clefMenu;
+				delete menu;
+				if (cl.type() == Tclef::e_none)
+					return;
+				if (curClef.type() != cl.type()) {
+					emit clefChanged(cl);
 				}
 			}
+	}
+}
+
+void TscoreClef::lowerClefCganged(Tclef clef) {
+	if (clef.type() != Tclef::e_pianoStaff) // lower staff means piano staff already
+		emit clefChanged(clef);
 }
 
 
-void TscoreClef::clefMenuStatusTip(QString tip) {
-		emit statusTip(tip);
-}
 
 
 //##########################################################################################################

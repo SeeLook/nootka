@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,35 +48,52 @@ char TscoreKeySignature::m_posOfAccid[7] = {
 
 char TscoreKeySignature::m_posOfAccidFlats[7] = { 4, 1, 5, 2, 6, 3, 7 };
 
+
+int nOff(Tclef::Etype c) {
+	if (c == Tclef::e_treble_G || c == Tclef::e_treble_G_8down)
+		return 3;
+	if (c == Tclef::e_bass_F || c == Tclef::e_bass_F_8down)
+		return 5;
+	if (c == Tclef::e_alto_C)
+		return 2;
+	if (c == Tclef::e_tenor_C)
+		return 4;
+	return 3;
+}
+
+
 TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, char keySign) :
   TscoreItem(scene),
   m_keySignature(keySign),
   m_clef(Tclef()),
-  m_keyNameText(0),
   m_readOnly(false),
   m_bgColor(-1)
 {
   setStaff(staff);
 	setParentItem(staff);
-  m_height = staff->height();
+	if (staff->isPianoStaff() && staff->scoreKey() != this)
+			m_height = staff->height() - staff->lowerLinePos() - 2.0;
+	else
+			m_height = staff->height();
 
   TnooFont font(5);
   for (int i = 0; i < 7; i++) {
-        m_accidentals[i] = new QGraphicsSimpleTextItem();
-        registryItem(m_accidentals[i]);
-        m_accidentals[i]->setBrush(qApp->palette().text().color());
-        m_accidentals[i]->setFont(font);
-				m_accidentals[i]->setScale(TscoreNote::accidScale());
-        m_accidentals[i]->hide();
+			m_accidentals[i] = new QGraphicsSimpleTextItem();
+			registryItem(m_accidentals[i]);
+			m_accidentals[i]->setBrush(qApp->palette().text().color());
+			m_accidentals[i]->setFont(font);
+			m_accidentals[i]->setScale(TscoreNote::accidScale());
+			m_accidentals[i]->hide();
 	}
-  
     
-    setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
+	setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
 }
 
 
-TscoreKeySignature::~TscoreKeySignature()
-{}
+void TscoreKeySignature::setRelatedLine(int rLine) {
+	m_relLine = rLine;
+	setKeySignature(keySignature());
+}
 
 
 void TscoreKeySignature::setKeySignature(char keySign) {
@@ -107,6 +124,8 @@ void TscoreKeySignature::setKeySignature(char keySign) {
 //       (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
     m_keySignature = keySign;
 		updateKeyName();
+		if (m_lowKey && m_keySignature != m_lowKey->keySignature())
+				m_lowKey->setKeySignature(m_keySignature);
     emit keySignatureChanged();
 }
 
@@ -114,9 +133,9 @@ void TscoreKeySignature::setKeySignature(char keySign) {
 char TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
   char yPos;
   if (flatKey)
-    yPos = m_posOfAccidFlats[noteNr] + staff()->upperLinePos() + (staff()->noteOffset() - 3);
+    yPos = m_posOfAccidFlats[noteNr] + m_relLine + (nOff(m_clef.type()) - 3);
   else {
-    yPos = m_posOfAccid[noteNr] + staff()->upperLinePos() + (staff()->noteOffset() - 3);
+    yPos = m_posOfAccid[noteNr] + m_relLine + (nOff(m_clef.type()) - 3);
     if (m_clef.type() == Tclef::e_tenor_C && (noteNr == 0 || noteNr == 2))
         yPos += 7;
   }
@@ -133,7 +152,28 @@ QPointF TscoreKeySignature::accidTextPos(int noteNr) {
 
 
 void TscoreKeySignature::setClef(Tclef clef) {
-  m_clef = clef;
+	if (clef.type() == Tclef::e_pianoStaff) {
+		m_clef = Tclef(Tclef::e_treble_G);
+		if (!m_lowKey) {
+				m_lowKey = new TscoreKeySignature(scoreScene(), staff());
+				m_lowKey->setParentItem(this);
+				m_lowKey->setPos(0.0, staff()->lowerLinePos() - 2.0);
+				m_lowKey->setClef(Tclef(Tclef::e_bass_F));
+				m_lowKey->setZValue(30);
+				m_lowKey->setRelatedLine(2);
+				setRelatedLine(staff()->upperLinePos());
+// 				m_height = staff()->height() - staff()->lowerLinePos() - 2.0;
+				m_lowKey->setKeySignature(keySignature());
+				connect(m_lowKey, SIGNAL(keySignatureChanged()), this, SLOT(onLowKeyChanged()));
+		}
+	} else {
+		m_clef = clef;
+		setRelatedLine(staff()->upperLinePos());
+		if (m_lowKey) {
+			delete m_lowKey;
+// 			m_height = staff()->height();
+		}
+	}
   setKeySignature(keySignature());
 }
 
@@ -144,7 +184,6 @@ void TscoreKeySignature::showKeyName(bool showIt) {
 			m_keyNameText = new QGraphicsTextItem();
 			registryItem(m_keyNameText);
 			m_keyNameText->setZValue(7);
-//       m_keyNameText->setScale(0.12);
 			setKeySignature(keySignature());
 		}
 	}	else {
@@ -170,9 +209,15 @@ void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
 
+void TscoreKeySignature::onLowKeyChanged() {
+	setKeySignature(m_lowKey->keySignature());
+}
+
+
+
 void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (!m_readOnly && event->button() == Qt::LeftButton) {
-    if (event->pos().y() > m_height / 2)
+    if (event->pos().y() > m_relLine + 4.0)
       increaseKey(-1);
     else
       increaseKey(1);
