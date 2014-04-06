@@ -67,8 +67,7 @@ public:
     TscoreStaff(TscoreScene* scene, int notesNr);
     virtual ~TscoreStaff();
     
-				/** Returns pointer to TscoreNote element in the score. 
-				 * When it is piano staff - upper notes are returned. */
+				/** Returns pointer to TscoreNote element in the score. */
 		TscoreNote* noteSegment(int nr) { return m_scoreNotes[nr]; }
 		
 		TscoreKeySignature* scoreKey() { return m_keySignature; }
@@ -82,13 +81,12 @@ public:
 		Tnote* getNote(int index) { return m_notes[index]; }
 		virtual void setNote(int index, const Tnote& note);
 		virtual void setNoteDisabled(int index, bool isDisabled);
-				
-				/** adds note at the end of the staff 
-				 * Empty Tnote creates new instance of TscoreNote item. */
-		void addNote(Tnote& note, bool disabled = false);
 		
 		int count() { return m_scoreNotes.size(); } /** Number of notes on the score */
 		
+        /** adds note at the end of the staff 
+         * Empty Tnote creates new instance of TscoreNote item. */
+    void addNote(Tnote& note, bool disabled = false);
 				/** Inserts note in given position (index). 
 				 * When @p index is out of scope adds it at the end. */
 		void insertNote(int index, const Tnote& note, bool disabled = false);
@@ -118,7 +116,7 @@ public:
     
 				/** Returns number of a note. upperLinePos() is note nr 0 but it depends on octave (clef).  */
     int notePosRelatedToClef(int pos, TnoteOffset off) {
-      return off.octave * 7 - (pos + 1 - (int)upperLinePos() - off.note);  }
+                    return off.octave * 7 - (pos + 1 - (int)upperLinePos() - off.note);  }
       
     int notePosRelatedToClef(int pos) {
       return notePosRelatedToClef(pos, m_offset); }

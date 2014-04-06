@@ -313,7 +313,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
   qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
-	staff()->setPos(staffOff, 1.0);
+	staff()->setPos(staffOff, 0.05);
 	QRectF scRec = staff()->mapToScene(staff()->boundingRect()).boundingRect();
 	m_scene->setSceneRect(0.0, 0.0, scRec.width() + staffOff, scRec.height());
 }
