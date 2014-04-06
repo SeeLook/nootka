@@ -69,5 +69,6 @@ int main(int argc, char *argv[])
 		delete w;
 		} while (resetConfig);
 		
+    delete gl;
 		return exitCode;
 }

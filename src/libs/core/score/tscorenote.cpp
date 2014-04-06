@@ -77,7 +77,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	setParentItem(staff);
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
-	if (m_rightBox == 0)
+	if (!scene->views().isEmpty() && m_rightBox == 0)
 		initNoteCursor();
   
   createLines(m_mainDownLines, m_mainUpLines, m_mainMidLines);  
