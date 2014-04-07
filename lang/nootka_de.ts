@@ -524,15 +524,15 @@
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation>Du kannst auch helfen Nookta zu verbessern.</translation>
+        <translation>Du kannst auch helfen Nootka zu verbessern.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Man benötigt eine wenig Englisch, wenn du den unteren Text lesen kannst, gibt es etwas wo du dich einbringen kannst.</translation>
+        <translation>Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nookta Release.&lt;br&gt;Du findest es immer &quot;Nootka Info&quot; Dialog</translation>
+        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nookta Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
     </message>
     <message>
         <source>time [s]</source>
@@ -559,7 +559,7 @@
     <name>Tabout</name>
     <message>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation>Willkommen an bord.&lt;br&gt;Nootka ist eine Open Source Anwendung zum lernen (und lehren) der klassischen Notenschrift (Notation).&lt;br&gt;Es ist besonders für Gitarristen geeignet, aber enthält auch für andere Anwender nützliche Funktionen.</translation>
+        <translation>Willkommen an bord.&lt;br&gt;Nootka ist eine Open Source Anwendung zum lernen (und lehren) der klassischen Notenschrift (Notation).&lt;br&gt;Es ist besonders für Gitarristen geeignet, enthält aber auch für andere Anwender nützliche Funktionen.</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
