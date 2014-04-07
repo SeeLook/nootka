@@ -57,6 +57,30 @@ QColor TscoreNote::m_workColor = -1;
 
 QPointer<TnoteControl> TscoreNote::m_rightBox;
 TnoteControl* TscoreNote::m_leftBox = 0;
+
+
+void TscoreNote::adjustCursor() {
+	if (m_rightBox) {
+		setPointedColor(m_workColor);
+		m_rightBox->adjustSize();
+		m_leftBox->adjustSize();
+	}
+}
+
+
+void TscoreNote::setPointedColor(QColor color) {
+    m_workColor = color;
+    m_workNote->setPen(QPen(m_workColor, 0.2));
+    m_workNote->setBrush(QBrush(m_workColor, Qt::SolidPattern));
+    m_workAccid->setBrush(QBrush(m_workColor));
+    for (int i = 0; i < m_upLines.size(); i++)
+        m_upLines[i]->setPen(QPen(color, 0.2));
+		for (int i = 0; i < m_midLines.size(); i++)
+        m_midLines[i]->setPen(QPen(color, 0.2));
+    for (int i = 0; i < m_downLines.size(); i++)
+      m_downLines[i]->setPen(QPen(color, 0.2));
+}
+
 /*------------------------*/
 
 //################################## CONSTRUCTOR ###################################
@@ -113,7 +137,6 @@ void TscoreNote::adjustSize() {
 	createLines(m_mainDownLines, m_mainUpLines, m_mainMidLines);
 	createLines(m_downLines, m_upLines, m_midLines);
 	setColor(m_mainColor);
-	setPointedColor(m_workColor);
 }
 
 
@@ -131,20 +154,6 @@ void TscoreNote::setColor(QColor color) {
       m_mainMidLines[i]->setPen(QPen(color, 0.2));
     if (m_stringText)
         m_stringText->setBrush(QBrush(m_mainColor));
-}
-
-
-void TscoreNote::setPointedColor(QColor color) {
-    m_workColor = color;
-    m_workNote->setPen(QPen(m_workColor, 0.2));
-    m_workNote->setBrush(QBrush(m_workColor, Qt::SolidPattern));
-    m_workAccid->setBrush(QBrush(m_workColor));
-    for (int i = 0; i < m_upLines.size(); i++)
-        m_upLines[i]->setPen(QPen(color, 0.2));
-		for (int i = 0; i < m_midLines.size(); i++)
-        m_midLines[i]->setPen(QPen(color, 0.2));
-    for (int i = 0; i < m_downLines.size(); i++)
-      m_downLines[i]->setPen(QPen(color, 0.2));
 }
 
 
@@ -210,28 +219,7 @@ void TscoreNote::moveNote(int posY) {
     }
 
     setStringPos();
-    for (int i = 0; i < m_mainUpLines.size(); i++) {
-      if (posY < m_mainUpLines[i]->line().y1())
-        m_mainUpLines[i]->show();
-      else 
-        m_mainUpLines[i]->hide();
-    }
-    if (staff()->isPianoStaff()) {
-				if (posY == m_mainMidLines[0]->line().y1() - 1)
-					m_mainMidLines[0]->show();
-				else
-					m_mainMidLines[0]->hide();
-				if (posY == m_mainMidLines[1]->line().y1() - 1)
-					m_mainMidLines[1]->show();
-				else
-					m_mainMidLines[1]->hide();
-		}
-    for (int i = 0; i < m_mainDownLines.size(); i++) {
-      if (posY > m_mainDownLines[i]->line().y1() - 2)
-        m_mainDownLines[i]->show();
-      else 
-        m_mainDownLines[i]->hide();
-    }
+		checkLines(posY, m_mainDownLines, m_mainUpLines, m_mainMidLines);
 }
 
 
@@ -417,28 +405,7 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
         m_workNote->show();
         m_workAccid->show();
       }
-      for (int i = 0; i < m_upLines.size(); i++) {
-        if (m_workPosY < m_upLines[i]->line().y1())
-          m_upLines[i]->show();
-        else 
-          m_upLines[i]->hide();
-      }
-      if (staff()->isPianoStaff()) {
-				if (m_workPosY == m_midLines[0]->line().y1() - 1)
-					m_midLines[0]->show();
-				else
-					m_midLines[0]->hide();
-				if (m_workPosY == m_midLines[1]->line().y1() - 1)
-					m_midLines[1]->show();
-				else
-					m_midLines[1]->hide();
-      }
-      for (int i = 0; i < m_downLines.size(); i++) {
-        if (m_workPosY > m_downLines[i]->line().y1() - 2) 
-          m_downLines[i]->show();
-        else 
-          m_downLines[i]->hide();
-      }
+      checkLines(m_workPosY, m_downLines, m_upLines, m_midLines);
     }
   }
 }
@@ -480,7 +447,6 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
 
 QGraphicsEllipseItem* TscoreNote::createNoteHead() {
   QGraphicsEllipseItem *noteHead = new QGraphicsEllipseItem();
-//   registryItem(noteHead);
 	noteHead->setParentItem(this);
   noteHead->setRect(0, 0, 3.5, 2);
   noteHead->hide();
@@ -497,7 +463,7 @@ QGraphicsLineItem* TscoreNote::createNoteLine(int yPos) {
 }
 
 
-void TscoreNote::hideLines(QList< QGraphicsLineItem* >& linesList) {
+void TscoreNote::hideLines(TaddLines& linesList) {
 	for (int i=0; i < linesList.size(); i++)
 		linesList[i]->hide();
 }
@@ -515,7 +481,6 @@ void TscoreNote::setStringPos() {
 
 
 void TscoreNote::initNoteCursor() {
-	qDebug() << "initNoteCursor";
 	m_workColor = qApp->palette().highlight().color();
   m_workColor.setAlpha(200);
 	createLines(m_downLines, m_upLines, m_midLines);
@@ -542,6 +507,32 @@ void TscoreNote::initNoteCursor() {
 }
 
 
+void TscoreNote::checkLines(int curPos, TaddLines& low, TaddLines& upp, TaddLines& mid) {
+	for (int i = 0; i < upp.size(); i++) {
+		if (curPos < m_upLines[i]->line().y1())
+			upp[i]->show();
+		else 
+			upp[i]->hide();
+	}
+	if (staff()->isPianoStaff()) {
+		if (curPos == mid[0]->line().y1() - 1)
+			mid[0]->show();
+		else
+			mid[0]->hide();
+		if (curPos == mid[1]->line().y1() - 1)
+			mid[1]->show();
+		else
+			mid[1]->hide();
+	}
+	for (int i = 0; i < low.size(); i++) {
+		if (curPos > low[i]->line().y1() - 2) 
+			low[i]->show();
+		else 
+			low[i]->hide();
+	}
+}
+
+
 void TscoreNote::setCursorParent() {
 	m_workNote->setParentItem(this);
 	for (int i = 0; i < m_downLines.size(); i++)
@@ -553,17 +544,10 @@ void TscoreNote::setCursorParent() {
 }
 
 
-void TscoreNote::createLines(QList< QGraphicsLineItem* >& low,
-														 QList< QGraphicsLineItem* >& upp, QList< QGraphicsLineItem* >& mid) {
-	for (int i = 0; i < upp.size(); i++)
-		delete upp[i];
-	for (int i = 0; i < mid.size(); i++)
-		delete mid[i];
-	for (int i = 0; i < low.size(); i++)
-		delete low[i];
-	low.clear();
-	mid.clear();
-	upp.clear();
+void TscoreNote::createLines(TaddLines& low, TaddLines& upp, TaddLines& mid) {
+	deleteLines(upp);
+	deleteLines(mid);
+	deleteLines(low);
   int i = staff()->upperLinePos() - 2;
   while (i > 0) { // upper lines
 		upp << createNoteLine(i);
@@ -581,6 +565,12 @@ void TscoreNote::createLines(QList< QGraphicsLineItem* >& low,
   }
 }
 
+
+void TscoreNote::deleteLines(TaddLines& linesList) {
+	for (int i = 0; i < linesList.size(); i++)
+		delete linesList[i];
+	linesList.clear();
+}
 
 
 /*

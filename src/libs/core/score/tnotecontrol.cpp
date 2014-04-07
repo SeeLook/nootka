@@ -55,6 +55,12 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 }
 
 
+void TnoteControl::adjustSize() {
+	m_height = staff()->height();
+	m_minus->setPos(0.0, m_height - 6.0);
+}
+
+
 void TnoteControl::hideWithDelay(int delay) {
 	QTimer::singleShot(delay, this, SLOT(hideDelayed()));
 }

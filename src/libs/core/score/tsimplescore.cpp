@@ -41,7 +41,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   QWidget(parent),
 	m_notesNr(notesNumber),
 	m_scoreControl(0),
-	m_pianoFactor(1.0),
 	m_bgGlyph(0),
 	layoutHasControl(false),
 	m_prevBGglyph(-1)
@@ -139,9 +138,9 @@ Tclef TsimpleScore::clef() {
 	if (isPianoStaff())
 		return Tclef(Tclef::e_pianoStaff);
 	else if (staff()->scoreClef())
-					return staff()->scoreClef()->clef();
-			else 
-					return Tclef(Tclef::e_none);
+						return staff()->scoreClef()->clef();
+				else 
+						return Tclef(Tclef::e_none);
 }
 
 
@@ -301,21 +300,19 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 		hh -= m_score->horizontalScrollBar()->height();
 		scrollV = m_score->horizontalScrollBar()->value();
 	}
-
-  qreal factor = (((qreal)hh / (staff()->height() + 4.0)) / m_score->transform().m11()) * m_pianoFactor;
+	qreal staffOff = 1.0;
+  if (staff()->isPianoStaff())
+    staffOff = 2.0;
+  qreal factor = ((qreal)hh / (staff()->height() + 4.0)) / m_score->transform().m11();
 // 	qreal factor = ((qreal)hh / (staff()->height() + 2.0)) * m_pianoFactor;
 // 	qreal factor = (qreal)m_score->frameRect().height() / (m_scene->sceneRect().height() * m_score->transform().m11());
   m_score->scale(factor, factor);
-	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - 2.0);
+	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
 	if (m_score->horizontalScrollBar()->isVisible()) {
 		m_score->horizontalScrollBar()->setValue(scrollV);
 	}
-  qreal staffOff = 1.0;
-  if (staff()->isPianoStaff())
-    staffOff = 2.0;
 	staff()->setPos(staffOff, 0.05);
-	QRectF scRec = staff()->mapToScene(staff()->boundingRect()).boundingRect();
-	m_scene->setSceneRect(0.0, 0.0, scRec.width() + staffOff, scRec.height());
+	staff()->updateSceneRect();
 }
 
 

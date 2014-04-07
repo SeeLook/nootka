@@ -52,7 +52,8 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
     
-    void setReadOnly(bool ro) { m_readOnly = ro; getStatusTip(); } // when TRUE clef is locked
+				/** when set to @p TRUE clef is locked */
+    void setReadOnly(bool ro) { m_readOnly = ro; getStatusTip(); if (m_lowerClef) m_lowerClef->setReadOnly(ro); } 
     bool readOnly() { return m_readOnly; } // when TRUE clef is locked
     
 signals:

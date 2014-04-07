@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,6 @@
 #include <music/ttune.h>
 #include <QGraphicsView>
 
-#include <QDebug>
 
 /*static*/
 Tnote::EnameStyle TscoreScordature::nameStyle = Tnote::e_nederl_Bis;
@@ -52,7 +51,7 @@ void TscoreScordature::setTune(Ttune& tune) {
     int c = 0;
     for (int i = 1; i <= tune.stringNr(); i++) {
         if ( tune[i] != Ttune::stdTune[i]) {
-          if (c) { // string changed first was already writen
+          if (c) { // string changed first was already written
               if (nL > 3) { 
                 if (c % 2 == 0) // add line break to second entry in a row
                   scordText += "<br>";
@@ -63,7 +62,7 @@ void TscoreScordature::setTune(Ttune& tune) {
           }
           scordText += QString("<span style=\"font-family: nootka; font-size: %1px;\">%2=</span>").arg(fSize).arg(i);
           scordText += QString("<span style=\"font-size: %1px;\">%2</span>").arg(fSize).
-              arg(tune[i].toText(nameStyle, false));
+              arg(tune[i].toText(Tnote::defaultStyle, false));
           c++;
         }
     }
@@ -72,13 +71,13 @@ void TscoreScordature::setTune(Ttune& tune) {
     m_scordText = new QGraphicsTextItem();
     m_scordText->setParentItem(this);
 		m_scordText->setHtml(scordText);		
-		qreal xPos = 1.0, extraW = 0.0;
+		qreal xPos = 0.0, extraW = 2.0;
 		qreal yPos = staff()->upperLinePos() + 12;
 		if (staff()->isPianoStaff()) {
 			// This is in case of scordature on piano staff - it needs more space to look well
-			xPos = -1.0;
-			extraW = 2.0;
-			yPos = staff()->upperLinePos() + 7.5;
+			xPos = -2.0;
+			extraW = 4.0;
+			yPos = staff()->lowerLinePos() + 8.5;
 		}
 		if (staff()->scoreKey())
 				extraW += KEY_WIDTH;
@@ -108,9 +107,6 @@ QRectF TscoreScordature::boundingRect() const {
 }
 
 
-void TscoreScordature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
-{
-// 	painter->drawRect(boundingRect());
-}
+void TscoreScordature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
 
 

@@ -101,6 +101,7 @@ private:
     Tclef  													 m_clef;
 		bool														 m_readOnly;
 		QColor 													 m_bgColor;
+		int															 m_clefOffset; /** accid distance from upper staff line depends on clef */
 
 };
 

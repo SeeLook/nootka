@@ -29,6 +29,8 @@ class TcrossFadeTextAnim;
 class TscoreControl;
 class TscoreScene;
 
+typedef QList<QGraphicsLineItem*> TaddLines; /** List of graphics lines  */
+
 /*!
  * This class represents single note n a score. 
  * It is a rectangle area over the staff with handling mouse move event to display working note cursor.
@@ -49,6 +51,11 @@ public:
 		
 		void adjustSize(); /** Grabs height from staff and adjust to it. */
 		
+				/** Adjust note cursor and TnoteControl to new staff size. 
+				 * For performance reason it has to be called once for all adjustSize() of TscoreNote
+				 * because there is only one instance of note cursor and TnoteControl */
+		static void adjustCursor(); 
+		
         /** Hides main note */
     void hideNote();
 		
@@ -59,7 +66,7 @@ public:
     void setColor(QColor color);
 		
         /** Sets color of pointing (work) note. */
-    void setPointedColor(QColor color);
+    static void setPointedColor(QColor color);
 		
 				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
 		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
@@ -145,7 +152,7 @@ private:
     QGraphicsEllipseItem          *m_mainNote;
     QGraphicsSimpleTextItem       *m_mainAccid;
 		QGraphicsSimpleTextItem 			*m_stringText;
-    QList<QGraphicsLineItem*>      m_mainUpLines, m_mainDownLines, m_mainMidLines;
+    TaddLines      								 m_mainUpLines, m_mainDownLines, m_mainMidLines;
     QColor                         m_mainColor;
 		TcombinedAnim									*m_noteAnim;
 		TcrossFadeTextAnim 						*m_accidAnim;
@@ -168,7 +175,7 @@ private:
 		static int                            m_curentAccid, m_workPosY;
 		static QGraphicsEllipseItem          *m_workNote;
 		static QGraphicsSimpleTextItem       *m_workAccid;
-		static QList<QGraphicsLineItem*>      m_upLines, m_downLines, m_midLines;
+		static TaddLines								      m_upLines, m_downLines, m_midLines;
 		static QColor                         m_workColor;
 		static QPointer<TnoteControl>				  m_rightBox;
 		static TnoteControl									 *m_leftBox;
@@ -181,11 +188,14 @@ private:
 				/** Common method creating upper and lower staff lines.
 				 * It appends new lines to list 
 				 * so do not forget to clear list before every next call. */
-		void createLines(QList<QGraphicsLineItem*> &low, QList<QGraphicsLineItem*> &upp, QList<QGraphicsLineItem*> &mid);
-    void hideLines(QList<QGraphicsLineItem*> &linesList);
+		void createLines(TaddLines &low, TaddLines &upp, TaddLines &mid);
+		void deleteLines(TaddLines &linesList); /** Deletes lines in the list and clears the list */
+    void hideLines(TaddLines &linesList);
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
 		void initNoteCursor(); /** Creates static members of cursor when first TscoreNote instance is created */
 		void setCursorParent(); /** Sets parent of note cursor to this instance */
+				/** Checks whose lines show and hide. @p curPos is current position of note those lines belong to. */
+		void checkLines(int curPos, TaddLines &low, TaddLines &upp, TaddLines &mid);
 // 		void checkOctavation();
 		
 		    

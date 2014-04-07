@@ -29,7 +29,7 @@ class TscoreScene;
 /**
  * This class represents scordature in a score.
  * Scordatute is set by @p setTune() with tune as a parameter.
- * Nameing style is controled by static nameStyle variable, 
+ * Naming style is controlled by static nameStyle variable, 
  * it has to be refreshed (setTune called again) if changed nameStyle.
 */
 class NOOTKACORE_EXPORT TscoreScordature : public TscoreItem
@@ -51,7 +51,7 @@ public:
     virtual QRectF boundingRect() const;
 
 private:
-    QGraphicsTextItem 	*m_scordText; // dispalyed scordature text
+    QGraphicsTextItem 	*m_scordText; // displayed scordature text
     qreal 							m_height;
 
 };

@@ -38,6 +38,8 @@ public:
 	TscoreNote* scoreNote() { return m_scoreNote; }
 	void setScoreNote(TscoreNote* sn);
 	
+	void adjustSize(); /** Grabs height from staff and adjust to it. */
+	
 	bool hasMouseCursor() { return m_hasMouse; }
 	void hideWithDelay(int delay = 300);
 	

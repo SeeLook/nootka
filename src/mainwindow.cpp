@@ -98,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //         }
 //     }
 		gl->config->endGroup();
+		Tnote::defaultStyle = gl->NnameStyleInNoteName;
 		
 //     sound = new Tsound(this);
 		
