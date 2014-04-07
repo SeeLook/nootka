@@ -63,7 +63,7 @@ void TscoreScordature::setTune(Ttune& tune) {
           }
           scordText += QString("<span style=\"font-family: nootka; font-size: %1px;\">%2=</span>").arg(fSize).arg(i);
           scordText += QString("<span style=\"font-size: %1px;\">%2</span>").arg(fSize).
-              arg(tune[i].toText(nameStyle, false));
+              arg(tune[i].toText(Tnote::defaultStyle, false));
           c++;
         }
     }
@@ -78,7 +78,7 @@ void TscoreScordature::setTune(Ttune& tune) {
 			// This is in case of scordature on piano staff - it needs more space to look well
 			xPos = -1.0;
 			extraW = 2.0;
-			yPos = staff()->upperLinePos() + 7.5;
+			yPos = staff()->upperLinePos() + 8.5;
 		}
 		if (staff()->scoreKey())
 				extraW += KEY_WIDTH;
@@ -103,6 +103,8 @@ void TscoreScordature::setTune(Ttune& tune) {
 QRectF TscoreScordature::boundingRect() const {
   if (m_scordText)
 		return QRectF(0, 0, (CLEF_WIDTH + KEY_WIDTH - 1) / scale(), m_height / scale());
+	else
+		return QRect();
 }
 
 
