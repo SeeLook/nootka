@@ -136,7 +136,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 // 	setNote(index, note);
 	*(m_notes[index]) = note; // Do not set note 
 	setNoteDisabled(index, disabled);
-	scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
+	updateSceneRect();
 }
 
 
@@ -158,6 +158,12 @@ void TscoreStaff::removeNote(int index) {
 		updateWidth();
 		scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
 	}
+}
+
+
+void TscoreStaff::updateSceneRect() {
+	QRectF scRec = mapToScene(boundingRect()).boundingRect();
+	scene()->setSceneRect(0.0, 0.0, scRec.width() + (isPianoStaff() ? 2.0 : 1.0), scRec.height());
 }
 
 
@@ -227,7 +233,7 @@ void TscoreStaff::setScordature(Ttune& tune) {
 			m_scordature = 0;
 			m_enableScord = false;
 	}
-		updateWidth();
+	updateWidth();
 }
 
 
@@ -289,6 +295,7 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 		prepareStaffLines();
 		for (int i = 0; i < count(); i++)
 			noteSegment(i)->adjustSize();
+		TscoreNote::adjustCursor();
 		emit pianoStaffSwitched();
 	}
 }

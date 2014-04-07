@@ -5,11 +5,10 @@ TODO List
 - merge nootka-one changes with this branch
 
 level executable
-- 'fix exam dialog' was excluded from build - maybe for ever
+- 'fix an exam' dialog was excluded from build - maybe for ever
 - intonation combo box was disabled - it is common with audio settings
 
 analyzer executable
-- pointer note lines are static and they are deleted with pixmap scene, next pixmap calls it and crashes
 - note pixmap works wrongly
 
 - check setAmbitus of TsimpleScore - is it working with properly piano staff
@@ -27,15 +26,21 @@ analyzer executable
 - comparing exams (charts)
 - add sound during wizard and About dialog (???)
 - make use of QWizard for above
+- name style in scordature is never set, it uses letters and fortunately respects 7th note but never can be solfege
+
+----------------------------------------------------------------------------------------------------------------
+New settings switches:
+  - score mode (single|multi|record)
+----------------------------------------------------------------------------------------------------------------
 
 Tnote
 			- overload + and - operators to raise/drop a note
 			
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
-     Also for questions in "hint" - don't show octave when only name is required   
+     Also for questions in "hint" - don't show octave when only name is required
      
 cpack 
-- add man page for nootka-analyzer
+- add man page for new executable files
 - update Qt5 dependencies for deb package 
 

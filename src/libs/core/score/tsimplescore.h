@@ -92,7 +92,7 @@ public:
 		
 signals:
 				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
-				 * This signal is emitted when any TscoreScene element gots hoverEnterEvent 
+				 * This signal is emitted when any TscoreScene element gets hoverEnterEvent 
 				 * with status tip to display. */
     void statusTip(QString);
 		void noteWasChanged(int index, Tnote note);
@@ -111,14 +111,13 @@ protected:
 				/** Pointer to TscoreStaff should never go to public !!!!
 				 * TscoreStaff instance is changeable by pianoStaffSwitched() and any connection with its signals will be lost.
 				 * Inner methods of TsimpleScore take care about refreshing 
-				 * connection with newer staff instances and this class emits appropirate signals. */
+				 * connection with newer staff instances and this class emits appropriate signals. */
 		TscoreStaff* staff() { return m_staff; }
 		TscoreControl* scoreController() { return m_scoreControl; }
-		qreal pianoFactor() { return m_pianoFactor; }
     
     
 protected slots:
-				/** It grabs TscoreItems statusTips and generates QStatusTipEvent fof parent widget. */
+				/** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
     void statusTipChanged(QString status);
 		
 				/** Except response for scaling TscoreView widget to according to new height,
@@ -138,9 +137,8 @@ private:
     TscoreControl   						*m_scoreControl;
     QGraphicsView	  						*m_score;
 		QGraphicsSimpleTextItem 		*m_bgGlyph;
-		int 												m_notesNr;
-		qreal 											m_pianoFactor; // factor of a score size depends on is it piano staff(smaller) or not
-		int 												m_prevBGglyph;
+		int 												 m_notesNr;
+		int 												 m_prevBGglyph;
   
 };
 

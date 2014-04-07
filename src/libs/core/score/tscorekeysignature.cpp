@@ -60,12 +60,12 @@ int nOff(Tclef::Etype c) {
 		return 4;
 	return 3;
 }
-
+/*end static*/
 
 TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, char keySign) :
   TscoreItem(scene),
   m_keySignature(keySign),
-  m_clef(Tclef()),
+  m_clef(Tclef()), m_clefOffset(3),
   m_readOnly(false),
   m_bgColor(-1)
 {
@@ -133,9 +133,9 @@ void TscoreKeySignature::setKeySignature(char keySign) {
 char TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
   char yPos;
   if (flatKey)
-    yPos = m_posOfAccidFlats[noteNr] + m_relLine + (nOff(m_clef.type()) - 3);
+    yPos = m_posOfAccidFlats[noteNr] + m_relLine + (m_clefOffset - 3);
   else {
-    yPos = m_posOfAccid[noteNr] + m_relLine + (nOff(m_clef.type()) - 3);
+    yPos = m_posOfAccid[noteNr] + m_relLine + (m_clefOffset - 3);
     if (m_clef.type() == Tclef::e_tenor_C && (noteNr == 0 || noteNr == 2))
         yPos += 7;
   }
@@ -162,7 +162,6 @@ void TscoreKeySignature::setClef(Tclef clef) {
 				m_lowKey->setZValue(30);
 				m_lowKey->setRelatedLine(2);
 				setRelatedLine(staff()->upperLinePos());
-// 				m_height = staff()->height() - staff()->lowerLinePos() - 2.0;
 				m_lowKey->setKeySignature(keySignature());
 				connect(m_lowKey, SIGNAL(keySignatureChanged()), this, SLOT(onLowKeyChanged()));
 		}
@@ -171,9 +170,9 @@ void TscoreKeySignature::setClef(Tclef clef) {
 		setRelatedLine(staff()->upperLinePos());
 		if (m_lowKey) {
 			delete m_lowKey;
-// 			m_height = staff()->height();
 		}
 	}
+	m_clefOffset = nOff(m_clef.type());
   setKeySignature(keySignature());
 }
 

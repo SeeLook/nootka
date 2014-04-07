@@ -113,6 +113,9 @@ public:
     qreal lowerLinePos() const { return m_lowerStaffPos; } /** Y position of lower line of a lower staff. */
     qreal height() const { return m_height; } // staff height
     qreal width() const { return m_width; } // staff width
+				
+				/** Updates rectangle of QGraphicsScene to staff bounding rectangle. */
+    void updateSceneRect();
     
 				/** Returns number of a note. upperLinePos() is note nr 0 but it depends on octave (clef).  */
     int notePosRelatedToClef(int pos, TnoteOffset off) {
