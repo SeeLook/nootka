@@ -161,8 +161,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
+// 		nootBar->hide();
+// 		m_statLab->hide();
     
 }
+
 
 MainWindow::~MainWindow()
 {
