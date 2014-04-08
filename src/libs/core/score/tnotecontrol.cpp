@@ -20,6 +20,7 @@
 #include "tnotecontrol.h"
 #include "tscorestaff.h"
 #include "tscorenote.h"
+#include <tnoofont.h>
 #include <QPainter>
 #include <QPalette>
 #include <QDebug>
@@ -46,12 +47,18 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_plus->setParentItem(this);
 	m_plus->setScale(boundingRect().width() / m_plus->boundingRect().width());
 	m_plus->setBrush(QBrush(Qt::green));
-	m_plus->setPos(0.0, 2.0);
+	m_plus->setPos(0.0, 0.2);
 	m_minus = new QGraphicsSimpleTextItem("-");
 	m_minus->setParentItem(this);
 	m_minus->setScale(boundingRect().width() / m_minus->boundingRect().width());
 	m_minus->setBrush(QBrush(Qt::red));
 	m_minus->setPos(0.0, m_height - 6.0);
+	m_name = new QGraphicsSimpleTextItem("c");
+	m_name->setFont(TnooFont());
+	m_name->setParentItem(this);
+	m_name->setScale(boundingRect().width() / m_name->boundingRect().width());
+	m_name->setBrush(Qt::darkCyan);
+	m_name->setPos(0.0, 4.0);
 }
 
 
@@ -68,7 +75,7 @@ void TnoteControl::hideWithDelay(int delay) {
 
 
 QRectF TnoteControl::boundingRect() const {
-	return QRectF(0.0, 0.0, 2.0, m_height);
+	return QRectF(0.0, 0.0, 3.0, m_height);
 }
 
 
@@ -83,7 +90,17 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 
 void TnoteControl::setScoreNote(TscoreNote* sn) {
 	m_scoreNote = sn;
-	show();
+	if (sn) {
+			show();
+			if (staff()->count() < 2)
+					m_minus->hide();
+			else
+				m_minus->show();
+			if (pos().x() < m_scoreNote->pos().x()) // hide name for left control
+				m_name->hide();
+	} else {
+		hide();
+	}
 }
 
 
@@ -111,17 +128,19 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (event->pos().y() < 5.0) { // add a note
+	if (event->pos().y() < 3.0) { // add a note
 		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
 			staff()->insertNote(m_scoreNote->index() + 1);
-// 			setPos(m_scoreNote->pos().x() + m_scoreNote->boundingRect().width(), 0.0);
-			qDebug() << "append" << m_scoreNote->index() + 1;
 		} else { // left control - preppend a note
 			staff()->insertNote(m_scoreNote->index() - 1);
-// 			setPos(m_scoreNote->pos().x() - boundingRect().width(), 0.0);
-			qDebug() << "preppend" << m_scoreNote->index() - 1;
 		}
-	} 
+	} else if (m_minus->isVisible() && event->pos().y() > staff()->height() - 7.0) {
+// 			int id = m_scoreNote->index();
+			staff()->removeNote(m_scoreNote->index());
+// 			qDebug() << "removed" << id;
+			m_hasMouse = false;
+			hide();
+	}
 // 	else if (event->pos().y() < 25.0)
 // 			staff()->setCurrentIndex(m_scoreNote->index());
 }

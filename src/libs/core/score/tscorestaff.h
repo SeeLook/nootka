@@ -77,7 +77,7 @@ public:
 		void setPianoStaff(bool isPiano);
 		bool isPianoStaff() { return m_isPianoStaff; }
 		
-				/** Returns current @p index note or Tnot(0,0,0) if not set. */
+				/** Returns current @p index note or Tnote(0, 0, 0) if not set. */
 		Tnote* getNote(int index) { return m_notes[index]; }
 		virtual void setNote(int index, const Tnote& note);
 		virtual void setNoteDisabled(int index, bool isDisabled);
@@ -91,7 +91,7 @@ public:
 				 * When @p index is out of scope adds it at the end. */
 		void insertNote(int index, const Tnote& note, bool disabled = false);
 		void insertNote(int index, bool disabled = false); /** Insert empty note */
-		void removeNote(int index); /** Deletes given note from staff */
+		void removeNote(int index); /** Deletes given note from the staff */
 		int currentIndex() { return m_index; }
 		
 		virtual void setEnableKeySign(bool isEnabled);

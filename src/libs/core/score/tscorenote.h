@@ -193,7 +193,7 @@ private:
     void hideLines(TaddLines &linesList);
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
 		void initNoteCursor(); /** Creates static members of cursor when first TscoreNote instance is created */
-		void setCursorParent(); /** Sets parent of note cursor to this instance */
+		void setCursorParent(TscoreItem* item); /** Sets parent of note cursor to this instance */
 				/** Checks whose lines show and hide. @p curPos is current position of note those lines belong to. */
 		void checkLines(int curPos, TaddLines &low, TaddLines &upp, TaddLines &mid);
 // 		void checkOctavation();

@@ -29,8 +29,6 @@ class TscoreScene;
 /**
  * This class represents scordature in a score.
  * Scordatute is set by @p setTune() with tune as a parameter.
- * Naming style is controlled by static nameStyle variable, 
- * it has to be refreshed (setTune called again) if changed nameStyle.
 */
 class NOOTKACORE_EXPORT TscoreScordature : public TscoreItem
 {
@@ -43,9 +41,6 @@ public:
     void setTune(Ttune& tune);
 				/** Returns @p true when tune was different than standard and something is displayed. */
 		bool isScordatured() { return (bool)m_scordText; }
-    
-				/** Static, global name style used by TscoreScordature */
-    static Tnote::EnameStyle nameStyle;
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;

@@ -129,8 +129,12 @@ void TmainScore::setNote(Tnote note) {
 			TsimpleScore::setNote(m_clickedIndex, note);
 			m_clickedIndex++;
 // 		TsimpleScore::setNote(staff()->currentIndex() + 1, note);
-	} else
-			TsimpleScore::setNote(staff()->currentIndex(), note);
+	} else {
+			if (staff()->currentIndex() != -1)
+					TsimpleScore::setNote(staff()->currentIndex(), note);
+			else
+					qDebug() << "select another note to see it!";
+	}
 }
 
 

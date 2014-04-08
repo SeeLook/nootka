@@ -126,7 +126,13 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 }
 
 
-TscoreNote::~TscoreNote() {}
+TscoreNote::~TscoreNote() { // release work note and controls from destructing parent
+	if (m_rightBox && m_workNote->parentItem() == this) {
+			m_rightBox->setScoreNote(0);
+			m_leftBox->setScoreNote(0);
+			setCursorParent(0);
+	}		
+}
 
 //##############################################################################
 //#################### PUBLIC METHODS    #######################################
@@ -163,9 +169,6 @@ void TscoreNote::selectNote(bool sel) {
 
 
 int TscoreNote::notePos() {
-// 	if (staff()->isPianoStaff() && m_mainPosY > staff()->lowerLinePos() - 4)
-// 		return m_mainPosY - 2; // piano staves gap
-// 	else
 		return m_mainPosY;
 }
 
@@ -357,13 +360,13 @@ void TscoreNote::keyAnimFinished() {
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
 	if (staff()->selectableNotes()) {
-			m_rightBox->setScoreNote(this);
 			m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
-			m_leftBox->setScoreNote(this);
+			m_rightBox->setScoreNote(this);
 			m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
+			m_leftBox->setScoreNote(this);
 	}
 	if (m_workNote->parentItem() != this)
-			setCursorParent();
+			setCursorParent(this);
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
 			m_workNote->show();
 			m_workAccid->show();
@@ -533,14 +536,14 @@ void TscoreNote::checkLines(int curPos, TaddLines& low, TaddLines& upp, TaddLine
 }
 
 
-void TscoreNote::setCursorParent() {
-	m_workNote->setParentItem(this);
+void TscoreNote::setCursorParent(TscoreItem* item) {
+	m_workNote->setParentItem(item);
 	for (int i = 0; i < m_downLines.size(); i++)
-		m_downLines[i]->setParentItem(this);
+		m_downLines[i]->setParentItem(item);
 	for (int i = 0; i < m_midLines.size(); i++)
-		m_midLines[i]->setParentItem(this);
+		m_midLines[i]->setParentItem(item);
 	for (int i = 0; i < m_upLines.size(); i++)
-		m_upLines[i]->setParentItem(this);
+		m_upLines[i]->setParentItem(item);
 }
 
 

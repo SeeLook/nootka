@@ -152,11 +152,13 @@ void TscoreStaff::addNote(Tnote& note, bool disabled) {
 
 void TscoreStaff::removeNote(int index) {
 	if (index >= 0 && index < m_scoreNotes.size()) {
+		delete m_scoreNotes[index];
 		m_scoreNotes.removeAt(index);
+		delete m_notes[index];
 		m_notes.removeAt(index);
 		updateIndex();
 		updateWidth();
-		scoreScene()->setSceneRect(0.0, 0.0, width() * scale(), height() * scale());
+		updateSceneRect();
 	}
 }
 

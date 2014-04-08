@@ -58,7 +58,7 @@ private:
 		TscoreNote											*m_scoreNote;
 		qreal						 								 m_height;
 		bool						 								 m_hasMouse;
-		QGraphicsSimpleTextItem					*m_plus, *m_minus;
+		QGraphicsSimpleTextItem					*m_plus, *m_minus, *m_name;
 };
 
 #endif // TNOTECONTROL_H

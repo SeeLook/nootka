@@ -1,11 +1,12 @@
 TODO List
 
+- clear mechanism of selected/indexed notes on a staff, send something when selected note is deleted
 - after deleting clef menu work note lines doesn't change current TscoreNote parent - use moveWorkNote() for it
 - (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
 
 level executable
-- 'fix an exam' dialog was excluded from build - maybe for ever
+- 'fix an exam file' dialog was excluded from build - maybe for ever
 - intonation combo box was disabled - it is common with audio settings
 
 analyzer executable

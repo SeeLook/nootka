@@ -24,10 +24,6 @@
 #include <QGraphicsView>
 
 
-/*static*/
-Tnote::EnameStyle TscoreScordature::nameStyle = Tnote::e_nederl_Bis;
-
-
 
 TscoreScordature::TscoreScordature(TscoreScene* scene, TscoreStaff* staff) :
   TscoreItem(scene),
