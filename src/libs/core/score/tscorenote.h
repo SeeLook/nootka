@@ -23,6 +23,7 @@
 #include "tscoreitem.h"
 #include <QPointer>
 
+class Tnote;
 class TnoteControl;
 class TcombinedAnim;
 class TcrossFadeTextAnim;
@@ -48,6 +49,10 @@ public:
 		int index() { return m_index; }
 		void changeIndex(int newIndex) { m_index = newIndex; }
 		
+				/** Points to Tnote instance.
+				 * TscoreNote is not aware of it. It is just container.
+				 * This value has to be set through setNote() */
+		Tnote* note() { return m_note; }
 		
 		void adjustSize(); /** Grabs height from staff and adjust to it. */
 		
@@ -81,7 +86,7 @@ public:
 		void selectNote(bool sel);
 		
 				/** Sets note-head at given position and given accidental accidental. */
-		void setNote(int notePos, int accNr);
+		void setNote(int notePos, int accNr, const Tnote& n);
 		
 				/** Returns pointer to main note QGraphicsEllipseItem.  */
 		QGraphicsEllipseItem* mainNote() { return m_mainNote; }
@@ -157,6 +162,7 @@ private:
 		TcombinedAnim									*m_noteAnim;
 		TcrossFadeTextAnim 						*m_accidAnim;
     bool													 m_accidToKeyAnim;
+		Tnote													*m_note;
     
     int                            m_mainPosY, m_accidental;
     int                            m_index; // note index in external list
