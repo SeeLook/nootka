@@ -24,6 +24,7 @@
 #include <graphics/tdropshadoweffect.h>
 #include <animations/tcrossfadetextanim.h>
 #include <animations/tcombinedanim.h>
+#include <music/tnote.h>
 #include <tnoofont.h>
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
@@ -101,6 +102,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	setParentItem(staff);
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
+	m_note = new Tnote(0, 0, 0);
 	if (!scene->views().isEmpty() && m_rightBox == 0)
 		initNoteCursor();
   
@@ -131,7 +133,8 @@ TscoreNote::~TscoreNote() { // release work note and controls from destructing p
 			m_rightBox->setScoreNote(0);
 			m_leftBox->setScoreNote(0);
 			setCursorParent(0);
-	}		
+	}
+	delete m_note;
 }
 
 //##############################################################################
@@ -226,9 +229,12 @@ void TscoreNote::moveNote(int posY) {
 }
 
 
-void TscoreNote::setNote(int notePos, int accNr) {
+void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
 	m_accidental = accNr;
+	*m_note = n;
 	moveNote(notePos);
+	if (m_mainPosY == 0)
+		*m_note = Tnote(); // set note to null if below the score possibilities
 }
 
 

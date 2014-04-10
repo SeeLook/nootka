@@ -22,6 +22,7 @@
 #include <score/tsimplescore.h>
 #include <QPointer>
 
+class TscoreNote;
 class TgraphicsTextTip;
 class TblinkingItem;
 class TstrikedOutItem;
@@ -45,51 +46,9 @@ public:
 		
 		void setEnableEnharmNotes(bool isEnabled);
     void acceptSettings();
-    void askQuestion(Tnote note, char realStr = 0);
-    void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
-    void clearScore();
-		
-				/** It sets TkeySignatureView background to question color, sets fake key signature
-        * and invokes askQuestion in TkeySignatureView */
-    void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
-		
-        /** Connects or disconnects reactions for clicking a note
-        * and showing enharmonic notes depends on is exam executing (disconnect)
-        * or not (connect).*/
-    void isExamExecuting(bool isIt);
-		
-        /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
-    void unLockScore();
-    void setKeyViewBg(QColor C);
-    void setNoteViewBg(int id, QColor C);
-    void forceAccidental(Tnote::Eacidentals accid); /** Sets given accidental */
-		
-        /** Marks note with border and blur. It is used to show was answer correct or not. */
-    void markAnswered(QColor blurColor);
-    void markQuestion(QColor blurColor);
-		
-		void enableAccidToKeyAnim(bool enable);
-		bool isAccidToKeyAnimEnabled();
 		
 				/** Removes score controller from layout and returns a pointer to it.  */
 		TscoreControl* getFreeController();
-		
-				/** Performs animation that transforming current selected note to given @p goodNote */
-		void correctNote(Tnote& goodNote, const QColor& color);
-		
-				/** Performs rewinding of current key to @p newKey */
-		void correctKeySignature(TkeySignature newKey);
-		void correctAccidental(Tnote& goodNote);
-		
-				/** Displays note name of first note or the second if given next to its note-head in a score. */
-		void showNames(Tnote::EnameStyle st, bool forAll = false);
-		void deleteNoteName(int id); /** Deletes given instance of note name if it exist */
-		
-				/** Returns note head rectangle if visible or empty QRectF.  */
-		QRectF noteRect(int noteNr);
-			
-				/** Position of a note in graphics view coordinates. */
-		QPoint notePos(int noteNr);
 		
 		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
 		
@@ -105,6 +64,50 @@ public:
 		EinMode insertMode() { return m_inMode; }
 		void setInsertMode(EinMode mode);
 		
+
+//     void askQuestion(Tnote note, char realStr = 0);
+//     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
+//     void clearScore();
+		
+				/** It sets TkeySignatureView background to question color, sets fake key signature
+        * and invokes askQuestion in TkeySignatureView */
+//     void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
+		
+        /** Connects or disconnects reactions for clicking a note
+        * and showing enharmonic notes depends on is exam executing (disconnect)
+        * or not (connect).*/
+    void isExamExecuting(bool isIt);
+		
+        /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
+//     void unLockScore();
+//     void setKeyViewBg(QColor C);
+//     void setNoteViewBg(int id, QColor C);
+//     void forceAccidental(Tnote::Eacidentals accid); /** Sets given accidental */
+		
+        /** Marks note with border and blur. It is used to show was answer correct or not. */
+//     void markAnswered(QColor blurColor);
+//     void markQuestion(QColor blurColor);
+		
+		void enableAccidToKeyAnim(bool enable);
+		bool isAccidToKeyAnimEnabled();
+		
+				/** Performs animation that transforming current selected note to given @p goodNote */
+// 		void correctNote(Tnote& goodNote, const QColor& color);
+		
+				/** Performs rewinding of current key to @p newKey */
+// 		void correctKeySignature(TkeySignature newKey);
+// 		void correctAccidental(Tnote& goodNote);
+		
+				/** Displays note name of first note or the second if given next to its note-head in a score. */
+// 		void showNames(Tnote::EnameStyle st, bool forAll = false);
+		void deleteNoteName(int id); /** Deletes given instance of note name if it exist */
+		
+				/** Returns note head rectangle if visible or empty QRectF.  */
+		QRectF noteRect(int noteNr);
+			
+				/** Position of a note in graphics view coordinates. */
+		QPoint notePos(int noteNr);
+		
 signals:
 		void noteChanged(int index, Tnote note);
 		
@@ -113,9 +116,9 @@ signals:
 		
 public slots:
     void whenNoteWasChanged(int index, Tnote note);
-    void expertNoteChanged();
     void setScordature(); /** Sets scordature to value kept in Tglobal. */
     void noteWasClicked(int index);
+		void expertNoteChanged();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -123,9 +126,12 @@ protected:
 protected slots:
 				/** Refresh some things after switch scordature, notes state and color. */
 		void onPianoSwitch();
-		void strikeBlinkingFinished();
-		void keyBlinkingFinished();
-		void finishCorrection();
+// 		void strikeBlinkingFinished();
+// 		void keyBlinkingFinished();
+// 		void finishCorrection();
+		void staffHasNoSpace(int staffNr); /** Create new (next) staff */
+		void staffHasFreeSpace(int staffNr, int notesFree); /** Move notes to this staff from the next one */
+		void noteGetFree(int staffNr, TscoreNote* freeNote);
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
@@ -135,8 +141,13 @@ private:
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
     void checkAndAddNote();
+				/** Adds given staff at the end of m_staves list or creates a new one.
+				 * Sets staff number corresponding to its index in the m_staves list,
+				 * connects the staff with TmainScore slots */
+		void addStaff(TscoreStaff* st = 0);
 
 private:
+		QList<TscoreStaff*>					 m_staves; // list of staves in page view
 		QGraphicsSimpleTextItem 		*m_questMark;
 		QGraphicsTextItem 					*m_questKey;
 		QList<TgraphicsTextTip*>		 m_noteName; // for now only two notes are used
@@ -150,6 +161,7 @@ private:
 		EinMode											 m_inMode;
 				/** Index of the last note clicked on the score or 0 at the start */
 		int													 m_clickedIndex;
+		qreal												 m_scale;
 };
 
 #endif // TMAINSCORE_H

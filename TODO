@@ -2,6 +2,7 @@ TODO List
 
 - clear mechanism of selected/indexed notes on a staff, send something when selected note is deleted
 - after deleting clef menu work note lines doesn't change current TscoreNote parent - use moveWorkNote() for it
+- TscoreNote make methods related to lines static
 - (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
 

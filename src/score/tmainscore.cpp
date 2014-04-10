@@ -38,18 +38,25 @@ extern Tglobals *gl;
 QWidget *m_parent;
 
 TmainScore::TmainScore(QWidget* parent) :
-	TsimpleScore(1, parent),
+	TsimpleScore(3, parent),
 	m_questMark(0),
 	m_questKey(0),
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle),
   m_inMode(e_record), 
-  m_clickedIndex(0)
+  m_clickedIndex(0),
+  m_scale(1.5)
 {
   m_parent = parent;
-	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+// 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+// 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	staff()->setSelectableNotes(true);
+	m_staves << staff();
+	staff()->setStafNumber(0);
+// 	staff()->setViewWidth(200);
+	addStaff(staff());
 // set preferred clef
 	setClef(gl->Sclef);
 	m_noteName << 0 << 0;
@@ -152,7 +159,7 @@ void TmainScore::setScordature() {
 	}
 }
 
-
+/*
 void TmainScore::unLockScore() {
 	setScoreDisabled(false);
 	setNoteDisabled(1, true);
@@ -167,7 +174,7 @@ void TmainScore::unLockScore() {
 		staff()->noteSegment(0)->moveWorkNote(nPos);
 	}
 }
-
+*/
 
 TscoreControl* TmainScore::getFreeController() {
 	layout()->removeWidget(scoreController());
@@ -207,37 +214,10 @@ int TmainScore::widthToHeight(int hi) {
 }
 
 
-void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
-	int max = 1;
-	if (forAll)
-			max = 2;
-	m_showNameInCorrection = false;
-	m_corrStyle = st;
-	for (int i = 0; i < max; i++) {
-		if (getNote(i).note) {
-			m_noteName[i] = new TgraphicsTextTip(getNote(i).toRichText(st));
-			m_noteName[i]->setZValue(30);
-			m_noteName[i]->setDropShadow(m_noteName[i], QColor(staff()->noteSegment(i)->mainNote()->pen().color().name()));
-			m_noteName[i]->setDefaultTextColor(palette().text().color());
-			m_noteName[i]->setParentItem(staff()->noteSegment(i));
-// 			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
-			m_noteName[i]->setScale(8.0 / m_noteName[i]->boundingRect().height());
-			m_noteName[i]->setPos((7.0 - m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
-					staff()->noteSegment(i)->notePos() > staff()->upperLinePos() ? 
-								staff()->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
-								staff()->noteSegment(i)->notePos() + staff()->noteSegment(i)->mainNote()->boundingRect().height()); // below note
-			staff()->noteSegment(i)->removeString(); // String number is not needed here and could collide with name
-		}
-	}
-	if (m_noteName[0])
-			m_showNameInCorrection = true;
-}
-
-
-
 //####################################################################################################
 //############################## METHODS RELATED TO EXAMS ############################################
 //####################################################################################################
+
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
@@ -274,7 +254,7 @@ void TmainScore::isExamExecuting(bool isIt) {
     }
 }
 
-
+/*
 void TmainScore::clearScore() {
 	bool enableAnim = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations to empty score
@@ -317,12 +297,13 @@ void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
 	setKeySignature(key);
 	askQuestion(note, realStr);
 }
+*/
 
 void TmainScore::expertNoteChanged() {
 		emit noteClicked();
 }
 
-
+/*
 void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
 		if (scoreController())
 			scoreController()->setAccidental(accid);
@@ -413,6 +394,44 @@ void TmainScore::correctKeySignature(TkeySignature newKey) {
 		m_keyBlinking->startBlinking(2);
 }
 
+
+
+void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
+	int max = 1;
+	if (forAll)
+			max = 2;
+	m_showNameInCorrection = false;
+	m_corrStyle = st;
+	for (int i = 0; i < max; i++) {
+		if (getNote(i).note) {
+			m_noteName[i] = new TgraphicsTextTip(getNote(i).toRichText(st));
+			m_noteName[i]->setZValue(30);
+			m_noteName[i]->setDropShadow(m_noteName[i], QColor(staff()->noteSegment(i)->mainNote()->pen().color().name()));
+			m_noteName[i]->setDefaultTextColor(palette().text().color());
+			m_noteName[i]->setParentItem(staff()->noteSegment(i));
+// 			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
+			m_noteName[i]->setScale(8.0 / m_noteName[i]->boundingRect().height());
+			m_noteName[i]->setPos((7.0 - m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
+					staff()->noteSegment(i)->notePos() > staff()->upperLinePos() ? 
+								staff()->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
+								staff()->noteSegment(i)->notePos() + staff()->noteSegment(i)->mainNote()->boundingRect().height()); // below note
+			staff()->noteSegment(i)->removeString(); // String number is not needed here and could collide with name
+		}
+	}
+	if (m_noteName[0])
+			m_showNameInCorrection = true;
+}
+*/
+
+void TmainScore::deleteNoteName(int id) {
+	if (id < 0 || id > 1) // so far only two instances exist
+		return;
+	if (m_noteName.at(id)) { 
+		delete m_noteName.at(id);
+		m_noteName[id] = 0; 
+	}
+}
+
 //####################################################################################################
 //########################################## PUBLIC SLOTS ############################################
 //####################################################################################################
@@ -450,6 +469,29 @@ void TmainScore::onPianoSwitch() {
 }
 
 
+void TmainScore::staffHasNoSpace(int staffNr) {
+	addStaff();
+	m_staves.last()->setPos(m_staves[staffNr]->pos().x(), 
+													0.05 + (((staff()->height() + 4.0)) * score()->transform().m11()) * staffNr);
+}
+
+
+void TmainScore::staffHasFreeSpace(int staffNr, int notesFree) {
+	if (m_staves[staffNr] != m_staves.last()) { // is not the last staff
+		QList<TscoreNote*> notes;
+		m_staves[staffNr + 1]->takeNotes(notes, 0, notesFree);
+		m_staves[staffNr]->addNotes(m_staves[staffNr]->count(), notes);
+	}
+}
+
+
+void TmainScore::noteGetFree(int staffNr, TscoreNote* freeNote) {
+	
+}
+
+
+
+/*
 void TmainScore::strikeBlinkingFinished() {
 	if (m_strikeOut) {
 		m_strikeOut->deleteLater();
@@ -489,10 +531,65 @@ void TmainScore::finishCorrection() {
 	if (m_showNameInCorrection)
 			showNames(m_corrStyle);
 }
-
+*/
 
 void TmainScore::resizeEvent(QResizeEvent* event) {  
-	TsimpleScore::resizeEvent(event);
+// 	TsimpleScore::resizeEvent(event);
+// 	if (staff()->parent() == 0)
+// 			return;
+	int hh = height(), ww = width();
+	if (event) {
+		hh = event->size().height();
+		ww = event->size().width();
+	}
+// 	int scrollV;
+// 	if (m_score->horizontalScrollBar()->isVisible()) {
+// 		hh -= m_score->horizontalScrollBar()->height();
+// 		scrollV = m_score->horizontalScrollBar()->value();
+// 	}
+	QList<TscoreNote*> allNotes;
+	for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote 
+		m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
+	}
+	qreal staffOff = 1.0;
+  if (staff()->isPianoStaff())
+    staffOff = 2.0;
+  qreal factor = (((qreal)hh / (staff()->height() + 4.0)) / score()->transform().m11()) / m_scale;
+  score()->scale(factor, factor);
+	int stavesNumber; // how many staves are needed
+	for (int i = 0; i < m_staves.size(); i++) {
+// 	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
+		m_staves[i]->setViewWidth(score()->mapToScene(score()->width(), 0).x());
+		if (i == 0) { // first loop - make preparations for new amount of staves
+			stavesNumber = allNotes.size() / m_staves[0]->maxNoteCount(); // needed staves for this amount of notes
+			if (allNotes.size() % m_staves[0]->maxNoteCount())
+					stavesNumber++;
+			if (stavesNumber > m_staves.size()) { // create new staff(staves)
+				for (int s = 0; s < stavesNumber - m_staves.size(); s++) {
+					addStaff();
+				}
+			} else if (stavesNumber < m_staves.size()) { // or delete unnecessary stavess
+					int stavesToDel = stavesNumber - m_staves.size();
+					for (int s = 0; s < stavesToDel; s++) {
+						delete m_staves[m_staves.size() - 1];
+						m_staves.removeLast();
+					}
+			}
+		}
+		m_staves[i]->setPos(staffOff, 0.05 + ((qreal)i * ((staff()->height() + 4.0) * score()->transform().m11())));
+		if (allNotes.size() > i * m_staves[i]->maxNoteCount()) {
+				QList<TscoreNote*> stNotes = allNotes.mid(i * m_staves[i]->maxNoteCount(), m_staves[i]->maxNoteCount());
+				m_staves[i]->addNotes(0, stNotes);
+		}
+	}
+	qDebug() << staff()->boundingRect() << staff();
+	// 	if (m_score->horizontalScrollBar()->isVisible()) {
+// 		m_score->horizontalScrollBar()->setValue(scrollV);
+// 	}
+	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, staff()->width(), staff()->height() * m_staves.size())).boundingRect();
+	scene()->setSceneRect(0.0, 0.0, scRec.width() + (isPianoStaff() ? 2.0 : 1.0), scRec.height());
+// 	staff()->updateSceneRect();
+	
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
 
@@ -550,22 +647,24 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 }
 
 
-void TmainScore::deleteNoteName(int id) {
-	if (id < 0 || id > 1) // so far only two instances exist
-		return;
-	if (m_noteName.at(id)) { 
-		delete m_noteName.at(id);
-		m_noteName[id] = 0; 
-	}
-}
-
-
 void TmainScore::checkAndAddNote() {
   if (insertMode() != e_single && staff()->currentIndex() == staff()->count() - 1) {
       Tnote nn(0, 0, 0);
       staff()->addNote(nn);
 			staff()->noteSegment(staff()->count() - 1)->enableAccidToKeyAnim(true);
   }
+}
+
+
+void TmainScore::addStaff(TscoreStaff* st) {
+	if (st == 0) // create new staff at the end of a list
+			m_staves << new TscoreStaff(scene(), 0);
+	else
+			m_staves << st;
+	m_staves.last()->setStafNumber(m_staves.size() - 1);
+	connect(m_staves.last(), SIGNAL(noMoreSpace(int)), this, SLOT(staffHasNoSpace(int)));
+	connect(m_staves.last(), SIGNAL(freeSpace(int,int)), this, SLOT(staffHasFreeSpace(int,int)));
+	connect(m_staves.last(), SIGNAL(noteToMove(int,TscoreNote*)), this, SLOT(noteGetFree(int,TscoreNote*)));
 }
 
 

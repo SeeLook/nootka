@@ -67,6 +67,11 @@ public:
     TscoreStaff(TscoreScene* scene, int notesNr);
     virtual ~TscoreStaff();
     
+				/** Determines index of this staff in staff list in multi-staff mode.
+				 * Otherwise (default) returns -1 */
+		void setStafNumber(int nr) { m_staffNr = nr; }
+		int number() { return m_staffNr; }
+		
 				/** Returns pointer to TscoreNote element in the score. */
 		TscoreNote* noteSegment(int nr) { return m_scoreNotes[nr]; }
 		
@@ -78,23 +83,35 @@ public:
 		bool isPianoStaff() { return m_isPianoStaff; }
 		
 				/** Returns current @p index note or Tnote(0, 0, 0) if not set. */
-		Tnote* getNote(int index) { return m_notes[index]; }
-		virtual void setNote(int index, const Tnote& note);
-		virtual void setNoteDisabled(int index, bool isDisabled);
+		Tnote* getNote(int index);
+		void setNote(int index, const Tnote& note);
+		void setNoteDisabled(int index, bool isDisabled);
 		
 		int count() { return m_scoreNotes.size(); } /** Number of notes on the score */
 		
         /** adds note at the end of the staff 
          * Empty Tnote creates new instance of TscoreNote item. */
     void addNote(Tnote& note, bool disabled = false);
+		
+				/** Adds notes from the list to this staff, starting from given @p index.
+				 * Notes number in the list can not be bigger than available space on the staff */
+		void addNotes(int index, QList<TscoreNote*>& nList);
+		void addNote(int index, TscoreNote* freeNotet);
+		
 				/** Inserts note in given position (index). 
 				 * When @p index is out of scope adds it at the end. */
 		void insertNote(int index, const Tnote& note, bool disabled = false);
 		void insertNote(int index, bool disabled = false); /** Insert empty note */
 		void removeNote(int index); /** Deletes given note from the staff */
+				
+				/** Removes all note segments from @p from to @p to 
+				 * and puts those TscoreNote pointers to given @p nList.
+				 * To grab all notes from a staff just invoke:
+				 * takeNotes(smoeList, 0, count() - 1); */
+		void takeNotes(QList<TscoreNote*>& nList, int from, int to);
 		int currentIndex() { return m_index; }
 		
-		virtual void setEnableKeySign(bool isEnabled);
+		void setEnableKeySign(bool isEnabled);
 		
         /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
          * It is common for TscoreKeySignature and all TscoreNote. 
@@ -105,9 +122,9 @@ public:
 		
 		    /** Sets scordature according to given tune.
 				 * To delete it just call this with Ttune::standardTune.*/
-    virtual void setScordature(Ttune& tune);
-		virtual bool hasScordature() { return (bool)m_scordature; } /** @p TRUE when staff has got scordature. */
-		virtual void removeScordatute();
+    void setScordature(Ttune& tune);
+		bool hasScordature() { return (bool)m_scordature; } /** @p TRUE when staff has got scordature. */
+		void removeScordatute();
 		
     qreal upperLinePos() const { return m_upperLinePos; } /** Y position of upper line of a staff. */
     qreal lowerLinePos() const { return m_lowerStaffPos; } /** Y position of lower line of a lower staff. */
@@ -121,8 +138,7 @@ public:
     int notePosRelatedToClef(int pos, TnoteOffset off) {
                     return off.octave * 7 - (pos + 1 - (int)upperLinePos() - off.note);  }
       
-    int notePosRelatedToClef(int pos) {
-      return notePosRelatedToClef(pos, m_offset); }
+    int notePosRelatedToClef(int pos) { return notePosRelatedToClef(pos, m_offset); }
       
         /** Returns offset of a y coefficient of a note related to current clef. */
     int noteOffset() { return m_offset.note; }
@@ -144,14 +160,24 @@ public:
 		void setExternalWidth(qreal w) { m_externWidth = w; updateWidth(); }
 		qreal externalWidth() { return m_externWidth; }
 		
+				/** Informs a staff about QGraphicsView width displaying this staff.
+				 * With this value the staff determines maximal lines width and maximal notes count.
+				 * If not set (0.0) - single staff, If set - m_externWidth is ignored.
+				 * This is very important for multi-system view (vertical staves) */
+		void setViewWidth(qreal viewW);
+		
+				/** Returns maximal note number which staff can display in single line in view area.
+				 * If 0 - staff is in linear mode */
+		int maxNoteCount() { return m_maxNotesCount; }
+		
 				/** Switches when note segments have colored background after their note are set */
 		void setSelectableNotes(bool selectable) { m_selectableNotes = selectable; }
 		bool selectableNotes() { return m_selectableNotes; }
     
-    virtual void setScoreControler(TscoreControl *scoreControl);
+    void setScoreControler(TscoreControl *scoreControl);
 		
 				/** Stops/starts capturing any mouse events. */
-		virtual void setDisabled(bool disabled);		
+		void setDisabled(bool disabled);		
 		
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
     virtual QRectF boundingRect() const;
@@ -161,6 +187,19 @@ signals:
 		void noteChanged(int index);
 		void clefChanged(Tclef);
 		void staffSizeChanged(); /** when piano staff is changed or staff width */
+		
+				/** When staff has no more space to display next note segment. 
+				 * Argument is staff number */
+		void noMoreSpace(int);
+		
+				/** Emitted usually after removing a note. Staff has extra free space. 
+				 * First argument is staff number, the second one is amount of space for new note(s) */
+		void freeSpace(int, int);
+		
+				/** There was no space for a note sending as an argument.
+				 * Usually it was the last note on this staff before inserting another one. */
+		void noteToMove(int, TscoreNote*);
+		
 		
 public slots:
 				/** It is connected with clef, but also refresh m_offset appropriate to current clef. */
@@ -198,16 +237,17 @@ protected slots:
 		void fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
 		void accidAnimFinished();
 		
-private:    
+private:
+		int 															 m_staffNr;
     QGraphicsLineItem       					*m_lines[5], *m_lowLines[5]; // five staff lines
     TscoreClef              					*m_clef;
 		QGraphicsSimpleTextItem 					*m_brace;
     TscoreKeySignature								*m_keySignature; 
     QList<TscoreNote*>       					 m_scoreNotes;
-		QList<Tnote*>						 					 m_notes;
     qreal                    					 m_upperLinePos, m_lowerStaffPos;
     qreal                    					 m_height, m_width;
 		qreal										 					 m_externWidth; // width set from outside
+		qreal															 m_viewWidth; // width of QGraphicsView in scene coordinates.
     TnoteOffset              					 m_offset;
 		bool 										 					 m_isPianoStaff;
 		QPointer<TscoreControl>						 m_scoreControl;
@@ -217,9 +257,11 @@ private:
 		QGraphicsSimpleTextItem 					*m_flyAccid;
 		int											 					 m_index; // index of currently selected note
 		bool 										 					 m_selectableNotes;
+		int																 m_maxNotesCount;
 		
 private:
 		void createBrace();
+		int getMaxNotesNr(qreal maxWidth); /** Calculates notes number from given width */
 
 };
 
