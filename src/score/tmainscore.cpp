@@ -53,7 +53,6 @@ TmainScore::TmainScore(QWidget* parent) :
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 // 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 	staff()->setSelectableNotes(true);
-	m_staves << staff();
 	staff()->setStafNumber(0);
 // 	staff()->setViewWidth(200);
 	addStaff(staff());
@@ -542,6 +541,8 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 		hh = event->size().height();
 		ww = event->size().width();
 	}
+	if (ww < 500)
+      return;
 // 	int scrollV;
 // 	if (m_score->horizontalScrollBar()->isVisible()) {
 // 		hh -= m_score->horizontalScrollBar()->height();
@@ -576,18 +577,18 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 					}
 			}
 		}
-		m_staves[i]->setPos(staffOff, 0.05 + ((qreal)i * ((staff()->height() + 4.0) * score()->transform().m11())));
+		m_staves[i]->setPos(staffOff, 0.05 + i * ((staff()->height() + 4.0) * score()->transform().m11()));
 		if (allNotes.size() > i * m_staves[i]->maxNoteCount()) {
 				QList<TscoreNote*> stNotes = allNotes.mid(i * m_staves[i]->maxNoteCount(), m_staves[i]->maxNoteCount());
 				m_staves[i]->addNotes(0, stNotes);
 		}
 	}
-	qDebug() << staff()->boundingRect() << staff();
 	// 	if (m_score->horizontalScrollBar()->isVisible()) {
 // 		m_score->horizontalScrollBar()->setValue(scrollV);
 // 	}
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, staff()->width(), staff()->height() * m_staves.size())).boundingRect();
-	scene()->setSceneRect(0.0, 0.0, scRec.width() + (isPianoStaff() ? 2.0 : 1.0), scRec.height());
+  qDebug() << staff()->boundingRect() << m_staves.size() << scRec;
+	scene()->setSceneRect(0.0, 0.0, scRec.width() + (staff()->isPianoStaff() ? 2.0 : 1.0), scRec.height());
 // 	staff()->updateSceneRect();
 	
 	performScordatureSet(); // To keep scordature size up to date with score size
