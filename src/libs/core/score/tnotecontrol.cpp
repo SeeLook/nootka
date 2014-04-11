@@ -98,6 +98,11 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 				m_minus->show();
 			if (pos().x() < m_scoreNote->pos().x()) // hide name for left control
 				m_name->hide();
+			if (parentItem() != sn->parentItem()) {
+				parentItem()->setZValue(10);
+				setParentItem(sn->parentItem());
+				parentItem()->setZValue(11);
+			}
 	} else {
 		hide();
 	}
