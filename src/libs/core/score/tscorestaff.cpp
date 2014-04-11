@@ -140,7 +140,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	}
 	updateIndex();
 	updateWidth();
-	if (m_viewWidth > 0.0)
+	if (number() == -1)
 			updateSceneRect(); // Updtate only for non multi staves view
 }
 
@@ -174,6 +174,7 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 		m_scoreNotes << nList[i];
 		connect(nList[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 		nList[i]->setParentItem(this);
+// 		qDebug() << nList[i]->parentItem() << nList[i]->mapToScene(nList[i]->pos());
 	}
 	updateWidth();
 	updateIndex();
