@@ -33,37 +33,46 @@
 #include <QtWidgets>
 
 
+#define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
+
 extern Tglobals *gl;
 
 QWidget *m_parent;
 
 TmainScore::TmainScore(QWidget* parent) :
-	TsimpleScore(40, parent),
+	TsimpleScore(1, parent),
 	m_questMark(0),
 	m_questKey(0),
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle),
   m_inMode(e_record), 
-  m_clickedIndex(0),
-  m_scale(1.5)
+  m_clickedIndex(0), m_currentIndex(0),
+  m_scale(1.25)
 {
   m_parent = parent;
 // 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-// 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-// 	staff()->setSelectableNotes(true);
-// 	staff()->setStafNumber(0);
-// 	staff()->setViewWidth(200);
 	addStaff(staff());
 // set preferred clef
 	setClef(gl->Sclef);
+	m_outZoomButt = new QPushButton(QIcon(gl->path + "/picts/zoom-out.png"), "", scoreController());
+	m_inZoomBuut = new QPushButton(QIcon(gl->path + "/picts/zoom-in.png"), "", scoreController());
+	static_cast<QVBoxLayout*>(scoreController()->layout())->insertStretch(0);
+	static_cast<QVBoxLayout*>(scoreController()->layout())->insertWidget(0, m_inZoomBuut);
+	static_cast<QVBoxLayout*>(scoreController()->layout())->addStretch();
+	static_cast<QVBoxLayout*>(scoreController()->layout())->addWidget(m_outZoomButt);
+	connect(m_outZoomButt, SIGNAL(clicked()), this, SLOT(zoomScoreSlot()));
+	connect(m_inZoomBuut, SIGNAL(clicked()), this, SLOT(zoomScoreSlot()));
+	
 	m_noteName << 0 << 0;
 // set note colors
 	restoreNotesSettings();
 	setScordature();
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->SkeySignatureEnabled);
+	if (m_staves.last()->scoreKey())
+		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 	
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
@@ -122,35 +131,52 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::setNote(Tnote note) {
-  checkAndAddNote();
-	if (insertMode() == e_record) {
-// 			if (m_clickedIndex >= staff()->count()) { // note was selected with !
-// // 			if (m_clickedIndex != staff()->currentIndex()) { // note was selected with !
-// 				for (int i = 0; i < staff()->count(); i++)
-// 					if (staff()->noteSegment(i)->isSelected()) { // find which one
-// 						m_clickedIndex = i;
-// 						break;
-// 					}
-// 			}
-			TsimpleScore::setNote(m_clickedIndex, note);
-			m_clickedIndex++;
-// 		TsimpleScore::setNote(staff()->currentIndex() + 1, note);
+//   checkAndAddNote();
+	if (insertMode() != e_single) {
+			TscoreStaff *thisStaff = m_staves[m_clickedIndex / staff()->maxNoteCount()];
+			if (thisStaff->number() != m_currentIndex / staff()->maxNoteCount())
+					m_staves[m_currentIndex / staff()->maxNoteCount()]->setCurrentIndex(-1); // reset previous selection
+			checkAndAddNote(thisStaff);
+			thisStaff->setNote(m_clickedIndex % staff()->maxNoteCount(), note);
+			if (m_staves.size() > 1)
+					score()->centerOn(score()->mapFromScene(thisStaff->mapToScene(thisStaff->pos())));
+			m_currentIndex = m_clickedIndex;
+			if (insertMode() == e_record)
+					m_clickedIndex++;
 	} else {
-			if (staff()->currentIndex() != -1)
-					TsimpleScore::setNote(staff()->currentIndex(), note);
-			else
-					qDebug() << "select another note to see it!";
+// 			if (staff()->currentIndex() != -1)
+// 					TsimpleScore::setNote(staff()->currentIndex(), note);
+// 			else
+					qDebug() << "Single note mode not implemented";
 	}
 }
 
 
 void TmainScore::noteWasClicked(int index) {
-	m_clickedIndex = index;
-	TscoreStaff *st = static_cast<TscoreStaff*>(sender());
+	TscoreStaff *st = SENDER_TO_STAFF;
+	if (m_currentIndex / st->maxNoteCount() != st->number()) // reset previous selection
+			m_staves[m_currentIndex / staff()->maxNoteCount()]->setCurrentIndex(-1);
 	Tnote note = *(st->getNote(index));
+	m_clickedIndex = index + st->number() * st->maxNoteCount();
+	m_currentIndex = m_clickedIndex;
 	emit noteWasChanged(index, note);
-//   TsimpleScore::noteWasClicked(index);
-//   checkAndAddNote();
+  checkAndAddNote(st);
+}
+
+
+void TmainScore::onClefChanged(Tclef cl) {
+	if (m_staves.size() == 1)
+		return;
+	int staffNr = SENDER_TO_STAFF->number();
+	for (int i = 0; i < m_staves.size(); i++)
+		if (m_staves[i]->number() != staffNr) {
+			m_staves[i]->disconnect(SIGNAL(clefChanged(Tclef)));
+			m_staves[i]->onClefChanged(cl);
+			connect(m_staves[i], SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+			if (i != m_currentIndex / staff()->maxNoteCount())
+					m_staves[i]->setCurrentIndex(-1); // fix selection
+		}
+	TsimpleScore::onClefChanged(cl);
 }
 
 
@@ -160,6 +186,20 @@ void TmainScore::setScordature() {
 			resizeEvent(0);
 	}
 }
+
+
+void TmainScore::keyChangedSlot() {
+	if (m_staves.size() == 1)
+		return;
+	TscoreKeySignature *key = static_cast<TscoreKeySignature*>(sender());
+	for (int i = 0; i < m_staves.size(); i++)
+		if (m_staves[i]->scoreKey() != key) {
+			disconnect(m_staves[i]->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
+			m_staves[i]->scoreKey()->setKeySignature(key->keySignature());
+			connect(m_staves[i]->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
+		}
+}
+
 
 /*
 void TmainScore::unLockScore() {
@@ -475,6 +515,7 @@ void TmainScore::staffHasNoSpace(int staffNr) {
 	addStaff();
 	m_staves.last()->setPos(m_staves[staffNr]->pos().x(), 
 													0.05 + (((staff()->height() + 4.0)) * score()->transform().m11()) * staffNr);
+	resizeEvent(0);
 }
 
 
@@ -491,6 +532,19 @@ void TmainScore::noteGetFree(int staffNr, TscoreNote* freeNote) {
 	
 }
 
+
+void TmainScore::zoomScoreSlot() {
+	qreal newScale = m_scale;
+	if (sender() == m_outZoomButt) {
+			newScale = qMin(m_scale + 0.25, 2.0);
+	} else {
+			newScale = qMax(m_scale - 0.25, 1.0);
+	}
+	if (newScale != m_scale) {
+		m_scale = newScale;
+		resizeEvent(0);
+	}
+}
 
 
 /*
@@ -556,29 +610,31 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
-  qreal factor = (((qreal)hh / (staff()->height())) / score()->transform().m11()) / m_scale;
+  qreal factor = (((qreal)hh / (staff()->height() + 4.0)) / score()->transform().m11()) / m_scale;
   score()->scale(factor, factor);
 	int stavesNumber; // how many staves are needed
 	for (int i = 0; i < m_staves.size(); i++) {
 // 	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
-		m_staves[i]->setViewWidth(/*score()->mapToScene(*/ (score()->width() - 20) / score()->transform().m11()  /*, 0).x()*/);
+		m_staves[i]->setViewWidth((score()->width() - 25) / score()->transform().m11());
 		if (i == 0) { // first loop - make preparations for new amount of staves
 			stavesNumber = allNotes.size() / m_staves[0]->maxNoteCount(); // needed staves for this amount of notes
 			if (allNotes.size() % m_staves[0]->maxNoteCount())
 					stavesNumber++;
 			if (stavesNumber > m_staves.size()) { // create new staff(staves)
-				for (int s = 0; s < stavesNumber - m_staves.size(); s++) {
-					addStaff();
-				}
-			} else if (stavesNumber < m_staves.size()) { // or delete unnecessary stavess
-					int stavesToDel = stavesNumber - m_staves.size();
+					int stavesToAdd = stavesNumber - m_staves.size();
+					for (int s = 0; s < stavesToAdd; s++) {
+						addStaff();
+					}
+			} else if (stavesNumber < m_staves.size()) { // or delete unnecessary staves
+					int stavesToDel = m_staves.size() - stavesNumber;
 					for (int s = 0; s < stavesToDel; s++) {
-						delete m_staves[m_staves.size() - 1];
+						delete m_staves.last();
 						m_staves.removeLast();
+						qDebug() << "staff deleted";
 					}
 			}
 		}
-		m_staves[i]->setPos(staffOff, 0.05 + i * (staff()->height() - 10.0));
+		m_staves[i]->setPos(staffOff, 0.05 + i * (staff()->height() - 16.0));
 		if (allNotes.size() > i * m_staves[i]->maxNoteCount()) {
 				QList<TscoreNote*> stNotes = allNotes.mid(i * m_staves[i]->maxNoteCount(), m_staves[i]->maxNoteCount());
 				m_staves[i]->addNotes(0, stNotes);
@@ -589,7 +645,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 // 	}
 
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, staff()->width() + (staff()->isPianoStaff() ? 2.0 : 1.0),
-																staff()->height() * qMax(m_scale, (qreal)m_staves.size()))).boundingRect();
+																16.0 + (staff()->height() - 16.0) * qMax(m_scale, (qreal)m_staves.size()))).boundingRect();
 //   qDebug() << staff()->boundingRect() << m_staves.size() << scRec;
 	scene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
 // 	scene()->setSceneRect(0.0, 0.0, qMax((staff()->x() + staff()->width()) * score()->transform().m11(), (qreal)width()),
@@ -654,31 +710,40 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 }
 
 
-void TmainScore::checkAndAddNote() {
-  if (insertMode() != e_single && staff()->currentIndex() == staff()->count() - 1) {
+void TmainScore::checkAndAddNote(TscoreStaff* sendStaff) {
+  if (insertMode() != e_single && sendStaff->currentIndex() == sendStaff->count() - 1) {
       Tnote nn(0, 0, 0);
-      staff()->addNote(nn);
-			staff()->noteSegment(staff()->count() - 1)->enableAccidToKeyAnim(true);
+			if (sendStaff->count() - 1 < sendStaff->maxNoteCount()) { // add note to staff invoking this
+					sendStaff->addNote(nn);
+					sendStaff->noteSegment(sendStaff->count() - 1)->enableAccidToKeyAnim(true);
+			} // when it is last possible note on the staff - staff has already sent noMoreSpace() signal
   }
 }
 
 
 void TmainScore::addStaff(TscoreStaff* st) {
 	if (st == 0) { // create new staff at the end of a list
-			m_staves << new TscoreStaff(scene(), 5);
+			m_staves << new TscoreStaff(scene(), 1);
 			m_staves.last()->setScoreControler(scoreController());
-			connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
-			connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+// 			connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
+// 			connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 			m_staves.last()->onClefChanged(gl->Sclef);
 			m_staves.last()->setEnableKeySign(gl->SkeySignatureEnabled);
-			
-	} else
+	} else {
+			st->disconnect(SIGNAL(noteChanged(int)));
+			st->disconnect(SIGNAL(clefChanged(Tclef)));
 			m_staves << st;
+	}
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	m_staves.last()->setSelectableNotes(true);
+	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
+	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 	connect(m_staves.last(), SIGNAL(noMoreSpace(int)), this, SLOT(staffHasNoSpace(int)));
 	connect(m_staves.last(), SIGNAL(freeSpace(int,int)), this, SLOT(staffHasFreeSpace(int,int)));
 	connect(m_staves.last(), SIGNAL(noteToMove(int,TscoreNote*)), this, SLOT(noteGetFree(int,TscoreNote*)));
+	if (m_staves.last()->scoreKey())
+		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
+	qDebug() << "staff Added";
 }
 
 

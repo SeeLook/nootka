@@ -174,7 +174,6 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 		m_scoreNotes << nList[i];
 		connect(nList[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 		nList[i]->setParentItem(this);
-// 		qDebug() << nList[i]->parentItem() << nList[i]->mapToScene(nList[i]->pos());
 	}
 	updateWidth();
 	updateIndex();
@@ -193,8 +192,11 @@ void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
 
 void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
 	if (from >= 0 && from < count() && to < count() && to >= from) {
-		for (int i = to; i >= from; i--)
-			nList.insert(0, m_scoreNotes.takeAt(i));
+		for (int i = from; i <= to; i++) { // 'from' is always the next item after takeAt() on current one
+			m_scoreNotes[from]->disconnect(SIGNAL(noteWasClicked(int)));
+			m_scoreNotes[from]->setParentItem(0); // to avoid deleting with staff as its parent
+			nList << m_scoreNotes.takeAt(from);
+		}
 		updateIndex();
 	}
 }
@@ -605,7 +607,7 @@ void TscoreStaff::createBrace() {
 
 
 int TscoreStaff::getMaxNotesNr(qreal maxWidth) {
-	maxWidth -= 2.0; // staff lines margins
+	maxWidth -= 4.0; // staff lines margins
 	if (scoreClef())
 		maxWidth -= CLEF_WIDTH;
 	if (scoreKey())
