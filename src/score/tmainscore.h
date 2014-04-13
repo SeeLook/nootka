@@ -22,6 +22,7 @@
 #include <score/tsimplescore.h>
 #include <QPointer>
 
+class QPushButton;
 class TscoreNote;
 class TgraphicsTextTip;
 class TblinkingItem;
@@ -119,6 +120,7 @@ public slots:
     void setScordature(); /** Sets scordature to value kept in Tglobal. */
     void noteWasClicked(int index);
 		void expertNoteChanged();
+		void onClefChanged(Tclef cl);
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -132,6 +134,8 @@ protected slots:
 		void staffHasNoSpace(int staffNr); /** Create new (next) staff */
 		void staffHasFreeSpace(int staffNr, int notesFree); /** Move notes to this staff from the next one */
 		void noteGetFree(int staffNr, TscoreNote* freeNote);
+		void zoomScoreSlot();
+		void keyChangedSlot();
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
@@ -140,7 +144,7 @@ private:
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
-    void checkAndAddNote();
+    void checkAndAddNote(TscoreStaff* sendStaff);
 				/** Adds given staff at the end of m_staves list or creates a new one.
 				 * Sets staff number corresponding to its index in the m_staves list,
 				 * connects the staff with TmainScore slots */
@@ -159,8 +163,9 @@ private:
 		bool 												 m_showNameInCorrection;
 		Tnote::EnameStyle						 m_corrStyle;
 		EinMode											 m_inMode;
+		QPushButton									*m_inZoomBuut, *m_outZoomButt;
 				/** Index of the last note clicked on the score or 0 at the start */
-		int													 m_clickedIndex;
+		int													 m_clickedIndex, m_currentIndex;
 		qreal												 m_scale;
 };
 

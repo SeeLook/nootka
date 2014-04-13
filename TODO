@@ -15,6 +15,7 @@ analyzer executable
 
 - check setAmbitus of TsimpleScore - is it working with properly piano staff
 
+- max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so
 - merge out&in sounds into single call-back method (class)
 - add option of playing sound during capture
