@@ -56,7 +56,7 @@ QList<QGraphicsLineItem*> TscoreNote::m_downLines;
 QList<QGraphicsLineItem*> TscoreNote::m_midLines;
 QColor TscoreNote::m_workColor = -1;
 
-QPointer<TnoteControl> TscoreNote::m_rightBox;
+TnoteControl* TscoreNote::m_rightBox = 0;
 TnoteControl* TscoreNote::m_leftBox = 0;
 
 
@@ -129,7 +129,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 
 
 TscoreNote::~TscoreNote() { // release work note and controls from destructing parent
-	if (m_rightBox && m_workNote->parentItem() == this) {
+	if (m_rightBox && (m_workNote->parentItem() == this || m_rightBox->parentItem() == parentItem())) {
 			m_rightBox->setScoreNote(0);
 			m_leftBox->setScoreNote(0);
 			setCursorParent(0);
@@ -518,7 +518,7 @@ void TscoreNote::initNoteCursor() {
 
 void TscoreNote::checkLines(int curPos, TaddLines& low, TaddLines& upp, TaddLines& mid) {
 	for (int i = 0; i < upp.size(); i++) {
-		if (curPos < m_upLines[i]->line().y1())
+		if (curPos < upp[i]->line().y1())
 			upp[i]->show();
 		else 
 			upp[i]->hide();

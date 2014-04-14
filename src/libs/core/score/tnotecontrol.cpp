@@ -28,6 +28,8 @@
 #include <QApplication>
 #include <QGraphicsSceneHoverEvent>
 
+#include <QDebug>
+
 
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
@@ -62,6 +64,10 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 }
 
 
+TnoteControl::~TnoteControl()
+{}
+
+
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
 	m_minus->setPos(0.0, m_height - 6.0);
@@ -91,6 +97,12 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 void TnoteControl::setScoreNote(TscoreNote* sn) {
 	m_scoreNote = sn;
 	if (sn) {
+			if (parentItem() != sn->parentItem()) {
+				parentItem()->setZValue(10);
+				setParentItem(sn->parentItem());
+				setStaff(sn->staff());
+				parentItem()->setZValue(11);
+			}
 			show();
 			if (staff()->count() < 2)
 					m_minus->hide();
@@ -98,13 +110,8 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 				m_minus->show();
 			if (pos().x() < m_scoreNote->pos().x()) // hide name for left control
 				m_name->hide();
-			if (parentItem() != sn->parentItem()) {
-				parentItem()->setZValue(10);
-				setParentItem(sn->parentItem());
-				parentItem()->setZValue(11);
-			}
 	} else {
-		hide();
+			hide();
 	}
 }
 

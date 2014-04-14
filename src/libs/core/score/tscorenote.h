@@ -135,6 +135,8 @@ public:
     virtual QRectF boundingRect() const;
     
 		bool isCursorVisible() { return m_workNote->isVisible(); }
+		static TnoteControl* right() { return m_rightBox; }
+		static TnoteControl* left() { return m_leftBox; }
 		
 signals:
     void noteWasClicked(int);
@@ -183,7 +185,7 @@ private:
 		static QGraphicsSimpleTextItem       *m_workAccid;
 		static TaddLines								      m_upLines, m_downLines, m_midLines;
 		static QColor                         m_workColor;
-		static QPointer<TnoteControl>				  m_rightBox;
+		static TnoteControl				  				 *m_rightBox;
 		static TnoteControl									 *m_leftBox;
     
 private:

@@ -23,6 +23,7 @@
 #include "tscorekeysignature.h"
 #include "tscorecontrol.h"
 #include "tscorescordature.h"
+#include "tnotecontrol.h"
 #include <music/tnote.h>
 #include <animations/tcombinedanim.h>
 #include <tnoofont.h>
@@ -80,7 +81,12 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 }
 
 
-TscoreStaff::~TscoreStaff() {}
+TscoreStaff::~TscoreStaff() {
+	if (TscoreNote::right() && TscoreNote::right()->parentItem() == this) {
+		TscoreNote::right()->setParentItem(0);
+		TscoreNote::left()->setParentItem(0);
+	}		
+}
 
 //####################################################################################################
 //########################################## PUBLIC ##################################################
@@ -163,7 +169,8 @@ void TscoreStaff::removeNote(int index) {
 				emit freeSpace(number(), 1);
 		updateIndex();
 		updateWidth();
-		updateSceneRect();
+		if (number() == -1)
+				updateSceneRect();
 	}
 }
 
@@ -174,6 +181,7 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 		m_scoreNotes << nList[i];
 		connect(nList[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 		nList[i]->setParentItem(this);
+		nList[i]->setStaff(this);
 	}
 	updateWidth();
 	updateIndex();
@@ -184,7 +192,7 @@ void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
 	m_scoreNotes.insert(index, freeNote);
 	connect(freeNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 	freeNote->setParentItem(this);
-// 	freeNote->changeIndex(index);
+	freeNote->setStaff(this);
 	updateWidth();
 	updateIndex();
 }
@@ -459,8 +467,11 @@ void TscoreStaff::onClefChanged(Tclef clef) {
 		default: break;
   }
   scoreClef()->setClef(clef);
-  if (m_keySignature)
+  if (m_keySignature) {
+			disconnect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
       m_keySignature->setClef(m_clef->clef());
+			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
+	}
 	if (m_scoreNotes.size()) {
 			for (int i = 0; i < m_scoreNotes.size(); i++) {
 				if (m_scoreNotes[i]->notePos()) {
@@ -607,7 +618,7 @@ void TscoreStaff::createBrace() {
 
 
 int TscoreStaff::getMaxNotesNr(qreal maxWidth) {
-	maxWidth -= 4.0; // staff lines margins
+	maxWidth -= 2.0; // staff lines margins
 	if (scoreClef())
 		maxWidth -= CLEF_WIDTH;
 	if (scoreKey())
