@@ -34,6 +34,7 @@ class TnoteControl : public TscoreItem
 	
 public:
 	TnoteControl(TscoreStaff* staff, TscoreScene* scene);
+	virtual ~TnoteControl();
 
 	TscoreNote* scoreNote() { return m_scoreNote; }
 	void setScoreNote(TscoreNote* sn);

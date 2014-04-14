@@ -32,7 +32,7 @@ class TscoreScene;
 /** 
 * TscoreItem is base class for all items on the score:
 * staff, clef, key signature, notes, scordature etc..
-* It automaticaly adds created item to the TscoreScene 
+* It automatically adds created item to the TscoreScene 
 * given as constructor parameter.
 * Also this class manages status tips. 
 * If the status is set, it emits statusTip(QString) signal.
@@ -48,26 +48,29 @@ public:
     void setStatusTip(QString status);
     TscoreScene* scoreScene() { return m_scene; }
     
+			/** Returns pointer to TscoreStaff.
+       * Most of the TscoreItem-s are tied with it,
+       * but by default is set to 0. */
+    TscoreStaff* staff() { return m_staff; }
+    void setStaff(TscoreStaff *staff) { m_staff = staff; }
+    
 signals:
     void statusTip(QString);
 
 protected:
       /** If status tip is set it sends signal.
        * Notice!! 
-       * Any subclass has to call @p TscoreItem::hoverEnterEvent(event) when hoverEnterEvent is overriden
-       * and statusTip funcionality is expected. */
+       * Any subclass has to call @p TscoreItem::hoverEnterEvent(event) when hoverEnterEvent is overridden
+       * and statusTip functionality is expected. */
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+		
       /** Adds QGraphicsItem to current scene and 
        * sets the ownership of this object on it.
        * It is for QGraphicsItem-s only !!!! */
     void registryItem(QGraphicsItem *item);
-      /** Returns pointer to TscoreStaff. 
-       * Most of the TscoreItem-s are tied with it,
-       * but by default is set to 0. */
-    TscoreStaff* staff() { return m_staff; }
-    void setStaff(TscoreStaff *staff) { m_staff = staff; }
-				/** Paints backround rectangle using boundingRect() with given color
+    
+				/** Paints background rectangle using boundingRect() with given color
 				 * adding semi-transparency and gradient. */
     void paintBackground(QPainter *painter, QColor bgColor);
     
