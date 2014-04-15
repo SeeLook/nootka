@@ -133,7 +133,9 @@ protected slots:
 // 		void finishCorrection();
 		void staffHasNoSpace(int staffNr); /** Create new (next) staff */
 		void staffHasFreeSpace(int staffNr, int notesFree); /** Move notes to this staff from the next one */
-		void noteGetFree(int staffNr, TscoreNote* freeNote);
+		void noteGetsFree(int staffNr, TscoreNote* freeNote);
+		void noteRemovingSlot(int staffNr, int noteToDel);
+		void noteAddingSlot(int staffNr, int noteToDel);
 		void zoomScoreSlot();
 		void keyChangedSlot();
 		
@@ -145,10 +147,12 @@ private:
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
     void checkAndAddNote(TscoreStaff* sendStaff);
+		
 				/** Adds given staff at the end of m_staves list or creates a new one.
 				 * Sets staff number corresponding to its index in the m_staves list,
 				 * connects the staff with TmainScore slots */
 		void addStaff(TscoreStaff* st = 0);
+		void updateSceneRect(); /** Adjusts score scene to space required by staff(staves) */
 
 private:
 		QList<TscoreStaff*>					 m_staves; // list of staves in page view

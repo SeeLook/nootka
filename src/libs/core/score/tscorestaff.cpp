@@ -132,10 +132,8 @@ Tnote* TscoreStaff::getNote(int index) {
 
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
+	emit noteIsAdding(number(), index);
 	insert(index);
-// 	if (index < m_scoreNotes.size())
-// 			updateIndex();
-// 	updateWidth();
 	setNote(index, note);
 	setNoteDisabled(index, disabled);
 	if (maxNoteCount()) {
@@ -163,6 +161,7 @@ void TscoreStaff::addNote(Tnote& note, bool disabled) {
 
 void TscoreStaff::removeNote(int index) {
 	if (index >= 0 && index < m_scoreNotes.size()) {
+		emit noteIsRemoving(number(), index);
 		delete m_scoreNotes[index];
 		m_scoreNotes.removeAt(index);
 		if (maxNoteCount() > count())
@@ -177,11 +176,12 @@ void TscoreStaff::removeNote(int index) {
 
 void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 	if (index >= 0 && index <= count() && nList.size() <= maxNoteCount() - index)
-	for (int i = index; i < nList.size(); i++) {
-		m_scoreNotes << nList[i];
-		connect(nList[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-		nList[i]->setParentItem(this);
-		nList[i]->setStaff(this);
+	for (int i = index; i < nList.size() + index; i++) {
+		TscoreNote *sn = nList[i - index];
+		m_scoreNotes.insert(i, sn);
+		connect(sn, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+		sn->setParentItem(this);
+		sn->setStaff(this);
 	}
 	updateWidth();
 	updateIndex();
@@ -205,10 +205,10 @@ void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
 			m_scoreNotes[from]->setParentItem(0); // to avoid deleting with staff as its parent
 			nList << m_scoreNotes.takeAt(from);
 		}
+		updateWidth();
 		updateIndex();
 	}
 }
-
 
 
 void TscoreStaff::updateSceneRect() {
@@ -414,17 +414,17 @@ void TscoreStaff::setViewWidth(qreal viewW) {
 	int oldMax = m_maxNotesCount;
 	m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
 	updateWidth();
-	if (m_scoreNotes.isEmpty()) // if no notes on the staff
-			return; // ignore checking what to move/remove
-	if (oldMax > m_maxNotesCount) { // less space - remove some notes if needed
-			if (count() > maxNoteCount()) {
-				for (int i = oldMax - 1; i > maxNoteCount(); i--) {
-					emit noteToMove(number(), m_scoreNotes.takeAt(i));
-				}
-			}
-	} else if (oldMax < m_maxNotesCount) { // more space
-			emit freeSpace(number(), maxNoteCount() - oldMax);
-	}
+// 	if (m_scoreNotes.isEmpty()) // if no notes on the staff
+// 			return; // ignore checking what to move/remove
+// 	if (oldMax > m_maxNotesCount) { // less space - remove some notes if needed
+// 			if (count() > maxNoteCount()) {
+// 				for (int i = oldMax - 1; i > maxNoteCount(); i--) {
+// 					emit noteToMove(number(), m_scoreNotes.takeAt(i));
+// 				}
+// 			}
+// 	} else if (oldMax < m_maxNotesCount) { // more space
+// 			emit freeSpace(number(), maxNoteCount() - oldMax);
+// 	}
 }
 
 
@@ -563,7 +563,7 @@ void TscoreStaff::updateIndex() {
 
 
 void TscoreStaff::updateWidth() {
-	qreal off = 0.0;
+	qreal off = 0.0, oldWidth = m_width;
 	if (m_keySignature)
 			off = KEY_WIDTH + 1.5;
 	else if (m_enableScord)
@@ -579,10 +579,11 @@ void TscoreStaff::updateWidth() {
 	
 	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
-	for (int i = 0; i < 5; i++) { // adjust staff lines length
-			m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 2.0, upperLinePos() + i * 2);
+	if (oldWidth != m_width)
+		for (int i = 0; i < 5; i++) { // adjust staff lines length when changed
+			m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 1.0, upperLinePos() + i * 2);
 			if (isPianoStaff())
-				m_lowLines[i]->setLine(1, lowerLinePos() + i * 2, width() - 2, lowerLinePos() + i * 2);
+				m_lowLines[i]->setLine(1, lowerLinePos() + i * 2, width() - 1.0, lowerLinePos() + i * 2);
 	}
 	emit staffSizeChanged();
 }
