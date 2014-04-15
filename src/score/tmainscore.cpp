@@ -53,7 +53,8 @@ TmainScore::TmainScore(QWidget* parent) :
   m_parent = parent;
 // 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	score()->setFrameShape(QFrame::Box);
+// 	score()->setFrameShape(QFrame::Box);
+	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	addStaff(staff());
 // set preferred clef
 	setClef(gl->Sclef);
@@ -512,11 +513,15 @@ void TmainScore::onPianoSwitch() {
 }
 
 
+/** Managing notes:
+ */
+
 void TmainScore::staffHasNoSpace(int staffNr) {
 	addStaff();
 	m_staves.last()->setPos(m_staves[staffNr]->pos().x(), 
 													0.05 + (((staff()->height() + 4.0)) * score()->transform().m11()) * staffNr);
-	resizeEvent(0);
+// 	resizeEvent(0);
+	updateSceneRect();
 }
 
 
@@ -524,18 +529,42 @@ void TmainScore::staffHasFreeSpace(int staffNr, int notesFree) {
 	qDebug() << "staffHasFreeSpace" << staffNr << notesFree;
 	if (m_staves[staffNr] != m_staves.last()) { // is not the last staff
 		QList<TscoreNote*> notes;
-		m_staves[staffNr + 1]->takeNotes(notes, 0, notesFree);
+		m_staves[staffNr + 1]->takeNotes(notes, 0, notesFree - 1);
 		m_staves[staffNr]->addNotes(m_staves[staffNr]->count(), notes);
+		if (!m_staves[staffNr + 1]->count()) {
+			delete m_staves[staffNr + 1];
+			m_staves.removeAt(staffNr + 1);
+			qDebug() << "staff deleted" << staffNr + 1;
+			updateSceneRect();
+		}			
 	}
 }
 
 
-void TmainScore::noteGetFree(int staffNr, TscoreNote* freeNote) {
+void TmainScore::noteGetsFree(int staffNr, TscoreNote* freeNote) {
 	qDebug() << "noteGetFree" << staffNr << freeNote->note()->toText();
 	if (staffNr + 1 < m_staves.size())
 		m_staves[staffNr + 1]->addNote(0, freeNote);
 	else 
 		qDebug() << "no staff below";
+}
+
+
+void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
+	if (staffNr * staff()->maxNoteCount() + noteToAdd < m_currentIndex) {
+		qDebug() << "selected note moved forward";
+		m_currentIndex++;
+	}
+}
+
+void TmainScore::noteRemovingSlot(int staffNr, int noteToDel) {
+	if (staffNr * staff()->maxNoteCount() + noteToDel == m_currentIndex) {
+		qDebug() << "current selected note will be removed";
+		m_currentIndex = 0;
+	} else if (staffNr * staff()->maxNoteCount() + noteToDel < m_currentIndex) {
+		qDebug() << "selected note moved backward";
+		m_currentIndex--;
+	}
 }
 
 
@@ -604,11 +633,6 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (ww < 500)
       return;
-// 	int scrollV;
-// 	if (m_score->horizontalScrollBar()->isVisible()) {
-// 		hh -= m_score->horizontalScrollBar()->height();
-// 		scrollV = m_score->horizontalScrollBar()->value();
-// 	}
 	QList<TscoreNote*> allNotes;
 	for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote 
 		m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
@@ -646,18 +670,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 				m_staves[i]->addNotes(0, stNotes);
 		}
 	}
-	// 	if (m_score->horizontalScrollBar()->isVisible()) {
-// 		m_score->horizontalScrollBar()->setValue(scrollV);
-// 	}
-
-	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, staff()->width() + staffOff,
-																16.0 + (staff()->height() - 16.0) * qMax(m_scale, (qreal)m_staves.size()))).boundingRect();
-//   qDebug() << staff()->boundingRect() << m_staves.size() << scRec;
-	scene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
-// 	scene()->setSceneRect(0.0, 0.0, qMax((staff()->x() + staff()->width()) * score()->transform().m11(), (qreal)width()),
-// 						((staff()->y() + staff()->height()) * score()->transform().m11()));
-	qDebug() << scene()->sceneRect() << m_staves.size();
-// 	staff()->updateSceneRect();
+	updateSceneRect();
 	
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
@@ -692,14 +705,6 @@ void TmainScore::restoreNotesSettings() {
 // 		staff()->noteSegment(2)->setReadOnly(true);
 // 		staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
 // 		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
-// 		if (staff()->lower()) {
-// 				staff()->lower()->noteSegment(0)->setPointedColor(gl->SpointerColor);
-// 				staff()->lower()->noteSegment(1)->setReadOnly(true);
-// 				staff()->lower()->noteSegment(1)->setColor(gl->enharmNotesColor);
-// 				staff()->lower()->noteSegment(2)->setReadOnly(true);
-// 				staff()->lower()->noteSegment(2)->setColor(gl->enharmNotesColor);
-// 				staff()->lower()->noteSegment(0)->enableAccidToKeyAnim(true);
-// 		}
 		
 }
 
@@ -713,6 +718,14 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 		bgRect->setPen(QPen(Qt::NoPen));
 		bgRect->setBrush(c);
 		m_bgRects << bgRect;
+}
+
+
+void TmainScore::updateSceneRect() {
+	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, staff()->width() + (staff()->isPianoStaff() ? 1.0 : 0.0),
+																16.0 + (staff()->height() - 16.0) * qMax(m_scale, (qreal)m_staves.size()))).boundingRect();
+	scene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
+	qDebug() << "updateSceneRect" << scene()->sceneRect() << m_staves.size();
 }
 
 
@@ -746,7 +759,9 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 	connect(m_staves.last(), SIGNAL(noMoreSpace(int)), this, SLOT(staffHasNoSpace(int)));
 	connect(m_staves.last(), SIGNAL(freeSpace(int,int)), this, SLOT(staffHasFreeSpace(int,int)));
-	connect(m_staves.last(), SIGNAL(noteToMove(int,TscoreNote*)), this, SLOT(noteGetFree(int,TscoreNote*)));
+	connect(m_staves.last(), SIGNAL(noteToMove(int,TscoreNote*)), this, SLOT(noteGetsFree(int,TscoreNote*)));
+	connect(m_staves.last(), SIGNAL(noteIsRemoving(int,int)), this, SLOT(noteRemovingSlot(int,int)));
+	connect(m_staves.last(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
 	if (m_staves.last()->scoreKey())
 		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 	qDebug() << "staff Added";

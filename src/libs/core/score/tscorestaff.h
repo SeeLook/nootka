@@ -196,9 +196,16 @@ signals:
 				 * First argument is staff number, the second one is amount of space for new note(s) */
 		void freeSpace(int, int);
 		
-				/** There was no space for a note sending as an argument.
-				 * Usually it was the last note on this staff before inserting another one. */
+				/** There was no space for a note emitting as an argument.
+				 * Usually it was the last note on this staff before inserting another note. */
 		void noteToMove(int, TscoreNote*);
+		
+				/** Emitting just before note will be removed and deleted.
+				 * First argument is staff number and second is note number in the list.
+				 * Signal is emitted when note still exists. */
+		void noteIsRemoving(int, int);
+		
+		void noteIsAdding(int, int);
 		
 		
 public slots:

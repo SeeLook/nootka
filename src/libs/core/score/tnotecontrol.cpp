@@ -142,19 +142,15 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (event->pos().y() < 3.0) { // add a note
 		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
-			staff()->insertNote(m_scoreNote->index() + 1);
+				staff()->insertNote(m_scoreNote->index() + 1);
 		} else { // left control - preppend a note
-			staff()->insertNote(m_scoreNote->index() - 1);
+				staff()->insertNote(m_scoreNote->index() - 1);
 		}
 	} else if (m_minus->isVisible() && event->pos().y() > staff()->height() - 7.0) {
-// 			int id = m_scoreNote->index();
 			staff()->removeNote(m_scoreNote->index());
-// 			qDebug() << "removed" << id;
 			m_hasMouse = false;
 			hide();
 	}
-// 	else if (event->pos().y() < 25.0)
-// 			staff()->setCurrentIndex(m_scoreNote->index());
 }
 
 
