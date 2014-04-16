@@ -47,7 +47,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle),
   m_inMode(e_record), 
-  m_clickedIndex(0), m_currentIndex(0),
+  m_clickedOff(0), m_currentIndex(0),
   m_scale(1.0)
 {
   m_parent = parent;
@@ -133,18 +133,27 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::setNote(Tnote note) {
-//   checkAndAddNote();
 	if (insertMode() != e_single) {
-			TscoreStaff *thisStaff = m_staves[m_clickedIndex / staff()->maxNoteCount()];
-			if (thisStaff->number() != m_currentIndex / staff()->maxNoteCount())
-					m_staves[m_currentIndex / staff()->maxNoteCount()]->setCurrentIndex(-1); // reset previous selection
+			TscoreStaff *thisStaff = m_staves[m_currentIndex / staff()->maxNoteCount()];
+			int prevIndex = m_currentIndex;
+			if (insertMode() == e_record) {
+					m_currentIndex += m_clickedOff;
+					if (m_currentIndex && m_currentIndex % staff()->maxNoteCount() == 0) {
+						if (thisStaff->number() + 1 < m_staves.size())
+							thisStaff = m_staves[thisStaff->number() + 1];
+						else {
+							qDebug() << "setNote() has no more staves";
+							return;
+						}
+					}
+					m_clickedOff = 1;
+			}
+			if (thisStaff->number() != prevIndex / staff()->maxNoteCount())
+					m_staves[prevIndex / staff()->maxNoteCount()]->setCurrentIndex(-1); // reset previous selection
 			checkAndAddNote(thisStaff);
-			thisStaff->setNote(m_clickedIndex % staff()->maxNoteCount(), note);
+			thisStaff->setNote(m_currentIndex % staff()->maxNoteCount(), note);
 			if (m_staves.size() > 1)
 					score()->centerOn(score()->mapFromScene(thisStaff->mapToScene(thisStaff->pos())));
-			m_currentIndex = m_clickedIndex;
-			if (insertMode() == e_record)
-					m_clickedIndex++;
 	} else {
 // 			if (staff()->currentIndex() != -1)
 // 					TsimpleScore::setNote(staff()->currentIndex(), note);
@@ -159,8 +168,8 @@ void TmainScore::noteWasClicked(int index) {
 	if (m_currentIndex / st->maxNoteCount() != st->number()) // reset previous selection
 			m_staves[m_currentIndex / staff()->maxNoteCount()]->setCurrentIndex(-1);
 	Tnote note = *(st->getNote(index));
-	m_clickedIndex = index + st->number() * st->maxNoteCount();
-	m_currentIndex = m_clickedIndex;
+	m_currentIndex = index + st->number() * st->maxNoteCount();
+	m_clickedOff = 0;
 	emit noteWasChanged(index, note);
   checkAndAddNote(st);
 }
@@ -518,9 +527,8 @@ void TmainScore::onPianoSwitch() {
 
 void TmainScore::staffHasNoSpace(int staffNr) {
 	addStaff();
-	m_staves.last()->setPos(m_staves[staffNr]->pos().x(), 
-													0.05 + (((staff()->height() + 4.0)) * score()->transform().m11()) * staffNr);
-// 	resizeEvent(0);
+	adjustStaffWidth(m_staves.last());
+	m_staves.last()->setPos(staff()->pos().x(), 0.05 + m_staves.last()->number() * (staff()->height() - 16.0));
 	updateSceneRect();
 }
 
@@ -531,6 +539,9 @@ void TmainScore::staffHasFreeSpace(int staffNr, int notesFree) {
 		QList<TscoreNote*> notes;
 		m_staves[staffNr + 1]->takeNotes(notes, 0, notesFree - 1);
 		m_staves[staffNr]->addNotes(m_staves[staffNr]->count(), notes);
+		if (staffNr + 2 < m_staves.size()) {
+			staffHasFreeSpace(staffNr + 1, notesFree);
+		}
 		if (!m_staves[staffNr + 1]->count()) {
 			delete m_staves[staffNr + 1];
 			m_staves.removeAt(staffNr + 1);
@@ -543,10 +554,14 @@ void TmainScore::staffHasFreeSpace(int staffNr, int notesFree) {
 
 void TmainScore::noteGetsFree(int staffNr, TscoreNote* freeNote) {
 	qDebug() << "noteGetFree" << staffNr << freeNote->note()->toText();
-	if (staffNr + 1 < m_staves.size())
-		m_staves[staffNr + 1]->addNote(0, freeNote);
-	else 
-		qDebug() << "no staff below";
+	if (staffNr + 1 == m_staves.size())
+		staffHasNoSpace(staffNr); // add staff
+	for (int i = m_staves.size() - 2; i >= staffNr + 1; i--) { // make space in next staves
+			QList<TscoreNote*> notes;
+			m_staves[i]->takeNotes(notes, m_staves[i]->count() - 1, m_staves[i]->count() - 1);
+			m_staves[i + 1]->addNotes(0, notes);
+		}			
+	m_staves[staffNr + 1]->addNote(0, freeNote);
 }
 
 
@@ -634,7 +649,8 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	if (ww < 500)
       return;
 	QList<TscoreNote*> allNotes;
-	for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote 
+	for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
+		m_staves[i]->setCurrentIndex(-1);
 		m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
 	}
 	qreal staffOff = 0.0;
@@ -644,8 +660,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
   score()->scale(factor, factor);
 	int stavesNumber; // how many staves are needed
 	for (int i = 0; i < m_staves.size(); i++) {
-// 	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
-		m_staves[i]->setViewWidth((score()->width() - 20) / score()->transform().m11());
+		adjustStaffWidth(m_staves[i]);
 		if (i == 0) { // first loop - make preparations for new amount of staves
 			stavesNumber = allNotes.size() / m_staves[0]->maxNoteCount(); // needed staves for this amount of notes
 			if (allNotes.size() % m_staves[0]->maxNoteCount())
@@ -671,6 +686,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 		}
 	}
 	updateSceneRect();
+	m_staves[m_currentIndex / staff()->maxNoteCount()]->setCurrentIndex(m_currentIndex % staff()->maxNoteCount());
 	
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
@@ -737,6 +753,11 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff) {
 					sendStaff->noteSegment(sendStaff->count() - 1)->enableAccidToKeyAnim(true);
 			} // when it is last possible note on the staff - staff has already sent noMoreSpace() signal
   }
+}
+
+
+void TmainScore::adjustStaffWidth(TscoreStaff* st) {
+	st->setViewWidth((score()->width() - 20) / score()->transform().m11());
 }
 
 

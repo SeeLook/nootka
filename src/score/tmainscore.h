@@ -153,6 +153,7 @@ private:
 				 * connects the staff with TmainScore slots */
 		void addStaff(TscoreStaff* st = 0);
 		void updateSceneRect(); /** Adjusts score scene to space required by staff(staves) */
+		void adjustStaffWidth(TscoreStaff *st); /** Calls TscoreStaff::setViewWidth with score width  */
 
 private:
 		QList<TscoreStaff*>					 m_staves; // list of staves in page view
@@ -168,8 +169,8 @@ private:
 		Tnote::EnameStyle						 m_corrStyle;
 		EinMode											 m_inMode;
 		QPushButton									*m_inZoomBuut, *m_outZoomButt;
-				/** Index of the last note clicked on the score or 0 at the start */
-		int													 m_clickedIndex, m_currentIndex;
+				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
+		int													 m_clickedOff, m_currentIndex;
 		qreal												 m_scale;
 };
 
