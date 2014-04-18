@@ -138,6 +138,8 @@ protected slots:
 		void noteAddingSlot(int staffNr, int noteToDel);
 		void zoomScoreSlot();
 		void keyChangedSlot();
+		void staffLoNoteChanged(int staffNr, qreal loNoteYoff);
+		void staffHiNoteChanged(int staffNr, qreal hiNoteYoff);
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */

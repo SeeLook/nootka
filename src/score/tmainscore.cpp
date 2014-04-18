@@ -528,7 +528,9 @@ void TmainScore::onPianoSwitch() {
 void TmainScore::staffHasNoSpace(int staffNr) {
 	addStaff();
 	adjustStaffWidth(m_staves.last());
-	m_staves.last()->setPos(staff()->pos().x(), 0.05 + m_staves.last()->number() * (staff()->height() - 16.0));
+	m_staves.last()->checkNoteRange(false);
+	m_staves.last()->setPos(staff()->pos().x(), 
+													m_staves[staffNr]->y() + m_staves[staffNr]->loNotePos() - m_staves.last()->hiNotePos() + 4.0);
 	updateSceneRect();
 }
 
@@ -581,6 +583,32 @@ void TmainScore::noteRemovingSlot(int staffNr, int noteToDel) {
 		m_currentIndex--;
 	}
 }
+
+
+void TmainScore::staffHiNoteChanged(int staffNr, qreal hiNoteYoff) {
+// 	if (staffNr > 1)
+	qDebug() << "staffHiNoteChanged" << hiNoteYoff << m_staves[staffNr]->hiNotePos();
+	for (int i = staffNr; i < m_staves.size(); i++) // move every staff with difference
+			m_staves[i]->setY(m_staves[i]->y() + hiNoteYoff);
+// 	scene()->setSceneRect(0.0, 0.0, scene()->sceneRect().width(), 
+// 												scene()->sceneRect().height() + hiNoteYoff * score()->transform().m11());
+// 	qDebug() << scene()->sceneRect();
+	updateSceneRect();
+}
+
+
+void TmainScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
+	qDebug() << "staffLoNoteChanged" << loNoteYoff << m_staves[staffNr]->loNotePos();
+	if (m_staves.size() > 1 && staffNr < m_staves.size() - 1) { // more staves and not the last one
+		for (int i = staffNr + 1; i < m_staves.size(); i++) // move every staff with difference
+			m_staves[i]->setY(m_staves[i]->y() + loNoteYoff);
+// 		scene()->setSceneRect(0.0, 0.0, scene()->sceneRect().width(), 
+// 												scene()->sceneRect().height() + loNoteYoff * score()->transform().m11());
+// 		qDebug() << scene()->sceneRect();
+		updateSceneRect();
+	}
+}
+
 
 
 void TmainScore::zoomScoreSlot() {
@@ -655,7 +683,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	}
 	qreal staffOff = 0.0;
   if (staff()->isPianoStaff())
-    staffOff = 1.0;
+    staffOff = 1.1;
   qreal factor = (((qreal)hh / (staff()->height() + 4.0)) / score()->transform().m11()) / m_scale;
   score()->scale(factor, factor);
 	int stavesNumber; // how many staves are needed
@@ -679,11 +707,17 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 					}
 			}
 		}
-		m_staves[i]->setPos(staffOff, 0.05 + i * (staff()->height() - 16.0));
+// 		m_staves[i]->setPos(staffOff, 0.05 + i * (staff()->height() - 16.0));
 		if (allNotes.size() > i * m_staves[i]->maxNoteCount()) {
 				QList<TscoreNote*> stNotes = allNotes.mid(i * m_staves[i]->maxNoteCount(), m_staves[i]->maxNoteCount());
 				m_staves[i]->addNotes(0, stNotes);
 		}
+		
+		if (i == 0)
+			m_staves[i]->setPos(staffOff, 0.05);
+		else
+			m_staves[i]->setPos(staffOff, m_staves[i - 1]->pos().y() + m_staves[i - 1]->loNotePos() - m_staves[i]->hiNotePos() + 4.0);
+// 		qDebug() << i << "staff position" << staffYPos << m_staves[i]->minHight();
 	}
 	updateSceneRect();
 	m_staves[m_currentIndex / staff()->maxNoteCount()]->setCurrentIndex(m_currentIndex % staff()->maxNoteCount());
@@ -738,8 +772,15 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 
 
 void TmainScore::updateSceneRect() {
-	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, staff()->width() + (staff()->isPianoStaff() ? 1.0 : 0.0),
-																16.0 + (staff()->height() - 16.0) * qMax(m_scale, (qreal)m_staves.size()))).boundingRect();
+	qreal sh;
+	if (m_staves.size() == 1)
+		sh = (staff()->height() + 0.1) * m_scale;
+	else
+		sh = m_staves.last()->pos().y() + m_staves.last()->height() /*- m_staves.last()->hiNotePos() + 4.0*/;
+	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 
+								staff()->width() + (staff()->isPianoStaff() ? 1.1 : 0.0),	sh)).boundingRect();
+// 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, staff()->width() + (staff()->isPianoStaff() ? 1.0 : 0.0),
+// 																16.0 + (staff()->height() - 16.0) * qMax(m_scale, (qreal)m_staves.size()))).boundingRect();
 	scene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
 	qDebug() << "updateSceneRect" << scene()->sceneRect() << m_staves.size();
 }
@@ -769,6 +810,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 			m_staves.last()->setEnableKeySign(gl->SkeySignatureEnabled);
 			if (m_staves.last()->scoreKey())
 				m_staves.last()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());
+			connect(m_staves.last(), SIGNAL(hiNoteChanged(int,qreal)), this, SLOT(staffHiNoteChanged(int,qreal))); // ignore for first
 	} else { // staff of TmainScore is added this way
 			st->disconnect(SIGNAL(noteChanged(int)));
 			st->disconnect(SIGNAL(clefChanged(Tclef)));
@@ -783,6 +825,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	connect(m_staves.last(), SIGNAL(noteToMove(int,TscoreNote*)), this, SLOT(noteGetsFree(int,TscoreNote*)));
 	connect(m_staves.last(), SIGNAL(noteIsRemoving(int,int)), this, SLOT(noteRemovingSlot(int,int)));
 	connect(m_staves.last(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
+	connect(m_staves.last(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
 	if (m_staves.last()->scoreKey())
 		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 	qDebug() << "staff Added";

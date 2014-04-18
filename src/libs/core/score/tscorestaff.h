@@ -130,6 +130,16 @@ public:
     qreal lowerLinePos() const { return m_lowerStaffPos; } /** Y position of lower line of a lower staff. */
     qreal height() const { return m_height; } // staff height
     qreal width() const { return m_width; } // staff width
+    
+    qreal loNotePos() { return m_loNotePos; } /** Y position of lowest note on the staff */
+		qreal hiNotePos() { return m_hiNotePos; } /** Y position of highest note on the staff */
+			
+				/** Minimal height of the staff to display all its notes. */
+		qreal minHight() { return m_loNotePos - m_hiNotePos; }
+		
+				/** Checks positions of all notes to find lowest and highest.
+				 * @p doEmit determines whether this method sends appropriate signals */
+		void checkNoteRange(bool doEmit) { checkNoteRange(0, doEmit); }
 				
 				/** Updates rectangle of QGraphicsScene to staff bounding rectangle. */
     void updateSceneRect();
@@ -205,7 +215,12 @@ signals:
 				 * Signal is emitted when note still exists. */
 		void noteIsRemoving(int, int);
 		
-		void noteIsAdding(int, int);
+		void noteIsAdding(int, int); /** Emitting when note is added/inserted to a staff */
+		
+				/** Signals informing about changing note range on the staff. 
+				 * Sending parameters are the staff number and difference of Y position. */
+		void loNoteChanged(int,qreal);
+		void hiNoteChanged(int,qreal);
 		
 		
 public slots:
@@ -265,10 +280,17 @@ private:
 		int											 					 m_index; // index of currently selected note
 		bool 										 					 m_selectableNotes;
 		int																 m_maxNotesCount;
+		qreal															 m_loNotePos, m_hiNotePos;
 		
 private:
 		void createBrace();
 		int getMaxNotesNr(qreal maxWidth); /** Calculates notes number from given width */
+		
+				/** When note is changed (added or removed as well) it checks range of notes on the staff 
+				 * and emits hiNoteChanged() and/or loNoteChanged() signals if necessary. */
+		void checkNoteRange(int noteYpos, bool doEmit = true); 
+		void findLowestNote(); /** Checks all Y positions of staff notes ti find lowest one */
+		void findHighestNote(); /** Checks all Y positions of staff notes ti find highest one */
 
 };
 
