@@ -65,7 +65,9 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 
 
 TnoteControl::~TnoteControl()
-{}
+{
+	qDebug() << "\nTnoteControl was deleted\n";
+}
 
 
 void TnoteControl::adjustSize() {

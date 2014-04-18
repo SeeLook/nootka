@@ -52,12 +52,13 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 	m_lowerStaffPos(0.0),
 	m_isPianoStaff(false),
 	m_upperLinePos(16.0),
+	m_hiNotePos(12.0), m_loNotePos(28.0),
 	m_height(40.0),
 	m_keySignature(0),
 	m_maxNotesCount(0)
 {
 	m_lines[0] = 0;
-	m_lowLines[0] = 0; // first array item points are all items exist or not
+	m_lowLines[0] = 0; // first array item points are the all items exist or not
 	setZValue(10);
   setAcceptHoverEvents(true);
 // Clef
@@ -121,6 +122,7 @@ void TscoreStaff::setNote(int index, const Tnote& note) {
 				m_scoreNotes[index]->setNote(0, 0, note);
     if (note.note)
       setCurrentIndex(index);
+		checkNoteRange(0);
 	}
 }
 
@@ -139,6 +141,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	if (maxNoteCount()) {
 		if (count() > maxNoteCount()) {
 				emit noteToMove(number(), m_scoreNotes.takeLast());
+				checkNoteRange(0); // find range again
 		} else if (count() == maxNoteCount())
 				emit noMoreSpace(number());
 	}
@@ -185,6 +188,7 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 	}
 	updateWidth();
 	updateIndex();
+	checkNoteRange(false);
 }
 
 
@@ -515,6 +519,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_scoreNotes[noteIndex]->note()->acidental = (char)m_scoreNotes[noteIndex]->accidental();
 	setCurrentIndex(noteIndex);
 	emit noteChanged(noteIndex);
+	checkNoteRange(0);
 }
 
 
@@ -627,6 +632,47 @@ int TscoreStaff::getMaxNotesNr(qreal maxWidth) {
 	else if (hasScordature())
 		maxWidth = KEY_WIDTH / 2;
 	return int(maxWidth / 7.0);
+}
+
+
+void TscoreStaff::checkNoteRange(int noteYpos, bool doEmit) {
+	qreal oldHi = m_hiNotePos, oldLo = m_loNotePos;
+	if (noteYpos == 0) {
+		findHighestNote();
+		findLowestNote();
+		if (doEmit && oldHi != m_hiNotePos)
+			emit hiNoteChanged(number(), oldHi - m_hiNotePos);
+		if (doEmit && oldLo != m_loNotePos)
+			emit loNoteChanged(number(), m_loNotePos - oldLo);
+		return;
+	}		
+	if (noteYpos < upperLinePos() - 4.0 && noteYpos < m_hiNotePos) {
+			m_hiNotePos = noteYpos;
+			if (doEmit)
+				emit hiNoteChanged(number(), oldHi - m_hiNotePos);
+	}	else { 
+			qreal lowest = isPianoStaff() ? lowerLinePos() + 12.0 : upperLinePos() + 12.0;
+			if (noteYpos > lowest && noteYpos > m_loNotePos) {
+				m_loNotePos = noteYpos;
+				if (doEmit)
+					emit loNoteChanged(number(), m_loNotePos - oldLo);
+			}
+	}
+}
+
+
+void TscoreStaff::findHighestNote() {
+	m_hiNotePos = upperLinePos() - 4.0;
+	for (int i = 0; i < m_scoreNotes.size(); i++)
+		if (m_scoreNotes[i]->notePos()) // is visible
+			m_hiNotePos = qMin(qreal(m_scoreNotes[i]->notePos()), m_hiNotePos);
+}
+
+
+void TscoreStaff::findLowestNote() {
+	m_loNotePos = isPianoStaff() ? lowerLinePos() + 12.0 : upperLinePos() + 12.0;
+	for (int i = 0; i < m_scoreNotes.size(); i++)
+			m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos()), m_loNotePos);
 }
 
 
