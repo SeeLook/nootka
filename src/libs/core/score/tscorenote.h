@@ -21,7 +21,7 @@
 
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
-#include <QPointer>
+
 
 class Tnote;
 class TnoteControl;
@@ -33,9 +33,10 @@ class TscoreScene;
 typedef QList<QGraphicsLineItem*> TaddLines; /** List of graphics lines  */
 
 /*!
- * This class represents single note n a score. 
+ * This class represents single note on a score. 
  * It is a rectangle area over the staff with handling mouse move event to display working note cursor.
  * It also grabs wheel event to manipulate accidentals
+ * It can be set to read-only mode through setReadOnly() then mouse events are ignored.
  */
 class NOOTKACORE_EXPORT TscoreNote : public TscoreItem
 {
@@ -48,6 +49,9 @@ public:
 				/** Index of this note instance. It is connected with note number in the list */
 		int index() { return m_index; }
 		void changeIndex(int newIndex) { m_index = newIndex; }
+		
+		void setReadOnly(bool ro);
+		bool isReadOnly() { return m_readOnly; }
 		
 				/** Points to Tnote instance.
 				 * TscoreNote is not aware of it. It is just container.
@@ -77,7 +81,8 @@ public:
 		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
     
         /** Adds blur effect to main note. If blurColor is -1 deletes the effect. */
-    void markNote(QColor blurColor);    
+    void markNote(QColor blurColor);
+		
     void moveNote(int posY);
 		void moveWorkNote(const QPointF& newPos);
 		
@@ -85,7 +90,7 @@ public:
 		bool isSelected() { return m_selected; }
 		void selectNote(bool sel);
 		
-				/** Sets note-head at given position and given accidental accidental. */
+				/** Sets note-head at given position and given accidental accidental. Also puts Tnote of it. */
 		void setNote(int notePos, int accNr, const Tnote& n);
 		
 				/** Returns pointer to main note QGraphicsEllipseItem.  */
@@ -100,24 +105,24 @@ public:
         /** This return value of -2 is bb,  1 is #,  etc... */ 
     int accidental() {return m_accidental;}
     int ottava() { return m_ottava; } // NOTE: for this moment it is unused and set to 0
-    int notePos();
-    
+    int notePos(); /** Y Position of note head */
 
-        /** Returns QString with accidental symbol*/
-    static QString getAccid(int accNr);
+    static QString getAccid(int accNr); /** Returns QString with accidental symbol*/
 		
 		static qreal accidYoffset() { return m_accidYoffset; }
-		static qreal accidScale() { return m_accidScale; }
+		static qreal accidScale() { return m_accidScale; } /** Scale of accidental text item */
 		
 		
-				/** It paints string number symbol.
-        * Automatically determines above or below staff. */
+				/** It paints string number symbol. Automatically determines above or below staff. */
     void setString(int realNr);
     void removeString(); /** Removes string number */
-		int stringNumber() { return m_stringNr; } /* Displayed string number or 0 if not. */
+		int stringNumber() { return m_stringNr; } /** Displayed string number or 0 if not. */
 		
-		void setReadOnly(bool ro);
-		bool isReadOnly() { return m_readOnly; }
+				/** Displays note name of selected note. */
+		void showNoteName();
+		void removeNoteName();
+		QGraphicsSimpleTextItem* noteName() { return m_nameText; }
+		
 		
 				/** Changes accidental of a working note cursor. */
 		static void setWorkAccid(int accNr);
@@ -156,37 +161,37 @@ protected:
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-    QGraphicsEllipseItem          *m_mainNote;
-    QGraphicsSimpleTextItem       *m_mainAccid;
-		QGraphicsSimpleTextItem 			*m_stringText;
-    TaddLines      								 m_mainUpLines, m_mainDownLines, m_mainMidLines;
-    QColor                         m_mainColor;
-		TcombinedAnim									*m_noteAnim;
-		TcrossFadeTextAnim 						*m_accidAnim;
-    bool													 m_accidToKeyAnim;
-		Tnote													*m_note;
+    QGraphicsEllipseItem          					*m_mainNote;
+    QGraphicsSimpleTextItem       					*m_mainAccid;
+		QGraphicsSimpleTextItem 								*m_stringText, *m_nameText;
+    TaddLines      								 					m_mainUpLines, m_mainDownLines, m_mainMidLines;
+    QColor                         					m_mainColor;
+		TcombinedAnim														*m_noteAnim;
+		TcrossFadeTextAnim 											*m_accidAnim;
+    bool													 					m_accidToKeyAnim;
+		Tnote																	  *m_note;
     
-    int                            m_mainPosY, m_accidental;
-    int                            m_index; // note index in external list
+    int                            					m_mainPosY, m_accidental;
+    int                            					m_index; /** note index in external list */
 //     int 													m_noteNr; // note number depends on octave
-    int 													 m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
-    int                            m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
-		int 													 m_stringNr;
-    qreal                          m_height;
-		bool													 m_readOnly;
-		QColor                         m_bgColor;
-		bool													 m_selected;
+    int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
+    int                            					m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
+		int 													 					m_stringNr;
+    qreal                          					m_height;
+		bool													 					m_readOnly;
+		QColor                         					m_bgColor;
+		bool													 					m_selected;
 		
-		static qreal 									 m_accidYoffset; // difference to note y position.
-    static qreal									 m_accidScale;
+		static qreal 									 					m_accidYoffset; /** difference between y note position. */
+    static qreal									 					m_accidScale;
 	// static note cursor
-		static int                            m_curentAccid, m_workPosY;
-		static QGraphicsEllipseItem          *m_workNote;
-		static QGraphicsSimpleTextItem       *m_workAccid;
-		static TaddLines								      m_upLines, m_downLines, m_midLines;
-		static QColor                         m_workColor;
-		static TnoteControl				  				 *m_rightBox;
-		static TnoteControl									 *m_leftBox;
+		static int                            	m_curentAccid, m_workPosY;
+		static QGraphicsEllipseItem          		*m_workNote;
+		static QGraphicsSimpleTextItem       		*m_workAccid;
+		static TaddLines								      	m_upLines, m_downLines, m_midLines;
+		static QColor                         	m_workColor;
+		static TnoteControl				  				 		*m_rightBox;
+		static TnoteControl									 		*m_leftBox;
     
 private:
         /** Prepares note-head (ellipse) */
