@@ -22,6 +22,15 @@
 #include <QFile>
 #include <QSettings>
 #include <QApplication>
+#include <QDebug>
+
+#if defined(Q_OS_WIN32)
+  #include <windows.h>
+  #define SLEEP(msecs) Sleep(msecs)
+#else
+  #include <unistd.h>
+  #define SLEEP(msecs) usleep(msecs * 1000)
+#endif
 
 Tglobals *gl;
 bool resetConfig;
@@ -70,5 +79,6 @@ int main(int argc, char *argv[])
 		} while (resetConfig);
 		
     delete gl;
+    SLEEP(10); // delayed exit to avoid crash
 		return exitCode;
 }
