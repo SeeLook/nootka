@@ -134,10 +134,11 @@ Tnote* TscoreStaff::getNote(int index) {
 
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
-	emit noteIsAdding(number(), index);
+// 	emit noteIsAdding(number(), index);
 	insert(index);
 	setNote(index, note);
 	setNoteDisabled(index, disabled);
+	emit noteIsAdding(number(), index);
 	if (maxNoteCount()) {
 		if (count() > maxNoteCount()) {
 				emit noteToMove(number(), m_scoreNotes.takeLast());
@@ -148,7 +149,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	updateIndex();
 	updateWidth();
 	if (number() == -1)
-			updateSceneRect(); // Updtate only for non multi staves view
+			updateSceneRect(); // Update only for non multi staves view
 }
 
 

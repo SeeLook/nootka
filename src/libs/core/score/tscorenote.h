@@ -104,8 +104,8 @@ public:
 
         /** This return value of -2 is bb,  1 is #,  etc... */ 
     int accidental() {return m_accidental;}
-    int ottava() { return m_ottava; } // NOTE: for this moment it is unused and set to 0
-    int notePos(); /** Y Position of note head */
+    int ottava() { return m_ottava; } /** NOTE: for this moment it is unused and set to 0 */
+    int notePos() { return m_mainPosY; }  /** Y Position of note head */
 
     static QString getAccid(int accNr); /** Returns QString with accidental symbol*/
 		
@@ -118,10 +118,11 @@ public:
     void removeString(); /** Removes string number */
 		int stringNumber() { return m_stringNr; } /** Displayed string number or 0 if not. */
 		
-				/** Displays note name of selected note. */
+				/** Starts displaying note name of this note. 
+				 * Name will change appropriate to moved note until removeNoteName() will be invoked */
 		void showNoteName();
 		void removeNoteName();
-		QGraphicsSimpleTextItem* noteName() { return m_nameText; }
+		QGraphicsTextItem* noteName() { return m_nameText; } /** Graphics item of note name text */
 		
 		
 				/** Changes accidental of a working note cursor. */
@@ -163,7 +164,8 @@ protected:
 private:
     QGraphicsEllipseItem          					*m_mainNote;
     QGraphicsSimpleTextItem       					*m_mainAccid;
-		QGraphicsSimpleTextItem 								*m_stringText, *m_nameText;
+		QGraphicsSimpleTextItem 								*m_stringText;
+		QGraphicsTextItem												*m_nameText;
     TaddLines      								 					m_mainUpLines, m_mainDownLines, m_mainMidLines;
     QColor                         					m_mainColor;
 		TcombinedAnim														*m_noteAnim;
