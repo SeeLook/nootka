@@ -20,7 +20,7 @@
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
 #include <animations/tmovedanim.h>
-#include <tgraphicstexttip.h>
+#include <graphics/tgraphicstexttip.h>
 #include <tcolor.h>
 #include <QGraphicsTextItem>
 #include <QGraphicsEffect>
@@ -51,7 +51,8 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	
 	QGraphicsScene *scene = new QGraphicsScene(this);
 	setScene(scene);
-	m_textItem = new QGraphicsTextItem(0, scene);
+	m_textItem = new QGraphicsTextItem();
+	scene->addItem(m_textItem);
 	scene->setSceneRect(geometry());
 	setText(text);
 	
@@ -99,7 +100,8 @@ void TnoteNameLabel::center() {
 void TnoteNameLabel::showQuestionMark(const QColor& color) {
 	if (m_questMark)
 		return;
-	m_questMark = new QGraphicsSimpleTextItem("?", 0, scene());
+	m_questMark = new QGraphicsSimpleTextItem("?");
+	scene()->addItem(m_questMark);
 	m_questMark->setFont(QFont("nootka"));
 	m_questMark->setBrush(color);
 	scaleQuestionMark();
@@ -110,7 +112,8 @@ void TnoteNameLabel::showQuestionMark(const QColor& color) {
 void TnoteNameLabel::showStringNumber(int strNr, const QColor &color) {
 	if (m_stringNumber)
 		return;
-	m_stringNumber = new QGraphicsSimpleTextItem(QString("%1").arg(strNr), 0, scene());
+	m_stringNumber = new QGraphicsSimpleTextItem(QString("%1").arg(strNr));
+	scene()->addItem(m_stringNumber);
 	m_stringNumber->setFont(QFont("nootka"));
 	m_stringNumber->setBrush(color);
 	scaleStringNumber();

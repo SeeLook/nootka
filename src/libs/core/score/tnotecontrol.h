@@ -46,6 +46,9 @@ public:
 	
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 	virtual QRectF boundingRect() const;
+	
+signals:
+	void nameMenu(TscoreNote* scoreNote);
 		
 protected:
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);

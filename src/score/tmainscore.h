@@ -22,6 +22,7 @@
 #include <score/tsimplescore.h>
 #include <QPointer>
 
+class TnoteName;
 class QPushButton;
 class TscoreNote;
 class TgraphicsTextTip;
@@ -141,6 +142,9 @@ protected slots:
 		void staffLoNoteChanged(int staffNr, qreal loNoteYoff);
 		void staffHiNoteChanged(int staffNr, qreal hiNoteYoff);
 		
+		void showNameMenu(TscoreNote* sn);
+		void menuChangedNote(Tnote n);
+		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
 		void performScordatureSet(); /** Common method to set scordature */
@@ -174,6 +178,8 @@ private:
 				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 		int													 m_clickedOff, m_currentIndex;
 		qreal												 m_scale;
+		QPointer<TnoteName>					 m_nameMenu;
+		QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
 };
 
 #endif // TMAINSCORE_H

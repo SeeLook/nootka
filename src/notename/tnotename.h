@@ -20,7 +20,7 @@
 #define TNOTENAME_H
 
 #include <QWidget>
-#include "tnote.h"
+#include <music/tnote.h>
 #include <tcolor.h>
 
 class QGraphicsTextItem;
