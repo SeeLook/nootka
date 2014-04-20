@@ -142,6 +142,7 @@ void TmainScore::setNote(Tnote note) {
 						if (thisStaff->number() + 1 < m_staves.size())
 							thisStaff = m_staves[thisStaff->number() + 1];
 						else {
+// 							staffHasNoSpace(m_staves.last()->number());
 							qDebug() << "setNote() has no more staves";
 							return;
 						}
@@ -572,6 +573,8 @@ void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
 		qDebug() << "selected note moved forward";
 		m_currentIndex++;
 	}
+	m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
+	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
 }
 
 void TmainScore::noteRemovingSlot(int staffNr, int noteToDel) {
@@ -791,14 +794,16 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff) {
       Tnote nn(0, 0, 0);
 			if (sendStaff->count() - 1 < sendStaff->maxNoteCount()) { // add note to staff invoking this
 					sendStaff->addNote(nn);
-					sendStaff->noteSegment(sendStaff->count() - 1)->enableAccidToKeyAnim(true);
+// 					sendStaff->noteSegment(sendStaff->count() - 1)->enableAccidToKeyAnim(true);
+// 					sendStaff->noteSegment(sendStaff->count() - 1)->showNoteName();
 			} // when it is last possible note on the staff - staff has already sent noMoreSpace() signal
   }
 }
 
 
 void TmainScore::adjustStaffWidth(TscoreStaff* st) {
-	st->setViewWidth((score()->width() - 20) / score()->transform().m11());
+	int scrollOff = score()->verticalScrollBar()->isVisible() ? score()->verticalScrollBar()->width() : 0;
+	st->setViewWidth((score()->width() - 20 - scrollOff) / score()->transform().m11());
 }
 
 
@@ -816,6 +821,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 			st->disconnect(SIGNAL(clefChanged(Tclef)));
 			m_staves << st;
 	}
+	m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	m_staves.last()->setSelectableNotes(true);
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));

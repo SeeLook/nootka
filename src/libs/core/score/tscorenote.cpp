@@ -92,6 +92,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_index(index),
   m_readOnly(false),
   m_stringText(0), m_stringNr(0),
+  m_nameText(0),
 //   m_noteNr(100),
   m_ottava(0),
   m_bgColor(-1),
@@ -152,7 +153,6 @@ void TscoreNote::adjustSize() {
 void TscoreNote::setColor(QColor color) {
     m_mainColor = color;
     m_mainNote->setPen(QPen(m_mainColor, 0.2));
-// 		m_mainNote->setPen(Qt::NoPen);
     m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
     m_mainAccid->setBrush(QBrush(m_mainColor));
     for (int i = 0; i < m_mainUpLines.size(); i++)
@@ -168,11 +168,6 @@ void TscoreNote::setColor(QColor color) {
 
 void TscoreNote::selectNote(bool sel) {
 	m_selected = sel;
-}
-
-
-int TscoreNote::notePos() {
-		return m_mainPosY;
 }
 
 
@@ -234,7 +229,9 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
 	*m_note = n;
 	moveNote(notePos);
 	if (m_mainPosY == 0)
-		*m_note = Tnote(); // set note to null if below the score possibilities
+			*m_note = Tnote(); // set note to null if beyond the score possibilities
+	if (m_nameText)
+			showNoteName();
 }
 
 
@@ -285,7 +282,7 @@ void TscoreNote::markNote(QColor blurColor) {
 void TscoreNote::setString(int realNr) {
 	if (!m_stringText) {
         m_stringText = new QGraphicsSimpleTextItem();
-				m_stringText->setFont(QFont("nootka", 5, QFont::Normal));
+				m_stringText->setFont(TnooFont(5));
         m_stringText->setBrush(QBrush(m_mainColor));
         m_stringText->setParentItem(this);
         m_stringText->setZValue(-1);
@@ -309,6 +306,47 @@ void TscoreNote::removeString() {
 void TscoreNote::setReadOnly(bool ro) {
 		setAcceptHoverEvents(!ro);
 		m_readOnly = ro;
+}
+
+
+void TscoreNote::showNoteName() {
+	if (!m_nameText) {
+		m_nameText = new QGraphicsTextItem();
+		m_nameText->setDefaultTextColor(m_mainColor);
+		m_nameText->setParentItem(this);
+		m_nameText->setZValue(10);
+		m_nameText->setAcceptHoverEvents(false);
+		QGraphicsDropShadowEffect *dropEff = new QGraphicsDropShadowEffect();
+			dropEff->setColor(Qt::darkCyan);
+			dropEff->setOffset(0.7, 0.7);
+			dropEff->setBlurRadius(5.0);
+		m_nameText->setGraphicsEffect(dropEff);
+	}
+	if (m_note->note) {
+			m_nameText->setHtml(m_note->toRichText());
+			m_nameText->setScale(8.0 / m_nameText->boundingRect().height());
+			if (m_nameText->boundingRect().width() * m_nameText->scale() > boundingRect().width())
+					m_nameText->setScale(boundingRect().width() / (m_nameText->boundingRect().width()));
+// 			qreal yy;
+// 			if (notePos() < staff()->upperLinePos() + 4.0)
+// 				yy = staff()->upperLinePos() + 7.5; // under staff
+// 			else if (staff()->isPianoStaff() && notePos() > staff()->lowerLinePos()) // above lower staff
+// 				yy = staff()->lowerLinePos() - m_nameText->boundingRect().height() * m_nameText->scale();
+// 			else // above upper staff
+// 				yy = staff()->upperLinePos() - m_nameText->boundingRect().height() * m_nameText->scale() + 1.0;
+			m_nameText->setPos((8.0 - m_nameText->boundingRect().width() * m_nameText->scale()), /*yy);*/
+							notePos() > staff()->upperLinePos() ? 
+										notePos() - (m_nameText->boundingRect().height() + 2.0) * m_nameText->scale(): // above note
+										notePos() + m_mainNote->boundingRect().height()); // below note
+			m_nameText->show();
+	} else
+			m_nameText->hide();
+}
+
+
+void TscoreNote::removeNoteName() {
+	delete m_nameText;
+	m_nameText = 0;
 }
 
 
@@ -348,7 +386,22 @@ QRectF TscoreNote::boundingRect() const{
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 	if (m_bgColor != -1) {
-			paintBackground(painter, m_bgColor);
+// 			paintBackground(painter, m_bgColor);
+		QPointF center(3.5, m_mainPosY + 1.0);
+		if (m_mainPosY == 0)
+			center.setY(staff()->upperLinePos() + 4.0);
+		QRadialGradient gr(center, 6.0);
+		QColor c1 = m_bgColor;
+		c1.setAlpha(40);
+		QColor c2 = m_bgColor;
+		c2.setAlpha(80);
+		gr.setColorAt(0.0, c1);
+		gr.setColorAt(0.8, c1);
+		gr.setColorAt(0.9, c2);
+		gr.setColorAt(1.0, Qt::transparent);
+		painter->setBrush(gr);
+		painter->setPen(Qt::NoPen);
+		painter->drawRect(0.0, center.y() - 6.0, 7.0, center.y() + 6.0);
 	}
 }
 
@@ -425,6 +478,8 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         m_accidental = m_curentAccid;
         moveNote(m_workPosY);
         emit noteWasClicked(m_index);
+				if (m_nameText)
+					showNoteName();
     }
 }
 
@@ -467,6 +522,7 @@ QGraphicsLineItem* TscoreNote::createNoteLine(int yPos) {
 	QGraphicsLineItem *line = new QGraphicsLineItem();
 	line->hide();
 	registryItem(line);
+	line->setZValue(7);
 	line->setLine(2.5, yPos, boundingRect().width(), yPos);
 	return line;
 }
