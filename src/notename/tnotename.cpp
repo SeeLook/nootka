@@ -19,9 +19,9 @@
 
 #include "tnotename.h"
 #include "tnotenamelabel.h"
-#include "tglobals.h"
-#include "tpushbutton.h"
-#include <QtGui>
+#include <tglobals.h>
+#include <widgets/tpushbutton.h>
+#include <QtWidgets>
 
 
 extern Tglobals *gl;
@@ -44,21 +44,22 @@ TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent),
     m_heightToSmallEmitted(false)
 {
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
 // NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
     m_nameLabel = new TnoteNameLabel("", this);
+		m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 #if !defined(Q_OS_WIN)
     showVersionNumber();
 #endif
     connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
-    resize();
+//     resize();
 
     mainLay->addStretch(1);
-    mainLay->addWidget(m_nameLabel, 0, Qt::AlignCenter);
+    mainLay->addWidget(m_nameLabel);
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
@@ -66,6 +67,7 @@ TnoteName::TnoteName(QWidget *parent) :
     for (int i = 0; i < 7; i++) {
         m_noteButtons[i] = new TpushButton("", this);
         noteLay->addWidget(m_noteButtons[i]);
+				m_noteButtons[i]->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         m_noteGroup->addButton(m_noteButtons[i], i);
     }
     noteLay->addStretch(1);
@@ -127,7 +129,7 @@ TnoteName::TnoteName(QWidget *parent) :
     setNoteNamesOnButt(style());
     for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-    resize();
+//     resize();
 #if defined(Q_OS_WIN)
     QTimer::singleShot(2, this, SLOT(showVersionNumber()));
 #endif
@@ -235,12 +237,6 @@ void TnoteName::resize(int fontSize) {
         m_flatButt->setFont(f);
         m_sharpButt->setFont(f);
         m_dblSharpButt->setFont(f);
-#if defined (Q_OS_MAC)
-				m_dblFlatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-				m_flatButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-				m_sharpButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-        m_dblSharpButt->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-#endif
     }
 }
 
@@ -451,34 +447,39 @@ char TnoteName::getSelectedAccid() {
 
 
 void TnoteName::resizeEvent(QResizeEvent* ) {
-    m_nameLabel->setFixedSize(width() * 0.95, parentWidget()->height() / 9 );
+	parentWidget()->resize(size());
+	if (parentWidget()->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
+				parentWidget()->move(parentWidget()->pos().x() - width() * 1.15, parentWidget()->pos().y());
+	// Move note name menu on the left screen side, width() * 1.15 - alows to see edited note
+	
+//     m_nameLabel->setFixedSize(width() * 0.95, height() / 4);
 	// determine to show all octave buttons in single row or put the first and the last in accidentals row
-		int allButtWidth = 0;
-		for (int i = 0; i < 8; i++) // total width of buttons
-        allButtWidth += m_octaveButtons[i]->width();
-		allButtWidth += (m_octaveButtons[3]->geometry().left() - m_octaveButtons[2]->geometry().right()) * 10; // plus space between
-		if (allButtWidth < width() - 10) { // all octave buttons in single row (-10 is Qt styles quirk)
-			if (m_octaveLay->count() < 9) { // only once, when not inserted yet
-				m_accLay->removeWidget(m_octaveButtons[0]);
-				m_accLay->removeWidget(m_octaveButtons[7]);
-				m_octaveLay->insertWidget(1, m_octaveButtons[0]);
-				m_octaveLay->insertWidget(m_octaveLay->count() - 1, m_octaveButtons[7]);
-			}
-		} else { // sub-contra and 4-line buttons with accidentals
-			if (m_octaveLay->count() > 8) { // only once, when already inserted
-				m_octaveLay->removeWidget(m_octaveButtons[0]);
-				m_octaveLay->removeWidget(m_octaveButtons[7]);
-				m_accLay->insertWidget(0, m_octaveButtons[0]);
-				m_accLay->insertWidget(m_accLay->count(), m_octaveButtons[7]);
-			}
-		}
-		if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom()) {
-			if (!m_heightToSmallEmitted) {
-				QTimer::singleShot(10, this, SLOT(emitSmallHeight()));
-				m_heightToSmallEmitted = true;
-			}
-		} else
-				m_heightToSmallEmitted = false;
+// 		int allButtWidth = 0;
+// 		for (int i = 0; i < 8; i++) // total width of buttons
+//         allButtWidth += m_octaveButtons[i]->width();
+// 		allButtWidth += (m_octaveButtons[3]->geometry().left() - m_octaveButtons[2]->geometry().right()) * 10; // plus space between
+// 		if (allButtWidth < width() - 10) { // all octave buttons in single row (-10 is Qt styles quirk)
+// 			if (m_octaveLay->count() < 9) { // only once, when not inserted yet
+// 				m_accLay->removeWidget(m_octaveButtons[0]);
+// 				m_accLay->removeWidget(m_octaveButtons[7]);
+// 				m_octaveLay->insertWidget(1, m_octaveButtons[0]);
+// 				m_octaveLay->insertWidget(m_octaveLay->count() - 1, m_octaveButtons[7]);
+// 			}
+// 		} else { // sub-contra and 4-line buttons with accidentals
+// 			if (m_octaveLay->count() > 8) { // only once, when already inserted
+// 				m_octaveLay->removeWidget(m_octaveButtons[0]);
+// 				m_octaveLay->removeWidget(m_octaveButtons[7]);
+// 				m_accLay->insertWidget(0, m_octaveButtons[0]);
+// 				m_accLay->insertWidget(m_accLay->count(), m_octaveButtons[7]);
+// 			}
+// 		}
+// 		if (m_noteButtons[0]->geometry().y() <= m_nameLabel->geometry().bottom()) {
+// 			if (!m_heightToSmallEmitted) {
+// 				QTimer::singleShot(10, this, SLOT(emitSmallHeight()));
+// 				m_heightToSmallEmitted = true;
+// 			}
+// 		} else
+// 				m_heightToSmallEmitted = false;
 }
 
 //##############################################################################################

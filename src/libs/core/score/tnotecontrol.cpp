@@ -34,7 +34,7 @@
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
 	m_scoreNote(0),
-	m_hasMouse(false)
+	m_hasMouse(false)	
 {
 	setStaff(staff);
 	setParentItem(staff);
@@ -148,6 +148,8 @@ void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 		} else { // left control - preppend a note
 				staff()->insertNote(m_scoreNote->index() - 1);
 		}
+	} else if (event->pos().y() < 6.0) { // edit note name
+			emit nameMenu(m_scoreNote);
 	} else if (m_minus->isVisible() && event->pos().y() > staff()->height() - 7.0) {
 			staff()->removeNote(m_scoreNote->index());
 			m_hasMouse = false;

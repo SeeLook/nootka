@@ -334,7 +334,7 @@ void TscoreNote::showNoteName() {
 // 				yy = staff()->lowerLinePos() - m_nameText->boundingRect().height() * m_nameText->scale();
 // 			else // above upper staff
 // 				yy = staff()->upperLinePos() - m_nameText->boundingRect().height() * m_nameText->scale() + 1.0;
-			m_nameText->setPos((8.0 - m_nameText->boundingRect().width() * m_nameText->scale()), /*yy);*/
+			m_nameText->setPos((8.0 - m_nameText->boundingRect().width() * m_nameText->scale()) * 0.75, /*yy);*/
 							notePos() > staff()->upperLinePos() ? 
 										notePos() - (m_nameText->boundingRect().height() + 2.0) * m_nameText->scale(): // above note
 										notePos() + m_mainNote->boundingRect().height()); // below note
@@ -390,7 +390,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		QPointF center(3.5, m_mainPosY + 1.0);
 		if (m_mainPosY == 0)
 			center.setY(staff()->upperLinePos() + 4.0);
-		QRadialGradient gr(center, 6.0);
+		QRadialGradient gr(center, 10.0);
 		QColor c1 = m_bgColor;
 		c1.setAlpha(40);
 		QColor c2 = m_bgColor;
@@ -401,7 +401,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		gr.setColorAt(1.0, Qt::transparent);
 		painter->setBrush(gr);
 		painter->setPen(Qt::NoPen);
-		painter->drawRect(0.0, center.y() - 6.0, 7.0, center.y() + 6.0);
+		painter->drawRect(0.0, center.y() - 10.0, 7.0, center.y() + 10.0);
 	}
 }
 

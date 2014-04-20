@@ -40,6 +40,9 @@ set(NOOTKA_SRC
 	
 	guitar/tfingerboard.cpp
 	
+	notename/tnotename.cpp
+	notename/tnotenamelabel.cpp
+	
 	score/tmainscore.cpp
 	
 	animations/tstrikedoutitem.cpp

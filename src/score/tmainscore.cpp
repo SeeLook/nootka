@@ -23,6 +23,7 @@
 #include <score/tscorecontrol.h>
 #include <score/tscoreclef.h>
 #include <score/tscorescene.h>
+#include <score/tnotecontrol.h>
 #include <music/ttune.h>
 #include <tglobals.h>
 #include <graphics/tgraphicstexttip.h>
@@ -30,6 +31,7 @@
 #include <animations/tblinkingitem.h>
 #include <tcolor.h>
 #include <tnoofont.h>
+#include <notename/tnotename.h>
 #include <QtWidgets>
 
 
@@ -76,6 +78,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	if (m_staves.last()->scoreKey())
 		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 	
+	connect(staff()->noteSegment(0)->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
@@ -520,6 +523,31 @@ void TmainScore::onPianoSwitch() {
 		restoreNotesSettings();
 		if (*gl->Gtune() != Ttune::stdTune)
 			setScordature();
+}
+
+
+void TmainScore::showNameMenu(TscoreNote* sn) {
+	if (!m_nameMenu) {
+			QMenu *menu = new QMenu(parentWidget());
+			menu->setStyleSheet("background-color: palette(window)");
+			m_nameMenu = new TnoteName(menu);
+			m_nameMenu->setNoteName(*sn->note());
+			m_currentNameSegment = sn;
+			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
+			QPoint mPos = score()->mapToGlobal(score()->mapFromScene(sn->pos().x() + 11.0, sn->pos().y() + 4.0));
+			menu->exec(mPos);
+			delete m_nameMenu;
+			delete menu;
+				
+			}
+}
+
+
+void TmainScore::menuChangedNote(Tnote n) {
+	if (m_currentNameSegment) {
+		m_currentNameSegment->staff()->setNote(m_currentNameSegment->index(), n);
+		emit noteWasChanged(m_currentNameSegment->index(), n);
+	}
 }
 
 
