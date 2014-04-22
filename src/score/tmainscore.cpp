@@ -528,18 +528,16 @@ void TmainScore::onPianoSwitch() {
 
 void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
-			QMenu *menu = new QMenu(parentWidget());
-			menu->setStyleSheet("background-color: palette(window)");
-			m_nameMenu = new TnoteName(menu);
+			m_nameMenu = new TnoteName(parentWidget());
 			m_nameMenu->setNoteName(*sn->note());
 			m_currentNameSegment = sn;
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
-			QPoint mPos = score()->mapToGlobal(score()->mapFromScene(sn->pos().x() + 11.0, sn->pos().y() + 4.0));
-			menu->exec(mPos);
+			QPoint mPos = score()->mapFromScene(sn->pos().x() + 11.0, 0.0);
+			mPos.setY(10);
+			mPos = score()->mapToGlobal(mPos);
+			m_nameMenu->exec(mPos, score()->transform().m11());
 			delete m_nameMenu;
-			delete menu;
-				
-			}
+	}
 }
 
 

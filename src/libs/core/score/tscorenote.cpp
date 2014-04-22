@@ -401,7 +401,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		gr.setColorAt(1.0, Qt::transparent);
 		painter->setBrush(gr);
 		painter->setPen(Qt::NoPen);
-		painter->drawRect(0.0, center.y() - 10.0, 7.0, center.y() + 10.0);
+		painter->drawRect(0.0, qMin(center.y() - 10.0, 0.0), 7.0, qMax(center.y() + 10.0, m_height));
 	}
 }
 
