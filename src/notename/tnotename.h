@@ -23,6 +23,7 @@
 #include <music/tnote.h>
 #include <tcolor.h>
 
+class QMenu;
 class QGraphicsTextItem;
 class QHBoxLayout;
 class TnoteNameLabel;
@@ -31,14 +32,25 @@ class TpushButton;
 class QButtonGroup;
 
 
+/**
+ * This widget displays note name and buttons to manipulate it.
+ * Since Nootka 1.1.0 it is squeezed into QMenu, so it exist temporary
+ * It has to be invoked with exec() method
+ */
 class TnoteName : public QWidget
 {
     Q_OBJECT
 public:
     explicit TnoteName(QWidget *parent = 0);
+		virtual ~TnoteName();
 
     static const char * const octaves[8];
     static const char * const octavesFull[8];
+		
+				/** Displays note name as menu. @p pos is desired position in screen coordinates
+				 * @p scoreFactor is m11() factor of a scene to automatically calculate and place the menu
+				 * on the right or left side of given position */
+		void exec(QPoint pos, qreal scoreFactor);
 
         /** Sets names on buttons to given style.  Doesn't refresh note name label. */
     void setNoteNamesOnButt(Tnote::EnameStyle nameStyle);
@@ -71,36 +83,31 @@ public:
 		
 		QRectF textRect(); /** Rectangle of note name text item */
 		QPoint textPos(); /** Position of name text in main window coordinates. */
-		QRect labelRect(); /** Name label position and size in TnoteName coordinates. */
-    
-        /** Returns missing space in pixels when there is less vertical space for all widgets
-				 * or 0 if enough space. */
-    int smallSpace();
-		
+		QRect labelRect(); /** Name label position and size in TnoteName coordinates. */		
 
 signals:
     void noteNameWasChanged(Tnote note);
     void noteButtonClicked();
-		void heightTooSmall(); /** Emitted when note buttons go over name label */
+		
 
 protected:
     void resizeEvent(QResizeEvent *);
 
 private:
-    TnoteNameLabel	*m_nameLabel;
-    TpushButton 		*m_noteButtons[7];
-    TpushButton 		*m_octaveButtons[8];
-		QHBoxLayout 		*m_accLay, *m_octaveLay;
-    TpushButton 		*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
-    QButtonGroup 		*m_noteGroup, *m_octaveGroup;
-    int 						m_prevOctButton; /** Keeps index of previous selected octave button, none if -1 */
-    static 					Tnote::EnameStyle m_style;
+    TnoteNameLabel				*m_nameLabel;
+    TpushButton 					*m_noteButtons[7];
+    TpushButton 					*m_octaveButtons[8];
+    TpushButton 					*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
+    QButtonGroup 					*m_noteGroup, *m_octaveGroup;
+    int 									m_prevOctButton; /** Keeps index of previous selected octave button, none if -1 */
+    static 								Tnote::EnameStyle m_style;
 
-    TnotesList 			m_notes;
-    short 					m_ambitMin, m_ambitMax;
-		Tnote 					m_goodNote;
-		int 						m_blinkingPhase;
-		bool						m_heightToSmallEmitted; /** True when emitted and goes false when height becomes sufficient. */
+    TnotesList 						m_notes;
+    short 								m_ambitMin, m_ambitMax;
+		Tnote 								m_goodNote;
+		int 									m_blinkingPhase;
+		QMenu									*m_menu;
+		qreal									m_scoreFactor; //* Size coefficient of a score displaying this note name (menu) */
     
 private:
     void setNoteName(char noteNr, char octNr, char accNr);
@@ -124,8 +131,7 @@ private slots:
     void octaveWasChanged(int octNr);
     void correctAnimationFinished();
     void invokeBlinkingAgain();
-    void emitSmallHeight();
-    void showVersionNumber(); /** Under Win it has to be called after constructor. */
+       
 
 };
 
