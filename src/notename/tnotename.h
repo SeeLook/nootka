@@ -88,10 +88,12 @@ public:
 signals:
     void noteNameWasChanged(Tnote note);
     void noteButtonClicked();
+    void statusTipRequired(QString status);
 		
 
 protected:
     void resizeEvent(QResizeEvent *);
+    virtual bool event(QEvent* event);
 
 private:
     TnoteNameLabel				*m_nameLabel;

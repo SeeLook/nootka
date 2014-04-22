@@ -99,16 +99,20 @@ TnoteName::TnoteName(QWidget *parent) :
 			connect(m_dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     accLay->addStretch(1);
     mainLay->addLayout(accLay);
-// OCTAVE BUTTONS TOOLBAR
-		for (int i = 0; i < 8; i++)
-        m_octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
+// OCTAVE BUTTONS TOOLBAR        
     QHBoxLayout *upOctaveLay = new QHBoxLayout;
 		QHBoxLayout *loOctaveLay = new QHBoxLayout;
+    QLabel *octavesLab = new QLabel("<a href=\"http://en.wikipedia.org/wiki/Octave\">" + tr("octaves") + ":</a>", this);
+    octavesLab->setOpenExternalLinks(true);
+    octavesLab->setStatusTip(tr("Click to see explanation of 'octave' at <b>en.wikipedia.org/wiki/Octave</b>", "You can change a link to article in your language"));
+    upOctaveLay->addWidget(octavesLab);
     m_octaveGroup = new QButtonGroup(this);
     for (int i = 0; i < 8; i++) {
+        m_octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
         m_octaveButtons[i]->setStatusTip(tr(octavesFull[i]));
 				if (i % 2) {
-						upOctaveLay->addStretch(1);
+            if (i > 1)
+              upOctaveLay->addStretch(1);
 						upOctaveLay->addWidget(m_octaveButtons[i]);
 				} else {
 						loOctaveLay->addWidget(m_octaveButtons[i]);
@@ -444,7 +448,7 @@ char TnoteName::getSelectedAccid() {
 			return -2;
 		if (m_dblSharpButt->isChecked())
 			return 2;
-		return 0; // no accide selected
+		return 0; // no accidentals selected
 }
 
 
@@ -455,12 +459,22 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 	// Move note name menu on the left screen side to alow to see edited note
 }
 
+
+bool TnoteName::event(QEvent* event) {
+  if (gl->hintsEnabled && event->type() == QEvent::StatusTip) {
+      QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+      emit statusTipRequired(se->tip());
+  }
+      return QWidget::event(event);
+}
+
+
 //##############################################################################################
 //#################################### PRIVATE SLOTS ###########################################
 //##############################################################################################
 void TnoteName::noteWasChanged(int noteNr) {
 		if (m_notes[0].note) {
-			if (m_notes[0].note != noteNr+1) //uncheck only if previous was different
+			if (m_notes[0].note != noteNr+1) //unchecked only if previous was different
 				m_noteButtons[m_notes[0].note-1]->setChecked(false);
 		} 
 		m_noteButtons[noteNr]->setChecked(true);
