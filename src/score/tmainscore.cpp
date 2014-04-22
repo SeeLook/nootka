@@ -532,6 +532,7 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 			m_nameMenu->setNoteName(*sn->note());
 			m_currentNameSegment = sn;
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
+      connect(m_nameMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(statusTipChanged(QString)));
 			QPoint mPos = score()->mapFromScene(sn->pos().x() + 11.0, 0.0);
 			mPos.setY(10);
 			mPos = score()->mapToGlobal(mPos);
