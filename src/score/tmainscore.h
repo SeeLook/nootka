@@ -125,6 +125,8 @@ public slots:
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
+	
+	TscoreStaff* currentStaff();
 		
 protected slots:
 				/** Refresh some things after switch scordature, notes state and color. */
@@ -152,7 +154,7 @@ private:
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
-    void checkAndAddNote(TscoreStaff* sendStaff);
+    void checkAndAddNote(TscoreStaff* sendStaff, int noteIndex);
 		
 				/** Adds given staff at the end of m_staves list or creates a new one.
 				 * Sets staff number corresponding to its index in the m_staves list,
@@ -160,6 +162,7 @@ private:
 		void addStaff(TscoreStaff* st = 0);
 		void updateSceneRect(); /** Adjusts score scene to space required by staff(staves) */
 		void adjustStaffWidth(TscoreStaff *st); /** Calls TscoreStaff::setViewWidth with score width  */
+		void changeCurrentIndex(int newIndex);
 
 private:
 		QList<TscoreStaff*>					 m_staves; // list of staves in page view

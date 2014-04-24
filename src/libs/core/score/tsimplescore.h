@@ -125,11 +125,7 @@ protected slots:
 				 * It is necessary to call it after staff width changed f.e by:
 				 * setPianoStaff(), setEnableKeySign() and setScordature()				 */
     void resizeEvent(QResizeEvent* event);
-		
-				/** This is response for user demand to change to or from piano staff. */
-		void switchToPianoStaff();
 		void onClefChanged(Tclef clef);
-		void onStaffSizeChanged();
   
 private:
     TscoreScene     						*m_scene;

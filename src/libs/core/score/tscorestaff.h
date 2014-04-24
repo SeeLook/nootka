@@ -139,7 +139,7 @@ public:
 		
 				/** Checks positions of all notes to find lowest and highest.
 				 * @p doEmit determines whether this method sends appropriate signals */
-		void checkNoteRange(bool doEmit) { checkNoteRange(0, doEmit); }
+		void checkNoteRange(bool doEmit = true);
 				
 				/** Updates rectangle of QGraphicsScene to staff bounding rectangle. */
     void updateSceneRect();
@@ -183,6 +183,10 @@ public:
 				/** Switches when note segments have colored background after their note are set */
 		void setSelectableNotes(bool selectable) { m_selectableNotes = selectable; }
 		bool selectableNotes() { return m_selectableNotes; }
+		
+				/** Additional note controls are displayed when note gets cursor */
+		void setControlledNotes(bool controlled) { m_controlledNotes = controlled; }
+		bool controlledNotes() { return m_controlledNotes; }
     
     void setScoreControler(TscoreControl *scoreControl);
 		
@@ -196,7 +200,6 @@ signals:
 		void pianoStaffSwitched();
 		void noteChanged(int index);
 		void clefChanged(Tclef);
-		void staffSizeChanged(); /** when piano staff is changed or staff width */
 		
 				/** When staff has no more space to display next note segment. 
 				 * Argument is staff number */
@@ -278,17 +281,14 @@ private:
 		TcombinedAnim											*m_accidAnim;
 		QGraphicsSimpleTextItem 					*m_flyAccid;
 		int											 					 m_index; // index of currently selected note
-		bool 										 					 m_selectableNotes;
+		bool 										 					 m_selectableNotes, m_controlledNotes;
 		int																 m_maxNotesCount;
 		qreal															 m_loNotePos, m_hiNotePos;
+		bool															 m_lockRangeCheck; // to prevent the checking during clef switching
 		
 private:
 		void createBrace();
 		int getMaxNotesNr(qreal maxWidth); /** Calculates notes number from given width */
-		
-				/** When note is changed (added or removed as well) it checks range of notes on the staff 
-				 * and emits hiNoteChanged() and/or loNoteChanged() signals if necessary. */
-		void checkNoteRange(int noteYpos, bool doEmit = true); 
 		void findLowestNote(); /** Checks all Y positions of staff notes ti find lowest one */
 		void findHighestNote(); /** Checks all Y positions of staff notes ti find highest one */
 

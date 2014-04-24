@@ -100,14 +100,15 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 	m_scoreNote = sn;
 	if (sn) {
 			if (parentItem() != sn->parentItem()) {
-				parentItem()->setZValue(10);
+				if (parentItem())
+						parentItem()->setZValue(10);
 				setParentItem(sn->parentItem());
 				setStaff(sn->staff());
 				parentItem()->setZValue(11);
 			}
 			show();
-			if (staff()->count() < 2)
-					m_minus->hide();
+			if (staff()->number() == 0 && staff()->count() < 2)
+					m_minus->hide(); // prevent deleting only one note
 			else
 				m_minus->show();
 			if (pos().x() < m_scoreNote->pos().x()) // hide name for left control
@@ -142,13 +143,13 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (event->pos().y() < 3.0) { // add a note
+	if (event->pos().y() < 4.0) { // add a note
 		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
 				staff()->insertNote(m_scoreNote->index() + 1);
 		} else { // left control - preppend a note
 				staff()->insertNote(m_scoreNote->index() - 1);
 		}
-	} else if (event->pos().y() < 6.0) { // edit note name
+	} else if (event->pos().y() < 8.0) { // edit note name
 			emit nameMenu(m_scoreNote);
 	} else if (m_minus->isVisible() && event->pos().y() > staff()->height() - 7.0) {
 			staff()->removeNote(m_scoreNote->index());

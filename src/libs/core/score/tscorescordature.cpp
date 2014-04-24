@@ -30,6 +30,7 @@ TscoreScordature::TscoreScordature(TscoreScene* scene, TscoreStaff* staff) :
   m_scordText(0),
   m_height(1)
 {
+	setFlag(QGraphicsItem::ItemHasNoContents);
   setStaff(staff);
 //   setStatusTip(QObject::tr("Scordature of a guitar"));
 }
@@ -74,7 +75,9 @@ void TscoreScordature::setTune(Ttune& tune) {
 			xPos = -2.0;
 			extraW = 4.0;
 			yPos = staff()->lowerLinePos() + 8.5;
-		}
+		} else if (staff()->scoreClef()->clef().type() != Tclef::e_treble_G &&
+					staff()->scoreClef()->clef().type() != Tclef::e_treble_G_8down)
+			yPos -= 4.0;
 		if (staff()->scoreKey())
 				extraW += KEY_WIDTH;
 		else
@@ -86,6 +89,7 @@ void TscoreScordature::setTune(Ttune& tune) {
 		if (m_scordText->boundingRect().height() * scale() > m_height)
 			setScale(factor * (m_height / (m_scordText->boundingRect().height() * scale())));
 		setPos(xPos, yPos);
+		m_height = m_scordText->boundingRect().height();
   } else {
     if (m_scordText) {
       delete m_scordText;
@@ -97,7 +101,7 @@ void TscoreScordature::setTune(Ttune& tune) {
 
 QRectF TscoreScordature::boundingRect() const {
   if (m_scordText)
-		return QRectF(0, 0, (CLEF_WIDTH + KEY_WIDTH - 1) / scale(), m_height / scale());
+		return QRectF(0, 0, (CLEF_WIDTH + KEY_WIDTH - 1), m_height);
 	else
 		return QRect();
 }
