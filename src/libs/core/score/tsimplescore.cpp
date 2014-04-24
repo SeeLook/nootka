@@ -62,7 +62,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 // 	connect(m_staff, SIGNAL(pianoStaffSwitched()), this, SLOT(switchToPianoStaff()));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-// 	connect(m_staff, SIGNAL(staffSizeChanged()), this, SLOT(onStaffSizeChanged()));
   
 	lay->addWidget(m_score);
 	if (controler) {
@@ -122,13 +121,6 @@ void TsimpleScore::clearStringNumber(int index) {
 
 void TsimpleScore::setClef(Tclef clef) {
 	if (this->clef().type() != clef.type()) {
-// 		if (clef.type() == Tclef::e_pianoStaff)
-// 			setPianoStaff(true);
-// 		else {
-// 			if (isPianoStaff())
-// 				setPianoStaff(false);
-// 			staff()->scoreClef()->setClef(clef);
-// 		}
 		staff()->onClefChanged(clef);
 	}
 }
@@ -136,11 +128,11 @@ void TsimpleScore::setClef(Tclef clef) {
 
 Tclef TsimpleScore::clef() {
 	if (isPianoStaff())
-		return Tclef(Tclef::e_pianoStaff);
+			return Tclef(Tclef::e_pianoStaff);
 	else if (staff()->scoreClef())
-						return staff()->scoreClef()->clef();
-				else 
-						return Tclef(Tclef::e_none);
+			return staff()->scoreClef()->clef();
+	else
+			return Tclef(Tclef::e_none);
 }
 
 
@@ -275,15 +267,11 @@ void TsimpleScore::addBGglyph(int instr) {
 	
 }
 
-//##########################################################################################################
-//########################################## PUBLIC SLOTS ##################################################
-//##########################################################################################################
 
 void TsimpleScore::noteWasClicked(int index) {
 	Tnote note = *(staff()->getNote(index));
 	emit noteWasChanged(index, note);
 }
-
 
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
@@ -321,12 +309,6 @@ bool TsimpleScore::isPianoStaff() {
 }
 
 
-void TsimpleScore::switchToPianoStaff() {
-// 	emit pianoStaffSwitched();
-// 	resizeEvent(0);
-}
-
-
 void TsimpleScore::statusTipChanged(QString status) {
 	QStatusTipEvent *tipEvent = new QStatusTipEvent(status);
 	qApp->postEvent(parent(), tipEvent);
@@ -347,15 +329,6 @@ void TsimpleScore::onClefChanged(Tclef clef) {
 		emit clefChanged(staff()->scoreClef()->clef());
 	resizeEvent(0);
 }
-
-void TsimpleScore::onStaffSizeChanged() {
-	resizeEvent(0);
-}
-
-
-//##########################################################################################################
-//########################################## PRIVATE     ###################################################
-//##########################################################################################################
 
 
 

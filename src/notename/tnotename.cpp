@@ -102,9 +102,13 @@ TnoteName::TnoteName(QWidget *parent) :
 // OCTAVE BUTTONS TOOLBAR        
     QHBoxLayout *upOctaveLay = new QHBoxLayout;
 		QHBoxLayout *loOctaveLay = new QHBoxLayout;
-    QLabel *octavesLab = new QLabel("<a href=\"http://en.wikipedia.org/wiki/Octave\">" + tr("octaves") + ":</a>", this);
+    QLabel *octavesLab = new QLabel(this);
     octavesLab->setOpenExternalLinks(true);
-    octavesLab->setStatusTip(tr("Click to see explanation of 'octave' at <b>en.wikipedia.org/wiki/Octave</b>", "You can change a link to article in your language"));
+    octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
+																"You can change this link to article in your language. Leave quotation matks around the address!"));
+		octavesLab->setText("<a href=" + octavesLab->statusTip().mid(octavesLab->statusTip().indexOf("\"")) + ">" +
+												tr("Octaves") + ":</a>");
+		octavesLab->setStatusTip(octavesLab->statusTip().replace("\"", "<b><i>"));
     upOctaveLay->addWidget(octavesLab);
     m_octaveGroup = new QButtonGroup(this);
     for (int i = 0; i < 8; i++) {

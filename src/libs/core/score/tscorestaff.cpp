@@ -48,15 +48,17 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_externWidth(0.0), m_viewWidth(0.0),
 	m_enableScord(false), m_scordature(0),
 	m_accidAnim(0), m_flyAccid(0),
-	m_index(0), m_selectableNotes(false),
+	m_index(0), m_selectableNotes(false), m_controlledNotes(false),
 	m_lowerStaffPos(0.0),
 	m_isPianoStaff(false),
 	m_upperLinePos(16.0),
 	m_hiNotePos(12.0), m_loNotePos(28.0),
 	m_height(40.0),
 	m_keySignature(0),
-	m_maxNotesCount(0)
+	m_maxNotesCount(0),
+	m_lockRangeCheck(false)
 {
+	setFlag(QGraphicsItem::ItemHasNoContents);
 	m_lines[0] = 0;
 	m_lowLines[0] = 0; // first array item points are the all items exist or not
 	setZValue(10);
@@ -122,7 +124,7 @@ void TscoreStaff::setNote(int index, const Tnote& note) {
 				m_scoreNotes[index]->setNote(0, 0, note);
     if (note.note)
       setCurrentIndex(index);
-		checkNoteRange(0);
+		checkNoteRange();
 	}
 }
 
@@ -142,7 +144,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	if (maxNoteCount()) {
 		if (count() > maxNoteCount()) {
 				emit noteToMove(number(), m_scoreNotes.takeLast());
-				checkNoteRange(0); // find range again
+				checkNoteRange(); // find range again
 		} else if (count() == maxNoteCount())
 				emit noMoreSpace(number());
 	}
@@ -356,6 +358,35 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 }
 
 
+int TscoreStaff::fixNotePos(int pianoPos) {
+	if (isPianoStaff() && pianoPos > lowerLinePos() - 4)
+		return pianoPos - 2; // piano staves gap
+	else
+		return pianoPos;
+}
+
+
+void TscoreStaff::setViewWidth(qreal viewW) {
+	m_viewWidth = viewW;
+	int oldMax = m_maxNotesCount;
+	m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
+	updateWidth();
+}
+
+
+void TscoreStaff::checkNoteRange(bool doEmit) {
+	if (m_lockRangeCheck)
+		return;
+	qreal oldHi = m_hiNotePos, oldLo = m_loNotePos;
+		findHighestNote();
+		findLowestNote();
+		if (doEmit && oldHi != m_hiNotePos)
+			emit hiNoteChanged(number(), oldHi - m_hiNotePos);
+		if (doEmit && oldLo != m_loNotePos)
+			emit loNoteChanged(number(), m_loNotePos - oldLo);
+		return;
+}
+
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
@@ -405,34 +436,6 @@ void TscoreStaff::setEnableScordtature(bool enable) {
 	}
 }
 
-
-int TscoreStaff::fixNotePos(int pianoPos) {
-	if (isPianoStaff() && pianoPos > lowerLinePos() - 4)
-		return pianoPos - 2; // piano staves gap
-	else
-		return pianoPos;
-}
-
-
-void TscoreStaff::setViewWidth(qreal viewW) {
-	m_viewWidth = viewW;
-	int oldMax = m_maxNotesCount;
-	m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
-	updateWidth();
-// 	if (m_scoreNotes.isEmpty()) // if no notes on the staff
-// 			return; // ignore checking what to move/remove
-// 	if (oldMax > m_maxNotesCount) { // less space - remove some notes if needed
-// 			if (count() > maxNoteCount()) {
-// 				for (int i = oldMax - 1; i > maxNoteCount(); i--) {
-// 					emit noteToMove(number(), m_scoreNotes.takeAt(i));
-// 				}
-// 			}
-// 	} else if (oldMax < m_maxNotesCount) { // more space
-// 			emit freeSpace(number(), maxNoteCount() - oldMax);
-// 	}
-}
-
-
 //##########################################################################################################
 //####################################### PUBLIC SLOTS     #################################################
 //##########################################################################################################
@@ -471,6 +474,7 @@ void TscoreStaff::onClefChanged(Tclef clef) {
       m_offset = TnoteOffset(3, 2); break;
 		default: break;
   }
+  m_lockRangeCheck = true;
   scoreClef()->setClef(clef);
   if (m_keySignature) {
 			disconnect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
@@ -484,6 +488,8 @@ void TscoreStaff::onClefChanged(Tclef clef) {
 				} 
 			}
 	}
+	m_lockRangeCheck = false;
+	checkNoteRange();
 	emit clefChanged(scoreClef()->clef());
 }
 
@@ -520,7 +526,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_scoreNotes[noteIndex]->note()->acidental = (char)m_scoreNotes[noteIndex]->accidental();
 	setCurrentIndex(noteIndex);
 	emit noteChanged(noteIndex);
-	checkNoteRange(0);
+	checkNoteRange();
 }
 
 
@@ -567,7 +573,6 @@ void TscoreStaff::updateIndex() {
 }
 
 
-
 void TscoreStaff::updateWidth() {
 	qreal off = 0.0, oldWidth = m_width;
 	if (m_keySignature)
@@ -591,7 +596,6 @@ void TscoreStaff::updateWidth() {
 			if (isPianoStaff())
 				m_lowLines[i]->setLine(1, lowerLinePos() + i * 2, width() - 1.0, lowerLinePos() + i * 2);
 	}
-	emit staffSizeChanged();
 }
 
 
@@ -636,32 +640,6 @@ int TscoreStaff::getMaxNotesNr(qreal maxWidth) {
 }
 
 
-void TscoreStaff::checkNoteRange(int noteYpos, bool doEmit) {
-	qreal oldHi = m_hiNotePos, oldLo = m_loNotePos;
-	if (noteYpos == 0) {
-		findHighestNote();
-		findLowestNote();
-		if (doEmit && oldHi != m_hiNotePos)
-			emit hiNoteChanged(number(), oldHi - m_hiNotePos);
-		if (doEmit && oldLo != m_loNotePos)
-			emit loNoteChanged(number(), m_loNotePos - oldLo);
-		return;
-	}		
-	if (noteYpos < upperLinePos() - 4.0 && noteYpos < m_hiNotePos) {
-			m_hiNotePos = noteYpos;
-			if (doEmit)
-				emit hiNoteChanged(number(), oldHi - m_hiNotePos);
-	}	else { 
-			qreal lowest = isPianoStaff() ? lowerLinePos() + 12.0 : upperLinePos() + 12.0;
-			if (noteYpos > lowest && noteYpos > m_loNotePos) {
-				m_loNotePos = noteYpos;
-				if (doEmit)
-					emit loNoteChanged(number(), m_loNotePos - oldLo);
-			}
-	}
-}
-
-
 void TscoreStaff::findHighestNote() {
 	m_hiNotePos = upperLinePos() - 4.0;
 	for (int i = 0; i < m_scoreNotes.size(); i++)
@@ -671,7 +649,7 @@ void TscoreStaff::findHighestNote() {
 
 
 void TscoreStaff::findLowestNote() {
-	m_loNotePos = isPianoStaff() ? lowerLinePos() + 12.0 : upperLinePos() + 12.0;
+	m_loNotePos = (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 12.0;
 	for (int i = 0; i < m_scoreNotes.size(); i++)
 			m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos()), m_loNotePos);
 }

@@ -1,10 +1,11 @@
 TODO List
 
-- clear mechanism of selected/indexed notes on a staff, send something when selected note is deleted
+
 - after deleting clef menu work note lines doesn't change current TscoreNote parent - use moveWorkNote() for it
 - TscoreNote make methods related to lines static
 - (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
+- scordature has improper boundingRect()
 
 level executable
 - 'fix an exam file' dialog was excluded from build - maybe for ever
@@ -29,11 +30,22 @@ analyzer executable
 - comparing exams (charts)
 - add sound during wizard and About dialog (???)
 - make use of QWizard for above
-- name style in scordature is never set, it uses letters and fortunately respects 7th note but never can be solfege
+
 
 ----------------------------------------------------------------------------------------------------------------
 New settings switches:
   - score mode (single|multi|record)
+  - score scale
+  - show/hide note names on the score
+  - color of note name highlight
+----------------------------------------------------------------------------------------------------------------
+Score controlling buttons:
+	- accidentals
+	- zoom +/-
+	- clear the score
+	- show/hide note names
+	- octave drop/rise (8-va, 15-va)
+	- rhythms (steams and rests)
 ----------------------------------------------------------------------------------------------------------------
 
 Tnote

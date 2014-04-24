@@ -396,12 +396,12 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		QColor c2 = m_bgColor;
 		c2.setAlpha(80);
 		gr.setColorAt(0.0, c1);
-		gr.setColorAt(0.8, c1);
-		gr.setColorAt(0.9, c2);
+		gr.setColorAt(0.9, c1);
+		gr.setColorAt(0.95, c2);
 		gr.setColorAt(1.0, Qt::transparent);
 		painter->setBrush(gr);
 		painter->setPen(Qt::NoPen);
-		painter->drawRect(0.0, qMin(center.y() - 10.0, 0.0), 7.0, qMax(center.y() + 10.0, m_height));
+		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
 }
 
@@ -418,7 +418,7 @@ void TscoreNote::keyAnimFinished() {
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
-	if (staff()->selectableNotes()) {
+	if (staff()->controlledNotes()) {
 			m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
 			m_rightBox->setScoreNote(this);
 			m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
@@ -437,7 +437,7 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverLeaveEvent";
   hideWorkNote();
-	if (staff()->selectableNotes()) {
+	if (staff()->controlledNotes()) {
 			if (!m_rightBox->hasMouseCursor())
 					m_rightBox->hideWithDelay();
 			if (!m_leftBox->hasMouseCursor())
