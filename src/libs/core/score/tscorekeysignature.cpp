@@ -216,11 +216,13 @@ void TscoreKeySignature::onLowKeyChanged() {
 
 void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (!m_readOnly && event->button() == Qt::LeftButton) {
-    if (event->pos().y() > m_relLine + 4.0)
-      increaseKey(-1);
-    else
-      increaseKey(1);
-  }
+		if (event->pos().y() > m_relLine - 4.0 && event->pos().y() < m_relLine + 12.0 ) {
+				if (event->pos().y() > m_relLine + 4.0)
+					increaseKey(-1);
+				else
+					increaseKey(1);
+				}
+	}
 }
 
 

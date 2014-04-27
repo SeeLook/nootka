@@ -150,6 +150,8 @@ void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 				staff()->insertNote(m_scoreNote->index() - 1);
 		}
 	} else if (event->pos().y() < 8.0) { // edit note name
+			m_hasMouse = false;
+			hide();
 			emit nameMenu(m_scoreNote);
 	} else if (m_minus->isVisible() && event->pos().y() > staff()->height() - 7.0) {
 			staff()->removeNote(m_scoreNote->index());

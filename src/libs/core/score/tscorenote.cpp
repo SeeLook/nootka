@@ -232,6 +232,7 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
 			*m_note = Tnote(); // set note to null if beyond the score possibilities
 	if (m_nameText)
 			showNoteName();
+	update();
 }
 
 
@@ -480,6 +481,7 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         emit noteWasClicked(m_index);
 				if (m_nameText)
 					showNoteName();
+				update();
     }
 }
 
