@@ -459,7 +459,7 @@ char TnoteName::getSelectedAccid() {
 void TnoteName::resizeEvent(QResizeEvent* ) {
 	m_menu->resize(size());
 	if (m_menu->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
-				m_menu->move(m_menu->pos().x() - width() - 11.5 * m_scoreFactor, m_menu->pos().y());
+				m_menu->move(m_menu->pos().x() - width() - 8.5 * m_scoreFactor, m_menu->pos().y());
 	// Move note name menu on the left screen side to alow to see edited note
 }
 

@@ -182,7 +182,7 @@ MainWindow::~MainWindow()
 void MainWindow::createActions() {
     settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
-    settingsAct->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
+    settingsAct->setIcon(QIcon(gl->path + "picts/systemsettings.png"));
 //     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
     levelCreatorAct = new QAction(this);
@@ -193,16 +193,20 @@ void MainWindow::createActions() {
     setStartExamActParams(); // set text and icon also for levelCreatorAct
     
     analyseAct = new QAction(tr("Analyze", "could be Chart as well"), this);
-    analyseAct->setIcon(QIcon(gl->path+"picts/charts.png"));
+    analyseAct->setIcon(QIcon(gl->path + "picts/charts.png"));
     analyseAct->setStatusTip(tr("Analysis of exam results"));
 //     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 
     aboutAct = new QAction(tr("About"), this);
     aboutAct->setStatusTip(tr("About Nootka"));
-    aboutAct->setIcon(QIcon(gl->path+"picts/about.png"));
+    aboutAct->setIcon(QIcon(gl->path + "picts/about.png"));
 //     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 		playAct = new QAction(tr("Play"), this);
 		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
+		
+		recordAct = new QAction(tr("Record"), this);
+		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
+		connect(recordAct, SIGNAL(triggered()), this, SLOT(recordSlot()));
 
     nootBar->addAction(settingsAct);
     nootBar->addAction(levelCreatorAct);
@@ -210,6 +214,7 @@ void MainWindow::createActions() {
     nootBar->addAction(aboutAct);
     nootBar->addAction(startExamAct);
 		nootBar->addAction(playAct);
+		nootBar->addAction(recordAct);
     
     nootBar->setMovable(false);
 }
@@ -490,6 +495,18 @@ void MainWindow::restoreMessage() {
     setMessageBg(m_prevBg);
     m_prevMsg = "";
 }
+
+
+void MainWindow::recordSlot() {
+	if (score->insertMode() == TmainScore::e_multi) {
+		recordAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));
+		score->setInsertMode(TmainScore::e_record);
+	} else {
+		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
+		score->setInsertMode(TmainScore::e_multi);
+	}
+}
+
 
 /*
 void MainWindow::showSupportDialog() {
