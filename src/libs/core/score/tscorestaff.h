@@ -199,6 +199,10 @@ public:
 signals:
 		void pianoStaffSwitched();
 		void noteChanged(int index);
+		
+				/** Emitted when right button was clicked over note. 
+				 * @p selectableNotes or @p controlledNotes has to be set to @p TRUE */
+		void noteSelected(int index);
 		void clefChanged(Tclef);
 		
 				/** When staff has no more space to display next note segment. 
@@ -256,6 +260,7 @@ protected:
 protected slots:
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
+		void onNoteSelected(int noteIndex);
 		void onAccidButtonPressed(int accid); // TscoreControl accid button pressed
 		void onPianoStaffChanged(Tclef clef); // clef demands piano staff
 		void toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
@@ -291,6 +296,7 @@ private:
 		int getMaxNotesNr(qreal maxWidth); /** Calculates notes number from given width */
 		void findLowestNote(); /** Checks all Y positions of staff notes ti find lowest one */
 		void findHighestNote(); /** Checks all Y positions of staff notes ti find highest one */
+		void connectNote(TscoreNote *sn); /** Performs all TscoreNote connections to this staff */
 
 };
 

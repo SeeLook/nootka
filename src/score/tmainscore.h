@@ -120,6 +120,7 @@ public slots:
     void whenNoteWasChanged(int index, Tnote note);
     void setScordature(); /** Sets scordature to value kept in Tglobal. */
     void noteWasClicked(int index);
+		void noteWasSelected(int index);
 		void expertNoteChanged();
 		void onClefChanged(Tclef cl);
 

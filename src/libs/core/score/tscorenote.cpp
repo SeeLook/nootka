@@ -482,6 +482,12 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 				if (m_nameText)
 					showNoteName();
 				update();
+    } else if (event->button() == Qt::RightButton && m_workPosY) {
+				if (staff()->selectableNotes() || staff()->controlledNotes()) {
+						setBackgroundColor(qApp->palette().highlight().color());
+						emit noteWasSelected(m_index);
+						update();
+				}
     }
 }
 

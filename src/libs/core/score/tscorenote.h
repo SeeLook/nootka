@@ -146,6 +146,7 @@ public:
 		
 signals:
     void noteWasClicked(int);
+		void noteWasSelected(int); /** When right button was clicked. */
 		
 		void toKeyAnim(QString, QPointF, int notePos); /** Emitted when accidental has been in key already */
 		void fromKeyAnim(QString, QPointF, int notePos); /** Emitted when neutral is necessary */

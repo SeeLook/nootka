@@ -73,7 +73,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
       m_scoreNotes << new TscoreNote(scene, this, i);
       m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
 			m_scoreNotes[i]->setZValue(50);
-      connect(m_scoreNotes[i], SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+			connectNote(m_scoreNotes[i]);
   }
   
 // Staff lines, it also sets m_width of staff
@@ -136,7 +136,6 @@ Tnote* TscoreStaff::getNote(int index) {
 
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
-// 	emit noteIsAdding(number(), index);
 	insert(index);
 	setNote(index, note);
 	setNoteDisabled(index, disabled);
@@ -185,7 +184,7 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 	for (int i = index; i < nList.size() + index; i++) {
 		TscoreNote *sn = nList[i - index];
 		m_scoreNotes.insert(i, sn);
-		connect(sn, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+		connectNote(sn);
 		sn->setParentItem(this);
 		sn->setStaff(this);
 	}
@@ -197,7 +196,7 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 
 void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
 	m_scoreNotes.insert(index, freeNote);
-	connect(freeNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+	connectNote(freeNote);
 	freeNote->setParentItem(this);
 	freeNote->setStaff(this);
 	updateWidth();
@@ -209,6 +208,7 @@ void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
 	if (from >= 0 && from < count() && to < count() && to >= from) {
 		for (int i = from; i <= to; i++) { // 'from' is always the next item after takeAt() on current one
 			m_scoreNotes[from]->disconnect(SIGNAL(noteWasClicked(int)));
+			m_scoreNotes[from]->disconnect(SIGNAL(noteWasSelected(int)));
 			m_scoreNotes[from]->setParentItem(0); // to avoid deleting with staff as its parent
 			nList << m_scoreNotes.takeAt(from);
 		}
@@ -424,7 +424,7 @@ void TscoreStaff::prepareStaffLines() {
 void TscoreStaff::insert(int index) {
 	TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
 	newNote->setZValue(50);
-	connect(newNote, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+	connectNote(newNote);
 	m_scoreNotes.insert(index, newNote);
 }
 
@@ -528,6 +528,15 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	emit noteChanged(noteIndex);
 	checkNoteRange();
 }
+
+
+void TscoreStaff::onNoteSelected(int noteIndex) {
+// 	if (selectableNotes() || controlledNotes()) { // no need to check, note does it
+		setCurrentIndex(noteIndex);
+		emit noteSelected(noteIndex);
+// 	}
+}
+
 
 
 void TscoreStaff::onAccidButtonPressed(int accid) {
@@ -654,6 +663,11 @@ void TscoreStaff::findLowestNote() {
 			m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos()), m_loNotePos);
 }
 
+
+void TscoreStaff::connectNote(TscoreNote* sn) {
+	connect(sn, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
+	connect(sn, SIGNAL(noteWasSelected(int)), this, SLOT(onNoteSelected(int)));
+}
 
 
 

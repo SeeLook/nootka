@@ -69,6 +69,8 @@ TmainScore::TmainScore(QWidget* parent) :
 	connect(m_outZoomButt, SIGNAL(clicked()), this, SLOT(zoomScoreSlot()));
 	connect(m_inZoomBuut, SIGNAL(clicked()), this, SLOT(zoomScoreSlot()));
 	
+	scoreController()->hide();
+	
 	m_noteName << 0 << 0;
 // set note colors
 	restoreNotesSettings();
@@ -180,6 +182,13 @@ void TmainScore::noteWasClicked(int index) {
 	emit noteWasChanged(index, note);
 	st->noteSegment(index)->update();
   checkAndAddNote(st, index);
+}
+
+
+void TmainScore::noteWasSelected(int index) {
+	m_clickedOff = 0;
+	TscoreStaff *st = SENDER_TO_STAFF;
+	changeCurrentIndex(index + st->number() * st->maxNoteCount());
 }
 
 
@@ -892,6 +901,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	m_staves.last()->setControlledNotes(true);
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
+	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
 	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 	connect(m_staves.last(), SIGNAL(noMoreSpace(int)), this, SLOT(staffHasNoSpace(int)));
 	connect(m_staves.last(), SIGNAL(freeSpace(int,int)), this, SLOT(staffHasFreeSpace(int,int)));
