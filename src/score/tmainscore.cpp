@@ -62,6 +62,12 @@ TmainScore::TmainScore(QWidget* parent) :
 // set preferred clef
 	setClef(gl->Sclef);
 	
+	scoreController()->setParent(0);
+	scoreController()->hide();
+	layout()->removeWidget(scoreController());
+	
+	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
+	
 	m_settBar = new QToolBar();
 	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
 	m_outZoomAct->setStatusTip(tr("Zoom a score out"));
@@ -71,13 +77,21 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_settBar->addAction(m_inZoomAct);
 	connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
 	connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-	
-	scoreController()->setParent(0);
-	scoreController()->hide();
-	layout()->removeWidget(scoreController());
-	
-	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
 	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
+	
+	m_clearBar = new QToolBar();
+	m_clearAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_TrashIcon)), "", m_clearBar);
+	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
+	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
+	m_clearBar->addAction(m_clearAct);
+	TcornerProxy *delCorner = new TcornerProxy(scene(), m_clearBar, Qt::BottomLeftCorner);
+	delCorner->setSpotColor(Qt::red);
+	
+	m_rhythmBar = new QToolBar();
+	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
+	m_rhythmBar->addWidget(rl);
+	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
+	rhythmCorner->setSpotColor(Qt::yellow);
 	
 	m_noteName << 0 << 0;
 // set note colors
@@ -694,6 +708,23 @@ void TmainScore::zoomScoreSlot() {
 }
 
 
+void TmainScore::deleteNotes() {
+	m_currentIndex = 0;
+	m_clickedOff = 0;
+	while (m_staves.size() > 1) {
+		delete m_staves.last();
+		m_staves.removeLast();
+	}
+	if (staff()->count() > 1) {
+		QList<TscoreNote*> notesToDel;
+		staff()->takeNotes(notesToDel, 1, staff()->count() - 1);
+		for (int i = 0; i <notesToDel.size(); i++)
+			delete notesToDel[i];
+	}
+	updateSceneRect();
+}
+
+
 /*
 void TmainScore::strikeBlinkingFinished() {
 	if (m_strikeOut) {
@@ -745,6 +776,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	if (ww < 500)
       return;
 	hh = score()->rect().height();
+	setBarsIconSize();
 	QList<TscoreNote*> allNotes;
 	for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
 		m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
@@ -752,7 +784,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	qreal staffOff = 0.0;
   if (staff()->isPianoStaff())
     staffOff = 1.1;
-  qreal factor = (((qreal)hh / (staff()->height() + 4.0)) / score()->transform().m11()) / m_scale;
+  qreal factor = (((qreal)hh / (staff()->height() + 2.0)) / score()->transform().m11()) / m_scale;
   score()->scale(factor, factor);
 	int stavesNumber; // how many staves are needed
 	for (int i = 0; i < m_staves.size(); i++) {
@@ -890,6 +922,15 @@ void TmainScore::changeCurrentIndex(int newIndex) {
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->selectNote(true);
 			}
 	}
+}
+
+
+void TmainScore::setBarsIconSize() {
+	QSize ss(score()->rect().height() / 10, score()->rect().height() / 10);
+	m_settBar->setIconSize(ss);
+	m_clearBar->setIconSize(ss);
+	m_settBar->adjustSize();
+	m_clearBar->adjustSize();
 }
 
 

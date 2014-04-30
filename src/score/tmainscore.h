@@ -142,6 +142,7 @@ protected slots:
 		void noteRemovingSlot(int staffNr, int noteToDel);
 		void noteAddingSlot(int staffNr, int noteToDel);
 		void zoomScoreSlot();
+		void deleteNotes(); /** Deletes all notes from the score - single one remains */
 		void keyChangedSlot();
 		void staffLoNoteChanged(int staffNr, qreal loNoteYoff);
 		void staffHiNoteChanged(int staffNr, qreal hiNoteYoff);
@@ -165,6 +166,7 @@ private:
 		void updateSceneRect(); /** Adjusts score scene to space required by staff(staves) */
 		void adjustStaffWidth(TscoreStaff *st); /** Calls TscoreStaff::setViewWidth with score width  */
 		void changeCurrentIndex(int newIndex);
+		void setBarsIconSize();
 
 private:
 		QList<TscoreStaff*>					 m_staves; // list of staves in page view
@@ -179,8 +181,9 @@ private:
 		bool 												 m_showNameInCorrection;
 		Tnote::EnameStyle						 m_corrStyle;
 		EinMode											 m_inMode;
-		QToolBar										*m_settBar;
+		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		QAction											*m_inZoomAct, *m_outZoomAct;
+		QAction											*m_clearAct;
 				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 		int													 m_clickedOff, m_currentIndex;
 		qreal												 m_scale;
