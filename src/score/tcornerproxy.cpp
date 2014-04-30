@@ -40,11 +40,10 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 	m_proxy = scene->addWidget(widget);
 	m_proxy->setZValue(105);
 	m_proxy->hide();
-// 	proxy()->setVisible(false);
 	m_proxy->setFlag(ItemIgnoresTransformations);
 // corner spot
 	QColor spotColor(0, 0, 255, 20);
-	m_spot = scene->addEllipse(0.0, 0.0, 3.0, 3.0, /*QPen(spotColor, 1.0)*/Qt::NoPen, QBrush(spotColor));
+	m_spot = scene->addEllipse(0.0, 0.0, 3.0, 3.0, Qt::NoPen, QBrush(spotColor));
 	m_spot->setParentItem(this);
 	m_spot->hide();
 	m_spot->setGraphicsEffect(new QGraphicsBlurEffect());
@@ -75,7 +74,6 @@ void TcornerProxy::hideWithDelay() {
 	} else {
 			m_spot->hide();
 			proxy()->hide();
-// 			proxy()->setVisible(false);
 	}
 }
 
@@ -84,11 +82,8 @@ void TcornerProxy::hideWithDelay() {
 //####################################################################################################
 
 void TcornerProxy::sceneRectChangedSlot() {
-	m_side = m_view->rect().height() / 5.0;
-// 	m_spot->setRect(side() * -0.25, side() * -0.25, side() * 0.5, side() * 0.5);
+	m_side = m_view->rect().height() / 7.0;
 	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
-// 	m_spot->setRect(boundingRect());
-// 	m_spot->setPos(side() * 0.25, 0.0);
 	m_spot->setPos(side() * -0.375, side() * -0.375);
 	sceneScrolled();
 }
@@ -96,20 +91,24 @@ void TcornerProxy::sceneRectChangedSlot() {
 
 void TcornerProxy::sceneScrolled() {
 // determine TcornerProxy position depends on corner - in scaled scene coordinates
-	QRectF vv = m_view->mapToScene(m_view->rect().adjusted(0.0, 0.0,
-									m_view->verticalScrollBar()->isVisible() ? -m_view->verticalScrollBar()->width() : 0,
-																	m_view->verticalScrollBar()->value())).boundingRect();
+	QRectF vv = m_view->mapToScene(m_view->rect().adjusted(0, 0,
+									m_view->verticalScrollBar()->isVisible() ? -m_view->verticalScrollBar()->width() : 0, 0)).boundingRect();
 	qreal xx = vv.x(), yy = vv.y();
 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
-		yy = vv.height() - (side() / 4.0) / m_view->transform().m11();
+		yy = vv.y() + vv.height();
 	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
-		xx = vv.width() /*- (side() / 2.0) / m_view->transform().m11()*/;
+		xx = vv.x() + vv.width();
 	setPos(xx, yy);
 // determine proxy widget position
+  qreal gap = (side() / 8.0) / m_view->transform().m11();
 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
-		yy = yy - (side() / 4.0 + proxy()->boundingRect().height()) / m_view->transform().m11();
+		yy = yy - proxy()->boundingRect().height() / m_view->transform().m11() - gap;
+  else 
+    yy += gap;
 	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
-		xx = xx - (side() / 4.0 + proxy()->boundingRect().width()) / m_view->transform().m11();
+		xx = xx - proxy()->boundingRect().width() / m_view->transform().m11() - gap;
+  else
+    xx += gap;
 	proxy()->setPos(xx, yy);
 	qDebug() << "main pos" << pos() << "spot" << m_spot->pos() << "proxy" << proxy()->pos() << vv;
 }
@@ -125,7 +124,6 @@ void TcornerProxy::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 // 	m_spot->setPos(moveGap, moveGap);
 // 	qDebug() << reachPoint << alphaFactor << event->pos();
 	if (reachPoint < side() / 8.0) {
-// 		proxy()->setVisible(true);
 		proxy()->show();
 	}
 }
