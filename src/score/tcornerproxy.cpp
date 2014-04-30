@@ -40,7 +40,7 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 	m_proxy = scene->addWidget(widget);
 	m_proxy->setZValue(105);
 	m_proxy->hide();
-	proxy()->setVisible(false);
+// 	proxy()->setVisible(false);
 	m_proxy->setFlag(ItemIgnoresTransformations);
 // corner spot
 	QColor spotColor(0, 0, 255, 20);
@@ -75,7 +75,7 @@ void TcornerProxy::hideWithDelay() {
 	} else {
 			m_spot->hide();
 			proxy()->hide();
-			proxy()->setVisible(false);
+// 			proxy()->setVisible(false);
 	}
 }
 
@@ -85,11 +85,11 @@ void TcornerProxy::hideWithDelay() {
 
 void TcornerProxy::sceneRectChangedSlot() {
 	m_side = m_view->rect().height() / 5.0;
-	m_spot->setRect(side() * -0.25, side() * -0.25, side() * 0.5, side() * 0.5);
-// 	m_spot->setRect(side() * -0.125, side() * -0.125, side() * 0.75, side() * 0.75);
+// 	m_spot->setRect(side() * -0.25, side() * -0.25, side() * 0.5, side() * 0.5);
+	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
 // 	m_spot->setRect(boundingRect());
 // 	m_spot->setPos(side() * 0.25, 0.0);
-	m_spot->setPos(0.0, 0.0);
+	m_spot->setPos(side() * -0.375, side() * -0.375);
 	sceneScrolled();
 }
 
@@ -97,19 +97,19 @@ void TcornerProxy::sceneRectChangedSlot() {
 void TcornerProxy::sceneScrolled() {
 // determine TcornerProxy position depends on corner - in scaled scene coordinates
 	QRectF vv = m_view->mapToScene(m_view->rect().adjusted(0.0, 0.0,
-									m_view->verticalScrollBar()->isVisible() ? -m_view->verticalScrollBar()->width() : -5,
+									m_view->verticalScrollBar()->isVisible() ? -m_view->verticalScrollBar()->width() : 0,
 																	m_view->verticalScrollBar()->value())).boundingRect();
 	qreal xx = vv.x(), yy = vv.y();
 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
 		yy = vv.height() - (side() / 4.0) / m_view->transform().m11();
 	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
-		xx = vv.width() - (side() / 8.0) / m_view->transform().m11();
+		xx = vv.width() /*- (side() / 2.0) / m_view->transform().m11()*/;
 	setPos(xx, yy);
 // determine proxy widget position
 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
-		yy = yy - (2 + proxy()->boundingRect().height()) / m_view->transform().m11();
+		yy = yy - (side() / 4.0 + proxy()->boundingRect().height()) / m_view->transform().m11();
 	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
-		xx = xx - (2 + proxy()->boundingRect().width()) / m_view->transform().m11();
+		xx = xx - (side() / 4.0 + proxy()->boundingRect().width()) / m_view->transform().m11();
 	proxy()->setPos(xx, yy);
 	qDebug() << "main pos" << pos() << "spot" << m_spot->pos() << "proxy" << proxy()->pos() << vv;
 }
@@ -117,10 +117,6 @@ void TcornerProxy::sceneScrolled() {
 
 void TcornerProxy::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 	qreal xx = qAbs<qreal>(event->pos().x()), yy = qAbs<qreal>(event->pos().y());
-// 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
-// 			yy = side() - yy;
-	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
-			xx = side() - xx;
 	qreal reachPoint = qMin(xx, yy);
 	qreal alphaFactor = (side() / 2.0 - reachPoint) / (side() / 2.0);
 	QColor spotColor(0, 0, 255, qMin(20 + (int)(alphaFactor * 225.0), 255));
@@ -129,7 +125,7 @@ void TcornerProxy::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 // 	m_spot->setPos(moveGap, moveGap);
 // 	qDebug() << reachPoint << alphaFactor << event->pos();
 	if (reachPoint < side() / 8.0) {
-		proxy()->setVisible(true);
+// 		proxy()->setVisible(true);
 		proxy()->show();
 	}
 }
@@ -150,8 +146,11 @@ void TcornerProxy::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 bool TcornerProxy::eventFilter(QObject* ob, QEvent* event) {
 	if (event->type() == QEvent::StatusTip) {
-		QStatusTipEvent *tipEvent = static_cast<QStatusTipEvent*>(event);
-		emit statusTip(tipEvent->tip());
+      QStatusTipEvent *tipEvent = static_cast<QStatusTipEvent*>(event);
+      emit statusTip(tipEvent->tip());
+	} else if (event->type() == QEvent::Leave) {
+      m_spot->hide();
+      proxy()->hide();
 	}
 	return QObject::eventFilter(ob, event);
 }
