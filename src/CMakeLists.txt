@@ -44,6 +44,7 @@ set(NOOTKA_SRC
 	notename/tnotenamelabel.cpp
 	
 	score/tmainscore.cpp
+	score/tcornerproxy.cpp
 	
 	animations/tstrikedoutitem.cpp
 )
