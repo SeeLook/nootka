@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tmainscore.h"
+#include "tcornerproxy.h"
 #include <score/tscorestaff.h>
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
@@ -60,16 +61,23 @@ TmainScore::TmainScore(QWidget* parent) :
 	addStaff(staff());
 // set preferred clef
 	setClef(gl->Sclef);
-	m_outZoomButt = new QPushButton(QIcon(gl->path + "/picts/zoom-out.png"), "", scoreController());
-	m_inZoomBuut = new QPushButton(QIcon(gl->path + "/picts/zoom-in.png"), "", scoreController());
-	static_cast<QVBoxLayout*>(scoreController()->layout())->insertStretch(0);
-	static_cast<QVBoxLayout*>(scoreController()->layout())->insertWidget(0, m_inZoomBuut);
-	static_cast<QVBoxLayout*>(scoreController()->layout())->addStretch();
-	static_cast<QVBoxLayout*>(scoreController()->layout())->addWidget(m_outZoomButt);
-	connect(m_outZoomButt, SIGNAL(clicked()), this, SLOT(zoomScoreSlot()));
-	connect(m_inZoomBuut, SIGNAL(clicked()), this, SLOT(zoomScoreSlot()));
 	
+	m_settBar = new QToolBar();
+	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
+	m_outZoomAct->setStatusTip(tr("Zoom a score out"));
+	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
+	m_inZoomAct->setStatusTip(tr("Zoom a score in"));
+	m_settBar->addAction(m_outZoomAct);
+	m_settBar->addAction(m_inZoomAct);
+	connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
+	connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
+	
+	scoreController()->setParent(0);
 	scoreController()->hide();
+	layout()->removeWidget(scoreController());
+	
+	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
+	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
 	
 	m_noteName << 0 << 0;
 // set note colors
@@ -674,7 +682,7 @@ void TmainScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
 
 void TmainScore::zoomScoreSlot() {
 	qreal newScale = m_scale;
-	if (sender() == m_outZoomButt) {
+	if (sender() == m_outZoomAct) {
 			newScale = qMin(m_scale + 0.25, 2.0);
 	} else {
 			newScale = qMax(m_scale - 0.25, 1.0);
@@ -736,6 +744,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (ww < 500)
       return;
+	hh = score()->rect().height();
 	QList<TscoreNote*> allNotes;
 	for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
 		m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
@@ -856,6 +865,7 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
 void TmainScore::adjustStaffWidth(TscoreStaff* st) {
 	int scrollOff = score()->verticalScrollBar()->isVisible() ? score()->verticalScrollBar()->width() : 0;
 	st->setViewWidth((score()->width() - 20 - scrollOff) / score()->transform().m11());
+// 	st->setViewWidth((score()->rect().width()) / score()->transform().m11());
 }
 
 
