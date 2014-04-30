@@ -25,6 +25,7 @@
 #include <QGraphicsEffect>
 #include <QScrollBar>
 #include <QGraphicsSceneHoverEvent>
+#include <QGraphicsLayout>
 #include <QTimer>
 #include <QDebug>
 
@@ -42,16 +43,16 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 	m_proxy->hide();
 	m_proxy->setFlag(ItemIgnoresTransformations);
 // corner spot
-	QColor spotColor(0, 0, 255, 20);
-	m_spot = scene->addEllipse(0.0, 0.0, 3.0, 3.0, Qt::NoPen, QBrush(spotColor));
+	m_spot = scene->addEllipse(0.0, 0.0, 3.0, 3.0, Qt::NoPen, Qt::NoBrush);
 	m_spot->setParentItem(this);
 	m_spot->hide();
 	m_spot->setGraphicsEffect(new QGraphicsBlurEffect());
+	setSpotColor(QColor(0, 0, 255, 20));
 	sceneRectChangedSlot();
 	
 	connect(scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sceneRectChangedSlot()));
 	connect(m_view->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sceneScrolled()));
-	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
+	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString))); // for forwarding tips
 	widget->installEventFilter(this);
 }
 
@@ -77,20 +78,35 @@ void TcornerProxy::hideWithDelay() {
 	}
 }
 
+
+void TcornerProxy::setSpotColor(const QColor& c) {
+	m_colorOfSpot = c;
+	m_spot->setBrush(QBrush(m_colorOfSpot));
+	QGraphicsDropShadowEffect *dse = new QGraphicsDropShadowEffect;
+	dse->setOffset(0.0, 0.0);
+	QColor col(m_colorOfSpot);
+	col.setAlpha(150);
+	dse->setColor(col);
+	proxy()->setGraphicsEffect(dse);
+}
+
+
 //####################################################################################################
 //########################################## PROTECTED ###############################################
 //####################################################################################################
 
 void TcornerProxy::sceneRectChangedSlot() {
+	proxy()->adjustSize(); // adjust proxy size to widget size
 	m_side = m_view->rect().height() / 7.0;
 	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
 	m_spot->setPos(side() * -0.375, side() * -0.375);
+	static_cast<QGraphicsDropShadowEffect*>(proxy()->graphicsEffect())->setBlurRadius(side() / 2.0);
 	sceneScrolled();
 }
 
 
 void TcornerProxy::sceneScrolled() {
-// determine TcornerProxy position depends on corner - in scaled scene coordinates
+// determine TcornerProxy position depends on the corner - in scaled scene coordinates
 	QRectF vv = m_view->mapToScene(m_view->rect().adjusted(0, 0,
 									m_view->verticalScrollBar()->isVisible() ? -m_view->verticalScrollBar()->width() : 0, 0)).boundingRect();
 	qreal xx = vv.x(), yy = vv.y();
@@ -100,17 +116,17 @@ void TcornerProxy::sceneScrolled() {
 		xx = vv.x() + vv.width();
 	setPos(xx, yy);
 // determine proxy widget position
-  qreal gap = (side() / 8.0) / m_view->transform().m11();
+  qreal gap = (side() / 4.0) / m_view->transform().m11();
 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
 		yy = yy - proxy()->boundingRect().height() / m_view->transform().m11() - gap;
-  else 
+  else
     yy += gap;
 	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
 		xx = xx - proxy()->boundingRect().width() / m_view->transform().m11() - gap;
   else
     xx += gap;
 	proxy()->setPos(xx, yy);
-	qDebug() << "main pos" << pos() << "spot" << m_spot->pos() << "proxy" << proxy()->pos() << vv;
+// 	qDebug() << "main pos" << pos() << "spot" << m_spot->pos() << "proxy" << proxy()->pos() << vv;
 }
 
 
@@ -118,7 +134,8 @@ void TcornerProxy::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 	qreal xx = qAbs<qreal>(event->pos().x()), yy = qAbs<qreal>(event->pos().y());
 	qreal reachPoint = qMin(xx, yy);
 	qreal alphaFactor = (side() / 2.0 - reachPoint) / (side() / 2.0);
-	QColor spotColor(0, 0, 255, qMin(20 + (int)(alphaFactor * 225.0), 255));
+	QColor spotColor = m_colorOfSpot;
+	spotColor.setAlpha(qMin(20 + (int)(alphaFactor * 250.0), 255));
 	m_spot->setBrush(QBrush(spotColor));
 // 	qreal moveGap = (side() /2.0 - reachPoint) / 2.0;
 // 	m_spot->setPos(moveGap, moveGap);
@@ -131,7 +148,7 @@ void TcornerProxy::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 
 void TcornerProxy::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 	m_spot->show();
-	sceneRectChangedSlot();
+// 	sceneRectChangedSlot();
 	TscoreItem::hoverEnterEvent(event);
 }
 

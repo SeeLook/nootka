@@ -30,7 +30,9 @@ class TscoreScene;
 
 /**
  * This class represents spot in a corner of a score 
- * which calls some widget when mouse cursor is over it
+ * which calls some widget when mouse cursor is over it.
+ * It grabs status tips of the widget.
+ * Color of a spot can be managed through @p setSpotColor()
  */
 class TcornerProxy : public TscoreItem
 {
@@ -42,6 +44,9 @@ public:
 	
 	QGraphicsProxyWidget* proxy() { return m_proxy; }
 	qreal side() { return m_side; } /** It is square shaped so this is either width and height */
+	
+	void setSpotColor(const QColor& c); /** It is blue by default */
+	QColor spotColor() { return m_colorOfSpot; }
 	
 	virtual QRectF boundingRect() const;
 	virtual QPainterPath shape() const;
@@ -68,6 +73,7 @@ private:
 	Qt::Corner									 m_corner;
 	QGraphicsView								*m_view;
 	qreal												 m_side;
+	QColor											 m_colorOfSpot;
 	
 };
 
