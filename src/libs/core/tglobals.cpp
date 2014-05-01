@@ -28,6 +28,9 @@
 #include <QDebug>
 
 
+QString tmpConfigFile() {
+	return QDir::tempPath() + "/nootkaTmp.conf";
+}
 
 /*static*/
 QString Tglobals::getInstPath(QString appInstPath) {
@@ -49,164 +52,208 @@ QString Tglobals::getInstPath(QString appInstPath) {
 /*end static*/
 
 
-Tglobals::Tglobals() :
+Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
 
-    version = "1.0.0";
+	version = "1.1.0 alpha";
 //    path ; Is declared in main()
 
-    qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
-    qRegisterMetaType<Tnote>("Tnote");
+	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
+	qRegisterMetaType<Tnote>("Tnote");
 
-    QCoreApplication::setOrganizationName("Nootka");
-    QCoreApplication::setOrganizationDomain("nootka.sf.net");
-    QCoreApplication::setApplicationName("Nootka");
+	QCoreApplication::setOrganizationName("Nootka");
+	QCoreApplication::setOrganizationDomain("nootka.sf.net");
+	QCoreApplication::setApplicationName("Nootka");
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
-    config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
-    config = new QSettings();
+	config = new QSettings();
 #endif
-
-    config->beginGroup("common");
-        hintsEnabled = config->value("enableHints", true).toBool(); //true;
-        isFirstRun = config->value("isFirstRun", true).toBool();
-        useAnimations = config->value("useAnimations", true).toBool();
-        lang = config->value("language", "").toString();
-				instrumentToFix = config->value("instrumentToFix", -1).toInt();
-    config->endGroup();
-
-//score widget settings
-    config->beginGroup("score");
-        SkeySignatureEnabled = config->value("keySignature", false).toBool();
-        SshowKeySignName = config->value("keyName", true).toBool(); //true;
-        SnameStyleInKeySign = Tnote::EnameStyle(config->value("nameStyleInKey",
-                                                           (int)Tnote::e_english_Bb).toInt());
-        SmajKeyNameSufix = config->value("majorKeysSufix", "").toString();
-        SminKeyNameSufix = config->value("minorKeysSufix", "").toString();
-    if (config->contains("pointerColor"))
-        SpointerColor = config->value("pointerColor").value<QColor>(); //-1;
-    else 
-        SpointerColor = -1;
-				Sclef = Tclef::Etype(config->value("clef", (int)Tclef::e_treble_G_8down).toInt());
-    config->endGroup();
-
-
-//common for score widget and note name
-    config->beginGroup("common");
-        doubleAccidentalsEnabled = config->value("doubleAccidentals", false).toBool();
-        showEnharmNotes = config->value("showEnaharmonicNotes", false).toBool();
-        if (config->contains("enharmonicNotesColor"))
-            enharmNotesColor = config->value("enharmonicNotesColor").value<QColor>(); //-1;
-        else
-            enharmNotesColor = -1;
-        seventhIs_B = config->value("is7thNote_B", true).toBool(); //true;
-    config->endGroup();
+	if (fromTemp)
+		grabFromTemp();
+	else
+		loadSettings(config);
     
-//note name settings    
-    config->beginGroup("noteName");
-        NnameStyleInNoteName = Tnote::EnameStyle(config->value("nameStyle", (int)Tnote::e_english_Bb).toInt());
-				NsolfegeStyle = Tnote::EnameStyle(config->value("solfegeStyle", (int)getSolfegeStyle()).toInt());
-        NoctaveInNoteNameFormat = config->value("octaveInName", true).toBool();
-	//    NoctaveNameInNoteName = true;
-    config->endGroup();
-	// Initialize name filter
-		TnameStyleFilter::setStyleFilter(&seventhIs_B, &NsolfegeStyle);
-
-// guitar settings
-    Ttune::prepareDefinedTunes();
-    config->beginGroup("guitar");
-				instrument = Einstrument(config->value("instrument", (int)e_classicalGuitar).toInt());
-        GfretsNumber = config->value("fretNumber", 19).toInt();
-        GisRightHanded = config->value("rightHanded", true).toBool(); //true;
-        GshowOtherPos = config->value("showOtherPos", false).toBool();
-        if (config->contains("fingerColor"))
-            GfingerColor = config->value("fingerColor").value<QColor>();
-        else
-            GfingerColor = QColor(255, 0, 127, 200); // nice pink
-        if (config->contains("selectedColor"))
-            GselectedColor = config->value("selectedColor").value<QColor>();
-        else
-            GselectedColor = QColor(51, 153, 255); // nice blue as default
-        QVariant tun = config->value("tune");
-        if (tun.isValid()) {
-						Ttune tmpTune = tun.value<Ttune>();
-            setTune(tmpTune);
-				} else
-						setTune(Ttune::stdTune);
-        GpreferFlats = config->value("flatsPrefered", false).toBool(); //false;
-    config->endGroup();
-
-   
-// Exam settings
-    E = new TexamParams();
-    config->beginGroup("exam");
-        if (config->contains("questionColor"))
-            EquestionColor = config->value("questionColor").value<QColor>();
-        else {
-               EquestionColor = QColor("red");
-               EquestionColor.setAlpha(40);
-           }
-        if (config->contains("answerColor"))
-            EanswerColor = config->value("answerColor").value<QColor>();
-        else {
-                EanswerColor = QColor("green");
-               EanswerColor.setAlpha(40);
-           }
-        if (config->contains("notBadColor"))
-            EnotBadColor = config->value("notBadColor").value<QColor>();
-        else {
-                EnotBadColor = QColor("#FF8000");
-               EnotBadColor.setAlpha(40);
-           }
-        E->autoNextQuest = config->value("autoNextQuest", false).toBool();
-        E->repeatIncorrect = config->value("repeatIncorrect", true).toBool();
-        E->expertsAnswerEnable = config->value("expertsAnswerEnable", false).toBool();
-        E->studentName = config->value("studentName", "").toString();
-        E->examsDir = config->value("examsDir", QDir::homePath()).toString();
-        E->levelsDir = config->value("levelsDir", QDir::homePath()).toString();
-				E->closeWithoutConfirm = config->value("closeWithoutConfirm", false).toBool();
-				E->showCorrected = config->value("showCorrected", true).toBool();
-				E->mistakePreview = config->value("mistakePreview", 3000).toInt();
-				E->correctPreview = config->value("correctPreview", 3000).toInt();
-				E->questionDelay = config->value("questionDelay", 150).toInt();
-				E->suggestExam = config->value("suggestExam", true).toBool();
-				E->afterMistake = (TexamParams::EafterMistake)config->value("afterMistake", (int)TexamParams::e_continue).toInt();
-				E->showNameOfAnswered = config->value("showNameOfAnswered", true).toBool();
-				E->showWrongPlayed = config->value("showWrongPlayed", false).toBool();
-				E->showHelpOnStart = config->value("showHelpOnStart", true).toBool();
-				E->askAboutExpert = config->value("askAboutExpert", true).toBool();
-				E->showVeryBeginHelp = config->value("showVeryBeginHelp", true).toBool();
-    config->endGroup();
-
-// Sound settings
-    A = new TaudioParams();
-    config->beginGroup("sound");
-      A->OUTenabled = config->value("outSoundEnabled", true).toBool();
-      A->OUTdevName = config->value("outDeviceName", "").toString();
-      A->midiEnabled = config->value("midiEnabled", false).toBool();
-      A->midiPortName = config->value("midiPortName", "").toString();
-      A->midiInstrNr = (unsigned char)config->value("midiInstrumentNr", 0).toInt();
-			A->audioInstrNr = qBound(1, config->value("audioInstrumentNr", 1).toInt(), 3);
-      A->INenabled = config->value("inSoundEnabled", true).toBool();
-      A->INdevName = config->value("inDeviceName", "").toString();
-      A->isVoice = config->value("isVoice", false).toBool();
-      A->minimalVol = config->value("minimalVolume", 0.4).toFloat();
-			A->minDuration = config->value("minimalDuration", 0.09).toFloat();
-      A->a440diff = config->value("a440Offset", 0).toFloat();
-			A->range = (TaudioParams::Erange)config->value("pitchDetectRange", (int)TaudioParams::e_middle).toInt();
-			A->intonation = (quint8)qBound(0, config->value("intonation", 3).toInt(), 5);
-    config->endGroup();
-
 }
 
 Tglobals::~Tglobals() {
-    storeSettings();
+    storeSettings(config);
     delete config;
     delete E;
     delete A;
 		delete m_tune;
+}
+
+
+//##########################################################################################
+//#######################         PUBLIC         ###########################################
+//##########################################################################################
+
+void Tglobals::dumpToTemp() {
+#if defined(Q_OS_WIN32) // I hate mess in Win registry
+	QSettings tmpSett(tmpConfigFile(), QSettings::IniFormat);
+#else
+	QSettings tmpSett(tmpConfigFile(), QSettings::NativeFormat);
+#endif
+	storeSettings(&tmpSett);
+	tmpSett.beginGroup("temp");
+			tmpSett.setValue("nootkaPath", path); // other apps has to be able find the resources
+	tmpSett.endGroup();
+// 	tmpSett.sync();
+}
+
+
+bool Tglobals::grabFromTemp() {
+	if (QFileInfo::exists(tmpConfigFile())) {
+		#if defined(Q_OS_WIN32) // I hate mess in Win registry
+			QSettings tmpSett(tmpConfigFile(), QSettings::IniFormat);
+		#else
+			QSettings tmpSett(tmpConfigFile(), QSettings::NativeFormat);
+		#endif
+			loadSettings(&tmpSett);
+			tmpSett.beginGroup("temp");
+					path = tmpSett.value("nootkaPath", "").toString();
+			tmpSett.endGroup();
+			if (path != "")
+				return true;
+	}
+		qDebug() << "Can not read from temp settings file!";
+		return false;
+}
+
+
+void Tglobals::loadSettings(QSettings* cfg) {
+	cfg->beginGroup("common");
+			hintsEnabled = cfg->value("enableHints", true).toBool(); //true;
+			isFirstRun = cfg->value("isFirstRun", true).toBool();
+			useAnimations = cfg->value("useAnimations", true).toBool();
+			lang = cfg->value("language", "").toString();
+			instrumentToFix = cfg->value("instrumentToFix", -1).toInt();
+	cfg->endGroup();
+
+//score widget settings
+	cfg->beginGroup("score");
+			SkeySignatureEnabled = cfg->value("keySignature", false).toBool();
+			SshowKeySignName = cfg->value("keyName", true).toBool(); //true;
+			SnameStyleInKeySign = Tnote::EnameStyle(cfg->value("nameStyleInKey",
+																													(int)Tnote::e_english_Bb).toInt());
+			SmajKeyNameSufix = cfg->value("majorKeysSufix", "").toString();
+			SminKeyNameSufix = cfg->value("minorKeysSufix", "").toString();
+	if (cfg->contains("pointerColor"))
+			SpointerColor = cfg->value("pointerColor").value<QColor>(); //-1;
+	else 
+			SpointerColor = -1;
+			Sclef = Tclef::Etype(cfg->value("clef", (int)Tclef::e_treble_G_8down).toInt());
+	cfg->endGroup();
+
+
+//common for score widget and note name
+	cfg->beginGroup("common");
+			doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
+			showEnharmNotes = cfg->value("showEnaharmonicNotes", false).toBool();
+			if (cfg->contains("enharmonicNotesColor"))
+					enharmNotesColor = cfg->value("enharmonicNotesColor").value<QColor>(); //-1;
+			else
+					enharmNotesColor = -1;
+			seventhIs_B = cfg->value("is7thNote_B", true).toBool(); //true;
+	cfg->endGroup();
+	
+//note name settings    
+	cfg->beginGroup("noteName");
+			NnameStyleInNoteName = Tnote::EnameStyle(cfg->value("nameStyle", (int)Tnote::e_english_Bb).toInt());
+			NsolfegeStyle = Tnote::EnameStyle(cfg->value("solfegeStyle", (int)getSolfegeStyle()).toInt());
+			NoctaveInNoteNameFormat = cfg->value("octaveInName", true).toBool();
+//    NoctaveNameInNoteName = true;
+	cfg->endGroup();
+// Initialize name filter
+	TnameStyleFilter::setStyleFilter(&seventhIs_B, &NsolfegeStyle);
+
+// guitar settings
+	Ttune::prepareDefinedTunes();
+	cfg->beginGroup("guitar");
+			instrument = Einstrument(cfg->value("instrument", (int)e_classicalGuitar).toInt());
+			GfretsNumber = cfg->value("fretNumber", 19).toInt();
+			GisRightHanded = cfg->value("rightHanded", true).toBool(); //true;
+			GshowOtherPos = cfg->value("showOtherPos", false).toBool();
+			if (cfg->contains("fingerColor"))
+					GfingerColor = cfg->value("fingerColor").value<QColor>();
+			else
+					GfingerColor = QColor(255, 0, 127, 200); // nice pink
+			if (cfg->contains("selectedColor"))
+					GselectedColor = cfg->value("selectedColor").value<QColor>();
+			else
+					GselectedColor = QColor(51, 153, 255); // nice blue as default
+			QVariant tun = cfg->value("tune");
+			if (tun.isValid()) {
+					Ttune tmpTune = tun.value<Ttune>();
+					setTune(tmpTune);
+			} else
+					setTune(Ttune::stdTune);
+			GpreferFlats = cfg->value("flatsPrefered", false).toBool(); //false;
+	cfg->endGroup();
+
+	
+// Exam settings
+	E = new TexamParams();
+	cfg->beginGroup("exam");
+			if (cfg->contains("questionColor"))
+					EquestionColor = cfg->value("questionColor").value<QColor>();
+			else {
+							EquestionColor = QColor("red");
+							EquestionColor.setAlpha(40);
+					}
+			if (cfg->contains("answerColor"))
+					EanswerColor = cfg->value("answerColor").value<QColor>();
+			else {
+							EanswerColor = QColor("green");
+							EanswerColor.setAlpha(40);
+					}
+			if (cfg->contains("notBadColor"))
+					EnotBadColor = cfg->value("notBadColor").value<QColor>();
+			else {
+							EnotBadColor = QColor("#FF8000");
+							EnotBadColor.setAlpha(40);
+					}
+			E->autoNextQuest = cfg->value("autoNextQuest", false).toBool();
+			E->repeatIncorrect = cfg->value("repeatIncorrect", true).toBool();
+			E->expertsAnswerEnable = cfg->value("expertsAnswerEnable", false).toBool();
+			E->studentName = cfg->value("studentName", "").toString();
+			E->examsDir = cfg->value("examsDir", QDir::homePath()).toString();
+			E->levelsDir = cfg->value("levelsDir", QDir::homePath()).toString();
+			E->closeWithoutConfirm = cfg->value("closeWithoutConfirm", false).toBool();
+			E->showCorrected = cfg->value("showCorrected", true).toBool();
+			E->mistakePreview = cfg->value("mistakePreview", 3000).toInt();
+			E->correctPreview = cfg->value("correctPreview", 3000).toInt();
+			E->questionDelay = cfg->value("questionDelay", 150).toInt();
+			E->suggestExam = cfg->value("suggestExam", true).toBool();
+			E->afterMistake = (TexamParams::EafterMistake)cfg->value("afterMistake", (int)TexamParams::e_continue).toInt();
+			E->showNameOfAnswered = cfg->value("showNameOfAnswered", true).toBool();
+			E->showWrongPlayed = cfg->value("showWrongPlayed", false).toBool();
+			E->showHelpOnStart = cfg->value("showHelpOnStart", true).toBool();
+			E->askAboutExpert = cfg->value("askAboutExpert", true).toBool();
+			E->showVeryBeginHelp = cfg->value("showVeryBeginHelp", true).toBool();
+	cfg->endGroup();
+
+// Sound settings
+	A = new TaudioParams();
+	cfg->beginGroup("sound");
+		A->OUTenabled = cfg->value("outSoundEnabled", true).toBool();
+		A->OUTdevName = cfg->value("outDeviceName", "").toString();
+		A->midiEnabled = cfg->value("midiEnabled", false).toBool();
+		A->midiPortName = cfg->value("midiPortName", "").toString();
+		A->midiInstrNr = (unsigned char)cfg->value("midiInstrumentNr", 0).toInt();
+		A->audioInstrNr = qBound(1, cfg->value("audioInstrumentNr", 1).toInt(), 3);
+		A->INenabled = cfg->value("inSoundEnabled", true).toBool();
+		A->INdevName = cfg->value("inDeviceName", "").toString();
+		A->isVoice = cfg->value("isVoice", false).toBool();
+		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
+		A->minDuration = cfg->value("minimalDuration", 0.09).toFloat();
+		A->a440diff = cfg->value("a440Offset", 0).toFloat();
+		A->range = (TaudioParams::Erange)cfg->value("pitchDetectRange", (int)TaudioParams::e_middle).toInt();
+		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
+	cfg->endGroup();
 }
 
 
@@ -256,92 +303,92 @@ Tnote::EnameStyle Tglobals::getSolfegeStyle() {
 
 
 
-void Tglobals::storeSettings() {
-    config->beginGroup("common");
-        config->setValue("enableHints", hintsEnabled);
-        config->setValue("isFirstRun", isFirstRun);
-        config->setValue("useAnimations", useAnimations);
-        config->setValue("doubleAccidentals", doubleAccidentalsEnabled);
-        config->setValue("showEnaharmonicNotes", showEnharmNotes);
-        config->setValue("enharmonicNotesColor", enharmNotesColor);
-        config->setValue("is7thNote_B", seventhIs_B);
-        config->setValue("language", lang);
-				config->setValue("instrumentToFix", instrumentToFix);
-    config->endGroup();
+void Tglobals::storeSettings(QSettings* cfg) {
+	cfg->beginGroup("common");
+			cfg->setValue("enableHints", hintsEnabled);
+			cfg->setValue("isFirstRun", isFirstRun);
+			cfg->setValue("useAnimations", useAnimations);
+			cfg->setValue("doubleAccidentals", doubleAccidentalsEnabled);
+			cfg->setValue("showEnaharmonicNotes", showEnharmNotes);
+			cfg->setValue("enharmonicNotesColor", enharmNotesColor);
+			cfg->setValue("is7thNote_B", seventhIs_B);
+			cfg->setValue("language", lang);
+			cfg->setValue("instrumentToFix", instrumentToFix);
+	cfg->endGroup();
 
-    config->beginGroup("score");
-        config->setValue("keySignature", SkeySignatureEnabled);
-        config->setValue("keyName", SshowKeySignName);
-        config->setValue("nameStyleInKey", (int)SnameStyleInKeySign);
-		QString majS, minS;
-		if (SmajKeyNameSufix != TkeySignature::majorSufixTxt()) majS = SmajKeyNameSufix;
-		else majS = ""; // default sufixes are reset to be translateable in next run
-        config->setValue("majorKeysSufix", majS);
-		if (SminKeyNameSufix != TkeySignature::minorSufixTxt()) minS = SminKeyNameSufix;
-		else minS = "";
-        config->setValue("minorKeysSufix", minS);
-        config->setValue("pointerColor", SpointerColor);
-				config->setValue("clef", (int)Sclef);
-    config->endGroup();
-  
-    config->beginGroup("noteName");
-        config->setValue("nameStyle", (int)NnameStyleInNoteName);
-        config->setValue("octaveInName", NoctaveInNoteNameFormat);
-				config->setValue("solfegeStyle", NsolfegeStyle);
-    config->endGroup();
-    
-    config->beginGroup("guitar");
-				config->setValue("instrument", (int)instrument);
-        config->setValue("fretNumber", (int)GfretsNumber);
-        config->setValue("rightHanded", GisRightHanded);
-        config->setValue("showOtherPos", GshowOtherPos);
-        config->setValue("fingerColor", GfingerColor);
-        config->setValue("selectedColor", GselectedColor);
-        config->setValue("tune", qVariantFromValue(*Gtune()));
-        config->setValue("flatsPrefered", GpreferFlats);
+	cfg->beginGroup("score");
+			cfg->setValue("keySignature", SkeySignatureEnabled);
+			cfg->setValue("keyName", SshowKeySignName);
+			cfg->setValue("nameStyleInKey", (int)SnameStyleInKeySign);
+	QString majS, minS;
+	if (SmajKeyNameSufix != TkeySignature::majorSufixTxt()) majS = SmajKeyNameSufix;
+	else majS = ""; // default sufixes are reset to be translateable in next run
+			cfg->setValue("majorKeysSufix", majS);
+	if (SminKeyNameSufix != TkeySignature::minorSufixTxt()) minS = SminKeyNameSufix;
+	else minS = "";
+			cfg->setValue("minorKeysSufix", minS);
+			cfg->setValue("pointerColor", SpointerColor);
+			cfg->setValue("clef", (int)Sclef);
+	cfg->endGroup();
+
+	cfg->beginGroup("noteName");
+			cfg->setValue("nameStyle", (int)NnameStyleInNoteName);
+			cfg->setValue("octaveInName", NoctaveInNoteNameFormat);
+			cfg->setValue("solfegeStyle", NsolfegeStyle);
+	cfg->endGroup();
+	
+	cfg->beginGroup("guitar");
+			cfg->setValue("instrument", (int)instrument);
+			cfg->setValue("fretNumber", (int)GfretsNumber);
+			cfg->setValue("rightHanded", GisRightHanded);
+			cfg->setValue("showOtherPos", GshowOtherPos);
+			cfg->setValue("fingerColor", GfingerColor);
+			cfg->setValue("selectedColor", GselectedColor);
+			cfg->setValue("tune", qVariantFromValue(*Gtune()));
+			cfg->setValue("flatsPrefered", GpreferFlats);
 //         QList<QVariant> tmpFrets;
 //         tmpFrets << 5 << 7 << 9 << 12 << 15 << 17;
-//         config->setValue("dotsOnFrets", tmpFrets);
-    config->endGroup();
+//         cfg->setValue("dotsOnFrets", tmpFrets);
+	cfg->endGroup();
 
-    config->beginGroup("exam");
-        config->setValue("questionColor", EquestionColor);
-        config->setValue("answerColor", EanswerColor);
-        config->setValue("notBadColor", EnotBadColor);
-        config->setValue("autoNextQuest", E->autoNextQuest);
-        config->setValue("repeatIncorrect", E->repeatIncorrect);
-				config->setValue("showCorrected", E->showCorrected);
-        config->setValue("expertsAnswerEnable", E->expertsAnswerEnable);
-        config->setValue("studentName", E->studentName);
-        config->setValue("examsDir", E->examsDir);
-        config->setValue("levelsDir", E->levelsDir);
-				config->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
-				config->setValue("mistakePreview", E->mistakePreview);
-				config->setValue("correctPreview", E->correctPreview);
-				config->setValue("questionDelay", E->questionDelay);
-				config->setValue("suggestExam", E->suggestExam);
-				config->setValue("afterMistake", (int)E->afterMistake);
-				config->setValue("showNameOfAnswered", E->showNameOfAnswered);
-				config->setValue("showWrongPlayed", E->showWrongPlayed);
-				config->setValue("askAboutExpert", E->askAboutExpert);
-        config->setValue("showHelpOnStart", E->showHelpOnStart);
-				config->setValue("showVeryBeginHelp", E->showVeryBeginHelp);
-    config->endGroup();
+	cfg->beginGroup("exam");
+			cfg->setValue("questionColor", EquestionColor);
+			cfg->setValue("answerColor", EanswerColor);
+			cfg->setValue("notBadColor", EnotBadColor);
+			cfg->setValue("autoNextQuest", E->autoNextQuest);
+			cfg->setValue("repeatIncorrect", E->repeatIncorrect);
+			cfg->setValue("showCorrected", E->showCorrected);
+			cfg->setValue("expertsAnswerEnable", E->expertsAnswerEnable);
+			cfg->setValue("studentName", E->studentName);
+			cfg->setValue("examsDir", E->examsDir);
+			cfg->setValue("levelsDir", E->levelsDir);
+			cfg->setValue("closeWithoutConfirm", E->closeWithoutConfirm);
+			cfg->setValue("mistakePreview", E->mistakePreview);
+			cfg->setValue("correctPreview", E->correctPreview);
+			cfg->setValue("questionDelay", E->questionDelay);
+			cfg->setValue("suggestExam", E->suggestExam);
+			cfg->setValue("afterMistake", (int)E->afterMistake);
+			cfg->setValue("showNameOfAnswered", E->showNameOfAnswered);
+			cfg->setValue("showWrongPlayed", E->showWrongPlayed);
+			cfg->setValue("askAboutExpert", E->askAboutExpert);
+			cfg->setValue("showHelpOnStart", E->showHelpOnStart);
+			cfg->setValue("showVeryBeginHelp", E->showVeryBeginHelp);
+	cfg->endGroup();
 
-    config->beginGroup("sound");
-        config->setValue("outSoundEnabled", A->OUTenabled);
-        config->setValue("outDeviceName", A->OUTdevName);
-        config->setValue("midiEnabled", A->midiEnabled);
-        config->setValue("midiPortName", A->midiPortName);
-        config->setValue("midiInstrumentNr", (int)A->midiInstrNr);
-				config->setValue("audioInstrumentNr", (int)A->audioInstrNr);
-        config->setValue("inSoundEnabled", A->INenabled);
-        config->setValue("inDeviceName", A->INdevName);
-        config->setValue("isVoice", A->isVoice);
-        config->setValue("minimalVolume", A->minimalVol);
-				config->setValue("minimalDuration", A->minDuration);
-        config->setValue("a440Offset", A->a440diff);
-				config->setValue("pitchDetectRange", (int)A->range);
-				config->setValue("intonation", A->intonation);
-    config->endGroup();
+	cfg->beginGroup("sound");
+			cfg->setValue("outSoundEnabled", A->OUTenabled);
+			cfg->setValue("outDeviceName", A->OUTdevName);
+			cfg->setValue("midiEnabled", A->midiEnabled);
+			cfg->setValue("midiPortName", A->midiPortName);
+			cfg->setValue("midiInstrumentNr", (int)A->midiInstrNr);
+			cfg->setValue("audioInstrumentNr", (int)A->audioInstrNr);
+			cfg->setValue("inSoundEnabled", A->INenabled);
+			cfg->setValue("inDeviceName", A->INdevName);
+			cfg->setValue("isVoice", A->isVoice);
+			cfg->setValue("minimalVolume", A->minimalVol);
+			cfg->setValue("minimalDuration", A->minDuration);
+			cfg->setValue("a440Offset", A->a440diff);
+			cfg->setValue("pitchDetectRange", (int)A->range);
+			cfg->setValue("intonation", A->intonation);
+	cfg->endGroup();
 }

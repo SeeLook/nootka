@@ -17,31 +17,35 @@
  ***************************************************************************/
 
 
-#include <QApplication>
-#include "tlevelcreatordlg.h"
-#include <tinitcorelib.h>
+#ifndef TPROCESSHANDLER_H
+#define TPROCESSHANDLER_H
 
-Tglobals *gl;
+#include <nootkacoreglobal.h>
+#include <QStringList>
 
-int main(int argc, char *argv[])
-{    	
-		QApplication a(argc, argv);
-// #if defined (Q_OS_MAC)
-// 		QApplication::setStyle(new QPlastiqueStyle);
-// #endif
-		gl = new Tglobals(true); // load configuration from temp file
-		if (gl->path == "") {
-			return 112;
-		}
-		initCoreLibrary(gl);
-		prepareTranslations(&a);
-		if (!loadNootkaFont(&a))
-			return 111;
+class QProcess;
 
-    TlevelCreatorDlg creator;
-    creator.show();
-		int retVal = a.exec();
-		if (argc > 1)
-        creator.loadLevelFile(QString::fromLocal8Bit(argv[argc - 1]));
-		return retVal;
-}
+/*
+ * This class handles given process, 
+ * also keeps its last communicate
+ */
+class NOOTKACORE_EXPORT TprocessHandler : public QObject
+{
+	Q_OBJECT
+	
+public:
+	TprocessHandler(const QString& exec, QStringList& args, QObject* object = 0);
+	~TprocessHandler();
+	
+			/** Returns the last communicate of the process */
+	QString lastWord() { return m_lastWord; }
+	
+protected slots:
+	void processSays();
+	
+private:
+	QProcess					 *m_process;
+	QString							m_exec, m_lastWord;
+};
+
+#endif // TPROCESSHANDLER_H

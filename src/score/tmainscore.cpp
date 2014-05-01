@@ -80,7 +80,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
 	
 	m_clearBar = new QToolBar();
-	m_clearAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_TrashIcon)), "", m_clearBar);
+	m_clearAct = new QAction(QIcon(gl->path + "picts/clear-score.png"), "", m_clearBar);
 	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
 	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
 	m_clearBar->addAction(m_clearAct);
@@ -709,6 +709,8 @@ void TmainScore::zoomScoreSlot() {
 
 
 void TmainScore::deleteNotes() {
+	if (staff()->count() <= 1)
+			return; // nothing to delete
 	m_currentIndex = 0;
 	m_clickedOff = 0;
 	while (m_staves.size() > 1) {

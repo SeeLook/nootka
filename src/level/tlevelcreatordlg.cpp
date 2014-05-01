@@ -38,6 +38,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 
     isNotSaved = false;
     setWindowTitle(levelCreatorTxt());
+		setWindowIcon(QIcon(gl->path + "picts/levelCreator.png"));
+// 		setWindowFlags(Qt::Tool);
 
     navList->addItem(TlevelSelector::levelFilterTxt());
     navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
@@ -269,6 +271,7 @@ void TlevelCreatorDlg::loadLevelFile(QString levelFile) {
 
 
 void TlevelCreatorDlg::startExam() {
+		qDebug() << selectedLevel().name; // TODO return level file or its name
     accept();
 }
 
@@ -276,6 +279,7 @@ void TlevelCreatorDlg::startExam() {
 Tlevel TlevelCreatorDlg::selectedLevel() {
     return levelSett->levelSelector->getSelectedLevel();
 }
+
 
 void TlevelCreatorDlg::checkLevelSlot() {
     Tlevel tmpLevel;
