@@ -19,6 +19,7 @@
 #include "mainwindow.h"
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
+#include <tprocesshandler.h>
 #include "score/tmainscore.h"
 #include "guitar/tfingerboard.h"
 // // #include "tsettingsdialog.h"
@@ -44,6 +45,7 @@
 // #include "tquestionpoint.h"
 // #include "tnotename.h"
 #include <QtWidgets>
+#include <complex>
 
 
 extern Tglobals *gl;
@@ -147,7 +149,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	innerWidget->setLayout(mainLay);
 	setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
-//     m_levelCreatorExist = false;
+    m_levelCreatorExist = false;
 
     createActions();
 
@@ -186,7 +188,7 @@ void MainWindow::createActions() {
 //     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
     levelCreatorAct = new QAction(this);
-//     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+    connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
 
     startExamAct = new QAction(this);
 //     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
@@ -281,13 +283,13 @@ void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
 QPoint MainWindow::relatedPoint() {
     return QPoint(noteName->geometry().x(), m_statLab->geometry().bottom() + 5);
 }
-
+*/
 //##########################################################################################
 //#######################     PUBLIC SLOTS       ###########################################
 //##########################################################################################
 
 void MainWindow::openFile(QString runArg) {
-    if (ex || m_levelCreatorExist)
+    if (/*ex || */m_levelCreatorExist)
         return;
     if (QFile::exists(runArg)) {
         QFile file(runArg);
@@ -299,23 +301,23 @@ void MainWindow::openFile(QString runArg) {
         }
         runArg = QDir(file.fileName()).absolutePath();
         file.close();
-				if (Texam::couldBeExam(hdr)) {
-					if (Texam::isExamVersion(hdr))
-							ex = new TexamExecutor(this, runArg);
-					else
-							newerNootkaMessage(runArg, this);
-				} else {
+// 				if (Texam::couldBeExam(hdr)) {
+// 					if (Texam::isExamVersion(hdr))
+// 							ex = new TexamExecutor(this, runArg);
+// 					else
+// 							newerNootkaMessage(runArg, this);
+// 				} else {
 					if (Tlevel::couldBeLevel(hdr)) {
 						if (Tlevel::isLevelVersion(hdr))
 								openLevelCreator(runArg);
 						else
 								newerNootkaMessage(runArg, this);
 					}
-				}
+// 				}
     }
 }
 
-
+/*
 void MainWindow::createSettingsDialog() {
 	TsettingsDialog *settings = new TsettingsDialog(this);
 	sound->prepareToConf();
@@ -373,33 +375,42 @@ void MainWindow::createSettingsDialog() {
 	if (resetConfig)
 			close();
 }
-
+*/
 
 void MainWindow::openLevelCreator(QString levelFile) {
-    sound->wait(); // stops pitch detection
-    sound->stopPlaying();
+//     sound->wait(); // stops pitch detection
+//     sound->stopPlaying();
     m_levelCreatorExist = true;
-    TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
-    bool shallExamStart = false;
-    if (levelFile != "")
-        levelCreator->loadLevelFile(levelFile);
-    if (levelCreator->exec() == QDialog::Accepted) {
-        m_level = levelCreator->selectedLevel();
-        if (m_level.name != "")
-            shallExamStart = true;
-    }
-    delete levelCreator;
+		gl->dumpToTemp();
+		QStringList args;
+		if (levelFile != "")
+				args << levelFile;
+// 		setAttribute(Qt::WA_TransparentForMouseEvents, true);
+		TprocessHandler levelProcess("nootka-level", args, this);
+// 		qDebug() << levelProcess.lastWord();
+// 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
+		
+//     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
+//     bool shallExamStart = false;
+//     if (levelFile != "")
+//         levelCreator->loadLevelFile(levelFile);
+//     if (levelCreator->exec() == QDialog::Accepted) {
+//         m_level = levelCreator->selectedLevel();
+//         if (m_level.name != "")
+//             shallExamStart = true;
+//     }
+//     delete levelCreator;
     m_levelCreatorExist = false;
-    if (shallExamStart) {
-        nootLabel->hide();
-        progress->show();
-        examResults->show();
-        ex = new TexamExecutor(this, "", &m_level); // start exam
-    } else
-        sound->go(); // restore pitch detection
+//     if (shallExamStart) {
+//         nootLabel->hide();
+//         progress->show();
+//         examResults->show();
+//         ex = new TexamExecutor(this, "", &m_level); // start exam
+//     } else
+//         sound->go(); // restore pitch detection
 }
 
-
+/*
 void MainWindow::startExamSlot() {
     sound->stopPlaying();
 		nootLabel->hide();

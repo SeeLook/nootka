@@ -71,14 +71,14 @@ int main(int argc, char *argv[])
     a->installEventFilter(w);
 #endif
     w->show();
-//     if (firstTime && argc > 1)
-//         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+    if (firstTime && argc > 1)
+        w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
 		firstTime = false;
 		exitCode = a->exec();
 		delete w;
-		} while (resetConfig);
+	} while (resetConfig);
 		
-    delete gl;
-    SLEEP(10); // delayed exit to avoid crash
-		return exitCode;
+	delete gl;
+	SLEEP(10); // delayed exit to avoid crash
+	return exitCode;
 }

@@ -37,17 +37,21 @@ class NOOTKACORE_EXPORT Tglobals
 
 public:
 
-    Tglobals();
+				/** If @p true, setting are loaded from temporary config file */
+    Tglobals(bool fromTemp = false);
     ~Tglobals();
 
-        /** This method return application install path - path from whwre Nootka was started. */
+        /** This method return application install path - path from where Nootka was started. */
     static QString getInstPath(QString appInstPath);
 
-    void storeSettings();
+    void storeSettings(QSettings* cfg); /** Saves settings stored in @p cfg */
+		void loadSettings(QSettings* cfg); /** Loads Nootka settings from file to @p cfg */
+		void dumpToTemp(); /** Saves Nootka configuration to temporary file in system TEMP directory */
+		bool grabFromTemp(); /** Reads configuration from temp file, returns @p true when success. */
 
     QString path;
     QString version;
-    bool hintsEnabled; /** If @param true, hints of widgets are shown */
+    bool hintsEnabled; /** If @p true, hints of widgets are shown */
     bool isFirstRun; /** to show or skip first run wizard*/
     QString lang; /** Application language. If empty - selected from system info*/
     QSettings *config; /** Pointer to QSettings instance of Nootka */

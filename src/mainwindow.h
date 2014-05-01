@@ -65,9 +65,9 @@ public:
 //     QPoint relatedPoint();
 
 public slots:
-//     void openFile(QString runArg); // opens *.nel or *.noo file
+    void openFile(QString runArg); // opens *.nel or *.noo file
 //     void createSettingsDialog();
-//     void openLevelCreator(QString levelFile = "");
+    void openLevelCreator(QString levelFile = "");
 //     void startExamSlot();
 //     void aboutSlot();
 //     void analyseSlot();
@@ -142,7 +142,7 @@ private:
     QPixmap 							m_bgPixmap, m_rosettePixmap;
     int 									m_statFontSize;
 // 		int 									m_extraFontOffset;
-//     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
+    bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
 //     Tlevel 						    m_level;
 // 		bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;

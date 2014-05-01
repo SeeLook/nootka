@@ -12,6 +12,7 @@ set(LIB_NOOTKACORE_SRC
 	tfingerpos.cpp
 	tglobals.cpp
 	tnoofont.cpp
+	tprocesshandler.cpp
 	
 	animations/tabstractanim.cpp
 	animations/tblinkingitem.cpp

@@ -1,5 +1,8 @@
 1.1.0 alpha
+     - 
+    Under the hood
      - ported to Qt5
+     - divided for libraries and external executable files
 
 ================================================================
 

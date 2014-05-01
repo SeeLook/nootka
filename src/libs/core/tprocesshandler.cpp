@@ -17,31 +17,48 @@
  ***************************************************************************/
 
 
+#include "tprocesshandler.h"
+#include <QProcess>
+#include <QTextStream>
 #include <QApplication>
-#include "tlevelcreatordlg.h"
-#include <tinitcorelib.h>
+#include <QDir>
+#include <QDebug>
 
-Tglobals *gl;
-
-int main(int argc, char *argv[])
-{    	
-		QApplication a(argc, argv);
-// #if defined (Q_OS_MAC)
-// 		QApplication::setStyle(new QPlastiqueStyle);
-// #endif
-		gl = new Tglobals(true); // load configuration from temp file
-		if (gl->path == "") {
-			return 112;
-		}
-		initCoreLibrary(gl);
-		prepareTranslations(&a);
-		if (!loadNootkaFont(&a))
-			return 111;
-
-    TlevelCreatorDlg creator;
-    creator.show();
-		int retVal = a.exec();
-		if (argc > 1)
-        creator.loadLevelFile(QString::fromLocal8Bit(argv[argc - 1]));
-		return retVal;
+TprocessHandler::TprocessHandler(const QString& exec, QStringList& args, QObject* object) :
+	QObject(object),
+	m_exec(exec)
+{
+		m_exec = QDir::fromNativeSeparators(qApp->applicationDirPath() + "/" + exec);
+		m_process = new QProcess(this);
+		m_process->setProcessChannelMode(QProcess::MergedChannels);
+		connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(processSays()));
+#if defined(Q_OS_WIN32)
+		m_exec += ".exe";
+#endif
+		m_process->start(m_exec, args);
+		m_process->waitForFinished(-1);
+// 		qDebug() << m_process->readAll().data();
 }
+
+
+TprocessHandler::~TprocessHandler()
+{
+	delete m_process;
+}
+
+
+void TprocessHandler::processSays() {
+	QTextStream stream(m_process);
+  QString out = stream.readLine();
+  if (out != "") {
+		m_lastWord = out.remove("\"");
+		qDebug() << "processSays: " << out;
+  }
+}
+
+
+
+
+
+
+
