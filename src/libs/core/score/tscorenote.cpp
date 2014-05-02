@@ -36,11 +36,12 @@
 
 #include <QDebug>
 
+const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
 
 /*static*/
 QString TscoreNote::getAccid(int accNr) {
-    const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
-    QString str = QString(QChar(accCharTable[accNr+2]));
+//     const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
+    QString str = QString(QChar(accCharTable[accNr + 2]));
     return str;
 }
 
@@ -208,7 +209,11 @@ void TscoreNote::moveNote(int posY) {
 					if (staff()->accidInKeyArray[noteNr] == m_accidental) {
 						if (m_accidToKeyAnim)
 								emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-						newAccid = " "; // hide accidental
+						if (staff()->extraAccids()) // accidental from key signature in brackets
+							newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));
+						else
+							newAccid = " "; // hide accidental
+						
 					}
       }
     }

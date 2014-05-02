@@ -1,6 +1,7 @@
 TODO List
 
 
+- move refreshing extra accidentals to staff - avoid signaling
 - after deleting clef menu work note lines doesn't change current TscoreNote parent - use moveWorkNote() for it
 - TscoreNote make methods related to lines static
 - (guitar) check question mark scaling for left-handed (TODO)
@@ -41,9 +42,10 @@ New settings switches:
   - color of note name highlight
 ----------------------------------------------------------------------------------------------------------------
 Score controlling buttons:
-	- accidentals
-	- zoom +/-
-	- clear the score
+	v accidentals
+	v extra accidentals (from key signature)
+	v zoom +/-
+	v clear the score
 	- show/hide note names
 	- octave drop/rise (8-va, 15-va)
 	- rhythms (steams and rests)

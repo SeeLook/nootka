@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
 
     TlevelCreatorDlg creator;
     creator.show();
-		int retVal = a.exec();
 		if (argc > 1)
         creator.loadLevelFile(QString::fromLocal8Bit(argv[argc - 1]));
+		int retVal = a.exec();
 		return retVal;
 }
