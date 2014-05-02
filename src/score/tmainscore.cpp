@@ -65,6 +65,9 @@ TmainScore::TmainScore(QWidget* parent) :
 	scoreController()->setParent(0);
 	scoreController()->hide();
 	layout()->removeWidget(scoreController());
+	if (gl->SkeySignatureEnabled)
+			scoreController()->addExtraAccidButton();
+	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
 	
 	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
 	
@@ -132,7 +135,14 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
 	setClef(Tclef(gl->Sclef));
-	setEnableKeySign(gl->SkeySignatureEnabled);
+	if ((bool)staff()->scoreKey() != gl->SkeySignatureEnabled) {
+			setEnableKeySign(gl->SkeySignatureEnabled);
+			if (gl->SkeySignatureEnabled)
+				scoreController()->addExtraAccidButton();
+			else
+				scoreController()->removeExtraAccidButton();
+			//TODO update notes
+	}
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
 	else
@@ -593,6 +603,17 @@ void TmainScore::menuChangedNote(Tnote n) {
 }
 
 
+void TmainScore::extraAccidsSlot() {
+	for (int st = 0; st < m_staves.size(); st++) {
+		m_staves[st]->setExtraAccids(scoreController()->extraAccidsEnabled());
+		for (int no = 0; no < m_staves[st]->count(); no++) { // TODO move it to staff, avoid signaling there
+			if (m_staves[st]->getNote(no)->acidental == -1 || m_staves[st]->getNote(no)->acidental == 1)
+				m_staves[st]->setNote(no, *m_staves[st]->getNote(no));
+		}
+	}		
+}
+
+
 /** Managing staves and notes:
  * - all is started from addStaff() method - staff is connected with quite big amount of slots
  * - notes can be added to staff automatically (in record mode) or manually by user
@@ -933,6 +954,8 @@ void TmainScore::setBarsIconSize() {
 	m_clearBar->setIconSize(ss);
 	m_settBar->adjustSize();
 	m_clearBar->adjustSize();
+	scoreController()->setFontSize(ss.width() * 0.8);
+	scoreController()->adjustSize();
 }
 
 
@@ -953,6 +976,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	m_staves.last()->setControlledNotes(true);
+	m_staves.last()->setExtraAccids(scoreController()->extraAccidsEnabled());
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
 	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));

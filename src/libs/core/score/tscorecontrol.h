@@ -22,12 +22,15 @@
 #include <nootkacoreglobal.h>
 #include <QWidget>
 
+class QVBoxLayout;
 class TscoreScene;
 class TpushButton;
 
-/** This class is to control a score. 
-* It contains buttons with accidentals symbols
-* and octavation changing buttons. */
+/** 
+ * This class is to control a score. 
+ * It contains buttons with accidentals symbols
+ * Also it can show button with (#) - to manage extra accidentals
+ *  */
 class NOOTKACORE_EXPORT TscoreControl : public QWidget
 {
     Q_OBJECT
@@ -39,21 +42,40 @@ public:
 		void enableDoubleAccidentals(bool isEnabled);
 
 public slots:
-			/** Checks or unchecks apropirate button. */
+				/** Checks or unchecks appropriate button. */
     void setAccidental(int accNr);
+		
+				/** Adds button which controls extra accidentals. 
+				 * It only manages its layout but doesn't preform any changes in a score.
+				 * @p extraAccidsChanged signal is emitting after click - this is way you can handle it. */
+		void addExtraAccidButton();
+		
+				/** Extra accid button is deleted. */
+		void removeExtraAccidButton();
+		
+				/** Returns true only when extra button exist and it is checked */
+		bool extraAccidsEnabled();
+		
+		
+				/** Sets size of buttons font */
+		void setFontSize(qreal fs);
+		qreal fontSize() { return m_fontSize; }
 		
 signals:
 		void accidButtonPressed(int accid);
+		void extraAccidsChanged();
 		
-protected:
-    void setButtons(TpushButton *button);
 		
 protected slots:
 		void onAcidButtonPressed();
+		void onExtraButtonPressed();
     
 
 private:
-    TpushButton *m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut;
+    TpushButton 								*m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut, *m_extraButt;
+		qreal												m_fontSize;
+		QList<TpushButton*>					m_buttons; /** Keeps pointers for all buttons */
+		QVBoxLayout 								*m_butLay;
 
 };
 

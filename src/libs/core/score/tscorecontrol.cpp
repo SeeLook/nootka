@@ -22,36 +22,29 @@
 #include <QVBoxLayout>
 
 TscoreControl::TscoreControl(QWidget* parent):
-  QWidget(parent)
+  QWidget(parent),
+  m_extraButt(0)
 {    
 		setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_dblSharpBut = new TpushButton("x", this);
-    setButtons(m_dblSharpBut);
 		m_dblSharpBut->setStatusTip(tr("<b>double sharp</b> - raises a note by two semitones (whole tone).<br>On the guitar it is two frets up."));
     m_sharpBut = new TpushButton("#", this);
-    setButtons(m_sharpBut);
 		m_sharpBut->setStatusTip(tr("<b>sharp</b> - raises a note by a half tone (semitone).<br>On the guitar it is one fret up."));
     m_flatBut = new TpushButton("b", this);
-    setButtons(m_flatBut);
 		m_flatBut->setStatusTip(tr("<b>flat</b> - lowers a note by a half tone (semitone).<br>On the guitar it is one fret down."));
     m_dblFlatBut = new TpushButton("B", this);
-    setButtons(m_dblFlatBut);
 		m_dblFlatBut->setStatusTip(tr("<b>double flat</b> - lowers a note by two semitones (whole tone).<br>On the guitar it is two frets down."));
-    QVBoxLayout *butLay = new QVBoxLayout;
-    butLay->addStretch(1);
-    butLay->addWidget(m_dblSharpBut);
-    butLay->addWidget(m_sharpBut);
-    butLay->addSpacing(5);
-    butLay->addWidget(m_flatBut);
-    butLay->addWidget(m_dblFlatBut);
-    butLay->addStretch(1);
-    setLayout(butLay);
-// some Mac quirks (Mac style) - probably fixed in Qt5 - TODO
-//     m_dblFlatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-//     m_flatBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-//     m_sharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-//     m_dblSharpBut->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-
+		m_buttons << m_dblSharpBut << m_sharpBut << m_flatBut << m_dblFlatBut;
+		setFontSize(25.0);
+    m_butLay = new QVBoxLayout;
+    m_butLay->addStretch(1);
+    m_butLay->addWidget(m_dblSharpBut);
+    m_butLay->addWidget(m_sharpBut);
+    m_butLay->addSpacing(8);
+    m_butLay->addWidget(m_flatBut);
+    m_butLay->addWidget(m_dblFlatBut);
+    m_butLay->addStretch(1);
+    setLayout(m_butLay);
 		
 		connect(m_dblFlatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
 		connect(m_flatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
@@ -90,6 +83,48 @@ void TscoreControl::enableDoubleAccidentals(bool isEnabled) {
 			m_dblSharpBut->hide();
 			m_dblSharpBut->setChecked(false);
 		}
+}
+
+
+bool TscoreControl::extraAccidsEnabled() {
+	if (m_extraButt && m_extraButt->isChecked())
+		return true;
+	else
+		return false;
+}
+
+
+void TscoreControl::addExtraAccidButton() {
+	if (m_extraButt)
+			return;
+	m_extraButt = new TpushButton("$", this); // (#)
+	m_extraButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
+	m_butLay->addSpacing(12);
+	m_butLay->addWidget(m_extraButt);
+	m_buttons << m_extraButt;
+	setFontSize(m_fontSize);
+	connect(m_extraButt, SIGNAL(clicked()), this, SLOT(onExtraButtonPressed()));
+}
+
+
+void TscoreControl::removeExtraAccidButton() {
+	delete m_extraButt;
+	m_extraButt = 0;
+	m_buttons.removeLast();
+}
+
+
+void TscoreControl::setFontSize(qreal fs) {
+	m_fontSize = fs;
+	for (int i = 0; i < m_buttons.size(); i++) {
+			QFont nf("nootka");
+			nf.setPointSizeF(m_fontSize);
+			QFontMetrics fm(nf);
+			nf.setPointSizeF(qRound(nf.pointSizeF() * (nf.pointSizeF() / fm.boundingRect("x").height())));
+			m_buttons[i]->setFont(nf);
+			fm = QFontMetrics(nf);
+			m_buttons[i]->setMaximumWidth(fm.boundingRect("xx").width());
+	}
 }
 
 
@@ -133,13 +168,13 @@ void TscoreControl::onAcidButtonPressed() {
 }
 
 
-
-void TscoreControl::setButtons(TpushButton* button) {
-    button->setFixedSize(40, 45);
-    QFont nf("nootka");
-    nf.setPointSizeF(25.0);
-    QFontMetrics fm(nf);
-    nf.setPointSizeF(qRound(nf.pointSizeF() * (nf.pointSizeF() / fm.boundingRect("x").height())));
-    button->setFont(nf);
+void TscoreControl::onExtraButtonPressed() {
+	m_extraButt->setChecked(!m_extraButt->isChecked());
+	emit extraAccidsChanged();
 }
+
+
+
+
+
 

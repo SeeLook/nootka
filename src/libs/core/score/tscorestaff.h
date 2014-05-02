@@ -180,6 +180,7 @@ public:
 				 * If 0 - staff is in linear mode */
 		int maxNoteCount() { return m_maxNotesCount; }
 		
+	//--- note controllers/switches
 				/** Switches when note segments have colored background after their note are set */
 		void setSelectableNotes(bool selectable) { m_selectableNotes = selectable; }
 		bool selectableNotes() { return m_selectableNotes; }
@@ -187,6 +188,10 @@ public:
 				/** Additional note controls are displayed when note gets cursor */
 		void setControlledNotes(bool controlled) { m_controlledNotes = controlled; }
 		bool controlledNotes() { return m_controlledNotes; }
+		
+				/** Shows accidentals from key signature also near a note (in brackets) */
+		void setExtraAccids(bool extra) { m_extraAccids = extra; }
+		bool extraAccids() { return m_extraAccids; }
     
     void setScoreControler(TscoreControl *scoreControl);
 		
@@ -286,7 +291,7 @@ private:
 		TcombinedAnim											*m_accidAnim;
 		QGraphicsSimpleTextItem 					*m_flyAccid;
 		int											 					 m_index; // index of currently selected note
-		bool 										 					 m_selectableNotes, m_controlledNotes;
+		bool 										 					 m_selectableNotes, m_controlledNotes, m_extraAccids;
 		int																 m_maxNotesCount;
 		qreal															 m_loNotePos, m_hiNotePos;
 		bool															 m_lockRangeCheck; // to prevent the checking during clef switching

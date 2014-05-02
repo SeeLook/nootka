@@ -149,6 +149,7 @@ protected slots:
 		
 		void showNameMenu(TscoreNote* sn);
 		void menuChangedNote(Tnote n);
+		void extraAccidsSlot();
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
