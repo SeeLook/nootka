@@ -139,9 +139,9 @@ void TmainScore::acceptSettings() {
 	if ((bool)staff()->scoreKey() != gl->SkeySignatureEnabled) {
 			setEnableKeySign(gl->SkeySignatureEnabled);
 			if (gl->SkeySignatureEnabled)
-				scoreController()->addExtraAccidButton();
+				scoreController()->addExtraButtons();
 			else
-				scoreController()->removeExtraAccidButton();
+				scoreController()->removeExtraButtons();
 			//TODO update notes
 	}
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
@@ -183,21 +183,11 @@ void TmainScore::setNote(Tnote note) {
 			if (insertMode() == e_record) {
 					changeCurrentIndex(m_currentIndex + m_clickedOff);
 					thisStaff = currentStaff();
-// 					if (m_currentIndex && m_currentIndex % staff()->maxNoteCount() == 0) { // next note is first on the next staff
-// 						if (thisStaff->number() + 1 < m_staves.size()) // then switch to next staff
-// 							thisStaff = m_staves[thisStaff->number() + 1];
-// 						else {
-// 							qDebug() << "setNote() has no more staves";
-// 							return;
-// 						}
-// 					} else
-// 							checkAndAddNote(thisStaff, m_currentIndex % thisStaff->maxNoteCount());
 					m_clickedOff = 1;
 			}
-// 			checkAndAddNote(thisStaff, m_currentIndex % thisStaff->maxNoteCount());
 			thisStaff->setNote(m_currentIndex % staff()->maxNoteCount(), note);
 			if (m_staves.size() > 1)
-					score()->centerOn(score()->mapFromScene(thisStaff->mapToScene(thisStaff->pos())));
+					score()->ensureVisible(thisStaff, 0, 0);
 	} else {
 // 			if (staff()->currentIndex() != -1)
 // 					TsimpleScore::setNote(staff()->currentIndex(), note);
@@ -607,9 +597,21 @@ void TmainScore::menuChangedNote(Tnote n) {
 void TmainScore::extraAccidsSlot() {
 	for (int st = 0; st < m_staves.size(); st++) {
 		m_staves[st]->setExtraAccids(scoreController()->extraAccidsEnabled());
-		for (int no = 0; no < m_staves[st]->count(); no++) { // TODO move it to staff, avoid signaling there
+		for (int no = 0; no < m_staves[st]->count(); no++) {
 			if (m_staves[st]->getNote(no)->acidental == -1 || m_staves[st]->getNote(no)->acidental == 1)
 				m_staves[st]->setNote(no, *m_staves[st]->getNote(no));
+		}
+	}
+}
+
+
+void TmainScore::showNamesSlot() {
+	for (int st = 0; st < m_staves.size(); st++) {
+		for (int no = 0; no < m_staves[st]->count(); no++) {
+			if (scoreController()->showNamesEnabled())
+				m_staves[st]->noteSegment(no)->showNoteName();
+			else
+				m_staves[st]->noteSegment(no)->removeNoteName();
 		}
 	}		
 }
@@ -682,9 +684,11 @@ void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
 // 		qDebug() << "selected note moved forward";
 		m_currentIndex++;
 	}
-	m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
+	if (scoreController()->showNamesEnabled())
+			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
 }
+
 
 void TmainScore::noteRemovingSlot(int staffNr, int noteToDel) {
 	if (staffNr * staff()->maxNoteCount() + noteToDel == m_currentIndex) {
@@ -765,10 +769,9 @@ void TmainScore::navigateScoreSlot() {
 			emit noteWasChanged(m_currentIndex % staff()->maxNoteCount(), 
 												*currentStaff()->getNote(m_currentIndex % staff()->maxNoteCount()));
 			if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
-				score()->centerOn(score()->mapFromScene(currentStaff()->mapToScene(currentStaff()->pos())));
+				score()->ensureVisible(currentStaff(), 0, 0);
 	}
 }
-
 
 /*
 void TmainScore::strikeBlinkingFinished() {
@@ -888,30 +891,31 @@ void TmainScore::createActions() {
 	scoreController()->hide();
 	layout()->removeWidget(scoreController());
 	if (gl->SkeySignatureEnabled)
-			scoreController()->addExtraAccidButton();
+			scoreController()->addExtraButtons();
 	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
+	connect(scoreController(), SIGNAL(showNamesChanged()), this, SLOT(showNamesSlot()));
 	
 	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
 	accidCorner->setSpotColor(palette().highlight().color());
 	
 	m_settBar = new QToolBar();
 	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
-		m_outZoomAct->setStatusTip(tr("Zoom a score out"));
+		m_outZoomAct->setStatusTip(tr("Zoom score out"));
 		connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
 	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
-		m_inZoomAct->setStatusTip(tr("Zoom a score in"));
+		m_inZoomAct->setStatusTip(tr("Zoom score in"));
 		connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
 	m_firstNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward)), "", m_settBar);
-		m_firstNoteAct->setStatusTip(tr("Go to first note"));
+		m_firstNoteAct->setStatusTip(tr("Go to the first note"));
 		connect(m_firstNoteAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
 	m_selectPrevAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward)), "", m_settBar);
-		m_selectPrevAct->setStatusTip(tr("Go to previous note"));
+		m_selectPrevAct->setStatusTip(tr("Go to the previous note"));
 		connect(m_selectPrevAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
 	m_selectNextAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekForward)), "", m_settBar);
-		m_selectNextAct->setStatusTip(tr("Go to next note"));
+		m_selectNextAct->setStatusTip(tr("Go to the next note"));
 		connect(m_selectNextAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
 	m_lastNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipForward)), "", m_settBar);
-		m_lastNoteAct->setStatusTip(tr("Go to last note"));
+		m_lastNoteAct->setStatusTip(tr("Go to the last note"));
 		connect(m_lastNoteAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
 	m_settBar->addAction(m_outZoomAct);
 	m_settBar->addAction(m_inZoomAct);
@@ -988,6 +992,8 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
   if (insertMode() == e_record && noteIndex == sendStaff->count() - 1 && noteIndex != sendStaff->maxNoteCount() - 1) {
       Tnote nn(0, 0, 0);
 			sendStaff->addNote(nn);
+			if (scoreController()->showNamesEnabled())
+				sendStaff->noteSegment(sendStaff->count() - 1)->showNoteName();
   }
 }
 
@@ -995,7 +1001,7 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
 void TmainScore::adjustStaffWidth(TscoreStaff* st) {
 	int scrollOff = score()->verticalScrollBar()->isVisible() ? score()->verticalScrollBar()->width() : 0;
 	st->setViewWidth((score()->width() - 20 - scrollOff) / score()->transform().m11());
-// 	st->setViewWidth((score()->rect().width()) / score()->transform().m11());
+// 	st->setViewWidth((score()->rect().width() - scrollOff) / score()->transform().m11());
 }
 
 
@@ -1048,7 +1054,8 @@ void TmainScore::addStaff(TscoreStaff* st) {
 			st->disconnect(SIGNAL(clefChanged(Tclef)));
 			m_staves << st;
 	}
-	m_staves.last()->noteSegment(0)->showNoteName();
+	if (scoreController()->showNamesEnabled())
+			m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	m_staves.last()->setControlledNotes(true);
 	m_staves.last()->setExtraAccids(scoreController()->extraAccidsEnabled());
