@@ -150,6 +150,7 @@ protected slots:
 		void showNameMenu(TscoreNote* sn);
 		void menuChangedNote(Tnote n);
 		void extraAccidsSlot();
+		void showNamesSlot();
 		void navigateScoreSlot();
 		
 private:

@@ -45,16 +45,21 @@ public slots:
 				/** Checks or unchecks appropriate button. */
     void setAccidental(int accNr);
 		
-				/** Adds button which controls extra accidentals. 
+				/** Adds buttons: 
+				 * - one to control extra accidentals. 
+				 * - one to control names of score notes
 				 * It only manages its layout but doesn't preform any changes in a score.
-				 * @p extraAccidsChanged signal is emitting after click - this is way you can handle it. */
-		void addExtraAccidButton();
+				 * @p extraAccidsChanged and @p showNamesChanged() signals are emitting after click 
+				 * - this is way you can handle it. */
+		void addExtraButtons();
 		
 				/** Extra accid button is deleted. */
-		void removeExtraAccidButton();
+		void removeExtraButtons();
 		
-				/** Returns true only when extra button exist and it is checked */
+				/** Returns true only when extra accidentals button exist and it is checked */
 		bool extraAccidsEnabled();
+		
+		bool showNamesEnabled();
 		
 		
 				/** Sets size of buttons font */
@@ -64,15 +69,18 @@ public slots:
 signals:
 		void accidButtonPressed(int accid);
 		void extraAccidsChanged();
+		void showNamesChanged();
 		
 		
 protected slots:
 		void onAcidButtonPressed();
-		void onExtraButtonPressed();
+		void onExtraAccidsButtonPressed();
+		void onNameButtonPressed();
     
 
 private:
-    TpushButton 								*m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut, *m_extraButt;
+    TpushButton 								*m_sharpBut, *m_flatBut, *m_dblSharpBut, *m_dblFlatBut; 
+		TpushButton 								*m_accidsButt, *m_namesButt;
 		qreal												m_fontSize;
 		QList<TpushButton*>					m_buttons; /** Keeps pointers for all buttons */
 		QVBoxLayout 								*m_butLay;

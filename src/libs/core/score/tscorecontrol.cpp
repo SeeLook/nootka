@@ -21,9 +21,10 @@
 #include <widgets/tpushbutton.h>
 #include <QVBoxLayout>
 
+
 TscoreControl::TscoreControl(QWidget* parent):
   QWidget(parent),
-  m_extraButt(0)
+  m_accidsButt(0), m_namesButt(0)
 {    
 		setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_dblSharpBut = new TpushButton("x", this);
@@ -44,6 +45,7 @@ TscoreControl::TscoreControl(QWidget* parent):
     m_butLay->addWidget(m_flatBut);
     m_butLay->addWidget(m_dblFlatBut);
     m_butLay->addStretch(1);
+		m_butLay->setContentsMargins(2, 2, 2, 2);
     setLayout(m_butLay);
 		
 		connect(m_dblFlatBut, SIGNAL(clicked()), this, SLOT(onAcidButtonPressed()));
@@ -87,29 +89,46 @@ void TscoreControl::enableDoubleAccidentals(bool isEnabled) {
 
 
 bool TscoreControl::extraAccidsEnabled() {
-	if (m_extraButt && m_extraButt->isChecked())
+	if (m_accidsButt && m_accidsButt->isChecked())
 		return true;
 	else
 		return false;
 }
 
 
-void TscoreControl::addExtraAccidButton() {
-	if (m_extraButt)
-			return;
-	m_extraButt = new TpushButton("$", this); // (#)
-	m_extraButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
-	m_butLay->addSpacing(12);
-	m_butLay->addWidget(m_extraButt);
-	m_buttons << m_extraButt;
-	setFontSize(m_fontSize);
-	connect(m_extraButt, SIGNAL(clicked()), this, SLOT(onExtraButtonPressed()));
+bool TscoreControl::showNamesEnabled() {
+	if (m_namesButt && m_namesButt->isChecked())
+		return true;
+	else
+		return false;
 }
 
 
-void TscoreControl::removeExtraAccidButton() {
-	delete m_extraButt;
-	m_extraButt = 0;
+void TscoreControl::addExtraButtons() {
+	if (m_accidsButt)
+			return;
+	m_accidsButt = new TpushButton("$", this); // (#)
+		m_accidsButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
+// 		m_accidsButt->setCheckColor(Qt::darkYellow);
+	m_namesButt = new TpushButton("c", this);
+		m_namesButt->setStatusTip(tr("Shows names of all notes on the score"));
+// 		m_namesButt->setCheckColor(Qt::darkCyan);
+	m_butLay->addSpacing(12);
+	m_butLay->addWidget(m_accidsButt);
+	m_butLay->addWidget(m_namesButt);
+	m_buttons << m_accidsButt << m_namesButt;
+	setFontSize(m_fontSize);
+	connect(m_accidsButt, SIGNAL(clicked()), this, SLOT(onExtraAccidsButtonPressed()));
+	connect(m_namesButt, SIGNAL(clicked()), this, SLOT(onNameButtonPressed()));
+}
+
+
+void TscoreControl::removeExtraButtons() {
+	delete m_accidsButt;
+	m_accidsButt = 0;
+	delete m_namesButt;
+	m_namesButt = 0;
+	m_buttons.removeLast();
 	m_buttons.removeLast();
 }
 
@@ -168,9 +187,15 @@ void TscoreControl::onAcidButtonPressed() {
 }
 
 
-void TscoreControl::onExtraButtonPressed() {
-	m_extraButt->setChecked(!m_extraButt->isChecked());
+void TscoreControl::onExtraAccidsButtonPressed() {
+	m_accidsButt->setChecked(!m_accidsButt->isChecked());
 	emit extraAccidsChanged();
+}
+
+
+void TscoreControl::onNameButtonPressed() {
+	m_namesButt->setChecked(!m_namesButt->isChecked());
+	emit showNamesChanged();
 }
 
 
