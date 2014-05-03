@@ -150,6 +150,7 @@ protected slots:
 		void showNameMenu(TscoreNote* sn);
 		void menuChangedNote(Tnote n);
 		void extraAccidsSlot();
+		void navigateScoreSlot();
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
@@ -164,10 +165,12 @@ private:
 				 * Sets staff number corresponding to its index in the m_staves list,
 				 * connects the staff with TmainScore slots */
 		void addStaff(TscoreStaff* st = 0);
+		void deleteLastStaff();
 		void updateSceneRect(); /** Adjusts score scene to space required by staff(staves) */
 		void adjustStaffWidth(TscoreStaff *st); /** Calls TscoreStaff::setViewWidth with score width  */
 		void changeCurrentIndex(int newIndex);
 		void setBarsIconSize();
+		void createActions();
 
 private:
 		QList<TscoreStaff*>					 m_staves; // list of staves in page view
@@ -184,6 +187,7 @@ private:
 		EinMode											 m_inMode;
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		QAction											*m_inZoomAct, *m_outZoomAct;
+		QAction											*m_selectNextAct, *m_selectPrevAct, *m_firstNoteAct ,*m_lastNoteAct;
 		QAction											*m_clearAct;
 				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 		int													 m_clickedOff, m_currentIndex;
