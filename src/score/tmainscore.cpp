@@ -62,39 +62,40 @@ TmainScore::TmainScore(QWidget* parent) :
 // set preferred clef
 	setClef(gl->Sclef);
 	
-	scoreController()->setParent(0);
-	scoreController()->hide();
-	layout()->removeWidget(scoreController());
-	if (gl->SkeySignatureEnabled)
-			scoreController()->addExtraAccidButton();
-	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
-	
-	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
-	
-	m_settBar = new QToolBar();
-	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
-	m_outZoomAct->setStatusTip(tr("Zoom a score out"));
-	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
-	m_inZoomAct->setStatusTip(tr("Zoom a score in"));
-	m_settBar->addAction(m_outZoomAct);
-	m_settBar->addAction(m_inZoomAct);
-	connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-	connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
-	
-	m_clearBar = new QToolBar();
-	m_clearAct = new QAction(QIcon(gl->path + "picts/clear-score.png"), "", m_clearBar);
-	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
-	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
-	m_clearBar->addAction(m_clearAct);
-	TcornerProxy *delCorner = new TcornerProxy(scene(), m_clearBar, Qt::BottomLeftCorner);
-	delCorner->setSpotColor(Qt::red);
-	
-	m_rhythmBar = new QToolBar();
-	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
-	m_rhythmBar->addWidget(rl);
-	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
-	rhythmCorner->setSpotColor(Qt::yellow);
+	createActions();
+// 	scoreController()->setParent(0);
+// 	scoreController()->hide();
+// 	layout()->removeWidget(scoreController());
+// 	if (gl->SkeySignatureEnabled)
+// 			scoreController()->addExtraAccidButton();
+// 	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
+// 	
+// 	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
+// 	
+// 	m_settBar = new QToolBar();
+// 	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
+// 	m_outZoomAct->setStatusTip(tr("Zoom a score out"));
+// 	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
+// 	m_inZoomAct->setStatusTip(tr("Zoom a score in"));
+// 	m_settBar->addAction(m_outZoomAct);
+// 	m_settBar->addAction(m_inZoomAct);
+// 	connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
+// 	connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
+// 	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
+// 	
+// 	m_clearBar = new QToolBar();
+// 	m_clearAct = new QAction(QIcon(gl->path + "picts/clear-score.png"), "", m_clearBar);
+// 	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
+// 	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
+// 	m_clearBar->addAction(m_clearAct);
+// 	TcornerProxy *delCorner = new TcornerProxy(scene(), m_clearBar, Qt::BottomLeftCorner);
+// 	delCorner->setSpotColor(Qt::red);
+// 	
+// 	m_rhythmBar = new QToolBar();
+// 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
+// 	m_rhythmBar->addWidget(rl);
+// 	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
+// 	rhythmCorner->setSpotColor(Qt::yellow);
 	
 	m_noteName << 0 << 0;
 // set note colors
@@ -735,8 +736,7 @@ void TmainScore::deleteNotes() {
 	m_currentIndex = 0;
 	m_clickedOff = 0;
 	while (m_staves.size() > 1) {
-		delete m_staves.last();
-		m_staves.removeLast();
+		deleteLastStaff();
 	}
 	if (staff()->count() > 1) {
 		QList<TscoreNote*> notesToDel;
@@ -745,6 +745,28 @@ void TmainScore::deleteNotes() {
 			delete notesToDel[i];
 	}
 	updateSceneRect();
+}
+
+
+void TmainScore::navigateScoreSlot() {
+	int prevIndex = m_currentIndex;
+	if (sender() == m_firstNoteAct) {
+		changeCurrentIndex(0);
+	} else if (sender() == m_lastNoteAct) {
+		changeCurrentIndex((m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1);
+	} else if (sender() == m_selectPrevAct) {
+		if (m_currentIndex > 0)
+			changeCurrentIndex(m_currentIndex - 1);
+	} else if (sender() == m_selectNextAct) {
+		if (m_currentIndex < (m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1)
+			changeCurrentIndex(m_currentIndex + 1);
+	}
+	if (prevIndex != m_currentIndex) {
+			emit noteWasChanged(m_currentIndex % staff()->maxNoteCount(), 
+												*currentStaff()->getNote(m_currentIndex % staff()->maxNoteCount()));
+			if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
+				score()->centerOn(score()->mapFromScene(currentStaff()->mapToScene(currentStaff()->pos())));
+	}
 }
 
 
@@ -824,9 +846,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 			} else if (stavesNumber < m_staves.size()) { // or delete unnecessary staves
 					int stavesToDel = m_staves.size() - stavesNumber;
 					for (int s = 0; s < stavesToDel; s++) {
-						delete m_staves.last();
-						m_staves.removeLast();
-						qDebug() << "staff deleted";
+						deleteLastStaff();
 					}
 			}
 		}
@@ -862,6 +882,61 @@ void TmainScore::performScordatureSet() {
 //####################################################################################################
 //########################################## PRIVATE #################################################
 //####################################################################################################
+
+void TmainScore::createActions() {
+	scoreController()->setParent(0);
+	scoreController()->hide();
+	layout()->removeWidget(scoreController());
+	if (gl->SkeySignatureEnabled)
+			scoreController()->addExtraAccidButton();
+	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
+	
+	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
+	accidCorner->setSpotColor(palette().highlight().color());
+	
+	m_settBar = new QToolBar();
+	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
+		m_outZoomAct->setStatusTip(tr("Zoom a score out"));
+		connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
+	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
+		m_inZoomAct->setStatusTip(tr("Zoom a score in"));
+		connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
+	m_firstNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward)), "", m_settBar);
+		m_firstNoteAct->setStatusTip(tr("Go to first note"));
+		connect(m_firstNoteAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+	m_selectPrevAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward)), "", m_settBar);
+		m_selectPrevAct->setStatusTip(tr("Go to previous note"));
+		connect(m_selectPrevAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+	m_selectNextAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekForward)), "", m_settBar);
+		m_selectNextAct->setStatusTip(tr("Go to next note"));
+		connect(m_selectNextAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+	m_lastNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipForward)), "", m_settBar);
+		m_lastNoteAct->setStatusTip(tr("Go to last note"));
+		connect(m_lastNoteAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+	m_settBar->addAction(m_outZoomAct);
+	m_settBar->addAction(m_inZoomAct);
+	m_settBar->addAction(m_firstNoteAct);
+	m_settBar->addAction(m_selectPrevAct);
+	m_settBar->addAction(m_selectNextAct);
+	m_settBar->addAction(m_lastNoteAct);	
+	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
+	
+	m_clearBar = new QToolBar();
+	m_clearAct = new QAction(QIcon(gl->path + "picts/clear-score.png"), "", m_clearBar);
+	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
+	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
+	m_clearBar->addAction(m_clearAct);
+	TcornerProxy *delCorner = new TcornerProxy(scene(), m_clearBar, Qt::BottomLeftCorner);
+	delCorner->setSpotColor(Qt::red);
+	
+	m_rhythmBar = new QToolBar();
+	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
+	m_rhythmBar->addWidget(rl);
+	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
+	rhythmCorner->setSpotColor(Qt::yellow);
+}
+
+
 
 void TmainScore::restoreNotesSettings() {
 // 		if (gl->enharmNotesColor == -1)
@@ -989,6 +1064,13 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	if (m_staves.last()->scoreKey())
 		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 	qDebug() << "staff Added";
+}
+
+
+void TmainScore::deleteLastStaff() {
+	delete m_staves.last();
+	m_staves.removeLast();
+	qDebug() << "staff deleted";
 }
 
 
