@@ -140,6 +140,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
 	insert(index);
 	setNote(index, note);
+	m_scoreNotes[index]->setZValue(50);
 	setNoteDisabled(index, disabled);
 	emit noteIsAdding(number(), index);
 	if (maxNoteCount()) {

@@ -1,7 +1,6 @@
 TODO List
 
 
-- move refreshing extra accidentals to staff - avoid signaling
 - after deleting clef menu work note lines doesn't change current TscoreNote parent - use moveWorkNote() for it
 - TscoreNote make methods related to lines static
 - (guitar) check question mark scaling for left-handed (TODO)
@@ -16,7 +15,8 @@ level executable
 analyzer executable
 - note pixmap works wrongly
 
-- check setAmbitus of TsimpleScore - is it working with properly piano staff
+
+- check setAmbitus of TsimpleScore - is it working properly with piano staff
 
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so

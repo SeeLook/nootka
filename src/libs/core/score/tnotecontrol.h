@@ -57,12 +57,14 @@ protected:
 	
 protected slots:
 	void hideDelayed();
+	void hoverEnterDelayed(); /** To avoid blinking with status tip when mouse is flying over score */
 		
 private:
 		TscoreNote											*m_scoreNote;
 		qreal						 								 m_height;
-		bool						 								 m_hasMouse;
-		QGraphicsSimpleTextItem					*m_plus, *m_minus, *m_name;
+		bool						 								 m_hasMouse, m_entered;
+		QGraphicsSimpleTextItem					*m_plus, *m_name;
+		QGraphicsLineItem								*m_minus;
 };
 
 #endif // TNOTECONTROL_H

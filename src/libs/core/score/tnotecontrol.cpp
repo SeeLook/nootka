@@ -28,51 +28,52 @@
 #include <QApplication>
 #include <QGraphicsSceneHoverEvent>
 
-#include <QDebug>
+// #include <QDebug>
 
 
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
 	m_scoreNote(0),
-	m_hasMouse(false)	
+	m_hasMouse(false), m_entered(false)
 {
 	setStaff(staff);
 	setParentItem(staff);
-	m_height = staff->height();
-	hide();
-	setStatusTip(tr("Click <big><b>+</b></big> to add new note or<br><big><b>-</b></big> remove it."));
 	setZValue(60);
-// 	painter->setPen(Qt::NoPen);
-// 	QColor bc = qApp->palette().text().color();
-// 	bc.setAlpha(20);
+// 	m_height = staff->height();
+	hide();
+	setStatusTip(tr("Click <big><b>+</b></big> to add new note or <big><b>-</b></big> to remove it.<br>Click %1 to edit note name").arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, "color: #008080"))); // #008080 - dark Cyan
+	
+// '+' for adding notes
 	m_plus = new QGraphicsSimpleTextItem("+");
 	m_plus->setParentItem(this);
 	m_plus->setScale(boundingRect().width() / m_plus->boundingRect().width());
 	m_plus->setBrush(QBrush(Qt::green));
-	m_plus->setPos(0.0, 0.2);
-	m_minus = new QGraphicsSimpleTextItem("-");
-	m_minus->setParentItem(this);
-	m_minus->setScale(boundingRect().width() / m_minus->boundingRect().width());
-	m_minus->setBrush(QBrush(Qt::red));
-	m_minus->setPos(0.0, m_height - 6.0);
+// 'name' glyph for editing note throught its name
 	m_name = new QGraphicsSimpleTextItem("c");
 	m_name->setFont(TnooFont());
 	m_name->setParentItem(this);
 	m_name->setScale(boundingRect().width() / m_name->boundingRect().width());
 	m_name->setBrush(Qt::darkCyan);
-	m_name->setPos(0.0, 4.0);
+// '-' for deleting notes
+	m_minus = new QGraphicsLineItem();
+	m_minus->setParentItem(this);
+	m_minus->setPen(QPen(Qt::red, 0.5));
+	adjustSize();
 }
 
 
 TnoteControl::~TnoteControl()
 {
-	qDebug() << "\nTnoteControl was deleted\n";
+// 	qDebug() << "\nTnoteControl was deleted\n";
 }
 
 
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
-	m_minus->setPos(0.0, m_height - 6.0);
+	m_plus->setPos(0.0, staff()->upperLinePos() - 5.0);
+	m_name->setPos(0.0, m_plus->pos().y() + m_name->boundingRect().height() * m_name->scale());
+	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 11.0;
+	m_minus->setLine(0.75, minusY, 2.25, minusY);
 }
 
 
@@ -88,11 +89,14 @@ QRectF TnoteControl::boundingRect() const {
 
 
 void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-	painter->setPen(Qt::NoPen);
-	QColor bc = qApp->palette().text().color();
-	bc.setAlpha(15);
-	painter->setBrush(QBrush(bc));
-	painter->drawRect(boundingRect());
+	if (parentItem()) {
+			painter->setPen(Qt::NoPen);
+			QColor bc = Qt::lightGray;
+			bc.setAlpha(220);
+			painter->setBrush(QBrush(bc));
+			qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 16.0;
+			painter->drawRoundedRect(0.0, staff()->upperLinePos() - 4.0, 3.0, lowest - staff()->upperLinePos(), 0.75, 0.75);
+	}
 }
 
 
@@ -129,30 +133,40 @@ void TnoteControl::hideDelayed() {
 }
 
 
+void TnoteControl::hoverEnterDelayed() {
+	if (m_hasMouse) {
+		TscoreItem::hoverEnterEvent(0);
+		m_entered = true;
+	}
+}
+
+
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+	QTimer::singleShot(200, this, SLOT(hoverEnterDelayed()));
 	m_hasMouse = true;
-	TscoreItem::hoverEnterEvent(event);
 }
 
 
 void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 	m_hasMouse = false;
 	hide();
-	TscoreItem::hoverLeaveEvent(event);
+	if (m_entered)
+		TscoreItem::hoverLeaveEvent(event);
+	m_entered = false;
 }
 
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (event->pos().y() < 4.0) { // add a note
+	if (event->pos().y() < m_name->pos().y()) { // add a note
 		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
 				staff()->insertNote(m_scoreNote->index() + 1);
 		} else { // left control - preppend a note
 				staff()->insertNote(m_scoreNote->index() - 1);
 		}
-	} else if (event->pos().y() < 8.0) { // edit note name
+	} else if (event->pos().y() < staff()->upperLinePos() + 2.0) { // edit note name
 			hoverLeaveEvent(0);
 			emit nameMenu(m_scoreNote);
-	} else if (m_minus->isVisible() && event->pos().y() > staff()->height() - 7.0) {
+	} else if (m_minus->isVisible() && event->pos().y() > m_minus->line().y1() - 1.0) {
 			staff()->removeNote(m_scoreNote->index());
 			hoverLeaveEvent(0);
 	}
