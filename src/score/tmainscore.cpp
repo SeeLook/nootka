@@ -63,39 +63,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	setClef(gl->Sclef);
 	
 	createActions();
-// 	scoreController()->setParent(0);
-// 	scoreController()->hide();
-// 	layout()->removeWidget(scoreController());
-// 	if (gl->SkeySignatureEnabled)
-// 			scoreController()->addExtraAccidButton();
-// 	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
-// 	
-// 	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
-// 	
-// 	m_settBar = new QToolBar();
-// 	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
-// 	m_outZoomAct->setStatusTip(tr("Zoom a score out"));
-// 	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
-// 	m_inZoomAct->setStatusTip(tr("Zoom a score in"));
-// 	m_settBar->addAction(m_outZoomAct);
-// 	m_settBar->addAction(m_inZoomAct);
-// 	connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-// 	connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-// 	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
-// 	
-// 	m_clearBar = new QToolBar();
-// 	m_clearAct = new QAction(QIcon(gl->path + "picts/clear-score.png"), "", m_clearBar);
-// 	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
-// 	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
-// 	m_clearBar->addAction(m_clearAct);
-// 	TcornerProxy *delCorner = new TcornerProxy(scene(), m_clearBar, Qt::BottomLeftCorner);
-// 	delCorner->setSpotColor(Qt::red);
-// 	
-// 	m_rhythmBar = new QToolBar();
-// 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
-// 	m_rhythmBar->addWidget(rl);
-// 	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
-// 	rhythmCorner->setSpotColor(Qt::yellow);
+  layout()->setContentsMargins(2, 2, 2, 2);
 	
 	m_noteName << 0 << 0;
 // set note colors
@@ -1001,7 +969,7 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
 
 void TmainScore::adjustStaffWidth(TscoreStaff* st) {
 	int scrollOff = score()->verticalScrollBar()->isVisible() ? score()->verticalScrollBar()->width() : 0;
-	st->setViewWidth((score()->width() - 20 - scrollOff) / score()->transform().m11());
+	st->setViewWidth((score()->width() - 25 - scrollOff) / score()->transform().m11());
 // 	st->setViewWidth((score()->rect().width() - scrollOff) / score()->transform().m11());
 }
 
