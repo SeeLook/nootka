@@ -71,7 +71,7 @@ TnoteControl::~TnoteControl()
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
 	m_plus->setPos(0.0, staff()->upperLinePos() - 5.0);
-	m_name->setPos(0.0, m_plus->pos().y() + m_name->boundingRect().height() * m_name->scale());
+	m_name->setPos(0.0, m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale() - (m_name->boundingRect().height() / 2.5) * m_name->scale());
 	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 11.0;
 	m_minus->setLine(0.75, minusY, 2.25, minusY);
 }
