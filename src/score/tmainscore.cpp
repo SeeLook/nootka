@@ -212,6 +212,7 @@ void TmainScore::noteWasSelected(int index) {
 	m_clickedOff = 0;
 	TscoreStaff *st = SENDER_TO_STAFF;
 	changeCurrentIndex(index + st->number() * st->maxNoteCount());
+	emit noteWasChanged(index, *st->getNote(index));
 }
 
 
@@ -719,7 +720,6 @@ void TmainScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
 }
 
 
-
 void TmainScore::zoomScoreSlot() {
 	qreal newScale = m_scale;
 	if (sender() == m_outZoomAct) {
@@ -770,6 +770,7 @@ void TmainScore::navigateScoreSlot() {
 												*currentStaff()->getNote(m_currentIndex % staff()->maxNoteCount()));
 			if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
 				score()->ensureVisible(currentStaff(), 0, 0);
+			m_clickedOff = 0;
 	}
 }
 
