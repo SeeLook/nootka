@@ -56,6 +56,10 @@ TmainScore::TmainScore(QWidget* parent) :
   m_parent = parent;
 // 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+// #if defined (Q_OS_ANDROID)
+// 	score()->setAttribute(Qt::WA_AcceptTouchEvents);
+// #endif
+// 	score()->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 // 	score()->setFrameShape(QFrame::Box);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	addStaff(staff());
@@ -535,19 +539,21 @@ int m_nameClickCounter;
 void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
 			m_nameMenu = new TnoteName(parentWidget());
-			m_nameMenu->setNoteName(*sn->note());
-			m_currentNameSegment = sn;
-			changeCurrentIndex(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
+			connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
+			connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
       connect(m_nameMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(statusTipChanged(QString)));
-			QPoint mPos = score()->mapFromScene(sn->pos().x() + 8.0, 0.0);
-			mPos.setY(10);
-			mPos = score()->mapToGlobal(mPos);
-			m_clickedOff = 0;
-			m_nameClickCounter = 0;
-			m_nameMenu->exec(mPos, score()->transform().m11());
-			delete m_nameMenu;
 	}
+	m_nameMenu->setNoteName(*sn->note());
+	m_currentNameSegment = sn;
+	changeCurrentIndex(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
+	QPoint mPos = score()->mapFromScene(sn->pos().x() + 8.0, 0.0);
+	mPos.setY(10);
+	mPos = score()->mapToGlobal(mPos);
+	m_clickedOff = 0;
+	m_nameClickCounter = 0;
+	m_nameMenu->exec(mPos, score()->transform().m11());
+// 			delete m_nameMenu;
 }
 
 
@@ -720,18 +726,36 @@ void TmainScore::deleteNotes() {
 }
 
 
-void TmainScore::navigateScoreSlot() {
+void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 	int prevIndex = m_currentIndex;
-	if (sender() == m_firstNoteAct) {
-		changeCurrentIndex(0);
-	} else if (sender() == m_lastNoteAct) {
-		changeCurrentIndex((m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1);
-	} else if (sender() == m_selectPrevAct) {
-		if (m_currentIndex > 0)
-			changeCurrentIndex(m_currentIndex - 1);
-	} else if (sender() == m_selectNextAct) {
-		if (m_currentIndex < (m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1)
-			changeCurrentIndex(m_currentIndex + 1);
+	if (nDir == e_doNotMove) { // determine action by sender which invoked this slot
+			if (sender() == m_firstNoteAct)
+				nDir = e_first;
+			else if (sender() == m_lastNoteAct)
+				nDir = e_last;
+			else if (sender() == m_selectPrevAct)
+				nDir = e_prevNote;
+			else if (sender() == m_selectNextAct)
+				nDir = e_nextNote;
+	}
+	switch(nDir) {
+		case e_first:
+			changeCurrentIndex(0); break;
+		case e_last:
+			changeCurrentIndex((m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1);
+			break;
+		case e_prevNote: {
+			if (m_currentIndex > 0)
+					changeCurrentIndex(m_currentIndex - 1);
+			break;
+		}
+		case e_nextNote: {
+			if (m_currentIndex < (m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1)
+					changeCurrentIndex(m_currentIndex + 1);
+			break;
+		}
+		default: 
+			return;
 	}
 	if (prevIndex != m_currentIndex) {
 			emit noteWasChanged(m_currentIndex % staff()->maxNoteCount(), 
@@ -876,16 +900,16 @@ void TmainScore::createActions() {
 		connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
 	m_firstNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward)), "", m_settBar);
 		m_firstNoteAct->setStatusTip(tr("Go to the first note"));
-		connect(m_firstNoteAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+		connect(m_firstNoteAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
 	m_selectPrevAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward)), "", m_settBar);
 		m_selectPrevAct->setStatusTip(tr("Go to the previous note"));
-		connect(m_selectPrevAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+		connect(m_selectPrevAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
 	m_selectNextAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekForward)), "", m_settBar);
 		m_selectNextAct->setStatusTip(tr("Go to the next note"));
-		connect(m_selectNextAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+		connect(m_selectNextAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
 	m_lastNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipForward)), "", m_settBar);
 		m_lastNoteAct->setStatusTip(tr("Go to the last note"));
-		connect(m_lastNoteAct, SIGNAL(triggered()), this, SLOT(navigateScoreSlot()));
+		connect(m_lastNoteAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
 	m_settBar->addAction(m_outZoomAct);
 	m_settBar->addAction(m_inZoomAct);
 	m_settBar->addAction(m_firstNoteAct);
@@ -1007,6 +1031,16 @@ void TmainScore::setBarsIconSize() {
 	scoreController()->setFontSize(ss.width() * 0.8);
 	scoreController()->adjustSize();
 }
+
+
+void TmainScore::moveName(TmainScore::EmoveNote moveDir) {
+	int oldIndex = m_currentIndex;
+	moveSelectedNote(moveDir);
+	if (oldIndex != m_currentIndex) {
+		showNameMenu(currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount()));
+	}
+}
+
 
 
 void TmainScore::addStaff(TscoreStaff* st) {

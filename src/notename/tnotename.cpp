@@ -39,26 +39,41 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 //#######################################################################################################
 //#################################### PUBLIC ###########################################################
 //#######################################################################################################
-										
+								
+QWidget *m_menuParent;
 TnoteName::TnoteName(QWidget *parent) :
-    QWidget()
+    QWidget(parent),
+    m_menu(0)		
 {
-		m_menu = new QMenu(parent);
-		setParent(m_menu);
-		m_menu->setStyleSheet("background-color: palette(window)");
+// 		m_menu = new QMenu(parent);
+// 		setParent(m_menu);
+// 		m_menu->setStyleSheet("background-color: palette(window)");
+	m_menuParent = parent;
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
 // NAME LABEL
     QVBoxLayout *mainLay = new QVBoxLayout();
     mainLay->setAlignment(Qt::AlignCenter);
 
+		m_nextNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowRight)), "", this);
+		m_nextNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+		m_nextNoteButt->setStatusTip(tr("Go to next note"));
+		connect(m_nextNoteButt, SIGNAL(clicked()), this, SLOT(nextNoteSlot()));
+		m_prevNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowLeft)), "", this);
+		m_prevNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+		m_prevNoteButt->setStatusTip(tr("Go to previous note"));
+		connect(m_prevNoteButt, SIGNAL(clicked()), this, SLOT(prevNoteSlot()));
+		
     m_nameLabel = new TnoteNameLabel("", this);
 		m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
 
-
-    mainLay->addStretch(1);
-    mainLay->addWidget(m_nameLabel);
+		QHBoxLayout *nameLay = new QHBoxLayout;
+			nameLay->addWidget(m_prevNoteButt);
+			nameLay->addWidget(m_nameLabel);
+			nameLay->addWidget(m_nextNoteButt);
+    mainLay->addLayout(nameLay);
+		
 // BUTTONS WITH NOTES TOOLBAR
     QHBoxLayout *noteLay = new QHBoxLayout();
     noteLay->addStretch(1);
@@ -148,11 +163,22 @@ TnoteName::~TnoteName()
 	delete m_menu;
 }
 
+
 /** @p scoreFactor parameter is used in resizeEvent() method 
  * because TnoteName gets its size only after the menu invokes exec() */ 
 void TnoteName::exec(QPoint pos, qreal scoreFactor) {
 	m_scoreFactor = scoreFactor;
+	if (m_menu) {
+		setParent(0);
+		delete m_menu;
+	}
+	m_menu = new QMenu(m_menuParent);
+	setParent(m_menu);
+	m_menu->setStyleSheet("background-color: palette(window)");
+	if (pos.x() > qApp->desktop()->availableGeometry().width() / 2)
+			pos.setX(pos.x() - width() - 8.5 * m_scoreFactor);	
 	m_menu->exec(pos);
+		
 }
 
 
@@ -457,6 +483,8 @@ char TnoteName::getSelectedAccid() {
 
 
 void TnoteName::resizeEvent(QResizeEvent* ) {
+	if (!m_menu)
+		return;
 	m_menu->resize(size());
 	if (m_menu->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
 				m_menu->move(m_menu->pos().x() - width() - 8.5 * m_scoreFactor, m_menu->pos().y());

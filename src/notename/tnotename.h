@@ -89,6 +89,8 @@ signals:
     void noteNameWasChanged(Tnote note);
     void noteButtonClicked();
     void statusTipRequired(QString status);
+		void nextNote();
+		void prevNote();
 		
 
 protected:
@@ -101,15 +103,16 @@ private:
     TpushButton 					*m_octaveButtons[8];
     TpushButton 					*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
     QButtonGroup 					*m_noteGroup, *m_octaveGroup;
-    int 									m_prevOctButton; /** Keeps index of previous selected octave button, none if -1 */
-    static 								Tnote::EnameStyle m_style;
+		QPushButton						*m_nextNoteButt, *m_prevNoteButt;
+    int 								 	 m_prevOctButton; /** Keeps index of previous selected octave button, none if -1 */
+    static 								 Tnote::EnameStyle m_style;
 
-    TnotesList 						m_notes;
-    short 								m_ambitMin, m_ambitMax;
-		Tnote 								m_goodNote;
-		int 									m_blinkingPhase;
+    TnotesList 						 m_notes;
+    short 								 m_ambitMin, m_ambitMax;
+		Tnote 								 m_goodNote;
+		int 									 m_blinkingPhase;
 		QMenu									*m_menu;
-		qreal									m_scoreFactor; //* Size coefficient of a score displaying this note name (menu) */
+		qreal									 m_scoreFactor; /** Size coefficient of a score displaying this note name (menu) */
     
 private:
     void setNoteName(char noteNr, char octNr, char accNr);
@@ -133,6 +136,8 @@ private slots:
     void octaveWasChanged(int octNr);
     void correctAnimationFinished();
     void invokeBlinkingAgain();
+		void prevNoteSlot() { emit prevNote(); }
+		void nextNoteSlot() { emit nextNote(); }
        
 
 };

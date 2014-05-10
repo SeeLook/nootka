@@ -67,6 +67,10 @@ public:
 		EinMode insertMode() { return m_inMode; }
 		void setInsertMode(EinMode mode);
 		
+				/** Describes moving of selected note */
+		enum EmoveNote {
+			e_nextNote, e_prevNote, e_nextStaff, e_prevStaff, e_last, e_first, e_doNotMove
+		};		
 
 //     void askQuestion(Tnote note, char realStr = 0);
 //     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
@@ -151,7 +155,9 @@ protected slots:
 		void menuChangedNote(Tnote n);
 		void extraAccidsSlot();
 		void showNamesSlot();
-		void navigateScoreSlot();
+		void moveSelectedNote(EmoveNote nDir = e_doNotMove);
+		void moveNameForward() { moveName(e_nextNote); }
+		void moveNameBack() { moveName(e_prevNote); }
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
@@ -172,6 +178,7 @@ private:
 		void changeCurrentIndex(int newIndex);
 		void setBarsIconSize();
 		void createActions();
+		void moveName(EmoveNote moveDir);
 
 private:
 		QList<TscoreStaff*>					 m_staves; // list of staves in page view

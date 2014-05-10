@@ -48,8 +48,7 @@ QPixmap getNotePixmap(Tnote note, Tclef::Etype clef, TkeySignature key, qreal fa
 		if (note.note == 0) // no note in preview
 					notesCount = 0;
 		TscoreStaff *staff =	new TscoreStaff(scene, notesCount);
-		staff->onClefChanged(clef);
-// 		}
+		staff->onClefChanged(Tclef(clef));
 		if (key.value()) {
 				staff->setEnableKeySign(true);
 				staff->scoreKey()->setKeySignature(key.value());

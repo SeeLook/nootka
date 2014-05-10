@@ -26,6 +26,8 @@
 #include <QTranslator>
 #include <QLibraryInfo>
 #include <QFontDatabase>
+#include <QDebug>
+
 
 Tglobals* Tglob::m_gl = 0;
 QTranslator qtTranslator;
@@ -69,7 +71,7 @@ bool loadNootkaFont(QApplication* a) {
 	QFontDatabase fd;
 	int fid = fd.addApplicationFont(Tglob::glob()->path + "fonts/nootka.ttf");
 	if (fid == -1) {
-			QMessageBox::critical(0, "", QCoreApplication::translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
+            QMessageBox::critical(0, "", a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
 			return false;
 	} else
 			return true;
