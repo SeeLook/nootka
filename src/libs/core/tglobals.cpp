@@ -36,12 +36,14 @@ QString tmpConfigFile() {
 QString Tglobals::getInstPath(QString appInstPath) {
     QString p = "";
     QDir d = QDir(appInstPath);
-#if defined(Q_OS_WIN32)
+#if defined (Q_OS_WIN)
 		p = d.path() + "/"; 				//	Windows
-  #elif defined(Q_OS_LINUX)
+  #elif defined (Q_OS_ANDROID)
+        p = ":/";
+  #elif defined (Q_OS_LINUX)
 		  d.cdUp();
 		  p = d.path() + "/share/nootka/"; 	// Linux
-  #else
+  #elif defined (Q_OS_MAC)
       d.cdUp();
       p = d.path() + "/Resources/"; 		// MacOs
 #endif

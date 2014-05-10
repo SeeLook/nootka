@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
 //                               QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 // #endif
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
 #else
     setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
@@ -80,6 +80,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setMinimumSize(720, 480);
 		gl->config->beginGroup("General");
     setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+		
+// 		setAttribute(Qt::WA_AcceptTouchEvents);
     
 //     if (gl->isFirstRun) {
 //         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
@@ -123,8 +125,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
-    
-		QColor C(palette().text().color());
+#if defined (Q_OS_ANDROID)
+    m_statLab->hide();
+		nootBar->hide();
+#endif
+//		QColor C(palette().text().color());
 // #if defined (Q_OS_WIN)
 // 		C.setAlpha(20);
 // #else
@@ -614,6 +619,17 @@ void MainWindow::adjustAmbitus() {
 //##########################################################################################
 
 bool MainWindow::event(QEvent *event) {
+// 		switch (event->type()) {
+// 			case QEvent::TouchBegin:
+// 			case QEvent::TouchUpdate:
+// 			case QEvent::TouchEnd: {
+// 				QList<QTouchEvent::TouchPoint> touchPoints = static_cast<QTouchEvent *>(event)->touchPoints();
+// 				foreach (const QTouchEvent::TouchPoint &touchPoint, touchPoints)  {
+// 					qDebug() << touchPoint.pressure();
+// 				}
+// 			}
+// 		}
+#if !defined (Q_OS_ANDROID)
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
         if (se->tip() == "") {
@@ -629,6 +645,7 @@ bool MainWindow::event(QEvent *event) {
 //       if (ex && (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)) {
 //         ex->event(event);
 //       }
+#endif
     return QMainWindow::event(event);
 }
 
@@ -716,6 +733,7 @@ void MainWindow::updateSize(QSize newS) {
 
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
+    Q_UNUSED(event)
 	updateSize(innerWidget->size());
 // 	emit sizeChanged(innerWidget->size());
 //   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));

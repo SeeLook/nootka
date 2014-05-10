@@ -586,6 +586,7 @@ void TscoreStaff::updateIndex() {
 
 
 void TscoreStaff::updateWidth() {
+	qDebug() << "updateWidth";
 	qreal off = 0.0, oldWidth = m_width;
 	if (m_keySignature)
 			off = KEY_WIDTH + 1.5;
@@ -602,12 +603,12 @@ void TscoreStaff::updateWidth() {
 	
 	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
-	if (oldWidth != m_width)
+// 	if (oldWidth != m_width)
 		for (int i = 0; i < 5; i++) { // adjust staff lines length when changed
 			m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 1.0, upperLinePos() + i * 2);
 			if (isPianoStaff())
 				m_lowLines[i]->setLine(1, lowerLinePos() + i * 2, width() - 1.0, lowerLinePos() + i * 2);
-	}
+		}
 }
 
 

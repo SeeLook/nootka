@@ -26,7 +26,12 @@ TscoreItem::TscoreItem(TscoreScene* scene) :
   m_staff(0)
 {
   m_scene->addItem(this);
+#if defined (Q_OS_ANDROID)
+	setAcceptTouchEvents(true);	
+#else
   setAcceptHoverEvents(true);
+#endif
+
 }
 
 void TscoreItem::setStatusTip(QString status) {

@@ -32,7 +32,7 @@
 #include <QApplication>
 #include <QPalette>
 #include <QTimer>
-#include <qtimeline.h>
+#include <QTouchEvent>
 
 #include <QDebug>
 
@@ -100,6 +100,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_noteAnim(0), m_accidToKeyAnim(false),
   m_selected(false)
 {
+	setAcceptTouchEvents(true);
+// 	setAcceptHoverEvents(false);
   setStaff(staff);
 	setParentItem(staff);
   m_height = staff->height();
@@ -421,6 +423,18 @@ void TscoreNote::keyAnimFinished() {
 //#################################################################################################
 //########################################## PROTECTED   ##########################################
 //#################################################################################################
+#if defined (Q_OS_ANDROID)
+bool TscoreNote::sceneEvent(QEvent* ev) {
+// 	QInputEvent* ie = dynamic_cast<QInputEvent*>(ev);
+// 	
+// 	if (ie && (ie->type() == QEvent::TouchBegin || ie->type() == QEvent::TouchUpdate || ie->type() == QEvent::TouchEnd)) {
+// 		QTouchEvent *te = static_cast<QTouchEvent*>(ev);
+// 		for (int i = 0; i < te->touchPoints().size(); i++)
+// 			qDebug() << te->touchPoints()[i].pos() << te->touchPoints()[i].pressure() << te->touchPoints()[i].velocity();
+// 	}
+	return QGraphicsObject::event(ev);
+}
+#endif
 
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
