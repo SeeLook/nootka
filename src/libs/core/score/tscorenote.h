@@ -198,6 +198,7 @@ private:
 		static QColor                         	m_workColor;
 		static TnoteControl				  				 		*m_rightBox;
 		static TnoteControl									 		*m_leftBox;
+		static QString													m_staticTip;
     
 private:
         /** Prepares note-head (ellipse) */

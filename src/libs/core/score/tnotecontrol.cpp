@@ -91,7 +91,7 @@ QRectF TnoteControl::boundingRect() const {
 void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 	if (parentItem()) {
 			painter->setPen(Qt::NoPen);
-			QColor bc = Qt::lightGray;
+			QColor bc = qApp->palette().base().color(); // Qt::lightGray;
 			bc.setAlpha(220);
 			painter->setBrush(QBrush(bc));
 			qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 16.0;
