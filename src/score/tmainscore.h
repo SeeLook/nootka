@@ -195,7 +195,7 @@ private:
 		EinMode											 m_inMode;
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		QAction											*m_inZoomAct, *m_outZoomAct;
-		QAction											*m_selectNextAct, *m_selectPrevAct, *m_firstNoteAct ,*m_lastNoteAct;
+		QAction											*m_staffDownAct, *m_staffUpAct, *m_firstNoteAct ,*m_lastNoteAct;
 		QAction											*m_clearAct;
 				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 		int													 m_clickedOff, m_currentIndex;

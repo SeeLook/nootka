@@ -21,6 +21,7 @@
 /*static*/
 QColor TpushButton::m_backColor = Qt::black;
 QColor TpushButton::m_textColor = Qt::white;
+
 void TpushButton::setCheckColor(QColor background, QColor text) {
 	m_backColor = background;
 	m_textColor = text;
@@ -32,10 +33,18 @@ TpushButton::TpushButton(QString text, QWidget* parent):
 	 QPushButton(text, parent),
 	 m_Ichecked(false)
 {
+	m_textThis = m_textColor;
+	m_backThis = m_backColor;
 #if defined(Q_OS_MAC)
   setCheckable(true);
 #endif
 }
+
+void TpushButton::setThisColors(QColor background, QColor text) {
+	m_backThis = background;
+	m_textThis = text;
+}
+
 
 void TpushButton::setChecked(bool isChecked) {
 #if defined(Q_OS_MAC)
@@ -47,7 +56,7 @@ void TpushButton::setChecked(bool isChecked) {
 #else
 	if (isChecked)
 		setStyleSheet(QString("background-color: %1; color: %2; ")
-			.arg(m_backColor.name()).arg(m_textColor.name()));
+			.arg(m_backThis.name()).arg(m_textThis.name()));
 	else
 		setStyleSheet("background-color: native; color: native");
 #endif 

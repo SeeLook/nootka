@@ -109,10 +109,10 @@ void TscoreControl::addExtraButtons() {
 			return;
 	m_accidsButt = new TpushButton("$", this); // (#)
 		m_accidsButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
-// 		m_accidsButt->setCheckColor(Qt::darkYellow);
+		m_accidsButt->setThisColors(Qt::red, palette().highlightedText().color());
 	m_namesButt = new TpushButton("c", this);
 		m_namesButt->setStatusTip(tr("Shows names of all notes on the score"));
-// 		m_namesButt->setCheckColor(Qt::darkCyan);
+		m_namesButt->setThisColors(Qt::darkCyan, palette().highlightedText().color());
 	m_butLay->addSpacing(12);
 	m_butLay->addWidget(m_accidsButt);
 	m_butLay->addWidget(m_namesButt);
