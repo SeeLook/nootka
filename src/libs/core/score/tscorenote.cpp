@@ -47,7 +47,7 @@ QString TscoreNote::getAccid(int accNr) {
 
 
 qreal TscoreNote::m_accidYoffset = 0.0;
-qreal TscoreNote::m_accidScale = 1.0;
+qreal TscoreNote::m_accidScale = -1.0;
 int TscoreNote::m_curentAccid = 0;
 int TscoreNote::m_workPosY = 0;
 QGraphicsEllipseItem* TscoreNote::m_workNote = 0;
@@ -59,6 +59,11 @@ QColor TscoreNote::m_workColor = -1;
 
 TnoteControl* TscoreNote::m_rightBox = 0;
 TnoteControl* TscoreNote::m_leftBox = 0;
+
+/** To avoid creating many tips - one for every instance and waste RAM
+ * this text exist as static variable 
+ * and TscoreNote manages itself when status tip is necessary to be displayed. */
+QString TscoreNote::m_staticTip = "";
 
 
 void TscoreNote::adjustCursor() {
@@ -100,25 +105,37 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_noteAnim(0), m_accidToKeyAnim(false),
   m_selected(false)
 {
-	setAcceptTouchEvents(true);
+// 	setAcceptTouchEvents(true);
 // 	setAcceptHoverEvents(false);
   setStaff(staff);
 	setParentItem(staff);
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
 	m_note = new Tnote(0, 0, 0);
-	if (!scene->views().isEmpty() && m_rightBox == 0)
-		initNoteCursor();
-  
-  createLines(m_mainDownLines, m_mainUpLines, m_mainMidLines);  
+
+	createLines(m_mainDownLines, m_mainUpLines, m_mainMidLines);  
   m_mainNote = createNoteHead();
 	
   m_mainAccid = new QGraphicsSimpleTextItem();
 	m_mainAccid->setParentItem(m_mainNote);
 	
   m_mainAccid->setFont(TnooFont(5));
+	bool prepareScale = false;
+	if (m_accidScale == -1.0) { // only when first TscoreNote is constructed
+			m_staticTip = tr("Click to select a note, use mouse wheel to change accidentals.");
+			m_mainAccid->setText(getAccid(1));
+			m_accidScale = 6.0 / m_mainAccid->boundingRect().height();
+			prepareScale = true;
+	}
   m_mainAccid->setScale(m_accidScale);
+	if (prepareScale) {
+			m_accidYoffset = m_mainAccid->boundingRect().height() * m_accidScale * 0.34;
+			m_mainAccid->setText("");
+	}
 	m_mainAccid->setPos(-3.0, - m_accidYoffset);
+	
+	if (!scene->views().isEmpty() && m_rightBox == 0)
+			initNoteCursor();
   
   setColor(m_mainColor);
   m_mainNote->setZValue(34); // under
@@ -127,8 +144,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 		setAmbitus(40, 1);
 	else
 		setAmbitus(34, 1);
-  
-  setStatusTip(tr("Click to select a note, use mouse wheel to change accidentals."));
+	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
 }
 
 
@@ -450,7 +466,8 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 			m_workNote->show();
 			m_workAccid->show();
   }
-  TscoreItem::hoverEnterEvent(event);
+  emit statusTip(m_staticTip);
+//   TscoreItem::hoverEnterEvent(event); // as long as this method does the same as above it makes no sense to call it again
 }
 
 
@@ -584,12 +601,8 @@ void TscoreNote::initNoteCursor() {
   m_workAccid->hide();
 	m_workAccid->setFont(TnooFont(5));
 	m_workAccid->hide();
-  m_workAccid->setText(getAccid(1));
-  m_accidScale = 6.0 / m_workAccid->boundingRect().height();
 	m_workAccid->setScale(m_accidScale);
-	m_accidYoffset = m_workAccid->boundingRect().height() * m_accidScale * 0.34;
 	m_workAccid->setPos(-3.0, - m_accidYoffset);
-	m_workAccid->setText(" ");
 	m_workNote->setZValue(35);
   m_workAccid->setZValue(m_workNote->zValue());
 	setPointedColor(m_workColor);

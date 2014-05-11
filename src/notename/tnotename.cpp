@@ -168,17 +168,18 @@ TnoteName::~TnoteName()
  * because TnoteName gets its size only after the menu invokes exec() */ 
 void TnoteName::exec(QPoint pos, qreal scoreFactor) {
 	m_scoreFactor = scoreFactor;
+	bool firstExec = false;
 	if (m_menu) {
 		setParent(0);
 		delete m_menu;
-	}
+	} else
+		firstExec = true;
 	m_menu = new QMenu(m_menuParent);
 	setParent(m_menu);
 	m_menu->setStyleSheet("background-color: palette(window)");
-	if (pos.x() > qApp->desktop()->availableGeometry().width() / 2)
-			pos.setX(pos.x() - width() - 8.5 * m_scoreFactor);	
 	m_menu->exec(pos);
-		
+	if (firstExec) // it prevents resizing TnoteName with changing newest menu instances
+		setFixedHeight(height());
 }
 
 
@@ -488,7 +489,7 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 	m_menu->resize(size());
 	if (m_menu->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
 				m_menu->move(m_menu->pos().x() - width() - 8.5 * m_scoreFactor, m_menu->pos().y());
-	// Move note name menu on the left screen side to alow to see edited note
+	// Move note name menu on the left screen side to allow seeing an edited note
 }
 
 

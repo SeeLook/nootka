@@ -13,7 +13,7 @@ level executable
 - intonation combo box was disabled - it is common with audio settings
 
 analyzer executable
-- note pixmap works wrongly
+- check note pixmap for notes from grand staff
 
 
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
@@ -46,7 +46,7 @@ Score controlling buttons:
 	v extra accidentals (from key signature)
 	v zoom +/-
 	v clear the score
-	- show/hide note names
+	v show/hide note names
 	- octave drop/rise (8-va, 15-va)
 	- rhythms (steams and rests)
 ----------------------------------------------------------------------------------------------------------------
