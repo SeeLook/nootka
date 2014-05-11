@@ -733,10 +733,10 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 				nDir = e_first;
 			else if (sender() == m_lastNoteAct)
 				nDir = e_last;
-			else if (sender() == m_selectPrevAct)
-				nDir = e_prevNote;
-			else if (sender() == m_selectNextAct)
-				nDir = e_nextNote;
+			else if (sender() == m_staffUpAct)
+				nDir = e_prevStaff;
+			else if (sender() == m_staffDownAct)
+				nDir = e_nextStaff;
 	}
 	switch(nDir) {
 		case e_first:
@@ -752,6 +752,16 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 		case e_nextNote: {
 			if (m_currentIndex < (m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1)
 					changeCurrentIndex(m_currentIndex + 1);
+			break;
+		}
+		case e_nextStaff: {
+			if (currentStaff() != m_staves.last())
+				changeCurrentIndex((currentStaff()->number() + 1) * staff()->maxNoteCount() );
+			break;
+		}
+		case e_prevStaff: {
+			if (currentStaff() != staff())
+				changeCurrentIndex((currentStaff()->number() - 1) * staff()->maxNoteCount());
 			break;
 		}
 		default: 
@@ -898,23 +908,23 @@ void TmainScore::createActions() {
 	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
 		m_inZoomAct->setStatusTip(tr("Zoom score in"));
 		connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-	m_firstNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward)), "", m_settBar);
+	m_firstNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowBack)), "", m_settBar);
 		m_firstNoteAct->setStatusTip(tr("Go to the first note"));
 		connect(m_firstNoteAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
-	m_selectPrevAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward)), "", m_settBar);
-		m_selectPrevAct->setStatusTip(tr("Go to the previous note"));
-		connect(m_selectPrevAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
-	m_selectNextAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSeekForward)), "", m_settBar);
-		m_selectNextAct->setStatusTip(tr("Go to the next note"));
-		connect(m_selectNextAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
-	m_lastNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_MediaSkipForward)), "", m_settBar);
+	m_staffUpAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowUp)), "", m_settBar);
+		m_staffUpAct->setStatusTip(tr("Go to the staff above"));
+		connect(m_staffUpAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
+	m_staffDownAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowDown)), "", m_settBar);
+		m_staffDownAct->setStatusTip(tr("Go to the staff below"));
+		connect(m_staffDownAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
+	m_lastNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowForward)), "", m_settBar);
 		m_lastNoteAct->setStatusTip(tr("Go to the last note"));
 		connect(m_lastNoteAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
 	m_settBar->addAction(m_outZoomAct);
 	m_settBar->addAction(m_inZoomAct);
 	m_settBar->addAction(m_firstNoteAct);
-	m_settBar->addAction(m_selectPrevAct);
-	m_settBar->addAction(m_selectNextAct);
+	m_settBar->addAction(m_staffUpAct);
+	m_settBar->addAction(m_staffDownAct);
 	m_settBar->addAction(m_lastNoteAct);	
 	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
 	

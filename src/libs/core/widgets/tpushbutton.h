@@ -33,15 +33,21 @@ public:
     TpushButton(QString text = "", QWidget *parent = 0);
 	void setChecked(bool isChecked);
 	bool isChecked() { return m_Ichecked; }
+	
 		/** Sets colors for checked button. 
 		 * It has influence on all buttons in the application.	 */
 	static void setCheckColor(QColor background = Qt::black, QColor text = Qt::white);
+	
+		/** Sets colors for this instance of checked button. */
+	void setThisColors(QColor background = Qt::black, QColor text = Qt::white);
 	
 	
 private:
 	bool m_Ichecked;
 	static QColor m_textColor;
 	static QColor m_backColor;
+	QColor m_textThis;
+	QColor m_backThis;
 	
 	
 };
