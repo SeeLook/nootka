@@ -587,15 +587,16 @@ void TscoreStaff::updateIndex() {
 
 void TscoreStaff::updateWidth() {
 	qDebug() << "updateWidth";
-	qreal off = 0.0, oldWidth = m_width;
+	qreal off = 0.0;
 	if (m_keySignature)
 			off = KEY_WIDTH + 1.5;
 	else if (m_enableScord)
 			off = KEY_WIDTH / 2;
-	if (m_scoreNotes.size())
-			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width() + 2.0;
-	else
+// 	if (m_scoreNotes.size())
+	if (m_scoreNotes.size() < 1)
 			m_width = 10.0 + off + 2.0;
+	else
+			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width() + 2.0;
 	if (m_viewWidth > 0.0)
 			m_width = m_viewWidth;
 	else if (m_externWidth > m_width)
@@ -603,12 +604,12 @@ void TscoreStaff::updateWidth() {
 	
 	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
 				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
-// 	if (oldWidth != m_width)
-		for (int i = 0; i < 5; i++) { // adjust staff lines length when changed
-			m_lines[i]->setLine(1, upperLinePos() + i * 2, width() - 1.0, upperLinePos() + i * 2);
-			if (isPianoStaff())
-				m_lowLines[i]->setLine(1, lowerLinePos() + i * 2, width() - 1.0, lowerLinePos() + i * 2);
-		}
+
+	for (int l = 0; l < 5; l++) { // adjust staff lines length when changed
+		m_lines[l]->setLine(1, upperLinePos() + l * 2, width() - 1.0, upperLinePos() + l * 2);
+		if (isPianoStaff())
+			m_lowLines[l]->setLine(1, lowerLinePos() + l * 2, width() - 1.0, lowerLinePos() + l * 2);
+	}
 }
 
 

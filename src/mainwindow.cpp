@@ -127,7 +127,9 @@ MainWindow::MainWindow(QWidget *parent) :
 		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
 #if defined (Q_OS_ANDROID)
     m_statLab->hide();
-		nootBar->hide();
+		nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+		showMaximized();
+// 		nootBar->hide();
 #endif
 //		QColor C(palette().text().color());
 // #if defined (Q_OS_WIN)
@@ -653,6 +655,8 @@ bool MainWindow::event(QEvent *event) {
 void MainWindow::updateSize(QSize newS) {
 	setUpdatesEnabled(false);
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
+	if (m_statFontSize < 0)
+		return;
 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();

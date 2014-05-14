@@ -161,9 +161,6 @@ protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-#if defined (Q_OS_ANDROID)
-		virtual bool sceneEvent(QEvent* ev);
-#endif
 
 private:
     QGraphicsEllipseItem          					*m_mainNote;

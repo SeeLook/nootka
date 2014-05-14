@@ -21,11 +21,14 @@
 
 #include <nootkacoreglobal.h>
 #include <QGraphicsObject>
+#include <QEvent>
 
 
 #define KEY_WIDTH  (9.0) // key signature width (and scordature)
 #define CLEF_WIDTH (6.0) // how many space in width takes key on the score
 
+class QTouchEvent;
+class QGraphicsSceneHoverEvent;
 class TscoreStaff;
 class TscoreScene;
 
@@ -73,7 +76,15 @@ protected:
 				/** Paints background rectangle using boundingRect() with given color
 				 * adding semi-transparency and gradient. */
     void paintBackground(QPainter *painter, QColor bgColor);
-    
+		
+#if defined (Q_OS_ANDROID)
+		virtual bool sceneEvent(QEvent* ev);
+
+
+private:
+		QGraphicsSceneHoverEvent* touchToHover(QTouchEvent *te, QEvent::Type evType);
+#endif
+		
 private:
     QString                   m_statusTip;
     TscoreScene               *m_scene;

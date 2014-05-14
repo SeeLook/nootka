@@ -19,6 +19,11 @@
 #include "tscoreitem.h"
 #include "tscorescene.h"
 #include <QGraphicsView>
+#include <QGraphicsSceneHoverEvent>
+#include <QEvent>
+#include <QTouchEvent>
+
+#include <QDebug>
 
 TscoreItem::TscoreItem(TscoreScene* scene) :
   m_scene(scene),
@@ -45,6 +50,39 @@ void TscoreItem::setStatusTip(QString status) {
 //####################################################################################
 //###############################  PROTECTED #########################################
 //####################################################################################
+
+#if defined (Q_OS_ANDROID)
+bool TscoreItem::sceneEvent(QEvent* ev) {
+	if (ev->type() == QEvent::TouchBegin || ev->type() == QEvent::TouchUpdate || ev->type() == QEvent::TouchEnd) {
+		QTouchEvent *te = static_cast<QTouchEvent*>(ev);
+// 		if (te->touchPoints().count() == 1) {
+			qDebug() << te->touchPoints().count() << te->touchPoints().first().state();
+			QGraphicsSceneHoverEvent *hover = 0;
+			if (te->touchPoints().first().state())
+			switch(te->touchPoints().first().state()) {
+				case Qt::TouchPointPressed:
+					ev->accept();
+					hoverEnterEvent(hover = touchToHover(te, QEvent::GraphicsSceneHoverEnter));
+					break;
+				case Qt::TouchPointMoved:
+					hoverMoveEvent(hover = touchToHover(te, QEvent::GraphicsSceneHoverMove));
+					break;
+				case Qt::TouchPointReleased:
+					hoverLeaveEvent(0);
+					break;
+				default:
+					break;
+			}
+			if (hover)
+				delete hover;
+		}			 
+// 		for (int i = 0; i < te->touchPoints().size(); i++)
+// 			qDebug() << te->touchPoints()[i].pos() << te->touchPoints()[i].pressure() << te->touchPoints()[i].velocity();
+// 	}
+	return QGraphicsObject::event(ev);
+}
+#endif
+
 
 void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
 	QLinearGradient gr(boundingRect().topLeft(), boundingRect().topRight());
@@ -76,6 +114,24 @@ void TscoreItem::registryItem(QGraphicsItem* item) {
   scene()->addItem(item);
   item->setParentItem(this);
 }
+
+//####################################################################################
+//###############################  PROTECTED #########################################
+//####################################################################################
+#if defined (Q_OS_ANDROID)
+QGraphicsSceneHoverEvent* TscoreItem::touchToHover(QTouchEvent* te, QEvent::Type evType) {
+	QGraphicsSceneHoverEvent *hover = new QGraphicsSceneHoverEvent(evType);
+	hover->setPos(te->touchPoints().first().pos());
+	hover->setLastPos(te->touchPoints().first().lastPos());
+	return hover;
+}
+#endif
+
+
+
+
+
+
 
 
 
