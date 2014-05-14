@@ -629,12 +629,12 @@ void TmainScore::staffHasFreeSpace(int staffNr, int notesFree) {
 		if (staffNr + 2 < m_staves.size()) { // call the same method for next staff
 			staffHasFreeSpace(staffNr + 1, notesFree);
 		} else if (!m_staves[staffNr + 1]->count()) {
-				delete m_staves[staffNr + 1];
+				/*delete */m_staves[staffNr + 1]->deleteLater();
 				m_staves.removeAt(staffNr + 1);
 				updateSceneRect();
 		}
 	} else if (!m_staves[staffNr]->count()) {
-			delete m_staves[staffNr];
+			/*delete*/ m_staves[staffNr]->deleteLater();
 			m_staves.removeAt(staffNr);
 			updateSceneRect();
 	}
@@ -818,13 +818,13 @@ void TmainScore::finishCorrection() {
 }
 */
 
-void TmainScore::resizeEvent(QResizeEvent* event) {  
+void TmainScore::resizeEvent(QResizeEvent* event) {
 	int hh = height(), ww = width();
 	if (event) {
 		hh = event->size().height();
 		ww = event->size().width();
 	}
-	if (ww < 500)
+	if (ww < 300)
       return;
 	hh = score()->rect().height();
 	setBarsIconSize();

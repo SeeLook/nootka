@@ -20,7 +20,11 @@
 #include "tnoofont.h"
 
 TnooFont::TnooFont(int pointSize) :
+// #if defined (Q_OS_ANDROID)
+// 	QFont("", pointSize)
+// #else
 	QFont("nootka", pointSize)
+// #endif
 {
 	setPixelSize(pointSize);
 }
