@@ -33,70 +33,71 @@ TscoreView::TscoreView(QWidget* parent) :
 
 TscoreItem *m_currentIt = 0;
 bool TscoreView::viewportEvent(QEvent* event) {
-	if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
-		QTouchEvent *te = static_cast<QTouchEvent*>(event);
+  if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
+      QTouchEvent *te = static_cast<QTouchEvent*>(event);
 
-		if (te->touchPoints().count() == 1) {
-			switch(te->touchPoints().first().state()) {
-				case Qt::TouchPointPressed: {
-//					event->accept();
-					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
-					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
-					if (it) {
-					    event->accept();
-						if (it != m_currentIt)
-							if (m_currentIt)
-								m_currentIt->cursorLeaved();
-						m_currentIt = it;
-						it->cursorEntered(it->mapFromScene(touchScenePos));
-					}
-					break;
-				}
-				case Qt::TouchPointMoved: {
-					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
-					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
-					if (it) {
-						if (it != m_currentIt) {
-							if (m_currentIt)
-								m_currentIt->cursorLeaved();
-							m_currentIt = it;
-							m_currentIt->cursorEntered(it->mapFromScene(touchScenePos));
-						}
-						QPointF touchPos = it->mapFromScene(touchScenePos);
-						touchPos.setY(touchPos.y() - 6.0);
-						it->cursorMoved(touchPos);
-					}
-					break;
-				}
-				case Qt::TouchPointReleased:
-					if (m_currentIt) {
-						m_currentIt->cursorLeaved();
-						m_currentIt = 0;
-					}
-					break;
-				default:
-					break;
-			}
-		} else if (te->touchPoints().count() == 2) {
-			switch(te->touchPoints()[1].state()) {
-				case Qt::TouchPointPressed: {
-					event->accept();
-					QPointF touchScenePos = mapToScene(te->touchPoints()[1].pos().toPoint());
-					m_currentIt->cursorClicked(touchScenePos);
-					break;
-				}
-				case Qt::TouchPointMoved:
-					break;
-				case Qt::TouchPointReleased:
-					break;
-				default:
-					break;
-			}
-		}
+      if (te->touchPoints().count() == 1) {
+          switch(te->touchPoints().first().state()) {
+            case Qt::TouchPointPressed: {
+                //					event->accept();
+                QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+                TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
+                if (it) {
+                    event->accept();
+                    if (it != m_currentIt)
+                      if (m_currentIt)
+                        m_currentIt->cursorLeaved();
+                    m_currentIt = it;
+                    it->cursorEntered(it->mapFromScene(touchScenePos));
+                  }
+                break;
+              }
+            case Qt::TouchPointMoved: {
+                QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+                TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
+                if (it) {
+                    if (it != m_currentIt) {
+                        if (m_currentIt)
+                          m_currentIt->cursorLeaved();
+                        m_currentIt = it;
+                        m_currentIt->cursorEntered(it->mapFromScene(touchScenePos));
+                      }
+                    QPointF touchPos = it->mapFromScene(touchScenePos);
+                    touchPos.setY(touchPos.y() - 6.0);
+                    it->cursorMoved(touchPos);
+                  }
+                break;
+              }
+            case Qt::TouchPointReleased:
+              if (m_currentIt) {
+                  m_currentIt->cursorLeaved();
+                  m_currentIt = 0;
+                }
+              break;
+            default:
+              break;
+            }
+        } else if (te->touchPoints().count() == 2) {
+          switch(te->touchPoints()[1].state()) {
+            case Qt::TouchPointPressed: {
+                //					event->accept();
+                QPointF touchScenePos = mapToScene(te->touchPoints()[1].pos().toPoint());
+                if (m_currentIt)
+                  m_currentIt->cursorClicked(touchScenePos);
+                break;
+              }
+            case Qt::TouchPointMoved:
+              break;
+            case Qt::TouchPointReleased:
+              break;
+            default:
+              break;
+            }
+        }
 
-//			return true;
-	}
-	return QGraphicsView::viewportEvent(event);
+      //			return true;
+    }
+  return QGraphicsView::viewportEvent(event);
 }
 
 

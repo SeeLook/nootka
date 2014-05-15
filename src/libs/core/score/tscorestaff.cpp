@@ -67,7 +67,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   Tclef cl = Tclef();
   m_clef = new TscoreClef(scene, this, cl);
   connect(m_clef, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-	m_clef->setZValue(55);
+        m_clef->setZValue(49);
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_scoreNotes << new TscoreNote(scene, this, i);
