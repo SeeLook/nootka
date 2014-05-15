@@ -39,10 +39,11 @@ bool TscoreView::viewportEvent(QEvent* event) {
 		if (te->touchPoints().count() == 1) {
 			switch(te->touchPoints().first().state()) {
 				case Qt::TouchPointPressed: {
-					event->accept();
+//					event->accept();
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					if (it) {
+					    event->accept();
 						if (it != m_currentIt)
 							if (m_currentIt)
 								m_currentIt->cursorLeaved();
@@ -53,7 +54,7 @@ bool TscoreView::viewportEvent(QEvent* event) {
 				}
 				case Qt::TouchPointMoved: {
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
-					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform())); 
+					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					if (it) {
 						if (it != m_currentIt) {
 							if (m_currentIt)
@@ -62,7 +63,7 @@ bool TscoreView::viewportEvent(QEvent* event) {
 							m_currentIt->cursorEntered(it->mapFromScene(touchScenePos));
 						}
 						QPointF touchPos = it->mapFromScene(touchScenePos);
-						touchPos.setY(touchPos.y() + 2.0);
+						touchPos.setY(touchPos.y() - 6.0);
 						it->cursorMoved(touchPos);
 					}
 					break;
@@ -93,17 +94,25 @@ bool TscoreView::viewportEvent(QEvent* event) {
 			}
 		}
 
-			return true;
+//			return true;
 	}
 	return QGraphicsView::viewportEvent(event);
 }
 
 
 TscoreItem* TscoreView::castItem(QGraphicsItem* it) {
-	if (it->type() == TscoreItem::ScoreItemType)
-		return static_cast<TscoreItem*>(it);
-	else
-		return 0;
+  int cnt = 0;
+  while (cnt < 2) {
+      if (it->type() == TscoreItem::ScoreItemType)
+        return static_cast<TscoreItem*>(it);
+      if (it->parentItem()) {
+          it = it->parentItem();
+          cnt++;
+        } else
+        break;
+
+    }
+    return 0;
 }
 
 
