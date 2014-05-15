@@ -26,6 +26,7 @@
 #include <music/tkeysignature.h>
 #include <QWidget>
 
+class TscoreView;
 class QGraphicsView;
 class QGraphicsSimpleTextItem;
 class QGraphicsView;
@@ -105,7 +106,7 @@ public slots:
 		
 protected:
 		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller
-		QGraphicsView* score() { return m_score; }
+		TscoreView* score() { return m_score; }
 		TscoreScene* scene() { return m_scene; }
 		
 				/** Pointer to TscoreStaff should never go to public !!!!
@@ -131,7 +132,7 @@ private:
     TscoreScene     						*m_scene;
     TscoreStaff     						*m_staff, *m_lowerStaff;
     TscoreControl   						*m_scoreControl;
-    QGraphicsView	  						*m_score;
+    TscoreView		  						*m_score;
 		QGraphicsSimpleTextItem 		*m_bgGlyph;
 		int 												 m_notesNr;
 		int 												 m_prevBGglyph;

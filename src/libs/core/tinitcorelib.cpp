@@ -73,7 +73,8 @@ bool loadNootkaFont(QApplication* a) {
 	if (fid == -1) {
             QMessageBox::critical(0, "", a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
 			return false;
-	} else
+	}
+			qDebug() << fd.families();
 			return true;
 }
 

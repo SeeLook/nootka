@@ -24,6 +24,7 @@
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
 #include <score/tscoreclef.h>
+#include "tscoreview.h"
 #include <music/tinstrument.h>
 #include <tcolor.h>
 #include <tnoofont.h>
@@ -46,9 +47,13 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
 	m_prevBGglyph(-1)
 {
   QHBoxLayout *lay = new QHBoxLayout;
-  m_score = new QGraphicsView(this);
+  m_score = new TscoreView(this);
    
+#if defined (Q_OS_ANDROID)
+// 	qApp->setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents);
+#else
   m_score->setMouseTracking(true);
+#endif
   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

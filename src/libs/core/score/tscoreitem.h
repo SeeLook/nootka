@@ -47,6 +47,8 @@ class NOOTKACORE_EXPORT TscoreItem : public QGraphicsObject
 public:
     TscoreItem(TscoreScene *scene);
     
+		enum { ScoreItemType = UserType + 1 };
+		
     QString statusTip() { return m_statusTip; }
     void setStatusTip(QString status);
     TscoreScene* scoreScene() { return m_scene; }
@@ -56,6 +58,13 @@ public:
        * but by default is set to 0. */
     TscoreStaff* staff() { return m_staff; }
     void setStaff(TscoreStaff *staff) { m_staff = staff; }
+    
+    void cursorEntered(const QPointF &cPos);
+		void cursorMoved(const QPointF &cPos);
+		void cursorLeaved();
+		void cursorClicked(const QPointF &cPos);
+		
+		virtual int type() const { return ScoreItemType; }
     
 signals:
     void statusTip(QString);
@@ -77,13 +86,13 @@ protected:
 				 * adding semi-transparency and gradient. */
     void paintBackground(QPainter *painter, QColor bgColor);
 		
-#if defined (Q_OS_ANDROID)
-		virtual bool sceneEvent(QEvent* ev);
-
-
-private:
-		QGraphicsSceneHoverEvent* touchToHover(QTouchEvent *te, QEvent::Type evType);
-#endif
+// #if defined (Q_OS_ANDROID)
+// 		virtual bool sceneEvent(QEvent* ev);
+// 
+// 
+// private:
+// 		QGraphicsSceneHoverEvent* touchToHover(QTouchEvent *te, QEvent::Type evType);
+// #endif
 		
 private:
     QString                   m_statusTip;
