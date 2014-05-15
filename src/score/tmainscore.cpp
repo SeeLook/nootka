@@ -25,6 +25,7 @@
 #include <score/tscoreclef.h>
 #include <score/tscorescene.h>
 #include <score/tnotecontrol.h>
+#include <score/tscoreview.h>
 #include <music/ttune.h>
 #include <tglobals.h>
 #include <graphics/tgraphicstexttip.h>
@@ -725,18 +726,20 @@ void TmainScore::deleteNotes() {
 	updateSceneRect();
 }
 
-
+QShortcut *m_nextNoteSC, *m_endScoreSC;
 void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 	int prevIndex = m_currentIndex;
 	if (nDir == e_doNotMove) { // determine action by sender which invoked this slot
 			if (sender() == m_firstNoteAct)
 				nDir = e_first;
-			else if (sender() == m_lastNoteAct)
+			else if (sender() == m_lastNoteAct || sender() == m_endScoreSC)
 				nDir = e_last;
 			else if (sender() == m_staffUpAct)
 				nDir = e_prevStaff;
 			else if (sender() == m_staffDownAct)
 				nDir = e_nextStaff;
+			else if (sender() == m_nextNoteSC)
+				nDir = e_nextNote;
 	}
 	switch(nDir) {
 		case e_first:
@@ -904,6 +907,8 @@ void TmainScore::createActions() {
 	m_settBar = new QToolBar();
 	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
 		m_outZoomAct->setStatusTip(tr("Zoom score out"));
+		m_outZoomAct->setShortcut(QKeySequence(QKeySequence::ZoomOut));
+		m_outZoomAct->setShortcutContext(Qt::ApplicationShortcut);
 		connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
 	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
 		m_inZoomAct->setStatusTip(tr("Zoom score in"));
@@ -941,6 +946,12 @@ void TmainScore::createActions() {
 	m_rhythmBar->addWidget(rl);
 	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
 	rhythmCorner->setSpotColor(Qt::yellow);
+	
+	m_nextNoteSC = new QShortcut(QKeySequence(QKeySequence::Forward), this);
+// 	m_nextNoteSC->setContext(Qt::ApplicationShortcut);
+	connect(m_nextNoteSC, SIGNAL(activated()), this, SLOT(moveSelectedNote()));
+	m_endScoreSC = new QShortcut(QKeySequence(QKeySequence::MoveToEndOfLine), this);
+	connect(m_endScoreSC, SIGNAL(activated()), this, SLOT(moveSelectedNote()));
 }
 
 
