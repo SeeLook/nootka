@@ -21,9 +21,6 @@
 #include <QGraphicsView>
 #include <QGraphicsSceneHoverEvent>
 #include <QMouseEvent>
-// #include <QEvent>
-// #include <QTouchEvent>
-
 // #include <QDebug>
 
 TscoreItem::TscoreItem(TscoreScene* scene) :
@@ -139,11 +136,13 @@ void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
 
 
 void TscoreItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+  Q_UNUSED(event);
   if (m_statusTip != "")
     emit statusTip(m_statusTip);
 }
 
 void TscoreItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+  Q_UNUSED(event);
   emit statusTip("");
 }
 

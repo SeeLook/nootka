@@ -72,9 +72,10 @@ bool TscoreView::viewportEvent(QEvent* event) {
 		} else if (te->touchPoints().count() == 2) {
 			switch(te->touchPoints()[1].state()) {
 				case Qt::TouchPointPressed: {
-					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
-					if (m_currentIt)
-						m_currentIt->cursorClicked(touchScenePos);
+					if (m_currentIt) {
+					    QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+					    m_currentIt->cursorClicked(m_currentIt->mapFromScene(touchScenePos));
+					  }
 					break;
 				}
 				case Qt::TouchPointMoved:
@@ -86,7 +87,7 @@ bool TscoreView::viewportEvent(QEvent* event) {
 			}
 		}
 		
-		//			return true;
+		return true;
 	}
 	return QGraphicsView::viewportEvent(event);
 }

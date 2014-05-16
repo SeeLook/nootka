@@ -59,13 +59,13 @@ public:
     TscoreStaff* staff() { return m_staff; }
     void setStaff(TscoreStaff *staff) { m_staff = staff; }
     
-    void cursorEntered(const QPointF &cPos);
-		void cursorMoved(const QPointF &cPos);
-		void cursorLeaved();
-		void cursorClicked(const QPointF &cPos);
-		void cursorTapped(const QPointF &cPos); /** Interpreted as right mouse click. */
+    virtual void cursorEntered(const QPointF &cPos);
+    virtual void cursorMoved(const QPointF &cPos);
+    virtual void cursorLeaved();
+    virtual void cursorClicked(const QPointF &cPos);
+    virtual void cursorTapped(const QPointF &cPos); /** Interpreted as right mouse click. */
 		
-		virtual int type() const { return ScoreItemType; }
+    virtual int type() const { return ScoreItemType; }
     
 signals:
     void statusTip(QString);
