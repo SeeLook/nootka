@@ -76,6 +76,12 @@ void TscoreItem::cursorClicked(const QPointF& cPos) {
 }
 
 
+void TscoreItem::cursorTapped(const QPointF& cPos) {
+	QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
+	me.setPos(cPos);
+	me.setButton(Qt::RightButton);
+	mousePressEvent(&me);
+}
 
 
 //####################################################################################

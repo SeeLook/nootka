@@ -161,6 +161,8 @@ protected:
     void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+		
+		void cursorTapped(const QPointF &cPos) { emit noteWasSelected(m_index); }
 
 private:
     QGraphicsEllipseItem          					*m_mainNote;

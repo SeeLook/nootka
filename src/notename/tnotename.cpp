@@ -21,6 +21,7 @@
 #include "tnotenamelabel.h"
 #include <tglobals.h>
 #include <widgets/tpushbutton.h>
+#include <tnoofont.h>
 #include <QtWidgets>
 
 
@@ -92,9 +93,9 @@ TnoteName::TnoteName(QWidget *parent) :
     QHBoxLayout *accLay = new QHBoxLayout;
 		accLay->addStretch(1);
 #if defined(Q_OS_MAC)
-		QFont nf("nootka", 15, QFont::Normal);
+		TnooFont nf(15);
 #else
-		QFont nf("nootka", 10, QFont::Normal);
+		TnooFont nf(10);
 #endif
     m_dblFlatButt = new TpushButton("B", this);
             m_dblFlatButt->setFont(nf);
@@ -269,16 +270,20 @@ void TnoteName::resize(int fontSize) {
     if (fontSize) {
         QFont f = QFont(m_noteButtons[0]->font().family());
         f.setPixelSize(fontSize);
+				int maxTextW = 0;
         for (int i = 0; i < 7; i++) {
             m_noteButtons[i]->setFont(f);
-        }
+				#if defined (Q_OS_ANDROID)
+						m_noteButtons[i]->setFixedWidth(m_noteButtons[i]->fontMetrics().boundingRect(m_noteButtons[i]->text()).width() + 10);
+				#endif
+        }	
         for (int i = 0; i < 8; i++) {
             m_octaveButtons[i]->setFont(f);
         }
         f = QFont(m_dblFlatButt->font().family());
         f.setPointSize(fontSize);
         QFontMetrics fMetr(f);
-        qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height()) * 1.4;
+        qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height());
         f.setPointSize(f.pointSize() * fact);
         m_dblFlatButt->setFont(f);
         m_flatButt->setFont(f);

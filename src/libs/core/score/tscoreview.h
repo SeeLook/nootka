@@ -21,10 +21,16 @@
 #define TSCOREVIEW_H
 
 #include <QGraphicsView>
+#include <QTime>
+
 
 class QGraphicsItem;
 class TscoreItem;
 
+/**
+ * This class purpose is to manage touch events.
+ * Detected touch events are send to TscoreItem objects to further processing
+ */
 class TscoreView : public QGraphicsView
 {
 
@@ -32,10 +38,21 @@ public:
 
 	TscoreView(QWidget* parent);
 	
+	
 protected:
 	virtual bool viewportEvent(QEvent* event);
 	
+			/** Checks is item @it of type @p TscoreItem::ScoreItemType.
+			 * If not, checks it parent item and parent of parent.
+			 * Returns pointer to @p TscoreItem or 0 if not found. */
 	TscoreItem* castItem(QGraphicsItem* it);
+	
+			/** Checks is given TscoreItem different than current one and sets it to current */
+	void checkItem(TscoreItem* it, const QPointF& touchScenePos);
+	
+private:
+	TscoreItem 									*m_currentIt;
+	QTime												 m_tapTime;
 	
 };
 
