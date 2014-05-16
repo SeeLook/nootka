@@ -63,6 +63,7 @@ public:
 		void cursorMoved(const QPointF &cPos);
 		void cursorLeaved();
 		void cursorClicked(const QPointF &cPos);
+		void cursorTapped(const QPointF &cPos); /** Interpreted as right mouse click. */
 		
 		virtual int type() const { return ScoreItemType; }
     

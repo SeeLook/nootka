@@ -57,10 +57,6 @@ TmainScore::TmainScore(QWidget* parent) :
   m_parent = parent;
 // 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-// #if defined (Q_OS_ANDROID)
-// 	score()->setAttribute(Qt::WA_AcceptTouchEvents);
-// #endif
-// 	score()->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 // 	score()->setFrameShape(QFrame::Box);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	addStaff(staff());
@@ -540,6 +536,7 @@ int m_nameClickCounter;
 void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
 			m_nameMenu = new TnoteName(parentWidget());
+			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
 			connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
 			connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
