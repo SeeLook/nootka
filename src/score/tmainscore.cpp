@@ -536,7 +536,11 @@ int m_nameClickCounter;
 void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
 			m_nameMenu = new TnoteName(parentWidget());
-			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
+#if defined (Q_OS_ANDROID)
+			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.7);
+#else
+			m_nameMenu->resize(fontMetrics().boundingRect("A").height());
+#endif
 			connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
 			connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
@@ -893,7 +897,7 @@ void TmainScore::createActions() {
 	scoreController()->setParent(0);
 	scoreController()->hide();
 	layout()->removeWidget(scoreController());
-	if (gl->SkeySignatureEnabled)
+// 	if (gl->SkeySignatureEnabled)
 			scoreController()->addExtraButtons();
 	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
 	connect(scoreController(), SIGNAL(showNamesChanged()), this, SLOT(showNamesSlot()));
