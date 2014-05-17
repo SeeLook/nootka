@@ -66,7 +66,7 @@ TnoteName::TnoteName(QWidget *parent) :
 		connect(m_prevNoteButt, SIGNAL(clicked()), this, SLOT(prevNoteSlot()));
 		
     m_nameLabel = new TnoteNameLabel("", this);
-		m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
 
 		QHBoxLayout *nameLay = new QHBoxLayout;
@@ -305,7 +305,7 @@ void TnoteName::resize(int fontSize) {
 		foreach(TpushButton *bu, allButtons) {
 			bu->setFixedWidth(bu->fontMetrics().boundingRect(bu->text()).width() + 10);
 		}
-		m_nameLabel->setFixedHeight(m_flatButt->height() * 2);
+		m_nameLabel->setFixedHeight(fontSize * 3);
 #endif
 	}
 }
