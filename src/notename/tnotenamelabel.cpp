@@ -37,10 +37,11 @@ QString TnoteNameLabel::borderStyleText() {
 //################################################################################################
 TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	QGraphicsView(parent),
-	m_strikeOut(0), m_blinking(0),
+	m_p2Time(0),
+	m_strikeOut(0),
+	m_blinking(0),
 	m_questMark(0),
-	m_stringNumber(0),
-	m_p2Time(0)
+	m_stringNumber(0)
 {
   setAttribute(Qt::WA_TransparentForMouseEvents, true);
 	setMouseTracking(false);
@@ -157,6 +158,7 @@ void TnoteNameLabel::blinkCross(const QColor& color) {
 
 
 void TnoteNameLabel::blinkingText(int count, int period) {
+	Q_UNUSED(period)
 	if (m_blinking)
 		return;
 	m_blinking = new TblinkingItem(m_textItem, this);
@@ -198,8 +200,8 @@ QPoint TnoteNameLabel::textPos() {
 //################################################################################################
 
 void TnoteNameLabel::resizeEvent(QResizeEvent* event) {
+	Q_UNUSED(event)
 	scene()->setSceneRect(geometry());
-	QFontMetricsF fm(m_textItem->font());
 	m_textItem->hide();
 	QString tmpHtml = m_textItem->toHtml();
 	m_textItem->setHtml("g<sub>1</sub><sup>1</sup>");
