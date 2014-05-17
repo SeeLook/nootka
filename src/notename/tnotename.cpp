@@ -84,6 +84,9 @@ TnoteName::TnoteName(QWidget *parent) :
         noteLay->addWidget(m_noteButtons[i]);
 				m_noteButtons[i]->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         m_noteGroup->addButton(m_noteButtons[i], i);
+			#if defined (Q_OS_ANDROID)
+				noteLay->addStretch(1);
+			#endif
     }
     noteLay->addStretch(1);
     mainLay->addLayout(noteLay);
@@ -91,7 +94,7 @@ TnoteName::TnoteName(QWidget *parent) :
 		
 // ACCID BUTTONS TOOOLBAR
     QHBoxLayout *accLay = new QHBoxLayout;
-		accLay->addStretch(1);
+		accLay->addStretch(2);
 #if defined(Q_OS_MAC)
 		TnooFont nf(15);
 #else
@@ -100,24 +103,32 @@ TnoteName::TnoteName(QWidget *parent) :
     m_dblFlatButt = new TpushButton("B", this);
             m_dblFlatButt->setFont(nf);
 			accLay->addWidget(m_dblFlatButt);
+			accLay->addStretch(1);
 			connect(m_dblFlatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     m_flatButt = new TpushButton("b", this);
             m_flatButt->setFont(nf);
 			accLay->addWidget(m_flatButt);
+			accLay->addStretch(1);
 			connect(m_flatButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     m_sharpButt = new TpushButton("#", this);
             m_sharpButt->setFont(nf);
 			accLay->addWidget(m_sharpButt);
+			accLay->addStretch(1);
 			connect(m_sharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
     m_dblSharpButt = new TpushButton("x", this);
             m_dblSharpButt->setFont(nf);
 			accLay->addWidget(m_dblSharpButt);
 			connect(m_dblSharpButt, SIGNAL(clicked()), this, SLOT(accidWasChanged()));
-    accLay->addStretch(1);
+    accLay->addStretch(2);
     mainLay->addLayout(accLay);
 // OCTAVE BUTTONS TOOLBAR        
     QHBoxLayout *upOctaveLay = new QHBoxLayout;
 		QHBoxLayout *loOctaveLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+		upOctaveLay->addStretch(2); // no octaves link under Android
+		mainLay->setContentsMargins(0, 0, 0, 0);
+		mainLay->setSpacing(0);
+#else
     QLabel *octavesLab = new QLabel(this);
     octavesLab->setOpenExternalLinks(true);
     octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
@@ -126,6 +137,7 @@ TnoteName::TnoteName(QWidget *parent) :
 												tr("Octaves") + ":</a>");
 		octavesLab->setStatusTip(octavesLab->statusTip().replace("\"", "<b><i>"));
     upOctaveLay->addWidget(octavesLab);
+#endif
     m_octaveGroup = new QButtonGroup(this);
     for (int i = 0; i < 8; i++) {
         m_octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
@@ -267,29 +279,35 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 
 
 void TnoteName::resize(int fontSize) {
-    if (fontSize) {
-        QFont f = QFont(m_noteButtons[0]->font().family());
-        f.setPixelSize(fontSize);
-				int maxTextW = 0;
-        for (int i = 0; i < 7; i++) {
-            m_noteButtons[i]->setFont(f);
-				#if defined (Q_OS_ANDROID)
-						m_noteButtons[i]->setFixedWidth(m_noteButtons[i]->fontMetrics().boundingRect(m_noteButtons[i]->text()).width() + 10);
-				#endif
-        }	
-        for (int i = 0; i < 8; i++) {
-            m_octaveButtons[i]->setFont(f);
-        }
-        f = QFont(m_dblFlatButt->font().family());
-        f.setPointSize(fontSize);
-        QFontMetrics fMetr(f);
-        qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height());
-        f.setPointSize(f.pointSize() * fact);
-        m_dblFlatButt->setFont(f);
-        m_flatButt->setFont(f);
-        m_sharpButt->setFont(f);
-        m_dblSharpButt->setFont(f);
-    }
+	if (fontSize) {
+		QFont f = QFont(m_noteButtons[0]->font().family());
+		f.setPixelSize(fontSize);
+		for (int i = 0; i < 7; i++) {
+				m_noteButtons[i]->setFont(f);
+		}	
+		for (int i = 0; i < 8; i++) {
+				m_octaveButtons[i]->setFont(f);
+		}
+		f = QFont(m_dblFlatButt->font().family());
+		f.setPointSize(fontSize);
+		QFontMetrics fMetr(f);
+		qreal fact = ((qreal)fontSize / (qreal)fMetr.boundingRect("b").height());
+#if !defined (Q_OS_ANDROID)
+		fact *= 1.4;
+#endif
+		f.setPointSize(f.pointSize() * fact);
+		m_dblFlatButt->setFont(f);
+		m_flatButt->setFont(f);
+		m_sharpButt->setFont(f);
+		m_dblSharpButt->setFont(f);
+#if defined (Q_OS_ANDROID)
+		QList<TpushButton*> allButtons = findChildren<TpushButton*>();
+		foreach(TpushButton *bu, allButtons) {
+			bu->setFixedWidth(bu->fontMetrics().boundingRect(bu->text()).width() + 10);
+		}
+		m_nameLabel->setFixedHeight(m_flatButt->height() * 2);
+#endif
+	}
 }
 
 

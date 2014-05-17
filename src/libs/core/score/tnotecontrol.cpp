@@ -31,7 +31,7 @@
 // #include <QDebug>
 
 #if defined (Q_OS_ANDROID)
-  #define WIDTH (3.0)
+  #define WIDTH (5.0)
 #else
   #define WIDTH (3.0)
 #endif
@@ -75,7 +75,7 @@ TnoteControl::~TnoteControl()
 
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
-	m_plus->setPos(0.0, staff()->upperLinePos() - 5.0);
+	m_plus->setPos(0.0, staff()->upperLinePos() - m_plus->boundingRect().height() * m_plus->scale());
 	m_name->setPos(0.0, m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale() - (m_name->boundingRect().height() / 2.5) * m_name->scale());
 	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 11.0;
 	m_minus->setLine(WIDTH / 4.0, minusY, WIDTH - WIDTH / 4.0, minusY);
@@ -94,7 +94,7 @@ QRectF TnoteControl::boundingRect() const {
 
 
 void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  Q_UNUSED(option);
+  Q_UNUSED(option)
   Q_UNUSED(widget)
 	if (parentItem()) {
 			painter->setPen(Qt::NoPen);
@@ -102,7 +102,7 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 			bc.setAlpha(220);
 			painter->setBrush(QBrush(bc));
 			qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 16.0;
-			painter->drawRoundedRect(0.0, staff()->upperLinePos() - 4.0, 3.0, lowest - staff()->upperLinePos(), 0.75, 0.75);
+			painter->drawRoundedRect(0.0, staff()->upperLinePos() - 4.0, WIDTH, lowest - staff()->upperLinePos(), 0.75, 0.75);
 	}
 }
 
@@ -170,7 +170,7 @@ void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 		} else { // left control - preppend a note
 				staff()->insertNote(m_scoreNote->index() - 1);
 		}
-	} else if (event->pos().y() < staff()->upperLinePos() + 2.0) { // edit note name
+	} else if (event->pos().y() < m_name->pos().y() + m_name->boundingRect().height() * m_name->scale()) { // edit note name
 			hoverLeaveEvent(0);
 			emit nameMenu(m_scoreNote);
 	} else if (m_minus->isVisible() && event->pos().y() > m_minus->line().y1() - 1.0) {

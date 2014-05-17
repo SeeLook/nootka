@@ -44,18 +44,17 @@ TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
 TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   TscoreItem(scene),
   m_staffNr(-1),
-  m_offset(TnoteOffset(3, 2)),
+  m_keySignature(0),
+  m_upperLinePos(16.0), m_lowerStaffPos(0.0),
+  m_height(40.0),
   m_externWidth(0.0), m_viewWidth(0.0),
-	m_enableScord(false), m_scordature(0),
+  m_offset(TnoteOffset(3, 2)),
+  m_isPianoStaff(false),
+	m_scordature(0), m_enableScord(false),
 	m_accidAnim(0), m_flyAccid(0),
 	m_index(0), m_selectableNotes(false), m_controlledNotes(false), m_extraAccids(false),
-	m_lowerStaffPos(0.0),
-	m_isPianoStaff(false),
-	m_upperLinePos(16.0),
-	m_hiNotePos(12.0), m_loNotePos(28.0),
-	m_height(40.0),
-	m_keySignature(0),
 	m_maxNotesCount(0),
+	m_loNotePos(28.0), m_hiNotePos(12.0),
 	m_lockRangeCheck(false)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
