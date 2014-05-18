@@ -32,8 +32,10 @@
 
 #if defined (Q_OS_ANDROID)
   #define WIDTH (5.0)
+  #define LEAVE_DELAY (1000)
 #else
   #define WIDTH (3.0)
+  #define LEAVE_DELAY (300)
 #endif
 
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
@@ -83,7 +85,8 @@ void TnoteControl::adjustSize() {
 
 
 void TnoteControl::hideWithDelay(int delay) {
-	QTimer::singleShot(delay, this, SLOT(hideDelayed()));
+	Q_UNUSED(delay)
+	QTimer::singleShot(LEAVE_DELAY, this, SLOT(hideDelayed()));
 }
 
 
@@ -134,7 +137,7 @@ void TnoteControl::hideDelayed() {
 	if (m_scoreNote->isCursorVisible())
 		return;
 	if (hasMouseCursor())
-		hideWithDelay(300);
+		hideWithDelay(LEAVE_DELAY);
 	else
 		hide();
 }
@@ -149,14 +152,15 @@ void TnoteControl::hoverEnterDelayed() {
 
 
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-	QTimer::singleShot(200, this, SLOT(hoverEnterDelayed()));
+	QTimer::singleShot(300, this, SLOT(hoverEnterDelayed()));
 	m_hasMouse = true;
 }
 
 
 void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 	m_hasMouse = false;
-	hide();
+// 	hide();
+	hideWithDelay(LEAVE_DELAY);
 	if (m_entered)
 		TscoreItem::hoverLeaveEvent(event);
 	m_entered = false;
