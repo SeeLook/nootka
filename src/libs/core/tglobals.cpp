@@ -39,7 +39,7 @@ QString Tglobals::getInstPath(QString appInstPath) {
 #if defined (Q_OS_WIN)
 		p = d.path() + "/"; 				//	Windows
   #elif defined (Q_OS_ANDROID)
-        p = ":/";
+    p = "assets:/";
   #elif defined (Q_OS_LINUX)
 		  d.cdUp();
 		  p = d.path() + "/share/nootka/"; 	// Linux

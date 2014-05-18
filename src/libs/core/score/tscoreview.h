@@ -41,6 +41,7 @@ public:
 	
 protected:
 	virtual bool viewportEvent(QEvent* event);
+	virtual void timerEvent(QTimerEvent* timeEvent);
 	
 			/** Checks is item @it of type @p TscoreItem::ScoreItemType.
 			 * If not, checks it parent item and parent of parent.

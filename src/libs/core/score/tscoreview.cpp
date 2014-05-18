@@ -24,6 +24,9 @@
 #include <QDebug>
 #include <QGraphicsObject>
 
+#define TAP_TIME (150) // 150 ms
+#define LONG_TAP_TIME (500) // 500 ms
+
 
 TscoreView::TscoreView(QWidget* parent) :
 	QGraphicsView(parent),
@@ -32,7 +35,8 @@ TscoreView::TscoreView(QWidget* parent) :
 	viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 }
 
-
+int m_timerIdMain;
+bool m_isLongTap = false;
 bool TscoreView::viewportEvent(QEvent* event) {
 	if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
 		QTouchEvent *te = static_cast<QTouchEvent*>(event);
@@ -41,13 +45,16 @@ bool TscoreView::viewportEvent(QEvent* event) {
 			switch(te->touchPoints().first().state()) {
 				case Qt::TouchPointPressed: {
 					event->accept();
+					m_isLongTap = true;
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					checkItem(it, touchScenePos);
 					m_tapTime.start();
+// 					m_timerIdMain = startTimer(TAP_TIME);
 					break;
 				}
 				case Qt::TouchPointMoved: {
+					m_isLongTap = false;
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					checkItem(it, touchScenePos);
@@ -59,10 +66,16 @@ bool TscoreView::viewportEvent(QEvent* event) {
 					break;
 				}
 				case Qt::TouchPointReleased:
+// 					killTimer(m_timerIdMain);
 					if (m_currentIt) {
 						m_currentIt->cursorLeaved();
-						if (m_tapTime.elapsed() < 150)
+						if (m_tapTime.elapsed() < TAP_TIME) {
+							qDebug() << "Tap detected";
 							m_currentIt->cursorTapped(m_currentIt->mapFromScene(mapToScene(te->touchPoints().first().pos().toPoint())));
+						} else if (m_isLongTap && m_tapTime.elapsed() > LONG_TAP_TIME) {
+							qDebug() << "Long Tap";
+							m_currentIt->cursorClicked(m_currentIt->mapFromScene(mapToScene(te->touchPoints().first().pos().toPoint())));
+						}
 						m_currentIt = 0;
 					}
 					break;
@@ -93,10 +106,16 @@ bool TscoreView::viewportEvent(QEvent* event) {
 }
 
 
+void TscoreView::timerEvent(QTimerEvent* timeEvent) {
+    
+}
+
+
+
 TscoreItem* TscoreView::castItem(QGraphicsItem* it) {
 	if (it) {
 		int cnt = 0;
-		while (cnt < 2) {
+		while (cnt < 3) {
 			if (it->type() == TscoreItem::ScoreItemType)
 				return static_cast<TscoreItem*>(it);
 			if (it->parentItem()) {
