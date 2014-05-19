@@ -130,7 +130,16 @@ MainWindow::MainWindow(QWidget *parent) :
 		nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 		showMaximized();
 // 		nootBar->hide();
+// 		nootBar->setAutoFillBackground(true);
+// 		m_menuButton = new QPushButton("...", this);
+// 		m_menuButton->setFixedWidth(fontMetrics().boundingRect("...").width() + 10);
+// 		connect(m_menuButton, SIGNAL(clicked()), this, SLOT(menuTrigerred()));
 #endif
+		nootBar->hide();
+		nootBar->setAutoFillBackground(true);
+		m_menuButton = new QPushButton("...", this);
+		m_menuButton->setFixedWidth(fontMetrics().boundingRect("...").width() + 10);
+		connect(m_menuButton, SIGNAL(clicked()), this, SLOT(menuTrigerred()));
 //		QColor C(palette().text().color());
 // #if defined (Q_OS_WIN)
 // 		C.setAlpha(20);
@@ -149,7 +158,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //-------------------------------------------------------------------		
 // Setting layout
 	QVBoxLayout *mainLay = new QVBoxLayout;
-		mainLay->addWidget(nootBar);
+		mainLay->setContentsMargins(2, 2, 2, 2);
+// #if !defined (Q_OS_ANDROID)
+// 		mainLay->addWidget(nootBar);
+// #endif
 		mainLay->addWidget(m_statLab);
 		mainLay->addWidget(score);
 		mainLay->addWidget(guitar);
@@ -172,6 +184,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
 // 		nootBar->hide();
 // 		m_statLab->hide();
+		m_menuButton->raise();
+		m_menuButton->move(1, 1);
     
 }
 
@@ -189,6 +203,9 @@ MainWindow::~MainWindow()
 //##########################################################################################
 
 void MainWindow::createActions() {
+		menuAct =  new QAction("...", this);
+    connect(menuAct, SIGNAL(triggered()), this, SLOT(menuTrigerred()));
+		
     settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
     settingsAct->setIcon(QIcon(gl->path + "picts/systemsettings.png"));
@@ -217,6 +234,7 @@ void MainWindow::createActions() {
 		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
 		connect(recordAct, SIGNAL(triggered()), this, SLOT(recordSlot()));
 
+		nootBar->addAction(menuAct);
     nootBar->addAction(settingsAct);
     nootBar->addAction(levelCreatorAct);
     nootBar->addAction(analyseAct);
@@ -614,6 +632,17 @@ void MainWindow::adjustAmbitus() {
 		sound->setDefaultAmbitus();
 }
 */
+void MainWindow::menuTrigerred() {
+	if (m_menuButton->isVisible()) {
+		m_menuButton->hide();
+		nootBar->show();
+		nootBar->raise();
+	} else {
+		m_menuButton->show();
+		nootBar->hide();
+		m_menuButton->raise();
+	}
+}
 
 
 //##########################################################################################
@@ -621,16 +650,6 @@ void MainWindow::adjustAmbitus() {
 //##########################################################################################
 
 bool MainWindow::event(QEvent *event) {
-// 		switch (event->type()) {
-// 			case QEvent::TouchBegin:
-// 			case QEvent::TouchUpdate:
-// 			case QEvent::TouchEnd: {
-// 				QList<QTouchEvent::TouchPoint> touchPoints = static_cast<QTouchEvent *>(event)->touchPoints();
-// 				foreach (const QTouchEvent::TouchPoint &touchPoint, touchPoints)  {
-// 					qDebug() << touchPoint.pressure();
-// 				}
-// 			}
-// 		}
 #if !defined (Q_OS_ANDROID)
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
@@ -657,7 +676,17 @@ void MainWindow::updateSize(QSize newS) {
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
 	if (m_statFontSize < 0)
 		return;
-	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));
+	nootBar->setFixedWidth(newS.width());
+#if defined (Q_OS_ANDROID)
+	int barIconSize = qMin(newS.width(), newS.height()) / 18;
+// 	nootBar->setFixedWidth(newS.width());
+#else
+	int barIconSize = qMin(newS.width(), newS.height()) / 22;
+#endif
+	nootBar->setIconSize(QSize(barIconSize, barIconSize));
+	nootBar->adjustSize();
+// 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));	
+	
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize);

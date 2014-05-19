@@ -27,6 +27,9 @@
 #include <QTimer>
 #include <QApplication>
 #include <QGraphicsSceneHoverEvent>
+#include <QGraphicsScene>
+#include <QGraphicsEffect>
+#include <QGraphicsView>
 
 // #include <QDebug>
 
@@ -38,10 +41,20 @@
   #define LEAVE_DELAY (300)
 #endif
 
+
+QGraphicsDropShadowEffect* ItemHighLight() {
+	QGraphicsDropShadowEffect *hiBlur = new QGraphicsDropShadowEffect();
+	hiBlur->setColor(qApp->palette().highlight().color());
+	hiBlur->setOffset(1.0, 1.0);
+	hiBlur->setBlurRadius(7.0);
+	return hiBlur;
+}
+
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
 	m_scoreNote(0),
-	m_hasMouse(false), m_entered(false)
+	m_hasMouse(false), m_entered(false),
+	m_underItem(0)
 {
 	setStaff(staff);
 	setParentItem(staff);
@@ -78,7 +91,8 @@ TnoteControl::~TnoteControl()
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
 	m_plus->setPos(0.0, staff()->upperLinePos() - m_plus->boundingRect().height() * m_plus->scale());
-	m_name->setPos(0.0, m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale() - (m_name->boundingRect().height() / 2.5) * m_name->scale());
+	m_name->setPos(0.0, m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale() - 
+																					(m_name->boundingRect().height() / 3.5) * m_name->scale());
 	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 11.0;
 	m_minus->setLine(WIDTH / 4.0, minusY, WIDTH - WIDTH / 4.0, minusY);
 }
@@ -120,11 +134,11 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 				setStaff(sn->staff());
 				parentItem()->setZValue(11);
 			}
-			show();
+			QTimer::singleShot(300, this, SLOT(showDelayed()));
 			if (staff()->number() == 0 && staff()->count() < 2)
 					m_minus->hide(); // prevent deleting only one note
 			else
-				m_minus->show();
+					m_minus->show();
 			if (pos().x() < m_scoreNote->pos().x()) // hide name for left control
 				m_name->hide();
 	} else {
@@ -151,15 +165,40 @@ void TnoteControl::hoverEnterDelayed() {
 }
 
 
+void TnoteControl::showDelayed() {
+	show();
+}
+
+
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 	QTimer::singleShot(300, this, SLOT(hoverEnterDelayed()));
 	m_hasMouse = true;
 }
 
 
+void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
+	QGraphicsItem *it = scene()->itemAt(mapToScene(event->pos()), scene()->views()[0]->transform());
+	if (it != this) {
+		if (it != m_underItem) {
+			it->setGraphicsEffect(ItemHighLight());
+			if (m_underItem)
+				m_underItem->setGraphicsEffect(0);
+			m_underItem = it;
+		}
+	} else if (m_underItem) {
+			m_underItem->setGraphicsEffect(0);
+			m_underItem = 0;
+	}
+}
+
+
 void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 	m_hasMouse = false;
 // 	hide();
+	if (m_underItem) {
+			m_underItem->setGraphicsEffect(0);
+			m_underItem = 0;
+	}
 	hideWithDelay(LEAVE_DELAY);
 	if (m_entered)
 		TscoreItem::hoverLeaveEvent(event);
