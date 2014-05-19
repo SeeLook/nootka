@@ -70,7 +70,11 @@ int main(int argc, char *argv[])
 	// to allow opening nootka files by clicking them in MacOs finder
     a->installEventFilter(w);
 #endif
+#if defined (Q_OS_ANDROID)
+    w->showFullScreen();
+#else
     w->show();
+#endif
     if (firstTime && argc > 1)
         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
 		firstTime = false;

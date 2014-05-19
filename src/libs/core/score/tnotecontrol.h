@@ -53,11 +53,13 @@ signals:
 protected:
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	
 protected slots:
 	void hideDelayed();
 	void hoverEnterDelayed(); /** To avoid blinking with status tip when mouse is flying over score */
+	void showDelayed();
 		
 private:
 		TscoreNote											*m_scoreNote;
@@ -65,6 +67,7 @@ private:
 		bool						 								 m_hasMouse, m_entered;
 		QGraphicsSimpleTextItem					*m_plus, *m_name;
 		QGraphicsLineItem								*m_minus;
+		QGraphicsItem										*m_underItem; // Item under mouse
 };
 
 #endif // TNOTECONTROL_H

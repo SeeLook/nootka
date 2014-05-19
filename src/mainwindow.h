@@ -24,6 +24,7 @@
 // #include <texamexecutor.h>
 #include <QMainWindow>
 
+class QPushButton;
 
 // class TanimedChBox;
 class QVBoxLayout;
@@ -94,7 +95,7 @@ protected:
 //     TprogressWidget *progress;
 
     QToolBar *nootBar;
-    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct, *playAct, *recordAct;
+    QAction *menuAct,  *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct, *playAct, *recordAct;
 //     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
@@ -113,6 +114,7 @@ protected slots:
     void restoreMessage();
 		
 		void recordSlot();
+		void menuTrigerred();
 //     void showSupportDialog();
 		
 				/** Checks is score not too width and places pitchView under when it is.
@@ -143,6 +145,7 @@ private:
     int 									m_statFontSize;
 // 		int 									m_extraFontOffset;
     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
+    QPushButton						*m_menuButton;
 //     Tlevel 						    m_level;
 // 		bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;
