@@ -537,7 +537,7 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
 			m_nameMenu = new TnoteName(parentWidget());
 #if defined (Q_OS_ANDROID)
-			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.7);
+			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
 #else
 			m_nameMenu->resize(fontMetrics().boundingRect("A").height());
 #endif
@@ -902,7 +902,7 @@ void TmainScore::createActions() {
 	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
 	connect(scoreController(), SIGNAL(showNamesChanged()), this, SLOT(showNamesSlot()));
 	
-	TcornerProxy *accidCorner = new TcornerProxy(scene(), scoreController(), Qt::TopRightCorner);
+	TcornerProxy *accidCorner = new TcornerProxy(scoreScene(), scoreController(), Qt::TopRightCorner);
 	accidCorner->setSpotColor(palette().highlight().color());
 	
 	m_settBar = new QToolBar();
@@ -932,21 +932,21 @@ void TmainScore::createActions() {
 	m_settBar->addAction(m_staffUpAct);
 	m_settBar->addAction(m_staffDownAct);
 	m_settBar->addAction(m_lastNoteAct);	
-	TcornerProxy *settCorner = new TcornerProxy(scene(), m_settBar, Qt::BottomRightCorner);
+	TcornerProxy *settCorner = new TcornerProxy(scoreScene(), m_settBar, Qt::BottomRightCorner);
 	
 	m_clearBar = new QToolBar();
 	m_clearAct = new QAction(QIcon(gl->path + "picts/clear-score.png"), "", m_clearBar);
 	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
 	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
 	m_clearBar->addAction(m_clearAct);
-	TcornerProxy *delCorner = new TcornerProxy(scene(), m_clearBar, Qt::BottomLeftCorner);
+	TcornerProxy *delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
 	delCorner->setSpotColor(Qt::red);
 	
-	m_rhythmBar = new QToolBar();
-	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
-	m_rhythmBar->addWidget(rl);
-	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
-	rhythmCorner->setSpotColor(Qt::yellow);
+// 	m_rhythmBar = new QToolBar();
+// 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
+// 	m_rhythmBar->addWidget(rl);
+// 	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
+// 	rhythmCorner->setSpotColor(Qt::yellow);
 	
 	m_nextNoteSC = new QShortcut(QKeySequence(QKeySequence::Forward), this);
 // 	m_nextNoteSC->setContext(Qt::ApplicationShortcut);
@@ -997,8 +997,8 @@ void TmainScore::updateSceneRect() {
 		sh = m_staves.last()->pos().y() + m_staves.last()->height();
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 
 								staff()->width() + (staff()->isPianoStaff() ? 1.1 : 0.0),	sh)).boundingRect();
-	scene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
-	qDebug() << "updateSceneRect" << scene()->sceneRect() << m_staves.size();
+	scoreScene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
+	qDebug() << "updateSceneRect" << scoreScene()->sceneRect() << m_staves.size();
 }
 
 /**  In record mode  add new 'empty' note segment at the end off the staff when index is on its last note 
@@ -1067,7 +1067,7 @@ void TmainScore::moveName(TmainScore::EmoveNote moveDir) {
 
 void TmainScore::addStaff(TscoreStaff* st) {
 	if (st == 0) { // create new staff at the end of a list
-			m_staves << new TscoreStaff(scene(), 1);
+			m_staves << new TscoreStaff(scoreScene(), 1);
 			m_staves.last()->setScoreControler(scoreController());
 			m_staves.last()->onClefChanged(m_staves.first()->scoreClef()->clef());
 			m_staves.last()->setEnableKeySign(gl->SkeySignatureEnabled);

@@ -25,6 +25,7 @@
 #include <score/tscorekeysignature.h>
 #include <score/tscoreclef.h>
 #include "tscoreview.h"
+#include "tnotecontrol.h"
 #include <music/tinstrument.h>
 #include <tcolor.h>
 #include <tnoofont.h>
@@ -179,6 +180,8 @@ void TsimpleScore::setEnabledDblAccid(bool isEnabled) {
 	if (m_scoreControl)
 		m_scoreControl->enableDoubleAccidentals(isEnabled);
 	m_scene->setDoubleAccidsEnabled(isEnabled);
+	if (staff()->noteSegment(0) && staff()->noteSegment(0)->left())
+		staff()->noteSegment(0)->left()->addAccidentals();
 }
 
 

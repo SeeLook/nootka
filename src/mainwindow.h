@@ -95,7 +95,7 @@ protected:
 //     TprogressWidget *progress;
 
     QToolBar *nootBar;
-    QAction *menuAct,  *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct, *playAct, *recordAct;
+    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct, *playAct, *recordAct;
 //     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
@@ -114,7 +114,7 @@ protected slots:
     void restoreMessage();
 		
 		void recordSlot();
-		void menuTrigerred();
+		void showMenuBar();
 //     void showSupportDialog();
 		
 				/** Checks is score not too width and places pitchView under when it is.

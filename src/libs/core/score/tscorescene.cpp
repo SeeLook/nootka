@@ -17,10 +17,9 @@
  ***************************************************************************/
 
 #include "tscorescene.h"
-#include "tscorestaff.h"
-#include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
 #include <QGraphicsEffect>
+#include <QGraphicsObject>
 
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent)

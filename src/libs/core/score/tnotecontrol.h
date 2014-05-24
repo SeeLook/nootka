@@ -21,6 +21,7 @@
 #define TNOTECONTROL_H
 
 #include "tscoreitem.h"
+#include <QPointer>
 
 class TscoreNote;
 class TscoreStaff;
@@ -39,10 +40,15 @@ public:
 	TscoreNote* scoreNote() { return m_scoreNote; }
 	void setScoreNote(TscoreNote* sn);
 	
-	void adjustSize(); /** Grabs height from staff and adjust to it. */
+	void adjustSize(); /** Grabs height from staff and adjust items to it. */
 	
-	bool hasMouseCursor() { return m_hasMouse; }
-	void hideWithDelay(int delay = 300);
+	void hideWithDelay();
+	
+			/** Adds accidentals symbols to the controller. Detects are double accidentals enabled.
+			 * It can be also used to refresh double accidentals state - add/remove them */
+	void addAccidentals();
+	
+	void setAccidental(int acc);
 	
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 	virtual QRectF boundingRect() const;
@@ -56,18 +62,39 @@ protected:
 	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 	
+	void itemSelected(const QPointF& cPos);
+	
+//Android
+	virtual void touched(const QPointF& cPos);
+	virtual void untouched(const QPointF& cPos);
+	virtual void touchMove(const QPointF& cPos);
+	virtual void shortTap(const QPointF& cPos);
+	
 protected slots:
 	void hideDelayed();
 	void hoverEnterDelayed(); /** To avoid blinking with status tip when mouse is flying over score */
 	void showDelayed();
 		
 private:
-		TscoreNote											*m_scoreNote;
-		qreal						 								 m_height;
-		bool						 								 m_hasMouse, m_entered;
-		QGraphicsSimpleTextItem					*m_plus, *m_name;
-		QGraphicsLineItem								*m_minus;
-		QGraphicsItem										*m_underItem; // Item under mouse
+		TscoreNote																*m_scoreNote;
+		qreal						 								 					 m_height;
+		bool						 								 					 m_entered;
+		QGraphicsSimpleTextItem										*m_plus, *m_name;
+		QGraphicsSimpleTextItem									  *m_dblSharp, *m_sharp, *m_flat, *m_dblFlat;
+		QGraphicsRectItem													*m_accidHi;
+		QGraphicsLineItem													*m_minus;
+//Android
+		QGraphicsItem															*m_underItem; // Item under mouse
+		bool														 					 m_moveNote; // True when note cursor is moved with finger
+		int																				 m_currAccid;
+		QGraphicsSimpleTextItem 									*m_prevAccidIt;
+		
+private:
+		QGraphicsSimpleTextItem* createNootkaTextItem(const QString& aText);
+		inline qreal centeredX(QGraphicsItem* it); /** X coordinate of centered item position */
+		void accidChanged(QGraphicsItem* accidIt);
+		void markItemText(QGraphicsSimpleTextItem* textItem);
+		
 };
 
 #endif // TNOTECONTROL_H

@@ -20,6 +20,7 @@
 #include "tnotecontrol.h"
 #include "tscorestaff.h"
 #include "tscorenote.h"
+#include "tscorescene.h"
 #include <tnoofont.h>
 #include <QPainter>
 #include <QPalette>
@@ -53,12 +54,16 @@ QGraphicsDropShadowEffect* ItemHighLight() {
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
 	m_scoreNote(0),
-	m_hasMouse(false), m_entered(false),
-	m_underItem(0)
+	m_entered(false),
+	m_dblSharp(0), m_sharp(0), m_flat(0), m_dblFlat(0),
+	m_underItem(0),
+	m_moveNote(false),
+	m_currAccid(0), m_prevAccidIt(0)
 {
 	setStaff(staff);
 	setParentItem(staff);
 	setZValue(60);
+	enableTouchToMouse(false);
 // 	m_height = staff->height();
 	hide();
 	setStatusTip(tr("Click <big><b>+</b></big> to add new note or <big><b>-</b></big> to remove it.<br>Click %1 to edit note name").arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, "color: #008080"))); // #008080 - dark Cyan
@@ -90,19 +95,61 @@ TnoteControl::~TnoteControl()
 
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
-	m_plus->setPos(0.0, staff()->upperLinePos() - m_plus->boundingRect().height() * m_plus->scale());
-	m_name->setPos(0.0, m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale() - 
-																					(m_name->boundingRect().height() / 3.5) * m_name->scale());
-	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 11.0;
-	m_minus->setLine(WIDTH / 4.0, minusY, WIDTH - WIDTH / 4.0, minusY);
+	m_plus->setPos(0.0, staff()->upperLinePos() - 4.0 - m_plus->boundingRect().height() * m_plus->scale());
+	qreal dblSharpH = 0.0;
+	if (m_dblSharp) {
+		dblSharpH = m_dblSharp->boundingRect().height() * m_dblSharp->scale();
+		m_dblSharp->setPos(centeredX(m_dblSharp), m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale());
+	}
+	if (m_sharp) {
+		m_sharp->setPos(centeredX(m_sharp), m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale() + dblSharpH);
+		m_flat->setPos(centeredX(m_flat), m_sharp->pos().y() + 1.0 + m_sharp->boundingRect().height() * m_sharp->scale());
+		m_accidHi->setRect(QRectF(0.0, 0.0, 
+						WIDTH, m_sharp->boundingRect().height() * m_sharp->scale()));
+	}
+	if (m_dblFlat)
+		m_dblFlat->setPos(centeredX(m_dblFlat), m_flat->pos().y() + 0.3 + m_flat->boundingRect().height() * m_flat->scale());
+	if (!m_sharp) {
+		m_name->setPos(0.0, m_plus->pos().y() + m_plus->boundingRect().height() * m_plus->scale() - 
+					(m_name->boundingRect().height() / 3.5) * m_name->scale());
+		qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 11.0;
+		m_minus->setLine(WIDTH / 4.0, minusY, WIDTH - WIDTH / 4.0, minusY);
+	}
 }
 
 
-void TnoteControl::hideWithDelay(int delay) {
-	Q_UNUSED(delay)
+void TnoteControl::hideWithDelay() {
 	QTimer::singleShot(LEAVE_DELAY, this, SLOT(hideDelayed()));
 }
 
+
+void TnoteControl::addAccidentals() {
+	if (!m_sharp) {
+		m_sharp = createNootkaTextItem("#");
+		m_flat = createNootkaTextItem("b");
+		m_accidHi = new QGraphicsRectItem(this);
+		m_accidHi->hide();
+		m_accidHi->setPen(Qt::NoPen);
+		m_accidHi->setBrush(QBrush(qApp->palette().highlight().color()));
+		m_accidHi->setZValue(8); // below accidentals
+	}
+	if (scoreScene()->doubleAccidsFuse() == 2) { // double accidentals
+		if (!m_dblSharp) {
+			m_dblSharp = createNootkaTextItem("x");
+			m_dblFlat = createNootkaTextItem("B");
+		}
+	} else {
+		if (m_dblSharp) {
+			delete m_dblSharp;
+			m_dblSharp = 0;
+			delete m_dblFlat;
+			m_dblFlat = 0;
+		}
+	}
+	m_name->hide();
+	m_minus->hide();
+	adjustSize();
+}
 
 
 QRectF TnoteControl::boundingRect() const {
@@ -118,8 +165,8 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 			QColor bc = qApp->palette().base().color(); // Qt::lightGray;
 			bc.setAlpha(220);
 			painter->setBrush(QBrush(bc));
-			qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 16.0;
-			painter->drawRoundedRect(0.0, staff()->upperLinePos() - 4.0, WIDTH, lowest - staff()->upperLinePos(), 0.75, 0.75);
+			qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 18.0;
+			painter->drawRoundedRect(0.0, staff()->upperLinePos() - 6.0, WIDTH, lowest - staff()->upperLinePos(), 0.75, 0.75);
 	}
 }
 
@@ -134,11 +181,16 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 				setStaff(sn->staff());
 				parentItem()->setZValue(11);
 			}
+#if !defined (Q_OS_ANDROID)
 			QTimer::singleShot(300, this, SLOT(showDelayed()));
 			if (staff()->number() == 0 && staff()->count() < 2)
 					m_minus->hide(); // prevent deleting only one note
 			else
 					m_minus->show();
+#else
+			m_minus->hide();
+			show();
+#endif
 			if (pos().x() < m_scoreNote->pos().x()) // hide name for left control
 				m_name->hide();
 	} else {
@@ -147,19 +199,43 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 }
 
 
+void TnoteControl::setAccidental(int acc) {
+// 	if (acc == m_currAccid) {
+// 		m_currAccid = 0;
+// 	} else {
+		m_currAccid = acc;
+		QGraphicsSimpleTextItem* it = 0;
+		if (acc == -2)
+			it = m_dblFlat;
+		else if (acc == -1)
+			it = m_flat;
+		else if (acc == 1)
+			it = m_sharp;
+		else if (acc == 2)
+			it = m_dblSharp;
+		markItemText(it);
+// 	}
+}
+
+
+//##########################################################################################################
+//####################################         PROTECTED    ################################################
+//##########################################################################################################
+
+
 void TnoteControl::hideDelayed() {
 	if (m_scoreNote->isCursorVisible())
 		return;
-	if (hasMouseCursor())
-		hideWithDelay(LEAVE_DELAY);
+	if (hasCursor())
+		hideWithDelay();
 	else
 		hide();
 }
 
 
 void TnoteControl::hoverEnterDelayed() {
-	if (m_hasMouse) {
-		TscoreItem::hoverEnterEvent(0);
+	if (hasCursor()) {
+// 		TscoreItem::hoverEnterEvent(0);
 		m_entered = true;
 	}
 }
@@ -170,9 +246,31 @@ void TnoteControl::showDelayed() {
 }
 
 
+void TnoteControl::itemSelected(const QPointF& cPos) {
+	QGraphicsItem *it = scene()->itemAt(mapToScene(cPos), scene()->views()[0]->transform());
+	if (it == 0 || it->parentItem() != this)
+		return;
+	if (it == m_name) {
+		hoverLeaveEvent(0);
+		emit nameMenu(m_scoreNote);
+	} else if (it == m_plus) {
+		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
+				staff()->insertNote(m_scoreNote->index() + 1);
+		} else { // left control - preppend a note
+				staff()->insertNote(m_scoreNote->index() - 1);
+		}
+	} else if (it == m_minus) {
+		staff()->removeNote(m_scoreNote->index());
+		hoverLeaveEvent(0);
+	} else // accidentals remained
+			accidChanged(it);
+	
+}
+
+
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+	TscoreItem::hoverEnterEvent(0);
 	QTimer::singleShot(300, this, SLOT(hoverEnterDelayed()));
-	m_hasMouse = true;
 }
 
 
@@ -193,39 +291,100 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
-	m_hasMouse = false;
 // 	hide();
 	if (m_underItem) {
 			m_underItem->setGraphicsEffect(0);
 			m_underItem = 0;
 	}
-	hideWithDelay(LEAVE_DELAY);
-	if (m_entered)
+	hideWithDelay();
+// 	if (m_entered)
 		TscoreItem::hoverLeaveEvent(event);
 	m_entered = false;
 }
 
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (event->pos().y() < m_name->pos().y()) { // add a note
-		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
-				staff()->insertNote(m_scoreNote->index() + 1);
-		} else { // left control - preppend a note
-				staff()->insertNote(m_scoreNote->index() - 1);
-		}
-	} else if (event->pos().y() < m_name->pos().y() + m_name->boundingRect().height() * m_name->scale()) { // edit note name
-			hoverLeaveEvent(0);
-			emit nameMenu(m_scoreNote);
-	} else if (m_minus->isVisible() && event->pos().y() > m_minus->line().y1() - 1.0) {
-			staff()->removeNote(m_scoreNote->index());
-			hoverLeaveEvent(0);
-	}
+	itemSelected(event->pos());
 }
 
 
+void TnoteControl::touched(const QPointF& cPos) {
+	TscoreItem::touched(cPos); // keep hasCursor() working
+	m_moveNote = true;
+}
 
 
+void TnoteControl::untouched(const QPointF& cPos) {
+	TscoreItem::untouched(cPos);
+	m_moveNote = false;
+}
 
+
+void TnoteControl::touchMove(const QPointF& cPos) {
+  if (m_moveNote && m_scoreNote) {
+		m_scoreNote->moveWorkNote(cPos);
+  }
+}
+
+
+void TnoteControl::shortTap(const QPointF& cPos) {
+	if (m_scoreNote && m_scoreNote->isCursorVisible())
+		m_scoreNote->hideWorkNote();
+	itemSelected(cPos);
+}
+
+//##########################################################################################################
+//####################################         PRIVATE     #################################################
+//##########################################################################################################
+
+void TnoteControl::accidChanged(QGraphicsItem* accidIt) {
+	int acc = 0;
+	if (accidIt == m_dblSharp)
+		acc = 2;
+	else if (accidIt == m_sharp)
+		acc = 1;
+	else if (accidIt == m_flat)
+		acc = -1;
+	else if (accidIt == m_dblFlat)
+		acc = -2;
+	if (m_prevAccidIt == accidIt)
+		acc = 0;
+	setAccidental(acc);
+// 	if (m_prevAccidIt)
+// 		m_prevAccidIt->setBrush(QBrush(qApp->palette().text().color()));
+// 	markItemText(static_cast<QGraphicsSimpleTextItem*>(accidIt));
+// 	if (m_currAccid)
+// 		m_prevAccidIt->setBrush(QBrush(qApp->palette().highlightedText().color()));
+	scoreScene()->setCurrentAccid(m_currAccid);
+}
+
+
+QGraphicsSimpleTextItem* TnoteControl::createNootkaTextItem(const QString& aText) {
+	QGraphicsSimpleTextItem *nooItem = new QGraphicsSimpleTextItem(aText, this);
+	nooItem->setFont(TnooFont());
+	nooItem->setBrush(QBrush(qApp->palette().text().color()));
+	nooItem->setScale(WIDTH / nooItem->boundingRect().height());
+	nooItem->setZValue(10);
+	return nooItem;
+}
+
+
+inline qreal TnoteControl::centeredX(QGraphicsItem* it) {
+	return (WIDTH - it->boundingRect().width() * it->scale()) / 2.0;
+}
+
+
+void TnoteControl::markItemText(QGraphicsSimpleTextItem* textItem) {
+	if (m_prevAccidIt)
+		m_prevAccidIt->setBrush(QBrush(qApp->palette().text().color()));
+	m_prevAccidIt = textItem;
+	if (m_currAccid) {
+		m_prevAccidIt->setBrush(QBrush(qApp->palette().highlightedText().color()));
+		m_accidHi->setPos(0.0, m_prevAccidIt->pos().y());
+		m_accidHi->show();
+	} else
+		m_accidHi->hide();
+}
 
 
 

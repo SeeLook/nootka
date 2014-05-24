@@ -61,11 +61,15 @@ signals:
 		void switchPianoStaff(Tclef);
     
 protected:
-		void mousePressEvent(QGraphicsSceneMouseEvent* event);
+#if defined (Q_OS_ANDROID)
+    virtual void longTap(const QPointF& cPos);
+#else
+		virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+#endif
 		
 protected slots:
 		void clefMenuStatusTip(QString tip) { emit statusTip(tip); }
-		void lowerClefCganged(Tclef clef);
+		void lowerClefChanged(Tclef clef);
 		
 private:
     int getYclefPos(Tclef clef);

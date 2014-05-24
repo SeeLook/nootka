@@ -21,6 +21,7 @@
 #include <widgets/troundedlabel.h>
 #include <tprocesshandler.h>
 #include "score/tmainscore.h"
+#include "score/tcornerproxy.h"
 #include "guitar/tfingerboard.h"
 // // #include "tsettingsdialog.h"
 // // #include "tlevelcreatordlg.h"
@@ -131,15 +132,10 @@ MainWindow::MainWindow(QWidget *parent) :
 		showMaximized();
 // 		nootBar->hide();
 // 		nootBar->setAutoFillBackground(true);
-// 		m_menuButton = new QPushButton("...", this);
-// 		m_menuButton->setFixedWidth(fontMetrics().boundingRect("...").width() + 10);
-// 		connect(m_menuButton, SIGNAL(clicked()), this, SLOT(menuTrigerred()));
 #endif
 		nootBar->hide();
 		nootBar->setAutoFillBackground(true);
-		m_menuButton = new QPushButton("...", this);
-		m_menuButton->setFixedWidth(fontMetrics().boundingRect("...").width() + 10);
-		connect(m_menuButton, SIGNAL(clicked()), this, SLOT(menuTrigerred()));
+
 //		QColor C(palette().text().color());
 // #if defined (Q_OS_WIN)
 // 		C.setAlpha(20);
@@ -157,8 +153,12 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 //-------------------------------------------------------------------		
 // Setting layout
+	nootBar->setParent(0);
+	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), new QWidget(), Qt::TopLeftCorner);
+	rhythmCorner->setSpotColor(Qt::yellow);
+	connect(rhythmCorner, SIGNAL(cornerReady()), this, SLOT(showMenuBar()));
 	QVBoxLayout *mainLay = new QVBoxLayout;
-		mainLay->setContentsMargins(2, 2, 2, 2);
+		mainLay->setContentsMargins(0, 0, 0, 0);
 // #if !defined (Q_OS_ANDROID)
 // 		mainLay->addWidget(nootBar);
 // #endif
@@ -183,10 +183,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //     if (gl->A->OUTenabled && !sound->isPlayable())
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
 // 		nootBar->hide();
-// 		m_statLab->hide();
-		m_menuButton->raise();
-		m_menuButton->move(1, 1);
-    
+// 		m_statLab->hide();    
 }
 
 
@@ -202,10 +199,7 @@ MainWindow::~MainWindow()
 //#######################     METHODS       ################################################
 //##########################################################################################
 
-void MainWindow::createActions() {
-		menuAct =  new QAction("...", this);
-    connect(menuAct, SIGNAL(triggered()), this, SLOT(menuTrigerred()));
-		
+void MainWindow::createActions() {		
     settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
     settingsAct->setIcon(QIcon(gl->path + "picts/systemsettings.png"));
@@ -234,7 +228,6 @@ void MainWindow::createActions() {
 		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
 		connect(recordAct, SIGNAL(triggered()), this, SLOT(recordSlot()));
 
-		nootBar->addAction(menuAct);
     nootBar->addAction(settingsAct);
     nootBar->addAction(levelCreatorAct);
     nootBar->addAction(analyseAct);
@@ -632,16 +625,18 @@ void MainWindow::adjustAmbitus() {
 		sound->setDefaultAmbitus();
 }
 */
-void MainWindow::menuTrigerred() {
-	if (m_menuButton->isVisible()) {
-		m_menuButton->hide();
-		nootBar->show();
-		nootBar->raise();
-	} else {
-		m_menuButton->show();
-		nootBar->hide();
-		m_menuButton->raise();
-	}
+void MainWindow::showMenuBar() {
+	QMenu *menu = new QMenu(this);
+	QVBoxLayout *l = new QVBoxLayout;
+	l->addWidget(nootBar);
+	menu->setLayout(l);
+	nootBar->show();
+	menu->resize(nootBar->size());
+	menu->setStyleSheet("background-color: palette(window)");
+	menu->exec(pos());
+	nootBar->setParent(0);
+	delete menu;
+	nootBar->hide();
 }
 
 
@@ -679,7 +674,6 @@ void MainWindow::updateSize(QSize newS) {
 	nootBar->setFixedWidth(newS.width());
 #if defined (Q_OS_ANDROID)
 	int barIconSize = qMin(newS.width(), newS.height()) / 18;
-// 	nootBar->setFixedWidth(newS.width());
 #else
 	int barIconSize = qMin(newS.width(), newS.height()) / 22;
 #endif
