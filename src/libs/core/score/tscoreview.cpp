@@ -24,19 +24,19 @@
 #include <QDebug>
 #include <QGraphicsObject>
 
-#define TAP_TIME (150) // 150 ms
-#define LONG_TAP_TIME (500) // 500 ms
+#define TAP_TIME (200) //  ms
+#define LONG_TAP_TIME (500) // ms
 
 
 TscoreView::TscoreView(QWidget* parent) :
 	QGraphicsView(parent),
-	m_currentIt(0)
+	m_currentIt(0),
+	m_isLongTap(false)
 {
 	viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 }
 
-int m_timerIdMain;
-bool m_isLongTap = false;
+
 bool TscoreView::viewportEvent(QEvent* event) {
 	if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
 		QTouchEvent *te = static_cast<QTouchEvent*>(event);
@@ -47,35 +47,42 @@ bool TscoreView::viewportEvent(QEvent* event) {
 					event->accept();
 					m_isLongTap = true;
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+					m_initPos = touchScenePos;
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					checkItem(it, touchScenePos);
 					m_tapTime.start();
-// 					m_timerIdMain = startTimer(TAP_TIME);
+					killTimer(m_timerIdMain);
+					m_timerIdMain = startTimer(LONG_TAP_TIME);
 					break;
 				}
 				case Qt::TouchPointMoved: {
 					m_isLongTap = false;
+					killTimer(m_timerIdMain);
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					checkItem(it, touchScenePos);
 					if (it) {						
 						QPointF touchPos = it->mapFromScene(touchScenePos);
-						touchPos.setY(touchPos.y() - 6.0);
-						it->cursorMoved(touchPos);
+// 						touchPos.setY(touchPos.y() - 6.0);
+						it->touchMove(touchPos);
 					}
 					break;
 				}
+				case Qt::TouchPointStationary:
+					m_isLongTap = true;
+					killTimer(m_timerIdMain);
+					m_timerIdMain = startTimer(LONG_TAP_TIME);
+					break;
 				case Qt::TouchPointReleased:
-// 					killTimer(m_timerIdMain);
+					killTimer(m_timerIdMain);
 					if (m_currentIt) {
-						m_currentIt->cursorLeaved();
+						QPointF touchScenePosMap = m_currentIt->mapFromScene(mapToScene(te->touchPoints().first().pos().toPoint()));
+						m_currentIt->untouched(touchScenePosMap);
 						if (m_tapTime.elapsed() < TAP_TIME) {
-							qDebug() << "Tap detected";
-							m_currentIt->cursorTapped(m_currentIt->mapFromScene(mapToScene(te->touchPoints().first().pos().toPoint())));
-						} else if (m_isLongTap && m_tapTime.elapsed() > LONG_TAP_TIME) {
-							qDebug() << "Long Tap";
-							m_currentIt->cursorClicked(m_currentIt->mapFromScene(mapToScene(te->touchPoints().first().pos().toPoint())));
-						}
+							m_currentIt->shortTap(touchScenePosMap);
+						} /*else if (m_isLongTap && m_tapTime.elapsed() > LONG_TAP_TIME) {
+							m_currentIt->longTap(touchScenePosMap);
+						}*/
 						m_currentIt = 0;
 					}
 					break;
@@ -86,8 +93,9 @@ bool TscoreView::viewportEvent(QEvent* event) {
 			switch(te->touchPoints()[1].state()) {
 				case Qt::TouchPointPressed: {
 					if (m_currentIt) {
-					    QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
-					    m_currentIt->cursorClicked(m_currentIt->mapFromScene(touchScenePos));
+					    QPointF touch1ScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+							QPointF touch2ScenePos = mapToScene(te->touchPoints()[1].pos().toPoint());
+					    m_currentIt->secondTouch(m_currentIt->mapFromScene(touch1ScenePos), m_currentIt->mapFromScene(touch2ScenePos));
 					  }
 					break;
 				}
@@ -107,7 +115,12 @@ bool TscoreView::viewportEvent(QEvent* event) {
 
 
 void TscoreView::timerEvent(QTimerEvent* timeEvent) {
-    
+	if (timeEvent->timerId() == m_timerIdMain) {
+		killTimer(m_timerIdMain);
+		if (m_currentIt) {
+				m_currentIt->longTap(m_currentIt->mapFromScene(m_initPos));
+		}
+	}
 }
 
 
@@ -132,10 +145,10 @@ TscoreItem* TscoreView::castItem(QGraphicsItem* it) {
 void TscoreView::checkItem(TscoreItem* it, const QPointF& touchScenePos) {
 	if (it != m_currentIt) {
 		if (m_currentIt)
-			m_currentIt->cursorLeaved();
+			m_currentIt->untouched(m_currentIt->mapFromScene(touchScenePos));
 		m_currentIt = it;
 		if (m_currentIt)
-			m_currentIt->cursorEntered(it->mapFromScene(touchScenePos));
+			m_currentIt->touched(m_currentIt->mapFromScene(touchScenePos));
 	}
 }
 

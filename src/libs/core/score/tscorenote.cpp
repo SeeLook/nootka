@@ -96,19 +96,17 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainPosY(0.0),
   m_accidental(0),
   m_index(index),
-  m_readOnly(false),
   m_stringText(0), m_stringNr(0),
+  m_readOnly(false),
   m_nameText(0),
-//   m_noteNr(100),
   m_ottava(0),
   m_bgColor(-1),
   m_noteAnim(0), m_accidToKeyAnim(false),
   m_selected(false)
 {
-// 	setAcceptTouchEvents(true);
-// 	setAcceptHoverEvents(false);
   setStaff(staff);
 	setParentItem(staff);
+	enableTouchToMouse(false); // Touch events are re-implemented here
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
 	m_note = new Tnote(0, 0, 0);
@@ -439,6 +437,7 @@ void TscoreNote::keyAnimFinished() {
 //#################################################################################################
 //########################################## PROTECTED   ##########################################
 //#################################################################################################
+
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
 	if (staff()->controlledNotes()) {
@@ -454,7 +453,7 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 			m_workAccid->show();
   }
   emit statusTip(m_staticTip);
-//   TscoreItem::hoverEnterEvent(event); // as long as this method does the same as above it makes no sense to call it again
+  TscoreItem::hoverEnterEvent(event);
 }
 
 
@@ -462,9 +461,9 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverLeaveEvent";
   hideWorkNote();
 	if (staff()->controlledNotes()) {
-			if (!m_rightBox->hasMouseCursor())
+			if (!m_rightBox->hasCursor())
 					m_rightBox->hideWithDelay();
-			if (!m_leftBox->hasMouseCursor())
+			if (!m_leftBox->hasCursor())
 					m_leftBox->hideWithDelay();
 	}
   TscoreItem::hoverLeaveEvent(event);
@@ -472,7 +471,6 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
-// 	qDebug() << "hoverMoveEvent" << event->pos();
 //   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
 	if ((event->pos().y() >= 1) && (event->pos().y() <= m_height - 3.0)) {
 		if (staff()->isPianoStaff() && 
@@ -536,6 +534,69 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
     }
 }
 
+bool m_touchedToMove = false;
+#if defined(Q_OS_ANDROID)
+void TscoreNote::touched(const QPointF& cPos) {
+	TscoreItem::touched(cPos);			
+}
+
+
+void TscoreNote::untouched(const QPointF& cPos) {
+	TscoreItem::untouched(cPos);
+	m_touchedToMove = false;
+	if (staff()->controlledNotes()) {
+			if (!m_rightBox->hasCursor())
+					m_rightBox->hideWithDelay();
+			if (!m_leftBox->hasCursor())
+					m_leftBox->hideWithDelay();
+			if (isCursorVisible()) {
+					QTimer::singleShot(950, this, SLOT(hideWorkNote()));
+			}
+	}		
+}
+
+
+void TscoreNote::touchMove(const QPointF& cPos) {
+  if (m_touchedToMove && isCursorVisible())
+		moveWorkNote(cPos);
+}
+
+
+void TscoreNote::shortTap(const QPointF& cPos) {
+	if (isCursorVisible()) {
+			if (cPos.y() >= m_workPosY - 4 && cPos.y() <= m_workPosY + 4) {
+				if (cPos.x() >= 0.0 && cPos.x() <= 7.0) { // if finger taken over note - it was selected
+						QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
+						me.setPos(cPos);
+						me.setButton(Qt::LeftButton);
+						mousePressEvent(&me);
+				}
+			}
+			hideWorkNote();
+			m_rightBox->hide();
+			m_leftBox->hide();
+	} else 
+			emit noteWasSelected(m_index);
+}
+
+
+void TscoreNote::longTap(const QPointF& cPos) {
+	if (staff()->controlledNotes()) {
+			m_touchedToMove = true;
+			m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
+			m_rightBox->setScoreNote(this);
+			m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
+			m_leftBox->setScoreNote(this);
+	}
+	if (m_workNote->parentItem() != this)
+			setCursorParent(this);
+  if ((cPos.y() >= m_ambitMax) && (cPos.y() <= m_ambitMin)) {
+			m_workNote->show();
+			m_workAccid->show();
+  }
+}
+#endif
+
 //##########################################################################################################
 //####################################         PRIVATE     #################################################
 //##########################################################################################################
@@ -596,6 +657,7 @@ void TscoreNote::initNoteCursor() {
 	
 	m_rightBox = new TnoteControl(staff(), scoreScene());
 	m_leftBox = new TnoteControl(staff(), scoreScene());
+	m_leftBox->addAccidentals();
 }
 
 

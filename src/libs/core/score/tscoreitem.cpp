@@ -26,14 +26,16 @@
 TscoreItem::TscoreItem(TscoreScene* scene) :
   m_scene(scene),
   m_statusTip(""),
-  m_staff(0)
+  m_staff(0),
+  m_hasCursor(false),
+  m_touchToMouse(true)
 {
   m_scene->addItem(this);
-#if defined (Q_OS_ANDROID)
+// #if defined (Q_OS_ANDROID)
 // 	setAcceptTouchEvents(true);	
-#else
+// #else
   setAcceptHoverEvents(true);
-#endif
+// #endif
 
 }
 
@@ -45,79 +47,64 @@ void TscoreItem::setStatusTip(QString status) {
       connect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)));
 }
 
+//####################################################################################
+//###############################  TOUCH EVENTS ######################################
+//####################################################################################
 
-void TscoreItem::cursorEntered(const QPointF& cPos) {
-	QGraphicsSceneHoverEvent hover(QEvent::GraphicsSceneHoverEnter);
-	hover.setPos(cPos);
-	hoverEnterEvent(&hover);
+void TscoreItem::touched(const QPointF& cPos) {
+	m_hasCursor = true;
+	if (isTouchToMouse()) {
+			QGraphicsSceneHoverEvent hover(QEvent::GraphicsSceneHoverEnter);
+			hover.setPos(cPos);
+			hoverEnterEvent(&hover);
+	}
 }
 
 
-void TscoreItem::cursorMoved(const QPointF& cPos) {
-	QGraphicsSceneHoverEvent hover(QEvent::GraphicsSceneHoverMove);
-	hover.setPos(cPos);
-	hoverMoveEvent(&hover);
+void TscoreItem::touchMove(const QPointF& cPos) {
+	if (isTouchToMouse()) {
+			QGraphicsSceneHoverEvent hover(QEvent::GraphicsSceneHoverMove);
+			hover.setPos(cPos);
+			hoverMoveEvent(&hover);
+	}
 }
 
 
-void TscoreItem::cursorLeaved() {
-	hoverLeaveEvent(0);
+void TscoreItem::untouched(const QPointF &cPos) {
+	Q_UNUSED(cPos)
+	m_hasCursor = false;
+	if (isTouchToMouse())
+			hoverLeaveEvent(0);
 }
 
 
-void TscoreItem::cursorClicked(const QPointF& cPos) {
-	QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
-	me.setPos(cPos);
-	me.setButton(Qt::LeftButton);
-	mousePressEvent(&me);
+void TscoreItem::longTap(const QPointF& cPos) {
+	if (isTouchToMouse()) {
+			QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
+			me.setPos(cPos);
+			me.setButton(Qt::LeftButton);
+			mousePressEvent(&me);
+	}
 }
 
 
-void TscoreItem::cursorTapped(const QPointF& cPos) {
-	QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
-	me.setPos(cPos);
-	me.setButton(Qt::RightButton);
-	mousePressEvent(&me);
+void TscoreItem::shortTap(const QPointF& cPos) {
+	if (isTouchToMouse()) {
+			QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
+			me.setPos(cPos);
+			me.setButton(Qt::RightButton);
+			mousePressEvent(&me);
+	}
+}
+
+
+void TscoreItem::secondTouch(const QPointF& pos1, const QPointF& pos2) {
 }
 
 
 //####################################################################################
 //###############################  PROTECTED #########################################
 //####################################################################################
-
-// #if defined (Q_OS_ANDROID)
-// bool TscoreItem::sceneEvent(QEvent* ev) {
-// 	qDebug() << ev->type();
-// 	if (ev->type() == QEvent::TouchBegin || ev->type() == QEvent::TouchUpdate || ev->type() == QEvent::TouchEnd) {
-// 		QTouchEvent *te = static_cast<QTouchEvent*>(ev);
-// // 		if (te->touchPoints().count() == 1) {
-// 			qDebug() << te->touchPoints().count() << te->touchPoints().first().state();
-// 			QGraphicsSceneHoverEvent *hover = 0;
-// 			if (te->touchPoints().first().state())
-// 			switch(te->touchPoints().first().state()) {
-// 				case Qt::TouchPointPressed:
-// 					ev->accept();
-// 					hoverEnterEvent(hover = touchToHover(te, QEvent::GraphicsSceneHoverEnter));
-// 					break;
-// 				case Qt::TouchPointMoved:
-// 					hoverMoveEvent(hover = touchToHover(te, QEvent::GraphicsSceneHoverMove));
-// 					break;
-// 				case Qt::TouchPointReleased:
-// 					hoverLeaveEvent(0);
-// 					break;
-// 				default:
-// 					break;
-// 			}
-// 			if (hover)
-// 				delete hover;
-// 		}			 
-// // 		for (int i = 0; i < te->touchPoints().size(); i++)
-// // 			qDebug() << te->touchPoints()[i].pos() << te->touchPoints()[i].pressure() << te->touchPoints()[i].velocity();
-// // 	}
-// 	return QGraphicsObject::event(ev);
-// }
-// #endif
-
 
 void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
 	QLinearGradient gr(boundingRect().topLeft(), boundingRect().topRight());
@@ -137,12 +124,14 @@ void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
 
 void TscoreItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   Q_UNUSED(event);
+	m_hasCursor = true;
   if (m_statusTip != "")
     emit statusTip(m_statusTip);
 }
 
 void TscoreItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
   Q_UNUSED(event);
+	m_hasCursor = false;
   emit statusTip("");
 }
 
@@ -152,18 +141,6 @@ void TscoreItem::registryItem(QGraphicsItem* item) {
   item->setParentItem(this);
 }
 
-//####################################################################################
-//###############################  PROTECTED #########################################
-//####################################################################################
-// #if defined (Q_OS_ANDROID)
-// QGraphicsSceneHoverEvent* TscoreItem::touchToHover(QTouchEvent* te, QEvent::Type evType) {
-// 	QGraphicsSceneHoverEvent *hover = new QGraphicsSceneHoverEvent(evType);
-// 	hover->setPos(te->touchPoints().first().pos());
-// 	hover->setLastPos(te->touchPoints().first().lastPos());
-// 	return hover;
-// }
-// #endif
-// 
 
 
 

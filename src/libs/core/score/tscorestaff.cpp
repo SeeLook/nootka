@@ -58,6 +58,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 	m_lockRangeCheck(false)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
+	enableTouchToMouse(false); // Do not propagate - hasCursor() is not necessary
 	m_lines[0] = 0;
 	m_lowLines[0] = 0; // first array item points are the all items exist or not
 	setZValue(10);
@@ -500,6 +501,8 @@ void TscoreStaff::noteChangedAccid(int accid) {
 	if (m_scoreControl) {
 			m_scoreControl->setAccidental(accid);
 	}
+	if (TscoreNote::left())
+		TscoreNote::left()->setAccidental(accid);
 }
 
 //##########################################################################################################

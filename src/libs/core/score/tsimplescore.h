@@ -56,6 +56,7 @@ public:
 		Tclef clef();
 		void setClefDisabled(bool isDisabled);
 		
+		TscoreScene* scoreScene() { return m_scene; }		
 
 				/** This method returns the key signature if score has got TscoreKeySign item, 
 				 * key can be:
@@ -107,7 +108,7 @@ public slots:
 protected:
 		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller
 		TscoreView* score() { return m_score; }
-		TscoreScene* scene() { return m_scene; }
+// 		TscoreScene* scoreScene() { return m_scene; }
 		
 				/** Pointer to TscoreStaff should never go to public !!!!
 				 * TscoreStaff instance is changeable by pianoStaffSwitched() and any connection with its signals will be lost.

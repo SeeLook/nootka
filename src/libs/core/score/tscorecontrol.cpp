@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "tscorecontrol.h"
-#include "tscorescene.h"
 #include <widgets/tpushbutton.h>
 #include <QVBoxLayout>
 

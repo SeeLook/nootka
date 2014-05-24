@@ -65,12 +65,6 @@ public:
 				 * because there is only one instance of note cursor and TnoteControl */
 		static void adjustCursor(); 
 		
-        /** Hides main note */
-    void hideNote();
-		
-        /** Hides pointing (work) note */
-    void hideWorkNote();
-		
         /** Sets color of main note. */
     void setColor(QColor color);
 		
@@ -153,38 +147,46 @@ signals:
 		
 public slots:
 		void keyAnimFinished();
+    void hideNote(); /** Hides main note */
+    void hideWorkNote(); /** Hides pointing (work) note */
 
 protected:
+#if defined (Q_OS_ANDROID)
+		virtual void shortTap(const QPointF &cPos);
+    virtual void longTap(const QPointF& cPos);
+    virtual void touched(const QPointF& cPos);
+    virtual void untouched(const QPointF &cPos);
+    virtual void touchMove(const QPointF& cPos);
+#endif
+		
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
     
-    void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-    void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-		
-		void cursorTapped(const QPointF &cPos) { emit noteWasSelected(m_index); }
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
     QGraphicsEllipseItem          					*m_mainNote;
     QGraphicsSimpleTextItem       					*m_mainAccid;
-		QGraphicsSimpleTextItem 								*m_stringText;
-		QGraphicsTextItem												*m_nameText;
     TaddLines      								 					m_mainUpLines, m_mainDownLines, m_mainMidLines;
     QColor                         					m_mainColor;
-		TcombinedAnim														*m_noteAnim;
 		TcrossFadeTextAnim 											*m_accidAnim;
-    bool													 					m_accidToKeyAnim;
 		Tnote																	  *m_note;
     
     int                            					m_mainPosY, m_accidental;
     int                            					m_index; /** note index in external list */
 //     int 													m_noteNr; // note number depends on octave
-    int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
     int                            					m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
 		int 													 					m_stringNr;
+		QGraphicsSimpleTextItem 								*m_stringText;
     qreal                          					m_height;
 		bool													 					m_readOnly;
+		QGraphicsTextItem												*m_nameText;
+		int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
 		QColor                         					m_bgColor;
+		TcombinedAnim														*m_noteAnim;
+		bool													 					m_accidToKeyAnim;
 		bool													 					m_selected;
 		
 		static qreal 									 					m_accidYoffset; /** difference between y note position. */

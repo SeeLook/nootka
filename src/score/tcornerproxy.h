@@ -51,6 +51,9 @@ public:
 	virtual QRectF boundingRect() const;
 	virtual QPainterPath shape() const;
 	
+signals:
+	void cornerReady();
+	
 public slots:
 	void hideWithDelay();
 	
@@ -60,8 +63,15 @@ protected:
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 	
-	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {}
 	virtual bool eventFilter(QObject* ob, QEvent* event);
+	virtual void timerEvent(QTimerEvent* te);
+	
+	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {
+		Q_UNUSED(painter)
+		Q_UNUSED(option)
+		Q_UNUSED(widget)
+	}
+	
 	
 protected slots:
 	void sceneRectChangedSlot(); /** Refresh positions when scene is scaled (rect is changed) */
@@ -74,6 +84,7 @@ private:
 	QGraphicsView								*m_view;
 	qreal												 m_side;
 	QColor											 m_colorOfSpot;
+	int													 m_signalTimer;
 	
 };
 
