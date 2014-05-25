@@ -154,7 +154,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //-------------------------------------------------------------------		
 // Setting layout
 	nootBar->setParent(0);
-	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), new QWidget(), Qt::TopLeftCorner);
+	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), 0, Qt::TopLeftCorner);
 	rhythmCorner->setSpotColor(Qt::yellow);
 	connect(rhythmCorner, SIGNAL(cornerReady()), this, SLOT(showMenuBar()));
 	QVBoxLayout *mainLay = new QVBoxLayout;

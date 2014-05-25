@@ -27,6 +27,8 @@
 #include <QButtonGroup>
 #include <QPainter>
 #include <QEvent>
+#include <QApplication>
+#include <QDesktopWidget>
 // #include <QDebug>
 
 
@@ -127,7 +129,13 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 		m_radio = new QRadioButton(this);
 		lay->addWidget(m_radio);
 		
-		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.5), this);
+// #if defined (Q_OS_ANDROID)
+// 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.0), this);
+// #else
+// 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.5), this);
+// #endif
+		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 
+			qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 219.4285714285), this);
     lay->addWidget(pixLabel);
     if (isMenu) {
         QLabel *textLabel = new QLabel(m_clef.name().replace(" ", "<br>"), this);
@@ -150,7 +158,7 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
         clefUsage = tr(" Clef for bass guitar and double bass.");
         break;
 			case Tclef::e_alto_C:
-        clefUsage = tr("Sometimes is called clef for viola and mostly used for it.");
+        clefUsage = tr("Sometimes it is called clef for viola and mostly used for this instrument.");
         break;
 			default:
 				clefUsage = "";

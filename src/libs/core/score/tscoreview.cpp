@@ -30,8 +30,7 @@
 
 TscoreView::TscoreView(QWidget* parent) :
 	QGraphicsView(parent),
-	m_currentIt(0),
-	m_isLongTap(false)
+	m_currentIt(0)
 {
 	viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 }
@@ -45,7 +44,6 @@ bool TscoreView::viewportEvent(QEvent* event) {
 			switch(te->touchPoints().first().state()) {
 				case Qt::TouchPointPressed: {
 					event->accept();
-					m_isLongTap = true;
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
 					m_initPos = touchScenePos;
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
@@ -56,7 +54,6 @@ bool TscoreView::viewportEvent(QEvent* event) {
 					break;
 				}
 				case Qt::TouchPointMoved: {
-					m_isLongTap = false;
 					killTimer(m_timerIdMain);
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
@@ -69,7 +66,6 @@ bool TscoreView::viewportEvent(QEvent* event) {
 					break;
 				}
 				case Qt::TouchPointStationary:
-					m_isLongTap = true;
 					killTimer(m_timerIdMain);
 					m_timerIdMain = startTimer(LONG_TAP_TIME);
 					break;
@@ -80,9 +76,7 @@ bool TscoreView::viewportEvent(QEvent* event) {
 						m_currentIt->untouched(touchScenePosMap);
 						if (m_tapTime.elapsed() < TAP_TIME) {
 							m_currentIt->shortTap(touchScenePosMap);
-						} /*else if (m_isLongTap && m_tapTime.elapsed() > LONG_TAP_TIME) {
-							m_currentIt->longTap(touchScenePosMap);
-						}*/
+						}
 						m_currentIt = 0;
 					}
 					break;
@@ -124,7 +118,6 @@ void TscoreView::timerEvent(QTimerEvent* timeEvent) {
 }
 
 
-
 TscoreItem* TscoreView::castItem(QGraphicsItem* it) {
 	if (it) {
 		int cnt = 0;
@@ -151,6 +144,7 @@ void TscoreView::checkItem(TscoreItem* it, const QPointF& touchScenePos) {
 			m_currentIt->touched(m_currentIt->mapFromScene(touchScenePos));
 	}
 }
+
 
 
 

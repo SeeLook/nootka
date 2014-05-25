@@ -23,6 +23,7 @@
 #include <QGraphicsProxyWidget>
 #include <score/tscoreitem.h>
 
+class QWidget;
 class QGraphicsView;
 class QWidget;
 class TscoreScene;
@@ -59,12 +60,17 @@ public slots:
 	
 	
 protected:
+#if defined (Q_OS_ANDROID)
+	virtual void longTap(const QPointF& cPos);
+	virtual void touched(const QPointF& cPos);
+	virtual void untouched(const QPointF& cPos);
+#else
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-	
+	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);	
 	virtual bool eventFilter(QObject* ob, QEvent* event);
 	virtual void timerEvent(QTimerEvent* te);
+#endif
 	
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {
 		Q_UNUSED(painter)
@@ -81,6 +87,7 @@ private:
 	QGraphicsProxyWidget				*m_proxy;
 	QGraphicsEllipseItem				*m_spot;
 	Qt::Corner									 m_corner;
+	QWidget											*m_widget;
 	QGraphicsView								*m_view;
 	qreal												 m_side;
 	QColor											 m_colorOfSpot;
