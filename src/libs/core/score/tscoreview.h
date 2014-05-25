@@ -55,8 +55,8 @@ private:
 	TscoreItem 									*m_currentIt;
 	QTime												 m_tapTime;
 	int 												 m_timerIdMain;
-	bool 												 m_isLongTap;
-	QPointF											 m_initPos;
+	QPointF											 m_initPos; /** In scene coordinates. */
+	
 	
 };
 
