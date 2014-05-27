@@ -22,6 +22,7 @@
 #include <score/tsimplescore.h>
 #include <QPointer>
 
+class TpushButton;
 class QToolBar;
 class QAction;
 class TnoteName;
@@ -196,6 +197,7 @@ private:
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		QAction											*m_inZoomAct, *m_outZoomAct;
 		QAction											*m_staffDownAct, *m_staffUpAct, *m_firstNoteAct ,*m_lastNoteAct;
+		TpushButton									*m_accidsButt, *m_namesButt;
 		QAction											*m_clearAct;
 				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 		int													 m_clickedOff, m_currentIndex;

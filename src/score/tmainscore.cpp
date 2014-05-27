@@ -33,6 +33,7 @@
 #include <animations/tblinkingitem.h>
 #include <tcolor.h>
 #include <tnoofont.h>
+#include <widgets/tpushbutton.h>
 #include <notename/tnotename.h>
 #include <QtWidgets>
 
@@ -572,8 +573,9 @@ void TmainScore::menuChangedNote(Tnote n) {
 
 
 void TmainScore::extraAccidsSlot() {
+	m_accidsButt->setChecked(!m_accidsButt->isChecked());
 	for (int st = 0; st < m_staves.size(); st++) {
-		m_staves[st]->setExtraAccids(scoreController()->extraAccidsEnabled());
+		m_staves[st]->setExtraAccids(m_accidsButt->isChecked());
 		for (int no = 0; no < m_staves[st]->count(); no++) {
 			if (m_staves[st]->getNote(no)->acidental == -1 || m_staves[st]->getNote(no)->acidental == 1)
 				m_staves[st]->setNote(no, *m_staves[st]->getNote(no));
@@ -583,9 +585,10 @@ void TmainScore::extraAccidsSlot() {
 
 
 void TmainScore::showNamesSlot() {
+	m_namesButt->setChecked(!m_namesButt->isChecked());
 	for (int st = 0; st < m_staves.size(); st++) {
 		for (int no = 0; no < m_staves[st]->count(); no++) {
-			if (scoreController()->showNamesEnabled())
+			if (m_namesButt->isChecked())
 				m_staves[st]->noteSegment(no)->showNoteName();
 			else
 				m_staves[st]->noteSegment(no)->removeNoteName();
@@ -898,14 +901,36 @@ void TmainScore::createActions() {
 	scoreController()->hide();
 	layout()->removeWidget(scoreController());
 // 	if (gl->SkeySignatureEnabled)
-			scoreController()->addExtraButtons();
-	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
-	connect(scoreController(), SIGNAL(showNamesChanged()), this, SLOT(showNamesSlot()));
+// 			scoreController()->addExtraButtons();
+// 	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
+// 	connect(scoreController(), SIGNAL(showNamesChanged()), this, SLOT(showNamesSlot()));
 	
-	TcornerProxy *accidCorner = new TcornerProxy(scoreScene(), scoreController(), Qt::TopRightCorner);
-	accidCorner->setSpotColor(palette().highlight().color());
+// 	TcornerProxy *accidCorner = new TcornerProxy(scoreScene(), scoreController(), Qt::TopRightCorner);
+// 	accidCorner->setSpotColor(palette().highlight().color());
 	
 	m_settBar = new QToolBar();
+	m_accidsButt = new TpushButton("$", this); // (#)
+		m_accidsButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
+		m_accidsButt->setThisColors(Qt::red, palette().highlightedText().color());
+	m_namesButt = new TpushButton("c", this);
+		m_namesButt->setStatusTip(tr("Shows names of all notes on the score"));
+		m_namesButt->setThisColors(Qt::darkCyan, palette().highlightedText().color());
+	QList<TpushButton*> buttons;
+	buttons << m_accidsButt << m_namesButt;
+	for (int i = 0; i < buttons.size(); i++) {
+		QFont nf("nootka");
+		nf.setPointSizeF(24.0);
+		QFontMetrics fm(nf);
+		nf.setPointSizeF(qRound(nf.pointSizeF() * (nf.pointSizeF() / fm.boundingRect("x").height())));
+		buttons[i]->setFont(nf);
+		fm = QFontMetrics(nf);
+		buttons[i]->setMaximumWidth(fm.boundingRect("xx").width());
+	}
+	connect(m_accidsButt, SIGNAL(clicked()), this, SLOT(extraAccidsSlot()));
+	connect(m_namesButt, SIGNAL(clicked()), this, SLOT(showNamesSlot()));
+	m_settBar->addWidget(m_namesButt);
+	m_settBar->addWidget(m_accidsButt);
+	
 	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
 		m_outZoomAct->setStatusTip(tr("Zoom score out"));
 		m_outZoomAct->setShortcut(QKeySequence(QKeySequence::ZoomOut));
@@ -929,8 +954,10 @@ void TmainScore::createActions() {
 	m_settBar->addAction(m_outZoomAct);
 	m_settBar->addAction(m_inZoomAct);
 	m_settBar->addAction(m_firstNoteAct);
+#if !defined (Q_OS_ANDROID)
 	m_settBar->addAction(m_staffUpAct);
 	m_settBar->addAction(m_staffDownAct);
+#endif
 	m_settBar->addAction(m_lastNoteAct);	
 	TcornerProxy *settCorner = new TcornerProxy(scoreScene(), m_settBar, Qt::BottomRightCorner);
 	
@@ -1045,13 +1072,17 @@ void TmainScore::changeCurrentIndex(int newIndex) {
 
 
 void TmainScore::setBarsIconSize() {
-	QSize ss(score()->rect().height() / 10, score()->rect().height() / 10);
+#if defined (Q_OS_ANDROID)
+	QSize ss(parentWidget()->height() / 10, parentWidget()->height() / 10);
+#else
+	QSize ss(parentWidget()->height() / 20, parentWidget()->height() / 20);
+#endif
 	m_settBar->setIconSize(ss);
 	m_clearBar->setIconSize(ss);
 	m_settBar->adjustSize();
 	m_clearBar->adjustSize();
-	scoreController()->setFontSize(ss.width() * 0.8);
-	scoreController()->adjustSize();
+// 	scoreController()->setFontSize(ss.width() * 0.8);
+// 	scoreController()->adjustSize();
 }
 
 

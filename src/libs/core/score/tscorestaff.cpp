@@ -151,9 +151,9 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 				emit noMoreSpace(number());
 	}
 	updateIndex();
-	updateWidth();
+	updateNotesPos(index);
 	if (number() == -1)
-			updateSceneRect(); // Update only for non multi staves view
+			updateSceneRect(); // Update only for single staff view
 }
 
 
@@ -168,14 +168,14 @@ void TscoreStaff::addNote(Tnote& note, bool disabled) {
 
 
 void TscoreStaff::removeNote(int index) {
-	if (index >= 0 && index < m_scoreNotes.size()) {
+	if (index >= 0 && index < count()) {
 		emit noteIsRemoving(number(), index);
 		delete m_scoreNotes[index];
 		m_scoreNotes.removeAt(index);
 		if (maxNoteCount() > count())
 				emit freeSpace(number(), 1);
 		updateIndex();
-		updateWidth();
+		updateNotesPos(index);
 		if (number() == -1)
 				updateSceneRect();
 	}
@@ -191,7 +191,7 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 		sn->setParentItem(this);
 		sn->setStaff(this);
 	}
-	updateWidth();
+	updateNotesPos(index);
 	updateIndex();
 	checkNoteRange(false);
 }
@@ -202,7 +202,7 @@ void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
 	connectNote(freeNote);
 	freeNote->setParentItem(this);
 	freeNote->setStaff(this);
-	updateWidth();
+	updateNotesPos(index);
 	updateIndex();
 }
 
@@ -215,7 +215,7 @@ void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
 			m_scoreNotes[from]->setParentItem(0); // to avoid deleting with staff as its parent
 			nList << m_scoreNotes.takeAt(from);
 		}
-		updateWidth();
+		updateNotesPos();
 		updateIndex();
 	}
 }
@@ -275,6 +275,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 					m_flyAccid = 0;
 		}
 		updateWidth();
+		updateNotesPos();
 	}
 }
 
@@ -294,6 +295,7 @@ void TscoreStaff::setScordature(Ttune& tune) {
 			m_enableScord = false;
 	}
 	updateWidth();
+	updateNotesPos();
 }
 
 
@@ -301,7 +303,8 @@ void TscoreStaff::removeScordatute() {
 	delete m_scordature; 
 	m_scordature = 0; 
 	m_enableScord = false;
-	updateWidth();	
+	updateWidth();
+	updateNotesPos();
 }
 
 
@@ -373,7 +376,8 @@ void TscoreStaff::setViewWidth(qreal viewW) {
 	m_viewWidth = viewW;
 	int oldMax = m_maxNotesCount;
 	m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
-	updateWidth();
+	updateLines(); // calls updateWidth() as well
+	updateNotesPos();
 }
 
 
@@ -420,7 +424,8 @@ void TscoreStaff::prepareStaffLines() {
 			delete m_brace;
 		}
 	}
-	updateWidth();
+	updateLines();
+	updateNotesPos();
 }
 
 
@@ -436,8 +441,20 @@ void TscoreStaff::setEnableScordtature(bool enable) {
 	if (enable != m_enableScord) {
 		m_enableScord = enable;
 		updateWidth();
+		updateNotesPos();
 	}
 }
+
+
+qreal TscoreStaff::notesOffset() {
+	qreal off = 0.0;
+	if (m_keySignature)
+			off = KEY_WIDTH + 1.5;
+	else if (m_enableScord)
+			off = KEY_WIDTH / 2;
+	return off;
+}
+
 
 //##########################################################################################################
 //####################################### PUBLIC SLOTS     #################################################
@@ -587,14 +604,25 @@ void TscoreStaff::updateIndex() {
 }
 
 
+void TscoreStaff::updateNotesPos(int startId) {
+	qreal off = notesOffset();
+	for (int i = startId; i < m_scoreNotes.size(); i++) // update positions of the notes
+				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
+}
+
+
+void TscoreStaff::updateLines() {
+	updateWidth();
+	for (int l = 0; l < 5; l++) {
+		m_lines[l]->setLine(1, upperLinePos() + l * 2, width() - 1.0, upperLinePos() + l * 2);
+		if (isPianoStaff())
+			m_lowLines[l]->setLine(1, lowerLinePos() + l * 2, width() - 1.0, lowerLinePos() + l * 2);
+	}
+}
+
+
 void TscoreStaff::updateWidth() {
-	qDebug() << "updateWidth";
-	qreal off = 0.0;
-	if (m_keySignature)
-			off = KEY_WIDTH + 1.5;
-	else if (m_enableScord)
-			off = KEY_WIDTH / 2;
-// 	if (m_scoreNotes.size())
+	qreal off = notesOffset();
 	if (m_scoreNotes.size() < 1)
 			m_width = 10.0 + off + 2.0;
 	else
@@ -603,15 +631,6 @@ void TscoreStaff::updateWidth() {
 			m_width = m_viewWidth;
 	else if (m_externWidth > m_width)
 			m_width = m_externWidth;
-	
-	for (int i = 0; i < m_scoreNotes.size(); i++) // update positions of the notes
-				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
-
-	for (int l = 0; l < 5; l++) { // adjust staff lines length when changed
-		m_lines[l]->setLine(1, upperLinePos() + l * 2, width() - 1.0, upperLinePos() + l * 2);
-		if (isPianoStaff())
-			m_lowLines[l]->setLine(1, lowerLinePos() + l * 2, width() - 1.0, lowerLinePos() + l * 2);
-	}
 }
 
 
@@ -622,7 +641,7 @@ void TscoreStaff::createBrace() {
 #if defined (Q_OS_MAC)
     ff.setPointSizeF(27.5);
 #else
-  ff.setPointSizeF(25.5);
+  ff.setPointSizeF(26.0);
 #endif
   QFontMetrics fm(ff);
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));

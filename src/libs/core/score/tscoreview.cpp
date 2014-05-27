@@ -49,25 +49,23 @@ bool TscoreView::viewportEvent(QEvent* event) {
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					checkItem(it, touchScenePos);
 					m_tapTime.start();
-					killTimer(m_timerIdMain);
 					m_timerIdMain = startTimer(LONG_TAP_TIME);
 					break;
 				}
 				case Qt::TouchPointMoved: {
-					killTimer(m_timerIdMain);
+// 					killTimer(m_timerIdMain);
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					checkItem(it, touchScenePos);
 					if (it) {						
 						QPointF touchPos = it->mapFromScene(touchScenePos);
-// 						touchPos.setY(touchPos.y() - 6.0);
 						it->touchMove(touchPos);
 					}
 					break;
 				}
 				case Qt::TouchPointStationary:
-					killTimer(m_timerIdMain);
-					m_timerIdMain = startTimer(LONG_TAP_TIME);
+// 					killTimer(m_timerIdMain);
+// 					m_timerIdMain = startTimer(LONG_TAP_TIME);
 					break;
 				case Qt::TouchPointReleased:
 					killTimer(m_timerIdMain);
