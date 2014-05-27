@@ -82,6 +82,7 @@ private:
 		QPointer<TscoreClef>							 m_lowerClef;
     QGraphicsSimpleTextItem           *m_textClef;
 		QPointer<TclefMenu>								 m_clefMenu;
+		QPointer<QMenu> 									 m_menu;
     
     int                                m_currClefInList;    
         /** List of all clef types exept empty (none clef) and piano staff. */

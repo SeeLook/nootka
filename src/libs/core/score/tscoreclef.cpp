@@ -127,17 +127,22 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (m_readOnly) {
 		TscoreItem::mousePressEvent(event);
 	} else {
-			if (!m_clefMenu) {
-				QMenu *menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
-				m_clefMenu = new TclefMenu(menu);
+			if (!m_menu) {
+				m_menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
+				m_menu->setObjectName("clefMenu");
+				m_menu->setStyleSheet("QWidget#clefMenu { background-color: palette(window); }");
+				if (!m_clefMenu)
+						m_clefMenu = new TclefMenu(m_menu);
+				else
+						m_clefMenu->setMenu(m_menu);
 				Tclef curClef = m_clef;
 				if (staff()->isPianoStaff())
 					curClef = Tclef(Tclef::e_pianoStaff);
 				m_clefMenu->selectClef(curClef);
 				connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
 				Tclef cl = m_clefMenu->exec(event->screenPos());
-				delete m_clefMenu;
-				delete menu;
+				m_clefMenu->setMenu(0);
+				delete m_menu;
 				if (cl.type() == Tclef::e_none)
 					return;
 				if (curClef.type() != cl.type()) {
@@ -153,18 +158,22 @@ void TscoreClef::longTap(const QPointF& cPos) {
 	if (!contains(cPos))
 			return;
 	if (!m_readOnly) {
-			if (!m_clefMenu) {
-					QMenu *menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
-					m_clefMenu = new TclefMenu(menu);
+			if (!m_menu) {
+					m_menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
+					m_menu->setObjectName("clefMenu");
+					m_menu->setStyleSheet("QWidget#clefMenu { background-color: palette(window); }");
+					if (!m_clefMenu)
+						m_clefMenu = new TclefMenu(m_menu);
+				else
+						m_clefMenu->setMenu(m_menu);
 					Tclef curClef = m_clef;
 					if (staff()->isPianoStaff())
 							curClef = Tclef(Tclef::e_pianoStaff);
 					m_clefMenu->selectClef(curClef);
-// 					m_clefMenu->adjustSize();
 // 					connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
 					Tclef cl = m_clefMenu->exec(QPoint(5, 15));
-					delete m_clefMenu;
-					delete menu;
+					m_clefMenu->setMenu(0);
+					delete m_menu;
 					if (cl.type() == Tclef::e_none)
 						return;
 					if (curClef.type() != cl.type()) {

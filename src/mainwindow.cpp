@@ -154,11 +154,11 @@ MainWindow::MainWindow(QWidget *parent) :
 //-------------------------------------------------------------------		
 // Setting layout
 	nootBar->setParent(0);
-	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), 0, Qt::TopLeftCorner);
+	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), nootBar, Qt::TopLeftCorner);
 	rhythmCorner->setSpotColor(Qt::yellow);
-	connect(rhythmCorner, SIGNAL(cornerReady()), this, SLOT(showMenuBar()));
+// 	connect(rhythmCorner, SIGNAL(cornerReady()), this, SLOT(showMenuBar()));
 	QVBoxLayout *mainLay = new QVBoxLayout;
-		mainLay->setContentsMargins(0, 0, 0, 0);
+		mainLay->setContentsMargins(0, 2, 0, 2);
 // #if !defined (Q_OS_ANDROID)
 // 		mainLay->addWidget(nootBar);
 // #endif
@@ -229,9 +229,11 @@ void MainWindow::createActions() {
 		connect(recordAct, SIGNAL(triggered()), this, SLOT(recordSlot()));
 
     nootBar->addAction(settingsAct);
-    nootBar->addAction(levelCreatorAct);
+#if !defined (Q_OS_ANDROID)
+		nootBar->addAction(levelCreatorAct);
     nootBar->addAction(analyseAct);
-    nootBar->addAction(aboutAct);
+#endif
+//     nootBar->addAction(aboutAct);
     nootBar->addAction(startExamAct);
 		nootBar->addAction(playAct);
 		nootBar->addAction(recordAct);
@@ -671,11 +673,11 @@ void MainWindow::updateSize(QSize newS) {
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
 	if (m_statFontSize < 0)
 		return;
-	nootBar->setFixedWidth(newS.width());
+// 	nootBar->setFixedWidth(newS.width());
 #if defined (Q_OS_ANDROID)
-	int barIconSize = qMin(newS.width(), newS.height()) / 18;
+	int barIconSize = qMin(newS.width(), newS.height()) / 10;
 #else
-	int barIconSize = qMin(newS.width(), newS.height()) / 22;
+	int barIconSize = qMin(newS.width(), newS.height()) / 20;
 #endif
 	nootBar->setIconSize(QSize(barIconSize, barIconSize));
 	nootBar->adjustSize();

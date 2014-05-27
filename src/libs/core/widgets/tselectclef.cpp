@@ -129,13 +129,15 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 		m_radio = new QRadioButton(this);
 		lay->addWidget(m_radio);
 		
-// #if defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 
+			qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 100.0), this);
 // 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.0), this);
-// #else
-// 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.5), this);
-// #endif
+#else
 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 
 			qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 219.4285714285), this);
+// 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.5), this);
+#endif
     lay->addWidget(pixLabel);
     if (isMenu) {
         QLabel *textLabel = new QLabel(m_clef.name().replace(" ", "<br>"), this);
@@ -268,7 +270,19 @@ TclefMenu::TclefMenu(QMenu* parent) :
 }
 
 
+void TclefMenu::setMenu(QMenu* menuParent) {
+	if (m_menu) // free a layout from current menu
+		TselectClefPrivate::setLayout(m_menu->layout());
+	m_menu = menuParent;
+	setParent(menuParent);
+	if (m_menu) // When new menu - add a layout to it
+		m_menu->setLayout(TselectClefPrivate::layout());
+}
+
+
 Tclef TclefMenu::exec(QPoint pos) {
+		if (!m_menu)
+			return Tclef(Tclef::e_none);
 		m_menu->move(pos); // It works everywhere (Qt style)
 		m_menu->exec(); // in contrary to exec(pos) 
 		return m_curentClef;

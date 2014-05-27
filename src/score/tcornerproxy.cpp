@@ -116,14 +116,16 @@ void TcornerProxy::sceneRectChangedSlot() {
 #if defined (Q_OS_ANDROID) // bigger corner spot for Android
 	m_side = m_view->rect().height() / 5.0;
 	if (m_widget)
-		m_widget->adjustSize(); 
+		m_widget->adjustSize();
+	m_spot->setRect(0.0, 0.0, side() * 1.5, side() * 1.5);
+	m_spot->setPos(side() * -0.75, side() * -0.75);
 #else
 	proxy()->adjustSize(); // adjust proxy size to widget size
 	m_side = m_view->rect().height() / 7.0;
 	static_cast<QGraphicsDropShadowEffect*>(proxy()->graphicsEffect())->setBlurRadius(side() / 2.0);
-#endif
 	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
 	m_spot->setPos(side() * -0.375, side() * -0.375);
+#endif
 	sceneScrolled();
 }
 
@@ -183,11 +185,11 @@ void TcornerProxy::longTap(const QPointF& cPos) {
 		wPos.setY(m_view->height() - m_widget->height() - 5);
 	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
 		wPos.setX(m_view->width() - m_widget->width() - 5);
-	qDebug() << wPos;
 	menu->exec(m_view->mapToGlobal(wPos));
 	m_widget->setLayout(menu->layout());
 	m_widget->setParent(0);
 	delete menu;
+	m_spot->hide();
 }
 #endif
 

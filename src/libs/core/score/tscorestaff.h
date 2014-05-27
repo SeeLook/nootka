@@ -159,15 +159,13 @@ public:
 				/** Returns number of accidental in key signature, fe.: F# - 0, C# - 1 or Bb - 0, Eb - 1 */
     int accidNrInKey(int noteNr, char key);
 		
-				/** Return Y position of given note */
-		int noteToPos(const Tnote& note); 
+		int noteToPos(const Tnote& note); /** Return Y position of given note. */
+		int fixNotePos(int pianoPos); /** Checks is note position on grand staff and adds 2 to it. */
+		qreal notesOffset(); /** X Position of first TscoreNote on the staff (depends on clef, key and scordature) */
 		
-				/** Checks is note position on grand staff and adds 2 */
-		int fixNotePos(int pianoPos);
-		
-				/** Width of a staff set by external function. 
+				/** Width of a staff sets by external function.
 				 * It is preferred when it is bigger than width calculated by updateWidth() */
-		void setExternalWidth(qreal w) { m_externWidth = w; updateWidth(); }
+		void setExternalWidth(qreal w) { m_externWidth = w; updateLines(); }
 		qreal externalWidth() { return m_externWidth; }
 		
 				/** Informs a staff about QGraphicsView width displaying this staff.
@@ -257,6 +255,8 @@ protected:
 				/** Iterates through all notes, sets theirs indexes and updates staff index of selected note.
 				 * It must to be invoked after inserting or removing a note. */
 		void updateIndex();
+		void updateLines(); /** Updates staff lines  */
+		void updateNotesPos(int startId = 0); /** Replaces (performs pos()) all TscoreNote items. Starts from @p startId */
 		
 				/** Protected method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
 				 * It doesn't perform any checks */

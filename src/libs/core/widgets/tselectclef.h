@@ -126,6 +126,9 @@ class NOOTKACORE_EXPORT TclefMenu : public TselectClefPrivate
 public:
 		TclefMenu(QMenu* parent = 0);
 		
+				/** Changes QMenu parent to given menu */
+		void setMenu(QMenu* menuParent);
+		
 		Tclef exec(QPoint pos);
 		
 protected slots:
