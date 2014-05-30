@@ -21,7 +21,6 @@
 #include "tscoreclef.h"
 #include "tscorenote.h"
 #include "tscorekeysignature.h"
-#include "tscorecontrol.h"
 #include "tscorescordature.h"
 #include "tnotecontrol.h"
 #include <music/tnote.h>
@@ -94,14 +93,6 @@ TscoreStaff::~TscoreStaff() {
 //####################################################################################################
 //########################################## PUBLIC ##################################################
 //####################################################################################################
-
-void TscoreStaff::setScoreControler(TscoreControl* scoreControl) {
-	if (scoreControl) {
-		m_scoreControl = scoreControl;
-		connect(scoreControl, SIGNAL(accidButtonPressed(int)), this, SLOT(onAccidButtonPressed(int)));
-	}
-}
-
 
 int TscoreStaff::noteToPos(const Tnote& note)	{
 	int nPos = m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1));
@@ -259,12 +250,6 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 				connect(m_scoreNotes[i], SIGNAL(fromKeyAnim(QString,QPointF,int)), this, SLOT(fromKeyAnimSlot(QString,QPointF,int)));
 				connect(m_scoreNotes[i], SIGNAL(toKeyAnim(QString,QPointF,int)), this, SLOT(toKeyAnimSlot(QString,QPointF,int)));
 				connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
-			}
-			if (m_scoreControl && !m_scoreControl->isEnabled()) {
-					/** This is in case when score/staff is disabled and key signature is added.
-					 * TscoreControl::isEnabled() determines availableness state. */
-					m_keySignature->setReadOnly(true);
-					m_keySignature->setAcceptHoverEvents(false);
 			}
 		} else {
 					delete m_keySignature;
@@ -515,9 +500,6 @@ void TscoreStaff::onClefChanged(Tclef clef) {
 
 
 void TscoreStaff::noteChangedAccid(int accid) {
-	if (m_scoreControl) {
-			m_scoreControl->setAccidental(accid);
-	}
 	if (TscoreNote::left())
 		TscoreNote::left()->setAccidental(accid);
 }

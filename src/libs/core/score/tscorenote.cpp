@@ -106,7 +106,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 {
   setStaff(staff);
 	setParentItem(staff);
+#if defined (Q_OS_ANDROID)
 	enableTouchToMouse(false); // Touch events are re-implemented here
+#endif
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
 	m_note = new Tnote(0, 0, 0);

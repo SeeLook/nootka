@@ -21,7 +21,6 @@
 #include <score/tscorestaff.h>
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
-#include <score/tscorecontrol.h>
 #include <score/tscoreclef.h>
 #include <score/tscorescene.h>
 #include <score/tnotecontrol.h>
@@ -60,6 +59,8 @@ TmainScore::TmainScore(QWidget* parent) :
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 // 	score()->setFrameShape(QFrame::Box);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
+	m_accidsButt = new TpushButton("$", this); // (#)
+	m_namesButt = new TpushButton("c", this);
 	addStaff(staff());
 // set preferred clef
 	setClef(gl->Sclef);
@@ -105,15 +106,15 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 
 void TmainScore::acceptSettings() {
 	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+	staff()->noteSegment(0)->left()->addAccidentals();
 	setClef(Tclef(gl->Sclef));
 	if ((bool)staff()->scoreKey() != gl->SkeySignatureEnabled) {
 			setEnableKeySign(gl->SkeySignatureEnabled);
-			if (gl->SkeySignatureEnabled)
-				scoreController()->addExtraButtons();
-			else
-				scoreController()->removeExtraButtons();
-			//TODO update notes
 	}
+	//TODO 
+			// - update notes when names were enabled or disabled - refresh its button state
+			// - update extra accidentals as well
+			
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
 	else
@@ -240,13 +241,6 @@ void TmainScore::unLockScore() {
 }
 */
 
-TscoreControl* TmainScore::getFreeController() {
-	layout()->removeWidget(scoreController());
-	layoutHasControl = false;
-	return scoreController();
-}
-
-
 QRectF TmainScore::noteRect(int noteNr) {
 		return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * score()->transform().m11(), 
 			staff()->noteSegment(noteNr)->mainNote()->rect().height() * score()->transform().m11());
@@ -273,8 +267,7 @@ bool TmainScore::isAccidToKeyAnimEnabled() {
 
 
 int TmainScore::widthToHeight(int hi) {
-	return qRound((qreal)hi / staff()->boundingRect().height()) * staff()->boundingRect().width() + 
-			scoreController()->width() + 10;
+	return qRound((qreal)hi / staff()->boundingRect().height()) * staff()->boundingRect().width();
 }
 
 
@@ -664,8 +657,8 @@ void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
 // 		qDebug() << "selected note moved forward";
 		m_currentIndex++;
 	}
-	if (scoreController()->showNamesEnabled())
-			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
+// 	if (m_namesButt->isChecked())
+// 			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
 }
 
@@ -896,23 +889,12 @@ void TmainScore::performScordatureSet() {
 //########################################## PRIVATE #################################################
 //####################################################################################################
 
-void TmainScore::createActions() {
-	scoreController()->setParent(0);
-	scoreController()->hide();
-	layout()->removeWidget(scoreController());
-// 	if (gl->SkeySignatureEnabled)
-// 			scoreController()->addExtraButtons();
-// 	connect(scoreController(), SIGNAL(extraAccidsChanged()), this, SLOT(extraAccidsSlot()));
-// 	connect(scoreController(), SIGNAL(showNamesChanged()), this, SLOT(showNamesSlot()));
-	
-// 	TcornerProxy *accidCorner = new TcornerProxy(scoreScene(), scoreController(), Qt::TopRightCorner);
-// 	accidCorner->setSpotColor(palette().highlight().color());
-	
+void TmainScore::createActions() {		
 	m_settBar = new QToolBar();
-	m_accidsButt = new TpushButton("$", this); // (#)
+// 	m_accidsButt = new TpushButton("$", this); // (#)
 		m_accidsButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
 		m_accidsButt->setThisColors(Qt::red, palette().highlightedText().color());
-	m_namesButt = new TpushButton("c", this);
+// 	m_namesButt = new TpushButton("c", this);
 		m_namesButt->setStatusTip(tr("Shows names of all notes on the score"));
 		m_namesButt->setThisColors(Qt::darkCyan, palette().highlightedText().color());
 	QList<TpushButton*> buttons;
@@ -969,11 +951,11 @@ void TmainScore::createActions() {
 	TcornerProxy *delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
 	delCorner->setSpotColor(Qt::red);
 	
-// 	m_rhythmBar = new QToolBar();
-// 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
-// 	m_rhythmBar->addWidget(rl);
-// 	TcornerProxy *rhythmCorner = new TcornerProxy(scene(), m_rhythmBar, Qt::TopLeftCorner);
-// 	rhythmCorner->setSpotColor(Qt::yellow);
+	m_rhythmBar = new QToolBar();
+	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
+	m_rhythmBar->addWidget(rl);
+	TcornerProxy *rhythmCorner = new TcornerProxy(scoreScene(), m_rhythmBar, Qt::TopLeftCorner);
+	rhythmCorner->setSpotColor(Qt::yellow);
 	
 	m_nextNoteSC = new QShortcut(QKeySequence(QKeySequence::Forward), this);
 // 	m_nextNoteSC->setContext(Qt::ApplicationShortcut);
@@ -1034,7 +1016,7 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
   if (insertMode() == e_record && noteIndex == sendStaff->count() - 1 && noteIndex != sendStaff->maxNoteCount() - 1) {
       Tnote nn(0, 0, 0);
 			sendStaff->addNote(nn);
-			if (scoreController()->showNamesEnabled())
+			if (m_namesButt->isChecked())
 				sendStaff->noteSegment(sendStaff->count() - 1)->showNoteName();
   }
 }
@@ -1081,8 +1063,6 @@ void TmainScore::setBarsIconSize() {
 	m_clearBar->setIconSize(ss);
 	m_settBar->adjustSize();
 	m_clearBar->adjustSize();
-// 	scoreController()->setFontSize(ss.width() * 0.8);
-// 	scoreController()->adjustSize();
 }
 
 
@@ -1099,7 +1079,6 @@ void TmainScore::moveName(TmainScore::EmoveNote moveDir) {
 void TmainScore::addStaff(TscoreStaff* st) {
 	if (st == 0) { // create new staff at the end of a list
 			m_staves << new TscoreStaff(scoreScene(), 1);
-			m_staves.last()->setScoreControler(scoreController());
 			m_staves.last()->onClefChanged(m_staves.first()->scoreClef()->clef());
 			m_staves.last()->setEnableKeySign(gl->SkeySignatureEnabled);
 			if (m_staves.last()->scoreKey())
@@ -1110,11 +1089,11 @@ void TmainScore::addStaff(TscoreStaff* st) {
 			st->disconnect(SIGNAL(clefChanged(Tclef)));
 			m_staves << st;
 	}
-	if (scoreController()->showNamesEnabled())
+	if (m_namesButt->isChecked())
 			m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	m_staves.last()->setControlledNotes(true);
-	m_staves.last()->setExtraAccids(scoreController()->extraAccidsEnabled());
+	m_staves.last()->setExtraAccids(m_accidsButt->isChecked());
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
 	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));

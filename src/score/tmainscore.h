@@ -51,11 +51,7 @@ public:
 		void setEnableEnharmNotes(bool isEnabled);
     void acceptSettings();
 		
-				/** Removes score controller from layout and returns a pointer to it.  */
-		TscoreControl* getFreeController();
-		
-		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
-		
+		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */		
 		void setNote(Tnote note);
 		
 				/** Describes insert mode of a score */
