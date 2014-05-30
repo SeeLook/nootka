@@ -44,7 +44,6 @@ set(LIB_NOOTKACORE_SRC
 	
 	score/tscoreitem.cpp
 	score/tscoreclef.cpp
-	score/tscorecontrol.cpp
 	score/tscorekeysignature.cpp
 	score/tscorenote.cpp
 	score/tscorescene.cpp

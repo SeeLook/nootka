@@ -64,10 +64,10 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	setParentItem(staff);
 	setZValue(60);
 	enableTouchToMouse(false);
-// 	m_height = staff->height();
 	hide();
-	setStatusTip(tr("Click <big><b>+</b></big> to add new note or <big><b>-</b></big> to remove it.<br>Click %1 to edit note name").arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, "color: #008080"))); // #008080 - dark Cyan
-	
+#if !defined (Q_OS_ANDROID)
+	m_statusTip = tr("Click <big><b>+</b></big> to add new note or <big><b>-</b></big> to remove it.<br>Click %1 to edit note name").arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, "color: #008080")); // #008080 - dark Cyan
+#endif
 // '+' for adding notes
 	m_plus = new QGraphicsSimpleTextItem("+");
 	m_plus->setParentItem(this);
@@ -84,6 +84,7 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_minus->setParentItem(this);
 	m_minus->setPen(QPen(Qt::red, 0.5));
 	adjustSize();
+	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
 }
 
 
@@ -106,6 +107,8 @@ void TnoteControl::adjustSize() {
 		m_flat->setPos(centeredX(m_flat), m_sharp->pos().y() + 1.0 + m_sharp->boundingRect().height() * m_sharp->scale());
 		m_accidHi->setRect(QRectF(0.0, 0.0, 
 						WIDTH, m_sharp->boundingRect().height() * m_sharp->scale()));
+		if (m_prevAccidIt && m_accidHi->isVisible()) // restore accidental highlight
+			m_accidHi->setPos(0.0, m_prevAccidIt->pos().y());
 	}
 	if (m_dblFlat)
 		m_dblFlat->setPos(centeredX(m_dblFlat), m_flat->pos().y() + 0.3 + m_flat->boundingRect().height() * m_flat->scale());
@@ -279,12 +282,23 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 	if (it != this) {
 		if (it != m_underItem) {
 			it->setGraphicsEffect(ItemHighLight());
+			if (it == m_dblSharp)
+				emit statusTip(tr("<b>double sharp</b> - raises a note by two semitones (whole tone).<br>On the guitar it is two frets up."));
+			else if (it == m_sharp)
+				emit statusTip(tr("<b>sharp</b> - raises a note by a half tone (semitone).<br>On the guitar it is one fret up."));
+			else if (it == m_flat)
+				emit statusTip(tr("<b>flat</b> - lowers a note by a half tone (semitone).<br>On the guitar it is one fret down."));
+			else if (it == m_dblFlat)
+				emit statusTip(tr("<b>double flat</b> - lowers a note by two semitones (whole tone).<br>On the guitar it is two frets down."));
+			else
+				emit statusTip(m_statusTip);
 			if (m_underItem)
 				m_underItem->setGraphicsEffect(0);
 			m_underItem = it;
 		}
 	} else if (m_underItem) {
 			m_underItem->setGraphicsEffect(0);
+			emit statusTip(m_statusTip);
 			m_underItem = 0;
 	}
 }

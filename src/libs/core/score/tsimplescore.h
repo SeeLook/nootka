@@ -30,7 +30,6 @@ class TscoreView;
 class QGraphicsView;
 class QGraphicsSimpleTextItem;
 class QGraphicsView;
-class TscoreControl;
 class TscoreStaff;
 class TscoreScene;
 
@@ -41,7 +40,7 @@ class NOOTKACORE_EXPORT TsimpleScore : public QWidget
   Q_OBJECT
   
 public:
-    TsimpleScore(int notesNumber, QWidget *parent = 0, bool controler = true);
+    TsimpleScore(int notesNumber, QWidget *parent = 0);
     ~TsimpleScore();
 
 		virtual void setNote(int index, Tnote note);
@@ -115,7 +114,6 @@ protected:
 				 * Inner methods of TsimpleScore take care about refreshing 
 				 * connection with newer staff instances and this class emits appropriate signals. */
 		TscoreStaff* staff() { return m_staff; }
-		TscoreControl* scoreController() { return m_scoreControl; }
     
     
 protected slots:
@@ -131,8 +129,7 @@ protected slots:
   
 private:
     TscoreScene     						*m_scene;
-    TscoreStaff     						*m_staff, *m_lowerStaff;
-    TscoreControl   						*m_scoreControl;
+    TscoreStaff     						*m_staff;
     TscoreView		  						*m_score;
 		QGraphicsSimpleTextItem 		*m_bgGlyph;
 		int 												 m_notesNr;

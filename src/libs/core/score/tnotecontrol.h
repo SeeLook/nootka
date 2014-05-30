@@ -88,6 +88,7 @@ private:
 		bool														 					 m_moveNote; // True when note cursor is moved with finger
 		int																				 m_currAccid;
 		QGraphicsSimpleTextItem 									*m_prevAccidIt;
+		QString 																	 m_statusTip;
 		
 private:
 		QGraphicsSimpleTextItem* createNootkaTextItem(const QString& aText);

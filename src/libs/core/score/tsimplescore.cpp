@@ -20,7 +20,6 @@
 #include "tsimplescore.h"
 #include <score/tscorescene.h>
 #include <score/tscorestaff.h>
-#include <score/tscorecontrol.h>
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
 #include <score/tscoreclef.h>
@@ -39,20 +38,17 @@
 
 #include <QDebug>
 
-TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
+TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   QWidget(parent),
+  m_bgGlyph(0),
 	m_notesNr(notesNumber),
-	m_scoreControl(0),
-	m_bgGlyph(0),
 	layoutHasControl(false),
 	m_prevBGglyph(-1)
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
    
-#if defined (Q_OS_ANDROID)
-// 	qApp->setAttribute(Qt::AA_SynthesizeTouchForUnhandledMouseEvents);
-#else
+#if !defined (Q_OS_ANDROID)
   m_score->setMouseTracking(true);
 #endif
   m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
@@ -66,18 +62,10 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent, bool controler) :
   
   m_staff = new TscoreStaff(m_scene, m_notesNr);
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
-// 	connect(m_staff, SIGNAL(pianoStaffSwitched()), this, SLOT(switchToPianoStaff()));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
   
 	lay->addWidget(m_score);
-	if (controler) {
-			m_scoreControl = new TscoreControl(this);
-			lay->addWidget(m_scoreControl, 0, Qt::AlignRight);
-			layoutHasControl = true;
-	}
   setLayout(lay);
-
-	m_staff->setScoreControler(m_scoreControl);
 	
 	setBGcolor(palette().base().color());
 	setEnabledDblAccid(false);
@@ -177,8 +165,6 @@ void TsimpleScore::setEnableKeySign(bool isEnabled) {
 
 
 void TsimpleScore::setEnabledDblAccid(bool isEnabled) {
-	if (m_scoreControl)
-		m_scoreControl->enableDoubleAccidentals(isEnabled);
 	m_scene->setDoubleAccidsEnabled(isEnabled);
 	if (staff()->noteSegment(0) && staff()->noteSegment(0)->left())
 		staff()->noteSegment(0)->left()->addAccidentals();
@@ -196,8 +182,6 @@ bool TsimpleScore::isNoteDisabled(int index) {
 
 
 void TsimpleScore::setScoreDisabled(bool disabled) {
-	if (m_scoreControl)
-		m_scoreControl->setDisabled(disabled);
 	staff()->setDisabled(disabled);
   setAttribute(Qt::WA_TransparentForMouseEvents, disabled);
 }

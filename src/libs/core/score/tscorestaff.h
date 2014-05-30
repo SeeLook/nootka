@@ -28,7 +28,6 @@
 class TcombinedAnim;
 class Tnote;
 class Ttune;
-class TscoreControl;
 class TscoreKeySignature;
 class TscoreScordature;
 class TscoreNote;
@@ -55,8 +54,7 @@ public:
  * - clef - @p TscoreClef - accessing by @p scoreClef()
  * - key signature - @p TscoreKeySignature - scoreKey()
  * - notes (in QList) - @p TscoreNote - @p noteSegment(int nr)
- * 
- * If TscoreControl is set (@p setScoreControler(TscoreControl)) it manages of accidentals of notes
+ * - scordature - below clef through @p setScordature()
  */
 class NOOTKACORE_EXPORT TscoreStaff : public TscoreItem
 {
@@ -190,8 +188,6 @@ public:
 				/** Shows accidentals from key signature also near a note (in brackets) */
 		void setExtraAccids(bool extra) { m_extraAccids = extra; }
 		bool extraAccids() { return m_extraAccids; }
-    
-    void setScoreControler(TscoreControl *scoreControl);
 		
 				/** Stops/starts capturing any mouse events. */
 		void setDisabled(bool disabled);		
@@ -266,7 +262,7 @@ protected slots:
     void onKeyChanged();
     void onNoteClicked(int noteIndex);
 		void onNoteSelected(int noteIndex);
-		void onAccidButtonPressed(int accid); // TscoreControl accid button pressed
+		void onAccidButtonPressed(int accid); // TnoteControl accid button pressed
 		void onPianoStaffChanged(Tclef clef); // clef demands piano staff
 		void toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
 		void fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
@@ -285,7 +281,6 @@ private:
 		qreal															 m_viewWidth; // width of QGraphicsView in scene coordinates.
     TnoteOffset              					 m_offset;
 		bool 										 					 m_isPianoStaff;
-		QPointer<TscoreControl>						 m_scoreControl;
 		TscoreScordature				 					*m_scordature;
 		bool										 					 m_enableScord;
 		TcombinedAnim											*m_accidAnim;
