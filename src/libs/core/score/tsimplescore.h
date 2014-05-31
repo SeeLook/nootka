@@ -50,6 +50,7 @@ public:
 		void clearStringNumber(int index); /** Removes string number from note @p index. */
 		void setNoteDisabled(int index, bool isDisabled); /** Disables/enables a note. */
 		bool isNoteDisabled(int index);
+		void setNoteNameEnabled(bool nameEnabled); /** Allows to call name edit from note controller */
 		
 		void setClef(Tclef clef);
 		Tclef clef();
@@ -86,10 +87,7 @@ public:
 		
 		Tnote lowestNote(); /** Returns lowest possible note on the staff in current clef */
 		Tnote highestNote(); /** Returns highest possible note on the staff in current clef */
-		void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */
-		
-// 		virtual QSize sizeHint() const;
-// 		virtual int heightForWidth(int w) const;
+		void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */		
 		
 signals:
 				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
@@ -107,7 +105,6 @@ public slots:
 protected:
 		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller
 		TscoreView* score() { return m_score; }
-// 		TscoreScene* scoreScene() { return m_scene; }
 		
 				/** Pointer to TscoreStaff should never go to public !!!!
 				 * TscoreStaff instance is changeable by pianoStaffSwitched() and any connection with its signals will be lost.
@@ -115,6 +112,8 @@ protected:
 				 * connection with newer staff instances and this class emits appropriate signals. */
 		TscoreStaff* staff() { return m_staff; }
     
+				/** Returns previously set clef. It is used to figure is it scaling of score necessary.  */
+    Tclef::Etype clefType() { return m_clefType; }
     
 protected slots:
 				/** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
@@ -134,6 +133,7 @@ private:
 		QGraphicsSimpleTextItem 		*m_bgGlyph;
 		int 												 m_notesNr;
 		int 												 m_prevBGglyph;
+		Tclef::Etype								 m_clefType;
   
 };
 

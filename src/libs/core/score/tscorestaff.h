@@ -181,9 +181,14 @@ public:
 		void setSelectableNotes(bool selectable) { m_selectableNotes = selectable; }
 		bool selectableNotes() { return m_selectableNotes; }
 		
-				/** Additional note controls are displayed when note gets cursor */
+				/** Additional note controls are displayed when note gets cursor.
+				 This is default behaviour and without those controls accidentals can be managed with wheel */
 		void setControlledNotes(bool controlled) { m_controlledNotes = controlled; }
 		bool controlledNotes() { return m_controlledNotes; }
+		
+				/** Determines whether note controllers can add/remove note to the staff.
+				 * Notice, when enabled, 'remove' (minus) is displayed only when staff has more notes than one. */
+		void enableToAddNotes(bool alowAdding);
 		
 				/** Shows accidentals from key signature also near a note (in brackets) */
 		void setExtraAccids(bool extra) { m_extraAccids = extra; }

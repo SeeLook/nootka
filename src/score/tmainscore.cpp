@@ -1085,6 +1085,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 				m_staves.last()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());
 			connect(m_staves.last(), SIGNAL(hiNoteChanged(int,qreal)), this, SLOT(staffHiNoteChanged(int,qreal))); // ignore for first
 	} else { // staff of TsimpleScore is added this way
+			st->enableToAddNotes(true);
 			st->disconnect(SIGNAL(noteChanged(int)));
 			st->disconnect(SIGNAL(clefChanged(Tclef)));
 			m_staves << st;
@@ -1092,7 +1093,6 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	if (m_namesButt->isChecked())
 			m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
-	m_staves.last()->setControlledNotes(true);
 	m_staves.last()->setExtraAccids(m_accidsButt->isChecked());
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));

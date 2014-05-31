@@ -46,6 +46,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 			m_scoreRang->setNote(0, Tnote(1, 0));
 			m_scoreRang->setNote(1, Tnote(1, 1));
 			m_scoreRang->addBGglyph((int)gl->instrument);
+			m_scoreRang->setNoteNameEnabled(false);
 		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);

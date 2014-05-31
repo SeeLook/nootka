@@ -46,6 +46,15 @@ TselectClefPrivate::TselectClefPrivate(bool isMenu, QWidget* parent) :
 	tenor = new TradioClef(Tclef(Tclef::e_tenor_C), parent, isMenu);
 	piano = new TradioClef(Tclef(Tclef::e_pianoStaff), parent, isMenu);
 	
+	QButtonGroup *clefsGroup = new QButtonGroup(this);
+		clefsGroup->addButton(treble->radio());
+		clefsGroup->addButton(treble_8->radio());
+		clefsGroup->addButton(bass->radio());
+		clefsGroup->addButton(bass_8->radio());
+		clefsGroup->addButton(alto->radio());
+		clefsGroup->addButton(tenor->radio());
+		clefsGroup->addButton(piano->radio());
+	
 	if (isMenu) {
 			QVBoxLayout *leftLay = new QVBoxLayout;
 			QVBoxLayout *rightLay = new QVBoxLayout;
@@ -223,16 +232,7 @@ void TradioClef::paintEvent(QPaintEvent* event) {
 
 TselectClef::TselectClef(QWidget* parent) :
 	TselectClefPrivate(false, parent)
-{
-		QButtonGroup *clefsGroup = new QButtonGroup(this);
-		clefsGroup->addButton(treble->radio());
-		clefsGroup->addButton(treble_8->radio());
-		clefsGroup->addButton(bass->radio());
-		clefsGroup->addButton(bass_8->radio());
-		clefsGroup->addButton(alto->radio());
-		clefsGroup->addButton(tenor->radio());
-		clefsGroup->addButton(piano->radio());
-}
+{}
 
 
 void TselectClef::clefWasSelected(Tclef clef) {
