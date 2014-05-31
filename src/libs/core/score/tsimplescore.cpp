@@ -61,6 +61,8 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   m_score->setScene(m_scene);
   
   m_staff = new TscoreStaff(m_scene, m_notesNr);
+	m_staff->enableToAddNotes(false);
+	m_clefType = m_staff->scoreClef()->clef().type();
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
   
@@ -116,6 +118,7 @@ void TsimpleScore::clearStringNumber(int index) {
 void TsimpleScore::setClef(Tclef clef) {
 	if (this->clef().type() != clef.type()) {
 		staff()->onClefChanged(clef);
+		m_clefType = clef.type();
 	}
 }
 
@@ -184,6 +187,11 @@ bool TsimpleScore::isNoteDisabled(int index) {
 void TsimpleScore::setScoreDisabled(bool disabled) {
 	staff()->setDisabled(disabled);
   setAttribute(Qt::WA_TransparentForMouseEvents, disabled);
+}
+
+
+void TsimpleScore::setNoteNameEnabled(bool nameEnabled) {
+	staff()->noteSegment(0)->right()->enableNoteName(nameEnabled);
 }
 
 
@@ -319,7 +327,10 @@ void TsimpleScore::onClefChanged(Tclef clef) {
 		emit clefChanged(Tclef(Tclef::e_pianoStaff));
 	else
 		emit clefChanged(staff()->scoreClef()->clef());
-	resizeEvent(0);
+	if ((m_clefType == Tclef::e_pianoStaff && clef.type() != Tclef::e_pianoStaff) ||
+			(m_clefType != Tclef::e_pianoStaff && clef.type() == Tclef::e_pianoStaff)	)
+					resizeEvent(0);
+	m_clefType = clef.type();
 }
 
 

@@ -135,6 +135,10 @@ public:
     virtual QRectF boundingRect() const;
     
 		bool isCursorVisible() { return m_workNote->isVisible(); }
+		
+				/** Note controllers, appear with cursor. 
+				 * There are automatically created with first note instance 
+				 * when score scene has a view. */
 		static TnoteControl* right() { return m_rightBox; }
 		static TnoteControl* left() { return m_leftBox; }
 		
@@ -200,6 +204,7 @@ private:
 		static TnoteControl				  				 		*m_rightBox;
 		static TnoteControl									 		*m_leftBox;
 		static QString													m_staticTip;
+		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
     
 private:
         /** Prepares note-head (ellipse) */

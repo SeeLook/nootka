@@ -82,7 +82,10 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
 }
   
 
-TscoreClef::~TscoreClef() {}
+TscoreClef::~TscoreClef() {
+	if (m_clefMenu)
+		delete m_clefMenu;
+}
 
 
 void TscoreClef::setClef(Tclef clef) {

@@ -102,7 +102,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_ottava(0),
   m_bgColor(-1),
   m_noteAnim(0), m_accidToKeyAnim(false),
-  m_selected(false)
+  m_selected(false),
+  m_touchedToMove(false)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -536,14 +537,18 @@ void TscoreNote::wheelEvent(QGraphicsSceneWheelEvent* event) {
     }
 }
 
-bool m_touchedToMove = false;
+
 #if defined(Q_OS_ANDROID)
 void TscoreNote::touched(const QPointF& cPos) {
+	if (m_readOnly)
+			return;
 	TscoreItem::touched(cPos);			
 }
 
 
 void TscoreNote::untouched(const QPointF& cPos) {
+	if (m_readOnly)
+			return;
 	TscoreItem::untouched(cPos);
 	m_touchedToMove = false;
 	if (staff()->controlledNotes()) {
@@ -559,12 +564,16 @@ void TscoreNote::untouched(const QPointF& cPos) {
 
 
 void TscoreNote::touchMove(const QPointF& cPos) {
+	if (m_readOnly)
+			return;
   if (m_touchedToMove && isCursorVisible())
 		moveWorkNote(cPos);
 }
 
 
 void TscoreNote::shortTap(const QPointF& cPos) {
+	if (m_readOnly)
+			return;
 	if (isCursorVisible()) {
 			if (cPos.y() >= m_workPosY - 4 && cPos.y() <= m_workPosY + 4) {
 				if (cPos.x() >= 0.0 && cPos.x() <= 7.0) { // if finger taken over note - it was selected
@@ -583,6 +592,8 @@ void TscoreNote::shortTap(const QPointF& cPos) {
 
 
 void TscoreNote::longTap(const QPointF& cPos) {
+	if (m_readOnly)
+			return;
 	if (staff()->controlledNotes()) {
 			m_touchedToMove = true;
 			m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);

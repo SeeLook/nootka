@@ -47,8 +47,17 @@ public:
 			/** Adds accidentals symbols to the controller. Detects are double accidentals enabled.
 			 * It can be also used to refresh double accidentals state - add/remove them */
 	void addAccidentals();
+
+	void setAccidental(int acc); /** Sets accidental on the controller */
 	
-	void setAccidental(int acc);
+			/** Enables or disables 'plus' and 'minus' buttons.
+			 * Notice, when enabled, 'remove' (minus) is displayed only when staff has more notes than one. */
+	void enableToAddNotes(bool addEnabled);
+	bool notesAddingEnabled() { return m_notesAdding; }
+	
+			/** Enables or disables 'note name' button. */
+	void enableNoteName(bool enableName) { enableName ? m_name->show() : m_name->hide(); }
+	bool noteNameEnabled() { return m_name->isVisible(); }
 	
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 	virtual QRectF boundingRect() const;
@@ -56,19 +65,20 @@ public:
 signals:
 	void nameMenu(TscoreNote* scoreNote);
 		
-protected:
-	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-	
+protected:	
 	void itemSelected(const QPointF& cPos);
 	
-//Android
+#if defined (Q_OS_ANDROID)
 	virtual void touched(const QPointF& cPos);
 	virtual void untouched(const QPointF& cPos);
 	virtual void touchMove(const QPointF& cPos);
 	virtual void shortTap(const QPointF& cPos);
+#else
+	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+#endif
 	
 protected slots:
 	void hideDelayed();
@@ -89,6 +99,7 @@ private:
 		int																				 m_currAccid;
 		QGraphicsSimpleTextItem 									*m_prevAccidIt;
 		QString 																	 m_statusTip;
+		bool																			 m_notesAdding, m_nameEnabled;
 		
 private:
 		QGraphicsSimpleTextItem* createNootkaTextItem(const QString& aText);

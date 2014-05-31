@@ -51,7 +51,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_isPianoStaff(false),
 	m_scordature(0), m_enableScord(false),
 	m_accidAnim(0), m_flyAccid(0),
-	m_index(0), m_selectableNotes(false), m_controlledNotes(false), m_extraAccids(false),
+	m_index(0), m_selectableNotes(false), m_controlledNotes(true), m_extraAccids(false),
 	m_maxNotesCount(0),
 	m_loNotePos(28.0), m_hiNotePos(12.0),
 	m_lockRangeCheck(false)
@@ -377,6 +377,12 @@ void TscoreStaff::checkNoteRange(bool doEmit) {
 		if (doEmit && oldLo != m_loNotePos)
 			emit loNoteChanged(number(), m_loNotePos - oldLo);
 		return;
+}
+
+
+void TscoreStaff::enableToAddNotes(bool alowAdding) {
+	noteSegment(0)->left()->enableToAddNotes(alowAdding);
+	noteSegment(0)->right()->enableToAddNotes(alowAdding);
 }
 
 //##########################################################################################################
