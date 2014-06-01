@@ -67,7 +67,7 @@ QString TscoreNote::m_staticTip = "";
 
 
 void TscoreNote::adjustCursor() {
-	if (m_rightBox) {
+	if (m_rightBox && !m_rightBox->scene()->views().isEmpty()) {
 		setPointedColor(m_workColor);
 		m_rightBox->adjustSize();
 		m_leftBox->adjustSize();
@@ -444,10 +444,14 @@ void TscoreNote::keyAnimFinished() {
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
 	if (staff()->controlledNotes()) {
-			m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
-			m_rightBox->setScoreNote(this);
-			m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
-			m_leftBox->setScoreNote(this);
+		if (right()->isEnabled()) {
+			right()->setPos(pos().x() + boundingRect().width(), 0.0);
+			right()->setScoreNote(this);
+		}
+		if (left()->isEnabled()) {
+			left()->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
+			left()->setScoreNote(this);
+		}
 	}
 	if (m_workNote->parentItem() != this)
 			setCursorParent(this);
@@ -464,10 +468,10 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverLeaveEvent";
   hideWorkNote();
 	if (staff()->controlledNotes()) {
-			if (!m_rightBox->hasCursor())
-					m_rightBox->hideWithDelay();
-			if (!m_leftBox->hasCursor())
-					m_leftBox->hideWithDelay();
+			if (right()->isEnabled() && !right()->hasCursor())
+					right()->hideWithDelay();
+			if (left()->isEnabled() && !left()->hasCursor())
+					left()->hideWithDelay();
 	}
   TscoreItem::hoverLeaveEvent(event);
 }
@@ -552,10 +556,10 @@ void TscoreNote::untouched(const QPointF& cPos) {
 	TscoreItem::untouched(cPos);
 	m_touchedToMove = false;
 	if (staff()->controlledNotes()) {
-			if (!m_rightBox->hasCursor())
-					m_rightBox->hideWithDelay();
-			if (!m_leftBox->hasCursor())
-					m_leftBox->hideWithDelay();
+			if (right()->isEnabled() && !right()->hasCursor())
+					right()->hideWithDelay();
+			if (left()->isEnabled() && !left()->hasCursor())
+					left()->hideWithDelay();
 			if (isCursorVisible()) {
 					QTimer::singleShot(950, this, SLOT(hideWorkNote()));
 			}
@@ -584,8 +588,8 @@ void TscoreNote::shortTap(const QPointF& cPos) {
 				}
 			}
 			hideWorkNote();
-			m_rightBox->hide();
-			m_leftBox->hide();
+			right()->hide();
+			left()->hide();
 	} else 
 			emit noteWasSelected(m_index);
 }
@@ -596,10 +600,14 @@ void TscoreNote::longTap(const QPointF& cPos) {
 			return;
 	if (staff()->controlledNotes()) {
 			m_touchedToMove = true;
-			m_rightBox->setPos(pos().x() + boundingRect().width(), 0.0);
-			m_rightBox->setScoreNote(this);
-			m_leftBox->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
-			m_leftBox->setScoreNote(this);
+			if (right()->isEnabled()) {
+			right()->setPos(pos().x() + boundingRect().width(), 0.0);
+			right()->setScoreNote(this);
+		}
+		if (left()->isEnabled()) {
+			left()->setPos(pos().x() - m_leftBox->boundingRect().width(), 0.0);
+			left()->setScoreNote(this);
+		}
 	}
 	if (m_workNote->parentItem() != this)
 			setCursorParent(this);

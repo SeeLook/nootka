@@ -51,6 +51,7 @@ public:
 		void setNoteDisabled(int index, bool isDisabled); /** Disables/enables a note. */
 		bool isNoteDisabled(int index);
 		void setNoteNameEnabled(bool nameEnabled); /** Allows to call name edit from note controller */
+		void setControllersEnabled(bool leftCtrl, bool rightCtrl); /** shows/hides a note controllers. */
 		
 		void setClef(Tclef clef);
 		Tclef clef();
@@ -103,7 +104,6 @@ public slots:
 		virtual void noteWasClicked(int index);
 		
 protected:
-		bool layoutHasControl; // keeps true when TsimpleScore layout has score controller
 		TscoreView* score() { return m_score; }
 		
 				/** Pointer to TscoreStaff should never go to public !!!!

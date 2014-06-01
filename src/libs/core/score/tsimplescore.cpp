@@ -42,7 +42,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   QWidget(parent),
   m_bgGlyph(0),
 	m_notesNr(notesNumber),
-	layoutHasControl(false),
 	m_prevBGglyph(-1)
 {
   QHBoxLayout *lay = new QHBoxLayout;
@@ -192,6 +191,12 @@ void TsimpleScore::setScoreDisabled(bool disabled) {
 
 void TsimpleScore::setNoteNameEnabled(bool nameEnabled) {
 	staff()->noteSegment(0)->right()->enableNoteName(nameEnabled);
+}
+
+
+void TsimpleScore::setControllersEnabled(bool leftCtrl, bool rightCtrl) {
+	staff()->noteSegment(0)->left()->setEnabled(leftCtrl);
+	staff()->noteSegment(0)->right()->setEnabled(rightCtrl);
 }
 
 
