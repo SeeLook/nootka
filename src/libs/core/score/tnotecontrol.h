@@ -50,6 +50,11 @@ public:
 
 	void setAccidental(int acc); /** Sets accidental on the controller */
 	
+			/** When enabled - it is displayed under cursor (finger) */
+	void setEnabled(bool ctrlEnabled) { m_isEnabled = ctrlEnabled; }
+	bool isEnabled() { return m_isEnabled; }
+	
+	
 			/** Enables or disables 'plus' and 'minus' buttons.
 			 * Notice, when enabled, 'remove' (minus) is displayed only when staff has more notes than one. */
 	void enableToAddNotes(bool addEnabled);
@@ -88,17 +93,15 @@ protected slots:
 private:
 		TscoreNote																*m_scoreNote;
 		qreal						 								 					 m_height;
-		bool						 								 					 m_entered;
-		QGraphicsSimpleTextItem										*m_plus, *m_name;
+		bool						 								 					 m_isEnabled, m_entered;
+		QGraphicsSimpleTextItem										*m_plus, *m_name, *m_cross;
 		QGraphicsSimpleTextItem									  *m_dblSharp, *m_sharp, *m_flat, *m_dblFlat;
 		QGraphicsRectItem													*m_accidHi;
-		QGraphicsLineItem													*m_minus;
 //Android
 		QGraphicsItem															*m_underItem; // Item under mouse
 		bool														 					 m_moveNote; // True when note cursor is moved with finger
 		int																				 m_currAccid;
 		QGraphicsSimpleTextItem 									*m_prevAccidIt;
-		QString 																	 m_statusTip;
 		bool																			 m_notesAdding, m_nameEnabled;
 		
 private:

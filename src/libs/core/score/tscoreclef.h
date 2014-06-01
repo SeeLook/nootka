@@ -58,7 +58,6 @@ public:
     
 signals:
     void clefChanged(Tclef);
-		void switchPianoStaff(Tclef);
     
 protected:
 #if defined (Q_OS_ANDROID)
