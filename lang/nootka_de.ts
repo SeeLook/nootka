@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de" sourcelanguage="en">
+<TS version="2.0" language="de_DE" sourcelanguage="en">
 <context>
     <name>AnswerText</name>
     <message>
@@ -166,10 +166,9 @@
     </message>
     <message numerus="yes">
         <source>%n semitone(s)</source>
-        <translation type="unfinished">
-            <numerusform>%n Halbton/-töne
-        </numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Halbton</numerusform>
+            <numerusform>%n Halbtöne</numerusform>
         </translation>
     </message>
     <message>
@@ -372,7 +371,7 @@
     <message>
         <source>Analyze</source>
         <comment>could be Chart as well</comment>
-        <translation>Graph</translation>
+        <translation>Statistik</translation>
     </message>
     <message>
         <source>Analysis of exam results</source>
@@ -529,11 +528,11 @@
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Man benötigt eine wenig Englisch, wenn du den unteren Text lesen kannst, gibt es etwas wo du dich einbringen kannst.</translation>
+        <translation>Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nookta Release.&lt;br&gt;Du findest es immer &quot;Nootka Info&quot; Dialog</translation>
+        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nookta Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
     </message>
     <message>
         <source>time [s]</source>
@@ -560,7 +559,7 @@
     <name>Tabout</name>
     <message>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation>Willkommen an bord.&lt;br&gt;Nootka ist eine Open Source Anwendung zum lernen (und lehren) der klassischen Notenschrift (Notation).&lt;br&gt;Es ist besonders für Gitarristen geeignet, aber enthält auch für andere Anwender nützliche Funktionen.</translation>
+        <translation>Willkommen an bord.&lt;br&gt;Nootka ist eine Open Source Anwendung zum lernen (und lehren) der klassischen Notenschrift (Notation).&lt;br&gt;Es ist besonders für Gitarristen geeignet, enthält aber auch für andere Anwender nützliche Funktionen.</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
@@ -684,7 +683,7 @@
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klicken und Ziehen zum Verschieben des Graphen.</translation>
+        <translation>Klicken und Ziehen zum Verschieben des Diagramms.</translation>
     </message>
     <message>
         <source>Question number</source>
@@ -714,7 +713,7 @@
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation>Einstellungen des Graphen</translation>
+        <translation>Einstellungen des Diagramms</translation>
     </message>
     <message>
         <source>Maximize</source>
@@ -770,7 +769,7 @@
     </message>
     <message>
         <source>Tuning</source>
-        <translation type="unfinished"></translation>
+        <translation>Stimmung</translation>
     </message>
 </context>
 <context>
@@ -794,7 +793,7 @@
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation>Um die Antwort Prüfen Bestätigen:</translation>
+        <translation>Um die Antwort zu Bestätigen auswählen:</translation>
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
@@ -1103,7 +1102,7 @@
     </message>
     <message>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
-        <translation>drücke die &lt;b&gt;space&lt;/b&gt; Taste</translation>
+        <translation>&lt;b&gt;space&lt;/b&gt; Taste drücken</translation>
     </message>
     <message>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
@@ -1118,12 +1117,8 @@
         <translation>oder drücke die &lt;b&gt;Backspace&lt;/b&gt; Taste</translation>
     </message>
     <message>
-        <source>To stop the exam click %1 button.</source>
-        <translation type="obsolete">Um die Prüfung zu beenden klick den %1 Button.</translation>
-    </message>
-    <message>
         <source>Click %1 button to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klick %1 Button zum Anhalten.</translation>
     </message>
 </context>
 <context>
@@ -1615,7 +1610,7 @@
         <source>right-handed players</source>
         <comment>When translation will be too long try to add &apos;
 &apos; - line break between words.</comment>
-        <translation>rechtshändige Spieler</translation>
+        <translation>Rechtshänder</translation>
     </message>
     <message>
         <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
@@ -1656,10 +1651,6 @@
     <message>
         <source>Custom tuning</source>
         <translation>Benutzerdefinierte Stimmung</translation>
-    </message>
-    <message>
-        <source>Custom tune</source>
-        <translation type="obsolete">Benutzerdefinierte Stimmung</translation>
     </message>
 </context>
 <context>
@@ -1924,7 +1915,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Level is not suitable for current instrument type</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Level ist für den aktuellen Instrumententyp nicht geeignet</translation>
     </message>
 </context>
 <context>
@@ -2012,7 +2003,7 @@ nicht öffnen</translation>
     <message>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
-        <translation>&lt;h1&gt;Zeugnis zum Bestehen der Prüfung&lt;/h1&gt;</translation>
+        <translation>&lt;h1&gt;Zeugnis zur&lt;br&gt;bestandenen Prüfung&lt;/h1&gt;</translation>
     </message>
     <message>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
@@ -2027,7 +2018,7 @@ nicht öffnen</translation>
     <message>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
-        <translation>Bestehen der Prüfung des Levels &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;mit der Beantwortung von [QUESTNR] Fragen&lt;br&gt;in einer Zeit von &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;mit einer Gesamtpunktzahl von &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
+        <translation>In der Prüfung des Levels &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;wurden [QUESTNR] Fragen&lt;br&gt;in einer Zeit von &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt; beantwortet,&lt;/big&gt;&lt;br&gt;mit einer Gesamtpunktzahl von &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
@@ -2037,7 +2028,7 @@ nicht öffnen</translation>
     <message>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation>&lt;small&gt;&lt;i&gt;Prüfungskomitee:&lt;/i&gt;&lt;br&gt;&lt;i&gt;Prüfungsvorsitzende:&lt;/i&gt;&lt;b&gt; Nootka selbst&lt;/b&gt;&lt;br&gt;&lt;b&gt;Professor Prozessor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Herr Arbeitsspeicher&lt;/b&gt; als Assistentin&lt;br&gt;&lt;i&gt;Sekretärin:&lt;/i&gt;&lt;b&gt;Frau Festplatte&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;Prüfungskomitee:&lt;/i&gt;&lt;br&gt;&lt;i&gt;Prüfungsvorsitzende:&lt;/i&gt;&lt;b&gt; Nootka selbst&lt;/b&gt;&lt;br&gt;&lt;b&gt;Professor Prozessor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Herr Arbeitsspeicher&lt;/b&gt; als Assistentin&lt;br&gt;&lt;i&gt;Sekretärin:&lt;/i&gt;&lt;b&gt; Frau Festplatte&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
@@ -2046,7 +2037,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
-        <translation>GLÜCKWÜNSCHE!&lt;br&gt;Du hast gerade die Prüfung bestanden!</translation>
+        <translation>GLÜCKWUNSCH!&lt;br&gt;Du hast gerade die Prüfung bestanden!</translation>
     </message>
     <message>
         <source>Save this certificate to file in remembrance.</source>
@@ -2089,11 +2080,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Naming style</source>
-        <translation>Namensgebung</translation>
+        <translation>Notennamen</translation>
     </message>
     <message>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Namensgebung der Note. Der Hauptunterschied besteht bei der 7ten Note.&lt;br&gt;Ist es B und B moll, oder H und B?</translation>
+        <translation>Notenname. Der Hauptunterschied besteht bei der 7ten Note.&lt;br&gt;Ist es B und B moll, oder H und B?</translation>
     </message>
     <message>
         <source>letter names</source>
@@ -2124,19 +2115,23 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>1-line</source>
-        <translation>eingestrichen</translation>
+        <translatorcomment>eingestrichen abbreviation because of limited button size</translatorcomment>
+        <translation>eingestr</translation>
     </message>
     <message>
         <source>2-line</source>
-        <translation>zweigestrichen</translation>
+        <translatorcomment>abbreviation because of limited button size</translatorcomment>
+        <translation>zweigestr</translation>
     </message>
     <message>
         <source>3-line</source>
-        <translation>dreigestrichen</translation>
+        <translatorcomment>abbreviation because of limited button size</translatorcomment>
+        <translation>dreigestr</translation>
     </message>
     <message>
         <source>4-line</source>
-        <translation>viergestrichen</translation>
+        <translatorcomment>abbreviation because of limited button size</translatorcomment>
+        <translation>viergestr</translation>
     </message>
     <message>
         <source>Subcontra octave</source>
@@ -2289,19 +2284,19 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>as note on the staff</source>
-        <translation>als Ton auf der Notation</translation>
+        <translation>Ton auf der Notation</translation>
     </message>
     <message>
         <source>as note name</source>
-        <translation>als Notenname</translation>
+        <translation>Notenname</translation>
     </message>
     <message>
         <source>as position on the fingerboard</source>
-        <translation>als Position auf dem Griffbrett</translation>
+        <translation>Position auf dem Griffbrett</translation>
     </message>
     <message>
         <source>as played sound</source>
-        <translation>als gespielter Ton</translation>
+        <translation>gespielter Ton</translation>
     </message>
     <message>
         <source>Select the type of answers for a question.</source>
@@ -2761,7 +2756,7 @@ nicht öffnen</translation>
     <message>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
-        <translation>JCW</translation>
+        <translation>Johann C. Weihe</translation>
     </message>
 </context>
 <context>
@@ -2883,10 +2878,6 @@ nicht öffnen</translation>
 </context>
 <context>
     <name>main</name>
-    <message>
-        <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Kann Schrift nicht laden.&lt;br&gt;Versuch nootka.otf mauell zu intallieren.&lt;/center&gt;</translation>
-    </message>
     <message>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Kann Schrift nicht laden.&lt;br&gt;Versuch nootka.ttf mauell zu intallieren.&lt;/center&gt;</translation>

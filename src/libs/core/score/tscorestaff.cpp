@@ -228,7 +228,8 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)m_keySignature) {
 		if (isEnabled) {
 			m_keySignature = new TscoreKeySignature(scoreScene(), this);
-			m_keySignature->setPos(7.0, 0.0);
+// 			m_keySignature->setPos(7.0, 0.0);
+			m_keySignature->setPos(7.0, upperLinePos() - TscoreKeySignature::relatedLine);
 			m_keySignature->setClef(m_clef->clef());
 			m_keySignature->setZValue(30);
 			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
@@ -341,6 +342,8 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 				m_height = 40.0;
 		}
 		prepareStaffLines();
+		if (m_keySignature)
+				m_keySignature->setPos(7.0, upperLinePos() - TscoreKeySignature::relatedLine);
 		for (int i = 0; i < count(); i++)
 			noteSegment(i)->adjustSize();
 		TscoreNote::adjustCursor();
@@ -643,11 +646,11 @@ void TscoreStaff::createBrace() {
     qreal fact = (distance + 1.8) / brace->boundingRect().height();
 #else
 	qreal distance = lowerLinePos() + 8 - upperLinePos();
-	qreal fact = (distance + 0.2) / m_brace->boundingRect().height();
+	qreal fact = (distance + 0.15) / m_brace->boundingRect().height();
 #endif
 	m_brace->setScale(fact);
 	m_brace->setBrush(qApp->palette().text().color());
-	m_brace->setPos(-2.0, upperLinePos() + distance / 2 - (m_brace->boundingRect().height() * m_brace->scale()) / 2 + 0.4);
+	m_brace->setPos(-1.8, upperLinePos() + distance / 2 - (m_brace->boundingRect().height() * m_brace->scale()) / 2 + 0.4);
 }
 
 
