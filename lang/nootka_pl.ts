@@ -2777,12 +2777,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/notename/tnotename.cpp" line="134"/>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kliknij aby zobaczyć czym są &lt;i&gt;oktawy&lt;/i&gt; na &quot;http://pl.wikipedia.org/wiki/Oktawa_%28interwa%C5%82%29&quot;</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="137"/>
         <source>Octaves</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Oktawy</translation>
     </message>
 </context>
 <context>

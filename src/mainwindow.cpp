@@ -155,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // Setting layout
 	nootBar->setParent(0);
 	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), nootBar, Qt::TopRightCorner);
-	rhythmCorner->setSpotColor(Qt::yellow);
+	rhythmCorner->setSpotColor(Qt::darkGreen);
 	QVBoxLayout *mainLay = new QVBoxLayout;
 		mainLay->setContentsMargins(0, 2, 0, 2);
 // #if !defined (Q_OS_ANDROID)

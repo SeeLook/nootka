@@ -79,9 +79,10 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_name->setScale(boundingRect().width() / m_name->boundingRect().width());
 	m_name->setBrush(Qt::darkCyan);
 // '-' for deleting notes
-	m_cross = new QGraphicsSimpleTextItem("x");
+	m_cross = new QGraphicsSimpleTextItem("o");
+	m_cross->setFont(TnooFont());
 	m_cross->setParentItem(this);
-	m_cross->setScale((boundingRect().width() / m_cross->boundingRect().width()) / 1.5);
+	m_cross->setScale((boundingRect().width() / m_cross->boundingRect().width()));
 	m_cross->setBrush(Qt::red);
 	adjustSize();
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
@@ -96,7 +97,7 @@ TnoteControl::~TnoteControl()
 
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
-	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 10.0;
+	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 8.0;
 		m_cross->setPos((WIDTH - m_cross->boundingRect().width() * m_cross->scale()) / 2.0, minusY);
 	m_plus->setPos(0.0, staff()->upperLinePos() - 4.0 - m_plus->boundingRect().height() * m_plus->scale());
 	qreal dblSharpH = 0.0;
@@ -186,18 +187,21 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 			}
 #if !defined (Q_OS_ANDROID)
 			QTimer::singleShot(300, this, SLOT(showDelayed()));
+#endif
 			if (notesAddingEnabled()) {
 					if (staff()->number() == 0 && staff()->count() < 2)
 							m_cross->hide(); // prevent deleting only one note
 					else
 							m_cross->show();
 			}
-#else
-			m_minus->hide();
+#if defined (Q_OS_ANDROID)
+// 			m_cross->hide();
 			show();
 #endif
-			if (pos().x() < m_scoreNote->pos().x()) // hide name for left control
+			if (pos().x() < m_scoreNote->pos().x()) { // hide 'name' and 'cross' for left control
 				m_name->hide();
+				m_cross->hide();
+			}
 // 			else
 // 				m_cross->hide();
 	} else {
@@ -306,7 +310,8 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 			else if (it == m_plus)
 				emit statusTip(tr("Click <big><b>+</b></big> to add a new note"));
 			else if (it == m_cross)
-				emit statusTip(tr("Click <big><b>x</b></big> to remove a note"));
+				emit statusTip(tr("Click %1 to remove a note")
+					.arg(TnooFont::span("o", qApp->fontMetrics().boundingRect("A").height() * 2.0, "color: #ff0000"))); // red
 			else if (it == m_name)
 				emit statusTip(tr("Click %1 to edit note name")
 					.arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, "color: #008080"))); // #008080 - dark Cyan

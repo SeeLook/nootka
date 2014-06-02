@@ -146,11 +146,11 @@ void TcornerProxy::sceneScrolled() {
 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
 		yy = yy - proxy()->boundingRect().height() / m_view->transform().m11() - gap;
   else
-    yy += gap;
+    yy += gap / 2.0;
 	if (m_corner == Qt::TopRightCorner || m_corner == Qt::BottomRightCorner)
 		xx = xx - proxy()->boundingRect().width() / m_view->transform().m11() - gap;
   else
-    xx += gap;
+    xx += gap / 2.0;
 	proxy()->setPos(xx, yy);
 #endif
 }

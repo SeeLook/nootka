@@ -24,11 +24,13 @@
 #include <music/tclef.h>
 #include <QPointer>
 
+#define KEY_HEIGHT (14.0) // Height of key signature item
+
 /** 
 * This class represents the field between clef
 * and notes with key signature accidentals.
 *
-* User can change key signature by mouse wheel moving,
+* User can change key signature by mouse wheel moving or pressing 
 * and it emits keySignatureChanged signal.
 */
 class NOOTKACORE_EXPORT TscoreKeySignature : public TscoreItem
@@ -52,9 +54,6 @@ public:
 				/** Returns position point of accidental text in staff coordinates. @p noteNr is [0-7] range */
 		QPointF accidTextPos(int noteNr);
 		
-				/** It corresponds with staff upper line  */
-		void setRelatedLine(int rLine);
-		
 		void showKeyName(bool showIt);
 		
 		void setReadOnly(bool readOnly) { m_readOnly = readOnly; if (m_lowKey) m_lowKey->setReadOnly(readOnly); }
@@ -65,6 +64,7 @@ public:
 		
 				/** Static method that calculates scale factor of key signature name appropriate for available space above clef. */
 		static void setKeyNameScale(QGraphicsTextItem *keyNameItem);
+		static const qreal relatedLine; /** Y position of upper staff line in item coordinates */
   
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -73,10 +73,14 @@ signals:
     void keySignatureChanged();
 
 protected:
+#if defined (Q_OS_ANDROID)	
+		virtual void shortTap(const QPointF& cPos);
+#else
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
-        /** Adds @param step to key value. Only 1 or -1 values are accepted. */
-    void increaseKey(int step);
+#endif
+
+    void increaseKey(int step); /** Adds @param step to key value. Only 1 or -1 values are accepted. */
 		void updateKeyName();
 		
 protected slots:
@@ -87,9 +91,7 @@ private:
     QGraphicsSimpleTextItem 				*m_accidentals[7];
 		QPointer<QGraphicsTextItem>			 m_keyNameText;
     char 												 		 m_keySignature;
-    qreal 											 		 m_height;
 		QPointer<TscoreKeySignature>		 m_lowKey;
-		qreal														 m_relLine; /** upper staff line */
     
         /** It keeps array of accidental symbol (# or b) positions
         * (in PosY coordinates from TnoteView)

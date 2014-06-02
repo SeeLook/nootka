@@ -28,6 +28,8 @@
 
 
 /*static*/
+const qreal TscoreKeySignature::relatedLine = 3.0;
+
 void TscoreKeySignature::setKeyNameScale(QGraphicsTextItem* keyNameItem) {
 		qreal factor = (KEY_WIDTH + 5.0) / (keyNameItem->boundingRect().width());
 		if (keyNameItem->boundingRect().height() * factor > 8.0) // 8.0 is a measure of height - about 4 staff lines.
@@ -65,16 +67,13 @@ int nOff(Tclef::Etype c) {
 TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, char keySign) :
   TscoreItem(scene),
   m_keySignature(keySign),
-  m_clef(Tclef()), m_clefOffset(3),
+  m_clef(Tclef()),
   m_readOnly(false),
-  m_bgColor(-1)
+  m_bgColor(-1),
+  m_clefOffset(3)
 {
   setStaff(staff);
 	setParentItem(staff);
-	if (staff->isPianoStaff() && staff->scoreKey() != this)
-			m_height = staff->height() - staff->lowerLinePos() - 2.0;
-	else
-			m_height = staff->height();
 
   TnooFont font(5);
   for (int i = 0; i < 7; i++) {
@@ -87,12 +86,6 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
 	}
     
 	setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
-}
-
-
-void TscoreKeySignature::setRelatedLine(int rLine) {
-	m_relLine = rLine;
-	setKeySignature(keySignature());
 }
 
 
@@ -133,9 +126,9 @@ void TscoreKeySignature::setKeySignature(char keySign) {
 char TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
   char yPos;
   if (flatKey)
-    yPos = m_posOfAccidFlats[noteNr] + m_relLine + (m_clefOffset - 3);
+    yPos = m_posOfAccidFlats[noteNr] + relatedLine + (m_clefOffset - 3);
   else {
-    yPos = m_posOfAccid[noteNr] + m_relLine + (m_clefOffset - 3);
+    yPos = m_posOfAccid[noteNr] + relatedLine + (m_clefOffset - 3);
     if (m_clef.type() == Tclef::e_tenor_C && (noteNr == 0 || noteNr == 2))
         yPos += 7;
   }
@@ -157,17 +150,18 @@ void TscoreKeySignature::setClef(Tclef clef) {
 		if (!m_lowKey) {
 				m_lowKey = new TscoreKeySignature(scoreScene(), staff());
 				m_lowKey->setParentItem(this);
-				m_lowKey->setPos(0.0, staff()->lowerLinePos() - 2.0);
+// 				m_lowKey->setPos(0.0, staff()->lowerLinePos() - 2.0);
+				m_lowKey->setPos(0.0, 14.0);
 				m_lowKey->setClef(Tclef(Tclef::e_bass_F));
 				m_lowKey->setZValue(30);
-				m_lowKey->setRelatedLine(2);
-				setRelatedLine(staff()->upperLinePos());
+// 				m_lowKey->setRelatedLine(2);
+// 				setRelatedLine(staff()->upperLinePos());
 				m_lowKey->setKeySignature(keySignature());
 				connect(m_lowKey, SIGNAL(keySignatureChanged()), this, SLOT(onLowKeyChanged()));
 		}
 	} else {
 		m_clef = clef;
-		setRelatedLine(staff()->upperLinePos());
+// 		setRelatedLine(staff()->upperLinePos());
 		if (m_lowKey) {
 			delete m_lowKey;
 		}
@@ -193,12 +187,14 @@ void TscoreKeySignature::showKeyName(bool showIt) {
 
 
 QRectF TscoreKeySignature::boundingRect() const{
-  return QRectF(0, 0, KEY_WIDTH + 1.0, m_height);
+	  return QRectF(0, 0, KEY_WIDTH + 1.0, KEY_HEIGHT);
 }
 
 
 void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-		if (m_bgColor != -1) {
+	Q_UNUSED(option)
+	Q_UNUSED(widget)
+	if (m_bgColor != -1) {
 			paintBackground(painter, m_bgColor);
 	}
 }
@@ -213,27 +209,37 @@ void TscoreKeySignature::onLowKeyChanged() {
 }
 
 
-
+#if !defined (Q_OS_ANDROID)
 void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (!m_readOnly && event->button() == Qt::LeftButton) {
-		if (event->pos().y() > m_relLine - 4.0 && event->pos().y() < m_relLine + 12.0 ) {
-				if (event->pos().y() > m_relLine + 4.0)
-					increaseKey(-1);
-				else
-					increaseKey(1);
-				}
+		if (event->pos().y() > relatedLine + 4.0)
+			increaseKey(-1);
+		else
+			increaseKey(1);
 	}
 }
 
 
 void TscoreKeySignature::wheelEvent(QGraphicsSceneWheelEvent* event) {
-		if (m_readOnly)
-			return;
-    if (event->delta() > 0)
-        increaseKey(1);
-    else
-        increaseKey(-1);
+	if (m_readOnly)
+		return;
+	if (event->delta() > 0)
+			increaseKey(1);
+	else
+			increaseKey(-1);
 }
+#endif
+
+#if defined (Q_OS_ANDROID)
+void TscoreKeySignature::shortTap(const QPointF& cPos) {
+	if (!m_readOnly) {
+		if (cPos.y() > relatedLine + 4.0)
+			increaseKey(-1);
+		else
+			increaseKey(1);
+	}
+}
+#endif
 
 
 void TscoreKeySignature::increaseKey(int step) {
@@ -254,7 +260,7 @@ void TscoreKeySignature::updateKeyName() {
 															TkeySignature::getMinorName(m_keySignature));
 			setKeyNameScale(m_keyNameText);
 			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2 - 2.5,
-						staff()->upperLinePos() - 3 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
+						-2.0 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
 			}
 }
 
