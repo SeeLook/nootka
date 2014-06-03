@@ -39,6 +39,7 @@ New settings switches:
   - score scale
   - show/hide note names on the score
   - color of note name highlight
+  - playback tempo
 ----------------------------------------------------------------------------------------------------------------
 Score controlling buttons:
 	v accidentals
@@ -46,6 +47,7 @@ Score controlling buttons:
 	v zoom +/-
 	v clear the score
 	v show/hide note names
+	- tempo menu
 	- octave drop/rise (8-va, 15-va)
 	- rhythms (steams and rests)
 ----------------------------------------------------------------------------------------------------------------

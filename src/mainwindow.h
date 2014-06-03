@@ -76,7 +76,7 @@ public slots:
     void noteWasClicked(int index, Tnote note);
 //     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
-//     void soundWasPlayed(Tnote note);
+    void soundWasPlayed(Tnote note);
     
 // signals:
 //     void sizeChanged(QSize size);
@@ -114,7 +114,8 @@ protected slots:
     void restoreMessage();
 		
 		void recordSlot();
-		void showMenuBar();
+		void playSlot();
+		
 //     void showSupportDialog();
 		
 				/** Checks is score not too width and places pitchView under when it is.
@@ -147,9 +148,8 @@ private:
     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
     QPushButton						*m_menuButton;
 //     Tlevel 						    m_level;
-// 		bool 									m_isPlayerFree;
+		bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;
-// 		QVBoxLayout 					*m_rightLay, *m_scoreLay;
 // 
 // 
     void createActions();

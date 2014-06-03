@@ -52,7 +52,8 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_corrStyle(Tnote::defaultStyle),
   m_inMode(e_multi),
   m_clickedOff(0), m_currentIndex(-1),
-  m_scale(1.0)
+  m_scale(1.0),
+  m_scoreIsPlayed(false)
 {
   m_parent = parent;
 // 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -146,6 +147,12 @@ TscoreStaff* TmainScore::currentStaff() {
 }
 
 
+inline int TmainScore::notesCount() {
+	return (m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count();
+}
+
+
+
 void TmainScore::setNote(Tnote note) {
 	if (insertMode() != e_single) {
 			if (m_currentIndex == -1)
@@ -184,6 +191,24 @@ void TmainScore::noteWasSelected(int index) {
 	TscoreStaff *st = SENDER_TO_STAFF;
 	changeCurrentIndex(index + st->number() * st->maxNoteCount());
 	emit noteWasChanged(index, *st->getNote(index));
+}
+
+int m_tempo = 60000 / 120, m_playedIndex;
+void TmainScore::playScore() {
+	if (m_scoreIsPlayed) {
+		m_scoreIsPlayed = false;
+		if (m_playTimer) {
+			m_playTimer->stop();
+			delete m_playTimer;
+		}
+	} else {
+		m_scoreIsPlayed = true;
+		m_playTimer = new QTimer(this);
+		connect(m_playTimer, SIGNAL(timeout()), this, SLOT(playSlot()));
+		m_playTimer->start(m_tempo);
+		m_playedIndex = m_currentIndex - 1;
+		playSlot();
+	}
 }
 
 
@@ -742,7 +767,7 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 		case e_first:
 			changeCurrentIndex(0); break;
 		case e_last:
-			changeCurrentIndex((m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1);
+			changeCurrentIndex(notesCount() - 1);
 			break;
 		case e_prevNote: {
 			if (m_currentIndex > 0)
@@ -750,7 +775,7 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 			break;
 		}
 		case e_nextNote: {
-			if (m_currentIndex < (m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count() - 1)
+			if (m_currentIndex < notesCount() - 1)
 					changeCurrentIndex(m_currentIndex + 1);
 			break;
 		}
@@ -775,6 +800,19 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 			m_clickedOff = 0;
 	}
 }
+
+
+void TmainScore::playSlot() {
+	m_playedIndex++;
+	if (m_playedIndex < notesCount()) {
+		// by emitting that signal note is played and shown on the guitar
+			emit noteWasChanged(m_playedIndex % staff()->maxNoteCount(), 
+												*currentStaff()->getNote(m_playedIndex% staff()->maxNoteCount()));
+			changeCurrentIndex(m_playedIndex);
+	} else
+			emit playbackFinished();
+}
+
 
 /*
 void TmainScore::strikeBlinkingFinished() {

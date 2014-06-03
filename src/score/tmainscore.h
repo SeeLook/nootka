@@ -22,6 +22,7 @@
 #include <score/tsimplescore.h>
 #include <QPointer>
 
+class QTimer;
 class TpushButton;
 class QToolBar;
 class QAction;
@@ -112,11 +113,14 @@ public:
 				/** Position of a note in graphics view coordinates. */
 		QPoint notePos(int noteNr);
 		
+		bool isScorePlayed() { return m_scoreIsPlayed; }
+		inline int notesCount(); /** Total number of notes on the score */
+		
 signals:
 		void noteChanged(int index, Tnote note);
 		
-        /** This signal is emitted during an exam when expert answers are used. */
-    void noteClicked();
+    void noteClicked(); /** This signal is emitted during an exam when expert answers are used. */
+		void playbackFinished();
 		
 public slots:
     void whenNoteWasChanged(int index, Tnote note);
@@ -125,6 +129,7 @@ public slots:
 		void noteWasSelected(int index);
 		void expertNoteChanged();
 		void onClefChanged(Tclef cl);
+		void playScore(); /** Plays (actually emits noteChanged()) all notes starting from the selected one. */
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -155,6 +160,8 @@ protected slots:
 		void moveSelectedNote(EmoveNote nDir = e_doNotMove);
 		void moveNameForward() { moveName(e_nextNote); }
 		void moveNameBack() { moveName(e_prevNote); }
+		
+		void playSlot();
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
@@ -200,6 +207,8 @@ private:
 		qreal												 m_scale;
 		QPointer<TnoteName>					 m_nameMenu;
 		QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
+		bool												 m_scoreIsPlayed;
+		QPointer<QTimer>						 m_playTimer;
 };
 
 #endif // TMAINSCORE_H
