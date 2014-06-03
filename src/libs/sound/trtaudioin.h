@@ -19,20 +19,23 @@
 #ifndef TRTAUDIOIN_H
 #define TRTAUDIOIN_H
 
+#include "nootkacoreglobal.h"
 #include <QObject>
 #include <QStringList>
-#include "tnote.h"
+#include <music/tnote.h>
 #include "rt/RtAudio.h"
 #include "trtaudioabstract.h"
 
 class TpitchFinder;
 
 
-/** This class manages audio input for Nootka.
+/** 
+ * This class manages audio input for Nootka.
  * It emits noteDetected(Tnote) signal when some note is detected
  * and fundamentalFreq(float) with freq of detected note.
- * @method calculateNoiseLevel() can be used to obtain noise. */
-class TaudioIN : public QObject, public TrtAudioAbstract
+ * @method calculateNoiseLevel() can be used to obtain noise. 
+ */
+class NOOTKASOUND_EXPORT TaudioIN : public QObject, public TrtAudioAbstract
 {
     Q_OBJECT
 public:

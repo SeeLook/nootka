@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
 #ifndef TOGGSCALE_H
 #define TOGGSCALE_H
 
+#include "nootkasoundglobal.h"
 #include <QString>
 #include <QObject>
 #include "vorbis/codec.h"
@@ -45,12 +46,12 @@ using namespace soundtouch;
 * 
 * @p setSampleRate() and @p setPitchOffset() control appropirate parameters of note.
 * 
-* To get sample @p setNote has to be caled first. 
+* To get sample @p setNote has to be called first.
 * It starts decoding thread which prepares first portion of data.
 * Data is ready only when @p isReady() returns true.
 * Preparing process takes around 1-10 ms (depends on CPU) 
 */
-class ToggScale : public QObject
+class NOOTKASOUND_EXPORT ToggScale : public QObject
 {
   Q_OBJECT
   

@@ -18,7 +18,7 @@
 
 
 #include "trtaudioabstract.h"
-#include "taudioparams.h"
+#include <taudioparams.h>
 #include <QDebug>
 #include <QFileInfo>
 
@@ -89,7 +89,7 @@ bool TrtAudioAbstract::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
   try {
           devInfo = rtDevice->getDeviceInfo(id);
   }
-  catch (RtError& e) {
+  catch (RtAudioError& e) {
     qDebug() << "error when probing audio device" << id;
     return false;
   }
@@ -132,7 +132,7 @@ bool TrtAudioAbstract::openStream(RtAudio::StreamParameters* outParams, RtAudio:
 				rtDevice->openStream(outParams, inParams, frm, rate, buffFrames, callBack, userData, options);
     }
   }
-  catch (RtError& e) {
+  catch (RtAudioError& e) {
     qDebug() << "can't open stream";
     return false;
   }
@@ -146,7 +146,7 @@ bool TrtAudioAbstract::startStream() {
       rtDevice->startStream();
 //     qDebug("stream started");
   }
-  catch (RtError& e) {
+  catch (RtAudioError& e) {
     qDebug() << "can't start stream";
     return false;
   }
@@ -160,7 +160,7 @@ void TrtAudioAbstract::stopStream() {
       rtDevice->stopStream();
 // 		qDebug("stream stoped");
   }
-  catch (RtError& e) {
+  catch (RtAudioError& e) {
     qDebug() << "can't stop stream";
   }
 }
@@ -173,7 +173,7 @@ void TrtAudioAbstract::closeStram() {
       rtDevice->closeStream();
 // 		qDebug("stream closed");
   }
-  catch (RtError& e) {
+  catch (RtAudioError& e) {
     qDebug() << "can't close stream";
   }
 }

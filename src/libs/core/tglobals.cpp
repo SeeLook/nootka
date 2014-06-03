@@ -59,7 +59,7 @@ Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
 
-	version = "1.1.0 alpha";
+	version = "1.1.1 alpha";
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -138,7 +138,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 //score widget settings
 	cfg->beginGroup("score");
-			SkeySignatureEnabled = cfg->value("keySignature", false).toBool();
+// 			SkeySignatureEnabled = cfg->value("keySignature", false).toBool();
+SkeySignatureEnabled = true;
 			SshowKeySignName = cfg->value("keyName", true).toBool(); //true;
 			SnameStyleInKeySign = Tnote::EnameStyle(cfg->value("nameStyleInKey",
 																													(int)Tnote::e_english_Bb).toInt());
@@ -154,7 +155,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 //common for score widget and note name
 	cfg->beginGroup("common");
-			doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
+// 			doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
+doubleAccidentalsEnabled = true;
 			showEnharmNotes = cfg->value("showEnaharmonicNotes", false).toBool();
 			if (cfg->contains("enharmonicNotesColor"))
 					enharmNotesColor = cfg->value("enharmonicNotesColor").value<QColor>(); //-1;

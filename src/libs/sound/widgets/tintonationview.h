@@ -21,6 +21,7 @@
 #define TINTONATIONVIEW_H
 
 #include "tabstractsoundview.h"
+#include "nootkacoreglobal.h"
 
 
 #define INT_FACTOR (1.2)
@@ -28,7 +29,7 @@
 class QTimer;
 class QComboBox;
 
-class TintonationView : public TabstractSoundView
+class NOOTKASOUND_EXPORT TintonationView : public TabstractSoundView
 {
   
   Q_OBJECT

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,15 +21,15 @@
 #define TRTAUDIOOUT_H
 
 
+#include "nootkacoreglobal.h"
 #include "tabstractplayer.h"
-// #include "tscalefile.h"
 #include "trtaudioabstract.h"
 #include "toggscale.h"
 #include <QStringList>
 
 class TaudioParams;
 
-class TaudioOUT : public TabstractPlayer, public TrtAudioAbstract
+class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudioAbstract
 {
   Q_OBJECT
    

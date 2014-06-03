@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 #define TPITCHFINDER_H
 
 
-
+#include "nootkacoreglobal.h"
 #include <QObject>
 #include "tartini/mytransforms.h"
 #include "tartiniparams.h"
@@ -57,7 +57,7 @@ class Channel;
  * The main purpose of this class is to recognize pitch of audio data flowing through it. 
  * Finding pitch method(s) are taken from Tartini project written by Philip McLeod.
  */
-class TpitchFinder : public QObject
+class NOOTKASOUND_EXPORT TpitchFinder : public QObject
 {
 	Q_OBJECT
 	
