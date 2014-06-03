@@ -66,7 +66,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   Tclef cl = Tclef();
   m_clef = new TscoreClef(scene, this, cl);
   connect(m_clef, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-        m_clef->setZValue(49);
+	m_clef->setZValue(29); // lower than key signature (if any)
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_scoreNotes << new TscoreNote(scene, this, i);
@@ -632,7 +632,7 @@ void TscoreStaff::createBrace() {
 #if defined (Q_OS_MAC)
     ff.setPointSizeF(27.5);
 #else
-  ff.setPointSizeF(26.0);
+  ff.setPointSizeF(26.5);
 #endif
   QFontMetrics fm(ff);
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
@@ -646,7 +646,7 @@ void TscoreStaff::createBrace() {
     qreal fact = (distance + 1.8) / brace->boundingRect().height();
 #else
 	qreal distance = lowerLinePos() + 8 - upperLinePos();
-	qreal fact = (distance + 0.15) / m_brace->boundingRect().height();
+	qreal fact = (distance + 0.2) / m_brace->boundingRect().height();
 #endif
 	m_brace->setScale(fact);
 	m_brace->setBrush(qApp->palette().text().color());

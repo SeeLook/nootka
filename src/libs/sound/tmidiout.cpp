@@ -18,7 +18,7 @@
 
 
 #include "tmidiout.h"
-#include "taudioparams.h"
+#include <taudioparams.h>
 #include "rt/RtMidi.h"
 #include <QTimer>
 #include <QDebug>
@@ -30,7 +30,7 @@ QStringList TmidiOut::getMidiPortsList()
   try {
     midiOut = new RtMidiOut();
   }
-  catch ( RtError &error ) {
+  catch ( RtMidiError &error ) {
     qDebug() << "no midi devices available";
   }
   QStringList portList;
@@ -71,7 +71,7 @@ void TmidiOut::setMidiParams() {
   try {
     m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
   }
-  catch ( RtError &error ) {
+  catch ( RtMidiError &error ) {
     qDebug() << "can't initialize MIDI";
     playable = false;
     return;
@@ -171,7 +171,7 @@ void TmidiOut::openMidiPort() {
     try {
           m_midiOut->openPort(m_portNr, "Nootka_MIDI_out");
       }
-      catch (RtError &error){
+      catch (RtMidiError &error){
           qDebug() << "can't open MIDI port";
           playable = false;
           return;
@@ -210,14 +210,14 @@ void TmidiOut::midiNoteOff() {
   m_message[2] = 0; // volume
   try {
     m_midiOut->sendMessage(&m_message);
-  } catch (RtError &error){
+  } catch (RtMidiError &error){
     qDebug() << "can't send MIDI message to fade sound out";
   }
   m_prevMidiNote = 0;
 // 	if (m_portOpened) {
 //       try {
 //         m_midiOut->closePort();
-//       } catch (RtError &error){
+//       } catch (RtMidiError &error){
 //         qDebug() << "can't close MIDI port";
 //       }
 //         m_portOpened = false;

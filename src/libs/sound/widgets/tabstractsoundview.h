@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,48 +17,34 @@
  ***************************************************************************/
 
 
-#ifndef TVOLUMEVIEW_H
-#define TVOLUMEVIEW_H
+#ifndef TABSTRACTSOUNDVIEW_H
+#define TABSTRACTSOUNDVIEW_H
 
-#include "tabstractsoundview.h"
+#include <QWidget>
+#include "nootkasoundglobal.h"
 
 
-class TvolumeView : public TabstractSoundView
-{
-
-Q_OBJECT
-
+class NOOTKASOUND_EXPORT TabstractSoundView : public QWidget {
+  
 public:
-    explicit TvolumeView(QWidget *parent = 0);
-    virtual ~TvolumeView();
+  
+    explicit TabstractSoundView(QWidget* parent = 0);
     
-        /** @param alpha is alpha value of background color
-        * to manage of the animation of detected pitch */
-    void setVolume(float vol, int alpha = 0);
-    void setPitchColor (QColor col) { m_pitchColor = col; }
-    void setMinimalVolume(float vol) { m_minVolume = vol; update(); }
-  
-signals:
-		void minimalVolume(float);
-  
+    QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
+    
+    static QColor startColor, middleColor, endColor, totalColor;
+    QColor tc;
+    void setDisabled(bool isDisabled);
+    
 protected:
-    virtual void paintEvent(QPaintEvent* );
-    virtual void resizeEvent(QResizeEvent*);
-		virtual void mouseMoveEvent(QMouseEvent* event);
-		virtual void enterEvent(QEvent* );
-		virtual void leaveEvent(QEvent* );
+    virtual void resizeIt(int myHeight);
     
-private:
-    float           m_volume, m_prevVol;
-    QColor          m_pitchColor;
-    int             m_alpha; // aplha value of m_pitchColor
-    QList<QColor>   m_tickColors;
-    int             m_ticksCount;
-    int             m_noteWidth;
-    float           m_hiTickStep;
-    float           m_minVolume; // tick poits minimal vol for pitch detection
-    bool 						m_drawKnob;
-
+protected:
+    QFont           nootFont;
+    QRect           noteBound;
+  
 };
 
-#endif // TVOLUMEVIEW_H
+
+
+#endif // TABSTRACTSOUNDVIEW_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include <QStringList>
 #include <vector>
 #include "tabstractplayer.h"
+#include "nootkacoreglobal.h"
 
 
 class RtMidiOut;
@@ -31,7 +32,7 @@ class TaudioParams;
 /**
  * Midi is played by RtMidi class.
  */
-class TmidiOut : public TabstractPlayer
+class NOOTKASOUND_EXPORT TmidiOut : public TabstractPlayer
 {
   
   Q_OBJECT

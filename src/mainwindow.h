@@ -86,12 +86,12 @@ protected:
     TmainScore *score;
 //     TnoteName *noteName;
     TfingerBoard *guitar;
-//     Tsound *sound;
+    Tsound *sound;
 //     TexamView *examResults;
 //     TexamExecutor *ex;
 // 		TnootkaLabel *nootLabel; // displays Nootka logo
 //     TanimedChBox *autoRepeatChB, *expertAnswChB, *correctChB;
-//     TpitchView *pitchView;
+    TpitchView *pitchView;
 //     TprogressWidget *progress;
 
     QToolBar *nootBar;

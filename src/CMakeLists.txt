@@ -17,15 +17,16 @@ if(UNIX AND NOT APPLE)
         set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
 else(UNIX AND NOT APPLE)
-	if (WIN32)
-				set(CMAKE_CXX_FLAGS "-O2 -march=pentium3m") # SoundTouch require it
-	endif(WIN32)
+# 	if (WIN32)
+# 				set(CMAKE_CXX_FLAGS "-O2 -march=pentium3m") # SoundTouch require it
+# 	endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
-# libNootkaCore
-add_subdirectory( libs/core )
+
+add_subdirectory( libs/core ) # libNootkaCore
+add_subdirectory( libs/sound ) # libNootkaSound
 		
-include_directories( libs/core )
+include_directories( libs/core libs/sound )
 
 # add_subdirectory( charts ) # nootka analyzer
 
@@ -51,7 +52,7 @@ set(NOOTKA_SRC
 
 
 add_executable(nootka WIN32 ${NOOTKA_SRC} )
-target_link_libraries(nootka NootkaCore Qt5::Widgets)
+target_link_libraries(nootka NootkaCore NootkaSound Qt5::Widgets)
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )

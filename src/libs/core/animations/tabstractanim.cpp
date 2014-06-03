@@ -38,6 +38,9 @@ TabstractAnim::~TabstractAnim()
 void TabstractAnim::installTimer() {
 	if (!m_timer) {
 			m_timer = new QTimer(this);
+		#if defined (Q_OS_ANDROID)
+			m_timer->setTimerType(Qt::PreciseTimer);
+		#endif
 			connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
 	}
 }

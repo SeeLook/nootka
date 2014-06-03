@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,36 +17,24 @@
  ***************************************************************************/
 
 
-#ifndef TARTINIPARAMS_H
-#define TARTINIPARAMS_H
+#include "tabstractplayer.h"
 
-#include <QString>
-
-    /** Types of detection methods. */
-enum EanalysisModes { e_MPM = 0, e_AUTOCORRELATION = 1, e_MPM_MODIFIED_CEPSTRUM = 2 };
-
-
-    /** Audio input & pitch recognition settings for Tartini core. */
-class TartiniParams
+TabstractPlayer::TabstractPlayer(QObject* parent) :
+  QObject(parent),
+  playable(false),
+  doEmit(false)
 {
-public:
-  quint32 rate;
-  quint8 chanells;
-  quint32 windowSize;
-  quint32 framesPerChunk; // in mono signal frames are the same as samples
-  double dBFloor;
-  bool equalLoudness;
-  bool doingFreqAnalysis;
-  bool doingAutoNoiseFloor;
-  bool doingHarmonicAnalysis;
-  bool firstTimeThrough;
-  bool doingDetailedPitch;
-  int threshold; // threshold of lowest loudness in [dB]
-  EanalysisModes analysisType;
-  double topPitch; // The highest possible note pitch allowed (lowest possible is 0 in Tartini)
-  qint16 loPitch; // The lowest possible note. Filtered in searchIn() method
-  double ampThresholds[7][2];
-  
-};
+}
 
-#endif // TARTINIPARAMS_H
+
+bool TabstractPlayer::play(int noteNr) { return false; }
+
+void TabstractPlayer::stop() {}
+
+void TabstractPlayer::deleteMidi() {}
+
+void TabstractPlayer::setMidiParams() {}
+
+
+
+

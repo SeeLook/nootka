@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 #define TRTAUDIOABSTRACT_H
 
 
+#include "nootkasoundglobal.h"
 #include "rt/RtAudio.h"
 #include <QString>
 
@@ -30,7 +31,7 @@ class TaudioParams;
 /** Abstract class for RtAudio input/outputs classes.
 * It doesn't provide destructor, so inherit classes have to
 * delete rtDevice, streamOptions and audioParams them-self. */
-class TrtAudioAbstract
+class NOOTKASOUND_EXPORT TrtAudioAbstract
 {
 
 public:

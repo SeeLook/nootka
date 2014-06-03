@@ -21,8 +21,9 @@
 #define TPITCHVIEW_H
 
 #include <QWidget>
-#include "tnote.h"
+#include <music/tnote.h>
 #include "trtaudioin.h"
+#include "nootkasoundglobal.h"
 
 class QBoxLayout;
 class TvolumeView;
@@ -35,9 +36,10 @@ class QTimer;
    * It can has two buttons, but by setting @param withButtons to false
    * they are not created. 
 	 * It also has TintonationView widget that shows current sound intonation.*/
-class TpitchView : public QWidget
+class NOOTKASOUND_EXPORT TpitchView : public QWidget
 {
   Q_OBJECT
+  
 public:
   explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool withButtons = true);
   virtual ~TpitchView();

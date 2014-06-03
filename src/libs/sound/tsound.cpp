@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 #include "tsound.h"
-#include "tglobals.h"
-#include "taudioparams.h"
-#include "tpitchview.h"
+#include "widgets/tpitchview.h"
 #include "tmidiout.h"
 #include "trtaudioout.h"
 #include "trtaudioin.h"
+#include <tglobals.h>
+#include <taudioparams.h>
 #include <QPushButton>
 #include <QTimer>
 #include <QDebug>

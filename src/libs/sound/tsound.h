@@ -18,20 +18,24 @@
 #ifndef TSOUND_H
 #define TSOUND_H
 
+
+#include "nootkasoundglobal.h"
 #include <QObject>
-#include "tnote.h"
+#include <music/tnote.h>
+
 
 class TabstractPlayer;
 class QThread;
 class TpitchView;
 class TaudioIN;
 
-/** Tsound is a wrapper of TaudioIN & TaudioOUT classes
+/** 
+ * Tsound is a wrapper of TaudioIN & TaudioOUT classes
  * to manage them. It enables/disables them depends on Tglobals,
  * pauses sniffing when playback is proceeding.
  * Also it has got TpitchView to show volume meter & pitch detection state.
  */
-class Tsound : public QObject
+class NOOTKASOUND_EXPORT Tsound : public QObject
 {
 
   Q_OBJECT

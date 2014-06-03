@@ -20,6 +20,8 @@
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
 #include <tprocesshandler.h>
+#include <widgets/tpitchview.h>
+#include <tsound.h>
 #include "score/tmainscore.h"
 #include "score/tcornerproxy.h"
 #include "guitar/tfingerboard.h"
@@ -34,19 +36,14 @@
 // #include "texamsettings.h"
 // #include <tupdateprocess.h>
 // #include <tcolor.h>
-// #include "tsound.h"
-// #include "tpushbutton.h"
-// #include "tmainscore.h"
 // #include "texam.h"
 // #include "tprogresswidget.h"
 // #include "texamview.h"
 // #include "taudioparams.h"
-// #include "tpitchview.h"
 // #include "tanalysdialog.h"
 // #include "tquestionpoint.h"
-// #include "tnotename.h"
 #include <QtWidgets>
-#include <complex>
+// #include <complex>
 
 
 extern Tglobals *gl;
@@ -105,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		gl->config->endGroup();
 		Tnote::defaultStyle = gl->NnameStyleInNoteName;
 		
-//     sound = new Tsound(this);
+    sound = new Tsound(this);
 		
 		
 //-------------------------------------------------------------------
@@ -118,9 +115,8 @@ MainWindow::MainWindow(QWidget *parent) :
 		else
 				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     score = new TmainScore(innerWidget);
-// 		score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-//     pitchView = new TpitchView(sound->sniffer, this);
-//     sound->setPitchView(pitchView);
+    pitchView = new TpitchView(sound->sniffer, this);
+    sound->setPitchView(pitchView);
  // Hints - label with clues
     m_statLab = new TroundedLabel(innerWidget);
     m_statLab->setWordWrap(true);
@@ -130,11 +126,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_statLab->hide();
 		nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 		showMaximized();
-// 		nootBar->hide();
-// 		nootBar->setAutoFillBackground(true);
-#endif
 		nootBar->hide();
 		nootBar->setAutoFillBackground(true);
+#endif
+// 		nootBar->hide();
+// 		nootBar->setAutoFillBackground(true);
 
 //		QColor C(palette().text().color());
 // #if defined (Q_OS_WIN)
@@ -153,15 +149,21 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 //-------------------------------------------------------------------		
 // Setting layout
+#if defined (Q_OS_ANDROID)
 	nootBar->setParent(0);
 	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), nootBar, Qt::TopRightCorner);
 	rhythmCorner->setSpotColor(Qt::darkGreen);
+#endif
 	QVBoxLayout *mainLay = new QVBoxLayout;
-		mainLay->setContentsMargins(0, 2, 0, 2);
-// #if !defined (Q_OS_ANDROID)
-// 		mainLay->addWidget(nootBar);
-// #endif
-		mainLay->addWidget(m_statLab);
+	mainLay->setContentsMargins(0, 2, 0, 2);
+#if !defined (Q_OS_ANDROID)
+		mainLay->addWidget(nootBar);
+#endif
+		QHBoxLayout *statsAndPitchLay = new QHBoxLayout;
+			statsAndPitchLay->addWidget(m_statLab);
+			statsAndPitchLay->addWidget(pitchView);
+// 			statsAndPitchLay->addWidget(m_statLab);
+		mainLay->addLayout(statsAndPitchLay);
 		mainLay->addWidget(score);
 		mainLay->addWidget(guitar);
 	innerWidget->setLayout(mainLay);
@@ -672,6 +674,8 @@ void MainWindow::updateSize(QSize newS) {
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
 	if (m_statFontSize < 0)
 		return;
+	pitchView->setFixedWidth(newS.width() * 0.4);
+	pitchView->resize(m_statFontSize);
 // 	nootBar->setFixedWidth(newS.width());
 #if defined (Q_OS_ANDROID)
 	int barIconSize = qMin(newS.width(), newS.height()) / 10;

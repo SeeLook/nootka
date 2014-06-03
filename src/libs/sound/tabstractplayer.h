@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,29 +21,28 @@
 #define TABSTRACTPLAYER_H
 
 #include <QObject>
+#include <nootkasoundglobal.h>
 
 class QTimer;
 
 
-/** Base abstract class for sound output (plaing scale). */
-class TabstractPlayer : public QObject
+/** 
+ * Base abstract class for sound output (playing scale). 
+ */
+class NOOTKASOUND_EXPORT TabstractPlayer : public QObject
 {
 
   Q_OBJECT
   
 public:
     TabstractPlayer(QObject *parent = 0);
-    virtual ~TabstractPlayer();
     
     bool isPlayable() { return playable; }
     
-        /** Starts plaing given note and then returns true, otherwise gets false. */
+        /** Starts playing given note and then returns true, otherwise gets false. */
     virtual bool play(int noteNr);
-        /** Immediately stops playing. Emits nothing */
-    virtual void stop();
-        /**Does nothing in audio player subclass. */
-    virtual void deleteMidi(); 
-    
+    virtual void stop(); /** Immediately stops playing. Emits nothing */
+    virtual void deleteMidi(); /**Does nothing in audio player subclass. */
     virtual void setMidiParams();
     
     enum EplayerType { e_audio, e_midi };
@@ -51,13 +50,13 @@ public:
     EplayerType type() { return playerType; }
     
 signals:
-      /** This signal is emited when playing of a note is finished. */
-  void noteFinished();
+  void noteFinished(); /** This signal is emitted when playing of a note is finished. */
     
   
 protected:
     void setType(EplayerType type) { playerType = type; }
     bool          playable;
+		
         /** Determines whether noteFinished() signal is emited in offTimer timeOut() slot.
          * Slot is also called by stop() method and then signal can't be emited. */
     bool          doEmit;

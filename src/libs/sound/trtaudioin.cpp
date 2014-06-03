@@ -18,7 +18,7 @@
 
 #include "trtaudioin.h"
 #include "tpitchfinder.h"
-#include "taudioparams.h"
+#include <taudioparams.h>
 #include <QDebug>
 
 
@@ -34,7 +34,7 @@ QStringList TaudioIN::getAudioDevicesList() {
         try {
           devInfo = rta->getDeviceInfo(i);
         }
-        catch (RtError& e) {
+        catch (RtAudioError& e) {
           qDebug() << "error when probing input device" << i;
           continue;
         }

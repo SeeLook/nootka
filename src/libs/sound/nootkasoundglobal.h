@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,38 +12,15 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include <QtCore/QtGlobal>
 
-#ifndef TABSTRACTSOUNDVIEW_H
-#define TABSTRACTSOUNDVIEW_H
-
-#include <QtGui/QWidget>
-
-
-class TabstractSoundView : public QWidget {
-  
-public:
-  
-    explicit TabstractSoundView(QWidget* parent = 0);
-    
-    QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
-    
-    static QColor startColor, middleColor, endColor, totalColor;
-    QColor tc;
-    void setDisabled(bool isDisabled);
-    
-protected:
-    virtual void resizeIt(int myHeight);
-    
-protected:
-    QFont           nootFont;
-    QRect           noteBound;
-  
-};
-
-
-
-#endif // TABSTRACTSOUNDVIEW_H
+#if defined(NOOTKASOUND_LIBRARY)
+#  define NOOTKASOUND_EXPORT Q_DECL_EXPORT
+#else
+#  define NOOTKASOUND_EXPORT Q_DECL_IMPORT
+#endif
+ 

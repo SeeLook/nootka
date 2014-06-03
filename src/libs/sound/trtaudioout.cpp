@@ -18,7 +18,7 @@
 
 
 #include "trtaudioout.h"
-#include "taudioparams.h"
+#include <taudioparams.h>
 #include <QDebug>
 #include <QTimer>
 #include <unistd.h>
@@ -48,7 +48,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
         try {
           devInfo = rta->getDeviceInfo(i);
         }
-        catch (RtError& e) {
+        catch (RtAudioError& e) {
           qDebug() << "error when probing output device" << i;
           continue;
         }
