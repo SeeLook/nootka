@@ -55,9 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
 		m_statusText(""),
 		m_curBG(-1), m_prevBg(-1),
-		m_lockStat(false)
+		m_lockStat(false),
 //     ex(0),
-//     m_isPlayerFree(true),
+    m_isPlayerFree(true)
 //     m_pitchContainer(0),
 //     m_rightLay(0),
 //     m_extraFontOffset(0)
@@ -174,12 +174,13 @@ MainWindow::MainWindow(QWidget *parent) :
     createActions();
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+		connect(score, SIGNAL(playbackFinished()), this, SLOT(playSlot()));
 // 		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
 // 		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
 //     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 // 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
-//     connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
+    connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
@@ -224,6 +225,7 @@ void MainWindow::createActions() {
 //     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 		playAct = new QAction(tr("Play"), this);
 		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
+		connect(playAct, SIGNAL(triggered()), this, SLOT(playSlot()));
 		
 		recordAct = new QAction(tr("Record"), this);
 		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
@@ -461,8 +463,8 @@ void MainWindow::analyseSlot() {
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
     Q_UNUSED(index)
-//     if (m_isPlayerFree)
-//         sound->play(note);
+    if (m_isPlayerFree)
+        sound->play(note);
 //     if (gl->showEnharmNotes){
 //         TnotesList noteList;
 //         noteList << (note);
@@ -471,7 +473,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
 //         noteName->setNoteName(noteList);
 //     } //else
 //         noteName->setNoteName(note);
-		if (guitar->isVisible())
+// 		if (guitar->isVisible())
 				guitar->setFinger(note);
 }
 
@@ -489,33 +491,33 @@ void MainWindow::noteNameWasChanged(Tnote note) {
 */
 
 void MainWindow::guitarWasClicked(Tnote note) {
-//     sound->play(note);
-    if (gl->showEnharmNotes) {
-        TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+    sound->play(note);
+//     if (gl->showEnharmNotes) {
+//         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
 //         noteName->setNoteName(noteList);
 //         score->setNote(1, noteName->getNoteName(1));
 // 				if (gl->doubleAccidentalsEnabled)
 // 						score->setNote(2, noteName->getNoteName(2));
-    } //else
+//     } //else
 //         noteName->setNoteName(note);
 //     score->setNote(0, note);
 	score->setNote(note);
 }
 
-/*
+
 void MainWindow::soundWasPlayed(Tnote note) {
-  if (gl->showEnharmNotes) {
-      TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
-      noteName->setNoteName(noteList);
-      score->setNote(1, noteName->getNoteName(1));
-			if (gl->doubleAccidentalsEnabled)
-					score->setNote(2, noteName->getNoteName(2));
-  } else
-      noteName->setNoteName(note);
-  score->setNote(0, note);
-	if (guitar->isVisible())
-			guitar->setFinger(note);
-}*/
+//   if (gl->showEnharmNotes) {
+//       TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+//       noteName->setNoteName(noteList);
+//       score->setNote(1, noteName->getNoteName(1));
+// 			if (gl->doubleAccidentalsEnabled)
+// 					score->setNote(2, noteName->getNoteName(2));
+//   } else
+//       noteName->setNoteName(note);
+  score->setNote(note);
+// 	if (guitar->isVisible())
+	guitar->setFinger(note);
+}
 
 //##########################################################################################
 //#######################     PROTECTED SLOTS       ########################################
@@ -539,6 +541,18 @@ void MainWindow::recordSlot() {
 	}
 }
 
+
+void MainWindow::playSlot() {
+	if (score->isScorePlayed()) {
+		score->playScore(); // It will be stopped
+		recordAct->setDisabled(false);
+		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
+	} else {
+		recordAct->setDisabled(true);
+		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));
+		score->playScore();
+	}
+}
 
 /*
 void MainWindow::showSupportDialog() {
@@ -628,19 +642,6 @@ void MainWindow::adjustAmbitus() {
 		sound->setDefaultAmbitus();
 }
 */
-void MainWindow::showMenuBar() {
-	QMenu *menu = new QMenu(this);
-	QVBoxLayout *l = new QVBoxLayout;
-	l->addWidget(nootBar);
-	menu->setLayout(l);
-	nootBar->show();
-	menu->resize(nootBar->size());
-	menu->setStyleSheet("background-color: palette(window)");
-	menu->exec(pos());
-	nootBar->setParent(0);
-	delete menu;
-	nootBar->hide();
-}
 
 
 //##########################################################################################
