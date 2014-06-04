@@ -22,6 +22,9 @@
 #include <score/tsimplescore.h>
 #include <QPointer>
 
+class TscoreActions;
+class TscoreKeys;
+class QShortcut;
 class QTimer;
 class TpushButton;
 class QToolBar;
@@ -198,10 +201,7 @@ private:
 		Tnote::EnameStyle						 m_corrStyle;
 		EinMode											 m_inMode;
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
-		QAction											*m_inZoomAct, *m_outZoomAct;
-		QAction											*m_staffDownAct, *m_staffUpAct, *m_firstNoteAct ,*m_lastNoteAct;
-		TpushButton									*m_accidsButt, *m_namesButt;
-		QAction											*m_clearAct;
+		
 				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 		int													 m_clickedOff, m_currentIndex;
 		qreal												 m_scale;
@@ -209,6 +209,8 @@ private:
 		QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
 		bool												 m_scoreIsPlayed;
 		QPointer<QTimer>						 m_playTimer;
+		TscoreKeys									*m_keys; /** Score shortcuts */
+		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
 };
 
 #endif // TMAINSCORE_H
