@@ -18,6 +18,8 @@
 
 #include "tmainscore.h"
 #include "tcornerproxy.h"
+#include "tscorekeys.h"
+#include "tscoreactions.h"
 #include <score/tscorestaff.h>
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
@@ -60,8 +62,8 @@ TmainScore::TmainScore(QWidget* parent) :
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 // 	score()->setFrameShape(QFrame::Box);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
-	m_accidsButt = new TpushButton("$", this); // (#)
-	m_namesButt = new TpushButton("c", this);
+	m_acts = new TscoreActions(this, gl->path);
+	
 	addStaff(staff());
 // set preferred clef
 	setClef(gl->Sclef);
@@ -591,9 +593,9 @@ void TmainScore::menuChangedNote(Tnote n) {
 
 
 void TmainScore::extraAccidsSlot() {
-	m_accidsButt->setChecked(!m_accidsButt->isChecked());
+	m_acts->extraAccids()->setChecked(!m_acts->extraAccids()->isChecked());
 	for (int st = 0; st < m_staves.size(); st++) {
-		m_staves[st]->setExtraAccids(m_accidsButt->isChecked());
+		m_staves[st]->setExtraAccids(m_acts->extraAccids()->isChecked());
 		for (int no = 0; no < m_staves[st]->count(); no++) {
 			if (m_staves[st]->getNote(no)->acidental == -1 || m_staves[st]->getNote(no)->acidental == 1)
 				m_staves[st]->setNote(no, *m_staves[st]->getNote(no));
@@ -603,10 +605,10 @@ void TmainScore::extraAccidsSlot() {
 
 
 void TmainScore::showNamesSlot() {
-	m_namesButt->setChecked(!m_namesButt->isChecked());
+	m_acts->noteNames()->setChecked(!m_acts->noteNames()->isChecked());
 	for (int st = 0; st < m_staves.size(); st++) {
 		for (int no = 0; no < m_staves[st]->count(); no++) {
-			if (m_namesButt->isChecked())
+			if (m_acts->noteNames()->isChecked())
 				m_staves[st]->noteSegment(no)->showNoteName();
 			else
 				m_staves[st]->noteSegment(no)->removeNoteName();
@@ -719,7 +721,7 @@ void TmainScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
 
 void TmainScore::zoomScoreSlot() {
 	qreal newScale = m_scale;
-	if (sender() == m_outZoomAct) {
+	if (sender() == m_acts->zoomOut()) {
 			newScale = qMin(m_scale + 0.25, 2.0);
 	} else {
 			newScale = qMax(m_scale - 0.25, 1.0);
@@ -748,20 +750,22 @@ void TmainScore::deleteNotes() {
 	updateSceneRect();
 }
 
-QShortcut *m_nextNoteSC, *m_endScoreSC;
+
 void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 	int prevIndex = m_currentIndex;
 	if (nDir == e_doNotMove) { // determine action by sender which invoked this slot
-			if (sender() == m_firstNoteAct)
+			if (sender() == m_acts->firstNote() || sender() == m_keys->firstNote())
 				nDir = e_first;
-			else if (sender() == m_lastNoteAct || sender() == m_endScoreSC)
+			else if (sender() == m_acts->lastNote() || sender() == m_keys->lastNote())
 				nDir = e_last;
-			else if (sender() == m_staffUpAct)
+			else if (sender() == m_acts->staffUp() || sender() == m_keys->staffUp())
 				nDir = e_prevStaff;
-			else if (sender() == m_staffDownAct)
+			else if (sender() == m_acts->staffDown() || sender() == m_keys->staffDown())
 				nDir = e_nextStaff;
-			else if (sender() == m_nextNoteSC)
+			else if (sender() == m_keys->nextNote())
 				nDir = e_nextNote;
+			else if (sender() == m_keys->prevNote())
+				nDir = e_prevNote;
 	}
 	switch(nDir) {
 		case e_first:
@@ -929,63 +933,22 @@ void TmainScore::performScordatureSet() {
 
 void TmainScore::createActions() {		
 	m_settBar = new QToolBar();
-// 	m_accidsButt = new TpushButton("$", this); // (#)
-		m_accidsButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
-		m_accidsButt->setThisColors(Qt::red, palette().highlightedText().color());
-// 	m_namesButt = new TpushButton("c", this);
-		m_namesButt->setStatusTip(tr("Shows names of all notes on the score"));
-		m_namesButt->setThisColors(Qt::darkCyan, palette().highlightedText().color());
-	QList<TpushButton*> buttons;
-	buttons << m_accidsButt << m_namesButt;
-	for (int i = 0; i < buttons.size(); i++) {
-		QFont nf("nootka");
-		nf.setPointSizeF(24.0);
-		QFontMetrics fm(nf);
-		nf.setPointSizeF(qRound(nf.pointSizeF() * (nf.pointSizeF() / fm.boundingRect("x").height())));
-		buttons[i]->setFont(nf);
-		fm = QFontMetrics(nf);
-		buttons[i]->setMaximumWidth(fm.boundingRect("xx").width());
-	}
-	connect(m_accidsButt, SIGNAL(clicked()), this, SLOT(extraAccidsSlot()));
-	connect(m_namesButt, SIGNAL(clicked()), this, SLOT(showNamesSlot()));
-	m_settBar->addWidget(m_namesButt);
-	m_settBar->addWidget(m_accidsButt);
+	m_settBar->addWidget(m_acts->noteNames());
+	m_settBar->addWidget(m_acts->extraAccids());
 	
-	m_outZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-out.png"), "", m_settBar);
-		m_outZoomAct->setStatusTip(tr("Zoom score out"));
-		m_outZoomAct->setShortcut(QKeySequence(QKeySequence::ZoomOut));
-		m_outZoomAct->setShortcutContext(Qt::ApplicationShortcut);
-		connect(m_outZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-	m_inZoomAct = new QAction(QIcon(gl->path + "/picts/zoom-in.png"), "", m_settBar);
-		m_inZoomAct->setStatusTip(tr("Zoom score in"));
-		connect(m_inZoomAct, SIGNAL(triggered()), this, SLOT(zoomScoreSlot()));
-	m_firstNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowBack)), "", m_settBar);
-		m_firstNoteAct->setStatusTip(tr("Go to the first note"));
-		connect(m_firstNoteAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
-	m_staffUpAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowUp)), "", m_settBar);
-		m_staffUpAct->setStatusTip(tr("Go to the staff above"));
-		connect(m_staffUpAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
-	m_staffDownAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowDown)), "", m_settBar);
-		m_staffDownAct->setStatusTip(tr("Go to the staff below"));
-		connect(m_staffDownAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
-	m_lastNoteAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_ArrowForward)), "", m_settBar);
-		m_lastNoteAct->setStatusTip(tr("Go to the last note"));
-		connect(m_lastNoteAct, SIGNAL(triggered()), this, SLOT(moveSelectedNote()));
-	m_settBar->addAction(m_outZoomAct);
-	m_settBar->addAction(m_inZoomAct);
-	m_settBar->addAction(m_firstNoteAct);
+	
+	m_settBar->addAction(m_acts->zoomOut());
+	m_settBar->addAction(m_acts->zoomIn());
+	m_settBar->addAction(m_acts->firstNote());
 #if !defined (Q_OS_ANDROID)
-	m_settBar->addAction(m_staffUpAct);
-	m_settBar->addAction(m_staffDownAct);
+	m_settBar->addAction(m_acts->staffUp());
+	m_settBar->addAction(m_acts->staffDown());
 #endif
-	m_settBar->addAction(m_lastNoteAct);	
+	m_settBar->addAction(m_acts->lastNote());	
 	TcornerProxy *settCorner = new TcornerProxy(scoreScene(), m_settBar, Qt::BottomRightCorner);
 	
 	m_clearBar = new QToolBar();
-	m_clearAct = new QAction(QIcon(gl->path + "picts/clear-score.png"), "", m_clearBar);
-	m_clearAct->setStatusTip(tr("Delete all notes on the score"));
-	connect(m_clearAct, SIGNAL(triggered()), this, SLOT(deleteNotes()));
-	m_clearBar->addAction(m_clearAct);
+	m_clearBar->addAction(m_acts->clearScore());
 	TcornerProxy *delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
 	delCorner->setSpotColor(Qt::red);
 	
@@ -995,13 +958,8 @@ void TmainScore::createActions() {
 	TcornerProxy *rhythmCorner = new TcornerProxy(scoreScene(), m_rhythmBar, Qt::TopLeftCorner);
 	rhythmCorner->setSpotColor(Qt::yellow);
 	
-	m_nextNoteSC = new QShortcut(QKeySequence(QKeySequence::Forward), this);
-// 	m_nextNoteSC->setContext(Qt::ApplicationShortcut);
-	connect(m_nextNoteSC, SIGNAL(activated()), this, SLOT(moveSelectedNote()));
-	m_endScoreSC = new QShortcut(QKeySequence(QKeySequence::MoveToEndOfLine), this);
-	connect(m_endScoreSC, SIGNAL(activated()), this, SLOT(moveSelectedNote()));
+	m_keys = new TscoreKeys(this);
 }
-
 
 
 void TmainScore::restoreNotesSettings() {
@@ -1054,7 +1012,7 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
   if (insertMode() == e_record && noteIndex == sendStaff->count() - 1 && noteIndex != sendStaff->maxNoteCount() - 1) {
       Tnote nn(0, 0, 0);
 			sendStaff->addNote(nn);
-			if (m_namesButt->isChecked())
+			if (m_acts->noteNames()->isChecked())
 				sendStaff->noteSegment(sendStaff->count() - 1)->showNoteName();
   }
 }
@@ -1128,10 +1086,10 @@ void TmainScore::addStaff(TscoreStaff* st) {
 			st->disconnect(SIGNAL(clefChanged(Tclef)));
 			m_staves << st;
 	}
-	if (m_namesButt->isChecked())
+	if (m_acts->noteNames()->isChecked())
 			m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
-	m_staves.last()->setExtraAccids(m_accidsButt->isChecked());
+	m_staves.last()->setExtraAccids(m_acts->extraAccids()->isChecked());
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
 	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));

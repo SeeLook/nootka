@@ -133,7 +133,8 @@ void TcornerProxy::sceneRectChangedSlot() {
 void TcornerProxy::sceneScrolled() {
 // determine TcornerProxy position depends on the corner - in scaled scene coordinates
 	QRectF vv = m_view->mapToScene(m_view->rect().adjusted(0, 0,
-									m_view->verticalScrollBar()->isVisible() ? -m_view->verticalScrollBar()->width() : 0, 0)).boundingRect();
+					scoreScene()->sceneRect().height() > 50.0	? -m_view->verticalScrollBar()->width() : -1, 0)).boundingRect();
+					// scene > 50.0 - means more staves and scroll bar is visible
 	qreal xx = vv.x(), yy = vv.y();
 	if (m_corner == Qt::BottomLeftCorner || m_corner == Qt::BottomRightCorner)
 		yy = vv.y() + vv.height();
@@ -205,7 +206,7 @@ void TcornerProxy::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 // 	qreal moveGap = (side() /2.0 - reachPoint) / 2.0;
 // 	m_spot->setPos(moveGap, moveGap);
 // 	qDebug() << reachPoint << alphaFactor << event->pos();
-	if (reachPoint < side() / 8.0) {
+	if (reachPoint < side() / 6.0) {
 		m_signalTimer = startTimer(300);
 	}
 }
