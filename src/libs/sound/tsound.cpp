@@ -45,6 +45,13 @@ Tsound::Tsound(QObject* parent) :
   } else {
     sniffer = 0;
   }
+  if (player && player->type() == TabstractPlayer::e_audio) {
+		static_cast<TaudioOUT*>(player)->open();
+		static_cast<TaudioOUT*>(player)->startAudio();
+	} else if (sniffer) {
+		sniffer->open();
+		sniffer->startAudio();
+	}
 }
 
 Tsound::~Tsound()
@@ -61,16 +68,17 @@ void Tsound::play(Tnote note) {
   bool playing = false;
   if (player)
 			playing = player->play(note.getChromaticNrOfNote());
-  if (playing) { // true if playing was started
-    if (sniffer) { // pause sniffer if note was started
-      sniffer->wait();
-      m_pitchView->stopVolume();
-    }
-  }
+//   if (playing) { // true if playing was started
+//     if (sniffer) { // pause sniffer if note was started
+//       sniffer->wait();
+//       m_pitchView->stopVolume();
+//     }
+//   }
 }
 
 
 void Tsound::acceptSettings() {
+	bool paramsUpdated = false;
   // for output
   if (gl->A->OUTenabled) {
     if (!player)
@@ -84,13 +92,16 @@ void Tsound::acceptSettings() {
               deletePlayer(); // player was midi so delete
               createPlayer();
           } else { // just set new params to TaudioOUT
-              TaudioOUT *aOut = static_cast<TaudioOUT*>(player);
-              aOut->setAudioOutParams(gl->A);
+//               TaudioOUT *aOut = static_cast<TaudioOUT*>(player);
+// 							aOut->updateAudioParams();
+//               aOut->setAudioOutParams();
           }
         }
-        if (player)
+        if (player) {
           if (!player->isPlayable())
             deletePlayer();
+				}
+				paramsUpdated = true;
     }
   } else {
       deletePlayer();
@@ -109,21 +120,38 @@ void Tsound::acceptSettings() {
       }
     }
     else {
-      sniffer->setParameters(gl->A);
+// 			if (!paramsUpdated)
+// 				sniffer->updateAudioParams();
+//       sniffer->setAudioInParams();
       setDefaultAmbitus();
       if (!m_pitchView->isPaused()) { // and pause button
-        sniffer->startListening();
+//         sniffer->startListening();
         m_pitchView->startVolume();
       }
     }
+    if (!paramsUpdated)
+				sniffer->updateAudioParams();
+    sniffer->setAudioInParams();
     m_pitchView->setIsVoice(gl->A->isVoice);
 		m_pitchView->setMinimalVolume(gl->A->minimalVol);
 		m_pitchView->setIntonationAccuracy(gl->A->intonation);
+		paramsUpdated = true;
   } else {
     m_pitchView->setDisabled(true);
     if (sniffer)
       deleteSniffer();
   }
+  if (player && player->type() == TabstractPlayer::e_audio) {
+		static_cast<TaudioOUT*>(player)->updateAudioParams();
+		static_cast<TaudioOUT*>(player)->setAudioOutParams();
+		static_cast<TaudioOUT*>(player)->open();
+		static_cast<TaudioOUT*>(player)->startAudio();
+	} else if (sniffer) {
+		sniffer->updateAudioParams();
+		sniffer->setAudioInParams();
+		sniffer->open();
+		sniffer->startAudio();
+	}
 }
 
 
@@ -310,7 +338,7 @@ void Tsound::playingFinishedSlot() {
 //   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
     if (!m_pitchView->isPaused()) {
-        sniffer->go();
+//         sniffer->go();
         m_pitchView->startVolume();
     }
   }

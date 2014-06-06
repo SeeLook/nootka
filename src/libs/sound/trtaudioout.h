@@ -23,13 +23,13 @@
 
 #include "nootkacoreglobal.h"
 #include "tabstractplayer.h"
-#include "trtaudioabstract.h"
+#include "trtaudio.h"
 #include "toggscale.h"
 #include <QStringList>
 
 class TaudioParams;
 
-class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudioAbstract
+class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
 {
   Q_OBJECT
    
@@ -41,12 +41,15 @@ public:
     
           /** Starts playing given note and then returns true, otherwise gets false. */
     bool play(int noteNr);
-    void setAudioOutParams(TaudioParams *params);
+    void setAudioOutParams();
         /** It sets audio device to value taken from */
     bool setAudioDevice(QString &name);
         /** Immediately stops playing. Emits nothing */
     void stop();
     
+protected:
+		static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
+		
 protected:
         /** Pointer to this class instance to emit signal from static callBack method. */ 
     static    TaudioOUT *instance;
@@ -59,15 +62,15 @@ private slots:
     
 private:
   void deleteAudio();
-  static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
-                         RtAudioStreamStatus status, void *userData);
+//   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
+//                          RtAudioStreamStatus status, void *userData);
 
       /** Number of performed samples. */
   static int m_samplesCnt;
       /** Duration of a sound counted in callBack loops */
   static int m_maxCBloops;
       /** Size of a buffer */
-  static unsigned int m_bufferFrames;
+//   static unsigned int m_bufferFrames;
 	static qint16 *m_crossBuffer; // buffer with data of part of previous note to fade out
 	static bool m_doCrossFade;
 	static float m_cross; // current 'strength' of fading effect

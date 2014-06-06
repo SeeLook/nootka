@@ -302,7 +302,7 @@ set(LIB_NOOTKASOUND_SRC
 	tmidiout.cpp
 	toggscale.cpp
 	tpitchfinder.cpp
-	trtaudioabstract.cpp
+	trtaudio.cpp
 	trtaudioin.cpp
 	trtaudioout.cpp
 	tsound.cpp

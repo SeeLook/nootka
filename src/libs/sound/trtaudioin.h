@@ -24,7 +24,7 @@
 #include <QStringList>
 #include <music/tnote.h>
 #include "rt/RtAudio.h"
-#include "trtaudioabstract.h"
+#include "trtaudio.h"
 
 class TpitchFinder;
 
@@ -35,7 +35,7 @@ class TpitchFinder;
  * and fundamentalFreq(float) with freq of detected note.
  * @method calculateNoiseLevel() can be used to obtain noise. 
  */
-class NOOTKASOUND_EXPORT TaudioIN : public QObject, public TrtAudioAbstract
+class NOOTKASOUND_EXPORT TaudioIN : public QObject, public TrtAudio
 {
     Q_OBJECT
 public:
@@ -64,15 +64,15 @@ public:
 	  /** Sets device parameters stores in struct SaudioInParams. 
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
-	void setParameters(TaudioParams *params);	
+	void setAudioInParams();	
 	
-    /** Do the same as @param startListening() but for backward compatibility 
-     * with QtMultimedia that function remains  */
-  void wait() { stopListening(); }
-  
-    /** Do the same as @param stopListening() but for backward compatibility 
-     * with QtMultimedia that function remains  */
-  void go() { startListening(); }
+//     /** Do the same as @param startListening() but for backward compatibility 
+//      * with QtMultimedia that function remains  */
+//   void wait() { stopListening(); }
+//   
+//     /** Do the same as @param stopListening() but for backward compatibility 
+//      * with QtMultimedia that function remains  */
+//   void go() { startListening(); }
 
 			/** Sets minimal volume needed that note will be detected. Overrides global setting.  */
   void setMinimalVolume(float minVol);
@@ -92,6 +92,7 @@ signals:
   
 protected:
   static TaudioIN* instance() { return m_instances[m_thisInstance] ; }
+	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 
 private slots:
 	
@@ -103,7 +104,7 @@ private slots:
 private:
   void initInput();
   
-  static int inCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
+//   static int inCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
       /** Keeps pointers for all (two) created instances of TaudioIN
        * static inCallBack uses it to has access. */
   static        QList<TaudioIN*> m_instances;

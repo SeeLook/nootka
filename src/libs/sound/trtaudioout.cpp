@@ -39,14 +39,14 @@
 /*static*/
 QStringList TaudioOUT::getAudioDevicesList() {
     QStringList devList;
-    RtAudio *rta = getRtAudio();
-    int devCnt = rta->getDeviceCount();
+    createRtAudio();
+    int devCnt = rtDevice()->getDeviceCount();
     if (devCnt < 1)
         return devList;
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
         try {
-          devInfo = rta->getDeviceInfo(i);
+          devInfo = rtDevice()->getDeviceInfo(i);
         }
         catch (RtAudioError& e) {
           qDebug() << "error when probing output device" << i;
@@ -55,16 +55,15 @@ QStringList TaudioOUT::getAudioDevicesList() {
         if (devInfo.probed && devInfo.outputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
-    if (rta->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+    if (rtDevice()->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
 				devList.prepend("ALSA default");
-    delete rta;
     return devList;
 }
 
 
 int TaudioOUT::m_samplesCnt = 0;
-unsigned int TaudioOUT::m_bufferFrames = 1024;
-int TaudioOUT::m_maxCBloops = 44100 / m_bufferFrames * 2;
+// unsigned int TaudioOUT::m_bufferFrames = 1024;
+int TaudioOUT::m_maxCBloops = 44100 / TrtAudio::bufferFrames() * 2;
 TaudioOUT* TaudioOUT::instance = 0;
 qint16* TaudioOUT::m_crossBuffer = 0;
 bool TaudioOUT::m_doCrossFade = false;
@@ -72,12 +71,12 @@ float TaudioOUT::m_cross = 0.0f;
 int m_crossCount = 0; // counts samples of crossing buffer
 bool m_callBackIsBussy = false;
 
-
-int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, 
-                           RtAudioStreamStatus status, void* userData) {
-  Q_UNUSED(inBuffer)
-  Q_UNUSED(streamTime)
-  Q_UNUSED(userData)
+bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
+// int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double streamTime, 
+//                            RtAudioStreamStatus status, void* userData) {
+//   Q_UNUSED(inBuffer)
+//   Q_UNUSED(streamTime)
+//   Q_UNUSED(userData)
 	m_callBackIsBussy = true;
   if ( status )
 			qDebug() << "Stream underflow detected!";
@@ -86,9 +85,9 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 			m_cross = 1.0f;
 			m_crossCount = 0;
 	}
-  m_samplesCnt++;
   if (m_samplesCnt < m_maxCBloops - 10) {
-      qint16 *out = (qint16*)outBuffer;
+			m_samplesCnt++;
+      qint16 *out = (qint16*)outBuff;
       int off = m_samplesCnt * (nBufferFrames / instance->ratioOfRate);
       qint16 sample;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
@@ -106,10 +105,10 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 				}
       }
       m_callBackIsBussy = false;
-      return 0;
+      return false;
   } else {
 			m_callBackIsBussy = false;
-      return 1;
+      return true;
 	}			
 }
 /*end static*/
@@ -119,12 +118,14 @@ int TaudioOUT::outCallBack(void* outBuffer, void* inBuffer, unsigned int nBuffer
 //---------------------------------------------------------------------------------------
 TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
   TabstractPlayer(parent),
-  TrtAudioAbstract(_params),
+  TrtAudio(_params, e_output),
   oggScale(new ToggScale(path)),
   ratioOfRate(1)
 {
   setType(e_audio);
-  setAudioOutParams(_params);
+	setOutCallBack(outCallBack);
+  setAudioOutParams();
+	m_samplesCnt = 10000;
   instance = this;
   offTimer = new QTimer();
 	m_crossBuffer = new qint16[1000];
@@ -134,8 +135,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
 
 TaudioOUT::~TaudioOUT() 
 {
-  delete streamOptions;
-  delete rtDevice;
+//   delete streamOptions;
+//   delete rtDevice;
   delete offTimer;
   delete oggScale;
 	if (m_crossBuffer)
@@ -143,65 +144,75 @@ TaudioOUT::~TaudioOUT()
 }
 
 
-void TaudioOUT::setAudioOutParams(TaudioParams* params) {
-	playable = oggScale->loadAudioData(params->audioInstrNr);
-  if (deviceName != params->OUTdevName || !rtDevice) {
-    if (playable && setAudioDevice(params->OUTdevName))
-        playable = true;
-    else
+void TaudioOUT::setAudioOutParams() {
+	qDebug() << "setAudioOutParams";
+	playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
+//   if (deviceName != params->OUTdevName || !rtDevice) {
+    if (playable && streamParams()) {
+			ratioOfRate = sampleRate() / 44100;
+			quint32 oggSR = sampleRate();
+			if (ratioOfRate > 1) { //
+				if (sampleRate() == 88200 || sampleRate() == 176400)
+					oggSR = 44100;
+				else if (sampleRate() == 96000 || sampleRate() == 192000)
+					oggSR = 48000;
+// 				m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
+			}
+			oggScale->setSampleRate(oggSR);
+			// Shifts only float part of a440diff - integer part is shifted by play() method
+			oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
+			m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
+		} else
         playable = false;
-  }
-  // Shifts only float part of a440diff - integer part is shifted by play() method
-  oggScale->setPitchOffset(audioParams->a440diff - (float)int(audioParams->a440diff));
 }
 
 
 bool TaudioOUT::setAudioDevice(QString &name) {
-  if (rtDevice)
-    delete rtDevice;
-  rtDevice = getRtAudio();
-  int devId = -1;
-  int devCount = rtDevice->getDeviceCount();
-	bool isAlsaDefault = false;
-  streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
-  if (devCount) {
-    RtAudio::DeviceInfo devInfo;
-    for(int i = 0; i < devCount; i++) { // Is there device on the list ??
-        if (getDeviceInfo(devInfo, i)) {        
-          if (devInfo.probed) {
-            if (QString::fromLocal8Bit(devInfo.name.data()) == name) { // Here it is !!
-              devId = i;
-              break;
-            }
-          }
-        }
-    }
-    if (devId == -1) { // no device on the list - load default
-				devId = rtDevice->getDefaultOutputDevice();
-				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA) {
-						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
-						isAlsaDefault = true;
-				} else {
-						streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT;
-						if (rtDevice->getDeviceInfo(devId).outputChannels <= 0) {
-							qDebug("wrong default output device");
-							playable = false;
-							return false;
-						}
-				}
-    }
-  }
-  RtAudio::DeviceInfo devInfo;
-  if (!getDeviceInfo(devInfo, devId)) {
-    playable = false;
-    return false;
-  }
-  determineSampleRate(devInfo);
-  streamParams.deviceId = devId;
-  streamParams.nChannels = 2;
-  streamParams.firstChannel = 0;
+//   if (rtDevice)
+//     delete rtDevice;
+//   createRtAudio();
+//   int devId = -1;
+//   int devCount = rtDevice->getDeviceCount();
+// 	bool isAlsaDefault = false;
+//   streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
+//   if (devCount) {
+//     RtAudio::DeviceInfo devInfo;
+//     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
+//         if (getDeviceInfo(devInfo, i)) {        
+//           if (devInfo.probed) {
+//             if (QString::fromLocal8Bit(devInfo.name.data()) == name) { // Here it is !!
+//               devId = i;
+//               break;
+//             }
+//           }
+//         }
+//     }
+//     if (devId == -1) { // no device on the list - load default
+// 				devId = rtDevice->getDefaultOutputDevice();
+// 				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA) {
+// 						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
+// 						isAlsaDefault = true;
+// 				} else {
+// 						streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT;
+// 						if (rtDevice->getDeviceInfo(devId).outputChannels <= 0) {
+// 							qDebug("wrong default output device");
+// 							playable = false;
+// 							return false;
+// 						}
+// 				}
+//     }
+//   }
+//   RtAudio::DeviceInfo devInfo;
+//   if (!getDeviceInfo(devInfo, devId)) {
+//     playable = false;
+//     return false;
+//   }
+//   determineSampleRate(devInfo);
+//   streamParams.deviceId = devId;
+//   streamParams.nChannels = 2;
+//   streamParams.firstChannel = 0;
 // #if defined (Q_OS_MAC)
-  RtAudioFormat dataFormat = RTAUDIO_SINT16;
+//   RtAudioFormat dataFormat = RTAUDIO_SINT16;
 // #else
 //   RtAudioFormat dataFormat = determineDataFormat(devInfo);
 //   if (dataFormat == RTAUDIO_SINT8) {
@@ -209,33 +220,33 @@ bool TaudioOUT::setAudioDevice(QString &name) {
 //       return false;
 //   }
 // #endif
-  ratioOfRate = sampleRate / 44100;
-  if (ratioOfRate > 1) { // from here sample rate is sampleRate * ratioOfRate
-    if (sampleRate == 88200 || sampleRate == 176400)
-      sampleRate = 44100;
-    else if (sampleRate == 96000 || sampleRate == 192000)
-      sampleRate = 48000;
-    m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
-  }
-  oggScale->setSampleRate(sampleRate);
-  if (!openStream(&streamParams, NULL, dataFormat, sampleRate* ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
-      playable = false;
-      return false;
-  }
-  if (rtDevice->isStreamOpen() && checkBufferSize(m_bufferFrames)) {
-      m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
-			if (isAlsaDefault)
-					deviceName = "ALSA default";
-			else
-					deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(streamParams.deviceId).name.data());
-      qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate << ", buffer size:" << m_bufferFrames;
-      if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE) // for PULSE it only way to give user control of volume
-          closeStram(); // otherwise devices are blocked (not appears in settings dialog)
-      return true;
-  } else {
-			playable = false;
-			return false;
-	}
+//   ratioOfRate = sampleRate() / 44100;
+//   if (ratioOfRate > 1) { // from here sample rate is sampleRate * ratioOfRate
+//     if (sampleRate == 88200 || sampleRate == 176400)
+//       sampleRate = 44100;
+//     else if (sampleRate == 96000 || sampleRate == 192000)
+//       sampleRate = 48000;
+//     m_bufferFrames = m_bufferFrames * ratioOfRate; // increase buffer to give time for resampling in oggScale
+//   }
+//   oggScale->setSampleRate(sampleRate);
+//   if (!openStream(&streamParams, NULL, dataFormat, sampleRate* ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions)) {
+//       playable = false;
+//       return false;
+//   }
+//   if (rtDevice->isStreamOpen() && checkBufferSize(m_bufferFrames)) {
+//       m_maxCBloops = (88200 * ratioOfRate) / m_bufferFrames;
+// 			if (isAlsaDefault)
+// 					deviceName = "ALSA default";
+// 			else
+// 					deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(streamParams.deviceId).name.data());
+//       qDebug() << "OUT:" << deviceName << "samplerate:" << sampleRate * ratioOfRate << ", buffer size:" << m_bufferFrames;
+//       if (rtDevice->getCurrentApi() != RtAudio::LINUX_PULSE) // for PULSE it only way to give user control of volume
+//           closeStram(); // otherwise devices are blocked (not appears in settings dialog)
+//       return true;
+//   } else {
+// 			playable = false;
+// 			return false;
+// 	}
 }
 
 
@@ -243,24 +254,23 @@ bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
   
+	m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
 	while (m_callBackIsBussy) {
 		  SLEEP(1);
 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
 	}
 	
-  if (offTimer->isActive()) {
-      offTimer->stop();
-			int off = (m_samplesCnt + 1) * (m_bufferFrames / ratioOfRate); // next chunk of plaing sound
+  if (m_samplesCnt < m_maxCBloops - 10) {
+//       offTimer->stop();
+			int off = (m_samplesCnt + 1) * (bufferFrames() / ratioOfRate); // next chunk of playing sound
 			for (int i = 0; i < 1000; i++) // copy data of current sound to perform crrosfading
 				m_crossBuffer[i] = oggScale->getSample(off + i);
 			m_doCrossFade = true;
 	} else
 			m_doCrossFade = false;
   
-  noteNr = noteNr + int(audioParams->a440diff);
+  noteNr = noteNr + int(audioParams()->a440diff);
 	
-  openStream(&streamParams, NULL, RTAUDIO_SINT16, sampleRate * ratioOfRate, &m_bufferFrames, &outCallBack, 0, streamOptions);
-  
   doEmit = true;
   m_samplesCnt = -1;
   oggScale->setNote(noteNr);
@@ -269,10 +279,11 @@ bool TaudioOUT::play(int noteNr) {
       SLEEP(1);
       loops++;
   }
-//   if (loops)
-//        qDebug() << "latency:" << loops << "ms";
-  offTimer->start(1600);
-  return startStream();
+  if (loops)
+       qDebug() << "latency:" << loops << "ms";
+//   offTimer->start(1600);
+//   return startStream();
+	return true;
 }
 
 
@@ -287,9 +298,9 @@ void TaudioOUT::stop() {
 
 void TaudioOUT::stopSlot() {
   offTimer->stop();
-  if (/*rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE || */rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS) 
+//   if (/*rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE || */rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS) 
 			stopStream();
-	else
+// 	else
 			closeStram();
   if (doEmit)
     emit noteFinished();
