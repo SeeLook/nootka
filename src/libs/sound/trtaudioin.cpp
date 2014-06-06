@@ -25,14 +25,14 @@
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
     QStringList devList;
-    RtAudio *rta = getRtAudio();
-    int devCnt = rta->getDeviceCount();
+    createRtAudio();
+    int devCnt = rtDevice()->getDeviceCount();
     if (devCnt < 1)
         return devList;
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
         try {
-          devInfo = rta->getDeviceInfo(i);
+          devInfo = rtDevice()->getDeviceInfo(i);
         }
         catch (RtAudioError& e) {
           qDebug() << "error when probing input device" << i;
@@ -41,37 +41,37 @@ QStringList TaudioIN::getAudioDevicesList() {
         if (devInfo.probed && devInfo.inputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
-    if (rta->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+    if (rtDevice()->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
 				devList.prepend("ALSA default");
-    delete rta;
     return devList;
 }
 
+bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
 
-int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames,
-												 double streamTime, RtAudioStreamStatus status, void* userData) {
-    Q_UNUSED(outBuffer)
-    Q_UNUSED(streamTime)
-    Q_UNUSED(userData)
+// int TaudioIN::inCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames,
+// 												 double streamTime, RtAudioStreamStatus status, void* userData) {
+//     Q_UNUSED(outBuffer)
+//     Q_UNUSED(streamTime)
+//     Q_UNUSED(userData)
     if (status)
         qDebug() << "Stream over detected!";
-    qint16 *in = (qint16*)inBuffer;
-		float* inF = (float*)inBuffer;
+    qint16 *in = (qint16*)inBuff;
+		float* inF = (float*)inBuff;
 		qint16 value;
     for (int i = 0; i < nBufferFrames; i++) {
-				if (instance()->isFloat())
-					*(instance()->m_floatBuff + instance()->m_floatsWriten) = *(inF + i);
-				else {
+// 				if (instance()->isFloat())
+// 					*(instance()->m_floatBuff + instance()->m_floatsWriten) = *(inF + i);
+// 				else {
 					value = *(in + i);
 					*(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
-				}
+// 				}
         if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk - 1) {
 						instance()->m_pitch->searchIn(instance()->m_floatBuff);
 						instance()->m_floatsWriten = -1;
       }
       instance()->m_floatsWriten++;
     }
-    return 0;
+    return false;
 }
 
 QList<TaudioIN*> TaudioIN::m_instances = QList<TaudioIN*>();
@@ -82,7 +82,7 @@ int TaudioIN::m_thisInstance = -1;
 //------------------------------------------------------------------------------------
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
-    TrtAudioAbstract(params),
+    TrtAudio(params, e_input),
     m_paused(false),
     m_floatBuff(0),
     m_pitch(0),
@@ -92,10 +92,11 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_floatsWriten(0),
     m_lastPich(0.0f)
 {
+	setInCallBack(inCallBack);
   m_instances << this;
   m_pitch = new TpitchFinder();
   m_thisInstance = m_instances.size() - 1;
-  setParameters(params);
+  setAudioInParams();
   
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
   connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
@@ -106,8 +107,8 @@ TaudioIN::~TaudioIN()
 {
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
 	closeStram();
-  delete rtDevice;
-  delete streamOptions;
+//   delete rtDevice;
+//   delete streamOptions;
   delete m_pitch;
   if (m_floatBuff)
     delete (m_floatBuff);
@@ -119,24 +120,31 @@ TaudioIN::~TaudioIN()
 //------------          methods         ----------------------------------------------
 //------------------------------------------------------------------------------------
 
-void TaudioIN::setParameters(TaudioParams* params) {
-  m_pitch->setIsVoice(params->isVoice);
-	setMinimalVolume(params->minimalVol);
-	m_pitch->setMinimalDuration(params->minDuration);
-  setAudioDevice(params->INdevName);
-  audioParams = params;
+void TaudioIN::setAudioInParams() {
+	qDebug() << "setAudioInParams";
+  m_pitch->setIsVoice(audioParams()->isVoice);
+	setMinimalVolume(audioParams()->minimalVol);
+	m_pitch->setMinimalDuration(audioParams()->minDuration);
+// 	updateAudioParams(params);
+//   setAudioDevice(params->INdevName);
+	m_pitch->setSampleRate(sampleRate(), audioParams()->range); // framesPerChunk is determined here
+	delete m_floatBuff;
+// 	m_floatBuff = 0;
+// 	if (!m_floatBuff)
+	m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
+	initInput();
 }
 
 /** Device name is saved to globals and to config file only after changed the Nootka preferences.
 * In other cases the default device is loaded. */
 bool TaudioIN::setAudioDevice(const QString& devN) {
-  if (rtDevice)
-    delete rtDevice;
+//   if (rtDevice)
+//     delete rtDevice;
 	delete m_floatBuff;
 	m_floatBuff = 0;
-  rtDevice = getRtAudio();
-  int devId = -1;
-  int devCount = rtDevice->getDeviceCount();
+//   /*rtDevice = */createRtAudio();
+  /*int devId = -1;
+  int devCount = rtDevice()->getDeviceCount();
 	bool isAlsaDefault = false;
   streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
   if (devCount) {
@@ -152,49 +160,42 @@ bool TaudioIN::setAudioDevice(const QString& devN) {
         }
     }
     if (devId == -1) { // no device on the list - load default
-        devId = rtDevice->getDefaultInputDevice();
-				if (rtDevice->getCurrentApi() == RtAudio::LINUX_ALSA) {
+        devId = rtDevice()->getDefaultInputDevice();
+				if (rtDevice()->getCurrentApi() == RtAudio::LINUX_ALSA) {
 						streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
 						isAlsaDefault = true;
 				} else {
-						if (rtDevice->getDeviceInfo(devId).inputChannels <= 0) {
+						if (rtDevice()->getDeviceInfo(devId).inputChannels <= 0) {
 							// check has default input got channels
 							qDebug("wrong default input device");
 							return false;
 						}
 				}
     }
-  } else 
-    return false;
-  streamParams.deviceId = devId;
-  streamParams.nChannels = 1;
-  streamParams.firstChannel = 0;
-  RtAudio::DeviceInfo devInfo;
-  getDeviceInfo(devInfo, devId);
-  determineSampleRate(devInfo);
-  m_pitch->setSampleRate(sampleRate, audioParams->range); // framesPerChunk is determined here
-  m_bufferFrames = m_pitch->aGl()->framesPerChunk;
-// #if defined (Q_OS_MAC)
-  RtAudioFormat dataFormat = RTAUDIO_SINT16;
-// #else
-// 	RtAudioFormat dataFormat = determineDataFormat(devInfo);
-// 	if (dataFormat == RTAUDIO_SINT8)
-// 			return false;
-// #endif
-  if (!openStream(NULL ,&streamParams, dataFormat, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
-    return false;
-  if (rtDevice->isStreamOpen()) {
-			if (isAlsaDefault)
-					deviceName = "ALSA default";
-			else
-					deviceName = QString::fromLocal8Bit(rtDevice->getDeviceInfo(devId).name.data());
-			if (checkBufferSize(m_bufferFrames)) {
+  } else */
+//     return false;
+//   streamParams()->deviceId = devId;
+//   streamParams()->nChannels = 1;
+//   streamParams()->firstChannel = 0;
+//   RtAudio::DeviceInfo devInfo;
+//   getDeviceInfo(devInfo, devId);
+//   determineSampleRate(devInfo);
+//   m_pitch->setSampleRate(sampleRate(), audioParams->range); // framesPerChunk is determined here
+//   m_bufferFrames = m_pitch->aGl()->framesPerChunk;
+//   if (!openStream(NULL ,&streamParams, dataFormat, sampleRate, &m_bufferFrames, &inCallBack, 0, streamOptions))
+//     return false;
+  /*if (openStream() && rtDevice()->isStreamOpen()) {
+// 			if (isAlsaDefault)
+// 					deviceName = "ALSA default";
+// 			else
+					deviceName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(streamParams()->deviceId).name.data());
+// 			if (checkBufferSize(m_bufferFrames)) {
 					qDebug() << "IN:" << deviceName << "samplerate:" << sampleRate << ", buffer size:" << m_bufferFrames;
 					return true;
-      } else
-					return false;
+//       } else
+// 					return false;
   } else
-      return false;
+      return false;*/
 }
 
 
@@ -205,21 +206,21 @@ void TaudioIN::initInput() {
 
 
 void TaudioIN::startListening() {
-  if (rtDevice) {
-    if (!m_floatBuff)
-        m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
-    initInput();
-    if (openStream(NULL, &streamParams, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
-      startStream();
-  }
+//   if (rtDevice) {
+//     if (!m_floatBuff)
+//         m_floatBuff = new float[m_pitch->aGl()->framesPerChunk]; // 1024
+//     initInput();
+//     if (openStream(NULL, &streamParams, RTAUDIO_SINT16, sampleRate, &m_bufferFrames, &inCallBack, NULL, streamOptions))
+//       startStream();
+//   }
 }
 
 void TaudioIN::stopListening() {
-  if (rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS/* || rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE*/)
-      stopStream();
-  else
-      closeStram();
-	m_paused = false;
+//   if (rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS/* || rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE*/)
+//       stopStream();
+//   else
+//       closeStram();
+// 	m_paused = false;
 }
 
 // void TaudioIN::wait() {
@@ -233,7 +234,7 @@ void TaudioIN::stopListening() {
 
 void TaudioIN::setMinimalVolume(float minVol) {
 		m_pitch->setMinimalVolume(minVol);
-		audioParams->minimalVol = minVol;
+		audioParams()->minimalVol = minVol;
 }
 
 
@@ -263,14 +264,14 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
   if (pitch == 0.0)
 			m_LastChunkPitch = 0.0;
   else
-			m_LastChunkPitch = pitch - audioParams->a440diff;
+			m_LastChunkPitch = pitch - audioParams()->a440diff;
 	emit chunkPitch(m_LastChunkPitch);
 }
 
 
 void TaudioIN::pitchFreqFound(float pitch, float freq) {
   if (!m_paused) {
-			m_lastPich = pitch - audioParams->a440diff;
+			m_lastPich = pitch - audioParams()->a440diff;
 			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
 // 					float into = qAbs((pitch - audioParams->a440diff) - (float)qRound(pitch - audioParams->a440diff));
 // 					QString inText;
@@ -287,7 +288,7 @@ void TaudioIN::pitchFreqFound(float pitch, float freq) {
 // 					qDebug() << inText;
 // 					Tnote nnn = Tnote(qRound(pitch - audioParams->a440diff) - 47);
 // 					qDebug() << "pitchFreqFound:" << nnn.toText();
-					emit noteDetected(Tnote(qRound(pitch - audioParams->a440diff) - 47));
+					emit noteDetected(Tnote(qRound(pitch - audioParams()->a440diff) - 47));
 			}
 			emit fundamentalFreq(freq);
   } else 
