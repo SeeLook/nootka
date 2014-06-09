@@ -234,7 +234,7 @@ endif(APPLE)
 
 
 IF(UNIX AND NOT APPLE)    
-    ##### PulseAudio ###########################################
+	##### PulseAudio ###########################################
       find_path(PULSE_INCLUDE_DIR
         NAMES
           pulseaudio.h
@@ -266,8 +266,7 @@ IF(UNIX AND NOT APPLE)
               /opt/local/lib
           )
       endif (PULSE_INCLUDE_DIR)
-      
-    if (PULSE_INCLUDE_DIR)
+		if (PULSE_INCLUDE_DIR)
         option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" ON)
     else(PULSE_INCLUDE_DIR)
         option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" OFF)
@@ -275,12 +274,51 @@ IF(UNIX AND NOT APPLE)
         set(PULSESIMPLE_LIBRARY_FOUND TRUE)
     endif (PULSE_INCLUDE_DIR)
     
+      
+	##### JACK - Jack Audio Connection Kit ##############
+      find_path(JACK_INCLUDE_DIR
+        NAMES
+          jack.h
+        PATHS
+          /usr/include
+          /usr/include/jack
+          /usr/local/include
+          /opt/local/include
+          /sw/include
+          
+      )
+      if (JACK_INCLUDE_DIR)
+          find_library(JACK_LIBRARY
+              NAMES
+              jack
+              PATHS
+              /usr/lib
+              /usr/lib/x86_64-linux-gnu
+              /usr/local/lib
+              /opt/local/lib
+          )
+      endif (JACK_INCLUDE_DIR)
+      
+    if (JACK_INCLUDE_DIR)
+        option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" ON)
+    else (JACK_INCLUDE_DIR)    
+        option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" OFF)
+        set(JACK_LIBRARY_FOUND TRUE)
+    endif (JACK_INCLUDE_DIR)
+    
   if(ALSA_LIBRARY)
     add_definitions(-D__LINUX_ALSA__)
     message(STATUS "support for ALSA\t\t TRUE")
   else(ALSA_LIBRARY)
     message(STATUS "support for ALSA\t\t FALSE")
   endif(ALSA_LIBRARY)
+  if(ENABLE_JACK AND JACK_INCLUDE_DIR)
+    add_definitions(-D__UNIX_JACK__)
+    include_directories(${JACK_INCLUDE_DIR})
+    message(STATUS "support for JACK\t\t TRUE")
+  else(ENABLE_JACK AND JACK_INCLUDE_DIR)
+    message(STATUS "support for JACK\t\t FALSE")
+  endif(ENABLE_JACK AND JACK_INCLUDE_DIR)
   if(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
     add_definitions(-D__LINUX_PULSE__)
     include_directories(${PULSE_INCLUDE_DIR})
@@ -340,6 +378,7 @@ target_link_libraries(NootkaSound
 		${FFTW3_LIBRARIES}
 		${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 		${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
+		${JACK_LIBRARY}
 		${VORBIS_LIBRARIES}
 		${SOUNDTOUCH_LIBRARY}
 )

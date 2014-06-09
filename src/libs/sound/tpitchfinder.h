@@ -22,6 +22,7 @@
 
 #include "nootkacoreglobal.h"
 #include <QObject>
+#include <QMutex>
 #include "tartini/mytransforms.h"
 #include "tartiniparams.h"
 
@@ -51,6 +52,7 @@ inline double pitch2freq(double note)
 
 
 class Channel;
+class QThread;
 
 
 /** 
@@ -70,16 +72,14 @@ public:
         /** global settings for pitch recognize. */
     TartiniParams* aGl() { return m_aGl; }
   
-        /** Starts thread searching in @param chunk,
-        * witch is pointer to array of floats of audio data. 
-        * First copy it to channel object. */
-    void searchIn(float *chunk);
     bool isBussy() { return m_isBussy; }
     
     int currentChunk() { return m_chunkNum; }
     void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
     void incrementChunk() { m_chunkNum++; }
     void setIsVoice(bool voice);
+		
+		void fillBuffer(float sample);
 		
         /** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
 				 * @p range is TaudioParams::Erange cast. Default is e_middle
@@ -107,27 +107,36 @@ signals:
   void volume(float volume);
 	
 protected slots:
+	/** Starts thread searching in @param chunk,
+        * witch is pointer to array of floats of audio data. 
+        * First copy it to channel object. */
+//     void searchIn(float *chunk);
+	void searchIn();
 	void run();
 	
 			/** Checks was note detected but signal not sent and emits found(m_prevPitch, m_prevFreq) */
   void emitFound();
 	
 private:
-  
+  QThread					*m_thread;
   float           *m_filteredChunk, *m_workChunk, *m_prevChunk;
+	float						*m_buffer_1, *m_buffer_2; // real buffers
+	int							 m_posInBuffer;
+	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
   double           m_prevPitch, m_prevFreq;
 
-  bool            m_doReset;
+  bool             m_doReset;
 	TartiniParams   *m_aGl; 
 	Channel         *m_channel;
-	int             m_chunkNum;
-	bool            m_isBussy;
-  bool            m_isVoice; // calculates average pitch in chunks range instead pitch in single chunk
-  int             m_prevNoteIndex;
-  int             m_noticedIndex;
-  float           m_minVolume;
-	float						m_minDuration;
-	float						m_rateRatio; // multiplexer of the sample rate determined from pitch detection range
+	int              m_chunkNum;
+	bool             m_isBussy;
+  bool             m_isVoice; // calculates average pitch in chunks range instead pitch in single chunk
+  int              m_prevNoteIndex;
+  int              m_noticedIndex;
+  float            m_minVolume;
+	float						 m_minDuration;
+	float						 m_rateRatio; // multiplexer of the sample rate determined from pitch detection range
+	QMutex					 m_mutex;
 	
 };
 

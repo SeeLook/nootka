@@ -57,12 +57,13 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
 		qint16 value;
     for (int i = 0; i < nBufferFrames; i++) {
 					value = *(in + i);
-					*(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
-        if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk - 1) {
-						instance()->m_pitch->searchIn(instance()->m_floatBuff);
-						instance()->m_floatsWriten = -1;
-      }
-      instance()->m_floatsWriten++;
+					instance()->m_pitch->fillBuffer(float(value) / 32768.0f);
+// 					*(instance()->m_floatBuff + instance()->m_floatsWriten) = float(value) / 32768.0f;
+//         if (instance()->m_floatsWriten == instance()->m_pitch->aGl()->framesPerChunk - 1) {
+// 						instance()->m_pitch->searchIn(instance()->m_floatBuff);
+// 						instance()->m_floatsWriten = -1;
+//       }
+//       instance()->m_floatsWriten++;
     }
     return false;
 }
@@ -76,9 +77,9 @@ int 									TaudioIN::m_thisInstance = -1;
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
     TrtAudio(params, e_input, inCallBack),
-    m_floatBuff(0),
+//     m_floatBuff(0),
     m_pitch(0),
-    m_floatsWriten(0),
+//     m_floatsWriten(0),
     m_maxPeak(0),
     m_paused(false), m_stopped(true),
     m_lastPich(0.0f)
@@ -98,8 +99,8 @@ TaudioIN::~TaudioIN()
   disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
 // 	closeStram();
   delete m_pitch;
-  if (m_floatBuff)
-    delete (m_floatBuff);
+//   if (m_floatBuff)
+//     delete (m_floatBuff);
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
 }
@@ -115,20 +116,21 @@ void TaudioIN::setAudioInParams() {
 	m_pitch->setMinimalDuration(audioParams()->minDuration);
 
 	m_pitch->setSampleRate(sampleRate(), audioParams()->range); // framesPerChunk is determined here
-	delete m_floatBuff;
-	m_floatBuff = new float[m_pitch->aGl()->framesPerChunk];
+// 	delete m_floatBuff;
+// 	m_floatBuff = new float[m_pitch->aGl()->framesPerChunk];
 	initInput();
 }
 
 
 
 void TaudioIN::initInput() {
-  m_floatsWriten = 0;
+//   m_floatsWriten = 0;
   m_maxPeak = 0;
 }
 
 
 void TaudioIN::startListening() {
+	qDebug() << "startListening";
     initInput();
 		m_stopped = false;
 		startStream();
@@ -137,6 +139,7 @@ void TaudioIN::startListening() {
 void TaudioIN::stopListening() {
 		m_stopped = true;
 		m_paused = false;
+		m_pitch->resetFinder();
 }
 
 

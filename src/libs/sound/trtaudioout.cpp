@@ -151,7 +151,8 @@ void TaudioOUT::setAudioOutParams() {
 			oggScale->setSampleRate(oggSR);
 			// Shifts only float part of a440diff - integer part is shifted by play() method
 			oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
-			m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
+// 			m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
+// 			qDebug() << "m_maxCBloops" << m_maxCBloops;
 	} else
         playable = false;
 }
@@ -165,6 +166,8 @@ bool TaudioOUT::play(int noteNr) {
 		  SLEEP(1);
 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
 	}
+	m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
+	qDebug() << "m_maxCBloops" << m_maxCBloops;
 	
   if (m_samplesCnt < m_maxCBloops - 10) {
 //       offTimer->stop();
@@ -178,18 +181,19 @@ bool TaudioOUT::play(int noteNr) {
   noteNr = noteNr + int(audioParams()->a440diff);
 	
   doEmit = true;
-  m_samplesCnt = -1;
+//   m_samplesCnt = -1;
   oggScale->setNote(noteNr);
   int loops = 0;
   while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
       SLEEP(1);
       loops++;
   }
-//   if (loops)
-//        qDebug() << "latency:" << loops << "ms";
+  m_samplesCnt = -1;
+  if (loops)
+       qDebug() << "latency:" << loops << "ms";
 //   offTimer->start(1600);
-//   return startStream();
-	return true;
+  return startStream();
+// 	return true;
 }
 
 

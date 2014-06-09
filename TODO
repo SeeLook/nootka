@@ -20,6 +20,7 @@ analyzer executable
 
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so
+- consider to registry and change in TaudioParams class to avoid calling updateParams() without changes
 - add option of playing sound during capture
 - add option for configuring fret marks (dots)
 - better and equal algorithm of questioning

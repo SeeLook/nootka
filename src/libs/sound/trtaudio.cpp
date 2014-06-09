@@ -30,7 +30,7 @@ RtAudio::StreamParameters* 				TrtAudio::m_inParams = 0;
 RtAudio::StreamParameters* 				TrtAudio::m_outParams = 0;
 RtAudio::StreamOptions* 					TrtAudio::streamOptions = 0;
 quint32 													TrtAudio::m_sampleRate = 44100;
-unsigned int 											TrtAudio::m_bufferFrames = 1024;
+unsigned int 											TrtAudio::m_bufferFrames = 1024; 
 bool 															TrtAudio::m_isAlsaDefault = false;
 QString 													TrtAudio::m_inDevName = "anything";
 QString 													TrtAudio::m_outDevName = "anything";
@@ -109,8 +109,10 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 		m_cbIn = cb;
 	else
 		m_cbOut = cb;
-	if (!streamOptions)
+	if (!streamOptions) {
 			streamOptions = new RtAudio::StreamOptions;
+			streamOptions->streamName = "Nootka";
+	}
 	createRtAudio();
 	updateAudioParams();
 }

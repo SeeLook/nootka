@@ -45,13 +45,13 @@ Tsound::Tsound(QObject* parent) :
   } else {
 			sniffer = 0;
   }
-  if (player && player->type() == TabstractPlayer::e_audio) {
-		static_cast<TaudioOUT*>(player)->open();
-		static_cast<TaudioOUT*>(player)->startAudio();
-	} else if (sniffer) {
-		sniffer->open();
-		sniffer->startAudio();
-	}
+//   if (player && player->type() == TabstractPlayer::e_audio) {
+// 		static_cast<TaudioOUT*>(player)->open();
+// 		static_cast<TaudioOUT*>(player)->startAudio();
+// 	} else if (sniffer) {
+// 		sniffer->open();
+// 		sniffer->startAudio();
+// 	}
 }
 
 Tsound::~Tsound()
@@ -311,7 +311,8 @@ void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-  sniffer->startListening();
+//   sniffer->startListening();
+	sniffer->stopListening();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 }
 
