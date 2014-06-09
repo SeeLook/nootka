@@ -20,10 +20,8 @@ analyzer executable
 
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so
-- merge out&in sounds into single call-back method (class)
 - add option of playing sound during capture
 - add option for configuring fret marks (dots)
-- convert pointers requiring to be 0 to QPointer type
 - better and equal algorithm of questioning
 - add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only
 - convert level file to text format (for sure) and exam file as well (consider)

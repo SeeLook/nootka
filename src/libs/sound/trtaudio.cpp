@@ -25,17 +25,17 @@
 
 
 /*static*/
-RtAudio* TrtAudio::m_rtAduio = 0;
-RtAudio::StreamParameters* TrtAudio::m_inParams = 0;
-RtAudio::StreamParameters* TrtAudio::m_outParams = 0;
-RtAudio::StreamOptions* TrtAudio::streamOptions = 0;
-quint32 TrtAudio::m_sampleRate = 44100;
-unsigned int TrtAudio::m_bufferFrames = 1024;
-bool TrtAudio::m_isAlsaDefault = false;
-QString TrtAudio::m_inDevName = "anything";
-QString TrtAudio::m_outDevName = "anything";
-TrtAudio::callBackType TrtAudio::m_cbIn = 0;
-TrtAudio::callBackType TrtAudio::m_cbOut = 0;
+RtAudio* 													TrtAudio::m_rtAduio = 0;
+RtAudio::StreamParameters* 				TrtAudio::m_inParams = 0;
+RtAudio::StreamParameters* 				TrtAudio::m_outParams = 0;
+RtAudio::StreamOptions* 					TrtAudio::streamOptions = 0;
+quint32 													TrtAudio::m_sampleRate = 44100;
+unsigned int 											TrtAudio::m_bufferFrames = 1024;
+bool 															TrtAudio::m_isAlsaDefault = false;
+QString 													TrtAudio::m_inDevName = "anything";
+QString 													TrtAudio::m_outDevName = "anything";
+TrtAudio::callBackType				 		TrtAudio::m_cbIn = 0;
+TrtAudio::callBackType 						TrtAudio::m_cbOut = 0;
 
 
 void TrtAudio::createRtAudio() {
@@ -101,10 +101,14 @@ int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBuff
 /*----------------------------------------------------------------------------------------------*/
 
 
-TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type) :
+TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::callBackType cb) :
 	m_audioParams(audioP),
 	m_type(type)
 {
+	if (m_type == e_input)
+		m_cbIn = cb;
+	else
+		m_cbOut = cb;
 	if (!streamOptions)
 			streamOptions = new RtAudio::StreamOptions;
 	createRtAudio();
@@ -114,10 +118,14 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type) :
 
 TrtAudio::~TrtAudio()
 {
-	if (m_type == e_input && m_inParams) 
+	if (m_type == e_input && m_inParams) {
 		deleteInParams();
-	if (m_type == e_output && m_outParams)
+		m_cbIn = 0;
+	}
+	if (m_type == e_output && m_outParams) {
 		deleteOutParams();
+		m_cbOut = 0;
+	}
 	if (m_outParams == 0 && m_inParams == 0) {
 		delete m_rtAduio;
 		m_rtAduio = 0;
@@ -250,27 +258,15 @@ bool TrtAudio::openStream() {
 }
 
 
-bool TrtAudio::openStream(RtAudio::StreamParameters* outParams, RtAudio::StreamParameters* inParams,
-                                  RtAudioFormat frm, unsigned int rate, unsigned int* buffFrames, RtAudioCallback callBack,
-                                  void* userData, RtAudio::StreamOptions* options) {
-//   try {
-//     if (rtDevice && !rtDevice->isStreamOpen()) {
-// 				rtDevice->openStream(outParams, inParams, frm, rate, buffFrames, callBack, userData, options);
-//     }
-//   }
-//   catch (RtAudioError& e) {
-//     qDebug() << "can't open stream";
-//     return false;
-//   }
-  return true;
-}
-
-
 bool TrtAudio::startStream() {
+	if (rtDevice() && !rtDevice()->isStreamOpen())
+		if (!openStream())
+			return false;
   try {
-    if (rtDevice() && !rtDevice()->isStreamRunning())
+    if (rtDevice() && !rtDevice()->isStreamRunning()) {
       rtDevice()->startStream();
-    qDebug("stream started");
+			qDebug("stream started");
+		}
   }
   catch (RtAudioError& e) {
     qDebug() << "can't start stream";

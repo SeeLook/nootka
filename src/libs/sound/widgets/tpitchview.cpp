@@ -202,15 +202,6 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 void TpitchView::noteSlot(Tnote note) {
   Q_UNUSED(note)
   m_hideCnt = 0;
-// 	if (m_intoView->accuracy() != TintonationView::e_noCheck) {
-// 		float diff = m_audioIN->lastNotePitch() - (float)qRound(m_audioIN->lastNotePitch());
-// 		if (qAbs(diff) >= m_intoView->getThreshold(m_intoView->accuracy())) {
-// 			if (diff > 0)
-// 				qDebug() << "to high";
-// 			else
-// 				qDebug() << "to low";
-// 		}
-// 	}
 }
 
 void TpitchView::updateLevel() {
@@ -227,7 +218,6 @@ void TpitchView::updateLevel() {
       case 7 : a = 40;  break;
     }
   m_hideCnt++;
-//   if (m_prevVolume != m_audioIN->maxPeak())
 			m_volMeter->setVolume(m_audioIN->maxPeak(), a);
 	if (m_intoView->accuracy() != TintonationView::e_noCheck && m_prevPitch != m_audioIN->lastChunkPitch())
 			m_intoView->pitchSlot(m_audioIN->lastChunkPitch());
@@ -257,7 +247,7 @@ void TpitchView::pauseClicked() {
 
 
 void TpitchView::voiceClicked() {
-      setIsVoice(!m_isVoice); // switch to opposite
+		setIsVoice(!m_isVoice); // switch to opposite
 }
 
 
@@ -289,6 +279,7 @@ void TpitchView::paintEvent(QPaintEvent* )
 void TpitchView::stopTimerDelayed() {
    m_volTimer->stop();
    m_volMeter->setVolume(0.0);
+	 m_volMeter->setVolume(0.0); // it has to be called twice to reset
    m_intoView->pitchSlot(0.0);
 }
 

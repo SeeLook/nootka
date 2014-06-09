@@ -41,9 +41,9 @@ Tsound::Tsound(QObject* parent) :
   else
       player = 0;
   if (gl->A->INenabled) {
-    createSniffer();
+			createSniffer();
   } else {
-    sniffer = 0;
+			sniffer = 0;
   }
   if (player && player->type() == TabstractPlayer::e_audio) {
 		static_cast<TaudioOUT*>(player)->open();
@@ -66,7 +66,7 @@ Tsound::~Tsound()
 
 void Tsound::play(Tnote note) {
   bool playing = false;
-  if (player)
+  if (player && note.note)
 			playing = player->play(note.getChromaticNrOfNote());
 //   if (playing) { // true if playing was started
 //     if (sniffer) { // pause sniffer if note was started
