@@ -21,8 +21,10 @@
 #include "tartini/filters/Filter.h"
 #include "tartini/filters/IIR_Filter.h"
 #include "tartini/analysisdata.h"
+#include <QThread>
 
 #include <QDebug>
+
 
 
 #define MIN_SND_TIME (0.2) // minimal time of sound to detect its pitch in voice mode
@@ -31,9 +33,12 @@
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
+  m_thread(new QThread),
   m_chunkNum(0),
   m_channel(0),
   m_filteredChunk(0), m_prevChunk(0),
+  m_buffer_1(0), m_buffer_2(0),
+  m_posInBuffer(0),
   m_minVolume(0.4),
   m_prevPitch(0), m_prevFreq(0),
   m_prevNoteIndex(-1), m_noticedIndex(-1),
@@ -71,18 +76,27 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     setSampleRate(m_aGl->rate);
     m_channel = new Channel(this, aGl()->windowSize);
     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+		moveToThread(m_thread);
+		connect(m_thread, SIGNAL(started()), this, SLOT(searchIn()));
 }
 
 
 TpitchFinder::~TpitchFinder()
 {
+		if (m_thread->isRunning()) {
+				m_thread->terminate();
+				m_thread->quit();  
+		}
     if (m_filteredChunk)
         delete m_filteredChunk;
     delete m_prevChunk;
+		delete m_buffer_1;
+		delete m_buffer_2;
     myTransforms.uninit();
     if(m_channel)
       delete m_channel;
     delete m_aGl;
+		m_thread->deleteLater();
 }
 
 //##########################################################################################################
@@ -120,19 +134,43 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
       m_aGl->framesPerChunk = 1024 * m_rateRatio;
       m_aGl->windowSize = 2048 * m_rateRatio;
     }
-//     qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
+    qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
     delete m_prevChunk;
     delete m_filteredChunk;
+		delete m_buffer_1;
+		delete m_buffer_2;
     if (aGl()->equalLoudness)
       m_filteredChunk = new float[aGl()->framesPerChunk];
     m_prevChunk = new float[aGl()->framesPerChunk];
+		m_buffer_1 = new float[aGl()->framesPerChunk];
+		m_buffer_2 = new float[aGl()->framesPerChunk];
+		m_currentBuff = m_buffer_1;
     resetFinder();
 }
 
 
-void TpitchFinder::searchIn(float* chunk) {
-  if (chunk) {
-      if (m_doReset) { // copy last chunk to keep capturing data continous
+void TpitchFinder::fillBuffer(float sample) {
+	if (m_posInBuffer < m_aGl->framesPerChunk) {
+		*(m_currentBuff + m_posInBuffer) = sample;
+		m_posInBuffer++;
+	} else { // buffer is full
+		m_filledBuff = m_currentBuff;
+		m_thread->start();
+		m_posInBuffer = 0;
+		if (m_currentBuff == m_buffer_1) // swap buffers
+			m_currentBuff = m_buffer_2;
+		else
+			m_currentBuff = m_buffer_1;
+		fillBuffer(sample); // save sample to new buffer
+	}
+}
+
+
+// void TpitchFinder::searchIn(float* chunk) {
+void TpitchFinder::searchIn() {
+//   if (m_filledBuff) {
+	m_mutex.lock();
+      if (m_doReset) { // copy last chunk to keep capturing data continuous
         if (aGl()->equalLoudness)
             std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
         else
@@ -140,7 +178,7 @@ void TpitchFinder::searchIn(float* chunk) {
         resetFinder();
         std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
       }
-      m_workChunk = chunk;
+      m_workChunk = m_filledBuff;
       m_channel->shift_left(aGl()->framesPerChunk); // make palce in channel for new audio data
       if (aGl()->equalLoudness) { // filter it and copy  too channel
         m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
@@ -150,14 +188,15 @@ void TpitchFinder::searchIn(float* chunk) {
       } else // copy without filtering
           std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
       run();
-  } else {
-      emitFound();
-      resetFinder();
-  }
+//   } else {
+//       emitFound();
+//       resetFinder();
+//   }
 }
 
 
 void TpitchFinder::resetFinder() {
+	m_mutex.lock();
   m_doReset = false;
   if (m_channel) {
       delete m_channel;
@@ -165,8 +204,9 @@ void TpitchFinder::resetFinder() {
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-//       qDebug() << "reset channel";
+      qDebug() << "reset channel";
   }
+  m_mutex.unlock();
 }
 
 //##########################################################################################################
@@ -236,5 +276,7 @@ void TpitchFinder::run() {
     }
 	incrementChunk();
 	m_isBussy = false;
+	m_thread->quit();
+	m_mutex.unlock();
 }	
 

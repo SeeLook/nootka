@@ -99,9 +99,9 @@ private:
   static        QList<TaudioIN*> m_instances;
   static        int m_thisInstance;
   
-  float         *m_floatBuff;
+//   float         *m_floatBuff;
   TpitchFinder  *m_pitch;
-  quint32       m_floatsWriten;
+//   quint32       m_floatsWriten;
   float         m_maxPeak;
   bool          m_paused, m_stopped;
 			/** Boundary notes of the ambitus. */
