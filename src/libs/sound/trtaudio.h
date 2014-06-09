@@ -28,9 +28,13 @@
 class TaudioParams;
 
 
-/** Abstract class for RtAudio input/outputs classes.
-* It doesn't provide destructor, so inherit classes have to
-* delete rtDevice, streamOptions and audioParams them-self. */
+/** 
+ * Common class for RtAudio input/outputs classes.
+ * To get it working, a subclass has to set static call back method of type @p callBackType
+ * where audio data will be send.
+ * To start, @p updateAudioParams() has to be invoked to initialize/refresh outside audio parameters
+ * then @p open() and @p startAudio() do their tasks
+ */
 class NOOTKASOUND_EXPORT TrtAudio
 {
 
@@ -38,7 +42,7 @@ public:
 		enum EdevType {	e_input, e_output	};
 		typedef bool (*callBackType)(void*, unsigned int, const RtAudioStreamStatus&);
 	
-    TrtAudio(TaudioParams *audioP, TrtAudio::EdevType type);
+    TrtAudio(TaudioParams *audioP, TrtAudio::EdevType type, TrtAudio::callBackType cb);
 		~TrtAudio();
 		
     QString deviceName() { if (m_type == e_input) return m_inDevName; else return m_outDevName; }
@@ -65,26 +69,10 @@ public:
 		
 		static quint32 sampleRate() { return m_sampleRate; }
     
-protected:
-// 		virtual bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-// 				Q_UNUSED(inBuff)
-// 				Q_UNUSED(nBufferFrames)
-// 				Q_UNUSED(status)
-// 				return false; 
-// 		}
-// 		virtual bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-// 				Q_UNUSED(outBuff)
-// 				Q_UNUSED(nBufferFrames)
-// 				Q_UNUSED(status)
-// 				return false;
-// 		}
-		void setOutCallBack(callBackType cbOut) { m_cbOut = cbOut; }
-		void setInCallBack(callBackType cbIn) { m_cbIn = cbIn; }
-		
+protected:		
 		void deleteOutParams() { delete m_outParams; m_outParams = 0; }
 		void deleteInParams() { delete m_inParams; m_inParams = 0; }
 		
-protected:
     static RtAudio::StreamOptions *streamOptions;
 		RtAudio::StreamParameters* streamParams() { if (m_type == e_input) return m_inParams; else return m_outParams; }
 		
@@ -94,9 +82,6 @@ protected:
     quint32 determineSampleRate(RtAudio::DeviceInfo& devInfo);
     
 		bool openStream();
-    bool openStream(RtAudio::StreamParameters *outParams,  RtAudio::StreamParameters *inParams, 
-                    RtAudioFormat frm, unsigned int rate, unsigned int *buffFrames,
-                    RtAudioCallback callBack, void *userData = 0 , RtAudio::StreamOptions *options = 0);
     bool startStream();
     void stopStream();
     void closeStram();

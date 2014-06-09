@@ -42,39 +42,33 @@ public:
           /** Starts playing given note and then returns true, otherwise gets false. */
     bool play(int noteNr);
     void setAudioOutParams();
-        /** It sets audio device to value taken from */
-    bool setAudioDevice(QString &name);
+        
         /** Immediately stops playing. Emits nothing */
     void stop();
     
 protected:
 		static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 		
+		int crossCount() { return m_crossCount; } /** counts samples of crossing buffer */
+		
 protected:
-        /** Pointer to this class instance to emit signal from static callBack method. */ 
-    static    TaudioOUT *instance;
-    ToggScale *oggScale;
-    int     ratioOfRate; // ratio of current sample rate to 44100
+        /** Static pointer of this class instance to emit signal from callBack method. */ 
+    static TaudioOUT 							*instance;
+    ToggScale 										*oggScale;
+    int     				 							 ratioOfRate; // ratio of current sample rate to 44100
 
 private slots:
 //   void emitNoteFinished() { emit noteFinished(); }
   void stopSlot();
     
 private:
-  void deleteAudio();
-//   static int outCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
-//                          RtAudioStreamStatus status, void *userData);
-
-      /** Number of performed samples. */
-  static int m_samplesCnt;
-      /** Duration of a sound counted in callBack loops */
-  static int m_maxCBloops;
-      /** Size of a buffer */
-//   static unsigned int m_bufferFrames;
-	static qint16 *m_crossBuffer; // buffer with data of part of previous note to fade out
-	static bool m_doCrossFade;
-	static float m_cross; // current 'strength' of fading effect
-
+  static int 			m_samplesCnt; /** Number of performed samples. */
+  static int 			m_maxCBloops; /** Duration of a sound counted in callBack loops */
+	static qint16  *m_crossBuffer; /** buffer with data of part of previous note to fade out */
+	static bool 		m_doCrossFade;
+	static float 		m_cross; /** current volume factor of fading effect */
+	int 						m_crossCount;
+	bool 						m_callBackIsBussy;
 
 };
 

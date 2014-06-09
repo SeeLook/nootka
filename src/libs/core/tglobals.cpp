@@ -49,7 +49,7 @@ QString Tglobals::getInstPath(QString appInstPath) {
       p = d.path() + "/Resources/"; 		// MacOs
 #endif
 
-        return p;
+	return p;
 }
 
 /*end static*/
@@ -258,6 +258,8 @@ doubleAccidentalsEnabled = true;
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
 		A->range = (TaudioParams::Erange)cfg->value("pitchDetectRange", (int)TaudioParams::e_middle).toInt();
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
+		A->forwardInput = cfg->value("forwardInput", false).toBool();
+		A->playDetected = cfg->value("playDetected", false).toBool();
 	cfg->endGroup();
 }
 
@@ -395,5 +397,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("a440Offset", A->a440diff);
 			cfg->setValue("pitchDetectRange", (int)A->range);
 			cfg->setValue("intonation", A->intonation);
+			cfg->setValue("forwardInput", A->forwardInput);
+			cfg->setValue("playDetected", A->playDetected);
 	cfg->endGroup();
 }

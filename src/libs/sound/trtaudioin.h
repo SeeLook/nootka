@@ -33,7 +33,8 @@ class TpitchFinder;
  * This class manages audio input for Nootka.
  * It emits noteDetected(Tnote) signal when some note is detected
  * and fundamentalFreq(float) with freq of detected note.
- * @method calculateNoiseLevel() can be used to obtain noise. 
+ * It can be paused - pitch detection is performed but signals are not sending
+ * or it can be stopped - incoming audio data is ignored
  */
 class NOOTKASOUND_EXPORT TaudioIN : public QObject, public TrtAudio
 {
@@ -45,9 +46,6 @@ public:
         /** Returns list of audio input devices filtered by template audio format */
 	static QStringList getAudioDevicesList();
 	
-// 	bool isAvailable() {return (m_IOaudioDevice ? true : false) ; }
-
-	bool setAudioDevice(const QString &devN);
 	void startListening();
 	void stopListening();
 	
@@ -59,6 +57,7 @@ public:
       /** Starts emiting @param noteDetected and @param fundamentalFreq signals again. */
   void unPause() { m_paused = false; }
   bool isPaused() { return m_paused; }
+  bool isStoped() { return m_stopped; }
 	float maxPeak() { return m_maxPeak; }
 	
 	  /** Sets device parameters stores in struct SaudioInParams. 
@@ -66,14 +65,6 @@ public:
 	   * by setAudioDevice() method. 	   */
 	void setAudioInParams();	
 	
-//     /** Do the same as @param startListening() but for backward compatibility 
-//      * with QtMultimedia that function remains  */
-//   void wait() { stopListening(); }
-//   
-//     /** Do the same as @param stopListening() but for backward compatibility 
-//      * with QtMultimedia that function remains  */
-//   void go() { startListening(); }
-
 			/** Sets minimal volume needed that note will be detected. Overrides global setting.  */
   void setMinimalVolume(float minVol);
   void setIsVoice(bool isV);
@@ -85,9 +76,8 @@ public:
 
 signals:
 	void noteDetected(Tnote note);
-	void noiseLevel(qint16 level);
 	void fundamentalFreq(float freq);
-  void chunkPitch(float pitch);
+//   void chunkPitch(float pitch);
 
   
 protected:
@@ -104,7 +94,6 @@ private slots:
 private:
   void initInput();
   
-//   static int inCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime, RtAudioStreamStatus status, void *userData);
       /** Keeps pointers for all (two) created instances of TaudioIN
        * static inCallBack uses it to has access. */
   static        QList<TaudioIN*> m_instances;
@@ -112,13 +101,9 @@ private:
   
   float         *m_floatBuff;
   TpitchFinder  *m_pitch;
-      
   quint32       m_floatsWriten;
-  qint16        m_maxP;
   float         m_maxPeak;
-      /** Size of a buffer */
-  unsigned int  m_bufferFrames;  
-  bool          m_paused;
+  bool          m_paused, m_stopped;
 			/** Boundary notes of the ambitus. */
 	Tnote					m_loNote, m_hiNote;
 	float 				m_lastPich; /** Pitch of last detected note in float precision. */

@@ -35,7 +35,7 @@ public:
 	/** Those are levels of pitch detection ranges.
 		 * @p e_high - for violin, flute, piccolo - corresponds with treble clef.
 		 * 							It starts form about F in small octave.
-		 * @p e_middle - for guitars, celo and so - corresponds with treble droped and bass clefs
+		 * @p e_middle - for guitars, cello and so - corresponds with treble dropped and bass clefs
 		 * 							It starts form about F in contra octave.
 		 * @p e_low - for bass guitar and double bass - corresponds with bass dropped clef
 		 * 							It is sufficient to detect lowest notes.
@@ -57,6 +57,9 @@ public:
   bool isVoice;
 	Erange range; // pitch detection range
 	quint8 intonation; // accuracy of intonation in detected note - corresponds with Eaccuracy
+// duplex mode
+	bool forwardInput; // if true, all captured audio data is pushed to output
+	bool playDetected; // pitch-detected notes will be played
 
 // audio output settings
   bool OUTenabled; // audio output enabled

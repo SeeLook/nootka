@@ -5,7 +5,7 @@
 ##########################################################
 #############   Requirements:                #############
 ##########################################################
-- Qt libraries (at least 4.7 version)
+- Qt libraries (at least 5.2 version)
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
   both ogg and vorbis. Dll libraries are on this site in vorbis-tools 
   and headers are in libogg and libvorbis archives.
@@ -46,15 +46,15 @@
     If You put unpacked archives of fftw and ogg-vorbis in the same location where build dir is, just
     next to it, and you remove the versions numbers from their names, to have:
     libogg, libvorbis, fftw and vorbis-tools dirs,
-    cmake will find all of them automagicaly.
+    cmake will find all of them automagically.
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   ---------------------------------------------------------------------------------------------------------
   - There is an option for building Nootka with checking for new versions
   ---------------------------------------------------------------------------------------------------------
   - Also under Linux are options to build Nootka with native support for:
     - PulseAudio (requires libpulse-dev)
-      When those headers/libs are found - options are selected automaticaly
-      They can be controled by:
+      When those headers/libs are found - options are selected automatically
+      They can be controlled by:
 	    -DENABLE_PULSEAUDIO=OFF (OFF or ON)
 	---------------------------------------------------------------------------------------------------------
 - then call
@@ -65,7 +65,7 @@
 - If you want to launch Nootka without installing - in a place where it is compiled
 	call
 		make runinplace
-		it will copy or link all necessary staff next to builded executable
+		it will copy or link all necessary staff next to build executable
   ---------------------------------------------------------------------------------------------------------
 - make install (usually as root)
   alternatively You can invoke 
@@ -89,7 +89,7 @@ You can easyly generate rpm and deb package.
   !!!!!!!!!!!! GOOD LUCK !!!!!!!!!
 
 ##########################################################
-#### How to prepare developement enviroment under MacOs ##
+#### How to prepare development environment under MacOs ##
 ##########################################################
 1. Install Xcode & X11 (from MacOs install DVD). XCode SDK is not required
 2. Install MacPorts 
@@ -107,10 +107,10 @@ You can easyly generate rpm and deb package.
 
 4. Now You can go to to Building section
 
-5. make install under MacOs generates independent boundle with all needed frameworks inside
-   however You mast put during invokeing cmake -DFFTW3_LIBRARIES=/path_to_real_file_with_libfftw3f
+5. make install under MacOs generates independent bundle with all needed frameworks inside
+   however You mast put during invoking cmake -DFFTW3_LIBRARIES=/path_to_real_file_with_libfftw3f
    and -DVORBIS_LIBRARIES=/path_to_real_file_with_libvorbisfile
-   (cmake automagicaly finds only symbolic link)
+   (cmake automagically finds only symbolic link)
 
 
  
