@@ -311,9 +311,8 @@ void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-//   sniffer->startListening();
-	sniffer->stopListening();
   connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
+// 	QTimer::singleShot(500, sniffer, SLOT(startListening())); // Give time for launch whole app
 }
 
 void Tsound::deletePlayer() {

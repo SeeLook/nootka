@@ -46,9 +46,6 @@ public:
         /** Returns list of audio input devices filtered by template audio format */
 	static QStringList getAudioDevicesList();
 	
-	void startListening();
-	void stopListening();
-	
       /** Stops emitting signals about pitch detection, but detection is still performed.
 			 * It also resets last chunk pitch to ignore detection
        * It helps to sniff whole sound/note from begin to its end. */
@@ -60,7 +57,7 @@ public:
   bool isStoped() { return m_stopped; }
 	float maxPeak() { return m_maxPeak; }
 	
-	  /** Sets device parameters stores in struct SaudioInParams. 
+	  /** Sets device parameters stores in structure SaudioInParams. 
 	   * SaudioInParams::deviceName is ignored. It have to be set separately
 	   * by setAudioDevice() method. 	   */
 	void setAudioInParams();	
@@ -79,6 +76,9 @@ signals:
 	void fundamentalFreq(float freq);
 //   void chunkPitch(float pitch);
 
+public slots:
+	void startListening();
+	void stopListening();
   
 protected:
   static TaudioIN* instance() { return m_instances[m_thisInstance] ; }
@@ -91,17 +91,12 @@ private slots:
   void volumeSlot(float vol);
   
   
-private:
-  void initInput();
-  
+private:  
       /** Keeps pointers for all (two) created instances of TaudioIN
        * static inCallBack uses it to has access. */
   static        QList<TaudioIN*> m_instances;
   static        int m_thisInstance;
-  
-//   float         *m_floatBuff;
   TpitchFinder  *m_pitch;
-//   quint32       m_floatsWriten;
   float         m_maxPeak;
   bool          m_paused, m_stopped;
 			/** Boundary notes of the ambitus. */

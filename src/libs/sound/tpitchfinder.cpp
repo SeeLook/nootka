@@ -77,7 +77,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     m_channel = new Channel(this, aGl()->windowSize);
     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 		moveToThread(m_thread);
-		connect(m_thread, SIGNAL(started()), this, SLOT(searchIn()));
+		connect(m_thread, SIGNAL(started()), this, SLOT(startPitchDetection()));
 }
 
 
@@ -114,38 +114,40 @@ void TpitchFinder::setIsVoice(bool voice) {
 
 
 void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
-    m_aGl->rate = sRate;
-		switch (range) {
-			case 0: 
-				m_rateRatio = 0.5; break; // e_high - lowest pitch is F small
-			case 2:
-				m_rateRatio = 2.0; break; // e_low - lowest pitch is ... very low
-			default:
-				m_rateRatio = 1.0; break; // e_middle - lowest pitch is F contra
-		}
+	m_mutex.lock();
+	m_aGl->rate = sRate;
+	switch (range) {
+		case 0: 
+			m_rateRatio = 0.5; break; // e_high - lowest pitch is F small
+		case 2:
+			m_rateRatio = 2.0; break; // e_low - lowest pitch is ... very low
+		default:
+			m_rateRatio = 1.0; break; // e_middle - lowest pitch is F contra
+	}
 // 		qDebug() << "m_rateRatio is " << m_rateRatio;
-    if (sRate > 48000) {
-      m_aGl->framesPerChunk = 2048 * m_rateRatio;
-      m_aGl->windowSize = 4096 * m_rateRatio;
-    } else if (sRate > 96000) {
-      m_aGl->framesPerChunk = 4096 * m_rateRatio;
-      m_aGl->windowSize = 8192 * m_rateRatio;
-    } else {
-      m_aGl->framesPerChunk = 1024 * m_rateRatio;
-      m_aGl->windowSize = 2048 * m_rateRatio;
-    }
-    qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
-    delete m_prevChunk;
-    delete m_filteredChunk;
-		delete m_buffer_1;
-		delete m_buffer_2;
-    if (aGl()->equalLoudness)
-      m_filteredChunk = new float[aGl()->framesPerChunk];
-    m_prevChunk = new float[aGl()->framesPerChunk];
-		m_buffer_1 = new float[aGl()->framesPerChunk];
-		m_buffer_2 = new float[aGl()->framesPerChunk];
-		m_currentBuff = m_buffer_1;
-    resetFinder();
+	if (sRate > 48000) {
+		m_aGl->framesPerChunk = 2048 * m_rateRatio;
+		m_aGl->windowSize = 4096 * m_rateRatio;
+	} else if (sRate > 96000) {
+		m_aGl->framesPerChunk = 4096 * m_rateRatio;
+		m_aGl->windowSize = 8192 * m_rateRatio;
+	} else {
+		m_aGl->framesPerChunk = 1024 * m_rateRatio;
+		m_aGl->windowSize = 2048 * m_rateRatio;
+	}
+// 	qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
+	delete m_prevChunk;
+	delete m_filteredChunk;
+	delete m_buffer_1;
+	delete m_buffer_2;
+	if (aGl()->equalLoudness)
+		m_filteredChunk = new float[aGl()->framesPerChunk];
+	m_prevChunk = new float[aGl()->framesPerChunk];
+	m_buffer_1 = new float[aGl()->framesPerChunk];
+	m_buffer_2 = new float[aGl()->framesPerChunk];
+	m_currentBuff = m_buffer_1;
+	m_mutex.unlock();
+	resetFinder();
 }
 
 
@@ -166,37 +168,35 @@ void TpitchFinder::fillBuffer(float sample) {
 }
 
 
-// void TpitchFinder::searchIn(float* chunk) {
-void TpitchFinder::searchIn() {
-//   if (m_filledBuff) {
+void TpitchFinder::startPitchDetection() {
 	m_mutex.lock();
-      if (m_doReset) { // copy last chunk to keep capturing data continuous
-        if (aGl()->equalLoudness)
-            std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
-        else
-            std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
-        resetFinder();
-        std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
-      }
-      m_workChunk = m_filledBuff;
-      m_channel->shift_left(aGl()->framesPerChunk); // make palce in channel for new audio data
-      if (aGl()->equalLoudness) { // filter it and copy  too channel
-        m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
-        for(int i = 0; i < aGl()->framesPerChunk; i++)
-            m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
-        std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
-      } else // copy without filtering
-          std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
-      run();
-//   } else {
-//       emitFound();
-//       resetFinder();
-//   }
+	if (m_doReset) { // copy last chunk to keep capturing data continuous
+		if (aGl()->equalLoudness)
+				std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+		else
+				std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+		resetFinder();
+		std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+	}
+	m_workChunk = m_filledBuff;
+	m_channel->shift_left(aGl()->framesPerChunk); // make palce in channel for new audio data
+	if (aGl()->equalLoudness) { // filter it and copy  too channel
+		m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
+		for(int i = 0; i < aGl()->framesPerChunk; i++)
+				m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
+		std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+	} else // copy without filtering
+			std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+	detect();
+	m_thread->quit();
+	m_mutex.unlock();
 }
 
 
 void TpitchFinder::resetFinder() {
-	m_mutex.lock();
+	if (!m_mutex.tryLock())
+		qDebug() << "Pitch detection in progress, have to wait for reset...";
+// 	m_mutex.lock();
   m_doReset = false;
   if (m_channel) {
       delete m_channel;
@@ -222,7 +222,7 @@ void TpitchFinder::emitFound() {
 }
 
 
-void TpitchFinder::run() {
+void TpitchFinder::detect() {
 	m_isBussy = true;
 	FilterState filterState;
   m_channel->processNewChunk(&filterState);
@@ -276,7 +276,5 @@ void TpitchFinder::run() {
     }
 	incrementChunk();
 	m_isBussy = false;
-	m_thread->quit();
-	m_mutex.unlock();
 }	
 

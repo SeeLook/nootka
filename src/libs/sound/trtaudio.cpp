@@ -18,6 +18,7 @@
 
 
 #include "trtaudio.h"
+#include "taudioobject.h"
 #include <taudioparams.h>
 #include <QStringList>
 #include <QDebug>
@@ -36,6 +37,7 @@ QString 													TrtAudio::m_inDevName = "anything";
 QString 													TrtAudio::m_outDevName = "anything";
 TrtAudio::callBackType				 		TrtAudio::m_cbIn = 0;
 TrtAudio::callBackType 						TrtAudio::m_cbOut = 0;
+TaudioObject*											TrtAudio::m_ao = 0;
 
 
 void TrtAudio::createRtAudio() {
@@ -112,6 +114,7 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 	if (!streamOptions) {
 			streamOptions = new RtAudio::StreamOptions;
 			streamOptions->streamName = "Nootka";
+			m_ao = new TaudioObject();
 	}
 	createRtAudio();
 	updateAudioParams();
@@ -133,6 +136,8 @@ TrtAudio::~TrtAudio()
 		m_rtAduio = 0;
 		delete streamOptions;
 		streamOptions = 0;
+		delete m_ao;
+		m_ao = 0;
 	}
 		
 }
@@ -228,6 +233,9 @@ bool TrtAudio::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
 }
 
 
+// void TrtAudio::streamOpened() {}
+
+
 bool TrtAudio::openStream() {
 	try {
     if (rtDevice() && !rtDevice()->isStreamOpen()) {
@@ -235,6 +243,7 @@ bool TrtAudio::openStream() {
 															 &m_bufferFrames, &duplexCallBack, 0, streamOptions);
 				qDebug() << "openStream";
 				if (rtDevice()->isStreamOpen()) {
+					ao()->emitStreamOpened();
 					if (!m_isOpened) { // print info once per new params set
 						if (m_isAlsaDefault) {
 							m_inDevName = "ALSA default";
