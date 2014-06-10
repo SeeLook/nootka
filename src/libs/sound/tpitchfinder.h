@@ -79,6 +79,9 @@ public:
     void incrementChunk() { m_chunkNum++; }
     void setIsVoice(bool voice);
 		
+				/** Adds given sample to the buffer at the current position, 
+				 * when buffer is full, @p startPitchDetection() is invoked and 
+				 * current buffer is swapped. */
 		void fillBuffer(float sample);
 		
         /** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
@@ -107,12 +110,8 @@ signals:
   void volume(float volume);
 	
 protected slots:
-	/** Starts thread searching in @param chunk,
-        * witch is pointer to array of floats of audio data. 
-        * First copy it to channel object. */
-//     void searchIn(float *chunk);
-	void searchIn();
-	void run();
+	void startPitchDetection(); /** Starts searching thread/ */
+	void detect();
 	
 			/** Checks was note detected but signal not sent and emits found(m_prevPitch, m_prevFreq) */
   void emitFound();

@@ -26,6 +26,7 @@
 #include <QString>
 
 class TaudioParams;
+class TaudioObject;
 
 
 /** 
@@ -34,6 +35,7 @@ class TaudioParams;
  * where audio data will be send.
  * To start, @p updateAudioParams() has to be invoked to initialize/refresh outside audio parameters
  * then @p open() and @p startAudio() do their tasks
+ * It has protected @member ao() which can emits signals
  */
 class NOOTKASOUND_EXPORT TrtAudio
 {
@@ -70,11 +72,11 @@ public:
 		static quint32 sampleRate() { return m_sampleRate; }
     
 protected:		
-		void deleteOutParams() { delete m_outParams; m_outParams = 0; }
-		void deleteInParams() { delete m_inParams; m_inParams = 0; }
-		
     static RtAudio::StreamOptions *streamOptions;
 		RtAudio::StreamParameters* streamParams() { if (m_type == e_input) return m_inParams; else return m_outParams; }
+		
+		void deleteOutParams() { delete m_outParams; m_outParams = 0; }
+		void deleteInParams() { delete m_inParams; m_inParams = 0; }
 		
         /** Examines available sample rates to check more appropriate. 
          * 44100 48000 88200 ... 192000. If not the latest from the list is taken. 
@@ -85,6 +87,12 @@ protected:
     bool startStream();
     void stopStream();
     void closeStram();
+		
+				/** Static instance of 'signal emitter'
+				 * It emits following signals:
+				 * @p streamOpened() - when stream is opening
+				 */
+		static TaudioObject* ao() { return m_ao; }
     
     bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
 		
@@ -104,6 +112,7 @@ private:
 		static bool														 m_isAlsaDefault;
 		bool																	 m_isOpened;
 		static callBackType										 m_cbIn, m_cbOut;
+		static TaudioObject										*m_ao;
         
 };
 

@@ -220,7 +220,6 @@ IF(UNIX AND NOT APPLE)
   )
   mark_as_advanced(ALSA_LIBRARY PTHREAD_LIBRARY)
 
-#   add_definitions(-D__LINUX_ALSASEQ__)
 ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
@@ -340,6 +339,7 @@ set(LIB_NOOTKASOUND_SRC
 	tmidiout.cpp
 	toggscale.cpp
 	tpitchfinder.cpp
+	taudioobject.h
 	trtaudio.cpp
 	trtaudioin.cpp
 	trtaudioout.cpp

@@ -60,6 +60,7 @@ protected:
 private slots:
 //   void emitNoteFinished() { emit noteFinished(); }
   void stopSlot();
+	void streamOpenedSlot();
     
 private:
   static int 			m_samplesCnt; /** Number of performed samples. */

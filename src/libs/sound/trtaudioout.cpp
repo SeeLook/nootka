@@ -18,6 +18,7 @@
 
 
 #include "trtaudioout.h"
+#include "taudioobject.h"
 #include <taudioparams.h>
 #include <QDebug>
 #include <QTimer>
@@ -124,6 +125,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
   offTimer = new QTimer();
 	m_crossBuffer = new qint16[1000];
   connect(offTimer, SIGNAL(timeout()), this, SLOT(stopSlot()));
+	connect(ao(), SIGNAL(streamOpened()), this, SLOT(streamOpenedSlot()));
 }
 
 
@@ -151,10 +153,13 @@ void TaudioOUT::setAudioOutParams() {
 			oggScale->setSampleRate(oggSR);
 			// Shifts only float part of a440diff - integer part is shifted by play() method
 			oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
-// 			m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
-// 			qDebug() << "m_maxCBloops" << m_maxCBloops;
 	} else
         playable = false;
+}
+
+void TaudioOUT::streamOpenedSlot() {
+	m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
+	qDebug() << "m_maxCBloops" << m_maxCBloops;
 }
 
 
@@ -166,8 +171,6 @@ bool TaudioOUT::play(int noteNr) {
 		  SLEEP(1);
 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
 	}
-	m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
-	qDebug() << "m_maxCBloops" << m_maxCBloops;
 	
   if (m_samplesCnt < m_maxCBloops - 10) {
 //       offTimer->stop();
@@ -189,8 +192,8 @@ bool TaudioOUT::play(int noteNr) {
       loops++;
   }
   m_samplesCnt = -1;
-  if (loops)
-       qDebug() << "latency:" << loops << "ms";
+//   if (loops)
+//        qDebug() << "latency:" << loops << "ms";
 //   offTimer->start(1600);
   return startStream();
 // 	return true;
