@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk  				                   *
- *   tomaszbojczuk@gmail.com   						                                 *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,35 +12,35 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 
-#ifndef SELECT7NOTE_H
-#define SELECT7NOTE_H
+#include <QApplication>
+#include "tsettingsdialog.h"
+#include <tinitcorelib.h>
 
-#include <QWidget>
-#include <QRadioButton>
+Tglobals *gl;
 
-class Select7note : public QWidget
-{
-    Q_OBJECT
-public:
-    explicit Select7note(QWidget *parent = 0);
-    void set7th_B (bool isB);
-    bool is7th_B () { return isBRadio->isChecked(); }
+int main(int argc, char *argv[])
+{    	
+		QApplication a(argc, argv);
+// #if defined (Q_OS_MAC)
+// 		QApplication::setStyle(new QPlastiqueStyle);
+// #endif
+		gl = new Tglobals(true); // load configuration from temp file
+		if (gl->path == "") {
+			return 112;
+		}
+		initCoreLibrary(gl);
+		prepareTranslations(&a);
+		if (!loadNootkaFont(&a))
+			return 111;
 
-signals:
-    void seventhIsBchanged (bool isB);
-
-
-private:
-    QRadioButton *isBRadio, *isHRadio;
-
-private slots:
-    void namechanged();
-
-};
-
-#endif // SELECT7NOTE_H
+    TsettingsDialog settings;
+    settings.show();
+		
+		int retVal = a.exec();
+		return retVal;
+}

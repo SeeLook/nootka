@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,56 +12,35 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 
-#ifndef TABOUTNOOTKA_H
-#define TABOUTNOOTKA_H
 
+#ifndef TSUPPORTNOOTKA_H
+#define TSUPPORTNOOTKA_H
+
+#include "nootkamiscglobal.h"
+#include <QWidget>
 #include <QDialog>
 
-class QTimer;
-class QScrollArea;
-class QListWidget;
-class QStackedLayout;
 
-class TaboutNootka : public QDialog
+
+class NOOTKAMISC_EXPORT TsupportNootka : public QWidget
 {
-    Q_OBJECT
 public:
-    explicit TaboutNootka(QWidget *parent = 0);
-
-    static QString authorsTxt() { return tr("Authors"); }
-
-protected slots:
-		void moveScroll();
-		void changeCurrentPage(int page);
-			/** It is called after dialog constructor to grab and fix window size (avoid resizing) */
-		void fixSize();
-
-private:
-    QListWidget 		*m_navList;
-    QStackedLayout 	*m_stackLayout;
-    QPushButton 		*m_okBut;
-		QScrollArea 		*m_authorScroll;
-		QTimer					*m_timer;
-		
-
+    explicit TsupportNootka(QWidget *parent = 0);
 };
 
-//######################### About ##########################################
-class TroundedLabel;
-class Tabout : public QWidget
+
+
+class TsupportStandalone : public QDialog
 {
     Q_OBJECT
+    
 public:
-    explicit Tabout(QWidget *parent = 0);
-
-
-private:
-    TroundedLabel *m_aboutLab;
+    explicit TsupportStandalone(QString &path, QWidget *parent = 0);
 };
 
-#endif // TABOUTNOOTKA_H
+#endif // TSUPPORTNOOTKA_H

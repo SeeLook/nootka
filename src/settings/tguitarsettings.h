@@ -20,8 +20,8 @@
 #define TGUITARSETTINGS_H
 
 #include <QWidget>
-#include "tnote.h"
-#include "tclef.h"
+#include <music/tnote.h>
+#include <music/tclef.h>
 
 class TselectInstrument;
 class QLabel;

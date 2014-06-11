@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +18,7 @@
 
 
 #include "tmainhelp.h"
-#include "tpixmaker.h"
+#include <graphics/tnotepixmap.h>
 #include <QBoxLayout>
 #include <QTextEdit>
 #include <QApplication>

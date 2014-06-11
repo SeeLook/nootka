@@ -19,7 +19,7 @@
 #ifndef AUDIOINSETTINGS_H
 #define AUDIOINSETTINGS_H
 #include <QWidget>
-#include "tnote.h"
+#include <music/tnote.h>
 
 class QToolBox;
 class TroundedLabel;

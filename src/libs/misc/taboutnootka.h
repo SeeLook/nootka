@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,37 +12,57 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tnootkalabel.h"
-#include <QGraphicsPixmapItem>
-#include <QGraphicsColorizeEffect>
 
-TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent, QColor bgColor) :
-  QGraphicsView(parent)
+#ifndef TABOUTNOOTKA_H
+#define TABOUTNOOTKA_H
+
+#include "nootkamiscglobal.h"
+#include <QDialog>
+
+class QTimer;
+class QScrollArea;
+class QListWidget;
+class QStackedLayout;
+
+class NOOTKAMISC_EXPORT TaboutNootka : public QDialog
 {
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFrameShape(QFrame::NoFrame);
-    setStyleSheet(("background: transparent; border-radius: 10px;"));
-    setRenderHint(QPainter::TextAntialiasing, true);
+    Q_OBJECT
+public:
+    explicit TaboutNootka(QWidget *parent = 0);
 
-    m_scene = new QGraphicsScene(this);
-    setScene(m_scene);
-    
-    QGraphicsPixmapItem *pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
-    m_scene->addItem(pixItem);
-    resize(pixItem->pixmap().size());
-    QGraphicsColorizeEffect *m_effect = new QGraphicsColorizeEffect();
-    if (bgColor == -1)
-        bgColor = palette().window().color();
-    m_effect->setColor(bgColor);
-    pixItem->setGraphicsEffect(m_effect);
+    static QString authorsTxt() { return tr("Authors"); }
 
-}
+protected slots:
+		void moveScroll();
+		void changeCurrentPage(int page);
+			/** It is called after dialog constructor to grab and fix window size (avoid resizing) */
+		void fixSize();
 
-TnootkaLabel::~TnootkaLabel() {}
+private:
+    QListWidget 		*m_navList;
+    QStackedLayout 	*m_stackLayout;
+    QPushButton 		*m_okBut;
+		QScrollArea 		*m_authorScroll;
+		QTimer					*m_timer;
+		
+
+};
+
+//######################### About ##########################################
+class TroundedLabel;
+class Tabout : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit Tabout(QWidget *parent = 0);
 
 
+private:
+    TroundedLabel *m_aboutLab;
+};
+
+#endif // TABOUTNOOTKA_H

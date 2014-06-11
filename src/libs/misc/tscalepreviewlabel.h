@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,18 +16,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TSCLAEPREVIEWLABEL_H
+#define TSCLAEPREVIEWLABEL_H
 
-#ifndef TPIXMAKER_H
-#define TPIXMAKER_H
-
-
-#include <QPixmap>
-
-    /** Changes given sting to pixmap in given font size. 
-     * Nootka font is used and current palette colors. */
-QPixmap pixFromString(QString glif, QFont font);
-    /** Returns html img statements with image scaled to given height.*/
-QString pixToHtml(QString imageFile, int width = 0);
+#include "nootkamiscglobal.h"
+#include <music/tnote.h>
+#include <widgets/troundedlabel.h>
 
 
-#endif
+/** 
+ * This is a QLabel subclass that displays note names of C-major scale in given style.
+ * If withAccids is set to true additional line with some notes with accidentals is displayed. 
+ */
+class NOOTKAMISC_EXPORT TscalePreviewLabel : public TroundedLabel
+{
+
+public:
+		explicit TscalePreviewLabel(Tnote::EnameStyle style, bool withAccids = true, QWidget* parent = 0);
+		
+		void changeStyle(Tnote::EnameStyle style);
+				/** Enables/disables line with accidentals. changeStyle() has to be called after to refresh. */
+		void enableAccidsLabel(bool enable) { m_withAccids = enable; }
+		
+private:
+		bool m_withAccids;
+
+
+};
+
+#endif // TSCLAEPREVIEWLABEL_H
+

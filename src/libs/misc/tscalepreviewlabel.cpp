@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tscalepreviewlabel.h"
-#include <tnamestylefilter.h>
+#include <music/tnamestylefilter.h>
 
 
 TscalePreviewLabel::TscalePreviewLabel(Tnote::EnameStyle style, bool withAccids, QWidget* parent) :

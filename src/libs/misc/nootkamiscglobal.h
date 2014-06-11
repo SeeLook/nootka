@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,32 +12,15 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TEXPERTANSWERHELP_H
-#define TEXPERTANSWERHELP_H
+#include <QtCore/QtGlobal>
 
-
-#include "thelpdialogbase.h"
-
-
-/** This function creates showExpertAnswersHelpDlg, 
- * and return user decision.
- * @p askAboutExpert is pointer to global parameter 
- * and @p showAskCheckBox determines does show QCheckBox expressing askAboutExpert state. */
-bool showExpertAnswersHelpDlg(QWidget* parent, bool *askAboutExpert, bool showAskCheckBox);
-
-/** It shows simple exam help. The parameters are QStrings with colors */
-class TexpertAnswerHelp : public ThelpDialogBase
-{
-  Q_OBJECT
-  
-public:
-  explicit TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox);
-  
-  
-};
-
-#endif // TEXPERTANSWERHELP_H
+#if defined(NOOTKAMISC_LIBRARY)
+#  define NOOTKAMISC_EXPORT Q_DECL_EXPORT
+#else
+#  define NOOTKAMISC_EXPORT Q_DECL_IMPORT
+#endif
+ 

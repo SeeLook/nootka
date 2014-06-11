@@ -19,10 +19,12 @@
 #ifndef THELPDIALOGBASE_H
 #define THELPDIALOGBASE_H
 
+#include "nootkamiscglobal.h"
 #include <QDialog>
 #include <QCheckBox>
 #include <QTextEdit>
 #include <QPointer>
+
 
 class QDialogButtonBox;
 class QVBoxLayout;
@@ -30,13 +32,15 @@ class QHBoxLayout;
 class QPushButton;
 
 
-/** This is base template class for help dialogues. 
+/** 
+ * This is base template class for help dialogues. 
  * It contains QTextEdit field to fill with help text
  * and QCheckBox which is optional. 
  * showCheckBox() method controls it.
  * By default there is OK button connected to 'accept' dialog code,
- * but @p showButtons() method can change it. */
-class ThelpDialogBase : public QDialog
+ * but @p showButtons() method can change it. 
+ */
+class NOOTKAMISC_EXPORT ThelpDialogBase : public QDialog
 {
 
 	Q_OBJECT
@@ -45,8 +49,7 @@ public:
   explicit ThelpDialogBase(QWidget* parent = 0, Qt::WindowFlags f = 0);
   virtual ~ThelpDialogBase();
   
-      /** Pointer to QTextEdit. */
-  QTextEdit* helpText() { return m_helpText; }
+  QTextEdit* helpText() { return m_helpText; } /** Pointer to QTextEdit. */
   
       /** Displays check box at the bottom of the window with given description. 
 			 * @p state reference will keep this check state. */

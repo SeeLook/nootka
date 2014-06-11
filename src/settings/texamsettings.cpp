@@ -18,12 +18,13 @@
 
 
 #include "texamsettings.h"
-#include "widgets/tcolorbutton.h"
-#include "texamparams.h"
-#include "texpertanswerhelp.h"
-#include "widgets/troundedlabel.h"
-#include "tglobals.h"
-#include <QtGui>
+#include "tcolorbutton.h"
+#include <texamparams.h>
+#include <help/texpertanswerhelp.h>
+#include <help/texamhelp.h>
+#include <widgets/troundedlabel.h>
+#include <tglobals.h>
+#include <QtWidgets>
 
 extern Tglobals *gl;
 
@@ -36,7 +37,7 @@ TexamSettings::TexamSettings(QWidget* parent) :
     m_nbColor(&gl->EnotBadColor)
 {
 		QLabel *expertLab = new QLabel(QString("<img src=\"%1\">").arg(gl->path + "picts/expertCorner.png"));
-		m_correctChB = new QCheckBox(correctMistakesTxt(), this);
+		m_correctChB = new QCheckBox(TexamHelp::correctMistakesTxt(), this);
 			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
 			m_correctChB->setChecked(m_params->showCorrected);
 		m_correctPreviewSpin = new QSpinBox(this);
@@ -74,9 +75,9 @@ TexamSettings::TexamSettings(QWidget* parent) :
 			m_closeConfirmChB->setStatusTip(tr("If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.").arg("<b>" + m_params->examsDir + "</b>"));
 			m_closeConfirmChB->setChecked(m_params->closeWithoutConfirm);
     
-		m_autoNextChB = new QCheckBox(autoNextQuestTxt(), this);
+		m_autoNextChB = new QCheckBox(TexamHelp::autoNextQuestTxt(), this);
 			m_autoNextChB->setChecked(m_params->autoNextQuest);
-		m_expertAnswChB = new QCheckBox(expertsAnswerTxt(), this);
+		m_expertAnswChB = new QCheckBox(TexamHelp::expertsAnswerTxt(), this);
 			m_expertAnswChB->setChecked(m_params->expertsAnswerEnable);    
     QLabel *nameLab = new QLabel(tr("Student Name:"), this);
     m_nameEdit = new QLineEdit(m_params->studentName, this);

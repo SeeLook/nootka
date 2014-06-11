@@ -17,9 +17,6 @@
  ***************************************************************************/
 
 #include "texamhelp.h"
-#include "texamsettings.h"
-// #include <QDebug>
-
 
 #define PIXICONSIZE (32)
 #define BIGPIXSIZE (64)
@@ -47,7 +44,6 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
     QString("<center><h2>%1 &nbsp;&nbsp;").arg(pix("help", BIGPIXSIZE)) +
     tr("How does an exercise or an exam work?") +
     QString("&nbsp;&nbsp; %1").arg(pix("practice", BIGPIXSIZE) + " " + pix("nootka-exam", BIGPIXSIZE)) + "</h2>" +
-//     "<style type=\"text/css\">img { border-style: solid; border-color: palette(text); border-width: 2px; background-color: palette(window); }</style>" +
 		tr(" Briefly: Nootka give you a question and you give an answer...") + "<br><br><br><br>" +
     toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pix("nextQuest", PIXICONSIZE)) + "<br>- " +
     pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" + 
@@ -79,15 +75,10 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
 		examFeaturesText() + "</td></tr></table></center><center>" +
     "<hr><br><br><span style=\"font-size: 20px;\"><b>" +
     tr("GOOD LUCK!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
-    tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +
-//     QString("<img style=\"background-color: transparent;\" src=\"%1\">").arg(pix("expertCorner"))+
-		pix("expertCorner", 0) +
-    "</td><td><br>1. " + TexamSettings::correctMistakesTxt() + "</td></tr><tr><td><br>2. " + 
-    TexamSettings::autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + 
-    TexamSettings::expertsAnswerTxt() + "</td></tr></table></center>");
+    tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +	pix("expertCorner", 0) +
+    "</td><td><br>1. " + correctMistakesTxt() + "</td></tr><tr><td><br>2. " +  autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + expertsAnswerTxt() + "</td></tr></table></center>");
   
   helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);
-//   qDebug() << helpText()->toHtml();
 	showCheckBox(showHelp);
 }
 

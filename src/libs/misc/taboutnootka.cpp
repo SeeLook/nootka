@@ -20,10 +20,10 @@
 #include "taboutnootka.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
-#include "tmainhelp.h"
-#include "widgets/troundedlabel.h"
-#include "tglobals.h"
-#include <QtGui>
+#include "help/tmainhelp.h"
+#include <widgets/troundedlabel.h>
+#include <tglobals.h>
+#include <QtWidgets>
 
 extern Tglobals *gl;
 

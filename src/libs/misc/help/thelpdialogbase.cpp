@@ -17,10 +17,10 @@
  ***************************************************************************/
 
 #include "thelpdialogbase.h"
-#include "tpixmaker.h"
+#include <graphics/tnotepixmap.h>
 #include <tglobals.h>
 #include <QApplication>
-#include <QtGui>
+#include <QtWidgets>
 
 extern Tglobals *gl;
 

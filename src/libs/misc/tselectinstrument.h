@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,8 @@
 #ifndef TSELECTINSTRUMENT_H
 #define TSELECTINSTRUMENT_H
 
+
+#include "nootkamiscglobal.h"
 #include <QWidget>
 
 class TpushButton;
@@ -36,7 +38,7 @@ class QGridLayout;
  * Glyph size of instrument can be manipulated with @p setGlyphSize()
  * The widget can contain a header label manipulated with @p setHeadLabel()
  */
-class TselectInstrument : public QWidget
+class NOOTKAMISC_EXPORT TselectInstrument : public QWidget
 {
     Q_OBJECT
 

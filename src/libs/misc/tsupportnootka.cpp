@@ -19,8 +19,8 @@
 
 
 #include "tsupportnootka.h"
-#include "widgets/troundedlabel.h"
-#include <QtGui>
+#include <widgets/troundedlabel.h>
+#include <QtWidgets>
 
 TsupportNootka::TsupportNootka(QWidget *parent) :
     QWidget(parent)

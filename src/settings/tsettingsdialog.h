@@ -19,7 +19,7 @@
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
 
-#include "tsettingsdialogbase.h"
+#include <widgets/tsettingsdialogbase.h>
 
 class QTabWidget;
 class TglobalSettings;

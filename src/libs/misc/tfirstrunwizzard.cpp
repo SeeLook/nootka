@@ -21,18 +21,18 @@
 #include "taboutnootka.h"
 #include "tglobals.h"
 #include "select7note.h"
-#include "tpixmaker.h"
-#include "tmainhelp.h"
-#include "widgets/troundedlabel.h"
-#include "widgets/tselectinstrument.h"
-#include "ttipchart.h"
-#include "tkeysignature.h"
-#include <ttune.h>
-#include <tsimplescore.h>
+#include "help/tmainhelp.h"
+#include <graphics/tnotepixmap.h>
+#include <widgets/troundedlabel.h>
+#include <tselectinstrument.h>
+#include <graphics/tnotepixmap.h>
+#include <music/tkeysignature.h>
+#include <music/ttune.h>
+#include <score/tsimplescore.h>
 #include <taudioparams.h>
-#include <tscalepreviewlabel.h>
-#include <QtGui>
-#include <complex>
+#include "tscalepreviewlabel.h"
+#include <QtWidgets>
+
 
 extern Tglobals *gl;
 
@@ -200,13 +200,13 @@ void TfirstRunWizzard::whenInstrumentChanged(int instr) {
 	m_notationWidget->setNoteForInstrument(instr);
 	if ((Einstrument)instr == e_bassGuitar)
 				m_notationWidget->notationNote()->setHtml(QString("<center>%1<br>").
-				arg(TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
+				arg(wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
 				tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
-					"<br><br>" + TtipChart::wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
+					"<br><br>" + wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
 	else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
 				m_notationWidget->notationNote()->setHtml("<br><br><center>" + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><span style=\"font-size:20px;\">Both pictures above show the same note: c<sup>1</sup></span><br>(note c in one-line octave)</p>").
-				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
-				arg(TtipChart::wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
+				arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
+				arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
 }
 
 //###############################################  Tpage_2   ###############################################

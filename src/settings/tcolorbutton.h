@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
- *   tomaszbojczuk@gmail.com                                               *
+ *   Copyright (C) 2011=2014 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,38 +17,32 @@
  ***************************************************************************/
 
 
-#ifndef NAMESETTINGS_H
-#define NAMESETTINGS_H
+#ifndef TCOLORBUTTON_H
+#define TCOLORBUTTON_H
 
-#include "tnotationradiogroup.h"
+#include <QPushButton>
 
-class TscalePreviewLabel;
-class QCheckBox;
-class Select7note;
 
-class TnoteNameSettings : public QWidget
+class TcolorButton : public QPushButton
 {
-    Q_OBJECT
+	Q_OBJECT
+	
 public:
-    explicit TnoteNameSettings(QWidget *parent = 0);
-
-    void saveSettings();
-		bool is7th_b();
-		void restoreDefaults();
-
-signals:
-    void seventhIsBChanged(bool isB);
-
-protected slots:
-    void seventhNoteWasChanged(bool isB);
-		void nameStyleWasChanged(Tnote::EnameStyle style);
-
-
-
+	
+    explicit TcolorButton(QColor col = QColor(0, 0, 0, 0), QWidget* parent = 0);
+	
+	QColor getColor() { return m_color; }
+	void setColor(QColor col);
+	
+	
+protected:
+	void paintEvent(QPaintEvent *event);
+	
 private:
-    TnotationRadioGroup 	*m_nameStyleGr;
-    QCheckBox 						*m_octInNameCh;
-    Select7note 					*m_select7;
-		TscalePreviewLabel		*m_scaleLabel;
+	QColor m_color;
+	
+private slots:
+	void whenClicked();
 };
-#endif // NAMESETTINGS_H
+
+#endif // TCOLORBUTTON_H

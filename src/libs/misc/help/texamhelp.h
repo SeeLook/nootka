@@ -20,6 +20,7 @@
 #define TEXAMHELP_H
 
 
+#include "nootkamiscglobal.h"
 #include "thelpdialogbase.h"
 
 class QCheckBox;
@@ -31,16 +32,26 @@ class QLabel;
  * background-color: rgba() 
  * @param path is global path to images
  */
-class TexamHelp : public ThelpDialogBase
+class NOOTKAMISC_EXPORT TexamHelp : public ThelpDialogBase
 {
   Q_OBJECT
   
 public:
   TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp, QWidget* parent = 0);
   
+			/** check answers without requiring confirmation */
+  static QString expertsAnswerTxt() { return tr("check answers without requiring confirmation"); }
+  
+			/** correct mistakes (exercises only) */
+  static QString correctMistakesTxt() { return tr("correct mistakes (exercises only)"); }
+  
+			/** ask next question automatically */
+  static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
+	
   static QString orRightButtTxt() { return tr("or right mouse button"); } // or right mouse button
   static QString clickSomeButtonTxt(QString imgHtmlTag) 
       { return tr("click %1 button").arg(imgHtmlTag); } // click <button-icon> button
+      
   static QString toGetQuestTxt() { return tr("To get question"); } // To get question
   static QString pressSpaceKey() { return tr("press <b>space</b> key"); } // press <b>space</b> key
   static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } // press <b>Enter</b> key

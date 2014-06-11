@@ -18,8 +18,8 @@
 
 
 #include "tnotationradiogroup.h"
-#include <tnamestylefilter.h>
-#include <QtGui>
+#include <music/tnamestylefilter.h>
+#include <QtWidgets>
 
 QString TnotationRadioGroup::strNorskExampl = "(C, C#, Db ... Hb, H)";
 QString TnotationRadioGroup::strItalExampl = "(Do, Do#, Reb ... Sib, Si)";

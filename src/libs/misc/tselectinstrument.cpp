@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,8 +21,8 @@
 #include <QButtonGroup>
 #include <QLabel>
 #include <QLayout>
-#include <tinstrument.h>
-#include <tpushbutton.h>
+#include <music/tinstrument.h>
+#include <widgets/tpushbutton.h>
 
 
 TselectInstrument::TselectInstrument(QWidget* parent, TselectInstrument::Elayout buttonLayout) :
