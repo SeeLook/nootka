@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,38 +16,34 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMAINHELP_H
-#define TMAINHELP_H
-
-#include <QDialog>
-
+#include "tnootkalabel.h"
+#include <QGraphicsPixmapItem>
+#include <QGraphicsColorizeEffect>
 
 
-/** This is help text displayed in first run wizard.
-* Static methods give access to some excerpt texts. */
-class TmainHelp : public QWidget
+TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent, QColor bgColor) :
+  QGraphicsView(parent)
 {
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameShape(QFrame::NoFrame);
+    setStyleSheet(("background: transparent; border-radius: 10px;"));
+    setRenderHint(QPainter::TextAntialiasing, true);
+
+    m_scene = new QGraphicsScene(this);
+    setScene(m_scene);
     
-public:
-  explicit TmainHelp(const QString &path, QWidget *parent = 0);
-	
-			/** Whole text of II. paragraph (II. Exercises and exams) */
-	static QString exerciseAndExamText(const QString &path);
-	
-		/** You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on. */
-	static QString youWillLearnText();
-	
-		/** During exercising %1 the program will be your understanding and friendly teacher - 
-		 * it will show you corrected answers if you miss. */
-	static QString duringExercisingText(const QString &path);
-	
-		/** During exams %1 Nootka will be your strict and &quot;old school&quot; master.
-		 * Any mistake will be penalized with additional questions...
-		 * When you pass an exam you got a certificate!*/
-	static QString duringExamsText(const QString &path);
-  
-  
-}; 
+    QGraphicsPixmapItem *pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
+    m_scene->addItem(pixItem);
+    resize(pixItem->pixmap().size());
+    QGraphicsColorizeEffect *m_effect = new QGraphicsColorizeEffect();
+    if (bgColor == -1)
+        bgColor = palette().window().color();
+    m_effect->setColor(bgColor);
+    pixItem->setGraphicsEffect(m_effect);
+
+}
+
+TnootkaLabel::~TnootkaLabel() {}
 
 
-#endif // TMAINHELP_H

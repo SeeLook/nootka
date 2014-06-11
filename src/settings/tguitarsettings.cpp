@@ -17,12 +17,12 @@
  ***************************************************************************/
 
 #include "tguitarsettings.h"
-#include "widgets/tcolorbutton.h"
-#include <widgets/tselectinstrument.h>
-#include "ttune.h"
-#include "tglobals.h"
-#include "tsimplescore.h"
-#include <QtGui>
+#include "tcolorbutton.h"
+#include <tselectinstrument.h>
+#include <music/ttune.h>
+#include <tglobals.h>
+#include <score/tsimplescore.h>
+#include <QtWidgets>
 
 
 

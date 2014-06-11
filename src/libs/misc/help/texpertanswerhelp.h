@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,30 +16,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TEXPERTANSWERHELP_H
+#define TEXPERTANSWERHELP_H
 
 
-#ifndef TSUPPORTNOOTKA_H
-#define TSUPPORTNOOTKA_H
-
-#include <QWidget>
-#include <QDialog>
+#include "nootkamiscglobal.h"
+#include "thelpdialogbase.h"
 
 
+/** 
+ * This function creates showExpertAnswersHelpDlg, 
+ * and return user decision.
+ * @p askAboutExpert is pointer to global parameter 
+ * and @p showAskCheckBox determines does show QCheckBox expressing askAboutExpert state. 
+ */
+bool NOOTKAMISC_EXPORT showExpertAnswersHelpDlg(QWidget* parent, bool *askAboutExpert, bool showAskCheckBox);
 
-class TsupportNootka : public QWidget
+/** It shows simple exam help. The parameters are QStrings with colors */
+class TexpertAnswerHelp : public ThelpDialogBase
 {
+  Q_OBJECT
+  
 public:
-    explicit TsupportNootka(QWidget *parent = 0);
+  explicit TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox);
+  
+  
 };
 
-
-
-class TsupportStandalone : public QDialog
-{
-    Q_OBJECT
-    
-public:
-    explicit TsupportStandalone(QString &path, QWidget *parent = 0);
-};
-
-#endif // TSUPPORTNOOTKA_H
+#endif // TEXPERTANSWERHELP_H

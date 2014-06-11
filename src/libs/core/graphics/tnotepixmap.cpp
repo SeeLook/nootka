@@ -208,3 +208,8 @@ QString pixToHtml(QString imageFile, int width) {
 
 
 
+
+
+
+
+

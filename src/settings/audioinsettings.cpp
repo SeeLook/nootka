@@ -18,17 +18,17 @@
 
 
 #include "audioinsettings.h"
-#include "tpitchview.h"
-#include "tpitchfinder.h"
-#include <QtGui>
-#include "taudioparams.h"
-#include "trtaudioin.h"
-#include "tintonationview.h"
 #include "tvolumeslider.h"
-#include "ttipchart.h"
-#include <tkeysignature.h>
-#include <ttune.h>
+#include <taudioparams.h>
+#include <trtaudioin.h>
+#include <tpitchfinder.h>
+#include <widgets/tintonationview.h>
+#include <widgets/tpitchview.h>
+#include <graphics/tnotepixmap.h>
+#include <music/tkeysignature.h>
+#include <music/ttune.h>
 #include <widgets/troundedlabel.h>
+#include <QtWidgets>
 
 
 AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune, QWidget* parent) :
@@ -153,7 +153,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune
 	m_3_middleA= new QWidget();
 	m_toolBox->addItem(m_3_middleA, tr("3. 'Middle a' and transposition"));
   
-  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(TtipChart::wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), m_3_middleA);
+  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), m_3_middleA);
   QLabel *frLab = new QLabel(tr("frequency:"), m_3_middleA);
   
   freqSpin = new QSpinBox(m_3_middleA);
@@ -487,7 +487,7 @@ void AudioInSettings::testSlot() {
 				connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 				connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
 		} else // set parameters to existing device
-				m_audioIn->setParameters(m_tmpParams);
+				m_audioIn->setAudioInParams();
     testButt->setText(stopTxt);
 		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
     m_audioIn->startListening();

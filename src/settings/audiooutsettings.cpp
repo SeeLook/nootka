@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,11 +18,11 @@
 
 
 #include "audiooutsettings.h"
-#include <QtGui>
-#include "taudioparams.h"
-#include "tmidiout.h"
-#include "trtaudioout.h"
-#include <tinstrument.h>
+#include <taudioparams.h>
+#include <tmidiout.h>
+#include <trtaudioout.h>
+#include <music/tinstrument.h>
+#include <QtWidgets>
 
 
 AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
@@ -211,6 +211,8 @@ void AudioOutSettings::adjustOutToInstrument(TaudioParams* out, int instr) {
 						out->midiInstrNr = 29; break;
 				case e_bassGuitar:
 						out->midiInstrNr = 33; break;
+				case e_noInstrument:
+						out->midiInstrNr = 0; break;
 			}
 	} 
 	else

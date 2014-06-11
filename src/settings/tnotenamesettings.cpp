@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,10 +19,10 @@
 
 #include "tnotenamesettings.h"
 #include "tscalepreviewlabel.h"
-#include "tglobals.h"
-#include "select7note.h"
+#include <tglobals.h>
+#include <select7note.h>
 #include <tfirstrunwizzard.h>
-#include <QtGui>
+#include <QtWidgets>
 
 
 extern Tglobals *gl;

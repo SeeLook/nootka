@@ -18,11 +18,11 @@
 
 
 #include "tglobalsettings.h"
-#include "tglobals.h"
-#include "widgets/tcolorbutton.h"
 #include "tupdateprocess.h"
+#include "tcolorbutton.h"
+#include <tglobals.h>
 
-#include <QtGui>
+#include <QtWidgets>
 
 
 extern Tglobals *gl;

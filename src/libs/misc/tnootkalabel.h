@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk  				   *
- *   tomaszbojczuk@gmail.com   						   *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,37 +12,31 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	   *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TNOOTKALABEL_H
+#define TNOOTKALABEL_H
 
-#ifndef TCOLORBUTTON_H
-#define TCOLORBUTTON_H
+#include "nootkamiscglobal.h"
+#include <QWidget>
+#include <QGraphicsView>
 
-#include <QPushButton>
 
-
-class TcolorButton : public QPushButton
+/** 
+ * This is QGraphicsView with given image (and its size)
+ * colored with given color (palette().window().color() by default)
+ */
+class NOOTKAMISC_EXPORT TnootkaLabel : public QGraphicsView
 {
-	Q_OBJECT
-	
+
 public:
-	
-    explicit TcolorButton(QColor col = QColor(0, 0, 0, 0), QWidget* parent = 0);
-	
-	QColor getColor() { return m_color; }
-	void setColor(QColor col);
-	
-	
-protected:
-	void paintEvent(QPaintEvent *event);
-	
+    TnootkaLabel(QString pixmapPath, QWidget *parent = 0, QColor bgColor= -1);
+    virtual ~TnootkaLabel();
+    
 private:
-	QColor m_color;
-	
-private slots:
-	void whenClicked();
+    QGraphicsScene *m_scene;
 };
 
-#endif // TCOLORBUTTON_H
+#endif // TNOOTKALABEL_H

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
- *   tomaszbojczuk@gmail.com                                               *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,34 +12,36 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCLAEPREVIEWLABEL_H
-#define TSCLAEPREVIEWLABEL_H
 
-#include <tnote.h>
-#include <widgets/troundedlabel.h>
+#ifndef SELECT7NOTE_H
+#define SELECT7NOTE_H
 
+#include "nootkamiscglobal.h"
+#include <QWidget>
+#include <QRadioButton>
 
-/** This is a QLabel subclass that displays note names of C-major scale in given style.
- * If withAccids is set to true additional line with some notes with accidentals is displayed. */
-class TscalePreviewLabel : public TroundedLabel
+class NOOTKAMISC_EXPORT Select7note : public QWidget
 {
-
+    Q_OBJECT
 public:
-		explicit TscalePreviewLabel(Tnote::EnameStyle style, bool withAccids = true, QWidget* parent = 0);
-		
-		void changeStyle(Tnote::EnameStyle style);
-				/** Enables/disables line with accidentals. changeStyle() has to be called after to refresh. */
-		void enableAccidsLabel(bool enable) { m_withAccids = enable; }
-		
-private:
-		bool m_withAccids;
+    explicit Select7note(QWidget *parent = 0);
+    void set7th_B (bool isB);
+    bool is7th_B () { return isBRadio->isChecked(); }
 
+signals:
+    void seventhIsBchanged (bool isB);
+
+
+private:
+    QRadioButton *isBRadio, *isHRadio;
+
+private slots:
+    void namechanged();
 
 };
 
-#endif // TSCLAEPREVIEWLABEL_H
-
+#endif // SELECT7NOTE_H

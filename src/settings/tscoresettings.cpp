@@ -18,16 +18,16 @@
 
 
 #include "tscoresettings.h"
-#include "tglobals.h"
-#include "tkeysignature.h"
-#include "widgets/tcolorbutton.h"
-#include "tselectclef.h"
 #include "tnotationradiogroup.h"
-#include "tcolor.h"
-#include <tnotepixmap.h>
+#include "tcolorbutton.h"
+#include <tglobals.h>
+#include <music/tkeysignature.h>
+#include <widgets/tselectclef.h>
+#include <tcolor.h>
+#include <graphics/tnotepixmap.h>
 #include <tfirstrunwizzard.h>
-#include <tnamestylefilter.h>
-#include <QtGui>
+#include <music/tnamestylefilter.h>
+#include <QtWidgets>
 
 extern Tglobals *gl;
 

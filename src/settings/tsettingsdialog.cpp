@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "tsettingsdialog.h"
-#include "tglobals.h"
 #include "texamsettings.h"
 #include "tguitarsettings.h"
 #include "tscoresettings.h"
@@ -25,11 +24,12 @@
 #include "tglobalsettings.h"
 #include "audioinsettings.h"
 #include "audiooutsettings.h"
-#include "taudioparams.h"
-#include "trtaudioabstract.h"
-#include "tmidiout.h"
-#include "tfirstrunwizzard.h"
-#include <QtGui>
+#include <taudioparams.h>
+#include <trtaudio.h>
+#include <tmidiout.h>
+#include <tglobals.h>
+#include <tfirstrunwizzard.h>
+#include <QtWidgets>
 
 
 extern Tglobals *gl;
@@ -46,7 +46,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
 {
     setWindowTitle("Nootka - " + tr("application's settings"));
 
-    navList->setFixedWidth(110);
+//     navList->setFixedWidth(110);
     navList->addItem(tr("Common"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/global.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
@@ -149,7 +149,7 @@ void TsettingsDialog::restoreDefaults() {
 
 
 void TsettingsDialog::allDefaultsRequired() {
-		resetConfig = true;
+// 		resetConfig = true;
 		close();
 }
 

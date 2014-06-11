@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
 #ifndef TFIRSTRUNWIZZARD_H
 #define TFIRSTRUNWIZZARD_H
 
+#include "nootkamiscglobal.h"
 #include <QDialog>
 
 class QVBoxLayout;
@@ -37,7 +38,7 @@ class TmainHelp;
 class Select7note;
 class TselectInstrument;
 
-class TfirstRunWizzard : public QDialog
+class NOOTKAMISC_EXPORT TfirstRunWizzard : public QDialog
 {
     Q_OBJECT
 public:

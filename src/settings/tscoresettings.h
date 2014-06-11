@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk  				                   *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,8 @@
 #ifndef SCORESETTINGS_H
 #define SCORESETTINGS_H
 
-#include "tnote.h"
-#include "tclef.h"
+#include <music/tnote.h>
+#include <music/tclef.h>
 #include <QWidget>
 
 
