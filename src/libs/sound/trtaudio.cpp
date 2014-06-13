@@ -94,7 +94,11 @@ int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBuff
 																		 double streamTime, RtAudioStreamStatus status, void* userData) {
 	Q_UNUSED (streamTime)
 	Q_UNUSED (userData)
-	if (m_cbOut && m_cbOut(outBuffer, nBufferFrames, status))
+	if (m_cbOut) {
+		if (m_cbOut(outBuffer, nBufferFrames, status))
+			if (m_cbIn)
+				m_cbIn(inBuffer, nBufferFrames, status);
+	} else 
 			if (m_cbIn)
 				m_cbIn(inBuffer, nBufferFrames, status);
 	return 0;
@@ -107,10 +111,15 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 	m_audioParams(audioP),
 	m_type(type)
 {
-	if (m_type == e_input)
+	if (m_type == e_input) {
 		m_cbIn = cb;
-	else
+		if (!m_inParams)
+			m_inParams = new RtAudio::StreamParameters;
+	} else {
 		m_cbOut = cb;
+		if (!m_outParams)
+			m_outParams = new RtAudio::StreamParameters;
+	}
 	if (!streamOptions) {
 			streamOptions = new RtAudio::StreamOptions;
 			streamOptions->streamName = "Nootka";
@@ -123,6 +132,7 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 
 TrtAudio::~TrtAudio()
 {
+	closeStram();
 	if (m_type == e_input && m_inParams) {
 		deleteInParams();
 		m_cbIn = 0;
@@ -138,6 +148,7 @@ TrtAudio::~TrtAudio()
 		streamOptions = 0;
 		delete m_ao;
 		m_ao = 0;
+		qDebug() << "RtAudio instance totally deleted";
 	}
 		
 }
@@ -146,15 +157,7 @@ TrtAudio::~TrtAudio()
 void TrtAudio::updateAudioParams() {
 	qDebug() << "updateAudioParams";
 	m_isOpened = false;
-	if (audioParams()->INenabled) {
-		if (!m_inParams)
-			m_inParams = new RtAudio::StreamParameters;
-	} else 
-		return;
-// input and output parameters are deleted with in/out class objects when in or out is disabled
-	if (audioParams()->OUTenabled)
-		if (!m_outParams)
-			m_outParams = new RtAudio::StreamParameters;
+	closeStram();
 // preparing devices
 	int inDevId = -1, outDevId = -1;
   int devCount = rtDevice()->getDeviceCount();
@@ -165,10 +168,10 @@ void TrtAudio::updateAudioParams() {
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
         if (getDeviceInfo(devInfo, i)) {
           if (devInfo.probed) {
-						if (audioParams()->INenabled && QString::fromStdString(devInfo.name) == audioParams()->INdevName) {
+						if (/*audioParams()->INenabled*/ m_inParams && QString::fromStdString(devInfo.name) == audioParams()->INdevName) {
 							inDevId = i;
 						}
-						if (audioParams()->OUTenabled && QString::fromStdString(devInfo.name) == audioParams()->OUTdevName) {
+						if (/*audioParams()->OUTenabled*/ m_outParams && QString::fromStdString(devInfo.name) == audioParams()->OUTdevName) {
 							outDevId = i;
 						}
           }
@@ -193,9 +196,14 @@ void TrtAudio::updateAudioParams() {
 			}
 		}
 		// Default ALSA device can be set only when both devices are undeclared
-		if (inDevId == -1 && outDevId == -1 && rtDevice()->getCurrentApi() != RtAudio::LINUX_ALSA) {
+		if (inDevId == -1 && outDevId == -1 && rtDevice()->getCurrentApi() == RtAudio::LINUX_ALSA) {
+			qDebug() << "Trying to set ALSA default";
 			streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
 			m_isAlsaDefault = true;
+			if (m_inParams) // As long as ALSA ignores device id for its default the id has to be correct number (0 - devCount - 1)
+				inDevId = 0;
+			if (m_outParams)
+				outDevId = 0;
 		}
   }
 // setting device parameters
@@ -210,11 +218,15 @@ void TrtAudio::updateAudioParams() {
 		m_outParams->firstChannel = 0;
 	}
 	RtAudio::DeviceInfo inDevInfo, outDevInfo;
+	quint32 inSR = 0, outSR = 0;
 	if (m_inParams && !getDeviceInfo(inDevInfo, inDevId))
 		deleteInParams();
+	else
+		inSR = determineSampleRate(inDevInfo);
 	if (m_outParams && !getDeviceInfo(outDevInfo, outDevId))
 		deleteOutParams();
-	quint32 inSR = determineSampleRate(inDevInfo), outSR = determineSampleRate(outDevInfo);
+	else
+		outSR = determineSampleRate(outDevInfo);
 // 	if (inSR != outSR)
 	m_sampleRate = qMax(inSR, outSR);
 	
@@ -246,14 +258,20 @@ bool TrtAudio::openStream() {
 					ao()->emitStreamOpened();
 					if (!m_isOpened) { // print info once per new params set
 						if (m_isAlsaDefault) {
-							m_inDevName = "ALSA default";
-							m_outDevName = "ALSA default";
+							if (m_inParams)
+								m_inDevName = "ALSA default";
+							if (m_outParams)
+								m_outDevName = "ALSA default";
 						} else {
-							m_inDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_inParams->deviceId).name.data());
-							m_outDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_outParams->deviceId).name.data());
+							if (m_inParams)
+								m_inDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_inParams->deviceId).name.data());
+							if (m_outParams)
+								m_outDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_outParams->deviceId).name.data());
 						}
-						qDebug() << "IN:" << m_inDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
-						qDebug() << "OUT:" << m_outDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
+						if (m_inParams)
+							qDebug() << "IN:" << m_inDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
+						if (m_outParams)
+							qDebug() << "OUT:" << m_outDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
 						m_isOpened = true;
 					}
 					return true;
@@ -304,7 +322,7 @@ void TrtAudio::closeStram() {
     stopStream();
     if (rtDevice() && rtDevice()->isStreamOpen())
       rtDevice()->closeStream();
-// 		qDebug("stream closed");
+		qDebug("stream closed");
   }
   catch (RtAudioError& e) {
     qDebug() << "can't close stream";

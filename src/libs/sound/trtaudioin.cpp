@@ -135,7 +135,11 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
 void TaudioIN::startListening() {
-	qDebug() << "startListening";
+	if (!streamParams()) {
+		qDebug() << "Can not start listening due to uninitialized input";
+		return;
+	} else
+		qDebug() << "startListening";
 	m_maxPeak = 0;
 	m_stopped = false;
 	startStream();

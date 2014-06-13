@@ -191,6 +191,8 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
 Channel::~Channel()
 {
   delete fastSmooth;
+	mutex->tryLock(); // wait for performed routines
+	mutex->unlock();
   delete mutex;
   delete highPassFilter;
 }

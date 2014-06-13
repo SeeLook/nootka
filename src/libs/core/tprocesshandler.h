@@ -23,6 +23,7 @@
 #include <nootkacoreglobal.h>
 #include <QStringList>
 
+
 class QProcess;
 
 /*
@@ -46,6 +47,7 @@ protected slots:
 private:
 	QProcess					 *m_process;
 	QString							m_exec, m_lastWord;
+
 };
 
 #endif // TPROCESSHANDLER_H

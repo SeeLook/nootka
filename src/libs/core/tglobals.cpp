@@ -69,6 +69,9 @@ Tglobals::Tglobals(bool fromTemp) :
 	QCoreApplication::setOrganizationDomain("nootka.sf.net");
 	QCoreApplication::setApplicationName("Nootka");
 
+	E = new TexamParams();
+	A = new TaudioParams();
+	
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
 	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
@@ -201,7 +204,6 @@ doubleAccidentalsEnabled = true;
 
 	
 // Exam settings
-	E = new TexamParams();
 	cfg->beginGroup("exam");
 			if (cfg->contains("questionColor"))
 					EquestionColor = cfg->value("questionColor").value<QColor>();
@@ -242,7 +244,6 @@ doubleAccidentalsEnabled = true;
 	cfg->endGroup();
 
 // Sound settings
-	A = new TaudioParams();
 	cfg->beginGroup("sound");
 		A->OUTenabled = cfg->value("outSoundEnabled", true).toBool();
 		A->OUTdevName = cfg->value("outDeviceName", "").toString();

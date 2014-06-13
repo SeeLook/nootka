@@ -20,6 +20,7 @@
 #include <QApplication>
 #include "tsettingsdialog.h"
 #include <tinitcorelib.h>
+#include <iostream>
 
 Tglobals *gl;
 
@@ -42,5 +43,11 @@ int main(int argc, char *argv[])
     settings.show();
 		
 		int retVal = a.exec();
-		return retVal;
+		if (settings.result() == QDialog::Accepted) {
+				std::cout << "Accepted";
+// 				qDebug() << "Accepted";
+		} else {
+				std::cout << "Canceled";
+				
+		}
 }

@@ -24,20 +24,22 @@
 #include <QDir>
 #include <QDebug>
 
+
+
 TprocessHandler::TprocessHandler(const QString& exec, QStringList& args, QObject* object) :
 	QObject(object),
 	m_exec(exec)
 {
 		m_exec = QDir::fromNativeSeparators(qApp->applicationDirPath() + "/" + exec);
-		m_process = new QProcess(this);
+		m_process = new QProcess;
 		m_process->setProcessChannelMode(QProcess::MergedChannels);
 		connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(processSays()));
+		connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(processSays()));
 #if defined(Q_OS_WIN32)
 		m_exec += ".exe";
 #endif
 		m_process->start(m_exec, args);
 		m_process->waitForFinished(-1);
-// 		qDebug() << m_process->readAll().data();
 }
 
 
@@ -45,7 +47,6 @@ TprocessHandler::~TprocessHandler()
 {
 	delete m_process;
 }
-
 
 void TprocessHandler::processSays() {
 	QTextStream stream(m_process);

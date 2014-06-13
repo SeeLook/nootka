@@ -123,6 +123,7 @@ void TsettingsDialog::saveSettings() {
 					gl->seventhIs_B = false;
 		}
 	}
+	gl->dumpToTemp();
 }
 
 

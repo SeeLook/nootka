@@ -92,9 +92,9 @@ void Tsound::acceptSettings() {
               deletePlayer(); // player was midi so delete
               createPlayer();
           } else { // just set new params to TaudioOUT
-//               TaudioOUT *aOut = static_cast<TaudioOUT*>(player);
-// 							aOut->updateAudioParams();
-//               aOut->setAudioOutParams();
+              TaudioOUT *aOut = static_cast<TaudioOUT*>(player);
+							aOut->updateAudioParams();
+              aOut->setAudioOutParams();
           }
         }
         if (player) {
@@ -129,13 +129,13 @@ void Tsound::acceptSettings() {
         m_pitchView->startVolume();
       }
     }
-    if (!paramsUpdated)
-				sniffer->updateAudioParams();
-    sniffer->setAudioInParams();
+//     if (!paramsUpdated)
+// 				sniffer->updateAudioParams();
+//     sniffer->setAudioInParams();
     m_pitchView->setIsVoice(gl->A->isVoice);
 		m_pitchView->setMinimalVolume(gl->A->minimalVol);
 		m_pitchView->setIntonationAccuracy(gl->A->intonation);
-		paramsUpdated = true;
+// 		paramsUpdated = true;
   } else {
     m_pitchView->setDisabled(true);
     if (sniffer)
@@ -144,13 +144,13 @@ void Tsound::acceptSettings() {
   if (player && player->type() == TabstractPlayer::e_audio) {
 		static_cast<TaudioOUT*>(player)->updateAudioParams();
 		static_cast<TaudioOUT*>(player)->setAudioOutParams();
-		static_cast<TaudioOUT*>(player)->open();
-		static_cast<TaudioOUT*>(player)->startAudio();
+// 		static_cast<TaudioOUT*>(player)->open();
+// 		static_cast<TaudioOUT*>(player)->startAudio();
 	} else if (sniffer) {
 		sniffer->updateAudioParams();
 		sniffer->setAudioInParams();
-		sniffer->open();
-		sniffer->startAudio();
+// 		sniffer->open();
+// 		sniffer->startAudio();
 	}
 }
 
@@ -170,12 +170,15 @@ void Tsound::setPitchView(TpitchView* pView) {
 
 
 void Tsound::prepareToConf() {
-  stopPlaying();
-  if (player)
+//   stopPlaying();
+  if (player) {
+		player->stop();
     player->deleteMidi();
+	}
   if (sniffer) {
     sniffer->stopListening();
     m_pitchView->stopVolume();
+		sniffer->terminate();
   }
 }
 
@@ -316,17 +319,18 @@ void Tsound::createSniffer() {
 }
 
 void Tsound::deletePlayer() {
-  if (player)
-    player->stop();
   if (player) {
-    player->deleteLater();
+    player->stop();
+//   if (player) {
+//     player->deleteLater();
+		delete player;
     player = 0;
   }
 }
 
 
 void Tsound::deleteSniffer() {
- delete sniffer;
+	delete sniffer;
   sniffer = 0;
 }
 

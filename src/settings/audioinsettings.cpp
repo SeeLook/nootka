@@ -486,8 +486,10 @@ void AudioInSettings::testSlot() {
 				pitchView->setAudioInput(m_audioIn);
 				connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 				connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
-		} else // set parameters to existing device
+		} else { // set parameters to existing device
+				m_audioIn->updateAudioParams();
 				m_audioIn->setAudioInParams();
+		}
     testButt->setText(stopTxt);
 		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
     m_audioIn->startListening();

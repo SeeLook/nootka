@@ -25,9 +25,6 @@
 #include <QMainWindow>
 
 class QPushButton;
-
-// class TanimedChBox;
-class QVBoxLayout;
 class TnootkaLabel;
 class TroundedLabel;
 class TmainScore;
@@ -67,7 +64,7 @@ public:
 
 public slots:
     void openFile(QString runArg); // opens *.nel or *.noo file
-//     void createSettingsDialog();
+    void createSettingsDialog();
     void openLevelCreator(QString levelFile = "");
 //     void startExamSlot();
 //     void aboutSlot();
@@ -146,7 +143,6 @@ private:
     int 									m_statFontSize;
 // 		int 									m_extraFontOffset;
     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
-    QPushButton						*m_menuButton;
 //     Tlevel 						    m_level;
 		bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;
