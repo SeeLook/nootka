@@ -175,7 +175,9 @@ void TpitchFinder::startPitchDetection() {
 				std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
 		else
 				std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+		m_mutex.unlock();
 		resetFinder();
+		m_mutex.lock();
 		std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
 	}
 	m_workChunk = m_filledBuff;

@@ -43,7 +43,6 @@
 // #include "tanalysdialog.h"
 // #include "tquestionpoint.h"
 #include <QtWidgets>
-// #include <complex>
 
 
 extern Tglobals *gl;
@@ -205,7 +204,7 @@ void MainWindow::createActions() {
     settingsAct = new QAction(tr("Settings"), this);
     settingsAct->setStatusTip(tr("Application preferences"));
     settingsAct->setIcon(QIcon(gl->path + "picts/systemsettings.png"));
-//     connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+    connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 
     levelCreatorAct = new QAction(this);
     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
@@ -340,46 +339,52 @@ void MainWindow::openFile(QString runArg) {
     }
 }
 
-/*
+
 void MainWindow::createSettingsDialog() {
-	TsettingsDialog *settings = new TsettingsDialog(this);
+// 	TsettingsDialog *settings = new TsettingsDialog(this);
 	sound->prepareToConf();
-	if (settings->exec() == QDialog::Accepted) {
-			delete settings;
+	gl->dumpToTemp();
+		QStringList args;
+	TprocessHandler settProcess("nootka-settings", args, this);
+
+// 	if (settings->exec() == QDialog::Accepted) {
+// 	qDebug() << "lastWord" << settProcess.lastWord() << gl->grabFromTemp();
+		if (settProcess.lastWord().contains("Accepted") && gl->grabFromTemp()) {
+// 			delete settings;
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			score->acceptSettings();
-			noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-			noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
-			noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
-			noteName->setStyle(gl->NnameStyleInNoteName);
+// 			noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+// 			noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
+// 			noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+// 			noteName->setStyle(gl->NnameStyleInNoteName);
 				// set new colors in exam view
-			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
-															Tcolor::bgTag(gl->EnotBadColor));
-			noteName->setAmbitus(gl->loString(),
-															Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
+// 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
+// 															Tcolor::bgTag(gl->EnotBadColor));
+// 			noteName->setAmbitus(gl->loString(),
+// 															Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
 			updateSize(innerWidget->size());
-			if (score->getNote(0).note != 0) {
-				TnotesList nList;
-				nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
-				if (nList[0].getChromaticNrOfNote() >= gl->loString().getChromaticNrOfNote() && 
-					nList[0].getChromaticNrOfNote() <= gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
-						if (gl->showEnharmNotes) { // refresh note name and score
-								noteName->setNoteName(nList);
-								if (nList.size() > 1)
-										score->setNote(1, nList[1]);
-								else {
-										score->clearNote(1);
-										score->clearNote(2);
-								}
-								if (nList.size() > 2)
-										score->setNote(2, nList[2]);
-								else
-										score->clearNote(2);
-						} else
-								noteName->setNoteName(nList[0]);
-				}
-			}
+// 			if (score->getNote(0).note != 0) {
+// 				TnotesList nList;
+// 				nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
+// 				if (nList[0].getChromaticNrOfNote() >= gl->loString().getChromaticNrOfNote() && 
+// 					nList[0].getChromaticNrOfNote() <= gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
+// 						if (gl->showEnharmNotes) { // refresh note name and score
+// // 								noteName->setNoteName(nList);
+// 								if (nList.size() > 1)
+// 										score->setNote(1, nList[1]);
+// 								else {
+// 										score->clearNote(1);
+// 										score->clearNote(2);
+// 								}
+// 								if (nList.size() > 2)
+// 										score->setNote(2, nList[2]);
+// 								else
+// 										score->clearNote(2);
+// 						} else
+// 								noteName->setNoteName(nList[0]);
+// 				}
+// 			}
 			if (gl->instrument != e_noInstrument) {
 					guitar->acceptSettings(); //refresh guitar
 			}
@@ -392,17 +397,17 @@ void MainWindow::createSettingsDialog() {
 			}
 			m_isPlayerFree = true;
 	} else { // settings not accepted
-			delete settings;
+// 			delete settings;
 			sound->restoreAfterConf();
 	}
 	if (resetConfig)
 			close();
 }
-*/
+
 
 void MainWindow::openLevelCreator(QString levelFile) {
-//     sound->wait(); // stops pitch detection
-//     sound->stopPlaying();
+    sound->wait(); // stops pitch detection
+    sound->stopPlaying();
     m_levelCreatorExist = true;
 		gl->dumpToTemp();
 		QStringList args;

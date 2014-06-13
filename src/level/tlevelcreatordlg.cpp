@@ -28,6 +28,7 @@
 #include <music/ttune.h>
 #include <widgets/troundedlabel.h>
 #include <QtWidgets>
+#include <iostream>
 
 extern Tglobals *gl;
 bool isNotSaved;
@@ -271,6 +272,7 @@ void TlevelCreatorDlg::loadLevelFile(QString levelFile) {
 
 
 void TlevelCreatorDlg::startExam() {
+		std::cout << selectedLevel().name.toLocal8Bit().data();
 		qDebug() << selectedLevel().name; // TODO return level file or its name
     accept();
 }

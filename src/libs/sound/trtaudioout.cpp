@@ -211,10 +211,8 @@ void TaudioOUT::stop() {
 
 void TaudioOUT::stopSlot() {
   offTimer->stop();
-//   if (/*rtDevice->getCurrentApi() == RtAudio::LINUX_PULSE || */rtDevice->getCurrentApi() == RtAudio::WINDOWS_DS) 
-			stopStream();
-// 	else
-			closeStram();
+// 	stopStream();
+	closeStram();
   if (doEmit)
     emit noteFinished();
 }
