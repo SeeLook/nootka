@@ -51,8 +51,10 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     realLay->addWidget(m_audioOutDevListCombo);
 		m_audioInstrCombo = new QComboBox(this);
 		realLay->addWidget(m_audioInstrCombo);
-
     realLay->addStretch(1);
+		m_playInputChB = new QCheckBox(tr("Play input"), this);
+		m_playInputChB->setChecked(m_params->forwardInput);
+		realLay->addWidget(m_playInputChB, 0, Qt::AlignCenter);
     m_realAGr->setLayout(realLay);
     audioOutLay->addWidget(m_realAGr);
     
@@ -102,6 +104,10 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     
     m_midiGr->setLayout(midilay);
     audioOutLay->addWidget(m_midiGr);
+		audioOutLay->addStretch();
+		
+		m_playDetectedChB = new QCheckBox(tr("Play detected notes"), this);
+		audioOutLay->addWidget(m_playDetectedChB, 0, Qt::AlignCenter);
 
     m_audioOutEnableGr->setLayout(audioOutLay);
       lay->addWidget(m_audioOutEnableGr);
@@ -168,6 +174,8 @@ void AudioOutSettings::saveSettings() {
     m_params->midiInstrNr = instruments[m_midiInstrCombo->currentIndex()].progNr;
     m_params->midiPortName = m_midiPortsCombo->currentText();
 		m_params->audioInstrNr = m_audioInstrCombo->currentIndex() + 1;
+		m_params->forwardInput = m_playInputChB->isChecked();
+		m_params->playDetected = m_playDetectedChB->isChecked();
   }
 }
 
@@ -178,6 +186,8 @@ void AudioOutSettings::restoreDefaults() {
 		m_audioOutDevListCombo->setCurrentIndex(0);
 		m_midiInstrCombo->setCurrentIndex(2); // classical guitar
 		m_audioInstrCombo->setCurrentIndex(0);
+		m_playDetectedChB->setChecked(false);
+		m_playInputChB->setChecked(false);
 }
 
 

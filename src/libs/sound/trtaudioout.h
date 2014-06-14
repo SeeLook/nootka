@@ -61,6 +61,7 @@ private slots:
 //   void emitNoteFinished() { emit noteFinished(); }
   void stopSlot();
 	void streamOpenedSlot();
+	void updateSlot() { setAudioOutParams(); }
     
 private:
   static int 			m_samplesCnt; /** Number of performed samples. */

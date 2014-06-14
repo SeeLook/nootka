@@ -196,9 +196,10 @@ void TpitchFinder::startPitchDetection() {
 
 
 void TpitchFinder::resetFinder() {
-	if (!m_mutex.tryLock())
+	if (!m_mutex.tryLock()) {
 		qDebug() << "Pitch detection in progress, have to wait for reset...";
-// 	m_mutex.lock();
+		m_mutex.lock();
+	}
   m_doReset = false;
   if (m_channel) {
       delete m_channel;

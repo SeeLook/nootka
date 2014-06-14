@@ -47,6 +47,8 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     setWindowTitle("Nootka - " + tr("application's settings"));
 
 //     navList->setFixedWidth(110);
+// 		navList->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+		navList->setResizeMode(QListView::Adjust);
     navList->addItem(tr("Common"));
     navList->item(0)->setIcon(QIcon(gl->path+"picts/global.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);

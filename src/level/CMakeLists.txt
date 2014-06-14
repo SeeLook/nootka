@@ -25,5 +25,5 @@ endif(MINGW)
 
 
 add_executable(nootka-level WIN32 ${LEVEL_SRC} )
-target_link_libraries(nootka-level NootkaCore Qt5::Widgets)
+target_link_libraries(nootka-level NootkaCore NootkaSound Qt5::Widgets)
 
