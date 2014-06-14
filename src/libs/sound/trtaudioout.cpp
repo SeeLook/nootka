@@ -126,6 +126,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
 	m_crossBuffer = new qint16[1000];
   connect(offTimer, SIGNAL(timeout()), this, SLOT(stopSlot()));
 	connect(ao(), SIGNAL(streamOpened()), this, SLOT(streamOpenedSlot()));
+	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
 }
 
 

@@ -22,19 +22,22 @@
 
 #include <QWidget>
 
+class QCheckBox;
 class TaudioParams;
 class QComboBox;
 class QGroupBox;
 class QRadioButton;
 
+
 class AudioOutSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit AudioOutSettings(TaudioParams *aParams, QWidget *parent = 0);
+	explicit AudioOutSettings(TaudioParams *aParams, QWidget *parent = 0);
 
-    void saveSettings();
-		void restoreDefaults();
+	void saveSettings();
+	void restoreDefaults();
+		
 		/** The structure describes midi program (instrument).
 		 * It has @param name 
 		 * and @param progNr which is midi instrument number  */
@@ -47,8 +50,7 @@ public:
   
       /** Generates devices list for inDeviceCombo QComboBox.*/
   void generateDevicesList();
-      /** Grabs devices list from AudioOut and fill audioOutDevListCombo */
-  void setDevicesCombo();
+  void setDevicesCombo(); /** Grabs devices list from TrtAudioOut and fill audioOutDevListCombo */
 	
 			/** This static method sets midi instr. or audio depends on given instrument
 			 * and previous midi state. */
@@ -60,11 +62,12 @@ public slots:
 private:
 	void addInstrument(QString name, unsigned char midiNr);
 
-  QGroupBox *m_audioOutEnableGr, *m_realAGr, *m_midiGr;
-  QComboBox *m_audioOutDevListCombo, *m_audioInstrCombo ,*m_midiPortsCombo, *m_midiInstrCombo;
-  QRadioButton *m_midiRadioButt, *m_audioRadioButt;
-  TaudioParams *m_params;
-  bool m_listGenerated;
+  QGroupBox 				*m_audioOutEnableGr, *m_realAGr, *m_midiGr;
+  QComboBox 				*m_audioOutDevListCombo, *m_audioInstrCombo ,*m_midiPortsCombo, *m_midiInstrCombo;
+  QRadioButton 			*m_midiRadioButt, *m_audioRadioButt;
+	QCheckBox					*m_playInputChB, *m_playDetectedChB;
+  TaudioParams 			*m_params;
+  bool 							 m_listGenerated;
 	
 private slots:
 	void audioOrMidiChanged();

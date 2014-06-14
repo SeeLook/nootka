@@ -18,7 +18,8 @@
 
 #include "trtaudioin.h"
 #include "tpitchfinder.h"
-#include <taudioparams.h>
+#include "taudioobject.h"
+#include "taudioparams.h"
 #include <QDebug>
 
 
@@ -84,6 +85,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
   connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
   connect(m_pitch, SIGNAL(volume(float)), this, SLOT(volumeSlot(float)));
+	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
 }
 
 TaudioIN::~TaudioIN()

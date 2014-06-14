@@ -89,6 +89,7 @@ private slots:
   void pitchFreqFound(float pitch, float freq);
   void pitchInChunkSlot(float pitch);
   void volumeSlot(float vol);
+	void updateSlot() { setAudioInParams(); }
   
   
 private:  

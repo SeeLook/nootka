@@ -36,10 +36,11 @@ public:
 	explicit TaudioObject(QObject* parent = 0) : QObject(parent) {}
 	
 	void emitStreamOpened() { emit streamOpened(); }
+	void emitParamsUpdated() { emit paramsUpdated(); }
 	
 signals:
 	void streamOpened();
-	
+	void paramsUpdated(); /** Emitted after @p TrtAudio::updateAudioParams()  */
 	
 };
 

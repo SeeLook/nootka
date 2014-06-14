@@ -125,8 +125,10 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 			streamOptions->streamName = "Nootka";
 			m_ao = new TaudioObject();
 	}
+	ao()->blockSignals(true);
 	createRtAudio();
 	updateAudioParams();
+	ao()->blockSignals(false);
 }
 
 
@@ -168,10 +170,10 @@ void TrtAudio::updateAudioParams() {
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
         if (getDeviceInfo(devInfo, i)) {
           if (devInfo.probed) {
-						if (/*audioParams()->INenabled*/ m_inParams && QString::fromStdString(devInfo.name) == audioParams()->INdevName) {
+						if (m_inParams && QString::fromStdString(devInfo.name) == audioParams()->INdevName) {
 							inDevId = i;
 						}
-						if (/*audioParams()->OUTenabled*/ m_outParams && QString::fromStdString(devInfo.name) == audioParams()->OUTdevName) {
+						if (m_outParams && QString::fromStdString(devInfo.name) == audioParams()->OUTdevName) {
 							outDevId = i;
 						}
           }
@@ -229,7 +231,7 @@ void TrtAudio::updateAudioParams() {
 		outSR = determineSampleRate(outDevInfo);
 // 	if (inSR != outSR)
 	m_sampleRate = qMax(inSR, outSR);
-	
+	ao()->emitParamsUpdated();
 }
 
 
