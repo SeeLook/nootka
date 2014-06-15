@@ -19,6 +19,7 @@
 
 #include "trtaudioout.h"
 #include "taudioobject.h"
+#include "toggscale.h"
 #include <taudioparams.h>
 #include <QDebug>
 #include <QTimer>
@@ -122,9 +123,9 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
   setAudioOutParams();
 	m_samplesCnt = 10000;
   instance = this;
-  offTimer = new QTimer();
+//   offTimer = new QTimer();
 	m_crossBuffer = new qint16[1000];
-  connect(offTimer, SIGNAL(timeout()), this, SLOT(stopSlot()));
+//   connect(offTimer, SIGNAL(timeout()), this, SLOT(stopSlot()));
 	connect(ao(), SIGNAL(streamOpened()), this, SLOT(streamOpenedSlot()));
 	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
 }
@@ -132,7 +133,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
 
 TaudioOUT::~TaudioOUT() 
 {
-  delete offTimer;
+//   delete offTimer;
   delete oggScale;
 	if (m_crossBuffer)
 		delete m_crossBuffer;
@@ -140,7 +141,7 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams() {
-	qDebug() << "setAudioOutParams";
+// 	qDebug() << "setAudioOutParams";
 	playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
 	if (playable && streamParams()) {
 			ratioOfRate = sampleRate() / 44100;
@@ -160,12 +161,12 @@ void TaudioOUT::setAudioOutParams() {
 
 void TaudioOUT::streamOpenedSlot() {
 	m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
-	qDebug() << "m_maxCBloops" << m_maxCBloops;
+// 	qDebug() << "m_maxCBloops" << m_maxCBloops;
 }
 
 
 bool TaudioOUT::play(int noteNr) {
-  if (!playable)
+  if (!playable || audioParams()->forwardInput) // if forwarding is enabled play() makes no sense
       return false;
   
 	while (m_callBackIsBussy) {
@@ -195,26 +196,13 @@ bool TaudioOUT::play(int noteNr) {
   m_samplesCnt = -1;
 //   if (loops)
 //        qDebug() << "latency:" << loops << "ms";
-//   offTimer->start(1600);
   return startStream();
-// 	return true;
 }
 
 
 void TaudioOUT::stop() {
-  if (offTimer->isActive()) {
-    offTimer->stop();
-    doEmit = false;
-    stopSlot();
-  }
-}
-
-
-void TaudioOUT::stopSlot() {
-  offTimer->stop();
-// 	stopStream();
 	closeStram();
-  if (doEmit)
-    emit noteFinished();
 }
+
+
 

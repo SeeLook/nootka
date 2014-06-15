@@ -90,6 +90,7 @@ private:
   Tnote 			m_detectedNote; // detected note
   bool 				m_examMode;
 	Tnote				m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stroed during an exam
+	bool 				m_midiPlays;
   
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
