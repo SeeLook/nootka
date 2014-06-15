@@ -99,6 +99,8 @@ protected:
 private:
 		static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
                          RtAudioStreamStatus status, void *userData);
+		static int passInputCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
+                         RtAudioStreamStatus status, void *userData);
     
 private:
 		TaudioParams													*m_audioParams;
@@ -113,7 +115,7 @@ private:
 		bool																	 m_isOpened;
 		static callBackType										 m_cbIn, m_cbOut;
 		static TaudioObject										*m_ao;
-        
+		static RtAudioCallback								 m_callBack;
 };
 
 #endif // TRTAUDIOABSTRACT_H

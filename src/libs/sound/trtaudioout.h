@@ -24,11 +24,13 @@
 #include "nootkacoreglobal.h"
 #include "tabstractplayer.h"
 #include "trtaudio.h"
-#include "toggscale.h"
 #include <QStringList>
 
-class TaudioParams;
+class ToggScale;
 
+/** 
+ * 
+ */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
 {
   Q_OBJECT
@@ -42,9 +44,7 @@ public:
           /** Starts playing given note and then returns true, otherwise gets false. */
     bool play(int noteNr);
     void setAudioOutParams();
-        
-        /** Immediately stops playing. Emits nothing */
-    void stop();
+    void stop(); /** Immediately stops playing. */
     
 protected:
 		static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
@@ -58,8 +58,6 @@ protected:
     int     				 							 ratioOfRate; // ratio of current sample rate to 44100
 
 private slots:
-//   void emitNoteFinished() { emit noteFinished(); }
-  void stopSlot();
 	void streamOpenedSlot();
 	void updateSlot() { setAudioOutParams(); }
     

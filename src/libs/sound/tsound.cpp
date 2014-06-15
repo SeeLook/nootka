@@ -61,12 +61,15 @@ void Tsound::play(Tnote note) {
   bool playing = false;
   if (player && note.note)
 			playing = player->play(note.getChromaticNrOfNote());
-//   if (playing) { // true if playing was started
-//     if (sniffer) { // pause sniffer if note was started
-//       sniffer->wait();
-//       m_pitchView->stopVolume();
-//     }
-//   }
+  if (playing && !gl->A->playDetected && player->type() == TabstractPlayer::e_midi) {
+    if (sniffer) { // pause sniffer if midi output was started
+			if (!m_midiPlays) { // stop listenning just once
+				sniffer->stopListening();
+				m_pitchView->stopVolume();
+				m_midiPlays = true;
+			}
+    }
+  }
 }
 
 
@@ -102,18 +105,9 @@ void Tsound::acceptSettings() {
     if (!sniffer) {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
-// 			doParamsUpdated = false; // snifer was created and updateParams was called for out and in
-//       if (m_pitchView->isPaused())
-// 					sniffer->stopListening();
-//       else
-// 					m_pitchView->startVolume();
     }
     else {
       setDefaultAmbitus();
-//       if (!m_pitchView->isPaused()) { // and pause button
-// //         sniffer->startListening();
-//         m_pitchView->startVolume();
-//       }
       doParamsUpdated = true;
     }
     m_pitchView->setIsVoice(gl->A->isVoice);
@@ -125,7 +119,6 @@ void Tsound::acceptSettings() {
       deleteSniffer();
   }
   if (doParamsUpdated) {
-		qDebug() << "Tsound invokes update";
 			if (player && player->type() == TabstractPlayer::e_audio) {
 					static_cast<TaudioOUT*>(player)->updateAudioParams();
 			} else if (sniffer) {
@@ -287,11 +280,12 @@ void Tsound::setDefaultAmbitus() {
 //------------------------------------------------------------------------------------
 
 void Tsound::createPlayer() {
-  if (gl->A->midiEnabled)
+  if (gl->A->midiEnabled) {
     player = new TmidiOut(gl->A);
-  else
+		connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
+		m_midiPlays = false;
+	} else
     player = new TaudioOUT(gl->A, gl->path);
-  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 }
 
 
@@ -327,8 +321,9 @@ void Tsound::playingFinishedSlot() {
 //   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
     if (!m_pitchView->isPaused()) {
-//         sniffer->go();
+        sniffer->startListening();
         m_pitchView->startVolume();
+				m_midiPlays = false;
     }
   }
   emit plaingFinished();
@@ -336,8 +331,10 @@ void Tsound::playingFinishedSlot() {
 }
 
 void Tsound::noteDetectedSlot(Tnote note) {
+	//  qDebug() << "Tsound: got note" << note.toText();
+	if (player && gl->A->playDetected)
+		play(note);
   m_detectedNote = note;
-//  qDebug() << "Tsound: got note" << note.toText();
   emit detectedNote(note);
 }
 

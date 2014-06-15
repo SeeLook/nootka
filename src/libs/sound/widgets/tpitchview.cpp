@@ -100,18 +100,20 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
 
 
 void TpitchView::startVolume() {
-	m_prevVolume = -1.0;
+// 	m_prevVolume = -1.0;
 	m_prevPitch = -1.0;
   if (m_audioIN) {
 		connect(m_volMeter, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
     m_volMeter->setDisabled(false);
     m_volTimer->start(75);
+// 		qDebug() << "startVolume";
   }
 }
 
 
 void TpitchView::stopVolume() {
-   QTimer::singleShot(600, this, SLOT(stopTimerDelayed()));
+//    QTimer::singleShot(600, this, SLOT(stopTimerDelayed()));
+	stopTimerDelayed();
 }
 
 
@@ -218,10 +220,10 @@ void TpitchView::updateLevel() {
       case 7 : a = 40;  break;
     }
   m_hideCnt++;
-			m_volMeter->setVolume(m_audioIN->maxPeak(), a);
+	m_volMeter->setVolume(m_audioIN->maxPeak(), a);
 	if (m_intoView->accuracy() != TintonationView::e_noCheck && m_prevPitch != m_audioIN->lastChunkPitch())
 			m_intoView->pitchSlot(m_audioIN->lastChunkPitch());
-	m_prevVolume = m_audioIN->maxPeak();
+// 	m_prevVolume = m_audioIN->maxPeak();
 	m_prevPitch = m_audioIN->lastChunkPitch();
 }
 
@@ -281,5 +283,6 @@ void TpitchView::stopTimerDelayed() {
    m_volMeter->setVolume(0.0);
 	 m_volMeter->setVolume(0.0); // it has to be called twice to reset
    m_intoView->pitchSlot(0.0);
+// 	 qDebug() << "volume stopped";
 }
 

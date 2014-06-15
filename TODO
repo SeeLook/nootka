@@ -19,7 +19,6 @@ analyzer executable
 
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so
-- add option of playing sound during capture
 - add option for configuring fret marks (dots)
 - better and equal algorithm of questioning
 - add setFlag(ItemHasNoContents) to QGraphicsItem sub-classes don't has a paint() - used as containers only

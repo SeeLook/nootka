@@ -38,6 +38,7 @@ QString 													TrtAudio::m_outDevName = "anything";
 TrtAudio::callBackType				 		TrtAudio::m_cbIn = 0;
 TrtAudio::callBackType 						TrtAudio::m_cbOut = 0;
 TaudioObject*											TrtAudio::m_ao = 0;
+RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 
 
 void TrtAudio::createRtAudio() {
@@ -103,6 +104,22 @@ int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBuff
 				m_cbIn(inBuffer, nBufferFrames, status);
 	return 0;
 }
+
+
+int TrtAudio::passInputCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames,
+																double streamTime, RtAudioStreamStatus status, void* userData) {
+	Q_UNUSED (streamTime)
+	Q_UNUSED (userData)
+	qint16 *in = (qint16*)inBuffer;
+	qint16 *out = (qint16*)outBuffer;
+	for (int i = 0; i < nBufferFrames; i++) {
+			*out++ = *(in + i); // left channel
+			*out++ = *(in + i); // right channel
+	}
+	m_cbIn(inBuffer, nBufferFrames, status);
+	return 0;
+}
+
 
 /*----------------------------------------------------------------------------------------------*/
 
@@ -199,7 +216,6 @@ void TrtAudio::updateAudioParams() {
 		}
 		// Default ALSA device can be set only when both devices are undeclared
 		if (inDevId == -1 && outDevId == -1 && rtDevice()->getCurrentApi() == RtAudio::LINUX_ALSA) {
-			qDebug() << "Trying to set ALSA default";
 			streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
 			m_isAlsaDefault = true;
 			if (m_inParams) // As long as ALSA ignores device id for its default the id has to be correct number (0 - devCount - 1)
@@ -231,6 +247,10 @@ void TrtAudio::updateAudioParams() {
 		outSR = determineSampleRate(outDevInfo);
 // 	if (inSR != outSR)
 	m_sampleRate = qMax(inSR, outSR);
+	if (audioParams()->forwardInput && m_inParams && m_outParams)
+			m_callBack = &passInputCallBack;
+	else
+			m_callBack = &duplexCallBack;
 	ao()->emitParamsUpdated();
 }
 
@@ -254,8 +274,8 @@ bool TrtAudio::openStream() {
 	try {
     if (rtDevice() && !rtDevice()->isStreamOpen()) {
 				rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(),
-															 &m_bufferFrames, &duplexCallBack, 0, streamOptions);
-				qDebug() << "openStream";
+															 &m_bufferFrames, m_callBack, 0, streamOptions);
+// 				qDebug() << "openStream";
 				if (rtDevice()->isStreamOpen()) {
 					ao()->emitStreamOpened();
 					if (!m_isOpened) { // print info once per new params set
@@ -296,7 +316,7 @@ bool TrtAudio::startStream() {
   try {
     if (rtDevice() && !rtDevice()->isStreamRunning()) {
       rtDevice()->startStream();
-			qDebug("stream started");
+// 			qDebug("stream started");
 		}
   }
   catch (RtAudioError& e) {
@@ -324,7 +344,7 @@ void TrtAudio::closeStram() {
     stopStream();
     if (rtDevice() && rtDevice()->isStreamOpen())
       rtDevice()->closeStream();
-		qDebug("stream closed");
+// 		qDebug("stream closed");
   }
   catch (RtAudioError& e) {
     qDebug() << "can't close stream";

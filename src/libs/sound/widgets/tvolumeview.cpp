@@ -74,7 +74,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   painter.drawRoundedRect(painter.viewport(), 4, 4);
   painter.setPen(noteColor);
   painter.setFont(nootFont);
-  painter.drawText(0, 0, width(), height(), Qt::AlignRight, "n");
+  painter.drawText(0, -1, width(), height(), Qt::AlignRight, "n");
   qreal tickWidth = TICK_WIDTH - 1.0;
   for (int i = 1; i < m_ticksCount - 2; i++) {
     if (i >= m_ticksCount * m_minVolume)

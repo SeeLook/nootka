@@ -54,7 +54,6 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
     if (status)
         qDebug() << "Stream over detected!";
     qint16 *in = (qint16*)inBuff;
-		float* inF = (float*)inBuff;
 		qint16 value;
     for (int i = 0; i < nBufferFrames; i++) {
 					value = *(in + i);
@@ -73,7 +72,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
     TrtAudio(params, e_input, inCallBack),
     m_pitch(0),
-    m_maxPeak(0),
+    m_maxPeak(0.0),
     m_paused(false), m_stopped(true),
     m_lastPich(0.0f)
 {
@@ -101,13 +100,13 @@ TaudioIN::~TaudioIN()
 //------------------------------------------------------------------------------------
 
 void TaudioIN::setAudioInParams() {
-	qDebug() << "setAudioInParams";
+// 	qDebug() << "setAudioInParams";
   m_pitch->setIsVoice(audioParams()->isVoice);
 	setMinimalVolume(audioParams()->minimalVol);
 	m_pitch->setMinimalDuration(audioParams()->minDuration);
 
 	m_pitch->setSampleRate(sampleRate(), audioParams()->range); // framesPerChunk is determined here
-	m_maxPeak = 0;
+	m_maxPeak = 0.0;
 }
 
 
@@ -138,17 +137,19 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 //------------------------------------------------------------------------------------
 void TaudioIN::startListening() {
 	if (!streamParams()) {
-		qDebug() << "Can not start listening due to uninitialized input";
-		return;
+			qDebug() << "Can not start listening due to uninitialized input";
+			return;
 	} else
-		qDebug() << "startListening";
-	m_maxPeak = 0;
+// 		qDebug() << "startListening";
+	m_maxPeak = 0.0;
 	m_stopped = false;
 	startStream();
 }
 
 
 void TaudioIN::stopListening() {
+	m_maxPeak = 0.0;
+	m_LastChunkPitch = 0.0;
 	m_stopped = true;
 	m_paused = false;
 	m_pitch->resetFinder();

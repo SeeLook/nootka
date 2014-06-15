@@ -207,7 +207,7 @@ void TpitchFinder::resetFinder() {
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-      qDebug() << "reset channel";
+//       qDebug() << "reset channel";
   }
   m_mutex.unlock();
 }

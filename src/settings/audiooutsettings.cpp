@@ -53,13 +53,13 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 		realLay->addWidget(m_audioInstrCombo);
     realLay->addStretch(1);
 		m_playInputChB = new QCheckBox(tr("Play input"), this);
-		m_playInputChB->setChecked(m_params->forwardInput);
-		realLay->addWidget(m_playInputChB, 0, Qt::AlignCenter);
+			m_playInputChB->setChecked(m_params->forwardInput);
+			m_playInputChB->setStatusTip(tr("All audio input data will be redirected directly to output device."));
+		realLay->addWidget(m_playInputChB, 0, Qt::AlignLeft);
     m_realAGr->setLayout(realLay);
     audioOutLay->addWidget(m_realAGr);
     
     m_midiRadioButt = new QRadioButton(tr("midi playback"), this);
-//     m_midiRadioButt->setStatusTip(tr("Artificial, low quality sound (depends on hardware)<br>but there is possibility to select an instrument<br>and whole scale can be played."));
     audioOutLay->addWidget(m_midiRadioButt);
     m_midiGr = new QGroupBox(this);
     m_midiGr->setStatusTip(m_midiRadioButt->statusTip());
@@ -70,16 +70,6 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     m_midiPortsCombo = new QComboBox(this);
     midiParamLay->addWidget(m_midiPortsCombo, 1, 0);
     m_midiPortsCombo->addItems(TmidiOut::getMidiPortsList());
-//     if (m_params->midiPortName != "") {
-//       if (midiPortsCombo->count()) {
-//         int id = midiPortsCombo->findText(m_params->midiPortName);
-//         if (id != -1)
-//           midiPortsCombo->setCurrentIndex(id);		
-//       } else {
-//         midiPortsCombo->addItem(tr("no midi ports"));
-//         midiPortsCombo->setDisabled(true);
-//       }
-//     }
     QLabel *midiInstrLab = new QLabel(tr("instrument"), this);
     midiParamLay->addWidget(midiInstrLab, 2, 0);
     m_midiInstrCombo = new QComboBox(this);
@@ -107,7 +97,9 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 		audioOutLay->addStretch();
 		
 		m_playDetectedChB = new QCheckBox(tr("Play detected notes"), this);
-		audioOutLay->addWidget(m_playDetectedChB, 0, Qt::AlignCenter);
+			m_playDetectedChB->setChecked(m_params->playDetected);
+			m_playDetectedChB->setStatusTip(tr("Pitch-detected notes will be played with sound type defined here.<br>Delay depends on pitch detection settings."));
+		audioOutLay->addWidget(m_playDetectedChB, 0, Qt::AlignLeft);
 
     m_audioOutEnableGr->setLayout(audioOutLay);
       lay->addWidget(m_audioOutEnableGr);
@@ -200,6 +192,7 @@ void AudioOutSettings::audioOrMidiChanged() {
 	} else {
 		m_realAGr->setDisabled(true);
 		m_midiGr->setDisabled(false);
+		m_playInputChB->setChecked(false);
 	}
 }
 
