@@ -30,6 +30,7 @@
 #include <music/ttune.h>
 #include <score/tsimplescore.h>
 #include <taudioparams.h>
+#include <tscoreparams.h>
 #include "tscalepreviewlabel.h"
 #include <QtWidgets>
 
@@ -85,19 +86,19 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     
     // grab 7-th note from translation
     if (Tpage_3::note7txt().toLower() == "b") {
-        gl->seventhIs_B = true; // rest NnameStyleInNoteName
+        gl->S->seventhIs_B = true; // rest S->nameStyleInNoteName
         if (m_page3->keyNameStyle() == "solfege")
-          gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+          gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
         else
-          gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
+          gl->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
     }
     else {
-        gl->seventhIs_B = false;
-        gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+        gl->S->seventhIs_B = false;
+        gl->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
         if (m_page3->keyNameStyle() == "solfege")
-          gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+          gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
         else
-          gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
+          gl->S->nameStyleInKeySign = Tnote::e_deutsch_His;
     }
 
     connect(m_skipButt, SIGNAL(clicked()), this, SLOT(close()));
@@ -147,36 +148,36 @@ void TfirstRunWizzard::nextSlot() {
         break;
     case 4 :
         if (m_page3->select7->is7th_B()) {
-            gl->seventhIs_B = true;
-            gl->NnameStyleInNoteName = Tnote::e_english_Bb;
+            gl->S->seventhIs_B = true;
+            gl->S->nameStyleInNoteName = Tnote::e_english_Bb;
             if (m_page3->keyNameStyle() == "solfege")
-              gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+              gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
             else
-              gl->SnameStyleInKeySign = Tnote::e_nederl_Bis;
+              gl->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
         } else {
-            gl->seventhIs_B = false;
-            gl->NnameStyleInNoteName = Tnote::e_norsk_Hb;
+            gl->S->seventhIs_B = false;
+            gl->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
             if (m_page3->keyNameStyle() == "solfege")
-              gl->SnameStyleInKeySign = Tnote::e_italiano_Si;
+              gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
             else
-              gl->SnameStyleInKeySign = Tnote::e_deutsch_His;
+              gl->S->nameStyleInKeySign = Tnote::e_deutsch_His;
         }
         if (QLocale::system().name().contains("ru")) // override name style for Russian localization
-					gl->NnameStyleInNoteName = Tnote::e_russian_Ci;        
-        gl->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
-        gl->showEnharmNotes = m_page3->enharmChB->isChecked();
-        gl->SkeySignatureEnabled = m_page3->useKeyChB->isChecked();
+					gl->S->nameStyleInNoteName = Tnote::e_russian_Ci;        
+        gl->S->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
+        gl->S->showEnharmNotes = m_page3->enharmChB->isChecked();
+        gl->S->keySignatureEnabled = m_page3->useKeyChB->isChecked();
 				if (gl->instrument == e_bassGuitar) {
             gl->setTune(Ttune::bassTunes[0]);
             gl->A->range = TaudioParams::e_low;
-            gl->Sclef = Tclef::e_bass_F_8down;
+            gl->S->clef = Tclef::e_bass_F_8down;
             gl->A->audioInstrNr = (int)e_bassGuitar;
             gl->GfretsNumber = 20;
 				} else if (gl->instrument == e_electricGuitar) {
             gl->A->audioInstrNr = (int)e_electricGuitar;
             gl->GfretsNumber = 23;
         } else if (gl->instrument == e_noInstrument) {
-						gl->Sclef = m_notationWidget->score()->clef().type();
+						gl->S->clef = m_notationWidget->score()->clef().type();
 						Tnote hiN, loN; // fix notes order
 						if (m_notationWidget->score()->getNote(1).getChromaticNrOfNote() <
 										m_notationWidget->score()->getNote(0).getChromaticNrOfNote()) {
@@ -300,17 +301,17 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
     lay->addWidget(dblAccChB, 0, Qt::AlignCenter);
-    dblAccChB->setChecked(gl->doubleAccidentalsEnabled);
+    dblAccChB->setChecked(gl->S->doubleAccidentalsEnabled);
 //     lay->addStretch(1);
 
     enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
     lay->addWidget(enharmChB, 0, Qt::AlignCenter);
-    enharmChB->setChecked(gl->showEnharmNotes);
+    enharmChB->setChecked(gl->S->showEnharmNotes);
 //     lay->addStretch(1);
 
     useKeyChB = new QCheckBox(tr("I know about key signatures"), this);
     lay->addWidget(useKeyChB, 0, Qt::AlignCenter);
-    useKeyChB->setChecked(gl->SkeySignatureEnabled);
+    useKeyChB->setChecked(gl->S->keySignatureEnabled);
     lay->addStretch(1);
 
     setLayout(lay);

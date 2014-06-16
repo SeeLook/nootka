@@ -22,6 +22,7 @@
 #include <tglobals.h>
 #include <widgets/tpushbutton.h>
 #include <tnoofont.h>
+#include <tscoreparams.h>
 #include <QtWidgets>
 
 
@@ -162,7 +163,7 @@ TnoteName::TnoteName(QWidget *parent) :
     
     setLayout(mainLay);
 
-    setStyle(gl->NnameStyleInNoteName);
+    setStyle(gl->S->nameStyleInNoteName);
     setNoteNamesOnButt(style());
     for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
@@ -415,12 +416,12 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) 
 
 void TnoteName::setNameText() {
     if (m_notes[0].note) {
-				QString txt = "<big>" + m_notes[0].toRichText(gl->NoctaveInNoteNameFormat) + "</big>";
+				QString txt = "<big>" + m_notes[0].toRichText(gl->S->octaveInNoteNameFormat) + "</big>";
         if (m_notes[1].note) {
-            txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->enharmNotesColor.name()) + 
-							m_notes[1].toRichText(gl->NoctaveInNoteNameFormat);
+            txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->S->enharmNotesColor.name()) + 
+							m_notes[1].toRichText(gl->S->octaveInNoteNameFormat);
             if (m_notes[2].note)
-                txt = txt + "  " + m_notes[2].toRichText(gl->NoctaveInNoteNameFormat);
+                txt = txt + "  " + m_notes[2].toRichText(gl->S->octaveInNoteNameFormat);
             txt = txt + ")</small>";
         }
         m_nameLabel->setText(txt);
@@ -432,8 +433,8 @@ void TnoteName::setNameText() {
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
     m_notes[0] = Tnote(noteNr, octNr, accNr);
     if (noteNr) {
-        if (gl->showEnharmNotes) {
-            TnotesList enharmList = m_notes[0].getTheSameNotes(gl->doubleAccidentalsEnabled);
+        if (gl->S->showEnharmNotes) {
+            TnotesList enharmList = m_notes[0].getTheSameNotes(gl->S->doubleAccidentalsEnabled);
             TnotesList::iterator it = enharmList.begin();
             ++it;
             if (it != enharmList.end())

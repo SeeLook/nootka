@@ -31,8 +31,8 @@
  * - letter with sign C# Db
  * - letter full name Cis Des
  * All that e_italiano_Si or e_english_Bb depends on:
- * Tnote::EnameStyle NsolfegeStyle
- * bool seventhIs_B
+ * Tnote::EnameStyle S->solfegeStyle
+ * bool S->seventhIs_B
  * declared in Tglobals.
  * get(Tnote::EnameStyle style) static method returns proper style.
  */

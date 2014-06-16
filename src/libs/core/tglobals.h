@@ -27,6 +27,7 @@
 #include <music/tclef.h>
 #include <music/tinstrument.h>
 
+class TscoreParams;
 class Ttune;
 class QSettings;
 class TexamParams;
@@ -67,40 +68,9 @@ public:
         * and for guitar (@class TfingerBoard) from 'G' letter.
 				* For sound and exam there are pointers to appropirate classes with theirs parameters. */
 
+//============ score settings =============================================================
+		TscoreParams *S; /** Score parameters */
 
-//============ score widget settings =============================================================
-        /** if true shows other similar (enharmonic) notes on the staff:
-        * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
-    bool SkeySignatureEnabled;
-    bool SshowKeySignName; // default true
-    Tnote::EnameStyle SnameStyleInKeySign;
-		
-        /** Convention is:
-        * if keyNameSuffix == " " constructor of Tglobals sets its default and
-        * constructor of TkeySignatureView sets translateable value "major" and "minor"
-        * otherwise it is overrides by loading settings
-        * if keyNameSuffix == "" user prefers without suffix.
-        * If keyNameSuffix has some text -  is translated by user himself */
-    QString SmajKeyNameSufix;
-    QString SminKeyNameSufix;
-    QColor SpointerColor;
-		Tclef::Etype Sclef; // preferred clef - treble by default
-
-//============= common with score widget and note name ==========================================
-    bool doubleAccidentalsEnabled; //default true
-    bool showEnharmNotes; // default true
-    
-        /** On the beginning it is -1 and then it is set in TscoreWidget constructor
-        * as inversion of highlight color from palette() and put to TnoteName,
-        * otherwise is taken from saved settings. */
-    QColor enharmNotesColor;
-    bool seventhIs_B; /** To determine note names - default true */
-
-
-//======== note name settings ===================================================================
-    Tnote::EnameStyle NnameStyleInNoteName;
-    bool NoctaveInNoteNameFormat; //default true
-    Tnote::EnameStyle NsolfegeStyle; // e_italiano_Si is default
     
 				/** Guessing solfege name style from current locale setting. F.e.: ru is e_russian_Ci */
     Tnote::EnameStyle getSolfegeStyle();
@@ -110,7 +80,7 @@ public:
     unsigned char GfretsNumber; /** default 19 */
     bool GisRightHanded; /** default true */
     bool GshowOtherPos; /** Shows other possibilities of note (sound) on the fretboard (default true) */
-    QColor GfingerColor; /** rules the same like in enharmNotesColor */
+    QColor GfingerColor; /** rules the same like in S->enharmNotesColor */
     QColor GselectedColor;
 		
 				/** Actual tune of the guitar also with information about strings number

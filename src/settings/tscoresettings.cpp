@@ -21,12 +21,13 @@
 #include "tnotationradiogroup.h"
 #include "tcolorbutton.h"
 #include <tglobals.h>
+#include <tscoreparams.h>
 #include <music/tkeysignature.h>
 #include <widgets/tselectclef.h>
 #include <tcolor.h>
 #include <graphics/tnotepixmap.h>
-#include <tfirstrunwizzard.h>
 #include <music/tnamestylefilter.h>
+#include <tfirstrunwizzard.h>
 #include <QtWidgets>
 
 extern Tglobals *gl;
@@ -42,18 +43,18 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 	m_1_keys = new QWidget();
 	m_toolBox->addItem(m_1_keys, "1. " + tr("Key signatures"));
 		
-    m_workStyle = gl->SnameStyleInKeySign;
+    m_workStyle = gl->S->nameStyleInKeySign;
     QVBoxLayout *keyLay = new QVBoxLayout();
     m_enablKeySignCh = new QCheckBox(tr("enable key signature"), m_1_keys);
-			m_enablKeySignCh->setChecked(gl->SkeySignatureEnabled);
+			m_enablKeySignCh->setChecked(gl->S->keySignatureEnabled);
     keyLay->addWidget(m_enablKeySignCh);
     QHBoxLayout *nameLay = new QHBoxLayout();
     m_enablKeyNameGr = new QGroupBox(showKeySigName(), m_1_keys);
 			m_enablKeyNameGr->setCheckable(true);
-			m_enablKeyNameGr->setChecked(gl->SshowKeySignName);
-			m_enablKeyNameGr->setDisabled(!gl->SkeySignatureEnabled);
+			m_enablKeyNameGr->setChecked(gl->S->showKeySignName);
+			m_enablKeyNameGr->setDisabled(!gl->S->keySignatureEnabled);
 
-    m_nameStyleGr = new TnotationRadioGroup(gl->SnameStyleInKeySign, false, m_1_keys);
+    m_nameStyleGr = new TnotationRadioGroup(gl->S->nameStyleInKeySign, false, m_1_keys);
     nameLay->addWidget(m_nameStyleGr);
 
     m_nameExtGr = new QGroupBox(tr("Naming extension"));
@@ -61,7 +62,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     QVBoxLayout *majLay = new QVBoxLayout();
     m_majExtLab = new QLabel(tr("in the major keys:"), m_1_keys);
     majLay->addWidget(m_majExtLab,0,Qt::AlignCenter);
-    m_majEdit = new QLineEdit(gl->SmajKeyNameSufix, m_1_keys);
+    m_majEdit = new QLineEdit(gl->S->majKeyNameSufix, m_1_keys);
     m_majEdit->setMaxLength(10);
     m_majEdit->setAlignment(Qt::AlignCenter);
     majLay->addWidget(m_majEdit, 0, Qt::AlignCenter);
@@ -73,7 +74,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     QVBoxLayout *minLay = new QVBoxLayout();
     m_minExtLab = new QLabel(tr("in the minor keys:"));
     minLay->addWidget(m_minExtLab, 0, Qt::AlignCenter);
-    m_minEdit = new QLineEdit(gl->SminKeyNameSufix, m_1_keys);
+    m_minEdit = new QLineEdit(gl->S->minKeyNameSufix, m_1_keys);
     m_minEdit->setMaxLength(10);
     m_minEdit->setAlignment(Qt::AlignCenter);
     minLay->addWidget(m_minEdit, 0, Qt::AlignCenter);
@@ -104,22 +105,42 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		  clefLay->addWidget(clefUsageLab);
 		  m_2_clefs->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>");
 		  clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
-		m_clefSelector->selectClef(gl->Sclef);
+		m_clefSelector->selectClef(gl->S->clef);
 	   m_2_clefs->setLayout(clefLay);
 		 
 // 3. Miscellaneous score settings
 	m_3_misc = new QWidget();
 	m_toolBox->addItem(m_3_misc, "3. " + tr("Miscellaneous score settings"));
 	
+	
+		m_otherEnharmChBox = new QCheckBox(tr("show enharmonic variants of notes"), m_3_misc);
+			m_otherEnharmChBox->setStatusTip(tr("Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp)."));
+			m_otherEnharmChBox->setChecked(gl->S->showEnharmNotes);
+		QLabel *colorLab = new QLabel(tr("color of enharmonic notes"), m_3_misc);
+		m_enharmColorBut = new TcolorButton(gl->S->enharmNotesColor, m_3_misc);
+		m_dblAccChBox = new QCheckBox(tr("use double accidentals"),m_3_misc);
+			m_dblAccChBox->setStatusTip(tr("If checked, you can use double sharps and double flats."));
+			m_dblAccChBox->setChecked(gl->S->doubleAccidentalsEnabled);
 		QLabel *tempoLab = new QLabel(tr("tempo of played notes"), m_3_misc);
 		m_tempoSpin = new QSpinBox(m_3_misc);
 			m_tempoSpin->setMinimum(50);
 			m_tempoSpin->setMaximum(240);
+			m_tempoSpin->setValue(gl->S->tempo);
 	
-    QLabel *colLab = new QLabel(tr("note-cursor color"), this);
-    m_notePointColorBut = new TcolorButton(gl->SpointerColor, this);
+    QLabel *colLab = new QLabel(tr("note-cursor color"), m_3_misc);
+    m_notePointColorBut = new TcolorButton(gl->S->pointerColor, m_3_misc);
 		
 		QVBoxLayout *miscLay = new QVBoxLayout;
+		QHBoxLayout *enColorLay = new QHBoxLayout;
+			enColorLay->addWidget(m_otherEnharmChBox);
+			enColorLay->addStretch(2);
+		  enColorLay->addWidget(colorLab);
+		  enColorLay->addStretch(1);
+		  enColorLay->addWidget(m_enharmColorBut);
+		miscLay->addLayout(enColorLay);
+		miscLay->addStretch();
+		miscLay->addWidget(m_dblAccChBox);
+		miscLay->addStretch();
 		QHBoxLayout *tempoLay = new QHBoxLayout;
 			tempoLay->addStretch(2);
 			tempoLay->addWidget(tempoLab);
@@ -211,19 +232,22 @@ void TscoreSettings::nameStyleWasChanged(Tnote::EnameStyle nameStyle) {
 
 
 void TscoreSettings::saveSettings() {
-    gl->SkeySignatureEnabled = m_enablKeySignCh->isChecked();
-    if (gl->SkeySignatureEnabled) { //changed only if key signature is enabled
+    gl->S->keySignatureEnabled = m_enablKeySignCh->isChecked();
+    if (gl->S->keySignatureEnabled) { //changed only if key signature is enabled
 		if (m_majEdit->text() == "") m_majEdit->setText(" "); // because "" means default suffix for language
-        gl->SmajKeyNameSufix = m_majEdit->text();
+        gl->S->majKeyNameSufix = m_majEdit->text();
 		if (m_minEdit->text() == "") m_minEdit->setText(" ");
-        gl->SminKeyNameSufix = m_minEdit->text();
-        gl->SnameStyleInKeySign = m_nameStyleGr->getNameStyle();
-        gl->SshowKeySignName = m_enablKeyNameGr->isChecked();
-        TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
+        gl->S->minKeyNameSufix = m_minEdit->text();
+        gl->S->nameStyleInKeySign = m_nameStyleGr->getNameStyle();
+        gl->S->showKeySignName = m_enablKeyNameGr->isChecked();
+        TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
     }
-    gl->SpointerColor = m_notePointColorBut->getColor();
-    gl->SpointerColor.setAlpha(200);
-		gl->Sclef = m_clefSelector->selectedClef().type();
+    gl->S->pointerColor = m_notePointColorBut->getColor();
+    gl->S->pointerColor.setAlpha(200);
+		gl->S->clef = m_clefSelector->selectedClef().type();
+		gl->S->doubleAccidentalsEnabled = m_dblAccChBox->isChecked();
+		gl->S->showEnharmNotes = m_otherEnharmChBox->isChecked();
+		gl->S->enharmNotesColor = m_enharmColorBut->getColor();
 }
 
 
@@ -245,6 +269,9 @@ void TscoreSettings::restoreDefaults() {
 		m_notePointColorBut->setColor(Tcolor::invert(palette().highlight().color()));
 		m_clefSelector->selectClef(Tclef(Tclef::e_treble_G_8down));
 		nameStyleWasChanged(m_nameStyleGr->getNameStyle());
+		m_dblAccChBox->setChecked(false);
+		m_otherEnharmChBox->setChecked(false);
+		m_enharmColorBut->setColor(palette().highlight().color());
 }
 
 

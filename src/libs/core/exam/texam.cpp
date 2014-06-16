@@ -20,6 +20,7 @@
 #include "texam.h"
 #include "tlevel.h"
 #include "tinitcorelib.h"
+#include <tscoreparams.h>
 #include <QFile>
 #include <QDataStream>
 #include <QMessageBox>
@@ -189,7 +190,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
               isExamFileOk = false;
           if ((qaUnit.questionAs == TQAtype::e_asName || qaUnit.answerAs == TQAtype::e_asName) 
                 && qaUnit.styleOfQuestion() < 0) {
-                  qaUnit.setStyle(Tglob::glob()->NnameStyleInNoteName, qaUnit.styleOfAnswer());
+                  qaUnit.setStyle(Tglob::glob()->S->nameStyleInNoteName, qaUnit.styleOfAnswer());
                   fixedNr++;
               } /** In old versions, style was set to 0 so now it gives styleOfQuestion = -1
                 * Also in transition Nootka versions it was left unchanged.
@@ -333,7 +334,7 @@ void Texam::convertToVersion2() {
     qsrand(QDateTime::currentDateTime().toTime_t());
    if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
-      if (Tglob::glob()->seventhIs_B) {
+      if (Tglob::glob()->S->seventhIs_B) {
         randStyles[1] = Tnote::e_english_Bb;
         randStyles[2] = Tnote::e_nederl_Bis;
       } else {
@@ -359,13 +360,13 @@ void Texam::convertToVersion2() {
           m_answList[i].setStyle(qSt, aSt);
         } else
           if (m_answList[i].questionAs == TQAtype::e_asName) {
-            m_answList[i].setStyle(randStyles[qrand() % 3], Tglob::glob()->NnameStyleInNoteName);
+            m_answList[i].setStyle(randStyles[qrand() % 3], Tglob::glob()->S->nameStyleInNoteName);
           } else
             if (m_answList[i].questionAs == TQAtype::e_asName) {
-              m_answList[i].setStyle(Tglob::glob()->NnameStyleInNoteName, randStyles[qrand() % 3]);
+              m_answList[i].setStyle(Tglob::glob()->S->nameStyleInNoteName, randStyles[qrand() % 3]);
             }
       } else // fixed style - we changing to user preferred
-          m_answList[i].setStyle(Tglob::glob()->NnameStyleInNoteName, Tglob::glob()->NnameStyleInNoteName);
+          m_answList[i].setStyle(Tglob::glob()->S->nameStyleInNoteName, Tglob::glob()->S->nameStyleInNoteName);
     }
       
     if (!m_answList[i].isCorrect()) {

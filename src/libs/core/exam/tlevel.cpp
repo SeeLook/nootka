@@ -22,6 +22,7 @@
 #include "tinitcorelib.h"
 #include <music/ttune.h>
 #include <taudioparams.h>
+#include <tscoreparams.h>
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
@@ -117,7 +118,7 @@ Tlevel::Tlevel() :
 		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
 		*  It can store multiple clefs (maybe in unknown future it will be used)
 		*  0 - no clef and up to 15 different clefs	  */
-	 clef = Tclef(Tglob::glob()->Sclef);
+	 clef = Tclef(Tglob::glob()->S->clef);
 //    isNoteLo = false;   isNoteHi = false;
 //    isFretHi = false; 
 	 instrument = Tglob::glob()->instrument;

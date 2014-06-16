@@ -29,6 +29,7 @@
 #include <score/tscoreview.h>
 #include <music/ttune.h>
 #include <tglobals.h>
+#include <tscoreparams.h>
 #include <graphics/tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
@@ -66,7 +67,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	
 	addStaff(staff());
 // set preferred clef
-	setClef(gl->Sclef);
+	setClef(gl->S->clef);
 	
 	createActions();
   layout()->setContentsMargins(2, 2, 2, 2);
@@ -75,8 +76,8 @@ TmainScore::TmainScore(QWidget* parent) :
 // set note colors
 	restoreNotesSettings();
 	setScordature();
-	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-	setEnableKeySign(gl->SkeySignatureEnabled);
+	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
+	setEnableKeySign(gl->S->keySignatureEnabled);
 	if (m_staves.last()->scoreKey())
 		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 	
@@ -108,11 +109,11 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 
 
 void TmainScore::acceptSettings() {
-	setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	staff()->noteSegment(0)->left()->addAccidentals();
-	setClef(Tclef(gl->Sclef));
-	if ((bool)staff()->scoreKey() != gl->SkeySignatureEnabled) {
-			setEnableKeySign(gl->SkeySignatureEnabled);
+	setClef(Tclef(gl->S->clef));
+	if ((bool)staff()->scoreKey() != gl->S->keySignatureEnabled) {
+			setEnableKeySign(gl->S->keySignatureEnabled);
 	}
 	//TODO 
 			// - update notes when names were enabled or disabled - refresh its button state
@@ -123,17 +124,17 @@ void TmainScore::acceptSettings() {
 	else
 			if (staff()->hasScordature())
 				staff()->removeScordatute();
-	if (!gl->doubleAccidentalsEnabled)
+	if (!gl->S->doubleAccidentalsEnabled)
 		clearNote(2);
-	setEnableEnharmNotes(gl->showEnharmNotes);
-	if (gl->SkeySignatureEnabled) // refreshKeySignNameStyle();
+	setEnableEnharmNotes(gl->S->showEnharmNotes);
+	if (gl->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
-			staff()->scoreKey()->showKeyName(gl->SshowKeySignName);
+			staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 	restoreNotesSettings();
 	enableAccidToKeyAnim(false); // prevent accidental animation to empty note
-	if (gl->SkeySignatureEnabled)
+	if (gl->S->keySignatureEnabled)
 		setKeySignature(keySignature());
 	enableAccidToKeyAnim(true);
 }
@@ -522,15 +523,15 @@ void TmainScore::deleteNoteName(int id) {
 
 void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 	//We are sure that index is 0, cause others are disabled :-)
-    if (m_inMode == e_single && gl->showEnharmNotes) {
-        TnotesList enharmList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+    if (m_inMode == e_single && gl->S->showEnharmNotes) {
+        TnotesList enharmList = note.getTheSameNotes(gl->S->doubleAccidentalsEnabled);
         TnotesList::iterator it = enharmList.begin();
         ++it;
         if (it != enharmList.end())
             TsimpleScore::setNote(1, *(it));
         else
             clearNote(1);
-        if (gl->doubleAccidentalsEnabled) {
+        if (gl->S->doubleAccidentalsEnabled) {
             ++it;
             if (it != enharmList.end())
                 TsimpleScore::setNote(2, *(it));
@@ -963,20 +964,20 @@ void TmainScore::createActions() {
 
 
 void TmainScore::restoreNotesSettings() {
-// 		if (gl->enharmNotesColor == -1)
-// 					gl->enharmNotesColor = palette().highlight().color();
-	if (gl->SpointerColor == -1) {
-				gl->SpointerColor = Tcolor::invert(palette().highlight().color());
-				gl->SpointerColor.setAlpha(200);
+// 		if (gl->S->enharmNotesColor == -1)
+// 					gl->S->enharmNotesColor = palette().highlight().color();
+	if (gl->S->pointerColor == -1) {
+				gl->S->pointerColor = Tcolor::invert(palette().highlight().color());
+				gl->S->pointerColor.setAlpha(200);
 	}
 // 	if (staff()->count())
-// 			staff()->noteSegment(0)->setPointedColor(gl->SpointerColor);
+// 			staff()->noteSegment(0)->setPointedColor(gl->S->pointerColor);
 	for (int i = 0; i < staff()->count(); i++)
 			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 // 		staff()->noteSegment(1)->setReadOnly(true);
-// 		staff()->noteSegment(1)->setColor(gl->enharmNotesColor);
+// 		staff()->noteSegment(1)->setColor(gl->S->enharmNotesColor);
 // 		staff()->noteSegment(2)->setReadOnly(true);
-// 		staff()->noteSegment(2)->setColor(gl->enharmNotesColor);
+// 		staff()->noteSegment(2)->setColor(gl->S->enharmNotesColor);
 // 		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 		
 }
@@ -1076,7 +1077,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	if (st == 0) { // create new staff at the end of a list
 			m_staves << new TscoreStaff(scoreScene(), 1);
 			m_staves.last()->onClefChanged(m_staves.first()->scoreClef()->clef());
-			m_staves.last()->setEnableKeySign(gl->SkeySignatureEnabled);
+			m_staves.last()->setEnableKeySign(gl->S->keySignatureEnabled);
 			if (m_staves.last()->scoreKey())
 				m_staves.last()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());
 			connect(m_staves.last(), SIGNAL(hiNoteChanged(int,qreal)), this, SLOT(staffHiNoteChanged(int,qreal))); // ignore for first

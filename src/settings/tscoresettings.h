@@ -61,12 +61,13 @@ public slots:
 
 private:
     QCheckBox 						*m_enablKeySignCh, *m_singleModeChB;
+		QCheckBox 						*m_otherEnharmChBox, *m_dblAccChBox;
     QGroupBox 						*m_enablKeyNameGr, *m_nameExtGr;
     QLabel 								*m_majExtLab, *m_minExtLab, *m_majExampl, *m_minExampl;
     QLineEdit 						*m_majEdit, *m_minEdit;
     TnotationRadioGroup 	*m_nameStyleGr;
 		Tnote::EnameStyle 		 m_workStyle;
-    TcolorButton 					*m_notePointColorBut;
+    TcolorButton 					*m_notePointColorBut, *m_enharmColorBut;;
 		TselectClef						*m_clefSelector;
 		QSpinBox							*m_tempoSpin;
 };

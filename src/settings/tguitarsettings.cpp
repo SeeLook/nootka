@@ -22,6 +22,7 @@
 #include <music/ttune.h>
 #include <tglobals.h>
 #include <score/tsimplescore.h>
+#include <tscoreparams.h>
 #include <QtWidgets>
 
 
@@ -57,7 +58,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneLay->addWidget(m_tuneView);
 		tuneLay->addStretch();
 // 		m_tuneView->setClefDisabled(true);
-    m_tuneView->setClef(gl->Sclef); 
+    m_tuneView->setClef(gl->S->clef); 
     m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
 // #if defined(Q_OS_WIN)
     m_tuneView->setFixedHeight(250);
@@ -175,7 +176,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 				if (gl->Gtune()->name == S)
 						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
 		} else { // Apply instrument scale
-			m_tuneView->setClef(Tclef(gl->Sclef));
+			m_tuneView->setClef(Tclef(gl->S->clef));
 			m_tuneView->setNote(4, gl->loNote());
 			m_tuneView->setNote(5, gl->hiNote());
 		}

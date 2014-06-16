@@ -21,6 +21,7 @@
 #include "music/tkeysignature.h"
 #include "widgets/tpushbutton.h"
 #include "tcolor.h"
+#include "tscoreparams.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QTranslator>
@@ -39,11 +40,11 @@ void initCoreLibrary(Tglobals* gl) {
 		Ttune::prepareDefinedTunes();
 		Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
-    TpushButton::setCheckColor(gl->SpointerColor, qApp->palette().base().color());
+    TpushButton::setCheckColor(gl->S->pointerColor, qApp->palette().base().color());
 #else
     TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
 #endif
-		TkeySignature::setNameStyle(gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
+		TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
 }
 
 

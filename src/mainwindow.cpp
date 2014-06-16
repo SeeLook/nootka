@@ -20,6 +20,7 @@
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
 #include <tprocesshandler.h>
+#include <tscoreparams.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include "score/tmainscore.h"
@@ -99,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //         }
 //     }
 		gl->config->endGroup();
-		Tnote::defaultStyle = gl->NnameStyleInNoteName;
+		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
 		
     sound = new Tsound(this);
 		
@@ -142,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 //     noteName = new TnoteName(innerWidget);
 //     noteName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-//     noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+//     noteName->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 
     guitar = new TfingerBoard(innerWidget);
 		
@@ -354,10 +355,10 @@ void MainWindow::createSettingsDialog() {
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			score->acceptSettings();
-// 			noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
-// 			noteName->setEnabledEnharmNotes(gl->showEnharmNotes);
-// 			noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
-// 			noteName->setStyle(gl->NnameStyleInNoteName);
+// 			noteName->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
+// 			noteName->setEnabledEnharmNotes(gl->S->showEnharmNotes);
+// 			noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
+// 			noteName->setStyle(gl->S->nameStyleInNoteName);
 				// set new colors in exam view
 // 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
 // 															Tcolor::bgTag(gl->EnotBadColor));
@@ -366,10 +367,10 @@ void MainWindow::createSettingsDialog() {
 			updateSize(innerWidget->size());
 // 			if (score->getNote(0).note != 0) {
 // 				TnotesList nList;
-// 				nList = score->getNote(0).getTheSameNotes(gl->doubleAccidentalsEnabled);
+// 				nList = score->getNote(0).getTheSameNotes(gl->S->doubleAccidentalsEnabled);
 // 				if (nList[0].getChromaticNrOfNote() >= gl->loString().getChromaticNrOfNote() && 
 // 					nList[0].getChromaticNrOfNote() <= gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
-// 						if (gl->showEnharmNotes) { // refresh note name and score
+// 						if (gl->S->showEnharmNotes) { // refresh note name and score
 // // 								noteName->setNoteName(nList);
 // 								if (nList.size() > 1)
 // 										score->setNote(1, nList[1]);
@@ -470,7 +471,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
     Q_UNUSED(index)
     if (m_isPlayerFree)
         sound->play(note);
-//     if (gl->showEnharmNotes){
+//     if (gl->S->showEnharmNotes){
 //         TnotesList noteList;
 //         noteList << (note);
 //         noteList << (score->getNote(1));
@@ -486,7 +487,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
 void MainWindow::noteNameWasChanged(Tnote note) {
     sound->play(note);
     score->setNote(0, note);
-    if (gl->showEnharmNotes) {
+    if (gl->S->showEnharmNotes) {
         score->setNote(1, noteName->getNoteName(1));
         score->setNote(2, noteName->getNoteName(2));
     }
@@ -497,11 +498,11 @@ void MainWindow::noteNameWasChanged(Tnote note) {
 
 void MainWindow::guitarWasClicked(Tnote note) {
     sound->play(note);
-//     if (gl->showEnharmNotes) {
-//         TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+//     if (gl->S->showEnharmNotes) {
+//         TnotesList noteList = note.getTheSameNotes(gl->S->doubleAccidentalsEnabled);
 //         noteName->setNoteName(noteList);
 //         score->setNote(1, noteName->getNoteName(1));
-// 				if (gl->doubleAccidentalsEnabled)
+// 				if (gl->S->doubleAccidentalsEnabled)
 // 						score->setNote(2, noteName->getNoteName(2));
 //     } //else
 //         noteName->setNoteName(note);
@@ -511,11 +512,11 @@ void MainWindow::guitarWasClicked(Tnote note) {
 
 
 void MainWindow::soundWasPlayed(Tnote note) {
-//   if (gl->showEnharmNotes) {
-//       TnotesList noteList = note.getTheSameNotes(gl->doubleAccidentalsEnabled);
+//   if (gl->S->showEnharmNotes) {
+//       TnotesList noteList = note.getTheSameNotes(gl->S->doubleAccidentalsEnabled);
 //       noteName->setNoteName(noteList);
 //       score->setNote(1, noteName->getNoteName(1));
-// 			if (gl->doubleAccidentalsEnabled)
+// 			if (gl->S->doubleAccidentalsEnabled)
 // 					score->setNote(2, noteName->getNoteName(2));
 //   } else
 //       noteName->setNoteName(note);
@@ -633,7 +634,7 @@ void MainWindow::adjustAmbitus() {
 		return;
 	Tnote hiNote, loNote;
 	const int noteOffset = 2; // major 2nd up and down 
-	if (score->clef().type() != gl->Sclef) {
+	if (score->clef().type() != gl->S->clef) {
 		if (score->highestNote().getChromaticNrOfNote() < gl->hiNote().getChromaticNrOfNote())
 			hiNote = Tnote(gl->hiNote().getChromaticNrOfNote() + noteOffset);
 		else
