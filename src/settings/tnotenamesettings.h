@@ -22,6 +22,7 @@
 
 #include "tnotationradiogroup.h"
 
+class TcolorButton;
 class TscalePreviewLabel;
 class QCheckBox;
 class Select7note;
@@ -47,8 +48,9 @@ protected slots:
 
 private:
     TnotationRadioGroup 	*m_nameStyleGr;
-    QCheckBox 						*m_octInNameCh;
+    QCheckBox 						*m_octInNameCh, *m_nameInScoreChB;
     Select7note 					*m_select7;
 		TscalePreviewLabel		*m_scaleLabel;
+		TcolorButton					*m_nameColorButt;
 };
 #endif // NAMESETTINGS_H

@@ -24,6 +24,7 @@
 #include <music/tclef.h>
 #include <QWidget>
 
+class QSpinBox;
 
 class QGroupBox;
 class TnotationRadioGroup;
@@ -59,7 +60,7 @@ public slots:
 		void defaultClefChanged(Tclef clef);
 
 private:
-    QCheckBox 						*m_enablKeySignCh;
+    QCheckBox 						*m_enablKeySignCh, *m_singleModeChB;
     QGroupBox 						*m_enablKeyNameGr, *m_nameExtGr;
     QLabel 								*m_majExtLab, *m_minExtLab, *m_majExampl, *m_minExampl;
     QLineEdit 						*m_majEdit, *m_minEdit;
@@ -67,6 +68,7 @@ private:
 		Tnote::EnameStyle 		 m_workStyle;
     TcolorButton 					*m_notePointColorBut;
 		TselectClef						*m_clefSelector;
+		QSpinBox							*m_tempoSpin;
 };
 
 
