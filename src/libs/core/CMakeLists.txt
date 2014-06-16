@@ -8,6 +8,7 @@ set(LIB_NOOTKACORE_SRC
 	tinitcorelib.cpp
 	texamparams.h
 	taudioparams.h
+	tscoreparams.h
 	tcolor.cpp
 	tfingerpos.cpp
 	tglobals.cpp

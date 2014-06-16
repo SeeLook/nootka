@@ -18,8 +18,10 @@
 
 
 #include "tnotenamesettings.h"
+#include "tcolorbutton.h"
 #include "tscalepreviewlabel.h"
 #include <tglobals.h>
+#include <tcolor.h>
 #include <select7note.h>
 #include <tfirstrunwizzard.h>
 #include <QtWidgets>
@@ -46,6 +48,19 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
 		mainLay->addWidget(m_nameStyleGr);
     mainLay->addStretch(1);
 
+		m_nameInScoreChB = new QCheckBox(tr("note name in the score"), this);
+			m_nameInScoreChB->setStatusTip(tr("Shows names of all notes on the score"));
+		QLabel *nameColorLab = new QLabel(tr("names highlight color"), this);
+		m_nameColorButt = new TcolorButton(QColor(), this);
+		QHBoxLayout *nameScoreLay = new QHBoxLayout;
+			nameScoreLay->addWidget(m_nameInScoreChB);
+			nameScoreLay->addStretch(2);
+			nameScoreLay->addWidget(nameColorLab);
+			nameScoreLay->addStretch();
+			nameScoreLay->addWidget(m_nameColorButt);
+		mainLay->addLayout(nameScoreLay);
+		mainLay->addStretch(1);
+		
     m_octInNameCh = new QCheckBox(tr("show octave in name of note"),this);
     mainLay->addWidget(m_octInNameCh, 0, Qt::AlignCenter);
     m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
