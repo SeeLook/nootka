@@ -19,6 +19,7 @@
 
 #include "tkeysignature.h"
 #include "tinitcorelib.h"
+#include <tscoreparams.h>
 
 
 /*static*/
@@ -51,14 +52,14 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QStrin
 	QString majS = "", minS = "";
 	if (majSuf == "") {
 		majS = "-" + majorSufixTxt();
-		Tglob::glob()->SmajKeyNameSufix = majorSufixTxt();
+		Tglob::glob()->S->majKeyNameSufix = majorSufixTxt();
 	} else
 		if (majSuf != " ")
 			majS = "-" + majSuf;
 		
 	if (minSuf == "") {
 		minS = "-" + minorSufixTxt();
-		Tglob::glob()->SminKeyNameSufix = minorSufixTxt();
+		Tglob::glob()->S->minKeyNameSufix = minorSufixTxt();
 	}
 	else
 		if (minSuf != " ")

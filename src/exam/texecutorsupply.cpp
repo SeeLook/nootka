@@ -315,12 +315,12 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
     if (m_isSolfege) {
         m_isSolfege = false;
         if (qrand() % 2) { // full name like cis, gisis
-            if (gl->seventhIs_B)
+            if (gl->S->seventhIs_B)
                 return Tnote::e_nederl_Bis;
             else
                 return Tnote::e_deutsch_His;
         } else { // name and sign like c#, gx
-            if (gl->seventhIs_B)
+            if (gl->S->seventhIs_B)
                 return Tnote::e_english_Bb;
             else
                 return Tnote::e_norsk_Hb;

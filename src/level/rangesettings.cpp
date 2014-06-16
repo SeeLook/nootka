@@ -41,7 +41,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
     m_scoreRang = new TsimpleScore(2, this);
-			m_scoreRang->setClef(Tclef(gl->Sclef));
+			m_scoreRang->setClef(Tclef(gl->S->clef));
 			m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
 			m_scoreRang->setNote(0, Tnote(1, 0));
 			m_scoreRang->setNote(1, Tnote(1, 1));

@@ -248,11 +248,11 @@ void TexamExecutor::initializeExecuting() {
 				}
 		}
 		if (m_level.requireStyle) {
-				m_prevQuestStyle = m_supp->randomNameStyle(gl->NnameStyleInNoteName);
+				m_prevQuestStyle = m_supp->randomNameStyle(gl->S->nameStyleInNoteName);
 				m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
 		} else {
-				m_prevQuestStyle = gl->NnameStyleInNoteName;
-				m_prevAnswStyle = gl->NnameStyleInNoteName;
+				m_prevQuestStyle = gl->S->nameStyleInNoteName;
+				m_prevAnswStyle = gl->S->nameStyleInNoteName;
 		}
     
     m_level.questionAs.randNext(); // Randomize question and answer type
@@ -287,8 +287,8 @@ void TexamExecutor::askQuestion() {
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
 		
-		mW->noteName->setStyle(gl->NnameStyleInNoteName);
-    mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+		mW->noteName->setStyle(gl->S->nameStyleInNoteName);
+    mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
 
     TQAunit curQ = TQAunit(); // current question
     
@@ -380,18 +380,18 @@ void TexamExecutor::askQuestion() {
                 curQ.setStyle(m_prevQuestStyle, m_supp->randomNameStyle(m_prevQuestStyle)); // randomize style
                 m_prevAnswStyle= curQ.styleOfAnswer(); 
             } else { // enharmonic notes in the same style
-                curQ.setStyle(gl->NnameStyleInNoteName, gl->NnameStyleInNoteName);
-                m_prevAnswStyle = gl->NnameStyleInNoteName;
-                m_prevQuestStyle = gl->NnameStyleInNoteName;
+                curQ.setStyle(gl->S->nameStyleInNoteName, gl->S->nameStyleInNoteName);
+                m_prevAnswStyle = gl->S->nameStyleInNoteName;
+                m_prevQuestStyle = gl->S->nameStyleInNoteName;
             }
           } else // note name only in question
               if (m_level.requireStyle) { // switch previous used style
-                curQ.setStyle(m_supp->randomNameStyle(m_prevQuestStyle), gl->NnameStyleInNoteName);
+                curQ.setStyle(m_supp->randomNameStyle(m_prevQuestStyle), gl->S->nameStyleInNoteName);
 								m_prevQuestStyle = curQ.styleOfQuestion();
 //                 m_prevQuestStyle = m_supp->randomNameStyle(curQ.styleOfQuestion());
               } else {
-                  curQ.setStyle(gl->NnameStyleInNoteName, curQ.styleOfAnswer());
-                  m_prevQuestStyle = gl->NnameStyleInNoteName;
+                  curQ.setStyle(gl->S->nameStyleInNoteName, curQ.styleOfAnswer());
+                  m_prevQuestStyle = gl->S->nameStyleInNoteName;
               }
         }
         // Show question on TnoteName widget
@@ -673,8 +673,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						updatePenalStep();
 		}
 
-//     mW->noteName->setStyle(gl->NnameStyleInNoteName);
-//     mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+//     mW->noteName->setStyle(gl->S->nameStyleInNoteName);
+//     mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
 
 		markAnswer(curQ);
     int waitTime = gl->E->questionDelay;
@@ -847,11 +847,11 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
   if (m_exercise && gl->E->showNameOfAnswered) {
 		if (curQ.questionAs != TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
 			if (curQ.answerAs == TQAtype::e_asNote || (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asNote))
-				mW->score->showNames(gl->NnameStyleInNoteName, true);
+				mW->score->showNames(gl->S->nameStyleInNoteName, true);
 			else if (curQ.answerAs == TQAtype::e_asFretPos) // for q/a fret-fret this will be the first case
-				mW->guitar->showName(gl->NnameStyleInNoteName, markColor); // Take it from user answer
+				mW->guitar->showName(gl->S->nameStyleInNoteName, markColor); // Take it from user answer
 			else if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asFretPos)
-					mW->guitar->showName(gl->NnameStyleInNoteName, curQ.qa.note, markColor);
+					mW->guitar->showName(gl->S->nameStyleInNoteName, curQ.qa.note, markColor);
 		} else { // cases when name was an question
 			if (curQ.questionAs == TQAtype::e_asName) {
 				if (curQ.answerAs == TQAtype::e_asNote)
@@ -1058,13 +1058,13 @@ void TexamExecutor::restoreAfterExam() {
 			gl->E->suggestExam = m_exercise->suggestInFuture();
 		}
 		
-		TtipChart::defaultClef = gl->Sclef;
+		TtipChart::defaultClef = gl->S->clef;
     mW->score->acceptSettings();
 		mW->score->enableAccidToKeyAnim(true);
     mW->noteName->setEnabledEnharmNotes(false);
-    mW->noteName->setEnabledDblAccid(gl->doubleAccidentalsEnabled);
+    mW->noteName->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
     mW->guitar->acceptSettings();
-    mW->noteName->setNoteNamesOnButt(gl->NnameStyleInNoteName);
+    mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
     mW->progress->terminate();
 		mW->sound->acceptSettings();
 
@@ -1202,13 +1202,13 @@ void TexamExecutor::stopExerciseSlot() {
 			}
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
-			Tnote::EnameStyle tmpStyle = gl->NnameStyleInNoteName;
-      gl->NnameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
+			Tnote::EnameStyle tmpStyle = gl->S->nameStyleInNoteName;
+      gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
       
       bool startExam = false;
       if (!m_goingClosed)
 					continuePractice = showExamSummary(true, &startExam);
-			gl->NnameStyleInNoteName = tmpStyle;
+			gl->S->nameStyleInNoteName = tmpStyle;
 			if (startExam) {
 					exerciseToExam();
 					return;
@@ -1266,7 +1266,7 @@ void TexamExecutor::stopExamSlot() {
 			if (m_exam->fileName() != "") {
 				m_exam->setTotalTime(mW->examResults->getTotalTime());
 				m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
-				gl->NnameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style  
+				gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style  
 				if (m_exam->saveToFile() == Texam::e_file_OK) {
 						QStringList recentExams = gl->config->value("recentExams").toStringList();
 						recentExams.removeAll(m_exam->fileName());

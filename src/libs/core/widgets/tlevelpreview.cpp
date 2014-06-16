@@ -22,6 +22,7 @@
 #include "tquestionaswdg.h"
 #include "tinitcorelib.h"
 #include <tnoofont.h>
+#include <tscoreparams.h>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextBrowser>
@@ -115,10 +116,10 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     }
     if (tl.useKeySign) {
         S += "<tr><td>" + tr("key signature:") + " </td><td>";
-        S += tl.loKey.getMajorName().remove("-" + Tglob::glob()->SmajKeyNameSufix);
+        S += tl.loKey.getMajorName().remove("-" + Tglob::glob()->S->majKeyNameSufix);
         S += " (" + tl.loKey.accidNumber(true) +")";
         if (!tl.isSingleKey) {
-            S += " - " + tl.hiKey.getMajorName().remove("-" + Tglob::glob()->SmajKeyNameSufix);
+            S += " - " + tl.hiKey.getMajorName().remove("-" + Tglob::glob()->S->majKeyNameSufix);
             S += " (" + tl.hiKey.accidNumber(true) + ")";
         }
         S += "</td></tr>";

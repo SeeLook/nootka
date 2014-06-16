@@ -21,6 +21,7 @@
 #include <music/ttune.h>
 #include <taudioparams.h>
 #include <texamparams.h>
+#include <tscoreparams.h>
 #include <music/tnamestylefilter.h>
 #include <QDir>
 #include <QSettings>
@@ -71,6 +72,7 @@ Tglobals::Tglobals(bool fromTemp) :
 
 	E = new TexamParams();
 	A = new TaudioParams();
+	S = new TscoreParams();
 	
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
 	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -141,42 +143,46 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 //score widget settings
 	cfg->beginGroup("score");
-// 			SkeySignatureEnabled = cfg->value("keySignature", false).toBool();
-SkeySignatureEnabled = true;
-			SshowKeySignName = cfg->value("keyName", true).toBool(); //true;
-			SnameStyleInKeySign = Tnote::EnameStyle(cfg->value("nameStyleInKey",
+// 			S->keySignatureEnabled = cfg->value("keySignature", false).toBool();
+S->keySignatureEnabled = true;
+			S->showKeySignName = cfg->value("keyName", true).toBool(); //true;
+			S->nameStyleInKeySign = Tnote::EnameStyle(cfg->value("nameStyleInKey",
 																													(int)Tnote::e_english_Bb).toInt());
-			SmajKeyNameSufix = cfg->value("majorKeysSufix", "").toString();
-			SminKeyNameSufix = cfg->value("minorKeysSufix", "").toString();
-	if (cfg->contains("pointerColor"))
-			SpointerColor = cfg->value("pointerColor").value<QColor>(); //-1;
-	else 
-			SpointerColor = -1;
-			Sclef = Tclef::Etype(cfg->value("clef", (int)Tclef::e_treble_G_8down).toInt());
+			S->majKeyNameSufix = cfg->value("majorKeysSufix", "").toString();
+			S->minKeyNameSufix = cfg->value("minorKeysSufix", "").toString();
+			if (cfg->contains("pointerColor"))
+					S->pointerColor = cfg->value("pointerColor").value<QColor>(); //-1;
+			else 
+					S->pointerColor = -1;
+			S->clef = Tclef::Etype(cfg->value("clef", (int)Tclef::e_treble_G_8down).toInt());
+			S->isSingleNoteMode = cfg->value("singleNoteMode", false).toBool();
+			S->tempo = cfg->value("tempo", 120).toInt();
+			S->scoreScale = cfg->value("scoreScale", 1.0).toReal();
 	cfg->endGroup();
 
 
 //common for score widget and note name
 	cfg->beginGroup("common");
-// 			doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
-doubleAccidentalsEnabled = true;
-			showEnharmNotes = cfg->value("showEnaharmonicNotes", false).toBool();
+// 			S->doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
+S->doubleAccidentalsEnabled = true;
+			S->showEnharmNotes = cfg->value("showEnaharmonicNotes", false).toBool();
 			if (cfg->contains("enharmonicNotesColor"))
-					enharmNotesColor = cfg->value("enharmonicNotesColor").value<QColor>(); //-1;
+					S->enharmNotesColor = cfg->value("enharmonicNotesColor").value<QColor>(); //-1;
 			else
-					enharmNotesColor = -1;
-			seventhIs_B = cfg->value("is7thNote_B", true).toBool(); //true;
+					S->enharmNotesColor = -1;
+			S->seventhIs_B = cfg->value("is7thNote_B", true).toBool(); //true;
 	cfg->endGroup();
 	
 //note name settings    
 	cfg->beginGroup("noteName");
-			NnameStyleInNoteName = Tnote::EnameStyle(cfg->value("nameStyle", (int)Tnote::e_english_Bb).toInt());
-			NsolfegeStyle = Tnote::EnameStyle(cfg->value("solfegeStyle", (int)getSolfegeStyle()).toInt());
-			NoctaveInNoteNameFormat = cfg->value("octaveInName", true).toBool();
-//    NoctaveNameInNoteName = true;
+			S->nameStyleInNoteName = Tnote::EnameStyle(cfg->value("nameStyle", (int)Tnote::e_english_Bb).toInt());
+			S->solfegeStyle = Tnote::EnameStyle(cfg->value("solfegeStyle", (int)getSolfegeStyle()).toInt());
+			S->octaveInNoteNameFormat = cfg->value("octaveInName", true).toBool();
+			S->namesOnScore = cfg->value("namesOnScore", true).toBool();
+			S->nameColor = cfg->value("namesColor", QColor(0, 80, 80)).value<QColor>();
 	cfg->endGroup();
 // Initialize name filter
-	TnameStyleFilter::setStyleFilter(&seventhIs_B, &NsolfegeStyle);
+	TnameStyleFilter::setStyleFilter(&S->seventhIs_B, &S->solfegeStyle);
 
 // guitar settings
 	Ttune::prepareDefinedTunes();
@@ -316,33 +322,38 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("enableHints", hintsEnabled);
 			cfg->setValue("isFirstRun", isFirstRun);
 			cfg->setValue("useAnimations", useAnimations);
-			cfg->setValue("doubleAccidentals", doubleAccidentalsEnabled);
-			cfg->setValue("showEnaharmonicNotes", showEnharmNotes);
-			cfg->setValue("enharmonicNotesColor", enharmNotesColor);
-			cfg->setValue("is7thNote_B", seventhIs_B);
+			cfg->setValue("doubleAccidentals", S->doubleAccidentalsEnabled);
+			cfg->setValue("showEnaharmonicNotes", S->showEnharmNotes);
+			cfg->setValue("enharmonicNotesColor", S->enharmNotesColor);
+			cfg->setValue("is7thNote_B", S->seventhIs_B);
 			cfg->setValue("language", lang);
 			cfg->setValue("instrumentToFix", instrumentToFix);
 	cfg->endGroup();
 
 	cfg->beginGroup("score");
-			cfg->setValue("keySignature", SkeySignatureEnabled);
-			cfg->setValue("keyName", SshowKeySignName);
-			cfg->setValue("nameStyleInKey", (int)SnameStyleInKeySign);
+			cfg->setValue("keySignature", S->keySignatureEnabled);
+			cfg->setValue("keyName", S->showKeySignName);
+			cfg->setValue("nameStyleInKey", (int)S->nameStyleInKeySign);
 	QString majS, minS;
-	if (SmajKeyNameSufix != TkeySignature::majorSufixTxt()) majS = SmajKeyNameSufix;
+	if (S->majKeyNameSufix != TkeySignature::majorSufixTxt()) majS = S->majKeyNameSufix;
 	else majS = ""; // default sufixes are reset to be translateable in next run
 			cfg->setValue("majorKeysSufix", majS);
-	if (SminKeyNameSufix != TkeySignature::minorSufixTxt()) minS = SminKeyNameSufix;
+	if (S->minKeyNameSufix != TkeySignature::minorSufixTxt()) minS = S->minKeyNameSufix;
 	else minS = "";
 			cfg->setValue("minorKeysSufix", minS);
-			cfg->setValue("pointerColor", SpointerColor);
-			cfg->setValue("clef", (int)Sclef);
+			cfg->setValue("pointerColor", S->pointerColor);
+			cfg->setValue("clef", (int)S->clef);
+			cfg->setValue("singleNoteMode", S->isSingleNoteMode);
+			cfg->setValue("tempo", S->tempo);
+			cfg->setValue("scoreScale", S->scoreScale);
 	cfg->endGroup();
 
 	cfg->beginGroup("noteName");
-			cfg->setValue("nameStyle", (int)NnameStyleInNoteName);
-			cfg->setValue("octaveInName", NoctaveInNoteNameFormat);
-			cfg->setValue("solfegeStyle", NsolfegeStyle);
+			cfg->setValue("nameStyle", (int)S->nameStyleInNoteName);
+			cfg->setValue("octaveInName", S->octaveInNoteNameFormat);
+			cfg->setValue("solfegeStyle", S->solfegeStyle);
+			cfg->setValue("namesOnScore", S->namesOnScore );
+			cfg->setValue("namesColor", S->nameColor);
 	cfg->endGroup();
 	
 	cfg->beginGroup("guitar");

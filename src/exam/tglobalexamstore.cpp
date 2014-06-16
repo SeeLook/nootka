@@ -33,14 +33,14 @@ TglobalExamStore::TglobalExamStore(Tglobals* globals) :
 
 void TglobalExamStore::storeSettings() {
 // 		nameStyleInNoteName = mW->noteName->style();
-		nameStyleInNoteName = m_globals->NnameStyleInNoteName;
-    showEnharmNotes = m_globals->showEnharmNotes;
-    showKeySignName = m_globals->SshowKeySignName;
+		nameStyleInNoteName = m_globals->S->nameStyleInNoteName;
+    S->showEnharmNotes = m_globals->S->showEnharmNotes;
+    showKeySignName = m_globals->S->showKeySignName;
     showOtherPos = m_globals->GshowOtherPos;
-    useDblAccids = m_globals->doubleAccidentalsEnabled;
-    useKeySign = m_globals->SkeySignatureEnabled;
-    octaveInName = m_globals->NoctaveInNoteNameFormat;
-		clef = Tclef(m_globals->Sclef);
+    useDblAccids = m_globals->S->doubleAccidentalsEnabled;
+    useKeySign = m_globals->S->keySignatureEnabled;
+    octaveInName = m_globals->S->octaveInNoteNameFormat;
+		clef = Tclef(m_globals->S->clef);
 // 		instrument = m_globals->instrument;
 		detectRange = (int)m_globals->A->range;
 		intonation = m_globals->A->intonation;
@@ -52,15 +52,15 @@ void TglobalExamStore::storeSettings() {
 
 
 void TglobalExamStore::restoreSettings() {
-		m_globals->showEnharmNotes = showEnharmNotes;
-    m_globals->SshowKeySignName = showKeySignName;
+		m_globals->S->showEnharmNotes = S->showEnharmNotes;
+    m_globals->S->showKeySignName = showKeySignName;
     m_globals->GshowOtherPos = showOtherPos;
-    m_globals->doubleAccidentalsEnabled  = useDblAccids;
-    m_globals->SkeySignatureEnabled = useKeySign;
+    m_globals->S->doubleAccidentalsEnabled  = useDblAccids;
+    m_globals->S->keySignatureEnabled = useKeySign;
     m_globals->setTune(tune);
-    m_globals->NoctaveInNoteNameFormat = octaveInName;
+    m_globals->S->octaveInNoteNameFormat = octaveInName;
     m_globals->GfretsNumber = fretsNumber;
-		m_globals->Sclef = clef.type();
+		m_globals->S->clef = clef.type();
 		m_globals->instrument = instrument;
 		m_globals->A->range = (TaudioParams::Erange)detectRange;
 		m_globals->A->intonation = intonation;
@@ -72,13 +72,13 @@ void TglobalExamStore::restoreSettings() {
 
 
 void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
-		m_globals->showEnharmNotes = false;
-    m_globals->SshowKeySignName = false;
+		m_globals->S->showEnharmNotes = false;
+    m_globals->S->showKeySignName = false;
     m_globals->GshowOtherPos = false;
-    m_globals->doubleAccidentalsEnabled = level.withDblAcc;
-    m_globals->SkeySignatureEnabled = level.useKeySign;
-    m_globals->NoctaveInNoteNameFormat = true;
-		m_globals->Sclef = level.clef.type();
+    m_globals->S->doubleAccidentalsEnabled = level.withDblAcc;
+    m_globals->S->keySignatureEnabled = level.useKeySign;
+    m_globals->S->octaveInNoteNameFormat = true;
+		m_globals->S->clef = level.clef.type();
 		if (level.answerIsSound()) {
 				if (level.loNote.getChromaticNrOfNote() > Tnote(6, 0, 0).getChromaticNrOfNote())
 						m_globals->A->range = TaudioParams::e_high;

@@ -27,7 +27,7 @@ TkeySignComboBox::TkeySignComboBox(QWidget *parent) :
 {
     if (TkeySignature::majorNames[0] == "")
         TkeySignature::setNameStyle(
-                gl->SnameStyleInKeySign, gl->SmajKeyNameSufix, gl->SminKeyNameSufix);
+                gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
     for (int i=-7; i<8; i++) {
         TkeySignature k = TkeySignature(i);
         addItem("(" + k.accidNumber() + ") " + TkeySignature::majorNames[i+7] + " / "

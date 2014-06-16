@@ -150,7 +150,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 
 TanalysDialog::~TanalysDialog()
 {
-	TtipChart::defaultClef = gl->Sclef;
+	TtipChart::defaultClef = gl->S->clef;
   if (m_wasExamCreated) // to avoid memory leaks
     delete m_exam;
 }

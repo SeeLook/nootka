@@ -50,7 +50,7 @@ public:
 	
 	
 	
-  bool 												showEnharmNotes;
+  bool 												S->showEnharmNotes;
   bool 												showKeySignName;
   bool 												showOtherPos;
   Tnote::EnameStyle 					nameStyleInNoteName;

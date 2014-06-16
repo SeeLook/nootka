@@ -44,8 +44,7 @@ signals:
 		void restoreAllDefaults();
 		
 private:
-  QCheckBox 									*m_otherEnharmChBox, *m_dblAccChBox, *m_hintsEnabledChBox;
-	TcolorButton 								*m_enharmColorBut;
+  QCheckBox 									*m_hintsEnabledChBox;
 	QComboBox 									*m_langCombo;
 	QMap<QString, QString> 			 m_langList;
   QPushButton 								*m_updateButton, *m_restAllDefaultsBut;

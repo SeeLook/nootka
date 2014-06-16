@@ -33,24 +33,6 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 {
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
-    m_otherEnharmChBox = new QCheckBox(tr("show enharmonic variants of notes"),this);
-    m_otherEnharmChBox->setStatusTip(tr("Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp)."));
-    m_otherEnharmChBox->setChecked(gl->showEnharmNotes);
-		lay->addWidget(m_otherEnharmChBox);
-		QHBoxLayout *colorLay = new QHBoxLayout;
-		QLabel *colorLab = new QLabel(tr("color of enharmonic notes"), this);
-		m_enharmColorBut = new TcolorButton(gl->enharmNotesColor, this);
-		colorLay->addStretch(1);
-		colorLay->addWidget(colorLab);
-		colorLay->addStretch(0);
-		colorLay->addWidget(m_enharmColorBut);
-		colorLay->addStretch(0);
-		lay->addLayout(colorLay);
-		lay->addStretch(1);
-    m_dblAccChBox = new QCheckBox(tr("use double accidentals"),this);
-    m_dblAccChBox->setStatusTip(tr("If checked, you can use double sharps and double flats."));
-    m_dblAccChBox->setChecked(gl->doubleAccidentalsEnabled);
-    lay->addWidget(m_dblAccChBox);
     lay->addStretch(1);
     m_hintsEnabledChBox = new QCheckBox(tr("show hints"), this);
     m_hintsEnabledChBox->setChecked(gl->hintsEnabled);
@@ -112,10 +94,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 
 
 void TglobalSettings::saveSettings() {
-	gl->doubleAccidentalsEnabled = m_dblAccChBox->isChecked();
-	gl->showEnharmNotes = m_otherEnharmChBox->isChecked();
 	gl->hintsEnabled = m_hintsEnabledChBox->isChecked();
-	gl->enharmNotesColor = m_enharmColorBut->getColor();
 	QMapIterator<QString, QString> i(m_langList);
 	while (i.hasNext()) {
 		i.next();
@@ -128,10 +107,7 @@ void TglobalSettings::saveSettings() {
 
 
 void TglobalSettings::restoreDefaults() {
-	m_dblAccChBox->setChecked(false);
-	m_otherEnharmChBox->setChecked(false);
 	m_hintsEnabledChBox->setChecked(true);
-	m_enharmColorBut->setColor(palette().highlight().color());
 }
 
 
