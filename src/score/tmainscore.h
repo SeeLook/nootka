@@ -140,8 +140,6 @@ protected:
 	TscoreStaff* currentStaff();
 		
 protected slots:
-				/** Refresh some things after switch scordature, notes state and color. */
-		void onPianoSwitch();
 // 		void strikeBlinkingFinished();
 // 		void keyBlinkingFinished();
 // 		void finishCorrection();
@@ -211,6 +209,7 @@ private:
 		QPointer<QTimer>						 m_playTimer;
 		TscoreKeys									*m_keys; /** Score shortcuts */
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
+		int 												 m_nameClickCounter, m_playedIndex;
 };
 
 #endif // TMAINSCORE_H

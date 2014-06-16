@@ -65,6 +65,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	m_acts = new TscoreActions(this, gl->path);
 	
+	restoreNotesSettings();
 	addStaff(staff());
 // set preferred clef
 	setClef(gl->S->clef);
@@ -74,7 +75,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	
 	m_noteName << 0 << 0;
 // set note colors
-	restoreNotesSettings();
+// 	restoreNotesSettings();
 	setScordature();
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->S->keySignatureEnabled);
@@ -87,8 +88,6 @@ TmainScore::TmainScore(QWidget* parent) :
 
 	isExamExecuting(false);
 
-	
-// 	connect(this, SIGNAL(pianoStaffSwitched()), this, SLOT(onPianoSwitch()));
 }
 
 
@@ -115,9 +114,25 @@ void TmainScore::acceptSettings() {
 	if ((bool)staff()->scoreKey() != gl->S->keySignatureEnabled) {
 			setEnableKeySign(gl->S->keySignatureEnabled);
 	}
-	//TODO 
-			// - update notes when names were enabled or disabled - refresh its button state
-			// - update extra accidentals as well
+	restoreNotesSettings();
+	bool nameColorChanged = false;
+	if (gl->S->nameColor != TscoreNote::nameColor()) {
+		nameColorChanged = true;
+		m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
+	}
+	if (gl->S->namesOnScore != m_acts->noteNames()->isChecked() || nameColorChanged) {
+		m_acts->noteNames()->setChecked(gl->S->namesOnScore);
+		for (int st = 0; st < m_staves.size(); st++) {
+			for (int no = 0; no < m_staves[st]->count(); no++) {
+				if (m_acts->noteNames()->isChecked()) {
+					if (nameColorChanged) // remove name to pain it with new highlight
+							m_staves[st]->noteSegment(no)->removeNoteName();
+					m_staves[st]->noteSegment(no)->showNoteName();
+				} else
+					m_staves[st]->noteSegment(no)->removeNoteName();
+			}
+		}
+	}
 			
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
@@ -132,10 +147,12 @@ void TmainScore::acceptSettings() {
 			staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
-	restoreNotesSettings();
+// 	restoreNotesSettings();
 	enableAccidToKeyAnim(false); // prevent accidental animation to empty note
-	if (gl->S->keySignatureEnabled)
+	if (gl->S->keySignatureEnabled) {
+		TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
 		setKeySignature(keySignature());
+	}
 	enableAccidToKeyAnim(true);
 }
 
@@ -196,7 +213,7 @@ void TmainScore::noteWasSelected(int index) {
 	emit noteWasChanged(index, *st->getNote(index));
 }
 
-int m_tempo = 60000 / 120, m_playedIndex;
+
 void TmainScore::playScore() {
 	if (m_scoreIsPlayed) {
 		m_scoreIsPlayed = false;
@@ -208,7 +225,7 @@ void TmainScore::playScore() {
 		m_scoreIsPlayed = true;
 		m_playTimer = new QTimer(this);
 		connect(m_playTimer, SIGNAL(timeout()), this, SLOT(playSlot()));
-		m_playTimer->start(m_tempo);
+		m_playTimer->start(60000 / gl->S->tempo);
 		m_playedIndex = m_currentIndex - 1;
 		playSlot();
 	}
@@ -547,14 +564,6 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 //########################################## PROTECTED ###############################################
 //####################################################################################################
 
-void TmainScore::onPianoSwitch() {
-		restoreNotesSettings();
-		if (*gl->Gtune() != Ttune::stdTune)
-			setScordature();
-}
-
-
-int m_nameClickCounter;
 void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
 			m_nameMenu = new TnoteName(parentWidget());
@@ -685,8 +694,8 @@ void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
 // 		qDebug() << "selected note moved forward";
 		m_currentIndex++;
 	}
-// 	if (m_namesButt->isChecked())
-// 			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
+	if (gl->S->namesOnScore)
+			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
 }
 
@@ -934,6 +943,8 @@ void TmainScore::performScordatureSet() {
 
 void TmainScore::createActions() {		
 	m_settBar = new QToolBar();
+	m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
+	m_acts->noteNames()->setChecked(gl->S->namesOnScore);
 	m_settBar->addWidget(m_acts->noteNames());
 	m_settBar->addWidget(m_acts->extraAccids());
 	
@@ -966,14 +977,16 @@ void TmainScore::createActions() {
 void TmainScore::restoreNotesSettings() {
 // 		if (gl->S->enharmNotesColor == -1)
 // 					gl->S->enharmNotesColor = palette().highlight().color();
+	TscoreNote::setNameColor(gl->S->nameColor);
+	staff()->noteSegment(0)->right()->adjustSize();
 	if (gl->S->pointerColor == -1) {
 				gl->S->pointerColor = Tcolor::invert(palette().highlight().color());
 				gl->S->pointerColor.setAlpha(200);
 	}
-// 	if (staff()->count())
-// 			staff()->noteSegment(0)->setPointedColor(gl->S->pointerColor);
-	for (int i = 0; i < staff()->count(); i++)
-			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
+	if (staff()->count())
+			staff()->noteSegment(0)->setPointedColor(gl->S->pointerColor);
+// 	for (int i = 0; i < staff()->count(); i++)
+// 			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 // 		staff()->noteSegment(1)->setReadOnly(true);
 // 		staff()->noteSegment(1)->setColor(gl->S->enharmNotesColor);
 // 		staff()->noteSegment(2)->setReadOnly(true);
@@ -1087,7 +1100,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 			st->disconnect(SIGNAL(clefChanged(Tclef)));
 			m_staves << st;
 	}
-	if (m_acts->noteNames()->isChecked())
+	if (gl->S->namesOnScore)
 			m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	m_staves.last()->setExtraAccids(m_acts->extraAccids()->isChecked());

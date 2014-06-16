@@ -1,11 +1,14 @@
 1.1.1 alpha
-     - interactive score with staves systems, 
+     - interactive score with staves (systems)
      - possibility of adding/removing notes to the score
      - option for displaying accidentals from key signature near a note
-     - displaying name below every note on the score
+     - note names can be displayed on the score (below every note)
+     - option for forwarding audio input through selected audio output
     Under the hood
      - ported to Qt5
      - divided for libraries and external executable files
+     - updated RtAudio version
+     - merged audio input and output callback methods
 
 ================================================================
 

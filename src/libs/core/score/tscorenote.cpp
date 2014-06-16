@@ -46,16 +46,17 @@ QString TscoreNote::getAccid(int accNr) {
 }
 
 
-qreal TscoreNote::m_accidYoffset = 0.0;
-qreal TscoreNote::m_accidScale = -1.0;
-int TscoreNote::m_curentAccid = 0;
-int TscoreNote::m_workPosY = 0;
-QGraphicsEllipseItem* TscoreNote::m_workNote = 0;
-QGraphicsSimpleTextItem* TscoreNote::m_workAccid = 0;
+qreal 										TscoreNote::m_accidYoffset = 0.0;
+qreal 										TscoreNote::m_accidScale = -1.0;
+int 											TscoreNote::m_curentAccid = 0;
+int 											TscoreNote::m_workPosY = 0;
+QGraphicsEllipseItem* 		TscoreNote::m_workNote = 0;
+QGraphicsSimpleTextItem* 	TscoreNote::m_workAccid = 0;
 QList<QGraphicsLineItem*> TscoreNote::m_upLines;
 QList<QGraphicsLineItem*> TscoreNote::m_downLines;
 QList<QGraphicsLineItem*> TscoreNote::m_midLines;
-QColor TscoreNote::m_workColor = -1;
+QColor 										TscoreNote::m_workColor = -1;
+QColor 										TscoreNote::m_nameColor = Qt::darkCyan;
 
 TnoteControl* TscoreNote::m_rightBox = 0;
 TnoteControl* TscoreNote::m_leftBox = 0;
@@ -342,7 +343,7 @@ void TscoreNote::showNoteName() {
 		m_nameText->setZValue(10);
 		m_nameText->setAcceptHoverEvents(false);
 		QGraphicsDropShadowEffect *dropEff = new QGraphicsDropShadowEffect();
-			dropEff->setColor(Qt::darkCyan);
+			dropEff->setColor(m_nameColor);
 			dropEff->setOffset(0.7, 0.7);
 			dropEff->setBlurRadius(5.0);
 		m_nameText->setGraphicsEffect(dropEff);
