@@ -141,6 +141,8 @@ public:
 				 * when score scene has a view. */
 		static TnoteControl* right() { return m_rightBox; }
 		static TnoteControl* left() { return m_leftBox; }
+		static void setNameColor(const QColor& nameC) { m_nameColor = nameC; }
+		static QColor nameColor() { return m_nameColor; }
 		
 signals:
     void noteWasClicked(int);
@@ -203,6 +205,7 @@ private:
 		static QColor                         	m_workColor;
 		static TnoteControl				  				 		*m_rightBox;
 		static TnoteControl									 		*m_leftBox;
+		static QColor														m_nameColor;
 		static QString													m_staticTip;
 		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
     

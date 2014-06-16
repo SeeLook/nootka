@@ -57,7 +57,6 @@ TscoreActions::TscoreActions(TmainScore* sc, const QString& path) :
 		m_accidsButt->setThisColors(Qt::red, sc->palette().highlightedText().color());
 	m_namesButt = new TpushButton("c", sc);
 		m_namesButt->setStatusTip(tr("Shows names of all notes on the score"));
-		m_namesButt->setThisColors(Qt::darkCyan, sc->palette().highlightedText().color());
 	QList<TpushButton*> buttons;
 	buttons << m_accidsButt << m_namesButt;
 	for (int i = 0; i < buttons.size(); i++) {

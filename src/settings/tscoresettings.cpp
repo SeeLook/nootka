@@ -240,7 +240,7 @@ void TscoreSettings::saveSettings() {
         gl->S->minKeyNameSufix = m_minEdit->text();
         gl->S->nameStyleInKeySign = m_nameStyleGr->getNameStyle();
         gl->S->showKeySignName = m_enablKeyNameGr->isChecked();
-        TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
+//         TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
     }
     gl->S->pointerColor = m_notePointColorBut->getColor();
     gl->S->pointerColor.setAlpha(200);
@@ -248,6 +248,7 @@ void TscoreSettings::saveSettings() {
 		gl->S->doubleAccidentalsEnabled = m_dblAccChBox->isChecked();
 		gl->S->showEnharmNotes = m_otherEnharmChBox->isChecked();
 		gl->S->enharmNotesColor = m_enharmColorBut->getColor();
+		gl->S->tempo = m_tempoSpin->value();
 }
 
 
@@ -272,6 +273,7 @@ void TscoreSettings::restoreDefaults() {
 		m_dblAccChBox->setChecked(false);
 		m_otherEnharmChBox->setChecked(false);
 		m_enharmColorBut->setColor(palette().highlight().color());
+		m_tempoSpin->setValue(120);
 }
 
 

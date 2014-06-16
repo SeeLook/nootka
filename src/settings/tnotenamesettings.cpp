@@ -51,8 +51,9 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
 
 		m_nameInScoreChB = new QCheckBox(tr("note name in the score"), this);
 			m_nameInScoreChB->setStatusTip(tr("Shows names of all notes on the score"));
+			m_nameInScoreChB->setChecked(gl->S->namesOnScore);
 		QLabel *nameColorLab = new QLabel(tr("names highlight color"), this);
-		m_nameColorButt = new TcolorButton(QColor(), this);
+		m_nameColorButt = new TcolorButton(gl->S->nameColor, this);
 		QHBoxLayout *nameScoreLay = new QHBoxLayout;
 			nameScoreLay->addWidget(m_nameInScoreChB);
 			nameScoreLay->addStretch(2);
@@ -63,9 +64,9 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
 		mainLay->addStretch(1);
 		
     m_octInNameCh = new QCheckBox(tr("show octave in name of note"),this);
-    mainLay->addWidget(m_octInNameCh, 0, Qt::AlignCenter);
-    m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
-    m_octInNameCh->setChecked(gl->S->octaveInNoteNameFormat);
+			mainLay->addWidget(m_octInNameCh, 0, Qt::AlignCenter);
+			m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
+			m_octInNameCh->setChecked(gl->S->octaveInNoteNameFormat);
     mainLay->addStretch(1);
     setLayout(mainLay);
 
@@ -84,6 +85,8 @@ void TnoteNameSettings::saveSettings() {
     gl->S->octaveInNoteNameFormat = m_octInNameCh->isChecked();
 		gl->S->solfegeStyle = m_nameStyleGr->getSolfegeStyle();
     gl->S->seventhIs_B = is7th_b();
+		gl->S->namesOnScore = m_nameInScoreChB->isChecked();
+		gl->S->nameColor = m_nameColorButt->getColor();
 }
 
 
@@ -98,6 +101,8 @@ void TnoteNameSettings::restoreDefaults() {
 		}
 		seventhNoteWasChanged(m_select7->is7th_B());
 		m_octInNameCh->setChecked(true);
+		m_nameColorButt->setColor(Qt::darkCyan);
+		m_nameInScoreChB->setChecked(true);
 }
 
 

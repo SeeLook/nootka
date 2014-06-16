@@ -44,7 +44,8 @@ void initCoreLibrary(Tglobals* gl) {
 #else
     TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
 #endif
-		TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
+// 		TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
+// moved to prepareTranslations() due to suffix translations have to be known
 }
 
 
@@ -65,6 +66,8 @@ void prepareTranslations(QApplication* a) {
 //     QTranslator nooTranslator;
 	nooTranslator.load("nootka_" + ll, Tglob::glob()->path + "lang");
 	a->installTranslator(&nooTranslator);
+	TkeySignature::setNameStyle(Tglob::glob()->S->nameStyleInKeySign, Tglob::glob()->S->majKeyNameSufix, 
+															Tglob::glob()->S->minKeyNameSufix);
 }
 
 
