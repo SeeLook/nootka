@@ -55,7 +55,6 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_corrStyle(Tnote::defaultStyle),
   m_inMode(e_multi),
   m_clickedOff(0), m_currentIndex(-1),
-  m_scale(1.0),
   m_scoreIsPlayed(false)
 {
   m_parent = parent;
@@ -108,6 +107,11 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 
 
 void TmainScore::acceptSettings() {
+	bool refreshNoteNames = false;
+	if  (Tnote::defaultStyle != gl->S->nameStyleInNoteName) {
+		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
+		refreshNoteNames = true;
+	}
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	staff()->noteSegment(0)->left()->addAccidentals();
 	setClef(Tclef(gl->S->clef));
@@ -115,17 +119,16 @@ void TmainScore::acceptSettings() {
 			setEnableKeySign(gl->S->keySignatureEnabled);
 	}
 	restoreNotesSettings();
-	bool nameColorChanged = false;
 	if (gl->S->nameColor != TscoreNote::nameColor()) {
-		nameColorChanged = true;
+		      refreshNoteNames = true;
 		m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
 	}
-	if (gl->S->namesOnScore != m_acts->noteNames()->isChecked() || nameColorChanged) {
+	if (gl->S->namesOnScore != m_acts->noteNames()->isChecked() || refreshNoteNames) {
 		m_acts->noteNames()->setChecked(gl->S->namesOnScore);
 		for (int st = 0; st < m_staves.size(); st++) {
 			for (int no = 0; no < m_staves[st]->count(); no++) {
 				if (m_acts->noteNames()->isChecked()) {
-					if (nameColorChanged) // remove name to pain it with new highlight
+					if (refreshNoteNames) // remove name to pain it with new highlight
 							m_staves[st]->noteSegment(no)->removeNoteName();
 					m_staves[st]->noteSegment(no)->showNoteName();
 				} else
@@ -139,8 +142,8 @@ void TmainScore::acceptSettings() {
 	else
 			if (staff()->hasScordature())
 				staff()->removeScordatute();
-	if (!gl->S->doubleAccidentalsEnabled)
-		clearNote(2);
+// 	if (!gl->S->doubleAccidentalsEnabled)
+// 		clearNote(2);
 	setEnableEnharmNotes(gl->S->showEnharmNotes);
 	if (gl->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
@@ -251,7 +254,7 @@ void TmainScore::onClefChanged(Tclef cl) {
 void TmainScore::setScordature() {
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar) {
 			performScordatureSet();
-			resizeEvent(0);
+// 			resizeEvent(0);
 	}
 }
 
@@ -730,14 +733,14 @@ void TmainScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
 
 
 void TmainScore::zoomScoreSlot() {
-	qreal newScale = m_scale;
+	qreal newScale = gl->S->scoreScale;
 	if (sender() == m_acts->zoomOut()) {
-			newScale = qMin(m_scale + 0.25, 2.0);
+			newScale = qMin(gl->S->scoreScale + 0.25, 2.0);
 	} else {
-			newScale = qMax(m_scale - 0.25, 1.0);
+			newScale = qMax(gl->S->scoreScale - 0.25, 1.0);
 	}
-	if (newScale != m_scale) {
-		m_scale = newScale;
+	if (newScale != gl->S->scoreScale) {
+		gl->S->scoreScale = newScale;
 		resizeEvent(0);
 	}
 }
@@ -887,7 +890,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	qreal staffOff = 0.0;
   if (staff()->isPianoStaff())
     staffOff = 1.1;
-  qreal factor = (((qreal)hh / (staff()->height() + 2.0)) / score()->transform().m11()) / m_scale;
+  qreal factor = (((qreal)hh / (staff()->height() + 2.0)) / score()->transform().m11()) / gl->S->scoreScale;
   score()->scale(factor, factor);
 	int stavesNumber; // how many staves are needed
 	for (int i = 0; i < m_staves.size(); i++) {
@@ -971,6 +974,7 @@ void TmainScore::createActions() {
 	rhythmCorner->setSpotColor(Qt::yellow);
 	
 	m_keys = new TscoreKeys(this);
+	m_acts->assignKeys(m_keys);
 }
 
 
@@ -1011,7 +1015,7 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 void TmainScore::updateSceneRect() {
 	qreal sh;
 	if (m_staves.size() == 1)
-		sh = (staff()->height() + 0.1) * m_scale;
+		sh = (staff()->height() + 0.1) * gl->S->scoreScale;
 	else
 		sh = m_staves.last()->pos().y() + m_staves.last()->height();
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 

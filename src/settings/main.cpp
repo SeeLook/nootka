@@ -50,4 +50,6 @@ int main(int argc, char *argv[])
 				std::cout << "Canceled";
 				
 		}
+		delete gl;
+		return retVal;
 }

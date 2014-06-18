@@ -39,7 +39,7 @@ public:
 	QShortcut* lastNote() { return m_lastNote; }
 	QShortcut* staffUp() { return m_staffUp; }
 	QShortcut*	staffDown() { return m_staffDown; }
-	
+	QShortcut* clearScore() { return m_clearScore; }	
 	
 protected:
 	TmainScore* score() { return m_score; }
@@ -50,6 +50,7 @@ private:
 	QShortcut 									*m_nextNote, *m_prevNote;
 	QShortcut 									*m_firstNote, *m_lastNote;
 	QShortcut										*m_staffUp, *m_staffDown;
+	QShortcut										*m_clearScore;
 
 };
 

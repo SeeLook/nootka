@@ -72,8 +72,8 @@ void TscoreScordature::setTune(Ttune& tune) {
 		qreal yPos = staff()->upperLinePos() + 12;
 		if (staff()->isPianoStaff()) {
 			// This is in case of scordature on piano staff - it needs more space to look well
-			xPos = -2.0;
-			extraW = 4.0;
+			xPos = -1.0;
+			extraW = 3.0;
 			yPos = staff()->lowerLinePos() + 8.5;
 		} else if (staff()->scoreClef()->clef().type() != Tclef::e_treble_G &&
 					staff()->scoreClef()->clef().type() != Tclef::e_treble_G_8down)
