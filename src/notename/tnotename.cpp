@@ -220,7 +220,7 @@ void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
 
 void TnoteName::setStyle(Tnote::EnameStyle style) {
     m_style = style;
-		Tnote::defaultStyle = style;
+// 		Tnote::defaultStyle = style;
 }
 
 

@@ -53,6 +53,7 @@ QString Tglobals::getInstPath(QString appInstPath) {
 	return p;
 }
 
+bool m_fromTemp;
 /*end static*/
 
 
@@ -83,14 +84,18 @@ Tglobals::Tglobals(bool fromTemp) :
 		grabFromTemp();
 	else
 		loadSettings(config);
-    
+	m_fromTemp = fromTemp;    
 }
 
 Tglobals::~Tglobals() {
-    storeSettings(config);
+	if (!m_fromTemp) {
+// 			qDebug() << "Global settings stored to" << config->fileName();
+			storeSettings(config);
+	}
     delete config;
     delete E;
     delete A;
+		delete S;
 		delete m_tune;
 }
 
@@ -143,8 +148,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 //score widget settings
 	cfg->beginGroup("score");
-// 			S->keySignatureEnabled = cfg->value("keySignature", false).toBool();
-S->keySignatureEnabled = true;
+			S->keySignatureEnabled = cfg->value("keySignature", false).toBool();
+// S->keySignatureEnabled = true;
 			S->showKeySignName = cfg->value("keyName", true).toBool(); //true;
 			S->nameStyleInKeySign = Tnote::EnameStyle(cfg->value("nameStyleInKey",
 																													(int)Tnote::e_english_Bb).toInt());
@@ -163,8 +168,8 @@ S->keySignatureEnabled = true;
 
 //common for score widget and note name
 	cfg->beginGroup("common");
-// 			S->doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
-S->doubleAccidentalsEnabled = true;
+			S->doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
+// S->doubleAccidentalsEnabled = true;
 			S->showEnharmNotes = cfg->value("showEnaharmonicNotes", false).toBool();
 			if (cfg->contains("enharmonicNotesColor"))
 					S->enharmNotesColor = cfg->value("enharmonicNotesColor").value<QColor>(); //-1;
@@ -336,7 +341,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("nameStyleInKey", (int)S->nameStyleInKeySign);
 	QString majS, minS;
 	if (S->majKeyNameSufix != TkeySignature::majorSufixTxt()) majS = S->majKeyNameSufix;
-	else majS = ""; // default sufixes are reset to be translateable in next run
+	else majS = ""; // default suffixes are reset to be translatable in next run
 			cfg->setValue("majorKeysSufix", majS);
 	if (S->minKeyNameSufix != TkeySignature::minorSufixTxt()) minS = S->minKeyNameSufix;
 	else minS = "";

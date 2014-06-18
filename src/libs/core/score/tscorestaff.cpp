@@ -661,7 +661,7 @@ int TscoreStaff::getMaxNotesNr(qreal maxWidth) {
 	if (scoreKey())
 		maxWidth -= KEY_WIDTH + 1.5;
 	else if (hasScordature())
-		maxWidth = KEY_WIDTH / 2;
+		maxWidth -= KEY_WIDTH / 2;
 	return int(maxWidth / 7.0);
 }
 
@@ -675,6 +675,10 @@ void TscoreStaff::findHighestNote() {
 
 
 void TscoreStaff::findLowestNote() {
+	if (hasScordature()) {
+		m_loNotePos = height();
+		return;
+	}	
 	m_loNotePos = (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 12.0;
 	for (int i = 0; i < m_scoreNotes.size(); i++)
 			m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos()), m_loNotePos);

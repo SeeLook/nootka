@@ -54,15 +54,10 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneLay->setAlignment(Qt::AlignCenter);
     m_tuneCombo = new QComboBox(this);
     tuneLay->addWidget(m_tuneCombo);
-    m_tuneView = new TsimpleScore(7, this);
+    m_tuneView = new TsimpleScore(6, this);
+		m_tuneView->setControllersEnabled(true, false);
     tuneLay->addWidget(m_tuneView);
-		tuneLay->addStretch();
-// 		m_tuneView->setClefDisabled(true);
     m_tuneView->setClef(gl->S->clef); 
-    m_tuneView->setNoteDisabled(6, true); // 7-th is dummy to get more space
-// #if defined(Q_OS_WIN)
-    m_tuneView->setFixedHeight(250);
-// #endif
    
     m_tuneGroup->setLayout(tuneLay);
 //     upLay->addWidget(m_tuneGroup);
@@ -147,7 +142,6 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
     connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
     connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
-		connect(m_tuneView, SIGNAL(pianoStaffSwitched()), this, SLOT(switchedToPianoStaff()));
 		connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 		connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
 		connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
@@ -340,14 +334,6 @@ void TguitarSettings::onClefChanged(Tclef clef) {
 		// this is not piano staff - we don't need updateAmbitus()
 		updateNotesState();
 		emit clefChanged(clef);
-		emit lowestNoteChanged(m_tuneView->lowestNote());
-}
-
-
-void TguitarSettings::switchedToPianoStaff() {
-		updateAmbitus();
-		updateNotesState();
-		emit clefChanged(currentClef());
 		emit lowestNoteChanged(m_tuneView->lowestNote());
 }
 

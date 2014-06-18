@@ -19,9 +19,11 @@
 
 #include "tscoreactions.h"
 #include "tmainscore.h"
+#include "tscorekeys.h"
 #include <widgets/tpushbutton.h>
 #include <QAction>
 #include <QStyle>
+#include <QShortcut>
 
 
 TscoreActions::TscoreActions(TmainScore* sc, const QString& path) :
@@ -36,7 +38,7 @@ TscoreActions::TscoreActions(TmainScore* sc, const QString& path) :
 		m_inZoom->setStatusTip(tr("Zoom score in"));
 		connect(m_inZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
 	m_firstNote = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)), "", this);
-		m_firstNote->setStatusTip(tr("Go to the first note (Home)"));
+		m_firstNote->setStatusTip(tr("Go to the first note"));
 		connect(m_firstNote, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
 	m_staffUp = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowUp)), "", this);
 		m_staffUp->setStatusTip(tr("Go to the staff above"));
@@ -45,7 +47,7 @@ TscoreActions::TscoreActions(TmainScore* sc, const QString& path) :
 		m_staffDown->setStatusTip(tr("Go to the staff below"));
 		connect(m_staffDown, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
 	m_lastNote = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowForward)), "", this);
-		m_lastNote->setStatusTip(tr("Go to the last note (End)"));
+		m_lastNote->setStatusTip(tr("Go to the last note"));
 		connect(m_lastNote, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
 	
 	m_clear = new QAction(QIcon(path + "picts/clear-score.png"), "", this);
@@ -73,3 +75,38 @@ TscoreActions::TscoreActions(TmainScore* sc, const QString& path) :
 
 		
 }
+
+
+void TscoreActions::assignKeys(TscoreKeys* sKeys) {
+	m_keys = sKeys;
+	assocActionAndKey(m_firstNote, m_keys->firstNote());
+	assocActionAndKey(m_lastNote, m_keys->lastNote());
+	assocActionAndKey(m_staffDown, m_keys->staffDown());
+	assocActionAndKey(m_staffUp, m_keys->staffUp());
+	assocActionAndKey(m_clear, m_keys->clearScore());
+}
+
+//####################################################################################################
+//########################################## PRIVATE #################################################
+//####################################################################################################
+
+void TscoreActions::assocActionAndKey(QAction* act, QShortcut* key) {
+	QString keyText = m_keys->firstNote()->key().toString();
+	if (keyText != "")
+		act->setStatusTip(act->statusTip() + " (" + key->key().toString() + ")");
+	connect(key, SIGNAL(activated()), act, SLOT(trigger()));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -65,7 +65,7 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   m_textClef(0),
   m_readOnly(false)
 {
-	setFlags(ItemHasNoContents);
+// 	setFlags(ItemHasNoContents); // clef update() won't work with this
   setStaff(staff);
 	setParentItem(staff);
 	enableTouchToMouse(false); // give up from mapping touches to mouse, hasCursor() won't work
@@ -113,16 +113,14 @@ void TscoreClef::setClef(Tclef clef) {
 
 
 QRectF TscoreClef::boundingRect() const {
-  if (m_textClef)
-      return QRectF(0, 0, CLEF_WIDTH, m_textClef->boundingRect().height());
-  else
-      return QRectF(0, 0, 6, 40);
+      return QRectF(0, 0, 6, 18); // optimal height for all clef types
 }
 
 void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 	Q_UNUSED(painter)
 	Q_UNUSED(option)
 	Q_UNUSED(widget)
+// 	paintBackground(painter, Qt::magenta);
 }
 
 #if !defined (Q_OS_ANDROID)

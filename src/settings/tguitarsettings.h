@@ -102,7 +102,6 @@ private:
 private slots:
     void tuneSelected(int tuneId);
     void userTune(int, Tnote);
-		void switchedToPianoStaff();
 		void onClefChanged(Tclef clef);
 		void stringNrChanged(int strNr);
 		void instrumentTypeChanged(int index);

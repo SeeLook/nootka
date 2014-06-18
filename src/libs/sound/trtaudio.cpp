@@ -174,7 +174,7 @@ TrtAudio::~TrtAudio()
 
 
 void TrtAudio::updateAudioParams() {
-	qDebug() << "updateAudioParams";
+// 	qDebug() << "updateAudioParams";
 	m_isOpened = false;
 	closeStram();
 // preparing devices

@@ -202,7 +202,6 @@ private:
 		
 				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 		int													 m_clickedOff, m_currentIndex;
-		qreal												 m_scale;
 		QPointer<TnoteName>					 m_nameMenu;
 		QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
 		bool												 m_scoreIsPlayed;
