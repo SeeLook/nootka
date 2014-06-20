@@ -133,6 +133,7 @@ public slots:
 		void expertNoteChanged();
 		void onClefChanged(Tclef cl);
 		void playScore(); /** Plays (actually emits noteChanged()) all notes starting from the selected one. */
+		void removeCurrentNote();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);

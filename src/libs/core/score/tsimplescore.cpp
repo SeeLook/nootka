@@ -54,6 +54,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setFrameShape(QFrame::NoFrame);
+	m_score->setObjectName("m_score");
   
   m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
@@ -72,7 +73,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	setEnabledDblAccid(false);
 	
 	resizeEvent(0);
-  
+  score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
 }
 
 TsimpleScore::~TsimpleScore() {}
@@ -266,7 +267,7 @@ void TsimpleScore::addBGglyph(int instr) {
 	m_bgGlyph->setBrush(bgColor);
 	qreal factor = (staff()->height() / m_bgGlyph->boundingRect().height());
 	m_bgGlyph->setScale(factor);
-	m_bgGlyph->setPos(/*(staff()->width() - m_bgGlyph->boundingRect().width() * factor) / 2*/ 12.0, 
+	m_bgGlyph->setPos((staff()->width() - m_bgGlyph->boundingRect().width() * factor) / 2 , 
 									(staff()->height() - m_bgGlyph->boundingRect().height() * factor) / 2);
 	m_bgGlyph->setZValue(1);
 	
@@ -300,12 +301,13 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 // 	qreal factor = ((qreal)hh / (staff()->height() + 2.0)) * m_pianoFactor;
 // 	qreal factor = (qreal)m_score->frameRect().height() / (m_scene->sceneRect().height() * m_score->transform().m11());
   m_score->scale(factor, factor);
-	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
+// 	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
 	if (m_score->horizontalScrollBar()->isVisible()) {
 		m_score->horizontalScrollBar()->setValue(scrollV);
 	}
 	staff()->setPos(staffOff, 0.05);
 	staff()->updateSceneRect();
+	m_score->setFixedSize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size());
 }
 
 
@@ -323,7 +325,8 @@ void TsimpleScore::statusTipChanged(QString status) {
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
 	bgColor.setAlpha(220);
-	m_score->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1").arg(Tcolor::bgTag(bgColor)));
+	m_score->setStyleSheet(
+		QString("QGraphicsView#m_score { border: 1px solid palette(Text); border-radius: 10px; %1 }").arg(Tcolor::bgTag(bgColor)));
 }
 
 
@@ -337,6 +340,10 @@ void TsimpleScore::onClefChanged(Tclef clef) {
 					resizeEvent(0);
 	m_clefType = clef.type();
 }
+
+
+
+
 
 
 

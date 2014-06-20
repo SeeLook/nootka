@@ -60,9 +60,9 @@ public slots:
 		void defaultClefChanged(Tclef clef);
 
 private:
-    QCheckBox 						*m_enablKeySignCh, *m_singleModeChB;
+    QCheckBox 						*m_enablKeySignCh;
 		QCheckBox 						*m_otherEnharmChBox, *m_dblAccChBox;
-    QGroupBox 						*m_enablKeyNameGr, *m_nameExtGr;
+    QGroupBox 						*m_enablKeyNameGr, *m_nameExtGr, *m_singleNoteGr;
     QLabel 								*m_majExtLab, *m_minExtLab, *m_majExampl, *m_minExampl;
     QLineEdit 						*m_majEdit, *m_minEdit;
     TnotationRadioGroup 	*m_nameStyleGr;

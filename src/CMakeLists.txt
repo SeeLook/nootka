@@ -25,7 +25,7 @@ endif(UNIX AND NOT APPLE)
 
 add_subdirectory( libs/core ) # libNootkaCore
 add_subdirectory( libs/sound ) # libNootkaSound
-add_subdirectory( libs/misc/ ) # libNootkaMisc
+# add_subdirectory( libs/misc/ ) # libNootkaMisc
 		
 include_directories( libs/core libs/sound libs/misc/ )
 
@@ -35,7 +35,7 @@ include_directories( libs/core libs/sound libs/misc/ )
 
 # add_subdirectory( updater ) # nootka updater
 
-add_subdirectory( settings )
+# add_subdirectory( settings )
 
 # nootka executable
 set(NOOTKA_SRC

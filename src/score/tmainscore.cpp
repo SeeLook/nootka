@@ -58,9 +58,7 @@ TmainScore::TmainScore(QWidget* parent) :
   m_scoreIsPlayed(false)
 {
   m_parent = parent;
-// 	score()->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-// 	score()->setFrameShape(QFrame::Box);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	m_acts = new TscoreActions(this, gl->path);
 	
@@ -107,18 +105,22 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 
 
 void TmainScore::acceptSettings() {
-	bool refreshNoteNames = false;
+	bool refreshNoteNames = false; // This is CPU consuming operation - we try to avoid it
+// Update note name style
 	if  (Tnote::defaultStyle != gl->S->nameStyleInNoteName) {
 		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
 		refreshNoteNames = true;
 	}
+// Double accidentals
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	staff()->noteSegment(0)->left()->addAccidentals();
 	setClef(Tclef(gl->S->clef));
+// Enable/disable key signatures
 	if ((bool)staff()->scoreKey() != gl->S->keySignatureEnabled) {
 			setEnableKeySign(gl->S->keySignatureEnabled);
 	}
 	restoreNotesSettings();
+// Note names on the score
 	if (gl->S->nameColor != TscoreNote::nameColor()) {
 		      refreshNoteNames = true;
 		m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
@@ -136,7 +138,7 @@ void TmainScore::acceptSettings() {
 			}
 		}
 	}
-			
+// scordature	
 	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
 			setScordature();
 	else
@@ -144,6 +146,7 @@ void TmainScore::acceptSettings() {
 				staff()->removeScordatute();
 // 	if (!gl->S->doubleAccidentalsEnabled)
 // 		clearNote(2);
+// enharmonic alternatives  
 	setEnableEnharmNotes(gl->S->showEnharmNotes);
 	if (gl->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
@@ -151,6 +154,7 @@ void TmainScore::acceptSettings() {
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 // 	restoreNotesSettings();
+// refresh key signature, if any
 	enableAccidToKeyAnim(false); // prevent accidental animation to empty note
 	if (gl->S->keySignatureEnabled) {
 		TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
@@ -563,6 +567,16 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 }
 
 
+void TmainScore::removeCurrentNote() {
+	if (m_currentIndex > 0 || (m_currentIndex == 0 && staff()->count() > 1))
+		currentStaff()->removeNote(m_currentIndex % staff()->maxNoteCount());
+	else if (m_currentIndex == 0) { // just clear first note when only one
+		m_clickedOff = 0;
+		setNote(Tnote());
+		emit noteWasChanged(0, Tnote());
+	}
+}
+
 //####################################################################################################
 //########################################## PROTECTED ###############################################
 //####################################################################################################
@@ -760,7 +774,10 @@ void TmainScore::deleteNotes() {
 		for (int i = 0; i <notesToDel.size(); i++)
 			delete notesToDel[i];
 	}
+// 	staff()->noteSegment(0)->setNote(0, 0, Tnote());
+	setNote(Tnote());
 	updateSceneRect();
+	emit noteWasChanged(0, Tnote());
 }
 
 
@@ -792,8 +809,9 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 			break;
 		}
 		case e_nextNote: {
-			if (m_currentIndex < notesCount() - 1)
-					changeCurrentIndex(m_currentIndex + 1);
+			if (m_currentIndex < notesCount() - 1 || (insertMode() == e_record && m_currentIndex == notesCount() - 1)) {
+					changeCurrentIndex(m_currentIndex + 1); // record mode adds new note at the end`
+			}
 			break;
 		}
 		case e_nextStaff: {
@@ -812,8 +830,6 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 	if (prevIndex != m_currentIndex) {
 			emit noteWasChanged(m_currentIndex % staff()->maxNoteCount(), 
 												*currentStaff()->getNote(m_currentIndex % staff()->maxNoteCount()));
-			if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
-				score()->ensureVisible(currentStaff(), 0, 0);
 			m_clickedOff = 0;
 	}
 }
@@ -1030,7 +1046,7 @@ void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
   if (insertMode() == e_record && noteIndex == sendStaff->count() - 1 && noteIndex != sendStaff->maxNoteCount() - 1) {
       Tnote nn(0, 0, 0);
 			sendStaff->addNote(nn);
-			if (m_acts->noteNames()->isChecked())
+			if (gl->S->namesOnScore)
 				sendStaff->noteSegment(sendStaff->count() - 1)->showNoteName();
   }
 }
@@ -1045,6 +1061,7 @@ void TmainScore::adjustStaffWidth(TscoreStaff* st) {
 
 void TmainScore::changeCurrentIndex(int newIndex) {
 	if (newIndex != m_currentIndex) {
+			int prevIndex = m_currentIndex;
 			if (m_currentIndex >= 0) { // deselect previous note
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->selectNote(false);
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->setBackgroundColor(-1);
@@ -1063,6 +1080,8 @@ void TmainScore::changeCurrentIndex(int newIndex) {
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->setBackgroundColor(palette().highlight().color());
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->selectNote(true);
 			}
+			if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
+				score()->ensureVisible(currentStaff(), 0, 0);
 	}
 }
 
