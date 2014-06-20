@@ -112,7 +112,10 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 	m_3_misc = new QWidget();
 	m_toolBox->addItem(m_3_misc, "3. " + tr("Miscellaneous score settings"));
 	
-	
+		m_singleNoteGr = new QGroupBox(tr("use single note only"), m_3_misc);
+			m_singleNoteGr->setStatusTip(tr("When enabled, a score displays only a single note."));
+			m_singleNoteGr->setCheckable(true);
+			m_singleNoteGr->setChecked(gl->S->isSingleNoteMode);
 		m_otherEnharmChBox = new QCheckBox(tr("show enharmonic variants of notes"), m_3_misc);
 			m_otherEnharmChBox->setStatusTip(tr("Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp)."));
 			m_otherEnharmChBox->setChecked(gl->S->showEnharmNotes);
@@ -137,7 +140,8 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		  enColorLay->addWidget(colorLab);
 		  enColorLay->addStretch(1);
 		  enColorLay->addWidget(m_enharmColorBut);
-		miscLay->addLayout(enColorLay);
+		m_singleNoteGr->setLayout(enColorLay);
+		miscLay->addWidget(m_singleNoteGr);
 		miscLay->addStretch();
 		miscLay->addWidget(m_dblAccChBox);
 		miscLay->addStretch();
@@ -249,6 +253,7 @@ void TscoreSettings::saveSettings() {
 		gl->S->showEnharmNotes = m_otherEnharmChBox->isChecked();
 		gl->S->enharmNotesColor = m_enharmColorBut->getColor();
 		gl->S->tempo = m_tempoSpin->value();
+		gl->S->isSingleNoteMode = m_singleNoteGr->isChecked();
 }
 
 
@@ -274,6 +279,7 @@ void TscoreSettings::restoreDefaults() {
 		m_otherEnharmChBox->setChecked(false);
 		m_enharmColorBut->setColor(palette().highlight().color());
 		m_tempoSpin->setValue(120);
+		m_singleNoteGr->setChecked(false);
 }
 
 

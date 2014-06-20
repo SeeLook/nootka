@@ -37,6 +37,8 @@ TscoreKeys::TscoreKeys(TmainScore* sc) :
 	m_staffDown = new QShortcut(QKeySequence(Qt::Key_PageDown), score());
 // 		connect(m_staffDown, SIGNAL(activated()), sc, SLOT(moveSelectedNote()));
 	m_clearScore = new QShortcut(QKeySequence("Shift+DEL"), score());
+	m_delCurrNote = new QShortcut(QKeySequence(Qt::Key_Delete), score());
+		connect(m_delCurrNote, SIGNAL(activated()), sc, SLOT(removeCurrentNote()));
 }
 
 

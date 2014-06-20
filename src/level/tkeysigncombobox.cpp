@@ -19,6 +19,7 @@
 
 #include "tkeysigncombobox.h"
 #include <tglobals.h>
+#include <tscoreparams.h>
 
 extern Tglobals *gl;
 

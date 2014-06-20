@@ -23,6 +23,7 @@
 #include <score/tsimplescore.h>
 #include <exam/tlevel.h>
 #include <music/ttune.h>
+#include <tscoreparams.h>
 #include <QtWidgets>
 
 extern Tglobals *gl;
@@ -34,7 +35,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     m_levelIsLoading(false)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *allLay = new QHBoxLayout;
@@ -51,9 +52,9 @@ rangeSettings::rangeSettings(QWidget *parent) :
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
     scoreLay->addWidget(m_scoreRang);
-		scoreLay->addWidget(m_fretAdjustButt, 1, Qt::AlignCenter);
+		scoreLay->addWidget(m_fretAdjustButt);
     notesRangGr->setLayout(scoreLay);
-		m_scoreRang->setFixedSize(400, 300);
+// 		m_scoreRang->setFixedSize(400, 300);
 // #if defined(Q_OS_WIN)
 //     m_scoreRang->setFixedHeight(300);
 // #endif
@@ -104,7 +105,7 @@ rangeSettings::rangeSettings(QWidget *parent) :
     allLay->addLayout(guitLay);
 
     mainLay->addLayout(allLay);
-    mainLay->addStretch(1);
+//     mainLay->addStretch(1);
 
     setLayout(mainLay);
 		
