@@ -445,22 +445,34 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
     level.name = "";
     if (file.open(QIODevice::ReadOnly)) {
          QDataStream in(&file);
-         in.setVersion(QDataStream::Qt_4_7);
+         in.setVersion(QDataStream::Qt_5_2);
          quint32 lv; // level version identifier
          in >> lv;
-				 if (Tlevel::couldBeLevel(lv)) {
-					 if (!Tlevel::isLevelVersion(lv)) {
-						 newerNootkaMessage(file.fileName(), this);
-						 return level;
-						 // There is a risk that user will have many levels in the list
-						 // and will run older Nootka version than levels were created.
-						 // Many dialog will appears.... 
-					 }
+// 				 if (Tlevel::couldBeLevel(lv)) {
+// 					 if (!Tlevel::isLevelVersion(lv)) {
+// 						 newerNootkaMessage(file.fileName(), this);
+// 						 return level;
+// 						 // There is a risk that user will have many levels in the list
+// 						 // and will run older Nootka version than levels were created.
+// 						 // Many dialog will appears.... 
+// 					 }
+// 				 } else if (readLevelFromXml(file.fileName(), level)) {
+// 					 return level;
+// 				 } else {
+// 						QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
+// 						return level;
+// 				 }
+				 bool wasLevelValid;
+				 if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2)
+						wasLevelValid = getLevelFromStream(in, level, lv);
+				 else if (Tlevel::levelVersionNr(lv) == 3) {
+					 QXmlStreamReader xml(in.device());
+					 wasLevelValid = level.loadFromXml(xml);
 				 } else {
 						QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
 						return level;
 				 }
-         if (!getLevelFromStream(in, level, lv))
+				 if (!wasLevelValid)
              QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
          file.close();
     } else {

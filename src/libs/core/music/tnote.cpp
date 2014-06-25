@@ -22,6 +22,9 @@
 #include <string>
 #include <iostream>
 #include <unistd.h>
+#include <QXmlStreamWriter>
+#include <QVariant>
+
 
 std::string IntToString(int num) {
   std::ostringstream myStream;
@@ -360,6 +363,42 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
     }
     return result;
 }
+
+
+void Tnote::toXml(QXmlStreamWriter& xml) {
+	xml.writeStartElement("pitch");
+		Tnote bareNote = Tnote(note, octave, 0);
+		xml.writeTextElement("step", bareNote.toText(Tnote::e_english_Bb, false));
+		xml.writeTextElement("octave", QVariant((int)octave + 3).toString());
+		if (acidental)
+			xml.writeTextElement("alter", QVariant((int)acidental).toString());
+	xml.writeEndElement(); // pitch
+}
+
+
+void Tnote::fromXml(QXmlStreamReader& xml) {
+	if (xml.name() == "pitch") {
+		while (xml.readNextStartElement()) {
+			if (xml.name() == "step") {
+				QString step = xml.readElementText().toUpper();
+				for (char i = 1; i < 8; i++) {
+					Tnote n(i, 0, 0);
+					if (n.toText(Tnote::e_english_Bb, false) == step) {
+						note = i;
+						break;
+					}
+				}
+			} else if (xml.name() == "octave")
+				octave = char(xml.readElementText().toInt() - 3);
+			else if (xml.name() == "alter")
+				acidental = char(xml.readElementText().toInt());
+			else 
+				xml.skipCurrentElement();
+		}
+		xml.skipCurrentElement();
+	}
+}
+
 
 
 bool Tnote::operator ==( const Tnote N2 ) {

@@ -112,10 +112,11 @@ int TrtAudio::passInputCallBack(void* outBuffer, void* inBuffer, unsigned int nB
 	Q_UNUSED (userData)
 	qint16 *in = (qint16*)inBuffer;
 	qint16 *out = (qint16*)outBuffer;
-	for (int i = 0; i < nBufferFrames; i++) {
-			*out++ = *(in + i); // left channel
-			*out++ = *(in + i); // right channel
-	}
+	if (m_cbOut(outBuffer, nBufferFrames, status)) // none playing is performed
+			for (int i = 0; i < nBufferFrames; i++) { // then forward input
+					*out++ = *(in + i); // left channel
+					*out++ = *(in + i); // right channel
+			}
 	m_cbIn(inBuffer, nBufferFrames, status);
 	return 0;
 }

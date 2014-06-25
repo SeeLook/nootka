@@ -29,6 +29,7 @@
 #include <QString>
 #include <QDataStream>
 
+class QXmlStreamWriter;
 class QFile;
 class QWidget;
 
@@ -65,6 +66,10 @@ public:
 		
 				/** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
+
+				/** Writes Tnote 'pitch' XML node into given @p tag to XML stream */
+		static void tnoteToXml(const QString& tag, Tnote& n, QXmlStreamWriter& xml);
+		static Tnote tnoteFromXml(QXmlStreamReader& xml);
 
   //--------------------------- level parameters ------------------------------------------------------------
     QString name; /** Level name */
@@ -125,6 +130,13 @@ public:
 				 * This method doesn't change any level value. */
 		bool adjustFretsToScale(char& loF, char& hiF);
 		
+				/** Writes level parameters into 'level' node of XML stream */
+		void writeToXml(QXmlStreamWriter& xml);
+		
+		bool loadFromXml(QXmlStreamReader& xmlFile);
+		
+				/** Reads 'qaType' key from XML. Determines level var by id and sets it */
+		void qaTypeFromXml(QXmlStreamReader& xml);
 		
 	//------------------------- to fix a level ---------------------------------------------------
 		

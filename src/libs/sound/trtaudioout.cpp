@@ -166,7 +166,7 @@ void TaudioOUT::streamOpenedSlot() {
 
 
 bool TaudioOUT::play(int noteNr) {
-  if (!playable || audioParams()->forwardInput) // if forwarding is enabled play() makes no sense
+  if (!playable /*|| audioParams()->forwardInput*/) // if forwarding is enabled play() makes no sense
       return false;
   
 	while (m_callBackIsBussy) {

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2012 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,8 @@
 
 
 #include "tqatype.h"
+#include <QXmlStreamWriter>
+#include <QVariant>
 
 TQAtype::TQAtype()
 {
@@ -41,10 +43,34 @@ TQAtype::Etype TQAtype::next() {
     return (Etype)m_index;
 }
 
+
 TQAtype::Etype TQAtype::randNext() {
     m_index = (qrand() % 4) - 1;
     return next();
 }
+
+
+void TQAtype::toXml(int id, QXmlStreamWriter& xml) {
+	xml.writeStartElement("qaType");
+		xml.writeAttribute("id", QVariant(id).toString());
+		xml.writeAttribute("score", QVariant(isNote()).toString());
+		xml.writeAttribute("name", QVariant(isName()).toString());
+		xml.writeAttribute("guitar", QVariant(isFret()).toString());
+		xml.writeAttribute("sound", QVariant(isSound()).toString());
+	xml.writeEndElement(); // qaType
+}
+
+
+int TQAtype::fromXml(QXmlStreamReader& xml) {
+	int id = QVariant(xml.attributes().value("id").toString()).toInt();
+	setAsNote(QVariant(xml.attributes().value("score").toString()).toBool());
+	setAsName(QVariant(xml.attributes().value("name").toString()).toBool());
+	setAsFret(QVariant(xml.attributes().value("guitar").toString()).toBool());
+	setAsSound(QVariant(xml.attributes().value("sound").toString()).toBool());
+	xml.skipCurrentElement();
+	return id;
+}
+
 
 QDataStream &operator << (QDataStream &out,TQAtype &qatype) {
     out << qatype.isNote() << qatype.isName() << qatype.isFret() << qatype.isSound();
