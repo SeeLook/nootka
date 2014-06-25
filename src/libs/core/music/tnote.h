@@ -23,6 +23,8 @@
 #include <vector>
 #include <nootkacoreglobal.h>
 
+class QXmlStreamReader;
+class QXmlStreamWriter;
 
 class Tnote;
 
@@ -143,6 +145,15 @@ public:
 	
 				/**  Returns chromatic number of note */
 	short getChromaticNrOfNote ();
+
+			/** Adds 'pitch' key to XML stream compatible with MusicXML format with current note
+			 * <pitch>
+       * <step>G</step>
+       * <octave>2</octave>
+       * <alter>-1</alter>
+       * </pitch>  */
+	void toXml(QXmlStreamWriter& xml);
+	void fromXml(QXmlStreamReader& xml); /** Reads this note from XML stream  */
 
 private:
 	
