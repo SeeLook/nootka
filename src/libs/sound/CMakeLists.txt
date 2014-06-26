@@ -223,8 +223,10 @@ IF(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
-  add_definitions(-D__WINDOWS_MM__)
+	add_definitions(-D__WINDOWS_WASAPI__)
   add_definitions(-D__WINDOWS_DS__)
+  add_definitions(-D__WINDOWS_ASIO__)
+  set(WIN_LIBS winmm ole32 dsound uuid ksuser) # uuid & ksuser are required by WASAPI
 ENDIF(WIN32)
 
 if(APPLE)
@@ -371,10 +373,20 @@ set(LIB_NOOTKASOUND_SRC
 	widgets/tvolumeview.cpp
 )
 
+IF(WIN32)
+	list(APPEND LIB_NOOTKASOUND_SRC
+		rt/asio.cpp
+		rt/asiodrivers.cpp
+		rt/asiolist.cpp
+		rt/iasiothiscallresolver.cpp
+	)
+endif(WIN32)
+
 add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
 target_link_libraries(NootkaSound 
 		Qt5::Widgets
 		NootkaCore
+		${WIN_LIBS}
 		${FFTW3_LIBRARIES}
 		${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
 		${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}

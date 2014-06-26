@@ -171,6 +171,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			S->doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
 // S->doubleAccidentalsEnabled = true;
 			S->showEnharmNotes = cfg->value("showEnaharmonicNotes", false).toBool();
+			if (!S->isSingleNoteMode) // enharmonically equal notes can be enabled only in single note mode
+					S->showEnharmNotes = false;
 			if (cfg->contains("enharmonicNotesColor"))
 					S->enharmNotesColor = cfg->value("enharmonicNotesColor").value<QColor>(); //-1;
 			else

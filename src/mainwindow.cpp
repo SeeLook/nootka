@@ -355,10 +355,6 @@ void MainWindow::createSettingsDialog() {
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			score->acceptSettings();
-// 			noteName->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
-// 			noteName->setEnabledEnharmNotes(gl->S->showEnharmNotes);
-// 			noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
-// 			noteName->setStyle(gl->S->nameStyleInNoteName);
 				// set new colors in exam view
 // 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
 // 															Tcolor::bgTag(gl->EnotBadColor));

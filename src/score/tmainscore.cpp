@@ -97,10 +97,10 @@ TmainScore::~TmainScore()
 //####################################################################################################
 
 void TmainScore::setEnableEnharmNotes(bool isEnabled) {
-	if (!isEnabled) {
-		clearNote(1);
-		clearNote(2);
-	}
+// 	if (!isEnabled) {
+// 		clearNote(1);
+// 		clearNote(2);
+// 	}
 }
 
 
@@ -147,7 +147,7 @@ void TmainScore::acceptSettings() {
 // 	if (!gl->S->doubleAccidentalsEnabled)
 // 		clearNote(2);
 // enharmonic alternatives  
-	setEnableEnharmNotes(gl->S->showEnharmNotes);
+// 	setEnableEnharmNotes(gl->S->showEnharmNotes);
 	if (gl->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
 			staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
@@ -161,6 +161,13 @@ void TmainScore::acceptSettings() {
 		setKeySignature(keySignature());
 	}
 	enableAccidToKeyAnim(true);
+	if (m_nameMenu) {
+			m_nameMenu->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
+			m_nameMenu->setEnabledEnharmNotes(gl->S->showEnharmNotes);
+			m_nameMenu->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
+			m_nameMenu->setStyle(gl->S->nameStyleInNoteName);
+// 			m_nameMenu->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
+	}
 }
 
 
@@ -584,11 +591,12 @@ void TmainScore::removeCurrentNote() {
 void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
 			m_nameMenu = new TnoteName(parentWidget());
-#if defined (Q_OS_ANDROID)
-			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
-#else
-			m_nameMenu->resize(fontMetrics().boundingRect("A").height());
-#endif
+// #if defined (Q_OS_ANDROID)
+// 			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
+// #else
+// 			m_nameMenu->resize(fontMetrics().boundingRect("A").height());
+// 			m_nameMenu->resize((qApp->desktop()->availableGeometry().height() / 20));
+// #endif
 			connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
 			connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
