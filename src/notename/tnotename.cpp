@@ -167,7 +167,9 @@ TnoteName::TnoteName(QWidget *parent) :
     setNoteNamesOnButt(style());
     for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
     setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
-
+// #if !defined (Q_OS_ANDROID)
+// 		resize((qApp->desktop()->availableGeometry().height() / 10) / 4 - 2);
+// #endif
 }
 
 
@@ -182,18 +184,21 @@ TnoteName::~TnoteName()
  * because TnoteName gets its size only after the menu invokes exec() */ 
 void TnoteName::exec(QPoint pos, qreal scoreFactor) {
 	m_scoreFactor = scoreFactor;
-	bool firstExec = false;
+// 	bool firstExec = false;
 	if (m_menu) {
 		setParent(0);
 		delete m_menu;
-	} else
-		firstExec = true;
+	} /*else
+		firstExec = true;*/
 	m_menu = new QMenu(m_menuParent);
 	setParent(m_menu);
 	m_menu->setStyleSheet("background-color: palette(window)");
+	int baseH = qMin(m_menuParent->geometry().height(), m_menuParent->geometry().width());
+	resize(baseH / 40);
+	m_nameLabel->setFixedHeight(baseH / 10);
 	m_menu->exec(pos);
-	if (firstExec) // it prevents resizing TnoteName with changing newest menu instances
-		setFixedHeight(height());
+// 	if (firstExec) // it prevents resizing TnoteName with changing newest menu instances
+// 		setFixedHeight(height());
 }
 
 
@@ -508,6 +513,8 @@ char TnoteName::getSelectedAccid() {
 
 
 void TnoteName::resizeEvent(QResizeEvent* ) {
+// 	resize((m_menuParent->geometry().height() / 40));
+// 	m_nameLabel->setFixedHeight(m_menuParent->geometry().height() / 10);
 	if (!m_menu)
 		return;
 	m_menu->resize(size());
