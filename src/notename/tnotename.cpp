@@ -192,7 +192,8 @@ void TnoteName::exec(QPoint pos, qreal scoreFactor) {
 		firstExec = true;*/
 	m_menu = new QMenu(m_menuParent);
 	setParent(m_menu);
-	m_menu->setStyleSheet("background-color: palette(window)");
+	m_menu->setObjectName("m_menu");
+	m_menu->setStyleSheet("QWidget#m_menu {background-color: palette(window)}");
 	int baseH = qMin(m_menuParent->geometry().height(), m_menuParent->geometry().width());
 	resize(baseH / 40);
 	m_nameLabel->setFixedHeight(baseH / 10);

@@ -16,43 +16,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TINITCORELIB_H
-#define TINITCORELIB_H
 
-#include "nootkacoreglobal.h"
-#include "tglobals.h"
 
-class QApplication;
+#include <tinitcorelib.h>
+//#include "nootkasoundglobal.h"
 
-/** 
- * Internal instance of Tglobals pointer used by in initCoreLibrary. *
- * It is set during invoking initCoreLibrary()
+Tglobals *gl;
+
+/**
+ * Unfortunately, under Win Os variable can not be extern for entire library.
+ * It has to be defined somewhere.
+ * This function attaches to @p gl variable declared in nootkaCore library.
  */
-class NOOTKACORE_EXPORT Tglob
-{
+void initSoundLibrary() {
+  gl = Tglob::glob();
+}
 
-public:
-	static void setGlobals(Tglobals *g) { m_gl = g; }
-	static Tglobals* glob() { return m_gl; }
-	
-private:
-	static Tglobals *m_gl; 
-
-};
-
-/** Initializes static values in library:
- * - pointer to Tglobals initialized by external executable !!!
- *   it is accessible through @p glob variable 
- * - tuning definitions
- * - TpushButton colors
- */
-NOOTKACORE_EXPORT void initCoreLibrary(Tglobals *gl);
-
-/** Loads translations files for appropriate language (system or user preferred) */
-NOOTKACORE_EXPORT void prepareTranslations(QApplication* a);
-
-/** Checks nootka.ttf file and loads it. Returns true if successful.  
- * libNootkaCore has to be initialized first by initCoreLibrary() */
-NOOTKACORE_EXPORT bool loadNootkaFont(QApplication* a);
-
-#endif // TINITCORELIB_H

@@ -27,8 +27,8 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QXmlStreamWriter>
-#include <qt/QtCore/QXmlStreamWriter>
-#include <qt/QtCore/QVariant>
+#include <QXmlStreamWriter>
+#include <QVariant>
 #include <QDebug>
 
 

@@ -25,17 +25,17 @@ endif(UNIX AND NOT APPLE)
 
 add_subdirectory( libs/core ) # libNootkaCore
 add_subdirectory( libs/sound ) # libNootkaSound
-# add_subdirectory( libs/misc/ ) # libNootkaMisc
+#add_subdirectory( libs/misc ) # libNootkaMisc
 		
-include_directories( libs/core libs/sound libs/misc/ )
+include_directories( libs/core libs/sound libs/misc )
 
-# add_subdirectory( charts ) # nootka analyzer
+#add_subdirectory( charts ) # nootka analyzer
 
-# add_subdirectory( level ) # level creator
+#add_subdirectory( level ) # level creator
 
-# add_subdirectory( updater ) # nootka updater
+#add_subdirectory( updater ) # nootka updater
 
-# add_subdirectory( settings )
+#add_subdirectory( settings )
 
 # nootka executable
 set(NOOTKA_SRC
@@ -56,8 +56,16 @@ set(NOOTKA_SRC
 	animations/tstrikedoutitem.cpp
 )
 
+if(MINGW)
+ # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
+    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
+                       COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
+                            -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
+    SET(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/nootico.o)
+endif(MINGW)
 
-add_executable(nootka WIN32 ${NOOTKA_SRC} )
+
+add_executable(nootka WIN32 ${NOOTKA_SRC} nootico.o)
 target_link_libraries(nootka NootkaCore NootkaSound Qt5::Widgets)
 
 

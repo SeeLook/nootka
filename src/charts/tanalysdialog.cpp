@@ -25,6 +25,7 @@
 #include <graphics/tnotepixmap.h>
 #include <tglobals.h>
 #include <texamparams.h>
+#include <tscoreparams.h>
 #include <tnoofont.h>
 #include "tchart.h"
 #include "tmainchart.h"

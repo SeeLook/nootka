@@ -157,7 +157,7 @@ void TpitchFinder::fillBuffer(float sample) {
 		m_posInBuffer++;
 	} else { // buffer is full
 		m_filledBuff = m_currentBuff;
-		m_thread->start();
+        m_thread->start(QThread::NormalPriority);
 		m_posInBuffer = 0;
 		if (m_currentBuff == m_buffer_1) // swap buffers
 			m_currentBuff = m_buffer_2;

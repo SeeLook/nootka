@@ -8,6 +8,8 @@
      - ported to Qt5
      - divided for libraries and external executable files
      - updated RtAudio version
+     - updated SoundTpuch version, better optimization
+     - under newer Windows version WASAPI or ASIO is used and DS for XP
      - merged audio input and output callback methods
 
 ================================================================

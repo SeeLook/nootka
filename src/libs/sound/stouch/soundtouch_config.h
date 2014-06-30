@@ -2,13 +2,13 @@
 /* include/soundtouch_config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define to 1 if you have the <cpuid.h> header file. */
-#define HAVE_CPUID_H 1
+/* #undef HAVE_CPUID_H */
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#define HAVE_INTTYPES_H 1
+/* #undef HAVE_INTTYPES_H */
 
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
@@ -21,7 +21,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
-#define HAVE_STDINT_H 1
+/* #undef HAVE_STDINT_H */
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -55,7 +55,7 @@
 #define PACKAGE_NAME "SoundTouch"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "SoundTouch 1.7.0"
+#define PACKAGE_STRING "SoundTouch 1.8.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "soundtouch"
@@ -64,26 +64,25 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.7.0"
+#define PACKAGE_VERSION "1.8.0"
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
 
 /* Do not use x86 optimizations */
-//  #undef SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS 
+#define SOUNDTOUCH_DISABLE_X86_OPTIMIZATIONS 1
 
 /* Use Float as Sample type */
-/* #undef SOUNDTOUCH_FLOAT_SAMPLES */
+#define SOUNDTOUCH_FLOAT_SAMPLES 1
 
 /* Use Integer as Sample type */
-// #define SOUNDTOUCH_INTEGER_SAMPLES 1
-#define SOUNDTOUCH_FLOAT_SAMPLES 1
+/* #undef SOUNDTOUCH_INTEGER_SAMPLES */
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "1.7.0"
+#define VERSION "1.8.0"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

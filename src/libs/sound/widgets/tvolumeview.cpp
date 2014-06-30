@@ -25,6 +25,11 @@
 
 #define TICK_WIDTH (2)
 #define TICK_GAP (3)
+#if defined (Q_OS_WIN)
+  #define Y_OFF (-6)
+#else
+  #define Y_OFF (-1)
+#endif
 
 
 TvolumeView::TvolumeView(QWidget* parent) :
@@ -74,7 +79,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   painter.drawRoundedRect(painter.viewport(), 4, 4);
   painter.setPen(noteColor);
   painter.setFont(nootFont);
-  painter.drawText(0, -1, width(), height(), Qt::AlignRight, "n");
+  painter.drawText(0, Y_OFF, width(), height(), Qt::AlignRight, "n");
   qreal tickWidth = TICK_WIDTH - 1.0;
   for (int i = 1; i < m_ticksCount - 2; i++) {
     if (i >= m_ticksCount * m_minVolume)

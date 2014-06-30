@@ -643,7 +643,7 @@ void TscoreStaff::createBrace() {
     qreal fact = (distance + 1.3) / brace->boundingRect().height();
 #elif defined (Q_OS_WIN)
     qreal distance = lowerLinePos() + 7 - upperLinePos();
-    qreal fact = (distance + 1.8) / brace->boundingRect().height();
+    qreal fact = (distance + 1.8) / m_brace->boundingRect().height();
 #else
 	qreal distance = lowerLinePos() + 8 - upperLinePos();
 	qreal fact = (distance + 0.2) / m_brace->boundingRect().height();

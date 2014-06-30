@@ -22,13 +22,14 @@
 
 #include "tscoreitem.h"
 #include <QPointer>
+#include "nootkacoreglobal.h"
 
 class TscoreNote;
 class TscoreStaff;
 
 
 
-class TnoteControl : public TscoreItem
+class NOOTKACORE_EXPORT TnoteControl : public TscoreItem
 {
 
 	Q_OBJECT
