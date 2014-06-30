@@ -99,7 +99,7 @@ private:
 
 /** This is QLabel with combo box in single line.
 * ComboBox contains accuracy levels for intonation check. */
-class TintonationCombo : public QWidget
+class NOOTKASOUND_EXPORT TintonationCombo : public QWidget
 {
 	Q_OBJECT
 	

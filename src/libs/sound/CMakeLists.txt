@@ -18,7 +18,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       /sw/include
       ${CMAKE_CURRENT_SOURCE_DIR}/fftw
       ${CMAKE_CURRENT_BINARY_DIR}/fftw
-			${CMAKE_CURRENT_BINARY_DIR}/../fftw
+			${CMAKE_BINARY_DIR}/../fftw
   )
   IF(WIN32)
     find_library(FFTW3_LIBRARY
@@ -27,7 +27,7 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       PATHS
         ${CMAKE_CURRENT_SOURCE_DIR}/fftw
         ${CMAKE_CURRENT_BINARY_DIR}/fftw
-				${CMAKE_CURRENT_BINARY_DIR}/../fftw
+				${CMAKE_BINARY_DIR}/../fftw
     )
   ELSE(WIN32)
     find_library(FFTW3_LIBRARY
@@ -82,7 +82,7 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /sw/include
       ${CMAKE_CURRENT_SOURCE_DIR}/libvorbis/include
       ${CMAKE_CURRENT_BINARY_DIR}/libvorbis/include
-			${CMAKE_CURRENT_BINARY_DIR}/../libvorbis/include
+			${CMAKE_BINARY_DIR}/../libvorbis/include
   )
   find_path(OGG_INCLUDE_DIR
     NAMES
@@ -94,7 +94,7 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /sw/include
       ${CMAKE_CURRENT_SOURCE_DIR}/libogg/include
       ${CMAKE_CURRENT_BINARY_DIR}/libogg/include
-			${CMAKE_CURRENT_BINARY_DIR}/../libogg/include
+			${CMAKE_BINARY_DIR}/../libogg/include
   )
   IF(WIN32)
     find_library(VORBIS_LIBRARY
@@ -103,7 +103,7 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       PATHS
         ${CMAKE_CURRENT_SOURCE_DIR}/vorbis-tools
         ${CMAKE_CURRENT_BINARY_DIR}/vorbis-tools
-				${CMAKE_CURRENT_BINARY_DIR}/../vorbis-tools
+				${CMAKE_BINARY_DIR}/../vorbis-tools
     )
   ELSE(WIN32)
     find_library(VORBIS_LIBRARY
@@ -142,7 +142,7 @@ include_directories(${VORBIS_INCLUDE_DIR})
 ###########################################################################
 ########   Looking for SoundTouch
 ###########################################################################
-# if (UNIX AND NOT APPLE)
+if (UNIX AND NOT APPLE)
   IF(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
     set(SOUNDTOUCH_FOUND TRUE)
   ELSE(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
@@ -153,8 +153,8 @@ include_directories(${VORBIS_INCLUDE_DIR})
             /usr/include
             /usr/local/include
             /opt/local/include
-            "${CMAKE_CURRENT_SOURCE_DIR}"
-            "${CMAKE_CURRENT_BINARY_DIR}"
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_BINARY_DIR}/../soundtouch
         )
   
     find_library(SOUNDTOUCH_LIBRARY
@@ -166,7 +166,7 @@ include_directories(${VORBIS_INCLUDE_DIR})
             /usr/local/lib
             /opt/local/lib
             /sw/lib
-            ${CMAKE_CURRENT_BINARY_DIR}
+            ${CMAKE_BINARY_DIR}/../soundtouch
 						${CMAKE_CURRENT_SOURCE_DIR}
     )
 
@@ -181,6 +181,7 @@ include_directories(${VORBIS_INCLUDE_DIR})
       set(SOUNDTOUCH_FOUND TRUE)
     ENDIF(SOUNDTOUCH_INCLUDE_DIRS AND SOUNDTOUCH_LIBRARIES)
 
+    message(STATUS "SoundTouch was Found in:\n${SOUNDTOUCH_LIBRARIES}\nheaders are in: ${SOUNDTOUCH_INCLUDE_DIRS}")
     IF(SOUNDTOUCH_FOUND)
         message(STATUS "SoundTouch was Found in:\n${SOUNDTOUCH_LIBRARIES}\nheaders are in: ${SOUNDTOUCH_INCLUDE_DIRS}")
     ELSE(SOUNDTOUCH_FOUND)
@@ -188,7 +189,7 @@ include_directories(${VORBIS_INCLUDE_DIR})
     ENDIF(SOUNDTOUCH_FOUND)
 
   ENDIF(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
-# endif (UNIX AND NOT APPLE)
+endif (UNIX AND NOT APPLE)
 
 ###########################################################################
 #libraries and compiler definitions for RtMidi
@@ -375,11 +376,25 @@ set(LIB_NOOTKASOUND_SRC
 
 IF(WIN32)
 	list(APPEND LIB_NOOTKASOUND_SRC
+    main.cpp
 		rt/asio.cpp
 		rt/asiodrivers.cpp
 		rt/asiolist.cpp
 		rt/iasiothiscallresolver.cpp
 	)
+  list(APPEND LIB_NOOTKASOUND_SRC 
+    stouch/SoundTouch.cpp
+    stouch/TDStretch.cpp
+    stouch/RateTransposer.cpp
+    stouch/AAFilter.cpp
+    stouch/FIRFilter.cpp 
+    stouch/FIFOSampleBuffer.cpp 
+    stouch/cpu_detect_x86.cpp 
+    stouch/sse_optimized.cpp
+    stouch/InterpolateCubic.cpp
+    stouch/InterpolateLinear.cpp
+    stouch/InterpolateShannon.cpp
+  )
 endif(WIN32)
 
 add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )

@@ -31,7 +31,7 @@ RtAudio::StreamParameters* 				TrtAudio::m_inParams = 0;
 RtAudio::StreamParameters* 				TrtAudio::m_outParams = 0;
 RtAudio::StreamOptions* 					TrtAudio::streamOptions = 0;
 quint32 													TrtAudio::m_sampleRate = 44100;
-unsigned int 											TrtAudio::m_bufferFrames = 1024; 
+unsigned int 											TrtAudio::m_bufferFrames = 1024;
 bool 															TrtAudio::m_isAlsaDefault = false;
 QString 													TrtAudio::m_inDevName = "anything";
 QString 													TrtAudio::m_outDevName = "anything";
@@ -44,7 +44,27 @@ RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 void TrtAudio::createRtAudio() {
 	if (m_rtAduio == 0) { // Create RtAudio instance if doesn't exist
 #if defined(Q_OS_WIN32)
-		m_rtAduio = new RtAudio(RtAudio::WINDOWS_DS);
+		if ((int)QSysInfo::windowsVersion() < (int)QSysInfo::WV_VISTA)
+			m_rtAduio = new RtAudio(RtAudio::WINDOWS_DS); // Direct sound for older versions
+		else // WASAPI or ASIO since Vista
+			m_rtAduio = new RtAudio();
+		QString rtApiTxt;
+		switch (m_rtAduio->getCurrentApi()) {
+		case RtAudio::WINDOWS_DS:
+			rtApiTxt = "Direct Sound";
+			break;
+		case RtAudio::WINDOWS_WASAPI:
+			rtApiTxt = "WAS API";
+			break;
+		case RtAudio::WINDOWS_ASIO:
+			rtApiTxt = "ÄSIO";
+			break;
+		default:
+			rtApiTxt = "Undefined";
+			break;
+		}
+
+		qDebug() << "RtAudio API:" << rtApiTxt;
 #else
     m_rtAduio = new RtAudio();
 #endif

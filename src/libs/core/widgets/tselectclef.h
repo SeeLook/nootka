@@ -75,7 +75,7 @@ private:
  * It keeps all TradioClef-s objects and selects one of them by @p selectClef(Tclef)
  * Virtual method clefWasSelected has to be imlpemented in derived classes. 
  */
-class TselectClefPrivate : public QWidget
+class NOOTKACORE_EXPORT TselectClefPrivate : public QWidget
 {
 	Q_OBJECT
 public:
@@ -91,7 +91,7 @@ protected:
     TradioClef 	*treble, *treble_8, *bass, *bass_8, *tenor, *alto, *piano;
 		
 protected slots:
-		virtual void clefWasSelected(Tclef clef) {};
+        virtual void clefWasSelected(Tclef clef) {}
 		void onStatusTip(QString tip) { emit statusTipRequired(tip); }
     
 		public slots:

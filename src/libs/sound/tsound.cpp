@@ -25,7 +25,9 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QDebug>
-
+#if defined (Q_OS_WIN)
+  #include <tinitcorelib.h>
+#endif
 
 
 extern Tglobals *gl;
@@ -36,6 +38,9 @@ Tsound::Tsound(QObject* parent) :
   player(0),
   m_examMode(false)
 {
+#if defined (Q_OS_WIN)
+  gl = Tglob::glob();
+#endif
   if (gl->A->OUTenabled)
       createPlayer();
   else

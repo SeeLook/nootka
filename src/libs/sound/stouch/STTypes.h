@@ -8,10 +8,10 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2012-12-28 16:53:56 +0200 (Fri, 28 Dec 2012) $
+// Last changed  : $Date: 2014-01-07 20:24:28 +0200 (Tue, 07 Jan 2014) $
 // File revision : $Revision: 3 $
 //
-// $Id: STTypes.h 162 2012-12-28 14:53:56Z oparviai $
+// $Id: STTypes.h 183 2014-01-07 18:24:28Z oparviai $
 //
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -60,16 +60,19 @@ typedef unsigned long   ulong;
     #include "soundtouch_config.h"
 #endif
 
-// #ifndef _WINDEF_
+#ifndef _WINDEF_
     // if these aren't defined already by Windows headers, define now
 
-//     typedef int BOOL;
-//     typedef bool BOOL;
+#if defined(__APPLE__)
+   typedef signed char BOOL;
+#else
+   typedef int BOOL;
+#endif 
 
-//     #define FALSE   0
-//     #define TRUE    1
+    #define FALSE   0
+    #define TRUE    1
 
-// #endif  // _WINDEF_
+#endif  // _WINDEF_
 
 
 namespace soundtouch
@@ -78,6 +81,13 @@ namespace soundtouch
     /// setting inherited from some other header file:
     //#undef SOUNDTOUCH_INTEGER_SAMPLES
     //#undef SOUNDTOUCH_FLOAT_SAMPLES
+
+    /// If following flag is defined, always uses multichannel processing 
+    /// routines also for mono and stero sound. This is for routine testing 
+    /// purposes; output should be same with either routines, yet disabling 
+    /// the dedicated mono/stereo processing routines will result in slower 
+    /// runtime performance so recommendation is to keep this off.
+    // #define USE_MULTICH_ALWAYS
 
     #if (defined(__SOFTFP__))
         // For Android compilation: Force use of Integer samples in case that
@@ -113,11 +123,9 @@ namespace soundtouch
         /// these routines, so if you're having difficulties getting the optimized 
         /// routines compiled for whatever reason, you may disable these optimizations 
         /// to make the library compile.
-    #if defined(Q_OS_MAC)
+
         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
-//     #else
-//         #define SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS     1
-     #endif
+
         /// In GNU environment, allow the user to override this setting by
         /// giving the following switch to the configure script:
         /// ./configure --disable-x86-optimizations

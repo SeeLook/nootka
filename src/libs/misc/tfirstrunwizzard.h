@@ -70,7 +70,7 @@ private slots:
 
 /** page 2 is a QTextEdit with info about notation 
  * or score widget to select clef and instrument scale. */
-class Tpage_2 : public QWidget
+class NOOTKAMISC_EXPORT Tpage_2 : public QWidget
 {
 	Q_OBJECT
 	
@@ -97,7 +97,7 @@ private:
 };
 
 
-class Tpage_3 : public QWidget
+class NOOTKAMISC_EXPORT Tpage_3 : public QWidget
 {
     Q_OBJECT
 public:
