@@ -33,8 +33,6 @@ class QXmlStreamWriter;
 class QFile;
 class QWidget;
 
-		/** Displays dialog message about existence of newer Nootka version than current. */
-NOOTKACORE_EXPORT void newerNootkaMessage(const QString& fileName, QWidget* parent = 0);
 
 /** 
 * This class describes exam level.
@@ -44,6 +42,13 @@ class NOOTKACORE_EXPORT Tlevel
 public:
         /** default constructor creates a "complex" level (master of masters) */
     Tlevel();
+		
+		/** Possible errors during reading level file or XML key.*/
+    enum EerrorType { e_level_OK = 0,
+											e_levelFixed, // level parameters were fixed
+											e_noLevelInXml,
+											e_otherError
+		};
 		
 	//------------------------- Managing level versions ------------------------------------------------------
 		static const qint32 levelVersion; /** First version, also with early using of intonation and instruments */
@@ -70,6 +75,14 @@ public:
 				/** Writes Tnote 'pitch' XML node into given @p tag to XML stream */
 		static void tnoteToXml(const QString& tag, Tnote& n, QXmlStreamWriter& xml);
 		static Tnote tnoteFromXml(QXmlStreamReader& xml);
+		
+				/** Reads keys signature from current XML key to @p k reference and verifies it. 
+				 * Setts error type when error occurs or lives @p err unchanged when OK. */
+		static void keyFromXml(QXmlStreamReader& xml, TkeySignature& k, EerrorType& err);
+		
+				/** Reads fret number from current XML key to @fr reference and verifies it. 
+				 * Setts error type when error occurs or lives @p err unchanged when OK. */
+		static void fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err);
 
   //--------------------------- level parameters ------------------------------------------------------------
     QString name; /** Level name */
@@ -133,10 +146,11 @@ public:
 				/** Writes level parameters into 'level' node of XML stream */
 		void writeToXml(QXmlStreamWriter& xml);
 		
-		bool loadFromXml(QXmlStreamReader& xmlFile);
+				/** Reads  */
+		EerrorType loadFromXml(QXmlStreamReader& xml);
 		
 				/** Reads 'qaType' key from XML. Determines level var by id and sets it */
-		void qaTypeFromXml(QXmlStreamReader& xml);
+		EerrorType qaTypeFromXml(QXmlStreamReader& xml);
 		
 	//------------------------- to fix a level ---------------------------------------------------
 		
@@ -150,6 +164,10 @@ public:
 				 * In contrary to fixInstrument() method it doesn't check Tglobals state of instrument
 				 * just takes given parameter. */
 		Einstrument detectInstrument(Einstrument currInstr);
+		
+		Tlevel::EerrorType fixFretRange(); /** When loFret is bigger than hiFret it swaps their values */
+		Tlevel::EerrorType fixNoteRange(); /** When loNote is higher than hiNote it swaps their values */
+		Tlevel::EerrorType fixKeyRange(); /** When loKey is bigger than hiKey it swaps their values */
 
 };
 
@@ -160,3 +178,4 @@ NOOTKACORE_EXPORT bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 v
 
 
 #endif // TEXAMLEVEL_H
+

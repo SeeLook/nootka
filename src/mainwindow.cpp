@@ -327,14 +327,10 @@ void MainWindow::openFile(QString runArg) {
 // 				if (Texam::couldBeExam(hdr)) {
 // 					if (Texam::isExamVersion(hdr))
 // 							ex = new TexamExecutor(this, runArg);
-// 					else
-// 							newerNootkaMessage(runArg, this);
 // 				} else {
 					if (Tlevel::couldBeLevel(hdr)) {
 						if (Tlevel::isLevelVersion(hdr))
 								openLevelCreator(runArg);
-						else
-								newerNootkaMessage(runArg, this);
 					}
 // 				}
     }

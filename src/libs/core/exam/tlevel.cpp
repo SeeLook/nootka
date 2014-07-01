@@ -95,14 +95,35 @@ Tnote Tlevel::tnoteFromXml(QXmlStreamReader& xml) {
 }
 
 
-/*end static--------------------------------------------------------------------------------------*/
-
-void newerNootkaMessage(const QString &fileName, QWidget* parent) {
-	QMessageBox::warning(parent, "Update Nootka!", QString("File: <b>%1</b><br>was created in newer Nootka version that you have.<br>To open it, visit program site to obtain the newest version.").arg(fileName));
+void Tlevel::keyFromXml(QXmlStreamReader& xml, TkeySignature& k, Tlevel::EerrorType& err) {
+	int key = QVariant(xml.readElementText()).toInt();
+	k = TkeySignature(key);
+	if ((int)k.value() != key) {
+			qDebug() << "Key signature in" << xml.name() << "was wrong but fixed";
+			err = Tlevel::e_levelFixed;
+	}
 }
 
 
-//-----------------------------------------------------------------------------------------------------
+void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err) {
+	fr = (char)QVariant(xml.readElementText()).toInt();
+	if (fr < 0 || fr > 24) { // max frets number
+        fr = 0;
+				qDebug() << "Fret number in" << xml.name() << "was wrong but fixed";
+        err = Tlevel::e_levelFixed;
+    }
+	
+}
+
+/*end static--------------------------------------------------------------------------------------*/
+
+/*local*/
+void skipCurrentXmlKey(QXmlStreamReader& xml) {
+	qDebug() << "Unrecognized key:" << xml.name();
+	xml.skipCurrentElement();
+}
+	
+
 Tlevel::Tlevel() :
 	hasInstrToFix(false)
 {
@@ -238,27 +259,60 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
 }
 
 
-void Tlevel::qaTypeFromXml(QXmlStreamReader& xml) {
+Tlevel::EerrorType Tlevel::qaTypeFromXml(QXmlStreamReader& xml) {
 	TQAtype qa;
+	EerrorType er = e_level_OK;
 	int id = qa.fromXml(xml);
-	if (id == -1)
+	if (id == -1) {
 		questionAs = qa;
-	else if (id >= 0 && id < 4) {
+		if (!questionAs.isNote() && !questionAs.isName() && !questionAs.isFret() && !questionAs.isSound()) {
+			qDebug() << "There are not any questions in a level. It makes no sense.";
+			return e_otherError;
+		}
+	} else if (id >= 0 && id < 4) {
 		answersAs[id] = qa;
-		// TODO: verify answersAs context and set corresponding questionAs to false if missing
+		// verify every answersAs context and set corresponding questionAs to false when all were unset (false)
+		if (questionAs.isNote() && 
+			(!answersAs[0].isNote() && !answersAs[0].isName() && !answersAs[0].isFret() && !answersAs[0].isSound())) {
+				er = e_levelFixed;
+				questionAs.setAsNote(false);
+		}
+		if (questionAs.isName() && 
+			(!answersAs[1].isNote() && !answersAs[1].isName() && !answersAs[1].isFret() && !answersAs[1].isSound())) {
+				er = e_levelFixed;
+				questionAs.setAsName(false);
+		}
+		if (questionAs.isFret() && 
+			(!answersAs[2].isNote() && !answersAs[2].isName() && !answersAs[2].isFret() && !answersAs[2].isSound())) {
+				er = e_levelFixed;
+				questionAs.setAsFret(false);
+		}
+		if (questionAs.isSound() && 
+			(!answersAs[3].isNote() && !answersAs[3].isName() && !answersAs[3].isFret() && !answersAs[3].isSound())) {
+				er = e_levelFixed;
+				questionAs.setAsNote(false);
+		}
 	}
+	return er;
 }
 
 
-bool Tlevel::loadFromXml(QXmlStreamReader& xml) {
+Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
+	EerrorType er = e_level_OK;
 	if (xml.readNextStartElement()) {
 		if (xml.name() != "level") {
-			qDebug() << "There is no 'level' element in that XML";
-			return false;
+			qDebug() << "There is no 'level' key in that XML";
+			return e_noLevelInXml;
 		}
 		name = xml.attributes().value("name").toString();
-		if (name == "")
-			return false;
+		if (name == "") {
+			qDebug() << "Level key has empty 'name' attribute";
+			return e_otherError;
+		} else if (name.size() > 20) {
+			name = name.left(20);
+			er = e_levelFixed;
+			qDebug() << "Name of a level was reduced to 20 characters:" << name;
+		}
 	}
 	while (xml.readNextStartElement()) {
 // 		qDebug() << "readLevelFromXml" << xml.name();
@@ -268,26 +322,38 @@ bool Tlevel::loadFromXml(QXmlStreamReader& xml) {
 		else if (xml.name() == "questions") {
 			while (xml.readNextStartElement()) {
 // 				qDebug() << "questions->" << xml.name();
-				if (xml.name() == "qaType")
-					qaTypeFromXml(xml);
-				else if (xml.name() == "requireOctave")
+				if (xml.name() == "qaType") {
+					er = qaTypeFromXml(xml);
+					if (er == e_otherError)
+						return er;
+				} else if (xml.name() == "requireOctave")
 					requireOctave = QVariant(xml.readElementText()).toBool();
 				else if (xml.name() == "requireStyle")
 					requireStyle = QVariant(xml.readElementText()).toBool();
 				else if (xml.name() == "showStrNr")
 					showStrNr = QVariant(xml.readElementText()).toBool();
-				else if (xml.name() == "clef")
+				else if (xml.name() == "clef") {
 					clef.setClef(Tclef::Etype(QVariant(xml.readElementText()).toInt()));
-				else if (xml.name() == "instrument")
+					if (clef.name() == "") { // when clef has improper value its name returns ""
+						qDebug() << "Level had wrong/undefined clef. It was fixed to treble dropped.";
+						clef.setClef(Tclef::e_treble_G_8down);
+						er = e_levelFixed;
+					}
+				} else if (xml.name() == "instrument") {
 					instrument = Einstrument(QVariant(xml.readElementText()).toInt());
-				else if (xml.name() == "onlyLowPos")
+					if (instrumentToText(instrument) == "") {
+						qDebug() << "Level had wrong instrument type. It was fixed to classical guitar.";
+						instrument = e_classicalGuitar;
+						er = e_levelFixed;
+					}
+				} else if (xml.name() == "onlyLowPos")
 					onlyLowPos = QVariant(xml.readElementText()).toBool();
 				else if (xml.name() == "onlyCurrKey")
 					onlyCurrKey = QVariant(xml.readElementText()).toBool();
 				else if (xml.name() == "intonation")
 					intonation = QVariant(xml.readElementText()).toInt();		
 				else
-					xml.skipCurrentElement();
+					skipCurrentXmlKey(xml);
 			}
 		} else if (xml.name() == "accidentals") {
 				while (xml.readNextStartElement()) {
@@ -301,9 +367,9 @@ bool Tlevel::loadFromXml(QXmlStreamReader& xml) {
 					else if (xml.name() == "useKeySign")
 						useKeySign = QVariant(xml.readElementText()).toBool();
 					else if (xml.name() == "loKey")
-						loKey = TkeySignature(QVariant(xml.readElementText()).toInt());
+						keyFromXml(xml, loKey, er);
 					else if (xml.name() == "hiKey")
-						hiKey = TkeySignature(QVariant(xml.readElementText()).toInt());
+						keyFromXml(xml, hiKey, er);
 					else if (xml.name() == "isSingleKey")
 						isSingleKey = QVariant(xml.readElementText()).toBool();
 					else if (xml.name() == "manualKey")
@@ -311,16 +377,16 @@ bool Tlevel::loadFromXml(QXmlStreamReader& xml) {
 					else if (xml.name() == "forceAccids")
 						forceAccids = QVariant(xml.readElementText()).toBool();
 					else
-						xml.skipCurrentElement();
+						skipCurrentXmlKey(xml);
 				}
 		} else if (xml.name() == "range") {
 	// RANGE
 			while (xml.readNextStartElement()) {
 // 				qDebug() << "range->" << xml.name();
 				if (xml.name() == "loFret")
-					loFret = (char)QVariant(xml.readElementText()).toInt();
+					fretFromXml(xml, loFret, er);
 				else if (xml.name() == "hiFret")
-					hiFret = (char)QVariant(xml.readElementText()).toInt();
+					fretFromXml(xml, hiFret, er);
 				else if (xml.name() == "loNote")
 					loNote = tnoteFromXml(xml);
 				else if (xml.name() == "hiNote")
@@ -330,16 +396,31 @@ bool Tlevel::loadFromXml(QXmlStreamReader& xml) {
 					if (id > 0 && id < 7)
 						usedStrings[id - 1] = QVariant(xml.readElementText()).toBool();
 				} else
-					xml.skipCurrentElement();
+					skipCurrentXmlKey(xml);
 			}
 		} else
-				xml.skipCurrentElement();
-	}	
+				  skipCurrentXmlKey(xml);
+	}
+	if (canBeGuitar() && fixFretRange() == e_levelFixed) {
+		er = e_levelFixed;
+		qDebug() << "Lowest fret in range was bigger than the highest one. Fixed";
+	}
+	if (useKeySign && !isSingleKey && fixKeyRange() == e_levelFixed) {
+		er = e_levelFixed;
+		qDebug() << "Lowest key in range was higher than the highest one. Fixed";
+	}
+	if (loNote.note == 0 || hiNote.note == 0) {
+		qDebug() << "Note range is wrong.";
+		return e_otherError;
+	} else if (fixNoteRange() == e_levelFixed) {
+		er = e_levelFixed;
+		qDebug() << "Lowest note in range was higher than the highest one. Fixed";
+	}
   if (xml.hasError()) {
 		qDebug() << "level has error" << xml.errorString() << xml.lineNumber();
-// 		return false;
+		return e_otherError;
   }
-	return true;
+	return er;
 }
 
 
@@ -598,6 +679,37 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
 }
 
 
+Tlevel::EerrorType Tlevel::fixFretRange() {
+	if (loFret > hiFret) {
+		char tmpFret = loFret;
+		loFret = hiFret;
+		hiFret = tmpFret;
+		return e_levelFixed;
+	}
+	return e_level_OK;
+}
+
+
+Tlevel::EerrorType Tlevel::fixNoteRange() {
+	if (loNote.getChromaticNrOfNote() > hiNote.getChromaticNrOfNote()) {
+		Tnote tmpNote = loNote;
+		loNote = hiNote;
+		hiNote = tmpNote;
+		return e_levelFixed;
+	}
+	return e_level_OK;
+}
+
+
+Tlevel::EerrorType Tlevel::fixKeyRange() {
+	if (loKey.value() > hiKey.value()) {
+		char tmpKey = loKey.value();
+		loKey = hiKey;
+		hiKey = TkeySignature(tmpKey);
+		return e_levelFixed;
+	}
+	return e_level_OK;
+}
 
 
 

@@ -448,36 +448,34 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
          in.setVersion(QDataStream::Qt_5_2);
          quint32 lv; // level version identifier
          in >> lv;
-// 				 if (Tlevel::couldBeLevel(lv)) {
-// 					 if (!Tlevel::isLevelVersion(lv)) {
-// 						 newerNootkaMessage(file.fileName(), this);
-// 						 return level;
-// 						 // There is a risk that user will have many levels in the list
-// 						 // and will run older Nootka version than levels were created.
-// 						 // Many dialog will appears.... 
-// 					 }
-// 				 } else if (readLevelFromXml(file.fileName(), level)) {
-// 					 return level;
-// 				 } else {
-// 						QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
-// 						return level;
-// 				 }
-				 bool wasLevelValid;
-				 if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2)
-						wasLevelValid = getLevelFromStream(in, level, lv);
+				 bool wasLevelValid = true;
+				 bool wasLevelFile = true;
+				 if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2) // *.nel with binary data
+						wasLevelValid = getLevelFromStream(in, level, lv); // *.nel in XML
 				 else if (Tlevel::levelVersionNr(lv) == 3) {
 					 QXmlStreamReader xml(in.device());
-					 wasLevelValid = level.loadFromXml(xml);
-				 } else {
+					 Tlevel::EerrorType er = level.loadFromXml(xml);
+					 switch (er) {
+						 case Tlevel::e_levelFixed:
+								wasLevelValid = false; break;
+						 case Tlevel::e_noLevelInXml:
+						 case Tlevel::e_otherError:
+							 wasLevelFile = false; break;
+						 default:
+							 break;
+					 }
+				 } else
+							wasLevelFile = false;
+				 file.close();
+				 if (!wasLevelFile) {
 						QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
+						level.name = "";
 						return level;
-				 }
-				 if (!wasLevelValid)
+				 } else if (!wasLevelValid)
              QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
-         file.close();
     } else {
-      if (file.fileName() != "") // skip empty file names (ignored by user)
-        Tlevel::fileIOerrorMsg(file, this);
+				if (file.fileName() != "") // skip empty file names (ignored by user)
+					Tlevel::fileIOerrorMsg(file, this);
     }
     return level;
 }

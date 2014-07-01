@@ -31,7 +31,7 @@ include_directories( libs/core libs/sound libs/misc )
 
 #add_subdirectory( charts ) # nootka analyzer
 
-#add_subdirectory( level ) # level creator
+add_subdirectory( level ) # level creator
 
 #add_subdirectory( updater ) # nootka updater
 
@@ -58,15 +58,16 @@ set(NOOTKA_SRC
 
 if(MINGW)
  # dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
-    ADD_CUSTOM_COMMAND( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
+    add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc
                             -o ${CMAKE_CURRENT_BINARY_DIR}/nootico.o )
-    SET(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/nootico.o)
+    set(NOOTKA_SRCS ${NOOTKA_SRCS} ${CMAKE_CURRENT_BINARY_DIR}/nootico.o)
+    set(NOOTKA_EXE_ICON nootico.o)
 endif(MINGW)
 
 
-add_executable(nootka WIN32 ${NOOTKA_SRC} nootico.o)
-target_link_libraries(nootka NootkaCore NootkaSound Qt5::Widgets)
+# add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
+# target_link_libraries(nootka NootkaCore NootkaSound Qt5::Widgets)
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
