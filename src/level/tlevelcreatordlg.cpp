@@ -24,6 +24,7 @@
 #include "accidsettings.h"
 #include "levelsettings.h"
 #include "rangesettings.h"
+#include "tmelodysettings.h"
 #include <texamparams.h>
 #include <music/ttune.h>
 #include <widgets/troundedlabel.h>
@@ -43,30 +44,35 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 // 		setWindowFlags(Qt::Tool);
 
     navList->addItem(TlevelSelector::levelFilterTxt());
-    navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
+    navList->item(0)->setIcon(QIcon(gl->path + "picts/levelsSettings.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Questions"));
-    navList->item(1)->setIcon(QIcon(gl->path+"picts/questionsSettings.png"));
+    navList->item(1)->setIcon(QIcon(gl->path + "picts/questionsSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Accidentals"));
-    navList->item(2)->setIcon(QIcon(gl->path+"picts/accidSettings.png"));
+    navList->item(2)->setIcon(QIcon(gl->path + "picts/accidSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Range"));
-    navList->item(3)->setIcon(QIcon(gl->path+"picts/rangeSettings.png"));
+		navList->addItem(tr("Melodies"));
+    navList->item(3)->setIcon(QIcon(gl->path + "picts/melodySett.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
+    navList->addItem(tr("Range"));
+    navList->item(4)->setIcon(QIcon(gl->path + "picts/rangeSettings.png"));
+    navList->item(4)->setTextAlignment(Qt::AlignCenter);
 
-    levelSett = new levelSettings(gl->path);
-    questSett = new questionsSettings();
-    accSett = new accidSettings();
-    rangeSett = new rangeSettings();
+    m_levelSett = new levelSettings(gl->path);
+    m_questSett = new questionsSettings(this);
+    m_accSett = new accidSettings(this);
+		m_meloSett = new TmelodySettings(this);
+    m_rangeSett = new rangeSettings(this);
 
-    stackLayout->addWidget(levelSett);
-    stackLayout->addWidget(questSett);
-    stackLayout->addWidget(accSett);
-    stackLayout->addWidget(rangeSett);
+    stackLayout->addWidget(m_levelSett);
+    stackLayout->addWidget(m_questSett);
+    stackLayout->addWidget(m_accSett);
+		stackLayout->addWidget(m_meloSett);
+    stackLayout->addWidget(m_rangeSett);
 		
 		if (gl->instrument == e_noInstrument)
-			questSett->hideGuitarRelated();
+			m_questSett->hideGuitarRelated();
 		
     hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 
@@ -80,38 +86,55 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
     
     connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
-    connect(levelSett->levelSelector, SIGNAL(levelChanged(Tlevel)),
+    connect(m_levelSett->levelSelector, SIGNAL(levelChanged(Tlevel)),
             this, SLOT(levelWasSelected(Tlevel))); // to load level to widgets
-    connect(rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
-    connect(questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
-    connect(accSett, SIGNAL(accidsChanged()), this, SLOT(levelNotSaved()));
-    connect(levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
-    connect(levelSett->levelSelector, SIGNAL(levelToLoad()), this, SLOT(loadFromFile()));
-    connect(levelSett->startExamBut, SIGNAL(clicked()), this, SLOT(startExam()));
+    connect(m_rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
+    connect(m_questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
+    connect(m_accSett, SIGNAL(accidsChanged()), this, SLOT(levelNotSaved()));
+    connect(m_levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
+    connect(m_levelSett->levelSelector, SIGNAL(levelToLoad()), this, SLOT(loadFromFile()));
+    connect(m_levelSett->startExamBut, SIGNAL(clicked()), this, SLOT(startExam()));
     
-    connect(questSett, SIGNAL(scoreEnabled(bool)), accSett, SLOT(enableKeys(bool)));
-    connect(questSett, SIGNAL(accidEnabled(bool)), accSett, SLOT(enableAccids(bool)));
-    connect(rangeSett, SIGNAL(allStringsChecked(bool)), questSett, SLOT(stringsCheckedSlot(bool)));
+//     connect(m_questSett, SIGNAL(scoreEnabled(bool)), m_accSett, SLOT(enableKeys(bool)));
+//     connect(m_questSett, SIGNAL(accidEnabled(bool)), m_accSett, SLOT(enableAccids(bool)));
+    connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
 		
+}
+
+
+void TlevelCreatorDlg::levelWasChanged() {
+	if (sender() != m_questSett)
+		m_questSett->changed();
+	if (sender() != m_accSett)
+		m_accSett->changed();
+	if (sender() != m_meloSett)
+		m_meloSett->changed();
+	if (sender() != m_rangeSett)
+		m_rangeSett->changed();
+	levelNotSaved();
 }
 
 
 void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
     if (isNotSaved)
         saveLevel();
-    questSett->loadLevel(level);
-    accSett->loadLevel(level);
-    rangeSett->loadLevel(level);
-		if (levelSett->levelSelector->isSuitable())
-				levelSett->startExamBut->setDisabled(false);
+    m_questSett->loadLevel(&level);
+    m_accSett->loadLevel(&level);
+		m_meloSett->loadLevel(&level);
+    m_rangeSett->loadLevel(&level);
+		if (m_levelSett->levelSelector->isSuitable())
+				m_levelSett->startExamBut->setDisabled(false);
 		else
-				levelSett->startExamBut->setDisabled(true);
+				m_levelSett->startExamBut->setDisabled(true);
 }
 
 
 void TlevelCreatorDlg::levelNotSaved() {
+	if (!isNotSaved) {
     navList->item(0)->setIcon(QIcon(gl->path+"picts/notSaved.png"));
     setWindowTitle(levelCreatorTxt() + "  (" + tr("level not saved!") + ")");
+		isNotSaved = true;
+	}
 }
 
 
@@ -126,9 +149,10 @@ void TlevelCreatorDlg::saveLevel() {
 
 void TlevelCreatorDlg::saveToFile() {
     Tlevel newLevel;
-    questSett->saveLevel(newLevel);
-    accSett->saveLevel(newLevel);
-    rangeSett->saveLevel(newLevel);
+    m_questSett->saveLevel(&newLevel);
+    m_accSett->saveLevel(&newLevel);
+		m_meloSett->saveLevel(&newLevel);
+    m_rangeSett->saveLevel(&newLevel);
     if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
       // adjust fret range - validation will skip it for non guitar levels
       newLevel.loFret = 0; // Set range to fret number and rest will be done by function preparing question list
@@ -163,8 +187,8 @@ void TlevelCreatorDlg::saveToFile() {
 				return;
 		}
     isNotSaved = false;
-    levelSett->levelSelector->addLevel(newLevel, fileName, true);
-    levelSett->levelSelector->selectLevel(); // select the last
+    m_levelSett->levelSelector->addLevel(newLevel, fileName, true);
+    m_levelSett->levelSelector->selectLevel(); // select the last
     levelSaved();
 }
 
@@ -179,7 +203,7 @@ void TlevelCreatorDlg::levelSaved() {
 void TlevelCreatorDlg::loadFromFile() {
     if (isNotSaved)
         saveLevel();
-    levelSett->levelSelector->loadFromFile();
+    m_levelSett->levelSelector->loadFromFile();
 }
 
 
@@ -267,7 +291,7 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 }
 
 void TlevelCreatorDlg::loadLevelFile(QString levelFile) {
-    levelSett->levelSelector->loadFromFile(levelFile);
+    m_levelSett->levelSelector->loadFromFile(levelFile);
 }
 
 
@@ -279,15 +303,15 @@ void TlevelCreatorDlg::startExam() {
 
 
 Tlevel TlevelCreatorDlg::selectedLevel() {
-    return levelSett->levelSelector->getSelectedLevel();
+    return m_levelSett->levelSelector->getSelectedLevel();
 }
 
 
 void TlevelCreatorDlg::checkLevelSlot() {
     Tlevel tmpLevel;
-    questSett->saveLevel(tmpLevel);
-    accSett->saveLevel(tmpLevel);
-    rangeSett->saveLevel(tmpLevel);
+    m_questSett->saveLevel(&tmpLevel);
+    m_accSett->saveLevel(&tmpLevel);
+    m_rangeSett->saveLevel(&tmpLevel);
     QString validMessage =  validateLevel(tmpLevel);
     if (validMessage != "")
       showValidationMessage(validMessage);

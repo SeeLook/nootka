@@ -85,35 +85,36 @@ public:
 		static void fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err);
 
   //--------------------------- level parameters ------------------------------------------------------------
-    QString name; /** Level name */
-    QString desc; /** description */
-    TQAtype questionAs;
-    TQAtype answersAs[4];
-  // QUESTIONS - as note
-    bool withSharps, withFlats, withDblAcc;
-    bool useKeySign;
-    bool isSingleKey;
-		quint8 intonation; // This shares byte with isSingleKey in file
-    TkeySignature loKey, hiKey; /** range of key signature */
-    bool manualKey; /** manually selecting key in answers */
-    bool forceAccids;
-  // QUESTIONS - as name
-    bool requireOctave;
-    bool requireStyle;
-  // ANSWERS - as position on fingerboard
-    bool showStrNr; /** Shows a string number in questions*/
-  // RANGE
-    Tnote loNote; /** Lowest level note */ 
-    Tnote hiNote; /** Highest level note */
-//     bool isNoteLo, isNoteHi ---- since 0.8.90 version those values are changed to Tclef
-		Tclef clef;
-    char loFret, hiFret;
-//     bool isFretHi ----  since 0.8.90 version this value is changed to Einstrument
-		Einstrument instrument;
-    bool usedStrings[6];
-    bool onlyLowPos;
-    bool onlyCurrKey;
-	//------------------------------------------------------------------------------------------------------------
+    QString 					name; /** Level name */
+    QString 					desc; /** description */
+// QUESTIONS
+    TQAtype 					questionAs;
+    TQAtype 					answersAs[4];
+		bool 							forceAccids;
+    bool 							requireOctave;
+    bool 							requireStyle;
+    bool 							showStrNr; /** Shows a string number in questions*/
+    quint8 						intonation; // This shares byte with isSingleKey in file
+    Tclef 						clef;
+		Einstrument 			instrument;
+		bool 							onlyLowPos;
+    bool 							onlyCurrKey;
+// ACCIDENTALS
+    bool 							withSharps, withFlats, withDblAcc;
+    bool 							useKeySign;
+    bool 							isSingleKey;
+    TkeySignature 		loKey, hiKey; /** range of key signature */
+    bool 							manualKey; /** manually selecting key in answers */
+// MELODIES
+		quint16 					melodyLen; /** Notes count in a melody */
+		bool 							endsOnTonic;
+    bool							requireInTempo;
+// RANGE
+    Tnote 						loNote; /** Lowest level note */ 
+    Tnote 						hiNote; /** Highest level note */
+    char 							loFret, hiFret;
+    bool 							usedStrings[6];
+	
 		
 				/** Indicates when instrument read from file needs user action to be properly obtained.
 				 * It occurs when read value is 255 for level version 1 */
@@ -171,7 +172,7 @@ public:
 
 };
 
-NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, Tlevel &lev);
+// NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, Tlevel &lev);
 
 		/** Reads level data from given stream to @p lev. Respects @p ver - version */
 NOOTKACORE_EXPORT bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver);

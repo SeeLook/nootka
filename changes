@@ -1,16 +1,18 @@
-1.1.1 alpha
+1.1.2 alpha
      - interactive score with staves (systems)
      - possibility of adding/removing notes to the score
-     - option for displaying accidentals from key signature near a note
+     - option for displaying accidentals from key signature close to a note
      - note names can be displayed on the score (below every note)
      - option for forwarding audio input through selected audio output
+     - improved level creator
     Under the hood
      - ported to Qt5
      - divided for libraries and external executable files
      - updated RtAudio version
-     - updated SoundTpuch version, better optimization
-     - under newer Windows version WASAPI or ASIO is used and DS for XP
+     - updated SoundTouch version (Windows/MacOs), better optimization
+     - under newer Windows Os-es version WASAPI or ASIO is used and DS for XP
      - merged audio input and output callback methods
+     - ported binary format of *.nel files to XML
 
 ================================================================
 

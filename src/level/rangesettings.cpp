@@ -27,15 +27,12 @@
 #include <QtWidgets>
 
 extern Tglobals *gl;
-extern bool isNotSaved;
 
 
-rangeSettings::rangeSettings(QWidget *parent) :
-    QWidget(parent),
-    m_levelIsLoading(false)
+rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
+    TabstractLevelPage(creator)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
-//     mainLay->addStretch(1);
     mainLay->setAlignment(Qt::AlignCenter);
 
     QHBoxLayout *allLay = new QHBoxLayout;
@@ -54,14 +51,10 @@ rangeSettings::rangeSettings(QWidget *parent) :
     scoreLay->addWidget(m_scoreRang);
 		scoreLay->addWidget(m_fretAdjustButt);
     notesRangGr->setLayout(scoreLay);
-// 		m_scoreRang->setFixedSize(400, 300);
-// #if defined(Q_OS_WIN)
-//     m_scoreRang->setFixedHeight(300);
-// #endif
     allLay->addWidget(notesRangGr);
 
     QVBoxLayout *guitLay = new QVBoxLayout;
-    QGroupBox *fretGr = new QGroupBox(TlevelPreview::fretsRangeTxt(), this);
+    m_fretGr = new QGroupBox(TlevelPreview::fretsRangeTxt(), this);
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);
     m_fromSpinB = new QSpinBox(this);
@@ -77,13 +70,13 @@ rangeSettings::rangeSettings(QWidget *parent) :
     fretLay->addWidget(m_toSpinB);
 		m_noteAdjustButt = new QPushButton(tr("adjust note range"), this);
 		m_noteAdjustButt->setStatusTip(tr("Adjust note range in a level to currently selected fret range"));
-    fretGr->setLayout(fretLay);
-    guitLay->addWidget(fretGr);
+    m_fretGr->setLayout(fretLay);
+    guitLay->addWidget(m_fretGr);
 		guitLay->addWidget(m_noteAdjustButt, 1, Qt::AlignCenter);
     guitLay->addStretch(1);
 
-    QGroupBox *stringsGr = new QGroupBox(tr("available strings:"),this);
-    stringsGr->setStatusTip(tr("Uncheck strings if you want to skip them<br>in an exam."));
+    m_stringsGr = new QGroupBox(tr("available strings:"),this);
+    m_stringsGr->setStatusTip(tr("Uncheck strings if you want to skip them<br>in an exam."));
     QGridLayout *strLay = new QGridLayout;
     for (int i = 0; i < 6; i++) {
         m_stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
@@ -98,20 +91,19 @@ rangeSettings::rangeSettings(QWidget *parent) :
 				if (i >= gl->Gtune()->stringNr())
 					m_stringBut[i]->hide();
     }
-    stringsGr->setLayout(strLay);
-    guitLay->addWidget(stringsGr);
+    m_stringsGr->setLayout(strLay);
+    guitLay->addWidget(m_stringsGr);
     guitLay->addStretch(1);
 
     allLay->addLayout(guitLay);
 
     mainLay->addLayout(allLay);
-//     mainLay->addStretch(1);
 
     setLayout(mainLay);
 		
 		if (gl->instrument == e_noInstrument) {
-			fretGr->hide();
-			stringsGr->hide();
+			m_fretGr->hide();
+			m_stringsGr->hide();
 			m_fretAdjustButt->hide();
 			m_noteAdjustButt->hide();
 		}
@@ -134,30 +126,24 @@ void rangeSettings::stringSelected() {
 }
 
 
-void rangeSettings::loadLevel(Tlevel& level) {
-	m_levelIsLoading = true;
-		m_scoreRang->setClef(level.clef);
+void rangeSettings::loadLevel(Tlevel* level) {
+	blockSignals(true);
+		m_scoreRang->setClef(level->clef);
 		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
-    m_scoreRang->setNote(0, level.loNote);
-    m_scoreRang->setNote(1, level.hiNote);
-    m_fromSpinB->setValue(level.loFret);
-    m_toSpinB->setValue(level.hiFret);
+    m_scoreRang->setNote(0, level->loNote);
+    m_scoreRang->setNote(1, level->hiNote);
+    m_fromSpinB->setValue(level->loFret);
+    m_toSpinB->setValue(level->hiFret);
     for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-        m_stringBut[i]->setChecked(level.usedStrings[i]);
+        m_stringBut[i]->setChecked(level->usedStrings[i]);
     stringSelected();
-	m_levelIsLoading = false;
+		saveLevel(wLevel());
+	blockSignals(false);
 }
 
 
 void rangeSettings::whenParamsChanged() {
-		if (m_levelIsLoading)
-				return;
-		
 		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
-    if (!isNotSaved) {
-        isNotSaved = true;
-        emit rangeChanged();
-    }
     if (!m_stringBut[0]->isChecked() || !m_stringBut[1]->isChecked()
         || !m_stringBut[2]->isChecked() || !m_stringBut[3]->isChecked()
         || !m_stringBut[4]->isChecked() || !m_stringBut[5]->isChecked() )
@@ -169,10 +155,11 @@ void rangeSettings::whenParamsChanged() {
             unavailable (unchecked) strings
          2. in level validation method is hard to determine dependency unchecked
             strings between range of frets and notes. */
+		changedLocal();
 }
 
 
-void rangeSettings::saveLevel(Tlevel &level) {
+void rangeSettings::saveLevel(Tlevel* level) {
 	// Fixing empty notes
 		if (m_scoreRang->getNote(0).note == 0)
 				m_scoreRang->setNote(0, 
@@ -182,33 +169,56 @@ void rangeSettings::saveLevel(Tlevel &level) {
 										Tnote(qMin(gl->hiNote().getChromaticNrOfNote(), m_scoreRang->highestNote().getChromaticNrOfNote())));
 				
     if (m_scoreRang->getNote(0).getChromaticNrOfNote() <= m_scoreRang->getNote(1).getChromaticNrOfNote()) {
-				level.loNote = m_scoreRang->getNote(0);
-				level.hiNote = m_scoreRang->getNote(1);
+				level->loNote = m_scoreRang->getNote(0);
+				level->hiNote = m_scoreRang->getNote(1);
 		} else {
-        level.loNote = m_scoreRang->getNote(1);
-        level.hiNote = m_scoreRang->getNote(0);
+        level->loNote = m_scoreRang->getNote(1);
+        level->hiNote = m_scoreRang->getNote(0);
     }
     if (m_fromSpinB->value() <= m_toSpinB->value()) {
-        level.loFret = m_fromSpinB->value();
-        level.hiFret = m_toSpinB->value();
+        level->loFret = m_fromSpinB->value();
+        level->hiFret = m_toSpinB->value();
     } else {
-        level.loFret = m_toSpinB->value();
-        level.hiFret = m_fromSpinB->value();
+        level->loFret = m_toSpinB->value();
+        level->hiFret = m_fromSpinB->value();
     }
     for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-        level.usedStrings[i] = m_stringBut[i]->isChecked();
-		level.clef = m_scoreRang->clef();
+        level->usedStrings[i] = m_stringBut[i]->isChecked();
+		level->clef = m_scoreRang->clef();
 }
+
+
+void rangeSettings::changed() {
+	blockSignals(true);
+		if (wLevel()->canBeGuitar()) {
+			m_fretGr->setDisabled(false);
+			m_stringsGr->setDisabled(false);
+			m_fretAdjustButt->setDisabled(false);
+			m_noteAdjustButt->setDisabled(false);
+		} else {
+			m_fretGr->setDisabled(true);
+			m_stringsGr->setDisabled(true);
+			m_fretAdjustButt->setDisabled(true);
+			m_noteAdjustButt->setDisabled(true);
+		}			
+	blockSignals(false);
+}
+
+
+void rangeSettings::changedLocal() {
+    TabstractLevelPage::changedLocal();
+}
+
 
 
 void rangeSettings::adjustFrets() {
 	char loF, hiF;
 	Tlevel lev;
-	saveLevel(lev);
-	if (!lev.loNote.acidental && !lev.hiNote.acidental) {
-			lev.withFlats = false; // TODO: grab it from accidental settings
-			lev.withSharps = false;
-	}
+	saveLevel(&lev);
+	if (!lev.loNote.acidental && !lev.hiNote.acidental) { // when range doesn't use accidentals
+			lev.withFlats = wLevel()->withFlats; // maybe actual working level doses
+			lev.withSharps = wLevel()->withSharps;
+	} // checking routine requires it
 	if (lev.adjustFretsToScale(loF, hiF)) {
 			m_fromSpinB->setValue(loF);
 			m_toSpinB->setValue(hiF);

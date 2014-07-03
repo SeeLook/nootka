@@ -20,9 +20,11 @@
 #ifndef QUESTIONSSETTINGS_H
 #define QUESTIONSSETTINGS_H
 
-#include <QWidget>
-#include <exam/tlevel.h>
 
+#include "tabstractlevelpage.h"
+
+class Tlevel;
+class TlevelCreatorDlg;
 class QComboBox;
 class QCheckBox;
 class QButtonGroup;
@@ -33,28 +35,32 @@ class QRadioButton;
 class QGroupBox;
 
 
-class questionsSettings : public QWidget
+class questionsSettings : public TabstractLevelPage
 {
     Q_OBJECT
 public:
-    explicit questionsSettings(QWidget *parent = 0);
+    explicit questionsSettings(TlevelCreatorDlg *creator);
 
-    void loadLevel(Tlevel &level);
-    void saveLevel(Tlevel &level);
+    virtual void loadLevel(Tlevel *level);
+    virtual void saveLevel(Tlevel *level);
+		
 
 				/** Hides options related to guitar  */
 		void hideGuitarRelated();
 		
 signals:
-    void questSettChanged(); /** If any GUI element changes this signal is emitted. */
+    void questSettChanged(); /** If any GUI element is changed this signal is emitted. */
     void scoreEnabled(bool); /** emitted when note in score are disabled. */
     void accidEnabled(bool); /** emitted when note in score and names are all disabled or all enabled.  */
     
 public slots:
     void stringsCheckedSlot(bool checked);
+		virtual void changed();
     
 protected:
     void paintEvent(QPaintEvent*); /** Paints lines of a table*/
+		
+//     virtual void changedLocal();
 
 private:
     QWidget 							*m_tableWdg;
@@ -63,10 +69,9 @@ private:
     QLabel 								*m_asSoundLab, *m_asFretLab, *m_soundNooLab, *m_qSoundNooLab;
 		QLabel								*m_guitarNooLab, *m_qGuitarNooLab;
     TquestionAsWdg 				*asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
-    QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *forceAccChB, *showStrNrChB;
-    QCheckBox 						*lowPosOnlyChBox, *currKeySignChBox;
+    QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *showStrNrChB;
+    QCheckBox 						*lowPosOnlyChBox;
 		QComboBox 						*m_intonationCombo;
-		bool 									 m_levelIsLoading;
 
 private slots:
     void whenParamsChanged(); /** Every element calls this when clicked. */

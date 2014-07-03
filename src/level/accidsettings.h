@@ -20,8 +20,11 @@
 #ifndef ACCIDSETTINGS_H
 #define ACCIDSETTINGS_H
 
-#include <QWidget>
 
+#include "tabstractlevelpage.h"
+
+
+class TlevelCreatorDlg;
 class Tlevel;
 class TkeySignComboBox;
 class QCheckBox;
@@ -29,22 +32,26 @@ class QButtonGroup;
 class QRadioButton;
 class QGroupBox;
 
-class accidSettings : public QWidget
+class accidSettings : public TabstractLevelPage
 {
   Q_OBJECT
   
 public:
-    explicit accidSettings(QWidget* parent = 0);
+    explicit accidSettings(TlevelCreatorDlg* creator);
     
     static QString accidsText() { return tr("accidentals"); } // returns accidentals text 
     
-    void loadLevel(Tlevel &level);
-    void saveLevel(Tlevel &level);
+    virtual void loadLevel(Tlevel *level);
+    virtual void saveLevel(Tlevel *level);
+		
     
 signals:
     void accidsChanged();
     
 public slots:
+	
+		virtual void changed();
+		
       /** Slots invoked when score becomes disable or enable in level*/
     void enableAccids(bool enable);
     void enableKeys(bool enable);
@@ -54,9 +61,9 @@ private:
     QGroupBox *m_accidGr, *m_keySignGr;
     QRadioButton *m_singleKeyRadio, *m_rangeKeysRadio;
     QButtonGroup *m_rangeButGr;
-    QCheckBox *m_sharpsChB, *m_flatsChB, *m_doubleAccChB;
+    QCheckBox *m_sharpsChB, *m_flatsChB, *m_doubleAccChB, *m_forceAccChB;
     TkeySignComboBox *m_fromKeyCombo, *m_toKeyCombo;
-    QCheckBox *m_keyInAnswerChB;
+    QCheckBox *m_keyInAnswerChB, *m_currKeySignChBox;
     
 private slots:
         /** is called when radio button are checked

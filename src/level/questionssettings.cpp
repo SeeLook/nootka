@@ -20,15 +20,14 @@
 #include "questionssettings.h"
 #include "tkeysigncombobox.h"
 #include <widgets/tquestionaswdg.h>
+#include <exam/tlevel.h>
 #include <widgets/tintonationview.h>
 #include <QtWidgets>
 
-extern bool isNotSaved;
 
 
-questionsSettings::questionsSettings(QWidget *parent) :
-    QWidget(parent),
-    m_levelIsLoading(false)
+questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
+    TabstractLevelPage(creator)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;    
     mainLay->addStretch();
@@ -111,13 +110,9 @@ questionsSettings::questionsSettings(QWidget *parent) :
     octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
     chLay->addWidget(octaveRequiredChB, 0, 0, Qt::AlignLeft);
     
-    forceAccChB = new QCheckBox(tr("force using appropriate accidental"),this);
-    forceAccChB->setStatusTip(tr("if checked, it is possible to select a note<br>with given accidental only."));
-    chLay->addWidget(forceAccChB, 1, 0, Qt::AlignLeft);
-    
     styleRequiredChB = new QCheckBox(tr("use different naming styles"),this);
     styleRequiredChB->setStatusTip(tr("if checked, note names are switched between letters and solfege."));
-    chLay->addWidget(styleRequiredChB, 2, 0, Qt::AlignLeft);
+    chLay->addWidget(styleRequiredChB, 1, 0, Qt::AlignLeft);
     
     showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
     showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, sometimes it is needed and sometimes it makes no sense."));
@@ -127,10 +122,6 @@ questionsSettings::questionsSettings(QWidget *parent) :
     lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
     lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected fret range is required,<br>otherwise all possible positions of the note are acceptable.<br>To use this, all strings have to be available!"));
     chLay->addWidget(lowPosOnlyChBox, 1, 1, Qt::AlignLeft);
-    
-    currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-    currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
-    chLay->addWidget(currKeySignChBox, 2, 1, Qt::AlignLeft);
 		
 		TintonationCombo *intoCombo = new TintonationCombo(this);
 		m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
@@ -144,41 +135,42 @@ questionsSettings::questionsSettings(QWidget *parent) :
     connect(asSoundWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
     
     connect(octaveRequiredChB , SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(styleRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 		connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
 }
 
 
-void questionsSettings::loadLevel(Tlevel& level) {
-	m_levelIsLoading = true;
-    asNoteWdg->setAnswers(level.answersAs[TQAtype::e_asNote]);
-    asNoteWdg->setChecked(level.questionAs.isNote()); // when it is false it cleans all checkBoxes to false
-    asNameWdg->setAnswers(level.answersAs[TQAtype::e_asName]);
-    asNameWdg->setChecked(level.questionAs.isName());
-    asFretPosWdg->setAnswers(level.answersAs[TQAtype::e_asFretPos]);
-    asFretPosWdg->setChecked(level.questionAs.isFret());
-    asSoundWdg->setAnswers(level.answersAs[TQAtype::e_asSound]);
-    asSoundWdg->setChecked(level.questionAs.isSound());
+void questionsSettings::loadLevel(Tlevel* level) {
+	blockSignals(true);
+    asNoteWdg->setAnswers(level->answersAs[TQAtype::e_asNote]);
+    asNoteWdg->setChecked(level->questionAs.isNote()); // when it is false it cleans all checkBoxes to false
+    asNameWdg->setAnswers(level->answersAs[TQAtype::e_asName]);
+    asNameWdg->setChecked(level->questionAs.isName());
+    asFretPosWdg->setAnswers(level->answersAs[TQAtype::e_asFretPos]);
+    asFretPosWdg->setChecked(level->questionAs.isFret());
+    asSoundWdg->setAnswers(level->answersAs[TQAtype::e_asSound]);
+    asSoundWdg->setChecked(level->questionAs.isSound());
     
-    octaveRequiredChB->setChecked(level.requireOctave);
-    forceAccChB->setChecked(level.forceAccids);
-    styleRequiredChB->setChecked(level.requireStyle);
-    showStrNrChB->setChecked(level.showStrNr);
-    lowPosOnlyChBox->setChecked(level.onlyLowPos);
-    currKeySignChBox->setChecked(level.onlyCurrKey);
-		m_intonationCombo->setCurrentIndex(level.intonation);
-	m_levelIsLoading = false;
+    octaveRequiredChB->setChecked(level->requireOctave);
+    styleRequiredChB->setChecked(level->requireStyle);
+    showStrNrChB->setChecked(level->showStrNr);
+    lowPosOnlyChBox->setChecked(level->onlyLowPos);
+		m_intonationCombo->setCurrentIndex(level->intonation);
+		saveLevel(wLevel());
+	blockSignals(false);
 }
 
 
-void questionsSettings::whenParamsChanged() {
-	if (m_levelIsLoading)
-		return;
-	
+void questionsSettings::changed() {
+// 	qDebug() << "questionsSettings::changed() was invoked";
+//   blockSignals(true);
+// 	blockSignals(false);
+}
+
+
+void questionsSettings::whenParamsChanged() {	
 	// Disable 'show string' and 'lowest position only' when no answers as guitar and/or sound
 		if (lowPosOnlyChBox->isVisible()) {
 			bool lowDisabled = false;
@@ -197,27 +189,24 @@ void questionsSettings::whenParamsChanged() {
 			showStrNrChB->setDisabled(lowDisabled);
 		}
   // Is score enabled in a level
-    if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote())
-        emit scoreEnabled(false);
-    else
-        emit scoreEnabled(true);
+//     if (!asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote())
+//         emit scoreEnabled(false);
+//     else
+//         emit scoreEnabled(true);
   // Are score and names enabled
-    if (!asNameWdg->isChecked() && !asNoteWdg->answerAsName() && !asFretPosWdg->answerAsName() && 
-          !asSoundWdg->answerAsName() && !asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && 
-          !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
-              emit accidEnabled(false);    
-    }
-    else
-          emit accidEnabled(true);
+//     if (!asNameWdg->isChecked() && !asNoteWdg->answerAsName() && !asFretPosWdg->answerAsName() && 
+//           !asSoundWdg->answerAsName() && !asNoteWdg->isChecked() && !asNameWdg->answerAsNote() && 
+//           !asFretPosWdg->answerAsNote() && !asSoundWdg->answerAsNote()) {
+//               emit accidEnabled(false);    
+//     }
+//     else
+//           emit accidEnabled(true);
 	// Is sound input enabled to enable intonation
 		if (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())
 				m_intonationCombo->setDisabled(false);
 		else
 				m_intonationCombo->setDisabled(true);
-    if (!isNotSaved) {
-        isNotSaved = true;
-        emit questSettChanged();
-    }
+    changedLocal();
 }
 
 
@@ -239,23 +228,21 @@ void questionsSettings::hideGuitarRelated() {
 }
 
 
-void questionsSettings::saveLevel(Tlevel &level) {
-    level.questionAs.setAsNote(asNoteWdg->isChecked());
-    level.answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
-    level.questionAs.setAsName(asNameWdg->isChecked());
-    level.answersAs[TQAtype::e_asName] = asNameWdg->getAnswers();
-    level.questionAs.setAsFret(asFretPosWdg->isChecked());
-    level.answersAs[TQAtype::e_asFretPos] = asFretPosWdg->getAnswers();
-    level.questionAs.setAsSound(asSoundWdg->isChecked());
-    level.answersAs[TQAtype::e_asSound] = asSoundWdg->getAnswers();
+void questionsSettings::saveLevel(Tlevel* level) {
+    level->questionAs.setAsNote(asNoteWdg->isChecked());
+    level->answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
+    level->questionAs.setAsName(asNameWdg->isChecked());
+    level->answersAs[TQAtype::e_asName] = asNameWdg->getAnswers();
+    level->questionAs.setAsFret(asFretPosWdg->isChecked());
+    level->answersAs[TQAtype::e_asFretPos] = asFretPosWdg->getAnswers();
+    level->questionAs.setAsSound(asSoundWdg->isChecked());
+    level->answersAs[TQAtype::e_asSound] = asSoundWdg->getAnswers();
     
-    level.requireOctave = octaveRequiredChB->isChecked();
-    level.forceAccids = forceAccChB->isChecked();
-    level.requireStyle = styleRequiredChB->isChecked();
-    level.showStrNr = showStrNrChB->isChecked();
-    level.onlyLowPos = lowPosOnlyChBox->isChecked();
-    level.onlyCurrKey = currKeySignChBox->isChecked();
-		level.intonation = m_intonationCombo->currentIndex();
+    level->requireOctave = octaveRequiredChB->isChecked();
+    level->requireStyle = styleRequiredChB->isChecked();
+    level->showStrNr = showStrNrChB->isChecked();
+    level->onlyLowPos = lowPosOnlyChBox->isChecked();
+		level->intonation = m_intonationCombo->currentIndex();
 }
 
 

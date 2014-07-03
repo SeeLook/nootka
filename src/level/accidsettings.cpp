@@ -22,12 +22,9 @@
 #include <exam/tlevel.h>
 #include <QtWidgets>
 
-extern bool isNotSaved;
 
-bool levelIsLoadingInAccids = false;
-
-accidSettings::accidSettings(QWidget* parent) :
-  QWidget(parent)
+accidSettings::accidSettings(TlevelCreatorDlg* creator) :
+  TabstractLevelPage(creator)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     mainLay->setAlignment(Qt::AlignHCenter);
@@ -48,7 +45,14 @@ accidSettings::accidSettings(QWidget* parent) :
     m_accidGr = new QGroupBox(accidsText(), this);
     m_accidGr->setStatusTip(tr("Accidentals used in exam."));
     m_accidGr->setLayout(accLay);
-    mainLay->addWidget(m_accidGr, 1, Qt::AlignCenter);
+		m_forceAccChB = new QCheckBox(tr("force using appropriate accidental"),this);
+    m_forceAccChB->setStatusTip(tr("if checked, it is possible to select a note<br>with given accidental only."));
+		QHBoxLayout *entireAccLay = new QHBoxLayout;
+			entireAccLay->addStretch(); 
+			entireAccLay->addWidget(m_accidGr);
+			entireAccLay->addWidget(m_forceAccChB);
+			entireAccLay->addStretch();
+		mainLay->addLayout(entireAccLay);
     
     QHBoxLayout *keyLay = new QHBoxLayout;
     m_keySignGr = new QGroupBox(tr("use key signatures"),this);
@@ -88,6 +92,10 @@ accidSettings::accidSettings(QWidget* parent) :
     m_keySignGr->setLayout(keyLay);
     m_keySignGr->setChecked(false);
     mainLay->addWidget(m_keySignGr, 1, Qt::AlignCenter);
+		
+		m_currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
+    m_currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
+    mainLay->addWidget(m_currKeySignChBox, 0, Qt::AlignCenter);
 
     setLayout(mainLay);    
     
@@ -99,6 +107,7 @@ accidSettings::accidSettings(QWidget* parent) :
     connect(m_flatsChB, SIGNAL(clicked()), this, SLOT(keySignChanged()));
     connect(m_keySignGr, SIGNAL(clicked()), this, SLOT(keySignChanged()));
 
+		connect(m_forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(m_sharpsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(m_flatsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
     connect(m_doubleAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
@@ -108,6 +117,7 @@ accidSettings::accidSettings(QWidget* parent) :
     connect(m_fromKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
     connect(m_toKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
     connect(m_keyInAnswerChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+		connect(m_currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 
 }
 
@@ -115,67 +125,86 @@ accidSettings::accidSettings(QWidget* parent) :
 //#################### PUBLIC METHODS ######################
 
 
-void accidSettings::loadLevel ( Tlevel& level ) {
-	levelIsLoadingInAccids = true;
-    disconnect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
-    
-    m_sharpsChB->setChecked(level.withSharps);
-    m_flatsChB->setChecked(level.withFlats);
-    m_doubleAccChB->setChecked(level.withDblAcc);
-    m_keySignGr->setChecked(level.useKeySign);
-    if (level.isSingleKey)
+void accidSettings::loadLevel (Tlevel* level) {
+	blockSignals(true);
+    m_sharpsChB->setChecked(level->withSharps);
+    m_flatsChB->setChecked(level->withFlats);
+    m_doubleAccChB->setChecked(level->withDblAcc);
+		m_forceAccChB->setChecked(level->forceAccids);
+    m_keySignGr->setChecked(level->useKeySign);
+    if (level->isSingleKey)
         m_singleKeyRadio->setChecked(true);
     else
         m_rangeKeysRadio->setChecked(true);
-    m_fromKeyCombo->setKeySignature(level.loKey);
-    m_toKeyCombo->setKeySignature(level.hiKey);
-    m_keyInAnswerChB->setChecked(level.manualKey);
+    m_fromKeyCombo->setKeySignature(level->loKey);
+    m_toKeyCombo->setKeySignature(level->hiKey);
+    m_keyInAnswerChB->setChecked(level->manualKey);
+		m_currKeySignChBox->setChecked(level->onlyCurrKey);
     keyRangeChanged();
-
-    connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
-	levelIsLoadingInAccids = false;
+		saveLevel(wLevel());
+	blockSignals(false);
 }
 
-void accidSettings::saveLevel ( Tlevel& level ) {
+
+void accidSettings::saveLevel (Tlevel* level) {
   if (m_accidGr->isEnabled()) {
-    level.withSharps = m_sharpsChB->isChecked();
-    level.withFlats = m_flatsChB->isChecked();
-    level.withDblAcc = m_doubleAccChB->isChecked();
+    level->withSharps = m_sharpsChB->isChecked();
+    level->withFlats = m_flatsChB->isChecked();
+    level->withDblAcc = m_doubleAccChB->isChecked();
   } else { // ignore checking when groupbox is disabled
-    level.withSharps = false;
-    level.withFlats = false;
-    level.withDblAcc = false;
+    level->withSharps = false;
+    level->withFlats = false;
+    level->withDblAcc = false;
   }
+  level->forceAccids = m_forceAccChB->isChecked();
   if (m_keySignGr->isEnabled()) {
-    level.useKeySign = m_keySignGr->isChecked();
+    level->useKeySign = m_keySignGr->isChecked();
     if (m_singleKeyRadio->isChecked()) {
-        level.isSingleKey = true;
-        level.loKey = m_fromKeyCombo->getKeySignature();
-        level.hiKey = m_toKeyCombo->getKeySignature();
+        level->isSingleKey = true;
+        level->loKey = m_fromKeyCombo->getKeySignature();
+        level->hiKey = m_toKeyCombo->getKeySignature();
     }
     else { // range of keys
-        level.isSingleKey = false;
+        level->isSingleKey = false;
         if (m_fromKeyCombo->getKeySignature().value() < m_toKeyCombo->getKeySignature().value()) {
-            level.loKey = m_fromKeyCombo->getKeySignature();
-            level.hiKey = m_toKeyCombo->getKeySignature();
+            level->loKey = m_fromKeyCombo->getKeySignature();
+            level->hiKey = m_toKeyCombo->getKeySignature();
         } else 
           if (m_fromKeyCombo->getKeySignature().value() > m_toKeyCombo->getKeySignature().value()) {
-            level.loKey = m_toKeyCombo->getKeySignature();
-            level.hiKey = m_fromKeyCombo->getKeySignature();
+            level->loKey = m_toKeyCombo->getKeySignature();
+            level->hiKey = m_fromKeyCombo->getKeySignature();
           } else { // == means only one key is selected
-            level.isSingleKey = true;
-            level.loKey = m_fromKeyCombo->getKeySignature();
-            level.hiKey = m_toKeyCombo->getKeySignature();
+            level->isSingleKey = true;
+            level->loKey = m_fromKeyCombo->getKeySignature();
+            level->hiKey = m_toKeyCombo->getKeySignature();
             }
         }
-    level.manualKey = m_keyInAnswerChB->isChecked();
+    level->manualKey = m_keyInAnswerChB->isChecked();
   } else {
-    level.useKeySign = false;
-    level.manualKey = false;
+    level->useKeySign = false;
+    level->manualKey = false;
   }
+  level->onlyCurrKey = m_currKeySignChBox->isChecked();
 }
 
 //#################### PUBLIC SLOTS #####################
+
+void accidSettings::changed() {
+  blockSignals(true);
+		// TODO: Is disabling whole accidentals box really necessary?
+		if (wLevel()->canBeScore())
+			enableKeys(true);
+		else
+			enableKeys(false);
+		if ((wLevel()->canBeScore() || wLevel()->canBeName()) && 
+				(wLevel()->withDblAcc || wLevel()->withFlats || wLevel()->withSharps))
+			m_forceAccChB->setDisabled(false);
+	else
+			m_forceAccChB->setDisabled(true);
+	blockSignals(false);
+}
+
+
 
 void accidSettings::enableAccids(bool enable) {
     if (enable) { // score and note names are enabled in the level
@@ -203,9 +232,9 @@ void accidSettings::enableKeys(bool enable) {
 
 
 void accidSettings::keyRangeChanged() {
-    if (m_keySignGr->isChecked()) {
-        if (m_singleKeyRadio->isChecked()) {
-            m_toKeyCombo->setKeySignature(TkeySignature(0));
+    if (m_keySignGr->isChecked()) { // key signatures enabled
+        if (m_singleKeyRadio->isChecked()) { // single key signature
+            m_toKeyCombo->setKeySignature(TkeySignature(0)); // reset and disable hiKey of range
             m_toKeyCombo->setDisabled(true);
             m_keyInAnswerChB->setDisabled(true);
             m_keyInAnswerChB->setChecked(false);
@@ -218,7 +247,9 @@ void accidSettings::keyRangeChanged() {
     keySignChanged();
 }
 
+
 void accidSettings::keySignChanged() {
+	blockSignals(true);
     if (m_keySignGr->isChecked()) {
       if (m_rangeKeysRadio->isChecked()) {
         if (m_fromKeyCombo->getKeySignature().value() < 0 || // keys with flats ?
@@ -260,7 +291,7 @@ void accidSettings::keySignChanged() {
                 m_sharpsChB->setChecked(true);
                 m_sharpsChB->setDisabled(true);
                 m_flatsChB->setDisabled(false);
-            } else { // no key - C-majpr
+            } else { // no key - C-major
                 m_flatsChB->setDisabled(false);
                 m_sharpsChB->setDisabled(false);
             }
@@ -269,17 +300,22 @@ void accidSettings::keySignChanged() {
         m_flatsChB->setDisabled(false);
         m_sharpsChB->setDisabled(false);
     }
-
+  if (!m_flatsChB->isChecked() && !m_sharpsChB->isChecked() && !m_doubleAccChB->isChecked()) { 
+		// without accidentals those options makes no sense
+			m_currKeySignChBox->setDisabled(true);
+			m_forceAccChB->setDisabled(true);
+			m_currKeySignChBox->setChecked(false);
+			m_forceAccChB->setChecked(false);
+	} else {
+			m_currKeySignChBox->setDisabled(false);
+			m_forceAccChB->setDisabled(false);
+	}
+  changedLocal();
+	blockSignals(false);
 }
 
 void accidSettings::whenParamsChanged() {
-		if (levelIsLoadingInAccids)
-			 return;
-		
-    if (!isNotSaved) {
-        isNotSaved = true;
-        emit accidsChanged();
-    }
+	changedLocal();
 }
 
 void accidSettings::updateStatusTip() {
