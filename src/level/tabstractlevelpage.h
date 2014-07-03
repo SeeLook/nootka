@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,60 +16,53 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TABSTRACTLEVELWIDGET_H
+#define TABSTRACTLEVELWIDGET_H
 
-#ifndef RANGESETTINGS_H
-#define RANGESETTINGS_H
+#include <QWidget>
 
 
-#include "tabstractlevelpage.h"
-
-class QGroupBox;
 class TlevelCreatorDlg;
-class QPushButton;
-class TsimpleScore;
-class QSpinBox;
-class QCheckBox;
 class Tlevel;
 
 
-class rangeSettings : public TabstractLevelPage
+/** 
+ * This is base class for level settings widget.
+ * It has static Tlevel object which is working instance of a level
+ * When subclass changes some level parameter it will emit @p levelChanged()
+ * connected to @p TlevelCreatorDlg to inform other widgets
+ */
+class TabstractLevelPage : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
+	
 public:
-    explicit rangeSettings(TlevelCreatorDlg* creator);
-
-		virtual void loadLevel(Tlevel* level);
-    virtual void saveLevel(Tlevel* level);
+	explicit TabstractLevelPage(TlevelCreatorDlg* creator);
+	virtual ~TabstractLevelPage();
+	
+	
+	virtual void loadLevel(Tlevel* level) {}
+  virtual void saveLevel(Tlevel* level) {}
 		
-		TsimpleScore* scoreRange() { return m_scoreRang; }
-
 signals:
-    void rangeChanged();
-		
-				/** Emitted when any string is checked or unchecked. 
-				* Sends true when all string are selected, and false when not all. */
-    void allStringsChecked(bool);
-		
+	void levelChanged();
+	
 public slots:
-	virtual void changed();
+			/** This method is invoked from 'outside' when other widget changed a level settings.
+			 * Implement here routines to adjust widgets to changed level parameters. */
+	virtual void changed() {}
 	
 protected:
-    virtual void changedLocal();
-		
+	static Tlevel* wLevel() { return m_workLevel; }
+	
+protected slots:
+			/** Connect to this slot changes of every settings widget (check boxes, other switches).
+			 * It will invoke @p saveLevel(m_workLevel) and emit @p levelChanged() signal.	 */
+	virtual void changedLocal();
+	
 private:
-		QGroupBox 			*m_fretGr, *m_stringsGr;
-    TsimpleScore 		*m_scoreRang;
-    QSpinBox 				*m_fromSpinB, *m_toSpinB;
-    QCheckBox 			*m_stringBut[6];
-		QPushButton			*m_fretAdjustButt, *m_noteAdjustButt;
-		
-
-private slots:
-    void stringSelected();
-    void whenParamsChanged();
-		void adjustFrets();
-		void adjustNotes();
-
+	static Tlevel					*m_workLevel;
+	static int						 m_cnt; // to properly remove Tlevel after the last instance;
 };
 
-#endif // RANGESETTINGS_H
+#endif // TABSTRACTLEVELWIDGET_H

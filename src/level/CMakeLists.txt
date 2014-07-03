@@ -7,11 +7,14 @@ set(LEVEL_SRC
   main.cpp
   tlevelcreatordlg.cpp
   tlevelheaderwdg.cpp
+  tabstractlevelpage.cpp
   accidsettings.cpp
   tkeysigncombobox.cpp
   levelsettings.cpp
   questionssettings.cpp
+  tmelodysettings.cpp
   rangesettings.cpp
+  tlevelsdefs.cpp
   tlevelselector.cpp
 )
 

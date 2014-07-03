@@ -36,6 +36,10 @@ int heightOfA(QWidget *w) {
 }
 
 
+QString tdAlign() {
+	return "<td valign=\"middle\" align=\"center\">";
+}
+
 TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent),
   m_instrText(""),
@@ -107,15 +111,13 @@ void TlevelPreview::setLevel(Tlevel& tl) {
 				replace("<img", "<img width=\"70px\"");
     S += "<tr><td>" + notesRangeTxt() + " </td>";
 		if (tl.loNote.note && tl.hiNote.note)
-			S += "<td>" + tl.loNote.toRichText() + " - " + tl.hiNote.toRichText() + "</td></tr>";
-    if (tl.questionAs.isFret() || tl.answersAs[0].isFret()
-        || tl.answersAs[1].isFret() || tl.answersAs[2].isFret()
-        || tl.answersAs[3].isFret()) { // level uses guitar
+			S += tdAlign() + tl.loNote.toRichText() + " - " + tl.hiNote.toRichText() + "</td></tr>";
+    if (tl.canBeGuitar()) { // level uses guitar
         S += "<tr><td>" + fretsRangeTxt() + " </td>";
-        S += QString("<td>%1 - %2").arg(int(tl.loFret)).arg(int(tl.hiFret)) + "</td></tr>";
+        S += tdAlign() + QString("%1 - %2").arg(int(tl.loFret)).arg(int(tl.hiFret)) + "</td></tr>";
     }
     if (tl.useKeySign) {
-        S += "<tr><td>" + tr("key signature:") + " </td><td>";
+        S += "<tr><td>" + tr("key signature:") + " </td>" + tdAlign();
         S += tl.loKey.getMajorName().remove("-" + Tglob::glob()->S->majKeyNameSufix);
         S += " (" + tl.loKey.accidNumber(true) +")";
         if (!tl.isSingleKey) {
@@ -124,7 +126,7 @@ void TlevelPreview::setLevel(Tlevel& tl) {
         }
         S += "</td></tr>";
     }
-    S += "<tr><td>" + tr("accidentals:") + " </td><td>";
+    S += "<tr><td>" + tr("accidentals:") + " </td>" + tdAlign();
     if (!tl.withSharps && !tl.withFlats && !tl.withDblAcc)
         S += tr("none");
     else {
@@ -133,7 +135,7 @@ void TlevelPreview::setLevel(Tlevel& tl) {
         if (tl.withDblAcc) S += TnooFont::span(" x B");
     }
     S += "</td></tr>";
-    S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td><td align=\"center\">"; // QUESTIONS
+    S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td>" + tdAlign(); // QUESTIONS
     QString tmp;
     if (tl.questionAs.isNote())
       tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";

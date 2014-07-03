@@ -32,6 +32,7 @@
 
 Tglobals* Tglob::m_gl = 0;
 QTranslator qtTranslator;
+QTranslator qtbaseTranslator;
 QTranslator nooTranslator;
 
 
@@ -55,15 +56,16 @@ void prepareTranslations(QApplication* a) {
 	ll = Tglob::glob()->lang;
 	if (ll == "")
 			ll = QLocale::system().name();
-// 	QTranslator qtTranslator;
 #if defined(Q_OS_LINUX)
     qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+		qtbaseTranslator.load("qtbase_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 #else
     qtTranslator.load("qt_" + ll, Tglob::glob()->path + "lang");
+		qtbaseTranslator.load("qtbase_" + ll, Tglob::glob()->path + "lang");
 #endif
 	a->installTranslator(&qtTranslator);
+	a->installTranslator(&qtbaseTranslator);
 
-//     QTranslator nooTranslator;
 	nooTranslator.load("nootka_" + ll, Tglob::glob()->path + "lang");
 	a->installTranslator(&nooTranslator);
 	TkeySignature::setNameStyle(Tglob::glob()->S->nameStyleInKeySign, Tglob::glob()->S->majKeyNameSufix, 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,60 +16,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#ifndef RANGESETTINGS_H
-#define RANGESETTINGS_H
-
+#ifndef TMELODYSETTINGS_H
+#define TMELODYSETTINGS_H
 
 #include "tabstractlevelpage.h"
 
-class QGroupBox;
 class TlevelCreatorDlg;
-class QPushButton;
-class TsimpleScore;
-class QSpinBox;
-class QCheckBox;
 class Tlevel;
+class QCheckBox;
+class QSpinBox;
 
-
-class rangeSettings : public TabstractLevelPage
+/** 
+ * 
+ */
+class TmelodySettings : public TabstractLevelPage
 {
-    Q_OBJECT
-public:
-    explicit rangeSettings(TlevelCreatorDlg* creator);
 
-		virtual void loadLevel(Tlevel* level);
-    virtual void saveLevel(Tlevel* level);
-		
-		TsimpleScore* scoreRange() { return m_scoreRang; }
-
-signals:
-    void rangeChanged();
-		
-				/** Emitted when any string is checked or unchecked. 
-				* Sends true when all string are selected, and false when not all. */
-    void allStringsChecked(bool);
-		
-public slots:
-	virtual void changed();
+	Q_OBJECT
 	
+public:
+    explicit TmelodySettings(TlevelCreatorDlg* creator);
+		
+    virtual void loadLevel(Tlevel* level);
+    virtual void saveLevel(Tlevel* level);
+	
+		virtual void changed();
+		
 protected:
     virtual void changedLocal();
 		
 private:
-		QGroupBox 			*m_fretGr, *m_stringsGr;
-    TsimpleScore 		*m_scoreRang;
-    QSpinBox 				*m_fromSpinB, *m_toSpinB;
-    QCheckBox 			*m_stringBut[6];
-		QPushButton			*m_fretAdjustButt, *m_noteAdjustButt;
-		
-
-private slots:
-    void stringSelected();
-    void whenParamsChanged();
-		void adjustFrets();
-		void adjustNotes();
-
+		QSpinBox							*m_melodyLengthSpin;
+		QCheckBox							*m_finishOnChB, *m_equalTempoChB;
+	
 };
 
-#endif // RANGESETTINGS_H
+#endif // TMELODYSETTINGS_H

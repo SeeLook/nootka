@@ -255,7 +255,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		QDataStream out(&file);
 		out.setVersion(QDataStream::Qt_4_7);
 		out << currentVersion;
-		out << m_userName << *m_level << m_tune;
+// 		out << m_userName << *m_level << m_tune; TODO !!!!!!!!!!!!!!!!! XML !!!!!!!!!!!!!!!!!!!!!!!!!!!
 		out << m_totalTime; // elapsed exam time (quint32)
 			// data for file preview
 		out << (quint16)m_answList.size(); // number of questions

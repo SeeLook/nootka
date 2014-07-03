@@ -33,12 +33,6 @@ class QPushButton;
 class QFile;
 
 
-
-//#######################################################################
-        /** Returns list of predefined levels. */
-    QList<Tlevel> getExampleLevels();
-//#######################################################################
-
 class TlevelSelector : public QWidget
 {
     Q_OBJECT

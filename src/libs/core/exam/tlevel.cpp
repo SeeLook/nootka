@@ -127,10 +127,11 @@ void skipCurrentXmlKey(QXmlStreamReader& xml) {
 Tlevel::Tlevel() :
 	hasInstrToFix(false)
 {
-  // level parameters
+// level parameters
    name = QObject::tr("master of masters");
    desc = QObject::tr("All possible options are turned on");
 	 bool hasGuitar = true;
+// QUESTIONS
 	 if (Tglob::glob()->instrument == e_noInstrument)
 		 hasGuitar = false;
    questionAs = TQAtype(true, true, hasGuitar, true);
@@ -138,33 +139,36 @@ Tlevel::Tlevel() :
    answersAs[1] = TQAtype(true, true, hasGuitar, true);
    answersAs[2] = TQAtype(true, true, false, false);
    answersAs[3] = TQAtype(true, true, hasGuitar, true);
-  // QUESTIONS - as note
+	 requireOctave = true;
+   requireStyle = true;
+	    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
+		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
+		*  It can store multiple clefs (maybe in unknown future it will be used)
+		*  0 - no clef and up to 15 different clefs	  */
+	 clef = Tclef(Tglob::glob()->S->clef);
+
+	 instrument = Tglob::glob()->instrument;
+	 onlyLowPos = false;
+   onlyCurrKey = false;
+	 intonation = Tglob::glob()->A->intonation;
+// ACCIDENTALS
    withSharps = true;
    withFlats = true;
    withDblAcc = true;
    useKeySign = true;
    isSingleKey  = false;
-   loKey = -7;
-   hiKey = 7; // key range (7b to 7#)
+   loKey = TkeySignature(-7);
+   hiKey = TkeySignature(7); // key range (7b to 7#)
    manualKey = true;
    forceAccids = true;
-  // QUESTIONS - as name
-   requireOctave = true;
-   requireStyle = true;
- // ANSWERS - as position on fingerboard
    showStrNr = hasGuitar;
-  // RANGE - for non guitar Tglobals will returns scale determined by clef
+// MELODIES
+		melodyLen = 40;
+		endsOnTonic = true;
+    requireInTempo = true;
+// RANGE - for non guitar Tglobals will returns scale determined by clef
    loNote = Tglob::glob()->loString();
    hiNote = Tnote(Tglob::glob()->hiString().getChromaticNrOfNote() + Tglob::glob()->GfretsNumber);
-   /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
-		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
-		*  It can store multiple clefs (maybe in unknown future it will be used)
-		*  0 - no clef and up to 15 different clefs	  */
-	 clef = Tclef(Tglob::glob()->S->clef);
-//    isNoteLo = false;   isNoteHi = false;
-//    isFretHi = false; 
-	 instrument = Tglob::glob()->instrument;
-   //-------------------
    loFret = 0;
    hiFret = Tglob::glob()->GfretsNumber;
 	 for (int i = 0; i < 6; i++) {
@@ -173,12 +177,9 @@ Tlevel::Tlevel() :
 		 else
 				usedStrings[i] = false; 
 	 }
-   onlyLowPos = false;
-   onlyCurrKey = false;
-	 intonation = Tglob::glob()->A->intonation;
 }
 
-
+/*
 QDataStream &operator << (QDataStream &out, Tlevel &lev) {
     out << lev.name << lev.desc;
     out << lev.questionAs;
@@ -205,7 +206,7 @@ QDataStream &operator << (QDataStream &out, Tlevel &lev) {
             << lev.usedStrings[3] << lev.usedStrings[4] <<  lev.usedStrings[5];
     out << lev.onlyLowPos << lev.onlyCurrKey << lev.showStrNr;
     return out;
-}
+}*/
 
 
 bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
@@ -255,6 +256,9 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
 		}
 // 		qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" << 
 // 						instr << "saved as" << instrumentToText(lev.instrument);
+		lev.melodyLen = 1; // Those parameters was deployed in XML files
+		lev.endsOnTonic = false; // By settings those values their will be ignored 
+		lev.requireInTempo = false;
     return ok;
 }
 
@@ -351,10 +355,21 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 				else if (xml.name() == "onlyCurrKey")
 					onlyCurrKey = QVariant(xml.readElementText()).toBool();
 				else if (xml.name() == "intonation")
-					intonation = QVariant(xml.readElementText()).toInt();		
+					intonation = QVariant(xml.readElementText()).toInt();
 				else
 					skipCurrentXmlKey(xml);
 			}
+		} else if (xml.name() == "melodies") {
+				while (xml.readNextStartElement()) {
+					if (xml.name() == "melodyLength")
+						melodyLen = qBound(1, QVariant(xml.readElementText()).toInt(), 100);
+					else if (xml.name() == "endsOnTonic")
+						endsOnTonic = QVariant(xml.readElementText()).toBool();
+					else if (xml.name() == "requireInTempo")
+						requireInTempo = QVariant(xml.readElementText()).toBool();
+					else
+						skipCurrentXmlKey(xml);
+				}
 		} else if (xml.name() == "accidentals") {
 				while (xml.readNextStartElement()) {
 // 					qDebug() << "accidentals->" << xml.name();
@@ -454,6 +469,12 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
 			xml.writeTextElement("manualKey", QVariant(manualKey).toString());
 			xml.writeTextElement("forceAccids", QVariant(forceAccids).toString());
 		xml.writeEndElement(); // accidentals
+	// MELODIES
+		xml.writeStartElement("melodies");
+			xml.writeTextElement("melodyLength", QVariant(melodyLen).toString());
+			xml.writeTextElement("endsOnTonic", QVariant(endsOnTonic).toString());
+			xml.writeTextElement("requireInTempo", QVariant(requireInTempo).toString());
+		xml.writeEndElement(); // melodies
 	// RANGE
 		xml.writeStartElement("range");
 			xml.writeTextElement("loFret", QVariant((qint8)loFret).toString());
@@ -476,8 +497,8 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
 		QFile file(levelFile);
     if (file.open(QIODevice::WriteOnly)) {
 			QDataStream out(&file);
-// 			out.setVersion(QDataStream::Qt_5_2);
-			out << currentVersion /*<< level*/;
+			out.setVersion(QDataStream::Qt_5_2);
+			out << currentVersion;
 			QXmlStreamWriter xml(&file);
 
 			xml.setAutoFormatting(true);
@@ -490,7 +511,7 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
 			return true;
     }
     else
-        return false;
+			return false;
 }
 
 

@@ -23,13 +23,16 @@
 #include <widgets/tsettingsdialogbase.h>
 #include <exam/tlevel.h>
 
+class TmelodySettings;
 class accidSettings;
 class levelSettings;
 class rangeSettings;
 class questionsSettings;
 
 
-    /** The level creator */
+/**
+ * The level creator dialog window
+ */
 class TlevelCreatorDlg : public TsettingsDialogBase
 {
     Q_OBJECT
@@ -37,16 +40,23 @@ public:
     explicit TlevelCreatorDlg(QWidget *parent = 0);
 
     static QString levelCreatorTxt() { return tr("Levels creator"); }
+    
         /** It can be called externally to load level file. */
     void loadLevelFile(QString levelFile);
+		
         /** Returns user selected level or level with empty name if not selected. */
     Tlevel selectedLevel();
+		
+public slots:
+				/** This slot is invoked by every settings widget(page) when its settings were changed  */
+		void levelWasChanged();
 
 private:
-    levelSettings *levelSett;
-    questionsSettings *questSett;
-    accidSettings *accSett;
-    rangeSettings *rangeSett;
+    levelSettings 							*m_levelSett;
+    questionsSettings 					*m_questSett;
+    accidSettings 							*m_accSett;
+		TmelodySettings 						*m_meloSett;
+    rangeSettings 							*m_rangeSett;
 
     void saveLevel();
 		

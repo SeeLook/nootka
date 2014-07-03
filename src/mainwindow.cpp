@@ -247,7 +247,7 @@ void MainWindow::createActions() {
 
 void MainWindow::setStartExamActParams() {
     levelCreatorAct->setText(tr("Level"));
-//     levelCreatorAct->setStatusTip(TlevelCreatorDlg::levelCreatorTxt());
+    levelCreatorAct->setStatusTip(tr("Levels creator"));
 //		levelCreatorAct->setToolTip(levelCreatorAct->statusTip());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,60 +16,44 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#ifndef RANGESETTINGS_H
-#define RANGESETTINGS_H
-
-
 #include "tabstractlevelpage.h"
+#include "tlevelcreatordlg.h"
+#include <exam/tlevel.h>
 
-class QGroupBox;
-class TlevelCreatorDlg;
-class QPushButton;
-class TsimpleScore;
-class QSpinBox;
-class QCheckBox;
-class Tlevel;
+Tlevel* 								TabstractLevelPage::m_workLevel = 0;
+int 										TabstractLevelPage::m_cnt = 0;
 
-
-class rangeSettings : public TabstractLevelPage
+TabstractLevelPage::TabstractLevelPage(TlevelCreatorDlg* creator) :
+	QWidget(0)
 {
-    Q_OBJECT
-public:
-    explicit rangeSettings(TlevelCreatorDlg* creator);
+	if (!m_workLevel)
+		m_workLevel = new Tlevel();
+	m_cnt++;
+	connect(this, SIGNAL(levelChanged()), creator, SLOT(levelWasChanged()));
+}
 
-		virtual void loadLevel(Tlevel* level);
-    virtual void saveLevel(Tlevel* level);
-		
-		TsimpleScore* scoreRange() { return m_scoreRang; }
 
-signals:
-    void rangeChanged();
-		
-				/** Emitted when any string is checked or unchecked. 
-				* Sends true when all string are selected, and false when not all. */
-    void allStringsChecked(bool);
-		
-public slots:
-	virtual void changed();
-	
-protected:
-    virtual void changedLocal();
-		
-private:
-		QGroupBox 			*m_fretGr, *m_stringsGr;
-    TsimpleScore 		*m_scoreRang;
-    QSpinBox 				*m_fromSpinB, *m_toSpinB;
-    QCheckBox 			*m_stringBut[6];
-		QPushButton			*m_fretAdjustButt, *m_noteAdjustButt;
-		
+TabstractLevelPage::~TabstractLevelPage()
+{
+	m_cnt--;
+	if (m_cnt == 0) {
+		delete m_workLevel;
+		m_workLevel = 0;
+	}		
+}
 
-private slots:
-    void stringSelected();
-    void whenParamsChanged();
-		void adjustFrets();
-		void adjustNotes();
 
-};
+void TabstractLevelPage::changedLocal() {
+	saveLevel(m_workLevel);
+	emit levelChanged();
+}
 
-#endif // RANGESETTINGS_H
+
+
+
+
+
+
+
+
+
