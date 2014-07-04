@@ -18,6 +18,8 @@
 
 #include "tmelodysettings.h"
 #include <exam/tlevel.h>
+#include <widgets/troundedlabel.h>
+#include <tnoofont.h>
 #include <QtWidgets>
 
 #include <QDebug>
@@ -38,6 +40,12 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
 	m_equalTempoChB = new QCheckBox(tr("Require equal tempo"), this);
 		m_equalTempoChB->setStatusTip(tr("If set, doesn't matter how fast you will play but melody has to be played whole with the same tempo."));
 		
+	TroundedLabel *qaLab = new TroundedLabel(tr("Melodies are available for the following questions-answers:") + 
+				"<br>" + TnooFont::span("s?", 25) + "<big> -> </big>" + TnooFont::span("n!", 25) +
+				"<br>" + TnooFont::span("n?", 25) + "<big> -> </big>" + TnooFont::span("s!", 25) +
+				"<br>" + TnooFont::span("s?", 25) + "<big> -> </big>" + TnooFont::span("s!", 25), this);
+		qaLab->setAlignment(Qt::AlignCenter);
+		
 	QVBoxLayout *lay = new QVBoxLayout;
 	lay->addStretch();
 		QHBoxLayout *melLngLay = new QHBoxLayout;
@@ -52,7 +60,13 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
 	lay->addStretch();
 	lay->addWidget(m_equalTempoChB);
 	lay->addStretch();
-	setLayout(lay);
+	m_melGroup = new QGroupBox(this);
+		m_melGroup->setLayout(lay);
+	QVBoxLayout *mainLay = new QVBoxLayout;
+		mainLay->addWidget(m_melGroup);
+		mainLay->addStretch();
+		mainLay->addWidget(qaLab);
+	setLayout(mainLay);
 	
 	connect(m_melodyLengthSpin, SIGNAL(valueChanged(int)), this, SLOT(changedLocal()));
 	connect(m_equalTempoChB, SIGNAL(clicked()), this, SLOT(changedLocal()));
@@ -86,11 +100,11 @@ void TmelodySettings::changed() {
 		//        - question as note -> answer as sound (play score)
 		//        - question as sound -> answer as note (dictation)
 		//        - question as sound -> answer as sound (repeat melody)
-			setDisabled(false);
+			m_melGroup->setDisabled(false);
 	} else { // otherwise page is disabled
 			blockSignals(true);
 			m_melodyLengthSpin->setValue(1);
-			setDisabled(true);
+			m_melGroup->setDisabled(true);
 			blockSignals(false);
 	}
 }

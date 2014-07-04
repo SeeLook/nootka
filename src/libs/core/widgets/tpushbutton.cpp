@@ -43,6 +43,7 @@ TpushButton::TpushButton(QString text, QWidget* parent):
 void TpushButton::setThisColors(QColor background, QColor text) {
 	m_backThis = background;
 	m_textThis = text;
+	setChecked(isChecked()); // it will be refreshed when is checked
 }
 
 

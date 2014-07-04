@@ -130,6 +130,8 @@ public:
 				/** When note accidental has already existed in a key signature animation is performed.  */
 		void enableAccidToKeyAnim(bool enable) { m_accidToKeyAnim = enable; }
 		bool accidToKeyAnim() { return m_accidToKeyAnim; }
+		
+		void popUpAnim(int durTime); /** Performs pop-up animation */
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
@@ -191,7 +193,8 @@ private:
 		QGraphicsTextItem												*m_nameText;
 		int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
 		QColor                         					m_bgColor;
-		TcombinedAnim														*m_noteAnim;
+		TcombinedAnim														*m_noteAnim, *m_popUpAnim;
+		QGraphicsEllipseItem										*m_popUpRect;
 		bool													 					m_accidToKeyAnim;
 		bool													 					m_selected;
 		
@@ -227,7 +230,8 @@ private:
 		void checkLines(int curPos, TaddLines &low, TaddLines &upp, TaddLines &mid);
 // 		void checkOctavation();
 		
-		    
+private slots:
+		void popUpAnimFinished();
 };
 
 #endif // TSCORENOTE_H

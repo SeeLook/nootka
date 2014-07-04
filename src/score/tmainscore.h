@@ -58,6 +58,8 @@ public:
 		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */		
 		void setNote(Tnote note);
 		
+		int index() { return m_currentIndex; } /** Index of selected note or -1 if none */
+		
 				/** Describes insert mode of a score */
 		enum EinMode {
 			e_single, // single note mode
