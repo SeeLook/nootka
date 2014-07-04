@@ -21,6 +21,7 @@
 
 #include "tabstractlevelpage.h"
 
+class QGroupBox;
 class TlevelCreatorDlg;
 class Tlevel;
 class QCheckBox;
@@ -48,6 +49,7 @@ protected:
 private:
 		QSpinBox							*m_melodyLengthSpin;
 		QCheckBox							*m_finishOnChB, *m_equalTempoChB;
+		QGroupBox							*m_melGroup;
 	
 };
 

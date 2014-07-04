@@ -546,6 +546,8 @@ void MainWindow::playSlot() {
 		recordAct->setDisabled(false);
 		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
 	} else {
+		if (score->index() < 0)
+			return;
 		recordAct->setDisabled(true);
 		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));
 		score->playScore();

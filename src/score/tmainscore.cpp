@@ -62,6 +62,7 @@ TmainScore::TmainScore(QWidget* parent) :
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	m_acts = new TscoreActions(this, gl->path);
 	
+	TscoreNote::setNameColor(gl->S->nameColor);
 	restoreNotesSettings();
 	addStaff(staff());
 // set preferred clef
@@ -122,8 +123,9 @@ void TmainScore::acceptSettings() {
 	restoreNotesSettings();
 // Note names on the score
 	if (gl->S->nameColor != TscoreNote::nameColor()) {
-		      refreshNoteNames = true;
-		m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
+			refreshNoteNames = true;
+			m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
+			TscoreNote::setNameColor(gl->S->nameColor);
 	}
 	if (gl->S->namesOnScore != m_acts->noteNames()->isChecked() || refreshNoteNames) {
 		m_acts->noteNames()->setChecked(gl->S->namesOnScore);
@@ -236,6 +238,8 @@ void TmainScore::playScore() {
 			delete m_playTimer;
 		}
 	} else {
+		if (m_currentIndex < 0)
+			return;
 		m_scoreIsPlayed = true;
 		m_playTimer = new QTimer(this);
 		connect(m_playTimer, SIGNAL(timeout()), this, SLOT(playSlot()));
@@ -722,6 +726,7 @@ void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
 	if (gl->S->namesOnScore)
 			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
+	m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
 }
 
 
@@ -1005,7 +1010,7 @@ void TmainScore::createActions() {
 void TmainScore::restoreNotesSettings() {
 // 		if (gl->S->enharmNotesColor == -1)
 // 					gl->S->enharmNotesColor = palette().highlight().color();
-	TscoreNote::setNameColor(gl->S->nameColor);
+// 	TscoreNote::setNameColor(gl->S->nameColor);
 	staff()->noteSegment(0)->right()->adjustSize();
 	if (gl->S->pointerColor == -1) {
 				gl->S->pointerColor = Tcolor::invert(palette().highlight().color());

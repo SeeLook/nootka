@@ -26,6 +26,7 @@
 #include <animations/tcombinedanim.h>
 #include <music/tnote.h>
 #include <tnoofont.h>
+#include <QEasingCurve>
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
@@ -92,6 +93,7 @@ void TscoreNote::setPointedColor(QColor color) {
 /*------------------------*/
 
 //################################## CONSTRUCTOR ###################################
+
 TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
   m_mainPosY(0.0),
@@ -102,7 +104,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_nameText(0),
   m_ottava(0),
   m_bgColor(-1),
-  m_noteAnim(0), m_accidToKeyAnim(false),
+  m_noteAnim(0), m_popUpAnim(0), m_accidToKeyAnim(false),
   m_selected(false),
   m_touchedToMove(false)
 {
@@ -438,6 +440,28 @@ void TscoreNote::keyAnimFinished() {
 }
 
 
+void TscoreNote::popUpAnim(int durTime) {
+	if (m_popUpAnim)
+		return;
+	m_popUpRect = new QGraphicsEllipseItem(0.0, 0.0, 0.1, 0.1 * (m_height / 7.0), this);
+		m_popUpRect->setZValue(1);
+		m_popUpRect->setPen(Qt::NoPen);
+		QColor bc = qApp->palette().highlight().color();
+		bc.setAlpha(90);
+		m_popUpRect->setBrush(QBrush(bc));
+		m_popUpRect->setPos(6.95, m_height / 2.0 - 0.05 * (m_height / 7.0));
+	m_popUpAnim = new TcombinedAnim(m_popUpRect);
+		m_popUpAnim->setDuration(durTime);
+		m_popUpAnim->setMoving(m_popUpRect->pos(), QPointF());
+		m_popUpAnim->setScaling(70);
+		m_popUpAnim->setColoring(Qt::transparent);
+		m_popUpAnim->coloring()->setEasingCurveType(QEasingCurve::InQuint);
+		connect(m_popUpAnim, SIGNAL(finished()), this, SLOT(popUpAnimFinished()));
+		m_popUpAnim->startAnimations();
+}
+
+
+
 //#################################################################################################
 //########################################## PROTECTED   ##########################################
 //#################################################################################################
@@ -747,6 +771,14 @@ void TscoreNote::deleteLines(TaddLines& linesList) {
 		delete linesList[i];
 	linesList.clear();
 }
+
+
+void TscoreNote::popUpAnimFinished() {
+	m_popUpRect->hide(); // TODO better delete it somehow...
+	m_popUpAnim->deleteLater();
+	m_popUpAnim = 0;
+}
+
 
 
 /*
