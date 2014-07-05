@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,28 +16,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tfadeinanim.h"
+#include "tfadeanim.h"
+#include <QGraphicsItem>
 
 
-TfadeInAnim::TfadeInAnim(QGraphicsItem* item, QObject* parent) :
+TfadeAnim::TfadeAnim(QGraphicsItem* item, QObject* parent) :
   TabstractAnim(item, parent)
 {
   
 }
 
 
-void TfadeInAnim::startFadeIn() {
-  item()->setOpacity(0.0);
-  item()->show();
-  initAnim();
+void TfadeAnim::startFade(qreal endOpacity, qreal midOpacity) {
+	m_startOp = item()->opacity();
+	m_endOp = endOpacity;
+	m_midOp = midOpacity;
+	int stepNr = duration() / CLIP_TIME;
+	if (m_midOp != -1) {
+			stepNr = stepNr / 2;
+			m_opacityToGo = m_midOp;
+	} else
+			m_opacityToGo = m_endOp;
+	initAnim(-1, stepNr);
 }
 
 
-
-void TfadeInAnim::animationRoutine() {
+void TfadeAnim::animationRoutine() {
   nextStep();
   if (currentStep() <= stepsNumber()) {
-      item()->setOpacity(0.0 + easyValue((qreal)currentStep() / (qreal)stepsNumber()));
-  } else
+      item()->setOpacity(m_startOp + (m_opacityToGo - m_startOp) * easyValue((qreal)currentStep() / (qreal)stepsNumber()));
+  } else if (m_midOp != -1) {
+			m_opacityToGo = m_endOp;
+			setStepNumber(duration() / CLIP_TIME - (duration() / CLIP_TIME) / 2);
+			resetStepCounter();
+			m_startOp = item()->opacity();
+			m_midOp = -1;
+			animationRoutine();
+  } else 
       stopAnim();
 }

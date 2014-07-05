@@ -194,7 +194,7 @@ private:
 		int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
 		QColor                         					m_bgColor;
 		TcombinedAnim														*m_noteAnim, *m_popUpAnim;
-		QGraphicsEllipseItem										*m_popUpRect;
+		QGraphicsRectItem												*m_popUpRect;
 		bool													 					m_accidToKeyAnim;
 		bool													 					m_selected;
 		

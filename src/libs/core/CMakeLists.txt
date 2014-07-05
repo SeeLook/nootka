@@ -19,7 +19,7 @@ set(LIB_NOOTKACORE_SRC
 	animations/tblinkingitem.cpp
 	animations/tcoloredanim.cpp
 	animations/tcombinedanim.cpp
-	animations/tfadeinanim.cpp
+	animations/tfadeanim.cpp
 	animations/tmorphedanim.cpp
 	animations/tmovedanim.cpp
 	animations/tscaledanim.cpp

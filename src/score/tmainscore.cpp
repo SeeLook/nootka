@@ -44,7 +44,6 @@
 
 extern Tglobals *gl;
 
-QWidget *m_parent;
 
 TmainScore::TmainScore(QWidget* parent) :
 	TsimpleScore(1, parent),
@@ -55,9 +54,10 @@ TmainScore::TmainScore(QWidget* parent) :
 	m_corrStyle(Tnote::defaultStyle),
   m_inMode(e_multi),
   m_clickedOff(0), m_currentIndex(-1),
-  m_scoreIsPlayed(false)
+  m_scoreIsPlayed(false),
+  m_parent(parent),
+	m_addNoteAnim(true)
 {
-  m_parent = parent;
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	m_acts = new TscoreActions(this, gl->path);
@@ -615,7 +615,6 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 	m_clickedOff = 0;
 	m_nameClickCounter = 0;
 	m_nameMenu->exec(mPos, score()->transform().m11());
-// 			delete m_nameMenu;
 }
 
 
@@ -726,7 +725,9 @@ void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
 	if (gl->S->namesOnScore)
 			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
-	m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
+	if (m_addNoteAnim)
+		m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
+	m_addNoteAnim = true;
 }
 
 
@@ -1058,6 +1059,7 @@ void TmainScore::updateSceneRect() {
 void TmainScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
   if (insertMode() == e_record && noteIndex == sendStaff->count() - 1 && noteIndex != sendStaff->maxNoteCount() - 1) {
       Tnote nn(0, 0, 0);
+			m_addNoteAnim = false; // do not show adding note animation when note is added here
 			sendStaff->addNote(nn);
 			if (gl->S->namesOnScore)
 				sendStaff->noteSegment(sendStaff->count() - 1)->showNoteName();

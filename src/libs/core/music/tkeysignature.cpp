@@ -20,6 +20,9 @@
 #include "tkeysignature.h"
 #include "tinitcorelib.h"
 #include <tscoreparams.h>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QVariant>
 
 
 /*static*/
@@ -134,6 +137,36 @@ QString TkeySignature::accidNumber(bool inHtml) {
 Tnote TkeySignature::inKey(Tnote n) {
     return m_inKey(value(), n);
 }
+
+
+void TkeySignature::toXml(QXmlStreamWriter& xml) {
+	xml.writeStartElement("key");
+		xml.writeTextElement("fifths", QVariant((int)value()).toString());
+		QString mode = "major";
+		if (isMinor())
+			mode ="minor";
+		xml.writeTextElement("mode", mode);
+	xml.writeEndElement(); // key
+}
+
+
+void TkeySignature::fromXml(QXmlStreamReader& xml) {
+	if (xml.name() == "key") {
+		while (xml.readNextStartElement()) {
+			if (xml.name() == "fifths") {
+				m_key = (char)qBound(-7, xml.readElementText().toInt(), 7);
+			} else if (xml.name() == "mode")
+				if (xml.readElementText() == "minor")
+						m_isMinor = true;
+				else
+						m_isMinor = false;
+			else 
+				xml.skipCurrentElement();
+		}
+		xml.skipCurrentElement();
+	}
+}
+
 
 
 QDataStream &operator << (QDataStream &out, TkeySignature &key) {

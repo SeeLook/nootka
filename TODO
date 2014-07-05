@@ -29,6 +29,8 @@ analyzer executable
 - add sound during wizard and About dialog (???)
 - make use of QWizard for above
 
+ASIO & JACK
+- add buttons to switch them on and switch them off by default
 
 ----------------------------------------------------------------------------------------------------------------
 New settings switches:

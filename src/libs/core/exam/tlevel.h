@@ -76,10 +76,6 @@ public:
 		static void tnoteToXml(const QString& tag, Tnote& n, QXmlStreamWriter& xml);
 		static Tnote tnoteFromXml(QXmlStreamReader& xml);
 		
-				/** Reads keys signature from current XML key to @p k reference and verifies it. 
-				 * Setts error type when error occurs or lives @p err unchanged when OK. */
-		static void keyFromXml(QXmlStreamReader& xml, TkeySignature& k, EerrorType& err);
-		
 				/** Reads fret number from current XML key to @fr reference and verifies it. 
 				 * Setts error type when error occurs or lives @p err unchanged when OK. */
 		static void fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err);
@@ -171,8 +167,6 @@ public:
 		Tlevel::EerrorType fixKeyRange(); /** When loKey is bigger than hiKey it swaps their values */
 
 };
-
-// NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, Tlevel &lev);
 
 		/** Reads level data from given stream to @p lev. Respects @p ver - version */
 NOOTKACORE_EXPORT bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver);
