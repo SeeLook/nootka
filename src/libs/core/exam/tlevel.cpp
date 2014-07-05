@@ -95,16 +95,6 @@ Tnote Tlevel::tnoteFromXml(QXmlStreamReader& xml) {
 }
 
 
-void Tlevel::keyFromXml(QXmlStreamReader& xml, TkeySignature& k, Tlevel::EerrorType& err) {
-	int key = QVariant(xml.readElementText()).toInt();
-	k = TkeySignature(key);
-	if ((int)k.value() != key) {
-			qDebug() << "Key signature in" << xml.name() << "was wrong but fixed";
-			err = Tlevel::e_levelFixed;
-	}
-}
-
-
 void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err) {
 	fr = (char)QVariant(xml.readElementText()).toInt();
 	if (fr < 0 || fr > 24) { // max frets number
@@ -178,35 +168,6 @@ Tlevel::Tlevel() :
 				usedStrings[i] = false; 
 	 }
 }
-
-/*
-QDataStream &operator << (QDataStream &out, Tlevel &lev) {
-    out << lev.name << lev.desc;
-    out << lev.questionAs;
-    out << lev.answersAs[0] << lev.answersAs[1] << lev.answersAs[2] << lev.answersAs[3];
-    out << lev.withSharps << lev.withFlats << lev.withDblAcc;
-		quint8 sharedByte = (int)lev.isSingleKey + (2 * lev.intonation);
-    out << lev.useKeySign << sharedByte;
-    out << lev.loKey << lev.hiKey;
-    out << lev.manualKey << lev.forceAccids;
-    out << lev.requireOctave << lev.requireStyle;
-// RANGE
-    out << lev.loNote << lev.hiNote;
-//     out << lev.isNoteLo << lev.isNoteHi;
-		out << (quint16)lev.clef.type();
-    out << (qint8)lev.loFret << (qint8)lev.hiFret;
-//     out << lev.isFretHi;
-		quint8 instr;
-// 		if (lev.instrument != e_noInstrument)
-			instr = (quint8)lev.instrument;
-// 		else // // because '0' is reserved for backward compatibility
-// 			instr = 255;
-		out << instr;
-    out << lev.usedStrings[0] << lev.usedStrings[1] << lev.usedStrings[2]
-            << lev.usedStrings[3] << lev.usedStrings[4] <<  lev.usedStrings[5];
-    out << lev.onlyLowPos << lev.onlyCurrKey << lev.showStrNr;
-    return out;
-}*/
 
 
 bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
@@ -381,10 +342,13 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 						withDblAcc = QVariant(xml.readElementText()).toBool();
 					else if (xml.name() == "useKeySign")
 						useKeySign = QVariant(xml.readElementText()).toBool();
-					else if (xml.name() == "loKey")
-						keyFromXml(xml, loKey, er);
-					else if (xml.name() == "hiKey")
-						keyFromXml(xml, hiKey, er);
+					else if (xml.name() == "loKey") {
+						xml.readNextStartElement();
+						loKey.fromXml(xml);
+					} else if (xml.name() == "hiKey") {
+						xml.readNextStartElement();
+						hiKey.fromXml(xml);
+					}
 					else if (xml.name() == "isSingleKey")
 						isSingleKey = QVariant(xml.readElementText()).toBool();
 					else if (xml.name() == "manualKey")
@@ -463,8 +427,12 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
 			xml.writeTextElement("withFlats", QVariant(withFlats).toString());   
 			xml.writeTextElement("withDblAcc", QVariant(withDblAcc).toString());
 			xml.writeTextElement("useKeySign", QVariant(useKeySign).toString());
-			xml.writeTextElement("loKey", QVariant(loKey.value()).toString());
-			xml.writeTextElement("hiKey", QVariant(hiKey.value()).toString());
+			xml.writeStartElement("loKey");
+				loKey.toXml(xml);
+			xml.writeEndElement(); // loKey
+			xml.writeStartElement("hiKey");
+				hiKey.toXml(xml);
+			xml.writeEndElement(); // hiKey
 			xml.writeTextElement("isSingleKey", QVariant(isSingleKey).toString());
 			xml.writeTextElement("manualKey", QVariant(manualKey).toString());
 			xml.writeTextElement("forceAccids", QVariant(forceAccids).toString());

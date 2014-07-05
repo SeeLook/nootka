@@ -24,6 +24,8 @@
 #include <QString>
 #include "tnote.h"
 
+class QXmlStreamReader;
+class QXmlStreamWriter;
 
 /** 
  * This class describes a key signature.
@@ -87,6 +89,14 @@ public:
     void setMinor(bool isMinor) { m_isMinor = isMinor; }
 
     char value() { return m_key; }
+    
+    /** Adds 'key' key to XML stream compatible with MusicXML format with current key signature
+			 * <key>
+       * <fifths>-2</fifths>
+       * <mode>major</mode>
+       * </key>  */
+	void toXml(QXmlStreamWriter& xml);
+	void fromXml(QXmlStreamReader& xml); /** Reads this key signature from XML stream  */
 
 private:
     char m_key;

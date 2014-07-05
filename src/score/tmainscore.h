@@ -212,6 +212,8 @@ private:
 		TscoreKeys									*m_keys; /** Score shortcuts */
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
 		int 												 m_nameClickCounter, m_playedIndex;
+		QWidget 										*m_parent;
+		bool 												 m_addNoteAnim;
 };
 
 #endif // TMAINSCORE_H

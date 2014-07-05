@@ -23,20 +23,23 @@
 #include <nootkacoreglobal.h>
 #include <QString>
 
+class QXmlStreamReader;
+class QXmlStreamWriter;
+
 
 class NOOTKACORE_EXPORT Tclef
 {
   
 public:
     enum Etype {
-      e_none = 0, // cleff not defined
+      e_none = 0, // clef not defined
       e_treble_G = 1, // common treble clef
       e_bass_F = 2, // bass clef
       e_alto_C = 4,
       e_treble_G_8down = 8, // treble clef with "8" digit below (guitar)
       e_bass_F_8down = 16, // bass clef with "8" digit below (bass guitar)
       e_tenor_C = 32,
-      e_pianoStaff = 128 // exacly is not a clef 
+      e_pianoStaff = 128 // exactly is not a clef 
     };
   
     Tclef(Etype type = e_treble_G);
@@ -44,17 +47,18 @@ public:
     Etype type() { return m_type; }
     void setClef(Etype type) { m_type = type; }
     
-    QString name(); // short name ofa clef
+    QString name(); // short name of a clef
 		QString desc(); // a clef description
+		
+		/** Adds 'clef' key to XML stream compatible with MusicXML format with current clef
+			 * <clef>
+       * <sign>G</sign>
+			 * <line>2</line>
+			 * <clef-octave-change>-1</clef-octave-change>
+       * </clef>  */
+	void toXml(QXmlStreamWriter& xml);
+	void fromXml(QXmlStreamReader& xml); /** Reads this clef from XML stream  */
     
-//     friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
-//         out << fPos.m_pos;
-//         return out;
-//     }
-//     friend QDataStream &operator>> (QDataStream &in, TfingerPos &fPos) {
-//         in >> fPos.m_pos;
-//         return in;
-//     }
 
 private:
     Etype m_type;

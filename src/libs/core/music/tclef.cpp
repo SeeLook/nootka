@@ -19,6 +19,10 @@
 
 #include "tclef.h"
 #include <QApplication>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+
+
 
 Tclef::Tclef(Tclef::Etype type)
 {
@@ -70,6 +74,14 @@ QString Tclef::desc() {
 }
 
 
+void Tclef::toXml(QXmlStreamWriter& xml) {
+
+}
+
+
+void Tclef::fromXml(QXmlStreamReader& xml) {
+
+}
 
 
 

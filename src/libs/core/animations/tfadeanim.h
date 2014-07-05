@@ -24,21 +24,29 @@
 
 
 /**
- * This class perform fade-in animation on given item.
- * Remember to hide item before!!
+ * This class perform fade in/out animation on given item.
+ * Remember to set start opacity of the item before!!
  */
-class NOOTKACORE_EXPORT TfadeInAnim : public TabstractAnim
+class NOOTKACORE_EXPORT TfadeAnim : public TabstractAnim
 {
   Q_OBJECT
   
 public:
   
-  explicit TfadeInAnim(QGraphicsItem* item = 0, QObject* parent = 0);
+  explicit TfadeAnim(QGraphicsItem* item, QObject* parent = 0);
   
-  void startFadeIn();
+			/** @p endOpacity determines fade 'direction':
+			 * @p endOpacity = 1.0 -> fade In
+			 * @p endOpacity = 0.0 -> fade Out
+			 * Start value is taken from item opacity. */
+  void startFade(qreal endOpacity, qreal midOpacity = -1);
   
 protected:
   virtual void animationRoutine();
+	
+private:
+	qreal				m_startOp, m_endOp, m_midOp, m_opacityToGo;
+	
 
 };
 

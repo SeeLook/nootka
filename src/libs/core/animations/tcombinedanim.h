@@ -25,6 +25,7 @@
 #include "tscaledanim.h"
 #include "tcoloredanim.h"
 #include "tmorphedanim.h"
+#include "tfadeanim.h"
 
 
 /**
@@ -53,8 +54,12 @@ public:
 	void setMorphing(const QLineF &line, qreal width, bool toLine = true);
 	TmorphedAnim* morphing() { return m_morphing; }
 	
+	void setFading(qreal endOpacity, qreal midOpacity = -1);
+	TfadeAnim* fading() { return m_fading; }
+	
 protected slots:
 	void finishSlot();
+	void emitFinish() { emit finished(); }
 	
 private:
 			/** Common routines for all kinds of animations */
@@ -70,7 +75,9 @@ private:
 	TmorphedAnim			*m_morphing;
 	QLineF						 m_line;
 	qreal							 m_lineWidth;
-	bool							 m_toLine, m_doEmit;
+	TfadeAnim					*m_fading;
+	qreal							 m_endOp, m_midOp;
+	bool							 m_toLine;
 	
 };
 

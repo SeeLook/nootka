@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,8 @@ TcombinedAnim::TcombinedAnim(QGraphicsItem* item, QObject* parent) :
 	m_moving(0),
 	m_scaling(0),
 	m_coloring(0),
-	m_morphing(0)
+	m_morphing(0),
+	m_fading(0)
 {
 		installTimer();
 }
@@ -35,6 +36,7 @@ void TcombinedAnim::setMoving(const QPointF& start, const QPointF& stop) {
 		if (!m_moving) {
 				m_moving = new TmovedAnim(item(), this);
 				prepareAnim(m_moving);
+				
 		}
 }
 
@@ -64,9 +66,19 @@ void TcombinedAnim::setMorphing(const QLineF& line, qreal width, bool toLine) {
 		m_lineWidth = width;
 		m_toLine = toLine;
 		if (!m_morphing) {
-			m_morphing = new TmorphedAnim(qgraphicsitem_cast<QGraphicsEllipseItem*>(item()));
+			m_morphing = new TmorphedAnim(qgraphicsitem_cast<QGraphicsEllipseItem*>(item()), this);
 			prepareAnim(m_morphing);
 		}
+}
+
+
+void TcombinedAnim::setFading(qreal endOpacity, qreal midOpacity) {
+	m_endOp = endOpacity;
+	m_midOp = midOpacity;
+	if (!m_fading) {
+		m_fading = new TfadeAnim(item(), this);
+		prepareAnim(m_fading);
+	}
 }
 
 
@@ -80,16 +92,18 @@ void TcombinedAnim::startAnimations() {
 		m_coloring->startColoring(m_endColor, m_midColor);
 	if (m_morphing)
 		m_morphing->startMorphing(m_line, m_lineWidth, m_toLine);
-	m_doEmit = true;
+	if (m_fading)
+		m_fading->startFade(m_endOp, m_midOp);
 }
 
 
-/** We are sending only single signal about animation finish. */
+/** We are sending only single signal about animation finish.
+ * Because there is common timer for all animations, 
+ * first finishing animation will stop it. 
+ * This small delay allows any slot connected with finished() signal to delete an item of animation
+ */
 void TcombinedAnim::finishSlot() {
-	if (m_doEmit) { // to avoid emitting finished() signal more than once
-		emit finished();
-		m_doEmit = false;
-	}
+	QTimer::singleShot(20, this, SLOT(emitFinish()));
 }
 
 
