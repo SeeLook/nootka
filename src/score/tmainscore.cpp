@@ -725,7 +725,7 @@ void TmainScore::noteAddingSlot(int staffNr, int noteToAdd) {
 	if (gl->S->namesOnScore)
 			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
-	if (m_addNoteAnim)
+	if (gl->useAnimations && m_addNoteAnim)
 		m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
 	m_addNoteAnim = true;
 }
