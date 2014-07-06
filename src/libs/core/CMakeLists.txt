@@ -38,6 +38,7 @@ set(LIB_NOOTKACORE_SRC
 	
 	exam/tqatype.cpp
 	exam/tqaunit.cpp
+# 	exam/tattempt.cpp
 	exam/tgroupedqaunit.cpp
 	exam/tlevel.cpp
 	exam/texam.cpp
@@ -63,7 +64,7 @@ set(LIB_NOOTKACORE_SRC
 )
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
-qt5_use_modules(NootkaCore Widgets)
+target_link_libraries(NootkaCore Qt5::Widgets)
 
 
 # get_directory_property( CoreDIrDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )

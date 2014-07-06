@@ -11,6 +11,8 @@ find_package(Qt5Widgets)
 # set(QtCore_location Qt5::Core "" CACHE INTERNAL "" FORCE)
 # get_target_property(QtCore_location Qt5::Core LOCATION)
 
+# include_directories(${Qt5Widgets_INCLUDE_DIRS})
+# message(STATUS "Qt dirs are: ${Qt5Widgets_INCLUDE_DIRS}" )
 
 if(UNIX AND NOT APPLE)
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
