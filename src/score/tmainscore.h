@@ -22,6 +22,7 @@
 #include <score/tsimplescore.h>
 #include <QPointer>
 
+class QMainWindow;
 class TscoreActions;
 class TscoreKeys;
 class QShortcut;
@@ -40,7 +41,6 @@ class QGraphicsSimpleTextItem;
 
 /** 
  * This is a main score of Nootka.
- * In "normal" mode it menages enharmonic, double accidentals and so on
  * In exam mode it responses for locking/unlocking, backgrounds, question marks.
  */
 class TmainScore : public TsimpleScore
@@ -48,7 +48,7 @@ class TmainScore : public TsimpleScore
     Q_OBJECT
 
 public:
-    TmainScore(QWidget *parent = 0);
+    TmainScore(QMainWindow* mw, QWidget *parent = 0);
     ~TmainScore();
 		
 		
@@ -213,6 +213,7 @@ private:
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
 		int 												 m_nameClickCounter, m_playedIndex;
 		QWidget 										*m_parent;
+		QMainWindow									*m_mainWindow;
 		bool 												 m_addNoteAnim;
 };
 

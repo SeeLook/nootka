@@ -42,6 +42,7 @@ include_directories( libs/core libs/sound libs/misc )
 # nootka executable
 set(NOOTKA_SRC
 	main.cpp
+	tmainview.cpp
 	mainwindow.cpp
 	
 	guitar/tfingerboard.cpp

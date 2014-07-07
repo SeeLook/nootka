@@ -24,6 +24,7 @@
 // #include <texamexecutor.h>
 #include <QMainWindow>
 
+class TmainView;
 class QPushButton;
 class TnootkaLabel;
 class TroundedLabel;
@@ -49,7 +50,6 @@ public:
     ~MainWindow();
 
     void setStatusMessage(QString msg, int time);
-    void setStatusMessage(QString msg);
     void setMessageBg (QColor bg);
     
         /**  Returns font size used in status message label in pixels.
@@ -57,12 +57,13 @@ public:
         * of others widgets. */
 //     int getFontSize() {return m_statFontSize; }
     QString statusMessage() { return m_statusText; }
-    QWidget *innerWidget;
+    TmainView *innerWidget;
     
         /** Returns point of bottomLeft examResults.*/
 //     QPoint relatedPoint();
 
 public slots:
+		void setStatusMessage(const QString& msg);
     void openFile(QString runArg); // opens *.nel or *.noo file
     void createSettingsDialog();
     void openLevelCreator(QString levelFile = "");

@@ -318,7 +318,7 @@ bool TsimpleScore::isPianoStaff() {
 
 void TsimpleScore::statusTipChanged(QString status) {
 	QStatusTipEvent *tipEvent = new QStatusTipEvent(status);
-	qApp->postEvent(parent(), tipEvent);
+	qApp->postEvent(window(), tipEvent);
 	emit statusTip(status);
 }
 

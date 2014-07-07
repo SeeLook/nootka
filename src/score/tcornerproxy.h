@@ -92,6 +92,7 @@ private:
 	qreal												 m_side;
 	QColor											 m_colorOfSpot;
 	int													 m_signalTimer;
+	bool												 m_widgetHasMouse;
 	
 };
 
