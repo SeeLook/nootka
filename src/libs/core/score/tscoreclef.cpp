@@ -129,7 +129,7 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 		TscoreItem::mousePressEvent(event);
 	} else {
 			if (!m_menu) {
-				m_menu = new QMenu(scoreScene()->views()[0]->parentWidget()->parentWidget());
+				m_menu = new QMenu(scoreScene()->views()[0]->parentWidget());
 				m_menu->setObjectName("clefMenu");
 				m_menu->setStyleSheet("QWidget#clefMenu { background-color: palette(window); }");
 				if (!m_clefMenu)

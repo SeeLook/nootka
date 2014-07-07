@@ -45,7 +45,7 @@
 extern Tglobals *gl;
 
 
-TmainScore::TmainScore(QWidget* parent) :
+TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	TsimpleScore(1, parent),
 	m_questMark(0),
 	m_questKey(0),
@@ -56,8 +56,11 @@ TmainScore::TmainScore(QWidget* parent) :
   m_clickedOff(0), m_currentIndex(-1),
   m_scoreIsPlayed(false),
   m_parent(parent),
+  m_mainWindow(mw),
 	m_addNoteAnim(true)
 {
+	setObjectName("m_mainScore");
+	setStyleSheet("QWidget#m_mainScore { background: transparent {");
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	m_acts = new TscoreActions(this, gl->path);
@@ -341,6 +344,7 @@ int TmainScore::widthToHeight(int hi) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
+		// TODO Disable extra tool bars.
 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
 			m_questMark = new QGraphicsSimpleTextItem();
@@ -350,7 +354,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 		#else
 			m_questMark->setFont(TnooFont(8));
 		#endif
-			m_questMark->setParentItem(staff()->noteSegment(2));
+// 			m_questMark->setParentItem(staff()->noteSegment(2)); TODO It could be disaster - better staff
 			QColor c = gl->EquestionColor;
 			c.setAlpha(220);
 			staff()->noteSegment(1)->setColor(c);
@@ -594,7 +598,7 @@ void TmainScore::removeCurrentNote() {
 
 void TmainScore::showNameMenu(TscoreNote* sn) {
 	if (!m_nameMenu) {
-			m_nameMenu = new TnoteName(parentWidget());
+			m_nameMenu = new TnoteName(m_mainWindow);
 // #if defined (Q_OS_ANDROID)
 // 			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
 // #else
@@ -611,7 +615,9 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 	changeCurrentIndex(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
 	QPoint mPos = score()->mapFromScene(sn->pos().x() + 8.0, 0.0);
 	mPos.setY(10);
-	mPos = score()->mapToGlobal(mPos);
+// 	mPos = score()->mapToGlobal(mPos);
+	mPos.setX(mPos.x() + m_mainWindow->pos().x());
+	mPos.setY(pos().y() + mPos.y() + m_mainWindow->pos().y());
 	m_clickedOff = 0;
 	m_nameClickCounter = 0;
 	m_nameMenu->exec(mPos, score()->transform().m11());
@@ -779,9 +785,8 @@ void TmainScore::deleteNotes() {
 			return; // nothing to delete
 	m_currentIndex = 0;
 	m_clickedOff = 0;
-	while (m_staves.size() > 1) {
+	while (m_staves.size() > 1)
 		deleteLastStaff();
-	}
 	if (staff()->count() > 1) {
 		QList<TscoreNote*> notesToDel;
 		staff()->takeNotes(notesToDel, 1, staff()->count() - 1);
@@ -911,7 +916,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (ww < 300)
       return;
-	hh = score()->rect().height();
+	score()->resize(width() - 2, height() - 2);
 	setBarsIconSize();
 	QList<TscoreNote*> allNotes;
 	for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
@@ -1103,9 +1108,9 @@ void TmainScore::changeCurrentIndex(int newIndex) {
 
 void TmainScore::setBarsIconSize() {
 #if defined (Q_OS_ANDROID)
-	QSize ss(parentWidget()->height() / 10, parentWidget()->height() / 10);
+	QSize ss(m_mainWindow->height() / 10, m_mainWindow->height() / 10);
 #else
-	QSize ss(parentWidget()->height() / 20, parentWidget()->height() / 20);
+	QSize ss(m_mainWindow->height() / 20, m_mainWindow->height() / 20);
 #endif
 	m_settBar->setIconSize(ss);
 	m_clearBar->setIconSize(ss);

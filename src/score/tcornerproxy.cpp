@@ -42,7 +42,8 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 	TscoreItem(scene),
 	m_proxy(0),
 	m_corner(cornerPos),
-	m_widget(widget)
+	m_widget(widget),
+	m_widgetHasMouse(false)
 {
 	enableTouchToMouse(false);
 	m_view = scene->views()[0];
@@ -85,7 +86,7 @@ QPainterPath TcornerProxy::shape() const {
 
 void TcornerProxy::hideWithDelay() {
 #if !defined (Q_OS_ANDROID)
-	if (hasCursor() || (proxy()->isVisible() && proxy()->isUnderMouse())) {
+	if (hasCursor() || m_widgetHasMouse) {
 			QTimer::singleShot(PROXYTIME, this, SLOT(hideWithDelay()));
 	} else {
 			m_spot->hide();
@@ -245,6 +246,9 @@ bool TcornerProxy::eventFilter(QObject* ob, QEvent* event) {
 	} else if (event->type() == QEvent::Leave) {
       m_spot->hide();
       proxy()->hide();
+			m_widgetHasMouse = false;
+	} else if (event->type() == QEvent::Enter) {
+      m_widgetHasMouse = true;
 	}
 	return QObject::eventFilter(ob, event);
 }

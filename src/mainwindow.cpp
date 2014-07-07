@@ -26,6 +26,7 @@
 #include "score/tmainscore.h"
 #include "score/tcornerproxy.h"
 #include "guitar/tfingerboard.h"
+#include "tmainview.h"
 // // #include "tsettingsdialog.h"
 // // #include "tlevelcreatordlg.h"
 // // #include "tlevelselector.h"
@@ -107,18 +108,17 @@ MainWindow::MainWindow(QWidget *parent) :
 		
 //-------------------------------------------------------------------
 // Creating GUI elements
-    innerWidget = new QWidget(this);
-    nootBar = new QToolBar(tr("main toolbar"), innerWidget);
-// 		nootBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
+//     innerWidget = new QWidget(this);
+    nootBar = new QToolBar(tr("main toolbar")/*, innerWidget*/);
 		if (gl->hintsEnabled)
 				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		else
 				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    score = new TmainScore(innerWidget);
-    pitchView = new TpitchView(sound->sniffer, this);
+    score = new TmainScore(this);
+    pitchView = new TpitchView(sound->sniffer/*, this*/);
     sound->setPitchView(pitchView);
  // Hints - label with clues
-    m_statLab = new TroundedLabel(innerWidget);
+    m_statLab = new TroundedLabel(/*innerWidget*/);
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
@@ -145,28 +145,22 @@ MainWindow::MainWindow(QWidget *parent) :
 //     noteName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 //     noteName->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 
-    guitar = new TfingerBoard(innerWidget);
+    guitar = new TfingerBoard(/*innerWidget*/);
 		
 //-------------------------------------------------------------------		
 // Setting layout
-#if defined (Q_OS_ANDROID)
-	nootBar->setParent(0);
-	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), nootBar, Qt::TopRightCorner);
-	rhythmCorner->setSpotColor(Qt::darkGreen);
-#endif
-	QVBoxLayout *mainLay = new QVBoxLayout;
-	mainLay->setContentsMargins(0, 2, 0, 2);
-#if !defined (Q_OS_ANDROID)
-		mainLay->addWidget(nootBar);
-#endif
-		QHBoxLayout *statsAndPitchLay = new QHBoxLayout;
-			statsAndPitchLay->addWidget(m_statLab);
-			statsAndPitchLay->addWidget(pitchView);
-// 			statsAndPitchLay->addWidget(m_statLab);
-		mainLay->addLayout(statsAndPitchLay);
-		mainLay->addWidget(score);
-		mainLay->addWidget(guitar);
-	innerWidget->setLayout(mainLay);
+// #if defined (Q_OS_ANDROID)
+// 	nootBar->setParent(0);
+// 	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), nootBar, Qt::TopRightCorner);
+// 	rhythmCorner->setSpotColor(Qt::darkGreen);
+// #endif
+// 	QVBoxLayout *mainLay = new QVBoxLayout;
+// 	mainLay->setContentsMargins(0, 2, 0, 2);
+// #if !defined (Q_OS_ANDROID)
+// 		mainLay->addWidget(nootBar);
+// #endif
+
+	innerWidget = new TmainView(nootBar, m_statLab, pitchView, score, guitar, this);
 	setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
     m_levelCreatorExist = false;
@@ -181,6 +175,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
+		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(setStatusMessage(QString)));
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
@@ -258,7 +253,7 @@ void MainWindow::setStartExamActParams() {
 }
 
 
-void MainWindow::setStatusMessage(QString msg) {
+void MainWindow::setStatusMessage(const QString& msg) {
     if (!m_lockStat)
         m_statLab->setText("<center>" + msg + "</center>");
     else

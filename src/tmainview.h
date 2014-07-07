@@ -16,17 +16,36 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tattempt.h"
+#ifndef TMAINVIEW_H
+#define TMAINVIEW_H
 
+#include <QGraphicsView>
 
-Tattempt::Tattempt() :
-	m_playedCounter(0)
+class QGraphicsProxyWidget;
+
+/** 
+ * This widget manages of a layout of main Nootka window
+ * All widgets are wrapped with QGraphicsProxyWidget 
+ * and their layout is managed QGraphicsLayout
+ */
+class TmainView : public QGraphicsView
 {
+	
+	Q_OBJECT
+ 
+public:
+    TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget* scoreW, QWidget* guitarW, QWidget* parent = 0);
+		
+signals:
+		void statusTip(const QString&);
+		
+protected:
+    virtual void resizeEvent(QResizeEvent* event);
+    virtual bool eventFilter(QObject* ob, QEvent* event);
+		
+private:
+		QGraphicsProxyWidget				*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
+		QGraphicsWidget							*m_form;
+};
 
-}
-
-
-Tattempt::~Tattempt()
-{
-
-}
+#endif // TMAINVIEW_H
