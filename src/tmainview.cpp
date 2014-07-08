@@ -48,6 +48,7 @@ TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget
 		lay->setContentsMargins(1, 2, 1, 2);
 		lay->addItem(m_tool);
 		QGraphicsLinearLayout *statAndPitchLay = new QGraphicsLinearLayout(Qt::Horizontal);
+			statAndPitchLay->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 			statAndPitchLay->addItem(m_status);
 			statAndPitchLay->addItem(m_pitch);
 		lay->addItem(statAndPitchLay);
@@ -76,6 +77,7 @@ bool TmainView::eventFilter(QObject* ob, QEvent* event) {
 	}
 	return QAbstractScrollArea::eventFilter(ob, event);
 }
+
 
 
 

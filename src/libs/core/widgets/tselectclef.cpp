@@ -197,7 +197,7 @@ void TradioClef::clefClickedSlot() {
 
 
 bool TradioClef::event(QEvent* event) {
-    if (event->type() == QEvent::Leave) {
+    if (event->type() == QEvent::Leave || event->type() == QEvent::Hide) {
         m_hasMouseOver = false;
 				update();
 				emit statusTipWanted("");
