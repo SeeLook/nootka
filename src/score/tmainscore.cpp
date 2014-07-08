@@ -60,7 +60,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	m_addNoteAnim(true)
 {
 	setObjectName("m_mainScore");
-	setStyleSheet("QWidget#m_mainScore { background: transparent {");
+	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
 	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	m_acts = new TscoreActions(this, gl->path);

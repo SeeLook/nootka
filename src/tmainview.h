@@ -46,6 +46,7 @@ protected:
 private:
 		QGraphicsProxyWidget				*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
 		QGraphicsWidget							*m_form;
+
 };
 
 #endif // TMAINVIEW_H
