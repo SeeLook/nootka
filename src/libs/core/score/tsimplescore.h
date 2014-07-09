@@ -67,7 +67,7 @@ public:
 				 * When TscoreKeySign doesn't exist 0: - a-min/C-maj is returned. */
     TkeySignature keySignature();
     void setKeySignature(TkeySignature keySign);
-		void setEnableKeySign(bool isEnabled);
+		virtual void setEnableKeySign(bool isEnabled);
 		
 		void setEnabledDblAccid(bool isEnabled);
 		

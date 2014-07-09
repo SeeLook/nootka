@@ -19,7 +19,7 @@
 #ifndef TMAINSCORE_H
 #define TMAINSCORE_H
 
-#include <score/tsimplescore.h>
+#include "tmultiscore.h"
 #include <QPointer>
 
 class QMainWindow;
@@ -43,31 +43,20 @@ class QGraphicsSimpleTextItem;
  * This is a main score of Nootka.
  * In exam mode it responses for locking/unlocking, backgrounds, question marks.
  */
-class TmainScore : public TsimpleScore
+class TmainScore : public TmultiScore
 {
     Q_OBJECT
 
 public:
-    TmainScore(QMainWindow* mw, QWidget *parent = 0);
+    TmainScore(QMainWindow* mw, QWidget* parent = 0);
     ~TmainScore();
 		
 		
 		void setEnableEnharmNotes(bool isEnabled);
     void acceptSettings();
 		
-		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */		
-		void setNote(Tnote note);
+		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
 		
-		int index() { return m_currentIndex; } /** Index of selected note or -1 if none */
-		
-				/** Describes insert mode of a score */
-		enum EinMode {
-			e_single, // single note mode
-			e_multi, // editing/setting the last note adds next one
-			e_record // calling setNote() from outside switches current index to the next note or adds one
-		};
-		
-		EinMode insertMode() { return m_inMode; }
 		void setInsertMode(EinMode mode);
 		
 				/** Describes moving of selected note */
@@ -119,7 +108,7 @@ public:
 		QPoint notePos(int noteNr);
 		
 		bool isScorePlayed() { return m_scoreIsPlayed; }
-		inline int notesCount(); /** Total number of notes on the score */
+		TnoteName* noteName() { return m_nameMenu; }
 		
 signals:
 		void noteChanged(int index, Tnote note);
@@ -129,33 +118,20 @@ signals:
 		
 public slots:
     void whenNoteWasChanged(int index, Tnote note);
+		void noteWasClickedMain(int index);
     void setScordature(); /** Sets scordature to value kept in Tglobal. */
-    void noteWasClicked(int index);
-		void noteWasSelected(int index);
 		void expertNoteChanged();
 		void onClefChanged(Tclef cl);
 		void playScore(); /** Plays (actually emits noteChanged()) all notes starting from the selected one. */
-		void removeCurrentNote();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
-	
-	TscoreStaff* currentStaff();
 		
 protected slots:
 // 		void strikeBlinkingFinished();
 // 		void keyBlinkingFinished();
 // 		void finishCorrection();
-		void staffHasNoSpace(int staffNr); /** Create new (next) staff */
-		void staffHasFreeSpace(int staffNr, int notesFree); /** Move notes to this staff from the next one */
-		void noteGetsFree(int staffNr, TscoreNote* freeNote);
-		void noteRemovingSlot(int staffNr, int noteToDel);
-		void noteAddingSlot(int staffNr, int noteToDel);
 		void zoomScoreSlot();
-		void deleteNotes(); /** Deletes all notes from the score - single one remains */
-		void keyChangedSlot();
-		void staffLoNoteChanged(int staffNr, qreal loNoteYoff);
-		void staffHiNoteChanged(int staffNr, qreal hiNoteYoff);
 		
 		void showNameMenu(TscoreNote* sn);
 		void menuChangedNote(Tnote n);
@@ -171,25 +147,18 @@ private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
 		void performScordatureSet(); /** Common method to set scordature */
 		
+    virtual void addStaff(TscoreStaff* st = 0);
+		
 				/** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
 				 * clearScore() removes it. */
 		void createBgRect(QColor c, qreal width, QPointF pos);
-    void checkAndAddNote(TscoreStaff* sendStaff, int noteIndex);
 		
-				/** Adds given staff at the end of m_staves list or creates a new one.
-				 * Sets staff number corresponding to its index in the m_staves list,
-				 * connects the staff with TmainScore slots */
-		void addStaff(TscoreStaff* st = 0);
-		void deleteLastStaff();
-		void updateSceneRect(); /** Adjusts score scene to space required by staff(staves) */
-		void adjustStaffWidth(TscoreStaff *st); /** Calls TscoreStaff::setViewWidth with score width  */
-		void changeCurrentIndex(int newIndex);
 		void setBarsIconSize();
 		void createActions();
 		void moveName(EmoveNote moveDir);
+		void createNoteName();
 
 private:
-		QList<TscoreStaff*>					 m_staves; // list of staves in page view
 		QGraphicsSimpleTextItem 		*m_questMark;
 		QGraphicsTextItem 					*m_questKey;
 		QList<TgraphicsTextTip*>		 m_noteName; // for now only two notes are used
@@ -200,21 +169,15 @@ private:
 		TkeySignature								 m_goodKey;
 		bool 												 m_showNameInCorrection;
 		Tnote::EnameStyle						 m_corrStyle;
-		EinMode											 m_inMode;
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		
-				/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
-		int													 m_clickedOff, m_currentIndex;
-		QPointer<TnoteName>					 m_nameMenu;
+		TnoteName					 					*m_nameMenu;
 		QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
 		bool												 m_scoreIsPlayed;
 		QPointer<QTimer>						 m_playTimer;
 		TscoreKeys									*m_keys; /** Score shortcuts */
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
 		int 												 m_nameClickCounter, m_playedIndex;
-		QWidget 										*m_parent;
-		QMainWindow									*m_mainWindow;
-		bool 												 m_addNoteAnim;
 };
 
 #endif // TMAINSCORE_H

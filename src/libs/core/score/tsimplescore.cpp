@@ -44,8 +44,8 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	m_notesNr(notesNumber),
 	m_prevBGglyph(-1)
 {
-  QHBoxLayout *lay = new QHBoxLayout;
   m_score = new TscoreView(this);
+	m_score->setObjectName("m_score");
    
 #if !defined (Q_OS_ANDROID)
   m_score->setMouseTracking(true);
@@ -54,7 +54,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   m_score->setFrameShape(QFrame::NoFrame);
-	m_score->setObjectName("m_score");
   
   m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
@@ -65,7 +64,8 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	m_clefType = m_staff->scoreClef()->clef().type();
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-  
+ 
+	QHBoxLayout *lay = new QHBoxLayout;
 	lay->addWidget(m_score);
   setLayout(lay);
 	
@@ -73,7 +73,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	setEnabledDblAccid(false);
 	
 	resizeEvent(0);
-  score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+//   score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
 }
 
 TsimpleScore::~TsimpleScore() {}
@@ -307,7 +307,9 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	}
 	staff()->setPos(staffOff, 0.05);
 	staff()->updateSceneRect();
-	m_score->setFixedSize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size());
+	score()->resize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
+// 	score()->setSceneRect(scoreScene()->sceneRect());
+// 	score()->resize(score()->sceneRect().size().toSize());
 }
 
 
@@ -324,7 +326,7 @@ void TsimpleScore::statusTipChanged(QString status) {
 
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
-	bgColor.setAlpha(220);
+	bgColor.setAlpha(210);
 	m_score->setStyleSheet(
 		QString("QGraphicsView#m_score { border: 1px solid palette(Text); border-radius: 10px; %1 }").arg(Tcolor::bgTag(bgColor)));
 }

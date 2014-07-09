@@ -46,6 +46,8 @@ protected:
     virtual void paintEvent(QPaintEvent* );
     virtual void resizeEvent(QResizeEvent*);
 		virtual void mouseMoveEvent(QMouseEvent* event);
+    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent*);
 		virtual void enterEvent(QEvent* );
 		virtual void leaveEvent(QEvent* );
     
@@ -58,7 +60,7 @@ private:
     int             m_noteWidth;
     float           m_hiTickStep;
     float           m_minVolume; // tick poits minimal vol for pitch detection
-    bool 						m_drawKnob;
+    bool 						m_drawKnob, m_leftButton;
 
 };
 
