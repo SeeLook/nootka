@@ -36,6 +36,9 @@ class TmainView : public QGraphicsView
 public:
     TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget* scoreW, QWidget* guitarW, QWidget* parent = 0);
 		
+		void addNoteName(QWidget* name); /** Adds note name widget over a score (for single note mode) */
+		void takeNoteName(); /** Takes note name from view. */
+		
 signals:
 		void statusTip(const QString&);
 		
@@ -43,8 +46,11 @@ protected:
     virtual void resizeEvent(QResizeEvent* event);
     virtual bool eventFilter(QObject* ob, QEvent* event);
 		
+		void setNamePos();
+		
 private:
 		QGraphicsProxyWidget				*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
+		QGraphicsProxyWidget				*m_name;
 		QGraphicsWidget							*m_form;
 
 };

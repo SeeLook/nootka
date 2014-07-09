@@ -21,7 +21,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <qtooltip.h>
-// #include <QDebug>
+#include <QDebug>
 
 #define TICK_WIDTH (2)
 #define TICK_GAP (3)
@@ -37,8 +37,9 @@ TvolumeView::TvolumeView(QWidget* parent) :
   m_volume(0.0f), m_prevVol(0.0f),
   m_pitchColor(Qt::red),
   m_alpha(0),
-  m_drawKnob(false)
+  m_drawKnob(false), m_leftButton(false)
 {
+	setMouseTracking(true);
   setMinimumSize(200, 17);
   resizeEvent(0);
 }
@@ -136,14 +137,29 @@ void TvolumeView::resizeEvent(QResizeEvent* ) {
 
 
 void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
-	float minV = (float)event->pos().x() / (float)(width() - m_noteWidth);
-	if (minV >= 0.1 && minV < 0.81) {
-		m_minVolume = minV;
-		setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
-		QToolTip::showText(mapToGlobal(QPoint( event->pos().x(), height())), toolTip());
-    emit minimalVolume(m_minVolume);
+	if (m_leftButton) {
+		float minV = (float)event->pos().x() / (float)(width() - m_noteWidth);
+		if (minV >= 0.1 && minV < 0.81) {
+			m_minVolume = minV;
+			setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
+	// 		QToolTip::showText(mapToGlobal(QPoint( event->pos().x(), height())), toolTip());
+	// 		QToolTip::showText(QPoint(event->screenPos().x(), event->screenPos().y() + height()), toolTip());
+			emit minimalVolume(m_minVolume);
+		}
 	}
 }
+
+
+void TvolumeView::mousePressEvent(QMouseEvent* event) {
+	if (event->button() == Qt::LeftButton)
+		m_leftButton = true;
+}
+
+
+void TvolumeView::mouseReleaseEvent(QMouseEvent*) {
+    m_leftButton = false;
+}
+
 
 
 void TvolumeView::leaveEvent(QEvent* ) {
@@ -153,7 +169,8 @@ void TvolumeView::leaveEvent(QEvent* ) {
 
 
 void TvolumeView::enterEvent(QEvent* ) {
-		m_drawKnob = true;
+	setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
+	m_drawKnob = true;
 }
 
 

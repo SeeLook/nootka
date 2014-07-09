@@ -27,6 +27,7 @@
 #include "score/tcornerproxy.h"
 #include "guitar/tfingerboard.h"
 #include "tmainview.h"
+#include "notename/tnotename.h"
 // // #include "tsettingsdialog.h"
 // // #include "tlevelcreatordlg.h"
 // // #include "tlevelselector.h"
@@ -527,7 +528,8 @@ void MainWindow::restoreMessage() {
 void MainWindow::recordSlot() {
 	if (score->insertMode() == TmainScore::e_multi) {
 		recordAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));
-		score->setInsertMode(TmainScore::e_record);
+		score->setInsertMode(TmainScore::e_single);
+		innerWidget->addNoteName(score->noteName());
 	} else {
 		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
 		score->setInsertMode(TmainScore::e_multi);
@@ -541,7 +543,7 @@ void MainWindow::playSlot() {
 		recordAct->setDisabled(false);
 		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
 	} else {
-		if (score->index() < 0)
+		if (score->currentIndex() < 0)
 			return;
 		recordAct->setDisabled(true);
 		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));

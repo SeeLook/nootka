@@ -21,7 +21,8 @@
 
 
 TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget* scoreW, QWidget* guitarW, QWidget* parent) :
-	QGraphicsView(parent)
+	QGraphicsView(parent),
+	m_name(0)
 {
 	setScene(new QGraphicsScene(this));
 	
@@ -60,6 +61,33 @@ TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget
 
 }
 
+
+void TmainView::addNoteName(QWidget* name) {
+	if (!m_name) {
+		m_name = scene()->addWidget(name);
+		setNamePos();
+	}
+}
+
+
+void TmainView::takeNoteName() {
+	if (m_name) {
+		m_name->widget()->setParent(0);
+		delete m_name;
+		m_name = 0;
+	}
+}
+
+
+
+void TmainView::setNamePos() {
+	if (m_name) {
+		m_name->setPos(width() / 3 + ((width() * 0.66 - m_name->widget()->width()) / 2), 
+									m_score->pos().y() + (m_score->widget()->height() - m_name->widget()->height()) / 2);
+	}
+}
+
+
 //##########################################################################################
 //#######################     EVENTS       ################################################
 //##########################################################################################
@@ -67,6 +95,7 @@ TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget
 void TmainView::resizeEvent(QResizeEvent* event) {
 	m_form->setGeometry(0, 0, width(), height());
   scene()->setSceneRect(0, 0, width(), height());
+	setNamePos();
 }
 
 
