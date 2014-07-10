@@ -18,6 +18,7 @@
 
 
 #include <QApplication>
+#include <QTranslator>
 #include "tlevelcreatordlg.h"
 #include <tinitcorelib.h>
 
@@ -25,6 +26,9 @@ Tglobals *gl;
 
 int main(int argc, char *argv[])
 {    	
+		QTranslator qtTranslator;
+		QTranslator qtbaseTranslator;
+		QTranslator nooTranslator;
 		QApplication a(argc, argv);
 // #if defined (Q_OS_MAC)
 // 		QApplication::setStyle(new QPlastiqueStyle);
@@ -34,7 +38,7 @@ int main(int argc, char *argv[])
 			return 112;
 		}
 		initCoreLibrary(gl);
-		prepareTranslations(&a);
+		prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
 		if (!loadNootkaFont(&a))
 			return 111;
 

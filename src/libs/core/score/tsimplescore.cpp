@@ -90,7 +90,7 @@ Tnote TsimpleScore::getNote(int index) {
 }
 
 
-void TsimpleScore::setNote(int index, Tnote note) {
+void TsimpleScore::setNote(int index, const Tnote& note) {
 		staff()->setNote(index, note);
 		if (staff()->noteSegment(index)->pos().x() * m_score->transform().m11() > m_score->width() * 0.75)
 				m_score->centerOn(staff()->noteSegment(index)->mapToScene(staff()->noteSegment(index)->pos()));

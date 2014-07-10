@@ -43,7 +43,7 @@ public:
     TsimpleScore(int notesNumber, QWidget *parent = 0);
     ~TsimpleScore();
 
-		virtual void setNote(int index, Tnote note);
+		virtual void setNote(int index, const Tnote& note);
     Tnote getNote(int index); /** It returns @p note with hope that index points existed Tnote element. */
     void clearNote(int index); /** It hides pointed note and sets note to Tnote(0,0,0)*/
 		void setStringNumber(int index, int realNr); /** Adds string number @p realNr to note @p index.  */

@@ -22,6 +22,7 @@
 #include "nootkacoreglobal.h"
 #include "tglobals.h"
 
+class QTranslator;
 class QApplication;
 
 /** 
@@ -48,8 +49,9 @@ private:
  */
 NOOTKACORE_EXPORT void initCoreLibrary(Tglobals *gl);
 
-/** Loads translations files for appropriate language (system or user preferred) */
-NOOTKACORE_EXPORT void prepareTranslations(QApplication* a);
+/** Loads translations files for appropriate language (system or user preferred)
+ * Translator object has to be created first. */
+NOOTKACORE_EXPORT void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& qtBase, QTranslator& noo);
 
 /** Checks nootka.ttf file and loads it. Returns true if successful.  
  * libNootkaCore has to be initialized first by initCoreLibrary() */

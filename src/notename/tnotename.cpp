@@ -176,8 +176,8 @@ TnoteName::TnoteName(QWidget *parent) :
 TnoteName::~TnoteName()
 {
 // 	setParent(0); //s release TnoteName to be able delete m_menu
-	if (m_menu)
-		delete m_menu;
+// 	if (m_menu)
+// 		delete m_menu;
 }
 
 

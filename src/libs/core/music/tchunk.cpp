@@ -16,44 +16,44 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include "tchunk.h"
+#include "trhythm.h"
+#include "tnote.h"
+#include <QXmlStreamWriter>
 
-#include <QApplication>
-#include <QTranslator>
-#include "tsettingsdialog.h"
-#include <tinitcorelib.h>
-#include <iostream>
+Tchunk::Tchunk(const Tnote& pitch, const Trhythm& rhythm) :
+	m_pitch(new Tnote(pitch)),
+	m_rhythm(new Trhythm(rhythm))
+{}
 
-Tglobals *gl;
 
-int main(int argc, char *argv[])
-{    	
-		QTranslator qtTranslator;
-		QTranslator qtbaseTranslator;
-		QTranslator nooTranslator;
-		QApplication a(argc, argv);
-// #if defined (Q_OS_MAC)
-// 		QApplication::setStyle(new QPlastiqueStyle);
-// #endif
-		gl = new Tglobals(true); // load configuration from temp file
-		if (gl->path == "") {
-			return 112;
-		}
-		initCoreLibrary(gl);
-		prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
-		if (!loadNootkaFont(&a))
-			return 111;
-
-    TsettingsDialog settings;
-    settings.show();
-		
-		int retVal = a.exec();
-		if (settings.result() == QDialog::Accepted) {
-				std::cout << "Accepted";
-// 				qDebug() << "Accepted";
-		} else {
-				std::cout << "Canceled";
-				
-		}
-		delete gl;
-		return retVal;
+Tchunk::~Tchunk()
+{
+	delete m_pitch;
+	delete m_rhythm;
 }
+
+
+
+void Tchunk::toXml(QXmlStreamWriter& xml) {
+	xml.writeStartElement("note");
+		if (m_rhythm->isRest() || m_pitch->note == 0)
+			xml.writeEmptyElement("rest");
+		else 
+			m_pitch->toXml(xml);
+		xml.writeTextElement("type", m_rhythm->xmlType());
+		if (m_rhythm->hasDot())
+			xml.writeEmptyElement("dot");
+	xml.writeEndElement(); // note
+}
+
+
+bool Tchunk::fromXml(QXmlStreamReader& xml) {
+
+}
+
+
+
+
+
+
