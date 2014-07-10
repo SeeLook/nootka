@@ -16,44 +16,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TCHUNK_H
+#define TCHUNK_H
 
-#include <QApplication>
-#include <QTranslator>
-#include "tsettingsdialog.h"
-#include <tinitcorelib.h>
-#include <iostream>
+class QXmlStreamReader;
+class QXmlStreamWriter;
+class Trhythm;
+class Tnote;
 
-Tglobals *gl;
 
-int main(int argc, char *argv[])
-{    	
-		QTranslator qtTranslator;
-		QTranslator qtbaseTranslator;
-		QTranslator nooTranslator;
-		QApplication a(argc, argv);
-// #if defined (Q_OS_MAC)
-// 		QApplication::setStyle(new QPlastiqueStyle);
-// #endif
-		gl = new Tglobals(true); // load configuration from temp file
-		if (gl->path == "") {
-			return 112;
-		}
-		initCoreLibrary(gl);
-		prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
-		if (!loadNootkaFont(&a))
-			return 111;
+/** 
+ * This class represent a note: 
+ * a pitch described by @p Tnote 
+ * and its value (relative duration) described by @p Trhythm
+ */
+class Tchunk
+{
 
-    TsettingsDialog settings;
-    settings.show();
-		
-		int retVal = a.exec();
-		if (settings.result() == QDialog::Accepted) {
-				std::cout << "Accepted";
-// 				qDebug() << "Accepted";
-		} else {
-				std::cout << "Canceled";
-				
-		}
-		delete gl;
-		return retVal;
-}
+public:
+	Tchunk(const Tnote& pitch, const Trhythm& rhythm);
+	~Tchunk();
+	
+	Tnote* p() { return m_pitch; }
+	void setPitch(const Tnote& pitch) { m_pitch = pitch; }
+	
+	Trhythm* r() { return m_rhythm; }
+	void setRhythm(const Trhythm& rhythm) { m_rhythm = rhythm; }
+
+	
+	void toXml(QXmlStreamWriter& xml);
+	bool fromXml(QXmlStreamReader& xml);
+	
+	
+private:
+	Tnote				*m_pitch;
+	Trhythm			*m_rhythm;
+	
+};
+
+#endif // TCHUNK_H

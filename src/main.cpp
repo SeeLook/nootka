@@ -23,23 +23,19 @@
 #include <QSettings>
 #include <QApplication>
 #include <QDebug>
+#include <QTranslator>
 
-#if defined(Q_OS_WIN32)
-  #include <windows.h>
-  #define SLEEP(msecs) Sleep(msecs)
-#else
-  #include <unistd.h>
-  #define SLEEP(msecs) usleep(msecs * 1000)
-#endif
 
 Tglobals *gl;
 bool resetConfig;
 
 int main(int argc, char *argv[])
 {    
-	
+	QTranslator qtTranslator;
+	QTranslator qtbaseTranslator;
+	QTranslator nooTranslator;
 	QPointer<QApplication> a = 0;
-	QPointer<MainWindow> w = 0;
+	MainWindow *w = 0;
 	int exitCode;
 	bool firstTime = true;
 	QString confFile;
@@ -60,7 +56,7 @@ int main(int argc, char *argv[])
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		confFile = gl->config->fileName();
 		initCoreLibrary(gl);
-		prepareTranslations(a);
+		prepareTranslations(a, qtTranslator, qtbaseTranslator, nooTranslator);
 		if (!loadNootkaFont(a))
 			return 111;
 // creating main window
@@ -80,9 +76,10 @@ int main(int argc, char *argv[])
 		firstTime = false;
 		exitCode = a->exec();
 		delete w;
+		qDebug() << "Main Window successfully deleted";
 	} while (resetConfig);
 		
 	delete gl;
-	SLEEP(10); // delayed exit to avoid crash
+	qDebug() << "Settings object successfully deleted";
 	return exitCode;
 }

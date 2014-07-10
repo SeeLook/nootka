@@ -367,11 +367,13 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
 
 void Tnote::toXml(QXmlStreamWriter& xml) {
 	xml.writeStartElement("pitch");
+	if (note !=0) { // write <pitch> context only if note is valid
 		Tnote bareNote = Tnote(note, octave, 0);
 		xml.writeTextElement("step", bareNote.toText(Tnote::e_english_Bb, false));
 		xml.writeTextElement("octave", QVariant((int)octave + 3).toString());
 		if (acidental)
 			xml.writeTextElement("alter", QVariant((int)acidental).toString());
+	}
 	xml.writeEndElement(); // pitch
 }
 
@@ -379,6 +381,7 @@ void Tnote::toXml(QXmlStreamWriter& xml) {
 void Tnote::fromXml(QXmlStreamReader& xml) {
 	if (xml.name() == "pitch") {
 		while (xml.readNextStartElement()) {
+			note = 0; octave = 0; acidental = 0; // reset this note
 			if (xml.name() == "step") {
 				QString step = xml.readElementText().toUpper();
 				for (char i = 1; i < 8; i++) {

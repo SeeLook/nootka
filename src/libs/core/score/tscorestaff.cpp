@@ -363,11 +363,13 @@ int TscoreStaff::fixNotePos(int pianoPos) {
 
 
 void TscoreStaff::setViewWidth(qreal viewW) {
-	m_viewWidth = viewW;
-	int oldMax = m_maxNotesCount;
-	m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
-	updateLines(); // calls updateWidth() as well
-	updateNotesPos();
+	if (viewW != m_viewWidth) {
+		m_viewWidth = viewW;
+		int oldMax = m_maxNotesCount;
+		m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
+		updateLines(); // calls updateWidth() as well
+		updateNotesPos();
+	}
 }
 
 

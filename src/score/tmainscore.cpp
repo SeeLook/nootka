@@ -170,6 +170,13 @@ void TmainScore::acceptSettings() {
 }
 
 
+void TmainScore::setNote(const Tnote& note) {
+    TmultiScore::setNote(note);
+		if (insertMode() == e_single)
+			m_nameMenu->setNoteName(note);
+}
+
+
 void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 	if (mode != insertMode()) {
 		TmultiScore::setInsertMode(mode);
@@ -177,6 +184,9 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 				createNoteName();
 				m_currentNameSegment = staff()->noteSegment(0);
 				m_nameMenu->setParent(0);
+				m_settCorner->hide();
+				m_rhythmCorner->hide();
+				m_delCorner->hide();
 		} else {
 			
 		}
@@ -185,7 +195,6 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::noteWasClickedMain(int index) {
-	qDebug() << "noteWasClickedMain";
 	TscoreStaff *st = SENDER_TO_STAFF;
 	Tnote note = *(st->getNote(index));
 	if (insertMode() == e_single)
@@ -737,18 +746,18 @@ void TmainScore::createActions() {
 	m_settBar->addAction(m_acts->staffDown());
 #endif
 	m_settBar->addAction(m_acts->lastNote());	
-	TcornerProxy *settCorner = new TcornerProxy(scoreScene(), m_settBar, Qt::BottomRightCorner);
+	m_settCorner = new TcornerProxy(scoreScene(), m_settBar, Qt::BottomRightCorner);
 	
 	m_clearBar = new QToolBar();
 	m_clearBar->addAction(m_acts->clearScore());
-	TcornerProxy *delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
-	delCorner->setSpotColor(Qt::red);
+	m_delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
+	   m_delCorner->setSpotColor(Qt::red);
 	
 	m_rhythmBar = new QToolBar();
 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
 	m_rhythmBar->addWidget(rl);
-	TcornerProxy *rhythmCorner = new TcornerProxy(scoreScene(), m_rhythmBar, Qt::TopLeftCorner);
-	rhythmCorner->setSpotColor(Qt::yellow);
+	m_rhythmCorner = new TcornerProxy(scoreScene(), m_rhythmBar, Qt::TopLeftCorner);
+	   m_rhythmCorner->setSpotColor(Qt::yellow);
 	
 	m_keys = new TscoreKeys(this);
 	m_acts->assignKeys(m_keys);

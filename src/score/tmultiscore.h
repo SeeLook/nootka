@@ -60,7 +60,7 @@ public:
 	int staffCount() { return m_staves.size(); }
 	
 	
-	virtual void setNote(Tnote note);
+	virtual void setNote(const Tnote& note);
 	
 	virtual void setEnableKeySign(bool isEnabled);
 	

@@ -22,7 +22,7 @@
 #include "tmultiscore.h"
 #include <QPointer>
 
-class QMainWindow;
+class TcornerProxy;
 class TscoreActions;
 class TscoreKeys;
 class QShortcut;
@@ -56,6 +56,8 @@ public:
     void acceptSettings();
 		
 		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
+		
+    virtual void setNote(const Tnote& note);
 		
 		void setInsertMode(EinMode mode);
 		
@@ -171,6 +173,7 @@ private:
 		Tnote::EnameStyle						 m_corrStyle;
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		
+		TcornerProxy 								*m_settCorner, *m_delCorner, *m_rhythmCorner;
 		TnoteName					 					*m_nameMenu;
 		QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
 		bool												 m_scoreIsPlayed;

@@ -63,19 +63,21 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 		if (mode == e_single) {
 				deleteNotes();
 				setControllersEnabled(true, false);
-				staff()->setStafNumber(-1);
-				staff()->setViewWidth(0.0);
+// 				staff()->setStafNumber(-1);
+// 				staff()->setViewWidth(0.0);
 				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 				staff()->noteSegment(0)->left()->enableToAddNotes(false);
 				m_currentIndex = 0;
 		} else {
 				setControllersEnabled(true, true);
+				staff()->noteSegment(0)->left()->enableToAddNotes(true);
+				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 		}
 	}
 }
 
 
-void TmultiScore::setNote(Tnote note) {
+void TmultiScore::setNote(const Tnote& note) {
 	if (insertMode() != e_single) {
 			if (currentIndex() == -1)
 				changeCurrentIndex(0);
@@ -92,7 +94,6 @@ void TmultiScore::setNote(Tnote note) {
 			TsimpleScore::setNote(0, note);
 	}
 }
-
 
 
 void TmultiScore::setEnableKeySign(bool isEnabled) {
@@ -126,7 +127,6 @@ int TmultiScore::notesCount() {
 //####################################################################################################
 
 void TmultiScore::noteWasClicked(int index) {
-	qDebug() << "noteWasClicked (multi)";
 	TscoreStaff *st = SENDER_TO_STAFF;
 	Tnote note = *(st->getNote(index));
 	changeCurrentIndex(index + st->number() * st->maxNoteCount());
@@ -200,11 +200,11 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (ww < 300)
       return;
-	if (m_inMode == e_single) {
+// 	if (m_inMode == e_single) {
 // 		score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-		TsimpleScore::resizeEvent(event);
+// 		TsimpleScore::resizeEvent(event);
 // 		score()->setFixedSize(score()->size());
-	} else {
+// 	} else {
 		score()->resize(width() - 2, height() - 2);
 		QList<TscoreNote*> allNotes;
 		for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
@@ -249,7 +249,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 			}
 		}
 		updateSceneRect();
-	}
+// 	}
 }
 
 

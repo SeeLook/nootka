@@ -31,9 +31,6 @@
 
 
 Tglobals* Tglob::m_gl = 0;
-QTranslator qtTranslator;
-QTranslator qtbaseTranslator;
-QTranslator nooTranslator;
 
 
 void initCoreLibrary(Tglobals* gl) {
@@ -50,24 +47,24 @@ void initCoreLibrary(Tglobals* gl) {
 }
 
 
-void prepareTranslations(QApplication* a) {
+void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& qtBase, QTranslator& noo) {
 	QString ll = "";
 	if (Tglob::glob())
 	ll = Tglob::glob()->lang;
 	if (ll == "")
 			ll = QLocale::system().name();
 #if defined(Q_OS_LINUX)
-    qtTranslator.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-		qtbaseTranslator.load("qtbase_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qt.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+		qtBase.load("qtbase_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 #else
-    qtTranslator.load("qt_" + ll, Tglob::glob()->path + "lang");
-		qtbaseTranslator.load("qtbase_" + ll, Tglob::glob()->path + "lang");
+    qt.load("qt_" + ll, Tglob::glob()->path + "lang");
+		qtBase.load("qtbase_" + ll, Tglob::glob()->path + "lang");
 #endif
-	a->installTranslator(&qtTranslator);
-	a->installTranslator(&qtbaseTranslator);
+	a->installTranslator(&qt);
+	a->installTranslator(&qtBase);
 
-	nooTranslator.load("nootka_" + ll, Tglob::glob()->path + "lang");
-	a->installTranslator(&nooTranslator);
+	noo.load("nootka_" + ll, Tglob::glob()->path + "lang");
+	a->installTranslator(&noo);
 	TkeySignature::setNameStyle(Tglob::glob()->S->nameStyleInKeySign, Tglob::glob()->S->majKeyNameSufix, 
 															Tglob::glob()->S->minKeyNameSufix);
 }
