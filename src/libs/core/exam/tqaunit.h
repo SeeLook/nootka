@@ -26,12 +26,24 @@
 #include <music/tkeysignature.h>
 #include <exam/tqatype.h>
 
+class Tattempt;
 
-/** This class describes single question and given answer.*/
+class Tmelody;
+
+/** 
+ * This class describes single question and given answer.
+ * By default a melody element (pointer) is empty and attempts as well.
+ * But after @p newAttempt() and @p addMelody() those elements exist inside 
+ * until destructor work.
+ */
 class NOOTKACORE_EXPORT TQAunit
 {
+
 public:
+	
     TQAunit();
+		
+		~TQAunit();
 
     struct TQAgroup {
         TfingerPos pos;
@@ -71,7 +83,6 @@ public:
     TQAgroup qa_2; // expected answers when question and answer types are the same
 
     friend QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
-//    friend QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
     friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
     
     bool isCorrect() { return valid == 0; }
@@ -87,16 +98,28 @@ public:
     bool isWrong() { return wrongNote() | wrongPos(); }
     bool isNotSoBad() { if (valid && !wrongNote() && !wrongPos()) return true;
                             else return false;
-    }
+											}
+		void newAttempt(); /** Creates and adds new @class Tattempt to the attempts list. */
+		int attemptsCount() { if (m_attempts) return m_attempts->size(); else return 0; }
+		Tattempt* attempt(int nr) { return m_attempts->at(nr); } /** Pointer to given attempt */
+		Tattempt* lastAtt() { return m_attempts->last(); } /** Pointer to the last attempt */
+		
+		void addMelody(const QString& title); /** Adds melody of replaces existing one. */
+		
+		void toXml(QXmlStreamWriter& xml);
+		bool formXml(QXmlStreamReader& xml);
     
 protected:
-    quint8 valid;
-    quint8 style;
+    quint8 							 valid;
+    quint8 							 style;
+		
+private:
+		Tmelody		 					*m_melody;
+		QList<Tattempt*> 		*m_attempts;
 
 };
 
 NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
-//QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit);
 NOOTKACORE_EXPORT bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
 
 #endif // TQAUNIT_H

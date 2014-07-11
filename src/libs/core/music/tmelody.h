@@ -16,42 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TCHUNK_H
-#define TCHUNK_H
+#ifndef TMELODY_H
+#define TMELODY_H
 
-class QXmlStreamReader;
-class QXmlStreamWriter;
-class Trhythm;
-class Tnote;
 
+#include <QString>
+#include <QList>
+#include "tchunk.h"
 
 /** 
- * This class represent a note: 
- * a pitch described by @p Tnote 
- * and its value (relative duration) described by @p Trhythm
+ * Class describing a musical melody - sequence of notes (Tchunk)
+ * Also it is able to save/load a melody into/from MusicXML structure 
  */
-class Tchunk
+class Tmelody
 {
 
 public:
-	Tchunk(const Tnote& pitch, const Trhythm& rhythm);
-	~Tchunk();
+	Tmelody(const QString& title = "");
 	
-	Tnote* p() { return m_pitch; }
-// 	void setPitch(const Tnote& pitch) { *m_pitch = pitch; }
+	QString title() {return m_title; }
+	void setTitle(const QString& t) { m_title = t; }
 	
-	Trhythm* r() { return m_rhythm; }
-// 	void setRhythm(const Trhythm& rhythm) { *m_rhythm = rhythm; }
-
+	int length() { return m_notes.size(); } /** A length of the melody (notes number) */
+	
+	QList<Tchunk>& notes() { return m_notes; } /** A reference to list (QList) of melody notes */
 	
 	void toXml(QXmlStreamWriter& xml);
 	bool fromXml(QXmlStreamReader& xml);
 	
-	
 private:
-	Tnote				*m_pitch;
-	Trhythm			*m_rhythm;
-	
+	QString						m_title;
+	QList<Tchunk>			m_notes;
 };
 
-#endif // TCHUNK_H
+#endif // TMELODY_H

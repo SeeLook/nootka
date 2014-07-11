@@ -41,7 +41,7 @@ class Tsound;
 class MainWindow : public QMainWindow
 {
 //     friend class TexamExecutor;
-//     friend class Tcanvas;
+    friend class Tcanvas;
 
     Q_OBJECT
 

@@ -7,7 +7,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
 
-find_package(Qt5Widgets)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5PrintSupport REQUIRED)
 # set(QtCore_location Qt5::Core "" CACHE INTERNAL "" FORCE)
 # get_target_property(QtCore_location Qt5::Core LOCATION)
 
@@ -27,7 +28,7 @@ endif(UNIX AND NOT APPLE)
 
 add_subdirectory( libs/core ) # libNootkaCore
 add_subdirectory( libs/sound ) # libNootkaSound
-#add_subdirectory( libs/misc ) # libNootkaMisc
+add_subdirectory( libs/misc ) # libNootkaMisc
 		
 include_directories( libs/core libs/sound libs/misc )
 
@@ -56,6 +57,10 @@ set(NOOTKA_SRC
 	score/tscorekeys.cpp
 	score/tscoreactions.cpp
 	
+	exam/tcanvas.cpp
+	exam/tnootkacertificate.cpp
+	exam/tquestiontip.cpp
+	
 	animations/tstrikedoutitem.cpp
 )
 
@@ -70,7 +75,7 @@ endif(MINGW)
 
 
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
-target_link_libraries(nootka NootkaCore NootkaSound Qt5::Widgets)
+target_link_libraries(nootka NootkaCore NootkaSound NootkaMisc Qt5::Widgets Qt5::PrintSupport)
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
