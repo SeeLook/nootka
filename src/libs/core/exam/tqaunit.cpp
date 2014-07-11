@@ -18,6 +18,9 @@
 
 
 #include "tqaunit.h"
+#include "tattempt.h"
+#include <music/tmelody.h>
+#include <QXmlStreamReader>
 
 TQAunit::TQAunit()
 {
@@ -27,8 +30,21 @@ TQAunit::TQAunit()
     valid = 0; // correct in assume
     qa_2.note = Tnote(0,0,0);
     qa_2.pos = TfingerPos();
+		m_melody = 0;
+		m_attempts = 0;
 }
 
+
+TQAunit::~TQAunit()
+{
+	if (m_attempts) {
+		for (int i = 0; i < m_attempts->size(); ++i)
+			delete m_attempts->at(i);
+		delete m_attempts;
+	}
+	if (m_melody)
+		delete m_melody;
+}
 
 
 void TQAunit::setMistake(Emistake mis) {
@@ -41,9 +57,37 @@ void TQAunit::setMistake(Emistake mis) {
     case e_wrongPos : valid |= 16; break;
     case e_wrongString : valid |= 32; break;
 		case e_wrongIntonation : valid |= 128; break;
-    case e_wrongNote : valid = 64; break; // If this kind of mistake is commited
+    case e_wrongNote : valid = 64; break; // If this kind of mistake is committed
         //  all above has no sense so '=' instead '|=' is correct
     }
+}
+
+
+void TQAunit::newAttempt() {
+	if (!m_attempts)
+		m_attempts = new QList<Tattempt*>;
+	(*m_attempts) << new Tattempt();
+}
+
+
+void TQAunit::addMelody(const QString& title) {
+	if (m_melody)
+		delete m_melody;
+	m_melody = new Tmelody(title);
+}
+
+
+void TQAunit::toXml(QXmlStreamWriter& xml)
+{
+
+}
+
+
+bool TQAunit::formXml(QXmlStreamReader& xml)
+{
+	bool ok = true;
+
+	return ok;
 }
 
 
@@ -58,8 +102,6 @@ QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit) {
     return out;
 }
 
-//QDataStream &operator>> (QDataStream &in, TQAunit &qaUnit) {
-//}
 
 bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
     bool ok = true;

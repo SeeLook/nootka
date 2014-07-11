@@ -20,11 +20,13 @@
 #ifndef TCANVAS_H
 #define TCANVAS_H
 
-#include <QGraphicsView>
+#include <QObject>
 #include <QPointer>
-#include "tqatype.h"
+#include <QGraphicsView>
+#include <exam/tqatype.h>
 #include <tfingerpos.h>
 
+class TnoteName;
 class TcombinedAnim;
 class TnootkaCertificate;
 class QTimer;
@@ -39,10 +41,10 @@ class TgraphicsTextTip;
 
 
 /** 
- * This is view/scene widget laying over centralWidget() 
+ * This class managing Nootka main View
  * to show notifications during an exam.  
  */
-class Tcanvas : public QGraphicsView
+class Tcanvas : public QObject
 {
 
   friend class TexamExecutor;
@@ -50,7 +52,7 @@ class Tcanvas : public QGraphicsView
   Q_OBJECT
   
 public:
-    Tcanvas(MainWindow *parent);
+    Tcanvas(QGraphicsView* view, MainWindow *parent);
     virtual ~Tcanvas();
     
     void addTip(TgraphicsTextTip *tip); // add any TgraphicsTextTip object
@@ -105,20 +107,21 @@ signals:
     void buttonClicked(QString name);
     void certificateMagicKeys(); // When translator wants to see a certificate preview
       
-    
+
 protected:
-    bool event(QEvent *event);
+//     bool event(QEvent *event);
     
 protected slots:
 	
 				/** Calls sizeChanged with delay to allow MainWindow deploy its new geometry. */
-		void sizeChangedDelayed(QSize newSize);
+		void sizeChangedDelayed(const QRectF& newRect);
     void sizeChanged();
 		void correctAnimFinished();
     
     
 private:
-    MainWindow 										*m_parent;
+    MainWindow 										*m_window;
+		QGraphicsView									*m_view;
     QGraphicsScene 								*m_scene;
     double 												 m_scale;
     QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip, m_confirmTip, m_outTuneTip;
@@ -133,6 +136,8 @@ private:
 		QGraphicsEllipseItem					*m_flyEllipse;
 		TfingerPos										 m_goodPos;
 		QColor												 m_correctColor;
+		TnoteName											*m_noteName;
+		QPoint												 m_relPoint;
     
     
 private:

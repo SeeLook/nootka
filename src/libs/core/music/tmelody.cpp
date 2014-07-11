@@ -16,42 +16,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TCHUNK_H
-#define TCHUNK_H
-
-class QXmlStreamReader;
-class QXmlStreamWriter;
-class Trhythm;
-class Tnote;
+#include "tmelody.h"
 
 
-/** 
- * This class represent a note: 
- * a pitch described by @p Tnote 
- * and its value (relative duration) described by @p Trhythm
- */
-class Tchunk
+Tmelody::Tmelody(const QString& title) :
+	m_title(title)
 {
 
-public:
-	Tchunk(const Tnote& pitch, const Trhythm& rhythm);
-	~Tchunk();
-	
-	Tnote* p() { return m_pitch; }
-// 	void setPitch(const Tnote& pitch) { *m_pitch = pitch; }
-	
-	Trhythm* r() { return m_rhythm; }
-// 	void setRhythm(const Trhythm& rhythm) { *m_rhythm = rhythm; }
+}
 
-	
-	void toXml(QXmlStreamWriter& xml);
-	bool fromXml(QXmlStreamReader& xml);
-	
-	
-private:
-	Tnote				*m_pitch;
-	Trhythm			*m_rhythm;
-	
-};
+//####################################################################################################
+//########################################## PUBLIC ##################################################
+//####################################################################################################
 
-#endif // TCHUNK_H
+void Tmelody::toXml(QXmlStreamWriter& xml)
+{
+
+}
+
+
+bool Tmelody::fromXml(QXmlStreamReader& xml)
+{
+	bool ok = true;
+	
+	return ok;
+}
+
+
+
+
+

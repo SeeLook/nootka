@@ -18,12 +18,12 @@
 
 
 #include "tnootkacertificate.h"
-#include "texam.h"
-#include "texamview.h"
-#include <tlevel.h>
-#include <tgraphicstexttip.h>
-#include <tpixmaker.h>
-#include <texamhelp.h>
+#include <exam/texam.h>
+// #include "texamview.h" TODO
+#include <exam/tlevel.h>
+#include <graphics/tgraphicstexttip.h>
+#include <graphics/tnotepixmap.h>
+#include <help/texamhelp.h>
 #include <animations/tcombinedanim.h>
 #include <QDate>
 #include <QBuffer>
@@ -31,7 +31,7 @@
 #include <QStyle>
 #include <QFileDialog>
 #include <QGraphicsScene>
-#include <QPrinter>
+#include <QtPrintSupport/QPrinter>
 #include <QPainter>
 #include <QGraphicsView>
 #include <QGraphicsEffect>
@@ -254,7 +254,7 @@ QString TnootkaCertificate::fillCert(QString entry) {
   entry.replace("[DATE]", QDate::currentDate().toString("d MMMM yyyy"));
   entry.replace("[STUDENT]", m_exam->userName().toUpper());
   entry.replace("[LEVELNAME]", m_exam->level()->name);
-  entry.replace("[TOTALTIME]", TexamView::formatedTotalTime(m_exam->workTime() * 1000));
+//   entry.replace("[TOTALTIME]", TexamView::formatedTotalTime(m_exam->workTime() * 1000)); // TODO
   entry.replace("[SCORE]", QString("%1 %").arg(m_exam->effectiveness(), 0, 'f', 1, '0'));
   entry.replace("[QUESTNR]", QString("%1").arg(m_exam->count()));
   return entry;

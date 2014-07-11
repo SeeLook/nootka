@@ -19,6 +19,7 @@
 
 #ifndef TFINISHTIP_H
 #define TFINISHTIP_H
+
 #include <QGraphicsObject>
 
 
@@ -28,7 +29,9 @@ class Texam;
 
 
 
-/** QGraphicsTextTip with exam summary like piece of paper. */
+/** 
+ * QGraphicsTextTip with exam summary like piece of paper. 
+ */
 class TnootkaCertificate : public QGraphicsObject
 {
     Q_OBJECT

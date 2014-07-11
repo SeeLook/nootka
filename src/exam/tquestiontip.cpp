@@ -18,19 +18,19 @@
 
 
 #include "tquestiontip.h"
-#include "tqaunit.h"
-#include "texam.h"
-#include "tquestionaswdg.h"
-#include "tglobals.h"
-#include <tlevel.h>
-#include <ttipchart.h>
-#include <animations/tfadeinanim.h>
+#include <exam/tqaunit.h>
+#include <exam/texam.h>
+#include <exam/tlevel.h>
+#include <graphics/tnotepixmap.h>
+#include <widgets/tquestionaswdg.h>
+#include <animations/tfadeanim.h>
 #include <tcolor.h>
+#include <tglobals.h>
 // #include <QDebug>
 
+
+
 extern Tglobals *gl;
-
-
 
 
 /* static */
@@ -65,9 +65,9 @@ TquestionTip::TquestionTip(Texam* exam, double scale) :
 {
   setBgColor(gl->EquestionColor);
   hide();
-  m_fadeInAnim = new TfadeInAnim(this);
+  m_fadeInAnim = new TfadeAnim(this);
   m_fadeInAnim->setEasingCurveType(QEasingCurve::InExpo);
-  m_fadeInAnim->startFadeIn();
+  m_fadeInAnim->startFade(1.0);
 }
 
 TquestionTip::~TquestionTip() 
@@ -124,9 +124,9 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
 					}
         }
         if (level->useKeySign && level->manualKey && question.answerAs == TQAtype::e_asNote) // hide key signature
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
+            quest += "<br>" + wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
         else
-            quest += "<br>" + TtipChart::wrapPixToHtml(question.qa.note, true, question.key, sc);
+            quest += "<br>" + wrapPixToHtml(question.qa.note, true, question.key, sc);
         if (apendix != "")
           quest += apendix;
 				break;

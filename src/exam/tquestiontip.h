@@ -19,10 +19,10 @@
 #ifndef TQUESTIONTIP_H
 #define TQUESTIONTIP_H
 
-#include "tgraphicstexttip.h"
-#include "tnote.h"
+#include <graphics/tgraphicstexttip.h>
+#include <music/tnote.h>
 
-class TfadeInAnim;
+class TfadeAnim;
 class Texam;
 class Tlevel;
 class TQAunit;
@@ -59,9 +59,9 @@ protected:
     
 private:
                 /** Indicate where has to be a tip */
-    bool                    m_scoreFree, m_nameFree, m_guitarFree; 
-    Tnote::Eacidentals      m_forcedAccid; // When different than Tnote::e_Natural text is shown
-    TfadeInAnim             *m_fadeInAnim;
+    bool                     m_scoreFree, m_nameFree, m_guitarFree; 
+    Tnote::Eacidentals       m_forcedAccid; // When different than Tnote::e_Natural text is shown
+    TfadeAnim             *m_fadeInAnim;
 };
 
 
