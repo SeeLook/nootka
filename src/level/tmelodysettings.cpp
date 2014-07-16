@@ -43,7 +43,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
 	TroundedLabel *qaLab = new TroundedLabel(tr("Melodies are available for the following questions-answers:") + 
 				"<br>" + TnooFont::span("s?", 25) + "<big> -> </big>" + TnooFont::span("n!", 25) +
 				"<br>" + TnooFont::span("n?", 25) + "<big> -> </big>" + TnooFont::span("s!", 25) +
-				"<br>" + TnooFont::span("s?", 25) + "<big> -> </big>" + TnooFont::span("s!", 25), this);
+				"<br>" + TnooFont::span("n?", 25) + "<big> -> </big>" + TnooFont::span("n!", 25), this);
 		qaLab->setAlignment(Qt::AlignCenter);
 		
 	QVBoxLayout *lay = new QVBoxLayout;

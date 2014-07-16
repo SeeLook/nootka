@@ -39,6 +39,9 @@ public:
 		void addNoteName(QWidget* name); /** Adds note name widget over a score (for single note mode) */
 		void takeNoteName(); /** Takes note name from view. */
 		
+		void addExamViews(QWidget* resultsW, QWidget* progressW); /** Adds bar with those widgets */
+		void takeExamViews(); /** Removes exam widgets, WIDGETS ARE DELETED! */
+		
 signals:
 		void statusTip(const QString&);
 		
@@ -49,8 +52,8 @@ protected:
 		void setNamePos();
 		
 private:
-		QGraphicsProxyWidget				*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
-		QGraphicsProxyWidget				*m_name;
+		QWidget				*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
+		QWidget				*m_name, *m_results, *m_progress;
 		QGraphicsWidget							*m_form;
 
 };

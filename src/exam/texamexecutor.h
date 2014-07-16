@@ -20,12 +20,16 @@
 #ifndef TEXAMEXECUTOR_H
 #define TEXAMEXECUTOR_H
 
-#include "tqaunit.h"
-#include "ttune.h"
-#include "tlevel.h"
+#include <exam/tqaunit.h>
+#include <exam/tlevel.h>
 #include <QList>
 #include <QColor>
 
+class TpitchView;
+class Tsound;
+class TfingerBoard;
+class TnoteName;
+class TmainScore;
 class Texercises;
 class TglobalExamStore;
 class Tcanvas;
@@ -55,7 +59,7 @@ public:
 		
       /** Describes state of exam executing */
     enum Estate {
-      e_starting,
+      e_starting = 0,
       e_failed, 
       e_openCreator,
       e_questioning,
@@ -153,6 +157,11 @@ private:
     
     TexecutorSupply 					*m_supp; 
     Texam 										*m_exam;
+// 		TmainScore								*m_score;
+// 		TnoteName									*m_noteName;
+// 		TfingerBoard							*m_guitar;
+// 		Tsound										*m_sound;
+// 		TpitchView								*m_pitchViev;
 		
           /** main instance of Tlevel, others are pointers or references to it */
     Tlevel 										m_level;

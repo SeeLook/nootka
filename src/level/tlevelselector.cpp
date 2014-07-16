@@ -29,198 +29,8 @@
 
 extern Tglobals *gl;
 
-// QList<Tlevel> getExampleLevels() {
-//     QList<Tlevel> llist;
-//     Tlevel l = Tlevel();
-// 		int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
-// 		if (gl->instrument == e_bassGuitar)
-// 			octaveOffset = -1;
-// 		else if (gl->instrument == e_noInstrument)
-// 			octaveOffset = 1;
-// //----------------------------------------------------------------------------
-//     l.name = QObject::tr("open strings");
-//     l.desc = QObject::tr("The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
-//     l.questionAs.setAsSound(false);
-//     l.answersAs[0] = TQAtype(false, true, true, false); // q: score -- a: name, guitar
-//     l.answersAs[1] = TQAtype(true, false, true, false); // q: name -- a: score, guitar
-// 		l.answersAs[2] = TQAtype(true, true, false, false); // q: guitar -- a: score, name
-//     l.answersAs[3] = TQAtype(false, false, false, false);  
-//     l.withSharps = false;
-//     l.withFlats = false;
-//     l.withDblAcc = false;
-//     l.useKeySign = false;
-//     l.loKey = 0;
-//     l.hiKey = 0;
-//     l.forceAccids = false;
-//     l.requireOctave = false;
-//     l.requireStyle = false;
-//     l.showStrNr = false;
-// 		l.intonation = 0; // do not check
-// 		//clef default, user/tune defined
-// 		//instrument default - selected by user
-//     l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote()); 
-// 		//loNote is lowest by constructor
-//     l.hiFret = 0;// loFret is 0 by constuctor
-//     for (int i = 1; i < 7; i++) { //accids will be used if current tune requires it
-//         if (gl->Gtune()->str(i).acidental == 1)
-//             l.withSharps = true;
-//         if (gl->Gtune()->str(i).acidental == -1)
-//             l.withFlats = true;
-// 		}
-// 		if (l.instrument == e_noInstrument) // force instrument when not defined
-// 			l.instrument = e_classicalGuitar;
-//     llist << l;
-// //----------------------------------------------------------------------------
-//     l.name = QObject::tr("C-major scale");
-//     l.desc = QObject::tr("In first position. No accidentals, no sound.<br>Octave required.");
-//     l.questionAs.setAsSound(false);
-// 		bool isGuitar = true;
-// 		if (gl->instrument == e_noInstrument) {
-// 			isGuitar = false;
-// 			l.desc = QObject::tr("Give note name in C-major scale or show note on the staff knowing its name.");
-// 		}
-// 		l.instrument = gl->instrument;
-// 		l.questionAs.setAsFret(isGuitar);
-//     l.answersAs[0] = TQAtype(false, true, isGuitar, false);
-//     l.answersAs[1] = TQAtype(true, false, isGuitar, false);
-// 		l.answersAs[2] = TQAtype(isGuitar, isGuitar, false, false);
-//     l.answersAs[3] = TQAtype(false, false, false, false);
-//     l.withSharps = false;
-//     l.withFlats = false;
-//     l.withDblAcc = false;
-//     l.useKeySign = false;
-//     l.manualKey = false;
-//     l.loKey = 0;
-//     l.hiKey = 0;
-//     l.forceAccids = false;
-//     l.requireOctave = true;
-//     l.requireStyle = false;
-//     l.showStrNr = false;
-//     l.loNote = Tnote(1, 0 + octaveOffset, 0);
-//     l.hiNote = Tnote(1, 1 + octaveOffset, 0);
-//     l.hiFret = 3; // loFret is 0 by constructor
-//     l.intonation = 0; // do not check
-//     llist << l;
-// //----------------------------------------------------------------------------
-//     l.name = QObject::tr("All to V fret");
-//     l.desc = QObject::tr("All chromatic notes till V-th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
-//     l.questionAs.setAsSound(false);
-//     l.answersAs[0] = TQAtype(false, true, true, false);
-//     l.answersAs[1] = TQAtype(true, false, true, false);
-//     l.answersAs[3] = TQAtype(false, false, false, false);
-//     l.withSharps = true;
-//     l.withFlats = true;
-//     l.withDblAcc = false;
-//     l.useKeySign = true;
-//     l.manualKey = true;
-//     l.loKey = 0;
-//     l.hiKey = 3;
-//     l.forceAccids = true;
-//     l.requireOctave = true;
-//     l.requireStyle = false;
-//     l.showStrNr = true;
-//     l.loNote = gl->loString();
-//     l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + 5);
-//     l.hiFret = 5;// loFret is 0 by constructor
-//     l.intonation = 0; // do not check
-//     if (gl->instrument == e_noInstrument) // force instrument when not defined
-// 			l.instrument = e_classicalGuitar;
-//     llist << l;
-// //----------------------------------------------------------------------------
-//     l = Tlevel();
-//     l.name = QObject::tr("Ear training");
-//     l.desc = QObject::tr("Listen to a sound and show it on the staff.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
-//     l.questionAs.setAsFret(false); // no guitar
-//     l.questionAs.setAsName(false); // no names
-//     l.questionAs.setAsNote(false); // score only as an question
-//     l.answersAs[0] = TQAtype(false, false, false, false);
-//     l.answersAs[1] = TQAtype(false, false, false, false);
-//     l.answersAs[2] = TQAtype(false, false, false, false);
-//     l.answersAs[3] = TQAtype(true, false, false, false); // score only
-//     l.withSharps = true;
-//     l.withFlats = true;
-//     l.withDblAcc = false;
-//     l.useKeySign = false;
-//     l.manualKey = false;
-//     l.loKey = 0;
-//     l.hiKey = 0;
-//     l.forceAccids = false;
-//     l.requireOctave = true;
-//     l.requireStyle = false;
-//     l.showStrNr = false;
-// 		l.clef = Tclef(Tclef::e_treble_G);
-// 		l.instrument = e_noInstrument;
-// 		l.intonation = 0; // do not check
-//     l.loNote = Tnote(6, 0); // a
-//     l.hiNote = Tnote(6, 2); // a2
-//     l.hiFret = 19;// loFret is 0 by constructor
-//     llist << l;
-// //----------------------------------------------------------------------------
-//     l = Tlevel();
-//     l.name = QObject::tr("Play scores");
-//     l.desc = QObject::tr("Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
-//     l.questionAs.setAsFret(false); // no guitar
-//     l.questionAs.setAsName(false); // no names
-//     l.questionAs.setAsSound(false); // don't play
-//     l.answersAs[0] = TQAtype(false, false, false, true); // score only
-//     l.answersAs[1] = TQAtype(false, false, false,false);
-//     l.answersAs[2] = TQAtype(false, false, false,false);
-//     l.answersAs[3] = TQAtype(false, false, false,false);
-//     l.withSharps = true;
-//     l.withFlats = true;
-//     l.withDblAcc = true;
-//     l.useKeySign = true;
-//     l.manualKey = false;
-//     l.loKey = -4;
-//     l.hiKey = 4;
-//     l.forceAccids = false;
-//     l.requireOctave = true;
-//     l.requireStyle = false;
-//     l.showStrNr = false;
-// 		//clef default, user/tune defined
-// 		//instrument default - selected by user
-// //     l.loNote & l.hiNote from constructor
-// //     l.hiFret by constructor
-// // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
-//     l.onlyLowPos = true;
-// // 		if (gl->instrument == e_noInstrument) // force instrument when not defined
-// // 			l.instrument = gl->instrument;
-//     llist << l;
-// //----------------------------------------------------------------------------
-//     l = Tlevel();
-//     l.name = QObject::tr("Sing scores");
-//     l.desc = QObject::tr("Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - you can transpose.");
-//     l.questionAs.setAsFret(false); // no guitar
-//     l.questionAs.setAsName(false); // no names
-//     l.questionAs.setAsSound(false); // don't play
-//     l.answersAs[0] = TQAtype(false, false, false, true); // score only
-//     l.answersAs[1] = TQAtype(false, false, false,false);
-//     l.answersAs[2] = TQAtype(false, false, false,false);
-//     l.answersAs[3] = TQAtype(false, false, false,false);
-//     l.withSharps = true;
-//     l.withFlats = true;
-//     l.withDblAcc = false;
-//     l.useKeySign = false;
-//     l.manualKey = false;
-// 		l.clef = Tclef(Tclef::e_treble_G);
-// 		l.instrument = gl->instrument;
-//     l.loKey = 0;
-//     l.hiKey = 0;
-//     l.forceAccids = false;
-//     l.requireOctave = false;
-//     l.requireStyle = false;
-//     l.showStrNr = false;
-//     l.loNote = Tnote(5, 0); // G contra
-//     l.hiNote = Tnote(6, 2); // a one-line
-// //     l.hiFret by constructor
-// // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
-// 		l.instrument = e_noInstrument;
-//     l.onlyLowPos = true;
-//     llist << l;
-//     return llist;
-// }
 
-// /*static*/
+/*static*/
 
 QString TlevelSelector::checkLevel(Tlevel& l) {
 	QString warringText = "";
@@ -247,7 +57,8 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
     m_levelsListWdg = new QListWidget(this);
 			m_levelsListWdg->setMouseTracking(true);
-			m_levelsListWdg->setFixedWidth(200);
+			m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
+			m_levelsListWdg->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
     m_loadBut = new QPushButton(tr("Load"), this);
 			m_loadBut->setStatusTip(tr("Load level from file"));
@@ -261,6 +72,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     
     m_levelPreview = new TlevelPreview(this);
 		m_levelPreview->setFixInstrEnabled(true);
+		m_levelPreview->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
 		QHBoxLayout *mainLay = new QHBoxLayout;
     QVBoxLayout *levLay = new QVBoxLayout;
@@ -269,11 +81,10 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 			levLay->addStretch();
 			QHBoxLayout *buttLay = new QHBoxLayout;
 				buttLay->addWidget(m_loadBut);
-
 				buttLay->addWidget(m_removeButt);
 			levLay->addLayout(buttLay);
     mainLay->addLayout(levLay);
-			mainLay->addWidget(m_levelPreview);
+		mainLay->addWidget(m_levelPreview);
     setLayout(mainLay);
 
     findLevels();

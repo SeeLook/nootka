@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@
 #define TSTARTEXAMDLG_H
 
 #include <QDialog>
-#include "tlevel.h"
+#include <exam/tlevel.h>
 
 class QMenu;
 class TroundedLabel;
@@ -37,7 +37,7 @@ class TstartExamDlg : public QDialog
     Q_OBJECT
 public:
       /** QString @param &nick is student Name  */
-    explicit TstartExamDlg(QString &nick, QString &path, TexamParams *examParams, QWidget *parent = 0);
+    explicit TstartExamDlg(const QString &nick, const QString &path, TexamParams *examParams, QWidget *parent = 0);
 
         /** Describes actions committed by user.
         * @param e_none - dialog discarded,

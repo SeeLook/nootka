@@ -29,7 +29,8 @@
 #include "tmainview.h"
 #include "notename/tnotename.h"
 // // #include "tsettingsdialog.h"
-// // #include "tlevelcreatordlg.h"
+#include "level/tlevelcreatordlg.h"
+#include "exam/tstartexamdlg.h" // just temporary
 // // #include "tlevelselector.h"
 // // #include "taboutnootka.h"
 // // #include "tfirstrunwizzard.h"
@@ -40,8 +41,9 @@
 // #include <tupdateprocess.h>
 // #include <tcolor.h>
 // #include "texam.h"
-// #include "tprogresswidget.h"
-// #include "texamview.h"
+#include "exam/tprogresswidget.h"
+#include "exam/texamview.h"
+#include "exam/texamexecutor.h"
 // #include "taudioparams.h"
 // #include "tanalysdialog.h"
 // #include "tquestionpoint.h"
@@ -55,6 +57,8 @@ extern bool resetConfig;
 
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
+		examResults(0),
+		progress(0),
 		m_statusText(""),
 		m_curBG(-1), m_prevBg(-1),
 		m_lockStat(false),
@@ -116,6 +120,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		else
 				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     score = new TmainScore(this);
+		noteName = score->noteName();
     pitchView = new TpitchView(sound->sniffer/*, this*/);
     sound->setPitchView(pitchView);
  // Hints - label with clues
@@ -170,6 +175,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
 		connect(score, SIGNAL(playbackFinished()), this, SLOT(playSlot()));
+		connect(score, SIGNAL(statusTip(QString)), this, SLOT(setStatusMessage(QString)));
 // 		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
 // 		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
 //     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
@@ -207,7 +213,7 @@ void MainWindow::createActions() {
     connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
 
     startExamAct = new QAction(this);
-//     connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+    connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
     setStartExamActParams(); // set text and icon also for levelCreatorAct
     
     analyseAct = new QAction(tr("Analyze", "could be Chart as well"), this);
@@ -280,25 +286,26 @@ void MainWindow::setMessageBg(QColor bg) {
     m_curBG = bg;
 }
 
-/*
-void MainWindow::clearAfterExam(TexamExecutor::Estate examState) {
+
+void MainWindow::clearAfterExam(int examState) {
     setStartExamActParams();
     delete ex;
     ex = 0;
     m_curBG = -1;
     m_prevBg = -1;
     setMessageBg(-1);
-    if (examState == TexamExecutor::e_openCreator) 
+    if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
 				openLevelCreator();
 		else
 				sound->go();
-		progress->hide();
-		examResults->hide();
-		nootLabel->show();
+		innerWidget->takeExamViews();
+// 		progress->hide();
+// 		examResults->hide();
+// 		nootLabel->show();
 		updateSize(innerWidget->size());
 }
 
-
+/*
 QPoint MainWindow::relatedPoint() {
     return QPoint(noteName->geometry().x(), m_statLab->geometry().bottom() + 5);
 }
@@ -346,6 +353,16 @@ void MainWindow::createSettingsDialog() {
 // 			delete settings;
 			m_isPlayerFree = false;
 			sound->acceptSettings();
+			if (gl->S->isSingleNoteMode && score->insertMode() != TmultiScore::e_single) {
+				recordAct->setVisible(false);
+				playAct->setVisible(false);
+				innerWidget->addNoteName(score->noteName());
+			} else if	(!gl->S->isSingleNoteMode && score->insertMode() == TmultiScore::e_single) {
+				recordAct->setVisible(true);
+				playAct->setVisible(true);
+				innerWidget->takeNoteName();
+// 				noteName->setParent(this);
+			}
 			score->acceptSettings();
 				// set new colors in exam view
 // 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
@@ -398,43 +415,51 @@ void MainWindow::openLevelCreator(QString levelFile) {
     sound->wait(); // stops pitch detection
     sound->stopPlaying();
     m_levelCreatorExist = true;
-		gl->dumpToTemp();
-		QStringList args;
-		if (levelFile != "")
-				args << levelFile;
+// 		gl->dumpToTemp();
+// 		QStringList args;
+// 		if (levelFile != "")
+// 				args << levelFile;
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, true);
-		TprocessHandler levelProcess("nootka-level", args, this);
+// 		TprocessHandler levelProcess("nootka-level", args, this);
 // 		qDebug() << levelProcess.lastWord();
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		
-//     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
-//     bool shallExamStart = false;
-//     if (levelFile != "")
-//         levelCreator->loadLevelFile(levelFile);
-//     if (levelCreator->exec() == QDialog::Accepted) {
-//         m_level = levelCreator->selectedLevel();
-//         if (m_level.name != "")
-//             shallExamStart = true;
-//     }
-//     delete levelCreator;
+    TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
+    bool shallExamStart = false;
+    if (levelFile != "")
+        levelCreator->loadLevelFile(levelFile);
+    if (levelCreator->exec() == QDialog::Accepted) {
+        m_level = levelCreator->selectedLevel();
+        if (m_level.name != "")
+            shallExamStart = true;
+    }
+    delete levelCreator;
     m_levelCreatorExist = false;
-//     if (shallExamStart) {
+    if (shallExamStart) {
+			qDebug() << "Exam will be started: TODO"; // TODO
 //         nootLabel->hide();
 //         progress->show();
 //         examResults->show();
 //         ex = new TexamExecutor(this, "", &m_level); // start exam
-//     } else
-//         sound->go(); // restore pitch detection
+    } else
+        sound->go(); // restore pitch detection
+}
+
+
+void MainWindow::startExamSlot() {
+    sound->stopPlaying();
+		examResults = new TexamView();
+		progress = new TprogressWidget();
+		innerWidget->addExamViews(examResults, progress);
+		TstartExamDlg *sed = new TstartExamDlg("Gucio", gl->path, gl->E, this);
+		QString sedSays;
+		sed->showDialog(sedSays, m_level);
+		delete sed;
+// 		nootLabel->hide();
+//     ex = new TexamExecutor(this);
 }
 
 /*
-void MainWindow::startExamSlot() {
-    sound->stopPlaying();
-		nootLabel->hide();
-    ex = new TexamExecutor(this);
-}
-
-
 void MainWindow::aboutSlot() {
     sound->wait();
     sound->stopPlaying();
@@ -533,6 +558,7 @@ void MainWindow::recordSlot() {
 	} else {
 		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
 		score->setInsertMode(TmainScore::e_multi);
+		innerWidget->takeNoteName();
 	}
 }
 
@@ -672,6 +698,7 @@ void MainWindow::updateSize(QSize newS) {
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
 	if (m_statFontSize < 0)
 		return;
+// 	qDebug() << "updateSize()";
 	pitchView->setFixedWidth(newS.width() * 0.4);
 	pitchView->resize(m_statFontSize);
 // 	nootBar->setFixedWidth(newS.width());
@@ -683,7 +710,8 @@ void MainWindow::updateSize(QSize newS) {
 	nootBar->setIconSize(QSize(barIconSize, barIconSize));
 	nootBar->adjustSize();
 // 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));	
-	
+	int baseH = qMin(newS.height(), newS.width());
+	noteName->resize(baseH / 40);
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize);
@@ -692,6 +720,10 @@ void MainWindow::updateSize(QSize newS) {
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
 	int newGuitH = (newS.height() - nootBar->height()) * 0.25;
+	if (progress) {
+		progress->resize(m_statFontSize);
+		examResults->setFontSize(m_statFontSize);
+	}
 	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
 		QPixmap rosePix(gl->path + "picts/pickup.png");
 		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;

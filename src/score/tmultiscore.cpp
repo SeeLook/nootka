@@ -62,16 +62,24 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 		m_inMode = mode;
 		if (mode == e_single) {
 				deleteNotes();
+				staff()->setStafNumber(-1);
+				staff()->setViewWidth(0.0);
+				m_addNoteAnim = false;
+				staff()->insertNote(1/*, true*/);
+				m_addNoteAnim = false;
+				staff()->insertNote(2/*, true*/);
 				setControllersEnabled(true, false);
-// 				staff()->setStafNumber(-1);
-// 				staff()->setViewWidth(0.0);
 				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 				staff()->noteSegment(0)->left()->enableToAddNotes(false);
 				m_currentIndex = 0;
+				TsimpleScore::resizeEvent(0);
 		} else {
+				staff()->setStafNumber(0);
+				deleteNotes();
 				setControllersEnabled(true, true);
 				staff()->noteSegment(0)->left()->enableToAddNotes(true);
 				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+				resizeEvent(0);
 		}
 	}
 }
@@ -200,12 +208,11 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (ww < 300)
       return;
-// 	if (m_inMode == e_single) {
-// 		score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-// 		TsimpleScore::resizeEvent(event);
-// 		score()->setFixedSize(score()->size());
-// 	} else {
-		score()->resize(width() - 2, height() - 2);
+	score()->resize(width() - 2, height() - 2);
+	if (m_inMode == e_single) {
+		TsimpleScore::resizeEvent(event);
+	} else {
+// 		score()->resize(width() - 2, height() - 2);
 		QList<TscoreNote*> allNotes;
 		for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
 			m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
@@ -249,7 +256,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 			}
 		}
 		updateSceneRect();
-// 	}
+	}
 }
 
 

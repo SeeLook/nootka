@@ -88,7 +88,9 @@ public:
 		
 		Tnote lowestNote(); /** Returns lowest possible note on the staff in current clef */
 		Tnote highestNote(); /** Returns highest possible note on the staff in current clef */
-		void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */		
+		void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */
+		
+    virtual QSize sizeHint() const;
 		
 signals:
 				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
@@ -114,6 +116,8 @@ protected:
     
 				/** Returns previously set clef. It is used to figure is it scaling of score necessary.  */
     Tclef::Etype clefType() { return m_clefType; }
+    void setSizeHint(const QSize& s) { if (s != m_sizeHint) { m_sizeHint = s; updateGeometry(); } }
+    virtual QSize minimumSizeHint() const;
     
 protected slots:
 				/** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
@@ -134,7 +138,7 @@ private:
 		int 												 m_notesNr;
 		int 												 m_prevBGglyph;
 		Tclef::Etype								 m_clefType;
-  
+		QSize												 m_sizeHint;
 };
 
 #endif // TSIMPLESCORE_H

@@ -17,35 +17,35 @@
  ***************************************************************************/
 
 #include "texamexecutor.h"
-#include "tglobals.h"
-#include "tstartexamdlg.h"
-#include "tlevelselector.h"
-#include "tsound.h"
-#include <taudioparams.h>
-#include <tintonationview.h>
-#include <tpitchview.h>
-#include "mainwindow.h"
-#include "texam.h"
-#include "texamsummary.h"
-#include "texamsettings.h"
-#include "texamhelp.h"
-#include "texpertanswerhelp.h"
-#include "texamparams.h"
 #include "texecutorsupply.h"
-#include "tgraphicstexttip.h"
-#include <ttipchart.h>
+#include "tstartexamdlg.h"
+#include "texamsummary.h"
 #include "tcanvas.h"
 #include "tprogresswidget.h"
 #include "texamview.h"
 #include "tglobalexamstore.h"
 #include "texercises.h"
-#include "tmainscore.h"
-#include "tfingerboard.h"
-#include "tnotename.h"
+#include "mainwindow.h"
+#include "level/tlevelselector.h"
+#include <tsound.h>
+#include <exam/texam.h>
+// #include "texamsettings.h"
+#include <help/texamhelp.h>
+#include <help/texpertanswerhelp.h>
+#include <graphics/tgraphicstexttip.h>
+#include <score/tmainscore.h>
+#include <guitar/tfingerboard.h>
+#include <notename/tnotename.h>
+#include <widgets/tintonationview.h>
+#include <widgets/tpitchview.h>
 #include <widgets/tfixleveldialog.h>
 #include <widgets/tanimedchbox.h>
-#include <QtGui>
-#include <QDebug>
+#include <tglobals.h>
+#include <taudioparams.h>
+#include <texamparams.h>
+#include <tscoreparams.h>
+#include <QtWidgets>
+
 
 #define WAIT_TIME (150) //[ms]
 #define SOUND_DURATION (1500) //[ms]

@@ -133,20 +133,25 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	setNote(index, note);
 	m_scoreNotes[index]->setZValue(50);
 	setNoteDisabled(index, disabled);
-	emit noteIsAdding(number(), index);
-	if (maxNoteCount()) {
-		if (count() > maxNoteCount()) {
-				m_scoreNotes.last()->disconnect(SIGNAL(noteWasClicked(int)));
-				m_scoreNotes.last()->disconnect(SIGNAL(noteWasSelected(int)));
-				emit noteToMove(number(), m_scoreNotes.takeLast());
-				checkNoteRange(); // find range again
-		} else if (count() == maxNoteCount())
-				emit noMoreSpace(number());
+	if (number() > -1) {
+		emit noteIsAdding(number(), index);
+		if (maxNoteCount()) {
+			if (count() > maxNoteCount()) {
+					m_scoreNotes.last()->disconnect(SIGNAL(noteWasClicked(int)));
+					m_scoreNotes.last()->disconnect(SIGNAL(noteWasSelected(int)));
+					emit noteToMove(number(), m_scoreNotes.takeLast());
+					checkNoteRange(); // find range again
+			} else if (count() == maxNoteCount())
+					emit noMoreSpace(number());
+		}
 	}
 	updateIndex();
 	updateNotesPos(index);
-	if (number() == -1)
+	if (number() == -1) {
+			updateWidth();
+			updateLines();
 			updateSceneRect(); // Update only for single staff view
+	}
 }
 
 

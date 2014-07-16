@@ -279,6 +279,18 @@ void TsimpleScore::noteWasClicked(int index) {
 	emit noteWasChanged(index, note);
 }
 
+
+QSize TsimpleScore::sizeHint() const {
+  return m_sizeHint;
+	return QWidget::sizeHint();
+}
+
+
+QSize TsimpleScore::minimumSizeHint() const {
+	return QWidget::minimumSizeHint();
+// 	return m_sizeHint;
+}
+
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
@@ -289,27 +301,27 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 		hh = event->size().height();
 		ww = event->size().width();
 	}
-	int scrollV;
-	if (m_score->horizontalScrollBar()->isVisible()) {
-		hh -= m_score->horizontalScrollBar()->height();
-		scrollV = m_score->horizontalScrollBar()->value();
-	}
+// 	int scrollV;
+// 	if (m_score->horizontalScrollBar()->isVisible()) {
+// 		hh -= m_score->horizontalScrollBar()->height();
+// 		scrollV = m_score->horizontalScrollBar()->value();
+// 	}
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
   qreal factor = ((qreal)hh / (staff()->height() + 4.0)) / m_score->transform().m11();
-// 	qreal factor = ((qreal)hh / (staff()->height() + 2.0)) * m_pianoFactor;
-// 	qreal factor = (qreal)m_score->frameRect().height() / (m_scene->sceneRect().height() * m_score->transform().m11());
   m_score->scale(factor, factor);
 // 	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
-	if (m_score->horizontalScrollBar()->isVisible()) {
-		m_score->horizontalScrollBar()->setValue(scrollV);
-	}
+// 	if (m_score->horizontalScrollBar()->isVisible()) {
+// 		m_score->horizontalScrollBar()->setValue(scrollV);
+// 	}
 	staff()->setPos(staffOff, 0.05);
 	staff()->updateSceneRect();
-	score()->resize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
+// 	score()->resize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
+	score()->resize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().width(), height() - 2);
+// 	setSizeHint(QSize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size().width() + 1, height() - 2));
+	setSizeHint(size());
 // 	score()->setSceneRect(scoreScene()->sceneRect());
-// 	score()->resize(score()->sceneRect().size().toSize());
 }
 
 

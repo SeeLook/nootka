@@ -77,6 +77,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
+	createNoteName();
 	isExamExecuting(false);
 
 }
@@ -181,14 +182,15 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 	if (mode != insertMode()) {
 		TmultiScore::setInsertMode(mode);
 		if (mode == e_single) {
-				createNoteName();
+				m_nameMenu->enableArrows(false);
 				m_currentNameSegment = staff()->noteSegment(0);
-				m_nameMenu->setParent(0);
-				m_settCorner->hide();
-				m_rhythmCorner->hide();
-				m_delCorner->hide();
+// 				m_nameMenu->setParent(0);
+				enableCorners(false);
+				m_nameMenu->show();
 		} else {
-			
+				m_nameMenu->enableArrows(true);
+				m_nameMenu->hide();
+				enableCorners(true);
 		}
 	}
 }
@@ -200,7 +202,6 @@ void TmainScore::noteWasClickedMain(int index) {
 	if (insertMode() == e_single)
 		m_nameMenu->setNoteName(note);
 }
-
 
 
 void TmainScore::playScore() {
@@ -534,15 +535,14 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 //####################################################################################################
 
 void TmainScore::showNameMenu(TscoreNote* sn) {
-	createNoteName();
 	m_nameMenu->setNoteName(*sn->note());
 	m_currentNameSegment = sn;
 	changeCurrentIndex(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
 	QPoint mPos = score()->mapFromScene(sn->pos().x() + 8.0, 0.0);
-	mPos.setY(10);
+// 	mPos.setY(30);
 // 	mPos = score()->mapToGlobal(mPos);
 	mPos.setX(mPos.x() + mainWindow()->pos().x());
-	mPos.setY(pos().y() + mPos.y() + mainWindow()->pos().y());
+	mPos.setY(pos().y() + 50 + mainWindow()->pos().y());
 	resetClickedOff();
 	m_nameClickCounter = 0;
 	m_nameMenu->exec(mPos, score()->transform().m11());
@@ -712,6 +712,22 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	TmultiScore::resizeEvent(event);
 	if (width() < 300)
       return;
+	if (insertMode() == e_single) {
+		if (m_nameMenu->size().width() + score()->size().width() > mainWindow()->width()) {
+			if (m_nameMenu->buttonsDirection() == QBoxLayout::LeftToRight || m_nameMenu->buttonsDirection() == QBoxLayout::RightToLeft) {
+				qDebug() << "name is too big. Changing direction ";
+				m_nameMenu->setDirection(QBoxLayout::BottomToTop);
+			}
+		} else {
+			if (m_nameMenu->buttonsDirection() == QBoxLayout::BottomToTop || m_nameMenu->buttonsDirection() == QBoxLayout::TopToBottom) {
+				if (m_nameMenu->widthForHorizontal() + score()->size().width() < mainWindow()->width()) {
+					qDebug() << "There is enough space for horizontal name. Changing";
+					m_nameMenu->setDirection(QBoxLayout::LeftToRight);
+				}
+			}
+		}
+// 		setFixedWidth(score()->mapFromScene(scoreScene()->sceneRect()).boundingRect().width() + 1);
+	}
 	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
@@ -824,9 +840,24 @@ void TmainScore::createNoteName() {
 			connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
       connect(m_nameMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(statusTipChanged(QString)));
+			m_nameMenu->hide();
 	}
 }
 
+
+void TmainScore::enableCorners(bool enable) {
+	if (enable) {
+		if (!isExam()) {
+			m_settCorner->show();
+			m_rhythmCorner->show();
+		}
+			m_delCorner->show();
+	} else {
+			m_settCorner->hide();
+			m_rhythmCorner->hide();
+			m_delCorner->hide();
+	}
+}
 
 
 void TmainScore::moveName(TmainScore::EmoveNote moveDir) {
