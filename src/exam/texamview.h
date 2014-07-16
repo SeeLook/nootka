@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,9 +28,10 @@ class TQAunit;
 class QLabel;
 
 
-    /** A @class TexamView represents status of exam.
-    * It displays times and numbers of valid/invalid questions.
-    */
+/** 
+ * A @class TexamView represents status of exam.
+ * It displays times and numbers of valid/invalid questions.
+ */
 class TexamView : public QWidget
 {
     Q_OBJECT

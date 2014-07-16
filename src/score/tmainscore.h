@@ -78,7 +78,7 @@ public:
         * and showing enharmonic notes depends on is exam executing (disconnect)
         * or not (connect).*/
     void isExamExecuting(bool isIt);
-		
+		bool isExam() { return (bool)m_questMark; } /** @p True during exam/exercises */
         /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
 //     void unLockScore();
 //     void setKeyViewBg(QColor C);
@@ -159,6 +159,7 @@ private:
 		void createActions();
 		void moveName(EmoveNote moveDir);
 		void createNoteName();
+		void enableCorners(bool enable); /** Activates/deactivates corner menus. */
 
 private:
 		QGraphicsSimpleTextItem 		*m_questMark;

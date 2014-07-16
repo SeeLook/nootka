@@ -19,9 +19,16 @@
 #include "tmainview.h"
 #include <QtWidgets>
 
+QHBoxLayout *scoreAndNameLay = 0;
+QVBoxLayout *lay;
 
 TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget* scoreW, QWidget* guitarW, QWidget* parent) :
 	QGraphicsView(parent),
+	m_tool(toolW),
+	m_status(statLabW),
+	m_pitch(pitchW),
+	m_score(scoreW),
+	m_guitar(guitarW),
 	m_name(0)
 {
 	setScene(new QGraphicsScene(this));
@@ -30,60 +37,85 @@ TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setFrameShape(QFrame::NoFrame);
-	setStyleSheet(("background: transparent"));
-	
-	m_tool = scene()->addWidget(toolW);
-	m_status = scene()->addWidget(statLabW);
-	m_pitch = scene()->addWidget(pitchW);
-	m_score = scene()->addWidget(scoreW);
-	m_guitar = scene()->addWidget(guitarW);
+	setObjectName("TmainView");
+	setStyleSheet(("QGraphicsView#TmainView { background: transparent }"));
 	
 	toolW->installEventFilter(this);
 	pitchW->installEventFilter(this);
-	scoreW->installEventFilter(this);
 	guitarW->installEventFilter(this);
 	
-	m_score->setZValue(20);
 	
-	QGraphicsLinearLayout *lay = new QGraphicsLinearLayout(Qt::Vertical);
+	lay = new QVBoxLayout;
 		lay->setContentsMargins(1, 2, 1, 2);
-		lay->addItem(m_tool);
-		QGraphicsLinearLayout *statAndPitchLay = new QGraphicsLinearLayout(Qt::Horizontal);
-			statAndPitchLay->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-			statAndPitchLay->addItem(m_status);
-			statAndPitchLay->addItem(m_pitch);
-		lay->addItem(statAndPitchLay);
-		lay->addItem(m_score);
-		lay->addItem(m_guitar);
-	m_form = new QGraphicsWidget();
-	m_form->setLayout(lay);
-	scene()->addItem(m_form);
+		lay->addWidget(m_tool);
+		QHBoxLayout *statAndPitchLay = new QHBoxLayout;
+			statAndPitchLay->addWidget(m_status);
+			statAndPitchLay->addWidget(m_pitch);
+		lay->addLayout(statAndPitchLay);
+		scoreAndNameLay = new QHBoxLayout;
+		scoreAndNameLay->addWidget(m_score);
+		lay->addLayout(scoreAndNameLay);
+		lay->addWidget(m_guitar);
+	QWidget *w = new QWidget;
+	w->setObjectName("proxyWidget");
+	w->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
+	w->setLayout(lay);
+	m_form = scene()->addWidget(w);
 
+// 	m_tool->hide();
+// 	m_guitar->hide();
+	
 }
 
 
 void TmainView::addNoteName(QWidget* name) {
 	if (!m_name) {
-		m_name = scene()->addWidget(name);
-		setNamePos();
+		m_name = name;
+		m_name->installEventFilter(this);
+		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+		scoreAndNameLay->insertStretch(0);
+// 		scoreAndNameLay->addStretch(0);
+		scoreAndNameLay->addWidget(m_name, 0, Qt::AlignCenter);
+		scoreAndNameLay->addStretch(0);
+		m_score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+// 		scoreAndNameLay->parentWidget()->updateGeometry();
 	}
 }
 
 
 void TmainView::takeNoteName() {
 	if (m_name) {
-		m_name->widget()->setParent(0);
-		delete m_name;
+// 		m_name->setParent(0);
+		scoreAndNameLay->removeWidget(m_name);
 		m_name = 0;
+		delete scoreAndNameLay->takeAt(0);
+		delete scoreAndNameLay->takeAt(1);
 	}
 }
 
 
+void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
+	m_results = resultsW;
+	m_progress = progressW;
+	QHBoxLayout *resultLay = new QHBoxLayout;
+		resultLay->addWidget(m_progress);
+		resultLay->addWidget(m_results);
+	lay->insertLayout(2, resultLay);
+	resultsW->installEventFilter(this);
+	progressW->installEventFilter(this);
+}
+
+
+void TmainView::takeExamViews() {
+// 	delete m_results;
+// 	delete m_progress;
+}
+
 
 void TmainView::setNamePos() {
 	if (m_name) {
-		m_name->setPos(width() / 3 + ((width() * 0.66 - m_name->widget()->width()) / 2), 
-									m_score->pos().y() + (m_score->widget()->height() - m_name->widget()->height()) / 2);
+// 		m_name->setPos(width() / 3 + ((width() * 0.66 - m_name->widget()->width()) / 2), 
+// 									m_score->pos().y() + (m_score->widget()->height() - m_name->widget()->height()) / 2);
 	}
 }
 
@@ -93,9 +125,15 @@ void TmainView::setNamePos() {
 //##########################################################################################
 
 void TmainView::resizeEvent(QResizeEvent* event) {
+	Q_UNUSED (event)
 	m_form->setGeometry(0, 0, width(), height());
   scene()->setSceneRect(0, 0, width(), height());
-	setNamePos();
+// 	m_score->resize(m_score->size());
+// 	if (m_name) {
+// 		m_name->resize(m_name->size());
+// 		m_name->updateGeometry();
+// 	}
+// 	setNamePos();
 }
 
 

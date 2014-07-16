@@ -19,15 +19,15 @@
 
 #include "tstartexamdlg.h"
 #include "texamparams.h"
-#include "texam.h"
-#include "tlevelselector.h"
-#include "levelsettings.h"
+#include <exam/texam.h>
+#include <exam/textrans.h>
+#include <level/tlevelselector.h>
+#include <level/levelsettings.h>
 #include <widgets/troundedlabel.h>
-#include <thelpdialogbase.h>
-#include <tpixmaker.h>
-#include <tmainhelp.h>
-#include <texamhelp.h>
-#include <QtGui>
+#include <help/thelpdialogbase.h>
+#include <help/tmainhelp.h>
+#include <help/texamhelp.h>
+#include <QtWidgets>
 #include <stdlib.h> // for getenv()
 
 QString TstartExamDlg::systemUserName() {
@@ -40,7 +40,7 @@ QString TstartExamDlg::systemUserName() {
 
 
 QString statusTipText;
-TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examParams, QWidget *parent) :
+TstartExamDlg::TstartExamDlg(const QString& nick, const QString& path, TexamParams* examParams, QWidget* parent) :
     QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint),
     m_Acction(e_none),
     m_examParams(examParams),
@@ -84,7 +84,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 		
 		m_examMenu = new QMenu("open exam file", this);
 		m_newExamButt = new QPushButton(tr("pass new exam"), this);
-			m_newExamButt->setIcon(QIcon(path + "picts/nootka-exam.png"));
+			m_newExamButt->setIcon(QIcon(path + "picts/exam.png"));
 			setIconSize(m_newExamButt);
 		m_contExamButt = new QPushButton(tr("continue exam"), this);
 			m_contExamButt->setIcon(QIcon(path + "picts/nootka-exam.png"));
@@ -145,7 +145,7 @@ TstartExamDlg::TstartExamDlg(QString& nick, QString &path, TexamParams *examPara
 #else
     QSettings sett;
 #endif
-		QAction *loadExamAct = new QAction(loadExamFileTxt(), this);
+		QAction *loadExamAct = new QAction(TexTrans::loadExamFileTxt(), this);
 			loadExamAct->setIcon(QIcon(path + "picts/nootka-exam.png"));
 			connect(loadExamAct, SIGNAL(triggered(bool)), this, SLOT(examFromFileDialog()));
 		m_examMenu->addAction(loadExamAct);
@@ -299,8 +299,8 @@ void TstartExamDlg::continuePrevExam() {
 
 
 void TstartExamDlg::examFromFileDialog() {
-    QString fileName = QFileDialog::getOpenFileName(this, loadExamFileTxt(),
-                               m_examParams->examsDir, examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
+    QString fileName = QFileDialog::getOpenFileName(this, TexTrans::loadExamFileTxt(),
+                               m_examParams->examsDir, TexTrans::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
 				examToContSelected(fileName);
     }

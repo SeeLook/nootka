@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,9 +18,10 @@
 
 
 #include "texamview.h"
-#include "tqaunit.h"
-#include "texam.h"
-#include <QtGui>
+#include <exam/tqaunit.h>
+#include <exam/texam.h>
+#include <exam/textrans.h>
+#include <QtWidgets>
 
 #define SPACE_GAP (7)
 
@@ -74,15 +75,15 @@ TexamView::TexamView(QWidget *parent) :
 
     clearResults();
 
-    m_corrLab->setStatusTip(corrAnswersNrTxt());
-    m_halfLab->setStatusTip(halfMistakenTxt() + "<br>" + halfMistakenAddTxt());
-    m_mistLab->setStatusTip(mistakesNrTxt());
-    m_effLab->setStatusTip(effectTxt());
-    m_averTimeLab->setStatusTip(averAnsverTimeTxt() + " " + inSecondsTxt());
+    m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
+    m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + "<br>" + TexTrans::halfMistakenAddTxt());
+    m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
+    m_effLab->setStatusTip(TexTrans::effectTxt());
+    m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + " " + TexTrans::inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
-    m_reactTimeLab->setStatusTip(reactTimeTxt() + " " + inSecondsTxt());
+    m_reactTimeLab->setStatusTip(TexTrans::reactTimeTxt() + " " + TexTrans::inSecondsTxt());
     m_reactTimeLab->setAlignment(Qt::AlignCenter);
-    m_totalTimeLab->setStatusTip(totalTimetxt());
+    m_totalTimeLab->setStatusTip(TexTrans::totalTimetxt());
     m_totalTimeLab->setAlignment(Qt::AlignCenter);
 
     m_timer = new QTimer(this);
@@ -103,14 +104,14 @@ void TexamView::questionStart() {
 }
 
 quint16 TexamView::questionTime() {
-     return qRound(m_reactTime.elapsed() / 100);
+     return qRound(m_reactTime.elapsed() / 100.0);
 }
 
 
 quint16 TexamView::questionStop() {
     m_showReact = false;
-    quint16 t = qRound(m_reactTime.elapsed() / 100);
-    m_reactTimeLab->setText(" " + formatReactTime(t) + " ");
+    quint16 t = qRound(m_reactTime.elapsed() / 100.0);
+    m_reactTimeLab->setText(" " + Texam::formatReactTime(t) + " ");
     return t;
 }
 
@@ -140,7 +141,7 @@ void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int 
     m_totalTime.restart();
     countTime();
     setAnswer();
-    m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
+    m_averTimeLab->setText(" " + Texam::formatReactTime(qRound(m_averTime)) + " ");
 }
 
 
@@ -165,7 +166,7 @@ void TexamView::setAnswer(TQAunit* answer) {
     m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes - m_halfMistakes));
     m_effect = Texam::effectiveness(m_questNr, m_mistakes, m_halfMistakes);
 		m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
-		m_averTimeLab->setText(" " + formatReactTime(qRound(m_averTime)) + " ");
+		m_averTimeLab->setText(" " + Texam::formatReactTime(qRound(m_averTime)) + " ");
 }
 
 
@@ -193,7 +194,7 @@ void TexamView::setFontSize(int s) {
 
 void TexamView::countTime() {
     if (m_showReact)
-        m_reactTimeLab->setText(QString(" %1 ").arg(formatReactTime(m_reactTime.elapsed() / 100)));
+        m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_reactTime.elapsed() / 100)));
     m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime * 1000 + m_totalTime.elapsed()) + " ");
 }
 
@@ -207,3 +208,4 @@ void TexamView::clearResults() {
     m_reactTimeLab->setText(" 0.0 ");
     m_totalTimeLab->setText(" 0:00:00 ");
 }
+

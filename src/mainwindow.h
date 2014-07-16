@@ -24,6 +24,7 @@
 // #include <texamexecutor.h>
 #include <QMainWindow>
 
+class TexamExecutor;
 class TmainView;
 class QPushButton;
 class TnootkaLabel;
@@ -40,7 +41,7 @@ class Tsound;
 
 class MainWindow : public QMainWindow
 {
-//     friend class TexamExecutor;
+    friend class TexamExecutor;
     friend class Tcanvas;
 
     Q_OBJECT
@@ -67,7 +68,7 @@ public slots:
     void openFile(QString runArg); // opens *.nel or *.noo file
     void createSettingsDialog();
     void openLevelCreator(QString levelFile = "");
-//     void startExamSlot();
+    void startExamSlot();
 //     void aboutSlot();
 //     void analyseSlot();
 // 
@@ -82,19 +83,19 @@ public slots:
 
 protected:
     TmainScore *score;
-//     TnoteName *noteName;
+    TnoteName *noteName;
     TfingerBoard *guitar;
     Tsound *sound;
-//     TexamView *examResults;
-//     TexamExecutor *ex;
+    TexamView *examResults;
+    TexamExecutor *ex;
 // 		TnootkaLabel *nootLabel; // displays Nootka logo
 //     TanimedChBox *autoRepeatChB, *expertAnswChB, *correctChB;
     TpitchView *pitchView;
-//     TprogressWidget *progress;
+    TprogressWidget *progress;
 
     QToolBar *nootBar;
     QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct, *playAct, *recordAct;
-//     void clearAfterExam(TexamExecutor::Estate examState = TexamExecutor::e_finished);
+    void clearAfterExam(int examState);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
 		
@@ -144,7 +145,7 @@ private:
     int 									m_statFontSize;
 // 		int 									m_extraFontOffset;
     bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
-//     Tlevel 						    m_level;
+    Tlevel 						    m_level;
 		bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;
 // 

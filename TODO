@@ -2,7 +2,6 @@ TODO List
 
 
 - after deleting clef menu work note lines doesn't change current TscoreNote parent - use moveWorkNote() for it
-- TscoreNote make methods related to lines static
 - (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
 - scordature has improper boundingRect()
@@ -46,6 +45,8 @@ Tnote
 			- overload + and - operators to raise/drop a note
 			
 TEXAMEXECUTOR
+  - when question is played melody to put in a score and there are multiple keys and key is given manually:
+		do not show what key but user has to guess it
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required
      

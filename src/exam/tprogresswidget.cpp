@@ -18,11 +18,13 @@
 
 
 #include "tprogresswidget.h"
-#include <QtGui>
-#include "tglobals.h"
+#include <tglobals.h>
 #include <tcolor.h>
+#include <QtWidgets>
+
 
 extern Tglobals *gl;
+
 
 TprogressWidget::TprogressWidget(QWidget* parent) :
   QWidget(parent),

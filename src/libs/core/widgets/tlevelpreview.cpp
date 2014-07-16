@@ -46,22 +46,19 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
   m_enableFixing(false)
 {
 		setMouseTracking(true);
-    QVBoxLayout *mainLay = new QVBoxLayout;
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
-    mainLay->addWidget(headLab);
-		QHBoxLayout *contLay = new QHBoxLayout;
 		m_summaryEdit = new QTextBrowser(this);
 		m_summaryEdit->setReadOnly(true);
-    m_summaryEdit->setFixedWidth(370);
+    m_summaryEdit->setFixedWidth(fontMetrics().boundingRect("W").width() * 28);
     m_summaryEdit->viewport()->setStyleSheet("background-color: transparent;");
 		m_summaryEdit->setOpenLinks(false);
-		contLay->addWidget(m_summaryEdit);
-		contLay->addSpacing(10);
-		mainLay->addLayout(contLay);
-    mainLay->addStretch(1);
+		QVBoxLayout *mainLay = new QVBoxLayout;
+			mainLay->addWidget(headLab);
+			mainLay->addWidget(m_summaryEdit);
     setLayout(mainLay);
 		setLevel();
-		adjustToHeight();
+		m_summaryEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+// 		adjustToHeight();
 }
 
 

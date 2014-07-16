@@ -20,6 +20,7 @@
 #define TNOTENAME_H
 
 #include <QWidget>
+#include <QVBoxLayout>
 #include <music/tnote.h>
 #include <tcolor.h>
 
@@ -69,6 +70,14 @@ public:
     void setStyle(Tnote::EnameStyle style); // Sets style. Doesn't refresh name label
     Tnote::EnameStyle style() { return m_style; } // Style used in note name
     
+    void enableArrows(bool en); /** Hides or shows arrow buttons on name label sides. */
+		void setDirection(QBoxLayout::Direction dir); /** Layout direction of all buttons */
+		QBoxLayout::Direction buttonsDirection() { return m_noteLay->direction(); } /** Actual direction of buttons layout. */
+		int widthForHorizontal(); /** Estimated width for horizontal buttons layout */
+		int widthForVertical();  /** Estimated width for vertical buttons layout */
+		
+    virtual QSize sizeHint() const;
+    
         /** Marks m_nameLabel with given color. When clearNoteName() is invoked - marks are cleared. */
     void markNameLabel(QColor markColor);
 		
@@ -113,6 +122,9 @@ private:
 		int 									 m_blinkingPhase;
 		QMenu									*m_menu;
 		qreal									 m_scoreFactor; /** Size coefficient of a score displaying this note name (menu) */
+		
+		QBoxLayout 						*m_buttonsLay, *m_noteLay, *m_accLay, *m_upOctaveLay, *m_loOctaveLay;
+		QSize 								 m_sizeHint;
     
 private:
     void setNoteName(char noteNr, char octNr, char accNr);
@@ -128,7 +140,7 @@ private:
 		
 				/** Returns current state of accid buttons converted to accidental value [-2 to 2] */
 		char getSelectedAccid();
-		
+		void updateSizeHint();
 
 private slots:
     void noteWasChanged(int noteNr);
