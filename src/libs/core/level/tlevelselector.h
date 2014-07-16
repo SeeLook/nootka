@@ -33,7 +33,7 @@ class QPushButton;
 class QFile;
 
 
-class TlevelSelector : public QWidget
+class NOOTKACORE_EXPORT TlevelSelector : public QWidget
 {
     Q_OBJECT
 public:

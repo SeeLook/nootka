@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,7 @@
 
 #include "rangesettings.h"
 #include "tglobals.h"
-#include <widgets/tlevelpreview.h>
+#include <level/tlevelpreview.h>
 #include <score/tsimplescore.h>
 #include <exam/tlevel.h>
 #include <music/ttune.h>

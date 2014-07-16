@@ -28,6 +28,7 @@
 #include <texamparams.h>
 #include <music/ttune.h>
 #include <widgets/troundedlabel.h>
+#include <level/tlevelselector.h>
 #include <QtWidgets>
 #include <iostream>
 

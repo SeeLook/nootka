@@ -22,7 +22,6 @@
 #include <exam/texam.h>
 #include <exam/textrans.h>
 #include <level/tlevelselector.h>
-#include <level/levelsettings.h>
 #include <widgets/troundedlabel.h>
 #include <help/thelpdialogbase.h>
 #include <help/tmainhelp.h>
@@ -63,7 +62,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, const QString& path, TexamPara
     m_levelsView = new TlevelSelector(this);
 		m_levelsView->disableNotSuitable();
     levLay->addWidget(m_levelsView);
-    QLabel *moreLab = new QLabel(levelSettings::moreLevelLinkTxt(), this);
+    QLabel *moreLab = new QLabel(TexTrans::moreLevelLinkTxt(), this);
 			moreLab->setOpenExternalLinks(true);
 			levLay->addWidget(moreLab, 0, Qt::AlignCenter);
 		levelGr = new QGroupBox(this);

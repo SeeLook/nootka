@@ -18,10 +18,10 @@
 
 
 #include "tfixleveldialog.h"
-#include "tselectinstrument.h"
-#include "troundedlabel.h"
-#include "tlevel.h"
-#include <QtGui>
+#include "widgets/tselectinstrument.h"
+#include "widgets/troundedlabel.h"
+#include "exam/tlevel.h"
+#include <QtWidgets>
 
 
 bool fixLevelInstrument(Tlevel& level, const QString& fileName, int& autoFixInstr, QWidget* parent) {

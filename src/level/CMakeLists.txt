@@ -14,8 +14,6 @@ set(LEVEL_SRC
   questionssettings.cpp
   tmelodysettings.cpp
   rangesettings.cpp
-  tlevelsdefs.cpp
-  tlevelselector.cpp
 )
 
 if(MINGW)

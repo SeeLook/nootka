@@ -20,9 +20,11 @@
 #ifndef LEVELSETTINGS_H
 #define LEVELSETTINGS_H
 
+#include <QObject>
 #include <QWidget>
-#include "tlevelselector.h"
-#include <exam/tlevel.h>
+
+class QPushButton;
+class TlevelSelector;
 
 /** 
  * This widget contain general level settings and belongs to 
@@ -34,8 +36,6 @@ class levelSettings : public QWidget
 public:
     explicit levelSettings(QString &imgPath, QWidget *parent = 0);
 
-    static QString moreLevelLinkTxt() { return tr("Get more levels <a href=\"%1\">from Nootka home page</a>")
-            .arg("http://www.nootka.sf.net/index.php?C=down#levels"); }
     TlevelSelector *levelSelector;
     QPushButton *saveBut, *startExamBut;
 

@@ -20,13 +20,14 @@
 #define TLEVELSDEFS_H
 
 
+#include "nootkacoreglobal.h"
 #include <QList>
 
 class Tlevel;
 
 
 		/** Fills given list with predefined levels. */
-void getExampleLevels(QList<Tlevel>& llist);
+void NOOTKACORE_EXPORT getExampleLevels(QList<Tlevel>& llist);
 
 
 #endif // TLEVELSDEFS_H

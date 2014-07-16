@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,10 +19,13 @@
 #ifndef TFIXLEVELWIDGET_H
 #define TFIXLEVELWIDGET_H
 
+
+#include "nootkacoreglobal.h"
 #include <QDialog>
 
 
 class Tlevel;
+
 			/** This function checks given level is it necessary to fix an instrument in it,
 			 * if user set auto fix - it fixes the level silently or displays a dialog window for user interaction. 
 			 * Then stores user decision back to @p autoFixInstr
@@ -34,7 +37,7 @@ class Tlevel;
 			 * Einstrument cast to int value with user preferred instrument.
 			 * @p prefInstr - current user preferred instrument in Nootka
 			 */
-bool fixLevelInstrument(Tlevel& level, const QString& fileName, int& autoFixInstr, QWidget* parent = 0);
+NOOTKACORE_EXPORT bool fixLevelInstrument(Tlevel& level, const QString& fileName, int& autoFixInstr, QWidget* parent = 0);
 
 
 //*********************************************************************************************************
@@ -43,7 +46,7 @@ class QCheckBox;
 class TselectInstrument;
 
 
-class TfixLevelDialog : public QDialog
+class NOOTKACORE_EXPORT TfixLevelDialog : public QDialog
 {
     Q_OBJECT
 

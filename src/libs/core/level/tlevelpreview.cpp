@@ -19,7 +19,7 @@
 #include "tlevelpreview.h"
 #include <exam/tlevel.h>
 #include <graphics/tnotepixmap.h>
-#include "tquestionaswdg.h"
+#include "widgets/tquestionaswdg.h"
 #include "tinitcorelib.h"
 #include <tnoofont.h>
 #include <tscoreparams.h>
