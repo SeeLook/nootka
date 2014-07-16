@@ -20,11 +20,11 @@
 #include "tlevelselector.h"
 #include "tlevelsdefs.h"
 #include <widgets/tquestionaswdg.h>
-#include <widgets/tlevelpreview.h>
+#include <level/tlevelpreview.h>
 #include <tglobals.h>
 #include <texamparams.h>
 #include <music/ttune.h>
-// #include <widgets/tfixleveldialog.h> TODO
+#include "tfixleveldialog.h"
 #include <QtWidgets>
 
 extern Tglobals *gl;
@@ -295,14 +295,13 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 
 
 void TlevelSelector::fixInstrumentSlot() {
-// 	if (fixLevelInstrument(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file, 
-// 						gl->instrumentToFix, this)) {
-// 			if (!Tlevel::saveToFile(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file)) {
-// 						qDebug() << "Failed when writing fixed level to:" << m_levels[m_levelsListWdg->currentRow()].file;
-// 			} else {
-// 				m_levelPreview->setLevel(m_levels[m_levelsListWdg->currentRow()].level);
-// 			}
-// 	}
+	if (fixLevelInstrument(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file, 
+						gl->instrumentToFix, this)) {
+			if (!Tlevel::saveToFile(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file))
+					qDebug() << "Failed when writing fixed level to:" << m_levels[m_levelsListWdg->currentRow()].file;
+			else
+					m_levelPreview->setLevel(m_levels[m_levelsListWdg->currentRow()].level);
+	}
 }
 
 

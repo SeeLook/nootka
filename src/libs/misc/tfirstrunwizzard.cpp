@@ -24,7 +24,7 @@
 #include "help/tmainhelp.h"
 #include <graphics/tnotepixmap.h>
 #include <widgets/troundedlabel.h>
-#include <tselectinstrument.h>
+#include <widgets/tselectinstrument.h>
 #include <graphics/tnotepixmap.h>
 #include <music/tkeysignature.h>
 #include <music/ttune.h>

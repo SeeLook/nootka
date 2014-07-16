@@ -56,7 +56,14 @@ static const QString halfMistakenAddTxt() { return QApplication::translate("Texa
 static const QString examFilterTxt() { return QApplication::translate("TstartExamDlg", "Exam results")  + " (*.noo)" ; }
 		
 				/** Load an exam file */
-static const QString loadExamFileTxt() { return QApplication::translate("TstartExamDlg", "Load an exam file"); } 
+static const QString loadExamFileTxt() { return QApplication::translate("TstartExamDlg", "Load an exam file"); }
+
+		/** Get more levels <a>from Nootka home page</a> */
+static QString moreLevelLinkTxt() { 
+		return QApplication::translate(
+			"levelSettings" ,"Get more levels <a href=\"%1\">from Nootka home page</a>")
+					.arg("http://www.nootka.sf.net/index.php?C=down#levels"); 
+	}
 
 		
 };

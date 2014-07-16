@@ -46,6 +46,11 @@ set(LIB_NOOTKACORE_SRC
 	exam/texam.cpp
 	exam/textrans.h
 	
+	level/tlevelsdefs.cpp
+	level/tlevelpreview.cpp
+	level/tlevelselector.cpp
+	level/tfixleveldialog.cpp
+	
 	score/tscoreitem.cpp
 	score/tscoreclef.cpp
 	score/tscorekeysignature.cpp
@@ -60,9 +65,9 @@ set(LIB_NOOTKACORE_SRC
 	widgets/tpushbutton.cpp
 	widgets/tselectclef.cpp
 	widgets/tquestionaswdg.cpp
-	widgets/tlevelpreview.cpp
 	widgets/tsettingsdialogbase.cpp
 	widgets/troundedlabel.cpp
+	widgets/tselectinstrument.cpp
 )
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )

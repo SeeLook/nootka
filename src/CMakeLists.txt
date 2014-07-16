@@ -31,7 +31,7 @@ include_directories( libs/core libs/sound libs/misc )
 
 #add_subdirectory( charts ) # nootka analyzer
 
-# add_subdirectory( level ) # level creator OBSOLETE
+# add_subdirectory( level ) # level creator
 
 #add_subdirectory( updater ) # nootka updater
 
@@ -60,18 +60,6 @@ set(NOOTKA_SRC
 	exam/texamview.cpp
 	exam/tprogresswidget.cpp
 	exam/tstartexamdlg.cpp
-	
-	level/tlevelcreatordlg.cpp
-	level/tlevelheaderwdg.cpp
-	level/tabstractlevelpage.cpp
-	level/tkeysigncombobox.cpp
-	level/tlevelsdefs.cpp
-	level/tlevelselector.cpp
-	level/levelsettings.cpp
-	level/questionssettings.cpp
-	level/accidsettings.cpp
-	level/tmelodysettings.cpp
-	level/rangesettings.cpp
 	
 	animations/tstrikedoutitem.cpp
 )

@@ -29,7 +29,6 @@
 #include "tmainview.h"
 #include "notename/tnotename.h"
 // // #include "tsettingsdialog.h"
-#include "level/tlevelcreatordlg.h"
 #include "exam/tstartexamdlg.h" // just temporary
 // // #include "tlevelselector.h"
 // // #include "taboutnootka.h"
@@ -415,34 +414,34 @@ void MainWindow::openLevelCreator(QString levelFile) {
     sound->wait(); // stops pitch detection
     sound->stopPlaying();
     m_levelCreatorExist = true;
-// 		gl->dumpToTemp();
-// 		QStringList args;
-// 		if (levelFile != "")
-// 				args << levelFile;
+		gl->dumpToTemp();
+		QStringList args;
+		if (levelFile != "")
+				args << levelFile;
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, true);
-// 		TprocessHandler levelProcess("nootka-level", args, this);
-// 		qDebug() << levelProcess.lastWord();
+		TprocessHandler levelProcess("nootka-level", args, this);
+		qDebug() << levelProcess.lastWord();
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		
-    TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
-    bool shallExamStart = false;
-    if (levelFile != "")
-        levelCreator->loadLevelFile(levelFile);
-    if (levelCreator->exec() == QDialog::Accepted) {
-        m_level = levelCreator->selectedLevel();
-        if (m_level.name != "")
-            shallExamStart = true;
-    }
-    delete levelCreator;
+//     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
+//     bool shallExamStart = false;
+//     if (levelFile != "")
+//         levelCreator->loadLevelFile(levelFile);
+//     if (levelCreator->exec() == QDialog::Accepted) {
+//         m_level = levelCreator->selectedLevel();
+//         if (m_level.name != "")
+//             shallExamStart = true;
+//     }
+//     delete levelCreator;
     m_levelCreatorExist = false;
-    if (shallExamStart) {
+//     if (shallExamStart) {
 			qDebug() << "Exam will be started: TODO"; // TODO
 //         nootLabel->hide();
 //         progress->show();
 //         examResults->show();
 //         ex = new TexamExecutor(this, "", &m_level); // start exam
-    } else
-        sound->go(); // restore pitch detection
+//     } else
+//         sound->go(); // restore pitch detection
 }
 
 

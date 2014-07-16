@@ -18,6 +18,8 @@
 
 
 #include "levelsettings.h"
+#include <level/tlevelselector.h>
+#include <exam/textrans.h>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
@@ -47,7 +49,7 @@ levelSettings::levelSettings(QString &imgPath, QWidget *parent) :
     mainLay->addLayout(butLay);
     mainLay->addStretch(1);
     
-    QLabel *moreLab = new QLabel(moreLevelLinkTxt(), this);
+    QLabel *moreLab = new QLabel(TexTrans::moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
     mainLay->addWidget(moreLab, 0, Qt::AlignCenter);
     mainLay->addStretch(1);

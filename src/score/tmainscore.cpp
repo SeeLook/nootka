@@ -184,7 +184,6 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 		if (mode == e_single) {
 				m_nameMenu->enableArrows(false);
 				m_currentNameSegment = staff()->noteSegment(0);
-// 				m_nameMenu->setParent(0);
 				enableCorners(false);
 				m_nameMenu->show();
 		} else {
