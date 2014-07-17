@@ -81,7 +81,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
 			registryItem(m_accidentals[i]);
 			m_accidentals[i]->setBrush(qApp->palette().text().color());
 			m_accidentals[i]->setFont(font);
-			m_accidentals[i]->setScale(TscoreNote::accidScale());
+			m_accidentals[i]->setScale(scoreScene()->accidScale());
 			m_accidentals[i]->hide();
 	}
     
@@ -103,7 +103,7 @@ void TscoreKeySignature::setKeySignature(char keySign) {
         }
         if (i <= qAbs(keySign)) {// show accid
             m_accidentals[i - 1]->setText(TscoreNote::getAccid(sign));
-            m_accidentals[i - 1]->setPos( (i - 1) * 1.3, getPosOfAccid(i - 1, isFlat) - TscoreNote::accidYoffset() - 1);
+            m_accidentals[i - 1]->setPos( (i - 1) * 1.3, getPosOfAccid(i - 1, isFlat) - scoreScene()->accidYoffset() - 1);
             staff()->accidInKeyArray[(startVal + sign * (i * 4)) % 7] = sign;
             m_accidentals[i - 1]->show();
         }

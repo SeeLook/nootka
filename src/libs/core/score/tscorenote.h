@@ -60,16 +60,8 @@ public:
 		
 		void adjustSize(); /** Grabs height from staff and adjust to it. */
 		
-				/** Adjust note cursor and TnoteControl to new staff size. 
-				 * For performance reason it has to be called once for all adjustSize() of TscoreNote
-				 * because there is only one instance of note cursor and TnoteControl */
-		static void adjustCursor(); 
-		
         /** Sets color of main note. */
     void setColor(QColor color);
-		
-        /** Sets color of pointing (work) note. */
-    static void setPointedColor(QColor color);
 		
 				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
 		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
@@ -103,9 +95,8 @@ public:
 
     static QString getAccid(int accNr); /** Returns QString with accidental symbol*/
 		
-		static qreal accidYoffset() { return m_accidYoffset; }
-		static qreal accidScale() { return m_accidScale; } /** Scale of accidental text item */
-		
+		    /** Prepares note-head (ellipse) */
+    static QGraphicsEllipseItem* createNoteHead(QGraphicsItem* parentIt);
 		
 				/** It paints string number symbol. Automatically determines above or below staff. */
     void setString(int realNr);
@@ -117,10 +108,6 @@ public:
 		void showNoteName();
 		void removeNoteName();
 		QGraphicsTextItem* noteName() { return m_nameText; } /** Graphics item of note name text */
-		
-		
-				/** Changes accidental of a working note cursor. */
-		static void setWorkAccid(int accNr);
 		
 				/** Enables moving note animation during its position (pitch) change.
 				 * In fact, when accidental is visible it is animated as well. */
@@ -135,16 +122,6 @@ public:
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
-    
-		bool isCursorVisible() { return m_workNote->isVisible(); }
-		
-				/** Note controllers, appear with cursor. 
-				 * There are automatically created with first note instance 
-				 * when score scene has a view. */
-		static TnoteControl* right() { return m_rightBox; }
-		static TnoteControl* left() { return m_leftBox; }
-		static void setNameColor(const QColor& nameC) { m_nameColor = nameC; }
-		static QColor nameColor() { return m_nameColor; }
 		
 signals:
     void noteWasClicked(int);
@@ -168,7 +145,6 @@ protected:
 #endif
 		
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
     
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
@@ -198,23 +174,10 @@ private:
 		bool													 					m_accidToKeyAnim;
 		bool													 					m_selected;
 		
-		static qreal 									 					m_accidYoffset; /** difference between y note position. */
-    static qreal									 					m_accidScale;
-	// static note cursor
-		static int                            	m_curentAccid, m_workPosY;
-		static QGraphicsEllipseItem          		*m_workNote;
-		static QGraphicsSimpleTextItem       		*m_workAccid;
-		static TaddLines								      	m_upLines, m_downLines, m_midLines;
-		static QColor                         	m_workColor;
-		static TnoteControl				  				 		*m_rightBox;
-		static TnoteControl									 		*m_leftBox;
-		static QColor														m_nameColor;
-		static QString													m_staticTip;
 		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
+		static QString													m_staticTip;
     
 private:
-        /** Prepares note-head (ellipse) */
-    QGraphicsEllipseItem* createNoteHead();
     QGraphicsLineItem*    createNoteLine(int yPos);
 		
 				/** Common method creating upper and lower staff lines.
@@ -224,7 +187,7 @@ private:
 		void deleteLines(TaddLines &linesList); /** Deletes lines in the list and clears the list */
     void hideLines(TaddLines &linesList);
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
-		void initNoteCursor(); /** Creates static members of cursor when first TscoreNote instance is created */
+		void initNoteCursor(); /** Creates note cursor when first TscoreNote instance is created and there is a view */
 		void setCursorParent(TscoreItem* item); /** Sets parent of note cursor to this instance */
 				/** Checks whose lines show and hide. @p curPos is current position of note those lines belong to. */
 		void checkLines(int curPos, TaddLines &low, TaddLines &upp, TaddLines &mid);

@@ -19,6 +19,7 @@
 
 #include "tscoreview.h"
 #include "tscoreitem.h"
+#include "tscorescene.h"
 #include <QTouchEvent>
 
 #include <QDebug>
@@ -30,9 +31,28 @@
 
 TscoreView::TscoreView(QWidget* parent) :
 	QGraphicsView(parent),
-	m_currentIt(0)
+	m_currentIt(0),
+	m_scoreScene(0)
 {
 	viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+}
+
+
+void TscoreView::setScoreScene(TscoreScene* sc) {
+	m_scoreScene = sc;
+}
+
+
+void TscoreView::wheelEvent(QWheelEvent* event) {
+	if (event->modifiers() == Qt::ControlModifier) {
+		if (m_scoreScene && m_scoreScene->isCursorVisible()) {
+			if (event->delta() < 0)
+				m_scoreScene->setCurrentAccid(m_scoreScene->currentAccid() - 1);
+			else
+				m_scoreScene->setCurrentAccid(m_scoreScene->currentAccid() + 1);
+		}
+	} else
+		QAbstractScrollArea::wheelEvent(event);
 }
 
 
