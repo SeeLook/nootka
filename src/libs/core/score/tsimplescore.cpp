@@ -58,7 +58,8 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   m_scene = new TscoreScene(m_score);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
   m_score->setScene(m_scene);
-  
+  m_score->setScoreScene(m_scene);
+	
   m_staff = new TscoreStaff(m_scene, m_notesNr);
 	m_staff->enableToAddNotes(false);
 	m_clefType = m_staff->scoreClef()->clef().type();
@@ -169,8 +170,8 @@ void TsimpleScore::setEnableKeySign(bool isEnabled) {
 
 void TsimpleScore::setEnabledDblAccid(bool isEnabled) {
 	m_scene->setDoubleAccidsEnabled(isEnabled);
-	if (staff()->noteSegment(0) && staff()->noteSegment(0)->left())
-		staff()->noteSegment(0)->left()->addAccidentals();
+	if (staff()->noteSegment(0) && scoreScene()->left())
+		scoreScene()->left()->addAccidentals();
 }
 
 
@@ -191,13 +192,13 @@ void TsimpleScore::setScoreDisabled(bool disabled) {
 
 
 void TsimpleScore::setNoteNameEnabled(bool nameEnabled) {
-	staff()->noteSegment(0)->right()->enableNoteName(nameEnabled);
+	scoreScene()->right()->enableNoteName(nameEnabled);
 }
 
 
 void TsimpleScore::setControllersEnabled(bool leftCtrl, bool rightCtrl) {
-	staff()->noteSegment(0)->left()->setEnabled(leftCtrl);
-	staff()->noteSegment(0)->right()->setEnabled(rightCtrl);
+	scoreScene()->left()->setEnabled(leftCtrl);
+	scoreScene()->right()->setEnabled(rightCtrl);
 }
 
 

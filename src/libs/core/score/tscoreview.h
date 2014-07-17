@@ -23,6 +23,7 @@
 #include <QGraphicsView>
 #include <QTime>
 
+class TscoreScene;
 
 class QGraphicsItem;
 class TscoreItem;
@@ -39,9 +40,12 @@ public:
 	TscoreView(QWidget* parent);
 	
 	
+	void setScoreScene(TscoreScene* sc);
+	
 protected:
 	virtual bool viewportEvent(QEvent* event);
 	virtual void timerEvent(QTimerEvent* timeEvent);
+	virtual void wheelEvent(QWheelEvent* event);
 	
 			/** Checks is item @it of type @p TscoreItem::ScoreItemType.
 			 * If not, checks it parent item and parent of parent.
@@ -56,7 +60,7 @@ private:
 	QTime												 m_tapTime;
 	int 												 m_timerIdMain;
 	QPointF											 m_initPos; /** In scene coordinates. */
-	
+	TscoreScene									*m_scoreScene;
 	
 };
 

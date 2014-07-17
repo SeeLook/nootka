@@ -70,14 +70,14 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				staff()->insertNote(2/*, true*/);
 				setControllersEnabled(true, false);
 				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-				staff()->noteSegment(0)->left()->enableToAddNotes(false);
+				scoreScene()->left()->enableToAddNotes(false);
 				m_currentIndex = 0;
 				TsimpleScore::resizeEvent(0);
 		} else {
 				staff()->setStafNumber(0);
 				deleteNotes();
 				setControllersEnabled(true, true);
-				staff()->noteSegment(0)->left()->enableToAddNotes(true);
+				scoreScene()->left()->enableToAddNotes(true);
 				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 				resizeEvent(0);
 		}

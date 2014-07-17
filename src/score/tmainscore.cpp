@@ -57,7 +57,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 {
 	m_acts = new TscoreActions(this, gl->path);
 	
-	TscoreNote::setNameColor(gl->S->nameColor);
+	scoreScene()->setNameColor(gl->S->nameColor);
 	restoreNotesSettings();
 	addStaff(staff());
 // set preferred clef
@@ -73,7 +73,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->S->keySignatureEnabled);
 	
-	connect(staff()->noteSegment(0)->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
+	connect(scoreScene()->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
 //                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
 
@@ -108,7 +108,7 @@ void TmainScore::acceptSettings() {
 	}
 // Double accidentals
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
-	staff()->noteSegment(0)->left()->addAccidentals();
+	scoreScene()->left()->addAccidentals();
 	setClef(Tclef(gl->S->clef));
 // Enable/disable key signatures
 	if ((bool)staff()->scoreKey() != gl->S->keySignatureEnabled) {
@@ -116,10 +116,10 @@ void TmainScore::acceptSettings() {
 	}
 	restoreNotesSettings();
 // Note names on the score
-	if (gl->S->nameColor != TscoreNote::nameColor()) {
+	if (gl->S->nameColor != scoreScene()->nameColor()) {
 			refreshNoteNames = true;
 			m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
-			TscoreNote::setNameColor(gl->S->nameColor);
+			scoreScene()->setNameColor(gl->S->nameColor);
 	}
 	if (gl->S->namesOnScore != m_acts->noteNames()->isChecked() || refreshNoteNames) {
 		m_acts->noteNames()->setChecked(gl->S->namesOnScore);
@@ -783,13 +783,12 @@ void TmainScore::restoreNotesSettings() {
 // 		if (gl->S->enharmNotesColor == -1)
 // 					gl->S->enharmNotesColor = palette().highlight().color();
 // 	TscoreNote::setNameColor(gl->S->nameColor);
-	staff()->noteSegment(0)->right()->adjustSize();
+	scoreScene()->right()->adjustSize();
 	if (gl->S->pointerColor == -1) {
 				gl->S->pointerColor = Tcolor::invert(palette().highlight().color());
 				gl->S->pointerColor.setAlpha(200);
 	}
-	if (staff()->count())
-			staff()->noteSegment(0)->setPointedColor(gl->S->pointerColor);
+	scoreScene()->setPointedColor(gl->S->pointerColor);
 // 	for (int i = 0; i < staff()->count(); i++)
 // 			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 // 		staff()->noteSegment(1)->setReadOnly(true);

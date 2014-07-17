@@ -84,9 +84,9 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 
 
 TscoreStaff::~TscoreStaff() {
-	if (TscoreNote::right() && TscoreNote::right()->parentItem() == this) {
-		TscoreNote::right()->setParentItem(0);
-		TscoreNote::left()->setParentItem(0);
+	if (scoreScene()->right() && scoreScene()->right()->parentItem() == this) {
+		scoreScene()->right()->setParentItem(0);
+		scoreScene()->left()->setParentItem(0);
 	}		
 }
 
@@ -243,7 +243,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 			m_flyAccid = new QGraphicsSimpleTextItem;
 			registryItem(m_flyAccid);
 			m_flyAccid->setFont(TnooFont(5));
-			m_flyAccid->setScale(TscoreNote::accidScale());
+			m_flyAccid->setScale(scoreScene()->accidScale());
 			m_flyAccid->hide();
 			if (m_scoreNotes.size())				
 					m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->brush());
@@ -353,7 +353,7 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 				m_keySignature->setPos(7.0, upperLinePos() - TscoreKeySignature::relatedLine);
 		for (int i = 0; i < count(); i++)
 			noteSegment(i)->adjustSize();
-		TscoreNote::adjustCursor();
+		scoreScene()->adjustCursor();
 		emit pianoStaffSwitched();
 	}
 }
@@ -393,8 +393,8 @@ void TscoreStaff::checkNoteRange(bool doEmit) {
 
 
 void TscoreStaff::enableToAddNotes(bool alowAdding) {
-	noteSegment(0)->left()->enableToAddNotes(alowAdding);
-	noteSegment(0)->right()->enableToAddNotes(alowAdding);
+	scoreScene()->left()->enableToAddNotes(alowAdding);
+	scoreScene()->right()->enableToAddNotes(alowAdding);
 }
 
 //##########################################################################################################
@@ -518,8 +518,8 @@ void TscoreStaff::onClefChanged(Tclef clef) {
 
 
 void TscoreStaff::noteChangedAccid(int accid) {
-	if (TscoreNote::left())
-		TscoreNote::left()->setAccidental(accid);
+	if (scoreScene()->left())
+		scoreScene()->left()->setAccidental(accid);
 }
 
 //##########################################################################################################

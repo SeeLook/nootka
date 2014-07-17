@@ -21,16 +21,21 @@
 
 #include <nootkacoreglobal.h>
 #include <QGraphicsScene>
+#include "tscorenote.h"
 
+class TnoteControl;
 class QGraphicsItem;
 
 class NOOTKACORE_EXPORT TscoreScene : public QGraphicsScene
 {
-  
+		
+		friend class TscoreNote;
+	
   Q_OBJECT
   
 public:
     TscoreScene(QObject* parent = 0);
+    virtual ~TscoreScene();
         
         
     void setDoubleAccidsEnabled(bool enable);
@@ -38,26 +43,72 @@ public:
     qint8 doubleAccidsFuse() { return m_dblAccFuse; }
         /** Working accidental in TscoreNote segment.
         * also changed by buttons. */
-    void setCurrentAccid(char accid) { m_currentAccid = (char)qBound(-2, (int)accid, 2);}
+    void setCurrentAccid(char accid);
     char currentAccid() { return m_currentAccid; }
-    
     
         /** Adds blur graphics effect. In the contrary to QGraphicsItem::setGraphicsEffect() 
          * a radius value in global scale.  */
     void addBlur(QGraphicsItem *item, qreal radius);
 		
 		
+				/** Changes accidental of a working note cursor. */
+		void setWorkAccid(int accNr);
+		
+		
+				/** Adjust note cursor and TnoteControl to new staff size. 
+				 * For performance reason it has to be called once for all adjustSize() of TscoreNote
+				 * because there is only one instance of note cursor and TnoteControl */
+		void adjustCursor();
+		bool isCursorVisible() { return m_workNote->isVisible(); }
+		
+				/** Note controllers, appear with cursor. 
+				 * There are automatically created with first note instance 
+				 * when score scene has a view. */
+		TnoteControl* right() { return m_rightBox; }
+		TnoteControl* left() { return m_leftBox; }
+		void setNameColor(const QColor& nameC) { m_nameColor = nameC; }
+		QColor nameColor() { return m_nameColor; }
+		
+				/** Sets color of pointing (work) note. */
+    void setPointedColor(QColor color);
+		
+		qreal accidYoffset() { return m_accidYoffset; } /** Y offset of accidental item */
+		qreal accidScale() { return m_accidScale; } /** Scale of accidental text item */
+		
 signals:
     void statusTip(QString);
+		
+protected:
+	// note cursor
+		TaddLines	upLines, downLines, midLines;
+		QColor  workColor;
+		int noteAccid() { return m_noteAccid; }
+		void setNoteAccid(int acc) { m_noteAccid = acc; }
+		int workPosY() { return m_workPosY; }
+		void setWorkPosY(int wpY) { m_workPosY = wpY; }
+		QGraphicsEllipseItem* workNote() { return m_workNote; }
+		void initNoteCursor(TscoreItem* parentIt);
+		QGraphicsSimpleTextItem* workAccid() { return m_workAccid; }
+		void setAccidYoffset(qreal aYo) { m_accidYoffset = aYo; }
+		void setAccidScale(qreal as) { m_accidScale = as; }
+		
     
 protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
     
 private:
         /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
-    qint8 m_dblAccFuse;
-    char  m_currentAccid;
-        
+    qint8 														m_dblAccFuse;
+    char  														m_currentAccid;
+	// note cursor
+		int                            		m_noteAccid, m_workPosY;
+		QGraphicsEllipseItem          	 *m_workNote;
+		QGraphicsSimpleTextItem       	 *m_workAccid;
+		QColor														m_nameColor;
+		TnoteControl				  				 	 *m_rightBox, *m_leftBox;
+		qreal 									 					m_accidYoffset; /** difference between y note position. */
+    qreal									 						m_accidScale;
+		
 
 };
 

@@ -77,7 +77,7 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_name->setFont(TnooFont());
 	m_name->setParentItem(this);
 	m_name->setScale(boundingRect().width() / m_name->boundingRect().width());
-	m_name->setBrush(TscoreNote::nameColor());
+	m_name->setBrush(scoreScene()->nameColor());
 // '-' for deleting notes
 	m_cross = new QGraphicsSimpleTextItem("o");
 	m_cross->setFont(TnooFont());
@@ -97,7 +97,7 @@ TnoteControl::~TnoteControl()
 
 void TnoteControl::adjustSize() {
 	m_height = staff()->height();
-	m_name->setBrush(TscoreNote::nameColor());
+	m_name->setBrush(scoreScene()->nameColor());
 	qreal minusY = (staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos()) + 8.0;
 		m_cross->setPos((WIDTH - m_cross->boundingRect().width() * m_cross->scale()) / 2.0, minusY);
 	m_plus->setPos(0.0, staff()->upperLinePos() - 4.0 - m_plus->boundingRect().height() * m_plus->scale());
@@ -246,7 +246,7 @@ void TnoteControl::enableToAddNotes(bool addEnabled) {
 
 
 void TnoteControl::hideDelayed() {
-	if (m_scoreNote->isCursorVisible())
+	if (scoreScene()->isCursorVisible())
 		return;
 	if (hasCursor())
 		hideWithDelay();
@@ -316,7 +316,7 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 			else if (it == m_name)
 				emit statusTip(tr("Click %1 to edit note name")
 					.arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, 
-															"color: " + TscoreNote::nameColor().name())));
+															"color: " + scoreScene()->nameColor().name())));
 			else
 				emit statusTip("");
 			if (m_underItem)
