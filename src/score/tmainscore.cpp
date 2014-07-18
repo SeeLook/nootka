@@ -26,7 +26,6 @@
 #include <score/tscoreclef.h>
 #include <score/tscorescene.h>
 #include <score/tnotecontrol.h>
-#include <score/tscoreview.h>
 #include <music/ttune.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
@@ -248,7 +247,7 @@ void TmainScore::unLockScore() {
 			setNoteViewBg(0, gl->EanswerColor);
     }
   setClefDisabled(true);
-	QPointF nPos = staff()->noteSegment(0)->mapFromScene(score()->mapToScene(score()->mapFromParent(mapFromGlobal(cursor().pos()))));
+	QPointF nPos = staff()->noteSegment(0)->mapFromScene(mapToScene(mapFromParent(mapFromGlobal(cursor().pos()))));
 	if (nPos.x() > 0.0 && nPos.x() < 7.0) {
 		staff()->noteSegment(0)->moveWorkNote(nPos);
 	}
@@ -256,8 +255,8 @@ void TmainScore::unLockScore() {
 */
 
 QRectF TmainScore::noteRect(int noteNr) {
-		return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * score()->transform().m11(), 
-			staff()->noteSegment(noteNr)->mainNote()->rect().height() * score()->transform().m11());
+		return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * transform().m11(), 
+			staff()->noteSegment(noteNr)->mainNote()->rect().height() * transform().m11());
 }
 
 
@@ -265,8 +264,10 @@ QPoint TmainScore::notePos(int noteNr) {
 	QPointF nPos;
 	if (staff()->noteSegment(noteNr)->mainNote()->isVisible())
 		nPos = staff()->noteSegment(noteNr)->mainNote()->mapToScene(staff()->noteSegment(noteNr)->mainNote()->pos());
-	QPoint vPos = score()->mapFromScene(staff()->pos().x() + staff()->noteSegment(noteNr)->pos().x() + staff()->noteSegment(noteNr)->mainNote()->pos().x(), staff()->noteSegment(noteNr)->mainNote()->pos().y());
-	return mapToParent(score()->mapToParent(vPos));
+	QPoint vPos = mapFromScene(staff()->pos().x() + staff()->noteSegment(noteNr)->pos().x() + 
+																				staff()->noteSegment(noteNr)->mainNote()->pos().x(), 
+														 staff()->noteSegment(noteNr)->mainNote()->pos().y());
+	return mapToParent(mapToParent(vPos));
 }
 
 
@@ -481,7 +482,7 @@ void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 			m_noteName[i]->setDropShadow(m_noteName[i], QColor(staff()->noteSegment(i)->mainNote()->pen().color().name()));
 			m_noteName[i]->setDefaultTextColor(palette().text().color());
 			m_noteName[i]->setParentItem(staff()->noteSegment(i));
-// 			m_noteName[i]->setScale((score()->transform().m11()) / m_noteName[i]->boundingRect().height());
+// 			m_noteName[i]->setScale((transform().m11()) / m_noteName[i]->boundingRect().height());
 			m_noteName[i]->setScale(8.0 / m_noteName[i]->boundingRect().height());
 			m_noteName[i]->setPos((7.0 - m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
 					staff()->noteSegment(i)->notePos() > staff()->upperLinePos() ? 
@@ -537,14 +538,14 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 	m_nameMenu->setNoteName(*sn->note());
 	m_currentNameSegment = sn;
 	changeCurrentIndex(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
-	QPoint mPos = score()->mapFromScene(sn->pos().x() + 8.0, 0.0);
+	QPoint mPos = mapFromScene(sn->pos().x() + 8.0, 0.0);
 // 	mPos.setY(30);
-// 	mPos = score()->mapToGlobal(mPos);
+// 	mPos = mapToGlobal(mPos);
 	mPos.setX(mPos.x() + mainWindow()->pos().x());
 	mPos.setY(pos().y() + 50 + mainWindow()->pos().y());
 	resetClickedOff();
 	m_nameClickCounter = 0;
-	m_nameMenu->exec(mPos, score()->transform().m11());
+	m_nameMenu->exec(mPos, transform().m11());
 }
 
 
@@ -712,20 +713,20 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	if (width() < 300)
       return;
 	if (insertMode() == e_single) {
-		if (m_nameMenu->size().width() + score()->size().width() > mainWindow()->width()) {
+		if (m_nameMenu->size().width() + size().width() > mainWindow()->width()) {
 			if (m_nameMenu->buttonsDirection() == QBoxLayout::LeftToRight || m_nameMenu->buttonsDirection() == QBoxLayout::RightToLeft) {
 				qDebug() << "name is too big. Changing direction ";
 				m_nameMenu->setDirection(QBoxLayout::BottomToTop);
 			}
 		} else {
 			if (m_nameMenu->buttonsDirection() == QBoxLayout::BottomToTop || m_nameMenu->buttonsDirection() == QBoxLayout::TopToBottom) {
-				if (m_nameMenu->widthForHorizontal() + score()->size().width() < mainWindow()->width()) {
+				if (m_nameMenu->widthForHorizontal() + size().width() < mainWindow()->width()) {
 					qDebug() << "There is enough space for horizontal name. Changing";
 					m_nameMenu->setDirection(QBoxLayout::LeftToRight);
 				}
 			}
 		}
-// 		setFixedWidth(score()->mapFromScene(scoreScene()->sceneRect()).boundingRect().width() + 1);
+// 		setFixedWidth(mapFromScene(scoreScene()->sceneRect()).boundingRect().width() + 1);
 	}
 	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size

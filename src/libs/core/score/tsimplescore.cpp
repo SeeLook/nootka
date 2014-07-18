@@ -23,7 +23,6 @@
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
 #include <score/tscoreclef.h>
-#include "tscoreview.h"
 #include "tnotecontrol.h"
 #include <music/tinstrument.h>
 #include <tcolor.h>
@@ -38,43 +37,46 @@
 
 #include <QDebug>
 
+
+
+#define TAP_TIME (200) //  ms
+#define LONG_TAP_TIME (500) // ms
+
+
+bool m_touchEnabled = false;
 TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
-  QWidget(parent),
+  QGraphicsView(parent),
+  m_notesNr(notesNumber),
   m_bgGlyph(0),
-	m_notesNr(notesNumber),
-	m_prevBGglyph(-1)
+	m_prevBGglyph(-1),
+	m_currentIt(0)
 {
-  m_score = new TscoreView(this);
-	m_score->setObjectName("m_score");
+// 	viewport()->setObjectName("score");
    
-#if !defined (Q_OS_ANDROID)
-  m_score->setMouseTracking(true);
+#if defined (Q_OS_ANDROID)
+	setAcceptTouch(true);
+#else
+  setMouseTracking(true);
 #endif
-  m_score->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-	m_score->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  m_score->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  m_score->setFrameShape(QFrame::NoFrame);
+  setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setFrameShape(QFrame::NoFrame);
   
-  m_scene = new TscoreScene(m_score);
+  m_scene = new TscoreScene(this);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
-  m_score->setScene(m_scene);
-  m_score->setScoreScene(m_scene);
+  setScene(m_scene);
 	
   m_staff = new TscoreStaff(m_scene, m_notesNr);
 	m_staff->enableToAddNotes(false);
 	m_clefType = m_staff->scoreClef()->clef().type();
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
- 
-	QHBoxLayout *lay = new QHBoxLayout;
-	lay->addWidget(m_score);
-  setLayout(lay);
 	
 	setBGcolor(palette().base().color());
 	setEnabledDblAccid(false);
 	
 	resizeEvent(0);
-//   score()->setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
 }
 
 TsimpleScore::~TsimpleScore() {}
@@ -82,6 +84,15 @@ TsimpleScore::~TsimpleScore() {}
 //####################################################################################################
 //########################################## PUBLIC ##################################################
 //####################################################################################################
+
+void TsimpleScore::setAcceptTouch(bool acT) {
+	if (acT)
+		viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+	else
+		viewport()->setAttribute(Qt::WA_AcceptTouchEvents, false);
+	m_touchEnabled = acT;
+}
+
 
 Tnote TsimpleScore::getNote(int index) {
 	if (index >= 0 && index < m_notesNr)
@@ -93,8 +104,8 @@ Tnote TsimpleScore::getNote(int index) {
 
 void TsimpleScore::setNote(int index, const Tnote& note) {
 		staff()->setNote(index, note);
-		if (staff()->noteSegment(index)->pos().x() * m_score->transform().m11() > m_score->width() * 0.75)
-				m_score->centerOn(staff()->noteSegment(index)->mapToScene(staff()->noteSegment(index)->pos()));
+		if (staff()->noteSegment(index)->pos().x() * transform().m11() > width() * 0.75)
+				centerOn(staff()->noteSegment(index)->mapToScene(staff()->noteSegment(index)->pos()));
 }
 
 
@@ -264,7 +275,7 @@ void TsimpleScore::addBGglyph(int instr) {
 	m_bgGlyph->setParentItem(staff());
 	m_bgGlyph->setFont(TnooFont());
 	QColor bgColor = palette().highlight().color();
-	bgColor.setAlpha(75);
+	bgColor.setAlpha(50);
 	m_bgGlyph->setBrush(bgColor);
 	qreal factor = (staff()->height() / m_bgGlyph->boundingRect().height());
 	m_bgGlyph->setScale(factor);
@@ -292,8 +303,21 @@ QSize TsimpleScore::minimumSizeHint() const {
 // 	return m_sizeHint;
 }
 
+
+bool TsimpleScore::isPianoStaff() {
+	return staff()->isPianoStaff(); 
+}
+
+
+
+void TsimpleScore::setBGcolor(QColor bgColor) {
+	bgColor.setAlpha(210);
+	viewport()->setStyleSheet(
+		QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+}
+
 //##########################################################################################################
-//########################################## PROTECTED   ###################################################
+//##########################################   EVENTS    ###################################################
 //##########################################################################################################
 
 void TsimpleScore::resizeEvent(QResizeEvent* event) {
@@ -303,45 +327,133 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 		ww = event->size().width();
 	}
 // 	int scrollV;
-// 	if (m_score->horizontalScrollBar()->isVisible()) {
-// 		hh -= m_score->horizontalScrollBar()->height();
-// 		scrollV = m_score->horizontalScrollBar()->value();
+// 	if (horizontalScrollBar()->isVisible()) {
+// 		hh -= horizontalScrollBar()->height();
+// 		scrollV = horizontalScrollBar()->value();
 // 	}
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
-  qreal factor = ((qreal)hh / (staff()->height() + 4.0)) / m_score->transform().m11();
-  m_score->scale(factor, factor);
-// 	staff()->setExternalWidth((score()->width()) / score()->transform().m11() - (1.0 + staffOff));
-// 	if (m_score->horizontalScrollBar()->isVisible()) {
-// 		m_score->horizontalScrollBar()->setValue(scrollV);
+  qreal factor = ((qreal)hh / (staff()->height() + 4.0)) / transform().m11();
+  scale(factor, factor);
+// 	staff()->setExternalWidth((width()) / transform().m11() - (1.0 + staffOff));
+// 	if (horizontalScrollBar()->isVisible()) {
+// 		horizontalScrollBar()->setValue(scrollV);
 // 	}
 	staff()->setPos(staffOff, 0.05);
 	staff()->updateSceneRect();
-// 	score()->resize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
-	score()->resize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().width(), height() - 2);
-// 	setSizeHint(QSize(score()->mapFromScene(m_scene->sceneRect()).boundingRect().size().width() + 1, height() - 2));
-	setSizeHint(size());
-// 	score()->setSceneRect(scoreScene()->sceneRect());
+// 	resize(mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
+// 	resize(mapFromScene(m_scene->sceneRect()).boundingRect().width(), height() - 2);
+// 	setSizeHint(QSize(mapFromScene(m_scene->sceneRect()).boundingRect().size().width() + 1, height() - 2));
+// 	setSizeHint(size());
+	setSizeHint(mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
+// 	setSceneRect(scoreScene()->sceneRect());
 }
 
 
-bool TsimpleScore::isPianoStaff() {
-	return staff()->isPianoStaff(); 
+void TsimpleScore::wheelEvent(QWheelEvent* event) {
+  if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
+		if (m_scene->isCursorVisible()) {
+			if (event->delta() < 0)
+				m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
+			else
+				m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
+		}
+	} else
+	QAbstractScrollArea::wheelEvent(event);
 }
 
+
+bool TsimpleScore::viewportEvent(QEvent* event) {
+	if (m_touchEnabled) {
+		if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
+			QTouchEvent *te = static_cast<QTouchEvent*>(event);
+		
+		if (te->touchPoints().count() == 1) {
+			switch(te->touchPoints().first().state()) {
+				case Qt::TouchPointPressed: {
+					event->accept();
+					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+					m_initPos = touchScenePos;
+					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
+					checkItem(it, touchScenePos);
+					m_tapTime.start();
+					m_timerIdMain = startTimer(LONG_TAP_TIME);
+					break;
+				}
+				case Qt::TouchPointMoved: {
+// 					killTimer(m_timerIdMain);
+					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
+					checkItem(it, touchScenePos);
+					if (it) {						
+						QPointF touchPos = it->mapFromScene(touchScenePos);
+						it->touchMove(touchPos);
+					}
+					break;
+				}
+				case Qt::TouchPointStationary:
+// 					killTimer(m_timerIdMain);
+// 					m_timerIdMain = startTimer(LONG_TAP_TIME);
+					break;
+				case Qt::TouchPointReleased:
+					killTimer(m_timerIdMain);
+					if (m_currentIt) {
+						QPointF touchScenePosMap = m_currentIt->mapFromScene(mapToScene(te->touchPoints().first().pos().toPoint()));
+						m_currentIt->untouched(touchScenePosMap);
+						if (m_tapTime.elapsed() < TAP_TIME) {
+							m_currentIt->shortTap(touchScenePosMap);
+						}
+						m_currentIt = 0;
+					}
+					break;
+				default:
+					break;
+			}
+		} else if (te->touchPoints().count() == 2) {
+			switch(te->touchPoints()[1].state()) {
+				case Qt::TouchPointPressed: {
+					if (m_currentIt) {
+					    QPointF touch1ScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+							QPointF touch2ScenePos = mapToScene(te->touchPoints()[1].pos().toPoint());
+					    m_currentIt->secondTouch(m_currentIt->mapFromScene(touch1ScenePos), m_currentIt->mapFromScene(touch2ScenePos));
+					  }
+					break;
+				}
+				case Qt::TouchPointMoved:
+					break;
+				case Qt::TouchPointReleased:
+					break;
+				default:
+					break;
+			}
+		}
+		
+		return true;
+		}
+	}
+	return QGraphicsView::viewportEvent(event);
+}
+
+
+void TsimpleScore::timerEvent(QTimerEvent* timeEvent) {
+   if (timeEvent->timerId() == m_timerIdMain) {
+		killTimer(m_timerIdMain);
+		if (m_currentIt) {
+				m_currentIt->longTap(m_currentIt->mapFromScene(m_initPos));
+		}
+	}
+}
+
+
+//##########################################################################################################
+//########################################## PROTECTED   ###################################################
+//##########################################################################################################
 
 void TsimpleScore::statusTipChanged(QString status) {
 	QStatusTipEvent *tipEvent = new QStatusTipEvent(status);
 	qApp->postEvent(window(), tipEvent);
 	emit statusTip(status);
-}
-
-
-void TsimpleScore::setBGcolor(QColor bgColor) {
-	bgColor.setAlpha(210);
-	m_score->setStyleSheet(
-		QString("QGraphicsView#m_score { border: 1px solid palette(Text); border-radius: 10px; %1 }").arg(Tcolor::bgTag(bgColor)));
 }
 
 
@@ -357,8 +469,32 @@ void TsimpleScore::onClefChanged(Tclef clef) {
 }
 
 
+TscoreItem* TsimpleScore::castItem(QGraphicsItem* it) {
+	if (it) {
+		int cnt = 0;
+		while (cnt < 3) {
+			if (it->type() == TscoreItem::ScoreItemType)
+				return static_cast<TscoreItem*>(it);
+			if (it->parentItem()) {
+				it = it->parentItem();
+				cnt++;
+			} else
+				break;
+		}
+	}
+	return 0;
+}
 
 
+void TsimpleScore::checkItem(TscoreItem* it, const QPointF& touchScenePos) {
+	if (it != m_currentIt) {
+		if (m_currentIt)
+			m_currentIt->untouched(m_currentIt->mapFromScene(touchScenePos));
+		m_currentIt = it;
+		if (m_currentIt)
+			m_currentIt->touched(m_currentIt->mapFromScene(touchScenePos));
+	}
+}
 
 
 

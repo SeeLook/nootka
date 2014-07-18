@@ -24,10 +24,11 @@
 #include <music/tclef.h>
 #include <music/tnote.h>
 #include <music/tkeysignature.h>
-#include <QWidget>
+#include <QGraphicsView>
+#include <QTime>
 
-class TscoreView;
-class QGraphicsView;
+class TscoreItem;
+
 class QGraphicsSimpleTextItem;
 class QGraphicsView;
 class TscoreStaff;
@@ -35,7 +36,7 @@ class TscoreScene;
 
 
 /** This class implements score.  */
-class NOOTKACORE_EXPORT TsimpleScore : public QWidget
+class NOOTKACORE_EXPORT TsimpleScore : public QGraphicsView
 {
   Q_OBJECT
   
@@ -92,6 +93,8 @@ public:
 		
     virtual QSize sizeHint() const;
 		
+		void setAcceptTouch(bool acT); /** Turns on/off touch events */
+		
 signals:
 				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
 				 * This signal is emitted when any TscoreScene element gets hoverEnterEvent 
@@ -101,44 +104,55 @@ signals:
 		
 				/** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
 		void clefChanged(Tclef);
+	
 		
 public slots:
 		virtual void noteWasClicked(int index);
 		
 protected:
-		TscoreView* score() { return m_score; }
+		virtual bool viewportEvent(QEvent* event);
+		virtual void timerEvent(QTimerEvent* timeEvent);
+		virtual void wheelEvent(QWheelEvent* event);
 		
-				/** Pointer to TscoreStaff should never go to public !!!!
-				 * TscoreStaff instance is changeable by pianoStaffSwitched() and any connection with its signals will be lost.
-				 * Inner methods of TsimpleScore take care about refreshing 
-				 * connection with newer staff instances and this class emits appropriate signals. */
-		TscoreStaff* staff() { return m_staff; }
+		TscoreStaff* staff() { return m_staff; } /** Pointer to TscoreStaff. Better keep it protected */
     
 				/** Returns previously set clef. It is used to figure is it scaling of score necessary.  */
     Tclef::Etype clefType() { return m_clefType; }
     void setSizeHint(const QSize& s) { if (s != m_sizeHint) { m_sizeHint = s; updateGeometry(); } }
     virtual QSize minimumSizeHint() const;
+		
+				/** Checks is item @it of type @p TscoreItem::ScoreItemType.
+				* If not, checks it parent item and parent of parent.
+				* Returns pointer to @p TscoreItem or 0 if not found. */
+		TscoreItem* castItem(QGraphicsItem* it);
+	
+				/** Checks is given TscoreItem different than current one and sets it to current */
+		void checkItem(TscoreItem* it, const QPointF& touchScenePos);
+
     
 protected slots:
-				/** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
-    void statusTipChanged(QString status);
-		
 				/** Except response for scaling TscoreView widget to according to new height,
 				 * this method takes care about new width of the score. 
 				 * It is necessary to call it after staff width changed f.e by:
 				 * setPianoStaff(), setEnableKeySign() and setScordature()				 */
-    void resizeEvent(QResizeEvent* event);
+    virtual void resizeEvent(QResizeEvent* event);
+		
+				/** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
+    void statusTipChanged(QString status);
 		void onClefChanged(Tclef clef);
   
 private:
     TscoreScene     						*m_scene;
     TscoreStaff     						*m_staff;
-    TscoreView		  						*m_score;
 		QGraphicsSimpleTextItem 		*m_bgGlyph;
 		int 												 m_notesNr;
 		int 												 m_prevBGglyph;
 		Tclef::Etype								 m_clefType;
 		QSize												 m_sizeHint;
+		TscoreItem 									*m_currentIt;
+		QTime												 m_tapTime;
+		int 												 m_timerIdMain;
+		QPointF											 m_initPos; /** In scene coordinates. */
 };
 
 #endif // TSIMPLESCORE_H

@@ -60,7 +60,6 @@ set(LIB_NOOTKACORE_SRC
 	score/tscorestaff.cpp
 	score/tnotecontrol.cpp
 	score/tsimplescore.cpp
-	score/tscoreview.cpp
 	
 	widgets/tpushbutton.cpp
 	widgets/tselectclef.cpp

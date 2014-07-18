@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "tmultiscore.h"
-#include <score/tscoreview.h>
 #include <score/tscorestaff.h>
 #include <score/tscorekeysignature.h>
 #include <score/tscorescene.h>
@@ -43,8 +42,8 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 {
 	setObjectName("m_mainScore");
 	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
-	layout()->setContentsMargins(2, 2, 2, 2);
-	score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	setContentsMargins(2, 2, 2, 2);
+	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	
@@ -69,7 +68,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				m_addNoteAnim = false;
 				staff()->insertNote(2/*, true*/);
 				setControllersEnabled(true, false);
-				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+				setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 				scoreScene()->left()->enableToAddNotes(false);
 				m_currentIndex = 0;
 				TsimpleScore::resizeEvent(0);
@@ -78,7 +77,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				deleteNotes();
 				setControllersEnabled(true, true);
 				scoreScene()->left()->enableToAddNotes(true);
-				score()->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+				setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 				resizeEvent(0);
 		}
 	}
@@ -97,7 +96,7 @@ void TmultiScore::setNote(const Tnote& note) {
 			}
 			thisStaff->setNote(currentIndex() % staff()->maxNoteCount(), note);
 			if (staffCount() > 1)
-					score()->ensureVisible(thisStaff, 0, 0);
+					ensureVisible(thisStaff, 0, 0);
 	} else {
 			TsimpleScore::setNote(0, note);
 	}
@@ -175,6 +174,7 @@ void TmultiScore::removeCurrentNote() {
 		setNote(Tnote());
 		emit noteWasChanged(0, Tnote());
 	}
+	staff()->noteSegment(0)->hideWorkNote();
 }
 
 
@@ -208,11 +208,9 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (ww < 300)
       return;
-	score()->resize(width() - 2, height() - 2);
 	if (m_inMode == e_single) {
 		TsimpleScore::resizeEvent(event);
 	} else {
-// 		score()->resize(width() - 2, height() - 2);
 		QList<TscoreNote*> allNotes;
 		for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
 			m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
@@ -220,8 +218,8 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 		qreal staffOff = 0.0;
 		if (staff()->isPianoStaff())
 			staffOff = 1.1;
-		qreal factor = (((qreal)hh / (staff()->height() + 2.0)) / score()->transform().m11()) / m_scale;
-		score()->scale(factor, factor);
+		qreal factor = (((qreal)hh / (staff()->height() + 2.0)) / transform().m11()) / m_scale;
+		scale(factor, factor);
 		int stavesNumber; // how many staves are needed
 		for (int i = 0; i < m_staves.size(); i++) {
 			adjustStaffWidth(m_staves[i]);
@@ -295,7 +293,7 @@ void TmultiScore::changeCurrentIndex(int newIndex) {
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->selectNote(true);
 			}
 			if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
-				score()->ensureVisible(currentStaff(), 0, 0);
+				ensureVisible(currentStaff(), 0, 0);
 	}
 }
 
@@ -320,8 +318,8 @@ void TmultiScore::checkAndAddNote(TscoreStaff* sendStaff, int noteIndex) {
 
 
 void TmultiScore::adjustStaffWidth(TscoreStaff* st) {
-	int scrollOff = score()->verticalScrollBar()->isVisible() ? score()->verticalScrollBar()->width() : 0;
-	st->setViewWidth((score()->width() - 25 - scrollOff) / score()->transform().m11());
+	int scrollOff = verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0;
+	st->setViewWidth((width() - 25 - scrollOff) / transform().m11());
 }
 
 
