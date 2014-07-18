@@ -27,7 +27,6 @@
 
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent),
-  m_noteAccid(0),
   m_workPosY(0),
   m_workNote(0),
   m_workAccid(0),
@@ -42,7 +41,12 @@ TscoreScene::TscoreScene(QObject* parent) :
 
 
 TscoreScene::~TscoreScene() 
-{}
+{
+	if (m_rightBox) { // all items are into scene so they will be deleted
+		delete m_rightBox; // but the last TscoreNote has to skip deleting depending items itself
+		m_rightBox = 0;
+	}
+}
 
 
 void TscoreScene::setCurrentAccid(char accid) {
@@ -95,12 +99,6 @@ void TscoreScene::setPointedColor(QColor color) {
         midLines[i]->setPen(QPen(color, 0.2));
     for (int i = 0; i < downLines.size(); i++)
       downLines[i]->setPen(QPen(color, 0.2));
-}
-
-
-void TscoreScene::setWorkAccid(int accNr) {
-// 		m_noteAccid = accNr;
-// 		m_workAccid->setText(TscoreNote::getAccid(accNr));
 }
 
 

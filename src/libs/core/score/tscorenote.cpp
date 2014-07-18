@@ -60,7 +60,6 @@ QGraphicsEllipseItem* TscoreNote::createNoteHead(QGraphicsItem* parentIt) {
  * and TscoreNote manages itself when status tip is necessary to be displayed. */
 QString TscoreNote::m_staticTip = "";
 
-/*------------------------*/
 
 //################################## CONSTRUCTOR ###################################
 
@@ -122,7 +121,13 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 }
 
 
-TscoreNote::~TscoreNote() {
+TscoreNote::~TscoreNote() { // release work note and controls from destructing parent
+	if (scoreScene()->right() &&
+		(scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem())) {
+			scoreScene()->right()->setScoreNote(0);
+			scoreScene()->left()->setScoreNote(0);
+			setCursorParent(0);
+	}
 	delete m_note;
 }
 
@@ -468,10 +473,6 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 				return;
 		}
     if (event->pos().y() != scoreScene()->workPosY()) {
-// 			if (m_noteAccid != scoreScene()->currentAccid()) { // update accidental symbol
-// 					m_noteAccid = scoreScene()->currentAccid();
-// 					scoreScene()->workAccid()->setText(getAccid(m_noteAccid));
-// 			}
       scoreScene()->setWorkPosY(event->pos().y() - 0.6);
       scoreScene()->workNote()->setPos(3.0, scoreScene()->workPosY());
       if (!scoreScene()->workNote()->isVisible()) {
@@ -486,7 +487,6 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 
 void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->button() == Qt::LeftButton && scoreScene()->workPosY()) {
-//         m_accidental = m_noteAccid;
 				m_accidental = scoreScene()->currentAccid();
         moveNote(scoreScene()->workPosY());
         emit noteWasClicked(m_index);

@@ -39,21 +39,17 @@ public:
         
         
     void setDoubleAccidsEnabled(bool enable);
+		
         /** Returns value 2 when double accidentals are enabled and 1 if not. */
     qint8 doubleAccidsFuse() { return m_dblAccFuse; }
-        /** Working accidental in TscoreNote segment.
-        * also changed by buttons. */
-    void setCurrentAccid(char accid);
+    
+        
+    void setCurrentAccid(char accid); /** Working accidental in  also changed by buttons. */
     char currentAccid() { return m_currentAccid; }
     
         /** Adds blur graphics effect. In the contrary to QGraphicsItem::setGraphicsEffect() 
          * a radius value in global scale.  */
     void addBlur(QGraphicsItem *item, qreal radius);
-		
-		
-				/** Changes accidental of a working note cursor. */
-		void setWorkAccid(int accNr);
-		
 		
 				/** Adjust note cursor and TnoteControl to new staff size. 
 				 * For performance reason it has to be called once for all adjustSize() of TscoreNote
@@ -82,8 +78,6 @@ protected:
 	// note cursor
 		TaddLines	upLines, downLines, midLines;
 		QColor  workColor;
-		int noteAccid() { return m_noteAccid; }
-		void setNoteAccid(int acc) { m_noteAccid = acc; }
 		int workPosY() { return m_workPosY; }
 		void setWorkPosY(int wpY) { m_workPosY = wpY; }
 		QGraphicsEllipseItem* workNote() { return m_workNote; }
@@ -101,7 +95,7 @@ private:
     qint8 														m_dblAccFuse;
     char  														m_currentAccid;
 	// note cursor
-		int                            		m_noteAccid, m_workPosY;
+		int                            		m_workPosY;
 		QGraphicsEllipseItem          	 *m_workNote;
 		QGraphicsSimpleTextItem       	 *m_workAccid;
 		QColor														m_nameColor;

@@ -18,10 +18,11 @@
 
 #include "tguitarsettings.h"
 #include "tcolorbutton.h"
-#include <tselectinstrument.h>
+#include <widgets/tselectinstrument.h>
 #include <music/ttune.h>
 #include <tglobals.h>
 #include <score/tsimplescore.h>
+#include <score/tscorescene.h>
 #include <tscoreparams.h>
 #include <QtWidgets>
 
@@ -56,6 +57,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     tuneLay->addWidget(m_tuneCombo);
     m_tuneView = new TsimpleScore(6, this);
 		m_tuneView->setControllersEnabled(true, false);
+		m_tuneView->scoreScene()->setPointedColor(gl->S->pointerColor);
     tuneLay->addWidget(m_tuneView);
     m_tuneView->setClef(gl->S->clef); 
    

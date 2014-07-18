@@ -21,6 +21,7 @@
 #include "tglobals.h"
 #include <level/tlevelpreview.h>
 #include <score/tsimplescore.h>
+#include <score/tscorescene.h>
 #include <exam/tlevel.h>
 #include <music/ttune.h>
 #include <tscoreparams.h>
@@ -45,6 +46,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 			m_scoreRang->setNote(1, Tnote(1, 1));
 			m_scoreRang->addBGglyph((int)gl->instrument);
 			m_scoreRang->setControllersEnabled(true, false);
+			m_scoreRang->scoreScene()->setPointedColor(gl->S->pointerColor);
 		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
