@@ -129,7 +129,7 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 		TscoreItem::mousePressEvent(event);
 	} else {
 			if (!m_menu) {
-				m_menu = new QMenu(scoreScene()->views()[0]->parentWidget());
+				m_menu = new QMenu(scoreScene()->views()[0]);
 				m_menu->setObjectName("clefMenu");
 				m_menu->setStyleSheet("QWidget#clefMenu { background-color: palette(window); }");
 				if (!m_clefMenu)
@@ -142,8 +142,8 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 				m_clefMenu->selectClef(curClef);
 				connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
 				QPoint mPos = event->screenPos();
-				if (scoreScene()->views()[0]->parentWidget()->objectName() == "m_mainScore")
-					mPos.setY(10);
+				if (scoreScene()->views()[0]->objectName() == "m_mainScore")
+					mPos.setY(mPos.y() - scoreScene()->views()[0]->height() / 2);
 				/** m_mainScore has no parent so it is pointing not an absolute screen position but only a view position.
 				 * In this case it displays the menu only over window area so menu can be cut if to big (placed to low).
 				 * The solution is to force Y coordinate.

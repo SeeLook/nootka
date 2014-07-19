@@ -99,6 +99,7 @@ protected:
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
 		
+		void setSingleNoteMode(bool isSingle); /** Performs changes when insert mode differs then the set one. */
 // 				/* Invokes TnoteName::resize(). Also does the same for TexamView (examResults) and TprogressWidget.
 // 				 * Font size is calculated from m_statFontSize + m_extraFontOffset */
 // 		void setWidgetsFont();

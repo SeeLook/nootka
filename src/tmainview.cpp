@@ -74,7 +74,7 @@ void TmainView::addNoteName(QWidget* name) {
 		m_name->installEventFilter(this);
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 		scoreAndNameLay->insertStretch(0);
-// 		scoreAndNameLay->addStretch(0);
+		scoreAndNameLay->addStretch(0);
 		scoreAndNameLay->addWidget(m_name, 0, Qt::AlignCenter);
 		scoreAndNameLay->addStretch(0);
 		m_score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -89,6 +89,7 @@ void TmainView::takeNoteName() {
 		scoreAndNameLay->removeWidget(m_name);
 		m_name = 0;
 		delete scoreAndNameLay->takeAt(0);
+		delete scoreAndNameLay->takeAt(1);
 		delete scoreAndNameLay->takeAt(1);
 	}
 }

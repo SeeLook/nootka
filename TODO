@@ -17,6 +17,7 @@ analyzer executable
 
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
 
+- consider to remove names on the score in single note mode
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so
 - add option for configuring fret marks (dots)

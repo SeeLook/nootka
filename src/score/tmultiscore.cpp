@@ -47,6 +47,8 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	
+	setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
+	setAlignment(Qt::AlignCenter);
 }
 
 TmultiScore::~TmultiScore()
@@ -58,19 +60,25 @@ TmultiScore::~TmultiScore()
 
 void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 	if (mode != m_inMode) {
+		bool ignoreThat = false;
+		if ((mode == e_record && m_inMode == e_multi) || (mode == e_multi && m_inMode == e_record))
+			ignoreThat = true;
 		m_inMode = mode;
+		if (ignoreThat)
+			return;
 		if (mode == e_single) {
 				deleteNotes();
 				staff()->setStafNumber(-1);
 				staff()->setViewWidth(0.0);
 				m_addNoteAnim = false;
-				staff()->insertNote(1/*, true*/);
+				staff()->insertNote(1, true);
 				m_addNoteAnim = false;
-				staff()->insertNote(2/*, true*/);
+				staff()->insertNote(2, true);
 				setControllersEnabled(true, false);
 				setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 				scoreScene()->left()->enableToAddNotes(false);
 				m_currentIndex = 0;
+				setAlignment(Qt::AlignLeft);
 				TsimpleScore::resizeEvent(0);
 		} else {
 				staff()->setStafNumber(0);
@@ -78,6 +86,8 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				setControllersEnabled(true, true);
 				scoreScene()->left()->enableToAddNotes(true);
 				setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+				setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
+				setAlignment(Qt::AlignCenter);
 				resizeEvent(0);
 		}
 	}

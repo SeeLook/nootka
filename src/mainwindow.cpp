@@ -165,12 +165,15 @@ MainWindow::MainWindow(QWidget *parent) :
 // 		mainLay->addWidget(nootBar);
 // #endif
 
-	innerWidget = new TmainView(nootBar, m_statLab, pitchView, score, guitar, this);
-	setCentralWidget(innerWidget);
+		innerWidget = new TmainView(nootBar, m_statLab, pitchView, score, guitar, this);
+		setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
     m_levelCreatorExist = false;
 
     createActions();
+		setSingleNoteMode(gl->S->isSingleNoteMode);
+// 		if (gl->S->isSingleNoteMode)
+// 				score->setInsertMode(TmultiScore::e_single);
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
 		connect(score, SIGNAL(playbackFinished()), this, SLOT(playSlot()));
@@ -195,7 +198,8 @@ MainWindow::~MainWindow()
     gl->config->beginGroup("General");
       gl->config->setValue("geometry", geometry());
     gl->config->endGroup();
-//     delete gl;
+    delete gl;
+		qDebug() << "Settings object successfully deleted";
 }
 
 //##########################################################################################
@@ -352,16 +356,7 @@ void MainWindow::createSettingsDialog() {
 // 			delete settings;
 			m_isPlayerFree = false;
 			sound->acceptSettings();
-			if (gl->S->isSingleNoteMode && score->insertMode() != TmultiScore::e_single) {
-				recordAct->setVisible(false);
-				playAct->setVisible(false);
-				innerWidget->addNoteName(score->noteName());
-			} else if	(!gl->S->isSingleNoteMode && score->insertMode() == TmultiScore::e_single) {
-				recordAct->setVisible(true);
-				playAct->setVisible(true);
-				innerWidget->takeNoteName();
-// 				noteName->setParent(this);
-			}
+			setSingleNoteMode(gl->S->isSingleNoteMode);
 			score->acceptSettings();
 				// set new colors in exam view
 // 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
@@ -537,6 +532,21 @@ void MainWindow::soundWasPlayed(Tnote note) {
 	guitar->setFinger(note);
 }
 
+
+void MainWindow::setSingleNoteMode(bool isSingle) {
+	if (isSingle && score->insertMode() != TmultiScore::e_single) {
+				recordAct->setVisible(false);
+				playAct->setVisible(false);
+				innerWidget->addNoteName(score->noteName());
+				score->setInsertMode(TmultiScore::e_single);
+			} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
+				recordAct->setVisible(true);
+				playAct->setVisible(true);
+				innerWidget->takeNoteName();
+				score->setInsertMode(TmultiScore::e_multi);
+	}
+}
+
 //##########################################################################################
 //#######################     PROTECTED SLOTS       ########################################
 //##########################################################################################
@@ -552,12 +562,12 @@ void MainWindow::restoreMessage() {
 void MainWindow::recordSlot() {
 	if (score->insertMode() == TmainScore::e_multi) {
 		recordAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));
-		score->setInsertMode(TmainScore::e_single);
-		innerWidget->addNoteName(score->noteName());
+		score->setInsertMode(TmainScore::e_record);
+// 		innerWidget->addNoteName(score->noteName());
 	} else {
 		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
 		score->setInsertMode(TmainScore::e_multi);
-		innerWidget->takeNoteName();
+// 		innerWidget->takeNoteName();
 	}
 }
 

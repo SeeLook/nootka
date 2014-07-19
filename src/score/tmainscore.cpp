@@ -91,10 +91,10 @@ TmainScore::~TmainScore()
 //####################################################################################################
 
 void TmainScore::setEnableEnharmNotes(bool isEnabled) {
-// 	if (!isEnabled) {
-// 		clearNote(1);
-// 		clearNote(2);
-// 	}
+	if (!isEnabled) {
+		clearNote(1);
+		clearNote(2);
+	}
 }
 
 
@@ -105,6 +105,13 @@ void TmainScore::acceptSettings() {
 		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
 		refreshNoteNames = true;
 	}
+	if ((gl->S->isSingleNoteMode && insertMode() != e_single) || (!gl->S->isSingleNoteMode && insertMode() == e_single))
+		refreshNoteNames = true;
+	if (gl->S->isSingleNoteMode) {
+		setInsertMode(e_single);
+		setEnableEnharmNotes(gl->S->showEnharmNotes);
+	} else
+		setInsertMode(e_multi);
 // Double accidentals
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	scoreScene()->left()->addAccidentals();
@@ -141,8 +148,6 @@ void TmainScore::acceptSettings() {
 				staff()->removeScordatute();
 // 	if (!gl->S->doubleAccidentalsEnabled)
 // 		clearNote(2);
-// enharmonic alternatives  
-// 	setEnableEnharmNotes(gl->S->showEnharmNotes);
 	if (gl->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
 			staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
@@ -156,10 +161,11 @@ void TmainScore::acceptSettings() {
 		setKeySignature(keySignature());
 	}
 	enableAccidToKeyAnim(true);
-	if (gl->S->isSingleNoteMode)
-		setInsertMode(e_single);
-	else
-		setInsertMode(e_multi);
+// 	if (gl->S->isSingleNoteMode) {
+// 		setInsertMode(e_single);
+// 		setEnableEnharmNotes(gl->S->showEnharmNotes);
+// 	} else
+// 		setInsertMode(e_multi);
 	if (m_nameMenu) {
 			m_nameMenu->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 			m_nameMenu->setEnabledEnharmNotes(gl->S->showEnharmNotes);
@@ -172,19 +178,28 @@ void TmainScore::acceptSettings() {
 
 void TmainScore::setNote(const Tnote& note) {
     TmultiScore::setNote(note);
-		if (insertMode() == e_single)
+		if (insertMode() == e_single && !isExam())
 			m_nameMenu->setNoteName(note);
 }
 
 
 void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 	if (mode != insertMode()) {
+		bool ignoreThat = false;
+		if ((mode == e_record && insertMode() == e_multi) || (mode == e_multi && insertMode() == e_record))
+			ignoreThat = true;
 		TmultiScore::setInsertMode(mode);
+		if (ignoreThat)
+			return;
 		if (mode == e_single) {
 				m_nameMenu->enableArrows(false);
 				m_currentNameSegment = staff()->noteSegment(0);
 				enableCorners(false);
 				m_nameMenu->show();
+				if (gl->S->showEnharmNotes) {
+					staff()->noteSegment(1)->setColor(gl->S->enharmNotesColor);
+					staff()->noteSegment(2)->setColor(gl->S->enharmNotesColor);
+				}
 		} else {
 				m_nameMenu->enableArrows(true);
 				m_nameMenu->hide();
@@ -526,6 +541,7 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
             else
                 clearNote(2);
         }
+        m_nameMenu->setNoteName(enharmList);
     }
     emit noteChanged(index, note);
 }
@@ -557,6 +573,10 @@ void TmainScore::menuChangedNote(Tnote n) {
 		m_currentNameSegment->update(); // Menu above covers focus
 		emit noteWasChanged(m_currentNameSegment->index(), n);
 		m_nameClickCounter++;
+		if (insertMode() == e_single && gl->S->showEnharmNotes && !isExam()) {
+			staff()->setNote(1, m_nameMenu->getNoteName(1));
+			staff()->setNote(2, m_nameMenu->getNoteName(2));
+		}
 	}
 }
 
