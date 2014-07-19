@@ -66,13 +66,13 @@ public:
 			e_nextNote, e_prevNote, e_nextStaff, e_prevStaff, e_last, e_first, e_doNotMove
 		};		
 
-//     void askQuestion(Tnote note, char realStr = 0);
-//     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
-//     void clearScore();
+    void askQuestion(Tnote note, char realStr = 0);
+    void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
+    void clearScore();
 		
 				/** It sets TkeySignatureView background to question color, sets fake key signature
         * and invokes askQuestion in TkeySignatureView */
-//     void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
+    void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
 		
         /** Connects or disconnects reactions for clicking a note
         * and showing enharmonic notes depends on is exam executing (disconnect)
@@ -80,27 +80,27 @@ public:
     void isExamExecuting(bool isIt);
 		bool isExam() { return (bool)m_questMark; } /** @p True during exam/exercises */
         /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
-//     void unLockScore();
-//     void setKeyViewBg(QColor C);
-//     void setNoteViewBg(int id, QColor C);
-//     void forceAccidental(Tnote::Eacidentals accid); /** Sets given accidental */
+    void unLockScore();
+    void setKeyViewBg(QColor C);
+    void setNoteViewBg(int id, QColor C);
+    void forceAccidental(Tnote::Eacidentals accid); /** Sets given accidental */
 		
-        /** Marks note with border and blur. It is used to show was answer correct or not. */
-//     void markAnswered(QColor blurColor);
-//     void markQuestion(QColor blurColor);
+        /** Marks note with border and blur. It is used to show was answer correct or not. Default note number for single mode. */
+    void markAnswered(QColor blurColor, int noteNr = 0);
+    void markQuestion(QColor blurColor, int noteNr = 1);
 		
 		void enableAccidToKeyAnim(bool enable);
 		bool isAccidToKeyAnimEnabled();
 		
 				/** Performs animation that transforming current selected note to given @p goodNote */
-// 		void correctNote(Tnote& goodNote, const QColor& color);
+		void correctNote(Tnote& goodNote, const QColor& color);
 		
 				/** Performs rewinding of current key to @p newKey */
-// 		void correctKeySignature(TkeySignature newKey);
-// 		void correctAccidental(Tnote& goodNote);
+		void correctKeySignature(TkeySignature newKey);
+		void correctAccidental(Tnote& goodNote);
 		
 				/** Displays note name of first note or the second if given next to its note-head in a score. */
-// 		void showNames(Tnote::EnameStyle st, bool forAll = false);
+		void showNames(Tnote::EnameStyle st, bool forAll = false);
 		void deleteNoteName(int id); /** Deletes given instance of note name if it exist */
 		
 				/** Returns note head rectangle if visible or empty QRectF.  */
@@ -130,9 +130,9 @@ protected:
 	virtual void resizeEvent(QResizeEvent* event);
 		
 protected slots:
-// 		void strikeBlinkingFinished();
-// 		void keyBlinkingFinished();
-// 		void finishCorrection();
+		void strikeBlinkingFinished();
+		void keyBlinkingFinished();
+		void finishCorrection();
 		void zoomScoreSlot();
 		
 		void showNameMenu(TscoreNote* sn);

@@ -307,10 +307,10 @@ void TscoreStaff::setDisabled(bool disabled) {
 		scoreKey()->setAcceptHoverEvents(!disabled); // stops displaying status tip
 		scoreKey()->setReadOnly(disabled);
 	}
-	for (int i = 0; i < m_scoreNotes.size(); i++) {
+	for (int i = 0; i < count(); i++)
 		m_scoreNotes[i]->setReadOnly(disabled);
-		m_scoreNotes[i]->hideWorkNote();
-	}
+	if (count())
+		m_scoreNotes[0]->hideWorkNote();
 }
 
 

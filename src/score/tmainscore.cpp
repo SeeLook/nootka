@@ -252,22 +252,21 @@ void TmainScore::setScordature() {
 }
 
 
-/*
 void TmainScore::unLockScore() {
 	setScoreDisabled(false);
-	setNoteDisabled(1, true);
-	setNoteDisabled(2, true);
+// 	setNoteDisabled(1, true);
+// 	setNoteDisabled(2, true);
     if (m_questMark) { // question mark exists only when exam is performing
       setBGcolor(Tcolor::merge(gl->EanswerColor, palette().window().color()));
 			setNoteViewBg(0, gl->EanswerColor);
     }
-  setClefDisabled(true);
+//   setClefDisabled(true);
 	QPointF nPos = staff()->noteSegment(0)->mapFromScene(mapToScene(mapFromParent(mapFromGlobal(cursor().pos()))));
 	if (nPos.x() > 0.0 && nPos.x() < 7.0) {
 		staff()->noteSegment(0)->moveWorkNote(nPos);
 	}
 }
-*/
+
 
 QRectF TmainScore::noteRect(int noteNr) {
 		return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * transform().m11(), 
@@ -342,18 +341,20 @@ void TmainScore::isExamExecuting(bool isIt) {
     }
 }
 
-/*
+
 void TmainScore::clearScore() {
 	bool enableAnim = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations to empty score
-	clearNote(0);
-	clearNote(1);
-	clearNote(2);
+	if (insertMode() == e_single) {
+		for (int i = 0; i < 3; ++i)
+			clearNote(i);
+		staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
+		staff()->noteSegment(0)->hideWorkNote();
+	} else
+			deleteNotes();
 	for (int i = 0; i < 2; i++)
 			deleteNoteName(i);
 	m_showNameInCorrection = false;
-	staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
-	staff()->noteSegment(0)->hideWorkNote();
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
 			if (m_questKey) {
@@ -361,8 +362,7 @@ void TmainScore::clearScore() {
 				m_questKey = 0;
 			}
     }
-	if (scoreController())
-		scoreController()->setAccidental(0); // reset buttons with accidentals
+	scoreScene()->setCurrentAccid(0);
 	for(int i = 0; i < m_bgRects.size(); i++)
 		delete m_bgRects[i];
 	m_bgRects.clear();
@@ -385,47 +385,47 @@ void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
 	setKeySignature(key);
 	askQuestion(note, realStr);
 }
-*/
+
 
 void TmainScore::expertNoteChanged() {
 		emit noteClicked();
 }
 
-/*
+
 void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
-		if (scoreController())
-			scoreController()->setAccidental(accid);
+	scoreScene()->setCurrentAccid(accid);
 }
 
 
-void TmainScore::markAnswered(QColor blurColor) {
-		staff()->noteSegment(0)->markNote(QColor(blurColor.lighter().name()));
+void TmainScore::markAnswered(QColor blurColor, int noteNr) {
+		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
 }
 
 
-void TmainScore::markQuestion(QColor blurColor) {
-		staff()->noteSegment(1)->markNote(QColor(blurColor.lighter().name()));
+void TmainScore::markQuestion(QColor blurColor, int noteNr) {
+		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
 }
 
 
 void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName) {
-		setKeySignature(fakeKey);
-		m_questKey = new QGraphicsTextItem();
-		m_questKey->setParentItem(staff()->scoreKey()); // we are sure that key exist - exam checked that
-		m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").
-					arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
-		TgraphicsTextTip::alignCenter(m_questKey);
-		TscoreKeySignature::setKeyNameScale(m_questKey);
-		m_questKey->setPos((staff()->scoreKey()->boundingRect().width() - m_questKey->boundingRect().width() * m_questKey->scale()) / 2 - 2.5,
-						staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * m_questKey->scale());
-		setKeyViewBg(gl->EanswerColor);
+	setKeySignature(fakeKey);
+	m_questKey = new QGraphicsTextItem();
+	m_questKey->setParentItem(staff()->scoreKey()); // we are sure that key exist - exam checked that
+	m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").
+				arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
+	TgraphicsTextTip::alignCenter(m_questKey);
+	TscoreKeySignature::setKeyNameScale(m_questKey);
+	m_questKey->setPos(
+				(staff()->scoreKey()->boundingRect().width() - m_questKey->boundingRect().width() * m_questKey->scale()) / 2 - 2.5,
+				staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * m_questKey->scale());
+	setKeyViewBg(gl->EanswerColor);
 }
 
 
 void TmainScore::setKeyViewBg(QColor C) {
 	if (staff()->scoreKey()) {
 			createBgRect(C, staff()->scoreKey()->boundingRect().width() + 6.0, 
-									 QPointF(staff()->scoreKey()->pos().x() - 6.0, staff()->scoreKey()->pos().y()));
+							QPointF(staff()->scoreKey()->pos().x() - 6.0, staff()->scoreKey()->pos().y()));
 	}
 }
 
@@ -483,7 +483,6 @@ void TmainScore::correctKeySignature(TkeySignature newKey) {
 }
 
 
-
 void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 	int max = 1;
 	if (forAll)
@@ -509,7 +508,7 @@ void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
 	if (m_noteName[0])
 			m_showNameInCorrection = true;
 }
-*/
+
 
 void TmainScore::deleteNoteName(int id) {
 	if (id < 0 || id > 1) // so far only two instances exist
@@ -615,7 +614,7 @@ void TmainScore::zoomScoreSlot() {
 	}
 	if (newScale != gl->S->scoreScale) {
 		gl->S->scoreScale = newScale;
-		setScroeScale(newScale);
+		setScoreScale(newScale);
 	}
 }
 
@@ -686,7 +685,6 @@ void TmainScore::playSlot() {
 }
 
 
-/*
 void TmainScore::strikeBlinkingFinished() {
 	if (m_strikeOut) {
 		m_strikeOut->deleteLater();
@@ -723,10 +721,10 @@ void TmainScore::keyBlinkingFinished() {
 void TmainScore::finishCorrection() {
 	staff()->noteSegment(0)->enableNoteAnim(false);
 	staff()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
-	if (m_showNameInCorrection)
-			showNames(m_corrStyle);
+// 	if (m_showNameInCorrection)
+// 			showNames(m_corrStyle);
 }
-*/
+
 
 void TmainScore::resizeEvent(QResizeEvent* event) {
 	TmultiScore::resizeEvent(event);
