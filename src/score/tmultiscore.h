@@ -64,8 +64,10 @@ public:
 	
 	virtual void setEnableKeySign(bool isEnabled);
 	
+	void setScoreDisabled(bool disabled);
+	
 	qreal scoreScale() { return m_scale; } /** Scale factor of user zoom. */
-	void setScroeScale(qreal sc);
+	void setScoreScale(qreal sc);
 	
 	bool ainmationsEnabled() { return m_useAinim; }
 	void setAnimationsEnabled(bool aEnabled) { m_useAinim = aEnabled; }

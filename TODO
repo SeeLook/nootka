@@ -18,6 +18,7 @@ analyzer executable
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
 
 - consider to remove names on the score in single note mode
+- make of use native showNoteName() of TscoreNote instead TmainScore ones
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so
 - add option for configuring fret marks (dots)
@@ -32,9 +33,6 @@ analyzer executable
 ASIO & JACK
 - add buttons to switch them on and switch them off by default
 
-----------------------------------------------------------------------------------------------------------------
-New settings switches:
-  - score mode (single|multi|record)
 ----------------------------------------------------------------------------------------------------------------
 Score controlling buttons:
 	- tempo menu
@@ -55,4 +53,5 @@ cpack
 - add man page for new executable files
 - update Qt5 dependencies for deb package 
 - copy qtbase_xx.qm files to lang folder
+- remember about libPrintSupport
 

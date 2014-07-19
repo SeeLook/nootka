@@ -127,7 +127,14 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 }
 
 
-void TmultiScore::setScroeScale(qreal sc) {
+void TmultiScore::setScoreDisabled(bool disabled) {
+	for (int i = 0; i < m_staves.size(); ++i) {
+		m_staves[i]->setDisabled(disabled);
+	}
+}
+
+
+void TmultiScore::setScoreScale(qreal sc) {
 	if (sc != m_scale) {
 		m_scale = sc;
 		resizeEvent(0);
@@ -203,6 +210,7 @@ void TmultiScore::deleteNotes() {
 	}
 	setNote(Tnote());
 	updateSceneRect();
+	staff()->noteSegment(0)->hideWorkNote();
 	emit noteWasChanged(0, Tnote());
 }
 
