@@ -21,7 +21,7 @@
 #include <exam/texam.h>
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
-#include <widgets/tlevelpreview.h>
+#include <level//tlevelpreview.h>
 #include <graphics/tnotepixmap.h>
 #include <tglobals.h>
 #include <texamparams.h>

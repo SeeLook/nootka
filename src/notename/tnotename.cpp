@@ -269,7 +269,7 @@ void TnoteName::setNoteName(Tnote note) {
 }
 
 
-void TnoteName::setNoteName(TnotesList notes) {
+void TnoteName::setNoteName(TnotesList& notes) {
     TnotesList::iterator it = notes.begin();
     ++it;
     if (it != notes.end())
@@ -600,7 +600,7 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 		return;
 	m_menu->resize(size());
 	if (m_menu->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
-				m_menu->move(m_menu->pos().x() - width() - 8.5 * m_scoreFactor, m_menu->pos().y());
+				m_menu->move(m_menu->pos().x() - width() - 10.5 * m_scoreFactor, m_menu->pos().y());
 	// Move note name menu on the left screen side to allow seeing an edited note
 }
 

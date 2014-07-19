@@ -58,7 +58,7 @@ public:
     void setEnabledDblAccid(bool isEnabled);
     void setEnabledEnharmNotes(bool isEnabled);
     void setNoteName(Tnote note);
-    void setNoteName(TnotesList notes);
+    void setNoteName(TnotesList& notes);
     Tnote getNoteName() {return m_notes[0]; }
     Tnote getNoteName(int index) {return m_notes[index]; }
     void resize(int fontSize = 0);

@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 		qDebug() << "Main Window successfully deleted";
 	} while (resetConfig);
 		
-	delete gl;
-	qDebug() << "Settings object successfully deleted";
+// 	delete gl;
+// 	qDebug() << "Settings object successfully deleted";
 	return exitCode;
 }

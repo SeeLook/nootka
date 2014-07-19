@@ -75,7 +75,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	
 	setBGcolor(palette().base().color());
 	setEnabledDblAccid(false);
-	
+	setAlignment(Qt::AlignLeft);
 	resizeEvent(0);
 }
 
@@ -334,7 +334,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
-  qreal factor = ((qreal)hh / (staff()->height() + 4.0)) / transform().m11();
+  qreal factor = ((qreal)hh / (staff()->height() + 2.0)) / transform().m11();
   scale(factor, factor);
 // 	staff()->setExternalWidth((width()) / transform().m11() - (1.0 + staffOff));
 // 	if (horizontalScrollBar()->isVisible()) {
@@ -347,6 +347,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 // 	setSizeHint(QSize(mapFromScene(m_scene->sceneRect()).boundingRect().size().width() + 1, height() - 2));
 // 	setSizeHint(size());
 	setSizeHint(mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
+	setMaximumWidth(m_sizeHint.width());
 // 	setSceneRect(scoreScene()->sceneRect());
 }
 
