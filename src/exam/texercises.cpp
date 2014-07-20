@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "texercises.h"
-#include "texam.h"
+#include <exam/texam.h>
 #include <widgets/troundedlabel.h>
 #include <QRadioButton>
 #include <QButtonGroup>
@@ -150,6 +150,7 @@ TsuggestExam::Esuggest TsuggestExam::suggest() {
 		if (m_neverAskRadio->isChecked()) {
 			return e_neverEver;
 		}
+		return e_readyToExam;
 }
 
 

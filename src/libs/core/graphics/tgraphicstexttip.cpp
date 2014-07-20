@@ -23,6 +23,7 @@
 #include <QTextCursor>
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
+#include <QApplication>
 
 
 /* static */
@@ -101,7 +102,7 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     QColor endColor = startColor;
     endColor.setAlpha(75);
     painter->setPen(QPen(endColor, 1));
-		painter->setBrush(QBrush(widget->palette().base().color()));
+		painter->setBrush(QBrush(qApp->palette().base().color()));
     painter->drawRoundedRect(rect, 5, 5);
     QLinearGradient grad(rect.topLeft(), rect.bottomRight());
     grad.setColorAt(0.2, startColor);
@@ -109,9 +110,7 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 5, 5);
   }
-
-    QGraphicsTextItem::paint(painter, option, widget);
-
+	QGraphicsTextItem::paint(painter, option, widget);
 }
 
 QRectF TgraphicsTextTip::boundingRect() const

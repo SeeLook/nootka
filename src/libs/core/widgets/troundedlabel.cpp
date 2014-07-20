@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "troundedlabel.h"
+#include <QApplication>
 
 
 TroundedLabel::TroundedLabel(QWidget* parent) : 
@@ -62,19 +63,11 @@ QString TroundedLabel::backgroundText() {
 
 //######################################### PRIVATE ######################################################
 void TroundedLabel::initBgColor() {
-		if (parentWidget()) {
 #if defined(Q_OS_WIN32)
-				m_bgColor = parentWidget()->palette().window().color().lighter(101);
+				m_bgColor = qApp->palette().window().color().lighter(101);
 #else
-				m_bgColor = parentWidget()->palette().window().color().lighter(105);
+				m_bgColor = qApp->palette().window().color().lighter(105);
 #endif
-		} else {
-#if defined(Q_OS_WIN32)
-				m_bgColor = palette().window().color().lighter(101);
-#else
-				m_bgColor = palette().window().color().lighter(105);
-#endif
-		}
 		m_bgColor.setAlpha(175);
 		QLabel::setStyleSheet(backgroundText());
 		m_styleText = "";

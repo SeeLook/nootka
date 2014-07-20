@@ -583,6 +583,19 @@ bool Tlevel::canBeSound() {
       return false;
 }
 
+/** To be sure, a melody is possible we checking not only notes number
+ * but question-answer types as well, even if creator doesn't allow for wrong sets. */
+bool Tlevel::canBeMelody() {
+	if (melodyLen > 1 && 
+			((questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound()) || 
+			(questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote()) ||
+		  (questionAs.isSound() && answersAs[TQAtype::e_asSound].isSound())) )
+		return true;
+	else
+		return false;
+}
+
+
 /** Checking questions would be skipped because Level creator avoids selecting answer without question.
 * Unfortunately built-in levels are not so perfect.*/
 bool Tlevel::answerIsNote() {

@@ -105,6 +105,7 @@ public:
 		Tattempt* lastAtt() { return m_attempts->last(); } /** Pointer to the last attempt */
 		
 		void addMelody(const QString& title); /** Adds melody of replaces existing one. */
+		Tmelody* melody() { return m_melody; }
 		
 		void toXml(QXmlStreamWriter& xml);
 		bool formXml(QXmlStreamReader& xml);

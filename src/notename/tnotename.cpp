@@ -409,7 +409,7 @@ QSize TnoteName::sizeHint() const {
 //#################################### EXAM RELATED ############################################
 //##############################################################################################
 QColor TnoteName::prepareBgColor(const QColor& halfColor) {
-		QColor mixedColor = Tcolor::merge(halfColor, palette().window().color());
+		QColor mixedColor = Tcolor::merge(halfColor, qApp->palette().window().color());
     mixedColor.setAlpha(220);
 		return mixedColor;
 }
@@ -481,7 +481,7 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 
 void TnoteName::clearNoteName() {
     setNoteName(Tnote());
-		m_nameLabel->setBackgroundColor(prepareBgColor(palette().base().color()));
+		m_nameLabel->setBackgroundColor(prepareBgColor(qApp->palette().base().color()));
 }
 
 

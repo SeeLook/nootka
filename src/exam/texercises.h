@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +28,8 @@ class Texam;
 /** 
  * Class for managing exercising (exam like mode) 
  * It gets answers state through checkAnswer(), checks is it necessary to suggest an exam
- * and emits messageDisplayed signal during message. */
+ * and emits messageDisplayed signal during message. 
+ */
 class Texercises : public QObject
 {
 	Q_OBJECT

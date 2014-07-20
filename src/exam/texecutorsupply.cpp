@@ -17,10 +17,11 @@
  ***************************************************************************/
 
 #include "texecutorsupply.h"
-#include "texam.h"
-#include "tglobals.h"
-#include "tlevel.h"
-#include <ttune.h>
+#include <exam/texam.h>
+#include <exam/tlevel.h>
+#include <music/ttune.h>
+#include <tglobals.h>
+#include <tscoreparams.h>
 #include <mainwindow.h>
 #include <QMouseEvent>
 #include <QMessageBox>

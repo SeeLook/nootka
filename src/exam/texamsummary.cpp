@@ -18,13 +18,14 @@
 
 
 #include "texamsummary.h"
-#include <QtGui>
-#include "texam.h"
 #include "texamview.h"
-#include "tqaunit.h"
-#include "tlevelpreview.h"
+#include <exam/texam.h>
+#include <exam/tqaunit.h>
+#include <exam/textrans.h>
+#include <level/tlevelpreview.h>
 #include <widgets/troundedlabel.h>
-#include <tanalysdialog.h>
+// #include <tanalysdialog.h>
+#include <QtWidgets>
 
 
   /** returns 2 columns row of table */
@@ -48,18 +49,18 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
     QLabel *userNameLab = new QLabel(tr("student:") + QString("  %2<u>%1</u></b>").arg(exam->userName()).arg(font20), this);
     m_leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
     TroundedLabel *questNrLab = new TroundedLabel("<center>" + tr("Number of questions:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
-                      QString("<br>%1: %2%3</b>").arg(TexamView::corrAnswersNrTxt()).arg(font20).
+                      QString("<br>%1: %2%3</b>").arg(TexTrans::corrAnswersNrTxt()).arg(font20).
                           arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
-                      QString("<br>%1: %2%3</b>").arg(TexamView::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
-                      QString("<br>%1: %2%3</b>").arg(TexamView::halfMistakenTxt()).arg(font20).arg(exam->halfMistaken())
+                      QString("<br>%1: %2%3</b>").arg(TexTrans::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
+                      QString("<br>%1: %2%3</b>").arg(TexTrans::halfMistakenTxt()).arg(font20).arg(exam->halfMistaken())
         ,this);
     m_leftLay->addWidget(questNrLab);
     QVBoxLayout *timeLay = new QVBoxLayout();
     QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
     TroundedLabel *timeLab = new TroundedLabel("<table>" +
-    row2(TexamView::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
+    row2(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
     row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
-    row2(TexamView::averAnsverTimeTxt(), QString("%1 s").
+    row2(TexTrans::averAnsverTimeTxt(), QString("%1 s").
         arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
     "</table>", this);
     timeLab->setContentsMargins(5, 5, 5, 5);
@@ -142,7 +143,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
       effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto*100.0 /wTotal)) + "%)");
   }
 	TroundedLabel *resLab = new TroundedLabel("<table>" +
-    row2(TexamView::effectTxt(), QString::number(qRound(exam->effectiveness())) + "%") + effStr + "</table>", this);
+    row2(TexTrans::effectTxt(), QString::number(qRound(exam->effectiveness())) + "%") + effStr + "</table>", this);
   resLab->setContentsMargins(5, 5, 5, 5);
 	resLay->addWidget(resLab);
 	
@@ -157,7 +158,7 @@ TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *paren
 }
 
 
-TexamSummary::Eactions TexamSummary::exec() {
+TexamSummary::Eactions TexamSummary::doExec() {
   QDialog::exec();
   return m_state;
 }
@@ -184,11 +185,11 @@ void TexamSummary::setForExercise() {
 //#################################################################
 
 void TexamSummary::analyseSlot() {
-	TanalysDialog *AD = new TanalysDialog(m_exam, parentWidget());
-	if (m_examButton)
-			AD->setWindowTitle(AD->analyseExerciseWinTitle());
-	AD->exec();
-	delete AD;
+// 	TanalysDialog *AD = new TanalysDialog(m_exam, parentWidget()); TODO
+// 	if (m_examButton)
+// 			AD->setWindowTitle(AD->analyseExerciseWinTitle());
+// 	AD->exec();
+// 	delete AD;
 }
 
 void TexamSummary::closeSlot() {

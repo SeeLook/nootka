@@ -266,8 +266,8 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 			m_flyEllipse->setRect(m_window->score->noteRect(1)); // 1 - answer note segment	
 			m_flyEllipse->setPos(m_view->mapToScene(m_window->score->notePos(1)));
 	} else if (question == TQAtype::e_asName) {
-			m_flyEllipse->setRect(QRectF(0, 0, m_noteName->labelRect().height() * 2, m_noteName->labelRect().height()));
-			m_flyEllipse->setPos(m_view->mapToScene(m_noteName->mapToParent(m_noteName->labelRect().topLeft())));
+			m_flyEllipse->setRect(QRectF(0, 0, m_window->noteName->labelRect().height() * 2, m_window->noteName->labelRect().height()));
+			m_flyEllipse->setPos(m_view->mapToScene(m_window->noteName->mapToParent(m_window->noteName->labelRect().topLeft())));
 	} else if (question == TQAtype::e_asSound) {
 			m_flyEllipse->setRect(QRectF(0, 0, m_window->pitchView->height() * 2, m_window->pitchView->height()));
 			m_flyEllipse->setPos(m_view->mapToScene((m_window->pitchView->geometry().topLeft() + 
@@ -364,7 +364,7 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
     case TQAtype::e_asNote:
       return m_window->score->geometry();
     case TQAtype::e_asName:
-      return m_noteName->geometry();
+      return m_window->noteName->geometry();
     case TQAtype::e_asFretPos:
           return m_window->guitar->geometry();
     case TQAtype::e_asSound:
@@ -472,14 +472,14 @@ bool Tcanvas::event(QEvent* event) {
 
 int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree)
-			return m_noteName->height();
+			return m_window->noteName->height();
 	else if (m_scoreFree)
 			return m_window->score->height() * 0.45;
 	else {
 // 		if (m_window->pitchView->isVisible())
 				return m_window->guitar->height();
 // 		else
-// 				return m_window->guitar->height() + (m_window->guitar->geometry().top() - m_noteName->geometry().bottom()) / 2;
+// 				return m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2;
 	}
 }
 
@@ -487,12 +487,12 @@ int Tcanvas::getMaxTipHeight() {
 void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	QRect geoRect;
 	if (m_nameFree) { // middle of the noteName
-			geoRect = m_noteName->geometry();
+			geoRect = m_window->noteName->geometry();
 			if (tip == m_whatTip) {
-				if (tip->boundingRect().width() * tip->scale() != m_noteName->geometry().width() - 20)
-					tip->setScale((m_noteName->geometry().width() - 20) / (tip->boundingRect().width() * tip->scale()));
-				if (tip->boundingRect().height() * tip->scale() > m_noteName->height())
-					tip->setScale((qreal)(m_noteName->height()) / (tip->boundingRect().height()));
+				if (tip->boundingRect().width() * tip->scale() != m_window->noteName->geometry().width() - 20)
+					tip->setScale((m_window->noteName->geometry().width() - 20) / (tip->boundingRect().width() * tip->scale()));
+				if (tip->boundingRect().height() * tip->scale() > m_window->noteName->height())
+					tip->setScale((qreal)(m_window->noteName->height()) / (tip->boundingRect().height()));
 			}
 	} else if (m_scoreFree) {// on the score at its center
 			geoRect = m_window->score->geometry();
@@ -501,10 +501,10 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	} else { // middle of the guitar
 			geoRect = m_window->guitar->geometry();
 			if (!m_window->pitchView->isVisible() || !m_window->guitar->isVisible()) // tip can be bigger
-				geoRect = QRect(m_noteName->geometry().left() + 20,
-							m_window->guitar->geometry().y() - (m_window->guitar->geometry().top() - m_noteName->geometry().bottom()) / 2,
-							m_window->guitar->width() - m_noteName->width() - 20,
-							m_window->guitar->height() + (m_window->guitar->geometry().top() - m_noteName->geometry().bottom()) / 2);
+				geoRect = QRect(m_window->noteName->geometry().left() + 20,
+							m_window->guitar->geometry().y() - (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2,
+							m_window->guitar->width() - m_window->noteName->width() - 20,
+							m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2);
 		}
 	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
 		geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2 );
@@ -520,7 +520,7 @@ void Tcanvas::setResultPos() {
 void Tcanvas::setTryAgainPos() {
   m_tryAgainTip->setPos(m_relPoint.x() + (((m_scene->width() - m_relPoint.x()) -
 											m_scale * m_tryAgainTip->boundingRect().width())) / 2,
-                      m_noteName->geometry().top() - m_scale * m_tryAgainTip->boundingRect().height());
+                      m_window->noteName->geometry().top() - m_scale * m_tryAgainTip->boundingRect().height());
 }
 
 
@@ -540,7 +540,7 @@ void Tcanvas::setStartTipPos() {
 
 
 void Tcanvas::setConfirmPos() { // middle of noteName and somewhere above
-    m_confirmTip->setPos(m_noteName->geometry().x() + (m_noteName->width() - m_confirmTip->boundingRect().width()) / 2,
+    m_confirmTip->setPos(m_window->noteName->geometry().x() + (m_window->noteName->width() - m_confirmTip->boundingRect().width()) / 2,
 												 m_relPoint.y());  
 }
 

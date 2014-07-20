@@ -257,7 +257,7 @@ void TmainScore::unLockScore() {
 // 	setNoteDisabled(1, true);
 // 	setNoteDisabled(2, true);
     if (m_questMark) { // question mark exists only when exam is performing
-      setBGcolor(Tcolor::merge(gl->EanswerColor, palette().window().color()));
+      setBGcolor(Tcolor::merge(gl->EanswerColor, mainWindow()->palette().window().color()));
 			setNoteViewBg(0, gl->EanswerColor);
     }
 //   setClefDisabled(true);
@@ -307,7 +307,7 @@ int TmainScore::widthToHeight(int hi) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-		// TODO Disable extra tool bars.
+			enableCorners(false);
 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
 			m_questMark = new QGraphicsSimpleTextItem();
@@ -317,15 +317,16 @@ void TmainScore::isExamExecuting(bool isIt) {
 		#else
 			m_questMark->setFont(TnooFont(8));
 		#endif
-// 			m_questMark->setParentItem(staff()->noteSegment(2)); TODO It could be disaster - better staff
+			m_questMark->setParentItem(staff());
 			QColor c = gl->EquestionColor;
-			c.setAlpha(220);
-			staff()->noteSegment(1)->setColor(c);
+			c.setAlpha(150);
+// 			staff()->noteSegment(1)->setColor(c); TODO
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
-			m_questMark->setScale(12.0 / m_questMark->boundingRect().width()); // 7.0 is not scaled segment width (12.0 is a bit bigger)
-			m_questMark->setPos(0, 
+			m_questMark->setScale(staff()->height() / m_questMark->boundingRect().height());
+			m_questMark->setPos((staff()->boundingRect().width() - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
 													(staff()->boundingRect().height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
+			m_questMark->setZValue(1);
 			setScoreDisabled(true);
 			setClefDisabled(true);
     } else {
@@ -367,14 +368,14 @@ void TmainScore::clearScore() {
 		delete m_bgRects[i];
 	m_bgRects.clear();
 	m_questMark->hide();
-	setBGcolor(palette().base().color());
+	setBGcolor(mainWindow()->palette().base().color());
 	enableAccidToKeyAnim(enableAnim);
 }
 
 
 void TmainScore::askQuestion(Tnote note, char realStr) {
 		TsimpleScore::setNote(1, note);
-    setBGcolor(Tcolor::merge(gl->EquestionColor, palette().window().color()));
+    setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
     m_questMark->show();
     if (realStr) 
 			setStringNumber(1, realStr);
