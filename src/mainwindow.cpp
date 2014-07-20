@@ -283,8 +283,7 @@ void MainWindow::setStatusMessage(QString msg, int time) {
 void MainWindow::setMessageBg(QColor bg) {
     if (bg == -1) {
 				m_statLab->setDefaultBackground();
-    }
-    else
+    } else
         m_statLab->setBackroundColor(bg);
     m_curBG = bg;
 }
@@ -445,12 +444,12 @@ void MainWindow::startExamSlot() {
 		examResults = new TexamView();
 		progress = new TprogressWidget();
 		innerWidget->addExamViews(examResults, progress);
-		TstartExamDlg *sed = new TstartExamDlg("Gucio", gl->path, gl->E, this);
-		QString sedSays;
-		sed->showDialog(sedSays, m_level);
-		delete sed;
+// 		TstartExamDlg *sed = new TstartExamDlg("Gucio", gl->path, gl->E, this);
+// 		QString sedSays;
+// 		sed->showDialog(sedSays, m_level);
+// 		delete sed;
 // 		nootLabel->hide();
-//     ex = new TexamExecutor(this);
+    ex = new TexamExecutor(this);
 }
 
 /*
@@ -535,13 +534,17 @@ void MainWindow::soundWasPlayed(Tnote note) {
 
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
+		if (!ex) {
 				recordAct->setVisible(false);
 				playAct->setVisible(false);
+		}
 				innerWidget->addNoteName(score->noteName());
 				score->setInsertMode(TmultiScore::e_single);
-			} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
+	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
+		if (!ex) {
 				recordAct->setVisible(true);
 				playAct->setVisible(true);
+		}
 				innerWidget->takeNoteName();
 				score->setInsertMode(TmultiScore::e_multi);
 	}

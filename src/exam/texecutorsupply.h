@@ -19,9 +19,9 @@
 #ifndef TEXECUTORSUPPLY_H
 #define TEXECUTORSUPPLY_H
 
-#include "tnote.h"
-#include <QObject>
-#include "tqaunit.h"
+#include <music/tnote.h>
+#include <exam/tqaunit.h>
+
 
 class MainWindow;
 class Texam;

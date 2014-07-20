@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,10 +20,10 @@
 #define TGLOBALSTORE_H
 
 
-#include <tnote.h>
-#include <tinstrument.h>
-#include <ttune.h>
-#include <tclef.h>
+#include <music/tnote.h>
+#include <music/tinstrument.h>
+#include <music/ttune.h>
+#include <music/tclef.h>
 
 class Tlevel;
 
@@ -50,7 +50,7 @@ public:
 	
 	
 	
-  bool 												S->showEnharmNotes;
+  bool 												showEnharmNotes;
   bool 												showKeySignName;
   bool 												showOtherPos;
   Tnote::EnameStyle 					nameStyleInNoteName;
@@ -64,6 +64,7 @@ public:
   int 												detectRange;
 	quint8											intonation;
 	int													playbackInstr;
+	bool												isSingleNoteMode;
 	
 private:
 	Tglobals *m_globals;

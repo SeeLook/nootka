@@ -121,6 +121,7 @@ public:
     bool canBeName(); // True if answer or question is note name
     bool canBeGuitar(); // True if answer or question is position on a guitar
     bool canBeSound(); // True if answer or question is played or sang sound
+		bool canBeMelody(); // True when question/answer has more notes and have appropriate types
 		bool answerIsNote(); // True if answer is note on a score in any question type
 		bool answerIsName(); // True if answer is note name in any question type
 		bool answerIsGuitar(); // True if answer is position on the guitar in any question type

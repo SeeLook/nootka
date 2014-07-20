@@ -60,6 +60,11 @@ set(NOOTKA_SRC
 	exam/texamview.cpp
 	exam/tprogresswidget.cpp
 	exam/tstartexamdlg.cpp
+	exam/texamexecutor.cpp
+	exam/texecutorsupply.cpp
+	exam/texercises.cpp
+	exam/tglobalexamstore.cpp
+	exam/texamsummary.cpp
 	
 	animations/tstrikedoutitem.cpp
 )

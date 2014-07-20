@@ -29,6 +29,7 @@
 #include "level/tlevelselector.h"
 #include <tsound.h>
 #include <exam/texam.h>
+#include <exam/textrans.h>
 // #include "texamsettings.h"
 #include <help/texamhelp.h>
 #include <help/texpertanswerhelp.h>
@@ -38,12 +39,13 @@
 #include <notename/tnotename.h>
 #include <widgets/tintonationview.h>
 #include <widgets/tpitchview.h>
-#include <widgets/tfixleveldialog.h>
+#include <level/tfixleveldialog.h>
 #include <widgets/tanimedchbox.h>
 #include <tglobals.h>
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
+#include <tmainview.h>
 #include <QtWidgets>
 
 
@@ -100,7 +102,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
         m_exam = new Texam(&m_level, resultText); // resultText is userName
 				if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
-							mW->clearAfterExam();
+							mW->clearAfterExam(e_failed);
 							deleteExam();
 							return;
           }
@@ -123,7 +125,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 // 				//We check are guitar's params suitable for an exam 
 // 					TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
           if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || !showExamSummary(true)) {
-							mW->clearAfterExam();
+							mW->clearAfterExam(e_failed);
 							deleteExam();
 							return;
           }
@@ -134,7 +136,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
             if (err == Texam::e_file_not_valid)
                 QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
                                   .arg(resultText));
-            mW->clearAfterExam();
+            mW->clearAfterExam(e_failed);
             deleteExam();
             return;
         }
@@ -150,11 +152,11 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     //We check are guitar's params suitable for an exam 
 		TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
     //We are checking is sound needed in exam and is it available
-    if (m_level.questionAs.isSound()) {
+    if (m_level.questionAs.isSound()) { //TODO it is too much - just turn sound on...
         if (!mW->sound->isPlayable()) {
             QMessageBox::warning(mW, "",
                      tr("Exercise or exam require sound but<br>sound output is not available!"));
-            mW->clearAfterExam();
+            mW->clearAfterExam(e_failed);
             deleteExam();
             return;
         }
@@ -163,7 +165,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
       if (!mW->sound->isSniffable()) {
             QMessageBox::warning(mW, " ",
                      tr("An exercises or exam require sound input but<br>it is not available!"));
-            mW->clearAfterExam();
+            mW->clearAfterExam(e_failed);
             deleteExam();
             return;
       }
@@ -176,7 +178,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 		if (m_questList.isEmpty()) {
         QMessageBox::critical(mW, " ", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
 				delete m_supp;
-				mW->clearAfterExam();
+				mW->clearAfterExam(e_failed);
 				deleteExam();
         return;
     }
@@ -186,7 +188,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
       if (!m_supp->isGuitarOnlyPossible()) {
           qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
-          mW->clearAfterExam();
+          mW->clearAfterExam(e_failed);
           deleteExam();
 					return;
       }
@@ -269,8 +271,8 @@ void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
     clearWidgets();
 		if (m_blindCounter > 20) {
-				QMessageBox::critical(mW, "Level error!", QString("Nootka's attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further release"));
-				mW->clearAfterExam();
+				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further release"));
+				mW->clearAfterExam(e_failed);
 				deleteExam();
 				return;
 		}
@@ -348,7 +350,10 @@ void TexamExecutor::askQuestion() {
             curQ.qa.note = m_supp->determineAccid(curQ.qa.note);
         }
     }
-
+		if (curQ.melody())
+			mW->setSingleNoteMode(false);
+		else
+			mW->setSingleNoteMode(true);
 //    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
@@ -679,11 +684,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
 		markAnswer(curQ);
     int waitTime = gl->E->questionDelay;
 		if (m_exercise) {
-			if (gl->E->afterMistake != TexamParams::e_continue || mW->correctChB->isChecked())
+			if (gl->E->afterMistake != TexamParams::e_continue || gl->E->showCorrected)
 				waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer();
 			if (!curQ.isCorrect()) { // correcting wrong answer
-					if (mW->correctChB->isChecked())
+					if (gl->E->showCorrected)
 						correctAnswer();
 					else {
 						mW->nootBar->addAction(correctAct);
@@ -718,7 +723,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
               QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
           else {
-							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !mW->correctChB->isChecked()))
+							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !gl->E->showCorrected))
 									waitTime = gl->E->mistakePreview; // for exercises time was set above
 							m_askingTimer->start(waitTime);
 					}
@@ -738,7 +743,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
  * Detected note if wrong appears for result tip time or 5000 ms when no auto next question
  */
 void TexamExecutor::correctAnswer() {
-	if (!mW->correctChB->isChecked())
+	if (!gl->E->showCorrected)
 			mW->nootBar->removeAction(correctAct);
 	if (m_askingTimer->isActive())
 			m_askingTimer->stop();
@@ -968,13 +973,8 @@ void TexamExecutor::prepareToExam() {
     mW->startExamAct->setIcon(QIcon(gl->path + "picts/stopExam.png"));
     mW->startExamAct->setText(tr("Stop"));
 		mW->startExamAct->setToolTip(mW->startExamAct->statusTip());
-    mW->autoRepeatChB->show();
-    mW->autoRepeatChB->setChecked(gl->E->autoNextQuest);
-    mW->expertAnswChB->show();
-    mW->expertAnswChB->setChecked(gl->E->expertsAnswerEnable);
 		if (m_exercise) {
-				mW->correctChB->show();
-				mW->correctChB->setChecked(gl->E->showCorrected);
+// 				gl->E->showCorrected = gl->E->showCorrected;
 		}	else {
 				mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
 				mW->examResults->displayTime();
@@ -992,7 +992,7 @@ void TexamExecutor::prepareToExam() {
     connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-    disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
+//     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
     disconnect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
@@ -1004,13 +1004,14 @@ void TexamExecutor::prepareToExam() {
 		} else
 			connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-    connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
-            SLOT(autoRepeatStateChanged(bool)));
-    connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
+//     connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
+//             SLOT(autoRepeatStateChanged(bool)));
+//     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
 
 		m_glStore->storeSettings();
 		m_glStore->prepareGlobalsToExam(m_level);
 
+		mW->setSingleNoteMode(gl->S->isSingleNoteMode);
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
     mW->noteName->setEnabledDblAccid(m_level.withDblAcc);
@@ -1023,7 +1024,7 @@ void TexamExecutor::prepareToExam() {
 					mW->sound->wait();
 			mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
 		}
-		TtipChart::defaultClef = m_level.clef;
+// 		TtipChart::defaultClef = m_level.clef; // TODO
 		mW->updateSize(mW->centralWidget()->size());
     clearWidgets();
 		if (gl->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
@@ -1038,8 +1039,7 @@ void TexamExecutor::prepareToExam() {
 			mW->examResults->show();
 		}
     m_snifferLocked = false;
-    m_canvas = new Tcanvas(mW);
-    m_canvas->show();
+    m_canvas = new Tcanvas(mW->innerWidget, mW);
     connect(m_canvas, SIGNAL(buttonClicked(QString)), this, SLOT(tipButtonSlot(QString)));
     if(gl->hintsEnabled)
         m_canvas->startTip();
@@ -1054,11 +1054,11 @@ void TexamExecutor::restoreAfterExam() {
 
 		m_glStore->restoreSettings();
 		if (m_exercise) {
-			gl->E->showCorrected = mW->correctChB->isChecked();
+// 			gl->E->showCorrected = gl->E->showCorrected;
 			gl->E->suggestExam = m_exercise->suggestInFuture();
 		}
 		
-		TtipChart::defaultClef = gl->S->clef;
+// 		TtipChart::defaultClef = gl->S->clef;
     mW->score->acceptSettings();
 		mW->score->enableAccidToKeyAnim(true);
     mW->noteName->setEnabledEnharmNotes(false);
@@ -1074,22 +1074,19 @@ void TexamExecutor::restoreAfterExam() {
     mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
-    mW->autoRepeatChB->hide();
-    mW->expertAnswChB->hide();
-		mW->correctChB->hide();
 		mW->pitchView->show();
 
     if (m_canvas)
         m_canvas->deleteLater();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-    connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
+//     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     connect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
     disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     disconnect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-    disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
-            SLOT(autoRepeatStateChanged(bool)));
+//     disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
+//             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
     mW->score->unLockScore();
@@ -1097,7 +1094,7 @@ void TexamExecutor::restoreAfterExam() {
 		mW->score->setClefDisabled(false);
     mW->guitar->deleteRangeBox();
     mW->sound->restoreAfterExam();
-    mW->clearAfterExam();
+    mW->clearAfterExam(e_finished);
 }
 
 
@@ -1174,7 +1171,6 @@ void TexamExecutor::exerciseToExam() {
 	levelStatusMessage();
 	m_supp->setFinished(false); // exercise had it set to true
 	initializeExecuting();
-	mW->correctChB->hide();
 	mW->examResults->startExam();
 	mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
 	mW->examResults->displayTime();
@@ -1348,7 +1344,7 @@ QString TexamExecutor::saveExamToFile() {
     QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"),
                          QDir::toNativeSeparators(gl->E->examsDir + "/" +
                                                   m_exam->userName() + "-" + m_level.name + ".noo"),
-                         TstartExamDlg::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
+                         TexTrans::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "") {
 		QMessageBox *msg = new QMessageBox(mW);
 		msg->setText(tr("If you don't save to file<br>you lost all results!"));
@@ -1373,21 +1369,21 @@ void TexamExecutor::repeatSound() {
   }
 }
 
-
+/*
 void TexamExecutor::autoRepeatStateChanged(bool enable) {
     gl->E->autoNextQuest = enable;
     if (enable) {
         mW->startExamAct->setDisabled(false);
         m_canvas->clearResultTip();
     }
-}
+}*/
 
 
 bool TexamExecutor::showExamSummary(bool cont, bool* startExam) {
   TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);
 	if (m_exercise)
 			ES->setForExercise();
-  TexamSummary::Eactions respond = ES->exec();
+  TexamSummary::Eactions respond = ES->doExec();
 	if (startExam) {
 		if (respond == TexamSummary::e_startExam)
 			*startExam = true;
@@ -1414,16 +1410,16 @@ void TexamExecutor::showExamHelp() {
 }
 
 
-void TexamExecutor::expertAnswersStateChanged(bool enable) {
-  if (enable) {
-      if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(mW, &gl->E->askAboutExpert, true))
-      {}
-      else
-          mW->expertAnswChB->setChecked(false); // ignore it, user resigned
-  }
-  gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
-	mW->score->enableAccidToKeyAnim(!gl->E->expertsAnswerEnable); // no accid to key animation when experts enabled
-}
+// void TexamExecutor::expertAnswersStateChanged(bool enable) {
+//   if (enable) {
+//       if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(mW, &gl->E->askAboutExpert, true))
+//       {}
+//       else
+//           mW->expertAnswChB->setChecked(false); // ignore it, user resigned
+//   }
+//   gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
+// 	mW->score->enableAccidToKeyAnim(!gl->E->expertsAnswerEnable); // no accid to key animation when experts enabled
+// }
 
 
 void TexamExecutor::sniffAfterPlaying() {
@@ -1445,7 +1441,7 @@ void TexamExecutor::startSniffing() {
 
 
 void TexamExecutor::expertAnswersSlot() {
-    if (!mW->expertAnswChB->isChecked()) { // no expert
+    if (!gl->E->expertsAnswerEnable) { // no expert
 			if (gl->hintsEnabled) // show hint how to confirm an answer
 				m_canvas->confirmTip(1500);
       return;

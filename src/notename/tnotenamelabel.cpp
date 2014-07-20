@@ -22,6 +22,7 @@
 #include <animations/tmovedanim.h>
 #include <graphics/tgraphicstexttip.h>
 #include <tcolor.h>
+#include <QApplication>
 #include <QGraphicsTextItem>
 #include <QGraphicsEffect>
 #include <QTimer>
@@ -58,7 +59,7 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	setText(text);
 	
 	
-	m_bgColor = palette().base().color();
+	m_bgColor = qApp->palette().base().color();
 	m_bgColor.setAlpha(220);
 	setBackgroundColor(m_bgColor);
 }

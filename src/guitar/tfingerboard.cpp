@@ -166,7 +166,7 @@ void TfingerBoard::setFinger(Tnote note) {
 						m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
 														arg(height() / 7).arg(gl->EquestionColor.name()) +
 														tr("This note is beyond the scale of the guitar!") + " </b></span><br>", 
-																							 QColor(palette().text().color().darker().name()));
+																							 QColor(qApp->palette().text().color().darker().name()));
 						if (!gl->GisRightHanded) {
 							QTransform trans;
 							trans.translate(width() / 2, 0);

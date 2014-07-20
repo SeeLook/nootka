@@ -35,7 +35,7 @@ public:
   
   
   enum Eactions { e_continue, e_discard, e_startExam };
-  Eactions exec();
+  Eactions doExec();
 	
 			/** By default it was created for exams. This method adjust the dialog for exercise context:
 			* - changes window title, 
