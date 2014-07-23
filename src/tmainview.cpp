@@ -19,8 +19,6 @@
 #include "tmainview.h"
 #include <QtWidgets>
 
-QHBoxLayout *scoreAndNameLay = 0;
-QVBoxLayout *lay;
 
 TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget* scoreW, QWidget* guitarW, QWidget* parent) :
 	QGraphicsView(parent),
@@ -45,21 +43,21 @@ TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget
 	guitarW->installEventFilter(this);
 	
 	
-	lay = new QVBoxLayout;
-		lay->setContentsMargins(1, 2, 1, 2);
-		lay->addWidget(m_tool);
-		QHBoxLayout *statAndPitchLay = new QHBoxLayout;
-			statAndPitchLay->addWidget(m_status);
-			statAndPitchLay->addWidget(m_pitch);
-		lay->addLayout(statAndPitchLay);
-		scoreAndNameLay = new QHBoxLayout;
-		scoreAndNameLay->addWidget(m_score);
-		lay->addLayout(scoreAndNameLay);
-		lay->addWidget(m_guitar);
+	m_mainLay = new QBoxLayout(QBoxLayout::TopToBottom);
+		m_mainLay->setContentsMargins(1, 2, 1, 2);
+		m_mainLay->addWidget(m_tool);
+		m_statAndPitchLay = new QBoxLayout(QBoxLayout::LeftToRight);
+		  m_statAndPitchLay->addWidget(m_status);
+		  m_statAndPitchLay->addWidget(m_pitch);
+	m_mainLay->addLayout(m_statAndPitchLay);
+		m_scoreAndNameLay = new QBoxLayout(QBoxLayout::LeftToRight);
+			m_scoreAndNameLay->addWidget(m_score);
+		m_mainLay->addLayout(m_scoreAndNameLay);
+		m_mainLay->addWidget(m_guitar);
 	QWidget *w = new QWidget;
 	w->setObjectName("proxyWidget");
 	w->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
-	w->setLayout(lay);
+	w->setLayout(m_mainLay);
 	m_form = scene()->addWidget(w);
 
 // 	m_tool->hide();
@@ -73,24 +71,27 @@ void TmainView::addNoteName(QWidget* name) {
 		m_name = name;
 		m_name->installEventFilter(this);
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-		scoreAndNameLay->insertStretch(0);
-		scoreAndNameLay->addStretch(0);
-		scoreAndNameLay->addWidget(m_name, 0, Qt::AlignCenter);
-		scoreAndNameLay->addStretch(0);
-		m_score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-// 		scoreAndNameLay->parentWidget()->updateGeometry();
+			m_scoreAndNameLay->insertStretch(0);
+			m_scoreAndNameLay->addStretch(0);
+			m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
+				m_nameLay->addStretch();
+				m_nameLay->addWidget(m_name);
+				m_nameLay->addStretch();
+			m_scoreAndNameLay->addLayout(m_nameLay);
+			m_scoreAndNameLay->addStretch(0);
+// 		m_score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	}
 }
 
 
 void TmainView::takeNoteName() {
 	if (m_name) {
-// 		m_name->setParent(0);
-		scoreAndNameLay->removeWidget(m_name);
+		m_nameLay->removeWidget(m_name);
+		delete m_nameLay;
 		m_name = 0;
-		delete scoreAndNameLay->takeAt(0);
-		delete scoreAndNameLay->takeAt(1);
-		delete scoreAndNameLay->takeAt(1);
+		delete m_scoreAndNameLay->takeAt(0);
+		delete m_scoreAndNameLay->takeAt(1);
+		delete m_scoreAndNameLay->takeAt(1);
 	}
 }
 
@@ -98,28 +99,29 @@ void TmainView::takeNoteName() {
 void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 	m_results = resultsW;
 	m_progress = progressW;
-	QHBoxLayout *resultLay = new QHBoxLayout;
-		resultLay->addWidget(m_progress);
-		resultLay->addWidget(m_results);
-	lay->insertLayout(2, resultLay);
+	m_resultLay = new QHBoxLayout;
+		m_resultLay->addWidget(m_progress);
+		m_resultLay->addWidget(m_results);
+		m_mainLay->insertLayout(2, m_resultLay);
 	resultsW->installEventFilter(this);
 	progressW->installEventFilter(this);
 }
 
 
 void TmainView::takeExamViews() {
-// 	delete m_results;
-// 	delete m_progress;
+	delete m_results;
+	delete m_progress;
 }
 
-
-void TmainView::setNamePos() {
-	if (m_name) {
-// 		m_name->setPos(width() / 3 + ((width() * 0.66 - m_name->widget()->width()) / 2), 
-// 									m_score->pos().y() + (m_score->widget()->height() - m_name->widget()->height()) / 2);
+/** We are assuming that vertical layout of exam views can occur only when note name is already there.
+ * Also there is no other way back than remove (delete) exam views at all. */
+void TmainView::moveExamToName() {
+	if (m_nameLay && m_resultLay && m_resultLay->direction() == QBoxLayout::LeftToRight) {
+		m_mainLay->removeItem(m_resultLay);
+		m_resultLay->setDirection(QBoxLayout::TopToBottom);
+		m_nameLay->insertLayout(0, m_resultLay);
 	}
 }
-
 
 //##########################################################################################
 //#######################     EVENTS       ################################################
@@ -129,12 +131,6 @@ void TmainView::resizeEvent(QResizeEvent* event) {
 	Q_UNUSED (event)
 	m_form->setGeometry(0, 0, width(), height());
   scene()->setSceneRect(0, 0, width(), height());
-// 	m_score->resize(m_score->size());
-// 	if (m_name) {
-// 		m_name->resize(m_name->size());
-// 		m_name->updateGeometry();
-// 	}
-// 	setNamePos();
 }
 
 

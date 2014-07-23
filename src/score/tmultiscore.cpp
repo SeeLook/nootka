@@ -79,7 +79,8 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				scoreScene()->left()->enableToAddNotes(false);
 				m_currentIndex = 0;
 				setAlignment(Qt::AlignLeft);
-				TsimpleScore::resizeEvent(0);
+				setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+				resizeEvent(0);
 		} else {
 				staff()->setStafNumber(0);
 				deleteNotes();
@@ -88,6 +89,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 				setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
 				setAlignment(Qt::AlignCenter);
+				setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 				resizeEvent(0);
 		}
 	}
@@ -130,6 +132,10 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 void TmultiScore::setScoreDisabled(bool disabled) {
 	for (int i = 0; i < m_staves.size(); ++i) {
 		m_staves[i]->setDisabled(disabled);
+	}
+	if (disabled) {
+		scoreScene()->left()->hide();
+		scoreScene()->right()->hide();
 	}
 }
 
@@ -217,6 +223,12 @@ void TmultiScore::deleteNotes() {
 //####################################################################################################
 //###################################   PROTECTED   ##################################################
 //####################################################################################################
+/** To call TsimpleScore::resizeEvent twice solves problem 
+ * with adjusting score size to scene (staff) in single note mode. */
+void TmultiScore::resizeSlot() {
+	TsimpleScore::resizeEvent(0);
+}
+
 
 void TmultiScore::resizeEvent(QResizeEvent* event) {
   int hh = height(), ww = width();
@@ -228,6 +240,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
       return;
 	if (m_inMode == e_single) {
 		TsimpleScore::resizeEvent(event);
+		QTimer::singleShot(10, this, SLOT(resizeSlot()));
 	} else {
 		QList<TscoreNote*> allNotes;
 		for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote

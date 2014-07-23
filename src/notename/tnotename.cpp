@@ -24,6 +24,7 @@
 #include <tnoofont.h>
 #include <tscoreparams.h>
 #include <QtWidgets>
+#include <QPainter>
 
 
 extern Tglobals *gl;
@@ -47,7 +48,8 @@ QPointer<QVBoxLayout> m_menuLay;
 
 TnoteName::TnoteName(QWidget *parent) :
     QWidget(parent),
-    m_menu(0)		
+    m_menu(0),
+    m_paintQuestion(false)
 {
 // 		m_menu = new QMenu(parent);
 // 		setParent(m_menu);
@@ -200,6 +202,10 @@ TnoteName::~TnoteName()
 // 	if (m_menu)
 // 		delete m_menu;
 }
+
+//####################################################################################################
+//########################################## PUBLIC  #################################################
+//####################################################################################################
 
 
 /** @p scoreFactor parameter is used in resizeEvent() method 
@@ -409,79 +415,85 @@ QSize TnoteName::sizeHint() const {
 //#################################### EXAM RELATED ############################################
 //##############################################################################################
 QColor TnoteName::prepareBgColor(const QColor& halfColor) {
-		QColor mixedColor = Tcolor::merge(halfColor, qApp->palette().window().color());
-    mixedColor.setAlpha(220);
-		return mixedColor;
+	QColor mixedColor = Tcolor::merge(halfColor, qApp->palette().window().color());
+	mixedColor.setAlpha(220);
+	return mixedColor;
 }
 
 
 void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr) {
-    Tnote::EnameStyle tmpStyle = m_style;
-    setStyle(questStyle);
-    setNoteName(note);
-		m_nameLabel->showQuestionMark(QColor(gl->EquestionColor.name()));
-    if (strNr)
-      m_nameLabel->showStringNumber(strNr, QColor(gl->EquestionColor.name()));
-		m_nameLabel->setBackgroundColor(prepareBgColor(gl->EquestionColor));
-    uncheckAllButtons();
-    setStyle(tmpStyle);
+	Tnote::EnameStyle tmpStyle = m_style;
+	setStyle(questStyle);
+	setNoteName(note);
+	m_nameLabel->showQuestionMark(QColor(gl->EquestionColor.name()));
+	if (strNr)
+		m_nameLabel->showStringNumber(strNr, QColor(gl->EquestionColor.name()));
+	m_nameLabel->setBackgroundColor(prepareBgColor(gl->EquestionColor));
+	uncheckAllButtons();
+	setStyle(tmpStyle);
+// 	m_paintQuestion = true;
+// 	update();
 }
 
 
 void TnoteName::prepAnswer(Tnote::EnameStyle answStyle) {
-		m_nameLabel->setBackgroundColor(prepareBgColor(gl->EanswerColor));
-    setNoteNamesOnButt(answStyle);
-    setNameDisabled(false);
-    m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
+	m_nameLabel->setBackgroundColor(prepareBgColor(gl->EanswerColor));
+	setNoteNamesOnButt(answStyle);
+	setNameDisabled(false);
+	m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
 }
 
 
 void TnoteName::forceAccidental(char accid) {
-		if (accid) {
-			checkAccidButtons(accid);
-		}
+	if (accid) {
+		checkAccidButtons(accid);
+	}
 }
 
 
 void TnoteName::markNameLabel(QColor markColor) {
-		m_nameLabel->markText(QColor(markColor.name()));
+	m_nameLabel->markText(QColor(markColor.name()));
 }
 
 
 void TnoteName::setNameDisabled(bool isDisabled) {
-        uncheckAllButtons();
-        for (int i = 0; i < 7; i++)
-            m_noteButtons[i]->setDisabled(isDisabled);
-        for (int i = 0; i < 8; i++)
-            m_octaveButtons[i]->setDisabled(isDisabled);
-        m_dblFlatButt->setDisabled(isDisabled);
-        m_flatButt->setDisabled(isDisabled);
-        m_sharpButt->setDisabled(isDisabled);
-        m_dblSharpButt->setDisabled(isDisabled);
-				if (isDisabled) { // uncheck when disabled
-          setAttribute(Qt::WA_TransparentForMouseEvents, true);
-					for (int i = 0; i < 8; i++) {
-						if (m_octaveButtons[i]->isChecked())
-								m_prevOctButton = i;
-						m_octaveButtons[i]->setChecked(false);
-					}
+	uncheckAllButtons();
+	for (int i = 0; i < 7; i++)
+			m_noteButtons[i]->setDisabled(isDisabled);
+	for (int i = 0; i < 8; i++)
+			m_octaveButtons[i]->setDisabled(isDisabled);
+	m_dblFlatButt->setDisabled(isDisabled);
+	m_flatButt->setDisabled(isDisabled);
+	m_sharpButt->setDisabled(isDisabled);
+	m_dblSharpButt->setDisabled(isDisabled);
+	if (isDisabled) { // uncheck when disabled
+//           setAttribute(Qt::WA_TransparentForMouseEvents, true);
+		for (int i = 0; i < 8; i++) {
+			if (m_octaveButtons[i]->isChecked())
+					m_prevOctButton = i;
+			m_octaveButtons[i]->setChecked(false);
+		}
 // 					m_nameLabel->setBackgroundColor(prepareBgColor(palette().window().color()));
-				} else { // restore last checked octave vhen becomes enabled
-          setAttribute(Qt::WA_TransparentForMouseEvents, false);
-					if (m_prevOctButton != -1)
-							m_octaveButtons[m_prevOctButton]->setChecked(true);
-					else {// or set it to small octave
-						  m_octaveButtons[3]->setChecked(true);
-							m_prevOctButton = 3;
-					}
+	} else { // restore last checked octave vhen becomes enabled
+//           setAttribute(Qt::WA_TransparentForMouseEvents, false);
+		if (m_prevOctButton != -1)
+				m_octaveButtons[m_prevOctButton]->setChecked(true);
+		else {// or set it to small octave
+				m_octaveButtons[3]->setChecked(true);
+				m_prevOctButton = 3;
+		}
 // 					m_nameLabel->setBackgroundColor(prepareBgColor(palette().base().color()));
-				}
+	}
 }
 
 
 void TnoteName::clearNoteName() {
-    setNoteName(Tnote());
-		m_nameLabel->setBackgroundColor(prepareBgColor(qApp->palette().base().color()));
+	setNoteName(Tnote());
+	m_nameLabel->setBackgroundColor(prepareBgColor(qApp->palette().base().color()));
+// 	if (m_paintQuestion) {
+// 		m_paintQuestion = false;
+// 		update();
+// 	}
 }
 
 
@@ -494,7 +506,44 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) 
 			m_nameLabel->blinkingText(2);
 }
 
+//####################################################################################################
+//########################################## EVENTS  #################################################
+//####################################################################################################
 
+
+void TnoteName::resizeEvent(QResizeEvent* ) {
+// 	resize((m_menuParent->geometry().height() / 40));
+// 	m_nameLabel->setFixedHeight(m_menuParent->geometry().height() / 10);
+	if (!m_menu)
+		return;
+	m_menu->resize(size());
+	if (m_menu->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
+				m_menu->move(m_menu->pos().x() - width() - 10.5 * m_scoreFactor, m_menu->pos().y());
+	// Move note name menu on the left screen side to allow seeing an edited note
+}
+
+
+bool TnoteName::event(QEvent* event) {
+  if (gl->hintsEnabled && event->type() == QEvent::StatusTip) {
+      QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+      emit statusTipRequired(se->tip());
+  }
+      return QWidget::event(event);
+}
+
+
+void TnoteName::paintEvent(QPaintEvent* event) {
+	if (m_paintQuestion) {
+		QPainter painter(this);
+		TnooFont nf;
+		QFontMetrics fm(nf);
+		nf.setPixelSize(nf.pixelSize() * qreal(height() / (qreal)fm.boundingRect("?").height()));
+		painter.setFont(nf);
+		painter.setPen(QPen(gl->EquestionColor.name()));
+		painter.drawText(painter.viewport(), Qt::AlignRight, "?");
+	}
+	QWidget::paintEvent(event);
+}
 
 //##############################################################################################
 //#################################### PRIVATE #################################################
@@ -590,27 +639,6 @@ char TnoteName::getSelectedAccid() {
 		if (m_dblSharpButt->isChecked())
 			return 2;
 		return 0; // no accidentals selected
-}
-
-
-void TnoteName::resizeEvent(QResizeEvent* ) {
-// 	resize((m_menuParent->geometry().height() / 40));
-// 	m_nameLabel->setFixedHeight(m_menuParent->geometry().height() / 10);
-	if (!m_menu)
-		return;
-	m_menu->resize(size());
-	if (m_menu->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
-				m_menu->move(m_menu->pos().x() - width() - 10.5 * m_scoreFactor, m_menu->pos().y());
-	// Move note name menu on the left screen side to allow seeing an edited note
-}
-
-
-bool TnoteName::event(QEvent* event) {
-  if (gl->hintsEnabled && event->type() == QEvent::StatusTip) {
-      QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-      emit statusTipRequired(se->tip());
-  }
-      return QWidget::event(event);
 }
 
 

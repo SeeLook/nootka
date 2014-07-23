@@ -1451,7 +1451,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="73"/>
         <source>close without confirm</source>
-        <translation>zamnij bez pytania</translation>
+        <translation>zamknij bez pytania</translation>
     </message>
     <message>
         <location filename="../src/settings/texamsettings.cpp" line="74"/>

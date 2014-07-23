@@ -152,24 +152,24 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     //We check are guitar's params suitable for an exam 
 		TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
     //We are checking is sound needed in exam and is it available
-    if (m_level.questionAs.isSound()) { //TODO it is too much - just turn sound on...
-        if (!mW->sound->isPlayable()) {
-            QMessageBox::warning(mW, "",
-                     tr("Exercise or exam require sound but<br>sound output is not available!"));
-            mW->clearAfterExam(e_failed);
-            deleteExam();
-            return;
-        }
-    }
-    if (m_level.answerIsSound()) {
-      if (!mW->sound->isSniffable()) {
-            QMessageBox::warning(mW, " ",
-                     tr("An exercises or exam require sound input but<br>it is not available!"));
-            mW->clearAfterExam(e_failed);
-            deleteExam();
-            return;
-      }
-    }
+//     if (m_level.questionAs.isSound()) { // it is too much - just turn sound on...
+//         if (!mW->sound->isPlayable()) {
+//             QMessageBox::warning(mW, "",
+//                      tr("Exercise or exam require sound but<br>sound output is not available!"));
+//             mW->clearAfterExam(e_failed);
+//             deleteExam();
+//             return;
+//         }
+//     }
+//     if (m_level.answerIsSound()) {
+//       if (!mW->sound->isSniffable()) {
+//             QMessageBox::warning(mW, " ",
+//                      tr("An exercises or exam require sound input but<br>it is not available!"));
+//             mW->clearAfterExam(e_failed);
+//             deleteExam();
+//             return;
+//       }
+//     }
     
    // ---------- End of checking ----------------------------------
 
@@ -1034,9 +1034,12 @@ void TexamExecutor::prepareToExam() {
 		m_askingTimer = new QTimer(this);
 		connect(m_askingTimer, SIGNAL(timeout()), this, SLOT(askQuestion()));
 
-		if (!m_exercise) {
-			mW->progress->show();
-			mW->examResults->show();
+		if (m_exercise) {
+			mW->progress->hide();
+			mW->examResults->hide();
+		} else if (mW->guitar->isVisible() && !m_level.canBeMelody()) {
+			mW->innerWidget->moveExamToName();
+			mW->score->resizeSlot();
 		}
     m_snifferLocked = false;
     m_canvas = new Tcanvas(mW->innerWidget, mW);

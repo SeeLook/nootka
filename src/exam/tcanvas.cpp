@@ -60,9 +60,8 @@ Tcanvas::Tcanvas(QGraphicsView* view, MainWindow* parent) :
 {
   
   m_scene = m_view->scene();
-	m_newSize = parent->centralWidget()->size();
+	m_newSize = m_scene->sceneRect().size().toSize();
   sizeChanged();
-//   connect(parent, SIGNAL(sizeChanged(QSize)), this, SLOT(sizeChangedDelayed(QSize)));
 	connect(m_scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sizeChangedDelayed(QRectF)));
   connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
 }
@@ -181,7 +180,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 			m_whatTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_whatTip);
 //   m_whatTip->setFont(tipFont(0.35));
-  m_window->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
+//   m_window->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setWhatNextPos();
@@ -223,7 +222,9 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_guitarFree = m_questionTip->freeGuitar();
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
+// 	m_questionTip->show();
   setQuestionPos();
+// 	m_questionTip->setZValue(255);
 }
 
 
@@ -310,7 +311,7 @@ void Tcanvas::clearCanvas() {
   clearConfirmTip();
   clearResultTip();
   if (m_whatTip) {
-    m_window->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
+//     m_window->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
     delete m_whatTip;
   }
 	delete m_startTip;
@@ -385,7 +386,8 @@ void Tcanvas::sizeChangedDelayed(const QRectF& newRect) {
 
 
 void Tcanvas::sizeChanged() {
-//   setGeometry(geometry().x(), geometry().y(), m_newSize.width(), m_newSize.height());
+	m_window->score->resize(m_window->score->widthToHeight(m_window->score->height()), m_window->score->height());
+	updateRelatedPoint();
   int hi;
   if (m_scene->height())
     hi = m_scene->height();
@@ -474,13 +476,9 @@ int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree)
 			return m_window->noteName->height();
 	else if (m_scoreFree)
-			return m_window->score->height() * 0.45;
-	else {
-// 		if (m_window->pitchView->isVisible())
-				return m_window->guitar->height();
-// 		else
-// 				return m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2;
-	}
+			return m_window->score->height() * 0.75;
+	else
+			return m_window->guitar->height();
 }
 
 
@@ -497,13 +495,13 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	} else if (m_scoreFree) {// on the score at its center
 			geoRect = m_window->score->geometry();
 			if (tip->boundingRect().width() * tip->scale() > m_window->score->width())
-				tip->setScale(((qreal)m_window->score->width() / (tip->boundingRect().width())));
+				tip->setScale((qMax((qreal)m_window->score->width(), m_window->width() / 3.0) / (tip->boundingRect().width())));
 	} else { // middle of the guitar
 			geoRect = m_window->guitar->geometry();
 			if (!m_window->pitchView->isVisible() || !m_window->guitar->isVisible()) // tip can be bigger
-				geoRect = QRect(m_window->noteName->geometry().left() + 20,
+				geoRect = QRect(m_window->noteName->geometry().x() - 20,
 							m_window->guitar->geometry().y() - (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2,
-							m_window->guitar->width() - m_window->noteName->width() - 20,
+							m_window->guitar->width() - m_window->noteName->geometry().x() - 20,
 							m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2);
 		}
 	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
@@ -560,6 +558,7 @@ void Tcanvas::setQuestionPos() {
 			}
 	}
 	setPosOfTip(m_questionTip);
+	m_questionTip->show();
 }
 
 
@@ -574,6 +573,11 @@ void Tcanvas::setOutTunePos() {
 		m_window->pitchView->y() - m_outTuneTip->boundingRect().height() * m_outTuneTip->scale());
 }
 
+
+void Tcanvas::updateRelatedPoint() {
+	m_relPoint.setX(m_window->score->geometry().x() + (m_window->noteName->geometry().x() - m_window->score->geometry().x()) / 2);
+	m_relPoint.setY(m_window->score->geometry().y());
+}
 
 
 

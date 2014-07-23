@@ -254,8 +254,10 @@ void TmainScore::setScordature() {
 
 void TmainScore::unLockScore() {
 	setScoreDisabled(false);
-// 	setNoteDisabled(1, true);
-// 	setNoteDisabled(2, true);
+	if (isExam() && insertMode() == e_single) {
+		setNoteDisabled(1, true);
+		setNoteDisabled(2, true);
+	}
     if (m_questMark) { // question mark exists only when exam is performing
       setBGcolor(Tcolor::merge(gl->EanswerColor, mainWindow()->palette().window().color()));
 			setNoteViewBg(0, gl->EanswerColor);
@@ -296,7 +298,7 @@ bool TmainScore::isAccidToKeyAnimEnabled() {
 
 
 int TmainScore::widthToHeight(int hi) {
-	return qRound((qreal)hi / staff()->boundingRect().height()) * staff()->boundingRect().width();
+	return qRound((qreal)hi / sizeHint().height()) * sizeHint().width();
 }
 
 
@@ -307,8 +309,11 @@ int TmainScore::widthToHeight(int hi) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
+			if (insertMode() == e_single)
+				resizeSlot();
 			enableCorners(false);
 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+			disconnect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
 			m_questMark = new QGraphicsSimpleTextItem();
 			m_questMark->hide();
@@ -317,20 +322,24 @@ void TmainScore::isExamExecuting(bool isIt) {
 		#else
 			m_questMark->setFont(TnooFont(8));
 		#endif
-			m_questMark->setParentItem(staff());
+			scoreScene()->addItem(m_questMark);
 			QColor c = gl->EquestionColor;
-			c.setAlpha(150);
-// 			staff()->noteSegment(1)->setColor(c); TODO
+// 			if (insertMode() == e_single) {
+// 				c.setAlpha(255);
+// 				staff()->noteSegment(1)->setColor(c);
+// 			}
+			c.setAlpha(80);
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
-			m_questMark->setScale(staff()->height() / m_questMark->boundingRect().height());
-			m_questMark->setPos((staff()->boundingRect().width() - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
-													(staff()->boundingRect().height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
-			m_questMark->setZValue(1);
+			m_questMark->setScale(((sizeHint().height() / transform().m11()) / m_questMark->boundingRect().height()));
+			m_questMark->setPos(((sizeHint().width() / transform().m11()) - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
+													((sizeHint().height() / transform().m11()) - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
+			m_questMark->setZValue(4);
 			setScoreDisabled(true);
 			setClefDisabled(true);
     } else {
         connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+				connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
         disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
         delete m_questMark;
         m_questMark = 0;
@@ -374,11 +383,11 @@ void TmainScore::clearScore() {
 
 
 void TmainScore::askQuestion(Tnote note, char realStr) {
-		TsimpleScore::setNote(1, note);
-    setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
-    m_questMark->show();
-    if (realStr) 
-			setStringNumber(1, realStr);
+	TsimpleScore::setNote(1, note);
+	setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
+	m_questMark->show();
+	if (realStr) 
+		setStringNumber(1, realStr);
 }
 
 
@@ -389,7 +398,7 @@ void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
 
 
 void TmainScore::expertNoteChanged() {
-		emit noteClicked();
+	emit noteClicked();
 }
 
 
@@ -418,7 +427,7 @@ void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName
 	TscoreKeySignature::setKeyNameScale(m_questKey);
 	m_questKey->setPos(
 				(staff()->scoreKey()->boundingRect().width() - m_questKey->boundingRect().width() * m_questKey->scale()) / 2 - 2.5,
-				staff()->upperLinePos() - 3 - m_questKey->boundingRect().height() * m_questKey->scale());
+				 - 3.0 - m_questKey->boundingRect().height() * m_questKey->scale());
 	setKeyViewBg(gl->EanswerColor);
 }
 
@@ -426,7 +435,7 @@ void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName
 void TmainScore::setKeyViewBg(QColor C) {
 	if (staff()->scoreKey()) {
 			createBgRect(C, staff()->scoreKey()->boundingRect().width() + 6.0, 
-							QPointF(staff()->scoreKey()->pos().x() - 6.0, staff()->scoreKey()->pos().y()));
+							QPointF(staff()->scoreKey()->pos().x() - 6.0, 0.0));
 	}
 }
 
@@ -732,7 +741,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	if (width() < 300)
       return;
 	if (insertMode() == e_single) {
-		if (m_nameMenu->size().width() + size().width() > mainWindow()->width()) {
+		if (m_nameMenu->size().width() + sizeHint().width() > mainWindow()->width()) {
 			if (m_nameMenu->buttonsDirection() == QBoxLayout::LeftToRight || m_nameMenu->buttonsDirection() == QBoxLayout::RightToLeft) {
 				qDebug() << "name is too big. Changing direction ";
 				m_nameMenu->setDirection(QBoxLayout::BottomToTop);
