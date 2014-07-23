@@ -221,7 +221,7 @@ void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
 
 void TscoreStaff::updateSceneRect() {
 	QRectF scRec = mapToScene(boundingRect()).boundingRect();
-	scene()->setSceneRect(0.0, 0.0, scRec.width() + (isPianoStaff() ? 2.0 : 1.0), scRec.height());
+	scene()->setSceneRect(0.0, 0.0, scRec.width() + (isPianoStaff() ? 2.5 : 1.5), scRec.height());
 }
 
 
@@ -309,7 +309,7 @@ void TscoreStaff::setDisabled(bool disabled) {
 	}
 	for (int i = 0; i < count(); i++)
 		m_scoreNotes[i]->setReadOnly(disabled);
-	if (count())
+	if (disabled && count())
 		m_scoreNotes[0]->hideWorkNote();
 }
 

@@ -216,15 +216,18 @@ void TnoteNameLabel::resizeEvent(QResizeEvent* event) {
 }
 
 void TnoteNameLabel::setQuestionMarkPos() {
-	m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale(), 
-											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2.0 + height() / 10.0);
+	QPointF zero = mapToScene(0, 0);
+// 	m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale(), 
+// 											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2.0 + height() / 10.0);
+	m_questMark->setPos(zero.x() + (width() - 1.4 * m_textItem->boundingRect().width() * m_textItem->scale()),
+								zero.y() + (height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2.0);
 }
 
 void TnoteNameLabel::setStringNumberPos() {
 	qreal xOff = m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale();
-	if (m_questMark) {
-		xOff = m_questMark->pos().x() + m_questMark->boundingRect().width() * m_questMark->scale();
-	}
+// 	if (m_questMark) {
+// 		xOff = m_questMark->pos().x() + m_questMark->boundingRect().width() * m_questMark->scale();
+// 	}
 	m_stringNumber->setPos(xOff + 10.00, 
 												 (mapToScene(0, 0).y() + 
 												 (m_stringNumber->boundingRect().height() * m_stringNumber->scale()) / 10.0 + // nice offset

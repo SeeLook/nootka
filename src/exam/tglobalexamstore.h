@@ -30,8 +30,10 @@ class Tlevel;
 class Tglobals;
 
 
-/** Simple class which grabs global settings overwriting by exam,
- * stores them and restores when exam is finished. */
+/** 
+ * Simple class which grabs global settings overwritten by exam,
+ * stores them and restores when exam is finished. 
+ */
 class TglobalExamStore
 {
 
@@ -65,6 +67,8 @@ public:
 	quint8											intonation;
 	int													playbackInstr;
 	bool												isSingleNoteMode;
+	bool												namesOnScore;
+	bool												OUTenabled,	INenabled;
 	
 private:
 	Tglobals *m_globals;

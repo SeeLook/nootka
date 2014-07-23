@@ -82,6 +82,7 @@ public slots:
 	void onClefChanged(Tclef cl);
 	void removeCurrentNote(); /** Removes currently selected note, if any. */
 	void deleteNotes(); /** Deletes all notes from the score - single one remains */
+	void resizeSlot(); /** Invokes resizeEvent() of simple score. */
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -111,7 +112,6 @@ protected slots:
 			* connects the staff with TmainScore slots */
 	virtual void addStaff(TscoreStaff* st = 0);
 	void deleteLastStaff();
-	
 	
 private:
 	QMainWindow									*m_mainWindow;

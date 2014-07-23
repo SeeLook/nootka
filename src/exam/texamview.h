@@ -78,6 +78,7 @@ public:
          * background-color: rgba(red, green, blue, alpha) */
     void setStyleBg(QString okBg, QString wrongBg, QString notBadBg = "");
 
+    virtual QSize sizeHint() const { return m_sizeHint; }
 
 protected:
     void resizeEvent(QResizeEvent *);
@@ -85,15 +86,16 @@ protected:
 private:
     bool 			m_showReact;
 
-    QLabel 		*m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
-    QLabel 		*m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
+    QLabel 	 *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
+    QLabel 	 *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
 		QTime 		m_reactTime;
     int 			m_questNr, m_mistakes, m_totElapsedTime, m_halfMistakes;
     qreal 		m_averTime, m_effect;
-    QTimer 		*m_timer;
+    QTimer 	 *m_timer;
     QTime 		m_totalTime;
 		int 			m_okCount;
 		int 			m_pausedAt; // when m_averTime was paused
+		QSize			m_sizeHint;
 
 private slots:
     void countTime();

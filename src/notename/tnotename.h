@@ -105,6 +105,7 @@ signals:
 protected:
     void resizeEvent(QResizeEvent *);
     virtual bool event(QEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
 
 private:
     TnoteNameLabel				*m_nameLabel;
@@ -125,6 +126,7 @@ private:
 		
 		QBoxLayout 						*m_buttonsLay, *m_noteLay, *m_accLay, *m_upOctaveLay, *m_loOctaveLay;
 		QSize 								 m_sizeHint;
+		bool									 m_paintQuestion;
     
 private:
     void setNoteName(char noteNr, char octNr, char accNr);

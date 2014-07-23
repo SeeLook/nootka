@@ -30,16 +30,13 @@
 #include "notename/tnotename.h"
 // // #include "tsettingsdialog.h"
 #include "exam/tstartexamdlg.h" // just temporary
-// // #include "tlevelselector.h"
 // // #include "taboutnootka.h"
 // // #include "tfirstrunwizzard.h"
 // // #include "tsupportnootka.h"
 // // #include "tnootkalabel.h"
-// #include "widgets/tanimedchbox.h"
 // #include "texamsettings.h"
 // #include <tupdateprocess.h>
 // #include <tcolor.h>
-// #include "texam.h"
 #include "exam/tprogresswidget.h"
 #include "exam/texamview.h"
 #include "exam/texamexecutor.h"
@@ -301,8 +298,8 @@ void MainWindow::clearAfterExam(int examState) {
 		else
 				sound->go();
 		innerWidget->takeExamViews();
-// 		progress->hide();
-// 		examResults->hide();
+		progress = 0;
+		examResults = 0;
 // 		nootLabel->show();
 		updateSize(innerWidget->size());
 }
@@ -442,12 +439,9 @@ void MainWindow::openLevelCreator(QString levelFile) {
 void MainWindow::startExamSlot() {
     sound->stopPlaying();
 		examResults = new TexamView();
+		examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor));
 		progress = new TprogressWidget();
 		innerWidget->addExamViews(examResults, progress);
-// 		TstartExamDlg *sed = new TstartExamDlg("Gucio", gl->path, gl->E, this);
-// 		QString sedSays;
-// 		sed->showDialog(sedSays, m_level);
-// 		delete sed;
 // 		nootLabel->hide();
     ex = new TexamExecutor(this);
 }
@@ -807,8 +801,10 @@ void MainWindow::updateSize(QSize newS) {
 
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
-    Q_UNUSED(event)
+	Q_UNUSED(event)
+// 	innerWidget->resize(contentsRect().size());
 	updateSize(innerWidget->size());
+// 	QTimer::singleShot(10, score, SLOT(resizeSlot()));
 // 	emit sizeChanged(innerWidget->size());
 //   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
 }

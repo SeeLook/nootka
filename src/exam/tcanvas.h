@@ -112,7 +112,6 @@ protected:
 //     bool event(QEvent *event);
     
 protected slots:
-	
 				/** Calls sizeChanged with delay to allow MainWindow deploy its new geometry. */
 		void sizeChangedDelayed(const QRectF& newRect);
     void sizeChanged();
@@ -150,6 +149,7 @@ private:
     void setTryAgainPos();
     void setConfirmPos();
 		void setOutTunePos();
+		void updateRelatedPoint();
  
 };
 

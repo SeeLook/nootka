@@ -20,7 +20,11 @@
 #define TMAINVIEW_H
 
 #include <QGraphicsView>
+#include <QPointer>
 
+
+class QVBoxLayout;
+class QBoxLayout;
 class QGraphicsProxyWidget;
 
 /** 
@@ -42,6 +46,8 @@ public:
 		void addExamViews(QWidget* resultsW, QWidget* progressW); /** Adds bar with those widgets */
 		void takeExamViews(); /** Removes exam widgets, WIDGETS ARE DELETED! */
 		
+		void moveExamToName(); /** Moves 'exam view' above note view. Changes its direction to vertical. */
+		
 signals:
 		void statusTip(const QString&);
 		
@@ -49,13 +55,11 @@ protected:
     virtual void resizeEvent(QResizeEvent* event);
     virtual bool eventFilter(QObject* ob, QEvent* event);
 		
-		void setNamePos();
-		
 private:
-		QWidget				*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
-		QWidget				*m_name, *m_results, *m_progress;
+		QWidget											*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
+		QWidget											*m_name, *m_results, *m_progress;
 		QGraphicsWidget							*m_form;
-
+		QPointer<QBoxLayout>				m_mainLay, m_statAndPitchLay, m_scoreAndNameLay, m_nameLay, m_resultLay;
 };
 
 #endif // TMAINVIEW_H

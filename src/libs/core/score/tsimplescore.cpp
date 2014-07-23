@@ -294,7 +294,7 @@ void TsimpleScore::noteWasClicked(int index) {
 
 QSize TsimpleScore::sizeHint() const {
   return m_sizeHint;
-	return QWidget::sizeHint();
+// 	return QWidget::sizeHint();
 }
 
 
@@ -347,7 +347,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 // 	setSizeHint(QSize(mapFromScene(m_scene->sceneRect()).boundingRect().size().width() + 1, height() - 2));
 // 	setSizeHint(size());
 	setSizeHint(mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
-	setMaximumWidth(m_sizeHint.width());
+// 	setMaximumWidth(m_sizeHint.width());
 // 	setSceneRect(scoreScene()->sceneRect());
 }
 
