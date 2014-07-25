@@ -25,6 +25,7 @@
 #include "texamview.h"
 #include "tglobalexamstore.h"
 #include "texercises.h"
+#include "tequalrand.h"
 #include "mainwindow.h"
 #include "level/tlevelselector.h"
 #include <tsound.h>
@@ -72,7 +73,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_canvas(0),
   m_supp(0),
   m_exercise(0),
-  m_blindCounter(0)
+  m_blindCounter(0),
+  m_rand(0)
 {
     QString resultText;
     TstartExamDlg::Eactions userAct;
@@ -195,7 +197,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
     }
     
 //     qDebug() << "questions number:" << m_questList.size();
-		initializeExecuting();    
+		initializeExecuting();
 		createActions();
 		
     /*
@@ -262,6 +264,12 @@ void TexamExecutor::initializeExecuting() {
     if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
     if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
     if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
+		if (m_rand)
+			m_rand->reset();
+		else
+			m_rand = new TequalRand(m_questList.size());
+		m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
+		qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
 }
 
 
@@ -304,7 +312,8 @@ void TexamExecutor::askQuestion() {
 			curQ.setMistake(TQAunit::e_correct);
 		} else {
 				m_blackQuestNr = -1; // reset
-				curQ.qa = m_questList[qrand() % m_questList.size()];
+// 				curQ.qa = m_questList[qrand() % m_questList.size()];
+				curQ.qa = m_questList[m_rand->get()];
 				curQ.questionAs = m_level.questionAs.next();
 				curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 		}

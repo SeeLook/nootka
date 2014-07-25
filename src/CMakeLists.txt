@@ -65,6 +65,7 @@ set(NOOTKA_SRC
 	exam/texercises.cpp
 	exam/tglobalexamstore.cpp
 	exam/texamsummary.cpp
+	exam/tequalrand.cpp
 	
 	animations/tstrikedoutitem.cpp
 )
