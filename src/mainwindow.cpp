@@ -40,6 +40,7 @@
 #include "exam/tprogresswidget.h"
 #include "exam/texamview.h"
 #include "exam/texamexecutor.h"
+#include "exam/tequalrand.h"
 // #include "taudioparams.h"
 // #include "tanalysdialog.h"
 // #include "tquestionpoint.h"
@@ -186,7 +187,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //     if (gl->A->OUTenabled && !sound->isPlayable())
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
 // 		nootBar->hide();
-// 		m_statLab->hide();    
+// 		m_statLab->hide();
+
 }
 
 

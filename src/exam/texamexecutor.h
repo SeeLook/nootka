@@ -25,6 +25,7 @@
 #include <QList>
 #include <QColor>
 
+class TequalRand;
 class TpitchView;
 class Tsound;
 class TfingerBoard;
@@ -194,6 +195,7 @@ private:
 	int 											m_penalCount; /** Counts questions to ask penalties one. */
 	Texercises								*m_exercise;
 	int 											m_blindCounter; /** counts occurrences of questions without possible answer */
+	TequalRand								*m_rand;
 
 };
 

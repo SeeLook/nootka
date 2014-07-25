@@ -19,7 +19,7 @@
 
 #include "tnootkacertificate.h"
 #include <exam/texam.h>
-// #include "texamview.h" TODO
+#include "texamview.h"
 #include <exam/tlevel.h>
 #include <graphics/tgraphicstexttip.h>
 #include <graphics/tnotepixmap.h>
@@ -49,7 +49,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
   m_saveHint(0)
 {
 		setFlag(ItemHasNoContents);
-		m_view->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock mouse
+// 		m_view->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock mouse
 		m_view->scene()->addItem(this);
 		setZValue(100);
     m_cert = new QGraphicsRectItem;
@@ -157,7 +157,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
 
 
 TnootkaCertificate::~TnootkaCertificate() {
-	m_view->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+// 	m_view->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 	removeHints();
 	delete m_bgRect;
 }
@@ -254,7 +254,7 @@ QString TnootkaCertificate::fillCert(QString entry) {
   entry.replace("[DATE]", QDate::currentDate().toString("d MMMM yyyy"));
   entry.replace("[STUDENT]", m_exam->userName().toUpper());
   entry.replace("[LEVELNAME]", m_exam->level()->name);
-//   entry.replace("[TOTALTIME]", TexamView::formatedTotalTime(m_exam->workTime() * 1000)); // TODO
+  entry.replace("[TOTALTIME]", TexamView::formatedTotalTime(m_exam->workTime() * 1000));
   entry.replace("[SCORE]", QString("%1 %").arg(m_exam->effectiveness(), 0, 'f', 1, '0'));
   entry.replace("[QUESTNR]", QString("%1").arg(m_exam->count()));
   return entry;

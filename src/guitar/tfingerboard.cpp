@@ -417,7 +417,7 @@ void TfingerBoard::createRangeBox(char loFret, char hiFret) {
 
 
 void TfingerBoard::prepareAnswer() {
-    setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
+//     setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
     if (m_rangeBox1)
         m_rangeBox1->show();
     if (m_rangeBox2)
