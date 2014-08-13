@@ -7,17 +7,17 @@ TODO List
 - scordature has improper boundingRect()
 - TscoreView and TscoreItem have to have Android compile scopes
 
-level executable
-- 'fix an exam file' dialog was excluded from build - maybe for ever
 
 analyzer executable
 - check note pixmap for notes from grand staff
+
 
 - misc library can crash under Win due to uninitialized Tglobals *gl
 
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
 
 - consider to remove names on the score in single note mode
+- add level checking rule when melody requires to be ended on tonic but the tonic note isn't in a range
 - make of use native showNoteName() of TscoreNote instead TmainScore ones
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so

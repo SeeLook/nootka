@@ -27,6 +27,7 @@
 #include <score/tscorescene.h>
 #include <score/tnotecontrol.h>
 #include <music/ttune.h>
+#include <music/tmelody.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
 #include <graphics/tgraphicstexttip.h>
@@ -37,6 +38,9 @@
 #include <widgets/tpushbutton.h>
 #include <notename/tnotename.h>
 #include <QtWidgets>
+
+#include <exam/tqaunit.h>
+#include <exam/trandmelody.h>
 
 
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
@@ -183,6 +187,27 @@ void TmainScore::setNote(const Tnote& note) {
 }
 
 
+void TmainScore::setMelody(Tmelody* mel) {
+	bool animEnabled = ainmationsEnabled();
+	setAnimationsEnabled(false);
+	for (int i = 0; i < mel->length(); ++i) {
+		if (i > notesCount() - 1) {
+			staves(i / staff()->maxNoteCount())->addNote(mel->notes()[i].p());
+		} else {
+			changeCurrentIndex(i);
+			setNote(mel->notes()[i].p());
+		}
+	}
+	setAnimationsEnabled(animEnabled);
+	if (mel->length() < notesCount()) {
+		for (int i = 0; i < notesCount() - mel->length(); ++i) {
+			lastStaff()->removeNote(lastStaff()->count() - 1);
+		}
+	}
+// 	qDebug() << "melody length" << mel->length() << "notes nr" << notesCount();
+}
+
+
 void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 	if (mode != insertMode()) {
 		bool ignoreThat = false;
@@ -260,7 +285,8 @@ void TmainScore::unLockScore() {
 	}
     if (m_questMark) { // question mark exists only when exam is performing
       setBGcolor(Tcolor::merge(gl->EanswerColor, mainWindow()->palette().window().color()));
-			setNoteViewBg(0, gl->EanswerColor);
+			if (insertMode() == e_single)
+				setNoteViewBg(0, gl->EanswerColor);
     }
 //   setClefDisabled(true);
 	QPointF nPos = staff()->noteSegment(0)->mapFromScene(mapToScene(mapFromParent(mapFromGlobal(cursor().pos()))));
@@ -686,10 +712,10 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 void TmainScore::playSlot() {
 	m_playedIndex++;
 	if (m_playedIndex < notesCount()) {
+			changeCurrentIndex(m_playedIndex);
 		// by emitting that signal note is played and shown on the guitar
 			emit noteWasChanged(m_playedIndex % staff()->maxNoteCount(), 
-												*currentStaff()->getNote(m_playedIndex% staff()->maxNoteCount()));
-			changeCurrentIndex(m_playedIndex);
+												*currentStaff()->getNote(m_playedIndex % staff()->maxNoteCount()));
 	} else
 			emit playbackFinished();
 }
@@ -907,6 +933,20 @@ void TmainScore::addStaff(TscoreStaff* st) {
 }
 
 
+void TmainScore::randomizeMelody() {
+	QList<TQAunit::TQAgroup> ql;
+	int ambit = 24; //highestNote().getChromaticNrOfNote() - lowestNote().getChromaticNrOfNote();
+	for (int i = 0; i < ambit; i++) {
+		TQAunit::TQAgroup qa;
+		qa.note = Tnote(1 + i);
+		ql << qa;
+	}
+	Tmelody *mel = new Tmelody("");
+	TkeySignature k = keySignature();
+	getRandomMelody(ql, mel, staff()->maxNoteCount() -2, k, false, true);
+	setMelody(mel);
+	delete mel;
+}
 
 
 

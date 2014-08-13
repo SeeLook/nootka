@@ -16,41 +16,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TCHUNK_H
-#define TCHUNK_H
+#ifndef TRANDMELODY_H
+#define TRANDMELODY_H
 
-#include "tnote.h"
-#include "trhythm.h"
+#include <exam/tqaunit.h>
 
-class QXmlStreamReader;
-class QXmlStreamWriter;
-
+class TkeySignature;
+class Tmelody;
 
 /** 
- * This class represent a note: 
- * a pitch described by @p Tnote 
- * and its value (relative duration) described by @p Trhythm
+ * Generates randomized melody into given reference of @p Tmelody.
+ * Length is determined by @p len.
+ * Notes are taken form given question list 
+ * and key signature is respected if @inKey is set to @p true
+ * Melody is finished on tonic note of the given key signature
+ * when @p onTonic is set to @p true
  */
-class Tchunk
-{
+void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, TkeySignature& key, bool inKey, bool onTonic);
 
-public:
-	Tchunk(const Tnote& pitch, const Trhythm& rhythm);
-	~Tchunk();
-	
-	Tnote& p() { return m_pitch; } /** The pitch of a note */
-	
-	Trhythm& r() { return m_rhythm; } /** rhythm value of a note */
 
-	
-	void toXml(QXmlStreamWriter& xml);
-	bool fromXml(QXmlStreamReader& xml);
-	
-	
-private:
-	Tnote				m_pitch;
-	Trhythm			m_rhythm;
-	
-};
-
-#endif // TCHUNK_H
+#endif // TRANDMELODY_H

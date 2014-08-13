@@ -27,6 +27,7 @@
 /** 
  * Class describing a musical melody - sequence of notes (Tchunk)
  * Also it is able to save/load a melody into/from MusicXML structure 
+ * Default tempo of a melody is 120 bpm.
  */
 class Tmelody
 {
@@ -41,12 +42,16 @@ public:
 	
 	QList<Tchunk>& notes() { return m_notes; } /** A reference to list (QList) of melody notes */
 	
+	int tempo() { return m_tempo; }
+	void setTempo(int tmp) { m_tempo = tmp; }
+	
 	void toXml(QXmlStreamWriter& xml);
 	bool fromXml(QXmlStreamReader& xml);
 	
 private:
 	QString						m_title;
 	QList<Tchunk>			m_notes;
+	int								m_tempo;
 };
 
 #endif // TMELODY_H

@@ -20,7 +20,8 @@
 
 
 Tmelody::Tmelody(const QString& title) :
-	m_title(title)
+	m_title(title),
+	m_tempo(120)
 {
 
 }

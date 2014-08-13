@@ -151,7 +151,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.loNote = Tnote(6, 0); // a
     l.hiNote = Tnote(6, 2); // a2
     l.hiFret = 19;// loFret is 0 by constructor
-    l.melodyLen = 1;
+    l.melodyLen = 10;
     llist << l;
 //----------------------------------------------------------------------------
     l = Tlevel();
@@ -183,7 +183,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.onlyLowPos = true;
 // 		if (gl->instrument == e_noInstrument) // force instrument when not defined
 // 			l.instrument = gl->instrument;
-		l.melodyLen = 1;
+		l.melodyLen = 10;
     llist << l;
 //----------------------------------------------------------------------------
     l = Tlevel();

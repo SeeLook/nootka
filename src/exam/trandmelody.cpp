@@ -16,41 +16,47 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TCHUNK_H
-#define TCHUNK_H
-
-#include "tnote.h"
-#include "trhythm.h"
-
-class QXmlStreamReader;
-class QXmlStreamWriter;
+#include "trandmelody.h"
+#include <music/tmelody.h>
+#include <music/trhythm.h>
 
 
-/** 
- * This class represent a note: 
- * a pitch described by @p Tnote 
- * and its value (relative duration) described by @p Trhythm
- */
-class Tchunk
-{
 
-public:
-	Tchunk(const Tnote& pitch, const Trhythm& rhythm);
-	~Tchunk();
-	
-	Tnote& p() { return m_pitch; } /** The pitch of a note */
-	
-	Trhythm& r() { return m_rhythm; } /** rhythm value of a note */
+void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, TkeySignature& key, bool inKey, bool onTonic) {
+	for (int i = 0; i < len; ++i) {
+		Tnote pitch = qList[qrand() % qList.size()].note;
+		//TODO check is it in a key - use TexamExecutor::askQuestion() part 
+		Tchunk note(pitch, Trhythm());
+		mel->notes().append(note);
+	}
+	if (onTonic) {
+		char tonicNoteNr;
+		if (key.isMinor())
+			tonicNoteNr = TkeySignature::minorKeys[key.value() + 7];
+		else
+			tonicNoteNr = TkeySignature::majorKeys[key.value() + 7];
+		for (int i = 0; i < qList.size(); ++i) {
+			Tnote tonic(tonicNoteNr + 1, 0, TkeySignature::scalesDefArr[key.value() + 7][tonicNoteNr]);
+			bool theSame = false;
+			if (tonic.compareNotes(qList[i].note, true))
+				theSame = true;
+			else {
+				Tnote tonicConverted;
+				if (tonic.acidental == 1)
+					tonicConverted = tonic.showWithFlat();
+				else if (tonic.acidental == -1)
+					tonicConverted = tonic.showWithSharp();
+				else
+					continue;
+				if (tonicConverted.compareNotes(qList[i].note, true))
+					theSame = true;
+			}
+			if (theSame) {
+				tonic.octave = qList[i].note.octave;
+				mel->notes().last().p() = tonic;
+				break;
+			}
+		}
+	}
+}
 
-	
-	void toXml(QXmlStreamWriter& xml);
-	bool fromXml(QXmlStreamReader& xml);
-	
-	
-private:
-	Tnote				m_pitch;
-	Trhythm			m_rhythm;
-	
-};
-
-#endif // TCHUNK_H

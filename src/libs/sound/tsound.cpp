@@ -22,6 +22,7 @@
 #include "trtaudioin.h"
 #include <tglobals.h>
 #include <taudioparams.h>
+#include <music/tmelody.h>
 #include <QPushButton>
 #include <QTimer>
 #include <QDebug>
@@ -36,7 +37,8 @@ Tsound::Tsound(QObject* parent) :
   QObject(parent),
   sniffer(0),
   player(0),
-  m_examMode(false)
+  m_examMode(false),
+  m_melodyNoteIndex(-1)
 {
 #if defined (Q_OS_WIN)
   gl = Tglob::glob();
@@ -62,19 +64,26 @@ Tsound::~Tsound()
 //------------  public  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
 
-void Tsound::play(Tnote note) {
+void Tsound::play(Tnote& note) {
   bool playing = false;
   if (player && note.note)
 			playing = player->play(note.getChromaticNrOfNote());
   if (playing && !gl->A->playDetected && player->type() == TabstractPlayer::e_midi) {
     if (sniffer) { // pause sniffer if midi output was started
-			if (!m_midiPlays) { // stop listenning just once
+			if (!m_midiPlays) { // stop listening just once
 				sniffer->stopListening();
 				m_pitchView->stopVolume();
 				m_midiPlays = true;
 			}
     }
   }
+}
+
+
+void Tsound::playMelody(Tmelody* mel) {
+	m_melodyNoteIndex = 0;
+	m_playedMelody = mel;
+	QTimer::singleShot(10, this, SLOT(playMelodySlot()));
 }
 
 
@@ -263,6 +272,7 @@ void Tsound::restoreAfterExam() {
 void Tsound::stopPlaying() {
   if (player)
     player->stop();
+	m_melodyNoteIndex = -1;		
 }
 
 
@@ -342,4 +352,24 @@ void Tsound::noteDetectedSlot(Tnote note) {
   m_detectedNote = note;
   emit detectedNote(note);
 }
+
+
+void Tsound::playMelodySlot() {
+	if (m_melodyNoteIndex > -1 && m_melodyNoteIndex < m_playedMelody->length()) {
+		qDebug() << "playing melody note" << m_melodyNoteIndex;
+		play(m_playedMelody->notes()[m_melodyNoteIndex].p());
+		QTimer::singleShot(60000 / m_playedMelody->tempo(), this, SLOT(playMelodySlot()));
+		m_melodyNoteIndex++;
+	} else {
+		qDebug() << "playing finished`";
+		m_melodyNoteIndex = -1;
+		playingFinishedSlot();
+	}
+}
+
+
+
+
+
+
 
