@@ -22,27 +22,24 @@
 #include <QXmlStreamWriter>
 
 Tchunk::Tchunk(const Tnote& pitch, const Trhythm& rhythm) :
-	m_pitch(new Tnote(pitch)),
-	m_rhythm(new Trhythm(rhythm))
-{}
+	m_pitch(pitch),
+	m_rhythm(rhythm)
+{
+}
 
 
 Tchunk::~Tchunk()
-{
-	delete m_pitch;
-	delete m_rhythm;
-}
-
+{}
 
 
 void Tchunk::toXml(QXmlStreamWriter& xml) {
 	xml.writeStartElement("note");
-		if (m_rhythm->isRest() || m_pitch->note == 0)
+		if (m_rhythm.isRest() || m_pitch.note == 0)
 			xml.writeEmptyElement("rest");
 		else 
-			m_pitch->toXml(xml);
-		xml.writeTextElement("type", m_rhythm->xmlType());
-		if (m_rhythm->hasDot())
+			m_pitch.toXml(xml);
+		xml.writeTextElement("type", m_rhythm.xmlType());
+		if (m_rhythm.hasDot())
 			xml.writeEmptyElement("dot");
 	xml.writeEndElement(); // note
 }
@@ -50,6 +47,7 @@ void Tchunk::toXml(QXmlStreamWriter& xml) {
 
 bool Tchunk::fromXml(QXmlStreamReader& xml) {
 
+	return true;
 }
 
 

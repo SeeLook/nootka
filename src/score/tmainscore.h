@@ -22,6 +22,7 @@
 #include "tmultiscore.h"
 #include <QPointer>
 
+class Tmelody;
 class TcornerProxy;
 class TscoreActions;
 class TscoreKeys;
@@ -58,6 +59,7 @@ public:
 		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
 		
     virtual void setNote(const Tnote& note);
+		void setMelody(Tmelody* mel);
 		
 		void setInsertMode(EinMode mode);
 		
@@ -125,6 +127,7 @@ public slots:
 		void expertNoteChanged();
 		void onClefChanged(Tclef cl);
 		void playScore(); /** Plays (actually emits noteChanged()) all notes starting from the selected one. */
+		void randomizeMelody();
 
 protected:
 	virtual void resizeEvent(QResizeEvent* event);

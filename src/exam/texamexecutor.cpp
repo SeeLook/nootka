@@ -26,6 +26,7 @@
 #include "tglobalexamstore.h"
 #include "texercises.h"
 #include "tequalrand.h"
+#include "trandmelody.h"
 #include "mainwindow.h"
 #include "level/tlevelselector.h"
 #include <tsound.h>
@@ -279,7 +280,7 @@ void TexamExecutor::askQuestion() {
     m_lockRightButt = false; // release mouse button events
     clearWidgets();
 		if (m_blindCounter > 20) {
-				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further release"));
+				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further releases."));
 				mW->clearAfterExam(e_failed);
 				deleteExam();
 				return;
@@ -329,7 +330,7 @@ void TexamExecutor::askQuestion() {
                 curQ.key = m_level.loKey;
                 if (m_level.onlyCurrKey) {
                     tmpNote = m_level.loKey.inKey(curQ.qa.note);
-                    if (tmpNote == Tnote(0, 0, 0))
+                    if (tmpNote.note == 0)
                       qDebug() << "No note from questions list in single key. It should never happened!" << tmpNote.toText();
                 }
             } else { // for many key signatures
@@ -355,10 +356,17 @@ void TexamExecutor::askQuestion() {
             }
             curQ.qa.note = tmpNote;
         }
-        if (!m_level.onlyCurrKey) { // if key dosen't determine accidentals, we do this
+        if (!m_level.onlyCurrKey) { // if key doesn't determine accidentals, we do this
             curQ.qa.note = m_supp->determineAccid(curQ.qa.note);
         }
     }
+    if (m_level.melodyLen > 1 && 
+			((curQ.questionAs == TQAtype::e_asNote && curQ.answerAs == TQAtype::e_asSound) ||
+			 (curQ.questionAs == TQAtype::e_asSound && curQ.answerAs == TQAtype::e_asNote) ||
+			 (curQ.questionAs == TQAtype::e_asSound && curQ.answerAs == TQAtype::e_asSound)) ) {
+					curQ.addMelody(QString("Melody %1").arg(m_exam->count() + 1));
+					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, curQ.key, m_level.onlyCurrKey, m_level.endsOnTonic);
+		}
 		if (curQ.melody())
 			mW->setSingleNoteMode(false);
 		else
@@ -368,19 +376,20 @@ void TexamExecutor::askQuestion() {
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
-    if (curQ.questionAs == TQAtype::e_asNote) {
+    if (curQ.questionAs == TQAtype::e_asNote && !curQ.melody()) {
         char strNr = 0;
         if ( (curQ.answerAs == TQAtype::e_asFretPos || curQ.answerAs == TQAtype::e_asSound) 
             && !m_level.onlyLowPos && m_level.showStrNr)
-            strNr = curQ.qa.pos.str(); //show string nr or not
+								strNr = curQ.qa.pos.str(); // do show string number or not
         if (m_level.useKeySign && curQ.answerAs != TQAtype::e_asNote)
             // when answer is also asNote we determine key in preparing answer part
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
-        else mW->score->askQuestion(curQ.qa.note, strNr);
+        else 
+						mW->score->askQuestion(curQ.qa.note, strNr);
         if (curQ.answerAs  == TQAtype::e_asName)
-            m_answRequire.accid = true; // checking octave determined by level
-        if (curQ.answerAs  == TQAtype::e_asSound)
-            m_answRequire.accid = false; // checking octave determined by level
+            m_answRequire.accid = true;
+        else if (curQ.answerAs  == TQAtype::e_asSound)
+            m_answRequire.accid = false;
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
@@ -429,13 +438,20 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAs == TQAtype::e_asSound) {
-        mW->sound->play(curQ.qa.note);
-        if (curQ.answerAs  == TQAtype::e_asSound)
-            m_answRequire.accid = false; // checking octave determined by level
+			if (curQ.melody()) {
+					mW->sound->playMelody(curQ.melody());
+			} else {
+					mW->sound->play(curQ.qa.note);
+					if (curQ.answerAs  == TQAtype::e_asSound)
+							m_answRequire.accid = false;
+			}
     }
 
 // PREPARING ANSWERS
     if (curQ.answerAs == TQAtype::e_asNote) {
+			if (curQ.melody()) {
+// 				mW->score->setMelody(curQ.melody());
+			} else {
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually select a key
                 if (m_blackQuestNr == -1) // if black question key mode is defined
@@ -467,6 +483,7 @@ void TexamExecutor::askQuestion() {
             m_answRequire.accid = true;
             m_answRequire.octave = true;
         }
+			}
         mW->score->unLockScore();
     }
 
@@ -538,6 +555,7 @@ void TexamExecutor::askQuestion() {
     mW->examResults->questionStart();
     m_canvas->questionTip(m_exam);
     m_blindCounter = 0; // question successfully asked - reset the counter
+    qDebug() << "question asked";
 }
 
 
@@ -1373,7 +1391,12 @@ QString TexamExecutor::saveExamToFile() {
 
 
 void TexamExecutor::repeatSound() {
-    mW->sound->play(m_exam->curQ().qa.note);
+		if (m_exam->curQ().melody())
+			mW->sound->playMelody(m_exam->curQ().melody());
+		else {
+			Tnote n = m_exam->curQ().qa.note;
+			mW->sound->play(n);
+		}
     if (m_soundTimer->isActive())
         m_soundTimer->stop();
     if (m_exam->curQ().answerAs == TQAtype::e_asSound) {

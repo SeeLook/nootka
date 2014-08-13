@@ -246,6 +246,10 @@ void MainWindow::createActions() {
 		nootBar->addAction(recordAct);
     
     nootBar->setMovable(false);
+		
+		QAction *randAct = new QAction(QIcon(gl->path + "picts/melody.png"), "Melody", this);
+		connect(randAct, SIGNAL(triggered(bool)), score, SLOT(randomizeMelody()));
+		nootBar->addAction(randAct);
 }
 
 
@@ -343,6 +347,8 @@ void MainWindow::openFile(QString runArg) {
 
 void MainWindow::createSettingsDialog() {
 // 	TsettingsDialog *settings = new TsettingsDialog(this);
+	if (score->isScorePlayed())
+		playSlot(); // stop playing
 	sound->prepareToConf();
 	gl->dumpToTemp();
 		QStringList args;
@@ -404,6 +410,8 @@ void MainWindow::createSettingsDialog() {
 
 
 void MainWindow::openLevelCreator(QString levelFile) {
+		if (score->isScorePlayed())
+			playSlot(); // stop playing
     sound->wait(); // stops pitch detection
     sound->stopPlaying();
     m_levelCreatorExist = true;
@@ -439,6 +447,8 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 
 void MainWindow::startExamSlot() {
+		if (score->isScorePlayed())
+			playSlot(); // stop playing
     sound->stopPlaying();
 		examResults = new TexamView();
 		examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor));
@@ -450,6 +460,8 @@ void MainWindow::startExamSlot() {
 
 /*
 void MainWindow::aboutSlot() {
+		if (score->isScorePlayed())
+				playSlot(); // stop playing
     sound->wait();
     sound->stopPlaying();
     TaboutNootka *ab = new TaboutNootka(this);
@@ -460,6 +472,8 @@ void MainWindow::aboutSlot() {
 
 
 void MainWindow::analyseSlot() {
+		if (score->isScorePlayed())
+				playSlot(); // stop playing
     sound->wait();
     sound->stopPlaying();
     TanalysDialog *ad = new TanalysDialog(0, this);

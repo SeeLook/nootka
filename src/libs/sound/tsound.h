@@ -23,7 +23,7 @@
 #include <QObject>
 #include <music/tnote.h>
 
-
+class Tmelody;
 class TabstractPlayer;
 class QThread;
 class TpitchView;
@@ -47,7 +47,8 @@ public:
   TabstractPlayer *player;
   TaudioIN  *sniffer;
   
-  void play(Tnote note);
+	void play(Tnote& note);
+	void playMelody(Tmelody* mel);
   bool isPlayable();
   bool isSniffable() { return (sniffer ? true : false) ; }
   
@@ -79,6 +80,7 @@ public:
 signals:
   void detectedNote(Tnote note);
   void plaingFinished();
+	
   
 private:
   void createPlayer();
@@ -86,16 +88,19 @@ private:
   void deletePlayer();
   void deleteSniffer();
   
-  TpitchView 	*m_pitchView;
-  Tnote 			m_detectedNote; // detected note
-  bool 				m_examMode;
-	Tnote				m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stroed during an exam
-	bool 				m_midiPlays;
+  TpitchView 					 *m_pitchView;
+  Tnote 			 					m_detectedNote; // detected note
+  bool 				 					m_examMode;
+	Tnote				 					m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stroed during an exam
+	bool 				 					m_midiPlays;
+	int										m_melodyNoteIndex;
+	Tmelody							 *m_playedMelody;
   
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
   void playingFinishedSlot();
   void noteDetectedSlot(Tnote note);
+	void playMelodySlot();
 
 
 };
