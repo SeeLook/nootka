@@ -75,6 +75,8 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	setAnimationsEnabled(gl->useAnimations);
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->S->keySignatureEnabled);
+// 	if (gl->S->keySignatureEnabled)
+// 				staff()->scoreKey()->showKeyName(true);
 	
 	connect(scoreScene()->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
 //     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
@@ -421,6 +423,17 @@ void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
 	setKeySignature(key);
 	askQuestion(note, realStr);
 }
+
+
+void TmainScore::askQuestion(Tmelody* mel) {
+	if (staff()->scoreKey())
+		setKeySignature(mel->key());
+	setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
+// 	m_questMark->show();
+	setMelody(mel);
+	setScoreDisabled(true);
+}
+
 
 
 void TmainScore::expertNoteChanged() {
@@ -925,7 +938,7 @@ void TmainScore::moveName(TmainScore::EmoveNote moveDir) {
 void TmainScore::addStaff(TscoreStaff* st) {
 	TmultiScore::addStaff(st);
 	connect(lastStaff(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClickedMain(int)));
-	lastStaff()->setEnableKeySign(gl->S->keySignatureEnabled);
+	lastStaff()->setEnableKeySign(staff()->scoreKey());
 	if (gl->S->namesOnScore)
 			lastStaff()->noteSegment(0)->showNoteName();
 	lastStaff()->setExtraAccids(m_acts->extraAccids()->isChecked());
@@ -941,9 +954,9 @@ void TmainScore::randomizeMelody() {
 		qa.note = Tnote(1 + i);
 		ql << qa;
 	}
-	Tmelody *mel = new Tmelody("");
-	TkeySignature k = keySignature();
-	getRandomMelody(ql, mel, staff()->maxNoteCount() -2, k, false, true);
+	Tmelody *mel = new Tmelody("", keySignature());
+// 	TkeySignature k = keySignature();
+	getRandomMelody(ql, mel, staff()->maxNoteCount() -2, false, true);
 	setMelody(mel);
 	delete mel;
 }

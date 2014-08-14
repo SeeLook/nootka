@@ -22,7 +22,7 @@
 
 
 
-void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, TkeySignature& key, bool inKey, bool onTonic) {
+void getRandomMelody(QList< TQAunit::TQAgroup >& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
 	for (int i = 0; i < len; ++i) {
 		Tnote pitch = qList[qrand() % qList.size()].note;
 		//TODO check is it in a key - use TexamExecutor::askQuestion() part 
@@ -31,12 +31,12 @@ void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, Tke
 	}
 	if (onTonic) {
 		char tonicNoteNr;
-		if (key.isMinor())
-			tonicNoteNr = TkeySignature::minorKeys[key.value() + 7];
+		if (mel->key().isMinor())
+			tonicNoteNr = TkeySignature::minorKeys[mel->key().value() + 7];
 		else
-			tonicNoteNr = TkeySignature::majorKeys[key.value() + 7];
+			tonicNoteNr = TkeySignature::majorKeys[mel->key().value() + 7];
 		for (int i = 0; i < qList.size(); ++i) {
-			Tnote tonic(tonicNoteNr + 1, 0, TkeySignature::scalesDefArr[key.value() + 7][tonicNoteNr]);
+			Tnote tonic(tonicNoteNr + 1, 0, TkeySignature::scalesDefArr[mel->key().value() + 7][tonicNoteNr]);
 			bool theSame = false;
 			if (tonic.compareNotes(qList[i].note, true))
 				theSame = true;

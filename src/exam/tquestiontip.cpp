@@ -87,7 +87,7 @@ QString TquestionTip::getNiceNoteName(Tnote note, Tnote::EnameStyle style) {
 
 QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level, double scale) {
   m_scoreFree = true;
-  m_nameFree = true;
+  m_nameFree = !(bool)question.melody(); // no name widget when level uses melodies
   m_guitarFree = true;
   QString quest;
   double sc = 4.0;
@@ -116,17 +116,22 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
               m_guitarFree = false;
               quest += tr("Show on the guitar");
 				} else if (question.answerAs == TQAtype::e_asSound) {
-                quest += playOrSing(int(level->instrument));
+									if (question.melody())
+										quest += tr("Play or sing a melody.");
+									else
+										quest += playOrSing(int(level->instrument));
 				}
         if (question.answerAs == TQAtype::e_asFretPos || question.answerAs == TQAtype::e_asSound) {
 					if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos) {
 						apendix = "<br> " + onStringTxt(question.qa.pos.str());
 					}
         }
-        if (level->useKeySign && level->manualKey && question.answerAs == TQAtype::e_asNote) // hide key signature
+        if (!question.melody()) {
+					if (level->useKeySign && level->manualKey && question.answerAs == TQAtype::e_asNote) // hide key signature
             quest += "<br>" + wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
-        else
+					else
             quest += "<br>" + wrapPixToHtml(question.qa.note, true, question.key, sc);
+				}
         if (apendix != "")
           quest += apendix;
 				break;

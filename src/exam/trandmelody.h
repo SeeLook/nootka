@@ -32,7 +32,7 @@ class Tmelody;
  * Melody is finished on tonic note of the given key signature
  * when @p onTonic is set to @p true
  */
-void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, TkeySignature& key, bool inKey, bool onTonic);
+void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
 
 
 #endif // TRANDMELODY_H

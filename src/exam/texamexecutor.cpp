@@ -47,6 +47,7 @@
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
+#include <music/tmelody.h>
 #include <tmainview.h>
 #include <QtWidgets>
 
@@ -365,7 +366,8 @@ void TexamExecutor::askQuestion() {
 			 (curQ.questionAs == TQAtype::e_asSound && curQ.answerAs == TQAtype::e_asNote) ||
 			 (curQ.questionAs == TQAtype::e_asSound && curQ.answerAs == TQAtype::e_asSound)) ) {
 					curQ.addMelody(QString("Melody %1").arg(m_exam->count() + 1));
-					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, curQ.key, m_level.onlyCurrKey, m_level.endsOnTonic);
+					curQ.melody()->setKey(curQ.key);
+					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
 		}
 		if (curQ.melody())
 			mW->setSingleNoteMode(false);
@@ -376,7 +378,10 @@ void TexamExecutor::askQuestion() {
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
-    if (curQ.questionAs == TQAtype::e_asNote && !curQ.melody()) {
+    if (curQ.questionAs == TQAtype::e_asNote) {
+			if (curQ.melody()) {
+					mW->score->askQuestion(curQ.melody());
+			} else {
         char strNr = 0;
         if ( (curQ.answerAs == TQAtype::e_asFretPos || curQ.answerAs == TQAtype::e_asSound) 
             && !m_level.onlyLowPos && m_level.showStrNr)
@@ -390,6 +395,7 @@ void TexamExecutor::askQuestion() {
             m_answRequire.accid = true;
         else if (curQ.answerAs  == TQAtype::e_asSound)
             m_answRequire.accid = false;
+			}
     }
 
     if (curQ.questionAs == TQAtype::e_asName) {
@@ -555,7 +561,6 @@ void TexamExecutor::askQuestion() {
     mW->examResults->questionStart();
     m_canvas->questionTip(m_exam);
     m_blindCounter = 0; // question successfully asked - reset the counter
-    qDebug() << "question asked";
 }
 
 

@@ -23,6 +23,7 @@
 #include <QString>
 #include <QList>
 #include "tchunk.h"
+#include "tkeysignature.h"
 
 /** 
  * Class describing a musical melody - sequence of notes (Tchunk)
@@ -33,7 +34,7 @@ class Tmelody
 {
 
 public:
-	Tmelody(const QString& title = "");
+	Tmelody(const QString& title = "", const TkeySignature& k = TkeySignature());
 	
 	QString title() {return m_title; }
 	void setTitle(const QString& t) { m_title = t; }
@@ -45,6 +46,9 @@ public:
 	int tempo() { return m_tempo; }
 	void setTempo(int tmp) { m_tempo = tmp; }
 	
+	TkeySignature key() { return m_key; }
+	void setKey(const TkeySignature& k) { m_key = k; }
+	
 	void toXml(QXmlStreamWriter& xml);
 	bool fromXml(QXmlStreamReader& xml);
 	
@@ -52,6 +56,7 @@ private:
 	QString						m_title;
 	QList<Tchunk>			m_notes;
 	int								m_tempo;
+	TkeySignature			m_key;
 };
 
 #endif // TMELODY_H
