@@ -311,6 +311,7 @@ void TscoreStaff::setDisabled(bool disabled) {
 		m_scoreNotes[i]->setReadOnly(disabled);
 	if (disabled && count())
 		m_scoreNotes[0]->hideWorkNote();
+// 	setControlledNotes(!disabled);
 }
 
 

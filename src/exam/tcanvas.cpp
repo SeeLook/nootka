@@ -222,9 +222,7 @@ void Tcanvas::questionTip(Texam* exam) {
 	m_guitarFree = m_questionTip->freeGuitar();
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
-// 	m_questionTip->show();
   setQuestionPos();
-// 	m_questionTip->setZValue(255);
 }
 
 

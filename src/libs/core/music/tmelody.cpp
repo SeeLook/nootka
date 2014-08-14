@@ -19,9 +19,10 @@
 #include "tmelody.h"
 
 
-Tmelody::Tmelody(const QString& title) :
+Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
 	m_title(title),
-	m_tempo(120)
+	m_tempo(120),
+	m_key(k)
 {
 
 }

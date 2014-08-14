@@ -70,6 +70,7 @@ public:
 
     void askQuestion(Tnote note, char realStr = 0);
     void askQuestion(Tnote note, TkeySignature key, char realStr = 0);
+		void askQuestion(Tmelody* mel);
     void clearScore();
 		
 				/** It sets TkeySignatureView background to question color, sets fake key signature
