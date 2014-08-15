@@ -41,6 +41,7 @@
 #include "exam/texamview.h"
 #include "exam/texamexecutor.h"
 #include "exam/tequalrand.h"
+#include "tmelman.h"
 // #include "taudioparams.h"
 // #include "tanalysdialog.h"
 // #include "tquestionpoint.h"
@@ -174,7 +175,6 @@ MainWindow::MainWindow(QWidget *parent) :
 // 				score->setInsertMode(TmultiScore::e_single);
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
-		connect(score, SIGNAL(playbackFinished()), this, SLOT(playSlot()));
 		connect(score, SIGNAL(statusTip(QString)), this, SLOT(setStatusMessage(QString)));
 // 		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
 // 		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
@@ -227,13 +227,8 @@ void MainWindow::createActions() {
     aboutAct->setStatusTip(tr("About Nootka"));
     aboutAct->setIcon(QIcon(gl->path + "picts/about.png"));
 //     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
-		playAct = new QAction(tr("Play"), this);
-		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
-		connect(playAct, SIGNAL(triggered()), this, SLOT(playSlot()));
 		
-		recordAct = new QAction(tr("Record"), this);
-		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
-		connect(recordAct, SIGNAL(triggered()), this, SLOT(recordSlot()));
+		m_melButt = new TmelMan(score, gl->path);
 
     nootBar->addAction(settingsAct);
 #if !defined (Q_OS_ANDROID)
@@ -242,14 +237,8 @@ void MainWindow::createActions() {
 #endif
 //     nootBar->addAction(aboutAct);
     nootBar->addAction(startExamAct);
-		nootBar->addAction(playAct);
-		nootBar->addAction(recordAct);
-    
+    nootBar->addAction(m_melButt->melodyAction());
     nootBar->setMovable(false);
-		
-		QAction *randAct = new QAction(QIcon(gl->path + "picts/melody.png"), "Melody", this);
-		connect(randAct, SIGNAL(triggered(bool)), score, SLOT(randomizeMelody()));
-		nootBar->addAction(randAct);
 }
 
 
@@ -348,7 +337,7 @@ void MainWindow::openFile(QString runArg) {
 void MainWindow::createSettingsDialog() {
 // 	TsettingsDialog *settings = new TsettingsDialog(this);
 	if (score->isScorePlayed())
-		playSlot(); // stop playing
+		m_melButt->playMelodySlot(); // stop playing
 	sound->prepareToConf();
 	gl->dumpToTemp();
 		QStringList args;
@@ -411,7 +400,7 @@ void MainWindow::createSettingsDialog() {
 
 void MainWindow::openLevelCreator(QString levelFile) {
 		if (score->isScorePlayed())
-			playSlot(); // stop playing
+			m_melButt->playMelodySlot(); // stop playing
     sound->wait(); // stops pitch detection
     sound->stopPlaying();
     m_levelCreatorExist = true;
@@ -448,7 +437,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 void MainWindow::startExamSlot() {
 		if (score->isScorePlayed())
-			playSlot(); // stop playing
+			m_melButt->playMelodySlot(); // stop playing
     sound->stopPlaying();
 		examResults = new TexamView();
 		examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor));
@@ -544,19 +533,15 @@ void MainWindow::soundWasPlayed(Tnote note) {
 
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
-		if (!ex) {
-				recordAct->setVisible(false);
-				playAct->setVisible(false);
-		}
-				innerWidget->addNoteName(score->noteName());
-				score->setInsertMode(TmultiScore::e_single);
+		if (!ex)
+				m_melButt->button()->setVisible(false);
+		innerWidget->addNoteName(score->noteName());
+		score->setInsertMode(TmultiScore::e_single);
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
-		if (!ex) {
-				recordAct->setVisible(true);
-				playAct->setVisible(true);
-		}
-				innerWidget->takeNoteName();
-				score->setInsertMode(TmultiScore::e_multi);
+		if (!ex)
+				m_melButt->button()->setVisible(true);
+		innerWidget->takeNoteName();
+		score->setInsertMode(TmultiScore::e_multi);
 	}
 }
 
@@ -571,33 +556,6 @@ void MainWindow::restoreMessage() {
     m_prevMsg = "";
 }
 
-
-void MainWindow::recordSlot() {
-	if (score->insertMode() == TmainScore::e_multi) {
-		recordAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));
-		score->setInsertMode(TmainScore::e_record);
-// 		innerWidget->addNoteName(score->noteName());
-	} else {
-		recordAct->setIcon(QIcon(gl->path + "picts/record.png"));
-		score->setInsertMode(TmainScore::e_multi);
-// 		innerWidget->takeNoteName();
-	}
-}
-
-
-void MainWindow::playSlot() {
-	if (score->isScorePlayed()) {
-		score->playScore(); // It will be stopped
-		recordAct->setDisabled(false);
-		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
-	} else {
-		if (score->currentIndex() < 0)
-			return;
-		recordAct->setDisabled(true);
-		playAct->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaStop)));
-		score->playScore();
-	}
-}
 
 /*
 void MainWindow::showSupportDialog() {
@@ -730,6 +688,7 @@ void MainWindow::updateSize(QSize newS) {
 	int barIconSize = qMin(newS.width(), newS.height()) / 20;
 #endif
 	nootBar->setIconSize(QSize(barIconSize, barIconSize));
+	m_melButt->button()->setIconSize(nootBar->iconSize());
 	nootBar->adjustSize();
 // 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));	
 	int baseH = qMin(newS.height(), newS.width());

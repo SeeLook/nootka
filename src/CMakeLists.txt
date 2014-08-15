@@ -41,6 +41,7 @@ include_directories( libs/core libs/sound libs/misc )
 set(NOOTKA_SRC
 	main.cpp
 	tmainview.cpp
+	tmelman.cpp
 	mainwindow.cpp
 	
 	guitar/tfingerboard.cpp

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,34 +16,50 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANIMEDCHBOX_H
-#define TANIMEDCHBOX_H
+#ifndef TMELMAN_H
+#define TMELMAN_H
 
-#include <QCheckBox>
+#include <QObject>
+#include <QIcon>
+#include <QKeySequence>
 
-class QTimer;
+class QAction;
+class QMainWindow;
+class QWidgetAction;
+class QMenu;
+class QToolButton;
+class TmainScore;
+
 
 /** 
- * This is ordinary QCheckBox but with simple, blinking animation encouraging to click it....
- * Animation is ivoked by anim() method with number of blinks as a parameter.
- * Default blink time is 150 ms but can be changed by seccond anim() parameter
+ * Melody manager - graphically represented by QToolButton 
+ * in Nootka tool bar with actions to manage melodies.
  */
-class TanimedChBox : public QCheckBox
+class TmelMan : public QObject
 {
-  Q_OBJECT
-  
+	Q_OBJECT
+	
 public:
-  explicit TanimedChBox(QWidget* parent = 0);
-  
-  void startAnimation(int blinkNr, int timeGap = 200);
-  
-protected slots:
-  void animSlot();
-  
+	explicit TmelMan(TmainScore* score, const QString& path);
+	
+	QWidgetAction* melodyAction() { return m_melAct; }
+	QToolButton* button() { return m_button; }
+	
+public slots:
+	void playMelodySlot();
+	void recordMelodySlot();
+	void randomizeMelodySlot();
+	
 private:
-  QTimer      *m_timer;
-  int          m_maxBlinks, m_currBlink;
-
+	QAction* createAction(const QString& t, const char* slot, const QKeySequence& k = QKeySequence(), const QIcon& i = QIcon());
+	
+private:
+	TmainScore						*m_score;
+	QWidgetAction					*m_melAct;
+	QToolButton						*m_button;
+	QMenu									*m_menu;
+	QAction								*m_playMelAct, *m_recMelAct;
+	QString								 m_path;
 };
 
-#endif // TANIMEDCHBOX_H
+#endif // TMELMAN_H

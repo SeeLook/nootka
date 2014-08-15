@@ -42,7 +42,7 @@
 #include <widgets/tintonationview.h>
 #include <widgets/tpitchview.h>
 #include <level/tfixleveldialog.h>
-#include <widgets/tanimedchbox.h>
+// #include <widgets/tanimedchbox.h>
 #include <tglobals.h>
 #include <taudioparams.h>
 #include <texamparams.h>
