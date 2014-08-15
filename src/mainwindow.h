@@ -24,6 +24,7 @@
 // #include <texamexecutor.h>
 #include <QMainWindow>
 
+class TmelMan;
 class TexamExecutor;
 class TmainView;
 class QPushButton;
@@ -94,7 +95,7 @@ protected:
     TprogressWidget *progress;
 
     QToolBar *nootBar;
-    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct, *playAct, *recordAct;
+    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
     void clearAfterExam(int examState);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
@@ -112,9 +113,6 @@ protected:
         
 protected slots:
     void restoreMessage();
-		
-		void recordSlot();
-		void playSlot();
 		
 //     void showSupportDialog();
 		
@@ -137,6 +135,7 @@ private:
 
     TroundedLabel 			  *m_statLab;
     QString 							m_statusText, m_prevMsg;
+		TmelMan								*m_melButt;
 		
         /** Keeps true when statusMesage is locked by temporary message
         * and stops any status messages in this time.*/

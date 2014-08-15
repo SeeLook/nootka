@@ -39,9 +39,6 @@
 #include <notename/tnotename.h>
 #include <QtWidgets>
 
-#include <exam/tqaunit.h>
-#include <exam/trandmelody.h>
-
 
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
 
@@ -946,20 +943,6 @@ void TmainScore::addStaff(TscoreStaff* st) {
 }
 
 
-void TmainScore::randomizeMelody() {
-	QList<TQAunit::TQAgroup> ql;
-	int ambit = 24; //highestNote().getChromaticNrOfNote() - lowestNote().getChromaticNrOfNote();
-	for (int i = 0; i < ambit; i++) {
-		TQAunit::TQAgroup qa;
-		qa.note = Tnote(1 + i);
-		ql << qa;
-	}
-	Tmelody *mel = new Tmelody("", keySignature());
-// 	TkeySignature k = keySignature();
-	getRandomMelody(ql, mel, staff()->maxNoteCount() -2, false, true);
-	setMelody(mel);
-	delete mel;
-}
 
 
 
