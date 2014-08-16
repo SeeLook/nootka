@@ -405,6 +405,41 @@ void TexecutorSupply::calcQAPossibleCount() {
 }
 
 
+void TexecutorSupply::checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid) {
+	Tnote exN = expectedNote, retN = userNote;
+	if (retN.note) {
+		Tnote nE = exN.showAsNatural();
+		Tnote nR = retN.showAsNatural();
+		if (exN != retN) {
+			if (reqOctave) {
+					if (nE.note == nR.note && nE.acidental == nR.acidental) {
+							if (nE.octave != nR.octave)
+								curQ.setMistake(TQAunit::e_wrongOctave);
+					} else {
+							curQ.setMistake(TQAunit::e_wrongNote);
+					}
+			}
+			if (!curQ.wrongNote()) { // There is still something to check
+				if (exN.note != retN.note || exN.acidental != retN.acidental) {// if they are equal it means that only octaves were wrong
+						exN = exN.showAsNatural();
+						retN = retN.showAsNatural();
+						if (reqAccid) {
+								if (exN.note == retN.note && exN.acidental == retN.acidental)
+										curQ.setMistake(TQAunit::e_wrongAccid);
+								else
+										curQ.setMistake(TQAunit::e_wrongNote);
+						} else {
+								if (exN.note != retN.note || exN.acidental != retN.acidental)
+									curQ.setMistake(TQAunit::e_wrongNote);
+						}
+				}
+			}
+		}
+	} else
+			curQ.setMistake(TQAunit::e_wrongNote);
+}
+
+
 //##########################################################################################
 //#######################     EVENTS        ################################################
 //##########################################################################################

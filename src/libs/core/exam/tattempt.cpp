@@ -26,6 +26,13 @@ Tattempt::Tattempt() :
 }
 
 
+void Tattempt::add(quint8 mistake, quint32 time) {
+	mistakes << mistake;
+	if (time)
+		times << time;
+}
+
+
 Tattempt::~Tattempt()
 {
 

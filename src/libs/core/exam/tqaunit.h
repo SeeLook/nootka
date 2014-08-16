@@ -69,6 +69,15 @@ public:
     double getTime() { return (double)time / 10.0; } /** Returns time value divided by 10*/
     
     void setMistake(Emistake mis);
+		
+				/** Sets mistakes from value. It is the same:
+				 * setMistake(e_wrongKey); setMistake(e_wrongOctave);
+				 * and 
+				 * setMistake(e_wrongKey | e_wrongOctave);
+				 * or
+				 * setMistake(6);	 */
+		void setMistake(quint8 misVal) { valid = misVal; }
+		quint8 mistake() { return valid; } /** set of mistakes as Boolean sum of Emistake */
 
     TQAgroup qa;
     TQAtype::Etype questionAs;
@@ -95,6 +104,15 @@ public:
     bool wrongNote() {return valid & 64; }
     bool wrongIntonation() {return valid & 128; }
     
+    bool questionAsNote() { return questionAs == TQAtype::e_asNote; } /** questionAs == TQAtype::e_asNote; */
+    bool questionAsName() { return questionAs == TQAtype::e_asName; } /** questionAs == TQAtype::e_asName; */
+    bool questionAsFret() { return questionAs == TQAtype::e_asFretPos; } /** questionAs == TQAtype::e_asFretPos; */
+    bool questionAsSound() { return questionAs == TQAtype::e_asSound; } /** questionAs == TQAtype::e_asSound; */
+    bool answerAsNote() { return answerAs == TQAtype::e_asNote; } /** answerAs == TQAtype::e_asNote; */
+    bool answerAsName() { return answerAs == TQAtype::e_asName; } /** answerAs == TQAtype::e_asName; */
+    bool answerAsFret() { return answerAs == TQAtype::e_asFretPos; } /** answerAs == TQAtype::e_asFretPos; */
+    bool answerAsSound() { return answerAs == TQAtype::e_asSound; } /** answerAs == TQAtype::e_asSound; */
+    
     bool isWrong() { return wrongNote() | wrongPos(); }
     bool isNotSoBad() { if (valid && !wrongNote() && !wrongPos()) return true;
                             else return false;
@@ -102,7 +120,7 @@ public:
 		void newAttempt(); /** Creates and adds new @class Tattempt to the attempts list. */
 		int attemptsCount() { if (m_attempts) return m_attempts->size(); else return 0; }
 		Tattempt* attempt(int nr) { return m_attempts->at(nr); } /** Pointer to given attempt */
-		Tattempt* lastAtt() { return m_attempts->last(); } /** Pointer to the last attempt */
+		Tattempt* lastAttepmt() { return m_attempts->last(); } /** Pointer to the last attempt */
 		
 		void addMelody(const QString& title); /** Adds melody of replaces existing one. */
 		Tmelody* melody() { return m_melody; }
