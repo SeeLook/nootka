@@ -87,6 +87,11 @@ public:
 	
 	int loFret() { return m_loFret; }
 	int hiFret() { return m_hiFret; }
+	
+			/** Checks are given notes matched. Result (mistake(s)) is written into @p curQ.
+			 * When @p reqOctave is false octaves check are skipped
+			 * When @p reqAccid is false Cis matches to Des and etc...	 */
+	void checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid);
   
   
 signals:

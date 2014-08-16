@@ -320,11 +320,11 @@ void TexamExecutor::askQuestion() {
 				curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 		}
     
-    if (m_blackQuestNr == -1 && curQ.questionAs == TQAtype::e_asFretPos && curQ.answerAs == TQAtype::e_asFretPos) {
+    if (m_blackQuestNr == -1 && curQ.questionAsFret() && curQ.answerAsFret()) {
       curQ.qa  = m_questList[m_supp->getQAnrForGuitarOnly()];      
     }
 
-    if (m_blackQuestNr == -1 && (curQ.questionAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asNote)) {
+    if (m_blackQuestNr == -1 && (curQ.questionAsNote() || curQ.answerAsNote())) {
         if (m_level.useKeySign) {
             Tnote tmpNote = curQ.qa.note;
             if (m_level.isSingleKey) { //for single key
@@ -362,9 +362,9 @@ void TexamExecutor::askQuestion() {
         }
     }
     if (m_level.melodyLen > 1 && 
-			((curQ.questionAs == TQAtype::e_asNote && curQ.answerAs == TQAtype::e_asSound) ||
-			 (curQ.questionAs == TQAtype::e_asSound && curQ.answerAs == TQAtype::e_asNote) ||
-			 (curQ.questionAs == TQAtype::e_asSound && curQ.answerAs == TQAtype::e_asSound)) ) {
+			((curQ.questionAsNote() && curQ.answerAsSound()) ||
+			 (curQ.questionAsSound() && curQ.answerAsNote()) ||
+			 (curQ.questionAsSound() && curQ.answerAsSound())) ) {
 					curQ.addMelody(QString("Melody %1").arg(m_exam->count() + 1));
 					curQ.melody()->setKey(curQ.key);
 					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
@@ -378,29 +378,29 @@ void TexamExecutor::askQuestion() {
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 
   // ASKING QUESIONS
-    if (curQ.questionAs == TQAtype::e_asNote) {
+    if (curQ.questionAsNote()) {
 			if (curQ.melody()) {
 					mW->score->askQuestion(curQ.melody());
 			} else {
         char strNr = 0;
-        if ( (curQ.answerAs == TQAtype::e_asFretPos || curQ.answerAs == TQAtype::e_asSound) 
+        if ( (curQ.answerAsFret() || curQ.answerAsSound()) 
             && !m_level.onlyLowPos && m_level.showStrNr)
 								strNr = curQ.qa.pos.str(); // do show string number or not
-        if (m_level.useKeySign && curQ.answerAs != TQAtype::e_asNote)
+        if (m_level.useKeySign && !curQ.answerAsNote())
             // when answer is also asNote we determine key in preparing answer part
             mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
         else 
 						mW->score->askQuestion(curQ.qa.note, strNr);
-        if (curQ.answerAs  == TQAtype::e_asName)
+        if (curQ.answerAsName())
             m_answRequire.accid = true;
-        else if (curQ.answerAs  == TQAtype::e_asSound)
+        else if (curQ.answerAsSound())
             m_answRequire.accid = false;
 			}
     }
 
-    if (curQ.questionAs == TQAtype::e_asName) {
+    if (curQ.questionAsName()) {
         if (m_blackQuestNr == -1) { // regular question
-          if (curQ.answerAs == TQAtype::e_asName) { // prepare answer
+          if (curQ.answerAsName()) { // prepare answer
             curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other enharm name of note - expected note
             m_answRequire.accid = true;
             if (m_level.requireStyle || curQ.qa.note == curQ.qa_2.note) {
@@ -424,37 +424,37 @@ void TexamExecutor::askQuestion() {
               }
         }
         // Show question on TnoteName widget
-        if ((curQ.answerAs == TQAtype::e_asFretPos || curQ.answerAs == TQAtype::e_asSound) && m_level.showStrNr)
+        if ((curQ.answerAsFret() || curQ.answerAsSound()) && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
-        if (curQ.answerAs  == TQAtype::e_asSound)
+        if (curQ.answerAsSound())
             m_answRequire.accid = false; // reset checking accidentals determined by level
     }
 
-    if (curQ.questionAs == TQAtype::e_asFretPos) {
+    if (curQ.questionAsFret()) {
         mW->guitar->askQuestion(curQ.qa.pos);
-        if (curQ.answerAs  == TQAtype::e_asNote)
+        if (curQ.answerAsNote())
             m_answRequire.octave = true; // checking accid determined by level
-        if (curQ.answerAs  == TQAtype::e_asSound) {
+        if (curQ.answerAsSound()) {
             m_answRequire.accid = false;
             m_answRequire.octave = true;
         }
         
     }
 
-    if (curQ.questionAs == TQAtype::e_asSound) {
+    if (curQ.questionAsSound()) {
 			if (curQ.melody()) {
 					mW->sound->playMelody(curQ.melody());
 			} else {
 					mW->sound->play(curQ.qa.note);
-					if (curQ.answerAs  == TQAtype::e_asSound)
+					if (curQ.answerAsSound())
 							m_answRequire.accid = false;
 			}
     }
 
 // PREPARING ANSWERS
-    if (curQ.answerAs == TQAtype::e_asNote) {
+    if (curQ.answerAsNote()) {
 			if (curQ.melody()) {
 // 				mW->score->setMelody(curQ.melody());
 			} else {
@@ -469,7 +469,7 @@ void TexamExecutor::askQuestion() {
                 mW->score->setKeySignature(curQ.key);
             }
         }
-        if (curQ.questionAs == TQAtype::e_asNote) {// note has to be another than question
+        if (curQ.questionAsNote()) {// note has to be another than question
             if (m_blackQuestNr == -1)
                 curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
             if (!m_level.manualKey && curQ.qa_2.note == curQ.qa.note) {
@@ -480,12 +480,12 @@ void TexamExecutor::askQuestion() {
             m_answRequire.accid = true;
             m_answRequire.octave = true;
         }
-        if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
+        if (curQ.questionAsFret() || curQ.questionAsSound()) {
             if (m_level.forceAccids) {
                 mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
             }
         }
-        if (curQ.questionAs == TQAtype::e_asName) {
+        if (curQ.questionAsName()) {
             m_answRequire.accid = true;
             m_answRequire.octave = true;
         }
@@ -493,14 +493,14 @@ void TexamExecutor::askQuestion() {
         mW->score->unLockScore();
     }
 
-    if (curQ.answerAs == TQAtype::e_asName) {
+    if (curQ.answerAsName()) {
            /** During an exam Note name style is changed in two cases:
             * 1. If level.requireStyle = true every question or answer with Note Name
             *       switch it (letters/solfege)
             * 2. If Note Name is question and answer and are the same - this is only way that it has sense    
            */
 				Tnote answNote = Tnote(0, 0, 0);
-        if (curQ.questionAs == TQAtype::e_asName)
+        if (curQ.questionAsName())
 						answNote = curQ.qa_2.note;
 				else {
 					answNote = curQ.qa.note;
@@ -509,20 +509,20 @@ void TexamExecutor::askQuestion() {
           curQ.setStyle(curQ.styleOfQuestion(), m_prevAnswStyle);
         }
         mW->noteName->prepAnswer(curQ.styleOfAnswer());
-        if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
+        if (curQ.questionAsFret() || curQ.questionAsSound()) {
             if (m_level.forceAccids) {
 								mW->noteName->forceAccidental(answNote.acidental);
 						}
-				} else if (curQ.questionAs == TQAtype::e_asName)
+				} else if (curQ.questionAsName())
 									mW->noteName->forceAccidental(answNote.acidental);
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }
 
-    if (curQ.answerAs == TQAtype::e_asFretPos) {
+    if (curQ.answerAsFret()) {
 //         mW->guitar->setGuitarDisabled(false);
 //         mW->guitar->prepareAnswer();
         m_answRequire.accid = false;  // Ignored in checking, positions are comparing
-        if (curQ.questionAs == TQAtype::e_asFretPos) {
+        if (curQ.questionAsFret()) {
           QList<TfingerPos> posList;
           m_supp->getTheSamePosNoOrder(curQ.qa.pos, posList);
           if (posList.isEmpty()) {
@@ -540,9 +540,9 @@ void TexamExecutor::askQuestion() {
         mW->guitar->prepareAnswer();
     }
     
-    if (curQ.answerAs == TQAtype::e_asSound) {
+    if (curQ.answerAsSound()) {
       mW->sound->prepareAnswer();
-          if (curQ.questionAs == TQAtype::e_asSound) {
+          if (curQ.questionAsSound()) {
               connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
               // sniffing after finished sound
           } else
@@ -555,7 +555,7 @@ void TexamExecutor::askQuestion() {
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
-    if (curQ.questionAs == TQAtype::e_asSound)
+    if (curQ.questionAsSound())
         mW->nootBar->addAction(repeatSndAct);
     mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
@@ -568,9 +568,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
     TQAunit curQ = m_exam->curQ();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
-    if (curQ.questionAs == TQAtype::e_asSound)
+    if (curQ.questionAsSound())
         mW->nootBar->removeAction(repeatSndAct);
-		if (curQ.answerAs == TQAtype::e_asSound)
+		if (curQ.answerAsSound())
 				mW->sound->pauseSinffing();
     if (!gl->E->autoNextQuest || m_exercise)
         mW->startExamAct->setDisabled(false);
@@ -580,23 +580,23 @@ void TexamExecutor::checkAnswer(bool showResults) {
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
     exN = curQ.qa.note;
-    if (curQ.answerAs == TQAtype::e_asNote) {
+    if (curQ.answerAsNote()) {
         if (m_level.manualKey) {
             if (mW->score->keySignature().value() != curQ.key.value())
                 curQ.setMistake(TQAunit::e_wrongKey);
         }
-        if (curQ.questionAs == TQAtype::e_asNote)
+        if (curQ.questionAsNote())
             exN = curQ.qa_2.note;
         retN = mW->score->getNote(0);
     }
-    if (curQ.answerAs == TQAtype::e_asName) {
-        if (curQ.questionAs == TQAtype::e_asName)
+    if (curQ.answerAsName()) {
+        if (curQ.questionAsName())
             exN = curQ.qa_2.note;
         m_prevNoteIfName = mW->noteName->getNoteName(); // store note to restore it if will be repeated
         retN = mW->noteName->getNoteName();
     }
     Tnote userNote = retN;
-    if (curQ.answerAs == TQAtype::e_asSound) {
+    if (curQ.answerAsSound()) {
 				retN = mW->sound->note();
 				if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
 						float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
@@ -604,10 +604,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
 								curQ.setMistake(TQAunit::e_wrongIntonation);
 				}
     }
-    if (curQ.answerAs == TQAtype::e_asFretPos) { // Comparing positions
+    if (curQ.answerAsFret()) { // Comparing positions
 				TfingerPos answPos, questPos;
 				answPos = mW->guitar->getfingerPos();
-				if (curQ.questionAs == TQAtype::e_asFretPos) { 
+				if (curQ.questionAsFret()) { 
 					if (answPos == curQ.qa.pos) { // check has not user got answer the same as question position
 						curQ.setMistake(TQAunit::e_wrongPos);
 						qDebug("Cheater!");
@@ -628,47 +628,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
 							curQ.setMistake(TQAunit::e_wrongPos);
 						}
 				}
-    } else { // we check are the notes the same
-//        qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
-      if (retN.note) {
-        Tnote nE = exN.showAsNatural();
-        Tnote nR = retN.showAsNatural();
-//         qDebug() << "Q:" << exN.toText(curQ.styleOfQuestion()) << "A:" << retN.toText(curQ.styleOfAnswer());
-        if (exN != retN) {
-            if (m_answRequire.octave) {
-//                qDebug() << "1." << QString::fromStdString(nR.getName()) << QString::fromStdString(nE.getName());
-                if (nE.note == nR.note && nE.acidental == nR.acidental) {
-                    if (nE.octave != nR.octave) {
-                        curQ.setMistake(TQAunit::e_wrongOctave);
-                }
-            } else {
-                    curQ.setMistake(TQAunit::e_wrongNote);
-                }
-            }
-            if (!curQ.wrongNote()) { // There is stil something to check
-                if (exN.note != retN.note || exN.acidental != retN.acidental) {// if they are equal it means that only octaves were wrong
-                    exN = exN.showAsNatural();
-                    retN = retN.showAsNatural();
-//                    qDebug() << QString::fromStdString(retN.getName()) << QString::fromStdString(exN.getName());
-                    if (m_answRequire.accid) {
-                        if (exN.note == retN.note && exN.acidental == retN.acidental) {
-                            curQ.setMistake(TQAunit::e_wrongAccid);
-                        }
-                        else {
-                            curQ.setMistake(TQAunit::e_wrongNote);
-                        }
-                    } else {
-                         if (exN.note != retN.note || exN.acidental != retN.acidental) {
-                            curQ.setMistake(TQAunit::e_wrongNote);
-                         }
-                    }
-                }
-            }
-        }
-      } else
-          curQ.setMistake(TQAunit::e_wrongNote);
-    }
-		if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAs == TQAtype::e_asNote || curQ.answerAs == TQAtype::e_asName)) {
+    } else // we check are the notes the same
+				m_supp->checkNotes(curQ, exN, retN, m_answRequire.octave, m_answRequire.accid);
+		
+		if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAsNote() || curQ.answerAsName())) {
 			// Save user given note when it is correct and accidental was not forced to respect kind of accidental
 				if (curQ.questionAs == curQ.answerAs)
 					curQ.qa_2.note = userNote;
@@ -786,9 +749,9 @@ void TexamExecutor::correctAnswer() {
 			markColor = gl->EnotBadColor;
 	else
 			markColor = gl->EquestionColor;
-	if (curQ.answerAs == TQAtype::e_asNote) {
+	if (curQ.answerAsNote()) {
 			Tnote goodNote = curQ.qa.note;
-			if (curQ.questionAs == TQAtype::e_asNote)
+			if (curQ.questionAsNote())
 				goodNote = curQ.qa_2.note;
 			if (curQ.wrongAccid() || curQ.wrongOctave()) // it corrects wrong octave as well
 					mW->score->correctAccidental(goodNote);
@@ -799,14 +762,14 @@ void TexamExecutor::correctAnswer() {
 			}
 			if (curQ.wrongKey())
 					mW->score->correctKeySignature(curQ.key);
-	} else if (curQ.answerAs == TQAtype::e_asFretPos) {
+	} else if (curQ.answerAsFret()) {
 			TfingerPos goodPos = curQ.qa.pos;
-			if (curQ.questionAs == TQAtype::e_asFretPos)
+			if (curQ.questionAsFret())
 					goodPos = curQ.qa_2.pos;
 			mW->guitar->correctPosition(goodPos, markColor);
-	} else if (curQ.answerAs == TQAtype::e_asName) {
+	} else if (curQ.answerAsName()) {
 			Tnote goodNote = curQ.qa.note;
-			if (curQ.questionAs == TQAtype::e_asName)
+			if (curQ.questionAsName())
 					goodNote = curQ.qa_2.note;
 			if (!m_answRequire.accid && curQ.isNotSoBad()) { // respect accidental selected by user 
 				switch (mW->noteName->getNoteName().acidental) {
@@ -828,7 +791,7 @@ void TexamExecutor::correctAnswer() {
 					repeatSound();
 			else { 
 				// Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
-					if (curQ.questionAs == TQAtype::e_asFretPos)
+					if (curQ.questionAsFret())
 						mW->guitar->correctPosition(curQ.qa.pos, markColor);
 					else
 						m_canvas->correctToGuitar(curQ.questionAs, gl->E->mistakePreview, curQ.qa.pos);
@@ -882,18 +845,18 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
 			break;
   }
   if (m_exercise && gl->E->showNameOfAnswered) {
-		if (curQ.questionAs != TQAtype::e_asName && curQ.answerAs != TQAtype::e_asName) {
-			if (curQ.answerAs == TQAtype::e_asNote || (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asNote))
+		if (!curQ.questionAsName() && !curQ.answerAsName()) {
+			if (curQ.answerAsNote() || (curQ.answerAsSound() && curQ.questionAsNote()))
 				mW->score->showNames(gl->S->nameStyleInNoteName, true);
-			else if (curQ.answerAs == TQAtype::e_asFretPos) // for q/a fret-fret this will be the first case
+			else if (curQ.answerAsFret()) // for q/a fret-fret this will be the first case
 				mW->guitar->showName(gl->S->nameStyleInNoteName, markColor); // Take it from user answer
-			else if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs == TQAtype::e_asFretPos)
+			else if (curQ.answerAsSound() && curQ.questionAsFret())
 					mW->guitar->showName(gl->S->nameStyleInNoteName, curQ.qa.note, markColor);
 		} else { // cases when name was an question
-			if (curQ.questionAs == TQAtype::e_asName) {
-				if (curQ.answerAs == TQAtype::e_asNote)
+			if (curQ.questionAsName()) {
+				if (curQ.answerAsNote())
 					mW->score->showNames(curQ.styleOfQuestion());
-				else if (curQ.answerAs == TQAtype::e_asFretPos)
+				else if (curQ.answerAsFret())
 					mW->guitar->showName(curQ.styleOfQuestion(), markColor);
 			}
 		}
@@ -918,34 +881,34 @@ void TexamExecutor::repeatQuestion() {
     }
     curQ.setMistake(TQAunit::e_correct);
     
-    if (curQ.answerAs == TQAtype::e_asNote)
+    if (curQ.answerAsNote())
         mW->score->unLockScore();
-    if (curQ.questionAs == TQAtype::e_asName) { // refresh question on NoteName
-      if (curQ.answerAs == TQAtype::e_asFretPos && m_level.showStrNr)
+    if (curQ.questionAsName()) { // refresh question on NoteName
+      if (curQ.answerAsFret() && m_level.showStrNr)
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
         else
             mW->noteName->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
     } else
       mW->noteName->clearNoteName();
-    if (curQ.answerAs == TQAtype::e_asName) {
+    if (curQ.answerAsName()) {
 			Tnote answNote = Tnote(0, 0, 0);
       mW->noteName->setNameDisabled(false);
-      if (curQ.questionAs == TQAtype::e_asName)
+      if (curQ.questionAsName())
 						answNote = curQ.qa_2.note;
-			else if (curQ.questionAs != TQAtype::e_asNote)
+			else if (!curQ.answerAsNote())
 							answNote = curQ.qa.note;
 			mW->noteName->prepAnswer(curQ.styleOfAnswer());
       mW->noteName->setStyle(curQ.styleOfAnswer());
-			if (curQ.questionAs == TQAtype::e_asFretPos || curQ.questionAs == TQAtype::e_asSound) {
+			if (curQ.questionAsFret() || curQ.questionAsSound()) {
             if (m_level.forceAccids) {
 								mW->noteName->forceAccidental(answNote.acidental);
 						}
-				} else if (curQ.questionAs == TQAtype::e_asName)
+				} else if (curQ.questionAsName())
 									mW->noteName->forceAccidental(answNote.acidental);
     }
-    if (curQ.answerAs == TQAtype::e_asFretPos)
+    if (curQ.answerAsFret())
         mW->guitar->setGuitarDisabled(false);
-    if (curQ.answerAs == TQAtype::e_asSound && curQ.questionAs != TQAtype::e_asSound)
+    if (curQ.answerAsSound() && !curQ.questionAsSound())
         startSniffing();
         // *** When question is sound it is played again (repeatSound()) 
         // and than startSniffing is called
@@ -959,7 +922,7 @@ void TexamExecutor::repeatQuestion() {
         mW->startExamAct->setDisabled(true);
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
-    if (curQ.questionAs == TQAtype::e_asSound) { // *** Here :-)
+    if (curQ.questionAsSound()) { // *** Here :-)
         mW->nootBar->addAction(repeatSndAct);
         repeatSound();
     }
@@ -1253,7 +1216,7 @@ void TexamExecutor::stopExerciseSlot() {
 			if (askAfter) // ask next question if questioning was stopped
 				askQuestion();
 			else // restore sniffing if necessary
-				if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+				if (m_exam->curQ().answerAsSound())
 					startSniffing();
 			qApp->installEventFilter(m_supp);
 			return;
@@ -1337,7 +1300,7 @@ void TexamExecutor::suggestDialogClosed(bool startExam) {
 			exerciseToExam();
 	} else {
 		qApp->installEventFilter(m_supp);
-		if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+		if (m_exam->curQ().answerAsSound())
 					startSniffing();
 	}
 }
@@ -1404,7 +1367,7 @@ void TexamExecutor::repeatSound() {
 		}
     if (m_soundTimer->isActive())
         m_soundTimer->stop();
-    if (m_exam->curQ().answerAs == TQAtype::e_asSound) {
+    if (m_exam->curQ().answerAsSound()) {
         connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
   }
 }
@@ -1493,7 +1456,7 @@ void TexamExecutor::expertAnswersSlot() {
      * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
      * It finishes with crash. To avoid this checkAnswer() has to be called
      * from outside - by timer event. */
-    if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+    if (m_exam->curQ().answerAsSound())
         mW->sound->pauseSinffing();
     QTimer::singleShot(1, this, SLOT(checkAnswer()));
 }
@@ -1592,7 +1555,7 @@ void TexamExecutor::levelStatusMessage() {
 
 
 void TexamExecutor::unlockAnswerCapturing() {
-	if (m_exam->curQ().answerAs == TQAtype::e_asSound)
+	if (m_exam->curQ().answerAsSound())
 		mW->sound->go();
 	mW->examResults->go();
   qApp->installEventFilter(m_supp); // restore grabbing right mouse button
