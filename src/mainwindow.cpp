@@ -282,21 +282,25 @@ void MainWindow::setMessageBg(QColor bg) {
 
 
 void MainWindow::clearAfterExam(int examState) {
-    setStartExamActParams();
-    delete ex;
-    ex = 0;
-    m_curBG = -1;
-    m_prevBg = -1;
-    setMessageBg(-1);
-    if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
-				openLevelCreator();
-		else
-				sound->go();
-		innerWidget->takeExamViews();
-		progress = 0;
-		examResults = 0;
+	setStartExamActParams();
+	delete ex;
+	ex = 0;
+	m_curBG = -1;
+	m_prevBg = -1;
+	setMessageBg(-1);
+	if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
+			openLevelCreator();
+	else
+			sound->go();
+	innerWidget->takeExamViews();
+	progress = 0;
+	examResults = 0;
+	if (score->insertMode() != TmultiScore::e_single) {
+		m_melButt->melodyAction()->setVisible(true);
+		m_melButt->button()->menu()->setDisabled(false);
+	}
 // 		nootLabel->show();
-		updateSize(innerWidget->size());
+	updateSize(innerWidget->size());
 }
 
 /*
@@ -436,15 +440,19 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 
 void MainWindow::startExamSlot() {
+	if (score->insertMode() != TmultiScore::e_single) {
 		if (score->isScorePlayed())
-			m_melButt->playMelodySlot(); // stop playing
-    sound->stopPlaying();
-		examResults = new TexamView();
-		examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor));
-		progress = new TprogressWidget();
-		innerWidget->addExamViews(examResults, progress);
+			m_melButt->playMelodySlot(); // stop playing when played
+		m_melButt->button()->menu()->setDisabled(true);
+		m_melButt->melodyAction()->setVisible(false);
+	}
+	sound->stopPlaying();
+	examResults = new TexamView();
+	examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor));
+	progress = new TprogressWidget();
+	innerWidget->addExamViews(examResults, progress);
 // 		nootLabel->hide();
-    ex = new TexamExecutor(this);
+	ex = new TexamExecutor(this);
 }
 
 /*
@@ -534,12 +542,12 @@ void MainWindow::soundWasPlayed(Tnote note) {
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
 		if (!ex)
-				m_melButt->button()->setVisible(false);
+				m_melButt->melodyAction()->setVisible(false);
 		innerWidget->addNoteName(score->noteName());
 		score->setInsertMode(TmultiScore::e_single);
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
 		if (!ex)
-				m_melButt->button()->setVisible(true);
+				m_melButt->melodyAction()->setVisible(true);
 		innerWidget->takeNoteName();
 		score->setInsertMode(TmultiScore::e_multi);
 	}

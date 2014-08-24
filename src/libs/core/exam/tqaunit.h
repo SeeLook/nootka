@@ -35,6 +35,7 @@ class Tmelody;
  * By default a melody element (pointer) is empty and attempts as well.
  * But after @p newAttempt() and @p addMelody() those elements exist inside 
  * until destructor work.
+ * WARRING! Melody (Tmelody) and Attempts list objects are never copied with operator=
  */
 class NOOTKACORE_EXPORT TQAunit
 {
@@ -42,6 +43,7 @@ class NOOTKACORE_EXPORT TQAunit
 public:
 	
     TQAunit();
+		TQAunit(const TQAunit& otherUnit);
 		
 		~TQAunit();
 
@@ -77,14 +79,14 @@ public:
 				 * or
 				 * setMistake(6);	 */
 		void setMistake(quint8 misVal) { valid = misVal; }
-		quint8 mistake() { return valid; } /** set of mistakes as Boolean sum of Emistake */
+		quint8 mistake() const { return valid; } /** set of mistakes as Boolean sum of Emistake */
 
     TQAgroup qa;
     TQAtype::Etype questionAs;
     TQAtype::Etype answerAs;
         
-    Tnote::EnameStyle styleOfQuestion() { return Tnote::EnameStyle(style / 16 - 1);  }
-    Tnote::EnameStyle styleOfAnswer() { return Tnote::EnameStyle(style % 16);  }
+    Tnote::EnameStyle styleOfQuestion() const { return Tnote::EnameStyle(style / 16 - 1);  }
+    Tnote::EnameStyle styleOfAnswer() const { return Tnote::EnameStyle(style % 16);  }
     void setStyle(Tnote::EnameStyle questionStyle, Tnote::EnameStyle answerStyle) {
       style = ((quint8)questionStyle + 1) * 16 + (quint8)answerStyle;  }
     TkeySignature key;
@@ -94,36 +96,36 @@ public:
     friend QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
     friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
     
-    bool isCorrect() { return valid == 0; }
-    bool wrongAccid() { return valid & 1; }
-    bool wrongKey() { return valid & 2;}
-    bool wrongOctave() { return valid & 4; }
-    bool wrongStyle() { return valid & 8; }
-    bool wrongPos() { return valid & 16; }
-    bool wrongString() { return valid & 32; }
-    bool wrongNote() {return valid & 64; }
-    bool wrongIntonation() {return valid & 128; }
+    bool isCorrect() const { return valid == 0; }
+    bool wrongAccid() const { return valid & 1; }
+    bool wrongKey() const { return valid & 2; }
+    bool wrongOctave() const { return valid & 4; }
+    bool wrongStyle() const { return valid & 8; }
+    bool wrongPos() const { return valid & 16; }
+    bool wrongString() const { return valid & 32; }
+    bool wrongNote() const {return valid & 64; }
+    bool wrongIntonation() const {return valid & 128; }
     
-    bool questionAsNote() { return questionAs == TQAtype::e_asNote; } /** questionAs == TQAtype::e_asNote; */
-    bool questionAsName() { return questionAs == TQAtype::e_asName; } /** questionAs == TQAtype::e_asName; */
-    bool questionAsFret() { return questionAs == TQAtype::e_asFretPos; } /** questionAs == TQAtype::e_asFretPos; */
-    bool questionAsSound() { return questionAs == TQAtype::e_asSound; } /** questionAs == TQAtype::e_asSound; */
-    bool answerAsNote() { return answerAs == TQAtype::e_asNote; } /** answerAs == TQAtype::e_asNote; */
-    bool answerAsName() { return answerAs == TQAtype::e_asName; } /** answerAs == TQAtype::e_asName; */
-    bool answerAsFret() { return answerAs == TQAtype::e_asFretPos; } /** answerAs == TQAtype::e_asFretPos; */
-    bool answerAsSound() { return answerAs == TQAtype::e_asSound; } /** answerAs == TQAtype::e_asSound; */
+    bool questionAsNote() const { return questionAs == TQAtype::e_asNote; } /** questionAs == TQAtype::e_asNote; */
+    bool questionAsName() const { return questionAs == TQAtype::e_asName; } /** questionAs == TQAtype::e_asName; */
+    bool questionAsFret() const { return questionAs == TQAtype::e_asFretPos; } /** questionAs == TQAtype::e_asFretPos; */
+    bool questionAsSound() const { return questionAs == TQAtype::e_asSound; } /** questionAs == TQAtype::e_asSound; */
+    bool answerAsNote() const { return answerAs == TQAtype::e_asNote; } /** answerAs == TQAtype::e_asNote; */
+    bool answerAsName() const { return answerAs == TQAtype::e_asName; } /** answerAs == TQAtype::e_asName; */
+    bool answerAsFret() const { return answerAs == TQAtype::e_asFretPos; } /** answerAs == TQAtype::e_asFretPos; */
+    bool answerAsSound() const { return answerAs == TQAtype::e_asSound; } /** answerAs == TQAtype::e_asSound; */
     
-    bool isWrong() { return wrongNote() | wrongPos(); }
-    bool isNotSoBad() { if (valid && !wrongNote() && !wrongPos()) return true;
-                            else return false;
+    bool isWrong() const { return wrongNote() | wrongPos(); }
+    bool isNotSoBad() const { if (valid && !wrongNote() && !wrongPos()) return true;
+																else return false;
 											}
 		void newAttempt(); /** Creates and adds new @class Tattempt to the attempts list. */
-		int attemptsCount() { if (m_attempts) return m_attempts->size(); else return 0; }
-		Tattempt* attempt(int nr) { return m_attempts->at(nr); } /** Pointer to given attempt */
+		int attemptsCount() const { if (m_attempts) return m_attempts->size(); else return 0; }
+		Tattempt* attempt(int nr) { return m_attempts->operator[](nr); } /** Pointer to given attempt */
 		Tattempt* lastAttepmt() { return m_attempts->last(); } /** Pointer to the last attempt */
 		
 		void addMelody(const QString& title); /** Adds melody of replaces existing one. */
-		Tmelody* melody() { return m_melody; }
+		Tmelody* melody() const { return m_melody; }
 		
 		void toXml(QXmlStreamWriter& xml);
 		bool formXml(QXmlStreamReader& xml);

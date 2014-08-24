@@ -380,8 +380,8 @@ void Tnote::toXml(QXmlStreamWriter& xml) {
 
 void Tnote::fromXml(QXmlStreamReader& xml) {
 	if (xml.name() == "pitch") {
+		note = 0; octave = 0; acidental = 0; // reset this note
 		while (xml.readNextStartElement()) {
-			note = 0; octave = 0; acidental = 0; // reset this note
 			if (xml.name() == "step") {
 				QString step = xml.readElementText().toUpper();
 				for (char i = 1; i < 8; i++) {
@@ -398,7 +398,6 @@ void Tnote::fromXml(QXmlStreamReader& xml) {
 			else 
 				xml.skipCurrentElement();
 		}
-		xml.skipCurrentElement();
 	}
 }
 

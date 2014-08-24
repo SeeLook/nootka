@@ -108,15 +108,9 @@ protected slots:
 	void rightButtonSlot();
 	void tipButtonSlot(QString name);
 	void markAnswer(TQAunit &curQ);
-	
-			/** This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
-	void delayerTip();
-	
-			/** Stops exercising and starts exam. */
-	void exerciseToExam();
-	
-			/** Common method called by exercises and exams to disable sniffing, lock right button, etc. */
-	void stopSound();
+	void delayerTip(); /** This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
+	void exerciseToExam(); /** Stops exercising and starts exam. */
+	void stopSound(); /** Common method called by exercises and exams to disable sniffing, lock right button, etc. */
 	
 			/** Performs routines after dialog window closed as such as 
 				* right mouse button unlocking. If and exam is going to start it calls @p exerciseToExam() */
@@ -124,14 +118,12 @@ protected slots:
 	
 			/** Displays message on MainWindow status label about level of started exercise/exam */
 	void levelStatusMessage();
-	
 	void displayCertificate(); /** Locks the executor and displays certificate. */
 	
 			/** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
 	void unlockAnswerCapturing();
-	
-			/** Routines for questions with the same answers 'blind' */
-	void blindQuestion();
+	void blindQuestion(); /** Routines for questions with the same answers 'blind' */
+	void noteOfMelodySlot(Tnote n); /** When user plays a melody as an answer. */
 
 private:
 	void createActions();
@@ -196,6 +188,7 @@ private:
 	Texercises								*m_exercise;
 	int 											m_blindCounter; /** counts occurrences of questions without possible answer */
 	TequalRand								*m_rand;
+	int												m_melodyNoteIndex;
 
 };
 

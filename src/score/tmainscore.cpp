@@ -282,11 +282,11 @@ void TmainScore::unLockScore() {
 		setNoteDisabled(1, true);
 		setNoteDisabled(2, true);
 	}
-    if (m_questMark) { // question mark exists only when exam is performing
-      setBGcolor(Tcolor::merge(gl->EanswerColor, mainWindow()->palette().window().color()));
-			if (insertMode() == e_single)
-				setNoteViewBg(0, gl->EanswerColor);
-    }
+	if (isExam()) {
+		setBGcolor(Tcolor::merge(gl->EanswerColor, mainWindow()->palette().window().color()));
+		if (insertMode() == e_single)
+			setNoteViewBg(0, gl->EanswerColor);
+	}
 //   setClefDisabled(true);
 	QPointF nPos = staff()->noteSegment(0)->mapFromScene(mapToScene(mapFromParent(mapFromGlobal(cursor().pos()))));
 	if (nPos.x() > 0.0 && nPos.x() < 7.0) {
@@ -935,7 +935,6 @@ void TmainScore::moveName(TmainScore::EmoveNote moveDir) {
 void TmainScore::addStaff(TscoreStaff* st) {
 	TmultiScore::addStaff(st);
 	connect(lastStaff(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClickedMain(int)));
-	lastStaff()->setEnableKeySign(staff()->scoreKey());
 	if (gl->S->namesOnScore)
 			lastStaff()->noteSegment(0)->showNoteName();
 	lastStaff()->setExtraAccids(m_acts->extraAccids()->isChecked());

@@ -496,11 +496,11 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 				tip->setScale((qMax((qreal)m_window->score->width(), m_window->width() / 3.0) / (tip->boundingRect().width())));
 	} else { // middle of the guitar
 			geoRect = m_window->guitar->geometry();
-			if (!m_window->pitchView->isVisible() || !m_window->guitar->isVisible()) // tip can be bigger
-				geoRect = QRect(m_window->noteName->geometry().x() - 20,
-							m_window->guitar->geometry().y() - (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2,
-							m_window->guitar->width() - m_window->noteName->geometry().x() - 20,
-							m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2);
+// 			if (!m_window->pitchView->isVisible() || !m_window->guitar->isVisible()) // tip can be bigger
+// 				geoRect = QRect(m_window->noteName->geometry().x() - 20,
+// 							m_window->guitar->geometry().y() - (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2,
+// 							m_window->guitar->width() - m_window->noteName->geometry().x() - 20,
+// 							m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2);
 		}
 	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
 		geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2 );

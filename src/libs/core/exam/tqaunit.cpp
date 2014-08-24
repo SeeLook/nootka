@@ -21,17 +21,33 @@
 #include "tattempt.h"
 #include <music/tmelody.h>
 #include <QXmlStreamReader>
+#include <QDebug>
 
 TQAunit::TQAunit()
 {
-    qa.pos = TfingerPos();
-    qa.note = Tnote(0,0,0);
-    style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si cast to int
-    valid = 0; // correct in assume
-    qa_2.note = Tnote(0,0,0);
-    qa_2.pos = TfingerPos();
-		m_melody = 0;
-		m_attempts = 0;
+	qa.pos = TfingerPos();
+	qa.note = Tnote(0,0,0);
+	style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si cast to int
+	valid = 0; // correct in assume
+	qa_2.note = Tnote(0,0,0);
+	qa_2.pos = TfingerPos();
+	m_melody = 0;
+	m_attempts = 0;
+}
+
+
+TQAunit::TQAunit(const TQAunit& otherUnit)
+{
+	questionAs = otherUnit.questionAs;
+	answerAs = otherUnit.questionAs;
+	qa = otherUnit.qa;
+	setStyle(otherUnit.styleOfQuestion(), otherUnit.styleOfAnswer());
+	setMistake(otherUnit.mistake());
+	qa_2 = otherUnit.qa_2;
+	if (otherUnit.melody() || otherUnit.attemptsCount())
+		qDebug() << "TQAunit is going to be copied when pointer inside exist.\nTROUBLES ARE GUARANTEED!\nTo avoid them keep TQAunit instance in some global scope and use reference or pointer to it.";
+	m_melody = 0;
+	m_attempts = 0;
 }
 
 

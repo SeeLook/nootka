@@ -6,6 +6,7 @@ TODO List
 - merge nootka-one changes with this branch
 - scordature has improper boundingRect()
 - TscoreView and TscoreItem have to have Android compile scopes
+- status tips are not filtered in main window event() so stable tip doesn't work
 
 
 analyzer executable
@@ -18,6 +19,7 @@ analyzer executable
 
 - consider to remove names on the score in single note mode
 - add level checking rule when melody requires to be ended on tonic but the tonic note isn't in a range
+- add small pictographs on melody icon to its state: playing, record, none
 - make of use native showNoteName() of TscoreNote instead TmainScore ones
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so

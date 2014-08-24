@@ -81,9 +81,11 @@ void Tsound::play(Tnote& note) {
 
 
 void Tsound::playMelody(Tmelody* mel) {
+	bool alreadyPlaing = (m_melodyNoteIndex > -1);
 	m_melodyNoteIndex = 0;
 	m_playedMelody = mel;
-	QTimer::singleShot(10, this, SLOT(playMelodySlot()));
+	if (!alreadyPlaing)
+		QTimer::singleShot(10, this, SLOT(playMelodySlot()));
 }
 
 
@@ -356,12 +358,10 @@ void Tsound::noteDetectedSlot(Tnote note) {
 
 void Tsound::playMelodySlot() {
 	if (m_melodyNoteIndex > -1 && m_melodyNoteIndex < m_playedMelody->length()) {
-		qDebug() << "playing melody note" << m_melodyNoteIndex;
 		play(m_playedMelody->notes()[m_melodyNoteIndex].p());
 		QTimer::singleShot(60000 / m_playedMelody->tempo(), this, SLOT(playMelodySlot()));
 		m_melodyNoteIndex++;
 	} else {
-		qDebug() << "playing finished`";
 		m_melodyNoteIndex = -1;
 		playingFinishedSlot();
 	}

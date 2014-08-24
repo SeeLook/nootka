@@ -94,7 +94,7 @@ public:
 	
 			/** Removes last question from the list and sets times according to it*/
 	void removeLastQuestion();
-  TQAunit curQ() { return m_answList.last(); }
+  TQAunit& curQ() { return m_answList.last(); }
   QList<TQAunit>* answList() { return &m_answList; }
   
 			/** Returns number of questions/answers in en exam. */

@@ -355,23 +355,20 @@ void TmultiScore::adjustStaffWidth(TscoreStaff* st) {
 
 
 void TmultiScore::addStaff(TscoreStaff* st) {
-		if (st == 0) { // create new staff at the end of a list
-			m_staves << new TscoreStaff(scoreScene(), 1);
-			m_staves.last()->onClefChanged(m_staves.first()->scoreClef()->clef());
-// 			m_staves.last()->setEnableKeySign(gl->S->keySignatureEnabled);
-			if (m_staves.last()->scoreKey())
-				m_staves.last()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());
-			connect(m_staves.last(), SIGNAL(hiNoteChanged(int,qreal)), this, SLOT(staffHiNoteChanged(int,qreal))); // ignore for first
-	} else { // staff of TsimpleScore is added this way
-			st->enableToAddNotes(true);
-			st->disconnect(SIGNAL(noteChanged(int)));
-			st->disconnect(SIGNAL(clefChanged(Tclef)));
-			m_staves << st;
+	if (st == 0) { // create new staff at the end of a list
+		m_staves << new TscoreStaff(scoreScene(), 1);
+		m_staves.last()->onClefChanged(m_staves.first()->scoreClef()->clef());
+		lastStaff()->setEnableKeySign(staff()->scoreKey());
+		if (m_staves.last()->scoreKey())
+			m_staves.last()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());
+		connect(m_staves.last(), SIGNAL(hiNoteChanged(int,qreal)), this, SLOT(staffHiNoteChanged(int,qreal))); // ignore for first
+} else { // staff of TsimpleScore is added this way
+		st->enableToAddNotes(true);
+		st->disconnect(SIGNAL(noteChanged(int)));
+		st->disconnect(SIGNAL(clefChanged(Tclef)));
+		m_staves << st;
 	}
-// 	if (gl->S->namesOnScore)
-// 			m_staves.last()->noteSegment(0)->showNoteName();
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
-// 	m_staves.last()->setExtraAccids(m_acts->extraAccids()->isChecked());
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
 	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
@@ -383,7 +380,6 @@ void TmultiScore::addStaff(TscoreStaff* st) {
 	connect(m_staves.last(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
 	if (m_staves.last()->scoreKey())
 		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
-// 	qDebug() << "staff Added";
 }
 
 
