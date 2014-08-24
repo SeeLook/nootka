@@ -32,6 +32,7 @@
 #include <tsound.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
+#include <exam/tattempt.h>
 // #include "texamsettings.h"
 #include <help/texamhelp.h>
 #include <help/texpertanswerhelp.h>
@@ -275,7 +276,6 @@ void TexamExecutor::initializeExecuting() {
 }
 
 
-
 void TexamExecutor::askQuestion() {
 		m_askingTimer->stop();
     m_lockRightButt = false; // release mouse button events
@@ -302,7 +302,9 @@ void TexamExecutor::askQuestion() {
 		mW->noteName->setStyle(gl->S->nameStyleInNoteName);
     mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
 
-    TQAunit curQ = TQAunit(); // current question
+		TQAunit Q; // current question
+		m_exam->addQuestion(Q);
+    TQAunit& curQ = m_exam->answList()->last();
     
 		m_penalCount++;
 		if (!m_exercise && m_exam->blackCount() && m_penalCount > m_penalStep) {
@@ -381,6 +383,9 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAsNote()) {
 			if (curQ.melody()) {
 					mW->score->askQuestion(curQ.melody());
+					connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(noteOfMelodySlot(Tnote)));
+					m_melodyNoteIndex = 0;
+					curQ.newAttempt();
 			} else {
         char strNr = 0;
         if ( (curQ.answerAsFret() || curQ.answerAsSound()) 
@@ -551,7 +556,7 @@ void TexamExecutor::askQuestion() {
               // It avoids capture previous played sound as current answer
     }
     
-    m_exam->addQuestion(curQ);
+//     m_exam->addQuestion(curQ);
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
@@ -565,7 +570,7 @@ void TexamExecutor::askQuestion() {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-    TQAunit curQ = m_exam->curQ();
+    TQAunit& curQ = m_exam->answList()->last();
     curQ.time = mW->examResults->questionStop();
     mW->nootBar->removeAction(checkAct);
     if (curQ.questionAsSound())
@@ -576,6 +581,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
         mW->startExamAct->setDisabled(false);
     m_isAnswered = true;
     disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
+		if (curQ.melody()) {
+			for (int i = 0; i < curQ.melody()->length(); ++i) {
+				qDebug() << i << curQ.melody()->notes()[i].p().toText() << 
+				curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
+			}
+			return;
+		}
 // Let's check
     Tnote exN, retN; // example note & returned note
     // First we determine what have to be checked
@@ -743,7 +755,7 @@ void TexamExecutor::correctAnswer() {
 	if (m_askingTimer->isActive())
 			m_askingTimer->stop();
 	m_canvas->clearWhatNextTip();
-	TQAunit curQ = m_exam->curQ();
+	TQAunit& curQ = m_exam->answList()->last();
 	QColor markColor;
 	if (curQ.isNotSoBad())
 			markColor = gl->EnotBadColor;
@@ -874,7 +886,7 @@ void TexamExecutor::repeatQuestion() {
 				mW->score->deleteNoteName(i);
 			mW->guitar->deleteNoteName();
 		}
-		TQAunit curQ = m_exam->curQ();
+		TQAunit& curQ = m_exam->answList()->last();
 
     if (!gl->E->autoNextQuest) {
         m_canvas->clearCanvas();
@@ -1359,17 +1371,36 @@ QString TexamExecutor::saveExamToFile() {
 
 
 void TexamExecutor::repeatSound() {
-		if (m_exam->curQ().melody())
-			mW->sound->playMelody(m_exam->curQ().melody());
-		else {
-			Tnote n = m_exam->curQ().qa.note;
-			mW->sound->play(n);
-		}
-    if (m_soundTimer->isActive())
-        m_soundTimer->stop();
-    if (m_exam->curQ().answerAsSound()) {
-        connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-  }
+	if (m_exam->curQ().melody())
+		mW->sound->playMelody(m_exam->curQ().melody());
+	else
+		mW->sound->play(m_exam->curQ().qa.note);
+	if (m_soundTimer->isActive())
+			m_soundTimer->stop();
+	if (m_exam->curQ().answerAsSound())
+			connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
+}
+
+QTime noteTime;
+void TexamExecutor::noteOfMelodySlot(Tnote n) {
+	if (m_melodyNoteIndex < m_exam->curQ().melody()->length()) {
+		TQAunit noteCorr;
+		quint32 noteDur;
+		if (m_melodyNoteIndex)
+			noteDur = noteTime.elapsed();
+		else // first note was played
+			noteDur = mW->examResults->questionTime() * 100;
+		m_supp->checkNotes(noteCorr, m_exam->curQ().melody()->notes()[m_melodyNoteIndex].p(), n, 
+											m_level.requireOctave, m_level.forceAccids);
+		m_exam->curQ().lastAttepmt()->add(noteCorr.mistake(), noteDur);
+		QColor c = Qt::darkBlue;
+		mW->score->markQuestion(c, m_melodyNoteIndex);
+		m_melodyNoteIndex++;
+		noteTime.start();
+	} else {
+		checkAnswer();
+		// check answer
+	}
 }
 
 /*
@@ -1434,31 +1465,31 @@ void TexamExecutor::sniffAfterPlaying() {
 
 
 void TexamExecutor::startSniffing() {
-    if (m_soundTimer->isActive())
-      m_soundTimer->stop();
-    if (mW->sound->isSnifferPaused()) {
-        mW->sound->unPauseSniffing();
-    } else
-        mW->sound->go();
+	if (m_soundTimer->isActive())
+		m_soundTimer->stop();
+	if (mW->sound->isSnifferPaused()) {
+			mW->sound->unPauseSniffing();
+	} else
+			mW->sound->go();
 }
 
 
 void TexamExecutor::expertAnswersSlot() {
-    if (!gl->E->expertsAnswerEnable) { // no expert
-			if (gl->hintsEnabled) // show hint how to confirm an answer
-				m_canvas->confirmTip(1500);
-      return;
-    }
-    if (m_snifferLocked) // ignore slot when some dialog window appears
-        return;
+	if (!gl->E->expertsAnswerEnable) { // no expert
+		if (gl->hintsEnabled) // show hint how to confirm an answer
+			m_canvas->confirmTip(1500);
+		return;
+	}
+	if (m_snifferLocked || m_exam->curQ().melody()) // ignore slot when some dialog window appears or answer for melody
+			return;
 
-    /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
-     * Calling checkAnswer() from here invokes stoping and deleting TaudioIN.
-     * It finishes with crash. To avoid this checkAnswer() has to be called
-     * from outside - by timer event. */
-    if (m_exam->curQ().answerAsSound())
-        mW->sound->pauseSinffing();
-    QTimer::singleShot(1, this, SLOT(checkAnswer()));
+	/** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
+		* Calling checkAnswer() from here invokes stopping and deleting TaudioIN.
+		* It finishes with crash. To avoid this checkAnswer() has to be called
+		* from outside - by timer event. */
+	if (m_exam->curQ().answerAsSound())
+			mW->sound->pauseSinffing();
+	QTimer::singleShot(1, this, SLOT(checkAnswer()));
 }
 
 

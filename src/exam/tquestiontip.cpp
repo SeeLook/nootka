@@ -196,12 +196,17 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
       case TQAtype::e_asSound:
         if (question.answerAsNote()) {
 						m_scoreFree = false;
-						quest += tr("Listened sound show on the staff");
-						if (level->useKeySign && level->manualKey) {
-							quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
+						if (question.melody()) {
+								quest += tr("Listened melody write on the score");
+								if (level->useKeySign && level->manualKey && level->onlyCurrKey)
+									quest += tr("<br>Guess a key signature");
+						} else {
+								quest += tr("Listened sound show on the staff");
+								if (level->useKeySign && level->manualKey)
+									quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
+								if (level->forceAccids)
+									quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
 						}
-						if (level->forceAccids)
-							quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
         } else if (question.answerAsName()) {
             m_nameFree = false;
             quest += tr("Give name of listened sound");

@@ -91,6 +91,7 @@ Tnote Tlevel::tnoteFromXml(QXmlStreamReader& xml) {
 	xml.readNextStartElement();
 	Tnote note(0, 0, 0);
 	note.fromXml(xml);
+	xml.skipCurrentElement();
 	return note;
 }
 
