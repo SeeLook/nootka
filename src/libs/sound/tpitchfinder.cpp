@@ -40,7 +40,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_buffer_1(0), m_buffer_2(0),
   m_posInBuffer(0),
   m_minVolume(0.4),
-  m_prevPitch(0), m_prevFreq(0),
+  m_prevPitch(0), m_prevFreq(0), m_prevDuration(0),
   m_prevNoteIndex(-1), m_noticedIndex(-1),
   m_isVoice(false),
   m_doReset(false),
@@ -157,7 +157,7 @@ void TpitchFinder::fillBuffer(float sample) {
 		m_posInBuffer++;
 	} else { // buffer is full
 		m_filledBuff = m_currentBuff;
-        m_thread->start(QThread::NormalPriority);
+		m_thread->start(QThread::NormalPriority);
 		m_posInBuffer = 0;
 		if (m_currentBuff == m_buffer_1) // swap buffers
 			m_currentBuff = m_buffer_2;
@@ -181,8 +181,8 @@ void TpitchFinder::startPitchDetection() {
 		std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
 	}
 	m_workChunk = m_filledBuff;
-	m_channel->shift_left(aGl()->framesPerChunk); // make palce in channel for new audio data
-	if (aGl()->equalLoudness) { // filter it and copy  too channel
+	m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
+	if (aGl()->equalLoudness) { // filter it and copy to channel
 		m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
 		for(int i = 0; i < aGl()->framesPerChunk; i++)
 				m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
@@ -218,9 +218,10 @@ void TpitchFinder::resetFinder() {
 
 void TpitchFinder::emitFound() {
   if (m_prevPitch) {
-    emit found(m_prevPitch, m_prevFreq);
+    emit found(m_prevPitch, m_prevFreq, m_prevDuration);
     m_prevPitch = 0;
     m_prevFreq = 0;
+		m_prevDuration = 0;
   }
 }
 
@@ -247,6 +248,7 @@ void TpitchFinder::detect() {
                 if (curNote->noteLength() > MIN_SND_TIME) {
                     m_prevPitch = curNote->avgPitch();
                     m_prevFreq = curNote->avgFreq();
+										m_prevDuration = curNote->noteLength();
                 }
                 emit pichInChunk(data->pitch);
               } else {
@@ -256,7 +258,7 @@ void TpitchFinder::detect() {
                       m_prevNoteIndex = data->noteIndex; 
 // 											qDebug() << data->noteIndex << data->pitch << curNote->noteLength() << curNote->volume() << m_minDuration;
 // 											qDebug() << curNote->avgPitch() << aGl()->loPitch << aGl()->topPitch;
-                      emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq);
+                      emit found(/*data->pitch*/curNote->avgPitch(), data->fundamentalFreq, curNote->noteLength());
 										}
                   }
                   emit pichInChunk(curNote->avgPitch());

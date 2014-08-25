@@ -450,6 +450,7 @@ void TexamExecutor::askQuestion() {
 
     if (curQ.questionAsSound()) {
 			if (curQ.melody()) {
+					curQ.newAttempt();
 					mW->sound->playMelody(curQ.melody());
 			} else {
 					mW->sound->play(curQ.qa.note);
@@ -547,16 +548,16 @@ void TexamExecutor::askQuestion() {
     
     if (curQ.answerAsSound()) {
       mW->sound->prepareAnswer();
-          if (curQ.questionAsSound()) {
-              connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-              // sniffing after finished sound
-          } else
-              QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
-              // Give a student some time to prepare for next question in expert mode
-              // It avoids capture previous played sound as current answer
+			if (curQ.melody())
+				mW->sound->notes().clear();
+			if (curQ.questionAsSound()) {
+					connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
+					// sniffing after finished sound
+			} else
+					QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
+					// Give a student some time to prepare for next question in expert mode
+					// It avoids capture previous played sound as current answer
     }
-    
-//     m_exam->addQuestion(curQ);
 
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
@@ -570,79 +571,89 @@ void TexamExecutor::askQuestion() {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-    TQAunit& curQ = m_exam->answList()->last();
-    curQ.time = mW->examResults->questionStop();
-    mW->nootBar->removeAction(checkAct);
-    if (curQ.questionAsSound())
-        mW->nootBar->removeAction(repeatSndAct);
-		if (curQ.answerAsSound())
-				mW->sound->pauseSinffing();
-    if (!gl->E->autoNextQuest || m_exercise)
-        mW->startExamAct->setDisabled(false);
-    m_isAnswered = true;
-    disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-		if (curQ.melody()) {
-			for (int i = 0; i < curQ.melody()->length(); ++i) {
-				qDebug() << i << curQ.melody()->notes()[i].p().toText() << 
-				curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
-			}
-			return;
-		}
+	TQAunit& curQ = m_exam->answList()->last();
+	curQ.time = mW->examResults->questionStop();
+	mW->nootBar->removeAction(checkAct);
+	if (curQ.questionAsSound())
+			mW->nootBar->removeAction(repeatSndAct);
+	if (curQ.answerAsSound())
+			mW->sound->pauseSinffing();
+	if (!gl->E->autoNextQuest || m_exercise)
+			mW->startExamAct->setDisabled(false);
+	m_isAnswered = true;
+	disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 // Let's check
-    Tnote exN, retN; // example note & returned note
-    // First we determine what have to be checked
-    exN = curQ.qa.note;
+	Tnote questNote, answNote, userNote; // example note & returned note
+	Tmelody answMelody;
+	// At first we determine what have to be checked
+	if (curQ.melody()) {
+		if (curQ.answerAsNote())
+			mW->score->getMelody(&answMelody);
+	} else {
+    questNote = curQ.qa.note;
     if (curQ.answerAsNote()) {
         if (m_level.manualKey) {
             if (mW->score->keySignature().value() != curQ.key.value())
                 curQ.setMistake(TQAunit::e_wrongKey);
         }
         if (curQ.questionAsNote())
-            exN = curQ.qa_2.note;
-        retN = mW->score->getNote(0);
+            questNote = curQ.qa_2.note;
+        answNote = mW->score->getNote(0);
     }
     if (curQ.answerAsName()) {
         if (curQ.questionAsName())
-            exN = curQ.qa_2.note;
+            questNote = curQ.qa_2.note;
         m_prevNoteIfName = mW->noteName->getNoteName(); // store note to restore it if will be repeated
-        retN = mW->noteName->getNoteName();
+        answNote = mW->noteName->getNoteName();
     }
-    Tnote userNote = retN;
+    userNote = answNote;
     if (curQ.answerAsSound()) {
-				retN = mW->sound->note();
+				answNote = mW->sound->note();
 				if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
 						float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
 						if (diff >= TintonationView::getThreshold(m_level.intonation))
 								curQ.setMistake(TQAunit::e_wrongIntonation);
 				}
     }
-    if (curQ.answerAsFret()) { // Comparing positions
-				TfingerPos answPos, questPos;
-				answPos = mW->guitar->getfingerPos();
-				if (curQ.questionAsFret()) { 
-					if (answPos == curQ.qa.pos) { // check has not user got answer the same as question position
+	}
+	if (curQ.answerAsFret()) { // Comparing positions
+			TfingerPos answPos, questPos;
+			answPos = mW->guitar->getfingerPos();
+			if (curQ.questionAsFret()) { 
+				if (answPos == curQ.qa.pos) { // check has not user got answer the same as question position
+					curQ.setMistake(TQAunit::e_wrongPos);
+					qDebug("Cheater!");
+				} else 
+					questPos = curQ.qa_2.pos;
+			} else
+				questPos = curQ.qa.pos;
+			if (questPos != answPos && curQ.isCorrect()) { // if no cheater give him a chance
+				QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
+				m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
+				for (int i = 0; i < tmpPosList.size(); i++) {
+							if (tmpPosList[i] == questPos) { // and compare it with expected
+								curQ.setMistake(TQAunit::e_wrongString);
+								break;
+							}
+					}
+					if (!curQ.wrongString()) { 
 						curQ.setMistake(TQAunit::e_wrongPos);
-						qDebug("Cheater!");
-					} else 
-						questPos = curQ.qa_2.pos;
-				} else
-					questPos = curQ.qa.pos;
-				if (questPos != answPos && curQ.isCorrect()) { // if no cheater give him a chance
-					QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
-					m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
-					for (int i = 0; i < tmpPosList.size(); i++) {
-								if (tmpPosList[i] == questPos) { // and compare it with expected
-									curQ.setMistake(TQAunit::e_wrongString);
-									break;
-								}
-						}
-						if (!curQ.wrongString()) { 
-							curQ.setMistake(TQAunit::e_wrongPos);
-						}
-				}
-    } else // we check are the notes the same
-				m_supp->checkNotes(curQ, exN, retN, m_answRequire.octave, m_answRequire.accid);
-		
+					}
+			}
+	} else {
+			if (curQ.melody()) { // we check melodies
+				if (curQ.answerAsNote())
+					m_supp->compareMelodies(curQ.melody(), &answMelody, curQ.lastAttepmt());
+// 				else TODO answer is already checked or grab it from Tsound
+			} else // or we check are the notes the same
+				m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
+	}
+	if (curQ.melody()) {
+// 		for (int i = 0; i < curQ.melody()->length(); ++i) {
+// 			qDebug() << i << curQ.melody()->notes()[i].p().toText() << 
+// 			curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
+// 		}
+	} else {
 		if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAsNote() || curQ.answerAsName())) {
 			// Save user given note when it is correct and accidental was not forced to respect kind of accidental
 				if (curQ.questionAs == curQ.answerAs)
@@ -650,6 +661,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				else
 					curQ.qa.note = userNote;
 		}
+	}
     disableWidgets();
 		bool autoNext = gl->E->autoNextQuest;
 		if (gl->E->afterMistake == TexamParams::e_stop && !curQ.isCorrect())
@@ -822,40 +834,40 @@ void TexamExecutor::correctAnswer() {
 
 
 void TexamExecutor::markAnswer(TQAunit& curQ) {
-  QColor markColor;
-  if (curQ.isCorrect())
-    markColor = gl->EanswerColor;
-  else if (curQ.isNotSoBad())
-    markColor = gl->EnotBadColor;
-  else
-    markColor = gl->EquestionColor;
-  switch (curQ.answerAs) {
-    case TQAtype::e_asNote:
-      mW->score->markAnswered(QColor(markColor));
-      break;
-    case TQAtype::e_asFretPos:
-      mW->guitar->markAnswer(QColor(markColor));
-      break;
-    case TQAtype::e_asName:
-      mW->noteName->markNameLabel(markColor);      
-      break;
-		case TQAtype::e_asSound:
-			mW->pitchView->markAnswer(QColor(markColor.name()));
-			break;
-  }
-  switch (curQ.questionAs) {
-    case TQAtype::e_asNote:
-      mW->score->markQuestion(QColor(markColor));
-      break;
-    case TQAtype::e_asFretPos:
-      mW->guitar->markQuestion(QColor(markColor));
-      break;
-    case TQAtype::e_asName:
-      mW->noteName->markNameLabel(markColor);      
-      break;
-		case TQAtype::e_asSound:
-			break;
-  }
+	QColor markColor = m_supp->answerColor(curQ);
+	if (curQ.melody()) {
+		for (int i = 0; i < curQ.lastAttepmt()->mistakes.size(); ++i) {
+			mW->score->markAnswered(m_supp->answerColor(curQ.lastAttepmt()->mistakes[i]), i);
+		}
+	} else {
+		switch (curQ.answerAs) {
+			case TQAtype::e_asNote:
+				mW->score->markAnswered(QColor(markColor));
+				break;
+			case TQAtype::e_asFretPos:
+				mW->guitar->markAnswer(QColor(markColor));
+				break;
+			case TQAtype::e_asName:
+				mW->noteName->markNameLabel(markColor);      
+				break;
+			case TQAtype::e_asSound:
+				mW->pitchView->markAnswer(QColor(markColor.name()));
+				break;
+		}
+		switch (curQ.questionAs) {
+			case TQAtype::e_asNote:
+				mW->score->markQuestion(QColor(markColor));
+				break;
+			case TQAtype::e_asFretPos:
+				mW->guitar->markQuestion(QColor(markColor));
+				break;
+			case TQAtype::e_asName:
+				mW->noteName->markNameLabel(markColor);      
+				break;
+			case TQAtype::e_asSound:
+				break;
+		}
+	}
   if (m_exercise && gl->E->showNameOfAnswered) {
 		if (!curQ.questionAsName() && !curQ.answerAsName()) {
 			if (curQ.answerAsNote() || (curQ.answerAsSound() && curQ.questionAsNote()))
@@ -886,7 +898,8 @@ void TexamExecutor::repeatQuestion() {
 				mW->score->deleteNoteName(i);
 			mW->guitar->deleteNoteName();
 		}
-		TQAunit& curQ = m_exam->answList()->last();
+	// for melodies questions are newer repeated - copying of TQAunit is safe 
+		TQAunit curQ = m_exam->curQ();
 
     if (!gl->E->autoNextQuest) {
         m_canvas->clearCanvas();
@@ -1051,6 +1064,8 @@ void TexamExecutor::prepareToExam() {
     m_snifferLocked = false;
     m_canvas = new Tcanvas(mW->innerWidget, mW);
     connect(m_canvas, SIGNAL(buttonClicked(QString)), this, SLOT(tipButtonSlot(QString)));
+		if (m_level.canBeMelody() && m_level.answerIsSound())
+				mW->sound->enableStoringNotes(true);
     if(gl->hintsEnabled)
         m_canvas->startTip();
 }
@@ -1077,6 +1092,7 @@ void TexamExecutor::restoreAfterExam() {
     mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
     mW->progress->terminate();
 		mW->sound->acceptSettings();
+		mW->sound->enableStoringNotes(false);
 
 		mW->settingsAct->setVisible(true);
 		mW->aboutAct->setVisible(true);

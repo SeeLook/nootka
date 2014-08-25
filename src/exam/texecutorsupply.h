@@ -84,6 +84,8 @@ public:
 			/** It is true when checkGuitarParamsChanged() obtained message to display.
 			 * It is used to inform MainWindow that status label is busy by the message. */
 	static bool paramsChangedMessage() { return m_paramsMessage; }
+	static QColor& answerColor(const TQAunit& answer); /** Returns color depends on answer type. */
+	static QColor& answerColor(quint8 mistake); /** Returns color depends on answer type. */
 	
 	int loFret() { return m_loFret; }
 	int hiFret() { return m_hiFret; }
@@ -92,6 +94,9 @@ public:
 			 * When @p reqOctave is false octaves check are skipped
 			 * When @p reqAccid is false Cis matches to Des and etc...	 */
 	void checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid);
+	
+			/** Compares given melodies respecting settings in current level. Saves results into Tattempt */
+	void compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att);
   
   
 signals:

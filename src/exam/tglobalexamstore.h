@@ -69,6 +69,7 @@ public:
 	bool												isSingleNoteMode;
 	bool												namesOnScore;
 	bool												OUTenabled,	INenabled;
+	bool												isVoice;
 	
 private:
 	Tglobals *m_globals;
