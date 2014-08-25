@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QStringList>
 #include <music/tnote.h>
+#include <music/tnotestruct.h>
 #include "rt/RtAudio.h"
 #include "trtaudio.h"
 
@@ -44,14 +45,19 @@ public:
     ~TaudioIN();
 		
         /** Returns list of audio input devices filtered by template audio format */
-	static QStringList getAudioDevicesList();
+	static QStringList getAudioDevicesList(); 
+	
+			/** When storing notes is enabled every detected pitch with frequency and duration is dumped to list @p notes.
+			 * It is never cleared by itself so call @p notes.clear() when necessary. */
+	void enableStoringNotes(bool en) { m_storeNotes = en; }
+	QList<TnoteStruct> notes; /** List of detected notes */
 	
       /** Stops emitting signals about pitch detection, but detection is still performed.
 			 * It also resets last chunk pitch to ignore detection
        * It helps to sniff whole sound/note from begin to its end. */
   void pause() { m_paused = true; m_LastChunkPitch = 0.0; }
   
-      /** Starts emiting @param noteDetected and @param fundamentalFreq signals again. */
+      /** Starts emitting @param noteDetected and @param fundamentalFreq signals again. */
   void unPause() { m_paused = false; }
   bool isPaused() { return m_paused; }
   bool isStoped() { return m_stopped; }
@@ -72,9 +78,8 @@ public:
 	float lastChunkPitch() { return m_LastChunkPitch; }
 
 signals:
-	void noteDetected(Tnote note);
+	void noteDetected(Tnote& note);
 	void fundamentalFreq(float freq);
-//   void chunkPitch(float pitch);
 
 public slots:
 	void startListening();
@@ -86,7 +91,7 @@ protected:
 
 private slots:
 	
-  void pitchFreqFound(float pitch, float freq);
+  void pitchFreqFound(float pitch, float freq, float duration);
   void pitchInChunkSlot(float pitch);
   void volumeSlot(float vol);
 	void updateSlot() { setAudioInParams(); }
@@ -104,6 +109,7 @@ private:
 	Tnote					m_loNote, m_hiNote;
 	float 				m_lastPich; /** Pitch of last detected note in float precision. */
 	float					m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
+	bool 					m_storeNotes;
 	
 };
 

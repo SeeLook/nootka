@@ -292,6 +292,18 @@ void Tsound::setDefaultAmbitus() {
 									Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber + 5));
 }
 
+
+void Tsound::enableStoringNotes(bool en) {
+	if (sniffer)
+		sniffer->enableStoringNotes(en);
+}
+
+
+QList<TnoteStruct>& Tsound::notes() {
+		return sniffer->notes;
+}
+
+
 //------------------------------------------------------------------------------------
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
@@ -310,7 +322,7 @@ void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
+  connect(sniffer, SIGNAL(noteDetected(Tnote&)), this, SLOT(noteDetectedSlot(Tnote&)));
 // 	QTimer::singleShot(500, sniffer, SLOT(startListening())); // Give time for launch whole app
 }
 
@@ -347,12 +359,12 @@ void Tsound::playingFinishedSlot() {
 //   go();
 }
 
-void Tsound::noteDetectedSlot(Tnote note) {
+void Tsound::noteDetectedSlot(Tnote& note) {
 	//  qDebug() << "Tsound: got note" << note.toText();
+	m_detectedNote = note;
 	if (player && gl->A->playDetected)
-		play(note);
-  m_detectedNote = note;
-  emit detectedNote(note);
+		play(m_detectedNote);
+  emit detectedNote(m_detectedNote);
 }
 
 

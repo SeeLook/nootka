@@ -103,7 +103,7 @@ signals:
       /** Signal emitted when pitch is detected. 
       * @param pitch is float type of midi note.
       * @param freq if current frequency. */
-  void found(float pitch, float freq);
+  void found(float pitch, float freq, float duration);
 	
 			/** Pitch in chunk that just has been processed */
   void pichInChunk(float pitch);
@@ -122,7 +122,7 @@ private:
 	float						*m_buffer_1, *m_buffer_2; // real buffers
 	int							 m_posInBuffer;
 	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
-  double           m_prevPitch, m_prevFreq;
+  double           m_prevPitch, m_prevFreq, m_prevDuration;
 
   bool             m_doReset;
 	TartiniParams   *m_aGl; 

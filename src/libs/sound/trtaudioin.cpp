@@ -81,7 +81,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   m_thisInstance = m_instances.size() - 1;
   setAudioInParams();
   
-  connect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
+  connect(m_pitch, SIGNAL(found(float,float,float)), this, SLOT(pitchFreqFound(float,float,float)));
   connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
   connect(m_pitch, SIGNAL(volume(float)), this, SLOT(volumeSlot(float)));
 	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
@@ -89,7 +89,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 
 TaudioIN::~TaudioIN()
 {
-  disconnect(m_pitch, SIGNAL(found(float,float)), this, SLOT(pitchFreqFound(float,float)));
+  disconnect(m_pitch, SIGNAL(found(float,float,float)), this, SLOT(pitchFreqFound(float,float,float)));
   delete m_pitch;
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
@@ -166,11 +166,15 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
 }
 
 
-void TaudioIN::pitchFreqFound(float pitch, float freq) {
+void TaudioIN::pitchFreqFound(float pitch, float freq, float duration) {
   if (!m_paused) {
 			m_lastPich = pitch - audioParams()->a440diff;
+			Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
 			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
-					emit noteDetected(Tnote(qRound(pitch - audioParams()->a440diff) - 47));
+					emit noteDetected(n);
+			}
+			if (m_storeNotes) {
+				notes << TnoteStruct(n, freq, duration);;
 			}
 			emit fundamentalFreq(freq);
   } else 

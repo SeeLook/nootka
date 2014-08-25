@@ -39,7 +39,7 @@ TQAunit::TQAunit()
 TQAunit::TQAunit(const TQAunit& otherUnit)
 {
 	questionAs = otherUnit.questionAs;
-	answerAs = otherUnit.questionAs;
+	answerAs = otherUnit.answerAs;
 	qa = otherUnit.qa;
 	setStyle(otherUnit.styleOfQuestion(), otherUnit.styleOfAnswer());
 	setMistake(otherUnit.mistake());
@@ -64,7 +64,7 @@ TQAunit::~TQAunit()
 
 
 void TQAunit::setMistake(Emistake mis) {
-    switch (mis) {
+	switch (mis) {
     case e_correct : valid = 0; break;
     case e_wrongAccid : valid |= 1; break;
     case e_wrongKey : valid |= 2; break;
@@ -75,7 +75,7 @@ void TQAunit::setMistake(Emistake mis) {
 		case e_wrongIntonation : valid |= 128; break;
     case e_wrongNote : valid = 64; break; // If this kind of mistake is committed
         //  all above has no sense so '=' instead '|=' is correct
-    }
+	}
 }
 
 

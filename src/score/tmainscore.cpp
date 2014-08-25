@@ -203,7 +203,17 @@ void TmainScore::setMelody(Tmelody* mel) {
 			lastStaff()->removeNote(lastStaff()->count() - 1);
 		}
 	}
-// 	qDebug() << "melody length" << mel->length() << "notes nr" << notesCount();
+}
+
+
+void TmainScore::getMelody(Tmelody* mel, const QString& title) {
+	mel->setTitle(title);
+	mel->setTempo(gl->S->tempo);
+	mel->setKey(keySignature());
+	for (int i = 0; i < notesCount(); ++i) {
+		Tchunk n(getNote(i), Trhythm());
+		mel->notes() << n;
+	}
 }
 
 
@@ -444,12 +454,17 @@ void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
 
 
 void TmainScore::markAnswered(QColor blurColor, int noteNr) {
-		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
+	if (noteNr < notesCount())
+// 		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
+		staves(noteNr / staff()->maxNoteCount())->noteSegment(noteNr % staff()->maxNoteCount())->markNote(QColor(blurColor.lighter().name()));
+	else
+		qDebug() << "TmainScore: Try to mark a note that not exists!";
 }
 
 
 void TmainScore::markQuestion(QColor blurColor, int noteNr) {
-		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
+// 		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
+	markAnswered(blurColor, noteNr);
 }
 
 

@@ -23,6 +23,7 @@
 #include <QObject>
 #include <music/tnote.h>
 
+class TnoteStruct;
 class Tmelody;
 class TabstractPlayer;
 class QThread;
@@ -76,6 +77,8 @@ public:
   void restoreAfterAnswer(); /** Clears bg color and disables TpitchView. */
   void stopPlaying();
 	void setDefaultAmbitus(); /** Instrument scale extended of perfect 4th up and down. */
+	void enableStoringNotes(bool en);
+	QList<TnoteStruct>& notes();
   
 signals:
   void detectedNote(Tnote note);
@@ -99,7 +102,7 @@ private:
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
   void playingFinishedSlot();
-  void noteDetectedSlot(Tnote note);
+  void noteDetectedSlot(Tnote& note);
 	void playMelodySlot();
 
 

@@ -60,6 +60,7 @@ public:
 		
     virtual void setNote(const Tnote& note);
 		void setMelody(Tmelody* mel);
+		void getMelody(Tmelody* mel, const QString& title = ""); /** Grabs all notes, key and time in a score to given @p mel */
 		
 		void setInsertMode(EinMode mode);
 		

@@ -19,7 +19,9 @@
 #include "texecutorsupply.h"
 #include <exam/texam.h>
 #include <exam/tlevel.h>
+#include <exam/tattempt.h>
 #include <music/ttune.h>
+#include <music/tmelody.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
 #include <mainwindow.h>
@@ -79,6 +81,29 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 			m_paramsMessage = false;
 }
 
+
+QColor& TexecutorSupply::answerColor(const TQAunit& answer) {
+// 	if (answer.isCorrect())
+//     return gl->EanswerColor;
+//   else if (answer.isNotSoBad())
+//     return gl->EnotBadColor;
+//   else
+//     return gl->EquestionColor;
+	return answerColor(answer.mistake());
+}
+
+
+QColor& TexecutorSupply::answerColor(quint8 mistake) {
+	if (mistake == (quint8)TQAunit::e_correct)
+    return gl->EanswerColor;
+  else if (!(mistake & 16) && !(mistake & 64))
+    return gl->EnotBadColor;
+  else
+    return gl->EquestionColor;
+}
+
+
+/* end of static */
 
 TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   QObject(parent),
@@ -437,6 +462,20 @@ void TexecutorSupply::checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& user
 		}
 	} else
 			curQ.setMistake(TQAunit::e_wrongNote);
+}
+
+
+void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
+	for (int i = 0; i < q->length(); ++i) {
+		TQAunit tmpUnit;
+		if (a->length() > i)
+			checkNotes(tmpUnit, q->notes()[i].p(), a->notes()[i].p(), m_level->requireOctave, m_level->forceAccids);
+		else {
+			qDebug() << "There is not enough notes in answered melody";
+			tmpUnit.setMistake(TQAunit::e_wrongNote);
+		}
+		att->add(tmpUnit.mistake()); // times of are ignored so far
+	}
 }
 
 
