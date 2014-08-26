@@ -81,7 +81,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   m_thisInstance = m_instances.size() - 1;
   setAudioInParams();
   
-  connect(m_pitch, SIGNAL(found(float,float,float)), this, SLOT(pitchFreqFound(float,float,float)));
+  connect(m_pitch, SIGNAL(found(qreal,float,qreal)), this, SLOT(pitchFreqFound(qreal,float,qreal)));
   connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
   connect(m_pitch, SIGNAL(volume(float)), this, SLOT(volumeSlot(float)));
 	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
@@ -89,7 +89,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 
 TaudioIN::~TaudioIN()
 {
-  disconnect(m_pitch, SIGNAL(found(float,float,float)), this, SLOT(pitchFreqFound(float,float,float)));
+//   disconnect(m_pitch, SIGNAL(found(float,float,float)), this, SLOT(pitchFreqFound(float,float,float)));
   delete m_pitch;
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
@@ -119,6 +119,8 @@ void TaudioIN::setMinimalVolume(float minVol) {
 
 void TaudioIN::setIsVoice(bool isV) {
   m_pitch->setIsVoice(isV);
+	if (isV)
+		connect(m_pitch, SIGNAL(newNote(qreal)), this, SLOT(newNoteSlot(qreal)));
 }
 
 
@@ -131,6 +133,15 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 	m_hiNote = hiNote;
 // 	qDebug() << "Ambitus set to:" << loNote.toText() << "--" << hiNote.toText();
 }
+
+
+inline bool TaudioIN::inRange(qreal pitch) {
+	if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch)
+			return true;
+	else
+			return false;
+}
+
 
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
@@ -165,14 +176,13 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
 			m_LastChunkPitch = pitch - audioParams()->a440diff;
 }
 
-
-void TaudioIN::pitchFreqFound(float pitch, float freq, float duration) {
+void TaudioIN::pitchFreqFound(qreal pitch, float freq, qreal duration) {
   if (!m_paused) {
 			m_lastPich = pitch - audioParams()->a440diff;
 			Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
-			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
+			if (inRange(pitch)) {
 				if (m_storeNotes)
-					notes << TnoteStruct(n, freq, duration);;
+					notes << TnoteStruct(n, pitch, freq, duration);
 				emit noteDetected(n);
 			}
 			emit fundamentalFreq(freq);
@@ -181,9 +191,14 @@ void TaudioIN::pitchFreqFound(float pitch, float freq, float duration) {
 }
 
 
-void TaudioIN::volumeSlot(float vol) {
-	m_maxPeak = vol;
+void TaudioIN::newNoteSlot(qreal pitch) {
+	Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
+	if (inRange(pitch))
+		emit newNoteStarted(n);
 }
+
+
+
 
 
 

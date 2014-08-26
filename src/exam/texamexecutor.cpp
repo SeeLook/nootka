@@ -383,7 +383,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAsNote()) {
 			if (curQ.melody()) {
 					mW->score->askQuestion(curQ.melody());
-					connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(noteOfMelodySlot(Tnote)));
+					connect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
 					m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
 					mW->score->selectNote(0); // mark first note
 					mW->sound->notes().clear();
@@ -582,7 +582,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	if (curQ.answerAsSound()) {
 			mW->sound->pauseSinffing();
 			disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-			disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(noteOfMelodySlot(Tnote)));
+			disconnect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
 	}
 	if (!gl->E->autoNextQuest || m_exercise)
 			mW->startExamAct->setDisabled(false);
@@ -611,8 +611,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (curQ.answerAsSound()) {
 				answNote = mW->sound->note();
 				if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
-						float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
-						if (diff >= TintonationView::getThreshold(m_level.intonation))
+						if (TnoteStruct(Tnote(), mW->sound->pitch()).inTune(TintonationView::getThreshold(m_level.intonation)))
+// 						float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
+// 						if (diff >= TintonationView::getThreshold(m_level.intonation))
 								curQ.setMistake(TQAunit::e_wrongIntonation);
 				}
     }
@@ -1422,34 +1423,15 @@ void TexamExecutor::repeatSound() {
 			connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 }
 
-QTime noteTime;
-void TexamExecutor::noteOfMelodySlot(Tnote n) {
-	if (m_melodyNoteIndex < m_exam->curQ().melody()->length()) {
+
+void TexamExecutor::noteOfMelodySlot(Tnote& n) {
+// 	if (mW->sound->notes().size() < m_exam->curQ().melody()->length()) {
 		mW->score->selectNote(m_melodyNoteIndex);
 		m_melodyNoteIndex++;
-		qDebug() << "noteOfMelodySlot" << mW->sound->notes().size();
-	} else {
-		if (gl->E->expertsAnswerEnable)
+// 	} else {
+		if ((mW->sound->notes().size() == m_exam->curQ().melody()->length()) && gl->E->expertsAnswerEnable)
 			checkAnswer();
 		// TODO add a timer to wait for some extra played notes if some captured sounds was invalid. Comparing routines can exclude them then. It will improve detection accuracy.
-	}
-// 	if (m_melodyNoteIndex < m_exam->curQ().melody()->length()) {
-// 		TQAunit noteCorr;
-// 		quint32 noteDur;
-// 		if (m_melodyNoteIndex)
-// 			noteDur = noteTime.elapsed();
-// 		else // first note was played
-// 			noteDur = mW->examResults->questionTime() * 100;
-// 		m_supp->checkNotes(noteCorr, m_exam->curQ().melody()->notes()[m_melodyNoteIndex].p(), n, 
-// 											m_level.requireOctave, m_level.forceAccids);
-// 		m_exam->curQ().lastAttepmt()->add(noteCorr.mistake(), noteDur);
-// 		QColor c = Qt::darkBlue;
-// 		mW->score->markQuestion(c, m_melodyNoteIndex);
-// 		m_melodyNoteIndex++;
-// 		noteTime.start();
-// 	} else {
-// 		checkAnswer();
-// 		// check answer
 // 	}
 }
 

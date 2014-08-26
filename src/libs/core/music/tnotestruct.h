@@ -30,13 +30,24 @@ class NOOTKACORE_EXPORT TnoteStruct
 {
 
 public:
-	TnoteStruct(const Tnote& p, qreal f, qreal dur = 0) : pitch(p), freq(f), duration(dur) {}
+	TnoteStruct(const Tnote& p, float pF, qreal f = 0, qreal dur = 0) : pitch(p), pitchF(pF), freq(f), duration(dur) {}
 	
 	TnoteStruct() {
-		freq = 0; duration = 0;
+		freq = 0; duration = 0; pitchF = 0;
 	}
 
+			/** Checks is float value of a note pitch different than its root pitch in range of given threshold.
+			 * Returns @p TRUE if @p pitchF value is into threshold range or @p FALSE when not
+			 * This way intonation accuracy is checked */
+	bool inTune(float threshold) {
+		if (qAbs(pitchF - (float)qRound(pitchF)) >= threshold)
+			return false;
+		else
+			return true;
+	}
+	
 	Tnote pitch;
+	qreal pitchF;
 	qreal freq;
 	qreal duration;
 };

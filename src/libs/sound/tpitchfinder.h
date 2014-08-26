@@ -33,7 +33,7 @@
     Reference = http://www.borg.com/~jglatt/tutr/notenum.htm
 		@param freq The frequency in Hz
 		@return The pitch in fractional part semitones from the midi scale. */
-inline double freq2pitch(double freq)
+inline qreal freq2pitch(qreal freq)
 {
 #ifdef log2
 	return -36.3763165622959152488 + 12.0*log2(freq);
@@ -43,9 +43,9 @@ inline double freq2pitch(double freq)
 }
 
 		/** Does the opposite of the function above */
-inline double pitch2freq(double note)
+inline qreal pitch2freq(qreal note)
 {
-	double result = pow10((note + 36.3763165622959152488) / 39.8631371386483481);
+	qreal result = pow10((note + 36.3763165622959152488) / 39.8631371386483481);
 	return result;
 }
 //-----------------------------------------------------------------------------------
@@ -58,6 +58,12 @@ class QThread;
 /** 
  * The main purpose of this class is to recognize pitch of audio data flowing through it. 
  * Finding pitch method(s) are taken from Tartini project written by Philip McLeod.
+ * It collects samples by calling @p fillBuffer(float sample) method, 
+ * when buffer is full pitch detection is performed.
+ * It emits signal with volume @p volume(float)
+ * signal with pitch in every processed chunk @p pichInChunk(float)
+ * signal with all data of detected note @p found(qreal pitch, float frequency, qreal duration)
+ * and in voice mode signal @p newNote(qreal) with a pitch of note with enough volume and duration.
  */
 class NOOTKASOUND_EXPORT TpitchFinder : public QObject
 {
@@ -91,7 +97,7 @@ public:
 		
       /** Cleans all buffers, sets m_chunkNum to 0. */
     void resetFinder();
-    void setAmbitus(qint16 loPitch, double topPitch) { 
+    void setAmbitus(qint16 loPitch, qreal topPitch) { 
           m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
           
           /** Only notes with volume above this value are sending. 
@@ -103,11 +109,13 @@ signals:
       /** Signal emitted when pitch is detected. 
       * @param pitch is float type of midi note.
       * @param freq if current frequency. */
-  void found(float pitch, float freq, float duration);
+  void found(qreal pitch, float freq, qreal duration);
+  void pichInChunk(float); /** Pitch in chunk that just has been processed */
+  void volume(float);
 	
-			/** Pitch in chunk that just has been processed */
-  void pichInChunk(float pitch);
-  void volume(float volume);
+			/** This signal is emitted in voice mode to inform about new note was started.
+			 * Obviously note has to be loud enough (> m_minVolume) and long enough (> m_minDuration). */
+	void newNote(qreal pitch);
 	
 protected slots:
 	void startPitchDetection(); /** Starts searching thread/ */
@@ -122,7 +130,7 @@ private:
 	float						*m_buffer_1, *m_buffer_2; // real buffers
 	int							 m_posInBuffer;
 	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
-  double           m_prevPitch, m_prevFreq, m_prevDuration;
+  qreal           m_prevPitch, m_prevFreq, m_prevDuration;
 
   bool             m_doReset;
 	TartiniParams   *m_aGl; 

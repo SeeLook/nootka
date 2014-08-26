@@ -323,6 +323,7 @@ void Tsound::createSniffer() {
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
   connect(sniffer, SIGNAL(noteDetected(Tnote&)), this, SLOT(noteDetectedSlot(Tnote&)));
+	connect(sniffer, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(newNoteSlot(Tnote&)));
 // 	QTimer::singleShot(500, sniffer, SLOT(startListening())); // Give time for launch whole app
 }
 
@@ -379,6 +380,10 @@ void Tsound::playMelodySlot() {
 	}
 }
 
+
+void Tsound::newNoteSlot(Tnote& note) {
+	emit newNoteStarted(note);
+}
 
 
 

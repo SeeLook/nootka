@@ -123,7 +123,7 @@ protected slots:
 			/** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
 	void unlockAnswerCapturing();
 	void blindQuestion(); /** Routines for questions with the same answers 'blind' */
-	void noteOfMelodySlot(Tnote n); /** When user plays a melody as an answer. */
+	void noteOfMelodySlot(Tnote& n); /** When user plays a melody as an answer. */
 
 private:
 	void createActions();
