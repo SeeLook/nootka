@@ -203,6 +203,7 @@ void TmainScore::setMelody(Tmelody* mel) {
 			lastStaff()->removeNote(lastStaff()->count() - 1);
 		}
 	}
+// 	selectNote(-1);
 }
 
 
@@ -395,8 +396,11 @@ void TmainScore::clearScore() {
 			clearNote(i);
 		staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 		staff()->noteSegment(0)->hideWorkNote();
-	} else
+	} else {
 			deleteNotes();
+			selectNote(-1);
+			staff()->noteSegment(0)->markNote(-1);
+	}
 	for (int i = 0; i < 2; i++)
 			deleteNoteName(i);
 	m_showNameInCorrection = false;

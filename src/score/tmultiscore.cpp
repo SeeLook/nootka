@@ -152,6 +152,13 @@ int TmultiScore::notesCount() {
 	return (m_staves.size() - 1) * staff()->maxNoteCount() + m_staves.last()->count();
 }
 
+
+void TmultiScore::selectNote(int id) {
+	if (id >= -1 && id < notesCount())
+		changeCurrentIndex(id);
+}
+
+
 //####################################################################################################
 //#################################    PUBLIC SLOTS       ############################################
 //####################################################################################################
@@ -310,21 +317,23 @@ void TmultiScore::changeCurrentIndex(int newIndex) {
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->setBackgroundColor(-1);
 			}
 			m_currentIndex = newIndex;
-			if (m_currentIndex / staff()->maxNoteCount() == m_staves.size()) // add new staff with single note
-					staffHasNoSpace(m_currentIndex / staff()->maxNoteCount() - 1);
-			else if (m_currentIndex % staff()->maxNoteCount() == currentStaff()->count())
-					checkAndAddNote(currentStaff(), m_currentIndex % staff()->maxNoteCount() - 1);
-			else if (m_currentIndex / staff()->maxNoteCount() > m_staves.size() ||
-							m_currentIndex % staff()->maxNoteCount() > currentStaff()->count()) {
-									qDebug() << "Something wrong with current index" << m_currentIndex; 
-									return;
+			if (m_currentIndex >= 0) {
+				if (m_currentIndex / staff()->maxNoteCount() == m_staves.size()) // add new staff with single note
+						staffHasNoSpace(m_currentIndex / staff()->maxNoteCount() - 1);
+				else if (m_currentIndex % staff()->maxNoteCount() == currentStaff()->count())
+						checkAndAddNote(currentStaff(), m_currentIndex % staff()->maxNoteCount() - 1);
+				else if (m_currentIndex / staff()->maxNoteCount() > m_staves.size() ||
+								m_currentIndex % staff()->maxNoteCount() > currentStaff()->count()) {
+										qDebug() << "Something wrong with current index" << m_currentIndex; 
+										return;
+				}
 			}
 			if (m_currentIndex >= 0) { // select a new note
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->setBackgroundColor(palette().highlight().color());
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->selectNote(true);
-			}
-			if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
+				if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
 				ensureVisible(currentStaff(), 0, 0);
+			}
 	}
 }
 

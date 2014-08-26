@@ -25,6 +25,8 @@
 #include "tchunk.h"
 #include "tkeysignature.h"
 
+class TnoteStruct;
+
 /** 
  * Class describing a musical melody - sequence of notes (Tchunk)
  * Also it is able to save/load a melody into/from MusicXML structure 
@@ -51,6 +53,8 @@ public:
 	
 	void toXml(QXmlStreamWriter& xml);
 	bool fromXml(QXmlStreamReader& xml);
+	
+	void fromNoteStruct(QList<TnoteStruct>& ns); /** Converts given list to melody */
 	
 private:
 	QString						m_title;

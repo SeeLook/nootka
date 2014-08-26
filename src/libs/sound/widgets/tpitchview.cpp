@@ -95,7 +95,7 @@ TpitchView::~TpitchView()
 void TpitchView::setAudioInput(TaudioIN* audioIn) {
   m_audioIN = audioIn;
   if (m_audioIN)
-      connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+      connect(m_audioIN, SIGNAL(noteDetected(Tnote&)), this, SLOT(noteSlot(Tnote&)));
 }
 
 
@@ -201,7 +201,7 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 //------------------------------------------------------------------------------------
 
 
-void TpitchView::noteSlot(Tnote note) {
+void TpitchView::noteSlot(Tnote& note) {
   Q_UNUSED(note)
   m_hideCnt = 0;
 }

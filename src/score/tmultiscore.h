@@ -74,7 +74,7 @@ public:
 	
 	int notesCount(); /** Total number of notes on the score */
 	
-// 	virtual QSize sizeHint() const { return QWidget::sizeHint(); }
+	void selectNote(int id); /** Marks given note or cancel selection if @p -1 */
 	
 public slots:
 	void noteWasClicked(int index);

@@ -282,8 +282,8 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 
 void Texam::setAnswer(TQAunit& answer) {
     answer.time = qMin(maxAnswerTime, answer.time); // when user think too much
-    m_answList.last() = answer;
-    if (!answer.isCorrect()) {
+//     m_answList.last() = answer; // it is not necessary as long as Texam::curQ() returns a reference to the last question in the answers list (m_answList) so checkAnswer() of TexamExecutor did all changes directly on last element of TQAunit
+    if (!answer.isCorrect() && !curQ().melody()) {
       if (!isFinished()) // finished exam has got no black list
           m_blackList << answer;
       if (answer.isNotSoBad()) {
@@ -301,7 +301,7 @@ void Texam::setAnswer(TQAunit& answer) {
       }
     }
     m_workTime += answer.time;
-    if (!isFinished())
+    if (!isFinished() && !curQ().melody())
         updateBlackCount();
 }
 
