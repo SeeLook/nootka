@@ -81,7 +81,8 @@ public:
 	QList<TnoteStruct>& notes();
   
 signals:
-  void detectedNote(Tnote note);
+  void detectedNote(Tnote);
+	void newNoteStarted(Tnote&);
   void plaingFinished();
 	
   
@@ -104,6 +105,7 @@ private slots:
   void playingFinishedSlot();
   void noteDetectedSlot(Tnote& note);
 	void playMelodySlot();
+	void newNoteSlot(Tnote& note);
 
 
 };

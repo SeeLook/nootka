@@ -72,14 +72,19 @@ public:
   void setMinimalVolume(float minVol);
   void setIsVoice(bool isV);
   void setAmbitus(Tnote loNote, Tnote hiNote);   /** Sets range of notes which are detected. */
-	Tnote loNote() { return m_loNote; } // Returns lower boundary note of ambitus 
-	Tnote hiNote() { return m_hiNote; } // Returns upper boundary note of ambitus 
-	float lastNotePitch() { return m_lastPich; } /** Pitch of last detected note in float precision. */
+	Tnote loNote() { return m_loNote; } /** Returns lower boundary note of ambitus */
+	Tnote hiNote() { return m_hiNote; } /** Returns upper boundary note of ambitus */
+	qreal lastNotePitch() { return m_lastPich; } /** Pitch of last detected note in double precision. */
 	float lastChunkPitch() { return m_LastChunkPitch; }
+	inline bool inRange(qreal pitch); /** Returns @p TRUE when @p pitch is in ambitus */
 
 signals:
-	void noteDetected(Tnote& note);
+	void noteDetected(Tnote&);
 	void fundamentalFreq(float freq);
+	
+			/** This signal is emitted in voice mode to inform about new note was started.
+			 * Obviously note has to be loud enough, long enough and match to ambitus. */
+	void newNoteStarted(Tnote&);
 
 public slots:
 	void startListening();
@@ -90,11 +95,11 @@ protected:
 	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 
 private slots:
-	
-  void pitchFreqFound(float pitch, float freq, float duration);
+  void pitchFreqFound(qreal pitch, float freq, qreal duration);
   void pitchInChunkSlot(float pitch);
-  void volumeSlot(float vol);
+  void volumeSlot(float vol) { m_maxPeak = vol; }
 	void updateSlot() { setAudioInParams(); }
+	void newNoteSlot(qreal pitch);
   
   
 private:  
@@ -107,7 +112,7 @@ private:
   bool          m_paused, m_stopped;
 			/** Boundary notes of the ambitus. */
 	Tnote					m_loNote, m_hiNote;
-	float 				m_lastPich; /** Pitch of last detected note in float precision. */
+	qreal 				m_lastPich; /** Pitch of last detected note in float precision. */
 	float					m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
 	bool 					m_storeNotes;
 	

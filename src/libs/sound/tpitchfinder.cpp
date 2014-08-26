@@ -245,7 +245,10 @@ void TpitchFinder::detect() {
         }
         if (watchNoote) {
             if (m_isVoice) {
-                if (curNote->noteLength() > MIN_SND_TIME) {
+//                 if (curNote->noteLength() > MIN_SND_TIME) {
+								if (curNote->noteLength() >= m_minDuration) {
+										if (!m_prevPitch) // emit only once per note
+											emit newNote(curNote->avgPitch());
                     m_prevPitch = curNote->avgPitch();
                     m_prevFreq = curNote->avgFreq();
 										m_prevDuration = curNote->noteLength();
