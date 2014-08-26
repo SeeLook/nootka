@@ -384,7 +384,10 @@ void TexamExecutor::askQuestion() {
 			if (curQ.melody()) {
 					mW->score->askQuestion(curQ.melody());
 					connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(noteOfMelodySlot(Tnote)));
-					m_melodyNoteIndex = 0;
+					m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
+					mW->score->selectNote(0); // mark first note
+					mW->sound->notes().clear();
+					// all above is correct only when answer is a sound (no other cases are supported now)
 					curQ.newAttempt();
 			} else {
         char strNr = 0;
@@ -576,20 +579,18 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	mW->nootBar->removeAction(checkAct);
 	if (curQ.questionAsSound())
 			mW->nootBar->removeAction(repeatSndAct);
-	if (curQ.answerAsSound())
+	if (curQ.answerAsSound()) {
 			mW->sound->pauseSinffing();
+			disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
+			disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(noteOfMelodySlot(Tnote)));
+	}
 	if (!gl->E->autoNextQuest || m_exercise)
 			mW->startExamAct->setDisabled(false);
 	m_isAnswered = true;
-	disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 // Let's check
 	Tnote questNote, answNote, userNote; // example note & returned note
-	Tmelody answMelody;
-	// At first we determine what have to be checked
-	if (curQ.melody()) {
-		if (curQ.answerAsNote())
-			mW->score->getMelody(&answMelody);
-	} else {
+// At first we determine what has to be checked
+	if (!curQ.melody()) {
     questNote = curQ.qa.note;
     if (curQ.answerAsNote()) {
         if (m_level.manualKey) {
@@ -616,7 +617,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				}
     }
 	}
-	if (curQ.answerAsFret()) { // Comparing positions
+// Now we can check
+	if (curQ.answerAsFret()) { // 1. Comparing positions
 			TfingerPos answPos, questPos;
 			answPos = mW->guitar->getfingerPos();
 			if (curQ.questionAsFret()) { 
@@ -641,12 +643,35 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 			}
 	} else {
-			if (curQ.melody()) { // we check melodies
-				if (curQ.answerAsNote())
+			if (curQ.melody()) { // 2. or checking melodies
+					Tmelody answMelody;
+					if (curQ.answerAsNote())
+						mW->score->getMelody(&answMelody);
+					else // if melody is not in score it was played for sure
+						answMelody.fromNoteStruct(mW->sound->notes());
 					m_supp->compareMelodies(curQ.melody(), &answMelody, curQ.lastAttepmt());
-// 				else TODO answer is already checked or grab it from Tsound
-			} else // or we check are the notes the same
-				m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
+// 				TODO check intonation if required
+// 				TODO it should be overloaded compareMelodies with list of TnoteStruct as an arg
+					for (int i = 0; i < curQ.lastAttepmt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
+						if (curQ.answerAsSound()) // and put note times to attempt if played
+							curQ.lastAttepmt()->times << mW->sound->notes()[i].duration * 1000;
+							// it is clumsy - TODO see previous TODO
+						if (curQ.lastAttepmt()->mistakes[i] == 0)
+							continue; // it was correct - skip
+						if (curQ.lastAttepmt()->mistakes[i] & TQAunit::e_wrongNote) {
+							curQ.setMistake(TQAunit::e_wrongNote); // so far answer is not accepted - some note is wrong
+// 							break; // don't check further
+						} else // or collect all other "smaller" mistakes
+							curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
+					}
+					qDebug() << "\nsummary" << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
+						<< curQ.melody()->length() << answMelody.length();
+					for (int i = 0; i < curQ.melody()->length(); ++i) {
+						qDebug() << i << curQ.melody()->notes()[i].p().toText() << answMelody.notes()[i].p().toText() <<
+						curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
+					}
+			} else // 3. or checking are the notes the same
+					m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
 	}
 	if (curQ.melody()) {
 // 		for (int i = 0; i < curQ.melody()->length(); ++i) {
@@ -1400,23 +1425,32 @@ void TexamExecutor::repeatSound() {
 QTime noteTime;
 void TexamExecutor::noteOfMelodySlot(Tnote n) {
 	if (m_melodyNoteIndex < m_exam->curQ().melody()->length()) {
-		TQAunit noteCorr;
-		quint32 noteDur;
-		if (m_melodyNoteIndex)
-			noteDur = noteTime.elapsed();
-		else // first note was played
-			noteDur = mW->examResults->questionTime() * 100;
-		m_supp->checkNotes(noteCorr, m_exam->curQ().melody()->notes()[m_melodyNoteIndex].p(), n, 
-											m_level.requireOctave, m_level.forceAccids);
-		m_exam->curQ().lastAttepmt()->add(noteCorr.mistake(), noteDur);
-		QColor c = Qt::darkBlue;
-		mW->score->markQuestion(c, m_melodyNoteIndex);
+		mW->score->selectNote(m_melodyNoteIndex);
 		m_melodyNoteIndex++;
-		noteTime.start();
+		qDebug() << "noteOfMelodySlot" << mW->sound->notes().size();
 	} else {
-		checkAnswer();
-		// check answer
+		if (gl->E->expertsAnswerEnable)
+			checkAnswer();
+		// TODO add a timer to wait for some extra played notes if some captured sounds was invalid. Comparing routines can exclude them then. It will improve detection accuracy.
 	}
+// 	if (m_melodyNoteIndex < m_exam->curQ().melody()->length()) {
+// 		TQAunit noteCorr;
+// 		quint32 noteDur;
+// 		if (m_melodyNoteIndex)
+// 			noteDur = noteTime.elapsed();
+// 		else // first note was played
+// 			noteDur = mW->examResults->questionTime() * 100;
+// 		m_supp->checkNotes(noteCorr, m_exam->curQ().melody()->notes()[m_melodyNoteIndex].p(), n, 
+// 											m_level.requireOctave, m_level.forceAccids);
+// 		m_exam->curQ().lastAttepmt()->add(noteCorr.mistake(), noteDur);
+// 		QColor c = Qt::darkBlue;
+// 		mW->score->markQuestion(c, m_melodyNoteIndex);
+// 		m_melodyNoteIndex++;
+// 		noteTime.start();
+// 	} else {
+// 		checkAnswer();
+// 		// check answer
+// 	}
 }
 
 /*

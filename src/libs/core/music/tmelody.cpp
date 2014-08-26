@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tmelody.h"
+#include "tnotestruct.h"
 
 
 Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
@@ -45,6 +46,11 @@ bool Tmelody::fromXml(QXmlStreamReader& xml)
 }
 
 
+void Tmelody::fromNoteStruct(QList<TnoteStruct>& ns) {
+	for (int i = 0; i < ns.size(); ++i)
+		m_notes << Tchunk(ns[i].pitch, Trhythm());
+	// TODO convert rhythm as well
+}
 
 
 

@@ -171,10 +171,9 @@ void TaudioIN::pitchFreqFound(float pitch, float freq, float duration) {
 			m_lastPich = pitch - audioParams()->a440diff;
 			Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
 			if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch) {
-					emit noteDetected(n);
-			}
-			if (m_storeNotes) {
-				notes << TnoteStruct(n, freq, duration);;
+				if (m_storeNotes)
+					notes << TnoteStruct(n, freq, duration);;
+				emit noteDetected(n);
 			}
 			emit fundamentalFreq(freq);
   } else 
