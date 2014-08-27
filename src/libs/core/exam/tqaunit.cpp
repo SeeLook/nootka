@@ -44,6 +44,8 @@ TQAunit::TQAunit(const TQAunit& otherUnit)
 	setStyle(otherUnit.styleOfQuestion(), otherUnit.styleOfAnswer());
 	setMistake(otherUnit.mistake());
 	qa_2 = otherUnit.qa_2;
+	key = otherUnit.key;
+	time = otherUnit.time;
 	if (otherUnit.melody() || otherUnit.attemptsCount())
 		qDebug() << "TQAunit is going to be copied when pointer inside exist.\nTROUBLES ARE GUARANTEED!\nTo avoid them keep TQAunit instance in some global scope and use reference or pointer to it.";
 	m_melody = 0;

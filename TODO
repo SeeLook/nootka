@@ -6,7 +6,6 @@ TODO List
 - merge nootka-one changes with this branch
 - scordature has improper boundingRect()
 - TscoreView and TscoreItem have to have Android compile scopes
-- status tips are not filtered in main window event() so stable tip doesn't work
 - questioned melodies with improperly answered notes are not going to black list of exam
 		there has to be another routines to find such questions and repeat them
 
