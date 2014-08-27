@@ -662,16 +662,17 @@ void MainWindow::adjustAmbitus() {
 bool MainWindow::event(QEvent *event) {
 #if !defined (Q_OS_ANDROID)
     if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
-        QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-        if (se->tip() == "") {
-            setMessageBg(m_prevBg);
-            m_statLab->setText("<center>" + m_statusText + "</center>");
-            m_prevMsg = m_statusText;
-        } else {
-            m_prevBg = m_curBG;
-            setMessageBg(-1);
-            m_statLab->setText("<center>" + se->tip() + "</center>");
-        }
+			qDebug() << "status tip captured";
+//         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+//         if (se->tip() == "") {
+//             setMessageBg(m_prevBg);
+//             m_statLab->setText("<center>" + m_statusText + "</center>");
+//             m_prevMsg = m_statusText;
+//         } else {
+//             m_prevBg = m_curBG;
+//             setMessageBg(-1);
+//             m_statLab->setText("<center>" + se->tip() + "</center>");
+//         }
     } // else // TODO
 //       if (ex && (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)) {
 //         ex->event(event);

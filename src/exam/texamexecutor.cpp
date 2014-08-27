@@ -581,8 +581,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			mW->nootBar->removeAction(repeatSndAct);
 	if (curQ.answerAsSound()) {
 			mW->sound->pauseSinffing();
+			mW->score->selectNote(-1);
 			disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 			disconnect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
+			disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(lastMelodyNote()));
 	}
 	if (!gl->E->autoNextQuest || m_exercise)
 			mW->startExamAct->setDisabled(false);
@@ -665,20 +667,17 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						} else // or collect all other "smaller" mistakes
 							curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
 					}
-					qDebug() << "\nsummary" << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
-						<< curQ.melody()->length() << answMelody.length();
-					for (int i = 0; i < curQ.melody()->length(); ++i) {
-						qDebug() << i << curQ.melody()->notes()[i].p().toText() << answMelody.notes()[i].p().toText() <<
-						curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
-					}
+// 					qDebug() << "\nsummary" << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
+// 						<< curQ.melody()->length() << answMelody.length();
+// 					for (int i = 0; i < curQ.melody()->length(); ++i) {
+// 						qDebug() << i << curQ.melody()->notes()[i].p().toText() << answMelody.notes()[i].p().toText() <<
+// 						curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
+// 					}
 			} else // 3. or checking are the notes the same
 					m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
 	}
 	if (curQ.melody()) {
-// 		for (int i = 0; i < curQ.melody()->length(); ++i) {
-// 			qDebug() << i << curQ.melody()->notes()[i].p().toText() << 
-// 			curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
-// 		}
+
 	} else {
 		if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAsNote() || curQ.answerAsName())) {
 			// Save user given note when it is correct and accidental was not forced to respect kind of accidental
@@ -722,9 +721,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				if (!curQ.isCorrect())
 						updatePenalStep();
 		}
-
-//     mW->noteName->setStyle(gl->S->nameStyleInNoteName);
-//     mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
 
 		markAnswer(curQ);
     int waitTime = gl->E->questionDelay;
@@ -794,12 +790,10 @@ void TexamExecutor::correctAnswer() {
 			m_askingTimer->stop();
 	m_canvas->clearWhatNextTip();
 	TQAunit& curQ = m_exam->answList()->last();
-	QColor markColor;
-	if (curQ.isNotSoBad())
-			markColor = gl->EnotBadColor;
-	else
-			markColor = gl->EquestionColor;
+	QColor markColor = m_supp->answerColor(curQ);
 	if (curQ.answerAsNote()) {
+		if (curQ.melody()) {
+		} else {
 			Tnote goodNote = curQ.qa.note;
 			if (curQ.questionAsNote())
 				goodNote = curQ.qa_2.note;
@@ -812,6 +806,7 @@ void TexamExecutor::correctAnswer() {
 			}
 			if (curQ.wrongKey())
 					mW->score->correctKeySignature(curQ.key);
+		}
 	} else if (curQ.answerAsFret()) {
 			TfingerPos goodPos = curQ.qa.pos;
 			if (curQ.questionAsFret())
@@ -832,6 +827,14 @@ void TexamExecutor::correctAnswer() {
 			}
 			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
 	} else { // answer as played sound
+		if (curQ.melody()) {
+// 			if (curQ.questionAsNote()) {
+// 				for (int i = 0 ; i < curQ.lastAttepmt()->mistakes.size(); ++i) {
+// 					if (curQ.lastAttepmt()->mistakes[i])
+// 						m_canvas->correctToGuitar(curQ.questionAs, gl->E->mistakePreview, curQ.qa.pos);
+// 				}
+// 			}
+		} else {
 			if (curQ.wrongIntonation()) {
 					float outTune = mW->sound->pitch() - (float)qRound(mW->sound->pitch());
 					mW->pitchView->outOfTuneAnim(outTune, 1200);
@@ -839,14 +842,16 @@ void TexamExecutor::correctAnswer() {
 			}
 			if (m_supp->isCorrectedPlayable())
 					repeatSound();
-			else { 
+			else {
+				if (mW->guitar->isVisible()) {
 				// Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
 					if (curQ.questionAsFret())
 						mW->guitar->correctPosition(curQ.qa.pos, markColor);
 					else
 						m_canvas->correctToGuitar(curQ.questionAs, gl->E->mistakePreview, curQ.qa.pos);
+				}
 			}
-				
+		}
 	}
 	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 	if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop) {
@@ -1425,14 +1430,12 @@ void TexamExecutor::repeatSound() {
 
 
 void TexamExecutor::noteOfMelodySlot(Tnote& n) {
-// 	if (mW->sound->notes().size() < m_exam->curQ().melody()->length()) {
 		mW->score->selectNote(m_melodyNoteIndex);
 		m_melodyNoteIndex++;
-// 	} else {
-		if ((mW->sound->notes().size() == m_exam->curQ().melody()->length()) && gl->E->expertsAnswerEnable)
-			checkAnswer();
-		// TODO add a timer to wait for some extra played notes if some captured sounds was invalid. Comparing routines can exclude them then. It will improve detection accuracy.
-// 	}
+		if ((mW->sound->notes().size() == m_exam->curQ().melody()->length() - 1) && gl->E->expertsAnswerEnable) {
+			connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(lastMelodyNote()));
+			disconnect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
+		}
 }
 
 /*

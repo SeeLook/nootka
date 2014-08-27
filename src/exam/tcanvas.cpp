@@ -176,11 +176,9 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
   
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
-	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
-			m_whatTip->setTextWidth(m_maxTipWidth);
+// 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
+// 			m_whatTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_whatTip);
-//   m_whatTip->setFont(tipFont(0.35));
-//   m_window->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, true); // to activate click on tip
   m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setWhatNextPos();
@@ -471,9 +469,9 @@ bool Tcanvas::event(QEvent* event) {
 //##################################################################################################
 
 int Tcanvas::getMaxTipHeight() {
-	if (m_nameFree)
-			return m_window->noteName->height();
-	else if (m_scoreFree)
+	if (m_nameFree || m_scoreFree)
+// 			return m_window->noteName->height();
+// 	else if (m_scoreFree)
 			return m_window->score->height() * 0.75;
 	else
 			return m_window->guitar->height();
@@ -485,10 +483,10 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	if (m_nameFree) { // middle of the noteName
 			geoRect = m_window->noteName->geometry();
 			if (tip == m_whatTip) {
-				if (tip->boundingRect().width() * tip->scale() != m_window->noteName->geometry().width() - 20)
-					tip->setScale((m_window->noteName->geometry().width() - 20) / (tip->boundingRect().width() * tip->scale()));
-				if (tip->boundingRect().height() * tip->scale() > m_window->noteName->height())
-					tip->setScale((qreal)(m_window->noteName->height()) / (tip->boundingRect().height()));
+				if (tip->boundingRect().width() * tip->scale() != m_window->width() * 0.4)
+					tip->setScale((m_window->width() * 0.4) / (tip->boundingRect().width() * tip->scale()));
+				if (tip->boundingRect().height() * tip->scale() > m_window->score->height())
+					tip->setScale((qreal)(m_window->score->height()) / (tip->boundingRect().height()));
 			}
 	} else if (m_scoreFree) {// on the score at its center
 			geoRect = m_window->score->geometry();

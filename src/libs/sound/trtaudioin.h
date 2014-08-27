@@ -76,7 +76,10 @@ public:
 	Tnote hiNote() { return m_hiNote; } /** Returns upper boundary note of ambitus */
 	qreal lastNotePitch() { return m_lastPich; } /** Pitch of last detected note in double precision. */
 	float lastChunkPitch() { return m_LastChunkPitch; }
-	inline bool inRange(qreal pitch); /** Returns @p TRUE when @p pitch is in ambitus */
+	bool inRange(qreal pitch) {
+		if (pitch >= m_loPitch && pitch <= m_hiPitch)	return true;
+		else return false;
+	}		/** Returns @p TRUE when @p pitch is in ambitus */
 
 signals:
 	void noteDetected(Tnote&);
@@ -115,6 +118,7 @@ private:
 	qreal 				m_lastPich; /** Pitch of last detected note in float precision. */
 	float					m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
 	bool 					m_storeNotes;
+	qreal 				m_loPitch, m_hiPitch;
 	
 };
 

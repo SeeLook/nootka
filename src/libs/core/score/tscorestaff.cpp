@@ -268,6 +268,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 					m_flyAccid = 0;
 		}
 		updateWidth();
+		updateLines();
 		updateNotesPos();
 	}
 }

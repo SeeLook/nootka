@@ -319,7 +319,7 @@ QPoint TmainScore::notePos(int noteNr) {
 	QPoint vPos = mapFromScene(staff()->pos().x() + staff()->noteSegment(noteNr)->pos().x() + 
 																				staff()->noteSegment(noteNr)->mainNote()->pos().x(), 
 														 staff()->noteSegment(noteNr)->mainNote()->pos().y());
-	return mapToParent(mapToParent(vPos));
+	return mapToGlobal(vPos);
 }
 
 
