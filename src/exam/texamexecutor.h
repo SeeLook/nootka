@@ -124,6 +124,7 @@ protected slots:
 	void unlockAnswerCapturing();
 	void blindQuestion(); /** Routines for questions with the same answers 'blind' */
 	void noteOfMelodySlot(Tnote& n); /** When user plays a melody as an answer. */
+	void lastMelodyNote() { checkAnswer(); } /** performed when user played last note of a melody. */
 
 private:
 	void createActions();

@@ -83,12 +83,6 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 
 
 QColor& TexecutorSupply::answerColor(const TQAunit& answer) {
-// 	if (answer.isCorrect())
-//     return gl->EanswerColor;
-//   else if (answer.isNotSoBad())
-//     return gl->EnotBadColor;
-//   else
-//     return gl->EquestionColor;
 	return answerColor(answer.mistake());
 }
 

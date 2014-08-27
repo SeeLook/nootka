@@ -65,6 +65,7 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
 QList<TaudioIN*> 			TaudioIN::m_instances = QList<TaudioIN*>();
 int 									TaudioIN::m_thisInstance = -1;
 
+
 //------------------------------------------------------------------------------------
 //------------          constructor     ----------------------------------------------
 //------------------------------------------------------------------------------------
@@ -74,7 +75,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_pitch(0),
     m_maxPeak(0.0),
     m_paused(false), m_stopped(true),
-    m_lastPich(0.0f)
+    m_lastPich(0.0f),
+    m_loPitch(15), m_hiPitch(140)
 {
   m_instances << this;
   m_pitch = new TpitchFinder();
@@ -128,18 +130,11 @@ void TaudioIN::setIsVoice(bool isV) {
  * This 46 and 48 are its sign. 
  * Normally 47 is offset of midi note to Nootka Tnote. */
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
-  m_pitch->setAmbitus(loNote.getChromaticNrOfNote() + 46, hiNote.getChromaticNrOfNote() + 48);
+	m_loPitch = loNote.getChromaticNrOfNote() + 46;
+	m_hiPitch = hiNote.getChromaticNrOfNote() + 48;
 	m_loNote = loNote;
 	m_hiNote = hiNote;
 // 	qDebug() << "Ambitus set to:" << loNote.toText() << "--" << hiNote.toText();
-}
-
-
-inline bool TaudioIN::inRange(qreal pitch) {
-	if (pitch >= m_pitch->aGl()->loPitch && pitch <= m_pitch->aGl()->topPitch)
-			return true;
-	else
-			return false;
 }
 
 
@@ -192,9 +187,10 @@ void TaudioIN::pitchFreqFound(qreal pitch, float freq, qreal duration) {
 
 
 void TaudioIN::newNoteSlot(qreal pitch) {
-	Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
-	if (inRange(pitch))
+	if (inRange(pitch)) {
+		Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
 		emit newNoteStarted(n);
+	}
 }
 
 
