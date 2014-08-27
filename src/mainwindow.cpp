@@ -175,14 +175,14 @@ MainWindow::MainWindow(QWidget *parent) :
 // 				score->setInsertMode(TmultiScore::e_single);
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
-		connect(score, SIGNAL(statusTip(QString)), this, SLOT(setStatusMessage(QString)));
+		connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 // 		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
 // 		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
 //     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 // 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
     connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
-		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(setStatusMessage(QString)));
+		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
@@ -245,12 +245,10 @@ void MainWindow::createActions() {
 void MainWindow::setStartExamActParams() {
     levelCreatorAct->setText(tr("Level"));
     levelCreatorAct->setStatusTip(tr("Levels creator"));
-//		levelCreatorAct->setToolTip(levelCreatorAct->statusTip());
     levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
   
     startExamAct->setText(tr("Start!"));
     startExamAct->setStatusTip(tr("Start exercises or an exam"));
-//		startExamAct->setToolTip(startExamAct->statusTip());
     startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
 }
 
@@ -264,7 +262,7 @@ void MainWindow::setStatusMessage(const QString& msg) {
 }
 
 
-void MainWindow::setStatusMessage(QString msg, int time) {
+void MainWindow::setStatusMessage(const QString& msg, int time) {
     m_prevMsg = m_statusText;
     m_statLab->setText("<center>" + msg + "</center>");
     m_lockStat = true;
@@ -565,6 +563,19 @@ void MainWindow::restoreMessage() {
 }
 
 
+void MainWindow::messageSlot(const QString& msg) {
+	if (msg.isEmpty()) {
+			setMessageBg(m_prevBg);
+			m_statLab->setText("<center>" + m_statusText + "</center>");
+			m_prevMsg = m_statusText;
+	} else {
+			m_prevBg = m_curBG;
+			setMessageBg(-1);
+			m_statLab->setText("<center>" + msg + "</center>");
+	}
+}
+
+
 /*
 void MainWindow::showSupportDialog() {
     sound->wait();
@@ -658,29 +669,6 @@ void MainWindow::adjustAmbitus() {
 //##########################################################################################
 //#######################     EVENTS       ################################################
 //##########################################################################################
-
-bool MainWindow::event(QEvent *event) {
-#if !defined (Q_OS_ANDROID)
-    if (gl->hintsEnabled && event->type() == QEvent::StatusTip && !m_lockStat) {
-			qDebug() << "status tip captured";
-//         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-//         if (se->tip() == "") {
-//             setMessageBg(m_prevBg);
-//             m_statLab->setText("<center>" + m_statusText + "</center>");
-//             m_prevMsg = m_statusText;
-//         } else {
-//             m_prevBg = m_curBG;
-//             setMessageBg(-1);
-//             m_statLab->setText("<center>" + se->tip() + "</center>");
-//         }
-    } // else // TODO
-//       if (ex && (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)) {
-//         ex->event(event);
-//       }
-#endif
-    return QMainWindow::event(event);
-}
-
 
 void MainWindow::updateSize(QSize newS) {
 	setUpdatesEnabled(false);

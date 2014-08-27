@@ -74,10 +74,7 @@ public:
 
 protected:
 	MainWindow *mW;
-	QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct, *correctAct;
-	
-	bool event(QEvent *event);
-	
+	QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct, *correctAct;	
 	void deleteExam();
 
 protected slots:

@@ -51,7 +51,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setStatusMessage(QString msg, int time);
+    void setStatusMessage(const QString& msg, int time);
     void setMessageBg (QColor bg);
     
         /**  Returns font size used in status message label in pixels.
@@ -106,13 +106,13 @@ protected:
 // 		void setWidgetsFont();
 // 
     void resizeEvent(QResizeEvent *event);
-    bool event(QEvent *event);
 //     void closeEvent(QCloseEvent *event);
 //     bool eventFilter(QObject* obj, QEvent* event);
     void paintEvent(QPaintEvent *);
         
 protected slots:
     void restoreMessage();
+		void messageSlot(const QString& msg);
 		
 //     void showSupportDialog();
 		

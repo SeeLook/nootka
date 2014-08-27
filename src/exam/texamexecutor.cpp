@@ -1573,14 +1573,6 @@ void TexamExecutor::tipButtonSlot(QString name) {
 } 
 
 
-bool TexamExecutor::event(QEvent* event) {
-    if (m_canvas)
-      if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease)
-        m_canvas->event(event);
-    return QObject::event(event);
-}
-
-
 void TexamExecutor::deleteExam() {
 		if (m_exam) {
 			delete m_exam;
