@@ -484,7 +484,7 @@ void AudioInSettings::testSlot() {
     if (!m_audioIn) { // create new audio-in device
 				m_audioIn = new TaudioIN(m_tmpParams, this);
 				pitchView->setAudioInput(m_audioIn);
-				connect(m_audioIn, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+				connect(m_audioIn, SIGNAL(noteDetected(Tnote&)), this, SLOT(noteSlot(Tnote)));
 				connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
 		} else { // set parameters to existing device
 				m_audioIn->updateAudioParams();
@@ -507,7 +507,7 @@ void AudioInSettings::testSlot() {
 }
 
 
-void AudioInSettings::noteSlot(Tnote note) {
+void AudioInSettings::noteSlot(Tnote& note) {
 		pitchLab->setText("<b>" + note.toRichText() + "</b>");
 }
 

@@ -104,7 +104,7 @@ public:
 		void correctAccidental(Tnote& goodNote);
 		
 				/** Displays note name of first note or the second if given next to its note-head in a score. */
-		void showNames(Tnote::EnameStyle st, bool forAll = false);
+		void showNames(Tnote::EnameStyle st);
 		void deleteNoteName(int id); /** Deletes given instance of note name if it exist */
 		
 				/** Returns note head rectangle if visible or empty QRectF.  */
@@ -168,7 +168,6 @@ private:
 private:
 		QGraphicsSimpleTextItem 		*m_questMark;
 		QGraphicsTextItem 					*m_questKey;
-		QList<TgraphicsTextTip*>		 m_noteName; // for now only two notes are used
 		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rectangles with highlights
 		TstrikedOutItem 						*m_strikeOut;
     QPointer<TblinkingItem>      m_bliking, m_keyBlinking;;
