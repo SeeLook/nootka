@@ -20,6 +20,7 @@
 #define TEXECUTORSUPPLY_H
 
 #include <music/tnote.h>
+#include <music/tnotestruct.h>
 #include <exam/tqaunit.h>
 
 
@@ -95,8 +96,13 @@ public:
 			 * When @p reqAccid is false Cis matches to Des and etc...	 */
 	void checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid);
 	
-			/** Compares given melodies respecting settings in current level. Saves results into Tattempt */
+			/** Compares given melodies respecting settings in current level. Saves results into Tattempt.
+			 * There is no answered notes time so Tattempt::times list remains empty. */
 	void compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att);
+	
+			/** Compares given melody with list of played notes. 
+			 * Tattempt::times is filled up and wrong intonation is detected if level requires. */
+	void compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att);
   
   
 signals:
