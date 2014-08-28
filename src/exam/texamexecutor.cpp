@@ -346,7 +346,8 @@ void TexamExecutor::askQuestion() {
                     tmpNote = curQ.key.inKey(curQ.qa.note);
                     while(tmpNote.note == 0 && patience < keyRangeWidth) {
                         keyOff++;
-                        if (keyOff > keyRangeWidth) keyOff = 0;
+                        if (keyOff > keyRangeWidth) 
+													keyOff = 0;
                         curQ.key = TkeySignature(m_level.loKey.value() + keyOff);
                         patience++;
                         tmpNote = curQ.key.inKey(curQ.qa.note);
@@ -647,23 +648,19 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			}
 	} else {
 			if (curQ.melody()) { // 2. or checking melodies
-					Tmelody answMelody;
-					if (curQ.answerAsNote())
+					if (curQ.answerAsNote()) {
+						Tmelody answMelody;
 						mW->score->getMelody(&answMelody);
-					else // if melody is not in score it was played for sure
-						answMelody.fromNoteStruct(mW->sound->notes());
-					m_supp->compareMelodies(curQ.melody(), &answMelody, curQ.lastAttepmt());
-// 				TODO check intonation if required
-// 				TODO it should be overloaded compareMelodies with list of TnoteStruct as an arg
+						m_supp->compareMelodies(curQ.melody(), &answMelody, curQ.lastAttepmt());
+					} else {// if melody is not in score it was played for sure
+						m_supp->compareMelodies(curQ.melody(), mW->sound->notes(), curQ.lastAttepmt());
+					}
 					for (int i = 0; i < curQ.lastAttepmt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
-						if (curQ.answerAsSound()) // and put note times to attempt if played
-							curQ.lastAttepmt()->times << mW->sound->notes()[i].duration * 1000;
-							// it is clumsy - TODO see previous TODO
-						if (curQ.lastAttepmt()->mistakes[i] == 0)
+						if (curQ.lastAttepmt()->mistakes[i] == TQAunit::e_correct)
 							continue; // it was correct - skip
 						if (curQ.lastAttepmt()->mistakes[i] & TQAunit::e_wrongNote) {
 							curQ.setMistake(TQAunit::e_wrongNote); // so far answer is not accepted - some note is wrong
-// 							break; // don't check further
+							break; // don't check further
 						} else // or collect all other "smaller" mistakes
 							curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
 					}

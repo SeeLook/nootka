@@ -24,6 +24,7 @@
 #include <music/tmelody.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
+#include <widgets/tintonationview.h>
 #include <mainwindow.h>
 #include <QMouseEvent>
 #include <QMessageBox>
@@ -464,11 +465,27 @@ void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
 		TQAunit tmpUnit;
 		if (a->length() > i)
 			checkNotes(tmpUnit, q->notes()[i].p(), a->notes()[i].p(), m_level->requireOctave, m_level->forceAccids);
-		else {
-			qDebug() << "There is not enough notes in answered melody";
+		else
 			tmpUnit.setMistake(TQAunit::e_wrongNote);
-		}
-		att->add(tmpUnit.mistake()); // times of are ignored so far
+		att->add(tmpUnit.mistake()); // times are ignored in that type of answer/attempt
+	}
+}
+
+
+void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att) {
+	for (int i = 0; i < q->length(); ++i) {
+		TQAunit tmpUnit;
+		quint32 noteTime = 0;
+		if (a.size() > i) {
+			checkNotes(tmpUnit, q->notes()[i].p(), a[i].pitch, m_level->requireOctave, m_level->forceAccids);
+			noteTime = quint32(a[i].duration * 1000.0); // duration is given in second but we need milliseconds
+			if (!tmpUnit.isWrong() && m_level->intonation != TintonationView::e_noCheck) {
+				if (TnoteStruct(Tnote(), a[i].pitchF).inTune(TintonationView::getThreshold(m_level->intonation)))
+					tmpUnit.setMistake(TQAunit::e_wrongIntonation);
+			}
+		} else
+				tmpUnit.setMistake(TQAunit::e_wrongNote);
+		att->add(tmpUnit.mistake(), noteTime);
 	}
 }
 

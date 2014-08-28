@@ -21,6 +21,7 @@
 
 #include "tnote.h"
 #include "trhythm.h"
+#include <tfingerpos.h>
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
@@ -35,13 +36,15 @@ class Tchunk
 {
 
 public:
-	Tchunk(const Tnote& pitch, const Trhythm& rhythm);
+	Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos = TfingerPos());
 	~Tchunk();
 	
 	Tnote& p() { return m_pitch; } /** The pitch of a note */
-	
+	TfingerPos& g() { return m_fretPos; } /** Position a note on a guitar (if any) - by default it is invalid */
 	Trhythm& r() { return m_rhythm; } /** rhythm value of a note */
 
+			/** Returns @p TRUE when position on the guitar is valid. */
+	bool validPos() { if (g().str() == 7) return false; else return true; }
 	
 	void toXml(QXmlStreamWriter& xml);
 	bool fromXml(QXmlStreamReader& xml);
@@ -50,7 +53,7 @@ public:
 private:
 	Tnote				m_pitch;
 	Trhythm			m_rhythm;
-	
+	TfingerPos  m_fretPos;
 };
 
 #endif // TCHUNK_H

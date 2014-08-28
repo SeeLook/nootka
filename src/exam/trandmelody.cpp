@@ -22,11 +22,30 @@
 
 
 
-void getRandomMelody(QList< TQAunit::TQAgroup >& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
+void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
 	for (int i = 0; i < len; ++i) {
-		Tnote pitch = qList[qrand() % qList.size()].note;
-		//TODO check is it in a key - use TexamExecutor::askQuestion() part 
-		Tchunk note(pitch, Trhythm());
+		int randVal = qrand() % qList.size();
+		Tnote pitch = qList[randVal].note;
+		TfingerPos fPos = qList[randVal].pos;
+		if (inKey) { // note has to be in key signature declared in melody
+			if (mel->key().inKey(pitch).note == 0) { // if it is not
+				int tryCount = 0;
+				int it = randVal;
+				while (tryCount < qList.size()) { // find another one
+					it++;
+					if (it == qList.size())
+						it = 0;
+					Tnote tryNote = mel->key().inKey(qList[it].note);
+					if (tryNote.note != 0) {
+						pitch = tryNote;
+						fPos = qList[it].pos;
+						break;
+					}
+					tryCount++;
+				}
+			}
+		}
+		Tchunk note(pitch, Trhythm(), fPos);
 		mel->notes().append(note);
 	}
 	if (onTonic) {
@@ -54,6 +73,7 @@ void getRandomMelody(QList< TQAunit::TQAgroup >& qList, Tmelody* mel, int len, b
 			if (theSame) {
 				tonic.octave = qList[i].note.octave;
 				mel->notes().last().p() = tonic;
+				mel->notes().last().g() = qList[i].pos;
 				break;
 			}
 		}

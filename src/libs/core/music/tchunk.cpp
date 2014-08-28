@@ -21,9 +21,10 @@
 #include "tnote.h"
 #include <QXmlStreamWriter>
 
-Tchunk::Tchunk(const Tnote& pitch, const Trhythm& rhythm) :
+Tchunk::Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos) :
 	m_pitch(pitch),
-	m_rhythm(rhythm)
+	m_rhythm(rhythm),
+	m_fretPos(fretPos)
 {
 }
 
@@ -41,6 +42,14 @@ void Tchunk::toXml(QXmlStreamWriter& xml) {
 		xml.writeTextElement("type", m_rhythm.xmlType());
 		if (m_rhythm.hasDot())
 			xml.writeEmptyElement("dot");
+		if (validPos()) {
+			xml.writeStartElement("notations");
+				xml.writeStartElement("technical");
+					xml.writeTextElement("string", QString("%1").arg(g().str()));
+					xml.writeTextElement("fret", QString("%1").arg(g().fret()));
+				xml.writeEndElement();
+			xml.writeEndElement();
+		}
 	xml.writeEndElement(); // note
 }
 
