@@ -344,14 +344,14 @@ void TexamExecutor::askQuestion() {
                     int patience = 0; // we are looking for suitable key
                     char keyOff = curQ.key.value() - m_level.loKey.value();
                     tmpNote = curQ.key.inKey(curQ.qa.note);
-                    while(tmpNote.note == 0 && patience < keyRangeWidth) {
+                    while(tmpNote.note == 0 && patience <= keyRangeWidth) {
                         keyOff++;
                         if (keyOff > keyRangeWidth) 
 													keyOff = 0;
                         curQ.key = TkeySignature(m_level.loKey.value() + keyOff);
                         patience++;
                         tmpNote = curQ.key.inKey(curQ.qa.note);
-                        if (patience >= keyRangeWidth) {
+                        if (patience > keyRangeWidth) {
                             qDebug() << "Oops! It should never happened. I can not find key signature!";
                             break;
                         }
@@ -664,8 +664,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						} else // or collect all other "smaller" mistakes
 							curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
 					}
-// 					qDebug() << "\nsummary" << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
-// 						<< curQ.melody()->length() << answMelody.length();
+					qDebug() << "\nattempt" << curQ.attemptsCount()  << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
+						<< curQ.melody()->length();
 // 					for (int i = 0; i < curQ.melody()->length(); ++i) {
 // 						qDebug() << i << curQ.melody()->notes()[i].p().toText() << answMelody.notes()[i].p().toText() <<
 // 						curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
@@ -758,12 +758,21 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				if (curQ.isCorrect()) {
           m_askingTimer->start(gl->E->questionDelay);
       } else {
-          if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
-              QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
-          else {
-							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !gl->E->showCorrected))
-									waitTime = gl->E->mistakePreview; // for exercises time was set above
-							m_askingTimer->start(waitTime);
+					if (curQ.melody()) { // when melody was wrong don't ask, prepare new attempt
+						curQ.newAttempt();
+						m_canvas->tryAgainTip(3000);
+						if (curQ.questionAsNote() || curQ.answerAsNote())
+							for (int i = 0; i < mW->score->notesCount(); ++i) {
+								mW->score->deleteNoteName(i);
+							}
+					} else {
+						if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
+								QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
+						else {
+								if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !gl->E->showCorrected))
+										waitTime = gl->E->mistakePreview; // for exercises time was set above
+								m_askingTimer->start(waitTime);
+						}
 					}
         }
       }
@@ -899,7 +908,7 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
   if (m_exercise && gl->E->showNameOfAnswered) {
 		if (!curQ.questionAsName() && !curQ.answerAsName()) {
 			if (curQ.answerAsNote() || (curQ.answerAsSound() && curQ.questionAsNote()))
-				mW->score->showNames(gl->S->nameStyleInNoteName, true);
+				mW->score->showNames(gl->S->nameStyleInNoteName);
 			else if (curQ.answerAsFret()) // for q/a fret-fret this will be the first case
 				mW->guitar->showName(gl->S->nameStyleInNoteName, markColor); // Take it from user answer
 			else if (curQ.answerAsSound() && curQ.questionAsFret())

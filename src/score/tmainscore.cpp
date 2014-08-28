@@ -65,7 +65,6 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	
 	createActions();
 	
-	m_noteName << 0 << 0;
 // set note colors
 // 	restoreNotesSettings();
 	setScordature();
@@ -203,7 +202,6 @@ void TmainScore::setMelody(Tmelody* mel) {
 			lastStaff()->removeNote(lastStaff()->count() - 1);
 		}
 	}
-// 	selectNote(-1);
 }
 
 
@@ -382,8 +380,6 @@ void TmainScore::isExamExecuting(bool isIt) {
         delete m_questKey;
         m_questKey = 0;
 				setClefDisabled(false);
-				for (int i = 0; i < 2; i++)
-					deleteNoteName(i);
     }
 }
 
@@ -392,8 +388,10 @@ void TmainScore::clearScore() {
 	bool enableAnim = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations to empty score
 	if (insertMode() == e_single) {
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 3; ++i) {
 			clearNote(i);
+			deleteNoteName(i);
+		}
 		staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 		staff()->noteSegment(0)->hideWorkNote();
 	} else {
@@ -401,8 +399,10 @@ void TmainScore::clearScore() {
 			selectNote(-1);
 			staff()->noteSegment(0)->markNote(-1);
 	}
-	for (int i = 0; i < 2; i++)
-			deleteNoteName(i);
+	for (int st = 0; st < staffCount(); st++) {
+		for (int no = 0; no < staves(st)->count(); no++)
+				staves(st)->noteSegment(no)->removeNoteName();
+	}
 	m_showNameInCorrection = false;
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
@@ -548,40 +548,22 @@ void TmainScore::correctKeySignature(TkeySignature newKey) {
 }
 
 
-void TmainScore::showNames(Tnote::EnameStyle st, bool forAll) {
-	int max = 1;
-	if (forAll)
-			max = 2;
-	m_showNameInCorrection = false;
-	m_corrStyle = st;
-	for (int i = 0; i < max; i++) {
-		if (getNote(i).note) {
-			m_noteName[i] = new TgraphicsTextTip(getNote(i).toRichText(st));
-			m_noteName[i]->setZValue(30);
-			m_noteName[i]->setDropShadow(m_noteName[i], QColor(staff()->noteSegment(i)->mainNote()->pen().color().name()));
-			m_noteName[i]->setDefaultTextColor(palette().text().color());
-			m_noteName[i]->setParentItem(staff()->noteSegment(i));
-// 			m_noteName[i]->setScale((transform().m11()) / m_noteName[i]->boundingRect().height());
-			m_noteName[i]->setScale(8.0 / m_noteName[i]->boundingRect().height());
-			m_noteName[i]->setPos((7.0 - m_noteName[i]->boundingRect().width() * m_noteName[i]->scale()) / 2,
-					staff()->noteSegment(i)->notePos() > staff()->upperLinePos() ? 
-								staff()->noteSegment(i)->notePos() - m_noteName[i]->boundingRect().height() * m_noteName[i]->scale() : // above note
-								staff()->noteSegment(i)->notePos() + staff()->noteSegment(i)->mainNote()->boundingRect().height()); // below note
-			staff()->noteSegment(i)->removeString(); // String number is not needed here and could collide with name
+void TmainScore::showNames(Tnote::EnameStyle st) {
+	Tnote::EnameStyle tmpStyle = Tnote::defaultStyle;
+	Tnote::defaultStyle = st;
+	for (int st = 0; st < staffCount(); st++) {
+		for (int no = 0; no < staves(st)->count(); no++) {
+			scoreScene()->setNameColor(staves(st)->noteSegment(no)->mainNote()->pen().color());
+			staves(st)->noteSegment(no)->showNoteName();
 		}
 	}
-	if (m_noteName[0])
-			m_showNameInCorrection = true;
+	Tnote::defaultStyle = tmpStyle;
 }
 
 
 void TmainScore::deleteNoteName(int id) {
-	if (id < 0 || id > 1) // so far only two instances exist
-		return;
-	if (m_noteName.at(id)) { 
-		delete m_noteName.at(id);
-		m_noteName[id] = 0; 
-	}
+	if (id < notesCount())
+		staves(id / staff()->maxNoteCount())->noteSegment(id % staff()->maxNoteCount())->removeNoteName();
 }
 
 //####################################################################################################

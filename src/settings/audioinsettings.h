@@ -76,7 +76,7 @@ protected:
   
 protected slots:
   void testSlot();
-  void noteSlot(Tnote note);
+  void noteSlot(Tnote& note);
   void freqSlot(float freq);
   void intervalChanged();
   void baseFreqChanged(int bFreq);
