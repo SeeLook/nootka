@@ -93,9 +93,12 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
   double sc = 4.0;
   if (scale) {
     quest = QString("<p style=\"font-size: %1px;\">").arg(qRound(scale * 22.0));
-    sc = 4.0 * scale;     
+    sc = 4.0 * scale;
   }
-  quest += QString("<b><u>&nbsp;%1.&nbsp;</u></b><br>").arg(questNr);
+  QString attemptText = "";
+	if (question.attemptsCount() > 1)
+		attemptText = " <small><i>" + tr("attempt %n", "", question.attemptsCount()) + "</i></small>";
+  quest += QString("<b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + "<br>";
     QString apendix = "";
     QString noteStr;
     switch (question.questionAs) {

@@ -277,9 +277,21 @@ void TexamExecutor::initializeExecuting() {
 
 
 void TexamExecutor::askQuestion() {
-		m_askingTimer->stop();
-    m_lockRightButt = false; // release mouse button events
-    clearWidgets();
+	m_askingTimer->stop();
+	m_lockRightButt = false; // release mouse button events
+	bool isAttempt = false;
+	if (m_exam->count() && m_exam->curQ().melody() && !m_exam->curQ().isCorrect())
+		isAttempt = true; // continue answering as a new attempt
+	else { // or add new question to the list
+		TQAunit Q;
+		m_exam->addQuestion(Q);
+	}
+	if (!(isAttempt && m_exam->curQ().answerAsNote())) // do not clean user answer on the score for new attepmts.
+		clearWidgets();
+	TQAunit& curQ = m_exam->curQ();
+	if (isAttempt) { // Attempt - ignore creation of a new question
+		curQ.newAttempt(); // just new attempt in previous (existing) question
+	} else {
 		if (m_blindCounter > 20) {
 				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further releases."));
 				mW->clearAfterExam(e_failed);
@@ -301,10 +313,6 @@ void TexamExecutor::askQuestion() {
 		
 		mW->noteName->setStyle(gl->S->nameStyleInNoteName);
     mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
-
-		TQAunit Q; // current question
-		m_exam->addQuestion(Q);
-    TQAunit& curQ = m_exam->answList()->last();
     
 		m_penalCount++;
 		if (!m_exercise && m_exam->blackCount() && m_penalCount > m_penalStep) {
@@ -371,6 +379,7 @@ void TexamExecutor::askQuestion() {
 					curQ.addMelody(QString("Melody %1").arg(m_exam->count() + 1));
 					curQ.melody()->setKey(curQ.key);
 					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
+					curQ.newAttempt();
 		}
 		if (curQ.melody())
 			mW->setSingleNoteMode(false);
@@ -379,6 +388,7 @@ void TexamExecutor::askQuestion() {
 //    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
+	}
 
   // ASKING QUESIONS
     if (curQ.questionAsNote()) {
@@ -387,9 +397,8 @@ void TexamExecutor::askQuestion() {
 					connect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
 					m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
 					mW->score->selectNote(0); // mark first note
-					mW->sound->notes().clear();
+// 					mW->sound->notes().clear();
 					// all above is correct only when answer is a sound (no other cases are supported now)
-					curQ.newAttempt();
 			} else {
         char strNr = 0;
         if ( (curQ.answerAsFret() || curQ.answerAsSound()) 
@@ -453,8 +462,7 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAsSound()) {
-			if (curQ.melody()) {
-					curQ.newAttempt();
+			if (curQ.melody() && !isAttempt) { // play melody but not when user tries again
 					mW->sound->playMelody(curQ.melody());
 			} else {
 					mW->sound->play(curQ.qa.note);
@@ -466,7 +474,7 @@ void TexamExecutor::askQuestion() {
 // PREPARING ANSWERS
     if (curQ.answerAsNote()) {
 			if (curQ.melody()) {
-// 				mW->score->setMelody(curQ.melody());
+
 			} else {
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually select a key
@@ -562,7 +570,7 @@ void TexamExecutor::askQuestion() {
 					// Give a student some time to prepare for next question in expert mode
 					// It avoids capture previous played sound as current answer
     }
-
+    
     mW->nootBar->removeAction(nextQuestAct);
     mW->nootBar->removeAction(prevQuestAct);
     if (curQ.questionAsSound())
@@ -664,8 +672,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						} else // or collect all other "smaller" mistakes
 							curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
 					}
-					qDebug() << "\nattempt" << curQ.attemptsCount()  << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
-						<< curQ.melody()->length();
+// 					qDebug() << "\nattempt" << curQ.attemptsCount()  << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
+// 						<< curQ.melody()->length();
 // 					for (int i = 0; i < curQ.melody()->length(); ++i) {
 // 						qDebug() << i << curQ.melody()->notes()[i].p().toText() << answMelody.notes()[i].p().toText() <<
 // 						curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
@@ -758,14 +766,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				if (curQ.isCorrect()) {
           m_askingTimer->start(gl->E->questionDelay);
       } else {
-					if (curQ.melody()) { // when melody was wrong don't ask, prepare new attempt
-						curQ.newAttempt();
-						m_canvas->tryAgainTip(3000);
-						if (curQ.questionAsNote() || curQ.answerAsNote())
-							for (int i = 0; i < mW->score->notesCount(); ++i) {
-								mW->score->deleteNoteName(i);
-							}
-					} else {
+// 					if (curQ.melody()) { // when melody was wrong don't ask, prepare new attempt
+// 						m_canvas->tryAgainTip(3000);
+// 						if (curQ.questionAsNote() || curQ.answerAsNote())
+// 							for (int i = 0; i < mW->score->notesCount(); ++i) {
+// 								mW->score->deleteNoteName(i);
+// 							}
+// 					} else {
 						if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
 								QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
 						else {
@@ -773,7 +780,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 										waitTime = gl->E->mistakePreview; // for exercises time was set above
 								m_askingTimer->start(waitTime);
 						}
-					}
+// 					}
         }
       }
     }
