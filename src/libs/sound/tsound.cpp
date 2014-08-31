@@ -81,11 +81,13 @@ void Tsound::play(Tnote& note) {
 
 
 void Tsound::playMelody(Tmelody* mel) {
-	bool alreadyPlaing = (m_melodyNoteIndex > -1);
+	if (m_melodyNoteIndex > -1) {
+		stopPlaying();
+		return;
+	}
 	m_melodyNoteIndex = 0;
 	m_playedMelody = mel;
-	if (!alreadyPlaing)
-		QTimer::singleShot(10, this, SLOT(playMelodySlot()));
+	QTimer::singleShot(10, this, SLOT(playMelodySlot()));
 }
 
 

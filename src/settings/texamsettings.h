@@ -21,6 +21,7 @@
 #define EXAMSETTINGS_H
 
 #include <QWidget>
+#include "tsettingsmode.h"
 
 class QSpinBox;
 class QRadioButton;
@@ -36,7 +37,7 @@ class TexamSettings : public QWidget
     Q_OBJECT
 public:
       
-  explicit TexamSettings(QWidget* parent = 0);
+  explicit TexamSettings(QWidget* parent = 0, EsettingsMode mode = e_settings);
 
   void saveSettings();
 	void restoreDefaults();
@@ -62,6 +63,7 @@ private:
     QLineEdit 			*m_nameEdit;
     TexamParams 		*m_params;
     QColor 					*m_qColor, *m_aColor, *m_nbColor;
+		EsettingsMode		 m_mode;
 
 };
 

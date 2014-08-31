@@ -562,8 +562,12 @@ void TmainScore::showNames(Tnote::EnameStyle st) {
 
 
 void TmainScore::deleteNoteName(int id) {
-	if (id < notesCount())
-		staves(id / staff()->maxNoteCount())->noteSegment(id % staff()->maxNoteCount())->removeNoteName();
+	if (id < notesCount()) {
+		if (insertMode() == e_single)
+			staff()->noteSegment(id)->removeNoteName();
+		else
+			staves(id / staff()->maxNoteCount())->noteSegment(id % staff()->maxNoteCount())->removeNoteName();
+	}
 }
 
 //####################################################################################################

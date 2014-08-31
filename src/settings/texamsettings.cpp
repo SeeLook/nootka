@@ -29,14 +29,14 @@
 extern Tglobals *gl;
 
 
-TexamSettings::TexamSettings(QWidget* parent) :
+TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
     QWidget(parent),
     m_params(gl->E),
     m_qColor(&gl->EquestionColor),
     m_aColor(&gl->EanswerColor),
-    m_nbColor(&gl->EnotBadColor)
+    m_nbColor(&gl->EnotBadColor),
+    m_mode(mode)
 {
-		QLabel *expertLab = new QLabel(QString("<img src=\"%1\">").arg(gl->path + "picts/expertCorner.png"));
 		m_correctChB = new QCheckBox(TexamHelp::correctMistakesTxt(), this);
 			m_correctChB->setStatusTip(tr("When you will make mistake, the program will show you automatically how a correct answer should be."));
 			m_correctChB->setChecked(m_params->showCorrected);
@@ -142,8 +142,6 @@ TexamSettings::TexamSettings(QWidget* parent) :
 			expertChBoxesLay->addWidget(m_expertAnswChB, 0, Qt::AlignLeft);
 		QHBoxLayout *expertLay = new QHBoxLayout;
 			expertLay->addStretch();
-			expertLay->addWidget(expertLab);
-			expertLay->addStretch();
 			expertLay->addLayout(expertChBoxesLay);
 			expertLay->addStretch();
 		commonLay->addLayout(expertLay);
@@ -201,6 +199,19 @@ TexamSettings::TexamSettings(QWidget* parent) :
 		mainLay->addWidget(examGr);
 		mainLay->addStretch();
     setLayout(mainLay);
+		
+	if (m_mode != e_settings) {
+		colorsGr->hide();
+		nameLab->hide();
+		m_nameEdit->hide();
+		if (m_mode == e_exam) {
+			exerciseGr->hide();
+			m_correctChB->hide();
+			m_correctPreviewSpin->hide();
+		} else if (m_mode == e_exercise) {
+			examGr->hide();
+		}
+	}
     
     connect(m_expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersChanged(bool)));
 		connect(m_autoNextChB, SIGNAL(clicked(bool)), this, SLOT(autoQuestionSlot(bool)));
