@@ -122,6 +122,7 @@ protected slots:
 	void blindQuestion(); /** Routines for questions with the same answers 'blind' */
 	void noteOfMelodySlot(Tnote& n); /** When user plays a melody as an answer. */
 	void lastMelodyNote() { checkAnswer(); } /** performed when user played last note of a melody. */
+	bool isExercise() { return (bool)m_exercise; } /** @p TRUE when exercise or @p FALSE when exam. */
 
 private:
 	void createActions();

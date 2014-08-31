@@ -20,6 +20,7 @@
 #define SETTINGSDIALOG_H
 
 #include <widgets/tsettingsdialogbase.h>
+#include "tsettingsmode.h"
 
 class QTabWidget;
 class TglobalSettings;
@@ -32,12 +33,17 @@ class AudioInSettings;
 class QCheckBox;
 class TexamSettings;
 
-
+/** 
+ * Dialog window - a container - for Nootka settings
+ * Each page of it is represented and implemented by separate class.
+ * @p mode set in constructor (and only there) determines which pages are available.
+ */
 class TsettingsDialog : public TsettingsDialogBase
 {
     Q_OBJECT
-public:
-    explicit TsettingsDialog(QWidget *parent = 0);
+public:		
+	
+    explicit TsettingsDialog(QWidget *parent = 0, EsettingsMode mode = e_settings);
 		
 
 public slots:
@@ -55,6 +61,7 @@ private:
 		QTabWidget 					*m_audioTab;
     QWidget             *m_audioSettingsPage;
 		bool								 m_7thNoteToDefaults;
+		EsettingsMode				 m_mode;
     
 private slots:
     void changeSettingsWidget(int index);

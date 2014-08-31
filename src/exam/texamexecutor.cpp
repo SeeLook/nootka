@@ -324,7 +324,6 @@ void TexamExecutor::askQuestion() {
 			curQ.setMistake(TQAunit::e_correct);
 		} else {
 				m_blackQuestNr = -1; // reset
-// 				curQ.qa = m_questList[qrand() % m_questList.size()];
 				curQ.qa = m_questList[m_rand->get()];
 				curQ.questionAs = m_level.questionAs.next();
 				curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
@@ -453,7 +452,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAsFret()) {
         mW->guitar->askQuestion(curQ.qa.pos);
         if (curQ.answerAsNote())
-            m_answRequire.octave = true; // checking accid determined by level
+            m_answRequire.octave = true; // checking accidental determined by level
         if (curQ.answerAsSound()) {
             m_answRequire.accid = false;
             m_answRequire.octave = true;
@@ -462,7 +461,8 @@ void TexamExecutor::askQuestion() {
     }
 
     if (curQ.questionAsSound()) {
-			if (curQ.melody() && !isAttempt) { // play melody but not when user tries again
+			if (curQ.melody()) {
+				if (!isAttempt) // play melody but not when user tries again
 					mW->sound->playMelody(curQ.melody());
 			} else {
 					mW->sound->play(curQ.qa.note);
@@ -1027,7 +1027,7 @@ void TexamExecutor::prepareToExam() {
 		if (TexecutorSupply::paramsChangedMessage())
 				levelMessageDelay = 7000;
 		QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
-		mW->settingsAct->setVisible(false);
+// 		mW->settingsAct->setVisible(false);
 		mW->aboutAct->setVisible(false);
     mW->analyseAct->setVisible(false);
     mW->levelCreatorAct->setIcon(QIcon(gl->path + "picts/help.png"));
@@ -1138,7 +1138,7 @@ void TexamExecutor::restoreAfterExam() {
 		mW->sound->acceptSettings();
 		mW->sound->enableStoringNotes(false);
 
-		mW->settingsAct->setVisible(true);
+// 		mW->settingsAct->setVisible(true);
 		mW->aboutAct->setVisible(true);
     mW->analyseAct->setVisible(true);
     mW->startExamAct->setDisabled(false);
@@ -1528,7 +1528,8 @@ void TexamExecutor::expertAnswersSlot() {
 			m_canvas->confirmTip(1500);
 		return;
 	}
-	if (m_snifferLocked || m_exam->curQ().melody()) // ignore slot when some dialog window appears or answer for melody
+	// ignore slot when some dialog window appears or answer for melody
+	if (m_snifferLocked || (m_exam->count() && m_exam->curQ().melody())) 
 			return;
 
 	/** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.

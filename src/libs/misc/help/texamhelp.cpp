@@ -74,9 +74,11 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
 		toStopExamTxt(pix("stopExam", PIXICONSIZE)) + "<br>" + 
 		examFeaturesText() + "</td></tr></table></center><center>" +
     "<hr><br><br><span style=\"font-size: 20px;\"><b>" +
-    tr("GOOD LUCK!") + "</b></span>" + "<br><hr><table><tr><th colspan=2>" +
-    tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +	pix("expertCorner", 0) +
-    "</td><td><br>1. " + correctMistakesTxt() + "</td></tr><tr><td><br>2. " +  autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + expertsAnswerTxt() + "</td></tr></table></center>");
+    tr("GOOD LUCK!") + "</b></span>" 
+// 		+ "<br><table><tr><th colspan=2>" +
+//     tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +	pix("expertCorner", 0) +
+//     "</td><td><br>1. " + correctMistakesTxt() + "</td></tr><tr><td><br>2. " +  autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + expertsAnswerTxt() + "</td></tr></table>" + 
+		"<br></center>");
   
   helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);
 	showCheckBox(showHelp);

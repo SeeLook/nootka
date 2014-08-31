@@ -42,18 +42,25 @@ int main(int argc, char *argv[])
 		prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
 		if (!loadNootkaFont(&a))
 			return 111;
-
-    TsettingsDialog settings;
+		
+		QStringList args = a.arguments();
+		args.takeFirst();
+		EsettingsMode mode = e_settings;
+		if (args.size()) {
+			if (args.first() == "exam")
+				mode = e_exam;
+			else if (args.first() == "exercise")
+				mode = e_exercise;
+		}
+    TsettingsDialog settings(0, mode);
     settings.show();
 		
 		int retVal = a.exec();
-		if (settings.result() == QDialog::Accepted) {
+		if (settings.result() == QDialog::Accepted)
 				std::cout << "Accepted";
-// 				qDebug() << "Accepted";
-		} else {
+		else
 				std::cout << "Canceled";
-				
-		}
+
 		delete gl;
 		return retVal;
 }

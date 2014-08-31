@@ -340,15 +340,25 @@ void MainWindow::createSettingsDialog() {
 // 	TsettingsDialog *settings = new TsettingsDialog(this);
 	if (score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
-	sound->prepareToConf();
+// 	sound->prepareToConf();
 	gl->dumpToTemp();
-		QStringList args;
+	QStringList args;
+	if (ex) {
+		if (ex->isExercise())
+			args << "exercise";
+		else
+			args << "exam";
+		//TODO: inform executor about opening a dialog
+	} else
+			sound->prepareToConf();
 	TprocessHandler settProcess("nootka-settings", args, this);
 
 // 	if (settings->exec() == QDialog::Accepted) {
 // 	qDebug() << "lastWord" << settProcess.lastWord() << gl->grabFromTemp();
 		if (settProcess.lastWord().contains("Accepted") && gl->grabFromTemp()) {
 // 			delete settings;
+			if (ex)
+				return;
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);

@@ -37,15 +37,21 @@ extern Tglobals *gl;
 extern bool resetConfig;
 
 
-TsettingsDialog::TsettingsDialog(QWidget *parent) :
-        TsettingsDialogBase(parent),
-        m_globalSett(0), m_scoreSett(0),
-        m_nameSett(0), m_guitarSett(0),
-        m_examSett(0), m_sndOutSett(0),
-        m_sndInSett(0), m_audioSettingsPage(0),
-        m_7thNoteToDefaults(false)
+TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
+	TsettingsDialogBase(parent),
+	m_globalSett(0), m_scoreSett(0),
+	m_nameSett(0), m_guitarSett(0),
+	m_examSett(0), m_sndOutSett(0),
+	m_sndInSett(0), m_audioSettingsPage(0),
+	m_7thNoteToDefaults(false),
+	m_mode(mode)
 {
+	if (m_mode == e_settings)
     setWindowTitle("Nootka - " + tr("application's settings"));
+	else if (m_mode == e_exam)
+		setWindowTitle(tr("Simple exam settings"));
+	else
+		setWindowTitle(tr("Simple exercise settings"));
 
 //     navList->setFixedWidth(110);
 // 		navList->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -85,10 +91,15 @@ TsettingsDialog::TsettingsDialog(QWidget *parent) :
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
 		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
 
-		
+	if (mode == e_settings) {
     navList->setCurrentRow(0);
-		changeSettingsWidget(1); // score settings appears first - it is the biggest
+		changeSettingsWidget(1); // score settings exists and appears first to make window big enough
 		changeSettingsWidget(0);
+	} else {
+		navList->hide();
+		defaultBut->hide();
+		changeSettingsWidget(5);
+	}
 }
 
 
@@ -224,7 +235,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     }
     case 5: {
       if (!m_examSett) {
-        m_examSett = new TexamSettings();
+        m_examSett = new TexamSettings(0, m_mode);
         stackLayout->addWidget(m_examSett);
       }
       currentWidget = m_examSett;

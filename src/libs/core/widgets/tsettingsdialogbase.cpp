@@ -50,7 +50,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     m_aLay->addWidget(m_widget);
     hint = new TroundedLabel(this);
     m_aLay->addWidget(hint);
-    hint->setFixedHeight(70);
+    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
+		hint->setMinimumWidth(fontMetrics().boundingRect("w").width() * 70);
     hint->setWordWrap(true);
     contLay->addLayout(m_aLay);
 
