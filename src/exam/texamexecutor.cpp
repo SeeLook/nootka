@@ -129,7 +129,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
 // 				//We check are guitar's params suitable for an exam 
 // 					TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
-          if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || !showExamSummary(true)) {
+          if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
+							!showExamSummary(m_exam, true, (bool)m_exercise, gl->path)) {
 							mW->clearAfterExam(e_failed);
 							deleteExam();
 							return;
@@ -1273,7 +1274,7 @@ void TexamExecutor::stopExerciseSlot() {
       
       bool startExam = false;
       if (!m_goingClosed)
-					continuePractice = showExamSummary(true, &startExam);
+					continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, gl->path, &startExam);
 			gl->S->nameStyleInNoteName = tmpStyle;
 			if (startExam) {
 					exerciseToExam();
@@ -1340,7 +1341,7 @@ void TexamExecutor::stopExamSlot() {
 						gl->config->setValue("recentExams", recentExams);
 				}
 				if (!m_goingClosed) // if Nootka is closing don't show summary 
-						showExamSummary(false);
+						showExamSummary(m_exam, false, (bool)m_exercise, gl->path);
 			}
 		}
     closeExecutor();
@@ -1451,34 +1452,6 @@ void TexamExecutor::noteOfMelodySlot(Tnote& n) {
 		}
 }
 
-/*
-void TexamExecutor::autoRepeatStateChanged(bool enable) {
-    gl->E->autoNextQuest = enable;
-    if (enable) {
-        mW->startExamAct->setDisabled(false);
-        m_canvas->clearResultTip();
-    }
-}*/
-
-
-bool TexamExecutor::showExamSummary(bool cont, bool* startExam) {
-  TexamSummary *ES = new TexamSummary(m_exam, gl->path, cont, mW);
-	if (m_exercise)
-			ES->setForExercise();
-  TexamSummary::Eactions respond = ES->doExec();
-	if (startExam) {
-		if (respond == TexamSummary::e_startExam)
-			*startExam = true;
-		else
-			*startExam = false;
-	}
-  delete ES;
-  if (respond == TexamSummary::e_discard)
-    return false;
-  else
-    return true;
-}
-
 
 void TexamExecutor::showExamHelp() {
   m_snifferLocked = true;
@@ -1490,18 +1463,6 @@ void TexamExecutor::showExamHelp() {
   qApp->installEventFilter(m_supp);
   m_snifferLocked = false;
 }
-
-
-// void TexamExecutor::expertAnswersStateChanged(bool enable) {
-//   if (enable) {
-//       if (!gl->E->askAboutExpert || showExpertAnswersHelpDlg(mW, &gl->E->askAboutExpert, true))
-//       {}
-//       else
-//           mW->expertAnswChB->setChecked(false); // ignore it, user resigned
-//   }
-//   gl->E->expertsAnswerEnable = mW->expertAnswChB->isChecked();
-// 	mW->score->enableAccidToKeyAnim(!gl->E->expertsAnswerEnable); // no accid to key animation when experts enabled
-// }
 
 
 void TexamExecutor::sniffAfterPlaying() {

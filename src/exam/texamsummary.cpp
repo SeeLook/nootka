@@ -34,7 +34,27 @@ QString row2(QString S1, QString S2) {
 }
 
 
-TexamSummary::TexamSummary(Texam* exam, QString &path, bool cont, QWidget *parent) :
+bool showExamSummary(Texam* exam, bool cont, bool isExercise, const QString& path, bool* startExam) {
+	TexamSummary *ES = new TexamSummary(exam, path, cont, qApp->activeWindow());
+	if (isExercise)
+			ES->setForExercise();
+  TexamSummary::Eactions respond = ES->doExec();
+	if (startExam) {
+		if (respond == TexamSummary::e_startExam)
+			*startExam = true;
+		else
+			*startExam = false;
+	}
+  delete ES;
+  if (respond == TexamSummary::e_discard)
+    return false;
+  else
+    return true;
+}
+
+
+
+TexamSummary::TexamSummary(Texam* exam, const QString& path, bool cont, QWidget* parent) :
   QDialog(parent),
   m_exam(exam),
   m_state(e_discard),

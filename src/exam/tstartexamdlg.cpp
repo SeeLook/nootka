@@ -155,7 +155,8 @@ TstartExamDlg::TstartExamDlg(const QString& nick, const QString& path, TexamPara
     for (int i = 0; i < m_recentExams.size(); i++) {
         QFileInfo fi(m_recentExams[i]);
         if (fi.exists()) {
-						QAction *recentAct = m_examMenu->addAction(m_recentExams[i]);
+						QAction *recentAct = m_examMenu->addAction(fi.fileName());
+						recentAct->setData(m_recentExams[i]);
 						connect(recentAct, SIGNAL(triggered(bool)), this, SLOT(continuePrevExam()));
         }
         else
@@ -293,7 +294,7 @@ TstartExamDlg::Eactions TstartExamDlg::createLevel() {
 void TstartExamDlg::continuePrevExam() {
 	QAction *action = qobject_cast<QAction *>(sender());
 	if (action)
-			examToContSelected(action->text());
+			examToContSelected(action->data().toString());
 }
 
 

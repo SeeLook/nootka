@@ -88,20 +88,11 @@ protected slots:
 	void repeatQuestion();
 	void repeatSound();
 	void correctAnswer();
-// 	void autoRepeatStateChanged(bool enable);
 	
-			/** Shows exam summary. If returns false - user don't want to continue an exam
-				* @p startExam is a reference to know does user want to start exam on exercise level. */
-	bool showExamSummary(bool cont, bool *startExam = 0);
 	void showExamHelp();
 	void expertAnswersSlot();
-// 	void expertAnswersStateChanged(bool enable);
-	
-			/** Invokes Tsound::go() */
-	void startSniffing();
-	
-			/** Starts sniffing when asked note is finished */
-	void sniffAfterPlaying();
+	void startSniffing(); 		/** Invokes Tsound::go() */
+	void sniffAfterPlaying(); /** Starts sniffing when asked note is finished */
 	void rightButtonSlot();
 	void tipButtonSlot(QString name);
 	void markAnswer(TQAunit &curQ);

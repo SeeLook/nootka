@@ -1867,7 +1867,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/widgets/tfixleveldialog.cpp" line="73"/>
         <source>When you are sure that &lt;b&gt;all your Nootka files&lt;/b&gt; were created exactly for selected instrument&lt;br&gt;you can check this box and&lt;br&gt;&lt;b&gt;all incorrect files will be fixing automatically.&lt;/b&gt;</source>
-        <translation>Jeżeli jesteś pewien że &lt;b&gt;wszystkie pliki Nootki&lt;/b&gt;były utworzone tylko dla wybranego instrumenu,&lt;br&gt;możesz zaznaczyć to pole wyboru&lt;br&gt;i &lt;b&gt;wszystkie niepoprawne pliki bedą naprawiane automatycznie.&lt;/b&gt;</translation>
+        <translation type="unfinished">Jeżeli jesteś pewien że &lt;b&gt;wszystkie pliki Nootki&lt;/b&gt; były utworzone tylko dla wybranego instrumenu,&lt;br&gt;możesz zaznaczyć to pole wyboru&lt;br&gt;i &lt;b&gt;wszystkie niepoprawne pliki bedą naprawiane automatycznie.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>

@@ -38,6 +38,9 @@
  *
  * 3. 0x95121706 (2013.12.02)
  * 		- new level version
+ * 
+ * 4. 0x95121708 (2014.09.01)
+ *    - encoded XML structure - let's hope universal forever
  */
 
 const qint32 Texam::examVersion = 0x95121702;
@@ -83,10 +86,10 @@ bool Texam::areQuestTheSame(TQAunit& q1, TQAunit& q2) {
       q1.answerAs == q2.answerAs && // the same answers
       q1.qa.note == q2.qa.note && // the same notes
       q1.qa.pos == q2.qa.pos // the same frets
-    )
-        return true;
+		 )
+			return true;
   else
-        return false;
+			return false;
 }
 
 qreal Texam::effectiveness(int questNumber, int mistakes, int notBad) {
@@ -166,7 +169,6 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 					return e_file_not_valid;
 
       in >> m_userName;
-//       getLevelFromStream(in, *(m_level));
 			getLevelFromStream(in, *(m_level), examVersionToLevel(ev));
       in >> m_tune;
       in >> m_totalTime;
@@ -254,7 +256,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 	if (file.open(QIODevice::WriteOnly)) {
 		QDataStream out(&file);
 		out.setVersion(QDataStream::Qt_4_7);
-		out << currentVersion;
+		out << 0x95121708;
 // 		out << m_userName << *m_level << m_tune; TODO !!!!!!!!!!!!!!!!! XML !!!!!!!!!!!!!!!!!!!!!!!!!!!
 		out << m_totalTime; // elapsed exam time (quint32)
 			// data for file preview
