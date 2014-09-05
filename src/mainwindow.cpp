@@ -26,7 +26,6 @@
 #include "score/tmainscore.h"
 #include "score/tcornerproxy.h"
 #include "guitar/tfingerboard.h"
-#include "tmainview.h"
 #include "notename/tnotename.h"
 // // #include "tsettingsdialog.h"
 #include "exam/tstartexamdlg.h" // just temporary
@@ -41,7 +40,9 @@
 #include "exam/texamview.h"
 #include "exam/texamexecutor.h"
 #include "exam/tequalrand.h"
-#include "tmelman.h"
+#include "gui/tmelman.h"
+#include "gui/tmainview.h"
+#include "gui/ttoolbar.h"
 // #include "taudioparams.h"
 // #include "tanalysdialog.h"
 // #include "tquestionpoint.h"
@@ -112,11 +113,11 @@ MainWindow::MainWindow(QWidget *parent) :
 //-------------------------------------------------------------------
 // Creating GUI elements
 //     innerWidget = new QWidget(this);
-    nootBar = new QToolBar(tr("main toolbar")/*, innerWidget*/);
+    bar = new TtoolBar(gl->path, this);
 		if (gl->hintsEnabled)
-				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+				bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		else
-				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+				bar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     score = new TmainScore(this);
 		noteName = score->noteName();
     pitchView = new TpitchView(sound->sniffer/*, this*/);
@@ -164,12 +165,19 @@ MainWindow::MainWindow(QWidget *parent) :
 // 		mainLay->addWidget(nootBar);
 // #endif
 
-		innerWidget = new TmainView(nootBar, m_statLab, pitchView, score, guitar, this);
+		m_melButt = new TmelMan(score, gl->path);
+		bar->addAction(m_melButt->melodyAction());
+		innerWidget = new TmainView(bar, m_statLab, pitchView, score, guitar, this);
 		setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
     m_levelCreatorExist = false;
 
-    createActions();
+		
+    connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+    connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+    connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+//     connect(nootBar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
+//     connect(nootBar->aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 		setSingleNoteMode(gl->S->isSingleNoteMode);
 // 		if (gl->S->isSingleNoteMode)
 // 				score->setInsertMode(TmultiScore::e_single);
@@ -205,53 +213,6 @@ MainWindow::~MainWindow()
 //#######################     METHODS       ################################################
 //##########################################################################################
 
-void MainWindow::createActions() {		
-    settingsAct = new QAction(tr("Settings"), this);
-    settingsAct->setStatusTip(tr("Application preferences"));
-    settingsAct->setIcon(QIcon(gl->path + "picts/systemsettings.png"));
-    connect(settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
-
-    levelCreatorAct = new QAction(this);
-    connect(levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
-
-    startExamAct = new QAction(this);
-    connect(startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
-    setStartExamActParams(); // set text and icon also for levelCreatorAct
-    
-    analyseAct = new QAction(tr("Analyze", "could be Chart as well"), this);
-    analyseAct->setIcon(QIcon(gl->path + "picts/charts.png"));
-    analyseAct->setStatusTip(tr("Analysis of exam results"));
-//     connect(analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
-
-    aboutAct = new QAction(tr("About"), this);
-    aboutAct->setStatusTip(tr("About Nootka"));
-    aboutAct->setIcon(QIcon(gl->path + "picts/about.png"));
-//     connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
-		
-		m_melButt = new TmelMan(score, gl->path);
-
-    nootBar->addAction(settingsAct);
-#if !defined (Q_OS_ANDROID)
-		nootBar->addAction(levelCreatorAct);
-    nootBar->addAction(analyseAct);
-#endif
-//     nootBar->addAction(aboutAct);
-    nootBar->addAction(startExamAct);
-    nootBar->addAction(m_melButt->melodyAction());
-    nootBar->setMovable(false);
-}
-
-
-void MainWindow::setStartExamActParams() {
-    levelCreatorAct->setText(tr("Level"));
-    levelCreatorAct->setStatusTip(tr("Levels creator"));
-    levelCreatorAct->setIcon(QIcon(gl->path+"picts/levelCreator.png"));
-  
-    startExamAct->setText(tr("Start!"));
-    startExamAct->setStatusTip(tr("Start exercises or an exam"));
-    startExamAct->setIcon(QIcon(gl->path+"picts/startExam.png"));
-}
-
 
 void MainWindow::setStatusMessage(const QString& msg) {
     if (!m_lockStat)
@@ -280,7 +241,7 @@ void MainWindow::setMessageBg(QColor bg) {
 
 
 void MainWindow::clearAfterExam(int examState) {
-	setStartExamActParams();
+	bar->actionsAfterExam();
 	delete ex;
 	ex = 0;
 	m_curBG = -1;
@@ -393,11 +354,11 @@ void MainWindow::createSettingsDialog() {
 					guitar->acceptSettings(); //refresh guitar
 			}
 			if (gl->hintsEnabled) {
-				nootBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+				bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 			} else {
 				m_prevBg = m_curBG;
 				setStatusMessage(m_prevMsg);
-				nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);				
+				bar->setToolButtonStyle(Qt::ToolButtonIconOnly);				
 			}
 			m_isPlayerFree = true;
 	} else { // settings not accepted
@@ -693,9 +654,9 @@ void MainWindow::updateSize(QSize newS) {
 #else
 	int barIconSize = qMin(newS.width(), newS.height()) / 20;
 #endif
-	nootBar->setIconSize(QSize(barIconSize, barIconSize));
-	m_melButt->button()->setIconSize(nootBar->iconSize());
-	nootBar->adjustSize();
+	bar->setIconSize(QSize(barIconSize, barIconSize));
+	m_melButt->button()->setIconSize(bar->iconSize());
+	bar->adjustSize();
 // 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));	
 	int baseH = qMin(newS.height(), newS.width());
 	noteName->resize(baseH / 40);
@@ -706,7 +667,7 @@ void MainWindow::updateSize(QSize newS) {
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
-	int newGuitH = (newS.height() - nootBar->height()) * 0.25;
+	int newGuitH = (newS.height() - bar->height()) * 0.25;
 	if (progress) {
 		progress->resize(m_statFontSize);
 		examResults->setFontSize(m_statFontSize);
@@ -722,7 +683,7 @@ void MainWindow::updateSize(QSize newS) {
 				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
 		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
 	}
-	guitar->setFixedHeight((newS.height() - nootBar->height()) * 0.25);
+	guitar->setFixedHeight((newS.height() - bar->height()) * 0.25);
 // 	setWidgetsFont();
 	
 	if (gl->instrument != e_noInstrument) {

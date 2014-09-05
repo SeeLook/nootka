@@ -25,6 +25,7 @@
 #include <QMainWindow>
 
 class TmelMan;
+class TtoolBar;
 class TexamExecutor;
 class TmainView;
 class QPushButton;
@@ -94,8 +95,7 @@ protected:
     TpitchView *pitchView;
     TprogressWidget *progress;
 
-    QToolBar *nootBar;
-    QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
+		TtoolBar *bar; /** Main Nootka tool bar. */
     void clearAfterExam(int examState);
 		
     void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
@@ -135,7 +135,6 @@ private:
 
     TroundedLabel 			  *m_statLab;
     QString 							m_statusText, m_prevMsg;
-		TmelMan								*m_melButt;
 		
         /** Keeps true when statusMesage is locked by temporary message
         * and stops any status messages in this time.*/
@@ -148,10 +147,7 @@ private:
     Tlevel 						    m_level;
 		bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;
-// 
-// 
-    void createActions();
-    void setStartExamActParams(); /** it sets icon and status text in startExamAct. */
+		TmelMan								*m_melButt;
 
 };
 

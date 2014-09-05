@@ -49,7 +49,8 @@
 #include <texamparams.h>
 #include <tscoreparams.h>
 #include <music/tmelody.h>
-#include <tmainview.h>
+#include <gui/ttoolbar.h>
+#include "gui/tmainview.h"
 #include <QtWidgets>
 
 
@@ -278,11 +279,11 @@ void TexamExecutor::askQuestion() {
 		}
     if (!gl->E->autoNextQuest) {
 			if (!m_exercise)
-					mW->startExamAct->setDisabled(true);
+					mW->bar->startExamAct->setDisabled(true);
 			m_canvas->clearCanvas();
     }
     if (m_exercise)
-			mW->nootBar->removeAction(correctAct);
+			mW->bar->removeAction(mW->bar->correctAct);
     m_isAnswered = false;
     m_incorrectRepeated = false;
     m_answRequire.octave = m_level.requireOctave;
@@ -451,8 +452,6 @@ void TexamExecutor::askQuestion() {
 
 // PREPARING ANSWERS
     if (curQ.answerAsNote()) {
-			if (curQ.questionAsSound())
-				mW->nootBar->addAction(tuneForkAct);
 			if (curQ.melody()) {
 
 			} else {
@@ -551,11 +550,7 @@ void TexamExecutor::askQuestion() {
 					// It avoids capture previous played sound as current answer
     }
     
-    mW->nootBar->removeAction(nextQuestAct);
-    mW->nootBar->removeAction(prevQuestAct);
-    if (curQ.questionAsSound())
-        mW->nootBar->addAction(repeatSndAct);
-    mW->nootBar->addAction(checkAct);
+    mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
     mW->examResults->questionStart();
     m_canvas->questionTip(m_exam);
     m_blindCounter = 0; // question successfully asked - reset the counter
@@ -565,12 +560,7 @@ void TexamExecutor::askQuestion() {
 void TexamExecutor::checkAnswer(bool showResults) {
 	TQAunit& curQ = m_exam->answList()->last();
 	curQ.time = mW->examResults->questionStop();
-	mW->nootBar->removeAction(checkAct);
-	if (curQ.questionAsSound()) {
-			mW->nootBar->removeAction(repeatSndAct);
-			if (curQ.answerAsNote())
-				mW->nootBar->removeAction(tuneForkAct);
-	}
+	mW->bar->setAfterAnswer();
 	if (curQ.answerAsSound()) {
 			mW->sound->pauseSinffing();
 			mW->score->selectNote(-1);
@@ -579,7 +569,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(lastMelodyNote()));
 	}
 	if (!gl->E->autoNextQuest || m_exercise)
-			mW->startExamAct->setDisabled(false);
+			mW->bar->startExamAct->setDisabled(false);
 	m_isAnswered = true;
 // Let's check
 	Tnote questNote, answNote, userNote; // example note & returned note
@@ -679,6 +669,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 		bool autoNext = gl->E->autoNextQuest;
 		if (gl->E->afterMistake == TexamParams::e_stop && !curQ.isCorrect())
 				autoNext = false; // when mistake and e_stop - the same like autoNext = false;
+		
     if (showResults) {
 			int mesgTime = 0;
       if (autoNext) { // determine time of displaying
@@ -692,8 +683,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						m_canvas->whatNextTip(curQ.isCorrect());
       if (!autoNext) {
           if (!curQ.isCorrect() && !m_exercise)
-              mW->nootBar->addAction(prevQuestAct);
-          mW->nootBar->addAction(nextQuestAct);
+              mW->bar->addAction(mW->bar->prevQuestAct);
+          mW->bar->addAction(mW->bar->nextQuestAct);
       }
     }
     mW->examResults->setAnswer(&curQ);
@@ -720,7 +711,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					if (gl->E->showCorrected)
 						correctAnswer();
 					else {
-						mW->nootBar->addAction(correctAct);
+						mW->bar->addAction(mW->bar->correctAct);
 						if (!autoNext) {
 								m_canvas->whatNextTip(true, true);
 								m_lockRightButt = false;
@@ -781,7 +772,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
  */
 void TexamExecutor::correctAnswer() {
 	if (!gl->E->showCorrected)
-			mW->nootBar->removeAction(correctAct);
+			mW->bar->removeAction(mW->bar->correctAct);
 	if (m_askingTimer->isActive())
 			m_askingTimer->stop();
 	m_canvas->clearWhatNextTip();
@@ -973,15 +964,11 @@ void TexamExecutor::repeatQuestion() {
         // When an answer will be correct the list will be decreased
 
     if (!gl->E->autoNextQuest)
-        mW->startExamAct->setDisabled(true);
-    mW->nootBar->removeAction(nextQuestAct);
-    mW->nootBar->removeAction(prevQuestAct);
-    if (curQ.questionAsSound()) { // *** Here :-)
-        mW->nootBar->addAction(repeatSndAct);
+        mW->bar->startExamAct->setDisabled(true);
+    mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
+    if (curQ.questionAsSound())
         repeatSound();
-    }
     m_canvas->questionTip(m_exam);
-    mW->nootBar->addAction(checkAct);
     mW->examResults->questionStart();
 }
 
@@ -1012,16 +999,7 @@ void TexamExecutor::prepareToExam() {
 		if (TexecutorSupply::paramsChangedMessage())
 				levelMessageDelay = 7000;
 		QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
-// 		mW->settingsAct->setVisible(false);
-		mW->aboutAct->setVisible(false);
-    mW->analyseAct->setVisible(false);
-    mW->levelCreatorAct->setIcon(QIcon(gl->path + "picts/help.png"));
-    mW->levelCreatorAct->setText(tr("Help"));
-    mW->levelCreatorAct->setStatusTip(mW->levelCreatorAct->text());
-		mW->levelCreatorAct->setToolTip(mW->levelCreatorAct->statusTip());
-    mW->startExamAct->setIcon(QIcon(gl->path + "picts/stopExam.png"));
-    mW->startExamAct->setText(tr("Stop"));
-		mW->startExamAct->setToolTip(mW->startExamAct->statusTip());
+		mW->bar->actionsToExam();
 		if (m_exercise) {
 // 				gl->E->showCorrected = gl->E->showCorrected;
 		}	else {
@@ -1044,18 +1022,15 @@ void TexamExecutor::prepareToExam() {
 //     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
-    disconnect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
-    disconnect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
+    disconnect(mW->bar->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
+    disconnect(mW->bar->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
 		if (m_exercise) {
-			connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
+			connect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
 			connect(m_exercise, SIGNAL(messageDisplayed()), this, SLOT(stopSound()));
 			connect(m_exercise, SIGNAL(messageClosed(bool)), this, SLOT(suggestDialogClosed(bool)));
 		} else
-			connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
-    connect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-//     connect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
-//             SLOT(autoRepeatStateChanged(bool)));
-//     connect(mW->expertAnswChB, SIGNAL(clicked(bool)), this, SLOT(expertAnswersStateChanged(bool)));
+			connect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+    connect(mW->bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
 
 		m_glStore->storeSettings();
 		m_glStore->prepareGlobalsToExam(m_level);
@@ -1102,7 +1077,7 @@ void TexamExecutor::prepareToExam() {
 
 void TexamExecutor::restoreAfterExam() {
     mW->setWindowTitle(qApp->applicationName());
-    mW->nootBar->removeAction(nextQuestAct);
+    mW->bar->removeAction(mW->bar->nextQuestAct);
     mW->examResults->clearResults();
     mW->score->isExamExecuting(false);
 
@@ -1123,10 +1098,6 @@ void TexamExecutor::restoreAfterExam() {
 		mW->sound->acceptSettings();
 		mW->sound->enableStoringNotes(false);
 
-// 		mW->settingsAct->setVisible(true);
-		mW->aboutAct->setVisible(true);
-    mW->analyseAct->setVisible(true);
-    mW->startExamAct->setDisabled(false);
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
 		mW->pitchView->show();
@@ -1138,12 +1109,12 @@ void TexamExecutor::restoreAfterExam() {
 //     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     connect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
-    disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
-    disconnect(mW->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
+    disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+    disconnect(mW->bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
 //     disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
 //             SLOT(autoRepeatStateChanged(bool)));
-    connect(mW->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
-    connect(mW->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
+    connect(mW->bar->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
+    connect(mW->bar->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
     mW->score->unLockScore();
 		// unfortunately, unLockScore locks clef again
 		mW->score->setClefDisabled(false);
@@ -1169,45 +1140,21 @@ void TexamExecutor::clearWidgets() {
 
 
 void TexamExecutor::createActions() {
-		nextQuestAct = new QAction(tr("Next", "like a next question"), this);
-    nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
-    nextQuestAct->setIcon(QIcon(gl->path + "picts/nextQuest.png"));
-    nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
-    connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
-    mW->nootBar->addAction(nextQuestAct);
-
-    prevQuestAct = new QAction(tr("Repeat", "like a repeat question"), this);
-    prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
-    prevQuestAct->setIcon(QIcon(gl->path + "picts/prevQuest.png"));
-    prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
-    connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
-
-    checkAct = new QAction(tr("Check", "like a check answer"), this);
-    checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
-    checkAct->setIcon(QIcon(gl->path + "picts/check.png"));
-    checkAct->setShortcut(QKeySequence(Qt::Key_Return));
-    connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
-
-    if (m_level.questionAs.isSound()) {
-        repeatSndAct = new QAction(tr("Play"), this);
-        repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
-        repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
-        repeatSndAct->setIcon(QIcon(gl->path + "picts/repeatSound.png"));
-        connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
-    }
-    if (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isNote()) {
-			tuneForkAct = new QAction(Tnote(6, 1, 0).toText(), this);
-			tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tune fork"));
-			tuneForkAct->setIcon(QIcon(gl->path + "picts/fork.png"));
-			connect(tuneForkAct, SIGNAL(triggered()), this, SLOT(playMiddleA()));
-    }
-    if (m_exercise) {
-			correctAct = new QAction(tr("Correct", "like a correct answer with mistake"), this);
-			correctAct->setStatusTip(tr("correct answer\n(enter)"));
-			correctAct->setIcon(QIcon(gl->path + "picts/correct.png"));
-			correctAct->setShortcut(QKeySequence(Qt::Key_Return));
-			connect(correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
-    }
+	connect(mW->bar->nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
+	connect(mW->bar->prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
+	connect(mW->bar->checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
+	if (m_level.questionAs.isSound()) {
+		mW->bar->createRepeatSoundAction();
+		connect(mW->bar->repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
+	}
+	if (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isNote()) {
+		mW->bar->createTuneForkAction();
+		connect(mW->bar->tuneForkAct, SIGNAL(triggered()), this, SLOT(playMiddleA()));
+	}
+	if (m_exercise) {
+		mW->bar->createCorrectAction();
+		connect(mW->bar->correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
+	}
 }
 
 
@@ -1230,8 +1177,8 @@ void TexamExecutor::exerciseToExam() {
 	mW->examResults->startExam();
 	mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
 	mW->examResults->displayTime();
-	disconnect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
-	connect(mW->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
+	disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
+	connect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 	mW->progress->show();
 	mW->examResults->show();
 	clearWidgets();
@@ -1583,10 +1530,10 @@ void TexamExecutor::delayerTip() {
 void TexamExecutor::setTitleAndTexts() {
 	if (m_exercise) {
 			mW->setWindowTitle(tr("Exercises with Nootka"));
-			mW->startExamAct->setStatusTip(tr("finish exercising"));
+			mW->bar->startExamAct->setStatusTip(tr("finish exercising"));
 		} else {
 			mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
-			mW->startExamAct->setStatusTip(tr("stop the exam"));
+			mW->bar->startExamAct->setStatusTip(tr("stop the exam"));
 	}
 }
 
