@@ -1378,7 +1378,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/info/texamhelp.h" line="50"/>
         <source>Click %1 button to stop.</source>
-        <translation>Naciśnij przycisk %1 żeby zatrzynać.</translation>
+        <translation>Naciśnij przycisk %1 żeby zatrzymać.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="61"/>

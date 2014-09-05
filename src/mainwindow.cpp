@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		m_statusText(""),
 		m_curBG(-1), m_prevBg(-1),
 		m_lockStat(false),
-//     ex(0),
+    ex(0),
     m_isPlayerFree(true)
 //     m_pitchContainer(0),
 //     m_rightLay(0),
@@ -348,7 +348,7 @@ void MainWindow::createSettingsDialog() {
 			args << "exercise";
 		else
 			args << "exam";
-		//TODO: inform executor about opening a dialog
+		ex->prepareToSettings();
 	} else
 			sound->prepareToConf();
 	TprocessHandler settProcess("nootka-settings", args, this);
@@ -357,15 +357,14 @@ void MainWindow::createSettingsDialog() {
 // 	qDebug() << "lastWord" << settProcess.lastWord() << gl->grabFromTemp();
 		if (settProcess.lastWord().contains("Accepted") && gl->grabFromTemp()) {
 // 			delete settings;
-			if (ex)
+			if (ex) {
+				ex->settingsAccepted();
 				return;
+			}
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);
 			score->acceptSettings();
-				// set new colors in exam view
-// 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
-// 															Tcolor::bgTag(gl->EnotBadColor));
 // 			noteName->setAmbitus(gl->loString(),
 // 															Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
 			updateSize(innerWidget->size());

@@ -127,8 +127,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
           if (err == Texam::e_file_corrupted)
             QMessageBox::warning(mW, " ", 
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-// 				//We check are guitar's params suitable for an exam 
-// 					TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
           if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
 							!showExamSummary(m_exam, true, (bool)m_exercise, gl->path)) {
 							mW->clearAfterExam(e_failed);
@@ -154,29 +152,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
         deleteExam();
         return;
     }
-
     //We check are guitar's params suitable for an exam 
 		TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
-    //We are checking is sound needed in exam and is it available
-//     if (m_level.questionAs.isSound()) { // it is too much - just turn sound on...
-//         if (!mW->sound->isPlayable()) {
-//             QMessageBox::warning(mW, "",
-//                      tr("Exercise or exam require sound but<br>sound output is not available!"));
-//             mW->clearAfterExam(e_failed);
-//             deleteExam();
-//             return;
-//         }
-//     }
-//     if (m_level.answerIsSound()) {
-//       if (!mW->sound->isSniffable()) {
-//             QMessageBox::warning(mW, " ",
-//                      tr("An exercises or exam require sound input but<br>it is not available!"));
-//             mW->clearAfterExam(e_failed);
-//             deleteExam();
-//             return;
-//       }
-//     }
-    
    // ---------- End of checking ----------------------------------
 
     m_supp = new TexecutorSupply(&m_level, this);
@@ -474,6 +451,8 @@ void TexamExecutor::askQuestion() {
 
 // PREPARING ANSWERS
     if (curQ.answerAsNote()) {
+			if (curQ.questionAsSound())
+				mW->nootBar->addAction(tuneForkAct);
 			if (curQ.melody()) {
 
 			} else {
@@ -587,8 +566,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	TQAunit& curQ = m_exam->answList()->last();
 	curQ.time = mW->examResults->questionStop();
 	mW->nootBar->removeAction(checkAct);
-	if (curQ.questionAsSound())
+	if (curQ.questionAsSound()) {
 			mW->nootBar->removeAction(repeatSndAct);
+			if (curQ.answerAsNote())
+				mW->nootBar->removeAction(tuneForkAct);
+	}
 	if (curQ.answerAsSound()) {
 			mW->sound->pauseSinffing();
 			mW->score->selectNote(-1);
@@ -806,6 +788,7 @@ void TexamExecutor::correctAnswer() {
 	TQAunit& curQ = m_exam->answList()->last();
 	QColor markColor = m_supp->answerColor(curQ);
 	if (curQ.answerAsNote()) {
+		qDebug() << "Click note to listen it";
 		if (curQ.melody()) {
 		} else {
 			Tnote goodNote = curQ.qa.note;
@@ -842,6 +825,7 @@ void TexamExecutor::correctAnswer() {
 			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
 	} else { // answer as played sound
 		if (curQ.melody()) {
+			qDebug() << "click note to see where to play it";
 // 			if (curQ.questionAsNote()) {
 // 				for (int i = 0 ; i < curQ.lastAttepmt()->mistakes.size(); ++i) {
 // 					if (curQ.lastAttepmt()->mistakes[i])
@@ -1187,7 +1171,6 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::createActions() {
 		nextQuestAct = new QAction(tr("Next", "like a next question"), this);
     nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
-//		nextQuestAct->setToolTip(nextQuestAct->statusTip());
     nextQuestAct->setIcon(QIcon(gl->path + "picts/nextQuest.png"));
     nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
     connect(nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
@@ -1195,14 +1178,12 @@ void TexamExecutor::createActions() {
 
     prevQuestAct = new QAction(tr("Repeat", "like a repeat question"), this);
     prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
-//		prevQuestAct->setToolTip(prevQuestAct->statusTip());
     prevQuestAct->setIcon(QIcon(gl->path + "picts/prevQuest.png"));
     prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
     connect(prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 
     checkAct = new QAction(tr("Check", "like a check answer"), this);
     checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
-//		checkAct->setToolTip(checkAct->statusTip());
     checkAct->setIcon(QIcon(gl->path + "picts/check.png"));
     checkAct->setShortcut(QKeySequence(Qt::Key_Return));
     connect(checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
@@ -1210,15 +1191,19 @@ void TexamExecutor::createActions() {
     if (m_level.questionAs.isSound()) {
         repeatSndAct = new QAction(tr("Play"), this);
         repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
-//				repeatSndAct->setToolTip(repeatSndAct->statusTip().replace("<br>", "\n"));
         repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
         repeatSndAct->setIcon(QIcon(gl->path + "picts/repeatSound.png"));
         connect(repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
     }
+    if (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isNote()) {
+			tuneForkAct = new QAction(Tnote(6, 1, 0).toText(), this);
+			tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tune fork"));
+			tuneForkAct->setIcon(QIcon(gl->path + "picts/fork.png"));
+			connect(tuneForkAct, SIGNAL(triggered()), this, SLOT(playMiddleA()));
+    }
     if (m_exercise) {
 			correctAct = new QAction(tr("Correct", "like a correct answer with mistake"), this);
 			correctAct->setStatusTip(tr("correct answer\n(enter)"));
-//			correctAct->setToolTip(correctAct->statusTip());
 			correctAct->setIcon(QIcon(gl->path + "picts/correct.png"));
 			correctAct->setShortcut(QKeySequence(Qt::Key_Return));
 			connect(correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
@@ -1262,25 +1247,28 @@ void TexamExecutor::stopExerciseSlot() {
 		bool continuePractice = false;
 		stopSound();
     if (m_exam->count()) {
-			TQAunit lastQuestion = m_exam->curQ();
-			if (!m_isAnswered) {
-					mW->examResults->pause();
-					m_exam->removeLastQuestion();
+			TQAunit lastQuestion;
+			if (!m_exam->curQ().melody()) {
+				lastQuestion = m_exam->curQ();
+				if (!m_isAnswered) { // remove last question to skip it in summary (chart) but only if not a melody
+						mW->examResults->pause();
+						m_exam->removeLastQuestion();
+				}
 			}
 			m_exam->setTotalTime(mW->examResults->getTotalTime());
 			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
 			Tnote::EnameStyle tmpStyle = gl->S->nameStyleInNoteName;
-      gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
-      
-      bool startExam = false;
-      if (!m_goingClosed)
+			gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
+				
+			bool startExam = false;
+			if (!m_goingClosed)
 					continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, gl->path, &startExam);
 			gl->S->nameStyleInNoteName = tmpStyle;
 			if (startExam) {
 					exerciseToExam();
 					return;
 			}
-			if (!m_isAnswered && continuePractice) {
+			if (!m_isAnswered && continuePractice && !m_exam->curQ().melody()) {
 					m_exam->addQuestion(lastQuestion); // add previously deleted
 					mW->examResults->go();
 			}
@@ -1356,6 +1344,21 @@ void TexamExecutor::closeExecutor() {
 	m_canvas->clearCanvas();
 	clearWidgets();
 	restoreAfterExam();
+}
+
+
+void TexamExecutor::prepareToSettings() {
+	stopSound();
+}
+
+
+void TexamExecutor::settingsAccepted() {
+// set new colors in exam view
+// 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
+// 															Tcolor::bgTag(gl->EnotBadColor));
+	if (m_exam->curQ().answerAsSound())
+		startSniffing();
+	qApp->installEventFilter(m_supp);
 }
 
 
@@ -1437,6 +1440,16 @@ void TexamExecutor::repeatSound() {
 	else
 		mW->sound->play(m_exam->curQ().qa.note);
 	if (m_soundTimer->isActive())
+			m_soundTimer->stop();
+	if (m_exam->curQ().answerAsSound())
+			connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
+}
+
+
+void TexamExecutor::playMiddleA() {
+	Tnote a1(6, 1, 0);
+		mW->sound->play(a1);
+	if (m_soundTimer->isActive()) //TODO make this part common method
 			m_soundTimer->stop();
 	if (m_exam->curQ().answerAsSound())
 			connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
