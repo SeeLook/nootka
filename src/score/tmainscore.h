@@ -93,6 +93,10 @@ public:
     void markAnswered(QColor blurColor, int noteNr = 0);
     void markQuestion(QColor blurColor, int noteNr = 1);
 		
+				/** When @p TRUE notes on locked score can be selected by click 
+				 * and @p lockedNoteClicked(Tnote) signal is emitted */
+		void selectReadOnly(bool doIt);
+		
 		void enableAccidToKeyAnim(bool enable);
 		bool isAccidToKeyAnimEnabled();
 		
@@ -120,6 +124,7 @@ signals:
 		void noteChanged(int index, Tnote note);
 		
     void noteClicked(); /** This signal is emitted during an exam when expert answers are used. */
+		void lockedNoteClicked(const Tnote& note);  
 		void playbackFinished();
 		
 public slots:
@@ -185,6 +190,7 @@ private:
 		TscoreKeys									*m_keys; /** Score shortcuts */
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
 		int 												 m_nameClickCounter, m_playedIndex;
+		bool												 m_selectReadOnly;
 };
 
 #endif // TMAINSCORE_H

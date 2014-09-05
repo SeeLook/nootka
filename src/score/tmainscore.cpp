@@ -247,6 +247,10 @@ void TmainScore::noteWasClickedMain(int index) {
 	Tnote note = *(st->getNote(index));
 	if (insertMode() == e_single)
 		m_nameMenu->setNoteName(note);
+	if (isExam() && m_selectReadOnly && st->noteSegment(index)->isReadOnly()) {
+		selectNote(st->number() * st->maxNoteCount() + index);
+		emit lockedNoteClicked(note);
+	}
 }
 
 
@@ -454,6 +458,11 @@ void TmainScore::expertNoteChanged() {
 
 void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
 	scoreScene()->setCurrentAccid(accid);
+}
+
+
+void TmainScore::selectReadOnly(bool doIt) {
+	m_selectReadOnly = doIt;
 }
 
 

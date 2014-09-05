@@ -159,22 +159,26 @@ void Tcanvas::certificateTip() {
 void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	delete m_questionTip;
 	delete m_whatTip;
-  QString whatNextText = startTipText();
-//   if (!m_window->autoRepeatChB->isChecked()) TODO exam run-time settings
-//       m_window->autoRepeatChB->startAnimation(3);
-  if (!isCorrect)
-      whatNextText += "<br>" + tr("To correct an answer") + " " + 
-      TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
-      " " + TexamHelp::orPressBackSpace();
-	if (toCorrection) {
-		whatNextText += "<br>" + tr("To see corrected answer") + " " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
-			TexamHelp::orPressEnterKey();
-//       if (!m_window->correctChB->isChecked()) TODO exam run-time settings
-//           m_window->correctChB->startAnimation(3);
-  }
-  whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");
-  
+	QString whatNextText;
+	if (m_exam->curQ().melody()) {
+		whatNextText = "Do something with melody.";
+	} else {
+		whatNextText = startTipText();
+	//   if (!m_window->autoRepeatChB->isChecked()) TODO exam run-time settings
+	//       m_window->autoRepeatChB->startAnimation(3);
+		if (!isCorrect)
+				whatNextText += "<br>" + tr("To correct an answer") + " " + 
+				TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
+				" " + TexamHelp::orPressBackSpace();
+		if (toCorrection) {
+			whatNextText += "<br>" + tr("To see corrected answer") + " " + 
+				TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
+				TexamHelp::orPressEnterKey();
+	//       if (!m_window->correctChB->isChecked()) TODO exam run-time settings
+	//           m_window->correctChB->startAnimation(3);
+		}
+	}
+	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");		
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
 // 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
 // 			m_whatTip->setTextWidth(m_maxTipWidth);

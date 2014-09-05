@@ -40,7 +40,10 @@ class Texam;
 class MainWindow;
 class QAction;
 
-    /** This class manages exam executing and practicing. */
+
+/** 
+ * This class manages exam executing and practicing. 
+ */
 class TexamExecutor : public QObject
 {
 	friend class MainWindow;
@@ -71,10 +74,11 @@ public:
 	
 	bool closeNootka();
 	bool isAnswered() { return m_isAnswered; }
+	bool isExercise() { return (bool)m_exercise; } /** @p TRUE when exercise or @p FALSE when exam. */
 
 protected:
 	MainWindow *mW;
-	QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct, *correctAct;	
+	QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct, *correctAct, *tuneForkAct;	
 	void deleteExam();
 
 protected slots:
@@ -87,6 +91,7 @@ protected slots:
 	void stopExerciseSlot();
 	void repeatQuestion();
 	void repeatSound();
+	void playMiddleA();
 	void correctAnswer();
 	
 	void showExamHelp();
@@ -113,7 +118,8 @@ protected slots:
 	void blindQuestion(); /** Routines for questions with the same answers 'blind' */
 	void noteOfMelodySlot(Tnote& n); /** When user plays a melody as an answer. */
 	void lastMelodyNote() { checkAnswer(); } /** performed when user played last note of a melody. */
-	bool isExercise() { return (bool)m_exercise; } /** @p TRUE when exercise or @p FALSE when exam. */
+	void prepareToSettings(); /** Should be called when main window is going to display settings dialog. */
+	void settingsAccepted(); /** Should be called when settings (Tglobals) was changed during exam. */
 
 private:
 	void createActions();

@@ -35,7 +35,7 @@ include_directories( libs/core libs/sound libs/misc )
 
 #add_subdirectory( updater ) # nootka updater
 
-add_subdirectory( settings )
+# add_subdirectory( settings )
 
 # nootka executable
 set(NOOTKA_SRC
