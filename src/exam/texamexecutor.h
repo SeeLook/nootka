@@ -78,7 +78,6 @@ public:
 
 protected:
 	MainWindow *mW;
-	QAction *nextQuestAct, *prevQuestAct, *checkAct, *repeatSndAct, *correctAct, *tuneForkAct;	
 	void deleteExam();
 
 protected slots:

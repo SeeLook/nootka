@@ -51,8 +51,16 @@ TEXAMEXECUTOR
 		do not show what key but user has to guess it
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required
+
+===============================================================
+========== TRANSLATIONS =======================================
+===============================================================
+ - TtoolBar has many entries translated already - just confirm them
+
      
-cpack 
+===============================================================     
+============== Packaging (cpack) =============================
+===============================================================
 - add man page for new executable files
 - update Qt5 dependencies for deb package 
 - copy qtbase_xx.qm files to lang folder
