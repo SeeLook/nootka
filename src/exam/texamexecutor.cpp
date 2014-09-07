@@ -270,6 +270,10 @@ void TexamExecutor::askQuestion() {
 	TQAunit& curQ = m_exam->curQ();
 	if (isAttempt) { // Attempt - ignore creation of a new question
 		curQ.newAttempt(); // just new attempt in previous (existing) question
+		if (m_exercise) {
+			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)));
+			disconnect(mW->score, SIGNAL(lockedNoteSelected(int)));
+		}
 	} else {
 		if (m_blindCounter > 20) {
 				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further releases."));
@@ -583,7 +587,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         }
         if (curQ.questionAsNote())
             questNote = curQ.qa_2.note;
-        answNote = mW->score->getNote(0);
+        answNote = *mW->score->getNote(0);
     }
     if (curQ.answerAsName()) {
         if (curQ.questionAsName())
@@ -779,8 +783,10 @@ void TexamExecutor::correctAnswer() {
 	TQAunit& curQ = m_exam->answList()->last();
 	QColor markColor = m_supp->answerColor(curQ);
 	if (curQ.answerAsNote()) {
-		qDebug() << "Click note to listen it";
 		if (curQ.melody()) {
+			mW->score->setStatusTip(tr("Click a note to listen to it. Double click to see it corrected."));
+			connect(mW->score, SIGNAL(lockedNoteClicked(int)), this, SLOT(lockedScoreSlot(int)));
+			mW->score->setReadOnlyReacted(true); // It is undone whenever unLockScore() is called
 		} else {
 			Tnote goodNote = curQ.qa.note;
 			if (curQ.questionAsNote())
@@ -1395,6 +1401,7 @@ void TexamExecutor::repeatSound() {
 
 void TexamExecutor::playMiddleA() {
 	Tnote a1(6, 1, 0);
+		mW->sound->stopPlaying();
 		mW->sound->play(a1);
 	if (m_soundTimer->isActive()) //TODO make this part common method
 			m_soundTimer->stop();
@@ -1460,6 +1467,20 @@ void TexamExecutor::expertAnswersSlot() {
 	if (m_exam->curQ().answerAsSound())
 			mW->sound->pauseSinffing();
 	QTimer::singleShot(1, this, SLOT(checkAnswer()));
+}
+
+
+void TexamExecutor::lockedScoreSlot(int noteNr) {
+	if (m_exam->curQ().melody()) {
+		if (noteNr < m_exam->curQ().lastAttepmt()->mistakes.size()) {
+			qDebug() << mW->score->getNote(noteNr)->toText() << m_exam->curQ().melody()->notes()[noteNr].p().toText() <<
+			m_exam->curQ().lastAttepmt()->mistakes[noteNr];
+			if (m_exam->curQ().lastAttepmt()->mistakes[noteNr])
+				mW->score->correctNote(m_exam->curQ().melody()->notes()[noteNr].p(),
+															 m_supp->answerColor(m_exam->curQ().lastAttepmt()->mistakes[noteNr]), noteNr);
+// TODO corrected notes has to change mistake code (either to avoid another correction or for statistics)
+		}
+	}
 }
 
 

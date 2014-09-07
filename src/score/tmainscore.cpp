@@ -210,7 +210,7 @@ void TmainScore::getMelody(Tmelody* mel, const QString& title) {
 	mel->setTempo(gl->S->tempo);
 	mel->setKey(keySignature());
 	for (int i = 0; i < notesCount(); ++i) {
-		Tchunk n(getNote(i), Trhythm());
+		Tchunk n(*getNote(i), Trhythm());
 		mel->notes() << n;
 	}
 }
@@ -244,13 +244,8 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 void TmainScore::noteWasClickedMain(int index) {
 	TscoreStaff *st = SENDER_TO_STAFF;
-	Tnote note = *(st->getNote(index));
-	if (insertMode() == e_single)
-		m_nameMenu->setNoteName(note);
-	if (isExam() && m_selectReadOnly && st->noteSegment(index)->isReadOnly()) {
-		selectNote(st->number() * st->maxNoteCount() + index);
-		emit lockedNoteClicked(note);
-	}
+	if (!isExam() && insertMode() == e_single)
+		m_nameMenu->setNoteName(*(st->getNote(index)));
 }
 
 
@@ -299,6 +294,8 @@ void TmainScore::unLockScore() {
 		setBGcolor(Tcolor::merge(gl->EanswerColor, mainWindow()->palette().window().color()));
 		if (insertMode() == e_single)
 			setNoteViewBg(0, gl->EanswerColor);
+		else
+			setReadOnlyReacted(false);
 	}
 //   setClefDisabled(true);
 	QPointF nPos = staff()->noteSegment(0)->mapFromScene(mapToScene(mapFromParent(mapFromGlobal(cursor().pos()))));
@@ -353,6 +350,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 			disconnect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+			setNoteNameEnabled(false);
 			m_questMark = new QGraphicsSimpleTextItem();
 			m_questMark->hide();
 		#if defined(Q_OS_MACX)
@@ -375,6 +373,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questMark->setZValue(4);
 			setScoreDisabled(true);
 			setClefDisabled(true);
+			m_correctNoteNr = -1;
     } else {
         connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 				connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
@@ -384,6 +383,7 @@ void TmainScore::isExamExecuting(bool isIt) {
         delete m_questKey;
         m_questKey = 0;
 				setClefDisabled(false);
+				setNoteNameEnabled(true);
     }
 }
 
@@ -407,7 +407,6 @@ void TmainScore::clearScore() {
 		for (int no = 0; no < staves(st)->count(); no++)
 				staves(st)->noteSegment(no)->removeNoteName();
 	}
-	m_showNameInCorrection = false;
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
 			if (m_questKey) {
@@ -460,23 +459,38 @@ void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
 	scoreScene()->setCurrentAccid(accid);
 }
 
-
-void TmainScore::selectReadOnly(bool doIt) {
-	m_selectReadOnly = doIt;
+/** For this moment this method changes state of only existed notes on the score.
+ * if some new notes will be created in locked state those signals will be not emitted.
+ * This functionality is used only in exercises when answer is corrected and user can click locked note.
+ * So it is sufficient - any notes are not added.
+ */
+void TmainScore::setReadOnlyReacted(bool doIt) {
+	if (m_selectReadOnly != doIt) {
+		m_selectReadOnly = doIt;
+		if (m_selectReadOnly) {
+			for (int i = 0; i < notesCount(); ++i) {
+				connect(noteFromId(i), SIGNAL(roNoteClicked(TscoreNote*)), this, SLOT(roClickedSlot(TscoreNote*)));
+				connect(noteFromId(i), SIGNAL(roNoteSelected(TscoreNote*)), this, SLOT(roSelectedSlot(TscoreNote*)));
+			}
+		} else {
+			for (int i = 0; i < notesCount(); ++i) {
+				disconnect(noteFromId(i), SIGNAL(roNoteClicked(TscoreNote*)));
+				disconnect(noteFromId(i), SIGNAL(roNoteSelected(TscoreNote*)));
+			}
+		}
+	}	
 }
 
 
 void TmainScore::markAnswered(QColor blurColor, int noteNr) {
 	if (noteNr < notesCount())
-// 		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
-		staves(noteNr / staff()->maxNoteCount())->noteSegment(noteNr % staff()->maxNoteCount())->markNote(QColor(blurColor.lighter().name()));
-	else
-		qDebug() << "TmainScore: Try to mark a note that not exists!";
+		noteFromId(noteNr)->markNote(QColor(blurColor.lighter().name()));
+// 	else
+// 		qDebug() << "TmainScore: Try to mark a note that not exists!";
 }
 
 
 void TmainScore::markQuestion(QColor blurColor, int noteNr) {
-// 		staff()->noteSegment(noteNr)->markNote(QColor(blurColor.lighter().name()));
 	markAnswered(blurColor, noteNr);
 }
 
@@ -514,27 +528,36 @@ void TmainScore::setNoteViewBg(int id, QColor C) {
 }
 
 
-void TmainScore::correctNote(Tnote& goodNote, const QColor& color) {
-		m_goodNote = goodNote;
-		if (staff()->noteSegment(0)->mainNote()->isVisible())
-				m_strikeOut = new TstrikedOutItem(staff()->noteSegment(0)->mainNote());
-		else {
-			m_strikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, 
-																staff()->noteSegment(0)->boundingRect().width() - 3.0, 8.0), staff()->noteSegment(0));
-			m_strikeOut->setPos((staff()->noteSegment(0)->boundingRect().width() - m_strikeOut->boundingRect().width()) / 2, 
-														(staff()->noteSegment(0)->boundingRect().height() - m_strikeOut->boundingRect().height()) / 2.0);
-		}
-		QPen pp(QColor(color.name()), 0.5);
-		m_strikeOut->setPen(pp);
-		connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
-		m_strikeOut->startBlinking();
+void TmainScore::correctNote(Tnote& goodNote, const QColor& color, int noteNr) {
+	if (noteNr >= notesCount()) {
+		qDebug() << "Correction of not existing note" << noteNr;
+		return;
+	}
+	if (m_correctNoteNr != -1) {
+		qDebug() << "Correction in progress";
+		return;
+	}
+	TscoreNote *corrN = noteFromId(noteNr);
+	m_goodNote = goodNote;
+	if (corrN->mainNote()->isVisible())
+			m_strikeOut = new TstrikedOutItem(staff()->noteSegment(noteNr)->mainNote());
+	else {
+		m_strikeOut = new TstrikedOutItem(QRectF(0.0, 0.0, corrN->boundingRect().width() - 3.0, 8.0), corrN);
+		m_strikeOut->setPos((corrN->boundingRect().width() - m_strikeOut->boundingRect().width()) / 2, 
+														(corrN->boundingRect().height() - m_strikeOut->boundingRect().height()) / 2.0);
+	}
+	QPen pp(QColor(color.name()), 0.5);
+	m_strikeOut->setPen(pp);
+	m_correctNoteNr = noteNr;
+	connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
+	m_strikeOut->startBlinking();
 }
 
 
 void TmainScore::correctAccidental(Tnote& goodNote) {
 		m_goodNote = goodNote;
 		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
-		if (getNote(0).acidental != m_goodNote.acidental) {
+		if (getNote(0)->acidental != m_goodNote.acidental) {
 				m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
 		} else {
 					m_bliking = new TblinkingItem(staff()->noteSegment(0));
@@ -561,10 +584,8 @@ void TmainScore::showNames(Tnote::EnameStyle st) {
 	Tnote::EnameStyle tmpStyle = Tnote::defaultStyle;
 	Tnote::defaultStyle = st;
 	for (int st = 0; st < staffCount(); st++) {
-		for (int no = 0; no < staves(st)->count(); no++) {
-			scoreScene()->setNameColor(staves(st)->noteSegment(no)->mainNote()->pen().color());
-			staves(st)->noteSegment(no)->showNoteName();
-		}
+		for (int no = 0; no < staves(st)->count(); no++)
+			staves(st)->noteSegment(no)->showNoteName(staves(st)->noteSegment(no)->mainNote()->pen().color());
 	}
 	Tnote::defaultStyle = tmpStyle;
 }
@@ -575,7 +596,7 @@ void TmainScore::deleteNoteName(int id) {
 		if (insertMode() == e_single)
 			staff()->noteSegment(id)->removeNoteName();
 		else
-			staves(id / staff()->maxNoteCount())->noteSegment(id % staff()->maxNoteCount())->removeNoteName();
+			noteFromId(id)->removeNoteName();
 	}
 }
 
@@ -751,13 +772,14 @@ void TmainScore::strikeBlinkingFinished() {
 		m_strikeOut = 0;
 	}
   delete m_bliking;
-	deleteNoteName(0);
-	staff()->noteSegment(0)->setColor(palette().text().color());
-	staff()->noteSegment(0)->enableNoteAnim(true, 300);
-	staff()->noteSegment(0)->markNote(-1);
+	deleteNoteName(m_correctNoteNr);
+	TscoreNote *sn = noteFromId(m_correctNoteNr);
+	sn->setColor(palette().text().color());
+	sn->enableNoteAnim(true, 300);
+	sn->markNote(-1);
 	bool animEnabled = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations - it looks ugly with correction animations
-	TsimpleScore::setNote(0, m_goodNote);
+	staves(m_correctNoteNr / staff()->maxNoteCount())->setNote(m_correctNoteNr % staff()->maxNoteCount(), m_goodNote);
 	enableAccidToKeyAnim(animEnabled);
 	QTimer::singleShot(320, this, SLOT(finishCorrection()));	
 }
@@ -779,10 +801,11 @@ void TmainScore::keyBlinkingFinished() {
 
 
 void TmainScore::finishCorrection() {
-	staff()->noteSegment(0)->enableNoteAnim(false);
-	staff()->noteSegment(0)->markNote(QColor(gl->EanswerColor.name()));
-// 	if (m_showNameInCorrection)
-// 			showNames(m_corrStyle);
+	noteFromId(m_correctNoteNr)->enableNoteAnim(false);
+	noteFromId(m_correctNoteNr)->markNote(QColor(gl->EanswerColor.name()));
+	noteFromId(m_correctNoteNr)->showNoteName(QColor(gl->EanswerColor.name()));
+	m_correctNoteNr = -1;
+			
 }
 
 
@@ -816,6 +839,20 @@ void TmainScore::performScordatureSet() {
 			Ttune tmpTune(*gl->Gtune());
 			staff()->setScordature(tmpTune);
 	}
+}
+
+//####################################################################################################
+//##################################### PROTECTED SLOTS ##############################################
+//####################################################################################################
+
+void TmainScore::roClickedSlot(TscoreNote* sn) {
+	emit lockedNoteClicked(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
+}
+
+
+void TmainScore::roSelectedSlot(TscoreNote* sn) {
+	qDebug() << "roSelectedSlot is here";
+	emit lockedNoteSelected(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
 }
 
 

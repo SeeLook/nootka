@@ -95,13 +95,13 @@ public:
 		
 				/** When @p TRUE notes on locked score can be selected by click 
 				 * and @p lockedNoteClicked(Tnote) signal is emitted */
-		void selectReadOnly(bool doIt);
+		void setReadOnlyReacted(bool doIt);
 		
 		void enableAccidToKeyAnim(bool enable);
 		bool isAccidToKeyAnimEnabled();
 		
 				/** Performs animation that transforming current selected note to given @p goodNote */
-		void correctNote(Tnote& goodNote, const QColor& color);
+		void correctNote(Tnote& goodNote, const QColor& color, int noteNr = 0);
 		
 				/** Performs rewinding of current key to @p newKey */
 		void correctKeySignature(TkeySignature newKey);
@@ -124,8 +124,10 @@ signals:
 		void noteChanged(int index, Tnote note);
 		
     void noteClicked(); /** This signal is emitted during an exam when expert answers are used. */
-		void lockedNoteClicked(const Tnote& note);  
 		void playbackFinished();
+		
+		void lockedNoteClicked(int noteNumber); /** Emitted number is in range [0 to notesCount()] */
+		void lockedNoteSelected(int noteNumber); /** Emitted number is in range [0 to notesCount()] */
 		
 public slots:
     void whenNoteWasChanged(int index, Tnote note);
@@ -153,6 +155,8 @@ protected slots:
 		void moveNameBack() { moveName(e_prevNote); }
 		
 		void playSlot();
+		void roClickedSlot(TscoreNote* sn);
+		void roSelectedSlot(TscoreNote* sn);
 		
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
@@ -175,10 +179,10 @@ private:
 		QGraphicsTextItem 					*m_questKey;
 		QList<QGraphicsRectItem*> 	 m_bgRects; // list of rectangles with highlights
 		TstrikedOutItem 						*m_strikeOut;
-    QPointer<TblinkingItem>      m_bliking, m_keyBlinking;;
+    QPointer<TblinkingItem>      m_bliking, m_keyBlinking;
+		int													 m_correctNoteNr;
 		Tnote												 m_goodNote;
 		TkeySignature								 m_goodKey;
-		bool 												 m_showNameInCorrection;
 		Tnote::EnameStyle						 m_corrStyle;
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		

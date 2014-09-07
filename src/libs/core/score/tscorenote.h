@@ -104,8 +104,9 @@ public:
 		int stringNumber() { return m_stringNr; } /** Displayed string number or 0 if not. */
 		
 				/** Starts displaying note name of this note. 
-				 * Name will change appropriate to moved note until removeNoteName() will be invoked */
-		void showNoteName();
+				 * Name will change appropriate to moved note until removeNoteName() will be invoked.
+				 * If no color is set the default one defined in TscoreScene will be used. */
+		void showNoteName(const QColor& dropShadowColor = -1);
 		void removeNoteName();
 		QGraphicsTextItem* noteName() { return m_nameText; } /** Graphics item of note name text */
 		
@@ -130,6 +131,9 @@ signals:
 		void toKeyAnim(QString, QPointF, int notePos); /** Emitted when accidental has been in key already */
 		void fromKeyAnim(QString, QPointF, int notePos); /** Emitted when neutral is necessary */
 		
+		void roNoteClicked(TscoreNote*); /** Emitted after mouse left click in read only state */
+		void roNoteSelected(TscoreNote*); /** Emitted after mouse right click or double click in read only state */ 
+		
 public slots:
 		void keyAnimFinished();
     void hideNote(); /** Hides main note */
@@ -145,6 +149,7 @@ protected:
 #endif
 		
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent*);
     
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
