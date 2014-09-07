@@ -88,8 +88,8 @@ QColor& TexecutorSupply::answerColor(const TQAunit& answer) {
 }
 
 
-QColor& TexecutorSupply::answerColor(quint8 mistake) {
-	if (mistake == (quint8)TQAunit::e_correct)
+QColor& TexecutorSupply::answerColor(quint32 mistake) {
+	if (mistake == (quint32)TQAunit::e_correct)
     return gl->EanswerColor;
   else if (!(mistake & 16) && !(mistake & 64))
     return gl->EnotBadColor;

@@ -86,7 +86,7 @@ public:
 			 * It is used to inform MainWindow that status label is busy by the message. */
 	static bool paramsChangedMessage() { return m_paramsMessage; }
 	static QColor& answerColor(const TQAunit& answer); /** Returns color depends on answer type. */
-	static QColor& answerColor(quint8 mistake); /** Returns color depends on answer type. */
+	static QColor& answerColor(quint32 mistake); /** Returns color depends on answer type. */
 	
 	int loFret() { return m_loFret; }
 	int hiFret() { return m_hiFret; }
