@@ -115,6 +115,14 @@ void TmultiScore::setNote(const Tnote& note) {
 }
 
 
+Tnote* TmultiScore::getNote(int index) {
+	if (index >= 0 && index < notesCount())
+		return noteFromId(index)->note();
+	else
+		return 0;
+}
+
+
 void TmultiScore::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)staff()->scoreKey()) {
 		for (int i = 0; i < m_staves.size(); ++i) {

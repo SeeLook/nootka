@@ -61,7 +61,6 @@ public:
 			bool key;
 	};
 	
-		/** Describes state of exam executing */
 	enum Estate {
 		e_starting = 0,
 		e_failed, 
@@ -70,7 +69,7 @@ public:
 		e_answering,
 		e_saveing,
 		e_finished
-	};
+	}; /** Describes state of exam executing */
 	
 	bool closeNootka();
 	bool isAnswered() { return m_isAnswered; }
@@ -119,6 +118,7 @@ protected slots:
 	void lastMelodyNote() { checkAnswer(); } /** performed when user played last note of a melody. */
 	void prepareToSettings(); /** Should be called when main window is going to display settings dialog. */
 	void settingsAccepted(); /** Should be called when settings (Tglobals) was changed during exam. */
+	void lockedScoreSlot(int noteNr);
 
 private:
 	void createActions();
@@ -145,11 +145,6 @@ private:
 	
 	TexecutorSupply 					*m_supp; 
 	Texam 										*m_exam;
-// 		TmainScore								*m_score;
-// 		TnoteName									*m_noteName;
-// 		TfingerBoard							*m_guitar;
-// 		Tsound										*m_sound;
-// 		TpitchView								*m_pitchViev;
 	
 				/** main instance of Tlevel, others are pointers or references to it */
 	Tlevel 										m_level;

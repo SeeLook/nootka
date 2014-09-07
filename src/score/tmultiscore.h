@@ -22,6 +22,7 @@
 
 #include <score/tsimplescore.h>
 #include <score/tscorenote.h>
+#include <score/tscorestaff.h>
 
 
 class QMainWindow;
@@ -59,8 +60,12 @@ public:
 	TscoreStaff* firstStaff() { return m_staves.first(); }
 	int staffCount() { return m_staves.size(); }
 	
+			/** Returns pointer to TscoreNote of given @p id on the score.
+			 * It doesn't check existence! */
+	TscoreNote* noteFromId(int id) { return staves(id / staff()->maxNoteCount())->noteSegment(id % staff()->maxNoteCount()); }
 	
 	virtual void setNote(const Tnote& note);
+	virtual Tnote* getNote(int index);
 	
 	virtual void setEnableKeySign(bool isEnabled);
 	

@@ -300,18 +300,28 @@ void TscoreNote::setReadOnly(bool ro) {
 		m_readOnly = ro;
 }
 
-
-void TscoreNote::showNoteName() {
+/** If @dropShadowColor is not set and m_nameText has already existed,
+ * previously color remained. */
+void TscoreNote::showNoteName(const QColor& dropShadowColor) {
+	bool setColor = false;
 	if (!m_nameText) {
 		m_nameText = new QGraphicsTextItem();
 		m_nameText->setDefaultTextColor(m_mainColor);
 		m_nameText->setParentItem(this);
 		m_nameText->setZValue(10);
 		m_nameText->setAcceptHoverEvents(false);
+		setColor = true;
+	}
+	if (dropShadowColor != -1)
+		setColor = true;
+	if (setColor) {
 		QGraphicsDropShadowEffect *dropEff = new QGraphicsDropShadowEffect();
+		if (dropShadowColor == -1)
 			dropEff->setColor(scoreScene()->nameColor());
-			dropEff->setOffset(0.7, 0.7);
-			dropEff->setBlurRadius(5.0);
+		else
+			dropEff->setColor(dropShadowColor);
+		dropEff->setOffset(0.7, 0.7);
+		dropEff->setBlurRadius(5.0);
 		m_nameText->setGraphicsEffect(dropEff);
 	}
 	if (m_note->note) {
@@ -486,20 +496,35 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-  if (event->button() == Qt::LeftButton && scoreScene()->workPosY()) {
+	if (scoreScene()->workPosY()) { // edit mode
+		if (event->button() == Qt::LeftButton) {
 				m_accidental = scoreScene()->currentAccid();
         moveNote(scoreScene()->workPosY());
         emit noteWasClicked(m_index);
 				if (m_nameText)
 					showNoteName();
 				update();
-    } else if (event->button() == Qt::RightButton && scoreScene()->workPosY()) {
+    } else if (event->button() == Qt::RightButton) {
 				if (staff()->selectableNotes() || staff()->controlledNotes()) {
 						setBackgroundColor(qApp->palette().highlight().color());
 						emit noteWasSelected(m_index);
 						update();
 				}
     }
+	} else { // read only mode
+		if (event->button() == Qt::LeftButton)
+			emit roNoteClicked(this);
+		else if (event->button() == Qt::RightButton)
+			emit roNoteSelected(this);
+	}
+}
+
+
+void TscoreNote::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*) {
+	if (scoreScene()->workPosY()) // edit mode
+		emit noteWasSelected(m_index);
+	else // read only mode
+		emit roNoteSelected(this);
 }
 
 
