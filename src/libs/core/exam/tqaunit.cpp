@@ -75,7 +75,8 @@ void TQAunit::setMistake(Emistake mis) {
     case e_wrongPos : valid |= 16; break;
     case e_wrongString : valid |= 32; break;
 		case e_wrongIntonation : valid |= 128; break;
-    case e_wrongNote : valid = 64; break; // If this kind of mistake is committed
+		case e_fixed : valid |= 256; break;
+		case e_wrongNote : valid = 64; break; // If this kind of mistake is committed
         //  all above has no sense so '=' instead '|=' is correct
 	}
 }
@@ -86,6 +87,17 @@ void TQAunit::newAttempt() {
 		m_attempts = new QList<Tattempt*>;
 	(*m_attempts) << new Tattempt();
 }
+
+
+int TQAunit::totalPlayBacks() {
+	int result = 0;
+	if (m_attempts) {
+		for (int i = 0; i < m_attempts->size(); ++i)
+			result += m_attempts->at(i)->playedCount();
+	}
+	return result;
+}
+
 
 
 void TQAunit::addMelody(const QString& title) {
@@ -110,14 +122,15 @@ bool TQAunit::formXml(QXmlStreamReader& xml)
 
 
 QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit) {
-    out << qaUnit.qa.note << qaUnit.qa.pos;
-    out << (qint8)qaUnit.questionAs << (qint8)qaUnit.answerAs;
-    out << qaUnit.style;
-    out << qaUnit.key;
-    out << qaUnit.time;
-    out << qaUnit.qa_2.note << qaUnit.qa_2.pos;
-    out << qaUnit.valid;
-    return out;
+	qDebug() << "\nUhuhh! No more binary exam files\n Did you forget something?\n";
+	out << qaUnit.qa.note << qaUnit.qa.pos;
+	out << (qint8)qaUnit.questionAs << (qint8)qaUnit.answerAs;
+	out << qaUnit.style;
+	out << qaUnit.key;
+	out << qaUnit.time;
+	out << qaUnit.qa_2.note << qaUnit.qa_2.pos;
+	out << (quint8)qaUnit.valid;
+	return out;
 }
 
 
@@ -138,7 +151,10 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
     if (!ok2)
         qaUnit.qa_2.note = Tnote(0,0,0);
     in >> qaUnit.qa_2.pos;
-    in >> qaUnit.valid;
+		quint8 valid_uint8;
+		in >> valid_uint8;
+		qaUnit.valid = valid_uint8;
+//     in >> qaUnit.valid;
     return ok;
 }
 

@@ -60,7 +60,8 @@ public:
 		    e_wrongPos = 16, // when wrong position
         e_wrongString = 32, // when sound is proper but not on required string
 		    e_wrongNote = 64, // the highest crime
-		    e_wrongIntonation = 128 // when detected sound is out of range of intonation accuracy
+		    e_wrongIntonation = 128, // when detected sound is out of range of intonation accuracy
+		    e_fixed = 256 // when answer was corrected by given hint in exercise mode
     };
 
         /** Returns string with time divided by 10. 
@@ -78,8 +79,8 @@ public:
 				 * setMistake(e_wrongKey | e_wrongOctave);
 				 * or
 				 * setMistake(6);	 */
-		void setMistake(quint8 misVal) { valid = misVal; }
-		quint8 mistake() const { return valid; } /** set of mistakes as Boolean sum of Emistake */
+		void setMistake(quint32 misVal) { valid = misVal; }
+		quint32 mistake() const { return valid; } /** set of mistakes as Boolean sum of Emistake */
 
     TQAgroup qa;
     TQAtype::Etype questionAs;
@@ -105,6 +106,7 @@ public:
     bool wrongString() const { return valid & 32; }
     bool wrongNote() const {return valid & 64; }
     bool wrongIntonation() const {return valid & 128; }
+    bool wasFixed() const {return valid & 256; }
     
     bool questionAsNote() const { return questionAs == TQAtype::e_asNote; } /** questionAs == TQAtype::e_asNote; */
     bool questionAsName() const { return questionAs == TQAtype::e_asName; } /** questionAs == TQAtype::e_asName; */
@@ -123,6 +125,7 @@ public:
 		int attemptsCount() const { if (m_attempts) return m_attempts->size(); else return 0; }
 		Tattempt* attempt(int nr) { return m_attempts->operator[](nr); } /** Pointer to given attempt */
 		Tattempt* lastAttepmt() { return m_attempts->last(); } /** Pointer to the last attempt */
+		int totalPlayBacks(); /** Returns number of melody playback in all attempts. */
 		
 		void addMelody(const QString& title); /** Adds melody of replaces existing one. */
 		Tmelody* melody() const { return m_melody; }
@@ -131,7 +134,7 @@ public:
 		bool formXml(QXmlStreamReader& xml);
     
 protected:
-    quint8 							 valid;
+    quint32							 valid;
     quint8 							 style;
 		
 private:

@@ -446,7 +446,7 @@ void TexamExecutor::askQuestion() {
     if (curQ.questionAsSound()) {
 			if (curQ.melody()) {
 				if (!isAttempt) // play melody but not when user tries again
-					mW->sound->playMelody(curQ.melody());
+					repeatSound();
 			} else {
 					mW->sound->play(curQ.qa.note);
 					if (curQ.answerAsSound())
@@ -644,10 +644,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						if (curQ.lastAttepmt()->mistakes[i] == TQAunit::e_correct)
 							continue; // it was correct - skip
 						if (curQ.lastAttepmt()->mistakes[i] & TQAunit::e_wrongNote) {
-							curQ.setMistake(TQAunit::e_wrongNote); // so far answer is not accepted - some note is wrong
-							break; // don't check further
+								curQ.setMistake(TQAunit::e_wrongNote); // so far answer is not accepted - some note is wrong
+								break; // don't check further
 						} else // or collect all other "smaller" mistakes
-							curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
+								curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
 					}
 // 					qDebug() << "\nattempt" << curQ.attemptsCount()  << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
 // 						<< curQ.melody()->length();
@@ -1388,9 +1388,11 @@ QString TexamExecutor::saveExamToFile() {
 
 
 void TexamExecutor::repeatSound() {
-	if (m_exam->curQ().melody())
+	if (m_exam->curQ().melody()) {
 		mW->sound->playMelody(m_exam->curQ().melody());
-	else
+		if (mW->sound->melodyIsPlaying()) // the same methods stops a melody
+			m_exam->curQ().lastAttepmt()->questionWasPlayed(); // increase only when playing was started
+	} else
 		mW->sound->play(m_exam->curQ().qa.note);
 	if (m_soundTimer->isActive())
 			m_soundTimer->stop();

@@ -35,11 +35,11 @@ public:
   
   virtual ~Tattempt();
 	
-	void add(quint8 mistake, quint32 time = 0); /** Adds time and mistake of a note to the lists. */
+	void add(quint32 mistake, quint32 time = 0); /** Adds time and mistake of a note to the lists. */
 	QList<quint32> times; /** List of answer times of every note in a melody */
-	QList<quint8> mistakes; /** Type of mistake of every note in a melody */
+	QList<quint32> mistakes; /** Type of mistake of every note in a melody */
 	
-	quint16 playedCount() { return m_playedCounter; } /** How many times user playbacks a question melody */
+	quint16 playedCount() const { return m_playedCounter; } /** How many times user playbacks a question melody */
 	void questionWasPlayed() { m_playedCounter++; } /** Increases playback counter */
   
 private:
