@@ -159,24 +159,22 @@ void Tcanvas::certificateTip() {
 void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	delete m_questionTip;
 	delete m_whatTip;
-	QString whatNextText;
-	if (m_exam->curQ().melody()) {
-		whatNextText = "Do something with melody.";
-	} else {
-		whatNextText = startTipText();
+	QString whatNextText = startTipText();;
 	//   if (!m_window->autoRepeatChB->isChecked()) TODO exam run-time settings
 	//       m_window->autoRepeatChB->startAnimation(3);
-		if (!isCorrect)
-				whatNextText += "<br>" + tr("To correct an answer") + " " + 
-				TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
-				" " + TexamHelp::orPressBackSpace();
-		if (toCorrection) {
-			whatNextText += "<br>" + tr("To see corrected answer") + " " + 
-				TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
-				TexamHelp::orPressEnterKey();
-	//       if (!m_window->correctChB->isChecked()) TODO exam run-time settings
-	//           m_window->correctChB->startAnimation(3);
-		}
+	if (!isCorrect)
+			whatNextText += "<br>" + tr("To correct an answer") + " " + 
+			TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
+			" " + TexamHelp::orPressBackSpace();
+	if (toCorrection) {
+		QString t = tr("To see corrected answer");
+		if (m_exam->curQ().melody())
+				t = tr("To see some hints");
+		whatNextText += "<br>" + t + " " + 
+			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
+			TexamHelp::orPressEnterKey();
+//       if (!m_window->correctChB->isChecked()) TODO exam run-time settings
+//           m_window->correctChB->startAnimation(3);
 	}
 	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");		
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
@@ -218,6 +216,7 @@ void Tcanvas::questionTip(Texam* exam) {
   delete m_whatTip;
 	delete m_outTuneTip;
 	delete m_questionTip;
+	delete m_melodyTip;
   m_questionTip = new TquestionTip(exam, m_scale);
 	m_questionTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_questionTip);
@@ -251,6 +250,17 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
   m_outTuneTip->setScale(m_scale);
 	m_outTuneTip->setData(0, QVariant::fromValue<bool>(tooLow));
   setOutTunePos();
+}
+
+
+void Tcanvas::melodyTip() {
+	if (m_melodyTip)
+		return;
+	m_melodyTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px;\">").arg((bigFont() * 3) / 4) + 
+										tr("Click wrong notes to see<br>and listen to corrected ones.") + "</span>", gl->EanswerColor);
+	m_scene->addItem(m_melodyTip);
+	m_melodyTip->setScale(m_scale);
+	setMelodyPos();
 }
 
 
@@ -318,6 +328,7 @@ void Tcanvas::clearCanvas() {
 	delete m_questionTip;
 	delete m_certifyTip;
   delete m_outTuneTip;
+	delete m_melodyTip;
 }
 
 
@@ -424,12 +435,16 @@ void Tcanvas::sizeChanged() {
   }
   if (m_certifyTip) {
     clearCertificate();
-		certificateTip();		
+		certificateTip();
   }
   if (m_outTuneTip) {
 		m_outTuneTip->setScale(m_scale);
 		setOutTunePos();
-  }		
+  }
+  if (m_melodyTip) {
+		m_melodyTip->setScale(m_scale);
+		setMelodyPos();
+  }
 }
 
 
@@ -575,6 +590,11 @@ void Tcanvas::setOutTunePos() {
 		startX += m_window->pitchView->geometry().width() / 2;
 	m_outTuneTip->setPos(startX + (m_window->pitchView->geometry().width() / 2 - m_outTuneTip->boundingRect().width()) / 2, 
 		m_window->pitchView->y() - m_outTuneTip->boundingRect().height() * m_outTuneTip->scale());
+}
+
+
+void Tcanvas::setMelodyPos() {
+	m_melodyTip->setPos(m_view->width() - m_melodyTip->boundingRect().width() * m_melodyTip->scale() - 10.0, 5.0);
 }
 
 

@@ -399,7 +399,9 @@ void TmainScore::clearScore() {
 		staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 		staff()->noteSegment(0)->hideWorkNote();
 	} else {
+			blockSignals(true);
 			deleteNotes();
+			blockSignals(false);
 			selectNote(-1);
 			staff()->noteSegment(0)->markNote(-1);
 	}
@@ -474,7 +476,7 @@ void TmainScore::setReadOnlyReacted(bool doIt) {
 			}
 		} else {
 			for (int i = 0; i < notesCount(); ++i) {
-				disconnect(noteFromId(i), SIGNAL(roNoteClicked(TscoreNote*)));
+				disconnect(noteFromId(i), SIGNAL(roNoteClicked(TscoreNote*)), this, 0);
 				disconnect(noteFromId(i), SIGNAL(roNoteSelected(TscoreNote*)));
 			}
 		}
@@ -483,8 +485,12 @@ void TmainScore::setReadOnlyReacted(bool doIt) {
 
 
 void TmainScore::markAnswered(QColor blurColor, int noteNr) {
-	if (noteNr < notesCount())
-		noteFromId(noteNr)->markNote(QColor(blurColor.lighter().name()));
+	if (noteNr < notesCount()) {
+		if (blurColor == -1)
+			noteFromId(noteNr)->markNote(-1);
+		else
+			noteFromId(noteNr)->markNote(QColor(blurColor.lighter().name()));
+	}
 // 	else
 // 		qDebug() << "TmainScore: Try to mark a note that not exists!";
 }
@@ -546,7 +552,7 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color, int noteNr) {
 		m_strikeOut->setPos((corrN->boundingRect().width() - m_strikeOut->boundingRect().width()) / 2, 
 														(corrN->boundingRect().height() - m_strikeOut->boundingRect().height()) / 2.0);
 	}
-	QPen pp(QColor(color.name()), 0.5);
+	QPen pp(QColor(color.lighter().name()), 0.5);
 	m_strikeOut->setPen(pp);
 	m_correctNoteNr = noteNr;
 	connect(m_strikeOut, SIGNAL(strikedFInished()), this, SLOT(strikeBlinkingFinished()));
@@ -802,8 +808,8 @@ void TmainScore::keyBlinkingFinished() {
 
 void TmainScore::finishCorrection() {
 	noteFromId(m_correctNoteNr)->enableNoteAnim(false);
-	noteFromId(m_correctNoteNr)->markNote(QColor(gl->EanswerColor.name()));
-	noteFromId(m_correctNoteNr)->showNoteName(QColor(gl->EanswerColor.name()));
+	noteFromId(m_correctNoteNr)->markNote(QColor(gl->EanswerColor.lighter().name()));
+	noteFromId(m_correctNoteNr)->showNoteName(QColor(gl->EanswerColor.lighter().name()));
 	m_correctNoteNr = -1;
 			
 }

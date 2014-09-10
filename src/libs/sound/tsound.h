@@ -52,7 +52,7 @@ public:
 	void playMelody(Tmelody* mel);
   bool isPlayable();
   bool isSniffable() { return (sniffer ? true : false) ; }
-  bool melodyIsPlaying() { return m_melodyNoteIndex > -1;
+  bool melodyIsPlaying() { return m_melodyNoteIndex > -1; }
   
     /** Before Nootka config dialog is created a few things have to be done.
      * stop sniffing, playing

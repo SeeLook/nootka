@@ -67,6 +67,7 @@ public:
     void tryAgainTip(int time); // "Try again" text"
     void confirmTip(int time = 0); // tip about confirm an answer appears after given time
     void certificateTip(); // paper like exam report when finished
+		void melodyTip(); // How to get hints about corrected melody notes
 		
 				/** 'to low' or 'to high' text above pitch view @p pitchDiff is float part of pitch */
 		void outOfTuneTip(float pitchDiff);		
@@ -123,7 +124,8 @@ private:
 		QGraphicsView									*m_view;
     QGraphicsScene 								*m_scene;
     double 												 m_scale;
-    QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip, m_confirmTip, m_outTuneTip;
+    QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip;
+		QPointer<TgraphicsTextTip>		 m_confirmTip, m_outTuneTip, m_melodyTip;
     QPointer<TquestionTip>				 m_questionTip;
     QPointer<TnootkaCertificate>	 m_certifyTip;
     Texam 												*m_exam;
@@ -150,6 +152,7 @@ private:
     void setConfirmPos();
 		void setOutTunePos();
 		void updateRelatedPoint();
+		void setMelodyPos();
  
 };
 
