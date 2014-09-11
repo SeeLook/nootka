@@ -255,31 +255,18 @@ void TexamExecutor::initializeExecuting() {
 }
 
 
-void TexamExecutor::askQuestion() {
+void TexamExecutor::askQuestion(bool isAttempt) {
 	m_askingTimer->stop();
 	m_lockRightButt = false; // release mouse button events
-	bool isAttempt = false;
-	if (m_exam->count() && m_exam->curQ().melody() && !m_exam->curQ().isCorrect())
-		isAttempt = true; // continue answering as a new attempt
-	else { // or add new question to the list
+	if (m_exam->count() && m_exam->curQ().melody())
+		mW->bar->removeAction(mW->bar->attemptAct);
+	if (!isAttempt) { // add new question to the list
 		TQAunit Q;
 		m_exam->addQuestion(Q);
 	}
-	if (!(isAttempt && m_exam->curQ().answerAsNote())) // musical dictation - don't clean user typed notes.
-		clearWidgets();
 	TQAunit& curQ = m_exam->curQ();
-	if (isAttempt) { // Attempt - ignore creation of a new question
-		curQ.newAttempt(); // just new attempt in previous (existing) question
-		if (m_exam->curQ().answerAsNote()) // remove names and marks from score notes when dictation
-			for (int i = 0; i < mW->score->notesCount(); ++i) {
-				mW->score->deleteNoteName(i);
-				mW->score->markQuestion(-1, i);
-			}
-		if (m_exercise) {
-			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
-			disconnect(mW->score, SIGNAL(lockedNoteSelected(int)));
-		}
-	} else {
+	if (!isAttempt) {
+		clearWidgets();
 		if (m_blindCounter > 20) {
 				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further releases."));
 				mW->clearAfterExam(e_failed);
@@ -378,30 +365,30 @@ void TexamExecutor::askQuestion() {
 	}
 
   // ASKING QUESIONS
-    if (curQ.questionAsNote()) {
-			if (curQ.melody()) {
-					mW->score->askQuestion(curQ.melody());
-					connect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
-					m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
-					mW->score->selectNote(0); // mark first note
-// 					mW->sound->notes().clear();
-					// all above is correct only when answer is a sound (no other cases are supported now)
-			} else {
-        char strNr = 0;
-        if ( (curQ.answerAsFret() || curQ.answerAsSound()) 
-            && !m_level.onlyLowPos && m_level.showStrNr)
-								strNr = curQ.qa.pos.str(); // do show string number or not
-        if (m_level.useKeySign && !curQ.answerAsNote())
-            // when answer is also asNote we determine key in preparing answer part
-            mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
-        else 
-						mW->score->askQuestion(curQ.qa.note, strNr);
-        if (curQ.answerAsName())
-            m_answRequire.accid = true;
-        else if (curQ.answerAsSound())
-            m_answRequire.accid = false;
-			}
-    }
+	if (curQ.questionAsNote()) {
+		if (curQ.melody()) {
+			if (!isAttempt)
+				mW->score->askQuestion(curQ.melody());
+			connect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
+			m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
+			mW->score->selectNote(0); // mark first note
+			// all above is correct only when answer is a sound (and no other cases are supported now)
+		} else {
+			char strNr = 0;
+			if ( (curQ.answerAsFret() || curQ.answerAsSound()) 
+					&& !m_level.onlyLowPos && m_level.showStrNr)
+							strNr = curQ.qa.pos.str(); // do show string number or not
+			if (m_level.useKeySign && !curQ.answerAsNote())
+					// when answer is also asNote we determine key in preparing answer part
+					mW->score->askQuestion(curQ.qa.note, curQ.key, strNr);
+			else 
+					mW->score->askQuestion(curQ.qa.note, strNr);
+			if (curQ.answerAsName())
+					m_answRequire.accid = true;
+			else if (curQ.answerAsSound())
+					m_answRequire.accid = false;
+		}
+	}
 
     if (curQ.questionAsName()) {
         if (m_blackQuestNr == -1) { // regular question
@@ -448,16 +435,16 @@ void TexamExecutor::askQuestion() {
         
     }
 
-    if (curQ.questionAsSound()) {
-			if (curQ.melody()) {
-				if (!isAttempt) // play melody but not when user tries again
-					repeatSound();
-			} else {
-					mW->sound->play(curQ.qa.note);
-					if (curQ.answerAsSound())
-							m_answRequire.accid = false;
-			}
-    }
+	if (curQ.questionAsSound()) {
+		if (curQ.melody()) {
+			if (!isAttempt) // play melody but not when user tries again
+				repeatSound();
+		} else {
+				mW->sound->play(curQ.qa.note);
+				if (curQ.answerAsSound())
+						m_answRequire.accid = false;
+		}
+	}
 
 // PREPARING ANSWERS
     if (curQ.answerAsNote()) {
@@ -680,12 +667,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					curQ.qa.note = userNote;
 		}
 	}
-    disableWidgets();
-		bool autoNext = gl->E->autoNextQuest;
-		if (gl->E->afterMistake == TexamParams::e_stop && !curQ.isCorrect())
-				autoNext = false; // when mistake and e_stop - the same like autoNext = false;
+	disableWidgets();
+	bool autoNext = gl->E->autoNextQuest;
+	if (gl->E->afterMistake == TexamParams::e_stop && !curQ.isCorrect())
+			autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 		
-    if (showResults) {
+	if (showResults) {
 			int mesgTime = 0;
       if (autoNext) { // determine time of displaying
 				if (curQ.isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
@@ -695,34 +682,33 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			}
       m_canvas->resultTip(&curQ, mesgTime);
 			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && gl->hintsEnabled && !autoNext)
-						m_canvas->whatNextTip(curQ.isCorrect());
+					m_canvas->whatNextTip(curQ.isCorrect());
       if (!autoNext) {
-          if (!curQ.isCorrect() && !m_exercise) {
-						if (m_exercise) {
-							// TODO action of new attempt for melodies
-						} else
-								mW->bar->addAction(mW->bar->prevQuestAct);
+          if (!curQ.isCorrect() && !m_exercise && !curQ.melody()) {
+							mW->bar->addAction(mW->bar->prevQuestAct);
 					}
+					if (!curQ.isCorrect() && curQ.melody())
+						mW->bar->addAction(mW->bar->attemptAct);
           mW->bar->addAction(mW->bar->nextQuestAct);
       }
-    }
-    mW->examResults->setAnswer(&curQ);
-    if (!m_exercise && m_blackQuestNr != -1) { // decrease black list
+	}
+	mW->examResults->setAnswer(&curQ);
+	if (!m_exercise && m_blackQuestNr != -1) { // decrease black list
       if (m_exam->blacList()->operator[](m_blackQuestNr).time == 65502)
         m_exam->blacList()->operator[](m_blackQuestNr).time--; // remains one penalty
       else
         m_exam->blacList()->removeAt(m_blackQuestNr); // delete - penalties cleared
-    }
-    m_exam->setAnswer(curQ);
-		if (!m_exercise) {
-				mW->progress->progress(m_exam->penalty());
-				if (!curQ.isCorrect())
-						updatePenalStep();
-		}
+	}
+	m_exam->setAnswer(curQ);
+	if (!m_exercise) {
+			mW->progress->progress(m_exam->penalty());
+			if (!curQ.isCorrect())
+					updatePenalStep();
+	}
 
-		markAnswer(curQ);
-    int waitTime = gl->E->questionDelay;
-		if (m_exercise) {
+	markAnswer(curQ);
+	int waitTime = gl->E->questionDelay;
+	if (m_exercise) {
 			if (gl->E->afterMistake != TexamParams::e_continue || gl->E->showCorrected)
 				waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
 			m_exercise->checkAnswer(); // TODO but add case when user used hints for dictation - it can be 'fully' correct
@@ -738,20 +724,20 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						}
 					}
 			}
-		} else {
-				if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enough
-					if (m_exam->blackCount()) {
-							m_exam->increasePenaltys(m_exam->blackCount());
-							qDebug() << "penalties increased. Can't finish this exam yet.";
-					} else {
-              mW->progress->setFinished(true);
-              m_exam->setFinished();
-							displayCertificate();
-							m_supp->setFinished();
-					}
+	} else {
+			if (!m_supp->wasFinished() && m_exam->count() >= (m_supp->obligQuestions() + m_exam->penalty()) ) { // maybe enough
+				if (m_exam->blackCount()) {
+						m_exam->increasePenaltys(m_exam->blackCount());
+						qDebug() << "penalties increased. Can't finish this exam yet.";
+				} else {
+						mW->progress->setFinished(true);
+						m_exam->setFinished();
+						displayCertificate();
+						m_supp->setFinished();
 				}
-		}
-    if (showResults && autoNext) {
+			}
+	}
+	if (showResults && autoNext) {
       m_lockRightButt = true; // to avoid nervous users clicking mouse during wait time
       if (m_shouldBeTerminated)
           stopExamSlot();
@@ -759,22 +745,23 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				if (curQ.isCorrect()) {
           m_askingTimer->start(gl->E->questionDelay);
       } else {
-// 					if (curQ.melody()) { // when melody was wrong don't ask, prepare new attempt
-// 						m_canvas->tryAgainTip(3000);
-
-// 							}
-// 					} else {
-						if (!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated) // repeat only once if any
-								QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
+					if (gl->E->repeatIncorrect && !m_incorrectRepeated) {
+						if (curQ.melody())
+							QTimer::singleShot(waitTime, this, SLOT(newAttempt()));
 						else {
-								if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !gl->E->showCorrected))
-										waitTime = gl->E->mistakePreview; // for exercises time was set above
+							if (!m_exercise) // repeat only once if any
+								QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
+							else
 								m_askingTimer->start(waitTime);
 						}
-// 					}
+					} else {
+							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !gl->E->showCorrected))
+									waitTime = gl->E->mistakePreview; // for exercises time was set above
+							m_askingTimer->start(waitTime);
+					}
         }
       }
-    }
+	}
 }
 
 /**
@@ -871,6 +858,26 @@ void TexamExecutor::correctAnswer() {
 			m_canvas->melodyTip();
 	if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
 			QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
+}
+
+
+void TexamExecutor::newAttempt() {
+// 	mW->bar->removeAction(mW->bar->attemptAct);
+	if (m_exercise)
+		mW->bar->removeAction(mW->bar->correctAct);
+	m_canvas->tryAgainTip(3000);
+	QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); 
+	if (m_exam->curQ().answerAsNote() || m_exam->curQ().questionAsNote()) // remove names and marks from score notes
+		for (int i = 0; i < mW->score->notesCount(); ++i) {
+				mW->score->deleteNoteName(i);
+				mW->score->markQuestion(-1, i);
+		}
+	if (m_exercise && m_exam->curQ().answerAsNote()) {
+			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
+			disconnect(mW->score, SIGNAL(lockedNoteSelected(int)));
+	}
+	m_exam->curQ().newAttempt();
+	askQuestion(true);
 }
 
 
@@ -1175,6 +1182,10 @@ void TexamExecutor::createActions() {
 	if (m_exercise) {
 		mW->bar->createCorrectAction();
 		connect(mW->bar->correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
+	}
+	if (m_level.canBeMelody()) {
+		mW->bar->createAttemptAction();
+		connect(mW->bar->attemptAct, SIGNAL(triggered()), this, SLOT(newAttempt()));
 	}
 }
 
@@ -1491,8 +1502,7 @@ void TexamExecutor::lockedScoreSlot(int noteNr) {
 	if (m_exam->curQ().melody()) {
 		if (noteNr < m_exam->curQ().lastAttepmt()->mistakes.size()) {
 			quint32 &m = m_exam->curQ().lastAttepmt()->mistakes[noteNr];
-			qDebug() << noteNr << m_exam->curQ().melody()->notes()[noteNr].p().toText() << m;
-			if (m && !(m & TQAunit::e_fixed)) { // fix if it has not been fixed yet
+			if (m && !(m & TQAunit::e_fixed) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
 				mW->score->correctNote(m_exam->curQ().melody()->notes()[noteNr].p(), m_supp->answerColor(m), noteNr);
 				m_exam->curQ().lastAttepmt()->mistakes[noteNr] |= TQAunit::e_fixed;
 			}

@@ -80,7 +80,7 @@ protected:
 	void deleteExam();
 
 protected slots:
-	void askQuestion();
+	void askQuestion(bool isAttempt = false);
 	
 			/** If it is called by pressing "check answer" it obviously shows results
 			* but if app is closing it only checks answer and save it without displaying results. */
@@ -91,6 +91,7 @@ protected slots:
 	void repeatSound();
 	void playMiddleA();
 	void correctAnswer();
+	void newAttempt();
 	
 	void showExamHelp();
 	void expertAnswersSlot();

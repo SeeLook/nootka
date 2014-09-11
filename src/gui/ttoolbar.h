@@ -42,7 +42,7 @@ public:
 	
 			/** Exam related */
 	QAction *prevQuestAct, *checkAct;
-	QPointer<QAction> nextQuestAct, repeatSndAct, correctAct, tuneForkAct;
+	QPointer<QAction> nextQuestAct, repeatSndAct, correctAct, tuneForkAct, attemptAct;
 	
 			/** Changes names and icons of actions suitable to normal mode.
 			 * Deletes actions related to exam.	 */
@@ -56,6 +56,7 @@ public:
 	void createRepeatSoundAction(); /** Creates @p repeatSndAct. Don't add to tool bar */
 	void createCorrectAction(); /** Creates @p correctAct. Don't add to tool bar */
 	void createTuneForkAction(); /** Creates @p tuneForkAct. Don't add to tool bar */
+	void createAttemptAction(); /** Creates @p attemptAct. Don't add to tool bar */
 	
 			/** Removes actions for previous and next question @p prevQuestAct & @p nextQuestAct.
 			 * Adds check answer action (@p checkAct) 

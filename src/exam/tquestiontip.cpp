@@ -200,7 +200,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
         if (question.answerAsNote()) {
 						m_scoreFree = false;
 						if (question.melody()) {
-								quest += tr("Listened melody write on the score");
+								quest += tr("Listen to a melody and write it on the score");
 								if (level->useKeySign && level->manualKey && level->onlyCurrKey)
 									quest += tr("<br>Guess a key signature");
 						} else {

@@ -120,6 +120,8 @@ public:
 		bool isScorePlayed() { return m_scoreIsPlayed; }
 		TnoteName* noteName() { return m_nameMenu; }
 		
+		bool isCorrectAnimPending() { return m_correctNoteNr > -1; } /** @p TRUE when animation is in progress. */
+		
 signals:
 		void noteChanged(int index, Tnote note);
 		
