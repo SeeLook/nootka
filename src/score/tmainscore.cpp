@@ -388,6 +388,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 }
 
 
+bool m_emitExpertNoteClicked = true;
 void TmainScore::clearScore() {
 	bool enableAnim = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations to empty score
@@ -399,9 +400,9 @@ void TmainScore::clearScore() {
 		staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 		staff()->noteSegment(0)->hideWorkNote();
 	} else {
-			blockSignals(true);
+			m_emitExpertNoteClicked = false; // don't emit noteClicked() in expert exam mode
 			deleteNotes();
-			blockSignals(false);
+			m_emitExpertNoteClicked = true; // better single bool than blockSignal()
 			selectNote(-1);
 			staff()->noteSegment(0)->markNote(-1);
 	}
@@ -453,7 +454,8 @@ void TmainScore::askQuestion(Tmelody* mel) {
 
 
 void TmainScore::expertNoteChanged() {
-	emit noteClicked();
+	if (m_emitExpertNoteClicked)
+		emit noteClicked();
 }
 
 

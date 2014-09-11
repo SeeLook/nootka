@@ -137,8 +137,18 @@ void TtoolBar::createCorrectAction() {
 void TtoolBar::createTuneForkAction() {
 	if (!tuneForkAct) {
 		tuneForkAct = new QAction(Tnote(6, 1, 0).toText(), this);
-		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tune fork"));
+		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tune fork."));
 		tuneForkAct->setIcon(QIcon(m_path + "fork.png"));
+	}
+}
+
+
+void TtoolBar::createAttemptAction() {
+	if (!attemptAct) {
+		attemptAct = new QAction(tr("Try again"), this);
+		attemptAct->setStatusTip(tr("Try this melody once more time. (backspace)"));
+		attemptAct->setIcon(QIcon(m_path + "attempt.png"));
+		attemptAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 	}
 }
 

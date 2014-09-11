@@ -528,7 +528,7 @@ void Tcanvas::setResultPos() {
 //   m_resultTip->setPos(m_relPoint.x() + (((m_scene->width() - m_relPoint.x()) - m_scale * m_resultTip->boundingRect().width())) / 2,
 //                       m_relPoint.y());
 	m_resultTip->setPos(m_scene->width() * 0.66 + (m_scene->width() / 3 - m_scale * m_resultTip->boundingRect().width()) / 2,
-											m_scene->height() * 0.05);
+											m_scene->height() * 0.15);
 }
 
 
@@ -537,7 +537,7 @@ void Tcanvas::setTryAgainPos() {
 // 											m_scale * m_tryAgainTip->boundingRect().width())) / 2,
 //                       m_window->noteName->geometry().top() - m_scale * m_tryAgainTip->boundingRect().height());
 	m_tryAgainTip->setPos(m_scene->width() * 0.66 + (m_scene->width() / 3 - m_scale * m_tryAgainTip->boundingRect().width()) / 2,
-												m_scene->height() * 0.15);
+												m_scene->height() * 0.25);
 }
 
 
