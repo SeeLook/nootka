@@ -45,7 +45,7 @@
 
 const qint32 Texam::examVersion = 0x95121702;
 const qint32 Texam::examVersion2 = 0x95121704;
-const qint32 Texam::currentVersion = 0x95121706;
+const qint32 Texam::currentVersion = 0x95121708;
 
 const quint16 Texam::maxAnswerTime = 65500;
 
@@ -247,6 +247,12 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 }
 
 
+bool Texam::loadFromXml(QXmlStreamReader& xml) {
+	bool ok = true;
+	return ok;
+}
+
+
 Texam::EerrorType Texam::saveToFile(QString fileName) {
 	if (fileName != "")
 		setFileName(fileName); // m_fileName becomes fileName
@@ -255,23 +261,32 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 	QFile file(m_fileName);
 	if (file.open(QIODevice::WriteOnly)) {
 		QDataStream out(&file);
-		out.setVersion(QDataStream::Qt_4_7);
-		out << 0x95121708;
+		out.setVersion(QDataStream::Qt_5_2);
+		out << currentVersion;
+		QXmlStreamWriter xml(&file);
+		
+		xml.setAutoFormatting(true);
+		xml.writeStartDocument();
+		xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
+		writeToXml(xml);
+		xml.writeEndDocument();
+		
+		file.close();
 // 		out << m_userName << *m_level << m_tune; TODO !!!!!!!!!!!!!!!!! XML !!!!!!!!!!!!!!!!!!!!!!!!!!!
-		out << m_totalTime; // elapsed exam time (quint32)
-			// data for file preview
-		out << (quint16)m_answList.size(); // number of questions
-		out << m_averReactTime; // average time of answer (quint16)
-			// that's all
-		out << m_mistNr; // number of mistakes (quint16)
-      /** Those were added in version 2 */
-		out << m_halfMistNr << m_penaltysNr << m_isFinished;
-		for (int i = 0; i < m_answList.size(); i++)
-				out << m_answList[i]; // and obviously answers
-	  if (m_blackList.size()) {
-      for (int i = 0; i < m_blackList.size(); i++)
-        out << m_blackList[i]; // and black list
-    }
+// 		out << m_totalTime; // elapsed exam time (quint32)
+// 			// data for file preview
+// 		out << (quint16)m_answList.size(); // number of questions
+// 		out << m_averReactTime; // average time of answer (quint16)
+// 			// that's all
+// 		out << m_mistNr; // number of mistakes (quint16)
+//       /** Those were added in version 2 */
+// 		out << m_halfMistNr << m_penaltysNr << m_isFinished;
+// 		for (int i = 0; i < m_answList.size(); i++)
+// 				out << m_answList[i]; // and obviously answers
+// 	  if (m_blackList.size()) {
+//       for (int i = 0; i < m_blackList.size(); i++)
+//         out << m_blackList[i]; // and black list
+//     }
 	} else {
 		QMessageBox::critical(0, "",
            QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
@@ -279,6 +294,27 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 	}
 	qDebug() << "Exam saved to:" << m_fileName;
 	return e_file_OK;
+}
+
+
+void Texam::writeToXml(QXmlStreamWriter& xml) {
+	xml.writeStartElement("exam");
+		xml.writeAttribute("user", m_userName);
+		xml.writeStartElement("head");
+			m_level->writeToXml(xml);
+			m_tune.toXml(xml, true);
+			xml.writeTextElement("totalTime", QVariant(m_totalTime).toString());
+			xml.writeTextElement("questNr", QVariant(m_answList.size()).toString());
+			xml.writeTextElement("averReactTime", QVariant(m_averReactTime).toString());
+			xml.writeTextElement("mistNr", QVariant(m_mistNr).toString());
+			xml.writeTextElement("halfMistNr", QVariant(m_halfMistNr).toString());
+			xml.writeTextElement("penaltysNr", QVariant(m_penaltysNr).toString());
+			xml.writeTextElement("finished", QVariant(m_isFinished).toString());
+		xml.writeEndElement(); // head
+		xml.writeStartElement("answers");
+		
+		xml.writeEndElement(); // answers
+	xml.writeEndElement(); // exam
 }
 
 

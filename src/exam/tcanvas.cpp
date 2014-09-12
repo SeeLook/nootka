@@ -162,10 +162,17 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	QString whatNextText = startTipText();;
 	//   if (!m_window->autoRepeatChB->isChecked()) TODO exam run-time settings
 	//       m_window->autoRepeatChB->startAnimation(3);
-	if (!isCorrect)
-			whatNextText += "<br>" + tr("To correct an answer") + " " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(gl->path + "picts/prevQuest.png", PIXICONSIZE) + "</a>") +
-			" " + TexamHelp::orPressBackSpace();
+	if (!isCorrect) {
+		QString t = tr("To correct an answer");
+		QString i = gl->path + "picts/";
+		if (m_exam->curQ().melody()) {
+			t = tr("To try this melody again");
+			i += "attempt.png";
+		} else
+			i += "prevQuest.png";
+		whatNextText += "<br>" + t + " " + TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(i, PIXICONSIZE) +
+										"</a>") +	" " + TexamHelp::orPressBackSpace();
+	}
 	if (toCorrection) {
 		QString t = tr("To see corrected answer");
 		if (m_exam->curQ().melody())

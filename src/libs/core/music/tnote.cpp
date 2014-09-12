@@ -22,7 +22,6 @@
 #include <string>
 #include <iostream>
 #include <unistd.h>
-#include <QXmlStreamWriter>
 #include <QVariant>
 
 
@@ -82,7 +81,16 @@ Tnote::Tnote( char m_diatonNote, char m_octave, char m_acidental)
 
 Tnote::Tnote (short chromaticNrOfNote)
 {
-   switch ((chromaticNrOfNote + 143) % 12 + 1)	{
+   setChromatic(chromaticNrOfNote);
+}
+
+
+Tnote::~Tnote ()
+{}
+
+
+void Tnote::setChromatic(short int noteNr) {
+	switch ((noteNr + 143) % 12 + 1)	{
 			case 1: note = 1; acidental = 0; break;
 			case 2: note = 1; acidental = 1; break;
 			case 3: note = 2; acidental = 0; break;
@@ -96,12 +104,8 @@ Tnote::Tnote (short chromaticNrOfNote)
 			case 11: note = 6; acidental = 1; break;
 			case 12: note = 7; acidental = 0; break;
    }	
-   octave = ((chromaticNrOfNote+143) / 12 - 12) ;
+   octave = ((noteNr + 143) / 12 - 12) ;
 }
-
-
-Tnote::~Tnote ()
-{}
 
 
 short Tnote::getChromaticNrOfNote() {
@@ -365,24 +369,30 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
 }
 
 
-void Tnote::toXml(QXmlStreamWriter& xml) {
-	xml.writeStartElement("pitch");
+void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& prefix, 
+									const QString& attr, const QString& val) {
+	if (!tag.isEmpty()) {
+		xml.writeStartElement(tag);
+		if (!attr.isEmpty())
+			xml.writeAttribute(attr, val);
+	}
 	if (note !=0) { // write <pitch> context only if note is valid
 		Tnote bareNote = Tnote(note, octave, 0);
-		xml.writeTextElement("step", bareNote.toText(Tnote::e_english_Bb, false));
-		xml.writeTextElement("octave", QVariant((int)octave + 3).toString());
+		xml.writeTextElement(prefix + "step", bareNote.toText(Tnote::e_english_Bb, false));
+		xml.writeTextElement(prefix + "octave", QVariant((int)octave + 3).toString());
 		if (acidental)
-			xml.writeTextElement("alter", QVariant((int)acidental).toString());
+			xml.writeTextElement(prefix + "alter", QVariant((int)acidental).toString());
 	}
-	xml.writeEndElement(); // pitch
+	if (!tag.isEmpty())
+		xml.writeEndElement(); // pitch
 }
 
 
-void Tnote::fromXml(QXmlStreamReader& xml) {
-	if (xml.name() == "pitch") {
+void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
+// 	if (xml.name() == "pitch") {
 		note = 0; octave = 0; acidental = 0; // reset this note
 		while (xml.readNextStartElement()) {
-			if (xml.name() == "step") {
+			if (xml.name() == (prefix + "step")) {
 				QString step = xml.readElementText().toUpper();
 				for (char i = 1; i < 8; i++) {
 					Tnote n(i, 0, 0);
@@ -391,16 +401,15 @@ void Tnote::fromXml(QXmlStreamReader& xml) {
 						break;
 					}
 				}
-			} else if (xml.name() == "octave")
+			} else if (xml.name() == (prefix + "octave"))
 				octave = char(xml.readElementText().toInt() - 3);
-			else if (xml.name() == "alter")
+			else if (xml.name() == (prefix + "alter"))
 				acidental = char(xml.readElementText().toInt());
 			else 
 				xml.skipCurrentElement();
 		}
-	}
+// 	}
 }
-
 
 
 bool Tnote::operator ==( const Tnote N2 ) {

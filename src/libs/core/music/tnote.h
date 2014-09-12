@@ -20,11 +20,9 @@
 
 #include <string>
 #include <QDataStream>
+#include <QXmlStreamWriter>
 #include <vector>
 #include <nootkacoreglobal.h>
-
-class QXmlStreamReader;
-class QXmlStreamWriter;
 
 class Tnote;
 
@@ -67,7 +65,7 @@ public:
 	char note; /** note variable is a number in "diatonal notation" (see constructor).*/
 	char octave; /** Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line". */
 	
-				/** @param accidental means raising or falling note, so it ca be:
+				/** @param accidental means raising or dropping a note, so it ca be:
 				* @li 2 for double sharp (x)
 				* @li 1 for sharp (#)
 				* @li 0 for natural
@@ -76,7 +74,7 @@ public:
 	char acidental;
 
 				/** Construct object of Tnote from number of note, number of octave and optional
-				* acidental. The note number is: .
+				* accidental. The note number is:
 				* @li "1" for C 
 				* @li "2" for D1 
 				* @li .......
@@ -85,8 +83,9 @@ public:
 	Tnote (char m_diatonNote, char m_octave, char m_acidental = 0);
 	
 				/** The simple constructor, creates the note instance with 0 note - 
-				* It's no sence in musical notation. It's needed for vectors*/
+				* It makes no sense in musical notation. It's needed for vectors. */
 	Tnote ();
+
 				/** Construct object of Tnote from number, that represents:
 				* @li "1" for C1 in first octave
 				* @li "2" for Cis 
@@ -96,6 +95,9 @@ public:
 				* The sharp accidental is default. If You need others, you can use convToFlat. */
 	Tnote (short chromaticNrOfNote);
 	~Tnote ();
+	
+			/** Returns @p TRUE when note is valid. There are used 'undefined' notes with 0 - they are invalid. */
+	bool isValid() { return (note > 0 && note < 8); }
 	
 			/** Static value determines default name style for a note */
 	static EnameStyle defaultStyle; 
@@ -143,22 +145,33 @@ public:
 				/** Returns note name formatted to HTML in default name style sets by @p defaultStyle. */
 	QString toRichText(bool showOctave = true) { return toRichText(defaultStyle, showOctave); }
 	
-				/**  Returns chromatic number of note */
-	short getChromaticNrOfNote ();
+	short getChromaticNrOfNote(); /** Returns chromatic number of note C1 is 60 */
+	void setChromatic(short noteNr); /** Determines note, octave and accidental from chromatic value. */
 
-			/** Adds 'pitch' key to XML stream compatible with MusicXML format with current note
-			 * <pitch>
-       * <step>G</step>
-       * <octave>2</octave>
-       * <alter>-1</alter>
+			/** Adds given @p tag or 'pitch' key to XML stream compatible with MusicXML format with current note
+			 * Following elements can be prefixed with @p prefix (it is used i.e. to tuning in MusicXML)
+			 * If @p attr and its @p val is set the attribute is added
+			 * <pitch attr="val">
+       * 		<prefix-step>G</prefix-step>
+       * 		<prefix-octave>2</prefix-octave>
+       * 		<prefix-alter>-1</prefix-alter>
        * </pitch>  */
-	void toXml(QXmlStreamWriter& xml);
-	void fromXml(QXmlStreamReader& xml); /** Reads this note from XML stream  */
+	void toXml(QXmlStreamWriter& xml, const QString& tag = "pitch", const QString& prefix = "",
+						 const QString& attr = "", const QString& val = "");
+	
+			/** Reads this note from XML stream. 
+			 * It looks every note element prefixed with @p prefix. */
+	void fromXml(QXmlStreamReader& xml, const QString& prefix = ""); 
+	
+	
+	unsigned int toMidi() { return getChromaticNrOfNote() + 47; } /** Returns this note as midi number. */
+	void fromMidi(unsigned int midiNote) { setChromatic(midiNote - 47); } /** Sets this note from midi note number. */
 
 private:
 	
 	static std::string m_solmization[7];
 	static std::string m_solmizationRu[7];
+	
 };
     /** This function is substitute of >> operator for @class Tnote.
     * It checks is Tnote valid, and return Boolean about it. */

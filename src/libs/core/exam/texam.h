@@ -23,6 +23,7 @@
 #include <nootkacoreglobal.h>
 #include <QString>
 #include <QList>
+#include <QXmlStreamWriter>
 #include <QApplication>
 #include "tqaunit.h"
 #include <music/ttune.h>
@@ -127,6 +128,9 @@ public:
 
   EerrorType loadFromFile(QString &fileName);
   EerrorType saveToFile(QString fileName = "");
+	
+	void writeToXml(QXmlStreamWriter& xml);
+	bool loadFromXml(QXmlStreamReader& xml);
 
 			/** Maximal time of an answer = 65500. Values over are equal to it.
 			* 65501 & 65502 are for counting probes in blackList */
@@ -153,7 +157,7 @@ protected:
 
 private:
 	QString 									m_fileName, m_userName;
-	Tlevel 								*m_level;
+	Tlevel 									 *m_level;
 	QList<TQAunit> 						m_answList;
   QList<TQAunit> 						m_blackList;
 	Ttune 										m_tune;

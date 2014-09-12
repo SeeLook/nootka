@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "ttune.h"
+#include <QVariant>
 // #include <QDebug>
 
 /*static*/
@@ -89,9 +90,117 @@ void Ttune::determineStringsNumber() {
 }
 
 
+void Ttune::copy(Ttune& t) {
+	name = t.name;
+	for (int i = 0; i < 6; ++i)
+		stringsArray[i] = t.str(i + 1);
+	
+}
+
 //##################################################################################################
 //###################### I/O OPERATORS #############################################################
 //##################################################################################################
+
+/** Defined tuning have following identifiers:
+ * -1 - user defined
+ * 0 - standard EADGBE
+ * 1 to 4 - classical/electric 6 strings defined (@p tunes array)
+ * 100 to 103 - bass 4-6 strings defined (@p bassTunes array)
+ */
+void Ttune::toXml(QXmlStreamWriter& xml, bool isExam) {
+	int id = -1; // user defined tuning
+	if (isExam) { // determine is tuning built-in or user defined
+		xml.writeStartElement("tuning");
+		if (operator==(stdTune))
+			id = 0;
+		else {
+			for (int i = 0; i < 4; ++i) {
+				if (operator==(tunes[i])) {
+					id = i + 1;	break;
+				}
+			}
+		}
+		if (id == -1) { // defined tuning still not found - try bass
+			for (int i = 0; i < 4; ++i) {
+				if (operator==(bassTunes[i])) {
+					id = i + 100;	break;
+				}
+			}
+		}
+		xml.writeAttribute("id", QVariant(id).toString());
+	} else
+		xml.writeStartElement("staff-details");
+	if (id == -1) { // write tuning data
+		if (isExam)
+				xml.writeTextElement("name", name); // skip tuning name for musicXML (save it for exam only)
+		xml.writeTextElement("staff-lines", QVariant(stringNr()).toString());
+		for (int i = 0; i < stringNr(); ++i) {
+			stringsArray[i].toXml(xml, "staff-tuning", "tuning-", "line", QVariant(i + 1).toString());
+		}
+	}
+	xml.writeEndElement(); // <tuning> or <staff-details>
+}
+
+
+bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
+	bool ok = true;
+	int id = -1;
+	if (isExam) {
+		int id = xml.attributes().value("id").toInt();
+		if (id < -1 || (id > 4 && id < 100) || (id > 103)) {
+			qDebug() << "Tuning had wrong 'id'. Standard tuning will be used";
+			ok= false;
+		}
+		switch (id) {
+			case -1: break;
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+				copy(tunes[id]); break;
+			case 100:
+			case 101:
+			case 102:
+			case 103:
+				copy(bassTunes[id - 100]); break;
+			default:
+				copy(stdTune); break;
+		}
+	}
+	if (id == -1) {
+		int sNrGet = 6, sNrCount = 0;
+		while (xml.readNextStartElement()) {
+			if (xml.name() == "name") // exam only
+				name = xml.readElementText();
+			else if (xml.name() == "staff-lines")
+				sNrGet = QVariant(xml.readElementText()).toInt();
+			else if (xml.name() == "staff-tuning") {
+				sNrCount++;
+				int line = xml.attributes().value("line").toInt();
+				if (line > 0 && line <= sNrGet && line <= 6) {
+					stringsArray[line - 1].fromXml(xml, "tuning-");
+					if (!stringsArray[line - 1].isValid()) {
+						qDebug() << "Wrong note describing a string" << line;
+						ok = false;
+					}
+				} else {
+					qDebug() << "Wrong string (line) number";
+					ok = false;
+				}
+			} else
+				xml.skipCurrentElement();
+		}
+		if (sNrGet != sNrCount) {
+			qDebug() << "String numbers not matched" << sNrGet << sNrCount;
+			ok = false;
+		}
+		if (!ok)
+			copy(stdTune);
+	}
+	return ok;
+}
+
+
 
 QDataStream &operator<< (QDataStream &out, const Ttune &t) {
     out << t.name;
@@ -105,7 +214,11 @@ QDataStream &operator>> (QDataStream &in, Ttune &t) {
     for (int i=0; i < 6; i++)
         in >> t.stringsArray[i];
 		t.determineStringsNumber();
-// 		qDebug() << "strings number from file:" << t.stringNr();
     return in;
 }
+
+
+
+
+
 
