@@ -130,8 +130,8 @@ void TaudioIN::setIsVoice(bool isV) {
  * This 46 and 48 are its sign. 
  * Normally 47 is offset of midi note to Nootka Tnote. */
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
-	m_loPitch = loNote.getChromaticNrOfNote() + 46;
-	m_hiPitch = hiNote.getChromaticNrOfNote() + 48;
+	m_loPitch = loNote.chromatic() + 46;
+	m_hiPitch = hiNote.chromatic() + 48;
 	m_loNote = loNote;
 	m_hiNote = hiNote;
 // 	qDebug() << "Ambitus set to:" << loNote.toText() << "--" << hiNote.toText();

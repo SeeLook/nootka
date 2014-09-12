@@ -85,16 +85,16 @@ Tnote TkeySignature::inKey(TkeySignature k, Tnote n) {
 /*private static*/
 Tnote TkeySignature::m_inKey(char val, Tnote n) {
     val = val+7;
-    if (scalesDefArr[val][n.note-1] == n.acidental)
+    if (scalesDefArr[val][n.note-1] == n.alter)
         return n;
     Tnote tmpN = n.showWithFlat();
-    if (scalesDefArr[val][tmpN.note-1] == tmpN.acidental)
+    if (scalesDefArr[val][tmpN.note-1] == tmpN.alter)
         return tmpN;
     tmpN = n.showWithSharp();
-    if (scalesDefArr[val][tmpN.note-1] == tmpN.acidental)
+    if (scalesDefArr[val][tmpN.note-1] == tmpN.alter)
         return tmpN;
     tmpN = n.showAsNatural();
-    if (scalesDefArr[val][tmpN.note-1] == tmpN.acidental)
+    if (scalesDefArr[val][tmpN.note-1] == tmpN.alter)
         return tmpN;
 
     return Tnote(0,0,0);

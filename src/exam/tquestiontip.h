@@ -39,7 +39,7 @@ public:
     TquestionTip(Texam *exam, double scale = 0);
     ~TquestionTip();
     
-    static QString getTextHowAccid(Tnote::Eacidentals accid);
+    static QString getTextHowAccid(Tnote::Ealter accid);
     static QString onStringTxt(quint8 strNr); /** Returns translated text on (strNr) string in Nootka font. */
 		
 				/** Depend on @p instrument it returns text:
@@ -60,7 +60,7 @@ protected:
 private:
                 /** Indicate where has to be a tip */
     bool                     m_scoreFree, m_nameFree, m_guitarFree; 
-    Tnote::Eacidentals       m_forcedAccid; // When different than Tnote::e_Natural text is shown
+    Tnote::Ealter       m_forcedAccid; // When different than Tnote::e_Natural text is shown
     TfadeAnim             *m_fadeInAnim;
 };
 

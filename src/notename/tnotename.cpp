@@ -189,7 +189,7 @@ TnoteName::TnoteName(QWidget *parent) :
     setStyle(gl->S->nameStyleInNoteName);
     setNoteNamesOnButt(style());
     for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
-    setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber));
+    setAmbitus(gl->loString(), Tnote(gl->hiString().chromatic()+gl->GfretsNumber));
 // #if !defined (Q_OS_ANDROID)
 // 		resize((qApp->desktop()->availableGeometry().height() / 10) / 4 - 2);
 // #endif
@@ -353,8 +353,8 @@ void TnoteName::resize(int fontSize) {
 
 /** Variables declared here have been used nowhere so far.  */
 void TnoteName::setAmbitus(Tnote lo, Tnote hi) {
-    m_ambitMin = lo.getChromaticNrOfNote();
-    m_ambitMax = hi.getChromaticNrOfNote();
+    m_ambitMin = lo.chromatic();
+    m_ambitMax = hi.chromatic();
 }
 
 
@@ -588,7 +588,7 @@ void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
 
 void TnoteName::setButtons(Tnote note) {
     m_noteButtons[note.note-1]->setChecked(true);
-		checkAccidButtons(note.acidental);
+		checkAccidButtons(note.alter);
     if (note.octave >= -3 && note.octave <= 4) {
 			if (m_octaveButtons[note.octave + 3]->isEnabled()) { // check octave button only when is enabled
 					m_octaveButtons[note.octave + 3]->setChecked(true);

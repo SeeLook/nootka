@@ -111,7 +111,7 @@ void TscoreStaff::setNote(int index, const Tnote& note) {
 	Tnote prevNote = *getNote(index);
 	if (index >= 0 && index < m_scoreNotes.size()) {
 		if (note.note)
-				m_scoreNotes[index]->setNote(noteToPos(note), (int)note.acidental, note);
+				m_scoreNotes[index]->setNote(noteToPos(note), (int)note.alter, note);
 		else
 				m_scoreNotes[index]->setNote(0, 0, note);
     if (note.note)
@@ -547,7 +547,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 				+ m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
 	m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
 	m_scoreNotes[noteIndex]->note()->octave = (char)(56 + globalNr) / 7 - 8;
-	m_scoreNotes[noteIndex]->note()->acidental = (char)m_scoreNotes[noteIndex]->accidental();
+	m_scoreNotes[noteIndex]->note()->alter = (char)m_scoreNotes[noteIndex]->accidental();
 	setCurrentIndex(noteIndex);
 	emit noteChanged(noteIndex);
 	checkNoteRange();

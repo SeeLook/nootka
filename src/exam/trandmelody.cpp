@@ -61,9 +61,9 @@ void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, boo
 				theSame = true;
 			else {
 				Tnote tonicConverted;
-				if (tonic.acidental == 1)
+				if (tonic.alter == 1)
 					tonicConverted = tonic.showWithFlat();
-				else if (tonic.acidental == -1)
+				else if (tonic.alter == -1)
 					tonicConverted = tonic.showWithSharp();
 				else
 					continue;

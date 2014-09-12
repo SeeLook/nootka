@@ -129,7 +129,7 @@ public:
 		bool inScaleOf(int loNoteNr, int hiNoteNr);
 		
 				/** Overloaded method with scale in Tnote objects */
-		bool inScaleOf(Tnote &loN, Tnote &hiN) { return inScaleOf(loN.getChromaticNrOfNote(), hiN.getChromaticNrOfNote()); }
+		bool inScaleOf(Tnote &loN, Tnote &hiN) { return inScaleOf(loN.chromatic(), hiN.chromatic()); }
 		bool inScaleOf(); /** Overloaded method where instrument scale is taken from Tglobals  */
 		
 				/** Examines level scale, note by note to find lowest and highest frets used.

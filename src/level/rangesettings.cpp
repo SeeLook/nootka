@@ -41,7 +41,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     QVBoxLayout *scoreLay = new QVBoxLayout;
     m_scoreRang = new TsimpleScore(2, this);
 			m_scoreRang->setClef(Tclef(gl->S->clef));
-			m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
+			m_scoreRang->setAmbitus(Tnote(gl->loString().chromatic()), Tnote(gl->hiNote().chromatic()));
 			m_scoreRang->setNote(0, Tnote(1, 0));
 			m_scoreRang->setNote(1, Tnote(1, 1));
 			m_scoreRang->addBGglyph((int)gl->instrument);
@@ -131,7 +131,7 @@ void rangeSettings::stringSelected() {
 void rangeSettings::loadLevel(Tlevel* level) {
 	blockSignals(true);
 		m_scoreRang->setClef(level->clef);
-		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
+		m_scoreRang->setAmbitus(Tnote(gl->loString().chromatic()), Tnote(gl->hiNote().chromatic()));
     m_scoreRang->setNote(0, level->loNote);
     m_scoreRang->setNote(1, level->hiNote);
     m_fromSpinB->setValue(level->loFret);
@@ -145,7 +145,7 @@ void rangeSettings::loadLevel(Tlevel* level) {
 
 
 void rangeSettings::whenParamsChanged() {
-		m_scoreRang->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()), Tnote(gl->hiNote().getChromaticNrOfNote()));
+		m_scoreRang->setAmbitus(Tnote(gl->loString().chromatic()), Tnote(gl->hiNote().chromatic()));
     if (!m_stringBut[0]->isChecked() || !m_stringBut[1]->isChecked()
         || !m_stringBut[2]->isChecked() || !m_stringBut[3]->isChecked()
         || !m_stringBut[4]->isChecked() || !m_stringBut[5]->isChecked() )
@@ -165,12 +165,12 @@ void rangeSettings::saveLevel(Tlevel* level) {
 	// Fixing empty notes
 		if (m_scoreRang->getNote(0).note == 0)
 				m_scoreRang->setNote(0, 
-										Tnote(qMax(gl->loString().getChromaticNrOfNote(), m_scoreRang->lowestNote().getChromaticNrOfNote())));
+										Tnote(qMax(gl->loString().chromatic(), m_scoreRang->lowestNote().chromatic())));
 		if (m_scoreRang->getNote(1).note == 0)
 				m_scoreRang->setNote(1, 
-										Tnote(qMin(gl->hiNote().getChromaticNrOfNote(), m_scoreRang->highestNote().getChromaticNrOfNote())));
+										Tnote(qMin(gl->hiNote().chromatic(), m_scoreRang->highestNote().chromatic())));
 				
-    if (m_scoreRang->getNote(0).getChromaticNrOfNote() <= m_scoreRang->getNote(1).getChromaticNrOfNote()) {
+    if (m_scoreRang->getNote(0).chromatic() <= m_scoreRang->getNote(1).chromatic()) {
 				level->loNote = m_scoreRang->getNote(0);
 				level->hiNote = m_scoreRang->getNote(1);
 		} else {
@@ -217,7 +217,7 @@ void rangeSettings::adjustFrets() {
 	char loF, hiF;
 	Tlevel lev;
 	saveLevel(&lev);
-	if (!lev.loNote.acidental && !lev.hiNote.acidental) { // when range doesn't use accidentals
+	if (!lev.loNote.alter && !lev.hiNote.alter) { // when range doesn't use accidentals
 			lev.withFlats = wLevel()->withFlats; // maybe actual working level doses
 			lev.withSharps = wLevel()->withSharps;
 	} // checking routine requires it
@@ -232,8 +232,8 @@ void rangeSettings::adjustFrets() {
 
 
 void rangeSettings::adjustNotes() {
-	m_scoreRang->setNote(0, Tnote(gl->loString().getChromaticNrOfNote() + m_fromSpinB->value()));
-	m_scoreRang->setNote(1, Tnote(gl->hiString().getChromaticNrOfNote() + m_toSpinB->value()));
+	m_scoreRang->setNote(0, Tnote(gl->loString().chromatic() + m_fromSpinB->value()));
+	m_scoreRang->setNote(1, Tnote(gl->hiString().chromatic() + m_toSpinB->value()));
 	emit rangeChanged();
 }
 

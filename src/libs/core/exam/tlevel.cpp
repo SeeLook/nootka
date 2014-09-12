@@ -141,7 +141,7 @@ Tlevel::Tlevel() :
     requireInTempo = true;
 // RANGE - for non guitar Tglobals will returns scale determined by clef
    loNote = Tglob::glob()->loString();
-   hiNote = Tnote(Tglob::glob()->hiString().getChromaticNrOfNote() + Tglob::glob()->GfretsNumber);
+   hiNote = Tnote(Tglob::glob()->hiString().chromatic() + Tglob::glob()->GfretsNumber);
    loFret = 0;
    hiFret = Tglob::glob()->GfretsNumber;
 	 for (int i = 0; i < 6; i++) {
@@ -247,23 +247,22 @@ Tlevel::EerrorType Tlevel::qaTypeFromXml(QXmlStreamReader& xml) {
 
 Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 	EerrorType er = e_level_OK;
-	if (xml.readNextStartElement()) {
-		if (xml.name() != "level") {
-			qDebug() << "There is no 'level' key in that XML";
-			return e_noLevelInXml;
-		}
-		name = xml.attributes().value("name").toString();
-		if (name == "") {
-			qDebug() << "Level key has empty 'name' attribute";
-			return e_otherError;
-		} else if (name.size() > 20) {
-			name = name.left(20);
-			er = e_levelFixed;
-			qDebug() << "Name of a level was reduced to 20 characters:" << name;
-		}
+// 	if (xml.readNextStartElement()) {
+	if (xml.name() != "level") {
+		qDebug() << "There is no 'level' key in that XML";
+		return e_noLevelInXml;
 	}
+	name = xml.attributes().value("name").toString();
+	if (name == "") {
+		qDebug() << "Level key has empty 'name' attribute";
+		return e_otherError;
+	} else if (name.size() > 20) {
+		name = name.left(20);
+		er = e_levelFixed;
+		qDebug() << "Name of a level was reduced to 20 characters:" << name;
+	}
+// 	}
 	while (xml.readNextStartElement()) {
-// 		qDebug() << "readLevelFromXml" << xml.name();
 		if (xml.name() == "description")
 			desc = xml.readElementText();
 	// QUESTIONS
@@ -475,7 +474,7 @@ Tclef Tlevel::fixClef(quint16 cl) {
 				return Tclef(Tclef::e_treble_G_8down); // and versions before 0.8.90 kept here 0
 		if (cl == 1) {
 			Tnote lowest(6, -2, 0);
-			if (canBeGuitar() || loNote.getChromaticNrOfNote() < lowest.getChromaticNrOfNote() )
+			if (canBeGuitar() || loNote.chromatic() < lowest.chromatic() )
 					return Tclef(Tclef::e_treble_G_8down);  // surely: 1 = e_treble_G was not intended here
 			else
 					return Tclef(Tclef::e_treble_G); 
@@ -627,8 +626,8 @@ bool Tlevel::answerIsSound() {
 
 
 bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
-	int loNr = loNote.getChromaticNrOfNote();
-	int hiNr = hiNote.getChromaticNrOfNote();
+	int loNr = loNote.chromatic();
+	int hiNr = hiNote.chromatic();
 	if (loNr >= loNoteNr && loNr <= hiNoteNr && hiNr >= loNoteNr && hiNr <= hiNoteNr)
 		return true;
 	else
@@ -637,7 +636,7 @@ bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
 
 
 bool Tlevel::inScaleOf() {
-	return inScaleOf(Tglob::glob()->loString().getChromaticNrOfNote(), Tglob::glob()->hiNote().getChromaticNrOfNote());
+	return inScaleOf(Tglob::glob()->loString().chromatic(), Tglob::glob()->hiNote().chromatic());
 }
 
 
@@ -646,15 +645,15 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
 		return false; // get rid - makes no sense to further check
 	
 	int lowest = Tglob::glob()->GfretsNumber, highest = 0;
-	for (int no = loNote.getChromaticNrOfNote(); no <= hiNote.getChromaticNrOfNote(); no++) {
+	for (int no = loNote.chromatic(); no <= hiNote.chromatic(); no++) {
 		if (!withFlats && !withSharps)
-			if (Tnote(no).acidental) // skip note with accidental when not available in the level
+			if (Tnote(no).alter) // skip note with accidental when not available in the level
 					continue;
 		int tmpLow = Tglob::glob()->GfretsNumber;
 		for(int st = 0 ; st < Tglob::glob()->Gtune()->stringNr(); st++) {
 			if (!usedStrings[st]) 
 					continue;
-			int diff = no - Tglob::glob()->Gtune()->str(Tglob::glob()->strOrder(st) + 1).getChromaticNrOfNote();
+			int diff = no - Tglob::glob()->Gtune()->str(Tglob::glob()->strOrder(st) + 1).chromatic();
 			if (diff >= 0 && diff <= Tglob::glob()->GfretsNumber) { // found
 					lowest = qMin<int>(lowest, diff);
 					tmpLow = qMin<int>(tmpLow, diff);
@@ -680,7 +679,7 @@ Tlevel::EerrorType Tlevel::fixFretRange() {
 
 
 Tlevel::EerrorType Tlevel::fixNoteRange() {
-	if (loNote.getChromaticNrOfNote() > hiNote.getChromaticNrOfNote()) {
+	if (loNote.chromatic() > hiNote.chromatic()) {
 		Tnote tmpNote = loNote;
 		loNote = hiNote;
 		hiNote = tmpNote;

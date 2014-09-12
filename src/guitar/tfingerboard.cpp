@@ -135,11 +135,11 @@ void TfingerBoard::acceptSettings() {
 
 void TfingerBoard::setFinger(Tnote note) {
     if (note.note) {
-				short noteNr = note.getChromaticNrOfNote();
+				short noteNr = note.chromatic();
         bool doShow = true;
 				bool foundPos = false;
         for(int i = 0; i < gl->Gtune()->stringNr(); i++) { // looking for pos to show
-            int diff = noteNr - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
+            int diff = noteNr - gl->Gtune()->str(gl->strOrder(i) + 1).chromatic();
             if (doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
 								foundPos = true;
 // 								deleteBeyondTip();
@@ -497,40 +497,40 @@ QRectF TfingerBoard::fingerRect() const {
 
 void TfingerBoard::setTune() {
 	for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
-		if (gl->Gtune()->str(i + 1.5).getChromaticNrOfNote() > 14) { // highest than cis1
+		if (gl->Gtune()->str(i + 1.5).chromatic() > 14) { // highest than cis1
 			m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
 			m_widthFromPitch[i] = 2; // and thiner
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 10) { // highest than gis
+		} else if (gl->Gtune()->str(i + 1).chromatic() > 10) { // highest than gis
 				m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
 				m_widthFromPitch[i] = 2.5; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 4) { // highest than dis
+		} else if (gl->Gtune()->str(i + 1).chromatic() > 4) { // highest than dis
 				m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
 				m_widthFromPitch[i] = 3; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > 0) { // highest than b-1(contra)
+		} else if (gl->Gtune()->str(i + 1).chromatic() > 0) { // highest than b-1(contra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 3; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -5) { // highest than g-1(contra) 1-st string of bass
+		} else if (gl->Gtune()->str(i + 1).chromatic() > -5) { // highest than g-1(contra) 1-st string of bass
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 3.5; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -10) { // highest than d-1(contra)
+		} else if (gl->Gtune()->str(i + 1).chromatic() > -10) { // highest than d-1(contra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 4; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -15) { // highest than gis-2(subcontra)
+		} else if (gl->Gtune()->str(i + 1).chromatic() > -15) { // highest than gis-2(subcontra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 4.5; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -20) { // highest than dis-1(contra)
+		} else if (gl->Gtune()->str(i + 1).chromatic() > -20) { // highest than dis-1(contra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 5; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -25) { // highest than
+		} else if (gl->Gtune()->str(i + 1).chromatic() > -25) { // highest than
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 6; // and more thick
-		} else if (gl->Gtune()->str(i + 1).getChromaticNrOfNote() > -30) { // highest than
+		} else if (gl->Gtune()->str(i + 1).chromatic() > -30) { // highest than
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
 				m_widthFromPitch[i] = 7; // and more thick
 		}
 	}
-	m_loNote = gl->loString().getChromaticNrOfNote();
-	m_hiNote = gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber;
+	m_loNote = gl->loString().chromatic();
+	m_hiNote = gl->hiString().chromatic() + gl->GfretsNumber;
 }
 
 
@@ -725,7 +725,7 @@ void TfingerBoard::paint() {
 
 
 Tnote TfingerBoard::posToNote(int str, int fret) {
-    return Tnote(gl->Gtune()->str(str + 1).getChromaticNrOfNote() + fret);
+    return Tnote(gl->Gtune()->str(str + 1).chromatic() + fret);
 }
 
 

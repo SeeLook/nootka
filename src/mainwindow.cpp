@@ -327,13 +327,13 @@ void MainWindow::createSettingsDialog() {
 			setSingleNoteMode(gl->S->isSingleNoteMode);
 			score->acceptSettings();
 // 			noteName->setAmbitus(gl->loString(),
-// 															Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
+// 															Tnote(gl->hiString().chromatic() + gl->GfretsNumber));
 			updateSize(innerWidget->size());
 // 			if (score->getNote(0).note != 0) {
 // 				TnotesList nList;
 // 				nList = score->getNote(0).getTheSameNotes(gl->S->doubleAccidentalsEnabled);
-// 				if (nList[0].getChromaticNrOfNote() >= gl->loString().getChromaticNrOfNote() && 
-// 					nList[0].getChromaticNrOfNote() <= gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber ) {
+// 				if (nList[0].chromatic() >= gl->loString().chromatic() && 
+// 					nList[0].chromatic() <= gl->hiString().chromatic() + gl->GfretsNumber ) {
 // 						if (gl->S->showEnharmNotes) { // refresh note name and score
 // // 								noteName->setNoteName(nList);
 // 								if (nList.size() > 1)
@@ -621,14 +621,14 @@ void MainWindow::adjustAmbitus() {
 	Tnote hiNote, loNote;
 	const int noteOffset = 2; // major 2nd up and down 
 	if (score->clef().type() != gl->S->clef) {
-		if (score->highestNote().getChromaticNrOfNote() < gl->hiNote().getChromaticNrOfNote())
-			hiNote = Tnote(gl->hiNote().getChromaticNrOfNote() + noteOffset);
+		if (score->highestNote().chromatic() < gl->hiNote().chromatic())
+			hiNote = Tnote(gl->hiNote().chromatic() + noteOffset);
 		else
-			hiNote = Tnote(score->highestNote().getChromaticNrOfNote() + noteOffset);
-		if (score->lowestNote().getChromaticNrOfNote() > gl->loNote().getChromaticNrOfNote())
-			loNote = Tnote(gl->loNote().getChromaticNrOfNote() - noteOffset);
+			hiNote = Tnote(score->highestNote().chromatic() + noteOffset);
+		if (score->lowestNote().chromatic() > gl->loNote().chromatic())
+			loNote = Tnote(gl->loNote().chromatic() - noteOffset);
 		else
-			loNote = Tnote(score->lowestNote().getChromaticNrOfNote() - noteOffset);
+			loNote = Tnote(score->lowestNote().chromatic() - noteOffset);
 		sound->sniffer->setAmbitus(loNote, hiNote);
 	} else
 		sound->setDefaultAmbitus();

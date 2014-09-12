@@ -18,7 +18,7 @@
 
 #include "ttune.h"
 #include <QVariant>
-// #include <QDebug>
+#include <QDebug>
 
 /*static*/
 Ttune Ttune::stdTune = Ttune("", Tnote(3,1,0), Tnote(7,0,0),
@@ -146,7 +146,7 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
 	bool ok = true;
 	int id = -1;
 	if (isExam) {
-		int id = xml.attributes().value("id").toInt();
+		id = xml.attributes().value("id").toInt();
 		if (id < -1 || (id > 4 && id < 100) || (id > 103)) {
 			qDebug() << "Tuning had wrong 'id'. Standard tuning will be used";
 			ok= false;

@@ -67,7 +67,7 @@ Tsound::~Tsound()
 void Tsound::play(Tnote& note) {
   bool playing = false;
   if (player && note.note)
-			playing = player->play(note.getChromaticNrOfNote());
+			playing = player->play(note.chromatic());
   if (playing && !gl->A->playDetected && player->type() == TabstractPlayer::e_midi) {
     if (sniffer) { // pause sniffer if midi output was started
 			if (!m_midiPlays) { // stop listening just once
@@ -290,8 +290,8 @@ bool Tsound::isPlayable() {
 
 void Tsound::setDefaultAmbitus() {
 	if (sniffer)
-		sniffer->setAmbitus(Tnote(gl->loString().getChromaticNrOfNote() - 5), // range extended about 4th up and down
-									Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber + 5));
+		sniffer->setAmbitus(Tnote(gl->loString().chromatic() - 5), // range extended about 4th up and down
+									Tnote(gl->hiString().chromatic() + gl->GfretsNumber + 5));
 }
 
 

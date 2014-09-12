@@ -95,9 +95,9 @@ void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
 				if (!m_globals->A->INenabled) {
 					m_globals->A->INenabled = true;
 				}
-				if (level.loNote.getChromaticNrOfNote() > Tnote(6, 0, 0).getChromaticNrOfNote())
+				if (level.loNote.chromatic() > Tnote(6, 0, 0).chromatic())
 						m_globals->A->range = TaudioParams::e_high;
-				else if (level.loNote.getChromaticNrOfNote() > Tnote(5, -2, 0).getChromaticNrOfNote())
+				else if (level.loNote.chromatic() > Tnote(5, -2, 0).chromatic())
 						m_globals->A->range = TaudioParams::e_middle;
 				else
 						m_globals->A->range = TaudioParams::e_low;

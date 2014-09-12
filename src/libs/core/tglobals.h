@@ -95,7 +95,7 @@ public:
     Tnote loString(); /** Returns the lowest (usually last) string */
 		
 				/** The highest available note in current tune with current fret number */
-		Tnote hiNote() { return Tnote(hiString().getChromaticNrOfNote() + GfretsNumber); }
+		Tnote hiNote() { return Tnote(hiString().chromatic() + GfretsNumber); }
 		Tnote loNote() { return loString(); } // the same as loString()
 
         /** It says witch accidentals are preferred while user clicks guitar

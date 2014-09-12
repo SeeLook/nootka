@@ -113,7 +113,7 @@ void TsettingsDialog::saveSettings() {
   if (m_guitarSett) {
 			m_guitarSett->saveSettings();
 			if (!m_audioSettingsPage) { // when no audio settings set pitch range according to clef for tune
-				if (m_guitarSett->lowestNote().getChromaticNrOfNote() < Tnote(6, -2, 0).getChromaticNrOfNote())
+				if (m_guitarSett->lowestNote().chromatic() < Tnote(6, -2, 0).chromatic())
 						gl->A->range = TaudioParams::e_low;
 				else /** In fact, even treble clef requires middle scale, so high scale is ignored here*/
 						gl->A->range = TaudioParams::e_middle;

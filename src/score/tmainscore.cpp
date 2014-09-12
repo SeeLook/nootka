@@ -75,8 +75,8 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 // 				staff()->scoreKey()->showKeyName(true);
 	
 	connect(scoreScene()->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
-//     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
-//                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
+//     setAmbitus(Tnote(gl->loString().chromatic()-1),
+//                Tnote(gl->hiString().chromatic()+gl->GfretsNumber+1));
 
 	createNoteName();
 	isExamExecuting(false);
@@ -153,8 +153,8 @@ void TmainScore::acceptSettings() {
 	if (gl->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
 			staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
-//     setAmbitus(Tnote(gl->loString().getChromaticNrOfNote()-1),
-//                Tnote(gl->hiString().getChromaticNrOfNote()+gl->GfretsNumber+1));
+//     setAmbitus(Tnote(gl->loString().chromatic()-1),
+//                Tnote(gl->hiString().chromatic()+gl->GfretsNumber+1));
 // 	restoreNotesSettings();
 // refresh key signature, if any
 	enableAccidToKeyAnim(false); // prevent accidental animation to empty note
@@ -173,7 +173,7 @@ void TmainScore::acceptSettings() {
 			m_nameMenu->setEnabledEnharmNotes(gl->S->showEnharmNotes);
 			m_nameMenu->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
 			m_nameMenu->setStyle(gl->S->nameStyleInNoteName);
-// 			m_nameMenu->setAmbitus(gl->loString(), Tnote(gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber));
+// 			m_nameMenu->setAmbitus(gl->loString(), Tnote(gl->hiString().chromatic() + gl->GfretsNumber));
 	}
 }
 
@@ -459,7 +459,7 @@ void TmainScore::expertNoteChanged() {
 }
 
 
-void TmainScore::forceAccidental(Tnote::Eacidentals accid) {
+void TmainScore::forceAccidental(Tnote::Ealter accid) {
 	scoreScene()->setCurrentAccid(accid);
 }
 
@@ -565,7 +565,7 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color, int noteNr) {
 void TmainScore::correctAccidental(Tnote& goodNote) {
 		m_goodNote = goodNote;
 		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
-		if (getNote(0)->acidental != m_goodNote.acidental) {
+		if (getNote(0)->alter != m_goodNote.alter) {
 				m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
 		} else {
 					m_bliking = new TblinkingItem(staff()->noteSegment(0));
@@ -674,7 +674,7 @@ void TmainScore::extraAccidsSlot() {
 	for (int st = 0; st < staffCount(); st++) {
 		staves(st)->setExtraAccids(m_acts->extraAccids()->isChecked());
 		for (int no = 0; no < staves(st)->count(); no++) {
-			if (staves(st)->getNote(no)->acidental == -1 || staves(st)->getNote(no)->acidental == 1)
+			if (staves(st)->getNote(no)->alter == -1 || staves(st)->getNote(no)->alter == 1)
 				staves(st)->setNote(no, *staves(st)->getNote(no));
 		}
 	}
