@@ -21,6 +21,7 @@
 #include "tnote.h"
 #include <QString>
 #include <QMetaType>
+#include <QXmlStreamWriter>
 #include <nootkacoreglobal.h>
 
 
@@ -53,28 +54,37 @@ public:
     static Ttune stdTune; // standard tune template
     static Ttune tunes[4]; // templates for guitar tunes
 		static Ttune bassTunes[4]; // templates for bass guitar tunes
+		
+		void copy(Ttune& t); /** Copies given tuning to this one. */
         
     static void prepareDefinedTunes(); /** Makes translations in defined tunes. */
 		
     friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
     friend QDataStream &operator>> (QDataStream &in, Ttune &t);
 		
+				/** Method responses for converting tuning to XML structure..
+				 * When @p isExam is @p TRUE it is wrapped in <tuning id="0"> tag. 
+				 * Attribute @p id determining kind of tune. 
+				 * Only when tuning is different than all defined tuning suitable XML elements are written.
+				 * When @p isExam is @p FALSE <staff-details> is a main key and all elements are saved. */
+		void toXml(QXmlStreamWriter& xml, bool isExam = true);
+		bool fromXml(QXmlStreamReader& xml, bool isExam = true);
+		
         /** Overloaded operator [] allows to use statement
         * @li Ttune @p your_variable[number_of_a_string]
         * @p stringNr is real string number (1 to 6) */
     Tnote &operator[] (quint8 stringNr) { return stringsArray[stringNr - 1]; }
-    bool operator==(Ttune T2) {
+    bool operator==(Ttune& T2) {
         return ( stringsArray[0]==T2[1] && stringsArray[1]==T2[2] && stringsArray[2]==T2[3] &&
                  stringsArray[3]==T2[4] && stringsArray[4]==T2[5] && stringsArray[5]==T2[6] );
     }
-    bool operator!=(Ttune T2) {
+    bool operator!=(Ttune& T2) {
         return ( stringsArray[0]!=T2[1] || stringsArray[1]!=T2[2] || stringsArray[2]!=T2[3] ||
                 stringsArray[3]!=T2[4] || stringsArray[4]!=T2[5] || stringsArray[5]!=T2[6] );
     }
 
 protected:
-        /** Array of Tnote-s that represent six strings */
-		Tnote stringsArray[6];
+		Tnote stringsArray[6]; /** Array of Tnote that represent six strings */
 		
 				/** This method is called by constructor and operator.
 				 * It calculates number of strings by selecting string with defined notes

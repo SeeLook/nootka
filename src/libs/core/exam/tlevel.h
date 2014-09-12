@@ -71,14 +71,12 @@ public:
 		
 				/** Shows message box with error if file cannot be opened.*/
     static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
-
-				/** Writes Tnote 'pitch' XML node into given @p tag to XML stream */
-		static void tnoteToXml(const QString& tag, Tnote& n, QXmlStreamWriter& xml);
-		static Tnote tnoteFromXml(QXmlStreamReader& xml);
 		
 				/** Reads fret number from current XML key to @fr reference and verifies it. 
 				 * Setts error type when error occurs or lives @p err unchanged when OK. */
 		static void fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err);
+		
+		static void skipCurrentXmlKey(QXmlStreamReader& xml);
 
   //--------------------------- level parameters ------------------------------------------------------------
     QString 					name; /** Level name */

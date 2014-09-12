@@ -80,22 +80,6 @@ void Tlevel::fileIOerrorMsg(QFile& f, QWidget* parent) {
 }
 
 
-void Tlevel::tnoteToXml(const QString& tag, Tnote& n, QXmlStreamWriter& xml) {
-	xml.writeStartElement(tag);
-		n.toXml(xml);
-	xml.writeEndElement(); // tag
-}
-
-
-Tnote Tlevel::tnoteFromXml(QXmlStreamReader& xml) {
-	xml.readNextStartElement();
-	Tnote note(0, 0, 0);
-	note.fromXml(xml);
-	xml.skipCurrentElement();
-	return note;
-}
-
-
 void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err) {
 	fr = (char)QVariant(xml.readElementText()).toInt();
 	if (fr < 0 || fr > 24) { // max frets number
@@ -106,14 +90,12 @@ void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& er
 	
 }
 
-/*end static--------------------------------------------------------------------------------------*/
 
-/*local*/
-void skipCurrentXmlKey(QXmlStreamReader& xml) {
+void Tlevel::skipCurrentXmlKey(QXmlStreamReader& xml) {
 	qDebug() << "Unrecognized key:" << xml.name();
 	xml.skipCurrentElement();
 }
-	
+/*end static--------------------------------------------------------------------------------------*/	
 
 Tlevel::Tlevel() :
 	hasInstrToFix(false)
@@ -368,11 +350,13 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 				else if (xml.name() == "hiFret")
 					fretFromXml(xml, hiFret, er);
 				else if (xml.name() == "loNote")
-					loNote = tnoteFromXml(xml);
+					loNote.fromXml(xml);
+// 					loNote = tnoteFromXml(xml);
 				else if (xml.name() == "hiNote")
-					hiNote = tnoteFromXml(xml);
+					hiNote.fromXml(xml);
+// 					hiNote = tnoteFromXml(xml);
 				else if (xml.name() == "useString") {
-					int id = QVariant(xml.attributes().value("number").toString()).toInt();
+					int id = xml.attributes().value("number").toInt();
 					if (id > 0 && id < 7)
 						usedStrings[id - 1] = QVariant(xml.readElementText()).toBool();
 				} else
@@ -448,8 +432,10 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
 		xml.writeStartElement("range");
 			xml.writeTextElement("loFret", QVariant((qint8)loFret).toString());
 			xml.writeTextElement("hiFret", QVariant((qint8)hiFret).toString());
-			tnoteToXml("loNote", loNote, xml);
-			tnoteToXml("hiNote", hiNote, xml);
+			loNote.toXml(xml, "loNote");
+// 			tnoteToXml("loNote", loNote, xml);
+			hiNote.toXml(xml, "hiNote");
+// 			tnoteToXml("hiNote", hiNote, xml);
 			for (int i = 0; i < 6; i++) {
 				xml.writeStartElement("useString");
 				xml.writeAttribute("number", QVariant(i + 1).toString());
