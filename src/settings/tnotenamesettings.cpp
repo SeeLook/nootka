@@ -38,10 +38,10 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout;
 		mainLay->addStretch(1);
     mainLay->setAlignment(Qt::AlignCenter);
-    m_nameStyleGr = new TnotationRadioGroup(gl->S->nameStyleInNoteName, this);
+    m_nameStyleGr = new TnotationRadioGroup(gl->S->nameStyleInNoteName, true, this);
     m_select7 = new Select7note(this);
     m_select7->set7th_B(gl->S->seventhIs_B);
-		m_scaleLabel = new TscalePreviewLabel(gl->S->nameStyleInNoteName, this);
+		m_scaleLabel = new TscalePreviewLabel(gl->S->nameStyleInNoteName, true, this);
 		
 		mainLay->addStretch(1);
 		mainLay->addWidget(m_select7, 0, Qt::AlignCenter);

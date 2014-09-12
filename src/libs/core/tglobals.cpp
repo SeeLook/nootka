@@ -286,7 +286,7 @@ void Tglobals::setTune(Ttune& t) {
     for (int i = 0; i < 6; i++) {
         m_order[i] = i;
 				if (m_tune->str(i + 1).note != 0)
-					openStr[i] = m_tune->str(i + 1).getChromaticNrOfNote();
+					openStr[i] = m_tune->str(i + 1).chromatic();
 				else // empty note - not such string
 					openStr[i] = -120; // make it lowest
     }

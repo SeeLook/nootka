@@ -79,7 +79,7 @@ void TmelMan::recordMelodySlot() {
 
 void TmelMan::randomizeMelodySlot() {
 	QList<TQAunit::TQAgroup> ql;
-	int ambit = 24; //highestNote().getChromaticNrOfNote() - lowestNote().getChromaticNrOfNote();
+	int ambit = 24; //highestNote().chromatic() - lowestNote().chromatic();
 	for (int i = 0; i < ambit; i++) {
 		TQAunit::TQAgroup qa;
 		qa.note = Tnote(1 + i);

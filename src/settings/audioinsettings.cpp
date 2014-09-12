@@ -412,7 +412,7 @@ void AudioInSettings::getFreqStatusTip() {
 			for (int i = 1; i <= m_tune->stringNr(); i++) {
 				freqTxt += QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz, ").arg(i).
 				arg((m_tune->str(i)).toRichText()).
-				arg(offPitch((float)m_tune->str(i).getChromaticNrOfNote() + 47), 0, 'f', 1);
+				arg(offPitch((float)m_tune->str(i).chromatic() + 47), 0, 'f', 1);
 				if (i % 2 == 0 && i < 6)
 						freqTxt += "<br>"; // two entries per line 
 				else if (i % 3 == 0 && i < 6)
@@ -421,7 +421,7 @@ void AudioInSettings::getFreqStatusTip() {
 		} else { // no guitar - C-major scale frequencies
 			for (int i = 1; i < 8; i++) {
 				freqTxt += QString("<b>%1</b> = %2 Hz, ").arg(Tnote(i, 1, 0).toRichText()).
-						arg(offPitch((float)Tnote(i, 1, 0).getChromaticNrOfNote() + 47), 0, 'f', 1);
+						arg(offPitch((float)Tnote(i, 1, 0).chromatic() + 47), 0, 'f', 1);
 				if (i % 2 == 0 && i < 7)
 						freqTxt += "<br>"; // three entries per line 
 				else if (i % 3 == 0 && i < 7)
@@ -571,10 +571,10 @@ void AudioInSettings::freqFromInterval(int interval) {
 
 /** This is not so pretty (piano staff invokes low range) */
 void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {
-	char noteNr = loNote.getChromaticNrOfNote();
-	if (noteNr > Tnote(6, 0, 0).getChromaticNrOfNote())
+	char noteNr = loNote.chromatic();
+	if (noteNr > Tnote(6, 0, 0).chromatic())
 		highRadio->setChecked(true);
-	else if (noteNr > Tnote(5, -2, 0).getChromaticNrOfNote())
+	else if (noteNr > Tnote(5, -2, 0).chromatic())
 		middleRadio->setChecked(true);
 	else
 		lowRadio->setChecked(true);

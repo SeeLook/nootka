@@ -135,7 +135,7 @@ private:
   Tlevel 									*m_level;
   int 										m_obligQuestNr; /** Total number of questions to answer in exam (without penalties) */
   int 										m_qaPossib;
-	Tnote::Eacidentals 			m_prevAccid; /** Previous accidental used. */
+	Tnote::Ealter 			m_prevAccid; /** Previous accidental used. */
 	
       /** intervals between asking about double accidentals.
         * By default every forth question is with double accidentals.*/

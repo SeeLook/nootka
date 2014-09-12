@@ -229,21 +229,21 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
           cnt--;
       } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);
       loAvailStr = gl->strOrder(cnt);
-      if (l.loNote.getChromaticNrOfNote() > gl->Gtune()->str(hiAvailStr + 1).getChromaticNrOfNote() + l.hiFret ||
-          l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret)
-// 			if (l.loNote.getChromaticNrOfNote() > gl->Gtune()->str(loAvailStr + 1).getChromaticNrOfNote() + l.loFret ||
-//           l.hiNote.getChromaticNrOfNote() < gl->Gtune()->str(hiAvailStr + 1).getChromaticNrOfNote() + l.hiFret)
+      if (l.loNote.chromatic() > gl->Gtune()->str(hiAvailStr + 1).chromatic() + l.hiFret ||
+          l.hiNote.chromatic() < gl->Gtune()->str(loAvailStr + 1).chromatic() + l.loFret)
+// 			if (l.loNote.chromatic() > gl->Gtune()->str(loAvailStr + 1).chromatic() + l.loFret ||
+//           l.hiNote.chromatic() < gl->Gtune()->str(hiAvailStr + 1).chromatic() + l.hiFret)
           res += tr("<li>Range of frets is beyond the scale of this level</li>");
     }
 	// Check is level range fit to instrument scale
 		if (l.canBeGuitar() || l.answerIsSound()) {
-			if (!l.inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiString().getChromaticNrOfNote() + gl->GfretsNumber))
+			if (!l.inScaleOf(gl->loString().chromatic(), gl->hiString().chromatic() + gl->GfretsNumber))
 				res += "<li>" + TlevelSelector::rangeBeyondScaleTxt() + "</li>";
 		}
   // checking are accidentals needed because of hi and low notes in range
     char acc = 0;
-    if (l.loNote.acidental) acc = l.loNote.acidental;
-    if (l.hiNote.acidental) acc = l.hiNote.acidental;
+    if (l.loNote.alter) acc = l.loNote.alter;
+    if (l.hiNote.alter) acc = l.hiNote.alter;
     if (acc) {
         if ( (acc == 1 && !l.withSharps) || (acc == -1 && !l.withFlats))
             res += tr("<li>In range of notes some accidentals are used<br>but not available in this level</li>");
@@ -274,10 +274,10 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 	// 'Fret to fret' has to have suitable fret range to be possible
 		if (l.questionAs.isFret() && l.answersAs[TQAtype::e_asFretPos].isFret()) {
 			int minRange = 0; // first determine a minimal range for current tune
-			int startStr = gl->Gtune()->str(gl->strOrder(0) + 1).getChromaticNrOfNote();
+			int startStr = gl->Gtune()->str(gl->strOrder(0) + 1).chromatic();
 			for (int i = 1; i < gl->Gtune()->stringNr(); i++) {
-				minRange = qMax(minRange, startStr - gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote());
-				startStr = gl->Gtune()->str(gl->strOrder(i) + 1).getChromaticNrOfNote();
+				minRange = qMax(minRange, startStr - gl->Gtune()->str(gl->strOrder(i) + 1).chromatic());
+				startStr = gl->Gtune()->str(gl->strOrder(i) + 1).chromatic();
 			}
 			if (l.hiFret - l.loFret < minRange)
 				res += tr("<li>Fret range is not enough to find any note in different positions. At least <b>%1</b> frets range is required.</li>").arg(minRange);

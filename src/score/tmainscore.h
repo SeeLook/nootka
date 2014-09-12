@@ -87,7 +87,7 @@ public:
     void unLockScore();
     void setKeyViewBg(QColor C);
     void setNoteViewBg(int id, QColor C);
-    void forceAccidental(Tnote::Eacidentals accid); /** Sets given accidental */
+    void forceAccidental(Tnote::Ealter accid); /** Sets given accidental */
 		
         /** Marks note with border and blur. It is used to show was answer correct or not. Default note number for single mode. */
     void markAnswered(QColor blurColor, int noteNr = 0);

@@ -201,7 +201,7 @@ void TguitarSettings::saveSettings() {
 // 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
 		else { // instrument scale taken from note segments 4 & 5
 			Tnote hiN, loN; // fix notes order
-			if (m_tuneView->getNote(5).getChromaticNrOfNote() < m_tuneView->getNote(4).getChromaticNrOfNote()) {
+			if (m_tuneView->getNote(5).chromatic() < m_tuneView->getNote(4).chromatic()) {
 				hiN = m_tuneView->getNote(4);
 				loN = m_tuneView->getNote(5);
 			} else {
@@ -209,7 +209,7 @@ void TguitarSettings::saveSettings() {
 				loN = m_tuneView->getNote(4);
 			}
 			*tmpTune = Ttune("scale", 
-													Tnote(hiN.getChromaticNrOfNote() - m_fretsNrSpin->value()), loN,
+													Tnote(hiN.chromatic() - m_fretsNrSpin->value()), loN,
 													Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
 		}
     gl->setTune(*tmpTune);
@@ -240,8 +240,8 @@ Tnote TguitarSettings::lowestNote() {
 // 		char loNr = 127;
 // 		for (int i = 0; i < 6; i++) {
 // 			if (m_tuneView->getNote(i).note) {
-// 				if (m_tuneView->getNote(i).getChromaticNrOfNote() < loNr) {
-// 					loNr = m_tuneView->getNote(i).getChromaticNrOfNote();
+// 				if (m_tuneView->getNote(i).chromatic() < loNr) {
+// 					loNr = m_tuneView->getNote(i).chromatic();
 // 					lowest = i;
 // 				}
 // 			}
@@ -275,7 +275,7 @@ void TguitarSettings::setTune(Ttune* tune) {
 
 
 void TguitarSettings::updateAmbitus() {
-	Tnote highest = Tnote(m_tuneView->highestNote().getChromaticNrOfNote() - m_fretsNrSpin->value());
+	Tnote highest = Tnote(m_tuneView->highestNote().chromatic() - m_fretsNrSpin->value());
 	if (m_selectInstr->instrument() == 0) // other instrument has no frets
 		highest = m_tuneView->highestNote();
 	for (int i = 0; i < 6; i++)
@@ -296,7 +296,7 @@ void TguitarSettings::grabTuneFromScore(Ttune* tune) {
 				tuneName = m_tuneCombo->currentText();
 		else {
 				tuneName = "scale";
-				nn[5] = Tnote(nn[5].getChromaticNrOfNote() - m_fretsNrSpin->value());
+				nn[5] = Tnote(nn[5].chromatic() - m_fretsNrSpin->value());
 		}
 		*tune = Ttune(tuneName, nn[5], nn[4], nn[3], nn[2], nn[1], nn[0]);
 }
@@ -470,7 +470,7 @@ Tnote TguitarSettings::fixEmptyNote(int noteSegm) {
 	if (m_tuneView->isNoteDisabled(noteSegm))
 			nn = Tnote(); // empty because disabled
 	else if (nn.note == 0) // empty because stupid
-			nn = Tnote(m_tuneView->lowestNote().getChromaticNrOfNote() + noteSegm);
+			nn = Tnote(m_tuneView->lowestNote().chromatic() + noteSegm);
 	return nn;
 }
 

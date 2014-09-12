@@ -469,13 +469,13 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 								blindQuestion();
 								return; // refresh this function scope by calling it outside
 						}
-            mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa_2.note.acidental);
+            mW->score->forceAccidental((Tnote::Ealter)curQ.qa_2.note.alter);
             m_answRequire.accid = true;
             m_answRequire.octave = true;
         }
         if (curQ.questionAsFret() || curQ.questionAsSound()) {
             if (m_level.forceAccids) {
-                mW->score->forceAccidental((Tnote::Eacidentals)curQ.qa.note.acidental);
+                mW->score->forceAccidental((Tnote::Ealter)curQ.qa.note.alter);
             }
         }
         if (curQ.questionAsName()) {
@@ -504,10 +504,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         mW->noteName->prepAnswer(curQ.styleOfAnswer());
         if (curQ.questionAsFret() || curQ.questionAsSound()) {
             if (m_level.forceAccids) {
-								mW->noteName->forceAccidental(answNote.acidental);
+								mW->noteName->forceAccidental(answNote.alter);
 						}
 				} else if (curQ.questionAsName())
-									mW->noteName->forceAccidental(answNote.acidental);
+									mW->noteName->forceAccidental(answNote.alter);
         mW->noteName->setStyle(curQ.styleOfAnswer());
     }
 
@@ -811,7 +811,7 @@ void TexamExecutor::correctAnswer() {
 			if (curQ.questionAsName())
 					goodNote = curQ.qa_2.note;
 			if (!m_answRequire.accid && curQ.isNotSoBad()) { // respect accidental selected by user 
-				switch (mW->noteName->getNoteName().acidental) {
+				switch (mW->noteName->getNoteName().alter) {
 					case -2 : goodNote = goodNote.showWithDoubleFlat(); break;
 					case -1 : goodNote = goodNote.showWithFlat(); break;
 					case  0 : goodNote = goodNote.showAsNatural(); break;
@@ -974,10 +974,10 @@ void TexamExecutor::repeatQuestion() {
       mW->noteName->setStyle(curQ.styleOfAnswer());
 			if (curQ.questionAsFret() || curQ.questionAsSound()) {
             if (m_level.forceAccids) {
-								mW->noteName->forceAccidental(answNote.acidental);
+								mW->noteName->forceAccidental(answNote.alter);
 						}
 				} else if (curQ.questionAsName())
-									mW->noteName->forceAccidental(answNote.acidental);
+									mW->noteName->forceAccidental(answNote.alter);
     }
     if (curQ.answerAsFret())
         mW->guitar->setGuitarDisabled(false);

@@ -51,13 +51,13 @@ void getExampleLevels(QList<Tlevel>& llist) {
 		l.intonation = 0; // do not check
 		//clef default, user/tune defined
 		//instrument default - selected by user
-    l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote()); 
+    l.hiNote = Tnote(gl->hiString().chromatic()); 
 		//loNote is lowest by constructor
     l.hiFret = 0;// loFret is 0 by constuctor
     for (int i = 1; i < 7; i++) { //accids will be used if current tune requires it
-        if (gl->Gtune()->str(i).acidental == 1)
+        if (gl->Gtune()->str(i).alter == 1)
             l.withSharps = true;
-        if (gl->Gtune()->str(i).acidental == -1)
+        if (gl->Gtune()->str(i).alter == -1)
             l.withFlats = true;
 		}
 		if (l.instrument == e_noInstrument) // force instrument when not defined
@@ -116,7 +116,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.requireStyle = false;
     l.showStrNr = true;
     l.loNote = gl->loString();
-    l.hiNote = Tnote(gl->hiString().getChromaticNrOfNote() + 5);
+    l.hiNote = Tnote(gl->hiString().chromatic() + 5);
     l.hiFret = 5;// loFret is 0 by constructor
     l.intonation = 0; // do not check
     if (gl->instrument == e_noInstrument) // force instrument when not defined

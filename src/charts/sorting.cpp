@@ -74,7 +74,7 @@ QList<Tnote> getTheSame(short int noteNr, Tlevel* level) {
       nList.append(xNote);
     }
   }
-  if (doDblAcc && nList.last().acidental != -1) { // flat not found
+  if (doDblAcc && nList.last().alter != -1) { // flat not found
     xNote = workNote.showWithDoubleFlat();
     if (workNote != xNote) {
       nList.append(xNote);
@@ -96,7 +96,7 @@ void divideGoodAndBad(QList<TQAunit> *list, TgroupedQAunit& goodList, TgroupedQA
 
 QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel *level, bool &hasListUnrelated) {
   QList<TgroupedQAunit> result;
-  for (short i = level->loNote.getChromaticNrOfNote(); i <= level->hiNote.getChromaticNrOfNote(); i++) {
+  for (short i = level->loNote.chromatic(); i <= level->hiNote.chromatic(); i++) {
     QList<Tnote> theSame = getTheSame(i, level);
     for (int j = 0; j < theSame.size(); j++) {
       TgroupedQAunit noteList;
@@ -218,9 +218,9 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
 //    bool accidFound = false;
     if (answList[i].qaPtr->questionAs == TQAtype::e_asNote || answList[i].qaPtr->questionAs == TQAtype::e_asName ||
       answList[i].qaPtr->answerAs == TQAtype::e_asNote || answList[i].qaPtr->answerAs == TQAtype::e_asName) {
-        accidsArray[answList[i].qaPtr->qa.note.acidental + 2].addQAunit(answList[i]);
-        if (answList[i].qaPtr->qa_2.note.note && answList[i].qaPtr->qa_2.note.acidental != answList[i].qaPtr->qa.note.acidental)
-            accidsArray[answList[i].qaPtr->qa_2.note.acidental + 2].addQAunit(answList[i]);
+        accidsArray[answList[i].qaPtr->qa.note.alter + 2].addQAunit(answList[i]);
+        if (answList[i].qaPtr->qa_2.note.note && answList[i].qaPtr->qa_2.note.alter != answList[i].qaPtr->qa.note.alter)
+            accidsArray[answList[i].qaPtr->qa_2.note.alter + 2].addQAunit(answList[i]);
     } else
         accidsArray[5].addQAunit(answList[i]);
   }

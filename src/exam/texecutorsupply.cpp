@@ -43,7 +43,7 @@ void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 	if (level->instrument == e_noInstrument) {
 		if (level->answerIsSound())
 			if (gl->instrument != e_noInstrument)
-				if (level->inScaleOf(gl->loString().getChromaticNrOfNote(), gl->hiNote().getChromaticNrOfNote()))
+				if (level->inScaleOf(gl->loString().chromatic(), gl->hiNote().chromatic()))
 					m_playCorrections = false;
 	} else
 			m_playCorrections = false;
@@ -124,7 +124,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 	char openStr[6];
 //       for (int i = 0; i < 6; i++)
 	for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-			openStr[i] = gl->Gtune()->str(i + 1).getChromaticNrOfNote();
+			openStr[i] = gl->Gtune()->str(i + 1).chromatic();
 		
 		/** FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL 
 			* When there is no guitar in a level,
@@ -136,10 +136,10 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
 		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();
 		if (m_level->instrument == e_noInstrument && gl->instrument != e_noInstrument) {
-// 			if (Tnote(gl->hiString().getChromaticNrOfNote() + m_hiFret).getChromaticNrOfNote() < m_level->hiNote.getChromaticNrOfNote())
-// 					m_hiFret = m_level->hiNote.getChromaticNrOfNote() - gl->hiString().getChromaticNrOfNote();
-// 			if (Tnote(gl->loString().getChromaticNrOfNote() + m_loFret).getChromaticNrOfNote() > m_level->loNote.getChromaticNrOfNote())
-// 				m_loFret = gl->loString().getChromaticNrOfNote() - m_level->loNote.getChromaticNrOfNote();
+// 			if (Tnote(gl->hiString().chromatic() + m_hiFret).chromatic() < m_level->hiNote.chromatic())
+// 					m_hiFret = m_level->hiNote.chromatic() - gl->hiString().chromatic();
+// 			if (Tnote(gl->loString().chromatic() + m_loFret).chromatic() > m_level->loNote.chromatic())
+// 				m_loFret = gl->loString().chromatic() - m_level->loNote.chromatic();
 			char hi = m_hiFret, lo = m_loFret;
 			if (!m_level->adjustFretsToScale(lo, hi))
 					qDebug() << "Cant adjust fret range. Corrections will be played!";
@@ -151,9 +151,9 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
 				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
 						for (int f = m_loFret; f <= m_hiFret; f++) {
-								Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).getChromaticNrOfNote() + f);
-							if (n.getChromaticNrOfNote() >= m_level->loNote.getChromaticNrOfNote() &&
-										n.getChromaticNrOfNote() <= m_level->hiNote.getChromaticNrOfNote()) {
+								Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).chromatic() + f);
+							if (n.chromatic() >= m_level->loNote.chromatic() &&
+										n.chromatic() <= m_level->hiNote.chromatic()) {
 								bool hope = true; // we still have hope that note is proper for the level
 								if (m_level->onlyLowPos) {
 									if (s > 0) {
@@ -169,7 +169,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 								if (hope && m_level->useKeySign && m_level->onlyCurrKey)
 									hope = isNoteInKey(n);
 								if (hope) {
-										if (n.acidental && (!m_level->withFlats && !m_level->withSharps))
+										if (n.alter && (!m_level->withFlats && !m_level->withSharps))
 												continue;
 										else {
 											TfingerPos ff = TfingerPos(gl->strOrder(s) + 1, f);
@@ -181,13 +181,13 @@ void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
 		}
 	} else {
 		qDebug() << "Question list created note by note";
-		for (int nNr = m_level->loNote.getChromaticNrOfNote(); nNr <= m_level->hiNote.getChromaticNrOfNote(); nNr++) {
+		for (int nNr = m_level->loNote.chromatic(); nNr <= m_level->hiNote.chromatic(); nNr++) {
 			Tnote n = Tnote(nNr);
 			bool hope = true; // we still have hope that note is proper for the level
 			if (hope && m_level->useKeySign && m_level->onlyCurrKey)
 					hope = isNoteInKey(n);
 			if (hope) {
-				if (n.acidental && (!m_level->withFlats && !m_level->withSharps))
+				if (n.alter && (!m_level->withFlats && !m_level->withSharps))
 						continue;
 				else {
 						TfingerPos ff = TfingerPos();
@@ -271,7 +271,7 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
             }
         }
         if (notFound && m_prevAccid != Tnote::e_Flat && m_level->withFlats) {
-          if ((n.note == 3 || n.note == 7) && n.acidental == 0 ) { // increase counter for f and c notes
+          if ((n.note == 3 || n.note == 7) && n.alter == 0 ) { // increase counter for f and c notes
             m_eisCesCntr++;
             if (m_eisCesCntr == 3) { // fes or ces can occur every 3 e or b occurences
               m_eisCesCntr = 0;
@@ -284,7 +284,7 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
           }
         }
         if (notFound && m_prevAccid != Tnote::e_Sharp && m_level->withSharps) {
-          if ((n.note == 4 || n.note == 1) && n.acidental == 0) { // increase counter for f and c notes
+          if ((n.note == 4 || n.note == 1) && n.alter == 0) { // increase counter for f and c notes
             m_eisCesCntr++;
             if (m_eisCesCntr == 3) { // eis or bis can occur every 3 f or c occurences
               nA = n.showWithSharp();
@@ -295,7 +295,7 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
           }
         }
     }
-    m_prevAccid = (Tnote::Eacidentals)nA.acidental;
+    m_prevAccid = (Tnote::Ealter)nA.alter;
     return nA;
 }
 
@@ -319,7 +319,7 @@ Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
             nX = n.showWithDoubleSharp();
         if (nX.note && n != nX) break;
      }
-    m_prevAccid = (Tnote::Eacidentals)acc;
+    m_prevAccid = (Tnote::Ealter)acc;
     if (nX.note)
         return nX;
     else return n;
@@ -362,12 +362,12 @@ quint8 TexecutorSupply::strNr(quint8 str0to6, bool ordered) {
 
 
 void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck, bool order) {
-  int chStr = gl->Gtune()->str(strNr(fingerPos.str() - 1, order) + 1).getChromaticNrOfNote();
+  int chStr = gl->Gtune()->str(strNr(fingerPos.str() - 1, order) + 1).chromatic();
   for (int i = 0; i < gl->Gtune()->stringNr(); i++)
     if (i != strNr(fingerPos.str() - 1, order)) { 
       if (strCheck && !m_level->usedStrings[i])
           continue; // skip unavailable strings when strCheck is true
-      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(strNr(i, order) + 1).getChromaticNrOfNote();
+      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(strNr(i, order) + 1).chromatic();
       if (fret >= m_level->loFret && fret <= m_level->hiFret) {
         posList << TfingerPos(strNr(i, order) + 1, fret);
       }
@@ -432,7 +432,7 @@ void TexecutorSupply::checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& user
 		Tnote nR = retN.showAsNatural();
 		if (exN != retN) {
 			if (reqOctave) {
-					if (nE.note == nR.note && nE.acidental == nR.acidental) {
+					if (nE.note == nR.note && nE.alter == nR.alter) {
 							if (nE.octave != nR.octave)
 								curQ.setMistake(TQAunit::e_wrongOctave);
 					} else {
@@ -440,16 +440,16 @@ void TexecutorSupply::checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& user
 					}
 			}
 			if (!curQ.wrongNote()) { // There is still something to check
-				if (exN.note != retN.note || exN.acidental != retN.acidental) {// if they are equal it means that only octaves were wrong
+				if (exN.note != retN.note || exN.alter != retN.alter) {// if they are equal it means that only octaves were wrong
 						exN = exN.showAsNatural();
 						retN = retN.showAsNatural();
 						if (reqAccid) {
-								if (exN.note == retN.note && exN.acidental == retN.acidental)
+								if (exN.note == retN.note && exN.alter == retN.alter)
 										curQ.setMistake(TQAunit::e_wrongAccid);
 								else
 										curQ.setMistake(TQAunit::e_wrongNote);
 						} else {
-								if (exN.note != retN.note || exN.acidental != retN.acidental)
+								if (exN.note != retN.note || exN.alter != retN.alter)
 									curQ.setMistake(TQAunit::e_wrongNote);
 						}
 				}

@@ -38,8 +38,8 @@ QString TlevelSelector::checkLevel(Tlevel& l) {
 					warringText = tr("Level is not suitable for current instrument type");
 	else if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.canBeSound())) {
     if (l.hiFret > gl->GfretsNumber || gl->Gtune()->stringNr() < 3 ||
-        l.loNote.getChromaticNrOfNote() < gl->loString().getChromaticNrOfNote() ||
-			  l.hiNote.getChromaticNrOfNote() > gl->hiNote().getChromaticNrOfNote())
+        l.loNote.chromatic() < gl->loString().chromatic() ||
+			  l.hiNote.chromatic() > gl->hiNote().chromatic())
 					warringText = tr("Level is not suitable for current tuning and/or fret number");
   }
 	return warringText;
@@ -266,8 +266,12 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 				 if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2) // *.nel with binary data
 						wasLevelValid = getLevelFromStream(in, level, lv); // *.nel in XML
 				 else if (Tlevel::levelVersionNr(lv) == 3) {
+					 Tlevel::EerrorType er;
 					 QXmlStreamReader xml(in.device());
-					 Tlevel::EerrorType er = level.loadFromXml(xml);
+					 if (!xml.readNextStartElement()) // open first XML node
+						 er = Tlevel::e_noLevelInXml;
+					 else 
+						er = level.loadFromXml(xml);
 					 switch (er) {
 						 case Tlevel::e_levelFixed:
 								wasLevelValid = false; break;

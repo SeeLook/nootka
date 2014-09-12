@@ -40,7 +40,7 @@
  * 		- new level version
  * 
  * 4. 0x95121708 (2014.09.01)
- *    - encoded XML structure - let's hope universal forever
+ *    - encoded XML structure - let's hope universal
  */
 
 const qint32 Texam::examVersion = 0x95121702;
@@ -147,101 +147,111 @@ Texam::~Texam()
 
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
-    m_fileName = fileName;
-    QFile file(fileName);
-    quint16 questNr;
-    m_workTime = 0;
-    m_mistNr = 0;
-    m_blackCount = 0;
-    m_blackList.clear();
-    m_answList.clear();
-    EerrorType result = e_file_OK;
-    quint32 ev; //exam template version
-    if (file.open(QIODevice::ReadOnly)) {
-      QDataStream in(&file);
-      in.setVersion(QDataStream::Qt_4_7);
-      in >> ev;
+	m_fileName = fileName;
+	QFile file(fileName);
+	quint16 questNr;
+	m_workTime = 0;
+	m_mistNr = 0;
+	m_blackCount = 0;
+	m_blackList.clear();
+	m_answList.clear();
+	EerrorType result = e_file_OK;
+	quint32 ev; //exam template version
+	if (file.open(QIODevice::ReadOnly)) {
+		QDataStream in(&file);
+		in.setVersion(QDataStream::Qt_4_7);
+		in >> ev;
 //       if (ev != examVersion && ev != examVersion2)
-			if (couldBeExam(ev)) {
-				if (!isExamVersion(ev))
-						return e_newerVersion;
-			}	else
-					return e_file_not_valid;
-
-      in >> m_userName;
+		if (couldBeExam(ev)) {
+			if (!isExamVersion(ev))
+					return e_newerVersion;
+		}	else
+				return e_file_not_valid;
+		
+		bool isExamFileOk = true;
+		int tmpMist = 0;
+			int tmpHalf = 0;
+			int fixedNr = 0;
+			int okTime = 0; // time of correct and notBad answers to calculate average
+		if (examVersionNr(ev) == 4) {
+			QXmlStreamReader xml(in.device());
+			isExamFileOk = loadFromXml(xml);
+		} else {
+			in >> m_userName;
 			getLevelFromStream(in, *(m_level), examVersionToLevel(ev));
-      in >> m_tune;
-      in >> m_totalTime;
-      in >> questNr >> m_averReactTime >> m_mistNr;
+			in >> m_tune;
+			in >> m_totalTime;
+			in >> questNr >> m_averReactTime >> m_mistNr;
 //       if (ev == examVersion2) {
 			if (examVersionNr(ev) >= 2) {
-        in >> m_halfMistNr >> m_penaltysNr >> m_isFinished;
-      } else { // exam version 1
-        m_halfMistNr = 0;
-        m_penaltysNr = 0;
-        m_isFinished = false;
-      }
-      bool isExamFileOk = true;
-      int tmpMist = 0;
-      int tmpHalf = 0;
-      int fixedNr = 0;
-      int okTime = 0; // time of correct and notBad answers to calculate average
-      while (!in.atEnd()) {
-          TQAunit qaUnit;
-          if (!getTQAunitFromStream(in, qaUnit))
-              isExamFileOk = false;
-          if ((qaUnit.questionAs == TQAtype::e_asName || qaUnit.answerAs == TQAtype::e_asName) 
-                && qaUnit.styleOfQuestion() < 0) {
-                  qaUnit.setStyle(Tglob::glob()->S->nameStyleInNoteName, qaUnit.styleOfAnswer());
-                  fixedNr++;
-              } /** In old versions, style was set to 0 so now it gives styleOfQuestion = -1
-                * Also in transition Nootka versions it was left unchanged.
-                * Unfixed it invokes stupid names in charts.
-                * We are fixing it by insert user preferred style of naming */
-          if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
-              m_answList << qaUnit;
-              m_workTime += qaUnit.time;
-              if ( !qaUnit.isCorrect() ) {
-                if (qaUnit.isWrong())
-                  tmpMist++;
-                else
-                  tmpHalf++; // not so bad answer
-              }
-              if (!qaUnit.isWrong())
-                  okTime += qaUnit.time;
-          } else { // add to m_blackList
-              m_blackList << qaUnit;
-          }
-      }
-      if (questNr != m_answList.size()) {
-        isExamFileOk = false;        
-      }
+				in >> m_halfMistNr >> m_penaltysNr >> m_isFinished;
+			} else { // exam version 1
+				m_halfMistNr = 0;
+				m_penaltysNr = 0;
+				m_isFinished = false;
+			}
+// 				bool isExamFileOk = true;
+// 			int tmpMist = 0;
+// 			int tmpHalf = 0;
+// 			int fixedNr = 0;
+// 			int okTime = 0; // time of correct and notBad answers to calculate average
+			while (!in.atEnd()) {
+					TQAunit qaUnit;
+					if (!getTQAunitFromStream(in, qaUnit))
+							isExamFileOk = false;
+					if ((qaUnit.questionAs == TQAtype::e_asName || qaUnit.answerAs == TQAtype::e_asName) 
+								&& qaUnit.styleOfQuestion() < 0) {
+									qaUnit.setStyle(Tglob::glob()->S->nameStyleInNoteName, qaUnit.styleOfAnswer());
+									fixedNr++;
+							} /** In old versions, style was set to 0 so now it gives styleOfQuestion = -1
+								* Also in transition Nootka versions it was left unchanged.
+								* Unfixed it invokes stupid names in charts.
+								* We are fixing it by insert user preferred style of naming */
+					if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
+							m_answList << qaUnit;
+							m_workTime += qaUnit.time;
+							if ( !qaUnit.isCorrect() ) {
+								if (qaUnit.isWrong())
+									tmpMist++;
+								else
+									tmpHalf++; // not so bad answer
+							}
+							if (!qaUnit.isWrong())
+									okTime += qaUnit.time;
+					} else { // add to m_blackList
+							m_blackList << qaUnit;
+					}
+			}
+		}
+		if (questNr != m_answList.size()) {
+			isExamFileOk = false;        
+		}
 //       if (ev == examVersion2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
-			if (examVersionNr(ev) >= 2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
-        m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
-        m_halfMistNr = tmpHalf;
-        isExamFileOk = false;
-      } else {
-        m_mistNr = tmpMist; // transition to exam version 2
-      }
-      if (ev == examVersion) {
-          convertToVersion2();
-          m_halfMistNr = tmpHalf;
-      }
-      if (fixedNr)
-          qDebug() << "fixed style in questions:" << fixedNr;
+		if (examVersionNr(ev) >= 2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
+			m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
+			m_halfMistNr = tmpHalf;
+			isExamFileOk = false;
+		} else {
+			m_mistNr = tmpMist; // transition to exam version 2
+		}
+		if (ev == examVersion) {
+				convertToVersion2();
+				m_halfMistNr = tmpHalf;
+		}
+		if (fixedNr)
+				qDebug() << "fixed style in questions:" << fixedNr;
 //       m_averReactTime = m_workTime / count(); // OBSOLETE
-      if ((count() - mistakes()))
-        m_averReactTime = okTime / (count() - mistakes());
-      else 
-        m_averReactTime = 0.0;
-      if (!isExamFileOk)
-          result = e_file_corrupted;
-      file.close();
-     } else {
-					Tlevel::fileIOerrorMsg(file, 0);
-          result = e_cant_open;
-     }
+		if ((count() - mistakes()))
+			m_averReactTime = okTime / (count() - mistakes());
+		else 
+			m_averReactTime = 0.0;
+		if (!isExamFileOk)
+				result = e_file_corrupted;
+		file.close();
+		} else {
+				Tlevel::fileIOerrorMsg(file, 0);
+				result = e_cant_open;
+		}
   updateBlackCount();
   return result;
 }
@@ -249,6 +259,38 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 
 bool Texam::loadFromXml(QXmlStreamReader& xml) {
 	bool ok = true;
+	if (xml.readNextStartElement()) {
+		if (xml.name() != "exam") {
+			qDebug() << "There is no 'exam' key in that XML";
+			return false;
+		}
+		m_userName = xml.attributes().value("user").toString();
+		if (m_userName.isEmpty() || m_userName.size() > 30) {
+			qDebug() << "Exam has wrong user name";
+			return false;
+		}
+	}
+	while (xml.readNextStartElement()) {
+		if (xml.name() == "head") {
+			while (xml.readNextStartElement()) {
+				qDebug() << xml.name();
+				if (xml.name() == "level") {
+					Tlevel::EerrorType err = m_level->loadFromXml(xml);
+					if (err != Tlevel::e_level_OK) {
+						qDebug() << "Exam has wrong level definition" << (int)err;
+						return false;
+					}
+				} else if (xml.name() == "tuning") {
+					if (!m_tune.fromXml(xml)) {
+						qDebug() << "Exam has wrong tunung";
+						return false;
+					}
+				} else
+						Tlevel::skipCurrentXmlKey(xml);
+			}
+		} else 
+				Tlevel::skipCurrentXmlKey(xml);
+	}
 	return ok;
 }
 
@@ -436,7 +478,7 @@ void Texam::convertToVersion2() {
       }
     }
   }
-  qDebug() << "Converted to exam version 2!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
+//   qDebug() << "Converted to exam version 2!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
 }
 
 

@@ -56,13 +56,13 @@ public:
 		e_russian_Ci // classical but in Russian: До Ре Ми Фа Соль Ля Си
 	};
 
-				/** Eacidentals enumeration type describes all signs which can be before note in score.
+				/** Ealter enumeration type describes all signs which can be before note in score.
 				* It can be: @li e_None = 3 @li e_Sharp = 1 @li e_DoubleSharp=2
 				* @li e_Flat= -1 @li e_DoubleFlat= -2 @li e_Natural=0	*/
-	enum Eacidentals { e_Natural = 0, e_Sharp=1, e_DoubleSharp=2,
+	enum Ealter { e_Natural = 0, e_Sharp=1, e_DoubleSharp=2,
 		   e_Flat=-1, e_DoubleFlat=-2, e_None=3 };
 
-	char note; /** note variable is a number in "diatonal notation" (see constructor).*/
+	char note; /** note variable is a number in "diatonic notation" (see constructor).*/
 	char octave; /** Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line". */
 	
 				/** @param accidental means raising or dropping a note, so it ca be:
@@ -71,7 +71,7 @@ public:
 				* @li 0 for natural
 				* @li -1 for flat (b)
 				* @li -2 for double flat (bb) */
-	char acidental;
+	char alter;
 
 				/** Construct object of Tnote from number of note, number of octave and optional
 				* accidental. The note number is:
@@ -80,7 +80,7 @@ public:
 				* @li .......
 				* @li 7 for B (H in Deutsh)
 				* If accidental is not defined, the note is natural.	*/
-	Tnote (char m_diatonNote, char m_octave, char m_acidental = 0);
+	Tnote (char diatonNote, char oct, char accid = 0);
 	
 				/** The simple constructor, creates the note instance with 0 note - 
 				* It makes no sense in musical notation. It's needed for vectors. */
@@ -119,7 +119,7 @@ public:
 	Tnote showWithDoubleSharp ();
 	Tnote showWithSharp ();
 	
-			/** It returns Tnote object with no acidentals, if it's possibile,
+			/** It returns Tnote object with no accidentals, if it's possible,
 				* or with sharps if not.  */
 	Tnote showAsNatural ();
 	Tnote showWithFlat ();
@@ -145,7 +145,7 @@ public:
 				/** Returns note name formatted to HTML in default name style sets by @p defaultStyle. */
 	QString toRichText(bool showOctave = true) { return toRichText(defaultStyle, showOctave); }
 	
-	short getChromaticNrOfNote(); /** Returns chromatic number of note C1 is 60 */
+	short chromatic(); /** Returns chromatic number of note f.e. C1 is 60 */
 	void setChromatic(short noteNr); /** Determines note, octave and accidental from chromatic value. */
 
 			/** Adds given @p tag or 'pitch' key to XML stream compatible with MusicXML format with current note
@@ -164,7 +164,7 @@ public:
 	void fromXml(QXmlStreamReader& xml, const QString& prefix = ""); 
 	
 	
-	unsigned int toMidi() { return getChromaticNrOfNote() + 47; } /** Returns this note as midi number. */
+	unsigned int toMidi() { return chromatic() + 47; } /** Returns this note as midi number. */
 	void fromMidi(unsigned int midiNote) { setChromatic(midiNote - 47); } /** Sets this note from midi note number. */
 
 private:

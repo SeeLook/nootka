@@ -179,15 +179,15 @@ void TfirstRunWizzard::nextSlot() {
         } else if (gl->instrument == e_noInstrument) {
 						gl->S->clef = m_notationWidget->score()->clef().type();
 						Tnote hiN, loN; // fix notes order
-						if (m_notationWidget->score()->getNote(1).getChromaticNrOfNote() <
-										m_notationWidget->score()->getNote(0).getChromaticNrOfNote()) {
+						if (m_notationWidget->score()->getNote(1).chromatic() <
+										m_notationWidget->score()->getNote(0).chromatic()) {
 								hiN = m_notationWidget->score()->getNote(1);
 								loN = m_notationWidget->score()->getNote(0);
 						} else {
 								hiN = m_notationWidget->score()->getNote(0);
 								loN = m_notationWidget->score()->getNote(1);
 						}
-						Ttune instrScale("scale", Tnote(hiN.getChromaticNrOfNote() - gl->GfretsNumber), loN);
+						Ttune instrScale("scale", Tnote(hiN.chromatic() - gl->GfretsNumber), loN);
 						gl->setTune(instrScale);
         }
         close();

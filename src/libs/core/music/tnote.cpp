@@ -67,15 +67,15 @@ Tnote::Tnote ()
 {
 	note = 0;
 	octave = 0;
-	acidental = Tnote::e_Natural;
+	alter = Tnote::e_Natural;
 }
 
 
-Tnote::Tnote( char m_diatonNote, char m_octave, char m_acidental)
+Tnote::Tnote( char diatonNote, char oct, char accid)
 {
-	note = m_diatonNote;
-	octave = m_octave;
-	acidental = m_acidental;
+	note = diatonNote;
+	octave = oct;
+	alter = accid;
 }
 
 
@@ -91,24 +91,24 @@ Tnote::~Tnote ()
 
 void Tnote::setChromatic(short int noteNr) {
 	switch ((noteNr + 143) % 12 + 1)	{
-			case 1: note = 1; acidental = 0; break;
-			case 2: note = 1; acidental = 1; break;
-			case 3: note = 2; acidental = 0; break;
-			case 4: note = 2; acidental = 1; break;
-			case 5: note = 3; acidental = 0; break;
-			case 6: note = 4; acidental = 0; break;
-			case 7: note = 4; acidental = 1; break;
-			case 8: note = 5; acidental = 0; break;
-			case 9: note = 5; acidental = 1; break;
-			case 10: note = 6; acidental = 0; break;
-			case 11: note = 6; acidental = 1; break;
-			case 12: note = 7; acidental = 0; break;
+			case 1: note = 1; alter = 0; break;
+			case 2: note = 1; alter = 1; break;
+			case 3: note = 2; alter = 0; break;
+			case 4: note = 2; alter = 1; break;
+			case 5: note = 3; alter = 0; break;
+			case 6: note = 4; alter = 0; break;
+			case 7: note = 4; alter = 1; break;
+			case 8: note = 5; alter = 0; break;
+			case 9: note = 5; alter = 1; break;
+			case 10: note = 6; alter = 0; break;
+			case 11: note = 6; alter = 1; break;
+			case 12: note = 7; alter = 0; break;
    }	
    octave = ((noteNr + 143) / 12 - 12) ;
 }
 
 
-short Tnote::getChromaticNrOfNote() {
+short Tnote::chromatic() {
 	char a;
 	switch  (Tnote::note)	{
 		case 1: a = 1; break;	// note C
@@ -119,111 +119,111 @@ short Tnote::getChromaticNrOfNote() {
 		case 6: a = 10; break;	// A
 		case 7: a = 12; break;	// H
 	}
-    return a + (Tnote::octave)*12 + Tnote::acidental;
+    return a + (Tnote::octave)*12 + Tnote::alter;
 }
 
 
 Tnote Tnote::showAsNatural() {
-	return Tnote(Tnote(note,octave,acidental).getChromaticNrOfNote());
+	return Tnote(Tnote(note,octave,alter).chromatic());
 }
 
 
 Tnote Tnote::showWithFlat() {
-	if (acidental != Tnote::e_Flat)	{
+	if (alter != Tnote::e_Flat)	{
 		Tnote outputNote = Tnote::showAsNatural();
 // Tnote::showAsNatural() allways returns notes with sharps or neutral, and never returns H# or E#, but
 // C or F,
-		if (outputNote.acidental == Tnote::e_Sharp)	{
+		if (outputNote.alter == Tnote::e_Sharp)	{
 				outputNote.note++;
-			outputNote.acidental = Tnote::e_Flat;
+			outputNote.alter = Tnote::e_Flat;
 		}
 		else //so only for H changed to Cb we have to increment octave, 
 		if (outputNote.note == 7 || outputNote.note == 3)	{ 
 		  if (outputNote.note == 7)	{outputNote.octave++; outputNote.note = 1;}
 		  if (outputNote.note == 3) outputNote.note = 4;//and for E simply convert to Fb
-		  outputNote.acidental = Tnote::e_Flat;
+		  outputNote.alter = Tnote::e_Flat;
 		}
 		return outputNote;
 	}
-	else	return Tnote(note,octave,acidental);
+	else	return Tnote(note,octave,alter);
 }
 
 
 Tnote Tnote::showWithSharp() {
-	if (acidental != Tnote::e_Sharp)	{
+	if (alter != Tnote::e_Sharp)	{
 		Tnote outputNote = Tnote::showAsNatural();
-		if (outputNote.acidental == Tnote::e_Natural)	{
-			if (outputNote.note == 4) { outputNote.note = 3; outputNote.acidental = Tnote::e_Sharp;}
+		if (outputNote.alter == Tnote::e_Natural)	{
+			if (outputNote.note == 4) { outputNote.note = 3; outputNote.alter = Tnote::e_Sharp;}
 			else
 			  if (outputNote.note == 1)
-				{outputNote.octave--; outputNote.note = 7; outputNote.acidental = Tnote::e_Sharp;}
+				{outputNote.octave--; outputNote.note = 7; outputNote.alter = Tnote::e_Sharp;}
 		}
 		return outputNote;
 	}
-	else return Tnote(note,octave,acidental);
+	else return Tnote(note,octave,alter);
 }
 
 
 Tnote Tnote::showWithDoubleSharp() {
-	if (acidental != Tnote::e_DoubleSharp)	{
+	if (alter != Tnote::e_DoubleSharp)	{
 		Tnote outputNote = Tnote::showAsNatural();
-		if (outputNote.acidental == Tnote::e_Natural)	{
-		  if (outputNote.note == 4) {outputNote.acidental = Tnote::e_Sharp; outputNote.note = 3;}
+		if (outputNote.alter == Tnote::e_Natural)	{
+		  if (outputNote.note == 4) {outputNote.alter = Tnote::e_Sharp; outputNote.note = 3;}
 		  else
 			if (outputNote.note == 1)
-				{outputNote.acidental = Tnote::e_Sharp; outputNote.note = 7; outputNote.octave--;}
+				{outputNote.alter = Tnote::e_Sharp; outputNote.note = 7; outputNote.octave--;}
 			else
-			  {outputNote.acidental = Tnote::e_DoubleSharp; outputNote.note--;}
+			  {outputNote.alter = Tnote::e_DoubleSharp; outputNote.note--;}
 		}
                 return outputNote;
 	}
-	else return Tnote(note,octave,acidental);
+	else return Tnote(note,octave,alter);
 }
 
 
 Tnote Tnote::showWithDoubleFlat() {
-	if (acidental != Tnote::e_DoubleFlat)	{
-		Tnote outputNote = Tnote(note,octave,acidental);
-		if (outputNote.acidental == Tnote::e_Flat && ( (outputNote.note == 3) || (outputNote.note == 7)) )	{
-			if (outputNote.note == 3) {outputNote.acidental = Tnote::e_DoubleFlat; outputNote.note = 4;}
+	if (alter != Tnote::e_DoubleFlat)	{
+		Tnote outputNote = Tnote(note,octave,alter);
+		if (outputNote.alter == Tnote::e_Flat && ( (outputNote.note == 3) || (outputNote.note == 7)) )	{
+			if (outputNote.note == 3) {outputNote.alter = Tnote::e_DoubleFlat; outputNote.note = 4;}
 			else
-				{outputNote.acidental = Tnote::e_DoubleFlat; outputNote.note = 1; outputNote.octave++;}
+				{outputNote.alter = Tnote::e_DoubleFlat; outputNote.note = 1; outputNote.octave++;}
 		}
 		else	{
 			outputNote = outputNote.showAsNatural();
 			//Tnote outputNote = Tnote::showAsNatural();
-			if (outputNote.acidental == Tnote::e_Natural)	{
-		  		if (outputNote.note == 3) {outputNote.acidental = Tnote::e_Flat; outputNote.note = 4;}
+			if (outputNote.alter == Tnote::e_Natural)	{
+		  		if (outputNote.note == 3) {outputNote.alter = Tnote::e_Flat; outputNote.note = 4;}
 				else
 				if (outputNote.note == 7)
-					{outputNote.acidental = Tnote::e_Flat; outputNote.note = 1; outputNote.octave++;}
+					{outputNote.alter = Tnote::e_Flat; outputNote.note = 1; outputNote.octave++;}
 				else
-			  		{outputNote.acidental = Tnote::e_DoubleFlat; outputNote.note++;}
+			  		{outputNote.alter = Tnote::e_DoubleFlat; outputNote.note++;}
 			}
 			else
-				if (outputNote.acidental == Tnote::e_Sharp)	{
+				if (outputNote.alter == Tnote::e_Sharp)	{
 					if (outputNote.note == 2)
-						{outputNote.acidental = Tnote::e_DoubleFlat; outputNote.note = 4;}
+						{outputNote.alter = Tnote::e_DoubleFlat; outputNote.note = 4;}
 					else
 					  if (outputNote.note == 6)
-						{outputNote.acidental = Tnote::e_DoubleFlat; outputNote.note = 1; outputNote.octave++;}
+						{outputNote.alter = Tnote::e_DoubleFlat; outputNote.note = 1; outputNote.octave++;}
 					  else
 						outputNote = outputNote.showWithFlat();
 				}
 		}
                 return outputNote;
 	}
-	else return Tnote(note,octave,acidental);
+	else return Tnote(note,octave,alter);
 }
 
 
 short Tnote::compareNotes( Tnote otherNote, short ignoreOctave ) {
 	if (!ignoreOctave)
-		if ( (note == otherNote.note) && ( acidental == otherNote.acidental)
+		if ( (note == otherNote.note) && ( alter == otherNote.alter)
 			&& (octave == otherNote.octave) ) return 1;
 		else return 0;
 	else
-		if ( (note == otherNote.note) && ( acidental == otherNote.acidental) )
+		if ( (note == otherNote.note) && ( alter == otherNote.alter) )
 			return 1;
 		else return 0;
 }
@@ -232,13 +232,13 @@ short Tnote::compareNotes( Tnote otherNote, short ignoreOctave ) {
 TnotesList Tnote::getTheSameNotes(bool enableDbAccids) {
 	TnotesList notesL;
 	short cnt;//counter of notes. With double accids is 5 (4) without 3 (2)
-	notesL.push_back(Tnote(note,octave,acidental));
-	if (notesL[0].acidental != Tnote::e_Natural) notesL.push_back(notesL[0].showAsNatural());
-	if (notesL[0].acidental != Tnote::e_Sharp) notesL.push_back(notesL[0].showWithSharp());
-	if (notesL[0].acidental != Tnote::e_Flat) notesL.push_back(notesL[0].showWithFlat());
+	notesL.push_back(Tnote(note,octave,alter));
+	if (notesL[0].alter != Tnote::e_Natural) notesL.push_back(notesL[0].showAsNatural());
+	if (notesL[0].alter != Tnote::e_Sharp) notesL.push_back(notesL[0].showWithSharp());
+	if (notesL[0].alter != Tnote::e_Flat) notesL.push_back(notesL[0].showWithFlat());
 	if (enableDbAccids)	{
-		if (notesL[0].acidental != Tnote::e_DoubleSharp) notesL.push_back(notesL[0].showWithDoubleSharp());
-		if (notesL[0].acidental != Tnote::e_DoubleFlat) notesL.push_back(notesL[0].showWithDoubleFlat());
+		if (notesL[0].alter != Tnote::e_DoubleSharp) notesL.push_back(notesL[0].showWithDoubleSharp());
+		if (notesL[0].alter != Tnote::e_DoubleFlat) notesL.push_back(notesL[0].showWithDoubleFlat());
 		cnt = 4;
 	}
 	else cnt = 2;
@@ -266,14 +266,14 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
 	}
 	switch (TnameStyleFilter::get(notation)) {
       case e_italiano_Si:
-					noteStr = m_solmization[note - 1] + signsAcid[acidental + 2];
+					noteStr = m_solmization[note - 1] + signsAcid[alter + 2];
 					break;
 			case e_russian_Ci:
-					noteStr = m_solmizationRu[note - 1] + signsAcid[acidental + 2];
+					noteStr = m_solmizationRu[note - 1] + signsAcid[alter + 2];
 					break;
       case e_deutsch_His:
 					noteStr = Letters[note - 1];
-					switch (acidental)	{
+					switch (alter)	{
 						case e_Natural: break;
 						case e_DoubleSharp: noteStr = noteStr + "isis"; break;
 						case e_Sharp: noteStr = noteStr + "is"; break;
@@ -295,7 +295,7 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
 	  case e_nederl_Bis:
 				noteStr = Letters[note-1];
 				if (note == 7) noteStr = "B";
-				switch( acidental ){
+				switch( alter ){
 					case e_Natural: break;
 					case e_DoubleSharp: noteStr = noteStr + "isis"; break;
 					case e_Sharp: noteStr = noteStr + "is"; break;
@@ -318,7 +318,7 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
 	  default:
 				noteStr = Letters[note - 1];
 				if ((notation == e_english_Bb) && (note == 7)) noteStr = "B";
-						noteStr = noteStr + signsAcid[acidental + 2];
+						noteStr = noteStr + signsAcid[alter + 2];
 				break;
    }
 	if (showOctave) 
@@ -330,7 +330,7 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
 std::string Tnote::getName( Tnote eNote, EnameStyle notation, bool showOctave )
 {
 	note = eNote.note;
-	acidental = eNote.acidental;
+	alter = eNote.alter;
 	octave = eNote.octave;
 	return getName(notation, showOctave);
 }
@@ -347,13 +347,13 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
 			  notation == Tnote::e_russian_Ci ||
         notation == Tnote::e_english_Bb ||
         notation == Tnote::e_norsk_Hb ) {
-        if (acidental)
-					result.replace(QString::fromStdString(signsAcid[acidental + 2]), QString("<sub>%1</sub>").arg(accidInSpan(acidental)));
+        if (alter)
+					result.replace(QString::fromStdString(signsAcid[alter + 2]), QString("<sub>%1</sub>").arg(accidInSpan(alter)));
     }
-    if (acidental == -2)
+    if (alter == -2)
 				result.replace("B", "!"); // store capital B otherwise toLower() make it lower
     result = result.toLower(); // it converts double flat (B) to single flat (b)
-		if (acidental == -2) 
+		if (alter == -2) 
 				result.replace("!", "B"); // bring back capital B
     if (showOctave) {
         if (octave < 0) { //first letter capitalize
@@ -380,8 +380,8 @@ void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& pref
 		Tnote bareNote = Tnote(note, octave, 0);
 		xml.writeTextElement(prefix + "step", bareNote.toText(Tnote::e_english_Bb, false));
 		xml.writeTextElement(prefix + "octave", QVariant((int)octave + 3).toString());
-		if (acidental)
-			xml.writeTextElement(prefix + "alter", QVariant((int)acidental).toString());
+		if (alter)
+			xml.writeTextElement(prefix + "alter", QVariant((int)alter).toString());
 	}
 	if (!tag.isEmpty())
 		xml.writeEndElement(); // pitch
@@ -390,7 +390,7 @@ void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& pref
 
 void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
 // 	if (xml.name() == "pitch") {
-		note = 0; octave = 0; acidental = 0; // reset this note
+		note = 0; octave = 0; alter = 0; // reset this note
 		while (xml.readNextStartElement()) {
 			if (xml.name() == (prefix + "step")) {
 				QString step = xml.readElementText().toUpper();
@@ -404,7 +404,7 @@ void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
 			} else if (xml.name() == (prefix + "octave"))
 				octave = char(xml.readElementText().toInt() - 3);
 			else if (xml.name() == (prefix + "alter"))
-				acidental = char(xml.readElementText().toInt());
+				alter = char(xml.readElementText().toInt());
 			else 
 				xml.skipCurrentElement();
 		}
@@ -413,12 +413,12 @@ void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
 
 
 bool Tnote::operator ==( const Tnote N2 ) {
-        return ( note == N2.note && octave == N2.octave && acidental == N2.acidental);
+        return ( note == N2.note && octave == N2.octave && alter == N2.alter);
 }
 
 
 bool Tnote::operator !=( const Tnote N2 ) {
-    return ( note != N2.note || octave != N2.octave || acidental != N2.acidental);
+    return ( note != N2.note || octave != N2.octave || alter != N2.alter);
 }
 
 
@@ -436,7 +436,7 @@ bool getNoteFromStream(QDataStream &in, Tnote &n) {
 
 
 QDataStream &operator << (QDataStream &out, const Tnote &n) {
-    out << (qint8)n.note << (qint8)n.octave << (qint8)n.acidental;
+    out << (qint8)n.note << (qint8)n.octave << (qint8)n.alter;
     return out;
 }
 

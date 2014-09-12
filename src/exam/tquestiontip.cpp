@@ -34,7 +34,7 @@ extern Tglobals *gl;
 
 
 /* static */
-QString TquestionTip::getTextHowAccid(Tnote::Eacidentals accid) {
+QString TquestionTip::getTextHowAccid(Tnote::Ealter accid) {
     QString S = QString("<br><span style=\"color: %1\">").arg(gl->GfingerColor.name());
     if (accid) S += tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
     else S += tr(" Don't use accidentals!");
@@ -105,13 +105,13 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
       case TQAtype::e_asNote: {
         m_scoreFree = false;
         if (question.answerAsNote()) {
-            if (question.qa.note.acidental != question.qa_2.note.acidental)
+            if (question.qa.note.alter != question.qa_2.note.alter)
                 quest += tr("Change enharmonically and show on the staff");
             else
                 quest += tr("Given note show on the staff");
 						if (level->useKeySign && level->manualKey)
 								apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
-						quest += getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+						quest += getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
         } else if (question.answerAsName()) {
             m_nameFree = false;
             quest += tr("Give name of");
@@ -152,9 +152,9 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
         } else if (question.answerAsName()) {
             m_nameFree = false;
             noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
-            if (question.qa.note.acidental != question.qa_2.note.acidental) {
+            if (question.qa.note.alter != question.qa_2.note.alter) {
                 quest += tr("Change enharmonically and give name of");
-                quest += noteStr + getTextHowAccid((Tnote::Eacidentals)question.qa_2.note.acidental);
+                quest += noteStr + getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
             } else
                 quest += tr("Use another style to give name of") + noteStr;
 				} else if (question.answerAsFret()) {
@@ -193,7 +193,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
           quest += "<br>" + apendix;
         if (question.answerAsNote() || question.answerAsName())
           if (level->forceAccids)
-            quest += "<br" + getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+            quest += "<br" + getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
       break;
       
       case TQAtype::e_asSound:
@@ -208,13 +208,13 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
 								if (level->useKeySign && level->manualKey)
 									quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
 								if (level->forceAccids)
-									quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+									quest += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
 						}
         } else if (question.answerAsName()) {
             m_nameFree = false;
             quest += tr("Give name of listened sound");
             if (level->forceAccids)
-                quest += getTextHowAccid((Tnote::Eacidentals)question.qa.note.acidental);
+                quest += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
 				} else if (question.answerAsFret()) {
               m_guitarFree = false;
               quest += tr("Listened sound show on the guitar");
