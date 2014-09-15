@@ -28,7 +28,6 @@ analyzer executable
 - max/min score zoom calculate from available score height
 - keep exam file in /tmp and restore it when crash or so
 - add option for configuring fret marks (dots)
-- convert level file to text format (for sure) and exam file as well (consider)
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - revert to native style under MacOs when Qt5 
 - comparing exams (charts)

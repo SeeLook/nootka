@@ -35,19 +35,21 @@ Tchunk::~Tchunk()
 
 void Tchunk::toXml(QXmlStreamWriter& xml) {
 	xml.writeStartElement("note");
-		if (m_rhythm.isRest() || m_pitch.note == 0)
+		if (m_rhythm.isRest() || !m_pitch.isValid())
 			xml.writeEmptyElement("rest");
 		else 
 			m_pitch.toXml(xml);
-		xml.writeTextElement("type", m_rhythm.xmlType());
-		if (m_rhythm.hasDot())
-			xml.writeEmptyElement("dot");
+		if (m_rhythm.rhythm() == Trhythm::e_none) {
+			xml.writeTextElement("stem", "none");
+		} else {
+			xml.writeTextElement("type", m_rhythm.xmlType());
+			if (m_rhythm.hasDot())
+				xml.writeEmptyElement("dot");
+		}
+		xml.writeTextElement("duration", "1");
 		if (validPos()) {
 			xml.writeStartElement("notations");
-				xml.writeStartElement("technical");
-					xml.writeTextElement("string", QString("%1").arg(g().str()));
-					xml.writeTextElement("fret", QString("%1").arg(g().fret()));
-				xml.writeEndElement();
+				g().toXml(xml);
 			xml.writeEndElement();
 		}
 	xml.writeEndElement(); // note
@@ -55,8 +57,20 @@ void Tchunk::toXml(QXmlStreamWriter& xml) {
 
 
 bool Tchunk::fromXml(QXmlStreamReader& xml) {
-
-	return true;
+	bool ok = true;
+		while (xml.readNextStartElement()) {
+			if (xml.name() == "pitch")
+				m_pitch.fromXml(xml);
+			else if (xml.name() == "rest")
+				m_rhythm.setRest(true);
+			else if (xml.name() == "type")
+				m_rhythm.setNoteValue(xml.readElementText().toStdString());
+			else if (xml.name() == "notations")
+				m_fretPos.fromXml(xml);
+			else
+				xml.skipCurrentElement();
+		}
+	return ok;
 }
 
 

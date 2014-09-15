@@ -107,22 +107,82 @@ void TQAunit::addMelody(const QString& title) {
 }
 
 
-void TQAunit::toXml(QXmlStreamWriter& xml)
-{
-
+void TQAunit::toXml(QXmlStreamWriter& xml) {
+	xml.writeStartElement("u"); //u like unit
+		if (qa.note.isValid() || qa.pos.isValid())
+			qaGroupToXml(qa, xml);
+		xml.writeTextElement("q", QVariant((qint8)questionAs).toString());
+		xml.writeTextElement("a", QVariant((qint8)answerAs).toString());
+		xml.writeTextElement("s", QVariant(style).toString());
+		if (key.value() || key.isMinor()) // skip key signature when C-major (default), fromXml() will guess it
+			key.toXml(xml);
+		xml.writeTextElement("t", QVariant(time).toString());
+		xml.writeTextElement("m", QVariant(mistake()).toString());
+	if (qa_2.note.isValid() || qa_2.pos.isValid())
+			qaGroupToXml(qa_2, xml, "qa2");
+	if (melody()) {
+		xml.writeStartElement("melody");
+			xml.writeAttribute("title", melody()->title());
+			melody()->toXml(xml);
+		xml.writeEndElement();
+		xml.writeStartElement("attempts");
+		for (int i = 0; i < attemptsCount(); ++i)
+			attempt(i)->toXml(xml);		
+		xml.writeEndElement(); // attempts
+	}
+	xml.writeEndElement(); // u
 }
 
-
-bool TQAunit::formXml(QXmlStreamReader& xml)
-{
+/** We no need to worry about reset TQAunit because it is invoked just after its constructor - it clean yet. */
+bool TQAunit::fromXml(QXmlStreamReader& xml) {
 	bool ok = true;
-
+	while (xml.readNextStartElement()) {
+		if (xml.name() == "qa")
+			qaGroupFromXml(qa, xml);
+		else if (xml.name() == "qa2")
+			qaGroupFromXml(qa_2, xml);
+		else if (xml.name() == "q")
+			questionAs = (TQAtype::Etype)xml.readElementText().toInt();
+		else if (xml.name() == "a")
+			answerAs = (TQAtype::Etype)xml.readElementText().toInt();
+		else if (xml.name() == "s")
+			style = (TQAtype::Etype)xml.readElementText().toInt();
+		else if (xml.name() == "key")
+			key.fromXml(xml);
+		else if (xml.name() == "t")
+			time = xml.readElementText().toInt();
+		else if (xml.name() == "m")
+			valid = xml.readElementText().toInt();
+		else if (xml.name() == "melody") {
+			addMelody(xml.attributes().value("title").toString());
+			if (!melody()->fromXml(xml)) {
+				qDebug() << "TQAunit has wrong melody";
+				ok = false;
+				delete m_melody;
+				m_melody = 0;
+			}
+		} else if (xml.name() == "attempts") {
+				while (xml.readNextStartElement()) {
+					if (xml.name() == "a") {
+						newAttempt();
+						if (!lastAttepmt()->fromXml(xml)) {
+// 							qDebug() << "TQAunit has wrong attempt" << attemptsCount();
+// 							ok = false;
+// 							m_attempts->removeLast(); There is no validation check in Tattempt 
+						}
+					} else
+							xml.skipCurrentElement();
+				}
+		}
+		else
+			xml.skipCurrentElement();
+	}	
 	return ok;
 }
 
 
 QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit) {
-	qDebug() << "\nUhuhh! No more binary exam files\n Did you forget something?\n";
+	qDebug() << "\nUhuhh! No more binary exam files\n Did you forget something?\n"; // TODO remove it
 	out << qaUnit.qa.note << qaUnit.qa.pos;
 	out << (qint8)qaUnit.questionAs << (qint8)qaUnit.answerAs;
 	out << qaUnit.style;

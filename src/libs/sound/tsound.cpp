@@ -373,7 +373,7 @@ void Tsound::noteDetectedSlot(Tnote& note) {
 
 void Tsound::playMelodySlot() {
 	if (m_melodyNoteIndex > -1 && m_melodyNoteIndex < m_playedMelody->length()) {
-		play(m_playedMelody->notes()[m_melodyNoteIndex].p());
+		play(m_playedMelody->note(m_melodyNoteIndex)->p());
 		QTimer::singleShot(60000 / m_playedMelody->tempo(), this, SLOT(playMelodySlot()));
 		m_melodyNoteIndex++;
 	} else {

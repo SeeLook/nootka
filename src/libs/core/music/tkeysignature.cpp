@@ -155,12 +155,12 @@ void TkeySignature::fromXml(QXmlStreamReader& xml) {
 		while (xml.readNextStartElement()) {
 			if (xml.name() == "fifths") {
 				m_key = (char)qBound(-7, xml.readElementText().toInt(), 7);
-			} else if (xml.name() == "mode")
-				if (xml.readElementText() == "minor")
-						m_isMinor = true;
-				else
-						m_isMinor = false;
-			else 
+			} else if (xml.name() == "mode") {
+					if (xml.readElementText() == "minor")
+							m_isMinor = true;
+					else
+							m_isMinor = false;
+			} else 
 				xml.skipCurrentElement();
 		}
 		xml.skipCurrentElement();

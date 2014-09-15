@@ -18,7 +18,11 @@
 
 #ifndef TRHYTHM_H
 #define TRHYTHM_H
+
 #include <QString>
+
+
+const std::string rhythmStrings [6] = {"", "whole", "half", "quarter", "eighth", "16th"};
 
 
 /** 
@@ -48,6 +52,16 @@ public:
 	EnoteValue rhythm() { return m_noteVal; }
 	void setNoteValue(EnoteValue nVal) { m_noteVal = nVal; }
 	
+			/** It converts QString into rhythm value */
+	void setNoteValue(const std::string& nVal) {
+		for (int i = 0; i < 6; ++i) {
+			if (nVal == rhythmStrings[i]) {
+				m_noteVal = (EnoteValue)i;
+				return;
+			}
+		}
+	}
+	
 	bool hasDot() { return m_hasDot; }
 	void setDot(bool dot) { m_hasDot = dot; }
 	
@@ -55,15 +69,9 @@ public:
 	void setRest(bool rest) { m_isRest = rest; }
 	
 	QString xmlType() {
-		switch (m_noteVal) {
-			case e_whole: return "whole";
-			case e_half: return "half";
-			case e_quarter: return "quarter";
-			case e_eighth: return "eighth";
-			case e_sixteenth: return "16th";
-			default: return "none";
-		}
+		return QString::fromStdString(rhythmStrings[(int)m_noteVal]);
 	}
+	
 	
 private:
 	EnoteValue 							m_noteVal;

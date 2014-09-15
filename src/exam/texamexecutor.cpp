@@ -1503,13 +1503,13 @@ void TexamExecutor::lockedScoreSlot(int noteNr) {
 		if (noteNr < m_exam->curQ().lastAttepmt()->mistakes.size()) {
 			quint32 &m = m_exam->curQ().lastAttepmt()->mistakes[noteNr];
 			if (m && !(m & TQAunit::e_fixed) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
-				mW->score->correctNote(m_exam->curQ().melody()->notes()[noteNr].p(), m_supp->answerColor(m), noteNr);
+				mW->score->correctNote(m_exam->curQ().melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
 				m_exam->curQ().lastAttepmt()->mistakes[noteNr] |= TQAunit::e_fixed;
 			}
 			if (mW->sound->isPlayable())
-				mW->sound->play(m_exam->curQ().melody()->notes()[noteNr].p());
+				mW->sound->play(m_exam->curQ().melody()->note(noteNr)->p());
 			if (mW->guitar->isVisible())
-				mW->guitar->setFinger(m_exam->curQ().melody()->notes()[noteNr].p());
+				mW->guitar->setFinger(m_exam->curQ().melody()->note(noteNr)->p());
 		}
 	}
 }

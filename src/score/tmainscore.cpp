@@ -190,10 +190,10 @@ void TmainScore::setMelody(Tmelody* mel) {
 	setAnimationsEnabled(false);
 	for (int i = 0; i < mel->length(); ++i) {
 		if (i > notesCount() - 1) {
-			staves(i / staff()->maxNoteCount())->addNote(mel->notes()[i].p());
+			staves(i / staff()->maxNoteCount())->addNote(mel->note(i)->p());
 		} else {
 			changeCurrentIndex(i);
-			setNote(mel->notes()[i].p());
+			setNote(mel->note(i)->p());
 		}
 	}
 	setAnimationsEnabled(animEnabled);
@@ -210,8 +210,8 @@ void TmainScore::getMelody(Tmelody* mel, const QString& title) {
 	mel->setTempo(gl->S->tempo);
 	mel->setKey(keySignature());
 	for (int i = 0; i < notesCount(); ++i) {
-		Tchunk n(*getNote(i), Trhythm());
-		mel->notes() << n;
+		Tchunk n(*getNote(i), Trhythm(Trhythm::e_none));
+		mel->addNote(n);
 	}
 }
 

@@ -18,7 +18,7 @@
 
 #include "tmelman.h"
 #include "score/tmainscore.h"
-#include <exam/tqaunit.h>
+#include <exam/tqagroup.h>
 #include <music/tmelody.h>
 #include "exam/trandmelody.h"
 #include <QtWidgets>
@@ -78,10 +78,10 @@ void TmelMan::recordMelodySlot() {
 
 
 void TmelMan::randomizeMelodySlot() {
-	QList<TQAunit::TQAgroup> ql;
+	QList<TQAgroup> ql;
 	int ambit = 24; //highestNote().chromatic() - lowestNote().chromatic();
 	for (int i = 0; i < ambit; i++) {
-		TQAunit::TQAgroup qa;
+		TQAgroup qa;
 		qa.note = Tnote(1 + i);
 		ql << qa;
 	}
