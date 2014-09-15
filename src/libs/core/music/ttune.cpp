@@ -149,7 +149,7 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
 		id = xml.attributes().value("id").toInt();
 		if (id < -1 || (id > 4 && id < 100) || (id > 103)) {
 			qDebug() << "Tuning had wrong 'id'. Standard tuning will be used";
-			ok= false;
+			ok = false;
 		}
 		switch (id) {
 			case -1: break;
@@ -196,7 +196,8 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
 		}
 		if (!ok)
 			copy(stdTune);
-	}
+	} else
+			xml.skipCurrentElement(); // we are not reading from <tuning> tag content so it has to be skipped
 	return ok;
 }
 

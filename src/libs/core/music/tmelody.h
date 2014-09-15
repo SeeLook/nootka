@@ -22,9 +22,11 @@
 
 #include <QString>
 #include <QList>
-#include "tchunk.h"
 #include "tkeysignature.h"
+#include "tmeasure.h"
+#include "tclef.h"
 
+class Tmetrum;
 class TnoteStruct;
 
 /** 
@@ -32,18 +34,22 @@ class TnoteStruct;
  * Also it is able to save/load a melody into/from MusicXML structure 
  * Default tempo of a melody is 120 bpm.
  */
-class Tmelody
+class NOOTKACORE_EXPORT Tmelody
 {
 
 public:
 	Tmelody(const QString& title = "", const TkeySignature& k = TkeySignature());
 	
-	QString title() {return m_title; }
+	QString& title() {return m_title; }
 	void setTitle(const QString& t) { m_title = t; }
 	
 	int length() { return m_notes.size(); } /** A length of the melody (notes number) */
 	
-	QList<Tchunk>& notes() { return m_notes; } /** A reference to list (QList) of melody notes */
+	void addNote(const Tchunk& n);
+	Tchunk* note(int index) { return m_notes[index]; } /** A pointer to note @p index */
+	
+	Tmeasure& measure(int nr) { return m_measures[nr]; }
+	Tmeasure& lastMeasure() { return m_measures.last(); }
 	
 	int tempo() { return m_tempo; }
 	void setTempo(int tmp) { m_tempo = tmp; }
@@ -51,16 +57,25 @@ public:
 	TkeySignature key() { return m_key; }
 	void setKey(const TkeySignature& k) { m_key = k; }
 	
+	Tclef::Etype clef() { return m_clef; }
+	void setClef(Tclef::Etype type) { m_clef = type; }
+	
 	void toXml(QXmlStreamWriter& xml);
 	bool fromXml(QXmlStreamReader& xml);
+	
+	bool saveToMusicXml(const QString& xmlFileName);
+	bool grabFromMusicXml(const QString& xmlFileName);
 	
 	void fromNoteStruct(QList<TnoteStruct>& ns); /** Converts given list to melody */
 	
 private:
 	QString						m_title;
-	QList<Tchunk>			m_notes;
+	QList<Tmeasure>		m_measures;
+	QList<Tchunk*>		m_notes; /** List of pointers to ordered notes */
 	int								m_tempo;
 	TkeySignature			m_key;
+	Tmetrum					 *m_metrum;
+	Tclef::Etype			m_clef;
 };
 
 #endif // TMELODY_H

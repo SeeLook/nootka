@@ -22,12 +22,15 @@
 
 #include <nootkacoreglobal.h>
 #include <QDataStream>
+#include <QXmlStreamWriter>
 
 
 /**
-*  A class describes finger's position on the fingerboard.
+*  A class describing a finger position on a guitar fingerboard.
+* It supports up to six strings and up to 39 frets.
+* Default constructor @p TfingerPos() creates invalid position.
+* It can be detected with @p isValid() method
 */
-
 class NOOTKACORE_EXPORT TfingerPos
 {
 public:
@@ -36,18 +39,21 @@ public:
         setPos(realStr, fret);
     }
 
-    quint8 str() { return (m_pos / 40) +1; }
+    quint8 str() { return (m_pos / 40) + 1; }
     quint8 fret() { return m_pos % 40; }
 
+    bool isValid() { return m_pos < 201; } /** Returns @p True when position is valid */
+    
     void setPos(unsigned char realStr, unsigned char fret) {
-        m_pos = (realStr-1)*40 + fret;
+        m_pos = (realStr - 1) * 40 + fret;
     }
-        /** List of QStrings with roman representatin of numbers 0-24. */
+    
+        /** List of QString with roman representation of numbers 0-24. */
     static const QString fretsList[25];
     static QString romanFret(quint8 fret);
     QString romanFret() { return romanFret(fret()); }
-      /** TfingerPos in HTML format as a string fe.: 3 XVII */
-    QString toHtml();
+    
+    QString toHtml();  /** TfingerPos in HTML format as a string fe.: 3 XVII */
 
     bool operator==( TfingerPos f2) { return m_pos == f2.m_pos; }
     bool operator!=( TfingerPos f2) { return m_pos != f2.m_pos; }
@@ -60,6 +66,10 @@ public:
         in >> fPos.m_pos;
         return in;
     }
+    
+				/** Writes XML structure with <string> and <fret> into <tag> (if not empty) */
+    void toXml(QXmlStreamWriter& xml, const QString& tag = "technical");
+		void fromXml(QXmlStreamReader& xml);
 
 protected:
     quint8 m_pos;

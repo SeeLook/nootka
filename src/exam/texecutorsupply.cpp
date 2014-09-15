@@ -120,7 +120,7 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
 //##########################################################################################
 
 
-void TexecutorSupply::createQuestionsList(QList<TQAunit::TQAgroup> &list) {
+void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 	char openStr[6];
 //       for (int i = 0; i < 6; i++)
 	for (int i = 0; i < gl->Gtune()->stringNr(); i++)
@@ -243,8 +243,8 @@ bool TexecutorSupply::isNoteInKey(Tnote& n) {
 }
 
 
-void TexecutorSupply::addToList(QList< TQAunit::TQAgroup >& list, Tnote& n, TfingerPos& f) {
-		TQAunit::TQAgroup g;
+void TexecutorSupply::addToList(QList<TQAgroup>& list, Tnote& n, TfingerPos& f) {
+		TQAgroup g;
 		g.note = n; 
 		g.pos = f;
 		list << g;
@@ -464,7 +464,7 @@ void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
 	for (int i = 0; i < q->length(); ++i) {
 		TQAunit tmpUnit;
 		if (a->length() > i)
-			checkNotes(tmpUnit, q->notes()[i].p(), a->notes()[i].p(), m_level->requireOctave, m_level->forceAccids);
+			checkNotes(tmpUnit, q->note(i)->p(), a->note(i)->p(), m_level->requireOctave, m_level->forceAccids);
 		else
 			tmpUnit.setMistake(TQAunit::e_wrongNote);
 		att->add(tmpUnit.mistake()); // times are ignored in that type of answer/attempt
@@ -477,7 +477,7 @@ void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattemp
 		TQAunit tmpUnit;
 		quint32 noteTime = 0;
 		if (a.size() > i) {
-			checkNotes(tmpUnit, q->notes()[i].p(), a[i].pitch, m_level->requireOctave, m_level->forceAccids);
+			checkNotes(tmpUnit, q->note(i)->p(), a[i].pitch, m_level->requireOctave, m_level->forceAccids);
 			noteTime = quint32(a[i].duration * 1000.0); // duration is given in second but we need milliseconds
 			if (!tmpUnit.isWrong() && m_level->intonation != TintonationView::e_noCheck) {
 				if (TnoteStruct(Tnote(), a[i].pitchF).inTune(TintonationView::getThreshold(m_level->intonation)))

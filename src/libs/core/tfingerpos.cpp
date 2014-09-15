@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 - 2012 by Tomasz Bojczuk                           *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,7 @@
 
 
 #include "tfingerpos.h"
+
 
 /* static */
 const QString TfingerPos::fretsList[25] = { "0",
@@ -39,6 +40,36 @@ QString TfingerPos::toHtml() {
 }
 
 
-    
+void TfingerPos::toXml(QXmlStreamWriter& xml, const QString& tag) {
+	if (!tag.isEmpty())
+		xml.writeStartElement(tag);
+	xml.writeTextElement("string", QString("%1").arg(str()));
+	xml.writeTextElement("fret", QString("%1").arg(fret()));	
+	if (!tag.isEmpty())
+		xml.writeEndElement(); // tag
+}
+
+
+void TfingerPos::fromXml(QXmlStreamReader& xml) {
+	int s = 0, f = 50;
+	while (xml.readNextStartElement()) {
+		if (xml.name() == "string")
+			s = xml.readElementText().toInt();
+		else if (xml.name() == "fret")
+			f = xml.readElementText().toInt();
+		else
+			xml.skipCurrentElement();
+	}
+	if (s == 0 || f == 50)
+		m_pos = 255; // invalid
+	else
+		setPos(s, f);
+}
+
+
+
+
+
+
     
     

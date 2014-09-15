@@ -22,7 +22,7 @@
 
 
 
-void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
+void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
 	for (int i = 0; i < len; ++i) {
 		int randVal = qrand() % qList.size();
 		Tnote pitch = qList[randVal].note;
@@ -45,8 +45,8 @@ void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, boo
 				}
 			}
 		}
-		Tchunk note(pitch, Trhythm(), fPos);
-		mel->notes().append(note);
+		Tchunk note(pitch, Trhythm(Trhythm::e_none), fPos);
+		mel->addNote(note);
 	}
 	if (onTonic) {
 		char tonicNoteNr;
@@ -72,8 +72,8 @@ void getRandomMelody(QList<TQAunit::TQAgroup>& qList, Tmelody* mel, int len, boo
 			}
 			if (theSame) {
 				tonic.octave = qList[i].note.octave;
-				mel->notes().last().p() = tonic;
-				mel->notes().last().g() = qList[i].pos;
+				mel->lastMeasure().lastNote().p() = tonic;
+				mel->lastMeasure().lastNote().g() = qList[i].pos;
 				break;
 			}
 		}

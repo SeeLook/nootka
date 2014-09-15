@@ -16,23 +16,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TRANDMELODY_H
-#define TRANDMELODY_H
+#ifndef TQAGROUP_H
+#define TQAGROUP_H
 
-#include <exam/tqagroup.h>
 
-class TkeySignature;
-class Tmelody;
+#include <nootkacoreglobal.h>
+#include <tfingerpos.h>
+#include <music/tnote.h>
+
 
 /** 
- * Generates randomized melody into given reference of @p Tmelody.
- * Length is determined by @p len.
- * Notes are taken form given question list 
- * and key signature is respected if @inKey is set to @p true
- * Melody is finished on tonic note of the given key signature
- * when @p onTonic is set to @p true
+ * This is simple structure with 
+ * @p note (Tnote) 
+ * and position on the guitar @p pot (TfingerPos)
  */
-void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+struct NOOTKACORE_EXPORT TQAgroup 
+{
+		TfingerPos pos;
+		Tnote note;
+};
+
+		/** Global method to save TQAgroup to XML. (not valid) note and position are skipped. */
+NOOTKACORE_EXPORT void qaGroupToXml(TQAgroup& gr, QXmlStreamWriter& xml, const QString& tag = "qa");
+
+		/** Global method to get TQAgroup from XML. */
+NOOTKACORE_EXPORT bool qaGroupFromXml(TQAgroup& gr, QXmlStreamReader& xml);
 
 
-#endif // TRANDMELODY_H
+#endif // TQAGROUP_H

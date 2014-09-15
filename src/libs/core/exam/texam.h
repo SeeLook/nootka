@@ -95,7 +95,7 @@ public:
 	
 			/** Removes last question from the list and sets times according to it*/
 	void removeLastQuestion();
-  TQAunit& curQ() { return m_answList.last(); }
+	TQAunit& curQ() { return m_answList.last(); } /** Last q/a unit */
   QList<TQAunit>* answList() { return &m_answList; }
   
 			/** Returns number of questions/answers in en exam. */
@@ -131,6 +131,7 @@ public:
 	
 	void writeToXml(QXmlStreamWriter& xml);
 	bool loadFromXml(QXmlStreamReader& xml);
+	bool loadFromBin(QDataStream& in, quint32 ev);
 
 			/** Maximal time of an answer = 65500. Values over are equal to it.
 			* 65501 & 65502 are for counting probes in blackList */
@@ -153,6 +154,11 @@ protected:
 	
     /** Grabs answers with mistakes and creates black list */
   void convertToVersion2();
+	
+		/** Reads TQAunit from given XML and appends it at the end of given list or prints error and return @p FALSE*/
+	bool readUnitFromXml(QList<TQAunit>& list, QXmlStreamReader& xml);
+	
+	void grabFromLastUnit(); /** increases some counter variables to obtain checking values */
   
 
 private:

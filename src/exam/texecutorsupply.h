@@ -19,7 +19,7 @@
 #ifndef TEXECUTORSUPPLY_H
 #define TEXECUTORSUPPLY_H
 
-#include <music/tnote.h>
+
 #include <music/tnotestruct.h>
 #include <exam/tqaunit.h>
 
@@ -41,7 +41,7 @@ class TexecutorSupply : public QObject
 public:
   TexecutorSupply(Tlevel *level, QObject *parent = 0);
   
-  void createQuestionsList(QList<TQAunit::TQAgroup> &list);
+  void createQuestionsList(QList<TQAgroup> &list);
   Tnote determineAccid(Tnote n);
  
   Tnote forceEnharmAccid(Tnote n);
@@ -125,7 +125,7 @@ private:
 	bool isNoteInKey(Tnote &n);
 	
 			/** Appends given note and fret position to question list. */
-	void addToList(QList<TQAunit::TQAgroup> &list, Tnote &n, TfingerPos &f);
+	void addToList(QList<TQAgroup> &list, Tnote &n, TfingerPos &f);
 	
 			/** Returns number of string - itself (realNr - 1) when strings order is not respected
 			 * or pitch-ordered taken from gl->strOrder() */

@@ -16,23 +16,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TRANDMELODY_H
-#define TRANDMELODY_H
+#ifndef TMEASURE_H
+#define TMEASURE_H
 
-#include <exam/tqagroup.h>
+#include "tmetrum.h"
+#include "tchunk.h"
 
-class TkeySignature;
-class Tmelody;
 
 /** 
- * Generates randomized melody into given reference of @p Tmelody.
- * Length is determined by @p len.
- * Notes are taken form given question list 
- * and key signature is respected if @inKey is set to @p true
- * Melody is finished on tonic note of the given key signature
- * when @p onTonic is set to @p true
+ * A musical measure
  */
-void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+class NOOTKACORE_EXPORT Tmeasure
+{
+	
+public:
+	Tmeasure(int nr);
+	
+	Tmetrum metrum() { return m_metrum; }
+	
+	int number() { return m_number; }
+	
+			/** Adds a note. For this moment it doesn't check duration (rhythm) */
+	void addNote(const Tchunk& n);
+	Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
+	Tchunk& lastNote() { return m_notes.last(); }
+	
+	int conunt() { return m_notes.size(); }
+	
+private:
+	int								m_number;
+	Tmetrum						m_metrum;
+	QList<Tchunk>			m_notes;
+	
+};
 
-
-#endif // TRANDMELODY_H
+#endif // TMEASURE_H

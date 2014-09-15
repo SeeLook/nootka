@@ -21,6 +21,7 @@
 
 #include "nootkacoreglobal.h"
 #include <QList>
+#include <QXmlStreamWriter>
 
 /** 
  * This class describes an attempt to 'resolve/guess' an exercise/exam question
@@ -41,6 +42,9 @@ public:
 	
 	quint16 playedCount() const { return m_playedCounter; } /** How many times user playbacks a question melody */
 	void questionWasPlayed() { m_playedCounter++; } /** Increases playback counter */
+	
+	void toXml(QXmlStreamWriter& xml);
+	bool fromXml(QXmlStreamReader& xml);
   
 private:
 	

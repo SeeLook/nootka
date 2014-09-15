@@ -16,23 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TRANDMELODY_H
-#define TRANDMELODY_H
+#ifndef TMETRUM_H
+#define TMETRUM_H
 
-#include <exam/tqagroup.h>
+#include <nootkacoreglobal.h>
 
-class TkeySignature;
-class Tmelody;
+class NOOTKACORE_EXPORT Tmetrum
+{
 
-/** 
- * Generates randomized melody into given reference of @p Tmelody.
- * Length is determined by @p len.
- * Notes are taken form given question list 
- * and key signature is respected if @inKey is set to @p true
- * Melody is finished on tonic note of the given key signature
- * when @p onTonic is set to @p true
- */
-void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+public:
+	enum Emeter {
+		e_none = 0,
+		e_2_4 = 1,
+		e_3_4 = 2,
+		e_4_4 = 4,
+		e_5_4 = 8,
+		e_6_4 = 16
+	};
+	
+	Tmetrum(Emeter meter = e_none) : m_meter(meter) {}
+	
+	Emeter meter() { return m_meter; }
+	
+private:
+	Emeter				m_meter;
+};
 
-
-#endif // TRANDMELODY_H
+#endif // TMETRUM_H

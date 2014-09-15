@@ -121,6 +121,8 @@ QString Texam::formatReactTime(quint16 timeX10, bool withUnit) {
     return res + ss + QString(".%1").arg(timeX10 % 10) + unitS;
 }
 
+int okTime = 0; // time of correct and notBad answers to calculate average
+int tmpMist = 0, tmpHalf = 0;
 /*end of static*/
 
 
@@ -147,9 +149,11 @@ Texam::~Texam()
 
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
+	okTime = 0;
+	tmpMist = 0;
+	tmpHalf = 0;
 	m_fileName = fileName;
 	QFile file(fileName);
-	quint16 questNr;
 	m_workTime = 0;
 	m_mistNr = 0;
 	m_blackCount = 0;
@@ -169,96 +173,91 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 				return e_file_not_valid;
 		
 		bool isExamFileOk = true;
-		int tmpMist = 0;
-			int tmpHalf = 0;
-			int fixedNr = 0;
-			int okTime = 0; // time of correct and notBad answers to calculate average
 		if (examVersionNr(ev) == 4) {
 			QXmlStreamReader xml(in.device());
 			isExamFileOk = loadFromXml(xml);
-		} else {
-			in >> m_userName;
-			getLevelFromStream(in, *(m_level), examVersionToLevel(ev));
-			in >> m_tune;
-			in >> m_totalTime;
-			in >> questNr >> m_averReactTime >> m_mistNr;
-//       if (ev == examVersion2) {
-			if (examVersionNr(ev) >= 2) {
-				in >> m_halfMistNr >> m_penaltysNr >> m_isFinished;
-			} else { // exam version 1
-				m_halfMistNr = 0;
-				m_penaltysNr = 0;
-				m_isFinished = false;
-			}
-// 				bool isExamFileOk = true;
-// 			int tmpMist = 0;
-// 			int tmpHalf = 0;
-// 			int fixedNr = 0;
-// 			int okTime = 0; // time of correct and notBad answers to calculate average
-			while (!in.atEnd()) {
-					TQAunit qaUnit;
-					if (!getTQAunitFromStream(in, qaUnit))
-							isExamFileOk = false;
-					if ((qaUnit.questionAs == TQAtype::e_asName || qaUnit.answerAs == TQAtype::e_asName) 
-								&& qaUnit.styleOfQuestion() < 0) {
-									qaUnit.setStyle(Tglob::glob()->S->nameStyleInNoteName, qaUnit.styleOfAnswer());
-									fixedNr++;
-							} /** In old versions, style was set to 0 so now it gives styleOfQuestion = -1
-								* Also in transition Nootka versions it was left unchanged.
-								* Unfixed it invokes stupid names in charts.
-								* We are fixing it by insert user preferred style of naming */
-					if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
-							m_answList << qaUnit;
-							m_workTime += qaUnit.time;
-							if ( !qaUnit.isCorrect() ) {
-								if (qaUnit.isWrong())
-									tmpMist++;
-								else
-									tmpHalf++; // not so bad answer
-							}
-							if (!qaUnit.isWrong())
-									okTime += qaUnit.time;
-					} else { // add to m_blackList
-							m_blackList << qaUnit;
-					}
-			}
-		}
-		if (questNr != m_answList.size()) {
-			isExamFileOk = false;        
-		}
-//       if (ev == examVersion2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
-		if (examVersionNr(ev) >= 2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
-			m_mistNr = tmpMist; //we try to fix exam file to give proper number of mistakes
-			m_halfMistNr = tmpHalf;
-			isExamFileOk = false;
-		} else {
-			m_mistNr = tmpMist; // transition to exam version 2
-		}
-		if (ev == examVersion) {
-				convertToVersion2();
-				m_halfMistNr = tmpHalf;
-		}
-		if (fixedNr)
-				qDebug() << "fixed style in questions:" << fixedNr;
-//       m_averReactTime = m_workTime / count(); // OBSOLETE
+		} else
+			isExamFileOk = loadFromBin(in, ev);
+		
 		if ((count() - mistakes()))
-			m_averReactTime = okTime / (count() - mistakes());
-		else 
-			m_averReactTime = 0.0;
+				m_averReactTime = okTime / (count() - mistakes());
+// 		else 
+// 				m_averReactTime = 0.0;
+		qDebug() << "calculated average time" << m_averReactTime;
 		if (!isExamFileOk)
 				result = e_file_corrupted;
 		file.close();
-		} else {
-				Tlevel::fileIOerrorMsg(file, 0);
-				result = e_cant_open;
-		}
+	} else {
+			Tlevel::fileIOerrorMsg(file, 0);
+			result = e_cant_open;
+	}
   updateBlackCount();
   return result;
 }
 
 
+bool Texam::loadFromBin(QDataStream& in, quint32 ev) {
+	quint16 questNr;
+	bool isExamFileOk = true;
+	in >> m_userName;
+	getLevelFromStream(in, *(m_level), examVersionToLevel(ev));
+	in >> m_tune;
+	in >> m_totalTime;
+	in >> questNr >> m_averReactTime >> m_mistNr;
+	if (examVersionNr(ev) >= 2) {
+		in >> m_halfMistNr >> m_penaltysNr >> m_isFinished;
+	} else { // exam version 1
+			m_halfMistNr = 0;
+			m_penaltysNr = 0;
+			m_isFinished = false;
+	}
+	while (!in.atEnd()) {
+		TQAunit qaUnit;
+		if (!getTQAunitFromStream(in, qaUnit))
+				isExamFileOk = false;
+		if ((qaUnit.questionAs == TQAtype::e_asName || qaUnit.answerAs == TQAtype::e_asName) 
+			&& qaUnit.styleOfQuestion() < 0) {
+				qaUnit.setStyle(Tglob::glob()->S->nameStyleInNoteName, qaUnit.styleOfAnswer());
+		} /** In old versions, style was set to 0 so now it gives styleOfQuestion = -1
+			* Also in transition Nootka versions it was left unchanged.
+			* Unfixed it invokes stupid names in charts.
+			* We are fixing it by insert user preferred style of naming */
+		if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
+				m_answList << qaUnit;
+				grabFromLastUnit();
+		} else { // add to m_blackList
+				m_blackList << qaUnit;
+		}
+	}
+	if (questNr != m_answList.size()) {
+		qDebug() << "Exam questions number read from file" << questNr << 
+			"and those calculated" << m_answList.size() << "do not match. Exam file corrupted.";
+		isExamFileOk = false;        
+	}
+	if (examVersionNr(ev) >= 2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
+		m_mistNr = tmpMist; // we try to fix exam file to give proper number of mistakes
+		m_halfMistNr = tmpHalf;
+		isExamFileOk = false;
+	} else {
+		m_mistNr = tmpMist; // transition to exam version 2
+	}
+	if (ev == examVersion) {
+			convertToVersion2();
+			m_halfMistNr = tmpHalf;
+	}
+// 	if ((count() - mistakes()))
+// 		m_averReactTime = okTime / (count() - mistakes());
+// 	else 
+// 		m_averReactTime = 0.0;
+	return isExamFileOk;
+}
+
+
+
 bool Texam::loadFromXml(QXmlStreamReader& xml) {
 	bool ok = true;
+	int questNr = 0;
+	int fixedNr = 0;
 	if (xml.readNextStartElement()) {
 		if (xml.name() != "exam") {
 			qDebug() << "There is no 'exam' key in that XML";
@@ -271,25 +270,57 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 		}
 	}
 	while (xml.readNextStartElement()) {
+// 		qDebug() << "exam" << xml.name();
 		if (xml.name() == "head") {
 			while (xml.readNextStartElement()) {
-				qDebug() << xml.name();
+// 				qDebug() << "head" << xml.name();
 				if (xml.name() == "level") {
 					Tlevel::EerrorType err = m_level->loadFromXml(xml);
 					if (err != Tlevel::e_level_OK) {
 						qDebug() << "Exam has wrong level definition" << (int)err;
-						return false;
+						ok = false;
 					}
 				} else if (xml.name() == "tuning") {
-					if (!m_tune.fromXml(xml)) {
+					if (!m_tune.fromXml(xml, true)) {
 						qDebug() << "Exam has wrong tunung";
-						return false;
+						ok = false;
 					}
-				} else
-						Tlevel::skipCurrentXmlKey(xml);
+				} else if (xml.name() == "totalTime")
+					m_totalTime = xml.readElementText().toInt();
+				else if (xml.name() == "questNr")
+					questNr = xml.readElementText().toInt();
+				else if (xml.name() == "averReactTime")
+					m_averReactTime = xml.readElementText().toInt();
+				else if (xml.name() == "mistNr")
+					m_mistNr = xml.readElementText().toInt();
+				else if (xml.name() == "halfMistNr")
+					m_halfMistNr = xml.readElementText().toInt();
+				else if (xml.name() == "penaltysNr")
+					m_penaltysNr = xml.readElementText().toInt();
+				else if (xml.name() == "finished")
+					m_isFinished = QVariant(xml.readElementText()).toBool();
+				else
+					Tlevel::skipCurrentXmlKey(xml);
 			}
-		} else 
+		} else if (xml.name() == "answers") {
+				if (!readUnitFromXml(m_answList, xml))
+					ok = false;
+		} else if (xml.name() == "penalties") {
+				if (!readUnitFromXml(m_blackList, xml))
+						ok = false;
+		} else
 				Tlevel::skipCurrentXmlKey(xml);
+	}
+	if (questNr != m_answList.size()) {
+			qDebug() << "Exam questions number read from file" << questNr << 
+			"and those calculated" << m_answList.size() << "do not match. Exam file corrupted.";
+			ok = false;        
+		}
+	if (tmpMist != m_mistNr || tmpHalf != m_halfMistNr) {
+		qDebug() << "Mistakes number do not match. Exam file corrupted!" << tmpMist << m_mistNr;
+		m_mistNr = tmpMist; // we try to fix exam file to give proper number of mistakes
+		m_halfMistNr = tmpHalf;
+		ok = false;
 	}
 	return ok;
 }
@@ -307,28 +338,13 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		out << currentVersion;
 		QXmlStreamWriter xml(&file);
 		
-		xml.setAutoFormatting(true);
+		xml.setAutoFormatting(true); // TODO - comment it and pack into zip
 		xml.writeStartDocument();
 		xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
 		writeToXml(xml);
 		xml.writeEndDocument();
 		
 		file.close();
-// 		out << m_userName << *m_level << m_tune; TODO !!!!!!!!!!!!!!!!! XML !!!!!!!!!!!!!!!!!!!!!!!!!!!
-// 		out << m_totalTime; // elapsed exam time (quint32)
-// 			// data for file preview
-// 		out << (quint16)m_answList.size(); // number of questions
-// 		out << m_averReactTime; // average time of answer (quint16)
-// 			// that's all
-// 		out << m_mistNr; // number of mistakes (quint16)
-//       /** Those were added in version 2 */
-// 		out << m_halfMistNr << m_penaltysNr << m_isFinished;
-// 		for (int i = 0; i < m_answList.size(); i++)
-// 				out << m_answList[i]; // and obviously answers
-// 	  if (m_blackList.size()) {
-//       for (int i = 0; i < m_blackList.size(); i++)
-//         out << m_blackList[i]; // and black list
-//     }
 	} else {
 		QMessageBox::critical(0, "",
            QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
@@ -346,7 +362,7 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 			m_level->writeToXml(xml);
 			m_tune.toXml(xml, true);
 			xml.writeTextElement("totalTime", QVariant(m_totalTime).toString());
-			xml.writeTextElement("questNr", QVariant(m_answList.size()).toString());
+			xml.writeTextElement("questNr", QVariant(count()).toString());
 			xml.writeTextElement("averReactTime", QVariant(m_averReactTime).toString());
 			xml.writeTextElement("mistNr", QVariant(m_mistNr).toString());
 			xml.writeTextElement("halfMistNr", QVariant(m_halfMistNr).toString());
@@ -354,8 +370,15 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 			xml.writeTextElement("finished", QVariant(m_isFinished).toString());
 		xml.writeEndElement(); // head
 		xml.writeStartElement("answers");
-		
+		for (int i = 0; i < count(); ++i)
+			m_answList[i].toXml(xml);
 		xml.writeEndElement(); // answers
+		if (m_blackList.size()) {
+			xml.writeStartElement("penalties");
+			for (int i = 0; i < m_blackList.size(); ++i)
+				m_blackList[i].toXml(xml);
+			xml.writeEndElement(); // penaltys
+		}
 	xml.writeEndElement(); // exam
 }
 
@@ -380,6 +403,8 @@ void Texam::setAnswer(TQAunit& answer) {
         m_mistNr++;
       }
     }
+    if (curQ().melody() && curQ().isWrong())
+			m_mistNr++;
     m_workTime += answer.time;
     if (!isFinished() && !curQ().melody())
         updateBlackCount();
@@ -401,6 +426,38 @@ void Texam::updateBlackCount() {
     for (int i = 0; i < m_blackList.size(); i++)
     m_blackCount += (m_blackList[i].time - maxAnswerTime);
   }
+}
+
+
+bool Texam::readUnitFromXml(QList< TQAunit >& list, QXmlStreamReader& xml) {
+	bool ok = true;
+	while (xml.readNextStartElement()) {
+		if (xml.name() == "u") {
+			list << TQAunit();
+			if (list.last().fromXml(xml)) 
+				grabFromLastUnit();
+			else {
+				qDebug() << "Exam has wrong unit" << list.size();
+				list.removeLast();
+				ok = false;
+			}
+		} else
+				Tlevel::skipCurrentXmlKey(xml);
+	}
+	return ok;
+}
+
+
+void Texam::grabFromLastUnit() {
+	m_workTime += curQ().time;
+	if (!curQ().isCorrect()) {
+		if (curQ().isWrong())
+			tmpMist++;
+		else
+			tmpHalf++; // not so bad answer
+		}
+	if (!curQ().isWrong())
+			okTime += curQ().time;
 }
 
 

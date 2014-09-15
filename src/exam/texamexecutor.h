@@ -149,7 +149,7 @@ private:
 	
 				/** main instance of Tlevel, others are pointers or references to it */
 	Tlevel 										m_level;
-	QList<TQAunit::TQAgroup> 	m_questList;
+	QList<TQAgroup> 	m_questList;
 	
 				/** Invokes startSniffing() and stopPlaying() after delay
 					* to avoid feedback between played question and listened answer. */

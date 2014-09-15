@@ -16,23 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TRANDMELODY_H
-#define TRANDMELODY_H
+#include "tmeasure.h"
 
-#include <exam/tqagroup.h>
+Tmeasure::Tmeasure(int nr) :
+	m_number(nr),
+	m_metrum(Tmetrum::e_none)
+{
 
-class TkeySignature;
-class Tmelody;
-
-/** 
- * Generates randomized melody into given reference of @p Tmelody.
- * Length is determined by @p len.
- * Notes are taken form given question list 
- * and key signature is respected if @inKey is set to @p true
- * Melody is finished on tonic note of the given key signature
- * when @p onTonic is set to @p true
- */
-void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+}
 
 
-#endif // TRANDMELODY_H
+void Tmeasure::addNote(const Tchunk& n) {
+	m_notes << n;
+}

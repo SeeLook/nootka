@@ -21,8 +21,7 @@
 #define TQAUNIT_H
 
 #include <nootkacoreglobal.h>
-#include <tfingerpos.h>
-#include <music/tnote.h>
+#include "tqagroup.h"
 #include <music/tkeysignature.h>
 #include <exam/tqatype.h>
 
@@ -46,11 +45,6 @@ public:
 		TQAunit(const TQAunit& otherUnit);
 		
 		~TQAunit();
-
-    struct TQAgroup {
-        TfingerPos pos;
-        Tnote note;
-    };
 
     enum Emistake { e_correct = 0,
 		    e_wrongAccid = 1, //occurs during enharmonic conversion
@@ -131,7 +125,7 @@ public:
 		Tmelody* melody() const { return m_melody; }
 		
 		void toXml(QXmlStreamWriter& xml);
-		bool formXml(QXmlStreamReader& xml);
+		bool fromXml(QXmlStreamReader& xml);
     
 protected:
     quint32							 valid;

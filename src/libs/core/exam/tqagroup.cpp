@@ -16,23 +16,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TRANDMELODY_H
-#define TRANDMELODY_H
+#include "tqagroup.h"
 
-#include <exam/tqagroup.h>
-
-class TkeySignature;
-class Tmelody;
-
-/** 
- * Generates randomized melody into given reference of @p Tmelody.
- * Length is determined by @p len.
- * Notes are taken form given question list 
- * and key signature is respected if @inKey is set to @p true
- * Melody is finished on tonic note of the given key signature
- * when @p onTonic is set to @p true
- */
-void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+void qaGroupToXml(TQAgroup& gr, QXmlStreamWriter& xml, const QString& tag) {
+	xml.writeStartElement(tag);
+		if (gr.note.isValid())
+			gr.note.toXml(xml, "n"); // n like note
+		if (gr.pos.str() > 0)
+			gr.pos.toXml(xml, "p"); // p like position
+	xml.writeEndElement();
+}
 
 
-#endif // TRANDMELODY_H
+bool qaGroupFromXml(TQAgroup& gr, QXmlStreamReader& xml) {
+	bool ok;
+	while (xml.readNextStartElement()) {
+		if (xml.name() == "n")
+			gr.note.fromXml(xml);
+		else if (xml.name() == "p")
+			gr.pos.fromXml(xml);
+		else
+			xml.skipCurrentElement();
+	}
+	return ok;
+}
+

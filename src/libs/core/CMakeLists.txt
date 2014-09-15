@@ -32,6 +32,7 @@ set(LIB_NOOTKACORE_SRC
 	music/tinstrument.cpp
 	music/tkeysignature.cpp
 	music/tchunk.cpp
+	music/tmeasure.cpp
 	music/tmelody.cpp
 	
 	graphics/tdropshadoweffect.cpp
@@ -40,6 +41,7 @@ set(LIB_NOOTKACORE_SRC
 	
 	exam/tqatype.cpp
 	exam/tqaunit.cpp
+	exam/tqagroup.cpp
 	exam/tattempt.cpp
 	exam/tgroupedqaunit.cpp
 	exam/tlevel.cpp
