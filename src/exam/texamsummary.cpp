@@ -24,6 +24,7 @@
 #include <exam/textrans.h>
 #include <level/tlevelpreview.h>
 #include <widgets/troundedlabel.h>
+#include <tpath.h>
 // #include <tanalysdialog.h>
 #include <QtWidgets>
 
@@ -34,8 +35,8 @@ QString row2(QString S1, QString S2) {
 }
 
 
-bool showExamSummary(Texam* exam, bool cont, bool isExercise, const QString& path, bool* startExam) {
-	TexamSummary *ES = new TexamSummary(exam, path, cont, qApp->activeWindow());
+bool showExamSummary(Texam* exam, bool cont, bool isExercise, bool* startExam) {
+	TexamSummary *ES = new TexamSummary(exam, cont, qApp->activeWindow());
 	if (isExercise)
 			ES->setForExercise();
   TexamSummary::Eactions respond = ES->doExec();
@@ -54,11 +55,10 @@ bool showExamSummary(Texam* exam, bool cont, bool isExercise, const QString& pat
 
 
 
-TexamSummary::TexamSummary(Texam* exam, const QString& path, bool cont, QWidget* parent) :
+TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   QDialog(parent),
   m_exam(exam),
   m_state(e_discard),
-  m_path(path),
   m_closeButt(0), m_examButton(0)
 {
     setWindowTitle(tr("Exam results"));
@@ -78,8 +78,8 @@ TexamSummary::TexamSummary(Texam* exam, const QString& path, bool cont, QWidget*
     QVBoxLayout *timeLay = new QVBoxLayout();
     QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
     TroundedLabel *timeLab = new TroundedLabel("<table>" +
-    row2(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime()*1000)) +
-    row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime()*1000)) +
+    row2(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime() * 1000)) +
+    row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime() * 1000)) +
     row2(TexTrans::averAnsverTimeTxt(), QString("%1 s").
         arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
     "</table>", this);
@@ -92,12 +92,12 @@ TexamSummary::TexamSummary(Texam* exam, const QString& path, bool cont, QWidget*
     QHBoxLayout *buttLay =new QHBoxLayout;
 
     QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
-    analyseButt->setIcon(QIcon(path + "picts/charts.png"));
+    analyseButt->setIcon(QIcon(Tpath::img("charts")));
     analyseButt->setIconSize(QSize(48, 48));
     m_okButt = new QPushButton(tr("Close"), this);
     if (cont) {
         m_okButt->setText(tr("Continue"));
-        m_okButt->setIcon(QIcon(path + "picts/nootka-exam.png"));
+        m_okButt->setIcon(QIcon(Tpath::img("nootka-exam")));
         m_closeButt = new QPushButton(tr("Discard"), this);
         m_closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
         m_closeButt->setIconSize(QSize(48, 48));
@@ -188,11 +188,11 @@ void TexamSummary::setForExercise() {
 	setWindowTitle(tr("Progress of exercises"));
 	m_examButton = new QPushButton(tr("Pass an exam"), this);
 		m_examButton->setToolTip(tr("Finish exercise and pass an exam on this level."));
-		m_examButton->setIcon(QIcon(m_path + "picts/nootka-exam.png"));
+		m_examButton->setIcon(QIcon(Tpath::img("nootka-exam")));
 		m_examButton->setIconSize(QSize(48, 48));
 	connect(m_examButton, SIGNAL(clicked()), this, SLOT(startExamSlot()));
 	if (m_closeButt) {
-		m_okButt->setIcon(QIcon(m_path + "picts/practice.png"));
+		m_okButt->setIcon(QIcon(Tpath::img("practice")));
 		m_closeButt->setText(tr("Finish this exercise"));
 		m_leftLay->insertWidget(m_leftLay->count() - 1, m_examButton);
 	} else

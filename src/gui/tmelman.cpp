@@ -20,24 +20,24 @@
 #include "score/tmainscore.h"
 #include <exam/tqagroup.h>
 #include <music/tmelody.h>
+#include <tpath.h>
 #include "exam/trandmelody.h"
 #include <QtWidgets>
 
-TmelMan::TmelMan(TmainScore* score, const QString& path) :
+TmelMan::TmelMan(TmainScore* score) :
 	QObject(score),
-	m_score(score),
-	m_path(path)
+	m_score(score)
 {	
 	m_menu = new QMenu(score);
 	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
 	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Alt+Space"),
-							 QIcon(m_path + "picts/record.png"));
+							 QIcon(Tpath::img("record")));
 	createAction(tr("Create"), SLOT(randomizeMelodySlot()));
 	
 	
 	m_button = new QToolButton(score);
-	m_button->setIcon(QIcon(path + "picts/melody.png"));
+	m_button->setIcon(QIcon(Tpath::img("melody")));
 	m_button->setText(tr("Melody"));
 	m_button->setStatusTip(tr("Open, save, generate and play a melody."));
 	m_button->setMenu(m_menu);
@@ -71,7 +71,7 @@ void TmelMan::recordMelodySlot() {
 		m_recMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
 		m_score->setInsertMode(TmainScore::e_record);
 	} else {
-		m_recMelAct->setIcon(QIcon(m_path + "picts/record.png"));
+		m_recMelAct->setIcon(QIcon(Tpath::img("record")));
 		m_score->setInsertMode(TmainScore::e_multi);
 	}
 }

@@ -21,6 +21,8 @@
 #include <QApplication>
 #include <QXmlStreamWriter>
 
+Tclef::Etype Tclef::defaultType = Tclef::e_treble_G;
+
 
 Tclef::Tclef(Tclef::Etype type)
 {

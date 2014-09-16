@@ -93,7 +93,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
         userAct = TstartExamDlg::e_newExam;
     } else {
         if (examFile == "") { // start exam dialog
-            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->path, gl->E, mW);
+            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->E, mW);
             userAct = startDlg->showDialog(resultText, m_level);
             delete startDlg;
         } else { // command line arg with given filename
@@ -129,7 +129,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
             QMessageBox::warning(mW, " ", 
               tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
           if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
-							!showExamSummary(m_exam, true, (bool)m_exercise, gl->path)) {
+							!showExamSummary(m_exam, true, (bool)m_exercise)) {
 							mW->clearAfterExam(e_failed);
 							deleteExam();
 							return;
@@ -350,7 +350,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			((curQ.questionAsNote() && curQ.answerAsSound()) ||
 			 (curQ.questionAsSound() && curQ.answerAsNote()) ||
 			 (curQ.questionAsSound() && curQ.answerAsSound())) ) {
-					curQ.addMelody(QString("Melody %1").arg(m_exam->count() + 1));
+					curQ.addMelody(QString("Melody %1").arg(m_exam->count()));
 					curQ.melody()->setKey(curQ.key);
 					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
 					curQ.newAttempt();
@@ -1111,7 +1111,6 @@ void TexamExecutor::restoreAfterExam() {
 
 		m_glStore->restoreSettings();
 		if (m_exercise) {
-// 			gl->E->showCorrected = gl->E->showCorrected;
 			gl->E->suggestExam = m_exercise->suggestInFuture();
 		}
 		
@@ -1241,7 +1240,7 @@ void TexamExecutor::stopExerciseSlot() {
 				
 			bool startExam = false;
 			if (!m_goingClosed)
-					continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, gl->path, &startExam);
+					continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, &startExam);
 			gl->S->nameStyleInNoteName = tmpStyle;
 			if (startExam) {
 					exerciseToExam();
@@ -1308,7 +1307,7 @@ void TexamExecutor::stopExamSlot() {
 						gl->config->setValue("recentExams", recentExams);
 				}
 				if (!m_goingClosed) // if Nootka is closing don't show summary 
-						showExamSummary(m_exam, false, (bool)m_exercise, gl->path);
+						showExamSummary(m_exam, false, (bool)m_exercise);
 			}
 		}
     closeExecutor();

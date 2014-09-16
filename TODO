@@ -19,6 +19,9 @@ analyzer executable
 
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
 
+- There is unused class TnotePixmap only with default clef - use it or delete
+- attempt image is unused - maybe delete
+
 
 ==== NEW FEATURES ================================================================
 

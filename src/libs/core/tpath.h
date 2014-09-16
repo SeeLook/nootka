@@ -16,51 +16,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TPATH_H
+#define TPATH_H
 
-
-#ifndef TSCOREACTIONS_H
-#define TSCOREACTIONS_H
-
-#include <QObject>
-
-class QShortcut;
-class TscoreKeys;
-class TpushButton;
-class QAction;
-class TmainScore;
+#include "nootkacoreglobal.h"
+#include <QString>
 
 /** 
- * This class manages Qions in a score
- */
-class TscoreActions : public QObject
+ * This is default path in Nootka. It is set at the beginning 
+*/
+class NOOTKACORE_EXPORT Tpath
 {
-
+	
 public:
-	explicit TscoreActions(TmainScore* sc);
 	
-	QAction* zoomIn() { return m_inZoom; }
-	QAction* zoomOut() { return m_outZoom; }
-	QAction* staffDown() { return m_staffDown; }
-	QAction* staffUp() { return m_staffUp; }
-	QAction* firstNote() { return m_firstNote; }
-	QAction* lastNote() { return m_lastNote; }
-	QAction* clearScore() { return m_clear; }
+	static QString main; /** Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
 	
-	TpushButton* extraAccids() { return m_accidsButt; }
-	TpushButton* noteNames() { return m_namesButt; }
+			/** Returns path to Nootka images (picts) with given image name. 
+			 *By default a '.png' extensions is added
+			 * but it can be changed through @p ext parameter. */
+	static QString img(const QString& image, const QString& ext = ".png") {	return main + "picts/" + image + ext;	}
 	
-			/** Joins external keyboard shortcuts with those actions. */
-	void assignKeys(TscoreKeys *sKeys);
-	
-private:
-	QAction											*m_inZoom, *m_outZoom;
-	QAction											*m_staffDown, *m_staffUp, *m_firstNote ,*m_lastNote;
-	QAction											*m_clear;
-	TpushButton									*m_accidsButt, *m_namesButt;
-	TscoreKeys									*m_keys;
-	
-private:
-	void assocActionAndKey(QAction* act, QShortcut *key);
+			/** Returns a path to given ogg file with samples in sound resource directory */
+	static QString sound(const QString& snd, const QString& ext = ".ogg") {	return main + "sounds/" + snd + ext;	}
 };
 
-#endif // TSCOREACTIONS_H
+
+
+#endif // TPATH_H

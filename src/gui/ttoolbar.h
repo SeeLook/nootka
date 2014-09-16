@@ -34,8 +34,9 @@ class QAction;
  */
 class TtoolBar : public QToolBar
 {
+
 public:
-	explicit TtoolBar(const QString& path, QMainWindow* mainWindow);
+	explicit TtoolBar(QMainWindow* mainWindow);
 	
 			/** Main actions */
 	QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
@@ -64,9 +65,6 @@ public:
 	void setForQuestion(bool repeatSound, bool tuneFork);
 	void setAfterAnswer(); /** Removes actions required during answering */
 	
-
-private:
-	QString								 m_path;
 };
 
 #endif // TTOOLBAR_H

@@ -32,6 +32,8 @@ class NOOTKACORE_EXPORT TscoreParams
 {
 public:
 	
+	TscoreParams() : clef(Tclef::defaultType) {}
+	
 //============ score widget settings =============================================================
         /** if true shows other similar (enharmonic) notes on the staff:
         * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
@@ -48,7 +50,7 @@ public:
     QString majKeyNameSufix;
     QString minKeyNameSufix;
     QColor pointerColor;
-		Tclef::Etype clef; // preferred clef - treble by default
+		Tclef::Etype& clef; // preferred clef - treble by default, reference to static Tclef::defaultType
 		bool isSingleNoteMode; // score mode (single or multi)
 		qreal scoreScale; // score scale - user preferred staff size
     int tempo; // playback tempo

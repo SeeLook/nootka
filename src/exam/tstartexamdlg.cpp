@@ -23,6 +23,7 @@
 #include <exam/textrans.h>
 #include <level/tlevelselector.h>
 #include <widgets/troundedlabel.h>
+#include <tpath.h>
 #include <help/thelpdialogbase.h>
 #include <help/tmainhelp.h>
 #include <help/texamhelp.h>
@@ -39,11 +40,10 @@ QString TstartExamDlg::systemUserName() {
 
 
 QString statusTipText;
-TstartExamDlg::TstartExamDlg(const QString& nick, const QString& path, TexamParams* examParams, QWidget* parent) :
+TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidget* parent) :
     QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint),
     m_Acction(e_none),
     m_examParams(examParams),
-    m_path(path),
     m_selectedExamFile("")
 {
     setWindowTitle(tr("Start exercises or an exam"));
@@ -71,31 +71,31 @@ TstartExamDlg::TstartExamDlg(const QString& nick, const QString& path, TexamPara
 			
 		m_createLevelButt = new QPushButton(this);
 			m_createLevelButt->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
-			m_createLevelButt->setIcon(QIcon(path + "picts/levelCreator.png"));
+			m_createLevelButt->setIcon(QIcon(Tpath::img("levelCreator")));
 			setIconSize(m_createLevelButt);
 		QLabel *newLevelLab = new QLabel(tr("Create new level").replace(" ", "<br>"), this);
 			newLevelLab->setAlignment(Qt::AlignCenter);
 			newLevelLab->setStatusTip(m_createLevelButt->statusTip());
 
 		m_exerciseButt = new QPushButton(tr("exercises"));
-			m_exerciseButt->setIcon(QIcon(path + "picts/practice.png"));
+			m_exerciseButt->setIcon(QIcon(Tpath::img("practice")));
 			setIconSize(m_exerciseButt);
 		
 		m_examMenu = new QMenu("open exam file", this);
 		m_newExamButt = new QPushButton(tr("pass new exam"), this);
-			m_newExamButt->setIcon(QIcon(path + "picts/exam.png"));
+			m_newExamButt->setIcon(QIcon(Tpath::img("exam")));
 			setIconSize(m_newExamButt);
 		m_contExamButt = new QPushButton(tr("continue exam"), this);
-			m_contExamButt->setIcon(QIcon(path + "picts/nootka-exam.png"));
+			m_contExamButt->setIcon(QIcon(Tpath::img("nootka-exam")));
 			setIconSize(m_contExamButt);
 			m_contExamButt->setStatusTip(tr("Click and select an exam to continue"));
 			m_contExamButt->setMenu(m_examMenu);
-		m_lastExamButt = new QPushButton(QIcon(path + "picts/nootka-exam.png"), "", this);
+		m_lastExamButt = new QPushButton(QIcon(Tpath::img("nootka-exam")), "", this);
 			setIconSize(m_lastExamButt);
 			m_lastExamButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
 		m_helpButt = new QPushButton(this);
-			m_helpButt->setIcon(QIcon(path + "picts/help.png"));
+			m_helpButt->setIcon(QIcon(Tpath::img("help")));
 			m_helpButt->setStatusTip(tr("Help"));
 			m_helpButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 			setIconSize(m_helpButt);
@@ -145,7 +145,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, const QString& path, TexamPara
     QSettings sett;
 #endif
 		QAction *loadExamAct = new QAction(TexTrans::loadExamFileTxt(), this);
-			loadExamAct->setIcon(QIcon(path + "picts/nootka-exam.png"));
+			loadExamAct->setIcon(QIcon(Tpath::img("nootka-exam")));
 			connect(loadExamAct, SIGNAL(triggered(bool)), this, SLOT(examFromFileDialog()));
 		m_examMenu->addAction(loadExamAct);
 		m_examMenu->addSeparator();
@@ -345,9 +345,9 @@ void TstartExamDlg::helpSelected() {
 		help->pix("nootka-exam", 64) + "</h2>" +
 		TmainHelp::youWillLearnText() + "<br><br>" +
 		"</center><table><tr><td style=\"padding: 10px;\" align=\"center\">" + 
-		TmainHelp::duringExercisingText(m_path) + "<br>" + TexamHelp::exerciseFeaturesText() +
+		TmainHelp::duringExercisingText() + "<br>" + TexamHelp::exerciseFeaturesText() +
 		"</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">" + 
-		TmainHelp::duringExamsText(m_path) + "<br>" + TexamHelp::examFeaturesText() + "</td></tr></table>";
+		TmainHelp::duringExamsText() + "<br>" + TexamHelp::examFeaturesText() + "</td></tr></table>";
 		
 		help->helpText()->setHtml(ht);
 		help->showCheckBox(&m_examParams->showVeryBeginHelp);

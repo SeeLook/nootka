@@ -23,6 +23,7 @@
 #include <texamparams.h>
 #include <tscoreparams.h>
 #include <music/tnamestylefilter.h>
+#include "tpath.h"
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -34,6 +35,8 @@ QString tmpConfigFile() {
 }
 
 /*static*/
+QString& Tglobals::path = Tpath::main;
+
 QString Tglobals::getInstPath(QString appInstPath) {
     QString p = "";
     QDir d = QDir(appInstPath);
@@ -61,7 +64,7 @@ Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
 
-	version = "1.1.1 alpha";
+	version = "1.1.2 alpha";
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");

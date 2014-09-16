@@ -42,7 +42,7 @@ class AudioInSettings: public QWidget
   
 public:
   
-  explicit AudioInSettings(TaudioParams *params, QString path, Ttune *tune, QWidget *parent = 0);
+  explicit AudioInSettings(TaudioParams *params, Ttune *tune, QWidget *parent = 0);
   virtual ~AudioInSettings();
   
   QString testTxt, stopTxt;

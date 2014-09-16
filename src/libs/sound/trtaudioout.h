@@ -36,7 +36,7 @@ class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
   Q_OBJECT
    
 public:
-    TaudioOUT(TaudioParams *_params, QString &path, QObject *parent = 0);
+    TaudioOUT(TaudioParams* _params, QObject* parent = 0);
     virtual ~TaudioOUT();
     
     static QStringList getAudioDevicesList();

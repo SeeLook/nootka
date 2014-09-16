@@ -316,7 +316,7 @@ void Tsound::createPlayer() {
 		connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 		m_midiPlays = false;
 	} else
-    player = new TaudioOUT(gl->A, gl->path);
+    player = new TaudioOUT(gl->A);
 }
 
 

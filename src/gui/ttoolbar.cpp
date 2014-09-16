@@ -19,26 +19,26 @@
 #include "ttoolbar.h"
 #include <help/texamhelp.h>
 #include <music/tnote.h>
+#include <tpath.h>
 #include <QAction>
 #include <QMainWindow>
 
 
 
-TtoolBar::TtoolBar(const QString& path, QMainWindow* mainWindow) :
-	QToolBar(0),
-	m_path(path + "picts/")
+TtoolBar::TtoolBar(QMainWindow* mainWindow) :
+	QToolBar(0)
 {
 	settingsAct = new QAction(tr("Settings"), this);
 	settingsAct->setStatusTip(tr("Application preferences"));
-	settingsAct->setIcon(QIcon(m_path + "systemsettings.png"));
+	settingsAct->setIcon(QIcon(Tpath::img("systemsettings")));
 
 	analyseAct = new QAction(tr("Analyze", "could be Chart as well"), this);
-	analyseAct->setIcon(QIcon(m_path + "charts.png"));
+	analyseAct->setIcon(QIcon(Tpath::img("charts")));
 	analyseAct->setStatusTip(tr("Analysis of exam results"));
 
 	aboutAct = new QAction(tr("About"), this);
 	aboutAct->setStatusTip(tr("About Nootka"));
-	aboutAct->setIcon(QIcon(m_path + "about.png"));
+	aboutAct->setIcon(QIcon(Tpath::img("about")));
 	
 	levelCreatorAct = new QAction(this);
 	startExamAct = new QAction(this);
@@ -59,11 +59,11 @@ TtoolBar::TtoolBar(const QString& path, QMainWindow* mainWindow) :
 void TtoolBar::actionsAfterExam() {
 	levelCreatorAct->setText(tr("Level"));
 	levelCreatorAct->setStatusTip(tr("Levels creator"));
-	levelCreatorAct->setIcon(QIcon(m_path + "levelCreator.png"));
+	levelCreatorAct->setIcon(QIcon(Tpath::img("levelCreator")));
 
 	startExamAct->setText(tr("Start!"));
 	startExamAct->setStatusTip(tr("Start exercises or an exam"));
-	startExamAct->setIcon(QIcon(m_path + "startExam.png"));
+	startExamAct->setIcon(QIcon(Tpath::img("startExam")));
 	
 	aboutAct->setVisible(true);
 	analyseAct->setVisible(true);
@@ -80,34 +80,35 @@ void TtoolBar::actionsAfterExam() {
 		delete correctAct;
 	if (tuneForkAct)
 		delete tuneForkAct;
-	
+	if (attemptAct)
+		delete attemptAct;
 }
 
 
 void TtoolBar::actionsToExam() {
 	aboutAct->setVisible(false);
 	analyseAct->setVisible(false);
-	levelCreatorAct->setIcon(QIcon(m_path + "help.png"));
+	levelCreatorAct->setIcon(QIcon(Tpath::img("help")));
 	levelCreatorAct->setText(tr("Help"));
 	levelCreatorAct->setStatusTip(levelCreatorAct->text());
-	startExamAct->setIcon(QIcon(m_path + "stopExam.png"));
+	startExamAct->setIcon(QIcon(Tpath::img("stopExam")));
 	startExamAct->setText(tr("Stop"));
 	
 	if (!nextQuestAct) {
 		nextQuestAct = new QAction(tr("Next", "like a next question"), this);
 		nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
-		nextQuestAct->setIcon(QIcon(m_path + "nextQuest.png"));
+		nextQuestAct->setIcon(QIcon(Tpath::img("nextQuest")));
 		nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
 		addAction(nextQuestAct);
 
 		prevQuestAct = new QAction(tr("Repeat", "like a repeat question"), this);
 		prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
-		prevQuestAct->setIcon(QIcon(m_path + "prevQuest.png"));
+		prevQuestAct->setIcon(QIcon(Tpath::img("prevQuest")));
 		prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 
 		checkAct = new QAction(tr("Check", "like a check answer"), this);
 		checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
-		checkAct->setIcon(QIcon(m_path + "check.png"));
+		checkAct->setIcon(QIcon(Tpath::img("check")));
 		checkAct->setShortcut(QKeySequence(Qt::Key_Return));
 	}
 }
@@ -119,7 +120,7 @@ void TtoolBar::createRepeatSoundAction() {
 		repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + 
 										TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
 		repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
-		repeatSndAct->setIcon(QIcon(m_path + "repeatSound.png"));
+		repeatSndAct->setIcon(QIcon(Tpath::img("repeatSound")));
 	}
 }
 
@@ -128,7 +129,7 @@ void TtoolBar::createCorrectAction() {
 	if (!correctAct) {
 		correctAct = new QAction(tr("Correct", "like a correct answer with mistake"), this);
 		correctAct->setStatusTip(tr("correct answer\n(enter)"));
-		correctAct->setIcon(QIcon(m_path + "correct.png"));
+		correctAct->setIcon(QIcon(Tpath::img("correct")));
 		correctAct->setShortcut(QKeySequence(Qt::Key_Return));
 	}
 }
@@ -138,7 +139,7 @@ void TtoolBar::createTuneForkAction() {
 	if (!tuneForkAct) {
 		tuneForkAct = new QAction(Tnote(6, 1, 0).toText(), this);
 		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tune fork."));
-		tuneForkAct->setIcon(QIcon(m_path + "fork.png"));
+		tuneForkAct->setIcon(QIcon(Tpath::img("fork")));
 	}
 }
 
@@ -147,7 +148,7 @@ void TtoolBar::createAttemptAction() {
 	if (!attemptAct) {
 		attemptAct = new QAction(tr("Try again"), this);
 		attemptAct->setStatusTip(tr("Try this melody once more time. (backspace)"));
-		attemptAct->setIcon(QIcon(m_path + "attempt.png"));
+		attemptAct->setIcon(QIcon(Tpath::img("prevQuest")));
 		attemptAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 	}
 }

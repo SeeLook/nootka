@@ -111,10 +111,10 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 //---------------------------------------------------------------------------------------
 //                CONSTRUCTOR
 //---------------------------------------------------------------------------------------
-TaudioOUT::TaudioOUT(TaudioParams *_params, QString &path, QObject *parent) :
+TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   TabstractPlayer(parent),
   TrtAudio(_params, e_output, &outCallBack),
-  oggScale(new ToggScale(path)),
+  oggScale(new ToggScale()),
   ratioOfRate(1),
   m_crossCount(0),
   m_callBackIsBussy(false)

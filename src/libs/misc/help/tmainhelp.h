@@ -33,22 +33,22 @@ class NOOTKAMISC_EXPORT TmainHelp : public QWidget
 {
     
 public:
-  explicit TmainHelp(const QString &path, QWidget *parent = 0);
+  explicit TmainHelp(QWidget *parent = 0);
 	
 			/** Whole text of II. paragraph (II. Exercises and exams) */
-	static QString exerciseAndExamText(const QString &path);
+	static QString exerciseAndExamText();
 	
 		/** You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on. */
 	static QString youWillLearnText();
 	
 		/** During exercising %1 the program will be your understanding and friendly teacher - 
 		 * it will show you corrected answers if you miss. */
-	static QString duringExercisingText(const QString &path);
+	static QString duringExercisingText();
 	
 		/** During exams %1 Nootka will be your strict and &quot;old school&quot; master.
 		 * Any mistake will be penalized with additional questions...
 		 * When you pass an exam you got a certificate!*/
-	static QString duringExamsText(const QString &path);
+	static QString duringExamsText();
   
   
 }; 

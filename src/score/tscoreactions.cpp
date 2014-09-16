@@ -21,20 +21,21 @@
 #include "tmainscore.h"
 #include "tscorekeys.h"
 #include <widgets/tpushbutton.h>
+#include <tpath.h>
 #include <QAction>
 #include <QStyle>
 #include <QShortcut>
 
 
-TscoreActions::TscoreActions(TmainScore* sc, const QString& path) :
+TscoreActions::TscoreActions(TmainScore* sc) :
 	QObject(sc)
 {
-	m_outZoom = new QAction(QIcon(path + "/picts/zoom-out.png"), "", this);
+	m_outZoom = new QAction(QIcon(Tpath::img("zoom-out")), "", this);
 		m_outZoom->setStatusTip(tr("Zoom score out"));
 // 		m_outZoom->setShortcut(QKeySequence(QKeySequence::ZoomOut));
 // 		m_outZoom->setShortcutContext(Qt::ApplicationShortcut);
 		connect(m_outZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
-	m_inZoom = new QAction(QIcon(path + "/picts/zoom-in.png"), "", this);
+	m_inZoom = new QAction(QIcon(Tpath::img("zoom-in")), "", this);
 		m_inZoom->setStatusTip(tr("Zoom score in"));
 		connect(m_inZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
 	m_firstNote = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)), "", this);
@@ -50,7 +51,7 @@ TscoreActions::TscoreActions(TmainScore* sc, const QString& path) :
 		m_lastNote->setStatusTip(tr("Go to the last note"));
 		connect(m_lastNote, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
 	
-	m_clear = new QAction(QIcon(path + "picts/clear-score.png"), "", this);
+	m_clear = new QAction(QIcon(Tpath::img("clear-score")), "", this);
 	m_clear->setStatusTip(tr("Delete all notes on the score"));
 	connect(m_clear, SIGNAL(triggered()), sc, SLOT(deleteNotes()));
 	

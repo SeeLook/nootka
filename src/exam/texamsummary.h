@@ -29,7 +29,7 @@ class Texam;
  *  If it returns false - user don't want to continue an exam
  *  @p startExam is a pointer to know does user want to start exam on exercise level.
  */
-bool showExamSummary(Texam* exam, bool cont, bool isExercise, const QString& path, bool* startExam = 0);
+bool showExamSummary(Texam* exam, bool cont, bool isExercise, bool* startExam = 0);
 
 /** 
  * When @param cont is true On button is shown text 'continue' 
@@ -38,7 +38,7 @@ class TexamSummary : public QDialog
 {
   Q_OBJECT
 public:
-  TexamSummary(Texam *exam, const QString &path, bool cont = false, QWidget *parent = 0);
+  TexamSummary(Texam *exam, bool cont = false, QWidget *parent = 0);
   
   
   enum Eactions { e_continue, e_discard, e_startExam };
@@ -61,7 +61,6 @@ private:
   Eactions 					 m_state;
 	QPushButton 			*m_closeButt, *m_okButt, *m_examButton;
 	QVBoxLayout			  *m_leftLay;
-	QString						 m_path;
 };
 
 #endif // TEXAMSUMMARY_H

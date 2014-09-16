@@ -265,7 +265,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 
 
 void TsettingsDialog::createAudioPage() {
-    m_sndInSett = new AudioInSettings(gl->A, gl->path, gl->Gtune());
+    m_sndInSett = new AudioInSettings(gl->A, gl->Gtune());
     m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
     m_audioSettingsPage = new QWidget();
     m_audioTab = new QTabWidget(m_audioSettingsPage);
