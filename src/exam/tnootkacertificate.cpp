@@ -25,6 +25,7 @@
 #include <graphics/tnotepixmap.h>
 #include <help/texamhelp.h>
 #include <animations/tcombinedanim.h>
+#include <tpath.h>
 #include <QDate>
 #include <QBuffer>
 #include <QApplication>
@@ -41,11 +42,10 @@
 #define SPACER (10.0) // line space
 
 
-TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path, Texam* exam) : 
+TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) : 
 	QGraphicsObject(),
 	m_view(view),
   m_exam(exam),
-  m_path(path),
   m_saveHint(0)
 {
 		setFlag(ItemHasNoContents);
@@ -94,7 +94,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
     m_boardI->setPos(width() - MARGIN - m_boardI->boundingRect().width(), height());
     m_height += m_boardI->boundingRect().height() + SPACER;
   // -------------------------(stamp)--------------------- (middle)
-    m_stampPixmap = new QGraphicsPixmapItem(QPixmap(m_path + "picts/stamp.png"));
+    m_stampPixmap = new QGraphicsPixmapItem(QPixmap(Tpath::img("stamp")));
 //     m_stampPixmap->hide();
     m_stampPixmap->setParentItem(m_cert);
     m_stampPixmap->setScale(3.0);
@@ -106,7 +106,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, const QString& path,
     m_stampI->setPos((width() - m_stampI->boundingRect().width()) / 2, stampYpos + m_stampPixmap->boundingRect().height() - SPACER);
     m_height = m_stampI->pos().y() + m_stampI->boundingRect().height() + 2 * SPACER;
     
-    QPixmap bgPix = QPixmap(m_path + "picts/certBg.png").scaled(m_width, m_height);
+    QPixmap bgPix = QPixmap(Tpath::img("certBg")).scaled(m_width, m_height);
     QGraphicsPixmapItem *paper = new QGraphicsPixmapItem(bgPix);
 			paper->setParentItem(m_cert);
 			paper->setZValue(0);
@@ -177,15 +177,15 @@ void TnootkaCertificate::createHints() {
 			m_saveHint->setPos((pos().x() - m_saveHint->boundingRect().width()) / 2, 20.0);
       m_saveHint->setFlag(QGraphicsItem::ItemIsSelectable);
 			
-		m_nextHint = new TgraphicsTextTip(tr("You can still play with it and improve effectiveness.") + "<br><big>" + TexamHelp::toGetQuestTxt() + ":<br>" +  TexamHelp::clickSomeButtonTxt(pixToHtml(m_path + "picts/nextQuest.png", 32)) + 
+		m_nextHint = new TgraphicsTextTip(tr("You can still play with it and improve effectiveness.") + "<br><big>" + TexamHelp::toGetQuestTxt() + ":<br>" +  TexamHelp::clickSomeButtonTxt(pixToHtml(Tpath::img("nextQuest"), 32)) + 
     ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt() + "</big>", m_view->palette().window().color());
 			m_view->scene()->addItem(m_nextHint);
       m_nextHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
 			m_nextHint->setPos((pos().x() - m_nextHint->boundingRect().width()) / 2, m_view->height() / 2);
       m_nextHint->setFlag(QGraphicsItem::ItemIsSelectable);
 		
-		ic = QIcon(m_path + "picts/stopExam.png");
-		m_closeHint = new TgraphicsTextTip("<big>" + TexamHelp::toStopExamTxt(pixToHtml(m_path + "picts/stopExam.png", 32).replace("<img", "<br><img") + "</big>"), Qt::red);
+		ic = QIcon(Tpath::img("stopExam"));
+		m_closeHint = new TgraphicsTextTip("<big>" + TexamHelp::toStopExamTxt(pixToHtml(Tpath::img("stopExam"), 32).replace("<img", "<br><img") + "</big>"), Qt::red);
 			m_view->scene()->addItem(m_closeHint);
       m_closeHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
 			m_closeHint->setPos((pos().x() - m_closeHint->boundingRect().width()) / 2,

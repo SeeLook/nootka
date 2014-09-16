@@ -37,7 +37,7 @@ class TnootkaCertificate : public QGraphicsObject
     Q_OBJECT
     
 public:
-    TnootkaCertificate(QGraphicsView *view, const QString &path, Texam *exam);
+    TnootkaCertificate(QGraphicsView* view, Texam* exam);
 		
 		virtual ~TnootkaCertificate();
 		
@@ -73,7 +73,6 @@ private:
 		TgraphicsTextTip 				*m_saveHint, *m_closeHint, *m_nextHint;
 		QGraphicsRectItem   		*m_cert;
 		QGraphicsRectItem				*m_bgRect;
-    QString 								 m_path;
     QGraphicsTextItem       *m_academyI, *m_dateI, *m_studentI, *m_certHeadI, *m_resultsI, *m_witnesI, *m_boardI, *m_stampI;
     QGraphicsPixmapItem     *m_stampPixmap;
     qreal                    m_width, m_height;

@@ -58,6 +58,8 @@ public:
        * </clef>  */
 	void toXml(QXmlStreamWriter& xml);
 	void fromXml(QXmlStreamReader& xml); /** Reads this clef from XML stream  */
+	
+	static Etype defaultType; /** Default clef type for whole application */
     
 
 private:

@@ -76,7 +76,7 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
 		whenInstrumentChanged(1);
 
     m_page3 = new Tpage_3();
-    m_page4 = new TmainHelp(gl->path);
+    m_page4 = new TmainHelp();
 
     m_pagesLay->addWidget(aboutNoot);
 		m_pagesLay->addWidget(m_selectInstr);

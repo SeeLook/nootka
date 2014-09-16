@@ -40,7 +40,7 @@ class TmelMan : public QObject
 	Q_OBJECT
 	
 public:
-	explicit TmelMan(TmainScore* score, const QString& path);
+	explicit TmelMan(TmainScore* score);
 	
 	QWidgetAction* melodyAction() { return m_melAct; }
 	QToolButton* button() { return m_button; }
@@ -59,7 +59,6 @@ private:
 	QToolButton						*m_button;
 	QMenu									*m_menu;
 	QAction								*m_playMelAct, *m_recMelAct;
-	QString								 m_path;
 };
 
 #endif // TMELMAN_H

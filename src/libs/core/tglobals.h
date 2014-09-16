@@ -24,7 +24,6 @@
 #include <QString>
 #include <QColor>
 #include <music/tnote.h>
-#include <music/tclef.h>
 #include <music/tinstrument.h>
 
 class TscoreParams;
@@ -44,13 +43,13 @@ public:
 
         /** This method return application install path - path from where Nootka was started. */
     static QString getInstPath(QString appInstPath);
+		static QString& path; /** Reference to Tpath::main - Nootka resources path */
 
     void storeSettings(QSettings* cfg); /** Saves settings stored in @p cfg */
 		void loadSettings(QSettings* cfg); /** Loads Nootka settings from file to @p cfg */
 		void dumpToTemp(); /** Saves Nootka configuration to temporary file in system TEMP directory */
 		bool grabFromTemp(); /** Reads configuration from temp file, returns @p true when success. */
 
-    QString path;
     QString version;
     bool hintsEnabled; /** If @p true, hints of widgets are shown */
     bool isFirstRun; /** to show or skip first run wizard*/

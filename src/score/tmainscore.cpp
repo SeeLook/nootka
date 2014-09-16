@@ -55,7 +55,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	m_nameMenu(0),
   m_scoreIsPlayed(false)
 {
-	m_acts = new TscoreActions(this, gl->path);
+	m_acts = new TscoreActions(this);
 	
 	scoreScene()->setNameColor(gl->S->nameColor);
 	restoreNotesSettings();
@@ -890,7 +890,7 @@ void TmainScore::createActions() {
 	m_clearBar = new QToolBar();
 	m_clearBar->addAction(m_acts->clearScore());
 	m_delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
-	   m_delCorner->setSpotColor(Qt::red);
+	m_delCorner->setSpotColor(Qt::red);
 	
 	m_rhythmBar = new QToolBar();
 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);

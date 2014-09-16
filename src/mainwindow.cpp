@@ -113,7 +113,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //-------------------------------------------------------------------
 // Creating GUI elements
 //     innerWidget = new QWidget(this);
-    bar = new TtoolBar(gl->path, this);
+    bar = new TtoolBar(this);
 		if (gl->hintsEnabled)
 				bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		else
@@ -165,7 +165,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // 		mainLay->addWidget(nootBar);
 // #endif
 
-		m_melButt = new TmelMan(score, gl->path);
+		m_melButt = new TmelMan(score);
 		bar->addAction(m_melButt->melodyAction());
 		innerWidget = new TmainView(bar, m_statLab, pitchView, score, guitar, this);
 		setCentralWidget(innerWidget);

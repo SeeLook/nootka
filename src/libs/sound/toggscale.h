@@ -57,7 +57,7 @@ class NOOTKASOUND_EXPORT ToggScale : public QObject
   
 public:
   
-    ToggScale(QString &path); 
+    ToggScale(); 
     virtual ~ToggScale();
     
         /** Loads ogg file with scale of given instrument to RAM.
@@ -115,7 +115,6 @@ private:
     
 private:
     qint8             *m_oggInMemory;
-    QString           m_oggPath; /** Path to dir containing ogg files with sounds */
     OggVorbis_File    m_ogg; /** ogg vorbis handler */
     qint16            *m_pcmBuffer; /** buffer with decompressed data of selected note. */
     SoggFile          m_oggWrap; /** Structure wrapped m_oggInMemory used by ogg vorbis. */

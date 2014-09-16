@@ -31,7 +31,7 @@
 #include <QtWidgets>
 
 
-AudioInSettings::AudioInSettings(TaudioParams* params, QString path, Ttune* tune, QWidget* parent) :
+AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* parent) :
   QWidget(parent),
   m_audioIn(0),
   m_glParams(params),

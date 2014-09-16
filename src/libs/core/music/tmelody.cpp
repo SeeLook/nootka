@@ -28,7 +28,7 @@ Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
 	m_tempo(120),
 	m_key(k),
 	m_metrum(0),
-	m_clef(Tclef::e_treble_G_8down)
+	m_clef(Tclef::defaultType)
 {
 
 }
@@ -84,8 +84,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
 								cl.fromXml(xml);
 								m_clef = cl.type();
 								if (m_clef == Tclef::e_none) {
-									qDebug() << "Unsupported clef. Set to 'G dropped'";
-									m_clef = Tclef::e_treble_G_8down; // TODO it has to be app default clef here
+									qDebug() << "Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
+									m_clef = Tclef::defaultType;
 								}
 							} else if (xml.name() == "key")
 									m_key.fromXml(xml);

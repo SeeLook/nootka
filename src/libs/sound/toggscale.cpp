@@ -19,6 +19,7 @@
 
 #include "toggscale.h"
 #include <music/tinstrument.h>
+#include <tpath.h>
 #include <QFile>
 #include <QDataStream>
 #include <QDebug>
@@ -85,9 +86,8 @@ long int ToggScale::tellOggStatic(void* fh) {
 
 int minDataAmount = 10000;
 
-ToggScale::ToggScale(QString& path) :
+ToggScale::ToggScale() :
   QObject(),
-  m_oggPath(path + "/sounds/"),
   m_oggInMemory(0),
   m_pcmBuffer(0),
   m_thread(new QThread),
@@ -188,15 +188,15 @@ bool ToggScale::loadAudioData(int instrument) {
 	if (instrument != m_instrument) {
 		switch ((Einstrument)instrument) {
 			case e_classicalGuitar:
-				fileName = "classical-guitar.ogg"; 
+				fileName = Tpath::sound("classical-guitar"); 
 				m_firstNote = -11; m_lastNote = 41;
 				break;
 			case e_electricGuitar:
-				fileName = "electric-guitar.ogg"; 
+				fileName = Tpath::sound("electric-guitar"); 
 				m_firstNote = -11; m_lastNote = 41;
 				break;
 			case e_bassGuitar:
-				fileName = "bass-guitar.ogg"; 
+				fileName = Tpath::sound("bass-guitar"); 
 				m_firstNote = -24; m_lastNote = 21;
 				break;
 			default:
@@ -205,7 +205,7 @@ bool ToggScale::loadAudioData(int instrument) {
 	} else
 			return false;
 	
-  QFile oggFile(m_oggPath + fileName);
+  QFile oggFile(fileName);
   if (!oggFile.exists())
       return false;
   

@@ -34,6 +34,7 @@
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include <widgets/tquestionaswdg.h>
+#include <tpath.h>
 #include <score/tmainscore.h>
 // #include <widgets/tanimedchbox.h>
 #include <QDebug>
@@ -131,14 +132,14 @@ void Tcanvas::tryAgainTip(int time) {
 
 QString Tcanvas::startTipText() {
   return TexamHelp::toGetQuestTxt() + ":<br>" + 
-    TexamHelp::clickSomeButtonTxt("<a href=\"nextQuest\">" + pixToHtml(gl->path + "picts/nextQuest.png", PIXICONSIZE) + "</a>") + 
+    TexamHelp::clickSomeButtonTxt("<a href=\"nextQuest\">" + pixToHtml(Tpath::img("nextQuest"), PIXICONSIZE) + "</a>") + 
     ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
 }
 
 
 void Tcanvas::startTip() {
    m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" +
-     TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>") + "</p>", m_window->palette().highlight().color());
+     TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(Tpath::img("stopExam"), PIXICONSIZE) + "</a>") + "</p>", m_window->palette().highlight().color());
    m_scene->addItem(m_startTip);
    m_startTip->setScale(m_scale);
    m_startTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
@@ -150,7 +151,7 @@ void Tcanvas::startTip() {
 void Tcanvas::certificateTip() {
 	delete m_questionTip;
 	if (!m_certifyTip) {
-			m_certifyTip = new TnootkaCertificate(m_view, gl->path, m_exam);
+			m_certifyTip = new TnootkaCertificate(m_view, m_exam);
 			connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
 	}
 }
@@ -164,26 +165,22 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	//       m_window->autoRepeatChB->startAnimation(3);
 	if (!isCorrect) {
 		QString t = tr("To correct an answer");
-		QString i = gl->path + "picts/";
-		if (m_exam->curQ().melody()) {
+		if (m_exam->curQ().melody())
 			t = tr("To try this melody again");
-			i += "attempt.png";
-		} else
-			i += "prevQuest.png";
-		whatNextText += "<br>" + t + " " + TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + pixToHtml(i, PIXICONSIZE) +
-										"</a>") +	" " + TexamHelp::orPressBackSpace();
+		whatNextText += "<br>" + t + " " + TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + 
+					pixToHtml(Tpath::img("prevQuest"), PIXICONSIZE) +	"</a>") +	" " + TexamHelp::orPressBackSpace();
 	}
 	if (toCorrection) {
 		QString t = tr("To see corrected answer");
 		if (m_exam->curQ().melody())
 				t = tr("To see some hints");
 		whatNextText += "<br>" + t + " " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(gl->path + "picts/correct.png", PIXICONSIZE) + "</a>") +
+			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(Tpath::img("correct"), PIXICONSIZE) + "</a>") +
 			TexamHelp::orPressEnterKey();
 //       if (!m_window->correctChB->isChecked()) TODO exam run-time settings
 //           m_window->correctChB->startAnimation(3);
 	}
-	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(gl->path + "picts/stopExam.png", PIXICONSIZE) + "</a>");		
+	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(Tpath::img("stopExam"), PIXICONSIZE) + "</a>");		
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
 // 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
 // 			m_whatTip->setTextWidth(m_maxTipWidth);
@@ -204,10 +201,10 @@ void Tcanvas::showConfirmTip() {
 	if (!m_confirmTip) {
 //     m_window->expertAnswChB->startAnimation(3); TODO exam run-time settings
 		m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(gl->path + "picts/check.png", PIXICONSIZE) + "</a>") +
+			TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(Tpath::img("check"), PIXICONSIZE) + "</a>") +
 			"<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
 			tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" + 
-			pixToHtml(gl->path + "picts/help.png", PIXICONSIZE) + "</a>"), gl->EanswerColor);
+			pixToHtml(Tpath::img("help"), PIXICONSIZE) + "</a>"), gl->EanswerColor);
 		m_confirmTip->setScale(m_scale);
 		m_scene->addItem(m_confirmTip);
 		m_confirmTip->setTextInteractionFlags(Qt::TextBrowserInteraction);

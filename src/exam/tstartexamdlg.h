@@ -37,7 +37,7 @@ class TstartExamDlg : public QDialog
     Q_OBJECT
 public:
       /** QString @param &nick is student Name  */
-    explicit TstartExamDlg(const QString &nick, const QString &path, TexamParams *examParams, QWidget *parent = 0);
+    explicit TstartExamDlg(const QString& nick, TexamParams* examParams, QWidget* parent = 0);
 
         /** Describes actions committed by user.
         * @param e_none - dialog discarded,
@@ -77,7 +77,6 @@ private:
     QStringList 				m_recentExams;
     Eactions 						m_Acction;
     TexamParams 				*m_examParams;
-		QString							m_path;
 		QMenu 							*m_examMenu;
 		QString							m_selectedExamFile;
 		Tlevel							m_prevExerciseLevel; /** Level grabbed from exercise.noo file */

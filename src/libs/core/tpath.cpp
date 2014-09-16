@@ -17,50 +17,7 @@
  ***************************************************************************/
 
 
+#include "tpath.h"
 
-#ifndef TSCOREACTIONS_H
-#define TSCOREACTIONS_H
+QString Tpath::main = "";
 
-#include <QObject>
-
-class QShortcut;
-class TscoreKeys;
-class TpushButton;
-class QAction;
-class TmainScore;
-
-/** 
- * This class manages Qions in a score
- */
-class TscoreActions : public QObject
-{
-
-public:
-	explicit TscoreActions(TmainScore* sc);
-	
-	QAction* zoomIn() { return m_inZoom; }
-	QAction* zoomOut() { return m_outZoom; }
-	QAction* staffDown() { return m_staffDown; }
-	QAction* staffUp() { return m_staffUp; }
-	QAction* firstNote() { return m_firstNote; }
-	QAction* lastNote() { return m_lastNote; }
-	QAction* clearScore() { return m_clear; }
-	
-	TpushButton* extraAccids() { return m_accidsButt; }
-	TpushButton* noteNames() { return m_namesButt; }
-	
-			/** Joins external keyboard shortcuts with those actions. */
-	void assignKeys(TscoreKeys *sKeys);
-	
-private:
-	QAction											*m_inZoom, *m_outZoom;
-	QAction											*m_staffDown, *m_staffUp, *m_firstNote ,*m_lastNote;
-	QAction											*m_clear;
-	TpushButton									*m_accidsButt, *m_namesButt;
-	TscoreKeys									*m_keys;
-	
-private:
-	void assocActionAndKey(QAction* act, QShortcut *key);
-};
-
-#endif // TSCOREACTIONS_H
