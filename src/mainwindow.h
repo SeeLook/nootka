@@ -72,7 +72,7 @@ public slots:
     void openLevelCreator(QString levelFile = "");
     void startExamSlot();
 //     void aboutSlot();
-//     void analyseSlot();
+    void analyseSlot();
 // 
     void noteWasClicked(int index, Tnote note);
 //     void noteNameWasChanged(Tnote note);

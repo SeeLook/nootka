@@ -181,8 +181,8 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 		
 		if ((count() - mistakes()))
 				m_averReactTime = okTime / (count() - mistakes());
-// 		else 
-// 				m_averReactTime = 0.0;
+		else 
+				m_averReactTime = 0.0;
 		qDebug() << "calculated average time" << m_averReactTime;
 		if (!isExamFileOk)
 				result = e_file_corrupted;

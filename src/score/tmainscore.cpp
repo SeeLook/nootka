@@ -30,6 +30,7 @@
 #include <music/tmelody.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
+#include <texamparams.h>
 #include <graphics/tgraphicstexttip.h>
 #include <animations/tstrikedoutitem.h>
 #include <animations/tblinkingitem.h>
@@ -562,18 +563,22 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color, int noteNr) {
 }
 
 
+/** As long as correctAccidental() is used in single mode only 
+ * it is sufficient to set m_correctNoteNr = 0 here
+ * but number of note will be necessary if melody will want it */
 void TmainScore::correctAccidental(Tnote& goodNote) {
-		m_goodNote = goodNote;
-		QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
-		if (getNote(0)->alter != m_goodNote.alter) {
-				m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
-		} else {
-					m_bliking = new TblinkingItem(staff()->noteSegment(0));
-					staff()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
-		}
-		staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
-		m_bliking->startBlinking(3);
-		connect(m_bliking, SIGNAL(finished()), this, SLOT(strikeBlinkingFinished()));
+	m_correctNoteNr = 0;
+	m_goodNote = goodNote;
+	QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
+	if (getNote(0)->alter != m_goodNote.alter) {
+			m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
+	} else {
+				m_bliking = new TblinkingItem(staff()->noteSegment(0));
+				staff()->noteSegment(0)->mainNote()->setBrush(QBrush(pp.color()));
+	}
+	staff()->noteSegment(0)->mainAccid()->setBrush(QBrush(pp.color()));
+	m_bliking->startBlinking(3);
+	connect(m_bliking, SIGNAL(finished()), this, SLOT(strikeBlinkingFinished()));
 }
 
 
@@ -600,12 +605,11 @@ void TmainScore::showNames(Tnote::EnameStyle st) {
 
 
 void TmainScore::deleteNoteName(int id) {
-	if (id < notesCount()) {
-		if (insertMode() == e_single)
+	if (insertMode() == e_single ) {
+		if (id < staff()->count())
 			staff()->noteSegment(id)->removeNoteName();
-		else
+	} else if (id < notesCount())
 			noteFromId(id)->removeNoteName();
-	}
 }
 
 //####################################################################################################
@@ -780,6 +784,10 @@ void TmainScore::strikeBlinkingFinished() {
 		m_strikeOut = 0;
 	}
   delete m_bliking;
+	if (m_correctNoteNr < 0) {
+		qDebug() << "TmainScore::strikeBlinkingFinished has wrong note number. Fix it!";
+		return;
+	}
 	deleteNoteName(m_correctNoteNr);
 	TscoreNote *sn = noteFromId(m_correctNoteNr);
 	sn->setColor(palette().text().color());
@@ -811,7 +819,8 @@ void TmainScore::keyBlinkingFinished() {
 void TmainScore::finishCorrection() {
 	noteFromId(m_correctNoteNr)->enableNoteAnim(false);
 	noteFromId(m_correctNoteNr)->markNote(QColor(gl->EanswerColor.lighter().name()));
-	noteFromId(m_correctNoteNr)->showNoteName(QColor(gl->EanswerColor.lighter().name()));
+	if (gl->E->showNameOfAnswered) // show name only when it is enabled
+		noteFromId(m_correctNoteNr)->showNoteName(QColor(gl->EanswerColor.lighter().name()));
 	m_correctNoteNr = -1;
 			
 }

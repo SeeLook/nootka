@@ -25,6 +25,7 @@
 #include <level/tlevelpreview.h>
 #include <widgets/troundedlabel.h>
 #include <tpath.h>
+#include <tprocesshandler.h>
 // #include <tanalysdialog.h>
 #include <QtWidgets>
 
@@ -91,7 +92,7 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
 	
     QHBoxLayout *buttLay =new QHBoxLayout;
 
-    QPushButton *analyseButt = new QPushButton(tr("Analyse"), this);
+    QPushButton *analyseButt = new QPushButton(tr("Analyze"), this);
     analyseButt->setIcon(QIcon(Tpath::img("charts")));
     analyseButt->setIconSize(QSize(48, 48));
     m_okButt = new QPushButton(tr("Close"), this);
@@ -205,7 +206,13 @@ void TexamSummary::setForExercise() {
 //#################################################################
 
 void TexamSummary::analyseSlot() {
-// 	TanalysDialog *AD = new TanalysDialog(m_exam, parentWidget()); TODO
+	QStringList args;
+	args << m_exam->fileName();
+	if (m_examButton)
+			args << "exercise";
+	TprocessHandler analyzeProcess("nootka-analyzer", args, this);
+
+// 	TanalysDialog *AD = new TanalysDialog(m_exam, parentWidget());
 // 	if (m_examButton)
 // 			AD->setWindowTitle(AD->analyseExerciseWinTitle());
 // 	AD->exec();

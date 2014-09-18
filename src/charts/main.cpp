@@ -17,10 +17,13 @@
  ***************************************************************************/
 
 
-#include <QApplication>
-#include <QTranslator>
 #include "tanalysdialog.h"
 #include <tinitcorelib.h>
+#include <exam/texam.h>
+#include <exam/tlevel.h>
+#include <QApplication>
+#include <QTranslator>
+#include <QDebug>
 
 Tglobals *gl;
 
@@ -33,6 +36,7 @@ int main(int argc, char *argv[])
 // #if defined (Q_OS_MAC)
 // 		QApplication::setStyle(new QPlastiqueStyle);
 // #endif
+		
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		initCoreLibrary(gl);
@@ -40,7 +44,37 @@ int main(int argc, char *argv[])
 		if (!loadNootkaFont(&a))
 			return 111;
 
-    TanalysDialog analyzer;
-    analyzer.show();
-		return a.exec();
+		TanalysDialog *analyzer = 0;
+		Tlevel *level = 0;
+		Texam *exam = 0;
+		QStringList args = a.arguments();
+		args.removeFirst();
+		if (args.size()) {
+			level = new Tlevel();
+			exam = new Texam(level, "");
+			Texam::EerrorType err = exam->loadFromFile(args.first());
+			if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
+				analyzer = new TanalysDialog(exam);
+				if (args.size() >= 2 && args[1] == "exercise")
+					analyzer->setWindowTitle(analyzer->analyseExerciseWinTitle());
+			} else 
+				qDebug() << "Can not read from exam file" << args.first() << (int)err;
+		} else {
+				analyzer = new TanalysDialog();
+			
+		}
+		int retVal = -1;
+		if (analyzer) {
+			analyzer->show();
+			retVal = a.exec();
+		}
+		
+		delete exam;
+		delete level;
+		return retVal;		
 }
+
+
+
+
+

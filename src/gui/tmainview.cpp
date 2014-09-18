@@ -99,6 +99,8 @@ void TmainView::takeNoteName() {
 void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 	m_results = resultsW;
 	m_progress = progressW;
+	m_results->hide();
+	m_progress->hide();
 	m_resultLay = new QHBoxLayout;
 		m_resultLay->addWidget(m_progress);
 		m_resultLay->addWidget(m_results);
