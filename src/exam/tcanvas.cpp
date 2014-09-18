@@ -167,7 +167,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 		QString t = tr("To correct an answer");
 		if (m_exam->curQ().melody())
 			t = tr("To try this melody again");
-		whatNextText += "<br>" + t + " " + TexamHelp::clickSomeButtonTxt("<a href=\"prevQuest\">" + 
+		whatNextText += "<br>" + t + " " + TexamHelp::clickSomeButtonTxt("<a href=\"newAttempt\">" + 
 					pixToHtml(Tpath::img("prevQuest"), PIXICONSIZE) +	"</a>") +	" " + TexamHelp::orPressBackSpace();
 	}
 	if (toCorrection) {

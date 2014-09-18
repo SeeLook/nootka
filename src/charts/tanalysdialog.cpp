@@ -54,7 +54,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
 											QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 #endif
-
+;
   setWindowTitle(analyseExamWinTitle());
 //   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint |
 // 								 Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
@@ -148,6 +148,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 	connect(m_tuningButton, SIGNAL(clicked()), SLOT(showTuningPreview()));
 
 }
+
 
 TanalysDialog::~TanalysDialog()
 {

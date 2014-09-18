@@ -176,7 +176,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
     connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
     connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
-//     connect(nootBar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
+    connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
 //     connect(nootBar->aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 		setSingleNoteMode(gl->S->isSingleNoteMode);
 // 		if (gl->S->isSingleNoteMode)
@@ -434,19 +434,21 @@ void MainWindow::aboutSlot() {
     delete ab;
     sound->go();
 }
-
+*/
 
 void MainWindow::analyseSlot() {
-		if (score->isScorePlayed())
-				playSlot(); // stop playing
-    sound->wait();
-    sound->stopPlaying();
-    TanalysDialog *ad = new TanalysDialog(0, this);
-    ad->exec();
-    delete ad;
-    sound->go();
+	if (score->isScorePlayed())
+			m_melButt->playMelodySlot(); // stop playing
+	sound->wait();
+	sound->stopPlaying();
+	QStringList args;
+	TprocessHandler analyzeProcess("nootka-analyzer", args, this);
+//     TanalysDialog *ad = new TanalysDialog(0, this);
+//     ad->exec();
+//     delete ad;
+	sound->go();
 }
-*/
+
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
     Q_UNUSED(index)

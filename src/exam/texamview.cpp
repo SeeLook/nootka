@@ -186,7 +186,7 @@ void TexamView::setFontSize(int s) {
     m_halfLab->setFont(f);
     m_effLab->setFont(f);
 		m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 30 + layout()->spacing() * 8);
-		m_sizeHint.setHeight(m_effLab->height());
+		m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
 		setFixedWidth(m_sizeHint.width());
 }
 

@@ -782,11 +782,14 @@ void TexamExecutor::correctAnswer() {
 	m_canvas->clearWhatNextTip();
 	TQAunit& curQ = m_exam->answList()->last();
 	QColor markColor = m_supp->answerColor(curQ);
+	if (curQ.melody() && (curQ.answerAsNote() || curQ.questionAsNote())) {
+		mW->score->setStatusTip(tr("Click a note to listen to it. Double click to see it corrected."));
+		connect(mW->score, SIGNAL(lockedNoteClicked(int)), this, SLOT(lockedScoreSlot(int)));
+		mW->score->setReadOnlyReacted(true); // It is undone whenever unLockScore() is called
+	}
 	if (curQ.answerAsNote()) {
 		if (curQ.melody()) {
-			mW->score->setStatusTip(tr("Click a note to listen to it. Double click to see it corrected."));
-			connect(mW->score, SIGNAL(lockedNoteClicked(int)), this, SLOT(lockedScoreSlot(int)));
-			mW->score->setReadOnlyReacted(true); // It is undone whenever unLockScore() is called
+			
 		} else {
 			Tnote goodNote = curQ.qa.note;
 			if (curQ.questionAsNote())
@@ -822,13 +825,7 @@ void TexamExecutor::correctAnswer() {
 			mW->noteName->correctName(goodNote, markColor, curQ.isWrong());
 	} else { // answer as played sound
 		if (curQ.melody()) {
-			qDebug() << "click note to see where to play it";
-// 			if (curQ.questionAsNote()) {
-// 				for (int i = 0 ; i < curQ.lastAttepmt()->mistakes.size(); ++i) {
-// 					if (curQ.lastAttepmt()->mistakes[i])
-// 						m_canvas->correctToGuitar(curQ.questionAs, gl->E->mistakePreview, curQ.qa.pos);
-// 				}
-// 			}
+			
 		} else {
 			if (curQ.wrongIntonation()) {
 					float outTune = mW->sound->pitch() - (float)qRound(mW->sound->pitch());
@@ -852,7 +849,9 @@ void TexamExecutor::correctAnswer() {
 	if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop && !curQ.melody()) {
 			m_askingTimer->start(gl->E->correctPreview);
   }
-  if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop || !curQ.melody()) 
+  if (curQ.melody())
+		m_canvas->whatNextTip(false, false);
+  else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
 			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
 	if (curQ.melody() && (curQ.questionAsNote() || curQ.answerAsNote()))
 			m_canvas->melodyTip();
@@ -862,15 +861,17 @@ void TexamExecutor::correctAnswer() {
 
 
 void TexamExecutor::newAttempt() {
-// 	mW->bar->removeAction(mW->bar->attemptAct);
 	if (m_exercise)
 		mW->bar->removeAction(mW->bar->correctAct);
 	m_canvas->tryAgainTip(3000);
 	QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); 
 	if (m_exam->curQ().answerAsNote() || m_exam->curQ().questionAsNote()) // remove names and marks from score notes
 		for (int i = 0; i < mW->score->notesCount(); ++i) {
-				mW->score->deleteNoteName(i);
-				mW->score->markQuestion(-1, i);
+			if (m_exercise) {
+// 				if (gl->E->showNameOfAnswered) // clear note names when exercise
+					mW->score->deleteNoteName(i); // but leave note marks (colored borders)
+			} else // although clear marked notes in exams
+					mW->score->markQuestion(-1, i);
 		}
 	if (m_exercise && m_exam->curQ().answerAsNote()) {
 			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
@@ -1089,9 +1090,13 @@ void TexamExecutor::prepareToExam() {
 		if (m_exercise) {
 			mW->progress->hide();
 			mW->examResults->hide();
-		} else if (mW->guitar->isVisible() && !m_level.canBeMelody()) {
-			mW->innerWidget->moveExamToName();
-			mW->score->resizeSlot();
+		} else { 
+			mW->progress->show();
+			mW->examResults->show();
+					if (mW->guitar->isVisible() && !m_level.canBeMelody()) {
+						mW->innerWidget->moveExamToName();
+						mW->score->resizeSlot();
+			}
 		}
     m_snifferLocked = false;
     m_canvas = new Tcanvas(mW->innerWidget, mW);
@@ -1239,6 +1244,8 @@ void TexamExecutor::stopExerciseSlot() {
 			gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
 				
 			bool startExam = false;
+			if (m_exam->count())
+				m_exam->saveToFile();
 			if (!m_goingClosed)
 					continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, &startExam);
 			gl->S->nameStyleInNoteName = tmpStyle;
@@ -1260,8 +1267,8 @@ void TexamExecutor::stopExerciseSlot() {
 			qApp->installEventFilter(m_supp);
 			return;
 		}
-		if (m_exam->count())
-				m_exam->saveToFile();
+// 		if (m_exam->count())
+// 				m_exam->saveToFile();
 		closeExecutor();
 }
 
@@ -1501,9 +1508,11 @@ void TexamExecutor::lockedScoreSlot(int noteNr) {
 	if (m_exam->curQ().melody()) {
 		if (noteNr < m_exam->curQ().lastAttepmt()->mistakes.size()) {
 			quint32 &m = m_exam->curQ().lastAttepmt()->mistakes[noteNr];
-			if (m && !(m & TQAunit::e_fixed) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
-				mW->score->correctNote(m_exam->curQ().melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
-				m_exam->curQ().lastAttepmt()->mistakes[noteNr] |= TQAunit::e_fixed;
+			if (m_exam->curQ().answerAsNote()) { // only dictations can be corrected
+				if (m && !(m & TQAunit::e_fixed) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
+					mW->score->correctNote(m_exam->curQ().melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
+					m_exam->curQ().lastAttepmt()->mistakes[noteNr] |= TQAunit::e_fixed;
+				}
 			}
 			if (mW->sound->isPlayable())
 				mW->sound->play(m_exam->curQ().melody()->note(noteNr)->p());
@@ -1557,6 +1566,8 @@ void TexamExecutor::tipButtonSlot(QString name) {
 			correctAnswer();
 	else if (name == "certClosing")
 			unlockAnswerCapturing();
+	else if (name == "newAttempt")
+			newAttempt();
 } 
 
 
