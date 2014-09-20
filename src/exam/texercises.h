@@ -40,8 +40,9 @@ public:
 		void checkAnswer();
 		
 				/** Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
-				 * Given value should be qaPossibilities() calculated by @class TexecutorSupply  */
-		void setSuggestionEnabled(int qaPosibilities);
+				 * Given value should be qaPossibilities() calculated by @class TexecutorSupply.
+				 * Special cases are when exercises are melodies - it is controlled by @p melody.	 */
+		void setSuggestionEnabled(int qaPosibilities, bool melody = false);
 		
 				/** Returns user decision when he got message about starting an exam.
 				 * It affects global setting for further suggestions. */

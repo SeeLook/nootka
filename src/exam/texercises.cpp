@@ -38,9 +38,9 @@ Texercises::Texercises(Texam* exam, QObject* parent) :
 }
 
 
-void Texercises::setSuggestionEnabled(int qaPosibilities) {
+void Texercises::setSuggestionEnabled(int qaPosibilities, bool melody) {
 	if (qaPosibilities > 0) {
-			m_max = qMax(qaPosibilities, 10); // not less than 10
+			m_max = qMax(qaPosibilities, melody ? 5 : 10); // not less than 10 or 5 if melodies
 			m_checkNow = true;
 			m_checkInFuture = true; // global setting is true when it comes here
 			m_currentGood = 0;

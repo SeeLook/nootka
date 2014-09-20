@@ -1503,9 +1503,15 @@ void TexamExecutor::expertAnswersSlot() {
 		* It finishes with crash. To avoid this checkAnswer() has to be called from outside - by timer event. */
 }
 
-
+/** This slot is invoked  during correction of melody on the score. 
+ * Each note can be clicked and: 
+ * - corrected if score is an answer
+ * - shows position on the guitar
+ * - plays its sound
+ * - displays message with detected pitch if note was wrong  */
 void TexamExecutor::lockedScoreSlot(int noteNr) {
 	if (m_exam->curQ().melody()) {
+		mW->score->selectNote(noteNr);
 		if (noteNr < m_exam->curQ().lastAttepmt()->mistakes.size()) {
 			quint32 &m = m_exam->curQ().lastAttepmt()->mistakes[noteNr];
 			if (m_exam->curQ().answerAsNote()) { // only dictations can be corrected
@@ -1518,6 +1524,8 @@ void TexamExecutor::lockedScoreSlot(int noteNr) {
 				mW->sound->play(m_exam->curQ().melody()->note(noteNr)->p());
 			if (mW->guitar->isVisible())
 				mW->guitar->setFinger(m_exam->curQ().melody()->note(noteNr)->p());
+			if (m && m_exam->curQ().answerAsSound() && noteNr < mW->sound->notes().size())
+				m_canvas->detectedNoteTip(mW->sound->notes()[noteNr].pitch);
 		}
 	}
 }

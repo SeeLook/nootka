@@ -23,6 +23,7 @@
 #include "tquestiontip.h"
 #include <animations/tcombinedanim.h>
 #include "tnootkacertificate.h"
+#include "texecutorsupply.h"
 #include <texamparams.h>
 #include <graphics/tgraphicstexttip.h>
 #include "mainwindow.h"
@@ -89,33 +90,27 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   clearConfirmTip();
   clearResultTip();
   clearTryAgainTip();
-  QColor answColor;
-  if (answer->isCorrect())
-      answColor = gl->EanswerColor;
-  else
-    if (answer->isWrong())
-        answColor = gl->EquestionColor;
-    else
-        answColor = gl->EnotBadColor;
     
-  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, answColor, bigFont()));
+  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bigFont()));
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
   m_resultTip->setScale(m_scale);
   setResultPos();
-  // In exercise mode display detected note when it was incorrect TODO exam run-time settings
-  if (/*m_window->correctChB->isVisible() && */gl->E->showWrongPlayed && 
-			answer->answerAs == TQAtype::e_asSound && !answer->isCorrect() && m_window->sound->note().note) {
-					int tt = 5000;
-					if (time) // will be deleted with tip or after 5 s when tip remains
-						tt = time;
-					m_window->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " + wrapPixToHtml
-							(m_window->sound->note(), m_exam->level()->clef.type(), TkeySignature(0), m_window->centralWidget()->height() / 260.0) + 
-							QString("<span style=\"color: %1;\"><big>").arg(answColor.name()) + 
-							tr("%1 was detected", "note name").arg(m_window->sound->note().toRichText()) + "</big></span></td></tr></table>", tt);
-  }
+  if (gl->E->showWrongPlayed && gl->E->showWrongPlayed && !answer->melody() &&
+			answer->answerAsSound() && !answer->isCorrect() && m_window->sound->note().note)
+					detectedNoteTip(m_window->sound->note()); // In exercise mode display detected note when it was incorrect
   if (time)
 			QTimer::singleShot(time, this, SLOT(clearResultTip()));
+}
+
+
+void Tcanvas::detectedNoteTip(const Tnote& note) {
+	Tnote n = note;
+	if (n.isValid())
+		m_window->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " + 
+				wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + 
+			QString("<span style=\"color: %1;\"><big>").arg(gl->EquestionColor.name()) + 
+			tr("%1 was detected", "note name").arg(n.toRichText()) + "</big></span></td></tr></table>", 5000);
 }
 
 

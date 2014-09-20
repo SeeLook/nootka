@@ -165,7 +165,6 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 		QDataStream in(&file);
 		in.setVersion(QDataStream::Qt_4_7);
 		in >> ev;
-//       if (ev != examVersion && ev != examVersion2)
 		if (couldBeExam(ev)) {
 			if (!isExamVersion(ev))
 					return e_newerVersion;
@@ -245,10 +244,6 @@ bool Texam::loadFromBin(QDataStream& in, quint32 ev) {
 			convertToVersion2();
 			m_halfMistNr = tmpHalf;
 	}
-// 	if ((count() - mistakes()))
-// 		m_averReactTime = okTime / (count() - mistakes());
-// 	else 
-// 		m_averReactTime = 0.0;
 	return isExamFileOk;
 }
 
