@@ -22,8 +22,9 @@
 
 #include <music/tnotestruct.h>
 #include <exam/tqaunit.h>
+#include <QPointer>
 
-
+class TequalRand;
 class MainWindow;
 class Texam;
 class QWidget;
@@ -40,6 +41,7 @@ class TexecutorSupply : public QObject
   Q_OBJECT
 public:
   TexecutorSupply(Tlevel *level, QObject *parent = 0);
+	virtual ~TexecutorSupply();
   
   void createQuestionsList(QList<TQAgroup> &list);
   Tnote determineAccid(Tnote n);
@@ -104,6 +106,10 @@ public:
 			 * Tattempt::times is filled up and wrong intonation is detected if level requires. */
 	void compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att);
   
+			/** Returns a key signature depend on a current level settings.
+			 * Lo level key when single key level but also it can random it for multiple keys levels.
+			 * In those cases given note may be adjusted (changed) to randomized key (accidental may be converted) */
+	TkeySignature getKey(Tnote& note);
   
 signals:
   void rightButtonClicked();
@@ -135,7 +141,7 @@ private:
   Tlevel 									*m_level;
   int 										m_obligQuestNr; /** Total number of questions to answer in exam (without penalties) */
   int 										m_qaPossib;
-	Tnote::Ealter 			m_prevAccid; /** Previous accidental used. */
+	Tnote::Ealter 					m_prevAccid; /** Previous accidental used. */
 	
       /** intervals between asking about double accidentals.
         * By default every forth question is with double accidentals.*/
@@ -164,6 +170,7 @@ private:
 			 * but to show fret range they are adjusted. 
 			 * LEVEL VALUES REMAINED UNTOUCHED */
 	int 										m_loFret, m_hiFret;
+	TequalRand 						 *m_randKey;
       
 };
 

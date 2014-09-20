@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "texecutorsupply.h"
+#include "tequalrand.h"
 #include <exam/texam.h>
 #include <exam/tlevel.h>
 #include <exam/tattempt.h>
@@ -113,7 +114,19 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
 	m_hiFret = m_level->hiFret;
   calcQAPossibleCount();
 	checkPlayCorrected(level);
+	if (m_level->useKeySign && !m_level->isSingleKey)
+		m_randKey = new TequalRand(m_level->hiKey.value() - m_level->loKey.value() + 1, m_level->loKey.value());
+	else
+		m_randKey = 0;
 }
+
+
+TexecutorSupply::~TexecutorSupply()
+{
+	if (m_randKey)
+		delete m_randKey;
+}
+
 
 //##########################################################################################
 //#######################     METHODS       ################################################
@@ -232,28 +245,6 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 }
 
 
-bool TexecutorSupply::isNoteInKey(Tnote& n) {
-	if (m_level->isSingleKey) {
-		if(m_level->loKey.inKey(n).note != 0)
-				return true;
-		} else {
-				for (int k = m_level->loKey.value(); k <= m_level->hiKey.value(); k++) {
-					if (TkeySignature::inKey(TkeySignature(k), n).note != 0)
-						return true;
-				}
-		}
-	return false;
-}
-
-
-void TexecutorSupply::addToList(QList<TQAgroup>& list, Tnote& n, TfingerPos& f) {
-		TQAgroup g;
-		g.note = n; 
-		g.pos = f;
-		list << g;
-}
-
-
 Tnote TexecutorSupply::determineAccid(Tnote n) {
     Tnote nA = n;
     bool notFound = true;
@@ -353,14 +344,6 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
         m_isSolfege = true;
         return Tnote::e_italiano_Si;
     }
-}
-
-
-quint8 TexecutorSupply::strNr(quint8 str0to6, bool ordered) {
-	if (ordered)
-		return gl->strOrder((char)str0to6);
-	else
-		return str0to6;
 }
 
 
@@ -492,6 +475,79 @@ void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattemp
 	}
 }
 
+
+TkeySignature TexecutorSupply::getKey(Tnote& note) {
+	Tnote tmpNote = note;
+	TkeySignature key; // C-major by default
+	if (m_level->isSingleKey) { //for single key
+		key = m_level->loKey;
+			if (m_level->onlyCurrKey) {
+					tmpNote = m_level->loKey.inKey(note);
+					if (!tmpNote.isValid())
+						qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
+									"It should never happened!";
+			}
+	} else { // for many key signatures
+			if (m_randKey)
+				key = TkeySignature(m_randKey->get());
+			else 
+				qDebug() << "NO m_randKey WAS CREATED! DO YOU LIKE CRASHES SO MUCH?"; // TODO clear it when OK
+			if (m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
+					int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
+					int patience = 0; // we are looking for suitable key
+					char keyOff = key.value() - m_level->loKey.value();
+					tmpNote = key.inKey(note);
+					while(tmpNote.note == 0 && patience <= keyRangeWidth) {
+							keyOff++;
+							if (keyOff > keyRangeWidth) 
+								keyOff = 0;
+							key = TkeySignature(m_level->loKey.value() + keyOff);
+							patience++;
+							tmpNote = key.inKey(note);
+							if (patience > keyRangeWidth) {
+									qDebug() << "Oops! It should never happened. Can not find key signature for" << note.toText();
+									break;
+							}
+					}
+			}
+	}
+	note = tmpNote;
+	return key;
+}
+
+
+//##########################################################################################
+//#######################     PRIVATE        ###############################################
+//##########################################################################################
+
+bool TexecutorSupply::isNoteInKey(Tnote& n) {
+	if (m_level->isSingleKey) {
+		if(m_level->loKey.inKey(n).note != 0)
+				return true;
+		} else {
+				for (int k = m_level->loKey.value(); k <= m_level->hiKey.value(); k++) {
+					if (TkeySignature::inKey(TkeySignature(k), n).note != 0)
+						return true;
+				}
+		}
+	return false;
+}
+
+
+void TexecutorSupply::addToList(QList<TQAgroup>& list, Tnote& n, TfingerPos& f) {
+		TQAgroup g;
+		g.note = n; 
+		g.pos = f;
+		list << g;
+}
+
+
+quint8 TexecutorSupply::strNr(quint8 str0to6, bool ordered) {
+	if (ordered)
+		return gl->strOrder((char)str0to6);
+	else
+		return str0to6;
+}
 
 //##########################################################################################
 //#######################     EVENTS        ################################################
