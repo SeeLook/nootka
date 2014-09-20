@@ -80,9 +80,13 @@ public:
           };
 
   Tlevel* level() { return m_level; }
-  void setLevel(Tlevel *l) { m_level = l; }
+  void setLevel(Tlevel *l);
   Ttune tune() { return m_tune; }
   void setTune(Ttune &tune) { m_tune = tune; }
+  
+		/** @p TRUE when level for melodies, otherwise it is single note. 
+		 * It is determined through @p setLevel() */
+  bool melodies() { return m_melody; }
 
   quint32 totalTime() { return m_totalTime; }
   void setTotalTime(quint32 total) { m_totalTime = total; }
@@ -159,7 +163,9 @@ protected:
 	bool readUnitFromXml(QList<TQAunit>& list, QXmlStreamReader& xml);
 	
 	void grabFromLastUnit(); /** increases some counter variables to obtain checking values */
-  
+	
+		/** Compares number of units with number got from file and prints message if doesn't match. */
+	bool checkQuestionNumber(int questNr);
 
 private:
 	QString 									m_fileName, m_userName;
@@ -168,11 +174,11 @@ private:
   QList<TQAunit> 						m_blackList;
 	Ttune 										m_tune;
 	quint32 									m_totalTime;
-	quint16 									m_mistNr, m_averReactTime, m_workTime, m_halfMistNr;
-  bool 											m_isFinished;
+	quint16 									m_mistNr, m_tmpMist, m_averReactTime, m_workTime, m_halfMistNr, m_tmpHalf;
+  bool 											m_isFinished, m_melody;
   int 											m_penaltysNr;
   int 											m_blackCount;
-
+	int 											m_okTime; // time of correct and notBad answers to calculate average
   
 };
 

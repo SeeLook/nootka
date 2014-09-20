@@ -157,6 +157,10 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 		TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
    // ---------- End of checking ----------------------------------
 
+		if (m_exam->melodies())
+			mW->setSingleNoteMode(false);
+		else
+			mW->setSingleNoteMode(true);
     m_supp = new TexecutorSupply(&m_level, this);
     m_supp->createQuestionsList(m_questList);
 		if (m_questList.isEmpty()) {
@@ -258,7 +262,7 @@ void TexamExecutor::initializeExecuting() {
 void TexamExecutor::askQuestion(bool isAttempt) {
 	m_askingTimer->stop();
 	m_lockRightButt = false; // release mouse button events
-	if (m_exam->count() && m_exam->curQ().melody())
+	if (m_exam->count() && m_exam->melodies())
 		mW->bar->removeAction(mW->bar->attemptAct);
 	if (!isAttempt) { // add new question to the list
 		TQAunit Q;
@@ -299,66 +303,27 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			curQ.setMistake(TQAunit::e_correct);
 		} else {
 				m_blackQuestNr = -1; // reset
-				curQ.qa = m_questList[m_rand->get()];
+				if (!m_exam->melodies()) // leave them empty for melody - there are all notes and positions
+						curQ.qa = m_questList[m_rand->get()];
 				curQ.questionAs = m_level.questionAs.next();
 				curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 		}
     
-    if (m_blackQuestNr == -1 && curQ.questionAsFret() && curQ.answerAsFret()) {
-      curQ.qa  = m_questList[m_supp->getQAnrForGuitarOnly()];      
-    }
+    if (m_blackQuestNr == -1 && curQ.questionAsFret() && curQ.answerAsFret())
+      curQ.qa  = m_questList[m_supp->getQAnrForGuitarOnly()];
 
     if (m_blackQuestNr == -1 && (curQ.questionAsNote() || curQ.answerAsNote())) {
-        if (m_level.useKeySign) {
-            Tnote tmpNote = curQ.qa.note;
-            if (m_level.isSingleKey) { //for single key
-                curQ.key = m_level.loKey;
-                if (m_level.onlyCurrKey) {
-                    tmpNote = m_level.loKey.inKey(curQ.qa.note);
-                    if (tmpNote.note == 0)
-                      qDebug() << "No note from questions list in single key. It should never happened!" << tmpNote.toText();
-                }
-            } else { // for many key signatures
-                curQ.key = TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) +
-                                         m_level.loKey.value());
-                if (m_level.onlyCurrKey) { // if note is in current key only
-                    int keyRangeWidth = m_level.hiKey.value() - m_level.loKey.value();
-                    int patience = 0; // we are looking for suitable key
-                    char keyOff = curQ.key.value() - m_level.loKey.value();
-                    tmpNote = curQ.key.inKey(curQ.qa.note);
-                    while(tmpNote.note == 0 && patience <= keyRangeWidth) {
-                        keyOff++;
-                        if (keyOff > keyRangeWidth) 
-													keyOff = 0;
-                        curQ.key = TkeySignature(m_level.loKey.value() + keyOff);
-                        patience++;
-                        tmpNote = curQ.key.inKey(curQ.qa.note);
-                        if (patience > keyRangeWidth) {
-                            qDebug() << "Oops! It should never happened. I can not find key signature!";
-                            break;
-                        }
-                    }
-                }
-            }
-            curQ.qa.note = tmpNote;
-        }
-        if (!m_level.onlyCurrKey) { // if key doesn't determine accidentals, we do this
+        if (m_level.useKeySign)
+					curQ.key = m_supp->getKey(curQ.qa.note);
+        if (!m_level.onlyCurrKey) // if key doesn't determine accidentals, we do this
             curQ.qa.note = m_supp->determineAccid(curQ.qa.note);
-        }
     }
-    if (m_level.melodyLen > 1 && 
-			((curQ.questionAsNote() && curQ.answerAsSound()) ||
-			 (curQ.questionAsSound() && curQ.answerAsNote()) ||
-			 (curQ.questionAsSound() && curQ.answerAsSound())) ) {
-					curQ.addMelody(QString("Melody %1").arg(m_exam->count()));
-					curQ.melody()->setKey(curQ.key);
-					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
-					curQ.newAttempt();
+    if (m_exam->melodies()) {
+				curQ.addMelody(QString("Melody %1").arg(m_exam->count()));
+				curQ.melody()->setKey(curQ.key);
+				getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
+				curQ.newAttempt();
 		}
-		if (curQ.melody())
-			mW->setSingleNoteMode(false);
-		else
-			mW->setSingleNoteMode(true);
 //    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
@@ -448,9 +413,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
 // PREPARING ANSWERS
     if (curQ.answerAsNote()) {
-			if (curQ.melody()) {
-
-			} else {
+			if (!curQ.melody()) {
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually select a key
                 if (m_blackQuestNr == -1) // if black question key mode is defined

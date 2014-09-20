@@ -45,7 +45,7 @@
 
 const qint32 Texam::examVersion = 0x95121702;
 const qint32 Texam::examVersion2 = 0x95121704;
-const qint32 Texam::currentVersion = 0x95121708;
+const qint32 Texam::currentVersion = 0x95121708; // version 4
 
 const quint16 Texam::maxAnswerTime = 65500;
 
@@ -72,7 +72,7 @@ bool Texam::isExamVersion(qint32 ver) {
 		return false;
 }
 
-
+/** Obsolete! It has no meaning in XML versions (above 3) */
 qint32 Texam::examVersionToLevel(qint32 examVer) {
 	if (examVersionNr(examVer) <= 2)
 		return Tlevel::getVersionId(1); // level version 1 for exam versions 1 and 2
@@ -121,23 +121,21 @@ QString Texam::formatReactTime(quint16 timeX10, bool withUnit) {
     return res + ss + QString(".%1").arg(timeX10 % 10) + unitS;
 }
 
-int okTime = 0; // time of correct and notBad answers to calculate average
-int tmpMist = 0, tmpHalf = 0;
 /*end of static*/
 
 
 Texam::Texam(Tlevel* l, QString userName):
-  m_level(l),
   m_userName(userName),
   m_fileName(""),
-  m_mistNr(0),
+  m_mistNr(0), m_tmpMist(0),
   m_workTime(0),
   m_penaltysNr(0),
-  m_isFinished(false),
-  m_halfMistNr(0),
-  m_blackCount(0)
+  m_isFinished(false), m_melody(false),
+  m_halfMistNr(0), m_tmpHalf(0),
+  m_blackCount(0),
+	m_okTime(0)
 {
-
+	setLevel(l);
 }
 
 
@@ -148,10 +146,16 @@ Texam::~Texam()
 }
 
 
+void Texam::setLevel(Tlevel* l) {
+	m_level = l;
+	m_melody = l->canBeMelody();
+}
+
+
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
-	okTime = 0;
-	tmpMist = 0;
-	tmpHalf = 0;
+	   m_okTime = 0;
+	   m_tmpMist = 0;
+	   m_tmpHalf = 0;
 	m_fileName = fileName;
 	QFile file(fileName);
 	m_workTime = 0;
@@ -178,11 +182,12 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 		} else
 			isExamFileOk = loadFromBin(in, ev);
 		
+		m_melody = m_level->canBeMelody();
 		if ((count() - mistakes()))
-				m_averReactTime = okTime / (count() - mistakes());
+				m_averReactTime = m_okTime / (count() - mistakes());
 		else 
 				m_averReactTime = 0.0;
-		qDebug() << "calculated average time" << m_averReactTime;
+		
 		if (!isExamFileOk)
 				result = e_file_corrupted;
 		file.close();
@@ -228,21 +233,19 @@ bool Texam::loadFromBin(QDataStream& in, quint32 ev) {
 				m_blackList << qaUnit;
 		}
 	}
-	if (questNr != m_answList.size()) {
-		qDebug() << "Exam questions number read from file" << questNr << 
-			"and those calculated" << m_answList.size() << "do not match. Exam file corrupted.";
+	if (!checkQuestionNumber(questNr)) {
 		isExamFileOk = false;        
 	}
-	if (examVersionNr(ev) >= 2 && (tmpMist != m_mistNr || tmpHalf != m_halfMistNr)) {
-		m_mistNr = tmpMist; // we try to fix exam file to give proper number of mistakes
-		m_halfMistNr = tmpHalf;
+	if (examVersionNr(ev) >= 2 && (m_tmpMist != m_mistNr || m_tmpHalf != m_halfMistNr)) {
+		m_mistNr = m_tmpMist; // we try to fix exam file to give proper number of mistakes
+		m_halfMistNr = m_tmpHalf;
 		isExamFileOk = false;
 	} else {
-		m_mistNr = tmpMist; // transition to exam version 2
+		m_mistNr = m_tmpMist; // transition to exam version 2
 	}
 	if (ev == examVersion) {
 			convertToVersion2();
-			m_halfMistNr = tmpHalf;
+			m_halfMistNr = m_tmpHalf;
 	}
 	return isExamFileOk;
 }
@@ -306,15 +309,13 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 		} else
 				Tlevel::skipCurrentXmlKey(xml);
 	}
-	if (questNr != m_answList.size()) {
-			qDebug() << "Exam questions number read from file" << questNr << 
-			"and those calculated" << m_answList.size() << "do not match. Exam file corrupted.";
-			ok = false;        
-		}
-	if (tmpMist != m_mistNr || tmpHalf != m_halfMistNr) {
-		qDebug() << "Mistakes number do not match. Exam file corrupted!" << tmpMist << m_mistNr;
-		m_mistNr = tmpMist; // we try to fix exam file to give proper number of mistakes
-		m_halfMistNr = tmpHalf;
+	if (!checkQuestionNumber(questNr)) {
+		ok = false;        
+	}
+	if (m_tmpMist != m_mistNr || m_tmpHalf != m_halfMistNr) {
+		qDebug() << "Mistakes number do not match. Exam file corrupted!" << m_tmpMist << m_mistNr;
+		m_mistNr = m_tmpMist; // we try to fix exam file to give proper number of mistakes
+		m_halfMistNr = m_tmpHalf;
 		ok = false;
 	}
 	return ok;
@@ -447,12 +448,23 @@ void Texam::grabFromLastUnit() {
 	m_workTime += curQ().time;
 	if (!curQ().isCorrect()) {
 		if (curQ().isWrong())
-			tmpMist++;
+			         m_tmpMist++;
 		else
-			tmpHalf++; // not so bad answer
+			         m_tmpHalf++; // not so bad answer
 		}
 	if (!curQ().isWrong())
-			okTime += curQ().time;
+			     m_okTime += curQ().time;
+}
+
+
+bool Texam::checkQuestionNumber(int questNr) {
+	bool ok = true;
+	if (questNr != m_answList.size()) {
+		qDebug() << "Exam questions number read from file" << questNr << 
+		"and those calculated" << m_answList.size() << "do not match. Exam file corrupted.";
+		ok = false;
+	}
+	return ok;
 }
 
 
