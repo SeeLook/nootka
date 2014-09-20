@@ -21,22 +21,25 @@
 #include "tkeysigncombobox.h"
 #include <widgets/tquestionaswdg.h>
 #include <exam/tlevel.h>
+#include <tnoofont.h>
 #include <widgets/tintonationview.h>
 #include <QtWidgets>
 
 
-
+QHBoxLayout *m_tabLay;
+QGroupBox *m_singleGr;
 questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     TabstractLevelPage(creator)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;    
     mainLay->addStretch();
 
+		int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
     m_tableWdg = new QWidget(this);
-    QHBoxLayout *tabLay = new QHBoxLayout;
-    tabLay->addStretch();
-    tabLay->addWidget(m_tableWdg);
-    tabLay->addStretch();
+    m_tabLay = new QHBoxLayout;
+//     tabLay->addStretch();
+    m_tabLay->addWidget(m_tableWdg);
+//     tabLay->addStretch();
     QGridLayout *qaLay = new QGridLayout(); // Questions & Answers table
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
@@ -46,7 +49,8 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		QLabel *newQuestLab = new QLabel(TquestionAsWdg::answerTxt().toUpper(), this);
 		newQuestLab->setFont(f);
 		qaLay->addWidget(newQuestLab, 0, 2, 0, 4, Qt::AlignHCenter | Qt::AlignTop);
-    m_questLab = new QLabel(TquestionAsWdg::questionTxt().toUpper(), this);
+    m_questLab = new QLabel(TnooFont::span("n", nootFontSize * 1.5) + "<br><br>" + TquestionAsWdg::questionTxt().toUpper(), this);
+		m_questLab->setAlignment(Qt::AlignCenter);
 		m_questLab->setFont(f);
     qaLay->addWidget(m_questLab, 1, 0, Qt::AlignBottom | Qt::AlignHCenter);
     m_answLab = new QLabel("  ", this);
@@ -99,9 +103,41 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     m_qSoundNooLab = new QLabel("n!", this);
     m_qSoundNooLab->setFont(nf);
     qaLay->addWidget(m_qSoundNooLab, 6, 5);
+		
+		QLabel *melodyLab = new QLabel(TnooFont::span("m", nootFontSize * 2), this);
+		melodyLab->setAlignment(Qt::AlignCenter);
+		QCheckBox *m_playMelodyChB = new QCheckBox(tr("play melody"), this);
+			m_playMelodyChB->setStatusTip("<table valign=\"middle\" align=\"center\"><tr><td>" + 
+    TnooFont::span(TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + "?", nootFontSize) + "</td>" + 
+    "<td align=\"center\">" + tr("Play melody written in a score") + " </td> " +
+    "<td>" + TnooFont::span(TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound) + "!", nootFontSize) + "</td></tr></table>");
+		QCheckBox *m_writeMelodyChB = new QCheckBox(tr("write melody"), this);
+			m_writeMelodyChB->setStatusTip(tr("Listen to a melody and write it on the score"));
+		QCheckBox *m_repeatMelodyChB = new QCheckBox(tr("repeat melody"), this);
     
     m_tableWdg->setLayout(qaLay);
-    mainLay->addLayout(tabLay);
+		m_singleGr = new QGroupBox(tr("single note"), this);
+			 m_singleGr->setCheckable(true);
+			 m_singleGr->setLayout(m_tabLay);
+		
+		QVBoxLayout *melLay = new QVBoxLayout;
+			melLay->addWidget(melodyLab, 0, Qt::AlignCenter);
+			melLay->addStretch();
+			melLay->addWidget(m_playMelodyChB);
+			melLay->addWidget(m_writeMelodyChB);
+			melLay->addWidget(m_repeatMelodyChB);
+			melLay->addStretch();
+		QGroupBox *melodiesGr = new QGroupBox(tr("melodies"), this);
+			melodiesGr->setCheckable(true);
+			melodiesGr->setLayout(melLay);
+		QHBoxLayout *grBoxLay = new QHBoxLayout;
+			grBoxLay->addStretch();
+			grBoxLay->addWidget(m_singleGr);
+			grBoxLay->addStretch();
+			grBoxLay->addWidget(melodiesGr);
+			grBoxLay->addStretch();
+		
+    mainLay->addLayout(grBoxLay);
     mainLay->addStretch();
     
   // some checkBoxes
@@ -126,6 +162,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		TintonationCombo *intoCombo = new TintonationCombo(this);
 		m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
 		mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
+		
       
     setLayout(mainLay);
 
@@ -247,22 +284,23 @@ void questionsSettings::saveLevel(Tlevel* level) {
 
 
 void questionsSettings::paintEvent(QPaintEvent* ) {
-  QPainter painter(this);
-  QPen pen = painter.pen();
-  pen.setColor(palette().text().color());
-  pen.setWidth(2);
-  painter.setPen(pen);
-  int vertLineUpY = m_tableWdg->geometry().y() + m_questLab->geometry().bottom() + 
-      (asNoteWdg->enableChBox->geometry().top() - m_questLab->geometry().bottom()) / 2;
-  painter.drawLine(m_tableWdg->geometry().left(), vertLineUpY, m_tableWdg->geometry().right(), vertLineUpY);
-  int vertLineDownY = m_tableWdg->geometry().y() +  asSoundWdg->enableChBox->geometry().bottom() + 
-      (m_qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
-  painter.drawLine(m_tableWdg->geometry().left(), vertLineDownY, m_tableWdg->geometry().right(), vertLineDownY);
-  int horLineLeftX = m_tableWdg->geometry().x() + asNoteWdg->enableChBox->geometry().right() + 6;
-  painter.drawLine(horLineLeftX, m_tableWdg->geometry().top(), horLineLeftX, m_tableWdg->geometry().bottom());
-  int horLineRightX = m_tableWdg->geometry().x() + m_asSoundLab->geometry().right() + 
-      (m_soundNooLab->geometry().left() - m_asSoundLab->geometry().right()) / 2;
-  painter.drawLine(horLineRightX , m_tableWdg->geometry().top(), horLineRightX, m_tableWdg->geometry().bottom());
+//   QPainter painter(this);
+//   QPen pen = painter.pen();
+//   pen.setColor(palette().text().color());
+//   pen.setWidth(2);
+//   painter.setPen(pen);
+// 	QPoint tl = m_singleGr->mapToParent(m_tabLay->geometry().topLeft());
+//   int vertLineUpY = tl.y() + m_singleGr->mapToParent(m_questLab->geometry().bottomLeft()).y() + 
+//       (asNoteWdg->enableChBox->geometry().top() - m_questLab->geometry().bottom()) / 2;
+//   painter.drawLine(tl.x(), vertLineUpY, tl.x() + m_tabLay->geometry().width(), vertLineUpY);
+//   int vertLineDownY = tl.y() + m_singleGr->mapToParent(asSoundWdg->enableChBox->geometry().bottomLeft()).y() + 
+//       (m_qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
+//   painter.drawLine(tl.x(), vertLineDownY, tl.x() + m_tabLay->geometry().width(), vertLineDownY);
+//   int horLineLeftX = m_singleGr->mapToParent(asNoteWdg->enableChBox->geometry().topRight()).x() + 6;
+//   painter.drawLine(horLineLeftX, tl.y(), horLineLeftX, tl.y() + m_tabLay->geometry().height());
+//   int horLineRightX = m_singleGr->mapToParent(m_asSoundLab->geometry().topRight()).x() + 
+//       (m_soundNooLab->geometry().left() - m_asSoundLab->geometry().right()) / 2;
+//   painter.drawLine(horLineRightX, tl.y(), horLineRightX, tl.y() + m_tabLay->geometry().height());
 }
 
 

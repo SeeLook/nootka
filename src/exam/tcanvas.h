@@ -26,6 +26,7 @@
 #include <exam/tqatype.h>
 #include <tfingerpos.h>
 
+class Tnote;
 class TnoteName;
 class TcombinedAnim;
 class TnootkaCertificate;
@@ -91,6 +92,9 @@ public:
 		
         /** Paints rectangle around given type of widget to mark where is answer. */
     const QRect& getRect(TQAtype::Etype kindOf);
+		
+				/** Displays message on main window status label with given note as the detected. */
+		void detectedNoteTip(const Tnote& note);
     
 public slots:
     void clearResultTip(); // clears tip with results

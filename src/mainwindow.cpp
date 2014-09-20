@@ -52,7 +52,7 @@
 extern Tglobals *gl;
 extern bool resetConfig;
 
-
+QTimer *m_messageTimer;
 
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
@@ -109,7 +109,8 @@ MainWindow::MainWindow(QWidget *parent) :
 		
     sound = new Tsound(this);
 		
-		
+		m_messageTimer = new QTimer(this);
+		connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
 //-------------------------------------------------------------------
 // Creating GUI elements
 //     innerWidget = new QWidget(this);
@@ -215,28 +216,28 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::setStatusMessage(const QString& msg) {
-    if (!m_lockStat)
-        m_statLab->setText("<center>" + msg + "</center>");
-    else
-        m_prevMsg = msg;
-    m_statusText = msg;
+	if (!m_lockStat)
+			m_statLab->setText("<center>" + msg + "</center>");
+	else
+			m_prevMsg = msg;
+	m_statusText = msg;
 }
 
 
 void MainWindow::setStatusMessage(const QString& msg, int time) {
-    m_prevMsg = m_statusText;
-    m_statLab->setText("<center>" + msg + "</center>");
-    m_lockStat = true;
-    QTimer::singleShot(time, this, SLOT(restoreMessage()));
+	m_prevMsg = m_statusText;
+	m_statLab->setText("<center>" + msg + "</center>");
+	m_lockStat = true;
+	m_messageTimer->start(time);
 }
 
 
 void MainWindow::setMessageBg(QColor bg) {
-    if (bg == -1) {
-				m_statLab->setDefaultBackground();
-    } else
-        m_statLab->setBackroundColor(bg);
-    m_curBG = bg;
+	if (bg == -1) {
+			m_statLab->setDefaultBackground();
+	} else
+			m_statLab->setBackroundColor(bg);
+	m_curBG = bg;
 }
 
 
@@ -528,10 +529,11 @@ void MainWindow::setSingleNoteMode(bool isSingle) {
 //##########################################################################################
 
 void MainWindow::restoreMessage() {
-    m_lockStat = false;
-    setStatusMessage(m_prevMsg);
-    setMessageBg(m_prevBg);
-    m_prevMsg = "";
+	m_messageTimer->stop();
+	m_lockStat = false;
+	setStatusMessage(m_prevMsg);
+	setMessageBg(m_prevBg);
+	m_prevMsg = "";
 }
 
 

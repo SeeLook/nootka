@@ -35,7 +35,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
 		
 	QLabel *lenghtLab = new QLabel(tr("Melody length"), this);
 	
-	m_finishOnChB = new QCheckBox(tr("Melody ends on tonic note."), this);
+	m_finishOnChB = new QCheckBox(tr("Melody ends on tonic note"), this);
 		m_finishOnChB->setStatusTip(tr("Determines the last note of a melody.<br>When set, melody will be finished on tonic note in actual key signature."));
 	m_equalTempoChB = new QCheckBox(tr("Require equal tempo"), this);
 		m_equalTempoChB->setStatusTip(tr("If set, doesn't matter how fast you will play but entire melody has to be played with the same tempo."));
