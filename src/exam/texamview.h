@@ -24,6 +24,7 @@
 #include <QTime>
 #include <QTimer>
 
+class Texam;
 class TQAunit;
 class QLabel;
 
@@ -31,6 +32,10 @@ class QLabel;
 /** 
  * A @class TexamView represents status of exam.
  * It displays times and numbers of valid/invalid questions.
+ * @p startExam(Texam) Initializes it.
+ * @p questionStart() starts timer for a new question
+ * @p questionStop() stops timer and writes elapsed time to @p Texam
+ * @p answered() summarizes and displays counters numbers on labels
  */
 class TexamView : public QWidget
 {
@@ -44,32 +49,24 @@ public:
             .arg((t%3600000)/60000, 2, 'f', 0, '0')
             .arg((t%60000)/1000, 2, 'f', 0, '0'); }
 
-    void startExam( int passTimeInSec = 0, int questNumber = 0,int averTime = 0, int mistakes = 0, int halfMist = 0);
-    void questionStart();
-    quint16 questionStop();
+		void startExam(Texam *exam); /** Initialization */		
+		void questionStart(); /** Starts counting time for a new question */
+		void questionStop(); /** Stops question timer and updates time in the last exam TQAunit. */
+		void answered(); /** Displays updated counters after answer */
 		
-      /** Elapsed time for of current question [seconds * 10] */
-    quint16 questionTime();
-    void setAnswer(TQAunit *answer = 0);
+    quint16 questionTime(); /** Elapsed time for of current question [seconds * 10] */
     void setFontSize(int s);
 		
-				/** Stops counting time of answer */
-		void pause();
-		
-				/** Continues counting time of answer */
-		void go();
+		void pause(); /** Stops counting time of answer */
+		void go(); /** Continues counting time of answer */
 
     void stopExam() { m_timer->stop(); }
     
-    void doNotdisplayTime() { 	m_timer->stop(); } /** Stops displaying pending time */
+    void doNotdisplayTime() { m_timer->stop(); } /** Stops displaying pending time */
     void displayTime() { 	m_timer->start(100); } /** Starts Refreshing elapsing time every 100 ms  */
     
-        /** This method returns rounded average time. It is only for exam preview.*/
-    quint16 getAverageTime() { return (quint16)qRound(m_averTime); }
-    quint32 getTotalTime() {return m_totElapsedTime + quint32(m_totalTime.elapsed() / 1000); }
-    quint16 getMistakesNumber() {return (quint16)m_mistakes; }
-    quint16 getHalfMistakesNr() { return (quint16)m_halfMistakes; }
-    int effectiveness() { return qRound(m_effect); }
+    quint32 totalTime() {return m_startExamTime + quint32(m_totalTime.elapsed() / 1000); } /** Total time of the exam. */
+    void updateExam(); /** Updates elapsed time and average time in current @p Texam */
     void clearResults();
 		
         /** Sets background of mistakes/correct answers number Qlabel.
@@ -80,22 +77,23 @@ public:
 
     virtual QSize sizeHint() const { return m_sizeHint; }
 
-protected:
-    void resizeEvent(QResizeEvent *);
     
 private:
-    bool 			m_showReact;
+    bool 			m_showReact; // switches whether displays pending question time counter
 
     QLabel 	 *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
     QLabel 	 *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
 		QTime 		m_reactTime;
-    int 			m_questNr, m_mistakes, m_totElapsedTime, m_halfMistakes;
-    qreal 		m_averTime, m_effect;
+		int				m_startExamTime; // Elapsed time from previous exam sessions
+//     int 			m_questNrXXX, m_mistakesXXX, m_halfMistakesXXX;
+//     qreal 		m_averTimeXXX, m_effect;
     QTimer 	 *m_timer;
     QTime 		m_totalTime;
-		int 			m_okCount;
+// 		int 			m_okCountXXX, m_attempts;
 		int 			m_pausedAt; // when m_averTime was paused
 		QSize			m_sizeHint;
+// 		bool			m_melodiesXXX;
+		Texam		 *m_exam;
 
 private slots:
     void countTime();

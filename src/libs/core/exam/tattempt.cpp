@@ -17,13 +17,15 @@
  ***************************************************************************/
 
 #include "tattempt.h"
+#include "tqaunit.h"
 #include <QVariant>
 
 
 Tattempt::Tattempt() :
-	m_playedCounter(0)
+	m_playedCounter(0),
+	m_sum(0),
+	m_totalTime(0)
 {
-
 }
 
 
@@ -31,16 +33,33 @@ void Tattempt::add(quint32 mistake, quint32 time) {
 	mistakes << mistake;
 	if (time)
 		times << time;
+	m_sum |= mistake;
 }
 
 
 Tattempt::~Tattempt()
 {
-
 }
 
 
-void Tattempt::toXml(QXmlStreamWriter& xml) {
+void Tattempt::updateEffectiveness() {
+	if (mistakes.size()) {
+		qreal effSum = 0.0;
+		m_sum = 0;
+		for (int i = 0; i < mistakes.size(); ++i) {
+			m_sum |= mistakes[i];
+			if (mistakes[i] == TQAunit::e_correct)
+					effSum += CORRECT_EFF;
+			else if (!(mistakes[i] & TQAunit::e_wrongNote) && !(mistakes[i] & TQAunit::e_wrongPos))
+					effSum += NOTBAD_EFF;
+		}
+		m_effectiveness = effSum / (qreal)mistakes.size();
+	} else
+		m_effectiveness = 0.0;
+}
+
+
+void Tattempt::toXml(QXmlStreamWriter& xml) const {
 	xml.writeStartElement("a"); // a like attempt
 		if (mistakes.size()) {
 			xml.writeStartElement("mistakes");
@@ -56,12 +75,13 @@ void Tattempt::toXml(QXmlStreamWriter& xml) {
 		}
 		if (m_playedCounter)
 			xml.writeTextElement("p", QVariant(m_playedCounter).toString());
+		if (m_totalTime)
+			xml.writeTextElement("tt", QVariant(m_totalTime).toString());
 	xml.writeEndElement(); // a
 }
 
 
-bool Tattempt::fromXml(QXmlStreamReader& xml) {
-	bool ok = true;
+void Tattempt::fromXml(QXmlStreamReader& xml) {
 	m_playedCounter = 0;
 	while (xml.readNextStartElement()) {
 		if (xml.name() == "mistakes") {
@@ -72,6 +92,7 @@ bool Tattempt::fromXml(QXmlStreamReader& xml) {
 				else
 					xml.skipCurrentElement();
 			}
+			updateEffectiveness();
 		} else if (xml.name() == "times") {
 			times.clear();
 			while (xml.readNextStartElement()) {
@@ -82,10 +103,11 @@ bool Tattempt::fromXml(QXmlStreamReader& xml) {
 			}
 		} else if (xml.name() == "p")
 				m_playedCounter = xml.readElementText().toInt();
+		else if (xml.name() == "tt")
+				m_totalTime = xml.readElementText().toInt();
 		else
 			xml.skipCurrentElement();
 	}
-	return ok;
 }
 
 

@@ -43,12 +43,28 @@ public:
 	quint16 playedCount() const { return m_playedCounter; } /** How many times user playbacks a question melody */
 	void questionWasPlayed() { m_playedCounter++; } /** Increases playback counter */
 	
-	void toXml(QXmlStreamWriter& xml);
-	bool fromXml(QXmlStreamReader& xml);
+			/** @p TRUE when no mistakes and times in the lists and playback counter is 0 */
+	bool isEmpty() const { return times.isEmpty() && mistakes.isEmpty() && m_playedCounter == 0; }
+	
+	quint32 totalTime() { return m_totalTime; } /** Total answer time of this attempt. */
+	void setTotalTime(quint32 tt) { m_totalTime = tt; }
+	
+	quint32 summary() const { return m_sum; } /** Logical sum of all mistakes in the attempt */
+	bool isCorrect() const { return m_sum == 0; } /** All notes were correct. */
+	bool isNotBad() { return m_sum && !(m_sum & 64 || m_sum & 16); } /** Some note(s) are 'not bad' but none is wrong. */
+	bool isWrong() { return m_sum & 64; } /** Some note(s) are wrong. */
+	
+	void toXml(QXmlStreamWriter& xml) const;
+	void fromXml(QXmlStreamReader& xml);
+	
+	qreal effectiveness() const { return m_effectiveness; } /** Effectiveness of the attempt. */
+	void updateEffectiveness(); /** Calculates an effectiveness from mistakes, and logical mistakes sum. */
   
 private:
 	
 	quint16							m_playedCounter;
+	qreal								m_effectiveness;
+	quint32							m_sum, m_totalTime;
   
 };
 

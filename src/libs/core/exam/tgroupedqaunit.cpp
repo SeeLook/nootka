@@ -58,7 +58,9 @@ void TgroupedQAunit::resume(QString desc, QString fullDesc) {
     double okTime = 0.0;
     double badTime = 0.0;
     int cnt = 0; // number of answers in average
+    qreal effSum = 0.0;
     for (int i = 0; i < list.size(); i++) {
+			effSum += list[i].qaPtr->effectiveness();
       if (list[i].qaPtr->isWrong())
         m_mistakes++;
       else if (list[i].qaPtr->isNotSoBad())
@@ -74,7 +76,7 @@ void TgroupedQAunit::resume(QString desc, QString fullDesc) {
       m_averTime = okTime / cnt;
     else
       m_averTime = badTime / list.size();
-    m_effectiveness = Texam::effectiveness(list.size(), m_mistakes,m_halfMist);
+    m_effectiveness = effSum / list.size();
 }
 
 

@@ -21,6 +21,7 @@
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
+#include <exam/tattempt.h>
 #include <QtWidgets>
 
 #define SPACE_GAP (7)
@@ -30,7 +31,8 @@ QString borderStyleTxt = "border: 1px solid palette(Text); border-radius: 4px;";
 
 
 TexamView::TexamView(QWidget *parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_exam(0)
 {
     setStatusTip(tr("Exam results"));
     
@@ -76,8 +78,11 @@ TexamView::TexamView(QWidget *parent) :
     clearResults();
 
     m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
+		m_corrLab->setAlignment(Qt::AlignCenter);
     m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + "<br>" + TexTrans::halfMistakenAddTxt());
+		m_halfLab->setAlignment(Qt::AlignCenter);
     m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
+		m_mistLab->setAlignment(Qt::AlignCenter);
     m_effLab->setStatusTip(TexTrans::effectTxt());
     m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + " " + TexTrans::inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
@@ -90,88 +95,84 @@ TexamView::TexamView(QWidget *parent) :
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
 }
 
+
+void TexamView::updateExam() {
+	if (m_exam) {
+		m_exam->setTotalTime(totalTime());
+	}
+}
+
+
 void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
     m_corrLab->setStyleSheet(okBg + borderStyleTxt);
     m_mistLab->setStyleSheet(wrongBg + borderStyleTxt);
     m_halfLab->setStyleSheet(notBadBg + borderStyleTxt);
 }
 
+
 void TexamView::questionStart() {
-    m_reactTime.start();
-    m_showReact = true;
-    m_questNr++;
-    countTime();
+	m_reactTime.start();
+	m_showReact = true;
+	countTime();
 }
+
 
 quint16 TexamView::questionTime() {
-     return qRound(m_reactTime.elapsed() / 100.0);
+	return qRound(m_reactTime.elapsed() / 100.0);
 }
 
 
-quint16 TexamView::questionStop() {
-    m_showReact = false;
-    quint16 t = qRound(m_reactTime.elapsed() / 100.0);
-    m_reactTimeLab->setText(" " + Texam::formatReactTime(t) + " ");
-    return t;
+void TexamView::questionStop() {
+	m_showReact = false;
+	quint16 t = qRound(m_reactTime.elapsed() / 100.0);
+	QString timeText = Texam::formatReactTime(m_exam->curQ().time + t);
+	if (m_exam->melodies()) {
+		m_exam->curQ().time += t; // total time of all attempts
+		m_exam->curQ().lastAttempt()->setTotalTime(t);
+// 		timeText = Texam::formatReactTime(m_exam->curQ().time) + " <small>(" + timeText + ")</small>";
+	} else
+		m_exam->curQ().time = t; // just elapsed time of single answer
+	if (isVisible())
+		m_reactTimeLab->setText(" " + timeText + " ");
 }
 
 
 void TexamView::pause() {
-		m_pausedAt = m_reactTime.elapsed();
+	m_pausedAt = m_reactTime.elapsed();
 }
 
 
 void TexamView::go() {
-		m_reactTime.start();
-		m_reactTime = m_reactTime.addMSecs(-m_pausedAt);		
+	m_reactTime.start();
+	m_reactTime = m_reactTime.addMSecs(-m_pausedAt);		
 }
 
 
-
-void TexamView::startExam(int passTimeInSec, int questNumber, int averTime, int mistakes, int halfMist) {
-    m_questNr = questNumber;
-    m_totElapsedTime = passTimeInSec;
-    m_totalTime = QTime(0, 0);
-    m_averTime = averTime;
-    m_mistakes = mistakes;
-    m_halfMistakes = halfMist;
-    m_okCount = m_questNr - m_mistakes;
-    m_showReact = false;
-    m_totalTime.start();
-    m_totalTime.restart();
-    countTime();
-    setAnswer();
-    m_averTimeLab->setText(" " + Texam::formatReactTime(qRound(m_averTime)) + " ");
+void TexamView::startExam(Texam* exam) {
+	m_exam = exam;
+	m_totalTime = QTime(0, 0);
+	m_startExamTime = m_exam->totalTime();
+	m_showReact = false;
+	m_totalTime.start();
+	m_totalTime.restart();
+	countTime();
+	answered();
+	if (isVisible())
+		m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
 }
 
 
-void TexamView::setAnswer(TQAunit* answer) {
-    if (answer) {
-      if (!answer->isCorrect()) {
-        if (answer->isWrong())
-          m_mistakes++;
-        else
-          m_halfMistakes++;
-      }
-      if (!answer->isWrong()) {
-					m_okCount++;
-					m_averTime = (m_averTime * (m_okCount -1) + answer->time) / m_okCount;
+void TexamView::answered() {
+	if (isVisible()) {
+			m_mistLab->setText(QString("%1").arg(m_exam->mistakes()));
+			if (m_exam->halfMistaken()) {
+					m_halfLab->show();
+					m_halfLab->setText(QString("%1").arg(m_exam->halfMistaken()));
 			}
-    }
-    m_mistLab->setText(QString("%1").arg(m_mistakes));
-    if (m_halfMistakes) {
-				m_halfLab->show();
-				m_halfLab->setText(QString("%1").arg(m_halfMistakes));
-    }
-    m_corrLab->setText(QString("%1").arg(m_questNr - m_mistakes - m_halfMistakes));
-    m_effect = Texam::effectiveness(m_questNr, m_mistakes, m_halfMistakes);
-		m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_effect)));
-		m_averTimeLab->setText(" " + Texam::formatReactTime(qRound(m_averTime)) + " ");
-}
-
-
-void TexamView::resizeEvent(QResizeEvent* ) {
-  
+			m_corrLab->setText(QString("%1").arg(m_exam->corrects()));
+			m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness())));
+			m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
+	}
 }
 
 
@@ -190,10 +191,13 @@ void TexamView::setFontSize(int s) {
 		setFixedWidth(m_sizeHint.width());
 }
 
+
 void TexamView::countTime() {
-    if (m_showReact)
-        m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_reactTime.elapsed() / 100)));
-    m_totalTimeLab->setText(" " + formatedTotalTime(m_totElapsedTime * 1000 + m_totalTime.elapsed()) + " ");
+	if (isVisible()) {
+		if (m_showReact)
+				m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_reactTime.elapsed() / 100 + m_exam->curQ().time)));
+		m_totalTimeLab->setText(" " + formatedTotalTime(m_startExamTime * 1000 + m_totalTime.elapsed()) + " ");
+	}
 }
 
 
