@@ -124,7 +124,7 @@ Texam::Texam(Tlevel* l, QString userName):
   m_userName(userName),
   m_fileName(""),
   m_mistNr(0), m_tmpMist(0),
-  m_workTime(0), m_attempts(0),
+  m_workTime(0), m_totalTime(0),  m_attempts(0),
   m_penaltysNr(0),
   m_isFinished(false), m_melody(false),
   m_halfMistNr(0), m_tmpHalf(0),

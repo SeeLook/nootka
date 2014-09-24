@@ -25,6 +25,7 @@
 #include <QList>
 #include <QColor>
 
+class Tpenalty;
 class TequalRand;
 class TpitchView;
 class Tsound;
@@ -135,7 +136,6 @@ private:
 	void initializeExecuting();
 
 	QString saveExamToFile();
-	void updatePenalStep();
 	
 			/** Sets texts depend on exercise or exam:
 				* - main window title
@@ -149,7 +149,7 @@ private:
 	
 				/** main instance of Tlevel, others are pointers or references to it */
 	Tlevel 										m_level;
-	QList<TQAgroup> 	m_questList;
+	QList<TQAgroup> 					m_questList;
 	
 				/** Invokes startSniffing() and stopPlaying() after delay
 					* to avoid feedback between played question and listened answer. */
@@ -173,9 +173,7 @@ private:
 				It is to restore buttons state in NoteName widget witch are unchecked by disableWidget() */
 	Tnote 										m_prevNoteIfName;
 	Tcanvas 									*m_canvas;
-	int 											m_blackQuestNr; /** -1 if no black, otherwise points question in blackList list. */
-	int 											m_penalStep; /** Interval of questions, after it penalty question is asked */
-	int 											m_penalCount; /** Counts questions to ask penalties one. */
+	Tpenalty									*m_penalty;
 	Texercises								*m_exercise;
 	int 											m_blindCounter; /** counts occurrences of questions without possible answer */
 	TequalRand								*m_rand;

@@ -27,6 +27,7 @@
 #include "texercises.h"
 #include "tequalrand.h"
 #include "trandmelody.h"
+#include "tpenalty.h"
 #include "mainwindow.h"
 #include "level/tlevelselector.h"
 #include <tsound.h>
@@ -72,7 +73,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   mW(mainW),
   m_lockRightButt(false),
   m_goingClosed(false),
-  m_penalStep(65535),
   m_snifferLocked(false),
   m_canvas(0),
   m_supp(0),
@@ -135,10 +135,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 							return;
           }
           mW->examResults->startExam(m_exam);
-//           mW->examResults->setEffectivenes();
-//           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
-//                           m_exam->mistakes(), m_exam->halfMistaken());
-
         } else {
             if (err == Texam::e_file_not_valid)
                 QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
@@ -201,6 +197,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 TexamExecutor::~TexamExecutor() {
 		if (m_supp)
 				delete m_supp;
+		delete m_penalty;
 		delete m_glStore;
 		deleteExam();
 }
@@ -210,7 +207,6 @@ void TexamExecutor::initializeExecuting() {
 		m_shouldBeTerminated = false;
     m_incorrectRepeated = false;
     m_isAnswered = true;
-    m_blackQuestNr = -1;
 		if (m_exercise) { // Do not count penalties in exercising mode
 				m_exam->setFinished(); // to avoid adding penalties in exercising
 				m_supp->setFinished();
@@ -218,7 +214,6 @@ void TexamExecutor::initializeExecuting() {
 					m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
 		} else {
         connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
-				m_penalCount = 0;
 				if (m_exam->isFinished()) {
 					m_supp->setFinished();
 					qDebug() << "Exam was finished";
@@ -235,9 +230,9 @@ void TexamExecutor::initializeExecuting() {
 							m_exam->setFinished();
 							qDebug() << "Finished exam was detected";
 						}
-						updatePenalStep();
 				}
 		}
+		m_penalty = new Tpenalty(m_exam, m_supp);
 		if (m_level.requireStyle) {
 				m_prevQuestStyle = m_supp->randomNameStyle(gl->S->nameStyleInNoteName);
 				m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
@@ -294,26 +289,20 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		mW->noteName->setStyle(gl->S->nameStyleInNoteName);
     mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
     
-		m_penalCount++;
-		if (!m_exercise && m_exam->blackCount() && m_penalCount > m_penalStep) {
-			qDebug("penalty");
-			m_penalCount = 0;
-			m_blackQuestNr = qrand() % m_exam->blacList()->size();
-			curQ = m_exam->blacList()->operator[](m_blackQuestNr);
-			curQ.time = 0;
-			curQ.setMistake(TQAunit::e_correct);
+		m_penalty->nextQuestion();
+		if (!m_exercise && m_penalty->ask()) {
+
 		} else {
-				m_blackQuestNr = -1; // reset
 				if (!m_exam->melodies()) // leave them empty for melody - there are all notes and positions
 						curQ.qa = m_questList[m_rand->get()];
 				curQ.questionAs = m_level.questionAs.next();
 				curQ.answerAs = m_level.answersAs[curQ.questionAs].next();
 		}
     
-    if (m_blackQuestNr == -1 && curQ.questionAsFret() && curQ.answerAsFret())
+    if (m_penalty->isNot() && curQ.questionAsFret() && curQ.answerAsFret())
       curQ.qa  = m_questList[m_supp->getQAnrForGuitarOnly()];
 
-    if (m_blackQuestNr == -1 && (curQ.questionAsNote() || curQ.answerAsNote())) {
+    if (m_penalty->isNot() && (curQ.questionAsNote() || curQ.answerAsNote())) {
         if (m_level.useKeySign)
 					curQ.key = m_supp->getKey(curQ.qa.note);
         if (!m_level.onlyCurrKey) // if key doesn't determine accidentals, we do this
@@ -357,7 +346,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 	}
 
     if (curQ.questionAsName()) {
-        if (m_blackQuestNr == -1) { // regular question
+        if (m_penalty->isNot()) { // regular question
           if (curQ.answerAsName()) { // prepare answer
             curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // force other enharm name of note - expected note
             m_answRequire.accid = true;
@@ -417,7 +406,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			if (!curQ.melody()) {
         if (m_level.useKeySign) {
             if (m_level.manualKey) { // user have to manually select a key
-                if (m_blackQuestNr == -1) // if black question key mode is defined
+                if (m_penalty->isNot()) // if black question key mode is defined
                     curQ.key.setMinor(bool(qrand() % 2));
                 mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
                    (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value(), curQ.key.getName());
@@ -427,7 +416,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             }
         }
         if (curQ.questionAsNote()) {// note has to be another than question
-            if (m_blackQuestNr == -1)
+            if (m_penalty->isNot())
                 curQ.qa_2.note = m_supp->forceEnharmAccid(curQ.qa.note); // curQ.qa_2.note is expected note
             if (!m_level.manualKey && curQ.qa_2.note == curQ.qa.note) {
 								blindQuestion();
@@ -486,7 +475,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 							blindQuestion();
 							return; // refresh this function scope by calling it outside
 					} else {
-							if (m_blackQuestNr == -1)
+							if (m_penalty->isNot())
 									curQ.qa_2.pos = posList[qrand() % posList.size()];
 							mW->guitar->setHighlitedString(curQ.qa_2.pos.str());
           }
@@ -652,16 +641,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
           mW->bar->addAction(mW->bar->nextQuestAct);
       }
 	}
-	if (!m_exercise && m_blackQuestNr != -1) { // decrease black list
-      if (m_exam->blacList()->operator[](m_blackQuestNr).time == 65502)
-        m_exam->blacList()->operator[](m_blackQuestNr).time--; // remains one penalty
-      else
-        m_exam->blacList()->removeAt(m_blackQuestNr); // delete - penalties cleared
-	}
 	if (!m_exercise) {
+			m_penalty->releaseBlackList();
 			mW->progress->progress();
 			if (!curQ.isCorrect())
-					updatePenalStep();
+					m_penalty->updatePenalStep();
 	}
 
 	markAnswer(curQ);
@@ -946,10 +930,8 @@ void TexamExecutor::repeatQuestion() {
         // and than startSniffing is called
 
     m_exam->addQuestion(curQ);
-    m_blackQuestNr = m_exam->blacList()->count() - 1;
-        // Previous answer was wrong or not so bad and it was added at the end of blacList
-        // When an answer will be correct the list will be decreased
-
+    m_penalty->setBlackQuestion();
+     
     if (!gl->E->autoNextQuest)
         mW->bar->startExamAct->setDisabled(true);
     mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
@@ -1160,12 +1142,10 @@ void TexamExecutor::exerciseToExam() {
 	delete m_exam;
 	m_exam = new Texam(&m_level, userName);
   m_exam->setTune(*gl->Gtune());
-	m_penalCount = 0;
-	updatePenalStep();
 	delete m_exercise;
 	m_exercise = 0;
 	setTitleAndTexts();
-	levelStatusMessage();
+// 	levelStatusMessage();
 	m_supp->setFinished(false); // exercise had it set to true
 	initializeExecuting();
 	mW->examResults->startExam(m_exam);
@@ -1224,8 +1204,6 @@ void TexamExecutor::stopExerciseSlot() {
 			qApp->installEventFilter(m_supp);
 			return;
 		}
-// 		if (m_exam->count())
-// 				m_exam->saveToFile();
 		closeExecutor();
 }
 
@@ -1494,19 +1472,6 @@ void TexamExecutor::rightButtonSlot() {
 			askQuestion();
 	else
 			checkAnswer();
-}
-
-
-void TexamExecutor::updatePenalStep() {
-    if (m_supp->wasFinished())
-        return;
-    if (m_exam->blacList()->isEmpty())
-      m_penalStep = 65535;
-    else
-    if ((m_supp->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
-          m_penalStep = (m_supp->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackCount();
-    else
-          m_penalStep = 0; // only penaltys questions
 }
 
 
