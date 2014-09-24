@@ -70,6 +70,7 @@ set(NOOTKA_SRC
 	exam/texamsummary.cpp
 	exam/tequalrand.cpp
 	exam/trandmelody.cpp
+	exam/tpenalty.cpp
 	
 	animations/tstrikedoutitem.cpp
 )
