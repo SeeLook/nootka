@@ -25,8 +25,11 @@
 #include <music/tkeysignature.h>
 #include <exam/tqatype.h>
 
-class Tattempt;
 
+#define CORRECT_EFF (100.0) // effectiveness of correct answer 
+#define NOTBAD_EFF (50.0) // effectiveness of 'not bad' answer 
+
+class Tattempt;
 class Tmelody;
 
 /** 
@@ -65,6 +68,8 @@ public:
     QString timeText() { return timeToText(time); } /** Gives ready to insert string with time value. */
     double getTime() { return (double)time / 10.0; } /** Returns time value divided by 10*/
     
+				/** Set a given mistake. 
+				 * If actual effectiveness is necessary invoke updateEffectiveness() after. */
     void setMistake(Emistake mis);
 		
 				/** Sets mistakes from value. It is the same:
@@ -72,7 +77,8 @@ public:
 				 * and 
 				 * setMistake(e_wrongKey | e_wrongOctave);
 				 * or
-				 * setMistake(6);	 */
+				 * setMistake(6);	
+				 * If actual effectiveness is necessary invoke updateEffectiveness() after.				 */
 		void setMistake(quint32 misVal) { valid = misVal; }
 		quint32 mistake() const { return valid; } /** set of mistakes as Boolean sum of Emistake */
 
@@ -88,7 +94,6 @@ public:
     quint16 time; // time of answer multiple by 10
     TQAgroup qa_2; // expected answers when question and answer types are the same
 
-    friend QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
     friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
     
     bool isCorrect() const { return valid == 0; }
@@ -118,8 +123,14 @@ public:
 		void newAttempt(); /** Creates and adds new @class Tattempt to the attempts list. */
 		int attemptsCount() const { if (m_attempts) return m_attempts->size(); else return 0; }
 		Tattempt* attempt(int nr) { return m_attempts->operator[](nr); } /** Pointer to given attempt */
-		Tattempt* lastAttepmt() { return m_attempts->last(); } /** Pointer to the last attempt */
+		Tattempt* lastAttempt() { return m_attempts->last(); } /** Pointer to the last attempt */
 		int totalPlayBacks(); /** Returns number of melody playback in all attempts. */
+		
+				/** Returns effectiveness of this answer. 
+				 * For single note it is 100 for correct, 50 for 'not bad' and 0 if wrong,
+				 * for melody it is average of all attempts effectiveness */
+		qreal effectiveness() const { return m_effectiveness; }
+		void updateEffectiveness(); /** Updates an effectiveness value to current answer state */
 		
 		void addMelody(const QString& title); /** Adds melody of replaces existing one. */
 		Tmelody* melody() const { return m_melody; }
@@ -134,10 +145,10 @@ protected:
 private:
 		Tmelody		 					*m_melody;
 		QList<Tattempt*> 		*m_attempts;
+		qreal								 m_effectiveness;
 
 };
 
-NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit);
 NOOTKACORE_EXPORT bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
 
 #endif // TQAUNIT_H

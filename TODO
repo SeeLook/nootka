@@ -6,7 +6,6 @@
 
 - (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
-- scordature has improper boundingRect()
 - TscoreView and TscoreItem have to have Android compile scopes
 - questioned melodies with improperly answered notes are not going to black list of exam
 		there has to be another routines to find such questions and repeat them
@@ -58,6 +57,7 @@ TEXAMEXECUTOR
 ========== TRANSLATIONS =======================================
 ===============================================================
  - TtoolBar has many entries translated already - just confirm them
+ - remove translation of fixed instr. dialog - veeeeery rare case
 
      
 ===============================================================     

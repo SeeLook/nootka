@@ -20,6 +20,7 @@
 #include "tprogresswidget.h"
 #include <tglobals.h>
 #include <tcolor.h>
+#include <exam/texam.h>
 #include <QtWidgets>
 
 
@@ -28,9 +29,7 @@ extern Tglobals *gl;
 
 TprogressWidget::TprogressWidget(QWidget* parent) :
   QWidget(parent),
-  m_totalNr(0),
-  m_answersNr(0),
-  m_isFinished(false)
+  m_totalNr(0)
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_answLab = new QLabel(zeroLabTxt(), this);
@@ -42,34 +41,26 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   m_totalLab = new QLabel(zeroLabTxt(), this);
   m_totalLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(gl->EanswerColor));
   lay->addWidget(m_totalLab);
-  
   setLayout(lay);
-  
   setStatusTip(progressExamTxt());
-  setDisabled(true);
-}
-
-TprogressWidget::~TprogressWidget()
-{}
-
-void TprogressWidget::activate(int answers, int total, int penaltys, bool finished) {
-  setDisabled(false);
-  setFinished(finished);
-  m_totalNr = total;
-  m_answersNr = answers;
-  updateLabels(penaltys);
-}
-
-void TprogressWidget::progress(int penaltys) {
-  m_answersNr++;
-  updateLabels(penaltys);
-
 }
 
 
-void TprogressWidget::setFinished(bool finished) {
-   m_isFinished = finished;
-   if (m_isFinished)
+void TprogressWidget::activate(Texam* exam, int totalNr) {
+	m_exam = exam;
+	setFinished();
+	m_totalNr = totalNr;
+	updateLabels();
+}
+
+
+void TprogressWidget::progress() {
+  updateLabels();
+}
+
+
+void TprogressWidget::setFinished() {
+   if (m_exam->isFinished())
      m_bar->setStatusTip(examFinishedTxt());
 }
 
@@ -82,8 +73,6 @@ void TprogressWidget::terminate() {
   m_bar->reset();
   m_bar->setValue(0);
   m_bar->setStatusTip(progressExamTxt());
-  setDisabled(true);
-  setFinished(false);
 }
 
 void TprogressWidget::resize(int fontSize) {
@@ -97,25 +86,24 @@ void TprogressWidget::resize(int fontSize) {
 // PROTECTED
 //#############################################################################
 
-void TprogressWidget::updateLabels(int penaltys) {
-  int remained = qMax(0, m_totalNr + penaltys - m_answersNr);
-  m_answLab->setText(QString("%1 + %2").arg(m_answersNr).arg(remained));
-  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_answersNr) +
+void TprogressWidget::updateLabels() {
+  int remained = qMax(0, m_totalNr + m_exam->penalty() - m_exam->count());
+  m_answLab->setText(QString("%1 + %2").arg(m_exam->count()).arg(remained));
+  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_exam->count()) +
         "<br>" + tr("Unanswered questions", "could be also: 'rest of the questions' or 'remaining questions'") + QString(": %1 ").arg(remained)  );
-  m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + penaltys).arg(penaltys));
-  m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + penaltys) +
-    "<br>(" + tr("penalties") + QString(": %1)").arg(penaltys));
+  m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + m_exam->penalty()).arg(m_exam->penalty()));
+  m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + m_exam->penalty()) +
+    "<br>(" + tr("penalties") + QString(": %1)").arg(m_exam->penalty()));
   m_bar->setMinimum(0);
-  m_bar->setMaximum(m_totalNr + penaltys);
+  m_bar->setMaximum(m_totalNr + m_exam->penalty());
   if (remained) {
-    m_bar->setValue(m_answersNr);
+    m_bar->setValue(m_exam->count());
     m_bar->setStatusTip(progressExamTxt() + "<br>" + m_bar->text());
   } else {
-    m_bar->setValue(m_totalNr + penaltys);
-    if (m_isFinished) 
+    m_bar->setValue(m_totalNr + m_exam->penalty());
+    if (m_exam->isFinished()) 
       m_bar->setStatusTip(examFinishedTxt());
   }
-//   qDebug() << "remained" << remained << "total" << m_totalNr << "penalties" << penaltys;
 }
 
 

@@ -92,10 +92,6 @@ bool Texam::areQuestTheSame(TQAunit& q1, TQAunit& q2) {
 			return false;
 }
 
-qreal Texam::effectiveness(int questNumber, int mistakes, int notBad) {
-    return (((qreal)questNumber - (qreal)(mistakes + ((qreal)notBad / 2))) / (qreal)questNumber) * 100.0;   
-}
-
 
 QString Texam::formatReactTime(quint16 timeX10, bool withUnit) {
 		QString hh = "", mm = "", ss = "";
@@ -128,12 +124,13 @@ Texam::Texam(Tlevel* l, QString userName):
   m_userName(userName),
   m_fileName(""),
   m_mistNr(0), m_tmpMist(0),
-  m_workTime(0),
+  m_workTime(0), m_attempts(0),
   m_penaltysNr(0),
   m_isFinished(false), m_melody(false),
   m_halfMistNr(0), m_tmpHalf(0),
   m_blackCount(0),
-	m_okTime(0)
+	m_okTime(0),
+	m_effectivenes(0.0)
 {
 	setLevel(l);
 }
@@ -153,14 +150,15 @@ void Texam::setLevel(Tlevel* l) {
 
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
-	   m_okTime = 0;
-	   m_tmpMist = 0;
-	   m_tmpHalf = 0;
+	m_okTime = 0;
+	m_tmpMist = 0;
+	m_tmpHalf = 0;
 	m_fileName = fileName;
 	QFile file(fileName);
 	m_workTime = 0;
 	m_mistNr = 0;
 	m_blackCount = 0;
+	m_attempts = 0;
 	m_blackList.clear();
 	m_answList.clear();
 	EerrorType result = e_file_OK;
@@ -183,8 +181,12 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 			isExamFileOk = loadFromBin(in, ev);
 		
 		m_melody = m_level->canBeMelody();
-		if ((count() - mistakes()))
-				m_averReactTime = m_okTime / (count() - mistakes());
+		updateEffectiveness();
+		int qCount = count();
+		if (melodies())
+			qCount = attempts();
+		if ((qCount - mistakes()))
+				m_averReactTime = m_okTime / (qCount - mistakes());
 		else 
 				m_averReactTime = 0.0;
 		
@@ -379,39 +381,52 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 }
 
 
-void Texam::setAnswer(TQAunit& answer) {
-    answer.time = qMin(maxAnswerTime, answer.time); // when user think too much
-//     m_answList.last() = answer; // it is not necessary as long as Texam::curQ() returns a reference to the last question in the answers list (m_answList) so checkAnswer() of TexamExecutor did all changes directly on last element of TQAunit
-    if (!answer.isCorrect() && !curQ().melody()) {
-      if (!isFinished()) // finished exam has got no black list
-          m_blackList << answer;
-      if (answer.isNotSoBad()) {
-        if (!isFinished()) {
-            m_blackList.last().time = 65501;
-            m_penaltysNr++;
-        }
-        m_halfMistNr++;
-      } else {
-        if (!isFinished()) {
-            m_blackList.last().time = 65502;
-            m_penaltysNr += 2;
-        }
-        m_mistNr++;
-      }
-    }
-    if (curQ().melody() && curQ().isWrong())
+void Texam::sumarizeAnswer() {
+	curQ().updateEffectiveness();
+	curQ().time = qMin(maxAnswerTime, curQ().time); // when user think too much
+	int qCount = count();
+	if (melodies()) {
+		m_attempts++;
+		qCount = m_attempts;
+	}
+	m_averReactTime = (m_averReactTime * (qCount -1) + curQ().time) / qCount;
+	if (!curQ().isCorrect()) {
+		if (!melodies() && !isFinished()) // finished exam hasn't got black list
+				m_blackList << curQ();
+		if (curQ().isNotSoBad()) {
+			if (!melodies() && !isFinished()) {
+					m_blackList.last().time = 65501;
+					m_penaltysNr++;
+			}
+			m_halfMistNr++;
+		} else {
+			if (!melodies() && !isFinished()) {
+					m_blackList.last().time = 65502;
+					m_penaltysNr += 2;
+			}
 			m_mistNr++;
-    m_workTime += answer.time;
-    if (!isFinished() && !curQ().melody())
-        updateBlackCount();
+		}
+	}
+	if (!melodies() && !isFinished())
+			updateBlackCount();
+	m_workTime += curQ().time;
+	m_effectivenes = (m_effectivenes * (count() - 1) + curQ().effectiveness()) / count();
 }
 
 
 void Texam::removeLastQuestion() {
 	m_workTime -= curQ().time;
 	m_answList.removeLast();
+	updateEffectiveness();
 }
 
+
+void Texam::updateEffectiveness() {
+	qreal sum = 0.0;
+	for (int i = 0; i < count(); ++i)
+		sum += answList()->at(i).effectiveness();
+	m_effectivenes = sum / (qreal)count();
+}
 
 
 //############################### PROTECTED ########################################
@@ -430,9 +445,11 @@ bool Texam::readUnitFromXml(QList< TQAunit >& list, QXmlStreamReader& xml) {
 	while (xml.readNextStartElement()) {
 		if (xml.name() == "u") {
 			list << TQAunit();
-			if (list.last().fromXml(xml)) 
+			if (list.last().fromXml(xml)) {
 				grabFromLastUnit();
-			else {
+				if (melodies())
+					m_attempts += curQ().attemptsCount();
+			} else {
 				qDebug() << "Exam has wrong unit" << list.size();
 				list.removeLast();
 				ok = false;
@@ -448,12 +465,12 @@ void Texam::grabFromLastUnit() {
 	m_workTime += curQ().time;
 	if (!curQ().isCorrect()) {
 		if (curQ().isWrong())
-			         m_tmpMist++;
+				m_tmpMist++;
 		else
-			         m_tmpHalf++; // not so bad answer
+				m_tmpHalf++; // not so bad answer
 		}
 	if (!curQ().isWrong())
-			     m_okTime += curQ().time;
+		m_okTime += curQ().time;
 }
 
 

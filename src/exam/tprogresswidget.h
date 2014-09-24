@@ -22,39 +22,45 @@
 
 #include <QWidget>
 
+class Texam;
 class QProgressBar;
 class QLabel;
 
+/** 
+ * Displays progress bar of exam and some additional data about it.
+ * It should be activated by @p activate(),
+ * then it is updated by @p progress() after every answer
+ * and terminated with @p terminate() at the end..
+ * If exam becomes passed (finished), invoke @p setFinished() to update.
+ */
 class TprogressWidget : public QWidget
 {
 
   Q_OBJECT
 public:
     TprogressWidget(QWidget *parent = 0);
-    virtual ~TprogressWidget();
+
     
     
     static QString progressExamTxt() { return tr("Progress of the exam"); } // Progress of the exam
     static QString examFinishedTxt() { return tr("Exam was finished"); } // Exam was finished
     
-    void activate(int answers, int total, int penaltys, bool finished);
-    void progress(int penaltys);
+		void activate(Texam* exam, int totalNr);
+    void progress();
     void terminate();
-    int total() { return m_totalNr; }
-    void setFinished(bool finished);
-    bool isFinished() { return m_isFinished; }
+    void setFinished();
     
     void resize(int fontSize);
     
 protected:
     QString zeroLabTxt();
-    void updateLabels(int penaltys);
+    void updateLabels();
     
 private:
-    int m_answersNr, m_totalNr;
-    QLabel *m_answLab, *m_totalLab;
-    QProgressBar *m_bar;
-    bool m_isFinished;
+    int 								m_totalNr;
+    QLabel 						 *m_answLab, *m_totalLab;
+    QProgressBar 			 *m_bar;
+		Texam							 *m_exam;
     
 };
 

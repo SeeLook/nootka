@@ -33,6 +33,7 @@ TQAunit::TQAunit()
 	qa_2.pos = TfingerPos();
 	m_melody = 0;
 	m_attempts = 0;
+	m_effectiveness = 0.0;
 }
 
 
@@ -50,6 +51,7 @@ TQAunit::TQAunit(const TQAunit& otherUnit)
 		qDebug() << "TQAunit is going to be copied when pointer inside exist.\nTROUBLES ARE GUARANTEED!\nTo avoid them keep TQAunit instance in some global scope and use reference or pointer to it.";
 	m_melody = 0;
 	m_attempts = 0;
+	m_effectiveness = otherUnit.effectiveness();
 }
 
 
@@ -107,6 +109,22 @@ void TQAunit::addMelody(const QString& title) {
 }
 
 
+void TQAunit::updateEffectiveness() {
+	if (m_attempts && attemptsCount()) { // melody
+		qreal sum = 0.0;
+		for (int i = 0; i < attemptsCount(); ++i)
+			sum += attempt(i)->effectiveness();
+		m_effectiveness = sum / attemptsCount();
+	} else { // single note
+		m_effectiveness = CORRECT_EFF;
+		if (isNotSoBad())
+				m_effectiveness = NOTBAD_EFF;
+		else if (isWrong())
+			m_effectiveness = 0.0;
+	}
+}
+
+
 void TQAunit::toXml(QXmlStreamWriter& xml) {
 	xml.writeStartElement("u"); //u like unit
 		if (qa.note.isValid() || qa.pos.isValid())
@@ -126,8 +144,10 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
 			melody()->toXml(xml);
 		xml.writeEndElement();
 		xml.writeStartElement("attempts");
-		for (int i = 0; i < attemptsCount(); ++i)
-			attempt(i)->toXml(xml);		
+		for (int i = 0; i < attemptsCount(); ++i) {
+			if (!attempt(i)->isEmpty()) // do not save empty attempts
+				attempt(i)->toXml(xml);		
+		}
 		xml.writeEndElement(); // attempts
 	}
 	xml.writeEndElement(); // u
@@ -165,14 +185,16 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 				while (xml.readNextStartElement()) {
 					if (xml.name() == "a") {
 						newAttempt();
-						if (!lastAttepmt()->fromXml(xml)) {
-// 							qDebug() << "TQAunit has wrong attempt" << attemptsCount();
-// 							ok = false;
-// 							m_attempts->removeLast(); There is no validation check in Tattempt 
+						lastAttempt()->fromXml(xml);
+						if (lastAttempt()->isEmpty()) { // Empty attempts are never written - they never occurs
+								qDebug() << "TQAunit has wrong attempt" << attemptsCount();
+								ok = false;
+								m_attempts->removeLast();
 						}
 					} else
 							xml.skipCurrentElement();
 				}
+				updateEffectiveness();
 		}
 		else
 			xml.skipCurrentElement();
@@ -181,40 +203,28 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 }
 
 
-QDataStream &operator<< (QDataStream &out, TQAunit &qaUnit) {
-	qDebug() << "\nUhuhh! No more binary exam files\n Did you forget something?\n"; // TODO remove it
-	out << qaUnit.qa.note << qaUnit.qa.pos;
-	out << (qint8)qaUnit.questionAs << (qint8)qaUnit.answerAs;
-	out << qaUnit.style;
-	out << qaUnit.key;
-	out << qaUnit.time;
-	out << qaUnit.qa_2.note << qaUnit.qa_2.pos;
-	out << (quint8)qaUnit.valid;
-	return out;
-}
-
-
 bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
-    bool ok = true;
-    ok = getNoteFromStream(in, qaUnit.qa.note);
-    in >> qaUnit.qa.pos;
-    qint8 qu, an;
-    in >> qu >> an;
-    qaUnit.questionAs = (TQAtype::Etype)qu;
-    qaUnit.answerAs = (TQAtype::Etype)an;
-    in >> qaUnit.style;
-    ok = getKeyFromStream(in, qaUnit.key);
-    in >> qaUnit.time;
-  // getNoteFromStream is too smart and doesn't allow null Tnote(0,0,0)
-  // I have to cheat it....
-    bool ok2 = getNoteFromStream(in, qaUnit.qa_2.note);
-    if (!ok2)
-        qaUnit.qa_2.note = Tnote(0,0,0);
-    in >> qaUnit.qa_2.pos;
-		quint8 valid_uint8;
-		in >> valid_uint8;
-		qaUnit.valid = valid_uint8;
+	bool ok = true;
+	ok = getNoteFromStream(in, qaUnit.qa.note);
+	in >> qaUnit.qa.pos;
+	qint8 qu, an;
+	in >> qu >> an;
+	qaUnit.questionAs = (TQAtype::Etype)qu;
+	qaUnit.answerAs = (TQAtype::Etype)an;
+	in >> qaUnit.style;
+	ok = getKeyFromStream(in, qaUnit.key);
+	in >> qaUnit.time;
+// getNoteFromStream is too smart and doesn't allow null Tnote(0,0,0)
+// I have to cheat it....
+	bool ok2 = getNoteFromStream(in, qaUnit.qa_2.note);
+	if (!ok2)
+			qaUnit.qa_2.note = Tnote(0,0,0);
+	in >> qaUnit.qa_2.pos;
+	quint8 valid_uint8;
+	in >> valid_uint8;
+	qaUnit.valid = valid_uint8;
 //     in >> qaUnit.valid;
-    return ok;
+	qaUnit.updateEffectiveness();
+	return ok;
 }
 

@@ -447,7 +447,8 @@ void TexecutorSupply::checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& user
 
 
 void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
-	for (int i = 0; i < q->length(); ++i) {
+	int notesCount = qMax(q->length(), a->length());
+	for (int i = 0; i < notesCount; ++i) {
 		TQAunit tmpUnit;
 		if (a->length() > i)
 			checkNotes(tmpUnit, q->note(i)->p(), a->note(i)->p(), m_level->requireOctave, m_level->forceAccids);
@@ -455,14 +456,16 @@ void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
 			tmpUnit.setMistake(TQAunit::e_wrongNote);
 		att->add(tmpUnit.mistake()); // times are ignored in that type of answer/attempt
 	}
+	att->updateEffectiveness();
 }
 
 
 void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att) {
-	for (int i = 0; i < q->length(); ++i) {
+	int notesCount = qMax(q->length(), a.size());
+	for (int i = 0; i < notesCount; ++i) {
 		TQAunit tmpUnit;
 		quint32 noteTime = 0;
-		if (a.size() > i) {
+		if (a.size() > i && q->length() > i) {
 			checkNotes(tmpUnit, q->note(i)->p(), a[i].pitch, m_level->requireOctave, m_level->forceAccids);
 			noteTime = quint32(a[i].duration * 1000.0); // duration is given in second but we need milliseconds
 			if (!tmpUnit.isWrong() && m_level->intonation != TintonationView::e_noCheck) {
@@ -473,6 +476,7 @@ void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattemp
 				tmpUnit.setMistake(TQAunit::e_wrongNote);
 		att->add(tmpUnit.mistake(), noteTime);
 	}
+	att->updateEffectiveness();
 }
 
 

@@ -114,7 +114,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
           }
         gl->E->studentName = resultText; // store user name
         m_exam->setTune(*gl->Gtune());
-        mW->examResults->startExam();
+        mW->examResults->startExam(m_exam);
 				if (userAct == TstartExamDlg::e_runExercise) {
 						m_exercise = new Texercises(m_exam);
 						m_exam->setFileName(QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo"));	
@@ -134,8 +134,10 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 							deleteExam();
 							return;
           }
-          mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
-                          m_exam->mistakes(), m_exam->halfMistaken());
+          mW->examResults->startExam(m_exam);
+//           mW->examResults->setEffectivenes();
+//           mW->examResults->startExam(m_exam->totalTime(), m_exam->count(), m_exam->averageReactonTime(),
+//                           m_exam->mistakes(), m_exam->halfMistaken());
 
         } else {
             if (err == Texam::e_file_not_valid)
@@ -226,10 +228,9 @@ void TexamExecutor::initializeExecuting() {
 						if (remained < m_exam->blackCount()) {
 							m_exam->increasePenaltys(m_exam->blackCount() - remained);
 							qDebug() << "penalties number adjusted:" << m_exam->blackCount() - remained;
-							mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
+							mW->progress->activate(m_exam, m_supp->obligQuestions());
 						}
 						if (remained == 0 && m_exam->blackCount() == 0) {
-							mW->progress->setFinished(true);
 							m_supp->setFinished();
 							m_exam->setFinished();
 							qDebug() << "Finished exam was detected";
@@ -510,8 +511,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     }
     
     mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
-		if (!isAttempt) // continue counting time for new melody attempt
-			mW->examResults->questionStart(); // start time from beginning for all other cases
+		mW->examResults->questionStart();
     m_canvas->questionTip(m_exam);
     m_blindCounter = 0; // question successfully asked - reset the counter
 }
@@ -519,7 +519,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
 void TexamExecutor::checkAnswer(bool showResults) {
 	TQAunit& curQ = m_exam->answList()->last();
-	curQ.time = mW->examResults->questionStop();
+	mW->examResults->questionStop();
 	mW->bar->setAfterAnswer();
 	if (curQ.answerAsSound()) {
 			mW->sound->pauseSinffing();
@@ -556,8 +556,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				answNote = mW->sound->note();
 				if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
 						if (TnoteStruct(Tnote(), mW->sound->pitch()).inTune(TintonationView::getThreshold(m_level.intonation)))
-// 						float diff = qAbs(mW->sound->pitch() - (float)qRound(mW->sound->pitch()));
-// 						if (diff >= TintonationView::getThreshold(m_level.intonation))
 								curQ.setMistake(TQAunit::e_wrongIntonation);
 				}
     }
@@ -592,44 +590,43 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					if (curQ.answerAsNote()) {
 						Tmelody answMelody;
 						mW->score->getMelody(&answMelody);
-						m_supp->compareMelodies(curQ.melody(), &answMelody, curQ.lastAttepmt());
+						m_supp->compareMelodies(curQ.melody(), &answMelody, curQ.lastAttempt());
 					} else {// if melody is not in score it was played for sure
-						m_supp->compareMelodies(curQ.melody(), mW->sound->notes(), curQ.lastAttepmt());
+						m_supp->compareMelodies(curQ.melody(), mW->sound->notes(), curQ.lastAttempt());
 					}
-					int goodAllready = 0;
-					for (int i = 0; i < curQ.lastAttepmt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
-						if (curQ.lastAttepmt()->mistakes[i] == TQAunit::e_correct /*|| curQ.lastAttepmt()->mistakes[i] == TQAunit::e_fixed*/) {
+					int goodAllready = 0, notBadAlready = 0;
+					quint32 mistakesSum = 0;
+					for (int i = 0; i < curQ.lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
+						if (curQ.lastAttempt()->mistakes[i] == TQAunit::e_correct) {
 							goodAllready++;
 							continue; // it was correct - skip
 						}
-						if (curQ.lastAttepmt()->mistakes[i] & TQAunit::e_wrongNote) {
+						if (curQ.lastAttempt()->mistakes[i] & TQAunit::e_wrongNote) {
 								curQ.setMistake(TQAunit::e_wrongNote); // so far answer is not accepted - some note is wrong
 								break; // don't check further
-						} else // or collect all other "smaller" mistakes
-								curQ.setMistake(curQ.mistake() | curQ.lastAttepmt()->mistakes[i]);
+						} else { // or collect all other "smaller" mistakes
+								mistakesSum |= curQ.lastAttempt()->mistakes[i];
+								notBadAlready++;
+						}
 					}
 					if (goodAllready == curQ.melody()->length()) // all notes are correct
 						curQ.setMistake(TQAunit::e_correct);
-// 					qDebug() << "\nattempt" << curQ.attemptsCount()  << curQ.lastAttepmt()->mistakes.size() << curQ.lastAttepmt()->times.size()
-// 						<< curQ.melody()->length();
-// 					for (int i = 0; i < curQ.melody()->length(); ++i) {
-// 						qDebug() << i << curQ.melody()->notes()[i].p().toText() << answMelody.notes()[i].p().toText() <<
-// 						curQ.lastAttepmt()->mistakes[i] << curQ.lastAttepmt()->times[i] / 1000.0;
-// 					}
-			} else // 3. or checking are the notes the same
+					else if (goodAllready + notBadAlready == curQ.melody()->length()) // add committed mistakes of last attempt
+						curQ.setMistake(mistakesSum); // or 'not bad'
+			} else { // 3. or checking are the notes the same
 					m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
-	}
-	if (curQ.melody()) {
-
-	} else {
-		if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAsNote() || curQ.answerAsName())) {
+					if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAsNote() || curQ.answerAsName())) {
 			// Save user given note when it is correct and accidental was not forced to respect kind of accidental
-				if (curQ.questionAs == curQ.answerAs)
-					curQ.qa_2.note = userNote;
-				else
-					curQ.qa.note = userNote;
-		}
+						if (curQ.questionAs == curQ.answerAs)
+							curQ.qa_2.note = userNote;
+						else
+							curQ.qa.note = userNote;
+					}
+			}
 	}
+	m_exam->sumarizeAnswer();
+	mW->examResults->answered();
+	
 	disableWidgets();
 	bool autoNext = gl->E->autoNextQuest;
 	if (gl->E->afterMistake == TexamParams::e_stop && !curQ.isCorrect())
@@ -655,16 +652,14 @@ void TexamExecutor::checkAnswer(bool showResults) {
           mW->bar->addAction(mW->bar->nextQuestAct);
       }
 	}
-	mW->examResults->setAnswer(&curQ);
 	if (!m_exercise && m_blackQuestNr != -1) { // decrease black list
       if (m_exam->blacList()->operator[](m_blackQuestNr).time == 65502)
         m_exam->blacList()->operator[](m_blackQuestNr).time--; // remains one penalty
       else
         m_exam->blacList()->removeAt(m_blackQuestNr); // delete - penalties cleared
 	}
-	m_exam->setAnswer(curQ);
 	if (!m_exercise) {
-			mW->progress->progress(m_exam->penalty());
+			mW->progress->progress();
 			if (!curQ.isCorrect())
 					updatePenalStep();
 	}
@@ -693,8 +688,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						m_exam->increasePenaltys(m_exam->blackCount());
 						qDebug() << "penalties increased. Can't finish this exam yet.";
 				} else {
-						mW->progress->setFinished(true);
 						m_exam->setFinished();
+						mW->progress->setFinished();
 						displayCertificate();
 						m_supp->setFinished();
 				}
@@ -848,8 +843,8 @@ void TexamExecutor::newAttempt() {
 void TexamExecutor::markAnswer(TQAunit& curQ) {
 	QColor markColor = m_supp->answerColor(curQ);
 	if (curQ.melody()) {
-		for (int i = 0; i < curQ.lastAttepmt()->mistakes.size(); ++i) {
-			mW->score->markAnswered(m_supp->answerColor(curQ.lastAttepmt()->mistakes[i]), i);
+		for (int i = 0; i < curQ.lastAttempt()->mistakes.size(); ++i) {
+			mW->score->markAnswered(m_supp->answerColor(curQ.lastAttempt()->mistakes[i]), i);
 		}
 	} else {
 		switch (curQ.answerAs) {
@@ -910,7 +905,7 @@ void TexamExecutor::repeatQuestion() {
 				mW->score->deleteNoteName(i);
 			mW->guitar->deleteNoteName();
 		}
-	// for melodies questions are newer repeated - copying of TQAunit is safe 
+	// for melodies it never comes here - questions are newer repeated - copying of TQAunit is safe 
 		TQAunit curQ = m_exam->curQ();
 
     if (!gl->E->autoNextQuest) {
@@ -995,7 +990,7 @@ void TexamExecutor::prepareToExam() {
 		if (m_exercise) {
 // 				gl->E->showCorrected = gl->E->showCorrected;
 		}	else {
-				mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
+				mW->progress->activate(m_exam, m_supp->obligQuestions());
 				mW->examResults->displayTime();
 		}
 		if (gl->instrument != e_noInstrument && !m_level.answerIsSound())
@@ -1173,8 +1168,8 @@ void TexamExecutor::exerciseToExam() {
 	levelStatusMessage();
 	m_supp->setFinished(false); // exercise had it set to true
 	initializeExecuting();
-	mW->examResults->startExam();
-	mW->progress->activate(m_exam->count(), m_supp->obligQuestions(), m_exam->penalty(), m_exam->isFinished());
+	mW->examResults->startExam(m_exam);
+	mW->progress->activate(m_exam, m_supp->obligQuestions());
 	mW->examResults->displayTime();
 	disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
 	connect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
@@ -1201,8 +1196,7 @@ void TexamExecutor::stopExerciseSlot() {
 						m_exam->removeLastQuestion();
 				}
 			}
-			m_exam->setTotalTime(mW->examResults->getTotalTime());
-			m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
+			mW->examResults->updateExam();
 			Tnote::EnameStyle tmpStyle = gl->S->nameStyleInNoteName;
 			gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
 				
@@ -1267,8 +1261,7 @@ void TexamExecutor::stopExamSlot() {
 				}
 			}
 			if (m_exam->fileName() != "") {
-				m_exam->setTotalTime(mW->examResults->getTotalTime());
-				m_exam->setAverageReactonTime(mW->examResults->getAverageTime());
+				mW->examResults->updateExam();
 				gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style  
 				if (m_exam->saveToFile() == Texam::e_file_OK) {
 						QStringList recentExams = gl->config->value("recentExams").toStringList();
@@ -1386,7 +1379,7 @@ void TexamExecutor::repeatSound() {
 	if (m_exam->curQ().melody()) {
 		mW->sound->playMelody(m_exam->curQ().melody());
 		if (mW->sound->melodyIsPlaying()) // the same methods stops a melody
-			m_exam->curQ().lastAttepmt()->questionWasPlayed(); // increase only when playing was started
+			m_exam->curQ().lastAttempt()->questionWasPlayed(); // increase only when playing was started
 	} else
 		mW->sound->play(m_exam->curQ().qa.note);
 	if (m_soundTimer->isActive())
@@ -1475,12 +1468,12 @@ void TexamExecutor::expertAnswersSlot() {
 void TexamExecutor::lockedScoreSlot(int noteNr) {
 	if (m_exam->curQ().melody()) {
 		mW->score->selectNote(noteNr);
-		if (noteNr < m_exam->curQ().lastAttepmt()->mistakes.size()) {
-			quint32 &m = m_exam->curQ().lastAttepmt()->mistakes[noteNr];
+		if (noteNr < m_exam->curQ().lastAttempt()->mistakes.size()) {
+			quint32 &m = m_exam->curQ().lastAttempt()->mistakes[noteNr];
 			if (m_exam->curQ().answerAsNote()) { // only dictations can be corrected
 				if (m && !(m & TQAunit::e_fixed) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
 					mW->score->correctNote(m_exam->curQ().melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
-					m_exam->curQ().lastAttepmt()->mistakes[noteNr] |= TQAunit::e_fixed;
+					m_exam->curQ().lastAttempt()->mistakes[noteNr] |= TQAunit::e_fixed;
 				}
 			}
 			if (mW->sound->isPlayable())
