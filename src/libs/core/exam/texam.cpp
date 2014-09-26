@@ -19,6 +19,7 @@
 
 #include "texam.h"
 #include "tlevel.h"
+#include "tattempt.h"
 #include "tinitcorelib.h"
 #include <tscoreparams.h>
 #include <QFile>
@@ -407,9 +408,19 @@ void Texam::sumarizeAnswer() {
 			m_mistNr++;
 		}
 	}
-	if (!melodies() && !isFinished())
+	if (melodies()) {
+		m_workTime += curQ().lastAttempt()->totalTime();
+		if (!curQ().isWrong()) {
+				if (curQ().effectiveness() < 50) {
+						curQ().setMistake(TQAunit::e_veryPoor);;
+				} else if (curQ().effectiveness() < 70)
+						curQ().setMistake(TQAunit::e_poorEffect);
+		}
+	} else
+		if (!isFinished()) {
 			updateBlackCount();
-	m_workTime += curQ().time;
+			m_workTime += curQ().time;
+		}
 	m_effectivenes = (m_effectivenes * (count() - 1) + curQ().effectiveness()) / count();
 }
 

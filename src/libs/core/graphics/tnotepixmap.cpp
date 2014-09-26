@@ -132,31 +132,37 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
   } else
       if (answer->wrongNote() || answer->wrongPos())
           txt += QApplication::translate("AnswerText", "Wrong answer!");
-            else {
-                txt += QApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + "<br>";
-                QString misMes = ""; // Message with mistakes
-                if (answer->wrongString())
-                    misMes = QApplication::translate("AnswerText", "wrong string");
-                if (answer->wrongAccid())
-                    misMes = QApplication::translate("AnswerText", "wrong accidental");
-                if (answer->wrongKey()) {
-                    addSpaceToNotEmpty(misMes);
-                    misMes += QApplication::translate("AnswerText", "wrong key signature");
-                }
-                if (answer->wrongOctave()) {
-                    addSpaceToNotEmpty(misMes);
-                    if (misMes.length() > 20)
-                        misMes += "<br>";
-                    misMes += QApplication::translate("AnswerText", "wrong octave");
-                }
-                if (answer->wrongIntonation()) {
-										addSpaceToNotEmpty(misMes);
-										if (misMes.length() > 20 && !misMes.contains("<br>"))
-                        misMes += "<br>";
-                    misMes += QApplication::translate("AnswerText", "out of tune");
-                }
-                txt += misMes;
-            }
+			else if (answer->veryPoor())
+					txt += QApplication::translate("AnswerText", "Very poor effectiveness!!");
+			else {
+					txt += QApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + "<br>";
+					QString misMes = ""; // Message with mistakes
+					if (answer->wrongString())
+							misMes = QApplication::translate("AnswerText", "wrong string");
+					if (answer->melody() && answer->littleNotes())
+							misMes = QApplication::translate("AnswerText", "little notes", "the amount of notes in an answer is little");
+					if (answer->poorEffect())
+							misMes = QApplication::translate("AnswerText", "poor effectiveness");
+					if (answer->wrongAccid())
+							misMes = QApplication::translate("AnswerText", "wrong accidental");
+					if (answer->wrongKey()) {
+							addSpaceToNotEmpty(misMes);
+							misMes += QApplication::translate("AnswerText", "wrong key signature");
+					}
+					if (answer->wrongOctave()) {
+							addSpaceToNotEmpty(misMes);
+							if (misMes.length() > 20)
+									misMes += "<br>";
+							misMes += QApplication::translate("AnswerText", "wrong octave");
+					}
+					if (answer->wrongIntonation()) {
+							addSpaceToNotEmpty(misMes);
+							if (misMes.length() > 20 && !misMes.contains("<br>"))
+									misMes += "<br>";
+							misMes += QApplication::translate("AnswerText", "out of tune");
+					}
+					txt += misMes;
+			}
     txt += "</span><br>";
     return txt;
 }

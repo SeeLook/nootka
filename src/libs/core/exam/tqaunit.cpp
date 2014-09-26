@@ -20,10 +20,16 @@
 #include "tqaunit.h"
 #include "tattempt.h"
 #include <music/tmelody.h>
+#include <cmath>
 #include <QXmlStreamReader>
 #include <QDebug>
 
-TQAunit::TQAunit()
+//######################################################################
+//#######################    CONSTRUCTORS    ###########################
+//######################################################################
+
+
+TQAunit::TQAunit(Texam* exam)
 {
 	qa.pos = TfingerPos();
 	qa.note = Tnote(0,0,0);
@@ -34,6 +40,9 @@ TQAunit::TQAunit()
 	m_melody = 0;
 	m_attempts = 0;
 	m_effectiveness = 0.0;
+	m_exam = exam;
+	m_srcMelody = e_noMelody;
+	m_idOfMelody = -1;
 }
 
 
@@ -52,6 +61,8 @@ TQAunit::TQAunit(const TQAunit& otherUnit)
 	m_melody = 0;
 	m_attempts = 0;
 	m_effectiveness = otherUnit.effectiveness();
+	m_exam = otherUnit.exam();
+	m_srcMelody = otherUnit.melodySource();
 }
 
 
@@ -62,10 +73,12 @@ TQAunit::~TQAunit()
 			delete m_attempts->at(i);
 		delete m_attempts;
 	}
-	if (m_melody)
-		delete m_melody;
+	deleteMelody();
 }
 
+//######################################################################
+//#######################       PUBLIC       ###########################
+//######################################################################
 
 void TQAunit::setMistake(Emistake mis) {
 	switch (mis) {
@@ -77,9 +90,10 @@ void TQAunit::setMistake(Emistake mis) {
     case e_wrongPos : valid |= 16; break;
     case e_wrongString : valid |= 32; break;
 		case e_wrongIntonation : valid |= 128; break;
-		case e_fixed : valid |= 256; break;
-		case e_wrongNote : valid = 64; break; // If this kind of mistake is committed
-        //  all above has no sense so '=' instead '|=' is correct
+		case e_littleNotes : valid |= 256; break;
+		case e_poorEffect : valid |= 512; break;
+		case e_veryPoor : valid = 1024; break; // If this kind of mistakes are committed...
+		case e_wrongNote : valid = 64; break; //  all above has no sense so '=' instead '|=' is correct
 	}
 }
 
@@ -103,18 +117,26 @@ int TQAunit::totalPlayBacks() {
 
 
 void TQAunit::addMelody(const QString& title) {
-	if (m_melody)
-		delete m_melody;
+	deleteMelody();
+	m_srcMelody = e_thisUnit;
 	m_melody = new Tmelody(title);
 }
 
 
+void TQAunit::addMelody(Tmelody* mel, TQAunit::EmelodySrc source, int id) {
+	deleteMelody();
+	m_srcMelody = source;
+	m_melody = mel;
+	m_idOfMelody = id;
+}
+
+
+
 void TQAunit::updateEffectiveness() {
 	if (m_attempts && attemptsCount()) { // melody
-		qreal sum = 0.0;
-		for (int i = 0; i < attemptsCount(); ++i)
-			sum += attempt(i)->effectiveness();
-		m_effectiveness = sum / attemptsCount();
+		double fee = pow(ATTEMPT_FEE, (double)(attemptsCount() - 1));  // decrease effectiveness by 4% for every additional attempt
+		m_effectiveness = (lastAttempt()->effectiveness() / attemptsCount()) * fee; // first attempt - power = 0, fee is 1
+		qDebug() << "TQAunit effectiveness" << m_effectiveness << "fee" << fee;
 	} else { // single note
 		m_effectiveness = CORRECT_EFF;
 		if (isNotSoBad())
@@ -140,8 +162,13 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
 			qaGroupToXml(qa_2, xml, "qa2");
 	if (melody()) {
 		xml.writeStartElement("melody");
-			xml.writeAttribute("title", melody()->title());
-			melody()->toXml(xml);
+			if (m_srcMelody == e_thisUnit) {
+					xml.writeAttribute("title", melody()->title());
+					melody()->toXml(xml);
+			} else if (m_srcMelody == e_otherUnit)
+					xml.writeAttribute("qNr", QVariant(m_idOfMelody).toString());
+			else if (m_srcMelody == e_list)
+					xml.writeAttribute("id", QVariant(m_idOfMelody).toString());
 		xml.writeEndElement();
 		xml.writeStartElement("attempts");
 		for (int i = 0; i < attemptsCount(); ++i) {
@@ -174,13 +201,15 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 		else if (xml.name() == "m")
 			valid = xml.readElementText().toInt();
 		else if (xml.name() == "melody") {
-			addMelody(xml.attributes().value("title").toString());
-			if (!melody()->fromXml(xml)) {
-				qDebug() << "TQAunit has wrong melody";
-				ok = false;
-				delete m_melody;
-				m_melody = 0;
-			}
+			if (xml.attributes().hasAttribute("title")) {
+				addMelody(xml.attributes().value("title").toString());
+				if (!melody()->fromXml(xml)) {
+					qDebug() << "TQAunit has wrong melody";
+					ok = false;
+					delete m_melody;
+					m_melody = 0;
+				}
+			} // TODO set pointer to another melody when attributes are 'qNr' or 'id'
 		} else if (xml.name() == "attempts") {
 				while (xml.readNextStartElement()) {
 					if (xml.name() == "a") {
@@ -201,6 +230,13 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 	}	
 	return ok;
 }
+
+
+void TQAunit::deleteMelody() {
+	if (m_melody && m_srcMelody == e_thisUnit)
+		delete m_melody;
+}
+
 
 
 bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {

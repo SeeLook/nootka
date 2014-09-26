@@ -28,7 +28,9 @@
 
 #define CORRECT_EFF (100.0) // effectiveness of correct answer 
 #define NOTBAD_EFF (50.0) // effectiveness of 'not bad' answer 
+#define ATTEMPT_FEE (0.96) // decrease effectiveness by 4% (100 - 4 = 96) for every additional attempt
 
+class Texam;
 class Tattempt;
 class Tmelody;
 
@@ -44,12 +46,13 @@ class NOOTKACORE_EXPORT TQAunit
 
 public:
 	
-    TQAunit();
 		TQAunit(const TQAunit& otherUnit);
+		TQAunit(Texam* exam = 0); /** Pointer to exam that keeps this unit */
 		
 		~TQAunit();
 
-    enum Emistake { e_correct = 0,
+    enum Emistake { 
+				e_correct = 0,
 		    e_wrongAccid = 1, //occurs during enharmonic conversion
 		    e_wrongKey = 2,
 		    e_wrongOctave = 4,
@@ -58,7 +61,9 @@ public:
         e_wrongString = 32, // when sound is proper but not on required string
 		    e_wrongNote = 64, // the highest crime
 		    e_wrongIntonation = 128, // when detected sound is out of range of intonation accuracy
-		    e_fixed = 256 // when answer was corrected by given hint in exercise mode
+		    e_littleNotes = 256, // when number of notes in answered melody is little
+		    e_poorEffect = 512, // effectiveness of an answered melody is less than 70% (but greater than 50%)
+		    e_veryPoor = 1024 // effectiveness less than 50% - CARDINAL MISTAKE
     };
 
         /** Returns string with time divided by 10. 
@@ -96,16 +101,18 @@ public:
 
     friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
     
-    bool isCorrect() const { return valid == 0; }
-    bool wrongAccid() const { return valid & 1; }
-    bool wrongKey() const { return valid & 2; }
-    bool wrongOctave() const { return valid & 4; }
-    bool wrongStyle() const { return valid & 8; }
-    bool wrongPos() const { return valid & 16; }
-    bool wrongString() const { return valid & 32; }
-    bool wrongNote() const {return valid & 64; }
-    bool wrongIntonation() const {return valid & 128; }
-    bool wasFixed() const {return valid & 256; }
+    bool isCorrect() const { return valid == e_correct; }
+    bool wrongAccid() const { return valid & e_wrongAccid; }
+    bool wrongKey() const { return valid & e_wrongKey; }
+    bool wrongOctave() const { return valid & e_wrongOctave; }
+    bool wrongStyle() const { return valid & e_wrongStyle; }
+    bool wrongPos() const { return valid & e_wrongPos; }
+    bool wrongString() const { return valid & e_wrongString; }
+    bool wrongNote() const {return valid & e_wrongNote; }
+    bool wrongIntonation() const {return valid & e_wrongIntonation; }
+    bool littleNotes() const {return valid & e_littleNotes; } /** when number of notes in answered melody is little */
+    bool poorEffect() const {return valid & e_poorEffect; } /** effectiveness is less than 70% (but greater than 50%) */
+    bool veryPoor() const {return valid & e_veryPoor; } /** effectiveness of an answered melody is less than 50% */
     
     bool questionAsNote() const { return questionAs == TQAtype::e_asNote; } /** questionAs == TQAtype::e_asNote; */
     bool questionAsName() const { return questionAs == TQAtype::e_asName; } /** questionAs == TQAtype::e_asName; */
@@ -116,10 +123,13 @@ public:
     bool answerAsFret() const { return answerAs == TQAtype::e_asFretPos; } /** answerAs == TQAtype::e_asFretPos; */
     bool answerAsSound() const { return answerAs == TQAtype::e_asSound; } /** answerAs == TQAtype::e_asSound; */
     
-    bool isWrong() const { return wrongNote() | wrongPos(); }
+    bool isWrong() const { return wrongNote() || wrongPos() || veryPoor(); }
     bool isNotSoBad() const { if (valid && !wrongNote() && !wrongPos()) return true;
 																else return false;
 											}
+
+		Texam* exam() const { return m_exam; } /** Parent exam or null. */
+
 		void newAttempt(); /** Creates and adds new @class Tattempt to the attempts list. */
 		int attemptsCount() const { if (m_attempts) return m_attempts->size(); else return 0; }
 		Tattempt* attempt(int nr) { return m_attempts->operator[](nr); } /** Pointer to given attempt */
@@ -132,8 +142,17 @@ public:
 		qreal effectiveness() const { return m_effectiveness; }
 		void updateEffectiveness(); /** Updates an effectiveness value to current answer state */
 		
-		void addMelody(const QString& title); /** Adds melody of replaces existing one. */
+		enum EmelodySrc {
+			e_noMelody, e_thisUnit, e_otherUnit, e_list
+		}; /** Determines a source of melody. @p e_otherUnit and @p e_list points melody in another unit/exam */
+		
+		void addMelody(const QString& title); /** Adds melody or replaces existing one. */
+		
+				/** Adds melody existing in given source (other unit or a list) 
+				 * and with @p id (question number or index in the list) */
+		void addMelody(Tmelody* mel, EmelodySrc source, int id);
 		Tmelody* melody() const { return m_melody; }
+		EmelodySrc melodySource() const { return m_srcMelody; }
 		
 		void toXml(QXmlStreamWriter& xml);
 		bool fromXml(QXmlStreamReader& xml);
@@ -142,11 +161,15 @@ protected:
     quint32							 valid;
     quint8 							 style;
 		
+		void deleteMelody(); /** Deletes this melody if exists and belongs to this unit. */
+		
 private:
 		Tmelody		 					*m_melody;
+		EmelodySrc					 m_srcMelody;
+		int 								 m_idOfMelody;
 		QList<Tattempt*> 		*m_attempts;
 		qreal								 m_effectiveness;
-
+		Texam								*m_exam;
 };
 
 NOOTKACORE_EXPORT bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
