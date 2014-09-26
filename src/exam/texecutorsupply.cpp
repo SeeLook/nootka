@@ -450,7 +450,7 @@ void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
 	int notesCount = qMax(q->length(), a->length());
 	for (int i = 0; i < notesCount; ++i) {
 		TQAunit tmpUnit;
-		if (a->length() > i)
+		if (a->length() > i && q->length() > i)
 			checkNotes(tmpUnit, q->note(i)->p(), a->note(i)->p(), m_level->requireOctave, m_level->forceAccids);
 		else
 			tmpUnit.setMistake(TQAunit::e_wrongNote);

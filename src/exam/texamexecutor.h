@@ -178,6 +178,7 @@ private:
 	int 											m_blindCounter; /** counts occurrences of questions without possible answer */
 	TequalRand								*m_rand;
 	int												m_melodyNoteIndex;
+	QList<bool>								m_attemptFix; /** List of fixed notes in melody during exercise */
 
 };
 

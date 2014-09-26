@@ -125,15 +125,13 @@ quint16 TexamView::questionTime() {
 void TexamView::questionStop() {
 	m_showReact = false;
 	quint16 t = qRound(m_reactTime.elapsed() / 100.0);
-	QString timeText = Texam::formatReactTime(m_exam->curQ().time + t);
 	if (m_exam->melodies()) {
 		m_exam->curQ().time += t; // total time of all attempts
 		m_exam->curQ().lastAttempt()->setTotalTime(t);
-// 		timeText = Texam::formatReactTime(m_exam->curQ().time) + " <small>(" + timeText + ")</small>";
 	} else
 		m_exam->curQ().time = t; // just elapsed time of single answer
 	if (isVisible())
-		m_reactTimeLab->setText(" " + timeText + " ");
+		m_reactTimeLab->setText(" " + Texam::formatReactTime(m_exam->curQ().time + t) + " ");
 }
 
 
@@ -154,7 +152,7 @@ void TexamView::startExam(Texam* exam) {
 	m_startExamTime = m_exam->totalTime();
 	m_showReact = false;
 	m_totalTime.start();
-	m_totalTime.restart();
+// 	m_totalTime.restart();
 	countTime();
 	answered();
 	if (isVisible())
@@ -170,7 +168,10 @@ void TexamView::answered() {
 					m_halfLab->setText(QString("%1").arg(m_exam->halfMistaken()));
 			}
 			m_corrLab->setText(QString("%1").arg(m_exam->corrects()));
-			m_effLab->setText(QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness())));
+			QString effText = QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness()));
+			if (m_exam->melodies())
+				effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ().effectiveness()));
+			m_effLab->setText(effText);
 			m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
 	}
 }
@@ -186,7 +187,7 @@ void TexamView::setFontSize(int s) {
     m_corrLab->setFont(f);
     m_halfLab->setFont(f);
     m_effLab->setFont(f);
-		m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 30 + layout()->spacing() * 8);
+		m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 35 + layout()->spacing() * 8);
 		m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
 		setFixedWidth(m_sizeHint.width());
 }

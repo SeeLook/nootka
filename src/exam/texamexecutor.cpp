@@ -313,6 +313,11 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 				curQ.melody()->setKey(curQ.key);
 				getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
 				curQ.newAttempt();
+				if (m_exercise) {
+					m_attemptFix.clear();
+					for (int i = 0; i < curQ.melody()->length(); ++i)
+						m_attemptFix << false;
+				}
 		}
 //    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
@@ -584,7 +589,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						m_supp->compareMelodies(curQ.melody(), mW->sound->notes(), curQ.lastAttempt());
 					}
 					int goodAllready = 0, notBadAlready = 0;
-					quint32 mistakesSum = 0;
 					for (int i = 0; i < curQ.lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
 						if (curQ.lastAttempt()->mistakes[i] == TQAunit::e_correct) {
 							goodAllready++;
@@ -593,15 +597,20 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						if (curQ.lastAttempt()->mistakes[i] & TQAunit::e_wrongNote) {
 								curQ.setMistake(TQAunit::e_wrongNote); // so far answer is not accepted - some note is wrong
 								break; // don't check further
-						} else { // or collect all other "smaller" mistakes
-								mistakesSum |= curQ.lastAttempt()->mistakes[i];
+						} else // or 'not bad'
 								notBadAlready++;
-						}
 					}
-					if (goodAllready == curQ.melody()->length()) // all notes are correct
-						curQ.setMistake(TQAunit::e_correct);
+					if (goodAllready == curQ.melody()->length()) // all required notes are correct
+							curQ.setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
 					else if (goodAllready + notBadAlready == curQ.melody()->length()) // add committed mistakes of last attempt
-						curQ.setMistake(mistakesSum); // or 'not bad'
+							curQ.setMistake(curQ.lastAttempt()->summary()); // or 'not bad'
+					else if (goodAllready + notBadAlready > curQ.melody()->length() * 0.7) { // at least 70% notes answered properly
+						if (curQ.lastAttempt()->effectiveness() > 75.0) // and effectiveness is sufficient
+								curQ.setMistake(TQAunit::e_littleNotes); // but less notes than required
+						else // or effectiveness is too poor
+								curQ.setMistake(TQAunit::e_wrongNote);
+					}
+					// Another case is poor or very poor effectiveness but it is obtained after effect. update in sumarizeAnswer()
 			} else { // 3. or checking are the notes the same
 					m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
 					if (!m_answRequire.accid && curQ.isCorrect() && (curQ.answerAsNote() || curQ.answerAsName())) {
@@ -1448,15 +1457,15 @@ void TexamExecutor::lockedScoreSlot(int noteNr) {
 		mW->score->selectNote(noteNr);
 		if (noteNr < m_exam->curQ().lastAttempt()->mistakes.size()) {
 			quint32 &m = m_exam->curQ().lastAttempt()->mistakes[noteNr];
-			if (m_exam->curQ().answerAsNote()) { // only dictations can be corrected
-				if (m && !(m & TQAunit::e_fixed) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
+			if (m_exam->curQ().answerAsNote() && m_exam->curQ().melody()->length() > noteNr) { // only dictations can be corrected
+				if (m && !m_attemptFix[noteNr] && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
 					mW->score->correctNote(m_exam->curQ().melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
-					m_exam->curQ().lastAttempt()->mistakes[noteNr] |= TQAunit::e_fixed;
+					m_attemptFix[noteNr] = true;
 				}
 			}
-			if (mW->sound->isPlayable())
-				mW->sound->play(m_exam->curQ().melody()->note(noteNr)->p());
-			if (mW->guitar->isVisible())
+			if (mW->sound->isPlayable() && m_exam->curQ().melody()->length() > noteNr)
+					mW->sound->play(m_exam->curQ().melody()->note(noteNr)->p());
+			if (mW->guitar->isVisible() && m_exam->curQ().melody()->length() > noteNr)
 				mW->guitar->setFinger(m_exam->curQ().melody()->note(noteNr)->p());
 			if (m && m_exam->curQ().answerAsSound() && noteNr < mW->sound->notes().size())
 				m_canvas->detectedNoteTip(mW->sound->notes()[noteNr].pitch);
