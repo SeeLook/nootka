@@ -77,22 +77,21 @@ public:
 
     virtual QSize sizeHint() const { return m_sizeHint; }
 
+public slots:
+		void reactTimesUpdate(); /** Updates reaction time and average reaction time of to the last answer time. */
+		void effectUpdate(); /** Updates effectiveness value of an exam. */
+		void questionCountUpdate(); /** Updates mistakes, correct, and 'not bad' numbers to current exam values */
     
 private:
     bool 			m_showReact; // switches whether displays pending question time counter
-
     QLabel 	 *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
     QLabel 	 *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
 		QTime 		m_reactTime;
 		int				m_startExamTime; // Elapsed time from previous exam sessions
-//     int 			m_questNrXXX, m_mistakesXXX, m_halfMistakesXXX;
-//     qreal 		m_averTimeXXX, m_effect;
     QTimer 	 *m_timer;
     QTime 		m_totalTime;
-// 		int 			m_okCountXXX, m_attempts;
 		int 			m_pausedAt; // when m_averTime was paused
 		QSize			m_sizeHint;
-// 		bool			m_melodiesXXX;
 		Texam		 *m_exam;
 
 private slots:

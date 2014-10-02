@@ -19,6 +19,7 @@
 
 #include "tqaunit.h"
 #include "tattempt.h"
+#include "texam.h"
 #include <music/tmelody.h>
 #include <cmath>
 #include <QXmlStreamReader>
@@ -135,8 +136,7 @@ void TQAunit::addMelody(Tmelody* mel, TQAunit::EmelodySrc source, int id) {
 void TQAunit::updateEffectiveness() {
 	if (m_attempts && attemptsCount()) { // melody
 		double fee = pow(ATTEMPT_FEE, (double)(attemptsCount() - 1));  // decrease effectiveness by 4% for every additional attempt
-		m_effectiveness = (lastAttempt()->effectiveness() / attemptsCount()) * fee; // first attempt - power = 0, fee is 1
-		qDebug() << "TQAunit effectiveness" << m_effectiveness << "fee" << fee;
+		m_effectiveness = lastAttempt()->effectiveness() * fee; // first attempt - power = 0, fee is 1
 	} else { // single note
 		m_effectiveness = CORRECT_EFF;
 		if (isNotSoBad())
@@ -209,7 +209,16 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 					delete m_melody;
 					m_melody = 0;
 				}
-			} // TODO set pointer to another melody when attributes are 'qNr' or 'id'
+			} else if (xml.attributes().hasAttribute("qNr")) {
+					int qNr = xml.attributes().value("qNr").toInt();
+					if (qNr < m_exam->count())
+						addMelody(m_exam->answList()->at(qNr).melody(), e_otherUnit, qNr);
+					else {
+						ok = false;
+						qDebug() << "TQAunit has a melody that points to question number which doesn't exist in exam list.";
+					}
+				xml.skipCurrentElement();
+			}
 		} else if (xml.name() == "attempts") {
 				while (xml.readNextStartElement()) {
 					if (xml.name() == "a") {
@@ -236,7 +245,6 @@ void TQAunit::deleteMelody() {
 	if (m_melody && m_srcMelody == e_thisUnit)
 		delete m_melody;
 }
-
 
 
 bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {

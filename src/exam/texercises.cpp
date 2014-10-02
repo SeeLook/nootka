@@ -35,6 +35,7 @@ Texercises::Texercises(Texam* exam, QObject* parent) :
 	m_readyToExam(false),
 	m_checkInFuture(false)
 {
+	m_exam->setExercise();
 }
 
 

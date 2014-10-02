@@ -88,8 +88,11 @@ void TprogressWidget::resize(int fontSize) {
 
 void TprogressWidget::updateLabels() {
   int remained = qMax(0, m_totalNr + m_exam->penalty() - m_exam->count());
-  m_answLab->setText(QString("%1 + %2").arg(m_exam->count()).arg(remained));
-  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(m_exam->count()) +
+	int alreadyAnswered = m_exam->count();
+	if (m_exam->melodies())
+		alreadyAnswered = qMax(0, alreadyAnswered - 1);
+  m_answLab->setText(QString("%1 + %2").arg(alreadyAnswered).arg(remained));
+  m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(alreadyAnswered) +
         "<br>" + tr("Unanswered questions", "could be also: 'rest of the questions' or 'remaining questions'") + QString(": %1 ").arg(remained)  );
   m_totalLab->setText(QString(" %1 (%2)").arg(m_totalNr + m_exam->penalty()).arg(m_exam->penalty()));
   m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + m_exam->penalty()) +

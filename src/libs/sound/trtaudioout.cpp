@@ -123,9 +123,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   setAudioOutParams();
 	m_samplesCnt = 10000;
   instance = this;
-//   offTimer = new QTimer();
 	m_crossBuffer = new qint16[1000];
-//   connect(offTimer, SIGNAL(timeout()), this, SLOT(stopSlot()));
 	connect(ao(), SIGNAL(streamOpened()), this, SLOT(streamOpenedSlot()));
 	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
 }
@@ -133,7 +131,6 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
 
 TaudioOUT::~TaudioOUT() 
 {
-//   delete offTimer;
   delete oggScale;
 	if (m_crossBuffer)
 		delete m_crossBuffer;
@@ -161,7 +158,6 @@ void TaudioOUT::setAudioOutParams() {
 
 void TaudioOUT::streamOpenedSlot() {
 	m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
-// 	qDebug() << "m_maxCBloops" << m_maxCBloops;
 }
 
 
@@ -171,11 +167,10 @@ bool TaudioOUT::play(int noteNr) {
   
 	while (m_callBackIsBussy) {
 		  SLEEP(1);
-			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
+// 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
 	}
 	
   if (m_samplesCnt < m_maxCBloops - 10) {
-//       offTimer->stop();
 			int off = (m_samplesCnt + 1) * (bufferFrames() / ratioOfRate); // next chunk of playing sound
 			for (int i = 0; i < 1000; i++) // copy data of current sound to perform crrosfading
 				m_crossBuffer[i] = oggScale->getSample(off + i);
@@ -186,7 +181,6 @@ bool TaudioOUT::play(int noteNr) {
   noteNr = noteNr + int(audioParams()->a440diff);
 	
   doEmit = true;
-//   m_samplesCnt = -1;
   oggScale->setNote(noteNr);
   int loops = 0;
   while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
@@ -194,8 +188,7 @@ bool TaudioOUT::play(int noteNr) {
       loops++;
   }
   m_samplesCnt = -1;
-//   if (loops)
-//        qDebug() << "latency:" << loops << "ms";
+//   if (loops) qDebug() << "latency:" << loops << "ms";
   return startStream();
 }
 

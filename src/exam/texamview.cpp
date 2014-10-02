@@ -27,7 +27,7 @@
 #define SPACE_GAP (7)
 
 
-QString borderStyleTxt = "border: 1px solid palette(Text); border-radius: 4px;";
+QString borderStyleTxt = "border: 1px solid palette(shadow); border-radius: 4px;";
 
 
 TexamView::TexamView(QWidget *parent) :
@@ -77,13 +77,10 @@ TexamView::TexamView(QWidget *parent) :
 
     clearResults();
 
-    m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
 		m_corrLab->setAlignment(Qt::AlignCenter);
-    m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + "<br>" + TexTrans::halfMistakenAddTxt());
 		m_halfLab->setAlignment(Qt::AlignCenter);
     m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
 		m_mistLab->setAlignment(Qt::AlignCenter);
-    m_effLab->setStatusTip(TexTrans::effectTxt());
     m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + " " + TexTrans::inSecondsTxt());
     m_averTimeLab->setAlignment(Qt::AlignCenter);
     m_reactTimeLab->setStatusTip(TexTrans::reactTimeTxt() + " " + TexTrans::inSecondsTxt());
@@ -131,7 +128,7 @@ void TexamView::questionStop() {
 	} else
 		m_exam->curQ().time = t; // just elapsed time of single answer
 	if (isVisible())
-		m_reactTimeLab->setText(" " + Texam::formatReactTime(m_exam->curQ().time + t) + " ");
+		m_reactTimeLab->setText(" " + Texam::formatReactTime(m_exam->curQ().time) + " ");
 }
 
 
@@ -152,28 +149,28 @@ void TexamView::startExam(Texam* exam) {
 	m_startExamTime = m_exam->totalTime();
 	m_showReact = false;
 	m_totalTime.start();
-// 	m_totalTime.restart();
 	countTime();
 	answered();
-	if (isVisible())
-		m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
+	m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
+	if (m_exam->melodies()) {
+		m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of single attempt)."));
+		m_corrLab->setStatusTip(tr("Number of fully successful attempts."));
+		m_halfLab->setStatusTip(tr("Number of attempts with some small mistakes."));
+	} else {
+		m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
+		m_effLab->setStatusTip(TexTrans::effectTxt());
+		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + "<br>" + TexTrans::halfMistakenAddTxt());
+	}
 }
 
-
+/** !!!!!!!!!!!!!!!!!!!! 
+ * Be sure that exam has already updated number of mistakes/'not bad'/attempts and so,
+ * before invoke this.
+ */
 void TexamView::answered() {
-	if (isVisible()) {
-			m_mistLab->setText(QString("%1").arg(m_exam->mistakes()));
-			if (m_exam->halfMistaken()) {
-					m_halfLab->show();
-					m_halfLab->setText(QString("%1").arg(m_exam->halfMistaken()));
-			}
-			m_corrLab->setText(QString("%1").arg(m_exam->corrects()));
-			QString effText = QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness()));
-			if (m_exam->melodies())
-				effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ().effectiveness()));
-			m_effLab->setText(effText);
-			m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
-	}
+	questionCountUpdate();
+	effectUpdate();
+	reactTimesUpdate();
 }
 
 
@@ -191,6 +188,39 @@ void TexamView::setFontSize(int s) {
 		m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
 		setFixedWidth(m_sizeHint.width());
 }
+
+
+//######################################################################
+//#######################     PUBLIC SLOTS   ###########################
+//######################################################################
+void TexamView::reactTimesUpdate() {
+	if (m_exam && isVisible())
+		m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
+}
+
+
+void TexamView::effectUpdate() {
+	if (m_exam && isVisible()) {
+		QString effText = QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness()));
+		if (m_exam->melodies() && m_exam->count() > 1 && 
+						m_exam->curQ().attemptsCount() && m_exam->curQ().lastAttempt()->mistakes.size())
+				effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ().effectiveness()));
+		m_effLab->setText(effText);
+	}
+}
+
+
+void TexamView::questionCountUpdate() {
+	if (m_exam && isVisible()) {
+		m_mistLab->setText(QString("%1").arg(m_exam->mistakes()));
+		if (m_exam->halfMistaken()) {
+				m_halfLab->show();
+				m_halfLab->setText(QString("%1").arg(m_exam->halfMistaken()));
+		}
+		m_corrLab->setText(QString("%1").arg(m_exam->corrects()));
+	}
+}
+
 
 
 void TexamView::countTime() {

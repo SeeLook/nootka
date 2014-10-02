@@ -118,6 +118,8 @@ void TmainView::takeExamViews() {
 /** We are assuming that vertical layout of exam views can occur only when note name is already there.
  * Also there is no other way back than remove (delete) exam views at all. */
 void TmainView::moveExamToName() {
+	m_progress->show();
+	m_results->show();
 	if (m_nameLay && m_resultLay && m_resultLay->direction() == QBoxLayout::LeftToRight) {
 		m_mainLay->removeItem(m_resultLay);
 		m_resultLay->setDirection(QBoxLayout::TopToBottom);
