@@ -7,9 +7,9 @@
 - (guitar) check question mark scaling for left-handed (TODO)
 - merge nootka-one changes with this branch
 - TscoreView and TscoreItem have to have Android compile scopes
-- questioned melodies with improperly answered notes are not going to black list of exam
-		there has to be another routines to find such questions and repeat them
 - remember to delete temporary settings file when all will br working
+- bring back starting question timer at the end of asking ans stopping it just at the beginning of checking
+- clef if not locked in melodies
 
 analyzer executable
 - check note pixmap for notes from grand staff

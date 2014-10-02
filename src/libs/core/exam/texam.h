@@ -92,6 +92,11 @@ public:
 		 * It is determined through @p setLevel() */
   bool melodies() { return m_melody; }
   quint32 attempts() { return m_attempts; } /** Total number of attempts when melodies. Updated in @p sumarizeAnswer() */
+  bool isExercise() { return m_isExercise; }
+  
+			/** Makes exam an exercise (without penalties). Also sets default file name for exercises.
+			 * It possible to set an exercise only for empty exam (without questions in the list yet). */
+  void setExercise();
 
   quint32 totalTime() { return m_totalTime; }
   void setTotalTime(quint32 total) { m_totalTime = total; }
@@ -100,7 +105,8 @@ public:
   void addQuestion(TQAunit &question) { m_answList << question; }
   
 			/** Checks the last TQAunit on the list, updates its effectiveness
-			 * actualizes the exam effectiveness and adds penalties if necessary */
+			 * actualizes the exam effectiveness.
+			 * Remember to add penalties to black list before invoke this !!! */
   void sumarizeAnswer();
 	
 			/** Removes last question from the list and sets times according to it*/
@@ -120,12 +126,14 @@ public:
   quint16 workTime() { return qRound((qreal)m_workTime / 10.0); }
   QString userName() { return m_userName; }
   QString fileName() { return m_fileName; }
-  void setFileName(QString fileName) { m_fileName = fileName; }
+  void setFileName(const QString& fileName);
  
-			/** Reference to list of mistakes. */
-  QList<TQAunit>* blacList() { return &m_blackList; }
-  int penalty() { return m_penaltysNr; } // Number of penalties during whole exam
-  int blackCount() { return m_blackCount; } // Remained questions in black list
+  QList<TQAunit>* blacList() { return &m_blackList; } /** Pointer to list with penalty questions. */
+  
+			/** Pointer to list with numbers of question in which mistakes were committed. */
+  QList<int>* blackNumbers() { return &m_blackNumbers; }
+  int penalty() { return m_penaltysNr; } /** Number of penalties during whole exam */
+  int blackCount() { return m_blackCount; } /** Remained questions in black list */
   bool isFinished() { return m_isFinished; }
   
 			/** Sets exam as finished and there is no way back. */
@@ -170,10 +178,11 @@ private:
 	Tlevel 									 *m_level;
 	QList<TQAunit> 						m_answList;
   QList<TQAunit> 						m_blackList;
+	QList<int>								m_blackNumbers; /** List of question numbers in which mistakes were committed. */
 	Ttune 										m_tune;
 	quint32 									m_totalTime, m_attempts;
 	quint16 									m_mistNr, m_tmpMist, m_averReactTime, m_workTime, m_halfMistNr, m_tmpHalf;
-  bool 											m_isFinished, m_melody;
+  bool 											m_isFinished, m_melody, m_isExercise;
   int 											m_penaltysNr;
   int 											m_blackCount;
 	int 											m_okTime; // time of correct and notBad answers to calculate average

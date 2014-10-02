@@ -27,6 +27,8 @@
 #include <QMessageBox>
 #include <QDateTime>
 #include <QDebug>
+#include <QDir>
+#include <QSettings>
 
 
 
@@ -127,7 +129,7 @@ Texam::Texam(Tlevel* l, QString userName):
   m_mistNr(0), m_tmpMist(0),
   m_workTime(0), m_totalTime(0),  m_attempts(0),
   m_penaltysNr(0),
-  m_isFinished(false), m_melody(false),
+  m_isFinished(false), m_melody(false), m_isExercise(false),
   m_halfMistNr(0), m_tmpHalf(0),
   m_blackCount(0),
 	m_okTime(0),
@@ -140,7 +142,18 @@ Texam::Texam(Tlevel* l, QString userName):
 Texam::~Texam()
 {
   m_answList.clear();
-  m_blackList.clear();  
+  m_blackList.clear();
+	m_blackNumbers.clear();
+}
+
+
+void Texam::setExercise() {
+	if (count()) {
+		qDebug() << "Exam has got questions already. Can't set is as an exercise!";
+		return;
+	}
+	setFileName(QDir::toNativeSeparators(QFileInfo(Tglob::glob()->config->fileName()).absolutePath() + "/exercise.noo"));	
+	m_isExercise = true;
 }
 
 
@@ -148,6 +161,16 @@ void Texam::setLevel(Tlevel* l) {
 	m_level = l;
 	m_melody = l->canBeMelody();
 }
+
+
+void Texam::setFileName(const QString& fileName) {
+	if (isExercise()) {
+		qDebug() << "Can not set a file name for exercise";
+		return;
+	}
+	m_fileName = fileName;
+}
+
 
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
@@ -183,11 +206,8 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 		
 		m_melody = m_level->canBeMelody();
 		updateEffectiveness();
-		int qCount = count();
-		if (melodies())
-			qCount = attempts();
-		if ((qCount - mistakes()))
-				m_averReactTime = m_okTime / (qCount - mistakes());
+		if ((count() - mistakes()))
+				m_averReactTime = m_okTime / (count() - mistakes());
 		else 
 				m_averReactTime = 0.0;
 		
@@ -309,6 +329,14 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 		} else if (xml.name() == "penalties") {
 				if (!readUnitFromXml(m_blackList, xml))
 						ok = false;
+		} else if (xml.name() == "black") {
+				m_blackNumbers.clear();
+				while (xml.readNextStartElement()) {
+				  if (xml.name() == "n")
+						m_blackNumbers << xml.readElementText().toInt();
+					else
+						Tlevel::skipCurrentXmlKey(xml);
+				}
 		} else
 				Tlevel::skipCurrentXmlKey(xml);
 	}
@@ -316,7 +344,10 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 		ok = false;        
 	}
 	if (m_tmpMist != m_mistNr || m_tmpHalf != m_halfMistNr) {
-		qDebug() << "Mistakes number do not match. Exam file corrupted!" << m_tmpMist << m_mistNr;
+		if (m_tmpMist != m_mistNr)
+			qDebug() << "Mistakes number do not match. Exam file corrupted!" << m_tmpMist << m_mistNr;
+		else if (m_tmpHalf != m_halfMistNr)
+			qDebug() << "'Not bad' number do not match. Exam file corrupted!" << m_tmpHalf << m_halfMistNr;
 		m_mistNr = m_tmpMist; // we try to fix exam file to give proper number of mistakes
 		m_halfMistNr = m_tmpHalf;
 		ok = false;
@@ -377,6 +408,11 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 			for (int i = 0; i < m_blackList.size(); ++i)
 				m_blackList[i].toXml(xml);
 			xml.writeEndElement(); // penaltys
+		} else if (m_blackNumbers.size()) {
+			xml.writeStartElement("black");
+			for (int i = 0; i < m_blackNumbers.size(); ++i)
+				xml.writeTextElement("n", QString::number(m_blackNumbers[i]));
+			xml.writeEndElement(); // penaltys
 		}
 	xml.writeEndElement(); // exam
 }
@@ -387,35 +423,33 @@ void Texam::sumarizeAnswer() {
 	curQ().time = qMin(maxAnswerTime, curQ().time); // when user think too much
 	int qCount = count();
 	if (melodies()) {
+		m_workTime += curQ().lastAttempt()->totalTime();
+		if (!curQ().isWrong()) {
+				if (curQ().effectiveness() < 50) {
+						curQ().setMistake(TQAunit::e_veryPoor);;
+						qDebug() << "Texam" << "effectiveness set to very poor";
+				} else if (curQ().effectiveness() < 70) {
+						curQ().setMistake(TQAunit::e_poorEffect);
+						qDebug() << "Texam" << "effectiveness is poor";
+				}
+		}
 		m_attempts++;
 		qCount = m_attempts;
 	}
 	m_averReactTime = (m_averReactTime * (qCount -1) + curQ().time) / qCount;
 	if (!curQ().isCorrect()) {
-		if (!melodies() && !isFinished()) // finished exam hasn't got black list
-				m_blackList << curQ();
 		if (curQ().isNotSoBad()) {
-			if (!melodies() && !isFinished()) {
-					m_blackList.last().time = 65501;
+			if (!isExercise() && !melodies() && !isFinished())
 					m_penaltysNr++;
-			}
 			m_halfMistNr++;
 		} else {
-			if (!melodies() && !isFinished()) {
-					m_blackList.last().time = 65502;
+			if (!isExercise() && !melodies() && !isFinished())
 					m_penaltysNr += 2;
-			}
 			m_mistNr++;
 		}
 	}
 	if (melodies()) {
-		m_workTime += curQ().lastAttempt()->totalTime();
-		if (!curQ().isWrong()) {
-				if (curQ().effectiveness() < 50) {
-						curQ().setMistake(TQAunit::e_veryPoor);;
-				} else if (curQ().effectiveness() < 70)
-						curQ().setMistake(TQAunit::e_poorEffect);
-		}
+		
 	} else
 		if (!isFinished()) {
 			updateBlackCount();
@@ -446,7 +480,7 @@ void Texam::updateBlackCount() {
   m_blackCount = 0;
   if (m_blackList.size()) {
     for (int i = 0; i < m_blackList.size(); i++)
-    m_blackCount += (m_blackList[i].time - maxAnswerTime);
+			m_blackCount += (m_blackList[i].time - maxAnswerTime);
   }
 }
 
@@ -455,7 +489,7 @@ bool Texam::readUnitFromXml(QList< TQAunit >& list, QXmlStreamReader& xml) {
 	bool ok = true;
 	while (xml.readNextStartElement()) {
 		if (xml.name() == "u") {
-			list << TQAunit();
+			list << TQAunit(this);
 			if (list.last().fromXml(xml)) {
 				grabFromLastUnit();
 				if (melodies())
