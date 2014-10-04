@@ -8,8 +8,9 @@
 - merge nootka-one changes with this branch
 - TscoreView and TscoreItem have to have Android compile scopes
 - remember to delete temporary settings file when all will br working
-- bring back starting question timer at the end of asking ans stopping it just at the beginning of checking
+- bring back starting question timer at the end of asking and stopping it just at the beginning of checking
 - clef if not locked in melodies
+- when new staff is automatically added selected note is wrong
 
 analyzer executable
 - check note pixmap for notes from grand staff

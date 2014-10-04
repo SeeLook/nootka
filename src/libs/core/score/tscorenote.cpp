@@ -145,7 +145,7 @@ void TscoreNote::adjustSize() {
 
 void TscoreNote::setColor(QColor color) {
     m_mainColor = color;
-    m_mainNote->setPen(QPen(m_mainColor, 0.2));
+    m_mainNote->setPen(Qt::NoPen);
     m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
     m_mainAccid->setBrush(QBrush(m_mainColor));
     for (int i = 0; i < m_mainUpLines.size(); i++)
@@ -261,13 +261,14 @@ void TscoreNote::hideWorkNote() {
 
 
 void TscoreNote::markNote(QColor blurColor) {
-    if (blurColor == -1) {
-      m_mainNote->setPen(Qt::NoPen);
-      m_mainNote->setGraphicsEffect(0);
-    } else {
-      m_mainNote->setPen(QPen(blurColor, 0.2));
-      m_mainNote->setGraphicsEffect(new TdropShadowEffect(blurColor));
-    }
+	if (blurColor == -1) {
+		m_mainNote->setPen(Qt::NoPen);
+		m_mainNote->setGraphicsEffect(0);
+	} else {
+		m_mainNote->setPen(QPen(blurColor, 0.2));
+		m_mainNote->setGraphicsEffect(new TdropShadowEffect(blurColor));
+	}
+	update();
 }
 
 
@@ -404,6 +405,17 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setBrush(gr);
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
+	}
+	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
+		QColor emptyNoteColor;
+		if (m_mainNote->pen().style() == Qt::NoPen)
+			emptyNoteColor = qApp->palette().highlight().color();
+		else
+			emptyNoteColor = m_mainNote->pen().color();
+		emptyNoteColor.setAlpha(120);
+		painter->setPen(QPen(emptyNoteColor, 0.6, Qt::SolidLine, Qt::RoundCap));
+		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, 6.5, staff()->upperLinePos() - 2.0));
+		painter->drawLine(QLineF(0.5, staff()->upperLinePos() + 10.0, 6.5, staff()->upperLinePos() + 9.0));
 	}
 }
 

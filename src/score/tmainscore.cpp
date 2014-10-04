@@ -95,8 +95,11 @@ TmainScore::~TmainScore()
 
 void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 	if (!isEnabled) {
-		clearNote(1);
-		clearNote(2);
+			clearNote(1);
+			clearNote(2);
+	} else {
+			staff()->noteSegment(1)->setColor(gl->S->enharmNotesColor);
+			staff()->noteSegment(2)->setColor(gl->S->enharmNotesColor);	
 	}
 }
 
@@ -230,10 +233,6 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 				m_currentNameSegment = staff()->noteSegment(0);
 				enableCorners(false);
 				m_nameMenu->show();
-				if (gl->S->showEnharmNotes) {
-					staff()->noteSegment(1)->setColor(gl->S->enharmNotesColor);
-					staff()->noteSegment(2)->setColor(gl->S->enharmNotesColor);
-				}
 		} else {
 				m_nameMenu->enableArrows(true);
 				m_nameMenu->hide();

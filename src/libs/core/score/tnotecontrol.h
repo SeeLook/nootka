@@ -22,6 +22,7 @@
 
 #include "tscoreitem.h"
 #include <QPointer>
+#include <QLinearGradient>
 #include "nootkacoreglobal.h"
 
 class TscoreNote;
@@ -50,9 +51,7 @@ public:
 	void addAccidentals();
 
 	void setAccidental(int acc); /** Sets accidental on the controller */
-	
-			/** When enabled - it is displayed under cursor (finger) */
-	void setEnabled(bool ctrlEnabled) { m_isEnabled = ctrlEnabled; }
+	void setEnabled(bool ctrlEnabled) { m_isEnabled = ctrlEnabled; } /** When enabled - it is displayed under cursor (finger) */
 	bool isEnabled() { return m_isEnabled; }
 	
 	
@@ -64,6 +63,8 @@ public:
 			/** Enables or disables 'note name' button. */
 	void enableNoteName(bool enableName) { enableName ? m_name->show() : m_name->hide(); }
 	bool noteNameEnabled() { return m_name->isVisible(); }
+	
+	bool isLeftPane() { return m_sharp != 0; } /** True when it has accidentals - as such as left controller has */
 	
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 	virtual QRectF boundingRect() const;
@@ -95,15 +96,18 @@ private:
 		TscoreNote																*m_scoreNote;
 		qreal						 								 					 m_height;
 		bool						 								 					 m_isEnabled, m_entered;
-		QGraphicsSimpleTextItem										*m_plus, *m_name, *m_cross;
+		QGraphicsSimpleTextItem										*m_name, *m_cross;
 		QGraphicsSimpleTextItem									  *m_dblSharp, *m_sharp, *m_flat, *m_dblFlat;
 		QGraphicsRectItem													*m_accidHi;
+		QLinearGradient														 *m_gradient; // pointer to background gradient
+		static QLinearGradient										 m_leftGrad, m_rightGrad;
 //Android
 		QGraphicsItem															*m_underItem; // Item under mouse
 		bool														 					 m_moveNote; // True when note cursor is moved with finger
 		int																				 m_currAccid;
 		QGraphicsSimpleTextItem 									*m_prevAccidIt;
 		bool																			 m_notesAdding, m_nameEnabled;
+		bool																			 m_adding; // TRUE when click adds a note
 		
 private:
 		QGraphicsSimpleTextItem* createNootkaTextItem(const QString& aText);
