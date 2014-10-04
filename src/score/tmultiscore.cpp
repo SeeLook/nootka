@@ -77,6 +77,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				setControllersEnabled(true, false);
 				setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 				scoreScene()->left()->enableToAddNotes(false);
+				scoreScene()->right()->enableToAddNotes(false);
 				m_currentIndex = 0;
 				setAlignment(Qt::AlignLeft);
 				setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
@@ -86,6 +87,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				deleteNotes();
 				setControllersEnabled(true, true);
 				scoreScene()->left()->enableToAddNotes(true);
+				scoreScene()->right()->enableToAddNotes(true);
 				setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 				setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
 				setAlignment(Qt::AlignCenter);
