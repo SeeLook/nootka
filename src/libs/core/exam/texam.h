@@ -39,7 +39,7 @@ class NOOTKACORE_EXPORT Texam
 
 public:
       /** An exam constructor.
-       * @param Tlevel has to be pointer to existing exam level       
+       * \a Tlevel has to be pointer to existing exam level       
        */
     explicit Texam(Tlevel *l, QString userName);
     virtual ~Texam();
@@ -81,7 +81,7 @@ public:
                     e_cant_open, // problems with reading file	
                     e_noFileName,
 										e_newerVersion // when file version is newer than this Nootka version can support
-          }; /** Possible errors during opening and saving exam file.*/
+          }; /** \enum EerrorType are possible errors during opening and saving exam file.*/
 
   Tlevel* level() { return m_level; }
   void setLevel(Tlevel *l);
@@ -101,13 +101,20 @@ public:
   quint32 totalTime() { return m_totalTime; }
   void setTotalTime(quint32 total) { m_totalTime = total; }
 
-			/** Adds @param TQAunit object at the end of the questions list. */
+			/** Adds \a TQAunit object at the end of the questions list. */
   void addQuestion(TQAunit &question) { m_answList << question; }
   
 			/** Checks the last TQAunit on the list, updates its effectiveness
 			 * actualizes the exam effectiveness.
 			 * Remember to add penalties to black list before invoke this !!! */
   void sumarizeAnswer();
+	
+			/** Check was answer correct and adds penalty(s) if necessary.
+			 * For 'single note' answer it is invoked with @p sumarizeAnswer()
+			 * but for melodies user has to decide about new attempt or new question first,
+			 * so it has to be invoked only when new question is prepared. 
+			 * BE SURE IT IS CALLED ONCE PER WHOLE QUESTION! */
+	void addPenalties();
 	
 			/** Removes last question from the list and sets times according to it*/
 	void removeLastQuestion();
@@ -117,10 +124,13 @@ public:
   int count() { return m_answList.size(); } /** Returns number of questions/answers in en exam. */
   quint16 mistakes() { return m_mistNr; } /** Returns number of committed mistakes in en exam. */
   quint16 halfMistaken() { return m_halfMistNr; } /** Number of 'not bad' answer in the exam. */
-			/** Number of correct answers */
-  quint16 corrects() { return (melodies() ? attempts() : count()) - mistakes() - halfMistaken(); }
+  quint16 corrects() { return (count()) - mistakes() - halfMistaken(); } /** Number of correct answers */
   quint16 averageReactonTime() { return m_averReactTime; } /** Average answer time */
   void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
+  
+			/** Iterates all questions to calculate average reaction time. 
+			 * When @p skipWrong - time of wrong answers is not calculated into. */
+  void updateAverageReactTime(bool skipWrong = false);
   
 			/** Total time spent for answering without breaks between questions */
   quint16 workTime() { return qRound((qreal)m_workTime / 10.0); }

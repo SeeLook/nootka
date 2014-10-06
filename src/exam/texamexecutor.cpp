@@ -485,7 +485,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     }
     
     mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
-// 		mW->examResults->questionStart();
+		m_penalty->startQuestionTime();
     m_canvas->questionTip(m_exam);
     m_blindCounter = 0; // question successfully asked - reset the counter
 }
@@ -493,7 +493,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
 void TexamExecutor::checkAnswer(bool showResults) {
 	TQAunit& curQ = m_exam->answList()->last();
-// 	mW->examResults->questionStop();
+	m_penalty->stopQuestionTime();
 	mW->bar->setAfterAnswer();
 	if (curQ.answerAsSound()) {
 			mW->sound->pauseSinffing();
@@ -918,7 +918,7 @@ void TexamExecutor::repeatQuestion() {
     if (curQ.questionAsSound())
         repeatSound();
     m_canvas->questionTip(m_exam);
-//     mW->examResults->questionStart();
+    m_penalty->startQuestionTime();
 }
 
 

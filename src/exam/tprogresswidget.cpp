@@ -89,7 +89,7 @@ void TprogressWidget::resize(int fontSize) {
 void TprogressWidget::updateLabels() {
   int remained = qMax(0, m_totalNr + m_exam->penalty() - m_exam->count());
 	int alreadyAnswered = m_exam->count();
-	if (m_exam->melodies())
+	if (m_exam->melodies() && m_exam->count() && !m_exam->curQ().answered())
 		alreadyAnswered = qMax(0, alreadyAnswered - 1);
   m_answLab->setText(QString("%1 + %2").arg(alreadyAnswered).arg(remained));
   m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(alreadyAnswered) +

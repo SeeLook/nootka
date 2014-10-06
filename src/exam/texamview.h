@@ -86,10 +86,10 @@ private:
     bool 			m_showReact; // switches whether displays pending question time counter
     QLabel 	 *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
     QLabel 	 *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
-		QTime 		m_reactTime;
+		QTime 		m_questionTime; // Elapsing time of a question - started with questionStart() and stopped with questionStop()
 		int				m_startExamTime; // Elapsed time from previous exam sessions
     QTimer 	 *m_timer;
-    QTime 		m_totalTime;
+    QTime 		m_totalTime; // Total time of an exam
 		int 			m_pausedAt; // when m_averTime was paused
 		QSize			m_sizeHint;
 		Texam		 *m_exam;
