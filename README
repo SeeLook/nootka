@@ -1,5 +1,14 @@
+888b      88                                    88                     
+8888b     88                             ,d     88                     
+88 `8b    88                             88     88                     
+88  `8b   88   ,adPPYba,    ,adPPYba,  MM88MMM  88   ,d8   ,adPPYYba,  
+88   `8b  88  a8"     "8a  a8"     "8a   88     88 ,a8"    ""     `Y8  
+88    `8b 88  8b       d8  8b       d8   88     8888[      ,adPPPPP88  
+88     `8888  "8a,   ,a8"  "8a,   ,a8"   88,    88`"Yba,   88,    ,88  
+88      `888   `"YbbdP"'    `"YbbdP"'    "Y888  88   `Y8a  `"8bbdP"Y8  
+                                                                       
+                                                         ... to play scores
 
-                N O O T K A
               BUILD INSTRUCTION
 
 ############################################################################################################
@@ -72,6 +81,9 @@
 	call
 		make runinplace
 		it will copy or link all necessary staff next to build executable
+	then invoke
+	  ./src/nootka
+	or just click this file
   ---------------------------------------------------------------------------------------------------------
 7. make install (usually as root)
   alternatively You can invoke 
@@ -120,7 +132,7 @@ You can easily generate rpm and deb package.
 
 4. Now You can go to to Building section
 
-5. make install under MacOs generates independent bundle with all needed frameworks inside
+5. 'make install' under MacOs generates independent bundle with all needed frameworks inside
 
 
  

@@ -36,6 +36,7 @@ TQAunit::TQAunit(Texam* exam)
 	qa.note = Tnote(0,0,0);
 	style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si cast to int
 	valid = 0; // correct in assume
+	time = 0;
 	qa_2.note = Tnote(0,0,0);
 	qa_2.pos = TfingerPos();
 	m_melody = 0;
@@ -44,6 +45,7 @@ TQAunit::TQAunit(Texam* exam)
 	m_exam = exam;
 	m_srcMelody = e_noMelody;
 	m_idOfMelody = -1;
+	m_answered = false;
 }
 
 
@@ -61,6 +63,7 @@ TQAunit::TQAunit(const TQAunit& otherUnit)
 		qDebug() << "TQAunit is going to be copied when pointer inside exist.\nTROUBLES ARE GUARANTEED!\nTo avoid them keep TQAunit instance in some global scope and use reference or pointer to it.";
 	m_melody = 0;
 	m_attempts = 0;
+	m_answered = otherUnit.answered();
 	m_effectiveness = otherUnit.effectiveness();
 	m_exam = otherUnit.exam();
 	m_srcMelody = otherUnit.melodySource();
@@ -158,23 +161,25 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
 			key.toXml(xml);
 		xml.writeTextElement("t", QVariant(time).toString());
 		xml.writeTextElement("m", QVariant(mistake()).toString());
-	if (qa_2.note.isValid() || qa_2.pos.isValid())
-			qaGroupToXml(qa_2, xml, "qa2");
-	if (melody()) {
-		xml.writeStartElement("melody");
-			if (m_srcMelody == e_thisUnit) {
-					xml.writeAttribute("title", melody()->title());
-					melody()->toXml(xml);
-			} else if (m_srcMelody == e_otherUnit)
-					xml.writeAttribute("qNr", QVariant(m_idOfMelody).toString());
-			else if (m_srcMelody == e_list)
-					xml.writeAttribute("id", QVariant(m_idOfMelody).toString());
-		xml.writeEndElement();
-		xml.writeStartElement("attempts");
-		for (int i = 0; i < attemptsCount(); ++i) {
-			if (!attempt(i)->isEmpty()) // do not save empty attempts
-				attempt(i)->toXml(xml);		
-		}
+		if (!answered()) // in most cases saved unit is answered
+			xml.writeTextElement("answered", QVariant(answered()).toString());
+		if (qa_2.note.isValid() || qa_2.pos.isValid())
+				qaGroupToXml(qa_2, xml, "qa2");
+		if (melody()) {
+			xml.writeStartElement("melody");
+				if (m_srcMelody == e_thisUnit) {
+						xml.writeAttribute("title", melody()->title());
+						melody()->toXml(xml);
+				} else if (m_srcMelody == e_otherUnit)
+						xml.writeAttribute("qNr", QVariant(m_idOfMelody).toString());
+				else if (m_srcMelody == e_list)
+						xml.writeAttribute("id", QVariant(m_idOfMelody).toString());
+			xml.writeEndElement();
+			xml.writeStartElement("attempts");
+			for (int i = 0; i < attemptsCount(); ++i) {
+				if (!attempt(i)->isEmpty()) // do not save empty attempts
+					attempt(i)->toXml(xml);		
+			}
 		xml.writeEndElement(); // attempts
 	}
 	xml.writeEndElement(); // u
@@ -183,6 +188,7 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
 /** We no need to worry about reset TQAunit because it is invoked just after its constructor - it clean yet. */
 bool TQAunit::fromXml(QXmlStreamReader& xml) {
 	bool ok = true;
+	m_answered = true; // this state is common and not saved, so if <answered> key exists it is false then.
 	while (xml.readNextStartElement()) {
 		if (xml.name() == "qa")
 			qaGroupFromXml(qa, xml);
@@ -200,6 +206,8 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 			time = xml.readElementText().toInt();
 		else if (xml.name() == "m")
 			valid = xml.readElementText().toInt();
+		else if (xml.name() == "answered")
+			m_answered = QVariant(xml.readElementText()).toBool(); // or m_answered = false
 		else if (xml.name() == "melody") {
 			if (xml.attributes().hasAttribute("title")) {
 				addMelody(xml.attributes().value("title").toString());

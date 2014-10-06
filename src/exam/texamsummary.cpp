@@ -63,6 +63,7 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   m_closeButt(0), m_examButton(0)
 {
     setWindowTitle(tr("Exam results"));
+		setWindowIcon(QIcon(Tpath::img("startExam")));
     QHBoxLayout *lay = new QHBoxLayout();
   //-------  left layout -----------------------
     m_leftLay = new QVBoxLayout();

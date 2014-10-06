@@ -67,8 +67,10 @@ public:
 	
 	void pauseTime(); /** Pauses exam view timers. */
 	void continueTime(); /** Continues exam view timers. */
-	void updateExamTimes(); /** Updates exam variables with already elapsed times */
-	void stopTimeView(); /** Stops refreshing elapsing time on the exam view labels */
+	void updateExamTimes(); /** Updates exam variables with already elapsed times. */
+	void stopTimeView(); /** Stops refreshing elapsing time on the exam view labels. */
+	void startQuestionTime(); /** Initializes counting time for a new question. */
+	void stopQuestionTime(); /** Stops counting time of the current question and updates counters and labels. */
 	
 			/** Sets @p m_blackQuestNr to the last question from the black list
 			* because previous answer was wrong or not so bad and it was added at the end of blacList
@@ -76,7 +78,7 @@ public:
 	void setBlackQuestion();
 	
 signals:
-	void certificate(); /** Emitted when last mandatory question was correct. */
+	void certificate(); /** Emitted when last mandatory question was correct, so certificate can be displayed. */
 	
 private:
 	TexamView								*m_examView;

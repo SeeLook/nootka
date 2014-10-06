@@ -127,6 +127,7 @@ Texam::Texam(Tlevel* l, QString userName):
   m_userName(userName),
   m_fileName(""),
   m_mistNr(0), m_tmpMist(0),
+  m_averReactTime(0),
   m_workTime(0), m_totalTime(0),  m_attempts(0),
   m_penaltysNr(0),
   m_isFinished(false), m_melody(false), m_isExercise(false),
@@ -206,10 +207,11 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 		
 		m_melody = m_level->canBeMelody();
 		updateEffectiveness();
-		if ((count() - mistakes()))
-				m_averReactTime = m_okTime / (count() - mistakes());
-		else 
-				m_averReactTime = 0.0;
+		updateAverageReactTime(true);
+// 		if ((count() - mistakes()))
+// 				m_averReactTime = m_okTime / (count() - mistakes());
+// 		else 
+// 				m_averReactTime = 0.0;
 		
 		if (!isExamFileOk)
 				result = e_file_corrupted;
@@ -303,7 +305,7 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 					}
 				} else if (xml.name() == "tuning") {
 					if (!m_tune.fromXml(xml, true)) {
-						qDebug() << "Exam has wrong tunung";
+						qDebug() << "Exam has wrong tuning";
 						ok = false;
 					}
 				} else if (xml.name() == "totalTime")
@@ -421,7 +423,6 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 void Texam::sumarizeAnswer() {
 	curQ().updateEffectiveness();
 	curQ().time = qMin(maxAnswerTime, curQ().time); // when user think too much
-	int qCount = count();
 	if (melodies()) {
 		m_workTime += curQ().lastAttempt()->totalTime();
 		if (!curQ().isWrong()) {
@@ -434,28 +435,36 @@ void Texam::sumarizeAnswer() {
 				}
 		}
 		m_attempts++;
-		qCount = m_attempts;
 	}
-	m_averReactTime = (m_averReactTime * (qCount -1) + curQ().time) / qCount;
-	if (!curQ().isCorrect()) {
-		if (curQ().isNotSoBad()) {
-			if (!isExercise() && !melodies() && !isFinished())
-					m_penaltysNr++;
-			m_halfMistNr++;
-		} else {
-			if (!isExercise() && !melodies() && !isFinished())
-					m_penaltysNr += 2;
-			m_mistNr++;
-		}
-	}
+	updateAverageReactTime(true);
 	if (melodies()) {
 		
 	} else
 		if (!isFinished()) {
+			addPenalties(); // for melodies it should be invoked after ensuring that answer was finished
 			updateBlackCount();
 			m_workTime += curQ().time;
 		}
-	m_effectivenes = (m_effectivenes * (count() - 1) + curQ().effectiveness()) / count();
+	updateEffectiveness();
+}
+
+
+void Texam::addPenalties() {
+	if (!curQ().isCorrect()) {
+		if (melodies())
+				m_blackNumbers.append(-1); // one more random melody
+		if (curQ().isNotSoBad()) {
+			if (!isExercise() /*&& !melodies() */&& !isFinished())
+					m_penaltysNr++;
+			m_halfMistNr++;
+		} else {
+			if (melodies())
+				m_blackNumbers.append(count() - 1); // repeat current melody in some further question
+			if (!isExercise() /*&& !melodies() */&& !isFinished())
+					m_penaltysNr += 2;
+			m_mistNr++;
+		}
+	}
 }
 
 
@@ -471,6 +480,16 @@ void Texam::updateEffectiveness() {
 	for (int i = 0; i < count(); ++i)
 		sum += answList()->at(i).effectiveness();
 	m_effectivenes = sum / (qreal)count();
+}
+
+
+void Texam::updateAverageReactTime(bool skipWrong) {
+	int totalTime = 0;
+	for (int i = 0; i < count(); ++i) {
+		if (!skipWrong || (skipWrong && !m_answList[i].isWrong()))
+			totalTime += m_answList[i].time;
+	}
+	m_averReactTime = totalTime / count();
 }
 
 

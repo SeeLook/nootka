@@ -377,6 +377,7 @@ void TmultiScore::addStaff(TscoreStaff* st) {
 	if (st == 0) { // create new staff at the end of a list
 		m_staves << new TscoreStaff(scoreScene(), 1);
 		m_staves.last()->onClefChanged(m_staves.first()->scoreClef()->clef());
+		m_staves.last()->scoreClef()->setReadOnly(m_staves.first()->scoreClef()->readOnly());
 		lastStaff()->setEnableKeySign(staff()->scoreKey());
 		if (m_staves.last()->scoreKey())
 			m_staves.last()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());

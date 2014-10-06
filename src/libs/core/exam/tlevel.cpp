@@ -325,11 +325,13 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 					else if (xml.name() == "useKeySign")
 						useKeySign = QVariant(xml.readElementText()).toBool();
 					else if (xml.name() == "loKey") {
-						xml.readNextStartElement();
-						loKey.fromXml(xml);
+							xml.readNextStartElement();
+							loKey.fromXml(xml);
+							xml.skipCurrentElement();
 					} else if (xml.name() == "hiKey") {
-						xml.readNextStartElement();
-						hiKey.fromXml(xml);
+							xml.readNextStartElement();
+							hiKey.fromXml(xml);
+							xml.skipCurrentElement();
 					}
 					else if (xml.name() == "isSingleKey")
 						isSingleKey = QVariant(xml.readElementText()).toBool();

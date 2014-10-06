@@ -71,7 +71,6 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, Tp
 void Tpenalty::nextQuestion() {
 	m_penalCount++;
 	m_blackQuestNr = -1;
-	m_examView->questionStart();
 }
 
 
@@ -86,6 +85,7 @@ bool Tpenalty::ask() {
 			if (m_blackNumber != -1) {
 				TQAunit blackU = m_exam->answList()->operator[](m_blackNumber);
 				m_exam->curQ() = blackU;
+				m_exam->curQ().unsetAnswered();
 				m_exam->curQ().addMelody(m_exam->answList()->operator[](m_blackNumber).melody(), TQAunit::e_otherUnit, m_blackNumber);
 				qDebug() << "penalty melody" << m_blackNumber;
 				m_exam->curQ().time = 0;
@@ -99,6 +99,7 @@ bool Tpenalty::ask() {
 			m_penalCount = 0;
 			m_blackQuestNr = qrand() % m_exam->blacList()->size();
 			m_exam->curQ() = m_exam->blacList()->operator[](m_blackQuestNr);
+			m_exam->curQ().unsetAnswered();
 			m_exam->curQ().time = 0;
 			m_exam->curQ().setMistake(TQAunit::e_correct);
 			return true;
@@ -109,7 +110,6 @@ bool Tpenalty::ask() {
 
 
 void Tpenalty::checkAnswer() {
-	m_examView->questionStop();
 	if (!m_exam->isExercise() && !m_exam->melodies()) {
 		if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) { // finished exam hasn't got black list
 					m_exam->blacList()->append(m_exam->curQ());
@@ -119,38 +119,41 @@ void Tpenalty::checkAnswer() {
 						m_exam->blacList()->last().time = 65502;
 		}
 	}
+	if (!m_exam->melodies())
+		m_exam->curQ().setAnswered();
 	m_exam->sumarizeAnswer();
-	m_examView->answered();
+	if (!m_exam->melodies()) // when melody question counters are not ready here, setMelodyPenalties() will do it.
+		m_examView->questionCountUpdate();	
+	m_examView->reactTimesUpdate();
+	m_examView->effectUpdate();
 	if (!m_exam->isExercise()) {
 		releaseBlackList();
 		m_progress->progress();
 		if (!m_exam->curQ().isCorrect())
 				updatePenalStep();
+		checkForCert();
 	}
-	checkForCert();
 }
 
 
 void Tpenalty::setMelodyPenalties() {
 	if (m_exam->count() == 0)
 		return;
+	if (m_exam->curQ().answered())
+		return;
+	m_exam->curQ().setAnswered();
 	if (!m_exam->isExercise() && m_exam->melodies()) {
 		if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) {
-				m_exam->blackNumbers()->append(-1); // one additional question if 'not bad' and wrong
-				m_exam->increasePenaltys(1);
-				if (m_exam->curQ().isWrong()) {
-					m_exam->blackNumbers()->append(m_exam->count() - 1); // repeat this question if wrong
-					m_exam->increasePenaltys(1); // so another one for wrong answer
-				}
-				m_progress->progress();
+				m_exam->addPenalties();
 				if ((m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
 					m_penalStep = (m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackNumbers()->size();
 				else
 					m_penalStep = 0; // only penalties questions remained to ask in this exam
 		}
+		m_progress->progress();
+		checkForCert();
 	}
-	checkForCert();
-	// - counters seems to be already updated
+	m_examView->questionCountUpdate();
 }
 
 
@@ -167,7 +170,6 @@ void Tpenalty::releaseBlackList() {
 
 void Tpenalty::setBlackQuestion() {
 	m_blackQuestNr = m_exam->blacList()->count() - 1;
-	m_examView->questionStart();
 }
 
 
@@ -186,27 +188,6 @@ void Tpenalty::checkForCert() {
 }
 
 
-void Tpenalty::pauseTime() {
-	m_examView->pause();
-}
-
-
-void Tpenalty::continueTime() {
-	m_examView->go();
-}
-
-
-void Tpenalty::updateExamTimes() {
-	m_examView->updateExam();
-}
-
-
-void Tpenalty::stopTimeView() {
-	m_examView->stopExam();
-}
-
-
-
 void Tpenalty::updatePenalStep() {
 	if (m_supply->wasFinished())
 			return;
@@ -219,4 +200,43 @@ void Tpenalty::updatePenalStep() {
 			m_penalStep = 0; // only penalties questions remained to ask in this exam
 	}
 }
+
+//######################################################################
+//#################   FORWARDED METHODS OF TexamView       #############
+//######################################################################
+void Tpenalty::pauseTime() {
+	m_examView->pause();
+}
+
+
+void Tpenalty::continueTime() {
+	m_examView->go();
+}
+
+
+void Tpenalty::updateExamTimes() {
+	if (m_exam->melodies())
+			setMelodyPenalties();
+	m_examView->updateExam();
+}
+
+
+void Tpenalty::stopTimeView() {
+	m_examView->stopExam();
+}
+
+
+void Tpenalty::startQuestionTime() {
+	m_examView->questionStart();
+}
+
+
+void Tpenalty::stopQuestionTime() {
+	m_examView->questionStop();
+}
+
+
+
+
+
 

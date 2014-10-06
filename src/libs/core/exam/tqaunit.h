@@ -154,6 +154,10 @@ public:
 		Tmelody* melody() const { return m_melody; }
 		EmelodySrc melodySource() const { return m_srcMelody; }
 		
+		void setAnswered() { m_answered = true; } /** Finishes answering process. Unit (a question) becomes answered. */
+		void unsetAnswered() { m_answered = false; } /** Sets @p answered() to @p FALSE */
+		bool answered() const { return m_answered; } /** @p TRUE when answering process was finished. */
+		
 		void toXml(QXmlStreamWriter& xml);
 		bool fromXml(QXmlStreamReader& xml);
     
@@ -170,6 +174,7 @@ private:
 		QList<Tattempt*> 		*m_attempts;
 		qreal								 m_effectiveness;
 		Texam								*m_exam;
+		bool								 m_answered;
 };
 
 NOOTKACORE_EXPORT bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);

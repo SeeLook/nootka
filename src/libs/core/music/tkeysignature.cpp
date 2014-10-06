@@ -163,7 +163,6 @@ void TkeySignature::fromXml(QXmlStreamReader& xml) {
 			} else 
 				xml.skipCurrentElement();
 		}
-		xml.skipCurrentElement();
 	}
 }
 

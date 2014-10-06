@@ -78,6 +78,7 @@ TexamView::TexamView(QWidget *parent) :
     clearResults();
 
 		m_corrLab->setAlignment(Qt::AlignCenter);
+		m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
 		m_halfLab->setAlignment(Qt::AlignCenter);
     m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
 		m_mistLab->setAlignment(Qt::AlignCenter);
@@ -108,20 +109,20 @@ void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
 
 
 void TexamView::questionStart() {
-	m_reactTime.start();
+	m_questionTime.start();
 	m_showReact = true;
 	countTime();
 }
 
 
 quint16 TexamView::questionTime() {
-	return qRound(m_reactTime.elapsed() / 100.0);
+	return qRound(m_questionTime.elapsed() / 100.0);
 }
 
 
 void TexamView::questionStop() {
 	m_showReact = false;
-	quint16 t = qRound(m_reactTime.elapsed() / 100.0);
+	quint16 t = qRound(m_questionTime.elapsed() / 100.0);
 	if (m_exam->melodies()) {
 		m_exam->curQ().time += t; // total time of all attempts
 		m_exam->curQ().lastAttempt()->setTotalTime(t);
@@ -133,13 +134,13 @@ void TexamView::questionStop() {
 
 
 void TexamView::pause() {
-	m_pausedAt = m_reactTime.elapsed();
+	m_pausedAt = m_questionTime.elapsed();
 }
 
 
 void TexamView::go() {
-	m_reactTime.start();
-	m_reactTime = m_reactTime.addMSecs(-m_pausedAt);		
+	m_questionTime.start();
+	m_questionTime = m_questionTime.addMSecs(-m_pausedAt);		
 }
 
 
@@ -154,10 +155,11 @@ void TexamView::startExam(Texam* exam) {
 	m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
 	if (m_exam->melodies()) {
 		m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of single attempt)."));
-		m_corrLab->setStatusTip(tr("Number of fully successful attempts."));
-		m_halfLab->setStatusTip(tr("Number of attempts with some small mistakes."));
+// 		m_corrLab->setStatusTip(tr("Number of fully successful attempts."));
+// 		m_halfLab->setStatusTip(tr("Number of attempts with some small mistakes."));
+		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt());
 	} else {
-		m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
+// 		m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
 		m_effLab->setStatusTip(TexTrans::effectTxt());
 		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + "<br>" + TexTrans::halfMistakenAddTxt());
 	}
@@ -202,8 +204,7 @@ void TexamView::reactTimesUpdate() {
 void TexamView::effectUpdate() {
 	if (m_exam && isVisible()) {
 		QString effText = QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness()));
-		if (m_exam->melodies() && m_exam->count() > 1 && 
-						m_exam->curQ().attemptsCount() && m_exam->curQ().lastAttempt()->mistakes.size())
+		if (m_exam->melodies() && m_exam->count() > 1 && !m_exam->curQ().answered() && m_exam->curQ().attemptsCount())
 				effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ().effectiveness()));
 		m_effLab->setText(effText);
 	}
@@ -226,7 +227,7 @@ void TexamView::questionCountUpdate() {
 void TexamView::countTime() {
 	if (isVisible()) {
 		if (m_showReact)
-				m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_reactTime.elapsed() / 100 + m_exam->curQ().time)));
+				m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ().time)));
 		m_totalTimeLab->setText(" " + formatedTotalTime(m_startExamTime * 1000 + m_totalTime.elapsed()) + " ");
 	}
 }

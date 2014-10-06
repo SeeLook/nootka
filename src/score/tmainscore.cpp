@@ -297,7 +297,7 @@ void TmainScore::unLockScore() {
 		else
 			setReadOnlyReacted(false);
 	}
-//   setClefDisabled(true);
+  setClefDisabled(true); // setScoreDisabled() unlock it
 	QPointF nPos = staff()->noteSegment(0)->mapFromScene(mapToScene(mapFromParent(mapFromGlobal(cursor().pos()))));
 	if (nPos.x() > 0.0 && nPos.x() < 7.0) {
 		staff()->noteSegment(0)->moveWorkNote(nPos);
@@ -396,20 +396,23 @@ void TmainScore::clearScore() {
 		for (int i = 0; i < 3; ++i) {
 			clearNote(i);
 			deleteNoteName(i);
+			staff()->noteSegment(i)->removeNoteName();
 		}
 		staff()->noteSegment(1)->removeString(); // so far string number to remove occurs only on this view
 		staff()->noteSegment(0)->hideWorkNote();
 	} else {
 			m_emitExpertNoteClicked = false; // don't emit noteClicked() in expert exam mode
 			deleteNotes();
+			setNote(Tnote());
 			m_emitExpertNoteClicked = true; // better single bool than blockSignal()
 			selectNote(-1);
 			staff()->noteSegment(0)->markNote(-1);
+			staff()->noteSegment(0)->removeNoteName();
 	}
-	for (int st = 0; st < staffCount(); st++) {
-		for (int no = 0; no < staves(st)->count(); no++)
-				staves(st)->noteSegment(no)->removeNoteName();
-	}
+// 	for (int st = 0; st < staffCount(); st++) {
+// 		for (int no = 0; no < staves(st)->count(); no++)
+// 				staves(st)->noteSegment(no)->removeNoteName();
+// 	}
 	if (staff()->scoreKey()) {
 			setKeySignature(TkeySignature());
 			if (m_questKey) {
