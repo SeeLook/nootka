@@ -305,6 +305,13 @@ void TmainScore::unLockScore() {
 }
 
 
+void TmainScore::setScoreDisabled(bool disabled) {
+	TmultiScore::setScoreDisabled(disabled);
+	m_acts->disableActions(disabled);
+	m_keys->disableKeys(disabled);
+}
+
+
 QRectF TmainScore::noteRect(int noteNr) {
 		return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * transform().m11(), 
 			staff()->noteSegment(noteNr)->mainNote()->rect().height() * transform().m11());

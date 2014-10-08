@@ -101,7 +101,7 @@ void TexamView::updateExam() {
 }
 
 
-void TexamView::setStyleBg(QString okBg, QString wrongBg, QString notBadBg) {
+void TexamView::setStyleBg(const QString& okBg, const QString& wrongBg, const QString& notBadBg) {
     m_corrLab->setStyleSheet(okBg + borderStyleTxt);
     m_mistLab->setStyleSheet(wrongBg + borderStyleTxt);
     m_halfLab->setStyleSheet(notBadBg + borderStyleTxt);
@@ -155,20 +155,14 @@ void TexamView::startExam(Texam* exam) {
 	m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
 	if (m_exam->melodies()) {
 		m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of single attempt)."));
-// 		m_corrLab->setStatusTip(tr("Number of fully successful attempts."));
-// 		m_halfLab->setStatusTip(tr("Number of attempts with some small mistakes."));
 		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt());
 	} else {
-// 		m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
 		m_effLab->setStatusTip(TexTrans::effectTxt());
 		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + "<br>" + TexTrans::halfMistakenAddTxt());
 	}
 }
 
-/** !!!!!!!!!!!!!!!!!!!! 
- * Be sure that exam has already updated number of mistakes/'not bad'/attempts and so,
- * before invoke this.
- */
+
 void TexamView::answered() {
 	questionCountUpdate();
 	effectUpdate();

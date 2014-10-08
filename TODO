@@ -46,13 +46,13 @@ analyzer executable
 - add level checking rule when melody requires to be ended on tonic but the tonic note isn't in a range
 - add small pictographs on melody icon according to its state: playing, record, none
 - add option for configuring fret marks (dots)
-- make use of QWizard for above
+- make exam summary pretty
+- make use of QWizard and adjust it to all news
 ASIO & JACK
 - add buttons to switch them on and switch them off by default
 ----------------------------------------------------------------------------------------------------------------
 Score controlling buttons:
 	- tempo menu
-	- rhythms (steams and rests)
 ----------------------------------------------------------------------------------------------------------------
 Tnote
 			- overload + and - operators to raise/drop a note

@@ -38,10 +38,11 @@ public:
 	QShortcut* firstNote() { return m_firstNote; }
 	QShortcut* lastNote() { return m_lastNote; }
 	QShortcut* staffUp() { return m_staffUp; }
-	QShortcut*	staffDown() { return m_staffDown; }
+	QShortcut* staffDown() { return m_staffDown; }
 	QShortcut* clearScore() { return m_clearScore; }
 	QShortcut* deleteCurrentNote() { return m_delCurrNote; }
 	
+	void disableKeys(bool dis);
 	
 protected:
 	TmainScore* score() { return m_score; }

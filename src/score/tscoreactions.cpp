@@ -25,34 +25,28 @@
 #include <QAction>
 #include <QStyle>
 #include <QShortcut>
+#include <QDebug>
 
 
 TscoreActions::TscoreActions(TmainScore* sc) :
 	QObject(sc)
 {
-	m_outZoom = new QAction(QIcon(Tpath::img("zoom-out")), "", this);
-		m_outZoom->setStatusTip(tr("Zoom score out"));
+	m_outZoom = createAction("zoom-out", tr("Zoom score out"));
+		connect(m_outZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
 // 		m_outZoom->setShortcut(QKeySequence(QKeySequence::ZoomOut));
 // 		m_outZoom->setShortcutContext(Qt::ApplicationShortcut);
-		connect(m_outZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
-	m_inZoom = new QAction(QIcon(Tpath::img("zoom-in")), "", this);
-		m_inZoom->setStatusTip(tr("Zoom score in"));
+	m_inZoom = createAction("zoom-in", tr("Zoom score in"));
 		connect(m_inZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
-	m_firstNote = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)), "", this);
-		m_firstNote->setStatusTip(tr("Go to the first note"));
+	m_firstNote = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)), tr("Go to the first note"));
 		connect(m_firstNote, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
-	m_staffUp = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowUp)), "", this);
-		m_staffUp->setStatusTip(tr("Go to the staff above"));
+	m_staffUp = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowUp)), tr("Go to the staff above"));
 		connect(m_staffUp, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
-	m_staffDown = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowDown)), "", this);
-		m_staffDown->setStatusTip(tr("Go to the staff below"));
+	m_staffDown = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowDown)), tr("Go to the staff below"));
 		connect(m_staffDown, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
-	m_lastNote = new QAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowForward)), "", this);
-		m_lastNote->setStatusTip(tr("Go to the last note"));
+	m_lastNote = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowForward)), tr("Go to the last note"));
 		connect(m_lastNote, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
 	
-	m_clear = new QAction(QIcon(Tpath::img("clear-score")), "", this);
-	m_clear->setStatusTip(tr("Delete all notes on the score"));
+	m_clear = createAction("clear-score", tr("Delete all notes on the score"));
 	connect(m_clear, SIGNAL(triggered()), sc, SLOT(deleteNotes()));
 	
 	m_accidsButt = new TpushButton("$", sc); // (#)
@@ -87,6 +81,15 @@ void TscoreActions::assignKeys(TscoreKeys* sKeys) {
 	assocActionAndKey(m_clear, m_keys->clearScore());
 }
 
+
+void TscoreActions::disableActions(bool dis) {
+	if (dis != m_firstNote->signalsBlocked()) { // disability of actions is different than required, so do it
+		foreach(QAction* a, m_actions)
+			a->blockSignals(dis);
+	}
+}
+
+
 //####################################################################################################
 //########################################## PRIVATE #################################################
 //####################################################################################################
@@ -99,8 +102,24 @@ void TscoreActions::assocActionAndKey(QAction* act, QShortcut* key) {
 }
 
 
+QAction* TscoreActions::createAction(const QString& ico, const QString& statTip) {
+	QAction *a = new QAction(QIcon(Tpath::img(ico)), "", this);
+	equipAcction(a, statTip);
+	return a;
+}
 
 
+QAction* TscoreActions::createAction(const QIcon& ico, const QString& statTip) {
+	QAction *a = new QAction(ico, "", this);
+	equipAcction(a, statTip);
+	return a;
+}
+
+
+void TscoreActions::equipAcction(QAction* act, const QString& statTip) {
+	act->setStatusTip(statTip);
+	m_actions << act;
+}
 
 
 

@@ -23,6 +23,7 @@
 
 #include <QObject>
 
+class QIcon;
 class QShortcut;
 class TscoreKeys;
 class TpushButton;
@@ -30,7 +31,7 @@ class QAction;
 class TmainScore;
 
 /** 
- * This class manages Qions in a score
+ * This class manages QActions in a score
  */
 class TscoreActions : public QObject
 {
@@ -49,8 +50,8 @@ public:
 	TpushButton* extraAccids() { return m_accidsButt; }
 	TpushButton* noteNames() { return m_namesButt; }
 	
-			/** Joins external keyboard shortcuts with those actions. */
-	void assignKeys(TscoreKeys *sKeys);
+	void assignKeys(TscoreKeys *sKeys); /** Joins external keyboard shortcuts with those actions. */
+	void disableActions(bool dis); /** Disables or enables all actions (theirs key shortcuts as well) */
 	
 private:
 	QAction											*m_inZoom, *m_outZoom;
@@ -58,9 +59,13 @@ private:
 	QAction											*m_clear;
 	TpushButton									*m_accidsButt, *m_namesButt;
 	TscoreKeys									*m_keys;
+	QList<QAction*>							 m_actions; /** List of pointers to all actions */
 	
 private:
 	void assocActionAndKey(QAction* act, QShortcut *key);
+	QAction* createAction(const QString& ico, const QString& statTip);
+	QAction* createAction(const QIcon& ico, const QString& statTip);
+	void equipAcction(QAction* act, const QString& statTip); /** Common method during creation of an action. */
 };
 
 #endif // TSCOREACTIONS_H
