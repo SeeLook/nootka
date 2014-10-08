@@ -73,7 +73,7 @@ public:
          * Background color is directly inserted to setStyleSheet so 
          * it has to be given in format: 
          * background-color: rgba(red, green, blue, alpha) */
-    void setStyleBg(QString okBg, QString wrongBg, QString notBadBg = "");
+    void setStyleBg(const QString& okBg, const QString& wrongBg, const QString& notBadBg);
 
     virtual QSize sizeHint() const { return m_sizeHint; }
 

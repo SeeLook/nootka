@@ -417,7 +417,7 @@ void MainWindow::startExamSlot() {
 	}
 	sound->stopPlaying();
 	examResults = new TexamView();
-	examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor));
+	examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
 	progress = new TprogressWidget();
 	innerWidget->addExamViews(examResults, progress);
 // 		nootLabel->hide();

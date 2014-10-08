@@ -85,6 +85,7 @@ public:
 		bool isExam() { return (bool)m_questMark; } /** @p True during exam/exercises */
         /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
     void unLockScore();
+		virtual void setScoreDisabled(bool disabled);
     void setKeyViewBg(QColor C);
     void setNoteViewBg(int id, QColor C);
     void forceAccidental(Tnote::Ealter accid); /** Sets given accidental */

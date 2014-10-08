@@ -28,18 +28,27 @@ TscoreKeys::TscoreKeys(TmainScore* sc) :
 		connect(m_nextNote, SIGNAL(activated()), sc, SLOT(moveSelectedNote()));
 	m_prevNote = new QShortcut(QKeySequence(Qt::Key_Left), score());
 		connect(m_prevNote, SIGNAL(activated()), sc, SLOT(moveSelectedNote()));
+		// signals of those keys are managed by TscoreActions
 	m_lastNote = new QShortcut(QKeySequence(Qt::Key_End), score());
-// 		connect(m_lastNote, SIGNAL(activated()), sc, SLOT(moveSelectedNote()));
 	m_firstNote = new QShortcut(QKeySequence(Qt::Key_Home), score());
-// 		connect(m_firstNote, SIGNAL(activated()), sc, SLOT(moveSelectedNote()));
 	m_staffUp = new QShortcut(QKeySequence(Qt::Key_PageUp), score());
-// 		connect(m_staffUp, SIGNAL(activated()), sc, SLOT(moveSelectedNote()));
 	m_staffDown = new QShortcut(QKeySequence(Qt::Key_PageDown), score());
-// 		connect(m_staffDown, SIGNAL(activated()), sc, SLOT(moveSelectedNote()));
 	m_clearScore = new QShortcut(QKeySequence("Shift+DEL"), score());
+	
 	m_delCurrNote = new QShortcut(QKeySequence(Qt::Key_Delete), score());
 		connect(m_delCurrNote, SIGNAL(activated()), sc, SLOT(removeCurrentNote()));
 }
+
+
+void TscoreKeys::disableKeys(bool dis) {
+	if (dis != m_nextNote->signalsBlocked()) {
+		m_nextNote->blockSignals(dis);
+		m_prevNote->blockSignals(dis);
+		m_delCurrNote->blockSignals(dis);
+		// The rest of keys are locked with their actions in TscoreActions
+	}
+}
+
 
 
 

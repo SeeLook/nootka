@@ -219,7 +219,7 @@ void TmultiScore::removeCurrentNote() {
 
 
 void TmultiScore::deleteNotes() {
-	if (staff()->count() <= 1)
+	if (!staff()->count())
 			return; // nothing to delete
 	m_currentIndex = 0;
 	m_clickedOff = 0;
@@ -231,9 +231,8 @@ void TmultiScore::deleteNotes() {
 		for (int i = 0; i <notesToDel.size(); i++)
 			delete notesToDel[i];
 	}
-	setNote(Tnote());
+	removeCurrentNote();
 	updateSceneRect();
-	staff()->noteSegment(0)->hideWorkNote();
 	emit noteWasChanged(0, Tnote());
 }
 
