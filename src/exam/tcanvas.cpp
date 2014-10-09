@@ -524,19 +524,16 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 
 
 void Tcanvas::setResultPos() {
-//   m_resultTip->setPos(m_relPoint.x() + (((m_scene->width() - m_relPoint.x()) - m_scale * m_resultTip->boundingRect().width())) / 2,
-//                       m_relPoint.y());
 	m_resultTip->setPos(m_scene->width() * 0.6 + (m_scene->width() * 0.4 - m_scale * m_resultTip->boundingRect().width()) / 2,
 											m_scene->height() * 0.01);
 }
 
 
 void Tcanvas::setTryAgainPos() {
-//   m_tryAgainTip->setPos(m_relPoint.x() + (((m_scene->width() - m_relPoint.x()) -
-// 											m_scale * m_tryAgainTip->boundingRect().width())) / 2,
-//                       m_window->noteName->geometry().top() - m_scale * m_tryAgainTip->boundingRect().height());
-	m_tryAgainTip->setPos(m_scene->width() * 0.66 + (m_scene->width() / 3 - m_scale * m_tryAgainTip->boundingRect().width()) / 2,
-												m_scene->height() * 0.10);
+	QPointF tl(m_scene->width() * 0.6, m_scene->height() * 0.10); // top left of tip area
+	if (m_resultTip) // place it below result tip
+		tl.setY(m_resultTip->pos().y() + m_resultTip->boundingRect().height() * m_resultTip->scale());
+	m_tryAgainTip->setPos(tl.x() + (m_scene->width() * 0.4 - m_scale * m_tryAgainTip->boundingRect().width()) / 2, tl.y());
 }
 
 
@@ -593,7 +590,10 @@ void Tcanvas::setOutTunePos() {
 
 
 void Tcanvas::setMelodyPos() {
-	m_melodyTip->setPos(m_view->width() - m_melodyTip->boundingRect().width() * m_melodyTip->scale() - 10.0, 5.0);
+	m_melodyTip->setPos(10.0, 
+				m_window->score->pos().y() + m_window->score->height() - 
+					m_melodyTip->scale() * m_melodyTip->boundingRect().height() - 5.0);
+// 	m_melodyTip->setPos(m_view->width() - m_melodyTip->boundingRect().width() * m_melodyTip->scale() - 10.0, 5.0);
 }
 
 

@@ -80,7 +80,6 @@ bool Tpenalty::ask() {
 			m_penalCount = 0;
 			int idInList = qrand() % m_exam->blackNumbers()->size();;
 			m_blackNumber = m_exam->blackNumbers()->at(idInList);
-			qDebug() << "black Number" << m_blackNumber << m_exam->blackNumbers();
 			m_exam->blackNumbers()->removeAt(idInList);
 			if (m_blackNumber != -1) {
 				TQAunit blackU = m_exam->answList()->operator[](m_blackNumber);
@@ -119,7 +118,7 @@ void Tpenalty::checkAnswer() {
 						m_exam->blacList()->last().time = 65502;
 		}
 	}
-	if (!m_exam->melodies())
+	if (!m_exam->melodies()) // we don't know is melody question answered here - user will decide...
 		m_exam->curQ().setAnswered();
 	m_exam->sumarizeAnswer();
 	if (!m_exam->melodies()) // when melody question counters are not ready here, setMelodyPenalties() will do it.
@@ -140,20 +139,23 @@ void Tpenalty::setMelodyPenalties() {
 	if (m_exam->count() == 0)
 		return;
 	if (m_exam->curQ().answered())
-		return;
-	m_exam->curQ().setAnswered();
-	if (!m_exam->isExercise() && m_exam->melodies()) {
-		if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) {
-				m_exam->addPenalties();
-				if ((m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
-					m_penalStep = (m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackNumbers()->size();
-				else
-					m_penalStep = 0; // only penalties questions remained to ask in this exam
+		return; // It happens when continued exam starts - last question has been answered already
+	m_exam->curQ().setAnswered(); // in other cases question is summarized
+	if (!m_exam->isExercise()) {
+		if (m_exam->melodies()) {
+			if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) {
+					m_exam->addPenalties();
+					if ((m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
+						m_penalStep = (m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackNumbers()->size();
+					else
+						m_penalStep = 0; // only penalties questions remained to ask in this exam
+			}
+			m_progress->progress();
+			checkForCert();
 		}
-		m_progress->progress();
-		checkForCert();
+		m_examView->questionCountUpdate(); // counters are not used/visible for exercises
+		m_examView->effectUpdate();
 	}
-	m_examView->questionCountUpdate();
 }
 
 

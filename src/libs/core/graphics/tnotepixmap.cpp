@@ -33,12 +33,18 @@
 
 
 /** Adds comma and space ', ' to not empty string or returns the same. */
-QString addSpaceToNotEmpty(QString &txt) {
+void addSpaceToNotEmpty(QString& txt) {
 	if (txt != "")
 			txt += ", ";
-	return txt;
 }
 
+
+/** Checks the length of string @p txt and adds new line tag if necessary */
+void newLineText(QString& txt, const QString& newText) {
+	if (txt.length() > 20 && !txt.contains("<br>"))
+			txt += "<br>";
+	txt += newText;
+}
 
 Tclef TnotePixmap::m_clef = Tclef(Tclef::e_treble_G_8down);
 
@@ -141,8 +147,12 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
 							misMes = QApplication::translate("AnswerText", "wrong string");
 					if (answer->melody() && answer->littleNotes())
 							misMes = QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little");
-					if (answer->poorEffect())
-							misMes = QApplication::translate("AnswerText", "poor effectiveness");
+					if (answer->poorEffect()) {
+							addSpaceToNotEmpty(misMes);
+							if (!misMes.isEmpty())
+								misMes += "<br>";
+							misMes += QApplication::translate("AnswerText", "poor effectiveness");
+					}
 					if (answer->wrongAccid())
 							misMes = QApplication::translate("AnswerText", "wrong accidental");
 					if (answer->wrongKey()) {
@@ -151,15 +161,11 @@ QString wasAnswerOKtext(TQAunit* answer, QColor textColor, int fontSize) {
 					}
 					if (answer->wrongOctave()) {
 							addSpaceToNotEmpty(misMes);
-							if (misMes.length() > 20)
-									misMes += "<br>";
-							misMes += QApplication::translate("AnswerText", "wrong octave");
+							newLineText(misMes, QApplication::translate("AnswerText", "wrong octave"));
 					}
 					if (answer->wrongIntonation()) {
 							addSpaceToNotEmpty(misMes);
-							if (misMes.length() > 20 && !misMes.contains("<br>"))
-									misMes += "<br>";
-							misMes += QApplication::translate("AnswerText", "out of tune");
+							newLineText(misMes, QApplication::translate("AnswerText", "out of tune"));
 					}
 					txt += misMes;
 			}
