@@ -85,10 +85,11 @@ TEXAMEXECUTOR
 
 - rhythms in score
 - rhythms in level and exercise/exam
-- saving melodies to XML and opening/importing melodies from XML
+- saving melodies to musicXML and opening/importing melodies from XML
 - managing melodies in levels, adding melodies set to the level
 - settings for keyboard shortcuts
-- option for changing melody key (transposition) - in level key range as well
+- sophisticated and configurable algorithm to generate random melodies
+- option for changing melody key (transposition) - in a level key range as well
 - intervals: creating melody with available intervals set only
 - intervals: questions related to them in exam/exercises
 - support for (octavation marks) - octave drop/rise (8-va, 15-va)

@@ -53,7 +53,7 @@ void Texercises::setSuggestionEnabled(int qaPosibilities, bool melody) {
 
 
 void Texercises::checkAnswer() {
-	if (!m_checkNow)
+	if (!m_checkNow || !m_exam->curQ().answered())
 		return;
 	
 	if (m_exam->curQ().isCorrect()) {

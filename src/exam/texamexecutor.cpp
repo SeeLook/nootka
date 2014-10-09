@@ -129,7 +129,6 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 							deleteExam();
 							return;
           }
-//           mW->examResults->startExam(m_exam);
         } else {
             if (err == Texam::e_file_not_valid)
                 QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
@@ -175,17 +174,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
       }
     }
     
-//     qDebug() << "questions number:" << m_questList.size();
 		initializeExecuting();
 		createActions();
-		
-    /*
-       for (int i = 0; i < m_exam->blacList()->size(); i++)
-          if (m_exam->blacList()->operator[](i).questionAs == m_exam->blacList()->operator[](i).answerAs)
-            if (m_exam->blacList()->operator[](i).questionAs != TQAtype::e_asFretPos &&
-              m_exam->blacList()->operator[](i).questionAs != TQAtype::e_asSound )
-              qDebug() << m_exam->blacList()->operator[](i).qa.note.toText() << 
-              m_exam->blacList()->operator[](i).qa_2.note.toText();*/
 }
 
 
@@ -239,6 +229,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		mW->bar->removeAction(mW->bar->attemptAct);
 	if (!isAttempt) { // add new question to the list
 		m_penalty->setMelodyPenalties();
+		if (m_exam->count() && m_exercise) // Check answer only after summarize
+				m_exercise->checkAnswer();
 		TQAunit Q(m_exam);
 		m_exam->addQuestion(Q);
 	}
@@ -288,7 +280,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     }
     if (m_exam->melodies()) {
 				if (m_penalty->isNot()) {
-					curQ.addMelody(QString("Melody %1").arg(m_exam->count()));
+					curQ.addMelody(QString("%1").arg(m_exam->count()));
 					curQ.melody()->setKey(curQ.key);
 					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
 				}
@@ -496,12 +488,18 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	m_penalty->stopQuestionTime();
 	mW->bar->setAfterAnswer();
 	if (curQ.answerAsSound()) {
-			mW->sound->pauseSinffing();
+			if (m_exam->melodies())
+				mW->sound->wait(); // flush buffers after captured melody
+			else
+				mW->sound->pauseSinffing(); // but only skip detected for single sound
 			mW->score->selectNote(-1);
 			disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 			disconnect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
 			disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(lastMelodyNote()));
 	}
+	if (m_exam->melodies() && mW->sound->melodyIsPlaying())
+		mW->sound->stopPlaying();
+		
 	if (!gl->E->autoNextQuest || m_exercise)
 			mW->bar->startExamAct->setDisabled(false);
 	m_isAnswered = true;
@@ -790,8 +788,9 @@ void TexamExecutor::newAttempt() {
 	if (m_exam->curQ().answerAsNote() || m_exam->curQ().questionAsNote()) // remove names and marks from score notes
 		for (int i = 0; i < mW->score->notesCount(); ++i) {
 			if (m_exercise) {
-// 				if (gl->E->showNameOfAnswered) // clear note names when exercise
-					mW->score->deleteNoteName(i); // but leave note marks (colored borders)
+					mW->score->deleteNoteName(i);
+					if (m_exam->curQ().lastAttempt()->mistakes[i] != TQAunit::e_correct)
+						mW->score->markQuestion(-1, i); // leave note marks (colored borders) only for correct answers
 			} else // although clear marked notes in exams
 					mW->score->markQuestion(-1, i);
 		}
@@ -1113,7 +1112,7 @@ void TexamExecutor::exerciseToExam() {
 	delete m_exercise;
 	m_exercise = 0;
 	setTitleAndTexts();
-// 	levelStatusMessage();
+	levelStatusMessage();
 	m_supp->setFinished(false); // exercise had it set to true
 	initializeExecuting();
 	disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
