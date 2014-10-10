@@ -791,7 +791,7 @@ void TexamExecutor::newAttempt() {
 					mW->score->deleteNoteName(i);
 					if (m_exam->curQ().lastAttempt()->mistakes[i] != TQAunit::e_correct)
 						mW->score->markQuestion(-1, i); // leave note marks (colored borders) only for correct answers
-			} else // although clear marked notes in exams
+			} else // although clear all marked notes in exams
 					mW->score->markQuestion(-1, i);
 		}
 	if (m_exercise && m_exam->curQ().answerAsNote()) {

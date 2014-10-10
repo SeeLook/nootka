@@ -26,7 +26,6 @@
 #include <QtWidgets>
 
 
-QHBoxLayout *m_tabLay;
 QGroupBox *m_singleGr;
 questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     TabstractLevelPage(creator)
@@ -35,11 +34,10 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     mainLay->addStretch();
 
 		int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
+		QString nooColor = QString("color: %1").arg(palette().highlight().color().name());
     m_tableWdg = new QWidget(this);
-    m_tabLay = new QHBoxLayout;
-//     tabLay->addStretch();
-    m_tabLay->addWidget(m_tableWdg);
-//     tabLay->addStretch();
+    QHBoxLayout *tabLay = new QHBoxLayout;
+    tabLay->addWidget(m_tableWdg);
     QGridLayout *qaLay = new QGridLayout(); // Questions & Answers table
     qaLay->setAlignment(Qt::AlignCenter);
     qaLay->setSpacing(10);
@@ -49,7 +47,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		QLabel *newQuestLab = new QLabel(TquestionAsWdg::answerTxt().toUpper(), this);
 		newQuestLab->setFont(f);
 		qaLay->addWidget(newQuestLab, 0, 2, 0, 4, Qt::AlignHCenter | Qt::AlignTop);
-    m_questLab = new QLabel(TnooFont::span("n", nootFontSize * 1.5) + "<br><br>" + TquestionAsWdg::questionTxt().toUpper(), this);
+    m_questLab = new QLabel(TnooFont::span("n", nootFontSize * 1.5, nooColor) + "<br><br>" + TquestionAsWdg::questionTxt().toUpper(), this);
 		m_questLab->setAlignment(Qt::AlignCenter);
 		m_questLab->setFont(f);
     qaLay->addWidget(m_questLab, 1, 0, Qt::AlignBottom | Qt::AlignHCenter);
@@ -104,7 +102,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     m_qSoundNooLab->setFont(nf);
     qaLay->addWidget(m_qSoundNooLab, 6, 5);
 		
-		QLabel *melodyLab = new QLabel(TnooFont::span("m", nootFontSize * 2), this);
+		QLabel *melodyLab = new QLabel(TnooFont::span("m", nootFontSize * 2, nooColor), this);
 		melodyLab->setAlignment(Qt::AlignCenter);
 		QCheckBox *m_playMelodyChB = new QCheckBox(tr("play melody"), this);
 			m_playMelodyChB->setStatusTip("<table valign=\"middle\" align=\"center\"><tr><td>" + 
@@ -118,7 +116,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     m_tableWdg->setLayout(qaLay);
 		m_singleGr = new QGroupBox(tr("single note"), this);
 			 m_singleGr->setCheckable(true);
-			 m_singleGr->setLayout(m_tabLay);
+			 m_singleGr->setLayout(tabLay);
 		
 		QVBoxLayout *melLay = new QVBoxLayout;
 			melLay->addWidget(melodyLab, 0, Qt::AlignCenter);
@@ -284,23 +282,25 @@ void questionsSettings::saveLevel(Tlevel* level) {
 
 
 void questionsSettings::paintEvent(QPaintEvent* ) {
-//   QPainter painter(this);
-//   QPen pen = painter.pen();
-//   pen.setColor(palette().text().color());
-//   pen.setWidth(2);
-//   painter.setPen(pen);
-// 	QPoint tl = m_singleGr->mapToParent(m_tabLay->geometry().topLeft());
-//   int vertLineUpY = tl.y() + m_singleGr->mapToParent(m_questLab->geometry().bottomLeft()).y() + 
-//       (asNoteWdg->enableChBox->geometry().top() - m_questLab->geometry().bottom()) / 2;
-//   painter.drawLine(tl.x(), vertLineUpY, tl.x() + m_tabLay->geometry().width(), vertLineUpY);
-//   int vertLineDownY = tl.y() + m_singleGr->mapToParent(asSoundWdg->enableChBox->geometry().bottomLeft()).y() + 
-//       (m_qSoundNooLab->geometry().top() - asSoundWdg->enableChBox->geometry().bottom()) / 2;
-//   painter.drawLine(tl.x(), vertLineDownY, tl.x() + m_tabLay->geometry().width(), vertLineDownY);
-//   int horLineLeftX = m_singleGr->mapToParent(asNoteWdg->enableChBox->geometry().topRight()).x() + 6;
-//   painter.drawLine(horLineLeftX, tl.y(), horLineLeftX, tl.y() + m_tabLay->geometry().height());
-//   int horLineRightX = m_singleGr->mapToParent(m_asSoundLab->geometry().topRight()).x() + 
-//       (m_soundNooLab->geometry().left() - m_asSoundLab->geometry().right()) / 2;
-//   painter.drawLine(horLineRightX, tl.y(), horLineRightX, tl.y() + m_tabLay->geometry().height());
+  QPainter painter(this);
+  QPen pen = painter.pen();
+	if (m_singleGr->isChecked())
+		pen.setColor(palette().color(QPalette::Active, QPalette::Text));
+	else
+		pen.setColor(palette().color(QPalette::Disabled, QPalette::Text));
+  pen.setWidth(1);
+	pen.setStyle(Qt::DashLine);
+  painter.setPen(pen);
+	QPoint tl = m_singleGr->mapToParent(m_singleGr->contentsRect().topLeft());
+  int vertLineUpY = tl.y() + m_questLab->geometry().y() + m_questLab->geometry().height() + 14;
+  painter.drawLine(tl.x() + 10, vertLineUpY, tl.x() + m_singleGr->contentsRect().width() - 20, vertLineUpY);
+  int vertLineDownY = tl.y() + asSoundWdg->enableChBox->geometry().y() + asSoundWdg->enableChBox->geometry().height() + 14;
+  painter.drawLine(tl.x() + 10, vertLineDownY, tl.x() + m_singleGr->contentsRect().width() - 20, vertLineDownY);
+  int horLineLeftX = tl.x() + asNoteWdg->enableChBox->x()	+ asNoteWdg->enableChBox->width() + 14;
+  painter.drawLine(horLineLeftX, tl.y() + 10, horLineLeftX, tl.y() + m_singleGr->contentsRect().height() - 20);
+  int horLineRightX = tl.x() + m_asSoundLab->geometry().x() + m_soundNooLab->geometry().width() + 14;
+  painter.drawLine(horLineRightX, tl.y() + 10, horLineRightX, tl.y() + m_singleGr->contentsRect().height() - 20);
+	
 }
 
 

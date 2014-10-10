@@ -19,7 +19,7 @@
 #include "trandmelody.h"
 #include <music/tmelody.h>
 #include <music/trhythm.h>
-
+#include <QDebug>
 
 
 void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
@@ -45,6 +45,10 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 				}
 			}
 		}
+		if (pitch.alter == 1 && mel->key().value() < 0) // flats key signature
+			pitch = pitch.showWithFlat(); // so prefer flats
+		else if (pitch.alter == -1 && mel->key().value() > 0) // sharps key signature
+			pitch = pitch.showWithSharp(); // so prefer sharps
 		Tchunk note(pitch, Trhythm(Trhythm::e_none), fPos);
 		mel->addNote(note);
 	}
@@ -54,7 +58,12 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 			tonicNoteNr = TkeySignature::minorKeys[mel->key().value() + 7];
 		else
 			tonicNoteNr = TkeySignature::majorKeys[mel->key().value() + 7];
-		for (int i = 0; i < qList.size(); ++i) {
+		int cnt = -1, i = (qrand() % qList.size()) - 1; // start iteration from random value
+		while (cnt < qList.size()) {
+			i++;
+			if (i >= qList.size())
+				i = 0;
+			cnt++;
 			Tnote tonic(tonicNoteNr + 1, 0, TkeySignature::scalesDefArr[mel->key().value() + 7][tonicNoteNr]);
 			bool theSame = false;
 			if (tonic.compareNotes(qList[i].note, true))
@@ -67,16 +76,22 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 					tonicConverted = tonic.showWithSharp();
 				else
 					continue;
-				if (tonicConverted.compareNotes(qList[i].note, true))
+				if (tonicConverted.compareNotes(qList[i].note, true)) {
 					theSame = true;
+					tonic = tonicConverted;
+				}
 			}
 			if (theSame) {
 				tonic.octave = qList[i].note.octave;
+				if (tonic.alter == 1 && mel->key().value() < 0) // flats key signature
+					tonic = tonic.showWithFlat(); // so prefer flats
 				mel->lastMeasure().lastNote().p() = tonic;
 				mel->lastMeasure().lastNote().g() = qList[i].pos;
 				break;
 			}
 		}
+	if (cnt == qList.size())
+		qDebug() << "Tonic note of" << mel->key().getName() << "was not found";
 	}
 }
 
