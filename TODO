@@ -19,7 +19,6 @@
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
 - writing/reading musicXML structures of notes in piano staff is not implemented yet
-- rescue border lines of question table in level creator, perhaps create a new widget for the table
 - notes number in levels should be randomized, given value will be just a maximum 
 			and without rhythms odd number sounds better
 
