@@ -596,7 +596,11 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					} else {
 							curQ.setMistake(TQAunit::e_wrongNote);
 							qDebug() << "Simply wrong answer";
-					}						
+					}
+					if (m_level.manualKey && !curQ.isWrong()) {
+            if (mW->score->keySignature().value() != curQ.key.value())
+                curQ.setMistake(TQAunit::e_wrongKey);
+					}
 					// Another case is poor or very poor effectiveness but it is obtained after effect. update in sumarizeAnswer()
 			} else { // 3. or checking are the notes the same
 					m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);

@@ -250,6 +250,16 @@ void accidSettings::keyRangeChanged() {
 
 void accidSettings::keySignChanged() {
 	blockSignals(true);
+	if (sender() == m_keySignGr) {
+		if (m_keySignGr->isChecked()) {
+			if (m_rangeKeysRadio->isChecked())
+				m_toKeyCombo->setDisabled(false);
+			else {
+				m_toKeyCombo->setDisabled(true);
+				m_toKeyCombo->setKeySignature(0);
+			}
+		}
+	}
     if (m_keySignGr->isChecked()) {
       if (m_rangeKeysRadio->isChecked()) {
         if (m_fromKeyCombo->getKeySignature().value() < 0 || // keys with flats ?

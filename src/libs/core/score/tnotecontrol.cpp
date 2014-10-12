@@ -297,7 +297,7 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
 		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
 				staff()->insertNote(m_scoreNote->index() + 1);
 		} else { // left control - preppend a note
-				staff()->insertNote(m_scoreNote->index() - 1);
+				staff()->insertNote(m_scoreNote->index());
 		}
 		return;
 	}
