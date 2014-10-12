@@ -524,7 +524,7 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 
 
 void Tcanvas::setResultPos() {
-	m_resultTip->setPos(m_scene->width() * 0.6 + (m_scene->width() * 0.4 - m_scale * m_resultTip->boundingRect().width()) / 2,
+	m_resultTip->setPos(m_scene->width() * 0.52 + (m_scene->width() * 0.48 - m_scale * m_resultTip->boundingRect().width()) / 2,
 											m_scene->height() * 0.01);
 }
 

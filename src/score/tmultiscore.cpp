@@ -493,7 +493,7 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 // 		qDebug() << "selected note moved forward";
 		m_currentIndex++;
 	}
-	if (staff()->noteSegment(0)->noteName())
+	if (staff()->noteSegment(0)->noteName() || staff()->noteSegment(staff()->count() - 1)->noteName())
 			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
 	if (m_useAinim && m_addNoteAnim)
