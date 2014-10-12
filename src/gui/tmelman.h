@@ -49,6 +49,8 @@ public slots:
 	void playMelodySlot();
 	void recordMelodySlot();
 	void randomizeMelodySlot();
+	void loadMelodySlot();
+	void saveMelodySlot();
 	
 private:
 	QAction* createAction(const QString& t, const char* slot, const QKeySequence& k = QKeySequence(), const QIcon& i = QIcon());

@@ -192,6 +192,9 @@ void TmainScore::setNote(const Tnote& note) {
 void TmainScore::setMelody(Tmelody* mel) {
 	bool animEnabled = ainmationsEnabled();
 	setAnimationsEnabled(false);
+	setClef(Tclef(mel->clef()));
+	if (staff()->scoreKey())
+			setKeySignature(mel->key());
 	for (int i = 0; i < mel->length(); ++i) {
 		if (i > notesCount() - 1) {
 			staves(i / staff()->maxNoteCount())->addNote(mel->note(i)->p());
@@ -213,6 +216,7 @@ void TmainScore::getMelody(Tmelody* mel, const QString& title) {
 	mel->setTitle(title);
 	mel->setTempo(gl->S->tempo);
 	mel->setKey(keySignature());
+	mel->setClef(clef().type());
 	for (int i = 0; i < notesCount(); ++i) {
 		Tchunk n(*getNote(i), Trhythm(Trhythm::e_none));
 		mel->addNote(n);
@@ -453,8 +457,6 @@ void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
 
 
 void TmainScore::askQuestion(Tmelody* mel) {
-	if (staff()->scoreKey())
-		setKeySignature(mel->key());
 	setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
 // 	m_questMark->show();
 	setMelody(mel);

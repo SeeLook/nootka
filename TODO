@@ -18,7 +18,6 @@
 - TscoreView and TscoreItem have to have Android compile scopes
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
-- writing/reading musicXML structures of notes in piano staff is not implemented yet
 - notes number in levels should be randomized, given value will be just a maximum 
 			and without rhythms odd number sounds better
 
@@ -84,7 +83,7 @@ TEXAMEXECUTOR
 
 - rhythms in score
 - rhythms in level and exercise/exam
-- saving melodies to musicXML and opening/importing melodies from XML
+- improve saving melodies to musicXML and opening/importing melodies from XML
 - managing melodies in levels, adding melodies set to the level
 - settings for keyboard shortcuts
 - sophisticated and configurable algorithm to generate random melodies

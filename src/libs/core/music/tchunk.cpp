@@ -21,6 +21,8 @@
 #include "tnote.h"
 #include <QXmlStreamWriter>
 
+
+
 Tchunk::Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos) :
 	m_pitch(pitch),
 	m_rhythm(rhythm),
@@ -33,14 +35,15 @@ Tchunk::~Tchunk()
 {}
 
 
-void Tchunk::toXml(QXmlStreamWriter& xml) {
+void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 	xml.writeStartElement("note");
 		if (m_rhythm.isRest() || !m_pitch.isValid())
 			xml.writeEmptyElement("rest");
 		else 
 			m_pitch.toXml(xml);
 		if (m_rhythm.rhythm() == Trhythm::e_none) {
-			xml.writeTextElement("stem", "none");
+			if (!m_rhythm.isRest() && m_pitch.isValid())
+				xml.writeTextElement("stem", "none");
 		} else {
 			xml.writeTextElement("type", m_rhythm.xmlType());
 			if (m_rhythm.hasDot())
@@ -52,24 +55,39 @@ void Tchunk::toXml(QXmlStreamWriter& xml) {
 				g().toXml(xml);
 			xml.writeEndElement();
 		}
+		if (staffNr)
+			xml.writeTextElement("staff", QString("%1").arg(*staffNr));
 	xml.writeEndElement(); // note
 }
 
 
-bool Tchunk::fromXml(QXmlStreamReader& xml) {
+/** So far, returned @p FALSE value is used to inform that chunk (a note) was in other voice than 'first' 
+ * More voices are not (and never be) supported... */
+bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
 	bool ok = true;
-		while (xml.readNextStartElement()) {
+	int stNr = 1;
+	m_rhythm.setNoteValue(Trhythm::e_none);
+	while (xml.readNextStartElement()) {
 			if (xml.name() == "pitch")
 				m_pitch.fromXml(xml);
-			else if (xml.name() == "rest")
+			else if (xml.name() == "rest") {
 				m_rhythm.setRest(true);
-			else if (xml.name() == "type")
+				xml.skipCurrentElement();
+			} else if (xml.name() == "type")
 				m_rhythm.setNoteValue(xml.readElementText().toStdString());
 			else if (xml.name() == "notations")
 				m_fretPos.fromXml(xml);
+			else if (xml.name() == "voice") {
+				if (xml.readElementText().toInt() != 1) {
+					ok = false;
+				}
+			} else if (xml.name() == "staff") 
+					stNr = xml.readElementText().toInt();
 			else
 				xml.skipCurrentElement();
-		}
+	}
+	if (staffNr)
+			*staffNr = stNr;
 	return ok;
 }
 

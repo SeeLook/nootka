@@ -131,8 +131,7 @@ void TpitchView::setMinimalVolume(float vol) {
 void TpitchView::setDisabled(bool isDisabled) {
   QWidget::setDisabled(isDisabled);
   m_volMeter->setDisabled(isDisabled);
-	if (m_intoView->accuracy() != TintonationView::e_noCheck)
-			m_intoView->setDisabled(isDisabled);
+	m_intoView->setDisabled(isDisabled);
 }
 
 

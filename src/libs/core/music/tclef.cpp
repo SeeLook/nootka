@@ -76,7 +76,7 @@ QString Tclef::desc() {
 
 void Tclef::toXml(QXmlStreamWriter& xml) {
 	QString sign, line;
-	if (type() == e_treble_G || type() == e_treble_G_8down) {
+	if (type() == e_treble_G || type() == e_treble_G_8down || type() == e_pianoStaff) {
 			sign = "G"; line = "2";
 	} else if (type() == e_bass_F || type() == e_bass_F_8down) {
 			sign = "F"; line = "4";
@@ -84,15 +84,25 @@ void Tclef::toXml(QXmlStreamWriter& xml) {
 			sign = "C"; line = "3";
 	} else if (type() == e_tenor_C) {
 			sign = "C"; line = "4";
-	} else // piano staff has never call this itself!
+	} else {
 			return;
+	}
 	
 	xml.writeStartElement("clef");
+		if (type() == e_pianoStaff)
+			xml.writeAttribute("number" , "1");
 		xml.writeTextElement("sign", sign);
 		xml.writeTextElement("line", line);
 		if (type() == e_bass_F_8down || type() == e_treble_G_8down)
 			xml.writeTextElement("clef-octave-change", "-1");
 	xml.writeEndElement(); // clef
+	if (type() == e_pianoStaff) {
+		xml.writeStartElement("clef");
+			xml.writeAttribute("number" , "2");
+		xml.writeTextElement("sign", "F");
+		xml.writeTextElement("line", "4");
+	xml.writeEndElement(); // clef
+	}
 }
 
 
