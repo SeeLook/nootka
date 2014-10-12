@@ -34,6 +34,14 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Alt+Space"),
 							 QIcon(Tpath::img("record")));
 	createAction(tr("Create"), SLOT(randomizeMelodySlot()));
+	m_menu->addSeparator();
+	QDialogButtonBox box;
+	QPushButton *saveBut = box.addButton(QDialogButtonBox::Save);
+	QPushButton *openBut = box.addButton(QDialogButtonBox::Open);
+	createAction(openBut->text(), SLOT(loadMelodySlot()), QKeySequence::Open, 
+							 QIcon(score->style()->standardIcon(QStyle::SP_DialogOpenButton)));
+	createAction(saveBut->text(), SLOT(saveMelodySlot()), QKeySequence::Save, 
+							 QIcon(score->style()->standardIcon(QStyle::SP_DialogSaveButton)));
 	
 	
 	m_button = new QToolButton(score);
@@ -79,19 +87,45 @@ void TmelMan::recordMelodySlot() {
 
 void TmelMan::randomizeMelodySlot() {
 	QList<TQAgroup> ql;
-	int ambit = 24; //highestNote().chromatic() - lowestNote().chromatic();
+	int ambit = 25; //highestNote().chromatic() - lowestNote().chromatic();
 	for (int i = 0; i < ambit; i++) {
 		TQAgroup qa;
 		qa.note = Tnote(1 + i);
 		ql << qa;
 	}
 	Tmelody *mel = new Tmelody("", m_score->keySignature());
-	getRandomMelody(ql, mel, 14, false, true);
+	getRandomMelody(ql, mel, 14, true, true);
 	m_score->setMelody(mel);
 	delete mel;
 }
 
 
+void TmelMan::loadMelodySlot() {
+	QString melodyFile = QFileDialog::getOpenFileName(0, tr("Open melody file"), "",
+                         tr("MusicXML file") + " (*.xml)", 0, QFileDialog::DontUseNativeDialog);
+	if (!melodyFile.isEmpty()) {
+		Tmelody *mel = new Tmelody();
+		if (mel->grabFromMusicXml(melodyFile)) {
+			m_score->setMelody(mel);
+		}
+		delete mel;
+	}
+}
+
+
+
+void TmelMan::saveMelodySlot() {
+	QString melodyFile = QFileDialog::getSaveFileName(0, tr("Save melody as:"), "",
+                         tr("MusicXML file") + " (*.xml)", 0, QFileDialog::DontUseNativeDialog);
+	if (!melodyFile.isEmpty()) {
+		if (melodyFile.right(4) != ".xml")
+        melodyFile += ".xml";
+		Tmelody *mel = new Tmelody();
+		m_score->getMelody(mel, "some melody");
+		mel->saveToMusicXml(melodyFile);
+		delete mel;
+	}
+}
 
 //####################################################################################################
 //########################################## PRIVATE #################################################

@@ -29,3 +29,9 @@ Tmeasure::Tmeasure(int nr) :
 void Tmeasure::addNote(const Tchunk& n) {
 	m_notes << n;
 }
+
+
+void Tmeasure::removeLastNote() {
+	m_notes.removeLast();
+}
+

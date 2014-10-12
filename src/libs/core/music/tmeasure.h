@@ -41,6 +41,8 @@ public:
 	Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
 	Tchunk& lastNote() { return m_notes.last(); }
 	
+	void removeLastNote();
+	
 	int conunt() { return m_notes.size(); }
 	
 private:

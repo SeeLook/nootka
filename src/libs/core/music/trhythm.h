@@ -20,6 +20,7 @@
 #define TRHYTHM_H
 
 #include <QString>
+#include <cmath>
 
 
 const std::string rhythmStrings [6] = {"", "whole", "half", "quarter", "eighth", "16th"};
@@ -69,7 +70,11 @@ public:
 	void setRest(bool rest) { m_isRest = rest; }
 	
 	QString xmlType() {
-		return QString::fromStdString(rhythmStrings[(int)m_noteVal]);
+		for (int i = 1; i < 6; ++i) {
+			if (pow(2, i - 1) == (int)m_noteVal)
+				return QString::fromStdString(rhythmStrings[i]);
+		}
+		return "";
 	}
 	
 	

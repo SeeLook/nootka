@@ -46,8 +46,8 @@ public:
 			/** Returns @p TRUE when position on the guitar is valid. */
 	bool validPos() { if (g().str() == 7) return false; else return true; }
 	
-	void toXml(QXmlStreamWriter& xml);
-	bool fromXml(QXmlStreamReader& xml);
+	void toXml(QXmlStreamWriter& xml, int* staffNr = 0); /** If @p staffNr is set appropriate <staff>staffNr</staff> is added */
+	bool fromXml(QXmlStreamReader& xml, int* staffNr = 0); /** Trough @p staffNr (if set) is returned staff number the note belongs to. */
 	
 	
 private:
