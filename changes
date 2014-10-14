@@ -1,6 +1,20 @@
 1.1.2 alpha
+     - exams/exercises support for playing melodies from a score
+     - exams/exercises support for writing listened melodies
+     - recognizing new mistake types related to melodies
+     - added tuning fork button to play middle a in exams based on listening
+     - added pop-up panes to manage quick manage a note in a score
+     - improved randomization, all notes from range will occur equally
+     - simple import/export melodies to XML (music) format
+    Under the hood
+     - binary format of exam files (*.noo) changed to text based one
+     - saving melodies and related information in *.noo files
+     - dividing and cleaning monolithic code of examining process
+
+1.1.1 alpha
      - interactive score with staves (systems)
      - possibility of adding/removing notes to the score
+     - GUI layout changed
      - option for displaying accidentals from key signature close to a note
      - note names can be displayed on the score (below every note)
      - option for forwarding audio input through selected audio output
