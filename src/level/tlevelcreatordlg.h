@@ -23,7 +23,7 @@
 #include <widgets/tsettingsdialogbase.h>
 #include <exam/tlevel.h>
 
-class TmelodySettings;
+// class TmelodySettings;
 class accidSettings;
 class levelSettings;
 class rangeSettings;
@@ -55,7 +55,7 @@ private:
     levelSettings 							*m_levelSett;
     questionsSettings 					*m_questSett;
     accidSettings 							*m_accSett;
-		TmelodySettings 						*m_meloSett;
+// 		TmelodySettings 						*m_meloSett;
     rangeSettings 							*m_rangeSett;
 
     void saveLevel();

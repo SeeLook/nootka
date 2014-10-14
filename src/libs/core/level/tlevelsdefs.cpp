@@ -215,6 +215,6 @@ void getExampleLevels(QList<Tlevel>& llist) {
 // 		l.intonation = gl->A->intonation; // user preferences (in constructor)
 		l.instrument = e_noInstrument;
     l.onlyLowPos = true;
-		l.melodyLen = 1;
+		l.melodyLen = 5;
     llist << l;
 }

@@ -23,6 +23,7 @@
 
 #include "tabstractlevelpage.h"
 
+class QSpinBox;
 class Tlevel;
 class TlevelCreatorDlg;
 class QComboBox;
@@ -55,6 +56,8 @@ signals:
     
 public slots:
     void stringsCheckedSlot(bool checked);
+		void singleMultiSlot(); /** Responses for switching between single note/melody mode. */
+		void melodyQuestionSlot(); /** Sets appropriate boxes for melodies in single note table */
 		virtual void changed();
     
 protected:
@@ -72,6 +75,9 @@ private:
     QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *showStrNrChB;
     QCheckBox 						*lowPosOnlyChBox;
 		QComboBox 						*m_intonationCombo;
+		QGroupBox 						*m_singleGr, *m_melodiesGr;
+		QCheckBox 						*m_playMelodyChB, *m_writeMelodyChB, *m_finishOnTonicChB;
+		QSpinBox							*m_melodyLengthSpin;
 
 private slots:
     void whenParamsChanged(); /** Every element calls this when clicked. */
