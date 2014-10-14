@@ -192,7 +192,7 @@ void rangeSettings::saveLevel(Tlevel* level) {
 
 void rangeSettings::changed() {
 	blockSignals(true);
-		if (wLevel()->canBeGuitar()) {
+		if (wLevel()->canBeGuitar() || gl->instrument != e_noInstrument) {
 			m_fretGr->setDisabled(false);
 			m_stringsGr->setDisabled(false);
 			m_fretAdjustButt->setDisabled(false);

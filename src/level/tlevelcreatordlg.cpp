@@ -53,23 +53,23 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     navList->addItem(tr("Accidentals"));
     navList->item(2)->setIcon(QIcon(gl->path + "picts/accidSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
-		navList->addItem(tr("Melodies"));
-    navList->item(3)->setIcon(QIcon(gl->path + "picts/melodySett.png"));
-    navList->item(3)->setTextAlignment(Qt::AlignCenter);
+// 		navList->addItem(tr("Melodies"));
+//     navList->item(3)->setIcon(QIcon(gl->path + "picts/melodySett.png"));
+//     navList->item(3)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Range"));
-    navList->item(4)->setIcon(QIcon(gl->path + "picts/rangeSettings.png"));
-    navList->item(4)->setTextAlignment(Qt::AlignCenter);
+    navList->item(3)->setIcon(QIcon(gl->path + "picts/rangeSettings.png"));
+    navList->item(3)->setTextAlignment(Qt::AlignCenter);
 
     m_levelSett = new levelSettings(gl->path);
     m_questSett = new questionsSettings(this);
     m_accSett = new accidSettings(this);
-		m_meloSett = new TmelodySettings(this);
+// 		m_meloSett = new TmelodySettings(this);
     m_rangeSett = new rangeSettings(this);
 
     stackLayout->addWidget(m_levelSett);
     stackLayout->addWidget(m_questSett);
     stackLayout->addWidget(m_accSett);
-		stackLayout->addWidget(m_meloSett);
+// 		stackLayout->addWidget(m_meloSett);
     stackLayout->addWidget(m_rangeSett);
 		
 		if (gl->instrument == e_noInstrument)
@@ -108,8 +108,8 @@ void TlevelCreatorDlg::levelWasChanged() {
 		m_questSett->changed();
 	if (sender() != m_accSett)
 		m_accSett->changed();
-	if (sender() != m_meloSett)
-		m_meloSett->changed();
+// 	if (sender() != m_meloSett)
+// 		m_meloSett->changed();
 	if (sender() != m_rangeSett)
 		m_rangeSett->changed();
 	levelNotSaved();
@@ -121,7 +121,7 @@ void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
         saveLevel();
     m_questSett->loadLevel(&level);
     m_accSett->loadLevel(&level);
-		m_meloSett->loadLevel(&level);
+// 		m_meloSett->loadLevel(&level);
     m_rangeSett->loadLevel(&level);
 		if (m_levelSett->levelSelector->isSuitable())
 				m_levelSett->startExamBut->setDisabled(false);
@@ -152,7 +152,7 @@ void TlevelCreatorDlg::saveToFile() {
     Tlevel newLevel;
     m_questSett->saveLevel(&newLevel);
     m_accSett->saveLevel(&newLevel);
-		m_meloSett->saveLevel(&newLevel);
+// 		m_meloSett->saveLevel(&newLevel);
     m_rangeSett->saveLevel(&newLevel);
     if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
       // adjust fret range - validation will skip it for non guitar levels
@@ -281,6 +281,32 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 			}
 			if (l.hiFret - l.loFret < minRange)
 				res += tr("<li>Fret range is not enough to find any note in different positions. At least <b>%1</b> frets range is required.</li>").arg(minRange);
+		}
+	// Melodies finished on tonic have to contain the tonic note in range
+		if (l.canBeMelody() && l.endsOnTonic) {
+			bool inKeyNotes[7]; // array with notes used by key signatures from range
+			for (int i = 0; i < 7; ++i) inKeyNotes[i] = false;
+			for (int i = l.loKey.value(); i <= l.hiKey.value(); ++i) {
+				inKeyNotes[TkeySignature::minorKeys[i + 7]] = true;
+				inKeyNotes[TkeySignature::majorKeys[i + 7]] = true;
+			}
+			int startNote = l.loNote.note + (l.loNote.octave + 5) * 7 - 1;
+			int endNote = l.hiNote.note + (l.hiNote.octave + 5) * 7 - 1;
+			for (int n = 0; n < 7; ++n) {
+				if (inKeyNotes[n]) {
+					bool found = false;
+					for (int i = startNote; i <= endNote; ++i) {
+						if (n == i % 7) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						res += tr("<li>Possible missing a tonic note in a note range for some key signatures.</li>");
+						break;
+					}
+				}
+			}
 		}
   // Resume warnings
     if (res != "") {

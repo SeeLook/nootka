@@ -74,9 +74,9 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 		navList->addItem(tr("Exercises") + "\n& " + tr("Exam"));
     navList->item(5)->setIcon(QIcon(gl->path + "picts/questionsSettings.png"));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
-		navList->addItem(tr("Shortcuts"));
-    navList->item(6)->setIcon(QIcon(gl->path + "picts/shortcuts.png"));
-    navList->item(6)->setTextAlignment(Qt::AlignCenter);
+// 		navList->addItem(tr("Shortcuts"));
+//     navList->item(6)->setIcon(QIcon(gl->path + "picts/shortcuts.png"));
+//     navList->item(6)->setTextAlignment(Qt::AlignCenter);
     
 		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
 			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));

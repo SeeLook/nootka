@@ -31,7 +31,7 @@ include_directories( libs/core libs/sound libs/misc )
 
 # add_subdirectory( charts ) # nootka analyzer
 
-# add_subdirectory( level ) # level creator
+add_subdirectory( level ) # level creator
 
 #add_subdirectory( updater ) # nootka updater
 
@@ -84,14 +84,14 @@ if(MINGW)
 endif(MINGW)
 
 
-add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
-target_link_libraries(nootka 
-		NootkaCore 
-		NootkaSound 
-		NootkaMisc 
-		Qt5::Widgets 
-		Qt5::PrintSupport
-)
+# add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
+# target_link_libraries(nootka 
+# 		NootkaCore 
+# 		NootkaSound 
+# 		NootkaMisc 
+# 		Qt5::Widgets 
+# 		Qt5::PrintSupport
+# )
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )

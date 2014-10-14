@@ -140,8 +140,12 @@ void TlevelPreview::setLevel(Tlevel& tl) {
       tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
     if (tl.questionAs.isFret())
       tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
-    if (tl.questionAs.isSound())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
+    if (tl.questionAs.isSound()) {
+			if (tl.canBeMelody())
+				tmp += "m";
+			else
+				tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
+		}
     int fontSize = heightOfA(this) * 1.3;
     S += TnooFont::span(tmp, fontSize);
     S += "</td></tr>";
@@ -153,8 +157,12 @@ void TlevelPreview::setLevel(Tlevel& tl) {
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
     if (tl.answerIsGuitar())
             tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
-    if (tl.answerIsSound())
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
+    if (tl.answerIsSound()) {
+			if (tl.canBeMelody())
+				tmp += "m";
+			else
+				tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
+		}
     S += TnooFont::span(tmp, fontSize);
     S += "</td></tr>";
     if (tl.canBeName() || tl.canBeScore() || tl.canBeSound()) {

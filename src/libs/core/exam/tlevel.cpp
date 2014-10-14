@@ -136,7 +136,7 @@ Tlevel::Tlevel() :
    forceAccids = true;
    showStrNr = hasGuitar;
 // MELODIES
-		melodyLen = 40;
+		melodyLen = 1;
 		endsOnTonic = true;
     requireInTempo = true;
 // RANGE - for non guitar Tglobals will returns scale determined by clef

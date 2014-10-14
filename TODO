@@ -41,7 +41,6 @@ analyzer executable
 ==== NEW FEATURES ================================================================
 
 - add blinking of settings icon(action) instead of expert check boxes in old versions
-- add level checking rule when melody requires to be ended on tonic but the tonic note isn't in a range
 - add small pictographs on melody icon according to its state: playing, record, none
 - add option for configuring fret marks (dots)
 - make exam summary pretty
