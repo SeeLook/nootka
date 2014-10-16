@@ -28,9 +28,10 @@ class TXaxis;
 
 
 
-/** This is base class for charts in Nootka.
- * It has got QGraphicsScene *scene and
- * two axises xAxis and yAxis witch are created by default.
+/** 
+ * This is base class for charts in Nootka.
+ * It has got @p QGraphicsScene *scene() and
+ * two axis-es xAxis and yAxis which are created by default.
  */
 class Tchart : public QGraphicsView
 {
@@ -65,7 +66,6 @@ public:
     };
 
     Tchart(QWidget* parent = 0);
-    virtual ~Tchart();
     
     virtual void setAnalyse(EanswersOrder order) {} // prototype only
 
@@ -78,6 +78,8 @@ protected:
     TXaxis *xAxis;
     TYaxis *yAxis;
     
+protected slots:
+	void ajustChartHeight(); /** Invoked by timer after chart creation to adjust scene height to view height. */
     
 private:
     
