@@ -248,7 +248,7 @@ void TscoreNote::moveWorkNote(const QPointF& newPos) {
 
 
 void TscoreNote::hideWorkNote() {
-	if (scoreScene()->workNote()->isVisible()) {
+	if (scoreScene()->workNote() && scoreScene()->workNote()->isVisible()) {
     scoreScene()->workNote()->hide();
     scoreScene()->workAccid()->hide();
     hideLines(scoreScene()->upLines);

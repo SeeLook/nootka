@@ -681,7 +681,7 @@ void TscoreStaff::findHighestNote() {
 	m_hiNotePos = upperLinePos() - 4.0;
 	for (int i = 0; i < m_scoreNotes.size(); i++)
 		if (m_scoreNotes[i]->notePos()) // is visible
-			m_hiNotePos = qMin(qreal(m_scoreNotes[i]->notePos()), m_hiNotePos);
+			m_hiNotePos = qMin(qreal(m_scoreNotes[i]->notePos() - 2), m_hiNotePos);
 }
 
 
@@ -690,9 +690,9 @@ void TscoreStaff::findLowestNote() {
 		m_loNotePos = height();
 		return;
 	}	
-	m_loNotePos = (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 12.0;
+	m_loNotePos = (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 13.0;
 	for (int i = 0; i < m_scoreNotes.size(); i++)
-			m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos()), m_loNotePos);
+			m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos() + 2), m_loNotePos);
 }
 
 

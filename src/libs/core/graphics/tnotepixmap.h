@@ -26,6 +26,7 @@
 #include <music/tkeysignature.h>
 #include <music/tclef.h>
 
+class Tmelody;
 class TQAunit;
 
 class NOOTKACORE_EXPORT TnotePixmap 
@@ -40,15 +41,16 @@ private:
 };
 
 			/**  Returns QPixmap with given note. @p factor determines its size	*/
-NOOTKACORE_EXPORT QPixmap getNotePixmap(Tnote note, Tclef::Etype clef = Tclef::e_treble_G, 
-                      TkeySignature key = TkeySignature(0), qreal factor = 4.0, int strNr = 0);
+NOOTKACORE_EXPORT QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef = Tclef::e_treble_G, 
+											TkeySignature key = TkeySignature(0), qreal factor = 4.0, int strNr = 0);
 
+			/** Creates pixmap from a melody. Line are not breaking. */
+NOOTKACORE_EXPORT QPixmap getMelodyPixmap(Tmelody* mel, bool showStrings = false, qreal factor = 4.0);
 
-		/** Returns HTML formatted text with answer details. 
-		* If @p fontSize remains default - default fontSize is taken. */
-NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit *answer, QColor textColor, int fontSize = -1);
+		/** Returns HTML <img> tag with given pixmap. */
+NOOTKACORE_EXPORT QString pixToHtml(const QPixmap& pix);
 
-		/** Returns html sting with note pixmap generated according to given params. */
+		/** Returns HTML sting with note pixmap generated according to given params. */
 NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, Tclef::Etype clef, TkeySignature key, qreal factor = 4.0, int strNr = 0);
 
 		/** Overloaded method - clef is taken from static  */
@@ -56,12 +58,15 @@ NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, bool defClef, TkeySig
 
 		/** Changes given sting to pixmap in given font size. 
      * Nootka font is used and current palette colors. */
-NOOTKACORE_EXPORT QPixmap pixFromString(QString glif, QFont font);
+NOOTKACORE_EXPORT QPixmap pixFromString(const QString& glif, const QFont& font);
 
-    /** Returns html img statements with image scaled to given height.*/
-NOOTKACORE_EXPORT QString pixToHtml(QString imageFile, int width = 0);
+    /** Returns HTML <img> statements with image scaled to given @p width.*/
+NOOTKACORE_EXPORT QString pixToHtml(const QString& imageFile, int width = 0);
 
 
+		/** Returns HTML formatted text with answer details. 
+		* If @p fontSize remains default - default @p fontSize is taken. */
+NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize = -1);
 
 
 
