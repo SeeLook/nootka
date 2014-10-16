@@ -26,10 +26,6 @@
 - revert to native style under MacOs when Qt5
 - there has to be some help with key shortcuts
 
-analyzer executable
-- check note pixmap for notes from grand staff
-- fix flickering when tips appear (scene bounding rectangle)
-
 - misc library can crash under Win due to uninitialized Tglobals *gl
 
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
