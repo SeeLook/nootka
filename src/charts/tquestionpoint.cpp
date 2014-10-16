@@ -26,6 +26,7 @@
 #include <QGraphicsScene>
 
 
+
 /* static */
 void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBadColor, QColor shadowColor, QColor bgColor) {
     m_goodColor = goodColor;
@@ -81,22 +82,26 @@ void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* op
 #endif
   painter->setPen(m_color);
   rect.translate(-1, -1);
-//   if (m_question->isWrong())
-//     setRotation(180);
   QString glyph = "n";
   if (m_qaPtr.qaPtr->isWrong())
     glyph = "N";
+	if (m_qaPtr.qaPtr->melody())
+		glyph = "m";
   painter->drawText(rect, Qt::AlignCenter, glyph);
 }
   
+  
 QRectF TquestionPoint::boundingRect() const {
-//   QFontMetrics metrics = QFont("nootka", 25);
-//   QRectF rect = metrics.boundingRect("n");
-  QRectF rect(-9, -29, 24, 41); // values calculated from above, hardcoded for speedy
-  if (m_qaPtr.qaPtr->isWrong())
-    rect.setRect(-11, -10, 24, 41);;
+// QFontMetrics metrics = QFont("nootka", 25);
+// QRectF rect = metrics.boundingRect("n");
+  QRectF rect(-9, -29, 24, 41); // values calculated from above, hard-coded for speedy
+	if (m_qaPtr.qaPtr->melody())
+		rect.setRect(-11, -29, 24, 41);
+  else if (m_qaPtr.qaPtr->isWrong())
+    rect.setRect(-11, -10, 24, 41);
   return rect;
 }
+  
   
 void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event ) {
     if (tip) {

@@ -79,7 +79,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   headLay->addWidget(new QLabel(tr("student name:"), this), 0, 1, Qt::AlignCenter);
   headLay->addWidget(new QLabel(tr("level:"), this), 0, 2, Qt::AlignCenter);
   m_chartListCombo = new QComboBox(this);
-  m_chartListCombo->addItem(tr("question number", "see coment in 'ordered by:' entry"));
+  m_chartListCombo->addItem(tr("question number", "see comment in 'ordered by:' entry"));
   m_chartListCombo->addItem(tr("note pitch"));
   m_chartListCombo->addItem(tr("fret number"));
   m_chartListCombo->addItem(tr("key signature"));
@@ -168,8 +168,7 @@ void TanalysDialog::setExam(Texam* exam) {
   m_userLab->setText("<b>" + m_exam->userName() + "</b>");
   m_levelLab->setText("<b>" + m_exam->level()->name + "</b>");
   m_questNrLab->setText(tr("Question number") + QString(": <b>%1</b>").arg(exam->count()) );
-  m_effectLab->setText(TexTrans::effectTxt() + QString(": <b>%1%</b>")
-                       .arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
+  m_effectLab->setText(TexTrans::effectTxt() + QString(": <b>%1%</b>").arg(m_exam->effectiveness(), 0, 'f', 1, '0') );
   m_moreButton->setDisabled(false);
 	if (exam->level()->instrument != e_noInstrument) {
 		bool showTun = false;
@@ -339,9 +338,9 @@ void TanalysDialog::createActions() {
 
 
 void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
-    qreal scaleFactor = 1;
+//     qreal scaleFactor = 1; // TODO restore restoring scale factor
     if (m_chart) {
-      scaleFactor = m_chart->transform().m11();
+//       scaleFactor = m_chart->transform().m11();
       delete m_chart;
       m_chart = 0;
     }
@@ -353,7 +352,7 @@ void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
     }
     else
       m_chart = new Tchart(this); // empty chart by default
-    m_chart->scale(scaleFactor, scaleFactor);
+//     m_chart->scale(scaleFactor, scaleFactor);
     m_plotLay->addWidget(m_chart);
 }
 

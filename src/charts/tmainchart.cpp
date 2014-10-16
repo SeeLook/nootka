@@ -113,8 +113,7 @@ void TmainChart::prepareChart(int maxX) {
   if (chartSett.type != e_bar) { // vertical lines only for linear chart
       for(int i = 5; i < maxX; i++) {
         if (i%5 == 0)
-          scene->addLine(xAxis->mapValue(i) + xAxis->pos().x(), 0,
-            xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), 
+          scene->addLine(xAxis->mapValue(i) + xAxis->pos().x(), 0, xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), 
                         QPen(QBrush(lineColor), 1, Qt::DashLine));
       }
   }
@@ -122,9 +121,7 @@ void TmainChart::prepareChart(int maxX) {
   yAxis->getYforGrid(listY);
   if (listY.size()) {
       for(int i = 0; i < listY.size(); i++)
-        scene->addLine(xAxis->pos().x(), listY[i],
-        xAxis->pos().x() + xAxis->length(), listY[i],
-                     QPen(QBrush(lineColor), 1, Qt::DashLine));
+        scene->addLine(xAxis->pos().x(), listY[i], xAxis->pos().x() + xAxis->length(), listY[i], QPen(QBrush(lineColor), 1, Qt::DashLine));
   }  
 }
 

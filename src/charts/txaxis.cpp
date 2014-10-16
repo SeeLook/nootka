@@ -77,10 +77,15 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
 				altStyle = TnameStyleFilter::get(Tnote::e_italiano_Si);
 			altStyleText = QString(" <small><i>(%1)</small></i>").arg(unit.qa.note.toRichText(altStyle, false));
 		}
-		txt += QString("<b>%1</b>").arg(unit.qa.note.toRichText()) + altStyleText;
-    if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
-        txt += "<br>" + TnooFont::span(QString::number((int)unit.qa.pos.str()), 15) + 
-              QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit.qa.pos.fret()));
+		if (unit.melody())
+// 			txt += "<small>" + QApplication::translate("TXaxis", "%n attempt(s)", "", unit.attemptsCount()) + "</small>";
+			;
+		else {
+			txt += QString("<b>%1</b>").arg(unit.qa.note.toRichText()) + altStyleText;
+			if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)
+					txt += "<br>" + TnooFont::span(QString::number((int)unit.qa.pos.str()), 15) + 
+								QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit.qa.pos.fret()));
+		}
     if (m_level->useKeySign &&
       (unit.questionAs == TQAtype::e_asNote || unit.answerAs == TQAtype::e_asNote)) {
         txt += "<br><i>" + unit.key.getName() + "</i>";

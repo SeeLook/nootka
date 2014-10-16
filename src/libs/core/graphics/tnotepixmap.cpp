@@ -136,8 +136,6 @@ QPixmap getMelodyPixmap(Tmelody* mel, bool showStrings, qreal factor) {
 		leftPix = -1;
 	staff->setScale(factor);
 	qreal pixWidth = scene->width();
-// 	if (notesCount == 0)
-// 		pixWidth = 13 * factor;
 	
 	QPixmap pix(pixWidth, qRound((bottomPix - topPix) * factor));
 	pix.fill(Qt::transparent);

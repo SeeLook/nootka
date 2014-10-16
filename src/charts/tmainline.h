@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@
 
 
 #include <QList>
-// #include "tquestionpoint.h"
+
 
 class TquestionPoint;
 class TgroupedQAunit;
@@ -31,8 +31,9 @@ class TQAunit;
 
 
 
-/** This is main line of a chart. 
- * It paints qustions points TquestionPoint over the scene.
+/** 
+ * This is main line of a chart. 
+ * It paints questions points TquestionPoint over the scene.
  * It also performs Tips - information about question 
  */
 class TmainLine

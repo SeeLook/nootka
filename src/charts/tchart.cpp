@@ -24,6 +24,7 @@
 #include "ttiphandler.h"
 #include <QGraphicsEllipseItem>
 #include <QMouseEvent>
+#include <QTimer>
 
 
 Tchart::Tchart(QWidget* parent) :
@@ -46,18 +47,10 @@ Tchart::Tchart(QWidget* parent) :
   scene->addItem(xAxis);
   xAxis->setLength(550);
   xAxis->setPos(52, yAxis->boundingRect().height() - 7);
-
-  // stupid trick to make room for further tips of ticks of x axis
-  QGraphicsEllipseItem *el = new QGraphicsEllipseItem();
-  el->setPen(Qt::NoPen);
-  scene->addItem(el);
-  el->setRect(0, 0, 15, xAxis->rectBoundText("X").height()*4);
-  el->setPos(27, yAxis->boundingRect().height() + 15);
+	
+	QTimer::singleShot(20, this, SLOT(ajustChartHeight()));
 
 }
-
-
-Tchart::~Tchart() {}
 
 
 void Tchart::zoom(bool in) {
@@ -68,12 +61,22 @@ void Tchart::zoom(bool in) {
 }
 
 
+void Tchart::ajustChartHeight() {
+	qreal factor = (viewport()->rect().height() / scene->sceneRect().height());
+	if (viewport()->rect().width() > scene->sceneRect().width()) {
+		setSceneRect(0, 0, viewport()->rect().width(), scene->sceneRect().height());
+		factor = (viewport()->rect().height() / scene->sceneRect().height()) * 0.95;
+	}
+	scale(factor, factor);
+}
+
+
+
 //##########################################################################################
 //#######################     EVENTS       ################################################
 //##########################################################################################
 
-bool Tchart::event(QEvent* event)
-{
+bool Tchart::event(QEvent* event) {
   if (event->type() == QEvent::Wheel) {
     QWheelEvent *we = static_cast<QWheelEvent *>(event);
     if (we->modifiers() == Qt::ControlModifier) {
