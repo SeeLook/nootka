@@ -131,23 +131,23 @@ void TmainChart::prepareChart(int maxX) {
 //####################################################################################
 
 void TmainChart::sceneMoved() {
-    qreal xOff = mapToScene(0, 0).x();
-    xOff = qMax(0.0, xOff);
-    if (xOff > 16)
-      yAxis->setX(16 + xOff);
+	qreal xOff = mapToScene(0, 0).x();
+	xOff = qMax(0.0, xOff);
+	if (xOff > 16)
+		yAxis->setX(16 + xOff);
 #if defined(Q_OS_MAC)
-    // Unfortunately some QT styles and
-    // Mac has problem with update and this solves it.
-    // It cases blinking but it is acceptable
-     QTimer::singleShot(1, this, SLOT(updateSceneAfterMove()));
+	// Unfortunately some QT styles and
+	// Mac has problem with update and this solves it.
+	// It cases blinking but it is acceptable
+		QTimer::singleShot(1, this, SLOT(updateSceneAfterMove()));
 #else
-    scene->update();
+	scene->update();
 #endif
 }
 
 
 void TmainChart::updateSceneAfterMove() {
-    scene->update();
+	scene->update();
 }
 
 

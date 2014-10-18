@@ -187,7 +187,7 @@ void TanalysDialog::setExam(Texam* exam) {
 	}
   connect(m_moreButton, SIGNAL(clicked()), this, SLOT(moreLevelInfo()));
   // sort by note
-  if (m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound())
+  if ((m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound()) && !m_exam->melodies())
         enableComboItem(1, true);
     else
         enableComboItem(1, false);
@@ -205,7 +205,7 @@ void TanalysDialog::setExam(Texam* exam) {
   else
       enableComboItem(3, false);
   // sort by accidentals
-  if (m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound())
+  if ((m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound()) && !m_exam->melodies())
     enableComboItem(4, true);
   else
     enableComboItem(4, false);
@@ -243,6 +243,7 @@ void TanalysDialog::createActions() {
     QMenu *openMenu = new QMenu("open exam file", this);
     QAction *openAct = new QAction(tr("Open an exam to analyze"), this);
 			openAct->setIcon(QIcon(gl->path + "picts/charts.png"));
+			openAct->setShortcut(QKeySequence::Open);
     openMenu->addAction(openAct);
 			connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
     openMenu->addSeparator();
@@ -253,6 +254,7 @@ void TanalysDialog::createActions() {
 			ex.loadFromFile(exerciseFile);
 			QAction *exerciseAct = new QAction(tr("Recent exercise on level") + ": " + lev.name, this);
 			exerciseAct->setIcon(QIcon(gl->path + "picts/practice.png"));
+			exerciseAct->setShortcut(QKeySequence("CTRL+e"));
 			connect(exerciseAct, SIGNAL(triggered()), this, SLOT(openRecentExercise()));
 			openMenu->addAction(exerciseAct);
 			openMenu->addSeparator();

@@ -73,7 +73,7 @@ QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef, TkeySignature key, q
 	if (notesCount) {
 			staff->setNote(0, note);
 			topPix = staff->hiNotePos();
-			bottomPix = staff->loNotePos() + 1;
+			bottomPix = staff->loNotePos() + 2;
 			if (clef == Tclef::e_pianoStaff) {
 				Tnote tmpN = note;
 				if (tmpN.chromatic() < 13)
@@ -98,8 +98,7 @@ QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef, TkeySignature key, q
 	QPixmap pix(pixWidth, qRound((bottomPix - topPix) * factor));
 	pix.fill(Qt::transparent);
 	QPainter painter(&pix);
-	painter.setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing | 
-												 QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+	painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	QRectF rect(0, 0, scene->width(), (bottomPix - topPix) * factor);
 	scene->render(&painter, rect, QRectF(QPointF(leftPix * factor, topPix * factor), pix.size()));
 	delete scene;
@@ -140,8 +139,7 @@ QPixmap getMelodyPixmap(Tmelody* mel, bool showStrings, qreal factor) {
 	QPixmap pix(pixWidth, qRound((bottomPix - topPix) * factor));
 	pix.fill(Qt::transparent);
 	QPainter painter(&pix);
-	painter.setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing | 
-												 QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+	painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	QRectF rect(0, 0, scene->width(), (bottomPix - topPix) * factor);
 	scene->render(&painter, rect, QRectF(QPointF(leftPix * factor, topPix * factor), pix.size()));
 	delete scene;

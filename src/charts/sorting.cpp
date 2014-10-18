@@ -164,7 +164,7 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
   for (int k = level->loKey.value(); k <= level->hiKey.value(); k++) {
         TgroupedQAunit majors, minors;
     for (int i = 0; i < answList.size(); i++) {
-        if (answList[i].qaPtr->questionAs == TQAtype::e_asNote || answList[i].qaPtr->answerAs == TQAtype::e_asNote) {
+        if (answList[i].qaPtr->questionAsNote() || answList[i].qaPtr->answerAsNote()) {
             if (answList[i].qaPtr->key.value() == k) {
               if (answList[i].qaPtr->key.isMinor())
                   minors.addQAunit(answList[i]);
@@ -178,14 +178,20 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
     }
     bool tmpBool;
     if (!majors.isEmpty()) {
-      QList<TgroupedQAunit> majSorted = sortByNote(majors, level, tmpBool);
-      TgroupedQAunit mS = mergeListOfLists(majSorted);
-      divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
+			if (!majors.first()->melody()) {
+				QList<TgroupedQAunit> majSorted = sortByNote(majors, level, tmpBool);
+				TgroupedQAunit mS = mergeListOfLists(majSorted);
+				divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
+			} else
+					divideQuestionsAndAnswers(result, majors, TQAtype::e_asNote);
     }
     if (!minors.isEmpty()) {
-      QList<TgroupedQAunit> minSorted = sortByNote(minors, level, tmpBool);
-      TgroupedQAunit mS = mergeListOfLists(minSorted);
-      divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
+			if (!minors.first()->melody()) {
+				QList<TgroupedQAunit> minSorted = sortByNote(minors, level, tmpBool);
+				TgroupedQAunit mS = mergeListOfLists(minSorted);
+				divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
+			} else
+					divideQuestionsAndAnswers(result, minors, TQAtype::e_asNote);
     }
   }
   for (int i = 0; i < result.size(); i++) {
