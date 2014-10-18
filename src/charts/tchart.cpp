@@ -64,8 +64,8 @@ void Tchart::zoom(bool in) {
 void Tchart::ajustChartHeight() {
 	qreal factor = (viewport()->rect().height() / scene->sceneRect().height());
 	if (viewport()->rect().width() > scene->sceneRect().width()) {
-		setSceneRect(0, 0, viewport()->rect().width(), scene->sceneRect().height());
 		factor = (viewport()->rect().height() / scene->sceneRect().height()) * 0.95;
+		setSceneRect(0, 0, viewport()->rect().width() / factor, scene->sceneRect().height());
 	}
 	scale(factor, factor);
 }

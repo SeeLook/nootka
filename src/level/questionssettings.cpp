@@ -21,6 +21,7 @@
 #include "tkeysigncombobox.h"
 #include <widgets/tquestionaswdg.h>
 #include <exam/tlevel.h>
+#include <exam/textrans.h>
 #include <tnoofont.h>
 #include <widgets/tintonationview.h>
 #include <QtWidgets>
@@ -109,12 +110,10 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	
 	QLabel *melodyLab = new QLabel(TnooFont::span("m", nootFontSize * 2, nooColor), this);
 	melodyLab->setAlignment(Qt::AlignCenter);
-	m_playMelodyChB = new QCheckBox(tr("play melody"), this);
-		m_playMelodyChB->setStatusTip(tableTip(tr("Play a melody written in a score"), 
-																					 TQAtype::e_asNote, TQAtype::e_asSound, nootFontSize));
-	m_writeMelodyChB = new QCheckBox(tr("write melody"), this);
-		m_writeMelodyChB->setStatusTip(tableTip(tr("Listen to a melody and write it on a score"), 
-																						TQAtype::e_asSound, TQAtype::e_asNote, nootFontSize));
+	m_playMelodyChB = new QCheckBox(TexTrans::playMelodyTxt(), this);
+		m_playMelodyChB->setStatusTip(tableTip(TexTrans::playDescTxt(), TQAtype::e_asNote, TQAtype::e_asSound, nootFontSize));
+	m_writeMelodyChB = new QCheckBox(TexTrans::writeMelodyTxt(), this);
+		m_writeMelodyChB->setStatusTip(tableTip(TexTrans::writeDescTxt(), TQAtype::e_asSound, TQAtype::e_asNote, nootFontSize));
 // 		QCheckBox *m_repeatMelodyChB = new QCheckBox(tr("repeat melody"), this);
 	m_melodyLengthSpin = new QSpinBox(this);
 		m_melodyLengthSpin->setMaximum(100);
@@ -125,7 +124,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		lenghtLab->setStatusTip(m_melodyLengthSpin->statusTip());
 		
 	m_finishOnTonicChB = new QCheckBox(tr("Melody ends on tonic note"), this);
-		m_finishOnTonicChB->setStatusTip(tr("Determines the last note of a melody.<br>When set, melody will be finished on tonic note in actual key signature."));
+		m_finishOnTonicChB->setStatusTip(tr("Determines the last note of a melody.<br>When set, melody will be finished on tonic note of actual key signature."));
 	
 	m_tableWdg->setLayout(qaLay);
 	m_singleGr = new QGroupBox(tr("single note"), this);

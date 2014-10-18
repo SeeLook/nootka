@@ -21,6 +21,7 @@
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/tlevel.h>
+#include <exam/textrans.h>
 #include <graphics/tnotepixmap.h>
 #include <widgets/tquestionaswdg.h>
 #include <animations/tfadeanim.h>
@@ -97,7 +98,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
   }
   QString attemptText = "";
 	if (question.attemptsCount() > 1)
-		attemptText = " <small><i>" + tr("attempt %n", "", question.attemptsCount()) + "</i></small>";
+		attemptText = " <small><i>" + TexTrans::attemptTxt() + QString(" %1").arg(question.attemptsCount()) + "</i></small>";
   quest += QString("<b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + "<br>";
     QString apendix = "";
     QString noteStr;
@@ -200,7 +201,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
         if (question.answerAsNote()) {
 						m_scoreFree = false;
 						if (question.melody()) {
-								quest += tr("Listen to a melody and write it on the score");
+								quest += TexTrans::writeDescTxt();
 								if (level->useKeySign && level->manualKey && level->onlyCurrKey)
 									quest += tr("<br>Guess a key signature");
 						} else {

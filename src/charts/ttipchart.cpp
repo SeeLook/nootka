@@ -45,16 +45,19 @@ TtipChart::TtipChart(TquestionPoint *point) :
 	TnotePixmap::setDefaultClef(defaultClef);
   QString txt;
   if (point->nr())
-    txt = QString("<span style=\"font-size: 20px\"><b>%1.</b></span><br>").arg(point->nr());
+    txt = QString("<span style=\"font-size: 20px\"><b>%1.</b></span>").arg(point->nr());
 	if (point->question()->melody()) {
 		if (point->question()->questionAsNote() && point->question()->answerAsSound())
-			txt += ("<b>" + QApplication::translate("TtipChart", "play a melody") + "</b><br>");
+			txt += (" <b>" + TexTrans::playMelodyTxt() + "</b><br>");
 		else if (point->question()->questionAsSound() && point->question()->answerAsNote())
-			txt += ("<b>" + QApplication::translate("TtipChart", "write a melody") + "</b><br>");
-		txt += pixToHtml(getMelodyPixmap(point->question()->melody())) + "<br>";
-		txt += QApplication::translate("TtipChart", "%n attempt(s)", "", point->question()->attemptsCount()) + "<br>";
+			txt += (" <b>" + TexTrans::writeMelodyTxt() + "</b><br>");
+		txt += pixToHtml(getMelodyPixmap(point->question()->melody()));
+// 		if (point->question()->attemptsCount() > 1)
+// 			txt += " <a href=\"more\" name=\"more about attempts\" >...</a> ";
+		txt += "<br>";
+		txt += TexTrans::attemptsTxt(point->question()->attemptsCount()) + "<br>";
 	} else {
-		txt += TquestionAsWdg::questionTxt() + ": <b>" + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "</b><br>" +
+		txt += "<br>" + TquestionAsWdg::questionTxt() + ": <b>" + TquestionAsWdg::qaTypeText(point->question()->questionAs) + "</b><br>" +
 						TquestionAsWdg::answerTxt() + ": <b>" + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "</b><br>";
 		QString qS = "", aS = "";
 		switch (point->question()->questionAs) {

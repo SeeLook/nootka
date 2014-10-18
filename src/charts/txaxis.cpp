@@ -79,7 +79,7 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit &unit, int questNr) {
 		}
 		if (unit.melody())
 // 			txt += "<small>" + QApplication::translate("TXaxis", "%n attempt(s)", "", unit.attemptsCount()) + "</small>";
-			;
+			txt.replace("<br>", "");
 		else {
 			txt += QString("<b>%1</b>").arg(unit.qa.note.toRichText()) + altStyleText;
 			if (unit.questionAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asFretPos || unit.answerAs == TQAtype::e_asSound)

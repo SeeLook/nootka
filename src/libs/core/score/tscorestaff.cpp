@@ -408,7 +408,7 @@ void TscoreStaff::prepareStaffLines() {
 			for (int i = 0; i < 5; i++) {
 				m_lines[i] = new QGraphicsLineItem();
 				registryItem(m_lines[i]);
-				m_lines[i]->setPen(QPen(qApp->palette().text().color(), 0.15));
+				m_lines[i]->setPen(QPen(qApp->palette().text().color(), 0.18));
 				m_lines[i]->setZValue(5);
 			}
 	if (isPianoStaff()) {
@@ -416,7 +416,7 @@ void TscoreStaff::prepareStaffLines() {
 			for (int i = 0; i < 5; i++) {
 				m_lowLines[i] = new QGraphicsLineItem();
 				registryItem(m_lowLines[i]);
-				m_lowLines[i]->setPen(QPen(qApp->palette().text().color(), 0.15));
+				m_lowLines[i]->setPen(QPen(qApp->palette().text().color(), 0.18));
 				m_lowLines[i]->setZValue(5);
 			}
 			createBrace();
