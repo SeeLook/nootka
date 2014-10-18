@@ -31,8 +31,6 @@
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
 
 - There is unused class TnotePixmap only with default clef - use it or delete
-- attempt image is unused - maybe delete
-
 
 ==== NEW FEATURES ================================================================
 
@@ -51,8 +49,6 @@ Tnote
 			- overload + and - operators to raise/drop a note
 			
 TEXAMEXECUTOR
-  - when question is played melody to put in a score and there are multiple keys and key is given manually:
-		do not show what key but user has to guess it
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required
 
