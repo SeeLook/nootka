@@ -25,6 +25,7 @@
 #include <QLinearGradient>
 #include "nootkacoreglobal.h"
 
+class QTimer;
 class TscoreNote;
 class TscoreStaff;
 
@@ -108,6 +109,7 @@ private:
 		QGraphicsSimpleTextItem 									*m_prevAccidIt;
 		bool																			 m_notesAdding, m_nameEnabled;
 		bool																			 m_adding; // TRUE when click adds a note
+		QTimer																		*m_delayTimer;
 		
 private:
 		QGraphicsSimpleTextItem* createNootkaTextItem(const QString& aText);

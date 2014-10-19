@@ -38,7 +38,7 @@
   #define WIDTH (5.0)
   #define LEAVE_DELAY (1000)
 #else
-  #define WIDTH (3.0)
+  #define WIDTH (2.5)
   #define LEAVE_DELAY (300)
 #endif
 
@@ -63,7 +63,8 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_moveNote(false),
 	m_currAccid(0), m_prevAccidIt(0),
 	m_notesAdding(true),
-	m_adding(false)
+	m_adding(false),
+	m_delayTimer(new QTimer(this))
 {
 	setStaff(staff);
 	setParentItem(staff);
@@ -86,6 +87,7 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_cross->setBrush(Qt::red);
 	adjustSize();
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
+	connect(m_delayTimer, SIGNAL(timeout()), this, SLOT(showDelayed()));
 }
 
 
@@ -191,7 +193,7 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 			}
 			painter->setPen(Qt::NoPen);
 			qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 20.0;
-			painter->drawRoundedRect(0.0, baseY, WIDTH, lowest - staff()->upperLinePos(), 0.75, 0.75);
+			painter->drawRoundedRect(QRectF(0.0, baseY, WIDTH, lowest - staff()->upperLinePos()), 0.75, 0.75);
 			if (m_entered && m_adding) { // 'plus' symbol
 				painter->setPen(QPen(qApp->palette().base().color(), 0.4, Qt::SolidLine, Qt::RoundCap));
 				qreal plusW = (WIDTH - 2.0) / 2.0;
@@ -213,7 +215,8 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 				parentItem()->setZValue(11);
 			}
 #if !defined (Q_OS_ANDROID)
-			QTimer::singleShot(300, this, SLOT(showDelayed()));
+// 			QTimer::singleShot(300, this, SLOT(showDelayed()));
+			m_delayTimer->start(500);
 #endif
 			if (notesAddingEnabled()) {
 					if (staff()->number() == 0 && staff()->count() < 2)
@@ -288,7 +291,9 @@ void TnoteControl::hoverEnterDelayed() {
 
 
 void TnoteControl::showDelayed() {
-	show();
+	m_delayTimer->stop();
+	if (scoreScene()->isCursorVisible())
+		show();
 }
 
 
