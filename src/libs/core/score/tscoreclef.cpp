@@ -141,15 +141,7 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 					curClef = Tclef(Tclef::e_pianoStaff);
 				m_clefMenu->selectClef(curClef);
 				connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
-				QPoint mPos = scoreScene()->views()[0]->mapToGlobal(scoreScene()->views()[0]->
-				mapFromScene(QPointF(event->scenePos().x(), 1.0)));
-// 				if (scoreScene()->views()[0]->objectName() == "m_mainScore")
-// 					mPos.setY(mPos.y() - scoreScene()->views()[0]->height() / 2);
-				/** m_mainScore has no parent so it is pointing not an absolute screen position but only a view position.
-				 * In this case it displays the menu only over window area so menu can be cut if to big (placed to low).
-				 * The solution is to force Y coordinate.
-				 * This case occurs on main Nootka window.
-				 * Other dialog windows (level, settings) respects screen position. */
+				QPoint mPos = scoreScene()->views()[0]->mapToGlobal(scoreScene()->views()[0]->mapFromScene(QPointF(event->scenePos().x(), 1.0)));
 				Tclef cl = m_clefMenu->exec(mPos);
 				m_clefMenu->setMenu(0);
 				delete m_menu;

@@ -95,18 +95,23 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   }
   if (m_drawKnob) {
 		painter.setPen(Qt::NoPen);
-		QColor knobBrush = palette().highlight().color();
-// 		knobBrush.setAlpha(150);
-		painter.setBrush(knobBrush);
+		QColor knobBrush = palette().highlight().color(), shade = palette().text().color();
+		if (m_leftButton)
+			knobBrush = knobBrush.lighter();
+		shade.setAlpha(150);
+		painter.setBrush(shade);
 		float xPos = (float)(width() - m_noteWidth) * m_minVolume; 
-		painter.drawEllipse(QRectF(xPos - height() / 2 + 2, 2, height(), height() - 2)); // shade
-		painter.setBrush(knobBrush.lighter());
-		painter.drawEllipse(QRectF(xPos - height() / 2, 0, height(), height() - 2));
-// 		painter.setBrush(palette().base());
-// 		painter.drawRoundedRect(QRectF(xPos - height() / 4 + 2, height() / 3 + 4, height() / 4, height() - height() / 4), 
-// 														height() / 6, height() / 6);
-		painter.setBrush(palette().text());
-		painter.drawEllipse(QRectF(xPos - height() / 4, height() / 5, height() * 0.6, height() * 0.6));
+		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.1, height() * 0.9, height() * 0.9)); // shade
+		QLinearGradient lg(xPos - height() * 0.5, 0, xPos + height() * 0.5, 0);
+		lg.setColorAt(0, knobBrush);
+		lg.setColorAt(0.3, knobBrush);
+		lg.setColorAt(0.5, knobBrush.darker());
+		lg.setColorAt(0.7, knobBrush);
+		painter.setBrush(QBrush(lg));
+		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.05, height() * 0.9, height() * 0.9));
+		painter.setBrush(palette().highlightedText());
+		painter.setPen(QPen(shade, 0.7));
+		painter.drawEllipse(QRectF(xPos - height() * 0.27, height() * 0.27, height() * 0.45, height() * 0.45));
   }
 }
 
@@ -142,8 +147,7 @@ void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
 		if (minV >= 0.1 && minV < 0.81) {
 			m_minVolume = minV;
 			setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
-	// 		QToolTip::showText(mapToGlobal(QPoint( event->pos().x(), height())), toolTip());
-	// 		QToolTip::showText(QPoint(event->screenPos().x(), event->screenPos().y() + height()), toolTip());
+			QToolTip::showText(QCursor::pos(), toolTip());
 			emit minimalVolume(m_minVolume);
 		}
 	}

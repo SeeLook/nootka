@@ -413,7 +413,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		else
 			emptyNoteColor = m_mainNote->pen().color();
 		emptyNoteColor.setAlpha(120);
-		painter->setPen(QPen(emptyNoteColor, 0.6, Qt::SolidLine, Qt::RoundCap));
+		painter->setPen(QPen(emptyNoteColor, 0.4, Qt::SolidLine, Qt::RoundCap));
 		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, 6.5, staff()->upperLinePos() - 2.0));
 		qreal loLine = staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos();
 		painter->drawLine(QLineF(0.5, loLine + 10.0, 6.5, loLine + 9.0));
