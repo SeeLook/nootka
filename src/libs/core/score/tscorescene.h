@@ -22,10 +22,24 @@
 #include <nootkacoreglobal.h>
 #include <QGraphicsScene>
 #include "tscorenote.h"
+#include "tscorelines.h"
 
+class QTimer;
 class TnoteControl;
 class QGraphicsItem;
 
+
+/** 
+ * This is subclass of QGraphicsScene that handles additional operations of Nootka score.
+ * 
+ * It manages a 'note cursor' - note shape under mouse and 'note controllers' - panes on the sides of a note.
+ * Three methods are responsible for smart displaying cursor/panes:
+ * - @p noteMoved() - invokes timer to display cursor when mouse stays over a note segment 
+ * and timer to hide it when cursor stops over the segment
+ * - @p noteLeaved() - invokes timer to hide cursor when mouse leaves the segment
+ * - @p controlEntered() - to stop timers and keep cursor and pane visible
+ * - @p controlLeaved() - to hide (the same as @p noteLeaved())
+ */
 class NOOTKACORE_EXPORT TscoreScene : public QGraphicsScene
 {
 		
@@ -66,29 +80,46 @@ public:
 		QColor nameColor() { return m_nameColor; }
 		
 				/** Sets color of pointing (work) note. */
-    void setPointedColor(QColor color);
+    void setPointedColor(const QColor& color);
 		
 		qreal accidYoffset() { return m_accidYoffset; } /** Y offset of accidental item */
 		qreal accidScale() { return m_accidScale; } /** Scale of accidental text item */
+		
+				/** Additional note controls are displayed when note gets cursor.
+				 This is default behavior and without those controls accidentals can not be managed with wheel. */
+		void setControlledNotes(bool controlled) { m_controlledNotes = controlled; }
+		bool controlledNotes() { return m_controlledNotes; }
+		
+		void noteEntered(TscoreNote* sn); /** From @p TscoreNote::hoverEnterEvent */
+		void noteMoved(TscoreNote* sn, int yPos); /** From @p TscoreNote::hoverMoveEvent */
+		void noteLeaved(TscoreNote* sn); /** From @p TscoreNote::hoverLeaveEvent */
+		void noteDeleted(TscoreNote* sn); /** From @p TscoreNote::~TscoreNote */
+		void controlEntered(TscoreNote* sn); /** @p TnoteControl::hoverEnterEvent */
+		void controlLeaved(TscoreNote* sn) { noteLeaved(sn); } /** From @p TnoteControl::hoverLeaveEvent */
+		
+		
 		
 signals:
     void statusTip(QString);
 		
 protected:
 	// note cursor
-		TaddLines	upLines, downLines, midLines;
 		QColor  workColor;
 		int workPosY() { return m_workPosY; }
 		void setWorkPosY(int wpY) { m_workPosY = wpY; }
 		QGraphicsEllipseItem* workNote() { return m_workNote; }
-		void initNoteCursor(TscoreItem* parentIt);
+		TscoreLines* workLines() { return m_workLines; }
+		void initNoteCursor(TscoreNote* parentIt);
 		QGraphicsSimpleTextItem* workAccid() { return m_workAccid; }
 		void setAccidYoffset(qreal aYo) { m_accidYoffset = aYo; }
 		void setAccidScale(qreal as) { m_accidScale = as; }
+		void setCursorParent(TscoreItem* item); /** Sets parent of note cursor to this instance */
 		
     
 protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
+    void showTimeOut();
+		void hideTimeOut();
     
 private:
         /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
@@ -98,11 +129,14 @@ private:
 		int                            		m_workPosY;
 		QGraphicsEllipseItem          	 *m_workNote;
 		QGraphicsSimpleTextItem       	 *m_workAccid;
+		TscoreLines											 *m_workLines;
 		QColor														m_nameColor;
 		TnoteControl				  				 	 *m_rightBox, *m_leftBox;
 		qreal 									 					m_accidYoffset; /** difference between y note position. */
     qreal									 						m_accidScale;
-		
+		QTimer													 *m_showTimer, *m_hideTimer;
+		TscoreNote											 *m_scoreNote; /** current note segment or NULL. */
+		bool															m_controlledNotes;
 
 };
 

@@ -216,7 +216,7 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 			}
 #if !defined (Q_OS_ANDROID)
 // 			QTimer::singleShot(300, this, SLOT(showDelayed()));
-			m_delayTimer->start(500);
+// 			m_delayTimer->start(500);
 #endif
 			if (notesAddingEnabled()) {
 					if (staff()->number() == 0 && staff()->count() < 2)
@@ -292,8 +292,9 @@ void TnoteControl::hoverEnterDelayed() {
 
 void TnoteControl::showDelayed() {
 	m_delayTimer->stop();
-	if (scoreScene()->isCursorVisible())
-		show();
+// 	if (scoreScene()->isCursorVisible())
+// 		show();
+	hoverEnterDelayed();
 }
 
 
@@ -323,7 +324,10 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
 #if !defined (Q_OS_ANDROID)
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 	TscoreItem::hoverEnterEvent(0);
-	QTimer::singleShot(300, this, SLOT(hoverEnterDelayed()));
+// 	QTimer::singleShot(300, this, SLOT(hoverEnterDelayed()));
+// 	m_entered = true;
+	m_delayTimer->start(150);
+	scoreScene()->controlEntered(scoreNote());
 }
 
 
@@ -382,6 +386,7 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 	hideWithDelay();
 		TscoreItem::hoverLeaveEvent(event);
 	m_entered = false;
+	scoreScene()->controlLeaved(scoreNote());
 }
 
 

@@ -23,6 +23,7 @@
 #include "tscoreitem.h"
 
 
+class TscoreLines;
 class Tnote;
 class TnoteControl;
 class TcombinedAnim;
@@ -30,7 +31,6 @@ class TcrossFadeTextAnim;
 class TscoreControl;
 class TscoreScene;
 
-typedef QList<QGraphicsLineItem*> TaddLines; /** List of graphics lines  */
 
 /*!
  * This class represents single note on a score. 
@@ -61,7 +61,7 @@ public:
 		void adjustSize(); /** Grabs height from staff and adjust to it. */
 		
         /** Sets color of main note. */
-    void setColor(QColor color);
+    void setColor(const QColor& color);
 		
 				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
 		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
@@ -158,7 +158,6 @@ protected:
 private:
     QGraphicsEllipseItem          					*m_mainNote;
     QGraphicsSimpleTextItem       					*m_mainAccid;
-    TaddLines      								 					m_mainUpLines, m_mainDownLines, m_mainMidLines;
     QColor                         					m_mainColor;
 		TcrossFadeTextAnim 											*m_accidAnim;
 		Tnote																	  *m_note;
@@ -175,28 +174,17 @@ private:
 		int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
 		QColor                         					m_bgColor;
 		TcombinedAnim														*m_noteAnim, *m_popUpAnim;
-		QGraphicsRectItem												*m_popUpRect;
+		QGraphicsSimpleTextItem									*m_emptyText;
 		bool													 					m_accidToKeyAnim;
 		bool													 					m_selected;
+		TscoreLines															*m_lines;
 		
 		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
 		static QString													m_staticTip;
     
 private:
-    QGraphicsLineItem*    createNoteLine(int yPos);
-		
-				/** Common method creating upper and lower staff lines.
-				 * It appends new lines to list 
-				 * so do not forget to clear list before every next call. */
-		void createLines(TaddLines &low, TaddLines &upp, TaddLines &mid);
-		void deleteLines(TaddLines &linesList); /** Deletes lines in the list and clears the list */
-    void hideLines(TaddLines &linesList);
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
 		void initNoteCursor(); /** Creates note cursor when first TscoreNote instance is created and there is a view */
-		void setCursorParent(TscoreItem* item); /** Sets parent of note cursor to this instance */
-				/** Checks whose lines show and hide. @p curPos is current position of note those lines belong to. */
-		void checkLines(int curPos, TaddLines &low, TaddLines &upp, TaddLines &mid);
-// 		void checkOctavation();
 		
 private slots:
 		void popUpAnimFinished();

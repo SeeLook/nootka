@@ -52,6 +52,8 @@ void TfadeAnim::animationRoutine() {
 			m_startOp = item()->opacity();
 			m_midOp = -1;
 			animationRoutine();
-  } else 
+  } else {
+			item()->setOpacity(m_endOp);
       stopAnim();
+	}
 }
