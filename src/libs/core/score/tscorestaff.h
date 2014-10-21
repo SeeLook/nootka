@@ -181,11 +181,6 @@ public:
 		void setSelectableNotes(bool selectable) { m_selectableNotes = selectable; }
 		bool selectableNotes() { return m_selectableNotes; }
 		
-				/** Additional note controls are displayed when note gets cursor.
-				 This is default behaviour and without those controls accidentals can be managed with wheel */
-		void setControlledNotes(bool controlled) { m_controlledNotes = controlled; }
-		bool controlledNotes() { return m_controlledNotes; }
-		
 				/** Determines whether note controllers can add/remove note to the staff.
 				 * Notice, when enabled, 'remove' (minus) is displayed only when staff has more notes than one. */
 		void enableToAddNotes(bool alowAdding);
@@ -291,7 +286,7 @@ private:
 		TcombinedAnim											*m_accidAnim;
 		QGraphicsSimpleTextItem 					*m_flyAccid;
 		int											 					 m_index; // index of currently selected note
-		bool 										 					 m_selectableNotes, m_controlledNotes, m_extraAccids;
+		bool 										 					 m_selectableNotes, m_extraAccids;
 		int																 m_maxNotesCount;
 		qreal															 m_loNotePos, m_hiNotePos;
 		bool															 m_lockRangeCheck; // to prevent the checking during clef switching

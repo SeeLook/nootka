@@ -51,7 +51,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_isPianoStaff(false),
 	m_scordature(0), m_enableScord(false),
 	m_accidAnim(0), m_flyAccid(0),
-	m_index(0), m_selectableNotes(false), m_controlledNotes(true), m_extraAccids(false),
+	m_index(0), m_selectableNotes(false), m_extraAccids(false),
 	m_maxNotesCount(0),
 	m_loNotePos(28.0), m_hiNotePos(12.0),
 	m_lockRangeCheck(false)

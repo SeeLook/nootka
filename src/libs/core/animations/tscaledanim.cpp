@@ -50,8 +50,10 @@ void TscaledAnim::animationRoutine() {
 				m_beginScale = item()->scale();
 				m_midScale = -1.0; // reset it to stop performing second part second time
 				animationRoutine(); // perform it immediately...
-		} else 
+		} else {
+				item()->setScale(m_endScale);
 				stopAnim();
+		}
 }
 
 
