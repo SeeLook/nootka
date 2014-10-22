@@ -68,7 +68,7 @@ public:
 				/** Adjust note cursor and TnoteControl to new staff size. 
 				 * For performance reason it has to be called once for all adjustSize() of TscoreNote
 				 * because there is only one instance of note cursor and TnoteControl */
-		void adjustCursor();
+		void adjustCursor(TscoreNote* sn);
 		bool isCursorVisible() { return m_workNote->isVisible(); }
 		
 				/** Note controllers, appear with cursor. 
@@ -90,11 +90,11 @@ public:
 		void setControlledNotes(bool controlled) { m_controlledNotes = controlled; }
 		bool controlledNotes() { return m_controlledNotes; }
 		
-		void noteEntered(TscoreNote* sn); /** From @p TscoreNote::hoverEnterEvent */
-		void noteMoved(TscoreNote* sn, int yPos); /** From @p TscoreNote::hoverMoveEvent */
-		void noteLeaved(TscoreNote* sn); /** From @p TscoreNote::hoverLeaveEvent */
-		void noteDeleted(TscoreNote* sn); /** From @p TscoreNote::~TscoreNote */
-		void controlEntered(TscoreNote* sn); /** @p TnoteControl::hoverEnterEvent */
+		void noteEntered(TscoreNote* sn); /** Prepares note cursor. From @p TscoreNote::hoverEnterEvent() */
+		void noteMoved(TscoreNote* sn, int yPos); /** Starts show timer if hidden or restarts hide timer. From @p TscoreNote::hoverMoveEvent() */
+		void noteLeaved(TscoreNote* sn); /** Starts hide timer. From @p TscoreNote::hoverLeaveEvent() */
+		void noteDeleted(TscoreNote* sn); /** From @p TscoreNote::~TscoreNote() */
+		void controlMoved(); /** Restarts hide timer. From @p TnoteControl::hoverMoveEvent()*/
 		void controlLeaved(TscoreNote* sn) { noteLeaved(sn); } /** From @p TnoteControl::hoverLeaveEvent */
 		
 		

@@ -214,10 +214,6 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 				setStaff(sn->staff());
 				parentItem()->setZValue(11);
 			}
-#if !defined (Q_OS_ANDROID)
-// 			QTimer::singleShot(300, this, SLOT(showDelayed()));
-// 			m_delayTimer->start(500);
-#endif
 			if (notesAddingEnabled()) {
 					if (staff()->number() == 0 && staff()->count() < 2)
 							m_cross->hide(); // prevent deleting only one note
@@ -281,20 +277,13 @@ void TnoteControl::hideDelayed() {
 }
 
 
-void TnoteControl::hoverEnterDelayed() {
+void TnoteControl::showDelayed() {
+	m_delayTimer->stop();
 	if (hasCursor()) {
 		m_entered = true;
 		if (m_adding)
 			update();
 	}
-}
-
-
-void TnoteControl::showDelayed() {
-	m_delayTimer->stop();
-// 	if (scoreScene()->isCursorVisible())
-// 		show();
-	hoverEnterDelayed();
 }
 
 
@@ -324,14 +313,12 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
 #if !defined (Q_OS_ANDROID)
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 	TscoreItem::hoverEnterEvent(0);
-// 	QTimer::singleShot(300, this, SLOT(hoverEnterDelayed()));
-// 	m_entered = true;
 	m_delayTimer->start(150);
-	scoreScene()->controlEntered(scoreNote());
 }
 
 
 void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
+	scoreScene()->controlMoved();
 	QGraphicsItem *it = scene()->itemAt(mapToScene(event->pos()), scene()->views()[0]->transform());
 	if (m_notesAdding) {
 		if (it == this) {
@@ -391,6 +378,7 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+	scoreScene()->controlMoved();
 	itemSelected(event->pos());
 }
 #endif

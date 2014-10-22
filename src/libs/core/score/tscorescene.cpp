@@ -87,23 +87,27 @@ void TscoreScene::addBlur(QGraphicsItem* item, qreal radius) {
 }
 
 
-void TscoreScene::adjustCursor() {
-		if (m_rightBox && !views().isEmpty()) {
-		setPointedColor(workColor);
+void TscoreScene::adjustCursor(TscoreNote* sn) {
+	if (m_rightBox && !views().isEmpty()) {
 		m_rightBox->adjustSize();
 		m_leftBox->adjustSize();
+		workLines()->adjustLines(sn);
+		setPointedColor(workColor);
 	}
 }
 
 
 void TscoreScene::setPointedColor(const QColor& color) {
-		workColor = color;
-    m_workNote->setPen(QPen(workColor, 0.2));
-    m_workNote->setBrush(QBrush(workColor, Qt::SolidPattern));
-    m_workAccid->setBrush(QBrush(workColor));
-		m_workLines->setColor(color);
+	workColor = color;
+	m_workNote->setPen(QPen(workColor, 0.2));
+	m_workNote->setBrush(QBrush(workColor, Qt::SolidPattern));
+	m_workAccid->setBrush(QBrush(workColor));
+	m_workLines->setColor(color);
 }
 
+//##########################################################################################
+//#######################        Note CURSOR     ###########################################
+//##########################################################################################
 
 void TscoreScene::noteEntered(TscoreNote* sn) {
 	if (sn != m_scoreNote && sn != 0) {
@@ -130,8 +134,6 @@ void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
 	workLines()->checkLines(yPos);
 	if (!workNote()->isVisible()) {
 		showTimeOut();
-// 		workNote()->show();
-// 		workAccid()->show();
 	}
 	if (sn != m_scoreNote) {
 			noteEntered(sn);
@@ -160,10 +162,8 @@ void TscoreScene::noteDeleted(TscoreNote* sn) {
 }
 
 
-void TscoreScene::controlEntered(TscoreNote* sn) {
-	Q_UNUSED(sn)
-	m_showTimer->stop();
-	m_hideTimer->stop();
+void TscoreScene::controlMoved() {
+	m_hideTimer->start(1000);
 }
 
 
