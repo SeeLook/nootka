@@ -190,7 +190,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 // 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
-    connect(sound, SIGNAL(detectedNote(Tnote)), this, SLOT(soundWasPlayed(Tnote)));
+    connect(sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(soundWasPlayed(Tnote&)));
 		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
@@ -495,7 +495,7 @@ void MainWindow::guitarWasClicked(Tnote note) {
 }
 
 
-void MainWindow::soundWasPlayed(Tnote note) {
+void MainWindow::soundWasPlayed(Tnote& note) {
 //   if (gl->S->showEnharmNotes) {
 //       TnotesList noteList = note.getTheSameNotes(gl->S->doubleAccidentalsEnabled);
 //       noteName->setNoteName(noteList);

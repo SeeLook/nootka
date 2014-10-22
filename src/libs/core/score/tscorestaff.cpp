@@ -355,7 +355,8 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 				m_keySignature->setPos(7.0, upperLinePos() - TscoreKeySignature::relatedLine);
 		for (int i = 0; i < count(); i++)
 			noteSegment(i)->adjustSize();
-		scoreScene()->adjustCursor();
+		if (count())
+			scoreScene()->adjustCursor(noteSegment(0));
 		emit pianoStaffSwitched();
 	}
 }

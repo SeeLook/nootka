@@ -156,28 +156,28 @@ protected:
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
 private:
-    QGraphicsEllipseItem          					*m_mainNote;
-    QGraphicsSimpleTextItem       					*m_mainAccid;
-    QColor                         					m_mainColor;
-		TcrossFadeTextAnim 											*m_accidAnim;
-		Tnote																	  *m_note;
+    QGraphicsEllipseItem                   *m_mainNote;
+    QGraphicsSimpleTextItem                *m_mainAccid;
+    QColor                                  m_mainColor;
+		TcrossFadeTextAnim                     *m_accidAnim;
+		Tnote                                  *m_note;
     
     int                            					m_mainPosY, m_accidental;
     int                            					m_index; /** note index in external list */
 //     int 													m_noteNr; // note number depends on octave
     int                            					m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
 		int 													 					m_stringNr;
-		QGraphicsSimpleTextItem 								*m_stringText;
+		QGraphicsSimpleTextItem 							 *m_stringText;
     qreal                          					m_height;
 		bool													 					m_readOnly;
-		QGraphicsTextItem												*m_nameText;
+		QGraphicsTextItem											 *m_nameText;
 		int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
 		QColor                         					m_bgColor;
-		TcombinedAnim														*m_noteAnim, *m_popUpAnim;
-		QGraphicsSimpleTextItem									*m_emptyText;
+		TcombinedAnim													 *m_noteAnim, *m_popUpAnim;
+		QGraphicsSimpleTextItem								 *m_emptyText;
 		bool													 					m_accidToKeyAnim;
 		bool													 					m_selected;
-		TscoreLines															*m_lines;
+		TscoreLines														 *m_lines;
 		
 		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
 		static QString													m_staticTip;
@@ -185,6 +185,7 @@ private:
 private:
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
 		void initNoteCursor(); /** Creates note cursor when first TscoreNote instance is created and there is a view */
+		void checkEmptyText(); /** Decides whether show or hide text about empty note. */
 		
 private slots:
 		void popUpAnimFinished();

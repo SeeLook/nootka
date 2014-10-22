@@ -82,7 +82,7 @@ public:
 	QList<TnoteStruct>& notes();
   
 signals:
-  void detectedNote(Tnote);
+  void detectedNote(Tnote&);
 	void newNoteStarted(Tnote&);
   void plaingFinished();
 	

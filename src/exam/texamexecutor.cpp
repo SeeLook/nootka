@@ -301,7 +301,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		if (curQ.melody()) {
 			if (!isAttempt)
 				mW->score->askQuestion(curQ.melody());
-			connect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
+			if (curQ.answerAsSound()) // in fact, there is no other option yet
+				connect(mW->sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
 			m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
 			mW->score->selectNote(0); // mark first note
 			// all above is correct only when answer is a sound (and no other cases are supported now)
@@ -495,7 +496,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			mW->score->selectNote(-1);
 			disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 			disconnect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
-			disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(lastMelodyNote()));
+			disconnect(mW->sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(lastMelodyNote()));
 	}
 	if (m_exam->melodies() && mW->sound->melodyIsPlaying())
 		mW->sound->stopPlaying();
@@ -959,7 +960,7 @@ void TexamExecutor::prepareToExam() {
     connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
     connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
-    connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(expertAnswersSlot()));
+    connect(mW->sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(expertAnswersSlot()));
     
     qApp->installEventFilter(m_supp);
     connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
@@ -967,7 +968,7 @@ void TexamExecutor::prepareToExam() {
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
 //     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
-    disconnect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
+    disconnect(mW->sound, SIGNAL(detectedNote(Tnote&)), mW, SLOT(soundWasPlayed(Tnote&)));
     disconnect(mW->bar->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
     disconnect(mW->bar->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
 		if (m_exercise) {
@@ -1050,7 +1051,7 @@ void TexamExecutor::restoreAfterExam() {
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
 //     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
-    connect(mW->sound, SIGNAL(detectedNote(Tnote)), mW, SLOT(soundWasPlayed(Tnote)));
+    connect(mW->sound, SIGNAL(detectedNote(Tnote&)), mW, SLOT(soundWasPlayed(Tnote&)));
     disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     disconnect(mW->bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
 //     disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
@@ -1348,7 +1349,7 @@ void TexamExecutor::noteOfMelodySlot(Tnote& n) {
 		mW->score->selectNote(m_melodyNoteIndex);
 		m_melodyNoteIndex++;
 		if ((mW->sound->notes().size() == m_exam->curQ().melody()->length() - 1) && gl->E->expertsAnswerEnable) {
-			connect(mW->sound, SIGNAL(detectedNote(Tnote)), this, SLOT(lastMelodyNote()));
+			connect(mW->sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(lastMelodyNote()));
 			disconnect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
 		}
 }

@@ -101,17 +101,19 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
 	}
-	m_emptyText = new QGraphicsSimpleTextItem(tr("enter note").toUpper(), this);
+	m_emptyText = new QGraphicsSimpleTextItem(tr("enter\nnote").toUpper(), this);
 		m_emptyText->setZValue(1);
 		QColor cc = qApp->palette().highlight().color();
 		cc.setAlpha(80);
 		m_emptyText->setBrush(Tcolor::merge(cc, qApp->palette().base().color()));
-		m_emptyText->setScale(4.0 / m_emptyText->boundingRect().height());
+// 		m_emptyText->setBrush(qApp->palette().base().color());
+		m_emptyText->setPen(QPen(qApp->palette().text().color(), 0.1));
+		m_emptyText->setScale(8.0 / m_emptyText->boundingRect().width());
 		m_emptyText->setTransformOriginPoint(m_emptyText->boundingRect().center().x() * m_emptyText->scale(), 
 																				m_emptyText->boundingRect().center().y() * m_emptyText->scale());
 		m_emptyText->setRotation(90);
 		QRectF eRect = m_emptyText->mapToParent(m_emptyText->boundingRect()).boundingRect();
-		m_emptyText->setPos((7.0 - eRect.width()) / 2 - eRect.x(), (m_height - eRect.height()) / 2 - eRect.y());
+		m_emptyText->setPos((7.0 - eRect.width()) / 2 - eRect.x(), staff->upperLinePos() - eRect.y() + (staff->isPianoStaff() ? 8 : 0));
 		m_emptyText->hide();
 		
   m_mainAccid->setScale(scoreScene()->accidScale());
@@ -132,10 +134,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	else
 		setAmbitus(34, 1);
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
-	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
-		m_emptyText->show();
-	else
-		m_emptyText->hide();
+	checkEmptyText();
 }
 
 
@@ -152,8 +151,11 @@ TscoreNote::~TscoreNote() { // release work note and controls from destructing p
 void TscoreNote::adjustSize() {
 	m_height = staff()->height();
 	m_lines->adjustLines(this);
-	scoreScene()->workLines()->adjustLines(this);
 	setColor(m_mainColor);
+	if (staff()->isPianoStaff())
+		m_emptyText->setPos(m_emptyText->x(), m_emptyText->y() + 6);
+	else
+		m_emptyText->setPos(m_emptyText->x(), m_emptyText->y() - 6);
 }
 
 
@@ -170,10 +172,7 @@ void TscoreNote::setColor(const QColor& color) {
 
 void TscoreNote::selectNote(bool sel) {
 	m_selected = sel;
-	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
-		m_emptyText->show();
-	else
-		m_emptyText->hide();
+	checkEmptyText();
 }
 
 
@@ -236,20 +235,18 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
 			*m_note = Tnote(); // set note to null if beyond the score possibilities
 	if (m_nameText)
 			showNoteName();
-	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
-		m_emptyText->show();
-	else
-		m_emptyText->hide();
+	update();
+	checkEmptyText();
 }
 
 
 void TscoreNote::hideNote() {
-    m_mainNote->hide();
-    m_mainAccid->hide();
-		m_lines->hideAllLines();
-    m_mainPosY = 0;
-    m_accidental = 0;
-		m_mainNote->setPos(3.0, 0);
+	m_mainNote->hide();
+	m_mainAccid->hide();
+	m_lines->hideAllLines();
+	m_mainPosY = 0;
+	m_accidental = 0;
+	m_mainNote->setPos(3.0, 0);
 }
 
 
@@ -409,22 +406,22 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
-// 	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
-// 		QColor emptyNoteColor;
-// 		if (m_mainNote->pen().style() == Qt::NoPen)
-// 			emptyNoteColor = qApp->palette().highlight().color();
-// 		else
-// 			emptyNoteColor = m_mainNote->pen().color();
-// 		emptyNoteColor.setAlpha(120);
-// 		painter->setPen(QPen(emptyNoteColor, 0.4, Qt::SolidLine, Qt::RoundCap));
-// 		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, 6.5, staff()->upperLinePos() - 2.0));
-// 		qreal loLine = staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos();
-// 		painter->drawLine(QLineF(0.5, loLine + 10.0, 6.5, loLine + 9.0));
+	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
+		QColor emptyNoteColor;
+		if (m_mainNote->pen().style() == Qt::NoPen)
+			emptyNoteColor = qApp->palette().highlight().color();
+		else
+			emptyNoteColor = m_mainNote->pen().color();
+		emptyNoteColor.setAlpha(120);
+		painter->setPen(QPen(emptyNoteColor, 0.4, Qt::SolidLine, Qt::RoundCap));
+		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, 6.5, staff()->upperLinePos() - 2.0));
+		qreal loLine = staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos();
+		painter->drawLine(QLineF(0.5, loLine + 10.0, 6.5, loLine + 9.0));
 // 		painter->setBrush(emptyNoteColor);
 // 		painter->scale(1.0 / scoreScene()->views()[0]->transform().m11(), 1.0 / scoreScene()->views()[0]->transform().m11());
-// // 		painter->rotate(270);
+// 		painter->rotate(270);
 // 		painter->drawText(0, 0, 7.0 * scoreScene()->views()[0]->transform().m11(), m_height * scoreScene()->views()[0]->transform().m11(), Qt::AlignCenter, "put\nin\na\nnote");
-// 	}
+	}
 }
 
 
@@ -610,6 +607,14 @@ void TscoreNote::setStringPos() {
 void TscoreNote::initNoteCursor() {
   scoreScene()->initNoteCursor(this);
 	hideWorkNote();
+}
+
+
+void TscoreNote::checkEmptyText() {
+	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
+		m_emptyText->show();
+	else
+		m_emptyText->hide();
 }
 
 

@@ -77,7 +77,7 @@ public slots:
     void noteWasClicked(int index, Tnote note);
 //     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
-    void soundWasPlayed(Tnote note);
+    void soundWasPlayed(Tnote& note);
     
 // signals:
 //     void sizeChanged(QSize size);

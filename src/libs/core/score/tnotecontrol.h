@@ -90,7 +90,6 @@ protected:
 	
 protected slots:
 	void hideDelayed();
-	void hoverEnterDelayed(); /** To avoid blinking with status tip when mouse is flying over score */
 	void showDelayed();
 		
 private:
