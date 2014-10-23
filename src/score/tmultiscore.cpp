@@ -212,6 +212,7 @@ void TmultiScore::removeCurrentNote() {
 	else if (currentIndex() == 0) { // just clear first note when only one
 		m_clickedOff = 0;
 		setNote(Tnote());
+		m_clickedOff = 0; // in record mode this is increased after setNote()
 		emit noteWasChanged(0, Tnote());
 	}
 	staff()->noteSegment(0)->hideWorkNote();
@@ -222,7 +223,6 @@ void TmultiScore::deleteNotes() {
 	if (!staff()->count())
 			return; // nothing to delete
 	m_currentIndex = 0;
-	m_clickedOff = 0;
 	while (staffCount() > 1)
 		deleteLastStaff();
 	if (staff()->count() > 1) {
@@ -233,7 +233,7 @@ void TmultiScore::deleteNotes() {
 	}
 	removeCurrentNote();
 	updateSceneRect();
-	emit noteWasChanged(0, Tnote());
+	m_currentIndex = -1;
 }
 
 //####################################################################################################

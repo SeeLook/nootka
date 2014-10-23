@@ -31,8 +31,22 @@
 #include <QMessageBox>
 #include <QDateTime>
 #include <QDebug>
+#include <iostream>
 
 extern Tglobals *gl;
+
+void debugMelody(Tmelody* mel) {
+	for (int i = 0; i < mel->length(); ++i)
+		std::cout << mel->note(i)->p().toText().toStdString() << "\t";
+	std::cout << "\n";
+}
+
+void debugNotesStruct(QList<TnoteStruct>& st) {
+	Tmelody mel;
+	mel.fromNoteStruct(st);
+	debugMelody(&mel);
+}
+
 
 /*static*/
 
@@ -461,6 +475,8 @@ void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
 
 
 void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att) {
+	debugMelody(q);
+	debugNotesStruct(a);
 	int notesCount = qMax(q->length(), a.size());
 	for (int i = 0; i < notesCount; ++i) {
 		TQAunit tmpUnit;

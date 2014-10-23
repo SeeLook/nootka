@@ -302,7 +302,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			if (!isAttempt)
 				mW->score->askQuestion(curQ.melody());
 			if (curQ.answerAsSound()) // in fact, there is no other option yet
-				connect(mW->sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
+				connect(mW->sound, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(noteOfMelodySlot(Tnote&)));
 			m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
 			mW->score->selectNote(0); // mark first note
 			// all above is correct only when answer is a sound (and no other cases are supported now)

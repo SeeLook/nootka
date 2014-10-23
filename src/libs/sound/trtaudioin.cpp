@@ -47,9 +47,9 @@ QStringList TaudioIN::getAudioDevicesList() {
     return devList;
 }
 
-
+bool m_goingDelete = false;
 bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-		if (instance()->isStoped())
+		if (m_goingDelete || instance()->isStoped())
 				return true;
     if (status)
         qDebug() << "Stream over detected!";
@@ -91,8 +91,10 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 
 TaudioIN::~TaudioIN()
 {
-//   disconnect(m_pitch, SIGNAL(found(float,float,float)), this, SLOT(pitchFreqFound(float,float,float)));
-  delete m_pitch;
+	m_goingDelete = true;
+	abortStream();
+	m_pitch->blockSignals(true);
+	m_pitch->deleteLater();
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
 }

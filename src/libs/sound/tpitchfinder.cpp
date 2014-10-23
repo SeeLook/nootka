@@ -83,20 +83,20 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 
 TpitchFinder::~TpitchFinder()
 {
-		if (m_thread->isRunning()) {
-				m_thread->terminate();
-				m_thread->quit();  
-		}
-    if (m_filteredChunk)
-        delete m_filteredChunk;
-    delete m_prevChunk;
-		delete m_buffer_1;
-		delete m_buffer_2;
-    myTransforms.uninit();
-    if(m_channel)
-      delete m_channel;
-    delete m_aGl;
-		m_thread->deleteLater();
+	if (m_thread->isRunning()) {
+			m_thread->terminate();
+			m_thread->quit();  
+	}
+	if (m_filteredChunk)
+			delete m_filteredChunk;
+	delete m_prevChunk;
+	delete m_buffer_1;
+	delete m_buffer_2;
+	myTransforms.uninit();
+	if(m_channel)
+		delete m_channel;
+	delete m_aGl;
+	m_thread->deleteLater();
 }
 
 //##########################################################################################################
@@ -247,8 +247,10 @@ void TpitchFinder::detect() {
             if (m_isVoice) {
 //                 if (curNote->noteLength() > MIN_SND_TIME) {
 								if (curNote->noteLength() >= m_minDuration) {
-										if (!m_prevPitch) // emit only once per note
+										if (!m_prevPitch) { // emit only once per note
 											emit newNote(curNote->avgPitch());
+// 											qDebug() << "->" << data->noteIndex << curNote->avgPitch() << curNote->noteLength() * 1000 << "ms";
+										}
                     m_prevPitch = curNote->avgPitch();
                     m_prevFreq = curNote->avgFreq();
 										m_prevDuration = curNote->noteLength();
@@ -269,8 +271,11 @@ void TpitchFinder::detect() {
         }
       } else {
           m_noticedIndex = -1;
-          if (m_isVoice)
+          if (m_isVoice) {
+// 						if (m_prevPitch)
+// 								qDebug() << "end" << data->noteIndex << m_prevPitch << m_prevDuration * 1000 << "ms";
             emitFound();
+					}
           else {
             m_prevNoteIndex = -1;
           }

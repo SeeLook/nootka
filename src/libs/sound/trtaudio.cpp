@@ -172,7 +172,7 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 
 TrtAudio::~TrtAudio()
 {
-	closeStram();
+	abortStream();
 	if (m_type == e_input && m_inParams) {
 		deleteInParams();
 		m_cbIn = 0;
@@ -197,7 +197,7 @@ TrtAudio::~TrtAudio()
 void TrtAudio::updateAudioParams() {
 // 	qDebug() << "updateAudioParams";
 	m_isOpened = false;
-	closeStram();
+	closeStream();
 // preparing devices
 	int inDevId = -1, outDevId = -1;
   int devCount = rtDevice()->getDeviceCount();
@@ -360,7 +360,7 @@ void TrtAudio::stopStream() {
 }
 
 
-void TrtAudio::closeStram() {
+void TrtAudio::closeStream() {
   try {
     stopStream();
     if (rtDevice() && rtDevice()->isStreamOpen())
@@ -369,6 +369,17 @@ void TrtAudio::closeStram() {
   }
   catch (RtAudioError& e) {
     qDebug() << "can't close stream";
+  }
+}
+
+
+void TrtAudio::abortStream() {
+	try {
+    if (rtDevice() && rtDevice()->isStreamOpen())
+      rtDevice()->abortStream();
+  }
+  catch (RtAudioError& e) {
+    qDebug() << "can't abort stream";
   }
 }
 
