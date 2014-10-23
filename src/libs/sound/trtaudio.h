@@ -52,7 +52,7 @@ public:
     void open() { openStream(); }
     void startAudio() { startStream(); }
 		void stopAudio() { stopStream(); }
-		void terminate() { closeStram(); }
+		void terminate() { closeStream(); }
 		
     
     static void createRtAudio(); /** Creates RtAudio instance. Once for whole application */
@@ -86,13 +86,17 @@ protected:
 		bool openStream();
     bool startStream();
     void stopStream();
-    void closeStram();
+    void closeStream();
+		void abortStream();
 		
 				/** Static instance of 'signal emitter'
 				 * It emits following signals:
 				 * @p streamOpened() - when stream is opening
 				 */
 		static TaudioObject* ao() { return m_ao; }
+		
+		static bool hasCallBackIn() { return (bool)m_cbIn; }
+		static bool hasCallBackOut() { return (bool)m_cbOut; }
     
     bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
 		

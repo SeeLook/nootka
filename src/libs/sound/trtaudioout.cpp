@@ -194,7 +194,7 @@ bool TaudioOUT::play(int noteNr) {
 
 
 void TaudioOUT::stop() {
-	closeStram();
+	closeStream();
 }
 
 

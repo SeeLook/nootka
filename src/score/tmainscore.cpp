@@ -183,9 +183,9 @@ void TmainScore::acceptSettings() {
 
 
 void TmainScore::setNote(const Tnote& note) {
-    TmultiScore::setNote(note);
-		if (insertMode() == e_single && !isExam())
-			m_nameMenu->setNoteName(note);
+	TmultiScore::setNote(note);
+	if (insertMode() == e_single && !isExam())
+		m_nameMenu->setNoteName(note);
 }
 
 
@@ -317,8 +317,8 @@ void TmainScore::setScoreDisabled(bool disabled) {
 
 
 QRectF TmainScore::noteRect(int noteNr) {
-		return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * transform().m11(), 
-			staff()->noteSegment(noteNr)->mainNote()->rect().height() * transform().m11());
+	return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * transform().m11(), 
+		staff()->noteSegment(noteNr)->mainNote()->rect().height() * transform().m11());
 }
 
 
