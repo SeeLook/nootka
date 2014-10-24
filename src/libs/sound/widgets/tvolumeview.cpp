@@ -102,11 +102,11 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 		painter.setBrush(shade);
 		float xPos = (float)(width() - m_noteWidth) * m_minVolume; 
 		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.1, height() * 0.9, height() * 0.9)); // shade
-		QLinearGradient lg(xPos - height() * 0.5, 0, xPos + height() * 0.5, 0);
+		QLinearGradient lg(xPos/* - height() * 0.5*/, 0, xPos/* + height() * 0.5*/, height());
 		lg.setColorAt(0, knobBrush);
 		lg.setColorAt(0.3, knobBrush);
-		lg.setColorAt(0.5, knobBrush.darker());
-		lg.setColorAt(0.7, knobBrush);
+		lg.setColorAt(0.8, knobBrush.darker());
+// 		lg.setColorAt(0.7, knobBrush);
 		painter.setBrush(QBrush(lg));
 		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.05, height() * 0.9, height() * 0.9));
 		painter.setBrush(palette().highlightedText());
