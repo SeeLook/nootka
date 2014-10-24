@@ -64,12 +64,17 @@ void TmelMan::playMelodySlot() {
 		m_score->playScore(); // It will be stopped
 		m_recMelAct->setDisabled(false);
 		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaPlay)));
+		if (m_score->insertMode() == TmultiScore::e_record)
+			m_button->setIcon(QIcon(Tpath::img("melody-rec")));
+		else
+			m_button->setIcon(QIcon(Tpath::img("melody")));
 	} else {
 		if (m_score->currentIndex() < 0)
 			return;
 		m_recMelAct->setDisabled(true);
 		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
 		m_score->playScore();
+		m_button->setIcon(QIcon(Tpath::img("melody-play")));
 	}
 }
 
@@ -78,9 +83,12 @@ void TmelMan::recordMelodySlot() {
 	if (m_score->insertMode() == TmainScore::e_multi) {
 		m_recMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
 		m_score->setInsertMode(TmainScore::e_record);
+		m_button->setIcon(QIcon(Tpath::img("melody-rec")));
 	} else {
 		m_recMelAct->setIcon(QIcon(Tpath::img("record")));
 		m_score->setInsertMode(TmainScore::e_multi);
+		if (!m_score->isScorePlayed())
+			m_button->setIcon(QIcon(Tpath::img("melody")));
 	}
 }
 

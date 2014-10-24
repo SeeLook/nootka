@@ -35,7 +35,6 @@
 ==== NEW FEATURES ================================================================
 
 - add blinking of settings icon(action) instead of expert check boxes in old versions
-- add small pictographs on melody icon according to its state: playing, record, none
 - add option for configuring fret marks (dots)
 - make exam summary pretty
 - make use of QWizard and adjust it to all news
