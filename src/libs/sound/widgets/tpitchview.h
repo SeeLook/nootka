@@ -70,7 +70,7 @@ public:
 	
   
 protected slots:
-  void noteSlot(Tnote& note);
+  void noteSlot(const Tnote& note);
   void updateLevel();
   void voiceClicked();
   void pauseClicked();

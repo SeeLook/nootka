@@ -94,32 +94,4 @@ public:
   float &noteChangeScore() { return values[NOTE_CHANGE_SCORE]; }
 };
 
-struct lessFundametalFreq : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.fundamentalFreq < y.fundamentalFreq; }
-};
-
-struct greaterFundametalFreq : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.fundamentalFreq > y.fundamentalFreq; }
-};
-
-struct lessPitch : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.pitch < y.pitch; }
-};
-
-struct greaterPitch : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-	bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.pitch > y.pitch; }
-};
-
-struct lessValue : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  int v;
-  lessValue(int v_) { v = v_; }
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.values[v] < y.values[v]; }
-};
-
-struct greaterValue : public std::binary_function<AnalysisData &, AnalysisData &, bool> {
-  int v;
-  greaterValue(int v_) { v = v_; }
-  bool operator()(const AnalysisData &x, const AnalysisData &y) { return x.values[v] > y.values[v]; }
-};
-
 #endif

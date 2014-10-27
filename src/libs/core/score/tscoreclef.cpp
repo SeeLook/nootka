@@ -141,7 +141,7 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 					curClef = Tclef(Tclef::e_pianoStaff);
 				m_clefMenu->selectClef(curClef);
 				connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
-				QPoint mPos = scoreScene()->views()[0]->mapToGlobal(scoreScene()->views()[0]->mapFromScene(QPointF(event->scenePos().x(), 1.0)));
+				QPoint mPos = scoreScene()->views()[0]->mapToGlobal(QPoint(8 * scoreScene()->views()[0]->transform().m11(), 10));
 				Tclef cl = m_clefMenu->exec(mPos);
 				m_clefMenu->setMenu(0);
 				delete m_menu;

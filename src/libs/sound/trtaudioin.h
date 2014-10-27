@@ -32,8 +32,9 @@ class TpitchFinder;
 
 /** 
  * This class manages audio input for Nootka.
- * It emits noteDetected(Tnote) signal when some note is detected
- * and fundamentalFreq(float) with freq of detected note.
+ * It emits @p noteStarted() when new note was started playing (and its duration is appropriate)
+ * and emits @p noteFinished() when note finished.
+ * 
  * It can be paused - pitch detection is performed but signals are not sending
  * or it can be stopped - incoming audio data is ignored
  */
@@ -80,14 +81,16 @@ public:
 		if (pitch >= m_loPitch && pitch <= m_hiPitch)	return true;
 		else return false;
 	}		/** Returns @p TRUE when @p pitch is in ambitus */
-
-signals:
-	void noteDetected(Tnote&);
-	void fundamentalFreq(float freq);
 	
-			/** This signal is emitted in voice mode to inform about new note was started.
-			 * Obviously note has to be loud enough, long enough and match to ambitus. */
-	void newNoteStarted(Tnote&);
+	bool noteWasStarted() { return m_noteWasStarted; } /** @p TRUE when note started but not finished. */
+
+	
+signals:
+	void noteDetected(const Tnote&);
+	
+			/** Emitted when note was played and its duration is longer than minimal duration */
+	void noteStarted(const Tnote& note, qreal pitch);
+	void noteFinished(const Tnote& note, qreal pitch, qreal duration);
 
 public slots:
 	void startListening();
@@ -98,11 +101,11 @@ protected:
 	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 
 private slots:
-  void pitchFreqFound(qreal pitch, float freq, qreal duration);
   void pitchInChunkSlot(float pitch);
   void volumeSlot(float vol) { m_maxPeak = vol; }
 	void updateSlot() { setAudioInParams(); }
-	void newNoteSlot(qreal pitch);
+	void noteStartedSlot(qreal pitch, qreal freq);
+	void noteFinishedSlot(qreal pitch, qreal freq, qreal duration);
   
   
 private:  
@@ -110,6 +113,7 @@ private:
        * static inCallBack uses it to has access. */
   static        QList<TaudioIN*> m_instances;
   static        int m_thisInstance;
+	static 				bool m_goingDelete;
   TpitchFinder  *m_pitch;
   float         m_maxPeak;
   bool          m_paused, m_stopped;
@@ -119,7 +123,7 @@ private:
 	float					m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
 	bool 					m_storeNotes;
 	qreal 				m_loPitch, m_hiPitch;
-	
+	bool					m_noteWasStarted;
 };
 
 #endif // TRTAUDIOIN_H

@@ -77,7 +77,8 @@ public slots:
     void noteWasClicked(int index, Tnote note);
 //     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
-    void soundWasPlayed(Tnote& note);
+    void soundWasStarted(const Tnote& note);
+		void soundWasFinished(const Tnote& note, qreal duration);
     
 // signals:
 //     void sizeChanged(QSize size);
@@ -133,7 +134,7 @@ protected slots:
 
 private:
 
-    TroundedLabel 			  *m_statLab;
+    TroundedLabel 			 *m_statLab;
     QString 							m_statusText, m_prevMsg;
 		
         /** Keeps true when statusMesage is locked by temporary message
@@ -147,7 +148,8 @@ private:
     Tlevel 						    m_level;
 		bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;
-		TmelMan								*m_melButt;
+		TmelMan							 *m_melButt;
+		int										m_startedSoundId; /** Index of note on the score that has been just started.  */
 
 };
 

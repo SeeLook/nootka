@@ -117,6 +117,13 @@ void TmultiScore::setNote(const Tnote& note) {
 }
 
 
+void TmultiScore::setNote(int index, const Tnote& note) {
+	if (index < notesCount())
+		staves(index / staff()->maxNoteCount())->setNote(index % staff()->maxNoteCount(), note);
+}
+
+
+
 Tnote* TmultiScore::getNote(int index) {
 	if (index >= 0 && index < notesCount())
 		return noteFromId(index)->note();

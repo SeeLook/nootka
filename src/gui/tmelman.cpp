@@ -47,6 +47,7 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_button = new QToolButton(score);
 	m_button->setIcon(QIcon(Tpath::img("melody")));
 	m_button->setText(tr("Melody"));
+// 	m_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
 	m_button->setStatusTip(tr("Open, save, generate and play a melody."));
 	m_button->setMenu(m_menu);
 	m_button->setPopupMode(QToolButton::InstantPopup);

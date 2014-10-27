@@ -116,7 +116,7 @@ protected slots:
 			/** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
 	void unlockAnswerCapturing();
 	void blindQuestion(); /** Routines for questions with the same answers 'blind' */
-	void noteOfMelodySlot(Tnote& n); /** When user plays a melody as an answer. */
+	void noteOfMelodySlot(const Tnote& n); /** When user plays a melody as an answer. */
 	void lastMelodyNote() { checkAnswer(); } /** performed when user played last note of a melody. */
 	void prepareToSettings(); /** Should be called when main window is going to display settings dialog. */
 	void settingsAccepted(); /** Should be called when settings (Tglobals) was changed during exam. */

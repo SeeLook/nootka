@@ -133,58 +133,59 @@ void TfingerBoard::acceptSettings() {
 }
 
 
-void TfingerBoard::setFinger(Tnote note) {
-    if (note.note) {
-				short noteNr = note.chromatic();
-        bool doShow = true;
-				bool foundPos = false;
-        for(int i = 0; i < gl->Gtune()->stringNr(); i++) { // looking for pos to show
-            int diff = noteNr - gl->Gtune()->str(gl->strOrder(i) + 1).chromatic();
-            if (doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
-								foundPos = true;
+void TfingerBoard::setFinger(const Tnote& note) {
+	Tnote n = note; // TODO delete it when Tnote will get const methods
+	if (note.note) {
+			short noteNr = n.chromatic();
+			bool doShow = true;
+			bool foundPos = false;
+			for(int i = 0; i < gl->Gtune()->stringNr(); i++) { // looking for pos to show
+					int diff = noteNr - gl->Gtune()->str(gl->strOrder(i) + 1).chromatic();
+					if (doShow && diff >= 0 && diff <= gl->GfretsNumber) { // found
+							foundPos = true;
 // 								deleteBeyondTip();
-                if (diff == 0) { // open string
-                    m_fingers[gl->strOrder(i)]->hide();
-                    m_strings[gl->strOrder(i)]->show();
-                } else { // some fret
-                    m_strings[gl->strOrder(i)]->hide();
-                    paintFinger(m_fingers[gl->strOrder(i)], gl->strOrder(i), diff);
-										m_fingerPos.setPos(gl->strOrder(i) + i, diff);
-                    m_fingers[gl->strOrder(i)]->show();
-                }
-                if (!gl->GshowOtherPos) {
-                    doShow = false;
-                }
-            } else { // not found on this string or no need to show
-                m_fingers[gl->strOrder(i)]->hide();
-                m_strings[gl->strOrder(i)]->hide();
-            }
-        }
-        if (foundPos)
-					deleteBeyondTip();
-				else if (!m_beyondTip) {
-						m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
-														arg(height() / 7).arg(gl->EquestionColor.name()) +
-														tr("This note is beyond the scale of the guitar!") + " </b></span><br>", 
-																							 QColor(qApp->palette().text().color().darker().name()));
-						if (!gl->GisRightHanded) {
-							QTransform trans;
-							trans.translate(width() / 2, 0);
-							trans.scale(-1, 1);
-							m_beyondTip->setTransform(trans);
-						}
-						m_scene->addItem(m_beyondTip);
-						m_beyondTip->setZValue(150);
-						m_beyondTip->setPos((m_scene->width() - m_beyondTip->boundingRect().width()) / 2,
-												(m_scene->height() - m_beyondTip->boundingRect().height()) / 2);
-				}
-    } else { // hide highlighted fingers/string if no note
-        for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
-            m_fingers[i]->hide();
-            m_strings[i]->hide();
-        }
-    }
-    m_selNote = note;
+							if (diff == 0) { // open string
+									m_fingers[gl->strOrder(i)]->hide();
+									m_strings[gl->strOrder(i)]->show();
+							} else { // some fret
+									m_strings[gl->strOrder(i)]->hide();
+									paintFinger(m_fingers[gl->strOrder(i)], gl->strOrder(i), diff);
+									m_fingerPos.setPos(gl->strOrder(i) + i, diff);
+									m_fingers[gl->strOrder(i)]->show();
+							}
+							if (!gl->GshowOtherPos) {
+									doShow = false;
+							}
+					} else { // not found on this string or no need to show
+							m_fingers[gl->strOrder(i)]->hide();
+							m_strings[gl->strOrder(i)]->hide();
+					}
+			}
+			if (foundPos)
+				deleteBeyondTip();
+			else if (!m_beyondTip) {
+					m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
+													arg(height() / 7).arg(gl->EquestionColor.name()) +
+													tr("This note is beyond the scale of the guitar!") + " </b></span><br>", 
+																							QColor(qApp->palette().text().color().darker().name()));
+					if (!gl->GisRightHanded) {
+						QTransform trans;
+						trans.translate(width() / 2, 0);
+						trans.scale(-1, 1);
+						m_beyondTip->setTransform(trans);
+					}
+					m_scene->addItem(m_beyondTip);
+					m_beyondTip->setZValue(150);
+					m_beyondTip->setPos((m_scene->width() - m_beyondTip->boundingRect().width()) / 2,
+											(m_scene->height() - m_beyondTip->boundingRect().height()) / 2);
+			}
+	} else { // hide highlighted fingers/string if no note
+			for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
+					m_fingers[i]->hide();
+					m_strings[i]->hide();
+			}
+	}
+	m_selNote = note;
 }
 
 

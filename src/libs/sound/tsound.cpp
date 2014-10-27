@@ -324,9 +324,9 @@ void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-  connect(sniffer, SIGNAL(noteDetected(Tnote&)), this, SLOT(noteDetectedSlot(Tnote&)));
-	connect(sniffer, SIGNAL(newNoteStarted(Tnote&)), this, SLOT(newNoteSlot(Tnote&)));
-// 	QTimer::singleShot(500, sniffer, SLOT(startListening())); // Give time for launch whole app
+  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
+	connect(sniffer, SIGNAL(noteStarted(Tnote,qreal)), this, SLOT(noteStartedSlot(Tnote,qreal)));
+	connect(sniffer, SIGNAL(noteFinished(Tnote,qreal,qreal)), this, SLOT(noteFinishedSlot(Tnote,qreal,qreal)));
 }
 
 void Tsound::deletePlayer() {
@@ -362,7 +362,7 @@ void Tsound::playingFinishedSlot() {
 //   go();
 }
 
-void Tsound::noteDetectedSlot(Tnote& note) {
+void Tsound::noteDetectedSlot(const Tnote& note) {
 	//  qDebug() << "Tsound: got note" << note.toText();
 	m_detectedNote = note;
 	if (player && gl->A->playDetected)
@@ -383,9 +383,18 @@ void Tsound::playMelodySlot() {
 }
 
 
-void Tsound::newNoteSlot(Tnote& note) {
-	emit newNoteStarted(note);
+void Tsound::noteStartedSlot(const Tnote& note, qreal pitch) {
+	Q_UNUSED(pitch)
+	emit noteStarted(note);
 }
+
+
+void Tsound::noteFinishedSlot(const Tnote& note, qreal pitch, qreal duration) {
+	Q_UNUSED(pitch)
+	emit noteFinished(note, duration);
+}
+
+
 
 
 

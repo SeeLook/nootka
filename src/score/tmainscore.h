@@ -59,6 +59,7 @@ public:
 		int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
 		
     virtual void setNote(const Tnote& note);
+    virtual void setNote(int index, const Tnote& note) { TmultiScore::setNote(index, note); }
 		void setMelody(Tmelody* mel);
 		void getMelody(Tmelody* mel, const QString& title = ""); /** Grabs all notes, key and time in a score to given @p mel */
 		
