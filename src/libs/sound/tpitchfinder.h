@@ -62,8 +62,8 @@ class QThread;
  * when buffer is full pitch detection is performed.
  * It emits signal with volume @p volume(float)
  * signal with pitch in every processed chunk @p pichInChunk(float)
- * signal with all data of detected note @p found(qreal pitch, float frequency, qreal duration)
- * and in voice mode signal @p newNote(qreal) with a pitch of note with enough volume and duration.
+ * signal when detected note starts  @p noteStarted(qreal pitch, qreal frequency)
+ * and signal when note ends @p noteFinished(qreal pitch, qreal frequency, qreal duration)
  */
 class NOOTKASOUND_EXPORT TpitchFinder : public QObject
 {
@@ -106,16 +106,11 @@ public:
     void setMinimalDuration(float dur) { m_minDuration = dur; }
     
 signals:
-      /** Signal emitted when pitch is detected. 
-      * @param pitch is float type of midi note.
-      * @param freq if current frequency. */
-  void found(qreal pitch, float freq, qreal duration);
   void pichInChunk(float); /** Pitch in chunk that just has been processed */
   void volume(float);
+	void noteStarted(qreal pitch, qreal freq);
+	void noteFinished(qreal pitch, qreal freq, qreal duration);
 	
-			/** This signal is emitted in voice mode to inform about new note was started.
-			 * Obviously note has to be loud enough (> m_minVolume) and long enough (> m_minDuration). */
-	void newNote(qreal pitch);
 	
 protected slots:
 	void startPitchDetection(); /** Starts searching thread/ */

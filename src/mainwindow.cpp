@@ -190,7 +190,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 // 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
-    connect(sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(soundWasPlayed(Tnote&)));
+    connect(sound, SIGNAL(noteStarted(Tnote)), this, SLOT(soundWasStarted(Tnote)));
+		connect(sound, SIGNAL(noteFinished(Tnote,qreal)), this, SLOT(soundWasFinished(Tnote,qreal)));
 		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
@@ -452,62 +453,35 @@ void MainWindow::analyseSlot() {
 
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
-    Q_UNUSED(index)
-    if (m_isPlayerFree)
-        sound->play(note);
-//     if (gl->S->showEnharmNotes){
-//         TnotesList noteList;
-//         noteList << (note);
-//         noteList << (score->getNote(1));
-//         noteList << (score->getNote(2));
-//         noteName->setNoteName(noteList);
-//     } //else
-//         noteName->setNoteName(note);
+	Q_UNUSED(index)
+	if (m_isPlayerFree)
+			sound->play(note);
 // 		if (guitar->isVisible())
-				guitar->setFinger(note);
+	guitar->setFinger(note);
 }
 
-/*
-void MainWindow::noteNameWasChanged(Tnote note) {
-    sound->play(note);
-    score->setNote(0, note);
-    if (gl->S->showEnharmNotes) {
-        score->setNote(1, noteName->getNoteName(1));
-        score->setNote(2, noteName->getNoteName(2));
-    }
-    if (guitar->isVisible())
-				guitar->setFinger(note);
-}
-*/
 
 void MainWindow::guitarWasClicked(Tnote note) {
-    sound->play(note);
-//     if (gl->S->showEnharmNotes) {
-//         TnotesList noteList = note.getTheSameNotes(gl->S->doubleAccidentalsEnabled);
-//         noteName->setNoteName(noteList);
-//         score->setNote(1, noteName->getNoteName(1));
-// 				if (gl->S->doubleAccidentalsEnabled)
-// 						score->setNote(2, noteName->getNoteName(2));
-//     } //else
-//         noteName->setNoteName(note);
-//     score->setNote(0, note);
+	sound->play(note);
 	score->setNote(note);
 }
 
 
-void MainWindow::soundWasPlayed(Tnote& note) {
-//   if (gl->S->showEnharmNotes) {
-//       TnotesList noteList = note.getTheSameNotes(gl->S->doubleAccidentalsEnabled);
-//       noteName->setNoteName(noteList);
-//       score->setNote(1, noteName->getNoteName(1));
-// 			if (gl->S->doubleAccidentalsEnabled)
-// 					score->setNote(2, noteName->getNoteName(2));
-//   } else
-//       noteName->setNoteName(note);
+void MainWindow::soundWasStarted(const Tnote& note) {
   score->setNote(note);
+	m_startedSoundId = score->currentIndex();
 // 	if (guitar->isVisible())
 	guitar->setFinger(note);
 }
+
+
+void MainWindow::soundWasFinished(const Tnote& note, qreal duration) {
+// 	Q_UNUSED(duration)
+// 	score->setNote(m_startedSoundId, note);
+	// 	if (guitar->isVisible())
+// 	guitar->setFinger(note);
+}
+
 
 
 void MainWindow::setSingleNoteMode(bool isSingle) {

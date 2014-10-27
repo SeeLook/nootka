@@ -83,7 +83,8 @@ public:
   
 signals:
   void detectedNote(Tnote&);
-	void newNoteStarted(Tnote&);
+	void noteStarted(const Tnote&);
+	void noteFinished(const Tnote&, qreal);
   void plaingFinished();
 	
   
@@ -104,10 +105,10 @@ private:
 private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
   void playingFinishedSlot();
-  void noteDetectedSlot(Tnote& note);
+  void noteDetectedSlot(const Tnote& note);
 	void playMelodySlot();
-	void newNoteSlot(Tnote& note);
-
+	void noteStartedSlot(const Tnote& note, qreal pitch);
+	void noteFinishedSlot(const Tnote& note, qreal pitch, qreal duration);
 
 };
 

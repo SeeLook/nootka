@@ -52,6 +52,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
       pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
       voiceButt->setFont(QFont("nootka", 15));
       pauseButt->setFont(QFont("nootka", 15));
+// 			voiceButt->hide();
+// 			pauseButt->hide();
   } else {
     voiceButt = 0;
     pauseButt = 0;
@@ -95,7 +97,7 @@ TpitchView::~TpitchView()
 void TpitchView::setAudioInput(TaudioIN* audioIn) {
   m_audioIN = audioIn;
   if (m_audioIN)
-      connect(m_audioIN, SIGNAL(noteDetected(Tnote&)), this, SLOT(noteSlot(Tnote&)));
+		connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
 }
 
 
@@ -200,7 +202,7 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 //------------------------------------------------------------------------------------
 
 
-void TpitchView::noteSlot(Tnote& note) {
+void TpitchView::noteSlot(const Tnote& note) {
   Q_UNUSED(note)
   m_hideCnt = 0;
 }

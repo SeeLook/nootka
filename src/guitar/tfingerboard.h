@@ -43,7 +43,7 @@ public:
         * If globals GshowOtherPos is true all possibilities are shown.
         * If @param realStr is set is shown only on pointed string (if any).
         * It returns true if something is shown.*/
-    void setFinger(Tnote note);
+    void setFinger(const Tnote& note);
     void setFinger(TfingerPos pos);
     TfingerPos getfingerPos() { return m_fingerPos; } /** Returns selected finger position */
 
