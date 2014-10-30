@@ -21,6 +21,7 @@
 #include "tartini/filters/Filter.h"
 #include "tartini/filters/IIR_Filter.h"
 #include "tartini/analysisdata.h"
+#include <music/tnotestruct.h>
 #include <QThread>
 
 #include <QDebug>
@@ -44,7 +45,12 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_prevNoteIndex(-1), m_noticedIndex(-1),
   m_isVoice(false),
   m_doReset(false),
-  m_rateRatio(1.0)
+  m_rateRatio(1.0),
+  m_volume(0),
+  m_state(e_silence), m_prevState(e_silence),
+	m_prevVolume(0), m_lastDuration(0), m_newNoteStartDur(0),
+	m_detectedIndex(0),
+	m_couldBeNew(false)
 {
     m_aGl = new TartiniParams();
     m_aGl->chanells = 1;
@@ -59,7 +65,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     m_aGl->firstTimeThrough = true;
     m_aGl->doingDetailedPitch = true;
     m_aGl->threshold = 93;
-    m_aGl->analysisType = e_MPM;
+    m_aGl->analysisType = e_AUTOCORRELATION;
     m_aGl->topPitch = 140.0;
     m_aGl->loPitch = 15;
     
@@ -77,7 +83,10 @@ TpitchFinder::TpitchFinder(QObject* parent) :
     m_channel = new Channel(this, aGl()->windowSize);
     myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 		moveToThread(m_thread);
-		connect(m_thread, SIGNAL(started()), this, SLOT(startPitchDetection()));
+		connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection);
+		connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
+		
+		m_lastNote = new TnoteStruct();
 }
 
 
@@ -87,6 +96,7 @@ TpitchFinder::~TpitchFinder()
 			m_thread->terminate();
 			m_thread->quit();  
 	}
+	delete m_lastNote;
 	if (m_filteredChunk)
 			delete m_filteredChunk;
 	delete m_prevChunk;
@@ -106,10 +116,6 @@ TpitchFinder::~TpitchFinder()
 
 void TpitchFinder::setIsVoice(bool voice) {
   m_isVoice = voice;
-  if (voice)
-    m_aGl->analysisType = e_MPM_MODIFIED_CEPSTRUM;
-  else
-    m_aGl->analysisType = e_MPM /*e_AUTOCORRELATION*/;
 }
 
 
@@ -168,6 +174,27 @@ void TpitchFinder::fillBuffer(float sample) {
 }
 
 
+void TpitchFinder::resetFinder() {
+	if (!m_mutex.tryLock()) {
+		qDebug() << "Pitch detection in progress, have to wait for reset...";
+		m_mutex.lock();
+	}
+  m_doReset = false;
+  if (m_channel) {
+      delete m_channel;
+      m_chunkNum = 0;
+      myTransforms.uninit();
+      m_channel = new Channel(this, aGl()->windowSize);
+      myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+      qDebug() << "reset channel";
+  }
+  m_mutex.unlock();
+}
+
+//##########################################################################################################
+//##########################       PROTECTED SLOTS    ######################################################
+//##########################################################################################################
+
 void TpitchFinder::startPitchDetection() {
 	m_mutex.lock();
 	if (m_doReset) { // copy last chunk to keep capturing data continuous
@@ -195,100 +222,102 @@ void TpitchFinder::startPitchDetection() {
 }
 
 
-void TpitchFinder::resetFinder() {
-	if (!m_mutex.tryLock()) {
-		qDebug() << "Pitch detection in progress, have to wait for reset...";
-		m_mutex.lock();
+void TpitchFinder::processed() {
+	emit volume(m_volume);
+	emit pichInChunk(m_chunkPitch);
+	if (m_state != m_prevState) {
+		if (m_prevState == e_noticed) {
+			if (m_state == e_playing) {
+				emit noteStarted(m_lastNote->pitchF, m_lastNote->freq); // new note started
+				qDebug() << "started" << m_detectedIndex << "pitch:" << m_lastNote->pitchF
+									 << "freq:" << m_lastNote->freq << "time:" << m_lastNote->duration;
+			}
+		} else if (m_prevState == e_playing) {
+				if (m_state == e_silence || m_state == e_noticed) {
+					emit noteFinished(m_lastNote->pitchF, m_lastNote->freq, m_lastNote->duration); // previous note was finished
+					qDebug() << "finished" << m_detectedIndex << "pitch:" << m_lastNote->pitchF
+									 << "freq:" << m_lastNote->freq << "time:" << m_lastNote->duration;
+				}
+		}
 	}
-  m_doReset = false;
-  if (m_channel) {
-      delete m_channel;
-      m_chunkNum = 0;
-      myTransforms.uninit();
-      m_channel = new Channel(this, aGl()->windowSize);
-      myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-//       qDebug() << "reset channel";
-  }
-  m_mutex.unlock();
+	m_prevState = m_state;
+	if (m_state == e_silence) {
+		delete m_lastNote;
+		m_lastNote = new TnoteStruct();
+	}
 }
+
 
 //##########################################################################################################
 //########################################## PRIVATE #######################################################
 //##########################################################################################################
 
-void TpitchFinder::emitFound() {
-  if (m_prevPitch) {
-//     emit found(m_prevPitch, m_prevFreq, m_prevDuration);
-    m_prevPitch = 0;
-    m_prevFreq = 0;
-		m_prevDuration = 0;
-  }
-}
-
-
-int m_detectedIndex = 0, m_prevDetectedId = -1;
 void TpitchFinder::detect() {
 	m_isBussy = true;
-	bool emitFnished = false;
+	m_chunkPitch = 0;
+	m_volume = 0;
 	FilterState filterState;
   m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
-	if (data) {
-		if (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)) {
-				NoteData *curNote = m_channel->getCurrentNote();
-				bool watchNoote = true;
-				emit volume(dB2Normalised(data->logrms()));
+	if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))) {
+			NoteData *curNote = m_channel->getCurrentNote();
+			m_volume = dB2Normalised(data->logrms());
+			bool watchNote = true;
 			if (data->noteIndex != m_noticedIndex) {
 				if (curNote->volume() >= m_minVolume) {
-					m_noticedIndex = data->noteIndex;
-					watchNoote = true;
+						m_noticedIndex = data->noteIndex;
+						watchNote = true;
+						m_state = e_noticed;
 				} else
-					watchNoote = false;
+						watchNote = false;
 			}
-			if (watchNoote) {
-				if (data->noteIndex != m_prevNoteIndex) {
-					if (m_prevPitch)
-						emitFnished = true;
-					if (curNote->noteLength() >= m_minDuration) {
-						m_prevNoteIndex = data->noteIndex; 
-						emit noteStarted(curNote->avgPitch(), data->fundamentalFreq);
+			if (watchNote) { // note is louder than a threshold
+				if (data->noteIndex != m_prevNoteIndex) { // new note started in this chunk
+					m_newNoteStartDur = 0;
+					m_couldBeNew = false;
+					if (curNote->noteLength() >= m_minDuration) { // note is long enough
+						m_state = e_playing;
+						m_prevNoteIndex = data->noteIndex;
 						m_detectedIndex++;
-						m_prevDetectedId = m_detectedIndex;
-						qDebug() << "started" << m_detectedIndex << data->pitch << curNote->noteLength() << curNote->volume();
 					}
-				} else 
-				/*if (!emitFnished)*/ {
-					m_prevPitch = curNote->avgPitch();
-					m_prevFreq = curNote->avgFreq();
-					m_prevDuration = curNote->noteLength();
+					m_prevVolume = m_volume;
+				} else { // detected note is still playing
+					if (!m_couldBeNew) { // if volume increasing was not detected yet - check it
+						if (m_volume - m_prevVolume > 0.05) { // volume increased - probably the same note was played again
+							m_state = e_noticed;
+							m_couldBeNew = true;
+							m_newNoteStartDur = curNote->noteLength() - m_lastDuration;
+						}
+					} else { // volume was pushed, so check new note lenght
+						if (curNote->noteLength() - m_newNoteStartDur > m_minDuration) {
+							m_state = e_playing;
+							m_detectedIndex++;
+							qDebug() << "--->";
+							m_couldBeNew = false;
+						}
+					}
 				}
-				emit pichInChunk(data->pitch);
+				m_lastNote->pitchF = curNote->avgPitch();
+				m_lastNote->freq = curNote->avgFreq();
+				m_lastNote->duration = curNote->noteLength() - m_newNoteStartDur;
+				m_prevVolume = m_volume;
+				m_lastDuration = curNote->noteLength();
+				m_chunkPitch = data->pitch;
 			} else {
-					if (m_prevPitch)
-						emitFnished = true;
+					m_state = e_silence;
 			}
 		} else {
+				m_state = e_silence;
 				m_noticedIndex = -1;
 				m_prevNoteIndex = -1;
-				if (m_prevPitch)
-						emitFnished = true;
 				if (m_chunkNum > 1000 && !m_channel->isVisibleNote(data->noteIndex)) {
 					m_doReset = true;
 				}
-				emit pichInChunk(0.0);
-				emit volume(0.0);
 		}
-	} else
-			if (m_prevPitch)
-						emitFnished = true;
-			
-	if (emitFnished && m_prevDetectedId == m_detectedIndex) {
-		emit noteFinished(m_prevPitch, m_prevFreq, m_prevDuration);
-		qDebug() << "finished" << m_prevDetectedId << m_prevPitch << m_prevFreq<< m_prevDuration;
-		m_prevPitch = 0;
-		m_prevDetectedId = 0;
-	}
+
 	incrementChunk();
 	m_isBussy = false;
 }	
+
+
 

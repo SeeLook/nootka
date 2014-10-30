@@ -26,6 +26,7 @@
 #include "tartini/mytransforms.h"
 #include "tartiniparams.h"
 
+
 // This part of code id directly taken from Tartini musicnotes.h --------------------
 	/** Converts the frequencies freq (in hertz) into their note number on the midi scale
     i.e. the number of semi-tones above C0
@@ -53,6 +54,7 @@ inline qreal pitch2freq(qreal note)
 
 class Channel;
 class QThread;
+class TnoteStruct;
 
 
 /** 
@@ -70,54 +72,60 @@ class NOOTKASOUND_EXPORT TpitchFinder : public QObject
 	Q_OBJECT
 	
 public:
-    explicit TpitchFinder(QObject *parent = 0);
-    virtual ~TpitchFinder();
-  
-    MyTransforms myTransforms;
-		
-        /** global settings for pitch recognize. */
-    TartiniParams* aGl() { return m_aGl; }
-  
-    bool isBussy() { return m_isBussy; }
-    
-    int currentChunk() { return m_chunkNum; }
-    void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
-    void incrementChunk() { m_chunkNum++; }
-    void setIsVoice(bool voice);
-		
-				/** Adds given sample to the buffer at the current position, 
-				 * when buffer is full, @p startPitchDetection() is invoked and 
-				 * current buffer is swapped. */
-		void fillBuffer(float sample);
-		
-        /** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
-				 * @p range is TaudioParams::Erange cast. Default is e_middle
-				 * Better don't call this during processing. */
-    void setSampleRate(unsigned int sRate, int range = 1);
-		
-      /** Cleans all buffers, sets m_chunkNum to 0. */
-    void resetFinder();
-    void setAmbitus(qint16 loPitch, qreal topPitch) { 
-          m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
-          
-          /** Only notes with volume above this value are sending. 
-           * If note has got such volume it is observed till its end - even below. */
-    void setMinimalVolume(float vol) { m_minVolume = vol; }
-    void setMinimalDuration(float dur) { m_minDuration = dur; }
+	explicit TpitchFinder(QObject *parent = 0);
+	virtual ~TpitchFinder();
+
+	enum EnoteState {
+		e_silence, // nothing was noticed in processed chunk - probably silence
+		e_noticed, // note was noticed by Tartini and is loud enough but is too short for Nootka
+		e_playing  // note is playing longer then minimal duration
+	};
+	
+	MyTransforms myTransforms;
+	
+			/** global settings for pitch recognize. */
+	TartiniParams* aGl() { return m_aGl; }
+
+	bool isBussy() { return m_isBussy; }
+	
+	int currentChunk() { return m_chunkNum; }
+	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
+	void incrementChunk() { m_chunkNum++; }
+	void setIsVoice(bool voice);
+	
+			/** Adds given sample to the buffer at the current position, 
+				* when buffer is full, @p startPitchDetection() is invoked and 
+				* current buffer is swapped. */
+	void fillBuffer(float sample);
+	
+			/** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
+				* @p range is TaudioParams::Erange cast. Default is e_middle
+				* Better don't call this during processing. */
+	void setSampleRate(unsigned int sRate, int range = 1);
+	
+	void resetFinder(); /** Cleans all buffers, sets m_chunkNum to 0. */
+	void setAmbitus(qint16 loPitch, qreal topPitch) { m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
+				
+				/** Only notes with volume above this value are sending. 
+					* If note has got such volume it is observed till its end - even below. */
+	void setMinimalVolume(float vol) { m_minVolume = vol; }
+	void setMinimalDuration(float dur) { m_minDuration = dur; }
     
 signals:
-  void pichInChunk(float); /** Pitch in chunk that just has been processed */
+  void pichInChunk(float); /** Pitch in chunk that has been just processed */
   void volume(float);
 	void noteStarted(qreal pitch, qreal freq);
 	void noteFinished(qreal pitch, qreal freq, qreal duration);
 	
 	
 protected slots:
-	void startPitchDetection(); /** Starts searching thread/ */
+	void startPitchDetection(); /** Starts searching thread */
+	void processed(); /** Connected with QThread::finished() signal. */
+	
+	
+private:
 	void detect();
 	
-			/** Checks was note detected but signal not sent and emits found(m_prevPitch, m_prevFreq) */
-  void emitFound();
 	
 private:
   QThread					*m_thread;
@@ -125,7 +133,7 @@ private:
 	float						*m_buffer_1, *m_buffer_2; // real buffers
 	int							 m_posInBuffer;
 	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
-  qreal           m_prevPitch, m_prevFreq, m_prevDuration;
+  qreal            m_prevPitch, m_prevFreq, m_prevDuration;
 
   bool             m_doReset;
 	TartiniParams   *m_aGl; 
@@ -139,6 +147,12 @@ private:
 	float						 m_minDuration;
 	float						 m_rateRatio; // multiplexer of the sample rate determined from pitch detection range
 	QMutex					 m_mutex;
+	float 					 m_volume, m_chunkPitch, m_newNoteStartDur;
+	EnoteState			 m_state, m_prevState;
+	qreal 					 m_prevVolume, m_lastDuration;
+	int 						 m_detectedIndex;
+	bool 						 m_couldBeNew;
+	TnoteStruct			*m_lastNote;
 	
 };
 
