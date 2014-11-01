@@ -53,7 +53,6 @@ void TglobalExamStore::storeSettings() {
 		namesOnScore = m_globals->S->namesOnScore;
 		OUTenabled = m_globals->A->OUTenabled;
 		INenabled = m_globals->A->INenabled;
-		isVoice = m_globals->A->isVoice;
 }
 
 
@@ -78,7 +77,6 @@ void TglobalExamStore::restoreSettings() {
 			m_globals->A->audioInstrNr = playbackInstr;
 		m_globals->A->INenabled = INenabled;
 		m_globals->A->OUTenabled = OUTenabled;
-		m_globals->A->isVoice = isVoice;
 }
 
 
@@ -108,8 +106,6 @@ void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
 		m_globals->A->intonation = level.intonation;
 		if (!level.canBeMelody())
 			m_globals->S->isSingleNoteMode = true;
-// 		if (level.canBeMelody() && level.answerIsSound())
-// 				m_globals->A->isVoice = true;
 		// change output instrument type when necessary (exam instrument differs from user) TODO
 // 		if (m_globals->instrument != e_noInstrument && m_globals->instrument != instrument)
 // 				AudioOutSettings::adjustOutToInstrument(m_globals->A, (int)m_globals->instrument);

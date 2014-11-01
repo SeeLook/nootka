@@ -76,12 +76,10 @@ protected:
   
 protected slots:
   void testSlot();
-  void noteSlot(Tnote& note);
-  void freqSlot(float freq);
+  void noteSlot(const Tnote& note, qreal pitch);
   void intervalChanged();
   void baseFreqChanged(int bFreq);
   void minimalVolChanged(float vol);
-	void voiceOrInstrumentChanged();
 	void upDownIntervalSlot();
   
 private:
@@ -101,7 +99,7 @@ private:
   
   QComboBox 					*m_inDeviceCombo, *m_intonationCombo;
   QGroupBox 					*enableInBox, *modeGr, *midABox;
-  QRadioButton 				*voiceRadio, *instrRadio;
+  QRadioButton 				*m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
 	QRadioButton				*highRadio, *middleRadio, *lowRadio;
 	QRadioButton				*m_upSemiToneRadio, *m_downsSemitoneRadio; 
   QSpinBox 						*freqSpin, *durationSpin, *m_intervalSpin;

@@ -73,10 +73,11 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     QObject(parent),
     TrtAudio(params, e_input, inCallBack),
     m_pitch(0),
-    m_maxPeak(0.0),
+    m_volume(0.0),
     m_paused(false), m_stopped(true),
     m_lastPich(0.0f),
-    m_loPitch(15), m_hiPitch(140)
+    m_loPitch(15), m_hiPitch(140),
+    m_noteWasStarted(false)
 {
   m_instances << this;
   m_pitch = new TpitchFinder();
@@ -84,7 +85,6 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   setAudioInParams();
 	m_goingDelete = false;
   
-//   connect(m_pitch, SIGNAL(found(qreal,float,qreal)), this, SLOT(pitchFreqFound(qreal,float,qreal)));
 	connect(m_pitch, SIGNAL(noteStarted(qreal,qreal)), this, SLOT(noteStartedSlot(qreal,qreal)));
 	connect(m_pitch, SIGNAL(noteFinished(qreal,qreal,qreal)), this, SLOT(noteFinishedSlot(qreal,qreal,qreal)));
   connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
@@ -108,24 +108,18 @@ TaudioIN::~TaudioIN()
 
 void TaudioIN::setAudioInParams() {
 // 	qDebug() << "setAudioInParams";
-  m_pitch->setIsVoice(audioParams()->isVoice);
+  setDetectionMethod(audioParams()->detectMethod);
 	setMinimalVolume(audioParams()->minimalVol);
 	m_pitch->setMinimalDuration(audioParams()->minDuration);
 
 	m_pitch->setSampleRate(sampleRate(), audioParams()->range); // framesPerChunk is determined here
-	m_maxPeak = 0.0;
+	m_volume = 0.0;
 }
 
 
 void TaudioIN::setMinimalVolume(float minVol) {
 	m_pitch->setMinimalVolume(minVol);
 	audioParams()->minimalVol = minVol;
-}
-
-
-
-void TaudioIN::setIsVoice(bool isV) {
-  m_pitch->setIsVoice(isV);
 }
 
 
@@ -141,6 +135,13 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 }
 
 
+void TaudioIN::setDetectionMethod(int method) {
+	method = qBound<int>(0, method, 2);
+	m_pitch->aGl()->analysisType = EanalysisModes(method);
+	audioParams()->detectMethod = method;
+}
+
+
 //------------------------------------------------------------------------------------
 //------------          slots       --------------------------------------------------
 //------------------------------------------------------------------------------------
@@ -150,14 +151,14 @@ void TaudioIN::startListening() {
 			return;
 	} else
 // 		qDebug() << "startListening";
-	m_maxPeak = 0.0;
+	m_volume = 0.0;
 	m_stopped = false;
 	startStream();
 }
 
 
 void TaudioIN::stopListening() {
-	m_maxPeak = 0.0;
+	m_volume = 0.0;
 	m_LastChunkPitch = 0.0;
 	m_stopped = true;
 	m_paused = false;
@@ -179,15 +180,15 @@ void TaudioIN::noteStartedSlot(qreal pitch, qreal freq) {
 	if (!m_paused) {
 			Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
 			if (inRange(pitch)) {
+				m_noteWasStarted = true;
 				emit noteStarted(n, pitch);
-				if (!audioParams()->isVoice)
-					emit noteDetected(n);
 			}
   }
 }
 
 
 void TaudioIN::noteFinishedSlot(qreal pitch, qreal freq, qreal duration) {
+	m_noteWasStarted = false;
 	if (!m_paused) {
 			m_lastPich = pitch - audioParams()->a440diff;
 			Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
@@ -195,8 +196,6 @@ void TaudioIN::noteFinishedSlot(qreal pitch, qreal freq, qreal duration) {
 				if (m_storeNotes)
 					notes << TnoteStruct(n, pitch, freq, duration);
 				emit noteFinished(n, freq, duration);
-				if (audioParams()->isVoice)
-					emit noteDetected(n);
 			}
   } else 
 			m_lastPich = 0.0f;

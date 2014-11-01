@@ -961,13 +961,14 @@ void TexamExecutor::prepareToExam() {
     connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
     connect(mW->noteName, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
-    connect(mW->sound, SIGNAL(detectedNote(Tnote&)), this, SLOT(expertAnswersSlot()));
-    
+		if (m_level.instrument != e_noInstrument)
+			connect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
+		else
+			connect(mW->sound, &Tsound::noteFinished, this, &TexamExecutor::expertAnswersSlot);
     qApp->installEventFilter(m_supp);
     connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-//     disconnect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     disconnect(mW->sound, SIGNAL(noteStarted(Tnote)), mW, SLOT(soundWasStarted(Tnote)));
 		disconnect(mW->sound, SIGNAL(noteFinished(Tnote,qreal)), mW, SLOT(soundWasFinished(Tnote,qreal)));
@@ -1051,14 +1052,11 @@ void TexamExecutor::restoreAfterExam() {
         m_canvas->deleteLater();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-//     connect(mW->noteName, SIGNAL(noteNameWasChanged(Tnote)), mW, SLOT(noteNameWasChanged(Tnote)));
     connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
     connect(mW->sound, SIGNAL(noteStarted(Tnote)), mW, SLOT(soundWasStarted(Tnote)));
 		connect(mW->sound, SIGNAL(noteFinished(Tnote,qreal)), mW, SLOT(soundWasFinished(Tnote,qreal)));
     disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
     disconnect(mW->bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-//     disconnect(mW->autoRepeatChB, SIGNAL(clicked(bool)), this,
-//             SLOT(autoRepeatStateChanged(bool)));
     connect(mW->bar->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
     connect(mW->bar->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
     mW->score->unLockScore();

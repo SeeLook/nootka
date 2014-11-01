@@ -52,9 +52,7 @@ public:
   float a440diff; // difference between standard a1 440Hz and user preferred base pitch
   float minimalVol; // only above this value detected note is sending to Nootka
   float minDuration; // minimal duration of a sound above which it is detected
-    /** If true - pitch is average of all visible pitches
-     * if false - the first detected in sound over noise is taken.  */
-  bool isVoice;
+  int detectMethod; // pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum)
 	Erange range; // pitch detection range
 	quint8 intonation; // accuracy of intonation in detected note - corresponds with Eaccuracy
 // duplex mode

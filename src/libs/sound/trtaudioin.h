@@ -62,16 +62,16 @@ public:
   void unPause() { m_paused = false; }
   bool isPaused() { return m_paused; }
   bool isStoped() { return m_stopped; }
-	float maxPeak() { return m_maxPeak; }
+  
+  float volume() { return m_volume; } /** Current volume of detecting sound or 0 if silence */
 	
 	  /** Sets device parameters stores in structure SaudioInParams. 
-	   * SaudioInParams::deviceName is ignored. It have to be set separately
-	   * by setAudioDevice() method. 	   */
+	   * SaudioInParams::deviceName is ignored. It have to be set separately by setAudioDevice() method. 	   */
 	void setAudioInParams();	
 	
 			/** Sets minimal volume needed that note will be detected. Overrides global setting.  */
   void setMinimalVolume(float minVol);
-  void setIsVoice(bool isV);
+
   void setAmbitus(Tnote loNote, Tnote hiNote);   /** Sets range of notes which are detected. */
 	Tnote loNote() { return m_loNote; } /** Returns lower boundary note of ambitus */
 	Tnote hiNote() { return m_hiNote; } /** Returns upper boundary note of ambitus */
@@ -83,11 +83,16 @@ public:
 	}		/** Returns @p TRUE when @p pitch is in ambitus */
 	
 	bool noteWasStarted() { return m_noteWasStarted; } /** @p TRUE when note started but not finished. */
+	
+			/** Sets pitch detection method. Currently three are available:
+			 * 0 - MPM (Philip McLeod Method) - default
+			 * 1 - auto-correlation 
+			 * 2 - MPM modified cepstrum.
+			 * Currently set value is available through global. */
+	void setDetectionMethod(int method);
 
 	
-signals:
-	void noteDetected(const Tnote&);
-	
+signals:	
 			/** Emitted when note was played and its duration is longer than minimal duration */
 	void noteStarted(const Tnote& note, qreal pitch);
 	void noteFinished(const Tnote& note, qreal pitch, qreal duration);
@@ -102,7 +107,7 @@ protected:
 
 private slots:
   void pitchInChunkSlot(float pitch);
-  void volumeSlot(float vol) { m_maxPeak = vol; }
+  void volumeSlot(float vol) { m_volume = vol; }
 	void updateSlot() { setAudioInParams(); }
 	void noteStartedSlot(qreal pitch, qreal freq);
 	void noteFinishedSlot(qreal pitch, qreal freq, qreal duration);
@@ -115,7 +120,7 @@ private:
   static        int m_thisInstance;
 	static 				bool m_goingDelete;
   TpitchFinder  *m_pitch;
-  float         m_maxPeak;
+  float         m_volume;
   bool          m_paused, m_stopped;
 			/** Boundary notes of the ambitus. */
 	Tnote					m_loNote, m_hiNote;
