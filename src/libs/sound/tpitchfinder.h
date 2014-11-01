@@ -83,15 +83,13 @@ public:
 	
 	MyTransforms myTransforms;
 	
-			/** global settings for pitch recognize. */
-	TartiniParams* aGl() { return m_aGl; }
+	TartiniParams* aGl() { return m_aGl; } /** global settings for pitch recognition. */
 
 	bool isBussy() { return m_isBussy; }
 	
 	int currentChunk() { return m_chunkNum; }
 	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
 	void incrementChunk() { m_chunkNum++; }
-	void setIsVoice(bool voice);
 	
 			/** Adds given sample to the buffer at the current position, 
 				* when buffer is full, @p startPitchDetection() is invoked and 
@@ -140,7 +138,6 @@ private:
 	Channel         *m_channel;
 	int              m_chunkNum;
 	bool             m_isBussy;
-  bool             m_isVoice; // calculates average pitch in chunks range instead pitch in single chunk
   int              m_prevNoteIndex;
   int              m_noticedIndex;
   float            m_minVolume;

@@ -54,16 +54,19 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   m_inDeviceCombo = new QComboBox(m_1_device);
 		m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
   
-  voiceRadio = new QRadioButton(m_1_device);
-  QLabel *voiceLab = new QLabel("<span style=\"font-family: nootka; font-size: 25px;\">v</span> " + tr("for singing"), m_1_device);
-		voiceLab->setStatusTip(tr("This mode is more accurate but slower. It is recommended for singing and for instruments with \"wobbly\" intonation."));
-	instrRadio = new QRadioButton(m_1_device);
+  m_mpmRadio = new QRadioButton("MPM", m_1_device);
+	m_correlRadio = new QRadioButton("autocorrelation", m_1_device);
+	m_cepstrumRadio = new QRadioButton("MPM + modified cepstrum", m_1_device);
   QButtonGroup *butGr = new QButtonGroup(m_1_device);
-	butGr->addButton(voiceRadio);
-  butGr->addButton(instrRadio);
-  QLabel *instrLab = new QLabel(tr("for playing") + 
-        " <span style=\"font-family: nootka; font-size: 28px;\">g</span>", m_1_device);
-  instrLab->setStatusTip(tr("This mode is faster and good enough for guitars and other instruments."));
+	butGr->addButton(m_mpmRadio);
+  butGr->addButton(m_correlRadio);
+	butGr->addButton(m_cepstrumRadio);
+	if (m_glParams->detectMethod == e_MPM)
+		m_mpmRadio->setChecked(true);
+	else if (m_glParams->detectMethod == e_AUTOCORRELATION)
+		m_correlRadio->setChecked(true);
+	else
+		m_cepstrumRadio->setChecked(true);
 	
 	durHeadLab = new QLabel(tr("minimum note duration"), m_1_device);
 	durationSpin = new QSpinBox(m_1_device);
@@ -73,10 +76,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		durationSpin->setSingleStep(50);
 		durationSpin->setValue(m_glParams->minDuration * 1000); // minimum duration is stored in seconds but displayed in milliseconds
 		durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
-  if (m_glParams->isVoice)
-			voiceRadio->setChecked(true);
-	else
-			instrRadio->setChecked(true);
 	// 1. Layout
 	QVBoxLayout *deviceLay = new QVBoxLayout();
 		deviceLay->addWidget(devLab);
@@ -84,24 +83,26 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		deviceLay->addStretch(1);
 	QHBoxLayout *modeButtonsLay = new QHBoxLayout;
 		modeButtonsLay->addStretch(2);
-		modeButtonsLay->addWidget(instrLab);
-		modeButtonsLay->addWidget(instrRadio);
+		modeButtonsLay->addWidget(m_mpmRadio);
 		modeButtonsLay->addStretch(1);
-		modeButtonsLay->addWidget(voiceRadio);
-		modeButtonsLay->addWidget(voiceLab);
+		modeButtonsLay->addWidget(m_correlRadio);
+		modeButtonsLay->addStretch(1);
+		modeButtonsLay->addWidget(m_cepstrumRadio);
 		modeButtonsLay->addStretch(2);
 	QVBoxLayout *modeLay = new QVBoxLayout;
 		modeLay->addLayout(modeButtonsLay);
 		modeLay->addStretch(1);
-		QHBoxLayout *durLay = new QHBoxLayout;
-			durLay->addWidget(durHeadLab);
-			durLay->addWidget(durationSpin, 0, Qt::AlignLeft);
-			durLay->addStretch(2);
-		modeLay->addLayout(durLay);
 	modeGr = new QGroupBox(tr("pitch detection mode"), m_1_device);
 		modeGr->setLayout(modeLay);
 	deviceLay->addWidget(modeGr);
   deviceLay->addStretch(1);
+	QHBoxLayout *durLay = new QHBoxLayout;
+		durLay->addStretch();
+		durLay->addWidget(durHeadLab);
+		durLay->addWidget(durationSpin, 0, Qt::AlignLeft);
+		durLay->addStretch();
+	deviceLay->addLayout(durLay);
+	deviceLay->addStretch(1);
   m_1_device->setLayout(deviceLay);
 	
 //################### 2. Pitch detection parameters #################################
@@ -276,9 +277,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	connect(m_downsSemitoneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
-	connect(voiceRadio, SIGNAL(clicked(bool)), this, SLOT(voiceOrInstrumentChanged()));
-  connect(instrRadio, SIGNAL(clicked(bool)), this, SLOT(voiceOrInstrumentChanged()));
 }
+
 
 AudioInSettings::~AudioInSettings()
 {
@@ -312,7 +312,6 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 			middleRadio->setDisabled(false);
 			highRadio->setDisabled(false);
 			m_intonationCombo->setDisabled(false);
-			voiceOrInstrumentChanged();
   } else {
 			pitchLab->setDisabled(false);
 			freqLab->setDisabled(false);
@@ -339,10 +338,12 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   else
       params->a440diff = getDiff(freqSpin->value());
   params->INdevName = m_inDeviceCombo->currentText();
-  if (voiceRadio->isChecked())
-      params->isVoice = true;
-  else
-      params->isVoice = false;
+  if (m_mpmRadio->isChecked())
+		params->detectMethod = 0;
+	else if (m_correlRadio->isChecked())
+		params->detectMethod = 1;
+	else
+		params->detectMethod = 2;
   params->INenabled = enableInBox->isChecked();
   params->minimalVol = volumeSlider->value();
 	if (lowRadio->isChecked())
@@ -363,7 +364,7 @@ void AudioInSettings::restoreDefaults() {
 	freqSpin->setValue(440);
 	m_intervalSpin->setValue(0);
 	m_inDeviceCombo->setCurrentIndex(0);
-	instrRadio->setChecked(true);
+	m_mpmRadio->setChecked(true);
 	volumeSlider->setValue(0.4); // It is multipled by 100
 	middleRadio->setChecked(true);
 	durationSpin->setValue(90);
@@ -484,8 +485,7 @@ void AudioInSettings::testSlot() {
     if (!m_audioIn) { // create new audio-in device
 				m_audioIn = new TaudioIN(m_tmpParams, this);
 				pitchView->setAudioInput(m_audioIn);
-				connect(m_audioIn, SIGNAL(noteDetected(Tnote&)), this, SLOT(noteSlot(Tnote)));
-				connect(m_audioIn, SIGNAL(fundamentalFreq(float)), this, SLOT(freqSlot(float)));
+				connect(m_audioIn, SIGNAL(noteStarted(Tnote,qreal)), this, SLOT(noteSlot(Tnote,qreal)));
 		} else { // set parameters to existing device
 				m_audioIn->updateAudioParams();
 				m_audioIn->setAudioInParams();
@@ -507,13 +507,10 @@ void AudioInSettings::testSlot() {
 }
 
 
-void AudioInSettings::noteSlot(Tnote& note) {
-		pitchLab->setText("<b>" + note.toRichText() + "</b>");
-}
-
-
-void AudioInSettings::freqSlot(float freq) {
-	freqLab->setText(QString("%1 Hz").arg(freq, 0, 'f', 1, '0'));
+void AudioInSettings::noteSlot(const Tnote& note, qreal pitch) {
+	Tnote n = note;
+	pitchLab->setText("<b>" + n.toRichText() + "</b>");
+	freqLab->setText(QString("%1 Hz").arg(pitch2freq(pitch), 0, 'f', 1, '0'));
 }
 
 
@@ -581,12 +578,6 @@ void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {
 }
 
 
-void AudioInSettings::voiceOrInstrumentChanged() {
-	if (instrRadio->isChecked())
-			durationSpin->setDisabled(false);
-	else
-			durationSpin->setDisabled(true);
-}
 
 
 

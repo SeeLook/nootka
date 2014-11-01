@@ -43,7 +43,6 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_minVolume(0.4),
   m_prevPitch(0), m_prevFreq(0), m_prevDuration(0),
   m_prevNoteIndex(-1), m_noticedIndex(-1),
-  m_isVoice(false),
   m_doReset(false),
   m_rateRatio(1.0),
   m_volume(0),
@@ -112,11 +111,6 @@ TpitchFinder::~TpitchFinder()
 //##########################################################################################################
 //########################################## PUBLIC ########################################################
 //##########################################################################################################
-
-
-void TpitchFinder::setIsVoice(bool voice) {
-  m_isVoice = voice;
-}
 
 
 void TpitchFinder::setSampleRate(unsigned int sRate, int range) {

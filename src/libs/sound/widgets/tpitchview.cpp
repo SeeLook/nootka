@@ -35,7 +35,6 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_audioIN(audioIn),
   m_pitchColor(Qt::red),
   m_isPaused(false),
-  m_isVoice(false),
   m_hideCnt(8),
   m_withButtons(withButtons),
   m_bgColor(Qt::transparent)
@@ -43,19 +42,12 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 	QHBoxLayout *outLay = new QHBoxLayout;
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
-      voiceButt = new QPushButton("g", this);
-      voiceButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-      voiceButt->setStatusTip(tr("Toggles between pitch detection for singing and for playing"));
-			
 			pauseButt = new QPushButton("n", this);
       pauseButt->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
       pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
-      voiceButt->setFont(QFont("nootka", 15));
       pauseButt->setFont(QFont("nootka", 15));
-// 			voiceButt->hide();
 // 			pauseButt->hide();
   } else {
-    voiceButt = 0;
     pauseButt = 0;
   }
     
@@ -68,8 +60,6 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 				tr("Drag a knob to adjust minimum input volume."));
 		m_volMeter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
-	if (m_withButtons)
-			outLay->addWidget(voiceButt, 0, Qt::AlignBottom);
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
 	m_lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
 	outLay->addLayout(m_lay);
@@ -81,14 +71,9 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));
   if (m_withButtons) {
     connect(pauseButt, SIGNAL(clicked()), this, SLOT(pauseClicked()));
-    connect(voiceButt, SIGNAL(clicked()), this, SLOT(voiceClicked()));
   }
 }
 
-
-TpitchView::~TpitchView()
-{
-}
 
 //------------------------------------------------------------------------------------
 //------------          methods     --------------------------------------------------
@@ -97,24 +82,21 @@ TpitchView::~TpitchView()
 void TpitchView::setAudioInput(TaudioIN* audioIn) {
   m_audioIN = audioIn;
   if (m_audioIN)
-		connect(m_audioIN, SIGNAL(noteDetected(Tnote)), this, SLOT(noteSlot(Tnote)));
+		connect(m_audioIN, SIGNAL(noteStarted(Tnote,qreal)), this, SLOT(noteSlot(Tnote)));
 }
 
 
 void TpitchView::startVolume() {
-// 	m_prevVolume = -1.0;
 	m_prevPitch = -1.0;
   if (m_audioIN) {
 		connect(m_volMeter, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
     m_volMeter->setDisabled(false);
     m_volTimer->start(75);
-// 		qDebug() << "startVolume";
   }
 }
 
 
 void TpitchView::stopVolume() {
-//    QTimer::singleShot(600, this, SLOT(stopTimerDelayed()));
 	stopTimerDelayed();
 }
 
@@ -153,34 +135,16 @@ void TpitchView::resize(int fontSize) {
 	fontSize = qRound((float)fontSize * 1.4);
   if (m_withButtons) {
 #if defined(Q_OS_MAC)
-    voiceButt->setFont(QFont("nootka", (fontSize*2)/*/2*/)); // prev was 3/2 (*1.5)
     pauseButt->setFont(QFont("nootka", (fontSize*2)/*/2*/));
 #else
-    voiceButt->setFont(QFont("nootka", fontSize * 1.3));
     pauseButt->setFont(QFont("nootka", fontSize * 1.3));
 #endif
-    voiceButt->setFixedWidth(1.5 * fontSize);
     pauseButt->setFixedWidth(1.5 * fontSize);
-    voiceButt->setFixedHeight(2.2 * fontSize);
     pauseButt->setFixedHeight(2.2 * fontSize);
   }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 0.9));
   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
 }
-
-
-void TpitchView::setIsVoice(bool isVoice) {
-  if (isVoice) {
-				voiceButt->setText("v"); // singer symbol for voice mode
-				m_isVoice = true;
-    } else {
-				voiceButt->setText("g"); // guitar symbol for instruments mode
-				m_isVoice = false;
-    }
-    if (m_audioIN)
-				m_audioIN->setIsVoice(m_isVoice);
-}
-
 
 
 void TpitchView::markAnswer(const QColor& col) {
@@ -221,7 +185,7 @@ void TpitchView::updateLevel() {
       case 7 : a = 40;  break;
     }
   m_hideCnt++;
-	m_volMeter->setVolume(m_audioIN->maxPeak(), a);
+	m_volMeter->setVolume(m_audioIN->volume(), a);
 	if (m_intoView->accuracy() != TintonationView::e_noCheck && m_prevPitch != m_audioIN->lastChunkPitch())
 			m_intoView->pitchSlot(m_audioIN->lastChunkPitch());
 // 	m_prevVolume = m_audioIN->maxPeak();
@@ -246,11 +210,6 @@ void TpitchView::pauseClicked() {
       m_intoView->setDisabled(true);
     }
 
-}
-
-
-void TpitchView::voiceClicked() {
-		setIsVoice(!m_isVoice); // switch to opposite
 }
 
 
@@ -284,6 +243,5 @@ void TpitchView::stopTimerDelayed() {
    m_volMeter->setVolume(0.0);
 	 m_volMeter->setVolume(0.0); // it has to be called twice to reset
    m_intoView->pitchSlot(0.0);
-// 	 qDebug() << "volume stopped";
 }
 

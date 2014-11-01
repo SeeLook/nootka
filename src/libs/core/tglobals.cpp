@@ -269,7 +269,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->audioInstrNr = qBound(1, cfg->value("audioInstrumentNr", 1).toInt(), 3);
 		A->INenabled = cfg->value("inSoundEnabled", true).toBool();
 		A->INdevName = cfg->value("inDeviceName", "").toString();
-		A->isVoice = cfg->value("isVoice", false).toBool();
+		A->detectMethod = qBound(0, cfg->value("detectionMethod", 0).toInt(), 2);
 		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
 		A->minDuration = cfg->value("minimalDuration", 0.09).toFloat();
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
@@ -413,7 +413,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("audioInstrumentNr", (int)A->audioInstrNr);
 			cfg->setValue("inSoundEnabled", A->INenabled);
 			cfg->setValue("inDeviceName", A->INdevName);
-			cfg->setValue("isVoice", A->isVoice);
+			cfg->setValue("detectionMethod", A->detectMethod);
 			cfg->setValue("minimalVolume", A->minimalVol);
 			cfg->setValue("minimalDuration", A->minDuration);
 			cfg->setValue("a440Offset", A->a440diff);

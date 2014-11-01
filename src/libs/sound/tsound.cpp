@@ -128,7 +128,6 @@ void Tsound::acceptSettings() {
       setDefaultAmbitus();
       doParamsUpdated = true;
     }
-    m_pitchView->setIsVoice(gl->A->isVoice);
 		m_pitchView->setMinimalVolume(gl->A->minimalVol);
 		m_pitchView->setIntonationAccuracy(gl->A->intonation);
   } else {
@@ -153,7 +152,6 @@ void Tsound::acceptSettings() {
 void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView = pView;
   m_pitchView->setPitchColor(gl->EanswerColor);
-  m_pitchView->setIsVoice(gl->A->isVoice);
   m_pitchView->setMinimalVolume(gl->A->minimalVol);
 	m_pitchView->setIntonationAccuracy(gl->A->intonation);
   if (sniffer) {
@@ -324,7 +322,6 @@ void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-  connect(sniffer, SIGNAL(noteDetected(Tnote)), this, SLOT(noteDetectedSlot(Tnote)));
 	connect(sniffer, SIGNAL(noteStarted(Tnote,qreal)), this, SLOT(noteStartedSlot(Tnote,qreal)));
 	connect(sniffer, SIGNAL(noteFinished(Tnote,qreal,qreal)), this, SLOT(noteFinishedSlot(Tnote,qreal,qreal)));
 }
@@ -362,14 +359,6 @@ void Tsound::playingFinishedSlot() {
 //   go();
 }
 
-void Tsound::noteDetectedSlot(const Tnote& note) {
-	//  qDebug() << "Tsound: got note" << note.toText();
-	m_detectedNote = note;
-	if (player && gl->A->playDetected)
-		play(m_detectedNote);
-  emit detectedNote(m_detectedNote);
-}
-
 
 void Tsound::playMelodySlot() {
 	if (m_melodyNoteIndex > -1 && m_melodyNoteIndex < m_playedMelody->length()) {
@@ -385,13 +374,19 @@ void Tsound::playMelodySlot() {
 
 void Tsound::noteStartedSlot(const Tnote& note, qreal pitch) {
 	Q_UNUSED(pitch)
-	emit noteStarted(note);
+	m_detectedNote = note;
+	emit noteStarted(m_detectedNote);
+	if (player && gl->instrument != e_noInstrument && gl->A->playDetected)
+		play(m_detectedNote);
 }
 
 
 void Tsound::noteFinishedSlot(const Tnote& note, qreal pitch, qreal duration) {
 	Q_UNUSED(pitch)
+	m_detectedNote = note;
 	emit noteFinished(note, duration);
+	if (player && gl->instrument == e_noInstrument && gl->A->playDetected)
+		play(m_detectedNote);
 }
 
 
