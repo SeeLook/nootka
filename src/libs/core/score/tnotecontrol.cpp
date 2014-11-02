@@ -260,6 +260,12 @@ void TnoteControl::enableToAddNotes(bool addEnabled) {
 	}
 }
 
+
+void TnoteControl::hide() {
+	m_adding = false;
+	QGraphicsItem::hide();
+}
+
 //##########################################################################################################
 //####################################         PROTECTED    ################################################
 //##########################################################################################################
@@ -371,7 +377,7 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 		m_underItem = 0;
 	}
 	hideWithDelay();
-		TscoreItem::hoverLeaveEvent(event);
+	TscoreItem::hoverLeaveEvent(event);
 	m_entered = false;
 	scoreScene()->controlLeaved(scoreNote());
 }
