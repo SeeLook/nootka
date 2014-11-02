@@ -75,7 +75,6 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_pitch(0),
     m_volume(0.0),
     m_paused(false), m_stopped(true),
-    m_lastPich(0.0f),
     m_loPitch(15), m_hiPitch(140),
     m_noteWasStarted(false)
 {
@@ -85,11 +84,11 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   setAudioInParams();
 	m_goingDelete = false;
   
-	connect(m_pitch, SIGNAL(noteStarted(qreal,qreal)), this, SLOT(noteStartedSlot(qreal,qreal)));
-	connect(m_pitch, SIGNAL(noteFinished(qreal,qreal,qreal)), this, SLOT(noteFinishedSlot(qreal,qreal,qreal)));
-  connect(m_pitch, SIGNAL(pichInChunk(float)), this, SLOT(pitchInChunkSlot(float)));
-  connect(m_pitch, SIGNAL(volume(float)), this, SLOT(volumeSlot(float)));
-	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
+	connect(m_pitch, &TpitchFinder::noteStarted, this, &TaudioIN::noteStartedSlot);
+	connect(m_pitch, &TpitchFinder::noteFinished, this, &TaudioIN::noteFinishedSlot);
+	connect(m_pitch, &TpitchFinder::pitchInChunk, this, &TaudioIN::pitchInChunkSlot);
+	connect(m_pitch, &TpitchFinder::volume, this, &TaudioIN::volumeSlot);
+	connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
 }
 
 TaudioIN::~TaudioIN()
@@ -176,29 +175,29 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
 }
 
 
-void TaudioIN::noteStartedSlot(qreal pitch, qreal freq) {
+void TaudioIN::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
 	if (!m_paused) {
-			Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
-			if (inRange(pitch)) {
+			m_lastNote.set(pitch - audioParams()->a440diff, freq, duration);
+			if (inRange(m_lastNote.pitchF)) {
 				m_noteWasStarted = true;
-				emit noteStarted(n, pitch);
+				emit noteStarted(m_lastNote);
 			}
-  }
+  } else
+			m_lastNote.set(); // reset last detected note structure
 }
 
 
-void TaudioIN::noteFinishedSlot(qreal pitch, qreal freq, qreal duration) {
+void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
 	m_noteWasStarted = false;
 	if (!m_paused) {
-			m_lastPich = pitch - audioParams()->a440diff;
-			Tnote n(qRound(pitch - audioParams()->a440diff) - 47);
-			if (inRange(pitch)) {
+			m_lastNote.set(lastNote->pitchF - audioParams()->a440diff, lastNote->freq, lastNote->duration);
+			if (inRange(m_lastNote.pitchF)) {
 				if (m_storeNotes)
-					notes << TnoteStruct(n, pitch, freq, duration);
-				emit noteFinished(n, freq, duration);
+					notes << m_lastNote;
+				emit noteFinished(m_lastNote);
 			}
   } else 
-			m_lastPich = 0.0f;
+			m_lastNote.set(); // reset last detected note structure
 }
 
 

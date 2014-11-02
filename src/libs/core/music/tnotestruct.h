@@ -30,7 +30,7 @@ class NOOTKACORE_EXPORT TnoteStruct
 {
 
 public:
-	TnoteStruct(const Tnote& p, float pF, qreal f = 0, qreal dur = 0) : pitch(p), pitchF(pF), freq(f), duration(dur) {}
+	TnoteStruct(const Tnote& p, qreal pF, qreal f = 0.0, qreal dur = 0.0) : pitch(p), pitchF(pF), freq(f), duration(dur) {}
 	
 	TnoteStruct() {
 		freq = 0; duration = 0; pitchF = 0;
@@ -46,10 +46,15 @@ public:
 			return true;
 	}
 	
-	Tnote pitch;
-	qreal pitchF;
-	qreal freq;
-	qreal duration;
+	void set(qreal midiPitch = 0.0, qreal f = 0.0, qreal dur = 0.0) {
+		midiPitch ? pitch = Tnote(qRound(midiPitch) - 47) : pitch = Tnote(); pitchF = midiPitch; freq = f; duration = dur;
+	} /** Sets values of note structure, or sets them to NULL if no values defined. */
+	
+	
+	Tnote pitch; 		/** Note pitch like C, D, E or C3, D#  */
+	qreal pitchF; 	/** Chromatic note number in MIDI scale, C1 = 60 */
+	qreal freq; 		/** Frequency of a note */
+	qreal duration; /** Duration of a note */
 };
 
 

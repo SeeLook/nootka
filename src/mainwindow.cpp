@@ -21,6 +21,7 @@
 #include <widgets/troundedlabel.h>
 #include <tprocesshandler.h>
 #include <tscoreparams.h>
+#include <music/tchunk.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include "score/tmainscore.h"
@@ -147,11 +148,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // 		C = Tcolor::merge(C, palette().window().color());
 // 		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget, C);
 		
-//     noteName = new TnoteName(innerWidget);
-//     noteName->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-//     noteName->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
-
-    guitar = new TfingerBoard(/*innerWidget*/);
+    guitar = new TfingerBoard();
 		
 //-------------------------------------------------------------------		
 // Setting layout
@@ -190,8 +187,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
 // 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
-    connect(sound, SIGNAL(noteStarted(Tnote)), this, SLOT(soundWasStarted(Tnote)));
-		connect(sound, SIGNAL(noteFinished(Tnote,qreal)), this, SLOT(soundWasFinished(Tnote,qreal)));
+		connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
+		connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
 		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
@@ -477,11 +474,10 @@ void MainWindow::soundWasStarted(const Tnote& note) {
 }
 
 
-void MainWindow::soundWasFinished(const Tnote& note, qreal duration) {
-// 	Q_UNUSED(duration)
-// 	score->setNote(m_startedSoundId, note);
-	// 	if (guitar->isVisible())
-// 	guitar->setFinger(note);
+void MainWindow::soundWasFinished(Tchunk& chunk) {
+	score->setNote(m_startedSoundId, chunk.p());
+// 	if (guitar->isVisible())
+		guitar->setFinger(chunk.p());
 }
 
 

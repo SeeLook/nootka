@@ -30,7 +30,7 @@
  */
 class NOOTKASOUND_EXPORT TaudioObject : public QObject
 {
-	Q_OBJECT	
+	Q_OBJECT
 	
 public:
 	explicit TaudioObject(QObject* parent = 0) : QObject(parent) {}

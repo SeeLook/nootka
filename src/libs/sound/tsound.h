@@ -23,10 +23,10 @@
 #include <QObject>
 #include <music/tnote.h>
 
+class Tchunk;
 class TnoteStruct;
 class Tmelody;
 class TabstractPlayer;
-class QThread;
 class TpitchView;
 class TaudioIN;
 
@@ -55,16 +55,17 @@ public:
   bool melodyIsPlaying() { return m_melodyNoteIndex > -1; }
   
     /** Before Nootka config dialog is created a few things have to be done.
-     * stop sniffing, playing
-     * delete midi, which blocks audio devices,
+     * stop sniffing, playing, delete midi, which blocks audio devices,
      * delete audioIN, config creates its own to test. */
   void prepareToConf();
   void restoreAfterConf(); /** Also, when user will discard config, it has to restore its state. */
   void acceptSettings();
+	
   void setPitchView(TpitchView *pView);
   void wait(); /** Stops sniffing. It is called when en exam is starting. */
   void go(); /** Starts sniffing again. */
-  Tnote note() { return m_detectedNote; } /** Returns recently detected note. */
+	
+  Tnote& note() { return m_detectedPitch; } /** Returns recently detected note. */
   float pitch(); /** Returns recently detected pitch of note. */
   void pauseSinffing();
   void unPauseSniffing();
@@ -83,7 +84,7 @@ public:
   
 signals:
 	void noteStarted(const Tnote&);
-	void noteFinished(const Tnote&, qreal);
+	void noteFinished(Tchunk&);
   void plaingFinished();
 	
   
@@ -94,9 +95,9 @@ private:
   void deleteSniffer();
   
   TpitchView 					 *m_pitchView;
-  Tnote 			 					m_detectedNote; // detected note
+  Tnote 			 					m_detectedPitch; // detected note pitch
   bool 				 					m_examMode;
-	Tnote				 					m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stroed during an exam
+	Tnote				 					m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stored during an exam
 	bool 				 					m_midiPlays;
 	int										m_melodyNoteIndex;
 	Tmelody							 *m_playedMelody;
@@ -105,8 +106,8 @@ private slots:
     /** Is performed when note stops playing, then sniffing is unlocked */
   void playingFinishedSlot();
 	void playMelodySlot();
-	void noteStartedSlot(const Tnote& note, qreal pitch);
-	void noteFinishedSlot(const Tnote& note, qreal pitch, qreal duration);
+	void noteStartedSlot(const TnoteStruct& note);
+	void noteFinishedSlot(const TnoteStruct& note);
 
 };
 
