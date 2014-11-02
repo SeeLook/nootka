@@ -65,7 +65,9 @@ class TnoteStruct;
  * It emits signal with volume @p volume(float)
  * signal with pitch in every processed chunk @p pichInChunk(float)
  * signal when detected note starts  @p noteStarted(qreal pitch, qreal frequency)
- * and signal when note ends @p noteFinished(qreal pitch, qreal frequency, qreal duration)
+ * and signal when note ends @p noteFinished(TnoteStruct)
+ * Emitted values are as they are without any additional computation
+ * like middle a adjusting or checking note range (ambitus)
  */
 class NOOTKASOUND_EXPORT TpitchFinder : public QObject
 {
@@ -102,18 +104,19 @@ public:
 	void setSampleRate(unsigned int sRate, int range = 1);
 	
 	void resetFinder(); /** Cleans all buffers, sets m_chunkNum to 0. */
-	void setAmbitus(qint16 loPitch, qreal topPitch) { m_aGl->loPitch = loPitch; m_aGl->topPitch = topPitch; }
 				
 				/** Only notes with volume above this value are sending. 
 					* If note has got such volume it is observed till its end - even below. */
 	void setMinimalVolume(float vol) { m_minVolume = vol; }
 	void setMinimalDuration(float dur) { m_minDuration = dur; }
+	
+	TnoteStruct* lastNote() { return m_lastNote; }
     
 signals:
-  void pichInChunk(float); /** Pitch in chunk that has been just processed */
+  void pitchInChunk(float); /** Pitch in chunk that has been just processed */
   void volume(float);
-	void noteStarted(qreal pitch, qreal freq);
-	void noteFinished(qreal pitch, qreal freq, qreal duration);
+	void noteStarted(qreal pitch, qreal freq, qreal duration);
+	void noteFinished(TnoteStruct*); /** Emitting parameters of finished note (pitch, freq, duration) */
 	
 	
 protected slots:
@@ -149,7 +152,7 @@ private:
 	qreal 					 m_prevVolume, m_lastDuration;
 	int 						 m_detectedIndex;
 	bool 						 m_couldBeNew;
-	TnoteStruct			*m_lastNote;
+	TnoteStruct			*m_currentNote, *m_lastNote;
 	
 };
 

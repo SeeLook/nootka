@@ -85,6 +85,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 		connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection);
 		connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
 		
+		m_currentNote = new TnoteStruct();
 		m_lastNote = new TnoteStruct();
 }
 
@@ -95,6 +96,7 @@ TpitchFinder::~TpitchFinder()
 			m_thread->terminate();
 			m_thread->quit();  
 	}
+	delete m_currentNote;
 	delete m_lastNote;
 	if (m_filteredChunk)
 			delete m_filteredChunk;
@@ -218,26 +220,27 @@ void TpitchFinder::startPitchDetection() {
 
 void TpitchFinder::processed() {
 	emit volume(m_volume);
-	emit pichInChunk(m_chunkPitch);
+	emit pitchInChunk(m_chunkPitch);
 	if (m_state != m_prevState) {
 		if (m_prevState == e_noticed) {
 			if (m_state == e_playing) {
-				emit noteStarted(m_lastNote->pitchF, m_lastNote->freq); // new note started
-				qDebug() << "started" << m_detectedIndex << "pitch:" << m_lastNote->pitchF
-									 << "freq:" << m_lastNote->freq << "time:" << m_lastNote->duration;
+				emit noteStarted(m_currentNote->pitchF, m_currentNote->freq, m_currentNote->duration); // new note started
+				qDebug() << "started" << m_detectedIndex << "pitch:" << m_currentNote->pitchF
+									 << "freq:" << m_currentNote->freq << "time:" << m_currentNote->duration;
 			}
 		} else if (m_prevState == e_playing) {
 				if (m_state == e_silence || m_state == e_noticed) {
-					emit noteFinished(m_lastNote->pitchF, m_lastNote->freq, m_lastNote->duration); // previous note was finished
-					qDebug() << "finished" << m_detectedIndex << "pitch:" << m_lastNote->pitchF
-									 << "freq:" << m_lastNote->freq << "time:" << m_lastNote->duration;
+					emit noteFinished(m_lastNote); // previous note was finished
+					qDebug() << "finished" << m_detectedIndex << "pitch:" << m_currentNote->pitchF
+									 << "freq:" << m_currentNote->freq << "time:" << m_currentNote->duration;
 				}
 		}
 	}
 	m_prevState = m_state;
+	*m_lastNote = *m_currentNote;
 	if (m_state == e_silence) {
-		delete m_lastNote;
-		m_lastNote = new TnoteStruct();
+		delete m_currentNote;
+		m_currentNote = new TnoteStruct();
 	}
 }
 
@@ -291,9 +294,9 @@ void TpitchFinder::detect() {
 						}
 					}
 				}
-				m_lastNote->pitchF = curNote->avgPitch();
-				m_lastNote->freq = curNote->avgFreq();
-				m_lastNote->duration = curNote->noteLength() - m_newNoteStartDur;
+				m_currentNote->pitchF = curNote->avgPitch();
+				m_currentNote->freq = curNote->avgFreq();
+				m_currentNote->duration = curNote->noteLength() - m_newNoteStartDur;
 				m_prevVolume = m_volume;
 				m_lastDuration = curNote->noteLength();
 				m_chunkPitch = data->pitch;

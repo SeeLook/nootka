@@ -31,12 +31,19 @@
 
 - There is unused class TnotePixmap only with default clef - use it or delete
 
+- accidental of setting note in the score after played sound or clicked guitar has to depend
+  first of all on actual key signature in score (ie: flat keys - flats should be preferred)
+
+- tidy key signature in note pixmap (width depends on accidentals number)
+
 ==== NEW FEATURES ================================================================
 
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - add option for configuring fret marks (dots)
 - make exam summary pretty
 - make use of QWizard and adjust it to all news
+- Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
+  then emitting signal should contain Tchunk instead Tnote
 ASIO & JACK
 - add buttons to switch them on and switch them off by default
 ----------------------------------------------------------------------------------------------------------------

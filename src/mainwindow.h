@@ -24,6 +24,7 @@
 // #include <texamexecutor.h>
 #include <QMainWindow>
 
+class Tchunk;
 class TmelMan;
 class TtoolBar;
 class TexamExecutor;
@@ -78,7 +79,7 @@ public slots:
 //     void noteNameWasChanged(Tnote note);
     void guitarWasClicked(Tnote note);
     void soundWasStarted(const Tnote& note);
-		void soundWasFinished(const Tnote& note, qreal duration);
+		void soundWasFinished(Tchunk& chunk);
     
 // signals:
 //     void sizeChanged(QSize size);

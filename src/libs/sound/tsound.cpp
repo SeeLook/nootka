@@ -322,15 +322,13 @@ void Tsound::createSniffer() {
   sniffer = new TaudioIN(gl->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-	connect(sniffer, SIGNAL(noteStarted(Tnote,qreal)), this, SLOT(noteStartedSlot(Tnote,qreal)));
-	connect(sniffer, SIGNAL(noteFinished(Tnote,qreal,qreal)), this, SLOT(noteFinishedSlot(Tnote,qreal,qreal)));
+	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
+	connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
 }
 
 void Tsound::deletePlayer() {
   if (player) {
     player->stop();
-//   if (player) {
-//     player->deleteLater();
 		delete player;
     player = 0;
   }
@@ -372,21 +370,20 @@ void Tsound::playMelodySlot() {
 }
 
 
-void Tsound::noteStartedSlot(const Tnote& note, qreal pitch) {
-	Q_UNUSED(pitch)
-	m_detectedNote = note;
-	emit noteStarted(m_detectedNote);
+void Tsound::noteStartedSlot(const TnoteStruct& note) {
+	m_detectedPitch = note.pitch;
+	emit noteStarted(m_detectedPitch);
 	if (player && gl->instrument != e_noInstrument && gl->A->playDetected)
-		play(m_detectedNote);
+		play(m_detectedPitch);
 }
 
 
-void Tsound::noteFinishedSlot(const Tnote& note, qreal pitch, qreal duration) {
-	Q_UNUSED(pitch)
-	m_detectedNote = note;
-	emit noteFinished(note, duration);
+void Tsound::noteFinishedSlot(const TnoteStruct& note) {
+	m_detectedPitch = note.pitch;
+	Tchunk noteChunk(m_detectedPitch, Trhythm());
+	emit noteFinished(noteChunk);
 	if (player && gl->instrument == e_noInstrument && gl->A->playDetected)
-		play(m_detectedNote);
+		play(m_detectedPitch);
 }
 
 
