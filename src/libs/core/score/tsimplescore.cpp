@@ -104,14 +104,15 @@ Tnote TsimpleScore::getNote(int index) {
 
 void TsimpleScore::setNote(int index, const Tnote& note) {
 		staff()->setNote(index, note);
-		if (staff()->noteSegment(index)->pos().x() * transform().m11() > width() * 0.75)
-				centerOn(staff()->noteSegment(index)->mapToScene(staff()->noteSegment(index)->pos()));
+// 		if (staff()->noteSegment(index)->pos().x() * transform().m11() > width() * 0.75)
+// 				centerOn(staff()->noteSegment(index)->mapToScene(staff()->noteSegment(index)->pos()));
+// It is necessary only when score will have linear view (single staff with horizontal scroll bar) - so far unused in Nootka
 }
 
 
 void TsimpleScore::clearNote(int index) {
 	staff()->noteSegment(index)->markNote(-1);
-	setNote(index, Tnote(0, 0, 0));
+	TsimpleScore::setNote(index, Tnote(0, 0, 0));
 }
 
 

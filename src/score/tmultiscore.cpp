@@ -272,6 +272,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 		qreal staffOff = 0.0;
 		if (staff()->isPianoStaff())
 			staffOff = 1.1;
+		hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
 		qreal factor = (((qreal)hh / (staff()->height() + 2.0)) / transform().m11()) / m_scale;
 		scale(factor, factor);
 		int stavesNumber; // how many staves are needed

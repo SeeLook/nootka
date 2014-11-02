@@ -67,6 +67,8 @@ public:
 	
 	bool isLeftPane() { return m_sharp != 0; } /** True when it has accidentals - as such as left controller has */
 	
+	void hide();
+	
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 	virtual QRectF boundingRect() const;
 	

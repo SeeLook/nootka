@@ -196,8 +196,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //     if (gl->A->OUTenabled && !sound->isPlayable())
 //         QMessageBox::warning(this, "", tr("Problems with sound output"));
-// 		nootBar->hide();
+// 		bar->hide();
 // 		m_statLab->hide();
+// 		pitchView->hide();
+// 		guitar->hide();
 
 }
 

@@ -912,11 +912,11 @@ void TmainScore::createActions() {
 	m_delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
 	m_delCorner->setSpotColor(Qt::red);
 	
-	m_rhythmBar = new QToolBar();
-	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
-	m_rhythmBar->addWidget(rl);
-	m_rhythmCorner = new TcornerProxy(scoreScene(), m_rhythmBar, Qt::TopLeftCorner);
-	   m_rhythmCorner->setSpotColor(Qt::yellow);
+// 	m_rhythmBar = new QToolBar();
+// 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
+// 	m_rhythmBar->addWidget(rl);
+// 	m_rhythmCorner = new TcornerProxy(scoreScene(), m_rhythmBar, Qt::TopLeftCorner);
+// 	   m_rhythmCorner->setSpotColor(Qt::yellow);
 	
 	m_keys = new TscoreKeys(this);
 	m_acts->assignKeys(m_keys);
@@ -991,12 +991,12 @@ void TmainScore::enableCorners(bool enable) {
 	if (enable) {
 		if (!isExam()) {
 			m_settCorner->show();
-			m_rhythmCorner->show();
+// 			m_rhythmCorner->show();
 		}
 			m_delCorner->show();
 	} else {
 			m_settCorner->hide();
-			m_rhythmCorner->hide();
+// 			m_rhythmCorner->hide();
 			m_delCorner->hide();
 	}
 }
