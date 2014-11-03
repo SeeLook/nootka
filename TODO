@@ -23,7 +23,6 @@
 
 - consider to remove names on the score in single note mode
 - revert to native style under MacOs when Qt5
-- there has to be some help with key shortcuts
 
 - misc library can crash under Win due to uninitialized Tglobals *gl
 
@@ -39,8 +38,11 @@
 ==== NEW FEATURES ================================================================
 
 - add blinking of settings icon(action) instead of expert check boxes in old versions
+- let's note range will figured automatically by pitch detection ambitus 
+  but add options for ambitus: all notes, instrument scale, visible in score 
 - add option for configuring fret marks (dots)
 - make exam summary pretty
+- there has to be some help with key shortcuts
 - make use of QWizard and adjust it to all news
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote

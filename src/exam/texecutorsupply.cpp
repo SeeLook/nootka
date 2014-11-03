@@ -475,8 +475,8 @@ void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
 
 
 void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att) {
-	debugMelody(q);
-	debugNotesStruct(a);
+// 	debugMelody(q);
+// 	debugNotesStruct(a);
 	int notesCount = qMax(q->length(), a.size());
 	for (int i = 0; i < notesCount; ++i) {
 		TQAunit tmpUnit;

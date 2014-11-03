@@ -312,7 +312,7 @@ bool TsimpleScore::isPianoStaff() {
 
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
-	bgColor.setAlpha(210);
+	bgColor.setAlpha(230);
 	viewport()->setStyleSheet(
 		QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
 }

@@ -67,7 +67,7 @@ public:
 	
   
 protected slots:
-  void noteSlot(const Tnote& note);
+  void noteSlot();
   void updateLevel();
   void pauseClicked();
   void stopTimerDelayed(); // to call stop() on m_volTimer after note detected animation
