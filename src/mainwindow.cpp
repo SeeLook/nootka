@@ -75,11 +75,11 @@ MainWindow::MainWindow(QWidget *parent) :
 //     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
 //                               QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 // #endif
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
-#else
+// #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+//     setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
+// #else
     setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
-#endif
+// #endif
     
     setMinimumSize(720, 480);
 		gl->config->beginGroup("General");
@@ -183,9 +183,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
 		connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 // 		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
-// 		connect(score, SIGNAL(pianoStaffSwitched()), this, SLOT(adjustAmbitus()));
-//     connect(noteName, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(noteNameWasChanged(Tnote)));
-// 		connect(noteName, SIGNAL(heightTooSmall()), this, SLOT(fixNoteNameSize()));
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
 		connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
 		connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);

@@ -82,7 +82,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 void TpitchView::setAudioInput(TaudioIN* audioIn) {
   m_audioIN = audioIn;
   if (m_audioIN)
-		connect(m_audioIN, SIGNAL(noteStarted(Tnote,qreal)), this, SLOT(noteSlot(Tnote)));
+		connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
 }
 
 
@@ -166,10 +166,10 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 //------------------------------------------------------------------------------------
 
 
-void TpitchView::noteSlot(const Tnote& note) {
-  Q_UNUSED(note)
+void TpitchView::noteSlot() {
   m_hideCnt = 0;
 }
+
 
 void TpitchView::updateLevel() {
   int a = 0;
