@@ -27,6 +27,9 @@
 #include <animations/tfadeanim.h>
 #include <tcolor.h>
 #include <tglobals.h>
+#include <tnoofont.h>
+#include <QPainter>
+#include <QGraphicsSceneMouseEvent>
 // #include <QDebug>
 
 
@@ -57,23 +60,41 @@ QString TquestionTip::playOrSing(int instr) {
 }
 
 
+QString TquestionTip::m_questText;
+
 //##########################################################################################
 //#################################### CONSTRUCTOR #########################################
 //##########################################################################################
 
 TquestionTip::TquestionTip(Texam* exam, double scale) :
-  TgraphicsTextTip(getQuestion(exam->question(exam->count()-1), exam->count(), exam->level(), scale))
+  TgraphicsTextTip(getQuestion(exam->question(exam->count()-1), exam->count(), exam->level(), scale)),
+  m_markCorner(false),
+  m_minimized(false)
 {
-  setBgColor(gl->EquestionColor);
   hide();
   m_fadeInAnim = new TfadeAnim(this);
   m_fadeInAnim->setEasingCurveType(QEasingCurve::InExpo);
   m_fadeInAnim->startFade(1.0);
+	setAcceptHoverEvents(true);
+// gradient a'la staff lines
+	QColor startColor = gl->EquestionColor;
+	startColor.setAlpha(20);
+	QColor endColor = startColor;
+	endColor.setAlpha(40);
+	m_staffGradient.setCoordinateMode(QGradient::StretchToDeviceMode);
+	m_staffGradient.setStart(0.5, 0.0);
+	m_staffGradient.setFinalStop(0.5, 1.0);
+	for (int i = 0; i < 5; ++i) {
+		m_staffGradient.setColorAt(0.22 + i * 0.1, startColor);
+		m_staffGradient.setColorAt(0.24 + i * 0.1, endColor);
+	  m_staffGradient.setColorAt(0.26 + i * 0.1, endColor);
+		m_staffGradient.setColorAt(0.28 + i * 0.1, startColor);
+	}
 }
 
 TquestionTip::~TquestionTip() 
 {
-		delete m_fadeInAnim;
+	delete m_fadeInAnim;
 }
 
 
@@ -81,25 +102,26 @@ TquestionTip::~TquestionTip()
 //#################################### PROTECTED ###########################################
 //##########################################################################################
 
-QString TquestionTip::getNiceNoteName(Tnote note, Tnote::EnameStyle style) {
-    return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
+QString TquestionTip::getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
+	return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
             note.toRichText(style) + " </span></b>";
 }
+
 
 QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level, double scale) {
   m_scoreFree = true;
   m_nameFree = !(bool)question.melody(); // no name widget when level uses melodies
   m_guitarFree = true;
-  QString quest;
+  m_questText.clear();
   double sc = 4.0;
   if (scale) {
-    quest = QString("<p style=\"font-size: %1px;\">").arg(qRound(scale * 22.0));
+        m_questText = QString("<p style=\"font-size: %1px;\">").arg(qRound(scale * 22.0));
     sc = 4.0 * scale;
   }
   QString attemptText = "";
 	if (question.attemptsCount() > 1)
 		attemptText = " <small><i>" + TexTrans::attemptTxt() + QString(" %1").arg(question.attemptsCount()) + "</i></small>";
-  quest += QString("<b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + "<br>";
+    m_questText += QString("<b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + "<br>";
     QString apendix = "";
     QString noteStr;
     switch (question.questionAs) {
@@ -107,23 +129,23 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
         m_scoreFree = false;
         if (question.answerAsNote()) {
             if (question.qa.note.alter != question.qa_2.note.alter)
-                quest += tr("Change enharmonically and show on the staff");
+                m_questText += tr("Change enharmonically and show on the staff");
             else
-                quest += tr("Given note show on the staff");
+                m_questText += tr("Given note show on the staff");
 						if (level->useKeySign && level->manualKey)
 								apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
-						quest += getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
+						      m_questText += getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
         } else if (question.answerAsName()) {
             m_nameFree = false;
-            quest += tr("Give name of");
+            m_questText += tr("Give name of");
 				} else if (question.answerAsFret()) {
               m_guitarFree = false;
-              quest += tr("Show on the guitar");
+              m_questText += tr("Show on the guitar");
 				} else if (question.answerAsSound()) {
 									if (question.melody())
-										quest += tr("Play or sing a melody.");
+										      m_questText += tr("Play or sing a melody.");
 									else
-										quest += playOrSing(int(level->instrument));
+										      m_questText += playOrSing(int(level->instrument));
 				}
         if (question.answerAsFret() || question.answerAsSound()) {
 					if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos) {
@@ -132,12 +154,12 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
         }
         if (!question.melody()) {
 					if (level->useKeySign && level->manualKey && question.answerAsNote()) // hide key signature
-            quest += "<br>" + wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
+                m_questText += "<br>" + wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
 					else
-            quest += "<br>" + wrapPixToHtml(question.qa.note, true, question.key, sc);
+                m_questText += "<br>" + wrapPixToHtml(question.qa.note, true, question.key, sc);
 				}
         if (apendix != "")
-          quest += apendix;
+            m_questText += apendix;
 				break;
 			}
       
@@ -146,90 +168,183 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
         noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
         if (question.answerAsNote()) {
 						m_scoreFree = false;
-						quest += tr("Show on the staff") + noteStr;
+						      m_questText += tr("Show on the staff") + noteStr;
 						if (level->useKeySign && level->manualKey) {
-							quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
+							         m_questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
 						}
         } else if (question.answerAsName()) {
             m_nameFree = false;
             noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
             if (question.qa.note.alter != question.qa_2.note.alter) {
-                quest += tr("Change enharmonically and give name of");
-                quest += noteStr + getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
+                m_questText += tr("Change enharmonically and give name of");
+                m_questText += noteStr + getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
             } else
-                quest += tr("Use another style to give name of") + noteStr;
+                m_questText += tr("Use another style to give name of") + noteStr;
 				} else if (question.answerAsFret()) {
 						m_guitarFree = false;
-						quest += tr("Show on the guitar") + noteStr;
+						      m_questText += tr("Show on the guitar") + noteStr;
 				} else if (question.answerAsSound()) {
-						quest += playOrSing(int(level->instrument)) + noteStr;
+						      m_questText += playOrSing(int(level->instrument)) + noteStr;
 				}
 				if (question.answerAsFret() || question.answerAsSound()) {
 						if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos)
-								quest += "<br> " + onStringTxt(question.qa.pos.str());
+								        m_questText += "<br> " + onStringTxt(question.qa.pos.str());
 				}
 			break;
       
       case TQAtype::e_asFretPos:
-        quest += "";
+        m_questText += "";
         m_guitarFree = false;
         if (question.answerAsNote()) {
 						m_scoreFree = false;
-						quest += tr("Show on the staff note played on");
+						      m_questText += tr("Show on the staff note played on");
 						if (level->useKeySign && level->manualKey) {
 							apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question.key.getName());
 						}
         } else if (question.answerAsName()) {
             m_nameFree = false;
-            quest += tr("Give name of");
+            m_questText += tr("Give name of");
 				} else if (question.answerAsFret()) {
-              quest += tr("Show sound from position:", "... and string + fret numbers folowing");
+              m_questText += tr("Show sound from position:", "... and string + fret numbers folowing");
               apendix = "<br> " + onStringTxt(question.qa_2.pos.str());
 				} else if (question.answerAsSound()) {
-							quest += playOrSing(int(level->instrument));
+							     m_questText += playOrSing(int(level->instrument));
 				}
-        quest += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
+        m_questText += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
                     question.qa.pos.toHtml() + " </span>";
         if (apendix != "")
-          quest += "<br>" + apendix;
+            m_questText += "<br>" + apendix;
         if (question.answerAsNote() || question.answerAsName())
           if (level->forceAccids)
-            quest += "<br" + getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
+                m_questText += "<br" + getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
       break;
       
       case TQAtype::e_asSound:
         if (question.answerAsNote()) {
 						m_scoreFree = false;
 						if (question.melody()) {
-								quest += TexTrans::writeDescTxt();
+								        m_questText += TexTrans::writeDescTxt();
 								if (level->useKeySign && level->manualKey && level->onlyCurrKey)
-									quest += tr("<br>Guess a key signature");
+									           m_questText += tr("<br>Guess a key signature");
 						} else {
-								quest += tr("Listened sound show on the staff");
+								        m_questText += tr("Listened sound show on the staff");
 								if (level->useKeySign && level->manualKey)
-									quest += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
+									           m_questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
 								if (level->forceAccids)
-									quest += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
+									           m_questText += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
 						}
         } else if (question.answerAsName()) {
             m_nameFree = false;
-            quest += tr("Give name of listened sound");
+            m_questText += tr("Give name of listened sound");
             if (level->forceAccids)
-                quest += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
+                m_questText += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
 				} else if (question.answerAsFret()) {
               m_guitarFree = false;
-              quest += tr("Listened sound show on the guitar");
+              m_questText += tr("Listened sound show on the guitar");
               if (level->showStrNr)
-              quest += "<br> " + onStringTxt(question.qa.pos.str());
+                m_questText += "<br> " + onStringTxt(question.qa.pos.str());
 				} else if (question.answerAsSound()) {
-                quest += tr("Play or sing listened sound");          
+                m_questText += tr("Play or sing listened sound");          
 				}
       break;
     }
 			if (scale)
-				quest += "</p>";
-    return quest;
-  
+				    m_questText += "</p>";
+    return m_questText;
+}
+
+
+void TquestionTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+	QRectF rect = boundingRect();
+// background rectangle with question color border
+	painter->setPen(QPen(QColor(gl->EquestionColor.name()), 2));
+	painter->setBrush(QBrush(qApp->palette().base().color()));
+	painter->drawRoundedRect(rect, 5, 5);
+// colored rectangle over
+	painter->setBrush(QBrush(m_staffGradient));
+	painter->drawRoundedRect(rect, 5, 5);
+	if (!m_minimized) {
+	// question mark
+		QColor mC = gl->EquestionColor;
+		mC.setAlpha(20);
+		painter->setPen(mC);
+		TnooFont nf;
+		QFontMetrics fm = QFontMetrics(nf);
+		nf.setPointSize(nf.pixelSize() * ((painter->viewport().height() / (qreal)fm.boundingRect("?").height())) * 0.6);
+		painter->setFont(nf);
+		painter->drawText(painter->window(), Qt::AlignCenter, "?");
+	}
+	QGraphicsTextItem::paint(painter, option, widget);
+// corner line for minimizing
+	QColor lc = m_markCorner ? qApp->palette().highlight().color() : qApp->palette().text().color();
+	painter->setPen(QPen(lc, 4, Qt::SolidLine, Qt::RoundCap));
+	painter->drawLine(rect.width() - 20, 10, rect.width() - 10, 10);
+}
+
+
+QRectF TquestionTip::boundingRect() const {
+	return QGraphicsTextItem::boundingRect();
+}
+
+//##########################################################################################
+//################     PROTECTED MOUSE EVENTS    ###########################################
+//##########################################################################################
+
+void TquestionTip::hoverEnterEvent(QGraphicsSceneHoverEvent*) {
+	setCursor(Qt::SizeAllCursor);
+}
+
+
+void TquestionTip::hoverLeaveEvent(QGraphicsSceneHoverEvent*) {
+  setCursor(Qt::OpenHandCursor);
+	m_markCorner = false;
+	update(boundingRect().width() - 30, 0, 30, 30);
+}
+
+
+void TquestionTip::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
+	bool markState = m_markCorner;
+	if (event->pos().x() > boundingRect().width() - 25 && event->pos().y() < 20) {
+		m_markCorner = true;
+		setCursor(Qt::ArrowCursor);
+	} else {
+		m_markCorner = false;
+		setCursor(Qt::SizeAllCursor);
+	}
+	if (markState != m_markCorner)
+		update(boundingRect().width() - 30, 0, 30, 30);
+}
+
+
+void TquestionTip::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+	if (event->buttons() == Qt::LeftButton) {
+		if (!m_lastPos.isNull())
+				setPos(x() + event->scenePos().x() - m_lastPos.x(), y() + event->scenePos().y() - m_lastPos.y());
+		m_lastPos = event->scenePos();
+	}
+}
+
+
+void TquestionTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+	if (event->button() == Qt::LeftButton) {
+		if (m_markCorner) {
+			m_minimized = !m_minimized;
+			if (m_minimized) {
+				QString titleText = m_questText.mid(0, m_questText.indexOf("<br>") - 1);
+				setHtml(titleText);
+			} else {
+				setHtml(m_questText);
+			}
+			return;
+		}
+		m_lastPos = event->scenePos();
+		setCursor(Qt::DragMoveCursor);
+	}
+}
+
+
+void TquestionTip::mouseReleaseEvent(QGraphicsSceneMouseEvent*) {
+  setCursor(Qt::SizeAllCursor);
 }
 
 
