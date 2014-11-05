@@ -38,6 +38,7 @@ void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
     tip->setTextCursor(cursor);
 }
 
+
 void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor) {
   TdropShadowEffect *shadow = new TdropShadowEffect();
   if (shadowColor != -1)
@@ -113,7 +114,7 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 	QGraphicsTextItem::paint(painter, option, widget);
 }
 
-QRectF TgraphicsTextTip::boundingRect() const
-{
+
+QRectF TgraphicsTextTip::boundingRect() const {
   return QGraphicsTextItem::boundingRect();
 }

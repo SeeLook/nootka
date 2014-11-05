@@ -21,6 +21,7 @@
 
 #include <graphics/tgraphicstexttip.h>
 #include <music/tnote.h>
+#include <QLinearGradient>
 
 class TfadeAnim;
 class Texam;
@@ -46,22 +47,37 @@ public:
 				 * 'Play or sing' (other instrument)
 				 * 'Play' (guitars) */
 		static QString playOrSing(int instr);
+		
+		static QString& text() { return m_questText; } /** Returns a reference to question HTML string. */
     
     bool freeScore() { return m_scoreFree; } /** true when question is not on score */
     bool freeName() { return m_nameFree; } /** true when question is not on note name */
     bool freeGuitar() { return m_guitarFree; } /** true when question is not on guitar */
+
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual QRectF boundingRect() const;
+		
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent*);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
+    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
     
 protected:    
         /** Returns html-formated question text. */
     QString getQuestion(TQAunit &question, int questNr, Tlevel *level, double scale = 0);
-    QString getNiceNoteName(Tnote note, Tnote::EnameStyle style);
+    QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style);
         
     
 private:
-                /** Indicate where has to be a tip */
-    bool                     m_scoreFree, m_nameFree, m_guitarFree; 
-    Tnote::Ealter       m_forcedAccid; // When different than Tnote::e_Natural text is shown
-    TfadeAnim             *m_fadeInAnim;
+    bool                m_scoreFree, m_nameFree, m_guitarFree; /** Indicate where a tip has to be placed. */
+    Tnote::Ealter       m_forcedAccid; /** When different than Tnote::e_Natural text is shown */
+    TfadeAnim          *m_fadeInAnim;
+		bool								m_markCorner, m_minimized;
+		QPointF 						m_lastPos;
+		static QString			m_questText;
+		QLinearGradient			m_staffGradient;
 };
 
 
