@@ -90,6 +90,7 @@ TquestionTip::TquestionTip(Texam* exam, double scale) :
 	  m_staffGradient.setColorAt(0.26 + i * 0.1, endColor);
 		m_staffGradient.setColorAt(0.28 + i * 0.1, startColor);
 	}
+	setTipMovable(true);
 }
 
 TquestionTip::~TquestionTip() 
@@ -98,9 +99,9 @@ TquestionTip::~TquestionTip()
 }
 
 
-//##########################################################################################
-//#################################### PROTECTED ###########################################
-//##########################################################################################
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 QString TquestionTip::getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
 	return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
@@ -263,17 +264,15 @@ void TquestionTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 // colored rectangle over
 	painter->setBrush(QBrush(m_staffGradient));
 	painter->drawRoundedRect(rect, 5, 5);
-	if (!m_minimized) {
-	// question mark
-		QColor mC = gl->EquestionColor;
-		mC.setAlpha(20);
-		painter->setPen(mC);
-		TnooFont nf;
-		QFontMetrics fm = QFontMetrics(nf);
-		nf.setPointSize(nf.pixelSize() * ((painter->viewport().height() / (qreal)fm.boundingRect("?").height())) * 0.6);
-		painter->setFont(nf);
-		painter->drawText(painter->window(), Qt::AlignCenter, "?");
-	}
+// question mark
+	QColor mC = gl->EquestionColor;
+	mC.setAlpha(40);
+	painter->setPen(mC);
+	TnooFont nf;
+	QFontMetrics fm = QFontMetrics(nf);
+	nf.setPointSize(nf.pixelSize() * ((rect.height() / (qreal)fm.boundingRect("?").height())) * 0.6);
+	painter->setFont(nf);
+	painter->drawText(rect, Qt::AlignRight | Qt::AlignVCenter, m_minimized ? "? " : "?");
 	QGraphicsTextItem::paint(painter, option, widget);
 // corner line for minimizing
 	QColor lc = m_markCorner ? qApp->palette().highlight().color() : qApp->palette().text().color();
@@ -290,13 +289,8 @@ QRectF TquestionTip::boundingRect() const {
 //################     PROTECTED MOUSE EVENTS    ###########################################
 //##########################################################################################
 
-void TquestionTip::hoverEnterEvent(QGraphicsSceneHoverEvent*) {
-	setCursor(Qt::SizeAllCursor);
-}
-
-
-void TquestionTip::hoverLeaveEvent(QGraphicsSceneHoverEvent*) {
-  setCursor(Qt::OpenHandCursor);
+void TquestionTip::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+  TgraphicsTextTip::hoverLeaveEvent(event);
 	m_markCorner = false;
 	update(boundingRect().width() - 30, 0, 30, 30);
 }
@@ -316,15 +310,6 @@ void TquestionTip::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 
-void TquestionTip::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-	if (event->buttons() == Qt::LeftButton) {
-		if (!m_lastPos.isNull())
-				setPos(x() + event->scenePos().x() - m_lastPos.x(), y() + event->scenePos().y() - m_lastPos.y());
-		m_lastPos = event->scenePos();
-	}
-}
-
-
 void TquestionTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (event->button() == Qt::LeftButton) {
 		if (m_markCorner) {
@@ -335,16 +320,9 @@ void TquestionTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 			} else {
 				setHtml(m_questText);
 			}
-			return;
 		}
-		m_lastPos = event->scenePos();
-		setCursor(Qt::DragMoveCursor);
 	}
-}
-
-
-void TquestionTip::mouseReleaseEvent(QGraphicsSceneMouseEvent*) {
-  setCursor(Qt::SizeAllCursor);
+	TgraphicsTextTip::mousePressEvent(event);
 }
 
 

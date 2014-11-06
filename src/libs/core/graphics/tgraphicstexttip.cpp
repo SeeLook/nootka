@@ -24,6 +24,7 @@
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
+// #include <QDebug>
 
 
 /* static */
@@ -49,30 +50,37 @@ void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor)
 }
 
 
-//#############################################################################
-//###################  constructors #########################################
-//#############################################################################
-
+//#################################################################################################
+//###################            CONSTRUCTORS          ############################################
+//#################################################################################################
 
 TgraphicsTextTip::TgraphicsTextTip(QString text, QColor bgColor) :
   QGraphicsTextItem(),
-  m_bgColor(bgColor)
+  m_bgColor(bgColor),
+  m_movable(false)
 {
   setHtml(text);
   setDropShadow(this, bgColor);  
 }
 
+
 TgraphicsTextTip::TgraphicsTextTip() :
   QGraphicsTextItem(),
-  m_bgColor(-1)
+  m_bgColor(-1),
+  m_movable(false)
 {
   setDropShadow(this);
 }
 
 
-//#############################################################################
-//###################  public ################################################
-//#############################################################################
+TgraphicsTextTip::~TgraphicsTextTip()
+{
+	setCursor(Qt::ArrowCursor); // when exam is managed with keys it may stay look as 'dragging', better back it to 'arrow'
+}
+
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
 
 void TgraphicsTextTip::setHtml(QString htmlText) {
   QGraphicsTextItem::setHtml(htmlText);
@@ -87,12 +95,13 @@ void TgraphicsTextTip::setBgColor(QColor col) {
 }
 
 
-//#############################################################################
-//###################  virtual ################################################
-//#############################################################################
-
-TgraphicsTextTip::~TgraphicsTextTip() {}
-
+void TgraphicsTextTip::setTextInteractionFlags(Qt::TextInteractionFlags flags) {
+	if (flags | Qt::LinksAccessibleByMouse)
+		connect(this, &TgraphicsTextTip::linkHovered, this, &TgraphicsTextTip::linkHoveredSlot, Qt::UniqueConnection);
+	else
+		disconnect(this, &TgraphicsTextTip::linkHovered, this, &TgraphicsTextTip::linkHoveredSlot);
+	QGraphicsTextItem::setTextInteractionFlags(flags);
+}
 
 
 void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
@@ -118,3 +127,60 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 QRectF TgraphicsTextTip::boundingRect() const {
   return QGraphicsTextItem::boundingRect();
 }
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
+void TgraphicsTextTip::linkHoveredSlot(const QString& link) {
+	if (link.isEmpty()) {
+		setCursor(m_lastLinkCursor);
+	} else {
+		m_lastLinkCursor = cursor().shape();
+		setCursor(Qt::PointingHandCursor);
+	}
+}
+
+
+void TgraphicsTextTip::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+	if (isMovable())
+		setCursor(Qt::SizeAllCursor);
+}
+
+
+void TgraphicsTextTip::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+	if (isMovable())
+		setCursor(Qt::ArrowCursor);
+}
+
+
+void TgraphicsTextTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+  if (isMovable() && event->button() == Qt::LeftButton) {
+		m_lastPos = event->scenePos();
+		setCursor(Qt::DragMoveCursor);
+	}
+}
+
+
+void TgraphicsTextTip::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+	if (isMovable() && event->buttons() == Qt::LeftButton) {
+		if (!m_lastPos.isNull())
+				setPos(x() + event->scenePos().x() - m_lastPos.x(), y() + event->scenePos().y() - m_lastPos.y());
+		m_lastPos = event->scenePos();
+	}
+	QGraphicsTextItem::mouseMoveEvent(event);
+}
+
+
+void TgraphicsTextTip::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+	if (isMovable())
+		setCursor(Qt::SizeAllCursor);
+	event->accept();
+	QGraphicsTextItem::mouseReleaseEvent(event);
+}
+
+
+
+
+
+

@@ -57,12 +57,9 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
     virtual QRectF boundingRect() const;
 		
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent*);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
     
 protected:    
         /** Returns html-formated question text. */
@@ -75,7 +72,6 @@ private:
     Tnote::Ealter       m_forcedAccid; /** When different than Tnote::e_Natural text is shown */
     TfadeAnim          *m_fadeInAnim;
 		bool								m_markCorner, m_minimized;
-		QPointF 						m_lastPos;
 		static QString			m_questText;
 		QLinearGradient			m_staffGradient;
 };
