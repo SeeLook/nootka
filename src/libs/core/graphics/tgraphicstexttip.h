@@ -27,15 +27,18 @@
  * This is base class for tips. 
  * It centering html text, paints background rounded rectangle in given color
  * and drops shadow. If bgColor is -1 the shadow is on a text.
+ * Also it implements moving a tip with mouse. This is disable by default
+ * 
 */
 class NOOTKACORE_EXPORT TgraphicsTextTip : public QGraphicsTextItem
 {
 
+	Q_OBJECT
+	
 public:
   TgraphicsTextTip(QString text, QColor bgColor = -1);
   TgraphicsTextTip();
-  
-  virtual ~TgraphicsTextTip();
+	virtual ~TgraphicsTextTip();
   
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
@@ -52,10 +55,28 @@ public:
 	
       /** Adds drop shadow with defaults color/blur to an item. */
   static void setDropShadow(QGraphicsTextItem *tip, QColor shadowColor = -1);
+	
+	void setTipMovable(bool mov) { m_movable = mov; setAcceptHoverEvents(true); }
+	bool isMovable() { return m_movable; }
+	
+			/** It overrides this method to handle mouse cursor over the link */
+	void setTextInteractionFlags(Qt::TextInteractionFlags flags);
+	
+protected:
+	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+	
+	void linkHoveredSlot(const QString & link);
   
   
 private:
-  QColor m_bgColor;
+  QColor 							m_bgColor;
+	bool 								m_movable;
+	QPointF 						m_lastPos;
+	Qt::CursorShape			m_lastLinkCursor;
 };
 
 #endif // TGRAPHICSTEXTTIP_H

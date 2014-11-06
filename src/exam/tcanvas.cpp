@@ -180,7 +180,8 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 // 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
 // 			m_whatTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_whatTip);
-  m_whatTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
+  m_whatTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+	m_whatTip->setTipMovable(true);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   setWhatNextPos();
 }
@@ -258,6 +259,7 @@ void Tcanvas::melodyTip() {
 	m_melodyTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px;\">").arg((bigFont() * 3) / 4) + 
 										tr("Click wrong notes to see<br>and listen to corrected ones.") + "</span>", gl->EanswerColor);
 	m_scene->addItem(m_melodyTip);
+	m_melodyTip->setTipMovable(true);
 	m_melodyTip->setScale(m_scale);
 	setMelodyPos();
 }
@@ -312,9 +314,9 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
 }
 
-//######################################################################
-//##################################### PUBLIC METHODS #################
-//######################################################################
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
 
 void Tcanvas::clearCanvas() {
   clearConfirmTip();
@@ -383,11 +385,9 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
   }
 }
 
-
-//######################################################################
-//#################################### PROTECTED #######################
-//######################################################################
-
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void Tcanvas::sizeChangedDelayed(const QRectF& newRect) {
 	m_newSize = newRect.size().toSize();
@@ -490,9 +490,9 @@ int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree || m_scoreFree)
 // 			return m_window->noteName->height();
 // 	else if (m_scoreFree)
-			return m_window->score->height() * 0.75;
+			return m_window->score->height() * 0.9;
 	else
-			return m_window->guitar->height();
+			return m_window->guitar->height() * 1.5;
 }
 
 
@@ -519,7 +519,8 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 // 							m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2);
 		}
 	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
-		geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2 );
+							qMin(geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2, 
+									 m_window->height() - tip->boundingRect().height() * tip->scale() - 5.0));
 }
 
 
