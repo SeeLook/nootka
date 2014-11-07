@@ -1016,7 +1016,7 @@ void TexamExecutor::prepareToExam() {
 		}
     m_snifferLocked = false;
     m_canvas = new Tcanvas(mW->innerWidget, mW);
-    connect(m_canvas, SIGNAL(buttonClicked(QString)), this, SLOT(tipButtonSlot(QString)));
+    connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
 		if (m_level.canBeMelody() && m_level.answerIsSound())
 				mW->sound->enableStoringNotes(true);
     if(gl->hintsEnabled)
@@ -1243,7 +1243,7 @@ void TexamExecutor::settingsAccepted() {
 // set new colors in exam view
 // 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
 // 															Tcolor::bgTag(gl->EnotBadColor));
-	if (m_exam->curQ().answerAsSound())
+	if (m_exam->count() && m_exam->curQ().answerAsSound())
 		startSniffing();
 	qApp->installEventFilter(m_supp);
 }
@@ -1442,8 +1442,7 @@ void TexamExecutor::rightButtonSlot() {
 }
 
 
-void TexamExecutor::tipButtonSlot(QString name) {
-// 	qDebug() << "tipButtonSlot" << name;
+void TexamExecutor::tipButtonSlot(const QString& name) {
 	if (name == "nextQuest")
 			askQuestion();
 	else if (name == "stopExam") {

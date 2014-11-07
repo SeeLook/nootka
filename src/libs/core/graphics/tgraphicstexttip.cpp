@@ -24,7 +24,8 @@
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
-// #include <QDebug>
+#include <QGraphicsScene>
+#include <QDebug>
 
 
 /* static */
@@ -132,6 +133,9 @@ QRectF TgraphicsTextTip::boundingRect() const {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
+/** !!!!!!!!!!!!!!!
+ * All moving methods will work properly only for items with no parent - ones those belongs to scene directly 
+*/
 void TgraphicsTextTip::linkHoveredSlot(const QString& link) {
 	if (link.isEmpty()) {
 		setCursor(m_lastLinkCursor);
@@ -165,7 +169,8 @@ void TgraphicsTextTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 void TgraphicsTextTip::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 	if (isMovable() && event->buttons() == Qt::LeftButton) {
 		if (!m_lastPos.isNull())
-				setPos(x() + event->scenePos().x() - m_lastPos.x(), y() + event->scenePos().y() - m_lastPos.y());
+				setPos(qBound(0.0, x() + event->scenePos().x() - m_lastPos.x(), scene()->width() - boundingRect().width() * scale()),
+							 qBound(0.0, y() + event->scenePos().y() - m_lastPos.y(), scene()->height() - boundingRect().height() * scale()));
 		m_lastPos = event->scenePos();
 	}
 	QGraphicsTextItem::mouseMoveEvent(event);

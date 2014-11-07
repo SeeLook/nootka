@@ -99,7 +99,7 @@ protected slots:
 	void startSniffing(); 		/** Invokes Tsound::go() */
 	void sniffAfterPlaying(); /** Starts sniffing when asked note is finished */
 	void rightButtonSlot();
-	void tipButtonSlot(QString name);
+	void tipButtonSlot(const QString& name);
 	void markAnswer(TQAunit &curQ);
 	void delayerTip(); /** This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
 	void exerciseToExam(); /** Stops exercising and starts exam. */
