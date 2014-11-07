@@ -66,6 +66,7 @@ Tcanvas::Tcanvas(QGraphicsView* view, MainWindow* parent) :
   sizeChanged();
 	connect(m_scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sizeChangedDelayed(QRectF)));
   connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
+	view->installEventFilter(this);
 }
 
 Tcanvas::~Tcanvas()
@@ -137,8 +138,8 @@ void Tcanvas::startTip() {
      TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(Tpath::img("stopExam"), PIXICONSIZE) + "</a>") + "</p>", m_window->palette().highlight().color());
    m_scene->addItem(m_startTip);
    m_startTip->setScale(m_scale);
-   m_startTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
-   connect(m_startTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+   m_startTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+   connect(m_startTip, &TgraphicsTextTip::linkActivated, this, &Tcanvas::linkActivatedSlot);
    setStartTipPos();
 }
 
@@ -147,7 +148,7 @@ void Tcanvas::certificateTip() {
 	delete m_questionTip;
 	if (!m_certifyTip) {
 			m_certifyTip = new TnootkaCertificate(m_view, m_exam);
-			connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
+			connect(m_certifyTip, &TnootkaCertificate::userAction, this, &Tcanvas::linkActivatedSlot);
 	}
 }
 
@@ -182,7 +183,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   m_scene->addItem(m_whatTip);
   m_whatTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
 	m_whatTip->setTipMovable(true);
-  connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+  connect(m_whatTip, &TgraphicsTextTip::linkActivated, this, &Tcanvas::linkActivatedSlot);
   setWhatNextPos();
 }
 
@@ -201,10 +202,11 @@ void Tcanvas::showConfirmTip() {
 			"<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
 			tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" + 
 			pixToHtml(Tpath::img("help"), PIXICONSIZE) + "</a>"), gl->EanswerColor);
-		m_confirmTip->setScale(m_scale);
+		m_confirmTip->setScale(m_scale * 1.2);
 		m_scene->addItem(m_confirmTip);
-		m_confirmTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
-		connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+		m_confirmTip->setTipMovable(true);
+		m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+		connect(m_confirmTip, &TgraphicsTextTip::linkActivated, this, &Tcanvas::linkActivatedSlot);
 		setConfirmPos();
 	}
 }
@@ -215,15 +217,12 @@ void Tcanvas::questionTip(Texam* exam) {
 	delete m_startTip;  
   delete m_whatTip;
 	delete m_outTuneTip;
-	delete m_questionTip;
 	delete m_melodyTip;
-  m_questionTip = new TquestionTip(exam, m_scale);
-	m_questionTip->setTextWidth(m_maxTipWidth);
-  m_scene->addItem(m_questionTip);
+	createQuestionTip();
 	m_guitarFree = m_questionTip->freeGuitar();
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
-  setQuestionPos();
+	setQuestionPos();
 }
 
 
@@ -396,14 +395,12 @@ void Tcanvas::sizeChangedDelayed(const QRectF& newRect) {
 
 
 void Tcanvas::sizeChanged() {
-	m_window->score->resize(m_window->score->widthToHeight(m_window->score->height()), m_window->score->height());
 	updateRelatedPoint();
   int hi;
   if (m_scene->height())
     hi = m_scene->height();
   else
     hi = 580;
-//   m_scene->setSceneRect(geometry());
   m_scale = m_scale * ((double)m_newSize.height() / hi);
 	m_maxTipWidth = m_view->width() / 3;
   if (m_resultTip) {
@@ -423,13 +420,11 @@ void Tcanvas::sizeChanged() {
     setStartTipPos();
   }
   if (m_questionTip) {
-    delete m_questionTip;
-    m_questionTip = new TquestionTip(m_exam, m_scale);
-    m_scene->addItem(m_questionTip);
-    setQuestionPos();
+    createQuestionTip();
+		setQuestionPos();
   }
   if (m_confirmTip) {
-    m_confirmTip->setScale(m_scale);
+    m_confirmTip->setScale(m_scale * 1.2);
     setConfirmPos();
   }
   if (m_certifyTip) {
@@ -447,10 +442,10 @@ void Tcanvas::sizeChanged() {
 }
 
 
-void Tcanvas::linkActivatedSlot(QString link) {
-    emit buttonClicked(link);
-		if (m_certifyTip)
-			clearCertificate();
+void Tcanvas::linkActivatedSlot(const QString& link) {
+	emit buttonClicked(link);
+	if (m_certifyTip)
+		clearCertificate();
 }
 
 
@@ -463,24 +458,18 @@ void Tcanvas::correctAnimFinished() {
 }
 
 
-/*
-bool Tcanvas::event(QEvent* event) {
-  if (event->type() == QEvent::MouseButtonPress || event->type() == QEvent::MouseButtonRelease) {
-    event->setAccepted(false);
+bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
+	if (event->type() == QEvent::MouseButtonPress) {
     QMouseEvent *me = static_cast<QMouseEvent *>(event);
-    me->setAccepted(false);
     if (event->type() == QEvent::MouseButtonPress) {
-        QGraphicsView::mousePressEvent(me);
-        if (me->button() == Qt::MiddleButton && me->modifiers().testFlag(Qt::ShiftModifier) &&  me->modifiers().testFlag(Qt::AltModifier)) {
-            if (m_exam)
-              emit certificateMagicKeys();
-        }
-    } else
-        QGraphicsView::mouseReleaseEvent(me);
+			if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
+					if (m_exam)
+						emit certificateMagicKeys();
+			}
+    }
   }     
-  return QGraphicsView::event(event);
-}*/
-
+	return QObject::eventFilter(obj, event);
+}
 
 //##################################################################################################
 //#################################### PRIVATE #####################################################
@@ -488,11 +477,9 @@ bool Tcanvas::event(QEvent* event) {
 
 int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree || m_scoreFree)
-// 			return m_window->noteName->height();
-// 	else if (m_scoreFree)
-			return m_window->score->height() * 0.9;
+		return m_window->score->height() * 0.8;
 	else
-			return m_window->guitar->height() * 1.5;
+		return m_window->guitar->height() * 1.2;
 }
 
 
@@ -512,15 +499,12 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 				tip->setScale((qMax((qreal)m_window->score->width(), m_window->width() / 3.0) / (tip->boundingRect().width())));
 	} else { // middle of the guitar
 			geoRect = m_window->guitar->geometry();
-// 			if (!m_window->pitchView->isVisible() || !m_window->guitar->isVisible()) // tip can be bigger
-// 				geoRect = QRect(m_window->noteName->geometry().x() - 20,
-// 							m_window->guitar->geometry().y() - (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2,
-// 							m_window->guitar->width() - m_window->noteName->geometry().x() - 20,
-// 							m_window->guitar->height() + (m_window->guitar->geometry().top() - m_window->noteName->geometry().bottom()) / 2);
 		}
-	tip->setPos(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
+	tip->setPos(qMin(geoRect.x() + (geoRect.width() - tip->boundingRect().width() * tip->scale()) / 2,
+									 m_window->width() - tip->boundingRect().width() * tip->scale() - 5.0),
 							qMin(geoRect.y() + (geoRect.height() - tip->boundingRect().height() * tip->scale()) / 2, 
 									 m_window->height() - tip->boundingRect().height() * tip->scale() - 5.0));
+	// qMin guards a tip position in scene boundaries 
 }
 
 
@@ -553,21 +537,28 @@ void Tcanvas::setStartTipPos() {
 }
 
 
-void Tcanvas::setConfirmPos() { // middle of noteName and somewhere above
-    m_confirmTip->setPos(m_window->noteName->geometry().x() + (m_window->noteName->width() - m_confirmTip->boundingRect().width()) / 2,
-												 m_relPoint.y());  
+void Tcanvas::setConfirmPos() { // right top corner
+	m_confirmTip->setPos(m_window->width() - m_confirmTip->boundingRect().width() * m_confirmTip->scale() - 20, 20);  
+}
+
+
+void Tcanvas::createQuestionTip() {
+	delete m_questionTip;
+  m_questionTip = new TquestionTip(m_exam, m_scale * 1.2);
+	m_questionTip->setTextWidth(m_maxTipWidth);
+  m_scene->addItem(m_questionTip);
 }
 
 
 void Tcanvas::setQuestionPos() {
 	int maxTipHeight = getMaxTipHeight() * 1.1;
 	qreal fineScale;
-	if (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) { // check is scaling needed
+	if (m_questionTip->boundingRect().height() > maxTipHeight) { // check is scaling needed
 			fineScale = (qreal)maxTipHeight / m_questionTip->boundingRect().height();
 			qreal scaleStep = 0.0;
 			while (m_questionTip->boundingRect().height() * m_questionTip->scale() > maxTipHeight) {
 					delete m_questionTip;
-					m_questionTip = new TquestionTip(m_exam, m_scale * fineScale - scaleStep);
+					m_questionTip = new TquestionTip(m_exam, fineScale - scaleStep);
 					m_questionTip->setTextWidth(m_maxTipWidth);
 					m_scene->addItem(m_questionTip);
 					scaleStep += 0.1;

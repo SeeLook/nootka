@@ -99,7 +99,7 @@ public:
 public slots:
     void clearResultTip(); // clears tip with results
     void clearTryAgainTip();
-    void linkActivatedSlot(QString link);
+    void linkActivatedSlot(const QString& link);
     void clearConfirmTip();
     void showConfirmTip();
 		void clearCertificate();
@@ -107,14 +107,12 @@ public slots:
 		void clearWhatNextTip();
   
 signals:
-	
-				/** This signal is emitted when user click image button on the some tip.*/
-    void buttonClicked(QString name);
-    void certificateMagicKeys(); // When translator wants to see a certificate preview
+    void buttonClicked(const QString&); /** This signal is emitted when user click image button (a link) on any tip.*/
+    void certificateMagicKeys(); /** When translator wants to see a certificate preview */
       
 
 protected:
-//     bool event(QEvent *event);
+    virtual bool eventFilter(QObject* obj, QEvent* event);
     
 protected slots:
 				/** Calls sizeChanged with delay to allow MainWindow deploy its new geometry. */
@@ -157,6 +155,7 @@ private:
 		void setOutTunePos();
 		void updateRelatedPoint();
 		void setMelodyPos();
+		void createQuestionTip(); /** Be sure that @p m_exam has already pointed current exam */
  
 };
 

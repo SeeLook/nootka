@@ -51,7 +51,7 @@ signals:
 				/** Emits what user wants to do:
 				 * - @p nextQuest to continue exam and get next question 
 				 * - @p stopExam to finish exam	 */
-		void userAction(QString actionText);
+		void userAction(const QString&);
 		
 protected:
 		void removeHints();
