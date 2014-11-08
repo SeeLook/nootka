@@ -141,8 +141,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 						m_chart->scene->addItem(helpTip);
 						helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 						helpTip->setPos(100, 80);
-      helpTip->setTextInteractionFlags(Qt::TextBrowserInteraction);
-      connect(helpTip, SIGNAL(linkActivated(QString)), this, SLOT(linkOnTipClicked()));
+      helpTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+      connect(helpTip, &TgraphicsTextTip::linkActivated, this, &TanalysDialog::linkOnTipClicked);
   }
   connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)));
 	connect(m_tuningButton, SIGNAL(clicked()), SLOT(showTuningPreview()));
@@ -185,7 +185,7 @@ void TanalysDialog::setExam(Texam* exam) {
 			m_tuningButton->hide();
 		}
 	}
-  connect(m_moreButton, SIGNAL(clicked()), this, SLOT(moreLevelInfo()));
+  connect(m_moreButton, &QPushButton::clicked, this, &TanalysDialog::moreLevelInfo, Qt::UniqueConnection);
   // sort by note
   if ((m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound()) && !m_exam->melodies())
         enableComboItem(1, true);

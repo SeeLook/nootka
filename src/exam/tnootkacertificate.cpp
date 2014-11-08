@@ -36,7 +36,7 @@
 #include <QPainter>
 #include <QGraphicsView>
 #include <QGraphicsEffect>
-
+#include <QDebug>
 
 #define MARGIN (40.0) // margin of Certificate paper
 #define SPACER (10.0) // line space
@@ -150,14 +150,12 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
 		setAcceptHoverEvents(true);
 		createHints();
     
-    connect(scene(), SIGNAL(selectionChanged()), this, SLOT(hintClicked()));
 		connect(flyingStamp, SIGNAL(finished()), scene(), SLOT(update()));
     
 }
 
 
 TnootkaCertificate::~TnootkaCertificate() {
-// 	m_view->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 	removeHints();
 	delete m_bgRect;
 }
@@ -175,14 +173,14 @@ void TnootkaCertificate::createHints() {
 			m_saveHint->setTextWidth((pos().x() - 10));
 			m_view->scene()->addItem(m_saveHint);
 			m_saveHint->setPos((pos().x() - m_saveHint->boundingRect().width()) / 2, 20.0);
-      m_saveHint->setFlag(QGraphicsItem::ItemIsSelectable);
+      connect(m_saveHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
 			
 		m_nextHint = new TgraphicsTextTip(tr("You can still play with it and improve effectiveness.") + "<br><big>" + TexamHelp::toGetQuestTxt() + ":<br>" +  TexamHelp::clickSomeButtonTxt(pixToHtml(Tpath::img("nextQuest"), 32)) + 
     ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt() + "</big>", m_view->palette().window().color());
 			m_view->scene()->addItem(m_nextHint);
       m_nextHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
 			m_nextHint->setPos((pos().x() - m_nextHint->boundingRect().width()) / 2, m_view->height() / 2);
-      m_nextHint->setFlag(QGraphicsItem::ItemIsSelectable);
+      connect(m_nextHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
 		
 		ic = QIcon(Tpath::img("stopExam"));
 		m_closeHint = new TgraphicsTextTip("<big>" + TexamHelp::toStopExamTxt(pixToHtml(Tpath::img("stopExam"), 32).replace("<img", "<br><img") + "</big>"), Qt::red);
@@ -190,7 +188,7 @@ void TnootkaCertificate::createHints() {
       m_closeHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
 			m_closeHint->setPos((pos().x() - m_closeHint->boundingRect().width()) / 2,
                           m_view->height() - m_closeHint->boundingRect().height() * m_closeHint->scale() - 20.0);
-      m_closeHint->setFlag(QGraphicsItem::ItemIsSelectable);
+      connect(m_closeHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
 	}
 }
 
@@ -237,12 +235,11 @@ void TnootkaCertificate::saveSlot() {
 
 
 void TnootkaCertificate::hintClicked() {
-  if (m_saveHint->isSelected())
+  if (sender() == m_saveHint)
     saveSlot();
-  else if (m_nextHint->isSelected() || m_closeHint->isSelected()) {
-    disconnect(scene(), SIGNAL(selectionChanged()), this, SLOT(hintClicked()));
+  else if (sender() == m_nextHint || sender() == m_closeHint) {
     emit userAction("certClosing"); // to inform executor 
-    if (m_nextHint->isSelected())
+    if (sender() == m_nextHint)
         emit userAction("nextQuest");
     else 
         emit userAction("stopExam");

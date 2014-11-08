@@ -28,7 +28,8 @@
  * It centering html text, paints background rounded rectangle in given color
  * and drops shadow. If bgColor is -1 the shadow is on a text.
  * Also it implements moving a tip with mouse. This is disable by default
- * 
+ * and achieved through @p setTipMovable().
+ * @class TgraphicsTextTip emits @p clicked() signal.
 */
 class NOOTKACORE_EXPORT TgraphicsTextTip : public QGraphicsTextItem
 {
@@ -43,11 +44,10 @@ public:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
   
-      /** Overwrites QGraphicsTextItem method and make given text centered. */
-  void setHtml(QString htmlText);
+  void setHtml(QString htmlText); /** Overwrites QGraphicsTextItem method and make given text centered. */
   
-  QColor bgColor() { return m_bgColor; } // Background color of tip
-  void setBgColor(QColor col); // Background color of tip
+  QColor bgColor() { return m_bgColor; } /** Background color of tip */
+  void setBgColor(QColor col); /** Sets background color of tip */
   
       /** This method align center content of item.
        * Put text before call it. */
@@ -62,6 +62,9 @@ public:
 			/** It overrides this method to handle mouse cursor over the link */
 	void setTextInteractionFlags(Qt::TextInteractionFlags flags);
 	
+signals:
+	void clicked(); /** When item was clicked but doesn't move */
+	
 protected:
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
@@ -74,7 +77,7 @@ protected:
   
 private:
   QColor 							m_bgColor;
-	bool 								m_movable;
+	bool 								m_movable, m_mouseClick;
 	QPointF 						m_lastPos;
 	Qt::CursorShape			m_lastLinkCursor;
 };
