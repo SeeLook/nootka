@@ -25,7 +25,7 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
 #include <QGraphicsScene>
-#include <QDebug>
+// #include <QDebug>
 
 
 /* static */
@@ -58,7 +58,7 @@ void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor)
 TgraphicsTextTip::TgraphicsTextTip(QString text, QColor bgColor) :
   QGraphicsTextItem(),
   m_bgColor(bgColor),
-  m_movable(false)
+  m_movable(false), m_mouseClick(false)
 {
   setHtml(text);
   setDropShadow(this, bgColor);  
@@ -112,11 +112,14 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     startColor.setAlpha(25);
     QColor endColor = startColor;
     endColor.setAlpha(75);
-    painter->setPen(QPen(endColor, 1));
+		QColor borderColor = QColor(m_bgColor.name());
+		if (m_mouseClick)
+			borderColor = borderColor.lighter();
+		painter->setPen(QPen(borderColor, 1.5));
 		painter->setBrush(QBrush(qApp->palette().base().color()));
     painter->drawRoundedRect(rect, 5, 5);
     QLinearGradient grad(rect.topLeft(), rect.bottomRight());
-    grad.setColorAt(0.2, startColor);
+    grad.setColorAt(0.4, startColor);
     grad.setColorAt(0.95, endColor);
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 5, 5);
@@ -134,7 +137,7 @@ QRectF TgraphicsTextTip::boundingRect() const {
 //#################################################################################################
 
 /** !!!!!!!!!!!!!!!
- * All moving methods will work properly only for items with no parent - ones those belongs to scene directly 
+ * All moving methods will work properly only for items with no parent - those ones belong to scene directly 
 */
 void TgraphicsTextTip::linkHoveredSlot(const QString& link) {
 	if (link.isEmpty()) {
@@ -159,9 +162,14 @@ void TgraphicsTextTip::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TgraphicsTextTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-  if (isMovable() && event->button() == Qt::LeftButton) {
+  if (event->button() == Qt::LeftButton) {
+		bool prevClickState = m_mouseClick;
+		if (isMovable())
+			setCursor(Qt::DragMoveCursor);
 		m_lastPos = event->scenePos();
-		setCursor(Qt::DragMoveCursor);
+		m_mouseClick = true;
+		if (prevClickState != m_mouseClick)
+			update();
 	}
 }
 
@@ -180,6 +188,12 @@ void TgraphicsTextTip::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 void TgraphicsTextTip::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 	if (isMovable())
 		setCursor(Qt::SizeAllCursor);
+	if (m_mouseClick) {
+		if (m_lastPos == event->scenePos())
+			emit clicked();
+		m_mouseClick = false;
+		update();
+	}
 	event->accept();
 	QGraphicsTextItem::mouseReleaseEvent(event);
 }
