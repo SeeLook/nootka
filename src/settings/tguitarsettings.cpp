@@ -58,7 +58,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     m_tuneView = new TsimpleScore(6, this);
 		m_tuneView->setControllersEnabled(true, false);
 		m_tuneView->scoreScene()->setPointedColor(gl->S->pointerColor);
-		m_tuneView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+		m_tuneView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     tuneLay->addWidget(m_tuneView);
     m_tuneView->setClef(gl->S->clef); 
    

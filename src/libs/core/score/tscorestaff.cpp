@@ -46,7 +46,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_keySignature(0),
   m_upperLinePos(16.0), m_lowerStaffPos(0.0),
   m_height(40.0),
-  m_externWidth(0.0), m_viewWidth(0.0),
+  m_viewWidth(0.0),
   m_offset(TnoteOffset(3, 2)),
   m_isPianoStaff(false),
 	m_scordature(0), m_enableScord(false),
@@ -220,8 +220,8 @@ void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
 
 
 void TscoreStaff::updateSceneRect() {
-	QRectF scRec = mapToScene(boundingRect()).boundingRect();
-	scene()->setSceneRect(0.0, 0.0, scRec.width() + (isPianoStaff() ? 2.5 : 1.5), scRec.height());
+// 	QRectF scRec = mapToScene(boundingRect()).boundingRect();
+// 	scene()->setSceneRect(0.0, 0.0, scRec.width() + (isPianoStaff() ? 2.5 : 1.5), scRec.height());
 }
 
 
@@ -374,7 +374,10 @@ void TscoreStaff::setViewWidth(qreal viewW) {
 	if (viewW != m_viewWidth) {
 		m_viewWidth = viewW;
 		int oldMax = m_maxNotesCount;
-		m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
+		if (viewW > 0.0)
+			m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
+		else
+			m_maxNotesCount = 0;
 		updateLines(); // calls updateWidth() as well
 		updateNotesPos();
 	}
@@ -632,8 +635,6 @@ void TscoreStaff::updateWidth() {
 			m_width = 10.0 + off + m_scoreNotes.size() * m_scoreNotes[0]->boundingRect().width() + 2.0;
 	if (m_viewWidth > 0.0)
 			m_width = m_viewWidth;
-	else if (m_externWidth > m_width)
-			m_width = m_externWidth;
 }
 
 

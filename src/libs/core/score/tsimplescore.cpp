@@ -294,14 +294,12 @@ void TsimpleScore::noteWasClicked(int index) {
 
 
 QSize TsimpleScore::sizeHint() const {
-  return m_sizeHint;
-// 	return QWidget::sizeHint();
+	return QWidget::sizeHint();
 }
 
 
 QSize TsimpleScore::minimumSizeHint() const {
 	return QWidget::minimumSizeHint();
-// 	return m_sizeHint;
 }
 
 
@@ -313,8 +311,7 @@ bool TsimpleScore::isPianoStaff() {
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
 	bgColor.setAlpha(230);
-	viewport()->setStyleSheet(
-		QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+	viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
 }
 
 //##########################################################################################################
@@ -327,29 +324,17 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 		hh = event->size().height();
 		ww = event->size().width();
 	}
-// 	int scrollV;
-// 	if (horizontalScrollBar()->isVisible()) {
-// 		hh -= horizontalScrollBar()->height();
-// 		scrollV = horizontalScrollBar()->value();
-// 	}
+	if (hh == 0)
+		return;
+	scene()->setSceneRect(0.0, 0.0, ww, hh);
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
-  qreal factor = ((qreal)hh / (staff()->height() + 2.0)) / transform().m11();
+  qreal factor = ((qreal)hh / (staff()->height()/* + 0.4*/)) / transform().m11();
   scale(factor, factor);
-// 	staff()->setExternalWidth((width()) / transform().m11() - (1.0 + staffOff));
-// 	if (horizontalScrollBar()->isVisible()) {
-// 		horizontalScrollBar()->setValue(scrollV);
-// 	}
-	staff()->setPos(staffOff, 0.05);
-	staff()->updateSceneRect();
-// 	resize(mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
-// 	resize(mapFromScene(m_scene->sceneRect()).boundingRect().width(), height() - 2);
-// 	setSizeHint(QSize(mapFromScene(m_scene->sceneRect()).boundingRect().size().width() + 1, height() - 2));
-// 	setSizeHint(size());
-	setSizeHint(mapFromScene(m_scene->sceneRect()).boundingRect().size() + QSize(1, 1));
-// 	setMaximumWidth(m_sizeHint.width());
-// 	setSceneRect(scoreScene()->sceneRect());
+	if (width() > (staff()->width() + staffOff + 1.0) * transform().m11())
+		staffOff = ((ww / transform().m11() - (staff()->width() /*+ staffOff + 2.0*/))  / 2.0);
+	staff()->setPos(staffOff, 0.0);
 }
 
 

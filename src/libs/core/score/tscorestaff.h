@@ -161,11 +161,6 @@ public:
 		int fixNotePos(int pianoPos); /** Checks is note position on grand staff and adds 2 to it. */
 		qreal notesOffset(); /** X Position of first TscoreNote on the staff (depends on clef, key and scordature) */
 		
-				/** Width of a staff sets by external function.
-				 * It is preferred when it is bigger than width calculated by updateWidth() */
-		void setExternalWidth(qreal w) { m_externWidth = w; updateLines(); }
-		qreal externalWidth() { return m_externWidth; }
-		
 				/** Informs a staff about QGraphicsView width displaying this staff.
 				 * With this value the staff determines maximal lines width and maximal notes count.
 				 * If not set (0.0) - single staff, If set - m_externWidth is ignored.
@@ -173,8 +168,8 @@ public:
 		void setViewWidth(qreal viewW);
 		
 				/** Returns maximal note number which staff can display in single line in view area.
-				 * If 0 - staff is in linear mode */
-		int maxNoteCount() { return m_maxNotesCount; }
+				 * or current notes count if staff is in linear mode */
+		int maxNoteCount() { return m_maxNotesCount ? m_maxNotesCount : count(); }
 		
 	//--- note controllers/switches
 				/** Switches when note segments have colored background after their note are set */
@@ -277,7 +272,6 @@ private:
     QList<TscoreNote*>       					 m_scoreNotes;
     qreal                    					 m_upperLinePos, m_lowerStaffPos;
     qreal                    					 m_height, m_width;
-		qreal										 					 m_externWidth; // width set from outside
 		qreal															 m_viewWidth; // width of QGraphicsView in scene coordinates.
     TnoteOffset              					 m_offset;
 		bool 										 					 m_isPianoStaff;

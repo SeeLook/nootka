@@ -21,7 +21,6 @@
 - notes number in levels should be randomized, given value will be just a maximum 
 			and without rhythms odd number sounds better
 
-- consider to remove names on the score in single note mode
 - revert to native style under MacOs when Qt5
 
 - misc library can crash under Win due to uninitialized Tglobals *gl

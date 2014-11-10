@@ -67,6 +67,8 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 		if (ignoreThat)
 			return;
 		if (mode == e_single) {
+				scoreScene()->left()->enableToAddNotes(false); // It has to be invoked before deleteNotes() to hide 'enter note' text
+				scoreScene()->right()->enableToAddNotes(false);
 				deleteNotes();
 				staff()->setStafNumber(-1);
 				staff()->setViewWidth(0.0);
@@ -76,24 +78,19 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				staff()->insertNote(2, true);
 				setControllersEnabled(true, false);
 				setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-				scoreScene()->left()->enableToAddNotes(false);
-				scoreScene()->right()->enableToAddNotes(false);
 				m_currentIndex = 0;
-				setAlignment(Qt::AlignLeft);
-				setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-				resizeEvent(0);
 		} else {
 				staff()->setStafNumber(0);
-				deleteNotes();
+				staff()->removeNote(2);
+				staff()->removeNote(1);
 				setControllersEnabled(true, true);
 				scoreScene()->left()->enableToAddNotes(true);
 				scoreScene()->right()->enableToAddNotes(true);
 				setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 				setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
-				setAlignment(Qt::AlignCenter);
-				setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-				resizeEvent(0);
+				setNote(0, Tnote());
 		}
+		resizeEvent(0);
 	}
 }
 
@@ -124,11 +121,14 @@ void TmultiScore::setNote(int index, const Tnote& note) {
 
 
 
-Tnote* TmultiScore::getNote(int index) {
-	if (index >= 0 && index < notesCount())
-		return noteFromId(index)->note();
-	else
-		return 0;
+Tnote TmultiScore::getNote(int index) {
+	if (index >= 0 && index < notesCount()) {
+		if (insertMode() == e_single)
+			return *staff()->getNote(index);
+		else
+			return *noteFromId(index)->note();
+	} else
+			return Tnote();
 }
 
 
@@ -249,7 +249,7 @@ void TmultiScore::deleteNotes() {
 /** To call TsimpleScore::resizeEvent twice solves problem 
  * with adjusting score size to scene (staff) in single note mode. */
 void TmultiScore::resizeSlot() {
-	TsimpleScore::resizeEvent(0);
+// 	TsimpleScore::resizeEvent(0);
 }
 
 
@@ -259,12 +259,16 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 		hh = event->size().height();
 		ww = event->size().width();
 	}
-	if (ww < 300)
-      return;
+// 	if (ww < 300)
+//       return;
 	if (m_inMode == e_single) {
+		if (ww < 300)
+      return;
 		TsimpleScore::resizeEvent(event);
-		QTimer::singleShot(10, this, SLOT(resizeSlot()));
+// 		QTimer::singleShot(10, this, SLOT(resizeSlot()));
 	} else {
+		if (ww < 400)
+      return;
 		QList<TscoreNote*> allNotes;
 		for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
 			m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
@@ -273,7 +277,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 		if (staff()->isPianoStaff())
 			staffOff = 1.1;
 		hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
-		qreal factor = (((qreal)hh / (staff()->height() + 2.0)) / transform().m11()) / m_scale;
+		qreal factor = (((qreal)hh / (staff()->height() + 0.4)) / transform().m11()) / m_scale;
 		scale(factor, factor);
 		int stavesNumber; // how many staves are needed
 		for (int i = 0; i < m_staves.size(); i++) {
@@ -300,7 +304,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 			}
 			
 			if (i == 0)
-				m_staves[i]->setPos(staffOff, 0.05);
+				m_staves[i]->setPos(staffOff, 0.0/*, 0.05*/);
 			else {
 				qreal yOff = 4.0;
 				if (staff()->hasScordature() && i == 1)
@@ -316,7 +320,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 void TmultiScore::updateSceneRect() {
 	qreal sh;
 	if (m_staves.size() == 1)
-		sh = (staff()->height() + 0.1) * m_scale;
+		sh = (staff()->height()/* + 0.1*/) * m_scale;
 	else
 		sh = m_staves.last()->pos().y() + m_staves.last()->height();
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 

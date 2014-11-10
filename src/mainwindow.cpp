@@ -478,7 +478,6 @@ void MainWindow::soundWasFinished(Tchunk& chunk) {
 }
 
 
-
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
 		if (!ex)
@@ -632,6 +631,10 @@ void MainWindow::updateSize(QSize newS) {
 	bar->adjustSize();
 // 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));	
 	int baseH = qMin(newS.height(), newS.width());
+	if (score->insertMode() == TmultiScore::e_single)
+		noteName->setMaximumWidth(newS.width() / 2);
+	else
+		noteName->setMaximumWidth(QWIDGETSIZE_MAX);
 	noteName->resize(baseH / 40);
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
