@@ -43,10 +43,10 @@ void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
 
 void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor) {
   TdropShadowEffect *shadow = new TdropShadowEffect();
-  if (shadowColor != -1)
-    shadow->setColor(QColor(shadowColor.name()));
-  else
-    shadow->setColor(Tcolor::shadow);
+//   if (shadowColor != -1)
+//     shadow->setColor(QColor(shadowColor.name()));
+//   else
+    shadow->setColor(qApp->palette().text().color());
   tip->setGraphicsEffect(shadow);
 }
 

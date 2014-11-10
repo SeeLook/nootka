@@ -71,14 +71,14 @@ void TmainView::addNoteName(QWidget* name) {
 		m_name = name;
 		m_name->installEventFilter(this);
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-			m_scoreAndNameLay->insertStretch(0);
-			m_scoreAndNameLay->addStretch(0);
+// 			m_scoreAndNameLay->insertStretch(0);
+// 			m_scoreAndNameLay->addStretch(0);
 			m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
 				m_nameLay->addStretch();
 				m_nameLay->addWidget(m_name);
 				m_nameLay->addStretch();
 			m_scoreAndNameLay->addLayout(m_nameLay);
-			m_scoreAndNameLay->addStretch(0);
+// 			m_scoreAndNameLay->addStretch(0);
 // 		m_score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	}
 }
@@ -89,9 +89,9 @@ void TmainView::takeNoteName() {
 		m_nameLay->removeWidget(m_name);
 		delete m_nameLay;
 		m_name = 0;
-		delete m_scoreAndNameLay->takeAt(0);
-		delete m_scoreAndNameLay->takeAt(1);
-		delete m_scoreAndNameLay->takeAt(1);
+// 		delete m_scoreAndNameLay->takeAt(0);
+// 		delete m_scoreAndNameLay->takeAt(1);
+// 		delete m_scoreAndNameLay->takeAt(1);
 	}
 }
 

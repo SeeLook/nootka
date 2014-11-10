@@ -177,7 +177,11 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 		workColor = qApp->palette().highlight().color();
 		workColor.setAlpha(200);
 		m_workNote = TscoreNote::createNoteHead(scoreNote);
-		m_workNote->setGraphicsEffect(new TdropShadowEffect(workColor));
+		QGraphicsDropShadowEffect *workEffect = new QGraphicsDropShadowEffect();
+		workEffect->setOffset(3.0, 3.0);
+		workEffect->setBlurRadius(15);
+		workEffect->setColor(qApp->palette().text().color());
+		m_workNote->setGraphicsEffect(workEffect);
 		m_workAccid = new QGraphicsSimpleTextItem();
 		m_workAccid->setBrush(QBrush(workColor));
 		m_workAccid->setParentItem(m_workNote);

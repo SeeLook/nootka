@@ -66,7 +66,7 @@ public:
 	
 	virtual void setNote(const Tnote& note); /** Sets current note */
 	virtual void setNote(int index, const Tnote& note); /** Sets note of @p index to @p note */
-	virtual Tnote* getNote(int index);
+	   Tnote getNote(int index);
 	
 	virtual void setEnableKeySign(bool isEnabled);
 	

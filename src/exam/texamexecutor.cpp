@@ -517,7 +517,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
         }
         if (curQ.questionAsNote())
             questNote = curQ.qa_2.note;
-        answNote = *mW->score->getNote(0);
+        answNote = mW->score->getNote(0);
     }
     if (curQ.answerAsName()) {
         if (curQ.questionAsName())

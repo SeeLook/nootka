@@ -35,8 +35,7 @@ class QButtonGroup;
 
 /**
  * This widget displays note name and buttons to manipulate it.
- * Since Nootka 1.1.0 it is squeezed into QMenu, so it exist temporary
- * It has to be invoked with exec() method
+ * Since Nootka 1.1.0 it can be squeezed into QMenu, (score invokes it with exec() method.
  */
 class TnoteName : public QWidget
 {
@@ -79,7 +78,7 @@ public:
     virtual QSize sizeHint() const;
     
         /** Marks m_nameLabel with given color. When clearNoteName() is invoked - marks are cleared. */
-    void markNameLabel(QColor markColor);
+    void markNameLabel(const QColor& markColor);
 		
 				/** Highlights and check given accid button   */
 		void forceAccidental(char accid);
@@ -112,6 +111,7 @@ private:
     TpushButton 					*m_noteButtons[7];
     TpushButton 					*m_octaveButtons[8];
     TpushButton 					*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
+		QList<TpushButton*>		 m_accidButtons; /** List of buttons with accidental symbols. */
     QButtonGroup 					*m_noteGroup, *m_octaveGroup;
 		QPushButton						*m_nextNoteButt, *m_prevNoteButt;
     int 								 	 m_prevOctButton; /** Keeps index of previous selected octave button, none if -1 */
@@ -132,17 +132,20 @@ private:
     void setNoteName(char noteNr, char octNr, char accNr);
     void setNameText();
 		
-				/** Sets note, accid and octave buttons according to given note. */
-    void setButtons(Tnote note);
+    void setButtons(const Tnote& note); /** Sets note, accidental and octave buttons according to given note. */
 		
-				/** Presses accidental button or uncheck them all if accid none (0).  */
+				/** Presses accidental button or un-check them all if accidental none (0). */
 		void checkAccidButtons(char accid);
     void uncheckAccidButtons();
     void uncheckAllButtons();
 		
-				/** Returns current state of accid buttons converted to accidental value [-2 to 2] */
-		char getSelectedAccid();
+		char getSelectedAccid(); /** Returns current state of accidental buttons converted to accidental value [-2 to 2] */
 		void updateSizeHint();
+		void setButtonsSize(int widthOff, int fixedH, bool skipOctaves = false); /** Iterates all buttons and adjust their size to context (text)  */
+		TpushButton* createAccidButton(const QString& accidText);
+		
+				/** Sets fixed button width to its text width + @p widthOff or reset to default when @p widthOff = 0. */
+		void fixButtonWidth(int widthOff, QPushButton* butt);
 
 private slots:
     void noteWasChanged(int noteNr);

@@ -130,9 +130,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainNote->setZValue(34); // under
   m_mainAccid->setZValue(m_mainNote->zValue());
   if (staff->isPianoStaff())
-		setAmbitus(40, 1);
+		setAmbitus(40, 2);
 	else
-		setAmbitus(34, 1);
+		setAmbitus(34, 2);
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
 	checkEmptyText();
 }
@@ -273,7 +273,11 @@ void TscoreNote::markNote(QColor blurColor) {
 		m_mainNote->setGraphicsEffect(0);
 	} else {
 		m_mainNote->setPen(QPen(blurColor, 0.2));
-		m_mainNote->setGraphicsEffect(new TdropShadowEffect(blurColor));
+		QGraphicsDropShadowEffect *bluredPen = new QGraphicsDropShadowEffect();
+		bluredPen->setBlurRadius(10);
+		bluredPen->setColor(QColor(blurColor.name()));
+		bluredPen->setOffset(0.5, 0.5);
+		m_mainNote->setGraphicsEffect(bluredPen /*TdropShadowEffect(blurColor)*/);
 	}
 	update();
 }
@@ -377,8 +381,8 @@ void TscoreNote::enableNoteAnim(bool enable, int duration) {
 
 
 void TscoreNote::setAmbitus(int lo, int hi) { 
-	m_ambitMin = qBound(1, lo, (int)m_height - 1); 
-	m_ambitMax = qBound(1, hi, (int)m_height - 1);
+	m_ambitMin = qBound(2, lo, (int)m_height - 1); 
+	m_ambitMax = qBound(2, hi, (int)m_height - 1);
 }
 
 
@@ -417,10 +421,6 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, 6.5, staff()->upperLinePos() - 2.0));
 		qreal loLine = staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos();
 		painter->drawLine(QLineF(0.5, loLine + 10.0, 6.5, loLine + 9.0));
-// 		painter->setBrush(emptyNoteColor);
-// 		painter->scale(1.0 / scoreScene()->views()[0]->transform().m11(), 1.0 / scoreScene()->views()[0]->transform().m11());
-// 		painter->rotate(270);
-// 		painter->drawText(0, 0, 7.0 * scoreScene()->views()[0]->transform().m11(), m_height * scoreScene()->views()[0]->transform().m11(), Qt::AlignCenter, "put\nin\na\nnote");
 	}
 }
 
@@ -466,8 +466,8 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
-//   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
-	if ((event->pos().y() >= 1) && (event->pos().y() <= m_height - 3.0)) {
+  if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
+// 	if ((event->pos().y() >= 2.0) && (event->pos().y() <= m_height - 3.0)) {
 		if (staff()->isPianoStaff() && // dead space between staves
 			(event->pos().y() >= staff()->upperLinePos() + 10.6) && (event->pos().y() <= staff()->lowerLinePos() - 2.4)) {
 				hideWorkNote();

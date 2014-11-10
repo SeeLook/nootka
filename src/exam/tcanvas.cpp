@@ -95,7 +95,10 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bigFont()));
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
-  m_resultTip->setScale(m_scale);
+	if (answer->isNotSoBad())
+		m_resultTip->setScale(m_scale);
+	else
+		m_resultTip->setScale(m_scale * 1.2);
   setResultPos();
   if (gl->E->showWrongPlayed && gl->E->showWrongPlayed && !answer->melody() &&
 			answer->answerAsSound() && !answer->isCorrect() && m_window->sound->note().note)
@@ -404,7 +407,10 @@ void Tcanvas::sizeChanged() {
   m_scale = m_scale * ((double)m_newSize.height() / hi);
 	m_maxTipWidth = m_view->width() / 3;
   if (m_resultTip) {
-      m_resultTip->setScale(m_scale);;
+			if (m_exam->curQ().isNotSoBad())
+				m_resultTip->setScale(m_scale);
+			else
+				m_resultTip->setScale(m_scale * 1.2);
       setResultPos();
   }
   if (m_tryAgainTip) {
@@ -477,7 +483,7 @@ bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
 
 int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree || m_scoreFree)
-		return m_window->score->height() * 0.8;
+		return m_window->score->height() * 0.6;
 	else
 		return m_window->guitar->height() * 1.2;
 }

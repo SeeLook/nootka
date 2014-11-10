@@ -1,5 +1,6 @@
 1.1.3 alpha
-     - two pitch detection methods merged into single two-steps method
+     - two pitch detection methods merged into single, two-steps method
+     - exam question tips are movable and were improved
     BUGS FIXES
      - flickering of an analyze chart put right
 
@@ -7,12 +8,12 @@
      - exams/exercises support for playing melodies from a score
      - exams/exercises support for writing listened melodies
      - recognizing new mistake types related to melodies
-     - added tuning fork button to play middle a in exams based on listening
-     - added pop-up panes to manage quick manage a note in a score
+     - added tuning fork button to play middle A in exams based on listening
+     - added pop-up panes to quick manage a note in a score
      - improved randomization, all notes from range will occur equally
      - simple import/export melodies to XML (music) format
     Under the hood
-     - binary format of exam files (*.noo) changed to text based one
+     - binary format of exam files (*.noo) changed to text based
      - saving melodies and related information in *.noo files
      - dividing and cleaning monolithic code of examining process
 

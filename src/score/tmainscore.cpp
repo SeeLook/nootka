@@ -72,8 +72,8 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	setAnimationsEnabled(gl->useAnimations);
 	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
 	setEnableKeySign(gl->S->keySignatureEnabled);
-// 	if (gl->S->keySignatureEnabled)
-// 				staff()->scoreKey()->showKeyName(true);
+	if (staff()->scoreKey())
+		staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
 	
 	connect(scoreScene()->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
 //     setAmbitus(Tnote(gl->loString().chromatic()-1),
@@ -124,8 +124,10 @@ void TmainScore::acceptSettings() {
 	setClef(Tclef(gl->S->clef));
 // Enable/disable key signatures
 	if ((bool)staff()->scoreKey() != gl->S->keySignatureEnabled) {
-			setEnableKeySign(gl->S->keySignatureEnabled);
+		setEnableKeySign(gl->S->keySignatureEnabled);
 	}
+	if (staff()->scoreKey())
+		staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
 	restoreNotesSettings();
 // Note names on the score
 	if (gl->S->nameColor != scoreScene()->nameColor()) {
@@ -218,7 +220,7 @@ void TmainScore::getMelody(Tmelody* mel, const QString& title) {
 	mel->setKey(keySignature());
 	mel->setClef(clef().type());
 	for (int i = 0; i < notesCount(); ++i) {
-		Tchunk n(*getNote(i), Trhythm(Trhythm::e_none));
+		Tchunk n(getNote(i), Trhythm(Trhythm::e_none));
 		mel->addNote(n);
 	}
 }
@@ -226,14 +228,17 @@ void TmainScore::getMelody(Tmelody* mel, const QString& title) {
 
 void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 	if (mode != insertMode()) {
+		blockSignals(true);
 		bool ignoreThat = false;
 		if ((mode == e_record && insertMode() == e_multi) || (mode == e_multi && insertMode() == e_record))
 			ignoreThat = true;
 		TmultiScore::setInsertMode(mode);
+		blockSignals(false);
 		if (ignoreThat)
 			return;
 		if (mode == e_single) {
 				m_nameMenu->enableArrows(false);
+				staff()->noteSegment(0)->removeNoteName();
 				m_currentNameSegment = staff()->noteSegment(0);
 				enableCorners(false);
 				m_nameMenu->show();
@@ -241,6 +246,8 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 				m_nameMenu->enableArrows(true);
 				m_nameMenu->hide();
 				enableCorners(true);
+				if (gl->S->namesOnScore)
+					staff()->noteSegment(0)->showNoteName();
 		}
 	}
 }
@@ -344,7 +351,7 @@ bool TmainScore::isAccidToKeyAnimEnabled() {
 
 
 int TmainScore::widthToHeight(int hi) {
-	return qRound((qreal)hi / sizeHint().height()) * sizeHint().width();
+	return qRound((qreal)hi / height()) * width();
 }
 
 
@@ -355,8 +362,8 @@ int TmainScore::widthToHeight(int hi) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-			if (insertMode() == e_single)
-				resizeSlot();
+// 			if (insertMode() == e_single)
+// 				resizeSlot();
 			enableCorners(false);
 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 			disconnect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
@@ -375,12 +382,12 @@ void TmainScore::isExamExecuting(bool isIt) {
 // 				c.setAlpha(255);
 // 				staff()->noteSegment(1)->setColor(c);
 // 			}
-			c.setAlpha(80);
+			c.setAlpha(30);
 			m_questMark->setBrush(QBrush(c));
 			m_questMark->setText("?");
-			m_questMark->setScale(((sizeHint().height() / transform().m11()) / m_questMark->boundingRect().height()));
-			m_questMark->setPos(((sizeHint().width() / transform().m11()) - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
-													((sizeHint().height() / transform().m11()) - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
+			m_questMark->setScale(((height() / transform().m11()) / m_questMark->boundingRect().height()));
+			m_questMark->setPos(((width() / transform().m11()) - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
+													((height() / transform().m11()) - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
 			m_questMark->setZValue(4);
 			setScoreDisabled(true);
 			setClefDisabled(true);
@@ -500,13 +507,16 @@ void TmainScore::setReadOnlyReacted(bool doIt) {
 
 void TmainScore::markAnswered(QColor blurColor, int noteNr) {
 	if (noteNr < notesCount()) {
-		if (blurColor == -1)
-			noteFromId(noteNr)->markNote(-1);
+		TscoreNote *sn;
+		if (insertMode() == e_single)
+			sn = staff()->noteSegment(noteNr);
 		else
-			noteFromId(noteNr)->markNote(QColor(blurColor.lighter().name()));
+			sn = noteFromId(noteNr);
+		if (blurColor == -1)
+			sn->markNote(-1);
+		else
+			sn->markNote(QColor(blurColor.lighter().name()));
 	}
-// 	else
-// 		qDebug() << "TmainScore: Try to mark a note that not exists!";
 }
 
 
@@ -581,7 +591,7 @@ void TmainScore::correctAccidental(Tnote& goodNote) {
 	m_correctNoteNr = 0;
 	m_goodNote = goodNote;
 	QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
-	if (getNote(0)->alter != m_goodNote.alter) {
+	if (getNote(0).alter != m_goodNote.alter) {
 			m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
 	} else {
 				m_bliking = new TblinkingItem(staff()->noteSegment(0));
@@ -841,22 +851,22 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	TmultiScore::resizeEvent(event);
 	if (width() < 300)
       return;
-	if (insertMode() == e_single) {
-		if (m_nameMenu->size().width() + sizeHint().width() > mainWindow()->width()) {
-			if (m_nameMenu->buttonsDirection() == QBoxLayout::LeftToRight || m_nameMenu->buttonsDirection() == QBoxLayout::RightToLeft) {
-				qDebug() << "name is too big. Changing direction ";
-				m_nameMenu->setDirection(QBoxLayout::BottomToTop);
-			}
-		} else {
-			if (m_nameMenu->buttonsDirection() == QBoxLayout::BottomToTop || m_nameMenu->buttonsDirection() == QBoxLayout::TopToBottom) {
-				if (m_nameMenu->widthForHorizontal() + size().width() < mainWindow()->width()) {
-					qDebug() << "There is enough space for horizontal name. Changing";
-					m_nameMenu->setDirection(QBoxLayout::LeftToRight);
-				}
-			}
-		}
-// 		setFixedWidth(mapFromScene(scoreScene()->sceneRect()).boundingRect().width() + 1);
-	}
+// 	if (insertMode() == e_single) {
+// 		if (m_nameMenu->size().width() + width() > mainWindow()->width()) {
+// 			if (m_nameMenu->buttonsDirection() == QBoxLayout::LeftToRight || m_nameMenu->buttonsDirection() == QBoxLayout::RightToLeft) {
+// 				qDebug() << "name is too big. Changing direction ";
+// 				m_nameMenu->setDirection(QBoxLayout::BottomToTop);
+// 			}
+// 		} else {
+// 			if (m_nameMenu->buttonsDirection() == QBoxLayout::BottomToTop || m_nameMenu->buttonsDirection() == QBoxLayout::TopToBottom) {
+// 				if (m_nameMenu->widthForHorizontal() + size().width() < mainWindow()->width()) {
+// 					qDebug() << "There is enough space for horizontal name. Changing";
+// 					m_nameMenu->setDirection(QBoxLayout::LeftToRight);
+// 				}
+// 			}
+// 		}
+// // 		setFixedWidth(mapFromScene(scoreScene()->sceneRect()).boundingRect().width() + 1);
+// 	}
 	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size
 }

@@ -18,15 +18,19 @@
 
 
 #include "tdropshadoweffect.h"
-#include <tcolor.h>
+// #include <tcolor.h>
+#include <QApplication>
+#include <QPalette>
 
 TdropShadowEffect::TdropShadowEffect(QColor color)
 {
-    setBlurRadius(10);
-    setOffset(1, 1);
-    if (color == -1)
-				setColor(Tcolor::shadow);
-    else
-      setColor(color);
+	setBlurRadius(10);
+	setOffset(4, 4);
+// 		setColor(qApp->palette().text().color());
+	if (color == -1)
+		setColor(qApp->palette().text().color());
+// 				setColor(Tcolor::shadow);
+	else
+		setColor(color);
 }
 
