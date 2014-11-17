@@ -238,6 +238,11 @@ void Tpenalty::stopQuestionTime() {
 }
 
 
+quint32 Tpenalty::elapsedTime() {
+	return m_examView->questionTime();
+}
+
+
 
 
 

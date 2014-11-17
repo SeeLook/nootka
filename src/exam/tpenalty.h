@@ -84,6 +84,7 @@ public:
 	void stopTimeView(); /** Stops refreshing elapsing time on the exam view labels. */
 	void startQuestionTime(); /** Initializes counting time for a new question. */
 	void stopQuestionTime(); /** Stops counting time of the current question and updates counters and labels. */
+	quint32 elapsedTime(); /** Elapsed time of current question. */
 	
 	
 signals:

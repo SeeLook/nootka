@@ -141,6 +141,8 @@ private:
 				* - main window title
 				* - startExamAct status tip */
 	void setTitleAndTexts();
+	
+	void connectPlayingFinished(); /** Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
 			
 private:
 	

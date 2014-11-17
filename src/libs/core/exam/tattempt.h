@@ -40,14 +40,19 @@ public:
 	QList<quint32> times; /** List of answer times of every note in a melody */
 	QList<quint32> mistakes; /** Type of mistake of every note in a melody */
 	
-	quint16 playedCount() const { return m_playedCounter; } /** How many times user playbacks a question melody */
+			/** How many times user playbacks a question melody. Used for questions where melodies are guessed. */
+	quint16 playedCount() const { return m_playedCounter; }
 	void questionWasPlayed() { m_playedCounter++; } /** Increases playback counter */
 	
 			/** @p TRUE when no mistakes and times in the lists and playback counter is 0 */
 	bool isEmpty() const { return times.isEmpty() && mistakes.isEmpty() && m_playedCounter == 0; }
 	
-	quint32 totalTime() { return m_totalTime; } /** Total answer time of this attempt. */
+	quint32 totalTime() const { return m_totalTime; } /** Total answer time of this attempt. */
 	void setTotalTime(quint32 tt) { m_totalTime = tt; }
+	
+			/** Time spent to prepare playing answer. Between question time start and detected first played note. */
+	quint32 prepareTime() const { return m_prepTime; }
+	void setPrepareTime(quint32 prepTime) { m_prepTime = prepTime; }
 	
 	quint32 summary() const { return m_sum; } /** Logical sum of all mistakes in the attempt */
 	bool isCorrect() const { return m_sum == 0; } /** All notes were correct. */
@@ -64,7 +69,7 @@ private:
 	
 	quint16							m_playedCounter;
 	qreal								m_effectiveness;
-	quint32							m_sum, m_totalTime;
+	quint32							m_sum, m_totalTime, m_prepTime;
   
 };
 
