@@ -296,17 +296,16 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //            << (int)curQ.qa.pos.str() << (int)curQ.qa.pos.fret();
 	}
 
-  // ASKING QUESIONS
+  // ASKING QUESTIONS
 	if (curQ.questionAsNote()) {
 		if (curQ.melody()) {
 			if (!isAttempt)
 				mW->score->askQuestion(curQ.melody());
 			if (curQ.answerAsSound()) { // in fact, there is no other option yet
 				connect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::noteOfMelodySlot);
+				m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
+				mW->score->selectNote(0); // mark first note
 			}
-			m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
-			mW->score->selectNote(0); // mark first note
-			// all above is correct only when answer is a sound (and no other cases are supported now)
 		} else {
 			char strNr = 0;
 			if ( (curQ.answerAsFret() || curQ.answerAsSound()) 
@@ -470,11 +469,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			if (curQ.melody())
 				mW->sound->notes().clear();
 			if (curQ.questionAsSound()) {
-					connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-					// sniffing after finished sound
+					connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying())); // sniffing after finished sound
 			} else
 					QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
-					// Give a student some time to prepare for next question in expert mode
+					// Give a student some time to prepare itself for next question in expert mode
 					// It avoids capture previous played sound as current answer
     }
     
@@ -1328,6 +1326,19 @@ void TexamExecutor::repeatSound() {
 			m_exam->curQ().lastAttempt()->questionWasPlayed(); // increase only when playing was started
 	} else
 		mW->sound->play(m_exam->curQ().qa.note);
+	connectPlayingFinished();
+}
+
+
+void TexamExecutor::playMiddleA() {
+	Tnote a1(6, 1, 0);
+	mW->sound->stopPlaying();
+	mW->sound->play(a1);
+	connectPlayingFinished();
+}
+
+
+void TexamExecutor::connectPlayingFinished() {
 	if (m_soundTimer->isActive())
 			m_soundTimer->stop();
 	if (m_exam->curQ().answerAsSound())
@@ -1335,24 +1346,16 @@ void TexamExecutor::repeatSound() {
 }
 
 
-void TexamExecutor::playMiddleA() {
-	Tnote a1(6, 1, 0);
-		mW->sound->stopPlaying();
-		mW->sound->play(a1);
-	if (m_soundTimer->isActive()) //TODO make this part common method
-			m_soundTimer->stop();
-	if (m_exam->curQ().answerAsSound())
-			connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-}
-
-
 void TexamExecutor::noteOfMelodySlot(const Tnote& n) {
-		mW->score->selectNote(m_melodyNoteIndex);
-		m_melodyNoteIndex++;
-		if ((mW->sound->notes().size() == m_exam->curQ().melody()->length() - 1) && gl->E->expertsAnswerEnable) {
-			connect(mW->sound, &Tsound::noteFinished, this, &TexamExecutor::lastMelodyNote);
-			disconnect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::noteOfMelodySlot);
-		}
+	if (m_melodyNoteIndex == 1) // first played note was detected
+		m_exam->curQ().lastAttempt()->setPrepareTime(m_penalty->elapsedTime());
+	// TODO so far it is 1/10 s but should be more precise. Also subtract note duration 
+	mW->score->selectNote(m_melodyNoteIndex);
+	m_melodyNoteIndex++;
+	if ((mW->sound->notes().size() == m_exam->curQ().melody()->length() - 1) && gl->E->expertsAnswerEnable) {
+		connect(mW->sound, &Tsound::noteFinished, this, &TexamExecutor::lastMelodyNote);
+		disconnect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::noteOfMelodySlot);
+	}
 }
 
 

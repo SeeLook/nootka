@@ -34,8 +34,9 @@
 
 - tidy key signature in note pixmap (width depends on accidentals number)
 
-==== NEW FEATURES ================================================================
 
+==== NEW FEATURES ================================================================
+- increase precision of exam timers - regressions risk...
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - let's note range will figured automatically by pitch detection ambitus 
   but add options for ambitus: all notes, instrument scale, visible in score 

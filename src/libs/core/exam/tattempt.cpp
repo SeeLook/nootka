@@ -24,7 +24,8 @@
 Tattempt::Tattempt() :
 	m_playedCounter(0),
 	m_sum(0),
-	m_totalTime(0)
+	m_totalTime(0),
+	m_prepTime(0)
 {
 }
 
@@ -77,6 +78,8 @@ void Tattempt::toXml(QXmlStreamWriter& xml) const {
 			xml.writeTextElement("p", QVariant(m_playedCounter).toString());
 		if (m_totalTime)
 			xml.writeTextElement("tt", QVariant(m_totalTime).toString());
+		if (m_prepTime)
+			xml.writeTextElement("pt", QVariant(m_prepTime).toString());
 	xml.writeEndElement(); // a
 }
 
@@ -105,6 +108,8 @@ void Tattempt::fromXml(QXmlStreamReader& xml) {
 				m_playedCounter = xml.readElementText().toInt();
 		else if (xml.name() == "tt")
 				m_totalTime = xml.readElementText().toInt();
+		else if (xml.name() == "pt")
+				m_prepTime = xml.readElementText().toInt();
 		else
 			xml.skipCurrentElement();
 	}
