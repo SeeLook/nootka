@@ -66,6 +66,7 @@ private:
 private slots:
     void changeSettingsWidget(int index);
 		void allDefaultsRequired();
+		void rtApiSlot();
     
 private:
     void createAudioPage();

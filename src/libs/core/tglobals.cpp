@@ -261,6 +261,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 // Sound settings
 	cfg->beginGroup("sound");
+		A->JACKorASIO = cfg->value("JACKorASIO", false).toBool();
 		A->OUTenabled = cfg->value("outSoundEnabled", true).toBool();
 		A->OUTdevName = cfg->value("outDeviceName", "").toString();
 		A->midiEnabled = cfg->value("midiEnabled", false).toBool();
@@ -405,6 +406,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 	cfg->endGroup();
 
 	cfg->beginGroup("sound");
+			cfg->setValue("JACKorASIO", A->JACKorASIO);
 			cfg->setValue("outSoundEnabled", A->OUTenabled);
 			cfg->setValue("outDeviceName", A->OUTdevName);
 			cfg->setValue("midiEnabled", A->midiEnabled);

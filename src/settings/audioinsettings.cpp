@@ -53,7 +53,14 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   QLabel *devLab = new QLabel(tr("input device"), m_1_device);
   m_inDeviceCombo = new QComboBox(m_1_device);
 		m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
-  
+	
+	m_JACK_ASIO_ChB = new QCheckBox(this);
+#if defined (Q_OS_WIN)
+	m_JACK_ASIO_ChB->setText("ASIO");
+#elif defined (Q_OS_LINUX)
+	m_JACK_ASIO_ChB->setText("JACK");
+#endif
+	m_JACK_ASIO_ChB->setChecked(m_glParams->JACKorASIO);
   m_mpmRadio = new QRadioButton("MPM", m_1_device);
 	m_correlRadio = new QRadioButton("autocorrelation", m_1_device);
 	m_cepstrumRadio = new QRadioButton("MPM + modified cepstrum", m_1_device);
@@ -77,9 +84,12 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		durationSpin->setValue(m_glParams->minDuration * 1000); // minimum duration is stored in seconds but displayed in milliseconds
 		durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
 	// 1. Layout
-	QVBoxLayout *deviceLay = new QVBoxLayout();
+	QVBoxLayout *deviceLay = new QVBoxLayout;
+		QHBoxLayout *rtDevLay = new QHBoxLayout;
 		deviceLay->addWidget(devLab);
-		deviceLay->addWidget(m_inDeviceCombo);
+		rtDevLay->addWidget(m_inDeviceCombo);
+			rtDevLay->addWidget(m_JACK_ASIO_ChB);
+		deviceLay->addLayout(rtDevLay);
 		deviceLay->addStretch(1);
 	QHBoxLayout *modeButtonsLay = new QHBoxLayout;
 		modeButtonsLay->addStretch(2);
@@ -277,6 +287,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	connect(m_downsSemitoneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
+	connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
 }
 
 
@@ -382,12 +393,12 @@ void AudioInSettings::saveSettings() {
 void AudioInSettings::generateDevicesList() {
   if (m_listGenerated)
     return;
-  setDevicesCombo();
+  updateAudioDevList();
   m_listGenerated = true;
 }
 
 
-void AudioInSettings::setDevicesCombo() {
+void AudioInSettings::updateAudioDevList() {
   m_inDeviceCombo->clear();
   m_inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
   if (m_inDeviceCombo->count()) {
@@ -485,7 +496,7 @@ void AudioInSettings::testSlot() {
     if (!m_audioIn) { // create new audio-in device
 				m_audioIn = new TaudioIN(m_tmpParams, this);
 				pitchView->setAudioInput(m_audioIn);
-				connect(m_audioIn, SIGNAL(noteStarted(Tnote,qreal)), this, SLOT(noteSlot(Tnote,qreal)));
+				connect(m_audioIn, &TaudioIN::noteStarted, this, &AudioInSettings::noteSlot);
 		} else { // set parameters to existing device
 				m_audioIn->updateAudioParams();
 				m_audioIn->setAudioInParams();
@@ -507,10 +518,10 @@ void AudioInSettings::testSlot() {
 }
 
 
-void AudioInSettings::noteSlot(const Tnote& note, qreal pitch) {
-	Tnote n = note;
+void AudioInSettings::noteSlot(const TnoteStruct& ns) {
+	Tnote n = ns.pitch;
 	pitchLab->setText("<b>" + n.toRichText() + "</b>");
-	freqLab->setText(QString("%1 Hz").arg(pitch2freq(pitch), 0, 'f', 1, '0'));
+	freqLab->setText(QString("%1 Hz").arg(ns.freq, 0, 'f', 1, '0'));
 }
 
 
@@ -577,6 +588,12 @@ void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {
 		lowRadio->setChecked(true);
 }
 
+
+void AudioInSettings::JACKASIOSlot() {
+	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
+	updateAudioDevList();
+	emit rtApiChanged();
+}
 
 
 
