@@ -21,6 +21,8 @@
 #include <QWidget>
 #include <music/tnote.h>
 
+class TnoteStruct;
+class QCheckBox;
 class QToolBox;
 class TroundedLabel;
 class TvolumeSlider;
@@ -51,7 +53,7 @@ public:
   void generateDevicesList(); /** Generates devices list for inDeviceCombo QComboBox.*/
 	
       /** Grabs (refresh) devices list from AudioIn and fill audioOutDevListCombo */
-  void setDevicesCombo();
+  void updateAudioDevList();
 	
 			/** Calculates interval from given frequency and sets interval Spin Box. */
 	void intervalFromFreq(int bFreq);
@@ -61,6 +63,11 @@ public:
 	
 			/** Changes value of interval and adjust its suffix. Also Adjust up/down radio buttons */
 	void setTransposeInterval(int interval);
+	
+	QCheckBox* rtApiCheckBox() { return m_JACK_ASIO_ChB; }
+	
+signals:
+	void rtApiChanged(); /** Emitted when user wants ASIO/JACK sound */
 	
 public	slots:
 			/** Occurs when tune of a guitar is changed and range of detecting pitches has to be adjusted. */
@@ -76,11 +83,12 @@ protected:
   
 protected slots:
   void testSlot();
-  void noteSlot(const Tnote& note, qreal pitch);
+  void noteSlot(const TnoteStruct& ns);
   void intervalChanged();
   void baseFreqChanged(int bFreq);
   void minimalVolChanged(float vol);
 	void upDownIntervalSlot();
+	void JACKASIOSlot();
   
 private:
     /** Calculates frequencies of strings related to a440diff 
@@ -101,7 +109,7 @@ private:
   QGroupBox 					*enableInBox, *modeGr, *midABox;
   QRadioButton 				*m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
 	QRadioButton				*highRadio, *middleRadio, *lowRadio;
-	QRadioButton				*m_upSemiToneRadio, *m_downsSemitoneRadio; 
+	QRadioButton				*m_upSemiToneRadio, *m_downsSemitoneRadio;
   QSpinBox 						*freqSpin, *durationSpin, *m_intervalSpin;
   TvolumeSlider 			*volumeSlider;
   QPushButton 				*testButt;
@@ -114,6 +122,7 @@ private:
 	Ttune								*m_tune;
 	QWidget							*m_4_test;
   QToolBox 						*m_toolBox;
+	QCheckBox						*m_JACK_ASIO_ChB;
 };
 
 #endif // AUDIOINSETTINGS_H

@@ -39,50 +39,74 @@ TrtAudio::callBackType				 		TrtAudio::m_cbIn = 0;
 TrtAudio::callBackType 						TrtAudio::m_cbOut = 0;
 TaudioObject*											TrtAudio::m_ao = 0;
 RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
+bool 															TrtAudio::m_JACKorASIO = false;
 
 
 void TrtAudio::createRtAudio() {
 	if (m_rtAduio == 0) { // Create RtAudio instance if doesn't exist
-#if defined(Q_OS_WIN32)
+#if defined(Q_OS_WIN)
+		RtAudio::Api rtAPI;
 		if ((int)QSysInfo::windowsVersion() < (int)QSysInfo::WV_VISTA)
-			m_rtAduio = new RtAudio(RtAudio::WINDOWS_DS); // Direct sound for older versions
-		else // WASAPI or ASIO since Vista
-			m_rtAduio = new RtAudio();
-		QString rtApiTxt;
-		switch (m_rtAduio->getCurrentApi()) {
-		case RtAudio::WINDOWS_DS:
-			rtApiTxt = "Direct Sound";
-			break;
-		case RtAudio::WINDOWS_WASAPI:
-			rtApiTxt = "WAS API";
-			break;
-		case RtAudio::WINDOWS_ASIO:
-			rtApiTxt = "ÄSIO";
-			break;
-		default:
-			rtApiTxt = "Undefined";
-			break;
-		}
-
-		qDebug() << "RtAudio API:" << rtApiTxt;
+			rtAPI = RtAudio::WINDOWS_DS; // Direct sound for older versions
+		else // WASAPI since Vista
+			rtAPI = RtAudio::WINDOWS_WASAPI;
+		if (m_JACKorASIO)
+			rtAPI = RtAudio::WINDOWS_ASIO;
+		m_rtAduio = new RtAudio(rtAPI);
 #else
-    m_rtAduio = new RtAudio();
+		RtAudio::Api rtAPI;
+		if (m_JACKorASIO)
+      rtAPI = RtAudio::UNIX_JACK; // check is JACK possible and allow it
+    else
+      rtAPI = RtAudio::LINUX_ALSA; // force ALSA
 #endif
 #if defined(__LINUX_PULSE__)
       QFileInfo pulseBin("/usr/bin/pulseaudio");
-      if (pulseBin.exists()) { // we check is PA possible to run - without check it can hang over.
-      RtAudio *rtPulse = new RtAudio(RtAudio::LINUX_PULSE);
-        if (rtPulse->getCurrentApi() == RtAudio::LINUX_PULSE) {
-          if (rtPulse->getDeviceCount() > 0) {
-              delete m_rtAduio;
-              m_rtAduio = rtPulse;
-          }
-        }
-      }
+      if (pulseBin.exists()) // we check is PA possible to run - without check, it can hang over.
+				rtAPI = RtAudio::LINUX_PULSE;
 #endif
+		m_rtAduio = new RtAudio(rtAPI);
     m_rtAduio->showWarnings(false);
+		QString rtApiTxt;
+		switch (m_rtAduio->getCurrentApi()) {
+			case RtAudio::WINDOWS_DS:
+				rtApiTxt = "Direct Sound";
+				break;
+			case RtAudio::WINDOWS_WASAPI:
+				rtApiTxt = "WAS API";
+				break;
+			case RtAudio::WINDOWS_ASIO:
+				rtApiTxt = "ASIO";
+				break;
+			case RtAudio::LINUX_ALSA:
+				rtApiTxt = "ALSA";
+				break;
+			case RtAudio::UNIX_JACK:
+				rtApiTxt = "JACK";
+				break;
+			case RtAudio::LINUX_PULSE:
+				rtApiTxt = "pulseaudio";
+				break;
+			default:
+				rtApiTxt = "Undefined";
+				break;
+		}
+		qDebug() << "RtAudio API:" << rtApiTxt;
 	}
 }
+
+
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
+void TrtAudio::setJACKorASIO(bool jack) {
+	if (jack != m_JACKorASIO) {
+		abortStream();
+		delete m_rtAduio;
+		m_rtAduio = 0;
+		m_JACKorASIO = jack;
+		createRtAudio();
+	}
+}
+#endif
 
 
 void TrtAudio::printSupportedFormats(RtAudio::DeviceInfo& devInfo) {
@@ -195,9 +219,9 @@ TrtAudio::~TrtAudio()
 
 
 void TrtAudio::updateAudioParams() {
-// 	qDebug() << "updateAudioParams";
 	m_isOpened = false;
 	closeStream();
+	setJACKorASIO(audioParams()->JACKorASIO);
 // preparing devices
 	int inDevId = -1, outDevId = -1;
   int devCount = rtDevice()->getDeviceCount();
@@ -288,12 +312,10 @@ bool TrtAudio::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
 }
 
 
-// void TrtAudio::streamOpened() {}
-
-
 bool TrtAudio::openStream() {
 	try {
     if (rtDevice() && !rtDevice()->isStreamOpen()) {
+				m_bufferFrames = 1024; // reset when it was overridden by another rt API
 				rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(),
 															 &m_bufferFrames, m_callBack, 0, streamOptions);
 // 				qDebug() << "openStream";

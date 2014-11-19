@@ -265,16 +265,30 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 
 
 void TsettingsDialog::createAudioPage() {
-    m_sndInSett = new AudioInSettings(gl->A, gl->Gtune());
-    m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
-    m_audioSettingsPage = new QWidget();
-    m_audioTab = new QTabWidget(m_audioSettingsPage);
-    QVBoxLayout *audioLay = new QVBoxLayout;
-    audioLay->addWidget(m_audioTab);
-    m_audioTab->addTab(m_sndInSett, tr("listening"));
-    m_audioTab->addTab(m_sndOutSett, tr("playing"));
-    m_audioSettingsPage->setLayout(audioLay);
-		connect(m_audioTab, SIGNAL(currentChanged(int)), m_sndInSett, SLOT(stopSoundTest()));
+	TrtAudio::initJACKorASIO(gl->A->JACKorASIO);
+	m_sndInSett = new AudioInSettings(gl->A, gl->Gtune());
+	m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
+	m_audioSettingsPage = new QWidget();
+	m_audioTab = new QTabWidget(m_audioSettingsPage);
+	QVBoxLayout *audioLay = new QVBoxLayout;
+	audioLay->addWidget(m_audioTab);
+	m_audioTab->addTab(m_sndInSett, tr("listening"));
+	m_audioTab->addTab(m_sndOutSett, tr("playing"));
+	m_audioSettingsPage->setLayout(audioLay);
+	connect(m_audioTab, SIGNAL(currentChanged(int)), m_sndInSett, SLOT(stopSoundTest()));
+	connect(m_sndInSett, &AudioInSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
+	connect(m_sndOutSett, &AudioOutSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
+}
+
+
+void TsettingsDialog::rtApiSlot() {
+	if (sender() == m_sndInSett) {
+		m_sndOutSett->rtApiCheckBox()->setChecked(m_sndInSett->rtApiCheckBox()->isChecked());
+		m_sndOutSett->updateAudioDevList();
+	} else {
+		m_sndInSett->rtApiCheckBox()->setChecked(m_sndOutSett->rtApiCheckBox()->isChecked());
+		m_sndInSett->updateAudioDevList();
+	}
 }
 
 

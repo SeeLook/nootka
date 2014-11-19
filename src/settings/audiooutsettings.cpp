@@ -48,13 +48,23 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
     realLay->addWidget(outDevLab);
     m_audioOutDevListCombo = new QComboBox(this);
-    realLay->addWidget(m_audioOutDevListCombo);
+		m_JACK_ASIO_ChB = new QCheckBox(this);
+#if defined (Q_OS_WIN)
+	m_JACK_ASIO_ChB->setText("ASIO");
+#elif defined (Q_OS_LINUX)
+	m_JACK_ASIO_ChB->setText("JACK");
+#endif
+		m_JACK_ASIO_ChB->setChecked(m_params->JACKorASIO);
+		QHBoxLayout *rtDevLay = new QHBoxLayout;
+		rtDevLay->addWidget(m_audioOutDevListCombo);
+		rtDevLay->addWidget(m_JACK_ASIO_ChB);
+    realLay->addLayout(rtDevLay);
 		m_audioInstrCombo = new QComboBox(this);
 		realLay->addWidget(m_audioInstrCombo);
     realLay->addStretch(1);
 		m_playInputChB = new QCheckBox(tr("Play input"), this);
 			m_playInputChB->setChecked(m_params->forwardInput);
-			m_playInputChB->setStatusTip(tr("All audio input data will be redirected directly to output device."));
+			m_playInputChB->setStatusTip(tr("All audio input data will be forwarded directly to output device."));
 		realLay->addWidget(m_playInputChB, 0, Qt::AlignLeft);
     m_realAGr->setLayout(realLay);
     audioOutLay->addWidget(m_realAGr);
@@ -119,7 +129,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 		m_audioInstrCombo->setCurrentIndex(m_params->audioInstrNr - 1);
     
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
-    
+    connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioOutSettings::JACKASIOSlot);
     setFocusPolicy(Qt::StrongFocus);
     
 }
@@ -133,17 +143,7 @@ void AudioOutSettings::generateDevicesList() {
 
 
 void AudioOutSettings::setDevicesCombo() {
-  m_audioOutDevListCombo->clear();
-  m_audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
-    if (m_audioOutDevListCombo->count()) {
-        int id = m_audioOutDevListCombo->findText(m_params->OUTdevName);
-        if (id != -1)
-            m_audioOutDevListCombo->setCurrentIndex(id);
-				m_audioOutDevListCombo->setDisabled(false);
-    } else {
-        m_audioOutDevListCombo->addItem(tr("no devices found"));
-        m_audioOutDevListCombo->setDisabled(true);
-  }
+  updateAudioDevList();
   if (m_params->midiPortName != "") {
       if (m_midiPortsCombo->count()) {
         int id = m_midiPortsCombo->findText(m_params->midiPortName);
@@ -158,6 +158,21 @@ void AudioOutSettings::setDevicesCombo() {
 }
 
 
+void AudioOutSettings::updateAudioDevList() {
+	m_audioOutDevListCombo->clear();
+  m_audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
+    if (m_audioOutDevListCombo->count()) {
+        int id = m_audioOutDevListCombo->findText(m_params->OUTdevName);
+        if (id != -1)
+            m_audioOutDevListCombo->setCurrentIndex(id);
+				m_audioOutDevListCombo->setDisabled(false);
+    } else {
+        m_audioOutDevListCombo->addItem(tr("no devices found"));
+        m_audioOutDevListCombo->setDisabled(true);
+  }
+}
+
+
 void AudioOutSettings::saveSettings() {
   if (m_listGenerated) { // save only when user opened a tab
     m_params->OUTenabled = m_audioOutEnableGr->isChecked();
@@ -168,6 +183,7 @@ void AudioOutSettings::saveSettings() {
 		m_params->audioInstrNr = m_audioInstrCombo->currentIndex() + 1;
 		m_params->forwardInput = m_playInputChB->isChecked();
 		m_params->playDetected = m_playDetectedChB->isChecked();
+		m_params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
   }
 }
 
@@ -223,7 +239,6 @@ void AudioOutSettings::adjustOutToInstrument(TaudioParams* out, int instr) {
 }
 
 
-
 void AudioOutSettings::whenInstrumentChanged(int instr) {
 // 	adjustOutToInstrument(m_params, instr);
 	if (m_params->midiEnabled)
@@ -232,6 +247,13 @@ void AudioOutSettings::whenInstrumentChanged(int instr) {
 		m_audioRadioButt->setChecked(true);
 	m_audioInstrCombo->setCurrentIndex(qBound(0, instr - 1, 2));
 	audioOrMidiChanged();
+}
+
+
+void AudioOutSettings::JACKASIOSlot() {
+	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
+	updateAudioDevList();
+	emit rtApiChanged();
 }
 
 

@@ -36,6 +36,8 @@ class TaudioObject;
  * To start, @p updateAudioParams() has to be invoked to initialize/refresh outside audio parameters
  * then @p open() and @p startAudio() do their tasks
  * It has protected @member ao() which can emits signals
+ * It can switch from/to JACK or ASIO with @p setJACKorASIO(bool) method
+ * but use @p initJACKorASIO(bool) before first creation of @class TrtAudio to set preferred API
  */
 class NOOTKASOUND_EXPORT TrtAudio
 {
@@ -54,6 +56,13 @@ public:
 		void stopAudio() { stopStream(); }
 		void terminate() { closeStream(); }
 		
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
+		static void setJACKorASIO(bool jack);
+		static bool isJACKorASIO() { return m_JACKorASIO; }
+
+				/** Initializes only @p m_JACKorASIO, use it only before any RtAudio instance is created. */
+		static void initJACKorASIO(bool useIt) { m_JACKorASIO = useIt; }
+#endif
     
     static void createRtAudio(); /** Creates RtAudio instance. Once for whole application */
 		
@@ -85,9 +94,9 @@ protected:
     
 		bool openStream();
     bool startStream();
-    void stopStream();
-    void closeStream();
-		void abortStream();
+    static void stopStream();
+    static void closeStream();
+		static void abortStream();
 		
 				/** Static instance of 'signal emitter'
 				 * It emits following signals:
@@ -120,6 +129,7 @@ private:
 		static callBackType										 m_cbIn, m_cbOut;
 		static TaudioObject										*m_ao;
 		static RtAudioCallback								 m_callBack;
+		static bool														 m_JACKorASIO;
 };
 
 #endif // TRTAUDIOABSTRACT_H

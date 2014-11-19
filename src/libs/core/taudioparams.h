@@ -46,6 +46,7 @@ public:
 		e_low = 2
   };
 	
+	bool JACKorASIO; // forces to use JACK under Linux or ASIO under Windows (if they are available)
 	
   bool INenabled; // is audio input enabled
   QString INdevName; // input device name

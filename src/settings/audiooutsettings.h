@@ -32,6 +32,7 @@ class QRadioButton;
 class AudioOutSettings : public QWidget
 {
     Q_OBJECT
+    
 public:
 	explicit AudioOutSettings(TaudioParams *aParams, QWidget *parent = 0);
 
@@ -45,16 +46,21 @@ public:
 		QString name;
 		unsigned char progNr;
 	};
-      /** A list of midi instruments used in Nootka */
-	QList<TmidiInstrListStruct> instruments;
+
+	QList<TmidiInstrListStruct> instruments; /** A list of midi instruments used in Nootka */
   
-      /** Generates devices list for inDeviceCombo QComboBox.*/
-  void generateDevicesList();
+  void generateDevicesList(); /** Generates devices list for inDeviceCombo QComboBox.*/
   void setDevicesCombo(); /** Grabs devices list from TrtAudioOut and fill audioOutDevListCombo */
+	void updateAudioDevList(); /** Grabs audio devices from TrtAudio and fill combo box */
+	
+	QCheckBox* rtApiCheckBox() { return m_JACK_ASIO_ChB; }
 	
 			/** This static method sets midi instr. or audio depends on given instrument
 			 * and previous midi state. */
 	static void adjustOutToInstrument(TaudioParams *out, int instr);
+	
+signals:
+	void rtApiChanged(); /** Emitted when user wants ASIO/JACK sound */
   
 public slots:
 	void whenInstrumentChanged(int instr);
@@ -68,9 +74,11 @@ private:
 	QCheckBox					*m_playInputChB, *m_playDetectedChB;
   TaudioParams 			*m_params;
   bool 							 m_listGenerated;
+	QCheckBox					*m_JACK_ASIO_ChB;
 	
 private slots:
 	void audioOrMidiChanged();
+	void JACKASIOSlot();
 
 };
 

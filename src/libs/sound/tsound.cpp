@@ -43,6 +43,7 @@ Tsound::Tsound(QObject* parent) :
 #if defined (Q_OS_WIN)
   gl = Tglob::glob();
 #endif
+	TrtAudio::initJACKorASIO(gl->A->JACKorASIO);
   if (gl->A->OUTenabled)
       createPlayer();
   else
