@@ -169,7 +169,6 @@ void TfirstRunWizzard::nextSlot() {
         gl->S->keySignatureEnabled = m_page3->useKeyChB->isChecked();
 				if (gl->instrument == e_bassGuitar) {
             gl->setTune(Ttune::bassTunes[0]);
-            gl->A->range = TaudioParams::e_low;
             gl->S->clef = Tclef::e_bass_F_8down;
             gl->A->audioInstrNr = (int)e_bassGuitar;
             gl->GfretsNumber = 20;

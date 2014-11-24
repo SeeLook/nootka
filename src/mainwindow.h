@@ -131,7 +131,7 @@ protected slots:
 				/** This slot is invoked when clef is changed by clicking score.
 				 * It adjust ambitus to score possibilities if clef is differ than default
 				 * or to instrument scale if clef backs to default */
-// 		void adjustAmbitus();
+		void adjustAmbitus();
 
 private:
 

@@ -69,10 +69,10 @@ public:
 		void updateAudioParams();
 		TaudioParams* audioParams() { return m_audioParams; }
     
-        /** Prints in console supported audio formats. */
-    static void printSupportedFormats(RtAudio::DeviceInfo &devInfo);
-    static void printSupportedSampleRates(RtAudio::DeviceInfo &devInfo);
-		static unsigned int bufferFrames() { return m_bufferFrames; }
+    static void printSupportedFormats(RtAudio::DeviceInfo &devInfo); /** Prints in console supported audio formats. */
+    static void printSupportedSampleRates(RtAudio::DeviceInfo &devInfo); /** Prints in console supported sample rates. */
+		static QString currentRtAPI(); /** Returns current API of rtAudio device. */
+		static unsigned int bufferFrames() { return m_bufferFrames; } /** Number of frames (samples) in single callback */
 		
 				/** Returns instance of RtAudio device. 
 				 * It is single instance for entire application */

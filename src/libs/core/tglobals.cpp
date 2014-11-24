@@ -274,7 +274,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
 		A->minDuration = cfg->value("minimalDuration", 0.09).toFloat();
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
-		A->range = (TaudioParams::Erange)cfg->value("pitchDetectRange", (int)TaudioParams::e_middle).toInt();
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
 		A->playDetected = cfg->value("playDetected", false).toBool();
@@ -419,7 +418,6 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("minimalVolume", A->minimalVol);
 			cfg->setValue("minimalDuration", A->minDuration);
 			cfg->setValue("a440Offset", A->a440diff);
-			cfg->setValue("pitchDetectRange", (int)A->range);
 			cfg->setValue("intonation", A->intonation);
 			cfg->setValue("forwardInput", A->forwardInput);
 			cfg->setValue("playDetected", A->playDetected);

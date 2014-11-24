@@ -43,7 +43,6 @@ void TglobalExamStore::storeSettings() {
     octaveInName = m_globals->S->octaveInNoteNameFormat;
 		clef = Tclef(m_globals->S->clef);
 // 		instrument = m_globals->instrument;
-		detectRange = (int)m_globals->A->range;
 		intonation = m_globals->A->intonation;
 		if (m_globals->A->midiEnabled)
 			playbackInstr = m_globals->A->midiInstrNr;
@@ -69,7 +68,6 @@ void TglobalExamStore::restoreSettings() {
 		m_globals->S->isSingleNoteMode = isSingleNoteMode;
 		m_globals->S->namesOnScore = namesOnScore;
 		m_globals->instrument = instrument;
-		m_globals->A->range = (TaudioParams::Erange)detectRange;
 		m_globals->A->intonation = intonation;
 		if (m_globals->A->midiEnabled)
 			m_globals->A->midiInstrNr = playbackInstr;
@@ -93,12 +91,6 @@ void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
 				if (!m_globals->A->INenabled) {
 					m_globals->A->INenabled = true;
 				}
-				if (level.loNote.chromatic() > Tnote(6, 0, 0).chromatic())
-						m_globals->A->range = TaudioParams::e_high;
-				else if (level.loNote.chromatic() > Tnote(5, -2, 0).chromatic())
-						m_globals->A->range = TaudioParams::e_middle;
-				else
-						m_globals->A->range = TaudioParams::e_low;
 		}
 		if (level.questionAs.isSound() && !m_globals->A->OUTenabled) {
 			m_globals->A->OUTenabled = true;

@@ -70,8 +70,6 @@ signals:
 	void rtApiChanged(); /** Emitted when user wants ASIO/JACK sound */
 	
 public	slots:
-			/** Occurs when tune of a guitar is changed and range of detecting pitches has to be adjusted. */
-	void whenLowestNoteChanges(Tnote loNote);
 	void tuneWasChanged(Ttune *tune);
 	void stopSoundTest(); /** Public method (slot) to stop sound test */
   
@@ -91,8 +89,7 @@ protected slots:
 	void JACKASIOSlot();
   
 private:
-    /** Calculates frequencies of strings related to a440diff 
-     * and sets status tip.*/
+    /** Calculates frequencies of strings related to a440diff and sets status tip.*/
   void getFreqStatusTip();
 	
       /** returns frequency of @param freq shifted by a440diff 
@@ -108,7 +105,6 @@ private:
   QComboBox 					*m_inDeviceCombo, *m_intonationCombo;
   QGroupBox 					*enableInBox, *modeGr, *midABox;
   QRadioButton 				*m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
-	QRadioButton				*highRadio, *middleRadio, *lowRadio;
 	QRadioButton				*m_upSemiToneRadio, *m_downsSemitoneRadio;
   QSpinBox 						*freqSpin, *durationSpin, *m_intervalSpin;
   TvolumeSlider 			*volumeSlider;

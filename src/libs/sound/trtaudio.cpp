@@ -56,7 +56,7 @@ void TrtAudio::createRtAudio() {
 #else
 		RtAudio::Api rtAPI;
 		if (m_JACKorASIO)
-      rtAPI = RtAudio::UNIX_JACK; // check is JACK possible and allow it
+      rtAPI = RtAudio::UNSPECIFIED; // check is JACK possible and allow it
     else
       rtAPI = RtAudio::LINUX_ALSA; // force ALSA
 #endif
@@ -67,7 +67,13 @@ void TrtAudio::createRtAudio() {
 #endif
 		m_rtAduio = new RtAudio(rtAPI);
     m_rtAduio->showWarnings(false);
-		QString rtApiTxt;
+	}
+}
+
+
+QString TrtAudio::currentRtAPI() {
+	QString rtApiTxt;
+	if (m_rtAduio) {
 		switch (m_rtAduio->getCurrentApi()) {
 			case RtAudio::WINDOWS_DS:
 				rtApiTxt = "Direct Sound";
@@ -87,13 +93,18 @@ void TrtAudio::createRtAudio() {
 			case RtAudio::LINUX_PULSE:
 				rtApiTxt = "pulseaudio";
 				break;
+			case RtAudio::RtAudio::MACOSX_CORE:
+				rtApiTxt = "CoreAudio";
+				break;
 			default:
 				rtApiTxt = "Undefined";
 				break;
 		}
-		qDebug() << "RtAudio API:" << rtApiTxt;
-	}
+	} else
+			rtApiTxt = "RtAudio API doesn't exist";
+	return rtApiTxt;
 }
+
 
 
 #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
@@ -334,9 +345,9 @@ bool TrtAudio::openStream() {
 								m_outDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_outParams->deviceId).name.data());
 						}
 						if (m_inParams)
-							qDebug() << "IN:" << m_inDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
+							qDebug() << currentRtAPI() << "IN:" << m_inDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
 						if (m_outParams)
-							qDebug() << "OUT:" << m_outDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
+							qDebug() << currentRtAPI() << "OUT:" << m_outDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
 						m_isOpened = true;
 					}
 					return true;

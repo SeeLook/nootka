@@ -182,7 +182,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
 		connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-// 		connect(score, SIGNAL(clefChanged(Tclef)), this, SLOT(adjustAmbitus()));
+		connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
     connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
 		connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
 		connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
@@ -585,7 +585,7 @@ void MainWindow::fixPitchViewPos() {
 	} else
 			score->setMaximumHeight(16777215);
 }
-
+*/
 
 void MainWindow::adjustAmbitus() {
 	if (!sound->sniffer)
@@ -605,7 +605,7 @@ void MainWindow::adjustAmbitus() {
 	} else
 		sound->setDefaultAmbitus();
 }
-*/
+
 
 
 //##########################################################################################

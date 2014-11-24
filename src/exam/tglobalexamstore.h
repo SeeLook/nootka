@@ -63,7 +63,6 @@ public:
   char 												fretsNumber;
   Tclef 											clef;
   Einstrument 								instrument;
-  int 												detectRange;
 	quint8											intonation;
 	int													playbackInstr;
 	bool												isSingleNoteMode;
