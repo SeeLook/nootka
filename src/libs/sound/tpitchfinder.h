@@ -83,6 +83,20 @@ public:
 		e_playing  // note is playing longer then minimal duration
 	};
 	
+	/** Those are levels of pitch detection ranges.
+		 * @p e_high - for violin, flute, piccolo - corresponds with treble clef.
+		 * 							It starts form about F in small octave.
+		 * @p e_middle - for guitars, cello and so - corresponds with treble dropped and bass clefs
+		 * 							It starts form about F in contra octave.
+		 * @p e_low - for bass guitar and double bass - corresponds with bass dropped clef
+		 * 							It is sufficient to detect lowest notes.
+		 */
+  enum Erange {
+		e_high = 0,
+		e_middle = 1,
+		e_low = 2
+  };
+	
 	MyTransforms myTransforms;
 	
 	TartiniParams* aGl() { return m_aGl; } /** global settings for pitch recognition. */

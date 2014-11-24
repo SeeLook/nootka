@@ -76,7 +76,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_volume(0.0),
     m_paused(false), m_stopped(true),
     m_loPitch(15), m_hiPitch(140),
-    m_noteWasStarted(false)
+    m_noteWasStarted(false),
+    m_currentRange(1)
 {
   m_instances << this;
   m_pitch = new TpitchFinder();
@@ -111,7 +112,7 @@ void TaudioIN::setAudioInParams() {
 	setMinimalVolume(audioParams()->minimalVol);
 	m_pitch->setMinimalDuration(audioParams()->minDuration);
 
-	m_pitch->setSampleRate(sampleRate(), audioParams()->range); // framesPerChunk is determined here
+	m_pitch->setSampleRate(sampleRate(), m_currentRange); // framesPerChunk is determined here
 	m_volume = 0.0;
 }
 
@@ -130,6 +131,21 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 	m_hiPitch = hiNote.chromatic() + 48;
 	m_loNote = loNote;
 	m_hiNote = hiNote;
+	TpitchFinder::Erange range = TpitchFinder::e_middle;
+	if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())
+		range = TpitchFinder::e_high;
+	else if (loNote.chromatic() > Tnote(5, -2, 0).chromatic())
+		range = TpitchFinder::e_middle;
+	else
+		range = TpitchFinder::e_low;
+	if ((int)range != m_currentRange) {
+		m_currentRange = (int)range;
+		bool isStop = isStoped();
+		stopListening();
+		m_pitch->setSampleRate(m_pitch->aGl()->rate, m_currentRange);
+		if (!isStop)
+			startListening();
+	}
 // 	qDebug() << "Ambitus set to:" << loNote.toText() << "--" << hiNote.toText();
 }
 

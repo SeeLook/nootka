@@ -124,23 +124,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		volumeSlider->setValue(m_glParams->minimalVol);
 		volumeSlider->setStatusTip(tr("Minimum volume of a sound to be pitch-detected"));
 	
-	lowRadio = new QRadioButton(tr("low"), m_2_params);
-		lowRadio->setStatusTip(tr("The lowest notes.<br>Suitable for bass guitar, double bass, etc."));
-	middleRadio = new QRadioButton(tr("middle"), m_2_params);
-		middleRadio->setStatusTip(tr("Notes above <b>A contra</b>.<br>Suitable for guitar, cello, human voice, etc."));
-	highRadio = new QRadioButton(tr("high"), m_2_params);
-		highRadio->setStatusTip(tr("Notes above <b>small g</b>.<br>Suitable for high pitched instruments such as flute, piccolo, etc."));
-	QButtonGroup *rangeGr = new QButtonGroup(m_2_params);
-		rangeGr->addButton(lowRadio);
-		rangeGr->addButton(middleRadio);
-		rangeGr->addButton(highRadio);
-	if (m_glParams->range == TaudioParams::e_low)
-		lowRadio->setChecked(true);
-	else if (m_glParams->range == TaudioParams::e_middle)
-		middleRadio->setChecked(true);
-	else
-		highRadio->setChecked(true);
-	
 	TintonationCombo *intoCombo = new TintonationCombo(m_2_params);
 		m_intonationCombo = intoCombo->accuracyCombo;
 		m_intonationCombo->setCurrentIndex(m_glParams->intonation);
@@ -150,13 +133,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		volLay->addWidget(volLabel);
 		volLay->addWidget(volumeSlider);
 	paramsLay->addLayout(volLay);
-	QHBoxLayout *rangeLay = new QHBoxLayout;
-		rangeLay->addWidget(lowRadio);
-		rangeLay->addWidget(middleRadio);
-		rangeLay->addWidget(highRadio);
-	QGroupBox *rangeBox = new QGroupBox(tr("Range of note pitches:"), m_2_params);
-		rangeBox->setLayout(rangeLay);
-	paramsLay->addWidget(rangeBox);
 	paramsLay->addWidget(intoCombo, 1, Qt::AlignCenter);
 	m_2_params->setLayout(paramsLay);
 		
@@ -319,9 +295,6 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 			m_upSemiToneRadio->setDisabled(false);
 			m_downsSemitoneRadio->setDisabled(false);
 			volumeSlider->setDisabled(false);
-			lowRadio->setDisabled(false);
-			middleRadio->setDisabled(false);
-			highRadio->setDisabled(false);
 			m_intonationCombo->setDisabled(false);
   } else {
 			pitchLab->setDisabled(false);
@@ -334,9 +307,6 @@ void AudioInSettings::setTestDisabled(bool disabled) {
 			m_downsSemitoneRadio->setDisabled(true);
 			modeGr->setDisabled(true);
 			volumeSlider->setDisabled(true);
-			lowRadio->setDisabled(true);
-			middleRadio->setDisabled(true);
-			highRadio->setDisabled(true);
 			durationSpin->setDisabled(true);
 			m_intonationCombo->setDisabled(true);
   }
@@ -357,12 +327,6 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 		params->detectMethod = 2;
   params->INenabled = enableInBox->isChecked();
   params->minimalVol = volumeSlider->value();
-	if (lowRadio->isChecked())
-			params->range = TaudioParams::e_low;
-	else if (middleRadio->isChecked())
-			params->range = TaudioParams::e_middle;
-	else
-			params->range = TaudioParams::e_high;
 	params->minDuration = (float)durationSpin->value() / 1000.0f;
 	params->intonation = m_intonationCombo->currentIndex();
 }
@@ -377,7 +341,6 @@ void AudioInSettings::restoreDefaults() {
 	m_inDeviceCombo->setCurrentIndex(0);
 	m_mpmRadio->setChecked(true);
 	volumeSlider->setValue(0.4); // It is multipled by 100
-	middleRadio->setChecked(true);
 	durationSpin->setValue(90);
 	m_intonationCombo->setCurrentIndex(3); // normal
 }
@@ -501,6 +464,8 @@ void AudioInSettings::testSlot() {
 				m_audioIn->updateAudioParams();
 				m_audioIn->setAudioInParams();
 		}
+	// ambitus is lowest note of instrument scale dropped on 2 major and highest Tartini note (140 in MIDI)
+		m_audioIn->setAmbitus(Tnote(m_tune->str(m_tune->stringNr()).chromatic() - 2), Tnote(93));
     testButt->setText(stopTxt);
 		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
     m_audioIn->startListening();
@@ -574,18 +539,6 @@ void AudioInSettings::intervalFromFreq(int bFreq) {
 
 void AudioInSettings::freqFromInterval(int interval) {
 	freqSpin->setValue(pitch2freq(69 + interval));
-}
-
-
-/** This is not so pretty (piano staff invokes low range) */
-void AudioInSettings::whenLowestNoteChanges(Tnote loNote) {
-	char noteNr = loNote.chromatic();
-	if (noteNr > Tnote(6, 0, 0).chromatic())
-		highRadio->setChecked(true);
-	else if (noteNr > Tnote(5, -2, 0).chromatic())
-		middleRadio->setChecked(true);
-	else
-		lowRadio->setChecked(true);
 }
 
 

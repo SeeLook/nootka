@@ -135,6 +135,7 @@ private:
 	bool 							m_storeNotes;
 	qreal 						m_loPitch, m_hiPitch;
 	bool							m_noteWasStarted;
+	int								m_currentRange; /** Current range of detected note - see @class TaudioParams */
 };
 
 #endif // TRTAUDIOIN_H

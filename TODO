@@ -46,8 +46,6 @@
 - make use of QWizard and adjust it to all news
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote
-ASIO & JACK
-- add buttons to switch them on and switch them off by default
 ----------------------------------------------------------------------------------------------------------------
 Score controlling buttons:
 	- tempo menu
@@ -93,6 +91,7 @@ TEXAMEXECUTOR
 - comparing exams (charts)
 - keep exam file in /tmp and restore it when crash or so
 - add sound during wizard and About dialog (???)
+- options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
 
 
 

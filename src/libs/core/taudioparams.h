@@ -32,20 +32,6 @@ class NOOTKACORE_EXPORT TaudioParams
 		
 public:
 	
-	/** Those are levels of pitch detection ranges.
-		 * @p e_high - for violin, flute, piccolo - corresponds with treble clef.
-		 * 							It starts form about F in small octave.
-		 * @p e_middle - for guitars, cello and so - corresponds with treble dropped and bass clefs
-		 * 							It starts form about F in contra octave.
-		 * @p e_low - for bass guitar and double bass - corresponds with bass dropped clef
-		 * 							It is sufficient to detect lowest notes.
-		 */
-  enum Erange {
-		e_high = 0,
-		e_middle = 1,
-		e_low = 2
-  };
-	
 	bool JACKorASIO; // forces to use JACK under Linux or ASIO under Windows (if they are available)
 	
   bool INenabled; // is audio input enabled
@@ -54,7 +40,6 @@ public:
   float minimalVol; // only above this value detected note is sending to Nootka
   float minDuration; // minimal duration of a sound above which it is detected
   int detectMethod; // pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum)
-	Erange range; // pitch detection range
 	quint8 intonation; // accuracy of intonation in detected note - corresponds with Eaccuracy
 // duplex mode
 	bool forwardInput; // if true, all captured audio data is pushed to output

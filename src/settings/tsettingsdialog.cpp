@@ -112,13 +112,8 @@ void TsettingsDialog::saveSettings() {
 			m_nameSett->saveSettings();
   if (m_guitarSett) {
 			m_guitarSett->saveSettings();
-			if (!m_audioSettingsPage) { // when no audio settings set pitch range according to clef for tune
-				if (m_guitarSett->lowestNote().chromatic() < Tnote(6, -2, 0).chromatic())
-						gl->A->range = TaudioParams::e_low;
-				else /** In fact, even treble clef requires middle scale, so high scale is ignored here*/
-						gl->A->range = TaudioParams::e_middle;
+			if (!m_audioSettingsPage) // when no audio settings set appropriate audio out instrument
 				gl->A->audioInstrNr = qBound(1, m_guitarSett->currentInstrument(), 3);
-			}
 	}
   if (m_examSett)
 			m_examSett->saveSettings();
@@ -228,7 +223,6 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
 			if (m_sndInSett) {
 					connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
-					connect(m_guitarSett, SIGNAL(lowestNoteChanged(Tnote)), m_sndInSett, SLOT(whenLowestNoteChanges(Tnote)));
 			}
       currentWidget = m_guitarSett;
       break;
@@ -248,8 +242,6 @@ void TsettingsDialog::changeSettingsWidget(int index) {
         m_sndInSett->generateDevicesList();
         m_sndOutSett->generateDevicesList();
 				if (m_guitarSett) { // update pitches range according to guitar settings state
-					connect(m_guitarSett, SIGNAL(lowestNoteChanged(Tnote)), m_sndInSett, SLOT(whenLowestNoteChanges(Tnote)));
-					m_sndInSett->whenLowestNoteChanges(m_guitarSett->lowestNote());
 					m_sndOutSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
 					m_sndInSett->tuneWasChanged(m_guitarSett->currentTune());
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
