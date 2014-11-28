@@ -86,6 +86,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_chartListCombo->addItem(tr("accidentals"));
   m_chartListCombo->addItem(tr("question type"));
   m_chartListCombo->addItem(tr("mistake"));
+	m_chartListCombo->addItem(tr("prepare time"));
+	m_chartListCombo->addItem(tr("attempts count"));
   headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
@@ -131,7 +133,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 #else
     modKey = "CTRL";
 #endif
-    m_chart->setInteractive(true);
+//     m_chart->setInteractive(true);
     QString helpTipText = "<br>" + tr("Press %1 button to select an exam from a file.").
             arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
             tr("Use %1 + mouse wheel or %2 buttons to zoom a chart.").
@@ -209,6 +211,16 @@ void TanalysDialog::setExam(Texam* exam) {
     enableComboItem(4, true);
   else
     enableComboItem(4, false);
+	if (m_exam->melodies()) {
+		if (m_exam->level()->answerIsSound())
+			enableComboItem(7, true); // 'prepare time' only for played answers
+		else 
+			enableComboItem(7, false);
+		enableComboItem(8, true);
+	} else {
+		enableComboItem(7, false);
+		enableComboItem(8, false);
+	}
   TtipChart::defaultClef = m_exam->level()->clef;
   createChart(m_chartSetts);
 }
@@ -411,35 +423,38 @@ void TanalysDialog::openRecentExam() {
 void TanalysDialog::analyseChanged(int index) {
   if (!m_exam)
     return;
-    
+	qDebug() << "index" << index << m_chartListCombo->currentText();
+	if (index)
+		m_settButt->setDisabled(false);
+	else
+		m_settButt->setDisabled(true);
   switch (index) {
     case 0:
       m_chartSetts.order = Tchart::e_byNumber;
-      m_settButt->setDisabled(true);
       break;
     case 1:
       m_chartSetts.order = Tchart::e_byNote;
-      m_settButt->setDisabled(false);
       break;
     case 2:
       m_chartSetts.order = Tchart::e_byFret;
-      m_settButt->setDisabled(false);
       break;
     case 3:
       m_chartSetts.order = Tchart::e_byKey;
-      m_settButt->setDisabled(false);
       break;
     case 4:
       m_chartSetts.order = Tchart::e_byAccid;
-      m_settButt->setDisabled(false);
       break;
     case 5:
       m_chartSetts.order = Tchart::e_byQuestAndAnsw;
-      m_settButt->setDisabled(false);
       break;
     case 6:
       m_chartSetts.order = Tchart::e_byMistake;
-      m_settButt->setDisabled(false);
+      break;
+		case 7:
+      m_chartSetts.order = Tchart::e_prepareTime;
+      break;
+		case 8:
+      m_chartSetts.order = Tchart::e_attemptsCount;
       break;
   }
   if (m_chartSetts.order == Tchart::e_byQuestAndAnsw || m_chartSetts.order == Tchart::e_byMistake) {
@@ -457,8 +472,6 @@ void TanalysDialog::analyseChanged(int index) {
 
 
 void TanalysDialog::testSlot() {
-// 	qDebug() << "Analyzer changed size" << m_chart->mapToScene(0, 0) << m_chart->viewport()->geometry();
-// 	m_chart->scene->update();
 //   QString testFile = gl->path + "/../../test.noo";
 //   loadExam(testFile);
 }

@@ -26,6 +26,7 @@
 #include <exam/texam.h>
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
+#include <exam/tattempt.h>
 #include <widgets/tquestionaswdg.h>
 #include <graphics/tgraphicstexttip.h>
 #include <tcolor.h>
@@ -40,26 +41,46 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
     TmainChart(exam, settings, parent)
 {
 // Determine maximal reaction time to prepare Y axis
-  quint16 maxTime = 0;
-  for(int i = 0; i < exam->count(); i++)
-      maxTime = qMax(maxTime, exam->question(i).time);
-  yAxis->setMaxValue((double)maxTime / 10.0);
+	if (settings.order == e_prepareTime) {
+			quint32 prepTime = 0;
+			for(int i = 0; i < exam->count(); i++)
+				prepTime = qMax(prepTime, exam->question(i).attempt(0)->prepareTime());
+			yAxis->setMaxValue((qreal)prepTime / 10.0);
+			yAxis->setUnit(TYaxis::e_prepareTime);
+	} else if (settings.order == e_attemptsCount) {
+			int attemptsNr = 0;
+			for(int i = 0; i < exam->count(); i++)
+				attemptsNr = qMax(attemptsNr, exam->question(i).attemptsCount());
+			yAxis->setMaxValue(attemptsNr, false);
+			yAxis->setUnit(TYaxis::e_attemptsCount);
+	} else {
+		quint16 maxTime = 0;
+		for(int i = 0; i < exam->count(); i++)
+				maxTime = qMax(maxTime, exam->question(i).time);
+		yAxis->setMaxValue((qreal)maxTime / 10.0);
+	}
   
-    if (settings.order == e_byNumber) {
-      xAxis->setAnswersList(currExam->answList(), currExam->level());
-      prepareChart(currExam->count());
-      m_mainLine = new TmainLine(currExam->answList(), this);
-      double aTime = 0 , prev = 0;
-      int firstCorrect = 0, okCount = 0;
-      for(int i = 0; i < exam->count(); i++) { // looking for first correct answer
-        if (!exam->question(i).isWrong() || (!exam->question(i).isWrong() && settings.inclWrongAnsw)) {
-          firstCorrect = i;
-          prev = exam->question(i).time;
-          okCount++;
-          aTime = prev;
-          break;
-        }
-      }
+	if (settings.order == e_byNumber || settings.order == e_prepareTime || settings.order == e_attemptsCount) {
+		xAxis->setAnswersList(currExam->answList(), currExam->level());
+		prepareChart(currExam->count());
+		TmainLine::EpointYvalue yPoint = TmainLine::e_questionTime;
+		if (settings.order == e_prepareTime)
+			yPoint = TmainLine::e_prepareTime;
+		else if (settings.order == e_attemptsCount)
+			yPoint = TmainLine::e_attemptsCount;
+		m_mainLine = new TmainLine(currExam->answList(), this, yPoint);
+		if (settings.order == e_byNumber) {
+			qreal aTime = 0 , prev = 0;
+			int firstCorrect = 0, okCount = 0;
+			for(int i = 0; i < exam->count(); i++) { // looking for first correct answer
+				if (!exam->question(i).isWrong() || (!exam->question(i).isWrong() && settings.inclWrongAnsw)) {
+					firstCorrect = i;
+					prev = exam->question(i).time;
+					okCount++;
+					aTime = prev;
+					break;
+				}
+			}
       int prevX = firstCorrect + 1;
       for(int i = firstCorrect + 1; i < exam->count(); i++) {
         if (exam->question(i).isWrong())
@@ -88,6 +109,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
           averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
               xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
       }
+		}
   }
   
   if (settings.order == e_byNote || settings.order == e_byFret ||
@@ -213,9 +235,15 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 			for (int i = 0; i < goodSize; i++) { 
         QGraphicsTextItem *qaText = getTextItem(30);
 				int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
-        QString hintText = 
-						TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->questionAs) + "?", nootFontSize) + 
-						"<br>" + TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->answerAs) + "!", nootFontSize);
+        QString hintText;
+				if (exam->melodies()) {
+					if (sortedLists[i].first()->questionAs == TQAtype::e_asNote)
+						hintText = TexTrans::playMelodyTxt();
+					else
+						hintText = TexTrans::writeMelodyTxt();
+				} else
+					hintText = TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->questionAs) + "?", nootFontSize) + 
+							"<br>" + TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->answerAs) + "!", nootFontSize);
         qaText->setHtml(hintText);
 				TgraphicsTextTip::alignCenter(qaText);
 				qreal sc = 1.0;

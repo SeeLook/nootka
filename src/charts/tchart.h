@@ -50,7 +50,10 @@ public:
       e_byMistake,
       e_byQuestAndAnsw, // both above
       e_byStyle,
-      e_byClef
+      e_byClef,
+			// melodies
+      e_prepareTime, // sorted by question number but prepare time is on Y axis
+			e_attemptsCount // sorted by question number but attempts count is on Y axis
     };
     
       /** Types of charts. */
