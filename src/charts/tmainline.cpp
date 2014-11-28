@@ -19,6 +19,7 @@
 #include "tmainline.h"
 #include <exam/texam.h>
 #include <exam/tgroupedqaunit.h>
+#include <exam/tattempt.h>
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tchart.h"
@@ -27,29 +28,34 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-
-TmainLine::TmainLine(QList< TQAunit >* answers, Tchart* chart) :
+TmainLine::TmainLine(QList<TQAunit>* answers, Tchart* chart, TmainLine::EpointYvalue yVal) :
   m_answers(answers),
   m_chart(chart)
 {  
   for(int i = 0; i < m_answers->size(); i++) {
-    double xPos = m_chart->xAxis->mapValue(i+1) + m_chart->xAxis->pos().x();
+    double xPos = m_chart->xAxis->mapValue(i + 1) + m_chart->xAxis->pos().x();
     TqaPtr tmpQA;
     tmpQA.qaPtr = &m_answers->operator[](i);
     tmpQA.nr = i + 1;
     m_points <<  new TquestionPoint(tmpQA);
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
-    m_points[i]->setPos(xPos, m_chart->yAxis->mapValue(m_answers->operator[](i).getTime()));
+		qreal yy = m_chart->yAxis->mapValue(m_answers->operator[](i).getTime()); // default - answer time 
+		if (yVal == e_prepareTime)
+			yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attempt(0)->prepareTime());
+		else if (yVal == e_attemptsCount)
+			yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attemptsCount());
+    m_points[i]->setPos(xPos, yy);
     if (i) {
       TstaffLineChart *line = new TstaffLineChart();
         m_chart->scene->addItem(line);
-      line->setLine(m_points[i-1]->pos(), m_points[i]->pos());
+      line->setLine(m_points[i - 1]->pos(), m_points[i]->pos());
       line->setZValue(45);
       m_lines << line;
     } 
   }  
 }
+
 
 TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
   m_chart(chart)
@@ -62,7 +68,7 @@ TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
   for(int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++) {
         double xPos = m_chart->xAxis->mapValue(cnt+1) + m_chart->xAxis->pos().x();
-        m_points <<  new TquestionPoint(listOfLists[i].operator[](j));
+        m_points << new TquestionPoint(listOfLists[i].operator[](j));
         m_chart->scene->addItem(m_points[cnt]);
         m_points[cnt]->setZValue(50);
         m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j).qaPtr->getTime()));

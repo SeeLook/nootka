@@ -19,6 +19,7 @@
 #include "sorting.h"
 #include <exam/tqaunit.h>
 #include <exam/tlevel.h>
+#include <exam/textrans.h>
 #include <widgets/tquestionaswdg.h>
 #include <tfingerpos.h>
 #include <tnoofont.h>
@@ -326,11 +327,19 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
   for (int q = 0; q < 4; q++) {
     for (int a = 0; a < 4; a++) {
       if (!qaTypesArr[q][a].isEmpty()) {
+				QString fDesc;
+				if (level->canBeMelody()) {
+					if (qaTypesArr[q][a].first()->questionAs == TQAtype::e_asNote)
+						fDesc = TexTrans::playMelodyTxt();
+					else
+						fDesc = TexTrans::writeMelodyTxt();
+				} else
+					fDesc = TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
+                TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs);
         qaTypesArr[q][a].resume( // short: symbols of types, full: texts
                 TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
                 TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
-                "<b>" + TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
-                TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs) + "</b>" );
+                "<b>" + fDesc + "</b>" );
         result << qaTypesArr[q][a];
       }
     }

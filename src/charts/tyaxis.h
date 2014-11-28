@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,15 +31,18 @@ public:
     /** Unit of an axis values. */
   enum Eunit {
     e_timeInSec, // time in seconds (default)
-    e_questionNr // number of questions
+    e_questionNr, // number of questions
+			// melodies only:
+    e_prepareTime, // time since question start to first played note
+		e_attemptsCount // number of attempts
   };
   
   TYaxis();
-  virtual ~TYaxis() {}
   
 
-      /** Maximum value of a data on Y axis. Needs update(). */
-  void setMaxValue(qreal val);
+      /** Maximum value of a data on Y axis. 
+			 * @p allowHalf determines when half of an unit vales can be displayed - it also depends on available space. */
+  void setMaxValue(qreal val, bool allowHalf = true);
   qreal maxValue() { return m_maxVal; }
   double mapValue(double val) { return length() - TabstractAxis::mapValue(val); }
   

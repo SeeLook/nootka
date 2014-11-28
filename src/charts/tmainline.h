@@ -38,9 +38,14 @@ class TQAunit;
  */
 class TmainLine
 {  
+	
 public:
-  
-  TmainLine(QList<TQAunit> *answers, Tchart *chart);
+	
+	enum EpointYvalue {
+		e_questionTime, e_prepareTime, e_attemptsCount		
+	}; /** Kind of data represented by Y value of a point */
+	
+  TmainLine(QList<TQAunit> *answers, Tchart *chart, EpointYvalue yVal = e_questionTime);
   TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart);
   virtual ~TmainLine();
   

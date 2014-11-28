@@ -29,42 +29,49 @@ TYaxis::TYaxis() :
   m_multi(1),
   m_halfTick(false)
 {
-    m_textPosOffset = (rectBoundText("X").height() / 4);
-    setUnit(e_timeInSec);
+	m_textPosOffset = (rectBoundText("X").height() / 4);
+	setUnit(e_timeInSec);
 }
 
 
-void TYaxis::setMaxValue(qreal val) {
-    m_maxVal = val;
-    qreal maxT = m_maxVal;
-    while (maxT > 99) {
-      m_multi = m_multi*10;
-      maxT = maxT / 10;
-    }
-    m_top = int(maxT) + 1 ;
-    m_loop = m_top;
-    m_multi2 = 1;
-    if (m_top > 9) {
-        m_loop = m_top / 10;
-        m_multi2 = 10;
-    }
-    axisScale = ((length() - (2 * arrowSize)) / (m_top*m_multi));
-    // check is enough place for half ticks
-    if ( ((mapValue((m_loop-1)*m_multi*m_multi2) - mapValue(m_loop*m_multi*m_multi2))) > m_textPosOffset*4)
-        m_halfTick = true;
-
+void TYaxis::setMaxValue(qreal val, bool allowHalf) {
+	m_maxVal = val;
+	qreal maxT = m_maxVal;
+	while (maxT > 99) {
+		m_multi = m_multi * 10;
+		maxT = maxT / 10;
+	}
+	m_top = int(maxT) + 1 ;
+	m_loop = m_top;
+	m_multi2 = 1;
+	if (m_top > 9) {
+			m_loop = m_top / 10;
+			m_multi2 = 10;
+	}
+	axisScale = ((length() - (2 * arrowSize)) / (m_top * m_multi));
+	if (allowHalf) { // check is enough place for half ticks
+		if ( ((mapValue((m_loop - 1) * m_multi * m_multi2) - mapValue(m_loop * m_multi * m_multi2))) > m_textPosOffset * 4)
+			m_halfTick = true;
+	}
 }
 
 
 void TYaxis::setUnit(TYaxis::Eunit unit) {
-    switch (unit) {
-      case e_timeInSec:
-        m_unitDesc = QObject::tr("time [s]", "unit of Y axis");
-        break;
-      case e_questionNr:
-        m_unitDesc = QApplication::translate("TanalysDialog", "Questions number") + " [ ]";
-        break;
-    }
+	switch (unit) {
+		case e_timeInSec:
+			m_unitDesc = QObject::tr("time [s]", "unit of Y axis");
+			break;
+		case e_questionNr:
+			m_unitDesc = QApplication::translate("TanalysDialog", "Questions number") + " [ ]";
+			break;
+		case e_prepareTime:
+			m_unitDesc = QObject::tr("Preparation time [s]");
+			break;
+		case e_attemptsCount:
+			m_unitDesc = QObject::tr("Attempts count")  + " [ ]";
+			break;
+	}
+	m_unit = unit;
 }
 
 
@@ -89,17 +96,17 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
     drawArrow(painter, QPointF(half, 0), false);
     
     double shift = 1.0;
-    if (m_halfTick && (m_unit == e_timeInSec || m_multi2 >= 10))
+    if (m_halfTick && (m_unit == e_timeInSec || m_unit == e_prepareTime || m_multi2 >= 10))
         shift = 0.5;
-    for (double i = shift; i <= m_loop; i=i+shift) {
-        double v= i*m_multi*m_multi2;
+    for (double i = shift; i <= m_loop; i += shift) {
+        double v= i * m_multi * m_multi2;
         painter->drawLine(half, mapValue(v), half - tickSize, mapValue(v));
         painter->drawText(half + 3, mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
     }
     // paint top tick only if there is free room
-    if ( ((mapValue(m_loop*m_multi*m_multi2) - mapValue(m_top*m_multi)) ) > m_textPosOffset*4) {
-        painter->drawLine(half, mapValue(m_top*m_multi), half - tickSize, mapValue(m_top*m_multi));
-        painter->drawText(half + 3, mapValue(m_top*m_multi) + m_textPosOffset, QString("%1").arg(m_top*m_multi));
+    if ( ((mapValue(m_loop * m_multi * m_multi2) - mapValue(m_top * m_multi)) ) > m_textPosOffset * 4) {
+        painter->drawLine(half, mapValue(m_top * m_multi), half - tickSize, mapValue(m_top * m_multi));
+        painter->drawText(half + 3, mapValue(m_top * m_multi) + m_textPosOffset, QString("%1").arg(m_top * m_multi));
     }
     QFont f = painter->font();
     f.setBold(true);
@@ -115,12 +122,11 @@ QRectF TYaxis::boundingRect() const{
 }
 
 
-void TYaxis::getYforGrid(QList< double >& yList) {
+void TYaxis::getYforGrid(QList<double>& yList) {
   yList.clear();
   double step = 1.0;
-  if (qAbs(mapValue(2*m_multi*m_multi2) - mapValue(m_multi*m_multi2)) > 30)
+  if (m_halfTick && m_unit != e_attemptsCount && qAbs(mapValue(2 * m_multi * m_multi2) - mapValue(m_multi * m_multi2)) > 30)
     step = 0.5;
-  for (double i = step; i <= m_loop; i += step) {
-    yList << mapValue(i*m_multi*m_multi2);
-  }
+  for (double i = step; i <= m_loop; i += step)
+    yList << mapValue(i * m_multi * m_multi2);
 }
