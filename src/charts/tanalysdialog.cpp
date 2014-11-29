@@ -222,6 +222,11 @@ void TanalysDialog::setExam(Texam* exam) {
 		enableComboItem(8, false);
 	}
   TtipChart::defaultClef = m_exam->level()->clef;
+	if (m_chartListCombo->model()->index((int)m_chartSetts.order, 0).flags() == 0) {
+		m_chartListCombo->setCurrentIndex(0); // set default order when combo item is disabled
+		analyseChanged(0);
+		return;
+	}
   createChart(m_chartSetts);
 }
 
@@ -423,7 +428,6 @@ void TanalysDialog::openRecentExam() {
 void TanalysDialog::analyseChanged(int index) {
   if (!m_exam)
     return;
-	qDebug() << "index" << index << m_chartListCombo->currentText();
 	if (index)
 		m_settButt->setDisabled(false);
 	else
