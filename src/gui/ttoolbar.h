@@ -35,6 +35,8 @@ class QAction;
 class TtoolBar : public QToolBar
 {
 
+	Q_OBJECT
+	
 public:
 	explicit TtoolBar(QMainWindow* mainWindow);
 	

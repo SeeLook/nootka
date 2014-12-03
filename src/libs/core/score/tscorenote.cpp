@@ -101,7 +101,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
 	}
-	m_emptyText = new QGraphicsSimpleTextItem(tr("enter\nnote").toUpper(), this);
+	m_emptyText = new QGraphicsSimpleTextItem(tr("enter note").toUpper().replace(" ", "\n"), this);
 		m_emptyText->setZValue(1);
 		QColor cc = qApp->palette().highlight().color();
 		cc.setAlpha(80);
