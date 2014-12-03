@@ -79,7 +79,7 @@ static QString writeMelodyTxt() { return QApplication::translate("Texam", "write
 static QString attemptTxt() { return QApplication::translate("Texam", "attempt"); } /** attempt */
 
 static QString attemptsTxt(int aCount) {
-		return QApplication::translate("Texam", "%n attempt(s)", "like: '4 attempts' or '121 attempts'", aCount);
+		return QApplication::translate("Texam", "%n attempt(s)", "like: '1 attempt' or '121 attempts'", aCount);
 	} /**  7 attempts (or other number given as a parameter) */
 	
 static QString playDescTxt() {
