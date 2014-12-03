@@ -36,8 +36,7 @@ public:
   
   virtual ~Tattempt();
 	
-	void add(quint32 mistake, quint32 time = 0); /** Adds time and mistake of a note to the lists. */
-	QList<quint32> times; /** List of answer times of every note in a melody */
+	void add(quint32 mistake); /** Adds time and mistake of a note to the lists. */
 	QList<quint32> mistakes; /** Type of mistake of every note in a melody */
 	
 			/** How many times user playbacks a question melody. Used for questions where melodies are guessed. */
@@ -45,7 +44,7 @@ public:
 	void questionWasPlayed() { m_playedCounter++; } /** Increases playback counter */
 	
 			/** @p TRUE when no mistakes and times in the lists and playback counter is 0 */
-	bool isEmpty() const { return times.isEmpty() && mistakes.isEmpty() && m_playedCounter == 0; }
+	bool isEmpty() const { return mistakes.isEmpty() && m_playedCounter == 0; }
 	
 	quint32 totalTime() const { return m_totalTime; } /** Total answer time of this attempt. */
 	void setTotalTime(quint32 tt) { m_totalTime = tt; }
