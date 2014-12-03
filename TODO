@@ -29,9 +29,6 @@
 
 - There is unused class TnotePixmap only with default clef - use it or delete
 
-- accidental of setting note in the score after played sound or clicked guitar has to depend
-  first of all on actual key signature in score (ie: flat keys - flats should be preferred)
-
 - tidy key signature in note pixmap (width depends on accidentals number)
 
 Charts:
