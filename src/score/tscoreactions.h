@@ -36,6 +36,8 @@ class TmainScore;
 class TscoreActions : public QObject
 {
 
+	Q_OBJECT
+	
 public:
 	explicit TscoreActions(TmainScore* sc);
 	
