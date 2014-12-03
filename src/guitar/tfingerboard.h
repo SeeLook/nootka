@@ -97,7 +97,7 @@ public:
 		QRectF fingerRect() const;
 
 signals:
-    void guitarClicked(Tnote note);
+    void guitarClicked(const Tnote&);
 
 
 protected:

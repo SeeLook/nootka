@@ -53,6 +53,24 @@
 extern Tglobals *gl;
 extern bool resetConfig;
 
+
+/** Converts given note to key signature accidentals or/and preferred accidental */
+void noteToKey(Tnote& n, TkeySignature k) {
+	bool convToFlat = gl->GpreferFlats;
+	if (k.value()) {
+		Tnote keyNote = k.inKey(n);
+		if (keyNote.isValid()) {
+			n = keyNote;
+			convToFlat = false;
+		}
+	}
+	if (convToFlat) {
+		if (n.note != 3 && n.note != 7) // eliminate Fb from E and Cb from B
+				n = n.showWithFlat();
+	}
+}
+
+
 QTimer *m_messageTimer;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -183,7 +201,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
 		connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 		connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
-    connect(guitar, SIGNAL(guitarClicked(Tnote)), this, SLOT(guitarWasClicked(Tnote)));
+    connect(guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
 		connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
 		connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
 		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
@@ -457,22 +475,27 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
 }
 
 
-void MainWindow::guitarWasClicked(Tnote note) {
-	sound->play(note);
-	score->setNote(note);
+void MainWindow::guitarWasClicked(const Tnote& note) {
+	Tnote n = note;
+	noteToKey(n, score->keySignature());
+	sound->play(n);
+	score->setNote(n);
 }
 
 
 void MainWindow::soundWasStarted(const Tnote& note) {
-  score->setNote(note);
+	Tnote n = note;
+  noteToKey(n, score->keySignature());
 	m_startedSoundId = score->currentIndex();
 // 	if (guitar->isVisible())
-	guitar->setFinger(note);
+		guitar->setFinger(note);
 }
 
 
 void MainWindow::soundWasFinished(Tchunk& chunk) {
-	score->setNote(m_startedSoundId, chunk.p());
+	Tnote n = chunk.p();
+	noteToKey(n, score->keySignature());
+	score->setNote(m_startedSoundId, n);
 // 	if (guitar->isVisible())
 		guitar->setFinger(chunk.p());
 }
