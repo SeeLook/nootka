@@ -28,7 +28,7 @@
 class QBoxLayout;
 class TvolumeView;
 class TintonationView;
-class QPushButton;
+class QCheckBox;
 class QTimer;
 
 /** 
@@ -48,9 +48,7 @@ public:
   void stopVolume();
   void setPitchColor(QColor col);
 	
-  QPushButton *pauseButt; /** Button to pause or activate pitch detection */
   bool isPaused() { return m_isPaused; }
-  void setIsVoice(bool isVoice);
   void resize(int fontSize);
   void setBgColor(const QColor &col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
@@ -78,16 +76,17 @@ protected:
   virtual void paintEvent(QPaintEvent* );
   
 private:
+	QCheckBox 				*m_pauseChBox; /** Button to pause or activate pitch detection */
   TvolumeView 			*m_volMeter;
   TintonationView 	*m_intoView;
   TaudioIN 					*m_audioIN;
   QTimer 						*m_volTimer;
-  QColor 						m_pitchColor, m_bgColor;
-  bool 							m_isPaused;
-  bool 							m_withButtons;
+  QColor 						 m_pitchColor, m_bgColor;
+  bool 							 m_isPaused;
+  bool 							 m_withButtons;
 	QBoxLayout 				*m_lay;
-  int 							m_hideCnt; // counter of m_volTimer loops.
-  float 						m_prevVolume, m_prevPitch;
+  int 							 m_hideCnt; // counter of m_volTimer loops.
+  float 						 m_prevVolume, m_prevPitch;
 };
 
 #endif // TPITCHVIEW_H

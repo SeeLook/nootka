@@ -24,7 +24,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QGroupBox>
-#include <QPushButton>
+#include <QCheckBox>
 #include <QPainter>
 #include <QApplication>
 #include <QDebug>
@@ -42,13 +42,12 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 	QHBoxLayout *outLay = new QHBoxLayout;
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
-			pauseButt = new QPushButton("n", this);
-      pauseButt->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-      pauseButt->setStatusTip(tr("Switch on/off pitch detection"));
-      pauseButt->setFont(QFont("nootka", 15));
-// 			pauseButt->hide();
+			m_pauseChBox = new QCheckBox(this);
+      m_pauseChBox->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+      m_pauseChBox->setStatusTip(tr("Switch on/off pitch detection"));
+			m_pauseChBox->setChecked(true);
   } else {
-    pauseButt = 0;
+    m_pauseChBox = 0;
   }
     
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
@@ -61,16 +60,18 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 		m_volMeter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
-	m_lay->addWidget(m_volMeter, 0, Qt::AlignBottom);
+	QHBoxLayout *volLay = new QHBoxLayout;
+		volLay->addWidget(m_volMeter, 0, Qt::AlignBottom);
+	m_lay->addLayout(volLay);
 	outLay->addLayout(m_lay);
 	if (m_withButtons)
-				outLay->addWidget(pauseButt, 0, Qt::AlignBottom);
+				volLay->addWidget(m_pauseChBox, 0, Qt::AlignHCenter);
   setLayout(outLay);
   
   m_volTimer = new QTimer(this);
-  connect(m_volTimer, SIGNAL(timeout()), this, SLOT(updateLevel()));
+  connect(m_volTimer, &QTimer::timeout, this, &TpitchView::updateLevel);
   if (m_withButtons) {
-    connect(pauseButt, SIGNAL(clicked()), this, SLOT(pauseClicked()));
+    connect(m_pauseChBox, &QCheckBox::clicked, this, &TpitchView::pauseClicked);
   }
 }
 
@@ -133,17 +134,11 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 
 void TpitchView::resize(int fontSize) {
 	fontSize = qRound((float)fontSize * 1.4);
-  if (m_withButtons) {
-#if defined(Q_OS_MAC)
-    pauseButt->setFont(QFont("nootka", (fontSize*2)/*/2*/));
-#else
-    pauseButt->setFont(QFont("nootka", fontSize * 1.3));
-#endif
-    pauseButt->setFixedWidth(1.5 * fontSize);
-    pauseButt->setFixedHeight(2.2 * fontSize);
-  }
   m_volMeter->setFixedHeight(qRound((float)fontSize * 0.9));
   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
+	if (m_withButtons) {
+		m_pauseChBox->setFixedSize(qRound((float)fontSize * 0.8), qRound((float)fontSize * 0.8));
+  }
 }
 
 
@@ -194,22 +189,19 @@ void TpitchView::updateLevel() {
 
 
 void TpitchView::pauseClicked() {
-    if (m_isPaused) {
-      pauseButt->setText("n"); // note symbol
-      m_isPaused = false;
-			if (m_intoView->accuracy() != TintonationView::e_noCheck)
-					m_intoView->setDisabled(false); // else is already disabled
-      m_audioIN->startListening();
-			startVolume();
-    } else {
-      pauseButt->setText("o"); // stroked note symbol
-      m_isPaused = true;
-      m_audioIN->stopListening();
-      stopVolume();
-      m_volMeter->setDisabled(true);
-      m_intoView->setDisabled(true);
-    }
-
+	if (m_isPaused) {
+		m_isPaused = false;
+		if (m_intoView->accuracy() != TintonationView::e_noCheck)
+				m_intoView->setDisabled(false); // else is already disabled
+		m_audioIN->startListening();
+		startVolume();
+	} else {
+		m_isPaused = true;
+		m_audioIN->stopListening();
+		stopVolume();
+		m_volMeter->setDisabled(true);
+		m_intoView->setDisabled(true);
+	}
 }
 
 
@@ -239,9 +231,9 @@ void TpitchView::paintEvent(QPaintEvent* )
 
 
 void TpitchView::stopTimerDelayed() {
-   m_volTimer->stop();
-   m_volMeter->setVolume(0.0);
-	 m_volMeter->setVolume(0.0); // it has to be called twice to reset
-   m_intoView->pitchSlot(0.0);
+	m_volTimer->stop();
+	m_volMeter->setVolume(0.0);
+	m_volMeter->setVolume(0.0); // it has to be called twice to reset
+	m_intoView->pitchSlot(0.0);
 }
 

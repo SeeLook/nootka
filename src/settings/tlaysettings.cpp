@@ -56,12 +56,13 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 // sound view
 	m_soundBox = new QGroupBox(tr("sound bar"), this);
 	m_soundBox->setCheckable(true);
-	m_soundBox->setChecked(m_layParams->soundViewEnabled);
 	TvolumeView *soundView = new TvolumeView(this);
-	soundView->setMinimalVolume(0.4);
+	soundView->setMinimalVolume(0.6);
 	soundView->setFixedHeight(soundView->minimumHeight());
-	soundView->setVolume(0.5);
+	soundView->setVolume(0.4);
 	m_soundBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	connect(m_soundBox, &QGroupBox::toggled, soundView, &TvolumeView::setEnabled);
+	m_soundBox->setChecked(m_layParams->soundViewEnabled);
 // score
 	m_scoreBox = new QGroupBox(this);
 	Tmelody *mel = new Tmelody();

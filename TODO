@@ -21,8 +21,15 @@
 - notes number in levels should be randomized, given value will be just a maximum 
 			and without rhythms odd number sounds better
 - changing tool bar auto-hiding cases sometimes locked melody menu
+
+Proxy widgets:
 - size of proxy points has to depend on screen resolution
 - fix blur of proxy corner widgets
+
+Sound views:
+- stop capturing audio state when sound views are hidden
+
+- bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
 
 - revert to native style under MacOs when Qt5
 
