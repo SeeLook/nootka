@@ -24,6 +24,7 @@
 #include <tscoreparams.h>
 #include <music/tnamestylefilter.h>
 #include "tpath.h"
+#include "tlayoutparams.h"
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -64,7 +65,7 @@ Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
 
-	version = "1.1.2 alpha";
+	version = "1.1.3 alpha";
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -77,6 +78,7 @@ Tglobals::Tglobals(bool fromTemp) :
 	E = new TexamParams();
 	A = new TaudioParams();
 	S = new TscoreParams();
+	L = new TlayoutParams();
 	
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
 	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -278,6 +280,14 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
 		A->playDetected = cfg->value("playDetected", false).toBool();
 	cfg->endGroup();
+	
+	cfg->beginGroup("layout");
+		L->toolBarAutoHide = cfg->value("toolBarAutoHide", false).toBool();
+		L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value("iconTextOnToolBar", 3).toInt());
+		L->hintsBarEnabled = cfg->value("hintsBarEnabled", true).toBool();
+		L->soundViewEnabled = cfg->value("soundViewEnabled", true).toBool();
+		L->guitarEnabled = cfg->value("guitarEnabled", true).toBool();
+	cfg->endGroup();
 }
 
 
@@ -306,7 +316,7 @@ void Tglobals::setTune(Ttune& t) {
 
 
 Tnote Tglobals::hiString() {
-		return m_tune->str(m_order[0] + 1); 
+	return m_tune->str(m_order[0] + 1);
 }
 
 
@@ -421,5 +431,13 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("intonation", A->intonation);
 			cfg->setValue("forwardInput", A->forwardInput);
 			cfg->setValue("playDetected", A->playDetected);
+	cfg->endGroup();
+	
+	cfg->beginGroup("layout");
+			cfg->setValue("toolBarAutoHide", L->toolBarAutoHide);
+			cfg->setValue("iconTextOnToolBar", (int)L->iconTextOnToolBar);
+			cfg->setValue("hintsBarEnabled", L->hintsBarEnabled);
+			cfg->setValue("soundViewEnabled", L->soundViewEnabled);
+			cfg->setValue("guitarEnabled", L->guitarEnabled);
 	cfg->endGroup();
 }

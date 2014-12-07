@@ -17,11 +17,15 @@
  ***************************************************************************/
 
 #include "ttoolbar.h"
+#include "tmelman.h"
 #include <help/texamhelp.h>
 #include <music/tnote.h>
 #include <tpath.h>
 #include <QAction>
 #include <QMainWindow>
+#include <QToolButton>
+#include <QWidgetAction>
+#include <QMenu>
 
 
 
@@ -54,6 +58,19 @@ TtoolBar::TtoolBar(QMainWindow* mainWindow) :
 	setMovable(false);
 
 }
+
+
+void TtoolBar::addMelodyButton(TmelMan* melBut) {
+	m_melButton = melBut;
+	addAction(m_melButton->melodyAction());
+}
+
+
+void TtoolBar::setMelodyButtonVisible(bool vis) {
+	m_melButton->melodyAction()->setVisible(vis);
+	m_melButton->button()->menu()->setDisabled(!vis);
+}
+
 
 
 void TtoolBar::actionsAfterExam() {
@@ -172,6 +189,24 @@ void TtoolBar::setAfterAnswer() {
 	if (tuneForkAct)
 		removeAction(tuneForkAct);
 }
+
+
+void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
+	if (iconStyle != toolButtonStyle()) {
+		setToolButtonStyle(iconStyle);
+		m_melButton->button()->setToolButtonStyle(iconStyle);
+	}
+	if (toolButtonStyle() == Qt::ToolButtonIconOnly)
+		iconS *= 1.3; // increase icons size when no text under
+	if (toolButtonStyle() != Qt::ToolButtonTextOnly) {
+		if (iconS != iconSize().width()) {
+			setIconSize(QSize(iconS, iconS));
+			m_melButton->button()->setIconSize(QSize(iconS, iconS));
+		}
+	}
+	adjustSize();
+}
+
 
 
 

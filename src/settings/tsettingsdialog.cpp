@@ -24,11 +24,13 @@
 #include "tglobalsettings.h"
 #include "audioinsettings.h"
 #include "audiooutsettings.h"
+#include "tlaysettings.h"
 #include <taudioparams.h>
 #include <trtaudio.h>
 #include <tmidiout.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
+#include <tpath.h>
 #include <tfirstrunwizzard.h>
 #include <QtWidgets>
 
@@ -43,6 +45,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	m_nameSett(0), m_guitarSett(0),
 	m_examSett(0), m_sndOutSett(0),
 	m_sndInSett(0), m_audioSettingsPage(0),
+	m_laySett(0),
 	m_7thNoteToDefaults(false),
 	m_mode(mode)
 {
@@ -77,6 +80,10 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 // 		navList->addItem(tr("Shortcuts"));
 //     navList->item(6)->setIcon(QIcon(gl->path + "picts/shortcuts.png"));
 //     navList->item(6)->setTextAlignment(Qt::AlignCenter);
+		navList->addItem(tr("Appearance"));
+    navList->item(6)->setIcon(QIcon(Tpath::img("appearance")));
+    navList->item(6)->setTextAlignment(Qt::AlignCenter);
+
     
 		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
 			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
@@ -135,29 +142,33 @@ void TsettingsDialog::saveSettings() {
 					gl->S->seventhIs_B = false;
 		}
 	}
+	if (m_laySett)
+			m_laySett->saveSettings();
 	gl->dumpToTemp();
 }
 
 
 void TsettingsDialog::restoreDefaults() {
-		if (stackLayout->currentWidget() == m_globalSett)
-			m_globalSett->restoreDefaults();
-		if (stackLayout->currentWidget() == m_scoreSett) {
-			m_scoreSett->restoreDefaults();
-			m_7thNoteToDefaults = true;
-		}
-		if (m_nameSett)
-			m_nameSett->restoreDefaults();
-		if (stackLayout->currentWidget() == m_guitarSett)
-			m_guitarSett->restoreDefaults();
-		if (stackLayout->currentWidget() == m_examSett)
-			m_examSett->restoreDefaults();
-		if (m_audioSettingsPage) {
-			if (m_audioTab->currentWidget() == m_sndInSett)
-				m_sndInSett->restoreDefaults();
-			else if (m_audioTab->currentWidget() == m_sndOutSett)
-				m_sndOutSett->restoreDefaults();
-		}
+	if (stackLayout->currentWidget() == m_globalSett)
+		m_globalSett->restoreDefaults();
+	if (stackLayout->currentWidget() == m_scoreSett) {
+		m_scoreSett->restoreDefaults();
+		m_7thNoteToDefaults = true;
+	}
+	if (m_nameSett)
+		m_nameSett->restoreDefaults();
+	if (stackLayout->currentWidget() == m_guitarSett)
+		m_guitarSett->restoreDefaults();
+	if (stackLayout->currentWidget() == m_examSett)
+		m_examSett->restoreDefaults();
+	if (m_audioSettingsPage) {
+		if (m_audioTab->currentWidget() == m_sndInSett)
+			m_sndInSett->restoreDefaults();
+		else if (m_audioTab->currentWidget() == m_sndOutSett)
+			m_sndOutSett->restoreDefaults();
+	}
+	if (stackLayout->currentWidget() == m_laySett)
+		m_laySett->restoreDefaults();
 }
 
 
@@ -251,6 +262,14 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       currentWidget = m_audioSettingsPage;
       break;
     }
+		case 6: {
+			if (!m_laySett) {
+				m_laySett = new TlaySettings(gl->L);
+				stackLayout->addWidget(m_laySett);
+			}
+			currentWidget = m_laySett;
+			break;
+		}
   }
   stackLayout->setCurrentWidget(currentWidget);
 }

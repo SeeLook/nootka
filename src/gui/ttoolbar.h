@@ -22,6 +22,7 @@
 #include <QToolBar>
 #include <QPointer>
 
+class TmelMan;
 class QMainWindow;
 class QAction;
 
@@ -30,7 +31,8 @@ class QAction;
  * This is main tool bar in Nootka. 
  * It handles all actions in the app.
  * Due to all widgets in Nootka are squeezed into QGraphicsView as items
- * it has no parent, @p QMainWindow in constructor is used as an owner of the actions
+ * it has no parent, @p QMainWindow in constructor is used as an owner of the actions.
+ * @p addMelodyButton(@class TmelMan) takes control over melody button icon size and its style.
  */
 class TtoolBar : public QToolBar
 {
@@ -66,6 +68,14 @@ public:
 			 * and @p repeatSndAct when @p TRUE and @p tuneForkAct when @p TRUE	 */
 	void setForQuestion(bool repeatSound, bool tuneFork);
 	void setAfterAnswer(); /** Removes actions required during answering */
+	
+	void addMelodyButton(TmelMan* melBut);
+	void setMelodyButtonVisible(bool vis); /** Hides or shows melody button */
+	
+	void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
+	
+private:
+	TmelMan					*m_melButton;
 	
 };
 

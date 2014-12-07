@@ -34,6 +34,7 @@
 #include <QLayout>
 #include <QScrollBar>
 #include <QGraphicsView>
+#include <QDesktopWidget>
 
 #include <QDebug>
 
@@ -326,6 +327,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (hh == 0)
 		return;
+// 	hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2.5);
 	scene()->setSceneRect(0.0, 0.0, ww, hh);
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())

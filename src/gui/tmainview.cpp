@@ -17,11 +17,15 @@
  ***************************************************************************/
 
 #include "tmainview.h"
+#include <animations/tcombinedanim.h>
+#include <tlayoutparams.h>
 #include <QtWidgets>
 
 
-TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget* scoreW, QWidget* guitarW, QWidget* parent) :
+TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
+										 QWidget* scoreW, QWidget* guitarW, QWidget* parent) :
 	QGraphicsView(parent),
+	m_layParams(layParams),
 	m_tool(toolW),
 	m_status(statLabW),
 	m_pitch(pitchW),
@@ -41,11 +45,10 @@ TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget
 	toolW->installEventFilter(this);
 	pitchW->installEventFilter(this);
 	guitarW->installEventFilter(this);
-	
+	toolW->setObjectName("toolBar");
 	
 	m_mainLay = new QBoxLayout(QBoxLayout::TopToBottom);
 		m_mainLay->setContentsMargins(1, 2, 1, 2);
-		m_mainLay->addWidget(m_tool);
 		m_statAndPitchLay = new QBoxLayout(QBoxLayout::LeftToRight);
 		  m_statAndPitchLay->addWidget(m_status);
 		  m_statAndPitchLay->addWidget(m_pitch);
@@ -59,10 +62,8 @@ TmainView::TmainView(QWidget* toolW, QWidget* statLabW, QWidget* pitchW, QWidget
 	w->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
 	w->setLayout(m_mainLay);
 	m_form = scene()->addWidget(w);
-
-// 	m_tool->hide();
-// 	m_guitar->hide();
-	
+	m_isAutoHide = !m_layParams->toolBarAutoHide;
+	setBarAutoHide(m_layParams->toolBarAutoHide);
 }
 
 
@@ -127,6 +128,43 @@ void TmainView::moveExamToName() {
 	}
 }
 
+
+void TmainView::setBarAutoHide(bool autoHide) {
+	if (autoHide != m_isAutoHide) {
+		m_isAutoHide = autoHide;
+		if (m_isAutoHide) {
+			m_mainLay->removeWidget(m_tool);
+			if (!m_proxyBar) {
+				m_proxyBar = scene()->addWidget(m_tool);
+				m_barLine = new QGraphicsLineItem;
+				scene()->addItem(m_barLine);
+				m_barLine->setGraphicsEffect(new QGraphicsBlurEffect());
+				m_animBar = new TcombinedAnim(m_proxyBar, this);
+				m_timer = new QTimer(this);
+				connect(m_timer, &QTimer::timeout, this, &TmainView::showToolBar);
+			} else {
+				m_proxyBar->setWidget(m_tool);
+			}
+			QGraphicsDropShadowEffect *barBlur = new QGraphicsDropShadowEffect();
+			barBlur->setColor(palette().highlight().color());
+			barBlur->setOffset(0, 0);
+			barBlur->setBlurRadius(15);
+			m_proxyBar->setZValue(200);
+			m_proxyBar->setGraphicsEffect(barBlur);
+			m_proxyBar->hide();
+			m_barLine->hide();
+			updateBarLine();
+		} else {
+			if (m_proxyBar) {
+				m_proxyBar->setWidget(0);
+				m_proxyBar->setGraphicsEffect(0);
+			}
+			m_mainLay->insertWidget(0, m_tool);
+		}
+	}
+}
+
+
 //##########################################################################################
 //#######################     EVENTS       ################################################
 //##########################################################################################
@@ -135,6 +173,7 @@ void TmainView::resizeEvent(QResizeEvent* event) {
 	Q_UNUSED (event)
 	m_form->setGeometry(0, 0, width(), height());
   scene()->setSceneRect(0, 0, width(), height());
+	updateBarLine();
 }
 
 
@@ -143,9 +182,54 @@ bool TmainView::eventFilter(QObject* ob, QEvent* event) {
 			QStatusTipEvent *tip = static_cast<QStatusTipEvent *>(event);
 			emit statusTip(tip->tip());
 	}
+	if (isAutoHide() && ob->objectName() == "toolBar" && event->type() == QEvent::Leave)
+			startHideAnim();
 	return QAbstractScrollArea::eventFilter(ob, event);
 }
 
+
+void TmainView::mouseMoveEvent(QMouseEvent* event) {
+	if (isAutoHide()) {
+		if (event->y() > 0 && event->y() < height() * 0.02) {
+			if (!m_barLine->isVisible()) {
+				m_barLine->show();
+				m_timer->start(400);
+			}
+		} else {
+				if (m_barLine->isVisible()) {
+					m_barLine->hide();
+				}
+				m_timer->stop();
+				if (m_proxyBar->isVisible() && event->y() > m_proxyBar->boundingRect().height())
+					startHideAnim();
+		}
+	}
+	QGraphicsView::mouseMoveEvent(event);
+}
+
+
+void TmainView::startHideAnim() {
+	m_animBar->setMoving(m_proxyBar->pos(), QPointF(m_proxyBar->x(), -m_proxyBar->boundingRect().height() - 15));
+	m_animBar->startAnimations();
+}
+
+
+void TmainView::updateBarLine() {
+	if (m_proxyBar) {
+			m_barLine->setLine(10.0, height() * 0.005, width() - 20.0, height() * 0.005);
+			m_barLine->setPen(QPen(palette().highlight().color(), height() * 0.005));
+	}
+}
+
+
+void TmainView::showToolBar() {
+	m_timer->stop();
+	m_proxyBar->show();
+	qreal xx = qBound<qreal>(2, mapFromGlobal(cursor().pos()).x() - m_proxyBar->boundingRect().width() / 2,
+													 width() - m_proxyBar->boundingRect().width() - 2);
+	m_animBar->setMoving(QPointF(xx, -m_proxyBar->boundingRect().height()), QPointF(xx, 0.0));
+	m_animBar->startAnimations();
+}
 
 
 

@@ -26,6 +26,7 @@
 #include <music/tnote.h>
 #include <music/tinstrument.h>
 
+class TlayoutParams;
 class TscoreParams;
 class Ttune;
 class QSettings;
@@ -108,6 +109,7 @@ public:
     QColor EnotBadColor; // #ff8000 (orange)
 
     TaudioParams *A;  /** Audio parameters */
+    TlayoutParams *L; /** Main window Layout params. */
     
 private:
     Ttune *m_tune; /** current guitar tune */

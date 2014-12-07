@@ -13,6 +13,7 @@ set(SETTINGS_SRC
   texamsettings.cpp
   tglobalsettings.cpp
   tguitarsettings.cpp
+  tlaysettings.cpp
   tnotationradiogroup.cpp
   tnotenamesettings.cpp
   tscoresettings.cpp

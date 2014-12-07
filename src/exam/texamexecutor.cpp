@@ -46,6 +46,7 @@
 #include <texamparams.h>
 #include <tscoreparams.h>
 #include <music/tmelody.h>
+#include <tlayoutparams.h>
 #include <gui/ttoolbar.h>
 #include <gui/tmainview.h>
 #include <QtWidgets>
@@ -952,8 +953,7 @@ void TexamExecutor::prepareToExam() {
 				levelMessageDelay = 7000;
 		QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
 		mW->bar->actionsToExam();
-		if (gl->instrument != e_noInstrument && !m_level.answerIsSound())
-					mW->pitchView->hide(); // hide pitchView when it is no necessary
+		
     disableWidgets();
 // connect all events to check an answer or display tip how to check
     connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
@@ -984,6 +984,8 @@ void TexamExecutor::prepareToExam() {
 		m_glStore->prepareGlobalsToExam(m_level);
 
 		mW->setSingleNoteMode(gl->S->isSingleNoteMode);
+		mW->pitchView->setVisible(gl->L->soundViewEnabled);
+		mW->guitar->setVisible(gl->L->guitarEnabled);
     mW->score->acceptSettings();
     mW->noteName->setEnabledEnharmNotes(false);
     mW->noteName->setEnabledDblAccid(m_level.withDblAcc);
@@ -1033,6 +1035,9 @@ void TexamExecutor::restoreAfterExam() {
 		}
 		
 // 		TtipChart::defaultClef = gl->S->clef;
+		mW->pitchView->setVisible(gl->L->soundViewEnabled);
+		mW->guitar->setVisible(gl->L->guitarEnabled);
+		mW->setSingleNoteMode(gl->S->isSingleNoteMode);
     mW->score->acceptSettings();
 		mW->score->enableAccidToKeyAnim(true);
     mW->noteName->setEnabledEnharmNotes(false);
@@ -1044,7 +1049,6 @@ void TexamExecutor::restoreAfterExam() {
 
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);
-		mW->pitchView->show();
 
     if (m_canvas)
         m_canvas->deleteLater();

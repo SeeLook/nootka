@@ -20,6 +20,9 @@
 - when new staff is automatically added selected note is wrong
 - notes number in levels should be randomized, given value will be just a maximum 
 			and without rhythms odd number sounds better
+- changing tool bar auto-hiding cases sometimes locked melody menu
+- size of proxy points has to depend on screen resolution
+- fix blur of proxy corner widgets
 
 - revert to native style under MacOs when Qt5
 
@@ -31,6 +34,10 @@
 
 - tidy key signature in note pixmap (width depends on accidentals number)
 
+- vertical name layout is probably unused - clear it then
+
+- store movable exam tips position for every type of an answer
+
 Charts:
 	- points (notes) shadow changes with zoom - fix it
 	- zoom with CTRL+scroll moves a chart as well - fix it
@@ -39,7 +46,8 @@ Charts:
 ==== NEW FEATURES ================================================================
 - increase precision of exam timers - regressions risk...
 - add blinking of settings icon(action) instead of expert check boxes in old versions
-- let's note range will figured automatically by pitch detection ambitus 
+- enable/disable animations option
+- let's note range will figure automatically by pitch detection ambitus 
   but add options for ambitus: all notes, instrument scale, visible in score 
 - add option for configuring fret marks (dots)
 - make exam summary pretty
