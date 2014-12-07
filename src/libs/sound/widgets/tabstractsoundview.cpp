@@ -19,6 +19,7 @@
 #include "tabstractsoundview.h"
 #include <math.h>
 
+
 QColor TabstractSoundView::startColor = Qt::green;
 QColor TabstractSoundView::middleColor = Qt::yellow;
 QColor TabstractSoundView::endColor = Qt::red;
@@ -35,9 +36,10 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
 
 void TabstractSoundView::setDisabled(bool isDisabled){
   QWidget::setDisabled(isDisabled);
-  if (isDisabled)
+  if (isDisabled) {
     tc = palette().color(QPalette::Disabled, QPalette::Text);
-  else
+		tc.setAlpha(150);
+	} else
     tc = palette().color(QPalette::Active, QPalette::Text);
 }
 
