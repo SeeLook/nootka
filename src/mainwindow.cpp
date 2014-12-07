@@ -425,7 +425,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
 //         examResults->show();
 //         ex = new TexamExecutor(this, "", &m_level); // start exam
 //     } else
-//         sound->go(); // restore pitch detection
+        sound->go(); // restore pitch detection
 }
 
 
@@ -491,7 +491,8 @@ void MainWindow::guitarWasClicked(const Tnote& note) {
 void MainWindow::soundWasStarted(const Tnote& note) {
 	Tnote n = note;
   noteToKey(n, score->keySignature());
-	m_startedSoundId = score->currentIndex();
+	score->setNote(n);
+	m_startedSoundId = qMax<int>(score->currentIndex(), 0);
 	if (guitar->isVisible())
 		guitar->setFinger(note);
 }

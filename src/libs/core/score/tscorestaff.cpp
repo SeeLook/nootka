@@ -108,8 +108,8 @@ int TscoreStaff::noteToPos(const Tnote& note)	{
 		 * 3) Subtraction of them gives position of the note on staff with current clef and it is displayed 
 		 * when this value is in staff scale. */
 void TscoreStaff::setNote(int index, const Tnote& note) {
-	Tnote prevNote = *getNote(index);
 	if (index >= 0 && index < m_scoreNotes.size()) {
+		Tnote prevNote = *getNote(index);
 		if (note.note)
 				m_scoreNotes[index]->setNote(noteToPos(note), (int)note.alter, note);
 		else
