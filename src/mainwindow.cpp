@@ -22,6 +22,7 @@
 #include <tprocesshandler.h>
 #include <tscoreparams.h>
 #include <music/tchunk.h>
+#include <tlayoutparams.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include "score/tmainscore.h"
@@ -182,8 +183,8 @@ MainWindow::MainWindow(QWidget *parent) :
 // #endif
 
 		m_melButt = new TmelMan(score);
-		bar->addAction(m_melButt->melodyAction());
-		innerWidget = new TmainView(bar, m_statLab, pitchView, score, guitar, this);
+		bar->addMelodyButton(m_melButt);
+		innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, this);
 		setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
     m_levelCreatorExist = false;
@@ -231,6 +232,8 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::setStatusMessage(const QString& msg) {
+	if (!gl->L->hintsBarEnabled)
+		return;
 	if (!m_lockStat)
 			m_statLab->setText("<center>" + msg + "</center>");
 	else
@@ -240,6 +243,8 @@ void MainWindow::setStatusMessage(const QString& msg) {
 
 
 void MainWindow::setStatusMessage(const QString& msg, int time) {
+	if (!gl->L->hintsBarEnabled)
+		return;
 	m_prevMsg = m_statusText;
 	m_statLab->setText("<center>" + msg + "</center>");
 	m_lockStat = true;
@@ -270,10 +275,8 @@ void MainWindow::clearAfterExam(int examState) {
 	innerWidget->takeExamViews();
 	progress = 0;
 	examResults = 0;
-	if (score->insertMode() != TmultiScore::e_single) {
-		m_melButt->melodyAction()->setVisible(true);
-		m_melButt->button()->menu()->setDisabled(false);
-	}
+	if (score->insertMode() != TmultiScore::e_single)
+		bar->setMelodyButtonVisible(true);
 // 		nootLabel->show();
 	updateSize(innerWidget->size());
 }
@@ -366,16 +369,19 @@ void MainWindow::createSettingsDialog() {
 // 								noteName->setNoteName(nList[0]);
 // 				}
 // 			}
-			if (gl->instrument != e_noInstrument) {
+			if (gl->L->guitarEnabled && gl->instrument != e_noInstrument)
 					guitar->acceptSettings(); //refresh guitar
-			}
-			if (gl->hintsEnabled) {
-				bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-			} else {
-				m_prevBg = m_curBG;
-				setStatusMessage(m_prevMsg);
-				bar->setToolButtonStyle(Qt::ToolButtonIconOnly);				
-			}
+			bar->setBarIconStyle(gl->L->iconTextOnToolBar, bar->iconSize().width());
+			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
+			m_statLab->setVisible(gl->L->hintsBarEnabled);
+			pitchView->setVisible(gl->L->soundViewEnabled); // TODO - stop receiving audio signals
+			guitar->setVisible(gl->L->guitarEnabled); // TODO - delete guitar
+// 			if (gl->hintsEnabled) {
+// 				
+// 			} else {
+// 				m_prevBg = m_curBG;
+// 				setStatusMessage(m_prevMsg);
+// 			}
 			m_isPlayerFree = true;
 	} else { // settings not accepted
 // 			delete settings;
@@ -427,8 +433,7 @@ void MainWindow::startExamSlot() {
 	if (score->insertMode() != TmultiScore::e_single) {
 		if (score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing when played
-		m_melButt->button()->menu()->setDisabled(true);
-		m_melButt->melodyAction()->setVisible(false);
+		bar->setMelodyButtonVisible(false);
 	}
 	sound->stopPlaying();
 	examResults = new TexamView();
@@ -470,7 +475,7 @@ void MainWindow::noteWasClicked(int index, Tnote note) {
 	Q_UNUSED(index)
 	if (m_isPlayerFree)
 			sound->play(note);
-// 		if (guitar->isVisible())
+		if (guitar->isVisible())
 	guitar->setFinger(note);
 }
 
@@ -487,7 +492,7 @@ void MainWindow::soundWasStarted(const Tnote& note) {
 	Tnote n = note;
   noteToKey(n, score->keySignature());
 	m_startedSoundId = score->currentIndex();
-// 	if (guitar->isVisible())
+	if (guitar->isVisible())
 		guitar->setFinger(note);
 }
 
@@ -496,7 +501,7 @@ void MainWindow::soundWasFinished(Tchunk& chunk) {
 	Tnote n = chunk.p();
 	noteToKey(n, score->keySignature());
 	score->setNote(m_startedSoundId, n);
-// 	if (guitar->isVisible())
+	if (guitar->isVisible())
 		guitar->setFinger(chunk.p());
 }
 
@@ -641,18 +646,22 @@ void MainWindow::updateSize(QSize newS) {
 	if (m_statFontSize < 0)
 		return;
 // 	qDebug() << "updateSize()";
-	pitchView->setFixedWidth(newS.width() * 0.4);
-	pitchView->resize(m_statFontSize);
-// 	nootBar->setFixedWidth(newS.width());
+	if (gl->L->soundViewEnabled) {
+		if (gl->L->hintsBarEnabled)
+			pitchView->setFixedWidth(newS.width() * 0.4);
+		else {
+			pitchView->setFixedWidth(newS.width());
+			// TODO set horizontal layout
+		}
+		pitchView->resize(m_statFontSize);
+	}
+// 	bar->setFixedWidth(newS.width());
 #if defined (Q_OS_ANDROID)
 	int barIconSize = qMin(newS.width(), newS.height()) / 10;
 #else
 	int barIconSize = qMin(newS.width(), newS.height()) / 20;
 #endif
-	bar->setIconSize(QSize(barIconSize, barIconSize));
-	m_melButt->button()->setIconSize(bar->iconSize());
-	bar->adjustSize();
-// 	nootBar->setIconSize(QSize(newS.height() / 22, height() / 22));	
+	bar->setBarIconStyle(bar->toolButtonStyle(), barIconSize);
 	int baseH = qMin(newS.height(), newS.width());
 	if (score->insertMode() == TmultiScore::e_single)
 		noteName->setMaximumWidth(newS.width() / 2);
@@ -685,15 +694,7 @@ void MainWindow::updateSize(QSize newS) {
 	guitar->setFixedHeight((newS.height() - bar->height()) * 0.25);
 // 	setWidgetsFont();
 	
-	if (gl->instrument != e_noInstrument) {
-// 		pitchView->resize(m_statFontSize);
-// 		if (m_pitchContainer) {
-// 			m_pitchContainer->layout()->removeWidget(pitchView);
-// 			m_pitchContainer->deleteLater();
-// 			m_pitchContainer = 0;
-// 			guitar->show();
-// 			m_rightLay->addWidget(pitchView);
-// 		}
+	if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
 		QPixmap bgPix;
 		qreal guitH;
 		qreal ratio;
@@ -712,29 +713,7 @@ void MainWindow::updateSize(QSize newS) {
 			ratio = guitH / bgPix.height();
 			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
 		}
-		// 			if (gl->instrument == e_classicalGuitar) {
-// 				QPixmap rosePix(gl->path + "picts/rosette.png"); // size 341x281
-// 				m_rosettePixmap = rosePix.scaled(341 * ratio, 281 * ratio, Qt::KeepAspectRatio);
-// 	} else { // no guitar - pitch view instead
-// 			pitchView->resize(m_statFontSize * 1.7);
-// 			if (!m_pitchContainer) {
-// 				guitar->hide();
-// 				m_pitchContainer = new QWidget(innerWidget);
-// 				m_pitchContainer->setObjectName("m_pitchContainer");
-// 				m_pitchContainer->setStyleSheet("QWidget#m_pitchContainer {" + Tcolor::bgTag(palette().window().color()) + 
-// 					"border-radius: 10px;" + QString("background-image: url(%1);}").arg(gl->path + "picts/scoresettbg.png"));
-// 				m_rightLay->removeWidget(pitchView);
-// 				QVBoxLayout *pitchLay = new QVBoxLayout;
-// 				pitchLay->addStretch(1);
-// 				pitchLay->addWidget(pitchView);
-// 				pitchLay->addStretch(1);
-// 				m_pitchContainer->setLayout(pitchLay);
-// 				innerWidget->layout()->addWidget(m_pitchContainer);
-// 			}
 	}
-// 	if (m_pitchContainer)
-// 		m_pitchContainer->setFixedHeight((height() - nootBar->height()) * 0.25);
-// 	
 	setUpdatesEnabled(true);
 // 	fixPitchViewPos();
 	QTimer::singleShot(2, this, SLOT(update()));
@@ -762,7 +741,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 */
 
 void MainWindow::paintEvent(QPaintEvent* ) {
-		if (gl->instrument != e_noInstrument) {
+		if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
 			QPainter painter(this);
 			if (!gl->GisRightHanded) {
 					painter.translate(width(), 0);

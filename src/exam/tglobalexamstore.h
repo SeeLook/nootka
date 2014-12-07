@@ -68,6 +68,7 @@ public:
 	bool												isSingleNoteMode;
 	bool												namesOnScore;
 	bool												OUTenabled,	INenabled;
+	bool												showSoundView, showGuitar;
 	
 private:
 	Tglobals *m_globals;

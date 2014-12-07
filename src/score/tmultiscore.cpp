@@ -262,12 +262,12 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 // 	if (ww < 300)
 //       return;
 	if (m_inMode == e_single) {
-		if (ww < 300)
+		if (ww < 300 || hh < 200)
       return;
 		TsimpleScore::resizeEvent(event);
 // 		QTimer::singleShot(10, this, SLOT(resizeSlot()));
 	} else {
-		if (ww < 400)
+		if (ww < 400 || hh < 200)
       return;
 		QList<TscoreNote*> allNotes;
 		for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
@@ -276,7 +276,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 		qreal staffOff = 0.0;
 		if (staff()->isPianoStaff())
 			staffOff = 1.1;
-		hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
+		hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2.5);
 		qreal factor = (((qreal)hh / (staff()->height() + 0.4)) / transform().m11()) / m_scale;
 		scale(factor, factor);
 		int stavesNumber; // how many staves are needed
