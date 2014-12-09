@@ -19,10 +19,13 @@
 #include "tnootkalabel.h"
 #include <QGraphicsPixmapItem>
 #include <QGraphicsColorizeEffect>
+#include <QMouseEvent>
 
 
-TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent, QColor bgColor) :
-  QGraphicsView(parent)
+TnootkaLabel::TnootkaLabel(const QString& pixmapPath, QWidget* parent, QColor bgColor, const QString& version) :
+  QGraphicsView(parent),
+  m_bgColor(bgColor),
+  m_hoverColor(-1)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -30,20 +33,65 @@ TnootkaLabel::TnootkaLabel(QString pixmapPath, QWidget* parent, QColor bgColor) 
     setStyleSheet(("background: transparent; border-radius: 10px;"));
     setRenderHint(QPainter::TextAntialiasing, true);
 
-    m_scene = new QGraphicsScene(this);
-    setScene(m_scene);
+    QGraphicsScene *scene = new QGraphicsScene(this);
+    setScene(scene);
     
-    QGraphicsPixmapItem *pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
-    m_scene->addItem(pixItem);
-    resize(pixItem->pixmap().size());
-    QGraphicsColorizeEffect *m_effect = new QGraphicsColorizeEffect();
-    if (bgColor == -1)
-        bgColor = palette().window().color();
-    m_effect->setColor(bgColor);
-    pixItem->setGraphicsEffect(m_effect);
-
+    m_pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
+		m_pixItem->setTransformationMode(Qt::SmoothTransformation);
+    scene->addItem(m_pixItem);
+		if (!version.isEmpty()) {
+			QGraphicsSimpleTextItem *ver = new QGraphicsSimpleTextItem(version);
+			scene->addItem(ver);
+			ver->setBrush(Qt::white);
+			ver->setZValue(255);
+			ver->setScale((m_pixItem->pixmap().height() / 3.5) / ver->boundingRect().height());
+			ver->setPos(m_pixItem->boundingRect().width() / 7.0, 
+									m_pixItem->pixmap().height() - ver->boundingRect().height() * ver->scale());
+		}
+		if (parent && parent->height() > m_pixItem->pixmap().height())
+			resize(m_pixItem->pixmap().size());
+		else {
+			qreal factor = (qreal)parent->height() / (qreal)m_pixItem->pixmap().height();
+			scale(factor, factor);
+		}
+// 		setMaximumSize(m_pixItem->pixmap().size());
+    m_effect = new QGraphicsColorizeEffect();
+    if (m_bgColor == -1)
+        m_bgColor = palette().window().color();
+    m_effect->setColor(m_bgColor);
+    m_pixItem->setGraphicsEffect(m_effect);
+		setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
-TnootkaLabel::~TnootkaLabel() {}
+//#################################################################################################
+//###################              EVENTS              ############################################
+//#################################################################################################
+
+bool TnootkaLabel::event(QEvent* event) {
+	if (m_hoverColor != -1) {
+		if (event->type() == QEvent::Enter)
+			m_effect->setColor(m_hoverColor);
+		else if (event->type() == QEvent::Leave)
+			m_effect->setColor(m_bgColor);
+	}
+	return QGraphicsView::event(event);
+}
+
+
+void TnootkaLabel::mousePressEvent(QMouseEvent* event) {
+	if (event->button() == Qt::LeftButton)
+		emit clicked();
+}
+
+
+void TnootkaLabel::resizeEvent(QResizeEvent* event) {
+	if (height() < m_pixItem->pixmap().height()) {
+		qreal factor = ((qreal)height() / (qreal)m_pixItem->pixmap().height()) / transform().m11();
+		scale(factor, factor);
+		setMinimumWidth(m_pixItem->pixmap().width() * transform().m11());
+	}
+	QGraphicsView::resizeEvent(event);
+}
+
 
 

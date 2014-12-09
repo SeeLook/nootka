@@ -23,20 +23,36 @@
 #include <QWidget>
 #include <QGraphicsView>
 
+class QGraphicsColorizeEffect;
 
 /** 
  * This is QGraphicsView with given image (and its size)
- * colored with given color (palette().window().color() by default)
+ * colored with given color (palette().window().color() by default).
+ * When @setHoverColor() is called then given color is set when mouse is over
  */
 class NOOTKAMISC_EXPORT TnootkaLabel : public QGraphicsView
 {
 
+	Q_OBJECT
+	
 public:
-    TnootkaLabel(QString pixmapPath, QWidget *parent = 0, QColor bgColor= -1);
-    virtual ~TnootkaLabel();
+	TnootkaLabel(const QString& pixmapPath, QWidget *parent = 0, QColor bgColor= -1, const QString& version = "");
+	
+	void setHoverColor(const QColor& hoverCol) { m_hoverColor = hoverCol; } /** Color when mouse is over */
+
+signals:
+	void clicked();
+		
+protected:
+	virtual void resizeEvent(QResizeEvent* event);
+	virtual void mousePressEvent(QMouseEvent* event);
+	virtual bool event(QEvent* event);
     
 private:
-    QGraphicsScene *m_scene;
+	QGraphicsPixmapItem 					*m_pixItem;
+	QGraphicsColorizeEffect 			*m_effect;
+	QColor												 m_bgColor, m_hoverColor;
+	
 };
 
 #endif // TNOOTKALABEL_H

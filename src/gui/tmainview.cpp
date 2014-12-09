@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tmainview.h"
+#include "ttoolbar.h"
 #include <animations/tcombinedanim.h>
 #include <tlayoutparams.h>
 #include <QtWidgets>
@@ -154,12 +155,14 @@ void TmainView::setBarAutoHide(bool autoHide) {
 			m_proxyBar->hide();
 			m_barLine->hide();
 			updateBarLine();
+			static_cast<TtoolBar*>(m_tool)->setProxy(m_proxyBar);
 		} else {
 			if (m_proxyBar) {
 				m_proxyBar->setWidget(0);
 				m_proxyBar->setGraphicsEffect(0);
 			}
 			m_mainLay->insertWidget(0, m_tool);
+			static_cast<TtoolBar*>(m_tool)->setProxy(0);
 		}
 	}
 }

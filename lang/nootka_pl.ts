@@ -2453,7 +2453,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="68"/>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
-        <translation>Zarówno interfejsu programu jak i działania zapisu nutowego. Po prostu klikaj w elementy okna programu i ucz się. Jeżeli masz jakiś mikrofon lub kamerę internetową.również możesz grać lub śpiewać.</translation>
+        <translation>Zarówno interfejsu programu jak i działania zapisu nutowego. Po prostu klikaj w elementy okna programu i ucz się. Jeżeli masz jakiś mikrofon lub kamerę internetową. również możesz grać lub śpiewać.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="69"/>

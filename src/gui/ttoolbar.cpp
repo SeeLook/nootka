@@ -19,18 +19,22 @@
 #include "ttoolbar.h"
 #include "tmelman.h"
 #include <help/texamhelp.h>
+#include <tnootkalabel.h>
 #include <music/tnote.h>
 #include <tpath.h>
+#include <tcolor.h>
 #include <QAction>
 #include <QMainWindow>
 #include <QToolButton>
 #include <QWidgetAction>
 #include <QMenu>
+#include <QGraphicsProxyWidget>
 
 
 
-TtoolBar::TtoolBar(QMainWindow* mainWindow) :
-	QToolBar(0)
+TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
+	QToolBar(0),
+	m_proxy(0)
 {
 	settingsAct = new QAction(tr("Settings"), this);
 	settingsAct->setStatusTip(tr("Application preferences"));
@@ -40,9 +44,28 @@ TtoolBar::TtoolBar(QMainWindow* mainWindow) :
 	analyseAct->setIcon(QIcon(Tpath::img("charts")));
 	analyseAct->setStatusTip(tr("Analysis of exam results"));
 
+#if defined (Q_OS_ANDROID)
 	aboutAct = new QAction(tr("About"), this);
 	aboutAct->setStatusTip(tr("About Nootka"));
 	aboutAct->setIcon(QIcon(Tpath::img("about")));
+#else	
+	QColor C(palette().text().color());
+	#if defined (Q_OS_WIN)
+		C.setAlpha(50);
+	#else
+		C.setAlpha(40);
+	#endif
+	m_spacer = new QWidget(this);
+	m_spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+	addWidget(m_spacer);
+	m_spacer->hide();
+	C = Tcolor::merge(C, palette().window().color());
+	m_nootLabel = new TnootkaLabel(Tpath::img("logo"), this, C, version);
+	aboutAct = addWidget(m_nootLabel);
+	m_nootLabel->setStatusTip(tr("About Nootka"));
+	m_nootLabel->setHoverColor(palette().highlight().color());
+	connect(m_nootLabel, &TnootkaLabel::clicked, aboutAct, &QAction::trigger);
+#endif
 	
 	levelCreatorAct = new QAction(this);
 	startExamAct = new QAction(this);
@@ -53,10 +76,20 @@ TtoolBar::TtoolBar(QMainWindow* mainWindow) :
 	addAction(levelCreatorAct);
 	addAction(analyseAct);
 #endif
-//     nootBar->addAction(aboutAct);
 	addAction(startExamAct);
-	setMovable(false);
+	setMovable(false);	
+}
 
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
+
+void TtoolBar::addAction(QAction* a) {
+#if defined (Q_OS_ANDROID)
+	QToolBar::addAction(a);
+#else
+	insertAction(actions()[actions().count() - 2], a);
+#endif
 }
 
 
@@ -196,15 +229,37 @@ void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 		setToolButtonStyle(iconStyle);
 		m_melButton->button()->setToolButtonStyle(iconStyle);
 	}
+	int tmpSize = iconS;
 	if (toolButtonStyle() == Qt::ToolButtonIconOnly)
-		iconS *= 1.3; // increase icons size when no text under
+		iconS *= 1.4; // increase icons size when no text under
 	if (toolButtonStyle() != Qt::ToolButtonTextOnly) {
 		if (iconS != iconSize().width()) {
 			setIconSize(QSize(iconS, iconS));
 			m_melButton->button()->setIconSize(QSize(iconS, iconS));
 		}
 	}
+	m_nootLabel->setMaximumHeight(tmpSize * 1.5);
 	adjustSize();
+	updateGeometry();
+	if (m_proxy)
+		m_proxy->resize(size());
+}
+
+
+void TtoolBar::setProxy(QGraphicsProxyWidget* proxy) {
+	m_proxy = proxy;
+	if (m_proxy)
+		m_spacer->show();
+	else
+		m_spacer->hide();
+}
+
+
+void TtoolBar::resizeEvent(QResizeEvent* event) {
+	if (m_proxy) {
+		adjustSize();
+		m_proxy->resize(size());
+	}
 }
 
 

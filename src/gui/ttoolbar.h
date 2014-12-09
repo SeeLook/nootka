@@ -22,6 +22,7 @@
 #include <QToolBar>
 #include <QPointer>
 
+class TnootkaLabel;
 class TmelMan;
 class QMainWindow;
 class QAction;
@@ -40,7 +41,7 @@ class TtoolBar : public QToolBar
 	Q_OBJECT
 	
 public:
-	explicit TtoolBar(QMainWindow* mainWindow);
+	explicit TtoolBar(const QString& version, QMainWindow* mainWindow);
 	
 			/** Main actions */
 	QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
@@ -52,6 +53,8 @@ public:
 			/** Changes names and icons of actions suitable to normal mode.
 			 * Deletes actions related to exam.	 */
 	void actionsAfterExam();
+	
+	void addAction(QAction* a); /** It inserts any given action before Nootka label which is always on the right side (the last). */
 	
 			/** Changes names and icons of actions suitable to exam.
 			 * Creates common actions used in exams/exercises.
@@ -74,9 +77,16 @@ public:
 	
 	void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
 	
-private:
-	TmelMan					*m_melButton;
+	void setProxy(QGraphicsProxyWidget* proxy);
 	
+protected:
+	virtual void resizeEvent(QResizeEvent* event);
+	
+private:
+	TmelMan													*m_melButton;
+	TnootkaLabel 										*m_nootLabel;
+	QGraphicsProxyWidget						*m_proxy;
+	QWidget 												*m_spacer;
 };
 
 #endif // TTOOLBAR_H
