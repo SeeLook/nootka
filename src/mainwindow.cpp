@@ -31,7 +31,7 @@
 #include "notename/tnotename.h"
 // // #include "tsettingsdialog.h"
 #include "exam/tstartexamdlg.h" // just temporary
-// // #include "taboutnootka.h"
+#include <taboutnootka.h>
 // // #include "tfirstrunwizzard.h"
 // // #include "tsupportnootka.h"
 // // #include "tnootkalabel.h"
@@ -134,7 +134,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //-------------------------------------------------------------------
 // Creating GUI elements
 //     innerWidget = new QWidget(this);
-    bar = new TtoolBar(this);
+    bar = new TtoolBar(gl->version, this);
 		if (gl->hintsEnabled)
 				bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		else
@@ -194,7 +194,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
     connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
     connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
-//     connect(nootBar->aboutAct, SIGNAL(triggered()), this, SLOT(aboutSlot()));
+    connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
 		setSingleNoteMode(gl->S->isSingleNoteMode);
 // 		if (gl->S->isSingleNoteMode)
 // 				score->setInsertMode(TmultiScore::e_single);
@@ -444,18 +444,18 @@ void MainWindow::startExamSlot() {
 	ex = new TexamExecutor(this);
 }
 
-/*
+
 void MainWindow::aboutSlot() {
-		if (score->isScorePlayed())
-				playSlot(); // stop playing
-    sound->wait();
-    sound->stopPlaying();
-    TaboutNootka *ab = new TaboutNootka(this);
-    ab->exec();
-    delete ab;
-    sound->go();
+	if (score->isScorePlayed())
+			m_melButt->playMelodySlot(); // stop playing
+	sound->wait();
+	sound->stopPlaying();
+	TaboutNootka *ab = new TaboutNootka(this);
+	ab->exec();
+	delete ab;
+	sound->go();
 }
-*/
+
 
 void MainWindow::analyseSlot() {
 	if (score->isScorePlayed())

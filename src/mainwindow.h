@@ -21,7 +21,6 @@
 
 #include <music/tnote.h>
 #include <exam/tlevel.h>
-// #include <texamexecutor.h>
 #include <QMainWindow>
 
 class Tchunk;
@@ -72,7 +71,7 @@ public slots:
     void createSettingsDialog();
     void openLevelCreator(QString levelFile = "");
     void startExamSlot();
-//     void aboutSlot();
+    void aboutSlot();
     void analyseSlot();
 // 
     void noteWasClicked(int index, Tnote note);

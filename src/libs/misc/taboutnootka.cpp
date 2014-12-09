@@ -44,11 +44,9 @@ QString transRow (QString flag, QString lang, QString name, QString mailAndSite)
 
 
 
-
 TaboutNootka::TaboutNootka(QWidget *parent) :
     QDialog(parent)
 {
-    
     setWindowTitle(tr("About Nootka"));
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *abLay = new QHBoxLayout;
