@@ -408,11 +408,16 @@ target_link_libraries(NootkaSound
 		${VORBIS_LIBRARIES}
 		${SOUNDTOUCH_LIBRARY}
 )
-# qt5_use_modules(NootkaSound Widgets)
 
-
-# get_directory_property( CoreDIrDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
-# message(STATUS "${CMAKE_CURRENT_SOURCE_DIR} : ${CoreDIrDefs}" )
+if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+  install(TARGETS NootkaSound DESTINATION lib)
+else(UNIX AND NOT APPLE)
+  if(WIN32) 			# Windows
+    install(TARGETS NootkaSound DESTINATION .)
+  else(WIN32) 			# MacOs
+    install(TARGETS NootkaSound BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)
 
 
 

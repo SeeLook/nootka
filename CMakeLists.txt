@@ -24,6 +24,84 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 add_subdirectory(src)
 
 ###########################################################################
+#INSTALLATION
+###########################################################################
+if(WIN32)
+    set(INS_PREF ".")
+else(WIN32)
+  if (APPLE)
+    set(INS_PREF "nootka.app/Contents/Resources")
+  else(APPLE)
+    set(INS_PREF "share/nootka")
+  endif(APPLE)
+endif(WIN32)
+
+
+if(APPLE)
+  install( CODE "
+      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_BINARY_DIR} ${QT_BINARY_DIR} ${FFTW3_LIBRARIES} ${VORBIS_LIBRARIES} )
+  " )
+	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
+	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
+	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
+endif(APPLE)
+
+
+install(FILES changes DESTINATION "${INS_PREF}")
+file(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
+install(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
+install(DIRECTORY fonts DESTINATION "${INS_PREF}")
+
+file(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
+if(APPLE OR WIN32)
+	install(FILES gpl DESTINATION "${INS_PREF}")
+  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_de.qm" "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_fr.qm" "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_ru.qm" "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm" )
+endif(APPLE OR WIN32)
+install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
+
+file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*-guitar.ogg")
+install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
+
+if(NOT UNIX) # Windows icons
+  install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/pack.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
+  install(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
+  install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh DESTINATION "${INS_PREF}" )
+endif(NOT UNIX)
+
+# files related with Linux (mime, desktop entry, icons)
+if(UNIX AND NOT APPLE)
+    install(FILES mime/nootka.desktop DESTINATION share/applications)
+#     install(FILES picts/nootka.svg DESTINATION "${INS_PREF}/picts")
+#     if (DPKG_CMD) # deb packager doesn't accept symbolic links
+			install(FILES picts/nootka.png picts/levelCreator.png picts/nootka-exam.png DESTINATION share/pixmaps)
+#     else (DPKG_CMD) # but others do
+# 			install(FILES mime/nootka.png mime/levelCreator.png mime/nootka-exam.png DESTINATION share/pixmaps)
+			install(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
+#     endif (DPKG_CMD)
+    install( CODE "
+      execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
+      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/mime/install-mime.sh ${CMAKE_INSTALL_PREFIX} ${CMAKE_CURRENT_BINARY_DIR}/mime ${CMAKE_CURRENT_SOURCE_DIR}/mime)" )
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mime/nootka.xml DESTINATION share/mime/packages)
+		install( CODE "
+      execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
+      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
+	" )
+  if (DPKG_CMD) # Debian changelog
+      install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.gz" DESTINATION share/doc/nootka)
+  endif (DPKG_CMD)
+	install(FILES copyright DESTINATION share/doc/nootka)
+	install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
+	install(FILES packaging/nootka-updater.1.gz DESTINATION share/man/man1)
+    
+endif(UNIX AND NOT APPLE)
+
+
+
+###########################################################################
 # uninstall target
 ###########################################################################
 configure_file(

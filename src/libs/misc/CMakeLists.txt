@@ -30,11 +30,15 @@ endif(WIN32)
 
 add_library(NootkaMisc SHARED ${LIB_NOOTKAMISC_SRC} )
 target_link_libraries(NootkaMisc Qt5::Widgets NootkaCore )
-# qt5_use_modules(NootkaSound Widgets)
 
-
-# get_directory_property( CoreDIrDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
-# message(STATUS "${CMAKE_CURRENT_SOURCE_DIR} : ${CoreDIrDefs}" )
-
+if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+  install(TARGETS NootkaMisc DESTINATION lib)
+else(UNIX AND NOT APPLE)
+  if(WIN32) 			# Windows
+    install(TARGETS NootkaMisc DESTINATION .)
+  else(WIN32) 			# MacOs
+    install(TARGETS NootkaMisc BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)
 
 
