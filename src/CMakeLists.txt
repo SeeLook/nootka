@@ -29,13 +29,13 @@ add_subdirectory( libs/misc ) # libNootkaMisc
 		
 include_directories( libs/core libs/sound libs/misc )
 
-# add_subdirectory( charts ) # nootka analyzer
+add_subdirectory( charts ) # nootka analyzer
 
-# add_subdirectory( level ) # level creator
+add_subdirectory( level ) # level creator
 
-#add_subdirectory( updater ) # nootka updater
+add_subdirectory( updater ) # nootka updater
 
-# add_subdirectory( settings )
+add_subdirectory( settings )
 
 # nootka executable
 set(NOOTKA_SRC
@@ -92,6 +92,21 @@ target_link_libraries(nootka
 		Qt5::Widgets 
 		Qt5::PrintSupport
 )
+
+
+if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+  install(TARGETS nootka DESTINATION bin)
+else(UNIX AND NOT APPLE)
+  if(WIN32) 			# Windows
+    install(TARGETS nootka DESTINATION .)
+  else(WIN32) 			# MacOs
+    install(TARGETS nootka BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install( CODE "
+    execute_process(COMMAND echo copying info.plist )
+    execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
+    )
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )

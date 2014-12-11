@@ -28,3 +28,16 @@ set(LEVEL_SRC
 add_executable(nootka-level WIN32 ${LEVEL_SRC} )
 target_link_libraries(nootka-level NootkaCore NootkaSound Qt5::Widgets)
 
+if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+  install(TARGETS nootka-level DESTINATION bin)
+else(UNIX AND NOT APPLE)
+  if(WIN32) 			# Windows
+    install(TARGETS nootka-level DESTINATION .)
+  else(WIN32) 			# MacOs
+    install(TARGETS nootka-level BUNDLE DESTINATION "nootka.app/Contents/MacOS/")
+#     install( CODE "
+#     execute_process(COMMAND echo copying info.plist )
+#     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
+#     )
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)

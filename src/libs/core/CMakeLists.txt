@@ -76,9 +76,14 @@ set(LIB_NOOTKACORE_SRC
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
 target_link_libraries(NootkaCore Qt5::Widgets)
 
-
-# get_directory_property( CoreDIrDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
-# message(STATUS "${CMAKE_CURRENT_SOURCE_DIR} : ${CoreDIrDefs}" )
-
+if(UNIX AND NOT APPLE) 	# Linux path for Nootka library
+  install(TARGETS NootkaCore DESTINATION lib)
+else(UNIX AND NOT APPLE)
+  if(WIN32) 			# Windows
+    install(TARGETS NootkaCore DESTINATION .)
+  else(WIN32) 			# MacOs
+    install(TARGETS NootkaCore BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)
 
 

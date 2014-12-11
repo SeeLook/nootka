@@ -95,7 +95,6 @@ TEXAMEXECUTOR
 ===============================================================
 - add man page for new executable files
 - update Qt5 dependencies for deb package 
-- copy qtbase_xx.qm files to lang folder
 - remember about libPrintSupport
 
 

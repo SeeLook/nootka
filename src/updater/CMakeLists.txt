@@ -46,7 +46,6 @@ if(ENABLE_UPDATER)
 		if(WIN32) 			# Windows
 			install(TARGETS nootka-updater DESTINATION .)
 		else(WIN32) 			# MacOs
-	#     install(TARGETS nootka-updater BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
 			install(TARGETS nootka-updater DESTINATION "nootka.app/Contents/MacOS/")
 		endif(WIN32)
 	endif(UNIX AND NOT APPLE)
