@@ -190,7 +190,6 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 	quint32 ev; //exam template version
 	if (file.open(QIODevice::ReadOnly)) {
 		QDataStream in(&file);
-		in.setVersion(QDataStream::Qt_4_7);
 		in >> ev;
 		if (couldBeExam(ev)) {
 			if (!isExamVersion(ev))
@@ -200,10 +199,21 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 		
 		bool isExamFileOk = true;
 		if (examVersionNr(ev) == 4) {
-			QXmlStreamReader xml(in.device());
-			isExamFileOk = loadFromXml(xml);
-		} else
-			isExamFileOk = loadFromBin(in, ev);
+			in.setVersion(QDataStream::Qt_5_3);
+			QByteArray arrayXML = file.readAll();
+			arrayXML.remove(0, 4);
+			QByteArray unZipXml = qUncompress(arrayXML);
+			if (!unZipXml.isEmpty()) {
+				QXmlStreamReader xml(unZipXml);
+				isExamFileOk = loadFromXml(xml);
+			} else {
+				qDebug() << "Problems with uncompressing exam file";
+				return e_file_not_valid;
+			}					
+		} else {
+				in.setVersion(QDataStream::Qt_4_7);
+				isExamFileOk = loadFromBin(in, ev);
+		}
 		
 		m_melody = m_level->canBeMelody();
 		updateEffectiveness();
@@ -366,15 +376,16 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 	QFile file(m_fileName);
 	if (file.open(QIODevice::WriteOnly)) {
 		QDataStream out(&file);
-		out.setVersion(QDataStream::Qt_5_2);
+		out.setVersion(QDataStream::Qt_5_3);
 		out << currentVersion;
-		QXmlStreamWriter xml(&file);
-		
-		xml.setAutoFormatting(true); // TODO - comment it and pack into zip
+		QByteArray arrayXML;
+		QXmlStreamWriter xml(&arrayXML);
 		xml.writeStartDocument();
 		xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
 		writeToXml(xml);
 		xml.writeEndDocument();
+		
+		out << qCompress(arrayXML);
 		
 		file.close();
 	} else {
