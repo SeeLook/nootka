@@ -135,10 +135,8 @@ MainWindow::MainWindow(QWidget *parent) :
 // Creating GUI elements
 //     innerWidget = new QWidget(this);
     bar = new TtoolBar(gl->version, this);
-		if (gl->hintsEnabled)
-				bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-		else
-				bar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+		bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); // otherwise it follows global Qt style settings
+
     score = new TmainScore(this);
 		noteName = score->noteName();
     pitchView = new TpitchView(sound->sniffer/*, this*/);
