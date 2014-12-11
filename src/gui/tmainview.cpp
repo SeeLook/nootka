@@ -152,7 +152,7 @@ void TmainView::setBarAutoHide(bool autoHide) {
 			barBlur->setBlurRadius(15);
 			m_proxyBar->setZValue(200);
 			m_proxyBar->setGraphicsEffect(barBlur);
-			m_proxyBar->hide();
+// 			m_proxyBar->hide();
 			m_barLine->hide();
 			updateBarLine();
 			static_cast<TtoolBar*>(m_tool)->setProxy(m_proxyBar);

@@ -167,6 +167,7 @@ private:
 	int 						 m_detectedIndex;
 	bool 						 m_couldBeNew;
 	TnoteStruct			*m_currentNote, *m_lastNote;
+	qreal 					 m_statPitch; // value of previous pitch to detect notes repeats by increased volume
 	
 };
 

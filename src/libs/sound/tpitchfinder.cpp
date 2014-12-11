@@ -49,7 +49,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_state(e_silence), m_prevState(e_silence),
 	m_prevVolume(0), m_lastDuration(0), m_newNoteStartDur(0),
 	m_detectedIndex(0),
-	m_couldBeNew(false)
+	m_couldBeNew(false), m_statPitch(0)	
 {
 	m_aGl = new TartiniParams();
 	m_aGl->chanells = 1;
@@ -234,8 +234,8 @@ void TpitchFinder::processed() {
 		} else if (m_prevState == e_playing) {
 				if (m_state == e_silence || m_state == e_noticed) {
 					emit noteFinished(m_lastNote); // previous note was finished
-// 					qDebug() << "finished" << m_detectedIndex << "pitch:" << m_currentNote->pitchF
-// 									 << "freq:" << m_currentNote->freq << "time:" << m_currentNote->duration;
+// 					qDebug() << "finished" << m_detectedIndex << "pitch:" << m_lastNote->pitchF
+// 									 << "freq:" << m_lastNote->freq << "time:" << m_lastNote->duration;
 				}
 		}
 	}
@@ -262,6 +262,7 @@ void TpitchFinder::detect() {
 	if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))) {
 			NoteData *curNote = m_channel->getCurrentNote();
 			m_volume = dB2Normalised(data->logrms());
+// 			qDebug() << data->noteIndex << curNote->noteLength() << "volume" << m_volume << "pitch" << data->pitch;
 			bool watchNote = true;
 			if (data->noteIndex != m_noticedIndex) {
 				if (curNote->volume() >= m_minVolume) {
@@ -271,28 +272,33 @@ void TpitchFinder::detect() {
 				} else
 						watchNote = false;
 			}
-			if (watchNote) { // note is louder than a threshold
+			if (watchNote) { // note was louder than a threshold
 				if (data->noteIndex != m_prevNoteIndex) { // new note started in this chunk
-					m_newNoteStartDur = 0;
 					m_couldBeNew = false;
 					if (curNote->noteLength() >= m_minDuration) { // note is long enough
+// 						qDebug() << "New note pitch started" << data->noteIndex;
 						m_state = e_playing;
 						m_prevNoteIndex = data->noteIndex;
 						m_detectedIndex++;
+						m_newNoteStartDur = 0;
 					}
-					m_prevVolume = m_volume;
-				} else { // detected note is still playing
+				} 
+				else { // detected note is still playing
 					if (!m_couldBeNew) { // if volume increasing was not detected yet - check it
-						if (m_volume - m_prevVolume > 0.05) { // volume increased - probably the same note was played again
+						if (m_volume - m_prevVolume > 0.07) { // volume increased - probably the same note was played again
 							m_state = e_noticed;
 							m_couldBeNew = true;
-							m_newNoteStartDur = curNote->noteLength() - m_lastDuration;
+							m_newNoteStartDur = m_lastDuration;
+// 							qDebug() << "Possible the same note played again" << data->noteIndex << m_newNoteStartDur << curNote->noteLength() << m_lastDuration;
+							m_statPitch = curNote->avgPitch();
 						}
-					} else { // volume was pushed, so check new note lenght
-						if (curNote->noteLength() - m_newNoteStartDur > m_minDuration) {
+					} else { // volume was pushed, so check new note length
+						if (m_state == e_noticed && m_statPitch && qRound(m_statPitch) == qRound(curNote->avgPitch()) 
+							&& curNote->noteLength() - m_newNoteStartDur > m_minDuration) {
 							m_state = e_playing;
 							m_detectedIndex++;
-// 							qDebug() << "--->";
+// 							qDebug() << "--->" << curNote->noteLength() - m_newNoteStartDur;
+							m_statPitch = 0;
 							m_couldBeNew = false;
 						}
 					}

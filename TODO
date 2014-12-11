@@ -20,11 +20,20 @@
 - when new staff is automatically added selected note is wrong
 - notes number in levels should be randomized, given value will be just a maximum 
 			and without rhythms odd number sounds better
+			
 - changing tool bar auto-hiding cases sometimes locked melody menu
+
+- Pitch view remains enabled after exam (even the check box is unchecked)
+
+- exam view is displayed below score - put it up
 
 Proxy widgets:
 - size of proxy points has to depend on screen resolution
 - fix blur of proxy corner widgets
+
+Scaling issues:
+- auto hidden tool bar remains big after decreased window size
+- proxy points lost their position after a few scaling-s
 
 Sound views:
 - stop capturing audio state when sound views are hidden
@@ -39,11 +48,10 @@ Sound views:
 
 - There is unused class TnotePixmap only with default clef - use it or delete
 
-- tidy key signature in note pixmap (width depends on accidentals number)
-
 - vertical name layout is probably unused - clear it then
 
-- store movable exam tips position for every type of an answer
+- clear hintsEnabled option from Tglobals
+
 
 Charts:
 	- points (notes) shadow changes with zoom - fix it
@@ -51,6 +59,8 @@ Charts:
 	- staff line disappears sometimes (when zoom is big)
 
 ==== NEW FEATURES ================================================================
+- store movable exam tips position for every type of an answer
+- tidy key signature in note pixmap (width depends on accidentals number)
 - increase precision of exam timers - regressions risk...
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - enable/disable animations option
