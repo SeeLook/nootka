@@ -119,7 +119,6 @@ void Tglobals::dumpToTemp() {
 	tmpSett.beginGroup("temp");
 			tmpSett.setValue("nootkaPath", path); // other apps has to be able find the resources
 	tmpSett.endGroup();
-// 	tmpSett.sync();
 }
 
 
@@ -134,6 +133,7 @@ bool Tglobals::grabFromTemp() {
 			tmpSett.beginGroup("temp");
 					path = tmpSett.value("nootkaPath", "").toString();
 			tmpSett.endGroup();
+// 			QFile::remove(tmpConfigFile());
 			if (path != "")
 				return true;
 	}
@@ -144,7 +144,6 @@ bool Tglobals::grabFromTemp() {
 
 void Tglobals::loadSettings(QSettings* cfg) {
 	cfg->beginGroup("common");
-			hintsEnabled = cfg->value("enableHints", true).toBool(); //true;
 			isFirstRun = cfg->value("isFirstRun", true).toBool();
 			useAnimations = cfg->value("useAnimations", true).toBool();
 			lang = cfg->value("language", "").toString();
@@ -218,6 +217,9 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			} else
 					setTune(Ttune::stdTune);
 			GpreferFlats = cfg->value("flatsPrefered", false).toBool(); //false;
+			QList<QVariant> fretsList;
+			fretsList << 5 << 7 << 9 << "12!" << 15 << 17;
+			GmarkedFrets = cfg->value("dotsOnFrets", "").toList();
 	cfg->endGroup();
 
 	
@@ -339,7 +341,6 @@ Tnote::EnameStyle Tglobals::getSolfegeStyle() {
 
 void Tglobals::storeSettings(QSettings* cfg) {
 	cfg->beginGroup("common");
-			cfg->setValue("enableHints", hintsEnabled);
 			cfg->setValue("isFirstRun", isFirstRun);
 			cfg->setValue("useAnimations", useAnimations);
 			cfg->setValue("doubleAccidentals", S->doubleAccidentalsEnabled);
@@ -385,9 +386,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("selectedColor", GselectedColor);
 			cfg->setValue("tune", qVariantFromValue(*Gtune()));
 			cfg->setValue("flatsPrefered", GpreferFlats);
-//         QList<QVariant> tmpFrets;
-//         tmpFrets << 5 << 7 << 9 << 12 << 15 << 17;
-//         cfg->setValue("dotsOnFrets", tmpFrets);
+			cfg->setValue("dotsOnFrets", GmarkedFrets);
 	cfg->endGroup();
 
 	cfg->beginGroup("exam");

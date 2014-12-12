@@ -44,7 +44,6 @@ signals:
 		void restoreAllDefaults();
 		
 private:
-  QCheckBox 									*m_hintsEnabledChBox;
 	QComboBox 									*m_langCombo;
 	QMap<QString, QString> 			 m_langList;
   QPushButton 								*m_updateButton, *m_restAllDefaultsBut;

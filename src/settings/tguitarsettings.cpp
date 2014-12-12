@@ -119,7 +119,20 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     if (gl->GpreferFlats) m_prefFlatBut->setChecked(true);
     else
         m_prefSharpBut->setChecked(true);
-    downLay->addWidget(m_accidGroup);
+
+		m_fretMarksEdit = new QLineEdit(grabFretsFromList(gl->GmarkedFrets), this);
+		m_fretMarksEdit->setMaxLength(25);
+		QRegExp rx("([1-2]{0,1}[0-9]{1,2}!{0,1},){0,7}");
+		m_fretMarksEdit->setValidator(new QRegExpValidator(rx, 0));
+		m_fretMarksEdit->setStatusTip(tr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice."));
+		QLabel *fretMarksLab = new QLabel(tr("dots on frets", "or frets with dots/marks"), this);
+		QHBoxLayout *marksLay = new QHBoxLayout;
+			marksLay->addWidget(fretMarksLab);
+			marksLay->addWidget(m_fretMarksEdit);
+		QVBoxLayout *leftDownLay = new QVBoxLayout;
+			leftDownLay->addWidget(m_accidGroup);
+			leftDownLay->addLayout(marksLay);
+    downLay->addLayout(leftDownLay);
 
     m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
     m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
@@ -191,37 +204,38 @@ TguitarSettings::~TguitarSettings() {
 
 
 void TguitarSettings::saveSettings() {
-		gl->instrument = (Einstrument)m_selectInstr->instrument();
-    gl->GisRightHanded = m_righthandCh->isChecked();
-    gl->GfretsNumber = m_fretsNrSpin->value();
-		Ttune *tmpTune = new Ttune();
-		if (gl->instrument != e_noInstrument)
-				grabTuneFromScore(tmpTune);
+	gl->instrument = (Einstrument)m_selectInstr->instrument();
+	gl->GisRightHanded = m_righthandCh->isChecked();
+	gl->GfretsNumber = m_fretsNrSpin->value();
+	Ttune *tmpTune = new Ttune();
+	if (gl->instrument != e_noInstrument)
+			grabTuneFromScore(tmpTune);
 // 			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
 // 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
-		else { // instrument scale taken from note segments 4 & 5
-			Tnote hiN, loN; // fix notes order
-			if (m_tuneView->getNote(5).chromatic() < m_tuneView->getNote(4).chromatic()) {
-				hiN = m_tuneView->getNote(4);
-				loN = m_tuneView->getNote(5);
-			} else {
-				hiN = m_tuneView->getNote(5);
-				loN = m_tuneView->getNote(4);
-			}
-			*tmpTune = Ttune("scale", 
-													Tnote(hiN.chromatic() - m_fretsNrSpin->value()), loN,
-													Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
+	else { // instrument scale taken from note segments 4 & 5
+		Tnote hiN, loN; // fix notes order
+		if (m_tuneView->getNote(5).chromatic() < m_tuneView->getNote(4).chromatic()) {
+			hiN = m_tuneView->getNote(4);
+			loN = m_tuneView->getNote(5);
+		} else {
+			hiN = m_tuneView->getNote(5);
+			loN = m_tuneView->getNote(4);
 		}
-    gl->setTune(*tmpTune);
-		delete tmpTune;
-    gl->GshowOtherPos = m_morePosCh->isChecked();
-    if (m_prefFlatBut->isChecked()) 
-				gl->GpreferFlats = true;
-    else 
-				gl->GpreferFlats = false;
-    gl->GfingerColor = m_pointColorBut->getColor();
-    gl->GfingerColor.setAlpha(200);
-    gl->GselectedColor = m_selColorBut->getColor();
+		*tmpTune = Ttune("scale", 
+												Tnote(hiN.chromatic() - m_fretsNrSpin->value()), loN,
+												Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
+	}
+	gl->setTune(*tmpTune);
+	delete tmpTune;
+	gl->GshowOtherPos = m_morePosCh->isChecked();
+	if (m_prefFlatBut->isChecked()) 
+			gl->GpreferFlats = true;
+	else 
+			gl->GpreferFlats = false;
+	gl->GfingerColor = m_pointColorBut->getColor();
+	gl->GfingerColor.setAlpha(200);
+	gl->GselectedColor = m_selColorBut->getColor();
+	checkFretsAndStore(gl->GmarkedFrets);
 }
 
 
@@ -232,6 +246,7 @@ void TguitarSettings::restoreDefaults() {
 		m_morePosCh->setChecked(false);
 		m_pointColorBut->setColor(QColor(255, 0, 127, 200));
 		m_selColorBut->setColor(QColor(51, 153, 255));
+		m_fretMarksEdit->setText("5,7,9,12!,15,19");
 }
 
 
@@ -440,6 +455,7 @@ void TguitarSettings::guitarDisabled(bool disabled) {
 		m_selectColorLab->setDisabled(disabled);
 		m_pointColorBut->setDisabled(disabled);
 		m_pointerColorLab->setDisabled(disabled);
+		m_fretMarksEdit->setDisabled(disabled);
 }
 
 
@@ -472,6 +488,34 @@ Tnote TguitarSettings::fixEmptyNote(int noteSegm) {
 	else if (nn.note == 0) // empty because stupid
 			nn = Tnote(m_tuneView->lowestNote().chromatic() + noteSegm);
 	return nn;
+}
+
+
+void TguitarSettings::checkFretsAndStore(QList<QVariant>& fretList) {
+	fretList.clear();
+	QStringList fr = m_fretMarksEdit->text().split(",");
+	for (int i = 0; i < fr.size(); ++i) {
+		QString exMark = "";
+		if (fr[i].contains("!")) {
+			exMark = "!";
+			fr[i].replace("!", "");
+		}
+		bool ok;
+		int frNr = fr[i].toInt(&ok);
+		if (ok && frNr > 0 && frNr <= m_fretsNrSpin->value())
+			fretList << fr[i] + exMark;
+	}
+}
+
+
+QString TguitarSettings::grabFretsFromList(const QList<QVariant>& fretList) {
+	QString fretText;
+	for (int i = 0; i < fretList.size(); ++i) {
+		fretText.append(fretList.at(i).toString());
+		if (i < fretList.size() - 1)
+			fretText.append(",");
+	}
+	return fretText;
 }
 
 

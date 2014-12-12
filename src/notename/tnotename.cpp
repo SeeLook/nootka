@@ -522,7 +522,7 @@ void TnoteName::resizeEvent(QResizeEvent* ) {
 
 
 bool TnoteName::event(QEvent* event) {
-  if (gl->hintsEnabled && event->type() == QEvent::StatusTip) {
+  if (event->type() == QEvent::StatusTip) {
       QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
       emit statusTipRequired(se->tip());
   }
