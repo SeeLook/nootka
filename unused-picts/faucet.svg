@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" id="svg2" viewBox="0 0 552 711.95" version="1.1">
+  <path id="path3783" style="color:#000000" d="m268.44 22.5c-6.989 0-12.625 5.636-12.625 12.625v9c-2.294-2.4005-5.4959-3.9062-9.0938-3.9062h-94.656c-6.989 0-12.594 5.636-12.594 12.625v7.8125c0 6.989 5.6047 12.625 12.594 12.625h94.656c3.5979 0 6.7997-1.5058 9.0938-3.9062v36.656c-11.193 3.2605-19.344 13.539-19.344 25.812v40.375h-15.125c-14.91 0-26.938 11.996-26.938 26.906v23.562h-85.188c-25.493 0-46.382 19.03-49.281 43.719h-0.34375v121.66h-9.3438c-15.376 0-27.75 12.374-27.75 27.75s1.75 15.781 1.75 15.781h195.16s1.75-0.40537 1.75-15.781-12.873-31.636-27.75-27.75h-7.6562v-66.156h291.91v67.281c0 14.91 11.996 26.938 26.906 26.938 1.0481 0 2.0776-0.072 3.0938-0.1875v0.1875h21.844v-282.59h-21.844v0.1875c-1.0171-0.11568-2.0447-0.1875-3.0938-0.1875-14.91 0-22.346 12.711-26.906 26.906v62.25h-135.22v-23.562c0-14.91-11.996-26.906-26.906-26.906h-15.156v-40.375c0-12.284-8.1363-22.561-19.344-25.812v-36.812c2.3018 2.4939 5.6042 4.0625 9.2812 4.0625h94.625c6.989 0 12.625-5.636 12.625-12.625v-7.8125c0-6.989-5.636-12.625-12.625-12.625h-94.625c-3.6771 0-6.9794 1.5686-9.2812 4.0625v-9.1562c0-6.989-5.6047-12.625-12.594-12.625z"/>
+  <path id="rect2985" style="color:#000000" fill="#06f" d="m122.22 456.31c-21.428 94.726-73.968 104.2-72.75 164.16 1.0148 49.955 37.332 68.49 68.969 68.969 34.947 0.52856 67.642-16.961 67.312-69.094-0.30515-48.242-47.707-69.514-63.531-164.03zm-6.75 37.781s-10.117 39.865-14.875 45.812c-4.7576 5.947-11.875 17.844-11.875 17.844l-4.7812-2.9688s17.839-25.581 20.812-33.312c2.9735-7.7312 10.719-27.375 10.719-27.375zm-43.282 75.41 7.812 1.88s-3.2192 8.3452-4.4375 12.406c-2.5231 8.4104 0 44.594 0 44.594l-16 1.6562s-1.6562-1.6819-1.6562-19.344 14.281-41.188 14.281-41.188z"/>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/"/>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Water</dc:title>
+        <dc:date>2012-05-07T01:14:23</dc:date>
+        <dc:description>clip art, clipart, drop, environment, environmental, faucet, tap, water, </dc:description>
+        <dc:source>http://openclipart.org/detail/169893/water-by-scyg</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>scyg</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>drop</rdf:li>
+            <rdf:li>environment</rdf:li>
+            <rdf:li>environmental</rdf:li>
+            <rdf:li>faucet</rdf:li>
+            <rdf:li>tap</rdf:li>
+            <rdf:li>water</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
