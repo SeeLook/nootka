@@ -153,18 +153,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		nootBar->hide();
 		nootBar->setAutoFillBackground(true);
 #endif
-// 		nootBar->hide();
-// 		nootBar->setAutoFillBackground(true);
 
-//		QColor C(palette().text().color());
-// #if defined (Q_OS_WIN)
-// 		C.setAlpha(20);
-// #else
-// 		C.setAlpha(15);
-// #endif
-// 		C = Tcolor::merge(C, palette().window().color());
-// 		nootLabel = new TnootkaLabel(gl->path + "picts/logo.png", innerWidget, C);
-		
     guitar = new TfingerBoard();
 		
 //-------------------------------------------------------------------		
@@ -646,11 +635,12 @@ void MainWindow::updateSize(QSize newS) {
 		return;
 // 	qDebug() << "updateSize()";
 	if (gl->L->soundViewEnabled) {
-		if (gl->L->hintsBarEnabled)
+		if (gl->L->hintsBarEnabled) {
 			pitchView->setFixedWidth(newS.width() * 0.4);
-		else {
+			pitchView->setDirection(QBoxLayout::TopToBottom);
+		} else {
 			pitchView->setFixedWidth(newS.width());
-			// TODO set horizontal layout
+			pitchView->setDirection(QBoxLayout::LeftToRight);
 		}
 		pitchView->resize(m_statFontSize);
 	}

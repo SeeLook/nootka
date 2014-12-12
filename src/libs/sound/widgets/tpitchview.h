@@ -21,6 +21,7 @@
 #define TPITCHVIEW_H
 
 #include <QWidget>
+#include <QBoxLayout>
 #include <music/tnote.h>
 #include "trtaudioin.h"
 #include "nootkasoundglobal.h"
@@ -45,7 +46,7 @@ public:
   
   void setAudioInput(TaudioIN *audioIn);
   void startVolume(); /** Starts grabbing of peak level*/
-  void stopVolume();
+	void stopVolume(); /** Stops displaying volume (and intonation) */
   void setPitchColor(QColor col);
 	
   bool isPaused() { return m_isPaused; }
@@ -57,8 +58,11 @@ public:
 	void markAnswer(const QColor &col);
 	
 			/** Sets an accuracy of intonation. 
-			 * When 0 - 'do not check' m_intoView becames disabled. */
+			 * When 0 - 'do not check' m_intoView becomes disabled. */
 	void setIntonationAccuracy(int accuracy);
+	
+			/** Pitch view can be placed in one row (horizontal) or one over another (vertical) - default */
+	void setDirection(QBoxLayout::Direction dir) { if (dir != m_lay->direction())	m_lay->setDirection(dir); }
 	
 			/** Starts animation displaying correction of unclear sound.  */
 	void outOfTuneAnim(float outTune, int duration = 300);
@@ -70,10 +74,11 @@ protected slots:
   void pauseClicked();
   void stopTimerDelayed(); // to call stop() on m_volTimer after note detected animation
 	void minimalVolumeChanged(float minVol);
-	void animationFinishedSlot();
   
 protected:
-  virtual void paintEvent(QPaintEvent* );
+  virtual void paintEvent(QPaintEvent*);
+	virtual void showEvent(QShowEvent* e);
+	virtual void hideEvent(QHideEvent* e);
   
 private:
 	QCheckBox 				*m_pauseChBox; /** Button to pause or activate pitch detection */
