@@ -34,10 +34,6 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
     QVBoxLayout *lay = new QVBoxLayout();
     lay->setAlignment(Qt::AlignCenter);
     lay->addStretch(1);
-    m_hintsEnabledChBox = new QCheckBox(tr("show hints"), this);
-    m_hintsEnabledChBox->setChecked(gl->hintsEnabled);
-    m_hintsEnabledChBox->setStatusTip(tr("Show description of Nootka's elements."));
-    lay->addWidget(m_hintsEnabledChBox);
     lay->addStretch(1);
 		QHBoxLayout *langLay = new QHBoxLayout;
 		langLay->addStretch(1);
@@ -94,7 +90,6 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 
 
 void TglobalSettings::saveSettings() {
-	gl->hintsEnabled = m_hintsEnabledChBox->isChecked();
 	QMapIterator<QString, QString> i(m_langList);
 	while (i.hasNext()) {
 		i.next();
@@ -107,7 +102,7 @@ void TglobalSettings::saveSettings() {
 
 
 void TglobalSettings::restoreDefaults() {
-	m_hintsEnabledChBox->setChecked(true);
+	
 }
 
 

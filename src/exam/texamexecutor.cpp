@@ -630,7 +630,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 						mesgTime = gl->E->mistakePreview; // user defined wait time
 			}
       m_canvas->resultTip(&curQ, mesgTime);
-			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && gl->hintsEnabled && !autoNext)
+			if ((!m_exercise || (m_exercise && curQ.isCorrect())) && !autoNext)
 					m_canvas->whatNextTip(curQ.isCorrect());
       if (!autoNext) {
           if (!curQ.isCorrect() && !m_exercise && !curQ.melody()) {
@@ -1019,8 +1019,7 @@ void TexamExecutor::prepareToExam() {
     connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
 		if (m_level.canBeMelody() && m_level.answerIsSound())
 				mW->sound->enableStoringNotes(true);
-    if(gl->hintsEnabled)
-        m_canvas->startTip();
+		m_canvas->startTip();
 }
 
 
@@ -1127,8 +1126,7 @@ void TexamExecutor::exerciseToExam() {
 	connect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 	clearWidgets();
 	m_canvas->clearCanvas();
-	if(gl->hintsEnabled)
-			m_canvas->startTip();
+	m_canvas->startTip();
 }
 
 
@@ -1395,7 +1393,6 @@ void TexamExecutor::startSniffing() {
 
 void TexamExecutor::expertAnswersSlot() {
 	if (!gl->E->expertsAnswerEnable) { // no expert
-		if (gl->hintsEnabled) // show hint how to confirm an answer
 			m_canvas->confirmTip(1500);
 		return;
 	}
@@ -1483,8 +1480,6 @@ void TexamExecutor::deleteExam() {
 
 void TexamExecutor::delayerTip() {
 	m_lockRightButt = false;
-	if (!gl->hintsEnabled)
-		return;
 	m_canvas->whatNextTip(!(!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated));
 	/** When exam mode and mistake occurred it will be true,
 	 * so whatNextTip(false) is invoked - whatNextTip displays repeat question hint

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include <music/tnote.h>
 #include <music/tclef.h>
 
+class QLineEdit;
 class TselectInstrument;
 class QLabel;
 class QGroupBox;
@@ -85,6 +86,13 @@ private:
 				 * It is used to put proper note values to tuning. */
 		Tnote fixEmptyNote(int noteSegm);
 		
+				/** Grabs m_fretMarksEdit text and converts it to QVariant list with checking are frets valid.
+				 * It overrides content of given list. */
+		void checkFretsAndStore(QList<QVariant>& fretList);
+		
+				/** Converts  QList<QVariant> to QString  */
+		QString grabFretsFromList(const QList<QVariant>& fretList);
+		
 
     TsimpleScore    			*m_tuneView;
     QCheckBox       			*m_righthandCh, *m_morePosCh;
@@ -98,6 +106,7 @@ private:
 		int							 			m_currentInstr;
 		Ttune									*m_curentTune; // current guitar tune 
 		Ttune 								*m_customTune;
+		QLineEdit							*m_fretMarksEdit;
 
 private slots:
     void tuneSelected(int tuneId);

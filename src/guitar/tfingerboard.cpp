@@ -536,192 +536,215 @@ void TfingerBoard::setTune() {
 
 
 void TfingerBoard::paint() {
-    m_fbRect = QRect(10, height() / 18, (6 * width()) / 7, height() - height() / 18);
-    m_fretWidth = ((m_fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 + 1))
-                  + gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) + 1;
+	m_fbRect = QRect(10, height() / 18, (6 * width()) / 7, height() - height() / 18);
+	m_fretWidth = ((m_fbRect.width() + ((gl->GfretsNumber / 2)*(gl->GfretsNumber / 2 + 1))
+								+ gl->GfretsNumber / 4) / (gl->GfretsNumber+1)) + 1;
 //     m_strGap = m_fbRect.height() / 6;
-		m_strGap = m_fbRect.height() / gl->Gtune()->stringNr();
-    m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
-    for (int i = 2; i < gl->GfretsNumber + 1; i++)
-        m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
-    lastFret = m_fretsPos[gl->GfretsNumber - 1];
-    if (lastFret > (m_fbRect.width() + 10)) {
-        m_fbRect.setWidth(lastFret - 8);
-        qDebug("fretboard size changed");
-    }
-  // Let's paint
-    QPixmap pixmap(size());
-    pixmap.fill(QColor(palette().window().color()));
+	m_strGap = m_fbRect.height() / gl->Gtune()->stringNr();
+	m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
+	for (int i = 2; i < gl->GfretsNumber + 1; i++)
+			m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
+	lastFret = m_fretsPos[gl->GfretsNumber - 1];
+	if (lastFret > (m_fbRect.width() + 10)) {
+			m_fbRect.setWidth(lastFret - 8);
+			qDebug("fretboard size changed");
+	}
+// Let's paint
+	QPixmap pixmap(size());
+	pixmap.fill(QColor(palette().window().color()));
 
-    QPainter painter(&pixmap);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-    painter.setRenderHint(QPainter::TextAntialiasing, true);
-    painter.setWindow(0 , 0, width(), height());
-    resetTransform();
-    if (!gl->GisRightHanded) {
-        translate(width(), 0);
-        scale(-1, 1);
-    }
-  // FINGERBOARD
-    painter.setPen(QPen(Qt::black, 0, Qt::NoPen));
-		if (gl->instrument == e_classicalGuitar)
-				painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
-		else {
-				QColor fbEdgeColor = QColor("#AFA072");
-				fbEdgeColor.setAlpha(220);
-				painter.setBrush(QBrush(fbEdgeColor, Qt::SolidPattern));
+	QPainter painter(&pixmap);
+	painter.setRenderHint(QPainter::Antialiasing, true);
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setWindow(0 , 0, width(), height());
+	resetTransform();
+	if (!gl->GisRightHanded) {
+			translate(width(), 0);
+			scale(-1, 1);
+	}
+// FINGERBOARD
+	painter.setPen(QPen(Qt::black, 0, Qt::NoPen));
+	if (gl->instrument == e_classicalGuitar)
+			painter.setBrush(QBrush(Qt::black, Qt::SolidPattern));
+	else {
+			QColor fbEdgeColor = QColor("#AFA072");
+			fbEdgeColor.setAlpha(220);
+			painter.setBrush(QBrush(fbEdgeColor, Qt::SolidPattern));
+	}
+	QPolygon a;
+	int fbThick = ((m_strGap * gl->Gtune()->stringNr()) / 6) / 4; // thickness of fretboard
+	a.setPoints(6, m_fbRect.x() - 6, m_fbRect.y(),
+							m_fbRect.x() + 2, m_fbRect.y() - fbThick,
+							m_fbRect.x() + m_fbRect.width() + fbThick, m_fbRect.y() - fbThick,
+							m_fbRect.x() + m_fbRect.width() + fbThick, height() - fbThick,
+							m_fbRect.x() + m_fbRect.width(), height(),
+							m_fbRect.x(), height());
+	painter.drawPolygon(a);
+	if (gl->instrument == e_classicalGuitar)
+			painter.setBrush(QBrush(QPixmap(gl->path + "picts/fingbg.png")));
+	else
+			painter.setBrush(QBrush(QPixmap(gl->path + "picts/fingbg-el.png")));
+	painter.drawRect(m_fbRect);
+// FRETS
+	// zero fret (upper bridge or HUESO)
+	if (gl->instrument == e_classicalGuitar) {
+			painter.setPen(Qt::NoPen);
+			painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); //#FFFBF0 cream color for hueso
+			painter.drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, 7, m_fbRect.height());
+			a.setPoints(4, m_fbRect.x() - 8,							m_fbRect.y() + 4,
+									m_fbRect.x() - 1, 								m_fbRect.y() + 4,
+									m_fbRect.x() + m_strGap / 3 - 1,	m_fbRect.y() - m_strGap / 3,
+									m_fbRect.x() + m_strGap / 3 - 8,	m_fbRect.y() - m_strGap / 3);
+			painter.setBrush(QBrush(QColor("#FFEEBC"),Qt::SolidPattern)); // a bit darker for its rant
+			painter.drawPolygon(a);
+	} else {
+			QLinearGradient fretGrad(fbRect().x() - 8, 10.0, fbRect().x() + 6, 10.0);
+			fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
+			fretGrad.setColorAt(0.4, QColor("#7F806E"));
+			fretGrad.setColorAt(0.7, QColor("#3B382B"));
+			fretGrad.setColorAt(0.9, QColor("#000000"));
+			painter.setBrush(fretGrad);
+			painter.drawRoundedRect(fbRect().x() - 8, m_fbRect.y() + 2, 14, m_fbRect.height() - 4, 2, 2);
+	}
+// others frets
+	qint8 fretMarks[gl->GfretsNumber]; // array keeps whether fret is marked with dots (1) or two (2)
+	for (int i = 0; i < gl->GfretsNumber; ++i)
+		fretMarks[i] = 0;
+	for (int fr = 0; fr < gl->GmarkedFrets.size(); ++fr) {
+		QString exMark = "", frTxt = gl->GmarkedFrets[fr].toString();
+		if (frTxt.contains("!")) {
+			exMark = "!";
+			frTxt.replace("!", "");
 		}
-    QPolygon a;
-		int fbThick = ((m_strGap * gl->Gtune()->stringNr()) / 6) / 4; // thickness of fretboard
-    a.setPoints(6, m_fbRect.x() - 6, m_fbRect.y(),
-								m_fbRect.x() + 2, m_fbRect.y() - fbThick,
-                m_fbRect.x() + m_fbRect.width() + fbThick, m_fbRect.y() - fbThick,
-                m_fbRect.x() + m_fbRect.width() + fbThick, height() - fbThick,
-                m_fbRect.x() + m_fbRect.width(), height(),
-                m_fbRect.x(), height());
-    painter.drawPolygon(a);
-		if (gl->instrument == e_classicalGuitar)
-				painter.setBrush(QBrush(QPixmap(gl->path + "picts/fingbg.png")));
-		else
-				painter.setBrush(QBrush(QPixmap(gl->path + "picts/fingbg-el.png")));
-    painter.drawRect(m_fbRect);
-  // FRETS
-   // zero fret (upper bridge or HUESO)
-		if (gl->instrument == e_classicalGuitar) {
-				painter.setPen(Qt::NoPen);
-				painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); //#FFFBF0 cream color for hueso
-				painter.drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, 7, m_fbRect.height());
-				a.setPoints(4, m_fbRect.x() - 8,							m_fbRect.y() + 4,
-										m_fbRect.x() - 1, 								m_fbRect.y() + 4,
-										m_fbRect.x() + m_strGap / 3 - 1,	m_fbRect.y() - m_strGap / 3,
-										m_fbRect.x() + m_strGap / 3 - 8,	m_fbRect.y() - m_strGap / 3);
-				painter.setBrush(QBrush(QColor("#FFEEBC"),Qt::SolidPattern)); // a bit darker for its rant
-				painter.drawPolygon(a);
-		} else {
-				QLinearGradient fretGrad(fbRect().x() - 8, 10.0, fbRect().x() + 6, 10.0);
-        fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
-        fretGrad.setColorAt(0.4, QColor("#7F806E"));
-        fretGrad.setColorAt(0.7, QColor("#3B382B"));
-        fretGrad.setColorAt(0.9, QColor("#000000"));
-        painter.setBrush(fretGrad);
-        painter.drawRoundedRect(fbRect().x() - 8, m_fbRect.y() + 2, 14, m_fbRect.height() - 4, 2, 2);
-		}
- // others frets
-    for (int i = 0; i < gl->GfretsNumber; i++) {
-        QLinearGradient fretGrad(m_fretsPos[i], 10.0, m_fretsPos[i] + 8, 10.0);
-        fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
-        fretGrad.setColorAt(0.4, QColor("#7F806E"));
-        fretGrad.setColorAt(0.7, QColor("#3B382B"));
-        fretGrad.setColorAt(0.9, QColor("#000000"));
-        painter.setBrush(fretGrad);
-        painter.drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, 9, m_fbRect.height() - 4, 2, 2);
-        if ( (gl->instrument == e_bassGuitar && i == 2) || i==4 || i==6 || i==8 || i==14 || i==16)	{
-                //white color for circles marking 5,7,9... frets
-            painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
-            painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-                                m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
-        } else if (i==11)	{
-            painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
-            painter.drawEllipse(m_fretsPos[i] - 12 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-                                m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
-						painter.drawEllipse(m_fretsPos[i] + 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-                                m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
-        }
-    }
-  // STRINGS
-    QFont strFont = font();
-    strFont.setPixelSize((int)qRound(0.75 * m_strGap));//setting font for digits
-    painter.setFont(strFont);
-    painter.setBrush(QBrush(Qt::NoBrush));
-    for (int i = 0; i < 6; i++) {
-//  drawing main strings
-			qreal lineYpos = m_fbRect.y() + m_strGap / 2 + i * m_strGap;
-			QLinearGradient strGrad(1.0, lineYpos - m_strWidth[i] / 2, 1.0, lineYpos + m_strWidth[i] / 2);
-			strGrad.setColorAt(0.0, m_strColors[i]);
-			strGrad.setColorAt(0.5, m_strColors[i].darker());
-			painter.setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
-			painter.drawLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
-			if (i < gl->Gtune()->stringNr()) {
-					m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
-					m_workStrings[i]->setLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
-					m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
-					m_strings[i]->setLine(m_workStrings[i]->line());
-					m_strings[i]->show();
-// drawing digits of strings in circles
-					painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
-					painter.setBrush(QBrush(QColor(0, 0, 0, 180)));
-					int circleX;
-					if (!gl->GisRightHanded) {
-							painter.scale (-1, 1);
-							painter.translate(-width(), 0);
-							circleX = 1;
-					} else
-							circleX = width() - 1 - m_strGap;
-					painter.drawEllipse(circleX, m_fbRect.y() + i * m_strGap, m_strGap - 1, m_strGap - 1);
-					painter.setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
-					if (gl->GisRightHanded)
-							painter.drawText(width() - ((int)qreal(m_strGap * 0.75)),
-															m_fbRect.y() + (int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
-						else {
-								painter.drawText((int)qreal(m_strGap * 0.28),
-																m_fbRect.y()+(int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
-								painter.translate(width(), 0);
-								painter.scale (-1, 1);
-						}
-		// shadow of the strings
-						painter.setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
-// 							int yy = m_fbRect.y() + m_strGap / 2 + (i - 1) * m_strGap - 3 - m_strWidth[i];
-						int yy = lineYpos + m_strGap * 0.2;
-						painter.drawLine(m_fbRect.x() + 3, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
-						painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
-						painter.drawLine(m_fbRect.x() - 8, lineYpos - 2,
-														m_fbRect.x(), lineYpos - 2);
-						painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1,
-														m_fbRect.x() - 1, lineYpos + m_strWidth[i] - 1);
-						if (m_pickRect->width()) { // shadow on the pickup if exist (bass or electric guitar)
-							int pickX = m_pickRect->x();
-							if (!gl->GisRightHanded)
-									pickX = width() - (m_pickRect->x() + m_pickRect->width());
-							painter.setPen(QPen(QColor(28, 28, 28, 30), m_strWidth[i], Qt::SolidLine));
-							yy += m_strGap * 0.1;
-							int subW = qRound((qreal)m_pickRect->width() * 0.15);
-							QPoint ps[5] = {
-										QPoint(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.12),
-										QPoint(pickX, yy + m_strGap * 0.12),
-										QPoint(pickX + subW, yy),
-										QPoint(pickX + m_pickRect->width() - subW, yy),
-										QPoint(pickX + m_pickRect->width() - subW * 0.3, yy + m_strGap * 0.15)
-							};
-							painter.drawPolyline(ps, 5);
-						}							
-
-			} else { // hide rest lines (strings)
-					m_workStrings[i]->hide();
-					m_strings[i]->hide();
-			}
-		}
-    m_workFinger->setRect(0, 0, m_fretWidth / 1.6, qRound(0.7 * m_strGap));
-    for (int i = 0; i < 6; i++) {
-			if (i < gl->Gtune()->stringNr()) {
-        m_fingers[i]->setRect(m_workFinger->rect());
-				m_fingers[i]->show();
-			}
+		bool ok;
+		int frNr = frTxt.toInt(&ok);
+		if (ok && frNr > 0 && frNr <= gl->GfretsNumber) {
+			if (exMark.isEmpty())
+				fretMarks[frNr - 1] = 1;
 			else
-				m_fingers[i]->hide();
+				fretMarks[frNr - 1] = 2;
 		}
+	}
+	for (int i = 0; i < gl->GfretsNumber; i++) {
+			QLinearGradient fretGrad(m_fretsPos[i], 10.0, m_fretsPos[i] + 8, 10.0);
+			fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
+			fretGrad.setColorAt(0.4, QColor("#7F806E"));
+			fretGrad.setColorAt(0.7, QColor("#3B382B"));
+			fretGrad.setColorAt(0.9, QColor("#000000"));
+			painter.setBrush(fretGrad);
+			painter.drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, 9, m_fbRect.height() - 4, 2, 2);
+			
+			if (fretMarks[i])	{
+				painter.setBrush(QBrush(Qt::white, Qt::SolidPattern)); //white color for circles marking 5, 7, 9... frets
+				if (fretMarks[i] == 1)
+					painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+															m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
+				else {
+// 					painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+// 															m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 10, 8, 8);
+// 					painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+// 															m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) + 8, 8, 8);
+					painter.drawEllipse(m_fretsPos[i] - 12 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+															m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
+					painter.drawEllipse(m_fretsPos[i] + 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+															m_fbRect.y() + m_strGap * (int)(gl->Gtune()->stringNr() / 2) - 2, 8, 8);
+				}
+			}
+	}
+// STRINGS
+	QFont strFont = font();
+	strFont.setPixelSize((int)qRound(0.75 * m_strGap));//setting font for digits
+	painter.setFont(strFont);
+	painter.setBrush(QBrush(Qt::NoBrush));
+	for (int i = 0; i < 6; i++) {
+//  drawing main strings
+		qreal lineYpos = m_fbRect.y() + m_strGap / 2 + i * m_strGap;
+		QLinearGradient strGrad(1.0, lineYpos - m_strWidth[i] / 2, 1.0, lineYpos + m_strWidth[i] / 2);
+		strGrad.setColorAt(0.0, m_strColors[i]);
+		strGrad.setColorAt(0.5, m_strColors[i].darker());
+		painter.setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
+		painter.drawLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
+		if (i < gl->Gtune()->stringNr()) {
+				m_workStrings[i]->setPen(QPen(gl->GfingerColor, m_strWidth[i] + 2, Qt::SolidLine));
+				m_workStrings[i]->setLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
+				m_strings[i]->setPen(QPen(gl->GselectedColor, m_strWidth[i], Qt::SolidLine));
+				m_strings[i]->setLine(m_workStrings[i]->line());
+				m_strings[i]->show();
+// drawing digits of strings in circles
+				painter.setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
+				painter.setBrush(QBrush(QColor(0, 0, 0, 180)));
+				int circleX;
+				if (!gl->GisRightHanded) {
+						painter.scale (-1, 1);
+						painter.translate(-width(), 0);
+						circleX = 1;
+				} else
+						circleX = width() - 1 - m_strGap;
+				painter.drawEllipse(circleX, m_fbRect.y() + i * m_strGap, m_strGap - 1, m_strGap - 1);
+				painter.setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
+				if (gl->GisRightHanded)
+						painter.drawText(width() - ((int)qreal(m_strGap * 0.75)),
+														m_fbRect.y() + (int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
+					else {
+							painter.drawText((int)qreal(m_strGap * 0.28),
+															m_fbRect.y()+(int)qreal(m_strGap * (0.75 + i)), QString::number(i + 1));
+							painter.translate(width(), 0);
+							painter.scale (-1, 1);
+					}
+	// shadow of the strings
+					painter.setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
+// 							int yy = m_fbRect.y() + m_strGap / 2 + (i - 1) * m_strGap - 3 - m_strWidth[i];
+					int yy = lineYpos + m_strGap * 0.2;
+					painter.drawLine(m_fbRect.x() + 3, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
+					painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
+					painter.drawLine(m_fbRect.x() - 8, lineYpos - 2,
+													m_fbRect.x(), lineYpos - 2);
+					painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1,
+													m_fbRect.x() - 1, lineYpos + m_strWidth[i] - 1);
+					if (m_pickRect->width()) { // shadow on the pickup if exist (bass or electric guitar)
+						int pickX = m_pickRect->x();
+						if (!gl->GisRightHanded)
+								pickX = width() - (m_pickRect->x() + m_pickRect->width());
+						painter.setPen(QPen(QColor(28, 28, 28, 30), m_strWidth[i], Qt::SolidLine));
+						yy += m_strGap * 0.1;
+						int subW = qRound((qreal)m_pickRect->width() * 0.15);
+						QPoint ps[5] = {
+									QPoint(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.12),
+									QPoint(pickX, yy + m_strGap * 0.12),
+									QPoint(pickX + subW, yy),
+									QPoint(pickX + m_pickRect->width() - subW, yy),
+									QPoint(pickX + m_pickRect->width() - subW * 0.3, yy + m_strGap * 0.15)
+						};
+						painter.drawPolyline(ps, 5);
+					}							
 
-    if (m_questFinger) {
-        m_questFinger->setRect(m_workFinger->rect());
-        paintFinger(m_questFinger, m_questPos.str() - 1, m_questPos.fret());
-    }
-    if (m_questString)
-        m_questString->setLine(m_strings[m_questPos.str() - 1]->line());
-    if (m_questMark) paintQuestMark();
-    resizeRangeBox();
-    m_scene->setBackgroundBrush(QBrush(pixmap));
-    setFinger(m_selNote);
-    if (m_highString)
-      setHighlitedString(m_hilightedStrNr);
+		} else { // hide rest lines (strings)
+				m_workStrings[i]->hide();
+				m_strings[i]->hide();
+		}
+	}
+	m_workFinger->setRect(0, 0, m_fretWidth / 1.6, qRound(0.7 * m_strGap));
+	for (int i = 0; i < 6; i++) {
+		if (i < gl->Gtune()->stringNr()) {
+			m_fingers[i]->setRect(m_workFinger->rect());
+			m_fingers[i]->show();
+		}
+		else
+			m_fingers[i]->hide();
+	}
+
+	if (m_questFinger) {
+			m_questFinger->setRect(m_workFinger->rect());
+			paintFinger(m_questFinger, m_questPos.str() - 1, m_questPos.fret());
+	}
+	if (m_questString)
+			m_questString->setLine(m_strings[m_questPos.str() - 1]->line());
+	if (m_questMark) paintQuestMark();
+	resizeRangeBox();
+	m_scene->setBackgroundBrush(QBrush(pixmap));
+	setFinger(m_selNote);
+	if (m_highString)
+		setHighlitedString(m_hilightedStrNr);
 }
 
 

@@ -52,7 +52,6 @@ public:
 		bool grabFromTemp(); /** Reads configuration from temp file, returns @p true when success. */
 
     QString version;
-    bool hintsEnabled; /** If @p true, hints of widgets are shown */
     bool isFirstRun; /** to show or skip first run wizard*/
     QString lang; /** Application language. If empty - selected from system info*/
     QSettings *config; /** Pointer to QSettings instance of Nootka */
@@ -101,6 +100,7 @@ public:
         /** It says witch accidentals are preferred while user clicks guitar
         * and note is calculated. Default are sharps*/
     bool GpreferFlats; // default false
+    QList<QVariant> GmarkedFrets;
 
 
     TexamParams *E; /** Exam parameters */
