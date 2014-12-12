@@ -22,7 +22,6 @@
 #include "tintonationview.h"
 #include <QTimer>
 #include <QLabel>
-#include <QHBoxLayout>
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QPainter>
@@ -75,10 +74,9 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   }
 }
 
-
-//------------------------------------------------------------------------------------
-//------------          methods     --------------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
 
 void TpitchView::setAudioInput(TaudioIN* audioIn) {
   m_audioIN = audioIn;
@@ -153,13 +151,9 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 	m_intoView->outOfTuneAnim(outTune, duration);
 }
 
-
-
-
-//------------------------------------------------------------------------------------
-//------------          slots       --------------------------------------------------
-//------------------------------------------------------------------------------------
-
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void TpitchView::noteSlot() {
   m_hideCnt = 0;
@@ -210,14 +204,16 @@ void TpitchView::minimalVolumeChanged(float minVol) {
 }
 
 
-void TpitchView::animationFinishedSlot() {
-	
+void TpitchView::stopTimerDelayed() {
+	m_volTimer->stop();
+	m_volMeter->setVolume(0.0);
+	m_volMeter->setVolume(0.0); // it has to be called twice to reset
+	m_intoView->pitchSlot(0.0);
 }
 
-
-//------------------------------------------------------------------------------------
-//------------          events      --------------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################              EVENTS              ############################################
+//#################################################################################################
 
 void TpitchView::paintEvent(QPaintEvent* )
 {
@@ -230,10 +226,27 @@ void TpitchView::paintEvent(QPaintEvent* )
 }
 
 
-void TpitchView::stopTimerDelayed() {
-	m_volTimer->stop();
-	m_volMeter->setVolume(0.0);
-	m_volMeter->setVolume(0.0); // it has to be called twice to reset
-	m_intoView->pitchSlot(0.0);
+void TpitchView::showEvent(QShowEvent* e) {
+	if (!isPaused() && m_audioIN)
+		startVolume();
+	QWidget::showEvent(e);
 }
+
+
+void TpitchView::hideEvent(QHideEvent* e) {
+	if (!isPaused() && m_audioIN)
+		stopVolume();
+	QWidget::hideEvent(e);
+}
+
+
+
+
+
+
+
+
+
+
+
 

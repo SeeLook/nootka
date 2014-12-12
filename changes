@@ -2,6 +2,7 @@
      - There is an option for using JACK (Linux) and ASIO (Windows)
      - pitch detection range is set dynamically instead of settings
      - two pitch detection methods merged into single, two-steps method
+     - improved detection of quickly repeated (the same) notes
      - exam question tips are movable and were improved
      - window elements (hints, sound view, guitar, tool bar) can be hidden
     BUGS FIXES

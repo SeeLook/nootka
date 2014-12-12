@@ -188,8 +188,9 @@ void TtoolBar::createCorrectAction() {
 void TtoolBar::createTuneForkAction() {
 	if (!tuneForkAct) {
 		tuneForkAct = new QAction(Tnote(6, 1, 0).toText(), this);
-		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tune fork."));
+		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tune fork.\n(Press key 'a')"));
 		tuneForkAct->setIcon(QIcon(Tpath::img("fork")));
+		tuneForkAct->setShortcut(QKeySequence(Qt::Key_A));
 	}
 }
 

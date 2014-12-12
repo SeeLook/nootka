@@ -63,7 +63,7 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 	w->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
 	w->setLayout(m_mainLay);
 	m_form = scene()->addWidget(w);
-	m_isAutoHide = !m_layParams->toolBarAutoHide;
+	m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
 	setBarAutoHide(m_layParams->toolBarAutoHide);
 }
 
@@ -106,7 +106,10 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 	m_resultLay = new QHBoxLayout;
 		m_resultLay->addWidget(m_progress);
 		m_resultLay->addWidget(m_results);
-		m_mainLay->insertLayout(2, m_resultLay);
+		int examResultsPos = 2; // third layout row by default
+		if (isAutoHide())
+			examResultsPos--;
+		m_mainLay->insertLayout(examResultsPos, m_resultLay);
 	resultsW->installEventFilter(this);
 	progressW->installEventFilter(this);
 }
@@ -152,7 +155,7 @@ void TmainView::setBarAutoHide(bool autoHide) {
 			barBlur->setBlurRadius(15);
 			m_proxyBar->setZValue(200);
 			m_proxyBar->setGraphicsEffect(barBlur);
-// 			m_proxyBar->hide();
+			m_proxyBar->setPos(20, 0); // move it from left side
 			m_barLine->hide();
 			updateBarLine();
 			static_cast<TtoolBar*>(m_tool)->setProxy(m_proxyBar);

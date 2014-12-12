@@ -25,8 +25,6 @@
 
 - Pitch view remains enabled after exam (even the check box is unchecked)
 
-- exam view is displayed below score - put it up
-
 Proxy widgets:
 - size of proxy points has to depend on screen resolution
 - fix blur of proxy corner widgets
@@ -34,9 +32,6 @@ Proxy widgets:
 Scaling issues:
 - auto hidden tool bar remains big after decreased window size
 - proxy points lost their position after a few scaling-s
-
-Sound views:
-- stop capturing audio state when sound views are hidden
 
 - bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
 
@@ -52,6 +47,7 @@ Sound views:
 
 - clear hintsEnabled option from Tglobals
 
+- TpitchView could react on TaudioIN state to be automatically enabled/disabled
 
 Charts:
 	- points (notes) shadow changes with zoom - fix it
