@@ -13,11 +13,11 @@
    height="34.242474"
    viewBox="0 0 5.9298958 5.4993423"
    id="svg2"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.48.4 r9939"
    sodipodi:docname="melodySett.svg"
    inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/unused-picts/melodySett.png"
-   inkscape:export-xdpi="2494.2708"
-   inkscape:export-ydpi="2494.2708">
+   inkscape:export-xdpi="388.9906"
+   inkscape:export-ydpi="388.9906">
   <metadata
      id="metadata64">
     <rdf:RDF>
@@ -90,12 +90,12 @@
      id="namedview60"
      showgrid="false"
      inkscape:zoom="10.148731"
-     inkscape:cx="52.570796"
-     inkscape:cy="14.294228"
+     inkscape:cx="36.770178"
+     inkscape:cy="-0.13419543"
      inkscape:window-x="-2"
      inkscape:window-y="-3"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g3709"
+     inkscape:current-layer="svg2"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -124,220 +124,221 @@
      ry="2.6451859"
      transform="matrix(0.16060004,0,0,0.16060004,3.0109997e-8,-1.7089621e-6)" />
   <g
-     id="g3725"
-     transform="matrix(0.27265614,-0.12213881,0,0.31169047,-2.6062752,2.8189346)">
-    <line
-       style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round"
-       id="line8"
-       y2="9.629221"
-       x2="26.965742"
-       y1="9.629221"
-       x1="14.268479" />
-    <line
-       style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round"
-       id="line10"
-       y2="8.6252604"
-       x2="26.965742"
-       y1="8.6252604"
-       x1="14.268479" />
-    <line
-       style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round"
-       id="line12"
-       y2="7.6213002"
-       x2="26.965742"
-       y1="7.6213002"
-       x1="14.268479" />
-    <line
-       style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round"
-       id="line14"
-       y2="6.6173396"
-       x2="26.965742"
-       y1="6.6173396"
-       x1="14.268479" />
-    <line
-       style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round"
-       id="line16"
-       y2="5.613379"
-       x2="26.965742"
-       y1="5.613379"
-       x1="14.268479" />
-  </g>
-  <g
-     id="g3709-7"
-     transform="matrix(0.40214909,-0.18014638,0,0.31169046,-7.3031693,5.0940531)"
-     style="opacity:0.76854601;filter:url(#filter4674)">
-    <a
-       id="a18-6"
-       xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:9:10">
-      <path
-         id="path20-7"
-         d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
-         transform="matrix(0.004,0,0,-0.004,26.0925,6.1213)"
-         inkscape:connector-curvature="0"
-         style="fill:currentColor" />
-    </a>
-    <rect
-       id="rect22-7"
-       ry="0.039999999"
-       height="3.1222"
-       width="0.13"
-       y="-1.3122"
-       x="-0.064999998"
-       transform="translate(26.1575,7.6213)"
-       style="fill:currentColor" />
-    <a
-       id="a24-1"
-       xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:12:13">
-      <path
-         id="path26-2"
-         d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
-         transform="matrix(0.004,0,0,-0.004,28.6087,5.6213)"
-         inkscape:connector-curvature="0"
-         style="fill:currentColor" />
-    </a>
-    <rect
-       id="rect28-2"
-       ry="0.039999999"
-       height="3.6222"
-       width="0.13"
-       y="-1.8122"
-       x="-0.064999998"
-       transform="translate(28.6737,7.6213)"
-       style="fill:currentColor" />
-    <polygon
-       id="polygon30-7"
-       points="2.6062,0.2 0.04,0.2 0.04,-0.2 2.6062,-0.2 "
-       transform="translate(23.5764,8.6213)"
-       style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round" />
-    <polygon
-       id="polygon32-8"
-       points="5.1224,0.2 0.04,0.2 0.04,-0.2 5.1224,-0.2 "
-       transform="translate(23.5764,9.4313)"
-       style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round" />
-    <a
-       id="a34-8"
-       xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:8:9">
-      <path
-         id="path36-9"
-         d="m 0.74359812,-3.050006 c 0.80002098,-0.5079222 1.97113258,-0.2752058 2.51617798,0.5 -0.5684338,-0.6575071 -1.7395454,-0.8902235 -2.51617798,-0.5 z"
-         transform="translate(23.5764,7.6213)"
-         inkscape:connector-curvature="0"
-         style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round" />
-    </a>
-    <a
-       id="a42-3"
-       xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:2:3">
-      <path
-         id="path44-3"
-         d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
-         transform="matrix(0.004,0,0,-0.004,23.5764,5.6213)"
-         inkscape:connector-curvature="0"
-         style="fill:currentColor" />
-    </a>
-    <rect
-       id="rect56-3"
-       ry="0.039999999"
-       height="3.6222"
-       width="0.13"
-       y="-1.8122"
-       x="-0.064999998"
-       transform="translate(23.6414,7.6213)"
-       style="fill:currentColor" />
-    <path
-       id="path58-1"
-       d="m 216,-312 c 0,-10 -8,-19 -18,-19 -10,0 -19,9 -19,19 v 145 l -83,-31 v -158 c 0,-10 -9,-19 -19,-19 -10,0 -18,9 -18,19 v 145 l -32,-12 c -2,-1 -5,-1 -7,-1 -11,0 -20,9 -20,20 v 60 c 0,8 5,16 13,19 l 46,16 V 51 L 27,40 C 25,39 22,39 20,39 9,39 0,48 0,59 v 60 c 0,8 5,15 13,18 l 46,17 v 158 c 0,10 8,19 18,19 10,0 19,-9 19,-19 V 167 l 83,31 v 158 c 0,10 9,19 19,19 10,0 18,-9 18,-19 V 211 l 32,12 c 2,1 5,1 7,1 11,0 20,-9 20,-20 v -60 c 0,-8 -5,-16 -13,-19 L 216,109 V -51 l 32,11 c 2,1 5,1 7,1 11,0 20,-9 20,-20 v -60 c 0,-8 -5,-15 -13,-18 l -46,-17 V -312 z M 96,65 V -95 l 83,30 V 95 z"
-       transform="matrix(0.004,0,0,-0.004,22.1264,5.6213)"
-       inkscape:connector-curvature="0"
-       style="fill:currentColor" />
-  </g>
-  <g
-     id="g3709"
-     transform="matrix(0.4021491,-0.18014638,0,0.31169047,-2.4644158,6.2963258)"
-     style="fill:#ff6600">
+     id="g4678"
+     transform="matrix(1.0499882,0,0,1.0623025,-94.702625,-18.635076)">
     <g
-       id="g3088"
-       style="fill:#000000;stroke:none"
-       transform="translate(-12.242905,-10.917286)">
+       transform="matrix(0.25967543,-0.11497555,0,0.29341028,87.711795,20.195764)"
+       id="g3725">
+      <line
+         x1="14.268479"
+         y1="9.629221"
+         x2="26.965742"
+         y2="9.629221"
+         id="line8"
+         style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round" />
+      <line
+         x1="14.268479"
+         y1="8.6252604"
+         x2="26.965742"
+         y2="8.6252604"
+         id="line10"
+         style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round" />
+      <line
+         x1="14.268479"
+         y1="7.6213002"
+         x2="26.965742"
+         y2="7.6213002"
+         id="line12"
+         style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round" />
+      <line
+         x1="14.268479"
+         y1="6.6173396"
+         x2="26.965742"
+         y2="6.6173396"
+         id="line14"
+         style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round" />
+      <line
+         x1="14.268479"
+         y1="5.613379"
+         x2="26.965742"
+         y2="5.613379"
+         id="line16"
+         style="stroke:currentColor;stroke-width:0.08415797;stroke-linecap:round;stroke-linejoin:round" />
+    </g>
+    <g
+       transform="matrix(0.38300345,-0.16958106,0,0.29341028,83.125855,22.226264)"
+       id="g3709">
       <a
-         style="fill:#000000;stroke:none"
          xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:9:10"
          id="a18">
         <path
-           style="fill:#000000;stroke:none"
+           style="fill:currentColor"
            inkscape:connector-curvature="0"
            transform="matrix(0.004,0,0,-0.004,26.0925,6.1213)"
            d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
            id="path20" />
       </a>
-      <path
-         inkscape:connector-curvature="0"
-         id="rect22"
-         d="m -0.025,-1.3122 0.05,0 c 0.02216,0 0.04,0.01784 0.04,0.04 l 0,3.0422001 c 0,0.02216 -0.01784,0.04 -0.04,0.04 l -0.05,0 c -0.02216,0 -0.04,-0.01784 -0.04,-0.04 l 0,-3.0422001 c 0,-0.02216 0.01784,-0.04 0.04,-0.04 z"
-         style="fill:#000000;stroke:none"
-         transform="translate(26.1575,7.6213)" />
+      <rect
+         style="fill:currentColor"
+         transform="translate(26.1575,7.6213)"
+         x="-0.064999998"
+         y="-1.3122"
+         width="0.13"
+         height="3.1222"
+         ry="0.039999999"
+         id="rect22" />
       <a
-         style="fill:#000000;stroke:none"
          xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:12:13"
          id="a24">
         <path
-           style="fill:#000000;stroke:none"
+           style="fill:currentColor"
            inkscape:connector-curvature="0"
            transform="matrix(0.004,0,0,-0.004,28.6087,5.6213)"
            d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
            id="path26" />
       </a>
-      <path
-         inkscape:connector-curvature="0"
-         id="rect28"
-         d="m -0.025,-1.8122 0.05,0 c 0.02216,0 0.04,0.01784 0.04,0.04 l 0,3.5422001 c 0,0.02216 -0.01784,0.04 -0.04,0.04 l -0.05,0 c -0.02216,0 -0.04,-0.01784 -0.04,-0.04 l 0,-3.5422001 c 0,-0.02216 0.01784,-0.04 0.04,-0.04 z"
-         style="fill:#000000;stroke:none"
-         transform="translate(28.6737,7.6213)" />
-      <path
-         inkscape:connector-curvature="0"
-         id="polygon30"
-         d="m 0.04,0.2 0,-0.4 2.5662,0 0,0.4 z"
-         style="fill:#000000;stroke:none"
-         transform="translate(23.5764,8.6213)" />
-      <path
-         inkscape:connector-curvature="0"
-         id="polygon32"
-         d="m 0.04,0.2 0,-0.4 5.0824,0 0,0.4 z"
-         style="fill:#000000;stroke:none"
-         transform="translate(23.5764,9.4313)" />
+      <rect
+         style="fill:currentColor"
+         transform="translate(28.6737,7.6213)"
+         x="-0.064999998"
+         y="-1.8122"
+         width="0.13"
+         height="3.6222"
+         ry="0.039999999"
+         id="rect28" />
+      <polygon
+         style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round"
+         transform="translate(23.5764,8.6213)"
+         points="2.6062,-0.2 2.6062,0.2 0.04,0.2 0.04,-0.2 "
+         id="polygon30" />
+      <polygon
+         style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round"
+         transform="translate(23.5764,9.4313)"
+         points="5.1224,-0.2 5.1224,0.2 0.04,0.2 0.04,-0.2 "
+         id="polygon32" />
       <a
-         style="fill:#000000;stroke:none"
          xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:8:9"
          id="a34">
         <path
-           style="fill:#000000;stroke:none"
+           style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round"
            inkscape:connector-curvature="0"
            transform="translate(23.5764,7.6213)"
            d="m 0.74359812,-3.050006 c 0.80002098,-0.5079222 1.97113258,-0.2752058 2.51617798,0.5 -0.5684338,-0.6575071 -1.7395454,-0.8902235 -2.51617798,-0.5 z"
            id="path36" />
       </a>
       <a
-         style="fill:#000000;stroke:none"
          xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:2:3"
          id="a42">
         <path
-           style="fill:#000000;stroke:none"
+           style="fill:currentColor"
            inkscape:connector-curvature="0"
            transform="matrix(0.004,0,0,-0.004,23.5764,5.6213)"
            d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
            id="path44" />
       </a>
+      <rect
+         style="fill:currentColor"
+         transform="translate(23.6414,7.6213)"
+         x="-0.064999998"
+         y="-1.8122"
+         width="0.13"
+         height="3.6222"
+         ry="0.039999999"
+         id="rect56" />
       <path
-         inkscape:connector-curvature="0"
-         id="rect56"
-         d="m -0.025,-1.8122 0.05,0 c 0.02216,0 0.04,0.01784 0.04,0.04 l 0,3.5422001 c 0,0.02216 -0.01784,0.04 -0.04,0.04 l -0.05,0 c -0.02216,0 -0.04,-0.01784 -0.04,-0.04 l 0,-3.5422001 c 0,-0.02216 0.01784,-0.04 0.04,-0.04 z"
-         style="fill:#000000;stroke:none"
-         transform="translate(23.6414,7.6213)" />
-      <path
-         style="fill:#000000;stroke:none"
+         style="fill:currentColor"
          inkscape:connector-curvature="0"
          transform="matrix(0.004,0,0,-0.004,22.1264,5.6213)"
          d="m 216,-312 c 0,-10 -8,-19 -18,-19 -10,0 -19,9 -19,19 v 145 l -83,-31 v -158 c 0,-10 -9,-19 -19,-19 -10,0 -18,9 -18,19 v 145 l -32,-12 c -2,-1 -5,-1 -7,-1 -11,0 -20,9 -20,20 v 60 c 0,8 5,16 13,19 l 46,16 V 51 L 27,40 C 25,39 22,39 20,39 9,39 0,48 0,59 v 60 c 0,8 5,15 13,18 l 46,17 v 158 c 0,10 8,19 18,19 10,0 19,-9 19,-19 V 167 l 83,31 v 158 c 0,10 9,19 19,19 10,0 18,-9 18,-19 V 211 l 32,12 c 2,1 5,1 7,1 11,0 20,-9 20,-20 v -60 c 0,-8 -5,-16 -13,-19 L 216,109 V -51 l 32,11 c 2,1 5,1 7,1 11,0 20,-9 20,-20 v -60 c 0,-8 -5,-15 -13,-18 l -46,-17 V -312 z M 96,65 V -95 l 83,30 V 95 z"
          id="path58" />
+    </g>
+    <g
+       style="opacity:0.76854601;filter:url(#filter4674)"
+       transform="matrix(0.38300344,-0.16958106,0,0.29341027,83.223441,22.277864)"
+       id="g3709-7">
+      <a
+         xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:9:10"
+         id="a18-6">
+        <path
+           style="fill:currentColor"
+           inkscape:connector-curvature="0"
+           transform="matrix(0.004,0,0,-0.004,26.0925,6.1213)"
+           d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
+           id="path20-7" />
+      </a>
+      <rect
+         style="fill:currentColor"
+         transform="translate(26.1575,7.6213)"
+         x="-0.064999998"
+         y="-1.3122"
+         width="0.13"
+         height="3.1222"
+         ry="0.039999999"
+         id="rect22-7" />
+      <a
+         xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:12:13"
+         id="a24-1">
+        <path
+           style="fill:currentColor"
+           inkscape:connector-curvature="0"
+           transform="matrix(0.004,0,0,-0.004,28.6087,5.6213)"
+           d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
+           id="path26-2" />
+      </a>
+      <rect
+         style="fill:currentColor"
+         transform="translate(28.6737,7.6213)"
+         x="-0.064999998"
+         y="-1.8122"
+         width="0.13"
+         height="3.6222"
+         ry="0.039999999"
+         id="rect28-2" />
+      <polygon
+         style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round"
+         transform="translate(23.5764,8.6213)"
+         points="2.6062,0.2 0.04,0.2 0.04,-0.2 2.6062,-0.2 "
+         id="polygon30-7" />
+      <polygon
+         style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round"
+         transform="translate(23.5764,9.4313)"
+         points="5.1224,0.2 0.04,0.2 0.04,-0.2 5.1224,-0.2 "
+         id="polygon32-8" />
+      <a
+         xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:8:9"
+         id="a34-8">
+        <path
+           style="fill:currentColor;stroke:currentColor;stroke-width:0.08;stroke-linecap:round;stroke-linejoin:round"
+           inkscape:connector-curvature="0"
+           transform="translate(23.5764,7.6213)"
+           d="m 0.74359812,-3.050006 c 0.80002098,-0.5079222 1.97113258,-0.2752058 2.51617798,0.5 -0.5684338,-0.6575071 -1.7395454,-0.8902235 -2.51617798,-0.5 z"
+           id="path36-9" />
+      </a>
+      <a
+         xlink:href="textedit:///home/tom/Nuty/LilyPond/icon.ly:28:2:3"
+         id="a42-3">
+        <path
+           style="fill:currentColor"
+           inkscape:connector-curvature="0"
+           transform="matrix(0.004,0,0,-0.004,23.5764,5.6213)"
+           d="m 220,138 c 56,0 109,-29 109,-91 0,-72 -56,-121 -103,-149 -36,-21 -76,-36 -117,-36 -56,0 -109,29 -109,91 0,72 56,121 103,149 36,21 76,36 117,36 z"
+           id="path44-3" />
+      </a>
+      <rect
+         style="fill:currentColor"
+         transform="translate(23.6414,7.6213)"
+         x="-0.064999998"
+         y="-1.8122"
+         width="0.13"
+         height="3.6222"
+         ry="0.039999999"
+         id="rect56-3" />
+      <path
+         style="fill:currentColor"
+         inkscape:connector-curvature="0"
+         transform="matrix(0.004,0,0,-0.004,22.1264,5.6213)"
+         d="m 216,-312 c 0,-10 -8,-19 -18,-19 -10,0 -19,9 -19,19 v 145 l -83,-31 v -158 c 0,-10 -9,-19 -19,-19 -10,0 -18,9 -18,19 v 145 l -32,-12 c -2,-1 -5,-1 -7,-1 -11,0 -20,9 -20,20 v 60 c 0,8 5,16 13,19 l 46,16 V 51 L 27,40 C 25,39 22,39 20,39 9,39 0,48 0,59 v 60 c 0,8 5,15 13,18 l 46,17 v 158 c 0,10 8,19 18,19 10,0 19,-9 19,-19 V 167 l 83,31 v 158 c 0,10 9,19 19,19 10,0 18,-9 18,-19 V 211 l 32,12 c 2,1 5,1 7,1 11,0 20,-9 20,-20 v -60 c 0,-8 -5,-16 -13,-19 L 216,109 V -51 l 32,11 c 2,1 5,1 7,1 11,0 20,-9 20,-20 v -60 c 0,-8 -5,-15 -13,-18 l -46,-17 V -312 z M 96,65 V -95 l 83,30 V 95 z"
+         id="path58-1" />
     </g>
   </g>
 </svg>
