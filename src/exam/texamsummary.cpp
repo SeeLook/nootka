@@ -99,7 +99,7 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
     m_okButt = new QPushButton(tr("Close"), this);
     if (cont) {
         m_okButt->setText(tr("Continue"));
-        m_okButt->setIcon(QIcon(Tpath::img("nootka-exam")));
+        m_okButt->setIcon(QIcon(Tpath::img("exam")));
         m_closeButt = new QPushButton(tr("Discard"), this);
         m_closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
         m_closeButt->setIconSize(QSize(48, 48));

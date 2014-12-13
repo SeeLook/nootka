@@ -86,11 +86,11 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 			m_newExamButt->setIcon(QIcon(Tpath::img("exam")));
 			setIconSize(m_newExamButt);
 		m_contExamButt = new QPushButton(tr("continue exam"), this);
-			m_contExamButt->setIcon(QIcon(Tpath::img("nootka-exam")));
+			m_contExamButt->setIcon(QIcon(Tpath::img("exam")));
 			setIconSize(m_contExamButt);
 			m_contExamButt->setStatusTip(tr("Click and select an exam to continue"));
 			m_contExamButt->setMenu(m_examMenu);
-		m_lastExamButt = new QPushButton(QIcon(Tpath::img("nootka-exam")), "", this);
+		m_lastExamButt = new QPushButton(QIcon(Tpath::img("exam")), "", this);
 			setIconSize(m_lastExamButt);
 			m_lastExamButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     
@@ -145,7 +145,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
     QSettings sett;
 #endif
 		QAction *loadExamAct = new QAction(TexTrans::loadExamFileTxt(), this);
-			loadExamAct->setIcon(QIcon(Tpath::img("nootka-exam")));
+			loadExamAct->setIcon(QIcon(Tpath::img("exam")));
 			connect(loadExamAct, SIGNAL(triggered(bool)), this, SLOT(examFromFileDialog()));
 		m_examMenu->addAction(loadExamAct);
 		m_examMenu->addSeparator();
@@ -342,7 +342,7 @@ void TstartExamDlg::helpSelected() {
 		ThelpDialogBase *help = new ThelpDialogBase(this);
 		help->setFixedSize(width(), height() * 0.8);
 		QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " + 
-		help->pix("nootka-exam", 64) + "</h2>" +
+		help->pix("exam", 64) + "</h2>" +
 		TmainHelp::youWillLearnText() + "<br><br>" +
 		"</center><table><tr><td style=\"padding: 10px;\" align=\"center\">" + 
 		TmainHelp::duringExercisingText() + "<br>" + TexamHelp::exerciseFeaturesText() +

@@ -32,6 +32,7 @@ Proxy widgets:
 Scaling issues:
 - auto hidden tool bar remains big after decreased window size
 - proxy points lost their position after a few scaling-s
+- score in single mode has wild scene size - it is scroll-able
 
 - bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
 
@@ -49,6 +50,8 @@ Scaling issues:
 
 - TpitchView could react on TaudioIN state to be automatically enabled/disabled
 
+- fix accidental animations
+
 Charts:
 	- points (notes) shadow changes with zoom - fix it
 	- zoom with CTRL+scroll moves a chart as well - fix it
@@ -62,7 +65,6 @@ Charts:
 - enable/disable animations option
 - let's note range will figure automatically by pitch detection ambitus 
   but add options for ambitus: all notes, instrument scale, visible in score 
-- add option for configuring fret marks (dots)
 - make exam summary pretty
 - there has to be some help with key shortcuts
 - make use of QWizard and adjust it to all news

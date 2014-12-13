@@ -188,7 +188,7 @@ QString pixToHtml(const QString& imageFile, int width) {
     QPixmap orgPix;
     if (!orgPix.load(imageFile))
       return "";
-    return pixToHtml(orgPix.scaled(width, width));
+    return pixToHtml(orgPix.scaled(width, width, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
   }
 }
 

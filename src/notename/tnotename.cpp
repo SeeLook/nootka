@@ -277,7 +277,7 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 }
 
 int m_fontSize = 12;
-bool m_isMenu = false;
+bool m_isMenu = true;
 void TnoteName::resize(int fontSize) {
 	if (fontSize) {
 		m_fontSize = fontSize;

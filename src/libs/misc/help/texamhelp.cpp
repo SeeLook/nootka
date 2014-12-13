@@ -41,13 +41,12 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
 {
   resize((parent->width() / 3) * 2, (parent->height() / 3) * 2);
   helpText()->setHtml(
-    QString("<center><h2>%1 &nbsp;&nbsp;").arg(pix("help", BIGPIXSIZE)) +
-    tr("How does an exercise or an exam work?") +
-    QString("&nbsp;&nbsp; %1").arg(pix("practice", BIGPIXSIZE) + " " + pix("nootka-exam", BIGPIXSIZE)) + "</h2>" +
+    QString("<center><h2>%1").arg(pix("help", BIGPIXSIZE)) + "<br>" +
+    tr("How does an exercise or an exam work?") + "</h2><br>" +
+		pix("practice", BIGPIXSIZE) + "&nbsp;&nbsp;&nbsp;&nbsp;" + pix("exam", BIGPIXSIZE) + "<br>" +
 		tr(" Briefly: Nootka give you a question and you give an answer...") + "<br><br><br><br>" +
     toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pix("nextQuest", PIXICONSIZE)) + "<br>- " +
-    pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" + 
-    tr("Select 2nd check box to get the question automatically.") + 
+    pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" +
 		
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
@@ -56,28 +55,28 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
     QString("<br><br>%1<br><br>").arg(pix("scr", 0)) +
     tr("To check the answer confirm it:") + "<br>- " + 
     clickSomeButtonTxt(pix("check", PIXICONSIZE)) + "<br>- " +
-    pressEnterKey() + "<br>- " + orRightButtTxt() + "<br>" +
-		tr("By selecting the 3rd check box, answers will be checked immediately without confirmation required.") + "<br><br>" +
+    pressEnterKey() + "<br>- " + orRightButtTxt() + "<br><br>" +
 		    
 		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("practice", BIGPIXSIZE) + "<br>" + tr("Exercises") +
 		"</td><td align=\"center\">" +
 		tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + 
-		"<br>- " + clickSomeButtonTxt(pix("correct", PIXICONSIZE)) + "<br>- " + orPressEnterKey() + "<br>" +
-		tr("Select 1st check box to see corrected answer for every mistake.") + "<br><br>" +
+		"<br>- " + clickSomeButtonTxt(pix("correct", PIXICONSIZE)) + "<br>- " + orPressEnterKey() + "<br><br>" +
 		tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", PIXICONSIZE)) +
 		"<br>" + exerciseFeaturesText() +	"</td></tr></table><br><br>" +
 		
-		"<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("nootka-exam", BIGPIXSIZE) + "<br>" + tr("Exams") +
+		"<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("exam", BIGPIXSIZE) + "<br>" + tr("Exams") +
 		"</td><td align=\"center\">" +
 		tr("If you made a mistake during an exam and you want to repeat the question:") + "<br>- " + 
     clickSomeButtonTxt(pix("prevQuest", PIXICONSIZE)) + "<br>- " + orPressBackSpace() + "<br><br>" +
 		toStopExamTxt(pix("stopExam", PIXICONSIZE)) + "<br>" + 
 		examFeaturesText() + "</td></tr></table></center><center>" +
+		
+		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("exam-settings", BIGPIXSIZE) + "<br>" + tr("Settings") +
+		"</td><td align=\"center\"><br><br>" +
+		tr("Just click this settings button to adjust an exercise or an exam to your current needs.") +	"</td></tr></table><br><br>" +
+		
     "<hr><br><br><span style=\"font-size: 20px;\"><b>" +
     tr("GOOD LUCK!") + "</b></span>" 
-// 		+ "<br><table><tr><th colspan=2>" +
-//     tr("Experts corner") + "</th></tr><tr><td rowspan=3>" +	pix("expertCorner", 0) +
-//     "</td><td><br>1. " + correctMistakesTxt() + "</td></tr><tr><td><br>2. " +  autoNextQuestTxt() + "</td></tr><tr><td><br>3. " + expertsAnswerTxt() + "</td></tr></table>" + 
 		"<br></center>");
   
   helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);
