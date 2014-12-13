@@ -57,6 +57,7 @@ signals:
 	
 public slots:
 	void hideWithDelay();
+	void hideSpot(); /** Hides spot point and its widget */
 	
 	
 protected:
