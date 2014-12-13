@@ -29,13 +29,13 @@ add_subdirectory( libs/misc ) # libNootkaMisc
 		
 include_directories( libs/core libs/sound libs/misc )
 
-# add_subdirectory( charts ) # nootka analyzer
+add_subdirectory( charts ) # nootka analyzer
 
-# add_subdirectory( level ) # level creator
+add_subdirectory( level ) # level creator
 
-# add_subdirectory( updater ) # nootka updater
+add_subdirectory( updater ) # nootka updater
 
-# add_subdirectory( settings )
+add_subdirectory( settings )
 
 # nootka executable
 set(NOOTKA_SRC
