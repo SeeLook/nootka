@@ -115,6 +115,9 @@ void TtoolBar::actionsAfterExam() {
 	startExamAct->setStatusTip(tr("Start exercises or an exam"));
 	startExamAct->setIcon(QIcon(Tpath::img("startExam")));
 	
+	settingsAct->setIcon(QIcon(Tpath::img("systemsettings")));
+	settingsAct->setStatusTip(tr("Application preferences"));
+	
 	aboutAct->setVisible(true);
 	analyseAct->setVisible(true);
 	startExamAct->setDisabled(false);
@@ -143,6 +146,8 @@ void TtoolBar::actionsToExam() {
 	levelCreatorAct->setStatusTip(levelCreatorAct->text());
 	startExamAct->setIcon(QIcon(Tpath::img("stopExam")));
 	startExamAct->setText(tr("Stop"));
+	settingsAct->setIcon(QIcon(Tpath::img("exam-settings")));
+	settingsAct->setStatusTip(tr("Exercise or exam preferences"));
 	
 	if (!nextQuestAct) {
 		nextQuestAct = new QAction(tr("Next", "like a next question"), this);

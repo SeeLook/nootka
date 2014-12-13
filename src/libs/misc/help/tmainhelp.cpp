@@ -51,7 +51,7 @@ QString TmainHelp::duringExercisingText() {
 
 
 QString TmainHelp::duringExamsText() {
-	return QApplication::translate("TmainHelp", "During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(" &nbsp; " + pixToHtml(Tpath::img("nootka-exam"), 32) + " &nbsp; ");
+	return QApplication::translate("TmainHelp", "During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(" &nbsp; " + pixToHtml(Tpath::img("exam"), 32) + " &nbsp; ");
 }
 
 

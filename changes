@@ -5,6 +5,7 @@
      - improved detection of quickly repeated (the same) notes
      - exam question tips are movable and were improved
      - window elements (hints, sound view, guitar, tool bar) can be hidden
+     - dots marking frets are configurable
     BUGS FIXES
      - flickering of an analyze chart was put right
 

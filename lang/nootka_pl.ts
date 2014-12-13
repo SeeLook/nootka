@@ -2432,7 +2432,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="48"/>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation>Podczas ćwiczeń %1 program będzie twoim wyrozumiałym i przyjaźnie nastawionym nauczycielem -pokaże ci poprawne odpowiedzi jeżeli się pomylisz.</translation>
+        <translation>Podczas ćwiczeń %1 program będzie twoim wyrozumiałym i przyjaźnie nastawionym nauczycielem - pokaże ci poprawne odpowiedzi jeżeli się pomylisz.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="53"/>
@@ -2458,7 +2458,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="69"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Naciśnij przyciski %1 żeby zerknąć na ten teks pomocy. Użyj przycisku %2 żeby dopasować program do swoich preferencji.</translation>
+        <translation>Naciśnij przyciski %1 żeby zerknąć na ten tekst pomocy. Użyj przycisku %2 żeby dopasować program do swoich preferencji.</translation>
     </message>
     <message>
         <location filename="../src/info/tmainhelp.cpp" line="73"/>

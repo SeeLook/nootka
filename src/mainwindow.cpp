@@ -650,7 +650,7 @@ void MainWindow::updateSize(QSize newS) {
 #else
 	int barIconSize = qMin(newS.width(), newS.height()) / 20;
 #endif
-	bar->setBarIconStyle(bar->toolButtonStyle(), barIconSize);
+	bar->setBarIconStyle(gl->L->iconTextOnToolBar, barIconSize);
 	int baseH = qMin(newS.height(), newS.width());
 	if (score->insertMode() == TmultiScore::e_single)
 		noteName->setMaximumWidth(newS.width() / 2);
