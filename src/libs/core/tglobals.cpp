@@ -219,7 +219,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			GpreferFlats = cfg->value("flatsPrefered", false).toBool(); //false;
 			QList<QVariant> fretsList;
 			fretsList << 5 << 7 << 9 << "12!" << 15 << 17;
-			GmarkedFrets = cfg->value("dotsOnFrets", "").toList();
+			GmarkedFrets = cfg->value("dotsOnFrets", fretsList).toList();
 	cfg->endGroup();
 
 	

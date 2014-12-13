@@ -53,7 +53,7 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 // proxy widget
 	m_proxy = scene->addWidget(widget);
 	m_proxy->setZValue(105);
-	m_proxy->hide();
+// 	m_proxy->show();
 	m_proxy->setFlag(ItemIgnoresTransformations);
 	if (widget)
 			widget->installEventFilter(this);
@@ -61,14 +61,16 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 // corner spot
 	m_spot = scene->addEllipse(0.0, 0.0, 3.0, 3.0, Qt::NoPen, Qt::NoBrush);
 	m_spot->setParentItem(this);
-	m_spot->hide();
+// 	m_spot->show();
 	m_spot->setGraphicsEffect(new QGraphicsBlurEffect());
 	setSpotColor(QColor(0, 0, 255, 20));
-	sceneRectChangedSlot();
 	
 	connect(scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sceneRectChangedSlot()));
 	connect(m_view->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(sceneScrolled()));
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString))); // for forwarding tips
+	
+	QTimer::singleShot(50, this, SLOT(sceneRectChangedSlot()));
+	QTimer::singleShot(2000, this, SLOT(hideSpot()));
 }
 
 
@@ -89,8 +91,7 @@ void TcornerProxy::hideWithDelay() {
 	if (hasCursor() || m_widgetHasMouse) {
 			QTimer::singleShot(PROXYTIME, this, SLOT(hideWithDelay()));
 	} else {
-			m_spot->hide();
-			proxy()->hide();
+			hideSpot();
 	}
 #endif
 }
@@ -109,11 +110,36 @@ void TcornerProxy::setSpotColor(const QColor& c) {
 }
 
 
+void TcornerProxy::hideSpot() {
+	m_spot->hide();
+	proxy()->hide();
+}
+
+
 //####################################################################################################
 //########################################## PROTECTED ###############################################
 //####################################################################################################
 
 void TcornerProxy::sceneRectChangedSlot() {
+// #if defined (Q_OS_ANDROID) // bigger corner spot for Android
+// 	m_side = m_view->rect().height() / 5.0;
+// 	if (m_widget)
+// 		m_widget->adjustSize();
+// 	m_spot->setRect(0.0, 0.0, side() * 1.5, side() * 1.5);
+// 	m_spot->setPos(side() * -0.75, side() * -0.75);
+// #else
+// 	proxy()->adjustSize(); // adjust proxy size to widget size
+// 	m_side = m_view->rect().height() / 7.0;
+// // 	static_cast<QGraphicsDropShadowEffect*>(proxy()->graphicsEffect())->setBlurRadius(side() / 2.0);
+// 	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
+// 	m_spot->setPos(side() * -0.375, side() * -0.375);
+// #endif
+// 	sceneScrolled();
+	QTimer::singleShot(10, this, SLOT(sceneScrolled()));
+}
+
+
+void TcornerProxy::sceneScrolled() {
 #if defined (Q_OS_ANDROID) // bigger corner spot for Android
 	m_side = m_view->rect().height() / 5.0;
 	if (m_widget)
@@ -127,11 +153,6 @@ void TcornerProxy::sceneRectChangedSlot() {
 	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
 	m_spot->setPos(side() * -0.375, side() * -0.375);
 #endif
-	sceneScrolled();
-}
-
-
-void TcornerProxy::sceneScrolled() {
 // determine TcornerProxy position depends on the corner - in scaled scene coordinates
 	int scrollOffset = -1;
 	if (m_view->rect().height() < scoreScene()->sceneRect().height() * m_view->transform().m11())
@@ -155,6 +176,7 @@ void TcornerProxy::sceneScrolled() {
   else
     xx += gap / 2.0;
 	proxy()->setPos(xx, yy);
+// 	qDebug() << "proxy" << proxy()->pos();
 #endif
 }
 
