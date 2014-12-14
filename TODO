@@ -18,12 +18,13 @@
 - TscoreView and TscoreItem have to have Android compile scopes
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
-- notes number in levels should be randomized, given value will be just a maximum 
-			and without rhythms odd number sounds better
+- notes number in levels should be randomized, given value will be just a maximum
 			
 - changing tool bar auto-hiding cases sometimes locked melody menu
 
 - Pitch view remains enabled after exam (even the check box is unchecked)
+
+- canvas has to recognize when widgets are hidden and doesn't start correct animations 
 
 Proxy widgets:
 - size of proxy points has to depend on screen resolution
@@ -31,26 +32,18 @@ Proxy widgets:
 
 Scaling issues:
 - auto hidden tool bar remains big after decreased window size
-- proxy points lost their position after a few scaling-s
 - score in single mode has wild scene size - it is scroll-able
 
+
 - bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
-
 - revert to native style under MacOs when Qt5
-
 - misc library can crash under Win due to uninitialized Tglobals *gl
-
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
-
 - There is unused class TnotePixmap only with default clef - use it or delete
-
 - vertical name layout is probably unused - clear it then
-
-- clear hintsEnabled option from Tglobals
-
 - TpitchView could react on TaudioIN state to be automatically enabled/disabled
-
 - fix accidental animations
+- click on nootka-exam icon calls nootka but doesn't start exam
 
 Charts:
 	- points (notes) shadow changes with zoom - fix it
@@ -59,6 +52,7 @@ Charts:
 
 ==== NEW FEATURES ================================================================
 - store movable exam tips position for every type of an answer
+- proxy corner widgets should be animated (if they remain live)
 - tidy key signature in note pixmap (width depends on accidentals number)
 - increase precision of exam timers - regressions risk...
 - add blinking of settings icon(action) instead of expert check boxes in old versions

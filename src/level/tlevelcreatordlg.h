@@ -45,7 +45,7 @@ public:
     void loadLevelFile(QString levelFile);
 		
         /** Returns user selected level or level with empty name if not selected. */
-    Tlevel selectedLevel();
+    Tlevel& selectedLevel();
 		
 public slots:
 				/** This slot is invoked by every settings widget(page) when its settings were changed  */

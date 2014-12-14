@@ -77,149 +77,152 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_blindCounter(0),
   m_rand(0)
 {
-    QString resultText;
-    TstartExamDlg::Eactions userAct;
+	QString resultText;
+	TstartExamDlg::Eactions userAct;
 
-    mW->sound->wait();
-    if (lev) {
-        m_level = *lev;
-        if (gl->E->studentName == "") {
-						resultText = TstartExamDlg::systemUserName();
-        } else
-            resultText = gl->E->studentName;
-        userAct = TstartExamDlg::e_newExam;
-    } else {
-        if (examFile == "") { // start exam dialog
-            TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->E, mW);
-            userAct = startDlg->showDialog(resultText, m_level);
-            delete startDlg;
-        } else { // command line arg with given filename
-            resultText = examFile;
-            userAct = TstartExamDlg::e_contExam;
-        }
-    }
-    m_glStore = new TglobalExamStore(gl);
-    m_glStore->tune = *gl->Gtune();
-    m_glStore->fretsNumber = gl->GfretsNumber;
-		m_glStore->instrument = gl->instrument;
-    if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
-        m_exam = new Texam(&m_level, resultText); // resultText is userName
-				if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
-							mW->clearAfterExam(e_failed);
-							deleteExam();
-							return;
-          }
-        gl->E->studentName = resultText; // store user name
-        m_exam->setTune(*gl->Gtune());
-//         mW->examResults->startExam(m_exam);
-				if (userAct == TstartExamDlg::e_runExercise) {
-						m_exercise = new Texercises(m_exam);
+	mW->sound->wait();
+	if (lev) {
+			m_level = *lev;
+			if (gl->E->studentName == "") {
+					resultText = TstartExamDlg::systemUserName();
+			} else
+					resultText = gl->E->studentName;
+			if (examFile == "exercise")
+				userAct = TstartExamDlg::e_runExercise;
+			else
+				userAct = TstartExamDlg::e_newExam;
+	} else {
+			if (examFile == "") { // start exam dialog
+					TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->E, mW);
+					userAct = startDlg->showDialog(resultText, m_level);
+					delete startDlg;
+			} else { // command line arg with given filename
+					resultText = examFile;
+					userAct = TstartExamDlg::e_contExam;
+			}
+	}
+	m_glStore = new TglobalExamStore(gl);
+	m_glStore->tune = *gl->Gtune();
+	m_glStore->fretsNumber = gl->GfretsNumber;
+	m_glStore->instrument = gl->instrument;
+	if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
+			m_exam = new Texam(&m_level, resultText); // resultText is userName
+			if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
+						mW->clearAfterExam(e_failed);
+						deleteExam();
+						return;
 				}
+			gl->E->studentName = resultText; // store user name
+			m_exam->setTune(*gl->Gtune());
+//         mW->examResults->startExam(m_exam);
+			if (userAct == TstartExamDlg::e_runExercise) {
+					m_exercise = new Texercises(m_exam);
+			}
 // 			//We check are guitar's params suitable for an exam 
 // 				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
-    } else if (userAct == TstartExamDlg::e_contExam) {
-        m_exam = new Texam(&m_level, "");
-        Texam::EerrorType err = m_exam->loadFromFile(resultText);
-        if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
-          if (err == Texam::e_file_corrupted)
-            QMessageBox::warning(mW, " ", 
-              tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-          if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
-							!showExamSummary(m_exam, true, (bool)m_exercise)) {
-							mW->clearAfterExam(e_failed);
-							deleteExam();
-							return;
-          }
-        } else {
-            if (err == Texam::e_file_not_valid)
-                QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
-                                  .arg(resultText));
-            mW->clearAfterExam(e_failed);
-            deleteExam();
-            return;
-        }
-    } else {
-				if (userAct == TstartExamDlg::e_levelCreator) {
-						mW->clearAfterExam(e_openCreator);
-				}	else 	
+	} else if (userAct == TstartExamDlg::e_contExam) {
+			m_exam = new Texam(&m_level, "");
+			Texam::EerrorType err = m_exam->loadFromFile(resultText);
+			if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
+				if (err == Texam::e_file_corrupted)
+					QMessageBox::warning(mW, " ", 
+						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
+				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
+						!showExamSummary(m_exam, true, (bool)m_exercise)) {
 						mW->clearAfterExam(e_failed);
-        deleteExam();
-        return;
-    }
-    //We check are guitar's params suitable for an exam 
-		TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
-   // ---------- End of checking ----------------------------------
+						deleteExam();
+						return;
+				}
+			} else {
+					if (err == Texam::e_file_not_valid)
+							QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
+																.arg(resultText));
+					mW->clearAfterExam(e_failed);
+					deleteExam();
+					return;
+			}
+	} else {
+			if (userAct == TstartExamDlg::e_levelCreator) {
+					mW->clearAfterExam(e_openCreator);
+			}	else 	
+					mW->clearAfterExam(e_failed);
+			deleteExam();
+			return;
+	}
+	//We check are guitar's params suitable for an exam 
+	TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
+	// ---------- End of checking ----------------------------------
 
-		if (m_exam->melodies())
-			mW->setSingleNoteMode(false);
-		else
-			mW->setSingleNoteMode(true);
-    m_supp = new TexecutorSupply(&m_level, this);
-    m_supp->createQuestionsList(m_questList);
-		if (m_questList.isEmpty()) {
-        QMessageBox::critical(mW, " ", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
-				delete m_supp;
+	if (m_exam->melodies())
+		mW->setSingleNoteMode(false);
+	else
+		mW->setSingleNoteMode(true);
+	m_supp = new TexecutorSupply(&m_level, this);
+	m_supp->createQuestionsList(m_questList);
+	if (m_questList.isEmpty()) {
+			QMessageBox::critical(mW, " ", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+			delete m_supp;
+			mW->clearAfterExam(e_failed);
+			deleteExam();
+			return;
+	}
+	prepareToExam();
+	if (m_exam->fileName().isEmpty() && gl->E->showHelpOnStart)
+			showExamHelp();
+	if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
+		if (!m_supp->isGuitarOnlyPossible()) {
+				qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
 				mW->clearAfterExam(e_failed);
 				deleteExam();
-        return;
-    }
-    prepareToExam();
-    if (m_exam->fileName().isEmpty() && gl->E->showHelpOnStart)
-				showExamHelp();
-    if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
-      if (!m_supp->isGuitarOnlyPossible()) {
-          qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
-          mW->clearAfterExam(e_failed);
-          deleteExam();
-					return;
-      }
-    }
-    
-		initializeExecuting();
-		createActions();
+				return;
+		}
+	}
+	
+	initializeExecuting();
+	createActions();
 }
 
 
 TexamExecutor::~TexamExecutor() {
-		if (m_supp)
-				delete m_supp;
-		delete m_penalty;
-		delete m_glStore;
-		deleteExam();
+	if (m_supp)
+			delete m_supp;
+	delete m_penalty;
+	delete m_glStore;
+	deleteExam();
 }
 
 
 void TexamExecutor::initializeExecuting() {
-		m_shouldBeTerminated = false;
-    m_incorrectRepeated = false;
-    m_isAnswered = true;
-		m_penalty = new Tpenalty(m_exam, m_supp, mW->examResults, mW->progress);
-		connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
-		if (m_exercise) {
-				if (gl->E->suggestExam)
-					m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
-		} else {
-        connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
-		}
-		if (m_level.requireStyle) {
-				m_prevQuestStyle = m_supp->randomNameStyle(gl->S->nameStyleInNoteName);
-				m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
-		} else {
-				m_prevQuestStyle = gl->S->nameStyleInNoteName;
-				m_prevAnswStyle = gl->S->nameStyleInNoteName;
-		}
-    
-    m_level.questionAs.randNext(); // Randomize question and answer type
-    if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
-    if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
-    if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
-    if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
-		if (m_rand)
-			m_rand->reset();
-		else
-			m_rand = new TequalRand(m_questList.size());
-		m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
-		qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
+	m_shouldBeTerminated = false;
+	m_incorrectRepeated = false;
+	m_isAnswered = true;
+	m_penalty = new Tpenalty(m_exam, m_supp, mW->examResults, mW->progress);
+	connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
+	if (m_exercise) {
+			if (gl->E->suggestExam)
+				m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
+	} else {
+			connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
+	}
+	if (m_level.requireStyle) {
+			m_prevQuestStyle = m_supp->randomNameStyle(gl->S->nameStyleInNoteName);
+			m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
+	} else {
+			m_prevQuestStyle = gl->S->nameStyleInNoteName;
+			m_prevAnswStyle = gl->S->nameStyleInNoteName;
+	}
+	
+	m_level.questionAs.randNext(); // Randomize question and answer type
+	if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
+	if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
+	if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
+	if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
+	if (m_rand)
+		m_rand->reset();
+	else
+		m_rand = new TequalRand(m_questList.size());
+	m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
+	qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
 }
 
 

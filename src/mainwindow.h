@@ -49,71 +49,66 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+	MainWindow(QWidget *parent = 0);
+	~MainWindow();
 
-    void setStatusMessage(const QString& msg, int time);
-    void setMessageBg (QColor bg);
-    
-        /**  Returns font size used in status message label in pixels.
-        * Its size depends on whole window size and is used for fonts' sizes
-        * of others widgets. */
+	void setStatusMessage(const QString& msg, int time);
+	void setMessageBg (QColor bg);
+	
+			/**  Returns font size used in status message label in pixels.
+			* Its size depends on whole window size and is used for fonts' sizes
+			* of others widgets. */
 //     int getFontSize() {return m_statFontSize; }
-    QString statusMessage() { return m_statusText; }
-    TmainView *innerWidget;
-    
-        /** Returns point of bottomLeft examResults.*/
-//     QPoint relatedPoint();
+	QString statusMessage() { return m_statusText; }
+	TmainView *innerWidget;
 
 public slots:
-		void setStatusMessage(const QString& msg);
-    void openFile(QString runArg); // opens *.nel or *.noo file
-    void createSettingsDialog();
-    void openLevelCreator(QString levelFile = "");
-    void startExamSlot();
-    void aboutSlot();
-    void analyseSlot();
+	void setStatusMessage(const QString& msg);
+	void openFile(QString runArg); // opens *.nel or *.noo file
+	void createSettingsDialog();
+	void openLevelCreator(QString levelFile = "");
+	void startExamSlot();
+	void aboutSlot();
+	void analyseSlot();
 // 
-    void noteWasClicked(int index, Tnote note);
+	void noteWasClicked(int index, Tnote note);
 //     void noteNameWasChanged(Tnote note);
-    void guitarWasClicked(const Tnote& note);
-    void soundWasStarted(const Tnote& note);
-		void soundWasFinished(Tchunk& chunk);
+	void guitarWasClicked(const Tnote& note);
+	void soundWasStarted(const Tnote& note);
+	void soundWasFinished(Tchunk& chunk);
     
 // signals:
 //     void sizeChanged(QSize size);
 
 
 protected:
-    TmainScore *score;
-    TnoteName *noteName;
-    TfingerBoard *guitar;
-    Tsound *sound;
-    TexamView *examResults;
-    TexamExecutor *ex;
-// 		TnootkaLabel *nootLabel; // displays Nootka logo
-//     TanimedChBox *autoRepeatChB, *expertAnswChB, *correctChB;
-    TpitchView *pitchView;
-    TprogressWidget *progress;
+	TmainScore *score;
+	TnoteName *noteName;
+	TfingerBoard *guitar;
+	Tsound *sound;
+	TexamView *examResults;
+	TexamExecutor *ex;
+	TpitchView *pitchView;
+	TprogressWidget *progress;
 
-		TtoolBar *bar; /** Main Nootka tool bar. */
-    void clearAfterExam(int examState);
-		
-    void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
-		
-		void setSingleNoteMode(bool isSingle); /** Performs changes when insert mode differs then the set one. */
+	TtoolBar *bar; /** Main Nootka tool bar. */
+	void clearAfterExam(int examState);
+	
+	void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
+	
+	void setSingleNoteMode(bool isSingle); /** Performs changes when insert mode differs then the set one. */
 // 				/* Invokes TnoteName::resize(). Also does the same for TexamView (examResults) and TprogressWidget.
 // 				 * Font size is calculated from m_statFontSize + m_extraFontOffset */
 // 		void setWidgetsFont();
 // 
-    void resizeEvent(QResizeEvent *event);
+	void resizeEvent(QResizeEvent *event);
 //     void closeEvent(QCloseEvent *event);
 //     bool eventFilter(QObject* obj, QEvent* event);
-    void paintEvent(QPaintEvent *);
+	void paintEvent(QPaintEvent *);
         
 protected slots:
-    void restoreMessage();
-		void messageSlot(const QString& msg);
+	void restoreMessage();
+	void messageSlot(const QString& msg);
 		
 //     void showSupportDialog();
 		
@@ -130,26 +125,27 @@ protected slots:
 				/** This slot is invoked when clef is changed by clicking score.
 				 * It adjust ambitus to score possibilities if clef is differ than default
 				 * or to instrument scale if clef backs to default */
-		void adjustAmbitus();
+	void adjustAmbitus();
+		
+private:
+	void prepareToExam();
 
 private:
-
-    TroundedLabel 			 *m_statLab;
-    QString 							m_statusText, m_prevMsg;
-		
-        /** Keeps true when statusMesage is locked by temporary message
-        * and stops any status messages in this time.*/
-    bool 									m_lockStat;
-    QColor 								m_prevBg, m_curBG;
-    QPixmap 							m_bgPixmap, m_rosettePixmap;
-    int 									m_statFontSize;
+	TroundedLabel 			 *m_statLab;
+	QString 							m_statusText, m_prevMsg;
+	
+			/** Keeps true when statusMesage is locked by temporary message and stops any status messages in this time.*/
+	bool 									m_lockStat;
+	QColor 								m_prevBg, m_curBG;
+	QPixmap 							m_bgPixmap, m_rosettePixmap;
+	int 									m_statFontSize;
 // 		int 									m_extraFontOffset;
-    bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
-    Tlevel 						    m_level;
-		bool 									m_isPlayerFree;
+	bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
+	Tlevel 						    m_level;
+	bool 									m_isPlayerFree;
 // 		QWidget 							*m_pitchContainer;
-		TmelMan							 *m_melButt;
-		int										m_startedSoundId; /** Index of note on the score that has been just started.  */
+	TmelMan							 *m_melButt;
+	int										m_startedSoundId; /** Index of note on the score that has been just started.  */
 
 };
 

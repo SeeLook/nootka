@@ -27,17 +27,23 @@ class QPushButton;
 class TlevelSelector;
 
 /** 
- * This widget contain general level settings and belongs to 
- * @class examsettings dialog.
+ * This widget contain general level settings.
  */
 class levelSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit levelSettings(QString &imgPath, QWidget *parent = 0);
+    explicit levelSettings(QWidget *parent = 0);
 
-    TlevelSelector *levelSelector;
-    QPushButton *saveBut, *startExamBut;
+		TlevelSelector* levelSelector() { return m_levelSelector; }
+		QPushButton* saveButton() { return m_saveBut; }
+		QPushButton* startExamButton() { return m_startExamBut; }
+		QPushButton* startExerciseButton() { return m_startExerBut; }
+		
+private:
+		
+    TlevelSelector *m_levelSelector;
+    QPushButton *m_saveBut, *m_startExamBut, *m_startExerBut;
 
 };
 

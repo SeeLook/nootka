@@ -23,6 +23,7 @@
 #include <tscoreparams.h>
 #include <music/tchunk.h>
 #include <tlayoutparams.h>
+#include <level/tlevelselector.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include "score/tmainscore.h"
@@ -34,7 +35,6 @@
 #include <taboutnootka.h>
 // // #include "tfirstrunwizzard.h"
 // // #include "tsupportnootka.h"
-// // #include "tnootkalabel.h"
 // #include "texamsettings.h"
 // #include <tupdateprocess.h>
 // #include <tcolor.h>
@@ -94,11 +94,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
 //                               QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 // #endif
-// #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-//     setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
-// #else
+
     setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
-// #endif
     
     setMinimumSize(720, 480);
 		gl->config->beginGroup("General");
@@ -264,7 +261,6 @@ void MainWindow::clearAfterExam(int examState) {
 	examResults = 0;
 	if (score->insertMode() != TmultiScore::e_single)
 		bar->setMelodyButtonVisible(true);
-// 		nootLabel->show();
 	updateSize(innerWidget->size());
 }
 
@@ -391,7 +387,26 @@ void MainWindow::openLevelCreator(QString levelFile) {
 				args << levelFile;
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, true);
 		TprocessHandler levelProcess("nootka-level", args, this);
-		qDebug() << levelProcess.lastWord();
+		QString levelText = levelProcess.lastWord();
+		qDebug() << "process said:" << levelText;
+		gl->config->sync();
+		bool startExercise = false;
+		if (levelText.contains("exam:"))
+			levelText.remove("exam:");
+		else {
+			levelText.remove("exercise:");
+			startExercise = true;
+		}
+		m_levelCreatorExist = false;
+		bool ok;
+		int levelNr = levelText.toInt(&ok);
+		if (ok) {
+			TlevelSelector ls;
+			ls.selectLevel(levelNr);
+			m_level = ls.getSelectedLevel();
+			prepareToExam();
+			ex = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam			
+		}
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		
 //     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
@@ -404,30 +419,17 @@ void MainWindow::openLevelCreator(QString levelFile) {
 //             shallExamStart = true;
 //     }
 //     delete levelCreator;
-    m_levelCreatorExist = false;
 //     if (shallExamStart) {
-			qDebug() << "Exam will be started: TODO"; // TODO
-//         nootLabel->hide();
 //         progress->show();
 //         examResults->show();
 //         ex = new TexamExecutor(this, "", &m_level); // start exam
-//     } else
+    else
         sound->go(); // restore pitch detection
 }
 
 
 void MainWindow::startExamSlot() {
-	if (score->insertMode() != TmultiScore::e_single) {
-		if (score->isScorePlayed())
-			m_melButt->playMelodySlot(); // stop playing when played
-		bar->setMelodyButtonVisible(false);
-	}
-	sound->stopPlaying();
-	examResults = new TexamView();
-	examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
-	progress = new TprogressWidget();
-	innerWidget->addExamViews(examResults, progress);
-// 		nootLabel->hide();
+	prepareToExam();
 	ex = new TexamExecutor(this);
 }
 
@@ -620,6 +622,23 @@ void MainWindow::adjustAmbitus() {
 		sound->sniffer->setAmbitus(loNote, hiNote);
 	} else
 		sound->setDefaultAmbitus();
+}
+
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+
+void MainWindow::prepareToExam() {
+	if (score->insertMode() != TmultiScore::e_single) {
+		if (score->isScorePlayed())
+			m_melButt->playMelodySlot(); // stop playing when played
+		bar->setMelodyButtonVisible(false);
+	}
+	sound->stopPlaying();
+	examResults = new TexamView();
+	examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
+	progress = new TprogressWidget();
+	innerWidget->addExamViews(examResults, progress);
 }
 
 
