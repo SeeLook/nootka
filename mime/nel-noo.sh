@@ -12,7 +12,7 @@ cat <<EOF
     <comment xml:lang="fr">Fichier de niveau Nootka</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
     <comment xml:lang="ru">Файл Нутки с уровнем</comment>
-    <icon name="levelCreator">$1/share/pixmaps/levelCreator.png</icon>
+    <icon name="nootka-level">$1/share/pixmaps/nootka-level.png</icon>
     <glob pattern="*.nel"/>
     <acronym>NEL</acronym>
     <expanded-acronym>Nootka Exam's Level</expanded-acronym>

@@ -190,7 +190,7 @@ void TexamSummary::setForExercise() {
 	setWindowTitle(tr("Progress of exercises"));
 	m_examButton = new QPushButton(tr("Pass an exam"), this);
 		m_examButton->setToolTip(tr("Finish exercise and pass an exam on this level."));
-		m_examButton->setIcon(QIcon(Tpath::img("nootka-exam")));
+		m_examButton->setIcon(QIcon(Tpath::img("exam")));
 		m_examButton->setIconSize(QSize(48, 48));
 	connect(m_examButton, SIGNAL(clicked()), this, SLOT(startExamSlot()));
 	if (m_closeButt) {

@@ -77,7 +77,7 @@ if(UNIX AND NOT APPLE)
     install(FILES mime/nootka.desktop DESTINATION share/applications)
 #     install(FILES picts/nootka.svg DESTINATION "${INS_PREF}/picts")
 #     if (DPKG_CMD) # deb packager doesn't accept symbolic links
-			install(FILES picts/nootka.png picts/levelCreator.png picts/nootka-exam.png DESTINATION share/pixmaps)
+			install(FILES picts/nootka.png picts/nootka-level.png picts/nootka-exam.png DESTINATION share/pixmaps)
 #     else (DPKG_CMD) # but others do
 # 			install(FILES mime/nootka.png mime/levelCreator.png mime/nootka-exam.png DESTINATION share/pixmaps)
 			install(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
