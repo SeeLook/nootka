@@ -20,31 +20,39 @@
 #include "levelsettings.h"
 #include <level/tlevelselector.h>
 #include <exam/textrans.h>
+#include <tpath.h>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
 
 
-levelSettings::levelSettings(QString &imgPath, QWidget *parent) :
+levelSettings::levelSettings(QWidget* parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
 
-    levelSelector = new TlevelSelector();
-    mainLay->addWidget(levelSelector);
+    m_levelSelector = new TlevelSelector();
+    mainLay->addWidget(m_levelSelector);
     mainLay->addStretch(1);
 
-    QHBoxLayout *butLay = new QHBoxLayout;
-    saveBut = new QPushButton(QIcon(imgPath + "picts/notSaved.png"), tr("Save"),this);
-    saveBut->setIconSize(QSize(48, 48));
-    saveBut->setStatusTip(tr("Save level settings to file"));
-    butLay->addWidget(saveBut);
-    // Start an exam button
-    startExamBut = new QPushButton(QIcon(imgPath + "picts/startExam.png"), tr("Start exam"), this);
-    startExamBut->setIconSize(QSize(48, 48));
-    startExamBut->setStatusTip(tr("Start an exam on selected level"));
-    startExamBut->setDisabled(true);
-    butLay->addWidget(startExamBut);
+    m_saveBut = new QPushButton(QIcon(Tpath::img("notSaved")), tr("Save"),this);
+    m_saveBut->setIconSize(QSize(48, 48));
+    m_saveBut->setStatusTip(tr("Save level settings to file"));
+	// Start an exam button
+    m_startExamBut = new QPushButton(QIcon(Tpath::img("exam")), tr("Start exam"), this);
+    m_startExamBut->setIconSize(QSize(48, 48));
+    m_startExamBut->setStatusTip(tr("Start an exam on selected level"));
+    m_startExamBut->setDisabled(true);
+	// Start an exercise button
+    m_startExerBut = new QPushButton(QIcon(Tpath::img("practice")), tr("Start exercise"), this);
+    m_startExerBut->setIconSize(QSize(48, 48));
+    m_startExerBut->setStatusTip(tr("Start an exercise on selected level"));
+    m_startExerBut->setDisabled(true);
+		
+		QHBoxLayout *butLay = new QHBoxLayout;
+			butLay->addWidget(m_saveBut);
+			butLay->addWidget(m_startExamBut);
+			butLay->addWidget(m_startExerBut);
 
     mainLay->addLayout(butLay);
     mainLay->addStretch(1);

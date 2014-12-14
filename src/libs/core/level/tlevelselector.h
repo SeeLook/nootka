@@ -68,8 +68,10 @@ public:
     void selectLevel(int id);
 		
     void selectLevel(); /** Selects the latest level*/
-    Tlevel getSelectedLevel(); /** Returns current selected level*/
+    Tlevel& getSelectedLevel(); /** Returns current selected level*/
 		int idOfSelected() { return m_levelsListWdg->currentRow(); }
+		
+		SlevelContener& levelContener(int id) { return m_levels[id]; }
 		
         /** Updates config file with new levels list.
         * Returns true when given level file was added to config. */
@@ -100,10 +102,11 @@ signals:
     void levelToLoad();
 
 private:
-    QListWidget *m_levelsListWdg;
-    QList <SlevelContener> m_levels;
-    TlevelPreview *m_levelPreview;
-    QPushButton *m_loadBut, *m_removeButt;
+    QListWidget 									*m_levelsListWdg;
+    QList <SlevelContener> 				 m_levels;
+    TlevelPreview 								*m_levelPreview;
+    QPushButton 									*m_loadBut, *m_removeButt;
+		Tlevel												 m_fakeLevel; /** Defaults Tlevel with empty name. Can be used for references */
     
     
     Tlevel getLevelFromFile(QFile &file);
@@ -116,6 +119,9 @@ private slots:
 };
 
 
+/** 
+ * Pop up widget confirms deleting a level file.
+*/
 class TremoveLevel : public QDialog
 {
 	Q_OBJECT

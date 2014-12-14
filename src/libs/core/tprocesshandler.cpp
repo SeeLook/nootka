@@ -53,7 +53,7 @@ void TprocessHandler::processSays() {
   QString out = stream.readLine();
   if (out != "") {
 		m_lastWord = out.remove("\"");
-		qDebug() << "processSays: " << out;
+// 		qDebug() << "processSays: " << out;
   }
 }
 

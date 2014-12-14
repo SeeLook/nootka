@@ -52,51 +52,53 @@ QString TlevelSelector::checkLevel(Tlevel& l) {
 //########################################## CONSTRUCTOR ###################################################
 //##########################################################################################################
 TlevelSelector::TlevelSelector(QWidget *parent) :
-    QWidget(parent)
+	QWidget(parent)
 {
-    QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
-    m_levelsListWdg = new QListWidget(this);
-			m_levelsListWdg->setMouseTracking(true);
-			m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
-			m_levelsListWdg->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+	QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
+	m_levelsListWdg = new QListWidget(this);
+		m_levelsListWdg->setMouseTracking(true);
+		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
+		m_levelsListWdg->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-    m_loadBut = new QPushButton(tr("Load"), this);
-			m_loadBut->setStatusTip(tr("Load level from file"));
-			m_loadBut->setIcon(QIcon(gl->path + "picts/nootka-level.png"));
-			m_loadBut->setIconSize(QSize(22, 22));
-		m_removeButt = new QPushButton(tr("Remove"), this);
-			m_removeButt->setStatusTip(TremoveLevel::removeTxt());
-			m_removeButt->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
-			m_removeButt->setIconSize(QSize(22, 22));
-			m_removeButt->setDisabled(true);
-    
-    m_levelPreview = new TlevelPreview(this);
-		m_levelPreview->setFixInstrEnabled(true);
-		m_levelPreview->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+	m_loadBut = new QPushButton(tr("Load"), this);
+		m_loadBut->setStatusTip(tr("Load level from file"));
+		m_loadBut->setIcon(QIcon(gl->path + "picts/nootka-level.png"));
+		m_loadBut->setIconSize(QSize(22, 22));
+	m_removeButt = new QPushButton(tr("Remove"), this);
+		m_removeButt->setStatusTip(TremoveLevel::removeTxt());
+		m_removeButt->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
+		m_removeButt->setIconSize(QSize(22, 22));
+		m_removeButt->setDisabled(true);
+	
+	m_levelPreview = new TlevelPreview(this);
+	m_levelPreview->setFixInstrEnabled(true);
+	m_levelPreview->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
-		QHBoxLayout *mainLay = new QHBoxLayout;
-    QVBoxLayout *levLay = new QVBoxLayout;
-			levLay->addWidget(levLab);
-			levLay->addWidget(m_levelsListWdg);
-			levLay->addStretch();
-			QHBoxLayout *buttLay = new QHBoxLayout;
-				buttLay->addWidget(m_loadBut);
-				buttLay->addWidget(m_removeButt);
-			levLay->addLayout(buttLay);
-    mainLay->addLayout(levLay);
-		mainLay->addWidget(m_levelPreview);
-    setLayout(mainLay);
+	QHBoxLayout *mainLay = new QHBoxLayout;
+	QVBoxLayout *levLay = new QVBoxLayout;
+		levLay->addWidget(levLab);
+		levLay->addWidget(m_levelsListWdg);
+		levLay->addStretch();
+		QHBoxLayout *buttLay = new QHBoxLayout;
+			buttLay->addWidget(m_loadBut);
+			buttLay->addWidget(m_removeButt);
+		levLay->addLayout(buttLay);
+	mainLay->addLayout(levLay);
+	mainLay->addWidget(m_levelPreview);
+	setLayout(mainLay);
 
-    findLevels();
+	m_fakeLevel.name = "";
+	m_fakeLevel.desc = "";
+	findLevels();
 
-    connect(m_levelsListWdg, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
-    connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
-		connect(m_levelPreview, SIGNAL(instrumentLevelToFix()), this, SLOT(fixInstrumentSlot()));
-		connect(m_removeButt, SIGNAL(clicked()), this, SLOT(removeLevelSlot()));
+	connect(m_levelsListWdg, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
+	connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
+	connect(m_levelPreview, SIGNAL(instrumentLevelToFix()), this, SLOT(fixInstrumentSlot()));
+	connect(m_removeButt, SIGNAL(clicked()), this, SLOT(removeLevelSlot()));
 }
 
 TlevelSelector::~TlevelSelector() {
-    updateRecentLevels();
+	updateRecentLevels();
 }
 
 
@@ -198,8 +200,8 @@ bool TlevelSelector::isSuitable() {
 
 
 void TlevelSelector::selectLevel(int id) {
-    if (id >= 0 && id < m_levelsListWdg->count())
-        m_levelsListWdg->setCurrentRow(id);
+	if (id >= 0 && id < m_levelsListWdg->count())
+			m_levelsListWdg->setCurrentRow(id);
 }
 
 
@@ -219,27 +221,26 @@ void TlevelSelector::loadFromFile(QString levelFile) {
         addLevel(level, levelFile, true);
         if (isSuitable(level))
             selectLevel(); // select the last
+				updateRecentLevels();
     }
 }
 
 
-Tlevel TlevelSelector::getSelectedLevel() {
+Tlevel& TlevelSelector::getSelectedLevel() {
     if (m_levelsListWdg->currentRow() == -1 ) {
-        Tlevel l = Tlevel();
-        l.name = ""; l.desc = "";
-        return l;
+        return m_fakeLevel;
     } else
         return m_levels[m_levelsListWdg->currentRow()].level;
 }
 
 
 void TlevelSelector::updateRecentLevels() {
-    QStringList recentLevels;
-    for (int i = m_levels.size() - 1; i > 1; i--) {
-      if (m_levels[i].file != "")
-        recentLevels << m_levels[i].file;
-    }
-    gl->config->setValue("recentLevels", recentLevels);    
+	QStringList recentLevels;
+	for (int i = m_levels.size() - 1; i > 1; i--) {
+		if (m_levels[i].file != "")
+			recentLevels << m_levels[i].file;
+	}
+	gl->config->setValue("recentLevels", recentLevels);
 }
 
 
@@ -309,17 +310,20 @@ void TlevelSelector::fixInstrumentSlot() {
 }
 
 
-void TlevelSelector::removeLevelSlot() { 
-		QPointer<TremoveLevel> removeDialog = new TremoveLevel(m_levels[idOfSelected()].level.name,
-			m_levels[idOfSelected()].file, this);
-		if (removeDialog->exec() == QDialog::Accepted) {
-			int selId = idOfSelected();
-			m_levelsListWdg->setCurrentRow(-1);
-			m_levels.removeAt(selId);
-			QListWidgetItem *toTrash = m_levelsListWdg->takeItem(selId);
-			delete toTrash;
-			updateRecentLevels();
-		}
+void TlevelSelector::removeLevelSlot() {
+	if (m_levelsListWdg->currentRow() == -1)
+		return;
+	QPointer<TremoveLevel> removeDialog = new TremoveLevel(m_levels[idOfSelected()].level.name,	m_levels[idOfSelected()].file, this);
+	if (removeDialog->exec() == QDialog::Accepted) {
+		int selId = idOfSelected();
+		m_levelsListWdg->setCurrentRow(-1);
+		m_levels.removeAt(selId);
+		QListWidgetItem *toTrash = m_levelsListWdg->takeItem(selId);
+		delete toTrash;
+		updateRecentLevels();
+		emit levelChanged(m_fakeLevel);
+		m_removeButt->setDisabled(true);
+	}
 }
 
 

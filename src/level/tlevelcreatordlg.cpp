@@ -30,7 +30,7 @@
 #include <widgets/troundedlabel.h>
 #include <level/tlevelselector.h>
 #include <QtWidgets>
-#include <iostream>
+
 
 extern Tglobals *gl;
 bool isNotSaved;
@@ -60,7 +60,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     navList->item(3)->setIcon(QIcon(gl->path + "picts/rangeSettings.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
 
-    m_levelSett = new levelSettings(gl->path);
+    m_levelSett = new levelSettings();
     m_questSett = new questionsSettings(this);
     m_accSett = new accidSettings(this);
 // 		m_meloSett = new TmelodySettings(this);
@@ -87,17 +87,15 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
     
     connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
-    connect(m_levelSett->levelSelector, SIGNAL(levelChanged(Tlevel)),
-            this, SLOT(levelWasSelected(Tlevel))); // to load level to widgets
+    connect(m_levelSett->levelSelector(), &TlevelSelector::levelChanged, this, &TlevelCreatorDlg::levelWasSelected); // to load level to widgets
     connect(m_rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
     connect(m_questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
     connect(m_accSett, SIGNAL(accidsChanged()), this, SLOT(levelNotSaved()));
-    connect(m_levelSett->saveBut, SIGNAL(clicked()), this, SLOT(saveToFile()));
-    connect(m_levelSett->levelSelector, SIGNAL(levelToLoad()), this, SLOT(loadFromFile()));
-    connect(m_levelSett->startExamBut, SIGNAL(clicked()), this, SLOT(startExam()));
+    connect(m_levelSett->saveButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::saveToFile);
+    connect(m_levelSett->levelSelector(), &TlevelSelector::levelToLoad, this, &TlevelCreatorDlg::loadFromFile);
+    connect(m_levelSett->startExamButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
+		connect(m_levelSett->startExerciseButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
     
-//     connect(m_questSett, SIGNAL(scoreEnabled(bool)), m_accSett, SLOT(enableKeys(bool)));
-//     connect(m_questSett, SIGNAL(accidEnabled(bool)), m_accSett, SLOT(enableAccids(bool)));
     connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
 		
 }
@@ -117,16 +115,21 @@ void TlevelCreatorDlg::levelWasChanged() {
 
 
 void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
-    if (isNotSaved)
-        saveLevel();
-    m_questSett->loadLevel(&level);
-    m_accSett->loadLevel(&level);
-// 		m_meloSett->loadLevel(&level);
-    m_rangeSett->loadLevel(&level);
-		if (m_levelSett->levelSelector->isSuitable())
-				m_levelSett->startExamBut->setDisabled(false);
-		else
-				m_levelSett->startExamBut->setDisabled(true);
+	if (isNotSaved)
+			saveLevel();
+	if (!level.name.isEmpty()) {
+		m_questSett->loadLevel(&level);
+		m_accSett->loadLevel(&level);
+	// 		m_meloSett->loadLevel(&level);
+		m_rangeSett->loadLevel(&level);
+	}
+	if (m_levelSett->levelSelector()->isSuitable()) {
+			m_levelSett->startExamButton()->setDisabled(false);
+			m_levelSett->startExerciseButton()->setDisabled(false);
+	} else {
+			m_levelSett->startExamButton()->setDisabled(true);
+			m_levelSett->startExerciseButton()->setDisabled(true);
+	}
 }
 
 
@@ -188,8 +191,8 @@ void TlevelCreatorDlg::saveToFile() {
 				return;
 		}
     isNotSaved = false;
-    m_levelSett->levelSelector->addLevel(newLevel, fileName, true);
-    m_levelSett->levelSelector->selectLevel(); // select the last
+    m_levelSett->levelSelector()->addLevel(newLevel, fileName, true);
+    m_levelSett->levelSelector()->selectLevel(); // select the last
     levelSaved();
 }
 
@@ -204,7 +207,7 @@ void TlevelCreatorDlg::levelSaved() {
 void TlevelCreatorDlg::loadFromFile() {
     if (isNotSaved)
         saveLevel();
-    m_levelSett->levelSelector->loadFromFile();
+    m_levelSett->levelSelector()->loadFromFile();
 }
 
 
@@ -318,19 +321,24 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 }
 
 void TlevelCreatorDlg::loadLevelFile(QString levelFile) {
-    m_levelSett->levelSelector->loadFromFile(levelFile);
+    m_levelSett->levelSelector()->loadFromFile(levelFile);
 }
 
 
 void TlevelCreatorDlg::startExam() {
-		std::cout << selectedLevel().name.toLocal8Bit().data();
-		qDebug() << selectedLevel().name; // TODO return level file or its name
-    accept();
+	if (m_levelSett->levelSelector()->idOfSelected() > -1) {
+		QString what = "exam:";
+		if (sender() == m_levelSett->startExerciseButton())
+			what = "exercise:";
+		what += QString::number(m_levelSett->levelSelector()->idOfSelected());
+		qDebug() << what;
+	}
+	accept();
 }
 
 
-Tlevel TlevelCreatorDlg::selectedLevel() {
-    return m_levelSett->levelSelector->getSelectedLevel();
+Tlevel& TlevelCreatorDlg::selectedLevel() {
+    return m_levelSett->levelSelector()->getSelectedLevel();
 }
 
 
