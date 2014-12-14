@@ -30,6 +30,7 @@
 #include <widgets/troundedlabel.h>
 #include <level/tlevelselector.h>
 #include <QtWidgets>
+#include <iostream>
 
 
 extern Tglobals *gl;
@@ -331,7 +332,8 @@ void TlevelCreatorDlg::startExam() {
 		if (sender() == m_levelSett->startExerciseButton())
 			what = "exercise:";
 		what += QString::number(m_levelSett->levelSelector()->idOfSelected());
-		qDebug() << what;
+		std::cout << what.toStdString();
+// 		qDebug() << what; // It doesn't work with Qt-5.3 but fixed in 5.4
 	}
 	accept();
 }
