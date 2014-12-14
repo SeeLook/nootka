@@ -62,7 +62,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 
     m_loadBut = new QPushButton(tr("Load"), this);
 			m_loadBut->setStatusTip(tr("Load level from file"));
-			m_loadBut->setIcon(QIcon(gl->path + "picts/levelCreator.png"));
+			m_loadBut->setIcon(QIcon(gl->path + "picts/nootka-level.png"));
 			m_loadBut->setIconSize(QSize(22, 22));
 		m_removeButt = new QPushButton(tr("Remove"), this);
 			m_removeButt->setStatusTip(TremoveLevel::removeTxt());
