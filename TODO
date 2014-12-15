@@ -13,12 +13,12 @@
 
 ====== BUGS AND ISSUES ===============================================
 
-- (guitar) check question mark scaling for left-handed (TODO)
+- clicking repeat question in single mode causes TQAunit copying, attempts are created - big mess
 - TscoreView and TscoreItem have to have Android compile scopes
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
 			
-- changing tool bar auto-hiding cases sometimes locked melody menu
+- changing tool bar auto-hiding causes sometimes locked melody menu
 
 - Pitch view remains enabled after exam (even the check box is unchecked)
 
