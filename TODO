@@ -13,7 +13,6 @@
 
 ====== BUGS AND ISSUES ===============================================
 
-- clicking repeat question in single mode causes TQAunit copying, attempts are created - big mess
 - TscoreView and TscoreItem have to have Android compile scopes
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
@@ -22,16 +21,12 @@
 
 - Pitch view remains enabled after exam (even the check box is unchecked)
 
+Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
-
-Proxy widgets:
-- size of proxy points has to depend on screen resolution
-- fix blur of proxy corner widgets
+- move what_next/question tips to the right over guitar in single note mode
 
 Scaling issues:
 - auto hidden tool bar remains big after decreased window size
-- score in single mode has wild scene size - it is scroll-able
-
 
 - bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
 - revert to native style under MacOs when Qt5

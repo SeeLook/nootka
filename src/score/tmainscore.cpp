@@ -851,22 +851,6 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	TmultiScore::resizeEvent(event);
 	if (width() < 300)
       return;
-// 	if (insertMode() == e_single) {
-// 		if (m_nameMenu->size().width() + width() > mainWindow()->width()) {
-// 			if (m_nameMenu->buttonsDirection() == QBoxLayout::LeftToRight || m_nameMenu->buttonsDirection() == QBoxLayout::RightToLeft) {
-// 				qDebug() << "name is too big. Changing direction ";
-// 				m_nameMenu->setDirection(QBoxLayout::BottomToTop);
-// 			}
-// 		} else {
-// 			if (m_nameMenu->buttonsDirection() == QBoxLayout::BottomToTop || m_nameMenu->buttonsDirection() == QBoxLayout::TopToBottom) {
-// 				if (m_nameMenu->widthForHorizontal() + size().width() < mainWindow()->width()) {
-// 					qDebug() << "There is enough space for horizontal name. Changing";
-// 					m_nameMenu->setDirection(QBoxLayout::LeftToRight);
-// 				}
-// 			}
-// 		}
-// // 		setFixedWidth(mapFromScene(scoreScene()->sceneRect()).boundingRect().width() + 1);
-// 	}
 	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
@@ -916,6 +900,7 @@ void TmainScore::createActions() {
 #endif
 	m_settBar->addAction(m_acts->lastNote());	
 	m_settCorner = new TcornerProxy(scoreScene(), m_settBar, Qt::BottomRightCorner);
+	m_settCorner->setSpotColor(Qt::blue);
 	
 	m_clearBar = new QToolBar();
 	m_clearBar->addAction(m_acts->clearScore());
