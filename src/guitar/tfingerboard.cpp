@@ -836,7 +836,9 @@ void TfingerBoard::paintQuestMark() {
     m_questMark->setFont(f);
     int off = -1, off2 = 0;
     if (!gl->GisRightHanded) {
-//         m_questMark->scale(-1, 1); TODO
+				QTransform matrix;
+				matrix.scale(-1, 1);
+				m_questMark->setTransform(matrix, true);
         if (m_questPos.fret() == 1)
             off = 1;
         else

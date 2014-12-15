@@ -18,17 +18,17 @@
 
 
 #include "tcanvas.h"
-#include <exam/tqaunit.h>
-#include <exam/texam.h>
 #include "tquestiontip.h"
-#include <animations/tcombinedanim.h>
 #include "tnootkacertificate.h"
 #include "texecutorsupply.h"
+#include "mainwindow.h"
+#include <exam/tqaunit.h>
+#include <exam/texam.h>
+#include <animations/tcombinedanim.h>
 #include <texamparams.h>
 #include <graphics/tgraphicstexttip.h>
-#include "mainwindow.h"
 #include <graphics/tnotepixmap.h>
-#include "tglobals.h"
+#include <tglobals.h>
 #include <help/texamhelp.h>
 #include <notename/tnotename.h>
 #include <guitar/tfingerboard.h>
@@ -37,7 +37,6 @@
 #include <widgets/tquestionaswdg.h>
 #include <tpath.h>
 #include <score/tmainscore.h>
-// #include <widgets/tanimedchbox.h>
 #include <QDebug>
 #include <QTimer>
 #include <QEvent>
@@ -164,10 +163,14 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	//       m_window->autoRepeatChB->startAnimation(3);
 	if (!isCorrect) {
 		QString t = tr("To correct an answer");
-		if (m_exam->curQ().melody())
+		QString href = "<a href=\"prevQuest\">";
+		if (m_exam->melodies()) {
 			t = tr("To try this melody again");
-		whatNextText += "<br>" + t + " " + TexamHelp::clickSomeButtonTxt("<a href=\"newAttempt\">" + 
-					pixToHtml(Tpath::img("prevQuest"), PIXICONSIZE) +	"</a>") +	" " + TexamHelp::orPressBackSpace();
+			href = "<a href=\"newAttempt\">";
+		}
+		whatNextText += "<br>" + t + " " + 
+				TexamHelp::clickSomeButtonTxt(href + pixToHtml(Tpath::img("prevQuest"), PIXICONSIZE) +	"</a>") +
+				" " + TexamHelp::orPressBackSpace();
 	}
 	if (toCorrection) {
 		QString t = tr("To see corrected answer");
