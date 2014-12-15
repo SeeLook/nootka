@@ -18,11 +18,10 @@
 
 #include "thelpdialogbase.h"
 #include <graphics/tnotepixmap.h>
-#include <tglobals.h>
+#include <tpath.h>
 #include <QApplication>
 #include <QtWidgets>
 
-extern Tglobals *gl;
 
 
 QString ThelpDialogBase::m_path = "";
@@ -32,7 +31,7 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
   m_checkBox(0),
   m_stateOfChB(0)
 {
-	m_path = gl->path;
+	m_path = Tpath::main;
 	setWindowIcon(QIcon(path() + "picts/help.png"));
   setWindowTitle(tr("Nootka help"));
   m_helpText = new QTextEdit(this);

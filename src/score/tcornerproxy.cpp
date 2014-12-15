@@ -112,7 +112,7 @@ void TcornerProxy::setSpotColor(const QColor& c) {
 	QColor col(m_colorOfSpot);
 	col.setAlpha(180);
 	dse->setColor(col);
-	dse->setBlurRadius(side() / 4.0);
+	dse->setBlurRadius(side() / 8.0);
 	if (proxy())
 			proxy()->setGraphicsEffect(dse);
 }

@@ -121,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		gl->config->endGroup();
 		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
 		
-    sound = new Tsound(this);
+    sound = new Tsound(gl, this);
 		
 		m_messageTimer = new QTimer(this);
 		connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));

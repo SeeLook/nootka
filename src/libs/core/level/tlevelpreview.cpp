@@ -115,10 +115,10 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     }
     if (tl.useKeySign) {
         S += "<tr><td>" + tr("key signature:") + " </td>" + tdAlign();
-        S += tl.loKey.getMajorName().remove("-" + Tglob::glob()->S->majKeyNameSufix);
+        S += tl.loKey.getMajorName().remove("-" + Tcore::gl()->S->majKeyNameSufix);
         S += " (" + tl.loKey.accidNumber(true) +")";
         if (!tl.isSingleKey) {
-            S += " - " + tl.hiKey.getMajorName().remove("-" + Tglob::glob()->S->majKeyNameSufix);
+            S += " - " + tl.hiKey.getMajorName().remove("-" + Tcore::gl()->S->majKeyNameSufix);
             S += " (" + tl.hiKey.accidNumber(true) + ")";
         }
         S += "</td></tr>";

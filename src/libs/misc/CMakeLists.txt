@@ -8,6 +8,7 @@ add_definitions(-DNOOTKAMISC_LIBRARY)
 include_directories( . ../core )
 
 set(LIB_NOOTKAMISC_SRC
+  tinitmisclib.cpp
 	select7note.cpp
 	taboutnootka.cpp
 	tfirstrunwizzard.cpp
@@ -21,11 +22,11 @@ set(LIB_NOOTKAMISC_SRC
 	help/tmainhelp.cpp
 )
 
-IF(WIN32)
-	list(APPEND LIB_NOOTKAMISC_SRC
-    main.cpp
-	)
-endif(WIN32)
+# IF(WIN32)
+# 	list(APPEND LIB_NOOTKAMISC_SRC
+#     main.cpp
+# 	)
+# endif(WIN32)
 
 
 add_library(NootkaMisc SHARED ${LIB_NOOTKAMISC_SRC} )

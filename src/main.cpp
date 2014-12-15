@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
+#include <tinitmisclib.h>
 #include <tinitcorelib.h>
 #include <QPointer>
 #include <QFile>
@@ -48,10 +49,6 @@ int main(int argc, char *argv[])
 		}
 		resetConfig = false;
 		a = new QApplication(argc, argv);
-// #if defined (Q_OS_MAC)
-//         QApplication::setStyle(new QPlastiqueStyle);
-// #endif
-// 		qDebug() << a->style()->objectName();
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		confFile = gl->config->fileName();
@@ -59,6 +56,9 @@ int main(int argc, char *argv[])
 		prepareTranslations(a, qtTranslator, qtbaseTranslator, nooTranslator);
 		if (!loadNootkaFont(a))
 			return 111;
+// initializing libraries
+		initMiscLibrary(gl);
+		
 // creating main window
     w = new MainWindow();
 

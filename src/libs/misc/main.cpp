@@ -22,5 +22,5 @@
 Tglobals *gl;
 
 void initMiscLib() {
-  gl = Tglob::glob();
+  gl = Tcore::gl();
 }
