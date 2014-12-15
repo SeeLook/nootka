@@ -61,16 +61,16 @@ TfixLevelDialog::TfixLevelDialog(Tlevel &level, const QString& fileName, bool& a
 	m_autoFix(autoFix),
 	m_instr(prefInstr)
 { 
-	setWindowTitle(tr("fix an instrument"));
+	setWindowTitle("fix an instrument");
 	m_selInstr = new TselectInstrument(this, TselectInstrument::e_textUnderButtonH);
 	QString fN = "";
 	if (fileName != "") 
 		fN = "<br><b>(" + fileName + ")</b>";
-	m_selInstr->setHeadLabel(tr("Due to bug in <b>Nootka version 0.8.95</b> instrument type can be incorrect.<br>Please, select a correct instrument for the level %1").arg(":<br><u><b>" + level.name + "</b></u>") + fN);
+	m_selInstr->setHeadLabel(QString("Due to bug in <b>Nootka version 0.8.95</b> instrument type can be incorrect.<br>Please, select a correct instrument for the level %1").arg(":<br><u><b>" + level.name + "</b></u>") + fN);
 	m_selInstr->setInstrument((int)level.instrument);
-	m_autoCheckBox = new QCheckBox(tr("fix levels automatically"), this);
+	m_autoCheckBox = new QCheckBox("fix levels automatically", this);
 	m_autoCheckBox->setChecked(m_autoFix);
-	TroundedLabel *autoLab = new TroundedLabel(tr("When you are sure that <b>all your Nootka files</b> were created exactly for selected instrument<br>you can check this box and<br><b>all incorrect files will be fixing automatically.</b>"), this);
+	TroundedLabel *autoLab = new TroundedLabel("When you are sure that <b>all your Nootka files</b> were created exactly for selected instrument<br>you can check this box and<br><b>all incorrect files will be fixing automatically.</b>", this);
 	autoLab->setAlignment(Qt::AlignCenter);
 	autoLab->setWordWrap(true);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(Qt::Horizontal, this);

@@ -14,11 +14,9 @@
 ====== BUGS AND ISSUES ===============================================
 
 - (guitar) check question mark scaling for left-handed (TODO)
-- merge nootka-one changes with this branch
 - TscoreView and TscoreItem have to have Android compile scopes
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
-- notes number in levels should be randomized, given value will be just a maximum
 			
 - changing tool bar auto-hiding cases sometimes locked melody menu
 
@@ -62,11 +60,10 @@ Charts:
 - make exam summary pretty
 - there has to be some help with key shortcuts
 - make use of QWizard and adjust it to all news
+- notes number in levels should be randomized, given value will be just a maximum
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote
-----------------------------------------------------------------------------------------------------------------
-Score controlling buttons:
-	- tempo menu
+- tempo menu
 ----------------------------------------------------------------------------------------------------------------
 Tnote
 			- overload + and - operators to raise/drop a note
@@ -79,9 +76,8 @@ TEXAMEXECUTOR
 ========== TRANSLATIONS =======================================
 ===============================================================
  - TtoolBar has many entries translated already - just confirm them
- - remove translation of fixed instr. dialog - veeeeery rare case
-
-     
+ 
+ 
 ===============================================================     
 ============== Packaging (cpack) =============================
 ===============================================================
@@ -103,6 +99,7 @@ TEXAMEXECUTOR
 - option for changing melody key (transposition) - in a level key range as well
 - intervals: creating melody with available intervals set only
 - intervals: questions related to them in exam/exercises
+- recognizing melodies from *.ogg and *.wav files
 - support for (octavation marks) - octave drop/rise (8-va, 15-va)
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - comparing exams (charts)

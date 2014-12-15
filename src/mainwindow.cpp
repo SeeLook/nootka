@@ -45,9 +45,6 @@
 #include "gui/tmelman.h"
 #include "gui/tmainview.h"
 #include "gui/ttoolbar.h"
-// #include "taudioparams.h"
-// #include "tanalysdialog.h"
-// #include "tquestionpoint.h"
 #include <QtWidgets>
 
 
