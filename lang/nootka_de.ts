@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE" sourcelanguage="en">
+<TS version="2.1" language="de_DE" sourcelanguage="en">
 <context>
     <name>AnswerText</name>
     <message>
@@ -524,7 +524,7 @@
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation>Du kannst auch helfen Nookta zu verbessern.</translation>
+        <translation>Du kannst auch helfen Nootka zu verbessern.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
@@ -532,7 +532,7 @@
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nookta Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
+        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
     </message>
     <message>
         <source>time [s]</source>

@@ -970,7 +970,7 @@ void TexamExecutor::prepareToExam() {
     connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
     disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-    disconnect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    disconnect(mW->guitar, &TfingerBoard::guitarClicked, mW, &MainWindow::guitarWasClicked);
 		disconnect(mW->sound, &Tsound::noteStarted, mW, &MainWindow::soundWasStarted);
 		disconnect(mW->sound, &Tsound::noteFinished, mW, &MainWindow::soundWasFinished);
     disconnect(mW->bar->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
@@ -1056,7 +1056,7 @@ void TexamExecutor::restoreAfterExam() {
         m_canvas->deleteLater();
 
     connect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-    connect(mW->guitar, SIGNAL(guitarClicked(Tnote)), mW, SLOT(guitarWasClicked(Tnote)));
+    connect(mW->guitar, &TfingerBoard::guitarClicked, mW, &MainWindow::guitarWasClicked);
     connect(mW->sound, &Tsound::noteStarted, mW, &MainWindow::soundWasStarted);
 		connect(mW->sound, &Tsound::noteFinished, mW, &MainWindow::soundWasFinished);
     disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));

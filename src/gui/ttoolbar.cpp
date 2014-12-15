@@ -95,7 +95,7 @@ void TtoolBar::addAction(QAction* a) {
 
 void TtoolBar::addMelodyButton(TmelMan* melBut) {
 	m_melButton = melBut;
-	addAction(m_melButton->melodyAction());
+	insertAction(startExamAct, m_melButton->melodyAction());
 }
 
 
