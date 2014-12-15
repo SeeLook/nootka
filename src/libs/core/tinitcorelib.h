@@ -29,12 +29,12 @@ class QApplication;
  * Internal instance of Tglobals pointer used by in initCoreLibrary. *
  * It is set during invoking initCoreLibrary()
  */
-class NOOTKACORE_EXPORT Tglob
+class NOOTKACORE_EXPORT Tcore
 {
 
 public:
 	static void setGlobals(Tglobals *g) { m_gl = g; }
-	static Tglobals* glob() { return m_gl; }
+	static Tglobals* gl() { return m_gl; } /** static global pointer to Tglobals */
 	
 private:
 	static Tglobals *m_gl; 
@@ -43,7 +43,7 @@ private:
 
 /** Initializes static values in library:
  * - pointer to Tglobals initialized by external executable !!!
- *   it is accessible through @p glob variable 
+ *   it is accessible through @p Tcore::gl() method 
  * - tuning definitions
  * - TpushButton colors
  */

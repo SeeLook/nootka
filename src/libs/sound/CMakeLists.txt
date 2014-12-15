@@ -375,7 +375,7 @@ set(LIB_NOOTKASOUND_SRC
 
 IF(WIN32)
 	list(APPEND LIB_NOOTKASOUND_SRC
-    main.cpp
+#     main.cpp
 		rt/asio.cpp
 		rt/asiodrivers.cpp
 		rt/asiolist.cpp

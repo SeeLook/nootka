@@ -21,11 +21,10 @@
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
 #include "help/tmainhelp.h"
+#include "tinitmisclib.h"
 #include <widgets/troundedlabel.h>
-#include <tglobals.h>
 #include <QtWidgets>
 
-extern Tglobals *gl;
 
 
 QString createLink(QString desc, QString href) {
@@ -39,7 +38,7 @@ QString getHeader(QString text) {
 
 QString transRow (QString flag, QString lang, QString name, QString mailAndSite) {
   return QString("<tr valign=\"middle\" align=\"center\"><td> <img src=\"%1\">&nbsp;&nbsp;&nbsp;</td><td> %2 &nbsp;&nbsp;&nbsp;</td><td> <b>%3</b> </td><td>&nbsp;&nbsp;&nbsp; %4 </td></tr>").
-      arg(gl->path + "picts/flags-" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
+      arg(Tmisc::gl()->path + "picts/flags-" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
 }
 
 
@@ -69,22 +68,22 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     setLayout(mainLay);
 
     m_navList->addItem(tr("About"));
-    m_navList->item(0)->setIcon(QIcon(gl->path+"picts/nootka.png"));
+    m_navList->item(0)->setIcon(QIcon(Tmisc::gl()->path+"picts/nootka.png"));
     m_navList->item(0)->setTextAlignment(Qt::AlignCenter);
     m_navList->addItem(tr("Help"));
-    m_navList->item(1)->setIcon(QIcon(gl->path+"picts/help.png"));
+    m_navList->item(1)->setIcon(QIcon(Tmisc::gl()->path+"picts/help.png"));
     m_navList->item(1)->setTextAlignment(Qt::AlignCenter);
     m_navList->addItem(authorsTxt());
-    m_navList->item(2)->setIcon(QIcon(gl->path+"picts/author.png"));
+    m_navList->item(2)->setIcon(QIcon(Tmisc::gl()->path+"picts/author.png"));
     m_navList->item(2)->setTextAlignment(Qt::AlignCenter);
     m_navList->addItem(tr("License"));
-    m_navList->item(3)->setIcon(QIcon(gl->path+"picts/license.png"));
+    m_navList->item(3)->setIcon(QIcon(Tmisc::gl()->path+"picts/license.png"));
     m_navList->item(3)->setTextAlignment(Qt::AlignCenter);
     m_navList->addItem(tr("Support"));
-    m_navList->item(4)->setIcon(QIcon(gl->path+"picts/support.png"));
+    m_navList->item(4)->setIcon(QIcon(Tmisc::gl()->path+"picts/support.png"));
     m_navList->item(4)->setTextAlignment(Qt::AlignCenter);
     m_navList->addItem(tr("Changes"));
-    m_navList->item(5)->setIcon(QIcon(gl->path+"picts/chlog.png"));
+    m_navList->item(5)->setIcon(QIcon(Tmisc::gl()->path+"picts/chlog.png"));
     m_navList->item(5)->setTextAlignment(Qt::AlignCenter);
 
 		m_timer = new QTimer(this);
@@ -158,9 +157,9 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 // LICENSE GPL or Copyright for Debian based
     QTextEdit *licenseTxt = new QTextEdit();
     licenseTxt->setReadOnly(true);
-    QFile file(gl->path + "gpl");
+    QFile file(Tmisc::gl()->path + "gpl");
 		if (!file.exists()) { // Debian based
-				QDir d(gl->path);
+				QDir d(Tmisc::gl()->path);
 				d.cdUp();
 				file.setFileName(d.path() + "/doc/nootka/copyright");
 		}
@@ -176,7 +175,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 // CHANGESLOG
     QTextEdit *chLogTxt = new QTextEdit();
     chLogTxt->setReadOnly(true);
-    QFile chfile(gl->path + "changes");
+    QFile chfile(Tmisc::gl()->path + "changes");
     if(chfile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&chfile);
         in.setCodec("UTF-8");
@@ -244,13 +243,13 @@ Tabout::Tabout(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    TnootkaLabel *nootkaLab = new TnootkaLabel(gl->path + "picts/logo.png", this, palette().highlight().color());
+    TnootkaLabel *nootkaLab = new TnootkaLabel(Tmisc::gl()->path + "picts/logo.png", this, palette().highlight().color());
     lay->addWidget(nootkaLab);
     QString info = tr("Welcome on board.<br>Nootka is an open source application to help you in learning (and in teaching) classical score notation.<br>It is specially designed for guitarists but others will find many usable features as well.");
     QString betaInfo = tr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!");
     QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, suggestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
 		betaInfo = ""; // comment it to show info in beta releases
-    m_aboutLab = new TroundedLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + gl->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
+    m_aboutLab = new TroundedLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + Tmisc::gl()->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
 #if defined(Q_OS_WIN32)
 	  + tr("<br>To support this project and also to avoid infection of your PC<br><b>PLEASE, use the official project site to download updates, new releases and to see news.</b>")
 #endif

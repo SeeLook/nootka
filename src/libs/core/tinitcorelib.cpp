@@ -30,49 +30,49 @@
 #include <QDebug>
 
 
-Tglobals* Tglob::m_gl = 0;
+Tglobals* Tcore::m_gl = 0;
 
 
 void initCoreLibrary(Tglobals* gl) {
-		Tglob::setGlobals(gl);
+		Tcore::setGlobals(gl);
 		Ttune::prepareDefinedTunes();
 		Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
-    TpushButton::setCheckColor(gl->S->pointerColor, qApp->palette().base().color());
+    TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
 #else
     TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
 #endif
-// 		TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
+// 		TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
 // moved to prepareTranslations() due to suffix translations have to be known
 }
 
 
 void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& qtBase, QTranslator& noo) {
 	QString ll = "";
-	if (Tglob::glob())
-	ll = Tglob::glob()->lang;
+	if (Tcore::gl())
+	ll = Tcore::gl()->lang;
 	if (ll == "")
 			ll = QLocale::system().name();
 #if defined(Q_OS_LINUX)
     qt.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 		qtBase.load("qtbase_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 #else
-    qt.load("qt_" + ll, Tglob::glob()->path + "lang");
-		qtBase.load("qtbase_" + ll, Tglob::glob()->path + "lang");
+    qt.load("qt_" + ll, Tcore::gl()->path + "lang");
+		qtBase.load("qtbase_" + ll, Tcore::gl()->path + "lang");
 #endif
 	a->installTranslator(&qt);
 	a->installTranslator(&qtBase);
 
-	noo.load("nootka_" + ll, Tglob::glob()->path + "lang");
+	noo.load("nootka_" + ll, Tcore::gl()->path + "lang");
 	a->installTranslator(&noo);
-	TkeySignature::setNameStyle(Tglob::glob()->S->nameStyleInKeySign, Tglob::glob()->S->majKeyNameSufix, 
-															Tglob::glob()->S->minKeyNameSufix);
+	TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, 
+															Tcore::gl()->S->minKeyNameSufix);
 }
 
 
 bool loadNootkaFont(QApplication* a) {
     QFontDatabase fd;
-	int fid = fd.addApplicationFont(Tglob::glob()->path + "fonts/nootka.ttf");
+	int fid = fd.addApplicationFont(Tcore::gl()->path + "fonts/nootka.ttf");
 	if (fid == -1) {
             QMessageBox::critical(0, "", a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
 			return false;

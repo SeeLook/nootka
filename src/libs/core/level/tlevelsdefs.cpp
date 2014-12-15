@@ -17,18 +17,18 @@
  ***************************************************************************/
 
 #include "tlevelsdefs.h"
-#include <tglobals.h>
 #include <exam/tlevel.h>
 #include <music/ttune.h>
+#include <tinitcorelib.h>
 
-extern Tglobals *gl;
+
 
 void getExampleLevels(QList<Tlevel>& llist) {
 	Tlevel l = Tlevel();
 		int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
-		if (gl->instrument == e_bassGuitar)
+		if (Tcore::gl()->instrument == e_bassGuitar)
 			octaveOffset = -1;
-		else if (gl->instrument == e_noInstrument)
+		else if (Tcore::gl()->instrument == e_noInstrument)
 			octaveOffset = 1;
 //----------------------------------------------------------------------------
     l.name = QObject::tr("open strings");
@@ -51,13 +51,13 @@ void getExampleLevels(QList<Tlevel>& llist) {
 		l.intonation = 0; // do not check
 		//clef default, user/tune defined
 		//instrument default - selected by user
-    l.hiNote = Tnote(gl->hiString().chromatic()); 
+    l.hiNote = Tnote(Tcore::gl()->hiString().chromatic()); 
 		//loNote is lowest by constructor
     l.hiFret = 0;// loFret is 0 by constuctor
     for (int i = 1; i < 7; i++) { //accids will be used if current tune requires it
-        if (gl->Gtune()->str(i).alter == 1)
+        if (Tcore::gl()->Gtune()->str(i).alter == 1)
             l.withSharps = true;
-        if (gl->Gtune()->str(i).alter == -1)
+        if (Tcore::gl()->Gtune()->str(i).alter == -1)
             l.withFlats = true;
 		}
 		if (l.instrument == e_noInstrument) // force instrument when not defined
@@ -71,11 +71,11 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.desc = QObject::tr("In first position. No accidentals, no sound.<br>Octave required.");
     l.questionAs.setAsSound(false);
 		bool isGuitar = true;
-		if (gl->instrument == e_noInstrument) {
+		if (Tcore::gl()->instrument == e_noInstrument) {
 			isGuitar = false;
 			l.desc = QObject::tr("Give note name in C-major scale or show note on the staff knowing its name.");
 		}
-		l.instrument = gl->instrument;
+		l.instrument = Tcore::gl()->instrument;
 		l.questionAs.setAsFret(isGuitar);
     l.answersAs[0] = TQAtype(false, true, isGuitar, false);
     l.answersAs[1] = TQAtype(true, false, isGuitar, false);
@@ -115,11 +115,11 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.requireOctave = true;
     l.requireStyle = false;
     l.showStrNr = true;
-    l.loNote = gl->loString();
-    l.hiNote = Tnote(gl->hiString().chromatic() + 5);
+    l.loNote = Tcore::gl()->loString();
+    l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 5);
     l.hiFret = 5;// loFret is 0 by constructor
     l.intonation = 0; // do not check
-    if (gl->instrument == e_noInstrument) // force instrument when not defined
+    if (Tcore::gl()->instrument == e_noInstrument) // force instrument when not defined
 			l.instrument = e_classicalGuitar;
 		l.melodyLen = 1;
     llist << l;
@@ -179,10 +179,10 @@ void getExampleLevels(QList<Tlevel>& llist) {
 		//instrument default - selected by user
 //     l.loNote & l.hiNote from constructor
 //     l.hiFret by constructor
-// 		l.intonation = gl->A->intonation; // user preferences (in constructor)
+// 		l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
     l.onlyLowPos = true;
-// 		if (gl->instrument == e_noInstrument) // force instrument when not defined
-// 			l.instrument = gl->instrument;
+// 		if (Tcore::gl()->instrument == e_noInstrument) // force instrument when not defined
+// 			l.instrument = Tcore::gl()->instrument;
 		l.melodyLen = 10;
     llist << l;
 //----------------------------------------------------------------------------
@@ -202,7 +202,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.useKeySign = false;
     l.manualKey = false;
 		l.clef = Tclef(Tclef::e_treble_G);
-		l.instrument = gl->instrument;
+		l.instrument = Tcore::gl()->instrument;
     l.loKey = 0;
     l.hiKey = 0;
     l.forceAccids = false;
@@ -212,7 +212,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.loNote = Tnote(5, 0); // G contra
     l.hiNote = Tnote(6, 2); // a one-line
 //     l.hiFret by constructor
-// 		l.intonation = gl->A->intonation; // user preferences (in constructor)
+// 		l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
 		l.instrument = e_noInstrument;
     l.onlyLowPos = true;
 		l.melodyLen = 5;

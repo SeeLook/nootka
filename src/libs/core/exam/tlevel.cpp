@@ -105,7 +105,7 @@ Tlevel::Tlevel() :
    desc = QObject::tr("All possible options are turned on");
 	 bool hasGuitar = true;
 // QUESTIONS
-	 if (Tglob::glob()->instrument == e_noInstrument)
+	 if (Tcore::gl()->instrument == e_noInstrument)
 		 hasGuitar = false;
    questionAs = TQAtype(true, true, hasGuitar, true);
    answersAs[0] = TQAtype(true, true, hasGuitar, true);
@@ -118,12 +118,12 @@ Tlevel::Tlevel() :
 		*  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
 		*  It can store multiple clefs (maybe in unknown future it will be used)
 		*  0 - no clef and up to 15 different clefs	  */
-	 clef = Tclef(Tglob::glob()->S->clef);
+	 clef = Tclef(Tcore::gl()->S->clef);
 
-	 instrument = Tglob::glob()->instrument;
+	 instrument = Tcore::gl()->instrument;
 	 onlyLowPos = false;
    onlyCurrKey = false;
-	 intonation = Tglob::glob()->A->intonation;
+	 intonation = Tcore::gl()->A->intonation;
 // ACCIDENTALS
    withSharps = true;
    withFlats = true;
@@ -140,12 +140,12 @@ Tlevel::Tlevel() :
 		endsOnTonic = true;
     requireInTempo = true;
 // RANGE - for non guitar Tglobals will returns scale determined by clef
-   loNote = Tglob::glob()->loString();
-   hiNote = Tnote(Tglob::glob()->hiString().chromatic() + Tglob::glob()->GfretsNumber);
+   loNote = Tcore::gl()->loString();
+   hiNote = Tnote(Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber);
    loFret = 0;
-   hiFret = Tglob::glob()->GfretsNumber;
+   hiFret = Tcore::gl()->GfretsNumber;
 	 for (int i = 0; i < 6; i++) {
-		 if (i <= Tglob::glob()->Gtune()->stringNr())
+		 if (i <= Tcore::gl()->Gtune()->stringNr())
 				usedStrings[i] = true; 
 		 else
 				usedStrings[i] = false; 
@@ -180,7 +180,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
         ok = false;
     }
     if (hi < 0 || hi > 24) { // max frets number
-        hi = Tglob::glob()->GfretsNumber;
+        hi = Tcore::gl()->GfretsNumber;
         ok = false;
     }
     lev.loFret = char(lo);
@@ -496,7 +496,7 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 		if (instr == 255) {
 			if (canBeGuitar() || canBeSound()) {
 					hasInstrToFix = true;
-					return Tglob::glob()->instrument;
+					return Tcore::gl()->instrument;
 			} else // instrument has no matter
 					return e_noInstrument;
 		} else if (instr == 0 || instr == 1) {
@@ -509,7 +509,7 @@ Einstrument Tlevel::fixInstrument(quint8 instr) {
 					return (Einstrument)instr;
 		else {
 			qDebug() << "Tlevel::instrument has some stupid value. FIXED";
-			return Tglob::glob()->instrument;
+			return Tcore::gl()->instrument;
 		}
 }
 
@@ -638,7 +638,7 @@ bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
 
 
 bool Tlevel::inScaleOf() {
-	return inScaleOf(Tglob::glob()->loString().chromatic(), Tglob::glob()->hiNote().chromatic());
+	return inScaleOf(Tcore::gl()->loString().chromatic(), Tcore::gl()->hiNote().chromatic());
 }
 
 
@@ -646,17 +646,17 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
 	if (!inScaleOf()) // when note range is not in an instrument scale
 		return false; // get rid - makes no sense to further check
 	
-	int lowest = Tglob::glob()->GfretsNumber, highest = 0;
+	int lowest = Tcore::gl()->GfretsNumber, highest = 0;
 	for (int no = loNote.chromatic(); no <= hiNote.chromatic(); no++) {
 		if (!withFlats && !withSharps)
 			if (Tnote(no).alter) // skip note with accidental when not available in the level
 					continue;
-		int tmpLow = Tglob::glob()->GfretsNumber;
-		for(int st = 0 ; st < Tglob::glob()->Gtune()->stringNr(); st++) {
+		int tmpLow = Tcore::gl()->GfretsNumber;
+		for(int st = 0 ; st < Tcore::gl()->Gtune()->stringNr(); st++) {
 			if (!usedStrings[st]) 
 					continue;
-			int diff = no - Tglob::glob()->Gtune()->str(Tglob::glob()->strOrder(st) + 1).chromatic();
-			if (diff >= 0 && diff <= Tglob::glob()->GfretsNumber) { // found
+			int diff = no - Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(st) + 1).chromatic();
+			if (diff >= 0 && diff <= Tcore::gl()->GfretsNumber) { // found
 					lowest = qMin<int>(lowest, diff);
 					tmpLow = qMin<int>(tmpLow, diff);
 			}

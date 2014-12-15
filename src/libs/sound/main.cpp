@@ -29,6 +29,6 @@ Tglobals *gl;
  * This function attaches to @p gl variable declared in nootkaCore library.
  */
 void initSoundLibrary() {
-  gl = Tglob::glob();
+  gl = Tcore::gl();
 }
 

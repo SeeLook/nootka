@@ -55,14 +55,14 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QStrin
 	QString majS = "", minS = "";
 	if (majSuf == "") {
 		majS = "-" + majorSufixTxt();
-		Tglob::glob()->S->majKeyNameSufix = majorSufixTxt();
+		Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
 	} else
 		if (majSuf != " ")
 			majS = "-" + majSuf;
 		
 	if (minSuf == "") {
 		minS = "-" + minorSufixTxt();
-		Tglob::glob()->S->minKeyNameSufix = minorSufixTxt();
+		Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
 	}
 	else
 		if (minSuf != " ")

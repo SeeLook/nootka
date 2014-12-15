@@ -26,29 +26,23 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QDebug>
-#if defined (Q_OS_WIN)
-  #include <tinitcorelib.h>
-#endif
 
 
-extern Tglobals *gl;
 
-Tsound::Tsound(QObject* parent) :
+Tsound::Tsound(Tglobals* globals, QObject* parent) :
   QObject(parent),
   sniffer(0),
   player(0),
+  m_globals(globals),
   m_examMode(false),
   m_melodyNoteIndex(-1)
 {
-#if defined (Q_OS_WIN)
-  gl = Tglob::glob();
-#endif
-	TrtAudio::initJACKorASIO(gl->A->JACKorASIO);
-  if (gl->A->OUTenabled)
+	TrtAudio::initJACKorASIO(m_globals->A->JACKorASIO);
+  if (m_globals->A->OUTenabled)
       createPlayer();
   else
       player = 0;
-  if (gl->A->INenabled) {
+  if (m_globals->A->INenabled) {
 			createSniffer();
   } else {
 			sniffer = 0;
@@ -69,7 +63,7 @@ void Tsound::play(Tnote& note) {
   bool playing = false;
   if (player && note.note)
 			playing = player->play(note.chromatic());
-  if (playing && !gl->A->playDetected && player->type() == TabstractPlayer::e_midi) {
+  if (playing && !m_globals->A->playDetected && player->type() == TabstractPlayer::e_midi) {
     if (sniffer) { // pause sniffer if midi output was started
 			if (!m_midiPlays) { // stop listening just once
 				sniffer->stopListening();
@@ -95,11 +89,11 @@ void Tsound::playMelody(Tmelody* mel) {
 void Tsound::acceptSettings() {
 	bool doParamsUpdated = false;
   // for output
-  if (gl->A->OUTenabled) {
+  if (m_globals->A->OUTenabled) {
     if (!player)
         createPlayer();
     else {
-        if (gl->A->midiEnabled) {
+        if (m_globals->A->midiEnabled) {
           deletePlayer(); // it is safe to delete midi
           createPlayer(); // and create it again
         } else { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
@@ -119,7 +113,7 @@ void Tsound::acceptSettings() {
       deletePlayer();
   }
   // for input
-  if (gl->A->INenabled) {
+  if (m_globals->A->INenabled) {
     m_pitchView->setEnabled(true);
     if (!sniffer) {
       createSniffer();
@@ -128,8 +122,8 @@ void Tsound::acceptSettings() {
       setDefaultAmbitus();
       doParamsUpdated = true;
     }
-		m_pitchView->setMinimalVolume(gl->A->minimalVol);
-		m_pitchView->setIntonationAccuracy(gl->A->intonation);
+		m_pitchView->setMinimalVolume(m_globals->A->minimalVol);
+		m_pitchView->setIntonationAccuracy(m_globals->A->intonation);
   } else {
     m_pitchView->setDisabled(true);
     if (sniffer)
@@ -151,9 +145,9 @@ void Tsound::acceptSettings() {
 
 void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView = pView;
-  m_pitchView->setPitchColor(gl->EanswerColor);
-  m_pitchView->setMinimalVolume(gl->A->minimalVol);
-	m_pitchView->setIntonationAccuracy(gl->A->intonation);
+  m_pitchView->setPitchColor(m_globals->EanswerColor);
+  m_pitchView->setMinimalVolume(m_globals->A->minimalVol);
+	m_pitchView->setIntonationAccuracy(m_globals->A->intonation);
   if (sniffer) {
 			m_pitchView->setAudioInput(sniffer);
       m_pitchView->startVolume();
@@ -178,7 +172,7 @@ void Tsound::prepareToConf() {
 
 
 void Tsound::restoreAfterConf() {
-  if (gl->A->midiEnabled) {
+  if (m_globals->A->midiEnabled) {
     if (player)
       player->setMidiParams();
   }
@@ -219,7 +213,7 @@ void Tsound::go() {
 
 
 void Tsound::prepareAnswer() {
-  m_pitchView->setBgColor(QColor(gl->EanswerColor));
+  m_pitchView->setBgColor(QColor(m_globals->EanswerColor));
   m_pitchView->setDisabled(false);
 }
 
@@ -288,8 +282,8 @@ bool Tsound::isPlayable() {
 
 void Tsound::setDefaultAmbitus() {
 	if (sniffer)
-		sniffer->setAmbitus(Tnote(gl->loString().chromatic() - 5), // range extended about 4th up and down
-									Tnote(gl->hiString().chromatic() + gl->GfretsNumber + 5));
+		sniffer->setAmbitus(Tnote(m_globals->loString().chromatic() - 5), // range extended about 4th up and down
+									Tnote(m_globals->hiString().chromatic() + m_globals->GfretsNumber + 5));
 }
 
 
@@ -309,17 +303,17 @@ QList<TnoteStruct>& Tsound::notes() {
 //------------------------------------------------------------------------------------
 
 void Tsound::createPlayer() {
-  if (gl->A->midiEnabled) {
-    player = new TmidiOut(gl->A);
+  if (m_globals->A->midiEnabled) {
+    player = new TmidiOut(m_globals->A);
 		connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 		m_midiPlays = false;
 	} else
-    player = new TaudioOUT(gl->A);
+    player = new TaudioOUT(m_globals->A);
 }
 
 
 void Tsound::createSniffer() {
-  sniffer = new TaudioIN(gl->A);
+  sniffer = new TaudioIN(m_globals->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
 	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
@@ -373,7 +367,7 @@ void Tsound::playMelodySlot() {
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
 	m_detectedPitch = note.pitch;
 	emit noteStarted(m_detectedPitch);
-	if (player && gl->instrument != e_noInstrument && gl->A->playDetected)
+	if (player && m_globals->instrument != e_noInstrument && m_globals->A->playDetected)
 		play(m_detectedPitch);
 }
 
@@ -382,7 +376,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 	m_detectedPitch = note.pitch;
 	Tchunk noteChunk(m_detectedPitch, Trhythm());
 	emit noteFinished(noteChunk);
-	if (player && gl->instrument == e_noInstrument && gl->A->playDetected)
+	if (player && m_globals->instrument == e_noInstrument && m_globals->A->playDetected)
 		play(m_detectedPitch);
 }
 

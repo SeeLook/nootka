@@ -21,25 +21,24 @@
 #include "tlevelsdefs.h"
 #include <widgets/tquestionaswdg.h>
 #include <level/tlevelpreview.h>
-#include <tglobals.h>
 #include <texamparams.h>
 #include <music/ttune.h>
 #include "tfixleveldialog.h"
+#include <tinitcorelib.h>
 #include <QtWidgets>
 
-extern Tglobals *gl;
 
 
 /*static*/
 
 QString TlevelSelector::checkLevel(Tlevel& l) {
 	QString warringText = "";
-	if (gl->instrument == e_noInstrument && l.instrument != e_noInstrument)
+	if (Tcore::gl()->instrument == e_noInstrument && l.instrument != e_noInstrument)
 					warringText = tr("Level is not suitable for current instrument type");
 	else if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.canBeSound())) {
-    if (l.hiFret > gl->GfretsNumber || gl->Gtune()->stringNr() < 3 ||
-        l.loNote.chromatic() < gl->loString().chromatic() ||
-			  l.hiNote.chromatic() > gl->hiNote().chromatic())
+    if (l.hiFret > Tcore::gl()->GfretsNumber || Tcore::gl()->Gtune()->stringNr() < 3 ||
+        l.loNote.chromatic() < Tcore::gl()->loString().chromatic() ||
+			  l.hiNote.chromatic() > Tcore::gl()->hiNote().chromatic())
 					warringText = tr("Level is not suitable for current tuning and/or fret number");
   }
 	return warringText;
@@ -62,7 +61,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 
 	m_loadBut = new QPushButton(tr("Load"), this);
 		m_loadBut->setStatusTip(tr("Load level from file"));
-		m_loadBut->setIcon(QIcon(gl->path + "picts/nootka-level.png"));
+		m_loadBut->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-level.png"));
 		m_loadBut->setIconSize(QSize(22, 22));
 	m_removeButt = new QPushButton(tr("Remove"), this);
 		m_removeButt->setStatusTip(TremoveLevel::removeTxt());
@@ -132,7 +131,7 @@ void TlevelSelector::findLevels() {
     addLevel(lev);
 		m_levels.last().suitable = true;
   // from setting file - recent load/saved levels
-    QStringList recentLevels = gl->config->value("recentLevels").toStringList();
+    QStringList recentLevels = Tcore::gl()->config->value("recentLevels").toStringList();
     for (int i = recentLevels.size()-1; i >= 0; i--) {
         QFile file(recentLevels[i]);
         if (file.exists()) {
@@ -145,7 +144,7 @@ void TlevelSelector::findLevels() {
         } else
             recentLevels.removeAt(i);
     }
-    gl->config->setValue("recentLevels", recentLevels);
+    Tcore::gl()->config->setValue("recentLevels", recentLevels);
 }
 
 
@@ -213,11 +212,11 @@ void TlevelSelector::selectLevel() {
 void TlevelSelector::loadFromFile(QString levelFile) {
     if (levelFile == "")
         levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
-                                        gl->E->levelsDir, levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
+                                        Tcore::gl()->E->levelsDir, levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     QFile file(levelFile);
     Tlevel level = getLevelFromFile(file);
     if (level.name != "") {
-        gl->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
+        Tcore::gl()->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
         addLevel(level, levelFile, true);
         if (isSuitable(level))
             selectLevel(); // select the last
@@ -240,7 +239,7 @@ void TlevelSelector::updateRecentLevels() {
 		if (m_levels[i].file != "")
 			recentLevels << m_levels[i].file;
 	}
-	gl->config->setValue("recentLevels", recentLevels);
+	Tcore::gl()->config->setValue("recentLevels", recentLevels);
 }
 
 
@@ -301,7 +300,7 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 
 void TlevelSelector::fixInstrumentSlot() {
 	if (fixLevelInstrument(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file, 
-						gl->instrumentToFix, this)) {
+						Tcore::gl()->instrumentToFix, this)) {
 			if (!Tlevel::saveToFile(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file))
 					qDebug() << "Failed when writing fixed level to:" << m_levels[m_levelsListWdg->currentRow()].file;
 			else

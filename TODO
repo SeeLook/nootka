@@ -30,7 +30,6 @@ Scaling issues:
 
 - bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
 - revert to native style under MacOs when Qt5
-- misc library can crash under Win due to uninitialized Tglobals *gl
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
 - There is unused class TnotePixmap only with default clef - use it or delete
 - vertical name layout is probably unused - clear it then

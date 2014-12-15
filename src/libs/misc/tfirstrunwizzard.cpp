@@ -19,7 +19,8 @@
 
 #include "tfirstrunwizzard.h"
 #include "taboutnootka.h"
-#include "tglobals.h"
+#include "tscalepreviewlabel.h"
+#include "tinitmisclib.h"
 #include "select7note.h"
 #include "help/tmainhelp.h"
 #include <graphics/tnotepixmap.h>
@@ -31,20 +32,17 @@
 #include <score/tsimplescore.h>
 #include <taudioparams.h>
 #include <tscoreparams.h>
-#include "tscalepreviewlabel.h"
 #include <QtWidgets>
 
-
-extern Tglobals *gl;
 
 
 TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
 {
 #if defined(Q_OS_LINUX)
-    setWindowIcon(QIcon(gl->path + "picts/nootka.svg"));
+    setWindowIcon(QIcon(Tmisc::gl()->path + "picts/nootka.svg"));
 #else
-    setWindowIcon(QIcon(gl->path + "picts/about.png"));
+    setWindowIcon(QIcon(Tmisc::gl()->path + "picts/about.png"));
 #endif	
     setWindowTitle("Nootka   " + tr("First run wizard"));
     QVBoxLayout *lay = new QVBoxLayout;
@@ -86,19 +84,19 @@ TfirstRunWizzard::TfirstRunWizzard(QWidget *parent) :
     
     // grab 7-th note from translation
     if (Tpage_3::note7txt().toLower() == "b") {
-        gl->S->seventhIs_B = true; // rest S->nameStyleInNoteName
+        Tmisc::gl()->S->seventhIs_B = true; // rest S->nameStyleInNoteName
         if (m_page3->keyNameStyle() == "solfege")
-          gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
+          Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
         else
-          gl->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
+          Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
     }
     else {
-        gl->S->seventhIs_B = false;
-        gl->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
+        Tmisc::gl()->S->seventhIs_B = false;
+        Tmisc::gl()->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
         if (m_page3->keyNameStyle() == "solfege")
-          gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
+          Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
         else
-          gl->S->nameStyleInKeySign = Tnote::e_deutsch_His;
+          Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_deutsch_His;
     }
 
     connect(m_skipButt, SIGNAL(clicked()), this, SLOT(close()));
@@ -148,35 +146,35 @@ void TfirstRunWizzard::nextSlot() {
         break;
     case 4 :
         if (m_page3->select7->is7th_B()) {
-            gl->S->seventhIs_B = true;
-            gl->S->nameStyleInNoteName = Tnote::e_english_Bb;
+            Tmisc::gl()->S->seventhIs_B = true;
+            Tmisc::gl()->S->nameStyleInNoteName = Tnote::e_english_Bb;
             if (m_page3->keyNameStyle() == "solfege")
-              gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
+              Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
             else
-              gl->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
+              Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
         } else {
-            gl->S->seventhIs_B = false;
-            gl->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
+            Tmisc::gl()->S->seventhIs_B = false;
+            Tmisc::gl()->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
             if (m_page3->keyNameStyle() == "solfege")
-              gl->S->nameStyleInKeySign = Tnote::e_italiano_Si;
+              Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
             else
-              gl->S->nameStyleInKeySign = Tnote::e_deutsch_His;
+              Tmisc::gl()->S->nameStyleInKeySign = Tnote::e_deutsch_His;
         }
         if (QLocale::system().name().contains("ru")) // override name style for Russian localization
-					gl->S->nameStyleInNoteName = Tnote::e_russian_Ci;        
-        gl->S->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
-        gl->S->showEnharmNotes = m_page3->enharmChB->isChecked();
-        gl->S->keySignatureEnabled = m_page3->useKeyChB->isChecked();
-				if (gl->instrument == e_bassGuitar) {
-            gl->setTune(Ttune::bassTunes[0]);
-            gl->S->clef = Tclef::e_bass_F_8down;
-            gl->A->audioInstrNr = (int)e_bassGuitar;
-            gl->GfretsNumber = 20;
-				} else if (gl->instrument == e_electricGuitar) {
-            gl->A->audioInstrNr = (int)e_electricGuitar;
-            gl->GfretsNumber = 23;
-        } else if (gl->instrument == e_noInstrument) {
-						gl->S->clef = m_notationWidget->score()->clef().type();
+					Tmisc::gl()->S->nameStyleInNoteName = Tnote::e_russian_Ci;        
+        Tmisc::gl()->S->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
+        Tmisc::gl()->S->showEnharmNotes = m_page3->enharmChB->isChecked();
+        Tmisc::gl()->S->keySignatureEnabled = m_page3->useKeyChB->isChecked();
+				if (Tmisc::gl()->instrument == e_bassGuitar) {
+            Tmisc::gl()->setTune(Ttune::bassTunes[0]);
+            Tmisc::gl()->S->clef = Tclef::e_bass_F_8down;
+            Tmisc::gl()->A->audioInstrNr = (int)e_bassGuitar;
+            Tmisc::gl()->GfretsNumber = 20;
+				} else if (Tmisc::gl()->instrument == e_electricGuitar) {
+            Tmisc::gl()->A->audioInstrNr = (int)e_electricGuitar;
+            Tmisc::gl()->GfretsNumber = 23;
+        } else if (Tmisc::gl()->instrument == e_noInstrument) {
+						Tmisc::gl()->S->clef = m_notationWidget->score()->clef().type();
 						Tnote hiN, loN; // fix notes order
 						if (m_notationWidget->score()->getNote(1).chromatic() <
 										m_notationWidget->score()->getNote(0).chromatic()) {
@@ -186,8 +184,8 @@ void TfirstRunWizzard::nextSlot() {
 								hiN = m_notationWidget->score()->getNote(0);
 								loN = m_notationWidget->score()->getNote(1);
 						}
-						Ttune instrScale("scale", Tnote(hiN.chromatic() - gl->GfretsNumber), loN);
-						gl->setTune(instrScale);
+						Ttune instrScale("scale", Tnote(hiN.chromatic() - Tmisc::gl()->GfretsNumber), loN);
+						Tmisc::gl()->setTune(instrScale);
         }
         close();
         break;
@@ -196,7 +194,7 @@ void TfirstRunWizzard::nextSlot() {
 
 // To write notes of bass guitar this application uses <b>bass dropped clef</b> (bass clef with \"eight\" digit below) but common practice is to skip this digit and write it in ordinary bass clef. Remember, bass guitar sounds octave lower than notes written in 'normal' bass clef.
 void TfirstRunWizzard::whenInstrumentChanged(int instr) {
-	gl->instrument = Einstrument(instr);
+	Tmisc::gl()->instrument = Einstrument(instr);
 	m_notationWidget->setNoteForInstrument(instr);
 	if ((Einstrument)instr == e_bassGuitar)
 				m_notationWidget->notationNote()->setHtml(QString("<center>%1<br>").
@@ -300,17 +298,17 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
     lay->addWidget(dblAccChB, 0, Qt::AlignCenter);
-    dblAccChB->setChecked(gl->S->doubleAccidentalsEnabled);
+    dblAccChB->setChecked(Tmisc::gl()->S->doubleAccidentalsEnabled);
 //     lay->addStretch(1);
 
     enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
     lay->addWidget(enharmChB, 0, Qt::AlignCenter);
-    enharmChB->setChecked(gl->S->showEnharmNotes);
+    enharmChB->setChecked(Tmisc::gl()->S->showEnharmNotes);
 //     lay->addStretch(1);
 
     useKeyChB = new QCheckBox(tr("I know about key signatures"), this);
     lay->addWidget(useKeyChB, 0, Qt::AlignCenter);
-    useKeyChB->setChecked(gl->S->keySignatureEnabled);
+    useKeyChB->setChecked(Tmisc::gl()->S->keySignatureEnabled);
     lay->addStretch(1);
 
     setLayout(lay);
