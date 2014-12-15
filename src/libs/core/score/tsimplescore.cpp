@@ -327,8 +327,6 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	}
 	if (hh == 0)
 		return;
-// 	hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2.5);
-	scene()->setSceneRect(0.0, 0.0, ww, hh);
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
@@ -336,6 +334,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
   scale(factor, factor);
 	if (width() > (staff()->width() + staffOff + 1.0) * transform().m11())
 		staffOff = ((ww / transform().m11() - (staff()->width() /*+ staffOff + 2.0*/))  / 2.0);
+	scene()->setSceneRect(0.0, 0.0, ww / transform().m11(), hh / transform().m11());
 	staff()->setPos(staffOff, 0.0);
 }
 

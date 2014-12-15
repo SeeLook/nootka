@@ -28,6 +28,7 @@
 #include <QGraphicsLayout>
 #include <QMenu>
 #include <QBoxLayout>
+#include <QDesktopWidget>
 #include <QTimer>
 #include <QDebug>
 
@@ -53,16 +54,22 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 // proxy widget
 	m_proxy = scene->addWidget(widget);
 	m_proxy->setZValue(105);
-// 	m_proxy->show();
 	m_proxy->setFlag(ItemIgnoresTransformations);
 	if (widget)
 			widget->installEventFilter(this);
 #endif
 // corner spot
-	m_spot = scene->addEllipse(0.0, 0.0, 3.0, 3.0, Qt::NoPen, Qt::NoBrush);
+#if defined (Q_OS_ANDROID) // bigger corner spot for Android
+	m_side = qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 8.0;
+	m_spot = scene->addEllipse(0.0, 0.0, side() * 1.5, side() * 1.5, Qt::NoPen, Qt::NoBrush);
+#else
+	m_side = qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 15.0;
+	m_spot = scene->addEllipse(0.0, 0.0, side() * 0.75, side() * 0.75, Qt::NoPen, Qt::NoBrush);
+#endif
 	m_spot->setParentItem(this);
-// 	m_spot->show();
-	m_spot->setGraphicsEffect(new QGraphicsBlurEffect());
+	QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
+	blur->setBlurRadius(side() / 5.0);
+	m_spot->setGraphicsEffect(blur);
 	setSpotColor(QColor(0, 0, 255, 20));
 	
 	connect(scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sceneRectChangedSlot()));
@@ -103,8 +110,9 @@ void TcornerProxy::setSpotColor(const QColor& c) {
 	QGraphicsDropShadowEffect *dse = new QGraphicsDropShadowEffect;
 	dse->setOffset(0.0, 0.0);
 	QColor col(m_colorOfSpot);
-	col.setAlpha(150);
+	col.setAlpha(180);
 	dse->setColor(col);
+	dse->setBlurRadius(side() / 4.0);
 	if (proxy())
 			proxy()->setGraphicsEffect(dse);
 }
@@ -121,36 +129,18 @@ void TcornerProxy::hideSpot() {
 //####################################################################################################
 
 void TcornerProxy::sceneRectChangedSlot() {
-// #if defined (Q_OS_ANDROID) // bigger corner spot for Android
-// 	m_side = m_view->rect().height() / 5.0;
-// 	if (m_widget)
-// 		m_widget->adjustSize();
-// 	m_spot->setRect(0.0, 0.0, side() * 1.5, side() * 1.5);
-// 	m_spot->setPos(side() * -0.75, side() * -0.75);
-// #else
-// 	proxy()->adjustSize(); // adjust proxy size to widget size
-// 	m_side = m_view->rect().height() / 7.0;
-// // 	static_cast<QGraphicsDropShadowEffect*>(proxy()->graphicsEffect())->setBlurRadius(side() / 2.0);
-// 	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
-// 	m_spot->setPos(side() * -0.375, side() * -0.375);
-// #endif
-// 	sceneScrolled();
 	QTimer::singleShot(10, this, SLOT(sceneScrolled()));
+	// This way spots are always in the place
 }
 
 
 void TcornerProxy::sceneScrolled() {
 #if defined (Q_OS_ANDROID) // bigger corner spot for Android
-	m_side = m_view->rect().height() / 5.0;
 	if (m_widget)
 		m_widget->adjustSize();
-	m_spot->setRect(0.0, 0.0, side() * 1.5, side() * 1.5);
 	m_spot->setPos(side() * -0.75, side() * -0.75);
 #else
 	proxy()->adjustSize(); // adjust proxy size to widget size
-	m_side = m_view->rect().height() / 7.0;
-	static_cast<QGraphicsDropShadowEffect*>(proxy()->graphicsEffect())->setBlurRadius(side() / 2.0);
-	m_spot->setRect(0.0, 0.0, side() * 0.75, side() * 0.75);
 	m_spot->setPos(side() * -0.375, side() * -0.375);
 #endif
 // determine TcornerProxy position depends on the corner - in scaled scene coordinates
@@ -227,10 +217,7 @@ void TcornerProxy::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 	QColor spotColor = m_colorOfSpot;
 	spotColor.setAlpha(qMin(20 + (int)(alphaFactor * 250.0), 255));
 	m_spot->setBrush(QBrush(spotColor));
-// 	qreal moveGap = (side() /2.0 - reachPoint) / 2.0;
-// 	m_spot->setPos(moveGap, moveGap);
-// 	qDebug() << reachPoint << alphaFactor << event->pos();
-	if (reachPoint < side() / 6.0) {
+	if (reachPoint < side() / 5.0) {
 		m_signalTimer = startTimer(300);
 	}
 }
