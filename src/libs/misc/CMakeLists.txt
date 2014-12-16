@@ -8,7 +8,6 @@ add_definitions(-DNOOTKAMISC_LIBRARY)
 include_directories( . ../core )
 
 set(LIB_NOOTKAMISC_SRC
-  tinitmisclib.cpp
 	select7note.cpp
 	taboutnootka.cpp
 	tfirstrunwizzard.cpp

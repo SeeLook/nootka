@@ -27,27 +27,32 @@ class QApplication;
 
 /** 
  * Internal instance of Tglobals pointer used by in initCoreLibrary. *
- * It is set during invoking initCoreLibrary()
+ * It should be set during first call of @p Tglobals constructor
  */
 class NOOTKACORE_EXPORT Tcore
 {
 
+	friend class Tglobals;
+	
 public:
-	static void setGlobals(Tglobals *g) { m_gl = g; }
 	static Tglobals* gl() { return m_gl; } /** static global pointer to Tglobals */
+	
+protected:
+	static void setGlobals(Tglobals *g) { m_gl = g; }
+	static void reset() { m_gl = 0; } /** Set pointer to @p Tglobals to 0 */
 	
 private:
 	static Tglobals *m_gl; 
 
 };
 
+
 /** Initializes static values in library:
- * - pointer to Tglobals initialized by external executable !!!
- *   it is accessible through @p Tcore::gl() method 
- * - tuning definitions
- * - TpushButton colors
+ * - checks is @p Tglobal instance exists (@p Tcore::setGlobals() was called)
+ * - adds tuning definitions
+ * - adds TpushButton colors
  */
-NOOTKACORE_EXPORT void initCoreLibrary(Tglobals *gl);
+bool initCoreLibrary();
 
 /** Loads translations files for appropriate language (system or user preferred)
  * Translator object has to be created first. */

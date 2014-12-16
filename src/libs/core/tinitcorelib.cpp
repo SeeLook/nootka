@@ -33,17 +33,20 @@
 Tglobals* Tcore::m_gl = 0;
 
 
-void initCoreLibrary(Tglobals* gl) {
-		Tcore::setGlobals(gl);
-		Ttune::prepareDefinedTunes();
-		Tcolor::setShadow(qApp->palette());
+bool initCoreLibrary() {
+	if (Tcore::gl() == 0) {
+		qDebug() << "Tglobals was not created. Construct it first!";
+	}
+	Ttune::prepareDefinedTunes();
+	Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
-    TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
+	TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
 #else
-    TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
+	TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
 #endif
 // 		TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
 // moved to prepareTranslations() due to suffix translations have to be known
+	return true;
 }
 
 

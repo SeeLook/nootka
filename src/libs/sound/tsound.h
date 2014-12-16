@@ -43,7 +43,7 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_OBJECT
   
 public:
-  explicit Tsound(Tglobals* globals, QObject *parent = 0);
+  explicit Tsound(QObject *parent = 0);
   virtual ~Tsound();
   
   TabstractPlayer *player;
@@ -95,7 +95,6 @@ private:
   void deletePlayer();
   void deleteSniffer();
   
-	Tglobals						 *m_globals;
   TpitchView 					 *m_pitchView;
   Tnote 			 					m_detectedPitch; // detected note pitch
   bool 				 					m_examMode;
