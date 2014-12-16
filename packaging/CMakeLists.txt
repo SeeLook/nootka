@@ -161,13 +161,12 @@ message(STATUS "
 	")
 
 
-# message(STATUS "
-# QT5: ${QtCore_location} ${CMAKE_MAKE_PROGRAM}
-# ")
-
 if(WIN32)
-	get_filename_component(VORBIS_DIR ${VORBIS_LIBRARIES} DIRECTORY)
-	get_filename_component(MAKE_DIR ${CMAKE_MAKE_PROGRAM} DIRECTORY)
+	get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
+	get_filename_component(MAKE_DIR "${CMAKE_MAKE_PROGRAM}" DIRECTORY)
+	find_package(Qt5Core)
+	get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+	get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 	add_custom_target(runinplace
 		COMMAND echo " "
 		COMMAND echo Copying libraries...
