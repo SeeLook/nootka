@@ -3,6 +3,9 @@
 ########################################################################
 
 include_directories( . ../libs/core ../libs/sound/ )
+if (WIN32)
+  include_directories(${FFTW3_INCLUDE_DIRS})
+endif(WIN32)
 
 set(SETTINGS_SRC
   main.cpp
@@ -21,17 +24,10 @@ set(SETTINGS_SRC
   tvolumeslider.cpp
 )
 
-if(MINGW)
-		# dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
-		add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/chartico.o
-												COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_SOURCE_DIR}/picts/chart-icon.rc
-														-o ${CMAKE_CURRENT_BINARY_DIR}/chartico.o )
-		set(SETTINGS_SRC ${SETTINGS_SRC} ${CMAKE_CURRENT_BINARY_DIR}/chartico.o)
-endif(MINGW)
-
 
 add_executable(nootka-settings WIN32 ${SETTINGS_SRC} )
 target_link_libraries(nootka-settings NootkaCore NootkaSound NootkaMisc Qt5::Widgets)
+
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
   install(TARGETS nootka-settings DESTINATION bin)
