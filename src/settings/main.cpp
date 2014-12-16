@@ -21,7 +21,6 @@
 #include <QTranslator>
 #include "tsettingsdialog.h"
 #include <tinitcorelib.h>
-#include <tinitmisclib.h>
 #include <iostream>
 
 Tglobals *gl;
@@ -39,12 +38,11 @@ int main(int argc, char *argv[])
 		if (gl->path == "") {
 			return 112;
 		}
-		initCoreLibrary(gl);
+		if (!initCoreLibrary())
+			return 110;
 		prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
 		if (!loadNootkaFont(&a))
 			return 111;
-	// initializing libraries
-		initMiscLibrary(gl);
 		
 		QStringList args = a.arguments();
 		args.takeFirst();

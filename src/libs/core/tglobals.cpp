@@ -25,6 +25,7 @@
 #include <music/tnamestylefilter.h>
 #include "tpath.h"
 #include "tlayoutparams.h"
+#include "tinitcorelib.h"
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -64,7 +65,6 @@ bool m_fromTemp;
 Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
-
 	version = "1.1.3 alpha";
 //    path ; Is declared in main()
 
@@ -89,7 +89,14 @@ Tglobals::Tglobals(bool fromTemp) :
 		grabFromTemp();
 	else
 		loadSettings(config);
-	m_fromTemp = fromTemp;    
+	m_fromTemp = fromTemp;
+	
+	if (Tcore::gl() == 0)
+		Tcore::setGlobals(this);
+	else {
+		qDebug() << "Tglobals instance has already existed. Application is terminating!";
+		exit(109);
+	}
 }
 
 Tglobals::~Tglobals() {
@@ -97,11 +104,13 @@ Tglobals::~Tglobals() {
 // 			qDebug() << "Global settings stored to" << config->fileName();
 			storeSettings(config);
 	}
-    delete config;
-    delete E;
-    delete A;
-		delete S;
-		delete m_tune;
+	delete config;
+	delete E;
+	delete A;
+	delete S;
+	delete L;
+	delete m_tune;
+	Tcore::reset();
 }
 
 

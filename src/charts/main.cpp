@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
 		
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-		initCoreLibrary(gl);
+		if (!initCoreLibrary())
+			return 110;
 		prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
 		if (!loadNootkaFont(&a))
 			return 111;

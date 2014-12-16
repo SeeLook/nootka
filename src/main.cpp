@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
-#include <tinitmisclib.h>
 #include <tinitcorelib.h>
 #include <QPointer>
 #include <QFile>
@@ -52,12 +51,11 @@ int main(int argc, char *argv[])
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		confFile = gl->config->fileName();
-		initCoreLibrary(gl);
+		if (!initCoreLibrary())
+			return 110;
 		prepareTranslations(a, qtTranslator, qtbaseTranslator, nooTranslator);
 		if (!loadNootkaFont(a))
 			return 111;
-// initializing libraries
-		initMiscLibrary(gl);
 		
 // creating main window
     w = new MainWindow();
