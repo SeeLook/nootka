@@ -166,18 +166,20 @@ message(STATUS "
 # ")
 
 if(WIN32)
-	GET_FILENAME_COMPONENT(VORBIS_DIR ${VORBIS_LIBRARIES} PATH)
-	GET_FILENAME_COMPONENT(MAKE_DIR ${CMAKE_MAKE_PROGRAM} PATH)
+	get_filename_component(VORBIS_DIR ${VORBIS_LIBRARIES} DIRECTORY)
+	get_filename_component(MAKE_DIR ${CMAKE_MAKE_PROGRAM} DIRECTORY)
 	add_custom_target(runinplace
 		COMMAND echo " "
 		COMMAND echo Copying libraries...
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtCore4.dll ${CMAKE_BINARY_DIR}/src/.
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtGui4.dll ${CMAKE_BINARY_DIR}/src/.
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/QtNetwork4.dll ${CMAKE_BINARY_DIR}/src/.
-# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}/src/.
-# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_BINARY_DIR}/src/. #libvorbisfile.dll
-# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_BINARY_DIR}/src/.
-# 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libogg.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Core.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Gui.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Widgets.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Network.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5PrintSupport.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_BINARY_DIR}/src/. #libvorbisfile.dll
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_BINARY_DIR}/src/.
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libogg.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/libgcc_s_dw2-1.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/libstdc++-6.dll ${CMAKE_BINARY_DIR}/src/.
 # 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${MAKE_DIR}/mingwm10.dll ${CMAKE_BINARY_DIR}/src/.

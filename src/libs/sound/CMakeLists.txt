@@ -335,6 +335,11 @@ add_definitions(-DNOOTKASOUND_LIBRARY)
 
 include_directories( . ../core )
 
+if (WIN32)
+	include_directories( rt )
+endif(WIN32)
+
+
 set(LIB_NOOTKASOUND_SRC
 	tabstractplayer.cpp
 	tartiniparams.h

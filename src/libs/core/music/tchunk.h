@@ -19,6 +19,7 @@
 #ifndef TCHUNK_H
 #define TCHUNK_H
 
+#include <nootkacoreglobal.h>
 #include "tnote.h"
 #include "trhythm.h"
 #include <tfingerpos.h>
@@ -32,7 +33,7 @@ class QXmlStreamWriter;
  * a pitch described by @p Tnote 
  * and its value (relative duration) described by @p Trhythm
  */
-class Tchunk
+class NOOTKACORE_EXPORT Tchunk
 {
 
 public:

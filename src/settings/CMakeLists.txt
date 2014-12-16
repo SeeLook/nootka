@@ -2,7 +2,7 @@
 # CMakeList.txt nootka-settings
 ########################################################################
 
-include_directories( . ../core )
+include_directories( . ../libs/core ../libs/sound/ )
 
 set(SETTINGS_SRC
   main.cpp
