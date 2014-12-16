@@ -52,7 +52,7 @@ private:
  * - adds tuning definitions
  * - adds TpushButton colors
  */
-bool initCoreLibrary();
+NOOTKACORE_EXPORT bool initCoreLibrary();
 
 /** Loads translations files for appropriate language (system or user preferred)
  * Translator object has to be created first. */
