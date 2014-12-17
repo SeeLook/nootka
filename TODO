@@ -39,6 +39,8 @@ Scaling issues:
 - TpitchView could react on TaudioIN state to be automatically enabled/disabled
 - click on nootka-exam icon calls nootka but doesn't start exam
 
+- changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
+
 MINOR
 
 Charts:
