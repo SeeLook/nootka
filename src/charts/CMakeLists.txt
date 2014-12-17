@@ -25,14 +25,6 @@ set(ANALYZER_SRC
 	tyaxis.cpp
 )
 
-if(MINGW)
-		# dress up win executable in nice nootka icon ONLY FOR MINGW !!!!!!!!!!!!!
-		add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/chartico.o
-												COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_SOURCE_DIR}/picts/chart-icon.rc
-														-o ${CMAKE_CURRENT_BINARY_DIR}/chartico.o )
-		set(ANALYZER_SRC ${ANALYZER_SRC} ${CMAKE_CURRENT_BINARY_DIR}/chartico.o)
-endif(MINGW)
-
 
 add_executable(nootka-analyzer WIN32 ${ANALYZER_SRC} )
 target_link_libraries(nootka-analyzer NootkaCore Qt5::Widgets)
