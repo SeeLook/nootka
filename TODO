@@ -11,13 +11,16 @@
 ================              TODO LIST               ======================
 ============================================================================
 
-====== BUGS AND ISSUES ===============================================
 
-- TscoreView and TscoreItem have to have Android compile scopes
+
+====== BUGS AND ISSUES ===============================================
+MAJOR:
+
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
-			
+- bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
 - changing tool bar auto-hiding causes sometimes locked melody menu
+- fix accidental animations
 
 - Pitch view remains enabled after exam (even the check box is unchecked)
 
@@ -27,20 +30,27 @@ Tcanvas
 
 Scaling issues:
 - auto hidden tool bar remains big after decreased window size
+- Windows has problems with tool bar scaling and single mode note name size
+- piano brace size/position
 
-- bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
-- revert to native style under MacOs when Qt5
 - check setAmbitus of TsimpleScore - is it working properly with piano staff
 - There is unused class TnotePixmap only with default clef - use it or delete
 - vertical name layout is probably unused - clear it then
 - TpitchView could react on TaudioIN state to be automatically enabled/disabled
-- fix accidental animations
 - click on nootka-exam icon calls nootka but doesn't start exam
+
+MINOR
 
 Charts:
 	- points (notes) shadow changes with zoom - fix it
 	- zoom with CTRL+scroll moves a chart as well - fix it
 	- staff line disappears sometimes (when zoom is big)
+
+- revert to native style under MacOs when Qt5
+- TscoreView and TscoreItem have to have Android compile scopes
+Tnote
+	- overload + and - operators to raise/drop a note
+	- make appropriate methods const
 
 ==== NEW FEATURES ================================================================
 - store movable exam tips position for every type of an answer
@@ -49,8 +59,6 @@ Charts:
 - increase precision of exam timers - regressions risk...
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - enable/disable animations option
-- let's note range will figure automatically by pitch detection ambitus 
-  but add options for ambitus: all notes, instrument scale, visible in score 
 - make exam summary pretty
 - there has to be some help with key shortcuts
 - make use of QWizard and adjust it to all news
@@ -59,8 +67,7 @@ Charts:
   then emitting signal should contain Tchunk instead Tnote
 - tempo menu
 ----------------------------------------------------------------------------------------------------------------
-Tnote
-			- overload + and - operators to raise/drop a note
+
 			
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
