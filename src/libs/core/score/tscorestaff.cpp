@@ -353,8 +353,10 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 		prepareStaffLines();
 		if (m_keySignature)
 				m_keySignature->setPos(7.0, upperLinePos() - TscoreKeySignature::relatedLine);
-		for (int i = 0; i < count(); i++)
+		for (int i = 0; i < count(); i++) {
 			noteSegment(i)->adjustSize();
+			noteSegment(i)->setAmbitus(isPiano ? 40 : 34, 2); // TODO It may cause problems when any other class will invoke note ambitus
+		}
 		if (count())
 			scoreScene()->adjustCursor(noteSegment(0));
 		emit pianoStaffSwitched();

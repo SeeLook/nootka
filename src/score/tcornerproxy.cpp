@@ -68,7 +68,7 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 #endif
 	m_spot->setParentItem(this);
 	QGraphicsBlurEffect *blur = new QGraphicsBlurEffect();
-	blur->setBlurRadius(side() / 5.0);
+	blur->setBlurRadius(side() / 8.0);
 	m_spot->setGraphicsEffect(blur);
 	setSpotColor(QColor(0, 0, 255, 20));
 	
