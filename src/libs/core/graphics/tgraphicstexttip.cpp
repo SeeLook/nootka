@@ -24,7 +24,6 @@
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
-#include <QGraphicsScene>
 // #include <QDebug>
 
 
@@ -176,9 +175,10 @@ void TgraphicsTextTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 void TgraphicsTextTip::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 	if (isMovable() && event->buttons() == Qt::LeftButton) {
-		if (!m_lastPos.isNull())
-				setPos(qBound(0.0, x() + event->scenePos().x() - m_lastPos.x(), scene()->width() - boundingRect().width() * scale()),
-							 qBound(0.0, y() + event->scenePos().y() - m_lastPos.y(), scene()->height() - boundingRect().height() * scale()));
+		if (!m_lastPos.isNull()) {
+			setFixPos(x() + event->scenePos().x() - m_lastPos.x(), y() + event->scenePos().y() - m_lastPos.y());
+			emit moved();
+		}
 		m_lastPos = event->scenePos();
 	}
 	QGraphicsTextItem::mouseMoveEvent(event);

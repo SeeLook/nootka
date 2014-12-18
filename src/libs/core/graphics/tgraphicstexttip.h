@@ -21,6 +21,7 @@
 
 #include <nootkacoreglobal.h>
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 
 
 /** 
@@ -45,6 +46,14 @@ public:
   virtual QRectF boundingRect() const;
   
   void setHtml(QString htmlText); /** Overwrites QGraphicsTextItem method and make given text centered. */
+	
+	qreal realW() { return boundingRect().width() * scale(); } /** boundingRect().width() * scale() */
+	qreal realH() { return boundingRect().height() * scale(); } /** boundingRect().height() * scale() */
+	
+	void setFixPos(qreal xx, qreal yy) { 
+		setPos(qBound(2.0, xx, scene()->width() - realW() - 5.0), qBound(2.0, yy, scene()->height() - realH() - 5.0)); 
+	} /** Sets current position respecting scene bounding rectangle.  */
+	void setFixPos(const QPointF& pp) { setFixPos(pp.x(), pp.y()); }
   
   QColor bgColor() { return m_bgColor; } /** Background color of tip */
   void setBgColor(QColor col); /** Sets background color of tip */
@@ -64,6 +73,7 @@ public:
 	
 signals:
 	void clicked(); /** When item was clicked but doesn't move */
+	void moved(); /** When item was moved by user. setPoS() doesn't invoke it! */
 	
 protected:
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);

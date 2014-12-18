@@ -30,6 +30,7 @@
 #include <tnoofont.h>
 #include <QPainter>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsScene>
 // #include <QDebug>
 
 
@@ -255,6 +256,21 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
 }
 
 
+void TquestionTip::setMinimized(bool min) {
+	if (min != m_minimized) {
+		m_minimized = min;
+		if (m_minimized) {
+			QString titleText = m_questText.mid(0, m_questText.indexOf("<br>") - 1);
+			setHtml(titleText);
+		} else {
+			setHtml(m_questText);
+		}
+		setFixPos(pos());
+	}
+}
+
+
+
 void TquestionTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
 	QRectF rect = boundingRect();
 // background rectangle with question color border
@@ -313,13 +329,8 @@ void TquestionTip::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 void TquestionTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (event->button() == Qt::LeftButton) {
 		if (m_markCorner) {
-			m_minimized = !m_minimized;
-			if (m_minimized) {
-				QString titleText = m_questText.mid(0, m_questText.indexOf("<br>") - 1);
-				setHtml(titleText);
-			} else {
-				setHtml(m_questText);
-			}
+			setMinimized(!m_minimized);			
+			emit minimizeChanged();
 		}
 	}
 	TgraphicsTextTip::mousePressEvent(event);

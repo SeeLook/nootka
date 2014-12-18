@@ -204,7 +204,6 @@ MainWindow::~MainWindow()
       gl->config->setValue("geometry", geometry());
     gl->config->endGroup();
     delete gl;
-		qDebug() << "Settings object successfully deleted";
 }
 
 //##########################################################################################

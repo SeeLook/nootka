@@ -74,10 +74,7 @@ int main(int argc, char *argv[])
 		firstTime = false;
 		exitCode = a->exec();
 		delete w;
-		qDebug() << "Main Window successfully deleted";
 	} while (resetConfig);
 		
-// 	delete gl;
-// 	qDebug() << "Settings object successfully deleted";
 	return exitCode;
 }

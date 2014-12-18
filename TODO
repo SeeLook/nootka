@@ -28,7 +28,9 @@ Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 - move what_next/question tips to the right over guitar in single note mode
 
+
 Scaling issues:
+- when window goes back from maximized guitar is out of it
 - auto hidden tool bar remains big after decreased window size
 - Windows has problems with tool bar scaling and single mode note name size
 - piano brace size/position
@@ -46,15 +48,16 @@ Charts:
 	- points (notes) shadow changes with zoom - fix it
 	- zoom with CTRL+scroll moves a chart as well - fix it
 	- staff line disappears sometimes (when zoom is big)
+	- use of realW() & realH() of TgraphicsTip
 
 - revert to native style under MacOs when Qt5
 - TscoreView and TscoreItem have to have Android compile scopes
+s
 Tnote
 	- overload + and - operators to raise/drop a note
 	- make appropriate methods const
 
 ==== NEW FEATURES ================================================================
-- store movable exam tips position for every type of an answer
 - proxy corner widgets should be animated (if they remain live)
 - tidy key signature in note pixmap (width depends on accidentals number)
 - increase precision of exam timers - regressions risk...

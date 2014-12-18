@@ -73,6 +73,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_snifferLocked(false),
   m_canvas(0),
   m_supp(0),
+  m_penalty(0),
   m_exercise(0),
   m_blindCounter(0),
   m_rand(0)
@@ -184,10 +185,13 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 
 
 TexamExecutor::~TexamExecutor() {
+	if (m_penalty)
+		delete m_penalty;
 	if (m_supp)
 			delete m_supp;
-	delete m_penalty;
 	delete m_glStore;
+	if (m_rand)
+		delete m_rand;
 	deleteExam();
 }
 
@@ -482,7 +486,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     
     mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
 		m_penalty->startQuestionTime();
-    m_canvas->questionTip(m_exam);
+    m_canvas->questionTip();
     m_blindCounter = 0; // question successfully asked - reset the counter
 }
 
@@ -924,7 +928,7 @@ void TexamExecutor::repeatQuestion() {
     mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
     if (curQ.questionAsSound())
         repeatSound();
-    m_canvas->questionTip(m_exam);
+    m_canvas->questionTip();
     m_penalty->startQuestionTime();
 }
 
@@ -1018,7 +1022,7 @@ void TexamExecutor::prepareToExam() {
 			}
 		}
     m_snifferLocked = false;
-    m_canvas = new Tcanvas(mW->innerWidget, mW);
+    m_canvas = new Tcanvas(mW->innerWidget, m_exam, mW);
     connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
 		if (m_level.canBeMelody() && m_level.answerIsSound())
 				mW->sound->enableStoringNotes(true);
