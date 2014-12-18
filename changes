@@ -1,3 +1,8 @@
+    BUGS FIXES
+     - fixed a lot of small glitches
+		Under the hood
+     - removed all 'extern' statements from libraries
+
 1.1.3 alpha
      - There is an option for using JACK (Linux) and ASIO (Windows)
      - pitch detection range is set dynamically instead of settings
@@ -39,7 +44,7 @@
      - merged audio input and output callback methods
      - ported binary format of *.nel files to XML
 
-================================================================
+======
 
 1.0.1
      - finished German translation

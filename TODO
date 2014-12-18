@@ -33,7 +33,6 @@ Scaling issues:
 - Windows has problems with tool bar scaling and single mode note name size
 - piano brace size/position
 
-- check setAmbitus of TsimpleScore - is it working properly with piano staff
 - There is unused class TnotePixmap only with default clef - use it or delete
 - vertical name layout is probably unused - clear it then
 - TpitchView could react on TaudioIN state to be automatically enabled/disabled

@@ -183,22 +183,17 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
         for (int i = 0; i < htmlText.size(); i++) {
           if (htmlText[i].contains("0."))
             htmlText[i] = "<u><b>&nbsp;" + htmlText[i] + "</b></u>";
+					else if (htmlText[i].contains("======"))
+						htmlText[i] = "<br><hr><b><big><center>Nootka ONE</big></b></center><hr>";
           else if (htmlText[i].contains("BUG"))
             htmlText[i] = "&nbsp;&nbsp;<u>BUG FIXES</u>";
           else if (htmlText[i].contains("Under the hood"))
             htmlText[i] = "&nbsp;&nbsp;<u>Under the hood</u>";
           else if (!htmlText[i].contains("&nbsp;&nbsp; - "))
             htmlText[i] = "<b>" + htmlText[i] + "</b>";
-//           if (htmlText[i].isEmpty())
-//             htmlText[i].append("<hr>");
-//           else
           htmlText[i].append("<br>");
         }
-//         htmlText.prepend(QString("<div style=\"color: %1; background-color: %2;\">").
-//             arg(palette().highlightedText().color().name()).arg(palette().highlight().color().name()));
-//         htmlText.append("</div>");
         chLogTxt->setHtml(htmlText.join(""));
-//         chLogTxt->setPlainText(htmlText.join(""));
     }
     chfile.close();
 
