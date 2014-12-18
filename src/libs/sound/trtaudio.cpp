@@ -223,7 +223,6 @@ TrtAudio::~TrtAudio()
 		streamOptions = 0;
 		delete m_ao;
 		m_ao = 0;
-		qDebug() << "RtAudio instance totally deleted";
 	}
 		
 }

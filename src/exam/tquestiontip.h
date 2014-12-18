@@ -30,39 +30,46 @@ class TQAunit;
 
 /**
  * This is graphics tip (rectangle) representing a question context
+ * It can be minimized with mouse.
  */
 class TquestionTip : public TgraphicsTextTip
 {
    Q_OBJECT
    
 public:
-        /** Constructs tip with question content. */
-    TquestionTip(Texam *exam, double scale = 0);
-    ~TquestionTip();
-    
-    static QString getTextHowAccid(Tnote::Ealter accid);
-    static QString onStringTxt(quint8 strNr); /** Returns translated text on (strNr) string in Nootka font. */
-		
-				/** Depend on @p instrument it returns text:
-				 * 'Play or sing' (other instrument)
-				 * 'Play' (guitars) */
-		static QString playOrSing(int instr);
-		
-		static QString& text() { return m_questText; } /** Returns a reference to question HTML string. */
-    
-    bool freeScore() { return m_scoreFree; } /** true when question is not on score */
-    bool freeName() { return m_nameFree; } /** true when question is not on note name */
-    bool freeGuitar() { return m_guitarFree; } /** true when question is not on guitar */
+			/** Constructs tip with question content. */
+	TquestionTip(Texam *exam, double scale = 0);
+	~TquestionTip();
+	
+	static QString getTextHowAccid(Tnote::Ealter accid);
+	static QString onStringTxt(quint8 strNr); /** Returns translated text on (strNr) string in Nootka font. */
+	
+			/** Depend on @p instrument it returns text:
+				* 'Play or sing' (other instrument)
+				* 'Play' (guitars) */
+	static QString playOrSing(int instr);
+	
+	static QString& text() { return m_questText; } /** Returns a reference to question HTML string. */
+	
+	bool freeScore() { return m_scoreFree; } /** true when question is not on score */
+	bool freeName() { return m_nameFree; } /** true when question is not on note name */
+	bool freeGuitar() { return m_guitarFree; } /** true when question is not on guitar */
+	
+	bool isMinimized() { return m_minimized; } /** True when tip is minimized */
+	void setMinimized(bool min); /** Minimizes of maximizes a tip */
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    virtual QRectF boundingRect() const;
+	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+	virtual QRectF boundingRect() const;
+	
+	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 		
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+signals:
+	void minimizeChanged(); /** Emitted when tips gets minimized or restored to normal state */
     
 protected:    
-        /** Returns html-formated question text. */
+        /** Returns html-formatted question text. */
     QString getQuestion(TQAunit &question, int questNr, Tlevel *level, double scale = 0);
     QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style);
         

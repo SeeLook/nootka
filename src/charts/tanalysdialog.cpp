@@ -316,7 +316,7 @@ void TanalysDialog::createActions() {
     m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
     
     m_settButt = new QToolButton(this);
-    m_settButt->setIcon(QIcon(gl->path+"picts/systemsettings.png"));
+    m_settButt->setIcon(QIcon(gl->path + "picts/exam-settings.png"));
     m_settButt->setToolTip(tr("Settings of a chart"));
     m_settButt->setMenu(menu);
     m_settButt->setPopupMode(QToolButton::InstantPopup);
