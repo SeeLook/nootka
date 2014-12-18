@@ -167,6 +167,7 @@ if(WIN32)
 	find_package(Qt5Core)
 	get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
 	get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
+	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
 	add_custom_target(runinplace
 		COMMAND echo " "
 		COMMAND echo Copying libraries...
@@ -175,6 +176,13 @@ if(WIN32)
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Widgets.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Network.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5PrintSupport.dll ${CMAKE_BINARY_DIR}/src/.
+# 		foreach(ICU ${ICU_DLLS})
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ICU_DLLS} ${CMAKE_BINARY_DIR}/src/.
+# 		endforeach()
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins/platforms
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll ${CMAKE_BINARY_DIR}/src/plugins/platforms/.
+		
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_BINARY_DIR}/src/. #libvorbisfile.dll
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_BINARY_DIR}/src/.
