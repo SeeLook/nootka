@@ -22,6 +22,7 @@
 #include <music/tmelody.h>
 #include <widgets/tvolumeview.h>
 #include <graphics/tnotepixmap.h>
+// #include <tpath.h>
 #include <QtWidgets>
 
 
@@ -42,8 +43,9 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 		m_textUnderRadio->setChecked(true);
 	else if (m_layParams->iconTextOnToolBar == Qt::ToolButtonIconOnly)
 		m_iconsOnlyRadio->setChecked(true);
-	else
-		m_textOnlyRadio->setChecked(true);
+// 	else // TODO uncomment when text only will be implemented 
+// 		m_textOnlyRadio->setChecked(true);
+	m_textOnlyRadio->hide();
 	m_toolBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 // hints
 	m_hintBox = new QGroupBox(tr("hints"), this);
@@ -69,6 +71,8 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	mel->addNote(Tchunk(Tnote(1, 0), Trhythm()));
 	mel->addNote(Tchunk(Tnote(2, 0), Trhythm()));
 	mel->addNote(Tchunk(Tnote(3, 0), Trhythm()));
+	mel->addNote(Tchunk(Tnote(4, 0), Trhythm()));
+	mel->addNote(Tchunk(Tnote(5, 0), Trhythm()));
 	QLabel *scoreLab = new QLabel(pixToHtml(getMelodyPixmap(mel)), this);
 	scoreLab->setAlignment(Qt::AlignCenter);
 	scoreLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 10px; background-color: palette(Base);");
@@ -80,6 +84,7 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	m_guitarBox = new QGroupBox(tr("guitar"), this);
 	m_guitarBox->setCheckable(true);
 	m_guitarBox->setChecked(m_layParams->guitarEnabled);
+// 	m_guitarBox->setStyleSheet(QString("background-image: url(%1);}").arg(Tpath::img("fingbg")));
 	
 // layout
 	QVBoxLayout *mainLay = new QVBoxLayout;
@@ -143,7 +148,7 @@ void TlaySettings::resizeEvent(QResizeEvent*) {
 // 	m_toolBox->setFixedHeight(height() * 0.1);
 // 	m_hintBox->setFixedHeight(height() * 0.1);
 // 	m_soundBox->setFixedHeight(height() * 0.1);
-	m_guitarBox->setFixedHeight(height() * 0.22);
+	m_guitarBox->setFixedHeight(height() * 0.18);
 }
 
 

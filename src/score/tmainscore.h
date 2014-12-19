@@ -165,6 +165,7 @@ protected slots:
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
 		void performScordatureSet(); /** Common method to set scordature */
+		void createQuestionMark();
 		
     virtual void addStaff(TscoreStaff* st = 0);
 		

@@ -70,6 +70,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				scoreScene()->left()->enableToAddNotes(false); // It has to be invoked before deleteNotes() to hide 'enter note' text
 				scoreScene()->right()->enableToAddNotes(false);
 				deleteNotes();
+				staff()->noteSegment(0)->setBackgroundColor(-1); // unset background
 				staff()->setStafNumber(-1);
 				staff()->setViewWidth(0.0);
 				m_addNoteAnim = false;

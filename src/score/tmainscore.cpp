@@ -369,26 +369,6 @@ void TmainScore::isExamExecuting(bool isIt) {
 			disconnect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
 			setNoteNameEnabled(false);
-			m_questMark = new QGraphicsSimpleTextItem();
-			m_questMark->hide();
-		#if defined(Q_OS_MACX)
-			m_questMark->setFont(TnooFont(10));
-		#else
-			m_questMark->setFont(TnooFont(8));
-		#endif
-			scoreScene()->addItem(m_questMark);
-			QColor c = gl->EquestionColor;
-// 			if (insertMode() == e_single) {
-// 				c.setAlpha(255);
-// 				staff()->noteSegment(1)->setColor(c);
-// 			}
-			c.setAlpha(30);
-			m_questMark->setBrush(QBrush(c));
-			m_questMark->setText("?");
-			m_questMark->setScale(((height() / transform().m11()) / m_questMark->boundingRect().height()));
-			m_questMark->setPos(((width() / transform().m11()) - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
-													((height() / transform().m11()) - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
-			m_questMark->setZValue(4);
 			setScoreDisabled(true);
 			setClefDisabled(true);
 			m_correctNoteNr = -1;
@@ -396,8 +376,10 @@ void TmainScore::isExamExecuting(bool isIt) {
         connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 				connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
         disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
-        delete m_questMark;
-        m_questMark = 0;
+				if (m_questMark) {
+					delete m_questMark;
+					m_questMark = 0;
+				}
         delete m_questKey;
         m_questKey = 0;
 				setClefDisabled(false);
@@ -442,13 +424,15 @@ void TmainScore::clearScore() {
 	for(int i = 0; i < m_bgRects.size(); i++)
 		delete m_bgRects[i];
 	m_bgRects.clear();
-	m_questMark->hide();
+	if (m_questMark)
+		m_questMark->hide();
 	setBGcolor(mainWindow()->palette().base().color());
 	enableAccidToKeyAnim(enableAnim);
 }
 
 
 void TmainScore::askQuestion(Tnote note, char realStr) {
+	createQuestionMark();
 	TsimpleScore::setNote(1, note);
 	setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
 	m_questMark->show();
@@ -465,7 +449,8 @@ void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
 
 void TmainScore::askQuestion(Tmelody* mel) {
 	setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
-// 	m_questMark->show();
+	createQuestionMark();
+	m_questMark->show();
 	setMelody(mel);
 	setScoreDisabled(true);
 }
@@ -937,6 +922,29 @@ void TmainScore::restoreNotesSettings() {
 // 		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 		
 }
+
+
+void TmainScore::createQuestionMark() {
+	if (!m_questMark) {
+		m_questMark = new QGraphicsSimpleTextItem();
+		m_questMark->hide();
+// 		#if defined(Q_OS_MACX)
+// 			m_questMark->setFont(TnooFont(10));
+// 		#else
+		m_questMark->setFont(TnooFont(8));
+// 		#endif
+		scoreScene()->addItem(m_questMark);
+		QColor c = gl->EquestionColor;
+		c.setAlpha(30);
+		m_questMark->setBrush(QBrush(c));
+		m_questMark->setText("?");
+		m_questMark->setScale(scene()->height() / m_questMark->boundingRect().height());
+		m_questMark->setPos(staff()->pos().x() + (staff()->width() - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
+												(scene()->height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
+		m_questMark->setZValue(4);
+	}
+}
+
 
 
 void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {

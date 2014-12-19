@@ -1,7 +1,8 @@
-    - exam tips stores their position when moved by user
+1.1.4 alpha
+     - exam tips are storing their position when moved by user
     BUGS FIXES
      - fixed a lot of small glitches
-		Under the hood
+    Under the hood
      - removed all 'extern' statements from libraries
 
 1.1.3 alpha

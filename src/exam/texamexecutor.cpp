@@ -1138,48 +1138,55 @@ void TexamExecutor::exerciseToExam() {
 
 
 void TexamExecutor::stopExerciseSlot() {
-		bool askAfter = m_askingTimer->isActive();
-		m_askingTimer->stop(); // stop questioning, if any
-		bool continuePractice = false;
-		stopSound();
-    if (m_exam->count()) {
-			TQAunit lastQuestion;
-			if (!m_exam->curQ().melody()) {
-				lastQuestion = m_exam->curQ();
-				if (!m_isAnswered) { // remove last question to skip it in summary (chart) but only if not a melody
-						m_penalty->pauseTime();
-						m_exam->removeLastQuestion();
-				}
+	bool askAfter = m_askingTimer->isActive();
+	m_askingTimer->stop(); // stop questioning, if any
+	bool continuePractice = false;
+	stopSound();
+	qDebug() << "1." << m_exam->count() << m_exam->mistakes() << m_exam->totalTime();
+	if (m_exam->count()) {
+		TQAunit lastQuestion;
+		if (!m_exam->curQ().melody()) {
+			lastQuestion = m_exam->curQ();
+			if (!m_isAnswered) { // remove last question to skip it in summary (chart) but only if not a melody
+					m_penalty->pauseTime();
+					m_exam->removeLastQuestion();
 			}
-			m_penalty->updateExamTimes();
-			Tnote::EnameStyle tmpStyle = gl->S->nameStyleInNoteName;
-			gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
-				
-			bool startExam = false;
-			if (m_exam->count())
-				m_exam->saveToFile();
-			if (!m_goingClosed)
-					continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, &startExam);
-			gl->S->nameStyleInNoteName = tmpStyle;
-			if (startExam) {
-					exerciseToExam();
-					return;
-			}
-			if (!m_isAnswered && continuePractice && !m_exam->curQ().melody()) {
-					m_exam->addQuestion(lastQuestion); // add previously deleted
-					m_penalty->continueTime();
-			}
-    }
-    if (continuePractice) {
-			if (askAfter) // ask next question if questioning was stopped
-				askQuestion();
-			else // restore sniffing if necessary
-				if (m_exam->curQ().answerAsSound())
-					startSniffing();
-			qApp->installEventFilter(m_supp);
-			return;
 		}
-		closeExecutor();
+		qDebug() << "2." << m_exam->count() << m_exam->mistakes() << m_exam->totalTime();
+		m_penalty->updateExamTimes();
+		Tnote::EnameStyle tmpStyle = gl->S->nameStyleInNoteName;
+		gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
+			
+		bool startExam = false;
+		if (m_exam->count())
+			m_exam->saveToFile();
+		if (!m_goingClosed)
+				continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, &startExam);
+		gl->S->nameStyleInNoteName = tmpStyle;
+		if (startExam) {
+				exerciseToExam();
+				return;
+		}
+		if (!m_isAnswered && continuePractice && !m_exam->curQ().melody()) {
+				m_exam->addQuestion(lastQuestion); // add previously deleted
+				m_exam->sumarizeAnswer();
+				m_penalty->continueTime();
+		}
+	}
+	qDebug() << "3." << m_exam->count() << m_exam->mistakes() << m_exam->totalTime();
+	if (continuePractice) {
+		if (askAfter) // ask next question if questioning was stopped
+			askQuestion();
+		else // restore sniffing if necessary
+			if (m_exam->curQ().answerAsSound())
+				startSniffing();
+		qApp->installEventFilter(m_supp);
+		return;
+	} else {
+		if (m_exam->count())
+			m_exam->saveToFile();
+	}
+	closeExecutor();
 }
 
 
@@ -1448,8 +1455,9 @@ void TexamExecutor::rightButtonSlot() {
       return;
 	if (m_isAnswered)
 			askQuestion();
-	else
+	else {
 			checkAnswer();
+	}
 }
 
 

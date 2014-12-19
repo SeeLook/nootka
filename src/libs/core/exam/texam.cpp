@@ -450,12 +450,14 @@ void Texam::sumarizeAnswer() {
 	updateAverageReactTime(true);
 	if (melodies()) {
 		
-	} else
-		if (!isFinished()) {
+	} else {
+// 		if (!isFinished()) {
 			addPenalties(); // for melodies it should be invoked after ensuring that answer was finished
-			updateBlackCount();
+			if (!isExercise())
+				updateBlackCount();
 			m_workTime += curQ().time;
-		}
+// 		}
+	}
 	updateEffectiveness();
 }
 
@@ -481,6 +483,8 @@ void Texam::addPenalties() {
 
 void Texam::removeLastQuestion() {
 	m_workTime -= curQ().time;
+	if (curQ().isWrong())
+		m_mistNr--;
 	m_answList.removeLast();
 	updateEffectiveness();
 }
