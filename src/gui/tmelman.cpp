@@ -33,7 +33,7 @@ TmelMan::TmelMan(TmainScore* score) :
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
 	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Alt+Space"),
 							 QIcon(Tpath::img("record")));
-	createAction(tr("Create"), SLOT(randomizeMelodySlot()));
+	createAction(tr("Create"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	m_menu->addSeparator();
 	QDialogButtonBox box;
 	QPushButton *saveBut = box.addButton(QDialogButtonBox::Save);

@@ -15,7 +15,7 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-
+- right mouse button for melodies invokes repeat question
 - remember to delete temporary settings file when all will be working
 - when new staff is automatically added selected note is wrong
 - bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
@@ -24,9 +24,10 @@ MAJOR:
 
 - Pitch view remains enabled after exam (even the check box is unchecked)
 
+- when tool bar has no icons - about label has to be a text only
+
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
-- move what_next/question tips to the right over guitar in single note mode
 
 
 Scaling issues:
@@ -42,17 +43,21 @@ Scaling issues:
 
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 
-MINOR
+MINOR:
+
+- move what_next/question tips to the right over guitar in single note mode
+- during correction melodies on a score with a few staves clicking a note works strange due to staff is placed over staff
 
 Charts:
 	- points (notes) shadow changes with zoom - fix it
 	- zoom with CTRL+scroll moves a chart as well - fix it
 	- staff line disappears sometimes (when zoom is big)
 	- use of realW() & realH() of TgraphicsTip
+	- scaling small charts (its scene rectangle) look clumsy - flickering
 
 - revert to native style under MacOs when Qt5
 - TscoreView and TscoreItem have to have Android compile scopes
-s
+
 Tnote
 	- overload + and - operators to raise/drop a note
 	- make appropriate methods const
@@ -60,7 +65,8 @@ Tnote
 ==== NEW FEATURES ================================================================
 - proxy corner widgets should be animated (if they remain live)
 - tidy key signature in note pixmap (width depends on accidentals number)
-- increase precision of exam timers - regressions risk...
+- allow scaling a multiple staves score in disabled state
+- increase precision of exam timers - regressions risk... (to consider)
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - enable/disable animations option
 - make exam summary pretty
@@ -98,11 +104,11 @@ TEXAMEXECUTOR
 - rhythms in score
 - rhythms in level and exercise/exam
 - improve saving melodies to musicXML and opening/importing melodies from XML
-- managing melodies in levels, adding melodies set to the level
+- managing melodies in levels, adding set of melodies to the level
 - settings for keyboard shortcuts
 - sophisticated and configurable algorithm to generate random melodies
 - option for changing melody key (transposition) - in a level key range as well
-- intervals: creating melody with available intervals set only
+- intervals: creating melody with set of available intervals only
 - intervals: questions related to them in exam/exercises
 - recognizing melodies from *.ogg and *.wav files
 - support for (octavation marks) - octave drop/rise (8-va, 15-va)
