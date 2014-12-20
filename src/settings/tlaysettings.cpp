@@ -22,6 +22,7 @@
 #include <music/tmelody.h>
 #include <widgets/tvolumeview.h>
 #include <graphics/tnotepixmap.h>
+#include <music/tinstrument.h>
 // #include <tpath.h>
 #include <QtWidgets>
 
@@ -143,11 +144,18 @@ void TlaySettings::restoreDefaults() {
 }
 
 
+void TlaySettings::instrumentChanged(int instr) {
+  if ((Einstrument)instr == e_noInstrument) {
+    m_guitarBox->setChecked(false);
+    m_guitarBox->setDisabled(true);
+  } else {
+    m_guitarBox->setDisabled(false);
+		m_guitarBox->setChecked(m_layParams->guitarEnabled); // when unlocking, respect previous guitar visibility			
+	}
+}
+
 
 void TlaySettings::resizeEvent(QResizeEvent*) {
-// 	m_toolBox->setFixedHeight(height() * 0.1);
-// 	m_hintBox->setFixedHeight(height() * 0.1);
-// 	m_soundBox->setFixedHeight(height() * 0.1);
 	m_guitarBox->setFixedHeight(height() * 0.18);
 }
 

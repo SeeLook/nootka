@@ -31,6 +31,7 @@
 #include <tglobals.h>
 #include <tscoreparams.h>
 #include <tpath.h>
+#include <tlayoutparams.h>
 #include <tfirstrunwizzard.h>
 #include <QtWidgets>
 
@@ -56,34 +57,34 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	else
 		setWindowTitle(tr("Simple exercise settings"));
 
-//     navList->setFixedWidth(110);
+	setWindowIcon(QIcon(Tpath::img("systemsettings")));
+    navList->setFixedWidth(110);
 // 		navList->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 		navList->setResizeMode(QListView::Adjust);
     navList->addItem(tr("Common"));
-    navList->item(0)->setIcon(QIcon(gl->path + "picts/global.png"));
+    navList->item(0)->setIcon(QIcon(Tpath::img("global")));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Score"));
-    navList->item(1)->setIcon(QIcon(gl->path + "picts/scoreSettings.png"));
+    navList->item(1)->setIcon(QIcon(Tpath::img("scoreSettings")));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Names","name-calling"));
-    navList->item(2)->setIcon(QIcon(gl->path + "picts/nameSettings.png"));
+    navList->item(2)->setIcon(QIcon(Tpath::img("nameSettings")));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Instrument"));
-    navList->item(3)->setIcon(QIcon(gl->path + "picts/guitarSettings.png"));
+    navList->item(3)->setIcon(QIcon(Tpath::img("guitarSettings")));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Sound"));
-    navList->item(4)->setIcon(QIcon(gl->path+"picts/soundSettings.png"));
+    navList->item(4)->setIcon(QIcon(Tpath::img("soundSettings")));
     navList->item(4)->setTextAlignment(Qt::AlignCenter);
 		navList->addItem(tr("Exercises") + "\n& " + tr("Exam"));
-    navList->item(5)->setIcon(QIcon(gl->path + "picts/questionsSettings.png"));
+    navList->item(5)->setIcon(QIcon(Tpath::img("questionsSettings")));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
 // 		navList->addItem(tr("Shortcuts"));
-//     navList->item(6)->setIcon(QIcon(gl->path + "picts/shortcuts.png"));
+//     navList->item(6)->setIcon(QIcon(Tpath::img("shortcuts")));
 //     navList->item(6)->setTextAlignment(Qt::AlignCenter);
 		navList->addItem(tr("Appearance"));
     navList->item(6)->setIcon(QIcon(Tpath::img("appearance")));
     navList->item(6)->setTextAlignment(Qt::AlignCenter);
-
     
 		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
 			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
@@ -119,8 +120,10 @@ void TsettingsDialog::saveSettings() {
 			m_nameSett->saveSettings();
   if (m_guitarSett) {
 			m_guitarSett->saveSettings();
-			if (!m_audioSettingsPage) // when no audio settings set appropriate audio out instrument
+			if (!m_audioSettingsPage) // when no audio settings set appropriate audio-out instrument
 				gl->A->audioInstrNr = qBound(1, m_guitarSett->currentInstrument(), 3);
+			if (!m_laySett)
+				gl->L->guitarEnabled = (gl->instrument != e_noInstrument);
 	}
   if (m_examSett)
 			m_examSett->saveSettings();
@@ -200,14 +203,14 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       if (!m_scoreSett) {
         m_scoreSett = new TscoreSettings();
         stackLayout->addWidget(m_scoreSett);
-      }
-      if (m_nameSett) { // update current state of 7-th note, user could change it already
-					m_scoreSett->seventhIsBChanged(m_nameSett->is7th_b()); 
-          connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
-			}
-			if (m_guitarSett) {
-					m_scoreSett->setDefaultClef(m_guitarSett->currentClef());
-					connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
+				if (m_nameSett) { // update current state of 7-th note, user could change it already
+						m_scoreSett->seventhIsBChanged(m_nameSett->is7th_b()); 
+						connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
+				}
+				if (m_guitarSett) {
+						m_scoreSett->setDefaultClef(m_guitarSett->currentClef());
+						connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
+				}
 			}
       currentWidget = m_scoreSett;
       break;
@@ -216,9 +219,8 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       if (!m_nameSett) {
         m_nameSett = new TnoteNameSettings();
         stackLayout->addWidget(m_nameSett);        
-      }
-      if (m_scoreSett) {
-          connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
+				if (m_scoreSett)
+						connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
 			}
       currentWidget = m_nameSett;
       break;
@@ -227,14 +229,15 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       if (!m_guitarSett) {
         m_guitarSett = new TguitarSettings();
         stackLayout->addWidget(m_guitarSett);
+        if (m_scoreSett)
+          connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
+        if (m_sndOutSett)
+          connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
+        if (m_sndInSett)
+          connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
+        if (m_laySett)
+          connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_laySett, &TlaySettings::instrumentChanged);
       }
-      if (m_scoreSett)
-					connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
-			if (m_sndOutSett)
-					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
-			if (m_sndInSett) {
-					connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
-			}
       currentWidget = m_guitarSett;
       break;
     }
@@ -266,6 +269,10 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 			if (!m_laySett) {
 				m_laySett = new TlaySettings(gl->L);
 				stackLayout->addWidget(m_laySett);
+				if (m_guitarSett) {
+          connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_laySett, &TlaySettings::instrumentChanged);
+					m_laySett->instrumentChanged(m_guitarSett->currentInstrument());
+				}
 			}
 			currentWidget = m_laySett;
 			break;

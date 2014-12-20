@@ -42,6 +42,8 @@ public:
 	void saveSettings();
 	void restoreDefaults();
 
+  void instrumentChanged(int instr);
+
 protected:
 	virtual void resizeEvent(QResizeEvent* );
 
