@@ -175,7 +175,7 @@ void TpitchFinder::fillBuffer(float sample) {
 
 void TpitchFinder::resetFinder() {
 	if (!m_mutex.tryLock()) {
-		qDebug() << "Pitch detection in progress, have to wait for reset...";
+// 		qDebug() << "Pitch detection in progress, have to wait for reset...";
 		m_mutex.lock();
 	}
   m_doReset = false;
@@ -185,7 +185,7 @@ void TpitchFinder::resetFinder() {
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
-      qDebug() << "reset channel";
+//       qDebug() << "reset channel";
   }
   m_mutex.unlock();
 }

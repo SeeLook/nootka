@@ -141,18 +141,22 @@ void Tpenalty::setMelodyPenalties() {
 	if (m_exam->curQ().answered())
 		return; // It happens when continued exam starts - last question has been answered already
 	m_exam->curQ().setAnswered(); // in other cases question is summarized
-	if (!m_exam->isExercise()) {
-		if (m_exam->melodies()) {
-			if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) {
-					m_exam->addPenalties();
+	if (m_exam->melodies()) {
+		if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) {
+				m_exam->addPenalties();
+				if (!m_exam->isExercise()) {
 					if ((m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
 						m_penalStep = (m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackNumbers()->size();
 					else
 						m_penalStep = 0; // only penalties questions remained to ask in this exam
-			}
+				}
+		}
+		if (!m_exam->isExercise()) {
 			m_progress->progress();
 			checkForCert();
 		}
+	}
+	if (!m_exam->isExercise()) {
 		m_examView->questionCountUpdate(); // counters are not used/visible for exercises
 		m_examView->effectUpdate();
 	}

@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tequalrand.h"
-#include <iostream>
+// #include <iostream>
 
 TequalRand::TequalRand(int range, int startVal) :
 	m_range(range),
@@ -50,7 +50,7 @@ void TequalRand::reset() {
 	for (int i = 0; i < m_range; ++i) {
 		m_shotTable[i] = 0;
 	}
-	std::cout << "reset\n";
+// 	std::cout << "reset\n";
 }
 
 
@@ -60,16 +60,16 @@ int TequalRand::get() {
 		reset();
 		m_isLastLoop = false;
 		setTotalRandoms(m_total); // restore depth
-		std::cout << "total achieved\n";
+// 		std::cout << "total achieved\n";
 	}
 	int val = qrand() % m_range;
 	if (m_shotTable[val] == m_depth)
 		val = next(val);
 	m_shotTable[val] += 1;
-	for (int i = 0; i < m_range; ++i) {
-		std::cout << (int)m_shotTable[i] << " ";
-	}
-	std::cout << "\n";
+// 	for (int i = 0; i < m_range; ++i) {
+// 		std::cout << (int)m_shotTable[i] << " ";
+// 	}
+// 	std::cout << "\n";
 	return val + m_offset;
 }
 

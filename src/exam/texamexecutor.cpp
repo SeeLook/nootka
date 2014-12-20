@@ -226,7 +226,7 @@ void TexamExecutor::initializeExecuting() {
 	else
 		m_rand = new TequalRand(m_questList.size());
 	m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
-	qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
+// 	qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
 }
 
 
@@ -422,7 +422,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             m_answRequire.octave = true;
         }
 			}
-        mW->score->unLockScore();
+			mW->score->unLockScore();
     }
 
     if (curQ.answerAsName()) {
@@ -588,22 +588,22 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 					if (goodAllready == curQ.melody()->length()) { // all required notes are correct
 							curQ.setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
-							qDebug() << "Melody is correct";
+// 							qDebug() << "Melody is correct";
 					} else if (goodAllready + notBadAlready == curQ.melody()->length()) { // add committed mistakes of last attempt
 							curQ.setMistake(curQ.lastAttempt()->summary()); // or 'not bad'
-							qDebug() << "Melody is not bad";
+// 							qDebug() << "Melody is not bad";
 					} else if (goodAllready + notBadAlready >= curQ.melody()->length() * 0.7) { // at least 70% notes answered properly
-						qDebug() << "Melody has little notes";
+// 						qDebug() << "Melody has little notes";
 						if (curQ.lastAttempt()->effectiveness() > 50.0) { // and effectiveness is sufficient
 								curQ.setMistake(TQAunit::e_littleNotes); // but less notes than required
-								qDebug() << "... and sufficient effectiveness";
+// 								qDebug() << "... and sufficient effectiveness";
 						} else { // or effectiveness is too poor
 								curQ.setMistake(TQAunit::e_wrongNote);
-								qDebug() << "... but very poor effectiveness";
+// 								qDebug() << "... but very poor effectiveness";
 						}
 					} else {
 							curQ.setMistake(TQAunit::e_wrongNote);
-							qDebug() << "Simply wrong answer";
+// 							qDebug() << "Simply wrong answer";
 					}
 					if (m_level.manualKey && !curQ.isWrong()) {
             if (mW->score->keySignature().value() != curQ.key.value())
@@ -777,8 +777,8 @@ void TexamExecutor::correctAnswer() {
 			}
 		}
 	}
-	m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 	if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop && !curQ.melody()) {
+			m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 			m_askingTimer->start(gl->E->correctPreview);
   }
   if (curQ.melody())
@@ -1142,7 +1142,6 @@ void TexamExecutor::stopExerciseSlot() {
 	m_askingTimer->stop(); // stop questioning, if any
 	bool continuePractice = false;
 	stopSound();
-	qDebug() << "1." << m_exam->count() << m_exam->mistakes() << m_exam->totalTime();
 	if (m_exam->count()) {
 		TQAunit lastQuestion;
 		if (!m_exam->curQ().melody()) {
@@ -1152,7 +1151,6 @@ void TexamExecutor::stopExerciseSlot() {
 					m_exam->removeLastQuestion();
 			}
 		}
-		qDebug() << "2." << m_exam->count() << m_exam->mistakes() << m_exam->totalTime();
 		m_penalty->updateExamTimes();
 		Tnote::EnameStyle tmpStyle = gl->S->nameStyleInNoteName;
 		gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
@@ -1173,7 +1171,6 @@ void TexamExecutor::stopExerciseSlot() {
 				m_penalty->continueTime();
 		}
 	}
-	qDebug() << "3." << m_exam->count() << m_exam->mistakes() << m_exam->totalTime();
 	if (continuePractice) {
 		if (askAfter) // ask next question if questioning was stopped
 			askQuestion();
