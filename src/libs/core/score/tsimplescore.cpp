@@ -352,6 +352,7 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 }
 
 
+#if defined (Q_OS_ANDROID)
 bool TsimpleScore::viewportEvent(QEvent* event) {
 	if (m_touchEnabled) {
 		if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
@@ -432,7 +433,7 @@ void TsimpleScore::timerEvent(QTimerEvent* timeEvent) {
 		}
 	}
 }
-
+#endif
 
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
@@ -457,6 +458,7 @@ void TsimpleScore::onClefChanged(Tclef clef) {
 }
 
 
+#if defined (Q_OS_ANDROID)
 TscoreItem* TsimpleScore::castItem(QGraphicsItem* it) {
 	if (it) {
 		int cnt = 0;
@@ -483,7 +485,7 @@ void TsimpleScore::checkItem(TscoreItem* it, const QPointF& touchScenePos) {
 			m_currentIt->touched(m_currentIt->mapFromScene(touchScenePos));
 	}
 }
-
+#endif
 
 
 

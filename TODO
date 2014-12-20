@@ -57,7 +57,6 @@ Charts:
 	- add preview of long (more than 15 notes) melodies
 
 - revert to native style under MacOs when Qt5
-- TscoreView and TscoreItem have to have Android compile scopes
 
 Tnote
 	- overload + and - operators to raise/drop a note

@@ -211,14 +211,14 @@ QRect TnoteName::labelRect() {
 
 
 void TnoteName::setNoteNamesOnButt(Tnote::EnameStyle nameStyle) {
-    for (int i = 0; i < 7; i++)
-        m_noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
+	for (int i = 0; i < 7; i++)
+			m_noteButtons[i]->setText(Tnote(i + 1, 0, 0).toText(nameStyle, false));
 }
 
 
 void TnoteName::setStyle(Tnote::EnameStyle style) {
-    m_style = style;
-// 		Tnote::defaultStyle = style;
+	m_style = style;
+	Tnote::defaultStyle = style;
 }
 
 
