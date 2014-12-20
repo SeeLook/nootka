@@ -65,7 +65,7 @@ bool m_fromTemp;
 Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
-	version = "1.1.3 alpha";
+	version = "1.1.4 alpha";
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -142,7 +142,7 @@ bool Tglobals::grabFromTemp() {
 			tmpSett.beginGroup("temp");
 					path = tmpSett.value("nootkaPath", "").toString();
 			tmpSett.endGroup();
-// 			QFile::remove(tmpConfigFile());
+			QFile::remove(tmpConfigFile());
 			if (path != "")
 				return true;
 	}

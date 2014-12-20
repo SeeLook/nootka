@@ -260,13 +260,10 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 		hh = event->size().height();
 		ww = event->size().width();
 	}
-// 	if (ww < 300)
-//       return;
 	if (m_inMode == e_single) {
 		if (ww < 300 || hh < 200)
       return;
 		TsimpleScore::resizeEvent(event);
-// 		QTimer::singleShot(10, this, SLOT(resizeSlot()));
 	} else {
 		if (ww < 400 || hh < 200)
       return;
@@ -418,7 +415,7 @@ void TmultiScore::addStaff(TscoreStaff* st) {
 void TmultiScore::deleteLastStaff() {
 	delete m_staves.last();
 	m_staves.removeLast();
-	qDebug() << "staff deleted";
+// 	qDebug() << "staff deleted";
 }
 
 

@@ -111,7 +111,7 @@ QPixmap getMelodyPixmap(Tmelody* mel, bool showStrings, qreal factor) {
 		return QPixmap();
 	TscoreScene *scene = new TscoreScene();
 	
-	TscoreStaff *staff =	new TscoreStaff(scene, mel->length());
+	TscoreStaff *staff =	new TscoreStaff(scene, qMin(mel->length(), 15)); // TODO long melodies preview
 	staff->onClefChanged(Tclef(mel->clef()));
 	if (mel->key().value()) {
 		staff->setEnableKeySign(true);

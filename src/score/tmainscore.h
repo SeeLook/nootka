@@ -165,7 +165,7 @@ protected slots:
 private:
 		void restoreNotesSettings(); /** Sets notes colors according to globals. */
 		void performScordatureSet(); /** Common method to set scordature */
-		void createQuestionMark();
+		void setQuestionMarkPos(); /** updates position of question mark in the middle of score view */
 		
     virtual void addStaff(TscoreStaff* st = 0);
 		
@@ -200,6 +200,7 @@ private:
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
 		int 												 m_nameClickCounter, m_playedIndex;
 		bool												 m_selectReadOnly;
+		bool 												 m_emitExpertNoteClicked;
 };
 
 #endif // TMAINSCORE_H

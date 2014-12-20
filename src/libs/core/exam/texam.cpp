@@ -439,10 +439,10 @@ void Texam::sumarizeAnswer() {
 		if (!curQ().isWrong()) {
 				if (curQ().effectiveness() < 50) {
 						curQ().setMistake(TQAunit::e_veryPoor);;
-						qDebug() << "Texam" << "effectiveness set to very poor";
+// 						qDebug() << "Texam" << "effectiveness set to very poor";
 				} else if (curQ().effectiveness() < 70) {
 						curQ().setMistake(TQAunit::e_poorEffect);
-						qDebug() << "Texam" << "effectiveness is poor";
+// 						qDebug() << "Texam" << "effectiveness is poor";
 				}
 		}
 		m_attempts++;

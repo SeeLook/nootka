@@ -161,7 +161,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 		m_level->onlyLowPos = true;
 
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
-		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();
+// 		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();
 		if (m_level->instrument == e_noInstrument && gl->instrument != e_noInstrument) {
 // 			if (Tnote(gl->hiString().chromatic() + m_hiFret).chromatic() < m_level->hiNote.chromatic())
 // 					m_hiFret = m_level->hiNote.chromatic() - gl->hiString().chromatic();
@@ -207,7 +207,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 				}
 		}
 	} else {
-		qDebug() << "Question list created note by note";
+// 		qDebug() << "Question list created note by note";
 		for (int nNr = m_level->loNote.chromatic(); nNr <= m_level->hiNote.chromatic(); nNr++) {
 			Tnote n = Tnote(nNr);
 			bool hope = true; // we still have hope that note is proper for the level
@@ -243,8 +243,8 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 //        qDebug() << m_fretFretList.at(i) << (int)list[m_fretFretList.at(i)].pos.str() << "f"
 //                << (int)list[m_fretFretList.at(i)].pos.fret() << " note: "
 //                << QString::fromStdString(list[m_fretFretList.at(i)].note.getName());
-      qDebug() << "question list for only guitar created\nnumber:" << m_fretFretList.size() <<
-          " among:" << list.size();
+//       qDebug() << "question list for only guitar created\nnumber:" << m_fretFretList.size() <<
+//           " among:" << list.size();
     }
     
     qsrand(QDateTime::currentDateTime().toTime_t());

@@ -28,7 +28,6 @@
 #include <score/tnotecontrol.h>
 #include <music/ttune.h>
 #include <music/tmelody.h>
-#include <tglobals.h>
 #include <tscoreparams.h>
 #include <texamparams.h>
 #include <graphics/tgraphicstexttip.h>
@@ -37,13 +36,12 @@
 #include <tcolor.h>
 #include <tnoofont.h>
 #include <widgets/tpushbutton.h>
+#include <tinitcorelib.h>
 #include <notename/tnotename.h>
 #include <QtWidgets>
 
 
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
-
-extern Tglobals *gl;
 
 
 TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
@@ -54,30 +52,31 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle),
 	m_nameMenu(0),
-  m_scoreIsPlayed(false)
+  m_scoreIsPlayed(false),
+  m_emitExpertNoteClicked(true)
 {
 	m_acts = new TscoreActions(this);
 	
-	scoreScene()->setNameColor(gl->S->nameColor);
+	scoreScene()->setNameColor(Tcore::gl()->S->nameColor);
 	restoreNotesSettings();
 	addStaff(staff());
 // set preferred clef
-	setClef(gl->S->clef);
+	setClef(Tcore::gl()->S->clef);
 	
 	createActions();
 	
 // set note colors
 // 	restoreNotesSettings();
 	setScordature();
-	setAnimationsEnabled(gl->useAnimations);
-	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
-	setEnableKeySign(gl->S->keySignatureEnabled);
+	setAnimationsEnabled(Tcore::gl()->useAnimations);
+	setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
+	setEnableKeySign(Tcore::gl()->S->keySignatureEnabled);
 	if (staff()->scoreKey())
-		staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
+		staff()->scoreKey()->showKeyName(Tcore::gl()->S->showKeySignName);
 	
 	connect(scoreScene()->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
-//     setAmbitus(Tnote(gl->loString().chromatic()-1),
-//                Tnote(gl->hiString().chromatic()+gl->GfretsNumber+1));
+//     setAmbitus(Tnote(Tcore::gl()->loString().chromatic()-1),
+//                Tnote(Tcore::gl()->hiString().chromatic()+Tcore::gl()->GfretsNumber+1));
 
 	createNoteName();
 	isExamExecuting(false);
@@ -98,8 +97,8 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 			clearNote(1);
 			clearNote(2);
 	} else {
-			staff()->noteSegment(1)->setColor(gl->S->enharmNotesColor);
-			staff()->noteSegment(2)->setColor(gl->S->enharmNotesColor);	
+			staff()->noteSegment(1)->setColor(Tcore::gl()->S->enharmNotesColor);
+			staff()->noteSegment(2)->setColor(Tcore::gl()->S->enharmNotesColor);	
 	}
 }
 
@@ -107,36 +106,36 @@ void TmainScore::setEnableEnharmNotes(bool isEnabled) {
 void TmainScore::acceptSettings() {
 	bool refreshNoteNames = false; // This is CPU consuming operation - we try to avoid it
 // Update note name style
-	if  (Tnote::defaultStyle != gl->S->nameStyleInNoteName) {
-		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
+	if  (Tnote::defaultStyle != Tcore::gl()->S->nameStyleInNoteName) {
+		Tnote::defaultStyle = Tcore::gl()->S->nameStyleInNoteName;
 		refreshNoteNames = true;
 	}
-	if ((gl->S->isSingleNoteMode && insertMode() != e_single) || (!gl->S->isSingleNoteMode && insertMode() == e_single))
+	if ((Tcore::gl()->S->isSingleNoteMode && insertMode() != e_single) || (!Tcore::gl()->S->isSingleNoteMode && insertMode() == e_single))
 		refreshNoteNames = true;
-	if (gl->S->isSingleNoteMode) {
+	if (Tcore::gl()->S->isSingleNoteMode) {
 		setInsertMode(e_single);
-		setEnableEnharmNotes(gl->S->showEnharmNotes);
+		setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 	} else
 		setInsertMode(e_multi);
 // Double accidentals
-	setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
+	setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
 	scoreScene()->left()->addAccidentals();
-	setClef(Tclef(gl->S->clef));
+	setClef(Tclef(Tcore::gl()->S->clef));
 // Enable/disable key signatures
-	if ((bool)staff()->scoreKey() != gl->S->keySignatureEnabled) {
-		setEnableKeySign(gl->S->keySignatureEnabled);
+	if ((bool)staff()->scoreKey() != Tcore::gl()->S->keySignatureEnabled) {
+		setEnableKeySign(Tcore::gl()->S->keySignatureEnabled);
 	}
 	if (staff()->scoreKey())
-		staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
+		staff()->scoreKey()->showKeyName(Tcore::gl()->S->showKeySignName);
 	restoreNotesSettings();
 // Note names on the score
-	if (gl->S->nameColor != scoreScene()->nameColor()) {
+	if (Tcore::gl()->S->nameColor != scoreScene()->nameColor()) {
 			refreshNoteNames = true;
-			m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
-			scoreScene()->setNameColor(gl->S->nameColor);
+			m_acts->noteNames()->setThisColors(Tcore::gl()->S->nameColor, palette().highlightedText().color());
+			scoreScene()->setNameColor(Tcore::gl()->S->nameColor);
 	}
-	if (gl->S->namesOnScore != m_acts->noteNames()->isChecked() || refreshNoteNames) {
-		m_acts->noteNames()->setChecked(gl->S->namesOnScore);
+	if (Tcore::gl()->S->namesOnScore != m_acts->noteNames()->isChecked() || refreshNoteNames) {
+		m_acts->noteNames()->setChecked(Tcore::gl()->S->namesOnScore);
 		for (int st = 0; st < staffCount(); st++) {
 			for (int no = 0; no < staves(st)->count(); no++) {
 				if (m_acts->noteNames()->isChecked()) {
@@ -149,37 +148,37 @@ void TmainScore::acceptSettings() {
 		}
 	}
 // scordature	
-	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar)
+	if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar)
 			setScordature();
 	else
 			if (staff()->hasScordature())
 				staff()->removeScordatute();
-// 	if (!gl->S->doubleAccidentalsEnabled)
+// 	if (!Tcore::gl()->S->doubleAccidentalsEnabled)
 // 		clearNote(2);
-	if (gl->S->keySignatureEnabled) // refreshKeySignNameStyle();
+	if (Tcore::gl()->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
-			staff()->scoreKey()->showKeyName(gl->S->showKeySignName);
-//     setAmbitus(Tnote(gl->loString().chromatic()-1),
-//                Tnote(gl->hiString().chromatic()+gl->GfretsNumber+1));
+			staff()->scoreKey()->showKeyName(Tcore::gl()->S->showKeySignName);
+//     setAmbitus(Tnote(Tcore::gl()->loString().chromatic()-1),
+//                Tnote(Tcore::gl()->hiString().chromatic()+Tcore::gl()->GfretsNumber+1));
 // 	restoreNotesSettings();
 // refresh key signature, if any
 	enableAccidToKeyAnim(false); // prevent accidental animation to empty note
-	if (gl->S->keySignatureEnabled) {
-		TkeySignature::setNameStyle(gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
+	if (Tcore::gl()->S->keySignatureEnabled) {
+		TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
 		setKeySignature(keySignature());
 	}
 	enableAccidToKeyAnim(true);
-// 	if (gl->S->isSingleNoteMode) {
+// 	if (Tcore::gl()->S->isSingleNoteMode) {
 // 		setInsertMode(e_single);
-// 		setEnableEnharmNotes(gl->S->showEnharmNotes);
+// 		setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 // 	} else
 // 		setInsertMode(e_multi);
 	if (m_nameMenu) {
-			m_nameMenu->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
-			m_nameMenu->setEnabledEnharmNotes(gl->S->showEnharmNotes);
-			m_nameMenu->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
-			m_nameMenu->setStyle(gl->S->nameStyleInNoteName);
-// 			m_nameMenu->setAmbitus(gl->loString(), Tnote(gl->hiString().chromatic() + gl->GfretsNumber));
+			m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
+			m_nameMenu->setEnabledEnharmNotes(Tcore::gl()->S->showEnharmNotes);
+			m_nameMenu->setNoteNamesOnButt(Tcore::gl()->S->nameStyleInNoteName);
+			m_nameMenu->setStyle(Tcore::gl()->S->nameStyleInNoteName);
+// 			m_nameMenu->setAmbitus(Tcore::gl()->loString(), Tnote(Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber));
 	}
 }
 
@@ -216,7 +215,7 @@ void TmainScore::setMelody(Tmelody* mel) {
 
 void TmainScore::getMelody(Tmelody* mel, const QString& title) {
 	mel->setTitle(title);
-	mel->setTempo(gl->S->tempo);
+	mel->setTempo(Tcore::gl()->S->tempo);
 	mel->setKey(keySignature());
 	mel->setClef(clef().type());
 	for (int i = 0; i < notesCount(); ++i) {
@@ -246,7 +245,7 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 				m_nameMenu->enableArrows(true);
 				m_nameMenu->hide();
 				enableCorners(true);
-				if (gl->S->namesOnScore)
+				if (Tcore::gl()->S->namesOnScore)
 					staff()->noteSegment(0)->showNoteName();
 		}
 	}
@@ -273,7 +272,7 @@ void TmainScore::playScore() {
 		m_scoreIsPlayed = true;
 		m_playTimer = new QTimer(this);
 		connect(m_playTimer, SIGNAL(timeout()), this, SLOT(playSlot()));
-		m_playTimer->start(60000 / gl->S->tempo);
+		m_playTimer->start(60000 / Tcore::gl()->S->tempo);
 		m_playedIndex = currentIndex() - 1;
 		playSlot();
 	}
@@ -288,7 +287,7 @@ void TmainScore::onClefChanged(Tclef cl) {
 
 
 void TmainScore::setScordature() {
-	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar) {
+	if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar) {
 			performScordatureSet();
 // 			resizeEvent(0);
 	}
@@ -302,9 +301,9 @@ void TmainScore::unLockScore() {
 		setNoteDisabled(2, true);
 	}
 	if (isExam()) {
-		setBGcolor(Tcolor::merge(gl->EanswerColor, mainWindow()->palette().window().color()));
+		setBGcolor(Tcolor::merge(Tcore::gl()->EanswerColor, mainWindow()->palette().window().color()));
 		if (insertMode() == e_single)
-			setNoteViewBg(0, gl->EanswerColor);
+			setNoteViewBg(0, Tcore::gl()->EanswerColor);
 		else
 			setReadOnlyReacted(false);
 	}
@@ -372,23 +371,25 @@ void TmainScore::isExamExecuting(bool isIt) {
 			setScoreDisabled(true);
 			setClefDisabled(true);
 			m_correctNoteNr = -1;
-    } else {
-        connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-				connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
-        disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
-				if (m_questMark) {
-					delete m_questMark;
-					m_questMark = 0;
-				}
-        delete m_questKey;
-        m_questKey = 0;
-				setClefDisabled(false);
-				setNoteNameEnabled(true);
-    }
+			m_questMark = new QGraphicsSimpleTextItem();
+			m_questMark->hide();
+			scoreScene()->addItem(m_questMark);
+	} else {
+			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
+			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+			if (m_questMark) {
+				delete m_questMark;
+				m_questMark = 0;
+			}
+			delete m_questKey;
+			m_questKey = 0;
+			setClefDisabled(false);
+			setNoteNameEnabled(true);
+	}
 }
 
 
-bool m_emitExpertNoteClicked = true;
 void TmainScore::clearScore() {
 	bool enableAnim = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations to empty score
@@ -432,9 +433,9 @@ void TmainScore::clearScore() {
 
 
 void TmainScore::askQuestion(Tnote note, char realStr) {
-	createQuestionMark();
+	setQuestionMarkPos();
 	TsimpleScore::setNote(1, note);
-	setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
+	setBGcolor(Tcolor::merge(Tcore::gl()->EquestionColor, mainWindow()->palette().window().color()));
 	m_questMark->show();
 	if (realStr) 
 		setStringNumber(1, realStr);
@@ -448,8 +449,8 @@ void TmainScore::askQuestion(Tnote note, TkeySignature key, char realStr) {
 
 
 void TmainScore::askQuestion(Tmelody* mel) {
-	setBGcolor(Tcolor::merge(gl->EquestionColor, mainWindow()->palette().window().color()));
-	createQuestionMark();
+	setBGcolor(Tcolor::merge(Tcore::gl()->EquestionColor, mainWindow()->palette().window().color()));
+	setQuestionMarkPos();
 	m_questMark->show();
 	setMelody(mel);
 	setScoreDisabled(true);
@@ -515,13 +516,13 @@ void TmainScore::prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName
 	m_questKey = new QGraphicsTextItem();
 	m_questKey->setParentItem(staff()->scoreKey()); // we are sure that key exist - exam checked that
 	m_questKey->setHtml(QString("<span style=\"color: %1;\"><span style=\"font-family: nootka;\">?</span><br>").
-				arg(gl->EquestionColor.name()) + expectKeyName + "</span>");
+				arg(Tcore::gl()->EquestionColor.name()) + expectKeyName + "</span>");
 	TgraphicsTextTip::alignCenter(m_questKey);
 	TscoreKeySignature::setKeyNameScale(m_questKey);
 	m_questKey->setPos(
 				(staff()->scoreKey()->boundingRect().width() - m_questKey->boundingRect().width() * m_questKey->scale()) / 2 - 2.5,
 				 - 3.0 - m_questKey->boundingRect().height() * m_questKey->scale());
-	setKeyViewBg(gl->EanswerColor);
+	setKeyViewBg(Tcore::gl()->EanswerColor);
 }
 
 
@@ -575,7 +576,7 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color, int noteNr) {
 void TmainScore::correctAccidental(Tnote& goodNote) {
 	m_correctNoteNr = 0;
 	m_goodNote = goodNote;
-	QPen pp(QColor(gl->EnotBadColor.name()), 0.5);
+	QPen pp(QColor(Tcore::gl()->EnotBadColor.name()), 0.5);
 	if (getNote(0).alter != m_goodNote.alter) {
 			m_bliking = new TblinkingItem(staff()->noteSegment(0)->mainAccid());
 	} else {
@@ -624,15 +625,15 @@ void TmainScore::deleteNoteName(int id) {
 
 void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 	//We are sure that index is 0, cause others are disabled :-)
-    if (insertMode() == e_single && gl->S->showEnharmNotes) {
-        TnotesList enharmList = note.getTheSameNotes(gl->S->doubleAccidentalsEnabled);
+    if (insertMode() == e_single && Tcore::gl()->S->showEnharmNotes) {
+        TnotesList enharmList = note.getTheSameNotes(Tcore::gl()->S->doubleAccidentalsEnabled);
         TnotesList::iterator it = enharmList.begin();
         ++it;
         if (it != enharmList.end())
             TsimpleScore::setNote(1, *(it));
         else
             clearNote(1);
-        if (gl->S->doubleAccidentalsEnabled) {
+        if (Tcore::gl()->S->doubleAccidentalsEnabled) {
             ++it;
             if (it != enharmList.end())
                 TsimpleScore::setNote(2, *(it));
@@ -671,7 +672,7 @@ void TmainScore::menuChangedNote(Tnote n) {
 		m_currentNameSegment->update(); // Menu above covers focus
 		emit noteWasChanged(m_currentNameSegment->index(), n);
 		m_nameClickCounter++;
-		if (insertMode() == e_single && gl->S->showEnharmNotes && !isExam()) {
+		if (insertMode() == e_single && Tcore::gl()->S->showEnharmNotes && !isExam()) {
 			staff()->setNote(1, m_nameMenu->getNoteName(1));
 			staff()->setNote(2, m_nameMenu->getNoteName(2));
 		}
@@ -705,14 +706,14 @@ void TmainScore::showNamesSlot() {
 
 
 void TmainScore::zoomScoreSlot() {
-	qreal newScale = gl->S->scoreScale;
+	qreal newScale = Tcore::gl()->S->scoreScale;
 	if (sender() == m_acts->zoomOut()) {
-			newScale = qMin(gl->S->scoreScale + 0.25, 2.0);
+			newScale = qMin(Tcore::gl()->S->scoreScale + 0.25, 2.0);
 	} else {
-			newScale = qMax(gl->S->scoreScale - 0.25, 1.0);
+			newScale = qMax(Tcore::gl()->S->scoreScale - 0.25, 1.0);
 	}
-	if (newScale != gl->S->scoreScale) {
-		gl->S->scoreScale = newScale;
+	if (newScale != Tcore::gl()->S->scoreScale) {
+		Tcore::gl()->S->scoreScale = newScale;
 		setScoreScale(newScale);
 	}
 }
@@ -814,7 +815,7 @@ void TmainScore::keyBlinkingFinished() {
 			setKeySignature(m_goodKey); // set proper key
 			enableAccidToKeyAnim(animEnabled);
 			if (m_questKey) // desired key name make green and replace ? for !
-				m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(gl->EquestionColor.name(), gl->EanswerColor.name()));
+				m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(Tcore::gl()->EquestionColor.name(), Tcore::gl()->EanswerColor.name()));
 			m_keyBlinking->startBlinking(3); // and blink again
 	} else { // finished 2nd time
 			delete m_keyBlinking;
@@ -824,9 +825,9 @@ void TmainScore::keyBlinkingFinished() {
 
 void TmainScore::finishCorrection() {
 	noteFromId(m_correctNoteNr)->enableNoteAnim(false);
-	noteFromId(m_correctNoteNr)->markNote(QColor(gl->EanswerColor.lighter().name()));
-	if (gl->E->showNameOfAnswered) // show name only when it is enabled
-		noteFromId(m_correctNoteNr)->showNoteName(QColor(gl->EanswerColor.lighter().name()));
+	noteFromId(m_correctNoteNr)->markNote(QColor(Tcore::gl()->EanswerColor.lighter().name()));
+	if (Tcore::gl()->E->showNameOfAnswered) // show name only when it is enabled
+		noteFromId(m_correctNoteNr)->showNoteName(QColor(Tcore::gl()->EanswerColor.lighter().name()));
 	m_correctNoteNr = -1;
 			
 }
@@ -842,8 +843,8 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 
 
 void TmainScore::performScordatureSet() {
-	if (gl->instrument == e_classicalGuitar || gl->instrument == e_electricGuitar) {
-			Ttune tmpTune(*gl->Gtune());
+	if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar) {
+			Ttune tmpTune(*Tcore::gl()->Gtune());
 			staff()->setScordature(tmpTune);
 	}
 }
@@ -870,8 +871,8 @@ void TmainScore::roSelectedSlot(TscoreNote* sn) {
 
 void TmainScore::createActions() {		
 	m_settBar = new QToolBar();
-	m_acts->noteNames()->setThisColors(gl->S->nameColor, palette().highlightedText().color());
-	m_acts->noteNames()->setChecked(gl->S->namesOnScore);
+	m_acts->noteNames()->setThisColors(Tcore::gl()->S->nameColor, palette().highlightedText().color());
+	m_acts->noteNames()->setChecked(Tcore::gl()->S->namesOnScore);
 	m_settBar->addWidget(m_acts->noteNames());
 	m_settBar->addWidget(m_acts->extraAccids());
 	
@@ -904,37 +905,34 @@ void TmainScore::createActions() {
 
 
 void TmainScore::restoreNotesSettings() {
-// 		if (gl->S->enharmNotesColor == -1)
-// 					gl->S->enharmNotesColor = palette().highlight().color();
-// 	TscoreNote::setNameColor(gl->S->nameColor);
+// 		if (Tcore::gl()->S->enharmNotesColor == -1)
+// 					Tcore::gl()->S->enharmNotesColor = palette().highlight().color();
+// 	TscoreNote::setNameColor(Tcore::gl()->S->nameColor);
 	scoreScene()->right()->adjustSize();
-	if (gl->S->pointerColor == -1) {
-				gl->S->pointerColor = Tcolor::invert(palette().highlight().color());
-				gl->S->pointerColor.setAlpha(200);
+	if (Tcore::gl()->S->pointerColor == -1) {
+				Tcore::gl()->S->pointerColor = Tcolor::invert(palette().highlight().color());
+				Tcore::gl()->S->pointerColor.setAlpha(200);
 	}
-	scoreScene()->setPointedColor(gl->S->pointerColor);
+	scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
 // 	for (int i = 0; i < staff()->count(); i++)
 // 			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 // 		staff()->noteSegment(1)->setReadOnly(true);
-// 		staff()->noteSegment(1)->setColor(gl->S->enharmNotesColor);
+// 		staff()->noteSegment(1)->setColor(Tcore::gl()->S->enharmNotesColor);
 // 		staff()->noteSegment(2)->setReadOnly(true);
-// 		staff()->noteSegment(2)->setColor(gl->S->enharmNotesColor);
+// 		staff()->noteSegment(2)->setColor(Tcore::gl()->S->enharmNotesColor);
 // 		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
 		
 }
 
 
-void TmainScore::createQuestionMark() {
-	if (!m_questMark) {
-		m_questMark = new QGraphicsSimpleTextItem();
-		m_questMark->hide();
+void TmainScore::setQuestionMarkPos() {
+	if (m_questMark && m_questMark->pos().isNull()) {
 // 		#if defined(Q_OS_MACX)
 // 			m_questMark->setFont(TnooFont(10));
 // 		#else
 		m_questMark->setFont(TnooFont(8));
 // 		#endif
-		scoreScene()->addItem(m_questMark);
-		QColor c = gl->EquestionColor;
+		QColor c = Tcore::gl()->EquestionColor;
 		c.setAlpha(30);
 		m_questMark->setBrush(QBrush(c));
 		m_questMark->setText("?");
@@ -1017,10 +1015,10 @@ void TmainScore::moveName(TmainScore::EmoveNote moveDir) {
 void TmainScore::addStaff(TscoreStaff* st) {
 	TmultiScore::addStaff(st);
 	connect(lastStaff(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClickedMain(int)));
-	if (gl->S->namesOnScore)
+	if (Tcore::gl()->S->namesOnScore)
 			lastStaff()->noteSegment(0)->showNoteName();
 	lastStaff()->setExtraAccids(m_acts->extraAccids()->isChecked());
-	qDebug() << "staff Added";
+// 	qDebug() << "staff Added";
 }
 
 

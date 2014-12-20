@@ -84,14 +84,6 @@ MainWindow::MainWindow(QWidget *parent) :
 //     m_rightLay(0),
 //     m_extraFontOffset(0)
 {
-// #if defined(Q_OS_MAC)
-//     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
-//                               QColor(gl->EnotBadColor.name()), shadowC, palette().window().color());
-// #else
-//     TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
-//                               QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
-// #endif
-
     setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
     
     setMinimumSize(720, 480);
