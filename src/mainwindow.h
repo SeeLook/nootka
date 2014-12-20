@@ -102,7 +102,7 @@ protected:
 // 		void setWidgetsFont();
 // 
 	void resizeEvent(QResizeEvent *event);
-//     void closeEvent(QCloseEvent *event);
+	void closeEvent(QCloseEvent *event);
 //     bool eventFilter(QObject* obj, QEvent* event);
 	void paintEvent(QPaintEvent *);
         

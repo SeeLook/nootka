@@ -24,6 +24,7 @@
 #include <music/tchunk.h>
 #include <tlayoutparams.h>
 #include <level/tlevelselector.h>
+#include <exam/texam.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include "score/tmainscore.h"
@@ -169,8 +170,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
     connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
 		setSingleNoteMode(gl->S->isSingleNoteMode);
-// 		if (gl->S->isSingleNoteMode)
-// 				score->setInsertMode(TmultiScore::e_single);
 
     connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
 		connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
@@ -179,23 +178,15 @@ MainWindow::MainWindow(QWidget *parent) :
 		connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
 		connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
 		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-
-//     if (gl->A->OUTenabled && !sound->isPlayable())
-//         QMessageBox::warning(this, "", tr("Problems with sound output"));
-// 		bar->hide();
-// 		m_statLab->hide();
-// 		pitchView->hide();
-// 		guitar->hide();
-
 }
 
 
 MainWindow::~MainWindow()
 {
-    gl->config->beginGroup("General");
-      gl->config->setValue("geometry", geometry());
-    gl->config->endGroup();
-    delete gl;
+	gl->config->beginGroup("General");
+		gl->config->setValue("geometry", geometry());
+	gl->config->endGroup();
+	delete gl;
 }
 
 //##########################################################################################
@@ -262,27 +253,28 @@ QPoint MainWindow::relatedPoint() {
 //##########################################################################################
 
 void MainWindow::openFile(QString runArg) {
-    if (/*ex || */m_levelCreatorExist)
+    if (ex || m_levelCreatorExist)
         return;
     if (QFile::exists(runArg)) {
         QFile file(runArg);
         quint32 hdr = 0;
         if (file.open(QIODevice::ReadOnly)) {
             QDataStream in(&file);
-            in.setVersion(QDataStream::Qt_4_7);
             in >> hdr; // check what file type
         }
         runArg = QDir(file.fileName()).absolutePath();
         file.close();
-// 				if (Texam::couldBeExam(hdr)) {
-// 					if (Texam::isExamVersion(hdr))
-// 							ex = new TexamExecutor(this, runArg);
-// 				} else {
+				if (Texam::couldBeExam(hdr)) {
+					if (Texam::isExamVersion(hdr)) {
+						prepareToExam();
+						ex = new TexamExecutor(this, runArg);
+					}
+				} else {
 					if (Tlevel::couldBeLevel(hdr)) {
 						if (Tlevel::isLevelVersion(hdr))
 								openLevelCreator(runArg);
 					}
-// 				}
+				}
     }
 }
 
@@ -725,16 +717,16 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 //   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
 }
 
-/*
+
 void MainWindow::closeEvent(QCloseEvent *event) {
-    if (!settingsAct->isEnabled() && ex) {
-        if (ex->closeNootka())
-            event->accept();
-        else
-            event->ignore();
-    }
+	if (ex) {
+		if (ex->closeNootka())
+				event->accept();
+		else
+				event->ignore();
+	}
 }
-*/
+
 
 void MainWindow::paintEvent(QPaintEvent* ) {
 		if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {

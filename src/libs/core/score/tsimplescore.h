@@ -110,8 +110,10 @@ public slots:
 		virtual void noteWasClicked(int index);
 		
 protected:
+#if defined (Q_OS_ANDROID)
 		virtual bool viewportEvent(QEvent* event);
 		virtual void timerEvent(QTimerEvent* timeEvent);
+#endif
 		virtual void wheelEvent(QWheelEvent* event);
 		
 		TscoreStaff* staff() { return m_staff; } /** Pointer to TscoreStaff. Better keep it protected */
@@ -121,6 +123,7 @@ protected:
     void setSizeHint(const QSize& s) { if (s != m_sizeHint) { m_sizeHint = s; updateGeometry(); } }
     virtual QSize minimumSizeHint() const;
 		
+#if defined (Q_OS_ANDROID)		
 				/** Checks is item @it of type @p TscoreItem::ScoreItemType.
 				* If not, checks it parent item and parent of parent.
 				* Returns pointer to @p TscoreItem or 0 if not found. */
@@ -128,7 +131,7 @@ protected:
 	
 				/** Checks is given TscoreItem different than current one and sets it to current */
 		void checkItem(TscoreItem* it, const QPointF& touchScenePos);
-
+#endif
     
 protected slots:
 				/** Except response for scaling TscoreView widget to according to new height,
