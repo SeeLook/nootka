@@ -26,6 +26,8 @@ MAJOR:
 
 - when tool bar has no icons - about label has to be a text only
 
+- restore all defaults doesn't work yet
+
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 
@@ -64,6 +66,7 @@ Tnote
 
 ==== NEW FEATURES ================================================================
 - proxy corner widgets should be animated (if they remain live)
+- marge name settings with score settings
 - tidy key signature in note pixmap (width depends on accidentals number)
 - allow scaling a multiple staves score in disabled state
 - increase precision of exam timers - regressions risk... (to consider)
@@ -92,7 +95,6 @@ TEXAMEXECUTOR
 ===============================================================     
 ============== Packaging (cpack) =============================
 ===============================================================
-- add man page for new executable files
 - update Qt5 dependencies for deb package 
 - remember about libPrintSupport
 
