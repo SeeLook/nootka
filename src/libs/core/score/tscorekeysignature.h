@@ -78,6 +78,8 @@ protected:
 #else
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 #endif
 
     void increaseKey(int step); /** Adds @param step to key value. Only 1 or -1 values are accepted. */

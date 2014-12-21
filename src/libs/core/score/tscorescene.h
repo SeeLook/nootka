@@ -97,7 +97,8 @@ public:
 		void controlMoved(); /** Restarts hide timer. From @p TnoteControl::hoverMoveEvent()*/
 		void controlLeaved(TscoreNote* sn) { noteLeaved(sn); } /** From @p TnoteControl::hoverLeaveEvent */
 		
-		
+		void mouseEntersOnKey(bool onKey) { m_mouseOverKey = onKey; } /** score key informs that has or has not a mouse cursor */
+		bool keyHasMouse() { return m_mouseOverKey; }
 		
 signals:
     void statusTip(QString);
@@ -137,6 +138,7 @@ private:
 		QTimer													 *m_showTimer, *m_hideTimer;
 		TscoreNote											 *m_scoreNote; /** current note segment or NULL. */
 		bool															m_controlledNotes;
+		bool															m_mouseOverKey;
 
 };
 

@@ -228,6 +228,21 @@ void TscoreKeySignature::wheelEvent(QGraphicsSceneWheelEvent* event) {
 	else
 			increaseKey(-1);
 }
+
+
+void TscoreKeySignature::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+	scoreScene()->mouseEntersOnKey(true);
+	TscoreItem::hoverEnterEvent(event);
+}
+
+
+void TscoreKeySignature::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+	scoreScene()->mouseEntersOnKey(false);
+	TscoreItem::hoverLeaveEvent(event);
+}
+
+
+
 #endif
 
 #if defined (Q_OS_ANDROID)
