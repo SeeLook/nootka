@@ -342,20 +342,19 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 
 void TsimpleScore::wheelEvent(QWheelEvent* event) {
 	bool propagate = true;
-//   if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
+  if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
 		if (m_scene->isCursorVisible()) {
 			if (event->angleDelta().y() < -1)
 				m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
 			else if (event->angleDelta().y() > 1)
 				m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
-			propagate = false;
 		}
-// 	} 
-	else {
+		propagate = false;
+	} else {
 			if (m_scene->keyHasMouse()) {
-				if (event->angleDelta().y() < -1)
+				if (event->angleDelta().y() < -50)
 					setKeySignature(keySignature().value() - 1);
-				else if (event->angleDelta().y() > 1)
+				else if (event->angleDelta().y() > 50)
 					setKeySignature(keySignature().value() + 1);
 				propagate = false;
 			}
