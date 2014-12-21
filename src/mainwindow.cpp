@@ -635,11 +635,11 @@ void MainWindow::updateSize(QSize newS) {
 // 	qDebug() << "updateSize()";
 	if (gl->L->soundViewEnabled) {
 		if (gl->L->hintsBarEnabled) {
-			pitchView->setFixedWidth(newS.width() * 0.4);
 			pitchView->setDirection(QBoxLayout::TopToBottom);
+			pitchView->setFixedWidth(newS.width() * 0.4);
 		} else {
-			pitchView->setFixedWidth(newS.width());
 			pitchView->setDirection(QBoxLayout::LeftToRight);
+			pitchView->setFixedWidth(newS.width());
 		}
 		pitchView->resize(m_statFontSize);
 	}
