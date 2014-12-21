@@ -16,7 +16,6 @@
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - when new staff is automatically added selected note is wrong
-- bound window size (or score size) in single note mode and hidden guitar and/or rest widgets
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - fix accidental animations
 
@@ -29,9 +28,7 @@ MAJOR:
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 
-
 Scaling issues:
-- when window goes back from maximized guitar is out of it
 - auto hidden tool bar remains big after decreased window size
 - Windows has problems with tool bar scaling and single mode note name size
 - piano brace size/position
@@ -39,7 +36,6 @@ Scaling issues:
 - There is unused class TnotePixmap only with default clef - use it or delete
 - vertical name layout is probably unused - clear it then
 - TpitchView could react on TaudioIN state to be automatically enabled/disabled
-- click on nootka-exam icon calls nootka but doesn't start exam
 
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 

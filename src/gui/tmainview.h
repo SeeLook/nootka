@@ -55,6 +55,7 @@ public:
 	
 signals:
 	void statusTip(const QString&);
+  void sizeChanged(const QSize&);
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -66,11 +67,12 @@ protected:
 	
 protected slots:
 	void showToolBar();
+  void updateLayout(); /** Method called by timer from resizeEvent() */
 	
 private:
 	QWidget													*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
-	QWidget													*m_name, *m_results, *m_progress;
-	QGraphicsWidget									*m_form;
+	QWidget													*m_name, *m_results, *m_progress, *m_container;
+	QGraphicsWidget									*m_proxy;
 	QPointer<QBoxLayout>				 		 m_mainLay, m_statAndPitchLay, m_scoreAndNameLay, m_nameLay, m_resultLay;
 	QGraphicsLineItem			 					*m_barLine;
 	QPointer<QGraphicsProxyWidget>	 m_proxyBar;

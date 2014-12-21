@@ -331,12 +331,21 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 	qreal staffOff = 1.0;
   if (staff()->isPianoStaff())
     staffOff = 2.0;
-  qreal factor = ((qreal)hh / (staff()->height()/* + 0.4*/)) / transform().m11();
-  scale(factor, factor);
+  qreal factor = ((qreal)hh / (staff()->height()))/* / transform().m11()*/;
+  qreal yy = 0.0;
+  if ((staff()->width() + staffOff + 1.0) * factor > width()) {
+    factor = width() / ((staff()->width() + staffOff + 1.0));
+    yy = 1.0;
+  }
+  QTransform matrix;
+  matrix.scale(factor, factor);
+  setTransform(matrix);
 	if (width() > (staff()->width() + staffOff + 1.0) * transform().m11())
-		staffOff = ((ww / transform().m11() - (staff()->width() /*+ staffOff + 2.0*/))  / 2.0);
+		staffOff = ((ww / transform().m11() - (staff()->width()))  / 2.0);
 	scene()->setSceneRect(0.0, 0.0, ww / transform().m11(), hh / transform().m11());
-	staff()->setPos(staffOff, 0.0);
+  if (yy)
+    yy = (scene()->sceneRect().height() - staff()->height()) / 2.0;
+	staff()->setPos(staffOff, yy);
 }
 
 
@@ -352,9 +361,9 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 		propagate = false;
 	} else {
 			if (m_scene->keyHasMouse()) {
-				if (event->angleDelta().y() < -100 && keySignature().value() > -7)
+				if (event->angleDelta().y() < -50 && keySignature().value() > -7)
 					setKeySignature(keySignature().value() - 1);
-				else if (event->angleDelta().y() > 100 && keySignature().value() < 7)
+				else if (event->angleDelta().y() > 50 && keySignature().value() < 7)
 					setKeySignature(keySignature().value() + 1);
 				propagate = false;
 			}

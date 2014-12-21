@@ -58,11 +58,11 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 			m_scoreAndNameLay->addWidget(m_score);
 		m_mainLay->addLayout(m_scoreAndNameLay);
 		m_mainLay->addWidget(m_guitar);
-	QWidget *w = new QWidget;
-	w->setObjectName("proxyWidget");
-	w->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
-	w->setLayout(m_mainLay);
-	m_form = scene()->addWidget(w);
+	   m_container = new QWidget;
+	   m_container->setObjectName("proxyWidget");
+	   m_container->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
+	   m_container->setLayout(m_mainLay);
+	m_proxy = scene()->addWidget(m_container);
 	m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
 	setBarAutoHide(m_layParams->toolBarAutoHide);
 }
@@ -177,9 +177,7 @@ void TmainView::setBarAutoHide(bool autoHide) {
 
 void TmainView::resizeEvent(QResizeEvent* event) {
 	Q_UNUSED (event)
-	m_form->setGeometry(0, 0, width(), height());
-  scene()->setSceneRect(0, 0, width(), height());
-	updateBarLine();
+  QTimer::singleShot(0, this, SLOT(updateLayout()));
 }
 
 
@@ -225,6 +223,15 @@ void TmainView::updateBarLine() {
 			m_barLine->setLine(10.0, height() * 0.005, width() - 20.0, height() * 0.005);
 			m_barLine->setPen(QPen(palette().highlight().color(), height() * 0.005));
 	}
+}
+
+
+void TmainView::updateLayout() {
+  m_proxy->setGeometry(0, 0, width(), height());
+  scene()->setSceneRect(0, 0, width(), height());
+  updateBarLine();
+  m_container->resize(size());
+  emit sizeChanged(size());
 }
 
 

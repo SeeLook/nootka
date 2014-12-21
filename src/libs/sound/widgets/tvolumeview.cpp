@@ -174,7 +174,8 @@ void TvolumeView::leaveEvent(QEvent* ) {
 
 void TvolumeView::enterEvent(QEvent* ) {
 	setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
-	m_drawKnob = true;
+  if (isEnabled())
+    m_drawKnob = true;
 }
 
 

@@ -246,9 +246,8 @@ void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 	}
 	m_nootLabel->setMaximumHeight(tmpSize * 1.5);
 	adjustSize();
-// 	updateGeometry();
-	if (m_proxy)
-		m_proxy->resize(size());
+// 	if (m_proxy)
+// 		m_proxy->adjustSize();
 }
 
 
