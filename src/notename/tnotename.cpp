@@ -314,11 +314,11 @@ void TnoteName::resize(int fontSize) {
 		m_prevNoteButt->setFixedHeight(m_nameLabel->height());
 		updateSizeHint();
 		adjustSize();
-		if (m_isMenu) {
-			m_nameLabel->setMinimumWidth(0);
-			m_nameLabel->setMaximumWidth(QWIDGETSIZE_MAX);
-		} else
-			m_nameLabel->setFixedWidth(m_sizeHint.width() * 0.8);
+// 		if (m_isMenu) {
+// 			m_nameLabel->setMinimumWidth(0);
+// 			m_nameLabel->setMaximumWidth(QWIDGETSIZE_MAX);
+// 		} else
+// 			m_nameLabel->setFixedWidth(m_sizeHint.width() * 0.8);
 	}
 }
 

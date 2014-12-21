@@ -178,6 +178,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
 		connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
 		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+    connect(innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
 }
 
 
@@ -639,7 +640,9 @@ void MainWindow::updateSize(QSize newS) {
 			pitchView->setFixedWidth(newS.width() * 0.4);
 		} else {
 			pitchView->setDirection(QBoxLayout::LeftToRight);
-			pitchView->setFixedWidth(newS.width());
+// 			pitchView->setFixedWidth(newS.width());
+      pitchView->setMaximumWidth(QWIDGETSIZE_MAX);
+      pitchView->setMinimumWidth(0);
 		}
 		pitchView->resize(m_statFontSize);
 	}
@@ -710,7 +713,7 @@ void MainWindow::updateSize(QSize newS) {
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
 	Q_UNUSED(event)
-	updateSize(innerWidget->size());
+// 	updateSize(innerWidget->size());
 // 	QTimer::singleShot(10, score, SLOT(resizeSlot()));
 // 	emit sizeChanged(innerWidget->size());
 //   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
