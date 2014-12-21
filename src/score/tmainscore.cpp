@@ -829,7 +829,6 @@ void TmainScore::finishCorrection() {
 	if (Tcore::gl()->E->showNameOfAnswered) // show name only when it is enabled
 		noteFromId(m_correctNoteNr)->showNoteName(QColor(Tcore::gl()->EanswerColor.lighter().name()));
 	m_correctNoteNr = -1;
-			
 }
 
 

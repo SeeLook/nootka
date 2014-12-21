@@ -113,6 +113,7 @@ TEXAMEXECUTOR
 - intervals: questions related to them in exam/exercises
 - recognizing melodies from *.ogg and *.wav files
 - support for (octavation marks) - octave drop/rise (8-va, 15-va)
+- add piano keyboard as an option instead of a guitar
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - comparing exams (charts)
 - keep exam file in /tmp and restore it when crash or so

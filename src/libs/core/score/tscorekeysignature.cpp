@@ -220,16 +220,6 @@ void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 
-void TscoreKeySignature::wheelEvent(QGraphicsSceneWheelEvent* event) {
-	if (m_readOnly)
-		return;
-	if (event->delta() > 0)
-			increaseKey(1);
-	else
-			increaseKey(-1);
-}
-
-
 void TscoreKeySignature::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 	scoreScene()->mouseEntersOnKey(true);
 	TscoreItem::hoverEnterEvent(event);
