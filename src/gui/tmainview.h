@@ -35,49 +35,49 @@ class QGraphicsProxyWidget;
  */
 class TmainView : public QGraphicsView
 {
-	
-	Q_OBJECT
- 
+
+Q_OBJECT
+
 public:
-    TmainView(TlayoutParams*  layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
-							QWidget* scoreW, QWidget* guitarW, QWidget* parent = 0);
-		
-		void addNoteName(QWidget* name); /** Adds note name widget over a score (for single note mode) */
-		void takeNoteName(); /** Takes note name from view. */
-		
-		void addExamViews(QWidget* resultsW, QWidget* progressW); /** Adds bar with those widgets */
-		void takeExamViews(); /** Removes exam widgets, WIDGETS ARE DELETED! */
-		
-		void moveExamToName(); /** Moves 'exam view' above note view. Changes its direction to vertical. */
-		
-		void setBarAutoHide(bool autoHide); /** Makes tool bar permanently visible or displayed on demand (mouse action) */
-		bool isAutoHide() { return m_isAutoHide; }
-		
+	TmainView(TlayoutParams*  layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
+						QWidget* scoreW, QWidget* guitarW, QWidget* parent = 0);
+	
+	void addNoteName(QWidget* name); /** Adds note name widget over a score (for single note mode) */
+	void takeNoteName(); /** Takes note name from view. */
+	
+	void addExamViews(QWidget* resultsW, QWidget* progressW); /** Adds bar with those widgets */
+	void takeExamViews(); /** Removes exam widgets, WIDGETS ARE DELETED! */
+	
+	void moveExamToName(); /** Moves 'exam view' above note view. Changes its direction to vertical. */
+	
+	void setBarAutoHide(bool autoHide); /** Makes tool bar permanently visible or displayed on demand (mouse action) */
+	bool isAutoHide() { return m_isAutoHide; }
+	
 signals:
-		void statusTip(const QString&);
-		
+	void statusTip(const QString&);
+	
 protected:
-    virtual void resizeEvent(QResizeEvent* event);
-    virtual bool eventFilter(QObject* ob, QEvent* event);
-    virtual void mouseMoveEvent(QMouseEvent* event);
-		
-		void startHideAnim();
-		void updateBarLine();
-		
+	virtual void resizeEvent(QResizeEvent* event);
+	virtual bool eventFilter(QObject* ob, QEvent* event);
+	virtual void mouseMoveEvent(QMouseEvent* event);
+	
+	void startHideAnim();
+	void updateBarLine();
+	
 protected slots:
-		void showToolBar();
-		
+	void showToolBar();
+	
 private:
-		QWidget													*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
-		QWidget													*m_name, *m_results, *m_progress;
-		QGraphicsWidget									*m_form;
-		QPointer<QBoxLayout>				 		 m_mainLay, m_statAndPitchLay, m_scoreAndNameLay, m_nameLay, m_resultLay;
-		QGraphicsLineItem			 					*m_barLine;
-		QPointer<QGraphicsProxyWidget>	 m_proxyBar;
-		QPointer<TcombinedAnim>					 m_animBar;
-		bool												 		 m_isAutoHide;
-		TlayoutParams										*m_layParams;
-		QTimer													*m_timer;
+	QWidget													*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
+	QWidget													*m_name, *m_results, *m_progress;
+	QGraphicsWidget									*m_form;
+	QPointer<QBoxLayout>				 		 m_mainLay, m_statAndPitchLay, m_scoreAndNameLay, m_nameLay, m_resultLay;
+	QGraphicsLineItem			 					*m_barLine;
+	QPointer<QGraphicsProxyWidget>	 m_proxyBar;
+	QPointer<TcombinedAnim>					 m_animBar;
+	bool												 		 m_isAutoHide;
+	TlayoutParams										*m_layParams;
+	QTimer													*m_timer;
 };
 
 #endif // TMAINVIEW_H

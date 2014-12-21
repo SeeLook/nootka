@@ -30,7 +30,7 @@
 * This class represents the field between clef
 * and notes with key signature accidentals.
 *
-* User can change key signature by mouse wheel moving or pressing 
+* User can change key signature by pressing mouse
 * and it emits keySignatureChanged signal.
 */
 class NOOTKACORE_EXPORT TscoreKeySignature : public TscoreItem
@@ -77,7 +77,6 @@ protected:
 		virtual void shortTap(const QPointF& cPos);
 #else
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void wheelEvent(QGraphicsSceneWheelEvent* event);
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 #endif
@@ -105,7 +104,7 @@ private:
     Tclef  													 m_clef;
 		bool														 m_readOnly;
 		QColor 													 m_bgColor;
-		int															 m_clefOffset; /** accid distance from upper staff line depends on clef */
+		int															 m_clefOffset; /** accidental distance from upper staff line depends on clef */
 
 };
 
