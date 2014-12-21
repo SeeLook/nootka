@@ -658,7 +658,7 @@ void MainWindow::updateSize(QSize newS) {
 	noteName->resize(baseH / 40);
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
-	f.setPointSize(m_statFontSize);
+	f.setPointSize(m_statFontSize * 0.95);
 	QFontMetrics fMetr(f);
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
@@ -710,7 +710,6 @@ void MainWindow::updateSize(QSize newS) {
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
 	Q_UNUSED(event)
-// 	innerWidget->resize(contentsRect().size());
 	updateSize(innerWidget->size());
 // 	QTimer::singleShot(10, score, SLOT(resizeSlot()));
 // 	emit sizeChanged(innerWidget->size());

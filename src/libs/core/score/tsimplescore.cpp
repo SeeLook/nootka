@@ -173,6 +173,7 @@ TkeySignature TsimpleScore::keySignature() {
 
 void TsimpleScore::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)staff()->scoreKey()) {
+		scoreScene()->mouseEntersOnKey(false);
 		staff()->setEnableKeySign(isEnabled);
 		if (isEnabled)
 				staff()->scoreKey()->showKeyName(true);
@@ -340,15 +341,27 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 
 
 void TsimpleScore::wheelEvent(QWheelEvent* event) {
-  if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
+	bool propagate = true;
+//   if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
 		if (m_scene->isCursorVisible()) {
-			if (event->delta() < 0)
+			if (event->angleDelta().y() < -1)
 				m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
-			else
+			else if (event->angleDelta().y() > 1)
 				m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
+			propagate = false;
 		}
-	} else
-	QAbstractScrollArea::wheelEvent(event);
+// 	} 
+	else {
+			if (m_scene->keyHasMouse()) {
+				if (event->angleDelta().y() < -1)
+					setKeySignature(keySignature().value() - 1);
+				else if (event->angleDelta().y() > 1)
+					setKeySignature(keySignature().value() + 1);
+				propagate = false;
+			}
+	}
+	if (propagate)
+		QAbstractScrollArea::wheelEvent(event);
 }
 
 

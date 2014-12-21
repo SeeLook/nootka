@@ -82,7 +82,7 @@ bool Tchart::event(QEvent* event) {
   if (event->type() == QEvent::Wheel) {
     QWheelEvent *we = static_cast<QWheelEvent *>(event);
     if (we->modifiers() == Qt::ControlModifier) {
-      if  (we->delta() > 0)
+      if  (we->angleDelta().y() > 0)
           zoom(true);
       else
           zoom(false);

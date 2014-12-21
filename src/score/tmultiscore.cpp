@@ -135,6 +135,7 @@ Tnote TmultiScore::getNote(int index) {
 
 void TmultiScore::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)staff()->scoreKey()) {
+		scoreScene()->mouseEntersOnKey(false);
 		for (int i = 0; i < m_staves.size(); ++i) {
 			staves(i)->setEnableKeySign(isEnabled);
 			if (isEnabled)

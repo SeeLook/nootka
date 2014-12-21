@@ -36,7 +36,8 @@ TscoreScene::TscoreScene(QObject* parent) :
   m_accidYoffset(0.0),
   m_accidScale(-1.0),
   m_scoreNote(0),
-  m_controlledNotes(true)
+  m_controlledNotes(true),
+  m_mouseOverKey(false)
 {
 	m_showTimer = new QTimer(this);
 	m_hideTimer = new QTimer(this);
