@@ -54,20 +54,21 @@ Tchart::Tchart(QWidget* parent) :
 
 
 void Tchart::zoom(bool in) {
-    double coef = 1.125;
-    if (!in)
-        coef = 0.888889;
-    scale(coef, coef);
+  double coef = 1.125;
+  if (!in)
+      coef = 0.888889;
+  scale(coef, coef);
 }
 
 
 void Tchart::ajustChartHeight() {
 	qreal factor = (viewport()->rect().height() / scene->sceneRect().height());
 	if (viewport()->rect().width() > scene->sceneRect().width()) {
-		factor = (viewport()->rect().height() / scene->sceneRect().height()) * 0.95;
+		factor *= 0.95;
 		setSceneRect(0, 0, viewport()->rect().width() / factor, scene->sceneRect().height());
-	} else {
-			setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, 0, 0));
+	}
+	else {
+    setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, 0, 0));
 	}
 	scale(factor, factor);
 }
@@ -79,21 +80,25 @@ void Tchart::ajustChartHeight() {
 //##########################################################################################
 
 bool Tchart::event(QEvent* event) {
-  if (event->type() == QEvent::Wheel) {
-    QWheelEvent *we = static_cast<QWheelEvent *>(event);
-    if (we->modifiers() == Qt::ControlModifier) {
-      if  (we->angleDelta().y() > 0)
-          zoom(true);
-      else
-          zoom(false);
-      return true;
-    }
-  }
   if (event->type() == QEvent::Leave) // To give a last possibility to remove un-deleted tip
       if (TtipHandler::deleteTip())
         scene->update(); 
   return QGraphicsView::event(event);
 }
+
+
+void Tchart::wheelEvent(QWheelEvent* event) {
+  if (event->modifiers() == Qt::ControlModifier) {
+    if  (event->angleDelta().y() > 0)
+        zoom(true);
+    else if  (event->angleDelta().y() < 0)
+        zoom(false);
+  } else // normal wheel behavior - scrolling a chart
+      QGraphicsView::wheelEvent(event);
+}
+
+
+
 
 
 

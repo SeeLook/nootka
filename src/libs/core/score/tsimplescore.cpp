@@ -361,9 +361,9 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 		propagate = false;
 	} else {
 			if (m_scene->keyHasMouse()) {
-				if (event->angleDelta().y() < -50 && keySignature().value() > -7)
+				if (event->angleDelta().y() < -5 && keySignature().value() > -7)
 					setKeySignature(keySignature().value() - 1);
-				else if (event->angleDelta().y() > 50 && keySignature().value() < 7)
+				else if (event->angleDelta().y() > 5 && keySignature().value() < 7)
 					setKeySignature(keySignature().value() + 1);
 				propagate = false;
 			}

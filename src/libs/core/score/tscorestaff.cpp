@@ -132,6 +132,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	insert(index);
 	setNote(index, note);
 	m_scoreNotes[index]->setZValue(50);
+//   m_scoreNotes[index]->enableAccidToKeyAnim(true);
 	setNoteDisabled(index, disabled);
 	if (number() > -1) {
 		emit noteIsAdding(number(), index);
@@ -260,12 +261,13 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 				connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
 			}
 		} else {
-					delete m_keySignature;
-					m_keySignature = 0;
-					m_accidAnim->deleteLater();
-					m_accidAnim = 0;
-					delete m_flyAccid;
-					m_flyAccid = 0;
+        m_keySignature->setKeySignature(0);
+        delete m_keySignature;
+        m_keySignature = 0;
+        m_accidAnim->deleteLater();
+        m_accidAnim = 0;
+        delete m_flyAccid;
+        m_flyAccid = 0;
 		}
 		updateWidth();
 		updateLines();

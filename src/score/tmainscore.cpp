@@ -361,8 +361,6 @@ int TmainScore::widthToHeight(int hi) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-// 			if (insertMode() == e_single)
-// 				resizeSlot();
 			enableCorners(false);
 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 			disconnect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
@@ -374,6 +372,10 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questMark = new QGraphicsSimpleTextItem();
 			m_questMark->hide();
 			scoreScene()->addItem(m_questMark);
+      if (insertMode() == e_single) {
+        staff()->noteSegment(1)->setColor(palette().text().color()); // it can have color of enharmonic notes
+        staff()->noteSegment(2)->setColor(palette().text().color());
+      }
 	} else {
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
