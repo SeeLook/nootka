@@ -54,11 +54,15 @@ install(DIRECTORY fonts DESTINATION "${INS_PREF}")
 
 file(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
 if(APPLE OR WIN32)
+  find_package(Qt5Core)
+  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
+	set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
 	install(FILES gpl DESTINATION "${INS_PREF}")
   LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
 										"${QT_TRANSLATIONS_DIR}/qt_de.qm" "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_fr.qm" "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_fr.qm" # "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" # "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
 										"${QT_TRANSLATIONS_DIR}/qt_ru.qm" "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm" )
 endif(APPLE OR WIN32)
 install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
@@ -68,7 +72,7 @@ install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 if(NOT UNIX) # Windows icons
   install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/pack.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
-  install(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
+#  install(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh DESTINATION "${INS_PREF}" )
 endif(NOT UNIX)
 
