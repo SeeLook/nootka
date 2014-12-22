@@ -95,5 +95,5 @@ void TupdateProcess::processTimeOut() {
     m_timer->stop();
     qDebug() << "processSays: time expired";
     emit updateOutput("time expired");
-    m_process->kill();
+//     m_process->kill();
 }

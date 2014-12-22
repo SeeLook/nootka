@@ -33,6 +33,7 @@
 #include <tnoofont.h>
 #include <QApplication>
 #include <QDebug>
+#include <QTimer>
 
 
 QColor averColor = QColor(0, 192, 192);
@@ -258,7 +259,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       }
 		}  
   }
-
+  QTimer::singleShot(10, this, SLOT(ajustChartHeight()));
 }
 
 

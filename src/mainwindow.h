@@ -110,7 +110,7 @@ protected slots:
 	void restoreMessage();
 	void messageSlot(const QString& msg);
 		
-//     void showSupportDialog();
+    void showSupportDialog();
 		
 				/** Checks is score not too width and places pitchView under when it is.
 				 * Or opposite - moves pitchView.
