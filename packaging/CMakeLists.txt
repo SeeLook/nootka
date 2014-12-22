@@ -168,6 +168,17 @@ if(WIN32)
 	get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
 	get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
+
+	add_custom_target(bindir
+		COMMAND echo " "
+		COMMAND echo Creating windows binary folder...
+		COMMAND ${QT_BINARY_DIR}/windeployqt.exe --release --compiler-runtime --list target ${CMAKE_INSTALL_PREFIX}
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_INSTALL_PREFIX}
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_INSTALL_PREFIX} #libvorbisfile.dll
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_INSTALL_PREFIX}
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libogg.dll ${CMAKE_INSTALL_PREFIX}
+	)
+
 	add_custom_target(runinplace
 		COMMAND echo " "
 		COMMAND echo Copying libraries...
