@@ -143,7 +143,6 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 		}
 		if (isEnabled)
 				staff()->scoreKey()->showKeyName(true);
-// 		resizeEvent(0);
 	}
 }
 

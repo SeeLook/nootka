@@ -178,52 +178,53 @@ void TscoreNote::selectNote(bool sel) {
 
 void TscoreNote::moveNote(int posY) {
 // 		if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
-		if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
-				hideNote();
-				m_mainAccid->setText(" ");
-				m_accidental = 0;
-				return;
-    }
-		if (!m_mainNote->isVisible()) {
-        m_mainNote->show();
-        m_mainAccid->show();
-    }
-		if (m_noteAnim) { // initialize animation
-				m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, posY));
-				m_noteAnim->startAnimations();
-		} else { // just move a note
-			m_mainNote->setPos(3.0, posY);
-		}
-		m_mainPosY = posY;
-    int noteNr = (56 + staff()->notePosRelatedToClef(staff()->fixNotePos(posY))) % 7;
-		QString newAccid = getAccid(m_accidental);
-		if (staff()->accidInKeyArray[noteNr]) {
-      if (m_accidental == 0) {
-					newAccid = getAccid(3); // neutral
-					m_mainAccid->hide();
-					if (m_accidToKeyAnim)
-							emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-			} else {
-					if (staff()->accidInKeyArray[noteNr] == m_accidental) {
-						if (m_accidToKeyAnim)
-								emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-						if (staff()->extraAccids()) // accidental from key signature in brackets
-							newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));
-						else
-							newAccid = " "; // hide accidental
-						
-					}
-      }
-    }
-    if (m_noteAnim) {
-				m_accidAnim->startCrossFading(newAccid, m_mainColor);
+  bool theSame = (posY == m_mainPosY);
+  if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
+      hideNote();
+      m_mainAccid->setText(" ");
+      m_accidental = 0;
+      return;
+  }
+  if (!m_mainNote->isVisible()) {
+      m_mainNote->show();
+      m_mainAccid->show();
+  }
+  if (m_noteAnim) { // initialize animation
+      m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, posY));
+      m_noteAnim->startAnimations();
+  } else { // just move a note
+    m_mainNote->setPos(3.0, posY);
+  }
+  m_mainPosY = posY;
+  int noteNr = (56 + staff()->notePosRelatedToClef(staff()->fixNotePos(posY))) % 7;
+  QString newAccid = getAccid(m_accidental);
+  if (staff()->accidInKeyArray[noteNr]) {
+    if (m_accidental == 0) {
+        newAccid = getAccid(3); // neutral
+        m_mainAccid->hide();
+        if (m_accidToKeyAnim && !theSame)
+            emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
     } else {
-				m_mainAccid->setText(newAccid);
-				m_mainAccid->show();
+        if (staff()->accidInKeyArray[noteNr] == m_accidental) {
+          if (m_accidToKeyAnim && !theSame)
+              emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
+          if (staff()->extraAccids()) // accidental from key signature in brackets
+            newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));
+          else
+            newAccid = " "; // hide accidental
+          
+        }
     }
+  }
+  if (m_noteAnim) {
+      m_accidAnim->startCrossFading(newAccid, m_mainColor);
+  } else {
+      m_mainAccid->setText(newAccid);
+      m_mainAccid->show();
+  }
 
-    setStringPos();
-		m_lines->checkLines(posY);
+  setStringPos();
+  m_lines->checkLines(posY);
 }
 
 

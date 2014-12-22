@@ -45,7 +45,6 @@ MINOR:
 
 Charts:
 	- points (notes) shadow changes with zoom - fix it
-	- zoom with CTRL+scroll moves a chart as well - fix it
 	- staff line disappears sometimes (when zoom is big)
 	- use of realW() & realH() of TgraphicsTip
 	- scaling small charts (its scene rectangle) look clumsy - flickering

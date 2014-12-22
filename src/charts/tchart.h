@@ -53,7 +53,8 @@ public:
       e_byClef,
 			// melodies
       e_prepareTime, // sorted by question number but prepare time is on Y axis
-			e_attemptsCount // sorted by question number but attempts count is on Y axis
+			e_attemptsCount, // sorted by question number but attempts count is on Y axis
+			e_playbackTimes // sorted by question number but melody playback count is on Y axis
     };
     
       /** Types of charts. */
@@ -76,7 +77,8 @@ public:
     QGraphicsScene *scene;
     
 protected:
-    bool event(QEvent *event);
+    virtual bool event(QEvent* event);
+    virtual void wheelEvent(QWheelEvent* event);
     
     TXaxis *xAxis;
     TYaxis *yAxis;
