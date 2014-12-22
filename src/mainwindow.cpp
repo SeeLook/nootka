@@ -34,10 +34,10 @@
 // // #include "tsettingsdialog.h"
 #include "exam/tstartexamdlg.h" // just temporary
 #include <taboutnootka.h>
+#include <tsupportnootka.h>
 // // #include "tfirstrunwizzard.h"
 // // #include "tsupportnootka.h"
 // #include "texamsettings.h"
-// #include <tupdateprocess.h>
 // #include <tcolor.h>
 #include "exam/tprogresswidget.h"
 #include "exam/texamview.h"
@@ -46,6 +46,7 @@
 #include "gui/tmelman.h"
 #include "gui/tmainview.h"
 #include "gui/ttoolbar.h"
+#include "settings/tupdateprocess.h"
 #include <QtWidgets>
 
 
@@ -99,17 +100,17 @@ MainWindow::MainWindow(QWidget *parent) :
 //         delete firstWizz;
 //         gl->isFirstRun = false;
 //     } else { // show support window once but not with first run wizard
-// 				QString newVersion = gl->config->value("version", "").toString();
-//         if (newVersion != gl->version) {
-//           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
-// 				} else { // check for updates
-//           gl->config->endGroup();
-//           gl->config->beginGroup("Updates");
-//           if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
-//               TupdateProcess *process = new TupdateProcess(true, this);
-//               process->start();
-//           }
-//         }
+				QString newVersion = gl->config->value("version", "").toString();
+        if (newVersion != gl->version) {
+          QTimer::singleShot(200, this, SLOT(showSupportDialog()));
+				} else { // check for updates
+          gl->config->endGroup();
+          gl->config->beginGroup("Updates");
+          if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
+              TupdateProcess *process = new TupdateProcess(true, this);
+              process->start();
+          }
+        }
 //     }
 		gl->config->endGroup();
 		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
@@ -517,7 +518,6 @@ void MainWindow::messageSlot(const QString& msg) {
 }
 
 
-/*
 void MainWindow::showSupportDialog() {
     sound->wait();
     sound->stopPlaying();
@@ -530,7 +530,7 @@ void MainWindow::showSupportDialog() {
     sound->go();
 }
 
-
+/*
 void MainWindow::setWidgetsFont() {
 	progress->resize(m_statFontSize + m_extraFontOffset);
 	examResults->setFontSize(m_statFontSize + m_extraFontOffset);

@@ -47,8 +47,6 @@ Tchart::Tchart(QWidget* parent) :
   scene->addItem(xAxis);
   xAxis->setLength(550);
   xAxis->setPos(52, yAxis->boundingRect().height() - 7);
-	
-	QTimer::singleShot(10, this, SLOT(ajustChartHeight()));
 
 }
 
@@ -68,7 +66,7 @@ void Tchart::ajustChartHeight() {
 		setSceneRect(0, 0, viewport()->rect().width() / factor, scene->sceneRect().height());
 	}
 	else {
-    setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, 0, 0));
+    setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, qAbs(sceneRect().x()), 0));
 	}
 	scale(factor, factor);
 }

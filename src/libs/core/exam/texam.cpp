@@ -207,7 +207,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 				QXmlStreamReader xml(unZipXml);
 				isExamFileOk = loadFromXml(xml);
 			} else {
-				qDebug() << "Problems with uncompressing exam file";
+				qDebug() << "Problems with decompressing exam file";
 				return e_file_not_valid;
 			}					
 		} else {
@@ -500,11 +500,17 @@ void Texam::updateEffectiveness() {
 
 void Texam::updateAverageReactTime(bool skipWrong) {
 	int totalTime = 0;
+  int cnt = 0;
 	for (int i = 0; i < count(); ++i) {
-		if (!skipWrong || (skipWrong && !m_answList[i].isWrong()))
+		if (!skipWrong || (skipWrong && !m_answList[i].isWrong())) {
 			totalTime += m_answList[i].time;
+      cnt++;
+    }
 	}
-	m_averReactTime = totalTime / count();
+	if (cnt)
+    m_averReactTime = totalTime / cnt;
+  else
+    m_averReactTime = 0;
 }
 
 

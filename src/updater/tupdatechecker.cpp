@@ -21,7 +21,7 @@
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <iostream>
+#include <QDebug>
 
 TupdateChecker::TupdateChecker(QObject* parent) :
   QObject(),
@@ -39,10 +39,10 @@ TupdateChecker::TupdateChecker(QObject* parent) :
 void TupdateChecker::check(bool checkRules){
   m_respectRules = checkRules;
   if (!m_respectRules)
-    std::cout << qPrintable(tr("Checking for updates. Please wait...")) << std::endl;
+    qDebug() << tr("Checking for updates. Please wait...");
   if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-//         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
-				QNetworkRequest request(QUrl("http://sonalika.com.pl/ch/version.php"));
+        QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
+// 				QNetworkRequest request(QUrl("http://sonalika.com.pl/ch/version.php"));
 #if defined(Q_OS_WIN32)
         request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E)");
 #elif defined(Q_OS_LINUX)
@@ -53,7 +53,7 @@ void TupdateChecker::check(bool checkRules){
         m_reply = m_netManager->get(request);
         connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
   } else {
-    std::cout << "No need for update" << std::endl;
+    qDebug() << "No need for updates";
     exit(0);
   }
 }
@@ -66,7 +66,7 @@ TupdateChecker::~TupdateChecker()
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
   if (!m_respectRules)
-    std::cout << "An error occured: " << (int)err << std::endl;
+    qDebug() << "An error occured:" << (int)err;
   m_success = false;
 }
 
@@ -84,8 +84,7 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
       else 
         m_success = false;
       if (m_success) {
-//           if (!m_respectRules)
-            std::cout << "success" << std::endl;
+            qDebug() << "success";
           replyLines.removeFirst();
           QString changes = replyLines.join("");
           if (m_updateRules.curentVersion != newVersion) {
@@ -96,9 +95,10 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
           m_updateRules.recentDate = QDate::currentDate();
           saveUpdateRules(m_updateRules);
           if (!m_respectRules)
-            std::cout << " " << std::endl;
+            qDebug() << " ";
       }
   }
+  qDebug() << "checking finished";
   exit(0);
 }
 

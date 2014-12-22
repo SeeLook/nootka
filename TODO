@@ -38,6 +38,8 @@ Scaling issues:
 
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 
+- add update process to some lib
+
 MINOR:
 
 - move what_next/question tips to the right over guitar in single note mode
@@ -47,7 +49,6 @@ Charts:
 	- points (notes) shadow changes with zoom - fix it
 	- staff line disappears sometimes (when zoom is big)
 	- use of realW() & realH() of TgraphicsTip
-	- scaling small charts (its scene rectangle) look clumsy - flickering
 	- add preview of long (more than 15 notes) melodies
 
 - revert to native style under MacOs when Qt5
