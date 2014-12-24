@@ -25,6 +25,8 @@ MAJOR:
 
 - certificates has to be adjusted to melodies
 
+- Hide hints is not respected after reboot
+
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 
@@ -61,6 +63,7 @@ Tnote
 - proxy corner widgets should be animated (if they remain live)
 - marge name settings with score settings
 - changing key signature with "wheel" emulation of touch-pad is clumsy - add some delay after every change
+- dialog to configure generated melody
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar
 - allow scaling a multiple staves score in disabled state
