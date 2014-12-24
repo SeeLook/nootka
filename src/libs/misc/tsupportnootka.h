@@ -35,7 +35,7 @@ public:
 
 
 
-class TsupportStandalone : public QDialog
+class NOOTKAMISC_EXPORT TsupportStandalone : public QDialog
 {
     Q_OBJECT
     
