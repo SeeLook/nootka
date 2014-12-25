@@ -28,6 +28,7 @@
 #include <QLibraryInfo>
 #include <QFontDatabase>
 #include <QDebug>
+#include <QDir>
 
 
 Tglobals* Tcore::m_gl = 0;
@@ -36,6 +37,7 @@ Tglobals* Tcore::m_gl = 0;
 bool initCoreLibrary() {
 	if (Tcore::gl() == 0) {
 		qDebug() << "Tglobals was not created. Construct it first!";
+    return false;
 	}
 	Ttune::prepareDefinedTunes();
 	Tcolor::setShadow(qApp->palette());
@@ -43,9 +45,14 @@ bool initCoreLibrary() {
 	TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
 #else
 	TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
+  qApp->addLibraryPath(qApp->applicationDirPath());
 #endif
-// 		TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
-// moved to prepareTranslations() due to suffix translations have to be known
+#if defined(Q_OS_LINUX)
+  QDir dir(qApp->applicationDirPath());
+  dir.cdUp();
+  qApp->addLibraryPath(dir.path() + "lib/nootka");
+#endif
+  
 	return true;
 }
 

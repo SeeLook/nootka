@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,10 +29,11 @@ TupdateChecker::TupdateChecker(QObject* parent) :
   m_reply(0),
   m_success(true)
 {
-    getUpdateRules(m_updateRules);
+  getUpdateRules(m_updateRules);
 
-    m_netManager = new QNetworkAccessManager(this);
-    connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
+  m_netManager = new QNetworkAccessManager(this);
+  connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
+  connect(this, &TupdateChecker::communicate, this, &TupdateChecker::communicateSlot);
 }
 
 
@@ -53,7 +54,7 @@ void TupdateChecker::check(bool checkRules){
         m_reply = m_netManager->get(request);
         connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
   } else {
-    qDebug() << "No need for updates";
+    emit communicate("No need for updates");
     exit(0);
   }
 }
@@ -66,7 +67,7 @@ TupdateChecker::~TupdateChecker()
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
   if (!m_respectRules)
-    qDebug() << "An error occured:" << (int)err;
+    emit communicate(QString("An error occurred: %1").arg((int)err));
   m_success = false;
 }
 
@@ -84,7 +85,7 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
       else 
         m_success = false;
       if (m_success) {
-            qDebug() << "success";
+          emit communicate("success");
           replyLines.removeFirst();
           QString changes = replyLines.join("");
           if (m_updateRules.curentVersion != newVersion) {
@@ -98,8 +99,13 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
             qDebug() << " ";
       }
   }
-  qDebug() << "checking finished";
+  emit communicate("checking finished");
   exit(0);
+}
+
+
+void TupdateChecker::communicateSlot(const QString& message) {
+  qDebug() << message;
 }
 
 

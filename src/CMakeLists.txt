@@ -27,14 +27,6 @@ add_subdirectory( libs/misc ) # libNootkaMisc
 		
 include_directories( libs/core libs/sound libs/misc )
 
-add_subdirectory( charts ) # nootka analyzer
-
-add_subdirectory( level ) # level creator
-
-add_subdirectory( updater ) # nootka updater
-
-add_subdirectory( settings )
-
 # nootka executable
 set(NOOTKA_SRC
 	main.cpp
@@ -108,6 +100,7 @@ else(UNIX AND NOT APPLE)
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
+add_subdirectory( plugins )
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
 # message(STATUS "${CMAKE_CURRENT_SOURCE_DIR} : ${DirDefs}" )

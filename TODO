@@ -27,6 +27,8 @@ MAJOR:
 
 - Hide hints is not respected after reboot
 
+- add <exercise> key to exam file!!!
+
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 

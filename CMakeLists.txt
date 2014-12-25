@@ -21,6 +21,9 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src) 
 
 
+configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in
+                ${CMAKE_BINARY_DIR}/nootkaconfig.h)
+
 add_subdirectory(src)
 
 ###########################################################################
@@ -118,6 +121,6 @@ configure_file(
 )
 
 
-add_subdirectory(packaging) # cpack rules
+add_subdirectory( packaging ) # cpack rules
 
-
+add_subdirectory( tests/plugtester )

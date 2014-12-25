@@ -322,18 +322,16 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 }
 
 void TlevelCreatorDlg::loadLevelFile(QString levelFile) {
-    m_levelSett->levelSelector()->loadFromFile(levelFile);
+  m_levelSett->levelSelector()->loadFromFile(levelFile);
 }
 
 
 void TlevelCreatorDlg::startExam() {
 	if (m_levelSett->levelSelector()->idOfSelected() > -1) {
-		QString what = "exam:";
+		m_communicate = "exam:";
 		if (sender() == m_levelSett->startExerciseButton())
-			what = "exercise:";
-		what += QString::number(m_levelSett->levelSelector()->idOfSelected());
-		std::cout << what.toStdString();
-// 		qDebug() << what; // It doesn't work with Qt-5.3 but fixed in 5.4
+			m_communicate = "exercise:";
+		m_communicate += QString::number(m_levelSett->levelSelector()->idOfSelected());
 	}
 	accept();
 }

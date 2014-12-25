@@ -55,12 +55,11 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 											QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 #endif
 ;
-  setWindowTitle(analyseExamWinTitle());
 //   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint |
 // 								 Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
 	setWindowIcon(QIcon(gl->path + "/picts/charts.png"));
-// 	if (parent)
-// 			setGeometry(parent->geometry());
+	if (parent)
+			setGeometry(parent->geometry());
 	gl->config->beginGroup("General");
     setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
   QVBoxLayout *lay = new QVBoxLayout;
@@ -121,10 +120,14 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   
   setLayout(lay);
   createActions();
-//  QTimer::singleShot(100, this, SLOT(testSlot()));
+
   if (exam) {
     m_wasExamCreated = false;
-    m_openButton->setDisabled(true); // disable "open exam file" acction
+    m_openButton->setDisabled(true); // disable "open exam file" action
+    if (exam->isExercise())
+      setWindowTitle(analyseExerciseWinTitle());
+    else 
+       setWindowTitle(analyseExamWinTitle());
     setExam(exam);
   } else { // show help in tip
     QString modKey = "";
@@ -133,7 +136,6 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 #else
     modKey = "CTRL";
 #endif
-//     m_chart->setInteractive(true);
     QString helpTipText = "<br>" + tr("Press %1 button to select an exam from a file.").
             arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
             tr("Use %1 + mouse wheel or %2 buttons to zoom a chart.").
