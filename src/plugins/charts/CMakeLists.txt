@@ -1,10 +1,10 @@
 ########################################################################
-# CMakeList.txt nootka-analyzer
+# CMakeList.txt Nootka analyzer plugin library
 ########################################################################
 
 
 set(ANALYZER_SRC
-  main.cpp
+  tanalyzerplugin.cpp
 	tanalysdialog.cpp
 	sorting.cpp
 	tabstractaxis.cpp
@@ -26,19 +26,15 @@ set(ANALYZER_SRC
 )
 
 
-add_executable(nootka-analyzer WIN32 ${ANALYZER_SRC} )
-target_link_libraries(nootka-analyzer NootkaCore Qt5::Widgets)
+add_library(NootkaAnalyzerPlugin SHARED ${ANALYZER_SRC} )
+target_link_libraries(NootkaAnalyzerPlugin NootkaCore Qt5::Widgets)
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
-  install(TARGETS nootka-analyzer DESTINATION bin)
+  install(TARGETS NootkaAnalyzerPlugin DESTINATION lib/nootka)
 else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
-    install(TARGETS nootka-analyzer DESTINATION .)
+    install(TARGETS NootkaAnalyzerPlugin DESTINATION .)
   else(WIN32) 			# MacOs
-    install(TARGETS nootka-analyzer BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
-#     install( CODE "
-#     execute_process(COMMAND echo copying info.plist )
-#     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
-#     )
+    install(TARGETS NootkaAnalyzerPlugin BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
   endif(WIN32)
 endif(UNIX AND NOT APPLE)

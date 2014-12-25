@@ -46,6 +46,8 @@ public:
 		
         /** Returns user selected level or level with empty name if not selected. */
     Tlevel& selectedLevel();
+    
+    QString& communicate() { return m_communicate; } /** Text returned by level creator */
 		
 public slots:
 				/** This slot is invoked by every settings widget(page) when its settings were changed  */
@@ -57,6 +59,8 @@ private:
     accidSettings 							*m_accSett;
 // 		TmelodySettings 						*m_meloSett;
     rangeSettings 							*m_rangeSett;
+    
+    QString                      m_communicate;
 
     void saveLevel();
 		

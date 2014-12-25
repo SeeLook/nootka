@@ -150,7 +150,7 @@ Texam::~Texam()
 
 void Texam::setExercise() {
 	if (count()) {
-		qDebug() << "Exam has got questions already. Can't set is as an exercise!";
+		qDebug() << "Exam has got questions already. Can't set it as an exercise!";
 		return;
 	}
 	setFileName(QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + "/exercise.noo"));	
@@ -184,6 +184,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 	m_mistNr = 0;
 	m_blackCount = 0;
 	m_attempts = 0;
+  m_isExercise = false;
 	m_blackList.clear();
 	m_answList.clear();
 	EerrorType result = e_file_OK;
@@ -332,6 +333,8 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 					m_penaltysNr = xml.readElementText().toInt();
 				else if (xml.name() == "finished")
 					m_isFinished = QVariant(xml.readElementText()).toBool();
+        else if (xml.name() == "exercise")
+          m_isExercise = true;
 				else
 					Tlevel::skipCurrentXmlKey(xml);
 			}
@@ -411,6 +414,8 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 			xml.writeTextElement("halfMistNr", QVariant(m_halfMistNr).toString());
 			xml.writeTextElement("penaltysNr", QVariant(m_penaltysNr).toString());
 			xml.writeTextElement("finished", QVariant(m_isFinished).toString());
+//       if (isExercise())
+//         xml.writeEmptyElement("exercise");
 		xml.writeEndElement(); // head
 		xml.writeStartElement("answers");
 		for (int i = 0; i < count(); ++i)
@@ -420,12 +425,12 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 			xml.writeStartElement("penalties");
 			for (int i = 0; i < m_blackList.size(); ++i)
 				m_blackList[i].toXml(xml);
-			xml.writeEndElement(); // penaltys
+			xml.writeEndElement(); // penalties
 		} else if (m_blackNumbers.size()) {
 			xml.writeStartElement("black");
 			for (int i = 0; i < m_blackNumbers.size(); ++i)
 				xml.writeTextElement("n", QString::number(m_blackNumbers[i]));
-			xml.writeEndElement(); // penaltys
+			xml.writeEndElement(); // penalties
 		}
 	xml.writeEndElement(); // exam
 }

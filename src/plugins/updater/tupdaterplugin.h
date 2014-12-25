@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
- *   tomaszbojczuk@gmail.com   						                                 *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,30 +12,39 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TUPDATERPLUGIN_H
+#define TUPDATERPLUGIN_H
 
-#include "tkeysigncombobox.h"
-#include <tglobals.h>
-#include <tscoreparams.h>
+#include <QObject>
+#include "../tplugininterface.h"
 
-extern Tglobals *gl;
+class TupdateChecker;
 
-TkeySignComboBox::TkeySignComboBox(QWidget *parent) :
-    QComboBox(parent)
+/** 
+ * This plugin perform update checking for new Nootka versions.
+ * It sends signals through @p ob QObject about current state of checking process
+ */
+class TupdaterPlugin : public QObject, public TpluginInterface
 {
-    if (TkeySignature::majorNames[0] == "")
-        TkeySignature::setNameStyle(
-                gl->S->nameStyleInKeySign, gl->S->majKeyNameSufix, gl->S->minKeyNameSufix);
-    for (int i=-7; i<8; i++) {
-        TkeySignature k = TkeySignature(i);
-        addItem("(" + k.accidNumber() + ") " + TkeySignature::majorNames[i+7] + " / "
-                + TkeySignature::minorNames[i+7]);
-    }
-}
+  Q_OBJECT
+  Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
+  Q_INTERFACES(TpluginInterface)
+  
+  virtual ~TupdaterPlugin();
+  
+  virtual void init(const QString& argument = "", QObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+  
+  virtual QString& lastWord() { return m_lastWord; }
+  
+private:
+  TupdateChecker        *m_updater;
+  QString                m_lastWord;
+  
+};
 
-void TkeySignComboBox::setKeySignature(TkeySignature key) {
-    setCurrentIndex(key.value()+7);
-}
+
+#endif // TUPDATERPLUGIN_H

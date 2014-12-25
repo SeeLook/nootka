@@ -21,12 +21,6 @@ set(LIB_NOOTKAMISC_SRC
 	help/tmainhelp.cpp
 )
 
-# IF(WIN32)
-# 	list(APPEND LIB_NOOTKAMISC_SRC
-#     main.cpp
-# 	)
-# endif(WIN32)
-
 
 add_library(NootkaMisc SHARED ${LIB_NOOTKAMISC_SRC} )
 target_link_libraries(NootkaMisc Qt5::Widgets NootkaCore )

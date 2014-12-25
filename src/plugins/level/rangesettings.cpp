@@ -18,16 +18,14 @@
 
 
 #include "rangesettings.h"
-#include "tglobals.h"
 #include <level/tlevelpreview.h>
 #include <score/tsimplescore.h>
 #include <score/tscorescene.h>
 #include <exam/tlevel.h>
 #include <music/ttune.h>
 #include <tscoreparams.h>
+#include <tinitcorelib.h>
 #include <QtWidgets>
-
-extern Tglobals *gl;
 
 
 rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
@@ -40,13 +38,13 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 
     QVBoxLayout *scoreLay = new QVBoxLayout;
     m_scoreRang = new TsimpleScore(2, this);
-			m_scoreRang->setClef(Tclef(gl->S->clef));
-			m_scoreRang->setAmbitus(Tnote(gl->loString().chromatic()), Tnote(gl->hiNote().chromatic()));
+			m_scoreRang->setClef(Tclef(Tcore::gl()->S->clef));
+			m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
 			m_scoreRang->setNote(0, Tnote(1, 0));
 			m_scoreRang->setNote(1, Tnote(1, 1));
-			m_scoreRang->addBGglyph((int)gl->instrument);
+			m_scoreRang->addBGglyph((int)Tcore::gl()->instrument);
 			m_scoreRang->setControllersEnabled(true, false);
-			m_scoreRang->scoreScene()->setPointedColor(gl->S->pointerColor);
+			m_scoreRang->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
 		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
@@ -60,10 +58,10 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     QHBoxLayout *fretLay = new QHBoxLayout;
     QLabel *fromLab = new QLabel(tr("from"),this);
     m_fromSpinB = new QSpinBox(this);
-    m_fromSpinB->setMaximum(gl->GfretsNumber);
+    m_fromSpinB->setMaximum(Tcore::gl()->GfretsNumber);
     QLabel *toLab = new QLabel(tr("to"),this);
     m_toSpinB = new QSpinBox(this);
-    m_toSpinB->setMaximum(gl->GfretsNumber);
+    m_toSpinB->setMaximum(Tcore::gl()->GfretsNumber);
     m_toSpinB->setValue(3);
     fretLay->addWidget(fromLab);
     fretLay->addWidget(m_fromSpinB);
@@ -90,7 +88,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
             strLay->addWidget(m_stringBut[i], 1, i + 1, 0);
         else
             strLay->addWidget(m_stringBut[i], 2, i - 2, 0);
-				if (i >= gl->Gtune()->stringNr())
+				if (i >= Tcore::gl()->Gtune()->stringNr())
 					m_stringBut[i]->hide();
     }
     m_stringsGr->setLayout(strLay);
@@ -103,7 +101,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 
     setLayout(mainLay);
 		
-		if (gl->instrument == e_noInstrument) {
+		if (Tcore::gl()->instrument == e_noInstrument) {
 			m_fretGr->hide();
 			m_stringsGr->hide();
 			m_fretAdjustButt->hide();
@@ -131,12 +129,12 @@ void rangeSettings::stringSelected() {
 void rangeSettings::loadLevel(Tlevel* level) {
 	blockSignals(true);
 		m_scoreRang->setClef(level->clef);
-		m_scoreRang->setAmbitus(Tnote(gl->loString().chromatic()), Tnote(gl->hiNote().chromatic()));
+		m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
     m_scoreRang->setNote(0, level->loNote);
     m_scoreRang->setNote(1, level->hiNote);
     m_fromSpinB->setValue(level->loFret);
     m_toSpinB->setValue(level->hiFret);
-    for (int i = 0; i < gl->Gtune()->stringNr(); i++)
+    for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
         m_stringBut[i]->setChecked(level->usedStrings[i]);
     stringSelected();
 		saveLevel(wLevel());
@@ -145,7 +143,7 @@ void rangeSettings::loadLevel(Tlevel* level) {
 
 
 void rangeSettings::whenParamsChanged() {
-		m_scoreRang->setAmbitus(Tnote(gl->loString().chromatic()), Tnote(gl->hiNote().chromatic()));
+		m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
     if (!m_stringBut[0]->isChecked() || !m_stringBut[1]->isChecked()
         || !m_stringBut[2]->isChecked() || !m_stringBut[3]->isChecked()
         || !m_stringBut[4]->isChecked() || !m_stringBut[5]->isChecked() )
@@ -165,10 +163,10 @@ void rangeSettings::saveLevel(Tlevel* level) {
 	// Fixing empty notes
 		if (m_scoreRang->getNote(0).note == 0)
 				m_scoreRang->setNote(0, 
-										Tnote(qMax(gl->loString().chromatic(), m_scoreRang->lowestNote().chromatic())));
+										Tnote(qMax(Tcore::gl()->loString().chromatic(), m_scoreRang->lowestNote().chromatic())));
 		if (m_scoreRang->getNote(1).note == 0)
 				m_scoreRang->setNote(1, 
-										Tnote(qMin(gl->hiNote().chromatic(), m_scoreRang->highestNote().chromatic())));
+										Tnote(qMin(Tcore::gl()->hiNote().chromatic(), m_scoreRang->highestNote().chromatic())));
 				
     if (m_scoreRang->getNote(0).chromatic() <= m_scoreRang->getNote(1).chromatic()) {
 				level->loNote = m_scoreRang->getNote(0);
@@ -184,7 +182,7 @@ void rangeSettings::saveLevel(Tlevel* level) {
         level->loFret = m_toSpinB->value();
         level->hiFret = m_fromSpinB->value();
     }
-    for (int i = 0; i < gl->Gtune()->stringNr(); i++)
+    for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
         level->usedStrings[i] = m_stringBut[i]->isChecked();
 		level->clef = m_scoreRang->clef();
 }
@@ -192,7 +190,7 @@ void rangeSettings::saveLevel(Tlevel* level) {
 
 void rangeSettings::changed() {
 	blockSignals(true);
-		if (wLevel()->canBeGuitar() || gl->instrument != e_noInstrument) {
+		if (wLevel()->canBeGuitar() || Tcore::gl()->instrument != e_noInstrument) {
 			m_fretGr->setDisabled(false);
 			m_stringsGr->setDisabled(false);
 			m_fretAdjustButt->setDisabled(false);
@@ -232,8 +230,8 @@ void rangeSettings::adjustFrets() {
 
 
 void rangeSettings::adjustNotes() {
-	m_scoreRang->setNote(0, Tnote(gl->loString().chromatic() + m_fromSpinB->value()));
-	m_scoreRang->setNote(1, Tnote(gl->hiString().chromatic() + m_toSpinB->value()));
+	m_scoreRang->setNote(0, Tnote(Tcore::gl()->loString().chromatic() + m_fromSpinB->value()));
+	m_scoreRang->setNote(1, Tnote(Tcore::gl()->hiString().chromatic() + m_toSpinB->value()));
 	emit rangeChanged();
 }
 

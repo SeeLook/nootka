@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
- *   tomaszbojczuk@gmail.com                                               *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
+ *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,41 +12,30 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 
-#include <QApplication>
-#include <QTranslator>
-#include "tlevelcreatordlg.h"
+#include "tkeysigncombobox.h"
+#include <tscoreparams.h>
 #include <tinitcorelib.h>
 
-Tglobals *gl;
 
-int main(int argc, char *argv[])
-{    	
-		QTranslator qtTranslator;
-		QTranslator qtbaseTranslator;
-		QTranslator nooTranslator;
-		QApplication a(argc, argv);
-// #if defined (Q_OS_MAC)
-// 		QApplication::setStyle(new QPlastiqueStyle);
-// #endif
-		gl = new Tglobals(true); // load configuration from temp file
-		if (gl->path == "") {
-			return 112;
-		}
-		if (!initCoreLibrary())
-			return 110;
-		prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
-		if (!loadNootkaFont(&a))
-			return 111;
 
-    TlevelCreatorDlg creator;
-    creator.show();
-		if (argc > 1)
-        creator.loadLevelFile(QString::fromLocal8Bit(argv[argc - 1]));
-		int retVal = a.exec();
-		return retVal;
+TkeySignComboBox::TkeySignComboBox(QWidget *parent) :
+    QComboBox(parent)
+{
+    if (TkeySignature::majorNames[0] == "")
+        TkeySignature::setNameStyle(
+                Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
+    for (int i=-7; i<8; i++) {
+        TkeySignature k = TkeySignature(i);
+        addItem("(" + k.accidNumber() + ") " + TkeySignature::majorNames[i+7] + " / "
+                + TkeySignature::minorNames[i+7]);
+    }
+}
+
+void TkeySignComboBox::setKeySignature(TkeySignature key) {
+    setCurrentIndex(key.value()+7);
 }
