@@ -285,12 +285,13 @@ void MainWindow::createSettingsDialog() {
 		executor->prepareToSettings();
 	} else
 			sound->prepareToConf();
-  TpluginsLoader loader;
-  if (loader.load(TpluginsLoader::e_settings)) {
-    loader.init(args, this);
+  TpluginsLoader *loader = new TpluginsLoader();
+  if (loader->load(TpluginsLoader::e_settings)) {
+    loader->init(args, this);
   }
-
-		if (loader.lastWord().contains("Accepted")) {
+	QString lastWord = loader->lastWord();
+	delete loader;
+		if (lastWord.contains("Accepted")) {
 			if (executor) {
 				executor->settingsAccepted();
 				return;
