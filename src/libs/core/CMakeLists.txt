@@ -70,6 +70,9 @@ set(LIB_NOOTKACORE_SRC
 	widgets/tsettingsdialogbase.cpp
 	widgets/troundedlabel.cpp
 	widgets/tselectinstrument.cpp
+	
+	plugins/tplugininterface.h
+	plugins/tpluginsloader.cpp
 )
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )

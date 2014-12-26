@@ -19,7 +19,7 @@
 
 #include "tglobalsettings.h"
 #include "tcolorbutton.h"
-#include "../tpluginsloader.h"
+#include <plugins/tpluginsloader.h>
 #include <tinitcorelib.h>
 #include <QtWidgets>
 

@@ -13,18 +13,8 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../src/)
 
 include_directories( ../../src/libs/core )
 
-
-set(NOOTEST_SRC
-  main.cpp
-  ../../src/plugins/tplugininterface.h
-  ../../src/plugins/tpluginsloader.cpp
-  )
+set(NOOTEST_SRC  main.cpp)
   
 add_executable(nootest WIN32 ${NOOTEST_SRC})
-target_link_libraries(nootest
-    NootkaCore 
-    NootkaSound 
-    NootkaMisc 
-    Qt5::Widgets
-)
+target_link_libraries(nootest NootkaCore Qt5::Widgets)
 

@@ -19,6 +19,7 @@
 #ifndef TPLUGININTERFACE_H
 #define TPLUGININTERFACE_H
 
+#include <nootkacoreglobal.h>
 #include <QtPlugin>
 
 class Texam;
@@ -28,7 +29,7 @@ class Texam;
  * @p message(QString) and @p value(int).
  * Through it a plugin can communicate with a rest of an application.
  */
-class TpluginObject : public QObject
+class NOOTKACORE_EXPORT TpluginObject : public QObject
 {
   Q_OBJECT
   
@@ -48,7 +49,7 @@ signals:
 /** 
  * Abstract class defining plugin interface to load extra dialog windows
  */
-class TpluginInterface 
+class NOOTKACORE_EXPORT TpluginInterface 
 {
   
 public:

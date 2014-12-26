@@ -9,7 +9,6 @@ endif(WIN32)
 
 set(SETTINGS_SRC
   tsettingsplugin.cpp
-  ../tpluginsloader.cpp
   tsettingsdialog.cpp
   audioinsettings.cpp
   audiooutsettings.cpp

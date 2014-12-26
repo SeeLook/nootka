@@ -19,6 +19,7 @@
 #ifndef TPLUGINSLOADER_H
 #define TPLUGINSLOADER_H
 
+#include <nootkacoreglobal.h>
 #include <QObject>
 #include "tplugininterface.h"
 
@@ -34,7 +35,7 @@ class QPluginLoader;
  * 2. call @p init() to start a plugin
  * 3. check returned @p lastWord()
  */
-class TpluginsLoader : public QObject
+class NOOTKACORE_EXPORT TpluginsLoader : public QObject
 {
   Q_OBJECT
   
