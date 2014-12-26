@@ -19,22 +19,20 @@
 
 #include "texamsettings.h"
 #include "tcolorbutton.h"
+#include <tinitcorelib.h>
 #include <texamparams.h>
 #include <help/texpertanswerhelp.h>
 #include <help/texamhelp.h>
 #include <widgets/troundedlabel.h>
-#include <tglobals.h>
 #include <QtWidgets>
-
-extern Tglobals *gl;
 
 
 TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
     QWidget(parent),
-    m_params(gl->E),
-    m_qColor(&gl->EquestionColor),
-    m_aColor(&gl->EanswerColor),
-    m_nbColor(&gl->EnotBadColor),
+    m_params(Tcore::gl()->E),
+    m_qColor(&Tcore::gl()->EquestionColor),
+    m_aColor(&Tcore::gl()->EanswerColor),
+    m_nbColor(&Tcore::gl()->EnotBadColor),
     m_mode(mode)
 {
 		m_correctChB = new QCheckBox(TexamHelp::correctMistakesTxt(), this);

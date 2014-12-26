@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,21 +21,22 @@
 
 #include <QDate>
 
+class QWidget;
 
 
 enum EupdatePeriod { e_daily = 0, e_weekly = 1, e_monthly = 2 };
 
 
 struct TupdateRules {
-  bool enable; // is updateing enabled
+  bool enable; // is updating enabled
   QDate recentDate; // date of recent update
-  EupdatePeriod period; // how ofen checking has to be perform
-  bool checkForAll; // if true check for all versions (beta, rc)
-  QString curentVersion; // current Nootka version taken from config 
+  EupdatePeriod period; // how often checking has to be perform
+  bool checkForAll; // if true check for all versions (alpha, beta, rc)
+  QString curentVersion; // current Nootka version taken from settings
 };
 
-    /** Fullfils &updateRules with config file content. */
-void getUpdateRules(TupdateRules &updateRules);
+
+void getUpdateRules(TupdateRules &updateRules); /** Fulfills &updateRules with configuration file content. */
 
     /** Compares date of recent checking, current date, update period
      and determine is update necessary. */
@@ -46,7 +47,7 @@ bool isNewVersionStable(QString version);
     /** Stores rules in Nootka config file */
 void saveUpdateRules(TupdateRules &updateRules);
 
-void showUpdateSummary(QString version, QString changes, TupdateRules *rules = 0);
+void showUpdateSummary(QString version, QString changes, QWidget* parent = 0, TupdateRules *rules = 0);
 
 
 #endif // UPDATEFUNCTIONS_H

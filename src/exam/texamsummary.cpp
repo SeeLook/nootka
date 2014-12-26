@@ -25,8 +25,7 @@
 #include <level/tlevelpreview.h>
 #include <widgets/troundedlabel.h>
 #include <tpath.h>
-#include <tprocesshandler.h>
-// #include <tanalysdialog.h>
+#include <plugins/tpluginsloader.h>
 #include <QtWidgets>
 
 
@@ -207,17 +206,10 @@ void TexamSummary::setForExercise() {
 //#################################################################
 
 void TexamSummary::analyseSlot() {
-	QStringList args;
-	args << m_exam->fileName();
-	if (m_examButton)
-			args << "exercise";
-	TprocessHandler analyzeProcess("nootka-analyzer", args, this);
-
-// 	TanalysDialog *AD = new TanalysDialog(m_exam, parentWidget());
-// 	if (m_examButton)
-// 			AD->setWindowTitle(AD->analyseExerciseWinTitle());
-// 	AD->exec();
-// 	delete AD;
+  TpluginsLoader loader;
+  if (loader.load(TpluginsLoader::e_analyzer)) {
+    loader.init("", this, m_exam); 
+  }
 }
 
 void TexamSummary::closeSlot() {

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -52,8 +52,7 @@ private:
 private slots:
   void updateSlot();
   void processOutputSlot(QString output);
-			/** when user wants to restore all Nootka settings at once */
-	void restoreRequired();
+	void restoreRequired(); /** when user wants to restore all Nootka settings at once */
 };
 
 

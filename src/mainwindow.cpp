@@ -19,7 +19,6 @@
 #include "mainwindow.h"
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
-#include <tprocesshandler.h>
 #include <tscoreparams.h>
 #include <music/tchunk.h>
 #include <tlayoutparams.h>
@@ -28,17 +27,11 @@
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include "score/tmainscore.h"
-#include "score/tcornerproxy.h"
 #include "guitar/tfingerboard.h"
 #include "notename/tnotename.h"
-// // #include "tsettingsdialog.h"
 #include "exam/tstartexamdlg.h" // just temporary
 #include <taboutnootka.h>
 #include <tsupportnootka.h>
-// // #include "tfirstrunwizzard.h"
-// // #include "tsupportnootka.h"
-// #include "texamsettings.h"
-// #include <tcolor.h>
 #include "exam/tprogresswidget.h"
 #include "exam/texamview.h"
 #include "exam/texamexecutor.h"
@@ -46,7 +39,7 @@
 #include "gui/tmelman.h"
 #include "gui/tmainview.h"
 #include "gui/ttoolbar.h"
-#include "settings/tupdateprocess.h"
+#include "plugins/tpluginsloader.h"
 #include <QtWidgets>
 
 
@@ -80,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent) :
 		m_statusText(""),
 		m_curBG(-1), m_prevBg(-1),
 		m_lockStat(false),
-    ex(0),
     m_isPlayerFree(true)
 //     m_pitchContainer(0),
 //     m_rightLay(0),
@@ -90,7 +82,8 @@ MainWindow::MainWindow(QWidget *parent) :
     
     setMinimumSize(720, 480);
 		gl->config->beginGroup("General");
-    setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+      setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+    gl->config->endGroup();
 		
 // 		setAttribute(Qt::WA_AcceptTouchEvents);
     
@@ -100,19 +93,18 @@ MainWindow::MainWindow(QWidget *parent) :
 //         delete firstWizz;
 //         gl->isFirstRun = false;
 //     } else { // show support window once but not with first run wizard
-				QString newVersion = gl->config->value("version", "").toString();
-        if (newVersion != gl->version) {
-          QTimer::singleShot(200, this, SLOT(showSupportDialog()));
-				} else { // check for updates
-          gl->config->endGroup();
-          gl->config->beginGroup("Updates");
-          if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
-              TupdateProcess *process = new TupdateProcess(true, this);
-              process->start();
-          }
-        }
+// 				QString newVersion = gl->config->value("version", "").toString();
+//         if (newVersion != gl->version) {
+//           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
+// 				} else { // check for updates
+//           gl->config->beginGroup("Updates");
+//           if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
+//               TupdateProcess *process = new TupdateProcess(true, this);
+//               process->start();
+//           }
+//           gl->config->endGroup();
+//         }
 //     }
-		gl->config->endGroup();
 		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
 		
     sound = new Tsound(this);
@@ -229,7 +221,6 @@ void MainWindow::setMessageBg(QColor bg) {
 void MainWindow::clearAfterExam(int examState) {
 	bar->actionsAfterExam();
 	delete ex;
-	ex = 0;
 	m_curBG = -1;
 	m_prevBg = -1;
 	setMessageBg(-1);
@@ -282,26 +273,23 @@ void MainWindow::openFile(QString runArg) {
 
 
 void MainWindow::createSettingsDialog() {
-// 	TsettingsDialog *settings = new TsettingsDialog(this);
 	if (score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
-// 	sound->prepareToConf();
-	gl->dumpToTemp();
-	QStringList args;
+	QString args;
 	if (ex) {
 		if (ex->isExercise())
-			args << "exercise";
+			args = "exercise";
 		else
-			args << "exam";
+			args = "exam";
 		ex->prepareToSettings();
 	} else
 			sound->prepareToConf();
-	TprocessHandler settProcess("nootka-settings", args, this);
+  TpluginsLoader loader;
+  if (loader.load(TpluginsLoader::e_settings)) {
+    loader.init(args, this);
+  }
 
-// 	if (settings->exec() == QDialog::Accepted) {
-// 	qDebug() << "lastWord" << settProcess.lastWord() << gl->grabFromTemp();
-		if (settProcess.lastWord().contains("Accepted") && gl->grabFromTemp()) {
-// 			delete settings;
+		if (loader.lastWord().contains("Accepted")) {
 			if (ex) {
 				ex->settingsAccepted();
 				return;
@@ -341,15 +329,8 @@ void MainWindow::createSettingsDialog() {
 			m_statLab->setVisible(gl->L->hintsBarEnabled);
 			pitchView->setVisible(gl->L->soundViewEnabled); // TODO - stop receiving audio signals
 			guitar->setVisible(gl->L->guitarEnabled); // TODO - delete guitar
-// 			if (gl->hintsEnabled) {
-// 				
-// 			} else {
-// 				m_prevBg = m_curBG;
-// 				setStatusMessage(m_prevMsg);
-// 			}
 			m_isPlayerFree = true;
 	} else { // settings not accepted
-// 			delete settings;
 			sound->restoreAfterConf();
 	}
 	if (resetConfig)
@@ -358,55 +339,41 @@ void MainWindow::createSettingsDialog() {
 
 
 void MainWindow::openLevelCreator(QString levelFile) {
-		if (score->isScorePlayed())
-			m_melButt->playMelodySlot(); // stop playing
-    sound->wait(); // stops pitch detection
-    sound->stopPlaying();
-    m_levelCreatorExist = true;
-		gl->dumpToTemp();
-		QStringList args;
-		if (levelFile != "")
-				args << levelFile;
+  if (score->isScorePlayed())
+    m_melButt->playMelodySlot(); // stop playing
+  sound->wait(); // stops pitch detection
+  sound->stopPlaying();
+  m_levelCreatorExist = true;
+  gl->dumpToTemp();
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, true);
-		TprocessHandler levelProcess("nootka-level", args, this);
-		QString levelText = levelProcess.lastWord();
-		qDebug() << "process said:" << levelText;
-		gl->config->sync();
-		bool startExercise = false;
-		if (levelText.contains("exam:"))
-			levelText.remove("exam:");
-		else {
-			levelText.remove("exercise:");
-			startExercise = true;
-		}
-		m_levelCreatorExist = false;
-		bool ok;
-		int levelNr = levelText.toInt(&ok);
-		if (ok) {
-			TlevelSelector ls;
-			ls.selectLevel(levelNr);
-			m_level = ls.getSelectedLevel();
-			prepareToExam();
-			ex = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam			
-		}
+		TpluginsLoader loader;
+  if (loader.load(TpluginsLoader::e_level)) {
+    loader.init(levelFile, this);
+  }
+  QString levelText = loader.lastWord();
+  qDebug() << "process said:" << levelText;
+  gl->config->sync(); // it is necessary to save recent levels list
+  bool startExercise = false;
+  if (levelText.contains("exam:"))
+    levelText.remove("exam:");
+  else {
+    levelText.remove("exercise:");
+    startExercise = true;
+  }
+  m_levelCreatorExist = false;
+  bool ok;
+  int levelNr = levelText.toInt(&ok);
+  if (ok) {
+    TlevelSelector ls;
+    ls.selectLevel(levelNr);
+    m_level = ls.getSelectedLevel();
+    prepareToExam();
+    ex = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam			
+  }
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		
-//     TlevelCreatorDlg *levelCreator= new TlevelCreatorDlg(this);
-//     bool shallExamStart = false;
-//     if (levelFile != "")
-//         levelCreator->loadLevelFile(levelFile);
-//     if (levelCreator->exec() == QDialog::Accepted) {
-//         m_level = levelCreator->selectedLevel();
-//         if (m_level.name != "")
-//             shallExamStart = true;
-//     }
-//     delete levelCreator;
-//     if (shallExamStart) {
-//         progress->show();
-//         examResults->show();
-//         ex = new TexamExecutor(this, "", &m_level); // start exam
-    else
-        sound->go(); // restore pitch detection
+  else
+    sound->go(); // restore pitch detection
 }
 
 
@@ -433,11 +400,10 @@ void MainWindow::analyseSlot() {
 			m_melButt->playMelodySlot(); // stop playing
 	sound->wait();
 	sound->stopPlaying();
-	QStringList args;
-	TprocessHandler analyzeProcess("nootka-analyzer", args, this);
-//     TanalysDialog *ad = new TanalysDialog(0, this);
-//     ad->exec();
-//     delete ad;
+	TpluginsLoader loader;
+  if (loader.load(TpluginsLoader::e_analyzer)) {
+    loader.init("", this);
+  }
 	sound->go();
 }
 

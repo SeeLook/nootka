@@ -44,13 +44,10 @@ public:
   virtual ~TlevelPlugin();
   
       /** For level plugin @p ob and @p exam are unused */
-  virtual void init(const QString& argument = "", QObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
   
   virtual QString& lastWord() { return m_lastWord; }
-  
-protected:
-  void closingSlot(int result);
-  
+    
 private:
   TlevelCreatorDlg        *m_creator;
   QString                  m_lastWord;

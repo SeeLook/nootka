@@ -29,7 +29,7 @@ TpluginsLoader::TpluginsLoader(QObject* parent) :
   m_plugInterface(0)
 {
   m_loader = new QPluginLoader(this);
-  m_signalNode = new QObject(this);
+  m_signalNode = new TpluginObject(this);
 }
 
 
@@ -48,7 +48,7 @@ bool TpluginsLoader::load(TpluginsLoader::Etype pluginType) {
   names << "Level" << "Settings" << "Analyzer" << "Updater" << "Wizard";
   m_loader->setFileName("Nootka" + names[(int)pluginType] + "Plugin");
   if (!m_loader->load()) {
-    qDebug() << m_loader->errorString();
+    qDebug() << m_loader->fileName() << m_loader->errorString();
     return false;
   }
   return true;
@@ -61,6 +61,7 @@ bool TpluginsLoader::init(const QString& argument, QWidget* parent, Texam* exam)
     if (plugin) {
       m_plugInterface = qobject_cast<TpluginInterface*>(plugin);
       if (m_plugInterface) {
+        connect(m_signalNode, &TpluginObject::message, this, &TpluginsLoader::pluginMessage);
         m_plugInterface->init(argument, m_signalNode, parent, exam);
         return true;
       }
@@ -73,12 +74,8 @@ bool TpluginsLoader::init(const QString& argument, QWidget* parent, Texam* exam)
 }
 
 
-QString TpluginsLoader::lastWord() {
-  if (m_plugInterface)
-    return m_plugInterface->lastWord();
-  else
-    return "";
-}
+
+
 
 
 

@@ -20,15 +20,12 @@
 #include "tnotenamesettings.h"
 #include "tcolorbutton.h"
 #include "tscalepreviewlabel.h"
-#include <tglobals.h>
+#include <tinitcorelib.h>
 #include <tscoreparams.h>
 #include <tcolor.h>
 #include <select7note.h>
-#include <tfirstrunwizzard.h>
+#include <tfirstrunwizzard.h> // TODO
 #include <QtWidgets>
-
-
-extern Tglobals *gl;
 
 
 
@@ -38,10 +35,10 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout;
 		mainLay->addStretch(1);
     mainLay->setAlignment(Qt::AlignCenter);
-    m_nameStyleGr = new TnotationRadioGroup(gl->S->nameStyleInNoteName, true, this);
+    m_nameStyleGr = new TnotationRadioGroup(Tcore::gl()->S->nameStyleInNoteName, true, this);
     m_select7 = new Select7note(this);
-    m_select7->set7th_B(gl->S->seventhIs_B);
-		m_scaleLabel = new TscalePreviewLabel(gl->S->nameStyleInNoteName, true, this);
+    m_select7->set7th_B(Tcore::gl()->S->seventhIs_B);
+		m_scaleLabel = new TscalePreviewLabel(Tcore::gl()->S->nameStyleInNoteName, true, this);
 		
 		mainLay->addStretch(1);
 		mainLay->addWidget(m_select7, 0, Qt::AlignCenter);
@@ -51,9 +48,9 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
 
 		m_nameInScoreChB = new QCheckBox(tr("note name in the score"), this);
 			m_nameInScoreChB->setStatusTip(tr("Shows names of all notes on the score"));
-			m_nameInScoreChB->setChecked(gl->S->namesOnScore);
+			m_nameInScoreChB->setChecked(Tcore::gl()->S->namesOnScore);
 		QLabel *nameColorLab = new QLabel(tr("names highlight color"), this);
-		m_nameColorButt = new TcolorButton(gl->S->nameColor, this);
+		m_nameColorButt = new TcolorButton(Tcore::gl()->S->nameColor, this);
 		QHBoxLayout *nameScoreLay = new QHBoxLayout;
 			nameScoreLay->addWidget(m_nameInScoreChB);
 			nameScoreLay->addStretch(2);
@@ -66,7 +63,7 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
     m_octInNameCh = new QCheckBox(tr("show octave in name of note"),this);
 			mainLay->addWidget(m_octInNameCh, 0, Qt::AlignCenter);
 			m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
-			m_octInNameCh->setChecked(gl->S->octaveInNoteNameFormat);
+			m_octInNameCh->setChecked(Tcore::gl()->S->octaveInNoteNameFormat);
     mainLay->addStretch(1);
     setLayout(mainLay);
 
@@ -81,17 +78,17 @@ bool TnoteNameSettings::is7th_b() {
 
 
 void TnoteNameSettings::saveSettings() {
-    gl->S->nameStyleInNoteName = m_nameStyleGr->getNameStyle();
-    gl->S->octaveInNoteNameFormat = m_octInNameCh->isChecked();
-		gl->S->solfegeStyle = m_nameStyleGr->getSolfegeStyle();
-    gl->S->seventhIs_B = is7th_b();
-		gl->S->namesOnScore = m_nameInScoreChB->isChecked();
-		gl->S->nameColor = m_nameColorButt->getColor();
+    Tcore::gl()->S->nameStyleInNoteName = m_nameStyleGr->getNameStyle();
+    Tcore::gl()->S->octaveInNoteNameFormat = m_octInNameCh->isChecked();
+		Tcore::gl()->S->solfegeStyle = m_nameStyleGr->getSolfegeStyle();
+    Tcore::gl()->S->seventhIs_B = is7th_b();
+		Tcore::gl()->S->namesOnScore = m_nameInScoreChB->isChecked();
+		Tcore::gl()->S->nameColor = m_nameColorButt->getColor();
 }
 
 
 void TnoteNameSettings::restoreDefaults() {
-		m_nameStyleGr->setNameStyle(gl->getSolfegeStyle());
+		m_nameStyleGr->setNameStyle(Tcore::gl()->getSolfegeStyle());
 		if (Tpage_3::note7txt().toLower() == "b") {
 			m_select7->set7th_B(true);
 			m_nameStyleGr->setNameStyle(Tnote::e_nederl_Bis);

@@ -23,8 +23,9 @@
 #include <QNetworkReply>
 #include <QDebug>
 
-TupdateChecker::TupdateChecker(QObject* parent) :
+TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
   QObject(),
+  m_parentWidget(parentWidget),
   m_respectRules(false),
   m_reply(0),
   m_success(true)
@@ -55,15 +56,13 @@ void TupdateChecker::check(bool checkRules){
         connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
   } else {
     emit communicate("No need for updates");
-    exit(0);
+//     exit(0);
   }
 }
 
 
 TupdateChecker::~TupdateChecker()
-{
-  delete m_reply;  
-}
+{}
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
   if (!m_respectRules)
@@ -89,18 +88,18 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
           replyLines.removeFirst();
           QString changes = replyLines.join("");
           if (m_updateRules.curentVersion != newVersion) {
-            showUpdateSummary(newVersion, changes, &m_updateRules);
+            showUpdateSummary(newVersion, changes, m_parentWidget, &m_updateRules);
           } else if (!m_respectRules) {
-              showUpdateSummary("", "", &m_updateRules);
+              showUpdateSummary("", "", m_parentWidget, &m_updateRules);
           }
           m_updateRules.recentDate = QDate::currentDate();
           saveUpdateRules(m_updateRules);
-          if (!m_respectRules)
-            qDebug() << " ";
+//           if (!m_respectRules)
+//             qDebug() << " ";
       }
   }
-  emit communicate("checking finished");
-  exit(0);
+//   emit communicate("checking finished");
+//   exit(0);
 }
 
 

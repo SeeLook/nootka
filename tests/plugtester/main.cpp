@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
     plugType = TpluginsLoader::e_updater;
   else {
     qDebug() << "Unrecognized plugin type:" << a.arguments()[1];
+    return 1;
   }
   
 // Prepare additional plugin parameters
@@ -87,12 +88,11 @@ int main(int argc, char *argv[])
     plugOk = loader->init(fileName, 0, exam);
   }
   
-  int retVal = a.exec();
   if (plugOk)
     qDebug() << "plugin said:" << loader->lastWord();
   delete loader;
   if (exam) delete exam;
   if (level) delete level;
   delete gl;
-  return retVal;
+  return 0;
 }
