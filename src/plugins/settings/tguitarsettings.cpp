@@ -18,9 +18,9 @@
 
 #include "tguitarsettings.h"
 #include "tcolorbutton.h"
+#include <tinitcorelib.h>
 #include <widgets/tselectinstrument.h>
 #include <music/ttune.h>
-#include <tglobals.h>
 #include <score/tsimplescore.h>
 #include <score/tscorescene.h>
 #include <tscoreparams.h>
@@ -28,173 +28,169 @@
 
 
 
-extern Tglobals *gl;
-
 QString tuningGuitarText, scaleOfInstrText;
 
 
 TguitarSettings::TguitarSettings(QWidget *parent) :
         QWidget(parent)
 {
-    
-		m_customTune = new Ttune();
-		*m_customTune = *(gl->Gtune());
-    m_curentTune = gl->Gtune();
-		
-		tuningGuitarText = tr("tuning of the guitar");
-		scaleOfInstrText = tr("scale of an instrument");
-	
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    mainLay->setAlignment(Qt::AlignCenter);
+  m_customTune = new Ttune();
+  *m_customTune = *(Tcore::gl()->Gtune());
+  m_curentTune = Tcore::gl()->Gtune();
+  
+  tuningGuitarText = tr("tuning of the guitar");
+  scaleOfInstrText = tr("scale of an instrument");
 
-    QHBoxLayout *upLay = new QHBoxLayout;
-    m_tuneGroup = new QGroupBox(tuningGuitarText, this);
-    m_tuneGroup->setStatusTip(tr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
-				tr("Remember to select the appropriate clef in Score settings."));
-    QVBoxLayout *tuneLay = new QVBoxLayout;
-    tuneLay->setAlignment(Qt::AlignCenter);
-    m_tuneCombo = new QComboBox(this);
-    tuneLay->addWidget(m_tuneCombo);
-    m_tuneView = new TsimpleScore(6, this);
-		m_tuneView->setControllersEnabled(true, false);
-		m_tuneView->scoreScene()->setPointedColor(gl->S->pointerColor);
-		m_tuneView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    tuneLay->addWidget(m_tuneView);
-    m_tuneView->setClef(gl->S->clef); 
-   
-    m_tuneGroup->setLayout(tuneLay);
+  QVBoxLayout *mainLay = new QVBoxLayout;
+  mainLay->setAlignment(Qt::AlignCenter);
+
+  QHBoxLayout *upLay = new QHBoxLayout;
+  m_tuneGroup = new QGroupBox(tuningGuitarText, this);
+  m_tuneGroup->setStatusTip(tr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
+      tr("Remember to select the appropriate clef in Score settings."));
+  QVBoxLayout *tuneLay = new QVBoxLayout;
+  tuneLay->setAlignment(Qt::AlignCenter);
+  m_tuneCombo = new QComboBox(this);
+  tuneLay->addWidget(m_tuneCombo);
+  m_tuneView = new TsimpleScore(6, this);
+  m_tuneView->setControllersEnabled(true, false);
+  m_tuneView->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
+  m_tuneView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  tuneLay->addWidget(m_tuneView);
+  m_tuneView->setClef(Tcore::gl()->S->clef); 
+  
+  m_tuneGroup->setLayout(tuneLay);
 //     upLay->addWidget(m_tuneGroup);
 
-    QVBoxLayout *guitarLay = new QVBoxLayout;
-    m_guitarGroup = new QGroupBox(tr("Instrument") + ":", this);
-	// Selecting instrument type combo
-		m_selectInstr = new TselectInstrument(this, TselectInstrument::e_buttonsOnlyGrid);
-		m_selectInstr->setGlyphSize(40);
-		guitarLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
-		guitarLay->addStretch(1);
-	// Right-handed/left-handed check box
-    m_righthandCh = new QCheckBox(tr("right-handed players", "When translation will be too long try to add '\n' - line break between words."), this);
-    m_righthandCh->setChecked(gl->GisRightHanded);
-    m_righthandCh->setStatusTip(tr("Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)"));
-    guitarLay->addWidget(m_righthandCh);
-    guitarLay->addStretch(1);
-	// Number of frets
-    m_fretNrLab = new QLabel(tr("number of frets:"), this);
-    guitarLay->addWidget(m_fretNrLab, 1, Qt::AlignCenter);
-    m_fretsNrSpin = new QSpinBox(this);
-    m_fretsNrSpin->setMaximum(24);
-    m_fretsNrSpin->setMinimum(15);
-		m_fretsNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    guitarLay->addWidget(m_fretsNrSpin, 1, Qt::AlignCenter);
-    guitarLay->addStretch(1);
-	// Number of strings
-		m_stringNrLab = new QLabel(tr("number of strings:"), this);
-		guitarLay->addWidget(m_stringNrLab, 1, Qt::AlignCenter);
-		m_stringNrSpin = new QSpinBox(this);
-		m_stringNrSpin->setMaximum(6);
-		m_stringNrSpin->setMinimum(3);
-		m_stringNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-		guitarLay->addWidget(m_stringNrSpin, 1, Qt::AlignCenter);
-		guitarLay->addStretch(1);
-    m_guitarGroup->setLayout(guitarLay);
-    upLay->addWidget(m_guitarGroup);
-		upLay->addSpacing(3);
-		upLay->addWidget(m_tuneGroup);
+  QVBoxLayout *guitarLay = new QVBoxLayout;
+  m_guitarGroup = new QGroupBox(tr("Instrument") + ":", this);
+// Selecting instrument type combo
+  m_selectInstr = new TselectInstrument(this, TselectInstrument::e_buttonsOnlyGrid);
+  m_selectInstr->setGlyphSize(40);
+  guitarLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
+  guitarLay->addStretch(1);
+// Right-handed/left-handed check box
+  m_righthandCh = new QCheckBox(tr("right-handed players", "When translation will be too long try to add '\n' - line break between words."), this);
+  m_righthandCh->setChecked(Tcore::gl()->GisRightHanded);
+  m_righthandCh->setStatusTip(tr("Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)"));
+  guitarLay->addWidget(m_righthandCh);
+  guitarLay->addStretch(1);
+// Number of frets
+  m_fretNrLab = new QLabel(tr("number of frets:"), this);
+  guitarLay->addWidget(m_fretNrLab, 1, Qt::AlignCenter);
+  m_fretsNrSpin = new QSpinBox(this);
+  m_fretsNrSpin->setMaximum(24);
+  m_fretsNrSpin->setMinimum(15);
+  m_fretsNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+  guitarLay->addWidget(m_fretsNrSpin, 1, Qt::AlignCenter);
+  guitarLay->addStretch(1);
+// Number of strings
+  m_stringNrLab = new QLabel(tr("number of strings:"), this);
+  guitarLay->addWidget(m_stringNrLab, 1, Qt::AlignCenter);
+  m_stringNrSpin = new QSpinBox(this);
+  m_stringNrSpin->setMaximum(6);
+  m_stringNrSpin->setMinimum(3);
+  m_stringNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+  guitarLay->addWidget(m_stringNrSpin, 1, Qt::AlignCenter);
+  guitarLay->addStretch(1);
+  m_guitarGroup->setLayout(guitarLay);
+  upLay->addWidget(m_guitarGroup);
+  upLay->addSpacing(3);
+  upLay->addWidget(m_tuneGroup);
 
-    mainLay->addLayout(upLay);
+  mainLay->addLayout(upLay);
 
-    QHBoxLayout *downLay = new QHBoxLayout;
-    QHBoxLayout *prefLay = new QHBoxLayout;
-    m_accidGroup = new QGroupBox(tr("preferred accidentals:"),this);
-    m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown on the staff."));
-    m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
-    m_prefFlatBut = new  QRadioButton(tr("b - flats"),this);
-    QButtonGroup *prefGr = new QButtonGroup(this);
-    prefGr->addButton(m_prefSharpBut);
-    prefGr->addButton(m_prefFlatBut);
-    prefLay->addWidget(m_prefSharpBut);
-		prefLay->addSpacing(10);
-    prefLay->addWidget(m_prefFlatBut);
-    m_accidGroup->setLayout(prefLay);
-    if (gl->GpreferFlats) m_prefFlatBut->setChecked(true);
-    else
-        m_prefSharpBut->setChecked(true);
+  QHBoxLayout *downLay = new QHBoxLayout;
+  QHBoxLayout *prefLay = new QHBoxLayout;
+  m_accidGroup = new QGroupBox(tr("preferred accidentals:"),this);
+  m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown on the staff."));
+  m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
+  m_prefFlatBut = new  QRadioButton(tr("b - flats"),this);
+  QButtonGroup *prefGr = new QButtonGroup(this);
+  prefGr->addButton(m_prefSharpBut);
+  prefGr->addButton(m_prefFlatBut);
+  prefLay->addWidget(m_prefSharpBut);
+  prefLay->addSpacing(10);
+  prefLay->addWidget(m_prefFlatBut);
+  m_accidGroup->setLayout(prefLay);
+  if (Tcore::gl()->GpreferFlats) m_prefFlatBut->setChecked(true);
+  else
+      m_prefSharpBut->setChecked(true);
 
-		m_fretMarksEdit = new QLineEdit(grabFretsFromList(gl->GmarkedFrets), this);
-		m_fretMarksEdit->setMaxLength(25);
-		QRegExp rx("([1-2]{0,1}[0-9]{1,2}!{0,1},){0,7}");
-		m_fretMarksEdit->setValidator(new QRegExpValidator(rx, 0));
-		m_fretMarksEdit->setStatusTip(tr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice."));
-		QLabel *fretMarksLab = new QLabel(tr("dots on frets", "or frets with dots/marks"), this);
-		QHBoxLayout *marksLay = new QHBoxLayout;
-			marksLay->addWidget(fretMarksLab);
-			marksLay->addWidget(m_fretMarksEdit);
-		QVBoxLayout *leftDownLay = new QVBoxLayout;
-			leftDownLay->addWidget(m_accidGroup);
-			leftDownLay->addLayout(marksLay);
-    downLay->addLayout(leftDownLay);
+  m_fretMarksEdit = new QLineEdit(grabFretsFromList(Tcore::gl()->GmarkedFrets), this);
+  m_fretMarksEdit->setMaxLength(25);
+  QRegExp rx("([1-2]{0,1}[0-9]{1,2}!{0,1},){0,7}");
+  m_fretMarksEdit->setValidator(new QRegExpValidator(rx, 0));
+  m_fretMarksEdit->setStatusTip(tr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice."));
+  QLabel *fretMarksLab = new QLabel(tr("dots on frets", "or frets with dots/marks"), this);
+  QHBoxLayout *marksLay = new QHBoxLayout;
+    marksLay->addWidget(fretMarksLab);
+    marksLay->addWidget(m_fretMarksEdit);
+  QVBoxLayout *leftDownLay = new QVBoxLayout;
+    leftDownLay->addWidget(m_accidGroup);
+    leftDownLay->addLayout(marksLay);
+  downLay->addLayout(leftDownLay);
 
-    m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
-    m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
-    m_morePosCh->setChecked(gl->GshowOtherPos);
+  m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
+  m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
+  m_morePosCh->setChecked(Tcore::gl()->GshowOtherPos);
 
-    QGridLayout *colorLay = new QGridLayout;
-    m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
-    m_pointColorBut = new TcolorButton(gl->GfingerColor, this);
-    colorLay->addWidget(m_pointerColorLab, 0, 0, Qt::AlignRight);
-    colorLay->addWidget(m_pointColorBut, 0 ,1, Qt::AlignLeft);
-    m_selectColorLab = new QLabel(tr("color of selected string/fret"), this);
-    m_selColorBut = new TcolorButton(gl->GselectedColor, this);
-    colorLay->addWidget(m_selectColorLab, 1, 0, Qt::AlignRight);
-    colorLay->addWidget(m_selColorBut, 1, 1, Qt::AlignLeft);
-		QVBoxLayout *rightDownLay = new QVBoxLayout;
-			rightDownLay->addWidget(m_morePosCh);
-			rightDownLay->addLayout(colorLay);
-		downLay->addStretch(1);
-		downLay->addLayout(rightDownLay);
-		mainLay->addLayout(downLay);
+  QGridLayout *colorLay = new QGridLayout;
+  m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
+  m_pointColorBut = new TcolorButton(Tcore::gl()->GfingerColor, this);
+  colorLay->addWidget(m_pointerColorLab, 0, 0, Qt::AlignRight);
+  colorLay->addWidget(m_pointColorBut, 0 ,1, Qt::AlignLeft);
+  m_selectColorLab = new QLabel(tr("color of selected string/fret"), this);
+  m_selColorBut = new TcolorButton(Tcore::gl()->GselectedColor, this);
+  colorLay->addWidget(m_selectColorLab, 1, 0, Qt::AlignRight);
+  colorLay->addWidget(m_selColorBut, 1, 1, Qt::AlignLeft);
+  QVBoxLayout *rightDownLay = new QVBoxLayout;
+    rightDownLay->addWidget(m_morePosCh);
+    rightDownLay->addLayout(colorLay);
+  downLay->addStretch(1);
+  downLay->addLayout(rightDownLay);
+  mainLay->addLayout(downLay);
 
-    setLayout(mainLay);
+  setLayout(mainLay);
 
-    connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
-    connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
-		connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-		connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
-		connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
-		
-    m_selectInstr->setInstrument((int)gl->instrument);
-    instrumentTypeChanged((int)gl->instrument);
-		setTune(gl->Gtune());
-		m_fretsNrSpin->setValue(gl->GfretsNumber);
-		if (gl->instrument != e_noInstrument) {
-				if (*gl->Gtune() == Ttune::stdTune)
-						m_tuneCombo->setCurrentIndex(0);
-				for (int i = 0; i < 4; i++) {
-					if (gl->instrument == e_classicalGuitar) {
-						if (*gl->Gtune() == Ttune::tunes[i]) {
-								m_tuneCombo->setCurrentIndex(i + 1);
-								break;
-						}
-					} else if (gl->instrument == e_bassGuitar) {
-							if (*gl->Gtune() == Ttune::bassTunes[i]) {
-								m_tuneCombo->setCurrentIndex(i);
-								break;
-							}
-					}
-				}
-				QString S = tr("Custom tuning");
-				if (gl->Gtune()->name == S)
-						m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
-		} else { // Apply instrument scale
-			m_tuneView->setClef(Tclef(gl->S->clef));
-			m_tuneView->setNote(4, gl->loNote());
-			m_tuneView->setNote(5, gl->hiNote());
-		}
-		updateAmbitus();
+  connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
+  connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
+  connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+  connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
+  connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
+  
+  m_selectInstr->setInstrument((int)Tcore::gl()->instrument);
+  instrumentTypeChanged((int)Tcore::gl()->instrument);
+  setTune(Tcore::gl()->Gtune());
+  m_fretsNrSpin->setValue(Tcore::gl()->GfretsNumber);
+  if (Tcore::gl()->instrument != e_noInstrument) {
+      if (*Tcore::gl()->Gtune() == Ttune::stdTune)
+          m_tuneCombo->setCurrentIndex(0);
+      for (int i = 0; i < 4; i++) {
+        if (Tcore::gl()->instrument == e_classicalGuitar) {
+          if (*Tcore::gl()->Gtune() == Ttune::tunes[i]) {
+              m_tuneCombo->setCurrentIndex(i + 1);
+              break;
+          }
+        } else if (Tcore::gl()->instrument == e_bassGuitar) {
+            if (*Tcore::gl()->Gtune() == Ttune::bassTunes[i]) {
+              m_tuneCombo->setCurrentIndex(i);
+              break;
+            }
+        }
+      }
+      QString S = tr("Custom tuning");
+      if (Tcore::gl()->Gtune()->name == S)
+          m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
+  } else { // Apply instrument scale
+    m_tuneView->setClef(Tclef(Tcore::gl()->S->clef));
+    m_tuneView->setNote(4, Tcore::gl()->loNote());
+    m_tuneView->setNote(5, Tcore::gl()->hiNote());
+  }
+  updateAmbitus();
 #if defined(Q_OS_WIN)
-    QTimer::singleShot(5, this, SLOT(delayedBgGlyph()));
+  QTimer::singleShot(5, this, SLOT(delayedBgGlyph()));
 #endif
-
 }
 
 
@@ -204,11 +200,11 @@ TguitarSettings::~TguitarSettings() {
 
 
 void TguitarSettings::saveSettings() {
-	gl->instrument = (Einstrument)m_selectInstr->instrument();
-	gl->GisRightHanded = m_righthandCh->isChecked();
-	gl->GfretsNumber = m_fretsNrSpin->value();
+	Tcore::gl()->instrument = (Einstrument)m_selectInstr->instrument();
+	Tcore::gl()->GisRightHanded = m_righthandCh->isChecked();
+	Tcore::gl()->GfretsNumber = m_fretsNrSpin->value();
 	Ttune *tmpTune = new Ttune();
-	if (gl->instrument != e_noInstrument)
+	if (Tcore::gl()->instrument != e_noInstrument)
 			grabTuneFromScore(tmpTune);
 // 			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
 // 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
@@ -225,17 +221,17 @@ void TguitarSettings::saveSettings() {
 												Tnote(hiN.chromatic() - m_fretsNrSpin->value()), loN,
 												Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
 	}
-	gl->setTune(*tmpTune);
+	Tcore::gl()->setTune(*tmpTune);
 	delete tmpTune;
-	gl->GshowOtherPos = m_morePosCh->isChecked();
+	Tcore::gl()->GshowOtherPos = m_morePosCh->isChecked();
 	if (m_prefFlatBut->isChecked()) 
-			gl->GpreferFlats = true;
+			Tcore::gl()->GpreferFlats = true;
 	else 
-			gl->GpreferFlats = false;
-	gl->GfingerColor = m_pointColorBut->getColor();
-	gl->GfingerColor.setAlpha(200);
-	gl->GselectedColor = m_selColorBut->getColor();
-	checkFretsAndStore(gl->GmarkedFrets);
+			Tcore::gl()->GpreferFlats = false;
+	Tcore::gl()->GfingerColor = m_pointColorBut->getColor();
+	Tcore::gl()->GfingerColor.setAlpha(200);
+	Tcore::gl()->GselectedColor = m_selColorBut->getColor();
+	checkFretsAndStore(Tcore::gl()->GmarkedFrets);
 }
 
 

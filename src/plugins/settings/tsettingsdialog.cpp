@@ -25,18 +25,17 @@
 #include "audioinsettings.h"
 #include "audiooutsettings.h"
 #include "tlaysettings.h"
+#include <tinitcorelib.h>
 #include <taudioparams.h>
 #include <trtaudio.h>
 #include <tmidiout.h>
-#include <tglobals.h>
 #include <tscoreparams.h>
 #include <tpath.h>
 #include <tlayoutparams.h>
-#include <tfirstrunwizzard.h>
+#include <tfirstrunwizzard.h> // TODO
 #include <QtWidgets>
 
 
-extern Tglobals *gl;
 extern bool resetConfig;
 
 
@@ -121,9 +120,9 @@ void TsettingsDialog::saveSettings() {
   if (m_guitarSett) {
 			m_guitarSett->saveSettings();
 			if (!m_audioSettingsPage) // when no audio settings set appropriate audio-out instrument
-				gl->A->audioInstrNr = qBound(1, m_guitarSett->currentInstrument(), 3);
+				Tcore::gl()->A->audioInstrNr = qBound(1, m_guitarSett->currentInstrument(), 3);
 			if (!m_laySett)
-				gl->L->guitarEnabled = (gl->instrument != e_noInstrument);
+				Tcore::gl()->L->guitarEnabled = (Tcore::gl()->instrument != e_noInstrument);
 	}
   if (m_examSett)
 			m_examSett->saveSettings();
@@ -132,7 +131,7 @@ void TsettingsDialog::saveSettings() {
   if (m_sndInSett)
 				m_sndInSett->saveSettings();
 	if (m_7thNoteToDefaults) {
-		if ((Tpage_3::note7txt().toLower() == "b") != (gl->S->seventhIs_B)) {
+		if ((Tpage_3::note7txt().toLower() == "b") != (Tcore::gl()->S->seventhIs_B)) {
 			/** NOTE As long as TscoreSettings is created at first and always exist 
 			 * only adjustment of global note names is required. 
 			 * How: When user opens Name settings and changes 7-th note TscoreSettings changes automatically 
@@ -140,14 +139,14 @@ void TsettingsDialog::saveSettings() {
 			 * TscoreSettings wants defaults and already has been adjusted. 
 			 * Theoretically - if TscoreSettings would not exist it is more difficult to restore its defaults here. */
 			if (Tpage_3::note7txt().toLower() == "b")
-					gl->S->seventhIs_B = true;
+					Tcore::gl()->S->seventhIs_B = true;
 			else
-					gl->S->seventhIs_B = false;
+					Tcore::gl()->S->seventhIs_B = false;
 		}
 	}
 	if (m_laySett)
 			m_laySett->saveSettings();
-	gl->dumpToTemp();
+	Tcore::gl()->dumpToTemp();
 }
 
 
@@ -267,7 +266,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     }
 		case 6: {
 			if (!m_laySett) {
-				m_laySett = new TlaySettings(gl->L);
+				m_laySett = new TlaySettings(Tcore::gl()->L);
 				stackLayout->addWidget(m_laySett);
 				if (m_guitarSett) {
           connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_laySett, &TlaySettings::instrumentChanged);
@@ -283,9 +282,9 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 
 
 void TsettingsDialog::createAudioPage() {
-	TrtAudio::initJACKorASIO(gl->A->JACKorASIO);
-	m_sndInSett = new AudioInSettings(gl->A, gl->Gtune());
-	m_sndOutSett = new AudioOutSettings(gl->A, m_sndInSett); // m_sndInSett is bool - true when exist
+	TrtAudio::initJACKorASIO(Tcore::gl()->A->JACKorASIO);
+	m_sndInSett = new AudioInSettings(Tcore::gl()->A, Tcore::gl()->Gtune());
+	m_sndOutSett = new AudioOutSettings(Tcore::gl()->A, m_sndInSett); // m_sndInSett is bool - true when exist
 	m_audioSettingsPage = new QWidget();
 	m_audioTab = new QTabWidget(m_audioSettingsPage);
 	QVBoxLayout *audioLay = new QVBoxLayout;

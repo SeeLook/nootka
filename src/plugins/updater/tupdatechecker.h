@@ -36,7 +36,7 @@ class TupdateChecker : public QObject
   Q_OBJECT
   
 public:
-  TupdateChecker(QObject *parent = 0);
+  TupdateChecker(QObject *parent = 0, QWidget* parentWidget = 0);
   virtual ~TupdateChecker();
   
     /** Performs checking.
@@ -57,12 +57,14 @@ protected slots:
   void communicateSlot(const QString& message);
   
 private:
-  QNetworkAccessManager *m_netManager;
-  QNetworkReply *m_reply;
-  QString m_curVersion;
-  bool m_respectRules;
-  bool m_success;
-  TupdateRules m_updateRules;
+  QWidget                   *m_parentWidget;
+  QNetworkAccessManager     *m_netManager;
+  QNetworkReply             *m_reply;
+  QString                    m_curVersion;
+  bool                       m_respectRules;
+  bool                       m_success;
+  TupdateRules               m_updateRules;
+  
 };
 
 #endif // TUPDATECHECKER_H

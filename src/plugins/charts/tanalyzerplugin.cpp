@@ -27,9 +27,9 @@ TanalyzerPlugin::~TanalyzerPlugin()
 }
 
 
-void TanalyzerPlugin::init(const QString& argument, QObject* ob, QWidget* parent, Texam* exam)
+void TanalyzerPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam)
 {
   m_analyzer = new TanalysDialog(exam, parent);
-  m_analyzer->show();
+  m_analyzer->exec();
 }
 

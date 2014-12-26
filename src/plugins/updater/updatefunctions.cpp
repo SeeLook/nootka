@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -83,8 +83,8 @@ bool isNewVersionStable(QString version) {
   return !nonStable;
 }
 
-void showUpdateSummary(QString version, QString changes, TupdateRules* rules) {
-    TupdateSummary *sumaryDlg = new TupdateSummary(version, changes, rules);
+void showUpdateSummary(QString version, QString changes, QWidget* parent, TupdateRules* rules) {
+    TupdateSummary *sumaryDlg = new TupdateSummary(version, changes, rules, parent);
     sumaryDlg->exec();
     delete sumaryDlg;
 }

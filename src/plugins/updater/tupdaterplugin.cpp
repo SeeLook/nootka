@@ -18,12 +18,12 @@
 
 #include "tupdaterplugin.h"
 #include "tupdatechecker.h"
-#include <QSettings>
 
 
-void TupdaterPlugin::init(const QString& argument, QObject* ob, QWidget* parent, Texam* exam) {  
-  m_updater = new TupdateChecker(this);
-//   connect()
+void TupdaterPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
+  m_sender = ob;
+  m_updater = new TupdateChecker(this, parent);
+  connect(m_updater, &TupdateChecker::communicate, this, &TupdaterPlugin::messageSlot);
   if (argument.isEmpty())
     m_updater->check(false);
   else

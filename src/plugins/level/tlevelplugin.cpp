@@ -20,12 +20,13 @@
 #include "tlevelcreatordlg.h"
 
 
-void TlevelPlugin::init(const QString& argument, QObject* ob, QWidget* parent, Texam* exam) {
+void TlevelPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
   m_creator = new TlevelCreatorDlg(parent);
   if (!argument.isEmpty())
     m_creator->loadLevelFile(argument);
-  m_creator->show();
-  connect(m_creator, &TlevelCreatorDlg::finished, this, &TlevelPlugin::closingSlot);
+  m_creator->exec();
+  m_lastWord = m_creator->communicate();
+  ob->emitMessage(m_lastWord);
 }
 
 
@@ -35,8 +36,4 @@ TlevelPlugin::~TlevelPlugin()
 }
 
 
-void TlevelPlugin::closingSlot(int result) {
-  Q_UNUSED(result);
-  m_lastWord = m_creator->communicate();
-}
 

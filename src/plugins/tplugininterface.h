@@ -23,6 +23,26 @@
 
 class Texam;
 
+/** 
+ * This is QObject subclass that implements two additional signals:
+ * @p message(QString) and @p value(int).
+ * Through it a plugin can communicate with a rest of an application.
+ */
+class TpluginObject : public QObject
+{
+  Q_OBJECT
+  
+public:
+  explicit TpluginObject(QObject* parent = 0) : QObject(parent) {}
+  
+  void emitMessage(const QString& m) { emit message(m); }
+  void emitValue(int v) { emit value(v); }
+  
+signals:
+  void message(const QString&);
+  void value(int);
+  
+};
 
 
 /** 
@@ -41,7 +61,7 @@ public:
        * @p parent - is a parent window for plugin QDialog class
        * and @p exam is pointer to existing Texam object.
        */
-  virtual void init(const QString& argument = "", QObject* ob = 0, QWidget* parent = 0, Texam* exam = 0) = 0;
+  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0) = 0;
   
       /** Implementation of this method should return QString with communicate from plugin. */
   virtual QString& lastWord() = 0;

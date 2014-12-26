@@ -9,6 +9,7 @@ endif(WIN32)
 
 set(SETTINGS_SRC
   tsettingsplugin.cpp
+  ../tpluginsloader.cpp
   tsettingsdialog.cpp
   audioinsettings.cpp
   audiooutsettings.cpp
@@ -20,7 +21,6 @@ set(SETTINGS_SRC
   tnotationradiogroup.cpp
   tnotenamesettings.cpp
   tscoresettings.cpp
-  tupdateprocess.cpp
   tvolumeslider.cpp
 )
 

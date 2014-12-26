@@ -29,6 +29,10 @@ MAJOR:
 
 - add <exercise> key to exam file!!!
 
+- TscoreSettings and TsettingsDialog has something in wizard - push it outside
+
+- Crash on terminating due to removed class when call is still in work
+
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 

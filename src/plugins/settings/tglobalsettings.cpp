@@ -18,16 +18,15 @@
 
 
 #include "tglobalsettings.h"
-#include "tupdateprocess.h"
 #include "tcolorbutton.h"
-#include <tglobals.h>
+#include "../tpluginsloader.h"
+#include <tinitcorelib.h>
+
 
 #include <QtWidgets>
 
 
-extern Tglobals *gl;
-
-
+TpluginsLoader *m_pluginLoader;
 TglobalSettings::TglobalSettings(QWidget *parent) :
         QWidget(parent)
 {
@@ -55,8 +54,8 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 		int id = 0;
 		while (i.hasNext()) {
 			i.next();
-			m_langCombo->addItem(QIcon(gl->path + "picts/flags-" + i.key() + ".png"), i.value());
-			if (i.key() == gl->lang)
+			m_langCombo->addItem(QIcon(Tcore::gl()->path + "picts/flags-" + i.key() + ".png"), i.value());
+			if (i.key() == Tcore::gl()->lang)
 				m_langCombo->setCurrentIndex(id);
 			id++;
 		}
@@ -73,9 +72,11 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 		updateBox->setLayout(upLay);
 		lay->addWidget(updateBox);
 		lay->addStretch(1);
-		if (TupdateProcess::isPossible())
+    m_pluginLoader = new TpluginsLoader(this);
+    if (m_pluginLoader->load(TpluginsLoader::e_updater)) {
 			connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
-		else 
+      connect(m_pluginLoader->node(), &TpluginObject::message, this, &TglobalSettings::processOutputSlot);
+    } else 
 			updateBox->hide();
 		
 		lay->addStretch(1);
@@ -94,7 +95,7 @@ void TglobalSettings::saveSettings() {
 	while (i.hasNext()) {
 		i.next();
 		if (m_langCombo->currentText() == i.value()) {
-			gl->lang = i.key();
+			Tcore::gl()->lang = i.key();
 			break;
 		}
 	}
@@ -107,19 +108,15 @@ void TglobalSettings::restoreDefaults() {
 
 
 void TglobalSettings::restoreRequired() {
-	QMessageBox::warning(this, "", QString("Work in progress... No wizard yet<br>To reset settings, close Nootka and manually remove this file:<br>%1").arg(gl->config->fileName()), QMessageBox::Ok, QMessageBox::Abort);
+	QMessageBox::warning(this, "", QString("Work in progress... No wizard yet<br>To reset settings, close Nootka and manually remove this file:<br>%1").arg(Tcore::gl()->config->fileName()), QMessageBox::Ok, QMessageBox::Abort);
 // 	if (QMessageBox::warning(this, "", warringResetConfigTxt(), QMessageBox::Ok, QMessageBox::Abort) == QMessageBox::Ok )
 // 			emit restoreAllDefaults(); TODO
 }
 
 
 void TglobalSettings::updateSlot() {
-  TupdateProcess *process = new TupdateProcess(false, this);
-  if (process->isPossible()) {
-    m_updateButton->setDisabled(true);
-    connect(process, SIGNAL(updateOutput(QString)), this, SLOT(processOutputSlot(QString)));
-    process->start();
-  }
+  m_pluginLoader->init("", this);
+  m_updateButton->setDisabled(true);
 }
 
 

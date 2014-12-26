@@ -20,10 +20,11 @@
 #define TPLUGINSLOADER_H
 
 #include <QObject>
+#include "tplugininterface.h"
+
 
 class QWidget;
 class Texam;
-class TpluginInterface;
 class QPluginLoader;
 
 /** 
@@ -47,15 +48,19 @@ public:
   
   bool load(Etype pluginType); /** Loads given plugin type and returns @p TRUE when loaded properly. */
   bool init(const QString& argument = "", QWidget* parent = 0, Texam* exam = 0); /** Starts plugin routines. */
-  QString lastWord(); /** Returns last plugin string. */
+  QString& lastWord() { return m_lastWord; } /** Returns last plugin string. */
   
-  QObject* node() { return m_signalNode; } /** Object through which a plugin can sends signals */
+  TpluginObject* node() { return m_signalNode; } /** Object through which a plugin can sends signals */
+  
+protected:
+  void pluginMessage(const QString& m) { m_lastWord = m; }
   
 private:
   TpluginInterface     *m_plugInterface;
   QPluginLoader        *m_loader;
-  QObject              *m_signalNode;
+  TpluginObject        *m_signalNode;
   Etype                 m_type;
+  QString               m_lastWord;
 };
 
 

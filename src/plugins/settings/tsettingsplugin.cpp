@@ -19,17 +19,20 @@
 
 #include "tsettingsplugin.h"
 #include "tsettingsdialog.h"
+#include <QTimer>
 
-
-void TsettingsPlugin::init(const QString& argument, QObject* ob, QWidget* parent, Texam* exam) {
+void TsettingsPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
   EsettingsMode mode = e_settings;
   if (argument == "exam")
     mode = e_exam;
   else if (argument == "exercise")
     mode = e_exercise;
   m_settings = new TsettingsDialog(parent, mode);
-  m_settings->show();
-  connect(m_settings, &TsettingsDialog::finished, this, &TsettingsPlugin::closingSlot);
+  if (m_settings->exec() == QDialog::Accepted)
+    m_lastWord = "Accepted";
+  else
+    m_lastWord = "Canceled";
+  ob->emitMessage(m_lastWord);
 }
 
 
@@ -37,12 +40,5 @@ TsettingsPlugin::~TsettingsPlugin() {
   delete m_settings;
 }
 
-
-void TsettingsPlugin::closingSlot(int result) {
-  if (result == QDialog::Accepted)
-    m_lastWord = "Accepted";
-  else
-    m_lastWord = "Canceled";
-}
 
 

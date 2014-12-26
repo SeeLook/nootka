@@ -32,7 +32,8 @@ set(NOOTKA_SRC
 	main.cpp
 	mainwindow.cpp
 	
-	settings/tupdateprocess.cpp
+	plugins/tpluginsloader.cpp
+	plugins/tplugininterface.h
 	
 	gui/tmainview.cpp
 	gui/tmelman.cpp

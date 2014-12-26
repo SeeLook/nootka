@@ -123,4 +123,8 @@ configure_file(
 
 add_subdirectory( packaging ) # cpack rules
 
-add_subdirectory( tests/plugtester )
+
+# Uncomment below lines if you want to build any testing executable
+# add_subdirectory( tests/plugtester )
+
+

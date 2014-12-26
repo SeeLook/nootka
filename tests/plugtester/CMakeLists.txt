@@ -16,6 +16,7 @@ include_directories( ../../src/libs/core )
 
 set(NOOTEST_SRC
   main.cpp
+  ../../src/plugins/tplugininterface.h
   ../../src/plugins/tpluginsloader.cpp
   )
   

@@ -22,11 +22,12 @@
 #include <music/tnote.h>
 #include <exam/tlevel.h>
 #include <QMainWindow>
+#include <QPointer>
 
+class TexamExecutor;
 class Tchunk;
 class TmelMan;
 class TtoolBar;
-class TexamExecutor;
 class TmainView;
 class QPushButton;
 class TnootkaLabel;
@@ -87,7 +88,7 @@ protected:
 	TfingerBoard *guitar;
 	Tsound *sound;
 	TexamView *examResults;
-	TexamExecutor *ex;
+ 	QPointer<TexamExecutor> ex;
 	TpitchView *pitchView;
 	TprogressWidget *progress;
 

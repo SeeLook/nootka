@@ -62,6 +62,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 			setGeometry(parent->geometry());
 	gl->config->beginGroup("General");
     setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+  gl->config->endGroup();
   QVBoxLayout *lay = new QVBoxLayout;
 // default chart presets
   m_chartSetts.inclWrongAnsw = false;

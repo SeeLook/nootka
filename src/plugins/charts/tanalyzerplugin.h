@@ -20,7 +20,6 @@
 #define TANALYZERPLUGIN_H
 
 
-#include <QObject>
 #include "../tplugininterface.h"
 
 class TanalysDialog;
@@ -37,7 +36,7 @@ class TanalyzerPlugin : public QObject, public TpluginInterface
 public:
   virtual ~TanalyzerPlugin();
   
-  virtual void init(const QString& argument = "", QObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
   
   virtual QString& lastWord() { return m_emptyText; } /** So far analyzer returns nothing */
   
