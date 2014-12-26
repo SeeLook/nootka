@@ -88,7 +88,7 @@ protected:
 	TfingerBoard *guitar;
 	Tsound *sound;
 	TexamView *examResults;
- 	QPointer<TexamExecutor> ex;
+ 	QPointer<TexamExecutor> executor;
 	TpitchView *pitchView;
 	TprogressWidget *progress;
 
@@ -147,6 +147,10 @@ private:
 // 		QWidget 							*m_pitchContainer;
 	TmelMan							 *m_melButt;
 	int										m_startedSoundId; /** Index of note on the score that has been just started.  */
+	
+      /** This is tricky workaround when TexamExecutor calls clearAfterExam() where it is deleted
+       * and @p executor variable is brought back because execution back to startExamSlot().  */
+	bool                  m_deleteExecutor;
 
 };
 

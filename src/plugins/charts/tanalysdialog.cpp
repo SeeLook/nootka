@@ -23,10 +23,10 @@
 #include <exam/textrans.h>
 #include <level//tlevelpreview.h>
 #include <graphics/tnotepixmap.h>
-#include <tglobals.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
 #include <tnoofont.h>
+#include <tinitcorelib.h>
 #include "tchart.h"
 #include "tmainchart.h"
 #include "tlinearchart.h"
@@ -36,7 +36,6 @@
 #include <QtWidgets>
 
 
-extern Tglobals *gl;
 
 
 TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
@@ -48,21 +47,19 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     m_isMaximized(false)
 {
 #if defined(Q_OS_MAC)
-    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()), 
-                              QColor(gl->EnotBadColor.name()), Tcolor::shadow, palette().window().color());
+    TquestionPoint::setColors(QColor(Tcore::gl()->EanswerColor.name()), QColor(Tcore::gl()->EquestionColor.name()), 
+                              QColor(Tcore::gl()->EnotBadColor.name()), Tcolor::shadow, palette().window().color());
 #else
-    TquestionPoint::setColors(QColor(gl->EanswerColor.name()), QColor(gl->EquestionColor.name()),
-											QColor(gl->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
+    TquestionPoint::setColors(QColor(Tcore::gl()->EanswerColor.name()), QColor(Tcore::gl()->EquestionColor.name()),
+											QColor(Tcore::gl()->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 #endif
-;
-//   setWindowFlags(Qt::Tool | Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint |
-// 								 Qt::WindowCloseButtonHint | Qt::CustomizeWindowHint);
-	setWindowIcon(QIcon(gl->path + "/picts/charts.png"));
+    
+	setWindowIcon(QIcon(Tcore::gl()->path + "/picts/charts.png"));
 	if (parent)
 			setGeometry(parent->geometry());
-	gl->config->beginGroup("General");
-    setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
-  gl->config->endGroup();
+	Tcore::gl()->config->beginGroup("General");
+    setGeometry(Tcore::gl()->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+  Tcore::gl()->config->endGroup();
   QVBoxLayout *lay = new QVBoxLayout;
 // default chart presets
   m_chartSetts.inclWrongAnsw = false;
@@ -92,7 +89,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   m_userLab = new QLabel(" ", this);
   headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
   m_levelLab = new QLabel(" ", this);
-  m_moreButton = new QPushButton(QIcon(gl->path + "picts/levelCreator.png"), "...", this);
+  m_moreButton = new QPushButton(QIcon(Tcore::gl()->path + "picts/levelCreator.png"), "...", this);
   m_moreButton->setIconSize(QSize(24, 24));
   m_moreButton->setDisabled(true);
   m_moreButton->setToolTip(tr("Level summary:"));
@@ -138,11 +135,11 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     modKey = "CTRL";
 #endif
     QString helpTipText = "<br>" + tr("Press %1 button to select an exam from a file.").
-            arg("<a href=\"charts\"> " + pixToHtml(gl->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
+            arg("<a href=\"charts\"> " + pixToHtml(Tcore::gl()->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
             tr("Use %1 + mouse wheel or %2 buttons to zoom a chart.").
-            arg(modKey).arg(pixToHtml(gl->path + "picts/zoom-in.png", 26) + " " + pixToHtml(gl->path + "picts/zoom-out.png", 26)) + "<br>" +
+            arg(modKey).arg(pixToHtml(Tcore::gl()->path + "picts/zoom-in.png", 26) + " " + pixToHtml(Tcore::gl()->path + "picts/zoom-out.png", 26)) + "<br>" +
             tr("Click and Drag the cursor to move the chart.") + "<br>";
-					TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, gl->EanswerColor);
+					TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, Tcore::gl()->EanswerColor);
 						m_chart->scene->addItem(helpTip);
 						helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 						helpTip->setPos(100, 80);
@@ -157,7 +154,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 
 TanalysDialog::~TanalysDialog()
 {
-	TtipChart::defaultClef = gl->S->clef;
+	TtipChart::defaultClef = Tcore::gl()->S->clef;
   if (m_wasExamCreated) // to avoid memory leaks
     delete m_exam;
 }
@@ -251,7 +248,7 @@ void TanalysDialog::loadExam(QString& examFile) {
       m_moreButton->setDisabled(true);
       createChart(m_chartSetts);
       TgraphicsTextTip *wrongFileTip = new TgraphicsTextTip("<h3>" +
-					tr("File: %1 \n is not valid exam file!").arg(examFile).replace("\n", "<br>") + "</h3>", gl->EquestionColor);
+					tr("File: %1 \n is not valid exam file!").arg(examFile).replace("\n", "<br>") + "</h3>", Tcore::gl()->EquestionColor);
       m_chart->scene->addItem(wrongFileTip);
       wrongFileTip->setPos(100, 180);
     }
@@ -262,25 +259,25 @@ void TanalysDialog::loadExam(QString& examFile) {
 void TanalysDialog::createActions() {
     QMenu *openMenu = new QMenu("open exam file", this);
     QAction *openAct = new QAction(tr("Open an exam to analyze"), this);
-			openAct->setIcon(QIcon(gl->path + "picts/charts.png"));
+			openAct->setIcon(QIcon(Tcore::gl()->path + "picts/charts.png"));
 			openAct->setShortcut(QKeySequence::Open);
     openMenu->addAction(openAct);
 			connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
     openMenu->addSeparator();
-		QString exerciseFile = QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
+		QString exerciseFile = QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + "/exercise.noo");
 		if (QFileInfo(exerciseFile).exists()) {
 			Tlevel lev;
 			Texam ex(&lev, "");
 			ex.loadFromFile(exerciseFile);
 			QAction *exerciseAct = new QAction(tr("Recent exercise on level") + ": " + lev.name, this);
-			exerciseAct->setIcon(QIcon(gl->path + "picts/practice.png"));
+			exerciseAct->setIcon(QIcon(Tcore::gl()->path + "picts/practice.png"));
 			exerciseAct->setShortcut(QKeySequence("CTRL+e"));
 			connect(exerciseAct, SIGNAL(triggered()), this, SLOT(openRecentExercise()));
 			openMenu->addAction(exerciseAct);
 			openMenu->addSeparator();
 		}
     openMenu->addAction(tr("recent opened exams:"));
-    QStringList recentExams = gl->config->value("recentExams").toStringList();
+    QStringList recentExams = Tcore::gl()->config->value("recentExams").toStringList();
     for (int i = 0; i < recentExams.size(); i++) {
         QFileInfo fi(recentExams[i]);
         if (fi.exists()) {
@@ -291,7 +288,7 @@ void TanalysDialog::createActions() {
     }
     m_openButton = new QToolButton(this);
     m_openButton->setToolTip(openAct->text());
-    m_openButton->setIcon(QIcon(gl->path + "picts/nootka-exam.png"));
+    m_openButton->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-exam.png"));
     m_openButton->setMenu(openMenu);
     m_openButton->setPopupMode(QToolButton::InstantPopup);
     QWidgetAction* openToolButtonAction = new QWidgetAction(this);
@@ -300,10 +297,10 @@ void TanalysDialog::createActions() {
     m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyzer window"), this);
     connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    m_zoomInAct = new QAction(QIcon(gl->path+"picts/zoom-in.png"), tr("zoom in"), this);
+    m_zoomInAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-in.png"), tr("zoom in"), this);
     connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
 
-    m_zoomOutAct = new QAction(QIcon(gl->path+"picts/zoom-out.png"), tr("zoom out"), this);
+    m_zoomOutAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-out.png"), tr("zoom out"), this);
     connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
 // settings menu button
     m_inclWrongAct = new QAction(tr("include time of wrong answers to average"), this);
@@ -319,7 +316,7 @@ void TanalysDialog::createActions() {
     m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
     
     m_settButt = new QToolButton(this);
-    m_settButt->setIcon(QIcon(gl->path + "picts/exam-settings.png"));
+    m_settButt->setIcon(QIcon(Tcore::gl()->path + "picts/exam-settings.png"));
     m_settButt->setToolTip(tr("Settings of a chart"));
     m_settButt->setMenu(menu);
     m_settButt->setPopupMode(QToolButton::InstantPopup);
@@ -328,14 +325,14 @@ void TanalysDialog::createActions() {
     QWidgetAction* toolButtonAction = new QWidgetAction(this);
     toolButtonAction->setDefaultWidget(m_settButt);
     
-    m_maximizeAct = new QAction(QIcon(gl->path + "picts/fullscreen.png"), tr("Maximize"), this);
+    m_maximizeAct = new QAction(QIcon(Tcore::gl()->path + "picts/fullscreen.png"), tr("Maximize"), this);
     connect(m_maximizeAct, SIGNAL(triggered()), this, SLOT(maximizeWindow()));
 
     QActionGroup *chartTypeGroup = new QActionGroup(this);
-    m_linearAct = new QAction(QIcon(gl->path + "picts/linearChart.png"), tr("linear chart"), this);
+    m_linearAct = new QAction(QIcon(Tcore::gl()->path + "picts/linearChart.png"), tr("linear chart"), this);
     m_linearAct->setCheckable(true);
     chartTypeGroup->addAction(m_linearAct);
-    m_barAct = new QAction(QIcon(gl->path + "picts/barChart.png"), tr("bar chart"), this);
+    m_barAct = new QAction(QIcon(Tcore::gl()->path + "picts/barChart.png"), tr("bar chart"), this);
     m_barAct->setCheckable(true);
     chartTypeGroup->addAction(m_barAct);
     if (m_chartSetts.type == Tchart::e_linear)
@@ -400,10 +397,10 @@ void TanalysDialog::linkOnTipClicked() {
 
 
 void TanalysDialog::loadExamSlot() {
-  QString fileName = QFileDialog::getOpenFileName(this, TexTrans::loadExamFileTxt(), gl->E->examsDir,
+  QString fileName = QFileDialog::getOpenFileName(this, TexTrans::loadExamFileTxt(), Tcore::gl()->E->examsDir,
 												  TexTrans::examFilterTxt(), 0, QFileDialog::DontUseNativeDialog);
   if (fileName != "") {
-      gl->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
+      Tcore::gl()->E->examsDir = QFileInfo(fileName).absoluteDir().absolutePath();
       loadExam(fileName);
 			setWindowTitle(analyseExamWinTitle());
   }
@@ -412,7 +409,7 @@ void TanalysDialog::loadExamSlot() {
 
 void TanalysDialog::openRecentExercise() {
 	setWindowTitle(analyseExerciseWinTitle());
-	QString exerciseFile = QDir::toNativeSeparators(QFileInfo(gl->config->fileName()).absolutePath() + "/exercise.noo");
+	QString exerciseFile = QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + "/exercise.noo");
 	loadExam(exerciseFile);
 }
 
@@ -479,7 +476,7 @@ void TanalysDialog::analyseChanged(int index) {
 
 
 void TanalysDialog::testSlot() {
-//   QString testFile = gl->path + "/../../test.noo";
+//   QString testFile = Tcore::gl()->path + "/../../test.noo";
 //   loadExam(testFile);
 }
 

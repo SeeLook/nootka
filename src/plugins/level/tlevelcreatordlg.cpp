@@ -18,7 +18,6 @@
 
 
 #include "tlevelcreatordlg.h"
-#include "tglobals.h"
 #include "tlevelheaderwdg.h"
 #include "questionssettings.h"
 #include "accidsettings.h"
@@ -29,11 +28,11 @@
 #include <music/ttune.h>
 #include <widgets/troundedlabel.h>
 #include <level/tlevelselector.h>
+#include <tinitcorelib.h>
 #include <QtWidgets>
 #include <iostream>
 
 
-extern Tglobals *gl;
 bool isNotSaved;
 
 TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
@@ -42,23 +41,22 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 
     isNotSaved = false;
     setWindowTitle(levelCreatorTxt());
-		setWindowIcon(QIcon(gl->path + "picts/levelCreator.png"));
-// 		setWindowFlags(Qt::Tool);
+		setWindowIcon(QIcon(Tcore::gl()->path + "picts/levelCreator.png"));
 
     navList->addItem(TlevelSelector::levelFilterTxt());
-    navList->item(0)->setIcon(QIcon(gl->path + "picts/levelsSettings.png"));
+    navList->item(0)->setIcon(QIcon(Tcore::gl()->path + "picts/levelsSettings.png"));
     navList->item(0)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Questions"));
-    navList->item(1)->setIcon(QIcon(gl->path + "picts/questionsSettings.png"));
+    navList->item(1)->setIcon(QIcon(Tcore::gl()->path + "picts/questionsSettings.png"));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Accidentals"));
-    navList->item(2)->setIcon(QIcon(gl->path + "picts/accidSettings.png"));
+    navList->item(2)->setIcon(QIcon(Tcore::gl()->path + "picts/accidSettings.png"));
     navList->item(2)->setTextAlignment(Qt::AlignCenter);
 // 		navList->addItem(tr("Melodies"));
-//     navList->item(3)->setIcon(QIcon(gl->path + "picts/melodySett.png"));
+//     navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/melodySett.png"));
 //     navList->item(3)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Range"));
-    navList->item(3)->setIcon(QIcon(gl->path + "picts/rangeSettings.png"));
+    navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/rangeSettings.png"));
     navList->item(3)->setTextAlignment(Qt::AlignCenter);
 
     m_levelSett = new levelSettings();
@@ -73,7 +71,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 // 		stackLayout->addWidget(m_meloSett);
     stackLayout->addWidget(m_rangeSett);
 		
-		if (gl->instrument == e_noInstrument)
+		if (Tcore::gl()->instrument == e_noInstrument)
 			m_questSett->hideGuitarRelated();
 		
     hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
@@ -136,7 +134,7 @@ void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
 
 void TlevelCreatorDlg::levelNotSaved() {
 	if (!isNotSaved) {
-    navList->item(0)->setIcon(QIcon(gl->path+"picts/notSaved.png"));
+    navList->item(0)->setIcon(QIcon(Tcore::gl()->path+"picts/notSaved.png"));
     setWindowTitle(levelCreatorTxt() + "  (" + tr("level not saved!") + ")");
 		isNotSaved = true;
 	}
@@ -161,7 +159,7 @@ void TlevelCreatorDlg::saveToFile() {
     if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
       // adjust fret range - validation will skip it for non guitar levels
       newLevel.loFret = 0; // Set range to fret number and rest will be done by function preparing question list
-      newLevel.hiFret = gl->GfretsNumber;
+      newLevel.hiFret = Tcore::gl()->GfretsNumber;
       newLevel.onlyLowPos = true; // otherwise the above invokes doubled/tripled questions in the list
     // set all strings as available
       for (int str = 0; str < 6; str++)
@@ -173,20 +171,20 @@ void TlevelCreatorDlg::saveToFile() {
         return;
     }
     // set instrument to none when it is not important for the level
-		newLevel.instrument = newLevel.detectInstrument(gl->instrument);
+		newLevel.instrument = newLevel.detectInstrument(Tcore::gl()->instrument);
     TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
     QStringList nameList = saveDlg->getLevelName();
     newLevel.name = nameList[0];
     newLevel.desc = nameList[1];
   // Saving to file
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"),
-                                                    QDir::toNativeSeparators(gl->E->levelsDir + "/" + newLevel.name + ".nel"),
+                                                    QDir::toNativeSeparators(Tcore::gl()->E->levelsDir + "/" + newLevel.name + ".nel"),
                                               TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "")
         return;
     if (fileName.right(4) != ".nel")
       fileName += ".nel";
-    gl->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
+    Tcore::gl()->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
 		if (!Tlevel::saveToFile(newLevel, fileName)) {
 				QMessageBox::critical(this, " ", tr("Cannot open file for writing"));
 				return;
@@ -200,7 +198,7 @@ void TlevelCreatorDlg::saveToFile() {
 
 void TlevelCreatorDlg::levelSaved() {
     isNotSaved = false;
-    navList->item(0)->setIcon(QIcon(gl->path+"picts/levelsSettings.png"));
+    navList->item(0)->setIcon(QIcon(Tcore::gl()->path+"picts/levelsSettings.png"));
     setWindowTitle(levelCreatorTxt());
 }
 
@@ -226,22 +224,22 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
       int hiAvailStr, loAvailStr, cnt = -1;
       do {
           cnt ++;
-      } while (!l.usedStrings[gl->strOrder(cnt)] && cnt < gl->Gtune()->stringNr());
-      hiAvailStr = gl->strOrder(cnt);
-      cnt = gl->Gtune()->stringNr();
+      } while (!l.usedStrings[Tcore::gl()->strOrder(cnt)] && cnt < Tcore::gl()->Gtune()->stringNr());
+      hiAvailStr = Tcore::gl()->strOrder(cnt);
+      cnt = Tcore::gl()->Gtune()->stringNr();
       do {
           cnt--;
-      } while (!l.usedStrings[gl->strOrder(cnt)] && cnt >= 0);
-      loAvailStr = gl->strOrder(cnt);
-      if (l.loNote.chromatic() > gl->Gtune()->str(hiAvailStr + 1).chromatic() + l.hiFret ||
-          l.hiNote.chromatic() < gl->Gtune()->str(loAvailStr + 1).chromatic() + l.loFret)
-// 			if (l.loNote.chromatic() > gl->Gtune()->str(loAvailStr + 1).chromatic() + l.loFret ||
-//           l.hiNote.chromatic() < gl->Gtune()->str(hiAvailStr + 1).chromatic() + l.hiFret)
+      } while (!l.usedStrings[Tcore::gl()->strOrder(cnt)] && cnt >= 0);
+      loAvailStr = Tcore::gl()->strOrder(cnt);
+      if (l.loNote.chromatic() > Tcore::gl()->Gtune()->str(hiAvailStr + 1).chromatic() + l.hiFret ||
+          l.hiNote.chromatic() < Tcore::gl()->Gtune()->str(loAvailStr + 1).chromatic() + l.loFret)
+// 			if (l.loNote.chromatic() > Tcore::gl()->Gtune()->str(loAvailStr + 1).chromatic() + l.loFret ||
+//           l.hiNote.chromatic() < Tcore::gl()->Gtune()->str(hiAvailStr + 1).chromatic() + l.hiFret)
           res += tr("<li>Range of frets is beyond the scale of this level</li>");
     }
 	// Check is level range fit to instrument scale
 		if (l.canBeGuitar() || l.answerIsSound()) {
-			if (!l.inScaleOf(gl->loString().chromatic(), gl->hiString().chromatic() + gl->GfretsNumber))
+			if (!l.inScaleOf(Tcore::gl()->loString().chromatic(), Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber))
 				res += "<li>" + TlevelSelector::rangeBeyondScaleTxt() + "</li>";
 		}
   // checking are accidentals needed because of hi and low notes in range
@@ -278,10 +276,10 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 	// 'Fret to fret' has to have suitable fret range to be possible
 		if (l.questionAs.isFret() && l.answersAs[TQAtype::e_asFretPos].isFret()) {
 			int minRange = 0; // first determine a minimal range for current tune
-			int startStr = gl->Gtune()->str(gl->strOrder(0) + 1).chromatic();
-			for (int i = 1; i < gl->Gtune()->stringNr(); i++) {
-				minRange = qMax(minRange, startStr - gl->Gtune()->str(gl->strOrder(i) + 1).chromatic());
-				startStr = gl->Gtune()->str(gl->strOrder(i) + 1).chromatic();
+			int startStr = Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(0) + 1).chromatic();
+			for (int i = 1; i < Tcore::gl()->Gtune()->stringNr(); i++) {
+				minRange = qMax(minRange, startStr - Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(i) + 1).chromatic());
+				startStr = Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(i) + 1).chromatic();
 			}
 			if (l.hiFret - l.loFret < minRange)
 				res += tr("<li>Fret range is not enough to find any note in different positions. At least <b>%1</b> frets range is required.</li>").arg(minRange);
