@@ -22,13 +22,11 @@
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
-#include <tglobals.h>
 #include <tcolor.h>
+#include <tinitcorelib.h>
 #include <QApplication>
 
 
-
-extern Tglobals *gl;
 
 QString trStyle(QColor c) {
     c.setAlpha(30);
@@ -51,15 +49,15 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
         tipText += "<tr><td>" + 
         QApplication::translate("TanalysDialog", "Questions number") + QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->size());
     if (qaGroup->size() > (qaGroup->mistakes() + qaGroup->notBad())) {
-      tipText += "<tr " + trStyle(gl->EanswerColor) + "><td>";
+      tipText += "<tr " + trStyle(Tcore::gl()->EanswerColor) + "><td>";
       tipText += TexTrans::corrAnswersNrTxt() + QString(": </td><td> <b>%1</b></td></tr>")
         .arg(qaGroup->size() - qaGroup->mistakes() - qaGroup->notBad());
     }
     if (qaGroup->mistakes())
-      tipText += "<tr " + trStyle(gl->EquestionColor)  + "><td>" + TexTrans::mistakesNrTxt() +
+      tipText += "<tr " + trStyle(Tcore::gl()->EquestionColor)  + "><td>" + TexTrans::mistakesNrTxt() +
               QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->mistakes());
     if (qaGroup->notBad())
-      tipText += "<tr " + trStyle(gl->EnotBadColor) + "><td>" + TexTrans::halfMistakenTxt() +
+      tipText += "<tr " + trStyle(Tcore::gl()->EnotBadColor) + "><td>" + TexTrans::halfMistakenTxt() +
               QString(": </td><td> <b>%1</b></td></tr>").arg(qaGroup->notBad());
     tipText += "</table>";
     return tipText;

@@ -220,7 +220,6 @@ void MainWindow::setMessageBg(QColor bg) {
 
 void MainWindow::clearAfterExam(int examState) {
 	bar->actionsAfterExam();
-	delete ex;
 	m_curBG = -1;
 	m_prevBg = -1;
 	setMessageBg(-1);
@@ -234,6 +233,8 @@ void MainWindow::clearAfterExam(int examState) {
 	if (score->insertMode() != TmultiScore::e_single)
 		bar->setMelodyButtonVisible(true);
 	updateSize(innerWidget->size());
+  delete executor;
+  m_deleteExecutor = true;
 }
 
 /*
@@ -246,7 +247,7 @@ QPoint MainWindow::relatedPoint() {
 //##########################################################################################
 
 void MainWindow::openFile(QString runArg) {
-    if (ex || m_levelCreatorExist)
+    if (executor || m_levelCreatorExist)
         return;
     if (QFile::exists(runArg)) {
         QFile file(runArg);
@@ -260,7 +261,7 @@ void MainWindow::openFile(QString runArg) {
 				if (Texam::couldBeExam(hdr)) {
 					if (Texam::isExamVersion(hdr)) {
 						prepareToExam();
-						ex = new TexamExecutor(this, runArg);
+						executor = new TexamExecutor(this, runArg);
 					}
 				} else {
 					if (Tlevel::couldBeLevel(hdr)) {
@@ -276,12 +277,12 @@ void MainWindow::createSettingsDialog() {
 	if (score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
 	QString args;
-	if (ex) {
-		if (ex->isExercise())
+	if (executor) {
+		if (executor->isExercise())
 			args = "exercise";
 		else
 			args = "exam";
-		ex->prepareToSettings();
+		executor->prepareToSettings();
 	} else
 			sound->prepareToConf();
   TpluginsLoader loader;
@@ -290,8 +291,8 @@ void MainWindow::createSettingsDialog() {
   }
 
 		if (loader.lastWord().contains("Accepted")) {
-			if (ex) {
-				ex->settingsAccepted();
+			if (executor) {
+				executor->settingsAccepted();
 				return;
 			}
 			m_isPlayerFree = false;
@@ -367,7 +368,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
-    ex = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam			
+    executor = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam
   }
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		
@@ -378,7 +379,10 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 void MainWindow::startExamSlot() {
 	prepareToExam();
-	ex = new TexamExecutor(this);
+  m_deleteExecutor = false;
+	executor = new TexamExecutor(this);
+  if (m_deleteExecutor)
+    delete executor;
 }
 
 
@@ -445,12 +449,12 @@ void MainWindow::soundWasFinished(Tchunk& chunk) {
 
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
-		if (!ex)
+		if (!executor)
 				m_melButt->melodyAction()->setVisible(false);
 		innerWidget->addNoteName(score->noteName());
 		score->setInsertMode(TmultiScore::e_single);
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
-		if (!ex)
+		if (!executor)
 				m_melButt->melodyAction()->setVisible(true);
 		innerWidget->takeNoteName();
 		score->setInsertMode(TmultiScore::e_multi);
@@ -686,8 +690,8 @@ void MainWindow::resizeEvent(QResizeEvent * event) {
 
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-	if (ex) {
-		if (ex->closeNootka())
+	if (executor) {
+		if (executor->closeNootka())
 				event->accept();
 		else
 				event->ignore();

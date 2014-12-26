@@ -1,3 +1,9 @@
+
+    BUGS FIXES
+     - fixed a lot of small glitches
+    Under the hood
+     - external executable-s converted to plugins loaded on demand
+
 1.1.4 alpha
      - exam tips are storing their position when moved by user
      - some icons changed
