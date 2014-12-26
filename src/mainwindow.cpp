@@ -351,7 +351,6 @@ void MainWindow::openLevelCreator(QString levelFile) {
     loader.init(levelFile, this);
   }
   QString levelText = loader.lastWord();
-  qDebug() << "process said:" << levelText;
   gl->config->sync(); // it is necessary to save recent levels list
   bool startExercise = false;
   if (levelText.contains("exam:"))

@@ -21,8 +21,6 @@
 #include "tcolorbutton.h"
 #include "../tpluginsloader.h"
 #include <tinitcorelib.h>
-
-
 #include <QtWidgets>
 
 
@@ -30,63 +28,63 @@ TpluginsLoader *m_pluginLoader;
 TglobalSettings::TglobalSettings(QWidget *parent) :
         QWidget(parent)
 {
-    QVBoxLayout *lay = new QVBoxLayout();
-    lay->setAlignment(Qt::AlignCenter);
-    lay->addStretch(1);
-    lay->addStretch(1);
-		QHBoxLayout *langLay = new QHBoxLayout;
-		langLay->addStretch(1);
-		QLabel *langLab = new QLabel(tr("Application language"), this);
-		langLay->addWidget(langLab);
-		langLay->addStretch(1);
-		m_langCombo = new QComboBox(this);
-		langLay->addWidget(m_langCombo);
-		langLay->addStretch(1);
-		m_langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>"));
-		m_langList[""] = tr("default");
-		m_langList["cs"] = QString::fromUtf8("český");
-    m_langList["de"] = "deutsch";
-		m_langList["en"] = "english";
-		m_langList["fr"] = QString::fromUtf8("français");
-		m_langList["pl"] = "polski";
-		m_langList["ru"] = QString::fromUtf8("русский");
-		QMapIterator<QString, QString> i(m_langList);
-		int id = 0;
-		while (i.hasNext()) {
-			i.next();
-			m_langCombo->addItem(QIcon(Tcore::gl()->path + "picts/flags-" + i.key() + ".png"), i.value());
-			if (i.key() == Tcore::gl()->lang)
-				m_langCombo->setCurrentIndex(id);
-			id++;
-		}
-		m_langCombo->insertSeparator(1);
-		lay->addLayout(langLay);
-		lay->addStretch(1);
-		
-		QGroupBox *updateBox = new QGroupBox(this);
-		QVBoxLayout *upLay = new QVBoxLayout;
-		m_updateButton = new QPushButton(tr("Check for updates"), this);
-		upLay->addWidget(m_updateButton);
-		m_updateLabel = new QLabel(" ", this);
-		upLay->addWidget(m_updateLabel);
-		updateBox->setLayout(upLay);
-		lay->addWidget(updateBox);
-		lay->addStretch(1);
-    m_pluginLoader = new TpluginsLoader(this);
-    if (m_pluginLoader->load(TpluginsLoader::e_updater)) {
-			connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
-      connect(m_pluginLoader->node(), &TpluginObject::message, this, &TglobalSettings::processOutputSlot);
-    } else 
-			updateBox->hide();
-		
-		lay->addStretch(1);
-		m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
-		m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
-		lay->addWidget(m_restAllDefaultsBut, 0 , Qt::AlignCenter);
-		
-		setLayout(lay);
-		
-		connect(m_restAllDefaultsBut, SIGNAL(clicked(bool)), this, SLOT(restoreRequired()));
+  QVBoxLayout *lay = new QVBoxLayout();
+  lay->setAlignment(Qt::AlignCenter);
+  lay->addStretch(1);
+  lay->addStretch(1);
+  QHBoxLayout *langLay = new QHBoxLayout;
+  langLay->addStretch(1);
+  QLabel *langLab = new QLabel(tr("Application language"), this);
+  langLay->addWidget(langLab);
+  langLay->addStretch(1);
+  m_langCombo = new QComboBox(this);
+  langLay->addWidget(m_langCombo);
+  langLay->addStretch(1);
+  m_langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>"));
+  m_langList[""] = tr("default");
+  m_langList["cs"] = QString::fromUtf8("český");
+  m_langList["de"] = "deutsch";
+  m_langList["en"] = "english";
+  m_langList["fr"] = QString::fromUtf8("français");
+  m_langList["pl"] = "polski";
+  m_langList["ru"] = QString::fromUtf8("русский");
+  QMapIterator<QString, QString> i(m_langList);
+  int id = 0;
+  while (i.hasNext()) {
+    i.next();
+    m_langCombo->addItem(QIcon(Tcore::gl()->path + "picts/flags-" + i.key() + ".png"), i.value());
+    if (i.key() == Tcore::gl()->lang)
+      m_langCombo->setCurrentIndex(id);
+    id++;
+  }
+  m_langCombo->insertSeparator(1);
+  lay->addLayout(langLay);
+  lay->addStretch(1);
+  
+  QGroupBox *updateBox = new QGroupBox(this);
+  QVBoxLayout *upLay = new QVBoxLayout;
+  m_updateButton = new QPushButton(tr("Check for updates"), this);
+  upLay->addWidget(m_updateButton);
+  m_updateLabel = new QLabel(" ", this);
+  upLay->addWidget(m_updateLabel);
+  updateBox->setLayout(upLay);
+  lay->addWidget(updateBox);
+  lay->addStretch(1);
+  m_pluginLoader = new TpluginsLoader(this);
+  if (m_pluginLoader->load(TpluginsLoader::e_updater)) {
+    connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+    connect(m_pluginLoader->node(), &TpluginObject::message, this, &TglobalSettings::processOutputSlot);
+  } else 
+    updateBox->hide();
+  
+  lay->addStretch(1);
+  m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
+  m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
+  lay->addWidget(m_restAllDefaultsBut, 0 , Qt::AlignCenter);
+  
+  setLayout(lay);
+  
+  connect(m_restAllDefaultsBut, SIGNAL(clicked(bool)), this, SLOT(restoreRequired()));
 }
 
 

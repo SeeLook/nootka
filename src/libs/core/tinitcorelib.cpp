@@ -50,7 +50,7 @@ bool initCoreLibrary() {
 #if defined(Q_OS_LINUX)
   QDir dir(qApp->applicationDirPath());
   dir.cdUp();
-  qApp->addLibraryPath(dir.path() + "lib/nootka");
+  qApp->addLibraryPath(dir.path() + "/lib/nootka");
 #endif
   
 	return true;
