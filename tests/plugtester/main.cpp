@@ -21,7 +21,7 @@
 #include <QDir>
 #include <QPluginLoader>
 #include <QDebug>
-#include <qt/QtWidgets/QApplication>
+#include <QApplication>
 #include <tinitcorelib.h>
 #include <exam/texam.h>
 #include <exam/tlevel.h>

@@ -101,9 +101,7 @@ if(UNIX AND NOT APPLE)
       install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
 	install(FILES copyright DESTINATION share/doc/nootka)
-	install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
-	install(FILES packaging/nootka-updater.1.gz DESTINATION share/man/man1)
-    
+	install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)    
 endif(UNIX AND NOT APPLE)
 
 
