@@ -31,7 +31,7 @@ MAJOR:
 
 - TscoreSettings and TsettingsDialog has something in wizard - push it outside
 
-- Crash on terminating due to removed class when call is still in work
+- Crash on terminating due to removed class when callback is still in work
 
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
@@ -45,8 +45,6 @@ Scaling issues:
 - TpitchView could react on TaudioIN state to be automatically enabled/disabled
 
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
-
-- add update process to some lib
 
 MINOR:
 

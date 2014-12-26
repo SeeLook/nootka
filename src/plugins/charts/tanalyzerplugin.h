@@ -20,7 +20,7 @@
 #define TANALYZERPLUGIN_H
 
 
-#include "../tplugininterface.h"
+#include <plugins/tplugininterface.h>
 
 class TanalysDialog;
 

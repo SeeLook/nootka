@@ -21,7 +21,7 @@
 #include <QObject>
 #include <QtPlugin>
 #include <QStringList>
-#include "../tplugininterface.h"
+#include <plugins/tplugininterface.h>
 
 
 

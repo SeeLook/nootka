@@ -25,7 +25,7 @@
 #include <tinitcorelib.h>
 #include <exam/texam.h>
 #include <exam/tlevel.h>
-#include <../../plugins/tpluginsloader.h>
+#include <plugins/tpluginsloader.h>
 
 Tglobals *gl;
 

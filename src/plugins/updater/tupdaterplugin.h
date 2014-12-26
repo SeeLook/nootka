@@ -20,7 +20,7 @@
 #define TUPDATERPLUGIN_H
 
 #include <QObject>
-#include "../tplugininterface.h"
+#include <plugins/tplugininterface.h>
 
 class TupdateChecker;
 

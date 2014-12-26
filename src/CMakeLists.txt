@@ -11,13 +11,9 @@ find_package(Qt5Widgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
 if(UNIX AND NOT APPLE)
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
-        set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
-        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
-# else(UNIX AND NOT APPLE)
-# 	if (WIN32)
-# 				set(CMAKE_CXX_FLAGS "-O2 -march=pentium3m") # SoundTouch require it
-# 	endif(WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
+    set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
 endif(UNIX AND NOT APPLE)
 
 
@@ -31,9 +27,6 @@ include_directories( libs/core libs/sound libs/misc )
 set(NOOTKA_SRC
 	main.cpp
 	mainwindow.cpp
-	
-	plugins/tpluginsloader.cpp
-	plugins/tplugininterface.h
 	
 	gui/tmainview.cpp
 	gui/tmelman.cpp

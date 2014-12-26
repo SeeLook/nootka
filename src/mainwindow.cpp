@@ -39,7 +39,7 @@
 #include "gui/tmelman.h"
 #include "gui/tmainview.h"
 #include "gui/ttoolbar.h"
-#include "plugins/tpluginsloader.h"
+#include <plugins/tpluginsloader.h>
 #include <QtWidgets>
 
 
