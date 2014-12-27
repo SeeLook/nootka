@@ -27,6 +27,7 @@
 #include <exam/tlevel.h>
 #include <plugins/tpluginsloader.h>
 
+
 Tglobals *gl;
 
 int main(int argc, char *argv[])
@@ -88,9 +89,12 @@ int main(int argc, char *argv[])
     plugOk = loader->init(fileName, 0, exam);
   }
   
-  if (plugOk)
+  if (plugOk) {
+    if (plugType == TpluginsLoader::e_updater)
+      a.exec();
     qDebug() << "plugin said:" << loader->lastWord();
-  delete loader;
+  }
+//   delete loader;
   if (exam) delete exam;
   if (level) delete level;
   delete gl;

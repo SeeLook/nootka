@@ -21,10 +21,11 @@
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QApplication>
 #include <QDebug>
 
 TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
-  QObject(parent),
+  QObject(0),
   m_parentWidget(parentWidget),
   m_respectRules(false),
   m_reply(0),
@@ -32,7 +33,7 @@ TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
 {
   getUpdateRules(m_updateRules);
 
-  m_netManager = new QNetworkAccessManager(this);
+  m_netManager = new QNetworkAccessManager(qApp);
   connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
   connect(this, &TupdateChecker::communicate, this, &TupdateChecker::communicateSlot);
 }
@@ -41,7 +42,7 @@ TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
 void TupdateChecker::check(bool checkRules){
   m_respectRules = checkRules;
   if (!m_respectRules)
-    qDebug() << tr("Checking for updates. Please wait...");
+    emit communicate(tr("Checking for updates. Please wait..."));
   if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
 // 				QNetworkRequest request(QUrl("http://sonalika.com.pl/ch/version.php"));
