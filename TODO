@@ -59,9 +59,12 @@ Charts:
 
 - revert to native style under MacOs when Qt5
 
+- updater plugin crashes with nootest
+
 Tnote
 	- overload + and - operators to raise/drop a note
 	- make appropriate methods const
+
 
 ==== NEW FEATURES ================================================================
 - proxy corner widgets should be animated (if they remain live)
