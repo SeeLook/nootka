@@ -36,3 +36,10 @@ TupdaterPlugin::~TupdaterPlugin() {
 }
 
 
+void TupdaterPlugin::messageSlot(const QString& m) { 
+  m_lastWord = m;
+  if (m_sender)
+    m_sender->emitMessage(m); 
+}
+
+

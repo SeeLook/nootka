@@ -9,4 +9,4 @@ add_subdirectory( charts )
 
 add_subdirectory( settings )
 
-add_subdirectory( updater )
+# add_subdirectory( updater )
