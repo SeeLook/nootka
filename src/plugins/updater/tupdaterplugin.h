@@ -41,7 +41,7 @@ class TupdaterPlugin : public QObject, public TpluginInterface
   virtual QString& lastWord() { return m_lastWord; }
   
 protected:
-  void messageSlot(const QString& m) { m_sender->emitMessage(m); }
+  void messageSlot(const QString& m) { m_lastWord = m; m_sender->emitMessage(m); }
   
 private:
   TpluginObject         *m_sender;

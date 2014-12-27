@@ -20,44 +20,35 @@
 #include <QSettings>
 #include "updatefunctions.h"
 #include "tupdatesummary.h"
-#include <QDebug>
+#include <tinitcorelib.h>
+
 
 
 void getUpdateRules(TupdateRules& updateRules) {
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings settings;
-#endif
-    settings.beginGroup("Updates");
-      updateRules.enable = settings.value("enableUpdates", true).toBool();
-      updateRules.recentDate = settings.value("recentDate", QDate(2012, 12, 31)).toDate();
-      updateRules.period = EupdatePeriod(settings.value("period", 0).toInt());
-      updateRules.checkForAll = settings.value("checkForAll", true).toBool();
-    settings.endGroup();
-    settings.beginGroup("General");
-      updateRules.curentVersion = settings.value("version", "").toString();
-    settings.endGroup();
+
+  Tcore::gl()->config->beginGroup("Updates");
+    updateRules.enable = Tcore::gl()->config->value("enableUpdates", true).toBool();
+    updateRules.recentDate = Tcore::gl()->config->value("recentDate", QDate(2012, 12, 31)).toDate();
+    updateRules.period = EupdatePeriod(Tcore::gl()->config->value("period", 0).toInt());
+    updateRules.checkForAll = Tcore::gl()->config->value("checkForAll", true).toBool();
+  Tcore::gl()->config->endGroup();
+  Tcore::gl()->config->beginGroup("General");
+    updateRules.curentVersion = Tcore::gl()->config->value("version", "").toString();
+  Tcore::gl()->config->endGroup();
 }
 
 void saveUpdateRules(TupdateRules& updateRules) {
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
-#else
-    QSettings settings;
-#endif
-    settings.beginGroup("Updates");
-      settings.setValue("enableUpdates", updateRules.enable);
-      settings.setValue("recentDate", updateRules.recentDate);
-      settings.setValue("period", (int)updateRules.period);
-      settings.setValue("checkForAll", updateRules.checkForAll);
-    settings.endGroup();
+  Tcore::gl()->config->beginGroup("Updates");
+    Tcore::gl()->config->setValue("enableUpdates", updateRules.enable);
+    Tcore::gl()->config->setValue("recentDate", updateRules.recentDate);
+    Tcore::gl()->config->setValue("period", (int)updateRules.period);
+    Tcore::gl()->config->setValue("checkForAll", updateRules.checkForAll);
+  Tcore::gl()->config->endGroup();
 }
 
 
 bool isUpdateNecessary(TupdateRules& updateRules) {
   int passedDays = updateRules.recentDate.daysTo(QDate::currentDate());
-  qDebug() << passedDays;
   bool necessariness = false;
   if (passedDays) {
     switch(updateRules.period) {
@@ -75,6 +66,7 @@ bool isUpdateNecessary(TupdateRules& updateRules) {
   return necessariness;
 }
 
+
 bool isNewVersionStable(QString version) {
   bool nonStable = false;
   nonStable = version.contains("alpha");
@@ -83,10 +75,11 @@ bool isNewVersionStable(QString version) {
   return !nonStable;
 }
 
+
 void showUpdateSummary(QString version, QString changes, QWidget* parent, TupdateRules* rules) {
-    TupdateSummary *sumaryDlg = new TupdateSummary(version, changes, rules, parent);
-    sumaryDlg->exec();
-    delete sumaryDlg;
+  TupdateSummary *sumaryDlg = new TupdateSummary(version, changes, rules, parent);
+  sumaryDlg->exec();
+  delete sumaryDlg;
 }
 
 

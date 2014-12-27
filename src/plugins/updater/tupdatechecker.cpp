@@ -24,7 +24,7 @@
 #include <QDebug>
 
 TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
-  QObject(),
+  QObject(parent),
   m_parentWidget(parentWidget),
   m_respectRules(false),
   m_reply(0),
@@ -56,13 +56,14 @@ void TupdateChecker::check(bool checkRules){
         connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
   } else {
     emit communicate("No need for updates");
-//     exit(0);
   }
 }
 
 
 TupdateChecker::~TupdateChecker()
-{}
+{
+  qDebug() << "checker deleted";
+}
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
   if (!m_respectRules)
@@ -74,9 +75,7 @@ void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
   if (m_success) {
       QString replyString(netReply->readAll());
-      netReply->abort();
-      netReply->close();
-      netReply->deleteLater();
+      qDebug() << replyString;
       QStringList replyLines = replyString.split(";", QString::SkipEmptyParts);
       QString newVersion = replyLines.at(0);
       if (newVersion.contains("Nootka:"))
@@ -94,12 +93,12 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
           }
           m_updateRules.recentDate = QDate::currentDate();
           saveUpdateRules(m_updateRules);
-//           if (!m_respectRules)
-//             qDebug() << " ";
       }
   }
-//   emit communicate("checking finished");
-//   exit(0);
+  emit communicate("checking finished");
+  netReply->abort();
+  netReply->close();
+  netReply->deleteLater();
 }
 
 
