@@ -365,7 +365,8 @@ void AudioInSettings::updateAudioDevList() {
   m_inDeviceCombo->clear();
   m_inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
   if (m_inDeviceCombo->count()) {
-        int id = m_inDeviceCombo->findText(m_glParams->INdevName);
+//         int id = m_inDeviceCombo->findText(m_glParams->INdevName);
+        int id = m_inDeviceCombo->findText(TrtAudio::inputName());
         if (id != -1)
             m_inDeviceCombo->setCurrentIndex(id);
 				m_inDeviceCombo->setDisabled(false);

@@ -46,9 +46,13 @@ bool TpluginsLoader::load(TpluginsLoader::Etype pluginType) {
   m_type = pluginType;
   QStringList names;
   names << "Level" << "Settings" << "Analyzer" << "Updater" << "Wizard";
-  m_loader->setFileName("Nootka" + names[(int)pluginType] + "Plugin");
+  QString f = "Nootka" + names[(int)pluginType] + "Plugin";
+#if defined (Q_OS_WIN)
+  f.prepend("lib");
+#endif
+  m_loader->setFileName(f);
   if (!m_loader->load()) {
-    qDebug() << m_loader->fileName() << m_loader->errorString();
+    qDebug() << f << m_loader->fileName() << m_loader->errorString();
     return false;
   }
   return true;

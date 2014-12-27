@@ -41,7 +41,7 @@ QString TstartExamDlg::systemUserName() {
 
 QString statusTipText;
 TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidget* parent) :
-    QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint),
+    QDialog(parent),
     m_Acction(e_none),
     m_examParams(examParams),
     m_selectedExamFile("")

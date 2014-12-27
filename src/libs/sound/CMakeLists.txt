@@ -222,6 +222,7 @@ IF(WIN32)
 	add_definitions(-D__WINDOWS_WASAPI__)
   add_definitions(-D__WINDOWS_DS__)
   add_definitions(-D__WINDOWS_ASIO__)
+  add_definitions(-D__WINDOWS_MM__)
   set(WIN_LIBS winmm ole32 dsound uuid ksuser) # uuid & ksuser are required by WASAPI
 ENDIF(WIN32)
 

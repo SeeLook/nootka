@@ -29,6 +29,8 @@ MAJOR:
 
 - add <exercise> key to exam file!!!
 
+- Windows doesn't respect wheel over key signature
+
 - TscoreSettings and TsettingsDialog has something in wizard - push it outside
 
 - Crash on terminating due to removed class when callback is still in work

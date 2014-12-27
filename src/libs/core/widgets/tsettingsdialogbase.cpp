@@ -23,7 +23,7 @@
 
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
-        QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint)
+        QDialog(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;

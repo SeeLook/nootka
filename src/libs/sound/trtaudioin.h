@@ -110,6 +110,9 @@ public slots:
 protected:
   static TaudioIN* instance() { return m_instances[m_thisInstance] ; }
 	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
+  
+      /** is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
+  bool goingDelete() { return m_goingDelete; }
 
 private slots:
   void pitchInChunkSlot(float pitch);
@@ -124,11 +127,10 @@ private:
        * static inCallBack uses it to has access. */
   static        		QList<TaudioIN*> m_instances;
   static        		int m_thisInstance;
-	static 						bool m_goingDelete;
 	
   TpitchFinder  	 *m_pitch;
   float         		m_volume;
-  bool          		m_paused, m_stopped;
+  bool          		m_paused, m_stopped, m_goingDelete;
 	Tnote							m_loNote, m_hiNote; 		/** Boundary notes of the ambitus. */
 	TnoteStruct				m_lastNote;
 	float							m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
