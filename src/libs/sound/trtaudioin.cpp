@@ -49,7 +49,7 @@ QStringList TaudioIN::getAudioDevicesList() {
 
 
 bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-		if (m_goingDelete || instance()->isStoped())
+		if (instance()->goingDelete() || instance()->isStoped())
 				return true;
     if (status)
         qDebug() << "Stream over detected!";
@@ -64,7 +64,6 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
 
 QList<TaudioIN*> 			TaudioIN::m_instances = QList<TaudioIN*>();
 int 									TaudioIN::m_thisInstance = -1;
-bool 									TaudioIN::m_goingDelete = false;
 
 //------------------------------------------------------------------------------------
 //------------          constructor     ----------------------------------------------
@@ -74,7 +73,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     TrtAudio(params, e_input, inCallBack),
     m_pitch(0),
     m_volume(0.0),
-    m_paused(false), m_stopped(true),
+    m_paused(false), m_stopped(true), m_goingDelete(false),
     m_loPitch(15), m_hiPitch(140),
     m_noteWasStarted(false),
     m_currentRange(1)
@@ -100,6 +99,10 @@ TaudioIN::~TaudioIN()
 	m_pitch->deleteLater();
   m_instances.removeLast();
   m_thisInstance = m_instances.size() - 1;
+  if (m_instances.isEmpty()) {
+    deleteInParams();
+    resetCallBack();
+  }
 }
 
 //------------------------------------------------------------------------------------

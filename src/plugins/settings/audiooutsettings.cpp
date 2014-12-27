@@ -162,7 +162,8 @@ void AudioOutSettings::updateAudioDevList() {
 	m_audioOutDevListCombo->clear();
   m_audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
     if (m_audioOutDevListCombo->count()) {
-        int id = m_audioOutDevListCombo->findText(m_params->OUTdevName);
+//         int id = m_audioOutDevListCombo->findText(m_params->OUTdevName);
+        int id = m_audioOutDevListCombo->findText(TrtAudio::outputName());
         if (id != -1)
             m_audioOutDevListCombo->setCurrentIndex(id);
 				m_audioOutDevListCombo->setDisabled(false);

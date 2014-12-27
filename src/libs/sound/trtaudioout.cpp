@@ -131,6 +131,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
 
 TaudioOUT::~TaudioOUT() 
 {
+  deleteOutParams();
+  resetCallBack();
   delete oggScale;
 	if (m_crossBuffer)
 		delete m_crossBuffer;

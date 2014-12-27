@@ -65,6 +65,9 @@ public:
 #endif
     
     static void createRtAudio(); /** Creates RtAudio instance. Once for whole application */
+    
+    static QString& inputName() { return m_inDevName; }
+    static QString& outputName() { return m_outDevName; }
 		
 		void updateAudioParams();
 		TaudioParams* audioParams() { return m_audioParams; }
@@ -86,6 +89,9 @@ protected:
 		
 		void deleteOutParams() { delete m_outParams; m_outParams = 0; }
 		void deleteInParams() { delete m_inParams; m_inParams = 0; }
+
+				/** Sets pointer to appropriate callback method to 0. */
+		void resetCallBack() { if (m_type == e_input) m_cbIn = 0; else m_cbOut = 0; }
 		
         /** Examines available sample rates to check more appropriate. 
          * 44100 48000 88200 ... 192000. If not the latest from the list is taken. 

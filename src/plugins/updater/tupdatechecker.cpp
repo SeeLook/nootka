@@ -61,9 +61,7 @@ void TupdateChecker::check(bool checkRules){
 
 
 TupdateChecker::~TupdateChecker()
-{
-  qDebug() << "checker deleted";
-}
+{}
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
   if (!m_respectRules)
@@ -75,7 +73,6 @@ void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
   if (m_success) {
       QString replyString(netReply->readAll());
-      qDebug() << replyString;
       QStringList replyLines = replyString.split(";", QString::SkipEmptyParts);
       QString newVersion = replyLines.at(0);
       if (newVersion.contains("Nootka:"))
