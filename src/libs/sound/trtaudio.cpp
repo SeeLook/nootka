@@ -234,11 +234,13 @@ void TrtAudio::updateAudioParams() {
     for(int i = 0; i < devCount; i++) { // Is there device on the list ??
         if (getDeviceInfo(devInfo, i)) {
           if (devInfo.probed) {
-						if (m_inParams && QString::fromStdString(devInfo.name) == audioParams()->INdevName) {
+						if (m_inParams && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->INdevName) {
 							inDevId = i;
+              m_inDevName = QString::fromLocal8Bit(devInfo.name.data());
 						}
-						if (m_outParams && QString::fromStdString(devInfo.name) == audioParams()->OUTdevName) {
+						if (m_outParams && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->OUTdevName) {
 							outDevId = i;
+              m_outDevName = QString::fromLocal8Bit(devInfo.name.data());
 						}
           }
         }
@@ -323,18 +325,18 @@ bool TrtAudio::openStream() {
 // 				qDebug() << "openStream";
 				if (rtDevice()->isStreamOpen()) {
 					ao()->emitStreamOpened();
+          if (m_isAlsaDefault) {
+             if (m_inParams)
+               m_inDevName = "ALSA default";
+             if (m_outParams)
+               m_outDevName = "ALSA default";
+          } else {
+             if (m_inParams)
+               m_inDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_inParams->deviceId).name.data());
+             if (m_outParams)
+               m_outDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_outParams->deviceId).name.data());
+          }
 					if (!m_isOpened) { // print info once per new params set
-						if (m_isAlsaDefault) {
-							if (m_inParams)
-								m_inDevName = "ALSA default";
-							if (m_outParams)
-								m_outDevName = "ALSA default";
-						} else {
-							if (m_inParams)
-								m_inDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_inParams->deviceId).name.data());
-							if (m_outParams)
-								m_outDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_outParams->deviceId).name.data());
-						}
 						if (m_inParams)
 							qDebug() << currentRtAPI() << "IN:" << m_inDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
 						if (m_outParams)

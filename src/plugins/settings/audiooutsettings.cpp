@@ -162,8 +162,10 @@ void AudioOutSettings::updateAudioDevList() {
 	m_audioOutDevListCombo->clear();
   m_audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
     if (m_audioOutDevListCombo->count()) {
-//         int id = m_audioOutDevListCombo->findText(m_params->OUTdevName);
-        int id = m_audioOutDevListCombo->findText(TrtAudio::outputName());
+        QString currentDevName = TrtAudio::outputName();
+        if (currentDevName.isEmpty() || !m_audioOutEnableGr->isChecked()) 
+          currentDevName = m_params->OUTdevName;
+        int id = m_audioOutDevListCombo->findText(currentDevName);
         if (id != -1)
             m_audioOutDevListCombo->setCurrentIndex(id);
 				m_audioOutDevListCombo->setDisabled(false);
@@ -177,14 +179,16 @@ void AudioOutSettings::updateAudioDevList() {
 void AudioOutSettings::saveSettings() {
   if (m_listGenerated) { // save only when user opened a tab
     m_params->OUTenabled = m_audioOutEnableGr->isChecked();
-    m_params->OUTdevName = m_audioOutDevListCombo->currentText();
-    m_params->midiEnabled = m_midiRadioButt->isChecked();
-    m_params->midiInstrNr = instruments[m_midiInstrCombo->currentIndex()].progNr;
-    m_params->midiPortName = m_midiPortsCombo->currentText();
-		m_params->audioInstrNr = m_audioInstrCombo->currentIndex() + 1;
-		m_params->forwardInput = m_playInputChB->isChecked();
-		m_params->playDetected = m_playDetectedChB->isChecked();
-		m_params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
+    if (m_audioOutEnableGr->isChecked()) {
+      m_params->OUTdevName = m_audioOutDevListCombo->currentText();
+      m_params->midiEnabled = m_midiRadioButt->isChecked();
+      m_params->midiInstrNr = instruments[m_midiInstrCombo->currentIndex()].progNr;
+      m_params->midiPortName = m_midiPortsCombo->currentText();
+      m_params->audioInstrNr = m_audioInstrCombo->currentIndex() + 1;
+      m_params->forwardInput = m_playInputChB->isChecked();
+      m_params->playDetected = m_playDetectedChB->isChecked();
+      m_params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
+    }
   }
 }
 
