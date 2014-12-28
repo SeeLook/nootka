@@ -121,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		noteName = score->noteName();
     pitchView = new TpitchView(sound->sniffer/*, this*/);
     sound->setPitchView(pitchView);
+    pitchView->setVisible(gl->L->soundViewEnabled);
  // Hints - label with clues
     m_statLab = new TroundedLabel(/*innerWidget*/);
     m_statLab->setWordWrap(true);

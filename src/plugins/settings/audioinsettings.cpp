@@ -348,8 +348,10 @@ void AudioInSettings::restoreDefaults() {
 
 
 void AudioInSettings::saveSettings() {
-  if (m_listGenerated)
+  if (m_listGenerated && enableInBox->isChecked())
       grabParams(m_glParams);
+  else // do not save any knob state to global params if disabled
+    m_glParams->INenabled = false;
 }
 
 
@@ -365,8 +367,10 @@ void AudioInSettings::updateAudioDevList() {
   m_inDeviceCombo->clear();
   m_inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
   if (m_inDeviceCombo->count()) {
-//         int id = m_inDeviceCombo->findText(m_glParams->INdevName);
-        int id = m_inDeviceCombo->findText(TrtAudio::inputName());
+        QString currentDevName = TrtAudio::inputName();
+        if (currentDevName.isEmpty() || !enableInBox->isChecked())
+          currentDevName = m_glParams->INdevName;
+        int id = m_inDeviceCombo->findText(currentDevName);
         if (id != -1)
             m_inDeviceCombo->setCurrentIndex(id);
 				m_inDeviceCombo->setDisabled(false);
