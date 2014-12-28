@@ -69,12 +69,14 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 // score
 	m_scoreBox = new QGroupBox(this);
 	Tmelody *mel = new Tmelody();
+  mel->setClef(Tclef::e_treble_G_8down);
 	mel->addNote(Tchunk(Tnote(1, 0), Trhythm()));
 	mel->addNote(Tchunk(Tnote(2, 0), Trhythm()));
 	mel->addNote(Tchunk(Tnote(3, 0), Trhythm()));
 	mel->addNote(Tchunk(Tnote(4, 0), Trhythm()));
 	mel->addNote(Tchunk(Tnote(5, 0), Trhythm()));
 	QLabel *scoreLab = new QLabel(pixToHtml(getMelodyPixmap(mel)), this);
+  delete mel;
 	scoreLab->setAlignment(Qt::AlignCenter);
 	scoreLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 10px; background-color: palette(Base);");
 	QLabel *descLab = new QLabel("<br><big><big><b>" + tr("There is no Nootka without a score!") + "</b></big></big><br>" +

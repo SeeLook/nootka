@@ -27,7 +27,7 @@
 #include <tcolor.h>
 #include <graphics/tnotepixmap.h>
 #include <music/tnamestylefilter.h>
-#include <tfirstrunwizzard.h> // TODO
+#include <tmisctrans.h>
 #include <QtWidgets>
 
 
@@ -105,7 +105,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		  m_2_clefs->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>");
 		  clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
 		m_clefSelector->selectClef(Tcore::gl()->S->clef);
-	   m_2_clefs->setLayout(clefLay);
+    m_2_clefs->setLayout(clefLay);
 		 
 // 3. Miscellaneous score settings
 	m_3_misc = new QWidget();
@@ -264,10 +264,10 @@ void TscoreSettings::restoreDefaults() {
 		/** This method is called by TsettingsDialog witch manages all of setting.
 		 * IT HAS TO TAKE A CARE 
 		 * that seventh note is also restored to default (from translation). */
-		if (Tpage_3::keyNameStyle() == "solfege")
+		if (TmiscTrans::keyNameStyle() == "solfege")
 				m_nameStyleGr->setNameStyle(Tcore::gl()->getSolfegeStyle());
 		else
-			if (Tpage_3::note7txt().toLower() == "b")
+			if (TmiscTrans::note7txt().toLower() == "b")
 					m_nameStyleGr->setNameStyle(Tnote::e_nederl_Bis);
 			else
 					m_nameStyleGr->setNameStyle(Tnote::e_deutsch_His);

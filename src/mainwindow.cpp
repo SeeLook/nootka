@@ -136,6 +136,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
 
     guitar = new TfingerBoard();
+    guitar->setVisible(gl->L->guitarEnabled);
 		
 //-------------------------------------------------------------------		
 // Setting layout

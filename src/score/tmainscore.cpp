@@ -51,6 +51,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle),
+	m_settBar(0),
 	m_nameMenu(0),
   m_scoreIsPlayed(false),
   m_emitExpertNoteClicked(true)
@@ -836,7 +837,7 @@ void TmainScore::finishCorrection() {
 
 void TmainScore::resizeEvent(QResizeEvent* event) {
 	TmultiScore::resizeEvent(event);
-	if (width() < 300)
+	if (width() < 300 || height() < 200)
       return;
 	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size
@@ -964,6 +965,8 @@ void TmainScore::setBarsIconSize() {
 #else
 	QSize ss(mainWindow()->height() / 20, mainWindow()->height() / 20);
 #endif
+  if (!m_settBar) // creator can go here before actions were created
+    return;
 	m_settBar->setIconSize(ss);
 	m_clearBar->setIconSize(ss);
 	m_settBar->adjustSize();

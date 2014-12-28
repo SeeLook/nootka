@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
     plugType = TpluginsLoader::e_analyzer;
   else if (a.arguments()[1] == "Updater")
     plugType = TpluginsLoader::e_updater;
+  else if (a.arguments()[1] == "Wizard")
+    plugType = TpluginsLoader::e_wizard;
   else {
     qDebug() << "Unrecognized plugin type:" << a.arguments()[1];
     return 1;
