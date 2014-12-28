@@ -25,11 +25,7 @@ MAJOR:
 
 - certificates has to be adjusted to melodies
 
-- Hide hints is not respected after reboot
-
 - add <exercise> key to exam file!!!
-
-- Windows doesn't respect wheel over key signature
 
 - TscoreSettings and TsettingsDialog has something in wizard - push it outside
 
@@ -61,8 +57,6 @@ Charts:
 
 - revert to native style under MacOs when Qt5
 
-- updater plugin crashes with nootest
-
 Tnote
 	- overload + and - operators to raise/drop a note
 	- make appropriate methods const
@@ -71,7 +65,6 @@ Tnote
 ==== NEW FEATURES ================================================================
 - proxy corner widgets should be animated (if they remain live)
 - marge name settings with score settings
-- changing key signature with "wheel" emulation of touch-pad is clumsy - add some delay after every change
 - dialog to configure generated melody
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar

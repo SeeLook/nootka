@@ -126,6 +126,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_statLab->setWordWrap(true);
     m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
+		m_statLab->setVisible(gl->L->hintsBarEnabled);
 #if defined (Q_OS_ANDROID)
     m_statLab->hide();
 		nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);

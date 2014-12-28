@@ -27,17 +27,7 @@
 #include <music/tinstrument.h>
 #include <tcolor.h>
 #include <tnoofont.h>
-#include <QHBoxLayout>
-#include <QMouseEvent>
-#include <QApplication>
-#include <QStyle>
-#include <QLayout>
-#include <QScrollBar>
-#include <QGraphicsView>
-#include <QDesktopWidget>
-
-#include <QDebug>
-
+#include <QtWidgets>
 
 
 #define TAP_TIME (200) //  ms
@@ -51,13 +41,16 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   m_bgGlyph(0),
 	m_prevBGglyph(-1),
 	m_currentIt(0)
-{
-// 	viewport()->setObjectName("score");
-   
+{   
 #if defined (Q_OS_ANDROID)
 	setAcceptTouch(true);
 #else
   setMouseTracking(true);
+  m_wheelFree = true;
+  m_wheelLockTimer = new QTimer(this);
+  m_wheelLockTimer->setInterval(250);
+  m_wheelLockTimer->setSingleShot(true);
+  connect(m_wheelLockTimer, &QTimer::timeout, this, &TsimpleScore::wheelLockSlot);
 #endif
   setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -349,30 +342,6 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 }
 
 
-void TsimpleScore::wheelEvent(QWheelEvent* event) {
-	bool propagate = true;
-  if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
-		if (m_scene->isCursorVisible()) {
-			if (event->angleDelta().y() < -1)
-				m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
-			else if (event->angleDelta().y() > 1)
-				m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
-		}
-		propagate = false;
-	} else {
-			if (m_scene->keyHasMouse()) {
-				if (event->angleDelta().y() < -5 && keySignature().value() > -7)
-					setKeySignature(keySignature().value() - 1);
-				else if (event->angleDelta().y() > 5 && keySignature().value() < 7)
-					setKeySignature(keySignature().value() + 1);
-				propagate = false;
-			}
-	}
-	if (propagate)
-		QAbstractScrollArea::wheelEvent(event);
-}
-
-
 #if defined (Q_OS_ANDROID)
 bool TsimpleScore::viewportEvent(QEvent* event) {
 	if (m_touchEnabled) {
@@ -454,6 +423,48 @@ void TsimpleScore::timerEvent(QTimerEvent* timeEvent) {
 		}
 	}
 }
+
+#else
+
+void TsimpleScore::wheelEvent(QWheelEvent* event) {
+  bool propagate = true;
+  if (m_wheelFree) {
+    if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
+      if (m_scene->isCursorVisible()) {
+        if (event->angleDelta().y() < -1)
+          m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
+        else if (event->angleDelta().y() > 1)
+          m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
+      }
+      propagate = false;
+      m_wheelFree = false;
+    } else {
+        if (staff()->scoreKey()) {
+          QPointF pp = mapToScene(event->pos());
+          if (pp.x() > staff()->scoreKey()->pos().x() && 
+              pp.x() < staff()->scoreKey()->pos().x() + staff()->scoreKey()->boundingRect().width() - 2.0) {
+                  if (event->angleDelta().y() < 0 && keySignature().value() > -7)
+                    setKeySignature(keySignature().value() - 1);
+                  else if (event->angleDelta().y() > 0 && keySignature().value() < 7)
+                    setKeySignature(keySignature().value() + 1);
+                  propagate = false;
+                  m_wheelFree = false;
+          }
+        }
+    }
+  }
+  if (propagate)
+    QAbstractScrollArea::wheelEvent(event);
+  else
+    m_wheelLockTimer->start();
+}
+
+
+void TsimpleScore::wheelLockSlot() {
+  m_wheelFree = true;
+}
+
+
 #endif
 
 //##########################################################################################################
