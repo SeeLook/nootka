@@ -20,8 +20,9 @@
 #ifndef TFIRSTRUNWIZZARD_H
 #define TFIRSTRUNWIZZARD_H
 
-#include "nootkamiscglobal.h"
-#include <QDialog>
+
+
+#include <QWizard>
 
 class QVBoxLayout;
 class TsimpleScore;
@@ -38,30 +39,25 @@ class TmainHelp;
 class Select7note;
 class TselectInstrument;
 
-class NOOTKAMISC_EXPORT TfirstRunWizzard : public QDialog
+
+class TfirstRunWizard : public QWizard
 {
     Q_OBJECT
 public:
-    explicit TfirstRunWizzard(QWidget *parent = 0);
-    static QString nextText() { return tr("next"); }
+  explicit TfirstRunWizard(QWidget *parent = 0);
+  static QString nextText() { return tr("next"); }
 
-signals:
 
-public slots:
+protected:
+  void pageChanged(int pageNr);
+  void whenInstrumentChanged(int instr);
+  virtual void done(int result);
 
 private:
-    QPushButton		 		*m_skipButt, *m_nextButt, *m_prevButt;
-    QStackedLayout 		*m_pagesLay;
-    Tpage_3 					*m_page3;
-    TmainHelp 				*m_page4;
-		Tpage_2 					*m_notationWidget;
-		TselectInstrument *m_selectInstr;
-
-private slots:
-    void nextSlot();
-    void prevSlot();
-		void whenInstrumentChanged(int instr);
-
+  Tpage_3 					*m_page3;
+  TmainHelp 				*m_page4;
+  Tpage_2 					*m_notationWidget;
+  TselectInstrument *m_selectInstr;
 
 };
 
@@ -70,7 +66,7 @@ private slots:
 
 /** page 2 is a QTextEdit with info about notation 
  * or score widget to select clef and instrument scale. */
-class NOOTKAMISC_EXPORT Tpage_2 : public QWidget
+class Tpage_2 : public QWizardPage
 {
 	Q_OBJECT
 	
@@ -97,15 +93,11 @@ private:
 };
 
 
-class NOOTKAMISC_EXPORT Tpage_3 : public QWidget
+class Tpage_3 : public QWizardPage
 {
     Q_OBJECT
 public:
     explicit Tpage_3(QWidget *parent = 0);
-    
-    static QString note7txt() { return tr("b", "Give here a name of 7-th note preferred in your country. But only 'b' or 'h' not 'si' or something worst..."); } // returns b or h depends on translation
-				/** default style grab from translation 'letters' or 'solfege' */
-    static QString keyNameStyle() { return tr("letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country prefered style of nameing key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by you), 'solfege' means Do-major/La-minor names"); }
 
     Select7note *select7;
     QCheckBox *dblAccChB, *enharmChB, *useKeyChB;

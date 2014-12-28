@@ -31,7 +31,7 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_menu = new QMenu(score);
 	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
-	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Alt+Space"),
+	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
 							 QIcon(Tpath::img("record")));
 	createAction(tr("Create"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	m_menu->addSeparator();

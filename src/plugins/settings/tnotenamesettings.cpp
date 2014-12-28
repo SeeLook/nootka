@@ -24,7 +24,7 @@
 #include <tscoreparams.h>
 #include <tcolor.h>
 #include <select7note.h>
-#include <tfirstrunwizzard.h> // TODO
+#include <tmisctrans.h>
 #include <QtWidgets>
 
 
@@ -89,7 +89,7 @@ void TnoteNameSettings::saveSettings() {
 
 void TnoteNameSettings::restoreDefaults() {
 		m_nameStyleGr->setNameStyle(Tcore::gl()->getSolfegeStyle());
-		if (Tpage_3::note7txt().toLower() == "b") {
+		if (TmiscTrans::note7txt().toLower() == "b") {
 			m_select7->set7th_B(true);
 			m_nameStyleGr->setNameStyle(Tnote::e_nederl_Bis);
 		}	else {

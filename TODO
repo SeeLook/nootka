@@ -27,10 +27,6 @@ MAJOR:
 
 - add <exercise> key to exam file!!!
 
-- TscoreSettings and TsettingsDialog has something in wizard - push it outside
-
-- Crash on terminating due to removed class when callback is still in work
-
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 
@@ -90,6 +86,7 @@ TEXAMEXECUTOR
 ========== TRANSLATIONS =======================================
 ===============================================================
  - TtoolBar has many entries translated already - just confirm them
+ - Tpage_3 context was moved and description fixed but source text remained the same - just confirm
  
  
 ===============================================================     

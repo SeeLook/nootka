@@ -32,7 +32,7 @@
 #include <tscoreparams.h>
 #include <tpath.h>
 #include <tlayoutparams.h>
-#include <tfirstrunwizzard.h> // TODO
+#include <tmisctrans.h>
 #include <QtWidgets>
 
 
@@ -131,14 +131,14 @@ void TsettingsDialog::saveSettings() {
   if (m_sndInSett)
 				m_sndInSett->saveSettings();
 	if (m_7thNoteToDefaults) {
-		if ((Tpage_3::note7txt().toLower() == "b") != (Tcore::gl()->S->seventhIs_B)) {
+		if ((TmiscTrans::note7txt().toLower() == "b") != (Tcore::gl()->S->seventhIs_B)) {
 			/** NOTE As long as TscoreSettings is created at first and always exist 
 			 * only adjustment of global note names is required. 
 			 * How: When user opens Name settings and changes 7-th note TscoreSettings changes automatically 
 			 * This condition is called in opposite situation: 
 			 * TscoreSettings wants defaults and already has been adjusted. 
 			 * Theoretically - if TscoreSettings would not exist it is more difficult to restore its defaults here. */
-			if (Tpage_3::note7txt().toLower() == "b")
+			if (TmiscTrans::note7txt().toLower() == "b")
 					Tcore::gl()->S->seventhIs_B = true;
 			else
 					Tcore::gl()->S->seventhIs_B = false;
