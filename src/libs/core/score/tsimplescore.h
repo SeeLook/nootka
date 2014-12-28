@@ -27,6 +27,7 @@
 #include <QGraphicsView>
 #include <QTime>
 
+class QTimer;
 class TscoreItem;
 
 class QGraphicsSimpleTextItem;
@@ -113,8 +114,13 @@ protected:
 #if defined (Q_OS_ANDROID)
 		virtual bool viewportEvent(QEvent* event);
 		virtual void timerEvent(QTimerEvent* timeEvent);
-#endif
+#else
 		virtual void wheelEvent(QWheelEvent* event);
+    
+        /** To make usage of touch pads wheel emulation which changes key/accidentals to fast by default,
+         * a @p m_wheelFree locks a wheel event for e while to avoid switching keys to fast. */
+    void wheelLockSlot();
+#endif
 		
 		TscoreStaff* staff() { return m_staff; } /** Pointer to TscoreStaff. Better keep it protected */
     
@@ -123,7 +129,7 @@ protected:
     void setSizeHint(const QSize& s) { if (s != m_sizeHint) { m_sizeHint = s; updateGeometry(); } }
     virtual QSize minimumSizeHint() const;
 		
-#if defined (Q_OS_ANDROID)		
+#if defined (Q_OS_ANDROID)
 				/** Checks is item @it of type @p TscoreItem::ScoreItemType.
 				* If not, checks it parent item and parent of parent.
 				* Returns pointer to @p TscoreItem or 0 if not found. */
@@ -156,6 +162,10 @@ private:
 		QTime												 m_tapTime;
 		int 												 m_timerIdMain;
 		QPointF											 m_initPos; /** In scene coordinates. */
+#if !defined (Q_OS_ANDROID)
+    bool                         m_wheelFree;
+    QTimer                      *m_wheelLockTimer;
+#endif
 };
 
 #endif // TSIMPLESCORE_H
