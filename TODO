@@ -25,8 +25,6 @@ MAJOR:
 
 - certificates has to be adjusted to melodies
 
-- add <exercise> key to exam file!!!
-
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 

@@ -333,9 +333,10 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 					m_penaltysNr = xml.readElementText().toInt();
 				else if (xml.name() == "finished")
 					m_isFinished = QVariant(xml.readElementText()).toBool();
-        else if (xml.name() == "exercise")
+        else if (xml.name() == "exercise") {
           m_isExercise = true;
-				else
+					xml.skipCurrentElement();
+				} else
 					Tlevel::skipCurrentXmlKey(xml);
 			}
 		} else if (xml.name() == "answers") {
@@ -383,12 +384,14 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 		out << currentVersion;
 		QByteArray arrayXML;
 		QXmlStreamWriter xml(&arrayXML);
+// 		xml.setAutoFormatting(true);
 		xml.writeStartDocument();
 		xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
 		writeToXml(xml);
 		xml.writeEndDocument();
 		
 		out << qCompress(arrayXML);
+// 		out << arrayXML;
 		
 		file.close();
 	} else {
@@ -414,8 +417,8 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 			xml.writeTextElement("halfMistNr", QVariant(m_halfMistNr).toString());
 			xml.writeTextElement("penaltysNr", QVariant(m_penaltysNr).toString());
 			xml.writeTextElement("finished", QVariant(m_isFinished).toString());
-//       if (isExercise())
-//         xml.writeEmptyElement("exercise");
+      if (isExercise())
+        xml.writeEmptyElement("exercise");
 		xml.writeEndElement(); // head
 		xml.writeStartElement("answers");
 		for (int i = 0; i < count(); ++i)
