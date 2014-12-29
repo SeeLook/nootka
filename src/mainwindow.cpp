@@ -337,11 +337,12 @@ void MainWindow::createSettingsDialog() {
 			pitchView->setVisible(gl->L->soundViewEnabled); // TODO - stop receiving audio signals
 			guitar->setVisible(gl->L->guitarEnabled); // TODO - delete guitar
 			m_isPlayerFree = true;
-	} else { // settings not accepted
+	} else if (lastWord.contains("Reset")) {
+      resetConfig = true;
+      close();
+  } else { // settings not accepted
 			sound->restoreAfterConf();
 	}
-	if (resetConfig)
-			close();
 }
 
 
