@@ -36,8 +36,6 @@
 #include <QtWidgets>
 
 
-extern bool resetConfig;
-
 
 TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	TsettingsDialogBase(parent),
@@ -47,7 +45,8 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	m_sndInSett(0), m_audioSettingsPage(0),
 	m_laySett(0),
 	m_7thNoteToDefaults(false),
-	m_mode(mode)
+	m_mode(mode),
+	m_resetToDefaults(false)
 {
 	if (m_mode == e_settings)
     setWindowTitle("Nootka - " + tr("application's settings"));
@@ -146,7 +145,6 @@ void TsettingsDialog::saveSettings() {
 	}
 	if (m_laySett)
 			m_laySett->saveSettings();
-	Tcore::gl()->dumpToTemp();
 }
 
 
@@ -175,8 +173,8 @@ void TsettingsDialog::restoreDefaults() {
 
 
 void TsettingsDialog::allDefaultsRequired() {
-// 		resetConfig = true;
-		close();
+  m_resetToDefaults = true;
+  close();
 }
 
 

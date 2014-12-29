@@ -104,9 +104,8 @@ void TglobalSettings::restoreDefaults() {
 
 
 void TglobalSettings::restoreRequired() {
-	QMessageBox::warning(this, "", QString("Work in progress... No wizard yet<br>To reset settings, close Nootka and manually remove this file:<br>%1").arg(Tcore::gl()->config->fileName()), QMessageBox::Ok, QMessageBox::Abort);
-// 	if (QMessageBox::warning(this, "", warringResetConfigTxt(), QMessageBox::Ok, QMessageBox::Abort) == QMessageBox::Ok )
-// 			emit restoreAllDefaults(); TODO
+	if (QMessageBox::warning(this, "", warringResetConfigTxt(), QMessageBox::Ok, QMessageBox::Abort) == QMessageBox::Ok )
+			emit restoreAllDefaults();
 }
 
 

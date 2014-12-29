@@ -32,6 +32,8 @@ void TsettingsPlugin::init(const QString& argument, TpluginObject* ob, QWidget* 
     m_lastWord = "Accepted";
   else
     m_lastWord = "Canceled";
+  if (m_settings->resetToDefaults())
+    m_lastWord = "Reset";
   ob->emitMessage(m_lastWord);
 }
 

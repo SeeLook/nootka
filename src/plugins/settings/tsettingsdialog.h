@@ -1,21 +1,4 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
- *   tomaszbojczuk@gmail.com                                               *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
- ***************************************************************************/
-/***************************************************************************
  *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
@@ -62,7 +45,10 @@ class TsettingsDialog : public TsettingsDialogBase
 public:		
 	
     explicit TsettingsDialog(QWidget *parent = 0, EsettingsMode mode = e_settings);
-		
+
+        /** Usually @p FALSE, goes @p TRUE after user wants reset. */
+    bool resetToDefaults() { return m_resetToDefaults; }
+    
 
 public slots:
     void saveSettings();
@@ -81,6 +67,7 @@ private:
     QWidget             *m_audioSettingsPage;
 		bool								 m_7thNoteToDefaults;
 		EsettingsMode				 m_mode;
+    bool                 m_resetToDefaults; /** Usually @p FALSE, goes @p TRUE after user wants reset. */
     
 private slots:
     void changeSettingsWidget(int index);
