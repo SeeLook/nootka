@@ -8,7 +8,7 @@ project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
 SET(Nootka_VERSION_MINOR  "1")
-SET(Nootka_VERSION_PATCH  "4-alpha")
+SET(Nootka_VERSION_PATCH  "5-alpha")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -21,8 +21,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src) 
 
 
-configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in
-                ${CMAKE_BINARY_DIR}/nootkaconfig.h)
+configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
 
 add_subdirectory(src)
 

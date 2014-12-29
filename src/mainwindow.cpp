@@ -20,7 +20,6 @@
 #include "score/tmainscore.h"
 #include "guitar/tfingerboard.h"
 #include "notename/tnotename.h"
-#include "exam/tstartexamdlg.h" // just temporary
 #include "exam/tprogresswidget.h"
 #include "exam/texamview.h"
 #include "exam/texamexecutor.h"
@@ -93,9 +92,6 @@ MainWindow::MainWindow(QWidget *parent) :
         loader->init("", this);
       }
       delete loader;
-//       TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
-//       firstWizz->exec();
-//       delete firstWizz;
       gl->isFirstRun = false;
   } else { // show support window once but not with first run wizard
       QString newVersion = gl->config->value("version", "").toString();
