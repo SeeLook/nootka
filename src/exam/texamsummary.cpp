@@ -35,10 +35,8 @@ QString row2(QString S1, QString S2) {
 }
 
 
-bool showExamSummary(Texam* exam, bool cont, bool isExercise, bool* startExam) {
+bool showExamSummary(Texam* exam, bool cont, bool* startExam) {
 	TexamSummary *ES = new TexamSummary(exam, cont, qApp->activeWindow());
-	if (isExercise)
-			ES->setForExercise();
   TexamSummary::Eactions respond = ES->doExec();
 	if (startExam) {
 		if (respond == TexamSummary::e_startExam)
@@ -176,6 +174,9 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   
   connect(analyseButt, SIGNAL(clicked()), this, SLOT(analyseSlot()));
   connect(m_okButt, SIGNAL(clicked()), this, SLOT(continueSlot()));
+  
+  if (m_exam->isExercise())
+    setForExercise();
 }
 
 

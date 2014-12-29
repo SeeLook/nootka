@@ -495,43 +495,50 @@ void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattemp
 
 
 TkeySignature TexecutorSupply::getKey(Tnote& note) {
-	Tnote tmpNote = note;
-	TkeySignature key; // C-major by default
-	if (m_level->isSingleKey) { //for single key
-		key = m_level->loKey;
-			if (m_level->onlyCurrKey) {
-					tmpNote = m_level->loKey.inKey(note);
-					if (!tmpNote.isValid())
-						qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
-									"It should never happened!";
-			}
-	} else { // for many key signatures
-			if (m_randKey)
-				key = TkeySignature(m_randKey->get());
-			else 
-				qDebug() << "NO m_randKey WAS CREATED! DO YOU LIKE CRASHES SO MUCH?"; // TODO clear it when OK
-			if (m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
-					int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
-					int patience = 0; // we are looking for suitable key
-					char keyOff = key.value() - m_level->loKey.value();
-					tmpNote = key.inKey(note);
-					while(tmpNote.note == 0 && patience <= keyRangeWidth) {
-							keyOff++;
-							if (keyOff > keyRangeWidth) 
-								keyOff = 0;
-							key = TkeySignature(m_level->loKey.value() + keyOff);
-							patience++;
-							tmpNote = key.inKey(note);
-							if (patience > keyRangeWidth) {
-									qDebug() << "Oops! It should never happened. Can not find key signature for" << note.toText();
-									break;
-							}
-					}
-			}
-	}
-	note = tmpNote;
-	return key;
+  Tnote tmpNote = note;
+  TkeySignature key; // C-major by default
+  if (m_level->isSingleKey) { //for single key
+    key = m_level->loKey;
+      if (m_level->onlyCurrKey) {
+          tmpNote = m_level->loKey.inKey(note);
+          if (!tmpNote.isValid())
+            qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
+                  "It should never happened!";
+      }
+  } else { // for many key signatures
+      if (m_randKey)
+        key = TkeySignature(m_randKey->get());
+      else 
+        qDebug() << "NO m_randKey WAS CREATED! DO YOU LIKE CRASHES SO MUCH?"; // TODO clear it when OK
+      if (m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
+          int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
+          int patience = 0; // we are looking for suitable key
+          char keyOff = key.value() - m_level->loKey.value();
+          tmpNote = key.inKey(note);
+          while(tmpNote.note == 0 && patience <= keyRangeWidth) {
+              keyOff++;
+              if (keyOff > keyRangeWidth) 
+                keyOff = 0;
+              key = TkeySignature(m_level->loKey.value() + keyOff);
+              patience++;
+              tmpNote = key.inKey(note);
+              if (patience > keyRangeWidth) {
+                  qDebug() << "Oops! It should never happened. Can not find key signature for" << note.toText();
+                  break;
+              }
+          }
+      }
+  }
+  note = tmpNote;
+return key;
 }
+
+
+void TexecutorSupply::resetKeyRandom() {
+  if (m_randKey)
+    m_randKey->reset();
+}
+
 
 
 //##########################################################################################
