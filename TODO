@@ -28,7 +28,6 @@ Tcanvas
 
 Scaling issues:
 - auto hidden tool bar remains big after decreased window size
-- piano brace size/position
 
 - There is unused class TnotePixmap only with default clef - use it or delete
 - vertical name layout is probably unused - clear it then
