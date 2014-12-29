@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tglobals.h"
+#include "nootkaconfig.h"
 #include <music/tkeysignature.h>
 #include <music/ttune.h>
 #include <taudioparams.h>
@@ -65,7 +66,7 @@ bool m_fromTemp;
 Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
-	version = "1.1.5 alpha";
+	version = NOOTKA_VERSION;
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");

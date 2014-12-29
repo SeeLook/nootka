@@ -96,7 +96,7 @@ endif(UNIX AND NOT APPLE)
 
 add_subdirectory( plugins )
 
-add_subdirectory( updater )
+# add_subdirectory( updater )
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
 # message(STATUS "${CMAKE_CURRENT_SOURCE_DIR} : ${DirDefs}" )
