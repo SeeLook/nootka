@@ -649,25 +649,23 @@ void TscoreStaff::createBrace() {
 #if defined (Q_OS_MAC)
     ff.setPointSizeF(27.5);
 #else
-  ff.setPointSizeF(26.5);
+  ff.setPointSizeF(23.3);
 #endif
   QFontMetrics fm(ff);
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
   m_brace->setFont(ff);
 	m_brace->setText(QString(QChar(0xe16c)));
 #if defined (Q_OS_MAC)
-    qreal distance = lowerLinePos() + 8.3 - upperLinePos();
-    qreal fact = (distance + 1.3) / brace->boundingRect().height();
+  qreal distance = lowerLinePos() + 8.3 - upperLinePos();
+  qreal fact = (distance + 1.3) / brace->boundingRect().height();
 #elif defined (Q_OS_WIN)
-    qreal distance = lowerLinePos() + 7 - upperLinePos();
-    qreal fact = (distance + 1.8) / m_brace->boundingRect().height();
-#else
-	qreal distance = lowerLinePos() + 8 - upperLinePos();
-	qreal fact = (distance + 0.2) / m_brace->boundingRect().height();
+  qreal distance = lowerLinePos() + 7 - upperLinePos();
+  qreal fact = (distance + 1.8) / m_brace->boundingRect().height();
 #endif
-	m_brace->setScale(fact);
+// 	m_brace->setScale(fact);
 	m_brace->setBrush(qApp->palette().text().color());
-	m_brace->setPos(-1.8, upperLinePos() + distance / 2 - (m_brace->boundingRect().height() * m_brace->scale()) / 2 + 0.4);
+// 	m_brace->setPos(-1.8, upperLinePos() + distance / 2 - (m_brace->boundingRect().height() * m_brace->scale()) / 2 + 0.4);
+  m_brace->setPos(-1.9, upperLinePos() + (22.18 - m_brace->boundingRect().height()) / 2.0);
 }
 
 
