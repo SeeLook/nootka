@@ -19,12 +19,11 @@
 
 #include "tglobalsettings.h"
 #include "tcolorbutton.h"
-#include <plugins/tpluginsloader.h>
 #include <tinitcorelib.h>
+#include <tupdateprocess.h>
 #include <QtWidgets>
 
 
-TpluginsLoader *m_pluginLoader;
 TglobalSettings::TglobalSettings(QWidget *parent) :
         QWidget(parent)
 {
@@ -70,12 +69,11 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   updateBox->setLayout(upLay);
   lay->addWidget(updateBox);
   lay->addStretch(1);
-  m_pluginLoader = new TpluginsLoader(this);
-  if (m_pluginLoader->load(TpluginsLoader::e_updater)) {
-    connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
-    connect(m_pluginLoader->node(), &TpluginObject::message, this, &TglobalSettings::processOutputSlot);
-  } else 
-    updateBox->hide();
+  
+  if (TupdateProcess::isPossible())
+      connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+    else 
+      updateBox->hide();
   
   lay->addStretch(1);
   m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
@@ -113,8 +111,12 @@ void TglobalSettings::restoreRequired() {
 
 
 void TglobalSettings::updateSlot() {
-  m_pluginLoader->init("", this);
-  m_updateButton->setDisabled(true);
+  TupdateProcess *process = new TupdateProcess(false, this);
+  if (process->isPossible()) {
+    m_updateButton->setDisabled(true);
+    connect(process, SIGNAL(updateOutput(QString)), this, SLOT(processOutputSlot(QString)));
+    process->start();
+  }
 }
 
 
