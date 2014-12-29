@@ -116,6 +116,7 @@ public:
 			 * Lo level key when single key level but also it can random it for multiple keys levels.
 			 * In those cases given note may be adjusted (changed) to randomized key (accidental may be converted) */
 	TkeySignature getKey(Tnote& note);
+  void resetKeyRandom(); /** Resets key signature random. Used when an exercise goes into an exam.  */
   
 signals:
   void rightButtonClicked();

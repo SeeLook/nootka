@@ -129,7 +129,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 					QMessageBox::warning(mW, " ", 
 						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
 				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
-						!showExamSummary(m_exam, true, (bool)m_exercise)) {
+						!showExamSummary(m_exam, true)) {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
@@ -1128,6 +1128,7 @@ void TexamExecutor::exerciseToExam() {
 	setTitleAndTexts();
 	levelStatusMessage();
 	m_supp->setFinished(false); // exercise had it set to true
+  m_supp->resetKeyRandom(); // new set of randomized key signatures when exam requires them
 	initializeExecuting();
 	disconnect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
 	connect(mW->bar->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
@@ -1156,10 +1157,10 @@ void TexamExecutor::stopExerciseSlot() {
 		gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
 			
 		bool startExam = false;
-		if (m_exam->count())
-			m_exam->saveToFile();
+// 		if (m_exam->count())
+// 			m_exam->saveToFile();
 		if (!m_goingClosed)
-				continuePractice = showExamSummary(m_exam, true, (bool)m_exercise, &startExam);
+				continuePractice = showExamSummary(m_exam, true, &startExam);
 		gl->S->nameStyleInNoteName = tmpStyle;
 		if (startExam) {
 				exerciseToExam();
@@ -1188,49 +1189,49 @@ void TexamExecutor::stopExerciseSlot() {
 
 
 void TexamExecutor::stopExamSlot() {
-    if (!m_isAnswered && !gl->E->closeWithoutConfirm) {
-        m_shouldBeTerminated = true;
-        QColor c = gl->GfingerColor;
-        c.setAlpha(30);
-        mW->setMessageBg(c);
-        mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), 2000);
-        return;
+  if (!m_isAnswered && !gl->E->closeWithoutConfirm) {
+      m_shouldBeTerminated = true;
+      QColor c = gl->GfingerColor;
+      c.setAlpha(30);
+      mW->setMessageBg(c);
+      mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), 2000);
+      return;
+  }
+  m_penalty->stopTimeView();
+  stopSound();
+  if (m_exam->count()) {
+    if (m_exam->fileName() != "") {
+      if(!QFileInfo(m_exam->fileName()).isWritable()) {
+        qDebug() << "Can't write to file. Another name is needed";
+        m_exam->setFileName("");
+      }
     }
-		m_penalty->stopTimeView();
-    stopSound();
-		if (m_exam->count()) {
-			if (m_exam->fileName() != "") {
-				if(!QFileInfo(m_exam->fileName()).isWritable()) {
-					qDebug() << "Can't write to file. Another name is needed";
-					m_exam->setFileName("");
-				}
-			}
-			if (m_exam->fileName() == "") {
-				if (gl->E->closeWithoutConfirm) {
-					QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name);
-					if (QFileInfo(fName  + ".noo").exists())
-						fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
-					m_exam->setFileName(fName + ".noo");
-				} else {
-					m_exam->setFileName(saveExamToFile());
-					if (m_exam->fileName() != "")
-						gl->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
-				}
-			}
-			if (m_exam->fileName() != "") {
-				m_penalty->updateExamTimes();
-				gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style  
-				if (m_exam->saveToFile() == Texam::e_file_OK) {
-						QStringList recentExams = gl->config->value("recentExams").toStringList();
-						recentExams.removeAll(m_exam->fileName());
-						recentExams.prepend(m_exam->fileName());
-						gl->config->setValue("recentExams", recentExams);
-				}
-				if (!m_goingClosed) // if Nootka is closing don't show summary 
-						showExamSummary(m_exam, false, (bool)m_exercise);
-			}
-		}
-    closeExecutor();
+    if (m_exam->fileName() == "") {
+      if (gl->E->closeWithoutConfirm) {
+        QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name);
+        if (QFileInfo(fName  + ".noo").exists())
+          fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
+        m_exam->setFileName(fName + ".noo");
+      } else {
+        m_exam->setFileName(saveExamToFile());
+        if (m_exam->fileName() != "")
+          gl->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
+      }
+    }
+    if (m_exam->fileName() != "") {
+      m_penalty->updateExamTimes();
+      gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style  
+      if (m_exam->saveToFile() == Texam::e_file_OK) {
+          QStringList recentExams = gl->config->value("recentExams").toStringList();
+          recentExams.removeAll(m_exam->fileName());
+          recentExams.prepend(m_exam->fileName());
+          gl->config->setValue("recentExams", recentExams);
+      }
+      if (!m_goingClosed) // if Nootka is closing don't show summary 
+          showExamSummary(m_exam, false);
+    }
+  }
+  closeExecutor();
 }
 
 
@@ -1318,11 +1319,11 @@ QString TexamExecutor::saveExamToFile() {
                                                   m_exam->userName() + "-" + m_level.name + ".noo"),
                          TexTrans::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
     if (fileName == "") {
-		QMessageBox *msg = new QMessageBox(mW);
-		msg->setText(tr("If you don't save to file<br>you lost all results!"));
-		QAbstractButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
-		msg->addButton(tr("Discard"), QMessageBox::RejectRole);
-		msg->exec();
+        QMessageBox *msg = new QMessageBox(mW);
+        msg->setText(tr("If you don't save to file<br>you lost all results!"));
+        QAbstractButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
+        msg->addButton(tr("Discard"), QMessageBox::RejectRole);
+        msg->exec();
         if (msg->clickedButton() == saveButt)
             fileName = saveExamToFile();
     }
@@ -1333,21 +1334,21 @@ QString TexamExecutor::saveExamToFile() {
 
 
 void TexamExecutor::repeatSound() {
-	if (m_exam->curQ().melody()) {
-		mW->sound->playMelody(m_exam->curQ().melody());
-		if (mW->sound->melodyIsPlaying()) // the same methods stops a melody
-			m_exam->curQ().lastAttempt()->questionWasPlayed(); // increase only when playing was started
-	} else
-		mW->sound->play(m_exam->curQ().qa.note);
-	connectPlayingFinished();
+  if (m_exam->curQ().melody()) {
+    mW->sound->playMelody(m_exam->curQ().melody());
+    if (mW->sound->melodyIsPlaying()) // the same methods stops a melody
+      m_exam->curQ().lastAttempt()->questionWasPlayed(); // increase only when playing was started
+  } else
+    mW->sound->play(m_exam->curQ().qa.note);
+connectPlayingFinished();
 }
 
 
 void TexamExecutor::playMiddleA() {
-	Tnote a1(6, 1, 0);
-	mW->sound->stopPlaying();
-	mW->sound->play(a1);
-	connectPlayingFinished();
+  Tnote a1(6, 1, 0);
+  mW->sound->stopPlaying();
+  mW->sound->play(a1);
+  connectPlayingFinished();
 }
 
 
@@ -1385,10 +1386,10 @@ void TexamExecutor::showExamHelp() {
 
 
 void TexamExecutor::sniffAfterPlaying() {
-    disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-    if (m_soundTimer->isActive())
-      m_soundTimer->stop();
-    m_soundTimer->start(100);
+  disconnect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
+  if (m_soundTimer->isActive())
+    m_soundTimer->stop();
+  m_soundTimer->start(100);
 }
 
 
@@ -1403,9 +1404,9 @@ void TexamExecutor::startSniffing() {
 
 
 void TexamExecutor::expertAnswersSlot() {
-	if (!gl->E->expertsAnswerEnable) { // no expert
+	if (!gl->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
 			m_canvas->confirmTip(1500);
-		return;
+      return;
 	}
 	// ignore slot when some dialog window appears or answer for melody
 	if (m_snifferLocked || (m_exam->count() && m_exam->curQ().melody())) 

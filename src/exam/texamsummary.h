@@ -29,7 +29,7 @@ class Texam;
  *  If it returns false - user don't want to continue an exam
  *  @p startExam is a pointer to know does user want to start exam on exercise level.
  */
-bool showExamSummary(Texam* exam, bool cont, bool isExercise, bool* startExam = 0);
+bool showExamSummary(Texam* exam, bool cont, bool* startExam = 0);
 
 /** 
  * When @param cont is true On button is shown text 'continue' 

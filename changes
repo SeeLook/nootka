@@ -1,6 +1,7 @@
-
+1.1.5
+     - Come back of improved first run wizard - it is a plugin now
     BUGS FIXES
-     - fixed a lot of small glitches
+     - fixing bugs, mistakes and glitches...
     Under the hood
      - external executable-s converted to plugins loaded on demand
 
