@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,9 +53,8 @@ TupdateProcess::TupdateProcess(bool respectRules, QObject* parent) :
   m_exec += ".exe";
 #endif
   connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(processSays()));
-
+  connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(processSays()));
 }
-
 
 
 TupdateProcess::~TupdateProcess()
@@ -66,6 +65,7 @@ TupdateProcess::~TupdateProcess()
 void TupdateProcess::start() {
   if (isPossible()) {
     m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
     m_timer->start(7000); // 7 sec for check updates
     connect(m_timer, SIGNAL(timeout()), this, SLOT(processTimeOut()));
     QStringList args;
@@ -84,16 +84,15 @@ void TupdateProcess::processSays() {
       m_timer->stop();
     else {
 //       qDebug() << "processSays: " << out;
-      emit updateOutput(QString(out));
+      emit updateOutput(out);
     }
   }
 }
 
 
-
 void TupdateProcess::processTimeOut() {
-    m_timer->stop();
-    qDebug() << "processSays: time expired";
-    emit updateOutput("time expired");
+  m_timer->stop();
+//   qDebug() << "processSays: time expired";
+  emit updateOutput("time expired");
 //     m_process->kill();
 }

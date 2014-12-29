@@ -17,6 +17,17 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
+#include "score/tmainscore.h"
+#include "guitar/tfingerboard.h"
+#include "notename/tnotename.h"
+#include "exam/tstartexamdlg.h" // just temporary
+#include "exam/tprogresswidget.h"
+#include "exam/texamview.h"
+#include "exam/texamexecutor.h"
+#include "exam/tequalrand.h"
+#include "gui/tmelman.h"
+#include "gui/tmainview.h"
+#include "gui/ttoolbar.h"
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
 #include <tscoreparams.h>
@@ -26,19 +37,9 @@
 #include <exam/texam.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
-#include "score/tmainscore.h"
-#include "guitar/tfingerboard.h"
-#include "notename/tnotename.h"
-#include "exam/tstartexamdlg.h" // just temporary
 #include <taboutnootka.h>
 #include <tsupportnootka.h>
-#include "exam/tprogresswidget.h"
-#include "exam/texamview.h"
-#include "exam/texamexecutor.h"
-#include "exam/tequalrand.h"
-#include "gui/tmelman.h"
-#include "gui/tmainview.h"
-#include "gui/ttoolbar.h"
+#include <tupdateprocess.h>
 #include <plugins/tpluginsloader.h>
 #include <QtWidgets>
 
@@ -78,67 +79,72 @@ MainWindow::MainWindow(QWidget *parent) :
 //     m_rightLay(0),
 //     m_extraFontOffset(0)
 {
-    setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
-    
-    setMinimumSize(720, 480);
-		gl->config->beginGroup("General");
-      setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
-    gl->config->endGroup();
-		
-// 		setAttribute(Qt::WA_AcceptTouchEvents);
-    
-//     if (gl->isFirstRun) {
-//         TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
-//         firstWizz->exec();
-//         delete firstWizz;
-//         gl->isFirstRun = false;
-//     } else { // show support window once but not with first run wizard
-// 				QString newVersion = gl->config->value("version", "").toString();
-//         if (newVersion != gl->version) {
-//           QTimer::singleShot(200, this, SLOT(showSupportDialog()));
-// 				} else { // check for updates
-//           gl->config->beginGroup("Updates");
-//           if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
-//               TupdateProcess *process = new TupdateProcess(true, this);
-//               process->start();
-//           }
-//           gl->config->endGroup();
-//         }
-//     }
-		Tnote::defaultStyle = gl->S->nameStyleInNoteName;
-		
-    sound = new Tsound(this);
-		
-		m_messageTimer = new QTimer(this);
-		connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
+  setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
+  
+  //    setAttribute(Qt::WA_AcceptTouchEvents);
+  
+  setMinimumSize(720, 480);
+  gl->config->beginGroup("General");
+  setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+  
+  if (gl->isFirstRun) {
+      TpluginsLoader *loader = new TpluginsLoader();
+      if (loader->load(TpluginsLoader::e_wizard)) {
+        loader->init("", this);
+      }
+      delete loader;
+//       TfirstRunWizzard *firstWizz = new TfirstRunWizzard();
+//       firstWizz->exec();
+//       delete firstWizz;
+      gl->isFirstRun = false;
+  } else { // show support window once but not with first run wizard
+      QString newVersion = gl->config->value("version", "").toString();
+      if (newVersion != gl->version) {
+        QTimer::singleShot(200, this, SLOT(showSupportDialog()));
+      } else { // check for updates
+        gl->config->endGroup();
+        gl->config->beginGroup("Updates");
+        if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
+            TupdateProcess *process = new TupdateProcess(true, this);
+            process->start();
+        }
+      }
+  }
+  gl->config->endGroup();
+  Tnote::defaultStyle = gl->S->nameStyleInNoteName;
+  
+  sound = new Tsound(this);
+  
+  m_messageTimer = new QTimer(this);
+  connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
 //-------------------------------------------------------------------
 // Creating GUI elements
 //     innerWidget = new QWidget(this);
-    bar = new TtoolBar(gl->version, this);
-		bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); // otherwise it follows global Qt style settings
+  bar = new TtoolBar(gl->version, this);
+  bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); // otherwise it follows global Qt style settings
 
-    score = new TmainScore(this);
-		noteName = score->noteName();
-    pitchView = new TpitchView(sound->sniffer/*, this*/);
-    sound->setPitchView(pitchView);
-    pitchView->setVisible(gl->L->soundViewEnabled);
- // Hints - label with clues
-    m_statLab = new TroundedLabel(/*innerWidget*/);
-    m_statLab->setWordWrap(true);
-    m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-		m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
-		m_statLab->setVisible(gl->L->hintsBarEnabled);
+  score = new TmainScore(this);
+  noteName = score->noteName();
+  pitchView = new TpitchView(sound->sniffer/*, this*/);
+  sound->setPitchView(pitchView);
+  pitchView->setVisible(gl->L->soundViewEnabled);
+// Hints - label with clues
+  m_statLab = new TroundedLabel(/*innerWidget*/);
+  m_statLab->setWordWrap(true);
+  m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
+  m_statLab->setVisible(gl->L->hintsBarEnabled);
 #if defined (Q_OS_ANDROID)
-    m_statLab->hide();
-		nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-		showMaximized();
-		nootBar->hide();
-		nootBar->setAutoFillBackground(true);
+  m_statLab->hide();
+  nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+  showMaximized();
+  nootBar->hide();
+  nootBar->setAutoFillBackground(true);
 #endif
 
-    guitar = new TfingerBoard();
-    guitar->setVisible(gl->L->guitarEnabled);
-		
+  guitar = new TfingerBoard();
+  guitar->setVisible(gl->L->guitarEnabled);
+  
 //-------------------------------------------------------------------		
 // Setting layout
 // #if defined (Q_OS_ANDROID)
@@ -152,29 +158,29 @@ MainWindow::MainWindow(QWidget *parent) :
 // 		mainLay->addWidget(nootBar);
 // #endif
 
-		m_melButt = new TmelMan(score);
-		bar->addMelodyButton(m_melButt);
-		innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, this);
-		setCentralWidget(innerWidget);
+  m_melButt = new TmelMan(score);
+  bar->addMelodyButton(m_melButt);
+  innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, this);
+  setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
-    m_levelCreatorExist = false;
+  m_levelCreatorExist = false;
 
-		
-    connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
-    connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
-    connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
-    connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
-    connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
-		setSingleNoteMode(gl->S->isSingleNoteMode);
+  
+  connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+  connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+  connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+  connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
+  connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
+  setSingleNoteMode(gl->S->isSingleNoteMode);
 
-    connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
-		connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-		connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
-    connect(guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
-		connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
-		connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
-		connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-    connect(innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
+  connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+  connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+  connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
+  connect(guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
+  connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
+  connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
+  connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+  connect(innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
 }
 
 

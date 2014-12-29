@@ -65,7 +65,7 @@ bool m_fromTemp;
 Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
-	version = "1.1.4 alpha";
+	version = "1.1.5 alpha";
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
