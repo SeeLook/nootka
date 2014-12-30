@@ -38,7 +38,8 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	m_scale(1.0),
 	m_clickedOff(0), m_currentIndex(-1),
 	m_useAinim(true),
-	m_addNoteAnim(true)
+	m_addNoteAnim(true),
+	m_selectReadOnly(false)
 {
 	setObjectName("m_mainScore");
 	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
@@ -80,6 +81,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				setControllersEnabled(true, false);
 				setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 				m_currentIndex = 0;
+        m_selectReadOnly = false;
 		} else {
 				staff()->setStafNumber(0);
 				staff()->removeNote(2);
@@ -244,6 +246,20 @@ void TmultiScore::deleteNotes() {
 	m_currentIndex = -1;
 }
 
+
+void TmultiScore::roClickedSlot(TscoreNote* sn) {
+  if (m_selectReadOnly)
+    emit lockedNoteClicked(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
+}
+
+
+void TmultiScore::roSelectedSlot(TscoreNote* sn) {
+  if (m_selectReadOnly) {
+    qDebug() << "roSelectedSlot is here";
+    emit lockedNoteSelected(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
+  }
+}
+
 //####################################################################################################
 //###################################   PROTECTED   ##################################################
 //####################################################################################################
@@ -397,6 +413,7 @@ void TmultiScore::addStaff(TscoreStaff* st) {
 		st->disconnect(SIGNAL(clefChanged(Tclef)));
 		m_staves << st;
 	}
+	connectForReadOnly(lastStaff()->noteSegment(0));
 	m_staves.last()->setStafNumber(m_staves.size() - 1);
 	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
@@ -418,6 +435,11 @@ void TmultiScore::deleteLastStaff() {
 // 	qDebug() << "staff deleted";
 }
 
+
+void TmultiScore::connectForReadOnly(TscoreNote* sn) {
+  connect(sn, &TscoreNote::roNoteClicked, this, &TmultiScore::roClickedSlot, Qt::UniqueConnection);
+  connect(sn, &TscoreNote::roNoteSelected, this, &TmultiScore::roSelectedSlot, Qt::UniqueConnection);
+}
 
 //####################################################################################################
 //#################################    PROTECTED SLOTS    ############################################
@@ -509,6 +531,7 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 	if (m_useAinim && m_addNoteAnim)
 		m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
 	m_addNoteAnim = true;
+  connectForReadOnly(m_staves[staffNr]->noteSegment(noteToAdd));
 }
 
 

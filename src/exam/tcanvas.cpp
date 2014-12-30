@@ -109,13 +109,17 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
 }
 
 
+QString Tcanvas::detectedText(const QString& txt) {
+  return QString("<span style=\"color: %1;\"><big>").arg(gl->EquestionColor.name()) + txt + "</big></span>";
+}
+
+
 void Tcanvas::detectedNoteTip(const Tnote& note) {
 	Tnote n = note;
 	if (n.isValid())
 		m_window->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " + 
-				wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + 
-			QString("<span style=\"color: %1;\"><big>").arg(gl->EquestionColor.name()) + 
-			tr("%1 was detected", "note name").arg(n.toRichText()) + "</big></span></td></tr></table>", 5000);
+				wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + " " +
+			detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + "</td></tr></table>", 5000);
 }
 
 

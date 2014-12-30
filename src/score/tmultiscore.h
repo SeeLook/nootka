@@ -81,6 +81,16 @@ public:
 	int notesCount(); /** Total number of notes on the score */
 	
 	void selectNote(int id); /** Marks given note or cancel selection if @p -1 */
+  
+      /** When @p TRUE notes on locked score can be selected by click 
+      * and @p lockedNoteClicked(Tnote) signal is emitted */
+  void setReadOnlyReacting(bool doIt) { m_selectReadOnly = doIt; }
+  bool readOnlyReacting() { return m_selectReadOnly; }
+  
+signals:
+  void lockedNoteClicked(int noteNumber); /** Emitted number is in range [0 to notesCount()] */
+  void lockedNoteSelected(int noteNumber); /** Emitted number is in range [0 to notesCount()] */
+    
 	
 public slots:
 	void noteWasClicked(int index);
@@ -99,7 +109,7 @@ protected:
 	TscoreStaff* currentStaff();
 	void resetClickedOff() { m_clickedOff = 0; }
 	void checkAndAddNote(TscoreStaff* sendStaff, int noteIndex);
-	
+	void connectForReadOnly(TscoreNote* sn); /** Connects given TscoreNote to appropriate slots. */
 	
 protected slots:
 	void keyChangedSlot();
@@ -118,6 +128,9 @@ protected slots:
 			* connects the staff with TmainScore slots */
 	virtual void addStaff(TscoreStaff* st = 0);
 	void deleteLastStaff();
+  
+  void roClickedSlot(TscoreNote* sn);
+  void roSelectedSlot(TscoreNote* sn);
 	
 private:
 	QMainWindow									*m_mainWindow;
@@ -127,6 +140,7 @@ private:
 			/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 	int													 m_clickedOff, m_currentIndex;
 	bool 												 m_useAinim, m_addNoteAnim;
+  bool                         m_selectReadOnly;
 	
 	QList<TscoreStaff*>					 m_staves; // list of staves in page view
 	

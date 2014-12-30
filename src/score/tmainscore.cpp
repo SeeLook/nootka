@@ -44,6 +44,7 @@
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
 
 
+
 TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	TmultiScore(mw, parent),
 	m_questMark(0),
@@ -306,7 +307,7 @@ void TmainScore::unLockScore() {
 		if (insertMode() == e_single)
 			setNoteViewBg(0, Tcore::gl()->EanswerColor);
 		else
-			setReadOnlyReacted(false);
+			setReadOnlyReacting(false);
 	}
   setClefDisabled(true); // setScoreDisabled() unlock it
 	QPointF nPos = staff()->noteSegment(0)->mapFromScene(mapToScene(mapFromParent(mapFromGlobal(cursor().pos()))));
@@ -460,7 +461,6 @@ void TmainScore::askQuestion(Tmelody* mel) {
 }
 
 
-
 void TmainScore::expertNoteChanged() {
 	if (m_emitExpertNoteClicked)
 		emit noteClicked();
@@ -469,28 +469,6 @@ void TmainScore::expertNoteChanged() {
 
 void TmainScore::forceAccidental(Tnote::Ealter accid) {
 	scoreScene()->setCurrentAccid(accid);
-}
-
-/** For this moment this method changes state of only existed notes on the score.
- * if some new notes will be created in locked state those signals will be not emitted.
- * This functionality is used only in exercises when answer is corrected and user can click locked note.
- * So it is sufficient - any notes are not added.
- */
-void TmainScore::setReadOnlyReacted(bool doIt) {
-	if (m_selectReadOnly != doIt) {
-		m_selectReadOnly = doIt;
-		if (m_selectReadOnly) {
-			for (int i = 0; i < notesCount(); ++i) {
-				connect(noteFromId(i), SIGNAL(roNoteClicked(TscoreNote*)), this, SLOT(roClickedSlot(TscoreNote*)));
-				connect(noteFromId(i), SIGNAL(roNoteSelected(TscoreNote*)), this, SLOT(roSelectedSlot(TscoreNote*)));
-			}
-		} else {
-			for (int i = 0; i < notesCount(); ++i) {
-				disconnect(noteFromId(i), SIGNAL(roNoteClicked(TscoreNote*)), this, 0);
-				disconnect(noteFromId(i), SIGNAL(roNoteSelected(TscoreNote*)));
-			}
-		}
-	}	
 }
 
 
@@ -851,21 +829,6 @@ void TmainScore::performScordatureSet() {
 	}
 }
 
-//####################################################################################################
-//##################################### PROTECTED SLOTS ##############################################
-//####################################################################################################
-
-void TmainScore::roClickedSlot(TscoreNote* sn) {
-	emit lockedNoteClicked(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
-}
-
-
-void TmainScore::roSelectedSlot(TscoreNote* sn) {
-	qDebug() << "roSelectedSlot is here";
-	emit lockedNoteSelected(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
-}
-
-
 
 //####################################################################################################
 //########################################## PRIVATE #################################################
@@ -1024,8 +987,6 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	lastStaff()->setExtraAccids(m_acts->extraAccids()->isChecked());
 // 	qDebug() << "staff Added";
 }
-
-
 
 
 

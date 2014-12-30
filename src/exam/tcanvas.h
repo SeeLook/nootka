@@ -100,6 +100,8 @@ public:
 	
 			/** Displays message on main window status label with given note as the detected. */
 	void detectedNoteTip(const Tnote& note);
+  
+  QString detectedText(const QString& txt); /** Returns bigger @p txt in question color. Used for 'detected'  message. */
 	
 public slots:
 	void clearResultTip(); // clears tip with results
