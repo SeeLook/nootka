@@ -57,9 +57,11 @@ set(NOOTKA_SRC
 	exam/tequalrand.cpp
 	exam/trandmelody.cpp
 	exam/tpenalty.cpp
+	exam/texammelody.cpp
 	
 	animations/tstrikedoutitem.cpp
 )
+
 
 if(MINGW)
     add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o

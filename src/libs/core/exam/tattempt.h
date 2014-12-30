@@ -39,9 +39,9 @@ public:
 	void add(quint32 mistake); /** Adds time and mistake of a note to the lists. */
 	QList<quint32> mistakes; /** Type of mistake of every note in a melody */
 	
-			/** How many times user playbacks a question melody. Used for questions where melodies are guessed. */
+			/** How many times user played or listened to a question melody. */
 	quint16 playedCount() const { return m_playedCounter; }
-	void questionWasPlayed() { m_playedCounter++; } /** Increases playback counter */
+	void melodyWasPlayed() { m_playedCounter++; } /** Increases playback counter */
 	
 			/** @p TRUE when no mistakes and times in the lists and playback counter is 0 */
 	bool isEmpty() const { return mistakes.isEmpty() && m_playedCounter == 0; }

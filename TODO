@@ -23,6 +23,8 @@ MAJOR:
 
 - certificates has to be adjusted to melodies
 
+- In level creator melodies have 1 note by default
+
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
 
