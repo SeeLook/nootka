@@ -203,8 +203,10 @@ void TexamExecutor::initializeExecuting() {
 	m_penalty = new Tpenalty(m_exam, m_supp, mW->examResults, mW->progress);
 	connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
 	if (m_exercise) {
-			if (gl->E->suggestExam)
-				m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
+    if (m_exam->melodies())
+      connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::lockedScoreSlot);
+    if (gl->E->suggestExam)
+      m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
 	} else {
 			connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
 	}
@@ -715,9 +717,7 @@ void TexamExecutor::correctAnswer() {
 	TQAunit& curQ = m_exam->answList()->last();
 	QColor markColor = m_supp->answerColor(curQ);
 	if (curQ.melody() && (curQ.answerAsNote() || curQ.questionAsNote())) {
-		mW->score->setStatusTip(tr("Click a note to listen to it. Double click to see it corrected."));
-		connect(mW->score, SIGNAL(lockedNoteClicked(int)), this, SLOT(lockedScoreSlot(int)));
-		mW->score->setReadOnlyReacted(true); // It is undone whenever unLockScore() is called
+		mW->score->setReadOnlyReacting(true); // It is undone whenever unLockScore() is called
 	}
 	if (curQ.answerAsNote()) {
 		if (curQ.melody()) {
@@ -1118,6 +1118,8 @@ void TexamExecutor::exerciseToExam() {
 	m_isAnswered = true;
 	qApp->installEventFilter(m_supp);
 	m_exam->saveToFile();
+  if (m_exam->melodies())
+    disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::lockedScoreSlot);
 	QString userName = m_exam->userName();
 	delete m_penalty;
 	delete m_exam;
@@ -1443,6 +1445,8 @@ void TexamExecutor::lockedScoreSlot(int noteNr) {
 				mW->guitar->setFinger(m_exam->curQ().melody()->note(noteNr)->p());
 			if (m && m_exam->curQ().answerAsSound() && noteNr < mW->sound->notes().size())
 				m_canvas->detectedNoteTip(mW->sound->notes()[noteNr].pitch);
+      else 
+        mW->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
 		}
 	}
 }
