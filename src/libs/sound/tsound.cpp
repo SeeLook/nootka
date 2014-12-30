@@ -291,10 +291,10 @@ void Tsound::enableStoringNotes(bool en) {
 		sniffer->enableStoringNotes(en);
 }
 
-
+/*
 QList<TnoteStruct>& Tsound::notes() {
 		return sniffer->notes;
-}
+}*/
 
 
 //------------------------------------------------------------------------------------
@@ -366,6 +366,7 @@ void Tsound::playMelodySlot() {
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
 	m_detectedPitch = note.pitch;
 	emit noteStarted(m_detectedPitch);
+  emit noteStartedEntire(note);
 	if (player && Tcore::gl()->instrument != e_noInstrument && Tcore::gl()->A->playDetected)
 		play(m_detectedPitch);
 }
@@ -375,6 +376,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 	m_detectedPitch = note.pitch;
 	Tchunk noteChunk(m_detectedPitch, Trhythm());
 	emit noteFinished(noteChunk);
+  emit noteFinishedEntire(note);
 	if (player && Tcore::gl()->instrument == e_noInstrument && Tcore::gl()->A->playDetected)
 		play(m_detectedPitch);
 }

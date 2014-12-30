@@ -23,8 +23,11 @@
 #include <exam/tqaunit.h>
 #include <exam/tlevel.h>
 #include <QList>
+#include <QPointer>
 #include <QColor>
 
+class TnoteStruct;
+class TexamMelody;
 class Tpenalty;
 class TequalRand;
 class TpitchView;
@@ -116,11 +119,14 @@ protected slots:
 			/** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
 	void unlockAnswerCapturing();
 	void blindQuestion(); /** Routines for questions with the same answers 'blind' */
-	void noteOfMelodySlot(const Tnote& n); /** When user plays a melody as an answer. */
-	void lastMelodyNote() { checkAnswer(); } /** performed when user played last note of a melody. */
+  
+	void noteOfMelodyStarted(const TnoteStruct& n); /** When user plays a melody as an answer and start of a note was detected. */
+  void noteOfMelodyFinished(const TnoteStruct& n); /** Played note was finished */
+  void noteOfMelodySelected(int nr); /** Note of score to play was clicked */
+  
 	void prepareToSettings(); /** Should be called when main window is going to display settings dialog. */
 	void settingsAccepted(); /** Should be called when settings (Tglobals) was changed during exam. */
-	void lockedScoreSlot(int noteNr);
+	void correctDictationNote(int noteNr);
 
 private:
 	void createActions();
@@ -179,8 +185,8 @@ private:
 	Texercises								*m_exercise;
 	int 											m_blindCounter; /** counts occurrences of questions without possible answer */
 	TequalRand								*m_rand;
-	int												m_melodyNoteIndex;
-	QList<bool>								m_attemptFix; /** List of fixed notes in melody during exercise */
+
+	QPointer<TexamMelody>     m_melody; /** Helper class with exam/exercises with melodies */
 
 };
 

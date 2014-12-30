@@ -26,6 +26,7 @@
 #include "tequalrand.h"
 #include "trandmelody.h"
 #include "tpenalty.h"
+#include "texammelody.h"
 #include "mainwindow.h"
 #include <level/tlevelselector.h>
 #include <tsound.h>
@@ -66,6 +67,7 @@ extern Tglobals *gl;
 
 
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
+  QObject(mainW),
   m_exam(0),
   mW(mainW),
   m_lockRightButt(false),
@@ -160,6 +162,8 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 		mW->setSingleNoteMode(true);
 	m_supp = new TexecutorSupply(&m_level, this);
 	m_supp->createQuestionsList(m_questList);
+  if (m_exam->melodies())
+    m_melody = new TexamMelody(this);
 	if (m_questList.isEmpty()) {
 			QMessageBox::critical(mW, " ", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
 			delete m_supp;
@@ -204,7 +208,7 @@ void TexamExecutor::initializeExecuting() {
 	connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
 	if (m_exercise) {
     if (m_exam->melodies())
-      connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::lockedScoreSlot);
+      connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctDictationNote);
     if (gl->E->suggestExam)
       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
 	} else {
@@ -289,17 +293,18 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             curQ.qa.note = m_supp->determineAccid(curQ.qa.note);
     }
     if (m_exam->melodies()) {
+        if (curQ.answerAsSound()) // prepare list to store notes played by user
+          m_melody->newMelody(m_level.melodyLen);
+        else
+          m_melody->newMelody(0); // list in unused - just clear
 				if (m_penalty->isNot()) {
 					curQ.addMelody(QString("%1").arg(m_exam->count()));
 					curQ.melody()->setKey(curQ.key);
 					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
 				}
 				curQ.newAttempt();
-				if (m_exercise) {
-					m_attemptFix.clear();
-					for (int i = 0; i < curQ.melody()->length(); ++i)
-						m_attemptFix << false;
-				}
+				if (m_exercise) 
+          m_melody->clearToFix();
 		}
 //    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
@@ -312,9 +317,11 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			if (!isAttempt)
 				mW->score->askQuestion(curQ.melody());
 			if (curQ.answerAsSound()) { // in fact, there is no other option yet
-				connect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::noteOfMelodySlot);
-				m_melodyNoteIndex = 1; // when first note will be played and detected the second one is marked
+				connect(mW->sound, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
+        connect(mW->sound, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
+        connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
 				mW->score->selectNote(0); // mark first note
+        mW->score->setReadOnlyReacting(true); // allow user to select beginning note to play
 			}
 		} else {
 			char strNr = 0;
@@ -476,8 +483,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     
     if (curQ.answerAsSound()) {
       mW->sound->prepareAnswer();
-			if (curQ.melody())
-				mW->sound->notes().clear();
+// 			
 			if (curQ.questionAsSound()) {
 					connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying())); // sniffing after finished sound
 			} else
@@ -504,8 +510,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 				mW->sound->pauseSinffing(); // but only skip detected for single sound
 			mW->score->selectNote(-1);
 			disconnect(mW->sound, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
-			disconnect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::noteOfMelodySlot);
-			disconnect(mW->sound, &Tsound::noteFinished, this, &TexamExecutor::lastMelodyNote);
+			disconnect(mW->sound, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
+      disconnect(mW->sound, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
+      connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
 	}
 	if (m_exam->melodies() && mW->sound->melodyIsPlaying())
 		mW->sound->stopPlaying();
@@ -570,12 +577,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	} else {
 			if (curQ.melody()) { // 2. or checking melodies
 					curQ.setMistake(TQAunit::e_correct); // reset an answer
-					if (curQ.answerAsNote()) {
+					if (curQ.answerAsNote()) { // dictation
 						Tmelody answMelody;
 						mW->score->getMelody(&answMelody);
 						m_supp->compareMelodies(curQ.melody(), &answMelody, curQ.lastAttempt());
-					} else {// if melody is not in score it was played for sure
-						m_supp->compareMelodies(curQ.melody(), mW->sound->notes(), curQ.lastAttempt());
+					} else { // playing a score
+						m_supp->compareMelodies(curQ.melody(), m_melody->listened(), curQ.lastAttempt());
 					}
 					int goodAllready = 0, notBadAlready = 0, wrongAlready = 0;
 					for (int i = 0; i < curQ.lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
@@ -1119,7 +1126,7 @@ void TexamExecutor::exerciseToExam() {
 	qApp->installEventFilter(m_supp);
 	m_exam->saveToFile();
   if (m_exam->melodies())
-    disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::lockedScoreSlot);
+    disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctDictationNote);
 	QString userName = m_exam->userName();
 	delete m_penalty;
 	delete m_exam;
@@ -1159,8 +1166,7 @@ void TexamExecutor::stopExerciseSlot() {
 		gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
 			
 		bool startExam = false;
-// 		if (m_exam->count())
-// 			m_exam->saveToFile();
+
 		if (!m_goingClosed)
 				continuePractice = showExamSummary(m_exam, true, &startExam);
 		gl->S->nameStyleInNoteName = tmpStyle;
@@ -1316,22 +1322,21 @@ bool TexamExecutor::closeNootka() {
 
 
 QString TexamExecutor::saveExamToFile() {
-    QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"),
-                         QDir::toNativeSeparators(gl->E->examsDir + "/" +
-                                                  m_exam->userName() + "-" + m_level.name + ".noo"),
-                         TexTrans::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
-    if (fileName == "") {
-        QMessageBox *msg = new QMessageBox(mW);
-        msg->setText(tr("If you don't save to file<br>you lost all results!"));
-        QAbstractButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
-        msg->addButton(tr("Discard"), QMessageBox::RejectRole);
-        msg->exec();
-        if (msg->clickedButton() == saveButt)
-            fileName = saveExamToFile();
-    }
-    if (!fileName.isEmpty() && fileName.right(4) != ".noo")
-        fileName += ".noo";
-    return fileName;
+  QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"),
+                        QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name + ".noo"),
+                        TexTrans::examFilterTxt(), 0 , QFileDialog::DontUseNativeDialog);
+  if (fileName == "") {
+      QMessageBox *msg = new QMessageBox(mW);
+      msg->setText(tr("If you don't save to file<br>you lost all results!"));
+      QAbstractButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
+      msg->addButton(tr("Discard"), QMessageBox::RejectRole);
+      msg->exec();
+      if (msg->clickedButton() == saveButt)
+          fileName = saveExamToFile();
+  }
+  if (!fileName.isEmpty() && fileName.right(4) != ".noo")
+      fileName += ".noo";
+  return fileName;
 }
 
 
@@ -1339,10 +1344,10 @@ void TexamExecutor::repeatSound() {
   if (m_exam->curQ().melody()) {
     mW->sound->playMelody(m_exam->curQ().melody());
     if (mW->sound->melodyIsPlaying()) // the same methods stops a melody
-      m_exam->curQ().lastAttempt()->questionWasPlayed(); // increase only when playing was started
+      m_exam->curQ().lastAttempt()->melodyWasPlayed(); // increase only when playing was started
   } else
     mW->sound->play(m_exam->curQ().qa.note);
-connectPlayingFinished();
+  connectPlayingFinished();
 }
 
 
@@ -1362,16 +1367,35 @@ void TexamExecutor::connectPlayingFinished() {
 }
 
 
-void TexamExecutor::noteOfMelodySlot(const Tnote& n) {
-	if (m_melodyNoteIndex == 1) // first played note was detected
-		m_exam->curQ().lastAttempt()->setPrepareTime(m_penalty->elapsedTime());
-	// TODO so far it is 1/10 s but should be more precise. Also subtract note duration 
-	mW->score->selectNote(m_melodyNoteIndex);
-	m_melodyNoteIndex++;
-	if ((mW->sound->notes().size() == m_exam->curQ().melody()->length() - 1) && gl->E->expertsAnswerEnable) {
-		connect(mW->sound, &Tsound::noteFinished, this, &TexamExecutor::lastMelodyNote);
-		disconnect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::noteOfMelodySlot);
-	}
+void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
+  if (m_melody->wasIndexChanged())
+    m_exam->curQ().lastAttempt()->melodyWasPlayed();
+  m_melody->noteStarted();
+	if (m_melody->currentIndex() == 0) // first played note was detected
+		m_exam->curQ().lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - n.duration);
+  if (m_melody->currentIndex() < m_exam->curQ().melody()->length())
+    mW->score->selectNote(m_melody->currentIndex());
+  else
+    qDebug() << "Pitch detection was not properly stopped";
+}
+
+
+void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
+  m_melody->setNote(n); // collect played note
+  if (m_melody->currentIndex() == m_exam->curQ().melody()->length() - 1) {
+    if (gl->E->expertsAnswerEnable)
+      checkAnswer();
+    else {
+      m_canvas->confirmTip(1500);
+      mW->sound->wait();
+    }
+  }
+}
+
+
+void TexamExecutor::noteOfMelodySelected(int nr) {
+  m_melody->setCurrentIndex(nr);
+  mW->sound->go();
 }
 
 
@@ -1416,7 +1440,7 @@ void TexamExecutor::expertAnswersSlot() {
 
 	if (m_exam->curQ().answerAsSound())
 			mW->sound->pauseSinffing();
-	QTimer::singleShot(1, this, SLOT(checkAnswer()));
+	QTimer::singleShot(0, this, SLOT(checkAnswer()));
 	/** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
 		* Calling checkAnswer() from here invokes stopping and deleting TaudioIN.
 		* It finishes with crash. To avoid this checkAnswer() has to be called from outside - by timer event. */
@@ -1428,25 +1452,27 @@ void TexamExecutor::expertAnswersSlot() {
  * - shows position on the guitar
  * - plays its sound
  * - displays message with detected pitch if note was wrong  */
-void TexamExecutor::lockedScoreSlot(int noteNr) {
+void TexamExecutor::correctDictationNote(int noteNr) {
 	if (m_exam->curQ().melody()) {
 		mW->score->selectNote(noteNr);
 		if (noteNr < m_exam->curQ().lastAttempt()->mistakes.size()) {
 			quint32 &m = m_exam->curQ().lastAttempt()->mistakes[noteNr];
 			if (m_exam->curQ().answerAsNote() && m_exam->curQ().melody()->length() > noteNr) { // only dictations can be corrected
-				if (m && !m_attemptFix[noteNr] && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
+				if (m && !m_melody->fixed(noteNr) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
 					mW->score->correctNote(m_exam->curQ().melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
-					m_attemptFix[noteNr] = true;
+					m_melody->setFixed(noteNr);
 				}
 			}
 			if (mW->sound->isPlayable() && m_exam->curQ().melody()->length() > noteNr)
 					mW->sound->play(m_exam->curQ().melody()->note(noteNr)->p());
 			if (mW->guitar->isVisible() && m_exam->curQ().melody()->length() > noteNr)
 				mW->guitar->setFinger(m_exam->curQ().melody()->note(noteNr)->p());
-			if (m && m_exam->curQ().answerAsSound() && noteNr < mW->sound->notes().size())
-				m_canvas->detectedNoteTip(mW->sound->notes()[noteNr].pitch);
-      else 
-        mW->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
+			if (m && m_exam->curQ().answerAsSound()) {
+        if (m_melody->listened()[noteNr].pitch.isValid())
+          m_canvas->detectedNoteTip(m_melody->listened()[noteNr].pitch);
+        else 
+          mW->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
+      }
 		}
 	}
 }
