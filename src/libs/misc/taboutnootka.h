@@ -54,7 +54,8 @@ private:
 
 //######################### About ##########################################
 class TroundedLabel;
-class Tabout : public QWidget
+
+class NOOTKAMISC_EXPORT Tabout : public QWidget
 {
     Q_OBJECT
 public:

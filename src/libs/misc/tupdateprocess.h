@@ -20,6 +20,7 @@
 #ifndef TUPDATEPROCESS_H
 #define TUPDATEPROCESS_H
 
+#include "nootkamiscglobal.h"
 #include <QObject>
 
 class QTimer;
@@ -33,7 +34,7 @@ class QProcess;
  * and user gets dialog with info
  * if some error occured proces is killed
 */
-class TupdateProcess : public QObject
+class NOOTKAMISC_EXPORT TupdateProcess : public QObject
 {
   
   Q_OBJECT
