@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -112,8 +112,6 @@ protected slots:
 				* right mouse button unlocking. If and exam is going to start it calls @p exerciseToExam() */
 	void suggestDialogClosed(bool startExam);
 	
-			/** Displays message on MainWindow status label about level of started exercise/exam */
-	void levelStatusMessage();
 	void displayCertificate(); /** Locks the executor and displays certificate. */
 	
 			/** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */

@@ -77,6 +77,7 @@ TEXAMEXECUTOR
 ===============================================================
  - TtoolBar has many entries translated already - just confirm them
  - Tpage_3 context was moved and description fixed but source text remained the same - just confirm
+ - 'You are exercising on level' and 'Exam started on level' moved to Tcanvas from executor - just confirm
  
  
 ===============================================================     
