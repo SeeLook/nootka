@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,7 @@
 #include <widgets/troundedlabel.h>
 #include <level/tlevelselector.h>
 #include <tinitcorelib.h>
+#include <tscoreparams.h>
 #include <QtWidgets>
 #include <iostream>
 
@@ -96,7 +97,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 		connect(m_levelSett->startExerciseButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
     
     connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
-		
+		m_questSett->setMelodiesEnabled(!Tcore::gl()->S->isSingleNoteMode);
 }
 
 
