@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,9 +33,11 @@ class QCheckBox;
 class QTimer;
 
 /** 
- * This class represents volume meter of audio signal
- * and displays note symbol when TaudioIN detected it.
- * It also has TintonationView widget that shows current sound intonation.
+ * This class manages of displaying volume meter and intonation indicator.
+ * When audio input is set through @p setAudioInput() 
+ * it grabs volume and intonation with timer event loop.
+ * @class TpitchView reacts on device state changes 
+ * so it can stop or start a loop when necessary.
  */
 class NOOTKASOUND_EXPORT TpitchView : public QWidget
 {
@@ -45,11 +47,11 @@ public:
   explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool withButtons = true);
   
   void setAudioInput(TaudioIN *audioIn);
-  void startVolume(); /** Starts grabbing of peak level*/
-	void stopVolume(); /** Stops displaying volume (and intonation) */
+  void watchInput(); /** Starts displaying volume level and intonation (when enabled). */
+	void stopWatching(); /** Stops displaying volume (and intonation) */
   void setPitchColor(QColor col);
 	
-  bool isPaused() { return m_isPaused; }
+  bool isPaused();
   void resize(int fontSize);
   void setBgColor(const QColor &col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
@@ -72,8 +74,9 @@ protected slots:
   void noteSlot();
   void updateLevel();
   void pauseClicked();
-  void stopTimerDelayed(); // to call stop() on m_volTimer after note detected animation
 	void minimalVolumeChanged(float minVol);
+  void inputStateChanged(int inSt);
+  void inputDeviceDeleted();
   
 protected:
   virtual void paintEvent(QPaintEvent*);
@@ -82,16 +85,16 @@ protected:
   
 private:
 	QCheckBox 				*m_pauseChBox; /** Button to pause or activate pitch detection */
-  TvolumeView 			*m_volMeter;
+  TvolumeView 			*m_volumeView;
   TintonationView 	*m_intoView;
   TaudioIN 					*m_audioIN;
-  QTimer 						*m_volTimer;
+  QTimer 						*m_watchTimer;
   QColor 						 m_pitchColor, m_bgColor;
-  bool 							 m_isPaused;
   bool 							 m_withButtons;
 	QBoxLayout 				*m_lay;
   int 							 m_hideCnt; // counter of m_volTimer loops.
   float 						 m_prevVolume, m_prevPitch;
+  int                m_prevState;
 };
 
 #endif // TPITCHVIEW_H

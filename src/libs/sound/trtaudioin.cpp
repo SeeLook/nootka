@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -49,7 +49,7 @@ QStringList TaudioIN::getAudioDevicesList() {
 
 
 bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-		if (instance()->goingDelete() || instance()->isStoped())
+		if (m_goingDelete || instance()->isStoped())
 				return true;
     if (status)
         qDebug() << "Stream over detected!";
@@ -64,6 +64,7 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
 
 QList<TaudioIN*> 			TaudioIN::m_instances = QList<TaudioIN*>();
 int 									TaudioIN::m_thisInstance = -1;
+bool                  TaudioIN::m_goingDelete = false;
 
 //------------------------------------------------------------------------------------
 //------------          constructor     ----------------------------------------------
@@ -73,7 +74,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     TrtAudio(params, e_input, inCallBack),
     m_pitch(0),
     m_volume(0.0),
-    m_paused(false), m_stopped(true), m_goingDelete(false),
+    m_state(e_stopped),
+    m_stoppedByUser(false),
     m_loPitch(15), m_hiPitch(140),
     m_noteWasStarted(false),
     m_currentRange(1)
@@ -169,23 +171,24 @@ void TaudioIN::startListening() {
 			return;
 	} else
 // 		qDebug() << "startListening";
+  m_goingDelete = false;
 	m_volume = 0.0;
-	m_stopped = false;
-	startStream();
+	if (!m_stoppedByUser && startStream())
+    setState(e_listening);
 }
 
 
 void TaudioIN::stopListening() {
 	m_volume = 0.0;
 	m_LastChunkPitch = 0.0;
-	m_stopped = true;
-	m_paused = false;
+  setState(e_stopped);
 	m_pitch->resetFinder();
 }
 
 
+
 void TaudioIN::pitchInChunkSlot(float pitch) {
-	if (m_paused)
+	if (isPaused())
 			return;
   if (pitch == 0.0)
 			m_LastChunkPitch = 0.0;
@@ -195,7 +198,7 @@ void TaudioIN::pitchInChunkSlot(float pitch) {
 
 
 void TaudioIN::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
-	if (!m_paused) {
+	if (!isPaused()) {
 			m_lastNote.set(pitch - audioParams()->a440diff, freq, duration);
 			if (inRange(m_lastNote.pitchF)) {
 				m_noteWasStarted = true;
@@ -208,11 +211,9 @@ void TaudioIN::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
 
 void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
 	m_noteWasStarted = false;
-	if (!m_paused) {
+	if (!isPaused()) {
 			m_lastNote.set(lastNote->pitchF - audioParams()->a440diff, lastNote->freq, lastNote->duration);
 			if (inRange(m_lastNote.pitchF)) {
-				if (m_storeNotes)
-					notes << m_lastNote;
 				emit noteFinished(m_lastNote);
 			}
   } else 

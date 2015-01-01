@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -269,7 +269,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 
 AudioInSettings::~AudioInSettings()
 {
-  pitchView->stopVolume();
+  pitchView->stopWatching();
   if (m_audioIn) {
     m_audioIn->stopListening();
     delete m_audioIn;
@@ -474,11 +474,11 @@ void AudioInSettings::testSlot() {
     testButt->setText(stopTxt);
 		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
     m_audioIn->startListening();
-    pitchView->startVolume();
+    pitchView->watchInput();
 		pitchView->setIntonationAccuracy(m_tmpParams->intonation);
   } else { // stop a test
 		if (m_audioIn) {
-			pitchView->stopVolume();
+			pitchView->stopWatching();
 			m_audioIn->stopListening();
 		}
     testButt->setText(testTxt);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -66,7 +66,7 @@ void Tsound::play(Tnote& note) {
     if (sniffer) { // pause sniffer if midi output was started
 			if (!m_midiPlays) { // stop listening just once
 				sniffer->stopListening();
-				m_pitchView->stopVolume();
+				m_pitchView->stopWatching();
 				m_midiPlays = true;
 			}
     }
@@ -113,7 +113,6 @@ void Tsound::acceptSettings() {
   }
   // for input
   if (Tcore::gl()->A->INenabled) {
-    m_pitchView->setEnabled(true);
     if (!sniffer) {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
@@ -124,7 +123,6 @@ void Tsound::acceptSettings() {
 		m_pitchView->setMinimalVolume(Tcore::gl()->A->minimalVol);
 		m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
   } else {
-    m_pitchView->setDisabled(true);
     if (sniffer)
       deleteSniffer();
   }
@@ -137,7 +135,7 @@ void Tsound::acceptSettings() {
 	}
 	if (sniffer && !m_pitchView->isPaused()) {
 		sniffer->startListening();
-		m_pitchView->startVolume();
+		m_pitchView->watchInput();
 	}
 }
 
@@ -149,7 +147,7 @@ void Tsound::setPitchView(TpitchView* pView) {
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
   if (sniffer) {
 			m_pitchView->setAudioInput(sniffer);
-      m_pitchView->startVolume();
+      m_pitchView->watchInput();
 			sniffer->startListening();
 	} else
 			m_pitchView->setDisabled(true);
@@ -164,7 +162,7 @@ void Tsound::prepareToConf() {
 	}
   if (sniffer) {
     sniffer->stopListening();
-    m_pitchView->stopVolume();
+    m_pitchView->stopWatching();
 		sniffer->terminate();
   }
 }
@@ -178,7 +176,7 @@ void Tsound::restoreAfterConf() {
   if (sniffer) {
     if (!m_pitchView->isPaused()) {
       sniffer->startListening();
-      m_pitchView->startVolume();
+      m_pitchView->watchInput();
     }
   }
 }
@@ -197,7 +195,6 @@ void Tsound::wait() {
 //     qDebug("wait");
   if (sniffer) {
     sniffer->stopListening();
-    m_pitchView->stopVolume();
   }
 }
 
@@ -206,7 +203,6 @@ void Tsound::go() {
 //     qDebug("go");
   if (sniffer && !m_pitchView->isPaused()) {
     sniffer->startListening();
-    m_pitchView->startVolume();
   }
 }
 
@@ -218,21 +214,21 @@ void Tsound::prepareAnswer() {
 
 
 void Tsound::pauseSinffing() {
-    if (sniffer)
-        sniffer->pause();
+  if (sniffer)
+      sniffer->pause();
 }
 
 
 void Tsound::unPauseSniffing() {
-    if (sniffer)
-        sniffer->unPause();
+  if (sniffer)
+      sniffer->unPause();
 }
 
 bool Tsound::isSnifferPaused() {
-    if (sniffer)
-        return sniffer->isPaused();
-    else
-        return false;
+  if (sniffer)
+      return sniffer->isPaused();
+  else
+      return false;
 }
 
 
@@ -286,17 +282,6 @@ void Tsound::setDefaultAmbitus() {
 }
 
 
-void Tsound::enableStoringNotes(bool en) {
-	if (sniffer)
-		sniffer->enableStoringNotes(en);
-}
-
-/*
-QList<TnoteStruct>& Tsound::notes() {
-		return sniffer->notes;
-}*/
-
-
 //------------------------------------------------------------------------------------
 //------------  private  methods     --------------------------------------------------
 //------------------------------------------------------------------------------------
@@ -342,7 +327,7 @@ void Tsound::playingFinishedSlot() {
   if (!m_examMode && sniffer) {
     if (!m_pitchView->isPaused()) {
         sniffer->startListening();
-        m_pitchView->startVolume();
+        m_pitchView->watchInput();
 				m_midiPlays = false;
     }
   }
