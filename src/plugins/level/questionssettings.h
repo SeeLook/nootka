@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,6 +48,8 @@ public:
 
 				/** Hides options related to guitar  */
 		void hideGuitarRelated();
+    
+    void setMelodiesEnabled(bool enableMelodies); /** Switches between melodies and single note.  */
 		
 signals:
     void questSettChanged(); /** If any GUI element is changed this signal is emitted. */
@@ -63,7 +65,6 @@ public slots:
 protected:
     void paintEvent(QPaintEvent*); /** Paints lines of a table*/
 		
-//     virtual void changedLocal();
 
 private:
     QWidget 							*m_tableWdg;

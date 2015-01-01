@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -116,7 +116,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		m_writeMelodyChB->setStatusTip(tableTip(TexTrans::writeDescTxt(), TQAtype::e_asSound, TQAtype::e_asNote, nootFontSize));
 // 		QCheckBox *m_repeatMelodyChB = new QCheckBox(tr("repeat melody"), this);
 	m_melodyLengthSpin = new QSpinBox(this);
-		m_melodyLengthSpin->setMaximum(100);
+// 		m_melodyLengthSpin->setValue(5);
 		m_melodyLengthSpin->setMinimum(1);
 		m_melodyLengthSpin->setMaximum(50);
 		m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody."));
@@ -201,10 +201,11 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	connect(m_melodiesGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
 	connect(m_playMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
 	connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
-	
-	m_singleGr->setChecked(false);
 }
 
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
 
 void questionsSettings::loadLevel(Tlevel* level) {
 	blockSignals(true);
@@ -250,9 +251,59 @@ void questionsSettings::loadLevel(Tlevel* level) {
 }
 
 
+void questionsSettings::saveLevel(Tlevel* level) {
+  level->questionAs.setAsNote(asNoteWdg->isChecked());
+  level->answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
+  level->questionAs.setAsName(asNameWdg->isChecked());
+  level->answersAs[TQAtype::e_asName] = asNameWdg->getAnswers();
+  level->questionAs.setAsFret(asFretPosWdg->isChecked());
+  level->answersAs[TQAtype::e_asFretPos] = asFretPosWdg->getAnswers();
+  level->questionAs.setAsSound(asSoundWdg->isChecked());
+  level->answersAs[TQAtype::e_asSound] = asSoundWdg->getAnswers();
+  
+  level->requireOctave = octaveRequiredChB->isChecked();
+  level->requireStyle = styleRequiredChB->isChecked();
+  level->showStrNr = showStrNrChB->isChecked();
+  level->onlyLowPos = lowPosOnlyChBox->isChecked();
+  level->intonation = m_intonationCombo->currentIndex();
+  
+  level->melodyLen = m_melodyLengthSpin->value();
+  level->endsOnTonic = m_finishOnTonicChB->isChecked();
+}
+
+
+void questionsSettings::setMelodiesEnabled(bool enableMelodies) {
+//   if ((enableMelodies && !m_melodiesGr->isChecked()) || (!enableMelodies && !m_singleGr->isChecked())) {
+    m_singleGr->blockSignals(true);
+    m_melodiesGr->blockSignals(true);
+    m_singleGr->setChecked(!enableMelodies);
+    m_melodiesGr->setChecked(enableMelodies);
+    if (enableMelodies) {
+      asNameWdg->setChecked(false);
+      asFretPosWdg->setChecked(false);
+      m_melodyLengthSpin->setRange(2, 50);
+    } else {
+      m_playMelodyChB->setChecked(false);
+      m_writeMelodyChB->setChecked(false);
+      m_melodyLengthSpin->setRange(1, 1);
+    }
+    asSoundWdg->setChecked(false); // reset it either for melodies or for single note
+    asNoteWdg->setChecked(false); // reset it either for melodies or for single note
+    m_singleGr->blockSignals(false);
+    m_melodiesGr->blockSignals(false);
+//   }
+}
+
+
 void questionsSettings::changed() {
 
 }
+
+
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+
 
 
 void questionsSettings::whenParamsChanged() {	
@@ -300,27 +351,6 @@ void questionsSettings::hideGuitarRelated() {
 }
 
 
-void questionsSettings::saveLevel(Tlevel* level) {
-    level->questionAs.setAsNote(asNoteWdg->isChecked());
-    level->answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
-    level->questionAs.setAsName(asNameWdg->isChecked());
-    level->answersAs[TQAtype::e_asName] = asNameWdg->getAnswers();
-    level->questionAs.setAsFret(asFretPosWdg->isChecked());
-    level->answersAs[TQAtype::e_asFretPos] = asFretPosWdg->getAnswers();
-    level->questionAs.setAsSound(asSoundWdg->isChecked());
-    level->answersAs[TQAtype::e_asSound] = asSoundWdg->getAnswers();
-    
-    level->requireOctave = octaveRequiredChB->isChecked();
-    level->requireStyle = styleRequiredChB->isChecked();
-    level->showStrNr = showStrNrChB->isChecked();
-    level->onlyLowPos = lowPosOnlyChBox->isChecked();
-		level->intonation = m_intonationCombo->currentIndex();
-		
-		level->melodyLen = m_melodyLengthSpin->value();
-		level->endsOnTonic = m_finishOnTonicChB->isChecked();
-}
-
-
 void questionsSettings::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
   QPen pen = painter.pen();
@@ -355,28 +385,7 @@ void questionsSettings::stringsCheckedSlot(bool checked) {
 
 
 void questionsSettings::singleMultiSlot() {
-	m_singleGr->blockSignals(true);
-	m_melodiesGr->blockSignals(true);
-	bool noMelody = false;
-	if ((sender() == m_singleGr && m_singleGr->isChecked()) || (sender() == m_melodiesGr && !m_melodiesGr->isChecked()))
-		      noMelody = true;
-	if (noMelody) {
-		m_melodiesGr->setChecked(false);
-		m_singleGr->setChecked(true);
-		m_playMelodyChB->setChecked(false);
-		m_writeMelodyChB->setChecked(false);
-		m_melodyLengthSpin->setRange(1, 1);
-	} else {
-		m_singleGr->setChecked(false);
-		m_melodiesGr->setChecked(true);
-		asNameWdg->setChecked(false);
-		asFretPosWdg->setChecked(false);
-		m_melodyLengthSpin->setRange(2, 50);
-	}
-	asSoundWdg->setChecked(false); // reset it either for melodies or for single note
-	asNoteWdg->setChecked(false); // reset it either for melodies or for single note
-	m_singleGr->blockSignals(false);
-	m_melodiesGr->blockSignals(false);
+	setMelodiesEnabled((sender() == m_singleGr && !m_singleGr->isChecked()) || (sender() == m_melodiesGr && m_melodiesGr->isChecked()));
 }
 
 
