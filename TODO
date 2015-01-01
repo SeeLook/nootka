@@ -19,11 +19,7 @@ MAJOR:
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - fix accidental animations
 
-- Pitch view remains enabled after exam (even the check box is unchecked)
-
 - certificates has to be adjusted to melodies
-
-- In level creator melodies have 1 note by default
 
 Tcanvas
 - canvas has to recognize when widgets are hidden and doesn't start correct animations 
@@ -33,7 +29,6 @@ Scaling issues:
 
 - There is unused class TnotePixmap only with default clef - use it or delete
 - vertical name layout is probably unused - clear it then
-- TpitchView could react on TaudioIN state to be automatically enabled/disabled
 
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -80,8 +80,7 @@ public:
   void restoreAfterAnswer(); /** Clears bg color and disables TpitchView. */
   void stopPlaying();
 	void setDefaultAmbitus(); /** Instrument scale extended of perfect 4th up and down. */
-	void enableStoringNotes(bool en);
-// 	QList<TnoteStruct>& notes();
+	
   
 signals:
 	void noteStarted(const Tnote&);

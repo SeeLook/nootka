@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -293,18 +293,15 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             curQ.qa.note = m_supp->determineAccid(curQ.qa.note);
     }
     if (m_exam->melodies()) {
-        if (curQ.answerAsSound()) // prepare list to store notes played by user
-          m_melody->newMelody(m_level.melodyLen);
-        else
-          m_melody->newMelody(0); // list in unused - just clear
-				if (m_penalty->isNot()) {
-					curQ.addMelody(QString("%1").arg(m_exam->count()));
-					curQ.melody()->setKey(curQ.key);
-					getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
-				}
-				curQ.newAttempt();
-				if (m_exercise) 
-          m_melody->clearToFix();
+      m_melody->newMelody(curQ.answerAsSound() ? m_level.melodyLen : 0); // prepare list to store notes played by user or clear it
+      if (m_penalty->isNot()) {
+        curQ.addMelody(QString("%1").arg(m_exam->count()));
+        curQ.melody()->setKey(curQ.key);
+        getRandomMelody(m_questList, curQ.melody(), m_level.melodyLen, m_level.onlyCurrKey, m_level.endsOnTonic);
+      }
+      curQ.newAttempt();
+      if (m_exercise) 
+        m_melody->clearToFix();
 		}
 //    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
@@ -483,7 +480,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     
     if (curQ.answerAsSound()) {
       mW->sound->prepareAnswer();
-// 			
 			if (curQ.questionAsSound()) {
 					connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying())); // sniffing after finished sound
 			} else
@@ -817,6 +813,7 @@ void TexamExecutor::newAttempt() {
 			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
 			disconnect(mW->score, SIGNAL(lockedNoteSelected(int)));
 	}
+	m_melody->newMelody(m_exam->curQ().answerAsSound() ? m_level.melodyLen : 0); // prepare list to store notes played by user or clear it
 	m_exam->curQ().newAttempt();
 	askQuestion(true);
 }
@@ -1031,8 +1028,6 @@ void TexamExecutor::prepareToExam() {
     m_snifferLocked = false;
     m_canvas = new Tcanvas(mW->innerWidget, m_exam, mW);
     connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
-		if (m_level.canBeMelody() && m_level.answerIsSound())
-				mW->sound->enableStoringNotes(true);
 		m_canvas->startTip();
 }
 
@@ -1058,7 +1053,6 @@ void TexamExecutor::restoreAfterExam() {
     mW->guitar->acceptSettings();
     mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
 		mW->sound->acceptSettings();
-		mW->sound->enableStoringNotes(false);
 
     mW->noteName->setNameDisabled(false);
     mW->guitar->setGuitarDisabled(false);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,6 +27,7 @@
 #include "rt/RtAudio.h"
 #include "trtaudio.h"
 
+
 class TpitchFinder;
 
 
@@ -42,27 +43,36 @@ class TpitchFinder;
 class NOOTKASOUND_EXPORT TaudioIN : public QObject, public TrtAudio
 {
     Q_OBJECT
+    
 public:
     explicit TaudioIN(TaudioParams *params, QObject *parent = 0);
     ~TaudioIN();
-		
+	
+      /** State of input audio device:
+       * @p e_listening - when input captures data and emits signals
+       * @p e_paused - when data is capturing but signals about detected pitches are not emitting
+       * @p e_stopped - capturing data is stopped. 
+       * Achieved by calling @p stopListening() and @p startListening()
+       */
+  enum Estate {
+    e_listening = 0, e_paused = 1, e_stopped = 2  
+    
+  };
+    
         /** Returns list of audio input devices filtered by template audio format */
 	static QStringList getAudioDevicesList(); 
-	
-			/** When storing notes is enabled every detected pitch with frequency and duration is dumped to list @p notes.
-			 * It is never cleared by itself so call @p notes.clear() when necessary. */
-	void enableStoringNotes(bool en) { m_storeNotes = en; }
-	QList<TnoteStruct> notes; /** List of detected notes */
 	
       /** Stops emitting signals about pitch detection, but detection is still performed.
 			 * It also resets last chunk pitch to ignore detection
        * It helps to sniff whole sound/note from begin to its end. */
-  void pause() { m_paused = true; m_LastChunkPitch = 0.0; }
+  void pause() { m_LastChunkPitch = 0.0; if (m_state == e_listening) setState(e_paused); }
   
       /** Starts emitting @param noteDetected and @param fundamentalFreq signals again. */
-  void unPause() { m_paused = false; }
-  bool isPaused() { return m_paused; }
-  bool isStoped() { return m_stopped; }
+  void unPause() { if (m_state == e_paused) setState(e_listening); }
+  bool isPaused() { return m_state == e_paused; }
+  bool isStoped() { return m_state == e_stopped; }
+  
+  Estate state() { return m_state; }
   
   float volume() { return m_volume; } /** Current volume of detecting sound or 0 if silence */
 	
@@ -96,12 +106,17 @@ public:
 			 * 2 - MPM modified cepstrum.
 			 * Currently set value is available through global. */
 	void setDetectionMethod(int method);
+  
+      /** Stores user action when he stopped sniffing himself. */
+  void setStoppedByUser(bool userStop) { m_stoppedByUser = userStop; }
+  bool stoppedByUser() { return m_stoppedByUser; }
 
 	
 signals:	
-			/** Emitted when note was played and its duration is longer than minimal duration */
-	void noteStarted(const TnoteStruct&);
-	void noteFinished(const TnoteStruct&);
+	void noteStarted(const TnoteStruct&); /** Emitted when note was played and its duration is longer than minimal duration */
+  void noteFinished(const TnoteStruct&); /** When already started note fade out */
+  void stateChanged(int); /** When device changes its state. It can be cast on @p Estate enumeration. */
+  
 
 public slots:
 	void startListening();
@@ -111,8 +126,6 @@ protected:
   static TaudioIN* instance() { return m_instances[m_thisInstance] ; }
 	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
   
-      /** is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
-  bool goingDelete() { return m_goingDelete; }
 
 private slots:
   void pitchInChunkSlot(float pitch);
@@ -121,23 +134,27 @@ private slots:
 	void noteStartedSlot(qreal pitch, qreal freq, qreal duration);
 	void noteFinishedSlot(TnoteStruct* lastNote);
   
+  void setState(Estate st) { m_state = st; emit stateChanged((int)st); }
+  
   
 private:  
       /** Keeps pointers for all (two) created instances of TaudioIN
        * static inCallBack uses it to has access. */
   static        		QList<TaudioIN*> m_instances;
   static        		int m_thisInstance;
+      /** is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
+  static bool       m_goingDelete;
 	
   TpitchFinder  	 *m_pitch;
   float         		m_volume;
-  bool          		m_paused, m_stopped, m_goingDelete;
 	Tnote							m_loNote, m_hiNote; 		/** Boundary notes of the ambitus. */
 	TnoteStruct				m_lastNote;
 	float							m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
-	bool 							m_storeNotes;
+	bool              m_stoppedByUser;
 	qreal 						m_loPitch, m_hiPitch;
 	bool							m_noteWasStarted;
 	int								m_currentRange; /** Current range of detected note - see @class TaudioParams */
+	Estate            m_state;
 };
 
 #endif // TRTAUDIOIN_H
