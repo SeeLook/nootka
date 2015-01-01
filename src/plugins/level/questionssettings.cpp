@@ -273,25 +273,23 @@ void questionsSettings::saveLevel(Tlevel* level) {
 
 
 void questionsSettings::setMelodiesEnabled(bool enableMelodies) {
-//   if ((enableMelodies && !m_melodiesGr->isChecked()) || (!enableMelodies && !m_singleGr->isChecked())) {
-    m_singleGr->blockSignals(true);
-    m_melodiesGr->blockSignals(true);
-    m_singleGr->setChecked(!enableMelodies);
-    m_melodiesGr->setChecked(enableMelodies);
-    if (enableMelodies) {
-      asNameWdg->setChecked(false);
-      asFretPosWdg->setChecked(false);
-      m_melodyLengthSpin->setRange(2, 50);
-    } else {
-      m_playMelodyChB->setChecked(false);
-      m_writeMelodyChB->setChecked(false);
-      m_melodyLengthSpin->setRange(1, 1);
-    }
-    asSoundWdg->setChecked(false); // reset it either for melodies or for single note
-    asNoteWdg->setChecked(false); // reset it either for melodies or for single note
-    m_singleGr->blockSignals(false);
-    m_melodiesGr->blockSignals(false);
-//   }
+  m_singleGr->blockSignals(true);
+  m_melodiesGr->blockSignals(true);
+  m_singleGr->setChecked(!enableMelodies);
+  m_melodiesGr->setChecked(enableMelodies);
+  if (enableMelodies) {
+    asNameWdg->setChecked(false);
+    asFretPosWdg->setChecked(false);
+    m_melodyLengthSpin->setRange(2, 50);
+  } else {
+    m_playMelodyChB->setChecked(false);
+    m_writeMelodyChB->setChecked(false);
+    m_melodyLengthSpin->setRange(1, 1);
+  }
+  asSoundWdg->setChecked(false); // reset it either for melodies or for single note
+  asNoteWdg->setChecked(false); // reset it either for melodies or for single note
+  m_singleGr->blockSignals(false);
+  m_melodiesGr->blockSignals(false);
 }
 
 
@@ -368,7 +366,7 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   painter.drawLine(tl.x() + 10, vertLineDownY, tl.x() + m_singleGr->contentsRect().width() - 20, vertLineDownY);
   int horLineLeftX = tl.x() + asNoteWdg->enableChBox->x()	+ asNoteWdg->enableChBox->width() + 14;
   painter.drawLine(horLineLeftX, tl.y() + 10, horLineLeftX, tl.y() + m_singleGr->contentsRect().height() - 20);
-  int horLineRightX = tl.x() + m_asSoundLab->geometry().x() + m_soundNooLab->geometry().width() + 14;
+  int horLineRightX = tl.x() + m_asSoundLab->geometry().x() + m_asSoundLab->geometry().width() + 14;
   painter.drawLine(horLineRightX, tl.y() + 10, horLineRightX, tl.y() + m_singleGr->contentsRect().height() - 20);
 	
 }
