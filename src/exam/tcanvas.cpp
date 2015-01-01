@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,7 +58,7 @@ Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
   m_scale(1),
   m_flyEllipse(0),
   m_timerToConfirm(new QTimer(this)),
-  m_minimizedQuestion(false)
+  m_minimizedQuestion(false), m_melodyCorrectMessage(false)
 {
   
   m_scene = m_view->scene();
@@ -68,10 +68,20 @@ Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
 	connect(m_scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sizeChangedDelayed(QRectF)));
   connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
 	view->installEventFilter(this);
+  int levelMessageDelay = 1;
+  if (TexecutorSupply::paramsChangedMessage())
+      levelMessageDelay = 7000;
+  QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
 }
 
 Tcanvas::~Tcanvas()
 {}
+
+
+void Tcanvas::changeExam(Texam* newExam) {
+  m_exam = newExam;
+}
+
 
 //######################################################################
 //##################################### TIPS ###########################
@@ -230,7 +240,7 @@ void Tcanvas::questionTip() {
 	delete m_startTip;  
   delete m_whatTip;
 	delete m_outTuneTip;
-	delete m_melodyTip;
+  clearMelodyCorrectMessage();
 	createQuestionTip();
 	m_guitarFree = m_questionTip->freeGuitar();
 	m_nameFree = m_questionTip->freeName();
@@ -273,16 +283,13 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
 }
 
 
-void Tcanvas::melodyTip() {
-	if (m_melodyTip)
+void Tcanvas::melodyCorrectMessage() {
+	if (m_melodyCorrectMessage)
 		return;
-	m_melodyTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px;\">").arg((bigFont() * 3) / 4) + 
-										tr("Click wrong notes to see<br>and listen to corrected ones.") + "</span>", gl->EanswerColor);
-	m_scene->addItem(m_melodyTip);
-	m_melodyTip->setTipMovable(true);
-	m_melodyTip->setScale(m_scale);
-	connect(m_melodyTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
-	setMelodyPos();
+	m_melodyCorrectMessage = true;
+  m_window->setMessageBg (-1);
+  m_window->setStatusMessage(QString("<span style=\"color: %1;\"><big>").arg(gl->EanswerColor.name()) + 
+										tr("Click wrong notes to see<br>and to listen to them corrected.") + "</big></span>");
 }
 
 
@@ -339,6 +346,15 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 //###################                PUBLIC            ############################################
 //#################################################################################################
 
+void Tcanvas::levelStatusMessage() {
+  m_window->setMessageBg(-1); // reset background
+  if (m_exam->isExercise())
+      m_window->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_exam->level()->name + "</b>");
+  else
+      m_window->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_exam->level()->name + "</b>");
+}
+
+
 void Tcanvas::clearCanvas() {
   clearConfirmTip();
   clearResultTip();
@@ -350,7 +366,7 @@ void Tcanvas::clearCanvas() {
 	delete m_questionTip;
 	delete m_certifyTip;
   delete m_outTuneTip;
-	delete m_melodyTip;
+  clearMelodyCorrectMessage();
 }
 
 
@@ -389,6 +405,14 @@ void Tcanvas::clearCorrection() {
 void Tcanvas::clearWhatNextTip() { delete m_whatTip; }
 
 
+void Tcanvas::clearMelodyCorrectMessage() {
+  if (m_melodyCorrectMessage) {
+    m_melodyCorrectMessage = false;
+    levelStatusMessage();
+  }
+}
+
+
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
 }
   
@@ -420,8 +444,6 @@ void Tcanvas::sizeChangedDelayed(const QRectF& newRect) {
 	}
 	if (!m_posOfConfirm.isNull())
 			m_posOfConfirm = QPointF(m_posOfConfirm.x() * factor.width(), m_posOfConfirm.y() * factor.height());
-	if (!m_posOfMelody.isNull())
-			m_posOfMelody = QPointF(m_posOfMelody.x() * factor.width(), m_posOfMelody.y() * factor.height());
 	m_prevSize = newRect.size();
 	m_newSize = newRect.size().toSize();
 	QTimer::singleShot(2, this, SLOT(sizeChanged()));
@@ -471,10 +493,6 @@ void Tcanvas::sizeChanged() {
   if (m_outTuneTip) {
 		m_outTuneTip->setScale(m_scale);
 		setOutTunePos();
-  }
-  if (m_melodyTip) {
-		m_melodyTip->setScale(m_scale);
-		setMelodyPos();
   }
 }
 
@@ -623,14 +641,6 @@ void Tcanvas::setOutTunePos() {
 }
 
 
-void Tcanvas::setMelodyPos() {
-	if (m_posOfMelody.isNull())
-		m_melodyTip->setPos(10.0, m_window->score->pos().y() + m_window->score->height() - m_melodyTip->realH() - 5.0);
-	else
-		m_melodyTip->setPos(m_posOfMelody);
-}
-
-
 void Tcanvas::updateRelatedPoint() {
 	m_relPoint.setX(m_window->score->geometry().x() + (m_window->noteName->geometry().x() - m_window->score->geometry().x()) / 2);
 	m_relPoint.setY(m_window->score->geometry().y());
@@ -651,8 +661,6 @@ void Tcanvas::tipMoved() {
 		m_posOfWhatTips[(int)m_tipPos] = m_whatTip->pos();
 	else if (sender() == m_confirmTip)
 		m_posOfConfirm = m_confirmTip->pos();
-	else if (sender() == m_melodyTip)
-		m_posOfMelody = m_melodyTip->pos();
 }
 
 

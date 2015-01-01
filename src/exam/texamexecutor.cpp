@@ -172,7 +172,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 			return;
 	}
 	prepareToExam();
-	if (m_exam->fileName().isEmpty() && gl->E->showHelpOnStart)
+	if (gl->E->showHelpOnStart)
 			showExamHelp();
 	if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
 		if (!m_supp->isGuitarOnlyPossible()) {
@@ -508,7 +508,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			disconnect(mW->sound, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
 			disconnect(mW->sound, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
       disconnect(mW->sound, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
-      connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
+      disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
 	}
 	if (m_exam->melodies() && mW->sound->melodyIsPlaying())
 		mW->sound->stopPlaying();
@@ -789,7 +789,7 @@ void TexamExecutor::correctAnswer() {
   else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
 			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
 	if (curQ.melody() && (curQ.questionAsNote() || curQ.answerAsNote()))
-			m_canvas->melodyTip();
+			m_canvas->melodyCorrectMessage();
 	if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
 			QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 }
@@ -959,10 +959,6 @@ void TexamExecutor::displayCertificate() {
  */
 void TexamExecutor::prepareToExam() {
 		setTitleAndTexts();
-		int levelMessageDelay = 1;
-		if (TexecutorSupply::paramsChangedMessage())
-				levelMessageDelay = 7000;
-		QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
 		mW->bar->actionsToExam();
 		
     disableWidgets();
@@ -1128,8 +1124,9 @@ void TexamExecutor::exerciseToExam() {
   m_exam->setTune(*gl->Gtune());
 	delete m_exercise;
 	m_exercise = 0;
+  m_canvas->changeExam(m_exam);
 	setTitleAndTexts();
-	levelStatusMessage();
+	m_canvas->levelStatusMessage();
 	m_supp->setFinished(false); // exercise had it set to true
   m_supp->resetKeyRandom(); // new set of randomized key signatures when exam requires them
 	initializeExecuting();
@@ -1380,7 +1377,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
     if (gl->E->expertsAnswerEnable)
       checkAnswer();
     else {
-      m_canvas->confirmTip(1500);
+      m_canvas->confirmTip(1000);
       mW->sound->wait();
     }
   }
@@ -1532,15 +1529,6 @@ void TexamExecutor::setTitleAndTexts() {
 			mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
 			mW->bar->startExamAct->setStatusTip(tr("stop the exam"));
 	}
-}
-
-
-void TexamExecutor::levelStatusMessage() {
-	mW->setMessageBg(-1); // reset background
-	if (m_exercise)
-			mW->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_level.name + "</b>");
-	else
-			mW->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_level.name + "</b>");
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,7 +62,7 @@ void TexamMelody::setNote(const TnoteStruct& n) {
 void TexamMelody::setCurrentIndex(int id) {
   if (!m_listened.isEmpty()) {
     if (id >= 0 && id < m_listened.size()) {
-      m_currentIndex = id;
+      m_currentIndex = id - 1; // decrease it because noteStarted() will increase it again
       m_indexChanged = true;
     } else
         qDebug() << "TexamMelody Index out of range!";

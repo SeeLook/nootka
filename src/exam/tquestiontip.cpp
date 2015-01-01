@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -145,7 +145,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
               m_questText += tr("Show on the guitar");
 				} else if (question.answerAsSound()) {
 									if (question.melody())
-										      m_questText += tr("Play or sing a melody.");
+										      m_questText += tr("Play or sing a melody.") + "<br>" + tr("Select any note to play again from it.");
 									else
 										      m_questText += playOrSing(int(level->instrument));
 				}

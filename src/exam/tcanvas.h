@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,6 +61,8 @@ public:
 	Tcanvas(QGraphicsView* view, Texam* exam, MainWindow *parent);
 	virtual ~Tcanvas();
 	
+  void changeExam(Texam* newExam); /** Replaces exam pointer given in constructor to the new one. */
+  
 	void addTip(TgraphicsTextTip *tip); // add any TgraphicsTextTip object
 	void resultTip(TQAunit *answer, int time = 0); // show was question correct text, hides after given time
 	void startTip(); // Text with help on an exam start
@@ -73,7 +75,7 @@ public:
 	void tryAgainTip(int time); // "Try again" text"
 	void confirmTip(int time = 0); // tip about confirm an answer appears after given time
 	void certificateTip(); // paper like exam report when finished
-	void melodyTip(); // How to get hints about corrected melody notes
+  void melodyCorrectMessage(); /** Status message about how to correct a melody notes. */
 	
 			/** 'to low' or 'to high' text above pitch view @p pitchDiff is float part of pitch */
 	void outOfTuneTip(float pitchDiff);		
@@ -112,6 +114,11 @@ public slots:
 	void clearCertificate();
 	void clearCorrection();
 	void clearWhatNextTip();
+  void clearMelodyCorrectMessage();
+  
+      /** Message on a status bar about currently performed exercise/exam.
+       * It has to be updated whenever correcting melody message is displayed and deleted.*/
+  void levelStatusMessage();
 
 signals:
 	void buttonClicked(const QString&); /** This signal is emitted when user click image button (a link) on any tip.*/
@@ -135,7 +142,7 @@ private:
 	QGraphicsScene 								*m_scene;
 	double 												 m_scale;
 	QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip;
-	QPointer<TgraphicsTextTip>		 m_confirmTip, m_outTuneTip, m_melodyTip;
+	QPointer<TgraphicsTextTip>		 m_confirmTip, m_outTuneTip;
 	QPointer<TquestionTip>				 m_questionTip;
 	QPointer<TnootkaCertificate>	 m_certifyTip;
 	Texam 												*m_exam;
@@ -150,8 +157,8 @@ private:
 	QColor												 m_correctColor;
 	TnoteName											*m_noteName;
 	QPoint												 m_relPoint;
-	QPointF												 m_posOfQuestTips[3], m_posOfWhatTips[3], m_posOfConfirm, m_posOfMelody;
-	bool													 m_minimizedQuestion;
+	QPointF												 m_posOfQuestTips[3], m_posOfWhatTips[3], m_posOfConfirm;
+	bool													 m_minimizedQuestion, m_melodyCorrectMessage;
 	EtipPos												 m_tipPos; /** Kind of tip position */
 	
 private:
@@ -165,7 +172,6 @@ private:
 	void setConfirmPos();
 	void setOutTunePos();
 	void updateRelatedPoint();
-	void setMelodyPos();
 	void createQuestionTip(); /** Be sure that @p m_exam has already pointed current exam */
 	void fixWidthOverScore(TgraphicsTextTip* tip); /** Scales tip if its width is bigger than score widget */
 	
