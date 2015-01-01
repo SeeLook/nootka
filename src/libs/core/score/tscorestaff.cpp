@@ -648,6 +648,8 @@ void TscoreStaff::createBrace() {
 	QFont ff = QFont("nootka");
 #if defined (Q_OS_MAC)
     ff.setPointSizeF(27.5);
+#elif defined (Q_OS_WIN)
+  ff.setPointSizeF(22);
 #else
   ff.setPointSizeF(23.3);
 #endif
@@ -659,13 +661,13 @@ void TscoreStaff::createBrace() {
   qreal distance = lowerLinePos() + 8.3 - upperLinePos();
   qreal fact = (distance + 1.3) / brace->boundingRect().height();
 #elif defined (Q_OS_WIN)
-  qreal distance = lowerLinePos() + 7 - upperLinePos();
-  qreal fact = (distance + 1.8) / m_brace->boundingRect().height();
+//  qreal distance = lowerLinePos() + 7 - upperLinePos();
+//  qreal fact = (distance + 1.8) / m_brace->boundingRect().height();
 #endif
 // 	m_brace->setScale(fact);
 	m_brace->setBrush(qApp->palette().text().color());
 // 	m_brace->setPos(-1.8, upperLinePos() + distance / 2 - (m_brace->boundingRect().height() * m_brace->scale()) / 2 + 0.4);
-  m_brace->setPos(-1.9, upperLinePos() + (22.18 - m_brace->boundingRect().height()) / 2.0);
+	m_brace->setPos(-1.9, upperLinePos() + (22.18 - m_brace->boundingRect().height()) / 2.0);
 }
 
 

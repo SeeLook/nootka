@@ -39,65 +39,66 @@ bool isNotSaved;
 TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
 {
+  isNotSaved = false;
+  setWindowTitle(levelCreatorTxt());
+  setWindowIcon(QIcon(Tcore::gl()->path + "picts/levelCreator.png"));
 
-    isNotSaved = false;
-    setWindowTitle(levelCreatorTxt());
-		setWindowIcon(QIcon(Tcore::gl()->path + "picts/levelCreator.png"));
-
-    navList->addItem(TlevelSelector::levelFilterTxt());
-    navList->item(0)->setIcon(QIcon(Tcore::gl()->path + "picts/levelsSettings.png"));
-    navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Questions"));
-    navList->item(1)->setIcon(QIcon(Tcore::gl()->path + "picts/questionsSettings.png"));
-    navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Accidentals"));
-    navList->item(2)->setIcon(QIcon(Tcore::gl()->path + "picts/accidSettings.png"));
-    navList->item(2)->setTextAlignment(Qt::AlignCenter);
+  navList->addItem(TlevelSelector::levelFilterTxt());
+  navList->item(0)->setIcon(QIcon(Tcore::gl()->path + "picts/levelsSettings.png"));
+  navList->item(0)->setTextAlignment(Qt::AlignCenter);
+  navList->addItem(tr("Questions"));
+  navList->item(1)->setIcon(QIcon(Tcore::gl()->path + "picts/questionsSettings.png"));
+  navList->item(1)->setTextAlignment(Qt::AlignCenter);
+  navList->addItem(tr("Accidentals"));
+  navList->item(2)->setIcon(QIcon(Tcore::gl()->path + "picts/accidSettings.png"));
+  navList->item(2)->setTextAlignment(Qt::AlignCenter);
 // 		navList->addItem(tr("Melodies"));
 //     navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/melodySett.png"));
 //     navList->item(3)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Range"));
-    navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/rangeSettings.png"));
-    navList->item(3)->setTextAlignment(Qt::AlignCenter);
+  navList->addItem(tr("Range"));
+  navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/rangeSettings.png"));
+  navList->item(3)->setTextAlignment(Qt::AlignCenter);
 
-    m_levelSett = new levelSettings();
-    m_questSett = new questionsSettings(this);
-    m_accSett = new accidSettings(this);
+  m_levelSett = new levelSettings();
+  m_questSett = new questionsSettings(this);
+  m_accSett = new accidSettings(this);
 // 		m_meloSett = new TmelodySettings(this);
-    m_rangeSett = new rangeSettings(this);
+  m_rangeSett = new rangeSettings(this);
 
-    stackLayout->addWidget(m_levelSett);
-    stackLayout->addWidget(m_questSett);
-    stackLayout->addWidget(m_accSett);
+  stackLayout->addWidget(m_levelSett);
+  stackLayout->addWidget(m_questSett);
+  stackLayout->addWidget(m_accSett);
 // 		stackLayout->addWidget(m_meloSett);
-    stackLayout->addWidget(m_rangeSett);
-		
-		if (Tcore::gl()->instrument == e_noInstrument)
-			m_questSett->hideGuitarRelated();
-		
-    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
+  stackLayout->addWidget(m_rangeSett);
+  
+  if (Tcore::gl()->instrument == e_noInstrument)
+    m_questSett->hideGuitarRelated();
+  m_questSett->blockSignals(true);
+  m_questSett->setMelodiesEnabled(!Tcore::gl()->S->isSingleNoteMode);
+  m_questSett->blockSignals(false);
+  
+  hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 
-    connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
+  connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
-    navList->setCurrentRow(0);
-		okBut = buttonBox->addButton(tr("Check"), QDialogButtonBox::AcceptRole);
-			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
-			okBut->setStatusTip(tr("Check, Are your settings for the level possible to perform."));
-		cancelBut = buttonBox->addButton(QDialogButtonBox::Close);
-			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
-    
-    connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
-    connect(m_levelSett->levelSelector(), &TlevelSelector::levelChanged, this, &TlevelCreatorDlg::levelWasSelected); // to load level to widgets
-    connect(m_rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
-    connect(m_questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
-    connect(m_accSett, SIGNAL(accidsChanged()), this, SLOT(levelNotSaved()));
-    connect(m_levelSett->saveButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::saveToFile);
-    connect(m_levelSett->levelSelector(), &TlevelSelector::levelToLoad, this, &TlevelCreatorDlg::loadFromFile);
-    connect(m_levelSett->startExamButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
-		connect(m_levelSett->startExerciseButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
-    
-    connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
-		m_questSett->setMelodiesEnabled(!Tcore::gl()->S->isSingleNoteMode);
+  navList->setCurrentRow(0);
+  okBut = buttonBox->addButton(tr("Check"), QDialogButtonBox::AcceptRole);
+    okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
+    okBut->setStatusTip(tr("Check, Are your settings for the level possible to perform."));
+  cancelBut = buttonBox->addButton(QDialogButtonBox::Close);
+    cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
+  
+  connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
+  connect(m_levelSett->levelSelector(), &TlevelSelector::levelChanged, this, &TlevelCreatorDlg::levelWasSelected); // to load level to widgets
+  connect(m_rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));
+  connect(m_questSett, SIGNAL(questSettChanged()), this, SLOT(levelNotSaved()));
+  connect(m_accSett, SIGNAL(accidsChanged()), this, SLOT(levelNotSaved()));
+  connect(m_levelSett->saveButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::saveToFile);
+  connect(m_levelSett->levelSelector(), &TlevelSelector::levelToLoad, this, &TlevelCreatorDlg::loadFromFile);
+  connect(m_levelSett->startExamButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
+  connect(m_levelSett->startExerciseButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
+  
+  connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
 }
 
 
