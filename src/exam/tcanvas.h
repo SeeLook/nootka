@@ -119,6 +119,8 @@ public slots:
       /** Message on a status bar about currently performed exercise/exam.
        * It has to be updated whenever correcting melody message is displayed and deleted.*/
   void levelStatusMessage();
+  
+  void playMelodyAgainMessage(); /** displays message text: Select any note to play it again. */
 
 signals:
 	void buttonClicked(const QString&); /** This signal is emitted when user click image button (a link) on any tip.*/

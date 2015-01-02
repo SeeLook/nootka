@@ -61,7 +61,6 @@ Tnote
 - enable/disable animations option
 - make exam summary pretty
 - there has to be some help with key shortcuts
-- notes number in levels should be randomized, given value will be just a maximum
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote
 - tempo menu
