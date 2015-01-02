@@ -402,6 +402,25 @@ void TscoreStaff::checkNoteRange(bool doEmit) {
 }
 
 
+void TscoreStaff::shrinkHeight() {
+// 	if (m_height != minHight()) {
+// 		prepareGeometryChange();
+// 		m_height = minHight();
+// 		qDebug() << "staff height shrinked" << boundingRect().height();
+// 	}
+}
+
+
+void TscoreStaff::maximizeHeight() {
+// 	qreal maxH = isPianoStaff() ? 46.0 : 40.0;
+// 	if (m_height != maxH) {
+// 		prepareGeometryChange();
+// 		m_height = maxH;
+// 		qDebug() << "staff height restored" << boundingRect().height();
+// 	}
+}
+
+
 void TscoreStaff::enableToAddNotes(bool alowAdding) {
 	scoreScene()->left()->enableToAddNotes(alowAdding);
 	scoreScene()->right()->enableToAddNotes(alowAdding);

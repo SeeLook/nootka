@@ -120,6 +120,9 @@ public:
 		
 		bool isCorrectAnimPending() { return m_correctNoteNr > -1; } /** @p TRUE when animation is in progress. */
 		
+		void shrinkStavesHeight();
+		void maximizeStavesHeight();
+		
 signals:
 		void noteChanged(int index, Tnote note);
 		

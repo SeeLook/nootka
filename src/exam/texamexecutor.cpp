@@ -302,7 +302,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       }
       curQ.newAttempt();
       if (m_exercise) 
-        m_melody->clearToFix();
+        m_melody->clearToFix(melodyLength);
 		}
 //    qDebug() << curQ.qa.note.toText() << "Q" << (int)curQ.questionAs
 //            << "A" << (int)curQ.answerAs << curQ.key.getName()
@@ -722,6 +722,7 @@ void TexamExecutor::correctAnswer() {
 	QColor markColor = m_supp->answerColor(curQ);
 	if (curQ.melody() && (curQ.answerAsNote() || curQ.questionAsNote())) {
 		mW->score->setReadOnlyReacting(true); // It is undone whenever unLockScore() is called
+		mW->score->shrinkStavesHeight();
 	}
 	if (curQ.answerAsNote()) {
 		if (curQ.melody()) {
@@ -813,9 +814,11 @@ void TexamExecutor::newAttempt() {
 	if (m_exercise && m_exam->curQ().answerAsNote()) {
 			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
 			disconnect(mW->score, SIGNAL(lockedNoteSelected(int)));
+			mW->score->maximizeStavesHeight();
 	}
 	// prepare list to store notes played by user or clear it
 	m_melody->newMelody(m_exam->curQ().answerAsSound() ? m_exam->curQ().melody()->length() : 0);
+	m_melody->clearToFix(m_exam->curQ().melody()->length());
 	m_exam->curQ().newAttempt();
 	askQuestion(true);
 }

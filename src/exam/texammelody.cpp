@@ -72,9 +72,9 @@ void TexamMelody::setCurrentIndex(int id) {
 }
 
 
-void TexamMelody::clearToFix() {
+void TexamMelody::clearToFix(int notesCount) {
   m_attemptFix.clear();
-  for (int i = 0 ; i < m_listened.size(); ++i)
+  for (int i = 0 ; i < notesCount; ++i)
     m_attemptFix << false;
 }
 

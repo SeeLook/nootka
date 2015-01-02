@@ -60,7 +60,7 @@ public:
   bool wasIndexChanged() { return m_indexChanged; }
   
   QList<bool>& attemptFix() { return m_attemptFix; } /** List of fixed notes in melody during exercise */
-  void clearToFix(); /** Clears the list and sets all elements to false. TexamMelody has to be initialized - notes list not empty. */
+  void clearToFix(int notesCount); /** Clears the list and sets all given number elements to false. */
   bool fixed(int noteNr) { return m_attemptFix[noteNr]; }
   void setFixed(int noteNr) { m_attemptFix[noteNr] = true; } /** Sets given note number to true (fixed) */
   

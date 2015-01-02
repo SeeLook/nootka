@@ -458,6 +458,7 @@ void TmainScore::askQuestion(Tmelody* mel) {
 	m_questMark->show();
 	setMelody(mel);
 	setScoreDisabled(true);
+	shrinkStavesHeight();
 }
 
 
@@ -571,13 +572,13 @@ void TmainScore::correctAccidental(Tnote& goodNote) {
 
 
 void TmainScore::correctKeySignature(TkeySignature newKey) {
-		if (staff()->scoreKey())
-				m_keyBlinking = new TblinkingItem(staff()->scoreKey());
-		else
-				return;
-		m_goodKey = newKey;
-		connect(m_keyBlinking, SIGNAL(finished()), this, SLOT(keyBlinkingFinished()));
-		m_keyBlinking->startBlinking(2);
+	if (staff()->scoreKey())
+			m_keyBlinking = new TblinkingItem(staff()->scoreKey());
+	else
+			return;
+	m_goodKey = newKey;
+	connect(m_keyBlinking, SIGNAL(finished()), this, SLOT(keyBlinkingFinished()));
+	m_keyBlinking->startBlinking(2);
 }
 
 
@@ -599,6 +600,19 @@ void TmainScore::deleteNoteName(int id) {
 	} else if (id < notesCount())
 			noteFromId(id)->removeNoteName();
 }
+
+
+void TmainScore::shrinkStavesHeight() {
+	for (int i = 0; i < staffCount(); ++i)
+		staves(i)->shrinkHeight();
+}
+
+
+void TmainScore::maximizeStavesHeight() {
+	for (int i = 0; i < staffCount(); ++i)
+		staves(i)->maximizeHeight();
+}
+
 
 //####################################################################################################
 //########################################## PUBLIC SLOTS ############################################
