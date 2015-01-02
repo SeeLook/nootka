@@ -242,6 +242,7 @@ void TmultiScore::deleteNotes() {
 			delete notesToDel[i];
 	}
 	removeCurrentNote();
+	staff()->maximizeHeight(); // It doesn't harm but can fix shrinked staff
 	updateSceneRect();
 	m_currentIndex = -1;
 }

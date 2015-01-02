@@ -138,6 +138,9 @@ public:
 				/** Checks positions of all notes to find lowest and highest.
 				 * @p doEmit determines whether this method sends appropriate signals */
 		void checkNoteRange(bool doEmit = true);
+		
+		void shrinkHeight(); /** Sets staff height to minimal possible value - @p minHight() */
+		void maximizeHeight(); /** Sets staff height to maximal size: 40 - single, 46 - piano staff. */
 				
 				/** Updates rectangle of QGraphicsScene to staff bounding rectangle. */
     void updateSceneRect();
@@ -185,7 +188,7 @@ public:
 		bool extraAccids() { return m_extraAccids; }
 		
 				/** Stops/starts capturing any mouse events. */
-		void setDisabled(bool disabled);		
+		void setDisabled(bool disabled);
 		
 		virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
     virtual QRectF boundingRect() const;
