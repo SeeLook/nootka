@@ -145,7 +145,7 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
               m_questText += tr("Show on the guitar");
 				} else if (question.answerAsSound()) {
 									if (question.melody())
-										      m_questText += tr("Play or sing a melody.") + "<br>" + tr("Select any note to play again from it.");
+										      m_questText += tr("Play or sing a melody.");
 									else
 										      m_questText += playOrSing(int(level->instrument));
 				}

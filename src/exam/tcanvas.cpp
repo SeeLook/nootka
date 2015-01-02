@@ -236,6 +236,11 @@ void Tcanvas::showConfirmTip() {
 }
 
 
+void Tcanvas::playMelodyAgainMessage() {
+  m_window->setStatusMessage(detectedText(tr("Select any note to play it again.")), 3000);
+}
+
+
 void Tcanvas::questionTip() {
 	delete m_startTip;  
   delete m_whatTip;

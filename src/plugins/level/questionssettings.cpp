@@ -119,7 +119,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 // 		m_melodyLengthSpin->setValue(5);
 		m_melodyLengthSpin->setMinimum(1);
 		m_melodyLengthSpin->setMaximum(50);
-		m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody."));
+		m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody. Length is randomized and can be less but at least 70% of it."));
 	QLabel *lenghtLab = new QLabel(tr("Melody length"), this);
 		lenghtLab->setStatusTip(m_melodyLengthSpin->statusTip());
 		
@@ -183,6 +183,11 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		
 	setLayout(mainLay);
 
+  connect(m_singleGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
+  connect(m_melodiesGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
+  connect(m_playMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
+  connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
+  
 	connect(asNoteWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
 	connect(asNameWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
 	connect(asFretPosWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
@@ -197,10 +202,6 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(m_melodyLengthSpin, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 	
-	connect(m_singleGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
-	connect(m_melodiesGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
-	connect(m_playMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
-	connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
 }
 
 //#################################################################################################
@@ -305,29 +306,31 @@ void questionsSettings::changed() {
 
 
 void questionsSettings::whenParamsChanged() {	
-	// Disable 'show string' and 'lowest position only' when no answers as guitar and/or sound
-		if (lowPosOnlyChBox->isVisible()) {
-			bool lowDisabled = false;
-			if (!asNoteWdg->answerAsPos() && !asNameWdg->answerAsPos() && 
-								!asFretPosWdg->answerAsPos() && !asSoundWdg->answerAsPos() &&
-								!asNoteWdg->answerAsSound() && !asNameWdg->answerAsSound() && 
-								!asFretPosWdg->answerAsSound() && !asSoundWdg->answerAsSound())
-					lowDisabled = true;		
-  // Disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
-			if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
-				showStrNrChB->setChecked(true);
-				lowPosOnlyChBox->setChecked(false);
-				lowDisabled = true;
-			}
-			lowPosOnlyChBox->setDisabled(lowDisabled);
-			showStrNrChB->setDisabled(lowDisabled);
-		}
-	// Is sound input enabled to enable intonation
-		if (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())
-				m_intonationCombo->setDisabled(false);
-		else
-				m_intonationCombo->setDisabled(true);
-    changedLocal();
+// Disable 'show string' and 'lowest position only' when no answers as guitar and/or sound
+  if (lowPosOnlyChBox->isVisible()) {
+    bool lowDisabled = false;
+    if (!asNoteWdg->answerAsPos() && !asNameWdg->answerAsPos() && 
+              !asFretPosWdg->answerAsPos() && !asSoundWdg->answerAsPos() &&
+              !asNoteWdg->answerAsSound() && !asNameWdg->answerAsSound() && 
+              !asFretPosWdg->answerAsSound() && !asSoundWdg->answerAsSound())
+        lowDisabled = true;		
+// Disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
+    if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
+      showStrNrChB->setChecked(true);
+      lowPosOnlyChBox->setChecked(false);
+      lowDisabled = true;
+    }
+    lowPosOnlyChBox->setDisabled(lowDisabled);
+    showStrNrChB->setDisabled(lowDisabled);
+  }
+// Is sound input enabled to allow intonation check
+  if ((m_singleGr->isChecked() &&
+    (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())) ||
+    (m_melodiesGr->isChecked() && m_playMelodyChB->isChecked()) )
+      m_intonationCombo->setDisabled(false);
+  else
+      m_intonationCombo->setDisabled(true);
+  changedLocal();
 }
 
 
