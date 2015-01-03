@@ -40,6 +40,7 @@ MINOR:
 - think to disable pitch view during melodies correction - it is just stopped now
 
 Charts:
+	- when Tchart creator calculates when set scene rectangle increase scene width with its -x() position
 	- points (notes) shadow changes with zoom - fix it
 	- staff line disappears sometimes (when zoom is big)
 	- use of realW() & realH() of TgraphicsTip

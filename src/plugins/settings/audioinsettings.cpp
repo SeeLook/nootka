@@ -250,6 +250,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   lay->addWidget(enableInBox);
   setLayout(lay);
   
+  m_testDisabled = false;
   setTestDisabled(true);
 	enableInBox->setCheckable(true);
   enableInBox->setChecked(m_glParams->INenabled);
@@ -264,6 +265,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
 	connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
+  connect(enableInBox, &QGroupBox::clicked, this, &AudioInSettings::testSlot);
 }
 
 
@@ -281,34 +283,38 @@ AudioInSettings::~AudioInSettings()
 //------------          methods       ------------------------------------------------
 //------------------------------------------------------------------------------------
 void AudioInSettings::setTestDisabled(bool disabled) {
-  m_testDisabled = disabled;
-  if (disabled) {
-			pitchLab->setText("--");
-			freqLab->setText("--");
-			pitchLab->setDisabled(true);
-			freqLab->setDisabled(true);
-			pitchView->setDisabled(true);
-	// enable the rest of widget
-			m_inDeviceCombo->setDisabled(false);
-			modeGr->setDisabled(false);
-			m_intervalSpin->setDisabled(false);
-			m_upSemiToneRadio->setDisabled(false);
-			m_downsSemitoneRadio->setDisabled(false);
-			volumeSlider->setDisabled(false);
-			m_intonationCombo->setDisabled(false);
-  } else {
-			pitchLab->setDisabled(false);
-			freqLab->setDisabled(false);
-			pitchView->setDisabled(false);
-	// disable the rest of widget
-			m_inDeviceCombo->setDisabled(true);
-			m_intervalSpin->setDisabled(true);
-			m_upSemiToneRadio->setDisabled(true);
-			m_downsSemitoneRadio->setDisabled(true);
-			modeGr->setDisabled(true);
-			volumeSlider->setDisabled(true);
-			durationSpin->setDisabled(true);
-			m_intonationCombo->setDisabled(true);
+  if (m_testDisabled != disabled) {
+    qDebug() << "setTestDisabled" << disabled;
+    m_testDisabled = disabled;
+    if (disabled) {
+      pitchLab->setText("--");
+      freqLab->setText("--");
+      pitchLab->setDisabled(true);
+      freqLab->setDisabled(true);
+      pitchView->setDisabled(true);
+  // enable the rest of widget
+      m_inDeviceCombo->setDisabled(false);
+      modeGr->setDisabled(false);
+      m_intervalSpin->setDisabled(false);
+      m_upSemiToneRadio->setDisabled(false);
+      m_downsSemitoneRadio->setDisabled(false);
+      volumeSlider->setDisabled(false);
+      durationSpin->setDisabled(false);
+      m_intonationCombo->setDisabled(false);
+    } else {
+      pitchLab->setDisabled(false);
+      freqLab->setDisabled(false);
+      pitchView->setDisabled(false);
+  // disable the rest of widget
+      m_inDeviceCombo->setDisabled(true);
+      m_intervalSpin->setDisabled(true);
+      m_upSemiToneRadio->setDisabled(true);
+      m_downsSemitoneRadio->setDisabled(true);
+      modeGr->setDisabled(true);
+      volumeSlider->setDisabled(true);
+      durationSpin->setDisabled(true);
+      m_intonationCombo->setDisabled(true);
+    }
   }
 }
 
@@ -448,42 +454,50 @@ void AudioInSettings::stopSoundTest() {
 
 
 void AudioInSettings::testSlot() {
-	if (sender() == m_toolBox) {
+  bool tempTestState = m_testDisabled;
+  if (sender() == testButt)
+    setTestDisabled(!m_testDisabled);
+	else if (sender() == m_toolBox) {
 		if (m_toolBox->currentIndex() == 3) // 4. test settings page
 			setTestDisabled(false);
 		else
 			setTestDisabled(true);
 	} else {
-		if (m_toolBox->isVisible())
-			setTestDisabled(!m_testDisabled);
-		else
-			setTestDisabled(true);
+      if (enableInBox->isChecked() && m_toolBox->isVisible()) {
+        if (m_toolBox->currentIndex() == 3) // 4. test settings page
+          setTestDisabled(false);
+        else
+          setTestDisabled(true);
+      } else
+        setTestDisabled(true);
 	}
-  if (!m_testDisabled) { // start a test
-    grabParams(m_tmpParams);
-    if (!m_audioIn) { // create new audio-in device
-				m_audioIn = new TaudioIN(m_tmpParams, this);
-				pitchView->setAudioInput(m_audioIn);
-				connect(m_audioIn, &TaudioIN::noteStarted, this, &AudioInSettings::noteSlot);
-		} else { // set parameters to existing device
-				m_audioIn->updateAudioParams();
-				m_audioIn->setAudioInParams();
-		}
-	// ambitus is lowest note of instrument scale dropped on 2 major and highest Tartini note (140 in MIDI)
-		m_audioIn->setAmbitus(Tnote(m_tune->str(m_tune->stringNr()).chromatic() - 2), Tnote(93));
-    testButt->setText(stopTxt);
-		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
-    m_audioIn->startListening();
-    pitchView->watchInput();
-		pitchView->setIntonationAccuracy(m_tmpParams->intonation);
-  } else { // stop a test
-		if (m_audioIn) {
-			pitchView->stopWatching();
-			m_audioIn->stopListening();
-		}
-    testButt->setText(testTxt);
-		testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
-    setTestDisabled(true);
+	if (tempTestState != m_testDisabled) {
+    if (!m_testDisabled) { // start a test
+      grabParams(m_tmpParams);
+      if (!m_audioIn) { // create new audio-in device
+          m_audioIn = new TaudioIN(m_tmpParams, this);
+          pitchView->setAudioInput(m_audioIn);
+          connect(m_audioIn, &TaudioIN::noteStarted, this, &AudioInSettings::noteSlot);
+      } else { // set parameters to existing device
+          m_audioIn->updateAudioParams();
+          m_audioIn->setAudioInParams();
+      }
+    // ambitus is lowest note of instrument scale dropped on 2 major and highest Tartini note (140 in MIDI)
+      m_audioIn->setAmbitus(Tnote(m_tune->str(m_tune->stringNr()).chromatic() - 2), Tnote(93));
+      testButt->setText(stopTxt);
+      testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
+      m_audioIn->startListening();
+      pitchView->watchInput();
+      pitchView->setIntonationAccuracy(m_tmpParams->intonation);
+    } else { // stop a test
+      if (m_audioIn) {
+        pitchView->stopWatching();
+        m_audioIn->stopListening();
+      }
+      testButt->setText(testTxt);
+      testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)));
+      setTestDisabled(true);
+    }
   }
 }
 

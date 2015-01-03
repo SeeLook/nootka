@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -107,7 +107,7 @@ QString TrtAudio::currentRtAPI() {
 
 
 
-#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
+#if !defined (Q_OS_MAC)
 void TrtAudio::setJACKorASIO(bool jack) {
 	if (jack != m_JACKorASIO) {
 		abortStream();
@@ -223,6 +223,10 @@ TrtAudio::~TrtAudio()
 void TrtAudio::updateAudioParams() {
 	m_isOpened = false;
 	closeStream();
+  if (!m_inParams)
+      m_inParams = new RtAudio::StreamParameters;
+  if (!m_outParams)
+    m_outParams = new RtAudio::StreamParameters;
 	setJACKorASIO(audioParams()->JACKorASIO);
 // preparing devices
 	int inDevId = -1, outDevId = -1;
@@ -272,6 +276,10 @@ void TrtAudio::updateAudioParams() {
 			if (m_outParams)
 				outDevId = 0;
 		}
+		if (inDevId == -1)
+        inDevId = 0;
+    if (outDevId == -1)
+        outDevId = 0;
   }
 // setting device parameters
 	if (m_inParams) {
@@ -320,8 +328,7 @@ bool TrtAudio::openStream() {
 	try {
     if (rtDevice() && !rtDevice()->isStreamOpen()) {
 				m_bufferFrames = 1024; // reset when it was overridden by another rt API
-				rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(),
-															 &m_bufferFrames, m_callBack, 0, streamOptions);
+				rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(), &m_bufferFrames, m_callBack, 0, streamOptions);
 // 				qDebug() << "openStream";
 				if (rtDevice()->isStreamOpen()) {
 					ao()->emitStreamOpened();
@@ -349,7 +356,7 @@ bool TrtAudio::openStream() {
     }
   }
   catch (RtAudioError& e) {
-    qDebug() << "can't open stream";
+    qDebug() << "can't open stream" << QString::fromStdString(e.getMessage());
     return false;
   }
   return true;
