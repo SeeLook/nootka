@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -129,8 +129,8 @@ protected slots:
 	virtual void addStaff(TscoreStaff* st = 0);
 	void deleteLastStaff();
   
-  void roClickedSlot(TscoreNote* sn);
-  void roSelectedSlot(TscoreNote* sn);
+  void roClickedSlot(TscoreNote* sn, const QPointF& clickPos);
+  void roSelectedSlot(TscoreNote* sn, const QPointF& clickPos);
 	
 private:
 	QMainWindow									*m_mainWindow;

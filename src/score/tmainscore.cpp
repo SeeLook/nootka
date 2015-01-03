@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -458,7 +458,6 @@ void TmainScore::askQuestion(Tmelody* mel) {
 	m_questMark->show();
 	setMelody(mel);
 	setScoreDisabled(true);
-	shrinkStavesHeight();
 }
 
 
@@ -600,19 +599,6 @@ void TmainScore::deleteNoteName(int id) {
 	} else if (id < notesCount())
 			noteFromId(id)->removeNoteName();
 }
-
-
-void TmainScore::shrinkStavesHeight() {
-	for (int i = 0; i < staffCount(); ++i)
-		staves(i)->shrinkHeight();
-}
-
-
-void TmainScore::maximizeStavesHeight() {
-	for (int i = 0; i < staffCount(); ++i)
-		staves(i)->maximizeHeight();
-}
-
 
 //####################################################################################################
 //########################################## PUBLIC SLOTS ############################################

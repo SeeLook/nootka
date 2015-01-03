@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -119,9 +119,6 @@ public:
 		TnoteName* noteName() { return m_nameMenu; }
 		
 		bool isCorrectAnimPending() { return m_correctNoteNr > -1; } /** @p TRUE when animation is in progress. */
-		
-		void shrinkStavesHeight();
-		void maximizeStavesHeight();
 		
 signals:
 		void noteChanged(int index, Tnote note);

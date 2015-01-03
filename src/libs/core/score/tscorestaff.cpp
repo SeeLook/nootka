@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -399,25 +399,6 @@ void TscoreStaff::checkNoteRange(bool doEmit) {
 		if (doEmit && oldLo != m_loNotePos)
 			emit loNoteChanged(number(), m_loNotePos - oldLo);
 		return;
-}
-
-
-void TscoreStaff::shrinkHeight() {
-// 	if (m_height != minHight()) {
-// 		prepareGeometryChange();
-// 		m_height = minHight();
-// 		qDebug() << "staff height shrinked" << boundingRect().height();
-// 	}
-}
-
-
-void TscoreStaff::maximizeHeight() {
-// 	qreal maxH = isPianoStaff() ? 46.0 : 40.0;
-// 	if (m_height != maxH) {
-// 		prepareGeometryChange();
-// 		m_height = maxH;
-// 		qDebug() << "staff height restored" << boundingRect().height();
-// 	}
 }
 
 

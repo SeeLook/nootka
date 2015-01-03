@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -499,18 +499,18 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     }
 	} else { // read only mode
 		if (event->button() == Qt::LeftButton)
-			emit roNoteClicked(this);
+			emit roNoteClicked(this, event->pos());
 		else if (event->button() == Qt::RightButton)
-			emit roNoteSelected(this);
+			emit roNoteSelected(this, event->pos());
 	}
 }
 
 
-void TscoreNote::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*) {
+void TscoreNote::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) {
 	if (scoreScene()->workPosY()) // edit mode
 		emit noteWasSelected(m_index);
 	else // read only mode
-		emit roNoteSelected(this);
+		emit roNoteSelected(this, event->pos());
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -138,9 +138,6 @@ public:
 				/** Checks positions of all notes to find lowest and highest.
 				 * @p doEmit determines whether this method sends appropriate signals */
 		void checkNoteRange(bool doEmit = true);
-		
-		void shrinkHeight(); /** Sets staff height to minimal possible value - @p minHight() */
-		void maximizeHeight(); /** Sets staff height to maximal size: 40 - single, 46 - piano staff. */
 				
 				/** Updates rectangle of QGraphicsScene to staff bounding rectangle. */
     void updateSceneRect();

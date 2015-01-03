@@ -206,8 +206,6 @@ void TexamExecutor::initializeExecuting() {
 	m_penalty = new Tpenalty(m_exam, m_supp, mW->examResults, mW->progress);
 	connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
 	if (m_exercise) {
-    if (m_exam->melodies())
-      connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctDictationNote);
     if (gl->E->suggestExam)
       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
 	} else {
@@ -238,6 +236,8 @@ void TexamExecutor::initializeExecuting() {
 void TexamExecutor::askQuestion(bool isAttempt) {
 	m_askingTimer->stop();
 	m_lockRightButt = false; // release mouse button events
+	if (m_exam->count() && m_exercise && m_exam->melodies())
+    disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
 	if (m_exam->count() && m_exam->melodies())
 		mW->bar->removeAction(mW->bar->attemptAct);
 	if (!isAttempt) { // add new question to the list
@@ -722,7 +722,6 @@ void TexamExecutor::correctAnswer() {
 	QColor markColor = m_supp->answerColor(curQ);
 	if (curQ.melody() && (curQ.answerAsNote() || curQ.questionAsNote())) {
 		mW->score->setReadOnlyReacting(true); // It is undone whenever unLockScore() is called
-		mW->score->shrinkStavesHeight();
 	}
 	if (curQ.answerAsNote()) {
 		if (curQ.melody()) {
@@ -786,9 +785,10 @@ void TexamExecutor::correctAnswer() {
 			m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
 			m_askingTimer->start(gl->E->correctPreview);
   }
-  if (curQ.melody())
+  if (curQ.melody()) {
 		m_canvas->whatNextTip(false, false);
-  else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
+    connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
+  } else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
 			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
 	if (curQ.melody() && (curQ.questionAsNote() || curQ.answerAsNote()))
 			m_canvas->melodyCorrectMessage();
@@ -811,11 +811,9 @@ void TexamExecutor::newAttempt() {
 			} else // although clear all marked notes in exams
 					mW->score->markQuestion(-1, i);
 		}
-	if (m_exercise && m_exam->curQ().answerAsNote()) {
-			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
-			disconnect(mW->score, SIGNAL(lockedNoteSelected(int)));
-			mW->score->maximizeStavesHeight();
-	}
+// 	if (m_exercise && m_exam->curQ().answerAsNote()) {
+// 			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
+// 	}
 	// prepare list to store notes played by user or clear it
 	m_melody->newMelody(m_exam->curQ().answerAsSound() ? m_exam->curQ().melody()->length() : 0);
 	m_melody->clearToFix(m_exam->curQ().melody()->length());
@@ -1120,8 +1118,6 @@ void TexamExecutor::exerciseToExam() {
 	m_isAnswered = true;
 	qApp->installEventFilter(m_supp);
 	m_exam->saveToFile();
-  if (m_exam->melodies())
-    disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctDictationNote);
 	QString userName = m_exam->userName();
 	delete m_penalty;
 	delete m_exam;
@@ -1392,6 +1388,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
 
 void TexamExecutor::noteOfMelodySelected(int nr) {
   m_melody->setCurrentIndex(nr);
+  mW->score->selectNote(nr);
   mW->sound->go();
   m_canvas->clearConfirmTip();
 }
@@ -1449,8 +1446,8 @@ void TexamExecutor::expertAnswersSlot() {
  * - corrected if score is an answer
  * - shows position on the guitar
  * - plays its sound
- * - displays message with detected pitch if note was wrong  */
-void TexamExecutor::correctDictationNote(int noteNr) {
+ * - displays message with detected pitch if note was played wrong  */
+void TexamExecutor::correctNoteOfMelody(int noteNr) {
 	if (m_exam->curQ().melody()) {
 		mW->score->selectNote(noteNr);
 		if (noteNr < m_exam->curQ().lastAttempt()->mistakes.size()) {

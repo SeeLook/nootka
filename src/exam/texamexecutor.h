@@ -124,7 +124,7 @@ protected slots:
   
 	void prepareToSettings(); /** Should be called when main window is going to display settings dialog. */
 	void settingsAccepted(); /** Should be called when settings (Tglobals) was changed during exam. */
-	void correctDictationNote(int noteNr);
+	void correctNoteOfMelody(int noteNr);
 
 private:
 	void createActions();
