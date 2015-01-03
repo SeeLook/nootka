@@ -12,12 +12,15 @@
 ============================================================================
 
 
-
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - when new staff is automatically added selected note is wrong
 - changing tool bar auto-hiding causes sometimes locked melody menu
-- fix accidental animations
+- fix accidental animations - they jump when melody is set as a question
+- selecting read only notes (right and double click) is unused - it is good - but clean a code
+- do not continue answering with melody that was fully or too much corrected
+
+- resized score in disabled state adds note to edit
 
 - certificates has to be adjusted to melodies
 
@@ -35,7 +38,8 @@ Scaling issues:
 MINOR:
 
 - move what_next/question tips to the right over guitar in single note mode
-- during correction melodies on a score with a few staves clicking a note works strange due to staff is placed over staff
+
+- think to disable pitch view during melodies correction - it is just stopped now
 
 Charts:
 	- points (notes) shadow changes with zoom - fix it

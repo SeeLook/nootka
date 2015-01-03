@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -242,19 +242,32 @@ void TmultiScore::deleteNotes() {
 			delete notesToDel[i];
 	}
 	removeCurrentNote();
-	staff()->maximizeHeight(); // It doesn't harm but can fix shrinked staff
 	updateSceneRect();
 	m_currentIndex = -1;
 }
 
-
-void TmultiScore::roClickedSlot(TscoreNote* sn) {
-  if (m_selectReadOnly)
-    emit lockedNoteClicked(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
+/** Before emitting signals about clicked/selected note in read only state,
+ * a code below checks is any staff lays under clicked note.
+ * This is due to staves are partially placed one over another.
+ */
+void TmultiScore::roClickedSlot(TscoreNote* sn, const QPointF& clickPos) {
+  if (m_selectReadOnly) {
+    int staffNr = sn->staff()->number();
+    if (clickPos.y() < sn->staff()->hiNotePos() && sn->staff()->number() > 0) // above staff
+      staffNr--;
+    else if (clickPos.y() > sn->staff()->loNotePos() && sn->staff()->number() < staffCount() - 1 && 
+      sn->index() <= staves(staffNr + 1)->count()) // below staff
+      staffNr++;
+    if (staffNr != sn->staff()->number()) {
+      sn->staff()->setZValue(10); // // put fake staff under
+      staves(staffNr)->setZValue(11); // and clicked staff above others
+    }
+    emit lockedNoteClicked(staffNr * staff()->maxNoteCount() + sn->index());
+  }
 }
 
 
-void TmultiScore::roSelectedSlot(TscoreNote* sn) {
+void TmultiScore::roSelectedSlot(TscoreNote* sn, const QPointF& clickPos) {
   if (m_selectReadOnly) {
     qDebug() << "roSelectedSlot is here";
     emit lockedNoteSelected(sn->staff()->number() * staff()->maxNoteCount() + sn->index());

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -131,8 +131,8 @@ signals:
 		void toKeyAnim(QString, QPointF, int notePos); /** Emitted when accidental has been in key already */
 		void fromKeyAnim(QString, QPointF, int notePos); /** Emitted when neutral is necessary */
 		
-		void roNoteClicked(TscoreNote*); /** Emitted after mouse left click in read only state */
-		void roNoteSelected(TscoreNote*); /** Emitted after mouse right click or double click in read only state */ 
+		void roNoteClicked(TscoreNote*, const QPointF&); /** Emitted after mouse left click in read only state with clicked position. */
+		void roNoteSelected(TscoreNote*, const QPointF&); /** Emitted after mouse right click or double click in read only state */ 
 		
 public slots:
 		void keyAnimFinished();
@@ -149,7 +149,7 @@ protected:
 #endif
 		
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent*);
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
     
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
