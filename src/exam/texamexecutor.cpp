@@ -1021,7 +1021,6 @@ void TexamExecutor::prepareToExam() {
 		if (!m_exercise) {
 			if (mW->guitar->isVisible() && !m_level.canBeMelody()) {
 					mW->innerWidget->moveExamToName();
-					mW->score->resizeSlot();
 			}
 		}
     m_snifferLocked = false;

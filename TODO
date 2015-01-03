@@ -20,8 +20,6 @@ MAJOR:
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
 - do not continue answering with melody that was fully or too much corrected
 
-- resized score in disabled state adds note to edit
-
 - certificates has to be adjusted to melodies
 
 Tcanvas

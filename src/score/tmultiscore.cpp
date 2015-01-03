@@ -39,7 +39,7 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	m_clickedOff(0), m_currentIndex(-1),
 	m_useAinim(true),
 	m_addNoteAnim(true),
-	m_selectReadOnly(false)
+	m_selectReadOnly(false), m_isDisabled(false)
 {
 	setObjectName("m_mainScore");
 	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
@@ -150,13 +150,16 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 
 
 void TmultiScore::setScoreDisabled(bool disabled) {
-	for (int i = 0; i < m_staves.size(); ++i) {
-		m_staves[i]->setDisabled(disabled);
-	}
-	if (disabled) {
-		scoreScene()->left()->hide();
-		scoreScene()->right()->hide();
-	}
+  if (disabled != m_isDisabled) {
+    m_isDisabled = disabled;
+    for (int i = 0; i < m_staves.size(); ++i) {
+      m_staves[i]->setDisabled(disabled);
+    }
+    if (disabled) {
+      scoreScene()->left()->hide();
+      scoreScene()->right()->hide();
+    }
+  }
 }
 
 
@@ -277,12 +280,6 @@ void TmultiScore::roSelectedSlot(TscoreNote* sn, const QPointF& clickPos) {
 //####################################################################################################
 //###################################   PROTECTED   ##################################################
 //####################################################################################################
-/** To call TsimpleScore::resizeEvent twice solves problem 
- * with adjusting score size to scene (staff) in single note mode. */
-void TmultiScore::resizeSlot() {
-// 	TsimpleScore::resizeEvent(0);
-}
-
 
 void TmultiScore::resizeEvent(QResizeEvent* event) {
   int hh = height(), ww = width();
@@ -312,12 +309,15 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 			adjustStaffWidth(m_staves[i]);
 			if (i == 0) { // first loop - make preparations for new amount of staves
 				stavesNumber = allNotes.size() / m_staves[0]->maxNoteCount(); // needed staves for this amount of notes
-				if (allNotes.size() % m_staves[0]->maxNoteCount())
+				if (allNotes.size() % staff()->maxNoteCount())
 						stavesNumber++;
 				if (stavesNumber > m_staves.size()) { // create new staff(staves)
 						int stavesToAdd = stavesNumber - m_staves.size();
 						for (int s = 0; s < stavesToAdd; s++) {
 							addStaff();
+              lastStaff()->blockSignals(true);
+              lastStaff()->removeNote(0);
+              lastStaff()->blockSignals(false);
 						}
 				} else if (stavesNumber < m_staves.size()) { // or delete unnecessary staves
 						int stavesToDel = m_staves.size() - stavesNumber;
@@ -415,31 +415,32 @@ void TmultiScore::adjustStaffWidth(TscoreStaff* st) {
 void TmultiScore::addStaff(TscoreStaff* st) {
 	if (st == 0) { // create new staff at the end of a list
 		m_staves << new TscoreStaff(scoreScene(), 1);
-		m_staves.last()->onClefChanged(m_staves.first()->scoreClef()->clef());
-		m_staves.last()->scoreClef()->setReadOnly(m_staves.first()->scoreClef()->readOnly());
+		lastStaff()->onClefChanged(m_staves.first()->scoreClef()->clef());
+		lastStaff()->scoreClef()->setReadOnly(m_staves.first()->scoreClef()->readOnly());
 		lastStaff()->setEnableKeySign(staff()->scoreKey());
-		if (m_staves.last()->scoreKey())
-			m_staves.last()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());
-		connect(m_staves.last(), SIGNAL(hiNoteChanged(int,qreal)), this, SLOT(staffHiNoteChanged(int,qreal))); // ignore for first
-} else { // staff of TsimpleScore is added this way
+		if (lastStaff()->scoreKey())
+			lastStaff()->scoreKey()->setKeySignature(m_staves.first()->scoreKey()->keySignature());
+		connect(lastStaff(), SIGNAL(hiNoteChanged(int,qreal)), this, SLOT(staffHiNoteChanged(int,qreal))); // ignore for first
+    lastStaff()->setDisabled(m_isDisabled);
+  } else { // staff of TsimpleScore is added this way
 		st->enableToAddNotes(true);
 		st->disconnect(SIGNAL(noteChanged(int)));
 		st->disconnect(SIGNAL(clefChanged(Tclef)));
 		m_staves << st;
 	}
 	connectForReadOnly(lastStaff()->noteSegment(0));
-	m_staves.last()->setStafNumber(m_staves.size() - 1);
-	connect(m_staves.last(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
-	connect(m_staves.last(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
-	connect(m_staves.last(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-	connect(m_staves.last(), SIGNAL(noMoreSpace(int)), this, SLOT(staffHasNoSpace(int)));
-	connect(m_staves.last(), SIGNAL(freeSpace(int,int)), this, SLOT(staffHasFreeSpace(int,int)));
-	connect(m_staves.last(), SIGNAL(noteToMove(int,TscoreNote*)), this, SLOT(noteGetsFree(int,TscoreNote*)));
-	connect(m_staves.last(), SIGNAL(noteIsRemoving(int,int)), this, SLOT(noteRemovingSlot(int,int)));
-	connect(m_staves.last(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
-	connect(m_staves.last(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
-	if (m_staves.last()->scoreKey())
-		connect(m_staves.last()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
+	lastStaff()->setStafNumber(m_staves.size() - 1);
+	connect(lastStaff(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
+	connect(lastStaff(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
+	connect(lastStaff(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+	connect(lastStaff(), SIGNAL(noMoreSpace(int)), this, SLOT(staffHasNoSpace(int)));
+	connect(lastStaff(), SIGNAL(freeSpace(int,int)), this, SLOT(staffHasFreeSpace(int,int)));
+	connect(lastStaff(), SIGNAL(noteToMove(int,TscoreNote*)), this, SLOT(noteGetsFree(int,TscoreNote*)));
+	connect(lastStaff(), SIGNAL(noteIsRemoving(int,int)), this, SLOT(noteRemovingSlot(int,int)));
+	connect(lastStaff(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
+	connect(lastStaff(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
+	if (lastStaff()->scoreKey())
+		connect(lastStaff()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 }
 
 
@@ -488,6 +489,7 @@ void TmultiScore::keyChangedSlot() {
  */
 
 void TmultiScore::staffHasNoSpace(int staffNr) {
+//   qDebug() << "staffHasNoSpace" << staffNr;
 	addStaff();
 	adjustStaffWidth(m_staves.last());
 	m_staves.last()->checkNoteRange(false);
@@ -501,7 +503,7 @@ void TmultiScore::staffHasNoSpace(int staffNr) {
 
 
 void TmultiScore::staffHasFreeSpace(int staffNr, int notesFree) {
-	qDebug() << "staffHasFreeSpace" << staffNr << notesFree;
+// 	qDebug() << "staffHasFreeSpace" << staffNr << notesFree;
 	if (m_staves[staffNr] != m_staves.last()) { // is not the last staff,
 		QList<TscoreNote*> notes;
 		m_staves[staffNr + 1]->takeNotes(notes, 0, notesFree - 1); // take first note from the next staff
@@ -522,7 +524,7 @@ void TmultiScore::staffHasFreeSpace(int staffNr, int notesFree) {
 
 
 void TmultiScore::noteGetsFree(int staffNr, TscoreNote* freeNote) {
-	qDebug() << "noteGetFree" << staffNr << freeNote->note()->toText();
+// 	qDebug() << "noteGetFree" << staffNr << freeNote->note()->toText();
 	if (staffNr + 1 == m_staves.size())
 		staffHasNoSpace(staffNr); // add staff
 	for (int i = m_staves.size() - 2; i >= staffNr + 1; i--) { // make space in next staves
@@ -535,6 +537,7 @@ void TmultiScore::noteGetsFree(int staffNr, TscoreNote* freeNote) {
 
 
 void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
+//   qDebug() << "noteAddingSlot" << staffNr;
 	if (staffNr * staff()->maxNoteCount() + noteToAdd < m_currentIndex) {
 // 		qDebug() << "selected note moved forward";
 		m_currentIndex++;
@@ -550,6 +553,7 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 
 
 void TmultiScore::noteRemovingSlot(int staffNr, int noteToDel) {
+//   qDebug() << "noteRemovingSlot" << staffNr;
 	if (staffNr * staff()->maxNoteCount() + noteToDel == m_currentIndex) {
 		qDebug() << "current selected note will be removed";
 		changeCurrentIndex(-1);
@@ -562,7 +566,7 @@ void TmultiScore::noteRemovingSlot(int staffNr, int noteToDel) {
 
 
 void TmultiScore::staffHiNoteChanged(int staffNr, qreal hiNoteYoff) {
-	qDebug() << "staffHiNoteChanged" << hiNoteYoff << m_staves[staffNr]->hiNotePos();
+// 	qDebug() << "staffHiNoteChanged" << hiNoteYoff << m_staves[staffNr]->hiNotePos();
 	for (int i = staffNr; i < m_staves.size(); i++) // move every staff with difference
 			m_staves[i]->setY(m_staves[i]->y() + hiNoteYoff);
 	updateSceneRect();
@@ -571,7 +575,7 @@ void TmultiScore::staffHiNoteChanged(int staffNr, qreal hiNoteYoff) {
 
 void TmultiScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
 	if (m_staves.size() > 1 && staffNr < m_staves.size() - 1) { // more staves and not the last one
-		qDebug() << "staffLoNoteChanged" << loNoteYoff << m_staves[staffNr]->loNotePos();
+// 		qDebug() << "staffLoNoteChanged" << loNoteYoff << m_staves[staffNr]->loNotePos();
 		for (int i = staffNr + 1; i < m_staves.size(); i++) // move every staff with difference
 			m_staves[i]->setY(m_staves[i]->y() + loNoteYoff);
 		updateSceneRect();

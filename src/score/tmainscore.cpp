@@ -200,17 +200,16 @@ void TmainScore::setMelody(Tmelody* mel) {
 			setKeySignature(mel->key());
 	for (int i = 0; i < mel->length(); ++i) {
 		if (i > notesCount() - 1) {
-			staves(i / staff()->maxNoteCount())->addNote(mel->note(i)->p());
+			staves(i / staff()->maxNoteCount())->addNote(mel->note(i)->p(), isScoreDisabled());
 		} else {
 			changeCurrentIndex(i);
 			setNote(mel->note(i)->p());
 		}
 	}
 	setAnimationsEnabled(animEnabled);
-	if (mel->length() < notesCount()) {
-		for (int i = 0; i < notesCount() - mel->length(); ++i) {
+	if (mel->length() < notesCount()) { // remove automatically added empty note(s)
+		for (int i = 0; i < notesCount() - mel->length(); ++i)
 			lastStaff()->removeNote(lastStaff()->count() - 1);
-		}
 	}
 }
 

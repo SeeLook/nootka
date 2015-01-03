@@ -71,6 +71,7 @@ public:
 	virtual void setEnableKeySign(bool isEnabled);
 	
 	void setScoreDisabled(bool disabled);
+  bool isScoreDisabled() { return m_isDisabled; }
 	
 	qreal scoreScale() { return m_scale; } /** Scale factor of user zoom. */
 	void setScoreScale(qreal sc);
@@ -98,7 +99,6 @@ public slots:
 	void onClefChanged(Tclef cl);
 	void removeCurrentNote(); /** Removes currently selected note, if any. */
 	void deleteNotes(); /** Deletes all notes from the score - single one remains */
-	void resizeSlot(); /** Invokes resizeEvent() of simple score. */
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
@@ -140,7 +140,7 @@ private:
 			/** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
 	int													 m_clickedOff, m_currentIndex;
 	bool 												 m_useAinim, m_addNoteAnim;
-  bool                         m_selectReadOnly;
+  bool                         m_selectReadOnly, m_isDisabled;
 	
 	QList<TscoreStaff*>					 m_staves; // list of staves in page view
 	
