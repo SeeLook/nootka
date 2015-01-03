@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -285,7 +285,7 @@ void TpitchFinder::detect() {
 				} 
 				else { // detected note is still playing
 					if (!m_couldBeNew) { // if volume increasing was not detected yet - check it
-						if (m_volume - m_prevVolume > 0.07) { // volume increased - probably the same note was played again
+						if (m_volume - m_prevVolume > 0.15) { // volume increased - probably the same note was played again
 							m_state = e_noticed;
 							m_couldBeNew = true;
 							m_newNoteStartDur = m_lastDuration;
