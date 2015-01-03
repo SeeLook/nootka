@@ -811,12 +811,9 @@ void TexamExecutor::newAttempt() {
 			} else // although clear all marked notes in exams
 					mW->score->markQuestion(-1, i);
 		}
-// 	if (m_exercise && m_exam->curQ().answerAsNote()) {
-// 			disconnect(mW->score, SIGNAL(lockedNoteClicked(int)), this, 0);
-// 	}
 	// prepare list to store notes played by user or clear it
 	m_melody->newMelody(m_exam->curQ().answerAsSound() ? m_exam->curQ().melody()->length() : 0);
-	m_melody->clearToFix(m_exam->curQ().melody()->length());
+// 	m_melody->clearToFix(m_exam->curQ().melody()->length());
 	m_exam->curQ().newAttempt();
 	askQuestion(true);
 }
@@ -1364,10 +1361,8 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   m_melody->noteStarted();
 	if (m_melody->currentIndex() == 0) // first played note was detected
 		m_exam->curQ().lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - n.duration);
-  if (m_melody->currentIndex() < m_exam->curQ().melody()->length())
-    mW->score->selectNote(m_melody->currentIndex());
-  else
-    qDebug() << "Pitch detection was not properly stopped";
+  if (m_melody->currentIndex() + 1 < m_exam->curQ().melody()->length()) // highlight next note
+    mW->score->selectNote(m_melody->currentIndex() + 1);
 }
 
 
