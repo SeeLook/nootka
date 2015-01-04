@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -131,6 +131,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
 
 TaudioOUT::~TaudioOUT() 
 {
+//   abortStream();
+  closeStream();
   deleteOutParams();
   resetCallBack();
   delete oggScale;
@@ -196,6 +198,7 @@ bool TaudioOUT::play(int noteNr) {
 
 
 void TaudioOUT::stop() {
+  abortStream();
 	closeStream();
 }
 

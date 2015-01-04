@@ -58,6 +58,8 @@ public:
     e_listening = 0, e_paused = 1, e_stopped = 2  
     
   };
+  
+  static TaudioIN* instance() { return m_instance; }
     
         /** Returns list of audio input devices filtered by template audio format */
 	static QStringList getAudioDevicesList(); 
@@ -123,7 +125,6 @@ public slots:
 	void stopListening();
   
 protected:
-  static TaudioIN* instance() { return m_instances[m_thisInstance] ; }
 	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
   
 
@@ -138,10 +139,8 @@ private slots:
   
   
 private:  
-      /** Keeps pointers for all (two) created instances of TaudioIN
-       * static inCallBack uses it to has access. */
-  static        		QList<TaudioIN*> m_instances;
-  static        		int m_thisInstance;
+      /** Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
+  static        		TaudioIN* m_instance;
       /** is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
   static bool       m_goingDelete;
 	

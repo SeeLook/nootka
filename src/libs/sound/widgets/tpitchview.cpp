@@ -96,6 +96,9 @@ void TpitchView::watchInput() {
     m_volumeView->setDisabled(false);
     m_watchTimer->start(75);
     connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
+    m_volumeView->setDisabled(false);
+    if (m_intoView->accuracy() != TintonationView::e_noCheck)
+        m_intoView->setDisabled(false);
   }
 }
 
@@ -108,6 +111,8 @@ void TpitchView::stopWatching() {
     m_volumeView->setVolume(0.0); // it has to be called twice to reset
     if (m_intoView->isEnabled())
       m_intoView->pitchSlot(0.0);
+    m_volumeView->setDisabled(true);
+    m_intoView->setDisabled(true);
   }
 }
 
@@ -128,9 +133,9 @@ void TpitchView::setDisabled(bool isDisabled) {
   if (isDisabled)
     stopWatching();
   else
-      watchInput();
-  m_volumeView->setDisabled(isDisabled);
-	m_intoView->setDisabled(isDisabled);
+    watchInput();
+//   m_volumeView->setDisabled(isDisabled && m_watchTimer->isActive());
+// 	m_intoView->setDisabled(isDisabled && m_watchTimer->isActive());
 }
 
 
@@ -169,8 +174,8 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 
 
 bool TpitchView::isPaused() {
-  if (m_audioIN)
-    return m_audioIN->stoppedByUser();
+  if (m_audioIN && m_withButtons)
+    return !m_pauseChBox->isChecked();
   return false;
 }
 
@@ -209,13 +214,13 @@ void TpitchView::pauseClicked() {
   if (m_audioIN)
     m_audioIN->setStoppedByUser(!m_pauseChBox->isChecked());
 	if (m_pauseChBox->isChecked()) {
-		if (m_intoView->accuracy() != TintonationView::e_noCheck)
-				m_intoView->setDisabled(false); // else is already disabled
+// 		if (m_intoView->accuracy() != TintonationView::e_noCheck)
+// 				m_intoView->setDisabled(false); // else is already disabled
 		m_audioIN->startListening();
 	} else {
 		m_audioIN->stopListening();
-		m_volumeView->setDisabled(true);
-		m_intoView->setDisabled(true);
+// 		m_volumeView->setDisabled(true);
+// 		m_intoView->setDisabled(true);
 	}
 }
 
@@ -226,7 +231,7 @@ void TpitchView::minimalVolumeChanged(float minVol) {
 
 
 void TpitchView::inputStateChanged(int inSt) {
-  if (inSt != m_prevState) {
+  if (isEnabled() && inSt != m_prevState) {
     if (m_withButtons) {
       TaudioIN::Estate inState = (TaudioIN::Estate)inSt;
       if (inState == TaudioIN::e_stopped) {

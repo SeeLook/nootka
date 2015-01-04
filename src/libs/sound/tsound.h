@@ -95,12 +95,13 @@ private:
   void createSniffer();
   void deletePlayer();
   void deleteSniffer();
+  void restoreSniffer(); /** Brings back sniffer & pitch view state as such as before settings dialog */
   
   TpitchView 					 *m_pitchView;
   Tnote 			 					m_detectedPitch; // detected note pitch
   bool 				 					m_examMode;
 	Tnote				 					m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stored during an exam
-	bool 				 					m_midiPlays;
+	bool 				 					m_midiPlays, m_userState;;
 	int										m_melodyNoteIndex;
 	Tmelody							 *m_playedMelody;
   

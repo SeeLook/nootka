@@ -54,9 +54,9 @@ Tsound::~Tsound()
   deletePlayer();
 }
 
-//------------------------------------------------------------------------------------
-//------------  public  methods     --------------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
 
 void Tsound::play(Tnote& note) {
   bool playing = false;
@@ -133,9 +133,8 @@ void Tsound::acceptSettings() {
 					sniffer->updateAudioParams();
 			}
 	}
-	if (sniffer && !m_pitchView->isPaused()) {
-		sniffer->startListening();
-		m_pitchView->watchInput();
+	if (sniffer) {
+    restoreSniffer();
 	}
 }
 
@@ -147,7 +146,6 @@ void Tsound::setPitchView(TpitchView* pView) {
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
   if (sniffer) {
 			m_pitchView->setAudioInput(sniffer);
-      m_pitchView->watchInput();
 			sniffer->startListening();
 	} else
 			m_pitchView->setDisabled(true);
@@ -155,15 +153,18 @@ void Tsound::setPitchView(TpitchView* pView) {
 
 
 void Tsound::prepareToConf() {
-//   stopPlaying();
   if (player) {
 		player->stop();
     player->deleteMidi();
+//     deletePlayer();
 	}
   if (sniffer) {
+    m_userState = m_pitchView->isPaused();
     sniffer->stopListening();
-    m_pitchView->stopWatching();
+    m_pitchView->setDisabled(true);
+    blockSignals(true);
 		sniffer->terminate();
+    sniffer->setStoppedByUser(false);
   }
 }
 
@@ -173,12 +174,8 @@ void Tsound::restoreAfterConf() {
     if (player)
       player->setMidiParams();
   }
-  if (sniffer) {
-    if (!m_pitchView->isPaused()) {
-      sniffer->startListening();
-      m_pitchView->watchInput();
-    }
-  }
+  if (sniffer)
+    restoreSniffer();
 }
 
 
@@ -282,9 +279,11 @@ void Tsound::setDefaultAmbitus() {
 }
 
 
-//------------------------------------------------------------------------------------
-//------------  private  methods     --------------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################                PRIVATE           ############################################
+//#################################################################################################
+
+
 
 void Tsound::createPlayer() {
   if (Tcore::gl()->A->midiEnabled) {
@@ -297,12 +296,16 @@ void Tsound::createPlayer() {
 
 
 void Tsound::createSniffer() {
-  sniffer = new TaudioIN(Tcore::gl()->A);
+  if (TaudioIN::instance())
+    sniffer = TaudioIN::instance();
+  else
+    sniffer = new TaudioIN(Tcore::gl()->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
 	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
 	connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
 }
+
 
 void Tsound::deletePlayer() {
   if (player) {
@@ -319,15 +322,26 @@ void Tsound::deleteSniffer() {
 }
 
 
-//------------------------------------------------------------------------------------
-//------------  slots               --------------------------------------------------
-//------------------------------------------------------------------------------------
+void Tsound::restoreSniffer() {
+  sniffer->setStoppedByUser(m_userState);
+  m_pitchView->setDisabled(false);
+  blockSignals(false);
+  sniffer->startListening();
+}
+
+
+
+//#################################################################################################
+//###################            PRIVATE SLOTS         ############################################
+//#################################################################################################
+
+
 void Tsound::playingFinishedSlot() {
 //   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
     if (!m_pitchView->isPaused()) {
         sniffer->startListening();
-        m_pitchView->watchInput();
+//         m_pitchView->watchInput();
 				m_midiPlays = false;
     }
   }
