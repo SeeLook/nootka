@@ -1341,7 +1341,7 @@ void TexamExecutor::repeatSound() {
 
 void TexamExecutor::playMiddleA() {
   Tnote a1(6, 1, 0);
-  mW->sound->stopPlaying();
+//   mW->sound->stopPlaying();
   mW->sound->play(a1);
   connectPlayingFinished();
 }

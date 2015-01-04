@@ -31,6 +31,8 @@
 #include <QtWidgets>
 
 
+
+bool m_paramsWereChanged = false;
 AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* parent) :
   QWidget(parent),
   m_audioIn(0),
@@ -271,10 +273,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 
 AudioInSettings::~AudioInSettings()
 {
-  pitchView->stopWatching();
-  if (m_audioIn) {
+  if (m_audioIn)
     m_audioIn->stopListening();
-    delete m_audioIn;
+  if (m_paramsWereChanged) { // params were changed but not accepted
+    *m_glParams = *m_tmpParams; // restore them
+    m_audioIn->updateAudioParams();
   }
   delete m_tmpParams;
 }
@@ -284,7 +287,6 @@ AudioInSettings::~AudioInSettings()
 //------------------------------------------------------------------------------------
 void AudioInSettings::setTestDisabled(bool disabled) {
   if (m_testDisabled != disabled) {
-    qDebug() << "setTestDisabled" << disabled;
     m_testDisabled = disabled;
     if (disabled) {
       pitchLab->setText("--");
@@ -354,10 +356,11 @@ void AudioInSettings::restoreDefaults() {
 
 
 void AudioInSettings::saveSettings() {
-  if (m_listGenerated && enableInBox->isChecked())
+  if (m_listGenerated && enableInBox->isChecked()) {
       grabParams(m_glParams);
-  else // do not save any knob state to global params if disabled
+  } else // do not save any state to global params if disabled
     m_glParams->INenabled = false;
+    m_paramsWereChanged = false; // params were accepted
 }
 
 
@@ -388,7 +391,7 @@ void AudioInSettings::updateAudioDevList() {
 
 
 float AudioInSettings::offPitch(float pitch) {
-  return pitch2freq(pitch + m_tmpParams->a440diff);
+  return pitch2freq(pitch + m_glParams->a440diff);
 }
 
 
@@ -422,7 +425,7 @@ void AudioInSettings::getFreqStatusTip() {
 
 
 int AudioInSettings::getFreq(double freq) {
-    return qRound((pitch2freq(freq2pitch(freq) + m_tmpParams->a440diff)));
+    return qRound((pitch2freq(freq2pitch(freq) + m_glParams->a440diff)));
 }
 
 
@@ -436,8 +439,8 @@ float AudioInSettings::getDiff(int freq) {
 //------------------------------------------------------------------------------------
 
 void AudioInSettings::tuneWasChanged(Ttune* tune) {
-		m_tune = tune;
-		getFreqStatusTip();
+  m_tune = tune;
+  getFreqStatusTip();
 }
 
 
@@ -473,14 +476,21 @@ void AudioInSettings::testSlot() {
 	}
 	if (tempTestState != m_testDisabled) {
     if (!m_testDisabled) { // start a test
-      grabParams(m_tmpParams);
+      grabParams(m_glParams);
+      m_paramsWereChanged = true;
       if (!m_audioIn) { // create new audio-in device
-          m_audioIn = new TaudioIN(m_tmpParams, this);
-          pitchView->setAudioInput(m_audioIn);
-          connect(m_audioIn, &TaudioIN::noteStarted, this, &AudioInSettings::noteSlot);
+        if (TaudioIN::instance()) {
+          m_audioIn = TaudioIN::instance();
+          m_audioIn->updateAudioParams();
+//           m_audioIn->setAudioInParams();
+        } else {
+          m_audioIn = new TaudioIN(m_glParams);
+        }
+        pitchView->setAudioInput(m_audioIn);
+        connect(m_audioIn, &TaudioIN::noteStarted, this, &AudioInSettings::noteSlot);
       } else { // set parameters to existing device
           m_audioIn->updateAudioParams();
-          m_audioIn->setAudioInParams();
+//           m_audioIn->setAudioInParams();
       }
     // ambitus is lowest note of instrument scale dropped on 2 major and highest Tartini note (140 in MIDI)
       m_audioIn->setAmbitus(Tnote(m_tune->str(m_tune->stringNr()).chromatic() - 2), Tnote(93));
@@ -488,7 +498,7 @@ void AudioInSettings::testSlot() {
       testButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_MediaPause)));
       m_audioIn->startListening();
       pitchView->watchInput();
-      pitchView->setIntonationAccuracy(m_tmpParams->intonation);
+      pitchView->setIntonationAccuracy(m_glParams->intonation);
     } else { // stop a test
       if (m_audioIn) {
         pitchView->stopWatching();
@@ -515,7 +525,7 @@ void AudioInSettings::upDownIntervalSlot() {
 				upDown = -1;
 		setTransposeInterval(m_intervalSpin->value() * upDown);
 		freqFromInterval(m_intervalSpin->value() * upDown);
-		m_tmpParams->a440diff = getDiff(freqSpin->value());
+		m_glParams->a440diff = getDiff(freqSpin->value());
 		getFreqStatusTip();
 }
 
@@ -529,7 +539,7 @@ void AudioInSettings::intervalChanged() {
 
 void AudioInSettings::baseFreqChanged(int bFreq) {
 	if (freqSpin->hasFocus()) {
-    m_tmpParams->a440diff = getDiff(freqSpin->value());
+    m_glParams->a440diff = getDiff(freqSpin->value());
 		intervalFromFreq(freqSpin->value());
     getFreqStatusTip();
 	}

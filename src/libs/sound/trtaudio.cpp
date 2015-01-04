@@ -41,6 +41,7 @@ TaudioObject*											TrtAudio::m_ao = 0;
 RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 bool 															TrtAudio::m_JACKorASIO = false;
 
+int                               m_preferredBF = 1024;
 
 void TrtAudio::createRtAudio() {
 	if (m_rtAduio == 0) { // Create RtAudio instance if doesn't exist
@@ -111,6 +112,7 @@ QString TrtAudio::currentRtAPI() {
 void TrtAudio::setJACKorASIO(bool jack) {
 	if (jack != m_JACKorASIO) {
 		abortStream();
+    closeStream();
 		delete m_rtAduio;
 		m_rtAduio = 0;
 		m_JACKorASIO = jack;
@@ -207,7 +209,7 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 
 TrtAudio::~TrtAudio()
 {
-	abortStream();
+// 	closeStream();
 	if (m_outParams == 0 && m_inParams == 0) {
 		delete m_rtAduio;
 		m_rtAduio = 0;
@@ -223,10 +225,10 @@ TrtAudio::~TrtAudio()
 void TrtAudio::updateAudioParams() {
 	m_isOpened = false;
 	closeStream();
-  if (!m_inParams)
-      m_inParams = new RtAudio::StreamParameters;
-  if (!m_outParams)
-    m_outParams = new RtAudio::StreamParameters;
+//   if (!m_inParams)
+//       m_inParams = new RtAudio::StreamParameters;
+//   if (!m_outParams)
+//     m_outParams = new RtAudio::StreamParameters;
 	setJACKorASIO(audioParams()->JACKorASIO);
 // preparing devices
 	int inDevId = -1, outDevId = -1;
@@ -252,7 +254,7 @@ void TrtAudio::updateAudioParams() {
     if (inDevId == -1) { // no device on the list - load default
 				if (rtDevice()->getCurrentApi() != RtAudio::LINUX_ALSA) {
 					inDevId = rtDevice()->getDefaultInputDevice();
-					if (rtDevice()->getDeviceInfo(inDevId).inputChannels <= 0) {
+					if (inDevId > -1 && rtDevice()->getDeviceInfo(inDevId).inputChannels <= 0) {
 							qDebug("wrong default input device");
 							deleteInParams();
 						}
@@ -261,7 +263,7 @@ void TrtAudio::updateAudioParams() {
     if (outDevId == -1) {
 			if (rtDevice()->getCurrentApi() != RtAudio::LINUX_ALSA) {
 				outDevId = rtDevice()->getDefaultOutputDevice();
-				if (rtDevice()->getDeviceInfo(outDevId).outputChannels <= 0) {
+				if (outDevId > -1 && rtDevice()->getDeviceInfo(outDevId).outputChannels <= 0) {
 						qDebug("wrong default output device");
 						deleteOutParams();
 				}
@@ -304,10 +306,60 @@ void TrtAudio::updateAudioParams() {
 		outSR = determineSampleRate(outDevInfo);
 // 	if (inSR != outSR)
 	m_sampleRate = qMax(inSR, outSR);
+  
 	if (audioParams()->forwardInput && m_inParams && m_outParams)
 			m_callBack = &passInputCallBack;
 	else
 			m_callBack = &duplexCallBack;
+  /*
+  if (m_inParams && m_outParams) {
+    unsigned int inBF = 1024, outBF = 1024, tmpOutBF = 1024;
+    int tryInAgain = -1;
+    bool inOK = false, outOK = false;
+    do {
+      tryInAgain++;
+      try {
+        rtDevice()->openStream(0, m_inParams, RTAUDIO_SINT16, sampleRate(), &inBF, m_callBack, 0, streamOptions);
+        if (rtDevice()->isStreamOpen()) {
+          inOK = true;
+          rtDevice()->closeStream();
+          qDebug() << "Input passed probing" << inBF;
+        }
+      } catch (RtAudioError& e) {
+          qDebug() << "Probing input failed" << QString::fromStdString(e.getMessage());
+      }
+      int tryOutAgain = 0;
+      if (inOK && tryInAgain < 1) {
+        do {
+          try {
+            rtDevice()->openStream(m_outParams, 0, RTAUDIO_SINT16, sampleRate(), &outBF, m_callBack, 0, streamOptions);
+            if (rtDevice()->isStreamOpen()) {
+              outOK = true;
+              rtDevice()->closeStream();
+              qDebug() << "Output passed probing" << outBF;
+              tmpOutBF = outBF;
+            }
+          } catch (RtAudioError& e) {
+              qDebug() << "Probing output failed" << QString::fromStdString(e.getMessage());
+          }
+          if (inBF != outBF) {
+            qDebug() << "probe" << tryOutAgain + 1 << " - I/O Frame buffers don't match";
+            outBF = inBF;
+            tryOutAgain++;
+          } else
+              tryOutAgain = 1;
+        } while (tryOutAgain < 1);
+        if (inBF == outBF) {
+          qDebug() << "OUT buffer the same as IN" << inBF;
+          m_preferredBF = inBF;
+          tryInAgain = 1;
+        } else 
+          inBF = tmpOutBF;
+      } else
+          tryInAgain = 1;
+    } while (tryInAgain < 1);
+  }*/
+  
 	ao()->emitParamsUpdated();
 }
 
@@ -327,9 +379,9 @@ bool TrtAudio::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
 bool TrtAudio::openStream() {
 	try {
     if (rtDevice() && !rtDevice()->isStreamOpen()) {
-				m_bufferFrames = 1024; // reset when it was overridden by another rt API
+				m_bufferFrames = m_preferredBF; // reset when it was overridden by another rt API
 				rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(), &m_bufferFrames, m_callBack, 0, streamOptions);
-// 				qDebug() << "openStream";
+// 				qDebug() << "openStream" << m_outParams << m_inParams;
 				if (rtDevice()->isStreamOpen()) {
 					ao()->emitStreamOpened();
           if (m_isAlsaDefault) {
@@ -338,10 +390,11 @@ bool TrtAudio::openStream() {
              if (m_outParams)
                m_outDevName = "ALSA default";
           } else {
-             if (m_inParams)
-               m_inDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_inParams->deviceId).name.data());
-             if (m_outParams)
-               m_outDevName = QString::fromLocal8Bit(rtDevice()->getDeviceInfo(m_outParams->deviceId).name.data());
+             RtAudio::DeviceInfo di; 
+             if (m_inParams && getDeviceInfo(di, m_inParams->deviceId))
+               m_inDevName = QString::fromLocal8Bit(di.name.data());
+             if (m_outParams && getDeviceInfo(di, m_outParams->deviceId))
+               m_outDevName = QString::fromLocal8Bit(di.name.data());
           }
 					if (!m_isOpened) { // print info once per new params set
 						if (m_inParams)

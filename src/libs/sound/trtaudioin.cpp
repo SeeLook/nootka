@@ -62,8 +62,7 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
     return false;
 }
 
-QList<TaudioIN*> 			TaudioIN::m_instances = QList<TaudioIN*>();
-int 									TaudioIN::m_thisInstance = -1;
+TaudioIN*        			TaudioIN::m_instance = 0;
 bool                  TaudioIN::m_goingDelete = false;
 
 //------------------------------------------------------------------------------------
@@ -80,9 +79,12 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
     m_noteWasStarted(false),
     m_currentRange(1)
 {
-  m_instances << this;
+  if (m_instance) {
+    qDebug() << "Nothing of this kind... TaudioIN already exist!";
+    return;
+  }
+  m_instance = this;
   m_pitch = new TpitchFinder();
-  m_thisInstance = m_instances.size() - 1;
   setAudioInParams();
 	m_goingDelete = false;
   
@@ -96,15 +98,12 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 TaudioIN::~TaudioIN()
 {
 	m_goingDelete = true;
-	abortStream();
+  closeStream();
 	m_pitch->blockSignals(true);
 	m_pitch->deleteLater();
-  m_instances.removeLast();
-  m_thisInstance = m_instances.size() - 1;
-  if (m_instances.isEmpty()) {
-    deleteInParams();
-    resetCallBack();
-  }
+  m_instance = 0;
+  deleteInParams();
+  resetCallBack();
 }
 
 //------------------------------------------------------------------------------------
@@ -112,13 +111,13 @@ TaudioIN::~TaudioIN()
 //------------------------------------------------------------------------------------
 
 void TaudioIN::setAudioInParams() {
-// 	qDebug() << "setAudioInParams";
   setDetectionMethod(audioParams()->detectMethod);
 	setMinimalVolume(audioParams()->minimalVol);
 	m_pitch->setMinimalDuration(audioParams()->minDuration);
 
 	m_pitch->setSampleRate(sampleRate(), m_currentRange); // framesPerChunk is determined here
 	m_volume = 0.0;
+//   qDebug() << "setAudioInParams" << sampleRate() << audioParams()->detectMethod << audioParams()->minDuration << audioParams()->minimalVol;
 }
 
 
@@ -171,7 +170,6 @@ void TaudioIN::startListening() {
 			return;
 	} else
 // 		qDebug() << "startListening";
-  m_goingDelete = false;
 	m_volume = 0.0;
 	if (!m_stoppedByUser && startStream())
     setState(e_listening);
