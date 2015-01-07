@@ -57,7 +57,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
         if (devInfo.probed && devInfo.outputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
-    if (rtDevice()->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+    if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
 				devList.prepend("ALSA default");
     return devList;
 }
@@ -199,7 +199,8 @@ bool TaudioOUT::play(int noteNr) {
 
 void TaudioOUT::stop() {
   abortStream();
-	closeStream();
+  stopStream();
+// 	closeStream();
 }
 
 

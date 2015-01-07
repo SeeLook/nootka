@@ -103,6 +103,8 @@ protected:
     static void stopStream();
     static void closeStream();
 		static void abortStream();
+    static bool isOpened(); /** Checks rtAudio instance and returns @p TRUE when it is opened. */
+    static bool isRunning(); /** Checks rtAudio instance and returns @p TRUE when it is running. */
 		
 				/** Static instance of 'signal emitter'
 				 * It emits following signals:
@@ -114,6 +116,10 @@ protected:
 		static bool hasCallBackOut() { return (bool)m_cbOut; }
     
     bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
+    static RtAudio::Api getCurrentApi(); /** Returns current RtAudio API is instance exists or @p RtAudio::UNSPECIFIED */
+    static unsigned int getDeviceCount(); /** Returns number of available audio devices or 0 if none or error occurred. */
+    static int getDefaultIn(); /** Returns default input device for current API or -1 if error. */
+    static int getDefaultOut(); /** Returns default output device for current API or -1 if error. */
 		
 private:
 		static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,

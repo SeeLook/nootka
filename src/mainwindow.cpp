@@ -121,11 +121,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
   score = new TmainScore(this);
   noteName = score->noteName();
-  pitchView = new TpitchView(sound->sniffer/*, this*/);
+  pitchView = new TpitchView(sound->sniffer, this);
   sound->setPitchView(pitchView);
   pitchView->setVisible(gl->L->soundViewEnabled);
 // Hints - label with clues
-  m_statLab = new TroundedLabel(/*innerWidget*/);
+  m_statLab = new TroundedLabel(this);
   m_statLab->setWordWrap(true);
   m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
@@ -138,7 +138,7 @@ MainWindow::MainWindow(QWidget *parent) :
   nootBar->setAutoFillBackground(true);
 #endif
 
-  guitar = new TfingerBoard();
+  guitar = new TfingerBoard(this);
   guitar->setVisible(gl->L->guitarEnabled);
   
 //-------------------------------------------------------------------		
