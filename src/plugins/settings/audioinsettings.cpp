@@ -83,7 +83,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		durationSpin->setMaximum(1000);
 		durationSpin->setSuffix("   "  + tr("[milliseconds]"));
 		durationSpin->setSingleStep(50);
-		durationSpin->setValue(m_glParams->minDuration * 1000); // minimum duration is stored in seconds but displayed in milliseconds
+		durationSpin->setValue(qRound(m_glParams->minDuration * 1000)); // minimum duration is stored in seconds but displayed in milliseconds
 		durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
 	// 1. Layout
 	QVBoxLayout *deviceLay = new QVBoxLayout;
@@ -335,7 +335,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 		params->detectMethod = 2;
   params->INenabled = enableInBox->isChecked();
   params->minimalVol = volumeSlider->value();
-	params->minDuration = (float)durationSpin->value() / 1000.0f;
+	params->minDuration = (qreal)durationSpin->value() / 1000.0;
 	params->intonation = m_intonationCombo->currentIndex();
 }
 

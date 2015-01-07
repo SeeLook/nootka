@@ -42,7 +42,7 @@ QStringList TaudioIN::getAudioDevicesList() {
         if (devInfo.probed && devInfo.inputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
-    if (rtDevice()->getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+    if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
 				devList.prepend("ALSA default");
     return devList;
 }

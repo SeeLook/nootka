@@ -190,7 +190,6 @@ if(WIN32)
 # 		foreach(ICU ${ICU_DLLS})
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ICU_DLLS} ${CMAKE_BINARY_DIR}/src/.
 # 		endforeach()
-		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins/platforms
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll ${CMAKE_BINARY_DIR}/src/plugins/platforms/.
 		
