@@ -55,6 +55,7 @@ public:
     void startAudio() { startStream(); }
 		void stopAudio() { stopStream(); }
 		void terminate() { closeStream(); }
+		static void apiStopOrClose(); /** This method stops or closes audio stream depends on current API. */
 		
 #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
 		static void setJACKorASIO(bool jack);
@@ -62,6 +63,8 @@ public:
 
 				/** Initializes only @p m_JACKorASIO, use it only before any RtAudio instance is created. */
 		static void initJACKorASIO(bool useIt) { m_JACKorASIO = useIt; }
+		
+		static bool switchAPI(RtAudio::Api rtApi); /** Deletes current instance and creates a new one with given API. Returns @p TRUE on success. */
 #endif
     
     static void createRtAudio(); /** Creates RtAudio instance. Once for whole application */
@@ -115,7 +118,7 @@ protected:
 		static bool hasCallBackIn() { return (bool)m_cbIn; }
 		static bool hasCallBackOut() { return (bool)m_cbOut; }
     
-    bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
+    static bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
     static RtAudio::Api getCurrentApi(); /** Returns current RtAudio API is instance exists or @p RtAudio::UNSPECIFIED */
     static unsigned int getDeviceCount(); /** Returns number of available audio devices or 0 if none or error occurred. */
     static int getDefaultIn(); /** Returns default input device for current API or -1 if error. */

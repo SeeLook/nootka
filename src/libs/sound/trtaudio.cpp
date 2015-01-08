@@ -123,6 +123,12 @@ void TrtAudio::setJACKorASIO(bool jack) {
 		createRtAudio();
 	}
 }
+
+
+bool TrtAudio::switchAPI(RtAudio::Api rtApi) {
+  return false;
+}
+
 #endif
 
 
@@ -228,103 +234,100 @@ TrtAudio::~TrtAudio()
 
 void TrtAudio::updateAudioParams() {
 	m_isOpened = false;
-//   if (getCurrentApi() == RtAudio::WINDOWS_WASAPI) {
-//     delete m_rtAduio;
-//     m_rtAduio = 0;
-//     createRtAudio();
-//   }
-//   else 
+// reopen audio device only when necessary
+  if ((m_inParams && m_inDevName != audioParams()->INdevName) || (m_outParams && m_outDevName != m_audioParams->OUTdevName) ||
+      (audioParams()->forwardInput && m_callBack == &duplexCallBack) || (!audioParams()->forwardInput && m_callBack == &passInputCallBack) ) {
     closeStream();
-	setJACKorASIO(audioParams()->JACKorASIO);
-// preparing devices
-	int inDevId = -1, outDevId = -1;
-  int devCount = getDeviceCount();
-	m_isAlsaDefault = false;
-  streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
-  if (devCount) {
-    RtAudio::DeviceInfo devInfo;
-    for(int i = 0; i < devCount; i++) { // Is there device on the list ??
-        if (getDeviceInfo(devInfo, i)) {
-          if (devInfo.probed) {
-						if (m_inParams && devInfo.inputChannels > 0 && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->INdevName) {
-							inDevId = i;
-              m_inDevName = QString::fromLocal8Bit(devInfo.name.data());
-						}
-						if (m_outParams && devInfo.outputChannels > 0 && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->OUTdevName) {
-							outDevId = i;
-              m_outDevName = QString::fromLocal8Bit(devInfo.name.data());
-						}
+    setJACKorASIO(audioParams()->JACKorASIO);
+  // preparing devices
+    int inDevId = -1, outDevId = -1;
+    int devCount = getDeviceCount();
+    m_isAlsaDefault = false;
+    streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
+    if (devCount) {
+      RtAudio::DeviceInfo devInfo;
+      for(int i = 0; i < devCount; i++) { // Is there device on the list ??
+          if (getDeviceInfo(devInfo, i)) {
+            if (devInfo.probed) {
+              if (m_inParams && devInfo.inputChannels > 0 && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->INdevName) {
+                inDevId = i;
+                m_inDevName = QString::fromLocal8Bit(devInfo.name.data());
+              }
+              if (m_outParams && devInfo.outputChannels > 0 && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->OUTdevName) {
+                outDevId = i;
+                m_outDevName = QString::fromLocal8Bit(devInfo.name.data());
+              }
+            }
+          }
+      }
+      if (inDevId == -1) { // no device on the list - load default
+          if (getCurrentApi() != RtAudio::LINUX_ALSA) {
+            inDevId = getDefaultIn();
+            if (inDevId > -1) {
+              RtAudio::DeviceInfo inputInfo;
+              getDeviceInfo(inputInfo, inDevId);
+              if (inputInfo.inputChannels <= 0) {
+                qDebug("wrong default input device");
+                deleteInParams();
+              }
+            }
+          }
+      }
+      if (outDevId == -1) {
+        if (getCurrentApi() != RtAudio::LINUX_ALSA) {
+          outDevId = getDefaultOut();
+          RtAudio::DeviceInfo outInfo;
+          getDeviceInfo(outInfo, outDevId);
+          if (outDevId > -1) {
+            if (outInfo.outputChannels <= 0) {
+              qDebug("wrong default output device");
+              deleteOutParams();
+            }
           }
         }
+      }
+      // Default ALSA device can be set only when both devices are undeclared
+      if (inDevId == -1 && outDevId == -1 && getCurrentApi() == RtAudio::LINUX_ALSA) {
+        streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
+        m_isAlsaDefault = true;
+        if (m_inParams) // As long as ALSA ignores device id for its default the id has to be correct number (0 - devCount - 1)
+          inDevId = 0;
+        if (m_outParams)
+          outDevId = 0;
+      }
+    } else {
+      qDebug() << "There are no any audio devices!";
+      return;
     }
-    if (inDevId == -1) { // no device on the list - load default
-				if (getCurrentApi() != RtAudio::LINUX_ALSA) {
-					inDevId = getDefaultIn();
-					if (inDevId > -1) {
-            RtAudio::DeviceInfo inputInfo;
-            getDeviceInfo(inputInfo, inDevId);
-            if (inputInfo.inputChannels <= 0) {
-							qDebug("wrong default input device");
-							deleteInParams();
-						}
-          }
-				}
+  // setting device parameters
+    if (m_inParams) {
+      m_inParams->deviceId = inDevId;
+      m_inParams->nChannels = 1;
+      m_inParams->firstChannel = 0;
     }
-    if (outDevId == -1) {
-			if (getCurrentApi() != RtAudio::LINUX_ALSA) {
-				outDevId = getDefaultOut();
-        RtAudio::DeviceInfo outInfo;
-        getDeviceInfo(outInfo, outDevId);
-				if (outDevId > -1) {
-          if (outInfo.outputChannels <= 0) {
-						qDebug("wrong default output device");
-						deleteOutParams();
-          }
-        }
-			}
-		}
-		// Default ALSA device can be set only when both devices are undeclared
-		if (inDevId == -1 && outDevId == -1 && getCurrentApi() == RtAudio::LINUX_ALSA) {
-			streamOptions->flags = RTAUDIO_ALSA_USE_DEFAULT;
-			m_isAlsaDefault = true;
-			if (m_inParams) // As long as ALSA ignores device id for its default the id has to be correct number (0 - devCount - 1)
-				inDevId = 0;
-			if (m_outParams)
-				outDevId = 0;
-		}
-  } else {
-    qDebug() << "There are no any audio devices!";
-    return;
+    if (m_outParams) {
+      m_outParams->deviceId = outDevId;
+      m_outParams->nChannels = 2;
+      m_outParams->firstChannel = 0;
+    }
+    RtAudio::DeviceInfo inDevInfo, outDevInfo;
+    quint32 inSR = 0, outSR = 0;
+    if (m_inParams && !getDeviceInfo(inDevInfo, inDevId))
+      deleteInParams();
+    else
+      inSR = determineSampleRate(inDevInfo);
+    if (m_outParams && !getDeviceInfo(outDevInfo, outDevId))
+      deleteOutParams();
+    else
+      outSR = determineSampleRate(outDevInfo);
+  // 	if (inSR != outSR)
+    m_sampleRate = qMax(inSR, outSR);
+    
+    if (audioParams()->forwardInput && m_inParams && m_outParams)
+        m_callBack = &passInputCallBack;
+    else
+        m_callBack = &duplexCallBack;
   }
-// setting device parameters
-	if (m_inParams) {
-		m_inParams->deviceId = inDevId;
-		m_inParams->nChannels = 1;
-		m_inParams->firstChannel = 0;
-	}
-	if (m_outParams) {
-		m_outParams->deviceId = outDevId;
-		m_outParams->nChannels = 2;
-		m_outParams->firstChannel = 0;
-	}
-	RtAudio::DeviceInfo inDevInfo, outDevInfo;
-	quint32 inSR = 0, outSR = 0;
-	if (m_inParams && !getDeviceInfo(inDevInfo, inDevId))
-		deleteInParams();
-	else
-		inSR = determineSampleRate(inDevInfo);
-	if (m_outParams && !getDeviceInfo(outDevInfo, outDevId))
-		deleteOutParams();
-	else
-		outSR = determineSampleRate(outDevInfo);
-// 	if (inSR != outSR)
-	m_sampleRate = qMax(inSR, outSR);
-  
-	if (audioParams()->forwardInput && m_inParams && m_outParams)
-			m_callBack = &passInputCallBack;
-	else
-			m_callBack = &duplexCallBack;
-  
 	ao()->emitParamsUpdated();
 }
 
@@ -349,23 +352,30 @@ bool TrtAudio::openStream() {
              if (m_outParams && getDeviceInfo(di, m_outParams->deviceId))
                m_outDevName = QString::fromLocal8Bit(di.name.data());
           }
-					if (!m_isOpened) { // print info once per new params set
+// 					if (!m_isOpened) { // print info once per new params set
 						if (m_inParams)
 							qDebug() << currentRtAPI() << "IN:" << m_inDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
 						if (m_outParams)
 							qDebug() << currentRtAPI() << "OUT:" << m_outDevName << "samplerate:" << sampleRate() << ", buffer size:" << m_bufferFrames;
-						m_isOpened = true;
-					}
+// 						m_isOpened = true;
+// 					}
 					return true;
       } else
 					return false;
     }
-  }
-  catch (RtAudioError& e) {
-    qDebug() << "can't open stream" << m_inDevName << m_outDevName << "\n" << QString::fromStdString(e.getMessage());
-    return false;
+  } catch (RtAudioError& e) {
+      qDebug() << "can't open stream" << m_inDevName << m_outDevName << "\n" << QString::fromStdString(e.getMessage());
+      return false;
   }
   return true;
+}
+
+
+void TrtAudio::apiStopOrClose() {
+  if (getCurrentApi() == RtAudio::LINUX_ALSA)
+      closeStream();
+  else
+      stopStream();
 }
 
 
@@ -390,9 +400,10 @@ bool TrtAudio::startStream() {
 
 void TrtAudio::stopStream() {
   try {
-    if (rtDevice() && rtDevice()->isStreamRunning())
+    if (rtDevice() && rtDevice()->isStreamRunning()) {
       rtDevice()->stopStream();
-// 		qDebug("stream stopped");
+//       qDebug("stream stopped");
+    }
   }
   catch (RtAudioError& e) {
     qDebug() << "can't stop stream";
@@ -403,9 +414,10 @@ void TrtAudio::stopStream() {
 void TrtAudio::closeStream() {
   try {
     stopStream();
-    if (rtDevice() && rtDevice()->isStreamOpen())
+    if (rtDevice() && rtDevice()->isStreamOpen()) {
       rtDevice()->closeStream();
-// 		qDebug("stream closed");
+//       qDebug("stream closed");
+    }
   }
   catch (RtAudioError& e) {
     qDebug() << "can't close stream";
@@ -415,8 +427,10 @@ void TrtAudio::closeStream() {
 
 void TrtAudio::abortStream() {
 	try {
-    if (rtDevice() && rtDevice()->isStreamOpen())
+    if (rtDevice() && rtDevice()->isStreamRunning()) {
       rtDevice()->abortStream();
+//       qDebug("stream aborted");
+    }
   }
   catch (RtAudioError& e) {
     qDebug() << "can't abort stream";

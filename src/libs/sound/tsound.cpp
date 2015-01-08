@@ -163,7 +163,6 @@ void Tsound::prepareToConf() {
     sniffer->stopListening();
     m_pitchView->setDisabled(true);
     blockSignals(true);
-		sniffer->terminate();
     sniffer->setStoppedByUser(false);
   }
 }

@@ -42,18 +42,15 @@
 QStringList TaudioOUT::getAudioDevicesList() {
     QStringList devList;
     createRtAudio();
-    int devCnt = rtDevice()->getDeviceCount();
+    int devCnt = getDeviceCount();
     if (devCnt < 1)
         return devList;
+    if (getCurrentApi() == RtAudio::LINUX_ALSA)
+      closeStream(); // close ALSA stream to get full list of devices
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
-        try {
-          devInfo = rtDevice()->getDeviceInfo(i);
-        }
-        catch (RtAudioError& e) {
-          qDebug() << "error when probing output device" << i;
+        if (!getDeviceInfo(devInfo, i))
           continue;
-        }
         if (devInfo.probed && devInfo.outputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
@@ -199,7 +196,7 @@ bool TaudioOUT::play(int noteNr) {
 
 void TaudioOUT::stop() {
   abortStream();
-  stopStream();
+//   stopStream();
 // 	closeStream();
 }
 

@@ -27,18 +27,15 @@
 QStringList TaudioIN::getAudioDevicesList() {
     QStringList devList;
     createRtAudio();
-    int devCnt = rtDevice()->getDeviceCount();
+    int devCnt = getDeviceCount();
     if (devCnt < 1)
         return devList;
+    if (getCurrentApi() == RtAudio::LINUX_ALSA)
+      closeStream(); // close ALSA stream to get full list of devices
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
-        try {
-          devInfo = rtDevice()->getDeviceInfo(i);
-        }
-        catch (RtAudioError& e) {
-          qDebug() << "error when probing input device" << i;
+        if (!getDeviceInfo(devInfo, i))
           continue;
-        }
         if (devInfo.probed && devInfo.inputChannels > 0)
           devList << QString::fromLocal8Bit(devInfo.name.data());
     }
@@ -179,6 +176,7 @@ void TaudioIN::startListening() {
 void TaudioIN::stopListening() {
 	m_volume = 0.0;
 	m_LastChunkPitch = 0.0;
+  abortStream();
   setState(e_stopped);
 	m_pitch->resetFinder();
 }
