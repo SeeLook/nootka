@@ -482,7 +482,6 @@ void AudioInSettings::testSlot() {
         if (TaudioIN::instance()) {
           m_audioIn = TaudioIN::instance();
           m_audioIn->updateAudioParams();
-//           m_audioIn->setAudioInParams();
         } else {
           m_audioIn = new TaudioIN(m_glParams);
         }
@@ -490,7 +489,6 @@ void AudioInSettings::testSlot() {
         connect(m_audioIn, &TaudioIN::noteStarted, this, &AudioInSettings::noteSlot);
       } else { // set parameters to existing device
           m_audioIn->updateAudioParams();
-//           m_audioIn->setAudioInParams();
       }
     // ambitus is lowest note of instrument scale dropped on 2 major and highest Tartini note (140 in MIDI)
       m_audioIn->setAmbitus(Tnote(m_tune->str(m_tune->stringNr()).chromatic() - 2), Tnote(93));
