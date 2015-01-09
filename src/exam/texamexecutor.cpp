@@ -1341,7 +1341,7 @@ void TexamExecutor::repeatSound() {
 
 void TexamExecutor::playMiddleA() {
   Tnote a1(6, 1, 0);
-//   mW->sound->stopPlaying();
+  mW->sound->stopPlaying();
   mW->sound->play(a1);
   connectPlayingFinished();
 }
@@ -1363,11 +1363,14 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
 		m_exam->curQ().lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - n.duration);
   if (m_melody->currentIndex() + 1 < m_exam->curQ().melody()->length()) // highlight next note
     mW->score->selectNote(m_melody->currentIndex() + 1);
+  if (m_level.instrument != e_noInstrument)
+    m_melody->setNote(n); // collect played note TODO rhythm value is not ready here
 }
 
 
 void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
-  m_melody->setNote(n); // collect played note
+  if (m_level.instrument == e_noInstrument)
+    m_melody->setNote(n); // collect played note TODO rhythm value for guitars has to be saved here
   if (m_melody->currentIndex() == m_exam->curQ().melody()->length() - 1) {
     if (gl->E->expertsAnswerEnable)
       checkAnswer();

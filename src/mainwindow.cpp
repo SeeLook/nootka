@@ -436,21 +436,25 @@ void MainWindow::guitarWasClicked(const Tnote& note) {
 
 
 void MainWindow::soundWasStarted(const Tnote& note) {
-	Tnote n = note;
-  noteToKey(n, score->keySignature());
-	score->setNote(n);
-	m_startedSoundId = qMax<int>(score->currentIndex(), 0);
-	if (guitar->isVisible())
-		guitar->setFinger(note);
+  if (gl->instrument != e_noInstrument) { // quick reaction for guitar
+    Tnote n = note;
+    noteToKey(n, score->keySignature());
+    score->setNote(n);
+    m_startedSoundId = qMax<int>(score->currentIndex(), 0);
+    if (guitar->isVisible())
+      guitar->setFinger(note);
+  }
 }
 
 
 void MainWindow::soundWasFinished(Tchunk& chunk) {
-	Tnote n = chunk.p();
-	noteToKey(n, score->keySignature());
-	score->setNote(m_startedSoundId, n);
-	if (guitar->isVisible())
-		guitar->setFinger(chunk.p());
+  if (gl->instrument == e_noInstrument) { // whole played note and average pitch for other instruments
+    Tnote n = chunk.p();
+    noteToKey(n, score->keySignature());
+    score->setNote(m_startedSoundId, n);
+    if (guitar->isVisible())
+      guitar->setFinger(chunk.p());
+  }
 }
 
 
