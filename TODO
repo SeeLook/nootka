@@ -39,6 +39,8 @@ MINOR:
 
 - think to disable pitch view during melodies correction - it is just stopped now
 
+- restart ASIO when it is changed by user or just display info to restart Nootka
+
 Charts:
 	- when Tchart creator calculates when set scene rectangle increase scene width with its -x() position
 	- points (notes) shadow changes with zoom - fix it
@@ -56,7 +58,6 @@ Tnote
 ==== NEW FEATURES ================================================================
 - proxy corner widgets should be animated (if they remain live)
 - marge name settings with score settings
-- dialog to configure generated melody
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar
 - allow scaling a multiple staves score in disabled state
@@ -66,7 +67,6 @@ Tnote
 - there has to be some help with key shortcuts
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote
-- tempo menu
 ----------------------------------------------------------------------------------------------------------------
 
 			
@@ -94,6 +94,7 @@ TEXAMEXECUTOR
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 - rhythms in score
+- dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
 - improve saving melodies to musicXML and opening/importing melodies from XML
 - managing melodies in levels, adding set of melodies to the level

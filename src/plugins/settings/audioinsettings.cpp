@@ -337,6 +337,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   params->minimalVol = volumeSlider->value();
 	params->minDuration = (qreal)durationSpin->value() / 1000.0;
 	params->intonation = m_intonationCombo->currentIndex();
+	params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
 }
 
 
