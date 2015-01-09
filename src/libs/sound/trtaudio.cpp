@@ -162,14 +162,15 @@ int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBuff
 																		 double streamTime, RtAudioStreamStatus status, void* userData) {
 	Q_UNUSED (streamTime)
 	Q_UNUSED (userData)
+	int ret = 0;
 	if (m_cbOut) {
 		if (m_cbOut(outBuffer, nBufferFrames, status))
 			if (m_cbIn)
-				m_cbIn(inBuffer, nBufferFrames, status);
+				ret = m_cbIn(inBuffer, nBufferFrames, status);
 	} else 
 			if (m_cbIn)
-				m_cbIn(inBuffer, nBufferFrames, status);
-	return 0;
+				ret = m_cbIn(inBuffer, nBufferFrames, status);
+	return ret;
 }
 
 
@@ -387,7 +388,7 @@ bool TrtAudio::startStream() {
   try {
     if (rtDevice() && !rtDevice()->isStreamRunning()) {
       rtDevice()->startStream();
-// 			qDebug("stream started");
+//      qDebug("stream started");
 		}
   }
   catch (RtAudioError& e) {

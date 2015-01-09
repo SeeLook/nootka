@@ -59,6 +59,7 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
     return false;
 }
 
+
 TaudioIN*        			TaudioIN::m_instance = 0;
 bool                  TaudioIN::m_goingDelete = false;
 
@@ -176,7 +177,7 @@ void TaudioIN::startListening() {
 void TaudioIN::stopListening() {
 	m_volume = 0.0;
 	m_LastChunkPitch = 0.0;
-  abortStream();
+//   abortStream();
   setState(e_stopped);
 	m_pitch->resetFinder();
 }

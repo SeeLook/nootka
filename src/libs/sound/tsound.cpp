@@ -117,6 +117,7 @@ void Tsound::acceptSettings() {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
     } else {
+      m_userState = sniffer->stoppedByUser();
       setDefaultAmbitus();
       doParamsUpdated = true;
     }
@@ -197,7 +198,7 @@ void Tsound::wait() {
 
 void Tsound::go() {
 //     qDebug("go");
-  if (sniffer && !m_pitchView->isPaused()) {
+  if (sniffer /*&& !m_pitchView->isPaused()*/) {
     sniffer->startListening();
   }
 }

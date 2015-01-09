@@ -70,8 +70,8 @@ float 				TaudioOUT::m_cross = 0.0f;
 
 bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
 	instance->m_callBackIsBussy = true;
-  if ( status )
-			qDebug() << "Stream underflow detected!";
+//   if ( status ) // It doesn't harm if occurs
+// 			qDebug() << "Stream underflow detected!";
 	if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
 			m_doCrossFade = false;
 			m_cross = 1.0f;
