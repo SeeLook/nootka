@@ -41,6 +41,8 @@ MINOR:
 
 - restart ASIO when it is changed by user or just display info to restart Nootka
 
+- add disabled, grayed stave(s) if there is enough space on the score
+
 Charts:
 	- when Tchart creator calculates when set scene rectangle increase scene width with its -x() position
 	- points (notes) shadow changes with zoom - fix it
@@ -56,7 +58,8 @@ Tnote
 
 
 ==== NEW FEATURES ================================================================
-- proxy corner widgets should be animated (if they remain live)
+- new way of adding notes just after the last one was clicked
+- proxy corner widgets should be animated
 - marge name settings with score settings
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar

@@ -23,6 +23,7 @@
 #include <music/tnote.h>
 #include <tpath.h>
 #include <tcolor.h>
+#include <score/tscoreactions.h>
 #include <QAction>
 #include <QMainWindow>
 #include <QToolButton>
@@ -102,6 +103,12 @@ void TtoolBar::addMelodyButton(TmelMan* melBut) {
 void TtoolBar::setMelodyButtonVisible(bool vis) {
 	m_melButton->melodyAction()->setVisible(vis);
 	m_melButton->button()->menu()->setDisabled(!vis);
+}
+
+
+void TtoolBar::addScoreActions(TscoreActions* scoreBut) {
+  m_scoreActs = scoreBut;
+  insertAction(startExamAct, m_scoreActs->mainAction());
 }
 
 
@@ -234,6 +241,7 @@ void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 	if (iconStyle != toolButtonStyle()) {
 		setToolButtonStyle(iconStyle);
 		m_melButton->button()->setToolButtonStyle(iconStyle);
+    m_scoreActs->button()->setToolButtonStyle(iconStyle);
 	}
 	int tmpSize = iconS;
 	if (toolButtonStyle() == Qt::ToolButtonIconOnly)
@@ -242,6 +250,7 @@ void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 		if (iconS != iconSize().width()) {
 			setIconSize(QSize(iconS, iconS));
 			m_melButton->button()->setIconSize(QSize(iconS, iconS));
+      m_scoreActs->button()->setIconSize(QSize(iconS, iconS));
 		}
 	}
 	m_nootLabel->setMaximumHeight(tmpSize * 1.5);

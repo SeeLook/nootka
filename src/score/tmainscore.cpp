@@ -18,7 +18,6 @@
 
 #include "tmainscore.h"
 #include "tcornerproxy.h"
-#include "tscorekeys.h"
 #include "tscoreactions.h"
 #include <score/tscorestaff.h>
 #include <score/tscorenote.h>
@@ -133,7 +132,7 @@ void TmainScore::acceptSettings() {
 // Note names on the score
 	if (Tcore::gl()->S->nameColor != scoreScene()->nameColor()) {
 			refreshNoteNames = true;
-			m_acts->noteNames()->setThisColors(Tcore::gl()->S->nameColor, palette().highlightedText().color());
+// 			m_acts->noteNames()->setThisColors(Tcore::gl()->S->nameColor, palette().highlightedText().color());
 			scoreScene()->setNameColor(Tcore::gl()->S->nameColor);
 	}
 	if (Tcore::gl()->S->namesOnScore != m_acts->noteNames()->isChecked() || refreshNoteNames) {
@@ -237,12 +236,14 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 		if (ignoreThat)
 			return;
 		if (mode == e_single) {
+        m_acts->mainAction()->setVisible(false);
 				m_nameMenu->enableArrows(false);
 				staff()->noteSegment(0)->removeNoteName();
 				m_currentNameSegment = staff()->noteSegment(0);
 				enableCorners(false);
 				m_nameMenu->show();
 		} else {
+        m_acts->mainAction()->setVisible(true);
 				m_nameMenu->enableArrows(true);
 				m_nameMenu->hide();
 				enableCorners(true);
@@ -318,8 +319,15 @@ void TmainScore::unLockScore() {
 
 void TmainScore::setScoreDisabled(bool disabled) {
 	TmultiScore::setScoreDisabled(disabled);
-	m_acts->disableActions(disabled);
-	m_keys->disableKeys(disabled);
+// 	m_acts->disableActions(disabled);
+  if (insertMode() != e_single) {
+    m_delCorner->setVisible(!disabled);
+    m_acts->clearScore()->blockSignals(disabled);
+    m_acts->clearScore()->setVisible(!disabled);
+    m_acts->deleteCurrentNote()->setVisible(!disabled);
+    m_acts->deleteCurrentNote()->blockSignals(disabled);
+  }
+// 	m_keys->disableKeys(disabled);
 }
 
 
@@ -362,7 +370,6 @@ int TmainScore::widthToHeight(int hi) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-			enableCorners(false);
 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
 			disconnect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
@@ -390,6 +397,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			setClefDisabled(false);
 			setNoteNameEnabled(true);
 	}
+	m_acts->setForExam(isIt);
 }
 
 
@@ -661,7 +669,6 @@ void TmainScore::menuChangedNote(Tnote n) {
 
 
 void TmainScore::extraAccidsSlot() {
-	m_acts->extraAccids()->setChecked(!m_acts->extraAccids()->isChecked());
 	for (int st = 0; st < staffCount(); st++) {
 		staves(st)->setExtraAccids(m_acts->extraAccids()->isChecked());
 		for (int no = 0; no < staves(st)->count(); no++) {
@@ -673,7 +680,6 @@ void TmainScore::extraAccidsSlot() {
 
 
 void TmainScore::showNamesSlot() {
-	m_acts->noteNames()->setChecked(!m_acts->noteNames()->isChecked());
 	for (int st = 0; st < staffCount(); st++) {
 		for (int no = 0; no < staves(st)->count(); no++) {
 			if (m_acts->noteNames()->isChecked())
@@ -695,6 +701,10 @@ void TmainScore::zoomScoreSlot() {
 	if (newScale != Tcore::gl()->S->scoreScale) {
 		Tcore::gl()->S->scoreScale = newScale;
 		setScoreScale(newScale);
+    if (m_questMark) {
+      m_questMark->setPos(0, 0); // reset position to enable positioning again
+      setQuestionMarkPos();
+    }
 	}
 }
 
@@ -702,17 +712,17 @@ void TmainScore::zoomScoreSlot() {
 void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 	int prevIndex = currentIndex();
 	if (nDir == e_doNotMove) { // determine action by sender which invoked this slot
-			if (sender() == m_acts->firstNote() || sender() == m_keys->firstNote())
+			if (sender() == m_acts->firstNote())
 				nDir = e_first;
-			else if (sender() == m_acts->lastNote() || sender() == m_keys->lastNote())
+			else if (sender() == m_acts->lastNote())
 				nDir = e_last;
-			else if (sender() == m_acts->staffUp() || sender() == m_keys->staffUp())
+			else if (sender() == m_acts->staffUp())
 				nDir = e_prevStaff;
-			else if (sender() == m_acts->staffDown() || sender() == m_keys->staffDown())
+			else if (sender() == m_acts->staffDown())
 				nDir = e_nextStaff;
-			else if (sender() == m_keys->nextNote())
+			else if (sender() == m_acts->nextNote())
 				nDir = e_nextNote;
-			else if (sender() == m_keys->prevNote())
+			else if (sender() == m_acts->prevNote())
 				nDir = e_prevNote;
 	}
 	switch(nDir) {
@@ -748,6 +758,8 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 	if (prevIndex != currentIndex()) {
 			emit noteWasChanged(currentIndex() % staff()->maxNoteCount(), 
 												*currentStaff()->getNote(currentIndex() % staff()->maxNoteCount()));
+      if (readOnlyReacting())
+        emit lockedNoteClicked(currentIndex());
 			resetClickedOff();
 	}
 }
@@ -833,38 +845,12 @@ void TmainScore::performScordatureSet() {
 //########################################## PRIVATE #################################################
 //####################################################################################################
 
-void TmainScore::createActions() {		
-	m_settBar = new QToolBar();
-	m_acts->noteNames()->setThisColors(Tcore::gl()->S->nameColor, palette().highlightedText().color());
-	m_acts->noteNames()->setChecked(Tcore::gl()->S->namesOnScore);
-	m_settBar->addWidget(m_acts->noteNames());
-	m_settBar->addWidget(m_acts->extraAccids());
-	
-	
-	m_settBar->addAction(m_acts->zoomOut());
-	m_settBar->addAction(m_acts->zoomIn());
-	m_settBar->addAction(m_acts->firstNote());
-#if !defined (Q_OS_ANDROID)
-	m_settBar->addAction(m_acts->staffUp());
-	m_settBar->addAction(m_acts->staffDown());
-#endif
-	m_settBar->addAction(m_acts->lastNote());	
-	m_settCorner = new TcornerProxy(scoreScene(), m_settBar, Qt::BottomRightCorner);
-	m_settCorner->setSpotColor(Qt::blue);
-	
+void TmainScore::createActions() {
+  m_acts->noteNames()->setChecked(Tcore::gl()->S->namesOnScore);
 	m_clearBar = new QToolBar();
 	m_clearBar->addAction(m_acts->clearScore());
-	m_delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::BottomLeftCorner);
+	m_delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::TopRightCorner);
 	m_delCorner->setSpotColor(Qt::red);
-	
-// 	m_rhythmBar = new QToolBar();
-// 	QLabel *rl = new QLabel("Rhythms<br>not implemented yet", m_rhythmBar);
-// 	m_rhythmBar->addWidget(rl);
-// 	m_rhythmCorner = new TcornerProxy(scoreScene(), m_rhythmBar, Qt::TopLeftCorner);
-// 	   m_rhythmCorner->setSpotColor(Qt::yellow);
-	
-	m_keys = new TscoreKeys(this);
-	m_acts->assignKeys(m_keys);
 }
 
 
@@ -908,16 +894,15 @@ void TmainScore::setQuestionMarkPos() {
 }
 
 
-
 void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
-		QGraphicsRectItem* bgRect = new QGraphicsRectItem;
-		bgRect->setParentItem(staff());
-		bgRect->setRect(0, 0, width, staff()->boundingRect().height());
-		bgRect->setPos(pos);
-		bgRect->setZValue(1);
-		bgRect->setPen(QPen(Qt::NoPen));
-		bgRect->setBrush(c);
-		m_bgRects << bgRect;
+  QGraphicsRectItem* bgRect = new QGraphicsRectItem;
+  bgRect->setParentItem(staff());
+  bgRect->setRect(0, 0, width, staff()->boundingRect().height());
+  bgRect->setPos(pos);
+  bgRect->setZValue(1);
+  bgRect->setPen(QPen(Qt::NoPen));
+  bgRect->setBrush(c);
+  m_bgRects << bgRect;
 }
 
 
@@ -925,13 +910,9 @@ void TmainScore::setBarsIconSize() {
 #if defined (Q_OS_ANDROID)
 	QSize ss(mainWindow()->height() / 10, mainWindow()->height() / 10);
 #else
-	QSize ss(mainWindow()->height() / 20, mainWindow()->height() / 20);
+	QSize ss(mainWindow()->height() / 15, mainWindow()->height() / 15);
 #endif
-  if (!m_settBar) // creator can go here before actions were created
-    return;
-	m_settBar->setIconSize(ss);
 	m_clearBar->setIconSize(ss);
-	m_settBar->adjustSize();
 	m_clearBar->adjustSize();
 }
 
@@ -956,14 +937,8 @@ void TmainScore::createNoteName() {
 
 void TmainScore::enableCorners(bool enable) {
 	if (enable) {
-		if (!isExam()) {
-			m_settCorner->show();
-// 			m_rhythmCorner->show();
-		}
 			m_delCorner->show();
 	} else {
-			m_settCorner->hide();
-// 			m_rhythmCorner->hide();
 			m_delCorner->hide();
 	}
 }

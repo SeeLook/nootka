@@ -155,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent) :
 // #endif
 
   m_melButt = new TmelMan(score);
+  bar->addScoreActions(score->scoreActions());
   bar->addMelodyButton(m_melButt);
   innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, this);
   setCentralWidget(innerWidget);

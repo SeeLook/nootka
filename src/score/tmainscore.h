@@ -64,6 +64,8 @@ public:
 		void getMelody(Tmelody* mel, const QString& title = ""); /** Grabs all notes, key and time in a score to given @p mel */
 		
 		void setInsertMode(EinMode mode);
+    
+    TscoreActions* scoreActions() { return m_acts; }
 		
 				/** Describes moving of selected note */
 		enum EmoveNote {
@@ -182,12 +184,11 @@ private:
 		Tnote::EnameStyle						 m_corrStyle;
 		QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 		
-		TcornerProxy 								*m_settCorner, *m_delCorner, *m_rhythmCorner;
+		TcornerProxy 								*m_delCorner;
 		TnoteName					 					*m_nameMenu;
 		QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
 		bool												 m_scoreIsPlayed;
 		QPointer<QTimer>						 m_playTimer;
-		TscoreKeys									*m_keys; /** Score shortcuts */
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
 		int 												 m_nameClickCounter, m_playedIndex;
 		bool 												 m_emitExpertNoteClicked;
