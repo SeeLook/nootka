@@ -490,10 +490,14 @@ void MainWindow::restoreMessage() {
 
 void MainWindow::messageSlot(const QString& msg) {
 	if (msg.isEmpty()) {
+//       m_statLab->setDefaultBackground();
+//       m_statLab->setStyleSheet("color: palette(text)");
 			setMessageBg(m_prevBg);
 			m_statLab->setText("<center>" + m_statusText + "</center>");
 			m_prevMsg = m_statusText;
 	} else {
+//       m_statLab->setBackroundColor(palette().highlightedText().color());
+//       m_statLab->setStyleSheet("color: palette(highlight)");
 			m_prevBg = m_curBG;
 			setMessageBg(-1);
 			m_statLab->setText("<center>" + msg + "</center>");

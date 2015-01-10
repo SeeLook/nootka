@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -207,7 +207,7 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 void TnoteControl::setScoreNote(TscoreNote* sn) {
 	m_scoreNote = sn;
 	if (sn) {
-			if (parentItem() != sn->parentItem()) {
+			if (sn->parentItem() && parentItem() != sn->parentItem()) {
 				if (parentItem())
 						parentItem()->setZValue(10);
 				setParentItem(sn->parentItem());

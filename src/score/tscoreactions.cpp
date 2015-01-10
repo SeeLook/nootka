@@ -49,7 +49,8 @@ TscoreActions::TscoreActions(TmainScore* sc) :
   m_menu->addSeparator();
   
   m_outZoom = createAction(tr("Zoom score out"), SLOT(zoomScoreSlot()), QKeySequence::ZoomOut, QIcon(Tpath::img("zoom-out")));
-  m_inZoom = createAction(tr("Zoom score in"), SLOT(zoomScoreSlot()), QKeySequence::ZoomIn, QIcon(Tpath::img("zoom-in")));
+  m_inZoom = createAction(tr("Zoom score in"), SLOT(zoomScoreSlot()), QKeySequence(), QIcon(Tpath::img("zoom-in")));
+  m_inZoom->setShortcuts(QKeySequence::keyBindings(QKeySequence::ZoomIn));
   m_menu->addSeparator();
   m_prevNote = createAction(tr("Previous note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Left), 
                              QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)));
@@ -67,7 +68,8 @@ TscoreActions::TscoreActions(TmainScore* sc) :
                              QIcon(sc->style()->standardIcon(QStyle::SP_LineEditClearButton)));
   m_menu->addSeparator();
 	
-  m_clear = createAction(tr("Delete all notes"), SLOT(deleteNotes()), QKeySequence("Shift+DEL"), QIcon(Tpath::img("clear-score")));		
+  m_clear = createAction(tr("Delete all notes"), SLOT(deleteNotes()), QKeySequence("Shift+DEL"), QIcon(Tpath::img("clear-score")));
+  m_clear->setStatusTip(tr("Delete all notes from the score"));
 }
 
 
