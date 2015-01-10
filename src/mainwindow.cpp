@@ -27,6 +27,7 @@
 #include "gui/tmelman.h"
 #include "gui/tmainview.h"
 #include "gui/ttoolbar.h"
+#include "gui/tmenu.h"
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
 #include <tscoreparams.h>
@@ -335,6 +336,7 @@ void MainWindow::createSettingsDialog() {
 			bar->setBarIconStyle(gl->L->iconTextOnToolBar, bar->iconSize().width());
 			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
 			m_statLab->setVisible(gl->L->hintsBarEnabled);
+      Tmenu::setYOffset(m_statLab);
 			pitchView->setVisible(gl->L->soundViewEnabled); // TODO - stop receiving audio signals
 			guitar->setVisible(gl->L->guitarEnabled); // TODO - delete guitar
 			m_isPlayerFree = true;
@@ -647,6 +649,7 @@ void MainWindow::updateSize(QSize newS) {
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
+  Tmenu::setYOffset(m_statLab);
 	int newGuitH = (newS.height() - bar->height()) * 0.25;
 	if (progress) {
 		progress->resize(m_statFontSize);

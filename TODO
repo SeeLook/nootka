@@ -67,7 +67,6 @@ Tnote
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - enable/disable animations option
 - make exam summary pretty
-- there has to be some help with key shortcuts
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote
 ----------------------------------------------------------------------------------------------------------------

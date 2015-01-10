@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tmelman.h"
+#include "tmenu.h"
 #include "score/tmainscore.h"
 #include <exam/tqagroup.h>
 #include <music/tmelody.h>
@@ -28,7 +29,7 @@ TmelMan::TmelMan(TmainScore* score) :
 	QObject(score),
 	m_score(score)
 {	
-	m_menu = new QMenu(score);
+	m_menu = new Tmenu(score);
 	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
 	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
