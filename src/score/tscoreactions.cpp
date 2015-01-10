@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,66 +19,54 @@
 
 #include "tscoreactions.h"
 #include "tmainscore.h"
-#include "tscorekeys.h"
 #include <widgets/tpushbutton.h>
 #include <tpath.h>
-#include <QAction>
-#include <QStyle>
-#include <QShortcut>
-#include <QDebug>
-
+#include <QtWidgets>
 
 TscoreActions::TscoreActions(TmainScore* sc) :
-	QObject(sc)
+	QObject(sc),
+	m_score(sc)
 {
-	m_outZoom = createAction("zoom-out", tr("Zoom score out"));
-		connect(m_outZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
-// 		m_outZoom->setShortcut(QKeySequence(QKeySequence::ZoomOut));
-// 		m_outZoom->setShortcutContext(Qt::ApplicationShortcut);
-	m_inZoom = createAction("zoom-in", tr("Zoom score in"));
-		connect(m_inZoom, SIGNAL(triggered()), sc, SLOT(zoomScoreSlot()));
-	m_firstNote = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)), tr("Go to the first note"));
-		connect(m_firstNote, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
-	m_staffUp = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowUp)), tr("Go to the staff above"));
-		connect(m_staffUp, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
-	m_staffDown = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowDown)), tr("Go to the staff below"));
-		connect(m_staffDown, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
-	m_lastNote = createAction(QIcon(sc->style()->standardIcon(QStyle::SP_ArrowForward)), tr("Go to the last note"));
-		connect(m_lastNote, SIGNAL(triggered()), sc, SLOT(moveSelectedNote()));
+  m_menu = new QMenu(sc);
+  m_button = new QToolButton(sc);
+  m_button->setIcon(QIcon(Tpath::img("score")));
+  m_button->setText(tr("Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."));
+  m_button->setStatusTip(tr("Manage and navigate the score."));
+  m_button->setMenu(m_menu);
+  m_button->setPopupMode(QToolButton::InstantPopup);
+  m_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+  
+  m_mainAction = new QWidgetAction(sc);
+  m_mainAction->setDefaultWidget(m_button);
+  
+  m_accidsAct = createAction(tr("Extra accidentals"), SLOT(extraAccidsSlot()));
+  m_accidsAct->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
+  m_accidsAct->setCheckable(true);
+  m_namesAct = createAction(tr("Show note names"), SLOT(showNamesSlot()));
+  m_namesAct->setStatusTip(tr("Shows names of all notes on the score"));
+  m_namesAct->setCheckable(true);
+  m_menu->addSeparator();
+  
+  m_outZoom = createAction(tr("Zoom score out"), SLOT(zoomScoreSlot()), QKeySequence::ZoomOut, QIcon(Tpath::img("zoom-out")));
+  m_inZoom = createAction(tr("Zoom score in"), SLOT(zoomScoreSlot()), QKeySequence::ZoomIn, QIcon(Tpath::img("zoom-in")));
+  m_menu->addSeparator();
+  m_prevNote = createAction(tr("Previous note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Left), 
+                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)));
+  m_firstNote = createAction(tr("First note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Home), 
+                             QIcon(sc->style()->standardIcon(QStyle::SP_MediaSkipBackward)));
+  m_staffUp = createAction(tr("Staff above"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_PageUp), 
+                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowUp)));
+  m_staffDown = createAction(tr("Staff below"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_PageDown), 
+                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowDown)));
+  m_lastNote = createAction(tr("Last note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_End), 
+                             QIcon(sc->style()->standardIcon(QStyle::SP_MediaSkipForward)));
+  m_nextNote = createAction(tr("Next note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Right), 
+                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowForward)));
+  m_delCurrNote = createAction(tr("Delete note"), SLOT(removeCurrentNote()), QKeySequence(Qt::Key_Delete), 
+                             QIcon(sc->style()->standardIcon(QStyle::SP_LineEditClearButton)));
+  m_menu->addSeparator();
 	
-	m_clear = createAction("clear-score", tr("Delete all notes on the score"));
-	connect(m_clear, SIGNAL(triggered()), sc, SLOT(deleteNotes()));
-	
-	m_accidsButt = new TpushButton("$", sc); // (#)
-		m_accidsButt->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
-		m_accidsButt->setThisColors(Qt::red, sc->palette().highlightedText().color());
-	m_namesButt = new TpushButton("c", sc);
-		m_namesButt->setStatusTip(tr("Shows names of all notes on the score"));
-	QList<TpushButton*> buttons;
-	buttons << m_accidsButt << m_namesButt;
-	for (int i = 0; i < buttons.size(); i++) {
-		QFont nf("nootka");
-		nf.setPointSizeF(24.0);
-		QFontMetrics fm(nf);
-		nf.setPointSizeF(qRound(nf.pointSizeF() * (nf.pointSizeF() / fm.boundingRect("x").height())));
-		buttons[i]->setFont(nf);
-		fm = QFontMetrics(nf);
-		buttons[i]->setMaximumWidth(fm.boundingRect("xx").width());
-	}
-	connect(m_accidsButt, SIGNAL(clicked()), sc, SLOT(extraAccidsSlot()));
-	connect(m_namesButt, SIGNAL(clicked()), sc, SLOT(showNamesSlot()));
-
-		
-}
-
-
-void TscoreActions::assignKeys(TscoreKeys* sKeys) {
-	m_keys = sKeys;
-	assocActionAndKey(m_firstNote, m_keys->firstNote());
-	assocActionAndKey(m_lastNote, m_keys->lastNote());
-	assocActionAndKey(m_staffDown, m_keys->staffDown());
-	assocActionAndKey(m_staffUp, m_keys->staffUp());
-	assocActionAndKey(m_clear, m_keys->clearScore());
+  m_clear = createAction(tr("Delete all notes"), SLOT(deleteNotes()), QKeySequence("Shift+DEL"), QIcon(Tpath::img("clear-score")));		
 }
 
 
@@ -90,37 +78,27 @@ void TscoreActions::disableActions(bool dis) {
 }
 
 
+void TscoreActions::setForExam(bool isExam) {
+  m_accidsAct->setVisible(!isExam);
+  m_namesAct->setVisible(!isExam);
+}
+
+
 //####################################################################################################
 //########################################## PRIVATE #################################################
 //####################################################################################################
 
-void TscoreActions::assocActionAndKey(QAction* act, QShortcut* key) {
-	QString keyText = m_keys->firstNote()->key().toString();
-	if (keyText != "")
-		act->setStatusTip(act->statusTip() + " (" + key->key().toString() + ")");
-	connect(key, SIGNAL(activated()), act, SLOT(trigger()));
+QAction* TscoreActions::createAction(const QString& t, const char* slot, const QKeySequence& k, const QIcon& i) {
+  QAction *a = new QAction(this);
+  if (!i.isNull())
+    a->setIcon(i);
+  if (!k.isEmpty())
+    a->setShortcut(k);
+  a->setText(t);
+  connect(a, SIGNAL(triggered()), m_score, slot);
+  m_menu->addAction(a);
+  return a;
 }
-
-
-QAction* TscoreActions::createAction(const QString& ico, const QString& statTip) {
-	QAction *a = new QAction(QIcon(Tpath::img(ico)), "", this);
-	equipAcction(a, statTip);
-	return a;
-}
-
-
-QAction* TscoreActions::createAction(const QIcon& ico, const QString& statTip) {
-	QAction *a = new QAction(ico, "", this);
-	equipAcction(a, statTip);
-	return a;
-}
-
-
-void TscoreActions::equipAcction(QAction* act, const QString& statTip) {
-	act->setStatusTip(statTip);
-	m_actions << act;
-}
-
 
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 #include <QToolBar>
 #include <QPointer>
 
+class TscoreActions;
 class TnootkaLabel;
 class TmelMan;
 class QMainWindow;
@@ -74,6 +75,9 @@ public:
 	
 	void addMelodyButton(TmelMan* melBut);
 	void setMelodyButtonVisible(bool vis); /** Hides or shows melody button */
+  
+  void addScoreActions(TscoreActions* scoreBut); /** Adds button with associated menu with actions to manage the score. */
+  void setScoreButtonVisible(bool vis); /** Hides or shows score button. */
 	
 	void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
 	
@@ -84,6 +88,7 @@ protected:
 	
 private:
 	TmelMan													*m_melButton;
+  TscoreActions                   *m_scoreActs;
 	TnootkaLabel 										*m_nootLabel;
 	QGraphicsProxyWidget						*m_proxy;
 	QWidget 												*m_spacer;

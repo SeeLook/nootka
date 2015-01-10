@@ -23,7 +23,7 @@
 #include <QTimer>
 #include <QLabel>
 #include <QGroupBox>
-#include <QCheckBox>
+#include <QRadioButton>
 #include <QPainter>
 #include <QApplication>
 #include <QDebug>
@@ -41,12 +41,12 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 	QHBoxLayout *outLay = new QHBoxLayout;
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
-			m_pauseChBox = new QCheckBox(this);
-      m_pauseChBox->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-      m_pauseChBox->setStatusTip(tr("Switch on/off pitch detection"));
-			m_pauseChBox->setChecked(true);
+			m_pauseButton = new QRadioButton(this);
+      m_pauseButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+      m_pauseButton->setStatusTip(tr("Switch on/off pitch detection"));
+			m_pauseButton->setChecked(true);
   } else {
-    m_pauseChBox = 0;
+      m_pauseButton = 0;
   }
     
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
@@ -64,13 +64,13 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 	m_lay->addLayout(volLay);
 	outLay->addLayout(m_lay);
 	if (m_withButtons)
-				volLay->addWidget(m_pauseChBox, 0, Qt::AlignHCenter);
+				volLay->addWidget(m_pauseButton, 0, Qt::AlignHCenter);
   setLayout(outLay);
   
   m_watchTimer = new QTimer(this);
   connect(m_watchTimer, &QTimer::timeout, this, &TpitchView::updateLevel);
   if (m_withButtons) {
-    connect(m_pauseChBox, &QCheckBox::clicked, this, &TpitchView::pauseClicked);
+    connect(m_pauseButton, &QRadioButton::clicked, this, &TpitchView::pauseClicked);
   }
   connect(m_volumeView, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
 }
@@ -156,7 +156,7 @@ void TpitchView::resize(int fontSize) {
   m_volumeView->setFixedHeight(qRound((float)fontSize * 0.9));
   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
 	if (m_withButtons) {
-		m_pauseChBox->setFixedSize(qRound((float)fontSize * 0.8), qRound((float)fontSize * 0.8));
+		m_pauseButton->setFixedSize(qRound((float)fontSize * 0.8), qRound((float)fontSize * 0.8));
   }
 }
 
@@ -175,7 +175,7 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 
 bool TpitchView::isPaused() {
   if (m_audioIN && m_withButtons)
-    return !m_pauseChBox->isChecked();
+    return !m_pauseButton->isChecked();
   return false;
 }
 
@@ -212,8 +212,8 @@ void TpitchView::updateLevel() {
 
 void TpitchView::pauseClicked() {
   if (m_audioIN)
-    m_audioIN->setStoppedByUser(!m_pauseChBox->isChecked());
-	if (m_pauseChBox->isChecked()) {
+    m_audioIN->setStoppedByUser(!m_pauseButton->isChecked());
+	if (m_pauseButton->isChecked()) {
 // 		if (m_intoView->accuracy() != TintonationView::e_noCheck)
 // 				m_intoView->setDisabled(false); // else is already disabled
 		m_audioIN->startListening();
@@ -235,10 +235,10 @@ void TpitchView::inputStateChanged(int inSt) {
     if (m_withButtons) {
       TaudioIN::Estate inState = (TaudioIN::Estate)inSt;
       if (inState == TaudioIN::e_stopped) {
-        m_pauseChBox->setChecked(false);
+        m_pauseButton->setChecked(false);
         stopWatching();
       } else if (inState == TaudioIN::e_listening) {
-        m_pauseChBox->setChecked(true);
+        m_pauseButton->setChecked(true);
         watchInput();
       }
     }

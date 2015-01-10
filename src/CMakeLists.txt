@@ -40,7 +40,6 @@ set(NOOTKA_SRC
 	score/tmultiscore.cpp
 	score/tmainscore.cpp
 	score/tcornerproxy.cpp
-	score/tscorekeys.cpp
 	score/tscoreactions.cpp
 	
 	exam/tcanvas.cpp

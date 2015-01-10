@@ -117,7 +117,6 @@ void Tsound::acceptSettings() {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
     } else {
-      m_userState = sniffer->stoppedByUser();
       setDefaultAmbitus();
       doParamsUpdated = true;
     }

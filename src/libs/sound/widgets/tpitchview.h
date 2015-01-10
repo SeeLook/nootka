@@ -29,7 +29,7 @@
 class QBoxLayout;
 class TvolumeView;
 class TintonationView;
-class QCheckBox;
+class QRadioButton;
 class QTimer;
 
 /** 
@@ -84,7 +84,7 @@ protected:
 	virtual void hideEvent(QHideEvent* e);
   
 private:
-	QCheckBox 				*m_pauseChBox; /** Button to pause or activate pitch detection */
+	QRadioButton 			*m_pauseButton; /** Button to pause or activate pitch detection */
   TvolumeView 			*m_volumeView;
   TintonationView 	*m_intoView;
   TaudioIN 					*m_audioIN;
