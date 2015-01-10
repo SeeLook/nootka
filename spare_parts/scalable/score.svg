@@ -1038,14 +1038,15 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-size:5.1712532px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="10.60619"
-     y="7.1218686"
+     style="font-size:4.88205099px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="10.931304"
+     y="6.723578"
      id="text3212"
      sodipodi:linespacing="125%"
-     transform="matrix(1,0,-0.37319065,1,0,0)"><tspan
+     transform="matrix(0.94407499,0,-0.35231996,1.0592379,0,0)"><tspan
        sodipodi:role="line"
        id="tspan3214"
-       x="10.60619"
-       y="7.1218686">Andante</tspan></text>
+       x="10.931304"
+       y="6.723578"
+       style="font-weight:bold;-inkscape-font-specification:Sans Bold">Andante</tspan></text>
 </svg>

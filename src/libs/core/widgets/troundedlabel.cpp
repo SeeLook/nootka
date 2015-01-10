@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,34 +31,34 @@ TroundedLabel::TroundedLabel(QWidget* parent) :
 TroundedLabel::TroundedLabel(QString txt, QWidget* parent) :
 	QLabel(txt, parent)
 {
-	setContentsMargins(5, 5, 5 , 5);
+	setContentsMargins(2, 2, 2 , 2);
 	initBgColor();
 }
 
 
 void TroundedLabel::setStyleSheet(const QString& styleSheet) {
-		QLabel::setStyleSheet(backgroundText() + styleSheet);
-		m_styleText = styleSheet;
+  QLabel::setStyleSheet(backgroundText() + styleSheet);
+  m_styleText = styleSheet;
 }
 
 
 void TroundedLabel::setBackroundColor(const QColor &bgColor) {
-		m_bgColor = bgColor;
-		QLabel::setStyleSheet(backgroundText() + m_styleText);
+  m_bgColor = bgColor;
+  QLabel::setStyleSheet(backgroundText() + m_styleText);
 }
 
 
 void TroundedLabel::setDefaultBackground() {
-		QString tmpStyle = m_styleText;
-		initBgColor();
-		setStyleSheet(tmpStyle);
+  QString tmpStyle = m_styleText;
+  initBgColor();
+  setStyleSheet(tmpStyle);
 }
 
 
 
 QString TroundedLabel::backgroundText() {
-    return QString("background-color: rgba(%1, %2, %3, %4); border-radius: 10px; ")
-				.arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()).arg(m_bgColor.alpha());
+  return QString("background-color: rgba(%1, %2, %3, %4); border-radius: 10px; ")
+      .arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()).arg(m_bgColor.alpha());
 }
 
 //######################################### PRIVATE ######################################################
