@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,51 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMELMAN_H
-#define TMELMAN_H
+#ifndef TMENU_H
+#define TMENU_H
 
-#include <QObject>
-#include <QIcon>
-#include <QKeySequence>
-
-class QAction;
-class QMainWindow;
-class QWidgetAction;
-class Tmenu;
-class QToolButton;
-class TmainScore;
+#include <QMenu>
 
 
 /** 
- * Melody manager - graphically represented by QToolButton 
- * in Nootka tool bar with actions to manage melodies.
+ * This is ordinary QMenu class but it shifts menu position of @p yPosOffset
+ * To display menu below Nootka status bar (if it is visible)
  */
-class TmelMan : public QObject
+class Tmenu : public QMenu
 {
-	Q_OBJECT
-	
 public:
-	explicit TmelMan(TmainScore* score);
-	
-	QWidgetAction* melodyAction() { return m_melAct; }
-	QToolButton* button() { return m_button; }
-	
-public slots:
-	void playMelodySlot();
-	void recordMelodySlot();
-	void randomizeMelodySlot();
-	void loadMelodySlot();
-	void saveMelodySlot();
-	
+  explicit Tmenu(QWidget* parent = 0);
+  
+      /** Checks is given status lab visible and  shifts drop down menu position - y coordinate. */
+  static void setYOffset(const QWidget* statusLab);
+  
+protected:  
+  virtual void showEvent(QShowEvent* event);
+  
 private:
-	QAction* createAction(const QString& t, const char* slot, const QKeySequence& k = QKeySequence(), const QIcon& i = QIcon());
-	
-private:
-	TmainScore						*m_score;
-	QWidgetAction					*m_melAct;
-	QToolButton						*m_button;
-	Tmenu									*m_menu;
-	QAction								*m_playMelAct, *m_recMelAct;
+  static int m_yPosOffset;
+  
 };
 
-#endif // TMELMAN_H
+#endif // TMENU_H

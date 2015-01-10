@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,51 +16,40 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMELMAN_H
-#define TMELMAN_H
 
-#include <QObject>
-#include <QIcon>
-#include <QKeySequence>
+#include "tmenu.h"
+#include <QShowEvent>
 
-class QAction;
-class QMainWindow;
-class QWidgetAction;
-class Tmenu;
-class QToolButton;
-class TmainScore;
+/*static*/
+int Tmenu::m_yPosOffset = 0;
 
 
-/** 
- * Melody manager - graphically represented by QToolButton 
- * in Nootka tool bar with actions to manage melodies.
- */
-class TmelMan : public QObject
-{
-	Q_OBJECT
-	
-public:
-	explicit TmelMan(TmainScore* score);
-	
-	QWidgetAction* melodyAction() { return m_melAct; }
-	QToolButton* button() { return m_button; }
-	
-public slots:
-	void playMelodySlot();
-	void recordMelodySlot();
-	void randomizeMelodySlot();
-	void loadMelodySlot();
-	void saveMelodySlot();
-	
-private:
-	QAction* createAction(const QString& t, const char* slot, const QKeySequence& k = QKeySequence(), const QIcon& i = QIcon());
-	
-private:
-	TmainScore						*m_score;
-	QWidgetAction					*m_melAct;
-	QToolButton						*m_button;
-	Tmenu									*m_menu;
-	QAction								*m_playMelAct, *m_recMelAct;
-};
 
-#endif // TMELMAN_H
+
+Tmenu::Tmenu(QWidget* parent) :
+  QMenu(parent)
+{}
+
+
+void Tmenu::setYOffset(const QWidget* statusLab) {
+  if (statusLab->isVisible())
+    m_yPosOffset = statusLab->height() * 1.3;
+  else
+    m_yPosOffset = 0;
+}
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
+void Tmenu::showEvent(QShowEvent* event) {
+  move(x(), y() + m_yPosOffset);
+  QWidget::showEvent(event);
+}
+
+
+
+
+
+
+

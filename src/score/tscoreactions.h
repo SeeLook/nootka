@@ -28,7 +28,7 @@
 
 class QIcon;
 class QWidgetAction;
-class QMenu;
+class Tmenu;
 class QToolButton;
 class QShortcut;
 class TscoreKeys;
@@ -74,7 +74,7 @@ public:
 private:
   TmainScore                  *m_score;
   QToolButton                 *m_button;
-  QMenu                       *m_menu;
+  Tmenu                       *m_menu;
   QWidgetAction               *m_mainAction;
 	QAction											*m_inZoom, *m_outZoom;
 	QAction											*m_staffDown, *m_staffUp, *m_firstNote ,*m_lastNote, *m_nextNote, *m_prevNote;

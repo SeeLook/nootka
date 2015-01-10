@@ -1,10 +1,12 @@
 1.1.5
+     - added new tool button with menu for score
      - A note from played exam melody can be selected to start playing from it
-     - Come back of improved first run wizard - it is a plugin now
+     - First run wizard comes back improved  - it is a plugin now
     BUGS FIXES
      - fixing bugs, mistakes and glitches...
     Under the hood
      - external executable-s converted to plugins loaded on demand
+     - audio device has single instance, the same for settings
 
 1.1.4 alpha
      - exam tips are storing their position when moved by user
