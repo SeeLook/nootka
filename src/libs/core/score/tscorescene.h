@@ -117,7 +117,7 @@ protected:
 		QGraphicsSimpleTextItem* workAccid() { return m_workAccid; }
 		void setAccidYoffset(qreal aYo) { m_accidYoffset = aYo; }
 		void setAccidScale(qreal as) { m_accidScale = as; }
-		void setCursorParent(TscoreItem* item); /** Sets parent of note cursor to this instance */
+		void setCursorParent(TscoreNote* sn); /** Sets parent of note cursor to this instance */
 		
     
 protected slots:

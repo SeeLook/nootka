@@ -15,7 +15,6 @@
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - when new staff is automatically added selected note is wrong
-- changing tool bar auto-hiding causes sometimes locked melody menu
 - fix accidental animations - they jump when melody is set as a question
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
 - do not continue answering with melody that was fully or too much corrected
@@ -35,7 +34,7 @@ Scaling issues:
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 
 MINOR:
-
+- changing tool bar auto-hiding causes sometimes locked melody menu
 - move what_next/question tips to the right over guitar in single note mode
 
 - think to disable pitch view during melodies correction - it is just stopped now

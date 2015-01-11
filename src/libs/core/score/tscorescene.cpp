@@ -218,10 +218,9 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 }
 
 
-void TscoreScene::setCursorParent(TscoreItem* item) {
-//   qDebug() << "setCursorParent" << item << static_cast<TscoreNote*>(item)->index();
-	workNote()->setParentItem(item);
-	m_workLines->setParent(item);
+void TscoreScene::setCursorParent(TscoreNote* sn) {
+	workNote()->setParentItem(sn);
+	m_workLines->setParent(sn);
 }
 
 
