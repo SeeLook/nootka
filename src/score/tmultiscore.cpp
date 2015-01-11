@@ -303,6 +303,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 			staffOff = 1.1;
 		hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
 		qreal factor = (((qreal)hh / (staff()->height() + 0.4)) / transform().m11()) / m_scale;
+    scoreScene()->prepareToChangeRect();
 		scale(factor, factor);
 		int stavesNumber; // how many staves are needed
 		for (int i = 0; i < m_staves.size(); i++) {
@@ -354,6 +355,7 @@ void TmultiScore::updateSceneRect() {
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 
 								staff()->width() + (staff()->isPianoStaff() ? 1.1 : 0.0),	sh)).boundingRect();
 	scoreScene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
+  scoreScene()->restoreAfterRectChange();
 	qDebug() << "updateSceneRect" << scoreScene()->sceneRect() << m_staves.size();
 }
 

@@ -20,8 +20,9 @@ ${PROJECT_NAME}-${Nootka_VERSION_FULL}
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src) 
 
-
+if (UNIX AND NOT APPLE) # config with version number is generated once on developer platform
 configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
+endif (UNIX AND NOT APPLE)
 
 add_subdirectory(src)
 

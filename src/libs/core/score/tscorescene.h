@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -100,6 +100,9 @@ public:
 		void mouseEntersOnKey(bool onKey) { m_mouseOverKey = onKey; } /** score key informs that has or has not a mouse cursor */
 		bool keyHasMouse() { return m_mouseOverKey; }
 		
+		void prepareToChangeRect(); /** It has to be invoked whenever score rectangle is going to change. I.e. by resize event of a view. */
+    void restoreAfterRectChange(); /** Scene will try to adjust itself to new size.  */
+		
 signals:
     void statusTip(QString);
 		
@@ -138,7 +141,7 @@ private:
 		QTimer													 *m_showTimer, *m_hideTimer;
 		TscoreNote											 *m_scoreNote; /** current note segment or NULL. */
 		bool															m_controlledNotes;
-		bool															m_mouseOverKey;
+		bool															m_mouseOverKey, m_rectIsChanging;
 
 };
 
