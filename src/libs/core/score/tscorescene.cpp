@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,7 @@
 #include <QGraphicsEffect>
 #include <QApplication>
 #include <QTimer>
+#include <QDebug>
 
 
 TscoreScene::TscoreScene(QObject* parent) :
@@ -37,7 +38,7 @@ TscoreScene::TscoreScene(QObject* parent) :
   m_accidScale(-1.0),
   m_scoreNote(0),
   m_controlledNotes(true),
-  m_mouseOverKey(false)
+  m_mouseOverKey(false), m_rectIsChanging(false)
 {
 	m_showTimer = new QTimer(this);
 	m_hideTimer = new QTimer(this);
@@ -111,7 +112,7 @@ void TscoreScene::setPointedColor(const QColor& color) {
 //##########################################################################################
 
 void TscoreScene::noteEntered(TscoreNote* sn) {
-	if (sn != m_scoreNote && sn != 0) {
+	if (!m_rectIsChanging && sn != m_scoreNote && sn != 0) {
 		m_scoreNote = sn;
 		if (controlledNotes()) {
 			if (right()->isEnabled()) {
@@ -130,25 +131,29 @@ void TscoreScene::noteEntered(TscoreNote* sn) {
 
 
 void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
-	setWorkPosY(yPos);
-	workNote()->setPos(3.0, workPosY());
-	workLines()->checkLines(yPos);
-	if (!workNote()->isVisible()) {
-		showTimeOut();
-	}
-	if (sn != m_scoreNote) {
-			noteEntered(sn);
-			m_showTimer->start(300);
-	} else {
-			m_hideTimer->start(1000);
-	}
+  if (!m_rectIsChanging) {
+    setWorkPosY(yPos);
+    workNote()->setPos(3.0, workPosY());
+    workLines()->checkLines(yPos);
+    if (!workNote()->isVisible()) {
+      showTimeOut();
+    }
+    if (sn != m_scoreNote) {
+        noteEntered(sn);
+        m_showTimer->start(300);
+    } else {
+        m_hideTimer->start(1000);
+    }
+  }
 }
 
 
 void TscoreScene::noteLeaved(TscoreNote* sn) {
 	Q_UNUSED(sn)
-	m_showTimer->stop();
-	m_hideTimer->start(300);
+  if (!m_rectIsChanging) {
+    m_showTimer->stop();
+    m_hideTimer->start(300);
+  }
 }
 
 
@@ -165,6 +170,17 @@ void TscoreScene::noteDeleted(TscoreNote* sn) {
 
 void TscoreScene::controlMoved() {
 	m_hideTimer->start(1000);
+}
+
+
+void TscoreScene::prepareToChangeRect() {
+  m_rectIsChanging = true;
+  hideTimeOut();
+}
+
+
+void TscoreScene::restoreAfterRectChange() {
+  m_rectIsChanging = false;
 }
 
 
@@ -203,6 +219,7 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 
 
 void TscoreScene::setCursorParent(TscoreItem* item) {
+//   qDebug() << "setCursorParent" << item << static_cast<TscoreNote*>(item)->index();
 	workNote()->setParentItem(item);
 	m_workLines->setParent(item);
 }
