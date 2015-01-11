@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,7 +35,7 @@ void TscoreLines::checkLines(int curPos) {
 		else 
 			m_upper[i]->hide();
 	}
-	if (m_parentNote->staff()->isPianoStaff()) {
+	if (m_parentNote && m_parentNote->staff()->isPianoStaff()) {
 		if (curPos == m_middle[0]->line().y1() - 1)
 			m_middle[0]->show();
 		else
@@ -57,18 +57,19 @@ void TscoreLines::checkLines(int curPos) {
 void TscoreLines::hideAllLines() {
 	hideLines(m_upper);
 	hideLines(m_lower);
-	if (m_parentNote->staff()->isPianoStaff())
+	if (m_parentNote && m_parentNote->staff()->isPianoStaff())
 		hideLines(m_middle);
 }
 
 
-void TscoreLines::setParent(TscoreItem* item) {
+void TscoreLines::setParent(TscoreNote* sn) {
+  m_parentNote = sn;
 	for (int i = 0; i < m_upper.size(); i++)
-		m_upper[i]->setParentItem(item);
+		m_upper[i]->setParentItem(sn);
 	for (int i = 0; i < m_middle.size(); i++)
-		m_middle[i]->setParentItem(item);
+		m_middle[i]->setParentItem(sn);
 	for (int i = 0; i < m_lower.size(); i++)
-		m_lower[i]->setParentItem(item);
+		m_lower[i]->setParentItem(sn);
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,7 +53,7 @@ public:
 	
 	void checkLines(int curPos); /** Checks whose lines show and hide. @p curPos is current position of note those lines belong to. */
 	
-	void setParent(TscoreItem* item);
+	void setParent(TscoreNote* sn);
 	
 private:
 	QGraphicsLineItem* createNoteLine(int yPos);
