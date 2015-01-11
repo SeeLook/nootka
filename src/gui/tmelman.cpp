@@ -70,8 +70,12 @@ void TmelMan::playMelodySlot() {
 		else
 			m_button->setIcon(QIcon(Tpath::img("melody")));
 	} else {
-		if (m_score->currentIndex() < 0)
-			return;
+		if (m_score->currentIndex() < 0) {
+      if (m_score->notesCount() > 0)
+        m_score->selectNote(0); // start playing from the first note
+      else
+        return;
+    }
 		m_recMelAct->setDisabled(true);
 		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
 		m_score->playScore();

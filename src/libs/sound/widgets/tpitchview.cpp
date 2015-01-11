@@ -111,9 +111,9 @@ void TpitchView::stopWatching() {
     m_volumeView->setVolume(0.0); // it has to be called twice to reset
     if (m_intoView->isEnabled())
       m_intoView->pitchSlot(0.0);
-    m_volumeView->setDisabled(true);
-    m_intoView->setDisabled(true);
   }
+  m_volumeView->setDisabled(true);
+  m_intoView->setDisabled(true);
 }
 
 
@@ -134,8 +134,6 @@ void TpitchView::setDisabled(bool isDisabled) {
     stopWatching();
   else
     watchInput();
-//   m_volumeView->setDisabled(isDisabled && m_watchTimer->isActive());
-// 	m_intoView->setDisabled(isDisabled && m_watchTimer->isActive());
 }
 
 
