@@ -39,7 +39,8 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	m_clickedOff(0), m_currentIndex(-1),
 	m_useAinim(true),
 	m_addNoteAnim(true),
-	m_selectReadOnly(false), m_isDisabled(false)
+	m_selectReadOnly(false), m_isDisabled(false),
+	m_notAddStaff(false)
 {
 	setObjectName("m_mainScore");
 	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
@@ -492,15 +493,19 @@ void TmultiScore::keyChangedSlot() {
 
 void TmultiScore::staffHasNoSpace(int staffNr) {
 //   qDebug() << "staffHasNoSpace" << staffNr;
-	addStaff();
-	adjustStaffWidth(m_staves.last());
-	m_staves.last()->checkNoteRange(false);
-	qreal yOff = 4.0;
-	if (staff()->hasScordature() && m_staves.last()->number() == 1)
-		yOff += 3.0;
-	m_staves.last()->setPos(staff()->pos().x(), 
-													m_staves[staffNr]->y() + m_staves[staffNr]->loNotePos() - m_staves.last()->hiNotePos() + yOff);
-	updateSceneRect();
+  if (m_notAddStaff) 
+    m_notAddStaff = false;
+  else {
+    addStaff();
+    adjustStaffWidth(m_staves.last());
+    m_staves.last()->checkNoteRange(false);
+    qreal yOff = 4.0;
+    if (staff()->hasScordature() && m_staves.last()->number() == 1)
+      yOff += 3.0;
+    m_staves.last()->setPos(staff()->pos().x(), 
+                            m_staves[staffNr]->y() + m_staves[staffNr]->loNotePos() - m_staves.last()->hiNotePos() + yOff);
+    updateSceneRect();
+  }
 }
 
 
@@ -525,16 +530,28 @@ void TmultiScore::staffHasFreeSpace(int staffNr, int notesFree) {
 }
 
 
+/** If new staff has to be added it will create empty note automatically because staff has to have at last one note.
+ * But this required note is the added one so that automatically created with staff empty note can be deleted. */
 void TmultiScore::noteGetsFree(int staffNr, TscoreNote* freeNote) {
 // 	qDebug() << "noteGetFree" << staffNr << freeNote->note()->toText();
-	if (staffNr + 1 == m_staves.size())
-		staffHasNoSpace(staffNr); // add staff
-	for (int i = m_staves.size() - 2; i >= staffNr + 1; i--) { // make space in next staves
-			QList<TscoreNote*> notes;
-			m_staves[i]->takeNotes(notes, m_staves[i]->count() - 1, m_staves[i]->count() - 1);
-			m_staves[i + 1]->addNotes(0, notes);
-		}			
-	m_staves[staffNr + 1]->addNote(0, freeNote);
+  int nextStaffNr = staffNr + 1;
+  bool staffWasAdded = false;
+	if (nextStaffNr == m_staves.size()) { // last staff has no space
+		staffHasNoSpace(staffNr); // so add the new one
+    staffWasAdded = true;
+  } else if (nextStaffNr < m_staves.size()) { // make space in next staff
+    if (m_staves[nextStaffNr]->count() == staff()->maxNoteCount()) {
+      QList<TscoreNote*> notes;
+      m_staves[nextStaffNr]->takeNotes(notes, m_staves[nextStaffNr]->count() - 1, m_staves[nextStaffNr]->count() - 1);
+      noteGetsFree(nextStaffNr, notes[0]);
+    }
+  }
+	m_staves[nextStaffNr]->addNote(0, freeNote);
+  if (staffWasAdded) {
+    lastStaff()->blockSignals(true);
+    lastStaff()->removeNote(1);
+    lastStaff()->blockSignals(false);
+  }
 }
 
 
@@ -545,26 +562,30 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 		m_currentIndex++;
 	}
 	if (staff()->noteSegment(0)->noteName() || staff()->noteSegment(staff()->count() - 1)->noteName())
-			m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
+    m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
 	if (m_useAinim && m_addNoteAnim)
 		m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
 	m_addNoteAnim = true;
   connectForReadOnly(m_staves[staffNr]->noteSegment(noteToAdd));
+  if (insertMode() == e_multi && m_staves[staffNr]->count() == m_staves[staffNr]->maxNoteCount())
+    m_notAddStaff = true; // this avoids adding new staff when the last possible note on the staff was added.
+    // In e_multi mode user has to add next note manually.
+    // Trick is that next signal called by this staff will be 'noMoreSpace' and will invoke staffHasNoSpace
+    // where new staff would be added - but this workaround stops it
 }
 
 
 void TmultiScore::noteRemovingSlot(int staffNr, int noteToDel) {
 //   qDebug() << "noteRemovingSlot" << staffNr;
 	if (staffNr * staff()->maxNoteCount() + noteToDel == m_currentIndex) {
-		qDebug() << "current selected note will be removed";
+// 		qDebug() << "current selected note will be removed";
 		changeCurrentIndex(-1);
 	} else if (staffNr * staff()->maxNoteCount() + noteToDel < m_currentIndex) {
-		qDebug() << "selected note moved backward";
+// 		qDebug() << "selected note moved backward";
 		m_currentIndex--;
 	}
 }
-
 
 
 void TmultiScore::staffHiNoteChanged(int staffNr, qreal hiNoteYoff) {
