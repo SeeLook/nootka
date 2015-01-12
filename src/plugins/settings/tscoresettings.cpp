@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
 #include "tscoresettings.h"
 #include "tnotationradiogroup.h"
 #include "tcolorbutton.h"
+#include "tnotenamesettings.h"
 #include <tinitcorelib.h>
 #include <tscoreparams.h>
 #include <music/tkeysignature.h>
@@ -38,10 +39,8 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 	QToolBox *m_toolBox = new QToolBox(this);
 	QWidget *m_3_misc, *m_1_keys, *m_2_clefs;
 	
-// 1. Key signatures settings
-	m_1_keys = new QWidget();
-	m_toolBox->addItem(m_1_keys, "1. " + tr("Key signatures"));
-		
+// 2. Key signatures settings
+	m_1_keys = new QWidget();		
     m_workStyle = Tcore::gl()->S->nameStyleInKeySign;
     QVBoxLayout *keyLay = new QVBoxLayout();
     m_enablKeySignCh = new QCheckBox(tr("enable key signature"), m_1_keys);
@@ -94,23 +93,21 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 	   m_1_keys->setLayout(keyLay);
     
 // 2. Clefs settings
-	m_2_clefs = new QWidget();
-	m_toolBox->addItem(m_2_clefs, "2. " + tr("Clefs"));
-	
+	m_2_clefs = new QWidget();	
 		m_clefSelector = new TselectClef(m_2_clefs);
 		QHBoxLayout* clefLay = new QHBoxLayout;
 		QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), m_2_clefs);
 		clefUsageLab->setAlignment(Qt::AlignCenter);
+      clefLay->addStretch();
 		  clefLay->addWidget(clefUsageLab);
 		  m_2_clefs->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>");
 		  clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
+      clefLay->addStretch();
 		m_clefSelector->selectClef(Tcore::gl()->S->clef);
     m_2_clefs->setLayout(clefLay);
 		 
-// 3. Miscellaneous score settings
-	m_3_misc = new QWidget();
-	m_toolBox->addItem(m_3_misc, "3. " + tr("Miscellaneous score settings"));
-	
+// 1. Miscellaneous score settings
+	m_3_misc = new QWidget();	
 		m_singleNoteGr = new QGroupBox(tr("use single note only"), m_3_misc);
 			m_singleNoteGr->setStatusTip(tr("When enabled, a score displays only a single note."));
 			m_singleNoteGr->setCheckable(true);
@@ -161,18 +158,24 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		miscLay->addLayout(colLay);
 	   m_3_misc->setLayout(miscLay);
 
+  m_nameTab = new TnoteNameSettings();
 
+  m_toolBox->addItem(m_3_misc, "1. " + tr("Score settings"));
+  m_toolBox->addItem(m_1_keys, "2. " + tr("Key signatures"));
+  m_toolBox->addItem(m_2_clefs, "3. " + tr("Clefs"));
+  m_toolBox->addItem(m_nameTab, "4. " + tr("Notes naming"));
 	QVBoxLayout *mainLay = new QVBoxLayout;
 	mainLay->addWidget(m_toolBox);
 	
 	setLayout(mainLay);
 
-    connect(m_enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
-    connect(m_nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::EnameStyle)), this, SLOT(nameStyleWasChanged(Tnote::EnameStyle)));
-    connect(m_majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
-    connect(m_minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
-    m_majExampl->setText(getMajorExample(m_workStyle));
-    m_minExampl->setText(getMinorExample(m_workStyle));
+  connect(m_enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
+  connect(m_nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::EnameStyle)), this, SLOT(nameStyleWasChanged(Tnote::EnameStyle)));
+  connect(m_majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
+  connect(m_minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
+  connect(m_nameTab, SIGNAL(seventhIsBChanged(bool)), this, SLOT(seventhIsBChanged(bool)));
+  m_majExampl->setText(getMajorExample(m_workStyle));
+  m_minExampl->setText(getMinorExample(m_workStyle));
 }
 
 
@@ -216,75 +219,77 @@ QString TscoreSettings::getMinorExample(Tnote::EnameStyle nameStyle) {
 
 
 void TscoreSettings::setDefaultClef(Tclef clef) {
-		m_clefSelector->selectClef(clef);
+  m_clefSelector->selectClef(clef);
 }
 
 
 
 void TscoreSettings::nameStyleWasChanged(Tnote::EnameStyle nameStyle) {
-		// Tnote::toRichText() method returns only names in user preferred according to settings
-	// To cheat it and force note name in any given style we are resetting pointer of is7th_B 
-	// then Tnote skips filtering of a style during name generation.
-		bool* tmpPtr = TnameStyleFilter::is7th_B();
-		TnameStyleFilter::setStyleFilter(0, TnameStyleFilter::solfegeStyle());
-    m_workStyle = nameStyle;
-    m_majExampl->setText(getMajorExample(m_workStyle));
-    m_minExampl->setText(getMinorExample(m_workStyle));
-		TnameStyleFilter::setStyleFilter(tmpPtr, TnameStyleFilter::solfegeStyle()); // restore is7th_B settings
+// Tnote::toRichText() method returns only names in user preferred according to settings
+// To cheat it and force note name in any given style we are resetting pointer of is7th_B 
+// then Tnote skips filtering of a style during name generation.
+  bool* tmpPtr = TnameStyleFilter::is7th_B();
+  TnameStyleFilter::setStyleFilter(0, TnameStyleFilter::solfegeStyle());
+  m_workStyle = nameStyle;
+  m_majExampl->setText(getMajorExample(m_workStyle));
+  m_minExampl->setText(getMinorExample(m_workStyle));
+  TnameStyleFilter::setStyleFilter(tmpPtr, TnameStyleFilter::solfegeStyle()); // restore is7th_B settings
 }
 
 
 void TscoreSettings::saveSettings() {
-    Tcore::gl()->S->keySignatureEnabled = m_enablKeySignCh->isChecked();
-    if (Tcore::gl()->S->keySignatureEnabled) { //changed only if key signature is enabled
-		if (m_majEdit->text() == "") m_majEdit->setText(" "); // because "" means default suffix for language
-        Tcore::gl()->S->majKeyNameSufix = m_majEdit->text();
-		if (m_minEdit->text() == "") m_minEdit->setText(" ");
-        Tcore::gl()->S->minKeyNameSufix = m_minEdit->text();
-        Tcore::gl()->S->nameStyleInKeySign = m_nameStyleGr->getNameStyle();
-        Tcore::gl()->S->showKeySignName = m_enablKeyNameGr->isChecked();
+  Tcore::gl()->S->keySignatureEnabled = m_enablKeySignCh->isChecked();
+  if (Tcore::gl()->S->keySignatureEnabled) { //changed only if key signature is enabled
+  if (m_majEdit->text() == "") m_majEdit->setText(" "); // because "" means default suffix for language
+      Tcore::gl()->S->majKeyNameSufix = m_majEdit->text();
+  if (m_minEdit->text() == "") m_minEdit->setText(" ");
+      Tcore::gl()->S->minKeyNameSufix = m_minEdit->text();
+      Tcore::gl()->S->nameStyleInKeySign = m_nameStyleGr->getNameStyle();
+      Tcore::gl()->S->showKeySignName = m_enablKeyNameGr->isChecked();
 //         TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
-    }
-    Tcore::gl()->S->pointerColor = m_notePointColorBut->getColor();
-    Tcore::gl()->S->pointerColor.setAlpha(200);
-		Tcore::gl()->S->clef = m_clefSelector->selectedClef().type();
-		Tcore::gl()->S->doubleAccidentalsEnabled = m_dblAccChBox->isChecked();
-		Tcore::gl()->S->showEnharmNotes = m_otherEnharmChBox->isChecked();
-		Tcore::gl()->S->enharmNotesColor = m_enharmColorBut->getColor();
-		Tcore::gl()->S->tempo = m_tempoSpin->value();
-		Tcore::gl()->S->isSingleNoteMode = m_singleNoteGr->isChecked();
+  }
+  Tcore::gl()->S->pointerColor = m_notePointColorBut->getColor();
+  Tcore::gl()->S->pointerColor.setAlpha(200);
+  Tcore::gl()->S->clef = m_clefSelector->selectedClef().type();
+  Tcore::gl()->S->doubleAccidentalsEnabled = m_dblAccChBox->isChecked();
+  Tcore::gl()->S->showEnharmNotes = m_otherEnharmChBox->isChecked();
+  Tcore::gl()->S->enharmNotesColor = m_enharmColorBut->getColor();
+  Tcore::gl()->S->tempo = m_tempoSpin->value();
+  Tcore::gl()->S->isSingleNoteMode = m_singleNoteGr->isChecked();
+  m_nameTab->saveSettings();
 }
 
 
 void TscoreSettings::restoreDefaults() {
-		m_enablKeySignCh->setChecked(false);
-		m_majEdit->setText(TkeySignature::majorSufixTxt());
-		m_minEdit->setText(TkeySignature::minorSufixTxt());
-		m_enablKeyNameGr->setChecked(true);
-		/** This method is called by TsettingsDialog witch manages all of setting.
-		 * IT HAS TO TAKE A CARE 
-		 * that seventh note is also restored to default (from translation). */
-		if (TmiscTrans::keyNameStyle() == "solfege")
-				m_nameStyleGr->setNameStyle(Tcore::gl()->getSolfegeStyle());
-		else
-			if (TmiscTrans::note7txt().toLower() == "b")
-					m_nameStyleGr->setNameStyle(Tnote::e_nederl_Bis);
-			else
-					m_nameStyleGr->setNameStyle(Tnote::e_deutsch_His);
-		m_notePointColorBut->setColor(Tcolor::invert(palette().highlight().color()));
-		m_clefSelector->selectClef(Tclef(Tclef::e_treble_G_8down));
-		nameStyleWasChanged(m_nameStyleGr->getNameStyle());
-		m_dblAccChBox->setChecked(false);
-		m_otherEnharmChBox->setChecked(false);
-		m_enharmColorBut->setColor(palette().highlight().color());
-		m_tempoSpin->setValue(120);
-		m_singleNoteGr->setChecked(false);
+  m_enablKeySignCh->setChecked(false);
+  m_majEdit->setText(TkeySignature::majorSufixTxt());
+  m_minEdit->setText(TkeySignature::minorSufixTxt());
+  m_enablKeyNameGr->setChecked(true);
+  /** This method is called by TsettingsDialog witch manages all of setting.
+    * IT HAS TO TAKE A CARE 
+    * that seventh note is also restored to default (from translation). */
+  if (TmiscTrans::keyNameStyle() == "solfege")
+      m_nameStyleGr->setNameStyle(Tcore::gl()->getSolfegeStyle());
+  else
+    if (TmiscTrans::note7txt().toLower() == "b")
+        m_nameStyleGr->setNameStyle(Tnote::e_nederl_Bis);
+    else
+        m_nameStyleGr->setNameStyle(Tnote::e_deutsch_His);
+  m_notePointColorBut->setColor(Tcolor::invert(palette().highlight().color()));
+  m_clefSelector->selectClef(Tclef(Tclef::e_treble_G_8down));
+  nameStyleWasChanged(m_nameStyleGr->getNameStyle());
+  m_dblAccChBox->setChecked(false);
+  m_otherEnharmChBox->setChecked(false);
+  m_enharmColorBut->setColor(palette().highlight().color());
+  m_tempoSpin->setValue(120);
+  m_singleNoteGr->setChecked(false);
+  m_nameTab->restoreDefaults();
 }
 
 
 void TscoreSettings::seventhIsBChanged(bool isB) {
-    m_nameStyleGr->seventhNoteWasChanged(isB);
-    nameStyleWasChanged(m_nameStyleGr->getNameStyle());
+  m_nameStyleGr->seventhNoteWasChanged(isB);
+  nameStyleWasChanged(m_nameStyleGr->getNameStyle());
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk  				                   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,8 +24,9 @@
 #include <music/tclef.h>
 #include <QWidget>
 
-class QSpinBox;
+class TnoteNameSettings;
 
+class QSpinBox;
 class QGroupBox;
 class TnotationRadioGroup;
 class Tclef;
@@ -35,41 +36,43 @@ class QLabel;
 class QLineEdit;
 class TcolorButton;
 
+
 class TscoreSettings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TscoreSettings(QWidget *parent = 0);
+  explicit TscoreSettings(QWidget *parent = 0);
 
-    static QString forExample() { return tr("for example"); }
-    static QString showKeySigName() { return tr("show names of key signature"); }
+  static QString forExample() { return tr("for example"); }
+  static QString showKeySigName() { return tr("show names of key signature"); }
 
-    QString getMajorExample(Tnote::EnameStyle nameStyle);
-    QString getMinorExample(Tnote::EnameStyle nameStyle);
-		
-		void setDefaultClef(Tclef clef);
-		void saveSettings();
-		void restoreDefaults();
+  QString getMajorExample(Tnote::EnameStyle nameStyle);
+  QString getMinorExample(Tnote::EnameStyle nameStyle);
+  
+  void setDefaultClef(Tclef clef);
+  void saveSettings();
+  void restoreDefaults();
 
 public slots:
-    void enableKeySignGroup(bool enable);
-    void nameStyleWasChanged(Tnote::EnameStyle nameStyle);
-    void majorExtensionChanged();
-    void minorExtensionChanged();
-    void seventhIsBChanged(bool isB);
-		void defaultClefChanged(Tclef clef);
+  void enableKeySignGroup(bool enable);
+  void nameStyleWasChanged(Tnote::EnameStyle nameStyle);
+  void majorExtensionChanged();
+  void minorExtensionChanged();
+  void seventhIsBChanged(bool isB);
+  void defaultClefChanged(Tclef clef);
 
 private:
-    QCheckBox 						*m_enablKeySignCh;
-		QCheckBox 						*m_otherEnharmChBox, *m_dblAccChBox;
-    QGroupBox 						*m_enablKeyNameGr, *m_nameExtGr, *m_singleNoteGr;
-    QLabel 								*m_majExtLab, *m_minExtLab, *m_majExampl, *m_minExampl;
-    QLineEdit 						*m_majEdit, *m_minEdit;
-    TnotationRadioGroup 	*m_nameStyleGr;
-		Tnote::EnameStyle 		 m_workStyle;
-    TcolorButton 					*m_notePointColorBut, *m_enharmColorBut;;
-		TselectClef						*m_clefSelector;
-		QSpinBox							*m_tempoSpin;
+  QCheckBox 						*m_enablKeySignCh;
+  QCheckBox 						*m_otherEnharmChBox, *m_dblAccChBox;
+  QGroupBox 						*m_enablKeyNameGr, *m_nameExtGr, *m_singleNoteGr;
+  QLabel 								*m_majExtLab, *m_minExtLab, *m_majExampl, *m_minExampl;
+  QLineEdit 						*m_majEdit, *m_minEdit;
+  TnotationRadioGroup 	*m_nameStyleGr;
+  Tnote::EnameStyle 		 m_workStyle;
+  TcolorButton 					*m_notePointColorBut, *m_enharmColorBut;;
+  TselectClef						*m_clefSelector;
+  QSpinBox							*m_tempoSpin;
+  TnoteNameSettings     *m_nameTab;
 };
 
 
