@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,43 +32,47 @@
 TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
         QWidget(parent)
 {
-    QVBoxLayout *mainLay = new QVBoxLayout;
-		mainLay->addStretch(1);
-    mainLay->setAlignment(Qt::AlignCenter);
-    m_nameStyleGr = new TnotationRadioGroup(Tcore::gl()->S->nameStyleInNoteName, true, this);
-    m_select7 = new Select7note(this);
-    m_select7->set7th_B(Tcore::gl()->S->seventhIs_B);
-		m_scaleLabel = new TscalePreviewLabel(Tcore::gl()->S->nameStyleInNoteName, true, this);
-		
-		mainLay->addStretch(1);
-		mainLay->addWidget(m_select7, 0, Qt::AlignCenter);
-		mainLay->addWidget(m_scaleLabel, 0, Qt::AlignCenter);
-		mainLay->addWidget(m_nameStyleGr);
-    mainLay->addStretch(1);
+  QVBoxLayout *mainLay = new QVBoxLayout;
+  mainLay->addStretch(1);
+  mainLay->setAlignment(Qt::AlignCenter);
+  m_nameStyleGr = new TnotationRadioGroup(Tcore::gl()->S->nameStyleInNoteName, true, this);
+  m_select7 = new Select7note(this);
+  m_select7->set7th_B(Tcore::gl()->S->seventhIs_B);
+  m_scaleLabel = new TscalePreviewLabel(Tcore::gl()->S->nameStyleInNoteName, true, this);
+  
+  QHBoxLayout *seventhLay = new QHBoxLayout;
+    seventhLay->addStretch();
+    seventhLay->addWidget(m_select7);
+    seventhLay->addWidget(m_scaleLabel);
+    seventhLay->addStretch();
+//   mainLay->addWidget(m_select7, 0, Qt::AlignCenter);
+//   mainLay->addWidget(m_scaleLabel, 0, Qt::AlignCenter);
+  mainLay->addLayout(seventhLay);
+  mainLay->addWidget(m_nameStyleGr);
 
-		m_nameInScoreChB = new QCheckBox(tr("note name in the score"), this);
-			m_nameInScoreChB->setStatusTip(tr("Shows names of all notes on the score"));
-			m_nameInScoreChB->setChecked(Tcore::gl()->S->namesOnScore);
-		QLabel *nameColorLab = new QLabel(tr("names highlight color"), this);
-		m_nameColorButt = new TcolorButton(Tcore::gl()->S->nameColor, this);
-		QHBoxLayout *nameScoreLay = new QHBoxLayout;
-			nameScoreLay->addWidget(m_nameInScoreChB);
-			nameScoreLay->addStretch(2);
-			nameScoreLay->addWidget(nameColorLab);
-			nameScoreLay->addStretch();
-			nameScoreLay->addWidget(m_nameColorButt);
-		mainLay->addLayout(nameScoreLay);
-		mainLay->addStretch(1);
-		
-    m_octInNameCh = new QCheckBox(tr("show octave in name of note"),this);
-			mainLay->addWidget(m_octInNameCh, 0, Qt::AlignCenter);
-			m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
-			m_octInNameCh->setChecked(Tcore::gl()->S->octaveInNoteNameFormat);
-    mainLay->addStretch(1);
-    setLayout(mainLay);
+  m_nameInScoreChB = new QCheckBox(tr("note name in the score"), this);
+    m_nameInScoreChB->setStatusTip(tr("Shows names of all notes on the score"));
+    m_nameInScoreChB->setChecked(Tcore::gl()->S->namesOnScore);
+  QLabel *nameColorLab = new QLabel(tr("names highlight color"), this);
+  m_nameColorButt = new TcolorButton(Tcore::gl()->S->nameColor, this);
+  QHBoxLayout *nameScoreLay = new QHBoxLayout;
+    nameScoreLay->addWidget(m_nameInScoreChB);
+    nameScoreLay->addStretch(2);
+    nameScoreLay->addWidget(nameColorLab);
+    nameScoreLay->addStretch();
+    nameScoreLay->addWidget(m_nameColorButt);
+  mainLay->addLayout(nameScoreLay);
+  mainLay->addStretch(1);
+  
+  m_octInNameCh = new QCheckBox(tr("show octave in name of note"),this);
+    mainLay->addWidget(m_octInNameCh, 0, Qt::AlignCenter);
+    m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
+    m_octInNameCh->setChecked(Tcore::gl()->S->octaveInNoteNameFormat);
+  mainLay->addStretch(1);
+  setLayout(mainLay);
 
-    connect(m_select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteWasChanged(bool)));
-		connect(m_nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::EnameStyle)), this, SLOT(nameStyleWasChanged(Tnote::EnameStyle)));
+  connect(m_select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteWasChanged(bool)));
+  connect(m_nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::EnameStyle)), this, SLOT(nameStyleWasChanged(Tnote::EnameStyle)));
 }
 
 

@@ -61,10 +61,8 @@ Tnote
 ==== NEW FEATURES ================================================================
 - new way of adding notes just after the last one was clicked
 - proxy corner widgets should be animated
-- marge name settings with score settings
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar
-- allow scaling a multiple staves score in disabled state
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - enable/disable animations option
 - move status label out as a separate class and implement animations there (can be used in settings windows as well) 

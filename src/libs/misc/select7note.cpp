@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk  				                   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,28 +24,32 @@
 Select7note::Select7note(QWidget *parent) :
     QWidget(parent)
 {
-    QVBoxLayout *lay = new QVBoxLayout;
-    QGroupBox *bGr = new QGroupBox(tr("7th note is:"),this);
-    QHBoxLayout *bLay = new QHBoxLayout;
+  QGroupBox *bGr = new QGroupBox(this);
+  QLabel *seventhLab = new QLabel(tr("7th note is:"),this);
+  QButtonGroup *bButtGr = new QButtonGroup(this);
+  isBRadio = new QRadioButton("B",this);
+  isBRadio->setStatusTip(tr("7th note is <b>B</b> and with flat is <b>Bb</b> or <b>bes</b> or <b>bs</b>"));
+  bButtGr->addButton(isBRadio);
+  isHRadio = new QRadioButton("H",this);
+  isHRadio->setStatusTip(tr("7th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
+  bButtGr->addButton(isHRadio);
+  QHBoxLayout *bLay = new QHBoxLayout;
     bLay->setAlignment(Qt::AlignCenter);
-    QButtonGroup *bButtGr = new QButtonGroup(this);
-    isBRadio = new QRadioButton("B",this);
-    isBRadio->setStatusTip(tr("7th note is <b>B</b> and with flat is <b>Bb</b> or <b>bes</b> or <b>bs</b>"));
-		bLay->addStretch(1);
+    bLay->addStretch(1);
+    bLay->addWidget(seventhLab);
+    bLay->addSpacing(15);
     bLay->addWidget(isBRadio);
-		bLay->addSpacing(15);
-    bButtGr->addButton(isBRadio);
-    isHRadio = new QRadioButton("H",this);
-    isHRadio->setStatusTip(tr("7th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"));
+    bLay->addSpacing(15);
     bLay->addWidget(isHRadio);
     bLay->addStretch(1);
-    bButtGr->addButton(isHRadio);
-    bGr->setLayout(bLay);
+  bGr->setLayout(bLay);
+  
+  QVBoxLayout *lay = new QVBoxLayout;
     lay->addWidget(bGr);
 
-    setLayout(lay);
+  setLayout(lay);
 
-    connect(bButtGr, SIGNAL(buttonClicked(int)), this, SLOT(namechanged()));
+  connect(bButtGr, SIGNAL(buttonClicked(int)), this, SLOT(namechanged()));
 
 }
 

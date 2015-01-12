@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,17 +22,18 @@
 #include <widgets/tsettingsdialogbase.h>
 #include "tsettingsmode.h"
 
+
 class TlaySettings;
 class QTabWidget;
 class TglobalSettings;
 class QPushButton;
 class TscoreSettings;
-class TnoteNameSettings;
 class TguitarSettings;
 class AudioOutSettings;
 class AudioInSettings;
 class QCheckBox;
 class TexamSettings;
+
 
 /** 
  * Dialog window - a container - for Nootka settings
@@ -57,7 +58,6 @@ public slots:
 private:
     TglobalSettings   	*m_globalSett;
     TscoreSettings    	*m_scoreSett;
-    TnoteNameSettings	  *m_nameSett;
     TguitarSettings    	*m_guitarSett;
     TexamSettings      	*m_examSett;
     AudioOutSettings  	*m_sndOutSett;

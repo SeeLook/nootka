@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,7 +40,7 @@
 TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	TsettingsDialogBase(parent),
 	m_globalSett(0), m_scoreSett(0),
-	m_nameSett(0), m_guitarSett(0),
+	m_guitarSett(0),
 	m_examSett(0), m_sndOutSett(0),
 	m_sndInSett(0), m_audioSettingsPage(0),
 	m_laySett(0),
@@ -65,24 +65,21 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
     navList->addItem(tr("Score"));
     navList->item(1)->setIcon(QIcon(Tpath::img("scoreSettings")));
     navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Names","name-calling"));
-    navList->item(2)->setIcon(QIcon(Tpath::img("nameSettings")));
-    navList->item(2)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Instrument"));
-    navList->item(3)->setIcon(QIcon(Tpath::img("guitarSettings")));
-    navList->item(3)->setTextAlignment(Qt::AlignCenter);
+    navList->item(2)->setIcon(QIcon(Tpath::img("guitarSettings")));
+    navList->item(2)->setTextAlignment(Qt::AlignCenter);
     navList->addItem(tr("Sound"));
-    navList->item(4)->setIcon(QIcon(Tpath::img("soundSettings")));
-    navList->item(4)->setTextAlignment(Qt::AlignCenter);
+    navList->item(3)->setIcon(QIcon(Tpath::img("soundSettings")));
+    navList->item(3)->setTextAlignment(Qt::AlignCenter);
 		navList->addItem(tr("Exercises") + "\n& " + tr("Exam"));
-    navList->item(5)->setIcon(QIcon(Tpath::img("questionsSettings")));
-    navList->item(5)->setTextAlignment(Qt::AlignCenter);
+    navList->item(4)->setIcon(QIcon(Tpath::img("questionsSettings")));
+    navList->item(4)->setTextAlignment(Qt::AlignCenter);
 // 		navList->addItem(tr("Shortcuts"));
 //     navList->item(6)->setIcon(QIcon(Tpath::img("shortcuts")));
 //     navList->item(6)->setTextAlignment(Qt::AlignCenter);
 		navList->addItem(tr("Appearance"));
-    navList->item(6)->setIcon(QIcon(Tpath::img("appearance")));
-    navList->item(6)->setTextAlignment(Qt::AlignCenter);
+    navList->item(5)->setIcon(QIcon(Tpath::img("appearance")));
+    navList->item(5)->setTextAlignment(Qt::AlignCenter);
     
 		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
 			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
@@ -99,12 +96,13 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 
 	if (mode == e_settings) {
     navList->setCurrentRow(0);
-		changeSettingsWidget(1); // score settings exists and appears first to make window big enough
+		changeSettingsWidget(1); // score settings must to exist
+    changeSettingsWidget(3); // instrument settings makes window big enough, to avoid re-sizing
 		changeSettingsWidget(0);
 	} else {
 		navList->hide();
 		defaultBut->hide();
-		changeSettingsWidget(5);
+		changeSettingsWidget(4);
 	}
 }
 
@@ -114,8 +112,6 @@ void TsettingsDialog::saveSettings() {
 			m_scoreSett->saveSettings();
   if (m_globalSett)
 			m_globalSett->saveSettings();
-  if (m_nameSett)
-			m_nameSett->saveSettings();
   if (m_guitarSett) {
 			m_guitarSett->saveSettings();
 			if (!m_audioSettingsPage) // when no audio settings set appropriate audio-out instrument
@@ -155,8 +151,6 @@ void TsettingsDialog::restoreDefaults() {
 		m_scoreSett->restoreDefaults();
 		m_7thNoteToDefaults = true;
 	}
-	if (m_nameSett)
-		m_nameSett->restoreDefaults();
 	if (stackLayout->currentWidget() == m_guitarSett)
 		m_guitarSett->restoreDefaults();
 	if (stackLayout->currentWidget() == m_examSett)
@@ -179,9 +173,9 @@ void TsettingsDialog::allDefaultsRequired() {
 
 
 /** Settings pages are created on demand, also 
-     * to avoid generating audio devices list every opening Nootka preferences
-     * witch is slow for pulseaudio, the list is generated on demand.
-     * When user first time opens Sound settings widget.*/
+* to avoid generating audio devices list every opening Nootka preferences
+* witch is slow for pulseaudio, the list is generated on demand.
+* When user first time opens Sound settings widget.*/
 void TsettingsDialog::changeSettingsWidget(int index) {
   QWidget* currentWidget = 0;
 	if (m_audioSettingsPage)
@@ -200,10 +194,6 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       if (!m_scoreSett) {
         m_scoreSett = new TscoreSettings();
         stackLayout->addWidget(m_scoreSett);
-				if (m_nameSett) { // update current state of 7-th note, user could change it already
-						m_scoreSett->seventhIsBChanged(m_nameSett->is7th_b()); 
-						connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
-				}
 				if (m_guitarSett) {
 						m_scoreSett->setDefaultClef(m_guitarSett->currentClef());
 						connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
@@ -213,16 +203,6 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       break;
     }
     case 2: {
-      if (!m_nameSett) {
-        m_nameSett = new TnoteNameSettings();
-        stackLayout->addWidget(m_nameSett);        
-				if (m_scoreSett)
-						connect(m_nameSett, SIGNAL(seventhIsBChanged(bool)), m_scoreSett, SLOT(seventhIsBChanged(bool)));
-			}
-      currentWidget = m_nameSett;
-      break;
-    }
-    case 3: {
       if (!m_guitarSett) {
         m_guitarSett = new TguitarSettings();
         stackLayout->addWidget(m_guitarSett);
@@ -238,7 +218,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       currentWidget = m_guitarSett;
       break;
     }
-    case 5: {
+    case 4: {
       if (!m_examSett) {
         m_examSett = new TexamSettings(0, m_mode);
         stackLayout->addWidget(m_examSett);
@@ -246,7 +226,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       currentWidget = m_examSett;
       break;
     }
-    case 4: {
+    case 3: {
       if (!m_audioSettingsPage) {
         createAudioPage();
         stackLayout->addWidget(m_audioSettingsPage);
@@ -262,7 +242,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       currentWidget = m_audioSettingsPage;
       break;
     }
-		case 6: {
+		case 5: {
 			if (!m_laySett) {
 				m_laySett = new TlaySettings(Tcore::gl()->L);
 				stackLayout->addWidget(m_laySett);
