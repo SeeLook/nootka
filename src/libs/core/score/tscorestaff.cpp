@@ -237,7 +237,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 		if (isEnabled) {
 			m_keySignature = new TscoreKeySignature(scoreScene(), this);
 // 			m_keySignature->setPos(7.0, 0.0);
-			m_keySignature->setPos(7.0, upperLinePos() - TscoreKeySignature::relatedLine);
+			m_keySignature->setPos(6.5, upperLinePos() - TscoreKeySignature::relatedLine);
 			m_keySignature->setClef(m_clef->clef());
 			m_keySignature->setZValue(30);
 			connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
@@ -462,7 +462,7 @@ void TscoreStaff::setEnableScordtature(bool enable) {
 qreal TscoreStaff::notesOffset() {
 	qreal off = 0.0;
 	if (m_keySignature)
-			off = KEY_WIDTH + 1.5;
+			off = KEY_WIDTH + 1;
 	else if (m_enableScord)
 			off = KEY_WIDTH / 2;
 	return off;
@@ -624,9 +624,9 @@ void TscoreStaff::updateNotesPos(int startId) {
 void TscoreStaff::updateLines() {
 	updateWidth();
 	for (int l = 0; l < 5; l++) {
-		m_lines[l]->setLine(1, upperLinePos() + l * 2, width() - 1.0, upperLinePos() + l * 2);
+		m_lines[l]->setLine(0.5, upperLinePos() + l * 2, width(), upperLinePos() + l * 2);
 		if (isPianoStaff())
-			m_lowLines[l]->setLine(1, lowerLinePos() + l * 2, width() - 1.0, lowerLinePos() + l * 2);
+			m_lowLines[l]->setLine(0.5, lowerLinePos() + l * 2, width(), lowerLinePos() + l * 2);
 	}
 }
 
@@ -657,26 +657,17 @@ void TscoreStaff::createBrace() {
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
   m_brace->setFont(ff);
 	m_brace->setText(QString(QChar(0xe16c)));
-#if defined (Q_OS_MAC)
-  qreal distance = lowerLinePos() + 8.3 - upperLinePos();
-  qreal fact = (distance + 1.3) / brace->boundingRect().height();
-#elif defined (Q_OS_WIN)
-//  qreal distance = lowerLinePos() + 7 - upperLinePos();
-//  qreal fact = (distance + 1.8) / m_brace->boundingRect().height();
-#endif
-// 	m_brace->setScale(fact);
 	m_brace->setBrush(qApp->palette().text().color());
-// 	m_brace->setPos(-1.8, upperLinePos() + distance / 2 - (m_brace->boundingRect().height() * m_brace->scale()) / 2 + 0.4);
-	m_brace->setPos(-1.9, upperLinePos() + (22.18 - m_brace->boundingRect().height()) / 2.0);
+	m_brace->setPos(-2.4, upperLinePos() + (22.18 - m_brace->boundingRect().height()) / 2.0);
 }
 
 
 int TscoreStaff::getMaxNotesNr(qreal maxWidth) {
-	maxWidth -= 2.0; // staff lines margins
+	maxWidth -= 1.0; // staff lines margins
 	if (scoreClef())
 		maxWidth -= CLEF_WIDTH;
 	if (scoreKey())
-		maxWidth -= KEY_WIDTH + 1.5;
+		maxWidth -= KEY_WIDTH + 1;
 	else if (hasScordature())
 		maxWidth -= KEY_WIDTH / 2;
 	return int(maxWidth / 7.0);
