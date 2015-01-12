@@ -39,8 +39,7 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	m_clickedOff(0), m_currentIndex(-1),
 	m_useAinim(true),
 	m_addNoteAnim(true),
-	m_selectReadOnly(false), m_isDisabled(false),
-	m_notAddStaff(false)
+	m_selectReadOnly(false), m_isDisabled(false)
 {
 	setObjectName("m_mainScore");
 	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
@@ -492,20 +491,15 @@ void TmultiScore::keyChangedSlot() {
  */
 
 void TmultiScore::staffHasNoSpace(int staffNr) {
-//   qDebug() << "staffHasNoSpace" << staffNr;
-  if (m_notAddStaff) 
-    m_notAddStaff = false;
-  else {
-    addStaff();
-    adjustStaffWidth(m_staves.last());
-    m_staves.last()->checkNoteRange(false);
-    qreal yOff = 4.0;
-    if (staff()->hasScordature() && m_staves.last()->number() == 1)
-      yOff += 3.0;
-    m_staves.last()->setPos(staff()->pos().x(), 
-                            m_staves[staffNr]->y() + m_staves[staffNr]->loNotePos() - m_staves.last()->hiNotePos() + yOff);
-    updateSceneRect();
-  }
+  addStaff();
+  adjustStaffWidth(m_staves.last());
+  m_staves.last()->checkNoteRange(false);
+  qreal yOff = 4.0;
+  if (staff()->hasScordature() && m_staves.last()->number() == 1)
+    yOff += 3.0;
+  m_staves.last()->setPos(staff()->pos().x(), 
+                          m_staves[staffNr]->y() + m_staves[staffNr]->loNotePos() - m_staves.last()->hiNotePos() + yOff);
+  updateSceneRect();
 }
 
 
@@ -568,11 +562,6 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 		m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
 	m_addNoteAnim = true;
   connectForReadOnly(m_staves[staffNr]->noteSegment(noteToAdd));
-  if (insertMode() == e_multi && m_staves[staffNr]->count() == m_staves[staffNr]->maxNoteCount())
-    m_notAddStaff = true; // this avoids adding new staff when the last possible note on the staff was added.
-    // In e_multi mode user has to add next note manually.
-    // Trick is that next signal called by this staff will be 'noMoreSpace' and will invoke staffHasNoSpace
-    // where new staff would be added - but this workaround stops it
 }
 
 

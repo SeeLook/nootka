@@ -141,7 +141,6 @@ private:
 	int													 m_clickedOff, m_currentIndex;
 	bool 												 m_useAinim, m_addNoteAnim;
   bool                         m_selectReadOnly, m_isDisabled;
-  bool                         m_notAddStaff; /** special switch to stop automatically adding new staff in e_multi mode */
 	
 	QList<TscoreStaff*>					 m_staves; // list of staves in page view
 	

@@ -49,6 +49,7 @@ Charts:
 	- staff line disappears sometimes (when zoom is big)
 	- use of realW() & realH() of TgraphicsTip
 	- add preview of long (more than 15 notes) melodies
+	- set window size to parent window size
 
 - revert to native style under MacOs when Qt5
 

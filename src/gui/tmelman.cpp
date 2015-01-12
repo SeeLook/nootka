@@ -107,6 +107,7 @@ void TmelMan::randomizeMelodySlot() {
 		ql << qa;
 	}
 	Tmelody *mel = new Tmelody("", m_score->keySignature());
+  mel->setClef(m_score->clef().type());
 	getRandomMelody(ql, mel, 14, true, true);
 	m_score->setMelody(mel);
 	delete mel;
