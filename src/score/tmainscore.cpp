@@ -205,6 +205,7 @@ void TmainScore::setMelody(Tmelody* mel) {
 			setNote(mel->note(i)->p());
 		}
 	}
+	selectNote(0);
 	setAnimationsEnabled(animEnabled);
 	if (mel->length() < notesCount()) { // remove automatically added empty note(s)
 		for (int i = 0; i < notesCount() - mel->length(); ++i)
