@@ -28,7 +28,7 @@ TscoreActions::TscoreActions(TmainScore* sc) :
 	QObject(sc),
 	m_score(sc)
 {
-  m_menu = new Tmenu(sc);
+  m_menu = new Tmenu(sc->mainWindow());
   m_button = new QToolButton(sc);
   m_button->setIcon(QIcon(Tpath::img("score")));
   m_button->setText(tr("Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."));
