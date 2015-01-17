@@ -301,6 +301,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         getRandomMelody(m_questList, curQ.melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
       curQ.newAttempt();
+			curQ.lastAttempt()->melodyWasPlayed(); // it was played once for sure 
       if (m_exercise) 
         m_melody->clearToFix(melodyLength);
 		}
@@ -815,6 +816,8 @@ void TexamExecutor::newAttempt() {
 	m_melody->newMelody(m_exam->curQ().answerAsSound() ? m_exam->curQ().melody()->length() : 0);
 // 	m_melody->clearToFix(m_exam->curQ().melody()->length());
 	m_exam->curQ().newAttempt();
+	if (m_exam->curQ().answerAsSound())
+				m_exam->curQ().lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure 
 	askQuestion(true);
 }
 

@@ -36,6 +36,8 @@ class TtipMelody : public TtipChart
   
 public:
   TtipMelody(TquestionPoint* point);
+
+  virtual ~TtipMelody();
   
   virtual QRectF boundingRect() const;
   

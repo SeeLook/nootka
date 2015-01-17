@@ -24,6 +24,8 @@
 #include <music/tmelody.h>
 #include <exam/tqaunit.h>
 #include <QScrollBar>
+#include <QDebug>
+
 
 
 QColor answerColor(quint32 mistake) {
@@ -97,11 +99,11 @@ void TmelodyView::clearMistakes() {
 
 
 void TmelodyView::resizeEvent(QResizeEvent* event) {
-  qreal factor = (((qreal)height() / (m_staves.first()->loNotePos() - m_staves.first()->hiNotePos() + 0.4)) / transform().m11());
+  qreal factor = (((qreal)height() / (m_staves.first()->loNotePos() - m_staves.first()->hiNotePos() + 2.4)) / transform().m11());
   scale(factor, factor);
   qreal sh;
   if (m_staves.size() == 1)
-    sh = m_staves.first()->loNotePos() - m_staves.first()->hiNotePos();
+    sh = m_staves.first()->loNotePos() - m_staves.first()->hiNotePos() + 2.0;
   else
     sh = m_staves.last()->pos().y() + m_staves.last()->height() - m_staves.last()->hiNotePos() + 2.0;
   QRectF scRec = m_staves.first()->mapToScene(QRectF(0.0, 0.0, 
@@ -110,6 +112,7 @@ void TmelodyView::resizeEvent(QResizeEvent* event) {
   setFixedWidth(scRec.width() * transform().m11() + horizontalScrollBar()->width() / transform().m11());  
   QGraphicsView::resizeEvent(event);
 }
+
 
 
 

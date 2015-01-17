@@ -83,6 +83,12 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
 }
 
 
+TtipMelody::~TtipMelody() {
+	m_widget->clearFocus();
+	delete m_widget;
+}
+
+
 void TtipMelody::attemptChanged(int attNr) {
   if (attNr) {
     m_score->markMistakes(qa()->question()->attempt(attNr -1)->mistakes);
