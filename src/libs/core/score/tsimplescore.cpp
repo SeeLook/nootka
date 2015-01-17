@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -305,8 +305,12 @@ bool TsimpleScore::isPianoStaff() {
 
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
-	bgColor.setAlpha(230);
-	viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+  if (bgColor == -1)
+    viewport()->setStyleSheet(Tcolor::bgTag(bgColor));
+  else {
+    bgColor.setAlpha(230);
+    viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+  }
 }
 
 //##########################################################################################################
