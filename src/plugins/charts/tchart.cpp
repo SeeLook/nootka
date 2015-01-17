@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,12 +61,11 @@ void Tchart::zoom(bool in) {
 
 void Tchart::ajustChartHeight() {
 	qreal factor = (viewport()->rect().height() / scene->sceneRect().height());
-	if (viewport()->rect().width() > scene->sceneRect().width()) {
+	if (viewport()->rect().width() > scene->sceneRect().width() + qAbs(sceneRect().x())) {
 		factor *= 0.95;
 		setSceneRect(0, 0, viewport()->rect().width() / factor, scene->sceneRect().height());
-	}
-	else {
-    setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, qAbs(sceneRect().x()), 0));
+	}	else {
+    setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, 2 * qAbs(sceneRect().x()), 0));
 	}
 	scale(factor, factor);
 }

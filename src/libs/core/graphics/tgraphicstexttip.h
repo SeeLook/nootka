@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -74,6 +74,8 @@ public:
 signals:
 	void clicked(); /** When item was clicked but doesn't move */
 	void moved(); /** When item was moved by user. setPoS() doesn't invoke it! */
+  void entered(); /** Mouse entered on tip */
+  void leaved(); /** Mouse leaved tip */
 	
 protected:
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);

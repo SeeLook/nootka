@@ -20,37 +20,48 @@
 #include "ttiphandler.h"
 #include <graphics/tgraphicstexttip.h>
 #include "tstatisticstip.h"
-
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QTimer>
+#include <QDebug>
 
 
 /*static*/
-QPointer<TgraphicsTextTip> TtipHandler::tip = 0;
-QPointer<QTimer> TtipHandler::m_delTimer = 0;
-QGraphicsObject* TtipHandler::m_initObject = 0;
+QPointer<TgraphicsTextTip>        TtipHandler::tip = 0;
+QPointer<QTimer>                  TtipHandler::m_hideTimer = 0;
+QPointer<QTimer>                  TtipHandler::m_showTimer = 0;
+QGraphicsObject*                  TtipHandler::m_initObject = 0;
+bool                              TtipHandler::m_mouseOverTip = false;
 
 
-TtipHandler::TtipHandler()
+TtipHandler::TtipHandler() :
+  m_entered(false)
 {
   setAcceptHoverEvents(true);
-  if (!m_delTimer) {
-    m_delTimer = new QTimer();
-    connect(m_delTimer, SIGNAL(timeout()), this, SLOT(delayedDelete()));
+  if (!m_hideTimer) {
+    m_hideTimer = new QTimer();
+    connect(m_hideTimer, SIGNAL(timeout()), this, SLOT(hideTip()));
+  }
+  if (!m_showTimer) {
+    m_showTimer = new QTimer();
+    connect(m_showTimer, SIGNAL(timeout()), this, SLOT(showTip()));
   }
 }
 
 TtipHandler::~TtipHandler() {
-  if (m_delTimer)
-    delete m_delTimer;
+  if (m_hideTimer)
+    delete m_hideTimer;
+  if (m_showTimer)
+    delete m_showTimer;
   deleteTip();
 }
 
 
 bool TtipHandler::deleteTip() {
   if (tip) {
+    m_hideTimer->stop();
+    m_showTimer->stop();
     delete tip;
     return true;
   }
@@ -58,44 +69,69 @@ bool TtipHandler::deleteTip() {
 }
 
 
-
-
 void TtipHandler::handleTip(QPointF scenePos) {
-    if (m_delTimer && m_delTimer->isActive()) {
-      m_delTimer->stop();
-    }
-    if (tip) {
-      m_initObject = this;
-      scene()->addItem(tip);
-      tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-      QSize s = scene()->views()[0]->size();
-      QPointF mapedP = scene()->views()[0]->mapFromScene(scenePos);
+  if (m_hideTimer)
+    m_hideTimer->stop();
+  m_entered = true;
+  if (tip && !m_showTimer->isActive()) {
+    tip->hide();
+    m_showTimer->start(300);
+    m_initObject = this;
+    scene()->addItem(tip);
+    tip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+    QSize s = scene()->views()[0]->size();
+    QPointF mapedP = scene()->views()[0]->mapFromScene(scenePos);
 //       determine where to display tip when point is near a view boundaries
-      if (mapedP.x() > (s.width() / 2) ) // tip on the left
-          scenePos.setX(scenePos.x() - tip->boundingRect().width() / scene()->views()[0]->transform().m11());
-      if (mapedP.y() > (s.height() / 2) )
-         scenePos.setY(scenePos.y() - tip->boundingRect().height() / scene()->views()[0]->transform().m22());
-      tip->setPos(scenePos);
-      tip->setZValue(70);
-      update();
-    }
+    if (mapedP.x() > (s.width() / 2) ) // tip on the left
+        scenePos.setX(scenePos.x() - tip->boundingRect().width() / scene()->views()[0]->transform().m11());
+    if (mapedP.y() > (s.height() / 2) )
+        scenePos.setY(scenePos.y() - tip->boundingRect().height() / scene()->views()[0]->transform().m22());
+    tip->setPos(scenePos);
+    tip->setZValue(70);
+    update();
+    connect(tip, &TgraphicsTextTip::entered, this, &TtipHandler::tipEnteredSlot);
+    connect(tip, &TgraphicsTextTip::leaved, this, &TtipHandler::tipLeavedSlot);
+  }
+}
+
+
+void TtipHandler::tipEnteredSlot() {
+  m_mouseOverTip = true;
+  m_hideTimer->stop();
+//   qDebug() << "Mouse over" << sender();
+}
+
+
+void TtipHandler::tipLeavedSlot() {
+  m_mouseOverTip = false;
+  m_hideTimer->start(350);
+//   qDebug() << "Mouse leaved" << sender();
 }
 
 
 void TtipHandler::hoverLeaveEvent(QGraphicsSceneHoverEvent*) {
-    if (m_delTimer /*&& !m_delTimer->isActive()*/) {
-        m_delTimer->start(350);
-    }
+  if (m_hideTimer) {
+    m_hideTimer->start(350);
+  }
+  m_entered = false;
 }
 
-void TtipHandler::delayedDelete() {
-    if (isUnderMouse())
-        return;
-    m_delTimer->stop();
-    if (tip) {
-        deleteTip();
-        scene()->update();
-    }
+
+void TtipHandler::showTip() {
+  if (m_showTimer)
+    m_showTimer->stop();
+  tip->show();
+}
+
+
+void TtipHandler::hideTip() {
+  if (m_entered || m_mouseOverTip)
+      return;
+  m_hideTimer->stop();
+  if (tip) {
+    deleteTip();
+    scene()->update();
+  }
 }
 
 
