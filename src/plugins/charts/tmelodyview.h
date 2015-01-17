@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,51 +12,42 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMAINLINE_H
-#define TMAINLINE_H
+#ifndef TMELODYVIEW_H
+#define TMELODYVIEW_H
 
+#include <QGraphicsView>
 
-#include <QList>
-
-
-class TquestionPoint;
-class TgroupedQAunit;
-class TstaffLineChart;
-class Tchart;
-class TQAunit;
+class TscoreStaff;
+class Tmelody;
 
 
 
 /** 
- * This is main line of a chart. 
- * It paints questions points TquestionPoint over the scene.
- * It also performs Tips - information about question 
+ * @class TmelodyView is QGraphicsView with multiple staves of given melody.
+ * It is intended to representing melodies in Nootka charts.
  */
-class TmainLine
-{  
-	
-public:
-	
-	enum EpointYvalue {
-		e_questionTime, e_prepareTime, e_attemptsCount, e_playCount		
-	}; /** Kind of data represented by Y value of a point */
-	
-  TmainLine(QList<TQAunit> *answers, Tchart *chart, EpointYvalue yVal = e_questionTime);
-  TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart);
-  virtual ~TmainLine();
+class TmelodyView : public QGraphicsView
+{
   
+  Q_OBJECT
+  
+public:
+  TmelodyView(Tmelody* melody, QWidget* parent = 0);
+  
+  void markMistakes(QList<quint32> mistakes); /** Marks notes in the score with colors corresponding to mistake. */
+  void clearMistakes(); /** Clears marked note heads. */
+  
+protected:
+  virtual void resizeEvent(QResizeEvent* event);
   
 private:
-  QList<TQAunit> *m_answers; 
-  Tchart *m_chart; // Pointer to chart contained this plot
-  QList<TquestionPoint*> m_points; // List of points
-  QList<TstaffLineChart*> m_lines; // list of lines betwen points
-  
-  
+  Tmelody                         *m_melody;
+  QList<TscoreStaff*>              m_staves;
+  const int                        m_maxNotes; /** max notes number in single staff. */
 };
 
-#endif // TMAINLINE_H
+#endif // TMELODYVIEW_H

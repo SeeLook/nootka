@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,51 +12,41 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMAINLINE_H
-#define TMAINLINE_H
+#ifndef TTIPMELODY_H
+#define TTIPMELODY_H
 
+#include "ttipchart.h"
 
-#include <QList>
-
-
-class TquestionPoint;
-class TgroupedQAunit;
-class TstaffLineChart;
-class Tchart;
-class TQAunit;
-
-
+class QLabel;
+class TmelodyView;
+class QGraphicsWidget;
 
 /** 
- * This is main line of a chart. 
- * It paints questions points TquestionPoint over the scene.
- * It also performs Tips - information about question 
+ * This is a tip displaying by charts when question/answers are melodies.
+ * It has QWidget inside with TmultiScore and others widgets to represent required data.
  */
-class TmainLine
-{  
-	
-public:
-	
-	enum EpointYvalue {
-		e_questionTime, e_prepareTime, e_attemptsCount, e_playCount		
-	}; /** Kind of data represented by Y value of a point */
-	
-  TmainLine(QList<TQAunit> *answers, Tchart *chart, EpointYvalue yVal = e_questionTime);
-  TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart);
-  virtual ~TmainLine();
+class TtipMelody : public TtipChart
+{
+
+  Q_OBJECT
   
+public:
+  TtipMelody(TquestionPoint* point);
+  
+  virtual QRectF boundingRect() const;
+  
+protected slots:
+  void attemptChanged(int attNr);
   
 private:
-  QList<TQAunit> *m_answers; 
-  Tchart *m_chart; // Pointer to chart contained this plot
-  QList<TquestionPoint*> m_points; // List of points
-  QList<TstaffLineChart*> m_lines; // list of lines betwen points
-  
+  QGraphicsWidget                 *m_widget;
+  TmelodyView                     *m_score;
+  QLabel                          *m_attemptLabel;
   
 };
 
-#endif // TMAINLINE_H
+#endif // TTIPMELODY_H
