@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,16 +20,14 @@
 #define TTIPCHART_H
 
 #include <graphics/tgraphicstexttip.h>
-#include <exam/tqatype.h>
 #include <music/tclef.h>
 
 
 class TquestionPoint;
-class Tnote;
-class TkeySignature;
-class TfingerPos;
 
-/** This class represent tip displayed when user hovers cursor 
+
+/**
+ * This class represent tip displayed when user hovers cursor 
  * over question point in the chart.
  */
 class TtipChart : public TgraphicsTextTip
@@ -37,13 +35,12 @@ class TtipChart : public TgraphicsTextTip
 
 public:
   TtipChart(TquestionPoint *point);
-  virtual ~TtipChart();
-	
-      /** Returns html string with question mark in nootka font. */
-  static QString insertQMark();
 	
 			/** Controls default clef for all tips. Primary is @p Tclef::e_treble_G_8down */
 	static Tclef defaultClef;
+  
+protected:
+  TquestionPoint* qa() { return m_point; } /** returns pointer to question/answer which this point describing. */
   
 private:
   TquestionPoint *m_point;

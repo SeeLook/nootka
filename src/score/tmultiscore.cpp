@@ -333,7 +333,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 			}
 			
 			if (i == 0)
-				m_staves[i]->setPos(staffOff, 0.0/*, 0.05*/);
+				m_staves[i]->setPos(staffOff, 0.0);
 			else {
 				qreal yOff = 4.0;
 				if (staff()->hasScordature() && i == 1)
@@ -349,7 +349,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 void TmultiScore::updateSceneRect() {
 	qreal sh;
 	if (m_staves.size() == 1)
-		sh = (staff()->height()/* + 0.1*/) * m_scale;
+		sh = staff()->height() * m_scale;
 	else
 		sh = m_staves.last()->pos().y() + m_staves.last()->height();
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 

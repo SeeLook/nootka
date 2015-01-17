@@ -21,6 +21,8 @@ set(ANALYZER_SRC
 	tstatisticstip.cpp
 	ttipchart.cpp
 	ttiphandler.cpp
+	ttipmelody.cpp
+	tmelodyview.cpp
 	txaxis.cpp
 	tyaxis.cpp
 )
