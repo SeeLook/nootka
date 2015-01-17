@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,50 +41,46 @@ class Tchart : public QGraphicsView
 	
 public:
     
-    enum EanswersOrder {
-      e_byNumber,
-      e_byNote,
-      e_byFret,
-      e_byAccid,
-      e_byKey,
-      e_byMistake,
-      e_byQuestAndAnsw, // both above
-      e_byStyle,
-      e_byClef,
-			// melodies
-      e_prepareTime, // sorted by question number but prepare time is on Y axis
-			e_attemptsCount, // sorted by question number but attempts count is on Y axis
-			e_playbackTimes // sorted by question number but melody playback count is on Y axis
-    };
-    
-      /** Types of charts. */
-    enum EchartType {
-      e_linear, e_bar, e_pie
-    };
+  enum EanswersOrder {
+    e_byNumber,
+    e_byNote,
+    e_byFret,
+    e_byAccid,
+    e_byKey,
+    e_byMistake,
+    e_byQuestAndAnsw, // both above
+    e_byStyle,
+    e_byClef,
+  };
+  
+  enum EchartType {
+    e_linear, e_bar, e_pie
+  }; /** Types of charts. */
 
-    struct Tsettings {
-        bool inclWrongAnsw; // include wrong answers to average time of sorted group of answers
-        bool separateWrong; // separate wrong answers and correct/almost good ones
-        EanswersOrder order;
-        EchartType type;
-    };
+  struct Tsettings {
+    bool inclWrongAnsw; // include wrong answers to average time of sorted group of answers
+    bool separateWrong; // separate wrong answers and correct/almost good ones
+    EanswersOrder order;
+    EchartType type;
+    TmainLine::EyValue yValue;
+  };
 
-    Tchart(QWidget* parent = 0);
-    
-    virtual void setAnalyse(EanswersOrder order) {} // prototype only
+  Tchart(QWidget* parent = 0);
+  
+  virtual void setAnalyse(EanswersOrder order) {} // prototype only
 
-    void zoom(bool in = true); // zoom view, by default zoom in but when false zoom out
-    QGraphicsScene *scene;
-    
+  void zoom(bool in = true); // zoom view, by default zoom in but when false zoom out
+  QGraphicsScene *scene;
+  
 protected:
-    virtual bool event(QEvent* event);
-    virtual void wheelEvent(QWheelEvent* event);
-    
-    TXaxis *xAxis;
-    TYaxis *yAxis;
-    
+  virtual bool event(QEvent* event);
+  virtual void wheelEvent(QWheelEvent* event);
+  
+  TXaxis *xAxis;
+  TYaxis *yAxis;
+  
 protected slots:
-	void ajustChartHeight(); /** Invoked by timer after chart creation to adjust scene height to view height. */
+void ajustChartHeight(); /** Invoked by timer after chart creation to adjust scene height to view height. */
     
 private:
     

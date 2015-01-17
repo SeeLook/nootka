@@ -1,5 +1,5 @@
  /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,7 @@
 
 #include "tyaxis.h"
 #include <exam/tqaunit.h>
+#include <exam/textrans.h>
 #include <QPainter>
 #include <QWidget>
 #include <QApplication>
@@ -62,14 +63,19 @@ void TYaxis::setUnit(TYaxis::Eunit unit) {
 			m_unitDesc = QObject::tr("time [s]", "unit of Y axis");
 			break;
 		case e_questionNr:
-			m_unitDesc = QApplication::translate("TanalysDialog", "Questions number") + " [ ]";
+			m_unitDesc = questionsNumberTxt() + " [ ]";
 			break;
 		case e_prepareTime:
-			m_unitDesc = QObject::tr("Preparation time [s]");
+			m_unitDesc = prepareTimeTxt() + " [s]";
 			break;
 		case e_attemptsCount:
-			m_unitDesc = QObject::tr("Attempts count")  + " [ ]";
+			m_unitDesc = attemptsNumberTxt()  + " [ ]";
 			break;
+    case e_effectiveness:
+      m_unitDesc = TexTrans::effectTxt().toLower()  + " [%]";
+      break;
+    case e_playedCount:
+      m_unitDesc = playedNumberTxt() + " [ ]";
 	}
 	m_unit = unit;
 }
@@ -83,42 +89,42 @@ QPainterPath TYaxis::shape() const {
 
 
 void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    Q_UNUSED(option)
+  Q_UNUSED(option)
 
-    qreal half = axisWidth / 2;
-    QColor bg = widget->palette().base().color();
-    bg.setAlpha(200);
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(bg);
-    painter->drawRect(-3 * m_textPosOffset, 0, axisWidth * 3, length() - 1);
-    painter->setPen(QPen(widget->palette().text().color(), 2));
-    painter->drawLine(half, 0, half, length());
-    drawArrow(painter, QPointF(half, 0), false);
-    
-    double shift = 1.0;
-    if (m_halfTick && (m_unit == e_timeInSec || m_unit == e_prepareTime || m_multi2 >= 10))
-        shift = 0.5;
-    for (double i = shift; i <= m_loop; i += shift) {
-        double v= i * m_multi * m_multi2;
-        painter->drawLine(half, mapValue(v), half - tickSize, mapValue(v));
-        painter->drawText(half + 3, mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
-    }
-    // paint top tick only if there is free room
-    if ( ((mapValue(m_loop * m_multi * m_multi2) - mapValue(m_top * m_multi)) ) > m_textPosOffset * 4) {
-        painter->drawLine(half, mapValue(m_top * m_multi), half - tickSize, mapValue(m_top * m_multi));
-        painter->drawText(half + 3, mapValue(m_top * m_multi) + m_textPosOffset, QString("%1").arg(m_top * m_multi));
-    }
-    QFont f = painter->font();
-    f.setBold(true);
-    painter->setFont(f);
-    painter->rotate(270);
-    painter->drawText(QRectF(-length(), -3 * m_textPosOffset, length(), m_textPosOffset * 3), Qt::AlignCenter, m_unitDesc);
+  qreal half = axisWidth / 2;
+  QColor bg = widget->palette().base().color();
+  bg.setAlpha(200);
+  painter->setPen(Qt::NoPen);
+  painter->setBrush(bg);
+  painter->drawRect(-3 * m_textPosOffset, 0, axisWidth * 3, length() - 1);
+  painter->setPen(QPen(widget->palette().text().color(), 2));
+  painter->drawLine(half, 0, half, length());
+  drawArrow(painter, QPointF(half, 0), false);
+  
+  double shift = 1.0;
+  if (m_halfTick && (m_unit == e_timeInSec || m_unit == e_prepareTime || m_multi2 >= 10))
+      shift = 0.5;
+  for (double i = shift; i <= m_loop; i += shift) {
+      double v= i * m_multi * m_multi2;
+      painter->drawLine(half, mapValue(v), half - tickSize, mapValue(v));
+      painter->drawText(half + 3, mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
+  }
+  // paint top tick only if there is free room and Y value is not % (more than 100 makes no sense there)
+  if (m_unit != e_effectiveness && ((mapValue(m_loop * m_multi * m_multi2) - mapValue(m_top * m_multi)) ) > m_textPosOffset * 4) {
+      painter->drawLine(half, mapValue(m_top * m_multi), half - tickSize, mapValue(m_top * m_multi));
+      painter->drawText(half + 3, mapValue(m_top * m_multi) + m_textPosOffset, QString("%1").arg(m_top * m_multi));
+  }
+  QFont f = painter->font();
+  f.setBold(true);
+  painter->setFont(f);
+  painter->rotate(270);
+  painter->drawText(QRectF(-length(), -3 * m_textPosOffset, length(), m_textPosOffset * 3), Qt::AlignCenter, m_unitDesc);
 }
 
 
 QRectF TYaxis::boundingRect() const{
-    QRectF rect(4 * m_textPosOffset , 0, axisWidth + rectBoundText(QString::number(m_maxVal)).width() + 3 * m_textPosOffset, length());
-    return rect;
+  QRectF rect(4 * m_textPosOffset , 0, axisWidth + rectBoundText(QString::number(m_maxVal)).width() + 3 * m_textPosOffset, length());
+  return rect;
 }
 
 

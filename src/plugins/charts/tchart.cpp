@@ -65,7 +65,7 @@ void Tchart::ajustChartHeight() {
 		factor *= 0.95;
 		setSceneRect(0, 0, viewport()->rect().width() / factor, scene->sceneRect().height());
 	}	else {
-    setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, 2 * qAbs(sceneRect().x()), 0));
+    setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, qAbs(sceneRect().x()), 0));
 	}
 	scale(factor, factor);
 }

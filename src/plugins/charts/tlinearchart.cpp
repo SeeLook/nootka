@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,36 +41,51 @@ QColor averColor = QColor(0, 192, 192);
 TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) :
     TmainChart(exam, settings, parent)
 {
-// Determine maximal reaction time to prepare Y axis
-	if (settings.order == e_prepareTime) {
-			quint32 prepTime = 0;
-			for(int i = 0; i < exam->count(); i++)
-				prepTime = qMax(prepTime, exam->question(i).attempt(0)->prepareTime());
-			yAxis->setMaxValue((qreal)prepTime / 10.0);
-			yAxis->setUnit(TYaxis::e_prepareTime);
-	} else if (settings.order == e_attemptsCount) {
-			int attemptsNr = 0;
-			for(int i = 0; i < exam->count(); i++)
-				attemptsNr = qMax(attemptsNr, exam->question(i).attemptsCount());
-			yAxis->setMaxValue(attemptsNr, false);
-			yAxis->setUnit(TYaxis::e_attemptsCount);
-	} else {
-		quint16 maxTime = 0;
-		for(int i = 0; i < exam->count(); i++)
-				maxTime = qMax(maxTime, exam->question(i).time);
-		yAxis->setMaxValue((qreal)maxTime / 10.0);
-	}
+// Determine y value type and its maximal value to prepare Y axis
+  switch (settings.yValue) {
+    case TmainLine::e_prepareTime: {
+      quint32 prepTime = 0;
+      for(int i = 0; i < exam->count(); i++)
+        prepTime = qMax(prepTime, exam->question(i).attempt(0)->prepareTime());
+      yAxis->setMaxValue((qreal)prepTime / 10.0);
+      yAxis->setUnit(TYaxis::e_prepareTime);
+      break;
+    }
+    case TmainLine::e_attemptsCount: {
+      int attemptsNr = 0;
+      for(int i = 0; i < exam->count(); i++)
+        attemptsNr = qMax(attemptsNr, exam->question(i).attemptsCount());
+      yAxis->setMaxValue(attemptsNr, false);
+      yAxis->setUnit(TYaxis::e_attemptsCount);
+      break;
+    }
+    case TmainLine::e_playedCount: {
+      int playedNr = 0;
+      for(int i = 0; i < exam->count(); i++)
+        playedNr = qMax(playedNr, exam->question(i).totalPlayBacks());
+      yAxis->setMaxValue(playedNr, false);
+      yAxis->setUnit(TYaxis::e_playedCount);
+      break;
+    }
+    case TmainLine::e_effectiveness: {
+      yAxis->setMaxValue(100.0); // 100% looks good for this kind
+      yAxis->setUnit(TYaxis::e_effectiveness);
+      break;
+    }
+    default: {
+      quint16 maxTime = 0;
+      for(int i = 0; i < exam->count(); i++)
+        maxTime = qMax(maxTime, exam->question(i).time);
+      yAxis->setMaxValue((qreal)maxTime / 10.0);
+      break;
+    }
+  }
   
-	if (settings.order == e_byNumber || settings.order == e_prepareTime || settings.order == e_attemptsCount) {
+	if (settings.order == e_byNumber) {
 		xAxis->setAnswersList(currExam->answList(), currExam->level());
 		prepareChart(currExam->count());
-		TmainLine::EpointYvalue yPoint = TmainLine::e_questionTime;
-		if (settings.order == e_prepareTime)
-			yPoint = TmainLine::e_prepareTime;
-		else if (settings.order == e_attemptsCount)
-			yPoint = TmainLine::e_attemptsCount;
-		m_mainLine = new TmainLine(currExam->answList(), this, yPoint);
-		if (settings.order == e_byNumber) {
+		m_mainLine = new TmainLine(currExam->answList(), this, settings.yValue);
+		if (settings.yValue == TmainLine::e_questionTime) {
 			qreal aTime = 0 , prev = 0;
 			int firstCorrect = 0, okCount = 0;
 			for(int i = 0; i < exam->count(); i++) { // looking for first correct answer
@@ -89,7 +104,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
         else 
           aTime = (aTime * okCount + (exam->question(i).time)) / (okCount + 1);
         
-        okCount++;        
+        okCount++;
         TgraphicsLine *averProgress = new TgraphicsLine();
         scene->addItem(averProgress);
         averProgress->setPen(QPen(averColor.darker(120), 3, Qt::DotLine));
@@ -110,6 +125,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
           averLine->setLine(xAxis->mapValue(1) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0),
               xAxis->mapValue(exam->count()) + xAxis->pos().x(), yAxis->mapValue(exam->averageReactonTime() / 10.0));
       }
+  // rest of cases are available only for melodies
 		}
   }
   

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 
 
 #include "tabstractaxis.h"
+#include <QApplication>
 
 
 class TYaxis : public TabstractAxis
@@ -34,7 +35,9 @@ public:
     e_questionNr, // number of questions
 			// melodies only:
     e_prepareTime, // time since question start to first played note
-		e_attemptsCount // number of attempts
+		e_attemptsCount, // number of attempts
+		e_playedCount,
+		e_effectiveness
   };
   
   TYaxis();
@@ -54,6 +57,11 @@ public:
   Eunit unit() {return m_unit; }
   
   void getYforGrid(QList<double> &yList); // Puts list of Y to yList coordinates to paint grid lines
+  
+  static QString questionsNumberTxt() { return QApplication::translate("TanalysDialog", "Questions number"); } /** Questions number */
+  static QString attemptsNumberTxt() { return QApplication::translate("TanalysDialog", "Attempts number"); } /** Attempts number */
+  static QString prepareTimeTxt() { return QApplication::translate("TanalysDialog", "Preparation time"); } /** Preparation time */
+  static QString playedNumberTxt() { return QApplication::translate("TanalysDialog", "Played number"); } /** Played number */
   
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
