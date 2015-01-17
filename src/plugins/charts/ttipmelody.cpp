@@ -37,9 +37,9 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
   setBgColor(point->color());
   setPlainText(" ");
   
-  QWidget* w = new QWidget(); // content widget
-  w->setObjectName("m_melodyView");
-  w->setStyleSheet("QWidget#m_melodyView { background: transparent }");
+  m_w = new QWidget();
+    m_w->setObjectName("m_melodyView");
+    m_w->setStyleSheet("QWidget#m_melodyView { background: transparent }");
   QString txt;
   if (point->nr())
     txt = QString(TquestionAsWdg::questionTxt() + " <big><b>%1.</b></big>").arg(point->nr());
@@ -47,21 +47,21 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
       txt += (" <b>" + TexTrans::playMelodyTxt() + "</b>");
   else if (point->question()->questionAsSound() && point->question()->answerAsNote())
       txt += (" <b>" + TexTrans::writeMelodyTxt() + "</b>");
-  QLabel *headLab = new QLabel(txt, w);
+  QLabel *headLab = new QLabel(txt, m_w);
   headLab->setAlignment(Qt::AlignCenter);
-  m_score = new TmelodyView(qa()->question()->melody(), w);
+  m_score = new TmelodyView(qa()->question()->melody(), m_w);
   m_score->setFixedHeight(qApp->desktop()->availableGeometry().height() / 12);
-  QSpinBox *spinAtt = new QSpinBox(w);
+  QSpinBox *spinAtt = new QSpinBox(m_w);
     spinAtt->setRange(0, qa()->question()->attemptsCount());
 //     spinAtt->setSpecialValueText(" " + tr("bare melody") + " ");
     spinAtt->setPrefix(TexTrans::attemptTxt() + " ");
     spinAtt->setSuffix(" " + tr("of") + QString(" %1").arg(qa()->question()->attemptsCount()));
-  m_attemptLabel = new QLabel(w);
+  m_attemptLabel = new QLabel(m_w);
   txt = wasAnswerOKtext(point->question(), point->color()).replace("<br>", " ") + "<br>";
   txt += tr("Melody was played <b>%n</b> times", "", qa()->question()->totalPlayBacks()) + "<br>";
   txt += TexTrans::effectTxt() + QString(": <big><b>%1%</b></big>, ").arg(point->question()->effectiveness(), 0, 'f', 1, '0');
   txt += TexTrans::reactTimeTxt() + QString("<big><b>  %1</b></big>").arg(Texam::formatReactTime(point->question()->time, true));
-  QLabel *sumLab = new QLabel(txt, w);
+  QLabel *sumLab = new QLabel(txt, m_w);
   sumLab->setAlignment(Qt::AlignCenter);
   
   QVBoxLayout *lay = new QVBoxLayout;
@@ -75,8 +75,8 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
     lay->addWidget(m_attemptLabel);
     lay->addWidget(sumLab);
     
-  w->setLayout(lay);
-  m_widget = point->scene()->addWidget(w);
+    m_w->setLayout(lay);
+  m_widget = point->scene()->addWidget(m_w);
   m_widget->setParentItem(this);
   
   connect(spinAtt, SIGNAL(valueChanged(int)), this, SLOT(attemptChanged(int)));
@@ -84,10 +84,18 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
 
 
 TtipMelody::~TtipMelody() {
-	m_widget->clearFocus();
+	m_widget->clearFocus(); // This avoids crashes when some of tip widgets (spin or score) got focus before
 	delete m_widget;
 }
 
+
+QRectF TtipMelody::boundingRect() const {
+  return m_widget->boundingRect();
+}
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void TtipMelody::attemptChanged(int attNr) {
   if (attNr) {
@@ -105,9 +113,6 @@ void TtipMelody::attemptChanged(int attNr) {
 
 
 
-QRectF TtipMelody::boundingRect() const {
-  return m_widget->boundingRect();
-}
 
 
 
