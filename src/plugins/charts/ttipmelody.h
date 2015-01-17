@@ -40,7 +40,7 @@ public:
   virtual ~TtipMelody();
   
   virtual QRectF boundingRect() const;
-  
+    
 protected slots:
   void attemptChanged(int attNr);
   
@@ -48,6 +48,7 @@ private:
   QGraphicsWidget                 *m_widget;
   TmelodyView                     *m_score;
   QLabel                          *m_attemptLabel;
+  QWidget                         *m_w; /** content widget inside QGraphicsWidget */
   
 };
 
