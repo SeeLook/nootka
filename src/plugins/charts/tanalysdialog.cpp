@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,18 +33,19 @@
 #include "tbarchart.h"
 #include "tquestionpoint.h"
 #include "ttipchart.h"
+#include "tyaxis.h"
 #include <QtWidgets>
 
 
 
 
 TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
-    QDialog(parent),
-    m_exam(0),
-    m_level(new Tlevel()),
-    m_chart(0),
-    m_wasExamCreated(false),
-    m_isMaximized(false)
+  QDialog(parent),
+  m_exam(0),
+  m_level(new Tlevel()),
+  m_chart(0),
+  m_wasExamCreated(false),
+  m_isMaximized(false)
 {
 #if defined(Q_OS_MAC)
     TquestionPoint::setColors(QColor(Tcore::gl()->EanswerColor.name()), QColor(Tcore::gl()->EquestionColor.name()), 
@@ -57,65 +58,78 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 	setWindowIcon(QIcon(Tcore::gl()->path + "/picts/charts.png"));
 	if (parent)
 			setGeometry(parent->geometry());
-	Tcore::gl()->config->beginGroup("General");
-    setGeometry(Tcore::gl()->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
-  Tcore::gl()->config->endGroup();
-  QVBoxLayout *lay = new QVBoxLayout;
+  else {
+    Tcore::gl()->config->beginGroup("General");
+      setGeometry(Tcore::gl()->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+    Tcore::gl()->config->endGroup();
+  }
 // default chart presets
   m_chartSetts.inclWrongAnsw = false;
   m_chartSetts.separateWrong = true;
   m_chartSetts.order = Tchart::e_byNumber;
   m_chartSetts.type = Tchart::e_linear;
-  lay = new QVBoxLayout;
-  
+  m_chartSetts.yValue = TmainLine::e_questionTime;
+// Tool bar
   m_toolBar = new QToolBar("", this);
-  lay->addWidget(m_toolBar);
-
-  QGridLayout *headLay = new QGridLayout;
-  headLay->addWidget(new QLabel(tr("ordered by:", "Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc..."), this), 0, 0, Qt::AlignCenter);
-  headLay->addWidget(new QLabel(tr("student name:"), this), 0, 1, Qt::AlignCenter);
-  headLay->addWidget(new QLabel(tr("level:"), this), 0, 2, Qt::AlignCenter);
-  m_chartListCombo = new QComboBox(this);
-  m_chartListCombo->addItem(tr("question number", "see comment in 'ordered by:' entry"));
-  m_chartListCombo->addItem(tr("note pitch"));
-  m_chartListCombo->addItem(tr("fret number"));
-  m_chartListCombo->addItem(tr("key signature"));
-  m_chartListCombo->addItem(tr("accidentals"));
-  m_chartListCombo->addItem(tr("question type"));
-  m_chartListCombo->addItem(tr("mistake"));
-	m_chartListCombo->addItem(tr("prepare time"));
-	m_chartListCombo->addItem(tr("attempts count"));
-  headLay->addWidget(m_chartListCombo, 1, 0, Qt::AlignCenter);
+// Y value combo (melodies only)
+  m_yValLab = new QLabel(tr("Y value:"), this);
+  m_YvaluesCombo = new QComboBox(this);
+    m_YvaluesCombo->addItem(TexTrans::reactTimeTxt().toLower());
+    m_YvaluesCombo->addItem(TexTrans::effectTxt().toLower());
+    m_YvaluesCombo->addItem(TYaxis::attemptsNumberTxt().toLower());
+    m_YvaluesCombo->addItem(TYaxis::playedNumberTxt().toLower());
+    m_YvaluesCombo->addItem(TYaxis::prepareTimeTxt().toLower());
+  QLabel *orderLab = new QLabel(tr("ordered by:", "Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc..."), this);
+  QLabel *studentLab = new QLabel(tr("student name:"), this);
+  QLabel *levelLab = new QLabel(tr("level:"), this);
+  
+  m_XorderCombo = new QComboBox(this);
+    m_XorderCombo->addItem(tr("question number", "see comment in 'ordered by:' entry"));
+    m_XorderCombo->addItem(tr("note pitch"));
+    m_XorderCombo->addItem(tr("fret number"));
+    m_XorderCombo->addItem(tr("key signature"));
+    m_XorderCombo->addItem(tr("accidentals"));
+    m_XorderCombo->addItem(tr("question type"));
+    m_XorderCombo->addItem(tr("mistake"));
+  
   m_userLab = new QLabel(" ", this);
-  headLay->addWidget(m_userLab, 1, 1, Qt::AlignCenter);
   m_levelLab = new QLabel(" ", this);
   m_moreButton = new QPushButton(QIcon(Tcore::gl()->path + "picts/levelCreator.png"), "...", this);
-  m_moreButton->setIconSize(QSize(24, 24));
-  m_moreButton->setDisabled(true);
-  m_moreButton->setToolTip(tr("Level summary:"));
+    m_moreButton->setIconSize(QSize(24, 24));
+    m_moreButton->setDisabled(true);
+    m_moreButton->setToolTip(tr("Level summary:"));
 	m_tuningLab = new QLabel(tr("Tuning"), this);
-	m_tuningLab->hide();
+    m_tuningLab->hide();
 	m_tuningButton = new QPushButton(this);
-	m_tuningButton->hide();
-	m_tuningButton->setFont(TnooFont());
+    m_tuningButton->hide();
+    m_tuningButton->setFont(TnooFont());
 	
-  QHBoxLayout *levLay = new QHBoxLayout;
-		levLay->addWidget(m_levelLab);
-		levLay->addWidget(m_moreButton);
-  headLay->addLayout(levLay, 1, 2, Qt::AlignCenter);
-	headLay->addWidget(m_tuningLab, 0, 3, Qt::AlignCenter);
-	headLay->addWidget(m_tuningButton, 1, 3, Qt::AlignCenter);
   m_questNrLab = new QLabel(" ", this);
-  headLay->addWidget(m_questNrLab, 0, 4, Qt::AlignCenter);
   m_effectLab = new QLabel(" ", this);
-  headLay->addWidget(m_effectLab, 1, 4, Qt::AlignCenter);
-
-  lay->addLayout(headLay);
-
+// Chart widget
   m_plotLay = new QVBoxLayout;
-  lay->addLayout(m_plotLay);
   createChart(m_chartSetts);
-  
+// Layout
+  QVBoxLayout *lay = new QVBoxLayout;
+    lay->addWidget(m_toolBar);
+    QGridLayout *headLay = new QGridLayout;
+      headLay->addWidget(m_yValLab, 0, 0, Qt::AlignCenter);
+      headLay->addWidget(m_YvaluesCombo, 1, 0, Qt::AlignCenter);
+      headLay->addWidget(orderLab, 0, 1, Qt::AlignCenter);
+      headLay->addWidget(m_XorderCombo, 1, 1, Qt::AlignCenter);
+      headLay->addWidget(studentLab, 0, 2, Qt::AlignCenter);
+      headLay->addWidget(m_userLab, 1, 2, Qt::AlignCenter);
+      headLay->addWidget(levelLab, 0, 3, Qt::AlignCenter);
+      QHBoxLayout *levLay = new QHBoxLayout;
+        levLay->addWidget(m_levelLab);
+        levLay->addWidget(m_moreButton);
+      headLay->addLayout(levLay, 1, 3, Qt::AlignCenter);
+      headLay->addWidget(m_tuningLab, 0, 4, Qt::AlignCenter);
+      headLay->addWidget(m_tuningButton, 1, 4, Qt::AlignCenter);
+      headLay->addWidget(m_questNrLab, 0, 5, Qt::AlignCenter);
+      headLay->addWidget(m_effectLab, 1, 5, Qt::AlignCenter);
+    lay->addLayout(headLay);
+    lay->addLayout(m_plotLay);
   setLayout(lay);
   createActions();
 
@@ -146,7 +160,8 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
       helpTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
       connect(helpTip, &TgraphicsTextTip::linkActivated, this, &TanalysDialog::linkOnTipClicked);
   }
-  connect(m_chartListCombo, SIGNAL(activated(int)), this, SLOT(analyseChanged(int)));
+  connect(m_XorderCombo, SIGNAL(activated(int)), this, SLOT(xOrderChanged(int)));
+  connect(m_YvaluesCombo, SIGNAL(activated(int)), this, SLOT(yValueChanged(int)));
 	connect(m_tuningButton, SIGNAL(clicked()), SLOT(showTuningPreview()));
 
 }
@@ -190,41 +205,46 @@ void TanalysDialog::setExam(Texam* exam) {
   connect(m_moreButton, &QPushButton::clicked, this, &TanalysDialog::moreLevelInfo, Qt::UniqueConnection);
   // sort by note
   if ((m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound()) && !m_exam->melodies())
-        enableComboItem(1, true);
+      enableComboItem(m_XorderCombo, 1, true);
     else
-        enableComboItem(1, false);
+      enableComboItem(m_XorderCombo, 1, false);
   // sort by fret  
-  if (m_exam->level()->canBeGuitar() ||
+  if (!m_exam->melodies() && (m_exam->level()->canBeGuitar() ||
       m_exam->level()->answersAs[TQAtype::e_asNote].isSound() || // answers as played sound are also important
       m_exam->level()->answersAs[TQAtype::e_asName].isSound() ||
-      m_exam->level()->answersAs[TQAtype::e_asSound].isSound() )
-        enableComboItem(2, true);
+      m_exam->level()->answersAs[TQAtype::e_asSound].isSound()) )
+        enableComboItem(m_XorderCombo, 2, true);
     else
-        enableComboItem(2, false);
+        enableComboItem(m_XorderCombo, 2, false);
   // sort by key signature
   if (m_exam->level()->canBeScore() && m_exam->level()->useKeySign)
-      enableComboItem(3, true);
+      enableComboItem(m_XorderCombo, 3, true);
   else
-      enableComboItem(3, false);
+      enableComboItem(m_XorderCombo, 3, false);
   // sort by accidentals
   if ((m_exam->level()->canBeScore() || m_exam->level()->canBeName() || m_exam->level()->canBeSound()) && !m_exam->melodies())
-    enableComboItem(4, true);
+    enableComboItem(m_XorderCombo, 4, true);
   else
-    enableComboItem(4, false);
+    enableComboItem(m_XorderCombo, 4, false);
 	if (m_exam->melodies()) {
-		if (m_exam->level()->answerIsSound())
-			enableComboItem(7, true); // 'prepare time' only for played answers
-		else 
-			enableComboItem(7, false);
-		enableComboItem(8, true);
+		m_yValLab->setVisible(true);
+    m_YvaluesCombo->setVisible(true);
+    m_barAct->setVisible(false); // no bar charts for melodies
+    m_chartSetts.type = Tchart::e_linear;
+    enableComboItem(m_XorderCombo, 5, false);
+    enableComboItem(m_XorderCombo, 6, false);
 	} else {
-		enableComboItem(7, false);
-		enableComboItem(8, false);
+    m_chartSetts.yValue = TmainLine::e_questionTime;
+    m_yValLab->setVisible(false);
+    m_YvaluesCombo->setVisible(false);
+    m_barAct->setVisible(true);
+    enableComboItem(m_XorderCombo, 5, true);
+    enableComboItem(m_XorderCombo, 6, true);
 	}
   TtipChart::defaultClef = m_exam->level()->clef;
-	if (m_chartListCombo->model()->index((int)m_chartSetts.order, 0).flags() == 0) {
-		m_chartListCombo->setCurrentIndex(0); // set default order when combo item is disabled
-		analyseChanged(0);
+	if (m_XorderCombo->model()->index((int)m_chartSetts.order, 0).flags() == 0) {
+		m_XorderCombo->setCurrentIndex(0); // set default order when combo item is disabled
+		xOrderChanged(0);
 		return;
 	}
   createChart(m_chartSetts);
@@ -376,14 +396,14 @@ void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
 }
 
 
-void TanalysDialog::enableComboItem(int index, bool enable) {
-    QModelIndex ind = m_chartListCombo->model()->index(index, 0);
-    QVariant v;
-    if (enable)
-        v = QVariant(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    else
-        v = QVariant(Qt::NoItemFlags); // disable
-    m_chartListCombo->model()->setData(ind, v, Qt::UserRole - 1);
+void TanalysDialog::enableComboItem(QComboBox* combo, int index, bool enable) {
+  QModelIndex ind = combo->model()->index(index, 0);
+  QVariant v;
+  if (enable)
+      v = QVariant(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+  else
+      v = QVariant(Qt::NoItemFlags); // disable
+  combo->model()->setData(ind, v, Qt::UserRole - 1);
 }
 
 
@@ -425,7 +445,7 @@ void TanalysDialog::openRecentExam() {
 }
 
 
-void TanalysDialog::analyseChanged(int index) {
+void TanalysDialog::xOrderChanged(int index) {
   if (!m_exam)
     return;
 	if (index)
@@ -454,12 +474,6 @@ void TanalysDialog::analyseChanged(int index) {
     case 6:
       m_chartSetts.order = Tchart::e_byMistake;
       break;
-		case 7:
-      m_chartSetts.order = Tchart::e_prepareTime;
-      break;
-		case 8:
-      m_chartSetts.order = Tchart::e_attemptsCount;
-      break;
   }
   if (m_chartSetts.order == Tchart::e_byQuestAndAnsw || m_chartSetts.order == Tchart::e_byMistake) {
       disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
@@ -475,9 +489,31 @@ void TanalysDialog::analyseChanged(int index) {
 }
 
 
-void TanalysDialog::testSlot() {
-//   QString testFile = Tcore::gl()->path + "/../../test.noo";
-//   loadExam(testFile);
+void TanalysDialog::yValueChanged(int index) {
+  if (!m_exam)
+    return;
+  if (index)
+    m_settButt->setDisabled(false);
+  else
+    m_settButt->setDisabled(true);
+  switch (index) {
+    case 0:
+      m_chartSetts.yValue = TmainLine::e_questionTime;
+      break;
+    case 1:
+      m_chartSetts.yValue = TmainLine::e_effectiveness;
+      break;
+    case 2:
+      m_chartSetts.yValue = TmainLine::e_attemptsCount;
+      break;
+    case 3:
+      m_chartSetts.yValue = TmainLine::e_playedCount;
+      break;
+    case 4:
+      m_chartSetts.yValue = TmainLine::e_prepareTime;
+      break;
+  }
+  createChart(m_chartSetts);
 }
 
 
@@ -542,39 +578,39 @@ void TanalysDialog::moreLevelInfo() {
 
 
 void TanalysDialog::chartTypeChanged() {
-    if (m_linearAct->isChecked()) { // linear chart
-      if (m_chartSetts.type != Tchart::e_linear) {
-        m_chartSetts.type = Tchart::e_linear;
-        enableComboItem(0, true);
+  if (m_linearAct->isChecked()) { // linear chart
+    if (m_chartSetts.type != Tchart::e_linear) {
+      m_chartSetts.type = Tchart::e_linear;
+      enableComboItem(m_XorderCombo, 0, true);
+      disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+      m_wrongSeparateAct->setDisabled(false);
+      connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+      createChart(m_chartSetts);
+    }        
+  } else { // bar chart
+      if (m_chartSetts.type != Tchart::e_bar) {
+        m_chartSetts.type = Tchart::e_bar;
+        m_settButt->setDisabled(false); // unlock settings
         disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-        m_wrongSeparateAct->setDisabled(false);
+        m_wrongSeparateAct->setDisabled(true);
+        m_wrongSeparateAct->setChecked(false);
+        m_chartSetts.separateWrong = false;
+        m_inclWrongAct->setDisabled(false);
         connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-        createChart(m_chartSetts);
-      }        
-    } else { // bar chart
-        if (m_chartSetts.type != Tchart::e_bar) {
-          m_chartSetts.type = Tchart::e_bar;
-          m_settButt->setDisabled(false); // unlock settings
-          disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-          m_wrongSeparateAct->setDisabled(true);
-          m_wrongSeparateAct->setChecked(false);
-          m_chartSetts.separateWrong = false;
-          m_inclWrongAct->setDisabled(false);
-          connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-          connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
-          if (m_chartSetts.order == Tchart::e_byNumber) { // not suported by barChart (no sense)
-            if (m_chartListCombo->model()->index(1, 0).flags() == Qt::NoItemFlags) { // notes don't occur'
-                m_chartSetts.order = Tchart::e_byFret;
-                m_chartListCombo->setCurrentIndex(2);
-            } else {
-                m_chartSetts.order = Tchart::e_byNote;
-                m_chartListCombo->setCurrentIndex(1);
-            }
-            enableComboItem(0, false);
+        connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+        if (m_chartSetts.order == Tchart::e_byNumber) { // not suported by barChart (no sense)
+          if (m_XorderCombo->model()->index(1, 0).flags() == Qt::NoItemFlags) { // notes don't occur'
+              m_chartSetts.order = Tchart::e_byFret;
+              m_XorderCombo->setCurrentIndex(2);
+          } else {
+              m_chartSetts.order = Tchart::e_byNote;
+              m_XorderCombo->setCurrentIndex(1);
           }
-          createChart(m_chartSetts);
+          enableComboItem(m_XorderCombo, 0, false);
         }
+        createChart(m_chartSetts);
       }
+    }
 }
 
 
@@ -595,12 +631,11 @@ void TanalysDialog::showTuningPreview() {
 	m_tunTip->setScale(2.0);
 	m_tunTip->setPos(offP.x() + (m_chart->width() - m_tunTip->boundingRect().width() * 2.0) / 2,
 									offP.y() + (m_chart->height() - m_tunTip->boundingRect().height() * 2.0) / 2);
-	
 }
 
-
-
-//##########  EVENTS #####################
+//#################################################################################################
+//###################               EVENTS             ############################################
+//#################################################################################################
 
 void TanalysDialog::resizeEvent(QResizeEvent* event) {
     m_toolBar->setIconSize(QSize(height()/21, height()/21));

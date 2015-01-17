@@ -27,8 +27,10 @@
 #include "tquestionpoint.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
+// #include <QDebug>
 
-TmainLine::TmainLine(QList<TQAunit>* answers, Tchart* chart, TmainLine::EpointYvalue yVal) :
+
+TmainLine::TmainLine(QList<TQAunit>* answers, Tchart* chart, TmainLine::EyValue yVal) :
   m_answers(answers),
   m_chart(chart)
 {  
@@ -40,11 +42,24 @@ TmainLine::TmainLine(QList<TQAunit>* answers, Tchart* chart, TmainLine::EpointYv
     m_points <<  new TquestionPoint(tmpQA);
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
-		qreal yy = m_chart->yAxis->mapValue(m_answers->operator[](i).getTime()); // default - answer time 
-		if (yVal == e_prepareTime)
-			yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attempt(0)->prepareTime());
-		else if (yVal == e_attemptsCount)
-			yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attemptsCount());
+		qreal yy;
+    switch (yVal) {
+      case e_playedCount:
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).totalPlayBacks());
+        break;
+      case e_prepareTime:
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attempt(0)->prepareTime());
+        break;
+      case e_attemptsCount:
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attemptsCount());
+        break;
+      case e_effectiveness:
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).effectiveness());
+        break;
+      default:
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).getTime()); // default - answer time 
+        break;
+    }
     m_points[i]->setPos(xPos, yy);
     if (i) {
       TstaffLineChart *line = new TstaffLineChart();

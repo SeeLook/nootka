@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,13 +53,13 @@ protected:
   void resizeEvent(QResizeEvent* event);
     
 protected slots:
-  void testSlot();
   void loadExamSlot();
   void zoomInSlot();
   void zoomOutSlot();
   void wrongSeparateSlot();
   void includeWrongSlot();
-  void analyseChanged(int index);
+  void xOrderChanged(int index);
+  void yValueChanged(int index);
   void openRecentExam();
 	void openRecentExercise();
   void moreLevelInfo();
@@ -72,8 +72,8 @@ private:
   QToolBar 											*m_toolBar;
   QAction 											*m_closeAct, *m_zoomInAct, *m_zoomOutAct, *m_inclWrongAct, *m_wrongSeparateAct, *m_maximizeAct;
   QAction 											*m_linearAct, *m_barAct;
-  QLabel 												*m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab, *m_tuningLab;
-  QComboBox 										*m_chartListCombo;
+  QLabel 												*m_yValLab, *m_levelLab, *m_userLab, *m_effectLab, *m_questNrLab, *m_tuningLab;
+  QComboBox 										*m_XorderCombo, *m_YvaluesCombo;
   QToolButton 									*m_settButt, *m_openButton;
   QPushButton 									*m_moreButton, *m_tuningButton;
   
@@ -92,7 +92,7 @@ private:
 private:
   void createActions();
   void createChart(Tchart::Tsettings &chartSett);
-  void enableComboItem(int index, bool enable);
+  void enableComboItem(QComboBox* combo, int index, bool enable);
     
 };
 
