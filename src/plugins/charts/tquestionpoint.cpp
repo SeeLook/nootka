@@ -19,6 +19,7 @@
 
 #include "tquestionpoint.h"
 #include "ttipchart.h"
+#include "ttipmelody.h"
 #include <exam/tqaunit.h>
 #include <graphics/tdropshadoweffect.h>
 #include <QGraphicsSceneHoverEvent>
@@ -104,14 +105,18 @@ QRectF TquestionPoint::boundingRect() const {
   
   
 void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event ) {
-    if (tip) {
-        if (tip == initObject())
-          return;
-        else
-          deleteTip();
-		}
+  if (tip) {
+      if (tip == initObject())
+        return;
+      else
+        deleteTip();
+  }
+  if (m_qaPtr.qaPtr->melody())
+    tip = new TtipMelody(this);
+  else
     tip = new TtipChart(this);
-    handleTip(event->scenePos());
+  
+  handleTip(event->scenePos());
 }
 
 

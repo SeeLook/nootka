@@ -47,32 +47,39 @@ class TtipHandler : public QGraphicsObject
   Q_OBJECT
   
 public:
-    TtipHandler();
-    virtual ~TtipHandler();
-    
-        /** Simply deletes tip. 
-         * It is static to give possibility remove TgraphicsTextTip outside of a class. 
-         * It returns true when tip existed and was deleted. */
-    static bool deleteTip();
+  TtipHandler();
+  virtual ~TtipHandler();
+  
+      /** Simply deletes tip. 
+        * It is static to give possibility remove TgraphicsTextTip outside of a class. 
+        * It returns true when tip existed and was deleted. */
+  static bool deleteTip();
 
 protected:
-        /** This method should be called after creating a tip instance
-         * in delivered class in its hoverEnterEvent.
-         * @param scenePos is position of an event in a scene taken from event->scenePos()*/
-    void handleTip(QPointF scenePos);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
-		
-    static QPointer<TgraphicsTextTip> tip;
-		
-        /** Returns pointer to graphics object that created this tip. */
-    static const QGraphicsObject* initObject() { return m_initObject; }
-    
-private:
-    static QPointer<QTimer> m_delTimer;
-    static QGraphicsObject* m_initObject; 
+      /** This method should be called after creating a tip instance
+        * in delivered class in its hoverEnterEvent.
+        * @param scenePos is position of an event in a scene taken from event->scenePos()*/
+  void handleTip(QPointF scenePos);
   
+  virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
+  
+  static QPointer<TgraphicsTextTip> tip;
+  
+      /** Returns pointer to graphics object that created this tip. */
+  static const QGraphicsObject* initObject() { return m_initObject; }
+  
+private:
+  static QPointer<QTimer>         m_hideTimer, m_showTimer;
+  static QGraphicsObject         *m_initObject;
+  bool                            m_entered;
+  static bool                     m_mouseOverTip;
+
 private slots:
-    void delayedDelete();
+  void hideTip();
+  void showTip();
+  void tipEnteredSlot();
+  void tipLeavedSlot();
+  
   
     
 };

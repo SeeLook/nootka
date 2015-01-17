@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -151,12 +151,14 @@ void TgraphicsTextTip::linkHoveredSlot(const QString& link) {
 void TgraphicsTextTip::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 	if (isMovable())
 		setCursor(Qt::SizeAllCursor);
+  emit entered();
 }
 
 
 void TgraphicsTextTip::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 	if (isMovable())
 		setCursor(Qt::ArrowCursor);
+  emit leaved();
 }
 
 
