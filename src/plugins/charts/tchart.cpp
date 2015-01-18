@@ -23,8 +23,10 @@
 #include "tabstractaxis.h"
 #include "ttiphandler.h"
 #include <QGraphicsEllipseItem>
+#include <QScrollBar>
 #include <QMouseEvent>
 #include <QTimer>
+// #include <QDebug>
 
 
 Tchart::Tchart(QWidget* parent) :
@@ -60,14 +62,14 @@ void Tchart::zoom(bool in) {
 
 
 void Tchart::ajustChartHeight() {
-	qreal factor = (viewport()->rect().height() / scene->sceneRect().height());
-	if (viewport()->rect().width() > scene->sceneRect().width() + qAbs(sceneRect().x())) {
-		factor *= 0.95;
+	qreal factor = (viewport()->rect().height() / scene->sceneRect().height()) * 0.95;
+	if (viewport()->rect().width() > (scene->sceneRect().width() + qAbs(sceneRect().x())) * factor) {
 		setSceneRect(0, 0, viewport()->rect().width() / factor, scene->sceneRect().height());
 	}	else {
     setSceneRect(sceneRect().adjusted(-sceneRect().x(), 0, qAbs(sceneRect().x()), 0));
 	}
 	scale(factor, factor);
+	horizontalScrollBar()->setValue(horizontalScrollBar()->minimum());
 }
 
 
