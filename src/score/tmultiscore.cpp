@@ -18,6 +18,7 @@
 
 #include "tmultiscore.h"
 #include <score/tscorestaff.h>
+#include <score/tscore5lines.h>
 #include <score/tscorekeysignature.h>
 #include <score/tscorescene.h>
 #include <score/tscorenote.h>
@@ -352,11 +353,28 @@ void TmultiScore::updateSceneRect() {
 		sh = staff()->height() * m_scale;
 	else
 		sh = m_staves.last()->pos().y() + m_staves.last()->height();
+  sh = qMax<qreal>(sh, viewport()->height() / transform().m11());
 	QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 
 								staff()->width() + (staff()->isPianoStaff() ? 1.1 : 0.0),	sh)).boundingRect();
 	scoreScene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
   scoreScene()->restoreAfterRectChange();
-	qDebug() << "updateSceneRect" << scoreScene()->sceneRect() << m_staves.size();
+  qreal minFree = 17.0;
+  qreal free = viewport()->height() / transform().m11() - (m_staves.last()->pos().y() + m_staves.last()->height());
+  if (free > minFree) {
+    if ((int)(free / minFree) > m_fakeLines.size()) {
+      for (int i = 0; i < int(free / minFree) - m_fakeLines.size(); ++i) {
+        m_fakeLines << new Tscore5lines(scoreScene());
+        m_fakeLines.last()->setDisabled(true);
+      }
+    } else if (free / minFree < (qreal)m_fakeLines.size())
+        deleteFakeLines(m_fakeLines.size() - int(free / minFree));
+  } else if (free < minFree)
+        deleteFakeLines(m_fakeLines.size());
+  for (int i = 0; i < m_fakeLines.size(); ++i) {
+    m_fakeLines[i]->setWidth(staff()->width());
+    m_fakeLines[i]->setPos(lastStaff()->pos().x(), lastStaff()->y() + lastStaff()->height() + i * (minFree));
+  }
+	qDebug() << "updateSceneRect" << scoreScene()->sceneRect() << m_staves.size() << staff()->maxNoteCount() << m_fakeLines.size();
 }
 
 
@@ -578,7 +596,6 @@ void TmultiScore::noteRemovingSlot(int staffNr, int noteToDel) {
 
 
 void TmultiScore::staffHiNoteChanged(int staffNr, qreal hiNoteYoff) {
-// 	qDebug() << "staffHiNoteChanged" << hiNoteYoff << m_staves[staffNr]->hiNotePos();
 	for (int i = staffNr; i < m_staves.size(); i++) // move every staff with difference
 			m_staves[i]->setY(m_staves[i]->y() + hiNoteYoff);
 	updateSceneRect();
@@ -586,12 +603,21 @@ void TmultiScore::staffHiNoteChanged(int staffNr, qreal hiNoteYoff) {
 
 
 void TmultiScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
-	if (m_staves.size() > 1 && staffNr < m_staves.size() - 1) { // more staves and not the last one
-// 		qDebug() << "staffLoNoteChanged" << loNoteYoff << m_staves[staffNr]->loNotePos();
+	if (!m_fakeLines.isEmpty() || (m_staves.size() > 1 && staffNr < m_staves.size() - 1)) { // more staves and not the last one
 		for (int i = staffNr + 1; i < m_staves.size(); i++) // move every staff with difference
 			m_staves[i]->setY(m_staves[i]->y() + loNoteYoff);
 		updateSceneRect();
 	}
+}
+
+
+void TmultiScore::deleteFakeLines(int lastNr) {
+  for (int i = 0; i < lastNr; ++i) {
+    if (!m_fakeLines.isEmpty()) {
+      delete m_fakeLines.last();
+      m_fakeLines.removeLast();
+    }
+  }
 }
 
 
