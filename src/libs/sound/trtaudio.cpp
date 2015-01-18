@@ -170,7 +170,10 @@ int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBuff
 	} else 
 			if (m_cbIn)
 				ret = m_cbIn(inBuffer, nBufferFrames, status);
-	return ret;
+	if (rtDevice()->getCurrentApi() == RtAudio::LINUX_PULSE)
+		return 0; // PulseAudio sucks when value 1 is returned
+	else
+		return ret;
 }
 
 
