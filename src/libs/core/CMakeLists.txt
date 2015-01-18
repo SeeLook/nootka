@@ -60,6 +60,7 @@ set(LIB_NOOTKACORE_SRC
 	score/tscorescene.cpp
 	score/tscorescordature.cpp
 	score/tscorestaff.cpp
+	score/tscore5lines.cpp
 	score/tnotecontrol.cpp
 	score/tscorelines.cpp
 	score/tsimplescore.cpp
