@@ -33,6 +33,7 @@ class TscoreScordature;
 class TscoreNote;
 class TscoreClef;
 class TscoreScene;
+class Tscore5lines;
 
 
 /** 
@@ -265,7 +266,7 @@ protected slots:
 		
 private:
 		int 															 m_staffNr;
-    QGraphicsLineItem       					*m_lines[5], *m_lowLines[5]; // five staff lines
+    Tscore5lines                      *m_5lines;
     TscoreClef              					*m_clef;
 		QGraphicsSimpleTextItem 					*m_brace;
     TscoreKeySignature								*m_keySignature; 

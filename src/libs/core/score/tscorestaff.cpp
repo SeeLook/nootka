@@ -23,6 +23,7 @@
 #include "tscorekeysignature.h"
 #include "tscorescordature.h"
 #include "tnotecontrol.h"
+#include "tscore5lines.h"
 #include <music/tnote.h>
 #include <animations/tcombinedanim.h>
 #include <tnoofont.h>
@@ -42,7 +43,7 @@ TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
 
 TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   TscoreItem(scene),
-  m_staffNr(-1),
+  m_staffNr(-1), m_brace(0),
   m_keySignature(0),
   m_upperLinePos(16.0), m_lowerStaffPos(0.0),
   m_height(40.0),
@@ -58,8 +59,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	enableTouchToMouse(false); // Do not propagate - hasCursor() is not necessary
-	m_lines[0] = 0;
-	m_lowLines[0] = 0; // first array item points are the all items exist or not
 	setZValue(10);
   setAcceptHoverEvents(true);
 // Clef
@@ -76,6 +75,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   }
   
 // Staff lines, it also sets m_width of staff
+  m_5lines = new Tscore5lines(scoreScene());
+  m_5lines->setParentItem(this);
 	prepareStaffLines();
 	
   for (int i = 0; i < 7; i++)
@@ -149,7 +150,6 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	updateIndex();
 	updateNotesPos(index);
 	if (number() == -1) {
-			updateWidth();
 			updateLines();
 			updateSceneRect(); // Update only for single staff view
 	}
@@ -269,7 +269,6 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
         delete m_flyAccid;
         m_flyAccid = 0;
 		}
-		updateWidth();
 		updateLines();
 		updateNotesPos();
 	}
@@ -347,10 +346,12 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 				m_upperLinePos = 14.0;
 				m_lowerStaffPos = 28.0;
 				m_height = 46.0;
+        createBrace();
 		} else {
 				m_upperLinePos = 16.0;
 				m_lowerStaffPos = 0.0;
 				m_height = 40.0;
+        delete m_brace;
 		}
 		prepareStaffLines();
 		if (m_keySignature)
@@ -411,32 +412,9 @@ void TscoreStaff::enableToAddNotes(bool alowAdding) {
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
 
-void TscoreStaff::prepareStaffLines() {
-	if (!m_lines[0]) // create main staff lines
-			for (int i = 0; i < 5; i++) {
-				m_lines[i] = new QGraphicsLineItem();
-				registryItem(m_lines[i]);
-				m_lines[i]->setPen(QPen(qApp->palette().text().color(), 0.18));
-				m_lines[i]->setZValue(5);
-			}
-	if (isPianoStaff()) {
-		if (!m_lowLines[0]) { // create lower staff lines
-			for (int i = 0; i < 5; i++) {
-				m_lowLines[i] = new QGraphicsLineItem();
-				registryItem(m_lowLines[i]);
-				m_lowLines[i]->setPen(QPen(qApp->palette().text().color(), 0.18));
-				m_lowLines[i]->setZValue(5);
-			}
-			createBrace();
-		}
-	} else {
-		if (m_lowLines[0]) { // delete lower staff lines
-			for (int i = 0; i < 5; i++)
-				delete m_lowLines[i];
-			m_lowLines[0] = 0;
-			delete m_brace;
-		}
-	}
+void TscoreStaff::prepareStaffLines() {  
+	m_5lines->setPianoStaff(isPianoStaff());
+  m_5lines->setPos(0.0, upperLinePos());
 	updateLines();
 	updateNotesPos();
 }
@@ -623,11 +601,7 @@ void TscoreStaff::updateNotesPos(int startId) {
 
 void TscoreStaff::updateLines() {
 	updateWidth();
-	for (int l = 0; l < 5; l++) {
-		m_lines[l]->setLine(0.5, upperLinePos() + l * 2, width(), upperLinePos() + l * 2);
-		if (isPianoStaff())
-			m_lowLines[l]->setLine(0.5, lowerLinePos() + l * 2, width(), lowerLinePos() + l * 2);
-	}
+  m_5lines->setWidth(width());
 }
 
 

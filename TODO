@@ -41,12 +41,6 @@ MINOR:
 
 - restart ASIO when it is changed by user or just display info to restart Nootka
 
-- add disabled, grayed stave(s) if there is enough space on the score
-
-Charts:
-	- points (notes) shadow changes with zoom - fix it
-	- changing charts gives flickering
-
 - revert to native style under MacOs when Qt5
 
 Tnote
