@@ -25,6 +25,7 @@
 #include <score/tscorestaff.h>
 
 
+class Tscore5lines;
 class QMainWindow;
 class TscoreStaff;
 
@@ -110,6 +111,8 @@ protected:
 	void resetClickedOff() { m_clickedOff = 0; }
 	void checkAndAddNote(TscoreStaff* sendStaff, int noteIndex);
 	void connectForReadOnly(TscoreNote* sn); /** Connects given TscoreNote to appropriate slots. */
+  
+  void deleteFakeLines(int lastNr); /** Deletes last @p lastNr lines from the fake list. */
 	
 protected slots:
 	void keyChangedSlot();
@@ -143,6 +146,7 @@ private:
   bool                         m_selectReadOnly, m_isDisabled;
 	
 	QList<TscoreStaff*>					 m_staves; // list of staves in page view
+	QList<Tscore5lines*>         m_fakeLines; // list of blurred staves displayed when score scene has much space
 	
 	
 };
