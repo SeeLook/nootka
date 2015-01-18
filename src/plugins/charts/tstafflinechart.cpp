@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,6 +30,7 @@ TstaffLineChart::TstaffLineChart()
   m_vector.setY(1);
 }
 
+
 void TstaffLineChart::setLine(QPointF from, QPointF to) {
   m_vector.setX(qRound(to.x() - from.x()));
   m_vector.setY(qRound(to.y() - from.y()));
@@ -41,23 +42,24 @@ void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
   Q_UNUSED(widget)
   painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter->setPen(QPen(option->palette.text().color(), 0.5));
-  for (double i = -2.0; i < 3.0; i++) {
+  for (qreal i = -2.0; i < 3.0; i++)
     painter->drawLine(0.0, i * DISTANCE, m_vector.x(), m_vector.y() + i * DISTANCE);
-  }
-
 }
 
-		/** It avoids disappearing the line when no place for whole over a scene.
-		 * FIXME: it doesn't work now. */
+
 QPainterPath TstaffLineChart::shape() const {
 	QPainterPath path;
-	path.addRect(boundingRect().adjusted(0, -20.0, 0, 40.0));
+	path.addRect(boundingRect());
 	return path;
 }
 
 
 QRectF TstaffLineChart::boundingRect() const {
-    QRectF rect(0, -2 * DISTANCE, m_vector.x(), m_vector.y() + DISTANCE * 4);
-    return rect;
+  QRectF rect(0, qMin<qreal>(-2 * DISTANCE, m_vector.y() -2 * DISTANCE), m_vector.x(), qAbs<qreal>(m_vector.y()) + (DISTANCE * 4));
+  return rect;
 }
+
+
+
+
 
