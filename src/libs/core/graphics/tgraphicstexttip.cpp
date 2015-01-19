@@ -24,27 +24,27 @@
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
 #include <QApplication>
-// #include <QDebug>
+#include <QDebug>
 
 
 /* static */
 void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
-    tip->setTextWidth(tip->boundingRect().width());
-    QTextBlockFormat format;
-    format.setAlignment(Qt::AlignCenter);
-    QTextCursor cursor = tip->textCursor();
-    cursor.select(QTextCursor::Document);
-    cursor.mergeBlockFormat(format);
-    cursor.clearSelection();
-    tip->setTextCursor(cursor);
+  tip->setTextWidth(tip->boundingRect().width() * tip->scale());
+  QTextBlockFormat format;
+  format.setAlignment(Qt::AlignCenter);
+  QTextCursor cursor = tip->textCursor();
+  cursor.select(QTextCursor::Document);
+  cursor.mergeBlockFormat(format);
+  cursor.clearSelection();
+  tip->setTextCursor(cursor);
 }
 
 
 void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor) {
   TdropShadowEffect *shadow = new TdropShadowEffect();
-//   if (shadowColor != -1)
-//     shadow->setColor(QColor(shadowColor.name()));
-//   else
+  if (shadowColor != -1)
+    shadow->setColor(QColor(shadowColor.name()));
+  else
     shadow->setColor(qApp->palette().text().color());
   tip->setGraphicsEffect(shadow);
 }
@@ -85,6 +85,17 @@ TgraphicsTextTip::~TgraphicsTextTip()
 void TgraphicsTextTip::setHtml(QString htmlText) {
   QGraphicsTextItem::setHtml(htmlText);
   alignCenter(this);
+}
+
+
+void TgraphicsTextTip::setScale(qreal sc) {
+  QFont f = font();
+  f.setPointSizeF(sc * f.pointSize());
+  setFont(f);
+  if (textWidth() != -1)
+    setTextWidth(textWidth() * sc);
+//   QGraphicsTextItem::setScale(sc);
+//   qDebug() << "scale" << realH() << realW(); 
 }
 
 

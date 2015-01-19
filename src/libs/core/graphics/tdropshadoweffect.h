@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 -2015 by Tomasz Bojczuk                            *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,7 +39,7 @@ public:
   void setBlurRadius(qreal blurRadius) { m_blurRadius = blurRadius; updateBoundingRect(); }
   qreal blurRadius() const { return m_blurRadius; }
 
-  void setColor(const QColor& color) { m_color = color; m_color.setAlpha(150); }
+  void setColor(const QColor& color) { m_color = color; m_color.setAlpha(200); }
   QColor& color() { return m_color; }
   
 protected:

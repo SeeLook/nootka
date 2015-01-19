@@ -43,9 +43,6 @@
 #include <QMouseEvent>
 
 
-
-#define PIXICONSIZE (32)
-
 extern Tglobals *gl;
 
 
@@ -60,10 +57,10 @@ Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
   m_timerToConfirm(new QTimer(this)),
   m_minimizedQuestion(false), m_melodyCorrectMessage(false)
 {
-  
   m_scene = m_view->scene();
 	m_newSize = m_scene->sceneRect().size().toSize();
 	m_prevSize = m_scene->sceneRect().size();
+  m_iconSize = m_view->fontMetrics().boundingRect("A").height() * 2;
   sizeChanged();
 	connect(m_scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sizeChangedDelayed(QRectF)));
   connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
@@ -146,14 +143,15 @@ void Tcanvas::tryAgainTip(int time) {
 
 QString Tcanvas::startTipText() {
   return TexamHelp::toGetQuestTxt() + ":<br>" + 
-    TexamHelp::clickSomeButtonTxt("<a href=\"nextQuest\">" + pixToHtml(Tpath::img("nextQuest"), PIXICONSIZE) + "</a>") + 
+    TexamHelp::clickSomeButtonTxt("<a href=\"nextQuest\">" + pixToHtml(Tpath::img("nextQuest"), m_iconSize) + "</a>") + 
     ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
 }
 
 
 void Tcanvas::startTip() {
    m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" +
-     TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(Tpath::img("stopExam"), PIXICONSIZE) + "</a>") + "</p>", m_window->palette().highlight().color());
+     TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(Tpath::img("stopExam"), m_iconSize) + "</a>") + 
+     "</p>", m_window->palette().highlight().color());
    m_scene->addItem(m_startTip);
    m_startTip->setScale(m_scale);
    m_startTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
@@ -185,7 +183,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 			href = "<a href=\"newAttempt\">";
 		}
 		whatNextText += "<br>" + t + " " + 
-				TexamHelp::clickSomeButtonTxt(href + pixToHtml(Tpath::img("prevQuest"), PIXICONSIZE) +	"</a>") +
+				TexamHelp::clickSomeButtonTxt(href + pixToHtml(Tpath::img("prevQuest"), m_iconSize) +	"</a>") +
 				" " + TexamHelp::orPressBackSpace();
 	}
 	if (toCorrection) {
@@ -193,12 +191,12 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 		if (m_exam->curQ().melody())
 				t = tr("To see some hints");
 		whatNextText += "<br>" + t + " " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(Tpath::img("correct"), PIXICONSIZE) + "</a>") +
+			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(Tpath::img("correct"), m_iconSize) + "</a>") + "<br>" +
 			TexamHelp::orPressEnterKey();
 //       if (!m_window->correctChB->isChecked()) TODO exam run-time settings
 //           m_window->correctChB->startAnimation(3);
 	}
-	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(Tpath::img("stopExam"), PIXICONSIZE) + "</a>");		
+	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(Tpath::img("stopExam"), m_iconSize) + "</a>");		
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
 // 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
 // 			m_whatTip->setTextWidth(m_maxTipWidth);
@@ -221,10 +219,10 @@ void Tcanvas::showConfirmTip() {
 	if (!m_confirmTip) {
 //     m_window->expertAnswChB->startAnimation(3); TODO exam run-time settings
 		m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(Tpath::img("check"), PIXICONSIZE) + "</a>") +
+			TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(Tpath::img("check"), m_iconSize) + "</a>") +
 			"<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
 			tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" + 
-			pixToHtml(Tpath::img("help"), PIXICONSIZE) + "</a>"), gl->EanswerColor);
+			pixToHtml(Tpath::img("help"), m_iconSize) + "</a>"), gl->EanswerColor);
 		m_confirmTip->setScale(m_scale * 1.2);
 		m_scene->addItem(m_confirmTip);
 		m_confirmTip->setTipMovable(true);
@@ -539,7 +537,7 @@ int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree || m_scoreFree)
 		return m_window->score->height() * 0.6;
 	else
-		return m_window->guitar->height() * 1.2;
+		return m_window->guitar->height() * 1.1;
 }
 
 

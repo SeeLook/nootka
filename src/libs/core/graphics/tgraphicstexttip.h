@@ -46,6 +46,8 @@ public:
   virtual QRectF boundingRect() const;
   
   void setHtml(QString htmlText); /** Overwrites QGraphicsTextItem method and make given text centered. */
+  
+  void setScale(qreal sc);
 	
 	qreal realW() { return boundingRect().width() * scale(); } /** boundingRect().width() * scale() */
 	qreal realH() { return boundingRect().height() * scale(); } /** boundingRect().height() * scale() */

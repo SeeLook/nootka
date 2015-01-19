@@ -162,6 +162,7 @@ private:
 	QPointF												 m_posOfQuestTips[3], m_posOfWhatTips[3], m_posOfConfirm;
 	bool													 m_minimizedQuestion, m_melodyCorrectMessage;
 	EtipPos												 m_tipPos; /** Kind of tip position */
+	int                            m_iconSize; /** Icon image size on tips calculated from actual font metrics. */
 	
 private:
 	int getMaxTipHeight(); /** Calculates maximal tip height depends on free MainWindow widget. */

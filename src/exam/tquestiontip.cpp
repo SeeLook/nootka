@@ -82,14 +82,14 @@ TquestionTip::TquestionTip(Texam* exam, double scale) :
 	startColor.setAlpha(20);
 	QColor endColor = startColor;
 	endColor.setAlpha(40);
-	m_staffGradient.setCoordinateMode(QGradient::StretchToDeviceMode);
+	m_staffGradient.setCoordinateMode(QGradient::ObjectBoundingMode);
 	m_staffGradient.setStart(0.5, 0.0);
 	m_staffGradient.setFinalStop(0.5, 1.0);
 	for (int i = 0; i < 5; ++i) {
-		m_staffGradient.setColorAt(0.22 + i * 0.1, startColor);
-		m_staffGradient.setColorAt(0.24 + i * 0.1, endColor);
-	  m_staffGradient.setColorAt(0.26 + i * 0.1, endColor);
-		m_staffGradient.setColorAt(0.28 + i * 0.1, startColor);
+		m_staffGradient.setColorAt(0.32 + i * 0.1, startColor);
+		m_staffGradient.setColorAt(0.34 + i * 0.1, endColor);
+	  m_staffGradient.setColorAt(0.36 + i * 0.1, endColor);
+		m_staffGradient.setColorAt(0.38 + i * 0.1, startColor);
 	}
 	setTipMovable(true);
 }
@@ -268,7 +268,6 @@ void TquestionTip::setMinimized(bool min) {
 		setFixPos(pos());
 	}
 }
-
 
 
 void TquestionTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
