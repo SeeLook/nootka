@@ -36,6 +36,7 @@ Scaling issues:
 MINOR:
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - move what_next/question tips to the right over guitar in single note mode
+- when playable exam/exercise doesn't require octave audio input ambitus has to be capable to detect more sounds
 
 - think to disable pitch view during melodies correction - it is just stopped now
 

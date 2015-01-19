@@ -35,8 +35,8 @@ QString row2(QString S1, QString S2) {
 }
 
 
-bool showExamSummary(Texam* exam, bool cont, bool* startExam) {
-	TexamSummary *ES = new TexamSummary(exam, cont, qApp->activeWindow());
+bool showExamSummary(QWidget* mainWindow, Texam* exam, bool cont, bool* startExam) {
+	TexamSummary *ES = new TexamSummary(exam, cont, mainWindow);
   TexamSummary::Eactions respond = ES->doExec();
 	if (startExam) {
 		if (respond == TexamSummary::e_startExam)
@@ -57,7 +57,8 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   QDialog(parent),
   m_exam(exam),
   m_state(e_discard),
-  m_closeButt(0), m_examButton(0)
+  m_closeButt(0), m_examButton(0),
+  m_mainWIndow(parent)
 {
     setWindowTitle(tr("Exam results"));
 		setWindowIcon(QIcon(Tpath::img("startExam")));
@@ -209,7 +210,7 @@ void TexamSummary::setForExercise() {
 void TexamSummary::analyseSlot() {
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_analyzer)) {
-    loader.init("", this, m_exam); 
+    loader.init("", m_mainWIndow, m_exam); 
   }
 }
 

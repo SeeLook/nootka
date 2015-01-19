@@ -130,7 +130,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 					QMessageBox::warning(mW, " ", 
 						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
 				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
-						!showExamSummary(m_exam, true)) {
+						!showExamSummary(mW, m_exam, true)) {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
@@ -1159,7 +1159,7 @@ void TexamExecutor::stopExerciseSlot() {
 		bool startExam = false;
 
 		if (!m_goingClosed)
-				continuePractice = showExamSummary(m_exam, true, &startExam);
+				continuePractice = showExamSummary(mW, m_exam, true, &startExam);
 		gl->S->nameStyleInNoteName = tmpStyle;
 		if (startExam) {
 				exerciseToExam();
@@ -1227,7 +1227,7 @@ void TexamExecutor::stopExamSlot() {
           gl->config->setValue("recentExams", recentExams);
       }
       if (!m_goingClosed) // if Nootka is closing don't show summary 
-          showExamSummary(m_exam, false);
+          showExamSummary(mW, m_exam, false);
     }
   }
   closeExecutor();

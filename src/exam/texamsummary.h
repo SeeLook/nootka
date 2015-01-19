@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,10 +28,11 @@ class Texam;
 /**  Global function to create and display an exam summary dialog.
  *  If it returns false - user don't want to continue an exam
  *  @p startExam is a pointer to know does user want to start exam on exercise level.
- */
-bool showExamSummary(Texam* exam, bool cont, bool* startExam = 0);
+ *  QMainWindow has to be put for proper size of analyze dialog. */
+bool showExamSummary(QWidget* mainWindow, Texam* exam, bool cont, bool* startExam = 0);
 
 /** 
+ * Dialog window with exam summary
  * When @param cont is true On button is shown text 'continue' 
  */
 class TexamSummary : public QDialog
@@ -61,6 +62,7 @@ private:
   Eactions 					 m_state;
 	QPushButton 			*m_closeButt, *m_okButt, *m_examButton;
 	QVBoxLayout			  *m_leftLay;
+	QWidget						*m_mainWIndow;
 };
 
 #endif // TEXAMSUMMARY_H
