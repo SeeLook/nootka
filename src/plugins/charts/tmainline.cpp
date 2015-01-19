@@ -48,7 +48,7 @@ TmainLine::TmainLine(QList<TQAunit>* answers, Tchart* chart, TmainLine::EyValue 
         yy = m_chart->yAxis->mapValue(m_answers->operator[](i).totalPlayBacks());
         break;
       case e_prepareTime:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attempt(0)->prepareTime());
+        yy = m_chart->yAxis->mapValue((double)m_answers->operator[](i).attempt(0)->prepareTime() / 10.0);
         break;
       case e_attemptsCount:
         yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attemptsCount());

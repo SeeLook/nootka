@@ -233,6 +233,13 @@ void TanalysDialog::setExam(Texam* exam) {
     m_chartSetts.type = Tchart::e_linear;
     enableComboItem(m_XorderCombo, 5, false);
     enableComboItem(m_XorderCombo, 6, false);
+		if (m_exam->level()->answerIsSound())
+			enableComboItem(m_YvaluesCombo, 4, true);
+		else {
+			enableComboItem(m_YvaluesCombo, 4, false);
+			if (m_chartSetts.yValue == TmainLine::e_prepareTime)
+				m_chartSetts.yValue = TmainLine::e_questionTime; // restore it to default
+		}
 	} else {
     m_chartSetts.yValue = TmainLine::e_questionTime;
     m_yValLab->setVisible(false);
