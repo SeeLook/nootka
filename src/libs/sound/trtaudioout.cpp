@@ -195,9 +195,10 @@ bool TaudioOUT::play(int noteNr) {
 
 
 void TaudioOUT::stop() {
-  abortStream();
-//   stopStream();
-// 	closeStream();
+	if (getCurrentApi() == RtAudio::LINUX_PULSE)
+		closeStream();
+	else
+		abortStream();
 }
 
 
