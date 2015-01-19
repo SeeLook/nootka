@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 -2014 by Tomasz Bojczuk                            *
+ *   Copyright (C) 2013 -2015 by Tomasz Bojczuk                            *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,13 +24,32 @@
 #include <QGraphicsEffect>
 
 /** 
- * Shadow effect used for all tips 
+ * Shadow effect used for all tips.
+ * Base idea was taken from: http://stackoverflow.com/questions/23718827/qt-shadow-around-window
 */
-class NOOTKACORE_EXPORT TdropShadowEffect : public QGraphicsDropShadowEffect
+class NOOTKACORE_EXPORT TdropShadowEffect : public QGraphicsEffect
 {
 
 public:
-    TdropShadowEffect(QColor color = -1);
+  TdropShadowEffect(const QColor& color = -1);
+    
+  void setDistance(qreal distance) { m_distance = distance; updateBoundingRect(); }
+  qreal distance() const { return m_distance; }
+
+  void setBlurRadius(qreal blurRadius) { m_blurRadius = blurRadius; updateBoundingRect(); }
+  qreal blurRadius() const { return m_blurRadius; }
+
+  void setColor(const QColor& color) { m_color = color; m_color.setAlpha(150); }
+  QColor& color() { return m_color; }
+  
+protected:
+  virtual void draw(QPainter* painter);
+  virtual QRectF boundingRectFor(const QRectF& sourceRect) const;
+
+private:
+  qreal  m_distance;
+  qreal  m_blurRadius;
+  QColor m_color;
 };
 
 #endif // TDROPSHADOWEFFECT_H

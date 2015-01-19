@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.                                                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,10 +21,11 @@
 #include "ttipchart.h"
 #include "ttipmelody.h"
 #include <exam/tqaunit.h>
-#include <graphics/tdropshadoweffect.h>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
+#include <QPalette>
 #include <QGraphicsScene>
+#include <QGraphicsDropShadowEffect>
 
 
 
@@ -64,9 +65,13 @@ void TquestionPoint::setColor() {
     else
       m_color = m_notBadColor;
   }
-  TdropShadowEffect *shadow = new TdropShadowEffect(shadowColor());
+  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+  shadow->setBlurRadius(10);
+  shadow->setColor(qApp->palette().text().color());
+  shadow->setOffset(1.0, 1.0);
   setGraphicsEffect(shadow);
 }
+
 
 TquestionPoint::~TquestionPoint() {}
 
