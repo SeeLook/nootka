@@ -444,7 +444,7 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
       m_wheelFree = false;
     } else {
         if (staff()->scoreKey()) {
-          QPointF pp = mapToScene(event->pos());
+          QPointF pp = staff()->mapFromScene(mapToScene(event->pos()));
           if (pp.x() > staff()->scoreKey()->pos().x() && 
               pp.x() < staff()->scoreKey()->pos().x() + staff()->scoreKey()->boundingRect().width() - 2.0) {
                   if (event->angleDelta().y() < 0 && keySignature().value() > -7)

@@ -1262,7 +1262,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="35"/>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
-        <translation>Egazminy mogą być zapisywane do pliku i później kontynuowane. Ponadto, pliki egaminów mogą być otwirane do analizy.</translation>
+        <translation>Egazminy mogą być zapisywane do pliku i później kontynuowane. Ponadto, pliki egaminów mogą być otwierane do analizy.</translation>
     </message>
     <message>
         <location filename="../src/info/texamhelp.cpp" line="36"/>
@@ -1867,7 +1867,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/widgets/tfixleveldialog.cpp" line="73"/>
         <source>When you are sure that &lt;b&gt;all your Nootka files&lt;/b&gt; were created exactly for selected instrument&lt;br&gt;you can check this box and&lt;br&gt;&lt;b&gt;all incorrect files will be fixing automatically.&lt;/b&gt;</source>
-        <translation type="unfinished">Jeżeli jesteś pewien że &lt;b&gt;wszystkie pliki Nootki&lt;/b&gt; były utworzone tylko dla wybranego instrumenu,&lt;br&gt;możesz zaznaczyć to pole wyboru&lt;br&gt;i &lt;b&gt;wszystkie niepoprawne pliki bedą naprawiane automatycznie.&lt;/b&gt;</translation>
+        <translation>Jeżeli jesteś pewien że &lt;b&gt;wszystkie pliki Nootki&lt;/b&gt; były utworzone tylko dla wybranego instrumenu,&lt;br&gt;możesz zaznaczyć to pole wyboru&lt;br&gt;i &lt;b&gt;wszystkie niepoprawne pliki bedą naprawiane automatycznie.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>

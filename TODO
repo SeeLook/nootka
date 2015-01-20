@@ -16,7 +16,6 @@
 MAJOR:
 - when new staff is automatically added selected note is wrong
 - fix accidental animations - they jump when melody is set as a question
-- key signature is mapped wrongly in single mode - mouse wheel doesn't work properly
 - do not continue answering with melody that was fully or too much corrected
 - try to avoid many resizeEvent-s of TmultiScore during window size change
 - think to disable pitch view during melodies correction - it is just stopped now
