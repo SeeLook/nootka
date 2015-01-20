@@ -16,34 +16,30 @@
 MAJOR:
 - when new staff is automatically added selected note is wrong
 - fix accidental animations - they jump when melody is set as a question
+- key signature is mapped wrongly in single mode - mouse wheel doesn't work properly
 - do not continue answering with melody that was fully or too much corrected
 - try to avoid many resizeEvent-s of TmultiScore during window size change
 - think to disable pitch view during melodies correction - it is just stopped now
+- exercise file still can be corrupted
+- avoid analyzing of empty exercise
+- key signatures on locked score can be changed with wheel
+- pitch view in single mode has to has locked button when question is played sound - or hide it at all
 
 - certificates has to be adjusted to melodies
+- canvas has to recognize when widgets are hidden and doesn't start correcting animations 
 
-Tcanvas
-- canvas has to recognize when widgets are hidden and doesn't start correct animations 
-
-Scaling issues:
-- auto hidden tool bar remains big after decreased window size
-
-- There is unused class TnotePixmap only with default clef - use it or delete
-- vertical name layout is probably unused - clear it then
-
-- changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 
 MINOR:
 - changing tool bar auto-hiding causes sometimes locked melody menu
+- clicked link of tip locks next click - probably due to grabbed focus - however click outside tip unlocks it
 - move what_next/question tips to the right over guitar in single note mode
-- when playable exam/exercise doesn't require octave audio input ambitus has to be capable to detect more sounds
+- when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
-- restart ASIO when it is changed by user or just display info to restart Nootka
+- auto hidden tool bar remains big after decreased window size
+- There is unused class TnotePixmap only with default clef - use it or delete
+- vertical name layout is probably unused - clear it then
+- changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 - revert to native style under MacOs when Qt5
-
-Tnote
-	- overload + and - operators to raise/drop a note
-	- make appropriate methods const
 
 
 ==== NEW FEATURES ================================================================
@@ -52,7 +48,6 @@ Tnote
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar
 - add blinking of settings icon(action) instead of expert check boxes in old versions
-- enable/disable animations option
 - move status label out as a separate class and implement animations there (can be used in settings windows as well) 
 - make exam summary pretty
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
@@ -101,7 +96,11 @@ TEXAMEXECUTOR
 - keep exam file in /tmp and restore it when crash or so
 - add sound during wizard and About dialog (???)
 - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
+- enable/disable animations option
+- restart ASIO when it is changed by user or just display info to restart Nootka
 
-
+Tnote
+	- overload + and - operators to raise/drop a note
+	- make appropriate methods const
 
 

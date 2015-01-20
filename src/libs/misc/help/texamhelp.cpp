@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,9 +17,6 @@
  ***************************************************************************/
 
 #include "texamhelp.h"
-
-#define PIXICONSIZE (32)
-#define BIGPIXSIZE (64)
 
 
 
@@ -40,38 +37,40 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
     ThelpDialogBase(parent, 0)
 {
   resize((parent->width() / 3) * 2, (parent->height() / 3) * 2);
+  const int iconsSize = fontMetrics().boundingRect("A").height() * 2;
+  const int bigIconSize = iconsSize * 2;
   helpText()->setHtml(
-    QString("<center><h2>%1").arg(pix("help", BIGPIXSIZE)) + "<br>" +
+    QString("<center><h2>%1").arg(pix("help", bigIconSize)) + "<br>" +
     tr("How does an exercise or an exam work?") + "</h2><br>" +
-		pix("practice", BIGPIXSIZE) + "&nbsp;&nbsp;&nbsp;&nbsp;" + pix("exam", BIGPIXSIZE) + "<br>" +
+		pix("practice", bigIconSize) + "&nbsp;&nbsp;&nbsp;&nbsp;" + pix("exam", bigIconSize) + "<br>" +
 		tr(" Briefly: Nootka give you a question and you give an answer...") + "<br><br><br><br>" +
-    toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pix("nextQuest", PIXICONSIZE)) + "<br>- " +
+    toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + "<br>- " +
     pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" +
 		
     QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>")
       .arg(answColorTxt) +
-    QString("<br><br>%1<br><br>").arg(pix("scr", 0)) +
+    QString("<br><br>%1<br><br>").arg(pix("scr", parent->width() * 0.6)) +
     tr("To check the answer confirm it:") + "<br>- " + 
-    clickSomeButtonTxt(pix("check", PIXICONSIZE)) + "<br>- " +
+    clickSomeButtonTxt(pix("check", iconsSize)) + "<br>- " +
     pressEnterKey() + "<br>- " + orRightButtTxt() + "<br><br>" +
 		    
-		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("practice", BIGPIXSIZE) + "<br>" + tr("Exercises") +
+		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("practice", bigIconSize) + "<br>" + tr("Exercises") +
 		"</td><td align=\"center\">" +
 		tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + 
-		"<br>- " + clickSomeButtonTxt(pix("correct", PIXICONSIZE)) + "<br>- " + orPressEnterKey() + "<br><br>" +
-		tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", PIXICONSIZE)) +
+		"<br>- " + clickSomeButtonTxt(pix("correct", iconsSize)) + "<br>- " + orPressEnterKey() + "<br><br>" +
+		tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize)) +
 		"<br>" + exerciseFeaturesText() +	"</td></tr></table><br><br>" +
 		
-		"<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("exam", BIGPIXSIZE) + "<br>" + tr("Exams") +
+		"<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("exam", bigIconSize) + "<br>" + tr("Exams") +
 		"</td><td align=\"center\">" +
 		tr("If you made a mistake during an exam and you want to repeat the question:") + "<br>- " + 
-    clickSomeButtonTxt(pix("prevQuest", PIXICONSIZE)) + "<br>- " + orPressBackSpace() + "<br><br>" +
-		toStopExamTxt(pix("stopExam", PIXICONSIZE)) + "<br>" + 
+    clickSomeButtonTxt(pix("prevQuest", iconsSize)) + "<br>- " + orPressBackSpace() + "<br><br>" +
+		toStopExamTxt(pix("stopExam", iconsSize)) + "<br>" + 
 		examFeaturesText() + "</td></tr></table></center><center>" +
 		
-		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("exam-settings", BIGPIXSIZE) + "<br>" + tr("Settings") +
+		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("exam-settings", bigIconSize) + "<br>" + tr("Settings") +
 		"</td><td align=\"center\"><br><br>" +
 		tr("Just click this settings button to adjust an exercise or an exam to your current needs.") +	"</td></tr></table><br><br>" +
 		
