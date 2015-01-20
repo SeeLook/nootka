@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -188,7 +188,7 @@ QString pixToHtml(const QString& imageFile, int width) {
     QPixmap orgPix;
     if (!orgPix.load(imageFile))
       return "";
-    return pixToHtml(orgPix.scaled(width, width, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    return pixToHtml(orgPix.scaled(width, width, Qt::KeepAspectRatio, Qt::SmoothTransformation));
   }
 }
 

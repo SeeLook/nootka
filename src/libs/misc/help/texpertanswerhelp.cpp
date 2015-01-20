@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,11 +17,7 @@
  ***************************************************************************/
 
 #include "texpertanswerhelp.h"
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QTextEdit>
-#include <QCheckBox>
+
 
 TexpertAnswerHelp::TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox) :
     ThelpDialogBase(parent, 0)
@@ -29,12 +25,13 @@ TexpertAnswerHelp::TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool
 	if (parent)
 			setFixedSize(600, 380);
   setWindowTitle(tr("Experts mode"));
-	helpText()->document()->setTextWidth(590);
+	helpText()->document()->setTextWidth(fontMetrics().boundingRect("w").width() * 80);
   
-  helpText()->setHtml("<center>" + tr("You are about to enter expert mode.<br> In this mode you don't need to confirm every answer,<br><b>but remember the following:") + "</b><ul><li>" + 
+  helpText()->setHtml("<center><big>" + tr("You are about to enter expert mode.<br> In this mode you don't need to confirm every answer,<br><b>but remember the following:") + "</b></big><ul><li>" + 
     tr("Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.") + "<br></li><li>" +
     tr("When an answer is the name of a note <b>first select a proper accidental and an octave</b> and then click a note button - this automatically invokes checking.") + "<br></li><li>" +
-    tr("When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.") + "<br><br></center>");
+    tr("When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.") + "<br></li><li>" +
+    tr("When the last note of question that is a melody was played - checking starts.") + "<br></li></ul><br></center>");
   
 		if (showAskCheckBox)
 				showCheckBox(tr("Always remind me about this"), askAboutExpert);
