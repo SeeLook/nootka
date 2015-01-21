@@ -1,0 +1,2 @@
+!define PRODUCT_VERSION "@Nootka_VERSION_FULL@"
+!define PATCH  "0" 

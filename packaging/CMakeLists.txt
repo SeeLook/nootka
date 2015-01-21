@@ -122,8 +122,9 @@ set(CPACK_RPM_CHANGELOG_FILE "${CMAKE_BINARY_DIR}/doc/changelog-rpm")
 ##########################################################################################
 
 if (WIN32)
-  set(CPACK_GENERATOR  "NSIS")
-#   set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/packaging" ${CMAKE_MODULE_PATH}) # Use custom version of NSIS.InstallOptions.ini
+  set(CPACK_GENERATOR  "NSIS;ZIP")
+  set(CPACK_NSIS_INSTALLED_ICON_NAME "${CMAKE_SOURCE_DIR}/picts/pack.ico")
+  
 else (WIN32)
   if (NOT APPLE)
     set(CPACK_STRIP_FILES "nootka")
@@ -162,22 +163,27 @@ message(STATUS "
 
 
 if(WIN32)
+#   set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/nsis/Modules/")
+#   LIST(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/packaging/nsis/Modules")
+  configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/nsis/definitions.nsh.in
+    ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh
+  )
+#   configure_file(
+#     ${CMAKE_CURRENT_SOURCE_DIR}/nsis/fileasoc.nsh
+#     ${CMAKE_BINARY_DIR}/nsis/fileasoc.nsh
+#   )
+#   configure_file(
+#     ${CMAKE_SOURCE_DIR}/picts/pack.ico
+#     ${CMAKE_BINARY_DIR}/nsis/pack.ico
+#   )
+  
 	get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
 	get_filename_component(MAKE_DIR "${CMAKE_MAKE_PROGRAM}" DIRECTORY)
 	find_package(Qt5Core)
 	get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
 	get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
-
-	add_custom_target(bindir
-		COMMAND echo " "
-		COMMAND echo Creating windows binary folder...
-		COMMAND ${QT_BINARY_DIR}/windeployqt.exe --release --compiler-runtime --list target ${CMAKE_INSTALL_PREFIX}
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_INSTALL_PREFIX}
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_INSTALL_PREFIX} #libvorbisfile.dll
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_INSTALL_PREFIX}
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libogg.dll ${CMAKE_INSTALL_PREFIX}
-	)
 
 	add_custom_target(runinplace
 		COMMAND echo " "
