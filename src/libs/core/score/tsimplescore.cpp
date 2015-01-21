@@ -443,7 +443,7 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
       propagate = false;
       m_wheelFree = false;
     } else {
-        if (staff()->scoreKey()) {
+        if (staff()->scoreKey() && !staff()->scoreKey()->readOnly()) {
           QPointF pp = staff()->mapFromScene(mapToScene(event->pos()));
           if (pp.x() > staff()->scoreKey()->pos().x() && 
               pp.x() < staff()->scoreKey()->pos().x() + staff()->scoreKey()->boundingRect().width() - 2.0) {

@@ -72,6 +72,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	setAnimationsEnabled(Tcore::gl()->useAnimations);
 	setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
 	setEnableKeySign(Tcore::gl()->S->keySignatureEnabled);
+  setScoreScale(Tcore::gl()->S->scoreScale);
 	if (staff()->scoreKey())
 		staff()->scoreKey()->showKeyName(Tcore::gl()->S->showKeySignName);
 	
@@ -292,7 +293,6 @@ void TmainScore::onClefChanged(Tclef cl) {
 void TmainScore::setScordature() {
 	if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar) {
 			performScordatureSet();
-// 			resizeEvent(0);
 	}
 }
 
@@ -688,7 +688,8 @@ void TmainScore::showNamesSlot() {
 			else
 				staves(st)->noteSegment(no)->removeNoteName();
 		}
-	}		
+	}
+	Tcore::gl()->S->namesOnScore = m_acts->noteNames()->isChecked();
 }
 
 

@@ -305,6 +305,7 @@ void TscoreStaff::removeScordatute() {
 
 void TscoreStaff::setDisabled(bool disabled) {
 	scoreClef()->setReadOnly(disabled);
+  scoreClef()->setAcceptHoverEvents(!disabled); // stops displaying status tip
 	if (scoreKey()) {
 		scoreKey()->setAcceptHoverEvents(!disabled); // stops displaying status tip
 		scoreKey()->setReadOnly(disabled);

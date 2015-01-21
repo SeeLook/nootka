@@ -21,7 +21,6 @@ MAJOR:
 - think to disable pitch view during melodies correction - it is just stopped now
 - exercise file still can be corrupted
 - avoid analyzing of empty exercise
-- key signatures on locked score can be changed with wheel
 - pitch view in single mode has to has locked button when question is played sound - or hide it at all
 
 - certificates has to be adjusted to melodies
