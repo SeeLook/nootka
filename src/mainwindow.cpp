@@ -131,6 +131,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
   m_statLab->setVisible(gl->L->hintsBarEnabled);
+  Tmenu::setStatusWidget(m_statLab);
 #if defined (Q_OS_ANDROID)
   m_statLab->hide();
   nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -336,9 +337,8 @@ void MainWindow::createSettingsDialog() {
 			bar->setBarIconStyle(gl->L->iconTextOnToolBar, bar->iconSize().width());
 			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
 			m_statLab->setVisible(gl->L->hintsBarEnabled);
-      Tmenu::setYOffset(m_statLab);
-			pitchView->setVisible(gl->L->soundViewEnabled); // TODO - stop receiving audio signals
-			guitar->setVisible(gl->L->guitarEnabled); // TODO - delete guitar
+			pitchView->setVisible(gl->L->soundViewEnabled);
+			guitar->setVisible(gl->L->guitarEnabled);
 			m_isPlayerFree = true;
 	} else if (lastWord.contains("Reset")) {
       resetConfig = true;
@@ -517,61 +517,6 @@ void MainWindow::showSupportDialog() {
     sound->go();
 }
 
-/*
-void MainWindow::setWidgetsFont() {
-	progress->resize(m_statFontSize + m_extraFontOffset);
-	examResults->setFontSize(m_statFontSize + m_extraFontOffset);
-	noteName->resize(m_statFontSize + m_extraFontOffset);
-}
-
-
-void MainWindow::fixNoteNameSize() {
-	if (!isMaximized()) {
-		resize(width(), height() + noteName->smallSpace() + 2);
-#if defined (Q_OS_WIN)
-    noteName->setGeometry(noteName->x(), noteName->y(), noteName->width(), noteName->height() + noteName->smallSpace());
-#endif
-	}
-}
-
-
-void MainWindow::fixPitchViewPos() {
-//   if (!windowState().testFlag(Qt::WindowMaximized)) {
-//     // Lets hope user has no any abnormal desktop size and skip checking ratio for maximized
-//     if (innerWidget->height() > innerWidget->width() * 0.8) {
-//         resize(innerWidget->width(), innerWidget->width() * 0.75);
-//         return;
-//     } else if (innerWidget->width() > innerWidget->height() * 1.95) {
-//         resize(innerWidget->height() * 1.9, innerWidget->height());
-//         return;
-//     }
-//   }
-  // when return occurred it will back here again from resizeEvent
-  int maxPossH = innerWidget->height() - m_statLab->height() - guitar->height(); // max possible height of score
-  int foreWidth = score->widthToHeight(maxPossH);
-	if (gl->instrument != e_noInstrument) {
-    if (foreWidth > innerWidget->width() / 2) {
-      if (m_scoreLay->count() < 2) { // if it is under noteName
-        m_rightLay->removeWidget(pitchView);
-        m_scoreLay->insertWidget(1, pitchView);
-      }
-    } else {
-      if (m_scoreLay->count() > 1) // if it is under score and there is enough horizontal space for new width
-          if (score->widthToHeight(score->height() + pitchView->height() + m_scoreLay->spacing()) < innerWidget->width() / 2) {
-           m_scoreLay->removeWidget(pitchView);
-           m_rightLay->addWidget(pitchView);
-      }
-    }
-	}
-	if (m_scoreLay->count() > 1) //update possible height when pitchView went under score
-			foreWidth = score->widthToHeight(maxPossH - pitchView->height());
-	if (foreWidth > innerWidget->width() / 2) {
-			qreal hScale = (innerWidget->width() / 2.0) / (qreal)foreWidth;
-			score->setMaximumHeight((maxPossH - pitchView->height()) * hScale);
-	} else
-			score->setMaximumHeight(16777215);
-}
-*/
 
 void MainWindow::adjustAmbitus() {
 	if (!sound->sniffer)
@@ -653,7 +598,6 @@ void MainWindow::updateSize(QSize newS) {
 	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
-  Tmenu::setYOffset(m_statLab);
 	int newGuitH = (newS.height() - bar->height()) * 0.25;
 	if (progress) {
 		progress->resize(m_statFontSize);
@@ -739,14 +683,4 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 		}
 }
 
-/*
-bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
-    if (event->type() == QEvent::FileOpen) {
-				QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);
-				openFile(fileEvent->file());
-				return true;
-		} else { // standard event processing
-				return QObject::eventFilter(obj, event);
-		}
-}
- */
+

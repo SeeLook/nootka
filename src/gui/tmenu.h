@@ -23,22 +23,24 @@
 
 
 /** 
- * This is ordinary QMenu class but it shifts menu position of @p yPosOffset
- * To display menu below Nootka status bar (if it is visible)
+ * This is ordinary QMenu class 
+ * but during @p showEvent() it shifts menu position to parent widget Y coordinate
+ * To display menu below Nootka status bar (if it is visible) 
+ * and pointer to status widget was set through @p setStatusWidget()
  */
 class Tmenu : public QMenu
 {
 public:
   explicit Tmenu(QWidget* parent = 0);
   
-      /** Checks is given status lab visible and  shifts drop down menu position - y coordinate. */
-  static void setYOffset(const QWidget* statusLab);
+      /** Sets status widget pointer to determine is it visible and set proper menu position. */
+  static void setStatusWidget(QWidget* stat) { m_statusWidget = stat; }
   
 protected:  
   virtual void showEvent(QShowEvent* event);
   
 private:
-  static int m_yPosOffset;
+  static QWidget*           m_statusWidget;
   
 };
 

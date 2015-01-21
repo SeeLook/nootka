@@ -24,20 +24,19 @@
 #include <gui/tmenu.h>
 #include <QtWidgets>
 
-TscoreActions::TscoreActions(TmainScore* sc) :
-	QObject(sc),
-	m_score(sc)
+TscoreActions::TscoreActions(TmainScore* score) :
+	QObject(score),
+	m_score(score)
 {
-  m_menu = new Tmenu(sc);
-  m_button = new QToolButton(sc);
+  m_menu = new Tmenu(score);
+  m_button = new QToolButton(score);
   m_button->setIcon(QIcon(Tpath::img("score")));
   m_button->setText(tr("Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."));
   m_button->setStatusTip(tr("Manage and navigate the score."));
-  m_button->setMenu(m_menu);
   m_button->setPopupMode(QToolButton::InstantPopup);
   m_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
   
-  m_mainAction = new QWidgetAction(sc);
+  m_mainAction = new QWidgetAction(score);
   m_mainAction->setDefaultWidget(m_button);
   
   m_accidsAct = createAction(tr("Extra accidentals"), SLOT(extraAccidsSlot()));
@@ -53,23 +52,25 @@ TscoreActions::TscoreActions(TmainScore* sc) :
   m_inZoom->setShortcuts(QKeySequence::keyBindings(QKeySequence::ZoomIn));
   m_menu->addSeparator();
   m_prevNote = createAction(tr("Previous note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Left), 
-                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowBack)));
+                             QIcon(score->style()->standardIcon(QStyle::SP_ArrowBack)));
   m_firstNote = createAction(tr("First note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Home), 
-                             QIcon(sc->style()->standardIcon(QStyle::SP_MediaSkipBackward)));
+                             QIcon(score->style()->standardIcon(QStyle::SP_MediaSkipBackward)));
   m_staffUp = createAction(tr("Staff above"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_PageUp), 
-                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowUp)));
+                             QIcon(score->style()->standardIcon(QStyle::SP_ArrowUp)));
   m_staffDown = createAction(tr("Staff below"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_PageDown), 
-                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowDown)));
+                             QIcon(score->style()->standardIcon(QStyle::SP_ArrowDown)));
   m_lastNote = createAction(tr("Last note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_End), 
-                             QIcon(sc->style()->standardIcon(QStyle::SP_MediaSkipForward)));
+                             QIcon(score->style()->standardIcon(QStyle::SP_MediaSkipForward)));
   m_nextNote = createAction(tr("Next note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Right), 
-                             QIcon(sc->style()->standardIcon(QStyle::SP_ArrowForward)));
+                             QIcon(score->style()->standardIcon(QStyle::SP_ArrowForward)));
   m_delCurrNote = createAction(tr("Delete note"), SLOT(removeCurrentNote()), QKeySequence(Qt::Key_Delete), 
-                             QIcon(sc->style()->standardIcon(QStyle::SP_LineEditClearButton)));
+                             QIcon(score->style()->standardIcon(QStyle::SP_LineEditClearButton)));
   m_menu->addSeparator();
 	
   m_clear = createAction(tr("Delete all notes"), SLOT(deleteNotes()), QKeySequence("Shift+DEL"), QIcon(Tpath::img("clear-score")));
   m_clear->setStatusTip(tr("Delete all notes from the score"));
+  
+  m_button->setMenu(m_menu);
 }
 
 
