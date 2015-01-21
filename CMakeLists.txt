@@ -59,7 +59,7 @@ file(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
 if(APPLE OR WIN32)
   find_package(Qt5Core)
   get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
-get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
+  get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 	set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
 	install(FILES gpl DESTINATION "${INS_PREF}")
   LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
@@ -72,12 +72,6 @@ install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
 
 file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*-guitar.ogg")
 install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
-
-if(NOT UNIX) # Windows icons
-  install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-icon.rc picts/nootka-levels.ico picts/pack.ico picts/nootka.rc DESTINATION "${INS_PREF}/picts") #ico for windows
-#  install(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
-  install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh DESTINATION "${INS_PREF}" )
-endif(NOT UNIX)
 
 # files related with Linux (mime, desktop entry, icons)
 if(UNIX AND NOT APPLE)
@@ -102,10 +96,27 @@ if(UNIX AND NOT APPLE)
   endif (DPKG_CMD)
 	install(FILES copyright DESTINATION share/doc/nootka)
 	install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
-	INSTALL(FILES packaging/nootka-updater.1.gz DESTINATION share/man/man1)
+	install(FILES packaging/nootka-updater.1.gz DESTINATION share/man/man1)
 endif(UNIX AND NOT APPLE)
 
-
+if(WIN32)
+  get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
+  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY)
+  file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
+  install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
+#   install( CODE "
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/
+#     COMMAND ${CMAKE_COMMAND} -E copy_if_different picts/pack.ico ${CMAKE_BINARY_DIR}/nsis/ ) " )
+#  install(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
+  install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
+  install(FILES "${QT_BINARY_DIR}/Qt5Core.dll" "${QT_BINARY_DIR}/Qt5Gui.dll" "${QT_BINARY_DIR}/Qt5Widgets.dll" "${QT_BINARY_DIR}/Qt5Network.dll" "${QT_BINARY_DIR}/Qt5PrintSupport.dll" DESTINATION "${INS_PREF}")
+  install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
+  install(FILES ${ICU_DLLS} DESTINATION ${INS_PREF})
+  install(FILES ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll DESTINATION "${INS_PREF}/platforms")
+  if(MINGW) # mingw related
+    install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" DESTINATION "${INS_PREF}")
+  endif(MINGW)
+endif(WIN32)
 
 ###########################################################################
 # uninstall target
