@@ -305,12 +305,12 @@ bool TsimpleScore::isPianoStaff() {
 
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
-  if (bgColor == -1)
-    viewport()->setStyleSheet(Tcolor::bgTag(bgColor));
-  else {
+//   if (bgColor == -1) {
+//     viewport()->setStyleSheet(Tcolor::bgTag(bgColor)); // it doesn't work under win
+//   } else {
     bgColor.setAlpha(230);
     viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
-  }
+//   }
 }
 
 //##########################################################################################################

@@ -21,7 +21,7 @@
 #include <QShowEvent>
 
 /*static*/
-int Tmenu::m_yPosOffset = 0;
+QWidget* Tmenu::m_statusWidget = 0;
 
 
 
@@ -31,19 +31,17 @@ Tmenu::Tmenu(QWidget* parent) :
 {}
 
 
-void Tmenu::setYOffset(const QWidget* statusLab) {
-  if (statusLab->isVisible())
-    m_yPosOffset = statusLab->height() * 1.3;
-  else
-    m_yPosOffset = 0;
-}
-
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
 void Tmenu::showEvent(QShowEvent* event) {
-  move(x(), y() + m_yPosOffset);
+  if (parentWidget() && m_statusWidget && m_statusWidget->isVisible())
+#if defined (Q_OS_WIN)
+    move(x(), y() + m_statusWidget->height() + 10);
+#else
+    move(x(), parentWidget()->y() + 2);
+#endif
   QWidget::showEvent(event);
 }
 
