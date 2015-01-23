@@ -20,6 +20,7 @@
 #include "tpitchview.h"
 #include "tvolumeview.h"
 #include "tintonationview.h"
+#include <tcolor.h>
 #include <QTimer>
 #include <QLabel>
 #include <QGroupBox>
@@ -96,7 +97,6 @@ void TpitchView::watchInput() {
     m_volumeView->setDisabled(false);
     m_watchTimer->start(75);
     connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
-    m_volumeView->setDisabled(false);
     if (m_intoView->accuracy() != TintonationView::e_noCheck)
         m_intoView->setDisabled(false);
   }
@@ -160,8 +160,18 @@ void TpitchView::resize(int fontSize) {
 
 
 void TpitchView::markAnswer(const QColor& col) {
-	setBgColor(col);
+  if (col == Qt::transparent)
+    setBgColor(col);
+  else
+    setBgColor(Tcolor::merge(col, palette().window().color()));
 	update();
+//   if (col == Qt::transparent)
+//     setStyleSheet("");
+//   else {
+//     QColor bgColor = Tcolor::merge(col, palette().window().color());
+//     bgColor.setAlpha(230);
+//       setStyleSheet(QString("border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+//   }
 }
 
 
@@ -254,13 +264,12 @@ void TpitchView::inputDeviceDeleted() {
 //###################              EVENTS              ############################################
 //#################################################################################################
 
-void TpitchView::paintEvent(QPaintEvent* )
-{
+void TpitchView::paintEvent(QPaintEvent* ) {
 	if (m_bgColor != Qt::transparent) {
-			QPainter painter(this);
-			painter.setPen(Qt::NoPen);
-			painter.setBrush(QBrush(m_bgColor));
-			painter.drawRoundedRect(painter.viewport(), 2, 2 );
+    QPainter painter(this);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QBrush(m_bgColor));
+    painter.drawRoundedRect(painter.viewport(), 10, 10);
 	}
 }
 

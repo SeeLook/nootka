@@ -488,7 +488,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 					QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
 					// Give a student some time to prepare itself for next question in expert mode
 					// It avoids capture previous played sound as current answer
-    }
+    } else
+        mW->sound->wait(); // stop sniffing if answer is not a played sound
     
     mW->bar->setForQuestion(curQ.questionAsSound(), curQ.questionAsSound() && curQ.answerAsNote());
 		m_penalty->startQuestionTime();
@@ -831,24 +832,24 @@ void TexamExecutor::markAnswer(TQAunit& curQ) {
 	} else {
 		switch (curQ.answerAs) {
 			case TQAtype::e_asNote:
-				mW->score->markAnswered(QColor(markColor));
+				mW->score->markAnswered(markColor);
 				break;
 			case TQAtype::e_asFretPos:
-				mW->guitar->markAnswer(QColor(markColor));
+				mW->guitar->markAnswer(markColor);
 				break;
 			case TQAtype::e_asName:
 				mW->noteName->markNameLabel(markColor);      
 				break;
 			case TQAtype::e_asSound:
-				mW->pitchView->markAnswer(QColor(markColor.name()));
+				mW->pitchView->markAnswer(markColor);
 				break;
 		}
 		switch (curQ.questionAs) {
 			case TQAtype::e_asNote:
-				mW->score->markQuestion(QColor(markColor));
+				mW->score->markQuestion(markColor);
 				break;
 			case TQAtype::e_asFretPos:
-				mW->guitar->markQuestion(QColor(markColor));
+				mW->guitar->markQuestion(markColor);
 				break;
 			case TQAtype::e_asName:
 				mW->noteName->markNameLabel(markColor);      
@@ -1251,10 +1252,10 @@ void TexamExecutor::prepareToSettings() {
 
 
 void TexamExecutor::settingsAccepted() {
-// set new colors in exam view
+// set new colors in exam view - so far it is not allowed during exams
 // 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
 // 															Tcolor::bgTag(gl->EnotBadColor));
-	if (m_exam->count() && m_exam->curQ().answerAsSound())
+	if (m_exam->count() && m_exam->curQ().answerAsSound() && !mW->pitchView->isPaused())
 		startSniffing();
 	qApp->installEventFilter(m_supp);
 }
