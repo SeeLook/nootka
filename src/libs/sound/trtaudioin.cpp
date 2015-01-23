@@ -63,19 +63,20 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
 TaudioIN*        			TaudioIN::m_instance = 0;
 bool                  TaudioIN::m_goingDelete = false;
 
-//------------------------------------------------------------------------------------
-//------------          constructor     ----------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################              CONSTRUCTOR         ############################################
+//#################################################################################################
+
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
-    QObject(parent),
-    TrtAudio(params, e_input, inCallBack),
-    m_pitch(0),
-    m_volume(0.0),
-    m_state(e_stopped),
-    m_stoppedByUser(false),
-    m_loPitch(15), m_hiPitch(140),
-    m_noteWasStarted(false),
-    m_currentRange(1)
+  QObject(parent),
+  TrtAudio(params, e_input, inCallBack),
+  m_pitch(0),
+  m_volume(0.0),
+  m_state(e_stopped),
+  m_stoppedByUser(false),
+  m_loPitch(15), m_hiPitch(140),
+  m_noteWasStarted(false),
+  m_currentRange(1)
 {
   if (m_instance) {
     qDebug() << "Nothing of this kind... TaudioIN already exist!";
@@ -104,9 +105,9 @@ TaudioIN::~TaudioIN()
   resetCallBack();
 }
 
-//------------------------------------------------------------------------------------
-//------------          methods         ----------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
 
 void TaudioIN::setAudioInParams() {
   setDetectionMethod(audioParams()->detectMethod);
@@ -159,27 +160,33 @@ void TaudioIN::setDetectionMethod(int method) {
 }
 
 
-//------------------------------------------------------------------------------------
-//------------          slots       --------------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################         PUBLIC SLOTS             ############################################
+//#################################################################################################
+
 void TaudioIN::startListening() {
 	if (!streamParams()) {
 			qDebug() << "Can not start listening due to uninitialized input";
 			return;
-	} else
-// 		qDebug() << "startListening";
-	m_volume = 0.0;
-	if (!m_stoppedByUser && startStream())
-    setState(e_listening);
+	}
+	if (state() != e_listening) {
+    qDebug() << "start listening";
+    m_volume = 0.0;
+    if (!m_stoppedByUser && startStream())
+      setState(e_listening);
+  }
 }
 
 
 void TaudioIN::stopListening() {
-	m_volume = 0.0;
-	m_LastChunkPitch = 0.0;
-//   abortStream();
-  setState(e_stopped);
-	m_pitch->resetFinder();
+  if (state() != e_stopped) {
+    qDebug() << "stop listening";
+    m_volume = 0.0;
+    m_LastChunkPitch = 0.0;
+  //   abortStream();
+    setState(e_stopped);
+    m_pitch->resetFinder();
+  }
 }
 
 
