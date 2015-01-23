@@ -116,7 +116,6 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
 //-------------------------------------------------------------------
 // Creating GUI elements
-//     innerWidget = new QWidget(this);
   bar = new TtoolBar(gl->version, this);
   bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); // otherwise it follows global Qt style settings
 

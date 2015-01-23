@@ -1,4 +1,4 @@
-1.1.5
+1.1.5 beta
      - detailed preview of melodies in charts
      - added new tool button with menu for a score
      - A note from played exam melody can be selected to start playing from it
@@ -7,7 +7,7 @@
      - fixing bugs, mistakes and glitches...
     Under the hood
      - external executable-s converted to plugins, loaded on demand
-     - audio device has single instance shared with settings plugin as well
+     - audio device has single instance shared with external settings plugin
 
 1.1.4 alpha
      - exam tips are storing their position when moved by user

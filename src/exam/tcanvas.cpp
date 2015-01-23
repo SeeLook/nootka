@@ -550,7 +550,9 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 			fixWidthOverScore(tip);
 	} else { // middle of the guitar
 			geoRect = m_window->guitar->geometry();
-		}
+      if (m_exam && !m_exam->melodies()) // in single mode put a tip on the right guitar side, below note name
+        geoRect.setRect(m_window->noteName->x(), m_window->guitar->y(), m_window->noteName->width(), m_window->guitar->height());
+  }
 	tip->setPos(qMin(geoRect.x() + (geoRect.width() - tip->realW()) / 2, m_window->width() - tip->realW() - 5.0),
 							qMin(geoRect.y() + (geoRect.height() - tip->realH()) / 2, m_window->height() - tip->realH() - 5.0));
 	// qMin guards a tip position in scene boundaries 
@@ -575,8 +577,8 @@ void Tcanvas::setWhatNextPos() {
   if (!m_nameFree && m_whatTip->realH() != maxTipHeight)
 			m_whatTip->setScale((qreal)maxTipHeight / m_whatTip->realH());
 	if (m_tipPos == e_nameOver) {
-		if (m_whatTip->realW() != m_window->width() * 0.5)
-			m_whatTip->setScale((m_window->width() * 0.5) / m_whatTip->realW());
+		if (m_whatTip->realW() != m_window->width() * 0.45)
+			m_whatTip->setScale((m_window->width() * 0.45) / m_whatTip->realW());
 		if (m_whatTip->realH() > m_window->score->height())
 			m_whatTip->setScale((qreal)(m_window->score->height()) / m_whatTip->realH());
 	} else
