@@ -19,10 +19,9 @@ MAJOR:
 - also switching clefs with set some key sucks
 - do not continue answering with melody that was fully or too much corrected
 - try to avoid many resizeEvent-s of TmultiScore during window size change
-- think to disable pitch view during melodies correction - it is just stopped now
 - exercise file still can be corrupted
 - avoid analyzing of empty exercise
-- pitch view in single mode has to has locked button when question is played sound - or hide it at all
+- lock right button and space bar during correction
 
 - certificates has to be adjusted to melodies
 - canvas has to recognize when widgets are hidden and doesn't start correcting animations 
@@ -31,10 +30,10 @@ MAJOR:
 MINOR:
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - clicked link of tip locks next click - probably due to grabbed focus - however click outside tip unlocks it
-- move what_next/question tips to the right over guitar in single note mode
 - when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
 - auto hidden tool bar remains big after decreased window size
+- on level load (i.e. Master) intonation combo reminds disabled even if q/a allowing it
 - There is unused class TnotePixmap only with default clef - use it or delete
 - vertical name layout is probably unused - clear it then
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
