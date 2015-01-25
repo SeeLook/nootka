@@ -54,7 +54,10 @@ TmelodyView::TmelodyView(Tmelody* melody, QWidget* parent) :
   TscoreScene *scoreScene = new TscoreScene(this);
   setScene(scoreScene);
   
+  bool skip = m_melody->title().contains(";skip");
   for (int s = 0; s <= (m_melody->length() / (m_maxNotes + 1)); ++s) {
+    if (s > 0 && skip)
+      break;
     TscoreStaff *staff =  new TscoreStaff(scoreScene, qMin(m_maxNotes, m_melody->length() - s * m_maxNotes));
     staff->onClefChanged(Tclef(m_melody->clef()));
     staff->setStafNumber(s);
@@ -64,11 +67,19 @@ TmelodyView::TmelodyView(Tmelody* melody, QWidget* parent) :
       staff->scoreKey()->showKeyName(false);
     }
     staff->setDisabled(true);
-    for (int n = 0; n < staff->count(); ++n) {
-      if (s * m_maxNotes + n < m_melody->length())
-        staff->setNote(n, m_melody->note(s * m_maxNotes + n)->p());
-      else
-        break;
+    if (skip) { // cross strike the staff
+      QGraphicsLineItem *leftToRightLine = new QGraphicsLineItem(0, staff->hiNotePos() + 2, staff->width(), staff->loNotePos() - 2, staff);
+        leftToRightLine->setPen(QPen(TquestionPoint::wrongColor(), 1.5, Qt::SolidLine, Qt::RoundCap));
+      QGraphicsLineItem *rightToLeftLine = new QGraphicsLineItem(staff->width(), staff->hiNotePos() + 2, 0, staff->loNotePos() - 2, staff);
+        rightToLeftLine->setPen(QPen(TquestionPoint::wrongColor(), 1.5, Qt::SolidLine, Qt::RoundCap));
+    }
+    else { // staff with melody
+      for (int n = 0; n < staff->count(); ++n) {
+        if (s * m_maxNotes + n < m_melody->length())
+          staff->setNote(n, m_melody->note(s * m_maxNotes + n)->p());
+        else
+          break;
+      }
     }
     qreal staffOff = 0.0;
     if (m_melody->clef() == Tclef::e_pianoStaff)
@@ -84,6 +95,8 @@ TmelodyView::TmelodyView(Tmelody* melody, QWidget* parent) :
 
 
 void TmelodyView::markMistakes(QList< quint32 > mistakes) {
+  if (m_melody->title().contains(";skip"))
+    return;
   for (int i = 0; i < mistakes.size(); ++i) {
     if (i < m_melody->length())
       m_staves[i / m_maxNotes]->noteSegment(i % m_maxNotes)->markNote(answerColor(mistakes[i]));
@@ -92,9 +105,10 @@ void TmelodyView::markMistakes(QList< quint32 > mistakes) {
 
 
 void TmelodyView::clearMistakes() {
-  for (int i = 0; i < m_melody->length(); ++i) {
+  if (m_melody->title().contains(";skip"))
+    return;
+  for (int i = 0; i < m_melody->length(); ++i)
     m_staves[i / m_maxNotes]->noteSegment(i)->markNote(-1);
-  }
 }
 
 
@@ -112,6 +126,7 @@ void TmelodyView::resizeEvent(QResizeEvent* event) {
   setFixedWidth(scRec.width() * transform().m11() + horizontalScrollBar()->width() / transform().m11());  
   QGraphicsView::resizeEvent(event);
 }
+
 
 
 

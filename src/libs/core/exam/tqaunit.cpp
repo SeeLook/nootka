@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,42 +40,42 @@ TQAunit::TQAunit(Texam* exam)
 	qa_2.note = Tnote(0,0,0);
 	qa_2.pos = TfingerPos();
 	m_melody = 0;
-	m_attempts = 0;
+	attemptList = 0;
 	m_effectiveness = 0.0;
 	m_exam = exam;
 	m_srcMelody = e_noMelody;
-	m_idOfMelody = -1;
+	idOfMelody = -1;
 	m_answered = false;
 }
 
 
-TQAunit::TQAunit(const TQAunit& otherUnit)
-{
-	questionAs = otherUnit.questionAs;
-	answerAs = otherUnit.answerAs;
-	qa = otherUnit.qa;
-	setStyle(otherUnit.styleOfQuestion(), otherUnit.styleOfAnswer());
-	setMistake(otherUnit.mistake());
-	qa_2 = otherUnit.qa_2;
-	key = otherUnit.key;
-	time = otherUnit.time;
-	if (otherUnit.melody() || otherUnit.attemptsCount())
-		qDebug() << "TQAunit is going to be copied when pointer inside exist.\nTROUBLES ARE GUARANTEED!\nTo avoid them keep TQAunit instance in some global scope and use reference or pointer to it.";
-	m_melody = 0;
-	m_attempts = 0;
-	m_answered = otherUnit.answered();
-	m_effectiveness = otherUnit.effectiveness();
-	m_exam = otherUnit.exam();
-	m_srcMelody = otherUnit.melodySource();
+void TQAunit::copy(const TQAunit& otherUnit) {
+  questionAs = otherUnit.questionAs;
+  answerAs = otherUnit.answerAs;
+  qa = otherUnit.qa;
+  setStyle(otherUnit.styleOfQuestion(), otherUnit.styleOfAnswer());
+  setMistake(otherUnit.mistake());
+  qa_2 = otherUnit.qa_2;
+  key = otherUnit.key;
+  time = otherUnit.time;
+  if (otherUnit.melody() || otherUnit.attemptsCount())
+    qDebug() << "TQAunit is going to be copied when pointer inside exist.\nTROUBLES ARE GUARANTEED!\nTo avoid them keep TQAunit instance in some global scope and use reference or pointer to it.";
+  m_melody = otherUnit.melody();
+  attemptList = otherUnit.attemptList;
+  idOfMelody = otherUnit.idOfMelody;
+  m_answered = otherUnit.answered();
+  m_effectiveness = otherUnit.effectiveness();
+  m_exam = otherUnit.exam();
+  m_srcMelody = otherUnit.melodySource();
 }
 
 
 TQAunit::~TQAunit()
 {
-	if (m_attempts) {
-		for (int i = 0; i < m_attempts->size(); ++i)
-			delete m_attempts->at(i);
-		delete m_attempts;
+	if (attemptList) {
+		for (int i = 0; i < attemptList->size(); ++i)
+			delete attemptList->at(i);
+		delete attemptList;
 	}
 	deleteMelody();
 }
@@ -103,17 +103,17 @@ void TQAunit::setMistake(Emistake mis) {
 
 
 void TQAunit::newAttempt() {
-	if (!m_attempts)
-		m_attempts = new QList<Tattempt*>;
-	(*m_attempts) << new Tattempt();
+	if (!attemptList)
+		attemptList = new QList<Tattempt*>;
+	(*attemptList) << new Tattempt();
 }
 
 
 int TQAunit::totalPlayBacks() {
 	int result = 0;
-	if (m_attempts) {
-		for (int i = 0; i < m_attempts->size(); ++i)
-			result += m_attempts->at(i)->playedCount();
+	if (attemptList) {
+		for (int i = 0; i < attemptList->size(); ++i)
+			result += attemptList->at(i)->playedCount();
 	}
 	return result;
 }
@@ -131,13 +131,13 @@ void TQAunit::addMelody(Tmelody* mel, TQAunit::EmelodySrc source, int id) {
 	deleteMelody();
 	m_srcMelody = source;
 	m_melody = mel;
-	m_idOfMelody = id;
+	idOfMelody = id;
 }
 
 
 
 void TQAunit::updateEffectiveness() {
-	if (m_attempts && attemptsCount()) { // melody
+	if (attemptList && attemptsCount()) { // melody
 		double fee = pow(ATTEMPT_FEE, (double)(attemptsCount() - 1));  // decrease effectiveness by 4% for every additional attempt
 		m_effectiveness = lastAttempt()->effectiveness() * fee; // first attempt - power = 0, fee is 1
 	} else { // single note
@@ -171,9 +171,9 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
 						xml.writeAttribute("title", melody()->title());
 						melody()->toXml(xml);
 				} else if (m_srcMelody == e_otherUnit)
-						xml.writeAttribute("qNr", QVariant(m_idOfMelody).toString());
+						xml.writeAttribute("qNr", QVariant(idOfMelody).toString());
 				else if (m_srcMelody == e_list)
-						xml.writeAttribute("id", QVariant(m_idOfMelody).toString());
+						xml.writeAttribute("id", QVariant(idOfMelody).toString());
 			xml.writeEndElement();
 			xml.writeStartElement("attempts");
 			for (int i = 0; i < attemptsCount(); ++i) {
@@ -220,7 +220,7 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 			} else if (xml.attributes().hasAttribute("qNr")) {
 					int qNr = xml.attributes().value("qNr").toInt();
 					if (qNr < m_exam->count())
-						addMelody(m_exam->answList()->at(qNr).melody(), e_otherUnit, qNr);
+						addMelody(m_exam->answList()->at(qNr)->melody(), e_otherUnit, qNr);
 					else {
 						ok = false;
 						qDebug() << "TQAunit has a melody that points to question number which doesn't exist in exam list.";
@@ -235,7 +235,7 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 						if (lastAttempt()->isEmpty()) { // Empty attempts are never written - they never occurs
 								qDebug() << "TQAunit has wrong attempt" << attemptsCount();
 								ok = false;
-								m_attempts->removeLast();
+								attemptList->removeLast();
 						}
 					} else
 							xml.skipCurrentElement();

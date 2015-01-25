@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,17 +25,17 @@ class TgroupedQAunit;
 class Tlevel;
 class TQAunit;
 
-/** This is X axis of charts. It represents qustions.
- * Its size is (length) is calcutaled automatically by questions number.
+/** 
+ * This is X axis of charts. It represents questions.
+ * Its size is (length) is calculated automatically by questions number.
  */
 class TXaxis : public TabstractAxis
 {
 
 public:
-  TXaxis(QList<TQAunit> *answers = 0, Tlevel *level = 0);
-  virtual ~TXaxis();
+  TXaxis(QList<TQAunit*>* answers = 0, Tlevel* level = 0);
   
-  void setAnswersList(QList<TQAunit> *answers = 0, Tlevel *level = 0);
+  void setAnswersList(QList<TQAunit*>* answers, Tlevel* level = 0);
   void setAnswersLists(QList<TgroupedQAunit> &listOfLists, Tlevel *level = 0);
   void setAnswersForBarChart(QList<TgroupedQAunit> &listOfLists);
   int questWidth() { return m_qWidth; } // pixel width of question on the axisz
@@ -43,13 +43,13 @@ public:
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect();
-  void setTicText(QGraphicsTextItem* tic, TQAunit &unit, int questNr = 0);
+  void setTicText(QGraphicsTextItem* tic, TQAunit* unit, int questNr = 0);
   
 private:
-  const int m_qWidth; // pixel width of question on the axis
-  QList<TQAunit> *m_answers;
-  Tlevel *m_level;
-  QList<QGraphicsTextItem*> m_ticTips;
+  const int                     m_qWidth; // pixel width of question on the axis
+  QList<TQAunit*>              *m_answers;
+  Tlevel                       *m_level;
+  QList<QGraphicsTextItem*>     m_ticTips;
 };
 
 #endif // TXAXIS_H

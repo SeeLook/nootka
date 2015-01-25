@@ -30,14 +30,14 @@
 // #include <QDebug>
 
 
-TmainLine::TmainLine(QList<TQAunit>* answers, Tchart* chart, TmainLine::EyValue yVal) :
+TmainLine::TmainLine(QList<TQAunit*>* answers, Tchart* chart, TmainLine::EyValue yVal) :
   m_answers(answers),
   m_chart(chart)
 {  
   for(int i = 0; i < m_answers->size(); i++) {
     double xPos = m_chart->xAxis->mapValue(i + 1) + m_chart->xAxis->pos().x();
     TqaPtr tmpQA;
-    tmpQA.qaPtr = &m_answers->operator[](i);
+    tmpQA.qaPtr = m_answers->operator[](i);
     tmpQA.nr = i + 1;
     m_points <<  new TquestionPoint(tmpQA);
     m_chart->scene->addItem(m_points[i]);
@@ -45,19 +45,19 @@ TmainLine::TmainLine(QList<TQAunit>* answers, Tchart* chart, TmainLine::EyValue 
 		qreal yy;
     switch (yVal) {
       case e_playedCount:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).totalPlayBacks());
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->totalPlayBacks());
         break;
       case e_prepareTime:
-        yy = m_chart->yAxis->mapValue((double)m_answers->operator[](i).attempt(0)->prepareTime() / 10.0);
+        yy = m_chart->yAxis->mapValue((double)m_answers->operator[](i)->attempt(0)->prepareTime() / 10.0);
         break;
       case e_attemptsCount:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).attemptsCount());
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->attemptsCount());
         break;
       case e_effectiveness:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).effectiveness());
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->effectiveness());
         break;
       default:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i).getTime()); // default - answer time 
+        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->getTime()); // default - answer time 
         break;
     }
     m_points[i]->setPos(xPos, yy);
@@ -82,27 +82,27 @@ TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
   
   for(int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++) {
-        double xPos = m_chart->xAxis->mapValue(cnt+1) + m_chart->xAxis->pos().x();
-        m_points << new TquestionPoint(listOfLists[i].operator[](j));
-        m_chart->scene->addItem(m_points[cnt]);
-        m_points[cnt]->setZValue(50);
-        m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j).qaPtr->getTime()));
-        if (cnt) {
-					TstaffLineChart *line = new TstaffLineChart();
-						m_chart->scene->addItem(line);
-					line->setLine(m_points[cnt-1]->pos(), m_points[cnt]->pos());
-					line->setZValue(45);
-					m_lines << line;
-        } 
-        cnt++;
+      double xPos = m_chart->xAxis->mapValue(cnt+1) + m_chart->xAxis->pos().x();
+      m_points << new TquestionPoint(listOfLists[i].operator[](j));
+      m_chart->scene->addItem(m_points[cnt]);
+      m_points[cnt]->setZValue(50);
+      m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j).qaPtr->getTime()));
+      if (cnt) {
+        TstaffLineChart *line = new TstaffLineChart();
+          m_chart->scene->addItem(line);
+        line->setLine(m_points[cnt-1]->pos(), m_points[cnt]->pos());
+        line->setZValue(45);
+        m_lines << line;
+      } 
+      cnt++;
     }
   }
 }
 
 
 TmainLine::~TmainLine() {
-    m_points.clear(); // clear a scene from deleted elements
-    m_lines.clear();
+  m_points.clear(); // clear a scene from deleted elements
+  m_lines.clear();
 }
 
 

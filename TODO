@@ -22,6 +22,7 @@ MAJOR:
 - exercise file still can be corrupted
 - avoid analyzing of empty exercise
 - lock right button and space bar during correction
+- analyzer crash when tip is displayed and CTRL+e is pressed
 
 - certificates has to be adjusted to melodies
 - canvas has to recognize when widgets are hidden and doesn't start correcting animations 

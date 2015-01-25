@@ -70,7 +70,7 @@ signals:
     
 protected:    
         /** Returns html-formatted question text. */
-    QString getQuestion(TQAunit &question, int questNr, Tlevel *level, double scale = 0);
+    QString getQuestion(TQAunit* question, int questNr, Tlevel* level, double scale = 0);
     QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style);
         
     

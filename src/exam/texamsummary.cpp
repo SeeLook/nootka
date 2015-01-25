@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -60,60 +60,62 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   m_closeButt(0), m_examButton(0),
   m_mainWIndow(parent)
 {
-    setWindowTitle(tr("Exam results"));
-		setWindowIcon(QIcon(Tpath::img("startExam")));
-    QHBoxLayout *lay = new QHBoxLayout();
-  //-------  left layout -----------------------
-    m_leftLay = new QVBoxLayout();
-    QString font20 = "<b style=\"font-size: 20px\">";
-    QLabel *userNameLab = new QLabel(tr("student:") + QString("  %2<u>%1</u></b>").arg(exam->userName()).arg(font20), this);
-    m_leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
-    TroundedLabel *questNrLab = new TroundedLabel("<center>" + tr("Number of questions:") + QString("%2  %1</b>").arg(exam->count()).arg(font20) +
-                      QString("<br>%1: %2%3</b>").arg(TexTrans::corrAnswersNrTxt()).arg(font20).
-                          arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
-                      QString("<br>%1: %2%3</b>").arg(TexTrans::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
-                      QString("<br>%1: %2%3</b>").arg(TexTrans::halfMistakenTxt()).arg(font20).arg(exam->halfMistaken())
-        ,this);
-    m_leftLay->addWidget(questNrLab);
-    QVBoxLayout *timeLay = new QVBoxLayout();
-    QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
-    TroundedLabel *timeLab = new TroundedLabel("<table>" +
-    row2(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime() * 1000)) +
-    row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime() * 1000)) +
-    row2(TexTrans::averAnsverTimeTxt(), QString("%1 s").
-        arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
-    "</table>", this);
-    timeLab->setContentsMargins(5, 5, 5, 5);
-    timeLay->addWidget(timeLab);
-  
-    timeGr->setLayout(timeLay);
-    m_leftLay->addWidget(timeGr);
-	
-    QHBoxLayout *buttLay =new QHBoxLayout;
+  setWindowTitle(tr("Exam results"));
+  setWindowIcon(QIcon(Tpath::img("startExam")));
+  QHBoxLayout *lay = new QHBoxLayout();
+//-------  left layout -----------------------
+  m_leftLay = new QVBoxLayout();
+  QString font20 = "<b><big>";
+  QLabel *userNameLab = new QLabel(tr("student:") + QString("  %2<u>%1</u></b>").arg(exam->userName()).arg(font20), this);
+  m_leftLay->addWidget(userNameLab, 0, Qt::AlignCenter);
+  TroundedLabel *questNrLab = new TroundedLabel("<center>" + tr("Number of questions:") + QString("%2  %1</big></b>").arg(exam->count()).arg(font20) +
+                    QString("<br>%1: %2%3</big></b>").arg(TexTrans::corrAnswersNrTxt()).arg(font20).
+                        arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
+                    QString("<br>%1: %2%3</big></b>").arg(TexTrans::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
+                    QString("<br>%1: %2%3</big></b>").arg(TexTrans::halfMistakenTxt()).arg(font20).arg(exam->halfMistaken())
+      ,this);
+  m_leftLay->addWidget(questNrLab);
+  QVBoxLayout *timeLay = new QVBoxLayout();
+  QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
+  TroundedLabel *timeLab = new TroundedLabel("<table>" +
+  row2(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime() * 1000)) +
+  row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime() * 1000)) +
+  row2(TexTrans::averAnsverTimeTxt(), QString("%1 s").
+      arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
+  "</table>", this);
+  timeLab->setContentsMargins(5, 5, 5, 5);
+  timeLay->addWidget(timeLab);
 
-    QPushButton *analyseButt = new QPushButton(tr("Analyze"), this);
+  timeGr->setLayout(timeLay);
+  m_leftLay->addWidget(timeGr);
+
+  QHBoxLayout *buttLay =new QHBoxLayout;
+
+  QPushButton *analyseButt = new QPushButton(tr("Analyze"), this);
     analyseButt->setIcon(QIcon(Tpath::img("charts")));
     analyseButt->setIconSize(QSize(48, 48));
-    m_okButt = new QPushButton(tr("Close"), this);
-    if (cont) {
-        m_okButt->setText(tr("Continue"));
-        m_okButt->setIcon(QIcon(Tpath::img("exam")));
-        m_closeButt = new QPushButton(tr("Discard"), this);
-        m_closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-        m_closeButt->setIconSize(QSize(48, 48));
-        connect(m_closeButt, SIGNAL(clicked()), this, SLOT(closeSlot()));
-    } else
-        m_okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-    m_okButt->setIconSize(QSize(48, 48));
+  if (exam->count() == 0)
+    analyseButt->setDisabled(true);
+  m_okButt = new QPushButton(tr("Close"), this);
+  if (cont) {
+      m_okButt->setText(tr("Continue"));
+      m_okButt->setIcon(QIcon(Tpath::img("exam")));
+      m_closeButt = new QPushButton(tr("Discard"), this);
+      m_closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+      m_closeButt->setIconSize(QSize(48, 48));
+      connect(m_closeButt, SIGNAL(clicked()), this, SLOT(closeSlot()));
+  } else
+      m_okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+  m_okButt->setIconSize(QSize(48, 48));
 
 
-    buttLay->addWidget(m_okButt);
-    buttLay->addWidget(analyseButt);
+  buttLay->addWidget(m_okButt);
+  buttLay->addWidget(analyseButt);
 
-    m_leftLay->addStretch(1);
-    m_leftLay->addLayout(buttLay);
-    if (cont)
-      m_leftLay->addWidget(m_closeButt);
+  m_leftLay->addStretch(1);
+  m_leftLay->addLayout(buttLay);
+  if (cont)
+    m_leftLay->addWidget(m_closeButt);
 
 	lay->addLayout(m_leftLay);
   
@@ -131,15 +133,15 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
 //     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
     float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal, wInto = 0.0;
     for(int i=0; i<exam->count(); i++) {
-      if (!exam->question(i).isCorrect()) {
-          if(exam->question(i).wrongAccid())  wAccid++;
-          if(exam->question(i).wrongKey())    wKey++;
-          if(exam->question(i).wrongNote())   wNote++;
-          if(exam->question(i).wrongOctave()) wOctave++;
-          if(exam->question(i).wrongStyle())  wStyle++;
-          if(exam->question(i).wrongPos())    wPos++;
-          if(exam->question(i).wrongString()) wString++;
-					if(exam->question(i).wrongIntonation()) wInto++;
+      if (!exam->question(i)->isCorrect()) {
+          if(exam->question(i)->wrongAccid())  wAccid++;
+          if(exam->question(i)->wrongKey())    wKey++;
+          if(exam->question(i)->wrongNote())   wNote++;
+          if(exam->question(i)->wrongOctave()) wOctave++;
+          if(exam->question(i)->wrongStyle())  wStyle++;
+          if(exam->question(i)->wrongPos())    wPos++;
+          if(exam->question(i)->wrongString()) wString++;
+					if(exam->question(i)->wrongIntonation()) wInto++;
       }
     }
     effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";

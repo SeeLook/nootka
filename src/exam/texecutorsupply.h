@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -87,7 +87,7 @@ public:
 			/** It is true when checkGuitarParamsChanged() obtained message to display.
 			 * It is used to inform MainWindow that status label is busy by the message. */
 	static bool paramsChangedMessage() { return m_paramsMessage; }
-	static QColor& answerColor(const TQAunit& answer); /** Returns color depends on answer type. */
+	static QColor& answerColor(const TQAunit* answer); /** Returns color depends on answer type. */
 	static QColor& answerColor(quint32 mistake); /** Returns color depends on answer type. */
 	
 	int loFret() { return m_loFret; }
@@ -96,7 +96,7 @@ public:
 			/** Checks are given notes matched. Result (mistake(s)) is written into @p curQ.
 			 * When @p reqOctave is false octaves check are skipped
 			 * When @p reqAccid is false Cis matches to Des and etc...	 */
-	void checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid);
+	void checkNotes(TQAunit* curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid);
 	
 			/** Compares given melodies respecting settings in current level. Saves results into given @p Tattempt.
 			 * There is no answered notes time so Tattempt::times list remains empty.

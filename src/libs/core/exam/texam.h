@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,7 @@
 #include <QString>
 #include <QList>
 #include <QXmlStreamWriter>
+#include <QPointer>
 #include <QApplication>
 #include "tqaunit.h"
 #include <music/ttune.h>
@@ -67,13 +68,13 @@ public:
 		static qint32 examVersionToLevel(qint32 examVer);
 		
 				/** returns nice formatted time (1:05:15.3). Time is in seconds multiplied by 10.
-        * When withUnit is true adds s (seconds) unit*/
+        * When @p withUnit is true adds s (seconds) unit*/
     static QString formatReactTime(quint16 timeX10, bool withUnit = false);
 		
 				/** Maximal time of an answer = 65500. Values over are equal to it.
 			* 65501 & 65502 are for counting probes in blackList */
   static const quint16 maxAnswerTime;
-  static bool areQuestTheSame(TQAunit &q1, TQAunit &q2); 		/** Compares given questions are they the same. */
+  static bool areQuestTheSame(TQAunit* q1, TQAunit* q2); 		/** Compares given questions are they the same. */
 	
     enum EerrorType { e_file_OK = 0,
                     e_file_not_valid, // occurs when examVersion is different
@@ -102,7 +103,7 @@ public:
   void setTotalTime(quint32 total) { m_totalTime = total; }
 
 			/** Adds \a TQAunit object at the end of the questions list. */
-  void addQuestion(TQAunit &question) { m_answList << question; }
+  void addQuestion(TQAunit &question) { m_answList << new TQAunit(question); }
   
 			/** Checks the last TQAunit on the list, updates its effectiveness
 			 * actualizes the exam effectiveness.
@@ -116,10 +117,8 @@ public:
 			 * BE SURE IT IS CALLED ONCE PER WHOLE QUESTION! */
 	void addPenalties();
 	
-			/** Removes last question from the list and sets times according to it*/
-	void removeLastQuestion();
-	TQAunit& curQ() { return m_answList.last(); } /** Last q/a unit */
-  QList<TQAunit>* answList() { return &m_answList; }
+	TQAunit* curQ() { return m_answList.last(); } /** Last q/a unit */
+  QList<TQAunit*>* answList() { return &m_answList; }
   
   int count() { return m_answList.size(); } /** Returns number of questions/answers in en exam. */
   quint16 mistakes() { return m_mistNr; } /** Returns number of committed mistakes in en exam. */
@@ -127,6 +126,7 @@ public:
   quint16 corrects() { return (count()) - mistakes() - halfMistaken(); } /** Number of correct answers */
   quint16 averageReactonTime() { return m_averReactTime; } /** Average answer time */
   void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
+  void skipLast(bool skip); /** Hides last question in the list. It is allowed only if question is not answered. */
   
 			/** Iterates all questions to calculate average reaction time. 
 			 * When @p skipWrong - time of wrong answers is not calculated into. */
@@ -169,24 +169,28 @@ public:
 	
 			/** Returns a reference to question/answer unit nr @param index.
 			* Beware! Index value is not checked */
-  TQAunit& question(unsigned int index) { return m_answList[index]; }
+  TQAunit* question(unsigned int index) { return m_answList[index]; }
+  
+  void newAttempt();
 
 protected:
   void updateBlackCount(); /** Iterates through m_blackList to calculate number */
   void convertToVersion2(); /** Grabs answers with mistakes and creates black list */
 	
 		/** Reads TQAunit from given XML and appends it at the end of given list or prints error and return @p FALSE*/
-	bool readUnitFromXml(QList<TQAunit>& list, QXmlStreamReader& xml);
+	bool readAnswerFromXml(QList<TQAunit*>& list, QXmlStreamReader& xml);
+  bool readPenaltyFromXml(QList<TQAunit>& blackList, QXmlStreamReader& xml);
 	
 	void grabFromLastUnit(); /** increases some counter variables to obtain checking values */
 	
 		/** Compares number of units with number got from file and prints message if doesn't match. */
 	bool checkQuestionNumber(int questNr);
+  void clearAnswList(); /** Wipes @p m_answList and all units pointed by it. */
 
 private:
 	QString 									m_fileName, m_userName;
 	Tlevel 									 *m_level;
-	QList<TQAunit> 						m_answList;
+	QList<TQAunit*> 					m_answList;
   QList<TQAunit> 						m_blackList;
 	QList<int>								m_blackNumbers; /** List of question numbers in which mistakes were committed. */
 	Ttune 										m_tune;
@@ -197,7 +201,7 @@ private:
   int 											m_blackCount;
 	int 											m_okTime; // time of correct and notBad answers to calculate average
 	qreal											m_effectivenes;
-  
+  TQAunit                  *m_skippedUnit;  
 };
 
 #endif // TEXAM_H
