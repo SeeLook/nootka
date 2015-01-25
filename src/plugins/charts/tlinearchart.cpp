@@ -46,7 +46,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
     case TmainLine::e_prepareTime: {
       quint32 prepTime = 0;
       for(int i = 0; i < exam->count(); i++)
-        prepTime = qMax(prepTime, exam->question(i).attempt(0)->prepareTime());
+        prepTime = qMax(prepTime, exam->question(i)->attempt(0)->prepareTime());
       yAxis->setMaxValue((qreal)prepTime / 10.0);
       yAxis->setUnit(TYaxis::e_prepareTime);
       break;
@@ -54,7 +54,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
     case TmainLine::e_attemptsCount: {
       int attemptsNr = 0;
       for(int i = 0; i < exam->count(); i++)
-        attemptsNr = qMax(attemptsNr, exam->question(i).attemptsCount());
+        attemptsNr = qMax(attemptsNr, exam->question(i)->attemptsCount());
       yAxis->setMaxValue(attemptsNr, false);
       yAxis->setUnit(TYaxis::e_attemptsCount);
       break;
@@ -62,7 +62,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
     case TmainLine::e_playedCount: {
       int playedNr = 0;
       for(int i = 0; i < exam->count(); i++)
-        playedNr = qMax(playedNr, exam->question(i).totalPlayBacks());
+        playedNr = qMax(playedNr, exam->question(i)->totalPlayBacks());
       yAxis->setMaxValue(playedNr, false);
       yAxis->setUnit(TYaxis::e_playedCount);
       break;
@@ -75,7 +75,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
     default: {
       quint16 maxTime = 0;
       for(int i = 0; i < exam->count(); i++)
-        maxTime = qMax(maxTime, exam->question(i).time);
+        maxTime = qMax(maxTime, exam->question(i)->time);
       yAxis->setMaxValue((qreal)maxTime / 10.0);
       break;
     }
@@ -89,9 +89,9 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 			qreal aTime = 0 , prev = 0;
 			int firstCorrect = 0, okCount = 0;
 			for(int i = 0; i < exam->count(); i++) { // looking for first correct answer
-				if (!exam->question(i).isWrong() || (!exam->question(i).isWrong() && settings.inclWrongAnsw)) {
+				if (!exam->question(i)->isWrong() || (!exam->question(i)->isWrong() && settings.inclWrongAnsw)) {
 					firstCorrect = i;
-					prev = exam->question(i).time;
+					prev = exam->question(i)->time;
 					okCount++;
 					aTime = prev;
 					break;
@@ -99,10 +99,10 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 			}
       int prevX = firstCorrect + 1;
       for(int i = firstCorrect + 1; i < exam->count(); i++) {
-        if (exam->question(i).isWrong())
+        if (exam->question(i)->isWrong())
           continue; // skip wrong answers in aver time
         else 
-          aTime = (aTime * okCount + (exam->question(i).time)) / (okCount + 1);
+          aTime = (aTime * okCount + (exam->question(i)->time)) / (okCount + 1);
         
         okCount++;
         TgraphicsLine *averProgress = new TgraphicsLine();

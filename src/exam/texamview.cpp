@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,63 +34,63 @@ TexamView::TexamView(QWidget *parent) :
     QWidget(parent),
     m_exam(0)
 {
-    setStatusTip(tr("Exam results"));
-    
-    QHBoxLayout *mainLay = new QHBoxLayout;
+  setStatusTip(tr("Exam results"));
+  
+  QHBoxLayout *mainLay = new QHBoxLayout;
 
-    mainLay->addStretch();
-    QHBoxLayout *okMistLay = new QHBoxLayout;
-    m_corrLab = new QLabel(this);
-    okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
-    okMistLay->addSpacing(SPACE_GAP);
-    m_halfLab = new QLabel(this);
-    okMistLay->addWidget(m_halfLab, 0, Qt::AlignRight);
-    m_halfLab->hide();
-    okMistLay->addSpacing(SPACE_GAP);
-    m_mistLab = new QLabel(this);
-    okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
-    mainLay->addLayout(okMistLay);    
-    mainLay->addStretch();
+  mainLay->addStretch();
+  QHBoxLayout *okMistLay = new QHBoxLayout;
+  m_corrLab = new QLabel(this);
+  okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
+  okMistLay->addSpacing(SPACE_GAP);
+  m_halfLab = new QLabel(this);
+  okMistLay->addWidget(m_halfLab, 0, Qt::AlignRight);
+  m_halfLab->hide();
+  okMistLay->addSpacing(SPACE_GAP);
+  m_mistLab = new QLabel(this);
+  okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
+  mainLay->addLayout(okMistLay);    
+  mainLay->addStretch();
 
-    m_effLab = new QLabel(this);
-    m_effLab->setStyleSheet(borderStyleTxt);
-    mainLay->addWidget(m_effLab);
-    mainLay->addStretch();
+  m_effLab = new QLabel(this);
+  m_effLab->setStyleSheet(borderStyleTxt);
+  mainLay->addWidget(m_effLab);
+  mainLay->addStretch();
 
-    m_averTimeLab = new QLabel(this);
-    m_averTimeLab->setStyleSheet(borderStyleTxt);
-    mainLay->addWidget(m_averTimeLab);
-    mainLay->addStretch();
+  m_averTimeLab = new QLabel(this);
+  m_averTimeLab->setStyleSheet(borderStyleTxt);
+  mainLay->addWidget(m_averTimeLab);
+  mainLay->addStretch();
 
-    m_reactTimeLab = new QLabel(this);
-    m_reactTimeLab->setStyleSheet(borderStyleTxt);
-    mainLay->addWidget(m_reactTimeLab);
+  m_reactTimeLab = new QLabel(this);
+  m_reactTimeLab->setStyleSheet(borderStyleTxt);
+  mainLay->addWidget(m_reactTimeLab);
 
-    mainLay->addStretch();
+  mainLay->addStretch();
 
-    m_totalTimeLab = new QLabel(this);
-    m_totalTimeLab->setStyleSheet(borderStyleTxt);
-    mainLay->addWidget(m_totalTimeLab);
-    mainLay->addStretch();
+  m_totalTimeLab = new QLabel(this);
+  m_totalTimeLab->setStyleSheet(borderStyleTxt);
+  mainLay->addWidget(m_totalTimeLab);
+  mainLay->addStretch();
 
-    setLayout(mainLay);
+  setLayout(mainLay);
 
-    clearResults();
+  clearResults();
 
-		m_corrLab->setAlignment(Qt::AlignCenter);
-		m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
-		m_halfLab->setAlignment(Qt::AlignCenter);
-    m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
-		m_mistLab->setAlignment(Qt::AlignCenter);
-    m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + " " + TexTrans::inSecondsTxt());
-    m_averTimeLab->setAlignment(Qt::AlignCenter);
-    m_reactTimeLab->setStatusTip(TexTrans::reactTimeTxt() + " " + TexTrans::inSecondsTxt());
-    m_reactTimeLab->setAlignment(Qt::AlignCenter);
-    m_totalTimeLab->setStatusTip(TexTrans::totalTimetxt());
-    m_totalTimeLab->setAlignment(Qt::AlignCenter);
+  m_corrLab->setAlignment(Qt::AlignCenter);
+  m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
+  m_halfLab->setAlignment(Qt::AlignCenter);
+  m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
+  m_mistLab->setAlignment(Qt::AlignCenter);
+  m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + " " + TexTrans::inSecondsTxt());
+  m_averTimeLab->setAlignment(Qt::AlignCenter);
+  m_reactTimeLab->setStatusTip(TexTrans::reactTimeTxt() + " " + TexTrans::inSecondsTxt());
+  m_reactTimeLab->setAlignment(Qt::AlignCenter);
+  m_totalTimeLab->setStatusTip(TexTrans::totalTimetxt());
+  m_totalTimeLab->setAlignment(Qt::AlignCenter);
 
-    m_timer = new QTimer(this);
-		connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
+  m_timer = new QTimer(this);
+  connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
 }
 
 
@@ -124,12 +124,12 @@ void TexamView::questionStop() {
 	m_showReact = false;
 	quint16 t = qRound(m_questionTime.elapsed() / 100.0);
 	if (m_exam->melodies()) {
-		m_exam->curQ().time += t; // total time of all attempts
-		m_exam->curQ().lastAttempt()->setTotalTime(t);
+		m_exam->curQ()->time += t; // total time of all attempts
+		m_exam->curQ()->lastAttempt()->setTotalTime(t);
 	} else
-		m_exam->curQ().time = t; // just elapsed time of single answer
+		m_exam->curQ()->time = t; // just elapsed time of single answer
 	if (isVisible())
-		m_reactTimeLab->setText(" " + Texam::formatReactTime(m_exam->curQ().time) + " ");
+		m_reactTimeLab->setText(" " + Texam::formatReactTime(m_exam->curQ()->time) + " ");
 }
 
 
@@ -198,8 +198,8 @@ void TexamView::reactTimesUpdate() {
 void TexamView::effectUpdate() {
 	if (m_exam && isVisible()) {
 		QString effText = QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness()));
-		if (m_exam->melodies() && m_exam->count() > 1 && !m_exam->curQ().answered() && m_exam->curQ().attemptsCount())
-				effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ().effectiveness()));
+		if (m_exam->melodies() && !m_exam->curQ()->answered() && m_exam->curQ()->attemptsCount() && m_exam->curQ()->lastAttempt()->mistakes.size())
+				effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ()->effectiveness()));
 		m_effLab->setText(effText);
 	}
 }
@@ -221,7 +221,7 @@ void TexamView::questionCountUpdate() {
 void TexamView::countTime() {
 	if (isVisible()) {
 		if (m_showReact)
-				m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ().time)));
+				m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time)));
 		m_totalTimeLab->setText(" " + formatedTotalTime(m_startExamTime * 1000 + m_totalTime.elapsed()) + " ");
 	}
 }

@@ -53,13 +53,13 @@ public:
 		e_questionTime, e_effectiveness, e_prepareTime, e_attemptsCount, e_playedCount, e_mistakesNumber
 	};
 	
-  TmainLine(QList<TQAunit> *answers, Tchart *chart, EyValue yVal = e_questionTime);
+  TmainLine(QList<TQAunit*> *answers, Tchart *chart, EyValue yVal = e_questionTime);
   TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart);
   virtual ~TmainLine();
   
   
 private:
-  QList<TQAunit> *m_answers; 
+  QList<TQAunit*> *m_answers; 
   Tchart *m_chart; // Pointer to chart contained this plot
   QList<TquestionPoint*> m_points; // List of points
   QList<TstaffLineChart*> m_lines; // list of lines betwen points

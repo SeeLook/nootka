@@ -80,7 +80,8 @@ void TmainChart::sort() {
               if (chartSett.order == e_byAccid)
               sortedLists.append(sortByAccidental(badAnsw, currExam->level(), hasListUnrelated, kindOfAccids));
     } else {
-        TgroupedQAunit convList = convertToPointers(currExam->answList());
+        TgroupedQAunit convList;
+        convertToGroupedQAunit(currExam->answList(), convList);
         switch (chartSett.order) {
           case e_byNote:
             sortedLists = sortByNote(convList, currExam->level(), hasListUnrelated);

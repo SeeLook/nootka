@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,8 +38,8 @@ class Tlevel;
       /** Merges elements of each list to single list of pointers to TQAunit. */
   TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit> &listOfLists);
 	
-      /** converts QList with TQAunit to QList with pointer to them*/
-  TgroupedQAunit convertToPointers(QList< TQAunit >* examList);
+      /** converts list with @class TQAunit pointers (usually answers list) to @class TgroupedQAunit. */
+  void convertToGroupedQAunit(QList<TQAunit*>* examList, TgroupedQAunit& groupped);
   
       /** Given TgroupedQAunit someList is divided on two lists:
        * - First with questions of given type
@@ -50,7 +50,7 @@ class Tlevel;
   void divideQuestionsAndAnswers(QList<TgroupedQAunit> &result, TgroupedQAunit &someList, TQAtype::Etype type);
   
       /** Divides given list on lists with correct & almost good answers and wrong ones. */
-  void divideGoodAndBad(QList< TQAunit >* list, TgroupedQAunit& goodList, TgroupedQAunit& badList);
+  void divideGoodAndBad(QList<TQAunit*>* list, TgroupedQAunit& goodList, TgroupedQAunit& badList);
 	
       /** Returns the lists of list of the same notes. 
        * The last list is a list of ignored answers - no notes either in answer nor questions.*/

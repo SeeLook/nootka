@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -84,11 +84,11 @@ qint32 Texam::examVersionToLevel(qint32 examVer) {
 }
 
 
-bool Texam::areQuestTheSame(TQAunit& q1, TQAunit& q2) {
-  if (q1.questionAs == q2.questionAs && // the same questions
-      q1.answerAs == q2.answerAs && // the same answers
-      q1.qa.note == q2.qa.note && // the same notes
-      q1.qa.pos == q2.qa.pos // the same frets
+bool Texam::areQuestTheSame(TQAunit* q1, TQAunit* q2) {
+  if (q1->questionAs == q2->questionAs && // the same questions
+      q1->answerAs == q2->answerAs && // the same answers
+      q1->qa.note == q2->qa.note && // the same notes
+      q1->qa.pos == q2->qa.pos // the same frets
 		 )
 			return true;
   else
@@ -122,7 +122,9 @@ QString Texam::formatReactTime(quint16 timeX10, bool withUnit) {
 
 /*end of static*/
 
-
+//#################################################################################################
+//###################             CONSTRUCTOR          ############################################
+//#################################################################################################
 Texam::Texam(Tlevel* l, QString userName):
   m_userName(userName),
   m_fileName(""),
@@ -134,7 +136,8 @@ Texam::Texam(Tlevel* l, QString userName):
   m_halfMistNr(0), m_tmpHalf(0),
   m_blackCount(0),
 	m_okTime(0),
-	m_effectivenes(0.0)
+	m_effectivenes(0.0),
+	m_skippedUnit(0)
 {
 	setLevel(l);
 }
@@ -142,12 +145,16 @@ Texam::Texam(Tlevel* l, QString userName):
 
 Texam::~Texam()
 {
-  m_answList.clear();
+  clearAnswList();
   m_blackList.clear();
 	m_blackNumbers.clear();
+  if (m_skippedUnit)
+    delete m_skippedUnit;
 }
 
-
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
 void Texam::setExercise() {
 	if (count()) {
 		qDebug() << "Exam has got questions already. Can't set it as an exercise!";
@@ -173,6 +180,24 @@ void Texam::setFileName(const QString& fileName) {
 }
 
 
+void Texam::skipLast(bool skip) {
+  if (skip != (bool)m_skippedUnit) {
+    if (skip) {
+      if (m_skippedUnit)
+        qDebug() << "Previously skipped question unit will be overridden by newly skipped.";
+      delete m_skippedUnit;
+      m_skippedUnit = m_answList.takeLast();
+    } else {
+      if (!m_skippedUnit)
+        qDebug() << "There is no skipped unit to revert it back!";
+      else {
+        m_answList << m_skippedUnit;
+        m_skippedUnit = 0;
+      }
+    }
+  }
+}
+
 
 Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 	m_okTime = 0;
@@ -186,7 +211,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 	m_attempts = 0;
   m_isExercise = false;
 	m_blackList.clear();
-	m_answList.clear();
+	clearAnswList();
 	EerrorType result = e_file_OK;
 	quint32 ev; //exam template version
 	if (file.open(QIODevice::ReadOnly)) {
@@ -263,7 +288,7 @@ bool Texam::loadFromBin(QDataStream& in, quint32 ev) {
 			* Unfixed it invokes stupid names in charts.
 			* We are fixing it by insert user preferred style of naming */
 		if (qaUnit.time <= maxAnswerTime || ev == examVersion) { // add to m_answList
-				m_answList << qaUnit;
+				m_answList << new TQAunit(qaUnit);
 				grabFromLastUnit();
 		} else { // add to m_blackList
 				m_blackList << qaUnit;
@@ -340,10 +365,10 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 					Tlevel::skipCurrentXmlKey(xml);
 			}
 		} else if (xml.name() == "answers") {
-				if (!readUnitFromXml(m_answList, xml))
+				if (!readAnswerFromXml(m_answList, xml))
 					ok = false;
 		} else if (xml.name() == "penalties") {
-				if (!readUnitFromXml(m_blackList, xml))
+				if (!readPenaltyFromXml(m_blackList, xml))
 						ok = false;
 		} else if (xml.name() == "black") {
 				m_blackNumbers.clear();
@@ -422,7 +447,7 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 		xml.writeEndElement(); // head
 		xml.writeStartElement("answers");
 		for (int i = 0; i < count(); ++i)
-			m_answList[i].toXml(xml);
+			m_answList[i]->toXml(xml);
 		xml.writeEndElement(); // answers
 		if (m_blackList.size()) {
 			xml.writeStartElement("penalties");
@@ -439,69 +464,74 @@ void Texam::writeToXml(QXmlStreamWriter& xml) {
 }
 
 
+void Texam::newAttempt() {
+  curQ()->newAttempt();
+  if (curQ()->attemptsCount() > 1) { // unset answered and revert mistakes - user tries once more
+    if (curQ()->isNotSoBad())
+      m_halfMistNr--;
+    else if (curQ()->isWrong())
+      m_mistNr--;
+    else
+      qDebug() << "new attempt called for correct answer!";
+    curQ()->unsetAnswered();
+  }
+}
+
+
 void Texam::sumarizeAnswer() {
-	curQ().updateEffectiveness();
-	curQ().time = qMin(maxAnswerTime, curQ().time); // when user think too much
+	curQ()->updateEffectiveness();
+	curQ()->time = qMin(maxAnswerTime, curQ()->time); // when user think too much
 	if (melodies()) {
-		m_workTime += curQ().lastAttempt()->totalTime();
-		if (!curQ().isWrong()) {
-				if (curQ().effectiveness() < 50) {
-						curQ().setMistake(TQAunit::e_veryPoor);;
-// 						qDebug() << "Texam" << "effectiveness set to very poor";
-				} else if (curQ().effectiveness() < 70) {
-						curQ().setMistake(TQAunit::e_poorEffect);
-// 						qDebug() << "Texam" << "effectiveness is poor";
-				}
+		m_workTime += curQ()->lastAttempt()->totalTime();
+		if (!curQ()->isWrong()) {
+				if (curQ()->effectiveness() < 50)
+          curQ()->setMistake(TQAunit::e_veryPoor);
+				else if (curQ()->effectiveness() < 70)
+          curQ()->setMistake(TQAunit::e_poorEffect);
 		}
 		m_attempts++;
 	}
 	updateAverageReactTime(true);
 	if (melodies()) {
-		
-	} else {
-// 		if (!isFinished()) {
-			addPenalties(); // for melodies it should be invoked after ensuring that answer was finished
-			if (!isExercise())
-				updateBlackCount();
-			m_workTime += curQ().time;
-// 		}
+    if (curQ()->isNotSoBad())
+      m_halfMistNr++;
+    else if (curQ()->isWrong())
+      m_mistNr++;
+  } else {
+    addPenalties(); // for melodies it should be invoked after ensuring that answer was finished
+    if (!isExercise())
+      updateBlackCount();
+    m_workTime += curQ()->time;
 	}
 	updateEffectiveness();
 }
 
 
 void Texam::addPenalties() {
-	if (!curQ().isCorrect()) {
+	if (!curQ()->isCorrect()) {
 		if (melodies())
 				m_blackNumbers.append(-1); // one more random melody
-		if (curQ().isNotSoBad()) {
+		if (curQ()->isNotSoBad()) {
 			if (!isExercise() /*&& !melodies() */&& !isFinished())
 					m_penaltysNr++;
-			m_halfMistNr++;
+      if (!melodies())
+        m_halfMistNr++;
 		} else {
 			if (melodies())
 				m_blackNumbers.append(count() - 1); // repeat current melody in some further question
 			if (!isExercise() /*&& !melodies() */&& !isFinished())
 					m_penaltysNr += 2;
-			m_mistNr++;
+      if (!melodies())
+        m_mistNr++;
 		}
 	}
-}
-
-
-void Texam::removeLastQuestion() {
-	m_workTime -= curQ().time;
-	if (curQ().isWrong())
-		m_mistNr--;
-	m_answList.removeLast();
-	updateEffectiveness();
 }
 
 
 void Texam::updateEffectiveness() {
 	qreal sum = 0.0;
 	for (int i = 0; i < count(); ++i)
-		sum += answList()->at(i).effectiveness();
+		sum += answList()->at(i)->effectiveness();
 	m_effectivenes = sum / (qreal)count();
 }
 
@@ -510,8 +540,8 @@ void Texam::updateAverageReactTime(bool skipWrong) {
 	int totalTime = 0;
   int cnt = 0;
 	for (int i = 0; i < count(); ++i) {
-		if (!skipWrong || (skipWrong && !m_answList[i].isWrong())) {
-			totalTime += m_answList[i].time;
+		if (!skipWrong || (skipWrong && !m_answList[i]->isWrong())) {
+			totalTime += m_answList[i]->time;
       cnt++;
     }
 	}
@@ -521,8 +551,9 @@ void Texam::updateAverageReactTime(bool skipWrong) {
     m_averReactTime = 0;
 }
 
-
-//############################### PROTECTED ########################################
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void Texam::updateBlackCount() {
   m_blackCount = 0;
@@ -533,15 +564,36 @@ void Texam::updateBlackCount() {
 }
 
 
-bool Texam::readUnitFromXml(QList< TQAunit >& list, QXmlStreamReader& xml) {
+bool Texam::readPenaltyFromXml(QList<TQAunit>& blackList, QXmlStreamReader& xml) {
+  bool ok = true;
+  while (xml.readNextStartElement()) {
+    if (xml.name() == "u") {
+      blackList << TQAunit(this);
+      if (blackList.last().fromXml(xml)) {
+        grabFromLastUnit();
+        if (melodies())
+          m_attempts += curQ()->attemptsCount();
+      } else {
+        qDebug() << "Exam has wrong unit" << blackList.size();
+        blackList.removeLast();
+        ok = false;
+      }
+    } else
+        Tlevel::skipCurrentXmlKey(xml);
+  }
+  return ok;
+}
+
+
+bool Texam::readAnswerFromXml(QList<TQAunit*>& list, QXmlStreamReader& xml) {
 	bool ok = true;
 	while (xml.readNextStartElement()) {
 		if (xml.name() == "u") {
-			list << TQAunit(this);
-			if (list.last().fromXml(xml)) {
+			list << new TQAunit(this);
+			if (list.last()->fromXml(xml)) {
 				grabFromLastUnit();
 				if (melodies())
-					m_attempts += curQ().attemptsCount();
+					m_attempts += curQ()->attemptsCount();
 			} else {
 				qDebug() << "Exam has wrong unit" << list.size();
 				list.removeLast();
@@ -555,15 +607,15 @@ bool Texam::readUnitFromXml(QList< TQAunit >& list, QXmlStreamReader& xml) {
 
 
 void Texam::grabFromLastUnit() {
-	m_workTime += curQ().time;
-	if (!curQ().isCorrect()) {
-		if (curQ().isWrong())
+	m_workTime += curQ()->time;
+	if (!curQ()->isCorrect()) {
+		if (curQ()->isWrong())
 				m_tmpMist++;
 		else
 				m_tmpHalf++; // not so bad answer
 		}
-	if (!curQ().isWrong())
-		m_okTime += curQ().time;
+	if (!curQ()->isWrong())
+		m_okTime += curQ()->time;
 }
 
 
@@ -578,6 +630,14 @@ bool Texam::checkQuestionNumber(int questNr) {
 }
 
 
+void Texam::clearAnswList() {
+  for (int i = 0; i < m_answList.size(); ++i)
+    delete m_answList[i];
+  m_answList.clear();
+}
+
+
+/** This method exist for backward compatibility but is has rate use in 'modern' Nootka times  */
 void Texam::convertToVersion2() {
   bool hasStyle = false;
   Tnote::EnameStyle randStyles[3];
@@ -599,36 +659,36 @@ void Texam::convertToVersion2() {
   }
   
   for (int i = 0; i < m_answList.size(); i++) {
-    if (m_answList[i].time > maxAnswerTime) // fix too long times from version 1 if any
-        m_answList[i].time = maxAnswerTime;
+    if (m_answList[i]->time > maxAnswerTime) // fix too long times from version 1 if any
+        m_answList[i]->time = maxAnswerTime;
   // version 1 didn't put proper Tnote::EnameStyle to file - we fixing it
     if (hasStyle) {
       if (m_level->requireStyle) {
-        if (m_answList[i].questionAs == TQAtype::e_asName && m_answList[i].answerAs == TQAtype::e_asName) {
+        if (m_answList[i]->questionAs == TQAtype::e_asName && m_answList[i]->answerAs == TQAtype::e_asName) {
           Tnote::EnameStyle qSt = randStyles[qrand() % 3];
           Tnote::EnameStyle aSt;
           if (qSt == Tnote::e_italiano_Si)
             aSt = randStyles[(qrand() % 2) +1];
           else
             aSt = Tnote::e_italiano_Si;
-          m_answList[i].setStyle(qSt, aSt);
+          m_answList[i]->setStyle(qSt, aSt);
         } else
-          if (m_answList[i].questionAs == TQAtype::e_asName) {
-            m_answList[i].setStyle(randStyles[qrand() % 3], Tcore::gl()->S->nameStyleInNoteName);
+          if (m_answList[i]->questionAs == TQAtype::e_asName) {
+            m_answList[i]->setStyle(randStyles[qrand() % 3], Tcore::gl()->S->nameStyleInNoteName);
           } else
-            if (m_answList[i].questionAs == TQAtype::e_asName) {
-              m_answList[i].setStyle(Tcore::gl()->S->nameStyleInNoteName, randStyles[qrand() % 3]);
+            if (m_answList[i]->questionAs == TQAtype::e_asName) {
+              m_answList[i]->setStyle(Tcore::gl()->S->nameStyleInNoteName, randStyles[qrand() % 3]);
             }
       } else // fixed style - we changing to user preferred
-          m_answList[i].setStyle(Tcore::gl()->S->nameStyleInNoteName, Tcore::gl()->S->nameStyleInNoteName);
+          m_answList[i]->setStyle(Tcore::gl()->S->nameStyleInNoteName, Tcore::gl()->S->nameStyleInNoteName);
     }
       
-    if (!m_answList[i].isCorrect()) {
+    if (!m_answList[i]->isCorrect()) {
       quint16 penCnt = 0; // counts of penalties
-      if (m_answList[i].isWrong()) {
+      if (m_answList[i]->isWrong()) {
         if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
           // there was next question repeated
-          if (m_answList[i+1].isCorrect()) // and was correct
+          if (m_answList[i+1]->isCorrect()) // and was correct
             penCnt = 65501; // so add one penalty
           else // when again wrong
             penCnt = 65502; // add two
@@ -638,7 +698,7 @@ void Texam::convertToVersion2() {
       } else { // not so bad
         if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
           // there was next question repeated
-          if (m_answList[i+1].isCorrect()) // and was correct
+          if (m_answList[i+1]->isCorrect()) // and was correct
 //             m_blackList.removeLast(); // remove it from black list - corrected
             penCnt = 0;
           else
@@ -646,7 +706,7 @@ void Texam::convertToVersion2() {
         }
       }
       if (penCnt) {
-        m_blackList << m_answList[i];
+        m_blackList << *m_answList[i];
         m_blackList.last().time = penCnt;
         m_penaltysNr += (penCnt - 65500);
       }

@@ -110,9 +110,9 @@ QString TquestionTip::getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
 }
 
 
-QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level, double scale) {
+QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level, double scale) {
   m_scoreFree = true;
-  m_nameFree = !(bool)question.melody(); // no name widget when level uses melodies
+  m_nameFree = !(bool)question->melody(); // no name widget when level uses melodies
   m_guitarFree = true;
   m_questText.clear();
   double sc = 4.0;
@@ -121,44 +121,44 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
     sc = 4.0 * scale;
   }
   QString attemptText = "";
-	if (question.attemptsCount() > 1)
-		attemptText = " <small><i>" + TexTrans::attemptTxt() + QString(" %1").arg(question.attemptsCount()) + "</i></small>";
+	if (question->attemptsCount() > 1)
+		attemptText = " <small><i>" + TexTrans::attemptTxt() + QString(" %1").arg(question->attemptsCount()) + "</i></small>";
     m_questText += QString("<b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + "<br>";
     QString apendix = "";
     QString noteStr;
-    switch (question.questionAs) {
+    switch (question->questionAs) {
       case TQAtype::e_asNote: {
         m_scoreFree = false;
-        if (question.answerAsNote()) {
-            if (question.qa.note.alter != question.qa_2.note.alter)
+        if (question->answerAsNote()) {
+            if (question->qa.note.alter != question->qa_2.note.alter)
                 m_questText += tr("Change enharmonically and show on the staff");
             else
                 m_questText += tr("Given note show on the staff");
 						if (level->useKeySign && level->manualKey)
-								apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
-						      m_questText += getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
-        } else if (question.answerAsName()) {
+								apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
+						      m_questText += getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
+        } else if (question->answerAsName()) {
             m_nameFree = false;
             m_questText += tr("Give name of");
-				} else if (question.answerAsFret()) {
+				} else if (question->answerAsFret()) {
               m_guitarFree = false;
               m_questText += tr("Show on the guitar");
-				} else if (question.answerAsSound()) {
-									if (question.melody())
+				} else if (question->answerAsSound()) {
+									if (question->melody())
 										      m_questText += tr("Play or sing a melody.");
 									else
 										      m_questText += playOrSing(int(level->instrument));
 				}
-        if (question.answerAsFret() || question.answerAsSound()) {
+        if (question->answerAsFret() || question->answerAsSound()) {
 					if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos) {
-						apendix = "<br> " + onStringTxt(question.qa.pos.str());
+						apendix = "<br> " + onStringTxt(question->qa.pos.str());
 					}
         }
-        if (!question.melody()) {
-					if (level->useKeySign && level->manualKey && question.answerAsNote()) // hide key signature
-                m_questText += "<br>" + wrapPixToHtml(question.qa.note, true, TkeySignature(0), sc);
+        if (!question->melody()) {
+					if (level->useKeySign && level->manualKey && question->answerAsNote()) // hide key signature
+                m_questText += "<br>" + wrapPixToHtml(question->qa.note, true, TkeySignature(0), sc);
 					else
-                m_questText += "<br>" + wrapPixToHtml(question.qa.note, true, question.key, sc);
+                m_questText += "<br>" + wrapPixToHtml(question->qa.note, true, question->key, sc);
 				}
         if (apendix != "")
             m_questText += apendix;
@@ -167,85 +167,85 @@ QString TquestionTip::getQuestion(TQAunit& question, int questNr, Tlevel* level,
       
       case TQAtype::e_asName:
         m_nameFree = false;
-        noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
-        if (question.answerAsNote()) {
+        noteStr = "<br>" + getNiceNoteName(question->qa.note, question->styleOfQuestion());
+        if (question->answerAsNote()) {
 						m_scoreFree = false;
 						      m_questText += tr("Show on the staff") + noteStr;
 						if (level->useKeySign && level->manualKey) {
-							         m_questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
+							         m_questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
 						}
-        } else if (question.answerAsName()) {
+        } else if (question->answerAsName()) {
             m_nameFree = false;
-            noteStr = "<br>" + getNiceNoteName(question.qa.note, question.styleOfQuestion());
-            if (question.qa.note.alter != question.qa_2.note.alter) {
+            noteStr = "<br>" + getNiceNoteName(question->qa.note, question->styleOfQuestion());
+            if (question->qa.note.alter != question->qa_2.note.alter) {
                 m_questText += tr("Change enharmonically and give name of");
-                m_questText += noteStr + getTextHowAccid((Tnote::Ealter)question.qa_2.note.alter);
+                m_questText += noteStr + getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
             } else
                 m_questText += tr("Use another style to give name of") + noteStr;
-				} else if (question.answerAsFret()) {
+				} else if (question->answerAsFret()) {
 						m_guitarFree = false;
 						      m_questText += tr("Show on the guitar") + noteStr;
-				} else if (question.answerAsSound()) {
+				} else if (question->answerAsSound()) {
 						      m_questText += playOrSing(int(level->instrument)) + noteStr;
 				}
-				if (question.answerAsFret() || question.answerAsSound()) {
+				if (question->answerAsFret() || question->answerAsSound()) {
 						if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos)
-								        m_questText += "<br> " + onStringTxt(question.qa.pos.str());
+								        m_questText += "<br> " + onStringTxt(question->qa.pos.str());
 				}
 			break;
       
       case TQAtype::e_asFretPos:
         m_questText += "";
         m_guitarFree = false;
-        if (question.answerAsNote()) {
+        if (question->answerAsNote()) {
 						m_scoreFree = false;
 						      m_questText += tr("Show on the staff note played on");
 						if (level->useKeySign && level->manualKey) {
-							apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question.key.getName());
+							apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question->key.getName());
 						}
-        } else if (question.answerAsName()) {
+        } else if (question->answerAsName()) {
             m_nameFree = false;
             m_questText += tr("Give name of");
-				} else if (question.answerAsFret()) {
+				} else if (question->answerAsFret()) {
               m_questText += tr("Show sound from position:", "... and string + fret numbers folowing");
-              apendix = "<br> " + onStringTxt(question.qa_2.pos.str());
-				} else if (question.answerAsSound()) {
+              apendix = "<br> " + onStringTxt(question->qa_2.pos.str());
+				} else if (question->answerAsSound()) {
 							     m_questText += playOrSing(int(level->instrument));
 				}
         m_questText += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
-                    question.qa.pos.toHtml() + " </span>";
+                    question->qa.pos.toHtml() + " </span>";
         if (apendix != "")
             m_questText += "<br>" + apendix;
-        if (question.answerAsNote() || question.answerAsName())
+        if (question->answerAsNote() || question->answerAsName())
           if (level->forceAccids)
-                m_questText += "<br" + getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
+                m_questText += "<br" + getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
       break;
       
       case TQAtype::e_asSound:
-        if (question.answerAsNote()) {
+        if (question->answerAsNote()) {
 						m_scoreFree = false;
-						if (question.melody()) {
+						if (question->melody()) {
 								        m_questText += TexTrans::writeDescTxt();
 								if (level->useKeySign && level->manualKey && level->onlyCurrKey)
 									           m_questText += tr("<br>Guess a key signature");
 						} else {
 								        m_questText += tr("Listened sound show on the staff");
 								if (level->useKeySign && level->manualKey)
-									           m_questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question.key.getName());
+									           m_questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
 								if (level->forceAccids)
-									           m_questText += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
+									           m_questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
 						}
-        } else if (question.answerAsName()) {
+        } else if (question->answerAsName()) {
             m_nameFree = false;
             m_questText += tr("Give name of listened sound");
             if (level->forceAccids)
-                m_questText += getTextHowAccid((Tnote::Ealter)question.qa.note.alter);
-				} else if (question.answerAsFret()) {
+                m_questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+				} else if (question->answerAsFret()) {
               m_guitarFree = false;
               m_questText += tr("Listened sound show on the guitar");
               if (level->showStrNr)
-                m_questText += "<br> " + onStringTxt(question.qa.pos.str());
-				} else if (question.answerAsSound()) {
+                m_questText += "<br> " + onStringTxt(question->qa.pos.str());
+				} else if (question->answerAsSound()) {
                 m_questText += tr("Play or sing listened sound");          
 				}
       break;

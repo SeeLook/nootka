@@ -309,8 +309,9 @@ void TscoreNote::removeString() {
 
 
 void TscoreNote::setReadOnly(bool ro) {
-		setAcceptHoverEvents(!ro);
-		m_readOnly = ro;
+  setAcceptHoverEvents(!ro);
+  m_readOnly = ro;
+  checkEmptyText();
 }
 
 /** If @dropShadowColor is not set and m_nameText has already existed,
@@ -411,7 +412,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
-	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
+	if (!isReadOnly() && !m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
 		QColor emptyNoteColor;
 		if (m_mainNote->pen().style() == Qt::NoPen)
 			emptyNoteColor = qApp->palette().highlight().color();
@@ -612,7 +613,7 @@ void TscoreNote::initNoteCursor() {
 
 
 void TscoreNote::checkEmptyText() {
-	if (!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
+	if (!isReadOnly() && !m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
 		m_emptyText->show();
 	else
 		m_emptyText->hide();

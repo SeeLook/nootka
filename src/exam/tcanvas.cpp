@@ -188,7 +188,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	}
 	if (toCorrection) {
 		QString t = tr("To see corrected answer");
-		if (m_exam->curQ().melody())
+		if (m_exam->curQ()->melody())
 				t = tr("To see some hints");
 		whatNextText += "<br>" + t + " " + 
 			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(Tpath::img("correct"), m_iconSize) + "</a>") + "<br>" +
@@ -463,7 +463,7 @@ void Tcanvas::sizeChanged() {
   m_scale = m_scale * ((double)m_newSize.height() / hi);
 	m_maxTipWidth = m_view->width() / 3;
   if (m_resultTip) {
-			if (m_exam->curQ().isNotSoBad())
+			if (m_exam->curQ()->isNotSoBad())
 				m_resultTip->setScale(m_scale);
 			else
 				m_resultTip->setScale(m_scale * 1.2);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -82,13 +82,12 @@ bool Tpenalty::ask() {
 			m_blackNumber = m_exam->blackNumbers()->at(idInList);
 			m_exam->blackNumbers()->removeAt(idInList);
 			if (m_blackNumber != -1) {
-				TQAunit blackU = m_exam->answList()->operator[](m_blackNumber);
-				m_exam->curQ() = blackU;
-				m_exam->curQ().unsetAnswered();
-				m_exam->curQ().addMelody(m_exam->answList()->operator[](m_blackNumber).melody(), TQAunit::e_otherUnit, m_blackNumber);
+				m_exam->curQ()->copy(*m_exam->answList()->operator[](m_blackNumber)); // copy black question into last unit
+				m_exam->curQ()->unsetAnswered();
+				m_exam->curQ()->addMelody(m_exam->answList()->operator[](m_blackNumber)->melody(), TQAunit::e_otherUnit, m_blackNumber);
 				qDebug() << "penalty melody" << m_blackNumber;
-				m_exam->curQ().time = 0;
-				m_exam->curQ().setMistake(TQAunit::e_correct);
+				m_exam->curQ()->time = 0;
+				m_exam->curQ()->setMistake(TQAunit::e_correct);
 				return true;
 			}
 		}
@@ -97,10 +96,10 @@ bool Tpenalty::ask() {
 			qDebug("penalty");
 			m_penalCount = 0;
 			m_blackQuestNr = qrand() % m_exam->blacList()->size();
-			m_exam->curQ() = m_exam->blacList()->operator[](m_blackQuestNr);
-			m_exam->curQ().unsetAnswered();
-			m_exam->curQ().time = 0;
-			m_exam->curQ().setMistake(TQAunit::e_correct);
+			m_exam->curQ()->copy(m_exam->blacList()->operator[](m_blackQuestNr));
+			m_exam->curQ()->unsetAnswered();
+			m_exam->curQ()->time = 0;
+			m_exam->curQ()->setMistake(TQAunit::e_correct);
 			return true;
 		}
 	}
@@ -110,16 +109,16 @@ bool Tpenalty::ask() {
 
 void Tpenalty::checkAnswer() {
 	if (!m_exam->isExercise() && !m_exam->melodies()) {
-		if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) { // finished exam hasn't got black list
-					m_exam->blacList()->append(m_exam->curQ());
-					if (m_exam->curQ().isNotSoBad())
-						m_exam->blacList()->last().time = 65501;
-					else
-						m_exam->blacList()->last().time = 65502;
+		if (!m_exam->curQ()->isCorrect() && !m_exam->isFinished()) { // finished exam hasn't got black list
+      m_exam->blacList()->append(*m_exam->curQ());
+      if (m_exam->curQ()->isNotSoBad())
+        m_exam->blacList()->last().time = 65501;
+      else
+        m_exam->blacList()->last().time = 65502;
 		}
 	}
 	if (!m_exam->melodies()) // we don't know is melody question answered here - user will decide...
-		m_exam->curQ().setAnswered();
+    m_exam->curQ()->setAnswered();
 	m_exam->sumarizeAnswer();
 	if (!m_exam->melodies()) // when melody question counters are not ready here, setMelodyPenalties() will do it.
 		m_examView->questionCountUpdate();	
@@ -128,7 +127,7 @@ void Tpenalty::checkAnswer() {
 	if (!m_exam->isExercise()) {
 		releaseBlackList();
 		m_progress->progress();
-		if (!m_exam->curQ().isCorrect())
+		if (!m_exam->curQ()->isCorrect())
 				updatePenalStep();
 		checkForCert();
 	}
@@ -138,11 +137,11 @@ void Tpenalty::checkAnswer() {
 void Tpenalty::setMelodyPenalties() {
 	if (m_exam->count() == 0)
 		return;
-	if (m_exam->curQ().answered())
+	if (m_exam->curQ()->answered())
 		return; // It happens when continued exam starts - last question has been answered already
-	m_exam->curQ().setAnswered(); // in other cases question is summarized
+// 	m_exam->curQ()->setAnswered(); // in other cases question is summarized
 	if (m_exam->melodies()) {
-		if (!m_exam->curQ().isCorrect() && !m_exam->isFinished()) {
+		if (!m_exam->curQ()->isCorrect() && !m_exam->isFinished()) {
 				m_exam->addPenalties();
 				if (!m_exam->isExercise()) {
 					if ((m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
@@ -221,8 +220,6 @@ void Tpenalty::continueTime() {
 
 
 void Tpenalty::updateExamTimes() {
-	if (m_exam->melodies())
-			setMelodyPenalties();
 	m_examView->updateExam();
 }
 

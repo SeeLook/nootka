@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -98,8 +98,8 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 }
 
 
-QColor& TexecutorSupply::answerColor(const TQAunit& answer) {
-	return answerColor(answer.mistake());
+QColor& TexecutorSupply::answerColor(const TQAunit* answer) {
+	return answerColor(answer->mistake());
 }
 
 
@@ -425,7 +425,7 @@ void TexecutorSupply::calcQAPossibleCount() {
 }
 
 
-void TexecutorSupply::checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid) {
+void TexecutorSupply::checkNotes(TQAunit* curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid) {
 	Tnote exN = expectedNote, retN = userNote;
 	if (retN.note) {
 		Tnote nE = exN.showAsNatural();
@@ -434,29 +434,29 @@ void TexecutorSupply::checkNotes(TQAunit& curQ, Tnote& expectedNote, Tnote& user
 			if (reqOctave) {
 					if (nE.note == nR.note && nE.alter == nR.alter) {
 							if (nE.octave != nR.octave)
-								curQ.setMistake(TQAunit::e_wrongOctave);
+								curQ->setMistake(TQAunit::e_wrongOctave);
 					} else {
-							curQ.setMistake(TQAunit::e_wrongNote);
+							curQ->setMistake(TQAunit::e_wrongNote);
 					}
 			}
-			if (!curQ.wrongNote()) { // There is still something to check
+			if (!curQ->wrongNote()) { // There is still something to check
 				if (exN.note != retN.note || exN.alter != retN.alter) {// if they are equal it means that only octaves were wrong
 						exN = exN.showAsNatural();
 						retN = retN.showAsNatural();
 						if (reqAccid) {
 								if (exN.note == retN.note && exN.alter == retN.alter)
-										curQ.setMistake(TQAunit::e_wrongAccid);
+										curQ->setMistake(TQAunit::e_wrongAccid);
 								else
-										curQ.setMistake(TQAunit::e_wrongNote);
+										curQ->setMistake(TQAunit::e_wrongNote);
 						} else {
 								if (exN.note != retN.note || exN.alter != retN.alter)
-									curQ.setMistake(TQAunit::e_wrongNote);
+									curQ->setMistake(TQAunit::e_wrongNote);
 						}
 				}
 			}
 		}
 	} else
-			curQ.setMistake(TQAunit::e_wrongNote);
+			curQ->setMistake(TQAunit::e_wrongNote);
 }
 
 
@@ -465,7 +465,7 @@ void TexecutorSupply::compareMelodies(Tmelody* q, Tmelody* a, Tattempt* att) {
 	for (int i = 0; i < notesCount; ++i) {
 		TQAunit tmpUnit;
 		if (a->length() > i && q->length() > i)
-			checkNotes(tmpUnit, q->note(i)->p(), a->note(i)->p(), m_level->requireOctave, m_level->forceAccids);
+			checkNotes(&tmpUnit, q->note(i)->p(), a->note(i)->p(), m_level->requireOctave, m_level->forceAccids);
 		else
 			tmpUnit.setMistake(TQAunit::e_wrongNote);
 		att->add(tmpUnit.mistake()); // times are ignored in that type of answer/attempt
@@ -481,7 +481,7 @@ void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattemp
 	for (int i = 0; i < notesCount; ++i) {
 		TQAunit tmpUnit;
 		if (a.size() > i && q->length() > i) {
-			checkNotes(tmpUnit, q->note(i)->p(), a[i].pitch, m_level->requireOctave, m_level->forceAccids);
+			checkNotes(&tmpUnit, q->note(i)->p(), a[i].pitch, m_level->requireOctave, m_level->forceAccids);
 			if (!tmpUnit.isWrong() && m_level->intonation != TintonationView::e_noCheck) {
 				if (TnoteStruct(Tnote(), a[i].pitchF).inTune(TintonationView::getThreshold(m_level->intonation)))
 					tmpUnit.setMistake(TQAunit::e_wrongIntonation);
