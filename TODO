@@ -14,23 +14,22 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- when new staff is automatically added selected note is wrong
+- analyzer crash when tip is displayed and CTRL+e is pressed
 - fix accidental animations - they jump when melody is set as a question
 - also switching clefs with set some key sucks
 - do not continue answering with melody that was fully or too much corrected
 - try to avoid many resizeEvent-s of TmultiScore during window size change
 - exercise file still can be corrupted
-- avoid analyzing of empty exercise
 - lock right button and space bar during correction
-- analyzer crash when tip is displayed and CTRL+e is pressed
 
-- certificates has to be adjusted to melodies
 - canvas has to recognize when widgets are hidden and doesn't start correcting animations 
 
 
 MINOR:
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - clicked link of tip locks next click - probably due to grabbed focus - however click outside tip unlocks it
+- when exercise is finished and analysis dialog was opened message text remains
+- clef in empty level preview table is out of borders
 - when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
 - auto hidden tool bar remains big after decreased window size
@@ -43,12 +42,16 @@ MINOR:
 
 ==== NEW FEATURES ================================================================
 - new way of adding notes just after the last one was clicked
-- proxy corner widgets should be animated
+- average effectiveness line in chart
+- use recent exams list for analyzer the same as start exam dialog has
+- proxy corner widgets may be animated
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar
+- Class that manages recent exams menu list and has colored item 'recent opened exams'
 - add blinking of settings icon(action) instead of expert check boxes in old versions
 - move status label out as a separate class and implement animations there (can be used in settings windows as well) 
 - make exam summary pretty
+- certificates would have some additional data about melodies
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote
 ----------------------------------------------------------------------------------------------------------------

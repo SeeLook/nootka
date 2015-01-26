@@ -259,147 +259,150 @@ void TanalysDialog::setExam(Texam* exam) {
 
 
 void TanalysDialog::loadExam(QString& examFile) {
-    if (m_exam)
-        delete m_exam;
-    m_exam = new Texam(m_level, "");
-    m_wasExamCreated = true; // delete exam in destructor
-    if (m_exam->loadFromFile(examFile) == Texam::e_file_OK)
-        setExam(m_exam); // only when file was OK
-    else {
-      delete m_exam;
-      m_exam = 0;
-      m_userLab->setText("");
-      m_levelLab->setText("");
-      m_questNrLab->setText("");
-              m_effectLab->setText("");
-      m_moreButton->setDisabled(true);
-      createChart(m_chartSetts);
-      TgraphicsTextTip *wrongFileTip = new TgraphicsTextTip("<h3>" +
-					tr("File: %1 \n is not valid exam file!").arg(examFile).replace("\n", "<br>") + "</h3>", Tcore::gl()->EquestionColor);
-      m_chart->scene->addItem(wrongFileTip);
-      wrongFileTip->setPos(100, 180);
-    }
+  deleteChart();
+  if (m_exam)
+    delete m_exam;
+  m_exam = new Texam(m_level, "");
+  m_wasExamCreated = true; // delete exam in destructor
+  if (m_exam->loadFromFile(examFile) == Texam::e_file_OK)
+    setExam(m_exam); // only when file was OK
+  else {
+    delete m_exam;
+    m_exam = 0;
+    m_userLab->setText("");
+    m_levelLab->setText("");
+    m_questNrLab->setText("");
+    m_effectLab->setText("");
+    m_moreButton->setDisabled(true);
+    createChart(m_chartSetts);
+    TgraphicsTextTip *wrongFileTip = new TgraphicsTextTip("<h3>" +
+        tr("File: %1 \n is not valid exam file!").arg(examFile).replace("\n", "<br>") + "</h3>", Tcore::gl()->EquestionColor);
+    m_chart->scene->addItem(wrongFileTip);
+    wrongFileTip->setPos(100, 180);
+  }
 }
 
 //##########  PRIVATE METHODS #####################
 
 void TanalysDialog::createActions() {
-    QMenu *openMenu = new QMenu("open exam file", this);
-    QAction *openAct = new QAction(tr("Open an exam to analyze"), this);
-			openAct->setIcon(QIcon(Tcore::gl()->path + "picts/charts.png"));
-			openAct->setShortcut(QKeySequence::Open);
-    openMenu->addAction(openAct);
-			connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
+  QMenu *openMenu = new QMenu("open exam file", this);
+  QAction *openAct = new QAction(tr("Open an exam to analyze"), this);
+    openAct->setIcon(QIcon(Tcore::gl()->path + "picts/charts.png"));
+    openAct->setShortcut(QKeySequence::Open);
+  openMenu->addAction(openAct);
+    connect(openAct, SIGNAL(triggered()), this, SLOT(loadExamSlot()));
+  openMenu->addSeparator();
+  QString exerciseFile = QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + "/exercise.noo");
+  if (QFileInfo(exerciseFile).exists()) {
+    Tlevel lev;
+    Texam ex(&lev, "");
+    ex.loadFromFile(exerciseFile);
+    QAction *exerciseAct = new QAction(tr("Recent exercise on level") + ": " + lev.name, this);
+    exerciseAct->setIcon(QIcon(Tcore::gl()->path + "picts/practice.png"));
+    exerciseAct->setShortcut(QKeySequence("CTRL+e"));
+    connect(exerciseAct, SIGNAL(triggered()), this, SLOT(openRecentExercise()));
+    openMenu->addAction(exerciseAct);
     openMenu->addSeparator();
-		QString exerciseFile = QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + "/exercise.noo");
-		if (QFileInfo(exerciseFile).exists()) {
-			Tlevel lev;
-			Texam ex(&lev, "");
-			ex.loadFromFile(exerciseFile);
-			QAction *exerciseAct = new QAction(tr("Recent exercise on level") + ": " + lev.name, this);
-			exerciseAct->setIcon(QIcon(Tcore::gl()->path + "picts/practice.png"));
-			exerciseAct->setShortcut(QKeySequence("CTRL+e"));
-			connect(exerciseAct, SIGNAL(triggered()), this, SLOT(openRecentExercise()));
-			openMenu->addAction(exerciseAct);
-			openMenu->addSeparator();
-		}
-    openMenu->addAction(tr("recent opened exams:"));
-    QStringList recentExams = Tcore::gl()->config->value("recentExams").toStringList();
-    for (int i = 0; i < recentExams.size(); i++) {
-        QFileInfo fi(recentExams[i]);
-        if (fi.exists()) {
-            QAction *act = new QAction(recentExams[i], this);
-            openMenu->addAction(act);
-            connect(act, SIGNAL(triggered()), this, SLOT(openRecentExam()));
-        }
+  }
+  openMenu->addAction(tr("recent opened exams:"));
+  QStringList recentExams = Tcore::gl()->config->value("recentExams").toStringList();
+  for (int i = 0; i < recentExams.size(); i++) {
+    QFileInfo fi(recentExams[i]);
+    if (fi.exists()) {
+      QAction *act = openMenu->addAction(fi.fileName()); // new QAction(recentExams[i], this);
+      act->setData(recentExams[i]);
+      connect(act, SIGNAL(triggered()), this, SLOT(openRecentExam()));
     }
-    m_openButton = new QToolButton(this);
-    m_openButton->setToolTip(openAct->text());
-    m_openButton->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-exam.png"));
-    m_openButton->setMenu(openMenu);
-    m_openButton->setPopupMode(QToolButton::InstantPopup);
-    QWidgetAction* openToolButtonAction = new QWidgetAction(this);
-    openToolButtonAction->setDefaultWidget(m_openButton);
+  }
+  m_openButton = new QToolButton(this);
+  m_openButton->setToolTip(openAct->text());
+  m_openButton->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-exam.png"));
+  m_openButton->setMenu(openMenu);
+  m_openButton->setPopupMode(QToolButton::InstantPopup);
+  QWidgetAction* openToolButtonAction = new QWidgetAction(this);
+  openToolButtonAction->setDefaultWidget(m_openButton);
 
-    m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyzer window"), this);
-    connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
+  m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyzer window"), this);
+  connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    m_zoomInAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-in.png"), tr("zoom in"), this);
-    connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
+  m_zoomInAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-in.png"), tr("zoom in"), this);
+  connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
 
-    m_zoomOutAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-out.png"), tr("zoom out"), this);
-    connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
+  m_zoomOutAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-out.png"), tr("zoom out"), this);
+  connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
 // settings menu button
-    m_inclWrongAct = new QAction(tr("include time of wrong answers to average"), this);
-    m_inclWrongAct->setCheckable(true);
-    m_wrongSeparateAct = new QAction(tr("show wrong answers separately"), this);
-    m_wrongSeparateAct->setCheckable(true);
-    QMenu *menu = new QMenu("chart menu", this);
-    menu->addAction(m_wrongSeparateAct);
-    menu->addAction(m_inclWrongAct);
-    connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-    connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
-    m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
-    m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
-    
-    m_settButt = new QToolButton(this);
-    m_settButt->setIcon(QIcon(Tcore::gl()->path + "picts/exam-settings.png"));
-    m_settButt->setToolTip(tr("Settings of a chart"));
-    m_settButt->setMenu(menu);
-    m_settButt->setPopupMode(QToolButton::InstantPopup);
-    m_settButt->setDisabled(true); // that options have no sense for default chart
-    
-    QWidgetAction* toolButtonAction = new QWidgetAction(this);
-    toolButtonAction->setDefaultWidget(m_settButt);
-    
-    m_maximizeAct = new QAction(QIcon(Tcore::gl()->path + "picts/fullscreen.png"), tr("Maximize"), this);
-    connect(m_maximizeAct, SIGNAL(triggered()), this, SLOT(maximizeWindow()));
+  m_inclWrongAct = new QAction(tr("include time of wrong answers to average"), this);
+  m_inclWrongAct->setCheckable(true);
+  m_wrongSeparateAct = new QAction(tr("show wrong answers separately"), this);
+  m_wrongSeparateAct->setCheckable(true);
+  QMenu *menu = new QMenu("chart menu", this);
+  menu->addAction(m_wrongSeparateAct);
+  menu->addAction(m_inclWrongAct);
+  connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+  connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+  m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
+  m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
+  
+  m_settButt = new QToolButton(this);
+  m_settButt->setIcon(QIcon(Tcore::gl()->path + "picts/exam-settings.png"));
+  m_settButt->setToolTip(tr("Settings of a chart"));
+  m_settButt->setMenu(menu);
+  m_settButt->setPopupMode(QToolButton::InstantPopup);
+  m_settButt->setDisabled(true); // that options have no sense for default chart
+  
+  QWidgetAction* toolButtonAction = new QWidgetAction(this);
+  toolButtonAction->setDefaultWidget(m_settButt);
+  
+  m_maximizeAct = new QAction(QIcon(Tcore::gl()->path + "picts/fullscreen.png"), tr("Maximize"), this);
+  connect(m_maximizeAct, SIGNAL(triggered()), this, SLOT(maximizeWindow()));
 
-    QActionGroup *chartTypeGroup = new QActionGroup(this);
-    m_linearAct = new QAction(QIcon(Tcore::gl()->path + "picts/linearChart.png"), tr("linear chart"), this);
-    m_linearAct->setCheckable(true);
-    chartTypeGroup->addAction(m_linearAct);
-    m_barAct = new QAction(QIcon(Tcore::gl()->path + "picts/barChart.png"), tr("bar chart"), this);
-    m_barAct->setCheckable(true);
-    chartTypeGroup->addAction(m_barAct);
-    if (m_chartSetts.type == Tchart::e_linear)
-      m_linearAct->setChecked(true);
-    else
-      m_barAct->setChecked(true);
-    connect(chartTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(chartTypeChanged()));
-    
-    m_toolBar->addAction(openToolButtonAction);
-    m_toolBar->addAction(toolButtonAction);
-    m_toolBar->addSeparator();
-    m_toolBar->addAction(m_zoomOutAct);
-    m_toolBar->addAction(m_zoomInAct);
-    m_toolBar->addSeparator();
-    m_toolBar->addAction(m_linearAct);
-    m_toolBar->addAction(m_barAct);
-    m_toolBar->addSeparator();
-    m_toolBar->addAction(m_maximizeAct);
-    m_toolBar->addSeparator();
-    m_toolBar->addAction(m_closeAct);
+  QActionGroup *chartTypeGroup = new QActionGroup(this);
+  m_linearAct = new QAction(QIcon(Tcore::gl()->path + "picts/linearChart.png"), tr("linear chart"), this);
+  m_linearAct->setCheckable(true);
+  chartTypeGroup->addAction(m_linearAct);
+  m_barAct = new QAction(QIcon(Tcore::gl()->path + "picts/barChart.png"), tr("bar chart"), this);
+  m_barAct->setCheckable(true);
+  chartTypeGroup->addAction(m_barAct);
+  if (m_chartSetts.type == Tchart::e_linear)
+    m_linearAct->setChecked(true);
+  else
+    m_barAct->setChecked(true);
+  connect(chartTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(chartTypeChanged()));
+  
+  m_toolBar->addAction(openToolButtonAction);
+  m_toolBar->addAction(toolButtonAction);
+  m_toolBar->addSeparator();
+  m_toolBar->addAction(m_zoomOutAct);
+  m_toolBar->addAction(m_zoomInAct);
+  m_toolBar->addSeparator();
+  m_toolBar->addAction(m_linearAct);
+  m_toolBar->addAction(m_barAct);
+  m_toolBar->addSeparator();
+  m_toolBar->addAction(m_maximizeAct);
+  m_toolBar->addSeparator();
+  m_toolBar->addAction(m_closeAct);
 }
 
 
 void TanalysDialog::createChart(Tchart::Tsettings& chartSett) {
-//     qreal scaleFactor = 1; // TODO restore restoring scale factor
-    if (m_chart) {
-//       scaleFactor = m_chart->transform().m11();
-      delete m_chart;
-      m_chart = 0;
-    }
-    if (m_exam) {
-      if (chartSett.type == Tchart::e_linear)
-        m_chart = new TlinearChart(m_exam, m_chartSetts, this);
-      else
-        m_chart = new TbarChart(m_exam, m_chartSetts, this);
-    }
+  deleteChart();
+  if (m_exam) {
+    if (chartSett.type == Tchart::e_linear)
+      m_chart = new TlinearChart(m_exam, m_chartSetts, this);
     else
-      m_chart = new Tchart(this); // empty chart by default
-//     m_chart->scale(scaleFactor, scaleFactor);
-    m_plotLay->addWidget(m_chart);
+      m_chart = new TbarChart(m_exam, m_chartSetts, this);
+  }
+  else
+    m_chart = new Tchart(this); // empty chart by default
+  m_plotLay->addWidget(m_chart);
+}
+
+
+void TanalysDialog::deleteChart() {
+  if (m_chart) {
+    delete m_chart;
+    m_chart = 0;
+  }
 }
 
 
@@ -443,12 +446,12 @@ void TanalysDialog::openRecentExercise() {
 
 
 void TanalysDialog::openRecentExam() {
-    QAction *action = qobject_cast<QAction *>(sender());
-        if (action) {
-            QString file = action->text();
-            loadExam(file);
-						setWindowTitle(analyseExamWinTitle());
-        }
+  QAction *action = qobject_cast<QAction*>(sender());
+  if (action) {
+    QString recentFile = action->data().toString();
+    loadExam(recentFile);
+    setWindowTitle(analyseExamWinTitle());
+  }
 }
 
 
