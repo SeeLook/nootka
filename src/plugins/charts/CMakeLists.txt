@@ -8,7 +8,6 @@ set(ANALYZER_SRC
 	tanalysdialog.cpp
 	sorting.cpp
 	tabstractaxis.cpp
-	taxis.h
 	tbar.cpp
 	tbarchart.cpp
 	tchart.cpp

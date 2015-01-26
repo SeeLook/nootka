@@ -50,11 +50,11 @@ TtipHandler::TtipHandler() :
 }
 
 TtipHandler::~TtipHandler() {
+  deleteTip();
   if (m_hideTimer)
     delete m_hideTimer;
   if (m_showTimer)
     delete m_showTimer;
-  deleteTip();
 }
 
 

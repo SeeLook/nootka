@@ -92,6 +92,7 @@ private:
 private:
   void createActions();
   void createChart(Tchart::Tsettings &chartSett);
+  void deleteChart();
   void enableComboItem(QComboBox* combo, int index, bool enable);
     
 };

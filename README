@@ -15,7 +15,7 @@
                 I...   Requirements:                         ###############################################
 ############################################################################################################
 - Qt libraries (at least version 5.2)
-	In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network, Qt5Svg
+	In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
   both ogg and vorbis. Dll libraries are on mentioned site in vorbis-tools archive
   and headers are in libogg and libvorbis archives.
@@ -30,6 +30,10 @@
 ############################################################################################################
                  II...    Building:                           ##############################################
 ############################################################################################################
+In short:
+  cmake nootka_folder && make && make install
+
+In details:
 1. Unpack Nootka tarball (archive)
 2. go into unpacked directory
 3. create some directory (f. e. 'build')
