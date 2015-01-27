@@ -202,13 +202,13 @@ void TscoreNote::moveNote(int posY) {
     if (m_accidental == 0) {
         newAccid = getAccid(3); // neutral
         m_mainAccid->hide();
-        if (m_accidToKeyAnim && !theSame)
+        if (m_accidToKeyAnim && !isReadOnly() && !theSame)
             emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
     } else {
         if (staff()->accidInKeyArray[noteNr] == m_accidental) {
-          if (m_accidToKeyAnim && !theSame)
+          if (m_accidToKeyAnim && !isReadOnly() && !theSame)
               emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
-          if (staff()->extraAccids()) // accidental from key signature in brackets
+          if (staff()->extraAccids()) // accidental from key signature in braces
             newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));
           else
             newAccid = " "; // hide accidental

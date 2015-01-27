@@ -89,6 +89,7 @@ public:
         /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
     void unLockScore();
 		virtual void setScoreDisabled(bool disabled);
+    void lockKeySignature(bool lock); /** Locks/unlocks key signature segment (if exists). */
     void setKeyViewBg(QColor C);
     void setNoteViewBg(int id, QColor C);
     void forceAccidental(Tnote::Ealter accid); /** Sets given accidental */

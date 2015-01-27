@@ -153,48 +153,49 @@ void TlevelCreatorDlg::saveLevel() {
 
 
 void TlevelCreatorDlg::saveToFile() {
-    Tlevel newLevel;
-    m_questSett->saveLevel(&newLevel);
-    m_accSett->saveLevel(&newLevel);
+  Tlevel newLevel;
+  m_questSett->saveLevel(&newLevel);
+  m_accSett->saveLevel(&newLevel);
 // 		m_meloSett->saveLevel(&newLevel);
-    m_rangeSett->saveLevel(&newLevel);
-    if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
-      // adjust fret range - validation will skip it for non guitar levels
-      newLevel.loFret = 0; // Set range to fret number and rest will be done by function preparing question list
-      newLevel.hiFret = Tcore::gl()->GfretsNumber;
-      newLevel.onlyLowPos = true; // otherwise the above invokes doubled/tripled questions in the list
-    // set all strings as available
-      for (int str = 0; str < 6; str++)
-        newLevel.usedStrings[str] = true;
-    }
-    QString isLevelValid = validateLevel(newLevel);
-    if (isLevelValid != "") {
-        showValidationMessage(isLevelValid);
-        return;
-    }
-    // set instrument to none when it is not important for the level
-		newLevel.instrument = newLevel.detectInstrument(Tcore::gl()->instrument);
-    TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
-    QStringList nameList = saveDlg->getLevelName();
-    newLevel.name = nameList[0];
-    newLevel.desc = nameList[1];
-  // Saving to file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"),
-                                                    QDir::toNativeSeparators(Tcore::gl()->E->levelsDir + "/" + newLevel.name + ".nel"),
-                                              TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
-    if (fileName == "")
-        return;
-    if (fileName.right(4) != ".nel")
-      fileName += ".nel";
-    Tcore::gl()->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
-		if (!Tlevel::saveToFile(newLevel, fileName)) {
-				QMessageBox::critical(this, " ", tr("Cannot open file for writing"));
-				return;
-		}
-    isNotSaved = false;
-    m_levelSett->levelSelector()->addLevel(newLevel, fileName, true);
-    m_levelSett->levelSelector()->selectLevel(); // select the last
-    levelSaved();
+  m_rangeSett->saveLevel(&newLevel);
+  if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
+    // adjust fret range - validation will skip it for non guitar levels
+    newLevel.loFret = 0; // Set range to fret number and rest will be done by function preparing question list
+    newLevel.hiFret = Tcore::gl()->GfretsNumber;
+    newLevel.onlyLowPos = true; // otherwise the above invokes doubled/tripled questions in the list
+  // set all strings as available
+    for (int str = 0; str < 6; str++)
+      newLevel.usedStrings[str] = true;
+  }
+  QString isLevelValid = validateLevel(newLevel);
+  if (isLevelValid != "") {
+      showValidationMessage(isLevelValid);
+      return;
+  }
+  // set instrument to none when it is not important for the level
+  newLevel.instrument = newLevel.detectInstrument(Tcore::gl()->instrument);
+  TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
+  QStringList nameList = saveDlg->getLevelName();
+  newLevel.name = nameList[0];
+  newLevel.desc = nameList[1];
+// Saving to file
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"),
+                                                  QDir::toNativeSeparators(Tcore::gl()->E->levelsDir + "/" + newLevel.name + ".nel"),
+                                            TlevelSelector::levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
+  if (fileName == "")
+      return;
+  if (fileName.right(4) != ".nel")
+    fileName += ".nel";
+  Tcore::gl()->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
+  if (!Tlevel::saveToFile(newLevel, fileName)) {
+      QMessageBox::critical(this, " ", tr("Cannot open file for writing"));
+      return;
+  }
+  isNotSaved = false;
+  m_levelSett->levelSelector()->addLevel(newLevel, fileName, true);
+  m_levelSett->levelSelector()->selectLevel(); // select the last
+  levelSaved();
+  m_levelSett->levelSelector()->updateRecentLevels(); // Put the file name to the settings list
 }
 
 

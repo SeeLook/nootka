@@ -3,5 +3,6 @@ syntax: glob
 nootka.kdev4
 .directory
 CMakeLists.txt.user
+CMakeLists.txt.user*
 .kdev_include_paths
 
