@@ -14,22 +14,21 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- analyzer crash when tip is displayed and CTRL+e is pressed
-- fix accidental animations - they jump when melody is set as a question
 - also switching clefs with set some key sucks
 - do not continue answering with melody that was fully or too much corrected
-- try to avoid many resizeEvent-s of TmultiScore during window size change
-- exercise file still can be corrupted
 - lock right button and space bar during correction
+- do order with updater - it crashes as a plugin and works ugly as a executable
 
 - canvas has to recognize when widgets are hidden and doesn't start correcting animations 
 
 
 MINOR:
+- try to avoid many resizeEvent-s of TmultiScore during window size change
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - clicked link of tip locks next click - probably due to grabbed focus - however click outside tip unlocks it
 - when exercise is finished and analysis dialog was opened message text remains
 - clef in empty level preview table is out of borders
+- creator "use different names" switch of Questions remains enabled for melodies where names are unused
 - when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
 - auto hidden tool bar remains big after decreased window size
@@ -40,7 +39,7 @@ MINOR:
 - revert to native style under MacOs when Qt5
 
 
-==== NEW FEATURES ================================================================
+==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - new way of adding notes just after the last one was clicked
 - average effectiveness line in chart
 - use recent exams list for analyzer the same as start exam dialog has
@@ -54,9 +53,6 @@ MINOR:
 - certificates would have some additional data about melodies
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
   then emitting signal should contain Tchunk instead Tnote
-----------------------------------------------------------------------------------------------------------------
-
-			
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required
@@ -64,6 +60,7 @@ TEXAMEXECUTOR
 ===============================================================
 ========== TRANSLATIONS =======================================
 ===============================================================
+ - Entries of Accidental settings in creator were moved from Question Settings - find end confirm
  - TtoolBar has many entries translated already - just confirm them
  - Tpage_3 context was moved and description fixed but source text remained the same - just confirm
  - 'You are exercising on level' and 'Exam started on level' moved to Tcanvas from executor - just confirm

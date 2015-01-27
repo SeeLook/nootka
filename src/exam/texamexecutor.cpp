@@ -431,6 +431,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       }
     }
     mW->score->unLockScore();
+    if (m_level.useKeySign && !m_level.manualKey) // case for either for single mode and melodies
+      mW->score->lockKeySignature(true); // disables key signature enabled above - user cannot change it in this case (fixed key)
   }
 
   if (curQ->answerAsName()) {

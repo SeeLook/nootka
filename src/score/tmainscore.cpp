@@ -320,7 +320,6 @@ void TmainScore::unLockScore() {
 
 void TmainScore::setScoreDisabled(bool disabled) {
 	TmultiScore::setScoreDisabled(disabled);
-// 	m_acts->disableActions(disabled);
   if (insertMode() != e_single) {
     m_delCorner->setVisible(!disabled);
     m_acts->clearScore()->blockSignals(disabled);
@@ -328,7 +327,15 @@ void TmainScore::setScoreDisabled(bool disabled) {
     m_acts->deleteCurrentNote()->setVisible(!disabled);
     m_acts->deleteCurrentNote()->blockSignals(disabled);
   }
-// 	m_keys->disableKeys(disabled);
+}
+
+/** When Key signature is enabled (exists) it is disabled/enabled by @p setScoreDisabled().
+ * This method gives independent control on it. */
+void TmainScore::lockKeySignature(bool lock) {
+  if (staff()->scoreKey()) {
+    for (int i = 0; i < staffCount(); ++i)
+      staves(i)->scoreKey()->setReadOnly(lock);
+  }
 }
 
 
