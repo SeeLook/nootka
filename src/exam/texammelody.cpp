@@ -41,6 +41,7 @@ void TexamMelody::newMelody(int length) {
   }
   m_currentIndex = -1;
   m_indexChanged = false;
+  m_numberOfFixed = 0;
 }
 
 
@@ -69,6 +70,13 @@ void TexamMelody::setCurrentIndex(int id) {
   } else {
     qDebug() << "TexamMelody list is empty, cannot change index!";
   }
+}
+
+
+void TexamMelody::setFixed(int noteNr) {
+  if (!m_attemptFix[noteNr]) // if not fixed yet
+    m_numberOfFixed++; // increase number of fixed
+  m_attemptFix[noteNr] = true;
 }
 
 

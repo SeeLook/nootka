@@ -1464,6 +1464,10 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
 				if (m && !m_melody->fixed(noteNr) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
 					mW->score->correctNote(m_exam->curQ()->melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
 					m_melody->setFixed(noteNr);
+          if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // to much fixed - block new attempt
+            mW->bar->removeAction(mW->bar->attemptAct);
+            m_canvas->whatNextTip(true); // it will cheat m_canvas that question is correct and 'new attempt' will be blocked as well
+          }
 				}
 			}
 			if (mW->sound->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)

@@ -15,7 +15,6 @@
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - also switching clefs with set some key sucks
-- do not continue answering with melody that was fully or too much corrected
 - lock right button and space bar during correction
 - do order with updater - it crashes as a plugin and works ugly as a executable
 
