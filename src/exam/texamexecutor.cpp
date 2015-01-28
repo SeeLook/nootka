@@ -818,7 +818,7 @@ void TexamExecutor::newAttempt() {
 	// prepare list to store notes played by user or clear it
 	m_melody->newMelody(m_exam->curQ()->answerAsSound() ? m_exam->curQ()->melody()->length() : 0);
 // 	m_melody->clearToFix(m_exam->curQ()->melody()->length());
-  m_exam->newAttempt();
+	m_penalty->newAttempt();
 	if (m_exam->curQ()->answerAsSound())
 				m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure 
 	askQuestion(true);

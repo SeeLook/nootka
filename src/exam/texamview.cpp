@@ -154,7 +154,7 @@ void TexamView::startExam(Texam* exam) {
 	answered();
 	m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
 	if (m_exam->melodies()) {
-		m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of single attempt)."));
+		m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of current question)."));
 		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt());
 	} else {
 		m_effLab->setStatusTip(TexTrans::effectTxt());
@@ -198,8 +198,10 @@ void TexamView::reactTimesUpdate() {
 void TexamView::effectUpdate() {
 	if (m_exam && isVisible()) {
 		QString effText = QString("<b>%1 %</b>").arg(qRound(m_exam->effectiveness()));
-		if (m_exam->melodies() && !m_exam->curQ()->answered() && m_exam->curQ()->attemptsCount() && m_exam->curQ()->lastAttempt()->mistakes.size())
-				effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ()->effectiveness()));
+		if (m_exam->count() && m_exam->melodies() && !m_exam->curQ()->answered() && 
+				m_exam->curQ()->attemptsCount() && m_exam->curQ()->lastAttempt()->mistakes.size())
+			effText += QString(" <small>(%1 %)</small>").arg(qRound(m_exam->curQ()->effectiveness()));
+			// It will display current melody question effectiveness only if it makes a sense
 		m_effLab->setText(effText);
 	}
 }
