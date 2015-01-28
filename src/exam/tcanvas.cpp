@@ -654,7 +654,7 @@ void Tcanvas::updateRelatedPoint() {
 
 void Tcanvas::fixWidthOverScore ( TgraphicsTextTip* tip ) {
 	if (m_tipPos == e_scoreOver && tip->realW() > m_window->score->width())
-				tip->setScale((qMax((qreal)m_window->score->width(), m_window->width() / 3.0) / (tip->boundingRect().width())));
+    tip->setScale((qMax((qreal)m_window->score->width() * 0.9, m_window->width() / 3.0) / (tip->boundingRect().width())));
 }
 
 

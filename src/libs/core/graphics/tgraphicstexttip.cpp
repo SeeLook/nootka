@@ -42,10 +42,10 @@ void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
 
 void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor) {
   TdropShadowEffect *shadow = new TdropShadowEffect();
-  if (shadowColor != -1)
-    shadow->setColor(QColor(shadowColor.name()));
-  else
-    shadow->setColor(qApp->palette().text().color());
+//   if (shadowColor != -1)
+//     shadow->setColor(QColor(shadowColor.name()));
+//   else
+    shadow->setColor(qApp->palette().text().color()); // consistent shadow color looks better than colored
   tip->setGraphicsEffect(shadow);
 }
 
@@ -128,9 +128,9 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 		painter->setPen(QPen(borderColor, 1.5));
 		painter->setBrush(QBrush(qApp->palette().base().color()));
     painter->drawRoundedRect(rect, 5, 5);
-    QLinearGradient grad(rect.topLeft(), rect.bottomRight());
+    QLinearGradient grad(rect.width() / 2, 0, rect.width() / 2, rect.height());
     grad.setColorAt(0.4, startColor);
-    grad.setColorAt(0.95, endColor);
+    grad.setColorAt(0.9, endColor);
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 5, 5);
   }
