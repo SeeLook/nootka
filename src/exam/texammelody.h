@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,13 +62,16 @@ public:
   QList<bool>& attemptFix() { return m_attemptFix; } /** List of fixed notes in melody during exercise */
   void clearToFix(int notesCount); /** Clears the list and sets all given number elements to false. */
   bool fixed(int noteNr) { return m_attemptFix[noteNr]; }
-  void setFixed(int noteNr) { m_attemptFix[noteNr] = true; } /** Sets given note number to true (fixed) */
+  void setFixed(int noteNr); /** Sets given note number to true (fixed) */
+  int numberOfFixed() { return m_numberOfFixed; } /** Number of already fixed notes. */
+  
   
 private:
   
   QList<TnoteStruct>        m_listened;
   int                       m_currentIndex;
   bool                      m_indexChanged;
+  int                       m_numberOfFixed;
   
   QList<bool>               m_attemptFix;
 };
