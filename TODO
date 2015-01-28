@@ -18,9 +18,6 @@ MAJOR:
 - lock right button and space bar during correction
 - do order with updater - it crashes as a plugin and works ugly as a executable
 
-- canvas has to recognize when widgets are hidden and doesn't start correcting animations 
-
-
 MINOR:
 - try to avoid many resizeEvent-s of TmultiScore during window size change
 - changing tool bar auto-hiding causes sometimes locked melody menu
