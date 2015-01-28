@@ -134,12 +134,19 @@ void Tpenalty::checkAnswer() {
 }
 
 
+void Tpenalty::newAttempt() {
+	m_exam->newAttempt();
+	m_examView->effectUpdate();
+}
+
+
+
 void Tpenalty::setMelodyPenalties() {
 	if (m_exam->count() == 0)
 		return;
 	if (m_exam->curQ()->answered())
 		return; // It happens when continued exam starts - last question has been answered already
-// 	m_exam->curQ()->setAnswered(); // in other cases question is summarized
+	m_exam->curQ()->setAnswered();
 	if (m_exam->melodies()) {
 		if (!m_exam->curQ()->isCorrect() && !m_exam->isFinished()) {
 				m_exam->addPenalties();

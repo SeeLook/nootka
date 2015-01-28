@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,7 +31,7 @@ class Texam;
 /** 
  * This class manages penalties during exam execution.
  * Also it takes care about state of @class TexamView and @class TprogressWidget widgets
- * @p m_penalStep is determines how many 'normal' questions is asked between penalties
+ * @p m_penalStep determines how many 'normal' questions is asked between penalties
  * When it is 0 - penalty is asked every time.
  * @p m_penalCount counts questions and is increased by @p nextQuestion()
  * @p m_blackQuestNr keeps number of question in a black list or it is -1 when 'normal' question.
@@ -42,6 +42,7 @@ class Texam;
  * @p checkAnswer() manages @p m_exam state (summarize the answer) and updates counters of the widgets 
  * and adds penalties if necessary. 
  * Due to melody questions can be continued (new attempts), this method can't determine penalties in this moment.
+ * @p newAttempt() prepares to continuation of answering.
  * @p setMelodyPenalties() has to be called when user decided that question is answered/finished.
  * This method is invoked from @class TexamExacutor when new question is created (@p askQUestion() there)
  * @p setBlackQuestion() is called from Texam::repeatQuestion() 
@@ -58,7 +59,7 @@ class Tpenalty : public QObject
 public:
 	Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, TprogressWidget* progress);
 	
-	bool isNot() { return m_blackQuestNr == -1 && m_blackNumber == -1; } /** @p TRUE when a question is not penalty */
+	bool isNot() { return m_blackQuestNr == -1 && m_blackNumber == -1; } /** @p TRUE when a question is not a penalty */
 	
 			/** Check state of counters and if it is time for penalty
 			 * prepares last question in @p Texam list by copying someone from black list
@@ -68,6 +69,7 @@ public:
 	void updatePenalStep();
 	void nextQuestion(); /** Increases counter of question, resets m_blackQuestNr. Starts timer */
 	void checkAnswer(); /** Checks last answer and when not valid adds penalty(s) to black list. */
+	void newAttempt(); /** Prepares @p Texam to continue answering and updates counters. */
 	void setMelodyPenalties();
 	void releaseBlackList(); /** If asked question was penalty and answer was correct it removes penalty from black list. */
 	void checkForCert(); /** Checks could be exam finished and emits @p certificate() when it can. */
