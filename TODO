@@ -30,7 +30,6 @@ MINOR:
 - auto hidden tool bar remains big after decreased window size
 - on level load (i.e. Master) intonation combo reminds disabled even if q/a allowing it
 - There is unused class TnotePixmap only with default clef - use it or delete
-- vertical name layout is probably unused - clear it then
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 - revert to native style under MacOs when Qt5
 
@@ -38,7 +37,8 @@ MINOR:
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - new way of adding notes just after the last one was clicked
 - average effectiveness line in chart
-- use recent exams list for analyzer the same as start exam dialog has
+- use recent exams list for analyzer the same as start exam dialog has (common class or method)
+- add Nootka like button instead of radio to TpitchView and button to switch intonation accuracy
 - proxy corner widgets may be animated
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,6 @@
 #include <tnoofont.h>
 #include <tscoreparams.h>
 #include <QtWidgets>
-#include <QPainter>
 
 
 extern Tglobals *gl;
@@ -42,124 +41,119 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 //#######################################################################################################
 //#################################### PUBLIC ###########################################################
 //#######################################################################################################
-								
-QWidget *m_menuParent;
-QPointer<QVBoxLayout> m_menuLay;
 
 TnoteName::TnoteName(QWidget *parent) :
-    QWidget(parent),
-    m_menu(0),
-    m_paintQuestion(false)
+	QWidget(parent),
+	m_menu(0),
+	m_fontSize(12),
+	m_isMenu(true)
 {
-// 		m_menu = new QMenu(parent);
-// 		setParent(m_menu);
-// 		m_menu->setStyleSheet("background-color: palette(window)");
 	m_menuParent = parent;
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-		setObjectName("TnoteName");
-		setStyleSheet("QWidget#TnoteName {background: transparent;}");
+	setObjectName("TnoteName");
+	setStyleSheet("QWidget#TnoteName {background: transparent;}");
 // NAME LABEL
-    QVBoxLayout *mainLay = new QVBoxLayout();
-    mainLay->setAlignment(Qt::AlignCenter);
-		mainLay->setContentsMargins(2, 2, 2, 2);
+	QVBoxLayout *mainLay = new QVBoxLayout();
+	mainLay->setAlignment(Qt::AlignCenter);
+	mainLay->setContentsMargins(2, 2, 2, 2);
 
-		m_nextNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowRight)), "", this);
-		m_nextNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-		m_nextNoteButt->setStatusTip(tr("Go to next note"));
-		connect(m_nextNoteButt, SIGNAL(clicked()), this, SLOT(nextNoteSlot()));
-		m_prevNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowLeft)), "", this);
-		m_prevNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-		m_prevNoteButt->setStatusTip(tr("Go to previous note"));
-		connect(m_prevNoteButt, SIGNAL(clicked()), this, SLOT(prevNoteSlot()));
-		
-    m_nameLabel = new TnoteNameLabel("", this);
-    connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
+	m_nextNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowRight)), "", this);
+	m_nextNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	m_nextNoteButt->setStatusTip(tr("Go to next note"));
+	connect(m_nextNoteButt, SIGNAL(clicked()), this, SLOT(nextNoteSlot()));
+	m_prevNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowLeft)), "", this);
+	m_prevNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+	m_prevNoteButt->setStatusTip(tr("Go to previous note"));
+	connect(m_prevNoteButt, SIGNAL(clicked()), this, SLOT(prevNoteSlot()));
+	
+	m_nameLabel = new TnoteNameLabel("", this);
+	connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
 
-		QBoxLayout *nameLay = new QBoxLayout(QBoxLayout::LeftToRight);
-			nameLay->addWidget(m_prevNoteButt);
-			nameLay->addWidget(m_nameLabel);
-			nameLay->addWidget(m_nextNoteButt);
-    mainLay->addLayout(nameLay);
-		m_buttonsLay = new QBoxLayout(QBoxLayout::TopToBottom);
+	QBoxLayout *nameLay = new QBoxLayout(QBoxLayout::LeftToRight);
+		nameLay->addWidget(m_prevNoteButt);
+		nameLay->addWidget(m_nameLabel);
+		nameLay->addWidget(m_nextNoteButt);
+	mainLay->addLayout(nameLay);
+	m_buttonsLay = new QBoxLayout(QBoxLayout::TopToBottom);
 // BUTTONS WITH NOTES TOOLBAR
-    m_noteLay = new QBoxLayout(QBoxLayout::LeftToRight);
+	m_noteLay = new QBoxLayout(QBoxLayout::LeftToRight);
 //     noteLay->addStretch(1);
-    m_noteGroup =new QButtonGroup(this);
-    for (int i = 0; i < 7; i++) {
-        m_noteButtons[i] = new TpushButton("", this);
-					   m_noteLay->addWidget(m_noteButtons[i]);
-				m_noteButtons[i]->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        m_noteGroup->addButton(m_noteButtons[i], i);
-			#if defined (Q_OS_ANDROID)
-				noteLay->addStretch(1);
-			#endif
-    }
-		  m_buttonsLay->addLayout(m_noteLay);
-    connect(m_noteGroup, SIGNAL(buttonClicked(int)), this, SLOT(noteWasChanged(int)));
-		
+	m_noteGroup =new QButtonGroup(this);
+	for (int i = 0; i < 7; i++) {
+			m_noteButtons[i] = new TpushButton("", this);
+						m_noteLay->addWidget(m_noteButtons[i]);
+			m_noteButtons[i]->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+			m_noteGroup->addButton(m_noteButtons[i], i);
+		#if defined (Q_OS_ANDROID)
+			noteLay->addStretch(1);
+		#endif
+	}
+		m_buttonsLay->addLayout(m_noteLay);
+	connect(m_noteGroup, SIGNAL(buttonClicked(int)), this, SLOT(noteWasChanged(int)));
+	
 // ACCID BUTTONS TOOOLBAR
-    m_accLay = new QBoxLayout(QBoxLayout::LeftToRight);
-		m_accLay->addStretch(2);
-    m_dblFlatButt = createAccidButton("B");
-    m_flatButt = createAccidButton("b");
-    m_sharpButt = createAccidButton("#");
-    m_dblSharpButt = createAccidButton("x");
-    m_accLay->addStretch(2);
-		m_buttonsLay->addLayout(m_accLay);
+	m_accLay = new QBoxLayout(QBoxLayout::LeftToRight);
+	m_accLay->addStretch(2);
+	m_dblFlatButt = createAccidButton("B");
+	m_flatButt = createAccidButton("b");
+	m_sharpButt = createAccidButton("#");
+	m_dblSharpButt = createAccidButton("x");
+	m_accLay->addStretch(2);
+	m_buttonsLay->addLayout(m_accLay);
 // OCTAVE BUTTONS TOOLBAR        
-    m_upOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
-		m_loOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
+	m_upOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
+	m_loOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
 #if defined (Q_OS_ANDROID)
-		upOctaveLay->addStretch(2); // no octaves link under Android
-		mainLay->setContentsMargins(0, 0, 0, 0);
-		mainLay->setSpacing(0);
+	upOctaveLay->addStretch(2); // no octaves link under Android
+	mainLay->setContentsMargins(0, 0, 0, 0);
+	mainLay->setSpacing(0);
 #else
-    QLabel *octavesLab = new QLabel(this);
-    octavesLab->setOpenExternalLinks(true);
-    octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
-																"You can change this link to article in your language. Leave quotation matks around the address!"));
-		octavesLab->setText("<a href=" + octavesLab->statusTip().mid(octavesLab->statusTip().indexOf("\"")) + ">" +
-												tr("Octaves") + "</a>");
-		octavesLab->setStatusTip(octavesLab->statusTip().replace("\"", "<b><i>"));
+	QLabel *octavesLab = new QLabel(this);
+	octavesLab->setOpenExternalLinks(true);
+	octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
+															"You can change this link to article in your language. Leave quotation matks around the address!"));
+	octavesLab->setText("<a href=" + octavesLab->statusTip().mid(octavesLab->statusTip().indexOf("\"")) + ">" +
+											tr("Octaves") + "</a>");
+	octavesLab->setStatusTip(octavesLab->statusTip().replace("\"", "<b><i>"));
 //     m_upOctaveLay->addWidget(octavesLab);
-		m_upOctaveLay->addStretch(1);
+	m_upOctaveLay->addStretch(1);
 #endif
-    m_octaveGroup = new QButtonGroup(this);
-    for (int i = 0; i < 8; i++) {
-        m_octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
-        m_octaveButtons[i]->setStatusTip(tr(octavesFull[i]));
-				if (i % 2) {
-            if (i > 0)
-                m_upOctaveLay->addStretch(1);
-						m_upOctaveLay->addWidget(m_octaveButtons[i]);
-				} else {
-						m_loOctaveLay->addWidget(m_octaveButtons[i]);
-						if (i < 6) {
+	m_octaveGroup = new QButtonGroup(this);
+	for (int i = 0; i < 8; i++) {
+			m_octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
+			m_octaveButtons[i]->setStatusTip(tr(octavesFull[i]));
+			if (i % 2) {
+					if (i > 0)
+							m_upOctaveLay->addStretch(1);
+					m_upOctaveLay->addWidget(m_octaveButtons[i]);
+			} else {
+					m_loOctaveLay->addWidget(m_octaveButtons[i]);
+					if (i < 6) {
+						m_loOctaveLay->addStretch(1);
+						if (i == 2) {
+							m_loOctaveLay->addWidget(octavesLab);
 							m_loOctaveLay->addStretch(1);
-							if (i == 2) {
-								m_loOctaveLay->addWidget(octavesLab);
-								m_loOctaveLay->addStretch(1);
-							}
 						}
-				}
-        m_octaveGroup->addButton(m_octaveButtons[i], i);
-    }
+					}
+			}
+			m_octaveGroup->addButton(m_octaveButtons[i], i);
+	}
 //     upOctaveLay->addStretch(1);
 // 		m_loOctaveLay->addWidget(octavesLab);
-    m_buttonsLay->addLayout(m_upOctaveLay);
-		m_buttonsLay->addLayout(m_loOctaveLay);
-    m_prevOctButton = -1;
-		
-    connect(m_octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
-    
-		mainLay->addLayout(m_buttonsLay);
-    setLayout(mainLay);
+	m_buttonsLay->addLayout(m_upOctaveLay);
+	m_buttonsLay->addLayout(m_loOctaveLay);
+	m_prevOctButton = -1;
+	
+	connect(m_octaveGroup, SIGNAL(buttonClicked(int)), this, SLOT(octaveWasChanged(int)));
+	
+	mainLay->addLayout(m_buttonsLay);
+	setLayout(mainLay);
 
-    setStyle(gl->S->nameStyleInNoteName);
-    setNoteNamesOnButt(style());
-    for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
-    setAmbitus(gl->loString(), Tnote(gl->hiString().chromatic()+gl->GfretsNumber));
+	setStyle(gl->S->nameStyleInNoteName);
+	setNoteNamesOnButt(style());
+	for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
+	setAmbitus(gl->loString(), Tnote(gl->hiString().chromatic()+gl->GfretsNumber));
 // #if !defined (Q_OS_ANDROID)
 // 		resize((qApp->desktop()->availableGeometry().height() / 10) / 4 - 2);
 // #endif
@@ -174,23 +168,24 @@ TnoteName::~TnoteName()
 //########################################## PUBLIC  #################################################
 //####################################################################################################
 
-/** @p scoreFactor parameter is used in resizeEvent() method 
- * because TnoteName gets its size only after the menu invokes exec() */ 
 void TnoteName::exec(QPoint pos, qreal scoreFactor) {
-	m_scoreFactor = scoreFactor;
-	if (m_menu) {
-		m_menuLay->removeWidget(this);
-		setParent(m_menuParent);
-		delete m_menu;
+	if (!m_menu) {
+		if (m_menuLay == 0) {
+			m_menuLay = new QVBoxLayout;
+			m_menuLay->setContentsMargins(0, 2, 0, 2);
+		}
+		m_menu = new QMenu(m_menuParent);
+		m_menuLay->addWidget(this);
+		m_menu->setLayout(m_menuLay);
+		m_menu->setObjectName("m_menu");
+		m_menu->setStyleSheet("QWidget#m_menu {background-color: palette(window);}");
 	}
-	if (m_menuLay == 0)
-		m_menuLay = new QVBoxLayout;
-	m_menu = new QMenu(m_menuParent);
+	if (!m_menuLay->count())
+		m_menuLay->addWidget(this);
 	show();
-	m_menuLay->addWidget(this);
-	m_menu->setLayout(m_menuLay);
-	m_menu->setObjectName("m_menu");
-	m_menu->setStyleSheet("QWidget#m_menu {background-color: palette(window)}");
+	m_menu->resize(sizeHint());
+	if (pos.x() > qApp->desktop()->availableGeometry().width() / 2)
+		pos.setX(pos.x() - sizeHint().width() - 12.5 * scoreFactor);
 	m_menu->exec(pos);
 }
 
@@ -242,42 +237,41 @@ void TnoteName::setNoteName(Tnote note) {
 
 
 void TnoteName::setNoteName(TnotesList& notes) {
-    TnotesList::iterator it = notes.begin();
-    ++it;
-    if (it != notes.end())
-        m_notes[1] = *(it);
-    else m_notes[1] = Tnote(0,0,0);
-    ++it;
-    if (it != notes.end())
-        m_notes[2] = *(it);
-    else m_notes[2] = Tnote(0,0,0);
-    setNoteName(notes[0]);
+	TnotesList::iterator it = notes.begin();
+	++it;
+	if (it != notes.end())
+			m_notes[1] = *(it);
+	else m_notes[1] = Tnote(0,0,0);
+	++it;
+	if (it != notes.end())
+			m_notes[2] = *(it);
+	else m_notes[2] = Tnote(0,0,0);
+	setNoteName(notes[0]);
 }
 
 
 void TnoteName::setEnabledDblAccid(bool isEnabled) {
-    if (isEnabled) {
-        m_dblFlatButt->show();
-        m_dblSharpButt->show();
-    } else {
-        m_dblFlatButt->hide();
-        m_dblSharpButt->hide();
-        m_notes[2] = Tnote(0,0,0);
-        setNameText();
-    }
+	if (isEnabled) {
+			m_dblFlatButt->show();
+			m_dblSharpButt->show();
+	} else {
+			m_dblFlatButt->hide();
+			m_dblSharpButt->hide();
+			m_notes[2] = Tnote(0,0,0);
+			setNameText();
+	}
 }
 
 
 void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
-    if (!isEnabled) {
-        m_notes[1] = Tnote(0,0,0);
-        m_notes[2] = Tnote(0,0,0);
-        setNameText();
-    }
+	if (!isEnabled) {
+			m_notes[1] = Tnote(0,0,0);
+			m_notes[2] = Tnote(0,0,0);
+			setNameText();
+	}
 }
 
-int m_fontSize = 12;
-bool m_isMenu = true;
+
 void TnoteName::resize(int fontSize) {
 	if (fontSize) {
 		m_fontSize = fontSize;
@@ -371,42 +365,16 @@ void TnoteName::enableArrows(bool en) {
 }
 
 
-void TnoteName::setDirection(QBoxLayout::Direction dir) {
-	if (dir == QBoxLayout::LeftToRight || dir == QBoxLayout::RightToLeft) {
-		m_buttonsLay->setDirection(QBoxLayout::TopToBottom);
-	} else { // all buttons layout has a flow opposite to buttons group layouts
-		m_buttonsLay->setDirection(QBoxLayout::LeftToRight);
-	}
-	m_noteLay->setDirection(dir);
-	m_accLay->setDirection(dir);
-	m_upOctaveLay->setDirection(dir);
-	m_loOctaveLay->setDirection(dir);
-}
-
-
 int TnoteName::widthForHorizontal() {
 	int w = 0;
-	for (int i = 0; i < 7; i++) {
+	for (int i = 0; i < 7; i++)
 		w += m_noteButtons[i]->width();
-	}
 	w += m_noteLay->spacing() * 9;
-// 	w += m_octaveButtons[0]->width() + m_octaveButtons[2]->width() * 2;
-// 	w += m_octaveButtons[4]->width() + m_octaveButtons[6]->width();
-// 	w += m_noteLay->spacing() * 6;
 	return w;
 }
 
 
-int TnoteName::widthForVertical() {
-	int w = 0;
-	w += m_noteButtons[6]->width() + m_dblSharpButt->width() + m_octaveButtons[1]->width() * 2;
-	w += m_noteLay->spacing() * 5;
-	return w;	
-}
-
-
 QSize TnoteName::sizeHint() const {
-//     return QWidget::sizeHint();
 	return m_sizeHint;
 }
 
@@ -431,8 +399,6 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
 	m_nameLabel->setBackgroundColor(prepareBgColor(gl->EquestionColor));
 	uncheckAllButtons();
 	setStyle(tmpStyle);
-// 	m_paintQuestion = true;
-// 	update();
 }
 
 
@@ -473,7 +439,6 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 					m_prevOctButton = i;
 			m_octaveButtons[i]->setChecked(false);
 		}
-// 					m_nameLabel->setBackgroundColor(prepareBgColor(palette().window().color()));
 	} else { // restore last checked octave vhen becomes enabled
 //           setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		if (m_prevOctButton != -1)
@@ -482,7 +447,6 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 				m_octaveButtons[3]->setChecked(true);
 				m_prevOctButton = 3;
 		}
-// 					m_nameLabel->setBackgroundColor(prepareBgColor(palette().base().color()));
 	}
 }
 
@@ -490,10 +454,6 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 void TnoteName::clearNoteName() {
 	setNoteName(Tnote());
 	m_nameLabel->setBackgroundColor(prepareBgColor(qApp->palette().base().color()));
-// 	if (m_paintQuestion) {
-// 		m_paintQuestion = false;
-// 		update();
-// 	}
 }
 
 
@@ -510,17 +470,6 @@ void TnoteName::correctName(Tnote& goodName, const QColor& color, bool isWrong) 
 //########################################## EVENTS  #################################################
 //####################################################################################################
 
-
-void TnoteName::resizeEvent(QResizeEvent* ) {
-	if (!m_menu)
-		return;
-	m_menu->resize(size());
-	if (m_menu->geometry().x() > qApp->desktop()->availableGeometry().width() / 2)
-				m_menu->move(m_menu->pos().x() - width() - 10.5 * m_scoreFactor, m_menu->pos().y());
-	// Move note name menu on the left screen side to allow seeing an edited note
-}
-
-
 bool TnoteName::event(QEvent* event) {
   if (event->type() == QEvent::StatusTip) {
       QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
@@ -529,58 +478,44 @@ bool TnoteName::event(QEvent* event) {
 	return QWidget::event(event);
 }
 
-
-void TnoteName::paintEvent(QPaintEvent* event) {
-	if (m_paintQuestion) {
-		QPainter painter(this);
-		TnooFont nf;
-		QFontMetrics fm(nf);
-		nf.setPixelSize(nf.pixelSize() * qreal(height() / (qreal)fm.boundingRect("?").height()));
-		painter.setFont(nf);
-		painter.setPen(QPen(gl->EquestionColor.name()));
-		painter.drawText(painter.viewport(), Qt::AlignRight, "?");
-	}
-	QWidget::paintEvent(event);
-}
-
 //##############################################################################################
 //#################################### PRIVATE #################################################
 //##############################################################################################
 
 void TnoteName::setNameText() {
-    if (m_notes[0].note) {
-				QString txt = "<big>" + m_notes[0].toRichText(gl->S->octaveInNoteNameFormat) + "</big>";
-        if (m_notes[1].note) {
-            txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->S->enharmNotesColor.name()) + 
-							m_notes[1].toRichText(gl->S->octaveInNoteNameFormat);
-            if (m_notes[2].note)
-                txt = txt + "  " + m_notes[2].toRichText(gl->S->octaveInNoteNameFormat);
-            txt = txt + ")</small>";
-        }
-        m_nameLabel->setText(txt);
-    } else 
-				m_nameLabel->setText("");
+	if (m_notes[0].note) {
+		QString txt = "<big>" + m_notes[0].toRichText(gl->S->octaveInNoteNameFormat) + "</big>";
+		if (m_notes[1].note) {
+				txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->S->enharmNotesColor.name()) + 
+					m_notes[1].toRichText(gl->S->octaveInNoteNameFormat);
+				if (m_notes[2].note)
+						txt = txt + "  " + m_notes[2].toRichText(gl->S->octaveInNoteNameFormat);
+				txt = txt + ")</small>";
+		}
+		m_nameLabel->setText(txt);
+	} else 
+		m_nameLabel->setText("");
 }
 
 
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
-    m_notes[0] = Tnote(noteNr, octNr, accNr);
-    if (noteNr) {
-        if (gl->S->showEnharmNotes) {
-            TnotesList enharmList = m_notes[0].getTheSameNotes(gl->S->doubleAccidentalsEnabled);
-            TnotesList::iterator it = enharmList.begin();
-            ++it;
-            if (it != enharmList.end())
-                m_notes[1] = *(it);
-            else m_notes[1] = Tnote();
-            ++it;
-            if (it != enharmList.end())
-                m_notes[2] = *(it);
-            else m_notes[2] = Tnote();
-        }
-        setNameText();
-        emit noteNameWasChanged(m_notes[0]);
-    }
+	m_notes[0] = Tnote(noteNr, octNr, accNr);
+	if (noteNr) {
+		if (gl->S->showEnharmNotes && !m_isMenu) {
+				TnotesList enharmList = m_notes[0].getTheSameNotes(gl->S->doubleAccidentalsEnabled);
+				TnotesList::iterator it = enharmList.begin();
+				++it;
+				if (it != enharmList.end())
+						m_notes[1] = *(it);
+				else m_notes[1] = Tnote();
+				++it;
+				if (it != enharmList.end())
+						m_notes[2] = *(it);
+				else m_notes[2] = Tnote();
+		}
+		setNameText();
+		emit noteNameWasChanged(m_notes[0]);
+	}
 }
 
 
@@ -641,22 +576,11 @@ char TnoteName::getSelectedAccid() {
 
 
 void TnoteName::updateSizeHint() {
-	int fixW;
-	if (buttonsDirection() == QBoxLayout::BottomToTop || buttonsDirection() == QBoxLayout::TopToBottom)
-		fixW = widthForVertical();
-	else
-		fixW = widthForHorizontal();
-	fixW += m_noteLay->spacing() * 2;
+	int fixW = widthForHorizontal() + m_noteLay->spacing() * 2;
 	if (m_nextNoteButt->isVisible())
 		fixW += m_nextNoteButt->width() * 2;
 	m_sizeHint.setWidth(fixW);
-// 		if (m_nextNoteButt->isVisible())
-// 			fixW = fixW - m_nextNoteButt->width() * 4;
-	int fixH = m_nameLabel->height();
-	if (buttonsDirection() == QBoxLayout::BottomToTop || buttonsDirection() == QBoxLayout::TopToBottom)
-		fixH = m_flatButt->width() * 7 + m_noteLay->spacing() * 8;
-	else
-		fixH += m_flatButt->width() * 4 + m_noteLay->spacing() * 5;
+	int fixH = m_nameLabel->height() + m_flatButt->width() * 4 + m_noteLay->spacing() * 5;
 	m_sizeHint.setHeight(fixH);
 }
 
