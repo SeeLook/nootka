@@ -463,13 +463,14 @@ void MainWindow::soundWasFinished(Tchunk& chunk) {
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
 		if (!executor)
-				m_melButt->melodyAction()->setVisible(false);
+			m_melButt->melodyAction()->setVisible(false);
 		innerWidget->addNoteName(score->noteName());
 		score->setInsertMode(TmultiScore::e_single);
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
 		if (!executor)
-				m_melButt->melodyAction()->setVisible(true);
+			m_melButt->melodyAction()->setVisible(true);
 		innerWidget->takeNoteName();
+		noteName->setNoteName(Tnote(1, 0)); // unset buttons
 		score->setInsertMode(TmultiScore::e_multi);
 	}
 }
