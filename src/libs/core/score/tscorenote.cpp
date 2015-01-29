@@ -225,6 +225,7 @@ void TscoreNote::moveNote(int posY) {
 
   setStringPos();
   m_lines->checkLines(posY);
+	checkEmptyText();
 }
 
 
@@ -237,7 +238,6 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
 	if (m_nameText)
 			showNoteName();
 	update();
-	checkEmptyText();
 }
 
 
@@ -412,7 +412,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
-	if (!isReadOnly() && !m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
+	if (/*!isReadOnly() && */!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
 		QColor emptyNoteColor;
 		if (m_mainNote->pen().style() == Qt::NoPen)
 			emptyNoteColor = qApp->palette().highlight().color();

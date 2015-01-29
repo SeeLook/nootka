@@ -25,6 +25,7 @@
 #include <music/tclef.h>
 #include <QPointer>
 
+class QTimer;
 class TcombinedAnim;
 class Tnote;
 class Ttune;
@@ -263,6 +264,7 @@ protected slots:
 		void toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
 		void fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
 		void accidAnimFinished();
+		void addNoteTimeOut();
 		
 private:
 		int 															 m_staffNr;
@@ -285,6 +287,8 @@ private:
 		int																 m_maxNotesCount;
 		qreal															 m_loNotePos, m_hiNotePos;
 		bool															 m_lockRangeCheck; // to prevent the checking during clef switching
+		QPointer<QTimer>									 m_addTimer;
+		int																 m_autoAddedNoteId; /** Index of automatically added last note. */
 		
 private:
 		void createBrace();

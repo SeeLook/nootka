@@ -858,6 +858,7 @@ void TmainScore::createActions() {
   m_acts->noteNames()->setChecked(Tcore::gl()->S->namesOnScore);
 	m_clearBar = new QToolBar();
 	m_clearBar->addAction(m_acts->clearScore());
+	m_clearBar->setMovable(false);
 	m_delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::TopRightCorner);
 	m_delCorner->setSpotColor(Qt::red);
 }

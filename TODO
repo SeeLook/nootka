@@ -35,7 +35,6 @@ MINOR:
 
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
-- new way of adding notes just after the last one was clicked
 - average effectiveness line in chart
 - use recent exams list for analyzer the same as start exam dialog has (common class or method)
 - add Nootka like button instead of radio to TpitchView and button to switch intonation accuracy
