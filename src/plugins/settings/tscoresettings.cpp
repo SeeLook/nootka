@@ -37,97 +37,30 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     QWidget(parent)
 {
 	QToolBox *m_toolBox = new QToolBox(this);
-	QWidget *m_3_misc, *m_1_keys, *m_2_clefs;
+	QWidget *m_1_misc, *m_2_keys, *m_3_clefs;
 	
-// 2. Key signatures settings
-	m_1_keys = new QWidget();		
-    m_workStyle = Tcore::gl()->S->nameStyleInKeySign;
-    QVBoxLayout *keyLay = new QVBoxLayout();
-    m_enablKeySignCh = new QCheckBox(tr("enable key signature"), m_1_keys);
-			m_enablKeySignCh->setChecked(Tcore::gl()->S->keySignatureEnabled);
-    keyLay->addWidget(m_enablKeySignCh);
-    QHBoxLayout *nameLay = new QHBoxLayout();
-    m_enablKeyNameGr = new QGroupBox(showKeySigName(), m_1_keys);
-			m_enablKeyNameGr->setCheckable(true);
-			m_enablKeyNameGr->setChecked(Tcore::gl()->S->showKeySignName);
-			m_enablKeyNameGr->setDisabled(!Tcore::gl()->S->keySignatureEnabled);
-
-    m_nameStyleGr = new TnotationRadioGroup(Tcore::gl()->S->nameStyleInKeySign, false, m_1_keys);
-    nameLay->addWidget(m_nameStyleGr);
-
-    m_nameExtGr = new QGroupBox(tr("Naming extension"));
-
-    QVBoxLayout *majLay = new QVBoxLayout();
-    m_majExtLab = new QLabel(tr("in the major keys:"), m_1_keys);
-    majLay->addWidget(m_majExtLab,0,Qt::AlignCenter);
-    m_majEdit = new QLineEdit(Tcore::gl()->S->majKeyNameSufix, m_1_keys);
-    m_majEdit->setMaxLength(10);
-    m_majEdit->setAlignment(Qt::AlignCenter);
-    majLay->addWidget(m_majEdit, 0, Qt::AlignCenter);
-    m_majExampl = new QLabel(m_1_keys);
-    m_majExampl->setAlignment(Qt::AlignCenter);
-    majLay->addWidget(m_majExampl, 0, Qt::AlignCenter);
-    majLay->addStretch(1);
-
-    QVBoxLayout *minLay = new QVBoxLayout();
-    m_minExtLab = new QLabel(tr("in the minor keys:"));
-    minLay->addWidget(m_minExtLab, 0, Qt::AlignCenter);
-    m_minEdit = new QLineEdit(Tcore::gl()->S->minKeyNameSufix, m_1_keys);
-    m_minEdit->setMaxLength(10);
-    m_minEdit->setAlignment(Qt::AlignCenter);
-    minLay->addWidget(m_minEdit, 0, Qt::AlignCenter);
-    m_minExampl = new QLabel(m_1_keys);
-    m_minExampl->setAlignment(Qt::AlignCenter);
-    minLay->addWidget(m_minExampl, 0, Qt::AlignCenter);
-    minLay->addStretch(1);
-
-    QHBoxLayout *nameExtLay = new QHBoxLayout();
-    nameExtLay->addLayout(majLay);
-    nameExtLay->addLayout(minLay);
-    m_nameExtGr->setLayout(nameExtLay);
-
-    nameLay->addWidget(m_nameExtGr);
-
-    m_enablKeyNameGr->setLayout(nameLay);
-    keyLay->addWidget(m_enablKeyNameGr);
-	   m_1_keys->setLayout(keyLay);
-    
-// 2. Clefs settings
-	m_2_clefs = new QWidget();	
-		m_clefSelector = new TselectClef(m_2_clefs);
-		QHBoxLayout* clefLay = new QHBoxLayout;
-		QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), m_2_clefs);
-		clefUsageLab->setAlignment(Qt::AlignCenter);
-      clefLay->addStretch();
-		  clefLay->addWidget(clefUsageLab);
-		  m_2_clefs->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>");
-		  clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
-      clefLay->addStretch();
-		m_clefSelector->selectClef(Tcore::gl()->S->clef);
-    m_2_clefs->setLayout(clefLay);
-		 
 // 1. Miscellaneous score settings
-	m_3_misc = new QWidget();	
-		m_singleNoteGr = new QGroupBox(tr("use single note only"), m_3_misc);
+	m_1_misc = new QWidget();	
+		m_singleNoteGr = new QGroupBox(tr("use single note only"), m_1_misc);
 			m_singleNoteGr->setStatusTip(tr("When enabled, a score displays only a single note."));
 			m_singleNoteGr->setCheckable(true);
 			m_singleNoteGr->setChecked(Tcore::gl()->S->isSingleNoteMode);
-		m_otherEnharmChBox = new QCheckBox(tr("show enharmonic variants of notes"), m_3_misc);
+		m_otherEnharmChBox = new QCheckBox(tr("show enharmonic variants of notes"), m_1_misc);
 			m_otherEnharmChBox->setStatusTip(tr("Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp)."));
-			m_otherEnharmChBox->setChecked(Tcore::gl()->S->showEnharmNotes);
-		QLabel *colorLab = new QLabel(tr("color of enharmonic notes"), m_3_misc);
-		m_enharmColorBut = new TcolorButton(Tcore::gl()->S->enharmNotesColor, m_3_misc);
-		m_dblAccChBox = new QCheckBox(tr("use double accidentals"),m_3_misc);
+		QLabel *colorLab = new QLabel(tr("color of enharmonic notes"), m_1_misc);
+		m_enharmColorBut = new TcolorButton(Tcore::gl()->S->enharmNotesColor, m_1_misc);
+		m_otherEnharmChBox->setChecked(Tcore::gl()->S->showEnharmNotes); // it has to be disabled after color button is set.
+		m_dblAccChBox = new QCheckBox(tr("use double accidentals"),m_1_misc);
 			m_dblAccChBox->setStatusTip(tr("If checked, you can use double sharps and double flats."));
 			m_dblAccChBox->setChecked(Tcore::gl()->S->doubleAccidentalsEnabled);
-		QLabel *tempoLab = new QLabel(tr("tempo of played notes"), m_3_misc);
-		m_tempoSpin = new QSpinBox(m_3_misc);
+		QLabel *tempoLab = new QLabel(tr("tempo of played notes"), m_1_misc);
+		m_tempoSpin = new QSpinBox(m_1_misc);
 			m_tempoSpin->setMinimum(50);
 			m_tempoSpin->setMaximum(240);
 			m_tempoSpin->setValue(Tcore::gl()->S->tempo);
 	
-    QLabel *colLab = new QLabel(tr("note-cursor color"), m_3_misc);
-    m_notePointColorBut = new TcolorButton(Tcore::gl()->S->pointerColor, m_3_misc);
+    QLabel *colLab = new QLabel(tr("note-cursor color"), m_1_misc);
+    m_notePointColorBut = new TcolorButton(Tcore::gl()->S->pointerColor, m_1_misc);
 		
 		QVBoxLayout *miscLay = new QVBoxLayout;
 		QHBoxLayout *enColorLay = new QHBoxLayout;
@@ -156,13 +89,80 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 			colLay->addWidget(m_notePointColorBut);
 			colLay->addStretch(1);
 		miscLay->addLayout(colLay);
-	   m_3_misc->setLayout(miscLay);
+	   m_1_misc->setLayout(miscLay);
+	
+// 2. Key signatures settings
+	m_2_keys = new QWidget();		
+    m_workStyle = Tcore::gl()->S->nameStyleInKeySign;
+    QVBoxLayout *keyLay = new QVBoxLayout();
+    m_enablKeySignCh = new QCheckBox(tr("enable key signature"), m_2_keys);
+			m_enablKeySignCh->setChecked(Tcore::gl()->S->keySignatureEnabled);
+    keyLay->addWidget(m_enablKeySignCh);
+    QHBoxLayout *nameLay = new QHBoxLayout();
+    m_enablKeyNameGr = new QGroupBox(showKeySigName(), m_2_keys);
+			m_enablKeyNameGr->setCheckable(true);
+			m_enablKeyNameGr->setChecked(Tcore::gl()->S->showKeySignName);
+			m_enablKeyNameGr->setDisabled(!Tcore::gl()->S->keySignatureEnabled);
+
+    m_nameStyleGr = new TnotationRadioGroup(Tcore::gl()->S->nameStyleInKeySign, false, m_2_keys);
+    nameLay->addWidget(m_nameStyleGr);
+
+    m_nameExtGr = new QGroupBox(tr("Naming extension"));
+
+    QVBoxLayout *majLay = new QVBoxLayout();
+    m_majExtLab = new QLabel(tr("in the major keys:"), m_2_keys);
+    majLay->addWidget(m_majExtLab,0,Qt::AlignCenter);
+    m_majEdit = new QLineEdit(Tcore::gl()->S->majKeyNameSufix, m_2_keys);
+    m_majEdit->setMaxLength(10);
+    m_majEdit->setAlignment(Qt::AlignCenter);
+    majLay->addWidget(m_majEdit, 0, Qt::AlignCenter);
+    m_majExampl = new QLabel(m_2_keys);
+    m_majExampl->setAlignment(Qt::AlignCenter);
+    majLay->addWidget(m_majExampl, 0, Qt::AlignCenter);
+    majLay->addStretch(1);
+
+    QVBoxLayout *minLay = new QVBoxLayout();
+    m_minExtLab = new QLabel(tr("in the minor keys:"));
+    minLay->addWidget(m_minExtLab, 0, Qt::AlignCenter);
+    m_minEdit = new QLineEdit(Tcore::gl()->S->minKeyNameSufix, m_2_keys);
+    m_minEdit->setMaxLength(10);
+    m_minEdit->setAlignment(Qt::AlignCenter);
+    minLay->addWidget(m_minEdit, 0, Qt::AlignCenter);
+    m_minExampl = new QLabel(m_2_keys);
+    m_minExampl->setAlignment(Qt::AlignCenter);
+    minLay->addWidget(m_minExampl, 0, Qt::AlignCenter);
+    minLay->addStretch(1);
+
+    QHBoxLayout *nameExtLay = new QHBoxLayout();
+    nameExtLay->addLayout(majLay);
+    nameExtLay->addLayout(minLay);
+    m_nameExtGr->setLayout(nameExtLay);
+
+    nameLay->addWidget(m_nameExtGr);
+
+    m_enablKeyNameGr->setLayout(nameLay);
+    keyLay->addWidget(m_enablKeyNameGr);
+	   m_2_keys->setLayout(keyLay);
+    
+// 2. Clefs settings
+	m_3_clefs = new QWidget();	
+		m_clefSelector = new TselectClef(m_3_clefs);
+		QHBoxLayout* clefLay = new QHBoxLayout;
+		QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), m_3_clefs);
+		clefUsageLab->setAlignment(Qt::AlignCenter);
+      clefLay->addStretch();
+		  clefLay->addWidget(clefUsageLab);
+		  m_3_clefs->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>");
+		  clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
+      clefLay->addStretch();
+		m_clefSelector->selectClef(Tcore::gl()->S->clef);
+    m_3_clefs->setLayout(clefLay);
 
   m_nameTab = new TnoteNameSettings();
 
-  m_toolBox->addItem(m_3_misc, "1. " + tr("Score settings"));
-  m_toolBox->addItem(m_1_keys, "2. " + tr("Key signatures"));
-  m_toolBox->addItem(m_2_clefs, "3. " + tr("Clefs"));
+  m_toolBox->addItem(m_1_misc, "1. " + tr("Score settings"));
+  m_toolBox->addItem(m_2_keys, "2. " + tr("Key signatures"));
+  m_toolBox->addItem(m_3_clefs, "3. " + tr("Clefs"));
   m_toolBox->addItem(m_nameTab, "4. " + tr("Notes naming"));
 	QVBoxLayout *mainLay = new QVBoxLayout;
 	mainLay->addWidget(m_toolBox);
