@@ -40,6 +40,7 @@ TrtAudio::callBackType 						TrtAudio::m_cbOut = 0;
 TaudioObject*											TrtAudio::m_ao = 0;
 RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 bool 															TrtAudio::m_JACKorASIO = false;
+bool 															TrtAudio::forceUpdate = false;
 
 int                               m_preferredBF = 1024;
 
@@ -162,18 +163,14 @@ int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBuff
 																		 double streamTime, RtAudioStreamStatus status, void* userData) {
 	Q_UNUSED (streamTime)
 	Q_UNUSED (userData)
-	int ret = 0;
 	if (m_cbOut) {
 		if (m_cbOut(outBuffer, nBufferFrames, status))
 			if (m_cbIn)
-				ret = m_cbIn(inBuffer, nBufferFrames, status);
+				m_cbIn(inBuffer, nBufferFrames, status);
 	} else 
 			if (m_cbIn)
-				ret = m_cbIn(inBuffer, nBufferFrames, status);
-	if (rtDevice()->getCurrentApi() == RtAudio::LINUX_PULSE)
-		return 0; // PulseAudio sucks when value 1 is returned
-	else
-		return ret;
+				m_cbIn(inBuffer, nBufferFrames, status);
+	return 0;
 }
 
 
@@ -239,10 +236,11 @@ TrtAudio::~TrtAudio()
 void TrtAudio::updateAudioParams() {
 	m_isOpened = false;
 // reopen audio device only when necessary
-  if ((m_inParams && m_inDevName != audioParams()->INdevName) || (m_outParams && m_outDevName != m_audioParams->OUTdevName) ||
+  if (forceUpdate || (m_inParams && m_inDevName != audioParams()->INdevName) || (m_outParams && m_outDevName != m_audioParams->OUTdevName) ||
       (audioParams()->forwardInput && m_callBack == &duplexCallBack) || (!audioParams()->forwardInput && m_callBack == &passInputCallBack) ) {
     closeStream();
     setJACKorASIO(audioParams()->JACKorASIO);
+		forceUpdate = false; // no more
   // preparing devices
     int inDevId = -1, outDevId = -1;
     int devCount = getDeviceCount();
@@ -300,7 +298,7 @@ void TrtAudio::updateAudioParams() {
           outDevId = 0;
       }
     } else {
-      qDebug() << "There are no any audio devices!";
+      qDebug() << "No audio devices!";
       return;
     }
   // setting device parameters
@@ -398,6 +396,7 @@ bool TrtAudio::startStream() {
     qDebug() << "can't start stream";
     return false;
   }
+//   qDebug("stream started");
   return true;
 }
 
