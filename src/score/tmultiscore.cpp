@@ -568,15 +568,15 @@ void TmultiScore::noteGetsFree(int staffNr, TscoreNote* freeNote) {
 
 
 void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
-//   qDebug() << "noteAddingSlot" << staffNr;
-	if (staffNr * staff()->maxNoteCount() + noteToAdd < m_currentIndex) {
+//   qDebug() << "noteAddingSlot" << staffNr << noteToAdd;
+	if (staffNr * staff()->maxNoteCount() + noteToAdd <= m_currentIndex) {
 // 		qDebug() << "selected note moved forward";
 		m_currentIndex++;
 	}
 	if (staff()->noteSegment(0)->noteName() || staff()->noteSegment(staff()->count() - 1)->noteName())
     m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
 	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
-	if (m_useAinim && m_addNoteAnim)
+	if (m_useAinim && m_addNoteAnim && !m_staves[staffNr]->noteSegment(noteToAdd)->notePos())
 		m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
 	m_addNoteAnim = true;
   connectForReadOnly(m_staves[staffNr]->noteSegment(noteToAdd));

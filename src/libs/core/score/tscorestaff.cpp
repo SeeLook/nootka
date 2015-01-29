@@ -55,7 +55,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 	m_index(0), m_selectableNotes(false), m_extraAccids(false),
 	m_maxNotesCount(0),
 	m_loNotePos(28.0), m_hiNotePos(12.0),
-	m_lockRangeCheck(false)
+	m_lockRangeCheck(false), m_autoAddedNoteId(-1)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	enableTouchToMouse(false); // Do not propagate - hasCursor() is not necessary
@@ -130,6 +130,8 @@ Tnote* TscoreStaff::getNote(int index) {
 
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
+	if (m_autoAddedNoteId > -1) // naughty user can insert new note just after clicking the last one what invokes auto adding
+		m_autoAddedNoteId++; // increase an id of that auto added note then
 	insert(index);
 	setNote(index, note);
 	m_scoreNotes[index]->setZValue(50);
@@ -169,6 +171,12 @@ void TscoreStaff::addNote(Tnote& note, bool disabled) {
 void TscoreStaff::removeNote(int index) {
 	if (index >= 0 && index < count()) {
 		emit noteIsRemoving(number(), index);
+		if (m_autoAddedNoteId > -1) {
+			if (index == m_autoAddedNoteId) // just automatically added note deleted by user
+				m_autoAddedNoteId = -1;
+			else
+				m_autoAddedNoteId--;
+		}
 		delete m_scoreNotes[index];
 		m_scoreNotes.removeAt(index);
 		if (maxNoteCount() > count())
@@ -407,6 +415,13 @@ void TscoreStaff::checkNoteRange(bool doEmit) {
 void TscoreStaff::enableToAddNotes(bool alowAdding) {
 	scoreScene()->left()->enableToAddNotes(alowAdding);
 	scoreScene()->right()->enableToAddNotes(alowAdding);
+	if (alowAdding) {
+			m_addTimer = new QTimer(this);
+			m_addTimer->setSingleShot(true);
+			connect(m_addTimer, &QTimer::timeout, this, &TscoreStaff::addNoteTimeOut);
+	} else {
+			delete m_addTimer;
+	}
 }
 
 //##########################################################################################################
@@ -530,6 +545,8 @@ void TscoreStaff::onKeyChanged() {
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
+	if (m_autoAddedNoteId > -1)
+		addNoteTimeOut();
   int globalNr = notePosRelatedToClef(fixNotePos(m_scoreNotes[noteIndex]->notePos())
 				+ m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
 	m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
@@ -538,6 +555,16 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	setCurrentIndex(noteIndex);
 	emit noteChanged(noteIndex);
 	checkNoteRange();
+	// when score is in record mode the signal above invokes adding new note so count is increased and code above is skipped - This is a magic 
+	if (m_addTimer && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
+		m_addTimer->stop();
+		insert(noteIndex + 1);
+		m_scoreNotes.last()->popUpAnim(300);
+		updateIndex();
+		updateNotesPos(noteIndex + 1);
+		m_addTimer->start(2000);
+		m_autoAddedNoteId = noteIndex + 1;
+	}
 }
 
 
@@ -577,6 +604,27 @@ void TscoreStaff::toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos
 
 void TscoreStaff::accidAnimFinished() {
 	m_flyAccid->hide();
+}
+
+
+void TscoreStaff::addNoteTimeOut() {
+	if (m_autoAddedNoteId > -1) {
+		if (noteSegment(m_autoAddedNoteId)->notePos()) { // automatically added note was set - approve it
+				emit noteIsAdding(number(), m_autoAddedNoteId);
+				m_autoAddedNoteId = -1;
+				if (count() == maxNoteCount() - 1)
+					emit noMoreSpace(number());
+		} else if (noteSegment(m_autoAddedNoteId)->hasCursor()) {// note was not set but cursor is still over it
+				m_addTimer->stop();
+				m_addTimer->start(1000); // wait next 1000 ms
+		} else if (m_autoAddedNoteId != count() - 1) { // some note was added after this one - ignore
+				m_autoAddedNoteId = -1;
+		} else { // user gave up
+				delete noteSegment(m_autoAddedNoteId);
+				m_scoreNotes.removeAt(m_autoAddedNoteId);
+				m_autoAddedNoteId = -1;
+		}
+	}
 }
 
 //##########################################################################################################
