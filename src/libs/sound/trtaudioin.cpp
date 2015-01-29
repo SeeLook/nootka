@@ -25,38 +25,38 @@
 
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
-    QStringList devList;
-    createRtAudio();
-    int devCnt = getDeviceCount();
-    if (devCnt < 1)
-        return devList;
-    if (getCurrentApi() == RtAudio::LINUX_ALSA)
-      closeStream(); // close ALSA stream to get full list of devices
-    for (int i = 0; i < devCnt; i++) {
-        RtAudio::DeviceInfo devInfo;
-        if (!getDeviceInfo(devInfo, i))
-          continue;
-        if (devInfo.probed && devInfo.inputChannels > 0)
-          devList << QString::fromLocal8Bit(devInfo.name.data());
-    }
-    if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
-				devList.prepend("ALSA default");
-    return devList;
+	QStringList devList;
+	createRtAudio();
+	int devCnt = getDeviceCount();
+	if (devCnt < 1)
+			return devList;
+	if (getCurrentApi() == RtAudio::LINUX_ALSA)
+		closeStream(); // close ALSA stream to get full list of devices
+	for (int i = 0; i < devCnt; i++) {
+			RtAudio::DeviceInfo devInfo;
+			if (!getDeviceInfo(devInfo, i))
+				continue;
+			if (devInfo.probed && devInfo.inputChannels > 0)
+				devList << QString::fromLocal8Bit(devInfo.name.data());
+	}
+	if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+			devList.prepend("ALSA default");
+	return devList;
 }
 
 
 bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-		if (m_goingDelete || instance()->isStoped())
-				return true;
-    if (status)
-        qDebug() << "Stream over detected!";
-    qint16 *in = (qint16*)inBuff;
-		qint16 value;
-    for (int i = 0; i < nBufferFrames; i++) {
-					value = *(in + i);
-					instance()->m_pitch->fillBuffer(float(value) / 32768.0f);
-    }
-    return false;
+	if (m_goingDelete || instance()->isStoped())
+			return true;
+	if (status)
+			qDebug() << "Stream over detected!";
+	qint16 *in = (qint16*)inBuff;
+	qint16 value;
+	for (int i = 0; i < nBufferFrames; i++) {
+				value = *(in + i);
+				instance()->m_pitch->fillBuffer(float(value) / 32768.0f);
+	}
+	return false;
 }
 
 
@@ -86,6 +86,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   m_pitch = new TpitchFinder();
   setAudioInParams();
 	m_goingDelete = false;
+	forceUpdate = true;
   
 	connect(m_pitch, &TpitchFinder::noteStarted, this, &TaudioIN::noteStartedSlot);
 	connect(m_pitch, &TpitchFinder::noteFinished, this, &TaudioIN::noteFinishedSlot);
@@ -170,20 +171,22 @@ void TaudioIN::startListening() {
 			return;
 	}
 	if (state() != e_listening) {
-    qDebug() << "start listening";
     m_volume = 0.0;
-    if (!m_stoppedByUser && startStream())
+    if (!m_stoppedByUser && startStream()) {
       setState(e_listening);
+// 			qDebug() << "start listening";
+		}
   }
 }
 
 
 void TaudioIN::stopListening() {
   if (state() != e_stopped) {
-    qDebug() << "stop listening";
+//     qDebug() << "stop listening";
     m_volume = 0.0;
     m_LastChunkPitch = 0.0;
-  //   abortStream();
+		if (rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
+			abortStream();
     setState(e_stopped);
     m_pitch->resetFinder();
   }

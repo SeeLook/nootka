@@ -144,11 +144,9 @@ void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView->setPitchColor(Tcore::gl()->EanswerColor);
   m_pitchView->setMinimalVolume(Tcore::gl()->A->minimalVol);
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
-  if (sniffer) {
-			m_pitchView->setAudioInput(sniffer);
-			sniffer->startListening();
-	} else
-			m_pitchView->setDisabled(true);
+	m_pitchView->setAudioInput(sniffer);
+  if (sniffer)
+		sniffer->startListening();
 }
 
 
