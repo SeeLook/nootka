@@ -20,11 +20,12 @@
 #include "ttoolbar.h"
 #include <animations/tcombinedanim.h>
 #include <tlayoutparams.h>
+#include <notename/tnotename.h>
 #include <QtWidgets>
 
 
 TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
-										 QWidget* scoreW, QWidget* guitarW, QWidget* parent) :
+										 QWidget* scoreW, QWidget* guitarW, TnoteName* name, QWidget* parent) :
 	QGraphicsView(parent),
 	m_layParams(layParams),
 	m_tool(toolW),
@@ -32,7 +33,8 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 	m_pitch(pitchW),
 	m_score(scoreW),
 	m_guitar(guitarW),
-	m_name(0)
+	m_name(name),
+	m_nameLay(0)
 {
 	setScene(new QGraphicsScene(this));
 	
@@ -65,28 +67,33 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 	m_proxy = scene()->addWidget(m_container);
 	m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
 	setBarAutoHide(m_layParams->toolBarAutoHide);
+	m_name->createNameTip(scene());
 }
 
 
-void TmainView::addNoteName(QWidget* name) {
-	if (!m_name) {
-		m_name = name;
+void TmainView::addNoteName() {
+	if (!m_nameLay) {
 		m_name->installEventFilter(this);
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+		m_name->setParent(0);
+		m_name->enableArrows(false);
 			m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
 				m_nameLay->addStretch();
 				m_nameLay->addWidget(m_name);
 				m_nameLay->addStretch();
 			m_scoreAndNameLay->addLayout(m_nameLay);
+		m_name->show();
 	}
 }
 
 
 void TmainView::takeNoteName() {
-	if (m_name) {
+	if (m_nameLay) {
 		m_nameLay->removeWidget(m_name);
 		delete m_nameLay;
-		m_name = 0;
+		m_nameLay = 0;
+		m_name->hide();
+		m_name->enableArrows(true);
 	}
 }
 

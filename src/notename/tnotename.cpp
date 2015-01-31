@@ -19,6 +19,7 @@
 
 #include "tnotename.h"
 #include "tnotenamelabel.h"
+#include "tnametip.h"
 #include <tglobals.h>
 #include <widgets/tpushbutton.h>
 #include <tnoofont.h>
@@ -43,9 +44,10 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 //#######################################################################################################
 
 TnoteName::TnoteName(QWidget *parent) :
-	QWidget(parent),
+	QWidget(),
 	m_menu(0),
 	m_fontSize(12),
+	m_tip(0),
 	m_isMenu(true)
 {
 	m_menuParent = parent;
@@ -169,24 +171,22 @@ TnoteName::~TnoteName()
 //####################################################################################################
 
 void TnoteName::exec(QPoint pos, qreal scoreFactor) {
-	if (!m_menu) {
-		if (m_menuLay == 0) {
-			m_menuLay = new QVBoxLayout;
-			m_menuLay->setContentsMargins(0, 2, 0, 2);
-		}
-		m_menu = new QMenu(m_menuParent);
-		m_menuLay->addWidget(this);
-		m_menu->setLayout(m_menuLay);
-		m_menu->setObjectName("m_menu");
-		m_menu->setStyleSheet("QWidget#m_menu {background-color: palette(window);}");
-	}
-	if (!m_menuLay->count())
-		m_menuLay->addWidget(this);
+	tip()->adjustSize();
 	show();
-	m_menu->resize(sizeHint());
-	if (pos.x() > qApp->desktop()->availableGeometry().width() / 2)
-		pos.setX(pos.x() - sizeHint().width() - 12.5 * scoreFactor);
-	m_menu->exec(pos);
+	QPointF posF(pos.x(), pos.y());
+	if (pos.x() > m_menuParent->width() / 2)
+		posF.setX(pos.x() - tip()->boundingRect().width() - 8.5 * scoreFactor);
+	tip()->setPos(posF);
+	QTimer::singleShot(100, tip(), SLOT(show()));
+}
+
+
+void TnoteName::createNameTip(QGraphicsScene* scene) {
+	if (!m_tip) {
+		m_tip = new TnameTip(this);
+		scene->addItem(m_tip);
+		m_tip->hide();
+	}
 }
 
 
@@ -357,7 +357,10 @@ void TnoteName::enableArrows(bool en) {
 	if (en) {
 		m_prevNoteButt->show();
 		m_nextNoteButt->show();
+		if (tip())
+			tip()->wrapNoteName();
 	} else {
+		tip()->unwrapNoteName();
 		m_prevNoteButt->hide();
 		m_nextNoteButt->hide();
 	}
@@ -477,6 +480,10 @@ bool TnoteName::event(QEvent* event) {
   }
 	return QWidget::event(event);
 }
+
+/** Current purpose of this event re-implementation is to stop mouse click forwarding to under-laying score. */
+void TnoteName::mousePressEvent(QMouseEvent*) {}
+
 
 //##############################################################################################
 //#################################### PRIVATE #################################################

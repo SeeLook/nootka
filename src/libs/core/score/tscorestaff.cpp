@@ -79,8 +79,12 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_5lines->setParentItem(this);
 	prepareStaffLines();
 	
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 7; i++) // reset accidentals array
     accidInKeyArray[i] = 0;
+// Timer controlling automatic note adding to this staff  
+	m_addTimer = new QTimer(this);
+	m_addTimer->setSingleShot(true);
+	connect(m_addTimer, &QTimer::timeout, this, &TscoreStaff::addNoteTimeOut);
 }
 
 
@@ -415,13 +419,6 @@ void TscoreStaff::checkNoteRange(bool doEmit) {
 void TscoreStaff::enableToAddNotes(bool alowAdding) {
 	scoreScene()->left()->enableToAddNotes(alowAdding);
 	scoreScene()->right()->enableToAddNotes(alowAdding);
-	if (alowAdding) {
-			m_addTimer = new QTimer(this);
-			m_addTimer->setSingleShot(true);
-			connect(m_addTimer, &QTimer::timeout, this, &TscoreStaff::addNoteTimeOut);
-	} else {
-			delete m_addTimer;
-	}
 }
 
 //##########################################################################################################
@@ -555,8 +552,8 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	setCurrentIndex(noteIndex);
 	emit noteChanged(noteIndex);
 	checkNoteRange();
-	// when score is in record mode the signal above invokes adding new note so count is increased and code above is skipped - This is a magic 
-	if (m_addTimer && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
+	// when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic 
+	if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
 		m_addTimer->stop();
 		insert(noteIndex + 1);
 		m_scoreNotes.last()->popUpAnim(300);
@@ -572,7 +569,6 @@ void TscoreStaff::onNoteSelected(int noteIndex) {
 // 	if (selectableNotes() || controlledNotes()) { // no need to check, note does it
 		setCurrentIndex(noteIndex);
 		emit noteSelected(noteIndex);
-// 	}
 }
 
 

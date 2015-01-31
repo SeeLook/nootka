@@ -21,10 +21,11 @@
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QPointer>
 #include <music/tnote.h>
 #include <tcolor.h>
 
+class QGraphicsScene;
+class TnameTip;
 class QMenu;
 class QGraphicsTextItem;
 class QHBoxLayout;
@@ -36,7 +37,7 @@ class QButtonGroup;
 
 /**
  * This widget displays note name and buttons to manipulate it.
- * Since Nootka 1.1.0 it can be squeezed into QMenu, (score invokes it with exec() method.
+ * Since Nootka 1.1.0 it is also pop up tip managed by score.
  */
 class TnoteName : public QWidget
 {
@@ -70,6 +71,8 @@ public:
 	void setStyle(Tnote::EnameStyle style); // Sets style. Doesn't refresh name label
 	Tnote::EnameStyle style() { return m_style; } // Style used in note name
 	
+	void createNameTip(QGraphicsScene* scene);
+	TnameTip* tip() { return m_tip; }
 	void enableArrows(bool en); /** Hides or shows arrow buttons on name label sides. */
 	int widthForHorizontal(); /** Estimated width for horizontal buttons layout */
 	
@@ -101,6 +104,7 @@ signals:
 
 protected:
 	virtual bool event(QEvent* event);
+	virtual void mousePressEvent(QMouseEvent*);
 
 private:
 	TnoteNameLabel				*m_nameLabel;
@@ -122,9 +126,10 @@ private:
 	QBoxLayout 						*m_buttonsLay, *m_noteLay, *m_accLay, *m_upOctaveLay, *m_loOctaveLay;
 	QSize 								 m_sizeHint;
 	int 									 m_fontSize;
+	TnameTip							*m_tip;
+	
   bool 									 m_isMenu;
 	QWidget 							*m_menuParent;
-	QPointer<QVBoxLayout>  m_menuLay;
 
 	
 private:

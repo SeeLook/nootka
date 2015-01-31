@@ -37,6 +37,7 @@ set(NOOTKA_SRC
 	
 	notename/tnotename.cpp
 	notename/tnotenamelabel.cpp
+	notename/tnametip.cpp
 	
 	score/tmultiscore.cpp
 	score/tmainscore.cpp

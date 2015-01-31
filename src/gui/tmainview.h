@@ -22,6 +22,8 @@
 #include <QGraphicsView>
 #include <QPointer>
 
+class TnoteName;
+class TnameTip;
 class TlayoutParams;
 class TcombinedAnim;
 class QVBoxLayout;
@@ -40,9 +42,9 @@ Q_OBJECT
 
 public:
 	TmainView(TlayoutParams*  layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
-						QWidget* scoreW, QWidget* guitarW, QWidget* parent = 0);
+						QWidget* scoreW, QWidget* guitarW, TnoteName* name, QWidget* parent = 0);
 	
-	void addNoteName(QWidget* name); /** Adds note name widget over a score (for single note mode) */
+	void addNoteName(); /** Adds note name widget over a score (for single note mode) */
 	void takeNoteName(); /** Takes note name from view. */
 	
 	void addExamViews(QWidget* resultsW, QWidget* progressW); /** Adds bar with those widgets */
@@ -71,7 +73,8 @@ protected slots:
 	
 private:
 	QWidget													*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
-	QWidget													*m_name, *m_results, *m_progress, *m_container;
+	QWidget													*m_results, *m_progress, *m_container;
+	TnoteName												*m_name;
 	QGraphicsWidget									*m_proxy;
 	QPointer<QBoxLayout>				 		 m_mainLay, m_statAndPitchLay, m_scoreAndNameLay, m_nameLay, m_resultLay;
 	QGraphicsLineItem			 					*m_barLine;
@@ -80,6 +83,7 @@ private:
 	bool												 		 m_isAutoHide;
 	TlayoutParams										*m_layParams;
 	QTimer													*m_timer;
+	TnameTip												*m_nameTip;
 };
 
 #endif // TMAINVIEW_H
