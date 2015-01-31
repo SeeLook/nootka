@@ -652,8 +652,8 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 	QPoint mPos = mapFromScene(sn->pos().x() + 8.0, 0.0);
 // 	mPos.setY(30);
 // 	mPos = mapToGlobal(mPos);
-	mPos.setX(mPos.x() + mainWindow()->pos().x());
-	mPos.setY(pos().y() + 50 + mainWindow()->pos().y());
+	mPos.setX(mPos.x() /*+ mainWindow()->pos().x()*/);
+	mPos.setY(pos().y() + 50 /*+ mainWindow()->pos().y()*/);
 	resetClickedOff();
 	m_nameClickCounter = 0;
 	m_nameMenu->exec(mPos, transform().m11());

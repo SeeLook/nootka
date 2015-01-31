@@ -158,7 +158,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_melButt = new TmelMan(score);
   bar->addScoreActions(score->scoreActions());
   bar->addMelodyButton(m_melButt);
-  innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, this);
+  innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, noteName, this);
   setCentralWidget(innerWidget);
 //-------------------------------------------------------------------
   m_levelCreatorExist = false;
@@ -464,7 +464,7 @@ void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
 		if (!executor)
 			m_melButt->melodyAction()->setVisible(false);
-		innerWidget->addNoteName(score->noteName());
+		innerWidget->addNoteName();
 		score->setInsertMode(TmultiScore::e_single);
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
 		if (!executor)
