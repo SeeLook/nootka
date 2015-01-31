@@ -43,6 +43,8 @@ public:
 	void wrapNoteName(); /** It takes note name inside again. */
 	void unwrapNoteName(); /** Sets wrapped widget to 0 */
 	
+	void adjustSize();
+	
 	virtual QRectF boundingRect() const { return m_proxy->boundingRect(); }
 	
 public slots:
