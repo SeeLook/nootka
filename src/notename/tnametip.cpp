@@ -66,6 +66,13 @@ void TnameTip::unwrapNoteName() {
 }
 
 
+void TnameTip::adjustSize() {
+	m_widget->adjustSize();
+	m_proxy->adjustSize();
+	QGraphicsTextItem::adjustSize();
+}
+
+
 void TnameTip::show() {
 	m_hideTimer->stop();
 	m_hideTimer->start(2000); // if user didn't put mouse over the tip after 2 sec. - hide it
