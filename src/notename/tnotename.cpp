@@ -118,7 +118,6 @@ TnoteName::TnoteName(QWidget *parent) :
 	octavesLab->setText("<a href=" + octavesLab->statusTip().mid(octavesLab->statusTip().indexOf("\"")) + ">" +
 											tr("Octaves") + "</a>");
 	octavesLab->setStatusTip(octavesLab->statusTip().replace("\"", "<b><i>"));
-//     m_upOctaveLay->addWidget(octavesLab);
 	m_upOctaveLay->addStretch(1);
 #endif
 	m_octaveGroup = new QButtonGroup(this);
@@ -141,8 +140,6 @@ TnoteName::TnoteName(QWidget *parent) :
 			}
 			m_octaveGroup->addButton(m_octaveButtons[i], i);
 	}
-//     upOctaveLay->addStretch(1);
-// 		m_loOctaveLay->addWidget(octavesLab);
 	m_buttonsLay->addLayout(m_upOctaveLay);
 	m_buttonsLay->addLayout(m_loOctaveLay);
 	m_prevOctButton = -1;
@@ -163,8 +160,7 @@ TnoteName::TnoteName(QWidget *parent) :
 
 
 TnoteName::~TnoteName()
-{
-}
+{}
 
 //####################################################################################################
 //########################################## PUBLIC  #################################################
@@ -174,8 +170,10 @@ void TnoteName::exec(QPoint pos, qreal scoreFactor) {
 	tip()->adjustSize();
 	show();
 	QPointF posF(pos.x(), pos.y());
-	if (pos.x() > m_menuParent->width() / 2)
+	if (pos.x() > m_menuParent->width() / 2) // move tip left to the note if note is on the right side of a score
 		posF.setX(pos.x() - tip()->boundingRect().width() - 8.5 * scoreFactor);
+	if (pos.y() > m_menuParent->height() - tip()->boundingRect().height() - 10) // keep tip inside window borders
+		posF.setY(m_menuParent->height() - tip()->boundingRect().height() - 10);
 	tip()->setPos(posF);
 	QTimer::singleShot(100, tip(), SLOT(show()));
 }
@@ -221,15 +219,22 @@ void TnoteName::setNoteName(Tnote note) {
 	if (m_notes[0].note) { // uncheck current note button
 		m_noteButtons[m_notes[0].note - 1]->setChecked(false);
 	}
-	if (m_prevOctButton != -1) 
+	if (m_prevOctButton != -1)
 		m_octaveButtons[m_prevOctButton]->setChecked(false);
-	if (note.note) {
+	if (note.isValid()) {
 			m_notes[0] = note;
 			setButtons(note);
 	} else {
 			m_notes[0] = Tnote(0,0,0);
 			m_notes[1] = Tnote(0,0,0);
 			m_notes[2] = Tnote(0,0,0);
+			if (m_isMenu) { // clear TnoteName state for every empty note when pop up
+				uncheckAllButtons();
+				if (m_prevOctButton != -1) // restore previously selected octave button
+					m_octaveButtons[m_prevOctButton]->setChecked(true);
+				else // or select small octave one
+					m_octaveButtons[note.octave + 3]->setChecked(true);
+			}
 // 	m_prevOctButton = -1;
 	}
 	setNameText();
@@ -308,11 +313,6 @@ void TnoteName::resize(int fontSize) {
 		m_prevNoteButt->setFixedHeight(m_nameLabel->height());
 		updateSizeHint();
 		adjustSize();
-// 		if (m_isMenu) {
-// 			m_nameLabel->setMinimumWidth(0);
-// 			m_nameLabel->setMaximumWidth(QWIDGETSIZE_MAX);
-// 		} else
-// 			m_nameLabel->setFixedWidth(m_sizeHint.width() * 0.8);
 	}
 }
 
@@ -442,11 +442,11 @@ void TnoteName::setNameDisabled(bool isDisabled) {
 					m_prevOctButton = i;
 			m_octaveButtons[i]->setChecked(false);
 		}
-	} else { // restore last checked octave vhen becomes enabled
+	} else { // restore last checked octave when becomes enabled
 //           setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		if (m_prevOctButton != -1)
 				m_octaveButtons[m_prevOctButton]->setChecked(true);
-		else {// or set it to small octave
+		else { // or set it to small octave
 				m_octaveButtons[3]->setChecked(true);
 				m_prevOctButton = 3;
 		}
@@ -527,14 +527,14 @@ void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
 
 
 void TnoteName::setButtons(const Tnote& note) {
-    m_noteButtons[note.note-1]->setChecked(true);
-		checkAccidButtons(note.alter);
-    if (note.octave >= -3 && note.octave <= 4) {
-			if (m_octaveButtons[note.octave + 3]->isEnabled()) { // check octave button only when is enabled
-					m_octaveButtons[note.octave + 3]->setChecked(true);
-					m_prevOctButton = note.octave + 3;
-			}
+	m_noteButtons[note.note-1]->setChecked(true);
+	checkAccidButtons(note.alter);
+	if (note.octave >= -3 && note.octave <= 4) {
+		if (m_octaveButtons[note.octave + 3]->isEnabled()) { // check octave button only when it is enabled
+				m_octaveButtons[note.octave + 3]->setChecked(true);
+				m_prevOctButton = note.octave + 3;
 		}
+	}
 }
 
 
