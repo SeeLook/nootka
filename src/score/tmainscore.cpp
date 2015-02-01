@@ -649,11 +649,10 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 	m_nameMenu->setNoteName(*sn->note());
 	m_currentNameSegment = sn;
 	changeCurrentIndex(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
-	QPoint mPos = mapFromScene(sn->pos().x() + 8.0, 0.0);
-// 	mPos.setY(30);
-// 	mPos = mapToGlobal(mPos);
-	mPos.setX(mPos.x() /*+ mainWindow()->pos().x()*/);
-	mPos.setY(pos().y() + 50 /*+ mainWindow()->pos().y()*/);
+	QPointF notePos = sn->staff()->mapToScene(sn->pos());
+	QPoint mPos = mapFromScene(notePos.x() + 8.0, notePos.y() + 6.0);
+	mPos.setX(x() + mPos.x());
+	mPos.setY(y() + mPos.y());
 	resetClickedOff();
 	m_nameClickCounter = 0;
 	m_nameMenu->exec(mPos, transform().m11());
@@ -746,8 +745,11 @@ void TmainScore::moveSelectedNote(TmainScore::EmoveNote nDir) {
 			break;
 		}
 		case e_nextNote: {
-			if (currentIndex() < notesCount() - 1 || (insertMode() == e_record && currentIndex() == notesCount() - 1)) {
-					changeCurrentIndex(currentIndex() + 1); // record mode adds new note at the end`
+			if (currentIndex() < notesCount() - 1)
+				changeCurrentIndex(currentIndex() + 1);
+			else if (insertMode() == e_record && currentIndex() == notesCount() - 1) { // record mode:
+				checkAndAddNote(currentStaff(), currentIndex()); // first to add new note at the end
+				changeCurrentIndex(currentIndex() + 1); // then change current index
 			}
 			break;
 		}

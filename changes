@@ -1,11 +1,13 @@
 1.1.5 beta
      - detailed preview of melodies in charts
-     - added new tool button with menu for a score
+     - added new tool button with menu to manage a score
      - new, quick, click-less way for adding notes to a score
-     - A note from played exam melody can be selected to start playing from it
-     - First run wizard comes back improved  - it is a plugin now
+     - improved pop-up for selecting note name over score
+     - a note from played exam melody can be selected to start playing from it
+     - first run wizard comes back improved  - it is a plugin now
+     - updated Windows installer
     BUGS FIXES
-     - fixing bugs, mistakes and glitches...
+     - tons of fixed bugs, mistakes and glitches...
     Under the hood
      - external executable-s converted to plugins, loaded on demand
      - audio device has single instance shared with external settings plugin
