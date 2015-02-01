@@ -28,8 +28,18 @@ class TnoteName;
 
 
 /** 
- * This is wrapper for @p TnoteName to squeeze it into graphics widget
- * It is @class TgraphicsTextTip derivative with window color background
+ * This is wrapper for @p TnoteName to squeeze it into graphics widget.
+ * It is @class TgraphicsTextTip derivative with window color background.
+ * 
+ * @class TnoteName is created by @class TmainScore 
+ * but its size is managed from @class MainWindow during re-sizing.
+ * @class TnameTip instance exists inside TnoneName as a @p tip() method
+ * but it is created from @class TmainView which keeps graphics scene for it.
+ * @class TmainScore calls @p exec() of TnoteName with desired position
+ * and tip appears.
+ * 
+ * @class TnameTip does nothing in single note mode 
+ * when TnoteName is ordinary widget on main Nootka window.
  */
 class TnameTip : public TgraphicsTextTip
 {
