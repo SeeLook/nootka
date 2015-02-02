@@ -412,7 +412,7 @@ target_link_libraries(NootkaSound
 )
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
-  install(TARGETS NootkaSound DESTINATION lib)
+  install(TARGETS NootkaSound DESTINATION lib/nootka)
 else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
     install(TARGETS NootkaSound DESTINATION .)

@@ -14,12 +14,12 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- lock right button and space bar during correction
 - do order with updater - it crashes as a plugin and works ugly as a executable
-- when Nootka starts in single mode proxy corner appears
 - fix when 'enter note' text and edit lines apears in empty note on the score
 
 MINOR:
+- when Nootka starts in single mode proxy corner appears
+- lock right button and space bar during correction
 - updater and analyzer windows have missing window title (and icon)
 - try to avoid many resizeEvent-s of TmultiScore during window size change
 - changing tool bar auto-hiding causes sometimes locked melody menu
