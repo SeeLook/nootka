@@ -80,7 +80,7 @@ add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
 target_link_libraries(NootkaCore Qt5::Widgets)
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka library
-  install(TARGETS NootkaCore DESTINATION lib)
+  install(TARGETS NootkaCore DESTINATION lib/nootka)
 else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
     install(TARGETS NootkaCore DESTINATION .)

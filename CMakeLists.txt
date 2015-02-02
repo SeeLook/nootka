@@ -65,7 +65,7 @@ if(APPLE OR WIN32)
   LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
 										"${QT_TRANSLATIONS_DIR}/qt_de.qm" "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
 										"${QT_TRANSLATIONS_DIR}/qt_fr.qm" # "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" # "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
 										"${QT_TRANSLATIONS_DIR}/qt_ru.qm" "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm" )
 endif(APPLE OR WIN32)
 install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
@@ -76,13 +76,12 @@ install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 # files related with Linux (mime, desktop entry, icons)
 if(UNIX AND NOT APPLE)
     install(FILES mime/nootka.desktop DESTINATION share/applications)
-#     install(FILES picts/nootka.svg DESTINATION "${INS_PREF}/picts")
-#     if (DPKG_CMD) # deb packager doesn't accept symbolic links
+    if (DPKG_CMD) # deb packager doesn't accept symbolic links
 			install(FILES picts/nootka.png picts/nootka-level.png picts/nootka-exam.png DESTINATION share/pixmaps)
-#     else (DPKG_CMD) # but others do
-# 			install(FILES mime/nootka.png mime/levelCreator.png mime/nootka-exam.png DESTINATION share/pixmaps)
+    else (DPKG_CMD) # but others do
+			install(FILES mime/nootka.png mime/levelCreator.png mime/nootka-exam.png DESTINATION share/pixmaps)
 			install(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
-#     endif (DPKG_CMD)
+    endif (DPKG_CMD)
     install( CODE "
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/mime/install-mime.sh ${CMAKE_INSTALL_PREFIX} ${CMAKE_CURRENT_BINARY_DIR}/mime ${CMAKE_CURRENT_SOURCE_DIR}/mime)" )
