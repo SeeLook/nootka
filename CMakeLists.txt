@@ -30,6 +30,45 @@ add_subdirectory(src)
 #INSTALLATION
 ###########################################################################
 if(WIN32)
+  set(PACKAGE_ARCHITECTURE x86)
+endif(WIN32)
+if(APPLE)
+  set(PACKAGE_ARCHITECTURE x86_64)
+endif(APPLE)
+
+if(NOT PACKAGE_ARCHITECTURE)
+   find_program(DPKG_CMD dpkg)
+   if(NOT DPKG_CMD)
+      find_program(RPM_CMD rpm)
+      if(NOT RPM_CMD)
+#         message(STATUS "Can not find any program to determine architecture, default to i386.")
+#         set(PACKAGE_ARCHITECTURE i386)
+        execute_process(COMMAND uname -m
+          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+          OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+      else(NOT RPM_CMD)
+        execute_process(COMMAND "${RPM_CMD}" --eval %_target_cpu
+          OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+          OUTPUT_STRIP_TRAILING_WHITESPACE 
+        )
+        set(RPM_CMD_FOUND TRUE)
+      endif(NOT RPM_CMD)
+   else(NOT DPKG_CMD)
+      execute_process(COMMAND "${DPKG_CMD}" --print-architecture
+        OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+#       message(STATUS "-D_FORTIFY_SOURCE=2")
+      add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
+   endif(NOT DPKG_CMD)
+endif(NOT PACKAGE_ARCHITECTURE)
+message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
+if (NOT DPKG_CMD)
+    unset(DPKG_CMD)
+endif (NOT DPKG_CMD)
+
+if(WIN32)
     set(INS_PREF ".")
 else(WIN32)
   if (APPLE)
@@ -79,7 +118,7 @@ if(UNIX AND NOT APPLE)
     if (DPKG_CMD) # deb packager doesn't accept symbolic links
 			install(FILES picts/nootka.png picts/nootka-level.png picts/nootka-exam.png DESTINATION share/pixmaps)
     else (DPKG_CMD) # but others do
-			install(FILES mime/nootka.png mime/levelCreator.png mime/nootka-exam.png DESTINATION share/pixmaps)
+			install(FILES mime/nootka.png mime/nootka-level.png mime/nootka-exam.png DESTINATION share/pixmaps)
 			install(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
     endif (DPKG_CMD)
     install( CODE "
