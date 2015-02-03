@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -153,6 +153,43 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.hiFret = 19;// loFret is 0 by constructor
     l.melodyLen = 10;
     llist << l;
+//----------------------------------------------------------------------------
+	if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar) {
+		l = Tlevel();
+    l.name = QObject::tr("Melody on trebles");
+    l.desc = QObject::tr("Play short melody on treble strings with notes just on first three frets. Sharps keys only.");
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
+    l.withSharps = true;
+    l.withFlats = false;
+    l.withDblAcc = false;
+    l.useKeySign = true;
+    l.manualKey = false;
+    l.loKey = 0;
+    l.hiKey = 3;
+    l.forceAccids = false;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = false;
+		//clef default, user/tune defined
+		//instrument default - selected by user
+		l.loNote = Tcore::gl()->Gtune()->str(3);
+		l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 3);
+		l.hiFret = 3;
+// 		l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
+    l.onlyLowPos = true;
+// 		if (Tcore::gl()->instrument == e_noInstrument) // force instrument when not defined
+// 			l.instrument = Tcore::gl()->instrument;
+		l.melodyLen = 5;
+		l.endsOnTonic = true;
+		l.onlyCurrKey = true;
+    llist << l;
+	}
 //----------------------------------------------------------------------------
     l = Tlevel();
     l.name = QObject::tr("Play scores");

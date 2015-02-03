@@ -96,7 +96,13 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainAccid->setFont(TnooFont(5));
 	bool prepareScale = false;
 	if (scoreScene()->accidScale() == -1.0) { // only when first TscoreNote is constructed
-// 			m_staticTip = tr("Click to select a note, use mouse wheel to change accidentals.");
+		QString modKey = "";
+		#if defined(Q_OS_MAC)
+			modKey = "CMD";
+		#else
+			modKey = "CTRL";
+		#endif
+			m_staticTip = tr("Click to enter a note, use mouse wheel with %1 or middle button to change accidental. Right mouse button just selects a note.").arg(modKey);
 			m_mainAccid->setText(getAccid(1));
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
@@ -454,7 +460,8 @@ void TscoreNote::popUpAnim(int durTime) {
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
 	scoreScene()->noteEntered(this);
-//   emit statusTip(m_staticTip);
+	if (!isReadOnly())
+		emit statusTip(m_staticTip);
   TscoreItem::hoverEnterEvent(event);
 }
 
