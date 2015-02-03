@@ -313,6 +313,8 @@ void TnoteName::resize(int fontSize) {
 		m_prevNoteButt->setFixedHeight(m_nameLabel->height());
 		updateSizeHint();
 		adjustSize();
+		if (tip())
+			tip()->adjustSize();
 	}
 }
 
@@ -587,7 +589,7 @@ void TnoteName::updateSizeHint() {
 	if (m_nextNoteButt->isVisible())
 		fixW += m_nextNoteButt->width() * 2;
 	m_sizeHint.setWidth(fixW);
-	int fixH = m_nameLabel->height() + m_flatButt->width() * 4 + m_noteLay->spacing() * 5;
+	int fixH = m_nameLabel->height() + m_flatButt->height() * 4 + m_noteLay->spacing() * 2;
 	m_sizeHint.setHeight(fixH);
 }
 

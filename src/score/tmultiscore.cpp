@@ -105,6 +105,8 @@ void TmultiScore::setNote(const Tnote& note) {
 				changeCurrentIndex(0);
 			TscoreStaff *thisStaff = currentStaff();
 			if (insertMode() == e_record) {
+					if (m_clickedOff > 0)
+						checkAndAddNote(thisStaff, currentIndex());
 					changeCurrentIndex(currentIndex() + m_clickedOff);
 					thisStaff = currentStaff();
 					m_clickedOff = 1;

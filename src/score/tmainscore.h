@@ -191,7 +191,7 @@ private:
 		bool												 m_scoreIsPlayed;
 		QPointer<QTimer>						 m_playTimer;
 		TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
-		int 												 m_nameClickCounter, m_playedIndex;
+		int 												 m_playedIndex;
 		bool 												 m_emitExpertNoteClicked;
 };
 

@@ -34,6 +34,7 @@ TmelMan::TmelMan(TmainScore* score) :
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
 	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
 							 QIcon(Tpath::img("record")));
+	m_recMelAct->setStatusTip(tr("When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically."));
 	createAction(tr("Create"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	m_menu->addSeparator();
 	QDialogButtonBox box;

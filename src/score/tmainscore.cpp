@@ -654,19 +654,15 @@ void TmainScore::showNameMenu(TscoreNote* sn) {
 	mPos.setX(x() + mPos.x());
 	mPos.setY(y() + mPos.y());
 	resetClickedOff();
-	m_nameClickCounter = 0;
 	m_nameMenu->exec(mPos, transform().m11());
 }
 
 
 void TmainScore::menuChangedNote(Tnote n) {
 	if (m_currentNameSegment) {
-		if (m_nameClickCounter == 0) // add next note when user changes note through name menu
-				checkAndAddNote(m_currentNameSegment->staff(), m_currentNameSegment->index());
 		m_currentNameSegment->staff()->setNote(m_currentNameSegment->index(), n);
 		m_currentNameSegment->update(); // Menu above covers focus
 		emit noteWasChanged(m_currentNameSegment->index(), n);
-		m_nameClickCounter++;
 		if (insertMode() == e_single && Tcore::gl()->S->showEnharmNotes && !isExam()) {
 			staff()->setNote(1, m_nameMenu->getNoteName(1));
 			staff()->setNote(2, m_nameMenu->getNoteName(2));
