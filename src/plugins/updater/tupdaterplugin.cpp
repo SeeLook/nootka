@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,37 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef UPDATEFUNCTIONS_H
-#define UPDATEFUNCTIONS_H
-
-#include <QDate>
+#include "tupdaterplugin.h"
+#include "tupdatechecker.h"
 
 
-
-enum EupdatePeriod { e_daily = 0, e_weekly = 1, e_monthly = 2 };
-
-
-struct TupdateRules {
-  bool enable; // is updateing enabled
-  QDate recentDate; // date of recent update
-  EupdatePeriod period; // how ofen checking has to be perform
-  bool checkForAll; // if true check for all versions (beta, rc)
-  QString curentVersion; // current Nootka version taken from config 
-};
-
-    /** Fullfils &updateRules with config file content. */
-void getUpdateRules(TupdateRules &updateRules);
-
-    /** Compares date of recent checking, current date, update period
-     and determine is update necessary. */
-bool isUpdateNecessary(TupdateRules &updateRules);
-
-bool isNewVersionStable(QString version);
-
-    /** Stores rules in Nootka config file */
-void saveUpdateRules(TupdateRules &updateRules);
-
-void showUpdateSummary(QString version, QString changes, TupdateRules *rules = 0);
+void TupdaterPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
+  m_sender = ob;
+  m_updater = new TupdateChecker(this, parent);
+  connect(m_updater, &TupdateChecker::communicate, this, &TupdaterPlugin::messageSlot);
+  if (argument.isEmpty())
+    m_updater->check(false);
+  else
+    m_updater->check(true);
+}
 
 
-#endif // UPDATEFUNCTIONS_H
+TupdaterPlugin::~TupdaterPlugin() {
+  delete m_updater;
+}
+
+
+void TupdaterPlugin::messageSlot(const QString& m) { 
+  m_lastWord = m;
+  if (m_sender)
+    m_sender->emitMessage(m); 
+}
+
+

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,46 +16,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TUPDATERPLUGIN_H
+#define TUPDATERPLUGIN_H
 
-#ifndef TGLOBALSETTIGS_H
-#define TGLOBALSETTIGS_H
+#include <QObject>
+#include <plugins/tplugininterface.h>
 
-#include <QMap>
-#include <QWidget>
+class TupdateChecker;
 
-class TpluginsLoader;
-class QLabel;
-class QPushButton;
-class QComboBox;
-class TcolorButton;
-class QCheckBox;
-
-
-class TglobalSettings : public QWidget
+/** 
+ * This plugin perform update checking for new Nootka versions.
+ * It sends signals through @p ob QObject about current state of checking process
+ */
+class TupdaterPlugin : public QObject, public TpluginInterface
 {
-    Q_OBJECT
-public:
-	explicit TglobalSettings(QWidget *parent = 0);
-
-	void saveSettings();
-	void restoreDefaults();
-	static QString warringResetConfigTxt() {  return tr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard."); } // All settings will be reset to their default values!<br>Nootka will start up next time with the first-run wizard.
-	
-signals:
-	void restoreAllDefaults(); /** Is emitted when user click m_restAllDefaultsBut QPushButton. */
-		
-private:
-	QComboBox 									*m_langCombo;
-	QMap<QString, QString> 			 m_langList;
-  QPushButton 								*m_updateButton, *m_restAllDefaultsBut;
-  QLabel 											*m_updateLabel;
-	TpluginsLoader							*m_pluginLoader;
+  Q_OBJECT
+  Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
+  Q_INTERFACES(TpluginInterface)
   
-private slots:
-  void updateSlot();
-  void processOutputSlot(QString output);
-	void restoreRequired(); /** when user wants to restore all Nootka settings at once */
+  virtual ~TupdaterPlugin();
+  
+  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+  
+  virtual QString& lastWord() { return m_lastWord; }
+  
+protected:
+  void messageSlot(const QString& m);
+  
+private:
+  TpluginObject         *m_sender;
+  TupdateChecker        *m_updater;
+  QString                m_lastWord;
+  
 };
 
 
-#endif // TGLOBALSETTIGS_H
+#endif // TUPDATERPLUGIN_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,8 @@
 #include <QMainWindow>
 #include <QPointer>
 
+
+class TpluginsLoader;
 class TexamExecutor;
 class Tchunk;
 class TmelMan;
@@ -42,6 +44,9 @@ class TpitchView;
 class Tsound;
 
 
+/** 
+ * Implementation of main Nootka window
+ */
 class MainWindow : public QMainWindow
 {
     friend class TexamExecutor;
@@ -111,7 +116,7 @@ protected slots:
 	void restoreMessage();
 	void messageSlot(const QString& msg);
 		
-    void showSupportDialog();
+	void showSupportDialog();
 		
 				/** Checks is score not too width and places pitchView under when it is.
 				 * Or opposite - moves pitchView.
@@ -127,6 +132,7 @@ protected slots:
 				 * It adjust ambitus to score possibilities if clef is differ than default
 				 * or to instrument scale if clef backs to default */
 	void adjustAmbitus();
+	void updaterMessagesSlot(const QString& m = "");
 		
 private:
 	void prepareToExam();
@@ -140,13 +146,12 @@ private:
 	QColor 								m_prevBg, m_curBG;
 	QPixmap 							m_bgPixmap, m_rosettePixmap;
 	int 									m_statFontSize;
-// 		int 									m_extraFontOffset;
 	bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
 	Tlevel 						    m_level;
 	bool 									m_isPlayerFree;
-// 		QWidget 							*m_pitchContainer;
 	TmelMan							 *m_melButt;
 	int										m_startedSoundId; /** Index of note on the score that has been just started.  */
+	TpluginsLoader			 *m_updaterPlugin;
 	
       /** This is tricky workaround when TexamExecutor calls clearAfterExam() where it is deleted
        * and @p executor variable is brought back because execution back to startExamSlot().  */

@@ -130,29 +130,24 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
   if (DPKG_CMD) # Debian changelog
-      install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.gz" DESTINATION share/doc/nootka)
+      install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
 	install(FILES copyright DESTINATION share/doc/nootka)
 	install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
-	install(FILES packaging/nootka-updater.1.gz DESTINATION share/man/man1)
 endif(UNIX AND NOT APPLE)
 
 if(WIN32)
   get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
-  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY)
+  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
   file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
   install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
-#   install( CODE "
-#     COMMAND ${CMAKE_COMMAND} -E copy_if_different packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/
-#     COMMAND ${CMAKE_COMMAND} -E copy_if_different picts/pack.ico ${CMAKE_BINARY_DIR}/nsis/ ) " )
-#  install(FILES picts/logo.bmp DESTINATION "${INS_PREF}") # logo for installer
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
   install(FILES "${QT_BINARY_DIR}/Qt5Core.dll" "${QT_BINARY_DIR}/Qt5Gui.dll" "${QT_BINARY_DIR}/Qt5Widgets.dll" "${QT_BINARY_DIR}/Qt5Network.dll" "${QT_BINARY_DIR}/Qt5PrintSupport.dll" DESTINATION "${INS_PREF}")
   install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
   install(FILES ${ICU_DLLS} DESTINATION ${INS_PREF})
   install(FILES ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll DESTINATION "${INS_PREF}/platforms")
   if(MINGW) # mingw related
-    install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" DESTINATION "${INS_PREF}")
+    install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
   endif(MINGW)
 endif(WIN32)
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 #include "tglobalsettings.h"
 #include "tcolorbutton.h"
 #include <tinitcorelib.h>
-#include <tupdateprocess.h>
+#include <plugins/tpluginsloader.h>
 #include <QtWidgets>
 
 
@@ -70,10 +70,12 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   lay->addWidget(updateBox);
   lay->addStretch(1);
   
-  if (TupdateProcess::isPossible())
-      connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
-    else 
-      updateBox->hide();
+	m_pluginLoader = new TpluginsLoader(this);
+  if (m_pluginLoader->load(TpluginsLoader::e_updater)) {
+    connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+    connect(m_pluginLoader->node(), &TpluginObject::message, this, &TglobalSettings::processOutputSlot);
+  } else 
+    updateBox->hide();
   
   lay->addStretch(1);
   m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
@@ -110,17 +112,13 @@ void TglobalSettings::restoreRequired() {
 
 
 void TglobalSettings::updateSlot() {
-  TupdateProcess *process = new TupdateProcess(false, this);
-  if (process->isPossible()) {
-    m_updateButton->setDisabled(true);
-    connect(process, SIGNAL(updateOutput(QString)), this, SLOT(processOutputSlot(QString)));
-    process->start();
-  }
+	m_pluginLoader->init("", this);
+  m_updateButton->setDisabled(true);
 }
 
 
 void TglobalSettings::processOutputSlot(QString output) {
-    m_updateLabel->setText(output);
+	m_updateLabel->setText(output);
 }
 
 

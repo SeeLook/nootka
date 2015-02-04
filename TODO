@@ -14,7 +14,8 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- do order with updater - it crashes as a plugin and works ugly as a executable
+- set proper install rpath in cmake rules
+- score and melody menus are wrongly positioned under Win - it is related to calculation of initial position
 - fix when 'enter note' text and edit lines appears in empty note on the score
 
 MINOR:
@@ -44,7 +45,7 @@ TO CONSIDER:
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - average effectiveness line in chart
-- add Nootka like button instead of radio to TpitchView and button to switch intonation accuracy
+- add some Nootka-ish button instead of radio to TpitchView and button to switch intonation accuracy
 - proxy corner widgets may be animated
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar
