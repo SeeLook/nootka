@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,46 +16,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef UPDATEFUNCTIONS_H
+#define UPDATEFUNCTIONS_H
 
-#ifndef TGLOBALSETTIGS_H
-#define TGLOBALSETTIGS_H
+#include <QDate>
 
-#include <QMap>
-#include <QWidget>
-
-class TpluginsLoader;
-class QLabel;
-class QPushButton;
-class QComboBox;
-class TcolorButton;
-class QCheckBox;
+class QWidget;
 
 
-class TglobalSettings : public QWidget
-{
-    Q_OBJECT
-public:
-	explicit TglobalSettings(QWidget *parent = 0);
+enum EupdatePeriod { e_daily = 0, e_weekly = 1, e_monthly = 2 };
 
-	void saveSettings();
-	void restoreDefaults();
-	static QString warringResetConfigTxt() {  return tr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard."); } // All settings will be reset to their default values!<br>Nootka will start up next time with the first-run wizard.
-	
-signals:
-	void restoreAllDefaults(); /** Is emitted when user click m_restAllDefaultsBut QPushButton. */
-		
-private:
-	QComboBox 									*m_langCombo;
-	QMap<QString, QString> 			 m_langList;
-  QPushButton 								*m_updateButton, *m_restAllDefaultsBut;
-  QLabel 											*m_updateLabel;
-	TpluginsLoader							*m_pluginLoader;
-  
-private slots:
-  void updateSlot();
-  void processOutputSlot(QString output);
-	void restoreRequired(); /** when user wants to restore all Nootka settings at once */
+
+struct TupdateRules {
+  bool enable; // is updating enabled
+  QDate recentDate; // date of recent update
+  EupdatePeriod period; // how often checking has to be perform
+  bool checkForAll; // if true check for all versions (alpha, beta, rc)
+  QString curentVersion; // current Nootka version taken from settings
 };
 
 
-#endif // TGLOBALSETTIGS_H
+void getUpdateRules(TupdateRules &updateRules); /** Fulfills &updateRules with configuration file content. */
+
+    /** Compares date of recent checking, current date, update period
+     and determine is update necessary. */
+bool isUpdateNecessary(TupdateRules &updateRules);
+
+bool isNewVersionStable(QString version);
+
+    /** Stores rules in Nootka config file */
+void saveUpdateRules(TupdateRules &updateRules);
+
+void showUpdateSummary(QString version, QString changes, QWidget* parent = 0, TupdateRules *rules = 0);
+
+
+#endif // UPDATEFUNCTIONS_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,6 +26,8 @@
 #include <exam/texam.h>
 #include <exam/tlevel.h>
 #include <plugins/tpluginsloader.h>
+#include <qt/QtWidgets/qmainwindow.h>
+#include <qt/QtWidgets/QLabel>
 
 
 Tglobals *gl;
@@ -92,8 +94,14 @@ int main(int argc, char *argv[])
   }
   
   if (plugOk) {
-    if (plugType == TpluginsLoader::e_updater)
+    if (plugType == TpluginsLoader::e_updater) {
+			QMainWindow w;
+			QLabel *l = new QLabel(&w);
+			w.setCentralWidget(l);
+			a.connect(loader->node(), SIGNAL(message(QString)), l, SLOT(setText(QString)));
+			w.show();
       a.exec();
+		}
     qDebug() << "plugin said:" << loader->lastWord();
   }
 //   delete loader;

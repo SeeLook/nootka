@@ -39,7 +39,6 @@
 #include <tsound.h>
 #include <taboutnootka.h>
 #include <tsupportnootka.h>
-#include <tupdateprocess.h>
 #include <plugins/tpluginsloader.h>
 #include <QtWidgets>
 
@@ -74,10 +73,8 @@ MainWindow::MainWindow(QWidget *parent) :
 		m_statusText(""),
 		m_curBG(-1), m_prevBg(-1),
 		m_lockStat(false),
-    m_isPlayerFree(true)
-//     m_pitchContainer(0),
-//     m_rightLay(0),
-//     m_extraFontOffset(0)
+    m_isPlayerFree(true),
+    m_updaterPlugin(0)
 {
   setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
   
@@ -101,13 +98,18 @@ MainWindow::MainWindow(QWidget *parent) :
       } else { // check for updates
         gl->config->endGroup();
         gl->config->beginGroup("Updates");
-        if (gl->config->value("enableUpdates", true).toBool() && TupdateProcess::isPossible()) {
-            TupdateProcess *process = new TupdateProcess(true, this);
-            process->start();
-        }
+				m_updaterPlugin = new TpluginsLoader();
+        if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
+					connect(m_updaterPlugin->node(), &TpluginObject::message, this, &MainWindow::updaterMessagesSlot);
+					gl->config->endGroup(); // close settings note because updater need to open it again 
+					m_updaterPlugin->init("false", this); // string argument stops displaying update dialog when no news were send
+        } else
+						delete m_updaterPlugin;
       }
   }
-  gl->config->endGroup();
+  if (!gl->config->group().isEmpty()) // close settings group when was open
+		gl->config->endGroup();
+	
   Tnote::defaultStyle = gl->S->nameStyleInNoteName;
   
   sound = new Tsound(this);
@@ -536,6 +538,14 @@ void MainWindow::adjustAmbitus() {
 	} else
 		sound->setDefaultAmbitus();
 }
+
+
+void MainWindow::updaterMessagesSlot(const QString& m) {
+	if (m.contains("No need") || m.contains("finished") || m.contains("error occurred"))
+		m_updaterPlugin->deleteLater();
+	// It sends 'success' as well but it means that updater window is displayed, when user will close it - 'finished' is send
+}
+
 
 //#################################################################################################
 //###################              PRIVATE             ############################################
