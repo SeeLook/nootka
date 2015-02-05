@@ -140,10 +140,12 @@ Section "GrupaGlowna" SEC01
   File "libNootkaWizardPlugin.dll.a"
   File "libNootkaLevelPlugin.dll"
   File "libNootkaLevelPlugin.dll.a"
-  File "libNootkaAnalyzerPlugin.dll"
   File "libNootkaSettingsPlugin.dll"
   File "libNootkaSettingsPlugin.dll.a"
+  File "libNootkaAnalyzerPlugin.dll"
   File "libNootkaAnalyzerPlugin.dll.a"
+  File "libNootkaUpdaterPlugin.dll"
+  File "libNootkaUpdaterPlugin.dll.a"
     
   File "changes"
   File "gpl"
@@ -396,6 +398,8 @@ Section Uninstall
   Delete "$INSTDIR\libNootkaSettingsPlugin.dll"
   Delete "$INSTDIR\libNootkaCore.dll"
   Delete "$INSTDIR\libNootkaAnalyzerPlugin.dll"
+  Delete "$INSTDIR\libNootkaUpdaterPlugin.dll"
+  Delete "$INSTDIR\libNootkaUpdaterPlugin.dll.a"
   Delete "$INSTDIR\Qt5Network.dll"
   Delete "$INSTDIR\Qt5Gui.dll"
 
