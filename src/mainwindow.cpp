@@ -132,7 +132,6 @@ MainWindow::MainWindow(QWidget *parent) :
   m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
   m_statLab->setVisible(gl->L->hintsBarEnabled);
-  Tmenu::setStatusWidget(m_statLab);
 #if defined (Q_OS_ANDROID)
   m_statLab->hide();
   nootBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -148,8 +147,6 @@ MainWindow::MainWindow(QWidget *parent) :
 // Setting layout
 // #if defined (Q_OS_ANDROID)
 // 	nootBar->setParent(0);
-// 	TcornerProxy *rhythmCorner = new TcornerProxy(score->scoreScene(), nootBar, Qt::TopRightCorner);
-// 	rhythmCorner->setSpotColor(Qt::darkGreen);
 // #endif
 // 	QVBoxLayout *mainLay = new QVBoxLayout;
 // 	mainLay->setContentsMargins(0, 2, 0, 2);
@@ -162,6 +159,7 @@ MainWindow::MainWindow(QWidget *parent) :
   bar->addMelodyButton(m_melButt);
   innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, noteName, this);
   setCentralWidget(innerWidget);
+	Tmenu::setMainWidget(innerWidget);
 //-------------------------------------------------------------------
   m_levelCreatorExist = false;
 
@@ -190,6 +188,7 @@ MainWindow::~MainWindow()
 		gl->config->setValue("geometry", geometry());
 	gl->config->endGroup();
 	delete gl;
+	Tmenu::deleteMenuHandler();
 }
 
 //##########################################################################################

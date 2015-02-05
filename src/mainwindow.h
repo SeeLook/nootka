@@ -61,10 +61,6 @@ public:
 	void setStatusMessage(const QString& msg, int time);
 	void setMessageBg (QColor bg);
 	
-			/**  Returns font size used in status message label in pixels.
-			* Its size depends on whole window size and is used for fonts' sizes
-			* of others widgets. */
-//     int getFontSize() {return m_statFontSize; }
 	QString statusMessage() { return m_statusText; }
 	TmainView *innerWidget;
 
@@ -76,16 +72,12 @@ public slots:
 	void startExamSlot();
 	void aboutSlot();
 	void analyseSlot();
-// 
+
 	void noteWasClicked(int index, Tnote note);
-//     void noteNameWasChanged(Tnote note);
 	void guitarWasClicked(const Tnote& note);
 	void soundWasStarted(const Tnote& note);
 	void soundWasFinished(Tchunk& chunk);
     
-// signals:
-//     void sizeChanged(QSize size);
-
 
 protected:
 	TmainScore *score;
@@ -103,13 +95,8 @@ protected:
 	void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
 	
 	void setSingleNoteMode(bool isSingle); /** Performs changes when insert mode differs then the set one. */
-// 				/* Invokes TnoteName::resize(). Also does the same for TexamView (examResults) and TprogressWidget.
-// 				 * Font size is calculated from m_statFontSize + m_extraFontOffset */
-// 		void setWidgetsFont();
-// 
 	void resizeEvent(QResizeEvent *event);
 	void closeEvent(QCloseEvent *event);
-//     bool eventFilter(QObject* obj, QEvent* event);
 	void paintEvent(QPaintEvent *);
         
 protected slots:
@@ -118,19 +105,9 @@ protected slots:
 		
 	void showSupportDialog();
 		
-				/** Checks is score not too width and places pitchView under when it is.
-				 * Or opposite - moves pitchView.
-				 * Also avoid collision score and note name. */
-// 		void fixPitchViewPos();
-		
-				/** In first attempt it tries to increase window size if there is screen space in spare.
-				 * If not, Invokes TnoteName::resize() with smallest font size to decrease it.
-				 * Also does the same for TexamView (examResults) and TprogressWidget */
-// 		void fixNoteNameSize();
-		
-				/** This slot is invoked when clef is changed by clicking score.
-				 * It adjust ambitus to score possibilities if clef is differ than default
-				 * or to instrument scale if clef backs to default */
+			/** This slot is invoked when clef is changed by clicking score.
+				* It adjust ambitus to score possibilities if clef is differ than default
+				* or to instrument scale if clef backs to default */
 	void adjustAmbitus();
 	void updaterMessagesSlot(const QString& m = "");
 		

@@ -29,7 +29,7 @@ TmelMan::TmelMan(TmainScore* score) :
 	QObject(score),
 	m_score(score)
 {	
-	m_menu = new Tmenu(score);
+	m_menu = new Tmenu();
 	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
 	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),

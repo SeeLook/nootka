@@ -21,7 +21,7 @@ if(UNIX AND NOT APPLE)
 	set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
 	# add the automatically determined parts of the RPATH
 	# which point to directories outside the build tree to the install RPATH
-	set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+	set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
 
 	# the RPATH to be used when installing, but only if it's not a system directory
 	list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${NOOTKA_LIB_PATH}" isSystemDir)
