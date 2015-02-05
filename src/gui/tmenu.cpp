@@ -21,14 +21,26 @@
 #include <QShowEvent>
 
 /*static*/
-QWidget* Tmenu::m_statusWidget = 0;
+QWidget* 						Tmenu::m_mainWidget = 0;
+TmenuHandler*				Tmenu::m_menuHandler = 0;
 
 
 
 
-Tmenu::Tmenu(QWidget* parent) :
-  QMenu(parent)
-{}
+Tmenu::Tmenu() :
+  QMenu(m_mainWidget)
+{
+	if (!m_menuHandler)
+		m_menuHandler = new TmenuHandler();
+}
+
+
+void Tmenu::deleteMenuHandler() {
+	if (m_menuHandler) {
+		delete m_menuHandler; 
+		m_menuHandler = 0;
+	}
+}
 
 
 //#################################################################################################
@@ -36,13 +48,8 @@ Tmenu::Tmenu(QWidget* parent) :
 //#################################################################################################
 
 void Tmenu::showEvent(QShowEvent* event) {
-  if (parentWidget() && m_statusWidget && m_statusWidget->isVisible())
-#if defined (Q_OS_WIN)
-    move(x(), y() + m_statusWidget->height() + 10);
-#else
-    move(x(), parentWidget()->y() + 2);
-#endif
   QWidget::showEvent(event);
+	m_menuHandler->emitShown(this);
 }
 
 

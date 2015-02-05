@@ -22,26 +22,64 @@
 #include <QMenu>
 
 
+class TmenuHandler;
+
 /** 
- * This is ordinary QMenu class 
- * but during @p showEvent() it shifts menu position to parent widget Y coordinate
- * To display menu below Nootka status bar (if it is visible) 
- * and pointer to status widget was set through @p setStatusWidget()
+ * Due to Nootka tool bar exists inside graphics proxy widget
+ * menus handled by tool buttons have no proper parent and 
+ * menu position can be wrong and window decorations are not respected.
+ * To workaround this @class Tmenu has static @p menuHandler().
+ * This is QObject that emits @p emitShown() signal.
+ * This signal is emitted from every Tmenu instance when it is displayed.
+ * Then signal is handled by @class TmainView and menu position is adjusted properly.
+ * 
+ * Constructor automatically sets menu parent to central widget of main window
+ * but it has to be declared first through @p setMainWidget().
  */
 class Tmenu : public QMenu
 {
 public:
-  explicit Tmenu(QWidget* parent = 0);
+	explicit Tmenu(); /** Constructor automatically sets menu parent to central widget of main window through @p setMainWidget() */
   
-      /** Sets status widget pointer to determine is it visible and set proper menu position. */
-  static void setStatusWidget(QWidget* stat) { m_statusWidget = stat; }
+		/** Returns Nootka main window. 
+		* IT HAS TO BE INITIALIZED BY @p setMainWindow() in @class MainWindow constructor.	 */
+	static QWidget* mainWidget() { return m_mainWidget; }
+	static void setMainWidget(QWidget* mainWindgetPtr) { m_mainWidget = mainWindgetPtr; }
+	
+		/** This is QObject instance created with first Tmenu object.
+		 * It emits @p emitShown() signal when menu appears.
+		 * IT HAS TO BE DELETED MANUALLY by @p deleteMenuHandler(). */
+  static TmenuHandler* menuHandler() { return m_menuHandler; }
+  static void deleteMenuHandler();
   
 protected:  
   virtual void showEvent(QShowEvent* event);
   
 private:
-  static QWidget*           m_statusWidget;
-  
+  static QWidget								*m_statusWidget;
+	static QWidget								*m_mainWidget;
+  static TmenuHandler						*m_menuHandler;
+};
+
+
+/** 
+ * Simple QObject subclass that emits @p menuShown() signal 
+ * with @class Tmenu object
+ * after invoke @p emitShown() method.
+ */
+class TmenuHandler : public QObject 
+{
+	
+	Q_OBJECT
+	
+public:
+	TmenuHandler() : QObject() {}
+	
+	void emitShown(Tmenu* m) { emit menuShown(m); }
+	
+signals:
+	void menuShown(Tmenu*);
+	
 };
 
 #endif // TMENU_H

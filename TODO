@@ -14,12 +14,11 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- set proper install rpath in cmake rules
-- score and melody menus are wrongly positioned under Win - it is related to calculation of initial position
 - fix when 'enter note' text and edit lines appears in empty note on the score
 
 MINOR:
 - when Nootka starts in single mode proxy corner appears
+- when tool bar is auto hide record melody icon is not set - some mark could be there
 - lock right button and space bar during correction
 - updater and analyzer windows have missing window title (and icon)
 - try to avoid many resizeEvent-s of TmultiScore during window size change

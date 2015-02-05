@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 #include <QGraphicsView>
 #include <QPointer>
 
+class Tmenu;
 class TnoteName;
 class TnameTip;
 class TlayoutParams;
@@ -70,6 +71,7 @@ protected:
 protected slots:
 	void showToolBar();
   void updateLayout(); /** Method called by timer from resizeEvent() */
+	void menuSlot(Tmenu* m);
 	
 private:
 	QWidget													*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;

@@ -18,6 +18,7 @@
 
 #include "tmainview.h"
 #include "ttoolbar.h"
+#include "tmenu.h"
 #include <animations/tcombinedanim.h>
 #include <tlayoutparams.h>
 #include <notename/tnotename.h>
@@ -68,6 +69,8 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 	m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
 	setBarAutoHide(m_layParams->toolBarAutoHide);
 	m_name->createNameTip(scene());
+	
+	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
 }
 
 
@@ -242,6 +245,21 @@ void TmainView::showToolBar() {
 													 width() - m_proxyBar->boundingRect().width() - 2);
 	m_animBar->setMoving(QPointF(xx, -m_proxyBar->boundingRect().height()), QPointF(xx, 0.0));
 	m_animBar->startAnimations();
+}
+
+
+void TmainView::menuSlot(Tmenu* m) {
+	int xOff = 0;
+	if (isAutoHide()) {
+		startHideAnim();
+		xOff = m_proxyBar->pos().x();
+	}
+	QPoint scoreGlobalPos = mapToGlobal(m_score->pos());
+#if defined (Q_OS_WIN)
+	m->move(xOff + scoreGlobalPos.x() + m_tool->height() * 2, scoreGlobalPos.y());
+#else
+	m->move(xOff + scoreGlobalPos.x() + m->pos().x(), scoreGlobalPos.y());
+#endif
 }
 
 

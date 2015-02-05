@@ -10,3 +10,5 @@ add_subdirectory( charts )
 add_subdirectory( settings )
 
 add_subdirectory( wizard )
+
+add_subdirectory( updater )
