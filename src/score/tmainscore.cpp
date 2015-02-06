@@ -494,6 +494,7 @@ void TmainScore::markAnswered(QColor blurColor, int noteNr) {
 			sn = staff()->noteSegment(noteNr);
 		else
 			sn = noteFromId(noteNr);
+		sn->setEmptyLinesVisible(true);
 		if (blurColor == -1)
 			sn->markNote(-1);
 		else

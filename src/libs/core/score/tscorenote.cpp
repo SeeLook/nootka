@@ -56,7 +56,7 @@ QGraphicsEllipseItem* TscoreNote::createNoteHead(QGraphicsItem* parentIt) {
 }
 
 
-/** To avoid creating many tips - one for every instance and waste RAM
+/** To avoid creating many tips - each one for every instance and waste RAM
  * this text exist as static variable 
  * and TscoreNote manages itself when status tip is necessary to be displayed. */
 QString TscoreNote::m_staticTip = "";
@@ -70,7 +70,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_accidental(0),
   m_index(index),
   m_stringText(0), m_stringNr(0),
-  m_readOnly(false),
+  m_readOnly(false), m_emptyLinesVisible(true),
   m_nameText(0),
   m_ottava(0),
   m_bgColor(-1),
@@ -102,7 +102,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 		#else
 			modKey = "CTRL";
 		#endif
-			m_staticTip = tr("Click to enter a note, use mouse wheel with %1 or middle button to change accidental. Right mouse button just selects a note.").arg(modKey);
+			m_staticTip = 
+						tr("Click to enter a note, use mouse wheel with %1 or middle button to change accidental. Right mouse button just selects.").arg(modKey);
 			m_mainAccid->setText(getAccid(1));
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
@@ -317,6 +318,7 @@ void TscoreNote::removeString() {
 void TscoreNote::setReadOnly(bool ro) {
   setAcceptHoverEvents(!ro);
   m_readOnly = ro;
+	m_emptyLinesVisible = !ro;
   checkEmptyText();
 }
 
@@ -418,7 +420,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
-	if (/*!isReadOnly() && */!m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
+	if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
 		QColor emptyNoteColor;
 		if (m_mainNote->pen().style() == Qt::NoPen)
 			emptyNoteColor = qApp->palette().highlight().color();
@@ -445,10 +447,8 @@ void TscoreNote::popUpAnim(int durTime) {
 	m_popUpAnim = new TcombinedAnim(m_emptyText);
 		m_popUpAnim->setDuration(durTime);
 		m_popUpAnim->setMoving(QPointF(m_emptyText->x(), -10), m_emptyText->pos());
-// 		m_popUpAnim->setScaling(m_emptyText->scale(), m_emptyText->scale() * 1.6);
-// 		m_popUpAnim->setFading(0.2, 1.0);
-		connect(m_popUpAnim, SIGNAL(finished()), this, SLOT(popUpAnimFinished()));
-		m_popUpAnim->startAnimations();
+	connect(m_popUpAnim, SIGNAL(finished()), this, SLOT(popUpAnimFinished()));
+	m_popUpAnim->startAnimations();
 }
 
 
