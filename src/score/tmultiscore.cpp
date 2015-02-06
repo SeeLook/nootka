@@ -589,6 +589,7 @@ void TmultiScore::noteRemovingSlot(int staffNr, int noteToDel) {
 //   qDebug() << "noteRemovingSlot" << staffNr;
 	if (staffNr * staff()->maxNoteCount() + noteToDel == m_currentIndex) {
 // 		qDebug() << "current selected note will be removed";
+		emit noteWasChanged(m_currentIndex, Tnote());
 		changeCurrentIndex(-1);
 	} else if (staffNr * staff()->maxNoteCount() + noteToDel < m_currentIndex) {
 // 		qDebug() << "selected note moved backward";
