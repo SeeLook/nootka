@@ -121,6 +121,10 @@ public:
 		
 		void popUpAnim(int durTime); /** Performs pop-up animation */
     
+        /** Defines when lines above and below staff are visible when note is empty. */
+    void setEmptyLinesVisible(bool visible) { m_emptyLinesVisible = visible; }
+    bool emptyLinesVisible() { return m_emptyLinesVisible; }
+    
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
 		
@@ -169,7 +173,7 @@ private:
 		int 													 					m_stringNr;
 		QGraphicsSimpleTextItem 							 *m_stringText;
     qreal                          					m_height;
-		bool													 					m_readOnly;
+		bool													 					m_readOnly, m_emptyLinesVisible;
 		QGraphicsTextItem											 *m_nameText;
 		int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
 		QColor                         					m_bgColor;
