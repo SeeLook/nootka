@@ -14,10 +14,8 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- it sometimes crashed when note is auto added and 'add note' of this new is pressed
 
 MINOR:
-- stop auto next note animation when the same note seg. is clicked repeatly (TscoreStaff manages it)
 - when Nootka starts in single mode proxy corner appears
 - when tool bar is auto hide record melody icon is not set - some mark could be there
 - lock right button and space bar during correction
@@ -25,6 +23,7 @@ MINOR:
 - quick clicking on note on faster machines displays note cursor in x=0 position
 - try to avoid many resizeEvent-s of TmultiScore during window size change
 - changing tool bar auto-hiding causes sometimes locked melody menu
+- when selected note is deleted finger remains on a guitar
 - clicked link of tip locks next click - probably due to grabbed focus - however click outside tip unlocks it
 - when exercise is finished and analysis dialog was opened message text remains
 - clef in empty level preview table is out of borders (TlevelPreview)

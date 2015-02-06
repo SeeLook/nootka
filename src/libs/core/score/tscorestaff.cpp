@@ -133,9 +133,9 @@ Tnote* TscoreStaff::getNote(int index) {
 
 
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
+	if (m_autoAddedNoteId > -1) // naughty user can insert or add new note just after clicking the last one what invokes auto adding
+		addNoteTimeOut();
 	index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
-	if (m_autoAddedNoteId > -1) // naughty user can insert new note just after clicking the last one what invokes auto adding
-		m_autoAddedNoteId++; // increase an id of that auto added note then
 	insert(index);
 	setNote(index, note);
 	m_scoreNotes[index]->setZValue(50);
@@ -542,8 +542,13 @@ void TscoreStaff::onKeyChanged() {
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
-	if (m_autoAddedNoteId > -1)
-		addNoteTimeOut();
+	if (m_autoAddedNoteId > -1) {
+		if (noteIndex == m_autoAddedNoteId - 1) {
+				m_addTimer->stop();
+				m_addTimer->start(2000);
+		} else
+				addNoteTimeOut();
+	}
   int globalNr = notePosRelatedToClef(fixNotePos(m_scoreNotes[noteIndex]->notePos())
 				+ m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
 	m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
@@ -554,6 +559,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	checkNoteRange();
 	// when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic 
 	if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
+		qDebug() << "auto added";
 		m_addTimer->stop();
 		insert(noteIndex + 1);
 		m_scoreNotes.last()->popUpAnim(300);
