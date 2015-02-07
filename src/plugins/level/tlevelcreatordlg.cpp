@@ -23,7 +23,7 @@
 #include "accidsettings.h"
 #include "levelsettings.h"
 #include "rangesettings.h"
-#include "tmelodysettings.h"
+// #include "tmelodysettings.h"
 #include <texamparams.h>
 #include <music/ttune.h>
 #include <widgets/troundedlabel.h>
