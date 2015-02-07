@@ -55,7 +55,7 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
     spinAtt->setRange(0, qa()->question()->attemptsCount());
 //     spinAtt->setSpecialValueText(" " + tr("bare melody") + " ");
     spinAtt->setPrefix(TexTrans::attemptTxt() + " ");
-    spinAtt->setSuffix(" " + tr("of") + QString(" %1").arg(qa()->question()->attemptsCount()));
+    spinAtt->setSuffix(" " + tr("of", "It will give text: 'Attempt x of y'") + QString(" %1").arg(qa()->question()->attemptsCount()));
   m_attemptLabel = new QLabel(m_w);
   txt = wasAnswerOKtext(point->question(), point->color()).replace("<br>", " ") + "<br>";
   txt += tr("Melody was played <b>%n</b> times", "", qa()->question()->totalPlayBacks()) + "<br>";

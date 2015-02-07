@@ -11,9 +11,9 @@
 ================              TODO LIST               ======================
 ============================================================================
 
-
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
+- Expert mode for melodies - is it working?
 
 MINOR:
 - when Nootka starts in single mode proxy corner appears
@@ -58,22 +58,12 @@ TO CONSIDER:
   then emitting signal should contain Tchunk instead Tnote
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
-     Also for questions in "hint" - don't show octave when only name is required
-
-===============================================================
-========== TRANSLATIONS =======================================
-===============================================================
- - Entries of Accidental settings in creator were moved from Question Settings - find end confirm
- - TtoolBar has many entries translated already - just confirm them
- - Tpage_3 context was moved and description fixed but source text remained the same - just confirm
- - 'You are exercising on level' and 'Exam started on level' moved to Tcanvas from executor - just confirm
- 
+     Also for questions in "hint" - don't show octave when only name is required 
  
 ===============================================================     
 ============== Packaging (cpack) =============================
 ===============================================================
 - update Qt5 dependencies for deb package 
-- remember about libPrintSupport
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

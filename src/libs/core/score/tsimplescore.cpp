@@ -431,42 +431,72 @@ void TsimpleScore::timerEvent(QTimerEvent* timeEvent) {
 #else
 
 void TsimpleScore::wheelEvent(QWheelEvent* event) {
-  bool propagate = true;
-  if (m_wheelFree) {
-    if (event->angleDelta().x() && m_scene->isCursorVisible()) {
-      if (event->angleDelta().x() < -1)
-          m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
-        else if (event->angleDelta().x() > 1)
-          m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
-        propagate = false;
-    } else if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
-      if (m_scene->isCursorVisible()) {
-        if (event->angleDelta().y() < -1)
-          m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
-        else if (event->angleDelta().y() > 1)
-          m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
-      }
-      propagate = false;
-      m_wheelFree = false;
-    } else {
-        if (staff()->scoreKey() && !staff()->scoreKey()->readOnly()) {
-          QPointF pp = staff()->mapFromScene(mapToScene(event->pos()));
-          if (pp.x() > staff()->scoreKey()->pos().x() && 
-              pp.x() < staff()->scoreKey()->pos().x() + staff()->scoreKey()->boundingRect().width() - 2.0) {
-                  if (event->angleDelta().y() < 0 && keySignature().value() > -7)
-                    setKeySignature(keySignature().value() - 1);
-                  else if (event->angleDelta().y() > 0 && keySignature().value() < 7)
-                    setKeySignature(keySignature().value() + 1);
-                  propagate = false;
-                  m_wheelFree = false;
-          }
-        }
-    }
-  }
+//   bool propagate = true;
+//   if (m_wheelFree) {
+//     if (event->angleDelta().x() && m_scene->isCursorVisible()) {
+//       if (event->angleDelta().x() < -1)
+//           m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
+//         else if (event->angleDelta().x() > 1)
+//           m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
+//         propagate = false;
+// 				m_wheelFree = false;
+//     } else {
+//         if (staff()->scoreKey() && !staff()->scoreKey()->readOnly()) {
+//           QPointF pp = staff()->mapFromScene(mapToScene(event->pos()));
+//           if (pp.x() > staff()->scoreKey()->pos().x() && 
+//               pp.x() < staff()->scoreKey()->pos().x() + staff()->scoreKey()->boundingRect().width() - 2.0) {
+//                   if (event->angleDelta().y() < 0 && keySignature().value() > -7)
+//                     setKeySignature(keySignature().value() - 1);
+//                   else if (event->angleDelta().y() > 0 && keySignature().value() < 7)
+//                     setKeySignature(keySignature().value() + 1);
+//                   propagate = false;
+//                   m_wheelFree = false;
+//           }
+//         }
+//     }
+//   }
+//   if (propagate)
+//     QAbstractScrollArea::wheelEvent(event);
+//   else {
+//     m_wheelLockTimer->start();
+// 	}
+	bool propagate = true;
+	if (event->angleDelta().y()) {
+		if (staff()->scoreKey() && !staff()->scoreKey()->readOnly()) {
+			QPointF pp = staff()->mapFromScene(mapToScene(event->pos()));
+			if (pp.x() > staff()->scoreKey()->pos().x() && pp.x() < staff()->scoreKey()->pos().x() + staff()->scoreKey()->boundingRect().width() - 2.0) {
+				if (m_wheelFree) {
+					if (event->angleDelta().y() < 0 && keySignature().value() > -7) {
+							setKeySignature(keySignature().value() - 1);
+							m_wheelFree = false;
+					} else if (event->angleDelta().y() > 0 && keySignature().value() < 7) {
+							setKeySignature(keySignature().value() + 1);
+							m_wheelFree = false;
+					}
+				}
+				propagate = false;
+			}
+		}
+	} else {
+			if (event->angleDelta().x() && m_scene->isCursorVisible()) {
+				if (m_wheelFree) {
+					if (event->angleDelta().x() < -1) {
+						m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
+						m_wheelFree = false;
+					} else if (event->angleDelta().x() > 1) {
+						m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
+						m_wheelFree = false;
+					}
+				}
+			}
+			propagate = false;
+	}
   if (propagate)
     QAbstractScrollArea::wheelEvent(event);
-  else
-    m_wheelLockTimer->start();
+  else {
+		if (!m_wheelFree)
+			m_wheelLockTimer->start();
+	}
 }
 
 
