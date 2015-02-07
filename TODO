@@ -14,6 +14,7 @@
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - Expert mode for melodies - is it working?
+- sniffing starts after closing dialog windows even if it was paused
 
 MINOR:
 - when Nootka starts in single mode proxy corner appears
