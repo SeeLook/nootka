@@ -433,7 +433,13 @@ void TsimpleScore::timerEvent(QTimerEvent* timeEvent) {
 void TsimpleScore::wheelEvent(QWheelEvent* event) {
   bool propagate = true;
   if (m_wheelFree) {
-    if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
+    if (event->angleDelta().x() && m_scene->isCursorVisible()) {
+      if (event->angleDelta().x() < -1)
+          m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
+        else if (event->angleDelta().x() > 1)
+          m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
+        propagate = false;
+    } else if (event->modifiers() == Qt::ControlModifier || event->buttons() == Qt::MiddleButton) {
       if (m_scene->isCursorVisible()) {
         if (event->angleDelta().y() < -1)
           m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
@@ -467,7 +473,6 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 void TsimpleScore::wheelLockSlot() {
   m_wheelFree = true;
 }
-
 
 #endif
 

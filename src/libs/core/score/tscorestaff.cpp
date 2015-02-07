@@ -559,7 +559,6 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	checkNoteRange();
 	// when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic 
 	if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
-		qDebug() << "auto added";
 		m_addTimer->stop();
 		insert(noteIndex + 1);
 		m_scoreNotes.last()->popUpAnim(300);
