@@ -48,7 +48,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   setMouseTracking(true);
   m_wheelFree = true;
   m_wheelLockTimer = new QTimer(this);
-  m_wheelLockTimer->setInterval(250);
+  m_wheelLockTimer->setInterval(150);
   m_wheelLockTimer->setSingleShot(true);
   connect(m_wheelLockTimer, &QTimer::timeout, this, &TsimpleScore::wheelLockSlot);
 #endif
@@ -431,35 +431,6 @@ void TsimpleScore::timerEvent(QTimerEvent* timeEvent) {
 #else
 
 void TsimpleScore::wheelEvent(QWheelEvent* event) {
-//   bool propagate = true;
-//   if (m_wheelFree) {
-//     if (event->angleDelta().x() && m_scene->isCursorVisible()) {
-//       if (event->angleDelta().x() < -1)
-//           m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
-//         else if (event->angleDelta().x() > 1)
-//           m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
-//         propagate = false;
-// 				m_wheelFree = false;
-//     } else {
-//         if (staff()->scoreKey() && !staff()->scoreKey()->readOnly()) {
-//           QPointF pp = staff()->mapFromScene(mapToScene(event->pos()));
-//           if (pp.x() > staff()->scoreKey()->pos().x() && 
-//               pp.x() < staff()->scoreKey()->pos().x() + staff()->scoreKey()->boundingRect().width() - 2.0) {
-//                   if (event->angleDelta().y() < 0 && keySignature().value() > -7)
-//                     setKeySignature(keySignature().value() - 1);
-//                   else if (event->angleDelta().y() > 0 && keySignature().value() < 7)
-//                     setKeySignature(keySignature().value() + 1);
-//                   propagate = false;
-//                   m_wheelFree = false;
-//           }
-//         }
-//     }
-//   }
-//   if (propagate)
-//     QAbstractScrollArea::wheelEvent(event);
-//   else {
-//     m_wheelLockTimer->start();
-// 	}
 	bool propagate = true;
 	if (event->angleDelta().y()) {
 		if (staff()->scoreKey() && !staff()->scoreKey()->readOnly()) {
@@ -468,10 +439,10 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 				if (m_wheelFree) {
 					if (event->angleDelta().y() < 0 && keySignature().value() > -7) {
 							setKeySignature(keySignature().value() - 1);
-							m_wheelFree = false;
+							m_wheelLockTimer->start();
 					} else if (event->angleDelta().y() > 0 && keySignature().value() < 7) {
 							setKeySignature(keySignature().value() + 1);
-							m_wheelFree = false;
+							m_wheelLockTimer->start();
 					}
 				}
 				propagate = false;
@@ -482,10 +453,10 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 				if (m_wheelFree) {
 					if (event->angleDelta().x() < -1) {
 						m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
-						m_wheelFree = false;
+						m_wheelLockTimer->start();
 					} else if (event->angleDelta().x() > 1) {
 						m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
-						m_wheelFree = false;
+						m_wheelLockTimer->start();
 					}
 				}
 			}
@@ -493,10 +464,6 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 	}
   if (propagate)
     QAbstractScrollArea::wheelEvent(event);
-  else {
-		if (!m_wheelFree)
-			m_wheelLockTimer->start();
-	}
 }
 
 

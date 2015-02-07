@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="pl_PL">
+<TS version="2.1" language="pl_PL">
 <context>
     <name>AnswerText</name>
     <message>
@@ -3492,7 +3492,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/libs/core/score/tscorenote.cpp" line="105"/>
         <source>enter note</source>
         <comment>it maybe whatever related, i.e &apos;put note&apos;, &apos;your note&apos;. Text is scaled but it should look well. Space will be replaced with line break!</comment>
-        <translation type="unfinished"></translation>
+        <translation>podaj nutę</translation>
     </message>
 </context>
 <context>
@@ -3623,7 +3623,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="65"/>
         <source>Score</source>
-        <translation>Zapis</translation>
+        <translation type="unfinished">Nuty</translation>
     </message>
     <message>
         <source>Names</source>
