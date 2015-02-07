@@ -70,6 +70,8 @@ void TscoreScene::setCurrentAccid(char accid) {
 			m_workAccid->show();
 		if (m_leftBox)
 			m_leftBox->setAccidental(m_currentAccid);
+		if (m_hideTimer->isActive())
+			m_hideTimer->start(1000);
 	}
 }
 

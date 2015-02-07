@@ -439,9 +439,11 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 				if (m_wheelFree) {
 					if (event->angleDelta().y() < 0 && keySignature().value() > -7) {
 							setKeySignature(keySignature().value() - 1);
+							m_wheelFree = false;
 							m_wheelLockTimer->start();
 					} else if (event->angleDelta().y() > 0 && keySignature().value() < 7) {
 							setKeySignature(keySignature().value() + 1);
+							m_wheelFree = false;
 							m_wheelLockTimer->start();
 					}
 				}
@@ -453,9 +455,11 @@ void TsimpleScore::wheelEvent(QWheelEvent* event) {
 				if (m_wheelFree) {
 					if (event->angleDelta().x() < -1) {
 						m_scene->setCurrentAccid(m_scene->currentAccid() + 1);
+						m_wheelFree = false;
 						m_wheelLockTimer->start();
 					} else if (event->angleDelta().x() > 1) {
 						m_scene->setCurrentAccid(m_scene->currentAccid() - 1);
+						m_wheelFree = false;
 						m_wheelLockTimer->start();
 					}
 				}
