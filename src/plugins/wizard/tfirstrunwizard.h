@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,8 +45,6 @@ class TfirstRunWizard : public QWizard
     Q_OBJECT
 public:
   explicit TfirstRunWizard(QWidget *parent = 0);
-  static QString nextText() { return tr("next"); }
-
 
 protected:
   void pageChanged(int pageNr);

@@ -227,7 +227,7 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 						if (question->melody()) {
 								        m_questText += TexTrans::writeDescTxt();
 								if (level->useKeySign && level->manualKey && level->onlyCurrKey)
-									           m_questText += tr("<br>Guess a key signature");
+									           m_questText += "<br>" + tr("Guess a key signature");
 						} else {
 								        m_questText += tr("Listened sound show on the staff");
 								if (level->useKeySign && level->manualKey)

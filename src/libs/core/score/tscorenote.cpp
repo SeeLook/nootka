@@ -96,19 +96,13 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainAccid->setFont(TnooFont(5));
 	bool prepareScale = false;
 	if (scoreScene()->accidScale() == -1.0) { // only when first TscoreNote is constructed
-		QString modKey = "";
-		#if defined(Q_OS_MAC)
-			modKey = "CMD";
-		#else
-			modKey = "CTRL";
-		#endif
 			m_staticTip = 
-						tr("Click to enter a note, use mouse wheel with %1 or middle button to change accidental. Right mouse button just selects.").arg(modKey);
+						tr("Click to enter a note, use horizontal scroll to change accidental. Right mouse button just selects a note.");
 			m_mainAccid->setText(getAccid(1));
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
 	}
-	m_emptyText = new QGraphicsSimpleTextItem(tr("enter note").toUpper().replace(" ", "\n"), this);
+	m_emptyText = new QGraphicsSimpleTextItem(tr("enter note", "it maybe whatever related, i.e 'put note', 'your note'. Text is scaled but it should look well. Space will be replaced with line break!").toUpper().replace(" ", "\n"), this);
 		m_emptyText->setZValue(1);
 		QColor cc = qApp->palette().highlight().color();
 		cc.setAlpha(80);
