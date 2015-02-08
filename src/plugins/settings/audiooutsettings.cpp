@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -106,10 +106,11 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     audioOutLay->addWidget(m_midiGr);
 		audioOutLay->addStretch();
 		
-		m_playDetectedChB = new QCheckBox(tr("Play detected notes"), this);
-			m_playDetectedChB->setChecked(m_params->playDetected);
-			m_playDetectedChB->setStatusTip(tr("Pitch-detected notes will be played with sound type defined here.<br>Delay depends on pitch detection settings."));
-		audioOutLay->addWidget(m_playDetectedChB, 0, Qt::AlignLeft);
+// 		m_playDetectedChB = new QCheckBox(tr("Play detected notes"), this);
+// 			m_playDetectedChB->setChecked(m_params->playDetected);
+// 			// When it will bring back, following status tip has do be formed more clear!
+// 			m_playDetectedChB->setStatusTip(tr("Pitch-detected notes will be played with sound type defined here.<br>Delay depends on pitch detection settings."));
+// 		audioOutLay->addWidget(m_playDetectedChB, 0, Qt::AlignLeft);
 
     m_audioOutEnableGr->setLayout(audioOutLay);
       lay->addWidget(m_audioOutEnableGr);
@@ -186,7 +187,7 @@ void AudioOutSettings::saveSettings() {
       m_params->midiPortName = m_midiPortsCombo->currentText();
       m_params->audioInstrNr = m_audioInstrCombo->currentIndex() + 1;
       m_params->forwardInput = m_playInputChB->isChecked();
-      m_params->playDetected = m_playDetectedChB->isChecked();
+//       m_params->playDetected = m_playDetectedChB->isChecked();
       m_params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
     }
   }
@@ -199,7 +200,7 @@ void AudioOutSettings::restoreDefaults() {
 		m_audioOutDevListCombo->setCurrentIndex(0);
 		m_midiInstrCombo->setCurrentIndex(2); // classical guitar
 		m_audioInstrCombo->setCurrentIndex(0);
-		m_playDetectedChB->setChecked(false);
+// 		m_playDetectedChB->setChecked(false);
 		m_playInputChB->setChecked(false);
 }
 

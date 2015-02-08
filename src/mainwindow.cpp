@@ -355,7 +355,6 @@ void MainWindow::openLevelCreator(QString levelFile) {
   sound->wait(); // stops pitch detection
   sound->stopPlaying();
   m_levelCreatorExist = true;
-  gl->dumpToTemp();
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, true);
 		TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_level)) {

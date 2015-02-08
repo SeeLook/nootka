@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,7 +59,6 @@ QString Tglobals::getInstPath(QString appInstPath) {
 	return p;
 }
 
-bool m_fromTemp;
 /*end static*/
 
 
@@ -86,11 +85,7 @@ Tglobals::Tglobals(bool fromTemp) :
 #else
 	config = new QSettings();
 #endif
-	if (fromTemp)
-		grabFromTemp();
-	else
-		loadSettings(config);
-	m_fromTemp = fromTemp;
+	loadSettings(config);
 	
 	if (Tcore::gl() == 0)
 		Tcore::setGlobals(this);
@@ -101,16 +96,13 @@ Tglobals::Tglobals(bool fromTemp) :
 }
 
 Tglobals::~Tglobals() {
-	if (!m_fromTemp) {
-// 			qDebug() << "Global settings stored to" << config->fileName();
-			storeSettings(config);
-	}
-	delete config;
+	storeSettings(config);
 	delete E;
 	delete A;
 	delete S;
 	delete L;
 	delete m_tune;
+	delete config;
 	Tcore::reset();
 }
 
@@ -120,7 +112,7 @@ Tglobals::~Tglobals() {
 //##########################################################################################
 
 void Tglobals::dumpToTemp() {
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
+/*#if defined(Q_OS_WIN32) // I hate mess in Win registry
 	QSettings tmpSett(tmpConfigFile(), QSettings::IniFormat);
 #else
 	QSettings tmpSett(tmpConfigFile(), QSettings::NativeFormat);
@@ -128,12 +120,12 @@ void Tglobals::dumpToTemp() {
 	storeSettings(&tmpSett);
 	tmpSett.beginGroup("temp");
 			tmpSett.setValue("nootkaPath", path); // other apps has to be able find the resources
-	tmpSett.endGroup();
+	tmpSett.endGroup();*/
 }
 
 
 bool Tglobals::grabFromTemp() {
-	if (QFileInfo::exists(tmpConfigFile())) {
+/*	if (QFileInfo::exists(tmpConfigFile())) {
 		#if defined(Q_OS_WIN32) // I hate mess in Win registry
 			QSettings tmpSett(tmpConfigFile(), QSettings::IniFormat);
 		#else
@@ -147,7 +139,7 @@ bool Tglobals::grabFromTemp() {
 			if (path != "")
 				return true;
 	}
-		qDebug() << "Can not read from temp settings file!";
+		qDebug() << "Can not read from temp settings file!";*/
 		return false;
 }
 
@@ -290,7 +282,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
-		A->playDetected = cfg->value("playDetected", false).toBool();
+		A->playDetected = false; //cfg->value("playDetected", false).toBool();
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");
@@ -439,7 +431,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("a440Offset", A->a440diff);
 			cfg->setValue("intonation", A->intonation);
 			cfg->setValue("forwardInput", A->forwardInput);
-			cfg->setValue("playDetected", A->playDetected);
+// 			cfg->setValue("playDetected", A->playDetected);
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");
