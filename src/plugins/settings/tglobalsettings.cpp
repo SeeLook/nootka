@@ -106,7 +106,7 @@ void TglobalSettings::restoreDefaults() {
 
 
 void TglobalSettings::restoreRequired() {
-	if (QMessageBox::warning(this, "", warringResetConfigTxt(), QMessageBox::Ok, QMessageBox::Abort) == QMessageBox::Ok )
+	if (QMessageBox::warning(this, tr("Restore all default settings"), warringResetConfigTxt(), QMessageBox::Ok, QMessageBox::Abort) == QMessageBox::Ok )
 			emit restoreAllDefaults();
 }
 

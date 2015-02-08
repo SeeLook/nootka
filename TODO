@@ -12,6 +12,7 @@
 ============================================================================
 
 Translations:
+- replace all font-size: 20px for <big> in translatable entries
 clumsy:
 
 ====== BUGS AND ISSUES ===============================================
@@ -20,6 +21,7 @@ MAJOR:
 - sniffing starts after closing dialog windows even if it was paused
 
 MINOR:
+- replace all font-size: 20px for <big>
 - when Nootka starts in single mode proxy corner appears
 - when tool bar is auto hide record melody icon is not set - some mark could be there
 - lock right button and space bar during correction

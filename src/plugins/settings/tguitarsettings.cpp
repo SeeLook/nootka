@@ -122,7 +122,7 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
   QRegExp rx("([1-2]{0,1}[0-9]{1,2}!{0,1},){0,7}");
   m_fretMarksEdit->setValidator(new QRegExpValidator(rx, 0));
   m_fretMarksEdit->setStatusTip(tr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice."));
-  QLabel *fretMarksLab = new QLabel(tr("dots on frets", "or frets with dots/marks"), this);
+  QLabel *fretMarksLab = new QLabel(tr("marked frets", "or frets with dots/marks"), this);
   QHBoxLayout *marksLay = new QHBoxLayout;
     marksLay->addWidget(fretMarksLab);
     marksLay->addWidget(m_fretMarksEdit);

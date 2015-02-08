@@ -102,7 +102,7 @@ void TtipMelody::attemptChanged(int attNr) {
     m_score->markMistakes(qa()->question()->attempt(attNr -1)->mistakes);
     if (qa()->question()->attemptsCount() > 1)
       m_attemptLabel->setText(QString("<b>%1: </b>").arg((attNr)) +
-              tr("played <b>%n</b>", "", qa()->question()->attempt(attNr - 1)->playedCount()) + ", " + TexTrans::effectTxt().toLower() + 
+              tr("played", "a melody was played (and number follows)") + QString(" <b>%1</b>").arg(qa()->question()->attempt(attNr - 1)->playedCount()) + ", " + TexTrans::effectTxt().toLower() +
               QString(": <b>%1%</b>").arg(qa()->question()->attempt(attNr - 1)->effectiveness(), 0, 'f', 1, '0') + ", " + tr("time") + ": " +
               QString("<b>  %1</b>").arg(Texam::formatReactTime(qa()->question()->attempt(attNr - 1)->totalTime(), true)));
   } else {

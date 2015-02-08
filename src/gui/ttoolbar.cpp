@@ -210,7 +210,7 @@ void TtoolBar::createTuneForkAction() {
 void TtoolBar::createAttemptAction() {
 	if (!attemptAct) {
 		attemptAct = new QAction(tr("Try again"), this);
-		attemptAct->setStatusTip(tr("Try this melody once more time. (backspace)"));
+		attemptAct->setStatusTip(tr("Try this melody once again. (backspace)"));
 		attemptAct->setIcon(QIcon(Tpath::img("prevQuest")));
 		attemptAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 	}

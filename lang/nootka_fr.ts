@@ -326,7 +326,7 @@
         <translation>Port MIDI</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="154"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="155"/>
         <source>no midi ports</source>
         <translation>Pas de port MIDI</translation>
     </message>
@@ -396,17 +396,7 @@
         <translation>Flûte</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="109"/>
-        <source>Play detected notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="111"/>
-        <source>Pitch-detected notes will be played with sound type defined here.&lt;br&gt;Delay depends on pitch detection settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="173"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="174"/>
         <source>no devices found</source>
         <translation>Aucun périphérique détecté</translation>
     </message>
@@ -940,7 +930,7 @@
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="87"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="unfinished">Numéro de question</translation>
+        <translation>Numéro de question</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="153"/>
@@ -1059,7 +1049,7 @@
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="295"/>
-        <source>Click wrong notes to see&lt;br&gt;and to listen to them corrected.</source>
+        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1947,7 +1937,7 @@
     <message>
         <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="171"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="unfinished">La notation pour guitare utilise la clé de sol avec le chiffre &quot;8&quot; en-dessous (bien que certains éditeurs oublient ce chiffre).&lt;br&gt;&lt;br&gt;Essayez de comprendre ceci. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1 &quot;%2&quot;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Les deux images ci-dessus montrent la même note: do&lt;sup&gt;1&lt;/sup&gt; / c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note do / c de la première petite octave)&lt;/p&gt;</translation>
+        <translation>La notation pour guitare utilise la clé de sol avec le chiffre &quot;8&quot; en-dessous (bien que certains éditeurs oublient ce chiffre).&lt;br&gt;&lt;br&gt;Essayez de comprendre ceci. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1 &quot;%2&quot;&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Les deux images ci-dessus montrent la même note: do&lt;sup&gt;1&lt;/sup&gt; / c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note do / c de la première petite octave)&lt;/p&gt;</translation>
     </message>
     <message>
         <source>next</source>
@@ -2050,6 +2040,7 @@
     </message>
     <message>
         <location filename="../src/plugins/settings/tglobalsettings.cpp" line="81"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="109"/>
         <source>Restore all default settings</source>
         <translation>Réinitialiser tous les réglages</translation>
     </message>
@@ -2163,7 +2154,7 @@
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="125"/>
-        <source>dots on frets</source>
+        <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
         <translation type="unfinished"></translation>
     </message>
@@ -2308,7 +2299,7 @@
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="87"/>
         <source>guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>guitare</translation>
     </message>
 </context>
 <context>
@@ -2397,11 +2388,6 @@
         <translation>&lt;li&gt;La gamme de frettes n&apos;est pas suffisante pour trouver les différentes position d&apos;une note. Au moins &lt;b&gt;%1&lt;/b&gt; frettes sont nécessaires.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
-        <source>&lt;li&gt;Possible missing a tonic note in a note range for some key signatures.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="361"/>
         <source>Level validation</source>
@@ -2421,6 +2407,11 @@
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="191"/>
         <source>Cannot open file for writing</source>
         <translation>Impossible d&apos;ouvrir le fichier en écriture</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
+        <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
@@ -2702,32 +2693,37 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="38"/>
-        <source>Create</source>
+        <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="51"/>
+        <location filename="../src/gui/tmelman.cpp" line="39"/>
+        <source>Generate a melody with random notes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tmelman.cpp" line="53"/>
         <source>Melody</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="52"/>
+        <location filename="../src/gui/tmelman.cpp" line="54"/>
         <source>Open, save, generate and play a melody.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="119"/>
+        <location filename="../src/gui/tmelman.cpp" line="121"/>
         <source>Open melody file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="120"/>
-        <location filename="../src/gui/tmelman.cpp" line="134"/>
+        <location filename="../src/gui/tmelman.cpp" line="122"/>
+        <location filename="../src/gui/tmelman.cpp" line="136"/>
         <source>MusicXML file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="133"/>
+        <location filename="../src/gui/tmelman.cpp" line="135"/>
         <source>Save melody as:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2984,12 +2980,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="65"/>
-        <source>Go to next note</source>
+        <source>Next note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="69"/>
-        <source>Go to previous note</source>
+        <source>Previous note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3375,7 +3371,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="42"/>
-        <source>Extra accidentals</source>
+        <source>Additional accidentals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3491,14 +3487,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Cliques pour sélectionner une note. Utilisez la molette de la souris pour changer les altérations.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="100"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
         <source>Click to enter a note, use horizontal scroll to change accidental. Right mouse button just selects a note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="105"/>
-        <source>enter note</source>
-        <comment>it maybe whatever related, i.e &apos;put note&apos;, &apos;your note&apos;. Text is scaled but it should look well. Space will be replaced with line break!</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3867,13 +3857,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
             <numerusform></numerusform>
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="105"/>
-        <source>played &lt;b&gt;%n&lt;/b&gt;</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="106"/>
@@ -4024,7 +4012,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="213"/>
-        <source>Try this melody once more time. (backspace)</source>
+        <source>Try this melody once again. (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4275,7 +4263,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/plugins/level/levelsettings.cpp" line="47"/>
         <source>Start exercise</source>
-        <translation type="unfinished"></translation>
+        <translation>Débuter un exercice</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/levelsettings.cpp" line="49"/>
@@ -4395,7 +4383,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/plugins/level/rangesettings.cpp" line="49"/>
         <source>Adjust fret range in a level to currently selected note range</source>
-        <translation>Ajuster la gamme de frettes du niveau à la gamme de notes actuellement sélectionnée.</translation>
+        <translation>Ajuster la gamme de frettes du niveau à la gamme de notes actuellement sélectionnée</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/rangesettings.cpp" line="59"/>
