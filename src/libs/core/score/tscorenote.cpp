@@ -26,7 +26,6 @@
 #include <animations/tcombinedanim.h>
 #include <music/tnote.h>
 #include <tnoofont.h>
-#include <tcolor.h>
 #include <QEasingCurve>
 #include <QGraphicsEffect>
 #include <QGraphicsSceneHoverEvent>
@@ -102,19 +101,16 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
 	}
-	m_emptyText = new QGraphicsSimpleTextItem(tr("enter note", "it maybe whatever related, i.e 'put note', 'your note'. Text is scaled but it should look well. Space will be replaced with line break!").toUpper().replace(" ", "\n"), this);
+	m_emptyText = new QGraphicsSimpleTextItem("n", this);
+		m_emptyText->setFont(TnooFont());
 		m_emptyText->setZValue(1);
 		QColor cc = qApp->palette().highlight().color();
-		cc.setAlpha(80);
-		m_emptyText->setBrush(Tcolor::merge(cc, qApp->palette().base().color()));
-// 		m_emptyText->setBrush(qApp->palette().base().color());
-		m_emptyText->setPen(QPen(qApp->palette().text().color(), 0.1));
-		m_emptyText->setScale(8.0 / m_emptyText->boundingRect().width());
-		m_emptyText->setTransformOriginPoint(m_emptyText->boundingRect().center().x() * m_emptyText->scale(), 
-																				m_emptyText->boundingRect().center().y() * m_emptyText->scale());
-		m_emptyText->setRotation(90);
-		QRectF eRect = m_emptyText->mapToParent(m_emptyText->boundingRect()).boundingRect();
-		m_emptyText->setPos((7.0 - eRect.width()) / 2 - eRect.x(), staff->upperLinePos() - eRect.y() + (staff->isPianoStaff() ? 8 : 0));
+		cc.setAlpha(50);
+		m_emptyText->setBrush(cc);
+		m_emptyText->setPen(QPen(qApp->palette().highlight().color(), 0.1));
+		m_emptyText->setScale(5.5 / m_emptyText->boundingRect().width());
+		m_emptyText->setPos((7.0 - m_emptyText->boundingRect().width() * m_emptyText->scale()) / 2,
+												staff->upperLinePos() - 1 + (staff->isPianoStaff() ? 6 : 0));
 		m_emptyText->hide();
 		
   m_mainAccid->setScale(scoreScene()->accidScale());
@@ -414,7 +410,8 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
-	if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
+	if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor() &&
+			scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
 		QColor emptyNoteColor;
 		if (m_mainNote->pen().style() == Qt::NoPen)
 			emptyNoteColor = qApp->palette().highlight().color();
@@ -454,8 +451,10 @@ void TscoreNote::popUpAnim(int durTime) {
 void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
 	scoreScene()->noteEntered(this);
-	if (!isReadOnly())
+	if (!isReadOnly()) {
 		emit statusTip(m_staticTip);
+		m_emptyText->hide();
+	}
   TscoreItem::hoverEnterEvent(event);
 }
 
@@ -465,6 +464,7 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
   hideWorkNote();
 	scoreScene()->noteLeaved(this);
   TscoreItem::hoverLeaveEvent(event);
+	checkEmptyText();
 }
 
 

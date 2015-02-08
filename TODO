@@ -27,7 +27,7 @@ MINOR:
 - when exercise is finished and analysis dialog was opened message text remains
 - clef in empty level preview table is out of borders (TlevelPreview)
 - add minimal zoom value depends on screen resolution
-- it would be better when melody/score pop up menus and clef menu parent will be main window (like TnoteName)
+- add gap item between accidentals (x # and b bb) on left control to avoid blinking
 - let clef menu works as such as note name pop up - extract common class with under-laying tip 
 - creator "use different names" switch of Questions remains enabled for melodies where names are unused
 - when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds

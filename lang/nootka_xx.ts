@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="xx_XX">
+<TS version="2.1" language="xx_XX">
 <context>
     <name>AnswerText</name>
     <message>
@@ -1948,7 +1948,7 @@
     <message>
         <location filename="../src/libs/sound/widgets/tintonationview.h" line="111"/>
         <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
