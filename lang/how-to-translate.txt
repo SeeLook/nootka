@@ -5,17 +5,18 @@
 
 
 =====================================================================
-This process is very easy and doesn't require any programming skills,
+This process is very easy and does not require any programming skills,
  only some time and a bit of patience.
 =====================================================================
 
 
-Translation with Qt Linguist
+Translation with Qt Linguist (this is recommended way)
   1. Install Qt Linguist:
     Linux users will prefer using package manager of their distribution. Linguist will be there.
     For Mac and Windows users:
-      - form http://www.qt.io/download-open-source/ download Qt libraries version 5.X appropriate for your system and install it.
-      - you will find Qtlinguist in your programs menu (Windows) or in /Developer/Applications/Qt in root file system (Mac).
+      - form http://www.qt.io/download-open-source/ download online installer,
+        launch it and following its instructions - select the latest verion of Qt.
+        If you don't need whole Qt just un-select all what can be un-selected.
   2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
       and change that xx in file name to your language code to get file name like f.e.: nootka_en.ts
   3. Open this file by Qt Linguist and translate - this is very easy.
@@ -23,6 +24,11 @@ Translation with Qt Linguist
       and put that file in Nootka installation directory into the lang directory 
       f.e.: path_to_nootka/lang/nootka_en.qm
       and run Nootka to see effects of the translation
+
+Translation online trough LaunchPad:
+  1. You have to have account on https://launchpad.net/
+  2. Then visit a site: https://translations.launchpad.net/nootka
+  3. Start translation or continue existing one.
   
   ***************************************************************
   ************* A Few Hints *************************************
