@@ -331,14 +331,6 @@
         <source>All audio input data will be forwarded directly to output device.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Play detected notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pitch-detected notes will be played with sound type defined here.&lt;br&gt;Delay depends on pitch detection settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Einstrument</name>
@@ -811,7 +803,7 @@
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="unfinished">Nummer der Frage</translation>
+        <translation>Nummer der Frage</translation>
     </message>
     <message>
         <source>Attempts number</source>
@@ -874,16 +866,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Click wrong notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You are exercising on level</source>
         <translation>Du übst auf Level</translation>
     </message>
     <message>
         <source>Exam started on level</source>
         <translation>Prüfung beginnt auf Level</translation>
+    </message>
+    <message>
+        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1613,7 +1605,7 @@
     </message>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="unfinished">Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
+        <translation>Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
     </message>
     <message>
         <source>next</source>
@@ -1825,7 +1817,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>dots on frets</source>
+        <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
         <translation type="unfinished"></translation>
     </message>
@@ -2016,7 +2008,7 @@
         <translation>Levelcreator</translation>
     </message>
     <message>
-        <source>&lt;li&gt;Possible missing a tonic note in a note range for some key signatures.&lt;/li&gt;</source>
+        <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2236,10 +2228,6 @@ nicht öffnen</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Create</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Melody</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2257,6 +2245,14 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Save melody as:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate a melody with random notes.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2464,14 +2460,6 @@ nicht öffnen</translation>
         <translation>viergestrichene Oktave</translation>
     </message>
     <message>
-        <source>Go to next note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Go to previous note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
         <translation type="unfinished"></translation>
@@ -2479,6 +2467,14 @@ nicht öffnen</translation>
     <message>
         <source>Octaves</source>
         <translation>Oktaven</translation>
+    </message>
+    <message>
+        <source>Next note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Previous note</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2783,10 +2779,6 @@ nicht öffnen</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Extra accidentals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2842,6 +2834,10 @@ nicht öffnen</translation>
         <source>Delete all notes from the score</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Additional accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -2884,11 +2880,6 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Click to enter a note, use horizontal scroll to change accidental. Right mouse button just selects a note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>enter note</source>
-        <comment>it maybe whatever related, i.e &apos;put note&apos;, &apos;your note&apos;. Text is scaled but it should look well. Space will be replaced with line break!</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2980,7 +2971,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Notes naming</source>
-        <translation type="unfinished"></translation>
+        <translation>Notennamen</translation>
     </message>
 </context>
 <context>
@@ -3181,13 +3172,6 @@ nicht öffnen</translation>
             <numerusform></numerusform>
         </translation>
     </message>
-    <message numerus="yes">
-        <source>played &lt;b&gt;%n&lt;/b&gt;</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
     <message>
         <source>time</source>
         <translation>Zeit</translation>
@@ -3195,6 +3179,11 @@ nicht öffnen</translation>
     <message>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3313,7 +3302,7 @@ nicht öffnen</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Try this melody once more time. (backspace)</source>
+        <source>Try this melody once again. (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3523,11 +3512,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Start exercise</source>
-        <translation type="unfinished"></translation>
+        <translation>Starte Übung</translation>
     </message>
     <message>
         <source>Start an exercise on selected level</source>
-        <translation type="unfinished"></translation>
+        <translation>Starte Übung mit ausgewähltem Level</translation>
     </message>
 </context>
 <context>

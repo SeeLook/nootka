@@ -281,7 +281,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="154"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="155"/>
         <source>no midi ports</source>
         <translation type="unfinished"></translation>
     </message>
@@ -351,17 +351,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="109"/>
-        <source>Play detected notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="111"/>
-        <source>Pitch-detected notes will be played with sound type defined here.&lt;br&gt;Delay depends on pitch detection settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="173"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="174"/>
         <source>no devices found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -954,7 +944,7 @@
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="295"/>
-        <source>Click wrong notes to see&lt;br&gt;and to listen to them corrected.</source>
+        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1750,6 +1740,7 @@
     </message>
     <message>
         <location filename="../src/plugins/settings/tglobalsettings.cpp" line="81"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="109"/>
         <source>Restore all default settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1863,7 +1854,7 @@
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="125"/>
-        <source>dots on frets</source>
+        <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
         <translation type="unfinished"></translation>
     </message>
@@ -2099,11 +2090,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
-        <source>&lt;li&gt;Possible missing a tonic note in a note range for some key signatures.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="361"/>
         <source>Level validation</source>
@@ -2117,6 +2103,11 @@
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="191"/>
         <source>Cannot open file for writing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
+        <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2393,32 +2384,37 @@
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="38"/>
-        <source>Create</source>
+        <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="51"/>
+        <location filename="../src/gui/tmelman.cpp" line="39"/>
+        <source>Generate a melody with random notes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tmelman.cpp" line="53"/>
         <source>Melody</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="52"/>
+        <location filename="../src/gui/tmelman.cpp" line="54"/>
         <source>Open, save, generate and play a melody.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="119"/>
+        <location filename="../src/gui/tmelman.cpp" line="121"/>
         <source>Open melody file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="120"/>
-        <location filename="../src/gui/tmelman.cpp" line="134"/>
+        <location filename="../src/gui/tmelman.cpp" line="122"/>
+        <location filename="../src/gui/tmelman.cpp" line="136"/>
         <source>MusicXML file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="133"/>
+        <location filename="../src/gui/tmelman.cpp" line="135"/>
         <source>Save melody as:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2669,12 +2665,12 @@
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="65"/>
-        <source>Go to next note</source>
+        <source>Next note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="69"/>
-        <source>Go to previous note</source>
+        <source>Previous note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3046,7 +3042,7 @@
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="42"/>
-        <source>Extra accidentals</source>
+        <source>Additional accidentals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3139,14 +3135,8 @@
 <context>
     <name>TscoreNote</name>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="100"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
         <source>Click to enter a note, use horizontal scroll to change accidental. Right mouse button just selects a note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="105"/>
-        <source>enter note</source>
-        <comment>it maybe whatever related, i.e &apos;put note&apos;, &apos;your note&apos;. Text is scaled but it should look well. Space will be replaced with line break!</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3508,12 +3498,11 @@
             <numerusform></numerusform>
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="105"/>
-        <source>played &lt;b&gt;%n&lt;/b&gt;</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="106"/>
@@ -3661,7 +3650,7 @@
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="213"/>
-        <source>Try this melody once more time. (backspace)</source>
+        <source>Try this melody once again. (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

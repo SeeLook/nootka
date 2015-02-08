@@ -317,17 +317,7 @@
         <translation>urzadzenie dżwiękowe do odtwarzania</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="109"/>
-        <source>Play detected notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="111"/>
-        <source>Pitch-detected notes will be played with sound type defined here.&lt;br&gt;Delay depends on pitch detection settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="173"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="174"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
@@ -342,7 +332,7 @@
         <translation>port midi</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="154"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="155"/>
         <source>no midi ports</source>
         <translation>brak portów midi</translation>
     </message>
@@ -441,17 +431,17 @@
         <location filename="../src/libs/misc/translationHeader.h" line="8"/>
         <source>Nootka level file</source>
         <comment>for file browsers</comment>
-        <translation></translation>
+        <translation>Poziom egzaminu programu Nootka</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="9"/>
         <source>Open with Nootka</source>
-        <translation></translation>
+        <translation>Otwórz w programie Nootka</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="10"/>
         <source>Nootka exam file</source>
-        <translation></translation>
+        <translation>Plik egzaminu programu Nootka</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="6"/>
@@ -829,7 +819,7 @@
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="87"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="unfinished">zadawnych pytań</translation>
+        <translation>zadawnych pytań</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
@@ -982,17 +972,17 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="62"/>
         <source>Attempts number</source>
-        <translation type="unfinished"></translation>
+        <translation>Liczba prób</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="63"/>
         <source>Preparation time</source>
-        <translation type="unfinished"></translation>
+        <translation>Czas przygotowanie</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="64"/>
         <source>Played number</source>
-        <translation type="unfinished"></translation>
+        <translation>Licza zagranych</translation>
     </message>
 </context>
 <context>
@@ -1055,7 +1045,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="295"/>
-        <source>Click wrong notes to see&lt;br&gt;and to listen to them corrected.</source>
+        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1153,16 +1143,16 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="79"/>
         <source>attempt</source>
-        <translation type="unfinished"></translation>
+        <translation>próba</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/libs/core/exam/textrans.h" line="82"/>
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n próba</numerusform>
+            <numerusform>%n próby</numerusform>
+            <numerusform>%n prób</numerusform>
         </translation>
     </message>
     <message>
@@ -1433,7 +1423,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="75"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystarczy kliknąć ten przycisk ustawień żeby dopasować ćwiczenie lub examin do aktualnych potrzeb.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
@@ -1852,7 +1842,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/exam/texamview.cpp" line="157"/>
         <source>Effectiveness of whole exam (and effectiveness of current question).</source>
-        <translation type="unfinished"></translation>
+        <translation>Efektywność całego egzaminu (i efektywność bieżącego pytania).</translation>
     </message>
 </context>
 <context>
@@ -1944,7 +1934,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="171"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="unfinished">Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej (nawet jeżeli niektórzy wydawcy o tej cyfrze zapominają).&lt;br&gt;&lt;br&gt;Spróbuj to zrozumieć. &lt;br&gt;&lt;br&gt;&lt;p&gt;%1 %2 &lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Obydwa obrazki powyżej pokazują tą samą nutę: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(dźwięk c w oktawie razkreślnej&lt;/p&gt;</translation>
+        <translation>Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej (nawet jeżeli niektórzy wydawcy o tej cyfrze zapominają).&lt;br&gt;&lt;br&gt;Spróbuj to zrozumieć. &lt;br&gt;&lt;br&gt;&lt;p&gt;%1 %2 &lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Obydwa obrazki powyżej pokazują tą samą nutę: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(dźwięk c w oktawie razkreślnej&lt;/p&gt;</translation>
     </message>
     <message>
         <source>next</source>
@@ -2047,6 +2037,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tglobalsettings.cpp" line="81"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="109"/>
         <source>Restore all default settings</source>
         <translation>Przywróć wszystkie ustawienia domyślne</translation>
     </message>
@@ -2160,7 +2151,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="125"/>
-        <source>dots on frets</source>
+        <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
         <translation type="unfinished"></translation>
     </message>
@@ -2309,7 +2300,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="87"/>
         <source>guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>gitara</translation>
     </message>
 </context>
 <context>
@@ -2402,9 +2393,8 @@ ale nie zapisany!</translation>
         <translation>&lt;li&gt;Zakres progów jest niewystarczający żeby znaleźć jakąś nutę w różnych pozycjach. Konieczny jest zakres co najmniej &lt;b&gt;%1&lt;/b&gt; progów.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
         <source>&lt;li&gt;Possible missing a tonic note in a note range for some key signatures.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">&lt;li&gt;Dla niektórych tonacji może brakować dźwięku tonicznego w wybranym zakresie nut.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
@@ -2421,6 +2411,11 @@ ale nie zapisany!</translation>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="191"/>
         <source>Cannot open file for writing</source>
         <translation>Nie mogę otworzyć pliku żeby zapisać</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
+        <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
@@ -2702,32 +2697,37 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="38"/>
-        <source>Create</source>
-        <translation type="unfinished"></translation>
+        <source>Generate</source>
+        <translation>Generuj</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="51"/>
+        <location filename="../src/gui/tmelman.cpp" line="39"/>
+        <source>Generate a melody with random notes.</source>
+        <translation>Wygeneruj melodię z losowo dobranych nut.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tmelman.cpp" line="53"/>
         <source>Melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodia</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="52"/>
+        <location filename="../src/gui/tmelman.cpp" line="54"/>
         <source>Open, save, generate and play a melody.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="119"/>
+        <location filename="../src/gui/tmelman.cpp" line="121"/>
         <source>Open melody file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="120"/>
-        <location filename="../src/gui/tmelman.cpp" line="134"/>
+        <location filename="../src/gui/tmelman.cpp" line="122"/>
+        <location filename="../src/gui/tmelman.cpp" line="136"/>
         <source>MusicXML file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="133"/>
+        <location filename="../src/gui/tmelman.cpp" line="135"/>
         <source>Save melody as:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2978,13 +2978,13 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="65"/>
-        <source>Go to next note</source>
-        <translation type="unfinished"></translation>
+        <source>Next note</source>
+        <translation>Natępna nuta</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="69"/>
-        <source>Go to previous note</source>
-        <translation type="unfinished"></translation>
+        <source>Previous note</source>
+        <translation>Poprzednia nuta</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="116"/>
@@ -3273,7 +3273,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="148"/>
         <source>Play or sing a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zagraj lub zaśpiewaj melodię.</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="204"/>
@@ -3368,7 +3368,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="42"/>
-        <source>Extra accidentals</source>
+        <source>Additional accidentals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3399,7 +3399,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="54"/>
         <source>Previous note</source>
-        <translation type="unfinished"></translation>
+        <translation>Poprzednia nuta</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="56"/>
@@ -3424,7 +3424,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="64"/>
         <source>Next note</source>
-        <translation type="unfinished"></translation>
+        <translation>Natępna nuta</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="66"/>
@@ -3484,15 +3484,14 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Kilknij, żeby wybrać nutę, użyj kółka myszy, żeby zmienić znak.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="100"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
         <source>Click to enter a note, use horizontal scroll to change accidental. Right mouse button just selects a note.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="105"/>
         <source>enter note</source>
         <comment>it maybe whatever related, i.e &apos;put note&apos;, &apos;your note&apos;. Text is scaled but it should look well. Space will be replaced with line break!</comment>
-        <translation>podaj nutę</translation>
+        <translation type="obsolete">podaj nutę</translation>
     </message>
 </context>
 <context>
@@ -3570,7 +3569,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="163"/>
         <source>Score settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustawienia zapisu nutowego</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="164"/>
@@ -3580,12 +3579,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="165"/>
         <source>Clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Klucze</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="166"/>
         <source>Notes naming</source>
-        <translation type="unfinished"></translation>
+        <translation>Nazewnictwo nut</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="151"/>
@@ -3623,7 +3622,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="65"/>
         <source>Score</source>
-        <translation type="unfinished">Nuty</translation>
+        <translation>Nuty</translation>
     </message>
     <message>
         <source>Names</source>
@@ -3663,7 +3662,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="80"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Wygląd</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="86"/>
@@ -3849,25 +3848,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="58"/>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>z</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="61"/>
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Melodia była grana &lt;b&gt;%n&lt;/b&gt; raz</numerusform>
+            <numerusform>Melodia była grana &lt;b&gt;%n&lt;/b&gt; razy</numerusform>
+            <numerusform>Melodia była grana &lt;b&gt;%n&lt;/b&gt; razy</numerusform>
         </translation>
     </message>
-    <message numerus="yes">
+    <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="105"/>
-        <source>played &lt;b&gt;%n&lt;/b&gt;</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="106"/>
@@ -4019,7 +4015,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="213"/>
-        <source>Try this melody once more time. (backspace)</source>
+        <source>Try this melody once again. (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

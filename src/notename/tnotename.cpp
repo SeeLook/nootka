@@ -62,11 +62,11 @@ TnoteName::TnoteName(QWidget *parent) :
 
 	m_nextNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowRight)), "", this);
 	m_nextNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	m_nextNoteButt->setStatusTip(tr("Go to next note"));
+	m_nextNoteButt->setStatusTip(tr("Next note"));
 	connect(m_nextNoteButt, SIGNAL(clicked()), this, SLOT(nextNoteSlot()));
 	m_prevNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowLeft)), "", this);
 	m_prevNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-	m_prevNoteButt->setStatusTip(tr("Go to previous note"));
+	m_prevNoteButt->setStatusTip(tr("Previous note"));
 	connect(m_prevNoteButt, SIGNAL(clicked()), this, SLOT(prevNoteSlot()));
 	
 	m_nameLabel = new TnoteNameLabel("", this);

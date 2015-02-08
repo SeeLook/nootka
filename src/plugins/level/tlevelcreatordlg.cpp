@@ -307,7 +307,7 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 						}
 					}
 					if (!found) {
-						res += tr("<li>Possible missing a tonic note in a note range for some key signatures.</li>");
+						res += tr("<li>Possible missing a tonic note for some key signatures in selected note range .</li>");
 						break;
 					}
 				}

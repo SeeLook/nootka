@@ -292,7 +292,7 @@ void Tcanvas::melodyCorrectMessage() {
 	m_melodyCorrectMessage = true;
   m_window->setMessageBg (-1);
   m_window->setStatusMessage(QString("<span style=\"color: %1;\"><big>").arg(gl->EanswerColor.name()) + 
-										tr("Click wrong notes to see<br>and to listen to them corrected.") + "</big></span>");
+										tr("Click incorrect notes to see<br>and to listen to them corrected.") + "</big></span>");
 }
 
 
