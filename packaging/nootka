@@ -7,6 +7,6 @@ tmp="${dirname#?}"
 if [ "${dirname%$tmp}" != "/" ]; then
 dirname=$PWD/$dirname
 fi
-LD_LIBRARY_PATH=$dirname/lib
+LD_LIBRARY_PATH=$dirname/lib/nootka
 export LD_LIBRARY_PATH
 $dirname/bin/$appname "$@" 

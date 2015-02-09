@@ -82,7 +82,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 
 	createNoteName();
 	isExamExecuting(false);
-
+  setNote(0, Tnote()); // To display fake empty note properly
 }
 
 

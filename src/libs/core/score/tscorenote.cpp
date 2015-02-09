@@ -235,6 +235,7 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
 			*m_note = Tnote(); // set note to null if beyond the score possibilities
 	if (m_nameText)
 			showNoteName();
+  checkEmptyText();
 	update();
 }
 
@@ -615,7 +616,7 @@ void TscoreNote::initNoteCursor() {
 
 
 void TscoreNote::checkEmptyText() {
-	if (!isReadOnly() && !staff()->selectableNotes() && !m_selected && m_mainPosY == 0 &&
+	if (!isReadOnly() && staff()->selectableNotes() && !m_selected && m_mainPosY == 0 &&
 				scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
 		m_emptyText->show();
 	else
