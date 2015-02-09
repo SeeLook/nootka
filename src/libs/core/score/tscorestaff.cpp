@@ -52,7 +52,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_isPianoStaff(false),
 	m_scordature(0), m_enableScord(false),
 	m_accidAnim(0), m_flyAccid(0),
-	m_index(0), m_selectableNotes(false), m_extraAccids(false),
+	m_selectableNotes(false), m_extraAccids(false),
 	m_maxNotesCount(0),
 	m_loNotePos(28.0), m_hiNotePos(12.0),
 	m_lockRangeCheck(false), m_autoAddedNoteId(-1)
@@ -84,7 +84,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 // Timer controlling automatic note adding to this staff  
 	m_addTimer = new QTimer(this);
 	m_addTimer->setSingleShot(true);
-	connect(m_addTimer, &QTimer::timeout, this, &TscoreStaff::addNoteTimeOut);
+	connect(m_addTimer, SIGNAL(timeout()), this, SLOT(addNoteTimeOut()));
 }
 
 
@@ -119,8 +119,6 @@ void TscoreStaff::setNote(int index, const Tnote& note) {
 				m_scoreNotes[index]->setNote(noteToPos(note), (int)note.alter, note);
 		else
 				m_scoreNotes[index]->setNote(0, 0, note);
-    if (note.note)
-      setCurrentIndex(index);
 		if (prevNote != note) // check it only when note was really changed
 				checkNoteRange();
 	}
@@ -153,7 +151,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 					emit noMoreSpace(number());
 		}
 	}
-	updateIndex();
+	updateIndexes();
 	updateNotesPos(index);
 	if (number() == -1) {
 			updateLines();
@@ -185,7 +183,7 @@ void TscoreStaff::removeNote(int index) {
 		m_scoreNotes.removeAt(index);
 		if (maxNoteCount() > count())
 				emit freeSpace(number(), 1);
-		updateIndex();
+		updateIndexes();
 		updateNotesPos(index);
 		if (number() == -1)
 				updateSceneRect();
@@ -203,7 +201,7 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 		sn->setStaff(this);
 	}
 	updateNotesPos(index);
-	updateIndex();
+	updateIndexes();
 	checkNoteRange(false);
 }
 
@@ -214,7 +212,7 @@ void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
 	freeNote->setParentItem(this);
 	freeNote->setStaff(this);
 	updateNotesPos(index);
-	updateIndex();
+	updateIndexes();
 }
 
 
@@ -227,7 +225,7 @@ void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
 			nList << m_scoreNotes.takeAt(from);
 		}
 		updateNotesPos();
-		updateIndex();
+		updateIndexes();
 	}
 }
 
@@ -464,21 +462,6 @@ qreal TscoreStaff::notesOffset() {
 //####################################### PUBLIC SLOTS     #################################################
 //##########################################################################################################
 
-void TscoreStaff::setCurrentIndex(int index) {
-	if (m_selectableNotes) {
-			if (currentIndex() != -1) { // unset the previous
-				m_scoreNotes[currentIndex()]->setBackgroundColor(-1);
-				m_scoreNotes[currentIndex()]->selectNote(false);
-			}
-			m_index = index;
-			if (currentIndex() != -1) {
-				m_scoreNotes[currentIndex()]->setBackgroundColor(qApp->palette().highlight().color());
-				m_scoreNotes[currentIndex()]->selectNote(true);
-			}
-	}
-}
-
-
 void TscoreStaff::onClefChanged(Tclef clef) {
 	setPianoStaff(clef.type() == Tclef::e_pianoStaff);
 	switch(clef.type()) {
@@ -554,7 +537,6 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
 	m_scoreNotes[noteIndex]->note()->octave = (char)(56 + globalNr) / 7 - 8;
 	m_scoreNotes[noteIndex]->note()->alter = (char)m_scoreNotes[noteIndex]->accidental();
-	setCurrentIndex(noteIndex);
 	emit noteChanged(noteIndex);
 	checkNoteRange();
 	// when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic 
@@ -562,7 +544,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 		m_addTimer->stop();
 		insert(noteIndex + 1);
 		m_scoreNotes.last()->popUpAnim(300);
-		updateIndex();
+		updateIndexes();
 		updateNotesPos(noteIndex + 1);
 		m_addTimer->start(2000);
 		m_autoAddedNoteId = noteIndex + 1;
@@ -572,7 +554,6 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 
 void TscoreStaff::onNoteSelected(int noteIndex) {
 // 	if (selectableNotes() || controlledNotes()) { // no need to check, note does it
-		setCurrentIndex(noteIndex);
 		emit noteSelected(noteIndex);
 }
 
@@ -632,13 +613,9 @@ void TscoreStaff::addNoteTimeOut() {
 //########################################## PRIVATE     ###################################################
 //##########################################################################################################
 
-void TscoreStaff::updateIndex() {
-	m_index = -1;
-	for (int i = 0; i < m_scoreNotes.size(); i++) {
+void TscoreStaff::updateIndexes() {
+	for (int i = 0; i < m_scoreNotes.size(); i++)
 		m_scoreNotes[i]->changeIndex(i); // Update index of next notes in the list
-		if (m_scoreNotes[i]->isSelected())
-			m_index = i;
-	}
 }
 
 

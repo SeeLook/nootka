@@ -59,7 +59,7 @@ QGraphicsEllipseItem* TscoreNote::createNoteHead(QGraphicsItem* parentIt) {
  * this text exist as static variable 
  * and TscoreNote manages itself when status tip is necessary to be displayed. */
 QString TscoreNote::m_staticTip = "";
-
+QString m_selectedTip = "";
 
 //################################## CONSTRUCTOR ###################################
 
@@ -96,7 +96,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	bool prepareScale = false;
 	if (scoreScene()->accidScale() == -1.0) { // only when first TscoreNote is constructed
 			m_staticTip = 
-						tr("Click to enter a note, use horizontal scroll to change accidental. Right mouse button just selects a note.");
+						tr("Click to enter a note, use horizontal scroll to change accidental.");
+		  m_selectedTip = "<br>" + tr("Right mouse button just selects a note.");
 			m_mainAccid->setText(getAccid(1));
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
@@ -452,7 +453,7 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
 	scoreScene()->noteEntered(this);
 	if (!isReadOnly()) {
-		emit statusTip(m_staticTip);
+		emit statusTip(m_staticTip + (staff()->selectableNotes() ? m_selectedTip : ""));
 		m_emptyText->hide();
 	}
   TscoreItem::hoverEnterEvent(event);
@@ -493,7 +494,7 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 					showNoteName();
 				update();
     } else if (event->button() == Qt::RightButton) {
-				if (staff()->selectableNotes() || scoreScene()->controlledNotes()) {
+				if (!isReadOnly() && staff()->selectableNotes()) {
 						setBackgroundColor(qApp->palette().highlight().color());
 						emit noteWasSelected(m_index);
 						update();
@@ -614,7 +615,8 @@ void TscoreNote::initNoteCursor() {
 
 
 void TscoreNote::checkEmptyText() {
-	if (!isReadOnly() && !m_selected && m_mainPosY == 0 && scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
+	if (!isReadOnly() && !staff()->selectableNotes() && !m_selected && m_mainPosY == 0 &&
+				scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
 		m_emptyText->show();
 	else
 		m_emptyText->hide();

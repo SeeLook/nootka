@@ -1605,11 +1605,15 @@
     </message>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation>Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
+        <translation type="obsolete">Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
     </message>
     <message>
         <source>next</source>
         <translation type="obsolete">Nächstes</translation>
+    </message>
+    <message>
+        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
+        <translation>Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
     </message>
 </context>
 <context>
@@ -2879,7 +2883,11 @@ nicht öffnen</translation>
         <translation type="obsolete">Klicken um eine Note auszuwählen, dreh das Mausrad um die Vorzeichen zu ändern.</translation>
     </message>
     <message>
-        <source>Click to enter a note, use horizontal scroll to change accidental. Right mouse button just selects a note.</source>
+        <source>Click to enter a note, use horizontal scroll to change accidental.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right mouse button just selects a note.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
