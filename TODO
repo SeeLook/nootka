@@ -12,16 +12,15 @@
 ============================================================================
 
 Translations:
-- replace all font-size: 20px for <big> in translatable entries
 clumsy:
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- Expert mode for melodies - is it working?
 - sniffing starts after closing dialog windows even if it was paused
+- check is exam starts properly when record was set
 
 MINOR:
-- replace all font-size: 20px for <big>
+- replace all font-size: 20px with <big>
 - when Nootka starts in single mode proxy corner appears
 - when tool bar is auto hide record melody icon is not set - some mark could be there
 - lock right button and space bar during correction

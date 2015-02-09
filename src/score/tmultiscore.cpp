@@ -75,6 +75,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				staff()->noteSegment(0)->setBackgroundColor(-1); // unset background
 				staff()->setStafNumber(-1);
 				staff()->setViewWidth(0.0);
+				staff()->setSelectableNotes(false);
 				m_addNoteAnim = false;
 				staff()->insertNote(1, true);
 				m_addNoteAnim = false;
@@ -87,6 +88,7 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				staff()->setStafNumber(0);
 				staff()->removeNote(2);
 				staff()->removeNote(1);
+				staff()->setSelectableNotes(true);
 				setControllersEnabled(true, true);
 				scoreScene()->left()->enableToAddNotes(true);
 				scoreScene()->right()->enableToAddNotes(true);
@@ -452,6 +454,7 @@ void TmultiScore::addStaff(TscoreStaff* st) {
 	}
 	connectForReadOnly(lastStaff()->noteSegment(0));
 	lastStaff()->setStafNumber(m_staves.size() - 1);
+	lastStaff()->setSelectableNotes(true);
 	connect(lastStaff(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(lastStaff(), SIGNAL(noteSelected(int)), this, SLOT(noteWasSelected(int)));
 	connect(lastStaff(), SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
