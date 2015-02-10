@@ -56,6 +56,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 #endif
     
 	setWindowIcon(QIcon(Tcore::gl()->path + "/picts/charts.png"));
+  setWindowTitle(tr("Analyze"));
 	if (parent)
 			setGeometry(parent->geometry());
   else {

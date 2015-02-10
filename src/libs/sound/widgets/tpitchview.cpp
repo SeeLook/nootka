@@ -61,11 +61,11 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
 	QHBoxLayout *volLay = new QHBoxLayout;
-		volLay->addWidget(m_volumeView, 0, Qt::AlignBottom);
+		volLay->addWidget(m_volumeView);
 	m_lay->addLayout(volLay);
 	outLay->addLayout(m_lay);
 	if (m_withButtons) {
-		volLay->setContentsMargins(0, 0, 0, 0);
+// 		volLay->setContentsMargins(0, 0, 0, 0);
     volLay->addWidget(m_pauseButton, 0, Qt::AlignCenter);
   }
   setLayout(outLay);
@@ -275,8 +275,8 @@ void TpitchView::paintEvent(QPaintEvent* ) {
 
 
 void TpitchView::resizeEvent(QResizeEvent*) {
-	m_volumeView->setFixedHeight(contentsRect().height() / 3);
-	m_intoView->setFixedHeight(contentsRect().height() / 3);
+	m_volumeView->setFixedHeight(height() / 4 + 2);
+	m_intoView->setFixedHeight(height() / 4);
 	if (m_withButtons) {
 		m_pauseButton->setFixedHeight(m_volumeView->height());
   }
