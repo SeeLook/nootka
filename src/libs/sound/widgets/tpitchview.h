@@ -26,10 +26,10 @@
 #include "trtaudioin.h"
 #include "nootkasoundglobal.h"
 
+class TpitchButton;
 class QBoxLayout;
 class TvolumeView;
 class TintonationView;
-class QRadioButton;
 class QTimer;
 
 /** 
@@ -82,9 +82,10 @@ protected:
   virtual void paintEvent(QPaintEvent*);
 	virtual void showEvent(QShowEvent* e);
 	virtual void hideEvent(QHideEvent* e);
+	virtual void resizeEvent(QResizeEvent*);
   
 private:
-	QRadioButton 			*m_pauseButton; /** Button to pause or activate pitch detection */
+	TpitchButton 			*m_pauseButton; /** Button to pause or activate pitch detection */
   TvolumeView 			*m_volumeView;
   TintonationView 	*m_intoView;
   TaudioIN 					*m_audioIN;
