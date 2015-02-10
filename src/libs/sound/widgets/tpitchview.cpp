@@ -20,11 +20,11 @@
 #include "tpitchview.h"
 #include "tvolumeview.h"
 #include "tintonationview.h"
+#include "tpitchbutton.h"
 #include <tcolor.h>
 #include <QTimer>
 #include <QLabel>
 #include <QGroupBox>
-#include <QRadioButton>
 #include <QPainter>
 #include <QApplication>
 #include <QDebug>
@@ -42,8 +42,8 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 	QHBoxLayout *outLay = new QHBoxLayout;
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
-			m_pauseButton = new QRadioButton(this);
-      m_pauseButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+			m_pauseButton = new TpitchButton("n", this);
+      m_pauseButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
       m_pauseButton->setStatusTip(tr("Switch on/off pitch detection"));
 			m_pauseButton->setChecked(true);
   } else {
@@ -73,7 +73,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
   m_watchTimer = new QTimer(this);
   connect(m_watchTimer, &QTimer::timeout, this, &TpitchView::updateLevel);
   if (m_withButtons) {
-    connect(m_pauseButton, &QRadioButton::clicked, this, &TpitchView::pauseClicked);
+    connect(m_pauseButton, SIGNAL(clicked()), this, SLOT(pauseClicked()));
   }
   connect(m_volumeView, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
 }
@@ -155,11 +155,13 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 
 
 void TpitchView::resize(int fontSize) {
-	fontSize = qRound((float)fontSize * 1.4);
-  m_volumeView->setFixedHeight(qRound((float)fontSize * 0.9));
-  m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
+// 	fontSize = qRound((float)fontSize * 1.4);
+//   m_volumeView->setFixedHeight(qRound((float)fontSize * 0.9));
+//   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
+// 	m_volumeView->setFixedHeight(height() / 2 - 1);
+// 	m_intoView->setFixedHeight(height() / 2 - 1);
 // 	if (m_withButtons) {
-// 		m_pauseButton->setFixedSize(qRound((float)fontSize), qRound((float)fontSize));
+// 		m_pauseButton->setFixedHeight(m_volumeView->height());
 //   }
 }
 
@@ -269,6 +271,15 @@ void TpitchView::paintEvent(QPaintEvent* ) {
     painter.setBrush(QBrush(m_bgColor));
     painter.drawRoundedRect(painter.viewport(), 10, 10);
 	}
+}
+
+
+void TpitchView::resizeEvent(QResizeEvent*) {
+	m_volumeView->setFixedHeight(contentsRect().height() / 3);
+	m_intoView->setFixedHeight(contentsRect().height() / 3);
+	if (m_withButtons) {
+		m_pauseButton->setFixedHeight(m_volumeView->height());
+  }
 }
 
 
