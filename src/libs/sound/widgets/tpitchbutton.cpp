@@ -46,7 +46,7 @@ void TpitchButton::paintEvent(QPaintEvent*) {
 	}
 	painter.setBrush(bg);
 // 	painter.setPen(QPen(isChecked() ? Qt::red : Qt::green, 2));
-	painter.drawEllipse(1, 1, width() - 1, height() - 1);
+	painter.drawRoundedRect(1, 1, width() - 1, height() - 1, height() / 6, height() / 6);
 	painter.setPen(QPen(Qt::lightGray));
 	painter.drawText(1, 1, width() - 1, height() - 1, Qt::AlignCenter, text());
 }
@@ -70,7 +70,7 @@ void TpitchButton::resizeEvent(QResizeEvent* ) {
 	QFont f("nootka");
 	f.setPointSizeF(20.0);
 	QFontMetrics fm(f);
-	f.setPointSizeF(20.0 * (((qreal)height() * 0.85) / (qreal)fm.boundingRect(text()).height()));
+	f.setPointSizeF(20.0 * (((qreal)height() * 0.9) / (qreal)fm.boundingRect(text()).height()));
 	setFont(f);
 	setFixedWidth(height());
 }

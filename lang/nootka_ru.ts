@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AnswerText</name>
     <message>
@@ -794,18 +794,18 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="82"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="83"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>упорядочить по:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="83"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="84"/>
         <source>student name:</source>
         <translation>имя ученика:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="84"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="85"/>
         <source>level:</source>
         <translation>уровень:</translation>
     </message>
@@ -815,125 +815,130 @@
         <translation type="obsolete">номеру вопроса</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="89"/>
         <source>note pitch</source>
         <translation>высоте ноты</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="89"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="90"/>
         <source>fret number</source>
         <translation>номеру лада</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="90"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="91"/>
         <source>key signature</source>
         <translation>тональности</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="91"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="92"/>
         <source>accidentals</source>
         <translation>знакам альтерации</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="92"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="93"/>
         <source>question type</source>
         <translation>типу вопроса</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="93"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="94"/>
         <source>mistake</source>
         <translation>ошибкам</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="100"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="101"/>
         <source>Level summary:</source>
         <translation>Сводка уровня:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="101"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="102"/>
         <source>Tuning</source>
         <translation>Строй</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="155"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="156"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Щелкните мышью и тащите, чтобы передвинуть график.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="187"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="188"/>
         <source>Question number</source>
         <translation>Количество вопросов</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="279"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="280"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Файл: %1 
  это не файл с экзаменом!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="289"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="290"/>
         <source>Open an exam to analyze</source>
         <translation>Открыть экзамен для анализа</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="300"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="301"/>
         <source>Recent exercise on level</source>
         <translation>Недавнее упражнение</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="307"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="308"/>
         <source>recent opened exams:</source>
         <translation>недавно открытые экзамены:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="325"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="326"/>
         <source>Close analyzer window</source>
         <translation>Закрыть анализ</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="348"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="349"/>
         <source>Settings of a chart</source>
         <translation>Настройки диаграммы</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="356"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="357"/>
         <source>Maximize</source>
         <translation>Максимально увеличить</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="360"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="361"/>
         <source>linear chart</source>
         <translation>линейная диаграмма</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="363"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="364"/>
         <source>bar chart</source>
         <translation>столбчатый график</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="581"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="582"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="151"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="152"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Нажмите кнопку %1 для загрузки экзамена из файла.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="75"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="59"/>
+        <source>Analyze</source>
+        <translation>Анализ</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="76"/>
         <source>Y value:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="87"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
         <translation>номеру вопроса</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="153"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="154"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Используйте %1 + колесо мыши или кнопки %2 для изменения масштаба диаграммы.</translation>
     </message>
@@ -944,22 +949,22 @@
         <translation>Количество вопросов</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="328"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="329"/>
         <source>zoom in</source>
         <translation>увеличить</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="331"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="332"/>
         <source>zoom out</source>
         <translation>уменьшить</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="334"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="335"/>
         <source>include time of wrong answers to average</source>
         <translation>включить время неправильных ответов в среднее</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="336"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="337"/>
         <source>show wrong answers separately</source>
         <translation>показывать неправильные ответы отдельно</translation>
     </message>
@@ -1265,37 +1270,37 @@
         <translation>Очень жаль.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1324"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1330"/>
         <source>Save exam results as:</source>
         <translation>Сохранить результат экзамена как:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1329"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1335"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Если вы не сохраните экзамен в файл&lt;br&gt;все результаты будут потеряны!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1481"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1487"/>
         <source>This note was not played!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1542"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1548"/>
         <source>Exercises with Nootka</source>
         <translation>Упражнения</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1543"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1549"/>
         <source>finish exercising</source>
         <translation>закончить упражнение</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1545"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1551"/>
         <source>EXAM!</source>
         <translation>ЭКЗАМЕН!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1546"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1552"/>
         <source>stop the exam</source>
         <translation>остановить экзамен</translation>
     </message>
@@ -1308,27 +1313,27 @@
         <translation type="obsolete">начался экзамен на уровне</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1301"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1307"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Тссс... Идёт экзамен.&lt;br&gt;&lt;br&gt;&lt;b&gt;Продолжить&lt;/b&gt; его&lt;br&gt;или&lt;br&gt;&lt;b&gt;Завершить&lt;/b&gt; для проверки, сохранения и выхода&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1302"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1308"/>
         <source>Continue</source>
         <translation>Продолжить</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1303"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1309"/>
         <source>Terminate</source>
         <translation>Завершить</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1330"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1336"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1331"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1337"/>
         <source>Discard</source>
         <translation>Отмена</translation>
     </message>
@@ -4039,32 +4044,32 @@
 <context>
     <name>TupdateRulesWdg</name>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="29"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="31"/>
         <source>check for Nootka updates</source>
         <translation>проверять обновления программы</translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="37"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="40"/>
         <source>daily</source>
         <translation>ежедневно</translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="39"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="42"/>
         <source>weekly</source>
         <translation>еженедельно</translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="41"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="44"/>
         <source>monthly</source>
         <translation>ежемесячно</translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="58"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="61"/>
         <source>all new versions</source>
         <translation>все новые версии</translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="60"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="63"/>
         <source>stable versions only</source>
         <translation>только стабильные версии</translation>
     </message>
