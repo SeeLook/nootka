@@ -116,10 +116,15 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   m_crossCount(0),
   m_callBackIsBussy(false)
 {
+  if (instance) {
+    qDebug() << "Nothing of this kind... TaudioOUT already exist!";
+    return;
+  }
   setType(e_audio);
   setAudioOutParams();
 	m_samplesCnt = 10000;
   instance = this;
+  forceUpdate = true;
 	m_crossBuffer = new qint16[1000];
 	connect(ao(), SIGNAL(streamOpened()), this, SLOT(streamOpenedSlot()));
 	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
@@ -135,6 +140,7 @@ TaudioOUT::~TaudioOUT()
   delete oggScale;
 	if (m_crossBuffer)
 		delete m_crossBuffer;
+  instance = 0;
 }
 
 
