@@ -107,8 +107,8 @@ void TmultiScore::setNote(const Tnote& note) {
 				changeCurrentIndex(0);
 			TscoreStaff *thisStaff = currentStaff();
 			if (insertMode() == e_record) {
-					if (m_clickedOff > 0)
-						checkAndAddNote(thisStaff, currentIndex());
+          if (m_clickedOff > 0)
+            checkAndAddNote(thisStaff, currentIndex() % staff()->maxNoteCount());
 					changeCurrentIndex(currentIndex() + m_clickedOff);
 					thisStaff = currentStaff();
 					m_clickedOff = 1;
@@ -393,9 +393,10 @@ void TmultiScore::changeCurrentIndex(int newIndex) {
 			if (m_currentIndex >= 0) {
 				if (m_currentIndex / staff()->maxNoteCount() == m_staves.size()) // add new staff with single note
 						staffHasNoSpace(m_currentIndex / staff()->maxNoteCount() - 1);
-				else if (m_currentIndex % staff()->maxNoteCount() == currentStaff()->count())
+				else if (m_currentIndex % staff()->maxNoteCount() == currentStaff()->count()) {
+						qDebug() << "changeCurrentIndex: This functionality is doubled" << currentIndex() << currentStaff()->number() << currentStaff()->count();
 						checkAndAddNote(currentStaff(), m_currentIndex % staff()->maxNoteCount() - 1);
-				else if (m_currentIndex / staff()->maxNoteCount() > m_staves.size() ||
+				} else if (m_currentIndex / staff()->maxNoteCount() > m_staves.size() ||
 								m_currentIndex % staff()->maxNoteCount() > currentStaff()->count()) {
 										qDebug() << "Something wrong with current index" << m_currentIndex; 
 										return;
