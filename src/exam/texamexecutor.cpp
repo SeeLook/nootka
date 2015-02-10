@@ -207,7 +207,7 @@ void TexamExecutor::initializeExecuting() {
 	connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
 	if (m_exercise) {
     if (gl->E->suggestExam)
-      m_exercise->setSuggestionEnabled(m_supp->qaPossibilities());
+      m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
 	} else {
 			connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
 	}
@@ -1262,6 +1262,12 @@ void TexamExecutor::settingsAccepted() {
 // set new colors in exam view - so far it is not allowed during exams
 // 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
 // 															Tcolor::bgTag(gl->EnotBadColor));
+	if (m_exercise) {
+		if (gl->E->suggestExam)
+			m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
+		else
+			m_exercise->setSuggestionEnabled(0);
+	}
 	if (m_exam->count() && m_exam->curQ()->answerAsSound() && !mW->pitchView->isPaused())
 		startSniffing();
 	qApp->installEventFilter(m_supp);
