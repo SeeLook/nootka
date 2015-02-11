@@ -17,7 +17,9 @@ clumsy:
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - sniffing starts after closing dialog windows even if it was paused
-- check is suggestion working for melodies (after 5 correct answers)
+- check is suggestion working for melodies (after 5 correct answers) - fix its storing
+- note cursor has to be always visible under mouse in single mode
+- when record is set and settings called - release icon symbol - it backs to multi
 
 MINOR:
 - replace all font-size: 20px with <big>
