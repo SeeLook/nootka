@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,7 @@
 
 #include "tupdatesummary.h"
 #include "tupdateruleswdg.h"
+#include <tpath.h>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -28,6 +29,8 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
   QDialog(parent, Qt::WindowStaysOnTopHint),
   m_updateRules(updateRules)
 {
+	setWindowIcon(QIcon(Tpath::img("nootka")));
+	setWindowTitle(tr("Updates"));
   QVBoxLayout *mainLay = new QVBoxLayout;
   QLabel *lab = new QLabel(this);
   mainLay->addWidget(lab);

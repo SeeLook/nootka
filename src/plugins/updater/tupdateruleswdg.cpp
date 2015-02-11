@@ -19,20 +19,17 @@
 
 #include "tupdateruleswdg.h"
 #include "updatefunctions.h"
-#include <tpath.h>
 #include <QtWidgets>
 
 TupdateRulesWdg::TupdateRulesWdg(TupdateRules* updateRules, QWidget* parent) :
   QWidget(parent),
   m_updateRules(updateRules)
 {  
-  setWindowIcon(QIcon(Tpath::img("nootka")));
   QHBoxLayout *mainLay = new QHBoxLayout;
   m_updatesEnableGr = new QGroupBox(tr("check for Nootka updates"), this);
   m_updatesEnableGr->setCheckable(true);
   m_updatesEnableGr->setChecked(m_updateRules->enable);
   mainLay->addWidget(m_updatesEnableGr);
-  setWindowTitle(m_updatesEnableGr->title());
  
   QHBoxLayout *inLay = new QHBoxLayout;
   inLay->addStretch();
