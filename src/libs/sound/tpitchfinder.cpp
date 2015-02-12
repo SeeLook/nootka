@@ -293,7 +293,7 @@ void TpitchFinder::detect() {
 							m_statPitch = curNote->avgPitch();
 						}
 					} else { // volume was pushed, so check new note length
-						if (m_state == e_noticed && m_statPitch && qRound(m_statPitch) == qRound(curNote->avgPitch()) 
+						if (m_state == e_noticed && m_statPitch && qRound(m_statPitch) == qRound(curNote->avgPitch())
 							&& curNote->noteLength() - m_newNoteStartDur > m_minDuration) {
 							m_state = e_playing;
 							m_detectedIndex++;

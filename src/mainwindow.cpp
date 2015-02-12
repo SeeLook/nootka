@@ -291,8 +291,11 @@ void MainWindow::createSettingsDialog() {
 		else
 			args = "exam";
 		executor->prepareToSettings();
-	} else
+	} else {
+			if (score->insertMode() == TmultiScore::e_record)
+				m_melButt->recordMelodySlot(); // switch to multi mode
 			sound->prepareToConf();
+	}
   TpluginsLoader *loader = new TpluginsLoader();
   if (loader->load(TpluginsLoader::e_settings)) {
     loader->init(args, this);
@@ -584,7 +587,6 @@ void MainWindow::updateSize(QSize newS) {
       pitchView->setMaximumWidth(QWIDGETSIZE_MAX);
       pitchView->setMinimumWidth(0);
 		}
-		pitchView->resize(m_statFontSize);
 	}
 // 	bar->setFixedWidth(newS.width());
 #if defined (Q_OS_ANDROID)
@@ -623,7 +625,6 @@ void MainWindow::updateSize(QSize newS) {
 		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
 	}
 	guitar->setFixedHeight((newS.height() - bar->height()) * 0.25);
-// 	setWidgetsFont();
 	
 	if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
 		QPixmap bgPix;
