@@ -384,7 +384,7 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	scoreScene()->controlMoved();
+// 	scoreScene()->controlMoved();
 	itemSelected(event->pos());
 }
 #endif

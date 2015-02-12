@@ -20,16 +20,15 @@
 #include "tpitchview.h"
 #include "tvolumeview.h"
 #include "tintonationview.h"
-#include "tpitchbutton.h"
 #include <tcolor.h>
 #include <QTimer>
 #include <QLabel>
-#include <QGroupBox>
 #include <QPainter>
 #include <QApplication>
+#include <QCheckBox>
 #include <QDebug>
 
-
+// QCheckBox *m_intoButton = 0;
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons): 
   QWidget(parent),
   m_audioIN(audioIn),
@@ -42,10 +41,13 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 	QHBoxLayout *outLay = new QHBoxLayout;
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
   if (m_withButtons) {
-			m_pauseButton = new TpitchButton("n", this);
-      m_pauseButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
+			m_pauseButton = new QCheckBox(this);
+      m_pauseButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
       m_pauseButton->setStatusTip(tr("Switch on/off pitch detection"));
 			m_pauseButton->setChecked(true);
+// 			m_intoButton = new QCheckBox(this);
+// 			m_intoButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+
   } else {
       m_pauseButton = 0;
   }
@@ -60,14 +62,17 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 		m_volumeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
+// 	QHBoxLayout *intoLay = new QHBoxLayout;
+// 	intoLay->addWidget(m_intoView);
+// 	if (m_withButtons)
+// 		intoLay->addWidget(m_intoButton);
+// 	m_lay->addLayout(intoLay);
 	QHBoxLayout *volLay = new QHBoxLayout;
 		volLay->addWidget(m_volumeView);
 	m_lay->addLayout(volLay);
 	outLay->addLayout(m_lay);
-	if (m_withButtons) {
-// 		volLay->setContentsMargins(0, 0, 0, 0);
+	if (m_withButtons)
     volLay->addWidget(m_pauseButton, 0, Qt::AlignCenter);
-  }
   setLayout(outLay);
   
   m_watchTimer = new QTimer(this);
@@ -151,18 +156,6 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 		else
 				m_intoView->setDisabled(true);
   }
-}
-
-
-void TpitchView::resize(int fontSize) {
-// 	fontSize = qRound((float)fontSize * 1.4);
-//   m_volumeView->setFixedHeight(qRound((float)fontSize * 0.9));
-//   m_intoView->setFixedHeight(qRound((float)fontSize * 0.9));
-// 	m_volumeView->setFixedHeight(height() / 2 - 1);
-// 	m_intoView->setFixedHeight(height() / 2 - 1);
-// 	if (m_withButtons) {
-// 		m_pauseButton->setFixedHeight(m_volumeView->height());
-//   }
 }
 
 
@@ -277,9 +270,9 @@ void TpitchView::paintEvent(QPaintEvent* ) {
 void TpitchView::resizeEvent(QResizeEvent*) {
 	m_volumeView->setFixedHeight(height() / 4 + 2);
 	m_intoView->setFixedHeight(height() / 4);
-	if (m_withButtons) {
-		m_pauseButton->setFixedHeight(m_volumeView->height());
-  }
+// 	if (m_withButtons) {
+// 		m_pauseButton->setFixedWidth(m_volumeView->height() - 2);
+//   }
 }
 
 

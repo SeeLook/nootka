@@ -27,6 +27,9 @@
 #include <QDebug>
 
 
+#define WORK_HIDE_DELAY (5000)
+
+
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent),
   m_workPosY(0),
@@ -144,7 +147,7 @@ void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
         noteEntered(sn);
         m_showTimer->start(300);
     } else {
-        m_hideTimer->start(1000);
+        m_hideTimer->start(WORK_HIDE_DELAY);
     }
   }
 }
@@ -171,7 +174,7 @@ void TscoreScene::noteDeleted(TscoreNote* sn) {
 
 
 void TscoreScene::controlMoved() {
-	m_hideTimer->start(1000);
+	m_hideTimer->start(WORK_HIDE_DELAY);
 }
 
 

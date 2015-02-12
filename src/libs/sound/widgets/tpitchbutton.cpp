@@ -20,6 +20,7 @@
 #include <QPainter>
 
 
+
 TpitchButton::TpitchButton(const QString& text, QWidget* parent) :
 	QAbstractButton(parent),
 	m_entered(false)
@@ -38,17 +39,21 @@ void TpitchButton::paintEvent(QPaintEvent*) {
 	if (m_entered)
 		bg = palette().color(palette().currentColorGroup(), QPalette::Highlight);
 	else {
-		if (isChecked()) {
-			bg = Qt::red;
-		} else {
-			bg = Qt::darkGreen;
-		}
+		bg = palette().color(QPalette::Disabled, QPalette::Text);
+		bg.setAlpha(150);
 	}
 	painter.setBrush(bg);
-// 	painter.setPen(QPen(isChecked() ? Qt::red : Qt::green, 2));
-	painter.drawRoundedRect(1, 1, width() - 1, height() - 1, height() / 6, height() / 6);
-	painter.setPen(QPen(Qt::lightGray));
-	painter.drawText(1, 1, width() - 1, height() - 1, Qt::AlignCenter, text());
+	qreal radius = qMax(height() / 6.0, 3.0);
+	painter.drawRoundedRect(1, 1, width() - 1, height() - 1, radius, radius);
+	radius *= 1.5;
+	if (isChecked()) {
+			painter.setPen(QPen(Qt::red, radius, Qt::SolidLine, Qt::RoundCap));
+			painter.drawLine(QLineF(width() / 2.0 - radius * 1.2, radius, width() / 2.0 - radius  * 1.2, height() - radius));
+			painter.drawLine(QLineF(width() / 2.0 + radius  * 0.7, radius, width() / 2.0 + radius  * 0.7, height() - radius));
+	} else {
+			painter.setBrush(Qt::red);
+			painter.drawEllipse(4, 3, width() - 6, height() - 6);
+	}
 }
 
 

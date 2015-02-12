@@ -26,7 +26,8 @@
 #include "trtaudioin.h"
 #include "nootkasoundglobal.h"
 
-class TpitchButton;
+
+class QCheckBox;
 class QBoxLayout;
 class TvolumeView;
 class TintonationView;
@@ -52,7 +53,6 @@ public:
   void setPitchColor(QColor col);
 	
   bool isPaused();
-  void resize(int fontSize);
   void setBgColor(const QColor &col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
   void setDisabled(bool isDisabled);
@@ -85,7 +85,7 @@ protected:
 	virtual void resizeEvent(QResizeEvent*);
   
 private:
-	TpitchButton 			*m_pauseButton; /** Button to pause or activate pitch detection */
+	QCheckBox		 			*m_pauseButton; /** Button to pause or activate pitch detection */
   TvolumeView 			*m_volumeView;
   TintonationView 	*m_intoView;
   TaudioIN 					*m_audioIN;
