@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,7 @@ QColor TabstractSoundView::startColor = Qt::green;
 QColor TabstractSoundView::middleColor = Qt::yellow;
 QColor TabstractSoundView::endColor = Qt::red;
 QColor TabstractSoundView::totalColor = QColor(117, 21, 86); // brown
+QColor TabstractSoundView::disabledColor = Qt::gray;
 
 
 TabstractSoundView::TabstractSoundView(QWidget* parent) :
@@ -31,15 +32,16 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
 {
   nootFont = QFont("nootka");
 	tc = palette().color(palette().currentColorGroup(), QPalette::Text);
+	disabledColor = palette().color(QPalette::Disabled, QPalette::Text);
+	disabledColor.setAlpha(150);
 }
 
 
 void TabstractSoundView::setDisabled(bool isDisabled){
   QWidget::setDisabled(isDisabled);
-  if (isDisabled) {
-    tc = palette().color(QPalette::Disabled, QPalette::Text);
-		tc.setAlpha(150);
-	} else
+  if (isDisabled)
+    tc = disabledColor;
+	else
     tc = palette().color(QPalette::Active, QPalette::Text);
 }
 
@@ -58,12 +60,12 @@ QColor TabstractSoundView::gradColorAtPoint(float lineX1, float lineX2, QColor s
 
 
 void TabstractSoundView::resizeIt(int myHeight) {
-  nootFont.setPointSizeF(myHeight);
+  nootFont.setPointSizeF(20.0);
   QFontMetrics fm(nootFont);
-  noteBound = fm.boundingRect("n");
+  noteBound = fm.boundingRect("o");
   float factor = (float)myHeight / (float)noteBound.height();
-  nootFont.setPointSizeF(nootFont.pointSizeF() * factor + 2);
-  noteBound = fm.boundingRect("n");
+  nootFont.setPointSizeF(20.0 * (((float)myHeight * 0.95) / (float)noteBound.height()));
+  noteBound = fm.boundingRect("o");
 }
 
 

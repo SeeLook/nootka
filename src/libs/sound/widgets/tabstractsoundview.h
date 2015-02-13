@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,11 +32,12 @@ public:
     
     QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
     
-    static QColor startColor, middleColor, endColor, totalColor;
+    static QColor startColor, middleColor, endColor, totalColor, disabledColor;
     QColor tc;
-    void setDisabled(bool isDisabled);
+
+    virtual void setDisabled(bool isDisabled);
 		
-		void setEnabled(bool isEnabled) { setDisabled(!isEnabled); }
+		virtual void setEnabled(bool isEnabled) { setDisabled(!isEnabled); }
     
 protected:
     virtual void resizeIt(int myHeight);

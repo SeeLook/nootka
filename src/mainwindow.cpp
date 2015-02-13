@@ -580,12 +580,14 @@ void MainWindow::updateSize(QSize newS) {
 	if (gl->L->soundViewEnabled) {
 		if (gl->L->hintsBarEnabled) {
 			pitchView->setDirection(QBoxLayout::TopToBottom);
+			pitchView->setMaximumHeight(QWIDGETSIZE_MAX);
+      pitchView->setMinimumHeight(0);
 			pitchView->setFixedWidth(newS.width() * 0.4);
 		} else {
 			pitchView->setDirection(QBoxLayout::LeftToRight);
-// 			pitchView->setFixedWidth(newS.width());
       pitchView->setMaximumWidth(QWIDGETSIZE_MAX);
       pitchView->setMinimumWidth(0);
+			pitchView->setFixedHeight(newS.height() * 0.04);
 		}
 	}
 // 	bar->setFixedWidth(newS.width());

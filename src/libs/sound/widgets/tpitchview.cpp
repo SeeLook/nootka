@@ -28,29 +28,18 @@
 #include <QCheckBox>
 #include <QDebug>
 
-// QCheckBox *m_intoButton = 0;
-TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons): 
+
+TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   QWidget(parent),
   m_audioIN(audioIn),
   m_pitchColor(Qt::red),
   m_hideCnt(8),
-  m_withButtons(withButtons),
   m_bgColor(Qt::transparent),
-  m_prevState((int)TaudioIN::e_paused)
+  m_prevState((int)TaudioIN::e_paused),
+  m_pauseActive(pauseActive)
 {
 	QHBoxLayout *outLay = new QHBoxLayout;
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
-  if (m_withButtons) {
-			m_pauseButton = new QCheckBox(this);
-      m_pauseButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-      m_pauseButton->setStatusTip(tr("Switch on/off pitch detection"));
-			m_pauseButton->setChecked(true);
-// 			m_intoButton = new QCheckBox(this);
-// 			m_intoButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-
-  } else {
-      m_pauseButton = 0;
-  }
     
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
 		m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
@@ -60,26 +49,17 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool withButtons):
 		m_volumeView->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
 				tr("Drag a knob to adjust minimum input volume."));
 		m_volumeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+		m_volumeView->setPauseActive(pauseActive);
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
-// 	QHBoxLayout *intoLay = new QHBoxLayout;
-// 	intoLay->addWidget(m_intoView);
-// 	if (m_withButtons)
-// 		intoLay->addWidget(m_intoButton);
-// 	m_lay->addLayout(intoLay);
-	QHBoxLayout *volLay = new QHBoxLayout;
-		volLay->addWidget(m_volumeView);
-	m_lay->addLayout(volLay);
+	m_lay->addWidget(m_volumeView);
 	outLay->addLayout(m_lay);
-	if (m_withButtons)
-    volLay->addWidget(m_pauseButton, 0, Qt::AlignCenter);
   setLayout(outLay);
   
   m_watchTimer = new QTimer(this);
   connect(m_watchTimer, &QTimer::timeout, this, &TpitchView::updateLevel);
-  if (m_withButtons) {
-    connect(m_pauseButton, SIGNAL(clicked()), this, SLOT(pauseClicked()));
-  }
+  if (pauseActive)
+    connect(m_volumeView, SIGNAL(paused()), this, SLOT(pauseClicked()));
   connect(m_volumeView, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
 }
 
@@ -92,8 +72,6 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
   if (m_audioIN) {
     connect(m_audioIN, &TaudioIN::stateChanged, this, &TpitchView::inputStateChanged);
     connect(m_audioIN, &TaudioIN::destroyed, this, &TpitchView::inputDeviceDeleted);
-		if (m_withButtons)
-			m_pauseButton->show();
     setDisabled(false);
   } else 
 		inputDeviceDeleted();
@@ -103,13 +81,13 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
 void TpitchView::watchInput() {
   if (isEnabled() && isVisible() && m_audioIN && m_audioIN->state() == TaudioIN::e_listening && !m_watchTimer->isActive()) {
     m_prevPitch = -1.0;
-    m_volumeView->setDisabled(false);
     m_watchTimer->start(75);
     connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
-    if (m_intoView->accuracy() == TintonationView::e_noCheck)
-			m_intoView->setDisabled(true);
-		else
-			m_intoView->setDisabled(false);
+		m_intoView->setDisabled(false);
+//     if (m_intoView->accuracy() == TintonationView::e_noCheck)
+// 			m_intoView->setDisabled(true);
+// 		else
+// 			m_intoView->setDisabled(false);
   }
 }
 
@@ -123,7 +101,6 @@ void TpitchView::stopWatching() {
     if (m_intoView->isEnabled())
       m_intoView->pitchSlot(0.0);
   }
-  m_volumeView->setDisabled(true);
   m_intoView->setDisabled(true);
 }
 
@@ -145,16 +122,17 @@ void TpitchView::setDisabled(bool isDisabled) {
     stopWatching();
   else
     watchInput();
+	m_volumeView->setDisabled(isDisabled);
 }
 
 
 void TpitchView::setIntonationAccuracy(int accuracy) {
 	m_intoView->setAccuracy(accuracy);
 	if (m_audioIN) {
-		if (TintonationView::Eaccuracy(accuracy) != TintonationView::e_noCheck && !isPaused())
-				m_intoView->setDisabled(false);
-		else
-				m_intoView->setDisabled(true);
+// 		if (TintonationView::Eaccuracy(accuracy) != TintonationView::e_noCheck && !isPaused())
+// 				m_intoView->setDisabled(false);
+// 		else
+// 				m_intoView->setDisabled(true);
   }
 }
 
@@ -175,9 +153,16 @@ void TpitchView::outOfTuneAnim(float outTune, int duration) {
 
 
 bool TpitchView::isPaused() {
-  if (m_audioIN && m_withButtons)
-    return !m_pauseButton->isChecked();
+  if (m_audioIN && m_volumeView->isPauseActive())
+    return m_volumeView->isPaused();
   return false;
+}
+
+
+void TpitchView::setDirection(QBoxLayout::Direction dir) {
+	if (dir != m_lay->direction()) {
+		m_lay->setDirection(dir);
+	}
 }
 
 
@@ -213,12 +198,13 @@ void TpitchView::updateLevel() {
 
 void TpitchView::pauseClicked() {
 	if (m_audioIN) {
-		if (m_pauseButton->isChecked()) {
-			m_audioIN->setStoppedByUser(false);
-			m_audioIN->startListening();
-		} else {
+		if (m_volumeView->isPaused()) {
 			m_audioIN->stopListening();
 			m_audioIN->setStoppedByUser(false);
+		} else {
+			m_audioIN->setStoppedByUser(false);
+			m_audioIN->startListening();
+
 		}
 	}	
 }
@@ -231,13 +217,13 @@ void TpitchView::minimalVolumeChanged(float minVol) {
 
 void TpitchView::inputStateChanged(int inSt) {
   if (isEnabled() && inSt != m_prevState) {
-    if (m_withButtons) {
+    if (m_volumeView->isPauseActive()) {
       TaudioIN::Estate inState = (TaudioIN::Estate)inSt;
       if (inState == TaudioIN::e_stopped) {
-        m_pauseButton->setChecked(false);
+				m_volumeView->setPaused(true);
         stopWatching();
       } else if (inState == TaudioIN::e_listening) {
-        m_pauseButton->setChecked(true);
+        m_volumeView->setPaused(false);
         watchInput();
       }
     }
@@ -247,8 +233,6 @@ void TpitchView::inputStateChanged(int inSt) {
 
 void TpitchView::inputDeviceDeleted() {
   setDisabled(true);
-	if (m_withButtons)
-		m_pauseButton->hide();
 }
 
 
@@ -268,11 +252,13 @@ void TpitchView::paintEvent(QPaintEvent* ) {
 
 
 void TpitchView::resizeEvent(QResizeEvent*) {
-	m_volumeView->setFixedHeight(height() / 4 + 2);
-	m_intoView->setFixedHeight(height() / 4);
-// 	if (m_withButtons) {
-// 		m_pauseButton->setFixedWidth(m_volumeView->height() - 2);
-//   }
+	if (m_lay->direction() == QBoxLayout::TopToBottom || m_lay->direction() == QBoxLayout::BottomToTop) {
+		m_volumeView->setFixedHeight(height() * 0.3);
+		m_intoView->setFixedHeight(height() * 0.3);
+	} else {
+		m_volumeView->setFixedHeight(contentsRect().height() * 0.7);
+		m_intoView->setFixedHeight(contentsRect().height() * 0.7);
+	}
 }
 
 

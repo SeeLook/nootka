@@ -373,7 +373,6 @@ set(LIB_NOOTKASOUND_SRC
 	widgets/tintonationview.cpp
 	widgets/tpitchview.cpp
 	widgets/tvolumeview.cpp
-	widgets/tpitchbutton.cpp
 )
 
 IF(WIN32)
