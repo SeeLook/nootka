@@ -45,7 +45,7 @@ class NOOTKASOUND_EXPORT TpitchView : public QWidget
   Q_OBJECT
   
 public:
-  explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool withButtons = true);
+  explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool pauseActive = true);
   
   void setAudioInput(TaudioIN *audioIn);
   void watchInput(); /** Starts displaying volume level and intonation (when enabled). */
@@ -64,7 +64,7 @@ public:
 	void setIntonationAccuracy(int accuracy);
 	
 			/** Pitch view can be placed in one row (horizontal) or one over another (vertical) - default */
-	void setDirection(QBoxLayout::Direction dir) { if (dir != m_lay->direction())	m_lay->setDirection(dir); }
+	void setDirection(QBoxLayout::Direction dir);
 	
 			/** Starts animation displaying correction of unclear sound.  */
 	void outOfTuneAnim(float outTune, int duration = 300);
@@ -85,17 +85,16 @@ protected:
 	virtual void resizeEvent(QResizeEvent*);
   
 private:
-	QCheckBox		 			*m_pauseButton; /** Button to pause or activate pitch detection */
   TvolumeView 			*m_volumeView;
   TintonationView 	*m_intoView;
   TaudioIN 					*m_audioIN;
   QTimer 						*m_watchTimer;
   QColor 						 m_pitchColor, m_bgColor;
-  bool 							 m_withButtons;
 	QBoxLayout 				*m_lay;
   int 							 m_hideCnt; // counter of m_volTimer loops.
   float 						 m_prevVolume, m_prevPitch;
   int                m_prevState;
+	bool							 m_pauseActive; /** It stores constructor state, so when audio in is created/deleted it reacts on it is was enabled. */
 };
 
 #endif // TPITCHVIEW_H

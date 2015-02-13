@@ -207,6 +207,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		testButt->setIconSize(QSize(48, 48));
   pitchView = new TpitchView(m_audioIn, m_4_test, false);
 		pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+		pitchView->setFixedHeight(fontMetrics().boundingRect("A").height() * 5);
 		pitchView->setPitchColor(Qt::darkGreen);
 		pitchView->setMinimalVolume(m_glParams->minimalVol);
 	

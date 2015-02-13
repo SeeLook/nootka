@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,6 @@
 #include <widgets/tvolumeview.h>
 #include <graphics/tnotepixmap.h>
 #include <music/tinstrument.h>
-// #include <tpath.h>
 #include <QtWidgets>
 
 
@@ -63,6 +62,7 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	soundView->setMinimalVolume(0.6);
 	soundView->setFixedHeight(soundView->minimumHeight());
 	soundView->setVolume(0.4);
+	soundView->setPaused(false);
 	m_soundBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 	connect(m_soundBox, &QGroupBox::toggled, soundView, &TvolumeView::setEnabled);
 	m_soundBox->setChecked(m_layParams->soundViewEnabled);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,9 +19,11 @@
 
 #include "tintonationview.h"
 #include <QPainter>
+#include <QMouseEvent>
 #include <QVBoxLayout>
 #include <QComboBox>
 #include <QLabel>
+#include <QMenu>
 #include <QDebug>
 #include <QTimer>
 #include <math.h>
@@ -52,9 +54,11 @@ float TintonationView::getThreshold(int accInteger) {
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
   TabstractSoundView(parent),
   m_pitchDiff(0.0f),
-  m_timer(0)
+  m_timer(0),
+  m_entered(false)
 {
   setAccuracy(accuracy);
+	setMouseTracking(true);
   setMinimumSize(200, 17);
   resizeEvent(0);
 }
@@ -99,52 +103,71 @@ void TintonationView::outOfTuneAnim(float outTune, int duration) {
 	m_timer->start(150);
 }
 
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+void TintonationView::enterEvent(QEvent*) {
+	if (isEnabled()) {
+		m_entered = true;
+		update();
+	}
+}
 
 
-//################################################################################
-//############################### protected ######################################
-//################################################################################
+void TintonationView::leaveEvent(QEvent*) {
+	if (isEnabled()) {
+		m_entered = false;
+		update();
+	}
+}
+
+
+void TintonationView::mouseMoveEvent(QMouseEvent* e) {
+	if (e->x() > (width() - height() * 2) / 2 && e->x() < width() / 2 + height())
+		m_overNote = true;
+	else
+		m_overNote = false;
+	update();
+}
 
 
 void TintonationView::paintEvent(QPaintEvent* ) {
   int lastColorThick = (qAbs(m_pitchDiff) / 0.5) * m_ticksCount;
-// 	if (lastColorThick > m_tickColors.size() - 1) {
-// 		qDebug() << "wrong calc. in intonation";
-// 		return;
-// 	}
 	qMin(lastColorThick, m_tickColors.size() - 1); // it avoids QList bug when m_pitchDiff is near 0.5 (quarter-tone)
   QPainter painter(this);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-//   painter.setPen(Qt::NoPen);
-// 	QColor bg = palette().window().color();
-// 	bg.setAlpha(0);
-// 	painter.setBrush(bg);
-// 	if (m_pitchDiff == 0.0) {
-// 			painter.setPen(Qt::NoPen);
-// 	} else {
-// 			painter.setPen(QPen(m_tickColors[lastColorThick], 3.0));
-// 	}
-//   painter.drawRoundedRect(painter.viewport(), 4, 4);
-  if (m_pitchDiff == 0.0)
-			painter.setPen(QPen(tc));
-  else
-			painter.setPen(QPen(m_tickColors[lastColorThick]));
+	painter.setPen(Qt::NoPen);
   painter.setFont(nootFont);
-  painter.drawText(0, 0, width(), height(), Qt::AlignCenter, "n");
+	QString nSymbol = (isEnabled() && m_accuracy != e_noCheck) ? "n" : "o";
+	if (m_entered) {
+		QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
+		painter.setBrush(m_overNote ? palette().highlightedText().color() : palette().highlight().color());
+		painter.drawRoundedRect((width() - nRect.width() * 2) / 2, 0, nRect.width() * 2, height(), 50, 50, Qt::RelativeSize);
+	}
+	if (m_entered)
+			painter.setPen(m_overNote ? palette().highlight().color() : palette().highlightedText().color());
+  else if (m_pitchDiff == 0.0)
+			painter.setPen(tc);
+  else
+			painter.setPen(m_tickColors[lastColorThick]);
+  painter.drawText(0, 0, width(), height(), Qt::AlignCenter, nSymbol);
   for (int i = 0; i < m_ticksCount - 1; i++) {
 			QColor thickColor, leftThickColor, rightThickColor;
-			if (i < lastColorThick)
+			if (m_accuracy == e_noCheck)
+				thickColor = disabledColor;
+			else if (i < lastColorThick)
 				thickColor = m_tickColors[i];
 			else
 				thickColor = tc;
-			if (m_pitchDiff < 0) {
+			if (m_accuracy == e_noCheck) {
+					leftThickColor = disabledColor;
+					rightThickColor = disabledColor;
+			} else if (m_pitchDiff < 0) {
 					leftThickColor = thickColor; rightThickColor = tc;
 			} else {
-					leftThickColor = tc; rightThickColor = thickColor;
-			}
+					leftThickColor = tc; rightThickColor = thickColor; }
 			int xx = m_noteX - ((i + 1) * (TICK_GAP + TICK_WIDTH));
 			float yy = (float)i * m_hiTickStep + 1.0f;
-	//     int yy = 1;
 			painter.setPen(QPen(leftThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
 			painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
 			painter.setPen(QPen(rightThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
@@ -171,6 +194,27 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 			m_tickColors << gradColorAtPoint(m_noteX * (m_accurValue + 0.3), m_noteX, endColor, totalColor, (i + 1) * (m_noteX / m_ticksCount));
 		}
   }
+}
+
+
+void TintonationView::mousePressEvent(QMouseEvent* e) {
+	if (e->button() == Qt::LeftButton && m_overNote) {
+		QMenu menu(this);
+		for (int i = 0; i < 6; ++i) {
+			QAction *a = menu.addAction(TintonationCombo::intonationAccuracyTr(Eaccuracy(i)));
+			a->setData(i);
+			a->setCheckable(true);
+			if (m_accuracy == Eaccuracy(i))
+				a->setChecked(true);
+		}
+		QAction *ia = menu.exec(QPoint(e->globalPos().x() - menu.sizeHint().width() / 2, e->globalPos().y() + (height() - e->y())));
+		if (ia){
+			setAccuracy(ia->data().toInt());
+			m_pitchDiff = 0;
+			update();
+			emit accuracyChanged();
+		}
+	}
 }
 
 
