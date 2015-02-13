@@ -154,7 +154,7 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 	if (m_entered)
 			painter.setPen(m_overNote ? palette().highlight().color() : palette().highlightedText().color());
   else if (m_pitchDiff == 0.0)
-			painter.setPen(tc);
+			painter.setPen(m_enableAccurChange ? tc : disabledColor);
   else
 			painter.setPen(m_tickColors[lastColorThick]);
   painter.drawText(0, 0, width(), height(), Qt::AlignCenter, nSymbol);

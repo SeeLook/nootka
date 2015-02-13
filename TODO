@@ -16,7 +16,6 @@ clumsy:
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- sniffing starts after closing dialog windows even if it was paused
 - check is suggestion working for melodies (after 5 correct answers) - fix its storing
 
 

@@ -4,6 +4,8 @@
      - new, quick, click-less way for adding notes to a score
      - improved pop-up for selecting note name over score
      - a note from played exam melody can be selected to start playing from it
+     - improved look of sound meters widgets
+     - intonation accuracy can be set from intonation view
      - first run wizard comes back improved  - it is a plugin now
      - updated Windows installer
     BUGS FIXES
