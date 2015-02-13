@@ -48,14 +48,15 @@ float TintonationView::getThreshold(TintonationView::Eaccuracy acc) {
 float TintonationView::getThreshold(int accInteger) {
 		return getThreshold((Eaccuracy)accInteger);
 }
-
+/*end of static*/
 
 
 TintonationView::TintonationView(int accuracy, QWidget* parent) :
   TabstractSoundView(parent),
   m_pitchDiff(0.0f),
   m_timer(0),
-  m_entered(false)
+  m_entered(false),
+  m_enableAccurChange(true)
 {
   setAccuracy(accuracy);
 	setMouseTracking(true);
@@ -73,6 +74,12 @@ void TintonationView::setAccuracy(int accuracy) {
 	m_accurValue = getThreshold(m_accuracy);
   m_accurValue *= INT_FACTOR;
   resizeEvent(0);
+}
+
+
+void TintonationView::setAccuracyChangeEnabled(bool accEnabled) {
+  setMouseTracking(accEnabled);
+  m_enableAccurChange = accEnabled;
 }
 
 
@@ -107,7 +114,7 @@ void TintonationView::outOfTuneAnim(float outTune, int duration) {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 void TintonationView::enterEvent(QEvent*) {
-	if (isEnabled()) {
+	if (isEnabled() && m_enableAccurChange) {
 		m_entered = true;
 		update();
 	}
@@ -115,7 +122,7 @@ void TintonationView::enterEvent(QEvent*) {
 
 
 void TintonationView::leaveEvent(QEvent*) {
-	if (isEnabled()) {
+	if (isEnabled() && m_enableAccurChange) {
 		m_entered = false;
 		update();
 	}

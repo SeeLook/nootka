@@ -15,7 +15,7 @@ Requires: libqt4 >= 4.6, fftw3, soundtouch
 %endif
 
 %if 0%{?fedora}
-Requires: qt-devel, fftw, soundtouch, libvorbis, pulseaudio-libs
+Requires: qt5-qtbase-devel, fftw, soundtouch, libvorbis, pulseaudio-libs
 %endif
 
 %if 0%{?mandriva_version}
