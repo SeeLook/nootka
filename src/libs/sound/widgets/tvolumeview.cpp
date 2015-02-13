@@ -66,7 +66,7 @@ void TvolumeView::setPauseActive(bool active) {
 
 
 void TvolumeView::setDisabled(bool isDisabled) {
-	QWidget::setDisabled(isDisabled);
+	TabstractSoundView::setDisabled(isDisabled);
 	if (m_activePause) {
 		if (isDisabled)
 			m_paused = isDisabled;
@@ -89,19 +89,21 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
       noteColor = palette().highlightedText().color();
 			painter.drawRoundedRect(painter.viewport(), 4, 4);
   }
-	if (m_drawPaused) { // Stop/start button
-    painter.setBrush(Qt::red);
-    painter.drawRoundedRect(width() - height() - 1 , 1, height() - 2, height() - 2, 50, 50, Qt::RelativeSize);
-    painter.setBrush(m_overNote ? palette().base().color() : Qt::black);
-    if (m_paused)
-      painter.drawEllipse(width() - height() + 2, 4, height() - 8, height() - 8);
-    else
-      painter.drawRect(width() - height() * 0.5 - 5, 3, 6, height() - 6);
-  } else { // or note symbol
-    painter.setPen(isEnabled() ? noteColor : disabledColor);
-    painter.setFont(nootFont);
-    painter.drawText(1, Y_OFF, width() - 5, height(), Qt::AlignRight, m_activePause && m_paused ? "o" : "n");
+  painter.setFont(nootFont);
+  QString nSymbol = (m_activePause && m_paused) ? "o" : "n";
+	QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
+	if (m_drawPaused) { // Stop/start highlight
+		painter.setBrush(m_overNote ? palette().highlightedText().color() : palette().highlight().color());
+		painter.drawRoundedRect(width() - nRect.width() * 1.8, 0, nRect.width() * 1.8, height(), 50, 50, Qt::RelativeSize);
   }
+	if (m_drawPaused) // and note symbol
+		painter.setPen(m_overNote ? palette().highlight().color() : palette().highlightedText().color());
+  else if (m_alpha)
+		painter.setPen(noteColor);
+  else
+		painter.setPen(tc);
+	painter.drawText(0, 0, width() - nRect.width() * 0.3, height(), Qt::AlignRight, nSymbol);
+
   qreal tickWidth = TICK_WIDTH - 1.0;
   for (int i = 1; i < m_ticksCount - 2; i++) { // volume ticks
     if (i >= m_ticksCount * m_minVolume)
@@ -125,7 +127,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 		painter.setBrush(shade);
 		float xPos = (float)(width() - m_noteWidth) * m_minVolume; 
 		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.1, height() * 0.9, height() * 0.9)); // shade
-		QLinearGradient lg(xPos/* - height() * 0.5*/, 0, xPos/* + height() * 0.5*/, height());
+		QLinearGradient lg(xPos, 0, xPos, height());
 		lg.setColorAt(0, knobBrush);
 		lg.setColorAt(0.3, knobBrush);
 		lg.setColorAt(0.8, knobBrush.darker());
@@ -168,7 +170,7 @@ void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
     return;
   if (isPauseActive())
       m_drawPaused = true;
-  if (event->x() >= width() - m_noteWidth) {
+  if (event->x() >= width() - m_noteWidth * 1.5) {
     m_overNote = true;
   } else {
     m_overNote = false;
@@ -184,7 +186,7 @@ void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
       }
     }
   }
-update();
+	update();
 }
 
 
@@ -217,12 +219,7 @@ void TvolumeView::leaveEvent(QEvent* ) {
 
 
 void TvolumeView::enterEvent(QEvent* ) {
-// 	if (!m_paused)
-// 		setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
-//   if (!isPaused() && !m_overNote)
-//     m_drawKnob = true;
-// 	if (isPauseActive() && m_overNote)
-// 		m_drawPaused = true;
+
 }
 
 

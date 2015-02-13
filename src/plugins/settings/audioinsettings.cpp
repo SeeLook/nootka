@@ -210,20 +210,19 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		pitchView->setFixedHeight(fontMetrics().boundingRect("A").height() * 5);
 		pitchView->setPitchColor(Qt::darkGreen);
 		pitchView->setMinimalVolume(m_glParams->minimalVol);
+    pitchView->enableAccuracyChange(false);
 	
 	QFont labFont = font();
 	labFont.setPixelSize(fontMetrics().boundingRect("A").height() * 2);
   pitchLab = new TroundedLabel("--", this);
 		pitchLab->setFont(labFont);
 		pitchLab->setFixedWidth(fontMetrics().boundingRect("w").width() * 10);
-// 		pitchLab->setStyleSheet(styleTxt);
 		pitchLab->setStatusTip(tr("Detected pitch"));
 		pitchLab->setAlignment(Qt::AlignCenter);
   
   freqLab = new TroundedLabel("--", this);
 		freqLab->setFixedWidth(pitchLab->width() * 2);
 		freqLab->setFont(labFont);
-// 		freqLab->setStyleSheet(styleTxt);
 		freqLab->setAlignment(Qt::AlignCenter);
   getFreqStatusTip();
   

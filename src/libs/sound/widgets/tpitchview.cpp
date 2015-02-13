@@ -121,7 +121,8 @@ void TpitchView::setDisabled(bool isDisabled) {
   else
     watchInput();
   m_volumeView->setDisabled(isDisabled);
-  m_intoView->setDisabled(isDisabled);
+	if (isDisabled) // it can be only disabled here, watchInput() enables it if it is possible
+		m_intoView->setDisabled(isDisabled);
 }
 
 
@@ -203,7 +204,7 @@ void TpitchView::pauseClicked() {
 	if (m_audioIN) {
 		if (m_volumeView->isPaused()) {
 			m_audioIN->stopListening();
-			m_audioIN->setStoppedByUser(false);
+			m_audioIN->setStoppedByUser(true);
 		} else {
 			m_audioIN->setStoppedByUser(false);
 			m_audioIN->startListening();
