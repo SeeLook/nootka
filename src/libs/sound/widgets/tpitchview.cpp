@@ -74,7 +74,7 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
     connect(m_audioIN, &TaudioIN::destroyed, this, &TpitchView::inputDeviceDeleted);
     setDisabled(false);
   } else 
-		inputDeviceDeleted();
+    inputDeviceDeleted();
 }
 
 
@@ -83,11 +83,8 @@ void TpitchView::watchInput() {
     m_prevPitch = -1.0;
     m_watchTimer->start(75);
     connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
-		m_intoView->setDisabled(false);
-//     if (m_intoView->accuracy() == TintonationView::e_noCheck)
-// 			m_intoView->setDisabled(true);
-// 		else
-// 			m_intoView->setDisabled(false);
+    if (m_intoView->accuracyChangeEnabled())
+      m_intoView->setDisabled(false);
   }
 }
 
@@ -101,7 +98,8 @@ void TpitchView::stopWatching() {
     if (m_intoView->isEnabled())
       m_intoView->pitchSlot(0.0);
   }
-  m_intoView->setDisabled(true);
+  if (m_intoView->accuracyChangeEnabled())
+    m_intoView->setDisabled(true);
 }
 
 
@@ -122,18 +120,13 @@ void TpitchView::setDisabled(bool isDisabled) {
     stopWatching();
   else
     watchInput();
-	m_volumeView->setDisabled(isDisabled);
+  m_volumeView->setDisabled(isDisabled);
+  m_intoView->setDisabled(isDisabled);
 }
 
 
 void TpitchView::setIntonationAccuracy(int accuracy) {
 	m_intoView->setAccuracy(accuracy);
-	if (m_audioIN) {
-// 		if (TintonationView::Eaccuracy(accuracy) != TintonationView::e_noCheck && !isPaused())
-// 				m_intoView->setDisabled(false);
-// 		else
-// 				m_intoView->setDisabled(true);
-  }
 }
 
 
@@ -163,6 +156,16 @@ void TpitchView::setDirection(QBoxLayout::Direction dir) {
 	if (dir != m_lay->direction()) {
 		m_lay->setDirection(dir);
 	}
+}
+
+
+bool TpitchView::isAccuracyChangeEnabled() {
+  return m_intoView->accuracyChangeEnabled();
+}
+
+
+void TpitchView::enableAccuracyChange(bool enAcc) {
+  m_intoView->setAccuracyChangeEnabled(enAcc);
 }
 
 

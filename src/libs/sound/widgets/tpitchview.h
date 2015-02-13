@@ -49,26 +49,29 @@ public:
   
   void setAudioInput(TaudioIN *audioIn);
   void watchInput(); /** Starts displaying volume level and intonation (when enabled). */
-	void stopWatching(); /** Stops displaying volume (and intonation) */
+  void stopWatching(); /** Stops displaying volume (and intonation) */
   void setPitchColor(QColor col);
-	
+
   bool isPaused();
   void setBgColor(const QColor &col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
   void setDisabled(bool isDisabled);
-	
-	void markAnswer(const QColor &col);
-	
-			/** Sets an accuracy of intonation. 
-			 * When 0 - 'do not check' m_intoView becomes disabled. */
-	void setIntonationAccuracy(int accuracy);
-	
-			/** Pitch view can be placed in one row (horizontal) or one over another (vertical) - default */
-	void setDirection(QBoxLayout::Direction dir);
-	
-			/** Starts animation displaying correction of unclear sound.  */
-	void outOfTuneAnim(float outTune, int duration = 300);
-	
+
+  void markAnswer(const QColor &col);
+
+      /** Sets an accuracy of intonation.
+        * When 0 - 'do not check' m_intoView becomes disabled. */
+  void setIntonationAccuracy(int accuracy);
+  void enableAccuracyChange(bool enAcc); /** Redirects suitable method from @class TintonationView */
+  bool isAccuracyChangeEnabled(); /** Redirects suitable method from @class TintonationView */
+
+
+      /** Pitch view can be placed in one row (horizontal) or one over another (vertical) - default */
+  void setDirection(QBoxLayout::Direction dir);
+
+      /** Starts animation displaying correction of unclear sound.  */
+  void outOfTuneAnim(float outTune, int duration = 300);
+
   
 protected slots:
   void noteSlot();

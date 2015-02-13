@@ -90,18 +90,18 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 			painter.drawRoundedRect(painter.viewport(), 4, 4);
   }
 	if (m_drawPaused) { // Stop/start button
-		painter.setBrush(Qt::red);
-		painter.drawRoundedRect(width() - height() - 1 , 1, height() - 2, height() - 2, 50, 50, Qt::RelativeSize);
-		painter.setBrush(m_overNote ? palette().base().color() : Qt::black);
-		if (m_paused)
-			painter.drawEllipse(width() - height() + 2, 4, height() - 8, height() - 8);
-		else
-			painter.drawRect(width() - height() * 0.5 - 5, 3, 6, height() - 6);
-	} else { // or note symbol
-		painter.setPen(isEnabled() ? noteColor : disabledColor);
-		painter.setFont(nootFont);
-		painter.drawText(1, Y_OFF, width() - 5, height(), Qt::AlignRight, m_activePause && m_paused ? "o" : "n");
-	}
+    painter.setBrush(Qt::red);
+    painter.drawRoundedRect(width() - height() - 1 , 1, height() - 2, height() - 2, 50, 50, Qt::RelativeSize);
+    painter.setBrush(m_overNote ? palette().base().color() : Qt::black);
+    if (m_paused)
+      painter.drawEllipse(width() - height() + 2, 4, height() - 8, height() - 8);
+    else
+      painter.drawRect(width() - height() * 0.5 - 5, 3, 6, height() - 6);
+  } else { // or note symbol
+    painter.setPen(isEnabled() ? noteColor : disabledColor);
+    painter.setFont(nootFont);
+    painter.drawText(1, Y_OFF, width() - 5, height(), Qt::AlignRight, m_activePause && m_paused ? "o" : "n");
+  }
   qreal tickWidth = TICK_WIDTH - 1.0;
   for (int i = 1; i < m_ticksCount - 2; i++) { // volume ticks
     if (i >= m_ticksCount * m_minVolume)
@@ -164,41 +164,41 @@ void TvolumeView::resizeEvent(QResizeEvent* ) {
 
 
 void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
-	if (!isEnabled())
-		return;
-	if (isPauseActive())
-			m_drawPaused = true;
-	if (event->x() >= width() - m_noteWidth) {
-		m_overNote = true;
-	} else {
-		m_overNote = false;
-		if (!isPaused())
-			m_drawKnob = true;
-		if (m_leftButton) {
-			float minV = (float)event->pos().x() / (float)(width() - m_noteWidth);
-			if (minV >= 0.1 && minV < 0.81) {
-				m_minVolume = minV;
-				setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
-				QToolTip::showText(QCursor::pos(), toolTip());
-				emit minimalVolume(m_minVolume);
-			}
-		}
-	}
-	update();
+  if (!isEnabled())
+    return;
+  if (isPauseActive())
+      m_drawPaused = true;
+  if (event->x() >= width() - m_noteWidth) {
+    m_overNote = true;
+  } else {
+    m_overNote = false;
+    if (!isPaused())
+      m_drawKnob = true;
+    if (m_leftButton) {
+      float minV = (float)event->pos().x() / (float)(width() - m_noteWidth);
+      if (minV >= 0.1 && minV < 0.81) {
+        m_minVolume = minV;
+        setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
+        QToolTip::showText(QCursor::pos(), toolTip());
+        emit minimalVolume(m_minVolume);
+      }
+    }
+  }
+update();
 }
 
 
 void TvolumeView::mousePressEvent(QMouseEvent* event) {
-	if (m_activePause) {
-		if (event->button() == Qt::LeftButton) {
-			if (m_overNote) {
-				m_paused = !m_paused;
-				emit paused();
-			} else
-				m_leftButton = true;
-		}
-		update();
-	}
+  if (m_activePause) {
+    if (event->button() == Qt::LeftButton) {
+      if (m_overNote) {
+        m_paused = !m_paused;
+        emit paused();
+      } else
+        m_leftButton = true;
+    }
+    update();
+  }
 }
 
 

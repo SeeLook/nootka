@@ -60,6 +60,10 @@ public:
 	void setAccuracy(int accuracy);
 	Eaccuracy accuracy() { return m_accuracy; }
 
+      /** Decides whether intonation is active for changes or not. */
+  void setAccuracyChangeEnabled(bool accEnabled);
+  bool accuracyChangeEnabled() { return m_enableAccurChange; }
+
 			/** Starts animation displaying correction of unclear sound.  */
 	void outOfTuneAnim(float outTune, int duration);
 
@@ -99,6 +103,7 @@ private:
 	Eaccuracy       m_accuracy;
 	float           m_accurValue, m_currAccurInAnim, m_animStep, m_outOfTune;
 	QTimer				 *m_timer;
+  bool            m_enableAccurChange;
 	bool						m_entered, m_overNote;
 };
 

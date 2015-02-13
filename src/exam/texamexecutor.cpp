@@ -1010,6 +1010,8 @@ void TexamExecutor::prepareToExam() {
     if (mW->sound->isSniffable())
         mW->sound->wait();
     mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
+    mW->pitchView->setIntonationAccuracy(m_level.intonation);
+    mW->pitchView->enableAccuracyChange(false);
   }
 // 		TtipChart::defaultClef = m_level.clef; // TODO
   mW->updateSize(mW->centralWidget()->size());
@@ -1054,6 +1056,8 @@ void TexamExecutor::restoreAfterExam() {
   mW->guitar->acceptSettings();
   mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
   mW->sound->acceptSettings();
+  mW->pitchView->setIntonationAccuracy(gl->A->intonation);
+  mW->pitchView->enableAccuracyChange(true);
 
   mW->noteName->setNameDisabled(false);
   mW->guitar->setGuitarDisabled(false);
