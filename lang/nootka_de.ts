@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE" sourcelanguage="en">
+<TS version="2.0" language="de_DE" sourcelanguage="en">
 <context>
     <name>AnswerText</name>
     <message>
@@ -324,11 +324,11 @@
         <translation>keine Geräte gefunden</translation>
     </message>
     <message>
-        <source>Play input</source>
+        <source>forward input to output</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All audio input data will be forwarded directly to output device.</source>
+        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2557,7 +2557,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Switch on/off pitch detection</source>
-        <translation>Schalte Tonhöhenerkennung an/aus</translation>
+        <translation type="obsolete">Schalte Tonhöhenerkennung an/aus</translation>
     </message>
     <message>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
@@ -2570,6 +2570,14 @@ nicht öffnen</translation>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
         <translation>Ziehe den Regler um die Mindestaufnahmelautstärke einzustellen.</translation>
+    </message>
+    <message>
+        <source>Click note symbol to switch it on/off.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click note symbol to change it.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2836,10 +2844,6 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete all notes from the score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3373,6 +3377,10 @@ nicht öffnen</translation>
     <message>
         <source>Ok</source>
         <translation>Ok</translation>
+    </message>
+    <message>
+        <source>Updates</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

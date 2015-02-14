@@ -219,14 +219,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Play input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All audio input data will be forwarded directly to output device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>midi playback</source>
         <translation type="unfinished"></translation>
     </message>
@@ -284,6 +276,14 @@
     </message>
     <message>
         <source>no devices found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>forward input to output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2237,10 +2237,6 @@
 <context>
     <name>TpitchView</name>
     <message>
-        <source>Switch on/off pitch detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2250,6 +2246,14 @@
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click note symbol to switch it on/off.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click note symbol to change it.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2517,10 +2521,6 @@
     </message>
     <message>
         <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete all notes from the score</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3017,6 +3017,10 @@
     </message>
     <message>
         <source>Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updates</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
