@@ -42,14 +42,13 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   m_lay = new QBoxLayout(QBoxLayout::TopToBottom);
     
   m_intoView = new TintonationView(TintonationView::e_perfect, this);
-		m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
 		m_intoView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
   m_volumeView = new TvolumeView(this);
-		m_volumeView->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
-				tr("Drag a knob to adjust minimum input volume."));
 		m_volumeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_volumeView->setPauseActive(pauseActive);
+    m_volumeView->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + " " +
+        tr("Drag a knob to adjust minimum input volume.") + " " + tr("Click note symbol to switch it on/off."));
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
 	m_lay->addWidget(m_volumeView);
@@ -123,6 +122,7 @@ void TpitchView::setDisabled(bool isDisabled) {
   m_volumeView->setDisabled(isDisabled);
 	if (isDisabled) // it can be only disabled here, watchInput() enables it if it is possible
 		m_intoView->setDisabled(isDisabled);
+  enableAccuracyChange(m_intoView->accuracyChangeEnabled()); // refresh status tip state
 }
 
 
@@ -167,6 +167,9 @@ bool TpitchView::isAccuracyChangeEnabled() {
 
 void TpitchView::enableAccuracyChange(bool enAcc) {
   m_intoView->setAccuracyChangeEnabled(enAcc);
+  m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
+  if (enAcc && m_intoView->isEnabled())
+    m_intoView->setStatusTip(m_intoView->statusTip() + "<br>" + tr("Click note symbol to change it."));
 }
 
 
@@ -208,8 +211,8 @@ void TpitchView::pauseClicked() {
 		} else {
 			m_audioIN->setStoppedByUser(false);
 			m_audioIN->startListening();
-
 		}
+		enableAccuracyChange(m_intoView->accuracyChangeEnabled()); // refresh status tip state
 	}	
 }
 

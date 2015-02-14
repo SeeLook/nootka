@@ -607,7 +607,7 @@ void MainWindow::updateSize(QSize newS) {
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize * 0.95);
 	QFontMetrics fMetr(f);
-	qreal fact = (qreal)(m_statFontSize * 1.5) / (qreal)fMetr.boundingRect("A").height();
+	qreal fact = (qreal)(m_statFontSize * 1.4) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
 	int newGuitH = (newS.height() - bar->height()) * 0.25;

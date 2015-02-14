@@ -40,7 +40,6 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     QVBoxLayout *audioOutLay = new QVBoxLayout;
 
     m_audioRadioButt = new QRadioButton(tr("real audio playback"), this);
-//     m_audioRadioButt->setStatusTip(tr("Natural, high quality sound of classical guitar<br>but limited to scale <b>from C<sub>1</sub> to e<sup>3</sup></b>"));
     audioOutLay->addWidget(m_audioRadioButt);
     m_realAGr = new QGroupBox(this);
     m_realAGr->setStatusTip(m_audioRadioButt->statusTip());
@@ -62,9 +61,9 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 		m_audioInstrCombo = new QComboBox(this);
 		realLay->addWidget(m_audioInstrCombo);
     realLay->addStretch(1);
-		m_playInputChB = new QCheckBox(tr("Play input"), this);
+		m_playInputChB = new QCheckBox(tr("forward input to output"), this);
 			m_playInputChB->setChecked(m_params->forwardInput);
-			m_playInputChB->setStatusTip(tr("All audio input data will be forwarded directly to output device."));
+			m_playInputChB->setStatusTip(tr("All sounds captured by audio input will be forwarded directly to output device."));
 		realLay->addWidget(m_playInputChB, 0, Qt::AlignLeft);
     m_realAGr->setLayout(realLay);
     audioOutLay->addWidget(m_realAGr);

@@ -68,7 +68,6 @@ TscoreActions::TscoreActions(TmainScore* score) :
   m_menu->addSeparator();
 	
   m_clear = createAction(tr("Delete all notes"), SLOT(deleteNotes()), QKeySequence("Shift+DEL"), QIcon(Tpath::img("clear-score")));
-  m_clear->setStatusTip(tr("Delete all notes from the score"));
   
   m_button->setMenu(m_menu);
 }
