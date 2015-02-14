@@ -239,7 +239,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="219"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="220"/>
         <source>Detected pitch</source>
         <translation></translation>
     </message>
@@ -267,92 +267,92 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="48"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="47"/>
         <source>audio device for output</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="72"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="64"/>
+        <source>forward input to output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="66"/>
+        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="71"/>
         <source>midi playback</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="78"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="77"/>
         <source>midi port</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="155"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="154"/>
         <source>no midi ports</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="83"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="82"/>
         <source>instrument</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="65"/>
-        <source>Play input</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="67"/>
-        <source>All audio input data will be forwarded directly to output device.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="87"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="86"/>
         <source>Grand Piano</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="87"/>
         <source>Harpsichord</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="89"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
         <source>Classical Guitar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="90"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="89"/>
         <source>Acoustic Guitar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="91"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="90"/>
         <source>Electric Guitar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="92"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="91"/>
         <source>Electric Guitar (Overdriven)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="93"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="92"/>
         <source>Bass Guitar</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="94"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="93"/>
         <source>Violin</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="95"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="94"/>
         <source>Sax</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="96"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="95"/>
         <source>Flute</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="174"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="173"/>
         <source>no devices found</source>
         <translation></translation>
     </message>
@@ -1078,7 +1078,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1552"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1556"/>
         <source>stop the exam</source>
         <translation></translation>
     </message>
@@ -1094,67 +1094,67 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1202"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1206"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1248"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1252"/>
         <source>Such a pity.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1307"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1311"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1308"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1312"/>
         <source>Continue</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1309"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1313"/>
         <source>Terminate</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1330"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1334"/>
         <source>Save exam results as:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1335"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1487"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1491"/>
         <source>This note was not played!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1548"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1552"/>
         <source>Exercises with Nootka</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1549"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1553"/>
         <source>finish exercising</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1551"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1555"/>
         <source>EXAM!</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1336"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1340"/>
         <source>Save</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1337"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1341"/>
         <source>Discard</source>
         <translation></translation>
     </message>
@@ -1908,43 +1908,43 @@
 <context>
     <name>TintonationCombo</name>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="201"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="252"/>
         <source>intonation accuracy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="220"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="271"/>
         <source>do not check</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="221"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="272"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="222"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="273"/>
         <source>violinist beginner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="223"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="274"/>
         <source>old strings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="224"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="275"/>
         <source>well tuned instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="225"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="276"/>
         <source>perfect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.h" line="111"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.h" line="123"/>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
         <translation type="unfinished"></translation>
@@ -1953,42 +1953,42 @@
 <context>
     <name>TlaySettings</name>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="35"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="34"/>
         <source>Enable or disable main window elements to adjust it for yourself.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="37"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="36"/>
         <source>tool bar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="38"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="37"/>
         <source>auto hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="40"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="39"/>
         <source>text under icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="41"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="40"/>
         <source>icons only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="42"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="41"/>
         <source>text only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="52"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="51"/>
         <source>hints</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="60"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="59"/>
         <source>sound bar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2766,23 +2766,28 @@
 <context>
     <name>TpitchView</name>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="47"/>
-        <source>Switch on/off pitch detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="54"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="170"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonation - clarity of the sound. Is it in tune.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="58"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="50"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="59"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
         <source>Drag a knob to adjust minimum input volume.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
+        <source>Click note symbol to switch it on/off.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="172"/>
+        <source>Click note symbol to change it.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3105,11 +3110,6 @@
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="70"/>
         <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/score/tscoreactions.cpp" line="71"/>
-        <source>Delete all notes from the score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3460,37 +3460,37 @@
 <context>
     <name>TsuggestExam</name>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="105"/>
+        <location filename="../src/exam/texercises.cpp" line="106"/>
         <source>Start an exam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="107"/>
+        <location filename="../src/exam/texercises.cpp" line="108"/>
         <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="110"/>
+        <location filename="../src/exam/texercises.cpp" line="111"/>
         <source>Sure! Lets start an exam!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="111"/>
+        <location filename="../src/exam/texercises.cpp" line="112"/>
         <source>Not now, ask me for a moment.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="112"/>
+        <location filename="../src/exam/texercises.cpp" line="113"/>
         <source>Not in this exercise.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="113"/>
+        <location filename="../src/exam/texercises.cpp" line="114"/>
         <source>Never more suggest me to start an exam!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="122"/>
+        <location filename="../src/exam/texercises.cpp" line="123"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3678,32 +3678,32 @@
 <context>
     <name>TupdateRulesWdg</name>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="31"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="29"/>
         <source>check for Nootka updates</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="40"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="37"/>
         <source>daily</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="42"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="39"/>
         <source>weekly</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="44"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="41"/>
         <source>monthly</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="61"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="58"/>
         <source>all new versions</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="63"/>
+        <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="60"/>
         <source>stable versions only</source>
         <translation></translation>
     </message>
@@ -3711,27 +3711,32 @@
 <context>
     <name>TupdateSummary</name>
     <message>
-        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="37"/>
+        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="33"/>
+        <source>Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="40"/>
         <source>New Nootka %1 is available.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="38"/>
+        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="41"/>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="43"/>
+        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="46"/>
         <source>News:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="45"/>
+        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="48"/>
         <source>No changes found.&lt;br&gt;This version is up to date.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="52"/>
+        <location filename="../src/plugins/updater/tupdatesummary.cpp" line="55"/>
         <source>Ok</source>
         <translation></translation>
     </message>
