@@ -14,7 +14,7 @@
 ############################################################################################################
                 I...   Requirements:                         ###############################################
 ############################################################################################################
-- Qt libraries (at least version 5.2)
+- Qt libraries (at least version 5.3)
 	In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
   both ogg and vorbis. Dll libraries are on mentioned site in vorbis-tools archive

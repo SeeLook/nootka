@@ -48,6 +48,7 @@ void Texercises::setSuggestionEnabled(int qaPosibilities, bool melody) {
 			m_prevMistake = 0;
 	} else {
 			m_checkNow = false;
+      m_checkInFuture = false;
 	}
 }
 
