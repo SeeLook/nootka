@@ -21,7 +21,7 @@
 #include <exam/texam.h>
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
-#include <level//tlevelpreview.h>
+#include <level/tlevelpreview.h>
 #include <graphics/tnotepixmap.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
@@ -55,7 +55,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 											QColor(Tcore::gl()->EnotBadColor.name()), palette().shadow().color(), palette().base().color());
 #endif
     
-	setWindowIcon(QIcon(Tcore::gl()->path + "/picts/charts.png"));
+	setWindowIcon(QIcon(Tcore::gl()->path + "picts/charts.png"));
   setWindowTitle(tr("Analyze"));
 	if (parent)
 			setGeometry(parent->geometry());

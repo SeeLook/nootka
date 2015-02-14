@@ -122,11 +122,11 @@ QString Tcanvas::detectedText(const QString& txt) {
 
 
 void Tcanvas::detectedNoteTip(const Tnote& note) {
-	Tnote n = note;
-	if (n.isValid())
-		m_window->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " + 
-				wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + " " +
-			detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + "</td></tr></table>", 5000);
+  Tnote n = note;
+  if (n.isValid())
+    m_window->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " +
+        wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + " " +
+      detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + "</td></tr></table>", 5000);
 }
 
 
@@ -155,17 +155,17 @@ void Tcanvas::startTip() {
    m_scene->addItem(m_startTip);
    m_startTip->setScale(m_scale);
    m_startTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-   connect(m_startTip, &TgraphicsTextTip::linkActivated, this, &Tcanvas::linkActivatedSlot);
+   connect(m_startTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
    setStartTipPos();
 }
 
 
 void Tcanvas::certificateTip() {
-	delete m_questionTip;
-	if (!m_certifyTip) {
-			m_certifyTip = new TnootkaCertificate(m_view, m_exam);
-			connect(m_certifyTip, &TnootkaCertificate::userAction, this, &Tcanvas::linkActivatedSlot);
-	}
+  delete m_questionTip;
+  if (!m_certifyTip) {
+    m_certifyTip = new TnootkaCertificate(m_view, m_exam);
+    connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
+  }
 }
 
 
@@ -202,9 +202,9 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 // 			m_whatTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_whatTip);
   m_whatTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-	m_whatTip->setTipMovable(true);
-  connect(m_whatTip, &TgraphicsTextTip::linkActivated, this, &Tcanvas::linkActivatedSlot);
-	connect(m_whatTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
+  m_whatTip->setTipMovable(true);
+  connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+  connect(m_whatTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
   setWhatNextPos();
 }
 
@@ -216,21 +216,21 @@ void Tcanvas::confirmTip(int time) {
 
 void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
-	if (!m_confirmTip) {
-//     m_window->expertAnswChB->startAnimation(3); TODO exam run-time settings
-		m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(Tpath::img("check"), m_iconSize) + "</a>") +
-			"<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
-			tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" + 
-			pixToHtml(Tpath::img("help"), m_iconSize) + "</a>"), gl->EanswerColor);
-		m_confirmTip->setScale(m_scale * 1.2);
-		m_scene->addItem(m_confirmTip);
-		m_confirmTip->setTipMovable(true);
-		m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-		connect(m_confirmTip, &TgraphicsTextTip::linkActivated, this, &Tcanvas::linkActivatedSlot);
-		connect(m_confirmTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
-		setConfirmPos();
-	}
+  if (!m_confirmTip) {
+  //     m_window->expertAnswChB->startAnimation(3); TODO exam run-time settings
+    m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " +
+      TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(Tpath::img("check"), m_iconSize) + "</a>") +
+      "<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
+      tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" +
+      pixToHtml(Tpath::img("help"), m_iconSize) + "</a>"), gl->EanswerColor);
+    m_confirmTip->setScale(m_scale * 1.2);
+    m_scene->addItem(m_confirmTip);
+    m_confirmTip->setTipMovable(true);
+    m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+    connect(m_confirmTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
+    setConfirmPos();
+  }
 }
 
 
