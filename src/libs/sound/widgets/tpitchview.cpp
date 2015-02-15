@@ -47,8 +47,6 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   m_volumeView = new TvolumeView(this);
 		m_volumeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_volumeView->setPauseActive(pauseActive);
-    m_volumeView->setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + " " +
-        tr("Drag a knob to adjust minimum input volume.") + " " + tr("Click note symbol to switch it on/off."));
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
 	m_lay->addWidget(m_volumeView);

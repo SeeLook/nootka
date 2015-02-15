@@ -148,7 +148,7 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 	QString nSymbol = (isEnabled() && m_accuracy != e_noCheck) ? "n" : "o";
 	if (m_entered) {
 		QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
-		painter.setBrush(m_overNote ? palette().highlightedText().color() : palette().highlight().color());
+		painter.setBrush(m_overNote ? palette().highlightedText().color().darker(95) : palette().highlight().color());
 		painter.drawRoundedRect((width() - nRect.width() * 2) / 2, 0, nRect.width() * 2, height(), 50, 50, Qt::RelativeSize);
 	}
 	if (m_entered)
