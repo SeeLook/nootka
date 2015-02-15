@@ -136,6 +136,8 @@ protected slots:
 	void sizeChangedDelayed(const QRectF& newRect);
 	void sizeChanged();
 	void correctAnimFinished();
+  void tipMoved(); /** It is used as a slot to store position of a tip moved by user */
+  void tipStateChanged(); /** It is used as a slot to store minimization state of a tip. */
 	
 	
 private:
@@ -177,9 +179,6 @@ private:
 	void updateRelatedPoint();
 	void createQuestionTip(); /** Be sure that @p m_exam has already pointed current exam */
 	void fixWidthOverScore(TgraphicsTextTip* tip); /** Scales tip if its width is bigger than score widget */
-	
-	void tipMoved(); /** It is used as a slot to store position of a tip moved by user */
-	void tipStateChanged(); /** It is used as a slot to store minimization state of a tip. */
  
 };
 

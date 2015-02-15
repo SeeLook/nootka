@@ -131,6 +131,11 @@ void TpitchView::setIntonationAccuracy(int accuracy) {
 }
 
 
+quint8 TpitchView::intonationAccuracy() {
+  return (int)m_intoView->accuracy();
+}
+
+
 void TpitchView::markAnswer(const QColor& col) {
   if (col == Qt::transparent)
     setBgColor(col);

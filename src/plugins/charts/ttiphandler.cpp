@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QTimer>
-#include <QDebug>
+// #include <QDebug>
 
 
 /*static*/
@@ -89,8 +89,8 @@ void TtipHandler::handleTip(QPointF scenePos) {
     tip->setPos(scenePos);
     tip->setZValue(70);
     update();
-    connect(tip, &TgraphicsTextTip::entered, this, &TtipHandler::tipEnteredSlot);
-    connect(tip, &TgraphicsTextTip::leaved, this, &TtipHandler::tipLeavedSlot);
+    connect(tip, SIGNAL(entered()), this, SLOT(tipEnteredSlot()));
+    connect(tip, SIGNAL(leaved()), this, SLOT(tipLeavedSlot()));
   }
 }
 
@@ -98,14 +98,12 @@ void TtipHandler::handleTip(QPointF scenePos) {
 void TtipHandler::tipEnteredSlot() {
   m_mouseOverTip = true;
   m_hideTimer->stop();
-//   qDebug() << "Mouse over" << sender();
 }
 
 
 void TtipHandler::tipLeavedSlot() {
   m_mouseOverTip = false;
   m_hideTimer->start(350);
-//   qDebug() << "Mouse leaved" << sender();
 }
 
 

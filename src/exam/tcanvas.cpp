@@ -204,7 +204,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   m_whatTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
   m_whatTip->setTipMovable(true);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-  connect(m_whatTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
+  connect(m_whatTip, SIGNAL(moved()), this, SLOT(tipMoved()));
   setWhatNextPos();
 }
 
@@ -228,7 +228,7 @@ void Tcanvas::showConfirmTip() {
     m_confirmTip->setTipMovable(true);
     m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
     connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-    connect(m_confirmTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
+    connect(m_confirmTip, SIGNAL(moved()), this, SLOT(tipMoved()));
     setConfirmPos();
   }
 }
@@ -606,8 +606,8 @@ void Tcanvas::createQuestionTip() {
   m_questionTip = new TquestionTip(m_exam, m_scale * 1.2);
 	m_questionTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_questionTip);
-	connect(m_questionTip, &TquestionTip::moved, this, &Tcanvas::tipMoved);
-	connect(m_questionTip, &TquestionTip::minimizeChanged, this, &Tcanvas::tipStateChanged);
+  connect(m_questionTip, SIGNAL(moved()), this, SLOT(tipMoved()));
+  connect(m_questionTip, SIGNAL(minimizeChanged()), this, SLOT(tipStateChanged()));
 }
 
 
