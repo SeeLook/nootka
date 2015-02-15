@@ -113,6 +113,8 @@ public:
   void setStoppedByUser(bool userStop) { m_stoppedByUser = userStop; }
   bool stoppedByUser() { return m_stoppedByUser; }
 
+  quint8 intonationAccuracy(); /** Returns intonation accuracy sets in global audio settings. */
+  void setIntonationAccuracy(qint8 intAcc); /** Sets global value of intonation accuracy. It doesn't refresh intonation view. */
 	
 signals:	
 	void noteStarted(const TnoteStruct&); /** Emitted when note was played and its duration is longer than minimal duration */

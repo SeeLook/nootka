@@ -60,6 +60,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   if (pauseActive)
     connect(m_volumeView, SIGNAL(paused()), this, SLOT(pauseClicked()));
   connect(m_volumeView, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
+  connect(m_intoView, SIGNAL(accuracyChanged()), this, SLOT(accuracyChangedSlot()));
 }
 
 //#################################################################################################
@@ -128,11 +129,6 @@ void TpitchView::setDisabled(bool isDisabled) {
 
 void TpitchView::setIntonationAccuracy(int accuracy) {
 	m_intoView->setAccuracy(accuracy);
-}
-
-
-quint8 TpitchView::intonationAccuracy() {
-  return (int)m_intoView->accuracy();
 }
 
 
@@ -247,6 +243,11 @@ void TpitchView::inputDeviceDeleted() {
   setDisabled(true);
 }
 
+
+void TpitchView::accuracyChangedSlot() {
+  if (m_audioIN)
+    m_audioIN->setIntonationAccuracy((quint8)m_intoView->accuracy());
+}
 
 
 //#################################################################################################
