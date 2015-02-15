@@ -20,7 +20,8 @@
 #include "tvolumeview.h"
 #include <QPainter>
 #include <QMouseEvent>
-#include <qtooltip.h>
+#include <QToolTip>
+#include <QApplication>
 #include <QDebug>
 
 #define TICK_WIDTH (2)
@@ -42,6 +43,8 @@ TvolumeView::TvolumeView(QWidget* parent) :
   m_overNote(false), m_drawPaused(false)
 {
 	setMouseTracking(true);
+  setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
+        tr("Drag a knob to adjust minimum input volume."));
   setMinimumSize(200, 17);
   resizeEvent(0);
 }
@@ -93,7 +96,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   QString nSymbol = (m_activePause && m_paused) ? "o" : "n";
 	QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
 	if (m_drawPaused) { // Stop/start highlight
-		painter.setBrush(m_overNote ? palette().highlightedText().color() : palette().highlight().color());
+		painter.setBrush(m_overNote ? palette().highlightedText().color().darker(95) : palette().highlight().color());
 		painter.drawRoundedRect(width() - nRect.width() * 1.8, 0, nRect.width() * 1.8, height(), 50, 50, Qt::RelativeSize);
   }
 	if (m_drawPaused) // and note symbol
@@ -171,8 +174,20 @@ void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
   if (isPauseActive())
       m_drawPaused = true;
   if (event->x() >= width() - m_noteWidth * 1.5) {
+    if (!m_overNote) {
+      if (parentWidget()) {
+        QStatusTipEvent sEv(tr("Switch on/off pitch detection"));
+        qApp->sendEvent(parentWidget(), &sEv);
+      }
+    }
     m_overNote = true;
   } else {
+    if (m_overNote) {
+      if (parentWidget()) {
+        QStatusTipEvent sEv(statusTip());
+        qApp->sendEvent(parentWidget(), &sEv);
+      }
+    }
     m_overNote = false;
     if (!isPaused())
       m_drawKnob = true;
