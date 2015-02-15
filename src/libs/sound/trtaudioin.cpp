@@ -161,6 +161,16 @@ void TaudioIN::setDetectionMethod(int method) {
 }
 
 
+quint8 TaudioIN::intonationAccuracy() {
+  return audioParams()->intonation;
+}
+
+
+void TaudioIN::setIntonationAccuracy(qint8 intAcc) {
+  audioParams()->intonation = qBound<quint8>(0, intAcc, 5);
+}
+
+
 //#################################################################################################
 //###################         PUBLIC SLOTS             ############################################
 //#################################################################################################

@@ -63,7 +63,7 @@ TcornerProxy::TcornerProxy(TscoreScene* scene, QWidget* widget, Qt::Corner corne
 	m_side = qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 8.0;
 	m_spot = scene->addEllipse(0.0, 0.0, side() * 1.5, side() * 1.5, Qt::NoPen, Qt::NoBrush);
 #else
-	m_side = qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 15.0;
+	m_side = qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 20.0;
 	m_spot = scene->addEllipse(0.0, 0.0, side() * 0.75, side() * 0.75, Qt::NoPen, Qt::NoBrush);
 #endif
 	m_spot->setParentItem(this);
