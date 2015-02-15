@@ -62,6 +62,7 @@ public:
       /** Sets an accuracy of intonation.
         * When 0 - 'do not check' m_intoView becomes disabled. */
   void setIntonationAccuracy(int accuracy);
+  quint8 intonationAccuracy(); /** Returns current intonation accuracy cast to int type. */
   void enableAccuracyChange(bool enAcc); /** Redirects suitable method from @class TintonationView */
   bool isAccuracyChangeEnabled(); /** Redirects suitable method from @class TintonationView */
 

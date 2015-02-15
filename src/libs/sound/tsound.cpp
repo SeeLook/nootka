@@ -50,6 +50,7 @@ Tsound::Tsound(QObject* parent) :
 
 Tsound::~Tsound()
 { //They have not a parent
+  Tcore::gl()->A->intonation = m_pitchView->intonationAccuracy();
   deleteSniffer();
   deletePlayer();
 }

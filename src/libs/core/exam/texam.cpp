@@ -225,7 +225,7 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
 		
 		bool isExamFileOk = true;
 		if (examVersionNr(ev) == 4) {
-			in.setVersion(QDataStream::Qt_5_3);
+			in.setVersion(QDataStream::Qt_5_2);
 			QByteArray arrayXML = file.readAll();
 			arrayXML.remove(0, 4);
 			QByteArray unZipXml = qUncompress(arrayXML);
@@ -405,7 +405,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 	QFile file(m_fileName);
 	if (file.open(QIODevice::WriteOnly)) {
 		QDataStream out(&file);
-		out.setVersion(QDataStream::Qt_5_3);
+		out.setVersion(QDataStream::Qt_5_2);
 		out << currentVersion;
 		QByteArray arrayXML;
 		QXmlStreamWriter xml(&arrayXML);
