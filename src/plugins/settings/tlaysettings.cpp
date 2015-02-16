@@ -31,7 +31,7 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	QWidget(parent),
 	m_layParams(layParams)
 {
-	setStatusTip(tr("Enable or disable main window elements to adjust it for yourself."));
+	setStatusTip(tr("Show or hide main window elements."));
 // tool bar
 	m_toolBox = new QGroupBox(tr("tool bar"), this);
 	m_barAutoHideChB = new QCheckBox(tr("auto hide"), this);

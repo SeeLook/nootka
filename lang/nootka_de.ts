@@ -1881,10 +1881,6 @@
 <context>
     <name>TlaySettings</name>
     <message>
-        <source>Enable or disable main window elements to adjust it for yourself.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>tool bar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1922,6 +1918,10 @@
     </message>
     <message>
         <source>guitar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show or hide main window elements.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2496,15 +2496,15 @@ nicht öffnen</translation>
         <translation>Zeigt formatierten Notenname. Für kleine Oktave ist der Buchstabe klein,&lt;br&gt;für die große Oktave Großbuchstaben,&lt;br&gt;für Eingestrichene wird eine Stelle &lt;sup&gt;1&lt;/sup&gt; hinzugefügt, und so weiter.</translation>
     </message>
     <message>
-        <source>note name in the score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows names of all notes on the score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>names highlight color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>note name on the staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2565,15 +2565,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation>Zeigt die Lautstärke des Aufnahmetons und wann er von der Tonhöhenerkennung erfasst wird.</translation>
+        <translation type="obsolete">Zeigt die Lautstärke des Aufnahmetons und wann er von der Tonhöhenerkennung erfasst wird.</translation>
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation>Ziehe den Regler um die Mindestaufnahmelautstärke einzustellen.</translation>
-    </message>
-    <message>
-        <source>Click note symbol to switch it on/off.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Ziehe den Regler um die Mindestaufnahmelautstärke einzustellen.</translation>
     </message>
     <message>
         <source>Click note symbol to change it.</source>
@@ -2803,10 +2799,6 @@ nicht öffnen</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shows names of all notes on the score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Zoom score out</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2848,6 +2840,10 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3384,6 +3380,21 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
+    <name>TvolumeView</name>
+    <message>
+        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
+        <translation>Zeigt die Lautstärke des Aufnahmetons und wann er von der Tonhöhenerkennung erfasst wird.</translation>
+    </message>
+    <message>
+        <source>Drag a knob to adjust minimum input volume.</source>
+        <translation>Ziehe den Regler um die Mindestaufnahmelautstärke einzustellen.</translation>
+    </message>
+    <message>
+        <source>Switch on/off pitch detection</source>
+        <translation>Schalte Tonhöhenerkennung an/aus</translation>
+    </message>
+</context>
+<context>
     <name>Windows installer entries</name>
     <message>
         <source>Do you really want to remove Nootka and all its components?</source>
@@ -3597,10 +3608,6 @@ nicht öffnen</translation>
         <translation type="obsolete">Nur Töne von der aktuellen Tonart werden verwendet.&lt;br&gt;Wenn die Tonart deaktiviert ist verden die Vorzeichen nicht genutzt.</translation>
     </message>
     <message>
-        <source>Maximum number of notes in a melody. Length is randomized and can be less but at least 70% of it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Melody length</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3618,6 +3625,10 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>melodies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

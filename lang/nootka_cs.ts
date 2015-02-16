@@ -2256,7 +2256,7 @@ není platným souborem zkoušky!</translation>
     <name>TlaySettings</name>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="34"/>
-        <source>Enable or disable main window elements to adjust it for yourself.</source>
+        <source>Show or hide main window elements.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2472,27 +2472,27 @@ ale nebyla uložena!</translation>
         <translation>Opravit nástroj</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="117"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="119"/>
         <source>key signature:</source>
         <translation>Předznamenání:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="126"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="128"/>
         <source>accidentals:</source>
         <translation>Posuvky:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="128"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="130"/>
         <source>none</source>
         <translation>Žádné</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="171"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="173"/>
         <source>proper octave is required</source>
         <translation>Je požadována správná oktáva</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="173"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="175"/>
         <source>octave does no matter</source>
         <translation>Na oktávě nezáleží</translation>
     </message>
@@ -3005,12 +3005,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <name>TnoteNameSettings</name>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="53"/>
-        <source>note name in the score</source>
+        <source>note name on the staff</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="54"/>
-        <source>Shows names of all notes on the score</source>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3088,27 +3088,20 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation type="obsolete">Zapnout/Vypnout zjištění zvuku</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="170"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="169"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonace - jasnost zvuku. Zda je to čistý tón.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="50"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation>Ukáže úroveň hlasitosti vstupního zvuku a naznačí, když je zjištěna nota.</translation>
+        <translation type="obsolete">Ukáže úroveň hlasitosti vstupního zvuku a naznačí, když je zjištěna nota.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation>Táhněte otočným knoflíkem pro upravení nejmenší vstupní hlasitosti zvuku.</translation>
+        <translation type="obsolete">Táhněte otočným knoflíkem pro upravení nejmenší vstupní hlasitosti zvuku.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
-        <source>Click note symbol to switch it on/off.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="172"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="171"/>
         <source>Click note symbol to change it.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3395,7 +3388,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="46"/>
-        <source>Shows names of all notes on the score</source>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4100,6 +4093,24 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
+    <name>TvolumeView</name>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="46"/>
+        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
+        <translation>Ukáže úroveň hlasitosti vstupního zvuku a naznačí, když je zjištěna nota.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="47"/>
+        <source>Drag a knob to adjust minimum input volume.</source>
+        <translation>Táhněte otočným knoflíkem pro upravení nejmenší vstupní hlasitosti zvuku.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="179"/>
+        <source>Switch on/off pitch detection</source>
+        <translation>Zapnout/Vypnout zjištění zvuku</translation>
+    </message>
+</context>
+<context>
     <name>Windows installer entries</name>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="12"/>
@@ -4320,7 +4331,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
-        <source>Maximum number of notes in a melody. Length is randomized and can be less but at least 70% of it.</source>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

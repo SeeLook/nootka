@@ -50,8 +50,8 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
   mainLay->addLayout(seventhLay);
   mainLay->addWidget(m_nameStyleGr);
 
-  m_nameInScoreChB = new QCheckBox(tr("note name in the score"), this);
-    m_nameInScoreChB->setStatusTip(tr("Shows names of all notes on the score"));
+  m_nameInScoreChB = new QCheckBox(tr("note name on the staff"), this);
+    m_nameInScoreChB->setStatusTip(tr("Shows names of all notes on the staff."));
     m_nameInScoreChB->setChecked(Tcore::gl()->S->namesOnScore);
   QLabel *nameColorLab = new QLabel(tr("names highlight color"), this);
   m_nameColorButt = new TcolorButton(Tcore::gl()->S->nameColor, this);

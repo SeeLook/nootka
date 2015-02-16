@@ -119,7 +119,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 // 		m_melodyLengthSpin->setValue(5);
 		m_melodyLengthSpin->setMinimum(1);
 		m_melodyLengthSpin->setMaximum(50);
-		m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody. Length is randomized and can be less but at least 70% of it."));
+		m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number."));
 	QLabel *lenghtLab = new QLabel(tr("Melody length"), this);
 		lenghtLab->setStatusTip(m_melodyLengthSpin->statusTip());
 		

@@ -2257,7 +2257,7 @@
     <name>TlaySettings</name>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="34"/>
-        <source>Enable or disable main window elements to adjust it for yourself.</source>
+        <source>Show or hide main window elements.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2474,27 +2474,27 @@
         <translation>ajuster un instrument</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="117"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="119"/>
         <source>key signature:</source>
         <translation>Armature:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="126"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="128"/>
         <source>accidentals:</source>
         <translation>Altérations:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="128"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="130"/>
         <source>none</source>
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="171"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="173"/>
         <source>proper octave is required</source>
         <translation>Une octave appropriée est requise</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="173"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="175"/>
         <source>octave does no matter</source>
         <translation>L&apos;octave n&apos;a pas d&apos;importance</translation>
     </message>
@@ -3013,12 +3013,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <name>TnoteNameSettings</name>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="53"/>
-        <source>note name in the score</source>
+        <source>note name on the staff</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="54"/>
-        <source>Shows names of all notes on the score</source>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3096,27 +3096,20 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <translation type="obsolete">Activer / désactiver la détection des notes</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="170"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="169"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonation - clarté du son. Est-il juste?</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="50"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation>Montre le volume de l&apos;entrée audio et indique lorsqu&apos;une note a été détectée.</translation>
+        <translation type="obsolete">Montre le volume de l&apos;entrée audio et indique lorsqu&apos;une note a été détectée.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation>Déplacer le curseur pour ajuster le volume d&apos;entrée minimum.</translation>
+        <translation type="obsolete">Déplacer le curseur pour ajuster le volume d&apos;entrée minimum.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
-        <source>Click note symbol to switch it on/off.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="172"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="171"/>
         <source>Click note symbol to change it.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3404,7 +3397,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="46"/>
-        <source>Shows names of all notes on the score</source>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4109,6 +4102,24 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
 </context>
 <context>
+    <name>TvolumeView</name>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="46"/>
+        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
+        <translation>Montre le volume de l&apos;entrée audio et indique lorsqu&apos;une note a été détectée.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="47"/>
+        <source>Drag a knob to adjust minimum input volume.</source>
+        <translation>Déplacer le curseur pour ajuster le volume d&apos;entrée minimum.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="179"/>
+        <source>Switch on/off pitch detection</source>
+        <translation>Activer / désactiver la détection des notes</translation>
+    </message>
+</context>
+<context>
     <name>Windows installer entries</name>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="12"/>
@@ -4329,7 +4340,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
-        <source>Maximum number of notes in a melody. Length is randomized and can be less but at least 70% of it.</source>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

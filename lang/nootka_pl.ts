@@ -1898,7 +1898,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="34"/>
         <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiedy zostanie zagrana ostatnia nuta pytania będącego melodią - rozpocznie się sprawdzanie.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="37"/>
@@ -2257,54 +2257,58 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>TlaySettings</name>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="34"/>
         <source>Enable or disable main window elements to adjust it for yourself.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Pokaż lub ukryj elementy głównego okna.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="34"/>
+        <source>Show or hide main window elements.</source>
+        <translation>Pokaż lub ukryj elementy głównego okna.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="36"/>
         <source>tool bar</source>
-        <translation type="unfinished"></translation>
+        <translation>pasek narzędzi</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="37"/>
         <source>auto hide</source>
-        <translation type="unfinished"></translation>
+        <translation>ukryj automatycznie</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="39"/>
         <source>text under icons</source>
-        <translation type="unfinished"></translation>
+        <translation>tekst pod ikonami</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="40"/>
         <source>icons only</source>
-        <translation type="unfinished"></translation>
+        <translation>tylko ikony</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="41"/>
         <source>text only</source>
-        <translation type="unfinished"></translation>
+        <translation>tylko tekst</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="51"/>
         <source>hints</source>
-        <translation type="unfinished"></translation>
+        <translation>podpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="59"/>
         <source>sound bar</source>
-        <translation type="unfinished"></translation>
+        <translation>pasek dźwięku</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="82"/>
         <source>There is no Nootka without a score!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie ma Nootki bez zapisu nutowego!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="83"/>
         <source>But you can hide even all the rest of widgets to see a score only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ale możesz ukryć nawet wszystkie pozostałe elementy żeby widzieć tylko nuty.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="87"/>
@@ -2424,7 +2428,7 @@ ale nie zapisany!</translation>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Możliwy brak tonicznego dźwięku dla niektórych tonacji z wybranego zakresu.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
@@ -2478,27 +2482,27 @@ ale nie zapisany!</translation>
         <translation>napraw typ instrumentu</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="117"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="119"/>
         <source>key signature:</source>
         <translation>tonacja:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="126"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="128"/>
         <source>accidentals:</source>
         <translation>znaki:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="128"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="130"/>
         <source>none</source>
         <translation>brak</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="171"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="173"/>
         <source>proper octave is required</source>
         <translation>wymagana właściwa oktawa</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="173"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="175"/>
         <source>octave does no matter</source>
         <translation>oktawa nieistotna</translation>
     </message>
@@ -2697,12 +2701,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="35"/>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapis</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="37"/>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiedy zapis jest włączony, nie tylko grane nuty są zapisywane jedna za drugą, ale także wybranie progu lub nazwy dźwięku automatycznie dodaje nową nutę.</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="38"/>
@@ -2722,23 +2726,23 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="54"/>
         <source>Open, save, generate and play a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz, zapisz, generuj i odtwarzaj melodie.</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="121"/>
         <source>Open melody file</source>
-        <translation type="unfinished"></translation>
+        <translation>Otwórz plik melodii</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="122"/>
         <location filename="../src/gui/tmelman.cpp" line="136"/>
         <source>MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>plik MusicXML</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="135"/>
         <source>Save melody as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisz melodię jako:</translation>
     </message>
 </context>
 <context>
@@ -2870,7 +2874,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="332"/>
         <source>Click to add a new note</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij żeby dodać nową nutę</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="342"/>
@@ -2895,12 +2899,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="350"/>
         <source>Click %1 to remove a note</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij %1 żeby usunąć nutę</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="353"/>
         <source>Click %1 to edit note name</source>
-        <translation type="unfinished"></translation>
+        <translation>Kliknij %1 żeby edytować nazwę nuty</translation>
     </message>
 </context>
 <context>
@@ -3011,18 +3015,18 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <name>TnoteNameSettings</name>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="53"/>
-        <source>note name in the score</source>
-        <translation type="unfinished"></translation>
+        <source>note name on the staff</source>
+        <translation>nazwy nut na pięciolinii</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="54"/>
-        <source>Shows names of all notes on the score</source>
-        <translation type="unfinished"></translation>
+        <source>Shows names of all notes on the staff.</source>
+        <translation>Pokazuje nazwy wszystkich nut na pięciolinii.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="56"/>
         <source>names highlight color</source>
-        <translation type="unfinished"></translation>
+        <translation>kolor podświetlenia nazw</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="67"/>
@@ -3094,27 +3098,24 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Włącz/wyłącz rozpoznawanie dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="170"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="169"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonacja - czystość dźwięku. Czy stroi.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="50"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation>Pokazuje gośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana.</translation>
+        <translation type="obsolete">Pokazuje gośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation>Przesuń gałkę żeby dostroić minimalną głośność.</translation>
+        <translation type="obsolete">Przesuń gałkę żeby dostroić minimalną głośność.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="51"/>
         <source>Click note symbol to switch it on/off.</source>
-        <translation>Kliknij symbol nuty żeby włączyć/wyłączyć.</translation>
+        <translation type="obsolete">Kliknij symbol nuty żeby włączyć/wyłączyć.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="172"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="171"/>
         <source>Click note symbol to change it.</source>
         <translation>Kliknij symbol nuty żeby zmienić.</translation>
     </message>
@@ -3382,7 +3383,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="35"/>
         <source>Manage and navigate the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zarządzaj i nawiguj zapisem nutowym.</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="42"/>
@@ -3392,27 +3393,27 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="43"/>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż znaki z tonacji także przy nucie. &lt;b&gt;UWAGA! Nigdy nie zapisuje się ich w prawdziwych nutach - wykorzystwać tylko w celach teoretycznych.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="45"/>
         <source>Show note names</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaż nazwy nut</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="46"/>
-        <source>Shows names of all notes on the score</source>
-        <translation type="unfinished"></translation>
+        <source>Shows names of all notes on the staff.</source>
+        <translation>Pokazuje nazwy wszystkich nut na pięciolinii.</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="50"/>
         <source>Zoom score out</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomniejsz zapis nutowy</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="51"/>
         <source>Zoom score in</source>
-        <translation type="unfinished"></translation>
+        <translation>Powiększ zapis nutowy</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="54"/>
@@ -3422,22 +3423,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="56"/>
         <source>First note</source>
-        <translation type="unfinished"></translation>
+        <translation>Pierwsza nuta</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="58"/>
         <source>Staff above</source>
-        <translation type="unfinished"></translation>
+        <translation>Pięciolina powyżej</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="60"/>
         <source>Staff below</source>
-        <translation type="unfinished"></translation>
+        <translation>Pięciolinia poniżej</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="62"/>
         <source>Last note</source>
-        <translation type="unfinished"></translation>
+        <translation>Ostatnia nuta</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="64"/>
@@ -3661,12 +3662,12 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="54"/>
         <source>Simple exam settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Uproszczone ustawienia egzaminu</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="56"/>
         <source>Simple exercise settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Uproszczone ustawienia ćwiczeń</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="68"/>
@@ -3958,7 +3959,7 @@ nutowy</translation>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="157"/>
         <source>Exercise or exam preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencje ćwiczeń lub egzaminu</translation>
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="160"/>
@@ -4035,7 +4036,7 @@ nutowy</translation>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="213"/>
         <source>Try this melody once again. (backspace)</source>
-        <translation type="unfinished"></translation>
+        <translation>Spróbuj tą melodię jeszcze raz. (backspace)</translation>
     </message>
 </context>
 <context>
@@ -4084,7 +4085,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="33"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizacje</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="40"/>
@@ -4110,6 +4111,24 @@ nutowy</translation>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="55"/>
         <source>Ok</source>
         <translation>Ok</translation>
+    </message>
+</context>
+<context>
+    <name>TvolumeView</name>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="46"/>
+        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
+        <translation>Pokazuje gośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="47"/>
+        <source>Drag a knob to adjust minimum input volume.</source>
+        <translation>Przesuń gałkę żeby dostroić minimalną głośność.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="179"/>
+        <source>Switch on/off pitch detection</source>
+        <translation>Włącz/wyłącz rozpoznawanie dźwięku</translation>
     </message>
 </context>
 <context>
@@ -4332,34 +4351,38 @@ nutowy</translation>
         <translation type="obsolete">Gdy zaznaczone, odpowiedź będzie wymagała podania nuty&lt;br&gt;z góry określonym znakiem.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
         <source>Maximum number of notes in a melody. Length is randomized and can be less but at least 70% of it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Maksymalna liczba dźwięków w melodii. Długość melodii jest losową wartością między 70% a 100% tej liczby.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
+        <translation>Maksymalna liczba dźwięków w melodii. Długość melodii jest losową wartością między 70% a 100% tej liczby.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="123"/>
         <source>Melody length</source>
-        <translation type="unfinished"></translation>
+        <translation>Długość melodii</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="126"/>
         <source>Melody ends on tonic note</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakończ na dźwięku tonicznym</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="127"/>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Określa ostatni dźwięk melodii.&lt;br&gt;Kiedy włączone, melodia będzie się kończyć dźwiękiem tonicznym aktualnej tonacji.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="130"/>
         <source>single note</source>
-        <translation type="unfinished"></translation>
+        <translation>pojedyncza nuta</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="147"/>
         <source>melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>melodie</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="166"/>
