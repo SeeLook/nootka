@@ -238,6 +238,10 @@ QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize) 
 }
 
 
+QPixmap glyphToPixmap(const QString gl, int height) {
+  return QPixmap();
+}
+
 
 
 
