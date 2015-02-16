@@ -43,7 +43,7 @@ TscoreActions::TscoreActions(TmainScore* score) :
   m_accidsAct->setStatusTip(tr("Shows accidentals from the key signature also next to a note. <b>WARRING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
   m_accidsAct->setCheckable(true);
   m_namesAct = createAction(tr("Show note names"), SLOT(showNamesSlot()));
-  m_namesAct->setStatusTip(tr("Shows names of all notes on the score"));
+  m_namesAct->setStatusTip(tr("Shows names of all notes on the staff."));
   m_namesAct->setCheckable(true);
   m_menu->addSeparator();
   

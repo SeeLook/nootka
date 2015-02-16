@@ -1578,10 +1578,6 @@
 <context>
     <name>TlaySettings</name>
     <message>
-        <source>Enable or disable main window elements to adjust it for yourself.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>tool bar</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1619,6 +1615,10 @@
     </message>
     <message>
         <source>guitar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show or hide main window elements.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2178,14 +2178,6 @@
 <context>
     <name>TnoteNameSettings</name>
     <message>
-        <source>note name in the score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows names of all notes on the score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>names highlight color</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2195,6 +2187,14 @@
     </message>
     <message>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>note name on the staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2238,18 +2238,6 @@
     <name>TpitchView</name>
     <message>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click note symbol to switch it on/off.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2480,10 +2468,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shows names of all notes on the score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Zoom score out</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2521,6 +2505,10 @@
     </message>
     <message>
         <source>Delete all notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3025,6 +3013,21 @@
     </message>
 </context>
 <context>
+    <name>TvolumeView</name>
+    <message>
+        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Drag a knob to adjust minimum input volume.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch on/off pitch detection</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Windows installer entries</name>
     <message>
         <source>Do you really want to remove Nootka and all its components?</source>
@@ -3190,10 +3193,6 @@
 <context>
     <name>questionsSettings</name>
     <message>
-        <source>Maximum number of notes in a melody. Length is randomized and can be less but at least 70% of it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Melody length</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3243,6 +3242,10 @@
     </message>
     <message>
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -15,9 +15,15 @@ if(UNIX AND NOT APPLE)
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
 # rpath rules
+  option(OBS_SUSE_QUIRKS "Must be ON for Suse machines in Open Build Services" OFF)
 	set(NOOTKA_LIB_PATH "${CMAKE_INSTALL_PREFIX}/lib/nootka")
 	set(CMAKE_SKIP_BUILD_RPATH  FALSE) # use, i.e. don't skip the full RPATH for the build tree
-	set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # when building, don't use the install RPATH already (but later on when installing)
+	if(OBS_SUSE_QUIRKS)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    message("Build for Suse OBS")
+  else(OBS_SUSE_QUIRKS)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # when building, don't use the install RPATH already (but later on when installing)
+  endif(OBS_SUSE_QUIRKS)
 	set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
 	# add the automatically determined parts of the RPATH
 	# which point to directories outside the build tree to the install RPATH
