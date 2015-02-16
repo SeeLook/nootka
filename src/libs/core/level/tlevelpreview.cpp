@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -102,10 +102,12 @@ void TlevelPreview::setLevel(Tlevel& tl) {
     S = "<center><b>" + tl.name + "</b>";
     S += "<table border=\"1\" cellpadding=\"3\">";
 		S += "<tr><td colspan=\"2\" align=\"center\">" + instrName + "</td>";
-    S += "<td rowspan=\"_ROW_SPAN_\"><br>&nbsp;&nbsp;" + tr("Clef") + QString(":&nbsp;&nbsp;<br><br>%1</td></tr>").
-        arg(wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), 
-																		 TkeySignature(0), (tl.clef.type() == Tclef::e_pianoStaff) ? 3.0 : 5.0)).
-				replace("<img", "<img width=\"70px\"");
+    QString clefString = tr("Clef") + ":&nbsp;&nbsp;";
+    if (tl.loNote.isValid() && tl.hiNote.isValid())
+      clefString += QString("<br><br>%1</td></tr>").
+        arg(wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), TkeySignature(0), (tl.clef.type() == Tclef::e_pianoStaff) ? 3.0 : 5.0)).
+                          replace("<img", "<img width=\"70px\"");
+    S += "<td rowspan=\"_ROW_SPAN_\"><br>&nbsp;&nbsp;" + clefString;
     S += "<tr><td>" + notesRangeTxt() + " </td>";
 		if (tl.loNote.note && tl.hiNote.note)
 			S += tdAlign() + tl.loNote.toRichText() + " - " + tl.hiNote.toRichText() + "</td></tr>";
