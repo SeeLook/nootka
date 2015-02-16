@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -68,7 +68,8 @@ NOOTKACORE_EXPORT QString pixToHtml(const QString& imageFile, int width = 0);
 		* If @p fontSize remains default - default @p fontSize is taken. */
 NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize = -1);
 
-
+    /** Converts given text of Nootka font to image. @p height is desired size of image. */
+NOOTKACORE_EXPORT QPixmap glyphToPixmap(const QString gl, int height);
 
 
 #endif // TNOTEPIXMAP_H
