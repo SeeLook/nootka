@@ -1393,8 +1393,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="59"/>
         <source>Exercises</source>
-        <translatorcomment>Ćwiczenia</translatorcomment>
-        <translation></translation>
+        <translation>Ćwiczenia</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="61"/>
