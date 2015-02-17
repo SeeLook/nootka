@@ -210,7 +210,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		pitchView->setFixedHeight(fontMetrics().boundingRect("A").height() * 5);
 		pitchView->setPitchColor(Qt::darkGreen);
 		pitchView->setMinimalVolume(m_glParams->minimalVol);
-    pitchView->enableAccuracyChange(false);
+//     pitchView->enableAccuracyChange(false);
 	
 	QFont labFont = font();
 	labFont.setPixelSize(fontMetrics().boundingRect("A").height() * 2);

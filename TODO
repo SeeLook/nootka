@@ -11,13 +11,8 @@
 ================              TODO LIST               ======================
 ============================================================================
 
-Translations:
-clumsy:
-
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- check is suggestion working for melodies (after 5 correct answers) - fix its storing
-
 
 MINOR:
 - replace all font-size: 20px with <big>
