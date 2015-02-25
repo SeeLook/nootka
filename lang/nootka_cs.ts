@@ -29,12 +29,12 @@
         <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="213"/>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
-        <translation type="unfinished"></translation>
+        <translation>Málo správných not</translation>
     </message>
     <message>
         <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="218"/>
         <source>poor effectiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>Chabá účinnost</translation>
     </message>
     <message>
         <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="221"/>
@@ -319,12 +319,12 @@
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="64"/>
         <source>forward input to output</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslat vstup do výstupu</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="66"/>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Veškeré zvuky zachycené na vstupu zvuku budou přeposlány přímo do výstupního zařízení.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="71"/>
@@ -561,12 +561,12 @@
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="159"/>
         <source>Melody on trebles</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie na sopránu</translation>
     </message>
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="160"/>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahrát krátkou melodii na sopránových strunách s notami jen na prvních třech pražcích. Pouze předznamenání s křížky.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="196"/>
@@ -929,7 +929,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="76"/>
         <source>Y value:</source>
-        <translation type="unfinished"></translation>
+        <translation>Hodnota Y:</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
@@ -981,17 +981,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="62"/>
         <source>Attempts number</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet pokusů</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="63"/>
         <source>Preparation time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas na přípravu </translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="64"/>
         <source>Played number</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet přehrání</translation>
     </message>
 </context>
 <context>
@@ -1015,7 +1015,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="182"/>
         <source>To try this melody again</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro opětovný pokus o tuto melodii</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="190"/>
@@ -1025,7 +1025,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="192"/>
         <source>To see some hints</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro zobrazení nějakých rad</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="221"/>
@@ -1040,7 +1040,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="238"/>
         <source>Select any note to play it again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte nějakou notu pro její opětovné přehrání.</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="274"/>
@@ -1055,7 +1055,8 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="295"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte na nesprávné noty, abyste&lt;br&gt;
+je viděli a poslechli si správně.</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="355"/>
@@ -1142,37 +1143,37 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="75"/>
         <source>play melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrát melodii</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="77"/>
         <source>write melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapsat melodii</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="79"/>
         <source>attempt</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokus</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/libs/core/exam/textrans.h" line="82"/>
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n pokus</numerusform>
+            <numerusform>%n pokusy</numerusform>
+            <numerusform>%n pokusů</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="86"/>
         <source>Play a melody written in a score</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrát melodii zapsanou v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="90"/>
         <source>Listen to a melody and write it on a score</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslechněte si melodii  zapište ji do notového zápisu</translation>
     </message>
 </context>
 <context>
@@ -1308,7 +1309,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1491"/>
         <source>This note was not played!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tato nota nebla přehrána!</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1552"/>
@@ -1431,7 +1432,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="75"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jednoduše klepněte na tlačítko pro toto nastavení a upravte cvičení nebo zkoušku podle svých současných potřeb.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
@@ -1850,7 +1851,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/exam/texamview.cpp" line="157"/>
         <source>Effectiveness of whole exam (and effectiveness of current question).</source>
-        <translation type="unfinished"></translation>
+        <translation>Účinnost v celé zkoušce (a účinnost v nynější otázce).</translation>
     </message>
 </context>
 <context>
@@ -1901,7 +1902,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="34"/>
         <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když byla zahrána poslední nota otázky, která je melodií - začíná ověřování.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="37"/>
@@ -2134,7 +2135,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="75"/>
         <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
-        <translation>Zrušte zaškrtnutí, pokud jste levoruký(á),&lt;br&gt;a vaše kytara má změněné pořadí strun.</translation>
+        <translation>Zrušte zaškrtnutí, pokud jste levoruký(á),&lt;br&gt;a vaše kytara má změněné pořadí strun (změněno pořadí strun).</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="105"/>
@@ -2144,7 +2145,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="106"/>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation>Vyberte, které posuvky budou ukazovány v notovém zápisu.</translation>
+        <translation>Vyberte, které posuvky budou ukazovány v notové osnově.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="107"/>
@@ -2159,13 +2160,13 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="124"/>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložte čísla pražců označených tečkou. Čísla oddělujte čárkou. Přidejte ! (znak pro vykřičník) za číslo, aby byla tečka vykreslena dvakrát.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="125"/>
         <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
-        <translation type="unfinished"></translation>
+        <translation>označené pražce</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="134"/>
@@ -2257,52 +2258,52 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="34"/>
         <source>Show or hide main window elements.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat nebo skrýt prvky hlavního okna.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="36"/>
         <source>tool bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Nástrojový pruh</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="37"/>
         <source>auto hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrýt automaticky</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="39"/>
         <source>text under icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Text pod ikonami</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="40"/>
         <source>icons only</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze ikony</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="41"/>
         <source>text only</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze text</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="51"/>
         <source>hints</source>
-        <translation type="unfinished"></translation>
+        <translation>Rady</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="59"/>
         <source>sound bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvukový pruh</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="82"/>
         <source>There is no Nootka without a score!</source>
-        <translation type="unfinished"></translation>
+        <translation>Není žádná Nootka bez notového zápisu!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="83"/>
         <source>But you can hide even all the rest of widgets to see a score only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ale můžete skrýt všechny prvky rozhraní a vidět jen notový zápis.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="87"/>
@@ -2418,7 +2419,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Ve vybraném notovém rozsahu možná chybí nota tóniky (první stupeň tóniny) pro některá předznamenání.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
@@ -2691,48 +2692,48 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/gui/tmelman.cpp" line="35"/>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrávat</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="37"/>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když je nastaveno nahrávání, jsou zapisovány nejen přehrávané noty, jak jdou za sebou, ale buď vybrání pražce nebo názvu noty přidá novou notu automaticky.</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="38"/>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="39"/>
         <source>Generate a melody with random notes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vytvořit melodii z náhodných not.</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="53"/>
         <source>Melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="54"/>
         <source>Open, save, generate and play a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít, uložit, vytvořit a přehrát melodii.</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="121"/>
         <source>Open melody file</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít soubor s melodií</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="122"/>
         <location filename="../src/gui/tmelman.cpp" line="136"/>
         <source>MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>Soubor MusicXML</translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="135"/>
         <source>Save melody as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit melodii jako:</translation>
     </message>
 </context>
 <context>
@@ -2864,7 +2865,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="332"/>
         <source>Click to add a new note</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte pro přidání nové noty</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="342"/>
@@ -2889,12 +2890,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="350"/>
         <source>Click %1 to remove a note</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte na %1 pro odstranění noty</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="353"/>
         <source>Click %1 to edit note name</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte na %1 pro upravení názvu noty</translation>
     </message>
 </context>
 <context>
@@ -2982,18 +2983,18 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/notename/tnotename.cpp" line="65"/>
         <source>Next note</source>
-        <translation type="unfinished"></translation>
+        <translation>Další nota</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="69"/>
         <source>Previous note</source>
-        <translation type="unfinished"></translation>
+        <translation>Předchozí nota</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="116"/>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte, abyste viděli, co se o &lt;i&gt;oktávách&lt;/i&gt; píše na &quot;http://cs.wikipedia.org/wiki/oktáva</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="119"/>
@@ -3006,17 +3007,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="53"/>
         <source>note name on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Název noty v notové osnově</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="54"/>
         <source>Shows names of all notes on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukáže názvy všech not v notové osnově.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="56"/>
         <source>names highlight color</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva zvýraznění názvů</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="67"/>
@@ -3103,7 +3104,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="171"/>
         <source>Click note symbol to change it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte na symbol noty pro jeho změnu.</translation>
     </message>
 </context>
 <context>
@@ -3213,12 +3214,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="134"/>
         <source>Change enharmonically and show on the staff</source>
-        <translation>Změnit enharmonicky a ukázat v notovém zápisu</translation>
+        <translation>Změnit enharmonicky a ukázat v notové osnově</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="136"/>
         <source>Given note show on the staff</source>
-        <translation>Ukázání dané noty v notovém zápisu</translation>
+        <translation>Ukázání dané noty v notové osnově</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="138"/>
@@ -3263,7 +3264,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="230"/>
         <source>Guess a key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Hádat předznamenání</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="232"/>
@@ -3278,7 +3279,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="148"/>
         <source>Play or sing a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrát nebo zazpívat melodii.</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="204"/>
@@ -3369,77 +3370,77 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="35"/>
         <source>Manage and navigate the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spravovat a pohybovat se v notovém zápisu.</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="42"/>
         <source>Additional accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodatečné posuvky</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="43"/>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukáže posuvky z předznamenání i vedle noty. &lt;b&gt;VAROVÁNÍ! Nikdy se neukáží ve skutečných notových zápisech - Používejte je pouze pro teoretické účely.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="45"/>
         <source>Show note names</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat názvy not</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="46"/>
         <source>Shows names of all notes on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukáže názvy všech not v notové osnově.</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="50"/>
         <source>Zoom score out</source>
-        <translation type="unfinished"></translation>
+        <translation>Oddálit notový zápis</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="51"/>
         <source>Zoom score in</source>
-        <translation type="unfinished"></translation>
+        <translation>Přiblížit notový zápis</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="54"/>
         <source>Previous note</source>
-        <translation type="unfinished"></translation>
+        <translation>Předchozí nota</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="56"/>
         <source>First note</source>
-        <translation type="unfinished"></translation>
+        <translation>První nota</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="58"/>
         <source>Staff above</source>
-        <translation type="unfinished"></translation>
+        <translation>Osnova nad</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="60"/>
         <source>Staff below</source>
-        <translation type="unfinished"></translation>
+        <translation>Osnova pod</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="62"/>
         <source>Last note</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslední nota</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="64"/>
         <source>Next note</source>
-        <translation type="unfinished"></translation>
+        <translation>Další nota</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="66"/>
         <source>Delete note</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat notu</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="70"/>
         <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat všechny noty</translation>
     </message>
 </context>
 <context>
@@ -3486,12 +3487,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klepněte pro zadání noty. Použijte vodorovný posuvník pro změnu posuvek.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscorenote.cpp" line="100"/>
         <source>Right mouse button just selects a note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pravé tlačítko myši pouze vybere notu.</translation>
     </message>
 </context>
 <context>
@@ -3524,12 +3525,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="44"/>
         <source>use single note only</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít pouze jednu notu</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="45"/>
         <source>When enabled, a score displays only a single note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když je povoleno, v notovém zápisu je zobrazena jen jedna nota.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="48"/>
@@ -3559,7 +3560,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="56"/>
         <source>tempo of played notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo přehrávaných not</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="155"/>
@@ -3569,7 +3570,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="163"/>
         <source>Score settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení notového zápisu</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="164"/>
@@ -3579,12 +3580,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="165"/>
         <source>Clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíče</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="166"/>
         <source>Notes naming</source>
-        <translation type="unfinished"></translation>
+        <translation>Pojmenování not</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="151"/>
@@ -3642,12 +3643,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="54"/>
         <source>Simple exam settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení jednoduché zkoušky</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="56"/>
         <source>Simple exercise settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení jednoduchého cvičení</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="68"/>
@@ -3662,7 +3663,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="80"/>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzhled</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="86"/>
@@ -3848,13 +3849,13 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="58"/>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>z</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="61"/>
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt;krát</numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -3863,12 +3864,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="105"/>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Hráno</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="106"/>
         <source>time</source>
-        <translation>čas</translation>
+        <translation>krát</translation>
     </message>
 </context>
 <context>
@@ -3939,7 +3940,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="157"/>
         <source>Exercise or exam preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavení cvičení nebo zkoušky</translation>
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="160"/>
@@ -4005,17 +4006,18 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/gui/ttoolbar.cpp" line="203"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrát &lt;i&gt;jednočárkované A&lt;/i&gt; (A1) jako ladička.
+(Stiskněte &apos;a&apos;)</translation>
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="212"/>
         <source>Try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkusit znovu</translation>
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="213"/>
         <source>Try this melody once again. (backspace)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zkuste tuto melodii ještě jednou. (Backspace)</translation>
     </message>
 </context>
 <context>
@@ -4064,7 +4066,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="33"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualizace</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="40"/>
@@ -4172,7 +4174,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="63"/>
         <source>single key</source>
-        <translation>Jednoduchá tónina</translation>
+        <translation>Jedna tónina</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="64"/>
@@ -4332,32 +4334,32 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nejvyšší počet not v melodii. Délka melodie je náhodná hodnota mezi 70 % and 100 % toho čísla.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="123"/>
         <source>Melody length</source>
-        <translation type="unfinished"></translation>
+        <translation>Délka melodie</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="126"/>
         <source>Melody ends on tonic note</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie končí na notě tóniky</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="127"/>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Určuje poslední notu melodie.&lt;br&gt;Je-li nastaveno, melodie bude končit na notě tóniky (první stupeň tóniny) současného předznamenání.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="130"/>
         <source>single note</source>
-        <translation type="unfinished"></translation>
+        <translation>Jedna nota</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="147"/>
         <source>melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="166"/>
