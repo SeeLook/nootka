@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ">
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>AnswerText</name>
     <message>
@@ -121,10 +121,6 @@
         <translation>Režim zjištění výšky tónu</translation>
     </message>
     <message>
-        <source>for playing</source>
-        <translation type="obsolete">Pro hraní</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="53"/>
         <source>1. Input device and pitch detection</source>
         <translation>1. vstupní zařízení a zjištění zvuku</translation>
@@ -133,18 +129,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="57"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Ujistěte se, že vaše vstupní zařízení (mikrofon, kamera počítače, k počítači připojený nástroj) je nastaveno správně a pracuje.</translation>
-    </message>
-    <message>
-        <source>for singing</source>
-        <translation type="obsolete">Pro zpívání</translation>
-    </message>
-    <message>
-        <source>This mode is more accurate but slower. It is recommended for singing and for instruments with &quot;wobbly&quot; intonation.</source>
-        <translation type="obsolete">Tento režim je přesnější ale pomalejší. Doporučuje se pro zpěv a pro nástroje s nejistou (roztřesenou) intonací.</translation>
-    </message>
-    <message>
-        <source>This mode is faster and good enough for guitars and other instruments.</source>
-        <translation type="obsolete">Tento režim je rychlejší a dostatečně dobrý pro kytary a jiné nástroje.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="80"/>
@@ -170,18 +154,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="127"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Nejmenší hlasitost zvuku zjišťovaného podle výšky tónu</translation>
-    </message>
-    <message>
-        <source>low</source>
-        <translation type="obsolete">Nízká</translation>
-    </message>
-    <message>
-        <source>Notes above &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Suitable for guitar, cello, human voice, etc.</source>
-        <translation type="obsolete">Noty nad &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Vhodné pro kytaru, violoncello, lidský hlas atd.</translation>
-    </message>
-    <message>
-        <source>Notes above &lt;b&gt;small g&lt;/b&gt;.&lt;br&gt;Suitable for high pitched instruments such as flute, piccolo, etc.</source>
-        <translation type="obsolete">Noty nad &lt;b&gt;malé g&lt;/b&gt;.&lt;br&gt;Vhodné pro vysoko položené nástroje jako flétna, pikola atd.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="143"/>
@@ -218,14 +190,6 @@
         </translation>
     </message>
     <message>
-        <source>Range of note pitches:</source>
-        <translation type="obsolete">Rozsah výšek tónů:</translation>
-    </message>
-    <message>
-        <source>The lowest notes.&lt;br&gt;Suitable for bass guitar, double bass, etc.</source>
-        <translation type="obsolete">Nejnižší noty.&lt;br&gt;Vhodné pro basovou kytaru, kontrabas atd.</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="155"/>
         <source>interval:</source>
         <translation>Interval:</translation>
@@ -239,14 +203,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="158"/>
         <source>none</source>
         <translation>Žádný</translation>
-    </message>
-    <message>
-        <source>middle</source>
-        <translation type="obsolete">Střední</translation>
-    </message>
-    <message>
-        <source>high</source>
-        <translation type="obsolete">Vysoký</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="149"/>
@@ -452,58 +408,6 @@
         <location filename="../src/libs/misc/translationHeader.h" line="10"/>
         <source>Nootka exam file</source>
         <translation>Zkušební soubor programu Nootka</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>Application preferences</source>
-        <translation type="obsolete">Nastavení programu</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Nastavení</translation>
-    </message>
-    <message>
-        <source>show correct answer for every mistake</source>
-        <translation type="obsolete">Ukázat správnou odpověď u každého omylu</translation>
-    </message>
-    <message>
-        <source>Problems with sound output</source>
-        <translation type="obsolete">Potíže se zvukovým výstupem</translation>
-    </message>
-    <message>
-        <source>Analyze</source>
-        <comment>could be Chart as well</comment>
-        <translation type="obsolete">Rozbor</translation>
-    </message>
-    <message>
-        <source>Analysis of exam results</source>
-        <translation type="obsolete">Rozbor výsledků zkoušky</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="obsolete">O programu</translation>
-    </message>
-    <message>
-        <source>About Nootka</source>
-        <translation type="obsolete">O programu Nootka</translation>
-    </message>
-    <message>
-        <source>Level</source>
-        <translation type="obsolete">Úroveň</translation>
-    </message>
-    <message>
-        <source>Start!</source>
-        <translation type="obsolete">Spustit!</translation>
-    </message>
-    <message>
-        <source>Start exercises or an exam</source>
-        <translation type="obsolete">Začít cvičení nebo zkoušku</translation>
-    </message>
-    <message>
-        <source>main toolbar</source>
-        <translation type="obsolete">Hlavní nástrojový pruh</translation>
     </message>
 </context>
 <context>
@@ -808,11 +712,6 @@
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="85"/>
         <source>level:</source>
         <translation>Úroveň:</translation>
-    </message>
-    <message>
-        <source>question number</source>
-        <comment>see coment in &apos;ordered by:&apos; entry</comment>
-        <translation type="obsolete">Otázka číslo</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="89"/>
@@ -1184,22 +1083,6 @@ je viděli a poslechli si správně.</translation>
         <translation>&lt;b&gt;Zdá se, že soubor se zkouškou je poškozený.&lt;/b&gt;&lt;br&gt;Lepší bude začít novou zkoušku na stejné úrovni</translation>
     </message>
     <message>
-        <source>next question
-(space %1)</source>
-        <translation type="obsolete">Další otázku
-(mezerník %1)</translation>
-    </message>
-    <message>
-        <source>check answer
-(enter %1)</source>
-        <translation type="obsolete">Ověřit odpověď
-(klávesa Enter %1)</translation>
-    </message>
-    <message>
-        <source>play sound again</source>
-        <translation type="obsolete">Přehrát zvuk znovu</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1340"/>
         <source>Save</source>
         <translation>Uložit</translation>
@@ -1210,18 +1093,6 @@ je viděli a poslechli si správně.</translation>
         <translation>Odmítnout</translation>
     </message>
     <message>
-        <source>repeat previous question (backspace)</source>
-        <translation type="obsolete">Opakovat předchozí otázku (klávesa Backspace)</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Nápověda</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="obsolete">Zastavit</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="140"/>
         <source>File: %1 
  is not valid exam file!</source>
@@ -1229,47 +1100,9 @@ je viděli a poslechli si správně.</translation>
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <source>Exercise or exam require sound but&lt;br&gt;sound output is not available!</source>
-        <translation type="obsolete">Cvičení nebo zkouška vyžaduje zvuk,&lt;br&gt;ale zvukový výstup není dostupný!</translation>
-    </message>
-    <message>
-        <source>An exercises or exam require sound input but&lt;br&gt;it is not available!</source>
-        <translation type="obsolete">Cvičení nebo zkouška vyžaduje zvukový vstup,&lt;br&gt;ale ten není dostupný!</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="167"/>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <comment>like a next question</comment>
-        <translation type="obsolete">Další</translation>
-    </message>
-    <message>
-        <source>Repeat</source>
-        <comment>like a repeat question</comment>
-        <translation type="obsolete">Opakovat</translation>
-    </message>
-    <message>
-        <source>Check</source>
-        <comment>like a check answer</comment>
-        <translation type="obsolete">Ověřit</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="obsolete">Přehrát</translation>
-    </message>
-    <message>
-        <source>Correct</source>
-        <comment>like a correct answer with mistake</comment>
-        <translation type="obsolete">Správně</translation>
-    </message>
-    <message>
-        <source>correct answer
-(enter)</source>
-        <translation type="obsolete">Správná odpověď
-(zadejte)</translation>
     </message>
     <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1206"/>
@@ -1327,14 +1160,6 @@ není platným souborem zkoušky!</translation>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <source>You are exercising on level</source>
-        <translation type="obsolete">Cvičíte na úrovni</translation>
-    </message>
-    <message>
-        <source>Exam started on level</source>
-        <translation type="obsolete">Zkouška začala na úrovni</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamexecutor.cpp" line="1556"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
@@ -1378,10 +1203,6 @@ není platným souborem zkoušky!</translation>
         <translation> Stručně: Nootka vám dá otázku a vy odpovíte...</translation>
     </message>
     <message>
-        <source>Select 2nd check box to get the question automatically.</source>
-        <translation type="obsolete">Vyberte druhé zaškrtávací okénko, abyste otázku dostali automaticky.</translation>
-    </message>
-    <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="51"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Otázky jsou označeny touto barvou a znakem &quot;?&quot;.</translation>
@@ -1392,10 +1213,6 @@ není platným souborem zkoušky!</translation>
         <translation>Pro podání odpovědi ji vyberte na &lt;span style=&quot;%1&quot;&gt;prvku Nootky zdůrazněném touto barvou.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <source>By selecting the 3rd check box, answers will be checked immediately without confirmation required.</source>
-        <translation type="obsolete">Vybráním třetího zaškrtávacího okénka se budou odpovědi ověřovat okamžitě bez potvrzení.</translation>
-    </message>
-    <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="59"/>
         <source>Exercises</source>
         <translation>Cvičení</translation>
@@ -1404,10 +1221,6 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="61"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
         <translation>Pokud jste během cvičení udělal chybu, Nootka vám může ukázat správnou odpověď. Abyste ji uviděl:</translation>
-    </message>
-    <message>
-        <source>Select 1st check box to see corrected answer for every mistake.</source>
-        <translation type="obsolete">Vyberte první zaškrtávací okénko, abyste viděli opravenou odpověď při každé chybě.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="63"/>
@@ -1438,10 +1251,6 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
         <source>GOOD LUCK!</source>
         <translation>Hodně štěstí!</translation>
-    </message>
-    <message>
-        <source>Experts corner</source>
-        <translation type="obsolete">Odborníkův koutek</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="55"/>
@@ -1661,18 +1470,6 @@ není platným souborem zkoušky!</translation>
         <source>exams</source>
         <translation>Zkoušky</translation>
     </message>
-    <message>
-        <source>ask next question automatically</source>
-        <translation type="obsolete">Položit další otázku automaticky</translation>
-    </message>
-    <message>
-        <source>check answers without requiring confirmation</source>
-        <translation type="obsolete">Ověřit odpovědi bez potvrzení</translation>
-    </message>
-    <message>
-        <source>correct mistakes (exercises only)</source>
-        <translation type="obsolete">Opravit chyby (jen u cvičení)</translation>
-    </message>
 </context>
 <context>
     <name>TexamSummary</name>
@@ -1700,10 +1497,6 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/exam/texamsummary.cpp" line="82"/>
         <source>Time taken to answer</source>
         <translation>Čas odpovědi</translation>
-    </message>
-    <message>
-        <source>Analyse</source>
-        <translation type="obsolete">Rozebrat</translation>
     </message>
     <message>
         <location filename="../src/exam/texamsummary.cpp" line="99"/>
@@ -1945,99 +1738,9 @@ není platným souborem zkoušky!</translation>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1&quot; &quot;%2&lt;br&gt;&lt;b&gt;&lt;big&gt;Oba dva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/p&gt;</translation>
     </message>
-    <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="obsolete">Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1&quot; &quot;%2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Oba dva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>next</source>
-        <translation type="obsolete">Další</translation>
-    </message>
-</context>
-<context>
-    <name>TfirstRunWizzard</name>
-    <message>
-        <source>First run wizard</source>
-        <translation type="obsolete">Průvodce prvním spuštěním</translation>
-    </message>
-    <message>
-        <source>skip wizard</source>
-        <translation type="obsolete">Přeskočit průvodce</translation>
-    </message>
-    <message>
-        <source>previous</source>
-        <translation type="obsolete">Předchozí</translation>
-    </message>
-    <message>
-        <source>What instrument do you play?</source>
-        <translation type="obsolete">Na jaký nástroj hrajete?</translation>
-    </message>
-    <message>
-        <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="obsolete">Pro psaní not pro basovou kytaru se používá &lt;b&gt;basový klíč&lt;/b&gt;, ale zahrané noty zní o oktávu níže. Správným klíčem je &lt;b&gt;basový snížený klíč&lt;/b&gt; (s číslicí &quot;osm&quot; dole), kde znějí noty přesně tak, jak jsou zapsány, a tento klíč se v Nootce používá pro basovou kytaru.</translation>
-    </message>
-    <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="obsolete">Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1&quot; &quot;%2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Oba dva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Finish</source>
-        <translation type="obsolete">Dokončit</translation>
-    </message>
-    <message>
-        <source>next</source>
-        <translation type="obsolete">Další</translation>
-    </message>
-</context>
-<context>
-    <name>TfixLevelDialog</name>
-    <message>
-        <source>fix an instrument</source>
-        <translation type="obsolete">Opravit nástroj</translation>
-    </message>
-    <message>
-        <source>Due to bug in &lt;b&gt;Nootka version 0.8.95&lt;/b&gt; instrument type can be incorrect.&lt;br&gt;Please, select a correct instrument for the level %1</source>
-        <translation type="obsolete">Kvůli chybě v &lt;b&gt;Nootce verze 0.8.95&lt;/b&gt; typ nástroje může být nesprávný.&lt;br&gt;Vyberte, prosím, správný nástroj pro úroveň %1</translation>
-    </message>
-    <message>
-        <source>fix levels automatically</source>
-        <translation type="obsolete">Opravit úrovně automaticky</translation>
-    </message>
-    <message>
-        <source>When you are sure that &lt;b&gt;all your Nootka files&lt;/b&gt; were created exactly for selected instrument&lt;br&gt;you can check this box and&lt;br&gt;&lt;b&gt;all incorrect files will be fixing automatically.&lt;/b&gt;</source>
-        <translation type="obsolete">Když jste si jistý, že &lt;b&gt;všechny vaše soubory Nootka&lt;/b&gt; byly vytvořeny přesně pro vybraný nástroj&lt;br&gt;, můžete zaškrtnout toto okénko a&lt;br&gt;&lt;b&gt;všechny nesprávné soubory budou opraveny automaticky.&lt;/b&gt;</translation>
-    </message>
 </context>
 <context>
     <name>TglobalSettings</name>
-    <message>
-        <source>show enharmonic variants of notes</source>
-        <translation type="obsolete">Ukázat další enharmonické varianty noty</translation>
-    </message>
-    <message>
-        <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation type="obsolete">Ukázat enharmonické varianty noty.&lt;br&gt;Např.: Nota E je také Fb (F s béčkem) a Dx (D s dvojitým křížkem).</translation>
-    </message>
-    <message>
-        <source>color of enharmonic notes</source>
-        <translation type="obsolete">Barva enharmonických not</translation>
-    </message>
-    <message>
-        <source>use double accidentals</source>
-        <translation type="obsolete">Použít dvojité posuvky</translation>
-    </message>
-    <message>
-        <source>If checked, you can use double sharps and double flats.</source>
-        <translation type="obsolete">Je-li zaškrtnuto, můžete používat dvojité křížky a dvojitá béčka.</translation>
-    </message>
-    <message>
-        <source>show hints</source>
-        <translation type="obsolete">Ukázat rady</translation>
-    </message>
-    <message>
-        <source>Show description of Nootka&apos;s elements.</source>
-        <translation type="obsolete">Ukázat popisy prvků rozhraní.</translation>
-    </message>
     <message>
         <location filename="../src/plugins/settings/tglobalsettings.cpp" line="36"/>
         <source>Application language</source>
@@ -2249,7 +1952,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/sound/widgets/tintonationview.h" line="123"/>
         <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
         <translation>centů</translation>
     </message>
 </context>
@@ -3072,34 +2775,13 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>letters</translation>
     </message>
-    <message>
-        <source>letters</source>
-        <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation type="obsolete">letters</translation>
-    </message>
 </context>
 <context>
     <name>TpitchView</name>
     <message>
-        <source>Toggles between pitch detection for singing and for playing</source>
-        <translation type="obsolete">Přepne mezi zjištěním zvuku pro zpívání a pro hraní</translation>
-    </message>
-    <message>
-        <source>Switch on/off pitch detection</source>
-        <translation type="obsolete">Zapnout/Vypnout zjištění zvuku</translation>
-    </message>
-    <message>
         <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="169"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonace - jasnost zvuku. Zda je to čistý tón.</translation>
-    </message>
-    <message>
-        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation type="obsolete">Ukáže úroveň hlasitosti vstupního zvuku a naznačí, když je zjištěna nota.</translation>
-    </message>
-    <message>
-        <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="obsolete">Táhněte otočným knoflíkem pro upravení nejmenší vstupní hlasitosti zvuku.</translation>
     </message>
     <message>
         <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="171"/>
@@ -3336,10 +3018,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
         <translation>Někdy se nazývá klíčem pro violu a většinou se pro ni používá.</translation>
     </message>
-    <message>
-        <source>Sometimes is called clef for viola and mostly used for it.</source>
-        <translation type="obsolete">Někdy se nazývá klíčem pro violu a většinou se pro ni používá.</translation>
-    </message>
 </context>
 <context>
     <name>TremoveLevel</name>
@@ -3362,83 +3040,83 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TscoreActions</name>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="34"/>
+        <location filename="../src/score/tscoreactions.cpp" line="35"/>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
         <translation>Noty</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="35"/>
+        <location filename="../src/score/tscoreactions.cpp" line="36"/>
         <source>Manage and navigate the score.</source>
         <translation>Spravovat a pohybovat se v notovém zápisu.</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="42"/>
+        <location filename="../src/score/tscoreactions.cpp" line="43"/>
         <source>Additional accidentals</source>
         <translation>Dodatečné posuvky</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="43"/>
+        <location filename="../src/score/tscoreactions.cpp" line="44"/>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation>Ukáže posuvky z předznamenání i vedle noty. &lt;b&gt;VAROVÁNÍ! Nikdy se neukáží ve skutečných notových zápisech - Používejte je pouze pro teoretické účely.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="45"/>
+        <location filename="../src/score/tscoreactions.cpp" line="46"/>
         <source>Show note names</source>
         <translation>Ukázat názvy not</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="46"/>
+        <location filename="../src/score/tscoreactions.cpp" line="47"/>
         <source>Shows names of all notes on the staff.</source>
         <translation>Ukáže názvy všech not v notové osnově.</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="50"/>
+        <location filename="../src/score/tscoreactions.cpp" line="51"/>
         <source>Zoom score out</source>
         <translation>Oddálit notový zápis</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="51"/>
+        <location filename="../src/score/tscoreactions.cpp" line="52"/>
         <source>Zoom score in</source>
         <translation>Přiblížit notový zápis</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="54"/>
+        <location filename="../src/score/tscoreactions.cpp" line="55"/>
         <source>Previous note</source>
         <translation>Předchozí nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="56"/>
+        <location filename="../src/score/tscoreactions.cpp" line="57"/>
         <source>First note</source>
         <translation>První nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="58"/>
+        <location filename="../src/score/tscoreactions.cpp" line="59"/>
         <source>Staff above</source>
         <translation>Osnova nad</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="60"/>
+        <location filename="../src/score/tscoreactions.cpp" line="61"/>
         <source>Staff below</source>
         <translation>Osnova pod</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="62"/>
+        <location filename="../src/score/tscoreactions.cpp" line="63"/>
         <source>Last note</source>
         <translation>Poslední nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="64"/>
+        <location filename="../src/score/tscoreactions.cpp" line="65"/>
         <source>Next note</source>
         <translation>Další nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="66"/>
+        <location filename="../src/score/tscoreactions.cpp" line="68"/>
         <source>Delete note</source>
         <translation>Smazat notu</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="70"/>
+        <location filename="../src/score/tscoreactions.cpp" line="72"/>
         <source>Delete all notes</source>
         <translation>Smazat všechny noty</translation>
     </message>
@@ -3452,25 +3130,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TscoreControl</name>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="obsolete">&lt;b&gt;dvojitý křížek&lt;/b&gt; - zvýší notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce nahoru.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="obsolete">&lt;b&gt;křížek&lt;/b&gt; - zvýší notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec nahoru.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="obsolete">&lt;b&gt;béčko&lt;/b&gt; - sníží notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec dolů.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="obsolete">&lt;b&gt;dvojité béčko&lt;/b&gt; - sníží notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce dolů.</translation>
-    </message>
-</context>
-<context>
     <name>TscoreKeySignature</name>
     <message>
         <location filename="../src/libs/core/score/tscorekeysignature.cpp" line="88"/>
@@ -3480,10 +3139,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 </context>
 <context>
     <name>TscoreNote</name>
-    <message>
-        <source>Click to select a note, use mouse wheel to change accidentals.</source>
-        <translation type="obsolete">Klepněte pro výběr noty. Použijte koločko myši pro změnu posuvek.</translation>
-    </message>
     <message>
         <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
@@ -3624,11 +3279,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="65"/>
         <source>Score</source>
         <translation>Noty</translation>
-    </message>
-    <message>
-        <source>Names</source>
-        <comment>name-calling</comment>
-        <translation type="obsolete">Názvy</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="74"/>
@@ -4324,14 +3974,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Je-li zaškrtnuto, je požadován výběr platné oktávy</translation>
     </message>
     <message>
-        <source>force using appropriate accidental</source>
-        <translation type="obsolete">Vynutit používání náležitých posuvek</translation>
-    </message>
-    <message>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="obsolete">Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation>Nejvyšší počet not v melodii. Délka melodie je náhodná hodnota mezi 70 % and 100 % toho čísla.</translation>
@@ -4390,14 +4032,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/level/questionssettings.cpp" line="175"/>
         <source>notes in the lowest position only</source>
         <translation>Pouze noty v nejnižší poloze</translation>
-    </message>
-    <message>
-        <source>notes in current key signature only</source>
-        <translation type="obsolete">Pouze noty z nynější tóniny</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="obsolete">Používají se pouze noty z nynější tóniny.&lt;br&gt;Pokud je předznamenání zakázáno, posuvky se nepoužívají.</translation>
     </message>
 </context>
 <context>
