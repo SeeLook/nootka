@@ -34,7 +34,7 @@ Tchart::Tchart(QWidget* parent) :
 {
 	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setDragMode(ScrollHandDrag);
-	scene = new QGraphicsScene(this);
+	scene = new TscoreScene(this);
 	setScene(scene);
 	
     

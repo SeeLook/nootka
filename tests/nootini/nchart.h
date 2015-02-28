@@ -21,6 +21,7 @@
 
 #include <tchart.h>
 
+class TscoreStaff;
 class NoteData;
 class AnalysisData;
 class TpitchFinder;
@@ -37,12 +38,15 @@ public:
   void setPitchFinder(TpitchFinder* pf); /** Pitch finder processing audio data */
   void setXnumber(int xN); /** Number of X values on the chart */
 
+  void allDataLoaded(); /** May be called when all data was sent to the chart to adjust its size */
+
 protected:
   void chunkSlot(AnalysisData* ad, NoteData* nd);
 
 private:
   TpitchFinder                *m_pitchF;
   int                          m_chunkNr;
+  TscoreStaff                 *m_staff;
 };
 
 #endif // NCHART_H
