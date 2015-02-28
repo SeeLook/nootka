@@ -71,9 +71,10 @@ Tglobals::Tglobals(bool fromTemp) :
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
 	qRegisterMetaType<Tnote>("Tnote");
 
-	QCoreApplication::setOrganizationName("Nootka");
-	QCoreApplication::setOrganizationDomain("nootka.sf.net");
-	QCoreApplication::setApplicationName("Nootka");
+  QCoreApplication::setOrganizationName("Nootka");
+  QCoreApplication::setOrganizationDomain("nootka.sf.net");
+  if (qApp->applicationName() != "Nootini")
+    QCoreApplication::setApplicationName("Nootka");
 
 	E = new TexamParams();
 	A = new TaudioParams();
