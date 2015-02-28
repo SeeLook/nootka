@@ -55,6 +55,7 @@ inline qreal pitch2freq(qreal note)
 class Channel;
 class QThread;
 class TnoteStruct;
+class NoteData;
 
 
 /** 
@@ -125,12 +126,21 @@ public:
 	void setMinimalDuration(float dur) { m_minDuration = dur; }
 	
 	TnoteStruct* lastNote() { return m_lastNote; }
+
+      /** In offline mode pitch detecting isn't performed in separate thread.
+       * After collecting audio data in buffer detection is performed
+       * and no data is retrieving until detection in current is finished.
+       *
+       */
+	bool isOffline() { return m_isOffline; }
+	void setOffLine(bool off) { m_isOffline = off; }
     
 signals:
   void pitchInChunk(float); /** Pitch in chunk that has been just processed */
   void volume(float);
 	void noteStarted(qreal pitch, qreal freq, qreal duration);
 	void noteFinished(TnoteStruct*); /** Emitting parameters of finished note (pitch, freq, duration) */
+  void chunkProcessed(AnalysisData*, NoteData*); /** Emitted in offline mode only, after every processed chunk with analyzed data or 0 */
 	
 	
 protected slots:
@@ -150,7 +160,7 @@ private:
 	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
   qreal            m_prevPitch, m_prevFreq, m_prevDuration;
 
-  bool             m_doReset;
+  bool             m_doReset, m_isOffline;
 	TartiniParams   *m_aGl; 
 	Channel         *m_channel;
 	int              m_chunkNum;

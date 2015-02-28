@@ -43,7 +43,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_minVolume(0.4),
   m_prevPitch(0), m_prevFreq(0), m_prevDuration(0),
   m_prevNoteIndex(-1), m_noticedIndex(-1),
-  m_doReset(false),
+  m_doReset(false), m_isOffline(false),
   m_rateRatio(1.0),
   m_volume(0),
   m_state(e_silence), m_prevState(e_silence),
@@ -162,7 +162,10 @@ void TpitchFinder::fillBuffer(float sample) {
 		m_posInBuffer++;
 	} else { // buffer is full
 		m_filledBuff = m_currentBuff;
-		m_thread->start(QThread::NormalPriority);
+    if (m_isOffline)
+      startPitchDetection();
+    else
+      m_thread->start(QThread::NormalPriority);
 		m_posInBuffer = 0;
 		if (m_currentBuff == m_buffer_1) // swap buffers
 			m_currentBuff = m_buffer_2;
@@ -259,6 +262,15 @@ void TpitchFinder::detect() {
 	FilterState filterState;
   m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
+  if (m_isOffline) {
+    if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)))
+      emit chunkProcessed(data, m_channel->getCurrentNote());
+    else
+      emit chunkProcessed(0, 0);
+    incrementChunk();
+    m_isBussy = false;
+    return;
+  }
 	if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))) {
 			NoteData *curNote = m_channel->getCurrentNote();
 			m_volume = dB2Normalised(data->logrms());
