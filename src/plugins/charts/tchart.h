@@ -22,6 +22,8 @@
 
 #include <QGraphicsView>
 #include "tmainline.h"
+#include <score/tscorescene.h>
+
 
 class TYaxis;
 class TXaxis;
@@ -70,7 +72,7 @@ public:
   virtual void setAnalyse(EanswersOrder order) {} // prototype only
 
   void zoom(bool in = true); // zoom view, by default zoom in but when false zoom out
-  QGraphicsScene *scene;
+  TscoreScene *scene;
   
 protected:
   virtual bool event(QEvent* event);

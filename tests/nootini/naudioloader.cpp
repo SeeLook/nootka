@@ -20,6 +20,7 @@
 #include <tpitchfinder.h>
 #include <QtCore/QtEndian>
 #include <QtCore/QDebug>
+#include <QtWidgets/QMessageBox>
 
 
 
@@ -55,7 +56,6 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
     m_in >> headChunk;
     headChunk = qFromBigEndian<qint32>(headChunk);
     QString headStr((char*)&headChunk);
-    qDebug() << "head" << headStr;
 
     quint32 chunkSize;
     m_in >> chunkSize;
@@ -63,19 +63,16 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
     m_in >> headChunk;
     headChunk = qFromBigEndian<qint32>(headChunk);
     headStr = QString((char*)&headChunk);
-    qDebug() << "head" << headStr;
 
-//     if (headStr == "WAVE") {
+    if (headChunk == 1163280727) { // 1163280727 is 'value' of 'WAVE' text in valid WAV file
       m_in >> headChunk;
       headChunk = qFromBigEndian<qint32>(headChunk);
-      headStr = QString((char*)&headChunk);
 
       m_in >> chunkSize;
       quint16 audioFormat;
       m_in >> audioFormat;
       audioFormat = qFromBigEndian<quint16>(audioFormat);
-      qDebug() << "Data format" << audioFormat;
-      if (/*headStr == "fmt " && */audioFormat == 1) {
+      if (headChunk == 544501094 && audioFormat == 1) { // 544501094 is 'value' of 'fmt ' text in valid WAV file
         m_in >> m_channelsNr;
         m_channelsNr = qFromBigEndian<quint16>(m_channelsNr);
         qDebug() << "channels:" << m_channelsNr;
@@ -95,6 +92,10 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
         m_in >> bitsPerSample;
         bitsPerSample = qFromBigEndian<quint16>(bitsPerSample);
         qDebug() << "bits per sample:" << bitsPerSample;
+        if (bitsPerSample != 16) {
+          QMessageBox::warning(0, "Nootini", tr("Only WAV with 16 bit per sample are supported."));
+          ok = false;
+        }
         m_in >> headChunk;
         headChunk = qFromBigEndian<qint32>(headChunk);
         headStr = QString((char*)&headChunk);
@@ -109,15 +110,15 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
 
         m_pf->setSampleRate(sampleRate);
       } else {
-        qDebug() << "Unsupported audio format in" << fileName;
+        QMessageBox::warning(0, "Nootini", tr("Unsupported audio format in file:") + "<br>" + fileName);
         ok = false;
       }
-//     } else {
-//         qDebug() << fileName << "is not valid WAV file" << headStr;
-//         ok = false;
-//     }
+    } else {
+        QMessageBox::warning(0, "Nootini", fileName + "<br>" + tr("is not valid WAV file"));
+        ok = false;
+    }
   } else {
-    qDebug() << "Cannot open" << fileName;
+    QMessageBox::warning(0, "Nootini", "Cannot open" + "<br>" + fileName);
   }
 
   if (!ok && m_audioFile.isOpen())
@@ -147,6 +148,7 @@ void NaudioLoader::performThread() {
       }
       m_pf->fillBuffer(float(chL) / 32760.0f);
     }
+    emit processingFinished();
     m_audioFile.close();
   } else
       qDebug() << "Wrong file" << m_audioFile.fileName();

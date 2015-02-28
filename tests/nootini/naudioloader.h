@@ -28,6 +28,8 @@ class TpitchFinder;
 
 /**
  * Manages loading audio data from file in separate thread.
+ * Grabbed data are push to @class TpitchFinder (in offline mode)
+ * After all, @p processingFinished() signal is emitted.
  */
 class NaudioLoader : public QObject
 {
@@ -44,6 +46,9 @@ public:
   TpitchFinder* finder() { return m_pf; } /** Pointer to @class TpitchFinder processing data of current file or 0 if no file. */
 
   int totalChunks() { return m_totalChunks; }
+
+signals:
+  void processingFinished(); /** Emitted when all data were processed */
 
 protected:
   void performThread();
