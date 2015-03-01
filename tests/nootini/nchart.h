@@ -20,11 +20,15 @@
 #define NCHART_H
 
 #include <tchart.h>
+#include "nanalyzedata.h"
+#include <QThread>
+#include <QMutex>
 
 class TscoreStaff;
 class NoteData;
 class AnalysisData;
 class TpitchFinder;
+class NdrawObject;
 
 /**
  * Nootini chart
@@ -32,21 +36,62 @@ class TpitchFinder;
 class Nchart : public Tchart
 {
 
+  friend class NdrawObject;
+  Q_OBJECT
 public:
   Nchart(QWidget* parent = 0);
+  virtual ~Nchart();
 
   void setPitchFinder(TpitchFinder* pf); /** Pitch finder processing audio data */
   void setXnumber(int xN); /** Number of X values on the chart */
 
   void allDataLoaded(); /** May be called when all data was sent to the chart to adjust its size */
 
+  void chunkSlot();
+
+signals:
+  void chunkDone(); /** Emitted when @p chunkSlot() finished. */
+
 protected:
-  void chunkSlot(AnalysisData* ad, NoteData* nd);
+  void runThread(AnalysisData* ad, NoteData* nd);
+
+  int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
+
+  QList<NanalyzeData>  dl;
+  QGraphicsTextItem   *progresItem;
+  int                  totalXnr, currentChunk;
 
 private:
   TpitchFinder                *m_pitchF;
-  int                          m_chunkNr;
   TscoreStaff                 *m_staff;
+  double                       m_volume, m_pitchDiff;
+  int                          m_lastDrawnChunk;
+  QLinearGradient              m_pitchGrad;
+  QGraphicsLineItem           *m_xLine;
+  const int                    xSc;
+  NdrawObject                 *m_drawObject;
+};
+
+
+/**
+ * QObject that draws on Nchart in separate thread
+ */
+class NdrawObject : public QObject
+{
+  Q_OBJECT
+public:
+  explicit NdrawObject(Nchart *chart, QObject* parent = 0);
+  virtual ~NdrawObject();
+
+  void collect(AnalysisData* ad, NoteData* nd);
+  void chunkProcessed();
+  void reset(); /** Resets state of drawing object. */
+
+private:
+  Nchart                      *m_chart;
+  QThread                      m_thread;
+  QMutex                       m_mutex;
+  int                          m_chunkNr, m_prevNoteIndex;
 };
 
 #endif // NCHART_H

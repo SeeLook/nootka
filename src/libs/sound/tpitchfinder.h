@@ -134,6 +134,12 @@ public:
        */
 	bool isOffline() { return m_isOffline; }
 	void setOffLine(bool off) { m_isOffline = off; }
+
+      /** Pointer to detection processing @class Channel.
+       * WARRING!
+       * In online mode it is reset every 1000 chunks,
+       * only in offline mode all detected data exists. */
+	Channel* ch() { return m_channel; }
     
 signals:
   void pitchInChunk(float); /** Pitch in chunk that has been just processed */

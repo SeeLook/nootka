@@ -118,7 +118,7 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
         ok = false;
     }
   } else {
-    QMessageBox::warning(0, "Nootini", "Cannot open" + "<br>" + fileName);
+    QMessageBox::warning(0, "Nootini", tr("Cannot open file:") + "<br>" + fileName);
   }
 
   if (!ok && m_audioFile.isOpen())
