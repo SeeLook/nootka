@@ -30,7 +30,7 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   resize(800, 600);
   QWidget* innerWidget = new QWidget(this);
 
-  m_chart = new Nchart(innerWidget);
+  m_chart = new Nchart();
 
   QVBoxLayout* lay = new QVBoxLayout;
   lay->addWidget(m_chart);
