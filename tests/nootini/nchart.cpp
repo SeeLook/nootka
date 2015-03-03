@@ -99,7 +99,7 @@ void Nchart::setPitchFinder(TpitchFinder* pf) {
   currentChunk = 0;
   m_lastDrawnChunk = 0;
 //   connect(m_pitchF, &TpitchFinder::chunkProcessed, this, &Nchart::chunkSlot);
-  connect(m_pitchF, &TpitchFinder::chunkProcessed, this, &Nchart::runThread);
+  connect(m_pitchF, &TpitchFinder::chunkProcessed, this, &Nchart::runThread, Qt::DirectConnection);
   m_staff->setDisabled(true);
   progresItem->show();
 }
@@ -120,9 +120,11 @@ void Nchart::runThread(AnalysisData* ad, NoteData* nd) {
 
 
 void Nchart::chunkSlot() {
+  qDebug() << currentChunk << m_lastDrawnChunk;
   int firstNoteChunk = totalXnr, lastNoteChunk = 0;
   QPolygonF pg;
-  for (int i = currentChunk; i > m_lastDrawnChunk; i--) {
+  int minDurChunk = 0;
+  for (int i = currentChunk; i >= m_lastDrawnChunk; i--) {
     if (dl[i].vol && dl[i - 1].vol) {
       QGraphicsLineItem *volLine = new QGraphicsLineItem();
       scene->addItem(volLine);
@@ -130,19 +132,44 @@ void Nchart::chunkSlot() {
       volLine->setLine(xMap(i - 1), yAxis->mapValue(150 + dl[i - 1].vol * 50.0),
                        xMap(i), yAxis->mapValue(150 + dl[i].vol * 50.0));
       if (dl[i].pitch) {
-        firstNoteChunk = qMin<int>(firstNoteChunk, i);
+        firstNoteChunk = qMin<int>(firstNoteChunk, i - 1);
         lastNoteChunk = qMax<int>(lastNoteChunk, i);
-        pg << QPointF(xMap(i), yAxis->mapValue(75) - (dl[i].pitch - (float)qRound(dl[i].pitch)) * 50);
+//         pg << QPointF(xMap(i), yAxis->mapValue(75) - (dl[i].pitch - (float)qRound(dl[i].pitch)) * 50);
       }
     }
+    if (dl[i].dur > Tcore::gl()->A->minDuration) {
+      minDurChunk = i + 1;
+    }
+    if (dl[i].pitch)
+      pg << QPointF(xMap(i), yAxis->mapValue(75) - (dl[i].pitch - (float)qRound(dl[i].pitch)) * 50);
   }
   if (firstNoteChunk < totalXnr && lastNoteChunk > 0) {
+    QGraphicsLineItem *minVolLine = new QGraphicsLineItem();
+      scene->addItem(minVolLine);
+      minVolLine->setPen(QPen(QColor(0, 0, 255), 1));
+      minVolLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(150 + Tcore::gl()->A->minimalVol * 50.0),
+                       xMap(lastNoteChunk), yAxis->mapValue(150 + Tcore::gl()->A->minimalVol * 50.0));
+    QGraphicsLineItem *xVolLine = new QGraphicsLineItem();
+      scene->addItem(xVolLine);
+      xVolLine->setPen(QPen(palette().text().color(), 1));
+      xVolLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(151), xMap(lastNoteChunk), yAxis->mapValue(151));
+    QGraphicsLineItem *yVolLine = new QGraphicsLineItem();
+      scene->addItem(yVolLine);
+      yVolLine->setPen(QPen(palette().text().color(), 1));
+      yVolLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(199), xMap(firstNoteChunk), yAxis->mapValue(151));
     QGraphicsRectItem *bgPitch = new QGraphicsRectItem;
       scene->addItem(bgPitch);
       bgPitch->setZValue(10);
       bgPitch->setPen(Qt::NoPen);
       bgPitch->setBrush(m_pitchGrad);
       bgPitch->setRect(xMap(firstNoteChunk), yAxis->mapValue(100), (lastNoteChunk - firstNoteChunk) * xSc, yAxis->mapValue(50) - yAxis->mapValue(100));
+    if (minDurChunk) {
+      QGraphicsLineItem *minDurLine = new QGraphicsLineItem;
+      scene->addItem(minDurLine);
+      minDurLine->setZValue(11);
+      minDurLine->setPen(QPen(Qt::blue, 1));
+      minDurLine->setLine(xMap(minDurChunk), yAxis->mapValue(99), xMap(minDurChunk), yAxis->mapValue(51));
+    }
     QGraphicsLineItem *pitchLine = new QGraphicsLineItem;
       scene->addItem(pitchLine);
       pitchLine->setZValue(12);
@@ -165,7 +192,7 @@ void Nchart::chunkSlot() {
       m_staff->noteSegment(m_staff->count() - 1)->setPos(m_staff->mapFromScene(xMap(firstNoteChunk), 0).x(), 0);
       m_staff->noteSegment(m_staff->count() - 1)->showNoteName();
   }
-  m_lastDrawnChunk = currentChunk;
+  m_lastDrawnChunk = currentChunk + 1;
 
   emit chunkDone();
 }
@@ -180,9 +207,9 @@ NdrawObject::NdrawObject(Nchart* chart, QObject* parent) :
   m_chart(chart),
   m_mutex(QMutex::Recursive)
 {
-  moveToThread(&m_thread);
-  connect(&m_thread, &QThread::started, m_chart, &Nchart::chunkSlot);
-  connect(m_chart, &Nchart::chunkDone, this, &NdrawObject::chunkProcessed);
+//   moveToThread(&m_thread);
+//   connect(&m_thread, &QThread::started, m_chart, &Nchart::chunkSlot);
+//   connect(m_chart, &Nchart::chunkDone, this, &NdrawObject::chunkProcessed);
 }
 
 
@@ -213,18 +240,26 @@ void NdrawObject::collect(AnalysisData* ad, NoteData* nd) {
   if (m_chunkNr == m_chart->totalXnr - 3)
     run = true;
   m_chunkNr++;
-  m_chart->progresItem->setHtml(tr("Detecting...") + QString("<big><b> %1%</b></big>").arg(int(((qreal)m_chunkNr / (qreal)(m_chart->totalXnr)) * 100)));
-  if (run) {
-    m_mutex.lock();
-    m_chart->currentChunk = m_chunkNr - 1;
-    m_thread.start();
+  if (m_chunkNr && m_chunkNr % 20 == 0) {
+    m_chart->progresItem->setHtml(tr("Detecting...") + QString("<big><b> %1%</b></big>").arg(int(((qreal)m_chunkNr / (qreal)(m_chart->totalXnr)) * 100)));
+    qApp->processEvents();
   }
+  if (run) {
+//     m_mutex.lock();
+    m_chart->currentChunk = m_chunkNr - 1;
+    m_chart->chunkSlot();
+//     m_thread.start();
+  }
+  if (m_chunkNr >= m_chart->totalXnr - 3)
+    m_chart->allDataLoaded();
 }
 
 
 void NdrawObject::chunkProcessed() {
-  m_thread.quit();
-  m_mutex.unlock();
+//   m_thread.quit();
+//   m_mutex.unlock();
+//   if (m_chunkNr >= m_chart->totalXnr - 3)
+//     m_chart->allDataLoaded();
 }
 
 
