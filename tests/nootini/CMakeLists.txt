@@ -19,12 +19,14 @@ set(NOOTINI_SRC
   nootiniwindow.cpp
   nchart.cpp
   naudioloader.cpp
+  nootinisettings.cpp
 
   ../../src/plugins/charts/tchart.cpp
   ../../src/plugins/charts/tabstractaxis.cpp
   ../../src/plugins/charts/txaxis.cpp
   ../../src/plugins/charts/tyaxis.cpp
   ../../src/plugins/charts/ttiphandler.cpp
+  ../../src/plugins/settings/tvolumeslider.cpp
 
 )
   

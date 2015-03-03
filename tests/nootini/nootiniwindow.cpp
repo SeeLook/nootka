@@ -19,7 +19,8 @@
 #include "nootiniwindow.h"
 #include "nchart.h"
 #include "naudioloader.h"
-#include <tpitchfinder.h>
+#include "nootinisettings.h"
+#include <graphics/tnotepixmap.h>
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QtWidgets>
 
@@ -27,6 +28,7 @@
 NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   QMainWindow(parent)
 {
+  setWindowIcon(QIcon(glyphToPixmap("n", 64)));
   resize(800, 600);
   QWidget* innerWidget = new QWidget(this);
 
@@ -40,6 +42,9 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   QMenu *fileMenu = menuBar()->addMenu(tr("file"));
   m_openAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_DirOpenIcon)), tr("open audio file"),
                                   this, SLOT(openFileSlot()), QKeySequence::Open);
+  m_settAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::QStyle::SP_DialogApplyButton)), tr("settings"),
+                                  this, SLOT(settingsSlot()));
+
   m_loader = new NaudioLoader();
 
   if (!audioFile.isEmpty())
@@ -58,6 +63,15 @@ void NootiniWindow::openFileSlot() {
   if (!wavFileName.isEmpty())
     processAudioFile(wavFileName);
 }
+
+
+void NootiniWindow::settingsSlot() {
+  NootiniSettings sett(this);
+  if (sett.exec() == QDialog::Accepted) {
+    qDebug() << "Accepted";
+  }
+}
+
 
 
 void NootiniWindow::processAudioFile(const QString& fileName) {

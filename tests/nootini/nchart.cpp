@@ -137,9 +137,8 @@ void Nchart::chunkSlot() {
 //         pg << QPointF(xMap(i), yAxis->mapValue(75) - (dl[i].pitch - (float)qRound(dl[i].pitch)) * 50);
       }
     }
-    if (dl[i].dur > Tcore::gl()->A->minDuration) {
+    if (dl[i].dur > Tcore::gl()->A->minDuration)
       minDurChunk = i + 1;
-    }
     if (dl[i].pitch)
       pg << QPointF(xMap(i), yAxis->mapValue(75) - (dl[i].pitch - (float)qRound(dl[i].pitch)) * 50);
   }
