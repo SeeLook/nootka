@@ -16,37 +16,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef NOOTINIWINDOW_H
-#define NOOTINIWINDOW_H
+#ifndef NOOTINISETTINGS_H
+#define NOOTINISETTINGS_H
 
-#include <qt/QtWidgets/QMainWindow>
 
-class NaudioLoader;
-class QAction;
-class Nchart;
+#include <QtWidgets/QDialog>
+
+class QComboBox;
+class TvolumeSlider;
+class QSpinBox;
+class QRadioButton;
+
 
 /**
- * Main window of Nootini - pitch detection analyzer
+ * Nootini tool settings dialog window
  */
-class NootiniWindow : public QMainWindow
+class NootiniSettings : public QDialog
 {
-  Q_OBJECT
 
 public:
-  explicit NootiniWindow(const QString& audioFile = "", QWidget* parent = 0);
-  virtual ~NootiniWindow();
+  explicit NootiniSettings(QWidget* parent = 0);
 
-
-protected slots:
-  void openFileSlot();
-  void settingsSlot();
-  void processAudioFile(const QString& fileName);
+protected:
+  virtual void accept();
 
 private:
-  Nchart            *m_chart;
-  QAction           *m_openAct, *m_settAct;
-  NaudioLoader      *m_loader;
-
+  QRadioButton        *m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
+  QSpinBox            *m_freqSpin, *m_durationSpin, *m_thresholdSpin;
+  TvolumeSlider       *m_volumeSlider;
+  QComboBox           *m_intonationCombo;
 };
 
-#endif // NOOTINIWINDOW_H
+#endif // NOOTINISETTINGS_H
