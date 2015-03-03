@@ -16,6 +16,7 @@ MAJOR:
 - crash on terminate in Oxygene due to animation on status label
 - qt_base translations are not loaded properly
 - restore all default settings doesn't launch Nootka again
+- add Qt::DirectConnection flag to some signal-slot connections (pitch detecion related especially)
 
 MINOR:
 - replace all font-size: 20px with <big>
