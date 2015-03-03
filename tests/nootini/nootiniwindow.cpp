@@ -64,7 +64,7 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
   if (m_loader->setAudioFile(fileName)) {
     m_chart->setPitchFinder(m_loader->finder());
     m_chart->setXnumber(m_loader->totalChunks() + 1);
-    connect(m_loader, &NaudioLoader::processingFinished, m_chart, &Nchart::allDataLoaded);
+//     connect(m_loader, &NaudioLoader::processingFinished, m_chart, &Nchart::allDataLoaded);
     m_loader->startLoading();
   }
 }

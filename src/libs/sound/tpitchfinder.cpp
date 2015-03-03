@@ -263,9 +263,9 @@ void TpitchFinder::detect() {
   m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
   if (m_isOffline) {
-    if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)))
+    if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))) {
       emit chunkProcessed(data, m_channel->getCurrentNote());
-    else
+    } else
       emit chunkProcessed(0, 0);
     incrementChunk();
     m_isBussy = false;
