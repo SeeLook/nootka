@@ -26,11 +26,11 @@
 class NanalyzeData
 {
 public:
-  NanalyzeData(quint32 _id, float _pitch = 0, double _averPitch = 0, double _vol = 0, double _dur = 0) :
-    id(_id), pitch(_pitch), avPitch(_averPitch), vol(_vol), dur(_dur)
+  NanalyzeData(int _index, float _pitch = 0, double _averPitch = 0, double _vol = 0, double _dur = 0) :
+    index(_index), pitch(_pitch), avPitch(_averPitch), vol(_vol), dur(_dur)
   {}
 
-  quint32 id; /** chunk number */
+  int index; /** Note index in entire channel */
   float pitch; /** pitch in chunk */
   double avPitch; /** Average pitch  */
   double vol; /** volume */

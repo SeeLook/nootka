@@ -17,11 +17,11 @@
  ***************************************************************************/
 
 
-#include <qt/QtCore/QTranslator>
-#include <qt/QtCore/QDir>
-#include <qt/QtCore/QPluginLoader>
-#include <qt/QtCore/QDebug>
-#include <qt/QtWidgets/QApplication>
+#include <QtCore/QTranslator>
+#include <QtCore/QDir>
+#include <QtCore/QPluginLoader>
+#include <QtCore/QDebug>
+#include <QtWidgets/QApplication>
 #include <tinitcorelib.h>
 #include "nootiniwindow.h"
 
