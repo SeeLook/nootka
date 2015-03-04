@@ -29,8 +29,8 @@ NaudioLoader::NaudioLoader(QObject* parent) :
   QObject(parent),
   m_pf(0)
 {
-//   moveToThread(&m_thread);
-//   connect(&m_thread, &QThread::started, this, &NaudioLoader::performThread);
+  moveToThread(&m_thread);
+  connect(&m_thread, &QThread::started, this, &NaudioLoader::performThread, Qt::DirectConnection);
 }
 
 
@@ -128,8 +128,7 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
 
 
 void NaudioLoader::startLoading() {
-//   m_thread.start();
-  performThread();
+  m_thread.start();
 }
 
 //#################################################################################################
@@ -153,7 +152,7 @@ void NaudioLoader::performThread() {
     m_audioFile.close();
   } else
       qDebug() << "Wrong file" << m_audioFile.fileName();
-//   m_thread.quit();
+  m_thread.quit();
 }
 
 

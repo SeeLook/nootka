@@ -26,16 +26,14 @@
 
 
 NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
-  QMainWindow(parent)
+  QMainWindow(parent),
+  m_chart(0)
 {
   setWindowIcon(QIcon(glyphToPixmap("n", 64)));
   resize(800, 600);
   QWidget* innerWidget = new QWidget(this);
 
-  m_chart = new Nchart();
-
   QVBoxLayout* lay = new QVBoxLayout;
-  lay->addWidget(m_chart);
   innerWidget->setLayout(lay);
   setCentralWidget(innerWidget);
 
@@ -47,7 +45,10 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
 
   m_loader = new NaudioLoader();
 
-  if (!audioFile.isEmpty())
+  if (audioFile.isEmpty()) {
+    m_chart = new Nchart();
+    lay->addWidget(m_chart);
+  } else
     processAudioFile(audioFile);
 }
 
@@ -76,10 +77,14 @@ void NootiniWindow::settingsSlot() {
 
 void NootiniWindow::processAudioFile(const QString& fileName) {
   if (m_loader->setAudioFile(fileName)) {
+    delete m_chart;
+    m_chart = new Nchart();
+    centralWidget()->layout()->addWidget(m_chart);
     m_chart->setPitchFinder(m_loader->finder());
     m_chart->setXnumber(m_loader->totalChunks() + 1);
 //     connect(m_loader, &NaudioLoader::processingFinished, m_chart, &Nchart::allDataLoaded);
     m_loader->startLoading();
+    m_chart->drawChunk();
   }
 }
 
