@@ -20,6 +20,7 @@
 #define NCHART_H
 
 #include <tchart.h>
+#include <music/tclef.h>
 #include "nanalyzedata.h"
 #include <QThread>
 #include <QMutex>
@@ -52,17 +53,21 @@ signals:
 
 protected:
   void copyChunk(AnalysisData* ad, NoteData* nd);
+  void clefChanged(Tclef clef);
 
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
 
   QList<NanalyzeData>  dl;
-  QGraphicsTextItem   *progresItem;
-  int                  totalXnr;
+
+protected slots:
+  void adjustHeight();
 
 private:
   TpitchFinder                *m_pitchF;
   TscoreStaff                 *m_staff;
+  QGraphicsTextItem           *m_progresItem;
   int                          m_chunkNr, m_prevNoteIndex;
+  int                          m_totalXnr;
   QLinearGradient              m_pitchGrad;
   QGraphicsLineItem           *m_xLine;
   const int                    xSc, hSc; /** @p xSc is scale of x axis ans @p hSc is half of it  */

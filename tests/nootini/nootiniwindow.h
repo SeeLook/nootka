@@ -20,6 +20,7 @@
 #define NOOTINIWINDOW_H
 
 #include <qt/QtWidgets/QMainWindow>
+#include <tartiniparams.h>
 
 class NaudioLoader;
 class QAction;
@@ -36,6 +37,12 @@ public:
   explicit NootiniWindow(const QString& audioFile = "", QWidget* parent = 0);
   virtual ~NootiniWindow();
 
+protected:
+  void readConfig(); /** Reads other settings values than Nootka.conf from Nootini.conf */
+  void writeConfig(); /** Writes other settings values to Nootini.conf */
+
+  virtual void closeEvent(QCloseEvent* e);
+  virtual void resizeEvent(QResizeEvent* e);
 
 protected slots:
   void openFileSlot();
@@ -46,6 +53,7 @@ private:
   Nchart            *m_chart;
   QAction           *m_openAct, *m_settAct;
   NaudioLoader      *m_loader;
+  TartiniParams      m_tartiniParams;
 
 };
 

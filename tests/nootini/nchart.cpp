@@ -30,13 +30,24 @@
 #include <score/tscoreclef.h>
 #include <tscoreparams.h>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QScrollBar>
 #include <QtCore/QDebug>
+#include <QTimer>
+
+
+#if defined(Q_OS_WIN32)
+  #include <windows.h>
+  #define SLEEP(msecs) Sleep(msecs)
+#else
+  #include <unistd.h>
+  #define SLEEP(msecs) usleep(msecs * 1000)
+#endif
 
 
 Nchart::Nchart(QWidget* parent) :
   Tchart(parent),
   m_pitchF(0),
-  totalXnr(0),
+  m_totalXnr(0),
   m_pitchGrad(0.5, 0, 0.5, 1),
   xSc(4), hSc(2)
 {
@@ -44,15 +55,15 @@ Nchart::Nchart(QWidget* parent) :
   xAxis->hide();
   yAxis->setMaxValue(200, false);
 
-  progresItem = new QGraphicsTextItem;
-  scene->addItem(progresItem);
-  progresItem->setZValue(250);
-  progresItem->setScale(2);
-  progresItem->hide();
-  progresItem->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+  m_progresItem = new QGraphicsTextItem;
+  scene->addItem(m_progresItem);
+  m_progresItem->setZValue(250);
+  m_progresItem->setScale(2);
+  m_progresItem->hide();
+  m_progresItem->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 
   m_pitchGrad.setCoordinateMode(QGradient::ObjectBoundingMode);
-  const int al = 255;
+  const int al = 200;
   m_pitchGrad.setColorAt(0, QColor(117, 21, 86, al));
   m_pitchGrad.setColorAt(0.15, QColor(255, 0, 0, al));
   m_pitchGrad.setColorAt(0.4, QColor(255, 255, 0, al));
@@ -72,20 +83,18 @@ Nchart::Nchart(QWidget* parent) :
   m_staff->setViewWidth(400 / m_staff->scale());
   m_staff->setPos(52, yAxis->mapValue(50));
   m_staff->onClefChanged(Tcore::gl()->S->clef);
-
+  QTimer::singleShot(1, this, SLOT(adjustHeight()));
 }
 
 
 Nchart::~Nchart()
 {
-//   Tcore::gl()->S->clef = m_staff->scoreClef()->clef().type();
-//   m_drawObject->deleteLater();
 }
 
 
 void Nchart::setXnumber(int xN) {
   m_xLine->setLine(52, yAxis->boundingRect().height(), (xN + 15) * xSc, yAxis->boundingRect().height());
-  totalXnr = xN;
+  m_totalXnr = xN;
   m_staff->setViewWidth(m_xLine->line().length() / m_staff->scale());
 }
 
@@ -96,13 +105,13 @@ void Nchart::setPitchFinder(TpitchFinder* pf) {
   m_chunkNr = -1;
   connect(m_pitchF, &TpitchFinder::chunkProcessed, this, &Nchart::copyChunk, Qt::DirectConnection);
   m_staff->setDisabled(true);
-  progresItem->show();
+  m_progresItem->show();
 }
 
 
 void Nchart::allDataLoaded() {
-  ajustChartHeight();
-  progresItem->hide();
+//   ajustChartHeight();
+  m_progresItem->hide();
 }
 
 //#################################################################################################
@@ -118,14 +127,16 @@ void Nchart::copyChunk(AnalysisData* ad, NoteData* nd) {
 
 
 void Nchart::drawChunk() {
-  for (int c = 1; c < totalXnr - 4; c++) {
+  horizontalScrollBar()->setValue(0);
+  for (int c = 1; c < m_totalXnr - 4; c++) {
     while (c >= dl.size()) {
-      qApp->thread()->msleep(1);
+//       qApp->thread()->msleep(1);
+      SLEEP(1);
 //       qDebug() << "sleep during drawing" << c;
       qApp->processEvents();
     }
     if (c % 20 == 0)
-      progresItem->setHtml(tr("Detecting...") + QString("<big><b> %1%</b></big>").arg(int(((qreal)c / (qreal)(totalXnr)) * 100)));
+      m_progresItem->setHtml(tr("Detecting...") + QString("<big><b> %1%</b></big>").arg(int(((qreal)c / (qreal)(m_totalXnr)) * 100)));
     int firstNoteChunk, lastNoteChunk;
     QPolygonF pg;
     if (dl[c -1].index == -1 && dl[c].index != -1) // first chunk with noticed new note
@@ -199,9 +210,33 @@ void Nchart::drawChunk() {
       m_staff->addNote(n, true);
         m_staff->noteSegment(m_staff->count() - 1)->setPos(m_staff->mapFromScene(xMap(firstNoteChunk) + xSc, 0).x(), 0);
         m_staff->noteSegment(m_staff->count() - 1)->showNoteName();
+    } else {
     }
+    if (dl[c].index == -1) {
+        QGraphicsRectItem *emptyBg = new QGraphicsRectItem;
+        scene->addItem(emptyBg);
+        emptyBg->setZValue(10);
+        emptyBg->setPen(Qt::NoPen);
+        QColor emptyColor = palette().text().color();
+        emptyColor.setAlpha(40);
+        emptyBg->setBrush(emptyColor);
+        emptyBg->setRect(xMap(c), yAxis->mapValue(100), xSc, yAxis->mapValue(50) - yAxis->mapValue(100));
+      }
   }
   emit chunkDone();
   allDataLoaded();
 }
+
+
+void Nchart::clefChanged(Tclef clef) {
+  Tcore::gl()->S->clef = clef.type();
+}
+
+
+void Nchart::adjustHeight() {
+  qreal factor = (viewport()->rect().height() / scene->sceneRect().height()) * 0.95;
+  scale(factor, factor);
+}
+
+
 
