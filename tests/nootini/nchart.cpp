@@ -83,6 +83,7 @@ Nchart::Nchart(QWidget* parent) :
   m_staff->setViewWidth(400 / m_staff->scale());
   m_staff->setPos(52, yAxis->mapValue(50));
   m_staff->onClefChanged(Tcore::gl()->S->clef);
+  connect(m_staff, &TscoreStaff::clefChanged, this, &Nchart::clefChanged);
   QTimer::singleShot(1, this, SLOT(adjustHeight()));
 }
 
@@ -106,6 +107,7 @@ void Nchart::setPitchFinder(TpitchFinder* pf) {
   connect(m_pitchF, &TpitchFinder::chunkProcessed, this, &Nchart::copyChunk, Qt::DirectConnection);
   m_staff->setDisabled(true);
   m_progresItem->show();
+  horizontalScrollBar()->setValue(0);
 }
 
 
@@ -127,7 +129,6 @@ void Nchart::copyChunk(AnalysisData* ad, NoteData* nd) {
 
 
 void Nchart::drawChunk() {
-  horizontalScrollBar()->setValue(0);
   for (int c = 1; c < m_totalXnr - 4; c++) {
     while (c >= dl.size()) {
 //       qApp->thread()->msleep(1);
