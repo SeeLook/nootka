@@ -21,6 +21,7 @@
 #include "naudioloader.h"
 #include "nootinisettings.h"
 #include <graphics/tnotepixmap.h>
+#include <tinitcorelib.h>
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QtWidgets>
 
@@ -29,7 +30,9 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   QMainWindow(parent),
   m_chart(0)
 {
-  setWindowIcon(QIcon(glyphToPixmap("n", 64)));
+  readConfig();
+  QFont nf("nootka", 256);
+  setWindowIcon(QIcon(pixFromString("m", nf)));
   resize(800, 600);
   QWidget* innerWidget = new QWidget(this);
 
@@ -58,6 +61,9 @@ NootiniWindow::~NootiniWindow()
   delete m_loader;
 }
 
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void NootiniWindow::openFileSlot() {
   QString wavFileName = QFileDialog::getOpenFileName(this, "", QDir::homePath(), tr("WAV file (*.wav)"));
@@ -67,12 +73,11 @@ void NootiniWindow::openFileSlot() {
 
 
 void NootiniWindow::settingsSlot() {
-  NootiniSettings sett(this);
+  NootiniSettings sett(&m_tartiniParams, this);
   if (sett.exec() == QDialog::Accepted) {
-    qDebug() << "Accepted";
+    m_loader->fillTartiniParams(&m_tartiniParams);
   }
 }
-
 
 
 void NootiniWindow::processAudioFile(const QString& fileName) {
@@ -80,15 +85,46 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
     delete m_chart;
     m_chart = new Nchart();
     centralWidget()->layout()->addWidget(m_chart);
+    setWindowTitle("Nootini - " + fileName);
+    m_loader->fillTartiniParams(&m_tartiniParams);
     m_chart->setPitchFinder(m_loader->finder());
     m_chart->setXnumber(m_loader->totalChunks() + 1);
-//     connect(m_loader, &NaudioLoader::processingFinished, m_chart, &Nchart::allDataLoaded);
     m_loader->startLoading();
     m_chart->drawChunk();
   }
 }
 
 
+void NootiniWindow::closeEvent(QCloseEvent* e) {
+  writeConfig();
+  QWidget::closeEvent(e);
+}
 
+
+void NootiniWindow::resizeEvent(QResizeEvent* e) {
+  if (e->oldSize().height() > 0) {
+    double coef = ((double)e->size().height() / (double)e->oldSize().height());
+    m_chart->scale(coef, coef);
+  }
+  QWidget::resizeEvent(e);
+}
+
+
+void NootiniWindow::readConfig() {
+  Tcore::gl()->config->beginGroup("Tartini");
+    m_tartiniParams.threshold = Tcore::gl()->config->value("threshold", 93).toInt();
+    m_tartiniParams.equalLoudness = Tcore::gl()->config->value("equalLoudness", true).toBool();
+    m_tartiniParams.doingHarmonicAnalysis = Tcore::gl()->config->value("doingHarmonicAnalysis", false).toBool();
+  Tcore::gl()->config->endGroup();
+}
+
+
+void NootiniWindow::writeConfig() {
+  Tcore::gl()->config->beginGroup("Tartini");
+    Tcore::gl()->config->setValue("threshold", m_tartiniParams.threshold);
+    Tcore::gl()->config->setValue("equalLoudness", m_tartiniParams.equalLoudness);
+    Tcore::gl()->config->setValue("doingHarmonicAnalysis", m_tartiniParams.doingHarmonicAnalysis);
+  Tcore::gl()->config->endGroup();
+}
 
 

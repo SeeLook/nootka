@@ -26,8 +26,9 @@
 #include <QtWidgets/QtWidgets>
 
 
-NootiniSettings::NootiniSettings(QWidget* parent) :
-  QDialog(parent)
+NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
+  QDialog(parent),
+  m_tartiniParams(tp)
 {
   setWindowTitle(tr("Parameters of processing"));
   setWindowIcon(parent->windowIcon());
@@ -66,16 +67,14 @@ NootiniSettings::NootiniSettings(QWidget* parent) :
     m_freqSpin->setSuffix(" Hz");
     m_freqSpin->setValue(qRound((pitch2freq(freq2pitch(440) + Tcore::gl()->A->a440diff))));
 
-  TintonationCombo *intoCombo = new TintonationCombo(this);
-    m_intonationCombo = intoCombo->accuracyCombo;
-    m_intonationCombo->setCurrentIndex(Tcore::gl()->A->intonation);
-
   QLabel *threshLab = new QLabel(tr("default threshold"), this);
   m_thresholdSpin = new QSpinBox(this);
     m_thresholdSpin->setRange(80, 100);
     m_thresholdSpin->setSuffix(" %");
-    m_thresholdSpin->setValue(93);
+    m_thresholdSpin->setValue(m_tartiniParams->threshold);
 
+  m_noiseFilterChB = new QCheckBox(tr("noise filter"), this);
+    m_noiseFilterChB->setChecked(m_tartiniParams->equalLoudness);
 
   QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
 
@@ -102,13 +101,13 @@ NootiniSettings::NootiniSettings(QWidget* parent) :
     freqLay->addWidget(m_freqSpin);
     freqLay->addStretch();
   lay->addLayout(freqLay);
-  lay->addWidget(intoCombo, 1, Qt::AlignCenter);
   QHBoxLayout *threshLay = new QHBoxLayout;
     threshLay->addStretch();
     threshLay->addWidget(threshLab);
     threshLay->addWidget(m_thresholdSpin);
     threshLay->addStretch();
   lay->addLayout(threshLay);
+  lay->addWidget(m_noiseFilterChB);
   lay->addWidget(buttonBox);
   setLayout(lay);
 
@@ -133,7 +132,9 @@ void NootiniSettings::accept() {
       Tcore::gl()->A->a440diff = 0.0;
   else
       Tcore::gl()->A->a440diff = float(freq2pitch((double)m_freqSpin->value()) - freq2pitch(440.0));
-  Tcore::gl()->A->intonation = m_intonationCombo->currentIndex();
+
+  m_tartiniParams->threshold = m_thresholdSpin->value();
+  m_tartiniParams->equalLoudness = m_noiseFilterChB->isChecked();
 
   QDialog::accept();
 }

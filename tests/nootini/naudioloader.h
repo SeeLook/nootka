@@ -24,6 +24,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
 
+class TartiniParams;
 class TpitchFinder;
 
 /**
@@ -46,6 +47,8 @@ public:
   TpitchFinder* finder() { return m_pf; } /** Pointer to @class TpitchFinder processing data of current file or 0 if no file. */
 
   int totalChunks() { return m_totalChunks; }
+
+  void fillTartiniParams(TartiniParams* tp); /** Applies Tartini parameters to existing @class TpitchFinder instance */
 
 signals:
   void processingFinished(); /** Emitted when all data were processed */

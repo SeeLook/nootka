@@ -131,6 +131,15 @@ void NaudioLoader::startLoading() {
   m_thread.start();
 }
 
+
+void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
+  if (m_pf) {
+    m_pf->aGl()->threshold = tp->threshold;
+    m_pf->aGl()->doingHarmonicAnalysis = tp->doingHarmonicAnalysis;
+    m_pf->aGl()->equalLoudness = tp->equalLoudness;
+  }
+}
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -153,6 +162,7 @@ void NaudioLoader::performThread() {
   } else
       qDebug() << "Wrong file" << m_audioFile.fileName();
   m_thread.quit();
+//   qDebug() << "file processed" << m_audioFile.fileName();
 }
 
 
