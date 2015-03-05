@@ -128,7 +128,7 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
 
 
 void NaudioLoader::startLoading() {
-  m_thread.start();
+  m_thread.start(QThread::HighPriority);
 }
 
 

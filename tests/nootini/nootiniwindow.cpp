@@ -46,6 +46,9 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   m_settAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::QStyle::SP_DialogApplyButton)), tr("settings"),
                                   this, SLOT(settingsSlot()));
 
+  QMenu *chartMenu = menuBar()->addMenu(tr("chart"));
+  chartMenu->addAction(tr("process again"));
+
   m_loader = new NaudioLoader();
 
   if (audioFile.isEmpty()) {

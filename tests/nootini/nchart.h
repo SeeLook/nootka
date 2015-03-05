@@ -54,6 +54,8 @@ signals:
 protected:
   void copyChunk(AnalysisData* ad, NoteData* nd);
   void clefChanged(Tclef clef);
+  void drawNoteSegment(int firstNoteChunk, int lastNoteChunk);
+  void emptyRect(int firstChunk, qreal width);
 
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
 
