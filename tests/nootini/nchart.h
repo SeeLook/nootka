@@ -25,6 +25,7 @@
 #include <QThread>
 #include <QMutex>
 
+class NaudioLoader;
 class TscoreStaff;
 class NoteData;
 class AnalysisData;
@@ -41,12 +42,28 @@ public:
   Nchart(QWidget* parent = 0);
   virtual ~Nchart();
 
-  void setPitchFinder(TpitchFinder* pf); /** Pitch finder processing audio data */
+  struct SnoteStruct {
+    int       index;
+    qreal     realPitch;
+    int       basePitch; /** Rounded pitch value */
+    qreal     duration;
+    int       chunkDur; /** How many chunks note takes */
+  }; /** Values describing detected note after Nootka processing */
+
+  void setAudioLoader(NaudioLoader* loader); /** Pitch finder processing audio data */
   void setXnumber(int xN); /** Number of X values on the chart */
 
   void allDataLoaded(); /** May be called when all data was sent to the chart to adjust its size */
 
   void drawChunk();
+
+  void setNootkaIndexing(bool yes);
+  bool isNootkaIndexing() { return m_nootkaIndexing; }
+
+  qreal chunkDuration() { return m_chunkDuration; } /** Time of single chunk in seconds [s] */
+
+  void setMinVolToSplit(qreal minVol) { m_minVolToSplit = minVol; }
+  qreal minVolToSplit() { return m_minVolToSplit; }
 
 signals:
   void chunkDone(); /** Emitted when @p chunkSlot() finished. */
@@ -55,6 +72,7 @@ protected:
   void copyChunk(AnalysisData* ad, NoteData* nd);
   void clefChanged(Tclef clef);
   void drawNoteSegment(int firstNoteChunk, int lastNoteChunk);
+  void drawNoteSegment2(int firstNoteChunk, int lastNoteChunk);
   void emptyRect(int firstChunk, qreal width);
 
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
@@ -73,6 +91,18 @@ private:
   QLinearGradient              m_pitchGrad;
   QGraphicsLineItem           *m_xLine;
   const int                    xSc, hSc; /** @p xSc is scale of x axis ans @p hSc is half of it  */
+
+// Nootka indexing method
+  bool                         m_nootkaIndexing;
+  qreal                        m_chunkDuration;
+  int                          m_minChunkDur; /** Minimal numbers of chunk for note */
+  SnoteStruct                  m_newNote, m_prevNote;
+  double                       m_hiVol, m_loVol;
+  qreal                        m_minVolToSplit;
+  int                          m_nootkaIndex;
+  NaudioLoader                *m_loader;
+
+  void nootkaMethod(int c); /** Process of indexing chunk of given number */
 };
 
 #endif // NCHART_H

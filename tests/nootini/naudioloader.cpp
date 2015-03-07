@@ -137,6 +137,8 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
     m_pf->aGl()->threshold = tp->threshold;
     m_pf->aGl()->doingHarmonicAnalysis = tp->doingHarmonicAnalysis;
     m_pf->aGl()->equalLoudness = tp->equalLoudness;
+    m_pf->aGl()->dBFloor = tp->dBFloor;
+    m_pf->resetFinder();
   }
 }
 
@@ -147,6 +149,7 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
 void NaudioLoader::performThread() {
   if (m_audioFile.isOpen()) {
     qint16 chL, chR;
+    m_volume = 0.0;
     for (int i = 0; i < m_samplesCount; ++i) {
       m_in >> chL;
       chL = qFromBigEndian<qint16>(chL);
@@ -155,7 +158,13 @@ void NaudioLoader::performThread() {
         chR = qFromBigEndian<qint16>(chR);
         chL = ((qint32)chL + (qint32)chR) / 2; // mix channels to mono
       }
-      m_pf->fillBuffer(float(chL) / 32760.0f);
+      float sample = float(double(chL) / 32760.0f);
+      m_volume = qMax<float>(m_volume, sample);
+      int curChunk = m_pf->currentChunk();
+      m_pf->fillBuffer(sample);
+      if (curChunk != m_pf->currentChunk()) {
+        m_volume = 0.0;
+      }
     }
     emit processingFinished();
     m_audioFile.close();

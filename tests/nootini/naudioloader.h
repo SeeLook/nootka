@@ -50,6 +50,8 @@ public:
 
   void fillTartiniParams(TartiniParams* tp); /** Applies Tartini parameters to existing @class TpitchFinder instance */
 
+  float volume() { return m_volume; } /** The strength value of amplitude in current chunk. */
+
 signals:
   void processingFinished(); /** Emitted when all data were processed */
 
@@ -63,6 +65,7 @@ private:
   quint16          m_channelsNr;
   QDataStream      m_in;
   QFile            m_audioFile;
+  float            m_volume;
 };
 
 #endif // NAUDIOLOADER_H

@@ -76,6 +76,20 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
   m_noiseFilterChB = new QCheckBox(tr("noise filter"), this);
     m_noiseFilterChB->setChecked(m_tartiniParams->equalLoudness);
 
+  m_nootkaIndexChB = new QCheckBox(tr("Nootka indexing method"), this);
+  m_nootkaIndexChB->hide();
+
+  m_splitVolGroup = new QGroupBox(tr("split on volume ascent"), this);
+    m_splitVolGroup->setCheckable(true);
+  m_splitVolSpin = new QDoubleSpinBox(this);
+    m_splitVolSpin->setRange(0.05, 10.0);
+    m_splitVolSpin->setSuffix(" %");
+
+  QLabel *dbLab = new QLabel(tr("dbFloor"), this);
+  m_dbFlorSpin = new QDoubleSpinBox(this);
+    m_dbFlorSpin->setRange(-300, 0);
+    m_dbFlorSpin->setValue(m_tartiniParams->dBFloor);
+
   QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
 
   QVBoxLayout *lay = new QVBoxLayout;
@@ -108,6 +122,17 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     threshLay->addStretch();
   lay->addLayout(threshLay);
   lay->addWidget(m_noiseFilterChB);
+  lay->addWidget(m_nootkaIndexChB);
+    QVBoxLayout *splitLay = new QVBoxLayout;
+    splitLay->addWidget(m_splitVolSpin, 1, Qt::AlignCenter);
+    m_splitVolGroup->setLayout(splitLay);
+  lay->addWidget(m_splitVolGroup);
+    QHBoxLayout *dbLay = new QHBoxLayout;
+    dbLay->addStretch();
+    dbLay->addWidget(dbLab);
+    dbLay->addWidget(m_dbFlorSpin);
+    dbLay->addStretch();
+  lay->addLayout(dbLay);
   lay->addWidget(buttonBox);
   setLayout(lay);
 
@@ -115,6 +140,34 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
   connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
 }
+
+
+bool NootiniSettings::nootkaIndexing() {
+  return m_nootkaIndexChB->isChecked();
+}
+
+
+void NootiniSettings::setNootkaIndexing(bool yes) {
+  m_nootkaIndexChB->setChecked(yes);
+}
+
+
+void NootiniSettings::setMinVolToSplit(qreal minVol) {
+  if (minVol >= 0.01) {
+    m_splitVolGroup->setChecked(true);
+    m_splitVolSpin->setValue(minVol);
+  } else
+    m_splitVolGroup->setChecked(false);
+}
+
+
+qreal NootiniSettings::minVolToSplit() {
+  if (m_splitVolGroup->isChecked())
+    return m_splitVolSpin->value();
+  else
+    return 0.0;
+}
+
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
@@ -135,6 +188,7 @@ void NootiniSettings::accept() {
 
   m_tartiniParams->threshold = m_thresholdSpin->value();
   m_tartiniParams->equalLoudness = m_noiseFilterChB->isChecked();
+  m_tartiniParams->dBFloor = m_dbFlorSpin->value();
 
   QDialog::accept();
 }
