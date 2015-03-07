@@ -578,7 +578,7 @@
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="160"/>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation>Jouer une courte mélodie sur les cordes aiguës </translation>
+        <translation>Jouer une courte mélodie sur les cordes aiguës avec les notes des trois premières frettes. Altérations: dièses uniquement.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="196"/>
@@ -991,8 +991,7 @@
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="64"/>
         <source>Played number</source>
-        <translatorcomment>unsure of this one...</translatorcomment>
-        <translation>Nombre joué</translation>
+        <translation>Nombre de fois joué</translation>
     </message>
 </context>
 <context>
@@ -1161,8 +1160,8 @@
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation>
-            <numerusform>%n tentative(s)</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n tentative</numerusform>
+            <numerusform>%n tentatives</numerusform>
         </translation>
     </message>
     <message>
@@ -2423,8 +2422,7 @@
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translatorcomment>I don&apos;t really understand the meaning of the English text here... is it &apos;It is possible that a tonic note is missing&apos; or &apos;A tonic note is possibly missing&apos;?</translatorcomment>
-        <translation></translation>
+        <translation>&lt;li&gt;Il est possible qu&apos;une note tonique manque pour certaines armatures dans la gamme de notes sélectionnée.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
@@ -2870,7 +2868,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="332"/>
         <source>Click to add a new note</source>
-        <translation>Cliquer sur le bouton %1 pour ajouter une note</translation>
+        <translation>Cliquer pour ajouter une nouvelle note</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tnotecontrol.cpp" line="342"/>
@@ -3028,8 +3026,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="56"/>
         <source>names highlight color</source>
-        <translatorcomment>not so sure...</translatorcomment>
-        <translation>Couleur utilisée pour surligner les noms</translation>
+        <translation>Couleur utilisée pour surligner les noms de notes</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="67"/>
@@ -3039,7 +3036,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="69"/>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
-        <translation>Affiche le nom de la note au format suivant: &lt;br&gt; Petite octave: nom de la note en minuscules, &lt;br&gt; Grande octave: nom de la note en majuscules, &lt;br&gt; 2e, 3e, 4e et 5e petites octaves: un exposant numérique est associé au nom de la note.</translation>
+        <translation>Affiche le nom formatté de la note. &lt;br&gt; Petite octave: minuscule, &lt;br&gt; Grande octave: majuscule, &lt;br&gt; Ensuite, un exposant numérique est ajoutée pour chaque ligne (1, 2, ...).</translation>
     </message>
 </context>
 <context>
@@ -3656,12 +3653,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="54"/>
         <source>Simple exam settings</source>
-        <translation></translation>
+        <translation>Paramètres simples des examens</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="56"/>
         <source>Simple exercise settings</source>
-        <translation></translation>
+        <translation>Paramètres simples des exercices</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="68"/>
@@ -3870,7 +3867,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation>
             <numerusform>La mélodie a été jouéee &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
-            <numerusform></numerusform>
+            <numerusform>La mélodie a été jouéee &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
         </translation>
     </message>
     <message>
@@ -4361,8 +4358,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="127"/>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translatorcomment>note so sure here...</translatorcomment>
-        <translation>Détermine la dernère note d&apos;une mélodie. &lt;br&gt; Si activé, la mélodie se teminera sur la note tonique la signature de clé</translation>
+        <translation>Détermine la dernère note d&apos;une mélodie. &lt;br&gt; Si activé, la mélodie se teminera sur la note tonique de l&apos;armature.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="130"/>
