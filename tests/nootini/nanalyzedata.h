@@ -19,6 +19,8 @@
 #ifndef H_ANALYZEDATA
 #define H_ANALYZEDATA
 
+#include <QtCore/QtGlobal>
+
 /**
  * Structure of values detecting by @class TpitchFinder
  * to process them in analysis chart
@@ -27,14 +29,18 @@ class NanalyzeData
 {
 public:
   NanalyzeData(int _index, float _pitch = 0, double _averPitch = 0, double _vol = 0, double _dur = 0) :
-    index(_index), pitch(_pitch), avPitch(_averPitch), vol(_vol), dur(_dur)
+    index(_index),
+    pitch(_pitch), basePitch(qRound(_pitch)),
+    avPitch(_averPitch), vol(_vol), dur(_dur)
   {}
 
   int index; /** Note index in entire channel */
   float pitch; /** pitch in chunk */
+  int basePitch; /** Midi value (rounded to integer) of a pitch */
   double avPitch; /** Average pitch  */
   double vol; /** volume */
   double dur; /** Note duration */
+  float signalStrenght; /** Max amplitude of PCM data in chunk  */
 };
 
 

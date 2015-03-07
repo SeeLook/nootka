@@ -25,7 +25,8 @@
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QtWidgets>
 
-
+bool m_nootInd = false;
+qreal m_minVolToSplit = 0.0;
 NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   QMainWindow(parent),
   m_chart(0)
@@ -44,10 +45,12 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   m_openAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_DirOpenIcon)), tr("open audio file"),
                                   this, SLOT(openFileSlot()), QKeySequence::Open);
   m_settAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::QStyle::SP_DialogApplyButton)), tr("settings"),
-                                  this, SLOT(settingsSlot()));
+                                  this, SLOT(settingsSlot()), QKeySequence("Ctrl+E"));
+//   fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)), tr("process again"),
+//                       this, SLOT(quit()), QKeySequence("Ctrl+space"));
 
-  QMenu *chartMenu = menuBar()->addMenu(tr("chart"));
-  chartMenu->addAction(tr("process again"));
+//   QMenu *chartMenu = menuBar()->addMenu(tr("chart"));
+//   chartMenu->addAction(tr("process again"));
 
   m_loader = new NaudioLoader();
 
@@ -77,8 +80,12 @@ void NootiniWindow::openFileSlot() {
 
 void NootiniWindow::settingsSlot() {
   NootiniSettings sett(&m_tartiniParams, this);
+  sett.setNootkaIndexing(m_nootInd);
+  sett.setMinVolToSplit(m_minVolToSplit);
   if (sett.exec() == QDialog::Accepted) {
     m_loader->fillTartiniParams(&m_tartiniParams);
+    m_nootInd = sett.nootkaIndexing();
+    m_minVolToSplit = sett.minVolToSplit();
   }
 }
 
@@ -90,8 +97,10 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
     centralWidget()->layout()->addWidget(m_chart);
     setWindowTitle("Nootini - " + fileName);
     m_loader->fillTartiniParams(&m_tartiniParams);
-    m_chart->setPitchFinder(m_loader->finder());
+    m_chart->setAudioLoader(m_loader);
     m_chart->setXnumber(m_loader->totalChunks() + 1);
+    m_chart->setNootkaIndexing(m_nootInd);
+    m_chart->setMinVolToSplit(m_minVolToSplit);
     m_loader->startLoading();
     m_chart->drawChunk();
   }
@@ -118,6 +127,9 @@ void NootiniWindow::readConfig() {
     m_tartiniParams.threshold = Tcore::gl()->config->value("threshold", 93).toInt();
     m_tartiniParams.equalLoudness = Tcore::gl()->config->value("equalLoudness", true).toBool();
     m_tartiniParams.doingHarmonicAnalysis = Tcore::gl()->config->value("doingHarmonicAnalysis", false).toBool();
+    m_tartiniParams.dBFloor = Tcore::gl()->config->value("dBFloor", -150).toDouble();
+    m_nootInd = Tcore::gl()->config->value("nootkaIndexing", false).toBool();
+    m_minVolToSplit = Tcore::gl()->config->value("minVolumeToSplit", 0.0).toReal();
   Tcore::gl()->config->endGroup();
 }
 
@@ -127,6 +139,9 @@ void NootiniWindow::writeConfig() {
     Tcore::gl()->config->setValue("threshold", m_tartiniParams.threshold);
     Tcore::gl()->config->setValue("equalLoudness", m_tartiniParams.equalLoudness);
     Tcore::gl()->config->setValue("doingHarmonicAnalysis", m_tartiniParams.doingHarmonicAnalysis);
+    Tcore::gl()->config->setValue("nootkaIndexing", m_nootInd);
+    Tcore::gl()->config->setValue("minVolumeToSplit", m_minVolToSplit);
+    Tcore::gl()->config->setValue("dBFloor", m_tartiniParams.dBFloor);
   Tcore::gl()->config->endGroup();
 }
 

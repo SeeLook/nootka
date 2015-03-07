@@ -22,6 +22,8 @@
 
 #include <QtWidgets/QDialog>
 
+class QDoubleSpinBox;
+class QGroupBox;
 class QCheckBox;
 class TartiniParams;
 class QComboBox;
@@ -39,14 +41,22 @@ class NootiniSettings : public QDialog
 public:
   explicit NootiniSettings(TartiniParams* tp, QWidget* parent = 0);
 
+  bool nootkaIndexing();
+  void setNootkaIndexing(bool yes);
+
+  void setMinVolToSplit(qreal minVol);
+  qreal minVolToSplit();
+
 protected:
   virtual void accept();
 
 private:
   QRadioButton        *m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
   QSpinBox            *m_freqSpin, *m_durationSpin, *m_thresholdSpin;
+  QDoubleSpinBox      *m_splitVolSpin, *m_dbFlorSpin;
   TvolumeSlider       *m_volumeSlider;
-  QCheckBox           *m_noiseFilterChB;
+  QCheckBox           *m_noiseFilterChB, *m_nootkaIndexChB;
+  QGroupBox           *m_splitVolGroup;
   TartiniParams       *m_tartiniParams;
 };
 
