@@ -40,6 +40,7 @@ public:
 protected:
   void readConfig(); /** Reads other settings values than Nootka.conf from Nootini.conf */
   void writeConfig(); /** Writes other settings values to Nootini.conf */
+  void startProcessing();
 
   virtual void closeEvent(QCloseEvent* e);
   virtual void resizeEvent(QResizeEvent* e);
@@ -48,10 +49,11 @@ protected slots:
   void openFileSlot();
   void settingsSlot();
   void processAudioFile(const QString& fileName);
+  void processAgain();
 
 private:
   Nchart            *m_chart;
-  QAction           *m_openAct, *m_settAct;
+  QAction           *m_openAct, *m_settAct, *m_againAct;
   NaudioLoader      *m_loader;
   TartiniParams      m_tartiniParams;
 

@@ -82,7 +82,8 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
   m_splitVolGroup = new QGroupBox(tr("split on volume ascent"), this);
     m_splitVolGroup->setCheckable(true);
   m_splitVolSpin = new QDoubleSpinBox(this);
-    m_splitVolSpin->setRange(0.05, 10.0);
+    m_splitVolSpin->setRange(0.01, 0.5);
+    m_splitVolSpin->setSingleStep(0.05);
     m_splitVolSpin->setSuffix(" %");
 
   QLabel *dbLab = new QLabel(tr("dbFloor"), this);

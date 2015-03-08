@@ -52,6 +52,8 @@ public:
 
   float volume() { return m_volume; } /** The strength value of amplitude in current chunk. */
 
+  QString fileName() { return m_audioFile.fileName(); }
+
 signals:
   void processingFinished(); /** Emitted when all data were processed */
 

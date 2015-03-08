@@ -46,8 +46,8 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
                                   this, SLOT(openFileSlot()), QKeySequence::Open);
   m_settAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::QStyle::SP_DialogApplyButton)), tr("settings"),
                                   this, SLOT(settingsSlot()), QKeySequence("Ctrl+E"));
-//   fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)), tr("process again"),
-//                       this, SLOT(quit()), QKeySequence("Ctrl+space"));
+  m_againAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)), tr("process again"),
+                      this, SLOT(processAgain()), QKeySequence("Ctrl+space"));
 
 //   QMenu *chartMenu = menuBar()->addMenu(tr("chart"));
 //   chartMenu->addAction(tr("process again"));
@@ -96,14 +96,27 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
     m_chart = new Nchart();
     centralWidget()->layout()->addWidget(m_chart);
     setWindowTitle("Nootini - " + fileName);
-    m_loader->fillTartiniParams(&m_tartiniParams);
-    m_chart->setAudioLoader(m_loader);
-    m_chart->setXnumber(m_loader->totalChunks() + 1);
-    m_chart->setNootkaIndexing(m_nootInd);
-    m_chart->setMinVolToSplit(m_minVolToSplit);
-    m_loader->startLoading();
-    m_chart->drawChunk();
+    startProcessing();
   }
+}
+
+
+void NootiniWindow::processAgain() {
+  QString fileName = m_loader->fileName();
+  delete m_loader;
+  m_loader = new NaudioLoader();
+  if (m_loader->setAudioFile(fileName))
+    startProcessing();
+}
+
+
+void NootiniWindow::startProcessing() {
+  m_loader->fillTartiniParams(&m_tartiniParams);
+  m_chart->setAudioLoader(m_loader);
+  m_chart->setNootkaIndexing(m_nootInd);
+  m_chart->setMinVolToSplit(m_minVolToSplit);
+  m_loader->startLoading();
+  m_chart->drawChunk();
 }
 
 
