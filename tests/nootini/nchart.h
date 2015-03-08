@@ -20,6 +20,7 @@
 #define NCHART_H
 
 #include <tchart.h>
+#include <tyaxis.h>
 #include <music/tclef.h>
 #include "nanalyzedata.h"
 #include <QThread>
@@ -76,6 +77,7 @@ protected:
   void emptyRect(int firstChunk, qreal width);
 
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
+  qreal yMap(qreal yy) { return yAxis->y() + yAxis->mapValue(yy); }
 
   QList<NanalyzeData>  dl;
 
@@ -91,6 +93,7 @@ private:
   QLinearGradient              m_pitchGrad;
   QGraphicsLineItem           *m_xLine;
   const int                    xSc, hSc; /** @p xSc is scale of x axis ans @p hSc is half of it  */
+  int                          m_pass;
 
 // Nootka indexing method
   bool                         m_nootkaIndexing;

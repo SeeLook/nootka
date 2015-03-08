@@ -18,7 +18,6 @@
 
 #include "nchart.h"
 #include "naudioloader.h"
-#include <tyaxis.h>
 #include <txaxis.h>
 #include <tartini/notedata.h>
 #include <tartini/channel.h>
@@ -30,6 +29,7 @@
 #include <score/tscorestaff.h>
 #include <score/tscoreclef.h>
 #include <tscoreparams.h>
+#include <tcolor.h>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QScrollBar>
 #include <QtCore/QDebug>
@@ -44,6 +44,14 @@
   #define SLEEP(msecs) usleep(msecs * 1000)
 #endif
 
+QColor minVolumeColor = QColor(0, 0, 255);
+QColor noteVolumeColor = QColor(120, 255, 0);
+QColor pcmVolumeColor = Qt::magenta;
+QColor perfectPitchColor = Qt::darkGreen;
+QColor averPitchColor = Qt::gray;
+QColor chunkPitchColor = Qt::cyan;
+QColor emptyColor = Qt::darkGray;
+
 
 Nchart::Nchart(QWidget* parent) :
   Tchart(parent),
@@ -51,6 +59,7 @@ Nchart::Nchart(QWidget* parent) :
   m_totalXnr(0),
   m_pitchGrad(0.5, 0, 0.5, 1),
   xSc(4), hSc(2),
+  m_pass(-1),
   m_nootkaIndexing(false)
 {
   yAxis->hide();
@@ -75,16 +84,16 @@ Nchart::Nchart(QWidget* parent) :
   m_pitchGrad.setColorAt(0.85, QColor(255, 0, 0, al));
   m_pitchGrad.setColorAt(1, QColor(117, 21, 86, al));
 
-  m_xLine = new QGraphicsLineItem;
-  scene->addItem(m_xLine);
-  m_xLine->setPen(QPen(palette().text().color(), 2));
-  m_xLine->setLine(52, yAxis->boundingRect().height(), 400, yAxis->boundingRect().height());
-  m_xLine->setZValue(2);
+//   m_xLine = new QGraphicsLineItem;
+//   scene->addItem(m_xLine);
+//   m_xLine->setPen(QPen(palette().text().color(), 2));
+//   m_xLine->setLine(52, yAxis->boundingRect().height(), 400, yAxis->boundingRect().height());
+//   m_xLine->setZValue(2);
 
   m_staff = new TscoreStaff(scene, 0);
-  m_staff->setScale((yAxis->mapValue(0) - yAxis->mapValue(60)) / m_staff->height());
+  m_staff->setScale((yMap(0) - yMap(60)) / m_staff->height());
   m_staff->setViewWidth(400 / m_staff->scale());
-  m_staff->setPos(22, yAxis->mapValue(50));
+  m_staff->setPos(22, yMap(50));
   m_staff->onClefChanged(Tcore::gl()->S->clef);
   connect(m_staff, &TscoreStaff::clefChanged, this, &Nchart::clefChanged);
   QTimer::singleShot(1, this, SLOT(adjustHeight()));
@@ -97,49 +106,93 @@ Nchart::~Nchart()
 
 
 void Nchart::setXnumber(int xN) {
-  m_xLine->setLine(52, yAxis->boundingRect().height(), (xN + 15) * xSc, yAxis->boundingRect().height());
+  m_xLine = new QGraphicsLineItem;
+  scene->addItem(m_xLine);
+  m_xLine->setPen(QPen(palette().text().color(), 2));
+//   m_xLine->setLine(52, yAxis->boundingRect().height(), 400, yAxis->boundingRect().height());
+  m_xLine->setZValue(2);
+  m_xLine->setLine(52, yAxis->y() + yAxis->boundingRect().height(), (xN + 15) * xSc, yAxis->y() + yAxis->boundingRect().height());
   m_totalXnr = xN;
   m_staff->setViewWidth(m_xLine->line().length() / m_staff->scale());
   qreal secondStep = xSc * (qreal)m_pitchF->aGl()->rate / (qreal)m_pitchF->aGl()->framesPerChunk;
   for (int i = 0; i <= m_xLine->line().length() / secondStep; ++i) {
-    scene->addLine(QLineF(52 + i * secondStep, yAxis->mapValue(0), 52 + i * secondStep, yAxis->mapValue(0) + 3), m_xLine->pen());
+    scene->addLine(QLineF(52 + i * secondStep, yMap(0), 52 + i * secondStep, yMap(0) + 3), m_xLine->pen());
     QGraphicsTextItem *ticText = scene->addText(QString("%1").arg(i));
-    ticText->setPos(52 + i * secondStep - ticText->boundingRect().width() / 2, yAxis->mapValue(0) + 3);
-    QGraphicsLineItem *l = scene->addLine(52 + i * secondStep, yAxis->mapValue(1), 52 + i * secondStep, yAxis->mapValue(152),
+    ticText->setPos(52 + i * secondStep - ticText->boundingRect().width() / 2, yMap(0) + 3);
+    QGraphicsLineItem *l = scene->addLine(52 + i * secondStep, yMap(1), 52 + i * secondStep, yMap(152),
                    QPen(Qt::lightGray, 1, Qt::DashLine));
     l->setZValue(1);
   }
   for (int i = 1; i <= m_xLine->line().length() / xSc; ++i)
-    scene->addLine(QLineF(52 + i * xSc, yAxis->mapValue(0), 52 + i * xSc, yAxis->mapValue(0) - 2),
+    scene->addLine(QLineF(52 + i * xSc, yMap(0), 52 + i * xSc, yMap(0) - 2),
                    QPen(palette().text().color(), 0.5));
   QGraphicsTextItem *timeText = scene->addText(tr("time [s]") + "  ");
-    timeText->setPos(52  + m_xLine->line().length(), yAxis->mapValue(0) + 3);
+    timeText->setPos(52  + m_xLine->line().length(), yMap(0) + 3);
 // VOLUME
-  scene->addLine(xMap(1), yAxis->mapValue(101 + Tcore::gl()->A->minimalVol * 50.0), // minimum volume line
-                 xMap(m_totalXnr), yAxis->mapValue(101 + Tcore::gl()->A->minimalVol * 50.0), QPen(QColor(0, 0, 255), 1));
-  QGraphicsTextItem *minVolText = scene->addText((tr("min\nvolume")));
-  minVolText->setDefaultTextColor(QColor(0, 0, 255));
-  minVolText->setPos(xMap(1) - minVolText->boundingRect().width(),
-                     yAxis->mapValue(101 + Tcore::gl()->A->minimalVol * 50.0) - minVolText->boundingRect().height() / 2);
+  scene->addLine(xMap(1), yMap(101 + Tcore::gl()->A->minimalVol * 50.0), // minimum volume line
+                 xMap(m_totalXnr), yMap(101 + Tcore::gl()->A->minimalVol * 50.0), QPen(minVolumeColor, 1));
+  QGraphicsTextItem *minVolText = scene->addText(tr("min\nvolume"));
+    minVolText->setDefaultTextColor(minVolumeColor);
+    minVolText->setPos(xMap(1) - minVolText->boundingRect().width(),
+                     yMap(101 + Tcore::gl()->A->minimalVol * 50.0) - minVolText->boundingRect().height() / 2);
   QGraphicsTextItem *noteVolText = scene->addText((tr("note\nvolume")));
-  noteVolText->setDefaultTextColor(QColor(120, 255, 0));
-  noteVolText->setPos(xMap(1) - minVolText->boundingRect().width(), yAxis->mapValue(150));
-  scene->addLine(xMap(1), yAxis->mapValue(101), xMap(m_totalXnr) , yAxis->mapValue(101), QPen(palette().text().color(), 1)); // X axis of volume chart
+    noteVolText->setDefaultTextColor(noteVolumeColor);
+    noteVolText->setPos(xMap(1) - minVolText->boundingRect().width(), yMap(150));
+  scene->addLine(xMap(1), yMap(101), xMap(m_totalXnr) , yMap(101), QPen(palette().text().color(), 1)); // X axis of volume chart
+  QGraphicsTextItem *pcmSigText = scene->addText(tr("PCM\nvolume"));
+    pcmSigText->setDefaultTextColor(pcmVolumeColor);
+    pcmSigText->setPos(xMap(1) - pcmSigText->boundingRect().width(), yMap(100) - pcmSigText->boundingRect().height());
+// PITCH
+  QGraphicsRectItem *bgPitch = scene->addRect(xMap(1), yMap(100), (xN - 4) * xSc, yMap(50) - yMap(100),
+                 Qt::NoPen, QBrush(m_pitchGrad));
+    bgPitch->setZValue(5);
+// perfect pitch line in the middle of a rectangle
+  QGraphicsLineItem *pitchLine = scene->addLine(xMap(1), yMap(75), xMap(xN - 4), yMap(75), QPen(perfectPitchColor, 1));
+    pitchLine->setZValue(12);
+
+  QGraphicsTextItem *pitchTexts = new QGraphicsTextItem();
+    scene->addItem(pitchTexts);
+    pitchTexts->setHtml("<span style=\"color: " + chunkPitchColor.name() + "\";>" + tr("chunk pitch") + "</span><br>" +
+                        "<span style=\"color: " + perfectPitchColor.name() + "\";>" + tr("perfect pitch") + "</span><br>" +
+                        "<span style=\"color: " + averPitchColor.name() + "\";>" + tr("average pitch") + "</span>");
+    pitchTexts->setPos(xMap(0) - pitchTexts->boundingRect().width(), yMap(75) - pitchTexts->boundingRect().height() / 2);
 }
 
 
 void Nchart::setAudioLoader(NaudioLoader* loader) {
+  m_pass++;
   m_loader = loader;
   m_pitchF = loader->finder();
   dl.clear();
   m_chunkNr = -1;
+  m_hiVol = 0;
+  m_loVol = 0;
   connect(m_pitchF, &TpitchFinder::chunkProcessed, this, &Nchart::copyChunk, Qt::DirectConnection);
-  m_staff->setDisabled(true);
   m_progresItem->show();
   m_chunkDuration = 1.0 / ((qreal)m_pitchF->aGl()->rate / (qreal)m_pitchF->aGl()->framesPerChunk);
   m_minChunkDur = qRound(Tcore::gl()->A->minDuration / m_chunkDuration);
   qDebug() << "chunk duration" << m_chunkDuration << "min chunks number" << m_minChunkDur;
   horizontalScrollBar()->setValue(0);
+
+  if (m_pass) { // another processing on existing chart
+    TYaxis *oldYaxis = yAxis;
+    yAxis = new TYaxis;
+    scene->addItem(yAxis);
+    yAxis->setLength(400);
+    yAxis->setZValue(55);
+    yAxis->setMaxValue(140, false);
+    yAxis->setPos(45, m_pass * oldYaxis->length() + 5);
+    yAxis->hide();
+
+    TscoreStaff *oldStaff = m_staff;
+    m_staff = new TscoreStaff(scene, 0);
+    m_staff->setScale(oldStaff->scale());
+//     m_staff->setViewWidth(oldStaff->width());
+    m_staff->setPos(oldStaff->x(), yMap(50));
+    m_staff->onClefChanged(oldStaff->scoreClef()->clef());
+  }
+  setXnumber(m_loader->totalChunks() + 1);
+  m_staff->setDisabled(true);
 }
 
 
@@ -153,8 +206,6 @@ void Nchart::setNootkaIndexing(bool yes) {
   if (m_nootkaIndexing) {
     m_newNote.basePitch = 0;
     m_prevNote.basePitch = 0;
-    m_hiVol = 0;
-    m_loVol = 0;
     m_nootkaIndex = 0;
   }
 }
@@ -173,6 +224,7 @@ void Nchart::copyChunk(AnalysisData* ad, NoteData* nd) {
 
 void Nchart::drawChunk() {
   int firstNoteChunk;
+  int lowestChunk;
   for (int c = 1; c < m_totalXnr - 4; c++) {
     while (c >= dl.size()) { // wait for Tartini processing
 //       qApp->thread()->msleep(1);
@@ -180,20 +232,42 @@ void Nchart::drawChunk() {
 //       qDebug() << "sleep during drawing" << c;
       qApp->processEvents();
     }
-    if (c % 20 == 0)
+    if (c % 30 == 0)
       m_progresItem->setHtml(tr("Detecting...") + QString("<big><b> %1%</b></big>").arg(int(((qreal)c / (qreal)(m_totalXnr)) * 100)));
-    scene->addLine(xMap(c - 1) + hSc, yAxis->mapValue(101 + dl[c - 1].signalStrenght * 50.0),
-                   xMap(c) + hSc, yAxis->mapValue(101 + dl[c].signalStrenght * 50.0), QPen(Qt::magenta, 1));
-    if (m_nootkaIndexing) {
-      nootkaMethod(c);
-    } else {
-      if (dl[c -1].index == -1 && dl[c].index != -1) // first chunk with noticed new note
-        firstNoteChunk = c;
-      if ((dl[c -1].index != -1 && dl[c].index == -1)) // note was finished in previous chunk - so process its data
-        drawNoteSegment(firstNoteChunk, c - 1);
-      if (dl[c].index == -1)
-        emptyRect(c, xSc);
+
+    scene->addLine(xMap(c - 1) + hSc, yMap(101 + dl[c - 1].signalStrenght * 50.0), // PCM signal volume line
+                   xMap(c) + hSc, yMap(101 + dl[c].signalStrenght * 50.0), QPen(pcmVolumeColor, 1));
+//     if (m_nootkaIndexing) {
+//       nootkaMethod(c);
+//     } else {
+
+    if (dl[c -1].index == -1 && dl[c].index != -1) // first chunk with noticed new note
+      firstNoteChunk = c;
+
+    if (m_minVolToSplit) {
+      if (c >= firstNoteChunk + m_minChunkDur)
+        m_hiVol = qMax<double>(m_hiVol, dl[c].vol);
+      if (dl[c].vol < m_loVol) {
+        m_loVol = dl[c].vol;
+        lowestChunk = c;
+      }
+//       qDebug() << c << m_hiVol - m_loVol << m_minVolToSplit;
+      if (m_hiVol - m_loVol >= m_minVolToSplit && lowestChunk - firstNoteChunk >= m_minChunkDur) {
+        drawNoteSegment(firstNoteChunk, lowestChunk);
+        firstNoteChunk = lowestChunk + 1;
+        m_hiVol = 0.0;
+        m_loVol = 1.0;
+      }
     }
+
+    if ((dl[c -1].index != -1 && dl[c].index == -1)) // note was finished in previous chunk - so process its data
+      drawNoteSegment(firstNoteChunk, c - 1);
+    if (dl[c].index == -1) {
+      emptyRect(c, xSc);
+      m_hiVol = 0.0;
+      m_loVol = 1.0;
+    }
+//     }
   }
   emit chunkDone();
   allDataLoaded();
@@ -208,9 +282,9 @@ void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk) {
     if (dl[i].vol && dl[i - 1].vol) {
       QGraphicsLineItem *volLine = new QGraphicsLineItem(); // line with volumes of every chunk
       scene->addItem(volLine);
-      volLine->setPen(QPen(QColor(120, 255, 0), 2));
-      volLine->setLine(xMap(i - 1) + hSc, yAxis->mapValue(101 + dl[i - 1].vol * 50.0),
-                      xMap(i) + hSc, yAxis->mapValue(101 + dl[i].vol * 50.0));
+      volLine->setPen(QPen(noteVolumeColor, 2));
+      volLine->setLine(xMap(i - 1) + hSc, yMap(101 + dl[i - 1].vol * 50.0),
+                      xMap(i) + hSc, yMap(101 + dl[i].vol * 50.0));
     }
     if (dl[i].vol >= Tcore::gl()->A->minimalVol)
       loudEnough = true;
@@ -222,46 +296,43 @@ void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk) {
   qreal averPitch = pitchSum / qMin<int>(lastNoteChunk - firstNoteChunk + 1, m_minChunkDur);
   QPolygonF pg;
   for (int i = firstNoteChunk; i <= lastNoteChunk; i++)
-    pg << QPointF(xMap(i) + hSc, yAxis->mapValue(75) - qBound<qreal>(-50.0, (dl[i].pitch - (float)qRound(averPitch)) * 50.0, 50.0));
+    pg << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-50.0, (dl[i].pitch - (float)qRound(averPitch)) * 50.0, 50.0));
 
 // ACCURACY BACKGROUND
   QGraphicsRectItem *bgPitch = new QGraphicsRectItem;
     scene->addItem(bgPitch);
     bgPitch->setZValue(10);
     bgPitch->setPen(Qt::NoPen);
-    if (minDurChunk && loudEnough)
-      bgPitch->setBrush(m_pitchGrad);
-    else {
-      QColor emptyColor = palette().text().color();
-      emptyColor.setAlpha(40);
+    if (minDurChunk && loudEnough) {
+//       bgPitch->setBrush(m_pitchGrad);
+    } else {
       bgPitch->setBrush(emptyColor);
+      bgPitch->setRect(xMap(firstNoteChunk), yMap(100),
+                      (lastNoteChunk - firstNoteChunk + 1) * xSc, yMap(50) - yMap(100));
     }
-    bgPitch->setRect(xMap(firstNoteChunk), yAxis->mapValue(100),
-                      (lastNoteChunk - firstNoteChunk + 1) * xSc, yAxis->mapValue(50) - yAxis->mapValue(100));
   if (minDurChunk) {
     QGraphicsLineItem *minDurLine = new QGraphicsLineItem;
-    scene->addItem(minDurLine);
-    minDurLine->setZValue(11);
-    minDurLine->setPen(QPen(Qt::blue, 1));
-    minDurLine->setLine(xMap(minDurChunk) + hSc, yAxis->mapValue(99), xMap(minDurChunk) + hSc, yAxis->mapValue(51));
+      scene->addItem(minDurLine);
+      minDurLine->setZValue(11);
+      minDurLine->setPen(QPen(Qt::blue, 1));
+      minDurLine->setLine(xMap(minDurChunk) + hSc, yMap(99), xMap(minDurChunk) + hSc, yMap(51));
+    QGraphicsTextItem *durText =  scene->addText(tr("min\nduration"));
+      durText->setDefaultTextColor(minDurLine->pen().color());
+      durText->setScale(0.5);
+      durText->setPos(xMap(minDurChunk) + hSc - durText->boundingRect().width() / 4, yMap(51));
   }
-  QGraphicsLineItem *pitchLine = new QGraphicsLineItem; // perfect pitch line in the middle of a rectangle
-    scene->addItem(pitchLine);
-    pitchLine->setZValue(12);
-    pitchLine->setPen(QPen(Qt::darkGreen, 1));
-    pitchLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(75), xMap(lastNoteChunk), yAxis->mapValue(75));
   QGraphicsLineItem *averpitchLine = new QGraphicsLineItem;
     scene->addItem(averpitchLine);
     averpitchLine->setZValue(16);
-    averpitchLine->setPen(QPen(Qt::gray, 1));
-    qreal avY = yAxis->mapValue(75) - (averPitch - (float)qRound(averPitch)) * 50;
+    averpitchLine->setPen(QPen(averPitchColor, 1));
+    qreal avY = yMap(75) - (averPitch - (float)qRound(averPitch)) * 50;
     averpitchLine->setLine(xMap(firstNoteChunk), avY, xMap(lastNoteChunk), avY);
   QPainterPath pp;
     pp.addPolygon(pg);
   QGraphicsPathItem *pitchDiffLine = new QGraphicsPathItem(pp);
     scene->addItem(pitchDiffLine);
     pitchDiffLine->setZValue(15);
-    pitchDiffLine->setPen(QPen(Qt::cyan, 2, Qt::SolidLine, Qt::RoundCap));
+    pitchDiffLine->setPen(QPen(chunkPitchColor, 2, Qt::SolidLine, Qt::RoundCap));
   Tnote n(qRound(averPitch) - 47);
   m_staff->addNote(n, true);
     m_staff->noteSegment(m_staff->count() - 1)->setPos(m_staff->mapFromScene(xMap(firstNoteChunk), 0).x(), 0);
@@ -276,10 +347,8 @@ void Nchart::emptyRect(int firstChunk, qreal width) {
     scene->addItem(emptyBg);
     emptyBg->setZValue(10);
     emptyBg->setPen(Qt::NoPen);
-    QColor emptyColor = palette().text().color();
-    emptyColor.setAlpha(40 + (10 * (firstChunk % 2)));
-    emptyBg->setBrush(emptyColor);
-    emptyBg->setRect(xMap(firstChunk), yAxis->mapValue(100), width, yAxis->mapValue(50) - yAxis->mapValue(100));
+    emptyBg->setBrush(emptyColor.lighter(160 + (10 * (firstChunk % 2))));
+    emptyBg->setRect(xMap(firstChunk), yMap(100), width, yMap(50) - yMap(100));
 }
 
 
@@ -325,8 +394,8 @@ void Nchart::drawNoteSegment2(int firstNoteChunk, int lastNoteChunk) {
       QGraphicsLineItem *volLine = new QGraphicsLineItem(); // line with volumes of every chunk
       scene->addItem(volLine);
       volLine->setPen(QPen(QColor(120, 255, 0), 2));
-      volLine->setLine(xMap(i - 1) + hSc, yAxis->mapValue(150 + dl[i - 1].vol * 50.0),
-                      xMap(i) + hSc, yAxis->mapValue(150 + dl[i].vol * 50.0));
+      volLine->setLine(xMap(i - 1) + hSc, yMap(150 + dl[i - 1].vol * 50.0),
+                      xMap(i) + hSc, yMap(150 + dl[i].vol * 50.0));
     }
     if (!minDurChunk && dl[i].dur > Tcore::gl()->A->minDuration)
       minDurChunk = i;
@@ -335,21 +404,21 @@ void Nchart::drawNoteSegment2(int firstNoteChunk, int lastNoteChunk) {
   qreal averPitch = pitchSum / (lastNoteChunk - firstNoteChunk + 1);
   QPolygonF pg;
   for (int i = firstNoteChunk; i <= lastNoteChunk; i++)
-    pg << QPointF(xMap(i) + hSc, yAxis->mapValue(75) - qBound<qreal>(-50.0, (dl[i].pitch - (float)qRound(averPitch)) * 50.0, 50.0));
+    pg << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-50.0, (dl[i].pitch - (float)qRound(averPitch)) * 50.0, 50.0));
 // VOLUME
   QGraphicsLineItem *minVolLine = new QGraphicsLineItem(); // minimum volume line
     scene->addItem(minVolLine);
     minVolLine->setPen(QPen(QColor(0, 0, 255), 1));
-    minVolLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(150 + Tcore::gl()->A->minimalVol * 50.0),
-                    xMap(lastNoteChunk) + xSc, yAxis->mapValue(150 + Tcore::gl()->A->minimalVol * 50.0));
+    minVolLine->setLine(xMap(firstNoteChunk), yMap(150 + Tcore::gl()->A->minimalVol * 50.0),
+                    xMap(lastNoteChunk) + xSc, yMap(150 + Tcore::gl()->A->minimalVol * 50.0));
   QGraphicsLineItem *xVolLine = new QGraphicsLineItem(); // X axis of volume chart
     scene->addItem(xVolLine);
     xVolLine->setPen(QPen(palette().text().color(), 1));
-    xVolLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(151), xMap(lastNoteChunk) + xSc, yAxis->mapValue(151));
+    xVolLine->setLine(xMap(firstNoteChunk), yMap(151), xMap(lastNoteChunk) + xSc, yMap(151));
   QGraphicsLineItem *yVolLine = new QGraphicsLineItem(); // X axis of volume chart
     scene->addItem(yVolLine);
     yVolLine->setPen(QPen(palette().text().color(), 1));
-    yVolLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(199), xMap(firstNoteChunk), yAxis->mapValue(151));
+    yVolLine->setLine(xMap(firstNoteChunk), yMap(199), xMap(firstNoteChunk), yMap(151));
 // ACCURACY BACKGROUND
   QGraphicsRectItem *bgPitch = new QGraphicsRectItem;
     scene->addItem(bgPitch);
@@ -362,25 +431,25 @@ void Nchart::drawNoteSegment2(int firstNoteChunk, int lastNoteChunk) {
       emptyColor.setAlpha(40);
       bgPitch->setBrush(emptyColor);
     }
-    bgPitch->setRect(xMap(firstNoteChunk), yAxis->mapValue(100),
-                      (lastNoteChunk - firstNoteChunk + 1) * xSc, yAxis->mapValue(50) - yAxis->mapValue(100));
+    bgPitch->setRect(xMap(firstNoteChunk), yMap(100),
+                      (lastNoteChunk - firstNoteChunk + 1) * xSc, yMap(50) - yMap(100));
   if (minDurChunk) {
     QGraphicsLineItem *minDurLine = new QGraphicsLineItem;
     scene->addItem(minDurLine);
     minDurLine->setZValue(11);
     minDurLine->setPen(QPen(Qt::blue, 1));
-    minDurLine->setLine(xMap(minDurChunk) + hSc, yAxis->mapValue(99), xMap(minDurChunk) + hSc, yAxis->mapValue(51));
+    minDurLine->setLine(xMap(minDurChunk) + hSc, yMap(99), xMap(minDurChunk) + hSc, yMap(51));
   }
   QGraphicsLineItem *pitchLine = new QGraphicsLineItem; // perfect pitch line in the middle of a rectangle
     scene->addItem(pitchLine);
     pitchLine->setZValue(12);
     pitchLine->setPen(QPen(Qt::darkGreen, 1));
-    pitchLine->setLine(xMap(firstNoteChunk), yAxis->mapValue(75), xMap(lastNoteChunk), yAxis->mapValue(75));
+    pitchLine->setLine(xMap(firstNoteChunk), yMap(75), xMap(lastNoteChunk), yMap(75));
   QGraphicsLineItem *averpitchLine = new QGraphicsLineItem;
     scene->addItem(averpitchLine);
     averpitchLine->setZValue(16);
     averpitchLine->setPen(QPen(Qt::gray, 1));
-    qreal avY = yAxis->mapValue(75) - (averPitch - (float)qRound(averPitch)) * 50;
+    qreal avY = yMap(75) - (averPitch - (float)qRound(averPitch)) * 50;
     averpitchLine->setLine(xMap(firstNoteChunk), avY, xMap(lastNoteChunk), avY);
   QPainterPath pp;
     pp.addPolygon(pg);
