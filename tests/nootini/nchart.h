@@ -66,6 +66,9 @@ public:
   void setMinVolToSplit(qreal minVol) { m_minVolToSplit = minVol; }
   qreal minVolToSplit() { return m_minVolToSplit; }
 
+  bool drawVolume() { return m_drawVolume; }
+  void setDrawVolume(bool drawVol) { m_drawVolume = drawVol; }
+
 signals:
   void chunkDone(); /** Emitted when @p chunkSlot() finished. */
 
@@ -94,6 +97,7 @@ private:
   QGraphicsLineItem           *m_xLine;
   const int                    xSc, hSc; /** @p xSc is scale of x axis ans @p hSc is half of it  */
   int                          m_pass;
+  bool                         m_drawVolume;
 
 // Nootka indexing method
   bool                         m_nootkaIndexing;
