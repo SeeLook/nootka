@@ -91,6 +91,8 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     m_dbFlorSpin->setRange(-300, 0);
     m_dbFlorSpin->setValue(m_tartiniParams->dBFloor);
 
+  m_drawVolChB = new QCheckBox(tr("draw volume chart"), this);
+
   QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
 
   QVBoxLayout *lay = new QVBoxLayout;
@@ -134,6 +136,7 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     dbLay->addWidget(m_dbFlorSpin);
     dbLay->addStretch();
   lay->addLayout(dbLay);
+  lay->addWidget(m_drawVolChB);
   lay->addWidget(buttonBox);
   setLayout(lay);
 
@@ -167,6 +170,16 @@ qreal NootiniSettings::minVolToSplit() {
     return m_splitVolSpin->value();
   else
     return 0.0;
+}
+
+
+bool NootiniSettings::drawVolumeChart() {
+  return m_drawVolChB->isChecked();
+}
+
+
+void NootiniSettings::setDrawVolumeChart(bool draw) {
+  m_drawVolChB->setChecked(draw);
 }
 
 

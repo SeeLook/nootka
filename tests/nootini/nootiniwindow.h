@@ -50,10 +50,14 @@ protected slots:
   void settingsSlot();
   void processAudioFile(const QString& fileName);
   void processAgain();
+  void zoom();
+  void fitHeight();
+  void saveAsSvg();
 
 private:
   Nchart            *m_chart;
-  QAction           *m_openAct, *m_settAct, *m_againAct;
+  QAction           *m_openAct, *m_settAct, *m_againAct, *m_toSvgAct;
+  QAction           *m_zoomInAct, *m_zoomOutAct, *m_zoomFitAct;
   NaudioLoader      *m_loader;
   TartiniParams      m_tartiniParams;
 

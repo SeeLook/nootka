@@ -22,11 +22,15 @@
 #include "nootinisettings.h"
 #include <graphics/tnotepixmap.h>
 #include <tinitcorelib.h>
+#include <tpath.h>
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QtWidgets>
+#include <QtSvg/QSvgGenerator>
 
-bool m_nootInd = false;
+bool m_nootInd = false, m_drawVolume = true;
 qreal m_minVolToSplit = 0.0;
+qreal m_chartScale = 1.0;
+
 NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   QMainWindow(parent),
   m_chart(0)
@@ -48,9 +52,17 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
                                   this, SLOT(settingsSlot()), QKeySequence("Ctrl+E"));
   m_againAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_MediaPlay)), tr("process again"),
                       this, SLOT(processAgain()), QKeySequence("Ctrl+space"));
+  m_againAct->setDisabled(true);
+  m_toSvgAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_DialogSaveButton)), tr("save to SVG"),
+                      this, SLOT(saveAsSvg()), QKeySequence::Save);
 
-//   QMenu *chartMenu = menuBar()->addMenu(tr("chart"));
-//   chartMenu->addAction(tr("process again"));
+  QMenu *chartMenu = menuBar()->addMenu(tr("chart"));
+  m_zoomInAct = chartMenu->addAction(QIcon(Tpath::img("zoom-in")), tr("zoom in"),
+                      this, SLOT(zoom()), QKeySequence::ZoomIn);
+  m_zoomOutAct = chartMenu->addAction(QIcon(Tpath::img("zoom-out")), tr("zoom out"),
+                      this, SLOT(zoom()), QKeySequence::ZoomOut);
+  m_zoomFitAct = chartMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_ArrowUp)), tr("fit to height"),
+                      this, SLOT(fitHeight()), QKeySequence("Ctrl+0"));
 
   m_loader = new NaudioLoader();
 
@@ -82,10 +94,12 @@ void NootiniWindow::settingsSlot() {
   NootiniSettings sett(&m_tartiniParams, this);
   sett.setNootkaIndexing(m_nootInd);
   sett.setMinVolToSplit(m_minVolToSplit);
+  sett.setDrawVolumeChart(m_drawVolume);
   if (sett.exec() == QDialog::Accepted) {
     m_loader->fillTartiniParams(&m_tartiniParams);
     m_nootInd = sett.nootkaIndexing();
     m_minVolToSplit = sett.minVolToSplit();
+    m_drawVolume = sett.drawVolumeChart();
   }
 }
 
@@ -94,8 +108,10 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
   if (m_loader->setAudioFile(fileName)) {
     delete m_chart;
     m_chart = new Nchart();
+    m_chart->scale(m_chartScale, m_chartScale);
     centralWidget()->layout()->addWidget(m_chart);
     setWindowTitle("Nootini - " + fileName);
+    m_againAct->setDisabled(false);
     startProcessing();
   }
 }
@@ -112,11 +128,26 @@ void NootiniWindow::processAgain() {
 
 void NootiniWindow::startProcessing() {
   m_loader->fillTartiniParams(&m_tartiniParams);
-  m_chart->setAudioLoader(m_loader);
   m_chart->setNootkaIndexing(m_nootInd);
   m_chart->setMinVolToSplit(m_minVolToSplit);
+  m_chart->setDrawVolume(m_drawVolume);
+  m_chart->setAudioLoader(m_loader);
   m_loader->startLoading();
   m_chart->drawChunk();
+}
+
+
+void NootiniWindow::zoom() {
+  qreal coef = sender() == m_zoomOutAct ? 0.9375 : 1.0625;
+  m_chart->scale(coef, coef);
+  m_chartScale = m_chart->transform().m11();
+}
+
+
+void NootiniWindow::fitHeight() {
+  qreal coef = m_chart->viewport()->height() / (m_chart->scene->sceneRect().height()) /** m_chart->transform().m11()*/;
+  m_chart->scale(coef, coef);
+//   m_chart->fitInView(m_chart->scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 
@@ -130,6 +161,7 @@ void NootiniWindow::resizeEvent(QResizeEvent* e) {
   if (e->oldSize().height() > 0) {
     double coef = ((double)e->size().height() / (double)e->oldSize().height());
     m_chart->scale(coef, coef);
+    m_chartScale = m_chart->transform().m11();
   }
   QWidget::resizeEvent(e);
 }
@@ -143,6 +175,7 @@ void NootiniWindow::readConfig() {
     m_tartiniParams.dBFloor = Tcore::gl()->config->value("dBFloor", -150).toDouble();
     m_nootInd = Tcore::gl()->config->value("nootkaIndexing", false).toBool();
     m_minVolToSplit = Tcore::gl()->config->value("minVolumeToSplit", 0.0).toReal();
+    m_drawVolume = Tcore::gl()->config->value("drawVolumeChart", true).toBool();
   Tcore::gl()->config->endGroup();
 }
 
@@ -155,7 +188,23 @@ void NootiniWindow::writeConfig() {
     Tcore::gl()->config->setValue("nootkaIndexing", m_nootInd);
     Tcore::gl()->config->setValue("minVolumeToSplit", m_minVolToSplit);
     Tcore::gl()->config->setValue("dBFloor", m_tartiniParams.dBFloor);
+    Tcore::gl()->config->setValue("drawVolumeChart", m_drawVolume);
   Tcore::gl()->config->endGroup();
 }
+
+
+void NootiniWindow::saveAsSvg() {
+  QSvgGenerator svgGen;
+    svgGen.setFileName("/home/tom/scene2svg.svg");
+    svgGen.setSize(m_chart->scene->sceneRect().size().toSize());
+    svgGen.setViewBox(m_chart->scene->sceneRect().toRect());
+    svgGen.setTitle(tr("SVG Generator Example Drawing"));
+    svgGen.setDescription(tr("An SVG drawing created by the SVG Generator "
+                            "Example provided with Qt."));
+
+    QPainter painter( &svgGen );
+    m_chart->scene->render(&painter);
+}
+
 
 
