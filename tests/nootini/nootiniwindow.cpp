@@ -55,6 +55,7 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   m_againAct->setDisabled(true);
   m_toSvgAct = fileMenu->addAction(QIcon(style()->standardIcon(QStyle::SP_DialogSaveButton)), tr("save to SVG"),
                       this, SLOT(saveAsSvg()), QKeySequence::Save);
+  m_toSvgAct->setDisabled(true);
 
   QMenu *chartMenu = menuBar()->addMenu(tr("chart"));
   m_zoomInAct = chartMenu->addAction(QIcon(Tpath::img("zoom-in")), tr("zoom in"),
@@ -112,6 +113,7 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
     centralWidget()->layout()->addWidget(m_chart);
     setWindowTitle("Nootini - " + fileName);
     m_againAct->setDisabled(false);
+    m_toSvgAct->setDisabled(false);
     startProcessing();
   }
 }
@@ -145,9 +147,8 @@ void NootiniWindow::zoom() {
 
 
 void NootiniWindow::fitHeight() {
-  qreal coef = m_chart->viewport()->height() / (m_chart->scene->sceneRect().height()) /** m_chart->transform().m11()*/;
+  qreal coef = m_chart->viewport()->height() / (m_chart->scene->sceneRect().height() * m_chart->transform().m11());
   m_chart->scale(coef, coef);
-//   m_chart->fitInView(m_chart->scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 
@@ -172,6 +173,7 @@ void NootiniWindow::readConfig() {
     m_tartiniParams.threshold = Tcore::gl()->config->value("threshold", 93).toInt();
     m_tartiniParams.equalLoudness = Tcore::gl()->config->value("equalLoudness", true).toBool();
     m_tartiniParams.doingHarmonicAnalysis = Tcore::gl()->config->value("doingHarmonicAnalysis", false).toBool();
+    m_tartiniParams.doingAutoNoiseFloor = Tcore::gl()->config->value("doingAutoNoiseFloor", true).toBool();
     m_tartiniParams.dBFloor = Tcore::gl()->config->value("dBFloor", -150).toDouble();
     m_nootInd = Tcore::gl()->config->value("nootkaIndexing", false).toBool();
     m_minVolToSplit = Tcore::gl()->config->value("minVolumeToSplit", 0.0).toReal();
@@ -185,6 +187,7 @@ void NootiniWindow::writeConfig() {
     Tcore::gl()->config->setValue("threshold", m_tartiniParams.threshold);
     Tcore::gl()->config->setValue("equalLoudness", m_tartiniParams.equalLoudness);
     Tcore::gl()->config->setValue("doingHarmonicAnalysis", m_tartiniParams.doingHarmonicAnalysis);
+    Tcore::gl()->config->setValue("doingAutoNoiseFloor", m_tartiniParams.doingAutoNoiseFloor);
     Tcore::gl()->config->setValue("nootkaIndexing", m_nootInd);
     Tcore::gl()->config->setValue("minVolumeToSplit", m_minVolToSplit);
     Tcore::gl()->config->setValue("dBFloor", m_tartiniParams.dBFloor);
@@ -194,16 +197,18 @@ void NootiniWindow::writeConfig() {
 
 
 void NootiniWindow::saveAsSvg() {
-  QSvgGenerator svgGen;
-    svgGen.setFileName("/home/tom/scene2svg.svg");
+  QString svgFileName = QFileDialog::getSaveFileName(this, tr("Save chart as SVG image"),
+                                                     m_loader->fileName().replace(".wav", "", Qt::CaseInsensitive), tr("SVG image (*.svg)"));
+  if (!svgFileName.isEmpty()) {
+    QSvgGenerator svgGen;
+    svgGen.setFileName(svgFileName);
     svgGen.setSize(m_chart->scene->sceneRect().size().toSize());
     svgGen.setViewBox(m_chart->scene->sceneRect().toRect());
-    svgGen.setTitle(tr("SVG Generator Example Drawing"));
-    svgGen.setDescription(tr("An SVG drawing created by the SVG Generator "
-                            "Example provided with Qt."));
-
+    svgGen.setTitle(tr("Pitch detection chart of") + " " + m_loader->fileName());
+    svgGen.setDescription(tr("Analyze of musical pitch changes in PCM data."));
     QPainter painter( &svgGen );
     m_chart->scene->render(&painter);
+  }
 }
 
 

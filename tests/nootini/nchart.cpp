@@ -28,6 +28,7 @@
 #include <score/tscorescene.h>
 #include <score/tscorestaff.h>
 #include <score/tscoreclef.h>
+#include <graphics/tgraphicstexttip.h>
 #include <tscoreparams.h>
 #include <tcolor.h>
 #include <QtWidgets/QApplication>
@@ -54,6 +55,10 @@ QColor emptyColor = Qt::darkGray;
 QColor minDurColor = Qt::blue;
 
 
+QString yOrN(bool yn) {
+  return yn ? "<b>yes</b>" : "<b>no</b>";
+}
+
 Nchart::Nchart(QWidget* parent) :
   Tchart(parent),
   m_pitchF(0),
@@ -68,7 +73,7 @@ Nchart::Nchart(QWidget* parent) :
   yAxis->setLength(400);
   yAxis->setMaxValue(140, false);
 
-  m_progresItem = new QGraphicsTextItem;
+  m_progresItem = new TgraphicsTextTip("", palette().highlight().color());
   scene->addItem(m_progresItem);
   m_progresItem->setZValue(250);
   m_progresItem->setScale(2);
@@ -85,12 +90,6 @@ Nchart::Nchart(QWidget* parent) :
   m_pitchGrad.setColorAt(0.6, QColor(255, 255, 0, al));
   m_pitchGrad.setColorAt(0.85, QColor(255, 0, 0, al));
   m_pitchGrad.setColorAt(1, QColor(117, 21, 86, al));
-
-//   m_xLine = new QGraphicsLineItem;
-//   scene->addItem(m_xLine);
-//   m_xLine->setPen(QPen(palette().text().color(), 2));
-//   m_xLine->setLine(52, yAxis->boundingRect().height(), 400, yAxis->boundingRect().height());
-//   m_xLine->setZValue(2);
 
   m_staff = new TscoreStaff(scene, 0);
   m_staff->setScale((yMap(0) - yMap(60)) / m_staff->height());
@@ -111,7 +110,6 @@ void Nchart::setXnumber(int xN) {
   m_xLine = new QGraphicsLineItem;
   scene->addItem(m_xLine);
   m_xLine->setPen(QPen(palette().text().color(), 2));
-//   m_xLine->setLine(52, yAxis->boundingRect().height(), 400, yAxis->boundingRect().height());
   m_xLine->setZValue(2);
   m_xLine->setLine(52, yAxis->y() + yAxis->boundingRect().height(), (xN + 15) * xSc, yAxis->y() + yAxis->boundingRect().height());
   m_totalXnr = xN;
@@ -167,9 +165,12 @@ void Nchart::setXnumber(int xN) {
       pdm = "autocorelation";
     else if (Tcore::gl()->A->detectMethod == 2)
       pdm = "mod. cepstrum";
-    settingsTexts->setHtml(tr("method") + ": " + pdm +"<br>" +
-      tr("filter") + (m_pitchF->aGl()->equalLoudness ? ": <b>yes</b>" : ": <b>no</b>") + "<br>" +
+    settingsTexts->setHtml(tr("method") + ": <b>" + pdm +"</b><br>" +
+      tr("filter") + " :" + yOrN(m_pitchF->aGl()->equalLoudness) + "<br>" +
+      QString("noise-floor: <b>%1</b>").arg(yOrN(m_pitchF->aGl()->doingAutoNoiseFloor)) + "<br>" +
       tr("threshold") + QString(": <b>%1 %</b>").arg(m_pitchF->aGl()->threshold) + "<br>" +
+      "<span style=\"color: " + noteVolumeColor.name() + "\";>" + QString("split vol.: <b>%1</b>").
+          arg((m_minVolToSplit == 0.0 ? "no" : QString("%1").arg(m_minVolToSplit))) + "</span><br>" +
       QString("dbFoor: <b>%1</b>").arg(m_pitchF->aGl()->dBFloor) + "<br>" +
       QString("middle A: <b>%1 Hz</b>").arg(pitch2freq(freq2pitch(440) + Tcore::gl()->A->a440diff)) + "<br>" +
       "<span style=\"color: " + minVolumeColor.name() + "\";>" + QString("min. volume: <b>%1</b>").arg(Tcore::gl()->A->minimalVol * 100) + "</span><br>"
@@ -246,47 +247,44 @@ void Nchart::drawChunk() {
   int lowestChunk;
   for (int c = 1; c < m_totalXnr - 4; c++) {
     while (c >= dl.size()) { // wait for Tartini processing
-//       qApp->thread()->msleep(1);
-      SLEEP(1);
+      qApp->thread()->msleep(1);
+//       SLEEP(1);
 //       qDebug() << "sleep during drawing" << c;
       qApp->processEvents();
     }
     if (c % 30 == 0)
       m_progresItem->setHtml(tr("Detecting...") + QString("<big><b> %1%</b></big>").arg(int(((qreal)c / (qreal)(m_totalXnr)) * 100)));
     if (m_drawVolume)
-    scene->addLine(xMap(c - 1) + hSc, yMap(101 + dl[c - 1].signalStrenght * 50.0), // PCM signal volume line
-                   xMap(c) + hSc, yMap(101 + dl[c].signalStrenght * 50.0), QPen(pcmVolumeColor, 1));
-//     if (m_nootkaIndexing) {
-//       nootkaMethod(c);
-//     } else {
+      scene->addLine(xMap(c) + hSc, yMap(101 + dl[c - 1].signalStrenght * 50.0), // PCM signal volume line
+                   xMap(c + 1) + hSc, yMap(101 + dl[c].signalStrenght * 50.0), QPen(pcmVolumeColor, 1, Qt::SolidLine, Qt::RoundCap));
+      // Line is shifted one chunk forward due to it represents data of will be processed chunk
 
-    if (dl[c -1].index == -1 && dl[c].index != -1) // first chunk with noticed new note
+    if (dl[c].index != -1 && dl[c - 1].index != dl[c].index)
       firstNoteChunk = c;
-
-    if (m_minVolToSplit) {
-      if (c >= firstNoteChunk + m_minChunkDur)
-        m_hiVol = qMax<double>(m_hiVol, dl[c].vol);
-      if (dl[c].vol < m_loVol) {
-        m_loVol = dl[c].vol;
-        lowestChunk = c;
-      }
-//       qDebug() << c << m_hiVol - m_loVol << m_minVolToSplit;
-      if (m_hiVol - m_loVol >= m_minVolToSplit && lowestChunk - firstNoteChunk >= m_minChunkDur) {
-        drawNoteSegment(firstNoteChunk, lowestChunk);
-        firstNoteChunk = lowestChunk + 1;
-        m_hiVol = 0.0;
-        m_loVol = 1.0;
+    if (dl[c - 1].index != -1 && dl[c - 1].index != dl[c].index) { // note was finished in previous chunk - so process its data
+      if (m_minVolToSplit > 0.0) {
+        int fnc = firstNoteChunk;
+        for (int i = firstNoteChunk; i <= c - 1; i++) {
+          if (i == c - 1)
+            drawNoteSegment(fnc, i);
+          else {
+            if (i - fnc >= m_minChunkDur && dl[i].vol - dl[i - 2].vol > m_minVolToSplit) {
+              drawNoteSegment(fnc, i);
+              qDebug() << fnc << i << "Volume changed" << dl[i].vol - dl[i - 2].vol;
+              fnc = i + 1;
+            }
+          }
+        }
+      } else {
+        drawNoteSegment(firstNoteChunk, c - 1);
       }
     }
 
-    if ((dl[c -1].index != -1 && dl[c].index == -1)) // note was finished in previous chunk - so process its data
-      drawNoteSegment(firstNoteChunk, c - 1);
-    if (dl[c].index == -1) {
+    if (dl[c].index == -1) { // no data in chunk
       emptyRect(c, xSc);
       m_hiVol = 0.0;
       m_loVol = 1.0;
     }
-//     }
   }
   emit chunkDone();
   allDataLoaded();
@@ -309,7 +307,7 @@ void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk) {
     }
     if (dl[i].vol >= Tcore::gl()->A->minimalVol)
       loudEnough = true;
-    if (!minDurChunk && dl[i].dur > Tcore::gl()->A->minDuration)
+    if (!minDurChunk && i - firstNoteChunk >= m_minChunkDur)
       minDurChunk = i;
     if (i - firstNoteChunk < m_minChunkDur) // average pitch only during minimal time
       pitchSum += dl[i].pitch;

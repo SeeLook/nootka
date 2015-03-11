@@ -26,6 +26,7 @@
 #include <QThread>
 #include <QMutex>
 
+class TgraphicsTextTip;
 class NaudioLoader;
 class TscoreStaff;
 class NoteData;
@@ -90,7 +91,7 @@ protected slots:
 private:
   TpitchFinder                *m_pitchF;
   TscoreStaff                 *m_staff;
-  QGraphicsTextItem           *m_progresItem;
+  TgraphicsTextTip            *m_progresItem;
   int                          m_chunkNr, m_prevNoteIndex;
   int                          m_totalXnr;
   QLinearGradient              m_pitchGrad;

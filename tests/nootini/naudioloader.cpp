@@ -128,7 +128,7 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
 
 
 void NaudioLoader::startLoading() {
-  m_thread.start(QThread::HighPriority);
+  m_thread.start(QThread::HighestPriority);
 }
 
 
@@ -138,6 +138,7 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
     m_pf->aGl()->doingHarmonicAnalysis = tp->doingHarmonicAnalysis;
     m_pf->aGl()->equalLoudness = tp->equalLoudness;
     m_pf->aGl()->dBFloor = tp->dBFloor;
+    m_pf->aGl()->doingAutoNoiseFloor = tp->doingAutoNoiseFloor;
     m_pf->resetFinder();
   }
 }
