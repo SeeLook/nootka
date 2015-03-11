@@ -22,10 +22,10 @@
 #include <tchart.h>
 #include <tyaxis.h>
 #include <music/tclef.h>
-#include "nanalyzedata.h"
 #include <QThread>
 #include <QMutex>
 
+class TnoteStruct;
 class TgraphicsTextTip;
 class NaudioLoader;
 class TscoreStaff;
@@ -74,7 +74,7 @@ signals:
   void chunkDone(); /** Emitted when @p chunkSlot() finished. */
 
 protected:
-  void copyChunk(AnalysisData* ad, NoteData* nd);
+  void copyChunk(TnoteStruct* ad);
   void clefChanged(Tclef clef);
   void drawNoteSegment(int firstNoteChunk, int lastNoteChunk);
   void drawNoteSegment2(int firstNoteChunk, int lastNoteChunk);
@@ -83,7 +83,6 @@ protected:
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
   qreal yMap(qreal yy) { return yAxis->y() + yAxis->mapValue(yy); }
 
-  QList<NanalyzeData>  dl;
 
 protected slots:
   void adjustHeight();

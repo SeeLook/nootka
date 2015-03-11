@@ -20,9 +20,10 @@
 #define TPITCHFINDER_H
 
 
-#include "nootkacoreglobal.h"
+#include "nootkasoundglobal.h"
 #include <QObject>
 #include <QMutex>
+#include <music/tnotestruct.h>
 #include "tartini/mytransforms.h"
 #include "tartiniparams.h"
 
@@ -54,7 +55,6 @@ inline qreal pitch2freq(qreal note)
 
 class Channel;
 class QThread;
-class TnoteStruct;
 class NoteData;
 
 
@@ -140,13 +140,19 @@ public:
        * In online mode it is reset every 1000 chunks,
        * only in offline mode all detected data exists. */
 	Channel* ch() { return m_channel; }
-    
+
+      /** List of detected values of every chunk (cleared by @p reset()).
+       * WARRING! @p id is not verified - check it by @p dataSize() */
+	TnoteStruct& dl(int id) { return m_dataList[id]; }
+	int dataSize() { return m_dataList.size(); }
+	TnoteStruct& lastData() { return m_dataList.last(); }
+
 signals:
   void pitchInChunk(float); /** Pitch in chunk that has been just processed */
   void volume(float);
 	void noteStarted(qreal pitch, qreal freq, qreal duration);
 	void noteFinished(TnoteStruct*); /** Emitting parameters of finished note (pitch, freq, duration) */
-  void chunkProcessed(AnalysisData*, NoteData*); /** Emitted in offline mode only, after every processed chunk with analyzed data or 0 */
+  void chunkProcessed(TnoteStruct*); /** Emitted in offline mode only, after every processed chunk with analyzed data or 0 */
 	
 	
 protected slots:
@@ -184,7 +190,7 @@ private:
 	bool 						 m_couldBeNew;
 	TnoteStruct			*m_currentNote, *m_lastNote;
 	qreal 					 m_statPitch; // value of previous pitch to detect notes repeats by increased volume
-	
+	QList<TnoteStruct> m_dataList; /** List of detected values of every chunk (cleared by @p reset()) */
 };
 
 #endif // TPITCHFINDER_H

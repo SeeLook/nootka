@@ -31,10 +31,15 @@ class NOOTKACORE_EXPORT TnoteStruct
 
 public:
 	TnoteStruct(const Tnote& p, qreal pF, qreal f = 0.0, qreal dur = 0.0) : pitch(p), pitchF(pF), freq(f), duration(dur) {}
+
+      /** Single param of int type is required  - usually note index in a channel. */
+	TnoteStruct(int _index, float _pitchF = 0, double _vol = 0, double _dur = 0) :
+    index(_index),
+    pitchF(_pitchF), basePitch(qRound(_pitchF)),
+    volume(_vol), duration(_dur)
+  {}
 	
-	TnoteStruct() {
-		freq = 0; duration = 0; pitchF = 0;
-	}
+	TnoteStruct() {	freq = 0; duration = 0; pitchF = 0;	} /** Default constructor  */
 
 			/** Checks is float value of a note pitch different than its root pitch in range of given threshold.
 			 * Returns @p TRUE if @p pitchF value is into threshold range or @p FALSE when not
@@ -50,11 +55,14 @@ public:
 		midiPitch ? pitch = Tnote(qRound(midiPitch) - 47) : pitch = Tnote(); pitchF = midiPitch; freq = f; duration = dur;
 	} /** Sets values of note structure, or sets them to NULL if no values defined. */
 	
-	
-	Tnote pitch; 		/** Note pitch like C, D, E or C3, D#  */
-	qreal pitchF; 	/** Chromatic note number in MIDI scale, C1 = 60 */
-	qreal freq; 		/** Frequency of a note */
-	qreal duration; /** Duration of a note */
+	int     index;            /** Note index in entire channel */
+	Tnote   pitch; 		        /** Note pitch like C, D, E or C3, D#  */
+	qreal   pitchF; 	        /** Chromatic note number in MIDI scale, C1 = 60 */
+	int     basePitch;        /** Midi value (rounded to integer) of a pitch */
+	qreal   freq; 		        /** Frequency of a note */
+	qreal   duration;         /** Duration of a note */
+	double  volume;           /** volume of a note*/
+	float   signalStrenght;   /** Max amplitude of PCM data in chunk  */
 };
 
 
