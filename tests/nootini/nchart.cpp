@@ -23,6 +23,7 @@
 #include <tartini/channel.h>
 #include <tpitchfinder.h>
 #include <music/tnote.h>
+#include <music/tnotestruct.h>
 #include <tinitcorelib.h>
 #include <taudioparams.h>
 #include <score/tscorescene.h>
@@ -183,7 +184,6 @@ void Nchart::setAudioLoader(NaudioLoader* loader) {
   m_pass++;
   m_loader = loader;
   m_pitchF = loader->finder();
-  dl.clear();
   m_chunkNr = -1;
   m_hiVol = 0;
   m_loVol = 0;
@@ -232,13 +232,10 @@ void Nchart::setNootkaIndexing(bool yes) {
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
-void Nchart::copyChunk(AnalysisData* ad, NoteData* nd) {
+void Nchart::copyChunk(TnoteStruct* ad) {
   m_chunkNr++;
-  if (ad && nd)
-    dl << NanalyzeData(ad->noteIndex, ad->pitch - Tcore::gl()->A->a440diff, nd->avgPitch(), dB2Normalised(ad->logrms()), nd->noteLength());
-  else
-    dl << NanalyzeData(-1);
-  dl.last().signalStrenght = m_loader->volume();
+  m_pitchF->lastData().signalStrenght = m_loader->volume();
+  m_pitchF->lastData().pitchF = m_pitchF->lastData().pitchF - Tcore::gl()->A->a440diff; // adjust middle a offset
 }
 
 
@@ -246,7 +243,7 @@ void Nchart::drawChunk() {
   int firstNoteChunk;
   int lowestChunk;
   for (int c = 1; c < m_totalXnr - 4; c++) {
-    while (c >= dl.size()) { // wait for Tartini processing
+    while (c >= m_pitchF->dataSize()) { // wait for Tartini processing
       qApp->thread()->msleep(1);
 //       SLEEP(1);
 //       qDebug() << "sleep during drawing" << c;
@@ -255,22 +252,22 @@ void Nchart::drawChunk() {
     if (c % 30 == 0)
       m_progresItem->setHtml(tr("Detecting...") + QString("<big><b> %1%</b></big>").arg(int(((qreal)c / (qreal)(m_totalXnr)) * 100)));
     if (m_drawVolume)
-      scene->addLine(xMap(c) + hSc, yMap(101 + dl[c - 1].signalStrenght * 50.0), // PCM signal volume line
-                   xMap(c + 1) + hSc, yMap(101 + dl[c].signalStrenght * 50.0), QPen(pcmVolumeColor, 1, Qt::SolidLine, Qt::RoundCap));
+      scene->addLine(xMap(c) + hSc, yMap(101 + m_pitchF->dl(c - 1).signalStrenght * 50.0), // PCM signal volume line
+                   xMap(c + 1) + hSc, yMap(101 + m_pitchF->dl(c).signalStrenght * 50.0), QPen(pcmVolumeColor, 1, Qt::SolidLine, Qt::RoundCap));
       // Line is shifted one chunk forward due to it represents data of will be processed chunk
 
-    if (dl[c].index != -1 && dl[c - 1].index != dl[c].index)
+    if (m_pitchF->dl(c).index != -1 && m_pitchF->dl(c - 1).index != m_pitchF->dl(c).index)
       firstNoteChunk = c;
-    if (dl[c - 1].index != -1 && dl[c - 1].index != dl[c].index) { // note was finished in previous chunk - so process its data
+    if (m_pitchF->dl(c - 1).index != -1 && m_pitchF->dl(c - 1).index != m_pitchF->dl(c).index) { // note was finished in previous chunk - so process its data
       if (m_minVolToSplit > 0.0) {
         int fnc = firstNoteChunk;
         for (int i = firstNoteChunk; i <= c - 1; i++) {
           if (i == c - 1)
             drawNoteSegment(fnc, i);
           else {
-            if (i - fnc >= m_minChunkDur && dl[i].vol - dl[i - 2].vol > m_minVolToSplit) {
+            if (i - fnc >= m_minChunkDur && m_pitchF->dl(i).volume - m_pitchF->dl(i - 2).volume > m_minVolToSplit) {
               drawNoteSegment(fnc, i);
-              qDebug() << fnc << i << "Volume changed" << dl[i].vol - dl[i - 2].vol;
+              qDebug() << fnc << i << "Volume changed" << m_pitchF->dl(i).volume - m_pitchF->dl(i - 2).volume;
               fnc = i + 1;
             }
           }
@@ -280,7 +277,7 @@ void Nchart::drawChunk() {
       }
     }
 
-    if (dl[c].index == -1) { // no data in chunk
+    if (m_pitchF->dl(c).index == -1) { // no data in chunk
       emptyRect(c, xSc);
       m_hiVol = 0.0;
       m_loVol = 1.0;
@@ -297,25 +294,25 @@ void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk) {
   bool loudEnough = false;
   for (int i = firstNoteChunk; i <= lastNoteChunk; i++) {
     if (m_drawVolume) {
-      if (dl[i].vol && dl[i - 1].vol) {
+      if (m_pitchF->dl(i).volume && m_pitchF->dl(i - 1).volume) {
         QGraphicsLineItem *volLine = new QGraphicsLineItem(); // line with volumes of every chunk
         scene->addItem(volLine);
         volLine->setPen(QPen(noteVolumeColor, 2));
-        volLine->setLine(xMap(i - 1) + hSc, yMap(101 + dl[i - 1].vol * 50.0),
-                        xMap(i) + hSc, yMap(101 + dl[i].vol * 50.0));
+        volLine->setLine(xMap(i - 1) + hSc, yMap(101 + m_pitchF->dl(i - 1).volume * 50.0),
+                        xMap(i) + hSc, yMap(101 + m_pitchF->dl(i).volume * 50.0));
       }
     }
-    if (dl[i].vol >= Tcore::gl()->A->minimalVol)
+    if (m_pitchF->dl(i).volume >= Tcore::gl()->A->minimalVol)
       loudEnough = true;
     if (!minDurChunk && i - firstNoteChunk >= m_minChunkDur)
       minDurChunk = i;
     if (i - firstNoteChunk < m_minChunkDur) // average pitch only during minimal time
-      pitchSum += dl[i].pitch;
+      pitchSum += m_pitchF->dl(i).pitchF;
   }
   qreal averPitch = pitchSum / qMin<int>(lastNoteChunk - firstNoteChunk + 1, m_minChunkDur);
   QPolygonF pitchGon;
   for (int i = firstNoteChunk; i <= lastNoteChunk; i++)
-    pitchGon << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-50.0, (dl[i].pitch - (float)qRound(averPitch)) * 50.0, 50.0));
+    pitchGon << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-50.0, (m_pitchF->dl(i).pitchF - (float)qRound(averPitch)) * 50.0, 50.0));
 
 // ACCURACY BACKGROUND
   QGraphicsRectItem *bgPitch = new QGraphicsRectItem;
@@ -370,7 +367,7 @@ void Nchart::emptyRect(int firstChunk, qreal width) {
 
 
 void Nchart::nootkaMethod(int c) {
-  if (dl[c].pitch == 0) {
+  if (m_pitchF->dl(c).pitchF == 0) {
     if (m_prevNote.basePitch != 0) { // draw data
       drawNoteSegment2(c - 1 - m_prevNote.chunkDur, c - 1);
       m_prevNote.basePitch = 0;
@@ -378,10 +375,10 @@ void Nchart::nootkaMethod(int c) {
     m_hiVol = 0.0;
     m_loVol = 0.0;
   } else {
-    m_hiVol = qMax<double>(m_hiVol, dl[c].vol);
-    m_loVol = qMin<double>(m_loVol, dl[c].vol);
-    if (dl[c].basePitch != m_newNote.basePitch) {
-      m_newNote.basePitch = dl[c].basePitch;
+    m_hiVol = qMax<double>(m_hiVol, m_pitchF->dl(c).volume);
+    m_loVol = qMin<double>(m_loVol, m_pitchF->dl(c).volume);
+    if (m_pitchF->dl(c).basePitch != m_newNote.basePitch) {
+      m_newNote.basePitch = m_pitchF->dl(c).basePitch;
       m_newNote.chunkDur = 1;
       m_nootkaIndex++;
       if (m_prevNote.basePitch != 0) { // draw data
@@ -407,21 +404,21 @@ void Nchart::drawNoteSegment2(int firstNoteChunk, int lastNoteChunk) {
   int minDurChunk = 0;
   qreal pitchSum = 0;
   for (int i = firstNoteChunk; i <= lastNoteChunk; i++) {
-    if (dl[i].vol && dl[i - 1].vol) {
+    if (m_pitchF->dl(i).volume && m_pitchF->dl(i - 1).volume) {
       QGraphicsLineItem *volLine = new QGraphicsLineItem(); // line with volumes of every chunk
       scene->addItem(volLine);
       volLine->setPen(QPen(QColor(120, 255, 0), 2));
-      volLine->setLine(xMap(i - 1) + hSc, yMap(150 + dl[i - 1].vol * 50.0),
-                      xMap(i) + hSc, yMap(150 + dl[i].vol * 50.0));
+      volLine->setLine(xMap(i - 1) + hSc, yMap(150 + m_pitchF->dl(i - 1).volume * 50.0),
+                      xMap(i) + hSc, yMap(150 + m_pitchF->dl(i).volume * 50.0));
     }
-    if (!minDurChunk && dl[i].dur > Tcore::gl()->A->minDuration)
+    if (!minDurChunk && m_pitchF->dl(i).duration > Tcore::gl()->A->minDuration)
       minDurChunk = i;
-    pitchSum += dl[i].pitch;
+    pitchSum += m_pitchF->dl(i).pitchF;
   }
   qreal averPitch = pitchSum / (lastNoteChunk - firstNoteChunk + 1);
   QPolygonF pg;
   for (int i = firstNoteChunk; i <= lastNoteChunk; i++)
-    pg << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-50.0, (dl[i].pitch - (float)qRound(averPitch)) * 50.0, 50.0));
+    pg << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-50.0, (m_pitchF->dl(i).pitchF - (float)qRound(averPitch)) * 50.0, 50.0));
 // VOLUME
   QGraphicsLineItem *minVolLine = new QGraphicsLineItem(); // minimum volume line
     scene->addItem(minVolLine);

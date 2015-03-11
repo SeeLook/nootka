@@ -21,7 +21,6 @@
 #include "tartini/filters/Filter.h"
 #include "tartini/filters/IIR_Filter.h"
 #include "tartini/analysisdata.h"
-#include <music/tnotestruct.h>
 #include <QThread>
 
 #include <QDebug>
@@ -190,6 +189,7 @@ void TpitchFinder::resetFinder() {
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 //       qDebug() << "reset channel";
   }
+  m_dataList.clear();
   m_mutex.unlock();
 }
 
@@ -263,10 +263,11 @@ void TpitchFinder::detect() {
   m_channel->processNewChunk(&filterState);
 	AnalysisData *data = m_channel->dataAtCurrentChunk();
   if (m_isOffline) {
-    if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))) {
-      emit chunkProcessed(data, m_channel->getCurrentNote());
-    } else
-      emit chunkProcessed(0, 0);
+    if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)))
+      m_dataList << TnoteStruct(data->noteIndex, data->pitch, dB2Normalised(data->logrms()), m_channel->getCurrentNote()->noteLength());
+    else
+      m_dataList << TnoteStruct(-1);
+    emit chunkProcessed(&m_dataList.last());
     incrementChunk();
     m_isBussy = false;
     return;

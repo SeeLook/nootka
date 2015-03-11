@@ -19,7 +19,7 @@
 #ifndef NOOTINIWINDOW_H
 #define NOOTINIWINDOW_H
 
-#include <qt/QtWidgets/QMainWindow>
+#include <QtWidgets/QMainWindow>
 #include <tartiniparams.h>
 
 class NaudioLoader;
