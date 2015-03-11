@@ -58,7 +58,7 @@ private:
   QSpinBox            *m_freqSpin, *m_durationSpin, *m_thresholdSpin;
   QDoubleSpinBox      *m_splitVolSpin, *m_dbFlorSpin;
   TvolumeSlider       *m_volumeSlider;
-  QCheckBox           *m_noiseFilterChB, *m_nootkaIndexChB, *m_drawVolChB;
+  QCheckBox           *m_noiseFilterChB, *m_calcNoiseChB, *m_nootkaIndexChB, *m_drawVolChB;
   QGroupBox           *m_splitVolGroup;
   TartiniParams       *m_tartiniParams;
 };

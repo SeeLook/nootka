@@ -67,7 +67,7 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     m_freqSpin->setSuffix(" Hz");
     m_freqSpin->setValue(qRound((pitch2freq(freq2pitch(440) + Tcore::gl()->A->a440diff))));
 
-  QLabel *threshLab = new QLabel(tr("default threshold"), this);
+  QLabel *threshLab = new QLabel(tr("threshold of lowest loudness (MPM methods)"), this);
   m_thresholdSpin = new QSpinBox(this);
     m_thresholdSpin->setRange(80, 100);
     m_thresholdSpin->setSuffix(" %");
@@ -76,13 +76,16 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
   m_noiseFilterChB = new QCheckBox(tr("noise filter"), this);
     m_noiseFilterChB->setChecked(m_tartiniParams->equalLoudness);
 
+  m_calcNoiseChB = new QCheckBox(tr("Automatically calculate noise-floor"), this);
+    m_calcNoiseChB->setChecked(m_tartiniParams->doingAutoNoiseFloor);
+
   m_nootkaIndexChB = new QCheckBox(tr("Nootka indexing method"), this);
   m_nootkaIndexChB->hide();
 
   m_splitVolGroup = new QGroupBox(tr("split on volume ascent"), this);
     m_splitVolGroup->setCheckable(true);
   m_splitVolSpin = new QDoubleSpinBox(this);
-    m_splitVolSpin->setRange(0.01, 0.5);
+    m_splitVolSpin->setRange(0.05, 0.5);
     m_splitVolSpin->setSingleStep(0.05);
     m_splitVolSpin->setSuffix(" %");
 
@@ -125,6 +128,7 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     threshLay->addStretch();
   lay->addLayout(threshLay);
   lay->addWidget(m_noiseFilterChB);
+  lay->addWidget(m_calcNoiseChB);
   lay->addWidget(m_nootkaIndexChB);
     QVBoxLayout *splitLay = new QVBoxLayout;
     splitLay->addWidget(m_splitVolSpin, 1, Qt::AlignCenter);
@@ -203,6 +207,7 @@ void NootiniSettings::accept() {
   m_tartiniParams->threshold = m_thresholdSpin->value();
   m_tartiniParams->equalLoudness = m_noiseFilterChB->isChecked();
   m_tartiniParams->dBFloor = m_dbFlorSpin->value();
+  m_tartiniParams->doingAutoNoiseFloor = m_calcNoiseChB->isChecked();
 
   QDialog::accept();
 }
