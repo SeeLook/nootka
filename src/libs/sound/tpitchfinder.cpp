@@ -21,6 +21,7 @@
 #include "tartini/filters/Filter.h"
 #include "tartini/filters/IIR_Filter.h"
 #include "tartini/analysisdata.h"
+#include <QtWidgets/QApplication>
 #include <QThread>
 
 #include <QDebug>
@@ -112,6 +113,11 @@ TpitchFinder::~TpitchFinder()
 //##########################################################################################################
 //########################################## PUBLIC ########################################################
 //##########################################################################################################
+void TpitchFinder::setOffLine(bool off) {
+  if (off != m_isOffline) {
+    m_isOffline = off;
+  }
+}
 
 
 void TpitchFinder::setSampleRate(unsigned int sRate, int range) {

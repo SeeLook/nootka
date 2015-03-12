@@ -27,9 +27,10 @@
 #include <QtWidgets/QtWidgets>
 #include <QtSvg/QSvgGenerator>
 
-bool m_nootInd = false, m_drawVolume = true;
-qreal m_minVolToSplit = 0.0;
-qreal m_chartScale = 1.0;
+bool    m_nootInd = false, m_drawVolume = true;
+qreal   m_minVolToSplit = 0.0;
+qreal   m_chartScale = 1.0;
+QString m_lastWavDir;
 
 NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   QMainWindow(parent),
@@ -85,9 +86,11 @@ NootiniWindow::~NootiniWindow()
 //#################################################################################################
 
 void NootiniWindow::openFileSlot() {
-  QString wavFileName = QFileDialog::getOpenFileName(this, "", QDir::homePath(), tr("WAV file (*.wav)"));
-  if (!wavFileName.isEmpty())
+  QString wavFileName = QFileDialog::getOpenFileName(this, "", m_lastWavDir, tr("WAV file (*.wav)"));
+  if (!wavFileName.isEmpty()) {
+    m_lastWavDir = QFileInfo(wavFileName).absoluteDir().absolutePath();
     processAudioFile(wavFileName);
+  }
 }
 
 
@@ -96,11 +99,13 @@ void NootiniWindow::settingsSlot() {
   sett.setNootkaIndexing(m_nootInd);
   sett.setMinVolToSplit(m_minVolToSplit);
   sett.setDrawVolumeChart(m_drawVolume);
+  sett.setRange(m_loader->pitchRange());
   if (sett.exec() == QDialog::Accepted) {
     m_loader->fillTartiniParams(&m_tartiniParams);
     m_nootInd = sett.nootkaIndexing();
     m_minVolToSplit = sett.minVolToSplit();
     m_drawVolume = sett.drawVolumeChart();
+    NaudioLoader::setPitchRange(sett.range());
   }
 }
 
@@ -111,7 +116,7 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
     m_chart = new Nchart();
     m_chart->scale(m_chartScale, m_chartScale);
     centralWidget()->layout()->addWidget(m_chart);
-    setWindowTitle("Nootini - " + fileName);
+    setWindowTitle("Nootini - " + QFileInfo(fileName).baseName());
     m_againAct->setDisabled(false);
     m_toSvgAct->setDisabled(false);
     startProcessing();
@@ -123,6 +128,7 @@ void NootiniWindow::processAgain() {
   QString fileName = m_loader->fileName();
   delete m_loader;
   m_loader = new NaudioLoader();
+  qDebug() << "processAgain";
   if (m_loader->setAudioFile(fileName))
     startProcessing();
 }
@@ -178,6 +184,8 @@ void NootiniWindow::readConfig() {
     m_nootInd = Tcore::gl()->config->value("nootkaIndexing", false).toBool();
     m_minVolToSplit = Tcore::gl()->config->value("minVolumeToSplit", 0.0).toReal();
     m_drawVolume = Tcore::gl()->config->value("drawVolumeChart", true).toBool();
+    NaudioLoader::setPitchRange(Tcore::gl()->config->value("pitchRange", 1).toInt());
+    m_lastWavDir = Tcore::gl()->config->value("lastWavDir", QDir::homePath()).toString();
   Tcore::gl()->config->endGroup();
 }
 
@@ -192,6 +200,8 @@ void NootiniWindow::writeConfig() {
     Tcore::gl()->config->setValue("minVolumeToSplit", m_minVolToSplit);
     Tcore::gl()->config->setValue("dBFloor", m_tartiniParams.dBFloor);
     Tcore::gl()->config->setValue("drawVolumeChart", m_drawVolume);
+    Tcore::gl()->config->setValue("pitchRange", NaudioLoader::pitchRange());
+    Tcore::gl()->config->setValue("lastWavDir", m_lastWavDir);
   Tcore::gl()->config->endGroup();
 }
 
