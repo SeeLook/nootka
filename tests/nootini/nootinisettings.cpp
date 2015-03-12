@@ -60,6 +60,14 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
   m_volumeSlider = new TvolumeSlider(this);
     m_volumeSlider->setValue(Tcore::gl()->A->minimalVol);
 
+  m_lowRadio = new QRadioButton(tr("low")  + " (2048)", this);
+  m_middleRadio = new QRadioButton(tr("middle") + " (1024)", this);
+  m_highRadio = new QRadioButton(tr("high") + " (512)", this);
+  QButtonGroup *rangeGr = new QButtonGroup(this);
+    rangeGr->addButton(m_lowRadio);
+    rangeGr->addButton(m_middleRadio);
+    rangeGr->addButton(m_highRadio);
+
   QLabel *frLab = new QLabel(tr("frequency:"), this);
   m_freqSpin = new QSpinBox(this);
     m_freqSpin->setMinimum(200);
@@ -115,6 +123,13 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     volLay->addWidget(volLabel);
     volLay->addWidget(m_volumeSlider);
   lay->addLayout(volLay);
+  QHBoxLayout *rangeLay = new QHBoxLayout;
+    rangeLay->addWidget(m_lowRadio);
+    rangeLay->addWidget(m_middleRadio);
+    rangeLay->addWidget(m_highRadio);
+  QGroupBox *rangeBox = new QGroupBox(tr("Range of note pitches:"), this);
+    rangeBox->setLayout(rangeLay);
+  lay->addWidget(rangeBox);
   QHBoxLayout *freqLay = new QHBoxLayout;
     freqLay->addStretch();
     freqLay->addWidget(frLab);
@@ -185,6 +200,30 @@ bool NootiniSettings::drawVolumeChart() {
 void NootiniSettings::setDrawVolumeChart(bool draw) {
   m_drawVolChB->setChecked(draw);
 }
+
+
+void NootiniSettings::setRange(int r) {
+  TpitchFinder::Erange rang = (TpitchFinder::Erange)r;
+  switch (rang) {
+    case TpitchFinder::e_high:
+      m_highRadio->setChecked(true); break; // e_high - lowest pitch is F small
+    case TpitchFinder::e_low:
+      m_lowRadio->setChecked(true); break; // e_low - lowest pitch is ... very low
+    default:
+      m_middleRadio->setChecked(true); break; // e_middle - lowest pitch is F contra
+  }
+}
+
+
+int NootiniSettings::range() {
+  if (m_highRadio->isChecked())
+    return TpitchFinder::e_high;
+  else if (m_lowRadio->isChecked())
+    return TpitchFinder::e_low;
+  else
+    return TpitchFinder::e_middle;
+}
+
 
 
 //#################################################################################################

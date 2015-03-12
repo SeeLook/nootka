@@ -50,11 +50,15 @@ public:
   bool drawVolumeChart();
   void setDrawVolumeChart(bool draw);
 
+  void setRange(int r);
+  int range();
+
 protected:
   virtual void accept();
 
 private:
   QRadioButton        *m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
+  QRadioButton        *m_highRadio, *m_middleRadio, *m_lowRadio;
   QSpinBox            *m_freqSpin, *m_durationSpin, *m_thresholdSpin;
   QDoubleSpinBox      *m_splitVolSpin, *m_dbFlorSpin;
   TvolumeSlider       *m_volumeSlider;

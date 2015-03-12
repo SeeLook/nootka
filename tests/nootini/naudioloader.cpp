@@ -22,8 +22,8 @@
 #include <QtCore/QDebug>
 #include <QtWidgets/QMessageBox>
 
-
-
+/*static*/
+int NaudioLoader::m_range = 1;
 
 NaudioLoader::NaudioLoader(QObject* parent) :
   QObject(parent),
@@ -76,10 +76,9 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
         m_in >> m_channelsNr;
         m_channelsNr = qFromBigEndian<quint16>(m_channelsNr);
         qDebug() << "channels:" << m_channelsNr;
-        quint32 sampleRate;
-        m_in >> sampleRate;
-        sampleRate = qFromBigEndian<quint32>(sampleRate);
-        qDebug() << "sample Rate:" << sampleRate;
+        m_in >> m_sampleRate;
+        m_sampleRate = qFromBigEndian<quint32>(m_sampleRate);
+        qDebug() << "sample Rate:" << m_sampleRate;
         quint32 byteRate;
         m_in >> byteRate;
         byteRate = qFromBigEndian<quint32>(byteRate);
@@ -108,7 +107,7 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
         m_totalChunks = m_samplesCount / m_pf->aGl()->framesPerChunk + 1;
         qDebug() << "chunks to go:" << m_totalChunks;
 
-        m_pf->setSampleRate(sampleRate);
+        m_pf->setSampleRate(m_sampleRate, m_range);
       } else {
         QMessageBox::warning(0, "Nootini", tr("Unsupported audio format in file:") + "<br>" + fileName);
         ok = false;
@@ -140,6 +139,7 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
     m_pf->aGl()->dBFloor = tp->dBFloor;
     m_pf->aGl()->doingAutoNoiseFloor = tp->doingAutoNoiseFloor;
     m_pf->resetFinder();
+    m_totalChunks = m_samplesCount / m_pf->aGl()->framesPerChunk + 1;
   }
 }
 

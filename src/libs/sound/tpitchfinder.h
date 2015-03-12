@@ -133,7 +133,7 @@ public:
        *
        */
 	bool isOffline() { return m_isOffline; }
-	void setOffLine(bool off) { m_isOffline = off; }
+	void setOffLine(bool off);
 
       /** Pointer to detection processing @class Channel.
        * WARRING!

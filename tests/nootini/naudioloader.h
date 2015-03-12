@@ -51,6 +51,10 @@ public:
   void fillTartiniParams(TartiniParams* tp); /** Applies Tartini parameters to existing @class TpitchFinder instance */
 
   float volume() { return m_volume; } /** The strength value of amplitude in current chunk. */
+  quint32 sampleRate() { return m_sampleRate; }
+
+  static int pitchRange() {return m_range;}
+  static void setPitchRange(int range) { m_range = qBound<int>(0, range, 2); }
 
   QString fileName() { return m_audioFile.fileName(); }
 
@@ -65,9 +69,11 @@ private:
   TpitchFinder    *m_pf;
   int              m_totalChunks, m_samplesCount;
   quint16          m_channelsNr;
+  quint32          m_sampleRate;
   QDataStream      m_in;
   QFile            m_audioFile;
   float            m_volume;
+  static int       m_range;
 };
 
 #endif // NAUDIOLOADER_H
