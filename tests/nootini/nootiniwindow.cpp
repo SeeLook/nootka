@@ -128,7 +128,6 @@ void NootiniWindow::processAgain() {
   QString fileName = m_loader->fileName();
   delete m_loader;
   m_loader = new NaudioLoader();
-  qDebug() << "processAgain";
   if (m_loader->setAudioFile(fileName))
     startProcessing();
 }

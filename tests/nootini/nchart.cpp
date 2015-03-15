@@ -240,8 +240,9 @@ void Nchart::setNootkaIndexing(bool yes) {
 //#################################################################################################
 void Nchart::copyChunk(TnoteStruct* ad) {
   m_chunkNr++;
-  m_pitchF->lastData().signalStrenght = m_loader->volume();
-  m_pitchF->lastData().pitchF = m_pitchF->lastData().pitchF - Tcore::gl()->A->a440diff; // adjust middle a offset
+  ad->signalStrenght = m_loader->volume();
+  ad->pitchF = m_pitchF->lastData().pitchF - Tcore::gl()->A->a440diff; // adjust middle a offset
+  ad->basePitch = qRound(ad->pitchF);
 }
 
 
@@ -299,6 +300,7 @@ void Nchart::drawChunk() {
 void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk) {
   int minDurChunk = 0;
   qreal pitchSum = 0;
+  int lessDiffChunk;
   bool loudEnough = false;
   for (int i = firstNoteChunk; i <= lastNoteChunk; i++) {
     if (m_drawVolume) {
@@ -321,8 +323,15 @@ void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk) {
   }
   qreal averPitch = pitchSum / qMin<int>(lastNoteChunk - firstNoteChunk + 1, m_minChunkDur);
   QPolygonF pitchGon;
-  for (int i = firstNoteChunk; i <= lastNoteChunk; i++)
-    pitchGon << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-50.0, (m_pitchF->dl(i).pitchF - (float)qRound(averPitch)) * 50.0, 50.0));
+  qreal lessDiff = 1.0;
+  qreal y25 = yMap(50) - yMap(100);
+  for (int i = firstNoteChunk; i <= lastNoteChunk; i++){
+    pitchGon << QPointF(xMap(i) + hSc, yMap(75) - qBound<qreal>(-y25 / 2, (m_pitchF->dl(i).pitchF - (qreal)qRound(averPitch)) * y25, y25 / 2));
+    if (qAbs<qreal>(m_pitchF->dl(i).pitchF - (qreal)qRound(averPitch)) < lessDiff) {
+      lessDiff = qAbs<qreal>(m_pitchF->dl(i).pitchF - (qreal)qRound(averPitch));
+      lessDiffChunk = i;
+    }
+  }
 
 // ACCURACY BACKGROUND
   QGraphicsRectItem *bgPitch = new QGraphicsRectItem;
@@ -344,13 +353,20 @@ void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk) {
       durText->setDefaultTextColor(minDurColor);
       durText->setScale(0.5);
       durText->setPos(xMap(minDurChunk) + hSc - durText->boundingRect().width() / 4, yMap(51));
+    QGraphicsTextItem *sumText = scene->addText("");
+      sumText->setHtml(QString("<p style=\"" + Tcolor::bgTag(QColor(255, 255, 255, 50)) + "\">av: %1<br>bs: %2</p>").
+          arg(averPitch).arg(m_pitchF->dl(lessDiffChunk).pitchF));
+      sumText->setDefaultTextColor(minDurColor);
+      sumText->setScale(0.65);
+      sumText->setPos(xMap(minDurChunk) + xSc, yMap(99));
+      sumText->setZValue(100);
   }
   QGraphicsLineItem *averpitchLine = new QGraphicsLineItem;
     scene->addItem(averpitchLine);
     averpitchLine->setZValue(16);
     averpitchLine->setPen(QPen(averPitchColor, 1));
-    qreal avY = yMap(75) - (averPitch - (float)qRound(averPitch)) * 50;
-    averpitchLine->setLine(xMap(firstNoteChunk), avY, xMap(lastNoteChunk), avY);
+    qreal avY = yMap(75) - (averPitch - (float)qRound(averPitch)) * y25;
+    averpitchLine->setLine(xMap(firstNoteChunk), avY, xMap(lastNoteChunk) + xSc, avY);
   QPainterPath pp;
     pp.addPolygon(pitchGon);
   QGraphicsPathItem *pitchDiffLine = new QGraphicsPathItem(pp);

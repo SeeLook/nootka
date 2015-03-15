@@ -16,10 +16,19 @@ MAJOR:
 - crash on terminate in Oxygene due to animation on status label
 - qt_base translations are not loaded properly
 - restore all default settings doesn't launch Nootka again
-- add Qt::DirectConnection flag to some signal-slot connections (pitch detecion related especially)sni
+- add Qt::DirectConnection flag to some signal-slot connections (pitch detection related especially)
+
+PITCH DETECTION IMPROVEMENTS
+- put message to user about his responsibility to sound quality
+- pull up noise filter settings of Tartini and make it off by default
+- add configurable option of split note by volume change and threshold
+- take pitch of a note as a close value to 'perfect pitch' - rounded value
+TO consider 
+- automate detection of best minimal volume and volume split threshold
 
 MINOR:
 - replace all font-size: 20px with <big>
+- MUSIC XML is not fully standard compatible (check what MuseScore complains)
 - when Nootka starts in single mode proxy corner appears
 - when tool bar is auto hide record melody icon is not set - some mark could be there
 - lock right button and space bar during correction
@@ -37,15 +46,16 @@ MINOR:
 - on level load (i.e. Master) intonation combo reminds disabled even if q/a allowing it
 - There is unused class TnotePixmap only with default clef - use it or delete
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
+- add info about font and icons to About dialog
 - revert to native style under MacOs when Qt5
 
 TO CONSIDER:
 - In wizard: option for single note mode for very beginners
 - In audio in settings: option for average pitch of whole note (aka voice/guitar mode)
+- simplify license text - take translations from Wine project
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - average effectiveness line in chart
-- add some Nootka-ish button instead of radio to TpitchView and button to switch intonation accuracy
 - proxy corner widgets may be animated
 - tidy key signature in note pixmap (width depends on accidentals number)
 - text only tool bar
