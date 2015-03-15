@@ -170,7 +170,7 @@ void Nchart::setXnumber(int xN) {
     if (NaudioLoader::pitchRange() == TpitchFinder::e_high)
       rangeText = "high (512)";
     else if (NaudioLoader::pitchRange() == TpitchFinder::e_low)
-      rangeText = "high (2048)";
+      rangeText = "low (2048)";
     settingsTexts->setHtml(tr("method") + ": <b>" + pdm +"</b><br>" +
       tr("filter") + " :" + yOrN(m_pitchF->aGl()->equalLoudness) + "<br>" +
       QString("noise-floor: <b>%1</b>").arg(yOrN(m_pitchF->aGl()->doingAutoNoiseFloor)) + "<br>" +
