@@ -9,11 +9,18 @@
                                                                        
                                                          ... to play scores
 
+Nootka is an application to discover and learn classical score notation.
+It helps to understand the rules of reading and writing scores
+and helps with developing skills of playing and singing notes from a score.
+      The application is free and open source.
+      It works under Windows, Linux and Mac.
+
+
               BUILD INSTRUCTION
 
-############################################################################################################
-                I...   Requirements:                         ###############################################
-############################################################################################################
+######################################################################################
+                I...   Requirements:                         #########################
+######################################################################################
 - Qt libraries (at least version 5.2)
 	In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
@@ -27,9 +34,9 @@
   (libsoundtouch and libsoundtouch-dev)
 - libasound-dev under linux
 
-############################################################################################################
-                 II...    Building:                           ##############################################
-############################################################################################################
+######################################################################################
+                 II...    Building:                           ########################
+######################################################################################
 In short:
   cmake nootka_folder && make && make install
 
@@ -107,19 +114,22 @@ In details:
 ############################################################################################################
                  III...    Packaging              ##########################################################
 ############################################################################################################
-you can easily generate rpm and deb package.
+you can easily generate rpm and deb package and Windows installer.
 1. For deb call:
   cpack -G DEB
   (obviously dependencies for build debian packages are required)
+  
 2. For rpm call
   cpack -G RPM
-
+  
+3. To build Windows installer http://nsis.sourceforge.net is necessary.
+After installation there is nootka-utf8.nsi file. Launch it in nsis and the installer will be built. 
   
   
   
-##########################################################
-#### How to prepare development environment under MacOs ##
-##########################################################
+######################################################################################
+####    How to prepare development environment under MacOs                          ##
+######################################################################################
 1. Install Xcode & X11 (from MacOs install DVD or App Store). XCode SDK is not required
 2. Install MacPorts 
 	http://www.macports.org/install.php
