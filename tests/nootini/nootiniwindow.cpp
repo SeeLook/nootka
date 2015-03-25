@@ -23,13 +23,12 @@
 #include <graphics/tnotepixmap.h>
 #include <tinitcorelib.h>
 #include <tpath.h>
+#include <tpitchfinder.h>
 #include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QtWidgets>
 #include <QtSvg/QSvgGenerator>
 
-bool    m_nootInd = false, m_drawVolume = true;
-qreal   m_minVolToSplit = 0.0;
-qreal   m_chartScale = 1.0;
+bool    m_nootInd = true, m_drawVolume = true;
 QString m_lastWavDir;
 
 NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
@@ -96,14 +95,12 @@ void NootiniWindow::openFileSlot() {
 
 void NootiniWindow::settingsSlot() {
   NootiniSettings sett(&m_tartiniParams, this);
-  sett.setNootkaIndexing(m_nootInd);
-  sett.setMinVolToSplit(m_minVolToSplit);
+//   sett.setNootkaIndexing(m_nootInd);
   sett.setDrawVolumeChart(m_drawVolume);
   sett.setRange(m_loader->pitchRange());
   if (sett.exec() == QDialog::Accepted) {
     m_loader->fillTartiniParams(&m_tartiniParams);
-    m_nootInd = sett.nootkaIndexing();
-    m_minVolToSplit = sett.minVolToSplit();
+//     m_nootInd = sett.nootkaIndexing();
     m_drawVolume = sett.drawVolumeChart();
     NaudioLoader::setPitchRange(sett.range());
   }
@@ -114,7 +111,6 @@ void NootiniWindow::processAudioFile(const QString& fileName) {
   if (m_loader->setAudioFile(fileName)) {
     delete m_chart;
     m_chart = new Nchart();
-    m_chart->scale(m_chartScale, m_chartScale);
     centralWidget()->layout()->addWidget(m_chart);
     setWindowTitle("Nootini - " + QFileInfo(fileName).baseName());
     m_againAct->setDisabled(false);
@@ -136,18 +132,15 @@ void NootiniWindow::processAgain() {
 void NootiniWindow::startProcessing() {
   m_loader->fillTartiniParams(&m_tartiniParams);
   m_chart->setNootkaIndexing(m_nootInd);
-  m_chart->setMinVolToSplit(m_minVolToSplit);
   m_chart->setDrawVolume(m_drawVolume);
   m_chart->setAudioLoader(m_loader);
   m_loader->startLoading();
-  m_chart->drawChunk();
 }
 
 
 void NootiniWindow::zoom() {
   qreal coef = sender() == m_zoomOutAct ? 0.9375 : 1.0625;
   m_chart->scale(coef, coef);
-  m_chartScale = m_chart->transform().m11();
 }
 
 
@@ -167,7 +160,6 @@ void NootiniWindow::resizeEvent(QResizeEvent* e) {
   if (e->oldSize().height() > 0) {
     double coef = ((double)e->size().height() / (double)e->oldSize().height());
     m_chart->scale(coef, coef);
-    m_chartScale = m_chart->transform().m11();
   }
   QWidget::resizeEvent(e);
 }
@@ -176,12 +168,10 @@ void NootiniWindow::resizeEvent(QResizeEvent* e) {
 void NootiniWindow::readConfig() {
   Tcore::gl()->config->beginGroup("Tartini");
     m_tartiniParams.threshold = Tcore::gl()->config->value("threshold", 93).toInt();
-    m_tartiniParams.equalLoudness = Tcore::gl()->config->value("equalLoudness", true).toBool();
     m_tartiniParams.doingHarmonicAnalysis = Tcore::gl()->config->value("doingHarmonicAnalysis", false).toBool();
     m_tartiniParams.doingAutoNoiseFloor = Tcore::gl()->config->value("doingAutoNoiseFloor", true).toBool();
     m_tartiniParams.dBFloor = Tcore::gl()->config->value("dBFloor", -150).toDouble();
-    m_nootInd = Tcore::gl()->config->value("nootkaIndexing", false).toBool();
-    m_minVolToSplit = Tcore::gl()->config->value("minVolumeToSplit", 0.0).toReal();
+//     m_nootInd = Tcore::gl()->config->value("nootkaIndexing", false).toBool();
     m_drawVolume = Tcore::gl()->config->value("drawVolumeChart", true).toBool();
     NaudioLoader::setPitchRange(Tcore::gl()->config->value("pitchRange", 1).toInt());
     m_lastWavDir = Tcore::gl()->config->value("lastWavDir", QDir::homePath()).toString();
@@ -192,11 +182,9 @@ void NootiniWindow::readConfig() {
 void NootiniWindow::writeConfig() {
   Tcore::gl()->config->beginGroup("Tartini");
     Tcore::gl()->config->setValue("threshold", m_tartiniParams.threshold);
-    Tcore::gl()->config->setValue("equalLoudness", m_tartiniParams.equalLoudness);
     Tcore::gl()->config->setValue("doingHarmonicAnalysis", m_tartiniParams.doingHarmonicAnalysis);
     Tcore::gl()->config->setValue("doingAutoNoiseFloor", m_tartiniParams.doingAutoNoiseFloor);
-    Tcore::gl()->config->setValue("nootkaIndexing", m_nootInd);
-    Tcore::gl()->config->setValue("minVolumeToSplit", m_minVolToSplit);
+//     Tcore::gl()->config->setValue("nootkaIndexing", m_nootInd);
     Tcore::gl()->config->setValue("dBFloor", m_tartiniParams.dBFloor);
     Tcore::gl()->config->setValue("drawVolumeChart", m_drawVolume);
     Tcore::gl()->config->setValue("pitchRange", NaudioLoader::pitchRange());
