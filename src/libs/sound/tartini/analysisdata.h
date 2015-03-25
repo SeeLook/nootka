@@ -20,7 +20,7 @@
 #ifndef ANALYSIS_DATA_H
 #define ANALYSIS_DATA_H
 
-//#include "useful.h"
+#include "nootkasoundglobal.h"
 #include <functional>
 #include <vector>
 #include "filters/Filter.h"
@@ -39,7 +39,7 @@ extern double(*amp_mode_inv_func[NUM_AMP_MODES])(double);
 
 #define NO_NOTE -1
 
-class AnalysisData
+class NOOTKASOUND_EXPORT AnalysisData
 {
 public: 
   float values[NUM_AMP_MODES];
@@ -65,6 +65,7 @@ public:
   int highestCorrelationIndex;
   int chosenCorrelationIndex;
   float periodRatio; /*< The ratio of the current period to the period at the beginning of the current note */
+  float pcmVolume; /** max amplitude of raw PCM data in a chunk. */
 
   int cepstrumIndex;
   float cepstrumPitch;
@@ -83,6 +84,7 @@ public:
   AnalysisData();
   void calcScores(TartiniParams *tParams);
 
+  double normalVolume() { return dB2Normalised(logrms()); } /** Normalized volume of a chunk */
   float &logrms() { return values[AMPLITUDE_RMS]; }
   float &maxIntensityDB() { return values[AMPLITUDE_MAX_INTENSITY]; }
   float &correlation() { return values[AMPLITUDE_CORRELATION]; }
