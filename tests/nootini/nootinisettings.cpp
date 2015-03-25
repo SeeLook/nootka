@@ -82,13 +82,12 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     m_thresholdSpin->setValue(m_tartiniParams->threshold);
 
   m_noiseFilterChB = new QCheckBox(tr("noise filter"), this);
-    m_noiseFilterChB->setChecked(m_tartiniParams->equalLoudness);
+    m_noiseFilterChB->setChecked(Tcore::gl()->A->equalLoudness);
 
   m_calcNoiseChB = new QCheckBox(tr("Automatically calculate noise-floor"), this);
     m_calcNoiseChB->setChecked(m_tartiniParams->doingAutoNoiseFloor);
 
-  m_nootkaIndexChB = new QCheckBox(tr("Nootka indexing method"), this);
-  m_nootkaIndexChB->hide();
+//   m_nootkaIndexChB = new QCheckBox(tr("Nootka processing"), this);
 
   m_splitVolGroup = new QGroupBox(tr("split on volume ascent"), this);
     m_splitVolGroup->setCheckable(true);
@@ -96,6 +95,7 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     m_splitVolSpin->setRange(0.05, 0.5);
     m_splitVolSpin->setSingleStep(0.05);
     m_splitVolSpin->setSuffix(" %");
+  setMinVolToSplit(Tcore::gl()->A->minSplitVol);
 
   QLabel *dbLab = new QLabel(tr("dbFloor"), this);
   m_dbFlorSpin = new QDoubleSpinBox(this);
@@ -142,9 +142,13 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     threshLay->addWidget(m_thresholdSpin);
     threshLay->addStretch();
   lay->addLayout(threshLay);
-  lay->addWidget(m_noiseFilterChB);
-  lay->addWidget(m_calcNoiseChB);
-  lay->addWidget(m_nootkaIndexChB);
+  QHBoxLayout *noiseLay = new QHBoxLayout;
+    noiseLay->addStretch();
+    noiseLay->addWidget(m_noiseFilterChB);
+    noiseLay->addStretch();
+    noiseLay->addWidget(m_calcNoiseChB);
+    noiseLay->addStretch();
+  lay->addLayout(noiseLay);
     QVBoxLayout *splitLay = new QVBoxLayout;
     splitLay->addWidget(m_splitVolSpin, 1, Qt::AlignCenter);
     m_splitVolGroup->setLayout(splitLay);
@@ -155,7 +159,13 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     dbLay->addWidget(m_dbFlorSpin);
     dbLay->addStretch();
   lay->addLayout(dbLay);
-  lay->addWidget(m_drawVolChB);
+  QHBoxLayout *nootLay = new QHBoxLayout;
+//     nootLay->addStretch();
+//     nootLay->addWidget(m_nootkaIndexChB);
+    nootLay->addStretch();
+    nootLay->addWidget(m_drawVolChB);
+    nootLay->addStretch();
+  lay->addLayout(nootLay);
   lay->addWidget(buttonBox);
   setLayout(lay);
 
@@ -166,12 +176,13 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
 
 
 bool NootiniSettings::nootkaIndexing() {
-  return m_nootkaIndexChB->isChecked();
+//   return m_nootkaIndexChB->isChecked();
+  return true;
 }
 
 
 void NootiniSettings::setNootkaIndexing(bool yes) {
-  m_nootkaIndexChB->setChecked(yes);
+//   m_nootkaIndexChB->setChecked(yes);
 }
 
 
@@ -244,7 +255,8 @@ void NootiniSettings::accept() {
       Tcore::gl()->A->a440diff = float(freq2pitch((double)m_freqSpin->value()) - freq2pitch(440.0));
 
   m_tartiniParams->threshold = m_thresholdSpin->value();
-  m_tartiniParams->equalLoudness = m_noiseFilterChB->isChecked();
+  Tcore::gl()->A->equalLoudness = m_noiseFilterChB->isChecked();
+  Tcore::gl()->A->minSplitVol = minVolToSplit();
   m_tartiniParams->dBFloor = m_dbFlorSpin->value();
   m_tartiniParams->doingAutoNoiseFloor = m_calcNoiseChB->isChecked();
 

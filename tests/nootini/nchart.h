@@ -57,15 +57,10 @@ public:
 
   void allDataLoaded(); /** May be called when all data was sent to the chart to adjust its size */
 
-  void drawChunk();
+  void drawChunkNew();
 
   void setNootkaIndexing(bool yes);
   bool isNootkaIndexing() { return m_nootkaIndexing; }
-
-  qreal chunkDuration() { return m_chunkDuration; } /** Time of single chunk in seconds [s] */
-
-  void setMinVolToSplit(qreal minVol) { m_minVolToSplit = minVol; }
-  qreal minVolToSplit() { return m_minVolToSplit; }
 
   bool drawVolume() { return m_drawVolume; }
   void setDrawVolume(bool drawVol) { m_drawVolume = drawVol; }
@@ -76,8 +71,7 @@ signals:
 protected:
   void copyChunk(TnoteStruct* ad);
   void clefChanged(Tclef clef);
-  void drawNoteSegment(int firstNoteChunk, int lastNoteChunk);
-  void drawNoteSegment2(int firstNoteChunk, int lastNoteChunk);
+  void drawNoteSegment(int firstNoteChunk, int lastNoteChunk, TnoteStruct* ns = 0);
   void emptyRect(int firstChunk, qreal width);
 
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
@@ -86,6 +80,7 @@ protected:
 
 protected slots:
   void adjustHeight();
+  void progressSlot();
 
 private:
   TpitchFinder                *m_pitchF;
@@ -98,18 +93,11 @@ private:
   const int                    xSc, hSc; /** @p xSc is scale of x axis ans @p hSc is half of it  */
   int                          m_pass;
   bool                         m_drawVolume;
-
-// Nootka indexing method
   bool                         m_nootkaIndexing;
-  qreal                        m_chunkDuration;
-  int                          m_minChunkDur; /** Minimal numbers of chunk for note */
-  SnoteStruct                  m_newNote, m_prevNote;
-  double                       m_hiVol, m_loVol;
-  qreal                        m_minVolToSplit;
-  int                          m_nootkaIndex;
   NaudioLoader                *m_loader;
-
-  void nootkaMethod(int c); /** Process of indexing chunk of given number */
+  AnalysisData                *m_ad, *m_pad; // current data and previous data
+  int                          m_currChunk, m_prevChunk;
+  int                          m_drawnPrev;
 };
 
 #endif // NCHART_H

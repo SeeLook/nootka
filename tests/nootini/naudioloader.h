@@ -24,6 +24,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
 
+class TnoteStruct;
 class TartiniParams;
 class TpitchFinder;
 
@@ -60,9 +61,17 @@ public:
 
 signals:
   void processingFinished(); /** Emitted when all data were processed */
+  void noteFinished(TnoteStruct*); /** Forwarded from @class TpitchFinder */
+  void chunkReady();
 
 protected:
   void performThread();
+
+protected slots:
+  void forwardNoteFinished(TnoteStruct *note);
+  void chunkProcessed();
+  void threadFinished();
+
 
 private:
   QThread          m_thread;

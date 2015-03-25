@@ -18,6 +18,8 @@
 
 #include "naudioloader.h"
 #include <tpitchfinder.h>
+#include <tinitcorelib.h>
+#include <taudioparams.h>
 #include <QtCore/QtEndian>
 #include <QtCore/QDebug>
 #include <QtWidgets/QMessageBox>
@@ -29,8 +31,9 @@ NaudioLoader::NaudioLoader(QObject* parent) :
   QObject(parent),
   m_pf(0)
 {
-  moveToThread(&m_thread);
-  connect(&m_thread, &QThread::started, this, &NaudioLoader::performThread, Qt::DirectConnection);
+//   moveToThread(&m_thread);
+//   connect(&m_thread, &QThread::started, this, &NaudioLoader::performThread, Qt::DirectConnection);
+//   connect(&m_thread, &QThread::finished, this, &NaudioLoader::threadFinished, Qt::DirectConnection);
 }
 
 
@@ -127,7 +130,13 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
 
 
 void NaudioLoader::startLoading() {
-  m_thread.start(QThread::HighestPriority);
+  if (m_audioFile.isOpen()) {
+    connect(m_pf, SIGNAL(noteFinished(TnoteStruct*)), this, SLOT(forwardNoteFinished(TnoteStruct*)), Qt::DirectConnection);
+    connect(m_pf, SIGNAL(volume(float)), this, SLOT(chunkProcessed()), Qt::DirectConnection);
+    performThread();
+  } else
+      qDebug() << "Wrong file" << m_audioFile.fileName();
+//   m_thread.start(QThread::HighestPriority);
 }
 
 
@@ -135,9 +144,12 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
   if (m_pf) {
     m_pf->aGl()->threshold = tp->threshold;
     m_pf->aGl()->doingHarmonicAnalysis = tp->doingHarmonicAnalysis;
-    m_pf->aGl()->equalLoudness = tp->equalLoudness;
+    m_pf->aGl()->equalLoudness = Tcore::gl()->A->equalLoudness;
     m_pf->aGl()->dBFloor = tp->dBFloor;
     m_pf->aGl()->doingAutoNoiseFloor = tp->doingAutoNoiseFloor;
+    m_pf->setMinimalDuration(Tcore::gl()->A->minDuration);
+    m_pf->setSplitByVolChange(Tcore::gl()->A->minSplitVol > 0.0);
+    m_pf->setSplitVolume(Tcore::gl()->A->minSplitVol);
     m_pf->resetFinder();
     m_totalChunks = m_samplesCount / m_pf->aGl()->framesPerChunk + 1;
   }
@@ -147,11 +159,27 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
+void NaudioLoader::chunkProcessed() {
+  if (m_pf->currentChunk() > m_totalChunks - 1) {
+    emit processingFinished();
+    m_audioFile.close();
+  } else {
+    emit chunkReady();
+    performThread();
+//       m_thread.start();
+  }
+}
+
+
+void NaudioLoader::threadFinished() {
+
+}
+
+
 void NaudioLoader::performThread() {
-  if (m_audioFile.isOpen()) {
-    qint16 chL, chR;
-    m_volume = 0.0;
-    for (int i = 0; i < m_samplesCount; ++i) {
+  qint16 chL, chR;
+  for (int i = 0; i < m_pf->aGl()->framesPerChunk; ++i) {
+    if (m_samplesCount > m_pf->currentChunk() * m_pf->aGl()->framesPerChunk + i) {
       m_in >> chL;
       chL = qFromBigEndian<qint16>(chL);
       if (m_channelsNr == 2) {
@@ -159,22 +187,16 @@ void NaudioLoader::performThread() {
         chR = qFromBigEndian<qint16>(chR);
         chL = ((qint32)chL + (qint32)chR) / 2; // mix channels to mono
       }
-      float sample = float(double(chL) / 32760.0f);
-      m_volume = qMax<float>(m_volume, sample);
-      int curChunk = m_pf->currentChunk();
-      m_pf->fillBuffer(sample);
-      if (curChunk != m_pf->currentChunk()) {
-        m_volume = 0.0;
-      }
-    }
-    emit processingFinished();
-    m_audioFile.close();
-  } else
-      qDebug() << "Wrong file" << m_audioFile.fileName();
-  m_thread.quit();
-//   qDebug() << "file processed" << m_audioFile.fileName();
+      m_pf->fillBuffer(float(double(chL) / 32760.0f));
+    } else
+      m_pf->fillBuffer(0.0f);
+  }
 }
 
+
+void NaudioLoader::forwardNoteFinished(TnoteStruct* note) {
+  emit noteFinished(note);
+}
 
 
 
