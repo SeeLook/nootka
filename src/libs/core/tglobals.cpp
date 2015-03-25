@@ -284,6 +284,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
 		A->playDetected = false; //cfg->value("playDetected", false).toBool();
+		A->equalLoudness = cfg->value("equalLoudness", false).toBool();
+    A->minSplitVol = cfg->value("minVolToSplit", 0.1).toReal();
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");
@@ -433,6 +435,8 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("intonation", A->intonation);
 			cfg->setValue("forwardInput", A->forwardInput);
 // 			cfg->setValue("playDetected", A->playDetected);
+      cfg->setValue("equalLoudness", A->equalLoudness);
+      cfg->setValue("minVolToSplit", A->minSplitVol);
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");

@@ -32,26 +32,28 @@ class NOOTKACORE_EXPORT TaudioParams
 		
 public:
 	
-	bool JACKorASIO; // forces to use JACK under Linux or ASIO under Windows (if they are available)
+	bool    JACKorASIO; // forces to use JACK under Linux or ASIO under Windows (if they are available)
 	
-  bool INenabled; // is audio input enabled
+  bool    INenabled; // is audio input enabled
   QString INdevName; // input device name
-  float a440diff; // difference between standard a1 440Hz and user preferred base pitch
-  float minimalVol; // only above this value detected note is sending to Nootka
-  qreal minDuration; // minimal duration of a sound above which it is detected
-  int detectMethod; // pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum)
-	quint8 intonation; // accuracy of intonation in detected note - corresponds with Eaccuracy
+  float   a440diff; // difference between standard a1 440Hz and user preferred base pitch
+  float   minimalVol; // only above this value detected note is sending to Nootka
+  qreal   minDuration; // minimal duration of a sound above which it is detected
+  int     detectMethod; // pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum)
+	quint8  intonation; // accuracy of intonation in detected note - corresponds with Eaccuracy
+	qreal   minSplitVol; // minimum volume change to split the same note (0.0 - no split)
+	bool    equalLoudness; // if TRUE - noise filters are performed - FALSE by default
 // duplex mode
-	bool forwardInput; // if true, all captured audio data is pushed to output
-	bool playDetected; // pitch-detected notes will be played
+	bool    forwardInput; // if true, all captured audio data is pushed to output
+	bool    playDetected; // pitch-detected notes will be played
 
 // audio output settings
-  bool OUTenabled; // audio output enabled
+  bool    OUTenabled; // audio output enabled
   QString OUTdevName; // output device name
-  bool midiEnabled; // default false
+  bool    midiEnabled; // default false
   QString midiPortName; // default empty to find system default
   unsigned char midiInstrNr; // default 0 - grand piano
-  int audioInstrNr; // corresponds with Einstrument enum numbers, default 1 classical guitar
+  int     audioInstrNr; // corresponds with Einstrument enum numbers, default 1 classical guitar
 };
 
 

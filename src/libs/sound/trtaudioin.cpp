@@ -114,6 +114,9 @@ void TaudioIN::setAudioInParams() {
   setDetectionMethod(audioParams()->detectMethod);
 	setMinimalVolume(audioParams()->minimalVol);
 	m_pitch->setMinimalDuration(audioParams()->minDuration);
+  m_pitch->setSplitByVolChange(audioParams()->minSplitVol > 0.0);
+  m_pitch->setSplitVolume(audioParams()->minSplitVol);
+  m_pitch->aGl()->equalLoudness = audioParams()->equalLoudness;
 
 	m_pitch->setSampleRate(sampleRate(), m_currentRange); // framesPerChunk is determined here
 	m_volume = 0.0;
