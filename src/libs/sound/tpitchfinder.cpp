@@ -27,11 +27,6 @@
 #include <QDebug>
 
 
-
-#define MIN_SND_TIME (0.2) // minimal time of sound to detect its pitch in voice mode
-
-
-
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
   m_thread(new QThread),
@@ -41,15 +36,14 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_buffer_1(0), m_buffer_2(0),
   m_posInBuffer(0),
   m_minVolume(0.4),
-  m_prevPitch(0), m_prevFreq(0), m_prevDuration(0),
-  m_prevNoteIndex(-1), m_noticedIndex(-1),
+  m_prevNoteIndex(-1),
+  m_minDuration(0.09),
   m_doReset(false), m_isOffline(false),
   m_rateRatio(1.0),
   m_volume(0),
   m_state(e_silence), m_prevState(e_silence),
-	m_prevVolume(0), m_lastDuration(0), m_newNoteStartDur(0),
-	m_detectedIndex(0),
-	m_couldBeNew(false), m_statPitch(0)	
+  m_pcmVolume(0.0f), m_workVol(0.0f),
+  m_splitByVol(true), m_minVolToSplit(0.1)
 {
 	m_aGl = new TartiniParams();
 	m_aGl->chanells = 1;
@@ -81,11 +75,9 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_channel = new Channel(this, aGl()->windowSize);
 	myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 	moveToThread(m_thread);
-	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection);
-	connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
+	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection, Qt::DirectConnection);
+	connect(m_thread, &QThread::finished, this, &TpitchFinder::processed, Qt::DirectConnection);
 	
-	m_currentNote = new TnoteStruct();
-	m_lastNote = new TnoteStruct();
 	m_isBussy = false;
 }
 
@@ -96,8 +88,6 @@ TpitchFinder::~TpitchFinder()
 			m_thread->terminate();
 			m_thread->quit();  
 	}
-	delete m_currentNote;
-	delete m_lastNote;
 	if (m_filteredChunk)
 			delete m_filteredChunk;
 	delete m_prevChunk;
@@ -153,7 +143,10 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 		m_buffer_2 = new float[aGl()->framesPerChunk];
 		m_currentBuff = m_buffer_1;
 		doReset = true;
-// 		qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize;
+    m_chunkTime = (qreal)aGl()->framesPerChunk / (qreal)aGl()->rate;
+    setMinimalDuration(m_minDuration); // recalculate minimum chunks number
+// 		qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
+//              << "min chunks" << m_minChunks << "chunk time" << m_chunkTime;
 	}
 	m_mutex.unlock();
 	if (doReset)
@@ -162,22 +155,24 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 
 
 void TpitchFinder::fillBuffer(float sample) {
-	if (m_posInBuffer < m_aGl->framesPerChunk) {
-		*(m_currentBuff + m_posInBuffer) = sample;
-		m_posInBuffer++;
-	} else { // buffer is full
-		m_filledBuff = m_currentBuff;
-    if (m_isOffline)
+  *(m_currentBuff + m_posInBuffer) = sample;
+  m_posInBuffer++;
+  m_workVol = qMax<float>(m_workVol, sample);
+  if (m_posInBuffer == m_aGl->framesPerChunk - 1) {
+    m_filledBuff = m_currentBuff;
+    m_pcmVolume = m_workVol;
+    m_workVol = 0.0;
+    m_posInBuffer = 0;
+    if (m_isOffline) {
       startPitchDetection();
+      processed();
+    } else
+      m_thread->start(QThread::HighestPriority);
+    if (m_currentBuff == m_buffer_1) // swap buffers
+      m_currentBuff = m_buffer_2;
     else
-      m_thread->start(QThread::NormalPriority);
-		m_posInBuffer = 0;
-		if (m_currentBuff == m_buffer_1) // swap buffers
-			m_currentBuff = m_buffer_2;
-		else
-			m_currentBuff = m_buffer_1;
-		fillBuffer(sample); // save sample to new buffer
-	}
+      m_currentBuff = m_buffer_1;
+  }
 }
 
 
@@ -195,7 +190,6 @@ void TpitchFinder::resetFinder() {
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 //       qDebug() << "reset channel";
   }
-  m_dataList.clear();
   m_mutex.unlock();
 }
 
@@ -225,124 +219,98 @@ void TpitchFinder::startPitchDetection() {
 	} else // copy without filtering
 			std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
 	detect();
-	m_thread->quit();
+  if (!m_isOffline)
+    m_thread->quit();
 	m_mutex.unlock();
 }
 
 
 void TpitchFinder::processed() {
-	emit volume(m_volume);
+// 	emit volume(m_volume);
 	emit pitchInChunk(m_chunkPitch);
 	if (m_state != m_prevState) {
 		if (m_prevState == e_noticed) {
 			if (m_state == e_playing) {
-				emit noteStarted(m_currentNote->pitchF, m_currentNote->freq, m_currentNote->duration); // new note started
-// 				qDebug() << "started" << m_detectedIndex << "pitch:" << m_currentNote->pitchF
-// 									 << "freq:" << m_currentNote->freq << "time:" << m_currentNote->duration;
+        emit noteStarted(m_currentNote.pitchF, m_currentNote.freq, m_currentNote.duration); // new note started
+// 				qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
+// 									 << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 			}
 		} else if (m_prevState == e_playing) {
 				if (m_state == e_silence || m_state == e_noticed) {
-					emit noteFinished(m_lastNote); // previous note was finished
-// 					qDebug() << "finished" << m_detectedIndex << "pitch:" << m_lastNote->pitchF
-// 									 << "freq:" << m_lastNote->freq << "time:" << m_lastNote->duration;
+          emit noteFinished(&m_currentNote); // previous note was finished
+//           qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
+//                    << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 				}
 		}
 	}
 	m_prevState = m_state;
-	*m_lastNote = *m_currentNote;
-	if (m_state == e_silence) {
-		delete m_currentNote;
-		m_currentNote = new TnoteStruct();
-	}
+	emit volume(m_volume);
 }
 
 
 //##########################################################################################################
 //########################################## PRIVATE #######################################################
 //##########################################################################################################
-
 void TpitchFinder::detect() {
-	m_isBussy = true;
-	m_chunkPitch = 0;
-	m_volume = 0;
-	FilterState filterState;
+  m_isBussy = true;
+  FilterState filterState;
   m_channel->processNewChunk(&filterState);
-	AnalysisData *data = m_channel->dataAtCurrentChunk();
-  if (m_isOffline) {
-    if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex)))
-      m_dataList << TnoteStruct(data->noteIndex, data->pitch, dB2Normalised(data->logrms()), m_channel->getCurrentNote()->noteLength());
-    else
-      m_dataList << TnoteStruct(-1);
-    emit chunkProcessed(&m_dataList.last());
+  AnalysisData *data = m_channel->dataAtCurrentChunk();
+  if (data == 0) {
+    qDebug() << "Uh-uh! There is no Analysis data in processed chunk!";
     incrementChunk();
     m_isBussy = false;
     return;
   }
-	if (data && (m_channel->isVisibleNote(data->noteIndex) && m_channel->isLabelNote(data->noteIndex))) {
-			NoteData *curNote = m_channel->getCurrentNote();
-			m_volume = dB2Normalised(data->logrms());
-// 			qDebug() << data->noteIndex << curNote->noteLength() << "volume" << m_volume << "pitch" << data->pitch;
-			bool watchNote = true;
-			if (data->noteIndex != m_noticedIndex) {
-				if (curNote->volume() >= m_minVolume) {
-						m_noticedIndex = data->noteIndex;
-						watchNote = true;
-						m_state = e_noticed;
-				} else
-						watchNote = false;
-			}
-			if (watchNote) { // note was louder than a threshold
-				if (data->noteIndex != m_prevNoteIndex) { // new note started in this chunk
-					m_couldBeNew = false;
-					if (curNote->noteLength() >= m_minDuration) { // note is long enough
-// 						qDebug() << "New note pitch started" << data->noteIndex;
-						m_state = e_playing;
-						m_prevNoteIndex = data->noteIndex;
-						m_detectedIndex++;
-						m_newNoteStartDur = 0;
-					}
-				} 
-				else { // detected note is still playing
-					if (!m_couldBeNew) { // if volume increasing was not detected yet - check it
-						if (m_volume - m_prevVolume > 0.15) { // volume increased - probably the same note was played again
-							m_state = e_noticed;
-							m_couldBeNew = true;
-							m_newNoteStartDur = m_lastDuration;
-// 							qDebug() << "Possible the same note played again" << data->noteIndex << m_newNoteStartDur << curNote->noteLength() << m_lastDuration;
-							m_statPitch = curNote->avgPitch();
-						}
-					} else { // volume was pushed, so check new note length
-						if (m_state == e_noticed && m_statPitch && qRound(m_statPitch) == qRound(curNote->avgPitch())
-							&& curNote->noteLength() - m_newNoteStartDur > m_minDuration) {
-							m_state = e_playing;
-							m_detectedIndex++;
-// 							qDebug() << "--->" << curNote->noteLength() - m_newNoteStartDur;
-							m_statPitch = 0;
-							m_couldBeNew = false;
-						}
-					}
-				}
-				m_currentNote->pitchF = curNote->avgPitch();
-				m_currentNote->freq = curNote->avgFreq();
-				m_currentNote->duration = curNote->noteLength() - m_newNoteStartDur;
-				m_prevVolume = m_volume;
-				m_lastDuration = curNote->noteLength();
-				m_chunkPitch = data->pitch;
-			} else {
-					m_state = e_silence;
-			}
-		} else {
-				m_state = e_silence;
-				m_noticedIndex = -1;
-				m_prevNoteIndex = -1;
-				if (m_chunkNum > 1000 && !m_channel->isVisibleNote(data->noteIndex)) {
-					m_doReset = true;
-				}
-		}
+  data->pcmVolume = m_pcmVolume;
+  if (data->noteIndex == NO_NOTE) {
+    m_chunkPitch = 0;
+    m_volume = 0;
+  } else {
+    m_chunkPitch = data->pitch;
+    m_volume = data->normalVolume();
+  }
 
-	incrementChunk();
-	m_isBussy = false;
-}	
+  if (data->noteIndex != m_prevNoteIndex) { // note changed
+    if (m_prevNoteIndex != NO_NOTE) {
+      m_currentNote = m_newNote;
+      m_currentNote.sumarize(m_chunkTime);
+    }
+    if (data->noteIndex != NO_NOTE) {
+      m_newNote.init(data->noteIndex, m_chunkNum, data->pitch);
+      m_state = e_noticed;
+    } else
+      m_state = e_silence;
+    m_prevNoteIndex = data->noteIndex;
+  } else { // note is still playing
+    if (data->noteIndex != NO_NOTE) {
+      m_newNote.update(m_chunkNum, data->pitch, m_volume);
+      if (m_newNote.maxVol >= m_minVolume) { // note was loud enough
+        if (m_newNote.numChunks() == m_minChunks) {
+          m_currentNote = m_newNote;
+          m_currentNote.sumarize(m_chunkTime);
+          m_state = e_playing;
+        } else if (m_splitByVol && m_newNote.numChunks() > m_minChunks) {
+          if (m_volume - m_newNote.minVol >= m_minVolToSplit) {
+            m_currentNote = m_newNote;
+            m_currentNote.endChunk--;
+            m_currentNote.sumarize(m_chunkTime);
+            m_newNote.init(data->noteIndex, m_chunkNum, data->pitch);
+            m_state = e_noticed;
+          }
+        }
+      }
+    }
+  }
+  if (!m_isOffline && m_chunkNum > 1000 && data->noteIndex == NO_NOTE)
+    m_doReset = true;
+
+  incrementChunk();
+  m_isBussy = false;
+}
+
+
+
 
 
 

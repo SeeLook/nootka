@@ -123,15 +123,27 @@ public:
 				/** Only notes with volume above this value are sending. 
 					* If note has got such volume it is observed till its end - even below. */
 	void setMinimalVolume(float vol) { m_minVolume = vol; }
-	void setMinimalDuration(float dur) { m_minDuration = dur; }
+
+	qreal chunkTime() { return m_chunkTime; } /** Duration time of chunk for current sample rate and frames per chunk. */
+	void setMinimalDuration(float dur) { m_minDuration = dur; m_minChunks = qRound((qreal)m_minDuration / m_chunkTime); }
+	float minimalDuration() { return m_minDuration; } /** Minimum acceptable duration of a note to be pitch-detected. */
+	int minChunksNumber() { return m_minChunks; } /** Minimal number of chunks in note to be pitch-detected. */
+
+      /** Determines whether increased volume of played note split it.
+       * Tartini doesn't detect this so extra checking will be done if @p TRUE.
+       * Volume threshold can be set through @p setSplitValue() */
+	void setSplitByVolChange(bool sp) { m_splitByVol = sp; }
+	bool isSplitByVolume() { return m_splitByVol; }
+
+	void setSplitVolume(qreal volToSplit) { m_minVolToSplit = qMax<qreal>(volToSplit, 0.05); }
+	qreal minVolumeToSplit() { return m_minVolToSplit; }
+
 	
-	TnoteStruct* lastNote() { return m_lastNote; }
+	TnoteStruct* lastNote() { return &m_currentNote; }
 
       /** In offline mode pitch detecting isn't performed in separate thread.
-       * After collecting audio data in buffer detection is performed
-       * and no data is retrieving until detection in current is finished.
-       *
-       */
+       * After collecting audio data in buffer, detection is performed
+       * and no data is retrieving until detection in current chunk is finished. */
 	bool isOffline() { return m_isOffline; }
 	void setOffLine(bool off);
 
@@ -141,23 +153,15 @@ public:
        * only in offline mode all detected data exists. */
 	Channel* ch() { return m_channel; }
 
-      /** List of detected values of every chunk (cleared by @p reset()).
-       * WARRING! @p id is not verified - check it by @p dataSize() */
-	TnoteStruct& dl(int id) { return m_dataList[id]; }
-	int dataSize() { return m_dataList.size(); }
-	TnoteStruct& lastData() { return m_dataList.last(); }
-
 signals:
   void pitchInChunk(float); /** Pitch in chunk that has been just processed */
   void volume(float);
 	void noteStarted(qreal pitch, qreal freq, qreal duration);
 	void noteFinished(TnoteStruct*); /** Emitting parameters of finished note (pitch, freq, duration) */
-  void chunkProcessed(TnoteStruct*); /** Emitted in offline mode only, after every processed chunk with analyzed data or 0 */
-	
 	
 protected slots:
 	void startPitchDetection(); /** Starts searching thread */
-	void processed(); /** Connected with QThread::finished() signal. */
+	void processed(); /** Performs signal emitting after chunk was done but out of processing thread */
 	
 	
 private:
@@ -170,27 +174,26 @@ private:
 	float						*m_buffer_1, *m_buffer_2; // real buffers
 	int							 m_posInBuffer;
 	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
-  qreal            m_prevPitch, m_prevFreq, m_prevDuration;
+
 
   bool             m_doReset, m_isOffline;
-	TartiniParams   *m_aGl; 
+	TartiniParams   *m_aGl;
 	Channel         *m_channel;
 	int              m_chunkNum;
 	bool             m_isBussy;
   int              m_prevNoteIndex;
-  int              m_noticedIndex;
   float            m_minVolume;
 	float						 m_minDuration;
 	float						 m_rateRatio; // multiplexer of the sample rate determined from pitch detection range
-	QMutex					 m_mutex;
-	float 					 m_volume, m_chunkPitch, m_newNoteStartDur;
+	QMutex					 m_mutex, m_offLineMutex;
+	float 					 m_volume, m_chunkPitch;
 	EnoteState			 m_state, m_prevState;
-	qreal 					 m_prevVolume, m_lastDuration;
-	int 						 m_detectedIndex;
-	bool 						 m_couldBeNew;
-	TnoteStruct			*m_currentNote, *m_lastNote;
-	qreal 					 m_statPitch; // value of previous pitch to detect notes repeats by increased volume
-	QList<TnoteStruct> m_dataList; /** List of detected values of every chunk (cleared by @p reset()) */
+  float            m_pcmVolume, m_workVol;
+  TnoteStruct      m_newNote, m_currentNote;
+  bool             m_splitByVol;
+  qreal            m_minVolToSplit, m_chunkTime;
+  int              m_minChunks;
+
 };
 
 #endif // TPITCHFINDER_H
