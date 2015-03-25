@@ -37,7 +37,7 @@ NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
 {
   readConfig();
   QFont nf("nootka", 256);
-  setWindowIcon(QIcon(pixFromString("m", nf)));
+  setWindowIcon(QIcon(pixFromString("m", nf, Qt::darkMagenta)));
   resize(800, 600);
   QWidget* innerWidget = new QWidget(this);
 
