@@ -58,7 +58,7 @@ NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, bool defClef, TkeySig
 
 		/** Changes given sting to pixmap in given font size. 
      * Nootka font is used and current palette colors. */
-NOOTKACORE_EXPORT QPixmap pixFromString(const QString& glif, const QFont& font);
+NOOTKACORE_EXPORT QPixmap pixFromString(const QString& glif, const QFont& font, const QColor& color = -1);
 
     /** Returns HTML <img> statements with image scaled to given @p width.*/
 NOOTKACORE_EXPORT QString pixToHtml(const QString& imageFile, int width = 0);
@@ -68,8 +68,6 @@ NOOTKACORE_EXPORT QString pixToHtml(const QString& imageFile, int width = 0);
 		* If @p fontSize remains default - default @p fontSize is taken. */
 NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize = -1);
 
-    /** Converts given text of Nootka font to image. @p height is desired size of image. */
-NOOTKACORE_EXPORT QPixmap glyphToPixmap(const QString gl, int height);
 
 
 #endif // TNOTEPIXMAP_H

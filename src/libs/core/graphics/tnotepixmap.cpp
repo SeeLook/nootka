@@ -165,14 +165,17 @@ QString pixToHtml(const QPixmap& pix) {
 }
 
 
-QPixmap pixFromString(const QString& glif, const QFont& font) {
+QPixmap pixFromString(const QString& glif, const QFont& font, const QColor& color) {
   QFontMetricsF metrics(font);
   QPixmap pix(metrics.width(glif), metrics.height());
   pix.fill(Qt::transparent);
   QPainter painter(&pix);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter.setWindow(0, 0, pix.width(), pix.height());
-  painter.setPen(qApp->palette().text().color());
+  if (color == -1)
+    painter.setPen(qApp->palette().text().color());
+  else
+    painter.setPen(color);
   painter.setBrush(QBrush(Qt::NoBrush));
   painter.setFont(font);
 //  painter.drawRect(0, 0, pix.width(), pix.height());
@@ -238,9 +241,8 @@ QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize) 
 }
 
 
-QPixmap glyphToPixmap(const QString gl, int height) {
-  return QPixmap();
-}
+
+
 
 
 

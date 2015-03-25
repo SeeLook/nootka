@@ -66,7 +66,7 @@ TscoreActions::TscoreActions(TmainScore* score) :
                              QIcon(score->style()->standardIcon(QStyle::SP_ArrowForward)));
   QFont nf("nootka", m_menu->style()->pixelMetric(QStyle::PM_SmallIconSize));
   m_delCurrNote = createAction(tr("Delete note"), SLOT(removeCurrentNote()), QKeySequence(Qt::Key_Delete), 
-                             QIcon(pixFromString("o", nf)));
+                             QIcon(pixFromString("o", nf, Qt::red)));
   m_menu->addSeparator();
 	
   m_clear = createAction(tr("Delete all notes"), SLOT(deleteNotes()), QKeySequence("Shift+DEL"), QIcon(Tpath::img("clear-score")));
