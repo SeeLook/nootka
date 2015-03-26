@@ -48,6 +48,7 @@ class TscoreActions : public QObject
 	
 public:
 	explicit TscoreActions(TmainScore* score);
+  virtual ~TscoreActions();
   
   QToolButton* button() { return m_button; } /** Button displaying score icon and drop down menu with score actions */
   QWidgetAction* mainAction() { return m_mainAction; } /** This represents score button action. */

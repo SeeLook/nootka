@@ -41,6 +41,7 @@ class TmelMan : public QObject
 	
 public:
 	explicit TmelMan(TmainScore* score);
+  virtual ~TmelMan();
 	
 	QWidgetAction* melodyAction() { return m_melAct; }
 	QToolButton* button() { return m_button; }

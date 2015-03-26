@@ -187,8 +187,8 @@ MainWindow::~MainWindow()
 	gl->config->beginGroup("General");
 		gl->config->setValue("geometry", geometry());
 	gl->config->endGroup();
-	delete gl;
 	Tmenu::deleteMenuHandler();
+  Tmenu::setMainWidget(0);
 }
 
 //##########################################################################################

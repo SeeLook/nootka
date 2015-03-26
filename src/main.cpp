@@ -74,6 +74,7 @@ int main(int argc, char *argv[])
 		firstTime = false;
 		exitCode = a->exec();
 		delete w;
+    delete gl;
 	} while (resetConfig);
 		
 	return exitCode;
