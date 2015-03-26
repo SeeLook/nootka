@@ -309,7 +309,7 @@ int MyTransforms::findNSDFsubMaximum(float *input, int len, float threshold)
   If no maxima are over the threshold then the the highest maximum is returned.
   If no positive zero crossing is found, zero is returned.
   @param input. An array of length n.
-  @param threshold. A number between 0 and 1 at which maxima above are acceped.
+  @param threshold. A number between 0 and 1 at which maxima above are accepted.
   @return The estimated period (in samples), or zero if none found.
 */
 void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
@@ -426,9 +426,9 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       analysisData.done = true;
     }
 
-    if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
-      ch->calcVibratoData(chunk);
-    }
+//     if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
+//       ch->calcVibratoData(chunk);
+//     }
   }
 
   if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && (!ch->firstTimeThrough())) {

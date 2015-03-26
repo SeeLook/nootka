@@ -15,7 +15,6 @@
 MAJOR:
 - crash on terminate in Oxygen due to animation on status label
 - qt_base translations are not loaded properly
-- restore all default settings doesn't launch Nootka again
 - add Qt::DirectConnection flag to some signal-slot connections (pitch detection related especially)
 
 PITCH DETECTION IMPROVEMENTS

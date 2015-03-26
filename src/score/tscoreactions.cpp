@@ -75,6 +75,12 @@ TscoreActions::TscoreActions(TmainScore* score) :
 }
 
 
+TscoreActions::~TscoreActions()
+{
+  delete m_menu;
+}
+
+
 void TscoreActions::disableActions(bool dis) {
 	if (dis != m_firstNote->signalsBlocked()) { // disability of actions is different than required, so do it
 		foreach(QAction* a, m_actions)
