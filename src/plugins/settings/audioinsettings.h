@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,8 @@
 #include <QWidget>
 #include <music/tnote.h>
 
+class TselectInstrument;
+class QDoubleSpinBox;
 class TnoteStruct;
 class QCheckBox;
 class QToolBox;
@@ -87,6 +89,9 @@ protected slots:
   void minimalVolChanged(float vol);
 	void upDownIntervalSlot();
 	void JACKASIOSlot();
+  void splitByVolChanged(bool enab);
+  void skipStillerChanged(bool enab);
+  void adjustInstrSlot(int instr);
   
 private:
     /** Calculates frequencies of strings related to a440diff and sets status tip.*/
@@ -102,13 +107,13 @@ private:
   float getDiff(int freq);
 	
   
-  QComboBox 					*m_inDeviceCombo, *m_intonationCombo;
-  QGroupBox 					*enableInBox, *modeGr, *midABox;
-  QRadioButton 				*m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
+  QComboBox 					*m_inDeviceCombo, *m_intonationCombo, *m_methodCombo;
+  QGroupBox 					*enableInBox, *midABox;
 	QRadioButton				*m_upSemiToneRadio, *m_downsSemitoneRadio;
-  QSpinBox 						*freqSpin, *durationSpin, *m_intervalSpin;
+  QSpinBox 						*freqSpin, *durationSpin, *m_intervalSpin, *m_splitVolSpin, *m_skipStillerSpin;
   TvolumeSlider 			*volumeSlider;
   QPushButton 				*testButt;
+  TselectInstrument   *m_adjustToInstrButt;
   QLabel 							*durHeadLab;
 	TroundedLabel				*pitchLab, *freqLab, *tuneFreqlab;
   bool 								m_testDisabled, m_listGenerated;
@@ -118,7 +123,7 @@ private:
 	Ttune								*m_tune;
 	QWidget							*m_4_test;
   QToolBox 						*m_toolBox;
-	QCheckBox						*m_JACK_ASIO_ChB;
+	QCheckBox						*m_JACK_ASIO_ChB, *m_splitVolChB, *m_skipStillerChB, *m_noiseFilterChB;
 };
 
 #endif // AUDIOINSETTINGS_H
