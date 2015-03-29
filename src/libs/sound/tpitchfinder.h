@@ -138,6 +138,10 @@ public:
 	void setSplitVolume(qreal volToSplit) { m_minVolToSplit = qMax<qreal>(volToSplit, 0.05); }
 	qreal minVolumeToSplit() { return m_minVolToSplit; }
 
+      /** multiplexer of sound volume (aka %) that determines minimum volume of next note to be pitch-detected.
+       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume */
+	void setSkipStillerVal(qreal skipStill) { m_skipStillerVal = skipStill; }
+	qreal skipStillerValue() { return m_skipStillerVal; }
 	
 	TnoteStruct* lastNote() { return &m_currentNote; }
 
@@ -191,7 +195,7 @@ private:
   float            m_pcmVolume, m_workVol;
   TnoteStruct      m_newNote, m_currentNote;
   bool             m_splitByVol;
-  qreal            m_minVolToSplit, m_chunkTime;
+  qreal            m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
   int              m_minChunks;
 
 };

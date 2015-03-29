@@ -116,11 +116,14 @@ void TaudioIN::setAudioInParams() {
 	m_pitch->setMinimalDuration(audioParams()->minDuration);
   m_pitch->setSplitByVolChange(audioParams()->minSplitVol > 0.0);
   m_pitch->setSplitVolume(audioParams()->minSplitVol);
+  m_pitch->setSkipStillerVal(audioParams()->skipStillerVal);
   m_pitch->aGl()->equalLoudness = audioParams()->equalLoudness;
 
 	m_pitch->setSampleRate(sampleRate(), m_currentRange); // framesPerChunk is determined here
 	m_volume = 0.0;
-//   qDebug() << "setAudioInParams" << sampleRate() << audioParams()->detectMethod << audioParams()->minDuration << audioParams()->minimalVol;
+  qDebug() << "setAudioInParams" << "rate:" << sampleRate() << "\nmethod:" << audioParams()->detectMethod
+           << "\nmin duration" << audioParams()->minDuration << "\nmin volume" << audioParams()->minimalVol
+           << "\nsplit volume" << (m_pitch->isSplitByVolume() ? m_pitch->minVolumeToSplit() : 0.0) << "\nskip volume" << m_pitch->skipStillerValue();
 }
 
 
