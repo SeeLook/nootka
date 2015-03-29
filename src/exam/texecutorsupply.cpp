@@ -483,7 +483,7 @@ void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattemp
 		if (a.size() > i && q->length() > i) {
 			checkNotes(&tmpUnit, q->note(i)->p(), a[i].pitch, m_level->requireOctave, m_level->forceAccids);
 			if (!tmpUnit.isWrong() && m_level->intonation != TintonationView::e_noCheck) {
-				if (TnoteStruct(Tnote(), a[i].pitchF).inTune(TintonationView::getThreshold(m_level->intonation)))
+				if (!TnoteStruct(Tnote(), a[i].pitchF).inTune(TintonationView::getThreshold(m_level->intonation)))
 					tmpUnit.setMistake(TQAunit::e_wrongIntonation);
 			}
 		} else
