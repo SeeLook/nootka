@@ -84,7 +84,7 @@ public:
   AnalysisData();
   void calcScores(TartiniParams *tParams);
 
-  double normalVolume() { return dB2Normalised(logrms()); } /** Normalized volume of a chunk */
+  double normalVolume() { return qBound(0.0, 1.0 - (logrms() / -150.0), 1.0); /*dB2Normalised(logrms());*/ } /** Normalized volume of a chunk */
   float &logrms() { return values[AMPLITUDE_RMS]; }
   float &maxIntensityDB() { return values[AMPLITUDE_MAX_INTENSITY]; }
   float &correlation() { return values[AMPLITUDE_CORRELATION]; }

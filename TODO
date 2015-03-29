@@ -13,15 +13,13 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
+- Some issues with QNetworkManager deleting
 - crash on terminate in Oxygen due to animation on status label
 - qt_base translations are not loaded properly
 - add Qt::DirectConnection flag to some signal-slot connections (pitch detection related especially)
 
 PITCH DETECTION IMPROVEMENTS
 - put message to user about his responsibility to sound quality
-- pull up noise filter settings of Tartini and make it off by default
-- add configurable option of split note by volume change and threshold
-- take pitch of a note as a close value to 'perfect pitch' - rounded value
 TO consider 
 - automate detection of best minimal volume and volume split threshold
 

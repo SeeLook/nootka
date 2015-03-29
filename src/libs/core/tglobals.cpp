@@ -286,6 +286,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->playDetected = false; //cfg->value("playDetected", false).toBool();
 		A->equalLoudness = cfg->value("equalLoudness", false).toBool();
     A->minSplitVol = cfg->value("minVolToSplit", 0.1).toReal();
+    A->skipStillerVal = cfg->value("skipStillerValue", 0.8).toReal();
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");
@@ -437,6 +438,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 // 			cfg->setValue("playDetected", A->playDetected);
       cfg->setValue("equalLoudness", A->equalLoudness);
       cfg->setValue("minVolToSplit", A->minSplitVol);
+      cfg->setValue("skipStillerValue", A->skipStillerVal);
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");

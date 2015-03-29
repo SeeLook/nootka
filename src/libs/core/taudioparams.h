@@ -42,6 +42,11 @@ public:
   int     detectMethod; // pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum)
 	quint8  intonation; // accuracy of intonation in detected note - corresponds with Eaccuracy
 	qreal   minSplitVol; // minimum volume change to split the same note (0.0 - no split)
+
+      /** multiplexer of sound volume (aka %)
+       * that determines minimum volume of next note to be pitch-detected.
+       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume */
+	qreal   skipStillerVal;
 	bool    equalLoudness; // if TRUE - noise filters are performed - FALSE by default
 // duplex mode
 	bool    forwardInput; // if true, all captured audio data is pushed to output

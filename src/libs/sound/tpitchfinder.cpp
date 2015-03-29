@@ -23,7 +23,6 @@
 #include "tartini/analysisdata.h"
 #include <QtWidgets/QApplication>
 #include <QThread>
-
 #include <QDebug>
 
 
@@ -43,7 +42,8 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_volume(0),
   m_state(e_silence), m_prevState(e_silence),
   m_pcmVolume(0.0f), m_workVol(0.0f),
-  m_splitByVol(true), m_minVolToSplit(0.1)
+  m_splitByVol(true), m_minVolToSplit(0.1),
+  m_skipStillerVal(0.0), m_averVolume(0.0)
 {
 	m_aGl = new TartiniParams();
 	m_aGl->chanells = 1;
@@ -53,7 +53,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl->dBFloor = -150.0; // it is unchanged but if it will in conversions.cpp it is hard coded
 	m_aGl->equalLoudness = true;
 	m_aGl->doingFreqAnalysis = true;
-	m_aGl->doingAutoNoiseFloor = true;
+	m_aGl->doingAutoNoiseFloor = false; // TODO was True by default
 	m_aGl->doingHarmonicAnalysis = false;
 	m_aGl->firstTimeThrough = true;
 	m_aGl->doingDetailedPitch = true;
@@ -70,7 +70,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl->ampThresholds[NOTE_SCORE][0]              =  0.03; m_aGl->ampThresholds[NOTE_SCORE][1]              =  0.20;
 	m_aGl->ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; m_aGl->ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
 	
-	
+	m_averVolume = 0.0;
 	setSampleRate(m_aGl->rate);
 	m_channel = new Channel(this, aGl()->windowSize);
 	myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
@@ -185,11 +185,14 @@ void TpitchFinder::resetFinder() {
   if (m_channel) {
       delete m_channel;
       m_chunkNum = 0;
+      m_averVolume = 0.0;
       myTransforms.uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 //       qDebug() << "reset channel";
   }
+  qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
+          << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << "noise filter" << aGl()->equalLoudness;
   m_mutex.unlock();
 }
 
@@ -238,6 +241,10 @@ void TpitchFinder::processed() {
 		} else if (m_prevState == e_playing) {
 				if (m_state == e_silence || m_state == e_noticed) {
           emit noteFinished(&m_currentNote); // previous note was finished
+          if (m_averVolume == 0.0)
+            m_averVolume = m_currentNote.maxVol;
+          else
+            m_averVolume = (m_averVolume + m_currentNote.maxVol) / 2.0;
 //           qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
 //                    << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 				}
@@ -285,13 +292,13 @@ void TpitchFinder::detect() {
   } else { // note is still playing
     if (data->noteIndex != NO_NOTE) {
       m_newNote.update(m_chunkNum, data->pitch, m_volume);
-      if (m_newNote.maxVol >= m_minVolume) { // note was loud enough
+      if (m_newNote.maxVol >= m_minVolume && m_newNote.maxVol >= m_averVolume * m_skipStillerVal) { // note was loud enough
         if (m_newNote.numChunks() == m_minChunks) {
           m_currentNote = m_newNote;
           m_currentNote.sumarize(m_chunkTime);
           m_state = e_playing;
         } else if (m_splitByVol && m_newNote.numChunks() > m_minChunks) {
-          if (m_volume - m_newNote.minVol >= m_minVolToSplit) {
+          if (m_volume - m_newNote.minVol >= m_minVolToSplit && m_volume >= m_averVolume * m_skipStillerVal) {
             m_currentNote = m_newNote;
             m_currentNote.endChunk--;
             m_currentNote.sumarize(m_chunkTime);
