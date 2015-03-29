@@ -27,7 +27,10 @@
 #include <graphics/tnotepixmap.h>
 #include <music/tkeysignature.h>
 #include <music/ttune.h>
+#include <music/tinstrument.h>
 #include <widgets/troundedlabel.h>
+#include <widgets/tselectinstrument.h>
+#include <tnoofont.h>
 #include <QtWidgets>
 
 
@@ -46,11 +49,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   *m_tmpParams = *m_glParams;
 	
 	m_toolBox = new QToolBox(this);
-	QWidget *m_1_device, *m_2_params, *m_3_middleA; // m_4_test is declared in header
+	QWidget *m_1_device, *m_2_middleA, *m_3_advanced; // m_4_test is declared in header
   
 //################### 1. 	Input device & pitch detection #################################
 	m_1_device = new QWidget();
-	m_toolBox->addItem(m_1_device, tr("1. Input device and pitch detection"));  
+	m_toolBox->addItem(m_1_device, "1. " + tr("Input device and pitch detection"));
   
   QLabel *devLab = new QLabel(tr("input device"), m_1_device);
   m_inDeviceCombo = new QComboBox(m_1_device);
@@ -63,19 +66,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	m_JACK_ASIO_ChB->setText("JACK");
 #endif
 	m_JACK_ASIO_ChB->setChecked(m_glParams->JACKorASIO);
-  m_mpmRadio = new QRadioButton("MPM", m_1_device);
-	m_correlRadio = new QRadioButton("autocorrelation", m_1_device);
-	m_cepstrumRadio = new QRadioButton("MPM + modified cepstrum", m_1_device);
-  QButtonGroup *butGr = new QButtonGroup(m_1_device);
-	butGr->addButton(m_mpmRadio);
-  butGr->addButton(m_correlRadio);
-	butGr->addButton(m_cepstrumRadio);
-	if (m_glParams->detectMethod == e_MPM)
-		m_mpmRadio->setChecked(true);
-	else if (m_glParams->detectMethod == e_AUTOCORRELATION)
-		m_correlRadio->setChecked(true);
-	else
-		m_cepstrumRadio->setChecked(true);
 	
 	durHeadLab = new QLabel(tr("minimum note duration"), m_1_device);
 	durationSpin = new QSpinBox(m_1_device);
@@ -85,97 +75,78 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		durationSpin->setSingleStep(50);
 		durationSpin->setValue(qRound(m_glParams->minDuration * 1000)); // minimum duration is stored in seconds but displayed in milliseconds
 		durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
+  QLabel *volLabel = new QLabel(tr("minimum volume"), m_1_device);
+  volumeSlider = new TvolumeSlider(m_1_device);
+    volumeSlider->setValue(m_glParams->minimalVol);
+    volumeSlider->setStatusTip(tr("Minimum volume of a sound to be pitch-detected"));
+
+  TintonationCombo *intoCombo = new TintonationCombo(m_1_device);
+    m_intonationCombo = intoCombo->accuracyCombo;
+    m_intonationCombo->setCurrentIndex(m_glParams->intonation);
 	// 1. Layout
 	QVBoxLayout *deviceLay = new QVBoxLayout;
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
-		deviceLay->addWidget(devLab);
-		rtDevLay->addWidget(m_inDeviceCombo);
-			rtDevLay->addWidget(m_JACK_ASIO_ChB);
+      rtDevLay->addStretch();
+      rtDevLay->addWidget(devLab);
+      rtDevLay->addWidget(m_inDeviceCombo);
+      rtDevLay->addWidget(m_JACK_ASIO_ChB);
+      rtDevLay->addStretch();
 		deviceLay->addLayout(rtDevLay);
-		deviceLay->addStretch(1);
-	QHBoxLayout *modeButtonsLay = new QHBoxLayout;
-		modeButtonsLay->addStretch(2);
-		modeButtonsLay->addWidget(m_mpmRadio);
-		modeButtonsLay->addStretch(1);
-		modeButtonsLay->addWidget(m_correlRadio);
-		modeButtonsLay->addStretch(1);
-		modeButtonsLay->addWidget(m_cepstrumRadio);
-		modeButtonsLay->addStretch(2);
-	QVBoxLayout *modeLay = new QVBoxLayout;
-		modeLay->addLayout(modeButtonsLay);
-		modeLay->addStretch(1);
-	modeGr = new QGroupBox(tr("pitch detection mode"), m_1_device);
-		modeGr->setLayout(modeLay);
-	deviceLay->addWidget(modeGr);
-  deviceLay->addStretch(1);
+
+//   deviceLay->addStretch(1);
 	QHBoxLayout *durLay = new QHBoxLayout;
 		durLay->addStretch();
 		durLay->addWidget(durHeadLab);
 		durLay->addWidget(durationSpin, 0, Qt::AlignLeft);
 		durLay->addStretch();
 	deviceLay->addLayout(durLay);
-	deviceLay->addStretch(1);
+// 	deviceLay->addStretch(1);
+  QHBoxLayout *volLay = new QHBoxLayout;
+    volLay->addWidget(volLabel);
+    volLay->addWidget(volumeSlider);
+  deviceLay->addLayout(volLay);
+  deviceLay->addWidget(intoCombo);
+  deviceLay->addStretch(1);
   m_1_device->setLayout(deviceLay);
-	
-//################### 2. Pitch detection parameters #################################
-	m_2_params = new QWidget();
-	m_toolBox->addItem(m_2_params, tr("2. Pitch detection parameters"));
-	
-	QLabel *volLabel = new QLabel(tr("minimum volume"), m_2_params);
-	volumeSlider = new TvolumeSlider(m_2_params);
-		volumeSlider->setValue(m_glParams->minimalVol);
-		volumeSlider->setStatusTip(tr("Minimum volume of a sound to be pitch-detected"));
-	
-	TintonationCombo *intoCombo = new TintonationCombo(m_2_params);
-		m_intonationCombo = intoCombo->accuracyCombo;
-		m_intonationCombo->setCurrentIndex(m_glParams->intonation);
-	// 2. Layout
-	QVBoxLayout *paramsLay = new QVBoxLayout;
-	QHBoxLayout *volLay = new QHBoxLayout;
-		volLay->addWidget(volLabel);
-		volLay->addWidget(volumeSlider);
-	paramsLay->addLayout(volLay);
-	paramsLay->addWidget(intoCombo, 1, Qt::AlignCenter);
-	m_2_params->setLayout(paramsLay);
 		
-//################### 3. Middle a & transposition #################################
-	m_3_middleA= new QWidget();
-	m_toolBox->addItem(m_3_middleA, tr("3. 'Middle a' and transposition"));
+//################### 2. Middle a & transposition #################################
+	m_2_middleA = new QWidget();
+	m_toolBox->addItem(m_2_middleA, "2. " + tr("'Middle a' and transposition"));
   
-  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), m_3_middleA);
-  QLabel *frLab = new QLabel(tr("frequency:"), m_3_middleA);
+  QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), m_2_middleA);
+  QLabel *frLab = new QLabel(tr("frequency:"), m_2_middleA);
   
-  freqSpin = new QSpinBox(m_3_middleA);
+  freqSpin = new QSpinBox(m_2_middleA);
 		freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
 		freqSpin->setMinimum(200);
 		freqSpin->setMaximum(900);
 		freqSpin->setSuffix(" Hz");
   frLab->setStatusTip(freqSpin->statusTip());
   
-  QLabel *intervalLab = new QLabel(tr("interval:"), m_3_middleA);
-  m_intervalSpin = new QSpinBox(m_3_middleA);
+  QLabel *intervalLab = new QLabel(tr("interval:"), m_2_middleA);
+  m_intervalSpin = new QSpinBox(m_2_middleA);
 		m_intervalSpin->setRange(0, 12);
 		m_intervalSpin->setSpecialValueText(tr("none"));
 		m_intervalSpin->setMinimumWidth(fontMetrics().boundingRect("w").width() * 15); // width of ten letters 'w' 
 		m_intervalSpin->setStatusTip(tr("Shifts the frequency of <i>middle a</i>. It can be used as a transposition."));
-	m_upSemiToneRadio = new QRadioButton(tr("up"), m_3_middleA);
+	m_upSemiToneRadio = new QRadioButton(tr("up"), m_2_middleA);
 		m_upSemiToneRadio->setIcon(QIcon(style()->standardIcon(QStyle::SP_ArrowUp)));
-	m_downsSemitoneRadio = new QRadioButton(tr("down"), m_3_middleA);
+	m_downsSemitoneRadio = new QRadioButton(tr("down"), m_2_middleA);
 		m_downsSemitoneRadio->setIcon(QIcon(style()->standardIcon(QStyle::SP_ArrowDown)));
   intervalLab->setStatusTip(m_intervalSpin->statusTip());
-	QButtonGroup *upDownGroup = new QButtonGroup(m_3_middleA);
+	QButtonGroup *upDownGroup = new QButtonGroup(m_2_middleA);
 		upDownGroup->addButton(m_upSemiToneRadio);
 		upDownGroup->addButton(m_downsSemitoneRadio);
 	m_upSemiToneRadio->setChecked(true);
   
-	tuneFreqlab = new TroundedLabel(m_3_middleA);
+	tuneFreqlab = new TroundedLabel(m_2_middleA);
 		tuneFreqlab->setAlignment(Qt::AlignCenter);
 		QFont ff = tuneFreqlab->font();
 		ff.setPixelSize(fontMetrics().boundingRect("A").height() * 1.2);
 		tuneFreqlab->setFont(ff);
 		tuneFreqlab->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   
-  // 3. Layout
+  // 2. Layout
 	QGridLayout *midGrLay = new QGridLayout;
 		midGrLay->addWidget(frLab, 0, 0);
 		midGrLay->addWidget(freqSpin, 0, 1);
@@ -193,11 +164,84 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	QVBoxLayout *middleAlay = new QVBoxLayout();
 		middleAlay->addLayout(aLay);
 		middleAlay->addWidget(tuneFreqlab, 0, Qt::AlignCenter);
-	m_3_middleA->setLayout(middleAlay);
+	m_2_middleA->setLayout(middleAlay);
 	
+//################### 3. Advanced #################################
+  m_3_advanced = new QWidget();
+  m_toolBox->addItem(m_3_advanced, "3. " + tr("Advanced"));
+
+  QLabel *methodLab = new QLabel(tr("pitch detection mode"), m_3_advanced);
+  m_methodCombo = new QComboBox(m_3_advanced);
+    m_methodCombo->addItem("MPM");
+    m_methodCombo->addItem("autocorrelation");
+    m_methodCombo->addItem("MPM + modified cepstrum");
+  if (m_glParams->detectMethod == e_MPM)
+    m_methodCombo->setCurrentIndex(0);
+  else if (m_glParams->detectMethod == e_AUTOCORRELATION)
+    m_methodCombo->setCurrentIndex(1);
+  else
+    m_methodCombo->setCurrentIndex(2);
+
+  m_splitVolChB = new QCheckBox(tr("split when volume rise"), this);
+  m_splitVolSpin = new QSpinBox(this);
+    m_splitVolSpin->setRange(5, 50);
+    m_splitVolSpin->setSingleStep(5);
+    m_splitVolSpin->setSuffix(" %");
+  if (m_glParams->minSplitVol >= 0.01) {
+    m_splitVolChB->setChecked(true);
+    m_splitVolSpin->setValue(m_glParams->minSplitVol * 100);
+  } else
+    m_splitVolChB->setChecked(false);
+
+  m_skipStillerChB = new QCheckBox(tr("skip stiller than"), this);
+    m_skipStillerChB->setStatusTip(tr("If set, skips notes with volume less than given percentage value of average volume of previously played notes. It helps to omit detecting of open strings harmonics."));
+  m_skipStillerSpin = new QSpinBox(this);
+    m_skipStillerSpin->setRange(10, 95);
+    m_skipStillerSpin->setSingleStep(5);
+    m_skipStillerSpin->setSuffix(" %");
+    m_skipStillerSpin->setStatusTip(m_skipStillerChB->statusTip());
+    m_skipStillerSpin->setValue(m_glParams->skipStillerVal * 100);
+    m_skipStillerChB->setChecked(m_glParams->skipStillerVal > 0.0);
+
+  m_noiseFilterChB = new QCheckBox(tr("noise filter"), m_3_advanced);
+    m_noiseFilterChB->setChecked(m_glParams->equalLoudness);
+    m_noiseFilterChB->setStatusTip(tr("Use it only for poor audio input device or very noisy surroundings. Otherwise it may even spoil pitch detection or simply waste CPU."));
+
+  QLabel *adjustLab = new QLabel(tr("adjust to instrument"),  m_3_advanced);
+  m_adjustToInstrButt = new TselectInstrument(m_3_advanced, TselectInstrument::e_buttonsOnlyHorizontal);
+    m_adjustToInstrButt->setGlyphSize(fontMetrics().height() * 2);
+
+  //3. Layout
+  QVBoxLayout *advLay = new QVBoxLayout;
+    QHBoxLayout *methodLay = new QHBoxLayout;
+      methodLay->addStretch();
+      methodLay->addWidget(methodLab);
+      methodLay->addWidget(m_methodCombo);
+      methodLay->addStretch();
+  advLay->addLayout(methodLay);
+  QHBoxLayout *splitAndskipLay = new QHBoxLayout;
+    splitAndskipLay->addStretch();
+    splitAndskipLay->addWidget(m_splitVolChB);
+    splitAndskipLay->addWidget(m_splitVolSpin);
+    splitAndskipLay->addStretch();
+    splitAndskipLay->addWidget(m_skipStillerChB);
+    splitAndskipLay->addWidget(m_skipStillerSpin);
+    splitAndskipLay->addStretch();
+  advLay->addLayout(splitAndskipLay);
+  advLay->addWidget(m_noiseFilterChB, 0, Qt::AlignCenter);
+  advLay->addStretch(1);
+  QHBoxLayout *adjustLay = new QHBoxLayout;
+    adjustLay->addStretch();
+    adjustLay->addWidget(adjustLab);
+    adjustLay->addWidget(m_adjustToInstrButt);
+    adjustLay->addStretch();
+  advLay->addLayout(adjustLay);
+  m_3_advanced->setLayout(advLay);
+
+
 //################### 4. Test the settings #################################
 	m_4_test= new QWidget();
-	m_toolBox->addItem(m_4_test, tr("4. Test the settings"));  
+	m_toolBox->addItem(m_4_test, "4. " + tr("Test the settings"));
   
   testTxt = tr("Test");
   stopTxt = tr("Stop");
@@ -268,6 +312,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
 	connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
   connect(enableInBox, &QGroupBox::clicked, this, &AudioInSettings::testSlot);
+  connect(m_splitVolChB, &QCheckBox::clicked, this, &AudioInSettings::splitByVolChanged);
+  connect(m_skipStillerChB, &QCheckBox::clicked, this, &AudioInSettings::skipStillerChanged);
 }
 
 
@@ -296,7 +342,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
       pitchView->setDisabled(true);
   // enable the rest of widget
       m_inDeviceCombo->setDisabled(false);
-      modeGr->setDisabled(false);
+      m_methodCombo->setDisabled(false);
       m_intervalSpin->setDisabled(false);
       m_upSemiToneRadio->setDisabled(false);
       m_downsSemitoneRadio->setDisabled(false);
@@ -312,7 +358,7 @@ void AudioInSettings::setTestDisabled(bool disabled) {
       m_intervalSpin->setDisabled(true);
       m_upSemiToneRadio->setDisabled(true);
       m_downsSemitoneRadio->setDisabled(true);
-      modeGr->setDisabled(true);
+      m_methodCombo->setDisabled(true);
       volumeSlider->setDisabled(true);
       durationSpin->setDisabled(true);
       m_intonationCombo->setDisabled(true);
@@ -327,17 +373,14 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   else
       params->a440diff = getDiff(freqSpin->value());
   params->INdevName = m_inDeviceCombo->currentText();
-  if (m_mpmRadio->isChecked())
-		params->detectMethod = 0;
-	else if (m_correlRadio->isChecked())
-		params->detectMethod = 1;
-	else
-		params->detectMethod = 2;
   params->INenabled = enableInBox->isChecked();
   params->minimalVol = volumeSlider->value();
 	params->minDuration = (qreal)durationSpin->value() / 1000.0;
 	params->intonation = m_intonationCombo->currentIndex();
 	params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
+  params->equalLoudness = m_noiseFilterChB->isChecked();
+  params->minSplitVol = m_splitVolChB->isChecked() ? (qreal)m_splitVolSpin->value() / 100.0 : 0.0;
+  params->skipStillerVal = m_skipStillerChB->isChecked() ? (qreal)m_skipStillerSpin->value() / 100.0 : 0.0;
 }
 
 
@@ -348,8 +391,8 @@ void AudioInSettings::restoreDefaults() {
 	freqSpin->setValue(440);
 	m_intervalSpin->setValue(0);
 	m_inDeviceCombo->setCurrentIndex(0);
-	m_mpmRadio->setChecked(true);
-	volumeSlider->setValue(0.4); // It is multipled by 100
+	m_methodCombo->setCurrentIndex(2);
+	volumeSlider->setValue(0.4); // It is multiplied by 100
 	durationSpin->setValue(90);
 	m_intonationCombo->setCurrentIndex(3); // normal
 }
@@ -435,9 +478,10 @@ float AudioInSettings::getDiff(int freq) {
 }
 
 
-//------------------------------------------------------------------------------------
-//------------          slots       --------------------------------------------------
-//------------------------------------------------------------------------------------
+//#################################################################################################
+//###################        PUBLIC SLOTS              ############################################
+//#################################################################################################
+
 
 void AudioInSettings::tuneWasChanged(Ttune* tune) {
   m_tune = tune;
@@ -445,15 +489,18 @@ void AudioInSettings::tuneWasChanged(Ttune* tune) {
 }
 
 
-
-void AudioInSettings::minimalVolChanged(float vol) {
-  pitchView->setMinimalVolume(vol);
+void AudioInSettings::stopSoundTest() {
+  if (m_audioIn)
+    testSlot();
 }
 
 
-void AudioInSettings::stopSoundTest() {
-	if (m_audioIn)
-		testSlot();
+//#################################################################################################
+//###################      PROTECTED SLOTS             ############################################
+//#################################################################################################
+
+void AudioInSettings::minimalVolChanged(float vol) {
+  pitchView->setMinimalVolume(vol);
 }
 
 
@@ -577,7 +624,26 @@ void AudioInSettings::JACKASIOSlot() {
 }
 
 
+void AudioInSettings::splitByVolChanged(bool enab) {
+  m_splitVolSpin->setDisabled(!enab);
+}
 
+
+void AudioInSettings::skipStillerChanged(bool enab) {
+  m_skipStillerSpin->setDisabled(!enab);
+}
+
+
+
+void AudioInSettings::adjustInstrSlot(int instr) {
+  switch ((Einstrument)instr) {
+    case e_noInstrument:
+
+      break;
+    default:
+      break;
+  }
+}
 
 
 
