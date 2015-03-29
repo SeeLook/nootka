@@ -57,11 +57,15 @@ public:
 			 * ------ e_buttonsOnlyGrid - 2x2 grid with buttons only and texts in status tips
 			 *    |  g  |     |  e  |    
 			 *    |  b  |     |  n  |
+       * --------------------------------------------------
+       * ------ e_buttonsOnlyHorizontal - horizontal layout without text under buttons
+       *    | n  |  g  |  e  |  b  |
 			 * -------------------------------------------------- */
 	enum Elayout {
 		e_buttonAndTextV = 0,
 		e_textUnderButtonH,
-		e_buttonsOnlyGrid
+		e_buttonsOnlyGrid,
+		e_buttonsOnlyHorizontal
 	};
 	
 	

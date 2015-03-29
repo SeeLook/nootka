@@ -260,8 +260,10 @@ TintonationCombo::TintonationCombo(QWidget* parent) :
 	setStatusTip(tr(""));
 	
 	QHBoxLayout *lay = new QHBoxLayout;
-	lay->addWidget(lab);
-	lay->addWidget(accuracyCombo);
+    lay->addStretch();
+    lay->addWidget(lab);
+    lay->addWidget(accuracyCombo);
+    lay->addStretch();
 	setLayout(lay);
 }
 

@@ -85,6 +85,12 @@ void TselectInstrument::setButtonLayout(TselectInstrument::Elayout l) {
 				m_labels[i]->hide();
 			}
 			break;
+    case e_buttonsOnlyHorizontal:
+      for (int i = 0; i < BUTTON_COUNT; i++) {
+        m_gridLay->addWidget(m_buttons[i], 0, i);
+        m_labels[i]->hide();
+      }
+      break;
 	}
 }
 
