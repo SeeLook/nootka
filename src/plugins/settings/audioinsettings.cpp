@@ -312,8 +312,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
 	connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
   connect(enableInBox, &QGroupBox::clicked, this, &AudioInSettings::testSlot);
-  connect(m_splitVolChB, &QCheckBox::clicked, this, &AudioInSettings::splitByVolChanged);
-  connect(m_skipStillerChB, &QCheckBox::clicked, this, &AudioInSettings::skipStillerChanged);
+  connect(m_splitVolChB, &QCheckBox::toggled, this, &AudioInSettings::splitByVolChanged);
+  connect(m_skipStillerChB, &QCheckBox::toggled, this, &AudioInSettings::skipStillerChanged);
+  connect(m_adjustToInstrButt, &TselectInstrument::instrumentChanged, this, &AudioInSettings::adjustInstrSlot);
 }
 
 
@@ -638,11 +639,29 @@ void AudioInSettings::skipStillerChanged(bool enab) {
 void AudioInSettings::adjustInstrSlot(int instr) {
   switch ((Einstrument)instr) {
     case e_noInstrument:
-
+      m_methodCombo->setCurrentIndex(0); // MPM
+      m_splitVolChB->setChecked(false);
+      m_skipStillerChB->setChecked(false);
+      break;
+    case e_classicalGuitar:
+      m_methodCombo->setCurrentIndex(2); // MPM + modified cepstrum
+      m_splitVolChB->setChecked(true);
+      m_splitVolSpin->setValue(10);
+      m_skipStillerChB->setChecked(true);
+      m_skipStillerSpin->setValue(80);
+      break;
+    case e_electricGuitar:
+    case e_bassGuitar:
+      m_methodCombo->setCurrentIndex(2); // MPM + modified cepstrum
+      m_splitVolChB->setChecked(true);
+      m_splitVolSpin->setValue(7);
+      m_skipStillerChB->setChecked(true);
+      m_skipStillerSpin->setValue(80);
       break;
     default:
       break;
   }
+  m_noiseFilterChB->setChecked(false);
 }
 
 

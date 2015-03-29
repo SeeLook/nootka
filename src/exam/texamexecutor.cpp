@@ -1384,14 +1384,11 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
 		m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - n.duration);
   if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
     mW->score->selectNote(m_melody->currentIndex() + 1);
-  if (m_level.instrument != e_noInstrument)
-    m_melody->setNote(n); // collect played note TODO rhythm value is not ready here
 }
 
 
 void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
-  if (m_level.instrument == e_noInstrument)
-    m_melody->setNote(n); // collect played note TODO rhythm value for guitars has to be saved here
+  m_melody->setNote(n);
   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
     if (gl->E->expertsAnswerEnable)
       checkAnswer();
