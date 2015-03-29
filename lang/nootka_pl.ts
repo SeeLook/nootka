@@ -314,7 +314,7 @@
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="47"/>
         <source>audio device for output</source>
-        <translation>urzadzenie dżwiękowe do odtwarzania</translation>
+        <translation>urządzenie dżwiękowe do odtwarzania</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="64"/>
