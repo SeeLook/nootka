@@ -1,3 +1,10 @@
+1.1.6 rc1
+     - new, advanced settings for pitch detection
+     - workarounds to avoid pitch-detection of the same note twice
+     - other pitch detection improvements
+    BUGS FIXES
+     - tons of fixed bugs, mistakes and glitches...
+
 1.1.5 beta
      - detailed preview of melodies in charts
      - added new tool button with menu to manage a score

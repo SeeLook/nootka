@@ -540,10 +540,16 @@ void MainWindow::adjustAmbitus() {
 		sound->setDefaultAmbitus();
 }
 
-
+bool updaterStoppedSound = false;
 void MainWindow::updaterMessagesSlot(const QString& m) {
-	if (m.contains("No need") || m.contains("finished") || m.contains("error occurred"))
+	if (m.contains("No need") || m.contains("finished") || m.contains("error occurred")) {
 		m_updaterPlugin->deleteLater();
+    if (updaterStoppedSound)
+      sound->go();
+  } else if (m.contains("success") && !sound->isSnifferPaused()) {
+    sound->wait();
+    updaterStoppedSound = true;
+  }
 	// It sends 'success' as well but it means that updater window is displayed, when user will close it - 'finished' is send
 }
 

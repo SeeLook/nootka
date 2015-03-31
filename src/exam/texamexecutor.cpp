@@ -324,7 +324,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			}
 		} else {
 			char strNr = 0;
-			if ( (curQ->answerAsFret() || curQ->answerAsSound()) 
+			if ((curQ->answerAsFret() || curQ->answerAsSound())
 					&& !m_level.onlyLowPos && m_level.showStrNr)
 							strNr = curQ->qa.pos.str(); // do show string number or not
 			if (m_level.useKeySign && !curQ->answerAsNote())
@@ -565,15 +565,18 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			if (questPos != answPos && curQ->isCorrect()) { // if no cheater give him a chance
 				QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
 				m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
+        bool otherPosFound = false;
 				for (int i = 0; i < tmpPosList.size(); i++) {
-							if (tmpPosList[i] == questPos) { // and compare it with expected
-								curQ->setMistake(TQAunit::e_wrongString);
-								break;
-							}
-					}
-					if (!curQ->wrongString()) { 
-						curQ->setMistake(TQAunit::e_wrongPos);
-					}
+            if (tmpPosList[i] == questPos) { // and compare it with expected
+              otherPosFound = true;
+              break;
+            }
+        }
+        if (otherPosFound) {
+          if (m_level.showStrNr || answPos.fret() < m_level.loFret || answPos.fret() > m_level.hiFret)
+            curQ->setMistake(TQAunit::e_wrongString); // check the level settings and mark as wrong string when deserve
+        } else
+            curQ->setMistake(TQAunit::e_wrongPos);
 			}
 	} else {
 			if (curQ->melody()) { // 2. or checking melodies
@@ -865,7 +868,7 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 			if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
 				mW->score->showNames(gl->S->nameStyleInNoteName);
 			else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
-				mW->guitar->showName(gl->S->nameStyleInNoteName, markColor); // Take it from user answer
+				mW->guitar->showName(gl->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
 			else if (curQ->answerAsSound() && curQ->questionAsFret())
 					mW->guitar->showName(gl->S->nameStyleInNoteName, curQ->qa.note, markColor);
 		} else { // cases when name was an question

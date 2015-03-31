@@ -348,7 +348,7 @@ void TfingerBoard::showName(Tnote::EnameStyle st, Tnote& note, const QColor& tex
 				qString = m_questString;
 	} else { // try to take note from an answer
 			if (m_fingerPos.fret() != 39 && m_fingerPos.str() != 7 && m_selNote.note) {
-					m_noteName = new TgraphicsTextTip(m_selNote.toRichText(st));
+					m_noteName = new TgraphicsTextTip(note.isValid() ? note.toRichText(st) : m_selNote.toRichText(st));
 					if (m_fingerPos.fret())
 						qFinger = m_fingers[m_fingerPos.str() - 1];
 					else
