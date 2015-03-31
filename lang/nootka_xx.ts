@@ -86,10 +86,6 @@
 <context>
     <name>AudioInSettings</name>
     <message>
-        <source>1. Input device and pitch detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>input device</source>
         <translation type="unfinished"></translation>
     </message>
@@ -114,19 +110,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>2. Pitch detection parameters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>minimum volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Minimum volume of a sound to be pitch-detected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>3. &apos;Middle a&apos; and transposition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -162,10 +150,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>4. Test the settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
@@ -198,6 +182,46 @@
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Input device and pitch detection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&apos;Middle a&apos; and transposition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>split when volume rise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>skip stiller than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If set, skips notes with volume less than given percentage value of average volume of previously played notes. It helps to omit detecting of open strings harmonics.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>noise filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use it only for poor audio input device or very noisy surroundings. Otherwise it may even spoil pitch detection or simply waste CPU.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>adjust to instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test the settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
