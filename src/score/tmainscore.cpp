@@ -388,6 +388,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questMark = new QGraphicsSimpleTextItem();
 			m_questMark->hide();
 			scoreScene()->addItem(m_questMark);
+      m_questMark->setZValue(4);
       if (insertMode() == e_single) {
         staff()->noteSegment(1)->setColor(palette().text().color()); // it can have color of enharmonic notes
         staff()->noteSegment(2)->setColor(palette().text().color());
@@ -898,7 +899,6 @@ void TmainScore::setQuestionMarkPos() {
 		m_questMark->setScale(scene()->height() / m_questMark->boundingRect().height());
 		m_questMark->setPos(staff()->pos().x() + (staff()->width() - m_questMark->boundingRect().width() * m_questMark->scale()) / 2, 
 												(scene()->height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2 );
-		m_questMark->setZValue(4);
 	}
 }
 

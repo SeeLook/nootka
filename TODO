@@ -24,6 +24,10 @@ TO consider
 - automate detection of best minimal volume and volume split threshold
 
 MINOR:
+- note color when it is a question in single mode is strange (pale)
+- when instrument in new exercise changes: 
+      if it is started from creator - there is highlight of message 
+      but when started from 'start' menu - there is not
 - replace all font-size: 20px with <big>
 - MUSIC XML is not fully standard compatible (check what MuseScore complains)
 - when Nootka starts in single mode proxy corner appears
@@ -69,10 +73,8 @@ TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required 
  
-===============================================================     
-============== Packaging (cpack) =============================
-===============================================================
-- update Qt5 dependencies for deb package 
+TRANSLATIONS
+ - Tab names in input settings have only removed numbers - texts are the same
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
