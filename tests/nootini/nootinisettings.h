@@ -21,6 +21,7 @@
 
 
 #include <QtWidgets/QDialog>
+#include <QSpinBox>
 
 class QDoubleSpinBox;
 class QGroupBox;
@@ -28,7 +29,6 @@ class QCheckBox;
 class TartiniParams;
 class QComboBox;
 class TvolumeSlider;
-class QSpinBox;
 class QRadioButton;
 
 
@@ -41,12 +41,6 @@ class NootiniSettings : public QDialog
 public:
   explicit NootiniSettings(TartiniParams* tp, QWidget* parent = 0);
 
-  bool nootkaIndexing();
-  void setNootkaIndexing(bool yes);
-
-  void setMinVolToSplit(qreal minVol);
-  qreal minVolToSplit();
-
   bool drawVolumeChart();
   void setDrawVolumeChart(bool draw);
 
@@ -55,15 +49,17 @@ public:
 
 protected:
   virtual void accept();
+  void splitByVolChanged(bool enab) { m_splitVolSpin->setDisabled(!enab); }
+  void skipStillerChanged(bool enab) { m_skipStillerSpin->setDisabled(!enab); }
 
 private:
-  QRadioButton        *m_mpmRadio, *m_correlRadio, *m_cepstrumRadio;
   QRadioButton        *m_highRadio, *m_middleRadio, *m_lowRadio;
-  QSpinBox            *m_freqSpin, *m_durationSpin, *m_thresholdSpin;
-  QDoubleSpinBox      *m_splitVolSpin, *m_dbFlorSpin;
+  QSpinBox            *m_freqSpin, *m_durationSpin, *m_thresholdSpin, *m_splitVolSpin, *m_skipStillerSpin;
+  QComboBox           *m_methodCombo;
+  QDoubleSpinBox      *m_dbFlorSpin;
   TvolumeSlider       *m_volumeSlider;
-  QCheckBox           *m_noiseFilterChB, *m_calcNoiseChB, *m_nootkaIndexChB, *m_drawVolChB;
-  QGroupBox           *m_splitVolGroup;
+  QCheckBox           *m_noiseFilterChB, *m_calcNoiseChB, *m_drawVolChB;
+  QCheckBox           *m_splitVolChB, *m_skipStillerChB;
   TartiniParams       *m_tartiniParams;
 };
 

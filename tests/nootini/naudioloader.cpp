@@ -147,6 +147,7 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
     m_pf->aGl()->equalLoudness = Tcore::gl()->A->equalLoudness;
     m_pf->aGl()->dBFloor = tp->dBFloor;
     m_pf->aGl()->doingAutoNoiseFloor = tp->doingAutoNoiseFloor;
+    m_pf->setSkipStillerVal(Tcore::gl()->A->skipStillerVal);
     m_pf->setMinimalDuration(Tcore::gl()->A->minDuration);
     m_pf->setSplitByVolChange(Tcore::gl()->A->minSplitVol > 0.0);
     m_pf->setSplitVolume(Tcore::gl()->A->minSplitVol);

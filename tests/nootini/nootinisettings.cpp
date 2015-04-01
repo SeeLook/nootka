@@ -33,20 +33,17 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
   setWindowTitle(tr("Parameters of processing"));
   setWindowIcon(parent->windowIcon());
 
-  QGroupBox *modeGr = new QGroupBox(tr("pitch detection mode"), this);
-  m_mpmRadio = new QRadioButton("MPM", this);
-  m_correlRadio = new QRadioButton("autocorrelation", this);
-  m_cepstrumRadio = new QRadioButton("MPM + modified cepstrum", this);
-  QButtonGroup *butGr = new QButtonGroup(this);
-  butGr->addButton(m_mpmRadio);
-  butGr->addButton(m_correlRadio);
-  butGr->addButton(m_cepstrumRadio);
+  QLabel *methodLab = new QLabel(tr("pitch detection mode"), this);
+  m_methodCombo = new QComboBox(this);
+    m_methodCombo->addItem("MPM");
+    m_methodCombo->addItem("autocorrelation");
+    m_methodCombo->addItem("MPM + modified cepstrum");
   if (Tcore::gl()->A->detectMethod == e_MPM)
-    m_mpmRadio->setChecked(true);
+    m_methodCombo->setCurrentIndex(0);
   else if (Tcore::gl()->A->detectMethod == e_AUTOCORRELATION)
-    m_correlRadio->setChecked(true);
+    m_methodCombo->setCurrentIndex(1);
   else
-    m_cepstrumRadio->setChecked(true);
+    m_methodCombo->setCurrentIndex(2);
 
   QLabel *durHeadLab = new QLabel(tr("minimum note duration"), this);
   m_durationSpin = new QSpinBox(this);
@@ -87,15 +84,23 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
   m_calcNoiseChB = new QCheckBox(tr("Automatically calculate noise-floor"), this);
     m_calcNoiseChB->setChecked(m_tartiniParams->doingAutoNoiseFloor);
 
-//   m_nootkaIndexChB = new QCheckBox(tr("Nootka processing"), this);
+  m_splitVolChB = new QCheckBox(tr("split when volume rise"), this);
 
-  m_splitVolGroup = new QGroupBox(tr("split on volume ascent"), this);
-    m_splitVolGroup->setCheckable(true);
-  m_splitVolSpin = new QDoubleSpinBox(this);
-    m_splitVolSpin->setRange(0.05, 0.5);
-    m_splitVolSpin->setSingleStep(0.05);
+  m_splitVolSpin = new QSpinBox(this);
+  m_splitVolChB->setChecked(Tcore::gl()->A->minSplitVol > 0.0);
+    m_splitVolSpin->setRange(5, 50);
+    m_splitVolSpin->setSingleStep(5);
     m_splitVolSpin->setSuffix(" %");
-  setMinVolToSplit(Tcore::gl()->A->minSplitVol);
+    m_splitVolSpin->setValue(Tcore::gl()->A->minSplitVol * 100);
+
+  m_skipStillerChB = new QCheckBox(tr("skip stiller than"), this);
+  m_skipStillerSpin = new QSpinBox(this);
+    m_skipStillerSpin->setRange(10, 95);
+    m_skipStillerSpin->setSingleStep(5);
+    m_skipStillerSpin->setSuffix(" %");
+    m_skipStillerSpin->setStatusTip(m_skipStillerChB->statusTip());
+    m_skipStillerSpin->setValue(Tcore::gl()->A->skipStillerVal * 100);
+    m_skipStillerChB->setChecked(Tcore::gl()->A->skipStillerVal > 0.0);
 
   QLabel *dbLab = new QLabel(tr("dbFloor"), this);
   m_dbFlorSpin = new QDoubleSpinBox(this);
@@ -108,11 +113,11 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
 
   QVBoxLayout *lay = new QVBoxLayout;
   QHBoxLayout *methodLay = new QHBoxLayout;
-    methodLay->addWidget(m_mpmRadio);
-    methodLay->addWidget(m_correlRadio);
-    methodLay->addWidget(m_cepstrumRadio);
-  modeGr->setLayout(methodLay);
-  lay->addWidget(modeGr);
+    methodLay->addStretch();
+    methodLay->addWidget(methodLab);
+    methodLay->addWidget(m_methodCombo);
+    methodLay->addStretch();
+  lay->addLayout(methodLay);
   QHBoxLayout *durLay = new QHBoxLayout;
     durLay->addStretch();
     durLay->addWidget(durHeadLab);
@@ -149,10 +154,15 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     noiseLay->addWidget(m_calcNoiseChB);
     noiseLay->addStretch();
   lay->addLayout(noiseLay);
-    QVBoxLayout *splitLay = new QVBoxLayout;
-    splitLay->addWidget(m_splitVolSpin, 1, Qt::AlignCenter);
-    m_splitVolGroup->setLayout(splitLay);
-  lay->addWidget(m_splitVolGroup);
+    QHBoxLayout *splitLay = new QHBoxLayout;
+    splitLay->addStretch();
+    splitLay->addWidget(m_splitVolChB);
+    splitLay->addWidget(m_splitVolSpin);
+    splitLay->addStretch();
+    splitLay->addWidget(m_skipStillerChB);
+    splitLay->addWidget(m_skipStillerSpin);
+    splitLay->addStretch();
+  lay->addLayout(splitLay);
     QHBoxLayout *dbLay = new QHBoxLayout;
     dbLay->addStretch();
     dbLay->addWidget(dbLab);
@@ -160,8 +170,6 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     dbLay->addStretch();
   lay->addLayout(dbLay);
   QHBoxLayout *nootLay = new QHBoxLayout;
-//     nootLay->addStretch();
-//     nootLay->addWidget(m_nootkaIndexChB);
     nootLay->addStretch();
     nootLay->addWidget(m_drawVolChB);
     nootLay->addStretch();
@@ -171,35 +179,9 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
 
   connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
   connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+  connect(m_splitVolChB, &QCheckBox::toggled, this, &NootiniSettings::splitByVolChanged);
+  connect(m_skipStillerChB, &QCheckBox::toggled, this, &NootiniSettings::skipStillerChanged);
 
-}
-
-
-bool NootiniSettings::nootkaIndexing() {
-//   return m_nootkaIndexChB->isChecked();
-  return true;
-}
-
-
-void NootiniSettings::setNootkaIndexing(bool yes) {
-//   m_nootkaIndexChB->setChecked(yes);
-}
-
-
-void NootiniSettings::setMinVolToSplit(qreal minVol) {
-  if (minVol >= 0.01) {
-    m_splitVolGroup->setChecked(true);
-    m_splitVolSpin->setValue(minVol);
-  } else
-    m_splitVolGroup->setChecked(false);
-}
-
-
-qreal NootiniSettings::minVolToSplit() {
-  if (m_splitVolGroup->isChecked())
-    return m_splitVolSpin->value();
-  else
-    return 0.0;
 }
 
 
@@ -241,12 +223,7 @@ int NootiniSettings::range() {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 void NootiniSettings::accept() {
-  if (m_mpmRadio->isChecked())
-    Tcore::gl()->A->detectMethod = 0;
-  else if (m_correlRadio->isChecked())
-    Tcore::gl()->A->detectMethod = 1;
-  else
-    Tcore::gl()->A->detectMethod = 2;
+  Tcore::gl()->A->detectMethod = m_methodCombo->currentIndex();
   Tcore::gl()->A->minDuration = (qreal)m_durationSpin->value() / 1000.0;
   Tcore::gl()->A->minimalVol = m_volumeSlider->value();
   if (m_freqSpin->value() == 440 )
@@ -256,7 +233,8 @@ void NootiniSettings::accept() {
 
   m_tartiniParams->threshold = m_thresholdSpin->value();
   Tcore::gl()->A->equalLoudness = m_noiseFilterChB->isChecked();
-  Tcore::gl()->A->minSplitVol = minVolToSplit();
+  Tcore::gl()->A->minSplitVol = m_splitVolChB->isChecked() ? (qreal)m_splitVolSpin->value() / 100.0 : 0.0;
+  Tcore::gl()->A->skipStillerVal = m_skipStillerChB->isChecked() ? (qreal)m_skipStillerSpin->value() / 100.0 : 0.0;
   m_tartiniParams->dBFloor = m_dbFlorSpin->value();
   m_tartiniParams->doingAutoNoiseFloor = m_calcNoiseChB->isChecked();
 
