@@ -57,10 +57,7 @@ public:
 
   void allDataLoaded(); /** May be called when all data was sent to the chart to adjust its size */
 
-  void drawChunkNew();
-
-  void setNootkaIndexing(bool yes);
-  bool isNootkaIndexing() { return m_nootkaIndexing; }
+  void drawChunk();
 
   bool drawVolume() { return m_drawVolume; }
   void setDrawVolume(bool drawVol) { m_drawVolume = drawVol; }
@@ -73,6 +70,7 @@ protected:
   void clefChanged(Tclef clef);
   void drawNoteSegment(int firstNoteChunk, int lastNoteChunk, TnoteStruct* ns = 0);
   void emptyRect(int firstChunk, qreal width);
+  void noteStartedSlot(qreal pitch, qreal freq, qreal duration);
 
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
   qreal yMap(qreal yy) { return yAxis->y() + yAxis->mapValue(yy); }
@@ -93,7 +91,6 @@ private:
   const int                    xSc, hSc; /** @p xSc is scale of x axis ans @p hSc is half of it  */
   int                          m_pass;
   bool                         m_drawVolume;
-  bool                         m_nootkaIndexing;
   NaudioLoader                *m_loader;
   AnalysisData                *m_ad, *m_pad; // current data and previous data
   int                          m_currChunk, m_prevChunk;

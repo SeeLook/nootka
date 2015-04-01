@@ -69,7 +69,6 @@ Nchart::Nchart(QWidget* parent) :
   m_pitchGrad(0.5, 0, 0.5, 1),
   xSc(4), hSc(2),
   m_pass(-1),
-  m_nootkaIndexing(true),
   m_currChunk(0), m_prevChunk(0),
   m_drawnPrev(-1)
 {
@@ -116,11 +115,10 @@ void Nchart::setAudioLoader(NaudioLoader* loader) {
   m_loader = loader;
   m_pitchF = loader->finder();
   m_chunkNr = -1;
-  connect(m_loader, &NaudioLoader::chunkReady, this, &Nchart::drawChunkNew, Qt::DirectConnection);
+  connect(m_loader, &NaudioLoader::chunkReady, this, &Nchart::drawChunk, Qt::DirectConnection);
   connect(m_loader, &NaudioLoader::processingFinished, this, &Nchart::allDataLoaded, Qt::DirectConnection);
-  if (m_nootkaIndexing) {
-    connect(m_loader, &NaudioLoader::noteFinished, this, &Nchart::copyChunk, Qt::DirectConnection);
-  }
+  connect(m_pitchF, &TpitchFinder::noteStarted, this, &Nchart::noteStartedSlot, Qt::DirectConnection);
+  connect(m_loader, &NaudioLoader::noteFinished, this, &Nchart::copyChunk, Qt::DirectConnection);
   m_progresItem->show();
   m_prevNoteIndex = 0;
   m_prevChunk = 0;
@@ -221,7 +219,7 @@ void Nchart::setXnumber(int xN) {
       QString("pitch range: <b>%1</b>").arg(rangeText) + "<br>" +
       tr("threshold") + QString(": <b>%1 %</b>").arg(m_pitchF->aGl()->threshold) + "<br>" +
       "<span style=\"color: " + noteVolumeColor.name() + "\";>" + QString("split vol.: <b>%1</b>").
-          arg((m_pitchF->isSplitByVolume() ? "no" : QString("%1").arg(Tcore::gl()->A->minSplitVol))) + "</span><br>" +
+          arg((m_pitchF->isSplitByVolume() ? QString("%1").arg(Tcore::gl()->A->minSplitVol) : "no")) + "</span><br>" +
       QString("dbFoor: <b>%1</b>").arg(m_pitchF->aGl()->dBFloor) + "<br>" +
       QString("middle A: <b>%1 [Hz]</b>").arg(pitch2freq(freq2pitch(440) + Tcore::gl()->A->a440diff)) + "<br>" +
       "<span style=\"color: " + minVolumeColor.name() + "\";>" + QString("min. volume: <b>%1</b>").arg(Tcore::gl()->A->minimalVol * 100) + "</span><br>"
@@ -236,9 +234,6 @@ void Nchart::allDataLoaded() {
 }
 
 
-void Nchart::setNootkaIndexing(bool yes) {
-//   m_nootkaIndexing = yes;
-}
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -251,7 +246,7 @@ void Nchart::copyChunk(TnoteStruct* ad) {
 }
 
 
-void Nchart::drawChunkNew() {
+void Nchart::drawChunk() {
   if (m_pitchF->currentChunk() < 1)
     return;
 
@@ -261,39 +256,11 @@ void Nchart::drawChunkNew() {
 
 //   qDebug() << m_ad->noteIndex << m_ad->pitch << "ncs:" << m_ad->noteChangeScore() << "done" << m_ad->done << "pl:" << m_ad->notePlaying << m_ad->period;
 
-  if (!m_nootkaIndexing) {
-    if (m_prevNoteIndex != m_ad->noteIndex) {
-      if (m_pitchF->ch()->noteData[m_prevNoteIndex].numChunks() >= m_pitchF->minChunksNumber() && m_drawnPrev != m_prevNoteIndex) {
-        for (int i = m_prevChunk; i < m_pitchF->ch()->noteData[m_prevNoteIndex].startChunk(); ++i)
-          emptyRect(i, xSc);
-        if (m_pitchF->isSplitByVolume()) {
-          int fnc = m_pitchF->ch()->noteData[m_prevNoteIndex].startChunk();
-          for (int i = m_pitchF->ch()->noteData[m_prevNoteIndex].startChunk(); i <= c - 1; i++) {
-            if (i == c - 1)
-              drawNoteSegment(fnc, i);
-            else {
-              if (i - fnc >= m_pitchF->minChunksNumber() &&
-                m_pitchF->ch()->dataAtChunk(i)->normalVolume() - m_pitchF->ch()->dataAtChunk(i - 2)->normalVolume() > m_pitchF->minVolumeToSplit()) {
-                drawNoteSegment(fnc, i);
-                fnc = i + 1;
-              }
-            }
-          }
-        } else
-          drawNoteSegment(m_pitchF->ch()->noteData[m_prevNoteIndex].startChunk(), m_pitchF->ch()->noteData[m_prevNoteIndex].endChunk());
-        m_prevChunk = m_pitchF->ch()->noteData[m_prevNoteIndex].endChunk() + 1;
-        m_drawnPrev = m_prevNoteIndex;
-      }
-      if (m_ad->noteIndex != NO_NOTE)
-          m_prevNoteIndex = m_ad->noteIndex;
-    }
-  }
-
   if (m_drawVolume && m_ad && m_pad)
       scene->addLine(xMap(c - 1) + hSc, yMap(101 + m_pad->pcmVolume * 50.0), // PCM signal volume line
                    xMap(c) + hSc, yMap(101 + m_ad->pcmVolume * 50.0), QPen(pcmVolumeColor, 1, Qt::SolidLine, Qt::RoundCap));
 
-  if (m_ad/* && (m_pitchF->ch()->isVisibleNote(m_ad->noteIndex) && m_pitchF->ch()->isLabelNote(m_ad->noteIndex))*/) {
+  if (m_ad) {
       if (m_drawVolume) {
         if (m_ad->normalVolume() && m_pad && m_pad->normalVolume()) {
           QGraphicsLineItem *volLine = new QGraphicsLineItem(); // line with volumes of every chunk
@@ -410,9 +377,9 @@ void Nchart::drawNoteSegment(int firstNoteChunk, int lastNoteChunk, TnoteStruct*
     m_staff->noteSegment(m_staff->count() - 1)->showNoteName();
     if (!minDurChunk || !loudEnough)
       m_staff->noteSegment(m_staff->count() - 1)->setColor(Qt::gray);
-  if (ns) {
-    Tnote totalNote(qRound(ns->totalAverage() - Tcore::gl()->A->a440diff));
-    Tnote quickNote(qRound(ns->getAverage(3, m_pitchF->minChunksNumber()) - Tcore::gl()->A->a440diff));
+  if (ns && loudEnough && minDurChunk) {
+    Tnote totalNote(qRound(ns->totalAverage() - Tcore::gl()->A->a440diff) - 47);
+    Tnote quickNote(qRound(ns->getAverage(3, m_pitchF->minChunksNumber()) - Tcore::gl()->A->a440diff) - 47);
     if (totalNote != shortNote) {
       m_staff->addNote(totalNote, true);
       m_staff->noteSegment(m_staff->count() - 1)->setPos(m_staff->mapFromScene(xMap(lastNoteChunk), 0).x() - 2 * m_staff->scale(), 0);
@@ -434,6 +401,13 @@ void Nchart::emptyRect(int firstChunk, qreal width) {
     emptyBg->setPen(Qt::NoPen);
     emptyBg->setBrush(emptyColor.lighter(160 + (10 * (firstChunk % 2))));
     emptyBg->setRect(xMap(firstChunk), yMap(100), width, yMap(50) - yMap(100));
+}
+
+
+void Nchart::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
+  Tnote n;
+  n.fromMidi(qRound(pitch));
+  qDebug() << "started" << n.toText();
 }
 
 
