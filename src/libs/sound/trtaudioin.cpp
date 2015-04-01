@@ -88,11 +88,11 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 	m_goingDelete = false;
 	forceUpdate = true;
   
-	connect(m_pitch, &TpitchFinder::noteStarted, this, &TaudioIN::noteStartedSlot);
-	connect(m_pitch, &TpitchFinder::noteFinished, this, &TaudioIN::noteFinishedSlot);
-	connect(m_pitch, &TpitchFinder::pitchInChunk, this, &TaudioIN::pitchInChunkSlot);
-	connect(m_pitch, &TpitchFinder::volume, this, &TaudioIN::volumeSlot);
-	connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
+	connect(m_pitch, &TpitchFinder::noteStarted, this, &TaudioIN::noteStartedSlot, Qt::DirectConnection);
+	connect(m_pitch, &TpitchFinder::noteFinished, this, &TaudioIN::noteFinishedSlot, Qt::DirectConnection);
+	connect(m_pitch, &TpitchFinder::pitchInChunk, this, &TaudioIN::pitchInChunkSlot, Qt::DirectConnection);
+	connect(m_pitch, &TpitchFinder::volume, this, &TaudioIN::volumeSlot, Qt::DirectConnection);
+	connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot, Qt::DirectConnection);
 }
 
 TaudioIN::~TaudioIN()

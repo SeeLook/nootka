@@ -452,13 +452,13 @@ void MainWindow::soundWasStarted(const Tnote& note) {
 }
 
 
-void MainWindow::soundWasFinished(Tchunk& chunk) {
+void MainWindow::soundWasFinished(Tchunk* chunk) {
   if (gl->instrument == e_noInstrument) { // whole played note and average pitch for other instruments
-    Tnote n = chunk.p();
+    Tnote n = chunk->p();
     noteToKey(n, score->keySignature());
     score->setNote(m_startedSoundId, n);
     if (guitar->isVisible())
-      guitar->setFinger(chunk.p());
+      guitar->setFinger(chunk->p());
   }
 }
 

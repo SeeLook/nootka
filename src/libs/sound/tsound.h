@@ -85,7 +85,7 @@ public:
 signals:
 	void noteStarted(const Tnote&);
   void noteStartedEntire(const TnoteStruct&);
-	void noteFinished(Tchunk&);
+	void noteFinished(Tchunk*);
   void noteFinishedEntire(const TnoteStruct&);
   void plaingFinished();
 	
