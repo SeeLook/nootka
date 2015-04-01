@@ -76,7 +76,7 @@ public slots:
 	void noteWasClicked(int index, Tnote note);
 	void guitarWasClicked(const Tnote& note);
 	void soundWasStarted(const Tnote& note);
-	void soundWasFinished(Tchunk& chunk);
+	void soundWasFinished(Tchunk* chunk);
     
 
 protected:

@@ -36,6 +36,8 @@ Tsound::Tsound(QObject* parent) :
   m_examMode(false),
   m_melodyNoteIndex(-1)
 {
+  qRegisterMetaType<Tchunk>("Tchunk");
+  qRegisterMetaType<TnoteStruct>("TnoteStruct");
 	TrtAudio::initJACKorASIO(Tcore::gl()->A->JACKorASIO);
   if (Tcore::gl()->A->OUTenabled)
       createPlayer();
@@ -299,8 +301,8 @@ void Tsound::createSniffer() {
     sniffer = new TaudioIN(Tcore::gl()->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
-	connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
+	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot, Qt::DirectConnection);
+	connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot, Qt::DirectConnection);
 }
 
 
@@ -371,7 +373,7 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
 void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 	m_detectedPitch = note.pitch;
 	Tchunk noteChunk(m_detectedPitch, Trhythm());
-	emit noteFinished(noteChunk);
+	emit noteFinished(&noteChunk);
   emit noteFinishedEntire(note);
 	if (player && Tcore::gl()->instrument == e_noInstrument && Tcore::gl()->A->playDetected)
 		play(m_detectedPitch);

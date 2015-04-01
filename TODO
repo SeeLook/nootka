@@ -13,7 +13,6 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- Some issues with QNetworkManager deleting
 - crash on terminate in Oxygen due to animation on status label
 - qt_base translations are not loaded properly
 - add Qt::DirectConnection flag to some signal-slot connections (pitch detection related especially)

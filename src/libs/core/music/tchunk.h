@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,6 +38,7 @@ class NOOTKACORE_EXPORT Tchunk
 
 public:
 	Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos = TfingerPos());
+  Tchunk() {} /** Default constructor - creates 'empty' note, rhythm and position. */
 	~Tchunk();
 	
 	Tnote& p() { return m_pitch; } /** The pitch of a note */
