@@ -148,7 +148,8 @@ void Tsound::setPitchView(TpitchView* pView) {
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
 	m_pitchView->setAudioInput(sniffer);
   if (sniffer)
-		sniffer->startListening();
+    QTimer::singleShot(1500, sniffer, SLOT(startListening()));
+// 		sniffer->startListening();
 }
 
 
@@ -369,11 +370,13 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
 		play(m_detectedPitch);
 }
 
-
+Tchunk m_lastChunk;
 void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 	m_detectedPitch = note.pitch;
-	Tchunk noteChunk(m_detectedPitch, Trhythm());
-	emit noteFinished(&noteChunk);
+// 	Tchunk noteChunk(m_detectedPitch, Trhythm());
+  m_lastChunk.p() = m_detectedPitch;
+//   m_lastChunk.r() = ; // TODO not supported yet
+	emit noteFinished(&m_lastChunk);
   emit noteFinishedEntire(note);
 	if (player && Tcore::gl()->instrument == e_noInstrument && Tcore::gl()->A->playDetected)
 		play(m_detectedPitch);
