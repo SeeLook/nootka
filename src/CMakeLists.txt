@@ -93,7 +93,7 @@ if(MINGW)
 endif(MINGW)
 
 
-add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
+add_executable(nootka ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
 target_link_libraries(nootka
 		NootkaCore
 		NootkaSound
