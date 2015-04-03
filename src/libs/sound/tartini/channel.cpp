@@ -259,7 +259,7 @@ void Channel::processNewChunk(FilterState *filterState)
   lock();
   lookup.push_back(AnalysisData());
   lookup.back().filterState = *filterState;
-  parent->myTransforms.calculateAnalysisData(int(lookup.size())-1, this);
+  parent->transforms()->calculateAnalysisData(int(lookup.size())-1, this);
   unlock();
 }
 
@@ -270,7 +270,7 @@ void Channel::processNewChunk(FilterState *filterState)
 void Channel::processChunk(int chunk)
 {
   if(chunk >= 0 && chunk < totalChunks())
-    parent->myTransforms.calculateAnalysisData(chunk, this);
+    parent->transforms()->calculateAnalysisData(chunk, this);
 }
 
 void Channel::reset()

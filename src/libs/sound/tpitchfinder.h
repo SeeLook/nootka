@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QMutex>
 #include <music/tnotestruct.h>
-#include "tartini/mytransforms.h"
 #include "tartiniparams.h"
 
 
@@ -45,10 +44,8 @@ inline qreal freq2pitch(qreal freq)
 }
 
 		/** Does the opposite of the function above */
-inline qreal pitch2freq(qreal note)
-{
-	qreal result = pow10((note + 36.3763165622959152488) / 39.8631371386483481);
-	return result;
+inline qreal pitch2freq(qreal note) {
+  return TnoteStruct::pitchToFreq(note);
 }
 //-----------------------------------------------------------------------------------
 
@@ -56,6 +53,7 @@ inline qreal pitch2freq(qreal note)
 class Channel;
 class QThread;
 class NoteData;
+class MyTransforms;
 
 
 /** 
@@ -97,8 +95,6 @@ public:
 		e_middle = 1,
 		e_low = 2
   };
-	
-	MyTransforms myTransforms;
 	
 	TartiniParams* aGl() { return m_aGl; } /** global settings for pitch recognition. */
 
@@ -162,6 +158,10 @@ public:
        * In online mode it is reset every 1000 chunks,
        * only in offline mode all detected data exists. */
 	Channel* ch() { return m_channel; }
+	MyTransforms* transforms() { return m_transforms; }
+
+      /** Returns current range of pitch detection */
+	Erange pitchRange() { if (m_rateRatio == 0.5) return e_high; else if (m_rateRatio == 2.0) return e_low; else return e_middle; }
 
 signals:
   void pitchInChunk(float); /** Pitch in chunk that has been just processed */
@@ -181,6 +181,7 @@ private:
 	
 private:
   QThread					*m_thread;
+  MyTransforms    *m_transforms;
   float           *m_filteredChunk, *m_workChunk, *m_prevChunk;
 	float						*m_buffer_1, *m_buffer_2; // real buffers
 	int							 m_posInBuffer;
