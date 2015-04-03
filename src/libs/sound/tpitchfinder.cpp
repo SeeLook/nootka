@@ -21,6 +21,7 @@
 #include "tartini/filters/Filter.h"
 #include "tartini/filters/IIR_Filter.h"
 #include "tartini/analysisdata.h"
+#include "tartini/mytransforms.h"
 #include <QtWidgets/QApplication>
 #include <QThread>
 #include <QDebug>
@@ -51,7 +52,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl->windowSize = 2048;
 	m_aGl->framesPerChunk = 1; // A trick - setSampleRate() will set it soon
 	m_aGl->dBFloor = -150.0; // it is unchanged but if it will in conversions.cpp it is hard coded
-	m_aGl->equalLoudness = false;
+	m_aGl->equalLoudness = true;
 	m_aGl->doingFreqAnalysis = true;
 	m_aGl->doingAutoNoiseFloor = true;
 	m_aGl->doingHarmonicAnalysis = false;
@@ -74,7 +75,8 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_currentNote.init(0, 0, 0);
 	setSampleRate(m_aGl->rate);
 	m_channel = new Channel(this, aGl()->windowSize);
-	myTransforms.init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+  m_transforms = new MyTransforms();
+	m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 	moveToThread(m_thread);
 	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection, Qt::DirectConnection);
 	connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
@@ -94,7 +96,7 @@ TpitchFinder::~TpitchFinder()
 	delete m_prevChunk;
 	delete m_buffer_1;
 	delete m_buffer_2;
-	myTransforms.uninit();
+  delete m_transforms;
 	if(m_channel)
 		delete m_channel;
 	delete m_aGl;
@@ -165,9 +167,9 @@ void TpitchFinder::resetFinder() {
       delete m_channel;
       m_chunkNum = 0;
       m_averVolume = 0.0;
-      myTransforms.uninit();
+      m_transforms->uninit();
       m_channel = new Channel(this, aGl()->windowSize);
-      myTransforms.init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+      m_transforms->init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 //       qDebug() << "reset channel";
   }
   qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize

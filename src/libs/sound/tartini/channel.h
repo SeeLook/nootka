@@ -29,7 +29,7 @@
 #include <QMutex>
 #include "../tpitchfinder.h"
 
-
+class fast_smooth;
 class TpitchFinder;
 
 class Channel
