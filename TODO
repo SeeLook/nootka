@@ -14,8 +14,6 @@
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - crash on terminate in Oxygen due to animation on status label
-- qt_base translations are not loaded properly
-- add Qt::DirectConnection flag to some signal-slot connections (pitch detection related especially)
 
 PITCH DETECTION IMPROVEMENTS
 - put message to user about his responsibility to sound quality
@@ -38,7 +36,8 @@ MINOR:
 - when exercise is finished and analysis dialog was opened message text remains
 - add minimal zoom value depends on screen resolution
 - add gap item between accidentals (x # and b bb) on left control to avoid blinking
-- let clef menu works as such as note name pop up - extract common class with under-laying tip 
+- let clef menu works as such as note name pop up - extract common class with under-laying tip
+- stop sniffer when melody dialogues are opening
 - creator "use different names" switch of Questions remains enabled for melodies where names are unused
 - when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds
 - selecting read only notes (right and double click) is unused - it is good - but clean a code

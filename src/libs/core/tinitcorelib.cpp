@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -60,9 +60,9 @@ bool initCoreLibrary() {
 void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& qtBase, QTranslator& noo) {
 	QString ll = "";
 	if (Tcore::gl())
-	ll = Tcore::gl()->lang;
+      ll = Tcore::gl()->lang;
 	if (ll == "")
-			ll = QLocale::system().name();
+			ll = QString(std::getenv("LANG"));// QLocale::system().name();
 #if defined(Q_OS_LINUX)
     qt.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 		qtBase.load("qtbase_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
