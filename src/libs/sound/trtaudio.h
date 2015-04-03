@@ -131,9 +131,33 @@ protected:
 	
 private:
 	static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
-												RtAudioStreamStatus status, void *userData);
+												RtAudioStreamStatus status, void *userData) {
+    Q_UNUSED (streamTime)
+    Q_UNUSED (userData)
+    if (m_cbOut) {
+      if (m_cbOut(outBuffer, nBufferFrames, status))
+        if (m_cbIn)
+          m_cbIn(inBuffer, nBufferFrames, status);
+    } else
+        if (m_cbIn)
+          m_cbIn(inBuffer, nBufferFrames, status);
+    return 0;
+  }
+
 	static int passInputCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
-												RtAudioStreamStatus status, void *userData);
+												RtAudioStreamStatus status, void *userData) {
+    Q_UNUSED (streamTime)
+    Q_UNUSED (userData)
+    qint16 *in = (qint16*)inBuffer;
+    qint16 *out = (qint16*)outBuffer;
+    if (m_cbOut(outBuffer, nBufferFrames, status)) // none playing is performed
+        for (int i = 0; i < nBufferFrames; i++) { // then forward input
+            *out++ = *(in + i); // left channel
+            *out++ = *(in + i); // right channel
+        }
+    m_cbIn(inBuffer, nBufferFrames, status);
+    return 0;
+  }
 	
 private:
 	TaudioParams													*m_audioParams;

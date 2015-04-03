@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "trtaudioin.h"
-#include "tpitchfinder.h"
 #include "taudioobject.h"
 #include "taudioparams.h"
 #include <QDebug>
@@ -42,21 +41,6 @@ QStringList TaudioIN::getAudioDevicesList() {
 	if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
 			devList.prepend("ALSA default");
 	return devList;
-}
-
-
-bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-	if (m_goingDelete || instance()->isStoped())
-			return true;
-	if (status)
-			qDebug() << "Stream over detected!";
-	qint16 *in = (qint16*)inBuff;
-	qint16 value;
-	for (int i = 0; i < nBufferFrames; i++) {
-				value = *(in + i);
-				instance()->m_pitch->fillBuffer(float(value) / 32768.0f);
-	}
-	return false;
 }
 
 
