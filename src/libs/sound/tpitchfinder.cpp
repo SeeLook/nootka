@@ -155,31 +155,6 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 }
 
 
-void TpitchFinder::fillBuffer(float sample) {
-  *(m_currentBuff + m_posInBuffer) = sample;
-  m_posInBuffer++;
-  m_workVol = qMax<float>(m_workVol, sample);
-  if (m_posInBuffer == m_aGl->framesPerChunk) {
-    m_filledBuff = m_currentBuff;
-    m_pcmVolume = m_workVol;
-    m_workVol = 0.0;
-    m_posInBuffer = 0;
-    if (m_isOffline) {
-      startPitchDetection();
-      processed();
-    } else {
-//       qDebug() << "starting thread" << m_chunkNum << m_thread->isRunning();
-      m_thread->start(QThread::HighestPriority);
-//       qDebug() << "m_thread->start() done";
-    }
-    if (m_currentBuff == m_buffer_1) // swap buffers
-      m_currentBuff = m_buffer_2;
-    else
-      m_currentBuff = m_buffer_1;
-  }
-}
-
-
 void TpitchFinder::resetFinder() {
 	if (!m_mutex.tryLock()) {
 // 		qDebug() << "Pitch detection in progress, have to wait for reset...";
@@ -329,6 +304,24 @@ void TpitchFinder::detect() {
 
   incrementChunk();
   m_isBussy = false;
+}
+
+
+void TpitchFinder::bufferReady() {
+  m_filledBuff = m_currentBuff;
+  m_pcmVolume = m_workVol;
+  m_workVol = 0.0;
+  m_posInBuffer = 0;
+  if (m_isOffline) {
+    startPitchDetection();
+    processed();
+  } else {
+    m_thread->start(QThread::HighestPriority);
+  }
+  if (m_currentBuff == m_buffer_1) // swap buffers
+    m_currentBuff = m_buffer_2;
+  else
+    m_currentBuff = m_buffer_1;
 }
 
 

@@ -111,7 +111,13 @@ public:
 			/** Adds given sample to the buffer at the current position, 
 				* when buffer is full, @p startPitchDetection() is invoked and 
 				* current buffer is swapped. */
-	void fillBuffer(float sample);
+	void fillBuffer(float sample) {
+      *(m_currentBuff + m_posInBuffer) = sample;
+    m_posInBuffer++;
+    m_workVol = qMax<float>(m_workVol, sample);
+    if (m_posInBuffer == m_aGl->framesPerChunk)
+      bufferReady();
+  }
 	
 			/** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
 				* @p range is TaudioParams::Erange cast. Default is e_middle
@@ -170,6 +176,7 @@ protected slots:
 	
 private:
 	void detect();
+  void bufferReady(); /** Performed when all required amount of samples is collected it current buffer. */
 	
 	
 private:

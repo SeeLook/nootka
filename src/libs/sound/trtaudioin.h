@@ -26,6 +26,7 @@
 #include <music/tnotestruct.h>
 #include "rt/RtAudio.h"
 #include "trtaudio.h"
+#include "tpitchfinder.h"
 
 
 class TpitchFinder;
@@ -127,7 +128,17 @@ public slots:
 	void stopListening();
   
 protected:
-	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
+	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
+    if (m_goingDelete || instance()->isStoped())
+      return true;
+    qint16 *in = (qint16*)inBuff;
+    qint16 value;
+    for (int i = 0; i < nBufferFrames; i++) {
+          value = *(in + i);
+          instance()->m_pitch->fillBuffer(float(double(value) / 32760.0f));
+    }
+    return false;
+	}
   
 
 private slots:
