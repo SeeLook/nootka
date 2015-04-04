@@ -82,7 +82,7 @@ Tglobals::Tglobals(bool fromTemp) :
 	L = new TlayoutParams();
 	
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
-	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
+	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", qApp->applicationName());
 #else
 	config = new QSettings();
 #endif
@@ -285,8 +285,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
 		A->playDetected = false; //cfg->value("playDetected", false).toBool();
 		A->equalLoudness = cfg->value("equalLoudness", false).toBool();
-    A->minSplitVol = cfg->value("minVolToSplit", 0.1).toReal();
-    A->skipStillerVal = cfg->value("skipStillerValue", 0.8).toReal();
+    A->minSplitVol = cfg->value("minVolumeToSplit", 10.0).toReal();
+    A->skipStillerVal = cfg->value("skipStillerThan", 80.0).toReal();
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");
@@ -437,8 +437,8 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("forwardInput", A->forwardInput);
 // 			cfg->setValue("playDetected", A->playDetected);
       cfg->setValue("equalLoudness", A->equalLoudness);
-      cfg->setValue("minVolToSplit", A->minSplitVol);
-      cfg->setValue("skipStillerValue", A->skipStillerVal);
+      cfg->setValue("minVolumeToSplit", A->minSplitVol);
+      cfg->setValue("skipStillerThan", A->skipStillerVal);
 	cfg->endGroup();
 	
 	cfg->beginGroup("layout");

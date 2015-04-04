@@ -34,6 +34,6 @@ set(NOOTINI_SRC
 
 )
   
-add_executable(nootini ${NOOTINI_SRC})
+add_executable(nootini WIN32 ${NOOTINI_SRC})
 target_link_libraries(nootini NootkaCore NootkaSound Qt5::Widgets Qt5::Svg)
 

@@ -97,7 +97,7 @@ TpitchFinder::~TpitchFinder()
 	delete m_buffer_1;
 	delete m_buffer_2;
   delete m_transforms;
-	if(m_channel)
+	if (m_channel)
 		delete m_channel;
 	delete m_aGl;
 	m_thread->deleteLater();
@@ -182,10 +182,7 @@ void TpitchFinder::resetFinder() {
 //##########################################################################################################
 
 void TpitchFinder::startPitchDetection() {
-//   if (m_isBussy)
-//     qDebug() << "thread busy" << m_chunkNum;
 	m_mutex.lock();
-//   qDebug() << "thread run!" << m_isBussy << m_chunkNum;
   m_isBussy = true;
 	if (m_doReset) { // copy last chunk to keep capturing data continuous
 		if (aGl()->equalLoudness)
@@ -214,19 +211,16 @@ void TpitchFinder::startPitchDetection() {
 
 
 void TpitchFinder::processed() {
-// 	emit volume(m_volume);
 	emit pitchInChunk(m_chunkPitch);
 	if (m_state != m_prevState) {
 		if (m_prevState == e_noticed) {
 			if (m_state == e_playing) {
-        qDebug() << m_currentNote.index << "started send"  << m_currentNote.pitchF;
         emit noteStarted(m_currentNote.pitchF, m_currentNote.freq, m_currentNote.duration); // new note started
 // 				qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
 // 									 << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 			}
 		} else if (m_prevState == e_playing) {
 				if (m_state == e_silence || m_state == e_noticed) {
-          qDebug() << m_currentNote.index << "finished send"  << m_currentNote.pitchF;
           emit noteFinished(&m_currentNote); // previous note was finished
           if (m_averVolume == 0.0)
             m_averVolume = m_currentNote.maxVol;
@@ -246,7 +240,6 @@ void TpitchFinder::processed() {
 //########################################## PRIVATE #######################################################
 //##########################################################################################################
 void TpitchFinder::detect() {
-//   m_isBussy = true;
   FilterState filterState;
   m_channel->processNewChunk(&filterState);
   AnalysisData *data = m_channel->dataAtCurrentChunk();
@@ -269,15 +262,12 @@ void TpitchFinder::detect() {
     if (m_prevNoteIndex != NO_NOTE && m_newNote.numChunks() >= m_minChunks && m_newNote.maxVol >= m_averVolume * m_skipStillerVal) {
       m_currentNote = m_newNote; // summarize previous note if it was long enough
       m_currentNote.sumarize(m_chunkTime);
-      qDebug() << m_currentNote.index << "finished previous"  << m_currentNote.pitchF;
     }
     if (data->noteIndex != NO_NOTE) { // initialize a new note when it is valid
       m_newNote.init(data->noteIndex, m_chunkNum, data->pitch);
       m_state = e_noticed;
-      qDebug() << m_newNote.index << "initialized"  << m_newNote.pitchF;
     } else
       m_state = e_silence;
-//     m_prevNoteIndex = data->noteIndex;
   } else { // note is still playing
     if (data->noteIndex != NO_NOTE) {
       m_newNote.update(m_chunkNum, data->pitch, m_volume);
@@ -286,7 +276,6 @@ void TpitchFinder::detect() {
           m_currentNote = m_newNote;
           m_currentNote.sumarize(m_chunkTime);
           m_state = e_playing;
-          qDebug() << m_currentNote.index << "playing"  << m_currentNote.pitchF;
         } else if (m_splitByVol && m_newNote.numChunks() > m_minChunks) { // the same note for Tartini can be split by Nootka
           if (m_volume - m_newNote.minVol >= m_minVolToSplit && m_volume >= m_averVolume * m_skipStillerVal) {
             m_currentNote = m_newNote;
@@ -294,7 +283,6 @@ void TpitchFinder::detect() {
             m_currentNote.sumarize(m_chunkTime);
             m_newNote.init(data->noteIndex, m_chunkNum, data->pitch);
             m_state = e_noticed;
-            qDebug() << m_currentNote.index << "finished the same" << m_currentNote.pitchF;
           }
         }
       }
@@ -314,16 +302,16 @@ void TpitchFinder::bufferReady() {
   m_pcmVolume = m_workVol;
   m_workVol = 0.0;
   m_posInBuffer = 0;
+  if (m_currentBuff == m_buffer_1) // swap buffers
+    m_currentBuff = m_buffer_2;
+  else
+    m_currentBuff = m_buffer_1;
   if (m_isOffline) {
     startPitchDetection();
     processed();
   } else {
     m_thread->start(QThread::HighestPriority);
   }
-  if (m_currentBuff == m_buffer_1) // swap buffers
-    m_currentBuff = m_buffer_2;
-  else
-    m_currentBuff = m_buffer_1;
 }
 
 

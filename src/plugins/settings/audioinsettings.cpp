@@ -183,29 +183,31 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
     m_methodCombo->setCurrentIndex(2);
 
   m_splitVolChB = new QCheckBox(tr("split when volume rise"), this);
+  m_splitVolChB->setStatusTip(tr("Helps to properly detect the same notes repeated quickly on the guitar."));
   m_splitVolSpin = new QSpinBox(this);
     m_splitVolSpin->setRange(5, 50);
     m_splitVolSpin->setSingleStep(5);
     m_splitVolSpin->setSuffix(" %");
-  if (m_glParams->minSplitVol >= 0.01) {
+    m_splitVolSpin->setStatusTip(m_splitVolChB->statusTip());
+  if (m_glParams->minSplitVol > 0.0) {
     m_splitVolChB->setChecked(true);
-    m_splitVolSpin->setValue(m_glParams->minSplitVol * 100);
+    m_splitVolSpin->setValue(m_glParams->minSplitVol);
   } else
     m_splitVolChB->setChecked(false);
 
   m_skipStillerChB = new QCheckBox(tr("skip stiller than"), this);
-    m_skipStillerChB->setStatusTip(tr("If set, skips notes with volume less than given percentage value of average volume of previously played notes. It helps to omit detecting of open strings harmonics."));
+    m_skipStillerChB->setStatusTip(tr("If set, skips notes with volume less than given percentage value of average volume of previously played notes. It prevents of detecting harmonics on classical or acoustic guitar."));
   m_skipStillerSpin = new QSpinBox(this);
     m_skipStillerSpin->setRange(10, 95);
     m_skipStillerSpin->setSingleStep(5);
     m_skipStillerSpin->setSuffix(" %");
     m_skipStillerSpin->setStatusTip(m_skipStillerChB->statusTip());
-    m_skipStillerSpin->setValue(m_glParams->skipStillerVal * 100);
+    m_skipStillerSpin->setValue(m_glParams->skipStillerVal);
     m_skipStillerChB->setChecked(m_glParams->skipStillerVal > 0.0);
 
   m_noiseFilterChB = new QCheckBox(tr("noise filter"), m_3_advanced);
     m_noiseFilterChB->setChecked(m_glParams->equalLoudness);
-    m_noiseFilterChB->setStatusTip(tr("Use it only for poor audio input device or very noisy surroundings. Otherwise it may even spoil pitch detection or simply waste CPU."));
+    m_noiseFilterChB->setStatusTip(tr("It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise."));
 
   QLabel *adjustLab = new QLabel(tr("adjust to instrument"),  m_3_advanced);
   m_adjustToInstrButt = new TselectInstrument(m_3_advanced, TselectInstrument::e_buttonsOnlyHorizontal);
@@ -380,8 +382,9 @@ void AudioInSettings::grabParams(TaudioParams *params) {
 	params->intonation = m_intonationCombo->currentIndex();
 	params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
   params->equalLoudness = m_noiseFilterChB->isChecked();
-  params->minSplitVol = m_splitVolChB->isChecked() ? (qreal)m_splitVolSpin->value() / 100.0 : 0.0;
-  params->skipStillerVal = m_skipStillerChB->isChecked() ? (qreal)m_skipStillerSpin->value() / 100.0 : 0.0;
+  params->minSplitVol = m_splitVolChB->isChecked() ? (qreal)m_splitVolSpin->value() : 0.0;
+  params->skipStillerVal = m_skipStillerChB->isChecked() ? (qreal)m_skipStillerSpin->value() : 0.0;
+  params->detectMethod = m_methodCombo->currentIndex();
 }
 
 
@@ -627,11 +630,15 @@ void AudioInSettings::JACKASIOSlot() {
 
 void AudioInSettings::splitByVolChanged(bool enab) {
   m_splitVolSpin->setDisabled(!enab);
+  if (enab)
+    m_splitVolSpin->setValue(10);
 }
 
 
 void AudioInSettings::skipStillerChanged(bool enab) {
   m_skipStillerSpin->setDisabled(!enab);
+  if (enab)
+    m_skipStillerSpin->setValue(80);
 }
 
 
@@ -661,7 +668,6 @@ void AudioInSettings::adjustInstrSlot(int instr) {
     default:
       break;
   }
-  m_noiseFilterChB->setChecked(false);
 }
 
 
