@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -256,10 +256,10 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 	if (name == "") {
 		qDebug() << "Level key has empty 'name' attribute";
 		return e_otherError;
-	} else if (name.size() > 20) {
-		name = name.left(20);
+	} else if (name.size() > 25) {
+		name = name.left(25);
 		er = e_levelFixed;
-		qDebug() << "Name of a level was reduced to 20 characters:" << name;
+		qDebug() << "Name of a level was reduced to 25 characters:" << name;
 	}
 // 	}
 	while (xml.readNextStartElement()) {

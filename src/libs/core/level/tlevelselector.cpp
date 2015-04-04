@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,7 @@
 
 #include "tlevelselector.h"
 #include "tlevelsdefs.h"
+#include <graphics/tnotepixmap.h>
 #include <widgets/tquestionaswdg.h>
 #include <level/tlevelpreview.h>
 #include <texamparams.h>
@@ -56,8 +57,8 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 	QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
 	m_levelsListWdg = new QListWidget(this);
 		m_levelsListWdg->setMouseTracking(true);
-		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
-		m_levelsListWdg->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 30);
+		m_levelsListWdg->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	m_loadBut = new QPushButton(tr("Load"), this);
 		m_loadBut->setStatusTip(tr("Load level from file"));
@@ -76,7 +77,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 	QHBoxLayout *mainLay = new QHBoxLayout;
 	QVBoxLayout *levLay = new QVBoxLayout;
 		levLay->addWidget(levLab);
-		levLay->addWidget(m_levelsListWdg);
+		levLay->addWidget(m_levelsListWdg, 0, Qt::AlignCenter);
 		levLay->addStretch();
 		QHBoxLayout *buttLay = new QHBoxLayout;
 			buttLay->addWidget(m_loadBut);
@@ -119,54 +120,59 @@ void TlevelSelector::levelSelected(int id) {
 
 
 void TlevelSelector::findLevels() {
-    Tlevel lev = Tlevel();
-  // from predefined list
-    QList<Tlevel> llist;
-		getExampleLevels(llist);
-    for (int i = 0; i < llist.size(); i++) {
-        addLevel(llist[i]);
-        m_levels.last().suitable = isSuitable(llist[i]);
-    }
-  // from constructor (Master of Masters)
-    addLevel(lev);
-		m_levels.last().suitable = true;
-  // from setting file - recent load/saved levels
-    QStringList recentLevels = Tcore::gl()->config->value("recentLevels").toStringList();
-    for (int i = recentLevels.size()-1; i >= 0; i--) {
-        QFile file(recentLevels[i]);
-        if (file.exists()) {
-            Tlevel level = getLevelFromFile(file);
-            if (level.name != "") {
-                addLevel(level, file.fileName());
-                m_levels.last().suitable = isSuitable(level);
-            } else
-                recentLevels.removeAt(i);
-        } else
-            recentLevels.removeAt(i);
-    }
-    Tcore::gl()->config->setValue("recentLevels", recentLevels);
+  Tlevel lev = Tlevel();
+// from predefined list
+  QList<Tlevel> llist;
+  getExampleLevels(llist);
+  for (int i = 0; i < llist.size(); i++) {
+      addLevel(llist[i]);
+      m_levels.last().suitable = isSuitable(llist[i]);
+  }
+// from constructor (Master of Masters)
+  addLevel(lev);
+  m_levels.last().suitable = true;
+// from setting file - recent load/saved levels
+  QStringList recentLevels = Tcore::gl()->config->value("recentLevels").toStringList();
+  for (int i = recentLevels.size()-1; i >= 0; i--) {
+      QFile file(recentLevels[i]);
+      if (file.exists()) {
+          Tlevel level = getLevelFromFile(file);
+          if (level.name != "") {
+              addLevel(level, file.fileName());
+              m_levels.last().suitable = isSuitable(level);
+          } else
+              recentLevels.removeAt(i);
+      } else
+          recentLevels.removeAt(i);
+  }
+  Tcore::gl()->config->setValue("recentLevels", recentLevels);
 }
 
 
 void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) {
-    if (check && levelFile != "") {
-      int pos = -1;
-      for (int i = 0; i < m_levels.size(); i++)
-        if (m_levels[i].file == levelFile) // file and level exist
-            pos = i;
+  if (check && levelFile != "") {
+    int pos = -1;
+    for (int i = 0; i < m_levels.size(); i++)
+      if (m_levels[i].file == levelFile) // file and level exist
+          pos = i;
 
-      QListWidgetItem *it = m_levelsListWdg->takeItem(pos);
-      delete it;
-      m_levels.removeAt(pos);
-    }
-    SlevelContener l;
-    m_levelsListWdg->addItem(lev.name);
-    l.level = lev;
-    l.file = levelFile;
-    l.item = m_levelsListWdg->item(m_levelsListWdg->count() - 1);
-    l.item->setStatusTip(lev.desc);
-		l.suitable = true;
-    m_levels << l;
+    QListWidgetItem *it = m_levelsListWdg->takeItem(pos);
+    delete it;
+    m_levels.removeAt(pos);
+  }
+  SlevelContener l;
+  m_levelsListWdg->addItem(lev.name);
+  l.level = lev;
+  l.file = levelFile;
+  l.item = m_levelsListWdg->item(m_levelsListWdg->count() - 1);
+  l.item->setStatusTip(lev.desc);
+  QFont nf("nootka", fontMetrics().boundingRect("A").height() * 2);
+  l.item->setIcon(QIcon(pixFromString(l.level.canBeMelody() ? "m" : "n", nf,
+                        l.level.canBeMelody() ? palette().highlight().color().lighter() : palette().highlight().color())));
+  if (m_levelsListWdg->count() % 2)
+    l.item->setBackground(palette().alternateBase());
+  l.suitable = true;
+  m_levels << l;
 }
 
 
@@ -210,18 +216,17 @@ void TlevelSelector::selectLevel() {
 
 
 void TlevelSelector::loadFromFile(QString levelFile) {
-    if (levelFile == "")
-        levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"),
-                                        Tcore::gl()->E->levelsDir, levelFilterTxt() + " (*.nel)", 0 , QFileDialog::DontUseNativeDialog);
-    QFile file(levelFile);
-    Tlevel level = getLevelFromFile(file);
-    if (level.name != "") {
-        Tcore::gl()->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
-        addLevel(level, levelFile, true);
-        if (isSuitable(level))
-            selectLevel(); // select the last
-				updateRecentLevels();
-    }
+  if (levelFile == "")
+    levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"), Tcore::gl()->E->levelsDir, levelFilterTxt() + " (*.nel)");
+  QFile file(levelFile);
+  Tlevel level = getLevelFromFile(file);
+  if (level.name != "") {
+      Tcore::gl()->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
+      addLevel(level, levelFile, true);
+      if (isSuitable(level))
+          selectLevel(); // select the last
+      updateRecentLevels();
+  }
 }
 
 

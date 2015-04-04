@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -217,10 +217,11 @@ void TnootkaCertificate::paint(QPainter* painter, const QStyleOptionGraphicsItem
 
 void TnootkaCertificate::saveSlot() {
 	QString fileName = QFileDialog::getSaveFileName(0, tr("Save certificate"),
-										QDir::toNativeSeparators(QDir::homePath() + "/" +
-												m_exam->userName() + "-" + m_exam->level()->name + ".pdf"), "*.pdf", 0 , QFileDialog::DontUseNativeDialog);
+          QDir::toNativeSeparators(QDir::homePath() + "/" + m_exam->userName() + "-" + m_exam->level()->name), "*.pdf");
 	if (fileName == "")
 		return;
+  if (fileName.right(4) != ".pdf")
+    fileName += ".pdf";
 	QPrinter printer;
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setColorMode(QPrinter::Color);
