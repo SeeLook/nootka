@@ -91,7 +91,7 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     m_splitVolSpin->setRange(5, 50);
     m_splitVolSpin->setSingleStep(5);
     m_splitVolSpin->setSuffix(" %");
-    m_splitVolSpin->setValue(Tcore::gl()->A->minSplitVol * 100);
+    m_splitVolSpin->setValue(Tcore::gl()->A->minSplitVol);
 
   m_skipStillerChB = new QCheckBox(tr("skip stiller than"), this);
   m_skipStillerSpin = new QSpinBox(this);
@@ -99,7 +99,7 @@ NootiniSettings::NootiniSettings(TartiniParams* tp, QWidget* parent) :
     m_skipStillerSpin->setSingleStep(5);
     m_skipStillerSpin->setSuffix(" %");
     m_skipStillerSpin->setStatusTip(m_skipStillerChB->statusTip());
-    m_skipStillerSpin->setValue(Tcore::gl()->A->skipStillerVal * 100);
+    m_skipStillerSpin->setValue(Tcore::gl()->A->skipStillerVal);
     m_skipStillerChB->setChecked(Tcore::gl()->A->skipStillerVal > 0.0);
 
   QLabel *dbLab = new QLabel(tr("dbFloor"), this);
@@ -233,8 +233,8 @@ void NootiniSettings::accept() {
 
   m_tartiniParams->threshold = m_thresholdSpin->value();
   Tcore::gl()->A->equalLoudness = m_noiseFilterChB->isChecked();
-  Tcore::gl()->A->minSplitVol = m_splitVolChB->isChecked() ? (qreal)m_splitVolSpin->value() / 100.0 : 0.0;
-  Tcore::gl()->A->skipStillerVal = m_skipStillerChB->isChecked() ? (qreal)m_skipStillerSpin->value() / 100.0 : 0.0;
+  Tcore::gl()->A->minSplitVol = m_splitVolChB->isChecked() ? (qreal)m_splitVolSpin->value() : 0.0;
+  Tcore::gl()->A->skipStillerVal = m_skipStillerChB->isChecked() ? (qreal)m_skipStillerSpin->value() : 0.0;
   m_tartiniParams->dBFloor = m_dbFlorSpin->value();
   m_tartiniParams->doingAutoNoiseFloor = m_calcNoiseChB->isChecked();
 

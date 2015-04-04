@@ -219,7 +219,9 @@ void Nchart::setXnumber(int xN) {
       QString("pitch range: <b>%1</b>").arg(rangeText) + "<br>" +
       tr("threshold") + QString(": <b>%1 %</b>").arg(m_pitchF->aGl()->threshold) + "<br>" +
       "<span style=\"color: " + noteVolumeColor.name() + "\";>" + QString("split vol.: <b>%1</b>").
-          arg((m_pitchF->isSplitByVolume() ? QString("%1").arg(Tcore::gl()->A->minSplitVol) : "no")) + "</span><br>" +
+          arg((m_pitchF->isSplitByVolume() ? QString("%1%").arg(Tcore::gl()->A->minSplitVol) : "no")) + "</span><br>" +
+      "<span style=\"color: " + noteVolumeColor.name() + "\";>" + QString("skip stiller: <b>%1</b>").
+          arg((m_pitchF->skipStillerValue() > 0.0 ? QString("%1%").arg(Tcore::gl()->A->skipStillerVal) : "no")) + "</span><br>" +
       QString("dbFoor: <b>%1</b>").arg(m_pitchF->aGl()->dBFloor) + "<br>" +
       QString("middle A: <b>%1 [Hz]</b>").arg(pitch2freq(freq2pitch(440) + Tcore::gl()->A->a440diff)) + "<br>" +
       "<span style=\"color: " + minVolumeColor.name() + "\";>" + QString("min. volume: <b>%1</b>").arg(Tcore::gl()->A->minimalVol * 100) + "</span><br>"
@@ -405,9 +407,9 @@ void Nchart::emptyRect(int firstChunk, qreal width) {
 
 
 void Nchart::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
-  Tnote n;
-  n.fromMidi(qRound(pitch));
-  qDebug() << "started" << n.toText();
+//   Tnote n;
+//   n.fromMidi(qRound(pitch));
+//   qDebug() << "started" << n.toText();
 }
 
 
