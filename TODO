@@ -17,8 +17,6 @@ MAJOR:
 
 PITCH DETECTION IMPROVEMENTS
 - put message to user about his responsibility to sound quality
-TO consider 
-- automate detection of best minimal volume and volume split threshold
 
 MINOR:
 - note color when it is a question in single mode is strange (pale)
