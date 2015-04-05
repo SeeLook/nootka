@@ -57,7 +57,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 	QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
 	m_levelsListWdg = new QListWidget(this);
 		m_levelsListWdg->setMouseTracking(true);
-		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 30);
+		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 25);
 		m_levelsListWdg->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	m_loadBut = new QPushButton(tr("Load"), this);
