@@ -293,7 +293,7 @@ void TrtAudio::updateAudioParams() {
       outSR = determineSampleRate(outDevInfo);
   // 	if (inSR != outSR)
     m_sampleRate = qMax(inSR, outSR);
-    
+    streamOptions->flags |= RTAUDIO_MINIMIZE_LATENCY;
     if (audioParams()->forwardInput && m_inParams && m_outParams)
         m_callBack = &passInputCallBack;
     else
