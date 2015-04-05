@@ -443,7 +443,6 @@ void MainWindow::guitarWasClicked(const Tnote& note) {
 void MainWindow::soundWasStarted(const Tnote& note) {
 //   if (gl->instrument != e_noInstrument) { // quick reaction for guitar
     Tnote n = note;
-    qDebug() << "started received" << n.toMidi();
     noteToKey(n, score->keySignature());
     score->setNote(n);
     m_startedSoundId = qMax<int>(score->currentIndex(), 0);
@@ -456,7 +455,6 @@ void MainWindow::soundWasStarted(const Tnote& note) {
 void MainWindow::soundWasFinished(Tchunk* chunk) {
 //   if (gl->instrument == e_noInstrument) { // whole played note and average pitch for other instruments
     Tnote n = chunk->p();
-    qDebug() << "finished received" << n.toMidi();
     noteToKey(n, score->keySignature());
     score->setNote(m_startedSoundId, n);
     if (guitar->isVisible())

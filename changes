@@ -3,6 +3,7 @@
      - workarounds to avoid pitch-detection of the same note twice
      - other pitch detection improvements
     BUGS FIXES
+     - updated RtAudio to latest git version - many bugs fixes
      - tons of fixed bugs, mistakes and glitches...
 
 1.1.5 beta
