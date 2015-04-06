@@ -220,13 +220,13 @@ void TrtAudio::updateAudioParams() {
       for(int i = 0; i < devCount; i++) { // Is there device on the list ??
           if (getDeviceInfo(devInfo, i)) {
             if (devInfo.probed) {
-              if (m_inParams && devInfo.inputChannels > 0 && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->INdevName) {
+              if (m_inParams && devInfo.inputChannels > 0 && QString::fromUtf8(devInfo.name.data()) == audioParams()->INdevName) {
                 inDevId = i;
-                m_inDevName = QString::fromLocal8Bit(devInfo.name.data());
+                m_inDevName = QString::fromUtf8(devInfo.name.data());
               }
-              if (m_outParams && devInfo.outputChannels > 0 && QString::fromLocal8Bit(devInfo.name.data()) == audioParams()->OUTdevName) {
+              if (m_outParams && devInfo.outputChannels > 0 && QString::fromUtf8(devInfo.name.data()) == audioParams()->OUTdevName) {
                 outDevId = i;
-                m_outDevName = QString::fromLocal8Bit(devInfo.name.data());
+                m_outDevName = QString::fromUtf8(devInfo.name.data());
               }
             }
           }
@@ -319,9 +319,9 @@ bool TrtAudio::openStream() {
           } else {
              RtAudio::DeviceInfo di; 
              if (m_inParams && getDeviceInfo(di, m_inParams->deviceId))
-               m_inDevName = QString::fromLocal8Bit(di.name.data());
+               m_inDevName = QString::fromUtf8(di.name.data());
              if (m_outParams && getDeviceInfo(di, m_outParams->deviceId))
-               m_outDevName = QString::fromLocal8Bit(di.name.data());
+               m_outDevName = QString::fromUtf8(di.name.data());
           }
 // 					if (!m_isOpened) { // print info once per new params set
 						if (m_inParams)
@@ -505,6 +505,7 @@ int TrtAudio::getDefaultOut() {
 
 
 quint32 TrtAudio::determineSampleRate(RtAudio::DeviceInfo& devInfo) {
+//   return devInfo.preferredSampleRate;
   for (int i = 0; i < devInfo.sampleRates.size(); i++) {
     unsigned int &sr = devInfo.sampleRates.at(i);
     if ( sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000)
