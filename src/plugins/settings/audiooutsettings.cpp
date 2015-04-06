@@ -47,6 +47,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
     realLay->addWidget(outDevLab);
     m_audioOutDevListCombo = new QComboBox(this);
+      m_audioOutDevListCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_JACK_ASIO_ChB = new QCheckBox(this);
 #if defined (Q_OS_WIN)
 	m_JACK_ASIO_ChB->setText("ASIO");

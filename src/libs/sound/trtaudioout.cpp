@@ -42,17 +42,17 @@
 QStringList TaudioOUT::getAudioDevicesList() {
     QStringList devList;
     createRtAudio();
+    if (getCurrentApi() == RtAudio::LINUX_ALSA)
+      closeStream(); // close ALSA stream to get full list of devices
     int devCnt = getDeviceCount();
     if (devCnt < 1)
         return devList;
-    if (getCurrentApi() == RtAudio::LINUX_ALSA)
-      closeStream(); // close ALSA stream to get full list of devices
     for (int i = 0; i < devCnt; i++) {
         RtAudio::DeviceInfo devInfo;
         if (!getDeviceInfo(devInfo, i))
           continue;
         if (devInfo.probed && devInfo.outputChannels > 0)
-          devList << QString::fromLocal8Bit(devInfo.name.data());
+          devList << QString::fromUtf8(devInfo.name.data());
     }
     if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
 				devList.prepend("ALSA default");

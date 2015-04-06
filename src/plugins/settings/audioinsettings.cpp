@@ -58,6 +58,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   QLabel *devLab = new QLabel(tr("input device"), m_1_device);
   m_inDeviceCombo = new QComboBox(m_1_device);
 		m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
+    m_inDeviceCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	
 	m_JACK_ASIO_ChB = new QCheckBox(this);
 #if defined (Q_OS_WIN)
@@ -86,11 +87,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	// 1. Layout
 	QVBoxLayout *deviceLay = new QVBoxLayout;
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
-      rtDevLay->addStretch();
+//       rtDevLay->addStretch();
       rtDevLay->addWidget(devLab);
       rtDevLay->addWidget(m_inDeviceCombo);
       rtDevLay->addWidget(m_JACK_ASIO_ChB);
-      rtDevLay->addStretch();
+//       rtDevLay->addStretch();
 		deviceLay->addLayout(rtDevLay);
 
 //   deviceLay->addStretch(1);
