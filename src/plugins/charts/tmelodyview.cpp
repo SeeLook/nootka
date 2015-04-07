@@ -65,6 +65,7 @@ TmelodyView::TmelodyView(Tmelody* melody, QWidget* parent) :
       staff->setEnableKeySign(true);
       staff->scoreKey()->setKeySignature(m_melody->key().value());
       staff->scoreKey()->showKeyName(false);
+      staff->setTidyKey(true);
     }
     staff->setDisabled(true);
     if (skip) { // cross strike the staff

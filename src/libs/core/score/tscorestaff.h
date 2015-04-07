@@ -188,6 +188,12 @@ public:
 			/** Stops/starts capturing any mouse events. */
 	void setDisabled(bool disabled);
 
+      /** With tidy key - key signature width is adjusted exactly to space occupies by visible accidentals.
+       * Calling this invokes notes replacing when @p tidy value really changes,
+       * which may be expensive. */
+  void setTidyKey(bool tidy);
+  bool isTidyKey() { return m_tidyKey; } /** Is positioning adjusted to accidentals number in key sign. */
+
 	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
 	virtual QRectF boundingRect() const;
 
@@ -274,7 +280,7 @@ private:
 	TnoteOffset              					 m_offset;
 	bool 										 					 m_isPianoStaff;
 	TscoreScordature				 					*m_scordature;
-	bool										 					 m_enableScord;
+	bool										 					 m_enableScord, m_tidyKey;
 	TcombinedAnim											*m_accidAnim;
 	QGraphicsSimpleTextItem 					*m_flyAccid;
 	bool 										 					 m_selectableNotes, m_extraAccids;

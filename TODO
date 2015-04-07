@@ -44,17 +44,10 @@ MINOR:
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - average effectiveness line in chart
-- tidy key signature in note pixmap (width depends on accidentals number)
 - shrink a bit score and note name in single mode
-- add blinking of settings icon(action) instead of expert check boxes in old versions
-
 - make exam summary pretty
 - certificates would have some additional data about melodies
-  
-TEXAMEXECUTOR
-  - think about hide octave in note name format when octaves are not required in answers. 
-     Also for questions in "hint" - don't show octave when only name is required 
- 
+   
 TRANSLATIONS
  - Tab names in input settings have only removed numbers - texts are the same
 
@@ -85,6 +78,7 @@ TRANSLATIONS
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - comparing exams (charts)
 - keep exam file in /tmp and restore it when crash or so
+- add blinking of settings icon(action) instead of expert check boxes in old versions (???)
 - proxy corner widgets may be animated (???)
 - add sound during wizard and About dialog (???)
 - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
@@ -97,8 +91,14 @@ TRANSLATIONS
 
 
 Tnote
+  - change class name to Tpitch (???)
 	- overload + and - operators to raise/drop a note
 	- make appropriate methods const
+
+TEXAMEXECUTOR
+  - think about hide octave in note name format when octaves are not required in answers. 
+     Also for questions in "hint" - don't show octave when only name is required 
+
 
 TO CONSIDER:
   - In wizard: option for single note mode for very beginners

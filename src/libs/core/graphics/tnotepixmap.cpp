@@ -64,6 +64,7 @@ QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef, TkeySignature key, q
 			staff->setEnableKeySign(true);
 			staff->scoreKey()->setKeySignature(key.value());
 			staff->scoreKey()->showKeyName(false);
+      staff->setTidyKey(true);
 	}
 	staff->setNoteDisabled(0, true);
 // determine image height by note position to avoid empty spaces above or below a staff
@@ -117,6 +118,7 @@ QPixmap getMelodyPixmap(Tmelody* mel, bool showStrings, qreal factor) {
 		staff->setEnableKeySign(true);
 		staff->scoreKey()->setKeySignature(mel->key().value());
 		staff->scoreKey()->showKeyName(false);
+    staff->setTidyKey(true);
 	}
 	staff->setDisabled(true);
 	for (int i = 0; i < staff->count(); ++i)

@@ -101,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent) :
 				m_updaterPlugin = new TpluginsLoader();
         if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
 					connect(m_updaterPlugin->node(), &TpluginObject::message, this, &MainWindow::updaterMessagesSlot);
-					gl->config->endGroup(); // close settings note because updater need to open it again 
+					gl->config->endGroup(); // close settings note because updater need to open it again
 					m_updaterPlugin->init("false", this); // string argument stops displaying update dialog when no news were send
         } else
 						delete m_updaterPlugin;
