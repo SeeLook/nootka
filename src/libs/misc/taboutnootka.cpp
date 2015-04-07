@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -125,7 +125,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
        "<li>" + createLink("ogg vorbis", "http://vorbis.com") + " by XIPH</li>" +
        "<li>" + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + " by G. P. Scavone</li>" +
        "<li>" + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod</li>" +
-       "<li>" + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen</li>";
+       "<li>" + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen</li>" +
+       "<li>" + createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html");
 #if defined (Q_OS_WIN)
 		otherStr += "<li>" + createLink("NSIS", "http://nsis.sourceforge.net/Main_Page") + "</li>";
 #endif

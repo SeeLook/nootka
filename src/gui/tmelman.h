@@ -23,6 +23,7 @@
 #include <QIcon>
 #include <QKeySequence>
 
+class QGraphicsPixmapItem;
 class QAction;
 class QMainWindow;
 class QWidgetAction;
@@ -54,7 +55,9 @@ public slots:
 	void saveMelodySlot();
 	
 private:
+  enum EscoreState { e_playing, e_recording, e_none };
 	QAction* createAction(const QString& t, const char* slot, const QKeySequence& k = QKeySequence(), const QIcon& i = QIcon());
+  void showAudioMark(EscoreState ss);
 	
 private:
 	TmainScore						*m_score;
@@ -62,6 +65,7 @@ private:
 	QToolButton						*m_button;
 	Tmenu									*m_menu;
 	QAction								*m_playMelAct, *m_recMelAct;
+  QGraphicsPixmapItem   *m_audioMark;
 };
 
 #endif // TMELMAN_H

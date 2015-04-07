@@ -27,7 +27,8 @@
 
 TmelMan::TmelMan(TmainScore* score) :
 	QObject(score),
-	m_score(score)
+	m_score(score),
+	m_audioMark(0)
 {	
 	m_menu = new Tmenu();
 	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
@@ -38,26 +39,32 @@ TmelMan::TmelMan(TmainScore* score) :
 	QAction* genAct = createAction(tr("Generate"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	genAct->setStatusTip(tr("Generate a melody with random notes."));
 
-	m_menu->addSeparator();
-	QDialogButtonBox box;
-	QPushButton *saveBut = box.addButton(QDialogButtonBox::Save);
-	QPushButton *openBut = box.addButton(QDialogButtonBox::Open);
-	createAction(openBut->text(), SLOT(loadMelodySlot()), QKeySequence::Open, 
-							 QIcon(score->style()->standardIcon(QStyle::SP_DialogOpenButton)));
-	createAction(saveBut->text(), SLOT(saveMelodySlot()), QKeySequence::Save, 
-							 QIcon(score->style()->standardIcon(QStyle::SP_DialogSaveButton)));
+// 	m_menu->addSeparator();
+// 	QDialogButtonBox box;
+// 	QPushButton *saveBut = box.addButton(QDialogButtonBox::Save);
+// 	QPushButton *openBut = box.addButton(QDialogButtonBox::Open);
+// 	createAction(openBut->text(), SLOT(loadMelodySlot()), QKeySequence::Open,
+// 							 QIcon(score->style()->standardIcon(QStyle::SP_DialogOpenButton)));
+// 	createAction(saveBut->text(), SLOT(saveMelodySlot()), QKeySequence::Save,
+// 							 QIcon(score->style()->standardIcon(QStyle::SP_DialogSaveButton)));
 	
 	
 	m_button = new QToolButton(score);
 	m_button->setIcon(QIcon(Tpath::img("melody")));
 	m_button->setText(tr("Melody"));
-	m_button->setStatusTip(tr("Open, save, generate and play a melody."));
+  QString ssss = tr("Open, save, generate and play a melody.");
+// 	m_button->setStatusTip(tr("Open, save, generate and play a melody."));
 	m_button->setMenu(m_menu);
 	m_button->setPopupMode(QToolButton::InstantPopup);
 	m_button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	m_melAct = new QWidgetAction(score);
 	m_melAct->setDefaultWidget(m_button);
 	connect(m_score, SIGNAL(playbackFinished()), this, SLOT(playMelodySlot()));
+
+  m_audioMark = m_score->scene()->addPixmap(QPixmap(Tpath::img("melody-rec")));
+  m_audioMark->hide();
+  m_audioMark->setScale(0.25);
+  m_audioMark->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 }
 
 
@@ -76,9 +83,9 @@ void TmelMan::playMelodySlot() {
 		m_recMelAct->setDisabled(false);
 		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaPlay)));
 		if (m_score->insertMode() == TmultiScore::e_record)
-			m_button->setIcon(QIcon(Tpath::img("melody-rec")));
-		else
-			m_button->setIcon(QIcon(Tpath::img("melody")));
+      showAudioMark(e_recording);
+    else
+      showAudioMark(e_none);
 	} else {
 		if (m_score->currentIndex() < 0) {
       if (m_score->notesCount() > 0)
@@ -89,7 +96,7 @@ void TmelMan::playMelodySlot() {
 		m_recMelAct->setDisabled(true);
 		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
 		m_score->playScore();
-		m_button->setIcon(QIcon(Tpath::img("melody-play")));
+    showAudioMark(e_playing);
 	}
 }
 
@@ -98,12 +105,12 @@ void TmelMan::recordMelodySlot() {
 	if (m_score->insertMode() == TmainScore::e_multi) {
 		m_recMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
 		m_score->setInsertMode(TmainScore::e_record);
-		m_button->setIcon(QIcon(Tpath::img("melody-rec")));
+    showAudioMark(e_recording);
 	} else {
 		m_recMelAct->setIcon(QIcon(Tpath::img("record")));
 		m_score->setInsertMode(TmainScore::e_multi);
-		if (!m_score->isScorePlayed())
-			m_button->setIcon(QIcon(Tpath::img("melody")));
+    if (!m_score->isScorePlayed())
+      showAudioMark(e_none);
 	}
 }
 
@@ -162,6 +169,29 @@ QAction* TmelMan::createAction(const QString& t, const char* slot, const QKeySeq
 	m_menu->addAction(a);
 	return a;
 }
+
+
+void TmelMan::showAudioMark(EscoreState ss) {
+  switch (ss) {
+    case e_playing:
+      m_button->setIcon(QIcon(Tpath::img("melody-play")));
+//       m_audioMark->setPixmap(QPixmap(Tpath::img("melody-play")));
+//       m_audioMark->show();
+      break;
+    case e_recording:
+      m_button->setIcon(QIcon(Tpath::img("melody-rec")));
+//       m_audioMark->setPixmap(QPixmap(Tpath::img("melody-rec")));
+//       m_audioMark->show();
+      break;
+    default:
+//       m_audioMark->hide();
+      m_button->setIcon(QIcon(Tpath::img("melody")));
+      break;
+  }
+  if (ss != e_none) // workaround to refresh button icon when tool bar is auto hiding
+    m_button->resize(m_button->size());
+}
+
 
 
 
