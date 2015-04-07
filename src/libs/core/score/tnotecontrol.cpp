@@ -58,7 +58,7 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
 	m_scoreNote(0),
 	m_isEnabled(true), m_entered(false),
-	m_dblSharp(0), m_sharp(0), m_flat(0), m_dblFlat(0),
+	m_dblSharp(0), m_sharp(0), m_flat(0), m_dblFlat(0), m_accidGap(0),
 	m_underItem(0),
 	m_moveNote(false),
 	m_currAccid(0), m_prevAccidIt(0),
@@ -79,7 +79,7 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	m_name->setParentItem(this);
 	m_name->setScale(boundingRect().width() / m_name->boundingRect().width());
 	m_name->setBrush(scoreScene()->nameColor());
-// '-' for deleting notes
+// 'x' for deleting notes
 	m_cross = new QGraphicsSimpleTextItem("o");
 	m_cross->setFont(TnooFont());
 	m_cross->setParentItem(this);
@@ -111,16 +111,17 @@ void TnoteControl::adjustSize() {
 		dblSharpH = 3.0; // nice gap below 'plus'	button when no double accidentals
 	if (m_sharp) {
 		m_sharp->setPos(centeredX(m_sharp), baseY + dblSharpH);
-		m_flat->setPos(centeredX(m_flat), m_sharp->pos().y() + 1.0 + m_sharp->boundingRect().height() * m_sharp->scale());
-		m_accidHi->setRect(QRectF(0.0, 0.0, 
-						WIDTH, m_sharp->boundingRect().height() * m_sharp->scale()));
+    m_accidGap->setRect(0, 0, WIDTH, 2.0);
+    m_accidGap->setPos(0, m_sharp->pos().y() + m_sharp->boundingRect().height() * m_sharp->scale());
+		m_flat->setPos(centeredX(m_flat), m_accidGap->pos().y() + 2.0);
+		m_accidLight->setRect(0.0, 0.0, WIDTH, m_sharp->boundingRect().height() * m_sharp->scale());
 	}
 	if (m_dblFlat)
-		m_dblFlat->setPos(centeredX(m_dblFlat), m_flat->pos().y() + 0.3 + m_flat->boundingRect().height() * m_flat->scale());
+		m_dblFlat->setPos(centeredX(m_dblFlat), m_flat->pos().y() + m_flat->boundingRect().height() * m_flat->scale());
 	if (!m_sharp) { // right pane
 		m_name->setPos(0.0, baseY + (m_name->boundingRect().height()) * m_name->scale());
 	} else if (m_prevAccidIt) // restore accidental highlight
-			m_accidHi->setPos(0.0, m_prevAccidIt->pos().y());
+			m_accidLight->setPos(0.0, m_prevAccidIt->pos().y());
 
 	m_leftGrad.setStart(WIDTH, 1.0);
 	m_leftGrad.setFinalStop(0.0, 1.0);
@@ -144,12 +145,19 @@ void TnoteControl::hideWithDelay() {
 void TnoteControl::addAccidentals() {
 	if (!m_sharp) {
 		m_sharp = createNootkaTextItem("#");
+    m_sharp->setScale(m_sharp->scale() * 1.15); // it looks and works better
 		m_flat = createNootkaTextItem("b");
-		m_accidHi = new QGraphicsRectItem(this);
-		m_accidHi->hide();
-		m_accidHi->setPen(Qt::NoPen);
-		m_accidHi->setBrush(QBrush(qApp->palette().highlight().color()));
-		m_accidHi->setZValue(8); // below accidentals
+    m_flat->setScale(m_flat->scale() * 1.15);
+		m_accidLight = new QGraphicsRectItem(this);
+		m_accidLight->hide();
+		m_accidLight->setPen(Qt::NoPen);
+		m_accidLight->setBrush(QBrush(qApp->palette().highlight().color()));
+		m_accidLight->setZValue(8); // below accidentals
+  // gap item between sharp and flat to avoid blinking
+    m_accidGap = new QGraphicsRectItem();
+    m_accidGap->setParentItem(this);
+    m_accidGap->setPen(Qt::NoPen);
+    m_accidGap->setZValue(12);
 	}
 	if (scoreScene()->doubleAccidsFuse() == 2) { // double accidentals
 		if (!m_dblSharp) {
@@ -175,7 +183,7 @@ void TnoteControl::addAccidentals() {
 
 
 QRectF TnoteControl::boundingRect() const {
-        return QRectF(0.0, 0.0, WIDTH, m_height);
+    return QRectF(0.0, 0.0, WIDTH, m_height);
 }
 
 
@@ -303,7 +311,7 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
 		return;
 	}
 	QGraphicsItem *it = scene()->itemAt(mapToScene(cPos), scene()->views()[0]->transform());
-	if (it == 0 || it->parentItem() != this)
+	if (it == 0 || it->parentItem() != this || it == m_accidGap)
 		return;
 	if (it == m_name) {
 		hoverLeaveEvent(0);
@@ -441,7 +449,7 @@ QGraphicsSimpleTextItem* TnoteControl::createNootkaTextItem(const QString& aText
 	QGraphicsSimpleTextItem *nooItem = new QGraphicsSimpleTextItem(aText, this);
 	nooItem->setFont(TnooFont());
 	nooItem->setBrush(QBrush(qApp->palette().text().color()));
-	nooItem->setScale((WIDTH / nooItem->boundingRect().height()) * 1.1);
+	nooItem->setScale((WIDTH / nooItem->boundingRect().height()) * 1.12);
 	nooItem->setZValue(10);
 	return nooItem;
 }
@@ -458,10 +466,10 @@ void TnoteControl::markItemText(QGraphicsSimpleTextItem* textItem) {
 	m_prevAccidIt = textItem;
 	if (m_currAccid) {
 		m_prevAccidIt->setBrush(QBrush(qApp->palette().highlightedText().color()));
-		m_accidHi->setPos(0.0, m_prevAccidIt->pos().y());
-		m_accidHi->show();
+		m_accidLight->setPos(0.0, m_prevAccidIt->pos().y());
+		m_accidLight->show();
 	} else
-		m_accidHi->hide();
+		m_accidLight->hide();
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -100,7 +100,7 @@ private:
 		bool						 								 					 m_isEnabled, m_entered;
 		QGraphicsSimpleTextItem										*m_name, *m_cross;
 		QGraphicsSimpleTextItem									  *m_dblSharp, *m_sharp, *m_flat, *m_dblFlat;
-		QGraphicsRectItem													*m_accidHi;
+		QGraphicsRectItem													*m_accidLight, *m_accidGap;
 		QLinearGradient														 *m_gradient; // pointer to background gradient
 		static QLinearGradient										 m_leftGrad, m_rightGrad;
 //Android

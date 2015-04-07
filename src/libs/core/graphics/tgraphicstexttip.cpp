@@ -202,8 +202,10 @@ void TgraphicsTextTip::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 	if (isMovable())
 		setCursor(Qt::SizeAllCursor);
 	if (m_mouseClick) {
-		if (m_lastPos == event->scenePos())
+		if (m_lastPos == event->scenePos()) {
+      clearFocus();
 			emit clicked();
+    }
 		m_mouseClick = false;
 		update();
 	}
