@@ -50,7 +50,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_viewWidth(0.0),
   m_offset(TnoteOffset(3, 2)),
   m_isPianoStaff(false),
-	m_scordature(0), m_enableScord(false),
+	m_scordature(0), m_enableScord(false), m_tidyKey(false),
 	m_accidAnim(0), m_flyAccid(0),
 	m_selectableNotes(false), m_extraAccids(false),
 	m_maxNotesCount(0),
@@ -450,9 +450,12 @@ void TscoreStaff::setEnableScordtature(bool enable) {
 
 qreal TscoreStaff::notesOffset() {
 	qreal off = 0.0;
-	if (m_keySignature)
-			off = KEY_WIDTH + 1;
-	else if (m_enableScord)
+	if (m_keySignature) {
+      if (m_tidyKey)
+        off = qAbs<char>(m_keySignature->keySignature()) * 1.3;
+      else
+        off = KEY_WIDTH + 1;
+  } else if (m_enableScord)
 			off = KEY_WIDTH / 2;
 	return off;
 }
@@ -505,6 +508,16 @@ void TscoreStaff::noteChangedAccid(int accid) {
 	if (scoreScene()->left())
 		scoreScene()->left()->setAccidental(accid);
 }
+
+
+void TscoreStaff::setTidyKey(bool tidy) {
+  if (tidy != m_tidyKey) {
+    m_tidyKey = tidy;
+    updateLines();
+    updateNotesPos();
+  }
+}
+
 
 //##########################################################################################################
 //####################################### PROTECTED SLOTS  #################################################
@@ -622,7 +635,7 @@ void TscoreStaff::updateIndexes() {
 void TscoreStaff::updateNotesPos(int startId) {
 	qreal off = notesOffset();
 	for (int i = startId; i < m_scoreNotes.size(); i++) // update positions of the notes
-				m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
+    m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
 }
 
 
