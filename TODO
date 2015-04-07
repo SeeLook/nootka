@@ -23,10 +23,8 @@ MINOR:
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
-- replace all font-size: 20px with <big>
-- MUSIC XML is not fully standard compatible (check what MuseScore complains)
+- replace all font-szie: 20px with <big>
 - when Nootka starts in single mode proxy corner appears
-- when tool bar is auto hide record melody icon is not set - some mark could be there
 - lock right button and space bar during correction
 - try to avoid many resizeEvent-s of TmultiScore during window size change
 - changing tool bar auto-hiding causes sometimes locked melody menu
@@ -43,28 +41,18 @@ MINOR:
 - on level load (i.e. Master) intonation combo reminds disabled even if q/a allowing it
 - There is unused class TnotePixmap only with default clef - use it or delete
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
-- add info about font and icons to About dialog
 - revert to native style under MacOs when Qt5
 
-TO CONSIDER:
-- In wizard: option for single note mode for very beginners
-- In audio in settings: option for average pitch of whole note (aka voice/guitar mode)
-- simplify license text - take translations from Wine project
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - average effectiveness line in chart
-- proxy corner widgets may be animated
 - tidy key signature in note pixmap (width depends on accidentals number)
-- text only tool bar
 - shrink a bit score and note name in single mode
-- Class that manages recent exams menu list and has colored item 'recent opened exams',
-    use recent exams list for analyzer the same as start exam dialog has (common class or method)
 - add blinking of settings icon(action) instead of expert check boxes in old versions
-- move status label out as a separate class and implement animations there (can be used in settings windows as well) 
+
 - make exam summary pretty
 - certificates would have some additional data about melodies
-- Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
-  then emitting signal should contain Tchunk instead Tnote
+  
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
      Also for questions in "hint" - don't show octave when only name is required 
@@ -80,7 +68,13 @@ TRANSLATIONS
 - rhythms in score
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
-- improve saving melodies to musicXML and opening/importing melodies from XML
+- Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
+     then emitting signal should contain Tchunk instead Tnote
+- unlock and improve saving melodies to musicXML and opening/importing melodies from XML
+  (MUSIC XML is not fully standard compatible (check what MuseScore complains))
+- Class that manages recent exams menu list and has colored item 'recent opened exams',
+    use recent exams list for analyzer the same as start exam dialog has (common class or method)
+- add extra marks over score when it is in record mode or melody is playing
 - managing melodies in levels, adding set of melodies to the level
 - settings for keyboard shortcuts
 - sophisticated and configurable algorithm to generate random melodies
@@ -93,13 +87,23 @@ TRANSLATIONS
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - comparing exams (charts)
 - keep exam file in /tmp and restore it when crash or so
+- proxy corner widgets may be animated (???)
 - add sound during wizard and About dialog (???)
 - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
 - enable/disable animations option
 - restart ASIO when it is changed by user or just display info to restart Nootka
+- text only tool bar
+- migrate on preferring 48000 sample rate (ogg files and audio methods)
+- move status label out as a separate class and implement animations there (can be used in settings windows as well) 
+
+
 
 Tnote
 	- overload + and - operators to raise/drop a note
 	- make appropriate methods const
+
+TO CONSIDER:
+  - In wizard: option for single note mode for very beginners
+  - simplify license text - take translations from Wine project
 
 
