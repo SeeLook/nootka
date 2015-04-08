@@ -52,7 +52,7 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 	toolW->setObjectName("toolBar");
 	
 	m_mainLay = new QBoxLayout(QBoxLayout::TopToBottom);
-		m_mainLay->setContentsMargins(1, 2, 1, 2);
+		m_mainLay->setContentsMargins(2, 2, 2, 2);
 		m_statAndPitchLay = new QBoxLayout(QBoxLayout::LeftToRight);
 		  m_statAndPitchLay->addWidget(m_status);
 		  m_statAndPitchLay->addWidget(m_pitch);
@@ -76,6 +76,7 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 
 void TmainView::addNoteName() {
 	if (!m_nameLay) {
+    m_mainLay->setContentsMargins(7, 2, 7, 2);
 		m_name->installEventFilter(this);
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 		m_name->setParent(0);
@@ -97,6 +98,7 @@ void TmainView::takeNoteName() {
 		m_nameLay = 0;
 		m_name->hide();
 		m_name->enableArrows(true);
+    m_mainLay->setContentsMargins(2, 2, 2, 2);
 	}
 }
 
