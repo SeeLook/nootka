@@ -454,9 +454,10 @@ void TmainScore::clearScore() {
 
 void TmainScore::askQuestion(Tnote note, char realStr) {
 	setQuestionMarkPos();
-	TsimpleScore::setNote(1, note);
 	setBGcolor(Tcolor::merge(Tcore::gl()->EquestionColor, mainWindow()->palette().window().color()));
 	m_questMark->show();
+  TsimpleScore::setNote(1, note);
+  staff()->noteSegment(1)->setColor(palette().text().color()); // Otherwise note is strange light
 	if (realStr) 
 		setStringNumber(1, realStr);
 }

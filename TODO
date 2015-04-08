@@ -19,7 +19,6 @@ PITCH DETECTION IMPROVEMENTS
 - put message to user about his responsibility to sound quality
 
 MINOR:
-- note color when it is a question in single mode is strange (pale)
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
@@ -44,7 +43,6 @@ MINOR:
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - average effectiveness line in chart
-- shrink a bit score and note name in single mode
 - make exam summary pretty
 - certificates would have some additional data about melodies
    
