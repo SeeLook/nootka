@@ -72,9 +72,9 @@ TquestionTip::TquestionTip(Texam* exam, double scale) :
   m_markCorner(false),
   m_minimized(false)
 {
-  hide();
+  setOpacity(0.0);
   m_fadeInAnim = new TfadeAnim(this);
-  m_fadeInAnim->setEasingCurveType(QEasingCurve::InExpo);
+  m_fadeInAnim->setEasingCurveType(QEasingCurve::OutCubic);
   m_fadeInAnim->startFade(1.0);
 	setAcceptHoverEvents(true);
 // gradient a'la staff lines

@@ -40,48 +40,49 @@ class questionsSettings : public TabstractLevelPage
 {
     Q_OBJECT
 public:
-    explicit questionsSettings(TlevelCreatorDlg *creator);
+  explicit questionsSettings(TlevelCreatorDlg *creator);
 
-    virtual void loadLevel(Tlevel *level);
-    virtual void saveLevel(Tlevel *level);
-		
+  virtual void loadLevel(Tlevel *level);
+  virtual void saveLevel(Tlevel *level);
 
-				/** Hides options related to guitar  */
-		void hideGuitarRelated();
-    
-    void setMelodiesEnabled(bool enableMelodies); /** Switches between melodies and single note.  */
-		
+
+      /** Hides options related to guitar  */
+  void hideGuitarRelated();
+
+  void setMelodiesEnabled(bool enableMelodies); /** Switches between melodies and single note.  */
+
 signals:
-    void questSettChanged(); /** If any GUI element is changed this signal is emitted. */
-    void scoreEnabled(bool); /** emitted when note in score are disabled. */
-    void accidEnabled(bool); /** emitted when note in score and names are all disabled or all enabled.  */
-    
+  void questSettChanged(); /** If any GUI element is changed this signal is emitted. */
+  void scoreEnabled(bool); /** emitted when note in score are disabled. */
+  void accidEnabled(bool); /** emitted when note in score and names are all disabled or all enabled.  */
+
 public slots:
-    void stringsCheckedSlot(bool checked);
-		void singleMultiSlot(); /** Responses for switching between single note/melody mode. */
-		void melodyQuestionSlot(); /** Sets appropriate boxes for melodies in single note table */
-		virtual void changed();
-    
+  void stringsCheckedSlot(bool checked);
+  void singleMultiSlot(); /** Responses for switching between single note/melody mode. */
+  void melodyQuestionSlot(); /** Sets appropriate boxes for melodies in single note table */
+  virtual void changed();
+
 protected:
-    void paintEvent(QPaintEvent*); /** Paints lines of a table*/
-		
+  void paintEvent(QPaintEvent*); /** Paints lines of a table*/
+  void adjustToLevel(); /** Checks values were set and locks/unlocks suitable widgets. */
+
 
 private:
-    QWidget 							*m_tableWdg;
-    QLabel 								*m_questLab; // QLabel with 'QUESTION' text
-    QLabel				 				*m_answLab; // fake QLabel to keep space
-    QLabel 								*m_asSoundLab, *m_asFretLab, *m_soundNooLab, *m_qSoundNooLab;
-		QLabel								*m_guitarNooLab, *m_qGuitarNooLab;
-    TquestionAsWdg 				*asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
-    QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *showStrNrChB;
-    QCheckBox 						*lowPosOnlyChBox;
-		QComboBox 						*m_intonationCombo;
-		QGroupBox 						*m_singleGr, *m_melodiesGr;
-		QCheckBox 						*m_playMelodyChB, *m_writeMelodyChB, *m_finishOnTonicChB;
-		QSpinBox							*m_melodyLengthSpin;
+  QWidget 							*m_tableWdg;
+  QLabel 								*m_questLab; // QLabel with 'QUESTION' text
+  QLabel				 				*m_answLab; // fake QLabel to keep space
+  QLabel 								*m_asSoundLab, *m_asFretLab, *m_soundNooLab, *m_qSoundNooLab;
+  QLabel								*m_guitarNooLab, *m_qGuitarNooLab;
+  TquestionAsWdg 				*asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
+  QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *showStrNrChB;
+  QCheckBox 						*lowPosOnlyChBox;
+  QComboBox 						*m_intonationCombo;
+  QGroupBox 						*m_singleGr, *m_melodiesGr;
+  QCheckBox 						*m_playMelodyChB, *m_writeMelodyChB, *m_finishOnTonicChB;
+  QSpinBox							*m_melodyLengthSpin;
 
 private slots:
-    void whenParamsChanged(); /** Every element calls this when clicked. */
+  void whenParamsChanged(); /** Every element calls this when clicked. */
 
 };
 

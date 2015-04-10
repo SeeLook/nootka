@@ -249,6 +249,7 @@ void questionsSettings::loadLevel(Tlevel* level) {
 				m_writeMelodyChB->setChecked(false);
 		}
 	blockSignals(false);
+  adjustToLevel();
 }
 
 
@@ -303,17 +304,15 @@ void questionsSettings::changed() {
 //###################              PRIVATE             ############################################
 //#################################################################################################
 
-
-
-void questionsSettings::whenParamsChanged() {	
+void questionsSettings::adjustToLevel() {
 // Disable 'show string' and 'lowest position only' when no answers as guitar and/or sound
   if (lowPosOnlyChBox->isVisible()) {
     bool lowDisabled = false;
-    if (!asNoteWdg->answerAsPos() && !asNameWdg->answerAsPos() && 
+    if (!asNoteWdg->answerAsPos() && !asNameWdg->answerAsPos() &&
               !asFretPosWdg->answerAsPos() && !asSoundWdg->answerAsPos() &&
-              !asNoteWdg->answerAsSound() && !asNameWdg->answerAsSound() && 
+              !asNoteWdg->answerAsSound() && !asNameWdg->answerAsSound() &&
               !asFretPosWdg->answerAsSound() && !asSoundWdg->answerAsSound())
-        lowDisabled = true;		
+        lowDisabled = true;
 // Disable showStrNrChB & lowPosOnlyChBox  if question and answer are on guitar
     if (asFretPosWdg->isChecked() && asFretPosWdg->answerAsPos()) {
       showStrNrChB->setChecked(true);
@@ -330,6 +329,12 @@ void questionsSettings::whenParamsChanged() {
       m_intonationCombo->setDisabled(false);
   else
       m_intonationCombo->setDisabled(true);
+}
+
+
+
+void questionsSettings::whenParamsChanged() {	
+  adjustToLevel();
   changedLocal();
 }
 

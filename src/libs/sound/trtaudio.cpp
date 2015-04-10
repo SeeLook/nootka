@@ -42,7 +42,7 @@ RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 bool 															TrtAudio::m_JACKorASIO = false;
 bool 															TrtAudio::forceUpdate = false;
 
-int                               m_preferredBF = 1024;
+int                               m_preferredBF = 512;
 
 void TrtAudio::createRtAudio() {
 	if (m_rtAduio == 0) { // Create RtAudio instance if doesn't exist
