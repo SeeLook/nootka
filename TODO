@@ -13,6 +13,8 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
+- crash when more staves exists and key signature is enabled/disabled
+- midi output disables volume viewer
 - crash on terminate in Oxygen due to animation on status label
 
 PITCH DETECTION IMPROVEMENTS

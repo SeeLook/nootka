@@ -18,7 +18,6 @@
 
 
 #include "trtaudioout.h"
-#include "taudioobject.h"
 #include "toggscale.h"
 #include <taudioparams.h>
 #include <QDebug>
@@ -196,6 +195,8 @@ bool TaudioOUT::play(int noteNr) {
   }
   m_samplesCnt = -1;
 //   if (loops) qDebug() << "latency:" << loops << "ms";
+  if (areStreamsSplit() && state() != e_playing)
+    openStream();
   return startStream();
 }
 

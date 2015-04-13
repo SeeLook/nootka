@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "trtaudioin.h"
-#include "taudioobject.h"
 #include "taudioparams.h"
 #include <QDebug>
 
@@ -77,6 +76,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 	connect(m_pitch, &TpitchFinder::pitchInChunk, this, &TaudioIN::pitchInChunkSlot, Qt::DirectConnection);
 	connect(m_pitch, &TpitchFinder::volume, this, &TaudioIN::volumeSlot, Qt::DirectConnection);
 	connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot, Qt::DirectConnection);
+  connect(ao(), &TaudioObject::playingFinished, this, &TaudioIN::playingFinishedSlot);
 }
 
 TaudioIN::~TaudioIN()
@@ -103,7 +103,7 @@ void TaudioIN::setAudioInParams() {
   m_pitch->setSkipStillerVal(audioParams()->skipStillerVal / 100.0);
   m_pitch->aGl()->equalLoudness = audioParams()->equalLoudness;
 
-	m_pitch->setSampleRate(sampleRate(), m_currentRange); // framesPerChunk is determined here
+	m_pitch->setSampleRate(inRate(), m_currentRange); // framesPerChunk is determined here
 	m_volume = 0.0;
 //   qDebug() << "setAudioInParams" << "\nrate:" << sampleRate() << "\nmethod:" << audioParams()->detectMethod
 //            << "\nmin duration" << audioParams()->minDuration << "\nmin volume" << audioParams()->minimalVol
@@ -174,8 +174,11 @@ void TaudioIN::startListening() {
 	}
 	if (state() != e_listening) {
     m_volume = 0.0;
-    if (!m_stoppedByUser && startStream()) {
-      setState(e_listening);
+    if (!m_stoppedByUser) {
+      if (areStreamsSplit() && state() != e_listening)
+        openStream();
+      if (startStream())
+        setState(e_listening);
 // 			qDebug() << "start listening";
 		}
   }
@@ -187,13 +190,12 @@ void TaudioIN::stopListening() {
 //     qDebug() << "stop listening";
     m_volume = 0.0;
     m_LastChunkPitch = 0.0;
-		if (rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
+		if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
 			abortStream();
     setState(e_stopped);
     m_pitch->resetFinder();
   }
 }
-
 
 
 void TaudioIN::pitchInChunkSlot(float pitch) {
@@ -228,6 +230,19 @@ void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
   } else 
 			m_lastNote.set(); // reset last detected note structure
 }
+
+//#################################################################################################
+//###################               PRIVATE SLOTS      ############################################
+//#################################################################################################
+
+void TaudioIN::playingFinishedSlot() {
+  if (m_state == e_listening) {
+    openStream();
+    startStream();
+  }
+}
+
+
 
 
 
