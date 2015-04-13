@@ -128,7 +128,7 @@ public slots:
 	void stopListening();
   
 protected:
-	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
+	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus&) {
     if (m_goingDelete || instance()->isStoped())
       return true;
     qint16 *in = (qint16*)inBuff;
@@ -147,6 +147,7 @@ private slots:
 	void updateSlot() { setAudioInParams(); }
 	void noteStartedSlot(qreal pitch, qreal freq, qreal duration);
 	void noteFinishedSlot(TnoteStruct* lastNote);
+  void playingFinishedSlot();
   
   void setState(Estate st) { m_state = st; emit stateChanged((int)st); }
   

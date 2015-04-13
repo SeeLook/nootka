@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,10 +37,12 @@ public:
 	
 	void emitStreamOpened() { emit streamOpened(); }
 	void emitParamsUpdated() { emit paramsUpdated(); }
+	void emitPlayingFinished() { emit playingFinished(); }
 	
 signals:
 	void streamOpened();
 	void paramsUpdated(); /** Emitted after @p TrtAudio::updateAudioParams()  */
+  void playingFinished(); /** Emitted when all note data were send */
 	
 };
 

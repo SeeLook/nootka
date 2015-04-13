@@ -23,10 +23,10 @@
 
 #include "nootkasoundglobal.h"
 #include "rt/RtAudio.h"
+#include "taudioobject.h"
 #include <QString>
 
 class TaudioParams;
-class TaudioObject;
 
 
 /** 
@@ -38,6 +38,15 @@ class TaudioObject;
  * It has protected @member ao() which can emits signals
  * It can switch from/to JACK or ASIO with @p setJACKorASIO(bool) method
  * but use @p initJACKorASIO(bool) before first creation of @class TrtAudio to set preferred API
+ * It works with split callbacks by default
+ * - stream is opened for input and when output is demanded
+ * - input is closed and output opened.
+ * When @p updateAudioParams() will detect @p TaudioParams::forwardInput
+ * or ASIO API then duplex stream works.
+ * @p TaudioParams::forwardInput will work properly only when input and output
+ * are on the same audio device or ASIO or JACK is set.
+ * In other case @p TaudioParams::forwardInput doesn't work with different devices
+ * due to syncing issues of RtAudio.
  */
 class NOOTKASOUND_EXPORT TrtAudio
 {
@@ -48,6 +57,8 @@ public:
 
 	TrtAudio(TaudioParams *audioP, TrtAudio::EdevType type, TrtAudio::callBackType cb);
 	~TrtAudio();
+
+  enum EaudioState { e_duplex, e_playing, e_listening, e_iddle };
 	
 	QString deviceName() { if (m_type == e_input) return m_inDevName; else return m_outDevName; }
 	
@@ -56,6 +67,8 @@ public:
 	void stopAudio() { stopStream(); }
 	void terminate() { closeStream(); }
 	static void apiStopOrClose(); /** This method stops or closes audio stream depends on current API. */
+
+  static bool areStreamsSplit() { return m_areSplit; }
 	
 #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
 	static void setJACKorASIO(bool jack);
@@ -84,7 +97,10 @@ public:
 				* It is single instance for entire application */
 	static RtAudio* rtDevice() { return m_rtAduio; }
 	
-	static quint32 sampleRate() { return m_sampleRate; }
+	static quint32 sampleRate() { return m_sampleRate; } /** Common sample rate for duplex callback */
+	static quint32 inRate() { return m_inSR; } /** Sample rate of input stream when split */
+	static quint32 outRate() { return m_outSR; } /** Sample rate of output stream when split */
+	static EaudioState state() { return m_state; } /** Current state of audio device */
 	
 protected:		
 	static RtAudio::StreamOptions *streamOptions;
@@ -108,6 +124,8 @@ protected:
 	
 	bool openStream();
 	bool startStream();
+  bool play();
+  bool listen();
 	static void stopStream();
 	static void closeStream();
 	static void abortStream();
@@ -130,10 +148,7 @@ protected:
 	static int getDefaultOut(); /** Returns default output device for current API or -1 if error. */
 	
 private:
-	static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
-												RtAudioStreamStatus status, void *userData) {
-    Q_UNUSED (streamTime)
-    Q_UNUSED (userData)
+	static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
     if (m_cbOut) {
       if (m_cbOut(outBuffer, nBufferFrames, status))
         if (m_cbIn)
@@ -144,10 +159,7 @@ private:
     return 0;
   }
 
-	static int passInputCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double streamTime,
-												RtAudioStreamStatus status, void *userData) {
-    Q_UNUSED (streamTime)
-    Q_UNUSED (userData)
+	static int passInputCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
     qint16 *in = (qint16*)inBuffer;
     qint16 *out = (qint16*)outBuffer;
     if (m_cbOut(outBuffer, nBufferFrames, status)) // none playing is performed
@@ -158,18 +170,31 @@ private:
     m_cbIn(inBuffer, nBufferFrames, status);
     return 0;
   }
+
+  static int playCallBack(void *outBuffer, void*, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+    if (m_cbOut(outBuffer, nBufferFrames, status))
+      ao()->emitPlayingFinished();
+    return 0;
+  }
+
+  static int listenCallBack(void*, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+    m_cbIn(inBuffer, nBufferFrames, status);
+    return 0;
+  }
 	
 private:
 	TaudioParams													*m_audioParams;
 	static RtAudio					 							*m_rtAduio;
 	EdevType															 m_type;
+  static bool                            m_areSplit;
+  static EaudioState                     m_state;
 	static QString  											 m_inDevName, m_outDevName;
 	static RtAudio::StreamParameters 			*m_inParams;
 	static RtAudio::StreamParameters 			*m_outParams;
-	static quint32 												 m_sampleRate;
+  static quint32 												 m_sampleRate; /** Common sample rate (for duplex callback) */
+  static quint32                         m_inSR, m_outSR;
 	static unsigned int										 m_bufferFrames;
 	static bool														 m_isAlsaDefault;
-	bool																	 m_isOpened;
 	static callBackType										 m_cbIn, m_cbOut;
 	static TaudioObject										*m_ao;
 	static RtAudioCallback								 m_callBack;
