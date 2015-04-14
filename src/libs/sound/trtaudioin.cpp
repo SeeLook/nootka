@@ -35,7 +35,7 @@ QStringList TaudioIN::getAudioDevicesList() {
 			if (!getDeviceInfo(devInfo, i))
 				continue;
 			if (devInfo.probed && devInfo.inputChannels > 0)
-				devList << QString::fromUtf8(devInfo.name.data());
+				devList << convDevName(devInfo);
 	}
 	if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
 			devList.prepend("ALSA default");
