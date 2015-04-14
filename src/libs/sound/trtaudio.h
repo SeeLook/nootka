@@ -146,6 +146,14 @@ protected:
 	static unsigned int getDeviceCount(); /** Returns number of available audio devices or 0 if none or error occurred. */
 	static int getDefaultIn(); /** Returns default input device for current API or -1 if error. */
 	static int getDefaultOut(); /** Returns default output device for current API or -1 if error. */
+
+			/** Converts device name of @p devInf determining proper encoding which depends on current API. */
+	static QString convDevName(RtAudio::DeviceInfo& devInf) {
+		if (getCurrentApi() == RtAudio::WINDOWS_WASAPI)
+			return QString::fromUtf8(devInf.name.data());
+		else
+			return QString::fromLocal8Bit(devInf.name.data());
+	}
 	
 private:
 	static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
