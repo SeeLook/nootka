@@ -133,7 +133,6 @@ void TmainScore::acceptSettings() {
 // Note names on the score
 	if (Tcore::gl()->S->nameColor != scoreScene()->nameColor()) {
 			refreshNoteNames = true;
-// 			m_acts->noteNames()->setThisColors(Tcore::gl()->S->nameColor, palette().highlightedText().color());
 			scoreScene()->setNameColor(Tcore::gl()->S->nameColor);
 	}
 	if (Tcore::gl()->S->namesOnScore != m_acts->noteNames()->isChecked() || refreshNoteNames) {
@@ -155,8 +154,6 @@ void TmainScore::acceptSettings() {
 	else
 			if (staff()->hasScordature())
 				staff()->removeScordatute();
-// 	if (!Tcore::gl()->S->doubleAccidentalsEnabled)
-// 		clearNote(2);
 	if (Tcore::gl()->S->keySignatureEnabled) // refreshKeySignNameStyle();
 		if (staff()->scoreKey())
 			staff()->scoreKey()->showKeyName(Tcore::gl()->S->showKeySignName);
@@ -170,11 +167,6 @@ void TmainScore::acceptSettings() {
 		setKeySignature(keySignature());
 	}
 	enableAccidToKeyAnim(true);
-// 	if (Tcore::gl()->S->isSingleNoteMode) {
-// 		setInsertMode(e_single);
-// 		setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
-// 	} else
-// 		setInsertMode(e_multi);
 	if (m_nameMenu) {
 			m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
 			m_nameMenu->setEnabledEnharmNotes(Tcore::gl()->S->showEnharmNotes);
@@ -182,6 +174,7 @@ void TmainScore::acceptSettings() {
 			m_nameMenu->setStyle(Tcore::gl()->S->nameStyleInNoteName);
 // 			m_nameMenu->setAmbitus(Tcore::gl()->loString(), Tnote(Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber));
 	}
+	resizeEvent(0);
 }
 
 
