@@ -271,7 +271,9 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 				connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
 			}
 		} else {
+        m_keySignature->blockSignals(true);
         m_keySignature->setKeySignature(0);
+        onKeyChanged();
         delete m_keySignature;
         m_keySignature = 0;
         m_accidAnim->deleteLater();
@@ -387,16 +389,13 @@ int TscoreStaff::fixNotePos(int pianoPos) {
 
 
 void TscoreStaff::setViewWidth(qreal viewW) {
-	if (viewW != m_viewWidth) {
-		m_viewWidth = viewW;
-		int oldMax = m_maxNotesCount;
-		if (viewW > 0.0)
-			m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
-		else
-			m_maxNotesCount = 0;
-		updateLines(); // calls updateWidth() as well
-		updateNotesPos();
-	}
+  m_viewWidth = viewW;
+  if (viewW > 0.0)
+    m_maxNotesCount = getMaxNotesNr(mapFromScene(viewW, 0.0).x());
+  else
+    m_maxNotesCount = 0;
+  updateLines(); // calls updateWidth() as well
+  updateNotesPos();
 }
 
 
