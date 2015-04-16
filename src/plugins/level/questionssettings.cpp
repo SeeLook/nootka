@@ -329,13 +329,23 @@ void questionsSettings::adjustToLevel() {
       m_intonationCombo->setDisabled(false);
   else
       m_intonationCombo->setDisabled(true);
+// Disable name styles when no name as question or answer
+  if (m_melodiesGr->isChecked() ||
+      !(asNameWdg->isChecked() || asNoteWdg->answerAsName() || asFretPosWdg->answerAsName() || asSoundWdg->answerAsName())) {
+      styleRequiredChB->setChecked(false);
+      styleRequiredChB->setDisabled(true);
+  } else {
+      styleRequiredChB->setDisabled(false);
+  }
 }
 
 
 
-void questionsSettings::whenParamsChanged() {	
-  adjustToLevel();
-  changedLocal();
+void questionsSettings::whenParamsChanged() {
+  if (!signalsBlocked()) {
+    adjustToLevel();
+    changedLocal();
+  }
 }
 
 

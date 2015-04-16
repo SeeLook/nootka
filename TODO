@@ -32,7 +32,6 @@ MINOR:
 - add minimal zoom value depends on screen resolution
 - let clef menu works as such as note name pop up - extract common class with under-laying tip
 - stop sniffer when melody dialogues are opening
-- creator "use different names" switch of Questions remains enabled for melodies where names are unused
 - when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds
 - auto hidden tool bar remains big after decreased window size
 
