@@ -348,8 +348,6 @@ set(LIB_NOOTKASOUND_SRC
 	trtaudioin.cpp
 	trtaudioout.cpp
 	tsound.cpp
-
-	tasioemitter.h
 	
 	rt/RtAudio.cpp
 	rt/RtMidi.cpp
@@ -379,7 +377,7 @@ set(LIB_NOOTKASOUND_SRC
 
 IF(WIN32)
 	list(APPEND LIB_NOOTKASOUND_SRC
-#     main.cpp
+    tasioemitter.h
 		rt/asio.cpp
 		rt/asiodrivers.cpp
 		rt/asiolist.cpp

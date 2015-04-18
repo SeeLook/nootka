@@ -18,7 +18,9 @@
 
 #include "trtaudioin.h"
 #include "taudioparams.h"
-#include "tasioemitter.h"
+#if defined(Q_OS_WIN)
+  #include "tasioemitter.h"
+#endif
 #include <QDebug>
 
 
@@ -106,8 +108,10 @@ void TaudioIN::setAudioInParams() {
 
 	m_pitch->setSampleRate(inRate(), m_currentRange); // framesPerChunk is determined here
 	m_volume = 0.0;
+#if defined(Q_OS_WIN)
   if (getCurrentApi() == RtAudio::WINDOWS_ASIO)
     connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioIN::ASIORestartSlot, Qt::UniqueConnection);
+#endif
 //   qDebug() << "setAudioInParams" << "\nrate:" << sampleRate() << "\nmethod:" << audioParams()->detectMethod
 //            << "\nmin duration" << audioParams()->minDuration << "\nmin volume" << audioParams()->minimalVol
 //            << "\nsplit volume" << (m_pitch->isSplitByVolume() ? m_pitch->minVolumeToSplit() * 100.0 : 0.0)
@@ -245,11 +249,11 @@ void TaudioIN::playingFinishedSlot() {
   }
 }
 
-
+#if defined(Q_OS_WIN)
 void TaudioIN::ASIORestartSlot() {
   restartASIO();
 }
-
+#endif
 
 
 
