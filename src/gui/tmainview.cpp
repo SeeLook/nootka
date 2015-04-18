@@ -164,6 +164,7 @@ void TmainView::setBarAutoHide(bool autoHide) {
 			m_barLine->hide();
 			updateBarLine();
 			static_cast<TtoolBar*>(m_tool)->setProxy(m_proxyBar);
+      startHideAnim();
 		} else {
 			if (m_proxyBar) {
 				m_proxyBar->setWidget(0);
@@ -209,7 +210,7 @@ void TmainView::mouseMoveEvent(QMouseEvent* event) {
 					m_barLine->hide();
 				}
 				m_timer->stop();
-				if (m_proxyBar->isVisible() && event->y() > m_proxyBar->boundingRect().height())
+				if (m_proxyBar->pos().y() == 0.0 && event->y() > m_proxyBar->boundingRect().height())
 					startHideAnim();
 		}
 	}
@@ -257,11 +258,7 @@ void TmainView::menuSlot(Tmenu* m) {
 		xOff = m_proxyBar->pos().x();
 	}
 	QPoint scoreGlobalPos = mapToGlobal(m_score->pos());
-#if defined (Q_OS_WIN)
-	m->move(xOff + scoreGlobalPos.x() + m_tool->height() * 2, scoreGlobalPos.y());
-#else
-	m->move(xOff + scoreGlobalPos.x() + m->pos().x(), scoreGlobalPos.y());
-#endif
+  m->move(QCursor::pos().x() - 5, scoreGlobalPos.y());
 }
 
 

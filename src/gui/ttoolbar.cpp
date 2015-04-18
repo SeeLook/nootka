@@ -255,8 +255,8 @@ void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 	}
 	m_nootLabel->setMaximumHeight(tmpSize * 1.5);
 	adjustSize();
-// 	if (m_proxy)
-// 		m_proxy->adjustSize();
+	if (m_proxy)
+		m_proxy->adjustSize();
 }
 
 
@@ -266,6 +266,7 @@ void TtoolBar::setProxy(QGraphicsProxyWidget* proxy) {
 		m_spacer->show();
 	else
 		m_spacer->hide();
+  update();
 }
 
 
@@ -275,6 +276,12 @@ void TtoolBar::resizeEvent(QResizeEvent* event) {
 		m_proxy->resize(size());
 	}
 }
+
+
+
+
+
+
 
 
 

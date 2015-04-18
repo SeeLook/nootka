@@ -18,12 +18,12 @@
 
 
 #include "tintonationview.h"
+#include "tleavemenu.h"
 #include <QPainter>
 #include <QMouseEvent>
 #include <QVBoxLayout>
 #include <QComboBox>
 #include <QLabel>
-#include <QMenu>
 #include <QDebug>
 #include <QTimer>
 #include <math.h>
@@ -206,7 +206,7 @@ void TintonationView::resizeEvent(QResizeEvent* ) {
 
 void TintonationView::mousePressEvent(QMouseEvent* e) {
 	if (e->button() == Qt::LeftButton && m_overNote) {
-		QMenu menu(this);
+		TleaveMenu menu;
 		for (int i = 0; i < 6; ++i) {
 			QAction *a = menu.addAction(TintonationCombo::intonationAccuracyTr(Eaccuracy(i)));
 			a->setData(i);
@@ -214,7 +214,8 @@ void TintonationView::mousePressEvent(QMouseEvent* e) {
 			if (m_accuracy == Eaccuracy(i))
 				a->setChecked(true);
 		}
-		QAction *ia = menu.exec(QPoint(e->globalPos().x() - menu.sizeHint().width() / 2, e->globalPos().y() + (height() - e->y())));
+// 		QAction *ia = menu.exec(QPoint(e->globalPos().x() - menu.sizeHint().width() / 2, e->globalPos().y() + (height() - e->y())));
+    QAction *ia = menu.exec(QPoint(QCursor::pos()));
 		if (ia){
 			setAccuracy(ia->data().toInt());
 			m_pitchDiff = 0;
