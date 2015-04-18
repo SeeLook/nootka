@@ -150,6 +150,8 @@ private slots:
   void playingFinishedSlot();
   
   void setState(Estate st) { m_state = st; emit stateChanged((int)st); }
+
+  void ASIORestartSlot();
   
   
 private:  

@@ -577,6 +577,12 @@ quint32 TrtAudio::determineSampleRate(RtAudio::DeviceInfo& devInfo) {
 }
 
 
+void TrtAudio::restartASIO() {
+  qDebug() << "ASIO is going to be restarted";
+  closeStream();
+  startStream();
+}
+
 
 
 

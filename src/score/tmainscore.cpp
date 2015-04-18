@@ -231,6 +231,7 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 		if (ignoreThat)
 			return;
 		if (mode == e_single) {
+        m_delCorner->hideSpot();
         m_acts->mainAction()->setVisible(false);
 				m_nameMenu->enableArrows(false);
 				staff()->noteSegment(0)->removeNoteName();
