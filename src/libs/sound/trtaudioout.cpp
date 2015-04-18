@@ -159,10 +159,10 @@ void TaudioOUT::setAudioOutParams() {
 			oggScale->setSampleRate(oggSR);
 			// Shifts only float part of a440diff - integer part is shifted by play() method
 			oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
-
+#if defined(Q_OS_WIN)
       if (getCurrentApi() == RtAudio::WINDOWS_ASIO)
         connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioOUT::ASIORestartSlot, Qt::UniqueConnection);
-
+#endif
 	} else
         playable = false;
 }
@@ -213,10 +213,10 @@ void TaudioOUT::stop() {
 		abortStream();
 }
 
-
+#if defined(Q_OS_WIN)
 void TaudioOUT::ASIORestartSlot() {
   if (!hasCallBackIn()) // Perform restart only when no input otherwise input does it
     restartASIO();
 }
-
+#endif
 

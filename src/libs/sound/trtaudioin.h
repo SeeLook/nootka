@@ -150,9 +150,9 @@ private slots:
   void playingFinishedSlot();
   
   void setState(Estate st) { m_state = st; emit stateChanged((int)st); }
-
+#if defined(Q_OS_WIN)
   void ASIORestartSlot();
-  
+#endif
   
 private:  
       /** Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
