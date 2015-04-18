@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -119,25 +119,29 @@ protected slots:
 };
 
 //####################################################################################################
-/** Menu (context) to select a clef. */
+/**
+ * Menu (context) to select a clef.
+ */
 class NOOTKACORE_EXPORT TclefMenu : public TselectClefPrivate
 {
 		Q_OBJECT
 public:
-		TclefMenu(QMenu* parent = 0);
-		
-				/** Changes QMenu parent to given menu */
-		void setMenu(QMenu* menuParent);
-		
-		Tclef exec(QPoint pos);
-		
+  TclefMenu(QMenu* parent = 0);
+
+  void setMenu(QMenu* menuParent); /** Changes QMenu parent to given menu */
+
+  Tclef exec(QPoint pos);
+
+protected:
+  virtual bool eventFilter(QObject* ob, QEvent* e);
+
 protected slots:
-		virtual void clefWasSelected(Tclef clef);
-		
+  virtual void clefWasSelected(Tclef clef);
+
 private:
-		Tclef m_curentClef;
-		QMenu *m_menu;
-		
+  Tclef m_curentClef;
+  QMenu *m_menu;
+
 	
 };
 

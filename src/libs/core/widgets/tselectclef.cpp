@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,7 @@
 #include <QEvent>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QLayout>
 // #include <QDebug>
 
 
@@ -134,51 +135,51 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 	m_clef(clef),
 	m_hasMouseOver(false)
 {
-		QHBoxLayout *lay = new QHBoxLayout;
-		m_radio = new QRadioButton(this);
-		lay->addWidget(m_radio);
-		
+  QHBoxLayout *lay = new QHBoxLayout;
+  m_radio = new QRadioButton(this);
+  lay->addWidget(m_radio);
+  setMouseTracking(true);
+
 #if defined (Q_OS_ANDROID)
-		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 
-			qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 100.0), this);
+  QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
+    qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 100.0), this);
 // 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.0), this);
 #else
-		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 
-			qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 219.4285714285), this);
-// 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.5), this);
+  QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
+    qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 219.4285714285), this);
 #endif
-    lay->addWidget(pixLabel);
-    if (isMenu) {
-        QLabel *textLabel = new QLabel(m_clef.name().replace(" ", "<br>"), this);
-        lay->addWidget(textLabel);
-    }
-		lay->addStretch();
-		setLayout(lay);
-    QString clefUsage = "";
-    switch (clef.type()) {
-      case Tclef::e_treble_G:
-        clefUsage = tr("Common used clef (for violin, flute, saxophones, etc.)");
-        break;
-      case Tclef::e_treble_G_8down:
-        clefUsage = tr("Clef for guitars (classical, electric and so)");
-        break;
-      case Tclef::e_bass_F:
-        clefUsage = tr(" Bottom clef on the grand staff but also used for cello, trombone, etc.");
-        break;
-			case Tclef::e_bass_F_8down:
-        clefUsage = tr(" Clef for bass guitar and double bass.");
-        break;
-			case Tclef::e_alto_C:
-        clefUsage = tr("Sometimes it is called clef for viola and mostly used for this instrument.");
-        break;
-			default:
-				clefUsage = "";
-				break;
-    }
-		setStatusTip("<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")<br>" + clefUsage);
-		m_radio->setStatusTip(statusTip());
-		pixLabel->setStatusTip(statusTip());
-    connect(m_radio, SIGNAL(pressed()), this, SLOT(clefClickedSlot()));
+  lay->addWidget(pixLabel);
+  if (isMenu) {
+      QLabel *textLabel = new QLabel(m_clef.name().replace(" ", "<br>"), this);
+      lay->addWidget(textLabel);
+  }
+  lay->addStretch();
+  setLayout(lay);
+  QString clefUsage = "";
+  switch (clef.type()) {
+    case Tclef::e_treble_G:
+      clefUsage = tr("Common used clef (for violin, flute, saxophones, etc.)");
+      break;
+    case Tclef::e_treble_G_8down:
+      clefUsage = tr("Clef for guitars (classical, electric and so)");
+      break;
+    case Tclef::e_bass_F:
+      clefUsage = tr(" Bottom clef on the grand staff but also used for cello, trombone, etc.");
+      break;
+    case Tclef::e_bass_F_8down:
+      clefUsage = tr(" Clef for bass guitar and double bass.");
+      break;
+    case Tclef::e_alto_C:
+      clefUsage = tr("Sometimes it is called clef for viola and mostly used for this instrument.");
+      break;
+    default:
+      clefUsage = "";
+      break;
+  }
+  setStatusTip("<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")<br>" + clefUsage);
+  m_radio->setStatusTip(statusTip());
+  pixLabel->setStatusTip(statusTip());
+  connect(m_radio, SIGNAL(pressed()), this, SLOT(clefClickedSlot()));
 }
 
 
@@ -188,27 +189,29 @@ void TradioClef::setChecked(bool checked) {
 
 
 void TradioClef::clefClickedSlot() {
-		if (!m_radio->isChecked()) {
-			m_radio->setChecked(true);
-// 			emit selectedClef(m_clef);
-		}
-		emit selectedClef(m_clef);
+  if (!m_radio->isChecked())
+    m_radio->setChecked(true);
+  emit selectedClef(m_clef);
 }
 
 
 bool TradioClef::event(QEvent* event) {
-    if (event->type() == QEvent::Leave || event->type() == QEvent::Hide) {
-        m_hasMouseOver = false;
-				update();
-				emit statusTipWanted("");
-		} else if (event->type() == QEvent::Enter) {
-				m_hasMouseOver = true;
-				update();
-				emit statusTipWanted(statusTip());
-		}	else if (event->type() == QEvent::MouseButtonPress)
-				clefClickedSlot();
-		
-    return QWidget::event(event);
+  if (event->type() == QEvent::Leave || event->type() == QEvent::Hide) {
+      m_hasMouseOver = false;
+      update();
+      emit statusTipWanted("");
+  } else if (event->type() == QEvent::MouseMove && !m_hasMouseOver) {
+      m_hasMouseOver = true;
+      update();
+      emit statusTipWanted(statusTip());
+  } else if (event->type() == QEvent::Enter) {
+      m_hasMouseOver = true;
+      update();
+      emit statusTipWanted(statusTip());
+  }	else if (event->type() == QEvent::MouseButtonPress)
+      clefClickedSlot();
+
+  return QWidget::event(event);
 }
 
 
@@ -236,27 +239,27 @@ TselectClef::TselectClef(QWidget* parent) :
 
 
 void TselectClef::clefWasSelected(Tclef clef) {
-		emit clefSelected(clef);
+  emit clefSelected(clef);
 }
 
 
 Tclef TselectClef::selectedClef(){
-		if (treble->radio()->isChecked())
-			return Tclef(Tclef::e_treble_G);
-		if (treble_8->radio()->isChecked())
-			return Tclef(Tclef::e_treble_G_8down);
-		if (bass->radio()->isChecked())
-			return Tclef(Tclef::e_bass_F);
-		if (bass_8->radio()->isChecked())
-			return Tclef(Tclef::e_bass_F_8down);
-		if (alto->radio()->isChecked())
-			return Tclef(Tclef::e_alto_C);
-		if (tenor->radio()->isChecked())
-			return Tclef(Tclef::e_tenor_C);
-		if (piano->radio()->isChecked())
-			return Tclef(Tclef::e_pianoStaff);
-		else
-			return Tclef(Tclef::e_none);
+  if (treble->radio()->isChecked())
+    return Tclef(Tclef::e_treble_G);
+  if (treble_8->radio()->isChecked())
+    return Tclef(Tclef::e_treble_G_8down);
+  if (bass->radio()->isChecked())
+    return Tclef(Tclef::e_bass_F);
+  if (bass_8->radio()->isChecked())
+    return Tclef(Tclef::e_bass_F_8down);
+  if (alto->radio()->isChecked())
+    return Tclef(Tclef::e_alto_C);
+  if (tenor->radio()->isChecked())
+    return Tclef(Tclef::e_tenor_C);
+  if (piano->radio()->isChecked())
+    return Tclef(Tclef::e_pianoStaff);
+  else
+    return Tclef(Tclef::e_none);
 }
 
 
@@ -265,8 +268,9 @@ TclefMenu::TclefMenu(QMenu* parent) :
 	TselectClefPrivate(true, new QWidget(parent)),
 	m_menu(parent)
 {
-		m_menu->setLayout(TselectClefPrivate::layout());
-		m_curentClef = Tclef(Tclef::e_none);
+  m_menu->setLayout(TselectClefPrivate::layout());
+  m_menu->installEventFilter(this);
+  m_curentClef = Tclef(Tclef::e_none);
 }
 
 
@@ -275,24 +279,35 @@ void TclefMenu::setMenu(QMenu* menuParent) {
 		TselectClefPrivate::setLayout(m_menu->layout());
 	m_menu = menuParent;
 	setParent(menuParent);
-	if (m_menu) // When new menu - add a layout to it
+	if (m_menu) { // When new menu - add a layout to it
 		m_menu->setLayout(TselectClefPrivate::layout());
+    m_menu->installEventFilter(this); // grab leave event
+  }
 }
 
 
 Tclef TclefMenu::exec(QPoint pos) {
-		if (!m_menu)
-			return Tclef(Tclef::e_none);
-		m_menu->move(pos); // It works everywhere (Qt style)
-		m_menu->exec(); // in contrary to exec(pos) 
-		return m_curentClef;
+  if (!m_menu)
+    return Tclef(Tclef::e_none);
+  m_menu->move(pos.x(), qMin<int>(pos.y(), qApp->desktop()->availableGeometry().height() * 0.55)); // It works everywhere (Qt style)
+  m_menu->exec(); // in contrary to exec(pos)
+  return m_curentClef;
 }
 
 
 
 void TclefMenu::clefWasSelected(Tclef clef) {
-		m_curentClef = clef;
-		m_menu->close();
+  m_curentClef = clef;
+  m_menu->close();
+}
+
+
+bool TclefMenu::eventFilter(QObject* ob, QEvent* e) {
+  if (ob == m_menu && e->type() == QEvent::Leave) {
+    m_curentClef = Tclef(Tclef::e_none);
+    m_menu->close();
+  }
+  return QObject::eventFilter(ob, e);
 }
 
 

@@ -128,29 +128,26 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (m_readOnly) {
 		TscoreItem::mousePressEvent(event);
 	} else {
-			if (!m_menu) {
-				m_menu = new QMenu(scoreScene()->views()[0]);
-				m_menu->setObjectName("clefMenu");
-				m_menu->setStyleSheet("QWidget#clefMenu { background-color: palette(window); }");
-				if (!m_clefMenu)
-						m_clefMenu = new TclefMenu(m_menu);
-				else
-						m_clefMenu->setMenu(m_menu);
-				Tclef curClef = m_clef;
-				if (staff()->isPianoStaff())
-					curClef = Tclef(Tclef::e_pianoStaff);
-				m_clefMenu->selectClef(curClef);
-				connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
-				QPoint mPos = scoreScene()->views()[0]->mapToGlobal(QPoint(8 * scoreScene()->views()[0]->transform().m11(), 10));
-				Tclef cl = m_clefMenu->exec(mPos);
-				m_clefMenu->setMenu(0);
-				delete m_menu;
-				if (cl.type() == Tclef::e_none)
-					return;
-				if (curClef.type() != cl.type()) {
-					emit clefChanged(cl);
-				}
-			}
+    if (!m_menu) {
+      m_menu = new QMenu();
+      if (!m_clefMenu)
+          m_clefMenu = new TclefMenu(m_menu);
+      else
+          m_clefMenu->setMenu(m_menu);
+      Tclef curClef = m_clef;
+      if (staff()->isPianoStaff())
+        curClef = Tclef(Tclef::e_pianoStaff);
+      m_clefMenu->selectClef(curClef);
+      connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
+      Tclef cl = m_clefMenu->exec(QCursor::pos());
+      m_clefMenu->setMenu(0);
+      delete m_menu;
+      if (cl.type() == Tclef::e_none)
+        return;
+      if (curClef.type() != cl.type()) {
+        emit clefChanged(cl);
+      }
+    }
 	}
 }
 #endif
