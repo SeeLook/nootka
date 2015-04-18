@@ -60,6 +60,8 @@ protected:
 private slots:
 	void streamOpenedSlot();
 	void updateSlot() { setAudioOutParams(); }
+
+	void ASIORestartSlot();
     
 private:
   static int 			m_samplesCnt; /** Number of performed samples. */

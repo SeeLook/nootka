@@ -19,6 +19,7 @@
 
 #include "trtaudioout.h"
 #include "toggscale.h"
+#include "tasioemitter.h"
 #include <taudioparams.h>
 #include <QDebug>
 #include <QTimer>
@@ -158,6 +159,10 @@ void TaudioOUT::setAudioOutParams() {
 			oggScale->setSampleRate(oggSR);
 			// Shifts only float part of a440diff - integer part is shifted by play() method
 			oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
+
+      if (getCurrentApi() == RtAudio::WINDOWS_ASIO)
+        connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioOUT::ASIORestartSlot, Qt::UniqueConnection);
+
 	} else
         playable = false;
 }
@@ -208,5 +213,10 @@ void TaudioOUT::stop() {
 		abortStream();
 }
 
+
+void TaudioOUT::ASIORestartSlot() {
+  if (!hasCallBackIn()) // Perform restart only when no input otherwise input does it
+    restartASIO();
+}
 
 

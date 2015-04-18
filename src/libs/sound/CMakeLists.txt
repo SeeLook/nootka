@@ -348,6 +348,8 @@ set(LIB_NOOTKASOUND_SRC
 	trtaudioin.cpp
 	trtaudioout.cpp
 	tsound.cpp
+
+	tasioemitter.h
 	
 	rt/RtAudio.cpp
 	rt/RtMidi.cpp

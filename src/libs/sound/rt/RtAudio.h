@@ -257,6 +257,7 @@ typedef void (*RtAudioErrorCallback)( RtAudioError::Type type, const std::string
 // **************************************************************** //
 
 class RtApi;
+class TASIOEmitter;
 
 class RtAudio
 {
@@ -567,6 +568,8 @@ class RtAudio
   //! Specify whether warning messages should be printed to stderr.
   void showWarnings( bool value = true ) throw();
 
+  TASIOEmitter* emitter();
+
  protected:
 
   void openRtApi( RtAudio::Api api );
@@ -698,11 +701,14 @@ public:
   bool isStreamRunning( void ) const { return stream_.state == STREAM_RUNNING; }
   void showWarnings( bool value ) { showWarnings_ = value; }
 
+  static TASIOEmitter* ASIOEmitter() { return emitter; }
+
 
 protected:
 
   static const unsigned int MAX_SAMPLE_RATES;
   static const unsigned int SAMPLE_RATES[];
+  static TASIOEmitter* emitter;
 
   enum { FAILURE, SUCCESS };
 

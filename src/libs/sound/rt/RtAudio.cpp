@@ -41,6 +41,7 @@
 // RtAudio: Version 4.1.1
 
 #include "RtAudio.h"
+#include <tasioemitter.h>
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
@@ -53,6 +54,8 @@ const unsigned int RtApi::SAMPLE_RATES[] = {
   4000, 5512, 8000, 9600, 11025, 16000, 22050,
   32000, 44100, 48000, 88200, 96000, 176400, 192000
 };
+
+TASIOEmitter* RtApi::emitter = 0;
 
 #if defined(__WINDOWS_DS__) || defined(__WINDOWS_ASIO__) || defined(__WINDOWS_WASAPI__)
   #define MUTEX_INITIALIZE(A) InitializeCriticalSection(A)
@@ -96,6 +99,12 @@ std::string RtAudio :: getVersion( void ) throw()
 {
   return RTAUDIO_VERSION;
 }
+
+TASIOEmitter* RtAudio::emitter()
+{
+  return rtapi_->ASIOEmitter();
+}
+
 
 void RtAudio :: getCompiledApi( std::vector<RtAudio::Api> &apis ) throw()
 {
@@ -2704,12 +2713,16 @@ RtApiAsio :: RtApiAsio()
 
   // See note in DirectSound implementation about GetDesktopWindow().
   driverInfo.sysRef = GetForegroundWindow();
+  if (!emitter)
+    emitter = new TASIOEmitter();
 }
 
 RtApiAsio :: ~RtApiAsio()
 {
   if ( stream_.state != STREAM_CLOSED ) closeStream();
   if ( coInitialized_ ) CoUninitialize();
+  delete emitter;
+  emitter = 0;
 }
 
 unsigned int RtApiAsio :: getDeviceCount( void )
@@ -3571,6 +3584,7 @@ static long asioMessages( long selector, long value, void* /*message*/, double* 
     // driver again.
     std::cerr << "\nRtApiAsio: driver reset requested!!!" << std::endl;
     ret = 1L;
+    RtApi::ASIOEmitter()->emitResetASIO();
     break;
   case kAsioResyncRequest:
     // This informs the application that the driver encountered some

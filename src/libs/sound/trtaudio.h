@@ -155,6 +155,8 @@ protected:
 			return QString::fromLocal8Bit(devInf.name.data());
 	}
 	
+	void restartASIO();
+
 private:
 	static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
     if (m_cbOut) {
