@@ -310,7 +310,7 @@ void TpitchFinder::bufferReady() {
     startPitchDetection();
     processed();
   } else {
-    m_thread->start(QThread::NormalPriority);
+    m_thread->start(QThread::HighestPriority);
   }
 }
 

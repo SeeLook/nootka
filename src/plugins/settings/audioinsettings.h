@@ -70,10 +70,20 @@ public:
 	
 signals:
 	void rtApiChanged(); /** Emitted when user wants ASIO/JACK sound */
+
+#if defined(Q_OS_WIN)
+    /** When ASIO API is set and there are two or more devices (drivers) on the list
+     * signal is send when user changes it. */
+  void asioDriverChanged(int);
+#endif
 	
 public	slots:
 	void tuneWasChanged(Ttune *tune);
 	void stopSoundTest(); /** Public method (slot) to stop sound test */
+  void whenInstrumentChanged(int instr);
+#if defined(Q_OS_WIN)
+  void asioDeviceSlot(int id);
+#endif
   
 protected:
   void setTestDisabled(bool disabled);

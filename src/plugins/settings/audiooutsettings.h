@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,9 +61,17 @@ public:
 	
 signals:
 	void rtApiChanged(); /** Emitted when user wants ASIO/JACK sound */
+#if defined(Q_OS_WIN)
+      /** When ASIO API is set and there are two or more devices (drivers) on the list
+       * signal is send when user changes it. */
+  void asioDriverChanged(int);
+#endif
   
 public slots:
 	void whenInstrumentChanged(int instr);
+#if defined(Q_OS_WIN)
+  void asioDeviceSlot(int id);
+#endif
 
 private:
 	void addInstrument(QString name, unsigned char midiNr);

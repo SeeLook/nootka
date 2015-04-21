@@ -68,11 +68,13 @@ private:
 		bool								 m_7thNoteToDefaults;
 		EsettingsMode				 m_mode;
     bool                 m_resetToDefaults; /** Usually @p FALSE, goes @p TRUE after user wants reset. */
+    QPushButton         *m_helpButt;
     
 private slots:
     void changeSettingsWidget(int index);
 		void allDefaultsRequired();
 		void rtApiSlot();
+    void helpSlot();
     
 private:
     void createAudioPage();
