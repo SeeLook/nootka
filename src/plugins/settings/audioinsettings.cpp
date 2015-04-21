@@ -319,6 +319,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   connect(m_splitVolChB, &QCheckBox::toggled, this, &AudioInSettings::splitByVolChanged);
   connect(m_skipStillerChB, &QCheckBox::toggled, this, &AudioInSettings::skipStillerChanged);
   connect(m_adjustToInstrButt, &TselectInstrument::instrumentChanged, this, &AudioInSettings::adjustInstrSlot);
+#if defined(Q_OS_WIN)
+  connect(m_inDeviceCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
+#endif
 }
 
 
@@ -424,6 +427,7 @@ void AudioInSettings::generateDevicesList() {
 
 
 void AudioInSettings::updateAudioDevList() {
+  m_inDeviceCombo->blockSignals(true);
   m_inDeviceCombo->clear();
   m_inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
   if (m_inDeviceCombo->count()) {
@@ -438,6 +442,7 @@ void AudioInSettings::updateAudioDevList() {
         m_inDeviceCombo->addItem(tr("no devices found"));
         m_inDeviceCombo->setDisabled(true);
   }
+  m_inDeviceCombo->blockSignals(false);
 }
 
 
@@ -644,12 +649,6 @@ void AudioInSettings::JACKASIOSlot() {
 	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
 	updateAudioDevList();
 	emit rtApiChanged();
-#if defined(Q_OS_WIN)
-  if (m_JACK_ASIO_ChB->isChecked())
-    connect(m_inDeviceCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
-  else
-    disconnect(m_inDeviceCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
-#endif
 }
 
 
@@ -693,6 +692,7 @@ void AudioInSettings::adjustInstrSlot(int instr) {
       break;
   }
 }
+
 
 
 
