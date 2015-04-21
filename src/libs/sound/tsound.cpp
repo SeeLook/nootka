@@ -249,7 +249,7 @@ void Tsound::prepareToExam(Tnote loNote, Tnote hiNote) {
 void Tsound::restoreAfterExam() {
   m_examMode = false;
   if (sniffer) {
-// 		sniffer->setAmbitus(m_prevLoNote, m_prevHiNote);
+// 		sniffer->setAmbitus(m_prevLoNote, m_prevHiNote); // acceptSettings() has already invoked setDefaultAmbitus()
 		m_pitchView->setDisabled(false);
 		unPauseSniffing();
 		go();

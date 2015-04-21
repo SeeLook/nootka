@@ -15,6 +15,7 @@
 MAJOR:
 - midi output disables volume viewer
 - crash on terminate in Oxygen due to animation on status label
+- restore defaults for newer options!s
 
 PITCH DETECTION IMPROVEMENTS
 - put message to user about his responsibility to sound quality
@@ -29,7 +30,6 @@ MINOR:
 - when exercise is finished and analysis dialog was opened message text remains
 - add minimal zoom value depends on screen resolution
 - stop sniffer when melody dialogues are opening
-- when playable exam/exercise doesn't require octave audio - input ambitus has to be capable to detect wider range of sounds
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - auto hidden tool bar remains big after decreased window size
 
