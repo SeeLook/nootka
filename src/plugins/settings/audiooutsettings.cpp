@@ -132,8 +132,10 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
     connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioOutSettings::JACKASIOSlot);
+#if defined(Q_OS_WIN)
+    connect(m_audioOutDevListCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
+#endif
     setFocusPolicy(Qt::StrongFocus);
-    
 }
 
 void AudioOutSettings::generateDevicesList() {
@@ -161,6 +163,7 @@ void AudioOutSettings::setDevicesCombo() {
 
 
 void AudioOutSettings::updateAudioDevList() {
+  m_audioOutDevListCombo->blockSignals(true);
 	m_audioOutDevListCombo->clear();
   m_audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
     if (m_audioOutDevListCombo->count()) {
@@ -175,6 +178,7 @@ void AudioOutSettings::updateAudioDevList() {
         m_audioOutDevListCombo->addItem(tr("no devices found"));
         m_audioOutDevListCombo->setDisabled(true);
   }
+  m_audioOutDevListCombo->blockSignals(false);
 }
 
 
@@ -273,12 +277,6 @@ void AudioOutSettings::JACKASIOSlot() {
 	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
 	updateAudioDevList();
 	emit rtApiChanged();
-#if defined(Q_OS_WIN)
-  if (m_JACK_ASIO_ChB->isChecked())
-    connect(m_audioOutDevListCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
-  else
-    disconnect(m_audioOutDevListCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
-#endif
 }
 
 

@@ -96,6 +96,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 		connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
+    connect(this, SIGNAL(rejected()), this, SLOT(cancelSlot()));
 		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
     connect(m_helpButt, SIGNAL(pressed()), this, SLOT(helpSlot()));
 
@@ -109,6 +110,12 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 		defaultBut->hide();
 		changeSettingsWidget(4);
 	}
+}
+
+
+void TsettingsDialog::cancelSlot() {
+  if (m_sndInSett && Tcore::gl()->A->JACKorASIO != m_sndInSett->rtApiCheckBox()->isChecked())
+    TrtAudio::setJACKorASIO(Tcore::gl()->A->JACKorASIO);
 }
 
 

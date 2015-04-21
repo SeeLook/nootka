@@ -54,6 +54,7 @@ public:
 public slots:
     void saveSettings();
 		void restoreDefaults();
+    void cancelSlot(); /** When user rejected settings */
 
 private:
     TglobalSettings   	*m_globalSett;
