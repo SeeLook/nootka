@@ -256,11 +256,29 @@ void AudioOutSettings::whenInstrumentChanged(int instr) {
 	audioOrMidiChanged();
 }
 
+#if defined(Q_OS_WIN)
+void AudioOutSettings::asioDeviceSlot(int id) {
+  if (TaudioOUT::currentRtAPI() == "ASIO") {
+    if (id < m_audioOutDevListCombo->count()) {
+      m_audioOutDevListCombo->blockSignals(true);
+      m_audioOutDevListCombo->setCurrentIndex(id);
+      m_audioOutDevListCombo->blockSignals(false);
+    }
+  }
+}
+#endif
+
 
 void AudioOutSettings::JACKASIOSlot() {
 	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
 	updateAudioDevList();
 	emit rtApiChanged();
+#if defined(Q_OS_WIN)
+  if (m_JACK_ASIO_ChB->isChecked())
+    connect(m_audioOutDevListCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
+  else
+    disconnect(m_audioOutDevListCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
+#endif
 }
 
 

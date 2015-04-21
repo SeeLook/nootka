@@ -84,6 +84,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   TintonationCombo *intoCombo = new TintonationCombo(m_1_device);
     m_intonationCombo = intoCombo->accuracyCombo;
     m_intonationCombo->setCurrentIndex(m_glParams->intonation);
+
 	// 1. Layout
 	QVBoxLayout *deviceLay = new QVBoxLayout;
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
@@ -107,7 +108,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
     volLay->addWidget(volumeSlider);
   deviceLay->addLayout(volLay);
   deviceLay->addWidget(intoCombo);
-  deviceLay->addStretch(1);
+//   deviceLay->addStretch(1);
   m_1_device->setLayout(deviceLay);
 		
 //################### 2. Middle a & transposition #################################
@@ -400,6 +401,7 @@ void AudioInSettings::restoreDefaults() {
 	volumeSlider->setValue(0.4); // It is multiplied by 100
 	durationSpin->setValue(90);
 	m_intonationCombo->setCurrentIndex(3); // normal
+  adjustInstrSlot((int)e_classicalGuitar);
 }
 
 
@@ -499,6 +501,22 @@ void AudioInSettings::stopSoundTest() {
     testSlot();
 }
 
+
+void AudioInSettings::whenInstrumentChanged(int instr) {
+  adjustInstrSlot(instr);
+}
+
+#if defined(Q_OS_WIN)
+void AudioInSettings::asioDeviceSlot(int id) {
+  if (TaudioIN::currentRtAPI() == "ASIO") {
+    if (id < m_inDeviceCombo->count()) {
+      m_inDeviceCombo->blockSignals(true);
+      m_inDeviceCombo->setCurrentIndex(id);
+      m_inDeviceCombo->blockSignals(false);
+    }
+  }
+}
+#endif
 
 //#################################################################################################
 //###################      PROTECTED SLOTS             ############################################
@@ -626,6 +644,12 @@ void AudioInSettings::JACKASIOSlot() {
 	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
 	updateAudioDevList();
 	emit rtApiChanged();
+#if defined(Q_OS_WIN)
+  if (m_JACK_ASIO_ChB->isChecked())
+    connect(m_inDeviceCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
+  else
+    disconnect(m_inDeviceCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
+#endif
 }
 
 
@@ -641,7 +665,6 @@ void AudioInSettings::skipStillerChanged(bool enab) {
   if (enab)
     m_skipStillerSpin->setValue(80);
 }
-
 
 
 void AudioInSettings::adjustInstrSlot(int instr) {
@@ -670,6 +693,8 @@ void AudioInSettings::adjustInstrSlot(int instr) {
       break;
   }
 }
+
+
 
 
 

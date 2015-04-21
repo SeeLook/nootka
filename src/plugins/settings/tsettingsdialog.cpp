@@ -84,6 +84,10 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
 			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
 			defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
+    m_helpButt = buttonBox->addButton(QDialogButtonBox::Help);
+      m_helpButt->setIcon(QIcon(Tpath::img("help")));
+      m_helpButt->setStatusTip(tr("Open online documentation") + "<br>(http://nootka.sourceforge.net/index.php?C=doc)");
+      m_helpButt->hide();
 		okBut = buttonBox->addButton(QDialogButtonBox::Apply);
 			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
 		cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
@@ -93,6 +97,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
     connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
 		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
+    connect(m_helpButt, SIGNAL(pressed()), this, SLOT(helpSlot()));
 
 	if (mode == e_settings) {
     navList->setCurrentRow(0);
@@ -210,8 +215,10 @@ void TsettingsDialog::changeSettingsWidget(int index) {
           connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
         if (m_sndOutSett)
           connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
-        if (m_sndInSett)
+        if (m_sndInSett) {
           connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
+          connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndInSett, SLOT(whenInstrumentChanged(int)));
+        }
         if (m_laySett)
           connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_laySett, &TlaySettings::instrumentChanged);
       }
@@ -234,8 +241,10 @@ void TsettingsDialog::changeSettingsWidget(int index) {
         m_sndOutSett->generateDevicesList();
 				if (m_guitarSett) { // update pitches range according to guitar settings state
 					m_sndOutSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
+          m_sndInSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
 					m_sndInSett->tuneWasChanged(m_guitarSett->currentTune());
 					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
+          connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndInSett, SLOT(whenInstrumentChanged(int)));
 					connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
 				}
       }
@@ -255,6 +264,10 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 			break;
 		}
   }
+  if (currentWidget == m_audioSettingsPage)
+    m_helpButt->show();
+  else
+    m_helpButt->hide();
   stackLayout->setCurrentWidget(currentWidget);
 }
 
@@ -273,6 +286,10 @@ void TsettingsDialog::createAudioPage() {
 	connect(m_audioTab, SIGNAL(currentChanged(int)), m_sndInSett, SLOT(stopSoundTest()));
 	connect(m_sndInSett, &AudioInSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
 	connect(m_sndOutSett, &AudioOutSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
+#if defined(Q_OS_WIN)
+  connect(m_sndInSett, &AudioInSettings::asioDriverChanged, m_sndOutSett, &AudioOutSettings::asioDeviceSlot);
+  connect(m_sndOutSett, &AudioOutSettings::asioDriverChanged, m_sndInSett, &AudioInSettings::asioDeviceSlot);
+#endif
 }
 
 
@@ -286,6 +303,14 @@ void TsettingsDialog::rtApiSlot() {
 	}
 }
 
+
+void TsettingsDialog::helpSlot() {
+  QString docHash = "settings";
+  if (stackLayout->currentWidget() == m_audioSettingsPage)
+    docHash = "input-settings";
+  QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#" + docHash).
+    arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
+}
 
 
 
