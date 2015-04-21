@@ -2,6 +2,7 @@
      - new, advanced settings for pitch detection
      - workarounds to avoid pitch-detection of the same note twice
      - other pitch detection improvements
+     - updated translations
     BUGS FIXES
      - updated RtAudio to latest git version - many bugs fixes
      - tons of fixed bugs, mistakes and glitches...

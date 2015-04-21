@@ -1012,7 +1012,9 @@ void TexamExecutor::prepareToExam() {
       mW->sound->acceptSettings();
     if (mW->sound->isSniffable())
         mW->sound->wait();
-    mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
+    if (m_level.requireOctave)
+      mW->sound->prepareToExam(m_level.loNote, m_level.hiNote);
+    // when octave are not required do not change ambitus - it is already set to instrument scale
     mW->pitchView->setIntonationAccuracy(m_level.intonation);
     mW->pitchView->enableAccuracyChange(false);
   }
