@@ -17,9 +17,6 @@ MAJOR:
 - crash on terminate in Oxygen due to animation on status label
 - restore defaults for newer options!s
 
-PITCH DETECTION IMPROVEMENTS
-- put message to user about his responsibility to sound quality
-
 MINOR:
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
@@ -38,14 +35,14 @@ MINOR:
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
 - revert to native style under MacOs when Qt5
 
+TRANSLATIONS
+ - Tab names in input settings have only removed numbers - texts are the same
+
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
 - average effectiveness line in chart
 - make exam summary pretty
 - certificates would have some additional data about melodies
-   
-TRANSLATIONS
- - Tab names in input settings have only removed numbers - texts are the same
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
