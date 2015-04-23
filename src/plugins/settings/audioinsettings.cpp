@@ -108,7 +108,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
     volLay->addWidget(volumeSlider);
   deviceLay->addLayout(volLay);
   deviceLay->addWidget(intoCombo);
-//   deviceLay->addStretch(1);
+  deviceLay->addStretch(1);
   m_1_device->setLayout(deviceLay);
 		
 //################### 2. Middle a & transposition #################################

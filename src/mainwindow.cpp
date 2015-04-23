@@ -662,18 +662,18 @@ void MainWindow::updateSize(QSize newS) {
 
 void MainWindow::resizeEvent(QResizeEvent * event) {
 	Q_UNUSED(event)
-// 	updateSize(innerWidget->size());
-// 	QTimer::singleShot(10, score, SLOT(resizeSlot()));
-// 	emit sizeChanged(innerWidget->size());
-//   QTimer::singleShot(3, this, SLOT(fixPitchViewPos()));
 }
 
 
 void MainWindow::closeEvent(QCloseEvent *event) {
+  sound->stopPlaying();
+  sound->wait();
+  disconnect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+  disconnect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 	if (executor) {
-		if (executor->closeNootka())
+		if (executor->closeNootka()) {
 				event->accept();
-		else
+    } else
 				event->ignore();
 	}
 }
