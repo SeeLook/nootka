@@ -26,11 +26,23 @@
 #include <QTranslator>
 
 
+void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+  if (type == QtDebugMsg) {
+    QFile outFile("nootka-log.txt");
+    outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+    QTextStream ts(&outFile);
+    ts << msg << endl;
+  }
+}
+
+
 Tglobals *gl;
 bool resetConfig;
 
+
 int main(int argc, char *argv[])
 {    
+//   qInstallMessageHandler(myMessageOutput);
 	QTranslator qtTranslator;
 	QTranslator qtbaseTranslator;
 	QTranslator nooTranslator;

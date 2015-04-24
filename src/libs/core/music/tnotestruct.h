@@ -66,7 +66,8 @@ public:
     m_pList << floatPitch;
     endChunk = chunkNr;
     maxVol = qMax<float>(maxVol, vol);
-    minVol = qMin<float>(minVol, vol);
+    if (numChunks() > 3) // skip first 3 chunks - Tartini may detected a note with low volume
+      minVol = qMin<float>(minVol, vol);
     if (qAbs<qreal>(floatPitch - (qreal)basePitch) < qAbs<qreal>(bestPitch - (qreal)basePitch))
       bestPitch = floatPitch;
   }
