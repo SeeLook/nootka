@@ -21,7 +21,7 @@
 #if defined(Q_OS_WIN)
   #include "tasioemitter.h"
 #endif
-#include <QDebug>
+
 
 
 /*static */

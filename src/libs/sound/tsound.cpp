@@ -148,7 +148,7 @@ void Tsound::setPitchView(TpitchView* pView) {
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
 	m_pitchView->setAudioInput(sniffer);
   if (sniffer)
-    QTimer::singleShot(1500, sniffer, SLOT(startListening()));
+    QTimer::singleShot(750, sniffer, SLOT(startListening()));
 // 		sniffer->startListening();
 }
 

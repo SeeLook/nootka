@@ -22,10 +22,7 @@ MINOR:
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
 - replace all font-szie: 20px with <big>
-- lock right button and space bar during correction
-- try to avoid many resizeEvent-s of TmultiScore during window size change
 - when exercise is finished and analysis dialog was opened message text remains
-- add minimal zoom value depends on screen resolution
 - stop sniffer when melody dialogues are opening
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - auto hidden tool bar remains big after decreased window size
@@ -40,6 +37,8 @@ TRANSLATIONS
 
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
+- try to avoid many resizeEvent-s of TmultiScore during window size change
+- add minimal zoom value depends on screen resolution
 - average effectiveness line in chart
 - make exam summary pretty
 - certificates would have some additional data about melodies
