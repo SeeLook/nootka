@@ -65,10 +65,9 @@ void Tsound::play(Tnote& note) {
   if (player && note.note)
 			playing = player->play(note.chromatic());
   if (playing && !Tcore::gl()->A->playDetected && player->type() == TabstractPlayer::e_midi) {
-    if (sniffer) { // pause sniffer if midi output was started
+    if (sniffer) { // stop sniffer if midi output was started
 			if (!m_midiPlays) { // stop listening just once
 				sniffer->stopListening();
-				m_pitchView->stopWatching();
 				m_midiPlays = true;
 			}
     }
@@ -339,14 +338,12 @@ void Tsound::restoreSniffer() {
 void Tsound::playingFinishedSlot() {
 //   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
-    if (!m_pitchView->isPaused()) {
-        sniffer->startListening();
-//         m_pitchView->watchInput();
-				m_midiPlays = false;
+    if (m_midiPlays) {
+      sniffer->startListening();
     }
+    m_midiPlays = false;
   }
   emit plaingFinished();
-//   go();
 }
 
 
