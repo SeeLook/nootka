@@ -13,7 +13,6 @@
 
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
-- midi output disables volume viewer
 - crash on terminate in Oxygen due to animation on status label
 - restore defaults for newer options!s
 
