@@ -22,6 +22,7 @@
 #include "nootkacoreglobal.h"
 #include <QObject>
 #include <QStringList>
+#include <QDebug>
 #include <music/tnote.h>
 #include <music/tnotestruct.h>
 #include "rt/RtAudio.h"
@@ -128,9 +129,11 @@ public slots:
 	void stopListening();
   
 protected:
-	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus&) {
+	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st) {
     if (m_goingDelete || instance()->isStoped())
       return true;
+    if (st)
+      qDebug() << "input buffer underflow";
     qint16 *in = (qint16*)inBuff;
     qint16 value;
     for (int i = 0; i < nBufferFrames; i++) {

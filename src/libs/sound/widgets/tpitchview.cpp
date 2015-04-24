@@ -81,7 +81,9 @@ void TpitchView::watchInput() {
     m_prevPitch = -1.0;
     m_watchTimer->start(75);
     connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
-    if (m_intoView->accuracyChangeEnabled())
+    if (m_intoView->accuracy() == TintonationView::e_noCheck && !m_intoView->accuracyChangeEnabled())
+      m_intoView->setDisabled(true);
+    else
       m_intoView->setDisabled(false);
   }
 }
@@ -96,8 +98,7 @@ void TpitchView::stopWatching() {
     if (m_intoView->isEnabled())
       m_intoView->pitchSlot(0.0);
   }
-  if (m_intoView->accuracyChangeEnabled())
-    m_intoView->setDisabled(true);
+  m_intoView->setDisabled(true);
 }
 
 
