@@ -137,6 +137,7 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 		m_aGl->windowSize = 2 * m_aGl->framesPerChunk;
 		delete m_prevChunk;
 		delete m_filteredChunk;
+    m_filteredChunk = 0;
 		delete m_buffer_1;
 		delete m_buffer_2;
 		if (aGl()->equalLoudness)

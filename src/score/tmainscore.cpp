@@ -61,10 +61,10 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	scoreScene()->setNameColor(Tcore::gl()->S->nameColor);
 	restoreNotesSettings();
 	addStaff(staff());
+
+  createActions();
 // set preferred clef
 	setClef(Tcore::gl()->S->clef);
-	
-	createActions();
 	
 // set note colors
 // 	restoreNotesSettings();
