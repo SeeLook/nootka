@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,32 +40,37 @@ class QStackedLayout;
 
 class NOOTKACORE_EXPORT TsettingsDialogBase : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    explicit TsettingsDialogBase(QWidget *parent = 0);
+  explicit TsettingsDialogBase(QWidget *parent = 0);
+
+      /** Open online documentation (http://nootka.sourceforge.net/index.php?C=doc) */
+  QString helpButtonTipText() { return tr("Open online documentation") + "<br>(http://nootka.sourceforge.net/index.php?C=doc)"; }
 
 
 protected:
-    bool event(QEvent *event);
+  bool event(QEvent *event);
 
-    QListWidget  					   	*navList;
-    QStackedLayout  					*stackLayout;
-    QPushButton     					*cancelBut, *okBut, *defaultBut;
-    TroundedLabel          		*hint;
-		QDialogButtonBox					*buttonBox; /** Bottom layout with buttons */
+  QListWidget  					   	*navList;
+  QStackedLayout  					*stackLayout;
+  QPushButton     					*cancelBut, *okBut, *defaultBut;
+  TroundedLabel          		*hint;
+  QDialogButtonBox					*buttonBox; /** Bottom layout with buttons */
 
 protected slots:
-        /** Checks available screen space and fits this dialog if necessary.
-         * Removes frame of the window, hides @p hint 
-         * and transforms all status tip texts into tool tips. */
-    void fitSize();
-		
-		void convertStatusTips();
-		
+      /** Checks available screen space and fits this dialog if necessary.
+        * Removes frame of the window, hides @p hint
+        * and transforms all status tip texts into tool tips. */
+  void fitSize();
+
+  void convertStatusTips();
+
+  void openHelpLink(const QString& hash); /** calls QDesktopServices::openUrl with Nootka site doc at given @p hash */
+
 private:
-		QScrollArea 							*m_scrollArea;
-		QWidget 									*m_widget;
-		QVBoxLayout 							*m_aLay;
+  QScrollArea 							*m_scrollArea;
+  QWidget 									*m_widget;
+  QVBoxLayout 							*m_aLay;
 
 };
 

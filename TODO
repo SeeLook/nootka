@@ -14,17 +14,19 @@
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - crash on terminate in Oxygen due to animation on status label
-- restore defaults for newer options!s
 
 MINOR:
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
-- replace all font-szie: 20px with <big>
 - when exercise is finished and analysis dialog was opened message text remains
-- stop sniffer when melody dialogues are opening
+- try to avoid many resizeEvent-s of TmultiScore during window size change
+      
+- replace all font-szie: 20px with <big>
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - auto hidden tool bar remains big after decreased window size
+- disable shortcuts or change text to icon on buttons to select instrument and used string (range settings)
+- there is a way to calculate max width of navbar (base settings class) and avoid horizontal scroll bar
 
 - There is unused class TnotePixmap only with default clef - use it or delete
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
@@ -36,7 +38,6 @@ TRANSLATIONS
 
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
-- try to avoid many resizeEvent-s of TmultiScore during window size change
 - add minimal zoom value depends on screen resolution
 - average effectiveness line in chart
 - make exam summary pretty
@@ -54,6 +55,7 @@ TRANSLATIONS
      then emitting signal should contain Tchunk instead Tnote
 - unlock and improve saving melodies to musicXML and opening/importing melodies from XML
   (MUSIC XML is not fully standard compatible (check what MuseScore complains))
+  - stop sniffer when melody dialogues are opening
 - Class that manages recent exams menu list and has colored item 'recent opened exams',
     use recent exams list for analyzer the same as start exam dialog has (common class or method)
 - add extra marks over score when it is in record mode or melody is playing

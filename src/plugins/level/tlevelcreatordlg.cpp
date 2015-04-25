@@ -82,6 +82,10 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
   navList->setCurrentRow(0);
+
+  QPushButton *helpButt = buttonBox->addButton(QDialogButtonBox::Help);
+      helpButt->setIcon(QIcon(Tcore::gl()->path + "picts/help.png"));
+      helpButt->setStatusTip(helpButtonTipText());
   okBut = buttonBox->addButton(tr("Check"), QDialogButtonBox::AcceptRole);
     okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
     okBut->setStatusTip(tr("Check, Are your settings for the level possible to perform."));
@@ -97,6 +101,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   connect(m_levelSett->levelSelector(), &TlevelSelector::levelToLoad, this, &TlevelCreatorDlg::loadFromFile);
   connect(m_levelSett->startExamButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
   connect(m_levelSett->startExerciseButton(), &QPushButton::clicked, this, &TlevelCreatorDlg::startExam);
+  connect(helpButt, &QPushButton::clicked, this, &TlevelCreatorDlg::helpSlot);
   
   connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
 }
@@ -367,3 +372,13 @@ void TlevelCreatorDlg::showValidationMessage(QString message) {
         }
     }
 }
+
+
+void TlevelCreatorDlg::helpSlot() {
+  openHelpLink("level-creator");
+}
+
+
+
+
+

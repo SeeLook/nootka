@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -103,6 +103,12 @@ void TsettingsDialogBase::convertStatusTips() {
 			w->setStatusTip("");
 		}
 	}
+}
+
+
+void TsettingsDialogBase::openHelpLink(const QString& hash) {
+  QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#" + hash).
+    arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 
 

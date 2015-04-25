@@ -86,7 +86,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 			defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
     m_helpButt = buttonBox->addButton(QDialogButtonBox::Help);
       m_helpButt->setIcon(QIcon(Tpath::img("help")));
-      m_helpButt->setStatusTip(tr("Open online documentation") + "<br>(http://nootka.sourceforge.net/index.php?C=doc)");
+      m_helpButt->setStatusTip(helpButtonTipText());
       m_helpButt->hide();
 		okBut = buttonBox->addButton(QDialogButtonBox::Apply);
 			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
@@ -321,8 +321,7 @@ void TsettingsDialog::helpSlot() {
   QString docHash = "settings";
   if (stackLayout->currentWidget() == m_audioSettingsPage)
     docHash = "input-settings";
-  QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#" + docHash).
-    arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
+  openHelpLink(docHash);
 }
 
 
