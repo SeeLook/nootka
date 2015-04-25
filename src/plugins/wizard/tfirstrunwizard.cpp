@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -106,7 +106,10 @@ TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
 
 
 void TfirstRunWizard::pageChanged(int pageNr) {
-
+  if (pageNr == 1) { // Take out keyboard focus
+    if (qApp->focusWidget()) // instrument page highlights 2nd button (classicla) by default, but keyboard focus goes to first one
+      qApp->focusWidget()->clearFocus(); // it may be confusing if some style have the same colors for focus and highlight.
+  }
 }
 
 
@@ -136,9 +139,11 @@ void TfirstRunWizard::done(int result) {
       Tcore::gl()->S->clef = Tclef::e_bass_F_8down;
       Tcore::gl()->A->audioInstrNr = (int)e_bassGuitar;
       Tcore::gl()->GfretsNumber = 20;
+      Tcore::gl()->A->minSplitVol = 7.0;
   } else if (Tcore::gl()->instrument == e_electricGuitar) {
       Tcore::gl()->A->audioInstrNr = (int)e_electricGuitar;
       Tcore::gl()->GfretsNumber = 23;
+      Tcore::gl()->A->minSplitVol = 7.0;
   } else if (Tcore::gl()->instrument == e_noInstrument) {
       Tcore::gl()->L->guitarEnabled = false;
       Tcore::gl()->S->clef = m_notationWidget->score()->clef().type();
@@ -153,6 +158,9 @@ void TfirstRunWizard::done(int result) {
       }
       Ttune instrScale("scale", Tnote(hiN.chromatic() - Tcore::gl()->GfretsNumber), loN);
       Tcore::gl()->setTune(instrScale);
+      Tcore::gl()->A->detectMethod = 0; // MPM for other instruments
+      Tcore::gl()->A->minSplitVol = 0.0;
+      Tcore::gl()->A->skipStillerVal = 0.0;
   }
   QWizard::done(result);
 }
@@ -237,8 +245,10 @@ void Tpage_2::scoreHint(QString hint) {
 
 
 void Tpage_2::clefChanged() {
-		m_score->setNote(0, m_score->lowestNote());
-		m_score->setNote(1, m_score->highestNote());
+  m_score->setNote(0, m_score->lowestNote());
+  m_score->setAmbitus(0, m_score->lowestNote(), m_score->highestNote());
+  m_score->setNote(1, m_score->highestNote());
+  m_score->setAmbitus(1, m_score->lowestNote(), m_score->highestNote());
 }
 
 

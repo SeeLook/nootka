@@ -277,14 +277,14 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->audioInstrNr = qBound(1, cfg->value("audioInstrumentNr", 1).toInt(), 3);
 		A->INenabled = cfg->value("inSoundEnabled", true).toBool();
 		A->INdevName = cfg->value("inDeviceName", "").toString();
-		A->detectMethod = qBound(0, cfg->value("detectionMethod", 0).toInt(), 2);
+		A->detectMethod = qBound(0, cfg->value("detectionMethod", 2).toInt(), 2); // MPM modified cepstrum
 		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
 		A->minDuration = cfg->value("minimalDuration", 0.09).toFloat();
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
 		A->playDetected = false; //cfg->value("playDetected", false).toBool();
-		A->equalLoudness = cfg->value("equalLoudness", false).toBool();
+		A->equalLoudness = cfg->value("equalLoudness", true).toBool();
     A->minSplitVol = cfg->value("minVolumeToSplit", 10.0).toReal();
     A->skipStillerVal = cfg->value("skipStillerThan", 80.0).toReal();
 	cfg->endGroup();

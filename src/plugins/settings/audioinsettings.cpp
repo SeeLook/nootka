@@ -194,8 +194,10 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   if (m_glParams->minSplitVol > 0.0) {
     m_splitVolChB->setChecked(true);
     m_splitVolSpin->setValue(m_glParams->minSplitVol);
-  } else
+  } else {
     m_splitVolChB->setChecked(false);
+    m_splitVolSpin->setDisabled(true);
+  }
 
   m_skipStillerChB = new QCheckBox(tr("skip stiller than"), this);
     m_skipStillerChB->setStatusTip(tr("If set, skips notes with volume less than given percentage value of average volume of previously played notes. It prevents of detecting harmonics on classical or acoustic guitar."));
@@ -206,6 +208,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
     m_skipStillerSpin->setStatusTip(m_skipStillerChB->statusTip());
     m_skipStillerSpin->setValue(m_glParams->skipStillerVal);
     m_skipStillerChB->setChecked(m_glParams->skipStillerVal > 0.0);
+    m_skipStillerSpin->setDisabled(m_glParams->skipStillerVal == 0.0);
 
   m_noiseFilterChB = new QCheckBox(tr("noise filter"), m_3_advanced);
     m_noiseFilterChB->setChecked(m_glParams->equalLoudness);
