@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE" sourcelanguage="en">
+<TS version="2.1" language="de_DE" sourcelanguage="en">
 <context>
     <name>AnswerText</name>
     <message>
@@ -76,11 +76,11 @@
     <message>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
-        <translation type="unfinished"></translation>
+        <translation>wenig richtige Noten</translation>
     </message>
     <message>
         <source>poor effectiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>geringe Effektivität</translation>
     </message>
 </context>
 <context>
@@ -325,11 +325,11 @@
     </message>
     <message>
         <source>forward input to output</source>
-        <translation type="unfinished"></translation>
+        <translation>Eingabe / Ausgabe Weiterleitung</translation>
     </message>
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Töne des Audio-Eingangs werden direkt an die Ausgabe übergeben.</translation>
     </message>
 </context>
 <context>
@@ -558,11 +558,11 @@
     </message>
     <message>
         <source>Melody on trebles</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie in hoher Tonlage</translation>
     </message>
     <message>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele kurze Melodie auf den Diskant-Saiten mit Noten in den ersten drei Bünden. Nur Kreutz-Tonarten.</translation>
     </message>
 </context>
 <context>
@@ -798,7 +798,7 @@
     </message>
     <message>
         <source>Y value:</source>
-        <translation type="unfinished"></translation>
+        <translation>Y-Wert:</translation>
     </message>
     <message>
         <source>question number</source>
@@ -807,15 +807,17 @@
     </message>
     <message>
         <source>Attempts number</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>is it the count of attempts?</translatorcomment>
+        <translation>Anzahl der Versuche</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorbereitungszeit</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>how often something is played? , like played x times</translatorcomment>
+        <translation type="unfinished">x mal gespielt</translation>
     </message>
     <message>
         <source>Analyze</source>
@@ -859,15 +861,15 @@
     </message>
     <message>
         <source>To try this melody again</source>
-        <translation type="unfinished"></translation>
+        <translation>um die Melodie noch einmal zu wiederholen</translation>
     </message>
     <message>
         <source>To see some hints</source>
-        <translation type="unfinished"></translation>
+        <translation>um Hinweise anzuzeigen</translation>
     </message>
     <message>
         <source>Select any note to play it again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle eine Note um sie erneut zu spielen.</translation>
     </message>
     <message>
         <source>You are exercising on level</source>
@@ -879,7 +881,7 @@
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicke auf eine falsch gespielte Note um sie zu sehen &lt;br&gt; und den korrekten Ton zu hören.</translation>
     </message>
 </context>
 <context>
@@ -941,31 +943,33 @@
     <name>Texam</name>
     <message>
         <source>play melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele Melodie</translation>
     </message>
     <message>
         <source>write melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Schreibe Melodie</translation>
     </message>
     <message>
         <source>attempt</source>
-        <translation type="unfinished"></translation>
+        <translation>Versuch</translation>
     </message>
     <message numerus="yes">
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translatorcomment>1 Versuch, 2 Versuche</translatorcomment>
+        <translation>
+            <numerusform>%n Versuch(e)</numerusform>
+            <numerusform>%n Versuche</numerusform>
         </translation>
     </message>
     <message>
         <source>Play a melody written in a score</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>need more context what score means. Is it the musical notation?</translatorcomment>
+        <translation type="unfinished">Spiele eine Melodie nach Noten</translation>
     </message>
     <message>
         <source>Listen to a melody and write it on a score</source>
-        <translation type="unfinished"></translation>
+        <translation>Höre eine Melodie und schreibe sie in die Notation</translation>
     </message>
 </context>
 <context>
@@ -1112,7 +1116,7 @@
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Note wurde nicht gespielt!</translation>
     </message>
 </context>
 <context>
@@ -1235,7 +1239,7 @@
     </message>
     <message>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicke den Einstellungs-Button um die Übung auf deine Bedürfnisse anzupassen.</translation>
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
@@ -1533,7 +1537,7 @@
     </message>
     <message>
         <source>Effectiveness of whole exam (and effectiveness of current question).</source>
-        <translation type="unfinished"></translation>
+        <translation>Effektivität des gesamten Übung (und der aktuellen Frage). </translation>
     </message>
 </context>
 <context>
@@ -1579,7 +1583,8 @@
     </message>
     <message>
         <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>show stats after the last note of the question?</translatorcomment>
+        <translation type="unfinished">Zeige Statistik, wenn die letzte Note von der Frage-Melodie gespielt wird.</translation>
     </message>
 </context>
 <context>
@@ -1822,12 +1827,12 @@
     </message>
     <message>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lege die Anzahl der Bünde fest, die mit Punkten markiert sind. Trenne die Nummern mit Kommas. Schreibe ! (Ausrufezeichen) nach einer Nummer um ein Punkt einzufügen.</translation>
     </message>
     <message>
         <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
-        <translation type="unfinished"></translation>
+        <translation>Bünde mit Punkten</translation>
     </message>
 </context>
 <context>
@@ -1882,47 +1887,47 @@
     <name>TlaySettings</name>
     <message>
         <source>tool bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkzeugleiste</translation>
     </message>
     <message>
         <source>auto hide</source>
-        <translation type="unfinished"></translation>
+        <translation>automatisch verbergen</translation>
     </message>
     <message>
         <source>text under icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Textu unter Icons</translation>
     </message>
     <message>
         <source>icons only</source>
-        <translation type="unfinished"></translation>
+        <translation>nur Icons</translation>
     </message>
     <message>
         <source>text only</source>
-        <translation type="unfinished"></translation>
+        <translation>nur Text</translation>
     </message>
     <message>
         <source>hints</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinweise</translation>
     </message>
     <message>
         <source>sound bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonleiste</translation>
     </message>
     <message>
         <source>There is no Nootka without a score!</source>
-        <translation type="unfinished"></translation>
+        <translation>Es gibt kein Nootka ohne Notation!</translation>
     </message>
     <message>
         <source>But you can hide even all the rest of widgets to see a score only.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aber du kannst alle anderen Elemente verbergen um nur die Notation zu sehen.</translation>
     </message>
     <message>
         <source>guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Gitarre</translation>
     </message>
     <message>
         <source>Show or hide main window elements.</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen / Verbergen der Elemete des Hauptfensters.</translation>
     </message>
 </context>
 <context>
@@ -2017,7 +2022,8 @@
     </message>
     <message>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>means: it is possible that a tonic note is missing for some key signatures ...</translatorcomment>
+        <translation type="unfinished">&lt;li&gt;Fehlende Tonika für einige Tonarten in dem ausgewählten Tonbereich möglich.&lt;/li&gt;</translation>
     </message>
 </context>
 <context>
@@ -2225,43 +2231,43 @@ nicht öffnen</translation>
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiedergabe</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="unfinished"></translation>
+        <translation>Aufnahme</translation>
     </message>
     <message>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei der Aufnahme werden nicht nur die gespilten Noten nacheinander aufgezeichnet, sondern auch das Auswählen des Bundes oder des Notennamens fügt automatisch neue Noten hinzu.</translation>
     </message>
     <message>
         <source>Melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie</translation>
     </message>
     <message>
         <source>Open, save, generate and play a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffnen, speichern, erstellen und abspielen einer Melodie.</translation>
     </message>
     <message>
         <source>Open melody file</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffne Melodie-Datei</translation>
     </message>
     <message>
         <source>MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>MusicXML Datei</translation>
     </message>
     <message>
         <source>Save melody as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichere Melodie als:</translation>
     </message>
     <message>
         <source>Generate</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstellen</translation>
     </message>
     <message>
         <source>Generate a melody with random notes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstelle eine Melodie aus zufälligen Noten.</translation>
     </message>
 </context>
 <context>
@@ -2370,7 +2376,7 @@ nicht öffnen</translation>
     <name>TnoteControl</name>
     <message>
         <source>Click to add a new note</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken um neue Note hinzuzufügen</translation>
     </message>
     <message>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
@@ -2390,11 +2396,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Click %1 to remove a note</source>
-        <translation type="unfinished"></translation>
+        <translation>Klick %1 um Note zu entfernen</translation>
     </message>
     <message>
         <source>Click %1 to edit note name</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2470,7 +2476,7 @@ nicht öffnen</translation>
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation type="unfinished"></translation>
+        <translation>Klicke um nachzulesen was &lt;i&gt;Oktaven&lt;/i&gt;sind auf &quot;https://de.wikipedia.org/wiki/Oktave&quot;</translation>
     </message>
     <message>
         <source>Octaves</source>
@@ -2478,11 +2484,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Next note</source>
-        <translation type="unfinished"></translation>
+        <translation>Nächste Note</translation>
     </message>
     <message>
         <source>Previous note</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorherige Note</translation>
     </message>
 </context>
 <context>
@@ -2497,15 +2503,15 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>names highlight color</source>
-        <translation type="unfinished"></translation>
+        <translation>Markierfarbe für Namen</translation>
     </message>
     <message>
         <source>note name on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Notenname in der Notation</translation>
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeigt die Namen aller Noten in der Notation.</translation>
     </message>
 </context>
 <context>
@@ -2573,7 +2579,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Click note symbol to change it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Für Änderung auf Notensymbol klicken.</translation>
     </message>
 </context>
 <context>
@@ -2730,11 +2736,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Play or sing a melody.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele oder singe Melodie.</translation>
     </message>
     <message>
         <source>Guess a key signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Rate die Vorzeichen</translation>
     </message>
 </context>
 <context>
@@ -2788,63 +2794,65 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Manage and navigate the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Notation bearbeiten und darin bewegen.</translation>
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeigt die Vorzeichen der Tonart auch neben der Note. &lt;b&gt;ACHTUNG! Dies kommt niemals in echten Partituren vor - nutze es nur für Übungszwecke&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Show note names</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige Notenname</translation>
     </message>
     <message>
         <source>Zoom score out</source>
-        <translation type="unfinished"></translation>
+        <translation>Partitur rauszoomen</translation>
     </message>
     <message>
         <source>Zoom score in</source>
-        <translation type="unfinished"></translation>
+        <translation>Partitur reinzoomen</translation>
     </message>
     <message>
         <source>Previous note</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorherige Note</translation>
     </message>
     <message>
         <source>First note</source>
-        <translation type="unfinished"></translation>
+        <translation>Erste Note</translation>
     </message>
     <message>
         <source>Staff above</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>need context</translatorcomment>
+        <translation type="unfinished">Notenlinie darüber</translation>
     </message>
     <message>
         <source>Staff below</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>need context</translatorcomment>
+        <translation>Notenlinie darunter</translation>
     </message>
     <message>
         <source>Last note</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzte Note</translation>
     </message>
     <message>
         <source>Next note</source>
-        <translation type="unfinished"></translation>
+        <translation>Nächste Note</translation>
     </message>
     <message>
         <source>Delete note</source>
-        <translation type="unfinished"></translation>
+        <translation>Note löschen</translation>
     </message>
     <message>
         <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Noten löschen</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Zusätzliche Vorzeichen</translation>
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeigt die Namen aller Noten in der Notation.</translation>
     </message>
 </context>
 <context>
@@ -2888,11 +2896,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicken um eine Note einzufügen, nutze horizontal scrollen um die Vorzeichen zu ändern.</translation>
     </message>
     <message>
         <source>Right mouse button just selects a note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechte Maustaste markiert nur eine Note.</translation>
     </message>
 </context>
 <context>
@@ -2939,11 +2947,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>use single note only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur einzelne Note verwenden</translation>
     </message>
     <message>
         <source>When enabled, a score displays only a single note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Aktivierung wird in der Notation nur eine einzelne Note dargestellt.</translation>
     </message>
     <message>
         <source>show enharmonic variants of notes</source>
@@ -2967,11 +2975,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>tempo of played notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo der gespielten Noten</translation>
     </message>
     <message>
         <source>Score settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen für Partitur</translation>
     </message>
     <message>
         <source>Key signatures</source>
@@ -2979,7 +2987,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Schlüssel</translation>
     </message>
     <message>
         <source>Notes naming</source>
@@ -3035,15 +3043,15 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Simple exam settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfache Prüfungseinstellungen</translation>
     </message>
     <message>
         <source>Simple exercise settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfache Übungseinstellungen</translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation type="unfinished"></translation>
+        <translation>Erscheinungsbild</translation>
     </message>
 </context>
 <context>
@@ -3179,9 +3187,9 @@ nicht öffnen</translation>
     <name>TtipMelody</name>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Melodie wurde &lt;b&gt;%n&lt;/b&gt; mal gespielt</numerusform>
+            <numerusform>Melodie wurde &lt;b&gt;%n&lt;/b&gt; mal gespielt</numerusform>
         </translation>
     </message>
     <message>
@@ -3191,12 +3199,13 @@ nicht öffnen</translation>
     <message>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>von</translation>
     </message>
     <message>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>need context</translatorcomment>
+        <translation type="unfinished">eine Melodie wurde gespielt (Nummer folgt)</translation>
     </message>
 </context>
 <context>
@@ -3252,7 +3261,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Exercise or exam preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Übungs- und Prüfungseinstellungen</translation>
     </message>
     <message>
         <source>Next</source>
@@ -3307,15 +3316,15 @@ nicht öffnen</translation>
     <message>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele &lt;i&gt;mittleres a&lt;/i&gt; wie bei einer Stimmgabel. (Drücke &apos;a&apos; Taste)</translation>
     </message>
     <message>
         <source>Try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Versuch es nocheinmal</translation>
     </message>
     <message>
         <source>Try this melody once again. (backspace)</source>
-        <translation type="unfinished"></translation>
+        <translation>Versuche die Meldoie nocheinmal. (Backspace)</translation>
     </message>
 </context>
 <context>
@@ -3376,7 +3385,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Updates</translation>
     </message>
 </context>
 <context>
@@ -3609,27 +3618,27 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Melody length</source>
-        <translation type="unfinished"></translation>
+        <translation>Länge der Melodie</translation>
     </message>
     <message>
         <source>Melody ends on tonic note</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie endet mit der Tonika</translation>
     </message>
     <message>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt den letzten Ton der Melodie fest.&lt;br&gt;bei Aktivierung wird die Melodie mit der Tonika der aktuellen Tonart beendet.</translation>
     </message>
     <message>
         <source>single note</source>
-        <translation type="unfinished"></translation>
+        <translation>Einzelnote</translation>
     </message>
     <message>
         <source>melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodien</translation>
     </message>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Anzahl der Noten in einer Melodie. Die Länge der Melodie ist ein Zufallswert zwischen 70% und 100% dieser Zahl.</translation>
     </message>
 </context>
 <context>

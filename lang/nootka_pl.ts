@@ -4,50 +4,50 @@
 <context>
     <name>AnswerText</name>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="206"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="211"/>
         <source>Wrong answer!</source>
         <translation>Zła odpowiedź!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="203"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="208"/>
         <source>Good answer!</source>
         <comment>or &apos;Good!&apos; or &apos;Correct!&apos; would be somewhat more specific than merely &apos;It was good!&apos; (previous version) &apos;It&apos; in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one&apos;s back. I know that&apos;s probably confusing, but the implied subject of &apos;Correct! is in a certain sense much more specific than a mere &apos;It&apos; and is more certain to refer to the answer.</comment>
         <translation>To było dobre!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="208"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="213"/>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
         <translation>Nieźle, ale:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="211"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="216"/>
         <source>wrong string</source>
         <translation>zła struna</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="213"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="218"/>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
         <translation>mało poprawnych nut</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="218"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="223"/>
         <source>poor effectiveness</source>
         <translation>słaba efektywność</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="221"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="226"/>
         <source>wrong accidental</source>
         <translation>zły znak</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="224"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="229"/>
         <source>wrong key signature</source>
         <translation>zła tonacja</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="228"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="233"/>
         <source>wrong octave</source>
         <translation>zła oktawa</translation>
     </message>
@@ -97,7 +97,7 @@
         <translation>złe struny</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="232"/>
+        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="237"/>
         <location filename="../src/plugins/charts/sorting.cpp" line="367"/>
         <source>out of tune</source>
         <translation>nieczysto</translation>
@@ -106,12 +106,12 @@
 <context>
     <name>AudioInSettings</name>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="55"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="58"/>
         <source>input device</source>
         <translation>urządzenie wejściowe</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="107"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="175"/>
         <source>pitch detection mode</source>
         <translation>Tryb wykrywania wysokości dźwięku</translation>
     </message>
@@ -128,27 +128,27 @@
         <translation type="obsolete">Ten tryb jest bardziej dokładny ale wolniejszy. Rekomendowany jest dla śpiewu i dla instrumentów z &quot;rozchwianą&quot; intonacją.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="84"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="75"/>
         <source>[milliseconds]</source>
         <translation>[milisekund]</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="145"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="118"/>
         <source>middle A</source>
         <translation>środkowe A</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="146"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="119"/>
         <source>frequency:</source>
         <translation>częstotliwość:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="155"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="128"/>
         <source>interval:</source>
         <translation>interwał:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="158"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="131"/>
         <source>none</source>
         <translation>brak</translation>
     </message>
@@ -165,7 +165,7 @@
         <translation type="obsolete">wysoki</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="249"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="300"/>
         <source>enable pitch detection</source>
         <translation>włącz rozpoznawanie dźwięków</translation>
     </message>
@@ -174,12 +174,11 @@
         <translation type="obsolete">Zakres wysokości dźwięków:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="53"/>
         <source>1. Input device and pitch detection</source>
-        <translation>1. Urządzenie wejściowe i wykrywanie dźwięku</translation>
+        <translation type="vanished">1. Urządzenie wejściowe i wykrywanie dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="57"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="60"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Upewnij się, że twoje urządzenie wejściowe (mikrofon, kamera internetowa, instrument podłączony do wejścia liniowego) jest właściwie skonfigurowane i działa.</translation>
     </message>
@@ -188,27 +187,26 @@
         <translation type="obsolete">Ten tryb jest szybszy i wystarczająco dobry dla gitar i innych instrumentów.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="80"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="71"/>
         <source>minimum note duration</source>
         <translation>minimalny czas dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="87"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="78"/>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
         <translation>Tylko dźwięki dłuższe niż podany czas są wykrywane.&lt;br&gt;Wydłużenie czasu nuty zapobiega przechwytywaniu szumów lub innych niechcianych dźwięków ale obniża reakcję programu.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="122"/>
         <source>2. Pitch detection parameters</source>
-        <translation>2. Parametry wykrywania dźwięku</translation>
+        <translation type="vanished">2. Parametry wykrywania dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="124"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="79"/>
         <source>minimum volume</source>
         <translation>minimalna głośność</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="127"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="82"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Minimalna głośność jaką musi mieć zagrany dźwięk żeby wyznaczyć jego wysokość</translation>
     </message>
@@ -225,42 +223,40 @@
         <translation type="obsolete">Dźwięki powyżej &lt;b&gt;g małego&lt;/b&gt;.&lt;br&gt;Odpowiedni dla wysoko brzmiących instrumentów: flet, picolo, itp.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="143"/>
         <source>3. &apos;Middle a&apos; and transposition</source>
-        <translation>3. &apos;Środkowe a&apos; i transpozycja</translation>
+        <translation type="vanished">3. &apos;Środkowe a&apos; i transpozycja</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="149"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="122"/>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
         <translation>Podstawowa częstotliwość &lt;i&gt;środkowego a&lt;/i&gt;.&lt;br&gt;Od tej wartości zależy wysokość rozpoznawanych dźwięków. Wpływa ona także na odtwarzane dźwięki.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="160"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="133"/>
         <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt;. It can be used as a transposition.</source>
         <translation>Zmienia częstotliwość &lt;i&gt;środkowego a&lt;/i&gt; o pół tonu. Może być wykorzystane do transpozycji.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="161"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="134"/>
         <source>up</source>
         <translation>w górę</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="163"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="136"/>
         <source>down</source>
         <translation>w dół</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="200"/>
         <source>4. Test the settings</source>
-        <translation>4. Test ustawień</translation>
+        <translation type="vanished">4. Test ustawień</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="422"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="480"/>
         <source>Frequency of detected note. You can use this for tuning.</source>
         <translation>Częstotliwość wykrytego dźwięku. Można jej użyć do strojenia.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="552"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="631"/>
         <source>%n semitone(s)</source>
         <translation>
             <numerusform>%n półton</numerusform>
@@ -269,27 +265,82 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="202"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="253"/>
         <source>Test</source>
         <translation>Próba</translation>
     </message>
     <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="56"/>
+        <source>Input device and pitch detection</source>
+        <translation>Urządzenie wejściowe i wykrywanie dźwięku</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="116"/>
+        <source>&apos;Middle a&apos; and transposition</source>
+        <translation>&apos;Środkowe a&apos; i transpozycja</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="173"/>
+        <source>Advanced</source>
+        <translation>Zaawansowane</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="187"/>
+        <source>split when volume rise</source>
+        <translation>rozdziel gdy zwiększy się głośność</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="188"/>
+        <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
+        <translation>Pomaga prawidłowo wykryć te same dźwięki szybko powtarzane po sobie na gitarze.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="202"/>
+        <source>skip stiller than</source>
+        <translation>pomiń cichsze niż</translation>
+    </message>
+    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="203"/>
+        <source>If set, skips notes with volume less than given percentage value of average volume of previously played notes. It prevents of detecting harmonics on classical or acoustic guitar.</source>
+        <translation>Gdy zaznaczone, pomijane są dźwięki których głośność jest mniejsza niż podana, procentowa wartość średniej głośności poprzednio zagranych dźwięków. Zapobiega wykrywaniu flażoletów na gitarze klasycznej lub akustycznej.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="213"/>
+        <source>noise filter</source>
+        <translation>filtr szumów</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="215"/>
+        <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
+        <translation>Jest raczej potrzebny dla wejścia mikrofonowego ale może być wyączony dla instrumentu podłączonego kablem, który generule mniejsze szumy.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="217"/>
+        <source>adjust to instrument</source>
+        <translation>dopasuj do instrumentu</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="251"/>
+        <source>Test the settings</source>
+        <translation>Test ustawień</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="254"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="206"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="257"/>
         <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
         <translation>Sprawdź, czy twoje ustawienia wejścia audio są właściwe,&lt;br&gt;oraz czy rozpozawanie wysokości dźwięku działa wystarczajco dobrze?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="220"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="271"/>
         <source>Detected pitch</source>
         <translation>Wykryty dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="388"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="445"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
@@ -317,87 +368,92 @@
         <translation>urządzenie dżwiękowe do odtwarzania</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="64"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="65"/>
         <source>forward input to output</source>
         <translation>odtwarzaj dźwięk wejściowy</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="66"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="67"/>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation>Wszystkie dźwięki przechwycone przez wejście dźwiękowe będą bezpośrednio odtwarzane przez wyjście.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="173"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="178"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="71"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="73"/>
         <source>midi playback</source>
         <translation>dźwięk midi</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="77"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="79"/>
         <source>midi port</source>
         <translation>port midi</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="154"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="158"/>
         <source>no midi ports</source>
         <translation>brak portów midi</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="82"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="84"/>
         <source>instrument</source>
         <translation>instrument</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="86"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="68"/>
+        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
+        <translation>TO DZIAŁA TYLKO DLA POJEDYNCZEJ KARTY DŹWIĘKOWEJ LUB Z ASIO LUB JACK!</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
         <source>Grand Piano</source>
         <translation>Fortepian</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="87"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="89"/>
         <source>Harpsichord</source>
         <translation>Klawesyn</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="90"/>
         <source>Classical Guitar</source>
         <translation>Gitara klasyczna</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="89"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="91"/>
         <source>Acoustic Guitar</source>
         <translation>Gitara akustyczna</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="90"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="92"/>
         <source>Electric Guitar</source>
         <translation>Gitara elektryczna</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="91"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="93"/>
         <source>Electric Guitar (Overdriven)</source>
         <translation>Gitara elektryczna (przesterowana)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="92"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="94"/>
         <source>Bass Guitar</source>
         <translation>Gitara basowa</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="93"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="95"/>
         <source>Violin</source>
         <translation>Skrzypce</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="94"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="96"/>
         <source>Sax</source>
         <translation>Saksofon</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="95"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="97"/>
         <source>Flute</source>
         <translation>Flet</translation>
     </message>
@@ -694,22 +750,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="243"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="244"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego.&lt;br&gt;Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej dużo użytecznych funkcji.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="244"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="245"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Ta wersja to beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="245"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="246"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="249"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="250"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
@@ -752,7 +808,7 @@
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="134"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="135"/>
         <source>Thanks</source>
         <translation>Podziękowania</translation>
     </message>
@@ -934,7 +990,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>wykres słupkowy</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="582"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="581"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1199,12 +1255,12 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="obsolete">ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1340"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1344"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1341"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1345"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
@@ -1267,42 +1323,42 @@ nie jest poprawnym plikiem egzaminu!</translation>
 (enter)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1206"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1211"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1252"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1257"/>
         <source>Such a pity.</source>
         <translation>Jaka szkoda.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1334"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
         <source>Save exam results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1343"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1491"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1492"/>
         <source>This note was not played!</source>
         <translation>Ta nuta nie była zagrana!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1552"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1553"/>
         <source>Exercises with Nootka</source>
         <translation>Ćwiczenia z Nootką</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1553"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1554"/>
         <source>finish exercising</source>
         <translation>zakończ ćwiczenie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1555"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1556"/>
         <source>EXAM!</source>
         <translation>EGZAMIN!</translation>
     </message>
@@ -1315,22 +1371,22 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="obsolete">Egzamin uruchomiony na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1311"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1316"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1312"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1317"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1313"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1318"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1556"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1557"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -1931,12 +1987,12 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Na jakim instrumencie grasz?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="168"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="176"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
         <translation>Do zapisu nut dla gitary basowej używany jest &lt;b&gt;klucz basowy&lt;/b&gt; ale grane dźwięki brzmią wtedy oktawę niżej. Właściwy klucz to &lt;b&gt;basowy obniżony&lt;/b&gt; (z cyfrą &quot;osiem&quot; poniżej), w którym dźwięki dokładnie brzmią tak jak są zapisane i ten klucz używany jest dla gitary basowej w programie Nootka.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="171"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="179"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej (nawet jeżeli niektórzy wydawcy o tej cyfrze zapominają).&lt;br&gt;&lt;br&gt;Spróbuj to zrozumieć. &lt;br&gt;&lt;br&gt;&lt;p&gt;%1 %2 &lt;br&gt;&lt;b&gt;&lt;big&gt;Obydwa obrazki powyżej pokazują tą samą nutę: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(dźwięk c w oktawie razkreślnej&lt;/p&gt;</translation>
     </message>
@@ -2206,51 +2262,51 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>TintonationCombo</name>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="252"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="253"/>
         <source>intonation accuracy</source>
         <translation>dokładność intonacji</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="271"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="274"/>
         <source>do not check</source>
         <translation>nie sprawdzaj</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="272"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="275"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
         <translation>ból dziąseł</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="273"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="276"/>
         <source>violinist beginner</source>
         <translation>początkujący skrzypek</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="274"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="277"/>
         <source>old strings</source>
         <translation>stare struny</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="275"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="278"/>
         <source>well tuned instrument</source>
         <translation>dobrze nastrojony instrument</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="276"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="279"/>
         <source>perfect</source>
         <translation>perfekcyjny</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.h" line="123"/>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
-        <translation>centów</translation>
+        <translation type="vanished">centów</translation>
     </message>
     <message>
+        <location filename="../src/libs/sound/widgets/tintonationview.h" line="123"/>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
-        <translation type="obsolete">centów</translation>
+        <translation>centów</translation>
     </message>
 </context>
 <context>
@@ -2333,74 +2389,74 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Zakres</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="85"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="89"/>
         <source>Check</source>
         <translation>Sprawdź</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="87"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="91"/>
         <source>Check, Are your settings for the level possible to perform.</source>
         <translation>Sprawdź czy ustawenia poziomu są możliwe do wykonania.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="140"/>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="147"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="145"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="152"/>
         <source>level not saved!</source>
         <translation>poziom nie zapisany!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="147"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="152"/>
         <source>Level was changed and not saved!</source>
         <translation>Poziom egzaminu został zmieniony
 ale nie zapisany!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="182"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="187"/>
         <source>Save exam level</source>
         <translation>Zapisz poziom egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="220"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="224"/>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
         <translation>Nie zaznaczono żadnych pytań ani odpowiedzi.&lt;br&gt;Poziom nie ma sensu.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="241"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="245"/>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Zakres progów jest poza skalą tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="254"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="258"/>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;W zakresie dźwięków użyte zostały znaki&lt;br&gt;lecz nie zostały one zaznaczone dla tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="258"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="262"/>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
         <translation>&lt;li&gt;&apos;Wymuś używanie odpowiedniego znaku&apos; jest zaznaczone ale żaden znak nie został wybrany.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="264"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="268"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolini będzie taka sama jak pytanie. Żeby tego uniknąć poziom musi używać krzyżiki i bemole oraz/lub podwójne znaki, a także różne style nazw nut.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="268"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="272"/>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
         <translation>&lt;li&gt;&quot;Używaj różnych nazw nut&quot; jest zaznaczone ale ani pytanie ani odpowiedź jako nazwa nuty nie została wybrana.&lt;br&gt;Zaznacz ten rodzaj pytania/odpowiedzi lub wyłącz &quot;różne nazw nut&quot;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="272"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="276"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolini będzie taka sama jak pytanie. Żeby tego uniknąć &quot;ręczny wybór tonacji&quot; lub &quot;wymusś odpowiedni znak&quot; muszą być zaznaczone.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="277"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="281"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Został zaznzczony ręczny wybór tonacji ale żadna odpowiedź jako nuta na pięciolini nie została wybrana.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="288"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="292"/>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Zakres progów jest niewystarczający żeby znaleźć jakąś nutę w różnych pozycjach. Konieczny jest zakres co najmniej &lt;b&gt;%1&lt;/b&gt; progów.&lt;/li&gt;</translation>
     </message>
@@ -2409,28 +2465,28 @@ ale nie zapisany!</translation>
         <translation type="obsolete">&lt;li&gt;Dla niektórych tonacji może brakować dźwięku tonicznego w wybranym zakresie nut.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="361"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="359"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="365"/>
         <source>Level validation</source>
         <translation>Poprawność poziomu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="363"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="367"/>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has some mistakes:&lt;/b&gt;</source>
         <translation>&lt;center&gt;&lt;b&gt;Wygląda na to, że ten poziom ma jakieś błędy:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="191"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="195"/>
         <source>Cannot open file for writing</source>
         <translation>Nie mogę otworzyć pliku żeby zapisać</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="310"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="314"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation>&lt;li&gt;Możliwy brak tonicznego dźwięku dla niektórych tonacji z wybranego zakresu.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="355"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="359"/>
         <source>Level seems to be correct</source>
         <translation>Poziom wygląda na poprawny</translation>
     </message>
@@ -2538,39 +2594,39 @@ ale nie zapisany!</translation>
         <translation>Nie podano nazwy pliku</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="37"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="38"/>
         <source>Level is not suitable for current instrument type</source>
         <translation>Poziom nie jest odpowiedni dla aktualnie używanego instrumentu</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="42"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="43"/>
         <source>Level is not suitable for current tuning and/or fret number</source>
         <translation>Poziom nie jest odpowiedni dla aktualnego stroju i/lub liczby progów</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="62"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="63"/>
         <source>Load</source>
         <translation>Wczytaj</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="63"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="64"/>
         <source>Load level from file</source>
         <translation>Wczytaj poziom egzaminu z pliku</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="66"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="67"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="288"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="292"/>
         <source>File: %1 
  is not Nootka level file!</source>
         <translation>Plik: %1 
  nie jest plikiem poziomu programu Nootka!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="292"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="296"/>
         <source>Level file
  %1 
  was corrupted and repaired!
@@ -2581,7 +2637,7 @@ ale nie zapisany!</translation>
 Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="214"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="219"/>
         <source>Load exam&apos;s level</source>
         <translation>Wczytaj poziom egzaminu</translation>
     </message>
@@ -2693,53 +2749,53 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TmelMan</name>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="33"/>
+        <location filename="../src/gui/tmelman.cpp" line="34"/>
         <source>Play</source>
         <translation>Graj</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="35"/>
+        <location filename="../src/gui/tmelman.cpp" line="36"/>
         <source>Record</source>
         <translation>Zapis</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="37"/>
+        <location filename="../src/gui/tmelman.cpp" line="38"/>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
         <translation>Kiedy zapis jest włączony, nie tylko grane nuty są zapisywane jedna za drugą, ale także wybranie progu lub nazwy dźwięku automatycznie dodaje nową nutę.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="38"/>
+        <location filename="../src/gui/tmelman.cpp" line="39"/>
         <source>Generate</source>
         <translation>Generuj</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="39"/>
+        <location filename="../src/gui/tmelman.cpp" line="40"/>
         <source>Generate a melody with random notes.</source>
         <translation>Wygeneruj melodię z losowo dobranych nut.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="53"/>
+        <location filename="../src/gui/tmelman.cpp" line="54"/>
         <source>Melody</source>
         <translation>Melodia</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="54"/>
+        <location filename="../src/gui/tmelman.cpp" line="55"/>
         <source>Open, save, generate and play a melody.</source>
         <translation>Otwórz, zapisz, generuj i odtwarzaj melodie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="121"/>
+        <location filename="../src/gui/tmelman.cpp" line="135"/>
         <source>Open melody file</source>
         <translation>Otwórz plik melodii</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="122"/>
-        <location filename="../src/gui/tmelman.cpp" line="136"/>
+        <location filename="../src/gui/tmelman.cpp" line="135"/>
+        <location filename="../src/gui/tmelman.cpp" line="147"/>
         <source>MusicXML file</source>
         <translation>plik MusicXML</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="135"/>
+        <location filename="../src/gui/tmelman.cpp" line="147"/>
         <source>Save melody as:</source>
         <translation>Zapisz melodię jako:</translation>
     </message>
@@ -2871,37 +2927,37 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TnoteControl</name>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="332"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="340"/>
         <source>Click to add a new note</source>
         <translation>Kliknij żeby dodać nową nutę</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="342"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="350"/>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
         <translation>&lt;b&gt;podwójny krzyżyk&lt;/b&gt; - podwyższa nutę o dwa półtony(cały ton).&lt;br&gt;Na gitarze to jest dwa progi w górę.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="344"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="352"/>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
         <translation>&lt;b&gt;krzyżyk&lt;/b&gt; - podwyższa nutę o pół tonu.&lt;br&gt;Na gitarze to jest jeden próg dalej.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="346"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="354"/>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
         <translation>&lt;b&gt;bemol&lt;/b&gt; - obniża nutę o pół tonu.&lt;br&gt;Na gitarze jest to jeden próg mniej.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="348"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="356"/>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
         <translation>&lt;b&gt;podwójny bemol&lt;/b&gt; - obniża nutę o dwa półtony (cały ton).&lt;br&gt;Na gitarze to jest dwa progi w dół.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="350"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="358"/>
         <source>Click %1 to remove a note</source>
         <translation>Kliknij %1 żeby usunąć nutę</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="353"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="361"/>
         <source>Click %1 to edit note name</source>
         <translation>Kliknij %1 żeby edytować nazwę nuty</translation>
     </message>
@@ -3041,7 +3097,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_2</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="195"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="203"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Wybierz klucz i skalę dźwięków właściwe dla swojego instrumentu.</translation>
     </message>
@@ -3049,22 +3105,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="252"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="262"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation>7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla ciebie?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="266"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="276"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Wiem, co to są podwójne krzyżyki (x) i podwójne bemole (bb)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="270"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="280"/>
         <source>I know that e# is the same as f</source>
         <translation>Wiem, że e# to to samo co f</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="275"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="285"/>
         <source>I know about key signatures</source>
         <translation>Wiem co to są tonacje</translation>
     </message>
@@ -3097,7 +3153,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Włącz/wyłącz rozpoznawanie dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="169"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="170"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonacja - czystość dźwięku. Czy stroi.</translation>
     </message>
@@ -3114,7 +3170,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation type="obsolete">Kliknij symbol nuty żeby włączyć/wyłączyć.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="171"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="172"/>
         <source>Click note symbol to change it.</source>
         <translation>Kliknij symbol nuty żeby zmienić.</translation>
     </message>
@@ -3324,27 +3380,27 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TradioClef</name>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="160"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="161"/>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
         <translation>Najbardziej rozpowrzechniony klucz (dla skrzypiec, fletu, saksofonów, itp.)</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="163"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="164"/>
         <source>Clef for guitars (classical, electric and so)</source>
         <translation>Klucz dla gitar (klasycznej, elektycznej, itp.)</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="166"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="167"/>
         <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
         <translation>Klucz na dolnej pięciolini zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="169"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="170"/>
         <source> Clef for bass guitar and double bass.</source>
         <translation>Klucz dla gitary basowej i kontrabasu.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="172"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="173"/>
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
         <translation>Nazywany również kluczem altówkowym i najczęściej używany dla tego instrumentu.</translation>
     </message>
@@ -3356,12 +3412,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TremoveLevel</name>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="338"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="342"/>
         <source>Also delete level file:</source>
         <translation>Usuń także plik poziomu:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="342"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="346"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>
@@ -3374,83 +3430,83 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TscoreActions</name>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="34"/>
+        <location filename="../src/score/tscoreactions.cpp" line="35"/>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
         <translation>Nuty</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="35"/>
+        <location filename="../src/score/tscoreactions.cpp" line="36"/>
         <source>Manage and navigate the score.</source>
         <translation>Zarządzaj i nawiguj zapisem nutowym.</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="42"/>
+        <location filename="../src/score/tscoreactions.cpp" line="43"/>
         <source>Additional accidentals</source>
         <translation>Dodatkowe znaki</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="43"/>
+        <location filename="../src/score/tscoreactions.cpp" line="44"/>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation>Pokaż znaki z tonacji także przy nucie. &lt;b&gt;UWAGA! Nigdy nie zapisuje się ich w prawdziwych nutach - wykorzystwać tylko w celach teoretycznych.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="45"/>
+        <location filename="../src/score/tscoreactions.cpp" line="46"/>
         <source>Show note names</source>
         <translation>Pokaż nazwy nut</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="46"/>
+        <location filename="../src/score/tscoreactions.cpp" line="47"/>
         <source>Shows names of all notes on the staff.</source>
         <translation>Pokazuje nazwy wszystkich nut na pięciolinii.</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="50"/>
+        <location filename="../src/score/tscoreactions.cpp" line="51"/>
         <source>Zoom score out</source>
         <translation>Pomniejsz zapis nutowy</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="51"/>
+        <location filename="../src/score/tscoreactions.cpp" line="52"/>
         <source>Zoom score in</source>
         <translation>Powiększ zapis nutowy</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="54"/>
+        <location filename="../src/score/tscoreactions.cpp" line="55"/>
         <source>Previous note</source>
         <translation>Poprzednia nuta</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="56"/>
+        <location filename="../src/score/tscoreactions.cpp" line="57"/>
         <source>First note</source>
         <translation>Pierwsza nuta</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="58"/>
+        <location filename="../src/score/tscoreactions.cpp" line="59"/>
         <source>Staff above</source>
         <translation>Pięciolina powyżej</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="60"/>
+        <location filename="../src/score/tscoreactions.cpp" line="61"/>
         <source>Staff below</source>
         <translation>Pięciolinia poniżej</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="62"/>
+        <location filename="../src/score/tscoreactions.cpp" line="63"/>
         <source>Last note</source>
         <translation>Ostatnia nuta</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="64"/>
+        <location filename="../src/score/tscoreactions.cpp" line="65"/>
         <source>Next note</source>
         <translation>Natępna nuta</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="66"/>
+        <location filename="../src/score/tscoreactions.cpp" line="68"/>
         <source>Delete note</source>
         <translation>Usuń nutę</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="70"/>
+        <location filename="../src/score/tscoreactions.cpp" line="72"/>
         <source>Delete all notes</source>
         <translation>Usuń wszystkie nuty</translation>
     </message>
@@ -3458,7 +3514,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TscoreClef</name>
     <message>
-        <location filename="../src/libs/core/score/tscoreclef.cpp" line="204"/>
+        <location filename="../src/libs/core/score/tscoreclef.cpp" line="201"/>
         <source>Click to select another clef.</source>
         <translation>Kliknij żeby wybrać inny klucz.</translation>
     </message>
@@ -3689,14 +3745,22 @@ nutowy</translation>
         <translation>Przywróć domyśle ustawienia dla parametrów powyżej.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="270"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="296"/>
         <source>listening</source>
         <translation>słuchanie</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="271"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="297"/>
         <source>playing</source>
         <translation>odtwarzanie</translation>
+    </message>
+</context>
+<context>
+    <name>TsettingsDialogBase</name>
+    <message>
+        <location filename="../src/libs/core/widgets/tsettingsdialogbase.h" line="48"/>
+        <source>Open online documentation</source>
+        <translation>Otwórz dokumentacje online</translation>
     </message>
 </context>
 <context>
@@ -3758,7 +3822,7 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="183"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="331"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
         <source>Start exercise on level:</source>
         <translation>Rozpocznij ćwiczenie na poziomie:</translation>
     </message>
@@ -3769,7 +3833,7 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/exam/tstartexamdlg.cpp" line="252"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="324"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="323"/>
         <source>No level was selected!</source>
         <translation>Nie wybrano żadnego poziomu!</translation>
     </message>
@@ -3780,12 +3844,12 @@ nutowy</translation>
         <translation>Podaj jakąś nazwę użytkownika!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="329"/>
         <source>Pass new exam on level:</source>
         <translation>Zdaj egzamin na poziomie:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="344"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="343"/>
         <source>To exercise or to pass an exam?</source>
         <translation>Ćwiczyć czy zdawać egzamin?</translation>
     </message>
@@ -4141,7 +4205,7 @@ nutowy</translation>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="155"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="156"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation></translation>
