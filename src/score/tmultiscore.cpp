@@ -115,7 +115,7 @@ void TmultiScore::setNote(const Tnote& note) {
 			}
 			thisStaff->setNote(currentIndex() % staff()->maxNoteCount(), note);
 			if (staffCount() > 1)
-					ensureVisible(thisStaff, 0, 0);
+        QTimer::singleShot(10, this, SLOT(ensureNoteIsVisible()));
 	} else {
 			TsimpleScore::setNote(0, note);
 	}
@@ -282,6 +282,11 @@ void TmultiScore::roSelectedSlot(TscoreNote* sn, const QPointF& clickPos) {
   }
 }
 
+
+void TmultiScore::ensureNoteIsVisible() {
+  ensureVisible(currentStaff(), 0, 0);
+}
+
 //####################################################################################################
 //###################################   PROTECTED   ##################################################
 //####################################################################################################
@@ -406,7 +411,7 @@ void TmultiScore::changeCurrentIndex(int newIndex) {
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->setBackgroundColor(palette().highlight().color());
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->selectNote(true);
 				if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
-				ensureVisible(currentStaff(), 0, 0);
+          QTimer::singleShot(10, this, SLOT(ensureNoteIsVisible()));
 			}
 	}
 }
