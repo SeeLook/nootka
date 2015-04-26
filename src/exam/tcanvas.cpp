@@ -249,7 +249,7 @@ void Tcanvas::questionTip() {
 	m_nameFree = m_questionTip->freeName();
 	m_scoreFree = m_questionTip->freeScore();
 	m_tipPos = e_scoreOver; // score is visible always
-	if (m_nameFree && m_window->noteName && m_window->noteName->isVisible())
+	if (m_nameFree && m_window->score->insertMode() == TmultiScore::e_single)
 		m_tipPos = e_nameOver;
 	else if (m_scoreFree)
 		m_tipPos = e_scoreOver;

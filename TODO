@@ -16,11 +16,10 @@ MAJOR:
 - crash on terminate in Oxygen due to animation on status label
 
 MINOR:
+- without name and guitar tips have stupid position
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
-- question tip (give name) doesn't store changed position
-- in exams status tip of edited note ramains after given answer
 - try to avoid many resizeEvent-s of TmultiScore during window size change
       
 - replace all font-szie: 20px with <big>
