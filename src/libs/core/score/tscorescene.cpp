@@ -168,6 +168,7 @@ void TscoreScene::noteDeleted(TscoreNote* sn) {
 		left()->setScoreNote(0);
 		setCursorParent(0);
 		hideTimeOut();
+    statusTipChanged(""); // hide status tip of deleting note
 	}
 	m_scoreNote = 0;
 }
