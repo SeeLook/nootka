@@ -100,6 +100,7 @@ public slots:
 	void onClefChanged(Tclef cl);
 	void removeCurrentNote(); /** Removes currently selected note, if any. */
 	void deleteNotes(); /** Deletes all notes from the score - single one remains */
+  void ensureNoteIsVisible(); /** Calls QGraphicsView::ensureVisible on current selected note */
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
