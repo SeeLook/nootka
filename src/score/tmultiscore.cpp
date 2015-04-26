@@ -163,6 +163,7 @@ void TmultiScore::setScoreDisabled(bool disabled) {
     if (disabled) {
       scoreScene()->left()->hide();
       scoreScene()->right()->hide();
+      emit statusTip("");
     }
   }
 }

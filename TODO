@@ -19,7 +19,6 @@ MINOR:
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
-- when exercise is finished and analysis dialog was opened message text remains
 - question tip (give name) doesn't store changed position
 - in exams status tip of edited note ramains after given answer
 - try to avoid many resizeEvent-s of TmultiScore during window size change
