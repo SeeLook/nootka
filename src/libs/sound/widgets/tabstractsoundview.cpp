@@ -31,6 +31,7 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
   QWidget(parent)
 {
   nootFont = QFont("nootka");
+  nootFont.setBold(false);
 	tc = palette().color(palette().currentColorGroup(), QPalette::Text);
 	disabledColor = palette().color(QPalette::Disabled, QPalette::Text);
 	disabledColor.setAlpha(150);

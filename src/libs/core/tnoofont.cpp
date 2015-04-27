@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@ TnooFont::TnooFont(int pointSize) :
 	QFont("nootka", pointSize)
 {
 	setPixelSize(pointSize);
+  setBold(false);
 }
 
 
