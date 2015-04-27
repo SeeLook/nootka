@@ -115,7 +115,7 @@ void TmultiScore::setNote(const Tnote& note) {
 			}
 			thisStaff->setNote(currentIndex() % staff()->maxNoteCount(), note);
 			if (staffCount() > 1)
-        QTimer::singleShot(10, this, SLOT(ensureNoteIsVisible()));
+        QTimer::singleShot(5, this, SLOT(ensureNoteIsVisible()));
 	} else {
 			TsimpleScore::setNote(0, note);
 	}
@@ -411,8 +411,8 @@ void TmultiScore::changeCurrentIndex(int newIndex) {
 			if (m_currentIndex >= 0) { // select a new note
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->setBackgroundColor(palette().highlight().color());
 				currentStaff()->noteSegment(m_currentIndex % staff()->maxNoteCount())->selectNote(true);
-				if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount())
-          QTimer::singleShot(10, this, SLOT(ensureNoteIsVisible()));
+				if (prevIndex / staff()->maxNoteCount() != m_currentIndex / staff()->maxNoteCount()) // staff was changed - scroll the scene
+          QTimer::singleShot(5, this, SLOT(ensureNoteIsVisible()));
 			}
 	}
 }

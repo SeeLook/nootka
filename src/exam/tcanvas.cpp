@@ -245,9 +245,11 @@ void Tcanvas::questionTip() {
 	delete m_outTuneTip;
   clearMelodyCorrectMessage();
 	createQuestionTip();
-	m_guitarFree = m_questionTip->freeGuitar();
-	m_nameFree = m_questionTip->freeName();
+	m_guitarFree = m_questionTip->freeGuitar() && m_window->guitar->isVisible();
+	m_nameFree = m_questionTip->freeName() && m_window->score->insertMode() == TmultiScore::e_single;
 	m_scoreFree = m_questionTip->freeScore();
+  if (!m_guitarFree && !m_nameFree && !m_scoreFree) // workaround when only score is visible
+    m_scoreFree = true;
 	m_tipPos = e_scoreOver; // score is visible always
 	if (m_nameFree && m_window->score->insertMode() == TmultiScore::e_single)
 		m_tipPos = e_nameOver;
@@ -548,6 +550,8 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	} else if (m_scoreFree) {// on the score at its center
 			geoRect = m_window->score->geometry();
 			fixWidthOverScore(tip);
+      if (m_window->score->insertMode() != TmultiScore::e_single && !m_window->guitar->isVisible()) // only score - place it bottom right
+        geoRect = QRect(m_view->width() - tip->realW(), m_view->height() - tip->realH(), tip->realW(), tip->realH());
 	} else { // middle of the guitar
 			geoRect = m_window->guitar->geometry();
       if (m_exam && !m_exam->melodies()) // in single mode put a tip on the right guitar side, below note name

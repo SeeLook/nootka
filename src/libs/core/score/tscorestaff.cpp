@@ -664,7 +664,7 @@ void TscoreStaff::createBrace() {
 #elif defined (Q_OS_WIN)
   ff.setPointSizeF(22);
 #else
-  ff.setPointSizeF(23.5);
+  ff.setPointSizeF(23.3);
 #endif
   QFontMetrics fm(ff);
   ff.setPointSizeF(ff.pointSizeF() * (ff.pointSizeF() / fm.boundingRect(QChar(0xe16c)).height()));
