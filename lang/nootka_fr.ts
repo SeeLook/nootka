@@ -210,7 +210,7 @@
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="251"/>
         <source>Test the settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester les paramètres</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="257"/>
