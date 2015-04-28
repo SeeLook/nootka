@@ -200,7 +200,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   }
 
   m_skipStillerChB = new QCheckBox(tr("skip stiller than"), this);
-    m_skipStillerChB->setStatusTip(tr("If set, skips notes with volume less than given percentage value of average volume of previously played notes. It prevents of detecting harmonics on classical or acoustic guitar."));
+    m_skipStillerChB->setStatusTip(tr("Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength."));
   m_skipStillerSpin = new QSpinBox(this);
     m_skipStillerSpin->setRange(10, 95);
     m_skipStillerSpin->setSingleStep(5);
