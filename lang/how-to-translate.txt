@@ -15,7 +15,7 @@ Translation with Qt Linguist (this is recommended way)
     Linux users will prefer using package manager of their distribution. Linguist will be there.
     For Mac and Windows users:
       - form http://www.qt.io/download-open-source/ download online installer,
-        launch it and following its instructions - select the latest verion of Qt.
+        launch it and follow its instructions - select the latest verion of Qt.
         If you don't need whole Qt just un-select all what can be un-selected.
   2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
       and change that xx in file name to your language code to get file name like f.e.: nootka_en.ts
@@ -39,7 +39,7 @@ Translation online trough LaunchPad:
   
   ***************************************************************
   ************* A Few Hints *************************************
-    * To approve translated entry you can use [CTRL+Enter] - it will be automatically marked as finished.
+    * (Only in Qt Linguist)To approve translated entry you can use [CTRL+Enter] - it will be automatically marked as finished.
     * Do not remove any special characters like \n %1 %n or HTML tags like <br> and <whatever>.
     * To copy original entry use [CTRL+b] and then just translate.
       Obviously you can move this mischievous characters and tags

@@ -204,15 +204,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>If set, skips notes with volume less than given percentage value of average volume of previously played notes. It helps to omit detecting of open strings harmonics.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>noise filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use it only for poor audio input device or very noisy surroundings. Otherwise it may even spoil pitch detection or simply waste CPU.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -221,6 +213,18 @@
     </message>
     <message>
         <source>Test the settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -308,6 +312,10 @@
     </message>
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2704,6 +2712,13 @@
     </message>
     <message>
         <source>playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TsettingsDialogBase</name>
+    <message>
+        <source>Open online documentation</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

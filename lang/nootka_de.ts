@@ -103,7 +103,7 @@
     </message>
     <message>
         <source>1. Input device and pitch detection</source>
-        <translation>1. Eingabegerät und Tonhöhenerkennung</translation>
+        <translation type="vanished">1. Eingabegerät und Tonhöhenerkennung</translation>
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
@@ -131,7 +131,7 @@
     </message>
     <message>
         <source>2. Pitch detection parameters</source>
-        <translation>2. Einstellungen zur Tonhöhenerkennung</translation>
+        <translation type="vanished">2. Einstellungen zur Tonhöhenerkennung</translation>
     </message>
     <message>
         <source>minimum volume</source>
@@ -155,7 +155,7 @@
     </message>
     <message>
         <source>3. &apos;Middle a&apos; and transposition</source>
-        <translation>3. &quot;Mittleres A&quot; und Transponierung</translation>
+        <translation type="vanished">3. &quot;Mittleres A&quot; und Transponierung</translation>
     </message>
     <message>
         <source>middle A</source>
@@ -226,7 +226,7 @@
     </message>
     <message>
         <source>4. Test the settings</source>
-        <translation>Prüfung der Einstellungen </translation>
+        <translation type="vanished">Prüfung der Einstellungen </translation>
     </message>
     <message>
         <source>Test</source>
@@ -243,6 +243,50 @@
     <message>
         <source>no devices found</source>
         <translation>keine Geräte gefunden</translation>
+    </message>
+    <message>
+        <source>Input device and pitch detection</source>
+        <translation>Eingabegerät und Tonhöhenerkennung</translation>
+    </message>
+    <message>
+        <source>&apos;Middle a&apos; and transposition</source>
+        <translation>&quot;Mittleres A&quot; und Transponierung</translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>split when volume rise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>skip stiller than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>noise filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>adjust to instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test the settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -330,6 +374,10 @@
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation>Alle Töne des Audio-Eingangs werden direkt an die Ausgabe übergeben.</translation>
+    </message>
+    <message>
+        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1880,7 +1928,12 @@
     <message>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
-        <translation>Cent</translation>
+        <translation type="vanished">Cent</translation>
+    </message>
+    <message>
+        <source>cents</source>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
+        <translation type="unfinished">Cent</translation>
     </message>
 </context>
 <context>
@@ -3052,6 +3105,13 @@ nicht öffnen</translation>
     <message>
         <source>Appearance</source>
         <translation>Erscheinungsbild</translation>
+    </message>
+</context>
+<context>
+    <name>TsettingsDialogBase</name>
+    <message>
+        <source>Open online documentation</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
