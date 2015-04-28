@@ -286,7 +286,7 @@
     </message>
     <message>
         <source>Test the settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Prüfung der Einstellungen</translation>
     </message>
 </context>
 <context>
