@@ -14,7 +14,6 @@
 ====== BUGS AND ISSUES ===============================================
 MAJOR:
 - crash on terminate in Oxygen due to animation on status label
-- clef is wrongly scalled (still depend on system font/dpi)
 
 MINOR:
 - when instrument in new exercise changes: 

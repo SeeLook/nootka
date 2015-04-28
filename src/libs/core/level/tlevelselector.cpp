@@ -167,6 +167,7 @@ void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) 
   l.item = m_levelsListWdg->item(m_levelsListWdg->count() - 1);
   l.item->setStatusTip(lev.desc);
   QFont nf("nootka", fontMetrics().boundingRect("A").height() * 2);
+  nf.setBold(false);
   l.item->setIcon(QIcon(pixFromString(l.level.canBeMelody() ? "m" : "n", nf)));
   if (m_levelsListWdg->count() % 2)
     l.item->setBackground(palette().alternateBase());
