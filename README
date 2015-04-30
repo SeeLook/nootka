@@ -101,6 +101,9 @@ In details:
   alternatively you can invoke 
      make install DESTDIR=/your/Dir
   and push the installation wherever you want (similarly to -DCMAKE_INSTALL_PREFIX)
+  Under Windows call
+    make deploy
+  to copy all related libraries and make instalation folder independent
   ---------------------------------------------------------------------------------------------------------
 8. to remove (uninstall)
 - make uninstall (usually as root)
@@ -124,7 +127,9 @@ you can easily generate rpm and deb package and Windows installer.
   cpack -G RPM
   
 3. To build Windows installer http://nsis.sourceforge.net is necessary.
-After installation there is nootka-utf8.nsi file. Launch it in nsis and the installer will be built. 
+After installation there is nootka-utf8.nsi file. Launch it in nsis and the installer will be built.
+  make deploy 
+has to be caled before!
   
   
   
