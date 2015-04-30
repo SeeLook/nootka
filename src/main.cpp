@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 {    
 //   qInstallMessageHandler(myMessageOutput);
 	QTranslator qtTranslator;
-	QTranslator qtbaseTranslator;
+// 	QTranslator qtbaseTranslator;
 	QTranslator nooTranslator;
 	QPointer<QApplication> a = 0;
 	MainWindow *w = 0;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 		confFile = gl->config->fileName();
 		if (!initCoreLibrary())
 			return 110;
-		prepareTranslations(a, qtTranslator, qtbaseTranslator, nooTranslator);
+		prepareTranslations(a, qtTranslator, nooTranslator, nooTranslator); // 2nd argument is unused
 		if (!loadNootkaFont(a))
 			return 111;
 		

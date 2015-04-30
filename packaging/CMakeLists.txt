@@ -185,6 +185,11 @@ if(WIN32)
 	get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
 
+	add_custom_target(deploy
+    COMMAND echo "deploying..."
+    COMMAND ${QT_BINARY_DIR}/windeployqt.exe ${CMAKE_INSTALL_PREFIX}/nootka.exe ${CMAKE_INSTALL_PREFIX}/libNootkaUpdaterPlugin.dll ${CMAKE_INSTALL_PREFIX}/libNootkaSound.dll --dry-run --release --no-translations --no-svg
+	)
+
 	add_custom_target(runinplace
 		COMMAND echo " "
 		COMMAND echo Copying libraries...

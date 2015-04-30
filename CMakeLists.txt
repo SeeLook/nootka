@@ -59,7 +59,6 @@ if(NOT PACKAGE_ARCHITECTURE)
         OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
         OUTPUT_STRIP_TRAILING_WHITESPACE
       )
-#       message(STATUS "-D_FORTIFY_SOURCE=2")
       add_definitions(-D_FORTIFY_SOURCE=2) # for lintian DEB_BUILD_HARDENING_FORTIFY
    endif(NOT DPKG_CMD)
 endif(NOT PACKAGE_ARCHITECTURE)
@@ -101,12 +100,14 @@ if(APPLE OR WIN32)
   get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 	set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
 	install(FILES gpl DESTINATION "${INS_PREF}")
-  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_de.qm" "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
+  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_de.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
 										"${QT_TRANSLATIONS_DIR}/qt_fr.qm" # "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_ru.qm" "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm" )
+										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
+										"${QT_TRANSLATIONS_DIR}/qt_ru.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
+										)
 endif(APPLE OR WIN32)
+
 install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
 
 file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*-guitar.ogg")
@@ -139,16 +140,19 @@ endif(UNIX AND NOT APPLE)
 if(WIN32)
   get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
   get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
-  file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
   install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
-  install(FILES "${QT_BINARY_DIR}/Qt5Core.dll" "${QT_BINARY_DIR}/Qt5Gui.dll" "${QT_BINARY_DIR}/Qt5Widgets.dll" "${QT_BINARY_DIR}/Qt5Network.dll" "${QT_BINARY_DIR}/Qt5PrintSupport.dll" DESTINATION "${INS_PREF}")
   install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
-  install(FILES ${ICU_DLLS} DESTINATION ${INS_PREF})
-  install(FILES ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll DESTINATION "${INS_PREF}/platforms")
-  if(MINGW) # mingw related
-    install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
-  endif(MINGW)
+# The rest of libraries are copied to install directory by deploy 'target'
+#   install(FILES "${QT_BINARY_DIR}/Qt5Core.dll" "${QT_BINARY_DIR}/Qt5Gui.dll" "${QT_BINARY_DIR}/Qt5Widgets.dll" "${QT_BINARY_DIR}/Qt5Network.dll" "${QT_BINARY_DIR}/Qt5PrintSupport.dll" DESTINATION "${INS_PREF}")
+#   file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
+#   install(FILES ${ICU_DLLS} DESTINATION ${INS_PREF})
+#   install(FILES ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll DESTINATION "${INS_PREF}/platforms")
+#   install(FILES ${QT_BINARY_DIR}/../plugins/bearer/qgenericbearer.dll DESTINATION "${INS_PREF}/bearer") # network plugin hangs without it
+#   install(FILES ${QT_BINARY_DIR}/../plugins/bearer/qnativewifibearer.dll DESTINATION "${INS_PREF}/bearer")
+#   if(MINGW) # mingw related
+#     install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
+#   endif(MINGW)
 endif(WIN32)
 
 ###########################################################################
