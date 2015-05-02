@@ -12,9 +12,6 @@
 ============================================================================
 
 ====== BUGS AND ISSUES ===============================================
-MAJOR:
-- crash on terminate in Oxygen due to animation on status label
-
 MINOR:
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
