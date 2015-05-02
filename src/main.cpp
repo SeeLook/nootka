@@ -88,6 +88,6 @@ int main(int argc, char *argv[])
 		delete w;
     delete gl;
 	} while (resetConfig);
-
+  delete a;
 	return exitCode;
 }

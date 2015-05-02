@@ -187,7 +187,7 @@ if(WIN32)
 
 	add_custom_target(deploy
     COMMAND echo "deploying..."
-    COMMAND ${QT_BINARY_DIR}/windeployqt.exe ${CMAKE_INSTALL_PREFIX}/nootka.exe ${CMAKE_INSTALL_PREFIX}/libNootkaUpdaterPlugin.dll ${CMAKE_INSTALL_PREFIX}/libNootkaSound.dll --dry-run --release --no-translations --no-svg
+    COMMAND ${QT_BINARY_DIR}/windeployqt.exe ${CMAKE_INSTALL_PREFIX}/nootka.exe ${CMAKE_INSTALL_PREFIX}/libNootkaUpdaterPlugin.dll ${CMAKE_INSTALL_PREFIX}/libNootkaSound.dll --release --no-translations --no-svg
 	)
 
 	add_custom_target(runinplace
