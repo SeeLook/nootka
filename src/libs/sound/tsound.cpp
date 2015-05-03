@@ -301,8 +301,8 @@ void Tsound::createSniffer() {
     sniffer = new TaudioIN(Tcore::gl()->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot, Qt::DirectConnection);
-	connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot, Qt::DirectConnection);
+	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
+	connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
 }
 
 
