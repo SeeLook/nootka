@@ -78,7 +78,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_transforms = new MyTransforms();
 	m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 	moveToThread(m_thread);
-	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection, Qt::DirectConnection);
+	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection);
 	connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
 	
 	m_isBussy = false;
