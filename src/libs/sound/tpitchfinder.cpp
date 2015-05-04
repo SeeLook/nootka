@@ -307,12 +307,12 @@ void TpitchFinder::bufferReady() {
     m_currentBuff = m_buffer_2;
   else
     m_currentBuff = m_buffer_1;
-  if (m_isOffline) {
-    startPitchDetection();
-    processed();
-  } else {
+//   if (m_isOffline) {
+//     startPitchDetection();
+//     processed();
+//   } else {
     m_thread->start(QThread::HighestPriority);
-  }
+//   }
 }
 
 
