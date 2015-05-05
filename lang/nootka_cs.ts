@@ -121,10 +121,6 @@
         <translation>Režim zjištění výšky tónu</translation>
     </message>
     <message>
-        <source>1. Input device and pitch detection</source>
-        <translation type="vanished">1. vstupní zařízení a zjištění zvuku</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="60"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Ujistěte se, že vaše vstupní zařízení (mikrofon, kamera počítače, k počítači připojený nástroj) je nastaveno správně a pracuje.</translation>
@@ -140,10 +136,6 @@
         <translation>Jsou zjišťovány pouze zvuky delší než zadaný čas.&lt;br&gt;Při delší době trvání se lze vyhnout zachycování některých šumů nebo neočekávaných zvuků, ale je snížena citlivost.</translation>
     </message>
     <message>
-        <source>2. Pitch detection parameters</source>
-        <translation type="vanished">2. Parametry pro zjištění zvuku</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="79"/>
         <source>minimum volume</source>
         <translation>Nejmenší hlasitost</translation>
@@ -152,10 +144,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="82"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Nejmenší hlasitost zvuku zjišťovaného podle výšky tónu</translation>
-    </message>
-    <message>
-        <source>3. &apos;Middle a&apos; and transposition</source>
-        <translation type="vanished">3. Komorní A a transpozice</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="118"/>
@@ -170,42 +158,42 @@
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="173"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokročilé</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="187"/>
         <source>split when volume rise</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdělit při zvýšení hlasitosti</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="188"/>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomůže správně rozpoznat stejné noty rychle opakované na kytaře.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="202"/>
         <source>skip stiller than</source>
-        <translation type="unfinished"></translation>
+        <translation>Přeskočit tišší než</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="203"/>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přeskočí tišší zvuky, pod zadaným procentem průměrné hlasitosti. Zabraňuje rozpoznání alikvotních/částkových tónů na klasických nebo akustických kytarách, ale vyžaduje hru s podobnou sílou zvuku.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="213"/>
         <source>noise filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtr šumu</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="215"/>
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je to poměrně nezbytné pro vstup mikrofonu, ale může to být vypnuto pro spojení nástroje zapojeného s méně šumu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="217"/>
         <source>adjust to instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Seřídit podle nástroje</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="251"/>
@@ -275,10 +263,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="136"/>
         <source>down</source>
         <translation>Dolů</translation>
-    </message>
-    <message>
-        <source>4. Test the settings</source>
-        <translation type="vanished">4. Vyzkoušet nastavení</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="253"/>
@@ -356,7 +340,7 @@
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="68"/>
         <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="unfinished"></translation>
+        <translation>PRACUJE POUZE PRO JEDNU ZVUKOVOU KARTU NEBO S ASIO NEBO JACK!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
@@ -616,17 +600,17 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="31"/>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="30"/>
         <source>You also can help with making Nootka better.</source>
         <translation>I vy můžete pomoci s vylepšením Nootky.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="32"/>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="31"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation>Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="68"/>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="70"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
     </message>
@@ -3392,7 +3376,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/core/widgets/tsettingsdialogbase.h" line="48"/>
         <source>Open online documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Otevřít internetovou dokumentaci</translation>
     </message>
 </context>
 <context>
@@ -4020,7 +4004,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/libs/core/tinitcorelib.cpp" line="87"/>
+        <location filename="../src/libs/core/tinitcorelib.cpp" line="88"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nelze nahrát písmo.&lt;br&gt;Zkuste nainstalovat nootka.ttf ručně.&lt;/center&gt;</translation>
     </message>
