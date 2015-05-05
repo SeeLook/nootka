@@ -121,10 +121,6 @@
         <translation>Mode de détection de hauteur de note</translation>
     </message>
     <message>
-        <source>1. Input device and pitch detection</source>
-        <translation type="vanished">1. Périphérique d&apos;entrée et de détection des notes</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="60"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Assurez-vous que vos périphériques d&apos;entrée (micro, webcam, instrument etc.) sont branchés, correctement configurés et fonctionnels.</translation>
@@ -140,10 +136,6 @@
         <translation>Seuls les sons durant plus que le temps indiqué sont détectés. &lt;br&gt; Augmenter ce temps peut permettre d&apos;éviter de capter des bruits mais réduit la réactivité.</translation>
     </message>
     <message>
-        <source>2. Pitch detection parameters</source>
-        <translation type="vanished">2. Paramètres de détection des notes</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="79"/>
         <source>minimum volume</source>
         <translation>volume minimum</translation>
@@ -152,10 +144,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="82"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Volume minimum pour la détection des notes</translation>
-    </message>
-    <message>
-        <source>3. &apos;Middle a&apos; and transposition</source>
-        <translation type="vanished">3. &apos;LA central&apos; et transposition</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="118"/>
@@ -170,42 +158,42 @@
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="173"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Avancé</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="187"/>
         <source>split when volume rise</source>
-        <translation type="unfinished"></translation>
+        <translation>Scinder quand le volume augmente</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="188"/>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aide à détecter une même note répétée rapidement sur la guitare.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="202"/>
         <source>skip stiller than</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignore en-dessous de</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="203"/>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignore les sons en dessous du seuil en pourcentage du volume moyen. Empêche la détection des harmoniques sur une guitare classique ou acoustique mais nécessite de jouer à la même puissance.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="213"/>
         <source>noise filter</source>
-        <translation type="unfinished"></translation>
+        <translation>filtre anti-bruits</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="215"/>
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nécessaire pour l&apos;entrée micro mais peut être éteint pour les instruments branchés directement, moins susceptibles au bruit. </translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="217"/>
         <source>adjust to instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>ajuster à l&apos;instrument</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="251"/>
@@ -274,10 +262,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="136"/>
         <source>down</source>
         <translation>grave</translation>
-    </message>
-    <message>
-        <source>4. Test the settings</source>
-        <translation type="vanished">4. Tester les paramètres</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="253"/>
@@ -355,7 +339,7 @@
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="68"/>
         <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="unfinished"></translation>
+        <translation>FONCTIONNE UNIQUEMENT POUR UNE CARTE SON UNIQUE OU AVEC ASIO OU JACK!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
@@ -616,17 +600,17 @@
         <translation>Basse 6 cordes: B E A D G C</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="31"/>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="30"/>
         <source>You also can help with making Nootka better.</source>
         <translation>Vous pouvez également contribuer à améliorer Nootka. </translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="32"/>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="31"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="68"/>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="70"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu &quot;À propos de Nootka&quot;</translation>
     </message>
@@ -3402,7 +3386,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
     <message>
         <location filename="../src/libs/core/widgets/tsettingsdialogbase.h" line="48"/>
         <source>Open online documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir la documentation en ligne</translation>
     </message>
 </context>
 <context>
@@ -4029,7 +4013,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes. </translat
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/libs/core/tinitcorelib.cpp" line="87"/>
+        <location filename="../src/libs/core/tinitcorelib.cpp" line="88"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Chargement de la police impossible.&lt;br&gt;Essayez d&apos;installer Nootka.ttf manuellement.&lt;/center&gt;</translation>
     </message>
