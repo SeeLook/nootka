@@ -118,7 +118,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       if (exam->averageReactonTime() > 0) {
           TgraphicsLine *averLine = new TgraphicsLine(0, "<p>" +
               TexTrans::averAnsverTimeTxt() + 
-              QString("<br><span style=\"font-size: 20px;\">%1</span></p>").arg(Texam::formatReactTime(exam->averageReactonTime(), true)) );
+              QString("<br><big><b>%1</b></big></p>").arg(Texam::formatReactTime(exam->averageReactonTime(), true)) );
           scene->addItem(averLine);
           averLine->setZValue(15);
           averLine->setPen(QPen(averColor, 2));

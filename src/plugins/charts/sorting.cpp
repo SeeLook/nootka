@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -108,7 +108,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel *level, bool &
         }
       }
       if (!noteList.isEmpty()) {
-				noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <span style=\"font-size: 20px;\">" + theSame[j].toRichText() + "</span></b>");
+				noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <big>" + theSame[j].toRichText() + "</big></b>");
         result << noteList;
       }
     }
@@ -147,7 +147,7 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, Tlevel *level, bool& 
       }
     }
     if (!fretList.isEmpty()) {
-      fretList.resume(TfingerPos::romanFret(f), "<b>" + fretList.for_a_fret() + " <span style=\"font-size: 20px;\">" + QString("%1").arg(f) + "</span></b>");
+      fretList.resume(TfingerPos::romanFret(f), "<b>" + fretList.for_a_fret() + " <big>" + QString("%1").arg(f) + "</big></b>");
       result << fretList;
     }
   }
@@ -197,8 +197,8 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
   }
   for (int i = 0; i < result.size(); i++) {
     QString desc = result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, result[i].first());
-    result[i].resume(desc, "<b>" + TgroupedQAunit::for_a_key() + "<span style=\"font-size: 20px;\">  " + 
-                result[i].first()->key.getName() + "</span></b>" +
+    result[i].resume(desc, "<b>" + TgroupedQAunit::for_a_key() + "<big>  " +
+                result[i].first()->key.getName() + "</big></b>" +
     wereKeys(level->manualKey, result[i].list.first().qaPtr->answerAs));
   }
   if (!unrelatedList.isEmpty()) {
@@ -238,7 +238,7 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
       TgroupedQAunit accidList = mergeListOfLists(sorted);
       QString fullDesc;
       if (i - 2)
-        fullDesc = "<b>" + TgroupedQAunit::for_an_accid() + "</b><span style=\"font-size: 20px;\">  " + accidToNotka(i -2) + "</span>";
+        fullDesc = "<b>" + TgroupedQAunit::for_an_accid() + "</b><big>  " + accidToNotka(i -2) + "</big>";
             else
         fullDesc = "<b>" + QApplication::translate("TlinearChart", "for notes without accidentals") + "</b>"; 
       accidList.resume(accidToNotka(i - 2), fullDesc);

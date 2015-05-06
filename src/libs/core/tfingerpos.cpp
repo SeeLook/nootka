@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,7 +36,7 @@ QString TfingerPos::romanFret(quint8 fret) {
 
 QString TfingerPos::toHtml() {
   //    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
-    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1</span><span style=\"font-size: 25px;\">%2</span>").arg(str()).arg(fret());
+    return QString("<span style=\"font-size: xx-large; font-family: nootka\">%1</span><span style=\"font-size: xx-large;\">%2</span>").arg(str()).arg(fret());
 }
 
 

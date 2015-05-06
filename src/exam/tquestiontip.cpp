@@ -212,13 +212,13 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 				} else if (question->answerAsSound()) {
 							     m_questText += playOrSing(int(level->instrument));
 				}
-        m_questText += QString("<br><span style=\"font-size: 30px; %1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
+        m_questText += QString("<br><span style=\"font-size: xx-large; %1\">&nbsp;").arg(Tcolor::bgTag(gl->EquestionColor)) +
                     question->qa.pos.toHtml() + " </span>";
         if (apendix != "")
             m_questText += "<br>" + apendix;
         if (question->answerAsNote() || question->answerAsName())
           if (level->forceAccids)
-                m_questText += "<br" + getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+                m_questText += "<br>" + getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
       break;
       
       case TQAtype::e_asSound:

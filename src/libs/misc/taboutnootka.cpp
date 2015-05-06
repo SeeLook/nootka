@@ -33,7 +33,7 @@ QString createLink(QString desc, QString href) {
 
 /** Returns text header with defined text size and background */
 QString getHeader(QString text) {
-	return "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>" + text + "</b></p></center>";
+	return "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: x-large;\"><b>" + text + "</b></p></center>";
 }
 
 QString transRow (QString flag, QString lang, QString name, QString mailAndSite) {
@@ -245,7 +245,7 @@ Tabout::Tabout(QWidget *parent) :
     QString betaInfo = tr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!");
     QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, suggestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
 		betaInfo = ""; // comment it to show info in beta releases
-    m_aboutLab = new TroundedLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: 20px;\"><b>Nootka " + Tcore::gl()->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
+    m_aboutLab = new TroundedLabel("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: xx-large;\"><b>Nootka " + Tcore::gl()->version + "</b></p></center><p><br>" + info + "</p><p>" + betaInfo + "</p><p>" + moreInfo + "</p><br>"
 #if defined(Q_OS_WIN32)
 	  + tr("<br>To support this project and also to avoid infection of your PC<br><b>PLEASE, use the official project site to download updates, new releases and to see news.</b>")
 #endif
