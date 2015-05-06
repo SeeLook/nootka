@@ -215,6 +215,7 @@ void TscoreNote::moveNote(int posY) {
     }
   }
   if (m_noteAnim) {
+      m_mainAccid->show();
       m_accidAnim->startCrossFading(newAccid, m_mainColor);
   } else {
       m_mainAccid->setText(newAccid);
