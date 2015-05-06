@@ -61,10 +61,10 @@ TtipChart::TtipChart(TquestionPoint *point) :
       break;
     }
     case TQAtype::e_asName:
-      qS = "<span style=\"font-size: 25px;\">" + point->question()->qa.note.toRichText(point->question()->styleOfQuestion())
+      qS = "<span style=\"font-size: xx-large;\">" + point->question()->qa.note.toRichText(point->question()->styleOfQuestion())
             + "</span>";
       if (point->question()->answerAs == TQAtype::e_asName)
-          aS = "<span style=\"font-size: 25px;\">" + point->question()->qa_2.note.toRichText(point->question()->styleOfAnswer())
+          aS = "<span style=\"font-size: xx-large;\">" + point->question()->qa_2.note.toRichText(point->question()->styleOfAnswer())
                 + "</span>";
       break;
     case TQAtype::e_asFretPos:
@@ -82,7 +82,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
         case TQAtype::e_asName:
-          aS = "<span style=\"font-size: 25px;\">" + point->question()->qa.note.toRichText(point->question()->styleOfAnswer())
+          aS = "<span style=\"font-size: xx-large;\">" + point->question()->qa.note.toRichText(point->question()->styleOfAnswer())
               + "</span>";
           break;
         case TQAtype::e_asFretPos:
@@ -106,7 +106,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
 	if (point->question()->melody() && !point->question()->isWrong())
 		txt += TexTrans::effectTxt() + QString(": <b>%1%</b><br>").arg(point->question()->effectiveness(), 0, 'f', 1, '0');
   txt += TexTrans::reactTimeTxt() +
-        QString("<span style=\"font-size: 20px\">  %1</span>").arg(Texam::formatReactTime(point->question()->time, true));
+        QString("<big><b>  %1</b></big>").arg(Texam::formatReactTime(point->question()->time, true));
   
   setBgColor(point->color());
   setHtml(txt);  

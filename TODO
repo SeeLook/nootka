@@ -12,11 +12,16 @@
 ============================================================================
 
 ====== BUGS AND ISSUES ===============================================
+- correction on a score doesn't show natural sign
+
 MINOR:
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
 - try to avoid many resizeEvent-s of TmultiScore during window size change
+- Check when melody requires string (are number displayed correctly)
+- switching clefs on longer melodies generates some lags - check it
+- check is intonation checked properly in exams
 
 - changing a clef in instrument settings tab (no instrument) gives strange instrument scale
 - replace all font-szie: 20px with <big>

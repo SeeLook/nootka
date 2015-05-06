@@ -55,7 +55,6 @@ TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
   aboutPage->setLayout(aLay);
 // 2. Select instrument page
   m_selectInstr = new TselectInstrument();
-//   m_selectInstr->setHeadLabel("<b><span style=\"font-size: 20px;\">" + tr("What instrument do you play?")  + "</span></b>");
   m_selectInstr->setInstrument(int(e_classicalGuitar));
   QWizardPage *instrumentPage = new QWizardPage;
   instrumentPage->setTitle("<center>" + tr("What instrument do you play?") + "</center>");

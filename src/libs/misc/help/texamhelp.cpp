@@ -74,8 +74,8 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
 		"</td><td align=\"center\"><br><br>" +
 		tr("Just click this settings button to adjust an exercise or an exam to your current needs.") +	"</td></tr></table><br><br>" +
 		
-    "<hr><br><br><span style=\"font-size: 20px;\"><b>" +
-    tr("GOOD LUCK!") + "</b></span>" 
+    "<hr><br><br><span style=\"font-size: xx-large;\"><b>" +
+    tr("GOOD LUCK!") + "</b></span>"
 		"<br></center>");
   
   helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);

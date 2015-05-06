@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,8 +65,8 @@ QString TstatisticsTip::getTipText(TgroupedQAunit* qaGroup)  {
 
 QString TstatisticsTip::getAverTimeStat(TgroupedQAunit* qaGroup, QString ofSomething) {
     if (qaGroup)
-      return "<p>" + ofSomething + "<br>" + TexTrans::averAnsverTimeTxt() + "<br>" + "<span style=\"font-size: 20px;\"><b>" +
-        Texam::formatReactTime(qRound(qaGroup->averTime()), true) +"</b></span></p>";
+      return "<p>" + ofSomething + "<br>" + TexTrans::averAnsverTimeTxt() + "<br>" + "<big><b>" +
+        Texam::formatReactTime(qRound(qaGroup->averTime()), true) +"</b></big></p>";
     else 
       return ofSomething;
 }

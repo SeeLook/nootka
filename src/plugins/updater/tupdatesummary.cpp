@@ -36,7 +36,7 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
   mainLay->addWidget(lab);
   lab->setAlignment(Qt::AlignCenter);
   if (version != "") {
-    lab->setText("<br><p style=\"font-size: 20px;\">" +
+    lab->setText("<br><p style=\"font-size: xx-large;\">" +
       tr("New Nootka %1 is available.").arg(version) + "<br>" +
       tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.") + "</p><br>");
     lab->setOpenExternalLinks(true);
@@ -45,7 +45,7 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
     mainLay->addWidget(news);
     news->setText(tr("News:") + changes);
   } else {
-    lab->setText("<br><p style=\"font-size: 20px;\">" + tr("No changes found.<br>This version is up to date.") + "</p><br>");
+    lab->setText("<br><p style=\"font-size: xx-large;\">" + tr("No changes found.<br>This version is up to date.") + "</p><br>");
   }
   if (m_updateRules) {
     m_rulesWidget = new TupdateRulesWdg(m_updateRules, this);

@@ -38,13 +38,15 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
   m_nameStyleGr = new TnotationRadioGroup(Tcore::gl()->S->nameStyleInNoteName, true, this);
   m_select7 = new Select7note(this);
   m_select7->set7th_B(Tcore::gl()->S->seventhIs_B);
+  m_select7->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
   m_scaleLabel = new TscalePreviewLabel(Tcore::gl()->S->nameStyleInNoteName, true, this);
+  m_scaleLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
   QHBoxLayout *seventhLay = new QHBoxLayout;
-    seventhLay->addStretch();
+//     seventhLay->addStretch();
     seventhLay->addWidget(m_select7);
     seventhLay->addWidget(m_scaleLabel);
-    seventhLay->addStretch();
+//     seventhLay->addStretch();
 //   mainLay->addWidget(m_select7, 0, Qt::AlignCenter);
 //   mainLay->addWidget(m_scaleLabel, 0, Qt::AlignCenter);
   mainLay->addLayout(seventhLay);

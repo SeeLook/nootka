@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -68,7 +68,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QApplication::translate("TmainHelp", "I. Discovering") + "</b><br>";
   helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(" &nbsp; " + pixToHtml(Tpath::img("about"), PIXSIZE) + " <span style=\"font-size: 25px;\"> + </span> " + pixToHtml(Tpath::img("help"), PIXSIZE)  + " &nbsp; ").
+      arg(" &nbsp; " + pixToHtml(Tpath::img("about"), PIXSIZE) + " <span style=\"font-size: x-large;\"> + </span> " + pixToHtml(Tpath::img("help"), PIXSIZE)  + " &nbsp; ").
       arg(" &nbsp; " + pixToHtml(Tpath::img("systemsettings"), PIXSIZE) + " &nbsp; ");
       
   helpTxt += "<hr><b>" + QApplication::translate("TmainHelp", "II. Exercises and exams") + "</b><br>";
@@ -79,7 +79,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
     arg(" &nbsp; " + pixToHtml(Tpath::img("charts"), PIXSIZE) + " &nbsp; ");;
   helpTxt += "</td></tr></table>";
-  helpTxt += "<hr><b><span style=\"font-size: 25px;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + QApplication::translate("TmainHelp", "Have fun!") + "</span></b>";
+  helpTxt += "<hr><b><span style=\"font-size: xx-large;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + QApplication::translate("TmainHelp", "Have fun!") + "</span></b>";
   QTextEdit *helpEdit = new QTextEdit(this);
   helpEdit->setHtml(helpTxt);
 	helpEdit->setReadOnly(true);

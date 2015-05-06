@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -66,9 +66,11 @@ void TgraphicsLine::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
     QColor averColor = QColor(0, 192, 192);
     if (m_text == "") {
       tip = new TgraphicsTextTip("<b>" + QApplication::translate("TgraphicsLine", "progress line").toUpper() + "</b><br>" +
-          QString("<span style=\"color: %1; font-size: 20px; font-family: 'Courier New', Courier, monospace;\"><b> \\ </b></span>").arg(averColor.name()) +
+          QString("<span style=\"color: %1; font-size: x-large; font-family: 'Courier New', Courier, monospace;\"><b> \\ </b></span>").
+          arg(averColor.name()) +
           QApplication::translate("TgraphicsLine", "descending - you are progressing better") + "<br>" + 
-          QString("<span style=\"color: %1; font-size: 20px; font-family: 'Courier New', Courier, monospace;\"><b> / </b></span>").arg(averColor.name()) +
+          QString("<span style=\"color: %1; font-size: x-large; font-family: 'Courier New', Courier, monospace;\"><b> / </b></span>").
+          arg(averColor.name()) +
           QApplication::translate("TgraphicsLine", "ascending - you are thinking too much"), averColor);
     } else
       tip = new TgraphicsTextTip(m_text, averColor);

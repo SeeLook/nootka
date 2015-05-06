@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,7 +38,7 @@ void TscalePreviewLabel::changeStyle(Tnote::EnameStyle style) {
 		QString accidsLine = "";
 		for (int i = 1; i < 8; i++) {
 			Tnote tmpNote(i, 0, 0);
-			c_majorScale += tmpNote.toRichText(style) + "&nbsp;&nbsp;&nbsp;";
+			c_majorScale += tmpNote.toRichText(style) + " &nbsp;&nbsp;";
 		}
 		if (m_withAccids) {
 				accidsLine = "<br>";
@@ -51,7 +51,7 @@ void TscalePreviewLabel::changeStyle(Tnote::EnameStyle style) {
 				tmpNote = Tnote(7, 0, -1); // Bb or Hb
 				accidsLine += tmpNote.toRichText(style);
 		}
-		setText("<p style=\"font-size: 20px;\">" + c_majorScale + accidsLine + "</p>");
+		setText(QString("<p style=\"font-size: x-large;\">") + c_majorScale + accidsLine + "</p>");
 		TnameStyleFilter::setStyleFilter(tmpPtr, TnameStyleFilter::solfegeStyle()); // restore is7th_B settings
 }
 
