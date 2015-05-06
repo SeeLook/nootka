@@ -12,7 +12,7 @@
 ============================================================================
 
 ====== BUGS AND ISSUES ===============================================
-- correction on a score doesn't show natural sign
+- correction on the score has to display name in question style  
 
 MINOR:
 - when instrument in new exercise changes: 
@@ -24,7 +24,6 @@ MINOR:
 - check is intonation checked properly in exams
 
 - changing a clef in instrument settings tab (no instrument) gives strange instrument scale
-- replace all font-szie: 20px with <big>
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - auto hidden tool bar remains big after decreased window size
 - disable shortcuts (KDE styles) or change text to icon on buttons to select instrument and used string (range settings)
