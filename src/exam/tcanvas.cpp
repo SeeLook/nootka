@@ -404,6 +404,7 @@ void Tcanvas::clearCorrection() {
 		delete m_flyEllipse;
 		m_flyEllipse = 0;
 	}
+	emit correctingFinished();
 }
 
 

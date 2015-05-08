@@ -822,9 +822,8 @@ void TmainScore::keyBlinkingFinished() {
 void TmainScore::finishCorrection() {
 	noteFromId(m_correctNoteNr)->enableNoteAnim(false);
 	noteFromId(m_correctNoteNr)->markNote(QColor(Tcore::gl()->EanswerColor.lighter().name()));
-	if (Tcore::gl()->E->showNameOfAnswered) // show name only when it is enabled
-		noteFromId(m_correctNoteNr)->showNoteName(QColor(Tcore::gl()->EanswerColor.lighter().name()));
 	m_correctNoteNr = -1;
+  emit correctingFinished();
 }
 
 

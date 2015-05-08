@@ -72,6 +72,9 @@ public:
       /** Starts animation displaying correction of unclear sound.  */
   void outOfTuneAnim(float outTune, int duration = 300);
 
+signals:
+  void correctingFinished(); /** Emitted when correction animation finish */
+
   
 protected slots:
   void noteSlot();
@@ -81,6 +84,7 @@ protected slots:
   void inputStateChanged(int inSt);
   void inputDeviceDeleted();
   void accuracyChangedSlot();
+  void intoAnimFinished();
   
 protected:
   virtual void paintEvent(QPaintEvent*);
