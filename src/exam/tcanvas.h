@@ -125,6 +125,7 @@ public slots:
 signals:
 	void buttonClicked(const QString&); /** This signal is emitted when user click image button (a link) on any tip.*/
 	void certificateMagicKeys(); /** When translator wants to see a certificate preview */
+  void correctingFinished(); /** Emitted when correction animation finish */
 		
 
 protected:
