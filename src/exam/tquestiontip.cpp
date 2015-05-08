@@ -123,10 +123,10 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
   QString attemptText = "";
 	if (question->attemptsCount() > 1)
 		attemptText = " <small><i>" + TexTrans::attemptTxt() + QString(" %1").arg(question->attemptsCount()) + "</i></small>";
-    m_questText += QString("<b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + "<br>";
-    QString apendix = "";
-    QString noteStr;
-    switch (question->questionAs) {
+  m_questText += QString("<b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + "<br>";
+  QString apendix = "";
+  QString noteStr;
+  switch (question->questionAs) {
       case TQAtype::e_asNote: {
         m_scoreFree = false;
         if (question->answerAsNote()) {
@@ -250,9 +250,9 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 				}
       break;
     }
-			if (scale)
-				    m_questText += "</p>";
-    return m_questText;
+  if (scale)
+      m_questText += "</p>";
+  return m_questText;
 }
 
 

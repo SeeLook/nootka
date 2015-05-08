@@ -224,14 +224,12 @@ void TtoolBar::setForQuestion(bool repeatSound, bool tuneFork) {
 		addAction(repeatSndAct);
 	if (tuneFork && tuneForkAct)
 		addAction(tuneForkAct);
-  checkAct->setDisabled(false);
 	addAction(checkAct);
 }
 
 
 void TtoolBar::setAfterAnswer() {
 	removeAction(checkAct);
-  checkAct->setDisabled(true);
 	if (repeatSndAct)
 		removeAction(repeatSndAct);
 	if (tuneForkAct)
