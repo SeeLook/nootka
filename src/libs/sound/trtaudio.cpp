@@ -68,7 +68,7 @@ void TrtAudio::createRtAudio() {
 #endif
 #if defined(__LINUX_PULSE__)
       QFileInfo pulseBin("/usr/bin/pulseaudio");
-      if (pulseBin.exists()) // we check is PA possible to run - without check, it can hang over.
+      if (!m_JACKorASIO && pulseBin.exists()) // we check is PA possible to run - without check, it can hang over.
 				rtAPI = RtAudio::LINUX_PULSE;
 #endif
     try {
