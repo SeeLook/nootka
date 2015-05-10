@@ -655,7 +655,7 @@ void TnoteName::octaveWasChanged(int octNr) { // octNr is button nr in the group
 
 void TnoteName::correctAnimationFinished() {
 	// This slot is invoked by m_nameLabel child object which is deleted.
-	// It cases crashes. It is safer to call it with delay and outside
+	// It causes crashes. It is safer to call it with delay and outside
 		QTimer::singleShot(1, this, SLOT(invokeBlinkingAgain()));
 }
 
@@ -666,6 +666,7 @@ void TnoteName::invokeBlinkingAgain() {
 		markNameLabel(QColor(gl->EanswerColor.name()));
 		m_nameLabel->thrownText(m_goodNote.toRichText(), 150, 150);
 	}
+	emit correctingFinished();
 }
 
 

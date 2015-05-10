@@ -99,6 +99,16 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   clearConfirmTip();
   clearResultTip();
   clearTryAgainTip();
+
+  bool autoNext = gl->E->autoNextQuest;
+  if (gl->E->afterMistake == TexamParams::e_stop && !answer->isCorrect())
+      autoNext = false; // when mistake and e_stop - the same like autoNext = false;
+  if (autoNext) { // determine time of displaying
+    if (answer->isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
+      time = 2500; // hard-coded
+    else
+      time = gl->E->mistakePreview; // user defined wait time
+  }
     
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bigFont()));
   m_scene->addItem(m_resultTip);
@@ -404,6 +414,7 @@ void Tcanvas::clearCorrection() {
 		delete m_flyEllipse;
 		m_flyEllipse = 0;
 	}
+	emit correctingFinished();
 }
 
 

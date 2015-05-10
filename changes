@@ -1,3 +1,9 @@
+1.1.7 rc2
+    BUGS FIXES
+     - changed all static font sizes to system related sizes
+     - proper clef rendering in question tips
+     - proper re-sampling when rate is bigger than 48000
+
 1.1.6 rc1
      - new, advanced settings for pitch detection
      - workarounds to avoid pitch-detection of the same note twice

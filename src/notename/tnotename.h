@@ -100,6 +100,7 @@ signals:
 	void statusTipRequired(QString status);
 	void nextNote();
 	void prevNote();
+  void correctingFinished(); /** Emitted when correction animation finish */
 	
 
 protected:

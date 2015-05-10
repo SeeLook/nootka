@@ -133,7 +133,6 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
 
 TaudioOUT::~TaudioOUT() 
 {
-//   abortStream();
   closeStream();
   deleteOutParams();
   resetCallBack();
@@ -148,12 +147,12 @@ void TaudioOUT::setAudioOutParams() {
 // 	qDebug() << "setAudioOutParams";
 	playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
 	if (playable && streamParams()) {
-			ratioOfRate = sampleRate() / 44100;
-			quint32 oggSR = sampleRate();
+			ratioOfRate = outRate() / 44100;
+			quint32 oggSR = outRate();
 			if (ratioOfRate > 1) { //
-				if (sampleRate() == 88200 || sampleRate() == 176400)
+				if (outRate() == 88200 || outRate() == 176400)
 					oggSR = 44100;
-				else if (sampleRate() == 96000 || sampleRate() == 192000)
+				else if (outRate() == 96000 || outRate() == 192000)
 					oggSR = 48000;
 			}
 			oggScale->setSampleRate(oggSR);
