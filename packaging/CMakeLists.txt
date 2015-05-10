@@ -33,7 +33,7 @@ if (ENABLE_PULSEAUDIO)
 endif (ENABLE_PULSEAUDIO)
 
 
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt5gui5 | libqt5-gui, ${DEB_DEPENDS} libfftw3-3, libvorbisfile3, libsoundtouch0")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.9), libqt5gui5 | libqt5-gui, libqt5widgets5 | libqt5-widgets, libqt5printsupport5 | libqt5-printsupport, ${DEB_DEPENDS} libfftw3-3, libvorbisfile3, libsoundtouch0")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to learn classical score notation.
  It helps to understand the rules of reading and writing scores
