@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include <QWidget>
 #include "tsettingsmode.h"
 
+class QLabel;
 class QSpinBox;
 class QRadioButton;
 class TroundedLabel;
@@ -49,21 +50,22 @@ protected slots:
 	void autoQuestionSlot(bool state);
   
 private:
-	// exercises
-		QCheckBox				*m_correctChB, *m_suggestExamChB, *m_showDetectedChB;
-		QSpinBox				*m_correctPreviewSpin;
-	// exams
-    QCheckBox 			*m_repeatIncorChB, *m_closeConfirmChB;
-		
-	// common
-		QSpinBox				*m_mistakePreviewSpin, *m_questionDelaySpin; 
-		QCheckBox				*m_autoNextChB, *m_expertAnswChB, *m_showNameChB;
-    TcolorButton 		*m_questColorBut, *m_answColorBut, *m_notBadButt;
-		QRadioButton		*m_contRadio, *m_waitRadio, *m_stopRadio;
-    QLineEdit 			*m_nameEdit;
-    TexamParams 		*m_params;
-    QColor 					*m_qColor, *m_aColor, *m_nbColor;
-		EsettingsMode		 m_mode;
+// exercises
+  QCheckBox				*m_correctChB, *m_suggestExamChB, *m_showDetectedChB;
+  QSpinBox				*m_correctPreviewSpin;
+// exams
+  QCheckBox 			*m_repeatIncorChB, *m_closeConfirmChB;
+
+// common
+  QSpinBox				*m_mistakePreviewSpin, *m_questionDelaySpin;
+  QLabel          *m_afterLab;
+  QCheckBox				*m_autoNextChB, *m_expertAnswChB, *m_showNameChB;
+  TcolorButton 		*m_questColorBut, *m_answColorBut, *m_notBadButt;
+  QRadioButton		*m_contRadio, *m_waitRadio, *m_stopRadio;
+  QLineEdit 			*m_nameEdit;
+  TexamParams 		*m_params;
+  QColor 					*m_qColor, *m_aColor, *m_nbColor;
+  EsettingsMode		 m_mode;
 
 };
 
