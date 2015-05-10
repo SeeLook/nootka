@@ -100,6 +100,7 @@ void TintonationView::pitchSlot(float pitch) {
 
 
 void TintonationView::outOfTuneAnim(float outTune, int duration) {
+  Q_UNUSED(duration)
 	if (!m_timer) {
 		m_timer = new QTimer(this);
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(animationSlot()));

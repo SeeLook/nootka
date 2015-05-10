@@ -1019,16 +1019,17 @@ void TfingerBoard::strikeBlinkingFinished() {
 
 
 void TfingerBoard::finishCorrection() {
-		m_animation->deleteLater();
-		m_animation = 0;
-		if (m_movingItem) {
-			delete m_movingItem;
-			m_movingItem = 0;
-		}
-		setFinger(m_goodPos);
-		markAnswer(QColor(gl->EanswerColor.lighter().name()));
-		if (m_nameInCorrection)
-				showName(m_corrStyle, gl->EanswerColor);
+  m_animation->deleteLater();
+  m_animation = 0;
+  if (m_movingItem) {
+    delete m_movingItem;
+    m_movingItem = 0;
+  }
+  setFinger(m_goodPos);
+  markAnswer(QColor(gl->EanswerColor.lighter().name()));
+  if (m_nameInCorrection)
+      showName(m_corrStyle, gl->EanswerColor);
+  emit correctingFinished();
 }
 
 
