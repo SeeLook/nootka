@@ -12,7 +12,7 @@
 ============================================================================
 
 ====== BUGS AND ISSUES ===============================================
-- correction on the score has to display name in question style  
+- result tip with mistakes texts may be too long
 
 MINOR:
 - when instrument in new exercise changes: 
@@ -29,10 +29,11 @@ MINOR:
 - disable shortcuts (KDE styles) or change text to icon on buttons to select instrument and used string (range settings)
 - there is a way to calculate max width of navbar (base settings class) and avoid horizontal scroll bar
 
-- There is unused class TnotePixmap only with default clef - use it or delete
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
 - revert to native style under MacOs when Qt5
+
+- check twice deb package Qt dependencies
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -45,7 +46,7 @@ MINOR:
 - make exam summary pretty
 - certificates would have some additional data about melodies
 
-
+- divide TexamExecutor class !!!!!
 - rhythms in score
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam

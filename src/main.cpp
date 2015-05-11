@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,6 +26,7 @@
 #include <QTranslator>
 
 
+/** It allows to grab all debug messages into nootka-log.txt file */
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
   if (type == QtDebugMsg) {
     QFile outFile("nootka-log.txt");
@@ -44,7 +45,6 @@ int main(int argc, char *argv[])
 {    
 //   qInstallMessageHandler(myMessageOutput);
 	QTranslator qtTranslator;
-// 	QTranslator qtbaseTranslator;
 	QTranslator nooTranslator;
 	QPointer<QApplication> a = 0;
 	MainWindow *w = 0;
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 		confFile = gl->config->fileName();
 		if (!initCoreLibrary())
 			return 110;
-		prepareTranslations(a, qtTranslator, nooTranslator, nooTranslator); // 2nd argument is unused
+		prepareTranslations(a, qtTranslator, nooTranslator);
 		if (!loadNootkaFont(a))
 			return 111;
 		
