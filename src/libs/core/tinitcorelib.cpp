@@ -57,8 +57,7 @@ bool initCoreLibrary() {
 }
 
 
-void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& qtBase, QTranslator& noo) {
-  Q_UNUSED(qtBase) // TODO take it at all
+void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 	QString ll = "";
 	if (Tcore::gl())
       ll = Tcore::gl()->lang;
@@ -66,13 +65,10 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& qtBase, 
 			ll = QString(std::getenv("LANG"));// QLocale::system().name();
 #if defined(Q_OS_LINUX)
     qt.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-// 		qtBase.load("qtbase_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 #else
     qt.load("qt_" + ll, Tcore::gl()->path + "lang");
-// 		qtBase.load("qtbase_" + ll, Tcore::gl()->path + "lang");
 #endif
 	a->installTranslator(&qt);
-// 	a->installTranslator(&qtBase);
 
 	noo.load("nootka_" + ll, Tcore::gl()->path + "lang");
 	a->installTranslator(&noo);
