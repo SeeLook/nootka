@@ -39,14 +39,13 @@ int main(int argc, char *argv[])
     return 0;
   }
   QTranslator qtTranslator;
-  QTranslator qtbaseTranslator;
   QTranslator nooTranslator;
   QApplication a(argc, argv);
   gl = new Tglobals(); // load configuration from temp file
   gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
   if (!initCoreLibrary())
     return 110;
-  prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
+  prepareTranslations(&a, qtTranslator, nooTranslator);
   if (!loadNootkaFont(&a))
     return 111;
   

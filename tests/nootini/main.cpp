@@ -31,7 +31,6 @@ Tglobals *gl;
 int main(int argc, char *argv[])
 {
   QTranslator qtTranslator;
-  QTranslator qtbaseTranslator;
   QTranslator nooTranslator;
   QApplication a(argc, argv);
   a.setApplicationName("Nootini");
@@ -39,7 +38,7 @@ int main(int argc, char *argv[])
   gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
   if (!initCoreLibrary())
     return 110;
-  prepareTranslations(&a, qtTranslator, qtbaseTranslator, nooTranslator);
+  prepareTranslations(&a, qtTranslator, nooTranslator);
   if (!loadNootkaFont(&a))
     return 111;
 
