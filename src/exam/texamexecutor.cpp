@@ -315,6 +315,14 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		if (curQ->melody()) {
 			if (!isAttempt)
 				mW->score->askQuestion(curQ->melody());
+        if (m_level.showStrNr) { // we may be sure that instrument is kind of a guitar
+          for (int i = 0; i < curQ->melody()->length(); ++i) {
+            if (curQ->melody()->note(i)->g().str() > 1)
+              mW->score->noteFromId(i)->setString(curQ->melody()->note(i)->g().str());
+          }
+          if (mW->guitar->isVisible())
+            mW->guitar->prepareAnswer(); // It just shows range frame
+        }
 			if (curQ->answerAsSound()) { // in fact, there is no other option yet
 				connect(mW->sound, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
         connect(mW->sound, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
