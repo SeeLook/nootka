@@ -14,12 +14,13 @@
 ====== BUGS AND ISSUES ===============================================
 - result tip with mistakes texts may be too long
 
+- remove some console debug messages
+
 MINOR:
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
 - try to avoid many resizeEvent-s of TmultiScore during window size change
-- Check when melody requires string (are number displayed correctly)
 - switching clefs on longer melodies generates some lags - check it
 - check is intonation checked properly in exams
 
