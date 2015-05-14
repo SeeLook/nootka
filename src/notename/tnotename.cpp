@@ -39,9 +39,8 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
                     QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
                     QT_TR_NOOP("Three-line octave"), QT_TR_NOOP("Four-line octave") };
 
-//#######################################################################################################
-//#################################### PUBLIC ###########################################################
-//#######################################################################################################
+
+QLabel *m_octavesLab = 0;
 
 TnoteName::TnoteName(QWidget *parent) :
 	QWidget(),
@@ -111,13 +110,13 @@ TnoteName::TnoteName(QWidget *parent) :
 	mainLay->setContentsMargins(0, 0, 0, 0);
 	mainLay->setSpacing(0);
 #else
-	QLabel *octavesLab = new QLabel(this);
-	octavesLab->setOpenExternalLinks(true);
-	octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
+	m_octavesLab = new QLabel(this);
+	m_octavesLab->setOpenExternalLinks(true);
+	m_octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
 															"You can change this link to article in your language. Leave quotation matks around the address!"));
-	octavesLab->setText("<a href=" + octavesLab->statusTip().mid(octavesLab->statusTip().indexOf("\"")) + ">" +
+	m_octavesLab->setText("<a href=" + m_octavesLab->statusTip().mid(m_octavesLab->statusTip().indexOf("\"")) + ">" +
 											tr("Octaves") + "</a>");
-	octavesLab->setStatusTip(octavesLab->statusTip().replace("\"", "<b><i>"));
+	m_octavesLab->setStatusTip(m_octavesLab->statusTip().replace("\"", "<b><i>"));
 	m_upOctaveLay->addStretch(1);
 #endif
 	m_octaveGroup = new QButtonGroup(this);
@@ -125,18 +124,20 @@ TnoteName::TnoteName(QWidget *parent) :
 			m_octaveButtons[i] = new TpushButton(tr(octaves[i]), this);
 			m_octaveButtons[i]->setStatusTip(tr(octavesFull[i]));
 			if (i % 2) {
-					if (i > 0)
-							m_upOctaveLay->addStretch(1);
-					m_upOctaveLay->addWidget(m_octaveButtons[i]);
+        if (i > 0)
+            m_upOctaveLay->addStretch(1);
+        m_upOctaveLay->addWidget(m_octaveButtons[i]);
+        if (i == 3) {
+          m_upOctaveLay->addStretch(1);
+          m_upOctaveLay->addWidget(m_octavesLab);
+          m_upOctaveLay->addStretch(1);
+        }
 			} else {
-					m_loOctaveLay->addWidget(m_octaveButtons[i]);
-					if (i < 6) {
-						m_loOctaveLay->addStretch(1);
-						if (i == 2) {
-							m_loOctaveLay->addWidget(octavesLab);
-							m_loOctaveLay->addStretch(1);
-						}
-					}
+        m_loOctaveLay->addWidget(m_octaveButtons[i]);
+        if (i == 2)
+          m_loOctaveLay->addStretch(2);
+        else
+          m_loOctaveLay->addStretch(1);
 			}
 			m_octaveGroup->addButton(m_octaveButtons[i], i);
 	}
@@ -286,6 +287,7 @@ void TnoteName::resize(int fontSize) {
 				m_noteButtons[i]->setFont(f);
 		for (int i = 0; i < 8; i++)
 				m_octaveButtons[i]->setFont(f);
+    m_octavesLab->setFont(f);
 		f = QFont(m_dblFlatButt->font().family());
 		f.setPointSize(fontSize);
 		QFontMetrics fMetr(f);
