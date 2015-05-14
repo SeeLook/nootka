@@ -23,7 +23,6 @@ MINOR:
 - switching clefs on longer melodies generates some lags - check it
 - check is intonation checked properly in exams
 
-- changing a clef in instrument settings tab (no instrument) gives strange instrument scale
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - auto hidden tool bar remains big after decreased window size
 - disable shortcuts (KDE styles) or change text to icon on buttons to select instrument and used string (range settings)

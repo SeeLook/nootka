@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -345,10 +345,14 @@ void TguitarSettings::userTune(int, Tnote) {
 
 
 void TguitarSettings::onClefChanged(Tclef clef) {
-		// this is not piano staff - we don't need updateAmbitus()
-		updateNotesState();
-		emit clefChanged(clef);
-		emit lowestNoteChanged(m_tuneView->lowestNote());
+  updateAmbitus();
+  updateNotesState();
+  if (m_selectInstr->instrument() == (int)e_noInstrument && clef.type() == Tclef::e_pianoStaff) { // workaround for piano staff ambitus
+    if (m_tuneView->getNote(5) == m_tuneView->lowestNote()) // set highest note of piano staff as a non guitar scale
+      m_tuneView->setNote(5, m_tuneView->highestNote());
+  }
+  emit clefChanged(clef);
+  emit lowestNoteChanged(m_tuneView->lowestNote());
 }
 
 
@@ -460,17 +464,14 @@ void TguitarSettings::updateNotesState() {
 		grabTuneFromScore(tmpTune);
 		for (int i = 0; i < 6; i++) {
 			if (i >= 6 - tmpTune->stringNr()) {
-// 			if (i >= 6 - m_stringNrSpin->value()) {
-					if (m_tuneView->getNote(i).note == 0) {
-						m_tuneView->setNote(i, m_tuneView->lowestNote());
-						userTune(0, Tnote());
-					}
-					if (m_selectInstr->instrument())
-						m_tuneView->setStringNumber(i, 6 - i);
-					else
-						m_tuneView->clearStringNumber(i);
-			} else {
-// 					m_tuneView->setNoteDisabled(i, true);
+        if (m_tuneView->getNote(i).note == 0) {
+          m_tuneView->setNote(i, m_tuneView->lowestNote());
+          userTune(0, Tnote());
+        }
+        if (m_selectInstr->instrument())
+          m_tuneView->setStringNumber(i, 6 - i);
+        else
+          m_tuneView->clearStringNumber(i);
 			}
 		}
 		delete tmpTune;
