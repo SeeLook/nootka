@@ -150,7 +150,7 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 										      m_questText += playOrSing(int(level->instrument));
 				}
         if (question->answerAsFret() || question->answerAsSound()) {
-					if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos) {
+					if (level->instrument != e_noInstrument && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
 						apendix = "<br> " + onStringTxt(question->qa.pos.str());
 					}
         }

@@ -601,11 +601,10 @@ void TscoreNote::longTap(const QPointF& cPos) {
 
 void TscoreNote::setStringPos() {
 	if (m_stringText) {
-			qreal yy = staff()->upperLinePos() + 9.0; // below the staff
-			if (m_mainPosY > staff()->upperLinePos() + 4.0) 
-					yy = staff()->upperLinePos() - 7.0; // above the staff 
-			m_stringText->setPos(6.5 - m_stringText->boundingRect().width() * m_stringText->scale(), yy);
-			// 6.5 is right position of note head
+    qreal yy = staff()->upperLinePos() + 9.0; // below the staff
+    if (m_mainPosY > staff()->upperLinePos() + 4.0)
+        yy = staff()->upperLinePos() - 7.0; // above the staff
+    m_stringText->setPos(7.5 - m_stringText->boundingRect().width() * m_stringText->scale(), yy);
 	}
 }
 
