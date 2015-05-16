@@ -56,8 +56,6 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 		setWindowTitle(tr("Simple exercise settings"));
 
 	setWindowIcon(QIcon(Tpath::img("systemsettings")));
-    navList->setFixedWidth(110);
-// 		navList->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 		navList->setResizeMode(QListView::Adjust);
     navList->addItem(tr("Common"));
     navList->item(0)->setIcon(QIcon(Tpath::img("global")));
@@ -99,12 +97,6 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
     connect(this, SIGNAL(rejected()), this, SLOT(cancelSlot()));
 		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
     connect(m_helpButt, SIGNAL(pressed()), this, SLOT(helpSlot()));
-
-//     int maxW = 0;
-//     for (int i = 0; i < navList->count(); ++i) {
-//       maxW = qMax<int>(navList->visualItemRect(navList->item(i)).width(), maxW);
-//     }
-//     navList->setFixedWidth(maxW);
 
 	if (mode == e_settings) {
     navList->setCurrentRow(0);

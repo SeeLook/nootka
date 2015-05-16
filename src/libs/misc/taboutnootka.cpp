@@ -223,12 +223,14 @@ void TaboutNootka::changeCurrentPage(int page) {
 
 
 void TaboutNootka::moveScroll() {
-		m_authorScroll->verticalScrollBar()->setValue(m_authorScroll->verticalScrollBar()->value() + 1);
+  m_authorScroll->verticalScrollBar()->setValue(m_authorScroll->verticalScrollBar()->value() + 1);
 }
 
 
 void TaboutNootka::fixSize() {
-		setFixedSize(size());
+  setFixedSize(size());
+  m_navList->setFixedWidth(m_navList->sizeHintForColumn(0) + 2 * m_navList->frameWidth() +
+          (m_navList->verticalScrollBar()->isVisible() ? m_navList->verticalScrollBar()->width() : 0));
 }
 
 

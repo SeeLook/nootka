@@ -132,14 +132,14 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	else
 		setAmbitus(34, 2);
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
-	checkEmptyText();
+  checkEmptyText();
 }
 
 
 TscoreNote::~TscoreNote() { // release work note and controls from destructing parent
 	if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
 		scoreScene()->noteDeleted(this);
-	delete m_note;
+  delete m_note;
 }
 
 //##############################################################################

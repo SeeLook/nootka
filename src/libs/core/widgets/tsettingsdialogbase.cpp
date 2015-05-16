@@ -32,7 +32,6 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
 		navList->setMovement(QListView::Static);
-// 		navList->setStyleSheet("QListWidget::item:hover {background-color:palette(highlight);}");
 
     contLay->addWidget(navList);
 
@@ -62,8 +61,6 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     setLayout(mainLay);
 		
 		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    
-    fitSize();
 }
 
 
@@ -71,7 +68,8 @@ bool TsettingsDialogBase::event(QEvent *event) {
     if (event->type() == QEvent::StatusTip) {
         QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
         hint->setText("<center>"+se->tip()+"</center>");
-    }
+    } else if (event->type() == QEvent::Resize)
+      QTimer::singleShot(20, this, SLOT(fitSize()));
     return QDialog::event(event);
 }
 
@@ -92,6 +90,8 @@ void TsettingsDialogBase::fitSize() {
       convertStatusTips();
       connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(convertStatusTips()));
   }
+  navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
+          (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0));
 }
 
 
