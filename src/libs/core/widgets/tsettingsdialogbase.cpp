@@ -32,6 +32,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setFixedWidth(100);
     navList->setViewMode(QListView::IconMode);
 		navList->setMovement(QListView::Static);
+    navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     contLay->addWidget(navList);
 

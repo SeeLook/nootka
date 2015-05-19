@@ -40,7 +40,8 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 	QWidget *m_1_misc, *m_2_keys, *m_3_clefs;
 	
 // 1. Miscellaneous score settings
-	m_1_misc = new QWidget();	
+	m_1_misc = new QWidget();
+  m_toolBox->addItem(m_1_misc, "1. " + tr("Score settings"));
 		m_singleNoteGr = new QGroupBox(tr("use single note only"), m_1_misc);
 			m_singleNoteGr->setStatusTip(tr("When enabled, a score displays only a single note."));
 			m_singleNoteGr->setCheckable(true);
@@ -92,7 +93,8 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 	   m_1_misc->setLayout(miscLay);
 	
 // 2. Key signatures settings
-	m_2_keys = new QWidget();		
+	m_2_keys = new QWidget();
+  m_toolBox->addItem(m_2_keys, "2. " + tr("Key signatures"));
     m_workStyle = Tcore::gl()->S->nameStyleInKeySign;
     QVBoxLayout *keyLay = new QVBoxLayout();
     m_enablKeySignCh = new QCheckBox(tr("enable key signature"), m_2_keys);
@@ -145,7 +147,8 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 	   m_2_keys->setLayout(keyLay);
     
 // 2. Clefs settings
-	m_3_clefs = new QWidget();	
+	m_3_clefs = new QWidget();
+  m_toolBox->addItem(m_3_clefs, "3. " + tr("Clefs"));
 		m_clefSelector = new TselectClef(m_3_clefs);
 		QHBoxLayout* clefLay = new QHBoxLayout;
 		QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), m_3_clefs);
@@ -158,11 +161,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 		m_clefSelector->selectClef(Tcore::gl()->S->clef);
     m_3_clefs->setLayout(clefLay);
 
-  m_nameTab = new TnoteNameSettings();
-
-  m_toolBox->addItem(m_1_misc, "1. " + tr("Score settings"));
-  m_toolBox->addItem(m_2_keys, "2. " + tr("Key signatures"));
-  m_toolBox->addItem(m_3_clefs, "3. " + tr("Clefs"));
+  m_nameTab = new TnoteNameSettings(m_toolBox);
   m_toolBox->addItem(m_nameTab, "4. " + tr("Notes naming"));
 	QVBoxLayout *mainLay = new QVBoxLayout;
 	mainLay->addWidget(m_toolBox);

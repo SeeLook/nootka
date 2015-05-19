@@ -54,6 +54,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     m_navList->setFixedWidth(110);
     m_navList->setViewMode(QListView::IconMode);
 		m_navList->setMovement(QListView::Static);
+    m_navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 //     navList->setFlow(QListView::TopToBottom);
     abLay->addWidget(m_navList);
 

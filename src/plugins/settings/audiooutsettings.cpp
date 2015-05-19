@@ -35,7 +35,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     m_audioOutEnableGr = new QGroupBox(tr("play sound"), this);
     m_audioOutEnableGr->setStatusTip(tr("Selected notes and guitar positions will be played."));
     m_audioOutEnableGr->setCheckable(true);
-    m_audioOutEnableGr->setChecked(m_params->OUTenabled ); 
+//     m_audioOutEnableGr->setChecked(m_params->OUTenabled);
 
     QVBoxLayout *audioOutLay = new QVBoxLayout;
 
@@ -143,6 +143,7 @@ void AudioOutSettings::generateDevicesList() {
     return;
   setDevicesCombo();
   m_listGenerated = true;
+  m_audioOutEnableGr->setChecked(m_params->OUTenabled);
 }
 
 
