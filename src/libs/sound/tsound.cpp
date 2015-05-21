@@ -118,6 +118,7 @@ void Tsound::acceptSettings() {
       createSniffer();
       m_pitchView->setAudioInput(sniffer);
     } else {
+      m_userState = sniffer->stoppedByUser();
       setDefaultAmbitus();
       doParamsUpdated = true;
     }
@@ -159,7 +160,7 @@ void Tsound::prepareToConf() {
 //     deletePlayer();
 	}
   if (sniffer) {
-    m_userState = m_pitchView->isPaused();
+    m_userState = sniffer->stoppedByUser(); // m_pitchView->isPaused();
     sniffer->stopListening();
     m_pitchView->setDisabled(true);
     blockSignals(true);
@@ -303,6 +304,7 @@ void Tsound::createSniffer() {
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
 	connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
 	connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
+  m_userState = false; // user didn't stop sniffing yet
 }
 
 
