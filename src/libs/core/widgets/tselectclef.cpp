@@ -199,7 +199,8 @@ bool TradioClef::event(QEvent* event) {
   if (event->type() == QEvent::Leave || event->type() == QEvent::Hide) {
       m_hasMouseOver = false;
       update();
-      emit statusTipWanted("");
+      if (event->type() == QEvent::Leave)
+        emit statusTipWanted("");
   } else if (event->type() == QEvent::MouseMove && !m_hasMouseOver) {
       m_hasMouseOver = true;
       update();

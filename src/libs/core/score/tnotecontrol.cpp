@@ -336,13 +336,14 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 	QGraphicsItem *it = scene()->itemAt(mapToScene(event->pos()), scene()->views()[0]->transform());
 	if (m_notesAdding) {
 		if (it == this) {
+      if (!m_adding)
+        emit statusTip(tr("Click to add a new note"));
 			m_adding = true;
-			emit statusTip(tr("Click to add a new note"));
 		} else
 			m_adding = false;
 		if (it != m_underItem)
 			update();
-	}	
+	}
 	if (it && it->parentItem() == this) {
 		if (it != m_underItem) {
 			it->setGraphicsEffect(ItemHighLight());
@@ -361,7 +362,7 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 				emit statusTip(tr("Click %1 to edit note name")
 					.arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, 
 															"color: " + scoreScene()->nameColor().name())));
-			else
+			else if (!m_adding)
 				emit statusTip("");
 			if (m_underItem)
 				m_underItem->setGraphicsEffect(0);
@@ -369,7 +370,8 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 		}
 	} else if (m_underItem) {
 			m_underItem->setGraphicsEffect(0);
-			emit statusTip("");
+      if (!m_adding)
+        emit statusTip("");
 			m_underItem = 0;
 	}
 }
