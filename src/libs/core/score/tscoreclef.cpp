@@ -130,15 +130,15 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	} else {
     if (!m_menu) {
       m_menu = new QMenu();
-      if (!m_clefMenu)
+      if (!m_clefMenu) {
           m_clefMenu = new TclefMenu(m_menu);
-      else
+          connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
+      } else
           m_clefMenu->setMenu(m_menu);
       Tclef curClef = m_clef;
       if (staff()->isPianoStaff())
         curClef = Tclef(Tclef::e_pianoStaff);
       m_clefMenu->selectClef(curClef);
-      connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
       Tclef cl = m_clefMenu->exec(QCursor::pos());
       m_clefMenu->setMenu(0);
       delete m_menu;

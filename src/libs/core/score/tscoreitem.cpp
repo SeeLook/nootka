@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -44,7 +44,7 @@ void TscoreItem::setStatusTip(QString status) {
   if (m_statusTip == "")
       disconnect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)));
   else
-      connect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)));
+      connect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)), Qt::UniqueConnection);
 }
 
 //####################################################################################
