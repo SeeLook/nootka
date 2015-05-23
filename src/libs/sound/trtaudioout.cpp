@@ -61,7 +61,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
 
 
 int 					TaudioOUT::m_samplesCnt = 0;
-int 					TaudioOUT::m_maxCBloops = 44100 / TrtAudio::bufferFrames() * 2;
+int 					TaudioOUT::m_maxCBloops = 44100 / TrtAudio::bufferFrames() * 2 - 10;
 TaudioOUT* 		TaudioOUT::instance = 0;
 qint16* 			TaudioOUT::m_crossBuffer = 0;
 bool 					TaudioOUT::m_doCrossFade = false;
@@ -70,14 +70,14 @@ float 				TaudioOUT::m_cross = 0.0f;
 
 bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
 	instance->m_callBackIsBussy = true;
-//   if ( status ) // It doesn't harm if occurs
+//   if (status) // It doesn't harm if occurs
 // 			qDebug() << "Stream underflow detected!";
 	if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
 			m_doCrossFade = false;
 			m_cross = 1.0f;
 			instance->m_crossCount = 0;
 	}
-  if (m_samplesCnt < m_maxCBloops - 10) {
+  if (m_samplesCnt < m_maxCBloops) {
 			m_samplesCnt++;
       qint16 *out = (qint16*)outBuff;
       int off = m_samplesCnt * (nBufferFrames / instance->ratioOfRate);
@@ -126,8 +126,9 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   instance = this;
   forceUpdate = true;
 	m_crossBuffer = new qint16[1000];
-	connect(ao(), SIGNAL(streamOpened()), this, SLOT(streamOpenedSlot()));
-	connect(ao(), SIGNAL(paramsUpdated()), this, SLOT(updateSlot()));
+  connect(ao(), &TaudioObject::streamOpened, this, &TaudioOUT::streamOpenedSlot);
+	connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioOUT::updateSlot);
+  connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedSlot);
 }
 
 
@@ -166,8 +167,9 @@ void TaudioOUT::setAudioOutParams() {
         playable = false;
 }
 
+
 void TaudioOUT::streamOpenedSlot() {
-	m_maxCBloops = (88200 * ratioOfRate) / bufferFrames();
+  m_maxCBloops = (outRate() * 2) / bufferFrames() - outRate() / 441;
 }
 
 
@@ -180,7 +182,7 @@ bool TaudioOUT::play(int noteNr) {
 // 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
 	}
 	
-  if (m_samplesCnt < m_maxCBloops - 10) {
+  if (m_samplesCnt < m_maxCBloops) {
 			int off = (m_samplesCnt + 1) * (bufferFrames() / ratioOfRate); // next chunk of playing sound
 			for (int i = 0; i < 1000; i++) // copy data of current sound to perform crrosfading
 				m_crossBuffer[i] = oggScale->getSample(off + i);
@@ -205,12 +207,20 @@ bool TaudioOUT::play(int noteNr) {
 }
 
 
-void TaudioOUT::stop() {
-	if (getCurrentApi() == RtAudio::LINUX_PULSE)
-		closeStream();
-	else
-		abortStream();
+void TaudioOUT::playingFinishedSlot() {
+  if (areStreamsSplit() && state() == e_playing) {
+    closeStream();
+  }
 }
+
+
+void TaudioOUT::stop() {
+	if (areStreamsSplit() || getCurrentApi() == RtAudio::LINUX_PULSE)
+		closeStream();
+  else
+    abortStream();
+}
+
 
 #if defined(Q_OS_WIN)
 void TaudioOUT::ASIORestartSlot() {

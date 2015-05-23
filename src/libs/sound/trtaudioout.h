@@ -60,6 +60,7 @@ protected:
 private slots:
 	void streamOpenedSlot();
 	void updateSlot() { setAudioOutParams(); }
+	void playingFinishedSlot();
 #if defined(Q_OS_WIN)
 	void ASIORestartSlot();
 #endif

@@ -179,7 +179,7 @@ if(WIN32)
 #   )
   
 	get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
-	get_filename_component(MAKE_DIR "${CMAKE_MAKE_PROGRAM}" DIRECTORY)
+	get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY)
 	find_package(Qt5Core)
 	get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
 	get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
@@ -191,7 +191,7 @@ if(WIN32)
 	)
 
 	add_custom_target(runinplace
-		COMMAND echo " "
+		COMMAND echo
 		COMMAND echo Copying libraries...
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Core.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Gui.dll ${CMAKE_BINARY_DIR}/src/.
@@ -222,7 +222,7 @@ if(WIN32)
 		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/lang ${CMAKE_BINARY_DIR}/src/lang/.
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/sounds
 		COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/sounds ${CMAKE_BINARY_DIR}/src/sounds/.
-		COMMAND echo " "
+		COMMAND echo
    )
 ELSE(WIN32)
 	if (APPLE)
