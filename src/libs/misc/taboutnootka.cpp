@@ -55,7 +55,6 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     m_navList->setViewMode(QListView::IconMode);
 		m_navList->setMovement(QListView::Static);
     m_navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//     navList->setFlow(QListView::TopToBottom);
     abLay->addWidget(m_navList);
 
     m_stackLayout = new QStackedLayout;
@@ -210,7 +209,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     connect(m_okBut, SIGNAL(clicked()), this, SLOT(accept()));
 		connect(m_navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeCurrentPage(int)));
 		
-		QTimer::singleShot(20, this, SLOT(fixSize()));
+		QTimer::singleShot(500, this, SLOT(fixSize()));
 }
 
 
@@ -229,9 +228,10 @@ void TaboutNootka::moveScroll() {
 
 
 void TaboutNootka::fixSize() {
-  setFixedSize(size());
   m_navList->setFixedWidth(m_navList->sizeHintForColumn(0) + 2 * m_navList->frameWidth() +
           (m_navList->verticalScrollBar()->isVisible() ? m_navList->verticalScrollBar()->width() : 0));
+  adjustSize();
+  setFixedSize(size());
 }
 
 
