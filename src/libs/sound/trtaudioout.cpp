@@ -169,7 +169,7 @@ void TaudioOUT::setAudioOutParams() {
 
 
 void TaudioOUT::streamOpenedSlot() {
-  m_maxCBloops = (outRate() * 2) / bufferFrames() - outRate() / 441;
+  m_maxCBloops = (outRate() * 1.6) / bufferFrames();
 }
 
 

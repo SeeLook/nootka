@@ -269,8 +269,8 @@ void TmainScore::playScore() {
 			return;
 		m_scoreIsPlayed = true;
 		m_playTimer = new QTimer(this);
+    m_playTimer->setTimerType(Qt::PreciseTimer);
 		connect(m_playTimer, SIGNAL(timeout()), this, SLOT(playSlot()));
-		m_playTimer->start(60000 / Tcore::gl()->S->tempo);
 		m_playedIndex = currentIndex() - 1;
 		playSlot();
 	}
@@ -776,6 +776,8 @@ void TmainScore::playSlot() {
 		// by emitting that signal note is played and shown on the guitar
 			emit noteWasChanged(m_playedIndex % staff()->maxNoteCount(), 
 												*currentStaff()->getNote(m_playedIndex % staff()->maxNoteCount()));
+      if (!m_playTimer->isActive()) // timer is started here to skip out stream initialization delay
+        m_playTimer->start(60000 / Tcore::gl()->S->tempo);
 	} else
 			emit playbackFinished();
 }
