@@ -324,8 +324,10 @@ bool TrtAudio::listen() {
   if (rtDevice()->isStreamOpen()) {
     if (m_state == e_listening)
       return true;
-    if (m_state == e_playing)
+    if (m_state == e_playing) {
+      abortStream();
       closeStream();
+    }
   }
   m_state = e_listening;
   rtDevice()->openStream(0, m_inParams, RTAUDIO_SINT16, m_inSR, &m_bufferFrames, &listenCallBack, 0, streamOptions);
@@ -338,8 +340,10 @@ bool TrtAudio::play() {
   if (rtDevice()->isStreamOpen()) {
     if (m_state == e_playing)
       return true;
-    if (m_state == e_listening)
+    if (m_state == e_listening) {
+      abortStream();
       closeStream();
+    }
   }
   m_state = e_playing;
   rtDevice()->openStream(m_outParams, 0, RTAUDIO_SINT16, m_outSR, &m_bufferFrames, &playCallBack, 0, streamOptions);
