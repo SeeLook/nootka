@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,11 @@
 #include <music/tmelody.h>
 #include <music/trhythm.h>
 #include <QDebug>
+#include <QDateTime>
 
 
 void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
+  qsrand(QDateTime::currentDateTime().toTime_t());
 	for (int i = 0; i < len; ++i) {
 		int randVal = qrand() % qList.size();
 		Tnote pitch = qList[randVal].note;
