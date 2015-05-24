@@ -76,13 +76,12 @@ void Tsound::play(Tnote& note) {
 
 
 void Tsound::playMelody(Tmelody* mel) {
-	if (m_melodyNoteIndex > -1) {
-		stopPlaying();
-		return;
-	}
-	m_melodyNoteIndex = 0;
-	m_playedMelody = mel;
-// 	TpreciseTimer::singleShot(10, this, SLOT(playMelodySlot()));
+	if (m_melodyNoteIndex > -1)
+    m_melodyNoteIndex = m_playedMelody->length();
+	else {
+    m_melodyNoteIndex = 0;
+    m_playedMelody = mel;
+  }
   playMelodySlot();
 }
 
