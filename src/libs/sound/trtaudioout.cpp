@@ -97,7 +97,10 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 				}
       }
       instance->m_callBackIsBussy = false;
-      return false;
+      if (m_samplesCnt == m_maxCBloops)
+        return true;
+      else
+        return false;
   } else {
 			instance->m_callBackIsBussy = false;
       return true;
