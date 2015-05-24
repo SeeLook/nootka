@@ -58,20 +58,23 @@ bool initCoreLibrary() {
 
 
 void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
-	QString ll = "";
-	if (Tcore::gl())
-      ll = Tcore::gl()->lang;
-	if (ll == "")
-			ll = QString(std::getenv("LANG"));// QLocale::system().name();
-#if defined(Q_OS_LINUX)
-    qt.load("qt_" + ll, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-#else
-    qt.load("qt_" + ll, Tcore::gl()->path + "lang");
-#endif
-	a->installTranslator(&qt);
+	if (!Tcore::gl())
+    return;
 
-	noo.load("nootka_" + ll, Tcore::gl()->path + "lang");
-	a->installTranslator(&noo);
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
+  QLocale::setDefault(loc);
+
+	QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+#if !defined (Q_OS_LINUX)
+  translationsPath = Tcore::gl()->path + "lang";
+#endif
+  if (loc.country() == QLocale::Poland || loc.country() == QLocale::France) // So far, there are missing
+    translationsPath = Tcore::gl()->path + "lang"; // TODO Check when qtbase translations will be shipped with Qt
+  if (qt.load(loc, "qtbase_", "", translationsPath))
+    a->installTranslator(&qt);
+  noo.load(loc, "nootka_", "", Tcore::gl()->path + "lang");
+  a->installTranslator(&noo);
+
 	TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, 
 															Tcore::gl()->S->minKeyNameSufix);
 }
