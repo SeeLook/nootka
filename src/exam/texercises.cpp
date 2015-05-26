@@ -33,7 +33,8 @@ Texercises::Texercises(Texam* exam, QObject* parent) :
 	m_exam(exam),
 	m_checkNow(false),
 	m_readyToExam(false),
-	m_checkInFuture(false)
+	m_checkInFuture(false),
+	m_correctedNoteId(-1)
 {
 	m_exam->setExercise();
 }
