@@ -8,7 +8,7 @@ project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
 SET(Nootka_VERSION_MINOR  "1")
-SET(Nootka_VERSION_PATCH  "6-rc1")
+SET(Nootka_VERSION_PATCH  "7-rc2")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -100,11 +100,12 @@ if(APPLE OR WIN32)
   get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 	set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
 	install(FILES gpl DESTINATION "${INS_PREF}")
-  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qt_cs.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_de.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_fr.qm" # "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_pl.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
-										"${QT_TRANSLATIONS_DIR}/qt_ru.qm" #"${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
+  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
+										"${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
+										"${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
+										# So far not provided by Qt
+										#"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_fr.qm"
+                    #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_pl.qm"
 										)
 endif(APPLE OR WIN32)
 

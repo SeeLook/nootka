@@ -1,11 +1,12 @@
 1.1.7 rc2
      - improvements/fixes related to low latency and real-time audio
      - updated Qt libraries to the latest version in Windows installer
-    BUGS FIXES
      - changed all static font sizes to system related sizes
+    BUGS FIXES
      - proper clef rendering in question tips
      - proper re-sampling when rate is bigger than 48000
      - avoiding multiple calls of status messages for better performance
+     - fixed loading Qt translations and switching languages
      - fixed Debian package dependencies, Ubuntu 14.04 is supported now
 
 1.1.6 rc1
