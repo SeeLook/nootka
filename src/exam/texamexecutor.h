@@ -126,6 +126,8 @@ protected slots:
 	void settingsAccepted(); /** Should be called when settings (Tglobals) was changed during exam. */
 	void correctNoteOfMelody(int noteNr);
 
+  void correctionFinished();
+
 private:
 	void createActions();
 	void prepareToExam();

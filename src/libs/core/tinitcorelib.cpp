@@ -61,7 +61,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 	if (!Tcore::gl())
     return;
 
-  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? std::getenv("LANG") : Tcore::gl()->lang);
   QLocale::setDefault(loc);
 
 	QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);

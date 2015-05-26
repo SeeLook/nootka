@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,36 +32,43 @@ class Texam;
  */
 class Texercises : public QObject
 {
-	Q_OBJECT
-	
+  Q_OBJECT
+
 public:
-		Texercises(Texam *exam, QObject *parent = 0);
-		
-		void checkAnswer();
-		
-				/** Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
-				 * Given value should be qaPossibilities() calculated by @class TexecutorSupply.
-				 * Special cases are when exercises are melodies - it is controlled by @p melody.	 */
-		void setSuggestionEnabled(int qaPosibilities, bool melody = false);
-		
-				/** Returns user decision when he got message about starting an exam.
-				 * It affects global setting for further suggestions. */
-		bool suggestInFuture() { return m_checkInFuture; }
-		
-				/** Returns true when user decided to start exam after suggestion.  */
-		bool readyToExam() { return m_readyToExam; }
-		
+  Texercises(Texam *exam, QObject *parent = 0);
+
+  void checkAnswer();
+
+      /** Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
+        * Given value should be qaPossibilities() calculated by @class TexecutorSupply.
+        * Special cases are when exercises are melodies - it is controlled by @p melody.	 */
+  void setSuggestionEnabled(int qaPosibilities, bool melody = false);
+
+      /** Returns user decision when he got message about starting an exam.
+        * It affects global setting for further suggestions. */
+  bool suggestInFuture() { return m_checkInFuture; }
+
+      /** Returns true when user decided to start exam after suggestion.  */
+  bool readyToExam() { return m_readyToExam; }
+
+      /** Stores index of corrected note on the score.
+       * By default it is -1 --> no note was corrected.
+       *Score emits signal when correction finish */
+  void setCorrectedNoteId(int noteId = -1) { m_correctedNoteId = noteId; }
+  int idOfCorrectedNote() { return m_correctedNoteId; }
+
 signals:
-		void messageDisplayed();
-				/** Signal emitted after message with information about desire to start an exam.  */
-		void messageClosed(bool);
-		
+  void messageDisplayed();
+      /** Signal emitted after message with information about desire to start an exam.  */
+  void messageClosed(bool);
+
 private:
-		Texam			 *m_exam;
-		bool 				m_checkInFuture, m_checkNow, m_readyToExam;
-		int 				m_max; /** Number of questions in a cycle */
-		int					m_currentGood; /** Number of good answers since last mistake */;
-		int					m_prevMistake;
+  Texam			 *m_exam;
+  bool 				m_checkInFuture, m_checkNow, m_readyToExam;
+  int 				m_max; /** Number of questions in a cycle */
+  int					m_currentGood; /** Number of good answers since last mistake */;
+  int					m_prevMistake;
+  int         m_correctedNoteId;
 
 };
 

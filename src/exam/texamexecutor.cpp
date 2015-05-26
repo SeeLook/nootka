@@ -47,6 +47,7 @@
 #include <tscoreparams.h>
 #include <music/tmelody.h>
 #include <tlayoutparams.h>
+#include <graphics/tnotepixmap.h>
 #include <gui/ttoolbar.h>
 #include <gui/tmainview.h>
 #include <QtWidgets>
@@ -236,6 +237,8 @@ void TexamExecutor::initializeExecuting() {
 void TexamExecutor::askQuestion(bool isAttempt) {
 	m_askingTimer->stop();
 	m_lockRightButt = false; // release mouse button events
+	if (m_exercise && !gl->E->showCorrected) // hide correct action button
+      mW->bar->removeAction(mW->bar->correctAct);
 	if (m_exam->count() && m_exercise && m_exam->melodies())
     disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
 	if (m_exam->count() && m_exam->melodies())
@@ -261,8 +264,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 					mW->bar->startExamAct->setDisabled(true);
 			m_canvas->clearCanvas();
     }
-    if (m_exercise)
-			mW->bar->removeAction(mW->bar->correctAct);
     m_isAnswered = false;
     m_incorrectRepeated = false;
     m_answRequire.octave = m_level.requireOctave;
@@ -313,7 +314,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   // ASKING QUESTIONS
 	if (curQ->questionAsNote()) {
 		if (curQ->melody()) {
-			if (!isAttempt)
+			if (!isAttempt) {
 				mW->score->askQuestion(curQ->melody());
         if (m_level.showStrNr) { // we may be sure that instrument is kind of a guitar
           for (int i = 0; i < curQ->melody()->length(); ++i) {
@@ -323,6 +324,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           if (mW->guitar->isVisible())
             mW->guitar->prepareAnswer(); // It just shows range frame
         }
+      }
 			if (curQ->answerAsSound()) { // in fact, there is no other option yet
 				connect(mW->sound, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
         connect(mW->sound, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
@@ -650,44 +652,37 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 		
 	if (showResults) {
-			int mesgTime = 0;
-      if (autoNext) { // determine time of displaying
-				if (curQ->isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
-						mesgTime = 2500; // hard-coded 
-				else
-						mesgTime = gl->E->mistakePreview; // user defined wait time
-			}
-      m_canvas->resultTip(curQ, mesgTime);
+      m_canvas->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
 			if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
-					m_canvas->whatNextTip(curQ->isCorrect());
+        m_canvas->whatNextTip(curQ->isCorrect());
       if (!autoNext) {
-          if (!curQ->isCorrect() && !m_exercise && !curQ->melody()) {
-							mW->bar->addAction(mW->bar->prevQuestAct);
-					}
-					if (!curQ->isCorrect() && curQ->melody())
-						mW->bar->addAction(mW->bar->attemptAct);
-          mW->bar->addAction(mW->bar->nextQuestAct);
+        if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
+            mW->bar->addAction(mW->bar->prevQuestAct);
+        if (!curQ->isCorrect() && curQ->melody())
+          mW->bar->addAction(mW->bar->attemptAct);
+        mW->bar->addAction(mW->bar->nextQuestAct);
       }
 	}
 
 	markAnswer(curQ);
 	int waitTime = gl->E->questionDelay;
 	if (m_exercise) {
-			if (gl->E->afterMistake != TexamParams::e_continue || gl->E->showCorrected)
-				waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
-			m_exercise->checkAnswer(); // TODO but add case when user used hints for dictation - it can be 'fully' correct
-			if (!curQ->isCorrect()) { // correcting wrong answer
-					if (gl->E->showCorrected) // TODO for dictation it should always stop and show mistakes
-						correctAnswer();
-					else {
-						mW->bar->addAction(mW->bar->correctAct);
-						if (!autoNext) {
-								m_canvas->whatNextTip(true, true);
-								m_lockRightButt = false;
-								return; // wait for user
-						}
-					}
-			}
+    if (gl->E->afterMistake != TexamParams::e_continue || gl->E->showCorrected)
+      waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
+    m_exercise->checkAnswer();
+    if (!curQ->isCorrect()) { // correcting wrong answer
+        if (gl->E->showCorrected) // TODO for dictation it should always stop and show mistakes
+          correctAnswer();
+        else {
+          if (gl->E->afterMistake == TexamParams::e_stop) // user doesn't want corrections - show too button only when exam stops after mistake
+              mW->bar->addAction(mW->bar->correctAct);
+          if (!autoNext) {
+              m_canvas->whatNextTip(true, true);
+              m_lockRightButt = false;
+              return; // wait for user
+          }
+        }
+    }
 	}
 	if (showResults && autoNext) {
       m_lockRightButt = true; // to avoid nervous users clicking mouse during wait time
@@ -729,7 +724,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
  */
 void TexamExecutor::correctAnswer() {
 	if (!gl->E->showCorrected)
-			mW->bar->removeAction(mW->bar->correctAct);
+    mW->bar->removeAction(mW->bar->correctAct);
+  bool correctAnimStarted = false;
 	if (m_askingTimer->isActive())
 			m_askingTimer->stop();
 	m_canvas->clearWhatNextTip();
@@ -750,16 +746,19 @@ void TexamExecutor::correctAnswer() {
 			else if (curQ->wrongNote()) {
 					if (m_level.manualKey && curQ->key.value() != mW->score->keySignature().value())
 						mW->score->correctKeySignature(curQ->key);
+          m_exercise->setCorrectedNoteId(0);
 					mW->score->correctNote(goodNote, markColor);
 			}
 			if (curQ->wrongKey())
 					mW->score->correctKeySignature(curQ->key);
+      correctAnimStarted = true;
 		}
 	} else if (curQ->answerAsFret()) {
 			TfingerPos goodPos = curQ->qa.pos;
 			if (curQ->questionAsFret())
 					goodPos = curQ->qa_2.pos;
 			mW->guitar->correctPosition(goodPos, markColor);
+      correctAnimStarted = true;
 	} else if (curQ->answerAsName()) {
 			Tnote goodNote = curQ->qa.note;
 			if (curQ->questionAsName())
@@ -774,6 +773,7 @@ void TexamExecutor::correctAnswer() {
 				}
 			}
 			mW->noteName->correctName(goodNote, markColor, curQ->isWrong());
+      correctAnimStarted = true;
 	} else { // answer as played sound
 		if (curQ->melody()) {
 			
@@ -782,6 +782,7 @@ void TexamExecutor::correctAnswer() {
 					float outTune = mW->sound->pitch() - (float)qRound(mW->sound->pitch());
 					mW->pitchView->outOfTuneAnim(outTune, 1200);
 					m_canvas->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
+          correctAnimStarted = true;
 			}
 			if (m_supp->isCorrectedPlayable())
 					repeatSound();
@@ -792,29 +793,34 @@ void TexamExecutor::correctAnswer() {
 						mW->guitar->correctPosition(curQ->qa.pos, markColor);
 					else
 						m_canvas->correctToGuitar(curQ->questionAs, gl->E->mistakePreview, curQ->qa.pos);
+          correctAnimStarted = true;
 				}
 			}
 		}
 	}
-	if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop && !curQ->melody()) {
-			m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
-			m_askingTimer->start(gl->E->correctPreview);
-  }
-  if (curQ->melody()) {
-		m_canvas->whatNextTip(false, false);
-    connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
-  } else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop) 
-			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
-	if (curQ->melody() && (curQ->questionAsNote() || curQ->answerAsNote()))
-			m_canvas->melodyCorrectMessage();
-	if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
-			QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
+	if (correctAnimStarted) { // disable space bar and right mouse button when animation is performed
+    mW->bar->nextQuestAct->setDisabled(true);
+    m_lockRightButt = true;
+  } else
+    correctionFinished();
+
+// 	if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop && !curQ->melody()) {
+// 			m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
+// 			m_askingTimer->start(gl->E->correctPreview);
+//   }
+//   if (curQ->melody()) {
+// 		m_canvas->whatNextTip(false, false);
+//     connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
+//   } else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop)
+// 			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
+// 	if (curQ->melody() && (curQ->questionAsNote() || curQ->answerAsNote()))
+// 			m_canvas->melodyCorrectMessage();
+// 	if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
+// 			QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 }
 
 
 void TexamExecutor::newAttempt() {
-	if (m_exercise)
-		mW->bar->removeAction(mW->bar->correctAct);
 	m_canvas->tryAgainTip(3000);
 	QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); 
 	if (m_exam->curQ()->answerAsNote() || m_exam->curQ()->questionAsNote()) // remove names and marks from score notes
@@ -870,8 +876,8 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 			case TQAtype::e_asSound:
 				break;
 		}
-	}
-  if (m_exercise && gl->E->showNameOfAnswered) {
+	}                                                       // TODO
+  if (m_exercise && gl->E->showNameOfAnswered /*&& (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_continue))*/) {
 		if (!curQ->questionAsName() && !curQ->answerAsName()) {
 			if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
 				mW->score->showNames(gl->S->nameStyleInNoteName);
@@ -1026,7 +1032,7 @@ void TexamExecutor::prepareToExam() {
     mW->pitchView->setIntonationAccuracy(m_level.intonation);
     mW->pitchView->enableAccuracyChange(false);
   }
-// 		TtipChart::defaultClef = m_level.clef; // TODO
+  TnotePixmap::setDefaultClef(m_level.clef);
   mW->updateSize(mW->centralWidget()->size());
   clearWidgets();
   if (gl->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
@@ -1045,6 +1051,18 @@ void TexamExecutor::prepareToExam() {
   m_canvas = new Tcanvas(mW->innerWidget, m_exam, mW);
   connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
   m_canvas->startTip();
+  if (m_exercise && !m_exam->melodies()) {
+    if (m_level.answerIsNote())
+      connect(mW->score, &TmainScore::correctingFinished, this, &TexamExecutor::correctionFinished);
+    if (m_level.answerIsName())
+      connect(mW->noteName, &TnoteName::correctingFinished, this, &TexamExecutor::correctionFinished);
+    if (m_level.answerIsGuitar())
+      connect(mW->guitar, &TfingerBoard::correctingFinished, this, &TexamExecutor::correctionFinished);
+    if (m_level.answerIsSound()) {
+      connect(mW->pitchView, &TpitchView::correctingFinished, this, &TexamExecutor::correctionFinished);
+      connect(m_canvas, &Tcanvas::correctingFinished, this, &TexamExecutor::correctionFinished);
+    }
+  }
 }
 
 
@@ -1058,7 +1076,7 @@ void TexamExecutor::restoreAfterExam() {
     gl->E->suggestExam = m_exercise->suggestInFuture();
   }
   
-// 		TtipChart::defaultClef = gl->S->clef;
+  TnotePixmap::setDefaultClef(gl->S->clef);
   mW->pitchView->setVisible(gl->L->soundViewEnabled);
   mW->guitar->setVisible(gl->L->guitarEnabled);
   mW->setSingleNoteMode(gl->S->isSingleNoteMode);
@@ -1481,6 +1499,7 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
 			quint32 &m = m_exam->curQ()->lastAttempt()->mistakes[noteNr];
 			if (m_exam->curQ()->answerAsNote() && m_exam->curQ()->melody()->length() > noteNr) { // only dictations can be corrected
 				if (m && !m_melody->fixed(noteNr) && !mW->score->isCorrectAnimPending()) { // fix if it has not been fixed yet
+          m_exercise->setCorrectedNoteId(noteNr);
 					mW->score->correctNote(m_exam->curQ()->melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
 					m_melody->setFixed(noteNr);
           if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // to much fixed - block new attempt
@@ -1582,6 +1601,30 @@ void TexamExecutor::blindQuestion() {
 	QTimer::singleShot(10, this, SLOT(askQuestion()));
 }
 
+
+void TexamExecutor::correctionFinished() {
+  if (sender() == mW->score) { // show name on score only when it is enabled and corrected
+    if (gl->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
+      Tnote::EnameStyle tmpStyle = Tnote::defaultStyle; // store current name style
+      Tnote::defaultStyle = m_exam->curQ()->styleOfQuestion(); // set style of question
+      mW->score->noteFromId(m_exercise->idOfCorrectedNote())->showNoteName(QColor(gl->EanswerColor.lighter().name())); // show note name
+      Tnote::defaultStyle = tmpStyle; // restore style
+    }
+  }
+  mW->bar->nextQuestAct->setDisabled(false);
+  if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop && !m_exam->curQ()->melody()) {
+    m_askingTimer->start(gl->E->correctPreview); // new question will be started after preview time
+  }
+  if (m_exam->curQ()->melody()) { // despite of 'auto' settings when melody - auto next question will not work
+    m_canvas->whatNextTip(false, false);
+    connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
+  } else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop)
+      m_canvas->whatNextTip(!(!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated));
+  if (m_exam->curQ()->melody() && (m_exam->curQ()->questionAsNote() || m_exam->curQ()->answerAsNote()))
+      m_canvas->melodyCorrectMessage();
+  if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
+      QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
+}
 
 
 
