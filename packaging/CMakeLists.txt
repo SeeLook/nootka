@@ -33,7 +33,7 @@ if (ENABLE_PULSEAUDIO)
 endif (ENABLE_PULSEAUDIO)
 
 
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.19), libqt5gui5 | libqt5-gui, libqt5widgets5 | libqt5-widgets, libqt5printsupport5 | libqt5-printsupport, ${DEB_DEPENDS} libfftw3-3, libvorbisfile3, libsoundtouch0")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.19), libqt5gui5, libqt5widgets5, libqt5printsupport5, libqt5network5, ${DEB_DEPENDS} libfftw3-3, libvorbisfile3, libsoundtouch0")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to learn classical score notation.
  It helps to understand the rules of reading and writing scores
@@ -41,13 +41,13 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to learn classical score notat
  .
  Features:
  .
- interactive interface to discover the rules of musical notation
- exercises with possibility to create own sets
- accurate method for detecting sung and played melodies
- natural sound of guitars
- clefs (treble, bass and others) and grand stave
- analyze of results
- different kinds of guitars and theirs tuning
+ interactive score to discover and learn how musical notation works
+ natural sound of classical guitar
+ accurate pitch detection method
+ support for different name-callings of the notes
+ exams and exercises with different levels
+ levels creator with wide range of settings
+ numerous settings to personalize for user needs and capabilities
  .
  http://nootka.sf.net") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
 set(CPACK_DEBIAN_PACKAGE_SECTION "science")
