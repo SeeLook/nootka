@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent) :
   } else { // show support window once but not with first run wizard
       QString newVersion = gl->config->value("version", "").toString();
       if (newVersion != gl->version) {
-        QTimer::singleShot(200, this, SLOT(showSupportDialog()));
+        QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
       } else { // check for updates
         gl->config->endGroup();
         gl->config->beginGroup("Updates");
@@ -509,15 +509,15 @@ void MainWindow::messageSlot(const QString& msg) {
 
 
 void MainWindow::showSupportDialog() {
-    sound->wait();
-    sound->stopPlaying();
-    TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
-    supp->exec();
-    gl->config->beginGroup("General");
-      gl->config->setValue("version", gl->version);
-    gl->config->endGroup();
-    delete supp;
-    sound->go();
+  sound->wait();
+  sound->stopPlaying();
+  TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
+  supp->exec();
+  gl->config->beginGroup("General");
+    gl->config->setValue("version", gl->version);
+  gl->config->endGroup();
+  delete supp;
+  sound->go();
 }
 
 
