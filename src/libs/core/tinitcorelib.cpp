@@ -68,9 +68,18 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 #if !defined (Q_OS_LINUX)
   translationsPath = Tcore::gl()->path + "lang";
 #endif
-  if (loc.country() == QLocale::Poland || loc.country() == QLocale::France) // So far, there are missing
-    translationsPath = Tcore::gl()->path + "lang"; // TODO Check when qtbase translations will be shipped with Qt
-  if (qt.load(loc, "qtbase_", "", translationsPath))
+  /** Until Qt 5.2 version translations where inside qt_xx.ts files
+   * and all shipped with Qt for all supported languages.
+   * But since Qt 5.3 they are split into several files and Nootka requires just qtbase_xx.ts.
+   * qtbase_pl.ts and qtbase_fr.ts are missing so far but they was obtained and shipped with Nootka. */
+  QString qtlang = "qtbase_";
+#if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
+  qtlang = "qt_";
+#else
+  if ( loc.country() == QLocale::Poland || loc.country() == QLocale::France) // So far, there are missing
+    translationsPath = Tcore::gl()->path + "lang"; // TODO Check when those qtbase translations will be shipped with Qt
+#endif
+  if (qt.load(loc, qtlang, "", translationsPath))
     a->installTranslator(&qt);
   noo.load(loc, "nootka_", "", Tcore::gl()->path + "lang");
   a->installTranslator(&noo);

@@ -20,6 +20,7 @@
 
 #include "tsupportnootka.h"
 #include <widgets/troundedlabel.h>
+#include <graphics/tnotepixmap.h>
 #include <QtWidgets>
 
 TsupportNootka::TsupportNootka(QWidget *parent) :
@@ -64,20 +65,24 @@ TsupportStandalone::TsupportStandalone(QString& path, QWidget* parent) :
   QDialog(parent)
 {
   setWindowTitle("Support Nootka");
-  QVBoxLayout *lay = new QVBoxLayout();
+  QLabel *leftLab = new QLabel(pixToHtml(path + "picts/wizard-left.png"), this);
   TsupportNootka *suppWdg = new TsupportNootka(this);
-  lay->addWidget(suppWdg);
   TroundedLabel *neverLab = new TroundedLabel(QObject::tr("Don't worry. This window appears only once per Nootka release.<br>You can find it always in 'About Nootka' dialog"), this);
-  neverLab->setAlignment(Qt::AlignCenter);
-  neverLab->setBackroundColor(palette().base().color());
-  neverLab->setStyleSheet("color: palette(highlightedText)");
-  neverLab->setContentsMargins(5, 5, 5, 5);
-  lay->addWidget(neverLab, 1, Qt::AlignCenter);
+    neverLab->setAlignment(Qt::AlignCenter);
+    neverLab->setBackroundColor(palette().base().color());
+    neverLab->setStyleSheet("color: palette(highlightedText)");
+    neverLab->setContentsMargins(5, 5, 5, 5);
   QPushButton *butt = new QPushButton(QIcon(path + "picts/nootka.png"), "  Thanks", this);
-  butt->setIconSize(QSize(48, 48));
-  lay->addStretch(1);
-  lay->addWidget(butt, 1, Qt::AlignCenter);
-
+    butt->setIconSize(QSize(48, 48));
+// Layout
+  QHBoxLayout *lay = new QHBoxLayout;
+    lay->addWidget(leftLab);
+  QVBoxLayout *supportLay = new QVBoxLayout();
+    supportLay->addWidget(suppWdg);
+    supportLay->addWidget(neverLab, 1, Qt::AlignCenter);
+    supportLay->addStretch(1);
+    supportLay->addWidget(butt, 1, Qt::AlignCenter);
+  lay->addLayout(supportLay);
   setLayout(lay);
 
   connect(butt, SIGNAL(clicked(bool)), this, SLOT(accept()));

@@ -3104,7 +3104,8 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation>Erscheinungsbild</translation>
+        <translation>Erschein-
+ungsbild</translation>
     </message>
 </context>
 <context>
