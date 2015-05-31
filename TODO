@@ -15,7 +15,6 @@
 - result tip with mistakes texts may be too long
 
 - remove some console debug messages
-- piano brace is wrongly scalled under Ubuntu
 - clean tartini unused code
 
 MINOR:

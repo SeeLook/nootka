@@ -248,13 +248,13 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 
 //################### 4. Test the settings #################################
 	m_4_test= new QWidget();
+  m_4_test->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
 	m_toolBox->addItem(m_4_test, "4. " + tr("Test the settings"));
   
   testTxt = tr("Test");
   stopTxt = tr("Stop");
   
   testButt = new QPushButton(testTxt, m_4_test);
-		testButt->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
 		testButt->setIconSize(QSize(48, 48));
   pitchView = new TpitchView(m_audioIn, m_4_test, false);
 		pitchView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
