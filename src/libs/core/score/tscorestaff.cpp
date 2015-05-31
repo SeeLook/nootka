@@ -661,13 +661,10 @@ void TscoreStaff::createBrace() {
   m_brace->setFont(TnooFont(22));
 	m_brace->setText(QString(QChar(0xe16c)));
 	m_brace->setBrush(qApp->palette().text().color());
-  m_brace->setScale(22.18 / m_brace->boundingRect().height());
+//   m_brace->setScale(22.18 / m_brace->boundingRect().height());
+  m_brace->setScale(1.05619047619047619047);
 	m_brace->setPos(-2.4 * m_brace->scale(), upperLinePos() + (22.18 - m_brace->boundingRect().height() * m_brace->scale()) / 2.0);
   m_brace->setZValue(7);
-//   QGraphicsRectItem *r = scene()->addRect(m_brace->boundingRect(), Qt::NoPen, QBrush(QColor(255, 0, 0, 50)));
-//   r->setPos(m_brace->pos());
-//   r->setZValue(3);
-//   r->setScale(m_brace->scale());
 }
 
 
