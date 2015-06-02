@@ -215,6 +215,8 @@ void TmainScore::getMelody(Tmelody* mel, const QString& title) {
 	mel->setClef(clef().type());
 	for (int i = 0; i < notesCount(); ++i) {
 		Tchunk n(getNote(i), Trhythm(Trhythm::e_none));
+    if (i == notesCount() - 1 && !getNote(i).isValid())
+      continue; // skip last note when empty - it avoids adding temporary last note to exam melody
 		mel->addNote(n);
 	}
 }
