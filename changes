@@ -1,3 +1,10 @@
+1.1.2 final	  
+  Nootka plays melodies
+     - updated on-line help
+     - unlocked help button(s) to opening related help sites
+    BUGS FIXES
+     - checking intonation properly respects level accuracy setting
+
 1.1.7 rc2
      - improvements/fixes related to low latency and real-time audio
      - updated Qt libraries to the latest version in Windows installer

@@ -994,7 +994,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="297"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation>Kliknij niepoprawne nuty żeby zobaczyć&lt;br&gt;i posłuchać jakie mają być poprawne.</translation>
+        <translation>Kliknij niepoprawne nuty żeby zobaczyć&lt;br&gt;i posłuchać tych właściwych.</translation>
     </message>
     <message>
         <location filename="../src/exam/tcanvas.cpp" line="357"/>
