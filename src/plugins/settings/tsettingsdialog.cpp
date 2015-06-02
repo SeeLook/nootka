@@ -269,7 +269,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 			break;
 		}
   }
-  if (currentWidget == m_audioSettingsPage)
+  if (currentWidget != m_globalSett)
     m_helpButt->show();
   else
     m_helpButt->hide();
@@ -313,6 +313,14 @@ void TsettingsDialog::helpSlot() {
   QString docHash = "settings";
   if (stackLayout->currentWidget() == m_audioSettingsPage)
     docHash = "input-settings";
+  else if (stackLayout->currentWidget() == m_scoreSett)
+    docHash = "score-settings";
+  else if (stackLayout->currentWidget() == m_guitarSett)
+    docHash = "instrument-settings";
+  else if (stackLayout->currentWidget() == m_laySett)
+    docHash = "appearance-settings";
+  else if (stackLayout->currentWidget() == m_examSett)
+    docHash = "exam-settings";
   openHelpLink(docHash);
 }
 
