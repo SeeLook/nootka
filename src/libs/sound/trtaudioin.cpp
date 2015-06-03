@@ -18,6 +18,7 @@
 
 #include "trtaudioin.h"
 #include "taudioparams.h"
+#include <tinitcorelib.h>
 #if defined(Q_OS_WIN)
   #include "tasioemitter.h"
 #endif
@@ -230,10 +231,11 @@ void TaudioIN::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
 void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
 	m_noteWasStarted = false;
 	if (!isPaused()) {
-			m_lastNote.set(lastNote->pitchF - audioParams()->a440diff, lastNote->freq, lastNote->duration);
-			if (inRange(m_lastNote.pitchF)) {
+      qreal midiPitch = lastNote->getAverage(3, // non guitar pitch is average of all pitches
+                              Tcore::gl()->instrument == e_noInstrument ? lastNote->pitches()->size() : m_pitch->minChunksNumber());
+      m_lastNote.set(midiPitch - audioParams()->a440diff, pitch2freq(midiPitch), lastNote->duration);
+			if (inRange(m_lastNote.pitchF))
 				emit noteFinished(m_lastNote);
-			}
   } else 
 			m_lastNote.set(); // reset last detected note structure
 }
