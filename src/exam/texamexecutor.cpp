@@ -611,18 +611,19 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 					if (goodAllready == curQ->melody()->length()) { // all required notes are correct
 							curQ->setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
-// 							qDebug() << "Melody is correct";
+							qDebug() << "Melody is correct";
 					} else if (goodAllready + notBadAlready == curQ->melody()->length()) { // add committed mistakes of last attempt
-							curQ->setMistake(curQ->lastAttempt()->summary()); // or 'not bad'
-// 							qDebug() << "Melody is not bad";
+							curQ->setMistake(curQ->lastAttempt()->summary() - (curQ->lastAttempt()->summary() & 64 ? 64 : 0)); // or 'not bad'
+// 							qDebug() << "Melody is not bad" << curQ->mistake();
 					} else if (goodAllready + notBadAlready >= curQ->melody()->length() * 0.7) { // at least 70% notes answered properly
 // 						qDebug() << "Melody has little notes";
 						if (curQ->lastAttempt()->effectiveness() > 50.0) { // and effectiveness is sufficient
+                curQ->setMistake(curQ->lastAttempt()->summary() - (curQ->lastAttempt()->summary() & 64 ? 64 : 0));
 								curQ->setMistake(TQAunit::e_littleNotes); // but less notes than required
 // 								qDebug() << "... and sufficient effectiveness";
 						} else { // or effectiveness is too poor
-								curQ->setMistake(TQAunit::e_wrongNote);
-// 								qDebug() << "... but very poor effectiveness";
+								curQ->setMistake(TQAunit::e_veryPoor);
+// 								qDebug() << "... but very poor effectiveness" << curQ->lastAttempt()->effectiveness();
 						}
 					} else {
 							curQ->setMistake(TQAunit::e_wrongNote);
@@ -803,20 +804,6 @@ void TexamExecutor::correctAnswer() {
     m_lockRightButt = true;
   } else
     correctionFinished();
-
-// 	if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop && !curQ->melody()) {
-// 			m_lockRightButt = true; // to avoid nervous users click mouse during correctViewDuration
-// 			m_askingTimer->start(gl->E->correctPreview);
-//   }
-//   if (curQ->melody()) {
-// 		m_canvas->whatNextTip(false, false);
-//     connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
-//   } else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop)
-// 			QTimer::singleShot(2000, this, SLOT(delayerTip())); // 2000 ms - fastest preview time - longer than animation duration
-// 	if (curQ->melody() && (curQ->questionAsNote() || curQ->answerAsNote()))
-// 			m_canvas->melodyCorrectMessage();
-// 	if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
-// 			QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 }
 
 
@@ -1623,7 +1610,7 @@ void TexamExecutor::correctionFinished() {
   if (m_exam->curQ()->melody() && (m_exam->curQ()->questionAsNote() || m_exam->curQ()->answerAsNote()))
       m_canvas->melodyCorrectMessage();
   if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
-      QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
+      QTimer::singleShot(4000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 }
 
 
