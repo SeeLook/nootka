@@ -226,7 +226,7 @@ QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize) 
 							misMes = QApplication::translate("AnswerText", "wrong accidental");
 					if (answer->wrongKey()) {
 							addSpaceToNotEmpty(misMes);
-							misMes += QApplication::translate("AnswerText", "wrong key signature");
+							newLineText(misMes, QApplication::translate("AnswerText", "wrong key signature"));
 					}
 					if (answer->wrongOctave()) {
 							addSpaceToNotEmpty(misMes);
