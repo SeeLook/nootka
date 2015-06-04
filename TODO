@@ -13,7 +13,6 @@
 
 ====== BUGS AND ISSUES ===============================================
 - melody tip may display result text for every attempt
-- played note in single mode wrongly shows enharmonic
 - remove some console debug messages
 - clean tartini unused code
 
