@@ -116,7 +116,7 @@ void TmainScore::acceptSettings() {
 		refreshNoteNames = true;
 	if (Tcore::gl()->S->isSingleNoteMode) {
 		setInsertMode(e_single);
-		setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
+// 		setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 	} else
 		setInsertMode(e_multi);
 // Double accidentals
@@ -180,8 +180,11 @@ void TmainScore::acceptSettings() {
 
 void TmainScore::setNote(const Tnote& note) {
 	TmultiScore::setNote(note);
-	if (insertMode() == e_single && !isExam())
-		m_nameMenu->setNoteName(note);
+	if (insertMode() == e_single && !isExam()) {
+    blockSignals(true);
+    whenNoteWasChanged(0, note);
+    blockSignals(false);
+  }
 }
 
 
@@ -240,6 +243,7 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 				m_currentNameSegment = staff()->noteSegment(0);
 				enableCorners(false);
 				m_nameMenu->show();
+        setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 		} else {
         m_acts->mainAction()->setVisible(true);
 				m_nameMenu->enableArrows(true);
@@ -621,6 +625,7 @@ void TmainScore::deleteNoteName(int id) {
 void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 	//We are sure that index is 0, cause others are disabled :-)
     if (insertMode() == e_single && Tcore::gl()->S->showEnharmNotes) {
+      if (note.isValid()) {
         TnotesList enharmList = note.getTheSameNotes(Tcore::gl()->S->doubleAccidentalsEnabled);
         TnotesList::iterator it = enharmList.begin();
         ++it;
@@ -636,6 +641,8 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
                 clearNote(2);
         }
         m_nameMenu->setNoteName(enharmList);
+      } else
+          m_nameMenu->setNoteName(note);
     }
     emit noteChanged(index, note);
 }
