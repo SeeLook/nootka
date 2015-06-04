@@ -109,7 +109,7 @@ void TmelodyView::clearMistakes() {
   if (m_melody->title().contains(";skip"))
     return;
   for (int i = 0; i < m_melody->length(); ++i)
-    m_staves[i / m_maxNotes]->noteSegment(i)->markNote(-1);
+    m_staves[i / m_maxNotes]->noteSegment(i % m_maxNotes)->markNote(-1);
 }
 
 
