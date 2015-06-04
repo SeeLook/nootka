@@ -116,7 +116,6 @@ void TmainScore::acceptSettings() {
 		refreshNoteNames = true;
 	if (Tcore::gl()->S->isSingleNoteMode) {
 		setInsertMode(e_single);
-// 		setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 	} else
 		setInsertMode(e_multi);
 // Double accidentals
