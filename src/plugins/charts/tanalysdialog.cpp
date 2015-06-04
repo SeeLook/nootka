@@ -27,6 +27,7 @@
 #include <tscoreparams.h>
 #include <tnoofont.h>
 #include <tinitcorelib.h>
+#include <widgets/tsettingsdialogbase.h>
 #include "tchart.h"
 #include "tmainchart.h"
 #include "tlinearchart.h"
@@ -57,6 +58,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     
 	setWindowIcon(QIcon(Tcore::gl()->path + "picts/charts.png"));
   setWindowTitle(tr("Analyze"));
+  setMinimumSize(720, 480);
 	if (parent)
 			setGeometry(parent->geometry());
   else {
@@ -369,6 +371,9 @@ void TanalysDialog::createActions() {
   else
     m_barAct->setChecked(true);
   connect(chartTypeGroup, SIGNAL(triggered(QAction*)), this, SLOT(chartTypeChanged()));
+
+  QAction *helpAct = new QAction(QIcon(Tcore::gl()->path + "picts/help.png"), TsettingsDialogBase::tr("Open online documentation"), this);
+    connect(helpAct, &QAction::triggered, this, &TanalysDialog::openOnlineHelp);
   
   m_toolBar->addAction(openToolButtonAction);
   m_toolBar->addAction(toolButtonAction);
@@ -378,6 +383,8 @@ void TanalysDialog::createActions() {
   m_toolBar->addSeparator();
   m_toolBar->addAction(m_linearAct);
   m_toolBar->addAction(m_barAct);
+  m_toolBar->addSeparator();
+  m_toolBar->addAction(helpAct);
   m_toolBar->addSeparator();
   m_toolBar->addAction(m_maximizeAct);
   m_toolBar->addSeparator();
@@ -642,6 +649,13 @@ void TanalysDialog::showTuningPreview() {
 	m_tunTip->setPos(offP.x() + (m_chart->width() - m_tunTip->boundingRect().width() * 2.0) / 2,
 									offP.y() + (m_chart->height() - m_tunTip->boundingRect().height() * 2.0) / 2);
 }
+
+
+void TanalysDialog::openOnlineHelp() {
+  QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#analyze-help").
+    arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
+}
+
 
 //#################################################################################################
 //###################               EVENTS             ############################################
