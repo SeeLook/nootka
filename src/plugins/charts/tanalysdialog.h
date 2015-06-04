@@ -67,6 +67,7 @@ protected slots:
   void chartTypeChanged();
   void linkOnTipClicked();
 	void showTuningPreview();
+  void openOnlineHelp();
 
 private:
   QToolBar 											*m_toolBar;
