@@ -5,6 +5,7 @@
     BUGS FIXES
      - checking intonation properly respects level accuracy setting
      - fixed determining mistake types for melodies
+     - fixed chart issues when melodies are analyzing
 
 1.1.7 rc2
      - improvements/fixes related to low latency and real-time audio

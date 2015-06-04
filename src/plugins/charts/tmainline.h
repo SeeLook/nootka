@@ -54,9 +54,12 @@ public:
 	};
 	
   TmainLine(QList<TQAunit*> *answers, Tchart *chart, EyValue yVal = e_questionTime);
-  TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart);
+  TmainLine(QList<TgroupedQAunit> &listOfLists, Tchart *chart, EyValue yVal = e_questionTime);
   virtual ~TmainLine();
   
+protected:
+      /** Returns answer result (Y value) depend on chart type, mapped to Y axis */
+  inline qreal yValue(TQAunit* question, EyValue valType);
   
 private:
   QList<TQAunit*> *m_answers; 
