@@ -138,7 +138,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       for (int i = 0; i < sortedLists.size(); i++)
         ln += sortedLists[i].size();
       prepareChart(ln);
-      m_mainLine = new TmainLine(sortedLists, this);
+      m_mainLine = new TmainLine(sortedLists, this, settings.yValue);
       
       int goodOffset = 0; // 0 when not unrelated question list inside
       if (hasListUnrelated)

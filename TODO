@@ -12,10 +12,8 @@
 ============================================================================
 
 ====== BUGS AND ISSUES ===============================================
-
+- melody tip may display result text for every attempt
 - played note in single mode wrongly shows enharmonic
-- key signatures chart is wrongly scaled when Y axis is different
-- Y axis in empty chart has to be adjusted to window height (it has fixed size)
 - remove some console debug messages
 - clean tartini unused code
 

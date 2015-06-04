@@ -30,6 +30,25 @@
 // #include <QDebug>
 
 
+inline qreal TmainLine::yValue(TQAunit* question, TmainLine::EyValue valType) {
+  switch (valType) {
+    case e_playedCount:
+      return m_chart->yAxis->mapValue(question->totalPlayBacks());
+    case e_prepareTime:
+      return m_chart->yAxis->mapValue((double)question->attempt(0)->prepareTime() / 10.0);
+    case e_attemptsCount:
+      return m_chart->yAxis->mapValue(question->attemptsCount());
+    case e_effectiveness:
+      return m_chart->yAxis->mapValue(question->effectiveness());
+    default:
+      return m_chart->yAxis->mapValue(question->getTime()); // default - answer time
+  }
+}
+
+//#################################################################################################
+//###################                PUBLIC            ############################################
+//#################################################################################################
+
 TmainLine::TmainLine(QList<TQAunit*>* answers, Tchart* chart, TmainLine::EyValue yVal) :
   m_answers(answers),
   m_chart(chart)
@@ -42,25 +61,7 @@ TmainLine::TmainLine(QList<TQAunit*>* answers, Tchart* chart, TmainLine::EyValue
     m_points <<  new TquestionPoint(tmpQA);
     m_chart->scene->addItem(m_points[i]);
     m_points[i]->setZValue(50);
-		qreal yy;
-    switch (yVal) {
-      case e_playedCount:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->totalPlayBacks());
-        break;
-      case e_prepareTime:
-        yy = m_chart->yAxis->mapValue((double)m_answers->operator[](i)->attempt(0)->prepareTime() / 10.0);
-        break;
-      case e_attemptsCount:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->attemptsCount());
-        break;
-      case e_effectiveness:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->effectiveness());
-        break;
-      default:
-        yy = m_chart->yAxis->mapValue(m_answers->operator[](i)->getTime()); // default - answer time 
-        break;
-    }
-    m_points[i]->setPos(xPos, yy);
+    m_points[i]->setPos(xPos, yValue(m_answers->operator[](i), yVal));
     if (i) {
       TstaffLineChart *line = new TstaffLineChart();
         m_chart->scene->addItem(line);
@@ -72,7 +73,7 @@ TmainLine::TmainLine(QList<TQAunit*>* answers, Tchart* chart, TmainLine::EyValue
 }
 
 
-TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
+TmainLine::TmainLine(QList< TgroupedQAunit >& listOfLists, Tchart* chart, TmainLine::EyValue yVal) :
   m_chart(chart)
 {
 	int ln = 0, cnt = 0;
@@ -86,7 +87,7 @@ TmainLine::TmainLine(QList<TgroupedQAunit>& listOfLists, Tchart* chart) :
       m_points << new TquestionPoint(listOfLists[i].operator[](j));
       m_chart->scene->addItem(m_points[cnt]);
       m_points[cnt]->setZValue(50);
-      m_points[cnt]->setPos(xPos, m_chart->yAxis->mapValue(listOfLists[i].operator[](j).qaPtr->getTime()));
+      m_points[cnt]->setPos(xPos, yValue(listOfLists[i].operator[](j).qaPtr, yVal));
       if (cnt) {
         TstaffLineChart *line = new TstaffLineChart();
           m_chart->scene->addItem(line);
