@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,7 @@
 #include "nootkamiscglobal.h"
 #include <QDialog>
 #include <QCheckBox>
-#include <QTextEdit>
+#include <QTextBrowser>
 #include <QPointer>
 
 
@@ -75,12 +75,15 @@ public:
 			 * 'always show this help window' */
   static QString showHelpWindowTxt() { return tr("always show this help window"); }
   
+      /** Returns HTML tag p (paragraph) with right aligned text: Open online documentation linked to Nootka site documentation with given hash */
+  static QString onlineDocP(const QString& hash);
+  
 protected:
   QDialogButtonBox* buttonBox() { return m_buttonBox; }
 			
   
 private:
-  QTextEdit       				*m_helpText;
+  QTextBrowser       				*m_helpText;
   QCheckBox       				*m_checkBox;
   QPointer<QPushButton>    m_OkButton, m_cancelButton;
 	QDialogButtonBox				*m_buttonBox;

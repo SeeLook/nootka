@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,12 +19,23 @@
 #include "thelpdialogbase.h"
 #include <graphics/tnotepixmap.h>
 #include <tpath.h>
+#include <widgets/tsettingsdialogbase.h>
 #include <QApplication>
 #include <QtWidgets>
 
 
-
+/*static*/
 QString ThelpDialogBase::m_path = "";
+
+QString ThelpDialogBase::onlineDocP(const QString& hash) {
+  return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash) + 
+      TsettingsDialogBase::tr("Open online documentation") + "</a> </p>";
+}
+
+
+//##########################################################################################
+//#######################     PUBLIC        ################################################
+//##########################################################################################
 
 ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
   QDialog(parent, f),
@@ -34,9 +45,10 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
 	m_path = Tpath::main;
 	setWindowIcon(QIcon(path() + "picts/help.png"));
   setWindowTitle(tr("Nootka help"));
-  m_helpText = new QTextEdit(this);
+  m_helpText = new QTextBrowser(this);
 		m_helpText->setReadOnly(true);
 		m_helpText->setAlignment(Qt::AlignCenter);
+    m_helpText->setOpenExternalLinks(true);
 	m_buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
 		m_buttonBox->setCenterButtons(true);
   
