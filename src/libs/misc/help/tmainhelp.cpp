@@ -18,10 +18,10 @@
 
 
 #include "tmainhelp.h"
+#include "thelpdialogbase.h"
 #include <graphics/tnotepixmap.h>
 #include <tpath.h>
 #include <QBoxLayout>
-#include <QTextEdit>
 #include <QApplication>
 
 #define PIXSIZE (28)
@@ -58,6 +58,7 @@ QString TmainHelp::duringExamsText() {
 
 //#######################################################################################################
 
+
 TmainHelp::TmainHelp(QWidget* parent) :
     QWidget(parent)
 { 
@@ -70,19 +71,23 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
       arg(" &nbsp; " + pixToHtml(Tpath::img("about"), PIXSIZE) + " <span style=\"font-size: x-large;\"> + </span> " + pixToHtml(Tpath::img("help"), PIXSIZE)  + " &nbsp; ").
       arg(" &nbsp; " + pixToHtml(Tpath::img("systemsettings"), PIXSIZE) + " &nbsp; ");
-      
+  helpTxt += ThelpDialogBase::onlineDocP("getting-started");
+  
   helpTxt += "<hr><b>" + QApplication::translate("TmainHelp", "II. Exercises and exams") + "</b><br>";
 	helpTxt += exerciseAndExamText();
-  
+  helpTxt += ThelpDialogBase::onlineDocP("exercises");
 	
   helpTxt += "<hr><b>" + QApplication::translate("TmainHelp", "III. Analyzing") + "</b><br>";
   helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
-    arg(" &nbsp; " + pixToHtml(Tpath::img("charts"), PIXSIZE) + " &nbsp; ");;
+    arg(" &nbsp; " + pixToHtml(Tpath::img("charts"), PIXSIZE) + " &nbsp; ");
+  helpTxt += ThelpDialogBase::onlineDocP("analyze");
   helpTxt += "</td></tr></table>";
+  
   helpTxt += "<hr><b><span style=\"font-size: xx-large;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + QApplication::translate("TmainHelp", "Have fun!") + "</span></b>";
-  QTextEdit *helpEdit = new QTextEdit(this);
+  QTextBrowser *helpEdit = new QTextBrowser(this);
   helpEdit->setHtml(helpTxt);
 	helpEdit->setReadOnly(true);
+  helpEdit->setOpenExternalLinks(true);
 // 	qDebug() << helpEdit->toHtml();
   lay->addWidget(helpEdit);
   setLayout(lay);

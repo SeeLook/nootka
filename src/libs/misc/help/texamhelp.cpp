@@ -55,28 +55,29 @@ TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp
     tr("To check the answer confirm it:") + "<br>- " + 
     clickSomeButtonTxt(pix("check", iconsSize)) + "<br>- " +
     pressEnterKey() + "<br>- " + orRightButtTxt() + "<br><br>" +
-		    
-		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("practice", bigIconSize) + "<br>" + tr("Exercises") +
-		"</td><td align=\"center\">" +
-		tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + 
-		"<br>- " + clickSomeButtonTxt(pix("correct", iconsSize)) + "<br>- " + orPressEnterKey() + "<br><br>" +
-		tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize)) +
-		"<br>" + exerciseFeaturesText() +	"</td></tr></table><br><br>" +
-		
-		"<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("exam", bigIconSize) + "<br>" + tr("Exams") +
-		"</td><td align=\"center\">" +
-		tr("If you made a mistake during an exam and you want to repeat the question:") + "<br>- " + 
+        
+    "<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("practice", bigIconSize) + "<br>" + tr("Exercises") +
+    "</td><td align=\"center\">" +
+    tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + 
+    "<br>- " + clickSomeButtonTxt(pix("correct", iconsSize)) + "<br>- " + orPressEnterKey() + "<br><br>" +
+    tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize)) +
+    "<br>" + exerciseFeaturesText() +	"</td></tr></table><br><br>" +
+
+    "<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("exam", bigIconSize) + "<br>" + tr("Exams") +
+    "</td><td align=\"center\">" +
+    tr("If you made a mistake during an exam and you want to repeat the question:") + "<br>- " + 
     clickSomeButtonTxt(pix("prevQuest", iconsSize)) + "<br>- " + orPressBackSpace() + "<br><br>" +
-		toStopExamTxt(pix("stopExam", iconsSize)) + "<br>" + 
-		examFeaturesText() + "</td></tr></table></center><center>" +
-		
-		"<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("exam-settings", bigIconSize) + "<br>" + tr("Settings") +
-		"</td><td align=\"center\"><br><br>" +
-		tr("Just click this settings button to adjust an exercise or an exam to your current needs.") +	"</td></tr></table><br><br>" +
-		
+    toStopExamTxt(pix("stopExam", iconsSize)) + "<br>" + 
+    examFeaturesText() + "</td></tr></table></center><center>" +
+
+    "<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("exam-settings", bigIconSize) + "<br>" + tr("Settings") +
+    "</td><td align=\"center\"><br><br>" +
+    tr("Just click this settings button to adjust an exercise or an exam to your current needs.") +	"</td></tr></table><br><br>" +
+
     "<hr><br><br><span style=\"font-size: xx-large;\"><b>" +
-    tr("GOOD LUCK!") + "</b></span>"
-		"<br></center>");
+    tr("GOOD LUCK!") + "</b></span>" +
+    onlineDocP("exercises") +
+    "<br></center>");
   
   helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);
 	showCheckBox(showHelp);

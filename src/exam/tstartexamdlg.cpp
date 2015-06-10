@@ -346,7 +346,8 @@ void TstartExamDlg::helpSelected() {
   "</center><table><tr><td style=\"padding: 10px;\" align=\"center\">" +
   TmainHelp::duringExercisingText() + "<br>" + TexamHelp::exerciseFeaturesText() +
   "</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">" +
-  TmainHelp::duringExamsText() + "<br>" + TexamHelp::examFeaturesText() + "</td></tr></table>";
+  TmainHelp::duringExamsText() + "<br>" + TexamHelp::examFeaturesText() + "</td></tr></table>" +
+  help->onlineDocP("start-exam");
 
   help->helpText()->setHtml(ht);
   help->showCheckBox(&m_examParams->showVeryBeginHelp);
