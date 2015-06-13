@@ -79,24 +79,23 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
     navList->item(5)->setIcon(QIcon(Tpath::img("appearance")));
     navList->item(5)->setTextAlignment(Qt::AlignCenter);
     
-		defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
-			defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
-			defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
-    m_helpButt = buttonBox->addButton(QDialogButtonBox::Help);
-      m_helpButt->setIcon(QIcon(Tpath::img("help")));
-      m_helpButt->setStatusTip(helpButtonTipText());
-      m_helpButt->hide();
-		okBut = buttonBox->addButton(QDialogButtonBox::Apply);
-			okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
-		cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
-			cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
-    
-		connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
-    connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
-    connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
-    connect(this, SIGNAL(rejected()), this, SLOT(cancelSlot()));
-		connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
-    connect(m_helpButt, SIGNAL(pressed()), this, SLOT(helpSlot()));
+  defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
+    defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
+    defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
+  m_helpButt = buttonBox->addButton(QDialogButtonBox::Help);
+    m_helpButt->setIcon(QIcon(Tpath::img("help")));
+    m_helpButt->setStatusTip(helpButtonTipText());
+  okBut = buttonBox->addButton(QDialogButtonBox::Apply);
+    okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
+  cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
+    cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
+
+  connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
+  connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
+  connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
+  connect(this, SIGNAL(rejected()), this, SLOT(cancelSlot()));
+  connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
+  connect(m_helpButt, SIGNAL(pressed()), this, SLOT(helpSlot()));
 
 	if (mode == e_settings) {
     navList->setCurrentRow(0);
@@ -269,10 +268,6 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 			break;
 		}
   }
-  if (currentWidget != m_globalSett)
-    m_helpButt->show();
-  else
-    m_helpButt->hide();
   stackLayout->setCurrentWidget(currentWidget);
 }
 
