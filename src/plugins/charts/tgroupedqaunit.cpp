@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,8 +18,8 @@
 
 
 #include "tgroupedqaunit.h"
-#include "tqaunit.h"
-#include "texam.h"
+#include <exam/tqaunit.h>
+#include <exam/texam.h>
 
 
 /*static*/

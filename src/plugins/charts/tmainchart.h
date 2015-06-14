@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 #define TMAINCHART_H
 
 #include "tchart.h"
-#include <exam/tgroupedqaunit.h>
+#include "tgroupedqaunit.h"
 
 class Tlevel;
 class Tnote;
