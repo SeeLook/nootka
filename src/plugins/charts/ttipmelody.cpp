@@ -24,8 +24,8 @@
 #include <exam/textrans.h>
 #include <exam/texam.h>
 #include <exam/tattempt.h>
+#include <exam/tresulttext.h>
 #include <music/tmelody.h>
-#include <graphics/tnotepixmap.h>
 #include <widgets/tquestionaswdg.h>
 #include <QtWidgets>
 

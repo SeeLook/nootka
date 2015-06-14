@@ -24,6 +24,7 @@
 #include "mainwindow.h"
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
+#include <exam/tresulttext.h>
 #include <animations/tcombinedanim.h>
 #include <texamparams.h>
 #include <graphics/tgraphicstexttip.h>
@@ -183,8 +184,6 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	delete m_questionTip;
 	delete m_whatTip;
 	QString whatNextText = startTipText();;
-	//   if (!m_window->autoRepeatChB->isChecked()) TODO exam run-time settings
-	//       m_window->autoRepeatChB->startAnimation(3);
 	if (!isCorrect) {
 		QString t = tr("To correct an answer");
 		QString href = "<a href=\"prevQuest\">";
@@ -203,8 +202,6 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 		whatNextText += "<br>" + t + " " + 
 			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(Tpath::img("correct"), m_iconSize) + "</a>") + "<br>" +
 			TexamHelp::orPressEnterKey();
-//       if (!m_window->correctChB->isChecked()) TODO exam run-time settings
-//           m_window->correctChB->startAnimation(3);
 	}
 	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(Tpath::img("stopExam"), m_iconSize) + "</a>");		
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
@@ -227,7 +224,6 @@ void Tcanvas::confirmTip(int time) {
 void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
   if (!m_confirmTip) {
-  //     m_window->expertAnswChB->startAnimation(3); TODO exam run-time settings
     m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " +
       TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(Tpath::img("check"), m_iconSize) + "</a>") +
       "<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +

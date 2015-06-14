@@ -21,6 +21,7 @@
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
+#include <exam/tresulttext.h>
 #include <widgets/tquestionaswdg.h>
 #include <graphics/tnotepixmap.h>
 #include <tnoofont.h>

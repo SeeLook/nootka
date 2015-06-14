@@ -46,6 +46,7 @@ set(LIB_NOOTKACORE_SRC
 	exam/tlevel.cpp
 	exam/texam.cpp
 	exam/textrans.h
+	exam/tresulttext.cpp
 	
 	level/tlevelsdefs.cpp
 	level/tlevelpreview.cpp
