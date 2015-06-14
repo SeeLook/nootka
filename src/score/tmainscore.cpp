@@ -70,6 +70,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 // 	restoreNotesSettings();
 	setScordature();
 	setAnimationsEnabled(Tcore::gl()->useAnimations);
+  enableAccidToKeyAnim(Tcore::gl()->useAnimations);
 	setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
 	setEnableKeySign(Tcore::gl()->S->keySignatureEnabled);
   setScoreScale(Tcore::gl()->S->scoreScale);
@@ -189,7 +190,9 @@ void TmainScore::setNote(const Tnote& note) {
 
 void TmainScore::setMelody(Tmelody* mel) {
 	bool animEnabled = ainmationsEnabled();
+  bool accidAnimEnabled = isAccidToKeyAnimEnabled();
 	setAnimationsEnabled(false);
+  enableAccidToKeyAnim(false);
 	setClef(Tclef(mel->clef()));
 	if (staff()->scoreKey())
 			setKeySignature(mel->key());
@@ -207,6 +210,7 @@ void TmainScore::setMelody(Tmelody* mel) {
 		for (int i = 0; i < notesCount() - mel->length(); ++i)
 			lastStaff()->removeNote(lastStaff()->count() - 1);
 	}
+	enableAccidToKeyAnim(accidAnimEnabled);
 }
 
 
@@ -356,12 +360,12 @@ QPoint TmainScore::notePos(int noteNr) {
 
 
 void TmainScore::enableAccidToKeyAnim(bool enable) {
-	staff()->noteSegment(0)->enableAccidToKeyAnim(enable);
+  scoreScene()->enableAccidsAnimation(enable);
 }
 
 
 bool TmainScore::isAccidToKeyAnimEnabled() {
-	return staff()->noteSegment(0)->accidToKeyAnim();
+  return scoreScene()->isAccidAnimated();
 }
 
 

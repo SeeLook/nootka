@@ -84,6 +84,9 @@ public:
 		
 		qreal accidYoffset() { return m_accidYoffset; } /** Y offset of accidental item */
 		qreal accidScale() { return m_accidScale; } /** Scale of accidental text item */
+
+		bool isAccidAnimated() const { return m_accidAnimated; } /** Whether note accidental to key signature animations are allowed */
+		void enableAccidsAnimation(bool anim) { m_accidAnimated = anim; } /** Sets state of note accidental to key signature animations */
 		
 				/** Additional note controls are displayed when note gets cursor.
 				 This is default behavior and without those controls accidentals can not be managed with wheel. */
@@ -142,7 +145,7 @@ private:
 		TscoreNote											 *m_scoreNote; /** current note segment or NULL. */
 		bool															m_controlledNotes;
 		bool															m_mouseOverKey, m_rectIsChanging;
-
+    bool                              m_accidAnimated;
 };
 
 #endif // TSCORESCENE_H

@@ -137,7 +137,6 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 	insert(index);
 	setNote(index, note);
 	m_scoreNotes[index]->setZValue(50);
-//   m_scoreNotes[index]->enableAccidToKeyAnim(true);
 	setNoteDisabled(index, disabled);
 	if (number() > -1) {
 		emit noteIsAdding(number(), index);
@@ -145,6 +144,9 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 			if (count() > maxNoteCount()) {
 					m_scoreNotes.last()->disconnect(SIGNAL(noteWasClicked(int)));
 					m_scoreNotes.last()->disconnect(SIGNAL(noteWasSelected(int)));
+          m_scoreNotes.last()->disconnect(SIGNAL(toKeyAnim(QString,QPointF,int)));
+          m_scoreNotes.last()->disconnect(SIGNAL(fromKeyAnim(QString,QPointF,int)));
+          m_scoreNotes.last()->disconnect(SIGNAL(destroyed(QObject*)));
 					emit noteToMove(number(), m_scoreNotes.takeLast());
 					checkNoteRange(); // find range again
 			} else if (count() == maxNoteCount())
@@ -255,20 +257,22 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 			registryItem(m_flyAccid);
 			m_flyAccid->setFont(TnooFont(5));
 			m_flyAccid->setScale(scoreScene()->accidScale());
+      m_flyAccid->setZValue(255);
 			m_flyAccid->hide();
 			if (m_scoreNotes.size())				
 					m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->brush());
 			m_accidAnim = new TcombinedAnim(m_flyAccid, this);
 			connect(m_accidAnim, SIGNAL(finished()), this, SLOT(accidAnimFinished()));
-			m_accidAnim->setDuration(300);
-			m_accidAnim->setScaling(m_flyAccid->scale(), m_flyAccid->scale() * 3.0);
+			m_accidAnim->setDuration(400);
+			m_accidAnim->setScaling(m_flyAccid->scale(), m_flyAccid->scale() * 4.0);
 // 			m_accidAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
 			m_accidAnim->setMoving(QPointF(), QPointF()); // initialize moving
 			m_accidAnim->moving()->setEasingCurveType(QEasingCurve::OutBack);
 			for (int i = 0; i < m_scoreNotes.size(); i++) {
-				connect(m_scoreNotes[i], SIGNAL(fromKeyAnim(QString,QPointF,int)), this, SLOT(fromKeyAnimSlot(QString,QPointF,int)));
-				connect(m_scoreNotes[i], SIGNAL(toKeyAnim(QString,QPointF,int)), this, SLOT(toKeyAnimSlot(QString,QPointF,int)));
-				connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
+				connect(m_scoreNotes[i], SIGNAL(fromKeyAnim(QString,QPointF,int)), this, SLOT(fromKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
+				connect(m_scoreNotes[i], SIGNAL(toKeyAnim(QString,QPointF,int)), this, SLOT(toKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
+        connect(m_scoreNotes[i], SIGNAL(destroyed(QObject*)), this, SLOT(noteDestroingSlot(QObject*)), Qt::UniqueConnection);
+// 				connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
 			}
 		} else {
         m_keySignature->blockSignals(true);
@@ -578,7 +582,7 @@ void TscoreStaff::onAccidButtonPressed(int accid) {
 }
 
 
-void TscoreStaff::fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos) {
+void TscoreStaff::fromKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos) {
 	m_flyAccid->setText(accidText);
 	m_accidAnim->setMoving(mapFromScene(m_keySignature->accidTextPos(accidNrInKey(notePos, scoreKey()->keySignature()))),
 												 mapFromScene(accidPos));
@@ -587,7 +591,12 @@ void TscoreStaff::fromKeyAnimSlot(QString accidText, QPointF accidPos, int noteP
 }
 
 
-void TscoreStaff::toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos) {
+void TscoreStaff::toKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos) {
+  if (m_noteWithAccidAnimed) {
+    qDebug() << "Accidental animation in progress. Skipped";
+    return;
+  } else
+     m_noteWithAccidAnimed = static_cast<TscoreNote*>(sender());
 	m_flyAccid->setText(accidText);
 	m_accidAnim->setMoving(mapFromScene(accidPos),
 												 mapFromScene(m_keySignature->accidTextPos(accidNrInKey(notePos, scoreKey()->keySignature()))));
@@ -598,7 +607,21 @@ void TscoreStaff::toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos
 
 void TscoreStaff::accidAnimFinished() {
 	m_flyAccid->hide();
+  if (m_noteWithAccidAnimed) {
+    m_noteWithAccidAnimed->keyAnimFinished();
+    m_noteWithAccidAnimed = 0;
+  }
 }
+
+
+void TscoreStaff::noteDestroingSlot(QObject* n) {
+  Q_UNUSED(n)
+  if (sender() == m_noteWithAccidAnimed) {
+    qDebug() << "Note with accidental animation is going to be deleted";
+    m_noteWithAccidAnimed = 0;
+  }
+}
+
 
 
 void TscoreStaff::addNoteTimeOut() {
@@ -702,6 +725,9 @@ void TscoreStaff::findLowestNote() {
 void TscoreStaff::connectNote(TscoreNote* sn) {
 	connect(sn, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
 	connect(sn, SIGNAL(noteWasSelected(int)), this, SLOT(onNoteSelected(int)));
+  connect(sn, SIGNAL(toKeyAnim(QString,QPointF,int)), this, SLOT(toKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
+  connect(sn, SIGNAL(fromKeyAnim(QString,QPointF,int)), this, SLOT(fromKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
+  connect(sn, SIGNAL(destroyed(QObject*)), this, SLOT(noteDestroingSlot(QObject*)), Qt::UniqueConnection);
 }
 
 

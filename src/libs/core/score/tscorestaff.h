@@ -262,10 +262,11 @@ protected slots:
 	void onNoteSelected(int noteIndex);
 	void onAccidButtonPressed(int accid); // TnoteControl accid button pressed
 	void onPianoStaffChanged(Tclef clef); // clef demands piano staff
-	void toKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
-	void fromKeyAnimSlot(QString accidText, QPointF accidPos, int notePos);
+	void toKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos);
+	void fromKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos);
 	void accidAnimFinished();
 	void addNoteTimeOut();
+  void noteDestroingSlot(QObject* n); /** Every note segment call this before it will be deleted */
 
 private:
 	int 															 m_staffNr;
@@ -289,6 +290,7 @@ private:
 	bool															 m_lockRangeCheck; // to prevent the checking during clef switching
 	QPointer<QTimer>									 m_addTimer;
 	int																 m_autoAddedNoteId; /** Index of automatically added last note. */
+	QPointer<TscoreNote>               m_noteWithAccidAnimed; /** Pointer to note segment currently invoked to key animation */
 
 private:
 	void createBrace();

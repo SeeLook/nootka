@@ -587,7 +587,6 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 	}
 	if (staff()->noteSegment(0)->noteName() || staff()->noteSegment(staff()->count() - 1)->noteName())
     m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
-	m_staves[staffNr]->noteSegment(noteToAdd)->enableAccidToKeyAnim(true);
 	if (m_useAinim && m_addNoteAnim && !m_staves[staffNr]->noteSegment(noteToAdd)->notePos())
 		m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
 	m_addNoteAnim = true;
