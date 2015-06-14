@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,22 +25,20 @@ TabstractAnim::TabstractAnim(QGraphicsItem* it, QObject* parent) :
 	m_item(it),
 	m_duration(150)
 {
-		m_easingCurve = new QEasingCurve();
+  m_easingCurve = new QEasingCurve();
 }
 
 
 TabstractAnim::~TabstractAnim()
 {
-		delete m_easingCurve;
+  delete m_easingCurve;
 }
 
 
 void TabstractAnim::installTimer() {
 	if (!m_timer) {
 			m_timer = new QTimer(this);
-		#if defined (Q_OS_ANDROID)
 			m_timer->setTimerType(Qt::PreciseTimer);
-		#endif
 			connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
 	}
 }
@@ -70,6 +68,7 @@ void TabstractAnim::setTimer(QTimer* tim) {
 	if (m_timer)
 		delete m_timer;
 	m_timer = tim;
+  m_timer->setTimerType(Qt::PreciseTimer);
 	if (m_timer)
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
 }
