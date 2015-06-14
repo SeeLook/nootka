@@ -73,7 +73,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_nameText(0),
   m_ottava(0),
   m_bgColor(-1),
-  m_noteAnim(0), m_popUpAnim(0), m_accidToKeyAnim(false),
+  m_noteAnim(0), m_popUpAnim(0),
   m_selected(false),
   m_touchedToMove(false)
 {
@@ -200,11 +200,11 @@ void TscoreNote::moveNote(int posY) {
     if (m_accidental == 0) {
         newAccid = getAccid(3); // neutral
         m_mainAccid->hide();
-        if (m_accidToKeyAnim && !isReadOnly() && !theSame)
+        if (scoreScene()->isAccidAnimated() && !isReadOnly() && !theSame)
             emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
     } else {
         if (staff()->accidInKeyArray[noteNr] == m_accidental) {
-          if (m_accidToKeyAnim && !isReadOnly() && !theSame)
+          if (scoreScene()->isAccidAnimated() && !isReadOnly() && !theSame)
               emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
           if (staff()->extraAccids()) // accidental from key signature in braces
             newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));

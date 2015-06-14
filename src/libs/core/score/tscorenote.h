@@ -115,10 +115,6 @@ public:
 		void enableNoteAnim(bool enable, int duration = 150);
 		bool isNoteAnimEnabled() { return (bool)m_noteAnim; }
 		
-				/** When note accidental has already existed in a key signature animation is performed.  */
-		void enableAccidToKeyAnim(bool enable) { m_accidToKeyAnim = enable; }
-		bool accidToKeyAnim() { return m_accidToKeyAnim; }
-		
 		void popUpAnim(int durTime); /** Performs pop-up animation */
     
         /** Defines when lines above and below staff are visible when note is empty. */
@@ -132,8 +128,8 @@ signals:
     void noteWasClicked(int);
 		void noteWasSelected(int); /** When right button was clicked. */
 		
-		void toKeyAnim(QString, QPointF, int notePos); /** Emitted when accidental has been in key already */
-		void fromKeyAnim(QString, QPointF, int notePos); /** Emitted when neutral is necessary */
+		void toKeyAnim(const QString&, const QPointF&, int notePos); /** Emitted when accidental has been in key already */
+		void fromKeyAnim(const QString&, const QPointF&, int notePos); /** Emitted when neutral is necessary */
 		
 		void roNoteClicked(TscoreNote*, const QPointF&); /** Emitted after mouse left click in read only state with clicked position. */
 		void roNoteSelected(TscoreNote*, const QPointF&); /** Emitted after mouse right click or double click in read only state */ 
@@ -179,7 +175,6 @@ private:
 		QColor                         					m_bgColor;
 		TcombinedAnim													 *m_noteAnim, *m_popUpAnim;
 		QGraphicsSimpleTextItem								 *m_emptyText;
-		bool													 					m_accidToKeyAnim;
 		bool													 					m_selected;
 		TscoreLines														 *m_lines;
 		
