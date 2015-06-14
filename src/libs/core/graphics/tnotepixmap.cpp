@@ -33,19 +33,6 @@
 #include <QDebug>
 
 
-/** Adds comma and space ', ' to not empty string or returns the same. */
-void addSpaceToNotEmpty(QString& txt) {
-	if (txt != "")
-			txt += ", ";
-}
-
-
-/** Checks the length of string @p txt and adds new line tag if necessary */
-void newLineText(QString& txt, const QString& newText) {
-	if (txt.length() > 20 && !txt.contains("<br>"))
-			txt += "<br>";
-	txt += newText;
-}
 
 Tclef TnotePixmap::m_clef = Tclef(Tclef::e_treble_G_8down);
 
@@ -197,50 +184,6 @@ QString pixToHtml(const QString& imageFile, int width) {
   }
 }
 
-
-QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize) {
-    QString txt;
-    if (fontSize != -1)
-        txt = QString("<span style=\"color: %1; font-size: %2px;\">").arg(textColor.name()).arg(fontSize);
-    else
-        txt = QString("<span style=\"color: %1;\">").arg(textColor.name());
-    if (answer->isCorrect()) {
-    txt += QApplication::translate("AnswerText", "Good answer!", "or 'Good!' or 'Correct!' would be somewhat more specific than merely 'It was good!' (previous version) 'It' in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one's back. I know that's probably confusing, but the implied subject of 'Correct! is in a certain sense much more specific than a mere 'It' and is more certain to refer to the answer.");
-  } else
-      if (answer->wrongNote() || answer->wrongPos() || answer->veryPoor())
-          txt += QApplication::translate("AnswerText", "Wrong answer!");
-			else {
-					txt += QApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + "<br>";
-					QString misMes = ""; // Message with mistakes
-					if (answer->wrongString())
-							misMes = QApplication::translate("AnswerText", "wrong string");
-					if (answer->melody() && answer->littleNotes())
-							misMes = QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little");
-					if (answer->poorEffect()) {
-							addSpaceToNotEmpty(misMes);
-							if (!misMes.isEmpty())
-								misMes += "<br>";
-							misMes += QApplication::translate("AnswerText", "poor effectiveness");
-					}
-					if (answer->wrongAccid())
-							misMes = QApplication::translate("AnswerText", "wrong accidental");
-					if (answer->wrongKey()) {
-							addSpaceToNotEmpty(misMes);
-							newLineText(misMes, QApplication::translate("AnswerText", "wrong key signature"));
-					}
-					if (answer->wrongOctave()) {
-							addSpaceToNotEmpty(misMes);
-							newLineText(misMes, QApplication::translate("AnswerText", "wrong octave"));
-					}
-					if (answer->wrongIntonation()) {
-							addSpaceToNotEmpty(misMes);
-							newLineText(misMes, QApplication::translate("AnswerText", "out of tune"));
-					}
-					txt += misMes;
-			}
-    txt += "</span><br>";
-    return txt;
-}
 
 
 

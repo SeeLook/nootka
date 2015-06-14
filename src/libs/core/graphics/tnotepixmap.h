@@ -22,13 +22,17 @@
 
 #include <nootkacoreglobal.h>
 #include <QPixmap>
-#include <music/tnote.h>
 #include <music/tkeysignature.h>
 #include <music/tclef.h>
 
 class Tmelody;
-class TQAunit;
+class Tnote;
 
+
+/**
+ * This is static "container" for Tclef.
+ * It is shared among TexamExecutor and charts to display current exam/exercise clef
+ */
 class NOOTKACORE_EXPORT TnotePixmap 
 {
 public:
@@ -62,11 +66,6 @@ NOOTKACORE_EXPORT QPixmap pixFromString(const QString& glif, const QFont& font, 
 
     /** Returns HTML <img> statements with image scaled to given @p width.*/
 NOOTKACORE_EXPORT QString pixToHtml(const QString& imageFile, int width = 0);
-
-
-		/** Returns HTML formatted text with answer details. 
-		* If @p fontSize remains default - default @p fontSize is taken. */
-NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize = -1);
 
 
 
