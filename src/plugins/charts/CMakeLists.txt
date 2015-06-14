@@ -12,6 +12,7 @@ set(ANALYZER_SRC
 	tbarchart.cpp
 	tchart.cpp
 	tgraphicsline.cpp
+	tgroupedqaunit.cpp
 	tlinearchart.cpp
 	tmainchart.cpp
 	tmainline.cpp

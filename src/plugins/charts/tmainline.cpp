@@ -17,14 +17,14 @@
  ***************************************************************************/
 
 #include "tmainline.h"
-#include <exam/texam.h>
-#include <exam/tgroupedqaunit.h>
-#include <exam/tattempt.h>
+#include "tgroupedqaunit.h"
 #include "txaxis.h"
 #include "tyaxis.h"
 #include "tchart.h"
 #include "tstafflinechart.h"
 #include "tquestionpoint.h"
+#include <exam/tattempt.h>
+#include <exam/texam.h>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 // #include <QDebug>

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,10 +18,10 @@
 
 
 #include "tbar.h"
-#include <graphics/tdropshadoweffect.h>
-#include <exam/tgroupedqaunit.h>
+#include "tgroupedqaunit.h"
 #include "tquestionpoint.h"
 #include "tstatisticstip.h"
+#include <graphics/tdropshadoweffect.h>
 #include <QPainter>
 #include <QGraphicsColorizeEffect>
 #include <QGraphicsScene>

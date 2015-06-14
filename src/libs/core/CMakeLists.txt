@@ -43,7 +43,6 @@ set(LIB_NOOTKACORE_SRC
 	exam/tqaunit.cpp
 	exam/tqagroup.cpp
 	exam/tattempt.cpp
-	exam/tgroupedqaunit.cpp
 	exam/tlevel.cpp
 	exam/texam.cpp
 	exam/textrans.h

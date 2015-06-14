@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,6 @@
 #ifndef TGROUPEDQAUNIT_H
 #define TGROUPEDQAUNIT_H
 
-#include <nootkacoreglobal.h>
 #include <QList>
 #include <QString>
 #include <QApplication>
@@ -39,7 +38,7 @@ struct TqaPtr {
 /** 
  * This class describes question/answer unit (TQAunit) grouped by some features.
  */
-class NOOTKACORE_EXPORT TgroupedQAunit
+class TgroupedQAunit
 {
   
 public:

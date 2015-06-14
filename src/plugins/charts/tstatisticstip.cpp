@@ -18,7 +18,7 @@
 
 
 #include "tstatisticstip.h"
-#include <exam/tgroupedqaunit.h>
+#include "tgroupedqaunit.h"
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>

@@ -18,7 +18,7 @@
 
 #include "tgraphicsline.h"
 #include "tstatisticstip.h"
-#include <exam/tgroupedqaunit.h>
+#include "tgroupedqaunit.h"
 #include <QGraphicsSceneHoverEvent>
 
 TgraphicsLine::TgraphicsLine(TgroupedQAunit* qaGroup, QString text) :

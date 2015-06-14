@@ -21,7 +21,7 @@
 
 #include <QList>
 #include <exam/tqatype.h>
-#include <exam/tgroupedqaunit.h>
+#include "tgroupedqaunit.h"
 
 class Tnote;
 class TQAunit;

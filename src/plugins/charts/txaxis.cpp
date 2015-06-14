@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,9 +17,9 @@
  ***************************************************************************/
 
 #include "txaxis.h"
+#include "tgroupedqaunit.h"
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
-#include <exam/tgroupedqaunit.h>
 #include <exam/tlevel.h>
 #include <graphics/tgraphicstexttip.h>
 #include <music/tnamestylefilter.h>
