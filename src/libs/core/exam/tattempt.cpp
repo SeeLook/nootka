@@ -37,8 +37,7 @@ void Tattempt::add(quint32 mistake) {
 
 
 Tattempt::~Tattempt()
-{
-}
+{}
 
 
 void Tattempt::updateEffectiveness() {
@@ -55,6 +54,12 @@ void Tattempt::updateEffectiveness() {
 		m_effectiveness = effSum / (qreal)mistakes.size();
 	} else
 		m_effectiveness = 0.0;
+  if (effectiveness() >= 50.0) {
+    if (m_sum & TQAunit::e_wrongNote) { // subtract e_wrongNote if summary has sufficient effectiveness
+      m_sum = m_sum - TQAunit::e_wrongNote; // attempt was successful
+      m_sum |= TQAunit::e_littleNotes; // but has little valid notes
+    }
+  }
 }
 
 

@@ -611,14 +611,14 @@ void TexamExecutor::checkAnswer(bool showResults) {
 					}
 					if (goodAllready == curQ->melody()->length()) { // all required notes are correct
 							curQ->setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
-							qDebug() << "Melody is correct";
+// 							qDebug() << "Melody is correct";
 					} else if (goodAllready + notBadAlready == curQ->melody()->length()) { // add committed mistakes of last attempt
-							curQ->setMistake(curQ->lastAttempt()->summary() - (curQ->lastAttempt()->summary() & 64 ? 64 : 0)); // or 'not bad'
+							curQ->setMistake(curQ->lastAttempt()->summary()); // or 'not bad'
 // 							qDebug() << "Melody is not bad" << curQ->mistake();
 					} else if (goodAllready + notBadAlready >= curQ->melody()->length() * 0.7) { // at least 70% notes answered properly
 // 						qDebug() << "Melody has little notes";
-						if (curQ->lastAttempt()->effectiveness() > 50.0) { // and effectiveness is sufficient
-                curQ->setMistake(curQ->lastAttempt()->summary() - (curQ->lastAttempt()->summary() & 64 ? 64 : 0));
+						if (curQ->lastAttempt()->effectiveness() >= 50.0) { // and effectiveness is sufficient
+                curQ->setMistake(curQ->lastAttempt()->summary());
 								curQ->setMistake(TQAunit::e_littleNotes); // but less notes than required
 // 								qDebug() << "... and sufficient effectiveness";
 						} else { // or effectiveness is too poor
