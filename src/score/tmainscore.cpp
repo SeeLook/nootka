@@ -408,6 +408,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questKey = 0;
 			setClefDisabled(false);
 			setNoteNameEnabled(true);
+      enableAccidToKeyAnim(Tcore::gl()->useAnimations);
 	}
 	m_acts->setForExam(isIt);
 }

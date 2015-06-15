@@ -211,6 +211,8 @@ void TexamExecutor::initializeExecuting() {
       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
 	} else {
 			connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
+      if (m_level.answerIsNote())
+        mW->score->enableAccidToKeyAnim(false);
 	}
 	if (m_level.requireStyle) {
 			m_prevQuestStyle = m_supp->randomNameStyle(gl->S->nameStyleInNoteName);
