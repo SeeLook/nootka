@@ -145,9 +145,9 @@ void TnoteControl::hideWithDelay() {
 void TnoteControl::addAccidentals() {
 	if (!m_sharp) {
 		m_sharp = createNootkaTextItem("#");
-    m_sharp->setScale(m_sharp->scale() * 1.15); // it looks and works better
+    m_sharp->setScale(m_sharp->scale() * 1.2); // it looks and works better
 		m_flat = createNootkaTextItem("b");
-    m_flat->setScale(m_flat->scale() * 1.15);
+    m_flat->setScale(m_flat->scale() * 1.2);
 		m_accidLight = new QGraphicsRectItem(this);
 		m_accidLight->hide();
 		m_accidLight->setPen(Qt::NoPen);

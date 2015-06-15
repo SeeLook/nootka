@@ -592,10 +592,9 @@ void TscoreStaff::fromKeyAnimSlot(const QString& accidText, const QPointF& accid
 
 
 void TscoreStaff::toKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos) {
-  if (m_noteWithAccidAnimed) {
-    qDebug() << "Accidental animation in progress. Skipped";
+  if (m_noteWithAccidAnimed)
     return;
-  } else
+  else
      m_noteWithAccidAnimed = static_cast<TscoreNote*>(sender());
 	m_flyAccid->setText(accidText);
 	m_accidAnim->setMoving(mapFromScene(accidPos),
@@ -616,10 +615,8 @@ void TscoreStaff::accidAnimFinished() {
 
 void TscoreStaff::noteDestroingSlot(QObject* n) {
   Q_UNUSED(n)
-  if (sender() == m_noteWithAccidAnimed) {
-    qDebug() << "Note with accidental animation is going to be deleted";
+  if (sender() == m_noteWithAccidAnimed)
     m_noteWithAccidAnimed = 0;
-  }
 }
 
 
