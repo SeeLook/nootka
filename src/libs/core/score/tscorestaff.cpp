@@ -631,7 +631,7 @@ void TscoreStaff::addNoteTimeOut() {
 				m_autoAddedNoteId = -1;
 				if (count() == maxNoteCount() - 1)
 					emit noMoreSpace(number());
-		} else if (noteSegment(m_autoAddedNoteId)->hasCursor()) {// note was not set but cursor is still over it
+		} else if (noteSegment(m_autoAddedNoteId) == scoreScene()->currentNote()) {// note was not set but cursor is still over it
 				m_addTimer->stop();
 				m_addTimer->start(1000); // wait next 1000 ms
 		} else if (m_autoAddedNoteId != count() - 1) { // some note was added after this one - ignore

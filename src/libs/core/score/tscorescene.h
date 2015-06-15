@@ -99,6 +99,7 @@ public:
 		void noteDeleted(TscoreNote* sn); /** From @p TscoreNote::~TscoreNote() */
 		void controlMoved(); /** Restarts hide timer. From @p TnoteControl::hoverMoveEvent()*/
 		void controlLeaved(TscoreNote* sn) { noteLeaved(sn); } /** From @p TnoteControl::hoverLeaveEvent */
+		TscoreNote* currentNote() { return m_scoreNote; }
 		
 		void mouseEntersOnKey(bool onKey) { m_mouseOverKey = onKey; } /** score key informs that has or has not a mouse cursor */
 		bool keyHasMouse() { return m_mouseOverKey; }
