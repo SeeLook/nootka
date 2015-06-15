@@ -12,8 +12,9 @@
 ============================================================================
 
 ====== BUGS AND ISSUES ===============================================
-- melody tip may display result text for every attempt
-- remove some console debug messages
+- temp note disappears when its control is going to be edited
+- exam summary dialog - check does it displays all melody mistakes
+- remove some console debug messages, audio TscoreStaff
 - clean tartini unused code
 
 MINOR:

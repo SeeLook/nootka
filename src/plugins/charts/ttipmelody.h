@@ -47,7 +47,7 @@ protected slots:
 private:
   QGraphicsWidget                 *m_widget;
   TmelodyView                     *m_score;
-  QLabel                          *m_attemptLabel;
+  QLabel                          *m_attemptLabel, *m_resultLabel;
   QWidget                         *m_w; /** content widget inside QGraphicsWidget */
   
 };

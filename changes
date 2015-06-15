@@ -3,7 +3,9 @@
      - updated on-line help
      - unlocked help button(s) to opening related help sites
     BUGS FIXES
-     - checking intonation properly respects level accuracy setting
+     - fixed melody chart tip - correctly displays every attempt summary
+     - fixed and improved animations of accidentals from note to key signature
+     - intonation checking respects properly setting of accuracy level
      - fixed determining mistake types for melodies
      - fixed chart issues when melodies are analyzing
 

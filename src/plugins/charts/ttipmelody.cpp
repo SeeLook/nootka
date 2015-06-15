@@ -53,12 +53,13 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
   m_score->setFixedHeight(qApp->desktop()->availableGeometry().height() / 12);
   QSpinBox *spinAtt = new QSpinBox(m_w);
     spinAtt->setRange(0, qa()->question()->attemptsCount());
-//     spinAtt->setSpecialValueText(" " + tr("bare melody") + " ");
     spinAtt->setPrefix(TexTrans::attemptTxt() + " ");
     spinAtt->setSuffix(" " + tr("of", "It will give text: 'Attempt x of y'") + QString(" %1").arg(qa()->question()->attemptsCount()));
   m_attemptLabel = new QLabel(m_w);
-  txt = wasAnswerOKtext(point->question(), point->color()).replace("<br>", " ") + "<br>";
-  txt += tr("Melody was played <b>%n</b> times", "", qa()->question()->totalPlayBacks()) + "<br>";
+  m_resultLabel = new QLabel(wasAnswerOKtext(point->question(), point->color()).replace("<br>", " "), m_w);
+  m_resultLabel->setAlignment(Qt::AlignCenter);
+//   txt = wasAnswerOKtext(point->question(), point->color()).replace("<br>", " ") + "<br>";
+  txt = tr("Melody was played <b>%n</b> times", "", qa()->question()->totalPlayBacks()) + "<br>";
   txt += TexTrans::effectTxt() + QString(": <big><b>%1%</b></big>, ").arg(point->question()->effectiveness(), 0, 'f', 1, '0');
   txt += TexTrans::reactTimeTxt() + QString("<big><b>  %1</b></big>").arg(Texam::formatReactTime(point->question()->time, true));
   QLabel *sumLab = new QLabel(txt, m_w);
@@ -73,6 +74,7 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
       attLay->addStretch();
     lay->addLayout(attLay);
     lay->addWidget(m_attemptLabel);
+    lay->addWidget(m_resultLabel);
     lay->addWidget(sumLab);
     
     m_w->setLayout(lay);
@@ -108,6 +110,19 @@ void TtipMelody::attemptChanged(int attNr) {
   } else {
     m_score->clearMistakes();
     m_attemptLabel->setText("");
+  }
+  if (qa()->question()->attemptsCount() > 1) {
+    if (attNr && attNr < qa()->question()->attemptsCount()) {
+      QColor attemptColor = TquestionPoint::goodColor();
+      if (qa()->question()->attempt(attNr - 1)->summary()) {
+        if (qa()->question()->attempt(attNr - 1)->summary() & TQAunit::e_wrongNote)
+          attemptColor = TquestionPoint::wrongColor();
+        else
+          attemptColor = TquestionPoint::notBadColor();
+      }
+      m_resultLabel->setText(wasAnswerOKtext(qa()->question(), attemptColor, -1, attNr).replace("<br>", " "));
+    } else
+      m_resultLabel->setText(wasAnswerOKtext(qa()->question(), qa()->color()).replace("<br>", " "));
   }
 }
 
