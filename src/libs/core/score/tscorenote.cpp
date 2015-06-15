@@ -459,6 +459,7 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 		m_emptyText->hide();
 	}
   TscoreItem::hoverEnterEvent(event);
+  update();
 }
 
 
