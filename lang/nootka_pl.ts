@@ -925,7 +925,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="63"/>
         <source>Preparation time</source>
-        <translation>Czas przygotowanie</translation>
+        <translation>Czas przygotowania</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="64"/>
