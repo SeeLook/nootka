@@ -25,6 +25,30 @@
 #include <QGraphicsScene>
 
 
+
+QString timeFormated(quint16 t) {
+  QString hh = "", mm = "0", ss = "";
+  int dig = 0;
+  if (t / 3600) {
+    hh = QString("%1").arg(t / 3600);
+    dig = 2;
+  }
+  int dig2 = 0;
+  if ((t % 3600) / 60) {
+    mm = QString("%1").arg((t % 3600) / 60, dig, 'i', 0, '0');
+    dig2 = 2;
+  }
+  ss = QString("%1").arg((t % 3600) % 60, 2, 'i', 0, '0');
+  QString res = "";
+  if (hh != "")
+      res = hh + ":";
+  if (mm != "")
+      res += mm + ":";
+  return res + ss;
+}
+
+
+
 TYaxis::TYaxis() :
   m_maxVal(11),
   m_multi(1),
@@ -93,10 +117,10 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 
   qreal half = axisWidth / 2;
   QColor bg = widget->palette().base().color();
-  bg.setAlpha(200);
+  bg.setAlpha(210);
   painter->setPen(Qt::NoPen);
   painter->setBrush(bg);
-  painter->drawRect(-3 * m_textPosOffset, 0, axisWidth * 3, length() - 1);
+  painter->drawRect(-3 * m_textPosOffset, 0, axisWidth * 4, length() - 1);
   painter->setPen(QPen(widget->palette().text().color(), 2));
   painter->drawLine(half, 0, half, length());
   drawArrow(painter, QPointF(half, 0), false);
@@ -105,14 +129,24 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
   if (m_halfTick && (m_unit == e_timeInSec || m_unit == e_prepareTime || m_multi2 >= 10))
       shift = 0.5;
   for (double i = shift; i <= m_loop; i += shift) {
-      double v= i * m_multi * m_multi2;
+      double v = i * m_multi * m_multi2;
       painter->drawLine(half, mapValue(v), half - tickSize, mapValue(v));
-      painter->drawText(half + 3, mapValue(v) + m_textPosOffset, QString::number(i*m_multi*m_multi2));
+      QString ticText = QString::number(i * m_multi * m_multi2);
+      if (m_unit == e_timeInSec) {
+
+        ticText = timeFormated(i * m_multi * m_multi2);
+      }
+      painter->drawText(half + 3, mapValue(v) + m_textPosOffset, ticText);
   }
   // paint top tick only if there is free room and Y value is not % (more than 100 makes no sense there)
   if (m_unit != e_effectiveness && ((mapValue(m_loop * m_multi * m_multi2) - mapValue(m_top * m_multi)) ) > m_textPosOffset * 4) {
       painter->drawLine(half, mapValue(m_top * m_multi), half - tickSize, mapValue(m_top * m_multi));
-      painter->drawText(half + 3, mapValue(m_top * m_multi) + m_textPosOffset, QString("%1").arg(m_top * m_multi));
+      QString ticText = QString::number(m_top * m_multi);
+      if (m_unit == e_timeInSec) {
+        ticText = timeFormated(m_top * m_multi);
+      }
+      painter->drawText(half + 3, mapValue(m_top * m_multi) + m_textPosOffset,
+                        QString("%1").arg(ticText));
   }
   QFont f = painter->font();
   f.setBold(true);
@@ -123,7 +157,7 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 
 
 QRectF TYaxis::boundingRect() const{
-  QRectF rect(4 * m_textPosOffset , 0, axisWidth + rectBoundText(QString::number(m_maxVal)).width() + 3 * m_textPosOffset, length());
+  QRectF rect(4 * m_textPosOffset , 0, axisWidth + rectBoundText(QString::number(m_maxVal)).width() + 6 * m_textPosOffset, length());
   return rect;
 }
 
