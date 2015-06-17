@@ -113,6 +113,16 @@ void TmelodyView::clearMistakes() {
 }
 
 
+void TmelodyView::showStringNumbers(bool strNrOn) {
+  for (int i = 0; i < m_melody->length(); ++i) {
+    if (strNrOn)
+      m_staves[i / m_maxNotes]->noteSegment(i % m_maxNotes)->setString(m_melody->note(i)->g().str());
+    else
+      m_staves[i / m_maxNotes]->noteSegment(i % m_maxNotes)->removeString();
+  }
+}
+
+
 void TmelodyView::resizeEvent(QResizeEvent* event) {
   qreal factor = (((qreal)height() / (m_staves.first()->loNotePos() - m_staves.first()->hiNotePos() + 2.4)) / transform().m11());
   scale(factor, factor);

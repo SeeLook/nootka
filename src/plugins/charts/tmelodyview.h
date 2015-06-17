@@ -40,6 +40,7 @@ public:
   
   void markMistakes(QList<quint32> mistakes); /** Marks notes in the score with colors corresponding to mistake. */
   void clearMistakes(); /** Clears marked note heads. */
+  void showStringNumbers(bool strNrOn); /** Adds sting numbers to every note (except (1) - first string) */
   
 protected:
   virtual void resizeEvent(QResizeEvent* event);
