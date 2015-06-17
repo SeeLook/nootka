@@ -23,6 +23,7 @@
 #include <exam/tqaunit.h>
 #include <exam/textrans.h>
 #include <exam/texam.h>
+#include <exam/tlevel.h>
 #include <exam/tattempt.h>
 #include <exam/tresulttext.h>
 #include <music/tmelody.h>
@@ -51,6 +52,10 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
   headLab->setAlignment(Qt::AlignCenter);
   m_score = new TmelodyView(qa()->question()->melody(), m_w);
   m_score->setFixedHeight(qApp->desktop()->availableGeometry().height() / 12);
+  if (point->question()->exam()) {
+    if (point->question()->exam()->level()->showStrNr)
+      m_score->showStringNumbers(true);
+  }
   QSpinBox *spinAtt = new QSpinBox(m_w);
     spinAtt->setRange(0, qa()->question()->attemptsCount());
     spinAtt->setPrefix(TexTrans::attemptTxt() + " ");
