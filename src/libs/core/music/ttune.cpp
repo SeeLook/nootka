@@ -196,6 +196,8 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
 		}
 		if (!ok)
 			copy(stdTune);
+    else
+      determineStringsNumber();
 	} else
 			xml.skipCurrentElement(); // we are not reading from <tuning> tag content so it has to be skipped
 	return ok;
