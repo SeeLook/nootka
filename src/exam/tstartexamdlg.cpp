@@ -146,6 +146,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 #endif
   QAction *loadExamAct = new QAction(TexTrans::loadExamFileTxt(), this);
     loadExamAct->setIcon(QIcon(Tpath::img("nootka-exam")));
+    loadExamAct->setShortcut(QKeySequence::Open);
     connect(loadExamAct, SIGNAL(triggered(bool)), this, SLOT(examFromFileDialog()));
   m_examMenu->addAction(loadExamAct);
   m_examMenu->addSeparator();

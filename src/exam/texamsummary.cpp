@@ -128,41 +128,49 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
   QString effStr = "";
-  if (exam->mistakes()) {
+  if (exam->mistakes() || exam->halfMistaken()) {
 //     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
 //     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
-    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal, wInto = 0.0;
+    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal;
+    float wInto = 0.0, wLittle = 0.0, wPoor;
     for(int i=0; i<exam->count(); i++) {
       if (!exam->question(i)->isCorrect()) {
-          if(exam->question(i)->wrongAccid())  wAccid++;
-          if(exam->question(i)->wrongKey())    wKey++;
-          if(exam->question(i)->wrongNote())   wNote++;
-          if(exam->question(i)->wrongOctave()) wOctave++;
-          if(exam->question(i)->wrongStyle())  wStyle++;
-          if(exam->question(i)->wrongPos())    wPos++;
-          if(exam->question(i)->wrongString()) wString++;
-					if(exam->question(i)->wrongIntonation()) wInto++;
+          if(exam->question(i)->wrongAccid())       wAccid++;
+          if(exam->question(i)->wrongKey())         wKey++;
+          if(exam->question(i)->wrongNote())        wNote++;
+          if(exam->question(i)->wrongOctave())      wOctave++;
+          if(exam->question(i)->wrongStyle())       wStyle++;
+          if(exam->question(i)->wrongPos())         wPos++;
+          if(exam->question(i)->wrongString())      wString++;
+					if(exam->question(i)->wrongIntonation())  wInto++;
+          if(exam->question(i)->littleNotes())      wLittle++;
+          if(exam->question(i)->poorEffect())       wPoor++;
       }
     }
-    effStr += "<tr><td colspan=\"2\">----- " + tr("Kinds of mistakes") + ": -----</td></tr>";
-    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString +wInto;
+    effStr += "<tr><td colspan=\"2\">-------- " + tr("Kinds of mistakes") + ": --------</td></tr>";
+    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString + wInto + wLittle + wPoor;
     if (wNote)
-      effStr += row2(tr("Wrong notes"), QString("%1 (").arg(wNote) + QString::number(qRound(wNote*100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong notes"), QString("%1 (").arg(wNote) + QString::number(qRound(wNote * 100.0 / wTotal)) + "%)");
     if (wAccid)
-      effStr += row2(tr("Wrong accidentals"), QString("%1 (").arg(wAccid) + QString::number(qRound(wAccid*100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong accidentals"), QString("%1 (").arg(wAccid) + QString::number(qRound(wAccid * 100.0 / wTotal)) + "%)");
     if (wKey)
-      effStr += row2(tr("Wrong key signatures"), QString("%1 (").arg(wKey) + QString::number(qRound(wKey*100.0 /wTotal)) + "%)");
+      effStr += row2(tr("Wrong key signatures"), QString("%1 (").arg(wKey) + QString::number(qRound(wKey * 100.0 / wTotal)) + "%)");
     if (wOctave)
-      effStr += row2(tr("Wrong octaves"), QString("%1 (").arg(wOctave) + QString::number(qRound(wOctave*100.0 /wTotal)) + "%)");
+      effStr += row2(tr("Wrong octaves"), QString("%1 (").arg(wOctave) + QString::number(qRound(wOctave * 100.0 / wTotal)) + "%)");
     if (wStyle)
-      effStr += row2(tr("Wrong note names"), QString("%1 (").arg(wStyle)) + 
-          QString::number(qRound(wStyle*100.0 /wTotal)) + "%)";
+      effStr += row2(tr("Wrong note names"), QString("%1 (").arg(wStyle)) + QString::number(qRound(wStyle * 100.0 / wTotal)) + "%)";
     if (wPos)
-      effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos*100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos * 100.0 / wTotal)) + "%)");
     if (wString)
-      effStr += row2(tr("Wrong strings"), QString("%1 (").arg(wString) + QString::number(qRound(wString*100.0 /wTotal)) + "%)");
+      effStr += row2(tr("Wrong strings"), QString("%1 (").arg(wString) + QString::number(qRound(wString * 100.0 / wTotal)) + "%)");
 		if (wInto)
-      effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto*100.0 /wTotal)) + "%)");
+      effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto * 100.0 / wTotal)) + "%)");
+    if (wLittle)
+      effStr += row2(QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little"),
+                     QString("%1 (").arg(wLittle) + QString::number(qRound(wLittle * 100.0 / wTotal)) + "%)");
+    if (wPoor)
+      effStr += row2(QApplication::translate("AnswerText", "poor effectiveness"),
+                     QString("%1 (").arg(wPoor) + QString::number(qRound(wPoor * 100.0 / wTotal)) + "%)");
   }
 	TroundedLabel *resLab = new TroundedLabel("<table>" +
     row2(TexTrans::effectTxt(), QString::number(qRound(exam->effectiveness())) + "%") + effStr + "</table>", this);
