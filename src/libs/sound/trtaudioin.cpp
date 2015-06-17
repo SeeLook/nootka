@@ -127,12 +127,12 @@ void TaudioIN::setMinimalVolume(float minVol) {
 }
 
 
-/** Range of notes is increased one note down and up.
+/** Range of notes is increased semitone down and up.
  * This 46 and 48 are its sign. 
  * Normally 47 is offset of midi note to Nootka Tnote. */
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
-	m_loPitch = loNote.chromatic() + 46;
-	m_hiPitch = hiNote.chromatic() + 48;
+	m_loPitch = loNote.toMidi() - 1;
+	m_hiPitch = hiNote.toMidi() + 1;
 	m_loNote = loNote;
 	m_hiNote = hiNote;
 	TpitchFinder::Erange range = TpitchFinder::e_middle;
@@ -150,7 +150,7 @@ void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 		if (!isStop)
 			startListening();
 	}
-// 	qDebug() << "Ambitus set to:" << loNote.toText() << "--" << hiNote.toText();
+// 	qDebug() << "Ambitus set to:" << Tnote(m_loPitch - 47).toText() << "--" << Tnote(m_hiPitch - 47).toText();
 }
 
 
