@@ -8,6 +8,7 @@
      - intonation checking respects properly setting of accuracy level
      - fixed determining mistake types for melodies
      - fixed chart issues when melodies are analyzing
+     - fixed a lot of small glitches
 
 1.1.7 rc2
      - improvements/fixes related to low latency and real-time audio

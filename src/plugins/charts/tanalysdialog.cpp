@@ -633,7 +633,7 @@ void TanalysDialog::chartTypeChanged() {
 
 void TanalysDialog::showTuningPreview() {
 	if (m_tunTip) {
-		delete m_tunTip;
+    m_tunTip->deleteLater();
 		return;
 	}
 	QString prevText = "<b>" + m_exam->tune().name + "</b><table style=\"text-align: center;\"><tr>";
@@ -644,10 +644,12 @@ void TanalysDialog::showTuningPreview() {
 	m_tunTip = new TgraphicsTextTip(prevText, palette().highlight().color());
 	m_chart->scene->addItem(m_tunTip);
 	m_tunTip->setZValue(250);
-// 	m_tunTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
 	m_tunTip->setScale(2.0);
 	m_tunTip->setPos(offP.x() + (m_chart->width() - m_tunTip->boundingRect().width() * 2.0) / 2,
 									offP.y() + (m_chart->height() - m_tunTip->boundingRect().height() * 2.0) / 2);
+  // connect tune tip here to delete it also when clicked or after mouse leave
+  connect(m_tunTip, &TgraphicsTextTip::clicked, this, &TanalysDialog::showTuningPreview);
+  connect(m_tunTip, &TgraphicsTextTip::leaved, this, &TanalysDialog::showTuningPreview);
 }
 
 
