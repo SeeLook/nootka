@@ -569,11 +569,7 @@ bool Texam::readPenaltyFromXml(QList<TQAunit>& blackList, QXmlStreamReader& xml)
   while (xml.readNextStartElement()) {
     if (xml.name() == "u") {
       blackList << TQAunit(this);
-      if (blackList.last().fromXml(xml)) {
-        grabFromLastUnit();
-        if (melodies())
-          m_attempts += curQ()->attemptsCount();
-      } else {
+      if (!blackList.last().fromXml(xml)) {
         qDebug() << "Exam has wrong unit" << blackList.size();
         blackList.removeLast();
         ok = false;
