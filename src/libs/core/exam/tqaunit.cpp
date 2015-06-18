@@ -185,7 +185,7 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
 	xml.writeEndElement(); // u
 }
 
-/** We no need to worry about reset TQAunit because it is invoked just after its constructor - it clean yet. */
+/** We no need to worry about reset TQAunit because it is invoked just after its constructor - it is clean already. */
 bool TQAunit::fromXml(QXmlStreamReader& xml) {
 	bool ok = true;
 	m_answered = true; // this state is common and not saved, so if <answered> key exists it is false then.
@@ -240,11 +240,11 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 					} else
 							xml.skipCurrentElement();
 				}
-				updateEffectiveness();
 		}
 		else
 			xml.skipCurrentElement();
-	}	
+	}
+	updateEffectiveness();
 	return ok;
 }
 
