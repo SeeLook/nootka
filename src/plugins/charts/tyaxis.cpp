@@ -26,8 +26,11 @@
 
 
 
-QString timeFormated(quint16 t) {
-  QString hh = "", mm = "0", ss = "";
+    /** When @p halfAllowed is true given time values are below 60 s for sure.
+    * Minute part (@p mm) can be skipped then. */
+QString timeFormated(qreal realTime, bool halfAllowed = false) {
+  int t = (int)realTime;
+  QString hh = "", mm = halfAllowed ? "" : "0", ss = "", ms = "";
   int dig = 0;
   if (t / 3600) {
     hh = QString("%1").arg(t / 3600);
@@ -39,12 +42,9 @@ QString timeFormated(quint16 t) {
     dig2 = 2;
   }
   ss = QString("%1").arg((t % 3600) % 60, 2, 'i', 0, '0');
-  QString res = "";
-  if (hh != "")
-      res = hh + ":";
-  if (mm != "")
-      res += mm + ":";
-  return res + ss;
+  if (realTime - (qreal)t)
+    ms = "." + QString("%1").arg((int)((realTime - (qreal)t) * 10));
+  return (hh.isEmpty() ? "" : hh + ":") + (mm.isEmpty() ? "" : mm + ":") + ss + ms;
 }
 
 
@@ -132,21 +132,17 @@ void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
       double v = i * m_multi * m_multi2;
       painter->drawLine(half, mapValue(v), half - tickSize, mapValue(v));
       QString ticText = QString::number(i * m_multi * m_multi2);
-      if (m_unit == e_timeInSec) {
-
-        ticText = timeFormated(i * m_multi * m_multi2);
-      }
+      if (m_unit == e_timeInSec)
+        ticText = timeFormated(i * m_multi * m_multi2, m_halfTick);
       painter->drawText(half + 3, mapValue(v) + m_textPosOffset, ticText);
   }
   // paint top tick only if there is free room and Y value is not % (more than 100 makes no sense there)
   if (m_unit != e_effectiveness && ((mapValue(m_loop * m_multi * m_multi2) - mapValue(m_top * m_multi)) ) > m_textPosOffset * 4) {
       painter->drawLine(half, mapValue(m_top * m_multi), half - tickSize, mapValue(m_top * m_multi));
       QString ticText = QString::number(m_top * m_multi);
-      if (m_unit == e_timeInSec) {
-        ticText = timeFormated(m_top * m_multi);
-      }
-      painter->drawText(half + 3, mapValue(m_top * m_multi) + m_textPosOffset,
-                        QString("%1").arg(ticText));
+      if (m_unit == e_timeInSec)
+        ticText = timeFormated(m_top * m_multi, m_halfTick);
+      painter->drawText(half + 3, mapValue(m_top * m_multi) + m_textPosOffset, QString("%1").arg(ticText));
   }
   QFont f = painter->font();
   f.setBold(true);

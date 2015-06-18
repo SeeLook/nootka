@@ -132,7 +132,7 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
 //     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
 //     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
     float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal;
-    float wInto = 0.0, wLittle = 0.0, wPoor;
+    float wInto = 0.0, wLittle = 0.0, wPoor = 0.0;
     for(int i=0; i<exam->count(); i++) {
       if (!exam->question(i)->isCorrect()) {
           if(exam->question(i)->wrongAccid())       wAccid++;

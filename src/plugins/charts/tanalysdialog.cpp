@@ -159,7 +159,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
 					TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, Tcore::gl()->EanswerColor);
 						m_chart->scene->addItem(helpTip);
 						helpTip->setFlag(QGraphicsItem::ItemIgnoresTransformations);
-						helpTip->setPos(100, 80);
+						helpTip->setPos(120, 80);
       helpTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
       connect(helpTip, &TgraphicsTextTip::linkActivated, this, &TanalysDialog::linkOnTipClicked);
   }
