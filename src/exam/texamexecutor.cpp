@@ -66,6 +66,15 @@ void debugStyle(TQAunit &qa) {
 extern Tglobals *gl;
 
 
+        /** Returns a file name generated from user name and level,
+        * but when such a file exists in current exam directory some time mark is added. */
+QString getExamFileName(Texam* e) {
+  QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + e->userName() + "-" + e->level()->name);
+  if (QFileInfo(fName  + ".noo").exists())
+    fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
+  return fName;
+}
+
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   QObject(mainW),
   m_exam(0),
@@ -1237,10 +1246,7 @@ void TexamExecutor::stopExamSlot() {
     }
     if (m_exam->fileName() == "") {
       if (gl->E->closeWithoutConfirm) {
-        QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name);
-        if (QFileInfo(fName  + ".noo").exists())
-          fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
-        m_exam->setFileName(fName + ".noo");
+        m_exam->setFileName(getExamFileName(m_exam) + ".noo");
       } else {
         m_exam->setFileName(saveExamToFile());
         if (m_exam->fileName() != "")
@@ -1351,8 +1357,7 @@ bool TexamExecutor::closeNootka() {
 
 
 QString TexamExecutor::saveExamToFile() {
-  QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"),
-                QDir::toNativeSeparators(gl->E->examsDir + "/" + m_exam->userName() + "-" + m_level.name), TexTrans::examFilterTxt());
+  QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
   if (fileName == "") {
       QMessageBox *msg = new QMessageBox(mW);
       msg->setText(tr("If you don't save to file<br>you lost all results!"));
