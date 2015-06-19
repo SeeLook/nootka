@@ -144,6 +144,10 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
       if (hasListUnrelated)
         goodOffset = -1; // do not perform a last loop 
       int cnt = 1;
+      if (settings.yValue != TmainLine::e_questionTime) {
+        QTimer::singleShot(10, this, SLOT(ajustChartHeight()));
+        return;
+      }
   // paint lines with average time of all the same notes/frets
      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separated
         if (sortedLists[i].size() > 1) {
