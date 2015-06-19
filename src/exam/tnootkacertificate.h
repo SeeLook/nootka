@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -72,7 +72,7 @@ private:
     Texam 									*m_exam;
 		TgraphicsTextTip 				*m_saveHint, *m_closeHint, *m_nextHint;
 		QGraphicsRectItem   		*m_cert;
-		QGraphicsRectItem				*m_bgRect;
+		QGraphicsPixmapItem			*m_bgRect;
     QGraphicsTextItem       *m_academyI, *m_dateI, *m_studentI, *m_certHeadI, *m_resultsI, *m_witnesI, *m_boardI, *m_stampI;
     QGraphicsPixmapItem     *m_stampPixmap;
     qreal                    m_width, m_height;

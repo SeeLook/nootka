@@ -6,6 +6,7 @@
      - fixed melody chart tip - correctly displays every attempt summary
      - fixed and improved animations of accidentals from note to key signature
      - intonation checking respects properly setting of accuracy level
+     - fixed issue when exam was corrupted due to reading it from a file wrongly
      - fixed determining mistake types for melodies
      - fixed chart issues when melodies are analyzing
      - fixed a lot of small glitches
