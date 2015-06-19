@@ -65,7 +65,7 @@ Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
   sizeChanged();
 	connect(m_scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sizeChangedDelayed(QRectF)));
   connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
-	view->installEventFilter(this);
+	qApp->installEventFilter(this);
   int levelMessageDelay = 1;
   if (TexecutorSupply::paramsChangedMessage())
       levelMessageDelay = 7000;
@@ -173,6 +173,8 @@ void Tcanvas::startTip() {
 
 void Tcanvas::certificateTip() {
   delete m_questionTip;
+  clearResultTip();
+  clearWhatNextTip();
   if (!m_certifyTip) {
     m_certifyTip = new TnootkaCertificate(m_view, m_exam);
     connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
@@ -500,7 +502,7 @@ void Tcanvas::sizeChanged() {
   }
   if (m_certifyTip) {
     clearCertificate();
-		certificateTip();
+		QTimer::singleShot(50, this, SLOT(certificateTip()));
   }
   if (m_outTuneTip) {
 		m_outTuneTip->setScale(m_scale);

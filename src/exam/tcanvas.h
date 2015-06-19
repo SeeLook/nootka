@@ -74,7 +74,6 @@ public:
 	void questionTip(); // Text with question context
 	void tryAgainTip(int time); // "Try again" text"
 	void confirmTip(int time = 0); // tip about confirm an answer appears after given time
-	void certificateTip(); // paper like exam report when finished
   void melodyCorrectMessage(); /** Status message about how to correct a melody notes. */
 	
 			/** 'to low' or 'to high' text above pitch view @p pitchDiff is float part of pitch */
@@ -115,6 +114,7 @@ public slots:
 	void clearCorrection();
 	void clearWhatNextTip();
   void clearMelodyCorrectMessage();
+  void certificateTip(); // paper like exam report when finished
   
       /** Message on a status bar about currently performed exercise/exam.
        * It has to be updated whenever correcting melody message is displayed and deleted.*/

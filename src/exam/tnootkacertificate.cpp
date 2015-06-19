@@ -49,7 +49,6 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
   m_saveHint(0)
 {
 		setFlag(ItemHasNoContents);
-// 		m_view->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock mouse
 		m_view->scene()->addItem(this);
 		setZValue(100);
     m_cert = new QGraphicsRectItem;
@@ -96,7 +95,6 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
     m_height += m_boardI->boundingRect().height() + SPACER;
   // -------------------------(stamp)--------------------- (middle)
     m_stampPixmap = new QGraphicsPixmapItem(QPixmap(Tpath::img("stamp")));
-//     m_stampPixmap->hide();
     m_stampPixmap->setParentItem(m_cert);
     m_stampPixmap->setScale(3.0);
     m_stampPixmap->setZValue(100);
@@ -110,7 +108,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
     QPixmap bgPix = QPixmap(Tpath::img("certBg")).scaled(m_width, m_height);
     QGraphicsPixmapItem *paper = new QGraphicsPixmapItem(bgPix);
 			paper->setParentItem(m_cert);
-			paper->setZValue(0);
+			paper->setZValue(2);
 		QGraphicsSimpleTextItem *waterMark = new QGraphicsSimpleTextItem;
 		QString bgSymbol;
 		if (m_exam->level()->instrument != e_noInstrument)
@@ -125,7 +123,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
 		penTrans.setAlpha(80);
 		waterMark->setBrush(QBrush(penTrans));
 		waterMark->setParentItem(m_cert);
-		waterMark->setZValue(0);
+		waterMark->setZValue(3);
 		waterMark->setText(bgSymbol);
 		waterMark->setGraphicsEffect(new QGraphicsBlurEffect);
 		waterMark->setPos((m_width - waterMark->boundingRect().width()) / 2, (m_height - waterMark->boundingRect().height()) / 2 );
@@ -141,18 +139,23 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
     }
     setPos((m_view->width() - m_cert->scale() * width()) - MARGIN, (m_view->height() - m_cert->scale() * height()) / 2);
     
-		m_bgRect = new QGraphicsRectItem(m_view->sceneRect());
-    m_bgRect->setPen(Qt::NoPen);
-		QColor bg = m_view->palette().text().color();
-			bg.setAlpha(170);
-			m_bgRect->setBrush(QBrush(bg));
+    QPixmap viewPix(m_view->size());
+    QColor pixBgColor = m_view->palette().text().color();
+    pixBgColor.setAlpha(210);
+    viewPix.fill(pixBgColor);
+    QPainter painter(&viewPix);
+    m_view->render(&painter);
+		m_bgRect = new QGraphicsPixmapItem(viewPix);
+      QGraphicsBlurEffect *viewBlur = new QGraphicsBlurEffect();
+      viewBlur->setBlurRadius(10);
+    m_bgRect->setGraphicsEffect(viewBlur);
 			m_view->scene()->addItem(m_bgRect);
-			m_bgRect->setZValue(0);
+			m_bgRect->setZValue(1);
+      m_bgRect->setAcceptHoverEvents(true);
 		setAcceptHoverEvents(true);
 		createHints();
     
 		connect(flyingStamp, SIGNAL(finished()), scene(), SLOT(update()));
-    
 }
 
 
@@ -174,6 +177,7 @@ void TnootkaCertificate::createHints() {
 			m_saveHint->setTextWidth((pos().x() - 10));
 			m_view->scene()->addItem(m_saveHint);
 			m_saveHint->setPos((pos().x() - m_saveHint->boundingRect().width()) / 2, 20.0);
+      m_saveHint->setZValue(3);
       connect(m_saveHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
 			
 		m_nextHint = new TgraphicsTextTip(tr("You can still play with it and improve effectiveness.") + "<br><big>" + TexamHelp::toGetQuestTxt() + ":<br>" +  TexamHelp::clickSomeButtonTxt(pixToHtml(Tpath::img("nextQuest"), 32)) + 
@@ -181,6 +185,7 @@ void TnootkaCertificate::createHints() {
 			m_view->scene()->addItem(m_nextHint);
       m_nextHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
 			m_nextHint->setPos((pos().x() - m_nextHint->boundingRect().width()) / 2, m_view->height() / 2);
+      m_nextHint->setZValue(3);
       connect(m_nextHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
 		
 		ic = QIcon(Tpath::img("stopExam"));
@@ -189,6 +194,7 @@ void TnootkaCertificate::createHints() {
       m_closeHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
 			m_closeHint->setPos((pos().x() - m_closeHint->boundingRect().width()) / 2,
                           m_view->height() - m_closeHint->boundingRect().height() * m_closeHint->scale() - 20.0);
+      m_closeHint->setZValue(3);
       connect(m_closeHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
 	}
 }
