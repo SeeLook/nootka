@@ -184,8 +184,10 @@ void TlevelCreatorDlg::saveToFile() {
   newLevel.name = nameList[0];
   newLevel.desc = nameList[1];
 // Saving to file
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"),
-              QDir::toNativeSeparators(Tcore::gl()->E->levelsDir + "/" + newLevel.name), TlevelSelector::levelFilterTxt() + " (*.nel)");
+  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->examsDir + "/" + newLevel.name);
+  if (QFileInfo(fName  + ".nel").exists())
+    fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + " (*.nel)");
   if (fileName == "")
       return;
   if (fileName.right(4) != ".nel")
