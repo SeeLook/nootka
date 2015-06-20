@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,99 +26,97 @@
 accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   TabstractLevelPage(creator)
 {
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    mainLay->setAlignment(Qt::AlignHCenter);
-    
-    
-    QVBoxLayout *accLay = new QVBoxLayout;
-    m_sharpsChB = new QCheckBox(tr("# - sharps"),this);
-    m_sharpsChB->setStatusTip(tr("Sharps will be used in questions and answers.<br>It has to be checked, if keys with sharps are used."));
-    m_sharpsChB->setChecked(true);
-    m_flatsChB = new QCheckBox(tr("b - flats"),this);
-    m_flatsChB->setStatusTip(tr("Flats will be used in questions and answers.<br>It has to be checked, if keys with flats are used."));
-    m_flatsChB->setChecked(true);
-    m_doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
-    accLay->addWidget(m_sharpsChB);
-    accLay->addWidget(m_flatsChB);
-    accLay->addWidget(m_doubleAccChB);
-    accLay->addStretch(1);
-    m_accidGr = new QGroupBox(accidsText(), this);
-    m_accidGr->setStatusTip(tr("Accidentals used in exam."));
-    m_accidGr->setLayout(accLay);
-		m_forceAccChB = new QCheckBox(tr("force using appropriate accidental"),this);
-    m_forceAccChB->setStatusTip(tr("if checked, it is possible to select a note<br>with given accidental only."));
-		QHBoxLayout *entireAccLay = new QHBoxLayout;
-			entireAccLay->addStretch(); 
-			entireAccLay->addWidget(m_accidGr);
-			entireAccLay->addWidget(m_forceAccChB);
-			entireAccLay->addStretch();
-		mainLay->addLayout(entireAccLay);
-    
-    QHBoxLayout *keyLay = new QHBoxLayout;
-    m_keySignGr = new QGroupBox(tr("use key signatures"),this);
-    m_keySignGr->setCheckable(true);
+  QVBoxLayout *mainLay = new QVBoxLayout;
+  mainLay->setAlignment(Qt::AlignHCenter);
 
-    QVBoxLayout *rangeLay = new QVBoxLayout;
-    rangeLay->setAlignment(Qt::AlignCenter);
-    m_singleKeyRadio = new QRadioButton(tr("single key"),this);
-    m_singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
-    m_rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
-    m_rangeKeysRadio->setStatusTip(tr("random key signature from selected range."));
-    m_rangeButGr = new QButtonGroup(this);
-    m_rangeButGr->addButton(m_singleKeyRadio);
-    m_rangeButGr->addButton(m_rangeKeysRadio);
-    m_rangeKeysRadio->setChecked(true);
-    rangeLay->addWidget(m_singleKeyRadio,0,Qt::AlignCenter);
-    rangeLay->addWidget(m_rangeKeysRadio,0,Qt::AlignCenter);
-    QHBoxLayout *comboLay = new QHBoxLayout;
-    m_fromKeyCombo = new TkeySignComboBox(this);
-    m_fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Appropriate accidentals used in exam<br>will be automatically selected !"));
-    m_fromKeyCombo->setKeySignature(TkeySignature(0));
-    m_toKeyCombo = new TkeySignComboBox(this);
-    m_toKeyCombo->setStatusTip(m_fromKeyCombo->statusTip());
-    m_fromKeyCombo->setKeySignature(TkeySignature(0));
-    comboLay->addWidget(m_fromKeyCombo);
-    QLabel *ll = new QLabel(" - ", this);
-    comboLay->addWidget(ll);
-    comboLay->addWidget(m_toKeyCombo);
-    rangeLay->addLayout(comboLay);
-    rangeLay->addStretch(1);
-    m_keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
-    m_keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature,<br>otherwise it is shown by application."));
-    rangeLay->addWidget(m_keyInAnswerChB,0,Qt::AlignCenter);
-    keyLay->addLayout(rangeLay);
-    keyLay->addStretch(1);
+  QVBoxLayout *accLay = new QVBoxLayout;
+  m_sharpsChB = new QCheckBox(tr("# - sharps"),this);
+  m_sharpsChB->setStatusTip(tr("Sharps will be used in questions and answers.<br>It has to be checked, if keys with sharps are used."));
+  m_sharpsChB->setChecked(true);
+  m_flatsChB = new QCheckBox(tr("b - flats"),this);
+  m_flatsChB->setStatusTip(tr("Flats will be used in questions and answers.<br>It has to be checked, if keys with flats are used."));
+  m_flatsChB->setChecked(true);
+  m_doubleAccChB = new QCheckBox(tr("x, bb - double accidentals"),this);
+  accLay->addWidget(m_sharpsChB);
+  accLay->addWidget(m_flatsChB);
+  accLay->addWidget(m_doubleAccChB);
+  accLay->addStretch(1);
+  m_accidGr = new QGroupBox(accidsText(), this);
+  m_accidGr->setStatusTip(tr("Accidentals used in exam."));
+  m_accidGr->setLayout(accLay);
+  m_forceAccChB = new QCheckBox(tr("force using appropriate accidental"),this);
+  m_forceAccChB->setStatusTip(tr("if checked, it is possible to select a note<br>with given accidental only."));
+  QHBoxLayout *entireAccLay = new QHBoxLayout;
+    entireAccLay->addStretch();
+    entireAccLay->addWidget(m_accidGr);
+    entireAccLay->addWidget(m_forceAccChB);
+    entireAccLay->addStretch();
+  mainLay->addLayout(entireAccLay);
 
-    m_keySignGr->setLayout(keyLay);
-    m_keySignGr->setChecked(false);
-    mainLay->addWidget(m_keySignGr, 1, Qt::AlignCenter);
-		
-		m_currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
-    m_currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
-    mainLay->addWidget(m_currKeySignChBox, 0, Qt::AlignCenter);
+  QHBoxLayout *keyLay = new QHBoxLayout;
+  m_keySignGr = new QGroupBox(tr("use key signatures"),this);
+  m_keySignGr->setCheckable(true);
 
-    setLayout(mainLay);    
-    
-    connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged())); 
-    
-    connect(m_fromKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
-    connect(m_toKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
-    connect(m_sharpsChB, SIGNAL(clicked()), this, SLOT(keySignChanged()));
-    connect(m_flatsChB, SIGNAL(clicked()), this, SLOT(keySignChanged()));
-    connect(m_keySignGr, SIGNAL(clicked()), this, SLOT(keySignChanged()));
+  QVBoxLayout *rangeLay = new QVBoxLayout;
+  rangeLay->setAlignment(Qt::AlignCenter);
+  m_singleKeyRadio = new QRadioButton(tr("single key"),this);
+  m_singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
+  m_rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
+  m_rangeKeysRadio->setStatusTip(tr("random key signature from selected range."));
+  m_rangeButGr = new QButtonGroup(this);
+  m_rangeButGr->addButton(m_singleKeyRadio);
+  m_rangeButGr->addButton(m_rangeKeysRadio);
+  m_rangeKeysRadio->setChecked(true);
+  rangeLay->addWidget(m_singleKeyRadio,0,Qt::AlignCenter);
+  rangeLay->addWidget(m_rangeKeysRadio,0,Qt::AlignCenter);
+  QHBoxLayout *comboLay = new QHBoxLayout;
+  m_fromKeyCombo = new TkeySignComboBox(this);
+  m_fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Appropriate accidentals used in exam<br>will be automatically selected !"));
+  m_fromKeyCombo->setKeySignature(TkeySignature(0));
+  m_toKeyCombo = new TkeySignComboBox(this);
+  m_toKeyCombo->setStatusTip(m_fromKeyCombo->statusTip());
+  m_fromKeyCombo->setKeySignature(TkeySignature(0));
+  comboLay->addWidget(m_fromKeyCombo);
+  QLabel *ll = new QLabel(" - ", this);
+  comboLay->addWidget(ll);
+  comboLay->addWidget(m_toKeyCombo);
+  rangeLay->addLayout(comboLay);
+  rangeLay->addStretch(1);
+  m_keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
+  m_keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature,<br>otherwise it is shown by application."));
+  rangeLay->addWidget(m_keyInAnswerChB,0,Qt::AlignCenter);
+  keyLay->addLayout(rangeLay);
+  keyLay->addStretch(1);
 
-		connect(m_forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(m_sharpsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(m_flatsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(m_doubleAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(m_keySignGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(m_singleKeyRadio, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(m_rangeKeysRadio, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-    connect(m_fromKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
-    connect(m_toKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
-    connect(m_keyInAnswerChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-		connect(m_currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  m_keySignGr->setLayout(keyLay);
+  m_keySignGr->setChecked(false);
+  mainLay->addWidget(m_keySignGr, 1, Qt::AlignCenter);
 
+  m_currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
+  m_currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
+  mainLay->addWidget(m_currKeySignChBox, 0, Qt::AlignCenter);
+
+  setLayout(mainLay);
+
+  connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
+
+  connect(m_fromKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
+  connect(m_toKeyCombo, SIGNAL(activated(int)), this, SLOT(keySignChanged()));
+  connect(m_sharpsChB, SIGNAL(clicked()), this, SLOT(keySignChanged()));
+  connect(m_flatsChB, SIGNAL(clicked()), this, SLOT(keySignChanged()));
+  connect(m_keySignGr, SIGNAL(clicked()), this, SLOT(keySignChanged()));
+
+  connect(m_forceAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_sharpsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_flatsChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_doubleAccChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_keySignGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_singleKeyRadio, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_rangeKeysRadio, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_fromKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
+  connect(m_toKeyCombo, SIGNAL(activated(int)), this, SLOT(whenParamsChanged()));
+  connect(m_keyInAnswerChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+  connect(m_currKeySignChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 }
 
 
@@ -141,6 +139,7 @@ void accidSettings::loadLevel (Tlevel* level) {
     m_keyInAnswerChB->setChecked(level->manualKey);
 		m_currKeySignChBox->setChecked(level->onlyCurrKey);
     keyRangeChanged();
+    changed();
 		saveLevel(wLevel());
 	blockSignals(false);
 }
@@ -151,12 +150,12 @@ void accidSettings::saveLevel (Tlevel* level) {
     level->withSharps = m_sharpsChB->isChecked();
     level->withFlats = m_flatsChB->isChecked();
     level->withDblAcc = m_doubleAccChB->isChecked();
-  } else { // ignore checking when groupbox is disabled
+  } else { // ignore checking when group box is disabled
     level->withSharps = false;
     level->withFlats = false;
     level->withDblAcc = false;
   }
-  level->forceAccids = m_forceAccChB->isChecked();
+  level->forceAccids = m_forceAccChB->isEnabled() && m_forceAccChB->isChecked();
   if (m_keySignGr->isEnabled()) {
     level->useKeySign = m_keySignGr->isChecked();
     if (m_singleKeyRadio->isChecked()) {
@@ -178,8 +177,8 @@ void accidSettings::saveLevel (Tlevel* level) {
             level->loKey = m_fromKeyCombo->getKeySignature();
             level->hiKey = m_toKeyCombo->getKeySignature();
             }
-        }
-    level->manualKey = m_keyInAnswerChB->isChecked();
+    }
+    level->manualKey = m_keyInAnswerChB->isEnabled() && m_keyInAnswerChB->isChecked();
   } else {
     level->useKeySign = false;
     level->manualKey = false;
@@ -191,40 +190,40 @@ void accidSettings::saveLevel (Tlevel* level) {
 
 void accidSettings::changed() {
   blockSignals(true);
-		// TODO: Is disabling whole accidentals box really necessary?
-		if (wLevel()->canBeScore())
+  if (wLevel()->canBeScore())
 			enableKeys(true);
-		else
+  else
 			enableKeys(false);
-		if ((wLevel()->canBeScore() || wLevel()->canBeName()) && 
+  if ((wLevel()->answerIsNote() || wLevel()->answerIsName()) &&
 				(wLevel()->withDblAcc || wLevel()->withFlats || wLevel()->withSharps))
 			m_forceAccChB->setDisabled(false);
 	else
 			m_forceAccChB->setDisabled(true);
+  m_keyInAnswerChB->setDisabled(!wLevel()->answerIsNote()); // disable manual key check box if no score as an answer
 	blockSignals(false);
 }
 
 
 
 void accidSettings::enableAccids(bool enable) {
-    if (enable) { // score and note names are enabled in the level
-       m_accidGr->setDisabled(false);
-       setStatusTip("");
-    } else {
-      m_accidGr->setDisabled(true);
-      updateStatusTip();
-    }
+  if (enable) { // score and note names are enabled in the level
+      m_accidGr->setDisabled(false);
+      setStatusTip("");
+  } else {
+    m_accidGr->setDisabled(true);
+    updateStatusTip();
+  }
 }
 
 void accidSettings::enableKeys(bool enable) {
-    if (enable) { // score is enabled in the level
-       m_keySignGr->setDisabled(false);
-       if (m_accidGr->isEnabled())
-          setStatusTip("");
-    } else {
-      m_keySignGr->setDisabled(true);
-      updateStatusTip();
-    }
+  if (enable) { // score is enabled in the level
+      m_keySignGr->setDisabled(false);
+      if (m_accidGr->isEnabled())
+        setStatusTip("");
+  } else {
+    m_keySignGr->setDisabled(true);
+    updateStatusTip();
+  }
 }
 
 
@@ -232,19 +231,19 @@ void accidSettings::enableKeys(bool enable) {
 
 
 void accidSettings::keyRangeChanged() {
-    if (m_keySignGr->isChecked()) { // key signatures enabled
-        if (m_singleKeyRadio->isChecked()) { // single key signature
-            m_toKeyCombo->setKeySignature(TkeySignature(0)); // reset and disable hiKey of range
-            m_toKeyCombo->setDisabled(true);
-            m_keyInAnswerChB->setDisabled(true);
-            m_keyInAnswerChB->setChecked(false);
-        }
-        else {
-            m_toKeyCombo->setDisabled(false);
-            m_keyInAnswerChB->setDisabled(false);
-        }
-    }
-    keySignChanged();
+  if (m_keySignGr->isChecked()) { // key signatures enabled
+      if (m_singleKeyRadio->isChecked()) { // single key signature
+          m_toKeyCombo->setKeySignature(TkeySignature(0)); // reset and disable hiKey of range
+          m_toKeyCombo->setDisabled(true);
+          m_keyInAnswerChB->setDisabled(true);
+          m_keyInAnswerChB->setChecked(false);
+      }
+      else {
+          m_toKeyCombo->setDisabled(false);
+          m_keyInAnswerChB->setDisabled(false);
+      }
+  }
+  keySignChanged();
 }
 
 
@@ -324,13 +323,14 @@ void accidSettings::keySignChanged() {
 	blockSignals(false);
 }
 
+
 void accidSettings::whenParamsChanged() {
 	changedLocal();
 }
 
+
 void accidSettings::updateStatusTip() {
-		setStatusTip("<b>" + tr("Elements are disabled because appropriate types of questions or answers are not selected.") 
-        + "</b>");
+  setStatusTip("<b>" + tr("Elements are disabled because appropriate types of questions or answers are not selected.") + "</b>");
 }
 
 
