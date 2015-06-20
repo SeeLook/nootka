@@ -41,8 +41,7 @@ const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
 
 /*static*/
 QString TscoreNote::getAccid(int accNr) {
-    QString str = QString(QChar(accCharTable[accNr + 2]));
-    return str;
+  return accNr ? QString(QChar(accCharTable[accNr + 2])) : QString();
 }
 
 
@@ -179,7 +178,7 @@ void TscoreNote::moveNote(int posY) {
   bool theSame = (posY == m_mainPosY);
   if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
       hideNote();
-      m_mainAccid->setText(" ");
+      m_mainAccid->setText("");
       m_accidental = 0;
       return;
   }
@@ -209,18 +208,25 @@ void TscoreNote::moveNote(int posY) {
           if (staff()->extraAccids()) // accidental from key signature in braces
             newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));
           else
-            newAccid = " "; // hide accidental
-          
+            newAccid = ""; // hide accidental
         }
     }
   }
-  if (m_noteAnim) {
-      m_mainAccid->show();
-      m_accidAnim->startCrossFading(newAccid, m_mainColor);
-  } else {
-      m_mainAccid->setText(newAccid);
-      m_mainAccid->show();
+  for (int i = index() - 1; i >= 0; i--) { // check the previous notes for accidentals
+    if (staff()->noteSegment(i)->note()->note == noteNr + 1) {
+        if (staff()->noteSegment(i)->note()->alter != 0 && m_accidental == 0) {
+          if (newAccid.isEmpty())
+            newAccid = getAccid(3); // and add neutral when some of previous notes with the same step had an accidental
+        } else if (staff()->accidInKeyArray[noteNr] == m_accidental && staff()->noteSegment(i)->note()->alter != m_accidental)
+            newAccid = getAccid(m_accidental); // There is already accidental in key signature but some of the previous notes had another one
+      break;
+    }
   }
+  m_mainAccid->show();
+  if (m_noteAnim)
+    m_accidAnim->startCrossFading(newAccid, m_mainColor);
+  else
+    m_mainAccid->setText(newAccid);
 
   setStringPos();
   m_lines->checkLines(posY);

@@ -187,6 +187,8 @@ void TscoreStaff::removeNote(int index) {
 				emit freeSpace(number(), 1);
 		updateIndexes();
 		updateNotesPos(index);
+    for (int i = index; i < count(); ++i) // refresh neutrals in all next notes
+      m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos());
 		if (number() == -1)
 				updateSceneRect();
 	}
@@ -553,6 +555,8 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
 	m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
 	m_scoreNotes[noteIndex]->note()->octave = (char)(56 + globalNr) / 7 - 8;
 	m_scoreNotes[noteIndex]->note()->alter = (char)m_scoreNotes[noteIndex]->accidental();
+  for (int i = noteIndex + 1; i < count(); ++i) // refresh neutrals in all next notes
+      m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos());
 	emit noteChanged(noteIndex);
 	checkNoteRange();
 	// when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic 
