@@ -98,28 +98,8 @@
         <translation>Tonhöhenerkennungsmodus</translation>
     </message>
     <message>
-        <source>for playing</source>
-        <translation type="obsolete">zum Spielen</translation>
-    </message>
-    <message>
-        <source>1. Input device and pitch detection</source>
-        <translation type="vanished">1. Eingabegerät und Tonhöhenerkennung</translation>
-    </message>
-    <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Stellen sie sicher, dass das Eingabegerät (Mikrofon, Webcam, Instrument, etc.) richtig eingesteckt und konfiguriert ist und funktioniert.</translation>
-    </message>
-    <message>
-        <source>for singing</source>
-        <translation type="obsolete">zum Singen</translation>
-    </message>
-    <message>
-        <source>This mode is more accurate but slower. It is recommended for singing and for instruments with &quot;wobbly&quot; intonation.</source>
-        <translation type="obsolete">Diese Einstellung ist genauer aber langsamer. Es wird für das Singen und Instrumente mit &quot;wackeliger&quot; Intonation empfohlen.</translation>
-    </message>
-    <message>
-        <source>This mode is faster and good enough for guitars and other instruments.</source>
-        <translation type="obsolete">Diese Einstellung ist schneller und gut geeignet für Gitarren und andere Instrumente.</translation>
     </message>
     <message>
         <source>minimum note duration</source>
@@ -130,32 +110,12 @@
         <translation>Nur Töne die länger als die ausgewählte Zeit sind, werden erfasst.&lt;br&gt;Eine längere Notenlänge Hilft bei der Vermeidung der Erfassung von Stöhrgeräuschen und Nebentönen, aber vermidert gleichzeitig die Ansprechempfindlichkeit.</translation>
     </message>
     <message>
-        <source>2. Pitch detection parameters</source>
-        <translation type="vanished">2. Einstellungen zur Tonhöhenerkennung</translation>
-    </message>
-    <message>
         <source>minimum volume</source>
         <translation>Mindestlautstärke</translation>
     </message>
     <message>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Mindestlautstärke eines Tones für die Tonhöhenerkennung</translation>
-    </message>
-    <message>
-        <source>low</source>
-        <translation type="obsolete">tief</translation>
-    </message>
-    <message>
-        <source>Notes above &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Suitable for guitar, cello, human voice, etc.</source>
-        <translation type="obsolete">Noten über &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Geeignet für Gitarre, Violoncello, Gesang, etc.</translation>
-    </message>
-    <message>
-        <source>Notes above &lt;b&gt;small g&lt;/b&gt;.&lt;br&gt;Suitable for high pitched instruments such as flute, piccolo, etc.</source>
-        <translation type="obsolete">Noten über &lt;b&gt;kleines g&lt;/b&gt;.&lt;br&gt;Geeignet für hoch gestimmte Insturmente, wie Flöte, Piccoloflöte, etc.</translation>
-    </message>
-    <message>
-        <source>3. &apos;Middle a&apos; and transposition</source>
-        <translation type="vanished">3. &quot;Mittleres A&quot; und Transponierung</translation>
     </message>
     <message>
         <source>middle A</source>
@@ -181,14 +141,6 @@
         </translation>
     </message>
     <message>
-        <source>Range of note pitches:</source>
-        <translation type="obsolete">Bereich der Tonhöhen:</translation>
-    </message>
-    <message>
-        <source>The lowest notes.&lt;br&gt;Suitable for bass guitar, double bass, etc.</source>
-        <translation type="obsolete">Die tiefsten Noten.&lt;br&gt;Geeignet für Bassgitarre, Kontrabass, etc.</translation>
-    </message>
-    <message>
         <source>interval:</source>
         <translation>Intervall:</translation>
     </message>
@@ -199,14 +151,6 @@
     <message>
         <source>none</source>
         <translation>kein</translation>
-    </message>
-    <message>
-        <source>middle</source>
-        <translation type="obsolete">Mitte</translation>
-    </message>
-    <message>
-        <source>high</source>
-        <translation type="obsolete">hoch</translation>
     </message>
     <message>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
@@ -223,10 +167,6 @@
     <message>
         <source>down</source>
         <translation>runter</translation>
-    </message>
-    <message>
-        <source>4. Test the settings</source>
-        <translation type="vanished">Prüfung der Einstellungen </translation>
     </message>
     <message>
         <source>Test</source>
@@ -254,35 +194,35 @@
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Erweitert</translation>
     </message>
     <message>
         <source>split when volume rise</source>
-        <translation type="unfinished"></translation>
+        <translation>teilen, wenn sich Lautstärke erhöht</translation>
     </message>
     <message>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hilft um gleiche Töne zu erkennen die schnell hintereinander gespielt werden.</translation>
     </message>
     <message>
         <source>skip stiller than</source>
-        <translation type="unfinished"></translation>
+        <translation>überspringt leiser als</translation>
     </message>
     <message>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vernachlässigt Töne die leiser als die angegebenen prozent sind. Es verhindert, dass Beitöne bei Akustikgitarren mit aufgenommen werden aber alle Töne müssen mit gleicher Stärke gespielt werden.</translation>
     </message>
     <message>
         <source>noise filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Störgeräuschfilter</translation>
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es ist hauptsächlich bei der Nutzung eines Mikrofons erforderlich und kann für Instrumente, die direkt angeschlossen sind und weniger Geräusche machen abgeschaltet werden.</translation>
     </message>
     <message>
         <source>adjust to instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrument wählen</translation>
     </message>
     <message>
         <source>Test the settings</source>
@@ -377,7 +317,7 @@
     </message>
     <message>
         <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="unfinished"></translation>
+        <translation>ES FUNKTIONIERT NUR MIT EINZELNEN SOUNDKARTEN ODER MIT ASIO ODER JACK!</translation>
     </message>
 </context>
 <context>
@@ -421,58 +361,6 @@
     <message>
         <source>Application for learning musical score notation</source>
         <translation>Anwendung zum erlernen der musikalischen Notation</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>main toolbar</source>
-        <translation type="obsolete">Symbolleiste</translation>
-    </message>
-    <message>
-        <source>show correct answer for every mistake</source>
-        <translation type="obsolete">Anzeigen der richtigen Antwort für jeden Fehler</translation>
-    </message>
-    <message>
-        <source>Analyze</source>
-        <comment>could be Chart as well</comment>
-        <translation type="obsolete">Statistik</translation>
-    </message>
-    <message>
-        <source>Analysis of exam results</source>
-        <translation type="obsolete">Analyse der Prüfungsergebnisse</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="obsolete">Info</translation>
-    </message>
-    <message>
-        <source>Level</source>
-        <translation type="obsolete">Level</translation>
-    </message>
-    <message>
-        <source>Start!</source>
-        <translation type="obsolete">Start!</translation>
-    </message>
-    <message>
-        <source>Start exercises or an exam</source>
-        <translation type="obsolete">Starte Übung oder Prüfung</translation>
-    </message>
-    <message>
-        <source>Problems with sound output</source>
-        <translation type="obsolete">Probleme mit Tonausgabe</translation>
-    </message>
-    <message>
-        <source>Application preferences</source>
-        <translation type="obsolete">Anwendungseinstellungen</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Einstellungen</translation>
-    </message>
-    <message>
-        <source>About Nootka</source>
-        <translation type="obsolete">Nootka Info</translation>
     </message>
 </context>
 <context>
@@ -722,11 +610,6 @@
         <translation>Level:</translation>
     </message>
     <message>
-        <source>question number</source>
-        <comment>see coment in &apos;ordered by:&apos; entry</comment>
-        <translation type="obsolete">Nummer der Frage</translation>
-    </message>
-    <message>
         <source>note pitch</source>
         <translation>Tonhöhe</translation>
     </message>
@@ -760,7 +643,7 @@
     </message>
     <message>
         <source>Question number</source>
-        <translation>Nummer der Frage</translation>
+        <translation>Anzahl der Fragen</translation>
     </message>
     <message>
         <source>File: %1 
@@ -864,8 +747,9 @@
     </message>
     <message>
         <source>Played number</source>
-        <translatorcomment>how often something is played? , like played x times</translatorcomment>
-        <translation type="unfinished">x mal gespielt</translation>
+        <translatorcomment>how often something is played? , like played x times
+Yes,but rather without X if possible</translatorcomment>
+        <translation type="unfinished">mal gespielt</translation>
     </message>
     <message>
         <source>Analyze</source>
@@ -1013,7 +897,7 @@
     <message>
         <source>Play a melody written in a score</source>
         <translatorcomment>need more context what score means. Is it the musical notation?</translatorcomment>
-        <translation type="unfinished">Spiele eine Melodie nach Noten</translation>
+        <translation>Spiele eine Melodie nach Noten</translation>
     </message>
     <message>
         <source>Listen to a melody and write it on a score</source>
@@ -1027,80 +911,14 @@
         <translation>&lt;b&gt;Prüfungsdatei scheint beschädigt zu sein&lt;/b&gt;&lt;br&gt;Beginn lieber eine neue Prüfung im selben Level</translation>
     </message>
     <message>
-        <source>next question
-(space %1)</source>
-        <translation type="obsolete">nächste Frage
-(space %1)</translation>
-    </message>
-    <message>
-        <source>check answer
-(enter %1)</source>
-        <translation type="obsolete">Bestätige Antwort
-(enter %1)</translation>
-    </message>
-    <message>
-        <source>play sound again</source>
-        <translation type="obsolete">Ton nocheinmal Wiedergeben</translation>
-    </message>
-    <message>
-        <source>repeat previous question (backspace)</source>
-        <translation type="obsolete">letzte Frage Wiederholen</translation>
-    </message>
-    <message>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Datei: %1 
  ist keine gültige Prüfungsdatei!</translation>
     </message>
     <message>
-        <source>Exercise or exam require sound but&lt;br&gt;sound output is not available!</source>
-        <translation type="obsolete">Übung oder Prüfung benötigt Tonausgabe&lt;br&gt;Tonausgabe ist nicht verfügbar!</translation>
-    </message>
-    <message>
-        <source>An exercises or exam require sound input but&lt;br&gt;it is not available!</source>
-        <translation type="obsolete">Eine Übung oder Prüfung benötigt Toneingabe&lt;br&gt;aber sie ist nicht verfügbar!</translation>
-    </message>
-    <message>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;ergibt keinen Sinn, da es keine Fragen enthält.&lt;br&gt;Es kann neu eingestellt werden.&lt;br&gt;Reparier es im Level Creator und versuch es nochmal.</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">Hilfe</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="obsolete">Beenden</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <comment>like a next question</comment>
-        <translation type="obsolete">Weiter</translation>
-    </message>
-    <message>
-        <source>Repeat</source>
-        <comment>like a repeat question</comment>
-        <translation type="obsolete">Wiederholen</translation>
-    </message>
-    <message>
-        <source>Check</source>
-        <comment>like a check answer</comment>
-        <translation type="obsolete">Bestätigen</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="obsolete">Wiedergeben</translation>
-    </message>
-    <message>
-        <source>Correct</source>
-        <comment>like a correct answer with mistake</comment>
-        <translation type="obsolete">Richtig</translation>
-    </message>
-    <message>
-        <source>correct answer
-(enter)</source>
-        <translation type="obsolete">Richtige Antwort
-(enter)</translation>
     </message>
     <message>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
@@ -1133,14 +951,6 @@
     <message>
         <source>stop the exam</source>
         <translation>Prüfung Abbrechen</translation>
-    </message>
-    <message>
-        <source>You are exercising on level</source>
-        <translation type="obsolete">Du übst auf Level</translation>
-    </message>
-    <message>
-        <source>Exam started on level</source>
-        <translation type="obsolete">Prüfung beginnt auf Level</translation>
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
@@ -1198,10 +1008,6 @@
         <translation>Kurz: Nootka gibt eine Frage vor und du beantwortest sie ...</translation>
     </message>
     <message>
-        <source>Select 2nd check box to get the question automatically.</source>
-        <translation type="obsolete">2. Checkbox auswählen um nächste Frage automatisch zu starten.</translation>
-    </message>
-    <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Fragen werden mit dieser Farbe und &quot;?&quot; gekennzeichnet.</translation>
     </message>
@@ -1210,20 +1016,12 @@
         <translation>Wähle die Antwort in dem&lt;span style=&quot;%1&quot;&gt;Nootka Element mit dieser Farbe.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <source>By selecting the 3rd check box, answers will be checked immediately without confirmation required.</source>
-        <translation type="obsolete">Das auswählen der 3. Checkbox bewirkt die sofortige Auswahl der Antwort ohne manuelle Bestätigung. </translation>
-    </message>
-    <message>
         <source>Exercises</source>
         <translation>Übungen</translation>
     </message>
     <message>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
         <translation>Wenn du einen Fehler in der Übung machst, wird dir Nootka die richtige Antwort zeigen. Um sie zu sehen:</translation>
-    </message>
-    <message>
-        <source>Select 1st check box to see corrected answer for every mistake.</source>
-        <translation type="obsolete">Wähle die erste Checkbox um die richtige Antwort nach jedem Fehler anzuzeigen.</translation>
     </message>
     <message>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
@@ -1240,10 +1038,6 @@
     <message>
         <source>GOOD LUCK!</source>
         <translation>VIEL GLÜCK!</translation>
-    </message>
-    <message>
-        <source>Experts corner</source>
-        <translation type="obsolete">Expertenecke</translation>
     </message>
     <message>
         <source>To check the answer confirm it:</source>
@@ -1428,18 +1222,6 @@
         <source>exams</source>
         <translation>Prüfungen</translation>
     </message>
-    <message>
-        <source>ask next question automatically</source>
-        <translation type="obsolete">stelle nächste Frage automatisch</translation>
-    </message>
-    <message>
-        <source>check answers without requiring confirmation</source>
-        <translation type="obsolete">wählt die Frage ohne sie noch einmal zu bestätigen</translation>
-    </message>
-    <message>
-        <source>correct mistakes (exercises only)</source>
-        <translation type="obsolete">berichtige Fehler (nur in Übung)</translation>
-    </message>
 </context>
 <context>
     <name>TexamSummary</name>
@@ -1462,10 +1244,6 @@
     <message>
         <source>Time taken to answer</source>
         <translation>Antwortzeit</translation>
-    </message>
-    <message>
-        <source>Analyse</source>
-        <translation type="obsolete">Auswertung</translation>
     </message>
     <message>
         <source>Close</source>
@@ -1631,8 +1409,10 @@
     </message>
     <message>
         <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translatorcomment>show stats after the last note of the question?</translatorcomment>
-        <translation type="unfinished">Zeige Statistik, wenn die letzte Note von der Frage-Melodie gespielt wird.</translation>
+        <translatorcomment>show stats after the last note of the question?
+No!!!!
+Check answer just after last note of melody was played.</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1661,102 +1441,12 @@
         <translation>Bei der Notation für die Bassgitarre, wird der &lt;b&gt;Bassschlüssel&lt;/b&gt; verwendet aber die gespielten Töne sind eine Oktave tiefer. Der richtige Schlüssel ist der&lt;b&gt;nach unten oktavierende Basschlüssel&lt;/b&gt; (mit einer kleinen 8 darunter) Mit diesem Schlüssel, klingen die Töne genau, wie sie geschrieben sind. Dieser Schlüssel wird in Nootka für die Basgitarre verwendet.</translation>
     </message>
     <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="obsolete">Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
-    </message>
-    <message>
-        <source>next</source>
-        <translation type="obsolete">Nächstes</translation>
-    </message>
-    <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
     </message>
 </context>
 <context>
-    <name>TfirstRunWizzard</name>
-    <message>
-        <source>First run wizard</source>
-        <translation type="obsolete">Wizard für den ersten Start</translation>
-    </message>
-    <message>
-        <source>skip wizard</source>
-        <translation type="obsolete">überspringe Wizard</translation>
-    </message>
-    <message>
-        <source>previous</source>
-        <translation type="obsolete">Vorheriges</translation>
-    </message>
-    <message>
-        <source>What instrument do you play?</source>
-        <translation type="obsolete">Welches Instrument spielst du?</translation>
-    </message>
-    <message>
-        <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="obsolete">Bei der Notation für die Bassgitarre, wird der &lt;b&gt;Bassschlüssel&lt;/b&gt; verwendet aber die gespielten Töne sind eine Oktave tiefer. Der richtige Schlüssel ist der&lt;b&gt;nach unten oktavierende Basschlüssel&lt;/b&gt; (mit einer kleinen 8 darunter) Mit diesem Schlüssel, klingen die Töne genau, wie sie geschrieben sind. Dieser Schlüssel wird in Nootka für die Basgitarre verwendet.</translation>
-    </message>
-    <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="obsolete">Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit einer kleinen 8 darunter (das wird von einigen Herausgebern vergessen).&lt;br&gt;&lt;br&gt;Versuch dich darin hineinzudenken.&lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Beide oberen Bilder zeigen den gleichen Ton: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(Ton c in eingestrichener Oktave)</translation>
-    </message>
-    <message>
-        <source>Finish</source>
-        <translation type="obsolete">Fertig</translation>
-    </message>
-    <message>
-        <source>next</source>
-        <translation type="obsolete">Nächstes</translation>
-    </message>
-</context>
-<context>
-    <name>TfixLevelDialog</name>
-    <message>
-        <source>fix an instrument</source>
-        <translation type="obsolete"> Instrument festlegen</translation>
-    </message>
-    <message>
-        <source>Due to bug in &lt;b&gt;Nootka version 0.8.95&lt;/b&gt; instrument type can be incorrect.&lt;br&gt;Please, select a correct instrument for the level %1</source>
-        <translation type="obsolete">Wegen eines Bugs in&lt;b&gt;Nootka Version 0.8.95&lt;/b&gt; kann der Instrumententyp falsch sein.&lt;br&gt;Bitte wähle das richtige Instrument für Level %1</translation>
-    </message>
-    <message>
-        <source>fix levels automatically</source>
-        <translation type="obsolete">repariere Levels automatisch</translation>
-    </message>
-    <message>
-        <source>When you are sure that &lt;b&gt;all your Nootka files&lt;/b&gt; were created exactly for selected instrument&lt;br&gt;you can check this box and&lt;br&gt;&lt;b&gt;all incorrect files will be fixing automatically.&lt;/b&gt;</source>
-        <translation type="obsolete">Wenn du dir sicher bist, &lt;b&gt;dass alle deine Nootka Dateien&lt;/b&gt; genau für das gewählte Instrument stimmen,&lt;br&gt;kannst du diese Box anwählen und alle fehlerhaften Dateien werden automatisch angepasst.&lt;/b&gt;</translation>
-    </message>
-</context>
-<context>
     <name>TglobalSettings</name>
-    <message>
-        <source>show enharmonic variants of notes</source>
-        <translation type="obsolete">zeige enharmonische Varianten von Noten</translation>
-    </message>
-    <message>
-        <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation type="obsolete">Zeige enharmonische Varianten von Noten.&lt;br&gt;z. B. die Note E ist auch Fes (F mit Be)&lt;i&gt;und&lt;/i&gt; Dx (D mit Doppelkreuz).</translation>
-    </message>
-    <message>
-        <source>color of enharmonic notes</source>
-        <translation type="obsolete">Farbe der enharmonischen Noten</translation>
-    </message>
-    <message>
-        <source>use double accidentals</source>
-        <translation type="obsolete">benutze Doppelvorzeichen</translation>
-    </message>
-    <message>
-        <source>If checked, you can use double sharps and double flats.</source>
-        <translation type="obsolete">Bei Auswahl können Doppelkreuze und Doppelbes benutzt werden.</translation>
-    </message>
-    <message>
-        <source>show hints</source>
-        <translation type="obsolete">zeige Hinweise</translation>
-    </message>
-    <message>
-        <source>Show description of Nootka&apos;s elements.</source>
-        <translation type="obsolete">Zeige die Beschreibung der Nootka Elemente.</translation>
-    </message>
     <message>
         <source>Application language</source>
         <translation>Sprache der Anwendung</translation>
@@ -1927,12 +1617,9 @@
     </message>
     <message>
         <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
-        <translation type="vanished">Cent</translation>
-    </message>
-    <message>
-        <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
+        <translatorcomment>It should be rather plural form.
+cents???</translatorcomment>
         <translation type="unfinished">Cent</translation>
     </message>
 </context>
@@ -1948,7 +1635,7 @@
     </message>
     <message>
         <source>text under icons</source>
-        <translation>Textu unter Icons</translation>
+        <translation>Text unter Icons</translation>
     </message>
     <message>
         <source>icons only</source>
@@ -2075,8 +1762,7 @@
     </message>
     <message>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translatorcomment>means: it is possible that a tonic note is missing for some key signatures ...</translatorcomment>
-        <translation type="unfinished">&lt;li&gt;Fehlende Tonika für einige Tonarten in dem ausgewählten Tonbereich möglich.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Fehlende Tonika für einige Tonarten in dem ausgewählten Tonbereich möglich.&lt;/li&gt;</translation>
     </message>
 </context>
 <context>
@@ -2599,11 +2285,6 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>letters</source>
-        <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation type="obsolete">Buchstaben</translation>
-    </message>
-    <message>
-        <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>letters</translation>
     </message>
@@ -2611,24 +2292,8 @@ nicht öffnen</translation>
 <context>
     <name>TpitchView</name>
     <message>
-        <source>Toggles between pitch detection for singing and for playing</source>
-        <translation type="obsolete">Wechsle zwischen Tonhöhenerkennung für Singen oder Spielen</translation>
-    </message>
-    <message>
-        <source>Switch on/off pitch detection</source>
-        <translation type="obsolete">Schalte Tonhöhenerkennung an/aus</translation>
-    </message>
-    <message>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonation - Reinheit des Tons. Ist er gestimmt.</translation>
-    </message>
-    <message>
-        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation type="obsolete">Zeigt die Lautstärke des Aufnahmetons und wann er von der Tonhöhenerkennung erfasst wird.</translation>
-    </message>
-    <message>
-        <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="obsolete">Ziehe den Regler um die Mindestaufnahmelautstärke einzustellen.</translation>
     </message>
     <message>
         <source>Click note symbol to change it.</source>
@@ -2815,10 +2480,6 @@ nicht öffnen</translation>
         <translation>Schlüssel für Bassgitarre und Kontrabass.</translation>
     </message>
     <message>
-        <source>Sometimes is called clef for viola and mostly used for it.</source>
-        <translation type="obsolete">Manchmal wird er Bratschenschlüssel genannt und meistens auch dafür verwendet.</translation>
-    </message>
-    <message>
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
         <translation>Manchmal wird er Bratschenschlüssel genannt und meistens auch dafür verwendet.</translation>
     </message>
@@ -2843,7 +2504,7 @@ nicht öffnen</translation>
     <message>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
-        <translation>Tonart</translation>
+        <translation>Notation</translation>
     </message>
     <message>
         <source>Manage and navigate the score.</source>
@@ -2875,8 +2536,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Staff above</source>
-        <translatorcomment>need context</translatorcomment>
-        <translation type="unfinished">Notenlinie darüber</translation>
+        <translation>Notenlinie darüber</translation>
     </message>
     <message>
         <source>Staff below</source>
@@ -2916,25 +2576,6 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>TscoreControl</name>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="obsolete">&lt;b&gt;Doppelkreuz&lt;/b&gt; - erhöht die Note um zwei Halbtöne (einen ganzen Ton).&lt;br&gt;Auf der Gitarre entspricht das zwei Bünden.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="obsolete">&lt;b&gt;Kreuz&lt;/b&gt; - erhöht die Note um einen Halbton.&lt;br&gt;Auf der Gitarre entspricht das einem Bund.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="obsolete">&lt;b&gt;Be&lt;/b&gt; - senkt die Note um einen Halbton.&lt;br&gt;Auf der Gitarre entspricht das einem Bund.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="obsolete">&lt;b&gt;Doppelbe&lt;/b&gt; - senkt die Note um zwei Halbtöne (einen ganzen Ton).&lt;br&gt;Auf der Gitarre entspricht das zwei Bünden.</translation>
-    </message>
-</context>
-<context>
     <name>TscoreKeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
@@ -2943,10 +2584,6 @@ nicht öffnen</translation>
 </context>
 <context>
     <name>TscoreNote</name>
-    <message>
-        <source>Click to select a note, use mouse wheel to change accidentals.</source>
-        <translation type="obsolete">Klicken um eine Note auszuwählen, dreh das Mausrad um die Vorzeichen zu ändern.</translation>
-    </message>
     <message>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
         <translation>Klicken um eine Note einzufügen, nutze horizontal scrollen um die Vorzeichen zu ändern.</translation>
@@ -3059,12 +2696,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Score</source>
-        <translation>Tonart</translation>
-    </message>
-    <message>
-        <source>Names</source>
-        <comment>name-calling</comment>
-        <translation type="obsolete">Notennamen</translation>
+        <translation>Notation</translation>
     </message>
     <message>
         <source>Exam</source>
@@ -3104,15 +2736,14 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Appearance</source>
-        <translation>Erschein-
-ungsbild</translation>
+        <translation>Darstellung</translation>
     </message>
 </context>
 <context>
     <name>TsettingsDialogBase</name>
     <message>
         <source>Open online documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Onlinedokumentation öffnen</translation>
     </message>
 </context>
 <context>
@@ -3265,8 +2896,11 @@ ungsbild</translation>
     <message>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
-        <translatorcomment>need context</translatorcomment>
-        <translation type="unfinished">eine Melodie wurde gespielt (Nummer folgt)</translation>
+        <translatorcomment>I&apos;m guessing:
+gespielt
+Then Nootka will display in short:
+gespielt 5, effectiveness 3%, time 3 days 6:53:25</translatorcomment>
+        <translation type="unfinished">gespielt</translation>
     </message>
 </context>
 <context>
@@ -3638,14 +3272,6 @@ ungsbild</translation>
         <translation>wenn ausgewählt, wird die Auswahl einer gültigen Oktave benötigt</translation>
     </message>
     <message>
-        <source>force using appropriate accidental</source>
-        <translation type="obsolete">zwingen dazugehörige Vorzeichen zu verwenden</translation>
-    </message>
-    <message>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="obsolete">Wenn ausgewählt ist es nur möglich, eine Note mit dem gegebenen Vorzeichen auszuwählen.</translation>
-    </message>
-    <message>
         <source>use different naming styles</source>
         <translation>benutze unterschiedliche Namensarten</translation>
     </message>
@@ -3668,14 +3294,6 @@ ungsbild</translation>
     <message>
         <source>notes in the lowest position only</source>
         <translation>nur Töne in der untersten Lage</translation>
-    </message>
-    <message>
-        <source>notes in current key signature only</source>
-        <translation type="obsolete">nur Töne in der aktuellen Tonart</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="obsolete">Nur Töne von der aktuellen Tonart werden verwendet.&lt;br&gt;Wenn die Tonart deaktiviert ist verden die Vorzeichen nicht genutzt.</translation>
     </message>
     <message>
         <source>Melody length</source>
