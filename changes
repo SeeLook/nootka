@@ -2,6 +2,7 @@
   Nootka plays melodies
      - updated on-line help
      - unlocked help button(s) to opening related help sites
+     - improved displaying accidentals and neutrals in melodies
     BUGS FIXES
      - fixed melody chart tip - correctly displays every attempt summary
      - fixed and improved animations of accidentals from note to key signature
