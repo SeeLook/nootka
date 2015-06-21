@@ -173,8 +173,8 @@ void TpitchFinder::resetFinder() {
       m_transforms->init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
 //       qDebug() << "reset channel";
   }
-  qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
-          << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << "noise filter" << aGl()->equalLoudness;
+//   qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
+//           << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << "noise filter" << aGl()->equalLoudness;
   m_mutex.unlock();
 }
 
@@ -216,7 +216,7 @@ void TpitchFinder::processed() {
 	if (m_state != m_prevState) {
 		if (m_prevState == e_noticed) {
 			if (m_state == e_playing) {
-        emit noteStarted(m_currentNote.pitchF, m_currentNote.freq, m_currentNote.duration); // new note started
+        emit noteStarted(m_currentNote.getAverage(3, minChunksNumber()), m_currentNote.freq, m_currentNote.duration); // new note started
 // 				qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
 // 									 << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 			}
