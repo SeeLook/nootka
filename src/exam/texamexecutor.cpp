@@ -306,12 +306,12 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (m_exam->melodies()) {
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
-      m_melody->newMelody(curQ->answerAsSound() ? melodyLength : 0); // prepare list to store notes played by user or clear it
       if (m_penalty->isNot()) {
         curQ->addMelody(QString("%1").arg(m_exam->count()));
         curQ->melody()->setKey(curQ->key);
         getRandomMelody(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
+      m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();
 			curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure 
       if (m_exercise) 
