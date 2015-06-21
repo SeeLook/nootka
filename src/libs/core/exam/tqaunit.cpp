@@ -58,15 +58,21 @@ void TQAunit::copy(const TQAunit& otherUnit) {
   qa_2 = otherUnit.qa_2;
   key = otherUnit.key;
   time = otherUnit.time;
-  if (otherUnit.melody() || otherUnit.attemptsCount())
-    qDebug() << "TQAunit is going to be copied when pointer inside exist.\nTROUBLES ARE GUARANTEED!\nTo avoid them keep TQAunit instance in some global scope and use reference or pointer to it.";
-  m_melody = otherUnit.melody();
-  attemptList = otherUnit.attemptList;
-  idOfMelody = otherUnit.idOfMelody;
+  if (otherUnit.melody() || otherUnit.attemptsCount()) {
+    deleteMelody();
+    m_melody = 0;
+    attemptList = 0;
+    idOfMelody = -1;
+    m_srcMelody = e_noMelody;
+  } else {
+    m_melody = otherUnit.melody();
+    attemptList = otherUnit.attemptList;
+    idOfMelody = otherUnit.idOfMelody;
+    m_srcMelody = otherUnit.melodySource();
+  }
   m_answered = otherUnit.answered();
   m_effectiveness = otherUnit.effectiveness();
   m_exam = otherUnit.exam();
-  m_srcMelody = otherUnit.melodySource();
 }
 
 
