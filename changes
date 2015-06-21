@@ -4,6 +4,7 @@
      - unlocked help button(s) to opening related help sites
      - improved displaying accidentals and neutrals in melodies
     BUGS FIXES
+     - repaired and improved asking penalty melodies in exams
      - fixed melody chart tip - correctly displays every attempt summary
      - fixed and improved animations of accidentals from note to key signature
      - intonation checking respects properly setting of accuracy level

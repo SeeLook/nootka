@@ -71,6 +71,7 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, Tp
 void Tpenalty::nextQuestion() {
 	m_penalCount++;
 	m_blackQuestNr = -1;
+  m_blackNumber = -1;
 }
 
 
@@ -78,14 +79,14 @@ bool Tpenalty::ask() {
 	if (m_exam->melodies()) {
 		if (m_exam->blackNumbers()->size() && m_penalCount > m_penalStep) {
 			m_penalCount = 0;
-			int idInList = qrand() % m_exam->blackNumbers()->size();;
+			int idInList = qrand() % m_exam->blackNumbers()->size();
 			m_blackNumber = m_exam->blackNumbers()->at(idInList);
 			m_exam->blackNumbers()->removeAt(idInList);
+//       qDebug() << "penalty melody" << m_blackNumber;
 			if (m_blackNumber != -1) {
 				m_exam->curQ()->copy(*m_exam->answList()->operator[](m_blackNumber)); // copy black question into last unit
 				m_exam->curQ()->unsetAnswered();
 				m_exam->curQ()->addMelody(m_exam->answList()->operator[](m_blackNumber)->melody(), TQAunit::e_otherUnit, m_blackNumber);
-				qDebug() << "penalty melody" << m_blackNumber;
 				m_exam->curQ()->time = 0;
 				m_exam->curQ()->setMistake(TQAunit::e_correct);
 				return true;
@@ -93,7 +94,7 @@ bool Tpenalty::ask() {
 		}
 	} else {
 		if (m_exam->blackCount() && m_penalCount > m_penalStep) {
-			qDebug("penalty");
+// 			qDebug("penalty");
 			m_penalCount = 0;
 			m_blackQuestNr = qrand() % m_exam->blacList()->size();
 			m_exam->curQ()->copy(m_exam->blacList()->operator[](m_blackQuestNr));
@@ -140,22 +141,17 @@ void Tpenalty::newAttempt() {
 }
 
 
-
 void Tpenalty::setMelodyPenalties() {
 	if (m_exam->count() == 0)
 		return;
-	if (m_exam->curQ()->answered())
+	if (m_exam->curQ()->answered()) {
 		return; // It happens when continued exam starts - last question has been answered already
+  }
 	m_exam->curQ()->setAnswered();
 	if (m_exam->melodies()) {
 		if (!m_exam->curQ()->isCorrect() && !m_exam->isFinished()) {
 				m_exam->addPenalties();
-				if (!m_exam->isExercise()) {
-					if ((m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
-						m_penalStep = (m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackNumbers()->size();
-					else
-						m_penalStep = 0; // only penalties questions remained to ask in this exam
-				}
+        updatePenalStep();
 		}
 		if (!m_exam->isExercise()) {
 			m_progress->progress();
@@ -167,7 +163,6 @@ void Tpenalty::setMelodyPenalties() {
 		m_examView->effectUpdate();
 	}
 }
-
 
 
 void Tpenalty::releaseBlackList() {
@@ -203,11 +198,12 @@ void Tpenalty::checkForCert() {
 void Tpenalty::updatePenalStep() {
 	if (m_supply->wasFinished())
 			return;
-	if (m_exam->blacList()->isEmpty())
-		m_penalStep = 65535;
+	if ((m_exam->melodies() && m_exam->blackNumbers()->isEmpty()) || (!m_exam->melodies() && m_exam->blacList()->isEmpty()))
+      m_penalStep = 65535;
 	else {
 		if ((m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) > 0)
-			m_penalStep = (m_supply->obligQuestions() + m_exam->penalty() - m_exam->count()) / m_exam->blackCount();
+			m_penalStep = (m_supply->obligQuestions() + m_exam->penalty() - m_exam->count())
+                    / (m_exam->melodies() ? m_exam->blackNumbers()->size() : m_exam->blackCount());
 		else
 			m_penalStep = 0; // only penalties questions remained to ask in this exam
 	}
