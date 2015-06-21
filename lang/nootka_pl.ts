@@ -2520,7 +2520,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/exam/tnootkacertificate.cpp" line="93"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation>&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani RAM&lt;/b&gt; jego asysten,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dysk&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;komisja:&lt;/i&gt;&lt;br&gt;&lt;i&gt;&lt;/i&gt;&lt;b&gt; Nootka we własnej osobie,&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesor&lt;/b&gt; &lt;br&gt;i &lt;b&gt;Pani R. A. M.&lt;/b&gt; jego asystentka,&lt;br&gt;&lt;i&gt;sekretarz:&lt;/i&gt;&lt;b&gt; Pan Dyzio Twardy&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="105"/>
