@@ -250,9 +250,9 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
     qsrand(QDateTime::currentDateTime().toTime_t());
     
 		if (m_level->canBeMelody())
-			m_obligQuestNr = qMax(100 / m_level->melodyLen, 5); // longer melody - less questions
+			m_obligQuestNr = qMax(250 / m_level->melodyLen, 5); // longer melody - less questions
 		else
-			m_obligQuestNr = qMax(list.size() * 4, 20);
+			m_obligQuestNr = qBound(20, list.size() * 4, 250);
     if (m_level->useKeySign && !m_level->isSingleKey)
         m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
     m_obligQuestNr = qMax(qaPossibilities() * 4, m_obligQuestNr);
