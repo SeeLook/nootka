@@ -11,8 +11,6 @@
 ================              TODO LIST               ======================
 ============================================================================
 
-
-- remove some console debug messages
 - clean tartini unused code
 
 MINOR:
@@ -20,8 +18,6 @@ MINOR:
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
 - try to avoid many resizeEvent-s of TmultiScore during window size change
-- disable shortcuts (KDE styles) or change text to icon on buttons to select instrument and used string (range settings)
-
 
 
 - changing tool bar auto-hiding causes sometimes locked melody menu
