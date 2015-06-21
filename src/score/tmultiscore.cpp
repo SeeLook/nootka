@@ -384,7 +384,7 @@ void TmultiScore::updateSceneRect() {
     m_fakeLines[i]->setWidth(staff()->width());
     m_fakeLines[i]->setPos(lastStaff()->pos().x(), lastStaff()->y() + lastStaff()->height() + i * (minFree));
   }
-	qDebug() << "updateSceneRect" << scoreScene()->sceneRect() << m_staves.size() << staff()->maxNoteCount() << m_fakeLines.size();
+// 	qDebug() << "updateSceneRect" << scoreScene()->sceneRect() << m_staves.size() << staff()->maxNoteCount() << m_fakeLines.size();
 }
 
 
