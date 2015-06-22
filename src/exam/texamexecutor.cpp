@@ -262,6 +262,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		m_exam->addQuestion(Q);
 	}
 	TQAunit* curQ = m_exam->curQ();
+  m_isAnswered = false;
 	if (!isAttempt) {
 		clearWidgets();
 		if (m_blindCounter > 20) {
@@ -275,7 +276,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 					mW->bar->startExamAct->setDisabled(true);
 			m_canvas->clearCanvas();
     }
-    m_isAnswered = false;
+//     m_isAnswered = false;
     m_incorrectRepeated = false;
     m_answRequire.octave = m_level.requireOctave;
     m_answRequire.accid = m_level.forceAccids;
@@ -1181,11 +1182,8 @@ void TexamExecutor::stopExerciseSlot() {
 	stopSound();
 	if (m_exam->count()) {
 		if (!m_isAnswered) {
-//       m_exam->curQ()->unsetAnswered();
 			m_penalty->pauseTime();
-// 			if (!m_isAnswered) { // remove last question to skip it in summary (chart)
-        m_exam->skipLast(true);
-// 			}
+      m_exam->skipLast(true);
 		}
 		if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) 
       m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + ";skip"); // user still can take new attempt to correct a melody, so hide it
@@ -1228,13 +1226,15 @@ void TexamExecutor::stopExerciseSlot() {
 
 void TexamExecutor::stopExamSlot() {
   if (!m_isAnswered && !gl->E->closeWithoutConfirm) {
-      m_shouldBeTerminated = true;
-      QColor c = gl->GfingerColor;
-      c.setAlpha(30);
-      mW->setMessageBg(c);
-      mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), 2000);
-      return;
+    m_shouldBeTerminated = true;
+    QColor c = gl->GfingerColor;
+    c.setAlpha(30);
+    mW->setMessageBg(c);
+    mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), 2000);
+    return;
   }
+  if (!m_isAnswered)
+    checkAnswer(false);
   m_penalty->stopTimeView();
   stopSound();
   if (m_exam->count()) {

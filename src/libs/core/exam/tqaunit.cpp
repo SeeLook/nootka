@@ -166,6 +166,8 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
 		if (key.value() || key.isMinor()) // skip key signature when C-major (default), fromXml() will guess it
 			key.toXml(xml);
 		xml.writeTextElement("t", QVariant(time).toString());
+    if (time == 0)
+      qDebug() << "Answer time is 0 - faster than light speed?";
 		xml.writeTextElement("m", QVariant(mistake()).toString());
 		if (!answered()) // in most cases saved unit is answered
 			xml.writeTextElement("answered", QVariant(answered()).toString());
