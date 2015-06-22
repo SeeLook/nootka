@@ -648,8 +648,8 @@ void TanalysDialog::showTuningPreview() {
 	m_tunTip->setPos(offP.x() + (m_chart->width() - m_tunTip->boundingRect().width() * 2.0) / 2,
 									offP.y() + (m_chart->height() - m_tunTip->boundingRect().height() * 2.0) / 2);
   // connect tune tip here to delete it also when clicked or after mouse leave
-  connect(m_tunTip, &TgraphicsTextTip::clicked, this, &TanalysDialog::showTuningPreview);
-  connect(m_tunTip, &TgraphicsTextTip::leaved, this, &TanalysDialog::showTuningPreview);
+  connect(m_tunTip, SIGNAL(clicked()), SLOT(showTuningPreview()));
+  connect(m_tunTip, SIGNAL(leaved()), SLOT(showTuningPreview()));
 }
 
 
