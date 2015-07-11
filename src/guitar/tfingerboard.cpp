@@ -55,6 +55,9 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setMouseTracking(true);
     setStatusTip(tr("Select a string or fret and click to see it on the staff."));
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+#if defined (Q_OS_ANDROID)
+  setContentsMargins(0, 0, 0, 0);
+#endif
 
     QGraphicsBlurEffect *blur[6];
     for (int i = 0; i < 6; i++) {
@@ -901,38 +904,73 @@ void TfingerBoard::resizeRangeBox() {
 }
 
 
+void TfingerBoard::fakePress(const QPoint& viewPos) {
+  TfingerPos fPos = pointToFinger(viewPos);
+  if (fPos.isValid()) {
+    m_curStr = fPos.str() - 1;
+    m_curFret = fPos.fret();
+    QMouseEvent fakeEvent(QEvent::MouseButtonPress, QPointF(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    mousePressEvent(&fakeEvent);
+  }
+}
+
+
+TfingerPos TfingerBoard::pointToFinger(const QPoint& point) {
+  int strNr = 7, fretNr = 99;
+  if ((point.y() >= m_fbRect.y()) && (point.y() <= (height() - m_fbRect.y() - 4))) {
+    int tx, ty = point.y();
+    tx = mapToScene(point.x(), point.y()).x();
+    strNr = (ty - m_fbRect.y()) / m_strGap;
+    if (tx < m_fbRect.x() || tx > lastFret)
+      fretNr = 0;
+    else {
+      for (int i = 0; i < gl->GfretsNumber; i++) {
+        if (tx <= m_fretsPos[i]) {
+          fretNr = i + 1;
+          break;
+        }
+      }
+    }
+  }
+  TfingerPos finger;
+  if (strNr != 7 && fretNr != 99)
+    finger.setPos(strNr + 1, fretNr);
+  return finger;
+}
+
+
 void TfingerBoard::paintFingerAtPoint(QPoint p) {
-    int strNr = 7, fretNr = 99;
-    if ( (p.y() >= m_fbRect.y()) && (p.y() <= (height() - m_fbRect.y() - 4)) ) {
-        int tx, ty = p.y();
-        tx = mapToScene(p.x(), p.y()).x();
-        strNr = (ty - m_fbRect.y()) / m_strGap;
-        if (tx < m_fbRect.x() || tx > lastFret /*or some mouse button*/ )
-            fretNr = 0;
-        else {
-            for (int i = 0; i < gl->GfretsNumber; i++) {
-                if (tx <= m_fretsPos[i]) {
-                    fretNr = i + 1;
-                    break;
-                }
-            }
-        }
-    }
-    if (m_curStr != strNr || m_curFret != fretNr) {
-        if ( fretNr > 0 && fretNr < 99) { // show finger
-            paintFinger(m_workFinger, strNr, fretNr);
-            if (!m_workFinger->isVisible())
-                m_workFinger->show();
-            if (m_curStr != 7) m_workStrings[m_curStr]->hide();
-        } else { // show string line
-            m_workFinger->hide();
-            if (m_curStr != 7) m_workStrings[m_curStr]->hide();
-            if (strNr != 7) m_workStrings[strNr]->show();
-        }
-        m_curStr = strNr;
-        m_curFret = fretNr;
-				deleteBeyondTip();
-    }
+  int strNr = 7, fretNr = 99;
+  if ( (p.y() >= m_fbRect.y()) && (p.y() <= (height() - m_fbRect.y() - 4)) ) {
+      int tx, ty = p.y();
+      tx = mapToScene(p.x(), p.y()).x();
+      strNr = (ty - m_fbRect.y()) / m_strGap;
+      if (tx < m_fbRect.x() || tx > lastFret /*or some mouse button*/ )
+          fretNr = 0;
+      else {
+          for (int i = 0; i < gl->GfretsNumber; i++) {
+              if (tx <= m_fretsPos[i]) {
+                  fretNr = i + 1;
+                  break;
+              }
+          }
+      }
+  }
+  if (m_curStr != strNr || m_curFret != fretNr) {
+      if ( fretNr > 0 && fretNr < 99) { // show finger
+          paintFinger(m_workFinger, strNr, fretNr);
+          if (!m_workFinger->isVisible())
+              m_workFinger->show();
+          if (m_curStr != 7) m_workStrings[m_curStr]->hide();
+      } else { // show string line
+          m_workFinger->hide();
+          if (m_curStr != 7) m_workStrings[m_curStr]->hide();
+          if (strNr != 7) m_workStrings[strNr]->show();
+      }
+      m_curStr = strNr;
+      m_curFret = fretNr;
+      deleteBeyondTip();
+  }
 }
 
 

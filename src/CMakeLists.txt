@@ -54,6 +54,7 @@ set(NOOTKA_SRC
 	gui/tmenu.cpp
 	
 	guitar/tfingerboard.cpp
+	guitar/tguitarview.cpp
 	
 	notename/tnotename.cpp
 	notename/tnotenamelabel.cpp
@@ -61,7 +62,6 @@ set(NOOTKA_SRC
 	
 	score/tmultiscore.cpp
 	score/tmainscore.cpp
-	score/tcornerproxy.cpp
 	score/tscoreactions.cpp
 	
 	exam/tcanvas.cpp

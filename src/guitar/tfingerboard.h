@@ -32,6 +32,9 @@ class TgraphicsTextTip;
 
 class TfingerBoard : public QGraphicsView
 {
+
+  friend class TguitarView;
+
   Q_OBJECT
 public:
   explicit TfingerBoard(QWidget *parent = 0);
@@ -45,7 +48,8 @@ public:
       * It returns true if something is shown.*/
   void setFinger(const Tnote& note);
   void setFinger(TfingerPos pos);
-  TfingerPos getfingerPos() { return m_fingerPos; } /** Returns selected finger position */
+
+  TfingerPos getfingerPos() { return m_fingerPos; } /** Returns position of currently selected finger */
 
   void askQuestion(TfingerPos pos);
   void clearFingerBoard();
@@ -92,9 +96,10 @@ public:
   void showName(Tnote::EnameStyle st, const QColor& textColor) { Tnote empty(0, 0, 0); showName(st, empty, textColor); }
   void deleteNoteName();
 
-      /** Returns scene coordinates of given guitar position */
-  QPointF fretToPos(TfingerPos &pos);
+  QPointF fretToPos(TfingerPos &pos); /** Returns scene coordinates of given guitar position */
   QRectF fingerRect() const;
+
+  TfingerPos pointToFinger(const QPoint& point); /** Returns fret/string position form given position (view coordinates) */
 
 signals:
   void guitarClicked(const Tnote&);
@@ -112,6 +117,8 @@ protected:
 
       /** Determines string width by its note pitch. Sets loNote & hiNote */
   void setTune();
+  
+  void fakePress(const QPoint& viewPos); /** Imitates mouse press, available only for friendly classes  */
 
 private:
   QRect 			m_fbRect; /** Represents top left positions and size of a fingerboard */
