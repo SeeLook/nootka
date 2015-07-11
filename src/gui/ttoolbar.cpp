@@ -18,23 +18,21 @@
 
 #include "ttoolbar.h"
 #include "tmelman.h"
-#include <help/texamhelp.h>
-#include <tnootkalabel.h>
+#if !defined (Q_OS_ANDROID)
+  #include <help/texamhelp.h>
+  #include <tnootkalabel.h>
+#endif
 #include <music/tnote.h>
 #include <tpath.h>
 #include <tcolor.h>
+#include <touch/ttouchproxy.h>
 #include <score/tscoreactions.h>
-#include <QAction>
-#include <QMainWindow>
-#include <QToolButton>
-#include <QWidgetAction>
-#include <QMenu>
-#include <QGraphicsProxyWidget>
-
+#include <QtWidgets>
 
 
 TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
 	QToolBar(0),
+	aboutAct(0),
 	m_proxy(0)
 {
 	settingsAct = new QAction(tr("Settings"), this);
@@ -45,40 +43,40 @@ TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
 	analyseAct->setIcon(QIcon(Tpath::img("charts")));
 	analyseAct->setStatusTip(tr("Analysis of exam results"));
 
-#if defined (Q_OS_ANDROID)
-	aboutAct = new QAction(tr("About"), this);
-	aboutAct->setStatusTip(tr("About Nootka"));
-	aboutAct->setIcon(QIcon(Tpath::img("about")));
-#else	
-	QColor C(palette().text().color());
-	#if defined (Q_OS_WIN)
-		C.setAlpha(50);
-	#else
-		C.setAlpha(40);
-	#endif
-	m_spacer = new QWidget(this);
-	m_spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-	addWidget(m_spacer);
-	m_spacer->hide();
-	C = Tcolor::merge(C, palette().window().color());
-	m_nootLabel = new TnootkaLabel(Tpath::img("logo"), this, C, version);
-	aboutAct = addWidget(m_nootLabel);
-	m_nootLabel->setStatusTip(tr("About Nootka"));
-	m_nootLabel->setHoverColor(palette().highlight().color());
-	connect(m_nootLabel, &TnootkaLabel::clicked, aboutAct, &QAction::trigger);
+  aboutSimpleAct = new QAction(tr("About"), this);
+  aboutSimpleAct->setStatusTip(tr("About Nootka"));
+  aboutSimpleAct->setIcon(QIcon(Tpath::img("nootka")));
+  QColor C(palette().text().color());
+  #if defined (Q_OS_WIN)
+    C.setAlpha(50);
+  #else
+    C.setAlpha(40);
+  #endif
+  m_spacer = new QWidget(this);
+  m_spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+  addWidget(m_spacer);
+  m_spacer->hide();
+  C = Tcolor::merge(C, palette().window().color());
+#if !defined(Q_OS_ANDROID)
+  m_nootLabel = new TnootkaLabel(Tpath::img("logo"), this, C, version);
+  aboutAct = addWidget(m_nootLabel);
+  m_nootLabel->setStatusTip(tr("About Nootka"));
+  m_nootLabel->setHoverColor(palette().highlight().color());
+  connect(m_nootLabel, &TnootkaLabel::clicked, aboutAct, &QAction::trigger);
 #endif
-	
+
 	levelCreatorAct = new QAction(this);
 	startExamAct = new QAction(this);
 	actionsAfterExam(); // set text and icon also for levelCreatorAct	
 
 	addAction(settingsAct);
-#if !defined (Q_OS_ANDROID)
 	addAction(levelCreatorAct);
 	addAction(analyseAct);
-#endif
 	addAction(startExamAct);
-	setMovable(false);	
+	setMovable(false);
+  if (TtouchProxy::touchEnabled()) {
+    hide();
+  }
 }
 
 //#################################################################################################
@@ -86,8 +84,8 @@ TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
 //#################################################################################################
 
 void TtoolBar::addAction(QAction* a) {
-#if defined (Q_OS_ANDROID)
-	QToolBar::addAction(a);
+#if defined(Q_OS_ANDROID)
+  QToolBar::addAction(a);
 #else
 	insertAction(actions()[actions().count() - 2], a);
 #endif
@@ -112,6 +110,46 @@ void TtoolBar::addScoreActions(TscoreActions* scoreBut) {
 }
 
 
+QAction* TtoolBar::scoreZoomIn() {
+  return m_scoreActs->zoomIn();
+}
+
+
+QAction* TtoolBar::scoreZoomOut() {
+  return m_scoreActs->zoomOut();
+}
+
+
+QAction* TtoolBar::scoreExtraAccids() {
+  return m_scoreActs->extraAccids();
+}
+
+
+QAction* TtoolBar::scoreShowNames() {
+  return m_scoreActs->noteNames();
+}
+
+
+QAction* TtoolBar::scoreDeleteAll() {
+  return m_scoreActs->clearScore();
+}
+
+
+QAction* TtoolBar::playMelody() {
+  return m_melButton->playAction();
+}
+
+
+QAction* TtoolBar::generateMelody() {
+  return m_melButton->generateAction();
+}
+
+
+QAction* TtoolBar::recordMelody() {
+  return m_melButton->recordAction();
+}
+
+
 
 void TtoolBar::actionsAfterExam() {
 	levelCreatorAct->setText(tr("Level"));
@@ -125,7 +163,8 @@ void TtoolBar::actionsAfterExam() {
 	settingsAct->setIcon(QIcon(Tpath::img("systemsettings")));
 	settingsAct->setStatusTip(tr("Application preferences"));
 	
-	aboutAct->setVisible(true);
+  if (aboutAct)
+    aboutAct->setVisible(true);
 	analyseAct->setVisible(true);
 	startExamAct->setDisabled(false);
 	
@@ -146,7 +185,8 @@ void TtoolBar::actionsAfterExam() {
 
 
 void TtoolBar::actionsToExam() {
-	aboutAct->setVisible(false);
+  if (aboutAct)
+    aboutAct->setVisible(false);
 	analyseAct->setVisible(false);
 	levelCreatorAct->setIcon(QIcon(Tpath::img("help")));
 	levelCreatorAct->setText(tr("Help"));
@@ -158,7 +198,9 @@ void TtoolBar::actionsToExam() {
 	
 	if (!nextQuestAct) {
 		nextQuestAct = new QAction(tr("Next", "like a next question"), this);
+#if !defined (Q_OS_ANDROID)
 		nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
+#endif
 		nextQuestAct->setIcon(QIcon(Tpath::img("nextQuest")));
 		nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
 		addAction(nextQuestAct);
@@ -169,7 +211,9 @@ void TtoolBar::actionsToExam() {
 		prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 
 		checkAct = new QAction(tr("Check", "like a check answer"), this);
+#if !defined (Q_OS_ANDROID)
 		checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
+#endif
 		checkAct->setIcon(QIcon(Tpath::img("check")));
 		checkAct->setShortcut(QKeySequence(Qt::Key_Return));
 	}
@@ -179,8 +223,10 @@ void TtoolBar::actionsToExam() {
 void TtoolBar::createRepeatSoundAction() {
 	if (!repeatSndAct) {
 		repeatSndAct = new QAction(tr("Play"), this);
+#if !defined (Q_OS_ANDROID)
 		repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + 
 										TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
+#endif
 		repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
 		repeatSndAct->setIcon(QIcon(Tpath::img("repeatSound")));
 	}
@@ -239,7 +285,7 @@ void TtoolBar::setAfterAnswer() {
 
 void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 	if (iconStyle != toolButtonStyle()) {
-		setToolButtonStyle(iconStyle);
+    setToolButtonStyle(iconStyle);
 		m_melButton->button()->setToolButtonStyle(iconStyle);
     m_scoreActs->button()->setToolButtonStyle(iconStyle);
 	}
@@ -249,11 +295,13 @@ void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 	if (toolButtonStyle() != Qt::ToolButtonTextOnly) {
 		if (iconS != iconSize().width()) {
 			setIconSize(QSize(iconS, iconS));
-			m_melButton->button()->setIconSize(QSize(iconS, iconS));
-      m_scoreActs->button()->setIconSize(QSize(iconS, iconS));
+        m_melButton->button()->setIconSize(QSize(iconS, iconS));
+        m_scoreActs->button()->setIconSize(QSize(iconS, iconS));
 		}
 	}
-	m_nootLabel->setMaximumHeight(tmpSize * 1.5);
+#if !defined(Q_OS_ANDROID)
+  m_nootLabel->setMaximumHeight(tmpSize * 1.5);
+#endif
 	adjustSize();
 	if (m_proxy)
 		m_proxy->adjustSize();
@@ -262,16 +310,19 @@ void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
 
 void TtoolBar::setProxy(QGraphicsProxyWidget* proxy) {
 	m_proxy = proxy;
-	if (m_proxy)
-		m_spacer->show();
-	else
-		m_spacer->hide();
-  update();
+  if (!TtouchProxy::touchEnabled()) {
+    if (m_proxy)
+      m_spacer->show();
+    else
+      m_spacer->hide();
+    update();
+  }
 }
 
 
 void TtoolBar::resizeEvent(QResizeEvent* event) {
-	if (m_proxy) {
+  Q_UNUSED(event)
+	if (!TtouchProxy::touchEnabled() && m_proxy) {
 		adjustSize();
 		m_proxy->resize(size());
 	}

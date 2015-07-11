@@ -45,11 +45,23 @@ public:
 	explicit TtoolBar(const QString& version, QMainWindow* mainWindow);
 	
 			/** Main actions */
-	QAction *settingsAct, *levelCreatorAct, *startExamAct, *aboutAct, *analyseAct;
+	QAction *settingsAct, *levelCreatorAct, *startExamAct, *analyseAct;
+  QAction *aboutAct, *aboutSimpleAct; /** Button with Nootka logo and simple text & icon QAction */
 	
 			/** Exam related */
 	QAction *prevQuestAct, *checkAct;
 	QPointer<QAction> nextQuestAct, repeatSndAct, correctAct, tuneForkAct, attemptAct;
+
+      /** TmelMan and TscoreActions has to be set before call above actions!
+       * @p addScoreActions() and @p addMelodyButton() have to be invoked before! */
+  QAction* scoreZoomIn();
+  QAction* scoreZoomOut();
+  QAction* scoreExtraAccids();
+  QAction* scoreShowNames();
+  QAction* scoreDeleteAll();
+  QAction* generateMelody();
+  QAction* recordMelody();
+  QAction* playMelody();
 	
 			/** Changes names and icons of actions suitable to normal mode.
 			 * Deletes actions related to exam.	 */
@@ -77,7 +89,6 @@ public:
 	void setMelodyButtonVisible(bool vis); /** Hides or shows melody button */
   
   void addScoreActions(TscoreActions* scoreBut); /** Adds button with associated menu with actions to manage the score. */
-  void setScoreButtonVisible(bool vis); /** Hides or shows score button. */
 	
 	void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
 	

@@ -36,8 +36,8 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
 							 QIcon(Tpath::img("record")));
 	m_recMelAct->setStatusTip(tr("When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically."));
-	QAction* genAct = createAction(tr("Generate"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
-	genAct->setStatusTip(tr("Generate a melody with random notes."));
+	m_genMelodyAct = createAction(tr("Generate melody"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
+	m_genMelodyAct->setStatusTip(tr("Generate a melody with random notes."));
 
 // 	m_menu->addSeparator();
 // 	QDialogButtonBox box;
@@ -162,8 +162,10 @@ QAction* TmelMan::createAction(const QString& t, const char* slot, const QKeySeq
 	QAction *a = new QAction(this);
 	if (!i.isNull())
 		a->setIcon(i);
+#if !defined (Q_OS_ANDROID)
 	if (!k.isEmpty())
 		a->setShortcut(k);
+#endif
 	a->setText(t);
 	connect(a, SIGNAL(triggered()), this, slot);
 	m_menu->addAction(a);

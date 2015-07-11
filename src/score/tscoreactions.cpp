@@ -50,7 +50,9 @@ TscoreActions::TscoreActions(TmainScore* score) :
   
   m_outZoom = createAction(tr("Zoom score out"), SLOT(zoomScoreSlot()), QKeySequence::ZoomOut, QIcon(Tpath::img("zoom-out")));
   m_inZoom = createAction(tr("Zoom score in"), SLOT(zoomScoreSlot()), QKeySequence(), QIcon(Tpath::img("zoom-in")));
+#if !defined (Q_OS_ANDROID)
   m_inZoom->setShortcuts(QKeySequence::keyBindings(QKeySequence::ZoomIn));
+#endif
   m_menu->addSeparator();
   m_prevNote = createAction(tr("Previous note"), SLOT(moveSelectedNote()), QKeySequence(Qt::Key_Left), 
                              QIcon(score->style()->standardIcon(QStyle::SP_ArrowBack)));
@@ -103,8 +105,10 @@ QAction* TscoreActions::createAction(const QString& t, const char* slot, const Q
   QAction *a = new QAction(this);
   if (!i.isNull())
     a->setIcon(i);
+#if !defined (Q_OS_ANDROID)
   if (!k.isEmpty())
     a->setShortcut(k);
+#endif
   a->setText(t);
   connect(a, SIGNAL(triggered()), m_score, slot);
   m_menu->addAction(a);
