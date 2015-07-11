@@ -60,11 +60,8 @@ signals:
     void clefChanged(Tclef);
     
 protected:
-#if defined (Q_OS_ANDROID)
-    virtual void longTap(const QPointF& cPos);
-#else
 		virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-#endif
+    virtual void longTap(const QPointF& cPos);
 		
 protected slots:
 		void clefMenuStatusTip(QString tip) { emit statusTip(tip); }

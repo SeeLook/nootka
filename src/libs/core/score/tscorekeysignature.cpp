@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -209,7 +209,6 @@ void TscoreKeySignature::onLowKeyChanged() {
 }
 
 
-#if !defined (Q_OS_ANDROID)
 void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (!m_readOnly && event->button() == Qt::LeftButton) {
 		if (event->pos().y() > relatedLine + 4.0)
@@ -232,10 +231,6 @@ void TscoreKeySignature::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 
-
-#endif
-
-#if defined (Q_OS_ANDROID)
 void TscoreKeySignature::shortTap(const QPointF& cPos) {
 	if (!m_readOnly) {
 		if (cPos.y() > relatedLine + 4.0)
@@ -244,7 +239,6 @@ void TscoreKeySignature::shortTap(const QPointF& cPos) {
 			increaseKey(1);
 	}
 }
-#endif
 
 
 void TscoreKeySignature::increaseKey(int step) {
