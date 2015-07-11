@@ -25,6 +25,7 @@
 #include <tscoreparams.h>
 #include <music/tnamestylefilter.h>
 #include "tpath.h"
+#include "touch/ttouchproxy.h"
 #include "tlayoutparams.h"
 #include "tinitcorelib.h"
 #include <QDir>
@@ -59,13 +60,19 @@ QString Tglobals::getInstPath(QString appInstPath) {
 	return p;
 }
 
+TtouchProxy* onlyOneTouchProxy = 0; // It is available through TtouchProxy::instance()
+
 /*end static*/
 
 
 Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
+#if defined (Q_OS_ANDROID)
+  version = "1.1.8-alpha";
+#else
 	version = NOOTKA_VERSION;
+#endif
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -94,6 +101,7 @@ Tglobals::Tglobals(bool fromTemp) :
 		qDebug() << "Tglobals instance has already existed. Application is terminating!";
 		exit(109);
 	}
+	onlyOneTouchProxy = new TtouchProxy();
 }
 
 Tglobals::~Tglobals() {
@@ -104,6 +112,7 @@ Tglobals::~Tglobals() {
 	delete L;
 	delete m_tune;
 	delete config;
+  delete onlyOneTouchProxy;
 	Tcore::reset();
 }
 
@@ -112,43 +121,11 @@ Tglobals::~Tglobals() {
 //#######################         PUBLIC         ###########################################
 //##########################################################################################
 
-void Tglobals::dumpToTemp() {
-/*#if defined(Q_OS_WIN32) // I hate mess in Win registry
-	QSettings tmpSett(tmpConfigFile(), QSettings::IniFormat);
-#else
-	QSettings tmpSett(tmpConfigFile(), QSettings::NativeFormat);
-#endif
-	storeSettings(&tmpSett);
-	tmpSett.beginGroup("temp");
-			tmpSett.setValue("nootkaPath", path); // other apps has to be able find the resources
-	tmpSett.endGroup();*/
-}
-
-
-bool Tglobals::grabFromTemp() {
-/*	if (QFileInfo::exists(tmpConfigFile())) {
-		#if defined(Q_OS_WIN32) // I hate mess in Win registry
-			QSettings tmpSett(tmpConfigFile(), QSettings::IniFormat);
-		#else
-			QSettings tmpSett(tmpConfigFile(), QSettings::NativeFormat);
-		#endif
-			loadSettings(&tmpSett);
-			tmpSett.beginGroup("temp");
-					path = tmpSett.value("nootkaPath", "").toString();
-			tmpSett.endGroup();
-			QFile::remove(tmpConfigFile());
-			if (path != "")
-				return true;
-	}
-		qDebug() << "Can not read from temp settings file!";*/
-		return false;
-}
-
-
 void Tglobals::loadSettings(QSettings* cfg) {
 	cfg->beginGroup("common");
 			isFirstRun = cfg->value("isFirstRun", true).toBool();
 			useAnimations = cfg->value("useAnimations", true).toBool();
+      enableTouch = cfg->value("enableTouch", false).toBool();
 			lang = cfg->value("language", "").toString();
 			instrumentToFix = cfg->value("instrumentToFix", -1).toInt();
 	cfg->endGroup();
@@ -289,6 +266,16 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->skipStillerVal = cfg->value("skipStillerThan", 80.0).toReal();
 	cfg->endGroup();
 	
+#if defined (Q_OS_ANDROID)
+  enableTouch = true;
+  L->toolBarAutoHide = true;
+  L->iconTextOnToolBar = Qt::ToolButtonTextBesideIcon;
+  L->hintsBarEnabled = false;
+  L->soundViewEnabled = false;
+  L->guitarEnabled = true;
+  S->keySignatureEnabled = true;
+  S->doubleAccidentalsEnabled = true;
+#else
 	cfg->beginGroup("layout");
 		L->toolBarAutoHide = cfg->value("toolBarAutoHide", false).toBool();
 		L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value("iconTextOnToolBar", 3).toInt());
@@ -296,30 +283,33 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		L->soundViewEnabled = cfg->value("soundViewEnabled", true).toBool();
 		L->guitarEnabled = cfg->value("guitarEnabled", true).toBool();
 	cfg->endGroup();
+#endif
+
+  TtouchProxy::setTouchEnabled(enableTouch);
 }
 
 
 void Tglobals::setTune(Ttune& t) {
-		delete m_tune;
-    m_tune = new Ttune(t.name, t[1], t[2], t[3], t[4], t[5], t[6]);
-// creating array with guitar strings in order of their height
-    char openStr[6];
-    for (int i = 0; i < 6; i++) {
-        m_order[i] = i;
-				if (m_tune->str(i + 1).note != 0)
-					openStr[i] = m_tune->str(i + 1).chromatic();
-				else // empty note - not such string
-					openStr[i] = -120; // make it lowest
+  delete m_tune;
+  m_tune = new Ttune(t.name, t[1], t[2], t[3], t[4], t[5], t[6]);
+  // creating array with guitar strings in order of their height
+  char openStr[6];
+  for (int i = 0; i < 6; i++) {
+    m_order[i] = i;
+    if (m_tune->str(i + 1).note != 0)
+      openStr[i] = m_tune->str(i + 1).chromatic();
+    else // empty note - not such string
+      openStr[i] = -120; // make it lowest
+  }
+  int i = 4;
+  while (i > -1) {
+    for (int j = i; j < 5 && openStr[m_order[j]] < openStr[m_order[j + 1]]; j++) {
+      char tmp = m_order[j];
+      m_order[j] = m_order[j + 1];
+      m_order[j + 1] = tmp;
     }
-      int i = 4;
-      while (i > -1) {
-          for (int j = i; j < 5 && openStr[m_order[j]] < openStr[m_order[j + 1]]; j++) {
-              char tmp = m_order[j];
-              m_order[j] = m_order[j + 1];
-              m_order[j + 1] = tmp;
-          }
-          i--;
-      }
+    i--;
+  }
 }
 
 
@@ -349,6 +339,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 	cfg->beginGroup("common");
 			cfg->setValue("isFirstRun", isFirstRun);
 			cfg->setValue("useAnimations", useAnimations);
+      cfg->setValue("enableTouch", enableTouch);
 			cfg->setValue("doubleAccidentals", S->doubleAccidentalsEnabled);
 			cfg->setValue("showEnaharmonicNotes", S->showEnharmNotes);
 			cfg->setValue("enharmonicNotesColor", S->enharmNotesColor);

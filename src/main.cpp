@@ -28,6 +28,7 @@
 
 /** It allows to grab all debug messages into nootka-log.txt file */
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+  Q_UNUSED(context)
   if (type == QtDebugMsg) {
     QFile outFile("nootka-log.txt");
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
@@ -81,6 +82,7 @@ int main(int argc, char *argv[])
 #else
     w->show();
 #endif
+
     if (firstTime && argc > 1)
         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
 		firstTime = false;
