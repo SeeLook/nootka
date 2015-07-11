@@ -136,7 +136,7 @@ private:
 	// note cursor
 		int                            		m_workPosY;
 		QGraphicsEllipseItem          	 *m_workNote;
-		QGraphicsSimpleTextItem       	 *m_workAccid;
+		QGraphicsSimpleTextItem       	 *m_workAccid, *m_workAccid2;
 		TscoreLines											 *m_workLines;
 		QColor														m_nameColor;
 		TnoteControl				  				 	 *m_rightBox, *m_leftBox;
