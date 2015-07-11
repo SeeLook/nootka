@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "tmainscore.h"
-#include "tcornerproxy.h"
 #include "tscoreactions.h"
 #include <score/tscorestaff.h>
 #include <score/tscorenote.h>
@@ -51,7 +50,6 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	m_strikeOut(0),
 	m_bliking(0), m_keyBlinking(0),
 	m_corrStyle(Tnote::defaultStyle),
-	m_settBar(0),
 	m_nameMenu(0),
   m_scoreIsPlayed(false),
   m_emitExpertNoteClicked(true)
@@ -239,19 +237,16 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 		if (ignoreThat)
 			return;
 		if (mode == e_single) {
-        m_delCorner->hideSpot();
         m_acts->mainAction()->setVisible(false);
 				m_nameMenu->enableArrows(false);
 				staff()->noteSegment(0)->removeNoteName();
 				m_currentNameSegment = staff()->noteSegment(0);
-				enableCorners(false);
 				m_nameMenu->show();
         setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 		} else {
         m_acts->mainAction()->setVisible(true);
 				m_nameMenu->enableArrows(true);
 				m_nameMenu->hide();
-				enableCorners(true);
 				if (Tcore::gl()->S->namesOnScore)
 					staff()->noteSegment(0)->showNoteName();
 		}
@@ -324,7 +319,6 @@ void TmainScore::unLockScore() {
 void TmainScore::setScoreDisabled(bool disabled) {
 	TmultiScore::setScoreDisabled(disabled);
   if (insertMode() != e_single) {
-    m_delCorner->setVisible(!disabled);
     m_acts->clearScore()->blockSignals(disabled);
     m_acts->clearScore()->setVisible(!disabled);
     m_acts->deleteCurrentNote()->setVisible(!disabled);
@@ -846,7 +840,6 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	TmultiScore::resizeEvent(event);
 	if (width() < 300 || height() < 200)
       return;
-	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size
 }
 
@@ -865,11 +858,6 @@ void TmainScore::performScordatureSet() {
 
 void TmainScore::createActions() {
   m_acts->noteNames()->setChecked(Tcore::gl()->S->namesOnScore);
-	m_clearBar = new QToolBar();
-	m_clearBar->addAction(m_acts->clearScore());
-	m_clearBar->setMovable(false);
-	m_delCorner = new TcornerProxy(scoreScene(), m_clearBar, Qt::TopRightCorner);
-	m_delCorner->setSpotColor(Qt::red);
 }
 
 
@@ -924,40 +912,15 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 }
 
 
-void TmainScore::setBarsIconSize() {
-#if defined (Q_OS_ANDROID)
-	QSize ss(mainWindow()->height() / 10, mainWindow()->height() / 10);
-#else
-	QSize ss(mainWindow()->height() / 15, mainWindow()->height() / 15);
-#endif
-	m_clearBar->setIconSize(ss);
-	m_clearBar->adjustSize();
-}
-
-
 void TmainScore::createNoteName() {
 	if (!m_nameMenu) {
-			m_nameMenu = new TnoteName(mainWindow());
-// #if defined (Q_OS_ANDROID)
-// 			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
-// #else
-// 			m_nameMenu->resize(fontMetrics().boundingRect("A").height());
-// 			m_nameMenu->resize((qApp->desktop()->availableGeometry().height() / 20));
-// #endif
-			connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
-			connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
-			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
-      connect(m_nameMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(statusTipChanged(QString)));
-			m_nameMenu->hide();
-	}
-}
-
-
-void TmainScore::enableCorners(bool enable) {
-	if (enable) {
-			m_delCorner->show();
-	} else {
-			m_delCorner->hide();
+    m_nameMenu = new TnoteName(mainWindow());
+    connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
+    connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
+    connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
+    connect(m_nameMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(statusTipChanged(QString)));
+    m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
+    m_nameMenu->hide();
 	}
 }
 
