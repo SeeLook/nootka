@@ -85,22 +85,22 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   QPainter painter(this);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   painter.setPen(Qt::NoPen);
-  QColor noteColor = palette().text().color();
+  QColor noteColor = qApp->palette().text().color();
   if (m_alpha) { // Background if note is detected
       m_pitchColor.setAlpha(m_alpha);
       painter.setBrush(QBrush(m_pitchColor));
-      noteColor = palette().highlightedText().color();
+      noteColor = qApp->palette().highlightedText().color();
 			painter.drawRoundedRect(painter.viewport(), 4, 4);
   }
   painter.setFont(nootFont);
   QString nSymbol = (m_activePause && m_paused) ? "o" : "n";
 	QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
 	if (m_drawPaused) { // Stop/start highlight
-		painter.setBrush(m_overNote ? palette().highlightedText().color().darker(95) : palette().highlight().color());
+		painter.setBrush(m_overNote ? qApp->palette().highlightedText().color().darker(95) : qApp->palette().highlight().color());
 		painter.drawRoundedRect(width() - nRect.width() * 1.8, 0, nRect.width() * 1.8, height(), 50, 50, Qt::RelativeSize);
   }
 	if (m_drawPaused) // and note symbol
-		painter.setPen(m_overNote ? palette().highlight().color() : palette().highlightedText().color());
+		painter.setPen(m_overNote ? qApp->palette().highlight().color() : qApp->palette().highlightedText().color());
   else if (m_alpha)
 		painter.setPen(noteColor);
   else
@@ -123,7 +123,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   }
   if (m_drawKnob) { // volume knob
 		painter.setPen(Qt::NoPen);
-		QColor knobBrush = palette().highlight().color(), shade = palette().text().color();
+		QColor knobBrush = qApp->palette().highlight().color(), shade = qApp->palette().text().color();
 		if (m_leftButton)
 			knobBrush = knobBrush.lighter();
 		shade.setAlpha(150);
@@ -136,7 +136,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 		lg.setColorAt(0.8, knobBrush.darker());
 		painter.setBrush(QBrush(lg));
 		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.05, height() * 0.9, height() * 0.9));
-		painter.setBrush(palette().highlightedText());
+		painter.setBrush(qApp->palette().highlightedText());
 		painter.setPen(QPen(shade, 0.7));
 		painter.drawEllipse(QRectF(xPos - height() * 0.27, height() * 0.27, height() * 0.45, height() * 0.45));
   }
