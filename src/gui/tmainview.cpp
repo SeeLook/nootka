@@ -19,14 +19,18 @@
 #include "tmainview.h"
 #include "ttoolbar.h"
 #include "tmenu.h"
+#include <guitar/tguitarview.h>
 #include <animations/tcombinedanim.h>
 #include <tlayoutparams.h>
+#include <touch/ttouchproxy.h>
+#include <touch/ttouchmenu.h>
+#include <tpath.h>
 #include <notename/tnotename.h>
 #include <QtWidgets>
 
 
-TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
-										 QWidget* scoreW, QWidget* guitarW, TnoteName* name, QWidget* parent) :
+TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, QWidget* pitchW,
+                     QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QWidget* parent) :
 	QGraphicsView(parent),
 	m_layParams(layParams),
 	m_tool(toolW),
@@ -34,8 +38,10 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 	m_pitch(pitchW),
 	m_score(scoreW),
 	m_guitar(guitarW),
+	m_touchedWidget(0),
 	m_name(name),
-	m_nameLay(0)
+	m_nameLay(0),
+	m_mainMenuTap(false), m_scoreMenuTap(false)
 {
 	setScene(new QGraphicsScene(this));
 	
@@ -45,16 +51,23 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
   setFrameShape(QFrame::NoFrame);
 	setObjectName("TmainView");
 	setStyleSheet(("QGraphicsView#TmainView { background: transparent }"));
-	
+#if !defined (Q_OS_ANDROID) // no status messages under Android
 	toolW->installEventFilter(this);
 	pitchW->installEventFilter(this);
 	guitarW->installEventFilter(this);
+#endif
 	toolW->setObjectName("toolBar");
 	
 	m_mainLay = new QBoxLayout(QBoxLayout::TopToBottom);
+  #if defined (Q_OS_ANDROID)
+    m_mainLay->setContentsMargins(0, 0, 0, 0);
+  #else
 		m_mainLay->setContentsMargins(2, 2, 2, 2);
+  #endif
 		m_statAndPitchLay = new QBoxLayout(QBoxLayout::LeftToRight);
-		  m_statAndPitchLay->addWidget(m_status);
+#if !defined (Q_OS_ANDROID)
+      m_statAndPitchLay->addWidget(m_status);
+#endif
 		  m_statAndPitchLay->addWidget(m_pitch);
 	m_mainLay->addLayout(m_statAndPitchLay);
 		m_scoreAndNameLay = new QBoxLayout(QBoxLayout::LeftToRight);
@@ -62,11 +75,14 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 		m_mainLay->addLayout(m_scoreAndNameLay);
 		m_mainLay->addWidget(m_guitar);
 	   m_container = new QWidget;
+     m_score->setParent(m_container);
+     m_guitar->setParent(m_container);
 	   m_container->setObjectName("proxyWidget");
 	   m_container->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
 	   m_container->setLayout(m_mainLay);
 	m_proxy = scene()->addWidget(m_container);
-	m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
+
+  m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
 	setBarAutoHide(m_layParams->toolBarAutoHide);
 	m_name->createNameTip(scene());
 	
@@ -98,7 +114,11 @@ void TmainView::takeNoteName() {
 		m_nameLay = 0;
 		m_name->hide();
 		m_name->enableArrows(true);
-    m_mainLay->setContentsMargins(2, 2, 2, 2);
+    #if defined (Q_OS_ANDROID)
+      m_mainLay->setContentsMargins(0, 0, 0, 0);
+    #else
+      m_mainLay->setContentsMargins(2, 2, 2, 2);
+    #endif
 	}
 }
 
@@ -141,16 +161,16 @@ void TmainView::moveExamToName() {
 void TmainView::setBarAutoHide(bool autoHide) {
 	if (autoHide != m_isAutoHide) {
 		m_isAutoHide = autoHide;
-		if (m_isAutoHide) {
+    if (m_isAutoHide) {
 			m_mainLay->removeWidget(m_tool);
 			if (!m_proxyBar) {
-				m_proxyBar = scene()->addWidget(m_tool);
-				m_barLine = new QGraphicsLineItem;
-				scene()->addItem(m_barLine);
-				m_barLine->setGraphicsEffect(new QGraphicsBlurEffect());
+        m_proxyBar = scene()->addWidget(m_tool);
+        m_barLine = new QGraphicsLineItem;
+        scene()->addItem(m_barLine);
+        m_barLine->setGraphicsEffect(new QGraphicsBlurEffect());
 				m_animBar = new TcombinedAnim(m_proxyBar, this);
-				m_timer = new QTimer(this);
-				connect(m_timer, &QTimer::timeout, this, &TmainView::showToolBar);
+				m_timerBar = new QTimer(this);
+        connect(m_timerBar, &QTimer::timeout, this, &TmainView::showToolBar);
 			} else {
 				m_proxyBar->setWidget(m_tool);
 			}
@@ -160,63 +180,29 @@ void TmainView::setBarAutoHide(bool autoHide) {
 			barBlur->setBlurRadius(15);
 			m_proxyBar->setZValue(200);
 			m_proxyBar->setGraphicsEffect(barBlur);
-			m_proxyBar->setPos(20, 0); // move it from left side
-			m_barLine->hide();
-			updateBarLine();
-			static_cast<TtoolBar*>(m_tool)->setProxy(m_proxyBar);
-      startHideAnim();
+      if (TtouchProxy::touchEnabled())
+        m_proxyBar->hide();
+      else {
+        m_proxyBar->setPos(20, 0); // move it from left side
+        m_barLine->hide();
+        updateBarLine();
+        m_tool->setProxy(m_proxyBar);
+        startHideAnim();
+      }
 		} else {
 			if (m_proxyBar) {
 				m_proxyBar->setWidget(0);
 				m_proxyBar->setGraphicsEffect(0);
 			}
 			m_mainLay->insertWidget(0, m_tool);
-			static_cast<TtoolBar*>(m_tool)->setProxy(0);
+			m_tool->setProxy(0);
 		}
-	}
+  }
 }
 
-
-//##########################################################################################
-//#######################     EVENTS       ################################################
-//##########################################################################################
-
-void TmainView::resizeEvent(QResizeEvent* event) {
-	Q_UNUSED (event)
-  QTimer::singleShot(0, this, SLOT(updateLayout()));
-}
-
-
-bool TmainView::eventFilter(QObject* ob, QEvent* event) {
-	if (event->type() == QEvent::StatusTip) {
-			QStatusTipEvent *tip = static_cast<QStatusTipEvent *>(event);
-			emit statusTip(tip->tip());
-	}
-	if (isAutoHide() && ob->objectName() == "toolBar" && event->type() == QEvent::Leave)
-			startHideAnim();
-	return QAbstractScrollArea::eventFilter(ob, event);
-}
-
-
-void TmainView::mouseMoveEvent(QMouseEvent* event) {
-	if (isAutoHide()) {
-		if (event->y() > 0 && event->y() < height() * 0.02) {
-			if (!m_barLine->isVisible()) {
-				m_barLine->show();
-				m_timer->start(400);
-			}
-		} else {
-				if (m_barLine->isVisible()) {
-					m_barLine->hide();
-				}
-				m_timer->stop();
-				if (m_proxyBar->pos().y() == 0.0 && event->y() > m_proxyBar->boundingRect().height())
-					startHideAnim();
-		}
-	}
-	QGraphicsView::mouseMoveEvent(event);
-}
-
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void TmainView::startHideAnim() {
 	m_animBar->setMoving(m_proxyBar->pos(), QPointF(m_proxyBar->x(), -m_proxyBar->boundingRect().height() - 15));
@@ -235,19 +221,22 @@ void TmainView::updateBarLine() {
 void TmainView::updateLayout() {
   m_proxy->setGeometry(0, 0, width(), height());
   scene()->setSceneRect(0, 0, width(), height());
-  updateBarLine();
+  if (!TtouchProxy::touchEnabled())
+    updateBarLine();
   m_container->resize(size());
   emit sizeChanged(size());
 }
 
 
 void TmainView::showToolBar() {
-	m_timer->stop();
-	m_proxyBar->show();
-	qreal xx = qBound<qreal>(2, mapFromGlobal(cursor().pos()).x() - m_proxyBar->boundingRect().width() / 2,
-													 width() - m_proxyBar->boundingRect().width() - 2);
-	m_animBar->setMoving(QPointF(xx, -m_proxyBar->boundingRect().height()), QPointF(xx, 0.0));
-	m_animBar->startAnimations();
+  if (!TtouchProxy::touchEnabled()) {
+    m_timerBar->stop();
+    m_proxyBar->show();
+    qreal xx = qBound<qreal>(2, mapFromGlobal(cursor().pos()).x() - m_proxyBar->boundingRect().width() / 2,
+                            width() - m_proxyBar->boundingRect().width() - 2);
+    m_animBar->setMoving(QPointF(xx, -m_proxyBar->boundingRect().height()), QPointF(xx, 0.0));
+    m_animBar->startAnimations();
+  }
 }
 
 
@@ -261,6 +250,169 @@ void TmainView::menuSlot(Tmenu* m) {
   m->move(QCursor::pos().x() - 5, scoreGlobalPos.y());
 }
 
+//##########################################################################################
+//#######################     EVENTS       #################################################
+//##########################################################################################
+
+void TmainView::resizeEvent(QResizeEvent* event) {
+  Q_UNUSED (event)
+  QTimer::singleShot(0, this, SLOT(updateLayout()));
+}
+
+
+bool TmainView::eventFilter(QObject* ob, QEvent* event) {
+  if (event->type() == QEvent::StatusTip) {
+      QStatusTipEvent *tip = static_cast<QStatusTipEvent *>(event);
+      emit statusTip(tip->tip());
+  }
+  if (isAutoHide() && ob->objectName() == "toolBar" && event->type() == QEvent::Leave)
+      startHideAnim();
+  return QAbstractScrollArea::eventFilter(ob, event);
+}
+
+
+void TmainView::mouseMoveEvent(QMouseEvent* event) {
+  if (!TtouchProxy::touchEnabled() && isAutoHide()) {
+    if (event->y() > 0 && event->y() < height() * 0.02) {
+      if (!m_barLine->isVisible()) {
+        m_barLine->show();
+        m_timerBar->start(400);
+      }
+    } else {
+        if (m_barLine->isVisible()) {
+          m_barLine->hide();
+        }
+        m_timerBar->stop();
+        if (m_proxyBar->pos().y() == 0.0 && event->y() > m_proxyBar->boundingRect().height())
+          startHideAnim();
+    }
+  }
+  QGraphicsView::mouseMoveEvent(event);
+}
+
+void TmainView::mainMenuExec() {
+  m_mainMenuTap = false;
+  TtouchMenu menu(this);
+  menu.addAction(m_tool->settingsAct);
+  menu.addAction(m_tool->levelCreatorAct);
+  menu.addAction(m_tool->startExamAct);
+  menu.addAction(m_tool->aboutSimpleAct);
+  menu.exec(QPoint(2, 2), QPoint(-menu.sizeHint().width(), 2));
+}
+
+
+void TmainView::scoreMenuExec() {
+  m_scoreMenuTap = false;
+  TtouchMenu menu(this);
+  menu.addAction(m_tool->generateMelody());
+  menu.addAction(m_tool->scoreShowNames());
+  menu.addAction(m_tool->scoreExtraAccids());
+  menu.addAction(m_tool->scoreZoomIn());
+  menu.addAction(m_tool->scoreZoomOut());
+  menu.addAction(m_tool->scoreDeleteAll());
+//   QAction *fakeAct = new QAction("fake action", &menu);
+//   menu.addAction(fakeAct);
+//   QAction *fakeAct2 = new QAction("fake action", &menu);
+//   menu.addAction(fakeAct2);
+//   QAction *fakeAct3 = new QAction("fake action", &menu);
+//   menu.addAction(fakeAct3);
+//   QAction *fakeAct4 = new QAction("fake action", &menu);
+//   menu.addAction(fakeAct4);
+  menu.exec(QPoint(width() - menu.sizeHint().width() - 2, 2), QPoint(width(), 2));
+}
+
+
+TguitarView* guitarView = 0;
+int prevTwoFingersPos = 0;
+bool TmainView::viewportEvent(QEvent *event) {
+  if (TtouchProxy::touchEnabled()) {
+    if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
+      QTouchEvent *te = static_cast<QTouchEvent*>(event);
+// 1.  Main widget of view was touched
+      if (itemAt(mapFromScene(te->touchPoints().first().pos())) == m_proxy) {
+        if (te->touchPoints().size() == 1) {
+// 1.1 with one finger
+          if (m_mainMenuTap || te->touchPoints().first().pos().x() < 5) {
+// 1.1.1 on the left screen edge - main menu
+              if (event->type() == QEvent::TouchBegin) {
+                event->accept();
+                m_mainMenuTap = true;
+              } else if (event->type() == QEvent::TouchUpdate) {
+                  if (m_mainMenuTap && te->touchPoints().first().pos().x() > width() * 0.1)
+                    mainMenuExec();
+              }
+// 1.1.2 on the right screen edge - score menu
+          } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - 5) {
+              if (event->type() == QEvent::TouchBegin) {
+                event->accept();
+                m_scoreMenuTap = true;
+              } else if (event->type() == QEvent::TouchUpdate) {
+                  if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.9)
+                    scoreMenuExec();
+              }
+// 1.1.3 score was touched
+          } else if (m_touchedWidget == m_score->viewport() ||
+                      m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {
+              if (guitarView) {
+                delete guitarView;
+                guitarView = 0;
+              }
+// mapping all touches to score
+              QList<QTouchEvent::TouchPoint> pointList;
+              QTouchEvent::TouchPoint ftp(te->touchPoints().first()); // first touch point
+              ftp.setPos(m_score->mapFromParent(ftp.pos().toPoint())); // map to score
+              ftp.setStartPos(m_score->mapFromParent(ftp.startPos().toPoint()));
+              pointList << ftp;
+              QTouchEvent touchToSend(event->type(), te->device(), te->modifiers(), te->touchPointStates(), pointList);
+              if (qApp->notify(m_score->viewport(), &touchToSend)) {
+                event->accept();
+                m_touchedWidget = m_score->viewport();
+              }
+              if (event->type() == QEvent::TouchEnd)
+                m_touchedWidget = 0;
+              return true;
+// 1.1.4 guitar was touched
+          } else if (m_touchedWidget == m_guitar->viewport() ||
+                      m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_guitar->viewport()) {
+                event->accept();
+                m_touchedWidget = m_guitar->viewport();
+              if (event->type() == QEvent::TouchEnd)
+                m_touchedWidget = 0;
+              return true;
+          }
+        } else if (te->touchPoints().size() == 2) {
+// 1.2 two fingers touch
+            if (m_touchedWidget == m_score->viewport()) {
+              QTouchEvent touchToSend(QEvent::TouchEnd, te->device(), te->modifiers(), te->touchPointStates(), te->touchPoints());
+              qApp->notify(m_touchedWidget, &touchToSend); // cancel previous single touch
+            }
+            if (event->type() == QEvent::TouchUpdate) { // TouchBegin occurs when first finger touches size() == 1
+// 1.2.1 score double touched - scrolling
+              if (m_touchedWidget == m_score->viewport()) {
+                prevTwoFingersPos = te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y();
+                m_score->verticalScrollBar()->setValue (m_score->verticalScrollBar()->value() + prevTwoFingersPos);
+              } else if (m_touchedWidget == m_guitar->viewport()) {
+// 1.2.2 guitar double touched - bigger preview of fingerboard
+                  if (guitarView) {
+                    prevTwoFingersPos = te->touchPoints()[0].lastPos().x() - te->touchPoints()[0].pos().x();
+                    guitarView->horizontalScrollBar()->setValue (guitarView->horizontalScrollBar()->value() + prevTwoFingersPos);
+                  } else if (qAbs(te->touchPoints()[0].pos().y() - te->touchPoints()[0].startPos().y()) > height() / 4) {
+                    if (!guitarView) {
+                      guitarView = new TguitarView(m_guitar, this);
+                    }
+                  }
+                }
+            }
+        }
+// 2. Other temporary item was touched
+      } else if (guitarView && itemAt(mapFromScene(te->touchPoints().first().pos())) == guitarView->proxy()) {
+        return guitarView->mapTouchEvent(te);
+
+      }
+    }
+  }
+  return QAbstractScrollArea::viewportEvent(event);
+}
 
 
 
