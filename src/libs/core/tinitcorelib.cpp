@@ -60,8 +60,11 @@ bool initCoreLibrary() {
 void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 	if (!Tcore::gl())
     return;
-
+#if defined (Q_OS_ANDROID)
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
+#else
   QLocale loc(Tcore::gl()->lang.isEmpty() ? std::getenv("LANG") : Tcore::gl()->lang);
+#endif
   QLocale::setDefault(loc);
 
 	QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);

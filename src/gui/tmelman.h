@@ -46,6 +46,10 @@ public:
 	
 	QWidgetAction* melodyAction() { return m_melAct; }
 	QToolButton* button() { return m_button; }
+
+	QAction* generateAction() { return m_genMelodyAct; }
+	QAction* playAction() { return m_playMelAct; }
+	QAction* recordAction() { return m_recMelAct; }
 	
 public slots:
 	void playMelodySlot();
@@ -64,7 +68,7 @@ private:
 	QWidgetAction					*m_melAct;
 	QToolButton						*m_button;
 	Tmenu									*m_menu;
-	QAction								*m_playMelAct, *m_recMelAct;
+	QAction								*m_playMelAct, *m_recMelAct, *m_genMelodyAct;
   QGraphicsPixmapItem   *m_audioMark;
 };
 
