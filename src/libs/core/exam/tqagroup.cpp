@@ -29,7 +29,7 @@ void qaGroupToXml(TQAgroup& gr, QXmlStreamWriter& xml, const QString& tag) {
 
 
 bool qaGroupFromXml(TQAgroup& gr, QXmlStreamReader& xml) {
-	bool ok;
+  bool ok = true;
 	while (xml.readNextStartElement()) {
 		if (xml.name() == "n")
 			gr.note.fromXml(xml);

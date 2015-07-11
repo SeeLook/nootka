@@ -197,7 +197,7 @@ void TpitchFinder::startPitchDetection() {
 	}
 	m_workChunk = m_filledBuff;
 	m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
-	if (aGl()->equalLoudness) { // filter it and copy to channel
+  if (aGl()->equalLoudness) { // filter it and copy to channel
 		m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
 		for(int i = 0; i < aGl()->framesPerChunk; i++)
 				m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);

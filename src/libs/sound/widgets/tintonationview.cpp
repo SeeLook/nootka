@@ -149,11 +149,11 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 	QString nSymbol = (isEnabled() && m_accuracy != e_noCheck) ? "n" : "o";
 	if (m_entered) {
 		QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
-		painter.setBrush(m_overNote ? palette().highlightedText().color().darker(95) : palette().highlight().color());
+		painter.setBrush(m_overNote ? qApp->palette().highlightedText().color().darker(95) : qApp->palette().highlight().color());
 		painter.drawRoundedRect((width() - nRect.width() * 2) / 2, 0, nRect.width() * 2, height(), 50, 50, Qt::RelativeSize);
 	}
 	if (m_entered)
-			painter.setPen(m_overNote ? palette().highlight().color() : palette().highlightedText().color());
+			painter.setPen(m_overNote ? qApp->palette().highlight().color() : qApp->palette().highlightedText().color());
   else if (m_pitchDiff == 0.0)
 			painter.setPen(m_enableAccurChange ? tc : disabledColor);
   else
@@ -215,7 +215,6 @@ void TintonationView::mousePressEvent(QMouseEvent* e) {
 			if (m_accuracy == Eaccuracy(i))
 				a->setChecked(true);
 		}
-// 		QAction *ia = menu.exec(QPoint(e->globalPos().x() - menu.sizeHint().width() / 2, e->globalPos().y() + (height() - e->y())));
     QAction *ia = menu.exec(QPoint(QCursor::pos()));
 		if (ia){
 			setAccuracy(ia->data().toInt());
