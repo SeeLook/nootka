@@ -142,7 +142,7 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 
 #if defined (Q_OS_ANDROID)
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
-    qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 100.0), this);
+    qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 150.0), this);
 // 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.0), this);
 #else
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
@@ -196,6 +196,7 @@ void TradioClef::clefClickedSlot() {
 
 
 bool TradioClef::event(QEvent* event) {
+#if !defined (Q_OS_ANDROID)
   if (event->type() == QEvent::Leave || event->type() == QEvent::Hide) {
       m_hasMouseOver = false;
       update();
@@ -209,9 +210,10 @@ bool TradioClef::event(QEvent* event) {
       m_hasMouseOver = true;
       update();
       emit statusTipWanted(statusTip());
-  }	else if (event->type() == QEvent::MouseButtonPress)
+  }	else
+#endif
+    if (event->type() == QEvent::MouseButtonPress)
       clefClickedSlot();
-
   return QWidget::event(event);
 }
 

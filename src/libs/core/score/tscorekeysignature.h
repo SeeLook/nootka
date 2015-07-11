@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -73,13 +73,10 @@ signals:
     void keySignatureChanged();
 
 protected:
-#if defined (Q_OS_ANDROID)	
 		virtual void shortTap(const QPointF& cPos);
-#else
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-#endif
 
     void increaseKey(int step); /** Adds @param step to key value. Only 1 or -1 values are accepted. */
 		void updateKeyName();
