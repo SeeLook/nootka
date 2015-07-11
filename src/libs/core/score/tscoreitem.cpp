@@ -18,10 +18,20 @@
 
 #include "tscoreitem.h"
 #include "tscorescene.h"
+#include <touch/ttouchproxy.h>
 #include <QGraphicsView>
 #include <QGraphicsSceneHoverEvent>
 #include <QMouseEvent>
 // #include <QDebug>
+
+
+/* static */
+bool TscoreItem::touchEnabled() {
+  return TtouchProxy::touchEnabled();
+}
+
+
+
 
 TscoreItem::TscoreItem(TscoreScene* scene) :
   m_scene(scene),
@@ -31,12 +41,10 @@ TscoreItem::TscoreItem(TscoreScene* scene) :
   m_touchToMouse(true)
 {
   m_scene->addItem(this);
-// #if defined (Q_OS_ANDROID)
-// 	setAcceptTouchEvents(true);	
-// #else
-  setAcceptHoverEvents(true);
-// #endif
-
+  if (touchEnabled())
+    setAcceptTouchEvents(true);
+  else
+    setAcceptHoverEvents(true);
 }
 
 void TscoreItem::setStatusTip(QString status) {
@@ -98,8 +106,7 @@ void TscoreItem::shortTap(const QPointF& cPos) {
 }
 
 
-void TscoreItem::secondTouch(const QPointF& pos1, const QPointF& pos2) {
-}
+void TscoreItem::secondTouch(const QPointF& pos1, const QPointF& pos2) {}
 
 
 //####################################################################################
