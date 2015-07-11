@@ -25,23 +25,28 @@
 #include <QPointer>
 
 
-class TpluginsLoader;
 class TexamExecutor;
 class Tchunk;
-class TmelMan;
 class TtoolBar;
 class TmainView;
 class QPushButton;
-class TnootkaLabel;
 class TroundedLabel;
 class TmainScore;
 class QLabel;
 class TfingerBoard;
 class TnoteName;
-class TexamView;
-class TprogressWidget;
-class TpitchView;
-class Tsound;
+class TmelMan;
+#if defined (Q_OS_ANDROID)
+  class ApitchView;
+  class Asound;
+#else
+  class TpitchView;
+  class Tsound;
+  class TexamView;
+  class TprogressWidget;
+  class TnootkaLabel;
+  class TpluginsLoader;
+#endif
 
 
 /** 
@@ -49,10 +54,10 @@ class Tsound;
  */
 class MainWindow : public QMainWindow
 {
-    friend class TexamExecutor;
-    friend class Tcanvas;
+  friend class TexamExecutor;
+  friend class Tcanvas;
 
-    Q_OBJECT
+  Q_OBJECT
 
 public:
 	MainWindow(QWidget *parent = 0);
@@ -60,11 +65,20 @@ public:
 
 	void setStatusMessage(const QString& msg, int time);
 	void setMessageBg (QColor bg);
-	
+
+#if !defined (Q_OS_ANDROID)
 	QString statusMessage() { return m_statusText; }
+#endif
+
 	TmainView *innerWidget;
 
 public slots:
+  void noteWasClicked(int index, Tnote note);
+  void guitarWasClicked(const Tnote& note);
+  void soundWasStarted(const Tnote& note);
+  void soundWasFinished(Tchunk* chunk);
+
+
 	void setStatusMessage(const QString& msg);
 	void openFile(QString runArg); // opens *.nel or *.noo file
 	void createSettingsDialog();
@@ -73,21 +87,23 @@ public slots:
 	void aboutSlot();
 	void analyseSlot();
 
-	void noteWasClicked(int index, Tnote note);
-	void guitarWasClicked(const Tnote& note);
-	void soundWasStarted(const Tnote& note);
-	void soundWasFinished(Tchunk* chunk);
-    
-
 protected:
 	TmainScore *score;
 	TnoteName *noteName;
 	TfingerBoard *guitar;
+#if defined (Q_OS_ANDROID)
+  Asound *sound;
+//	TexamView *examResults;
+  ApitchView *pitchView;
+//	TprogressWidget *progress;
+#else
 	Tsound *sound;
 	TexamView *examResults;
- 	QPointer<TexamExecutor> executor;
 	TpitchView *pitchView;
 	TprogressWidget *progress;
+#endif
+
+  QPointer<TexamExecutor> executor;
 
 	TtoolBar *bar; /** Main Nootka tool bar. */
 	void clearAfterExam(int examState);
@@ -95,7 +111,6 @@ protected:
 	void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
 	
 	void setSingleNoteMode(bool isSingle); /** Performs changes when insert mode differs then the set one. */
-	void resizeEvent(QResizeEvent *event);
 	void closeEvent(QCloseEvent *event);
 	void paintEvent(QPaintEvent *);
         
@@ -104,35 +119,41 @@ protected slots:
 	void messageSlot(const QString& msg);
 		
 	void showSupportDialog();
-		
-			/** This slot is invoked when clef is changed by clicking score.
-				* It adjust ambitus to score possibilities if clef is differ than default
-				* or to instrument scale if clef backs to default */
-	void adjustAmbitus();
+
 	void updaterMessagesSlot(const QString& m = "");
 		
+  /** This slot is invoked when clef is changed by clicking score.
+    * It adjust ambitus to score possibilities if clef is differ than default
+    * or to instrument scale if clef backs to default */
+  void adjustAmbitus();
+
 private:
 	void prepareToExam();
 
 private:
-	TroundedLabel 			 *m_statLab;
-	QString 							m_statusText, m_prevMsg;
-	
-			/** Keeps true when statusMesage is locked by temporary message and stops any status messages in this time.*/
-	bool 									m_lockStat;
-	QColor 								m_prevBg, m_curBG;
 	QPixmap 							m_bgPixmap, m_rosettePixmap;
 	int 									m_statFontSize;
 	bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
 	Tlevel 						    m_level;
 	bool 									m_isPlayerFree;
-	TmelMan							 *m_melButt;
 	int										m_startedSoundId; /** Index of note on the score that has been just started.  */
-	TpluginsLoader			 *m_updaterPlugin;
 	
       /** This is tricky workaround when TexamExecutor calls clearAfterExam() where it is deleted
        * and @p executor variable is brought back because execution back to startExamSlot().  */
 	bool                  m_deleteExecutor;
+  TmelMan							 *m_melButt;
+
+#if !defined (Q_OS_ANDROID)
+  TroundedLabel 			 *m_statLab;
+  QString 							m_statusText, m_prevMsg;
+  QTimer               *m_messageTimer;
+
+  /** Keeps true when statusMesage is locked by temporary message and stops any status messages in this time.*/
+  bool 									m_lockStat;
+  QColor 								m_prevBg, m_curBG;
+  TpluginsLoader			 *m_updaterPlugin;
+  bool                  m_updaterStoppedSound;
+#endif
 
 };
 
