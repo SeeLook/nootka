@@ -34,17 +34,9 @@
 
 
 
-#if defined (Q_OS_ANDROID)
-  #define WIDTH (5.0)
-  #define LEAVE_DELAY (1000)
-#else
-  #define WIDTH (2.5)
-  #define LEAVE_DELAY (300)
-#endif
-
-
 QLinearGradient TnoteControl::m_leftGrad;
 QLinearGradient TnoteControl::m_rightGrad;
+
 
 QGraphicsDropShadowEffect* ItemHighLight() {
 	QGraphicsDropShadowEffect *hiBlur = new QGraphicsDropShadowEffect();
@@ -53,6 +45,7 @@ QGraphicsDropShadowEffect* ItemHighLight() {
 	hiBlur->setBlurRadius(7.0);
 	return hiBlur;
 }
+
 
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
@@ -137,8 +130,13 @@ void TnoteControl::adjustSize() {
 }
 
 
-void TnoteControl::hideWithDelay() {
-	QTimer::singleShot(LEAVE_DELAY, this, SLOT(hideDelayed()));
+void TnoteControl::hideWithDelay(int delay) {
+  if (delay) {
+    if (delay == -1)
+      delay = touchEnabled() ? 1000: 300;
+    QTimer::singleShot(delay, this, SLOT(hideDelayed()));
+  } else
+    hideDelayed();
 }
 
 
@@ -191,23 +189,26 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
   Q_UNUSED(option)
   Q_UNUSED(widget)
 	if (parentItem()) {
-			qreal baseY = staff()->upperLinePos() - 6.0;
-			if (m_entered && m_adding)
-				painter->setBrush(QBrush(*m_gradient));
-			else {
-				QColor bc = qApp->palette().base().color();
-				bc.setAlpha(200);
-				painter->setBrush(QBrush(bc));
-			}
-			painter->setPen(Qt::NoPen);
-			qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 20.0;
-			painter->drawRoundedRect(QRectF(0.0, baseY, WIDTH, lowest - staff()->upperLinePos()), 0.75, 0.75);
-			if (m_entered && m_adding) { // 'plus' symbol
-				painter->setPen(QPen(qApp->palette().base().color(), 0.4, Qt::SolidLine, Qt::RoundCap));
-				qreal plusW = (WIDTH - 2.0) / 2.0;
-				painter->drawLine(QLineF(plusW, baseY + 2.0, WIDTH - plusW, baseY + 2.0)); // horizontal 'plus' line
-				painter->drawLine(QLineF(WIDTH / 2.0, baseY + 1.0, WIDTH / 2.0, baseY + 3.0)); // vertical 'plus' line
-			}
+    qreal baseY = staff()->upperLinePos() - 6.0;
+    if (m_entered && m_adding)
+      painter->setBrush(QBrush(*m_gradient));
+    else {
+      QColor bc = qApp->palette().base().color();
+      bc.setAlpha(150);
+      painter->setBrush(QBrush(bc));
+    }
+    painter->setPen(Qt::NoPen);
+    qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 20.0;
+    painter->drawRoundedRect(QRectF(0.0, baseY, WIDTH, lowest - staff()->upperLinePos()), 0.75, 0.75);
+    if (touchEnabled() || (m_entered && m_adding)) { // 'plus' symbol
+      if (touchEnabled())
+        painter->setPen(QPen(qApp->palette().text().color(), 0.4, Qt::SolidLine, Qt::RoundCap));
+      else
+        painter->setPen(QPen(qApp->palette().base().color(), 0.4, Qt::SolidLine, Qt::RoundCap));
+      qreal plusW = (WIDTH - 2.0) / 2.0;
+      painter->drawLine(QLineF(plusW, baseY + 2.0, WIDTH - plusW, baseY + 2.0)); // horizontal 'plus' line
+      painter->drawLine(QLineF(WIDTH / 2.0, baseY + 1.0, WIDTH / 2.0, baseY + 3.0)); // vertical 'plus' line
+    }
 	}
 }
 
@@ -228,9 +229,8 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 					else
 							m_cross->show();
 			}
-#if defined (Q_OS_ANDROID)
-			show();
-#endif
+			if (touchEnabled())
+        show();
 			if (pos().x() < m_scoreNote->pos().x()) { // hide 'name' and 'cross' for left control
 				m_name->hide();
 				m_cross->hide();
@@ -242,17 +242,17 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 
 
 void TnoteControl::setAccidental(int acc) {
-		m_currAccid = acc;
-		QGraphicsSimpleTextItem* it = 0;
-		if (acc == -2)
-			it = m_dblFlat;
-		else if (acc == -1)
-			it = m_flat;
-		else if (acc == 1)
-			it = m_sharp;
-		else if (acc == 2)
-			it = m_dblSharp;
-		markItemText(it);
+  m_currAccid = acc;
+  QGraphicsSimpleTextItem* it = 0;
+  if (acc == -2)
+    it = m_dblFlat;
+  else if (acc == -1)
+    it = m_flat;
+  else if (acc == 1)
+    it = m_sharp;
+  else if (acc == 2)
+    it = m_dblSharp;
+  markItemText(it);
 }
 
 
@@ -284,10 +284,8 @@ void TnoteControl::hideDelayed() {
 		return;
 	if (hasCursor())
 		hideWithDelay();
-	else {
+	else
 		hide();
-		m_adding = false;
-	}
 }
 
 
@@ -302,14 +300,28 @@ void TnoteControl::showDelayed() {
 
 
 void TnoteControl::itemSelected(const QPointF& cPos) {
-	if (m_adding) {
-		if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
-				staff()->insertNote(m_scoreNote->index() + 1);
-		} else { // left control - preppend a note
-				staff()->insertNote(m_scoreNote->index());
-		}
-		return;
-	}
+  if (touchEnabled()) {
+    if (cPos.y() < staff()->upperLinePos() - 3.0) {
+      if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
+          m_scoreNote->hideWorkNote();
+          staff()->insertNote(m_scoreNote->index() + 1);
+          return;
+      } else { // left control - preppend a note
+          m_scoreNote->hideWorkNote();
+          staff()->insertNote(m_scoreNote->index());
+          return;
+      }
+    }
+  } else {
+    if (m_adding) {
+      if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
+          staff()->insertNote(m_scoreNote->index() + 1);
+      } else { // left control - preppend a note
+          staff()->insertNote(m_scoreNote->index());
+      }
+      return;
+    }
+  }
 	QGraphicsItem *it = scene()->itemAt(mapToScene(cPos), scene()->views()[0]->transform());
 	if (it == 0 || it->parentItem() != this || it == m_accidGap)
 		return;
@@ -324,7 +336,7 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
 	
 }
 
-#if !defined (Q_OS_ANDROID)
+
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 	TscoreItem::hoverEnterEvent(0);
 	m_delayTimer->start(150);
@@ -394,37 +406,36 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-// 	scoreScene()->controlMoved();
 	itemSelected(event->pos());
 }
-#endif
 
-#if defined (Q_OS_ANDROID)
+
 void TnoteControl::touched(const QPointF& cPos) {
 	TscoreItem::touched(cPos); // keep hasCursor() working
-	m_moveNote = true;
+  m_entered = true;
+// 	m_moveNote = true;
 }
 
 
 void TnoteControl::untouched(const QPointF& cPos) {
 	TscoreItem::untouched(cPos);
-	m_moveNote = false;
+  m_entered = false;
+// 	m_moveNote = false;
 }
 
 
 void TnoteControl::touchMove(const QPointF& cPos) {
-  if (m_moveNote && m_scoreNote) {
-		m_scoreNote->moveWorkNote(cPos);
-  }
+//   if (m_moveNote && m_scoreNote) {
+// 		m_scoreNote->moveWorkNote(cPos);
+//   }
 }
 
 
 void TnoteControl::shortTap(const QPointF& cPos) {
-	if (m_scoreNote && m_scoreNote->isCursorVisible())
+  if (m_scoreNote && m_scoreNote->hasCursor())
 		m_scoreNote->hideWorkNote();
 	itemSelected(cPos);
 }
-#endif
 
 //##########################################################################################################
 //####################################         PRIVATE     #################################################

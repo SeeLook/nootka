@@ -34,7 +34,7 @@ TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent),
   m_workPosY(0),
   m_workNote(0),
-  m_workAccid(0),
+  m_workAccid(0), m_workAccid2(0),
   m_nameColor(Qt::darkCyan),
   m_rightBox(0), m_leftBox(0),
   m_accidYoffset(0.0),
@@ -67,6 +67,8 @@ void TscoreScene::setCurrentAccid(char accid) {
 	m_currentAccid = (char)qBound((int)-m_dblAccFuse, (int)accid, (int)m_dblAccFuse);
 	if (m_workAccid && prevAcc != m_currentAccid) {
 		m_workAccid->setText(TscoreNote::getAccid(m_currentAccid));
+//     if (m_workAccid2)
+//       m_workAccid2->setText(TscoreNote::getAccid(m_currentAccid));
 		if (m_currentAccid == 0)
 			m_workAccid->hide();
 		else
@@ -109,6 +111,8 @@ void TscoreScene::setPointedColor(const QColor& color) {
 	m_workNote->setPen(QPen(workColor, 0.2));
 	m_workNote->setBrush(QBrush(workColor, Qt::SolidPattern));
 	m_workAccid->setBrush(QBrush(workColor));
+//   if (m_workAccid2)
+//       m_workAccid2->setBrush(QBrush(workColor));
 	m_workLines->setColor(color);
 }
 
@@ -140,9 +144,8 @@ void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
     setWorkPosY(yPos);
     workNote()->setPos(3.0, workPosY());
     workLines()->checkLines(yPos);
-    if (!workNote()->isVisible()) {
+    if (!workNote()->isVisible())
       showTimeOut();
-    }
     if (sn != m_scoreNote) {
         noteEntered(sn);
         m_showTimer->start(300);
@@ -200,21 +203,33 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 		workColor = qApp->palette().highlight().color();
 		workColor.setAlpha(200);
 		m_workNote = TscoreNote::createNoteHead(scoreNote);
+//     if (TscoreNote::touchEnabled())
+//       m_workNote->setRect(-10.5, 0, 22, 2); // long ellipse for touch screens visible under finger
+//     else
+    m_workNote->setRect(0, 0, 3.5, 2); // normal note head
 		QGraphicsDropShadowEffect *workEffect = new QGraphicsDropShadowEffect();
 		workEffect->setOffset(3.0, 3.0);
 		workEffect->setBlurRadius(15);
 		workEffect->setColor(qApp->palette().text().color());
 		m_workNote->setGraphicsEffect(workEffect);
+    m_workNote->setZValue(35);
 		m_workAccid = new QGraphicsSimpleTextItem();
 		m_workAccid->setBrush(QBrush(workColor));
 		m_workAccid->setParentItem(m_workNote);
-		m_workAccid->hide();
 		m_workAccid->setFont(TnooFont(5));
-		m_workAccid->hide();
 		m_workAccid->setScale(accidScale());
-		m_workAccid->setPos(-3.0, - accidYoffset());
-		m_workNote->setZValue(35);
-		m_workAccid->setZValue(m_workNote->zValue());
+//     if (TscoreNote::touchEnabled())
+//       m_workAccid->setPos(-13.5, - accidYoffset());
+//     else
+    m_workAccid->setPos(-3.0, - accidYoffset());
+//     if (TscoreNote::touchEnabled()) { // two the same accidentals on long note sides
+//       m_workAccid2 = new QGraphicsSimpleTextItem();
+//       m_workAccid2->setBrush(QBrush(workColor));
+//       m_workAccid2->setParentItem(m_workAccid);
+//       m_workAccid2->setFont(TnooFont(5));
+//       m_workAccid2->setPos(21, 0);
+//     }
+    m_workAccid->hide();
 		setPointedColor(workColor);
 		
 		m_rightBox = new TnoteControl(scoreNote->staff(), this);

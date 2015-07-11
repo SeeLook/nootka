@@ -30,6 +30,13 @@ class TscoreNote;
 class TscoreStaff;
 
 
+#if defined (Q_OS_ANDROID)
+  #define WIDTH (4.0)
+#else
+  #define WIDTH (2.5)
+#endif
+
+
 
 class NOOTKACORE_EXPORT TnoteControl : public TscoreItem
 {
@@ -45,7 +52,10 @@ public:
 	
 	void adjustSize(); /** Grabs height from staff and adjust items to it. */
 	
-	void hideWithDelay();
+      /** Hides controller with given delay time [ms] or with default delay (-1)
+       * which is 1000 when touch is enabled and 300 if not.
+       * 0 - hides it immediately.  */
+  void hideWithDelay(int delay = -1);
 	
 			/** Adds accidentals symbols to the controller. Detects are double accidentals enabled.
 			 * It can be also used to refresh double accidentals state - add/remove them */
@@ -78,22 +88,19 @@ signals:
 protected:	
 	void itemSelected(const QPointF& cPos);
 	
-#if defined (Q_OS_ANDROID)
 	virtual void touched(const QPointF& cPos);
 	virtual void untouched(const QPointF& cPos);
 	virtual void touchMove(const QPointF& cPos);
 	virtual void shortTap(const QPointF& cPos);
-#else
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-#endif
-	
+
 protected slots:
 	void hideDelayed();
 	void showDelayed();
-		
+
 private:
 		TscoreNote																*m_scoreNote;
 		qreal						 								 					 m_height;
