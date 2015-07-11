@@ -21,6 +21,7 @@
 
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
+#include <QTime>
 
 
 class TscoreLines;
@@ -140,13 +141,11 @@ public slots:
     void hideWorkNote(); /** Hides pointing (work) note */
 
 protected:
-#if defined (Q_OS_ANDROID)
 		virtual void shortTap(const QPointF &cPos);
     virtual void longTap(const QPointF& cPos);
     virtual void touched(const QPointF& cPos);
     virtual void untouched(const QPointF &cPos);
     virtual void touchMove(const QPointF& cPos);
-#endif
 		
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
@@ -180,6 +179,8 @@ private:
 		
 		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
 		static QString													m_staticTip;
+    QTimer                                 *m_touchHideTimer;
+    QTime                                   m_touchTime;
     
 private:
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
