@@ -23,6 +23,7 @@
 #include <QPointer>
 
 class Tmenu;
+class TtoolBar;
 class TnoteName;
 class TnameTip;
 class TlayoutParams;
@@ -42,8 +43,8 @@ class TmainView : public QGraphicsView
 Q_OBJECT
 
 public:
-	TmainView(TlayoutParams*  layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
-						QWidget* scoreW, QWidget* guitarW, TnoteName* name, QWidget* parent = 0);
+	TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, QWidget* pitchW,
+            QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QWidget* parent = 0);
 	
 	void addNoteName(); /** Adds note name widget over a score (for single note mode) */
 	void takeNoteName(); /** Takes note name from view. */
@@ -63,10 +64,14 @@ signals:
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
 	virtual bool eventFilter(QObject* ob, QEvent* event);
+  virtual bool viewportEvent(QEvent *event);
 	virtual void mouseMoveEvent(QMouseEvent* event);
-	
+  void updateBarLine();
+
 	void startHideAnim();
-	void updateBarLine();
+
+  void mainMenuExec();
+  void scoreMenuExec();
 	
 protected slots:
 	void showToolBar();
@@ -74,9 +79,11 @@ protected slots:
 	void menuSlot(Tmenu* m);
 	
 private:
-	QWidget													*m_tool, *m_status, *m_pitch, *m_score, *m_guitar;
-	QWidget													*m_results, *m_progress, *m_container;
+	QWidget													*m_status, *m_pitch;
+  QGraphicsView                   *m_score, *m_guitar;
+	QWidget													*m_results, *m_progress, *m_container, *m_touchedWidget;
 	TnoteName												*m_name;
+  TtoolBar                        *m_tool;
 	QGraphicsWidget									*m_proxy;
 	QPointer<QBoxLayout>				 		 m_mainLay, m_statAndPitchLay, m_scoreAndNameLay, m_nameLay, m_resultLay;
 	QGraphicsLineItem			 					*m_barLine;
@@ -84,8 +91,10 @@ private:
 	QPointer<TcombinedAnim>					 m_animBar;
 	bool												 		 m_isAutoHide;
 	TlayoutParams										*m_layParams;
-	QTimer													*m_timer;
+	QTimer													*m_timerBar;
 	TnameTip												*m_nameTip;
+  bool                             m_mainMenuTap, m_scoreMenuTap;
+
 };
 
 #endif // TMAINVIEW_H
