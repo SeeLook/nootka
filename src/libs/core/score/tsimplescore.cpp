@@ -34,7 +34,6 @@
 #define LONG_TAP_TIME (500) // ms
 
 
-bool m_touchEnabled = false;
 TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   QGraphicsView(parent),
   m_notesNr(notesNumber),
@@ -42,20 +41,27 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	m_prevBGglyph(-1),
 	m_currentIt(0)
 {   
-#if defined (Q_OS_ANDROID)
-	setAcceptTouch(true);
-#else
-  setMouseTracking(true);
+  if (TscoreNote::touchEnabled())
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
+  else {
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents, false);
+    setMouseTracking(true);
+  }
   m_wheelFree = true;
   m_wheelLockTimer = new QTimer(this);
+  m_wheelLockTimer->setTimerType(Qt::PreciseTimer);
   m_wheelLockTimer->setInterval(150);
   m_wheelLockTimer->setSingleShot(true);
   connect(m_wheelLockTimer, &QTimer::timeout, this, &TsimpleScore::wheelLockSlot);
-#endif
   setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  setFrameShape(QFrame::NoFrame);
+
+  m_longTapTimer = new QTimer(this);
+  m_longTapTimer->setTimerType(Qt::PreciseTimer);
+  m_longTapTimer->setInterval(LONG_TAP_TIME);
+  m_longTapTimer->setSingleShot(true);
+  connect(m_longTapTimer, &QTimer::timeout, this, &TsimpleScore::longTapSlot);
   
   m_scene = new TscoreScene(this);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
@@ -78,15 +84,6 @@ TsimpleScore::~TsimpleScore() {}
 //####################################################################################################
 //########################################## PUBLIC ##################################################
 //####################################################################################################
-
-void TsimpleScore::setAcceptTouch(bool acT) {
-	if (acT)
-		viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
-	else
-		viewport()->setAttribute(Qt::WA_AcceptTouchEvents, false);
-	m_touchEnabled = acT;
-}
-
 
 Tnote TsimpleScore::getNote(int index) {
 	if (index >= 0 && index < m_notesNr)
@@ -309,7 +306,8 @@ void TsimpleScore::setBGcolor(QColor bgColor) {
 //     viewport()->setStyleSheet(Tcolor::bgTag(bgColor)); // it doesn't work under win
 //   } else {
     bgColor.setAlpha(230);
-    viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+//     viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+  viewport()->setStyleSheet(Tcolor::bgTag(bgColor));
 //   }
 }
 
@@ -346,12 +344,10 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 }
 
 
-#if defined (Q_OS_ANDROID)
 bool TsimpleScore::viewportEvent(QEvent* event) {
-	if (m_touchEnabled) {
+  if (TscoreNote::touchEnabled()) {
 		if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
 			QTouchEvent *te = static_cast<QTouchEvent*>(event);
-		
 		if (te->touchPoints().count() == 1) {
 			switch(te->touchPoints().first().state()) {
 				case Qt::TouchPointPressed: {
@@ -361,74 +357,66 @@ bool TsimpleScore::viewportEvent(QEvent* event) {
 					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
 					checkItem(it, touchScenePos);
 					m_tapTime.start();
-					m_timerIdMain = startTimer(LONG_TAP_TIME);
+          m_longTapTimer->start();
 					break;
 				}
 				case Qt::TouchPointMoved: {
-// 					killTimer(m_timerIdMain);
 					QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
-					TscoreItem *it = castItem(scene()->itemAt(touchScenePos, transform()));
-					checkItem(it, touchScenePos);
-					if (it) {						
-						QPointF touchPos = it->mapFromScene(touchScenePos);
-						it->touchMove(touchPos);
-					}
+          if (m_currentIt && m_longTapTimer->isActive() && // stop long tap when moved too much
+            QLineF(te->touchPoints()[0].pos(), te->touchPoints()[0].startPos()).length() > 10)
+                m_longTapTimer->stop();
+          if (m_currentIt) {
+            QPointF touchPos = m_currentIt->mapFromScene(touchScenePos);
+            m_currentIt->touchMove(touchPos);
+          }
 					break;
 				}
-				case Qt::TouchPointStationary:
-// 					killTimer(m_timerIdMain);
-// 					m_timerIdMain = startTimer(LONG_TAP_TIME);
-					break;
+// 				case Qt::TouchPointStationary: // does nothing
+// 					break;
 				case Qt::TouchPointReleased:
-					killTimer(m_timerIdMain);
+					m_longTapTimer->stop();
 					if (m_currentIt) {
 						QPointF touchScenePosMap = m_currentIt->mapFromScene(mapToScene(te->touchPoints().first().pos().toPoint()));
-						m_currentIt->untouched(touchScenePosMap);
-						if (m_tapTime.elapsed() < TAP_TIME) {
-							m_currentIt->shortTap(touchScenePosMap);
-						}
+						if (m_tapTime.elapsed() < TAP_TIME)
+              m_currentIt->shortTap(touchScenePosMap);
+            m_currentIt->untouched(touchScenePosMap);
 						m_currentIt = 0;
 					}
 					break;
 				default:
 					break;
 			}
-		} else if (te->touchPoints().count() == 2) {
-			switch(te->touchPoints()[1].state()) {
-				case Qt::TouchPointPressed: {
-					if (m_currentIt) {
-					    QPointF touch1ScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
-							QPointF touch2ScenePos = mapToScene(te->touchPoints()[1].pos().toPoint());
-					    m_currentIt->secondTouch(m_currentIt->mapFromScene(touch1ScenePos), m_currentIt->mapFromScene(touch2ScenePos));
-					  }
-					break;
-				}
-				case Qt::TouchPointMoved:
-					break;
-				case Qt::TouchPointReleased:
-					break;
-				default:
-					break;
-			}
-		}
-		
-		return true;
+		} // Two points touch are not used so far
+// 		else if (te->touchPoints().count() == 2) {
+//         switch(te->touchPoints()[1].state()) {
+//           case Qt::TouchPointPressed: {
+//             if (m_currentIt) {
+//                 QPointF touch1ScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
+//                 QPointF touch2ScenePos = mapToScene(te->touchPoints()[1].pos().toPoint());
+//                 m_currentIt->secondTouch(m_currentIt->mapFromScene(touch1ScenePos), m_currentIt->mapFromScene(touch2ScenePos));
+//               }
+//             break;
+//           }
+//           case Qt::TouchPointMoved:
+//             break;
+//           case Qt::TouchPointReleased:
+//             break;
+//           default:
+//             break;
+//         }
+//       }
+      return true;
 		}
 	}
 	return QGraphicsView::viewportEvent(event);
 }
 
-
-void TsimpleScore::timerEvent(QTimerEvent* timeEvent) {
-   if (timeEvent->timerId() == m_timerIdMain) {
-		killTimer(m_timerIdMain);
-		if (m_currentIt) {
-				m_currentIt->longTap(m_currentIt->mapFromScene(m_initPos));
-		}
-	}
+void TsimpleScore::longTapSlot() {
+  m_longTapTimer->stop();
+  if (m_currentIt)
+    m_currentIt->longTap(m_currentIt->mapFromScene(m_initPos));
 }
 
-#else
 
 void TsimpleScore::wheelEvent(QWheelEvent* event) {
 	bool propagate = true;
@@ -475,7 +463,6 @@ void TsimpleScore::wheelLockSlot() {
   m_wheelFree = true;
 }
 
-#endif
 
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
@@ -500,7 +487,6 @@ void TsimpleScore::onClefChanged(Tclef clef) {
 }
 
 
-#if defined (Q_OS_ANDROID)
 TscoreItem* TsimpleScore::castItem(QGraphicsItem* it) {
 	if (it) {
 		int cnt = 0;
@@ -527,7 +513,6 @@ void TsimpleScore::checkItem(TscoreItem* it, const QPointF& touchScenePos) {
 			m_currentIt->touched(m_currentIt->mapFromScene(touchScenePos));
 	}
 }
-#endif
 
 
 

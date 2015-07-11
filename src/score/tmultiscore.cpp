@@ -45,7 +45,8 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	setObjectName("m_mainScore");
 	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
 	setContentsMargins(2, 2, 2, 2);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+  if (!TscoreNote::touchEnabled())
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); // it is off by default
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	
@@ -312,7 +313,11 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
 		qreal staffOff = 0.0;
 		if (staff()->isPianoStaff())
 			staffOff = 1.1;
-		hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
+#if defined (Q_OS_ANDROID)
+		hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()));
+#else
+    hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
+#endif
 		qreal factor = (((qreal)hh / (staff()->height() + 0.4)) / transform().m11()) / m_scale;
     scoreScene()->prepareToChangeRect();
 		scale(factor, factor);
