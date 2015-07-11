@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,7 +30,7 @@
 
 /*static*/
 QString TnoteNameLabel::borderStyleText() {
-	return "border: 1px solid palette(Text); border-radius: 10px;";
+	return "" ; //border: 1px solid palette(Text); border-radius: 10px;";
 }
 
 //################################################################################################
@@ -44,12 +44,11 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
 	m_questMark(0),
 	m_stringNumber(0)
 {
-//   setAttribute(Qt::WA_TransparentForMouseEvents, true);
 	setMouseTracking(false);
   setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  setFrameShape(QFrame::NoFrame);
+//   setFrameShape(QFrame::NoFrame);
 	
 	QGraphicsScene *scene = new QGraphicsScene(this);
 	setScene(scene);

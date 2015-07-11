@@ -43,7 +43,7 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
 QLabel *m_octavesLab = 0;
 
 TnoteName::TnoteName(QWidget *parent) :
-	QWidget(),
+	QWidget(parent),
 	m_menu(0),
 	m_fontSize(12),
 	m_tip(0),
@@ -52,8 +52,10 @@ TnoteName::TnoteName(QWidget *parent) :
 	m_menuParent = parent;
 	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
+// #if !defined(Q_OS_ANDROID)
 	setObjectName("TnoteName");
 	setStyleSheet("QWidget#TnoteName {background: transparent;}");
+// #endif
 // NAME LABEL
 	QVBoxLayout *mainLay = new QVBoxLayout();
 	mainLay->setAlignment(Qt::AlignCenter);
@@ -76,19 +78,19 @@ TnoteName::TnoteName(QWidget *parent) :
 		nameLay->addWidget(m_nameLabel);
 		nameLay->addWidget(m_nextNoteButt);
 	mainLay->addLayout(nameLay);
+// #if defined(Q_OS_ANDROID)
+//   m_prevNoteButt->hide();
+//   m_nextNoteButt->hide();
+// #endif
 	m_buttonsLay = new QBoxLayout(QBoxLayout::TopToBottom);
 // BUTTONS WITH NOTES TOOLBAR
 	m_noteLay = new QBoxLayout(QBoxLayout::LeftToRight);
-//     noteLay->addStretch(1);
 	m_noteGroup =new QButtonGroup(this);
 	for (int i = 0; i < 7; i++) {
 			m_noteButtons[i] = new TpushButton("", this);
 						m_noteLay->addWidget(m_noteButtons[i]);
 			m_noteButtons[i]->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 			m_noteGroup->addButton(m_noteButtons[i], i);
-		#if defined (Q_OS_ANDROID)
-			noteLay->addStretch(1);
-		#endif
 	}
 		m_buttonsLay->addLayout(m_noteLay);
 	connect(m_noteGroup, SIGNAL(buttonClicked(int)), this, SLOT(noteWasChanged(int)));
@@ -105,11 +107,7 @@ TnoteName::TnoteName(QWidget *parent) :
 // OCTAVE BUTTONS TOOLBAR        
 	m_upOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
 	m_loOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
-#if defined (Q_OS_ANDROID)
-	upOctaveLay->addStretch(2); // no octaves link under Android
-	mainLay->setContentsMargins(0, 0, 0, 0);
-	mainLay->setSpacing(0);
-#else
+#if !defined (Q_OS_ANDROID)
 	m_octavesLab = new QLabel(this);
 	m_octavesLab->setOpenExternalLinks(true);
 	m_octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
@@ -129,7 +127,9 @@ TnoteName::TnoteName(QWidget *parent) :
         m_upOctaveLay->addWidget(m_octaveButtons[i]);
         if (i == 3) {
           m_upOctaveLay->addStretch(1);
+#if !defined (Q_OS_ANDROID)
           m_upOctaveLay->addWidget(m_octavesLab);
+#endif
           m_upOctaveLay->addStretch(1);
         }
 			} else {
@@ -154,9 +154,19 @@ TnoteName::TnoteName(QWidget *parent) :
 	setNoteNamesOnButt(style());
 	for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
 	setAmbitus(gl->loString(), Tnote(gl->hiString().chromatic()+gl->GfretsNumber));
+#if defined (Q_OS_ANDROID)
+//   m_upOctaveLay->addStretch(2); // no octaves link under Android
+  mainLay->setContentsMargins(0, 0, 0, 0);
+  mainLay->setSpacing(0);
+  m_accLay->setContentsMargins(0, 0, 0, 0);
+  m_accLay->setSpacing(0);
+  m_upOctaveLay->setContentsMargins(0, 0, 0, 0);
+  m_upOctaveLay->setSpacing(0);
+  m_loOctaveLay->setContentsMargins(0, 0, 0, 0);
+  m_loOctaveLay->setSpacing(0);
 // #if !defined (Q_OS_ANDROID)
 // 		resize((qApp->desktop()->availableGeometry().height() / 10) / 4 - 2);
-// #endif
+#endif
 }
 
 
@@ -168,6 +178,24 @@ TnoteName::~TnoteName()
 //####################################################################################################
 
 void TnoteName::exec(QPoint pos, qreal scoreFactor) {
+#if defined (Q_OS_ANDROID)
+  if (!m_menu) {
+    m_menu = new QMenu(m_menuParent);
+    m_menu->setContentsMargins(0, 0, 0, 0);
+    QVBoxLayout *menuLay = new QVBoxLayout;
+    menuLay->setContentsMargins(0, 0, 0, 0);
+    setParent(m_menu);
+    menuLay->addWidget(this);
+    m_menu->setLayout(menuLay);
+    m_menu->resize(sizeHint());
+  }
+  show();
+  if (pos.x() > m_menuParent->width() / 2)
+    pos.setX(pos.x() - sizeHint().width() - 11.5 * scoreFactor);
+  m_menu->exec(pos);
+  hide();
+//   setParent(m_menuParent);
+#else
 	tip()->adjustSize();
 	show();
 	QPointF posF(pos.x(), pos.y());
@@ -177,6 +205,7 @@ void TnoteName::exec(QPoint pos, qreal scoreFactor) {
 		posF.setY(m_menuParent->height() - tip()->boundingRect().height() - 10);
 	tip()->setPos(posF);
 	QTimer::singleShot(100, tip(), SLOT(show()));
+#endif
 }
 
 
@@ -280,14 +309,16 @@ void TnoteName::setEnabledEnharmNotes(bool isEnabled) {
 
 void TnoteName::resize(int fontSize) {
 	if (fontSize) {
-		m_fontSize = fontSize;
+    m_fontSize = fontSize;
 		QFont f = QFont(m_noteButtons[0]->font().family());
 		f.setPixelSize(fontSize);
 		for (int i = 0; i < 7; i++)
 				m_noteButtons[i]->setFont(f);
 		for (int i = 0; i < 8; i++)
 				m_octaveButtons[i]->setFont(f);
+#if !defined (Q_OS_ANDROID)
     m_octavesLab->setFont(f);
+#endif
 		f = QFont(m_dblFlatButt->font().family());
 		f.setPointSize(fontSize);
 		QFontMetrics fMetr(f);
@@ -298,21 +329,25 @@ void TnoteName::resize(int fontSize) {
 		f.setPointSize(f.pointSize() * fact);
 		for (int i = 0; i < m_accidButtons.size(); ++i)
 			m_accidButtons[i]->setFont(f);
-// #if defined (Q_OS_ANDROID)
 		int widthOffset = 0;
-		if (m_isMenu)
-			widthOffset = 15;
+    int nameHfactor = 5;
+		if (m_isMenu) {
+#if defined (Q_OS_ANDROID)
+			widthOffset = 30;
+      nameHfactor = 3;
+#else
+      widthOffset = 15;
+      nameHfactor = 4;
+#endif
+    }
 		setButtonsSize(widthOffset, fontSize * 1.5);
-// #if defined (Q_OS_ANDROID)
-// #else
-// 		m_nameLabel->setFixedHeight(fontSize * 3);
-// #endif
-		int nameHfactor = 5;
-		if (m_isMenu)
-			nameHfactor = 4;
 		m_nameLabel->setFixedHeight(fontSize * nameHfactor);
 		m_nextNoteButt->setFixedHeight(m_nameLabel->height());
 		m_prevNoteButt->setFixedHeight(m_nameLabel->height());
+    #if defined (Q_OS_ANDROID)
+    m_nextNoteButt->setFixedWidth(m_nameLabel->height() * 0.6);
+    m_prevNoteButt->setFixedWidth(m_nameLabel->height() * 0.6);
+    #endif
 		updateSizeHint();
 		adjustSize();
 		if (tip())
@@ -322,6 +357,9 @@ void TnoteName::resize(int fontSize) {
 
 
 void TnoteName::setButtonsSize(int widthOff, int fixedH, bool skipOctaves) {
+#if defined (Q_OS_ANDROID)
+  fixedH *= 1.2;
+#endif
 	for (int i = 0; i < 7; i++) {
 		m_noteButtons[i]->setFixedHeight(fixedH);
 		fixButtonWidth(widthOff, m_noteButtons[i]);
@@ -367,7 +405,16 @@ void TnoteName::enableArrows(bool en) {
 		tip()->unwrapNoteName();
 		m_prevNoteButt->hide();
 		m_nextNoteButt->hide();
+    if (m_menu) {
+      setParent(m_menuParent);
+      delete m_menu;
+      m_menu = 0;
+    }
 	}
+// #if defined(Q_OS_ANDROID)
+//   m_prevNoteButt->hide();
+//   m_nextNoteButt->hide();
+// #endif
 	resize(m_fontSize);
 }
 
@@ -588,8 +635,10 @@ char TnoteName::getSelectedAccid() {
 
 void TnoteName::updateSizeHint() {
 	int fixW = widthForHorizontal() + m_noteLay->spacing() * 2;
+#if !defined(Q_OS_ANDROID)
 	if (m_nextNoteButt->isVisible())
 		fixW += m_nextNoteButt->width() * 2;
+#endif
 	m_sizeHint.setWidth(fixW);
 	int fixH = m_nameLabel->height() + m_flatButt->height() * 4 + m_noteLay->spacing() * 2;
 	m_sizeHint.setHeight(fixH);
