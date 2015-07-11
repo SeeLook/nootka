@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,9 +27,9 @@
 #include <QGraphicsView>
 #include <QTime>
 
+
 class QTimer;
 class TscoreItem;
-
 class QGraphicsSimpleTextItem;
 class QGraphicsView;
 class TscoreStaff;
@@ -42,130 +42,121 @@ class NOOTKACORE_EXPORT TsimpleScore : public QGraphicsView
   Q_OBJECT
   
 public:
-    TsimpleScore(int notesNumber, QWidget *parent = 0);
-    ~TsimpleScore();
 
-		virtual void setNote(int index, const Tnote& note);
-    Tnote getNote(int index); /** It returns @p note with hope that index points existed Tnote element. */
-    void clearNote(int index); /** It hides pointed note and sets note to Tnote(0,0,0)*/
-		void setStringNumber(int index, int realNr); /** Adds string number @p realNr to note @p index.  */
-		void clearStringNumber(int index); /** Removes string number from note @p index. */
-		void setNoteDisabled(int index, bool isDisabled); /** Disables/enables a note. */
-		bool isNoteDisabled(int index);
-		void setNoteNameEnabled(bool nameEnabled); /** Allows to call name edit from note controller */
-		void setControllersEnabled(bool leftCtrl, bool rightCtrl); /** shows/hides a note controllers. */
-		
-		void setClef(Tclef clef);
-		Tclef clef();
-		void setClefDisabled(bool isDisabled);
-		
-		TscoreScene* scoreScene() { return m_scene; }		
+  TsimpleScore(int notesNumber, QWidget *parent = 0);
+  ~TsimpleScore();
 
-				/** This method returns the key signature if score has got TscoreKeySign item, 
-				 * key can be:
-         * @li 0 - C-maj (a-min)
-         * @li 1 - G-maj and so on up to 7 (for Cis-maj)
-         * @li -1 - F-maj (d-min) and so on down to -7 (for Ges-maj)    
-				 * When TscoreKeySign doesn't exist 0: - a-min/C-maj is returned. */
-    TkeySignature keySignature();
-    void setKeySignature(TkeySignature keySign);
-		virtual void setEnableKeySign(bool isEnabled);
-		
-		void setEnabledDblAccid(bool isEnabled);
-		
-		bool isPianoStaff();
-		
-				/** Sets background color. Alpha value will be overriden. */
-    void setBGcolor(QColor bgColor);
-		
-				/** It disables accids buttons and locks editing,
-					* but doesn't make score gray like standard setDisabled() method. */
-    void setScoreDisabled(bool disabled);
-		
-				/** Sets the lowest and the highest note in all note segments on the score .*/
-    void setAmbitus(Tnote lo, Tnote hi);
-		
-        /** Sets the lowest and the highest note for @p index of note segment .*/
-    void setAmbitus(int index, Tnote lo, Tnote hi);
-		
-		Tnote lowestNote(); /** Returns lowest possible note on the staff in current clef */
-		Tnote highestNote(); /** Returns highest possible note on the staff in current clef */
-		void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */
-		
-    virtual QSize sizeHint() const;
-		
-		void setAcceptTouch(bool acT); /** Turns on/off touch events */
-		
+  virtual void setNote(int index, const Tnote& note);
+  Tnote getNote(int index); /** It returns @p note with hope that index points existed Tnote element. */
+  void clearNote(int index); /** It hides pointed note and sets note to Tnote(0,0,0)*/
+  void setStringNumber(int index, int realNr); /** Adds string number @p realNr to note @p index.  */
+  void clearStringNumber(int index); /** Removes string number from note @p index. */
+  void setNoteDisabled(int index, bool isDisabled); /** Disables/enables a note. */
+  bool isNoteDisabled(int index);
+  void setNoteNameEnabled(bool nameEnabled); /** Allows to call name edit from note controller */
+  void setControllersEnabled(bool leftCtrl, bool rightCtrl); /** shows/hides a note controllers. */
+
+  void setClef(Tclef clef);
+  Tclef clef();
+  void setClefDisabled(bool isDisabled);
+
+  TscoreScene* scoreScene() { return m_scene; }
+
+      /** This method returns the key signature if score has got TscoreKeySign item,
+        * key can be:
+        * @li 0 - C-maj (a-min)
+        * @li 1 - G-maj and so on up to 7 (for Cis-maj)
+        * @li -1 - F-maj (d-min) and so on down to -7 (for Ges-maj)
+        * When TscoreKeySign doesn't exist 0: - a-min/C-maj is returned. */
+  TkeySignature keySignature();
+  void setKeySignature(TkeySignature keySign);
+  virtual void setEnableKeySign(bool isEnabled);
+
+  void setEnabledDblAccid(bool isEnabled);
+
+  bool isPianoStaff();
+
+      /** Sets background color. Alpha value will be overriden. */
+  void setBGcolor(QColor bgColor);
+
+      /** It disables accids buttons and locks editing,
+        * but doesn't make score gray like standard setDisabled() method. */
+  void setScoreDisabled(bool disabled);
+
+      /** Sets the lowest and the highest note in all note segments on the score .*/
+  void setAmbitus(Tnote lo, Tnote hi);
+
+      /** Sets the lowest and the highest note for @p index of note segment .*/
+  void setAmbitus(int index, Tnote lo, Tnote hi);
+
+  Tnote lowestNote(); /** Returns lowest possible note on the staff in current clef */
+  Tnote highestNote(); /** Returns highest possible note on the staff in current clef */
+  void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */
+
+  virtual QSize sizeHint() const;
+
 signals:
-				/** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
-				 * This signal is emitted when any TscoreScene element gets hoverEnterEvent 
-				 * with status tip to display. */
-    void statusTip(QString);
-		void noteWasChanged(int index, Tnote note);
-		
-				/** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
-		void clefChanged(Tclef);
-	
-		
+      /** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
+        * This signal is emitted when any TscoreScene element gets hoverEnterEvent
+        * with status tip to display. */
+  void statusTip(QString);
+  void noteWasChanged(int index, Tnote note);
+
+      /** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
+  void clefChanged(Tclef);
+
+
 public slots:
-		virtual void noteWasClicked(int index);
-		
+  virtual void noteWasClicked(int index);
+
 protected:
-#if defined (Q_OS_ANDROID)
-		virtual bool viewportEvent(QEvent* event);
-		virtual void timerEvent(QTimerEvent* timeEvent);
-#else
-		virtual void wheelEvent(QWheelEvent* event);
-    
-        /** To make usage of touch pads wheel emulation which changes key/accidentals to fast by default,
-         * a @p m_wheelFree locks a wheel event for e while to avoid switching keys to fast. */
-    void wheelLockSlot();
-#endif
-		
-		TscoreStaff* staff() { return m_staff; } /** Pointer to TscoreStaff. Better keep it protected */
-    
-				/** Returns previously set clef. It is used to figure is it scaling of score necessary.  */
-    Tclef::Etype clefType() { return m_clefType; }
-    void setSizeHint(const QSize& s) { if (s != m_sizeHint) { m_sizeHint = s; updateGeometry(); } }
-    virtual QSize minimumSizeHint() const;
-		
-#if defined (Q_OS_ANDROID)
-				/** Checks is item @it of type @p TscoreItem::ScoreItemType.
-				* If not, checks it parent item and parent of parent.
-				* Returns pointer to @p TscoreItem or 0 if not found. */
-		TscoreItem* castItem(QGraphicsItem* it);
-	
-				/** Checks is given TscoreItem different than current one and sets it to current */
-		void checkItem(TscoreItem* it, const QPointF& touchScenePos);
-#endif
-    
+  virtual bool viewportEvent(QEvent* event);
+  virtual void wheelEvent(QWheelEvent* event);
+
+      /** To make usage of touch pads wheel emulation which changes key/accidentals to fast by default,
+        * a @p m_wheelFree locks a wheel event for e while to avoid switching keys to fast. */
+  void wheelLockSlot();
+  void longTapSlot();
+
+  TscoreStaff* staff() { return m_staff; } /** Pointer to TscoreStaff. Better keep it protected */
+
+      /** Returns previously set clef. It is used to figure is it scaling of score necessary.  */
+  Tclef::Etype clefType() { return m_clefType; }
+  void setSizeHint(const QSize& s) { if (s != m_sizeHint) { m_sizeHint = s; updateGeometry(); } }
+  virtual QSize minimumSizeHint() const;
+
+      /** Checks is item @it of type @p TscoreItem::ScoreItemType.
+      * If not, checks it parent item and parent of parent.
+      * Returns pointer to @p TscoreItem or 0 if not found. */
+  TscoreItem* castItem(QGraphicsItem* it);
+
+      /** Checks is given TscoreItem different than current one and sets it to current */
+  void checkItem(TscoreItem* it, const QPointF& touchScenePos);
+
 protected slots:
-				/** Except response for scaling TscoreView widget to according to new height,
-				 * this method takes care about new width of the score. 
-				 * It is necessary to call it after staff width changed f.e by:
-				 * setPianoStaff(), setEnableKeySign() and setScordature()				 */
-    virtual void resizeEvent(QResizeEvent* event);
-		
-				/** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
-    void statusTipChanged(QString status);
-		void onClefChanged(Tclef clef);
-  
+      /** Except response for scaling TscoreView widget to according to new height,
+        * this method takes care about new width of the score.
+        * It is necessary to call it after staff width changed f.e by:
+        * setPianoStaff(), setEnableKeySign() and setScordature()				 */
+  virtual void resizeEvent(QResizeEvent* event);
+
+      /** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
+  void statusTipChanged(QString status);
+  void onClefChanged(Tclef clef);
+
 private:
-    TscoreScene     						*m_scene;
-    TscoreStaff     						*m_staff;
-		QGraphicsSimpleTextItem 		*m_bgGlyph;
-		int 												 m_notesNr;
-		int 												 m_prevBGglyph;
-		Tclef::Etype								 m_clefType;
-		QSize												 m_sizeHint;
-		TscoreItem 									*m_currentIt;
-		QTime												 m_tapTime;
-		int 												 m_timerIdMain;
-		QPointF											 m_initPos; /** In scene coordinates. */
-#if !defined (Q_OS_ANDROID)
-    bool                         m_wheelFree;
-    QTimer                      *m_wheelLockTimer;
-#endif
+  TscoreScene     						*m_scene;
+  TscoreStaff     						*m_staff;
+  QGraphicsSimpleTextItem 		*m_bgGlyph;
+  int 												 m_notesNr;
+  int 												 m_prevBGglyph;
+  Tclef::Etype								 m_clefType;
+  QSize												 m_sizeHint;
+  TscoreItem 									*m_currentIt;
+  QTime												 m_tapTime;
+  QPointF											 m_initPos; /** In scene coordinates. */
+  bool                         m_wheelFree;
+  QTimer                      *m_wheelLockTimer, *m_longTapTimer;
 };
 
 #endif // TSIMPLESCORE_H
