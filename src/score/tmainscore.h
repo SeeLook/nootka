@@ -168,11 +168,9 @@ private:
         * clearScore() removes it. */
   void createBgRect(QColor c, qreal width, QPointF pos);
 
-  void setBarsIconSize();
   void createActions();
   void moveName(EmoveNote moveDir);
   void createNoteName();
-  void enableCorners(bool enable); /** Activates/deactivates corner menus. */
 
 private:
   QGraphicsSimpleTextItem 		*m_questMark;
@@ -184,9 +182,7 @@ private:
   Tnote												 m_goodNote;
   TkeySignature								 m_goodKey;
   Tnote::EnameStyle						 m_corrStyle;
-  QToolBar										*m_settBar, *m_clearBar, *m_rhythmBar;
 
-  TcornerProxy 								*m_delCorner;
   TnoteName					 					*m_nameMenu;
   QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
   bool												 m_scoreIsPlayed;
