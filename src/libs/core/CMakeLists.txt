@@ -71,6 +71,9 @@ set(LIB_NOOTKACORE_SRC
 	widgets/tsettingsdialogbase.cpp
 	widgets/troundedlabel.cpp
 	widgets/tselectinstrument.cpp
+
+	touch/ttouchproxy.cpp
+	touch/ttouchmenu.cpp
 	
 	plugins/tplugininterface.h
 	plugins/tpluginsloader.cpp
