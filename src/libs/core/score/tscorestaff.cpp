@@ -46,7 +46,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_staffNr(-1), m_brace(0),
   m_keySignature(0),
   m_upperLinePos(16.0), m_lowerStaffPos(0.0),
-  m_height(40.0),
+  m_height(36.0),
   m_viewWidth(0.0),
   m_offset(TnoteOffset(3, 2)),
   m_isPianoStaff(false),
@@ -364,12 +364,12 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
 		if (isPiano) {
 				m_upperLinePos = 14.0;
 				m_lowerStaffPos = 28.0;
-				m_height = 46.0;
+				m_height = 42.0;
         createBrace();
 		} else {
 				m_upperLinePos = 16.0;
 				m_lowerStaffPos = 0.0;
-				m_height = 40.0;
+				m_height = 36.0;
         delete m_brace;
 		}
 		prepareStaffLines();
