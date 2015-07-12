@@ -112,7 +112,7 @@ void TscoreLines::createLines() {
 		m_middle << createNoteLine(m_parentNote->staff()->upperLinePos() + 10);
 		m_middle << createNoteLine(m_parentNote->staff()->lowerLinePos() - 2);
 	}
-  while (i < m_parentNote->boundingRect().height() - 2) {
+  while (i < m_parentNote->boundingRect().height()) {
 		m_lower << createNoteLine(i);
     i += 2;
   }
