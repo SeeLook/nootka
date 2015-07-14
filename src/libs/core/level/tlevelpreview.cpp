@@ -49,7 +49,11 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
 		m_summaryEdit = new QTextBrowser(this);
 		m_summaryEdit->setReadOnly(true);
+#if defined (Q_OS_ANDROID)
+    m_summaryEdit->setFixedWidth(fontMetrics().boundingRect("W").width() * 22);
+#else
     m_summaryEdit->setFixedWidth(fontMetrics().boundingRect("W").width() * 28);
+#endif
     m_summaryEdit->viewport()->setStyleSheet("background-color: transparent;");
 		m_summaryEdit->setOpenLinks(false);
 		QVBoxLayout *mainLay = new QVBoxLayout;

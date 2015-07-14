@@ -40,17 +40,25 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   accLay->addWidget(m_sharpsChB);
   accLay->addWidget(m_flatsChB);
   accLay->addWidget(m_doubleAccChB);
+#if !defined (Q_OS_ANDROID)
   accLay->addStretch(1);
+#endif
   m_accidGr = new QGroupBox(accidsText(), this);
   m_accidGr->setStatusTip(tr("Accidentals used in exam."));
   m_accidGr->setLayout(accLay);
   m_forceAccChB = new QCheckBox(tr("force using appropriate accidental"),this);
   m_forceAccChB->setStatusTip(tr("if checked, it is possible to select a note<br>with given accidental only."));
+#if defined (Q_OS_ANDROID)
+  QVBoxLayout *entireAccLay = new QVBoxLayout;
+#else
   QHBoxLayout *entireAccLay = new QHBoxLayout;
     entireAccLay->addStretch();
+#endif
     entireAccLay->addWidget(m_accidGr);
     entireAccLay->addWidget(m_forceAccChB);
+#if !defined (Q_OS_ANDROID)
     entireAccLay->addStretch();
+#endif
   mainLay->addLayout(entireAccLay);
 
   QHBoxLayout *keyLay = new QHBoxLayout;
@@ -81,7 +89,9 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   comboLay->addWidget(ll);
   comboLay->addWidget(m_toKeyCombo);
   rangeLay->addLayout(comboLay);
+#if !defined (Q_OS_ANDROID)
   rangeLay->addStretch(1);
+#endif
   m_keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
   m_keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature,<br>otherwise it is shown by application."));
   rangeLay->addWidget(m_keyInAnswerChB,0,Qt::AlignCenter);
@@ -95,7 +105,9 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   m_currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
   m_currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
   mainLay->addWidget(m_currKeySignChBox, 0, Qt::AlignCenter);
-
+#if defined (Q_OS_ANDROID)
+  mainLay->addStretch(2);
+#endif
   setLayout(mainLay);
 
   connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));
