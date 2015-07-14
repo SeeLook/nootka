@@ -48,6 +48,8 @@ public:
   QString helpButtonTipText() { return tr("Open online documentation") + "<br>(http://nootka.sourceforge.net/index.php?C=doc)"; }
 
 
+  static bool touchEnabled(); /** @p TRUE when touch is enabled */
+
 protected:
   bool event(QEvent *event);
 
@@ -64,10 +66,13 @@ protected slots:
   void fitSize();
 
   void convertStatusTips();
+  void useScrollArea(); /** Squeezes main widget into scroll area */
+  void tapMenu(); /** Displays menu created from @p navList context and @p buttonBox contex */
 
   void openHelpLink(const QString& hash); /** calls QDesktopServices::openUrl with Nootka site doc at given @p hash */
 
 private:
+  bool                       m_menuTap;
   QScrollArea 							*m_scrollArea;
   QWidget 									*m_widget;
   QVBoxLayout 							*m_aLay;
