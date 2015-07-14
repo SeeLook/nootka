@@ -22,6 +22,7 @@
 #include <QFile>
 #include <QSettings>
 #include <QApplication>
+#include <QStyleFactory>
 #include <QDebug>
 #include <QTranslator>
 
@@ -61,6 +62,9 @@ int main(int argc, char *argv[])
 		}
 		resetConfig = false;
 		a = new QApplication(argc, argv);
+#if defined (Q_OS_ANDROID)
+    a->setStyle(QStyleFactory::create("Fusion"));
+#endif
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
 		confFile = gl->config->fileName();

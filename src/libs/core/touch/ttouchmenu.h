@@ -49,7 +49,7 @@ public:
       /** Overrides standard @p exec method of @p QMenu.
        * Menu is positioned at @p endPos point but when @p startPos is set,
        * an animation from it is performed */
-  void exec(const QPoint& endPos, const QPoint& startPos = QPoint(-1, -1));
+  QAction* exec(const QPoint& endPos, const QPoint& startPos = QPoint(-1, -1));
 
 protected:
   virtual void showEvent(QShowEvent* e); // correct initial position
