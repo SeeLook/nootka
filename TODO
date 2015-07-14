@@ -13,6 +13,7 @@
 Issues of stable 1.2.0:
 - when double accidentals are not enabled note name still displays their buttons
 - name tip is wrongly positioned when note is switching staves
+- TfretPos::isValid() may returns some stupidity... check condition  
 
 
 

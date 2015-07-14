@@ -166,6 +166,8 @@ MainWindow::MainWindow(QWidget *parent) :
   m_levelCreatorExist = false;
 
 #if defined (Q_OS_ANDROID)
+  innerWidget->singleNoteAction()->setChecked(gl->S->isSingleNoteMode);
+  connect(innerWidget->singleNoteAction(), &QAction::triggered, this, &MainWindow::setSingleNoteMode);
   connect(sound, &Asound::noteStarted, this, &MainWindow::soundWasStarted);
   connect(sound, &Asound::noteFinished, this, &MainWindow::soundWasFinished);
   connect(bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);

@@ -32,6 +32,8 @@ class QVBoxLayout;
 class QBoxLayout;
 class QGraphicsProxyWidget;
 
+class QAction;
+
 /** 
  * This widget manages of a layout of main Nootka window
  * All widgets are wrapped with QGraphicsProxyWidget 
@@ -56,6 +58,10 @@ public:
 	
 	void setBarAutoHide(bool autoHide); /** Makes tool bar permanently visible or displayed on demand (mouse action) */
 	bool isAutoHide() { return m_isAutoHide; }
+
+#if defined (Q_OS_ANDROID)
+	QAction* singleNoteAction() { return m_singleNoteAction; } /** Triggers single/multiple note/s mode */
+#endif
 	
 signals:
 	void statusTip(const QString&);
@@ -94,6 +100,7 @@ private:
 	QTimer													*m_timerBar;
 	TnameTip												*m_nameTip;
   bool                             m_mainMenuTap, m_scoreMenuTap;
+  QAction                         *m_singleNoteAction;
 
 };
 
