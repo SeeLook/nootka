@@ -19,11 +19,17 @@
 
 #include "tsettingsdialogbase.h"
 #include <widgets/troundedlabel.h>
+#include <touch/ttouchproxy.h>
+#include <touch/ttouchmenu.h>
 #include <QtWidgets>
+
+/* static */
+bool TsettingsDialogBase::touchEnabled() { return TtouchProxy::touchEnabled(); }
 
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
-        QDialog(parent)
+  QDialog(parent),
+  m_menuTap(false)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
@@ -62,34 +68,45 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     setLayout(mainLay);
 		
 		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+
+    if (touchEnabled()) {
+      useScrollArea();
+      setAttribute(Qt::WA_AcceptTouchEvents);
+      buttonBox->hide();
+      navList->hide();
+    }
+#if defined (Q_OS_ANDROID)
+//     setContentsMargins(0, 0, 0, 0);
+    mainLay->setContentsMargins(0, 0, 0, 0);
+    m_aLay->setContentsMargins(0, 0, 0, 0);
+    stackLayout->setContentsMargins(0, 0, 0, 0);
+#endif
 }
 
 
-bool TsettingsDialogBase::event(QEvent *event) {
-    if (event->type() == QEvent::StatusTip) {
-        QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-        hint->setText("<center>"+se->tip()+"</center>");
-    } else if (event->type() == QEvent::Resize)
-      QTimer::singleShot(20, this, SLOT(fitSize()));
-    return QDialog::event(event);
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
+void TsettingsDialogBase::useScrollArea() {
+  showMaximized();
+  hint->hide();
+  m_aLay->removeWidget(m_widget);
+  m_scrollArea->setWidget(m_widget);
+  m_aLay->insertWidget(0, m_scrollArea);
+  m_scrollArea->show();
 }
 
 
 void TsettingsDialogBase::fitSize() {
   if (qApp->desktop()->availableGeometry().height() <= 600) {
 #if defined (Q_OS_WIN)
-      setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
-      setMinimumSize(qApp->desktop()->availableGeometry().width() - 100,
-                     qApp->desktop()->availableGeometry().height() - 70);
+    setWindowFlags(windowFlags() | Qt::WindowMaximizeButtonHint);
+    setMinimumSize(qApp->desktop()->availableGeometry().width() - 100, qApp->desktop()->availableGeometry().height() - 70);
 #endif
-      showMaximized();
-      hint->hide();
-			m_aLay->removeWidget(m_widget);
-      m_scrollArea->setWidget(m_widget);
-			m_aLay->insertWidget(0, m_scrollArea);
-      m_scrollArea->show();
-      convertStatusTips();
-      connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(convertStatusTips()));
+    useScrollArea();
+    convertStatusTips();
+    connect(stackLayout, SIGNAL(currentChanged(int)), this, SLOT(convertStatusTips()));
   }
   navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
           (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0));
@@ -107,11 +124,74 @@ void TsettingsDialogBase::convertStatusTips() {
 }
 
 
+void TsettingsDialogBase::tapMenu() {
+  TtouchMenu *menu = new TtouchMenu(this);
+  for (int i = 0; i < navList->count(); ++i) {
+    QAction *navAction = new QAction(navList->item(i)->icon(), navList->item(i)->text(), menu);
+    navAction->setData(i * 2); // 0, 2, 4....
+    menu->addAction(navAction);
+  }
+  for (int i = 0; i < buttonBox->buttons().size(); ++i) {
+    QAction *buttonAction = new QAction(buttonBox->buttons()[i]->icon(), buttonBox->buttons()[i]->text(), menu);
+    buttonAction->setData((i * 2) + 1); // 1, 3, 5...
+    menu->addAction(buttonAction);
+  }
+  QAction *menuAction = menu->exec(QPoint(2, 2), QPoint(-menu->sizeHint().width(), 2));
+  int actionNumber = menuAction ? menuAction->data().toInt() : -1;
+  delete menu; // delete menu before performing its action
+  if (actionNumber != -1) {
+    if (actionNumber % 2) // 1, 3, 5....
+      buttonBox->buttons()[actionNumber / 2]->click();
+    else // 0, 2, 4....
+      stackLayout->setCurrentIndex(actionNumber / 2);
+  }
+  m_menuTap = false;
+}
+
+
+
 void TsettingsDialogBase::openHelpLink(const QString& hash) {
   QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#" + hash).
     arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 
+
+bool TsettingsDialogBase::event(QEvent *event) {
+  if (touchEnabled()) {
+    if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
+      QTouchEvent *te = static_cast<QTouchEvent*>(event);
+      if (m_menuTap || te->touchPoints().first().pos().x() < 5) {
+        if (event->type() == QEvent::TouchBegin) {
+          event->accept();
+          m_menuTap = true;
+          return true;
+        } else if (event->type() == QEvent::TouchUpdate) {
+            if (m_menuTap && te->touchPoints().first().pos().x() > width() * 0.1) {
+              tapMenu();
+              return true;
+            }
+        } else if (event->type() == QEvent::TouchEnd)
+            m_menuTap = false;
+      } else {
+        if (event->type() == QEvent::TouchBegin) {
+          event->accept();
+          return true;
+        } else if (event->type() == QEvent::TouchUpdate) {
+            if (QLineF(te->touchPoints().first().pos(), te->touchPoints().first().startPos()).length() > 20) // TODO use screen factor instead 10
+              m_scrollArea->verticalScrollBar()->setValue(
+                m_scrollArea->verticalScrollBar()->value() + (te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y()));
+        }
+      }
+    }
+  } else {
+      if (event->type() == QEvent::StatusTip) {
+          QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+          hint->setText("<center>"+se->tip()+"</center>");
+      } else if (event->type() == QEvent::Resize)
+        QTimer::singleShot(20, this, SLOT(fitSize()));
+  }
+  return QDialog::event(event);
+}
 
 
 
