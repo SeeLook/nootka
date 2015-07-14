@@ -59,7 +59,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/rangeSettings.png"));
   navList->item(3)->setTextAlignment(Qt::AlignCenter);
 
-  m_levelSett = new levelSettings();
+  m_levelSett = new levelSettings(this);
   m_questSett = new questionsSettings(this);
   m_accSett = new accidSettings(this);
 // 		m_meloSett = new TmelodySettings(this);
@@ -76,8 +76,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   m_questSett->blockSignals(true);
   m_questSett->setMelodiesEnabled(!Tcore::gl()->S->isSingleNoteMode);
   m_questSett->blockSignals(false);
-  
-  hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
+  if (!touchEnabled())
+    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 
   connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
@@ -104,6 +104,13 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   connect(helpButt, &QPushButton::clicked, this, &TlevelCreatorDlg::helpSlot);
   
   connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
+// #if defined (Q_OS_ANDROID)
+//     setContentsMargins(0, 0, 0, 0);
+//     m_levelSett->layout()->setContentsMargins(0, 0, 0, 0);
+//     m_questSett->layout()->setContentsMargins(0, 0, 0, 0);
+//     m_accSett->layout()->setContentsMargins(0, 0, 0, 0);
+//     m_rangeSett->layout()->setContentsMargins(0, 0, 0, 0);
+// #endif
 }
 
 

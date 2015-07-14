@@ -24,7 +24,9 @@
 #include <level/tlevelpreview.h>
 #include <texamparams.h>
 #include <music/ttune.h>
-#include "tfixleveldialog.h"
+#if !defined (Q_OS_ANDROID)
+  #include "tfixleveldialog.h"
+#endif
 #include <tinitcorelib.h>
 #include <QtWidgets>
 
@@ -57,21 +59,29 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 	QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
 	m_levelsListWdg = new QListWidget(this);
 		m_levelsListWdg->setMouseTracking(true);
-		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 25);
+#if defined (Q_OS_ANDROID)
+		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 15);
+#else
+    m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
+#endif
 		m_levelsListWdg->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	m_loadBut = new QPushButton(tr("Load"), this);
 		m_loadBut->setStatusTip(tr("Load level from file"));
 		m_loadBut->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-level.png"));
-		m_loadBut->setIconSize(QSize(22, 22));
 	m_removeButt = new QPushButton(tr("Remove"), this);
 		m_removeButt->setStatusTip(TremoveLevel::removeTxt());
 		m_removeButt->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
-		m_removeButt->setIconSize(QSize(22, 22));
 		m_removeButt->setDisabled(true);
+#if !defined (Q_OS_ANDROID)
+    m_removeButt->setIconSize(QSize(22, 22));
+    m_loadBut->setIconSize(QSize(22, 22));
+#endif
 	
 	m_levelPreview = new TlevelPreview(this);
+#if !defined (Q_OS_ANDROID)
 	m_levelPreview->setFixInstrEnabled(true);
+#endif
 	m_levelPreview->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
 	QHBoxLayout *mainLay = new QHBoxLayout;
@@ -304,6 +314,7 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 
 
 void TlevelSelector::fixInstrumentSlot() {
+#if !defined (Q_OS_ANDROID)
 	if (fixLevelInstrument(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file, 
 						Tcore::gl()->instrumentToFix, this)) {
 			if (!Tlevel::saveToFile(m_levels[m_levelsListWdg->currentRow()].level, m_levels[m_levelsListWdg->currentRow()].file))
@@ -311,6 +322,7 @@ void TlevelSelector::fixInstrumentSlot() {
 			else
 					m_levelPreview->setLevel(m_levels[m_levelsListWdg->currentRow()].level);
 	}
+#endif
 }
 
 

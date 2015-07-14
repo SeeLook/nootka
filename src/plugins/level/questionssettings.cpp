@@ -23,7 +23,7 @@
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
 #include <tnoofont.h>
-#include <widgets/tintonationview.h>
+// #include <widgets/tintonationview.h>
 #include <QtWidgets>
 
 
@@ -147,7 +147,11 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	m_melodiesGr = new QGroupBox(tr("melodies"), this);
 			m_melodiesGr->setCheckable(true);
 			m_melodiesGr->setLayout(melLay);
-	QHBoxLayout *grBoxLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+    QVBoxLayout *grBoxLay = new QVBoxLayout;
+#else
+    QHBoxLayout *grBoxLay = new QHBoxLayout;
+#endif
 		grBoxLay->addStretch();
 		grBoxLay->addWidget(m_singleGr);
 		grBoxLay->addStretch();
@@ -176,9 +180,9 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected fret range is required,<br>otherwise all possible positions of the note are acceptable.<br>To use this, all strings have to be available!"));
 	chLay->addWidget(lowPosOnlyChBox, 1, 1, Qt::AlignLeft);
 	
-	TintonationCombo *intoCombo = new TintonationCombo(this);
-	m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
-	mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
+// 	TintonationCombo *intoCombo = new TintonationCombo(this);
+// 	m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
+// 	mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
 	
 		
 	setLayout(mainLay);
@@ -197,7 +201,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	connect(styleRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-	connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
+// 	connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
 	connect(m_playMelodyChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(m_melodyLengthSpin, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
@@ -223,7 +227,7 @@ void questionsSettings::loadLevel(Tlevel* level) {
     styleRequiredChB->setChecked(level->requireStyle);
     showStrNrChB->setChecked(level->showStrNr);
     lowPosOnlyChBox->setChecked(level->onlyLowPos);
-		m_intonationCombo->setCurrentIndex(level->intonation);
+// 		m_intonationCombo->setCurrentIndex(level->intonation);
 		if (level->melodyLen == 1)
 			m_melodyLengthSpin->setRange(1, 1);
 		else
@@ -267,7 +271,7 @@ void questionsSettings::saveLevel(Tlevel* level) {
   level->requireStyle = styleRequiredChB->isChecked();
   level->showStrNr = showStrNrChB->isChecked();
   level->onlyLowPos = lowPosOnlyChBox->isChecked();
-  level->intonation = m_intonationCombo->currentIndex();
+//   level->intonation = m_intonationCombo->currentIndex();
   
   level->melodyLen = m_melodyLengthSpin->value();
   level->endsOnTonic = m_finishOnTonicChB->isChecked();
@@ -323,12 +327,12 @@ void questionsSettings::adjustToLevel() {
     showStrNrChB->setDisabled(lowDisabled);
   }
 // Is sound input enabled to allow intonation check
-  if ((m_singleGr->isChecked() &&
-    (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())) ||
-    (m_melodiesGr->isChecked() && m_playMelodyChB->isChecked()) )
-      m_intonationCombo->setDisabled(false);
-  else
-      m_intonationCombo->setDisabled(true);
+//   if ((m_singleGr->isChecked() &&
+//     (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())) ||
+//     (m_melodiesGr->isChecked() && m_playMelodyChB->isChecked()) )
+//       m_intonationCombo->setDisabled(false);
+//   else
+//       m_intonationCombo->setDisabled(true);
 // Disable name styles when no name as question or answer
   if (m_melodiesGr->isChecked() ||
       !(asNameWdg->isChecked() || asNoteWdg->answerAsName() || asFretPosWdg->answerAsName() || asSoundWdg->answerAsName())) {

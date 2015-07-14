@@ -45,11 +45,15 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 			m_scoreRang->addBGglyph((int)Tcore::gl()->instrument);
 			m_scoreRang->setControllersEnabled(true, false);
 			m_scoreRang->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
+#if defined (Q_OS_ANDROID)
+      m_scoreRang->setFixedHeight(qApp->desktop()->availableGeometry().height() * 0.8);
+#endif
 		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
     QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
     scoreLay->addWidget(m_scoreRang);
 		scoreLay->addWidget(m_fretAdjustButt);
+
     notesRangGr->setLayout(scoreLay);
     allLay->addWidget(notesRangGr);
 
@@ -98,6 +102,9 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     allLay->addLayout(guitLay);
 
     mainLay->addLayout(allLay);
+#if defined (Q_OS_ANDROID)
+    mainLay->addStretch(5);
+#endif
 
     setLayout(mainLay);
 		

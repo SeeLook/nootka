@@ -52,7 +52,9 @@ bool initCoreLibrary() {
   dir.cdUp();
   qApp->addLibraryPath(dir.path() + "/lib/nootka");
 #endif
-  
+#if defined (Q_OS_ANDROID)
+  qApp->addLibraryPath(qApp->applicationDirPath());
+#endif
 	return true;
 }
 
