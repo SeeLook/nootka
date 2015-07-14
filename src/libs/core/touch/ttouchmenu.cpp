@@ -73,9 +73,9 @@ void TtouchMenu::addAction(QAction* a) {
 }
 
 
-void TtouchMenu::exec(const QPoint& endPos, const QPoint& startPos) {
+QAction* TtouchMenu::exec(const QPoint& endPos, const QPoint& startPos) {
   if (startPos.x() == -1 && startPos.y() == -1)
-    QMenu::exec(endPos);
+    return QMenu::exec(endPos);
   else {
     m_endPos = endPos;
     m_startPos = startPos;
@@ -83,7 +83,7 @@ void TtouchMenu::exec(const QPoint& endPos, const QPoint& startPos) {
     m_step = 0;
     m_offset = QPoint((m_endPos.x() - m_startPos.x()) / m_count, (m_endPos.y() - m_startPos.y()) / m_count);
     m_animTimer->start(40);
-    QMenu::exec(startPos);
+    return QMenu::exec(startPos);
   }
 }
 

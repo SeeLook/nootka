@@ -38,15 +38,14 @@
   #include "exam/tprogresswidget.h"
   #include "exam/texamview.h"
   #include "exam/texamexecutor.h"
-  #include <level/tlevelselector.h>
 
   #include <widgets/tpitchview.h>
   #include <tsound.h>
   #include <taboutnootka.h>
   #include <tsupportnootka.h>
-  #include <plugins/tpluginsloader.h>
 #endif
-
+#include <level/tlevelselector.h>
+#include <plugins/tpluginsloader.h>
 
 extern Tglobals *gl;
 extern bool resetConfig;
@@ -172,7 +171,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
 #else
   connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
-  connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+//   connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
   connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
   connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
   connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
@@ -183,6 +182,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
   setSingleNoteMode(gl->S->isSingleNoteMode);
 
+  connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
   connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
   connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
   connect(guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
@@ -345,7 +345,6 @@ void MainWindow::createSettingsDialog() {
 
 
 void MainWindow::openLevelCreator(QString levelFile) {
-#if !defined (Q_OS_ANDROID)
   if (score->isScorePlayed())
     m_melButt->playMelodySlot(); // stop playing
   sound->wait(); // stops pitch detection
@@ -368,15 +367,16 @@ void MainWindow::openLevelCreator(QString levelFile) {
   bool ok;
   int levelNr = levelText.toInt(&ok);
   if (ok) {
+#if !defined (Q_OS_ANDROID)
     TlevelSelector ls;
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
     executor = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam
+#endif
   }
   else
     sound->go(); // restore pitch detection
-#endif
 }
 
 
