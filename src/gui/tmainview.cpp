@@ -87,6 +87,10 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	m_name->createNameTip(scene());
 	
 	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
+#if defined (Q_OS_ANDROID)
+  m_singleNoteAction = new QAction("single note mode", this);
+  m_singleNoteAction->setCheckable(true);
+#endif
 }
 
 
@@ -310,6 +314,9 @@ void TmainView::scoreMenuExec() {
   menu.addAction(m_tool->scoreZoomIn());
   menu.addAction(m_tool->scoreZoomOut());
   menu.addAction(m_tool->scoreDeleteAll());
+#if defined (Q_OS_ANDROID)
+  menu.addAction(m_singleNoteAction);
+#endif
 //   QAction *fakeAct = new QAction("fake action", &menu);
 //   menu.addAction(fakeAct);
 //   QAction *fakeAct2 = new QAction("fake action", &menu);
@@ -340,7 +347,9 @@ bool TmainView::viewportEvent(QEvent *event) {
               } else if (event->type() == QEvent::TouchUpdate) {
                   if (m_mainMenuTap && te->touchPoints().first().pos().x() > width() * 0.1)
                     mainMenuExec();
-              }
+              } else if (event->type() == QEvent::TouchEnd)
+                  m_mainMenuTap = false;
+              return true;
 // 1.1.2 on the right screen edge - score menu
           } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - 5) {
               if (event->type() == QEvent::TouchBegin) {
@@ -349,7 +358,9 @@ bool TmainView::viewportEvent(QEvent *event) {
               } else if (event->type() == QEvent::TouchUpdate) {
                   if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.9)
                     scoreMenuExec();
-              }
+              } else if (event->type() == QEvent::TouchEnd)
+                  m_scoreMenuTap = false;
+              return true;
 // 1.1.3 score was touched
           } else if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {
@@ -399,15 +410,16 @@ bool TmainView::viewportEvent(QEvent *event) {
                   } else if (qAbs(te->touchPoints()[0].pos().y() - te->touchPoints()[0].startPos().y()) > height() / 4) {
                     if (!guitarView) {
                       guitarView = new TguitarView(m_guitar, this);
+                      guitarView->horizontalScrollBar()->setValue(te->touchPoints().first().pos().x() /
+                        ((guitarView->horizontalScrollBar()->maximum() - guitarView->horizontalScrollBar()->minimum()) / width()));
                     }
                   }
                 }
             }
         }
 // 2. Other temporary item was touched
-      } else if (guitarView && itemAt(mapFromScene(te->touchPoints().first().pos())) == guitarView->proxy()) {
-        return guitarView->mapTouchEvent(te);
-
+      } else if (guitarView && itemAt(te->touchPoints().first().pos().toPoint()) == guitarView->proxy()) {
+          return guitarView->mapTouchEvent(te);
       }
     }
   }

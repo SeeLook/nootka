@@ -906,7 +906,7 @@ void TfingerBoard::resizeRangeBox() {
 
 void TfingerBoard::fakePress(const QPoint& viewPos) {
   TfingerPos fPos = pointToFinger(viewPos);
-  if (fPos.isValid()) {
+  if (fPos.str() < 7 && fPos.fret() <= gl->GfretsNumber) {
     m_curStr = fPos.str() - 1;
     m_curFret = fPos.fret();
     QMouseEvent fakeEvent(QEvent::MouseButtonPress, QPointF(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
@@ -917,10 +917,10 @@ void TfingerBoard::fakePress(const QPoint& viewPos) {
 
 TfingerPos TfingerBoard::pointToFinger(const QPoint& point) {
   int strNr = 7, fretNr = 99;
-  if ((point.y() >= m_fbRect.y()) && (point.y() <= (height() - m_fbRect.y() - 4))) {
+  if (point.y() >= m_fbRect.y() && point.y() <= height() /*- m_fbRect.y() - 4*/) {
     int tx, ty = point.y();
     tx = mapToScene(point.x(), point.y()).x();
-    strNr = (ty - m_fbRect.y()) / m_strGap;
+    strNr = qMin((ty - m_fbRect.y()) / m_strGap, (int)gl->Gtune()->stringNr());
     if (tx < m_fbRect.x() || tx > lastFret)
       fretNr = 0;
     else {
