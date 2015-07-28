@@ -26,6 +26,7 @@ const QString TfingerPos::fretsList[25] = { "0",
       "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
       "XI", "XII", "XIII", "XIV"
     };
+
     
 QString TfingerPos::romanFret(quint8 fret) {
     if (fret >= 0 && fret < 25)
@@ -33,6 +34,7 @@ QString TfingerPos::romanFret(quint8 fret) {
     else
       return QString("");
 }
+
 
 QString TfingerPos::toHtml() {
   //    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
