@@ -345,6 +345,7 @@ set(LIB_NOOTKASOUND_SRC
 	tpitchfinder.cpp
 	taudioobject.h
 	trtaudio.cpp
+	tcommonlistener.cpp
 	trtaudioin.cpp
 	trtaudioout.cpp
 	tsound.cpp
