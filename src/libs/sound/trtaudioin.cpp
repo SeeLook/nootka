@@ -55,30 +55,18 @@ bool                  TaudioIN::m_goingDelete = false;
 //#################################################################################################
 
 TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
-  QObject(parent),
-  TrtAudio(params, e_input, inCallBack),
-  m_pitch(0),
-  m_volume(0.0),
-  m_state(e_stopped),
-  m_stoppedByUser(false),
-  m_loPitch(15), m_hiPitch(140),
-  m_noteWasStarted(false),
-  m_currentRange(1)
+  TcommonListener(params, parent),
+  TrtAudio(params, e_input, inCallBack)
 {
   if (m_instance) {
     qDebug() << "Nothing of this kind... TaudioIN already exist!";
     return;
   }
   m_instance = this;
-  m_pitch = new TpitchFinder();
   setAudioInParams();
 	m_goingDelete = false;
 	forceUpdate = true;
   
-	connect(m_pitch, &TpitchFinder::noteStarted, this, &TaudioIN::noteStartedSlot);
-	connect(m_pitch, &TpitchFinder::noteFinished, this, &TaudioIN::noteFinishedSlot);
-	connect(m_pitch, &TpitchFinder::pitchInChunk, this, &TaudioIN::pitchInChunkSlot);
-	connect(m_pitch, &TpitchFinder::volume, this, &TaudioIN::volumeSlot);
 	connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
   connect(ao(), &TaudioObject::playingFinished, this, &TaudioIN::playingFinishedSlot);
 }
@@ -87,8 +75,7 @@ TaudioIN::~TaudioIN()
 {
 	m_goingDelete = true;
   closeStream();
-	m_pitch->blockSignals(true);
-	m_pitch->deleteLater();
+	finder()->blockSignals(true);
   m_instance = 0;
   deleteInParams();
   resetCallBack();
@@ -99,77 +86,18 @@ TaudioIN::~TaudioIN()
 //#################################################################################################
 
 void TaudioIN::setAudioInParams() {
-  setDetectionMethod(audioParams()->detectMethod);
-	setMinimalVolume(audioParams()->minimalVol);
-	m_pitch->setMinimalDuration(audioParams()->minDuration);
-  m_pitch->setSplitByVolChange(audioParams()->minSplitVol > 0.0);
-  m_pitch->setSplitVolume(audioParams()->minSplitVol / 100.0);
-  m_pitch->setSkipStillerVal(audioParams()->skipStillerVal / 100.0);
-  m_pitch->aGl()->equalLoudness = audioParams()->equalLoudness;
-
-	m_pitch->setSampleRate(inRate(), m_currentRange); // framesPerChunk is determined here
-	m_volume = 0.0;
+  TcommonListener::setAudioInParams();
+  finder()->setSampleRate(inRate(), detectionRange()); // framesPerChunk is determined here
 #if defined(Q_OS_WIN)
   if (getCurrentApi() == RtAudio::WINDOWS_ASIO)
     connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioIN::ASIORestartSlot, Qt::UniqueConnection);
 #endif
 //   qDebug() << "setAudioInParams" << "\nrate:" << sampleRate() << "\nmethod:" << audioParams()->detectMethod
 //            << "\nmin duration" << audioParams()->minDuration << "\nmin volume" << audioParams()->minimalVol
-//            << "\nsplit volume" << (m_pitch->isSplitByVolume() ? m_pitch->minVolumeToSplit() * 100.0 : 0.0)
-//            << "\nskip volume" << m_pitch->skipStillerValue() * 100.0
-//            << "\nnoise filter:" << m_pitch->aGl()->equalLoudness;
+//            << "\nsplit volume" << (finder()->isSplitByVolume() ? finder()->minVolumeToSplit() * 100.0 : 0.0)
+//            << "\nskip volume" << finder()->skipStillerValue() * 100.0
+//            << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
 }
-
-
-void TaudioIN::setMinimalVolume(float minVol) {
-	m_pitch->setMinimalVolume(minVol);
-	audioParams()->minimalVol = minVol;
-}
-
-
-/** Range of notes is increased semitone down and up.
- * This 46 and 48 are its sign. 
- * Normally 47 is offset of midi note to Nootka Tnote. */
-void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
-	m_loPitch = loNote.toMidi() - 1;
-	m_hiPitch = hiNote.toMidi() + 1;
-	m_loNote = loNote;
-	m_hiNote = hiNote;
-	TpitchFinder::Erange range = TpitchFinder::e_middle;
-	if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())
-		range = TpitchFinder::e_high;
-	else if (loNote.chromatic() > Tnote(5, -2, 0).chromatic())
-		range = TpitchFinder::e_middle;
-	else
-		range = TpitchFinder::e_low;
-	if ((int)range != m_currentRange) {
-		m_currentRange = (int)range;
-		bool isStop = isStoped();
-		stopListening();
-		m_pitch->setSampleRate(m_pitch->aGl()->rate, m_currentRange);
-		if (!isStop)
-			startListening();
-	}
-// 	qDebug() << "Ambitus set to:" << Tnote(m_loPitch - 47).toText() << "--" << Tnote(m_hiPitch - 47).toText();
-}
-
-
-void TaudioIN::setDetectionMethod(int method) {
-	method = qBound<int>(0, method, 2);
-	m_pitch->aGl()->analysisType = EanalysisModes(method);
-	audioParams()->detectMethod = method;
-}
-
-
-quint8 TaudioIN::intonationAccuracy() {
-  return audioParams()->intonation;
-}
-
-
-void TaudioIN::setIntonationAccuracy(qint8 intAcc) {
-  audioParams()->intonation = qBound<quint8>(0, intAcc, 5);
-}
-
 
 //#################################################################################################
 //###################         PUBLIC SLOTS             ############################################
@@ -180,13 +108,13 @@ void TaudioIN::startListening() {
 			qDebug() << "Can not start listening due to uninitialized input";
 			return;
 	}
-	if (state() != e_listening) {
-    m_volume = 0.0;
-    if (!m_stoppedByUser) {
-      if (areStreamsSplit() && state() != e_listening)
+	if (detectingState() != e_detecting) {
+    resetVolume();
+    if (!stoppedByUser()) {
+      if (areStreamsSplit() && detectingState() != e_detecting)
         openStream();
       if (startStream())
-        setState(e_listening);
+        setState(e_detecting);
 // 			qDebug() << "start listening";
 		}
   }
@@ -194,50 +122,15 @@ void TaudioIN::startListening() {
 
 
 void TaudioIN::stopListening() {
-  if (state() != e_stopped) {
+  if (detectingState() != e_stopped) {
 //     qDebug() << "stop listening";
-    m_volume = 0.0;
-    m_LastChunkPitch = 0.0;
+    resetVolume();
+    resetChunkPitch();
 		if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
 			abortStream();
     setState(e_stopped);
-    m_pitch->resetFinder();
+    finder()->resetFinder();
   }
-}
-
-
-void TaudioIN::pitchInChunkSlot(float pitch) {
-	if (isPaused())
-			return;
-  if (pitch == 0.0)
-			m_LastChunkPitch = 0.0;
-  else
-			m_LastChunkPitch = pitch - audioParams()->a440diff;
-}
-
-
-void TaudioIN::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
-	if (!isPaused()) {
-			m_lastNote.set(pitch - audioParams()->a440diff, freq, duration);
-			if (inRange(m_lastNote.pitchF)) {
-				m_noteWasStarted = true;
-				emit noteStarted(m_lastNote);
-			}
-  } else
-			m_lastNote.set(); // reset last detected note structure
-}
-
-
-void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
-	m_noteWasStarted = false;
-	if (!isPaused()) {
-      qreal midiPitch = lastNote->getAverage(3, // non guitar pitch is average of all pitches
-                              Tcore::gl()->instrument == e_noInstrument ? lastNote->pitches()->size() : m_pitch->minChunksNumber());
-      m_lastNote.set(midiPitch - audioParams()->a440diff, pitch2freq(midiPitch), lastNote->duration);
-			if (inRange(m_lastNote.pitchF))
-				emit noteFinished(m_lastNote);
-  } else 
-			m_lastNote.set(); // reset last detected note structure
 }
 
 //#################################################################################################
@@ -245,7 +138,7 @@ void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
 //#################################################################################################
 
 void TaudioIN::playingFinishedSlot() {
-  if (m_state == e_listening) {
+  if (state() == e_listening) {
     openStream();
     startStream();
   }

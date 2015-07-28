@@ -78,7 +78,7 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
 
 
 void TpitchView::watchInput() {
-  if (isEnabled() && isVisible() && m_audioIN && m_audioIN->state() == TaudioIN::e_listening && !m_watchTimer->isActive()) {
+  if (isEnabled() && isVisible() && m_audioIN && m_audioIN->detectingState() == TaudioIN::e_detecting && !m_watchTimer->isActive()) {
     m_prevPitch = -1.0;
     m_watchTimer->start(75);
     connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
@@ -230,7 +230,7 @@ void TpitchView::inputStateChanged(int inSt) {
       if (inState == TaudioIN::e_stopped) {
 				m_volumeView->setPaused(true);
         stopWatching();
-      } else if (inState == TaudioIN::e_listening) {
+      } else if (inState == TaudioIN::e_detecting) {
         m_volumeView->setPaused(false);
         watchInput();
       }
