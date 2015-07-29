@@ -19,7 +19,7 @@
 #ifndef TCOMMONLISTENER_H
 #define TCOMMONLISTENER_H
 
-#include "nootkacoreglobal.h"
+#include "nootkasoundglobal.h"
 #include <music/tnote.h>
 #include <music/tnotestruct.h>
 #include <QObject>
@@ -39,7 +39,7 @@ class TaudioParams;
  * It has pure virtual methods @p startListening(), @p stopListening()
  * those have to be implemented by subclass.
  */
-class TcommonListener : public QObject {
+class NOOTKASOUND_EXPORT TcommonListener : public QObject {
 
   Q_OBJECT
 

@@ -17,13 +17,18 @@
  ***************************************************************************/
 #include "tsound.h"
 #include "widgets/tpitchview.h"
-#include "tmidiout.h"
-#include "trtaudioout.h"
-#include "trtaudioin.h"
+#if defined (Q_OS_ANDROID)
+  #include "tqtaudioin.h"
+  #include "tqtaudioout.h"
+#else
+  #include "tmidiout.h"
+  #include "trtaudioout.h"
+  #include "trtaudioin.h"
+#endif
+#include <tprecisetimer.h>
 #include <tinitcorelib.h>
 #include <taudioparams.h>
 #include <music/tmelody.h>
-#include <tprecisetimer.h>
 #include <QPushButton>
 #include <QDebug>
 
@@ -36,9 +41,11 @@ Tsound::Tsound(QObject* parent) :
   m_examMode(false),
   m_melodyNoteIndex(-1)
 {
+#if !defined (Q_OS_ANDROID)
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
 	TrtAudio::initJACKorASIO(Tcore::gl()->A->JACKorASIO);
+#endif
   if (Tcore::gl()->A->OUTenabled)
       createPlayer();
   else
@@ -64,6 +71,7 @@ void Tsound::play(Tnote& note) {
   bool playing = false;
   if (player && note.note)
 			playing = player->play(note.chromatic());
+#if !defined (Q_OS_ANDROID)
   if (playing && !Tcore::gl()->A->playDetected && player->type() == TabstractPlayer::e_midi) {
     if (sniffer) { // stop sniffer if midi output was started
 			if (!m_midiPlays) { // stop listening just once
@@ -72,6 +80,7 @@ void Tsound::play(Tnote& note) {
 			}
     }
   }
+#endif
 }
 
 
@@ -93,10 +102,13 @@ void Tsound::acceptSettings() {
     if (!player)
         createPlayer();
     else {
+      #if !defined (Q_OS_ANDROID)
         if (Tcore::gl()->A->midiEnabled) {
           deletePlayer(); // it is safe to delete midi
           createPlayer(); // and create it again
-        } else { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
+        } else
+      #endif
+        { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
           if (player->type() == TabstractPlayer::e_midi) {
               deletePlayer(); // player was midi so delete
               createPlayer();
@@ -128,13 +140,14 @@ void Tsound::acceptSettings() {
     if (sniffer)
       deleteSniffer();
   }
+#if !defined (Q_OS_ANDROID)
   if (doParamsUpdated) {
 			if (player && player->type() == TabstractPlayer::e_audio) {
 					static_cast<TaudioOUT*>(player)->updateAudioParams();
-			} else if (sniffer) {
+      } else if (sniffer)
 					sniffer->updateAudioParams();
-			}
 	}
+#endif
 	if (sniffer) {
     restoreSniffer();
 	}
@@ -156,8 +169,9 @@ void Tsound::setPitchView(TpitchView* pView) {
 void Tsound::prepareToConf() {
   if (player) {
 		player->stop();
+#if !defined (Q_OS_ANDROID)
     player->deleteMidi();
-//     deletePlayer();
+#endif
 	}
   if (sniffer) {
     m_userState = sniffer->stoppedByUser(); // m_pitchView->isPaused();
@@ -170,10 +184,12 @@ void Tsound::prepareToConf() {
 
 
 void Tsound::restoreAfterConf() {
+#if !defined (Q_OS_ANDROID)
   if (Tcore::gl()->A->midiEnabled) {
     if (player)
       player->setMidiParams();
   }
+#endif
   if (sniffer)
     restoreSniffer();
 }
@@ -286,19 +302,23 @@ void Tsound::setDefaultAmbitus() {
 
 
 void Tsound::createPlayer() {
+#if !defined (Q_OS_ANDROID)
   if (Tcore::gl()->A->midiEnabled) {
     player = new TmidiOut(Tcore::gl()->A);
 		connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 		m_midiPlays = false;
 	} else
+#endif
     player = new TaudioOUT(Tcore::gl()->A);
 }
 
 
 void Tsound::createSniffer() {
+#if !defined (Q_OS_ANDROID)
   if (TaudioIN::instance())
     sniffer = TaudioIN::instance();
   else
+#endif
     sniffer = new TaudioIN(Tcore::gl()->A);
   setDefaultAmbitus();
 // 	sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities

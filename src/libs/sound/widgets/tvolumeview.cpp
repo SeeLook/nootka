@@ -42,10 +42,12 @@ TvolumeView::TvolumeView(QWidget* parent) :
   m_paused(true), m_activePause(false),
   m_overNote(false), m_drawPaused(false)
 {
-	setMouseTracking(true);
+  setMinimumSize(200, 17);
+#if !defined (Q_OS_ANDROID)
+  setMouseTracking(true);
   setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
         tr("Drag a knob to adjust minimum input volume."));
-  setMinimumSize(200, 17);
+#endif
   resizeEvent(0);
 }
 

@@ -20,7 +20,6 @@
 #define TRTAUDIOIN_H
 
 
-#include "nootkacoreglobal.h"
 #include <QObject>
 #include <QDebug>
 #include "trtaudio.h"

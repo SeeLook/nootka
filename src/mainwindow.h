@@ -36,16 +36,13 @@ class QLabel;
 class TfingerBoard;
 class TnoteName;
 class TmelMan;
-#if defined (Q_OS_ANDROID)
-  class ApitchView;
-  class Asound;
-#else
-  class TpitchView;
-  class Tsound;
+class TpitchView;
+class Tsound;
+class TpluginsLoader;
+#if !defined (Q_OS_ANDROID)
   class TexamView;
   class TprogressWidget;
   class TnootkaLabel;
-  class TpluginsLoader;
 #endif
 
 
@@ -91,15 +88,10 @@ protected:
 	TmainScore *score;
 	TnoteName *noteName;
 	TfingerBoard *guitar;
-#if defined (Q_OS_ANDROID)
-  Asound *sound;
-//	TexamView *examResults;
-  ApitchView *pitchView;
-//	TprogressWidget *progress;
-#else
-	Tsound *sound;
+  Tsound *sound;
+  TpitchView *pitchView;
+#if !defined (Q_OS_ANDROID)
 	TexamView *examResults;
-	TpitchView *pitchView;
 	TprogressWidget *progress;
 #endif
 
