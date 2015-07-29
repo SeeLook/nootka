@@ -59,8 +59,10 @@ TintonationView::TintonationView(int accuracy, QWidget* parent) :
   m_enableAccurChange(true)
 {
   setAccuracy(accuracy);
-	setMouseTracking(true);
   setMinimumSize(200, 17);
+#if !defined (Q_OS_ANDROID)
+  setMouseTracking(true);
+#endif
   resizeEvent(0);
 }
 

@@ -23,7 +23,12 @@
 #include <QWidget>
 #include <QBoxLayout>
 #include <music/tnote.h>
-#include "trtaudioin.h"
+
+#if defined (Q_OS_ANDROID)
+  #include "tqtaudioin.h"
+#else
+  #include "trtaudioin.h"
+#endif
 #include "nootkasoundglobal.h"
 
 

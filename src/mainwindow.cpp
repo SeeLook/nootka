@@ -30,17 +30,14 @@
 #include <music/tchunk.h>
 #include <tlayoutparams.h>
 #include <exam/texam.h>
+#include <widgets/tpitchview.h>
+#include <tsound.h>
 #include <QtWidgets>
-#if defined (Q_OS_ANDROID)
-  #include "asound.h"
-  #include "apitchview.h"
-#else
+#if !defined (Q_OS_ANDROID)
   #include "exam/tprogresswidget.h"
   #include "exam/texamview.h"
   #include "exam/texamexecutor.h"
 
-  #include <widgets/tpitchview.h>
-  #include <tsound.h>
   #include <taboutnootka.h>
   #include <tsupportnootka.h>
 #endif
@@ -67,6 +64,12 @@ void noteToKey(Tnote& n, TkeySignature k) {
 	}
 }
 
+#if defined (Q_OS_ANDROID)
+#include <QMediaPlayer>
+  void fakeMultimediaDemander(QObject* parent) {
+    QMediaPlayer dummyPlayer(parent);
+  }
+#endif
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -118,10 +121,8 @@ MainWindow::MainWindow(QWidget *parent) :
 		gl->config->endGroup();
 	
   Tnote::defaultStyle = gl->S->nameStyleInNoteName;
-#if defined (Q_OS_ANDROID)
-  sound = new Asound(this);
-#else
   sound = new Tsound(this);
+#if !defined (Q_OS_ANDROID)
   m_messageTimer = new QTimer(this);
   connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
 #endif
@@ -133,12 +134,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
   score = new TmainScore(this);
   noteName = score->noteName();
-#if defined (Q_OS_ANDROID)
-  pitchView = new ApitchView(0, this);
-#else
   pitchView = new TpitchView(sound->sniffer, this);
   sound->setPitchView(pitchView);
   pitchView->setVisible(gl->L->soundViewEnabled);
+#if !defined (Q_OS_ANDROID)
 // Hints - label with clues
   m_statLab = new TroundedLabel(this);
   m_statLab->setWordWrap(true);
@@ -166,10 +165,6 @@ MainWindow::MainWindow(QWidget *parent) :
   m_levelCreatorExist = false;
 
 #if defined (Q_OS_ANDROID)
-  innerWidget->singleNoteAction()->setChecked(gl->S->isSingleNoteMode);
-  connect(innerWidget->singleNoteAction(), &QAction::triggered, this, &MainWindow::setSingleNoteMode);
-  connect(sound, &Asound::noteStarted, this, &MainWindow::soundWasStarted);
-  connect(sound, &Asound::noteFinished, this, &MainWindow::soundWasFinished);
   connect(bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
 #else
   connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
@@ -179,11 +174,11 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
   connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
   connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-  connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
-  connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
 #endif
   setSingleNoteMode(gl->S->isSingleNoteMode);
 
+  connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
+  connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
   connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
   connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
   connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
@@ -557,9 +552,7 @@ void MainWindow::adjustAmbitus() {
 			loNote = Tnote(gl->loNote().chromatic() - noteOffset);
 		else
 			loNote = Tnote(score->lowestNote().chromatic() - noteOffset);
-#if !defined (Q_OS_ANDROID)
 		sound->sniffer->setAmbitus(loNote, hiNote);
-#endif
 	} else
 		sound->setDefaultAmbitus();
 }
