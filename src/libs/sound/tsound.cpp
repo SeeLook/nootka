@@ -41,9 +41,9 @@ Tsound::Tsound(QObject* parent) :
   m_examMode(false),
   m_melodyNoteIndex(-1)
 {
-#if !defined (Q_OS_ANDROID)
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
+#if !defined (Q_OS_ANDROID)
 	TrtAudio::initJACKorASIO(Tcore::gl()->A->JACKorASIO);
 #endif
   if (Tcore::gl()->A->OUTenabled)
@@ -160,8 +160,10 @@ void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView->setMinimalVolume(Tcore::gl()->A->minimalVol);
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
 	m_pitchView->setAudioInput(sniffer);
+#if !defined (Q_OS_ANDROID)
   if (sniffer)
     QTimer::singleShot(750, sniffer, SLOT(startListening()));
+#endif
 // 		sniffer->startListening();
 }
 
