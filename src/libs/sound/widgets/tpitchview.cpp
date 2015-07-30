@@ -21,11 +21,13 @@
 #include "tvolumeview.h"
 #include "tintonationview.h"
 #include <tcolor.h>
+#include <graphics/tnotepixmap.h>
 #include <QTimer>
 #include <QLabel>
 #include <QPainter>
 #include <QApplication>
-#include <QCheckBox>
+#include <QAction>
+#include <QDesktopWidget>
 #include <QDebug>
 
 
@@ -60,6 +62,13 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   connect(m_volumeView, SIGNAL(minimalVolume(float)), this, SLOT(minimalVolumeChanged(float)));
   connect(m_intoView, SIGNAL(accuracyChanged()), this, SLOT(accuracyChangedSlot()));
   connect(m_intoView, &TintonationView::animationFinished, this, &TpitchView::intoAnimFinished);
+#if defined (Q_OS_ANDROID)
+  m_pauseAct = new QAction("", this);
+  m_pauseAct->setCheckable(true);
+  connect(m_pauseAct, &QAction::triggered, this, &TpitchView::pauseActionSlot);
+  m_pauseAct->setChecked(false);
+  pauseActionSlot();
+#endif
 }
 
 //#################################################################################################
@@ -79,6 +88,7 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
 
 void TpitchView::watchInput() {
   if (isEnabled() && isVisible() && m_audioIN && m_audioIN->detectingState() == TaudioIN::e_detecting && !m_watchTimer->isActive()) {
+    qDebug() << "Audio input is watched";
     m_prevPitch = -1.0;
     m_watchTimer->start(75);
     connect(m_audioIN, &TaudioIN::noteStarted, this, &TpitchView::noteSlot);
@@ -216,6 +226,15 @@ void TpitchView::pauseClicked() {
 		enableAccuracyChange(m_intoView->accuracyChangeEnabled()); // refresh status tip state
 	}	
 }
+
+#if defined (Q_OS_ANDROID)
+void TpitchView::pauseActionSlot() {
+  m_volumeView->setPaused(!m_pauseAct->isChecked());
+  QFont nf("nootka", qApp->desktop()->availableGeometry().height() / 10);
+  m_pauseAct->setIcon(QIcon(pixFromString(m_volumeView->isPaused() ? "o" : "n", nf, qApp->palette().highlight().color())));
+  pauseClicked();
+}
+#endif
 
 
 void TpitchView::minimalVolumeChanged(float minVol) {

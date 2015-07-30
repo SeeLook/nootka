@@ -37,13 +37,16 @@ class QBoxLayout;
 class TvolumeView;
 class TintonationView;
 class QTimer;
+class QAction;
 
 /** 
  * This class manages of displaying volume meter and intonation indicator.
  * When audio input is set through @p setAudioInput() 
- * it grabs volume and intonation with timer event loop.
+ * it grabs volume and intonation with timer event loop,
+ * but only when it is enabled and visible, so
  * @class TpitchView reacts on device state changes 
  * so it can stop or start a loop when necessary.
+ * For mobile platforms there is @p pauseAction() that works like switch.
  */
 class NOOTKASOUND_EXPORT TpitchView : public QWidget
 {
@@ -61,6 +64,9 @@ public:
   void setBgColor(const QColor &col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
   void setDisabled(bool isDisabled);
+#if defined (Q_OS_ANDROID)
+  QAction* pauseAction() { return m_pauseAct; }
+#endif
 
   void markAnswer(const QColor &col);
 
@@ -90,6 +96,9 @@ protected slots:
   void inputDeviceDeleted();
   void accuracyChangedSlot();
   void intoAnimFinished();
+#if defined (Q_OS_ANDROID)
+  void pauseActionSlot();
+#endif
   
 protected:
   virtual void paintEvent(QPaintEvent*);
@@ -108,6 +117,9 @@ private:
   float 						 m_prevVolume, m_prevPitch;
   int                m_prevState;
 	bool							 m_pauseActive; /** It stores constructor state, so when audio in is created/deleted it reacts on it is was enabled. */
+#if defined (Q_OS_ANDROID)
+	QAction           *m_pauseAct;
+#endif
 };
 
 #endif // TPITCHVIEW_H

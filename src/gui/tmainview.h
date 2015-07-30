@@ -26,6 +26,7 @@ class Tmenu;
 class TtoolBar;
 class TnoteName;
 class TnameTip;
+class TpitchView;
 class TlayoutParams;
 class TcombinedAnim;
 class QVBoxLayout;
@@ -45,7 +46,7 @@ class TmainView : public QGraphicsView
 Q_OBJECT
 
 public:
-	TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, QWidget* pitchW,
+	TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
             QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QWidget* parent = 0);
 	
 	void addNoteName(); /** Adds note name widget over a score (for single note mode) */
@@ -59,10 +60,6 @@ public:
 	void setBarAutoHide(bool autoHide); /** Makes tool bar permanently visible or displayed on demand (mouse action) */
 	bool isAutoHide() { return m_isAutoHide; }
 
-#if defined (Q_OS_ANDROID)
-	QAction* singleNoteAction() { return m_singleNoteAction; } /** Triggers single/multiple note/s mode */
-#endif
-	
 signals:
 	void statusTip(const QString&);
   void sizeChanged(const QSize&);
@@ -78,6 +75,9 @@ protected:
 
   void mainMenuExec();
   void scoreMenuExec();
+#if defined (Q_OS_ANDROID)
+  void playBarExec();
+#endif
 	
 protected slots:
 	void showToolBar();
@@ -85,9 +85,10 @@ protected slots:
 	void menuSlot(Tmenu* m);
 	
 private:
-	QWidget													*m_status, *m_pitch;
+	QWidget													*m_status;
   QGraphicsView                   *m_score, *m_guitar;
 	QWidget													*m_results, *m_progress, *m_container, *m_touchedWidget;
+  TpitchView                      *m_pitch;
 	TnoteName												*m_name;
   TtoolBar                        *m_tool;
 	QGraphicsWidget									*m_proxy;
@@ -99,8 +100,7 @@ private:
 	TlayoutParams										*m_layParams;
 	QTimer													*m_timerBar;
 	TnameTip												*m_nameTip;
-  bool                             m_mainMenuTap, m_scoreMenuTap;
-  QAction                         *m_singleNoteAction;
+  bool                             m_mainMenuTap, m_scoreMenuTap, m_playBarTap;
 
 };
 

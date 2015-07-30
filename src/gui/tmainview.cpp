@@ -19,6 +19,7 @@
 #include "tmainview.h"
 #include "ttoolbar.h"
 #include "tmenu.h"
+#include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
 #include <animations/tcombinedanim.h>
 #include <tlayoutparams.h>
@@ -29,7 +30,7 @@
 #include <QtWidgets>
 
 
-TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, QWidget* pitchW,
+TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
                      QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QWidget* parent) :
 	QGraphicsView(parent),
 	m_layParams(layParams),
@@ -41,7 +42,7 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	m_touchedWidget(0),
 	m_name(name),
 	m_nameLay(0),
-	m_mainMenuTap(false), m_scoreMenuTap(false)
+	m_mainMenuTap(false), m_scoreMenuTap(false), m_playBarTap(false)
 {
 	setScene(new QGraphicsScene(this));
 	
@@ -87,10 +88,6 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	m_name->createNameTip(scene());
 	
 	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
-#if defined (Q_OS_ANDROID)
-  m_singleNoteAction = new QAction("single note mode", this);
-  m_singleNoteAction->setCheckable(true);
-#endif
 }
 
 
@@ -294,6 +291,28 @@ void TmainView::mouseMoveEvent(QMouseEvent* event) {
   QGraphicsView::mouseMoveEvent(event);
 }
 
+
+#if defined (Q_OS_ANDROID)
+void TmainView::playBarExec() {
+  m_playBarTap = false;
+  TtouchMenu menu(this);
+  QToolBar bar(&menu);
+  bar.setIconSize(QSize(height() / 10, height() / 10));
+  bar.setFixedWidth(height() / 2);
+  bar.setToolButtonStyle(Qt::ToolButtonIconOnly);
+  bar.addAction(m_tool->playMelody());
+  bar.addAction(m_tool->recordMelody());
+  bar.addAction(m_pitch->pauseAction());
+  QVBoxLayout *mLay = new QVBoxLayout;
+  mLay->setContentsMargins(0, 0, 0, 0);
+  mLay->addWidget(&bar);
+  menu.setLayout(mLay);
+  menu.setFixedSize(bar.sizeHint());
+  menu.exec(QPoint((width() - menu.sizeHint().width()) / 2, 1), QPoint((width() - menu.sizeHint().width()) / 2, -bar.sizeHint().height()));
+}
+#endif
+
+
 void TmainView::mainMenuExec() {
   m_mainMenuTap = false;
   TtouchMenu menu(this);
@@ -314,9 +333,6 @@ void TmainView::scoreMenuExec() {
   menu.addAction(m_tool->scoreZoomIn());
   menu.addAction(m_tool->scoreZoomOut());
   menu.addAction(m_tool->scoreDeleteAll());
-#if defined (Q_OS_ANDROID)
-  menu.addAction(m_singleNoteAction);
-#endif
 //   QAction *fakeAct = new QAction("fake action", &menu);
 //   menu.addAction(fakeAct);
 //   QAction *fakeAct2 = new QAction("fake action", &menu);
@@ -330,7 +346,6 @@ void TmainView::scoreMenuExec() {
 
 
 TguitarView* guitarView = 0;
-int prevTwoFingersPos = 0;
 bool TmainView::viewportEvent(QEvent *event) {
   if (TtouchProxy::touchEnabled()) {
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
@@ -339,7 +354,7 @@ bool TmainView::viewportEvent(QEvent *event) {
       if (itemAt(mapFromScene(te->touchPoints().first().pos())) == m_proxy) {
         if (te->touchPoints().size() == 1) {
 // 1.1 with one finger
-          if (m_mainMenuTap || te->touchPoints().first().pos().x() < 5) {
+          if (m_mainMenuTap || te->touchPoints().first().pos().x() < 10) { //TODO 10 has to depend on screen finger size
 // 1.1.1 on the left screen edge - main menu
               if (event->type() == QEvent::TouchBegin) {
                 event->accept();
@@ -351,7 +366,7 @@ bool TmainView::viewportEvent(QEvent *event) {
                   m_mainMenuTap = false;
               return true;
 // 1.1.2 on the right screen edge - score menu
-          } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - 5) {
+          } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - 10) {
               if (event->type() == QEvent::TouchBegin) {
                 event->accept();
                 m_scoreMenuTap = true;
@@ -361,9 +376,24 @@ bool TmainView::viewportEvent(QEvent *event) {
               } else if (event->type() == QEvent::TouchEnd)
                   m_scoreMenuTap = false;
               return true;
-// 1.1.3 score was touched
-          } else if (m_touchedWidget == m_score->viewport() ||
+          } else
+#if defined (Q_OS_ANDROID)
+            if (m_playBarTap || te->touchPoints().first().pos().y() < 10) {
+// 1.1.3 on the top screen edge - play bar
+              if (event->type() == QEvent::TouchBegin) {
+                event->accept();
+                m_playBarTap = true;
+              } else if (event->type() == QEvent::TouchUpdate) {
+                  if (m_playBarTap && te->touchPoints().first().pos().y() > height() * 0.1)
+                    playBarExec();
+              } else if (event->type() == QEvent::TouchEnd)
+                  m_playBarTap = false;
+              return true;
+          } else
+#endif
+            if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {
+// 1.1.4 score was touched
               if (guitarView) {
                 delete guitarView;
                 guitarView = 0;
@@ -382,7 +412,7 @@ bool TmainView::viewportEvent(QEvent *event) {
               if (event->type() == QEvent::TouchEnd)
                 m_touchedWidget = 0;
               return true;
-// 1.1.4 guitar was touched
+// 1.1.5 guitar was touched
           } else if (m_touchedWidget == m_guitar->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_guitar->viewport()) {
                 event->accept();
@@ -400,13 +430,13 @@ bool TmainView::viewportEvent(QEvent *event) {
             if (event->type() == QEvent::TouchUpdate) { // TouchBegin occurs when first finger touches size() == 1
 // 1.2.1 score double touched - scrolling
               if (m_touchedWidget == m_score->viewport()) {
-                prevTwoFingersPos = te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y();
-                m_score->verticalScrollBar()->setValue (m_score->verticalScrollBar()->value() + prevTwoFingersPos);
+                m_score->verticalScrollBar()->setValue(
+                    m_score->verticalScrollBar()->value() + (te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y()));
               } else if (m_touchedWidget == m_guitar->viewport()) {
 // 1.2.2 guitar double touched - bigger preview of fingerboard
                   if (guitarView) {
-                    prevTwoFingersPos = te->touchPoints()[0].lastPos().x() - te->touchPoints()[0].pos().x();
-                    guitarView->horizontalScrollBar()->setValue (guitarView->horizontalScrollBar()->value() + prevTwoFingersPos);
+                    guitarView->horizontalScrollBar()->setValue(
+                        guitarView->horizontalScrollBar()->value() + (te->touchPoints()[0].lastPos().x() - te->touchPoints()[0].pos().x()));
                   } else if (qAbs(te->touchPoints()[0].pos().y() - te->touchPoints()[0].startPos().y()) > height() / 4) {
                     if (!guitarView) {
                       guitarView = new TguitarView(m_guitar, this);
