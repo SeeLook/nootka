@@ -18,6 +18,7 @@
 
 #include "tqtaudioin.h"
 #include "tpitchfinder.h"
+#include <taudioparams.h>
 #include <QAudioInput>
 #include <QIODevice>
 #include <QThread>
@@ -39,7 +40,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
   if (!defaultIn.isFormatSupported(format)) {
-    qDebug() << "Format 48000/16 mono is not suported";
+    qDebug() << "Format 48000/16 mono is not supported";
     format = defaultIn.nearestFormat(format);
     qDebug() << "Format is" << format.sampleRate() << format.channelCount() << format.sampleSize();
   }
@@ -48,8 +49,15 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   m_audioIN->setBufferSize(2048);
   finder()->setSampleRate(m_audioIN->format().sampleRate()); // framesPerChunk is determined here
 
-//  moveToThread(m_thread);
-//  connect(m_thread, &QThread::started, this, &TaudioIN::dataReady);
+//   qDebug() << "setAudioInParams" << "\nrate:" << m_audioIN->format().sampleRate() << "\nmethod:" << params->detectMethod
+//           << "\nmin duration" << params->minDuration << "\nmin volume" << params->minimalVol
+//           << "\nsplit volume" << (finder()->isSplitByVolume() ? finder()->minVolumeToSplit() * 100.0 : 0.0)
+//           << "\nskip volume" << finder()->skipStillerValue() * 100.0
+//           << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
+
+  moveToThread(m_thread);
+  connect(m_thread, &QThread::started, this, &TaudioIN::startThread);
+  connect(m_thread, &QThread::finished, this, &TaudioIN::stopThread);
 }
 
 
@@ -60,20 +68,28 @@ TaudioIN::~TaudioIN() {
 
 
 void TaudioIN::startListening() {
+  m_thread->start();
+}
+
+
+void TaudioIN::stopListening() {
+  m_thread->quit();
+}
+
+void TaudioIN::startThread() {
   if (detectingState() != e_detecting) {
     m_inDevice = m_audioIN->start();
     if (m_inDevice) {
       m_buffer = new qint16[m_audioIN->bufferSize()];
       connect(m_inDevice, &QIODevice::readyRead, this, &TaudioIN::dataReady);
-//      connect(m_inDevice, &QIODevice::readyRead, m_thread, &QThread::start);
       setState(e_detecting);
-      qDebug() << "started with buffer" << m_audioIN->bufferSize();
+//       qDebug() << "started with buffer" << m_audioIN->bufferSize();
     }
   }
 }
 
 
-void TaudioIN::stopListening() {
+void TaudioIN::stopThread() {
   if (detectingState() != e_stopped) {
     m_audioIN->stop();
     delete m_buffer;
@@ -88,15 +104,11 @@ void TaudioIN::stopListening() {
 
 void TaudioIN::dataReady() {
   int bytesReady = m_audioIN->bytesReady();
-//  qDebug() << bytesReady << "ready to read";
-  int toRead = qMin(bytesReady, m_audioIN->bufferSize());
-  int dataRead = m_inDevice->read((char*)m_buffer, toRead) / 2;
-//  if (dataRead > 1024) {
-//    dataRead = 1024;
-//    qDebug() << dataRead << "Audio data was cut off. Buffer is too small !!!!";
-//  }
-  for (int i = 0; i < dataRead; i++) {
-    finder()->fillBuffer(*(m_buffer + i) / 32760.0f);
+  while (bytesReady > 0) {
+    int dataToRead = m_inDevice->read((char*)m_buffer, m_audioIN->bufferSize()) / 2;
+    for (int i = 0; i < dataToRead; i++)
+      finder()->fillBuffer(*(m_buffer + i) / 32760.0f);
+    bytesReady = bytesReady - dataToRead * 2;
   }
 }
 

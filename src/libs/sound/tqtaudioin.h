@@ -45,6 +45,8 @@ public slots:
 
 protected slots:
   void dataReady();
+  void startThread();
+  void stopThread();
 
 private:
   QAudioInput           *m_audioIN;
