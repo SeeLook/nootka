@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -98,7 +98,7 @@ public:
 	
 	TartiniParams* aGl() { return m_aGl; } /** global settings for pitch recognition. */
 
-	bool isBussy() { return m_isBussy; }
+	bool isBusy() { return m_isBusy; }
 	
 	int currentChunk() { return m_chunkNum; }
 	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
@@ -149,9 +149,32 @@ public:
 
       /** In offline mode pitch detecting isn't performed in separate thread.
        * After collecting audio data in buffer, detection is performed
-       * and no data is retrieving until detection in current chunk is finished. */
-	bool isOffline() { return m_isOffline; }
-	void setOffLine(bool off);
+       * and no data is retrieving until detection in current chunk is finished.
+       * Setting this to true overrides @p copyInThread to @p TRUE and @p nrChunksToReset to 0 */
+  void setOffLine(bool off);
+  bool isOffline() { return m_isOffline; }
+
+      /** Determines whether current buffer is copied to Tartini @p Channel.
+       * By default it is being done in detecting thread,
+       * but it requires accurate feeding @p fillBuffer() with the same portion of data
+       * less or equal of frame buffer size - RtAudio call backs did it well.
+       * Otherwise TpitchFinder has no time to properly swap between two buffers.
+       * When it is set to @p FALSE coping is performed in @p bufferReady()
+       * out of detecting thread.
+       * It is performed in audio call back thread, so
+       * It requires bigger audio buffer (1024 bytes - 21 ms)
+       * - @p QtAudioInput works like this.  */
+  void setCopyInThread(bool cit) { m_copyInThread = cit; }
+  bool copyInThread() { return m_copyInThread; }
+
+      /** This value determines how often @p Channel is reset.
+       * By default it is every 1000 chunks - channel data occupies around 20 MB.
+       * However values less than 100 are not recommended.
+       * Resetting channel is done only when no note is detected,
+       * so if something is played still - no resetting is performed.
+       * If set to 0 - reset is not performed as well. */
+  void setNrChunksToReset(quint16 chunksNr) { m_chunksToReset = chunksNr; }
+  quint16 nrChunksToReset() { return m_chunksToReset; }
 
       /** Pointer to detection processing @class Channel.
        * WARRING!
@@ -177,6 +200,7 @@ protected slots:
 private:
 	void detect();
   void bufferReady(); /** Performed when all required amount of samples is collected it current buffer. */
+  void copyToChannel(); /** Performs filtering (if enabled) and copies @p m_currentBuff to @p Channel */
 	
 	
 private:
@@ -188,11 +212,11 @@ private:
 	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
 
 
-  bool             m_doReset, m_isOffline;
+  bool             m_doReset, m_isOffline, m_copyInThread;
 	TartiniParams   *m_aGl;
 	Channel         *m_channel;
 	int              m_chunkNum;
-	bool             m_isBussy;
+	bool             m_isBusy;
   int              m_prevNoteIndex;
   float            m_minVolume;
 	float						 m_minDuration;
@@ -205,6 +229,7 @@ private:
   bool             m_splitByVol;
   qreal            m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
   int              m_minChunks;
+  quint16          m_chunksToReset;
 
 };
 

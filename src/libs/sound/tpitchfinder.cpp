@@ -38,13 +38,14 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_minVolume(0.4),
   m_prevNoteIndex(-1),
   m_minDuration(0.09),
-  m_doReset(false), m_isOffline(false),
+  m_doReset(false), m_copyInThread(true),
   m_rateRatio(1.0),
   m_volume(0),
   m_state(e_silence), m_prevState(e_silence),
   m_pcmVolume(0.0f), m_workVol(0.0f),
   m_splitByVol(true), m_minVolToSplit(0.1),
-  m_skipStillerVal(0.0), m_averVolume(0.0)
+  m_skipStillerVal(0.0), m_averVolume(0.0),
+  m_chunksToReset(1000)
 {
 	m_aGl = new TartiniParams();
 	m_aGl->chanells = 1;
@@ -81,7 +82,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection);
 	connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
 	
-	m_isBussy = false;
+	m_isBusy = false;
 }
 
 
@@ -106,9 +107,14 @@ TpitchFinder::~TpitchFinder()
 //##########################################################################################################
 //########################################## PUBLIC ########################################################
 //##########################################################################################################
+
 void TpitchFinder::setOffLine(bool off) {
   if (off != m_isOffline) {
     m_isOffline = off;
+    if (off) {
+      m_chunksToReset = 0; // store all chunks
+      m_copyInThread = true; // in fact it is copied in one thread, but thread of caller in offline mode
+    }
   }
 }
 
@@ -184,26 +190,9 @@ void TpitchFinder::resetFinder() {
 
 void TpitchFinder::startPitchDetection() {
 	m_mutex.lock();
-  m_isBussy = true;
-	if (m_doReset) { // copy last chunk to keep capturing data continuous
-		if (aGl()->equalLoudness)
-				std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
-		else
-				std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
-		m_mutex.unlock();
-		resetFinder();
-		m_mutex.lock();
-		std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
-	}
-	m_workChunk = m_filledBuff;
-	m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
-  if (aGl()->equalLoudness) { // filter it and copy to channel
-		m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
-		for(int i = 0; i < aGl()->framesPerChunk; i++)
-				m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
-		std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
-	} else // copy without filtering
-			std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+  m_isBusy = true;
+  if (copyInThread())
+    copyToChannel();
 	detect();
   if (!m_isOffline)
     m_thread->quit();
@@ -247,7 +236,7 @@ void TpitchFinder::detect() {
   if (data == 0) {
     qDebug() << "Uh-uh! There is no Analysis data in processed chunk!";
     incrementChunk();
-    m_isBussy = false;
+    m_isBusy = false;
     return;
   }
   data->pcmVolume = m_pcmVolume;
@@ -290,11 +279,11 @@ void TpitchFinder::detect() {
     }
   }
   m_prevNoteIndex = data->noteIndex;
-  if (!m_isOffline && m_chunkNum > 1000 && data->noteIndex == NO_NOTE)
+  if (m_chunksToReset && m_chunkNum > m_chunksToReset && data->noteIndex == NO_NOTE) // in offline m_chunksToReset is 0
     m_doReset = true;
 
   incrementChunk();
-  m_isBussy = false;
+  m_isBusy = false;
 }
 
 
@@ -307,14 +296,40 @@ void TpitchFinder::bufferReady() {
     m_currentBuff = m_buffer_2;
   else
     m_currentBuff = m_buffer_1;
-//   if (m_isOffline) {
-//     startPitchDetection();
-//     processed();
-//   } else {
+  if (!copyInThread()) // false in offline mode
+    copyToChannel();
+  if (m_isOffline) {
+    startPitchDetection();
+    processed();
+  } else {
     m_thread->start(QThread::HighestPriority);
-//   }
+  }
 }
 
+
+void TpitchFinder::copyToChannel() {
+  if (m_doReset) { // copy last chunk to keep capturing data continuous
+    if (aGl()->equalLoudness)
+        std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+    else
+        std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+    if (copyInThread())
+      m_mutex.unlock();
+    resetFinder();
+    if (copyInThread())
+      m_mutex.lock();
+    std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+  }
+  m_workChunk = m_filledBuff;
+  m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
+  if (aGl()->equalLoudness) { // filter it and copy to channel
+    m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
+    for(int i = 0; i < aGl()->framesPerChunk; i++)
+        m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
+    std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+  } else // copy without filtering
+      std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+}
 
 
 
