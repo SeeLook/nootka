@@ -32,6 +32,15 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   m_thread(new QThread)
 {
   QAudioDeviceInfo defaultIn = QAudioDeviceInfo::defaultInputDevice();
+  QList<QAudioDeviceInfo> devList = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+  for (int i = 0; i < devList.size(); ++i) {
+    if (devList[i].deviceName() == "camcorder") { // camcorder voicerecognition
+      defaultIn = devList[i];
+      break;
+    }
+  }
+
+  qDebug() << "IN:" << defaultIn.deviceName();
   QAudioFormat format;
     format.setChannelCount(1);
     format.setSampleRate(48000);
@@ -47,9 +56,11 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
 
   m_audioIN = new QAudioInput(defaultIn, format, this);
   m_audioIN->setBufferSize(2048);
+  finder()->setCopyInThread(false);
+  finder()->setNrChunksToReset(500); // Less memory usage
   finder()->setSampleRate(m_audioIN->format().sampleRate()); // framesPerChunk is determined here
 
-//   qDebug() << "setAudioInParams" << "\nrate:" << m_audioIN->format().sampleRate() << "\nmethod:" << params->detectMethod
+//   qDebug() << "setAudioInParams" << "\nrate:" << finder()->aGl()->rate << m_audioIN->format().sampleRate() << "\nmethod:" << params->detectMethod
 //           << "\nmin duration" << params->minDuration << "\nmin volume" << params->minimalVol
 //           << "\nsplit volume" << (finder()->isSplitByVolume() ? finder()->minVolumeToSplit() * 100.0 : 0.0)
 //           << "\nskip volume" << finder()->skipStillerValue() * 100.0
@@ -63,6 +74,10 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
 
 TaudioIN::~TaudioIN() {
   stopListening();
+  if (m_thread->isRunning()) {
+      m_thread->terminate();
+      m_thread->quit();
+  }
   m_thread->deleteLater();
 }
 
@@ -75,6 +90,7 @@ void TaudioIN::startListening() {
 void TaudioIN::stopListening() {
   m_thread->quit();
 }
+
 
 void TaudioIN::startThread() {
   if (detectingState() != e_detecting) {
@@ -104,10 +120,11 @@ void TaudioIN::stopThread() {
 
 void TaudioIN::dataReady() {
   int bytesReady = m_audioIN->bytesReady();
+//   qDebug() << "latency" << latencyGap.elapsed() << bytesReady << m_audioIN->error();
   while (bytesReady > 0) {
     int dataToRead = m_inDevice->read((char*)m_buffer, m_audioIN->bufferSize()) / 2;
     for (int i = 0; i < dataToRead; i++)
-      finder()->fillBuffer(*(m_buffer + i) / 32760.0f);
+      finder()->fillBuffer(float(*(m_buffer + i)) / 32760.0f);
     bytesReady = bytesReady - dataToRead * 2;
   }
 }
