@@ -19,6 +19,10 @@
 #include "tmainview.h"
 #include "ttoolbar.h"
 #include "tmenu.h"
+#if defined (Q_OS_ANDROID)
+  #include "tmelodyitem.h"
+  #include <graphics/tdropshadoweffect.h>
+#endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
 #include <animations/tcombinedanim.h>
@@ -88,6 +92,12 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	m_name->createNameTip(scene());
 	
 	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
+#if defined (Q_OS_ANDROID)
+  TmelodyItem *melItem = new TmelodyItem(m_tool->playMelody(), m_tool->recordMelody());
+  scene()->addItem(melItem);
+  melItem->setPos(m_score->x() + 5, m_score->y() + 5);
+  melItem->setGraphicsEffect(new TdropShadowEffect);
+#endif
 }
 
 
@@ -302,7 +312,6 @@ void TmainView::playBarExec() {
   bar.setToolButtonStyle(Qt::ToolButtonIconOnly);
   bar.addAction(m_tool->playMelody());
   bar.addAction(m_tool->recordMelody());
-  bar.addAction(m_pitch->pauseAction());
   QVBoxLayout *mLay = new QVBoxLayout;
   mLay->setContentsMargins(0, 0, 0, 0);
   mLay->addWidget(&bar);
@@ -333,6 +342,9 @@ void TmainView::scoreMenuExec() {
   menu.addAction(m_tool->scoreZoomIn());
   menu.addAction(m_tool->scoreZoomOut());
   menu.addAction(m_tool->scoreDeleteAll());
+#if defined (Q_OS_ANDROID)
+  menu.addAction(m_pitch->pauseAction());
+#endif
 //   QAction *fakeAct = new QAction("fake action", &menu);
 //   menu.addAction(fakeAct);
 //   QAction *fakeAct2 = new QAction("fake action", &menu);
@@ -377,20 +389,20 @@ bool TmainView::viewportEvent(QEvent *event) {
                   m_scoreMenuTap = false;
               return true;
           } else
-#if defined (Q_OS_ANDROID)
-            if (m_playBarTap || te->touchPoints().first().pos().y() < 10) {
-// 1.1.3 on the top screen edge - play bar
-              if (event->type() == QEvent::TouchBegin) {
-                event->accept();
-                m_playBarTap = true;
-              } else if (event->type() == QEvent::TouchUpdate) {
-                  if (m_playBarTap && te->touchPoints().first().pos().y() > height() * 0.1)
-                    playBarExec();
-              } else if (event->type() == QEvent::TouchEnd)
-                  m_playBarTap = false;
-              return true;
-          } else
-#endif
+// #if defined (Q_OS_ANDROID)
+//             if (m_playBarTap || te->touchPoints().first().pos().y() < 10) {
+// // 1.1.3 on the top screen edge - play bar
+//               if (event->type() == QEvent::TouchBegin) {
+//                 event->accept();
+//                 m_playBarTap = true;
+//               } else if (event->type() == QEvent::TouchUpdate) {
+//                   if (m_playBarTap && te->touchPoints().first().pos().y() > height() * 0.1)
+//                     playBarExec();
+//               } else if (event->type() == QEvent::TouchEnd)
+//                   m_playBarTap = false;
+//               return true;
+//           } else
+// #endif
             if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {
 // 1.1.4 score was touched
