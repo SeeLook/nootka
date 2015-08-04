@@ -101,7 +101,7 @@ private:
   Tnote 			 					m_detectedPitch; // detected note pitch
   bool 				 					m_examMode;
 	Tnote				 					m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stored during an exam
-	bool 				 					m_midiPlays, m_userState;;
+	bool 				 					m_stopSniffOnce, m_userState;;
 	int										m_melodyNoteIndex;
 	Tmelody							 *m_playedMelody;
   

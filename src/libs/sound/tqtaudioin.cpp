@@ -78,12 +78,14 @@ TaudioIN::~TaudioIN() {
       m_thread->terminate();
       m_thread->quit();
   }
+  m_audioIN->stop();
   m_thread->deleteLater();
 }
 
 
 void TaudioIN::startListening() {
-  m_thread->start();
+  if (!stoppedByUser() && detectingState() != e_detecting)
+    m_thread->start();
 }
 
 
@@ -93,7 +95,7 @@ void TaudioIN::stopListening() {
 
 
 void TaudioIN::startThread() {
-  if (detectingState() != e_detecting) {
+//   if (detectingState() != e_detecting) {
     m_inDevice = m_audioIN->start();
     if (m_inDevice) {
       m_buffer = new qint16[m_audioIN->bufferSize()];
@@ -101,7 +103,7 @@ void TaudioIN::startThread() {
       setState(e_detecting);
 //       qDebug() << "started with buffer" << m_audioIN->bufferSize();
     }
-  }
+//   }
 }
 
 

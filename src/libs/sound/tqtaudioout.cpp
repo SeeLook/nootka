@@ -19,8 +19,13 @@
 
 #include "tqtaudioout.h"
 #include <taudioparams.h>
-#include <QDebug>
-#include <QTimer>
+#include <tpath.h>
+#include <QtMultimedia/QMediaPlayer>
+#include <QtCore/QTimer>
+#include <QtCore/QDebug>
+#include <QtCore/QCoreApplication>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
 
 
 
@@ -30,13 +35,25 @@ TaudioOUT::TaudioOUT(TaudioParams* _params, QObject* parent) :
 {
   setType(e_audio);
   setAudioOutParams();
+
+  m_player = new QMediaPlayer(parent, QMediaPlayer::LowLatency);
+  QFile::copy(Tpath::sound("classical-guitar", ".wav").replace(":", "assets:"), QDir::tempPath() + "/nootkaPlayback.wav");
+  m_player->setMedia(QUrl::fromLocalFile(QDir::tempPath() + "/nootkaPlayback.wav"));
+  m_player->setVolume(95);
+  qDebug() << m_player->error() << m_player->errorString();
+  playable = true;
+  offTimer = new QTimer(this);
+  offTimer->setTimerType(Qt::PreciseTimer);
+  connect(offTimer, &QTimer::timeout, this, &TaudioOUT::playingFinishedSlot);
 //   connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedSlot);
 }
 
 
 TaudioOUT::~TaudioOUT() 
 {
-  
+  offTimer->stop();
+  m_player->stop();
+  QFile::remove(QDir::tempPath() + "/nootkaPlayback.ogg");
 }
 
 
@@ -46,23 +63,41 @@ void TaudioOUT::setAudioOutParams() {
 
 
 bool TaudioOUT::play(int noteNr) {
-  if (!playable /*|| audioParams()->forwardInput*/) // if forwarding is enabled play() makes no sense
+  if (!playable)
       return false;
-  
-  
-//  noteNr = noteNr + int(audioParams()->a440diff);
-	
+
+//   qDebug() << "play" << noteNr << m_player->state() << m_player->mediaStatus();
+  noteNr = noteNr + qRound(m_audioParams->a440diff);
+  if (noteNr < -11 || noteNr > 41)
+    return false;
+
+  offTimer->stop();
+//   if (m_player->state() == QMediaPlayer::PlayingState)
+//     m_player->pause();
+  m_player->setPosition(qMax<int>((noteNr + 11) * 2000 - 10, 0)); // every note takes 2000 ms in recording, but start it 10 ms before
+//   if (m_player->state() == QMediaPlayer::PlayingState)
+//     m_player->pause();
+  m_player->play();
+
+  offTimer->start(1600);
+
   doEmit = true;
+
+  return true;
 }
 
 
 void TaudioOUT::playingFinishedSlot() {
-
+  offTimer->stop();
+  m_player->pause();
+  if (doEmit)
+    emit noteFinished();
 }
 
 
 void TaudioOUT::stop() {
-	
+  doEmit = false;
+	playingFinishedSlot();
 }
 
 
