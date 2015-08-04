@@ -71,12 +71,21 @@ void Tsound::play(Tnote& note) {
   bool playing = false;
   if (player && note.note)
 			playing = player->play(note.chromatic());
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  if (playing) {
+    if (sniffer) { // stop sniffer if midi output was started
+      if (!m_stopSniffOnce) { // stop listening just once
+        sniffer->stopListening();
+        m_stopSniffOnce = true;
+      }
+    }
+  }
+#else
   if (playing && !Tcore::gl()->A->playDetected && player->type() == TabstractPlayer::e_midi) {
     if (sniffer) { // stop sniffer if midi output was started
-			if (!m_midiPlays) { // stop listening just once
+			if (!m_stopSniffOnce) { // stop listening just once
 				sniffer->stopListening();
-				m_midiPlays = true;
+				m_stopSniffOnce = true;
 			}
     }
   }
@@ -160,11 +169,13 @@ void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView->setMinimalVolume(Tcore::gl()->A->minimalVol);
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
 	m_pitchView->setAudioInput(sniffer);
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  if (sniffer)
+    sniffer->setStoppedByUser(true); // don't launch pitch detection at start under mobile
+#else
   if (sniffer)
     QTimer::singleShot(750, sniffer, SLOT(startListening()));
 #endif
-// 		sniffer->startListening();
 }
 
 
@@ -304,14 +315,17 @@ void Tsound::setDefaultAmbitus() {
 
 
 void Tsound::createPlayer() {
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  player = new TaudioOUT(Tcore::gl()->A);
+  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
+#else
   if (Tcore::gl()->A->midiEnabled) {
-    player = new TmidiOut(Tcore::gl()->A);
-		connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
-		m_midiPlays = false;
+      player = new TmidiOut(Tcore::gl()->A);
+      connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 	} else
-#endif
-    player = new TaudioOUT(Tcore::gl()->A);
+      player = new TaudioOUT(Tcore::gl()->A);
+  #endif
+  m_stopSniffOnce = false;
 }
 
 
@@ -362,10 +376,10 @@ void Tsound::restoreSniffer() {
 void Tsound::playingFinishedSlot() {
 //   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
-    if (m_midiPlays) {
+    if (m_stopSniffOnce) {
       sniffer->startListening();
     }
-    m_midiPlays = false;
+    m_stopSniffOnce = false;
   }
   emit plaingFinished();
 }
@@ -390,6 +404,7 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
 	if (player && Tcore::gl()->instrument != e_noInstrument && Tcore::gl()->A->playDetected)
 		play(m_detectedPitch);
 }
+
 
 Tchunk m_lastChunk;
 void Tsound::noteFinishedSlot(const TnoteStruct& note) {
