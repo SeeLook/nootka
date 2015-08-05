@@ -25,35 +25,46 @@ TtouchStyle::TtouchStyle() :
   QProxyStyle(QStyleFactory::create("Fusion"))
 {
   qApp->setStyleSheet(
-        QString("QMenu::item { height: %1px; width: %2px; margin: 10px; padding: 2px %1px 2px %1px}").
-                      arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::screenWidth() / 5) +
-        QString("QListWidget::item { height: %1px; }").arg(Tmtr::fingerPixels() * 0.7)
-        );
+        QString("QMenu::item { height: %1px; margin: 5px; padding: 4px %1px 4px %2px}").
+                      arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::fingerPixels() * 0.9) // height, left/right padding
+      + QString("QListWidget::item { height: %1px; }").arg(Tmtr::fingerPixels() * 0.7)
+  );
 }
 
-int TtouchStyle::styleHint(QStyle::StyleHint hint, const QStyleOption* option, const QWidget* widget, QStyleHintReturn* returnData) const {
-  if (hint == QStyle::SH_Menu_Scrollable)
-    return 1;
-//  if (hint == QStyle::SH_Menu_FillScreenWithScroll)
-//    return 1;
-  else
+
+int TtouchStyle::styleHint(QStyle::StyleHint hint, const QStyleOption* option,
+                           const QWidget* widget, QStyleHintReturn* returnData) const {
+  switch (hint) {
+  case SH_Menu_Scrollable: // single column, scrollable menu
+    return true;
+  case SH_Menu_FillScreenWithScroll:
+    return false;
+
+  default:
     return QProxyStyle::styleHint(hint, option, widget, returnData);
+  }
 }
 
 
 int TtouchStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption* option, const QWidget* widget) const {
-  if (metric == PM_SmallIconSize)
-    return Tmtr::fingerPixels() * 0.7;
-  else if (metric == PM_IndicatorHeight) // check box square height
+  switch (metric) {
+  case PM_SmallIconSize:
+    return Tmtr::fingerPixels() * 0.7; // small icon size
+
+  case PM_IndicatorHeight: // check box size
+  case PM_IndicatorWidth:
     return Tmtr::fingerPixels() * 0.5;
-  else if (metric == PM_IndicatorWidth) // check box square width
-    return Tmtr::fingerPixels() * 0.5;
-  else if (metric == PM_ExclusiveIndicatorHeight) // radio ellipse height
+
+  case PM_ExclusiveIndicatorHeight: // radio button ellipse size
+  case PM_ExclusiveIndicatorWidth:
     return Tmtr::fingerPixels() * 0.4;
-  else if (metric == PM_ExclusiveIndicatorWidth) // radio ellipse width
-    return Tmtr::fingerPixels() * 0.4;
-  else if (metric == PM_MenuTearoffHeight)
-    return Tmtr::fingerPixels();
-  else
+
+//  case PM_MenuTearoffHeight:
+//    return Tmtr::fingerPixels();
+
+  default:
     return QProxyStyle::pixelMetric(metric, option, widget);
+  }
+
+
 }
