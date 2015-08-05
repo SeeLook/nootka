@@ -16,54 +16,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TTOUCHMENU_H
-#define TTOUCHMENU_H
+#ifndef TTOUCHSTYLE_H
+#define TTOUCHSTYLE_H
 
-#include <QMenu>
+#include <qproxystyle.h>
 
-
-class QTimer;
-class QVBoxLayout;
-
-/**
- * Kind of @p QMenu but optimized for touch events (Android quirks)
- * and with built-in appear animation
- */
-class TtouchMenu : public QMenu
+class TtouchStyle : public QProxyStyle
 {
-  Q_OBJECT
 
 public:
-  TtouchMenu(QWidget *parent = 0);
-  virtual ~TtouchMenu();
-
-  int animDuration() { return m_animDuration; }
-
-      /** Sets duration of moving menu animation, by default it is 400 ms.
-       * When set to 0, animation is not performed. */
-  void setAnimDuration(int dur) { m_animDuration = dur; }
-
-      /** Adds given @p a QAction to menu. Performs some additional preparations. */
-  void addAction(QAction* a);
-
-      /** Overrides standard @p exec method of @p QMenu.
-       * Menu is positioned at @p endPos point but when @p startPos is set,
-       * an animation from it is performed */
-  QAction* exec(const QPoint& endPos, const QPoint& startPos = QPoint(-1, -1));
-
-protected:
-  virtual void showEvent(QShowEvent* e); // correct initial position
-  virtual bool event(QEvent *e);
-
-protected slots:
-  void animTimeOut();
-
-private:
-  int             m_animDuration;
-  QTimer         *m_animTimer;
-  int             m_step, m_count;
-  QPoint          m_startPos, m_endPos, m_offset;
-
+  TtouchStyle();
+  virtual int styleHint(QStyle::StyleHint hint, const QStyleOption* option, const QWidget* widget, QStyleHintReturn* returnData) const;
+  virtual int pixelMetric(QStyle::PixelMetric metric, const QStyleOption* option, const QWidget* widget) const;
 };
 
-#endif // TTOUCHMENU_H
+#endif // TTOUCHSTYLE_H

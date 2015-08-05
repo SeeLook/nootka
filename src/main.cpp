@@ -17,7 +17,11 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
+#if defined (Q_OS_ANDROID)
+  #include "ttouchstyle.h"
+#endif
 #include <tinitcorelib.h>
+#include <tmtr.h>
 #include <QPointer>
 #include <QFile>
 #include <QSettings>
@@ -62,8 +66,10 @@ int main(int argc, char *argv[])
 		}
 		resetConfig = false;
 		a = new QApplication(argc, argv);
+    Tmtr::init(a);
 #if defined (Q_OS_ANDROID)
-    a->setStyle(QStyleFactory::create("Fusion"));
+    a->setStyle(new TtouchStyle);
+//     a->setStyle(QStyleFactory::create("Fusion"));
 #endif
 		gl = new Tglobals();
 		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
