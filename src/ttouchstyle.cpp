@@ -25,8 +25,8 @@ TtouchStyle::TtouchStyle() :
   QProxyStyle(QStyleFactory::create("Fusion"))
 {
   qApp->setStyleSheet(
-        QString("QMenu::item { height: %1px; margin: 5px; padding: 4px %1px 4px %2px}").
-                      arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::fingerPixels() * 0.9) // height, left/right padding
+        QString("QMenu::item { height: %1px; margin: 5px; padding: 4px 10px 4px %2px; min-width: %3px; }").
+                      arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::fingerPixels() * 0.9).arg(Tmtr::longScreenSide() / 5) // height, left/right padding
       + QString("QListWidget::item { height: %1px; }").arg(Tmtr::fingerPixels() * 0.7)
   );
 }
