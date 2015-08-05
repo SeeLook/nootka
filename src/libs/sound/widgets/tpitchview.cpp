@@ -27,7 +27,7 @@
 #include <QPainter>
 #include <QApplication>
 #include <QAction>
-#include <QDesktopWidget>
+#include <QStyle>
 #include <QDebug>
 
 
@@ -229,7 +229,7 @@ void TpitchView::pauseClicked() {
 #if defined (Q_OS_ANDROID)
 void TpitchView::pauseActionSlot() {
   m_volumeView->setPaused(!m_pauseAct->isChecked());
-  QFont nf("nootka", qApp->desktop()->availableGeometry().height() / 10);
+  QFont nf("nootka", style()->pixelMetric(QStyle::PM_SmallIconSize));
   m_pauseAct->setIcon(QIcon(pixFromString(m_volumeView->isPaused() ? "o" : "n", nf, qApp->palette().highlight().color())));
   pauseClicked();
 }
