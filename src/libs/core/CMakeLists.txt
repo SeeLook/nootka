@@ -14,6 +14,7 @@ set(LIB_NOOTKACORE_SRC
 	tglobals.cpp
 	tnoofont.cpp
 	tpath.cpp
+	tmtr.cpp
 	
 	animations/tabstractanim.cpp
 	animations/tblinkingitem.cpp

@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tmelodyitem.h"
+#include <tmtr.h>
 #include <tpath.h>
 #include <QPushButton>
 #include <QApplication>
@@ -31,12 +32,8 @@ TmelodyItem::TmelodyItem(QAction* playAction, QAction* recordAction) :
   m_isPlaying(false), m_isRecording(false)
 {
   m_button = new QPushButton(QIcon(Tpath::img("melody")), QString(), 0);
-  int side = qMin(qApp->screens()[0]->geometry().height(), qApp->screens()[0]->geometry().width()) / 10;
-  qDebug() << "pixels per cm:"
-           << qApp->screens()[0]->geometry().height() / (qApp->screens()[0]->physicalSize().height() / 10.0) <<
-      qApp->screens()[0]->geometry().width() / (qApp->screens()[0]->physicalSize().width() / 10.0);
-  m_button->setIconSize(QSize(side, side));
-  m_button->setFixedSize(side + 3, side + 3);
+  m_button->setIconSize(QSize(Tmtr::fingerPixels(), Tmtr::fingerPixels()));
+  m_button->setFixedSize(Tmtr::fingerPixels() + 3, Tmtr::fingerPixels() + 3);
   setWidget(m_button);
 }
 

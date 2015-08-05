@@ -304,20 +304,6 @@ void TmainView::mouseMoveEvent(QMouseEvent* event) {
 
 #if defined (Q_OS_ANDROID)
 void TmainView::playBarExec() {
-  m_playBarTap = false;
-  TtouchMenu menu(this);
-  QToolBar bar(&menu);
-  bar.setIconSize(QSize(height() / 10, height() / 10));
-  bar.setFixedWidth(height() / 2);
-  bar.setToolButtonStyle(Qt::ToolButtonIconOnly);
-  bar.addAction(m_tool->playMelody());
-  bar.addAction(m_tool->recordMelody());
-  QVBoxLayout *mLay = new QVBoxLayout;
-  mLay->setContentsMargins(0, 0, 0, 0);
-  mLay->addWidget(&bar);
-  menu.setLayout(mLay);
-  menu.setFixedSize(bar.sizeHint());
-  menu.exec(QPoint((width() - menu.sizeHint().width()) / 2, 1), QPoint((width() - menu.sizeHint().width()) / 2, -bar.sizeHint().height()));
 }
 #endif
 
@@ -335,6 +321,7 @@ void TmainView::mainMenuExec() {
 
 void TmainView::scoreMenuExec() {
   m_scoreMenuTap = false;
+  qDebug() << "scoreMenuExec";
   TtouchMenu menu(this);
   menu.addAction(m_tool->generateMelody());
   menu.addAction(m_tool->scoreShowNames());
@@ -345,14 +332,14 @@ void TmainView::scoreMenuExec() {
 #if defined (Q_OS_ANDROID)
   menu.addAction(m_pitch->pauseAction());
 #endif
-//   QAction *fakeAct = new QAction("fake action", &menu);
-//   menu.addAction(fakeAct);
-//   QAction *fakeAct2 = new QAction("fake action", &menu);
-//   menu.addAction(fakeAct2);
-//   QAction *fakeAct3 = new QAction("fake action", &menu);
-//   menu.addAction(fakeAct3);
-//   QAction *fakeAct4 = new QAction("fake action", &menu);
-//   menu.addAction(fakeAct4);
+  QAction *fakeAct = new QAction("fake action", &menu);
+  menu.addAction(fakeAct);
+  QAction *fakeAct2 = new QAction("fake action", &menu);
+  menu.addAction(fakeAct2);
+  QAction *fakeAct3 = new QAction("fake action", &menu);
+  menu.addAction(fakeAct3);
+  QAction *fakeAct4 = new QAction("fake action", &menu);
+  menu.addAction(fakeAct4);
   menu.exec(QPoint(width() - menu.sizeHint().width() - 2, 2), QPoint(width(), 2));
 }
 
@@ -383,27 +370,14 @@ bool TmainView::viewportEvent(QEvent *event) {
                 event->accept();
                 m_scoreMenuTap = true;
               } else if (event->type() == QEvent::TouchUpdate) {
-                  if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.9)
+                  if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.9) {
+                    qDebug() << "I want to display score menu";
                     scoreMenuExec();
+                  }
               } else if (event->type() == QEvent::TouchEnd)
                   m_scoreMenuTap = false;
-              return true;
-          } else
-// #if defined (Q_OS_ANDROID)
-//             if (m_playBarTap || te->touchPoints().first().pos().y() < 10) {
-// // 1.1.3 on the top screen edge - play bar
-//               if (event->type() == QEvent::TouchBegin) {
-//                 event->accept();
-//                 m_playBarTap = true;
-//               } else if (event->type() == QEvent::TouchUpdate) {
-//                   if (m_playBarTap && te->touchPoints().first().pos().y() > height() * 0.1)
-//                     playBarExec();
-//               } else if (event->type() == QEvent::TouchEnd)
-//                   m_playBarTap = false;
-//               return true;
-//           } else
-// #endif
-            if (m_touchedWidget == m_score->viewport() ||
+              return m_scoreMenuTap; /*true*/;
+          } else if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {
 // 1.1.4 score was touched
               if (guitarView) {
