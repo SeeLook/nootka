@@ -61,6 +61,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 		m_levelsListWdg->setMouseTracking(true);
 #if defined (Q_OS_ANDROID)
 		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 15);
+    m_levelsListWdg->setFixedHeight(qApp->desktop()->availableGeometry().height() * 0.8);
 #else
     m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
 #endif
