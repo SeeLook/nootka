@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "ttouchmenu.h"
+#include <tmtr.h>
 #include <QTimer>
 #include <QApplication>
 #include <QDesktopWidget>
@@ -31,17 +32,9 @@ TtouchMenu::TtouchMenu(QWidget *parent) :
   m_animDuration(320),
   m_animTimer(new QTimer(this))
 {
-  setStyleSheet(QString("QMenu::item { height: %1px; width: %2px; margin: 10px; padding: 2px %1px 2px %1px}").
-        arg(qApp->desktop()->availableGeometry().height() / 12).
-        arg(qApp->desktop()->availableGeometry().width() / 5));
-//  m_widget = new QWidget(this);
-//   m_layout = new QVBoxLayout;
-//   m_layout->setContentsMargins(0, 0, 0, 0);
-//   m_widget->setLayout(m_layout);
-//   QVBoxLayout *lay = new QVBoxLayout;
-//   lay->addWidget(m_widget);
-//   lay->setContentsMargins(0, 0, 0, 0);
-//   setLayout(lay);
+//  setStyleSheet(QString("QMenu::item { height: %1px; width: %2px; margin: 10px; padding: 2px %1px 2px %1px}").
+//        arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::lessScreenSide() / 5));
+
   connect(m_animTimer, SIGNAL(timeout()), this, SLOT(animTimeOut()));
 }
 
@@ -56,20 +49,6 @@ void TtouchMenu::addAction(QAction* a) {
   if (actions().size()) // Add additional separators when more actions
     addSeparator();
   QMenu::addAction(a);
-//   if (a->isCheckable()) {
-//     QCheckBox *checkBox = new QCheckBox(a->text(), this);
-//     checkBox->setChecked(a->isChecked());
-//     checkBox->setFixedHeight(qApp->desktop()->availableGeometry().height() / 12);
-//     m_layout->addWidget(checkBox, 0, Qt::AlignCenter);
-//     connect(checkBox, SIGNAL(clicked()), a, SLOT(trigger()));
-//   } else {
-//     QPushButton *button = new QPushButton(a->icon(), a->text(), this);
-//     button->setFixedHeight(qApp->desktop()->availableGeometry().height() / 12);
-//     button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
-//     m_layout->addWidget(button);
-//     connect(button, SIGNAL(clicked()), a, SLOT(trigger()));
-//   }
-//   resize(m_widget->sizeHint());
 }
 
 
@@ -91,6 +70,14 @@ QAction* TtouchMenu::exec(const QPoint& endPos, const QPoint& startPos) {
 void TtouchMenu::showEvent(QShowEvent* e) {
   move(m_startPos);
   QWidget::showEvent(e);
+}
+
+
+bool TtouchMenu::event(QEvent *e) {
+  if (e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate || e->type() == QEvent::TouchEnd) {
+    qDebug() << "Menu got touch";
+  }
+  return QMenu::event(e);
 }
 
 

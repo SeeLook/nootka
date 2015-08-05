@@ -33,9 +33,9 @@ levelSettings::levelSettings(QWidget* parent) :
 
     m_levelSelector = new TlevelSelector();
     mainLay->addWidget(m_levelSelector);
-#if !defined (Q_OS_ANDROID)
-    mainLay->addStretch(1);
-#endif
+// #if !defined (Q_OS_ANDROID)
+//     mainLay->addStretch(1);
+// #endif
 
     m_saveBut = new QPushButton(QIcon(Tpath::img("notSaved")), tr("Save"),this);
     m_saveBut->setStatusTip(tr("Save level settings to file"));
