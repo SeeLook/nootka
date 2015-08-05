@@ -53,7 +53,7 @@ TaudioOUT::~TaudioOUT()
 {
   offTimer->stop();
   m_player->stop();
-  QFile::remove(QDir::tempPath() + "/nootkaPlayback.ogg");
+  QFile::remove(QDir::tempPath() + "/nootkaPlayback.wav");
 }
 
 
@@ -72,11 +72,7 @@ bool TaudioOUT::play(int noteNr) {
     return false;
 
   offTimer->stop();
-//   if (m_player->state() == QMediaPlayer::PlayingState)
-//     m_player->pause();
   m_player->setPosition(qMax<int>((noteNr + 11) * 2000 - 10, 0)); // every note takes 2000 ms in recording, but start it 10 ms before
-//   if (m_player->state() == QMediaPlayer::PlayingState)
-//     m_player->pause();
   m_player->play();
 
   offTimer->start(1600);

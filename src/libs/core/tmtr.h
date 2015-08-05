@@ -36,6 +36,7 @@ public:
 
   static int fingerPixels() { return m_fingerPixels; } /** size of finger (1 cm) in pixels */
   static int lessScreenSide() { return m_lessScreenSide; } /** height or width of a screen (less of them) */
+  static int longScreenSide() { return m_longScreenSide; } /** height or width of a screen (bigger of them) */
 
   static int screenWidth() { return qApp->screens().first()->geometry().width(); }
   static int screenHeight() { return qApp->screens().first()->geometry().height(); }
@@ -43,6 +44,7 @@ public:
 private:
   static int m_fingerPixels;
   static int m_lessScreenSide;
+  static int m_longScreenSide;
 };
 
 #endif // TMTR_H
