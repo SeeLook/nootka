@@ -19,13 +19,13 @@
 #include "tmtr.h"
 
 int Tmtr::m_fingerPixels = 20;
-int Tmtr::m_lessScreenSide = 480;
+int Tmtr::m_shortScreenSide = 480;
 int Tmtr::m_longScreenSide = 600;
 
 
 void Tmtr::init(QApplication *a) {
   if (a->screens().size()) {
-    m_lessScreenSide = qMin(a->screens()[0]->geometry().height(), a->screens()[0]->geometry().width());
+    m_shortScreenSide = qMin(a->screens()[0]->geometry().height(), a->screens()[0]->geometry().width());
     m_longScreenSide = qMax(a->screens()[0]->geometry().height(), a->screens()[0]->geometry().width());
     m_fingerPixels = a->screens()[0]->geometry().width() / (a->screens()[0]->physicalSize().width() / 7.0);
   }
