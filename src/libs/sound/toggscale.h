@@ -25,7 +25,7 @@
 #include <QObject>
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
-#if defined(Q_OS_LINUX)
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
   // Linux uses distribution package of SoundTouch
   #include "soundtouch/SoundTouch.h"
 #else

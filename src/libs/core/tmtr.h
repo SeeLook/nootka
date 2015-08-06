@@ -35,7 +35,7 @@ public:
   static void init(QApplication* a);
 
   static int fingerPixels() { return m_fingerPixels; } /** size of finger (1 cm) in pixels */
-  static int lessScreenSide() { return m_lessScreenSide; } /** height or width of a screen (less of them) */
+  static int shortScreenSide() { return m_shortScreenSide; } /** height or width of a screen (less of them) */
   static int longScreenSide() { return m_longScreenSide; } /** height or width of a screen (bigger of them) */
 
   static int screenWidth() { return qApp->screens().first()->geometry().width(); }
@@ -43,7 +43,7 @@ public:
 
 private:
   static int m_fingerPixels;
-  static int m_lessScreenSide;
+  static int m_shortScreenSide;
   static int m_longScreenSide;
 };
 

@@ -27,7 +27,10 @@
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 
+#include "toggscale.h"
 
+
+ToggScale *oggScale;
 
 TaudioOUT::TaudioOUT(TaudioParams* _params, QObject* parent) :
   TabstractPlayer(parent),
@@ -35,6 +38,8 @@ TaudioOUT::TaudioOUT(TaudioParams* _params, QObject* parent) :
 {
   setType(e_audio);
   setAudioOutParams();
+
+  oggScale= new ToggScale();
 
   m_player = new QMediaPlayer(parent, QMediaPlayer::LowLatency);
   QFile::copy(Tpath::sound("classical-guitar", ".wav").replace(":", "assets:"), QDir::tempPath() + "/nootkaPlayback.wav");
@@ -54,6 +59,7 @@ TaudioOUT::~TaudioOUT()
   offTimer->stop();
   m_player->stop();
   QFile::remove(QDir::tempPath() + "/nootkaPlayback.wav");
+  delete oggScale;
 }
 
 
