@@ -18,13 +18,18 @@
 
 
 #ifndef TQTAUDIOOUT_H
-#define TQTAUDIOOUT_H
+#define TRTAUDIOOUT_H
 
 
+#include "nootkasoundglobal.h"
 #include "tabstractplayer.h"
+#include <QStringList>
+#include <QByteArray>
 
+class ToggScale;
 class TaudioParams;
-class QMediaPlayer;
+class QAudioOutput;
+class QIODevice;
 
 /** 
  * 
@@ -34,21 +39,45 @@ class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer
   Q_OBJECT
    
 public:
-  explicit TaudioOUT(TaudioParams* _params, QObject* parent = 0);
+  TaudioOUT(TaudioParams* _params, QObject* parent = 0);
   virtual ~TaudioOUT();
-  
+
+  static QStringList getAudioDevicesList();
+
         /** Starts playing given note and then returns true, otherwise gets false. */
   bool play(int noteNr);
   void setAudioOutParams();
   void stop(); /** Immediately stops playing. */
 
+  TaudioParams* audioParams() { return m_audioParams; }
+
+protected:
+  int crossCount() { return m_crossCount; } /** counts samples of crossing buffer */
+
+protected:
+  ToggScale 										*oggScale;
+  int     				 							 ratioOfRate; // ratio of current sample rate to 44100
+
 private slots:
-	void updateSlot() { setAudioOutParams(); }
+  void outCallBack();
+// 	void updateSlot() { setAudioOutParams(); }
 	void playingFinishedSlot();
-    
+
+
 private:
-  TaudioParams            *m_audioParams;
-  QMediaPlayer            *m_player;
+  int        			m_samplesCnt; /** Number of performed samples. */
+  int 			      m_maxSamples; /** Duration of a sound counted in samples */
+  int             m_bufferFrames, m_sampleRate;
+	qint16         *m_crossBuffer; /** buffer with data of part of previous note to fade out */
+	bool 		        m_doCrossFade;
+	float 		      m_cross; /** current volume factor of fading effect */
+	int 						m_crossCount;
+	bool 						m_callBackIsBussy;
+  TaudioParams   *m_audioParams;
+  QAudioOutput   *m_audioOUT;
+  QIODevice      *m_outDevice;
+  QString         m_devName;
+
 };
 
-#endif // TQTAUDIOOUT_H
+#endif // TRTAUDIOOUT_H
