@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,7 +29,7 @@
   // Linux uses distribution package of SoundTouch
   #include "soundtouch/SoundTouch.h"
 #else
-  // Mac & Win has compiled-in SoundTouch
+  // Mac & Win & Android has compiled-in SoundTouch
   #include "stouch/SoundTouch.h"
 #endif
 

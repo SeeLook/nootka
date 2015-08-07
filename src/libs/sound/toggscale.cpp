@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -204,6 +204,10 @@ bool ToggScale::loadAudioData(int instrument) {
 		}
 	} else
 			return false;
+
+#if defined (Q_OS_ANDROID)
+  fileName = fileName.replace(":", "assets:");
+#endif
 	
   QFile oggFile(fileName);
   if (!oggFile.exists())
