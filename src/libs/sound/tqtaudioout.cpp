@@ -81,10 +81,11 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   m_sampleRate = format.sampleRate();
 
   m_audioOUT = new QAudioOutput(defaultOut, format, this);
-  m_audioOUT->setBufferSize(m_bufferFrames * 4);
+  m_audioOUT->setBufferSize(m_bufferFrames * 2);
   
   m_buffer = new TaudioBuffer(this);
   m_buffer->open(QIODevice::ReadOnly);
+  m_buffer->setBufferSize(m_audioOUT->bufferSize());
   
 
   setAudioOutParams();
@@ -109,7 +110,6 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams() {
-// 	qDebug() << "setAudioOutParams";
 	playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
 	if (playable /*&& streamParams()*/) {
 			ratioOfRate = m_sampleRate / 44100;
@@ -137,7 +137,7 @@ bool TaudioOUT::play(int noteNr) {
   
 	while (m_callBackIsBussy) {
 		  SLEEP(1);
-			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
+// 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
 	}
 	
   if (m_samplesCnt < m_maxSamples) {
@@ -158,8 +158,8 @@ bool TaudioOUT::play(int noteNr) {
       loops++;
   }
   m_samplesCnt = -1;
-  if (loops)
-    qDebug() << "latency:" << loops << "ms";
+//   if (loops)
+//     qDebug() << "latency:" << loops << "ms";
     
   if (m_audioOUT->state() != QAudio::ActiveState)
     m_audioOUT->start(m_buffer);
@@ -173,7 +173,8 @@ bool TaudioOUT::play(int noteNr) {
 
 
 void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
-//  qDebug() << "outCallBack" << m_samplesCnt, maxLen;
+//   qDebug() << "outCallBack" << m_samplesCnt << maxLen << m_audioOUT->bytesFree() << m_audioOUT->bufferSize();
+  if (maxLen) {
     m_callBackIsBussy = true;
     if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
         m_doCrossFade = false;
@@ -192,31 +193,30 @@ void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
         } else {
               sample = oggScale->getSample(m_samplesCnt);
         }
-        for (int r = 0; r < ratioOfRate; r++) {
+        for (int r = 0; r < ratioOfRate; r++)
             *outPtr++ = sample; // left channel
-//            *outPtr++ = sample; // right channel
-        }
     }
     m_callBackIsBussy = false;
-    if (m_samplesCnt >= m_maxSamples)
-      emit finishSignal();
-    else
+    if (m_samplesCnt < m_maxSamples)
       wasRead = maxLen;
-//      playingFinishedSlot();
+  }
 }
 
 
 void TaudioOUT::stateChangedSlot(QAudio::State state) {
-  qDebug() << state;
+//   qDebug() << state;
+  if (state == QAudio::IdleState)
+    playingFinishedSlot();
 }
 
 
 void TaudioOUT::playingFinishedSlot() {
-  qDebug() << "stop playing";
+//   qDebug() << "stop playing";
   m_audioOUT->stop();
   m_samplesCnt = 100000;
   if (doEmit)
     emit noteFinished();
+  doEmit = false; // emit once per play/stop cycle
 }
 
 

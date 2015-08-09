@@ -20,16 +20,14 @@
 #define TAUDIOBUFFER_H
 
 
-
 #include <QIODevice>
 
 
-
 /**
- * The TaudioBuffer class is proxy between phisical mobile sound device
+ * The TaudioBuffer class is proxy between physical mobile sound device
  * and Nootka @p TaudioOUT class.
  * It catch readData() method and emits @p feedAudio signal from there,
- * then audio data is send to the phisical device.
+ * then audio data is send to the physical device.
  */
 class TaudioBuffer : public QIODevice
 {
@@ -37,16 +35,31 @@ class TaudioBuffer : public QIODevice
   Q_OBJECT
   
 public:
-  TaudioBuffer(QObject* parent = 0);
-  
-  virtual bool isSequential() { return true; }
+  TaudioBuffer(QObject* parent = 0) : QIODevice(parent), m_bufferSize(2048) {}
+
+      /** In fact, there is no any buffer!
+       * That value controls size of data to get by @p feedAudio()
+       * instead of @maxlen value sending in @p readData(data, maxlen) */
+  void setBufferSize(qint64 s) { m_bufferSize = s; }
+  qint64 bufferSize() const { return m_bufferSize; }
   
 signals:
   void feedAudio(char*, qint64, qint64&);
   
 protected:
-  virtual qint64 readData(char *data, qint64 maxlen);
-  virtual qint64 writeData(const char *data, qint64 len); /** Dummy - does nothing */
+
+  virtual qint64 readData(char *data, qint64 maxlen) {
+    Q_UNUSED(maxlen)
+    qint64 wasRead = 0;
+    emit feedAudio(data, m_bufferSize, wasRead);
+    return wasRead;
+  }
+
+
+  virtual qint64 writeData(const char *data, qint64 len) { return 0; }  /** Dummy - does nothing */
+
+private:
+  qint64          m_bufferSize;
   
 };
 
