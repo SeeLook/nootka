@@ -24,12 +24,13 @@
 #include "nootkasoundglobal.h"
 #include "tabstractplayer.h"
 #include <QStringList>
-#include <QByteArray>
+#include <QAudio>
+
 
 class ToggScale;
 class TaudioParams;
 class QAudioOutput;
-class QIODevice;
+class TaudioBuffer;
 
 /** 
  * 
@@ -53,15 +54,19 @@ public:
 
 protected:
   int crossCount() { return m_crossCount; } /** counts samples of crossing buffer */
+  
+signals:
+  void finishSignal();
 
 protected:
   ToggScale 										*oggScale;
   int     				 							 ratioOfRate; // ratio of current sample rate to 44100
 
 private slots:
-  void outCallBack();
+  void outCallBack(char* data, qint64 maxLen, qint64& wasRead);
 // 	void updateSlot() { setAudioOutParams(); }
 	void playingFinishedSlot();
+	void stateChangedSlot(QAudio::State state);
 
 
 private:
@@ -75,7 +80,7 @@ private:
 	bool 						m_callBackIsBussy;
   TaudioParams   *m_audioParams;
   QAudioOutput   *m_audioOUT;
-  QIODevice      *m_outDevice;
+  TaudioBuffer   *m_buffer;
   QString         m_devName;
 
 };
