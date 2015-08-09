@@ -19,11 +19,10 @@
 
 #include "tqtaudioout.h"
 #include "toggscale.h"
+#include "taudiobuffer.h"
 #include <taudioparams.h>
-#include <QtMultimedia/QAudioOutput>
-#include <QtCore/QTimer>
+#include <QAudioOutput>
 #include <QDebug>
-#include <QTimer>
 #include <unistd.h>
 
 
@@ -47,31 +46,27 @@ QStringList TaudioOUT::getAudioDevicesList() {
 }
 /*end static*/
 
-//---------------------------------------------------------------------------------------
-//                CONSTRUCTOR
-//---------------------------------------------------------------------------------------
+
+
 TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   TabstractPlayer(parent),
   m_audioParams(_params),
   oggScale(new ToggScale()),
   ratioOfRate(1),
-  m_samplesCnt(0),
+  m_samplesCnt(100000),
   m_bufferFrames(1024),
   m_sampleRate(44100),
   m_doCrossFade(false),
   m_cross(0.0f),
   m_crossCount(0),
-  m_callBackIsBussy(false),
-  m_outDevice(0)
+  m_callBackIsBussy(false)
 {
   setType(e_audio);
-	m_samplesCnt = 10000;
 	m_crossBuffer = new qint16[1000];
 
   QAudioDeviceInfo defaultOut = QAudioDeviceInfo::defaultOutputDevice();
-  qDebug() << "OUT:" << defaultOut.deviceName();
   QAudioFormat format;
-    format.setChannelCount(2);
+    format.setChannelCount(1);
     format.setSampleRate(m_sampleRate);
     format.setSampleType(QAudioFormat::SignedInt);
     format.setSampleSize(16);
@@ -86,12 +81,22 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   m_sampleRate = format.sampleRate();
 
   m_audioOUT = new QAudioOutput(defaultOut, format, this);
-  m_audioOUT->setBufferSize(m_bufferFrames * 2);
+  m_audioOUT->setBufferSize(m_bufferFrames * 4);
+  
+  m_buffer = new TaudioBuffer(this);
+  m_buffer->open(QIODevice::ReadOnly);
+  
 
   setAudioOutParams();
 
-  m_maxSamples = m_sampleRate * 1.6;
+  m_maxSamples = m_sampleRate * 1.5;
 
+  qDebug() << "OUT:" << defaultOut.deviceName() << m_audioOUT->format().sampleRate() << m_maxSamples;
+  
+  connect(m_buffer, &TaudioBuffer::feedAudio, this, &TaudioOUT::outCallBack, Qt::DirectConnection);
+  connect(m_audioOUT, &QAudioOutput::stateChanged, this, &TaudioOUT::stateChangedSlot);
+  connect(this, &TaudioOUT::finishSignal, this, &TaudioOUT::playingFinishedSlot);
+  
 }
 
 
@@ -99,13 +104,13 @@ TaudioOUT::~TaudioOUT()
 {
   delete oggScale;
   delete m_crossBuffer;
+  stop();
 }
 
 
 void TaudioOUT::setAudioOutParams() {
 // 	qDebug() << "setAudioOutParams";
 	playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
-  qDebug() << "setAudioOutParams" << playable;
 	if (playable /*&& streamParams()*/) {
 			ratioOfRate = m_sampleRate / 44100;
 			quint32 oggSR = m_sampleRate;
@@ -155,36 +160,30 @@ bool TaudioOUT::play(int noteNr) {
   m_samplesCnt = -1;
   if (loops)
     qDebug() << "latency:" << loops << "ms";
-  if (m_audioOUT->state() == QAudio::StoppedState) {
-    m_outDevice = m_audioOUT->start();
-    if (m_outDevice) {
-      QTimer::singleShot(1, this, SLOT(outCallBack()));
-      qDebug() <<  m_audioOUT->error();
-//       connect(m_outDevice, &QIODevice::bytesWritten, this, &TaudioOUT::outCallBack);
-//       connect(m_outDevice, &QIODevice::readyRead, this, &TaudioOUT::outCallBack);
-      return true;
-    }
-  } else
-      return true;
-
-  return false;
+    
+  if (m_audioOUT->state() != QAudio::ActiveState)
+    m_audioOUT->start(m_buffer);
+    
+  if (m_audioOUT->error() != QAudio::NoError)
+    return true;
+  else
+    return false;
 }
 
 
-void TaudioOUT::outCallBack() {
-  if (m_outDevice && m_audioOUT->bytesFree()) {
-    int bytesWritten = m_audioOUT->bytesFree();
-//     qDebug() << "outCallBack" << bytesWritten << m_audioOUT->bufferSize() << m_outDevice->bytesToWrite() << m_audioOUT->state();
+
+void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
+//  qDebug() << "outCallBack" << m_samplesCnt, maxLen;
     m_callBackIsBussy = true;
     if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
         m_doCrossFade = false;
         m_cross = 1.0f;
         m_crossCount = 0;
     }
-    for (int i = 0; i < (bytesWritten / 2) / ratioOfRate; i++) {
+    qint16 *outPtr = (qint16*)data;
+    for (int i = 0; i < (maxLen / 2) / ratioOfRate; i++) {
       m_samplesCnt++;
       qint16 sample;
-      char* outSample = (char*)&sample;
         if (m_cross > 0.0 && m_crossCount < 1000) { // mix current and previous samples when cross-fading
               sample =  (qint16)qRound((1.0 - m_cross) * (float)oggScale->getSample(m_samplesCnt) +
                       m_cross * (float)m_crossBuffer[m_crossCount]);
@@ -194,22 +193,28 @@ void TaudioOUT::outCallBack() {
               sample = oggScale->getSample(m_samplesCnt);
         }
         for (int r = 0; r < ratioOfRate; r++) {
-            m_outDevice->write(outSample, 2); // left channel
-            m_outDevice->write(outSample, 2); // right channel
+            *outPtr++ = sample; // left channel
+//            *outPtr++ = sample; // right channel
         }
     }
     m_callBackIsBussy = false;
-    if (m_samplesCnt < m_maxSamples)
-      QTimer::singleShot(20, this, SLOT(outCallBack()));
+    if (m_samplesCnt >= m_maxSamples)
+      emit finishSignal();
     else
-      playingFinishedSlot();
-  }
+      wasRead = maxLen;
+//      playingFinishedSlot();
+}
+
+
+void TaudioOUT::stateChangedSlot(QAudio::State state) {
+  qDebug() << state;
 }
 
 
 void TaudioOUT::playingFinishedSlot() {
+  qDebug() << "stop playing";
   m_audioOUT->stop();
-  m_outDevice = 0;
+  m_samplesCnt = 100000;
   if (doEmit)
     emit noteFinished();
 }
