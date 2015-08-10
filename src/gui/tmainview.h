@@ -75,10 +75,7 @@ protected:
 
   void mainMenuExec();
   void scoreMenuExec();
-#if defined (Q_OS_ANDROID)
-  void playBarExec();
-#endif
-	
+
 protected slots:
 	void showToolBar();
   void updateLayout(); /** Method called by timer from resizeEvent() */

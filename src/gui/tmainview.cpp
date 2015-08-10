@@ -20,8 +20,7 @@
 #include "ttoolbar.h"
 #include "tmenu.h"
 #if defined (Q_OS_ANDROID)
-  #include "tmelodyitem.h"
-  #include <graphics/tdropshadoweffect.h>
+  #include <widgets/tmelodyitem.h>
 #endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
@@ -30,6 +29,7 @@
 #include <touch/ttouchproxy.h>
 #include <touch/ttouchmenu.h>
 #include <tpath.h>
+#include <tmtr.h>
 #include <notename/tnotename.h>
 #include <QtWidgets>
 
@@ -93,10 +93,11 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	
 	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
 #if defined (Q_OS_ANDROID)
-  TmelodyItem *melItem = new TmelodyItem(m_tool->playMelody(), m_tool->recordMelody());
+  TmelodyItem *melItem = new TmelodyItem(m_tool->playMelody(), m_tool->recordMelody(), m_pitch->pauseAction());
   scene()->addItem(melItem);
-  melItem->setPos(m_score->x() + 5, m_score->y() + 5);
-  melItem->setGraphicsEffect(new TdropShadowEffect);
+  melItem->setPos(0, 0);
+  connect(melItem, &TmelodyItem::scoreMenuSignal, this, &TmainView::scoreMenuExec);
+  connect(melItem, &TmelodyItem::mainMenuSignal, this, &TmainView::mainMenuExec);
 #endif
 }
 
@@ -302,12 +303,6 @@ void TmainView::mouseMoveEvent(QMouseEvent* event) {
 }
 
 
-#if defined (Q_OS_ANDROID)
-void TmainView::playBarExec() {
-}
-#endif
-
-
 void TmainView::mainMenuExec() {
   m_mainMenuTap = false;
   TtouchMenu menu(this);
@@ -321,7 +316,6 @@ void TmainView::mainMenuExec() {
 
 void TmainView::scoreMenuExec() {
   m_scoreMenuTap = false;
-  qDebug() << "scoreMenuExec";
   TtouchMenu menu(this);
   menu.addAction(m_tool->generateMelody());
   menu.addAction(m_tool->scoreShowNames());
@@ -329,17 +323,6 @@ void TmainView::scoreMenuExec() {
   menu.addAction(m_tool->scoreZoomIn());
   menu.addAction(m_tool->scoreZoomOut());
   menu.addAction(m_tool->scoreDeleteAll());
-#if defined (Q_OS_ANDROID)
-  menu.addAction(m_pitch->pauseAction());
-#endif
-  QAction *fakeAct = new QAction("fake action", &menu);
-  menu.addAction(fakeAct);
-  QAction *fakeAct2 = new QAction("fake action", &menu);
-  menu.addAction(fakeAct2);
-  QAction *fakeAct3 = new QAction("fake action", &menu);
-  menu.addAction(fakeAct3);
-  QAction *fakeAct4 = new QAction("fake action", &menu);
-  menu.addAction(fakeAct4);
   menu.exec(QPoint(width() - menu.sizeHint().width() - 2, 2), QPoint(width(), 2));
 }
 
@@ -353,29 +336,29 @@ bool TmainView::viewportEvent(QEvent *event) {
       if (itemAt(mapFromScene(te->touchPoints().first().pos())) == m_proxy) {
         if (te->touchPoints().size() == 1) {
 // 1.1 with one finger
-          if (m_mainMenuTap || te->touchPoints().first().pos().x() < 10) { //TODO 10 has to depend on screen finger size
+          if (m_mainMenuTap || te->touchPoints().first().pos().x() < Tmtr::fingerPixels() / 3) {
 // 1.1.1 on the left screen edge - main menu
               if (event->type() == QEvent::TouchBegin) {
                 event->accept();
                 m_mainMenuTap = true;
-              } else if (event->type() == QEvent::TouchUpdate) {
-                  if (m_mainMenuTap && te->touchPoints().first().pos().x() > width() * 0.1)
+              } else if (event->type() == QEvent::TouchEnd) {
+                  if (m_mainMenuTap && te->touchPoints().first().pos().x() > width() * 0.15)
                     mainMenuExec();
-              } else if (event->type() == QEvent::TouchEnd)
-                  m_mainMenuTap = false;
+                  else
+                    m_mainMenuTap = false;
+              }
               return true;
 // 1.1.2 on the right screen edge - score menu
-          } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - 10) {
+          } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - Tmtr::fingerPixels() / 3) {
               if (event->type() == QEvent::TouchBegin) {
                 event->accept();
                 m_scoreMenuTap = true;
-              } else if (event->type() == QEvent::TouchUpdate) {
-                  if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.9) {
-                    qDebug() << "I want to display score menu";
+              } else if (event->type() == QEvent::TouchEnd) {
+                if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.85)
                     scoreMenuExec();
-                  }
-              } else if (event->type() == QEvent::TouchEnd)
-                  m_scoreMenuTap = false;
+                  else
+                    m_scoreMenuTap = false;
+              }
               return m_scoreMenuTap; /*true*/;
           } else if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {

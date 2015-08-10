@@ -29,12 +29,9 @@
 
 TtouchMenu::TtouchMenu(QWidget *parent) :
   QMenu(parent),
-  m_animDuration(320),
+  m_animDuration(200),
   m_animTimer(new QTimer(this))
 {
-//  setStyleSheet(QString("QMenu::item { height: %1px; width: %2px; margin: 10px; padding: 2px %1px 2px %1px}").
-//        arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::lessScreenSide() / 5));
-
   connect(m_animTimer, SIGNAL(timeout()), this, SLOT(animTimeOut()));
 }
 
@@ -83,9 +80,10 @@ bool TtouchMenu::event(QEvent *e) {
 
 void TtouchMenu::animTimeOut() {
   m_step++;
-  if (m_step < m_count)
+  if (m_step < m_count) {
     move(m_startPos.x() + (m_offset.x() ? m_offset.x() * m_step : 0), m_startPos.y() + (m_offset.y() ? m_offset.y() * m_step : 0));
-  else if (m_step == m_count) {
+    update();
+  } else if (m_step == m_count) {
     move(m_endPos);
     update();
   } else
