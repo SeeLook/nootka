@@ -18,6 +18,7 @@
 
 #include "tmelman.h"
 #include "tmenu.h"
+#include "tmelodyitem.h"
 #include "score/tmainscore.h"
 #include <exam/tqagroup.h>
 #include <music/tmelody.h>
@@ -86,6 +87,8 @@ void TmelMan::playMelodySlot() {
       showAudioMark(e_recording);
     else
       showAudioMark(e_none);
+    if (TmelodyItem::instance())
+        TmelodyItem::instance()->playingStopped();
 	} else {
 		if (m_score->currentIndex() < 0) {
       if (m_score->notesCount() > 0)
@@ -111,6 +114,8 @@ void TmelMan::recordMelodySlot() {
 		m_score->setInsertMode(TmainScore::e_multi);
     if (!m_score->isScorePlayed())
       showAudioMark(e_none);
+    if (TmelodyItem::instance())
+        TmelodyItem::instance()->recordingStopped();
 	}
 }
 
@@ -177,11 +182,13 @@ void TmelMan::showAudioMark(EscoreState ss) {
   switch (ss) {
     case e_playing:
       m_button->setIcon(QIcon(Tpath::img("melody-play")));
+      TmelodyItem::instance()->playingStarted();
 //       m_audioMark->setPixmap(QPixmap(Tpath::img("melody-play")));
 //       m_audioMark->show();
       break;
     case e_recording:
       m_button->setIcon(QIcon(Tpath::img("melody-rec")));
+      TmelodyItem::instance()->recordingStarted();
 //       m_audioMark->setPixmap(QPixmap(Tpath::img("melody-rec")));
 //       m_audioMark->show();
       break;

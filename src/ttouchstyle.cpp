@@ -39,6 +39,10 @@ int TtouchStyle::styleHint(QStyle::StyleHint hint, const QStyleOption* option,
     return true;
   case SH_Menu_FillScreenWithScroll:
     return false;
+  case SH_Menu_FlashTriggeredItem:
+    return true;
+  case SH_Menu_FadeOutOnHide:
+    return true;
 
   default:
     return QProxyStyle::styleHint(hint, option, widget, returnData);

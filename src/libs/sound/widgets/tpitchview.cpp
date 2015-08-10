@@ -22,6 +22,9 @@
 #include "tintonationview.h"
 #include <tcolor.h>
 #include <graphics/tnotepixmap.h>
+#if defined (Q_OS_ANDROID)
+  #include "widgets/tmelodyitem.h"
+#endif
 #include <QTimer>
 #include <QLabel>
 #include <QPainter>
@@ -243,8 +246,8 @@ void TpitchView::minimalVolumeChanged(float minVol) {
 
 void TpitchView::inputStateChanged(int inSt) {
   if (isEnabled() && inSt != m_prevState) {
+    TaudioIN::Estate inState = (TaudioIN::Estate)inSt;
     if (m_volumeView->isPauseActive()) {
-      TaudioIN::Estate inState = (TaudioIN::Estate)inSt;
       if (inState == TaudioIN::e_stopped) {
 				m_volumeView->setPaused(true);
         stopWatching();
@@ -255,6 +258,10 @@ void TpitchView::inputStateChanged(int inSt) {
     }
     m_prevState = inSt;
   }
+#if defined (Q_OS_ANDROID)
+  if (TmelodyItem::instance())
+    TmelodyItem::instance()->setListening((TaudioIN::Estate)inSt == TaudioIN::e_detecting);
+#endif
 }
 
 void TpitchView::inputDeviceDeleted() {
