@@ -213,7 +213,7 @@ void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (!m_readOnly && event->button() == Qt::LeftButton) {
 		if (event->pos().y() > relatedLine + 4.0)
 			increaseKey(-1);
-		else
+		else if (event->pos().y() > 0.0) // ignore clicking on key name item
 			increaseKey(1);
 	}
 }
@@ -231,11 +231,12 @@ void TscoreKeySignature::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 
-void TscoreKeySignature::shortTap(const QPointF& cPos) {
+void TscoreKeySignature::untouched(const QPointF& scenePos) {
 	if (!m_readOnly) {
-		if (cPos.y() > relatedLine + 4.0)
+    QPointF fingerPos = mapFromScene(scenePos);
+		if (fingerPos.y() > relatedLine + 4.0)
 			increaseKey(-1);
-		else
+		else if (fingerPos.y() > 0.0) // ignore clicking on key name item
 			increaseKey(1);
 	}
 }

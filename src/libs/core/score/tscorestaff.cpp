@@ -58,7 +58,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 	m_lockRangeCheck(false), m_autoAddedNoteId(-1)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
-	enableTouchToMouse(false); // Do not propagate - hasCursor() is not necessary
 	setZValue(10);
   setAcceptHoverEvents(true);
 // Clef

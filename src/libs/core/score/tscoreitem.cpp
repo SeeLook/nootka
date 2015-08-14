@@ -37,8 +37,7 @@ TscoreItem::TscoreItem(TscoreScene* scene) :
   m_scene(scene),
   m_statusTip(""),
   m_staff(0),
-  m_hasCursor(false),
-  m_touchToMouse(true)
+  m_hasCursor(false)
 {
   m_scene->addItem(this);
   if (touchEnabled())
@@ -59,55 +58,15 @@ void TscoreItem::setStatusTip(QString status) {
 //###############################  TOUCH EVENTS ######################################
 //####################################################################################
 
-void TscoreItem::touched(const QPointF& cPos) {
+void TscoreItem::touched(const QPointF& scenePos) {
 	m_hasCursor = true;
-	if (isTouchToMouse()) {
-			QGraphicsSceneHoverEvent hover(QEvent::GraphicsSceneHoverEnter);
-			hover.setPos(cPos);
-			hoverEnterEvent(&hover);
-	}
 }
 
 
-void TscoreItem::touchMove(const QPointF& cPos) {
-	if (isTouchToMouse()) {
-			QGraphicsSceneHoverEvent hover(QEvent::GraphicsSceneHoverMove);
-			hover.setPos(cPos);
-			hoverMoveEvent(&hover);
-	}
-}
-
-
-void TscoreItem::untouched(const QPointF &cPos) {
-	Q_UNUSED(cPos)
+void TscoreItem::untouched(const QPointF& scenePos) {
+	Q_UNUSED(scenePos)
 	m_hasCursor = false;
-	if (isTouchToMouse())
-			hoverLeaveEvent(0);
 }
-
-
-void TscoreItem::longTap(const QPointF& cPos) {
-	if (isTouchToMouse()) {
-			QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
-			me.setPos(cPos);
-			me.setButton(Qt::LeftButton);
-			mousePressEvent(&me);
-	}
-}
-
-
-void TscoreItem::shortTap(const QPointF& cPos) {
-	if (isTouchToMouse()) {
-			QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
-			me.setPos(cPos);
-			me.setButton(Qt::RightButton);
-			mousePressEvent(&me);
-	}
-}
-
-
-void TscoreItem::secondTouch(const QPointF& pos1, const QPointF& pos2) {}
-
 
 //####################################################################################
 //###############################  PROTECTED #########################################

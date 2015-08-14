@@ -23,6 +23,8 @@
 #include "tscoreitem.h"
 #include <music/tclef.h>
 #include <QPointer>
+#include <QElapsedTimer>
+
 
 class TclefMenu;
 
@@ -61,7 +63,8 @@ signals:
     
 protected:
 		virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void longTap(const QPointF& cPos);
+    virtual void untouched(const QPointF& scenePos);
+    virtual void touched(const QPointF& scenePos);
 		
 protected slots:
 		void clefMenuStatusTip(QString tip) { emit statusTip(tip); }
@@ -84,6 +87,7 @@ private:
         /** List of all clef types exept empty (none clef) and piano staff. */
     static QList<Tclef::Etype>         m_typesList;
     bool                               m_readOnly; // when TRUE clef is locked
+    QElapsedTimer                      m_tapTimer;
 
 };
 

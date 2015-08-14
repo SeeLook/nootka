@@ -21,7 +21,7 @@
 
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
-#include <QTime>
+#include <QElapsedTimer>
 
 
 class TscoreLines;
@@ -38,6 +38,8 @@ class TscoreScene;
  * It is a rectangle area over the staff with handling mouse move event to display working note cursor.
  * It also grabs wheel event to manipulate accidentals
  * It can be set to read-only mode through setReadOnly() then mouse events are ignored.
+ * When mouse cursor appears over it, @p TscoreNote starts to be a parent for @class TscoreControl
+ * and it displays panes on the note sides with additional switches (accidentals, name menu, add/delete note)
  */
 class NOOTKACORE_EXPORT TscoreNote : public TscoreItem
 {
@@ -141,11 +143,9 @@ public slots:
     void hideWorkNote(); /** Hides pointing (work) note */
 
 protected:
-		virtual void shortTap(const QPointF &cPos);
-    virtual void longTap(const QPointF& cPos);
-    virtual void touched(const QPointF& cPos);
-    virtual void untouched(const QPointF &cPos);
-    virtual void touchMove(const QPointF& cPos);
+    virtual void touched(const QPointF& scenePos);
+    virtual void untouched(const QPointF& scenePos);
+    virtual void touchMove(const QPointF& scenePos);
 		
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event);
@@ -180,7 +180,7 @@ private:
 		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
 		static QString													m_staticTip;
     QTimer                                 *m_touchHideTimer;
-    QTime                                   m_touchTime;
+    QElapsedTimer                           m_touchTime;
     
 private:
 		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
