@@ -18,8 +18,8 @@
 
 #include "tmelman.h"
 #include "tmenu.h"
-#include "tmelodyitem.h"
 #include "score/tmainscore.h"
+#include <widgets/tmelodyitem.h>
 #include <exam/tqagroup.h>
 #include <music/tmelody.h>
 #include <tpath.h>

@@ -369,10 +369,10 @@ bool TmainView::viewportEvent(QEvent *event) {
               }
 // mapping all touches to score
               QList<QTouchEvent::TouchPoint> pointList;
-              QTouchEvent::TouchPoint ftp(te->touchPoints().first()); // first touch point
-              ftp.setPos(m_score->mapFromParent(ftp.pos().toPoint())); // map to score
-              ftp.setStartPos(m_score->mapFromParent(ftp.startPos().toPoint()));
-              pointList << ftp;
+              QTouchEvent::TouchPoint firstTouchPoint(te->touchPoints().first());
+              firstTouchPoint.setPos(m_score->mapFromParent(firstTouchPoint.pos().toPoint())); // map to score
+              firstTouchPoint.setStartPos(m_score->mapFromParent(firstTouchPoint.startPos().toPoint()));
+              pointList << firstTouchPoint;
               QTouchEvent touchToSend(event->type(), te->device(), te->modifiers(), te->touchPointStates(), pointList);
               if (qApp->notify(m_score->viewport(), &touchToSend)) {
                 event->accept();

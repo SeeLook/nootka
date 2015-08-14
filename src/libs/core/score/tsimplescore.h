@@ -26,6 +26,7 @@
 #include <music/tkeysignature.h>
 #include <QGraphicsView>
 #include <QTime>
+#include <QPointer>
 
 
 class QTimer;
@@ -116,7 +117,6 @@ protected:
       /** To make usage of touch pads wheel emulation which changes key/accidentals to fast by default,
         * a @p m_wheelFree locks a wheel event for e while to avoid switching keys to fast. */
   void wheelLockSlot();
-  void longTapSlot();
 
   TscoreStaff* staff() { return m_staff; } /** Pointer to TscoreStaff. Better keep it protected */
 
@@ -129,9 +129,6 @@ protected:
       * If not, checks it parent item and parent of parent.
       * Returns pointer to @p TscoreItem or 0 if not found. */
   TscoreItem* castItem(QGraphicsItem* it);
-
-      /** Checks is given TscoreItem different than current one and sets it to current */
-  void checkItem(TscoreItem* it, const QPointF& touchScenePos);
 
 protected slots:
       /** Except response for scaling TscoreView widget to according to new height,
@@ -152,11 +149,10 @@ private:
   int 												 m_prevBGglyph;
   Tclef::Etype								 m_clefType;
   QSize												 m_sizeHint;
-  TscoreItem 									*m_currentIt;
-  QTime												 m_tapTime;
+  QPointer<TscoreItem>				 m_currentIt;
   QPointF											 m_initPos; /** In scene coordinates. */
   bool                         m_wheelFree;
-  QTimer                      *m_wheelLockTimer, *m_longTapTimer;
+  QTimer                      *m_wheelLockTimer;
 };
 
 #endif // TSIMPLESCORE_H
