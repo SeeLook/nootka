@@ -66,29 +66,18 @@ public:
       /** Keeps true when mouse pointer is over item or finger is touching it. */
   bool hasCursor() { return m_hasCursor; }
 
-      /** Determines whether touches are converted to methods invoked by mouse.
-        * It is true by default. */
-  void enableTouchToMouse(bool enabled) { m_touchToMouse = enabled; }
-  bool isTouchToMouse() { return m_touchToMouse; }
-
-      /** Finger entered
+      /** Finger touched this score item
         * Be aware, during overriding this methods,
         * if you want to have working @p hasCursor() functionality
         * always call @p TscoreItem::touched() */
-  virtual void touched(const QPointF &cPos);
+  virtual void touched(const QPointF &scenePos);
 
       /** Finger leaved item or it was taken out
         * Be aware, during overriding this methods,
         * if you want to have working @p hasCursor() functionality
         * always call @p TscoreItem::untouched() */
-  virtual void untouched(const QPointF &cPos);
-  virtual void touchMove(const QPointF &cPos); /** Finger Moved */
-  virtual void longTap(const QPointF &cPos); /** When finger touched it longer. */
-  virtual void shortTap(const QPointF &cPos);
-
-      /** When second finger touches - both positions are given.
-        * Position of second touch is given in first touch item coordinates */
-  virtual void secondTouch(const QPointF &pos1, const QPointF &pos2);
+  virtual void untouched(const QPointF &scenePos);
+  virtual void touchMove(const QPointF &scenePos) {} /** Finger Moved */
 
   virtual int type() const { return ScoreItemType; }
 
@@ -119,7 +108,7 @@ private:
   QString                    m_statusTip;
   TscoreScene               *m_scene;
   TscoreStaff               *m_staff;
-  bool											 m_hasCursor, m_touchToMouse;
+  bool											 m_hasCursor;
 
 };
 

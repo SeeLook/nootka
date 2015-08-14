@@ -88,10 +88,9 @@ signals:
 protected:	
 	void itemSelected(const QPointF& cPos);
 	
-	virtual void touched(const QPointF& cPos);
-	virtual void untouched(const QPointF& cPos);
-	virtual void touchMove(const QPointF& cPos);
-	virtual void shortTap(const QPointF& cPos);
+	virtual void touched(const QPointF& scenePos);
+	virtual void untouched(const QPointF& scenePos);
+  
 	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 	virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);

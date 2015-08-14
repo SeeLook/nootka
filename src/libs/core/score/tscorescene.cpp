@@ -121,6 +121,7 @@ void TscoreScene::setPointedColor(const QColor& color) {
 //##########################################################################################
 
 void TscoreScene::noteEntered(TscoreNote* sn) {
+  m_hideTimer->stop();
 	if (!m_rectIsChanging && sn != m_scoreNote && sn != 0) {
 		m_scoreNote = sn;
 		if (controlledNotes()) {
@@ -148,7 +149,7 @@ void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
       showTimeOut();
     if (sn != m_scoreNote) {
         noteEntered(sn);
-        m_showTimer->start(300);
+        m_showTimer->start(TscoreItem::touchEnabled() ? 20 : 300);
     } else {
         m_hideTimer->start(WORK_HIDE_DELAY);
     }
@@ -160,7 +161,7 @@ void TscoreScene::noteLeaved(TscoreNote* sn) {
 	Q_UNUSED(sn)
   if (!m_rectIsChanging) {
     m_showTimer->stop();
-    m_hideTimer->start(300);
+    m_hideTimer->start(TscoreItem::touchEnabled() ? 1500 : 300);
   }
 }
 
@@ -262,13 +263,13 @@ void TscoreScene::showTimeOut() {
 
 void TscoreScene::hideTimeOut() {
 	m_hideTimer->stop();
-	if (m_scoreNote)
-		m_scoreNote->hideWorkNote();
-	if (left()->isEnabled())
-		left()->hide();
-	if (right()->isEnabled())
-		right()->hide();
-	m_scoreNote = 0;
+  if (m_scoreNote)
+    m_scoreNote->hideWorkNote();
+  if (left()->isEnabled())
+    left()->hide();
+  if (right()->isEnabled())
+    right()->hide();
+  m_scoreNote = 0;
 }
 
 

@@ -36,7 +36,8 @@
 #include <QTouchEvent>
 
 #include <QDebug>
-#include <QTime>
+
+#define SHORT_TAP_TIME (150) // 75 ms takes short tap - otherwise note is edited
 
 
 const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
@@ -62,7 +63,10 @@ QGraphicsEllipseItem* TscoreNote::createNoteHead(QGraphicsItem* parentIt) {
 QString TscoreNote::m_staticTip = "";
 QString m_selectedTip = "";
 
-//################################## CONSTRUCTOR ###################################
+
+//#################################################################################################
+//###################              CONSTRUCTOR         ############################################
+//#################################################################################################
 
 TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
@@ -83,7 +87,6 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_touchHideTimer->setSingleShot(true);
   setStaff(staff);
 	setParentItem(staff);
-  enableTouchToMouse(false); // Touch events are re-implemented here
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
 	m_note = new Tnote(0, 0, 0);
@@ -270,13 +273,15 @@ void TscoreNote::moveWorkNote(const QPointF& newPos) {
 void TscoreNote::hideWorkNote() {
   m_touchedToMove = false;
   m_touchHideTimer->stop();
-  qDebug() << "hideWorkNote";
 	if (scoreScene()->workNote() && scoreScene()->workNote()->isVisible()) {
     scoreScene()->workNote()->hide();
-//     scoreScene()->workAccid()->hide();
     scoreScene()->workLines()->hideAllLines();
     scoreScene()->setWorkPosY(0);
 	}
+	if (touchEnabled()) {
+    checkEmptyText();
+    update();
+  }
 }
 
 
@@ -425,6 +430,11 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
+	if (m_touchedToMove) {
+    painter->setPen(QPen(qApp->palette().highlight().color(), 0.2, Qt::DashDotLine));
+    painter->setBrush(Qt::NoBrush);
+    painter->drawRoundedRect(boundingRect().adjusted(0, 1, 0, -1), 0, 0, Qt::RelativeSize);
+	}
 	if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor() &&
 			scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
 		QColor emptyNoteColor;
@@ -532,99 +542,60 @@ void TscoreNote::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 
-void TscoreNote::touched(const QPointF& cPos) {
-  qDebug() << "touched";
+void TscoreNote::touched(const QPointF& scenePos) {
 	if (m_readOnly)
-			return;
+    return;
+
+  TscoreItem::touched(scenePos);
   m_touchTime.start();
   m_touchHideTimer->stop();
   if (m_touchedToMove) {
-    TscoreItem::touched(cPos);
-    if (scoreScene()->right()->isEnabled() /*&& !scoreScene()->right()->hasCursor()*/)
+    scoreScene()->noteEntered(this);
+    if (scoreScene()->right()->isEnabled())
       scoreScene()->right()->hide();
-    if (scoreScene()->left()->isEnabled() /*&& !scoreScene()->left()->hasCursor()*/)
+    if (scoreScene()->left()->isEnabled())
       scoreScene()->left()->hide();
   }
 }
 
 
-void TscoreNote::touchMove(const QPointF& cPos) {
+void TscoreNote::touchMove(const QPointF& scenePos) {
 	if (m_readOnly)
 			return;
-  if ((cPos.y() >= m_ambitMax) && (cPos.y() <= m_ambitMin)) {
-    if (m_touchedToMove && m_touchTime.elapsed() > 200) {
-      qDebug() << "move";
-      scoreScene()->workNote()->show();
-      scoreScene()->setWorkPosY(cPos.y());
-      scoreScene()->workNote()->setPos(3.0, scoreScene()->workPosY());
-      scoreScene()->workLines()->checkLines(scoreScene()->workPosY());
+
+  QPointF fingerPos = mapFromScene(scenePos);
+  if ((fingerPos.y() >= m_ambitMax) && (fingerPos.y() <= m_ambitMin)) {
+    if (m_touchedToMove || m_touchTime.hasExpired(SHORT_TAP_TIME)) {
+      m_touchedToMove = true;
+      if (staff()->isPianoStaff() && // dead space between staves
+        (fingerPos.y() >= staff()->upperLinePos() + 10.6) && (fingerPos.y() <= staff()->lowerLinePos() - 2.4)) {
+          hideWorkNote();
+          return;
+      }
+      scoreScene()->noteMoved(this, fingerPos.y());
     }
   }
 }
 
 
-void TscoreNote::shortTap(const QPointF& cPos) {
-	if (m_readOnly) {
-    emit roNoteClicked(this, cPos);
+void TscoreNote::untouched(const QPointF& scenePos) {
+  if (m_readOnly) {
+    emit roNoteClicked(this, mapFromScene(scenePos));
     return;
   }
-  if (m_touchedToMove) {
-    qDebug() << "short";
-    if (cPos.y() >= m_ambitMax && cPos.y() <= m_ambitMin) {
-      if (cPos.x() >= 0.0 && cPos.x() <= 7.0) { // if finger taken over note - it was selected
+  TscoreItem::untouched(scenePos);
+
+  if (!m_touchTime.hasExpired(SHORT_TAP_TIME)) {
+    if (m_touchedToMove) { // new note was selected aka clicked
         QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
-        me.setPos(cPos);
+        me.setPos(QPointF(3.0, scoreScene()->workPosY())); // so far @p touchMove was not performed (SHORT_TAP_TIME not expired)
         me.setButton(Qt::LeftButton);
         mousePressEvent(&me);
-      }
-    }
-    scoreScene()->workNote()->hide();
-    scoreScene()->workLines()->hideAllLines();
-    scoreScene()->setWorkPosY(0);
-	} else
-			emit noteWasSelected(m_index);
-}
-
-
-void TscoreNote::untouched(const QPointF& cPos) {
-  qDebug() << "untouched";
-  if (m_readOnly)
-      return;
-  if (scoreScene()->controlledNotes()) {
-    if (scoreScene()->right()->isEnabled()) {
-      scoreScene()->right()->show();
-      scoreScene()->right()->hideWithDelay();
-    }
-    if (scoreScene()->left()->isEnabled()) {
-      scoreScene()->left()->show();
-      scoreScene()->left()->hideWithDelay();
-    }
-    if (hasCursor())
-      m_touchHideTimer->start(1000);
+        m_touchedToMove = false;
+    } else
+        emit noteWasSelected(m_index);
   }
-  TscoreItem::untouched(cPos);
-//   hoverLeaveEvent(0);
-}
-
-
-void TscoreNote::longTap(const QPointF& cPos) {
-  qDebug() << "long";
-	if (m_readOnly)
-    return;
-  if (scoreScene()->controlledNotes() && !m_touchedToMove) {
-    emit noteWasSelected(m_index);
-    m_touchedToMove = true;
-    scoreScene()->noteEntered(this);
-    m_touchTime.start();
-    if ((cPos.y() >= m_ambitMax) && (cPos.y() <= m_ambitMin)) {
-//       moveWorkNote(cPos);
-      scoreScene()->setWorkPosY(cPos.y());
-      scoreScene()->workNote()->setPos(3.0, scoreScene()->workPosY());
-      scoreScene()->workLines()->checkLines(scoreScene()->workPosY());
-      scoreScene()->workNote()->show();
-//       scoreScene()->workAccid()->show();
-    }
-  }
+  scoreScene()->noteLeaved(this);
 }
 
 //##########################################################################################################

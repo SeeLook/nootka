@@ -73,7 +73,7 @@ signals:
     void keySignatureChanged();
 
 protected:
-		virtual void shortTap(const QPointF& cPos);
+		virtual void untouched(const QPointF& scenePos);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
