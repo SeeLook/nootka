@@ -23,7 +23,6 @@
 #include <QAction>
 #include <QPen>
 #include <QPainter>
-#include <QDebug>
 
 
 TmelodyItem* TmelodyItem::m_instance = 0;
@@ -33,7 +32,8 @@ TmelodyItem::TmelodyItem(QAction* playAction, QAction* recordAction, QAction* li
   QGraphicsObject(0),
   m_playAct(playAction),
   m_recAct(recordAction),
-  m_sniffAct(listenAction)
+  m_sniffAct(listenAction),
+  m_touched(false)
 {
   m_instance = this;
   setAcceptTouchEvents(true);
@@ -88,7 +88,9 @@ QRectF TmelodyItem::boundingRect() const {
 //#################################################################################################
 
 void TmelodyItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-  QColor bg(qApp->palette().base().color());
+  Q_UNUSED(option)
+  Q_UNUSED(widget)
+  QColor bg(m_touched ? qApp->palette().highlight().color() : qApp->palette().base().color());
   bg.setAlpha(200);
   painter->setBrush(bg);
   painter->setPen(Qt::NoPen);
@@ -115,7 +117,8 @@ void TmelodyItem::setDotColor(QGraphicsEllipseItem* dot, const QColor& c) {
 
 
 void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
-
+  m_touched = true;
+  update();
 }
 
 
@@ -127,7 +130,8 @@ void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent*) {
   menu.addAction(m_sniffAct);
   menu.addAction(m_scoreMenuAct);
   menu.addAction(m_mainMenuAct);
-  int xx = x() + Tmtr::fingerPixels();
+  int xx = x() + Tmtr::fingerPixels() * 0.7;
+  m_touched = false;
   menu.exec(QPoint(xx, 2), QPoint(xx, -menu.sizeHint().height()));
 }
 
