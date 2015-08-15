@@ -369,10 +369,10 @@ bool TsimpleScore::viewportEvent(QEvent* event) {
             break;
         }
       }
+      if (m_currentIt)
+      return true;
     }
   }
-  if (m_currentIt)
-    event->accept();
   return QGraphicsView::viewportEvent(event);
 }
 

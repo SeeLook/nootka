@@ -74,7 +74,7 @@ private:
   static TmelodyItem          *m_instance;
   QAction                     *m_playAct, *m_recAct, *m_sniffAct, *m_scoreMenuAct, *m_mainMenuAct;
   QGraphicsEllipseItem        *m_playDot, *m_recDot, *m_snifDot;
-
+  bool                         m_touched;
 
 };
 
