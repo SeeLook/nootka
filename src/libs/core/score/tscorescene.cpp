@@ -149,7 +149,10 @@ void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
       showTimeOut();
     if (sn != m_scoreNote) {
         noteEntered(sn);
-        m_showTimer->start(TscoreItem::touchEnabled() ? 20 : 300);
+        if (TscoreItem::touchEnabled())
+          m_workNote->show(); // show note immediately when touched
+        else
+          m_showTimer->start(300); // show with delay when mouse over to avoid flickering
     } else {
         m_hideTimer->start(WORK_HIDE_DELAY);
     }
@@ -161,7 +164,7 @@ void TscoreScene::noteLeaved(TscoreNote* sn) {
 	Q_UNUSED(sn)
   if (!m_rectIsChanging) {
     m_showTimer->stop();
-    m_hideTimer->start(TscoreItem::touchEnabled() ? 1500 : 300);
+    m_hideTimer->start(TscoreItem::touchEnabled() ? 2000 : 300);
   }
 }
 
@@ -250,14 +253,26 @@ void TscoreScene::setCursorParent(TscoreNote* sn) {
 //#######################     PROTECTED SLOTS    ###########################################
 //##########################################################################################
 
+void TscoreScene::showPanes() {
+  if (left()->isEnabled())
+    left()->show();
+  if (right()->isEnabled())
+    right()->show();
+}
+
+
+void TscoreScene::hidePanes() {
+  if (left()->isEnabled())
+    left()->hide();
+  if (right()->isEnabled())
+    right()->hide();
+}
+
+
 void TscoreScene::showTimeOut() {
 	m_showTimer->stop();
 	m_workNote->show();
-	m_workAccid->show();
-	if (left()->isEnabled())
-		left()->show();
-	if (right()->isEnabled())
-		right()->show();
+  showPanes();
 }
 
 
@@ -265,11 +280,11 @@ void TscoreScene::hideTimeOut() {
 	m_hideTimer->stop();
   if (m_scoreNote)
     m_scoreNote->hideWorkNote();
-  if (left()->isEnabled())
-    left()->hide();
-  if (right()->isEnabled())
-    right()->hide();
+  hidePanes();
+  TscoreNote *sn = m_scoreNote;
   m_scoreNote = 0;
+  if (TscoreItem::touchEnabled() && sn)
+    sn->update();
 }
 
 

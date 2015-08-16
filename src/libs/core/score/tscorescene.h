@@ -128,6 +128,8 @@ protected slots:
     void statusTipChanged(QString status) { emit statusTip(status); }
     void showTimeOut();
 		void hideTimeOut();
+    void showPanes();
+    void hidePanes();
     
 private:
         /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
