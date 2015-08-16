@@ -334,7 +334,7 @@ bool TmainView::viewportEvent(QEvent *event) {
       QTouchEvent *te = static_cast<QTouchEvent*>(event);
 // 1.  Main widget of view was touched
       if (itemAt(mapFromScene(te->touchPoints().first().pos())) == m_proxy) {
-        if (te->touchPoints().size() == 1) {
+//         if (te->touchPoints().size() == 1) {
 // 1.1 with one finger
           if (m_mainMenuTap || te->touchPoints().first().pos().x() < Tmtr::fingerPixels() / 3) {
 // 1.1.1 on the left screen edge - main menu
@@ -369,10 +369,13 @@ bool TmainView::viewportEvent(QEvent *event) {
               }
 // mapping all touches to score
               QList<QTouchEvent::TouchPoint> pointList;
-              QTouchEvent::TouchPoint firstTouchPoint(te->touchPoints().first());
-              firstTouchPoint.setPos(m_score->mapFromParent(firstTouchPoint.pos().toPoint())); // map to score
-              firstTouchPoint.setStartPos(m_score->mapFromParent(firstTouchPoint.startPos().toPoint()));
-              pointList << firstTouchPoint;
+              for (int i = 0; i < te->touchPoints().size(); ++i) {
+                QTouchEvent::TouchPoint touchPoint(te->touchPoints()[i]);
+                touchPoint.setPos(m_score->mapFromParent(touchPoint.pos().toPoint())); // map to score
+                touchPoint.setLastPos(m_score->mapFromParent(touchPoint.lastPos().toPoint()));
+//                 touchPoint.setStartPos(m_score->mapFromParent(touchPoint.startPos().toPoint())); // So far unused
+                pointList << touchPoint;
+              }
               QTouchEvent touchToSend(event->type(), te->device(), te->modifiers(), te->touchPointStates(), pointList);
               if (qApp->notify(m_score->viewport(), &touchToSend)) {
                 event->accept();
@@ -390,7 +393,7 @@ bool TmainView::viewportEvent(QEvent *event) {
                 m_touchedWidget = 0;
               return true;
           }
-        } else if (te->touchPoints().size() == 2) {
+/*        } else if (te->touchPoints().size() == 2) {
 // 1.2 two fingers touch
             if (m_touchedWidget == m_score->viewport()) {
               QTouchEvent touchToSend(QEvent::TouchEnd, te->device(), te->modifiers(), te->touchPointStates(), te->touchPoints());
@@ -415,7 +418,7 @@ bool TmainView::viewportEvent(QEvent *event) {
                   }
                 }
             }
-        }
+        }*/
 // 2. Other temporary item was touched
       } else if (guitarView && itemAt(te->touchPoints().first().pos().toPoint()) == guitarView->proxy()) {
           return guitarView->mapTouchEvent(te);

@@ -585,6 +585,11 @@ void TscoreNote::untouched(const QPointF& scenePos) {
     return;
   }
   TscoreItem::untouched(scenePos);
+  if (scenePos.isNull()) { // touch canceled
+    hideWorkNote();
+    scoreScene()->hidePanes();
+    return;
+  }
 
   if (m_touchTime.hasExpired(SHORT_TAP_TIME)) {
     scoreScene()->showPanes();
