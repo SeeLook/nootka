@@ -37,7 +37,7 @@
 
 #include <QDebug>
 
-#define SHORT_TAP_TIME (150) // 75 ms takes short tap - otherwise note is edited
+#define SHORT_TAP_TIME (150) // 150 ms takes short tap - otherwise note is edited
 
 
 const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
@@ -430,10 +430,12 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		painter->setPen(Qt::NoPen);
 		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
 	}
-	if (m_touchedToMove) {
-    painter->setPen(QPen(qApp->palette().highlight().color(), 0.2, Qt::DashDotLine));
-    painter->setBrush(Qt::NoBrush);
-    painter->drawRoundedRect(boundingRect().adjusted(0, 1, 0, -1), 0, 0, Qt::RelativeSize);
+	if (scoreScene()->currentNote() == this && m_touchedToMove) {
+    painter->setPen(Qt::NoPen);
+    QColor workBg(scoreScene()->workColor);
+    workBg.setAlpha(20);
+    painter->setBrush(QBrush(workBg));
+    painter->drawRect(boundingRect());
 	}
 	if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor() &&
 			scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
@@ -551,10 +553,7 @@ void TscoreNote::touched(const QPointF& scenePos) {
   m_touchHideTimer->stop();
   if (m_touchedToMove) {
     scoreScene()->noteEntered(this);
-    if (scoreScene()->right()->isEnabled())
-      scoreScene()->right()->hide();
-    if (scoreScene()->left()->isEnabled())
-      scoreScene()->left()->hide();
+    scoreScene()->hidePanes();
   }
 }
 
@@ -565,14 +564,16 @@ void TscoreNote::touchMove(const QPointF& scenePos) {
 
   QPointF fingerPos = mapFromScene(scenePos);
   if ((fingerPos.y() >= m_ambitMax) && (fingerPos.y() <= m_ambitMin)) {
-    if (m_touchedToMove || m_touchTime.hasExpired(SHORT_TAP_TIME)) {
-      m_touchedToMove = true;
+    if (m_touchTime.hasExpired(SHORT_TAP_TIME)) {
       if (staff()->isPianoStaff() && // dead space between staves
         (fingerPos.y() >= staff()->upperLinePos() + 10.6) && (fingerPos.y() <= staff()->lowerLinePos() - 2.4)) {
           hideWorkNote();
           return;
       }
       scoreScene()->noteMoved(this, fingerPos.y());
+      if (!m_touchedToMove)
+        scoreScene()->hidePanes();
+      m_touchedToMove = true;
     }
   }
 }
@@ -585,15 +586,17 @@ void TscoreNote::untouched(const QPointF& scenePos) {
   }
   TscoreItem::untouched(scenePos);
 
-  if (!m_touchTime.hasExpired(SHORT_TAP_TIME)) {
-    if (m_touchedToMove) { // new note was selected aka clicked
-        QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
-        me.setPos(QPointF(3.0, scoreScene()->workPosY())); // so far @p touchMove was not performed (SHORT_TAP_TIME not expired)
-        me.setButton(Qt::LeftButton);
-        mousePressEvent(&me);
-        m_touchedToMove = false;
-    } else
-        emit noteWasSelected(m_index);
+  if (m_touchTime.hasExpired(SHORT_TAP_TIME)) {
+    scoreScene()->showPanes();
+  } else {
+      if (m_touchedToMove) { // new note was selected aka clicked
+          m_touchedToMove = false;
+          QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
+          me.setPos(QPointF(3.0, scoreScene()->workPosY())); // so far @p touchMove was not performed (SHORT_TAP_TIME not expired)
+          me.setButton(Qt::LeftButton);
+          mousePressEvent(&me);
+      } else
+          emit noteWasSelected(m_index);
   }
   scoreScene()->noteLeaved(this);
 }
