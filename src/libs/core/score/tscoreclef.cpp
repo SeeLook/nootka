@@ -132,7 +132,7 @@ void TscoreClef::touched(const QPointF& scenePos) {
 
 
 void TscoreClef::untouched(const QPointF& scenePos) {
-  if (m_tapTimer.hasExpired(300)) {
+  if (!scenePos.isNull() && m_tapTimer.hasExpired(300)) {
     QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
     me.setPos(mapFromScene(scenePos));
     me.setButton(Qt::LeftButton);

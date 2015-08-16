@@ -337,6 +337,13 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 }
 
 
+/**
+ * Touch events are processed here and @p TscoreItem gets only @p touched() @p touchMove() and @p untouched()
+ * with latest touch position in scene coordinates. To use them, TscoreItem subclass has to map it first.
+ * When second finger touches screen, last touch event is canceled by putting null point as a parameter.
+ * So far, only: @class TscoreNote, @class TscoreKeySignature and @class TscoreClef handles those methods.
+ * Two fingers touch is used to scroll score
+ */
 bool TsimpleScore::viewportEvent(QEvent* event) {
   if (TscoreNote::touchEnabled()) {
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
@@ -368,9 +375,15 @@ bool TsimpleScore::viewportEvent(QEvent* event) {
           default:
             break;
         }
+        return m_currentIt ? true : false;
+      } else if (te->touchPoints().count() == 2) {
+        if (m_currentIt) { // cancel the last touch event
+          m_currentIt->untouched(QPointF(0, 0));
+          m_currentIt = 0;
+        }
+        verticalScrollBar()->setValue(verticalScrollBar()->value() + (te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y()));
+        return true;
       }
-      if (m_currentIt)
-      return true;
     }
   }
   return QGraphicsView::viewportEvent(event);

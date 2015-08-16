@@ -232,7 +232,7 @@ void TscoreKeySignature::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 
 void TscoreKeySignature::untouched(const QPointF& scenePos) {
-	if (!m_readOnly) {
+	if (!m_readOnly && !scenePos.isNull()) {
     QPointF fingerPos = mapFromScene(scenePos);
 		if (fingerPos.y() > relatedLine + 4.0)
 			increaseKey(-1);
