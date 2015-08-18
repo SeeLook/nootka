@@ -18,8 +18,8 @@
 
 #include "tguitarview.h"
 #include "tfingerboard.h"
+#include <tmtr.h>
 #include <QGraphicsProxyWidget>
-#include <QApplication>
 #include <QScrollBar>
 #include <QDebug>
 
@@ -33,7 +33,7 @@ TguitarView::TguitarView(QGraphicsView* guitar, QGraphicsView* parent) :
   setScene(m_guitar->scene());
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  setFixedSize( parent->width(), parent->height() / 2);
+  setFixedSize(parent->width(), parent->height() / 2);
   qreal factor = (qreal)height() / (qreal)m_guitar->viewport()->height();
   scale(factor, factor);
   m_proxy = parent->scene()->addWidget(this);

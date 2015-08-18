@@ -82,9 +82,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_selected(false),
   m_touchedToMove(false)
 {
-  m_touchHideTimer = new QTimer(scene);
-  connect(m_touchHideTimer, SIGNAL(timeout()), this, SLOT(hideWorkNote()));
-  m_touchHideTimer->setSingleShot(true);
+//   m_touchHideTimer = new QTimer(scene);
+//   connect(m_touchHideTimer, SIGNAL(timeout()), this, SLOT(hideWorkNote()));
+//   m_touchHideTimer->setSingleShot(true);
   setStaff(staff);
 	setParentItem(staff);
   m_height = staff->height();
@@ -272,7 +272,6 @@ void TscoreNote::moveWorkNote(const QPointF& newPos) {
 
 void TscoreNote::hideWorkNote() {
   m_touchedToMove = false;
-  m_touchHideTimer->stop();
 	if (scoreScene()->workNote() && scoreScene()->workNote()->isVisible()) {
     scoreScene()->workNote()->hide();
     scoreScene()->workLines()->hideAllLines();
@@ -549,12 +548,10 @@ void TscoreNote::touched(const QPointF& scenePos) {
     return;
 
   TscoreItem::touched(scenePos);
+  scoreScene()->noteEntered(this);
   m_touchTime.start();
-  m_touchHideTimer->stop();
-  if (m_touchedToMove) {
-    scoreScene()->noteEntered(this);
+  if (m_touchedToMove)
     scoreScene()->hidePanes();
-  }
 }
 
 

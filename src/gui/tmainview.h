@@ -66,20 +66,27 @@ signals:
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
-	virtual bool eventFilter(QObject* ob, QEvent* event);
   virtual bool viewportEvent(QEvent *event);
-	virtual void mouseMoveEvent(QMouseEvent* event);
+
+#if defined (Q_OS_ANDROID)
+  virtual void keyPressEvent(QKeyEvent* event);
+  virtual void keyReleaseEvent(QKeyEvent* event); /** Handles mobile device buttons (menu, back) */
+#else
+  virtual bool eventFilter(QObject* ob, QEvent* event);
+  virtual void mouseMoveEvent(QMouseEvent* event);
+#endif
+
   void updateBarLine();
 
 	void startHideAnim();
-
-  void mainMenuExec();
-  void scoreMenuExec();
 
 protected slots:
 	void showToolBar();
   void updateLayout(); /** Method called by timer from resizeEvent() */
 	void menuSlot(Tmenu* m);
+
+  void mainMenuExec();
+  void scoreMenuExec();
 	
 private:
 	QWidget													*m_status;
