@@ -21,6 +21,7 @@
 #include <widgets/troundedlabel.h>
 #include <touch/ttouchproxy.h>
 #include <touch/ttouchmenu.h>
+#include <tmtr.h>
 #include <QtWidgets>
 
 /* static */
@@ -160,18 +161,17 @@ bool TsettingsDialogBase::event(QEvent *event) {
   if (touchEnabled()) {
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
       QTouchEvent *te = static_cast<QTouchEvent*>(event);
-      if (m_menuTap || te->touchPoints().first().pos().x() < 5) {
+      if (m_menuTap || te->touchPoints().first().pos().x() < Tmtr::fingerPixels() / 3) {
         if (event->type() == QEvent::TouchBegin) {
           event->accept();
           m_menuTap = true;
-          return true;
-        } else if (event->type() == QEvent::TouchUpdate) {
-            if (m_menuTap && te->touchPoints().first().pos().x() > width() * 0.1) {
+        } else if (event->type() == QEvent::TouchEnd) {
+            if (m_menuTap && te->touchPoints().first().pos().x() > width() * 0.15)
               tapMenu();
-              return true;
-            }
-        } else if (event->type() == QEvent::TouchEnd)
-            m_menuTap = false;
+            else
+              m_menuTap = false;
+        }
+        return true;
       } else {
         if (event->type() == QEvent::TouchBegin) {
           event->accept();

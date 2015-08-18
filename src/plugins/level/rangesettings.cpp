@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,9 @@
 
 
 #include "rangesettings.h"
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
 #include <level/tlevelpreview.h>
 #include <score/tsimplescore.h>
 #include <score/tscorescene.h>
@@ -46,7 +49,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 			m_scoreRang->setControllersEnabled(true, false);
 			m_scoreRang->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
 #if defined (Q_OS_ANDROID)
-      m_scoreRang->setFixedHeight(qApp->desktop()->availableGeometry().height() * 0.8);
+      m_scoreRang->setFixedHeight(Tmtr::shortScreenSide() * 0.8);
 #endif
 		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
@@ -83,8 +86,12 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     m_stringsGr->setStatusTip(tr("Uncheck strings if you want to skip them<br>in an exam."));
     QGridLayout *strLay = new QGridLayout;
     for (int i = 0; i < 6; i++) {
-        m_stringBut[i] = new QCheckBox(QString("%1").arg(i+1),this);
+        m_stringBut[i] = new QCheckBox(QString("%1").arg(i + 1),this);
+    #if defined (Q_OS_ANDROID)
+        m_stringBut[i]->setFont(QFont("nootka", Tmtr::fingerPixels() * 0.5, QFont::Normal));
+    #else
         m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize() * 2.5), QFont::Normal));
+    #endif
         m_stringBut[i]->setChecked(true);
         connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
         connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
