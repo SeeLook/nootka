@@ -105,7 +105,9 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 void TmainView::addNoteName() {
 	if (!m_nameLay) {
     m_mainLay->setContentsMargins(7, 2, 7, 2);
+#if !defined (Q_OS_ANDROID)
 		m_name->installEventFilter(this);
+#endif
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 		m_name->setParent(0);
 		m_name->enableArrows(false);
@@ -147,8 +149,10 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 		if (isAutoHide())
 			examResultsPos--;
 		m_mainLay->insertLayout(examResultsPos, m_resultLay);
+#if !defined (Q_OS_ANDROID)
 	resultsW->installEventFilter(this);
 	progressW->installEventFilter(this);
+#endif
 }
 
 
@@ -272,6 +276,7 @@ void TmainView::resizeEvent(QResizeEvent* event) {
 }
 
 
+#if !defined (Q_OS_ANDROID)
 bool TmainView::eventFilter(QObject* ob, QEvent* event) {
   if (event->type() == QEvent::StatusTip) {
       QStatusTipEvent *tip = static_cast<QStatusTipEvent *>(event);
@@ -301,6 +306,7 @@ void TmainView::mouseMoveEvent(QMouseEvent* event) {
   }
   QGraphicsView::mouseMoveEvent(event);
 }
+#endif
 
 
 void TmainView::mainMenuExec() {
@@ -343,7 +349,7 @@ bool TmainView::viewportEvent(QEvent *event) {
                 m_mainMenuTap = true;
               } else if (event->type() == QEvent::TouchEnd) {
                   if (m_mainMenuTap && te->touchPoints().first().pos().x() > width() * 0.15)
-                    mainMenuExec();
+                    QTimer::singleShot(10, this, SLOT(mainMenuExec()));
                   else
                     m_mainMenuTap = false;
               }
@@ -355,11 +361,11 @@ bool TmainView::viewportEvent(QEvent *event) {
                 m_scoreMenuTap = true;
               } else if (event->type() == QEvent::TouchEnd) {
                 if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.85)
-                    scoreMenuExec();
+                    QTimer::singleShot(10, this, SLOT(scoreMenuExec()));
                   else
                     m_scoreMenuTap = false;
               }
-              return m_scoreMenuTap; /*true*/;
+              return true;
           } else if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {
 // 1.1.4 score was touched
@@ -395,16 +401,8 @@ bool TmainView::viewportEvent(QEvent *event) {
           }
 /*        } else if (te->touchPoints().size() == 2) {
 // 1.2 two fingers touch
-            if (m_touchedWidget == m_score->viewport()) {
-              QTouchEvent touchToSend(QEvent::TouchEnd, te->device(), te->modifiers(), te->touchPointStates(), te->touchPoints());
-              qApp->notify(m_touchedWidget, &touchToSend); // cancel previous single touch
-            }
             if (event->type() == QEvent::TouchUpdate) { // TouchBegin occurs when first finger touches size() == 1
-// 1.2.1 score double touched - scrolling
-              if (m_touchedWidget == m_score->viewport()) {
-                m_score->verticalScrollBar()->setValue(
-                    m_score->verticalScrollBar()->value() + (te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y()));
-              } else if (m_touchedWidget == m_guitar->viewport()) {
+              if (m_touchedWidget == m_guitar->viewport()) {
 // 1.2.2 guitar double touched - bigger preview of fingerboard
                   if (guitarView) {
                     guitarView->horizontalScrollBar()->setValue(
@@ -429,5 +427,18 @@ bool TmainView::viewportEvent(QEvent *event) {
 }
 
 
+#if defined (Q_OS_ANDROID)
+void TmainView::keyPressEvent(QKeyEvent* event) {
+//   qDebug() << "pressed" << (Qt::Key)event->key();
+  QGraphicsView::keyPressEvent(event);
+}
+
+
+void TmainView::keyReleaseEvent(QKeyEvent* event) {
+  if ((Qt::Key)event->key() == Qt::Key_Menu)
+    QTimer::singleShot(10, this, SLOT(mainMenuExec()));
+  QGraphicsView::keyReleaseEvent(event);
+}
+#endif
 
 
