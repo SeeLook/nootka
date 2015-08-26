@@ -937,18 +937,13 @@ void TmainScore::setBarsIconSize() {
 
 void TmainScore::createNoteName() {
 	if (!m_nameMenu) {
-			m_nameMenu = new TnoteName(mainWindow());
-// #if defined (Q_OS_ANDROID)
-// 			m_nameMenu->resize(fontMetrics().boundingRect("A").height() * 0.8);
-// #else
-// 			m_nameMenu->resize(fontMetrics().boundingRect("A").height());
-// 			m_nameMenu->resize((qApp->desktop()->availableGeometry().height() / 20));
-// #endif
-			connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
-			connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
-			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
-      connect(m_nameMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(statusTipChanged(QString)));
-			m_nameMenu->hide();
+    m_nameMenu = new TnoteName(mainWindow());
+    connect(m_nameMenu, &TnoteName::nextNote, this, &TmultiScore::moveNameForward);
+    connect(m_nameMenu, &TnoteName::prevNote, this, &TmultiScore::moveNameBack);
+    connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
+    connect(m_nameMenu, &TnoteName::statusTipRequired, this, &TsimpleScore::statusTipChanged);
+    m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
+    m_nameMenu->hide();
 	}
 }
 
