@@ -1,4 +1,10 @@
-1.2.0 final	  
+1.2.1
+     - fixed finger position validation - it might corrupt exam files
+     - properly hide double accidentals buttons in note name when disabled
+     - fixed position of note name when tip moving betwen staves
+     - fixed compilation issues on Qt 5.2 
+
+1.2.0 final
   Nootka plays melodies
      - updated on-line help
      - unlocked help button(s) to opening related help sites
