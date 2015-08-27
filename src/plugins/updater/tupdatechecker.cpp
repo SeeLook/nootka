@@ -44,8 +44,9 @@ void TupdateChecker::check(bool checkRules){
   if (!m_respectRules)
     emit communicate(tr("Checking for updates. Please wait..."));
   if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-        QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
-// 				QNetworkRequest request(QUrl("http://sonalika.com.pl/ch/version.php"));
+      QNetworkRequest request(QUrl("http://nootka.sldc.pl/ch/version.php"));
+      // This is additional hosting to improve updates system. It is much faster than sf.net
+//         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
 #if defined(Q_OS_WIN32)
         request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E)");
 #elif defined(Q_OS_LINUX)
