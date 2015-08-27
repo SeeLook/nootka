@@ -938,10 +938,10 @@ void TmainScore::setBarsIconSize() {
 void TmainScore::createNoteName() {
 	if (!m_nameMenu) {
     m_nameMenu = new TnoteName(mainWindow());
-    connect(m_nameMenu, &TnoteName::nextNote, this, &TmultiScore::moveNameForward);
-    connect(m_nameMenu, &TnoteName::prevNote, this, &TmultiScore::moveNameBack);
+    connect(m_nameMenu, &TnoteName::nextNote, this, &TmainScore::moveNameForward);
+    connect(m_nameMenu, &TnoteName::prevNote, this, &TmainScore::moveNameBack);
     connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
-    connect(m_nameMenu, &TnoteName::statusTipRequired, this, &TsimpleScore::statusTipChanged);
+    connect(m_nameMenu, &TnoteName::statusTipRequired, this, &TmainScore::statusTipChanged);
     m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
     m_nameMenu->hide();
 	}
