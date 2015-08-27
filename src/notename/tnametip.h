@@ -54,9 +54,9 @@ public:
 	void unwrapNoteName(); /** Sets wrapped widget to 0 */
 	
 	void adjustSize();
-	
-	virtual QRectF boundingRect() const { return m_proxy->boundingRect(); }
-	
+
+	virtual QRectF boundingRect() const;
+
 public slots:
 	void hide() { m_cursorEntered = false; QGraphicsTextItem::hide(); }
 	void show();

@@ -73,6 +73,12 @@ void TnameTip::adjustSize() {
 }
 
 
+QRectF TnameTip::boundingRect() const {
+  return QRect(0, 0, m_proxy->widget()->sizeHint().width(), m_proxy->widget()->sizeHint().height());
+}
+
+
+
 void TnameTip::show() {
 	m_hideTimer->stop();
 	m_hideTimer->start(2000); // if user didn't put mouse over the tip after 2 sec. - hide it
