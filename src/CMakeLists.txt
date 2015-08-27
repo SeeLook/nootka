@@ -10,6 +10,12 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
+# Force using C++11 for older platforms (Ubuntu 14.04 LTS, Suse 13.2)
+if (NOT ${Qt5Widgets_VERSION} VERSION_GREATER 5.2.3)
+  message("Qt version ${Qt5Widgets_VERSION} is obsolete. Adding -std=c++11 to compiler flags.")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif (NOT ${Qt5Widgets_VERSION} VERSION_GREATER 5.2.3)
+
 if(UNIX AND NOT APPLE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
 	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
