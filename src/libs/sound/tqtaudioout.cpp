@@ -174,7 +174,7 @@ bool TaudioOUT::play(int noteNr) {
 
 void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
 //   qDebug() << "outCallBack" << m_samplesCnt << maxLen << m_audioOUT->bytesFree() << m_audioOUT->bufferSize();
-  if (maxLen) {
+  if (maxLen && m_samplesCnt < m_maxSamples) {
     m_callBackIsBussy = true;
     if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
         m_doCrossFade = false;
@@ -197,7 +197,7 @@ void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
             *outPtr++ = sample; // left channel
     }
     m_callBackIsBussy = false;
-    if (m_samplesCnt < m_maxSamples)
+//    if (m_samplesCnt < m_maxSamples)
       wasRead = maxLen;
   }
 }
