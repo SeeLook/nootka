@@ -19,6 +19,7 @@
 #ifndef TTOUCHMENU_H
 #define TTOUCHMENU_H
 
+#include <nootkacoreglobal.h>
 #include <QMenu>
 
 
@@ -29,7 +30,7 @@ class QVBoxLayout;
  * Kind of @p QMenu but optimized for touch events (Android quirks)
  * and with built-in appear animation
  */
-class TtouchMenu : public QMenu
+class NOOTKACORE_EXPORT TtouchMenu : public QMenu
 {
   Q_OBJECT
 
