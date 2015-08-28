@@ -80,7 +80,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 //                Tnote(Tcore::gl()->hiString().chromatic()+Tcore::gl()->GfretsNumber+1));
 
 	createNoteName();
-	isExamExecuting(false);
+	isExamExecuting(false); // initialize some connections
   setNote(0, Tnote()); // To display fake empty note properly
 }
 
@@ -375,9 +375,9 @@ int TmainScore::widthToHeight(int hi) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-			disconnect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
-			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+      disconnect(this, &TmainScore::noteWasChanged, this, &TmainScore::whenNoteWasChanged);
+      disconnect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
+      connect(this, &TmainScore::noteWasChanged, this, &TmainScore::expertNoteChanged);
 			setNoteNameEnabled(false);
 			setScoreDisabled(true);
 			setClefDisabled(true);
@@ -391,9 +391,11 @@ void TmainScore::isExamExecuting(bool isIt) {
         staff()->noteSegment(2)->setColor(palette().text().color());
       }
 	} else {
-			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-			connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
-			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
+// 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+      connect(this, &TmainScore::noteWasChanged, this, &TmainScore::whenNoteWasChanged);
+      connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
+      disconnect(this, &TmainScore::noteWasChanged, this, &TmainScore::expertNoteChanged);
+// 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
 			if (m_questMark) {
 				delete m_questMark;
 				m_questMark = 0;
@@ -917,7 +919,7 @@ void TmainScore::createNoteName() {
     m_nameMenu = new TnoteName(mainWindow());
     connect(m_nameMenu, &TnoteName::nextNote, this, &TmainScore::moveNameForward);
     connect(m_nameMenu, &TnoteName::prevNote, this, &TmainScore::moveNameBack);
-    connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
+//  connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote); // connected by isExamExecuting(false) from constructor
     connect(m_nameMenu, &TnoteName::statusTipRequired, this, &TmainScore::statusTipChanged);
     m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
     m_nameMenu->hide();
