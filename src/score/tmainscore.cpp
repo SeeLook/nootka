@@ -915,10 +915,10 @@ void TmainScore::createBgRect(QColor c, qreal width, QPointF pos) {
 void TmainScore::createNoteName() {
 	if (!m_nameMenu) {
     m_nameMenu = new TnoteName(mainWindow());
-    connect(m_nameMenu, SIGNAL(nextNote()), this, SLOT(moveNameForward()));
-    connect(m_nameMenu, SIGNAL(prevNote()), this, SLOT(moveNameBack()));
-    connect(m_nameMenu, SIGNAL(noteNameWasChanged(Tnote)), this, SLOT(menuChangedNote(Tnote)));
-    connect(m_nameMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(statusTipChanged(QString)));
+    connect(m_nameMenu, &TnoteName::nextNote, this, &TmainScore::moveNameForward);
+    connect(m_nameMenu, &TnoteName::prevNote, this, &TmainScore::moveNameBack);
+    connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
+    connect(m_nameMenu, &TnoteName::statusTipRequired, this, &TmainScore::statusTipChanged);
     m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
     m_nameMenu->hide();
 	}
