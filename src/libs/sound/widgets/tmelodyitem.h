@@ -19,6 +19,7 @@
 #ifndef TMELODYITEM_H
 #define TMELODYITEM_H
 
+#include "nootkasoundglobal.h"
 #include <QGraphicsObject>
 
 
@@ -34,7 +35,7 @@ class QAction;
  * TmelodyItem is available as a static @p instance() method.
  * @class TmelMan and @class TpitchView use it to manage playing/sniffing/recording
  */
-class TmelodyItem : public QGraphicsObject
+class NOOTKASOUND_EXPORT TmelodyItem : public QGraphicsObject
 {
   Q_OBJECT
 

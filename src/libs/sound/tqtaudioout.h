@@ -33,7 +33,7 @@ class QAudioOutput;
 class TaudioBuffer;
 
 /** 
- * 
+ * Implementation of guitar sound player using Qt Multimedia
  */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer
 {
