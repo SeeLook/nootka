@@ -11,8 +11,6 @@
 ================              TODO LIST               ======================
 ============================================================================
 Issues of stable 1.2.0:
-- when double accidentals are not enabled note name still displays their buttons
-- name tip is wrongly positioned when note is switching staves
 - fix white lines off staff in the main icon
 
 - clean tartini unused code
