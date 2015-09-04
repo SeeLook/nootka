@@ -339,13 +339,12 @@ bool TmainView::viewportEvent(QEvent *event) {
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
       QTouchEvent *te = static_cast<QTouchEvent*>(event);
 // 1.  Main widget of view was touched
-      if (itemAt(mapFromScene(te->touchPoints().first().pos())) == m_proxy) {
+      if (itemAt(mapFromScene(te->touchPoints().first().startPos())) == m_proxy) {
 //         if (te->touchPoints().size() == 1) {
 // 1.1 with one finger
           if (m_mainMenuTap || te->touchPoints().first().pos().x() < Tmtr::fingerPixels() / 3) {
 // 1.1.1 on the left screen edge - main menu
               if (event->type() == QEvent::TouchBegin) {
-                event->accept();
                 m_mainMenuTap = true;
               } else if (event->type() == QEvent::TouchEnd) {
                   if (m_mainMenuTap && te->touchPoints().first().pos().x() > width() * 0.15)
@@ -357,7 +356,6 @@ bool TmainView::viewportEvent(QEvent *event) {
 // 1.1.2 on the right screen edge - score menu
           } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - Tmtr::fingerPixels() / 3) {
               if (event->type() == QEvent::TouchBegin) {
-                event->accept();
                 m_scoreMenuTap = true;
               } else if (event->type() == QEvent::TouchEnd) {
                 if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.85)
@@ -367,11 +365,15 @@ bool TmainView::viewportEvent(QEvent *event) {
               }
               return true;
           } else if (m_touchedWidget == m_score->viewport() ||
-                      m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_score->viewport()) {
+                      m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_score->viewport()) {
 // 1.1.4 score was touched
               if (guitarView) {
-                delete guitarView;
-                guitarView = 0;
+                if (guitarView->wasTouched())
+                  guitarView->mapTouchEvent(te);
+                else {
+                  delete guitarView;
+                  guitarView = 0;
+                }
               }
 // mapping all touches to score
               QList<QTouchEvent::TouchPoint> pointList;
@@ -384,41 +386,34 @@ bool TmainView::viewportEvent(QEvent *event) {
               }
               QTouchEvent touchToSend(event->type(), te->device(), te->modifiers(), te->touchPointStates(), pointList);
               if (qApp->notify(m_score->viewport(), &touchToSend)) {
-                event->accept();
                 m_touchedWidget = m_score->viewport();
               }
               if (event->type() == QEvent::TouchEnd)
                 m_touchedWidget = 0;
               return true;
 // 1.1.5 guitar was touched
-          } else if (m_touchedWidget == m_guitar->viewport() ||
-                      m_container->childAt(mapFromScene(te->touchPoints().first().pos())) == m_guitar->viewport()) {
-                event->accept();
-                m_touchedWidget = m_guitar->viewport();
-              if (event->type() == QEvent::TouchEnd)
+          } else if (guitarView || m_touchedWidget == m_guitar->viewport() ||
+                      m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_guitar->viewport()) {
+              m_touchedWidget = m_guitar->viewport();
+              if (event->type() == QEvent::TouchEnd) {
                 m_touchedWidget = 0;
+                if (guitarView) {
+                  if (guitarView->isVisible() && !guitarView->wasTouched()) {
+                      delete guitarView;
+                      guitarView = 0;
+                  }
+                } else {
+                   guitarView = new TguitarView(m_guitar, this);
+                   guitarView->displayAt(te->touchPoints().first().pos());
+                }
+              }
+              if (guitarView)
+                  guitarView->mapTouchEvent(te);
               return true;
           }
-/*        } else if (te->touchPoints().size() == 2) {
-// 1.2 two fingers touch
-            if (event->type() == QEvent::TouchUpdate) { // TouchBegin occurs when first finger touches size() == 1
-              if (m_touchedWidget == m_guitar->viewport()) {
-// 1.2.2 guitar double touched - bigger preview of fingerboard
-                  if (guitarView) {
-                    guitarView->horizontalScrollBar()->setValue(
-                        guitarView->horizontalScrollBar()->value() + (te->touchPoints()[0].lastPos().x() - te->touchPoints()[0].pos().x()));
-                  } else if (qAbs(te->touchPoints()[0].pos().y() - te->touchPoints()[0].startPos().y()) > height() / 4) {
-                    if (!guitarView) {
-                      guitarView = new TguitarView(m_guitar, this);
-                      guitarView->horizontalScrollBar()->setValue(te->touchPoints().first().pos().x() /
-                        ((guitarView->horizontalScrollBar()->maximum() - guitarView->horizontalScrollBar()->minimum()) / width()));
-                    }
-                  }
-                }
-            }
-        }*/
 // 2. Other temporary item was touched
-      } else if (guitarView && itemAt(te->touchPoints().first().pos().toPoint()) == guitarView->proxy()) {
+      } else if (guitarView && itemAt(te->touchPoints().first().startPos().toPoint()) == guitarView->proxy()) {
+          guitarView->setTouched();
           return guitarView->mapTouchEvent(te);
       }
     }
