@@ -96,8 +96,10 @@ public:
   void showName(Tnote::EnameStyle st, const QColor& textColor) { Tnote empty(0, 0, 0); showName(st, empty, textColor); }
   void deleteNoteName();
 
-  QPointF fretToPos(TfingerPos &pos); /** Returns scene coordinates of given guitar position */
-  QRectF fingerRect() const;
+  QPointF fretToPos(TfingerPos &pos); /** Returns scene coordinates of given guitar position (between bars) */
+  int fretPositionX(int fretNr); /** X absolute coordinate of given fret or end of fingerboard. */
+  short averFretWidth() { return m_fretWidth; }
+  QRectF fingerRect() const; /** Average width of a fret */
 
   TfingerPos pointToFinger(const QPoint& point); /** Returns fret/string position form given position (view coordinates) */
 

@@ -495,6 +495,14 @@ QRectF TfingerBoard::fingerRect() const {
 }
 
 
+/** fret 0 - X is end of fretboard
+ *  fret [1 to last] - X is real fret position
+ *  fret gross than frets number - X is end of fretboard */
+int TfingerBoard::fretPositionX(int fretNr) {
+  return fretNr ? (fretNr <= gl->GfretsNumber ? m_fretsPos[fretNr - 1] : m_fbRect.x() + m_fbRect.width()) : m_fbRect.x() + m_fbRect.width();
+}
+
+
 //################################################################################################
 //################################################ PROTECTED #####################################
 //################################################################################################
