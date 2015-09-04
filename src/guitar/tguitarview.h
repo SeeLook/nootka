@@ -27,22 +27,49 @@ class TfingerBoard;
 class QTouchEvent;
 
 /**
- * Another view of guitar fingerboard
+ * Another view of guitar fingerboard.
+ * It displays chunk of fingerboard with just touched fret.
+ * Automatically determines its scale (depends on real screen size).
+ * Scale is determined in constructor but first position 
+ * has to be initialized by @p displayAt() with touch coordinates as a parameter.
+ * It support scrolling when it was touched and finger is moving (even out of view area).
+ * It is difficult to implement, so parent widget which is @class TmainView has to cooperate.
+ * First of all - every touch is propagated from parent through @p mapTouchEvent(QTouchEvent),
+ * but when @class TmainView detects that @class TguitarView was touched it has to call:
+ * @p TguitarView::setTouched().
+ * Also it automatically scrolls its context 
+ * to always displays current fret at the beginning of the view
+ * and moves view position next to currently displayed fret.
  */
 class TguitarView : public QGraphicsView
 {
 
 public:
+      /** Creates preview, it is hidden by default and has to be shown through @p displayAt(QPointF) */
   TguitarView(QGraphicsView* guitar, QGraphicsView* parent);
+  virtual ~TguitarView();
 
   QGraphicsProxyWidget* proxy() { return m_proxy; }
 
-  bool mapTouchEvent(QTouchEvent* te);
+  void displayAt(const QPointF& scenePos); /** Shows view at given scene position  */
+  bool mapTouchEvent(QTouchEvent* te); /** Propagates touch events into view or into guitar */
+  void setTouched() { m_wasTouched = true; } 
+  bool wasTouched() { return m_wasTouched; } /** Returns @p TRUE when widget is visible and was touched. */
+
+protected:
+  void updateMarkPosition(); /** Fret mark position depends on current fret */
+  void updateContextPosition(); /** Sets value of scroll bar at the beginning position of current fret. */
+  void paintEvent(QPaintEvent* event); /** Paint visible piece of guitar body */
 
 
 private:
+  QGraphicsView               *m_parent;
   TfingerBoard                *m_guitar;
   QGraphicsProxyWidget        *m_proxy;
+  QGraphicsPolygonItem        *m_mark;
+  quint8                       m_fret;
+  bool                         m_couldBeTouch;
+  bool                         m_wasTouched;
 
 };
 
