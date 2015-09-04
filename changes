@@ -1,4 +1,14 @@
-1.2.0 final	  
+1.3.0 beta
+     - added touch interface, adjusted GUI layout to it
+
+1.2.1
+    BUGS FIXES
+     - fixed finger position validation - it might corrupt exam files
+     - properly hide disabled double accidentals buttons in note name menu
+     - fixed position of note name menu when it is moving between staves
+     - fixed compilation issues if missing c++11 flag
+
+1.2.0 final
   Nootka plays melodies
      - updated on-line help
      - unlocked help button(s) to opening related help sites
