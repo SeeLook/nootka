@@ -99,7 +99,19 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   connect(melItem, &TmelodyItem::scoreMenuSignal, this, &TmainView::scoreMenuExec);
   connect(melItem, &TmelodyItem::mainMenuSignal, this, &TmainView::mainMenuExec);
 #endif
+  if (TtouchProxy::touchEnabled()) {
+    m_fretView = new TguitarView(m_guitar, this);
+    QTimer::singleShot(1000, this, [this]{ m_fretView->checkIsPreview(); }); // check it after all sizes were set
+  }
 }
+
+
+TmainView::~TmainView()
+{
+  if (TtouchProxy::touchEnabled())
+    delete m_fretView;
+}
+
 
 
 void TmainView::addNoteName() {
@@ -333,14 +345,12 @@ void TmainView::scoreMenuExec() {
 }
 
 
-TguitarView* guitarView = 0;
 bool TmainView::viewportEvent(QEvent *event) {
   if (TtouchProxy::touchEnabled()) {
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
       QTouchEvent *te = static_cast<QTouchEvent*>(event);
 // 1.  Main widget of view was touched
       if (itemAt(mapFromScene(te->touchPoints().first().startPos())) == m_proxy) {
-//         if (te->touchPoints().size() == 1) {
 // 1.1 with one finger
           if (m_mainMenuTap || te->touchPoints().first().pos().x() < Tmtr::fingerPixels() / 3) {
 // 1.1.1 on the left screen edge - main menu
@@ -367,13 +377,11 @@ bool TmainView::viewportEvent(QEvent *event) {
           } else if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_score->viewport()) {
 // 1.1.4 score was touched
-              if (guitarView) {
-                if (guitarView->wasTouched())
-                  guitarView->mapTouchEvent(te);
-                else {
-                  delete guitarView;
-                  guitarView = 0;
-                }
+              if (m_fretView->isVisible()) {
+                if (m_fretView->wasTouched())
+                  m_fretView->mapTouchEvent(te);
+                else
+                  m_fretView->hide();
               }
 // mapping all touches to score
               QList<QTouchEvent::TouchPoint> pointList;
@@ -392,29 +400,26 @@ bool TmainView::viewportEvent(QEvent *event) {
                 m_touchedWidget = 0;
               return true;
 // 1.1.5 guitar was touched
-          } else if (guitarView || m_touchedWidget == m_guitar->viewport() ||
+          } else if (m_fretView->isVisible() || m_touchedWidget == m_guitar->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_guitar->viewport()) {
               m_touchedWidget = m_guitar->viewport();
               if (event->type() == QEvent::TouchEnd) {
                 m_touchedWidget = 0;
-                if (guitarView) {
-                  if (guitarView->isVisible() && !guitarView->wasTouched()) {
-                      delete guitarView;
-                      guitarView = 0;
-                  }
-                } else {
-                   guitarView = new TguitarView(m_guitar, this);
-                   guitarView->displayAt(te->touchPoints().first().pos());
+                if (m_fretView->isPreview()) {
+                  if (m_fretView->isVisible()) {
+                    if (!m_fretView->wasTouched())
+                        m_fretView->hide();
+                  } else
+                      m_fretView->displayAt(te->touchPoints().first().pos());
                 }
               }
-              if (guitarView)
-                  guitarView->mapTouchEvent(te);
+              m_fretView->mapTouchEvent(te);
               return true;
           }
 // 2. Other temporary item was touched
-      } else if (guitarView && itemAt(te->touchPoints().first().startPos().toPoint()) == guitarView->proxy()) {
-          guitarView->setTouched();
-          return guitarView->mapTouchEvent(te);
+      } else if (m_fretView && itemAt(te->touchPoints().first().startPos().toPoint()) == m_fretView->proxy()) {
+          m_fretView->setTouched();
+          return m_fretView->mapTouchEvent(te);
       }
     }
   }
