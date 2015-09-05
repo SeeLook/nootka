@@ -51,16 +51,26 @@ public:
 
   QGraphicsProxyWidget* proxy() { return m_proxy; }
 
-  void displayAt(const QPointF& scenePos); /** Shows view at given scene position  */
+      /** Depend on available screen size @class TguitarView can display
+       * zoomed preview of actually touched fret or just propagate touch to guitar.
+       * This method checks this necessity and sets appropriate switches:
+       * @p isPreview(), preview scale (if any), fret mark
+       */
+  bool checkIsPreview();
+
+  void displayAt(const QPointF& scenePos); /** Shows view at given scene position. IN PREVIEW MODE ONLY! */
   bool mapTouchEvent(QTouchEvent* te); /** Propagates touch events into view or into guitar */
   void setTouched() { m_wasTouched = true; } 
   bool wasTouched() { return m_wasTouched; } /** Returns @p TRUE when widget is visible and was touched. */
+  bool isPreview() { return m_isPreview; } /** @p TRUE when guitar is too small and fret preview is displayed */
 
 protected:
+#if defined (Q_OS_ANDROID)
   void updateMarkPosition(); /** Fret mark position depends on current fret */
   void updateContextPosition(); /** Sets value of scroll bar at the beginning position of current fret. */
   void paintEvent(QPaintEvent* event); /** Paint visible piece of guitar body */
-
+  void hideEvent(QHideEvent *event);
+#endif
 
 private:
   QGraphicsView               *m_parent;
@@ -70,6 +80,7 @@ private:
   quint8                       m_fret;
   bool                         m_couldBeTouch;
   bool                         m_wasTouched;
+  bool                         m_isPreview;
 
 };
 

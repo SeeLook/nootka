@@ -29,10 +29,10 @@ class TnameTip;
 class TpitchView;
 class TlayoutParams;
 class TcombinedAnim;
+class TguitarView;
 class QVBoxLayout;
 class QBoxLayout;
 class QGraphicsProxyWidget;
-
 class QAction;
 
 /** 
@@ -48,6 +48,7 @@ Q_OBJECT
 public:
 	TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
             QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QWidget* parent = 0);
+  virtual ~TmainView();
 	
 	void addNoteName(); /** Adds note name widget over a score (for single note mode) */
 	void takeNoteName(); /** Takes note name from view. */
@@ -100,6 +101,7 @@ private:
 	QGraphicsLineItem			 					*m_barLine;
 	QPointer<QGraphicsProxyWidget>	 m_proxyBar;
 	QPointer<TcombinedAnim>					 m_animBar;
+  TguitarView                     *m_fretView;
 	bool												 		 m_isAutoHide;
 	TlayoutParams										*m_layParams;
 	QTimer													*m_timerBar;
