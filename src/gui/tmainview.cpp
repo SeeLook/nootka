@@ -378,7 +378,7 @@ bool TmainView::viewportEvent(QEvent *event) {
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_score->viewport()) {
 // 1.1.4 score was touched
               if (m_fretView->isVisible()) {
-                if (m_fretView->wasTouched())
+                if (m_fretView->touchStartedFromView())
                   m_fretView->mapTouchEvent(te);
                 else
                   m_fretView->hide();
@@ -402,17 +402,10 @@ bool TmainView::viewportEvent(QEvent *event) {
 // 1.1.5 guitar was touched
           } else if (m_fretView->isVisible() || m_touchedWidget == m_guitar->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_guitar->viewport()) {
-              m_touchedWidget = m_guitar->viewport();
               if (event->type() == QEvent::TouchEnd) {
                 m_touchedWidget = 0;
-                if (m_fretView->isPreview()) {
-                  if (m_fretView->isVisible()) {
-                    if (!m_fretView->wasTouched())
-                        m_fretView->hide();
-                  } else
-                      m_fretView->displayAt(te->touchPoints().first().pos());
-                }
-              }
+              } else
+                  m_touchedWidget = m_guitar->viewport();
               m_fretView->mapTouchEvent(te);
               return true;
           }
