@@ -34,7 +34,7 @@ TguitarView::TguitarView(QGraphicsView* guitar, QGraphicsView* parent) :
   m_proxy(0),
   m_mark(0),
   m_couldBeTouch(false),
-  m_wasTouched(false)
+  m_touchStartedHere(false)
 {
   m_parent = parent;
 //   setAttribute(Qt::WA_AcceptTouchEvents);
@@ -68,14 +68,11 @@ bool TguitarView::checkIsPreview() {
       setFixedSize(m_guitar->averFretWidth() * 2.5, qMax<int>(Tmtr::fingerPixels() * 4, m_guitar->viewport()->height() * 1.1)); // also size of preview
       qreal factor = (qreal)height() / (qreal)m_guitar->viewport()->height(); // and its scale
       scale(factor, factor); // will not change
-      QPolygonF polygon;
-      polygon << QPointF(0.0, 0.0)
-              << QPointF(m_guitar->fbRect().y() / 2, m_guitar->fbRect().y() * 1.5)
-              << QPointF(m_guitar->fbRect().y()  * 1.5, 0.0)
-              << QPointF(0.0, 0.0);
-      m_mark = m_guitar->scene()->addPolygon(polygon, Qt::NoPen, QBrush(qApp->palette().highlight().color()));
+      QColor fretHi = Qt::green; //qApp->palette().highlight().color();
+      fretHi.setAlpha(50);
+      m_mark = m_guitar->scene()->addRect(QRectF(), Qt::NoPen, QBrush(fretHi));
+      m_mark->setZValue(0);
       m_mark->hide();
-      qDebug() << "view" << qMax<int>(Tmtr::fingerPixels() * 4, m_guitar->viewport()->height() * 1.1);
     }
   }
 #else
@@ -83,34 +80,23 @@ bool TguitarView::checkIsPreview() {
 #endif
 }
 
-
-void TguitarView::displayAt(const QPointF& scenePos) {
-#if defined (Q_OS_ANDROID)
-  m_fret = m_guitar->pointToFinger(QPoint(scenePos.x(), m_guitar->height() / 2)).fret();
-  updateContextPosition();
-  proxy()->setPos(m_fret ? m_guitar->fretPositionX(m_fret) + 9.0 : m_parent->width() - width(), m_parent->height() - height() - 4);
-  proxy()->show();
-  updateMarkPosition();
-#endif
-}
-
-
 bool TguitarView::mapTouchEvent(QTouchEvent* te) {
 #if defined (Q_OS_ANDROID)
-  if (isPreview()) {
-      if (!isVisible())
-          return false;
+  if (isPreview()) { // PREVIEW MODE
       switch (te->type()) {
         case QEvent::TouchBegin: {
-          if (proxy()->isVisible()) // already displayed - prepare for scrolling
+          if (proxy()->isVisible()) // already displayed - can be scrolled or selected
             m_couldBeTouch = true;
           break;
         }
         case QEvent::TouchUpdate: {
-          if (QLineF(te->touchPoints().first().pos(), te->touchPoints().first().startPos()).length() > Tmtr::fingerPixels() / 2) {
+          if (isVisible() && m_touchStartedHere &&
+              QLineF(te->touchPoints().first().pos(), te->touchPoints().first().startPos()).length() > Tmtr::fingerPixels() / 2)
+          { // scrolling - so not selected
               horizontalScrollBar()->setValue(horizontalScrollBar()->value() +
                                               (te->touchPoints()[0].pos().x() - te->touchPoints()[0].lastPos().x()));
-              quint8 currFret = m_guitar->pointToFinger(QPoint(horizontalScrollBar()->value() / transform().m11(), m_guitar->height() / 2)).fret();
+              quint8 currFret = m_guitar->pointToFinger(QPoint(horizontalScrollBar()->value() / transform().m11(),
+                                                               m_guitar->height() / 2)).fret();
               if ((m_fret == 1 && currFret > 1) || (m_fret != 1 && currFret != m_fret)) {
                 m_fret = currFret;
                 updateMarkPosition();
@@ -122,14 +108,21 @@ bool TguitarView::mapTouchEvent(QTouchEvent* te) {
           break;
         }
         case QEvent::TouchEnd: {
-          if (m_couldBeTouch) {
-            if (m_parent->itemAt(te->touchPoints().first().startPos().toPoint()) == proxy()) {
-              QPointF mtgv = proxy()->mapFromScene(te->touchPoints().first().pos()); // mapped from global scene to guitar view
-              m_guitar->fakePress(QPointF((mtgv.x() + horizontalScrollBar()->value()) / transform().m11(), mtgv.y() / transform().m11()).toPoint());
-            }
-          } else if (m_wasTouched)
-              updateContextPosition();
-          m_wasTouched = false;
+          if (isVisible()) {
+            if (m_touchStartedHere) { // preview was touched so it might be scrolled or touched
+              if (m_couldBeTouch) { // it was touched - fake press the guitar
+                if (m_parent->itemAt(te->touchPoints().first().startPos().toPoint()) == proxy()) {
+                  QPointF mtgv = proxy()->mapFromScene(te->touchPoints().first().pos()); // mapped from global scene to guitar view
+                  m_guitar->fakePress(QPointF((mtgv.x() + horizontalScrollBar()->value()) / transform().m11(),
+                                              mtgv.y() / transform().m11()).toPoint());
+                }
+              } else // touched but scrolled - update displayed fret
+                  updateContextPosition();
+            } else // guitar (parent widget) was touched, so hide the preview
+                hide();
+          } else // not visible -display it at touch position
+              displayAt(te->touchPoints().first().pos());
+          m_touchStartedHere = false;
           m_couldBeTouch = false;
           break;
         }
@@ -138,9 +131,10 @@ bool TguitarView::mapTouchEvent(QTouchEvent* te) {
       }
   } else
 #endif
-  { // no preview - only convert touch in guitar into mouse press
+  { // NO PREVIEW - only convert touch in guitar into mouse press
       if (te->type() == QEvent::TouchEnd)
-        m_guitar->fakePress(QPoint(te->touchPoints().first().pos().x() - m_guitar->x(), te->touchPoints().first().pos().y() - m_guitar->y()));
+          m_guitar->fakePress(QPoint(te->touchPoints().first().pos().x() - m_guitar->x(),
+                                     te->touchPoints().first().pos().y() - m_guitar->y()));
   }
   return true;
 }
@@ -149,9 +143,21 @@ bool TguitarView::mapTouchEvent(QTouchEvent* te) {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 #if defined (Q_OS_ANDROID)
+void TguitarView::displayAt(const QPointF& scenePos) {
+  m_fret = m_guitar->pointToFinger(QPoint(scenePos.x(), m_guitar->height() / 2)).fret();
+  updateContextPosition();
+  proxy()->setPos(m_fret ? m_guitar->fretPositionX(m_fret) + 9.0 : m_parent->width() - width(), m_parent->height() - height() - 4);
+  proxy()->show();
+  updateMarkPosition();
+}
+
+
 void TguitarView::updateMarkPosition() {
   if (m_fret) {
-    m_mark->setPos(m_guitar->fretPositionX(m_fret) - 25.0, 0.0);
+    m_mark->setRect(0, 0,
+                    m_guitar->fretPositionX(m_fret) - (m_fret > 1 ? m_guitar->fretPositionX(m_fret - 1) + 9.0 : m_guitar->fbRect().x() + 2.0),
+                    m_guitar->fbRect().height() - 6.0);
+    m_mark->setPos((m_fret > 1 ? m_guitar->fretPositionX(m_fret - 1) + 7.0 : m_guitar->fbRect().x()), m_guitar->fbRect().y() + 3.0);
     m_mark->show();
   } else
     m_mark->hide();
@@ -197,6 +203,8 @@ void TguitarView::paintEvent(QPaintEvent* event) {
 void TguitarView::hideEvent(QHideEvent* event) {
   if (m_mark)
     m_mark->hide();
+  m_touchStartedHere = false;
+  m_couldBeTouch = false;
   QGraphicsView::hideEvent(event);
 }
 #endif
