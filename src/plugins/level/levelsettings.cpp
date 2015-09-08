@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +27,7 @@
 
 
 levelSettings::levelSettings(QWidget* parent) :
-    QWidget(parent)
+    TtouchArea(parent)
 {
     QVBoxLayout *mainLay = new QVBoxLayout;
 
@@ -59,9 +59,9 @@ levelSettings::levelSettings(QWidget* parent) :
 			butLay->addWidget(m_startExerBut);
 
     mainLay->addLayout(butLay);
-#if !defined (Q_OS_ANDROID)
-    mainLay->addStretch(1);
-#endif
+// #if !defined (Q_OS_ANDROID)
+//     mainLay->addStretch(1);
+// #endif
     QLabel *moreLab = new QLabel(TexTrans::moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
     mainLay->addWidget(moreLab, 0, Qt::AlignCenter);

@@ -49,7 +49,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 			m_scoreRang->setControllersEnabled(true, false);
 			m_scoreRang->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
 #if defined (Q_OS_ANDROID)
-      m_scoreRang->setFixedHeight(Tmtr::shortScreenSide() * 0.8);
+      m_scoreRang->setFixedHeight(Tmtr::shortScreenSide() * 0.7);
 #endif
 		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
 			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
@@ -107,12 +107,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     guitLay->addStretch(1);
 
     allLay->addLayout(guitLay);
-
     mainLay->addLayout(allLay);
-#if defined (Q_OS_ANDROID)
-    mainLay->addStretch(5);
-#endif
-
     setLayout(mainLay);
 		
 		if (Tcore::gl()->instrument == e_noInstrument) {
