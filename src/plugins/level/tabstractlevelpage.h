@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,7 @@
 #ifndef TABSTRACTLEVELWIDGET_H
 #define TABSTRACTLEVELWIDGET_H
 
-#include <QWidget>
+#include <touch/ttoucharea.h>
 
 
 class TlevelCreatorDlg;
@@ -32,7 +32,7 @@ class Tlevel;
  * When subclass changes some level parameter it will emit @p levelChanged()
  * connected to @p TlevelCreatorDlg to inform other widgets
  */
-class TabstractLevelPage : public QWidget
+class TabstractLevelPage : public TtouchArea
 {
 	Q_OBJECT
 	

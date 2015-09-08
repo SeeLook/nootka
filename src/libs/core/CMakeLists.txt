@@ -75,6 +75,7 @@ set(LIB_NOOTKACORE_SRC
 
 	touch/ttouchproxy.cpp
 	touch/ttouchmenu.cpp
+	touch/ttoucharea.cpp
 	
 	plugins/tplugininterface.h
 	plugins/tpluginsloader.cpp
