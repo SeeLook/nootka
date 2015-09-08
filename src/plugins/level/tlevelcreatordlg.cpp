@@ -43,33 +43,19 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   setWindowTitle(levelCreatorTxt());
   setWindowIcon(QIcon(Tcore::gl()->path + "picts/levelCreator.png"));
 
-  navList->addItem(TlevelSelector::levelFilterTxt());
-  navList->item(0)->setIcon(QIcon(Tcore::gl()->path + "picts/levelsSettings.png"));
-  navList->item(0)->setTextAlignment(Qt::AlignCenter);
-  navList->addItem(tr("Questions"));
-  navList->item(1)->setIcon(QIcon(Tcore::gl()->path + "picts/questionsSettings.png"));
-  navList->item(1)->setTextAlignment(Qt::AlignCenter);
-  navList->addItem(tr("Accidentals"));
-  navList->item(2)->setIcon(QIcon(Tcore::gl()->path + "picts/accidSettings.png"));
-  navList->item(2)->setTextAlignment(Qt::AlignCenter);
+  addItem(TlevelSelector::levelFilterTxt(), Tcore::gl()->path + "picts/levelsSettings.png");
+  addItem(tr("Questions"), Tcore::gl()->path + "picts/questionsSettings.png");
+  addItem(tr("Accidentals"), Tcore::gl()->path + "picts/accidSettings.png");
 // 		navList->addItem(tr("Melodies"));
 //     navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/melodySett.png"));
 //     navList->item(3)->setTextAlignment(Qt::AlignCenter);
-  navList->addItem(tr("Range"));
-  navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/rangeSettings.png"));
-  navList->item(3)->setTextAlignment(Qt::AlignCenter);
+  addItem(tr("Range"), Tcore::gl()->path + "picts/rangeSettings.png");
 
-  m_levelSett = new levelSettings(this);
-  m_questSett = new questionsSettings(this);
-  m_accSett = new accidSettings(this);
-// 		m_meloSett = new TmelodySettings(this);
-  m_rangeSett = new rangeSettings(this);
-
-  stackLayout->addWidget(m_levelSett);
-  stackLayout->addWidget(m_questSett);
-  stackLayout->addWidget(m_accSett);
-// 		stackLayout->addWidget(m_meloSett);
-  stackLayout->addWidget(m_rangeSett);
+  addPage(m_levelSett = new levelSettings(this));
+  addPage(m_questSett = new questionsSettings(this));
+  addPage(m_accSett = new accidSettings(this));
+// 		addPage(m_meloSett = new TmelodySettings(this));
+  addPage(m_rangeSett = new rangeSettings(this));
   
   if (Tcore::gl()->instrument == e_noInstrument)
     m_questSett->hideGuitarRelated();
@@ -104,13 +90,6 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   connect(helpButt, &QPushButton::clicked, this, &TlevelCreatorDlg::helpSlot);
   
   connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
-// #if defined (Q_OS_ANDROID)
-//     setContentsMargins(0, 0, 0, 0);
-//     m_levelSett->layout()->setContentsMargins(0, 0, 0, 0);
-//     m_questSett->layout()->setContentsMargins(0, 0, 0, 0);
-//     m_accSett->layout()->setContentsMargins(0, 0, 0, 0);
-//     m_rangeSett->layout()->setContentsMargins(0, 0, 0, 0);
-// #endif
 }
 
 
