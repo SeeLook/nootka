@@ -23,9 +23,13 @@
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
 #include <tnoofont.h>
-// #include <widgets/tintonationview.h>
+#include <tmtr.h>
+#include <widgets/tintonationview.h>
 #include <QtWidgets>
 
+// TODO make order with layout code!!!
+// It works fine: more horizontal for desktop and more vertical for mobile
+// but it is hard to read and understand
 
 QString tableTip(const QString& tipText, TQAtype::Etype qType, TQAtype::Etype aType, int fSize) {
 	return "<table valign=\"middle\" align=\"center\"><tr><td>" + 
@@ -82,6 +86,8 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	QFont nf("nootka", fontMetrics().boundingRect("A").height());
 #if defined(Q_OS_MACX)
 	nf.setPointSize(fontMetrics().boundingRect("A").height() * 2);
+#elif defined (Q_OS_ANDROID)
+  nf.setPointSize(Tmtr::fingerPixels() / 3);
 #endif
 	scoreNooLab->setFont(nf);
 	qaLay->addWidget(scoreNooLab, 2, 6, Qt::AlignCenter);
@@ -127,12 +133,19 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		m_finishOnTonicChB->setStatusTip(tr("Determines the last note of a melody.<br>When set, melody will be finished on tonic note of actual key signature."));
 	
 	m_tableWdg->setLayout(qaLay);
+  m_paintHandler = new TpaintHandler(widget());
+  m_paintHandler->setLayout(tabLay);
 	m_singleGr = new QGroupBox(tr("single note"), this);
 			m_singleGr->setCheckable(true);
-			m_singleGr->setLayout(tabLay);
+      QVBoxLayout *outTabLay = new QVBoxLayout;
+      outTabLay->addWidget(m_paintHandler);
+      outTabLay->setContentsMargins(0, 0, 0, 0);
+			m_singleGr->setLayout(outTabLay);
 	
 	QVBoxLayout *melLay = new QVBoxLayout;
+#if !defined (Q_OS_ANDROID)
 		melLay->addWidget(melodyLab, 0, Qt::AlignCenter);
+#endif
 		melLay->addStretch();
 		melLay->addWidget(m_playMelodyChB);
 		melLay->addWidget(m_writeMelodyChB);
@@ -146,10 +159,14 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		melLay->addStretch();
 	m_melodiesGr = new QGroupBox(tr("melodies"), this);
 			m_melodiesGr->setCheckable(true);
-			m_melodiesGr->setLayout(melLay);
 #if defined (Q_OS_ANDROID)
+    QHBoxLayout *androidMelLay = new QHBoxLayout;
+    androidMelLay->addWidget(melodyLab);
+    androidMelLay->addLayout(melLay);
+    m_melodiesGr->setLayout(androidMelLay);
     QVBoxLayout *grBoxLay = new QVBoxLayout;
 #else
+    m_melodiesGr->setLayout(melLay);
     QHBoxLayout *grBoxLay = new QHBoxLayout;
 #endif
 		grBoxLay->addStretch();
@@ -180,11 +197,15 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected fret range is required,<br>otherwise all possible positions of the note are acceptable.<br>To use this, all strings have to be available!"));
 	chLay->addWidget(lowPosOnlyChBox, 1, 1, Qt::AlignLeft);
 	
-// 	TintonationCombo *intoCombo = new TintonationCombo(this);
-// 	m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
-// 	mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
+	TintonationCombo *intoCombo = new TintonationCombo(this);
+	m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
+	mainLay->setSizeConstraint(QLayout::SetFixedSize);
+	mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
 	
-		
+#if defined (Q_OS_ANDROID) // add space at the bottom to allow touching lower boxes and combo
+  mainLay->addSpacing(Tmtr::fingerPixels());
+  mainLay->setContentsMargins(0, 10, 0, 10);
+#endif
 	setLayout(mainLay);
 
   connect(m_singleGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
@@ -201,11 +222,11 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	connect(styleRequiredChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-// 	connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
+	connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
 	connect(m_playMelodyChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(m_melodyLengthSpin, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-	
+	connect(m_paintHandler, &TpaintHandler::paintMe, this, &questionsSettings::paintSlot);
 }
 
 //#################################################################################################
@@ -227,7 +248,7 @@ void questionsSettings::loadLevel(Tlevel* level) {
     styleRequiredChB->setChecked(level->requireStyle);
     showStrNrChB->setChecked(level->showStrNr);
     lowPosOnlyChBox->setChecked(level->onlyLowPos);
-// 		m_intonationCombo->setCurrentIndex(level->intonation);
+		m_intonationCombo->setCurrentIndex(level->intonation);
 		if (level->melodyLen == 1)
 			m_melodyLengthSpin->setRange(1, 1);
 		else
@@ -271,7 +292,7 @@ void questionsSettings::saveLevel(Tlevel* level) {
   level->requireStyle = styleRequiredChB->isChecked();
   level->showStrNr = showStrNrChB->isChecked();
   level->onlyLowPos = lowPosOnlyChBox->isChecked();
-//   level->intonation = m_intonationCombo->currentIndex();
+  level->intonation = m_intonationCombo->currentIndex();
   
   level->melodyLen = m_melodyLengthSpin->value();
   level->endsOnTonic = m_finishOnTonicChB->isChecked();
@@ -327,12 +348,12 @@ void questionsSettings::adjustToLevel() {
     showStrNrChB->setDisabled(lowDisabled);
   }
 // Is sound input enabled to allow intonation check
-//   if ((m_singleGr->isChecked() &&
-//     (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())) ||
-//     (m_melodiesGr->isChecked() && m_playMelodyChB->isChecked()) )
-//       m_intonationCombo->setDisabled(false);
-//   else
-//       m_intonationCombo->setDisabled(true);
+  if ((m_singleGr->isChecked() &&
+    (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())) ||
+    (m_melodiesGr->isChecked() && m_playMelodyChB->isChecked()) )
+      m_intonationCombo->setDisabled(false);
+  else
+      m_intonationCombo->setDisabled(true);
 // Disable name styles when no name as question or answer
   if (m_melodiesGr->isChecked() ||
       !(asNameWdg->isChecked() || asNoteWdg->answerAsName() || asFretPosWdg->answerAsName() || asSoundWdg->answerAsName())) {
@@ -371,8 +392,8 @@ void questionsSettings::hideGuitarRelated() {
 }
 
 
-void questionsSettings::paintEvent(QPaintEvent* ) {
-  QPainter painter(this);
+void questionsSettings::paintSlot( ) {
+  QPainter painter(m_paintHandler);
   QPen pen = painter.pen();
 	if (m_singleGr->isChecked())
 		pen.setColor(palette().color(QPalette::Active, QPalette::Text));
@@ -381,15 +402,14 @@ void questionsSettings::paintEvent(QPaintEvent* ) {
   pen.setWidth(1);
 	pen.setStyle(Qt::DashLine);
   painter.setPen(pen);
-	QPoint tl = m_singleGr->mapToParent(m_singleGr->contentsRect().topLeft());
-  int vertLineUpY = tl.y() + m_questLab->geometry().y() + m_questLab->geometry().height() + 14;
-  painter.drawLine(tl.x() + 10, vertLineUpY, tl.x() + m_singleGr->contentsRect().width() - 20, vertLineUpY);
-  int vertLineDownY = tl.y() + asSoundWdg->enableChBox->geometry().y() + asSoundWdg->enableChBox->geometry().height() + 14;
-  painter.drawLine(tl.x() + 10, vertLineDownY, tl.x() + m_singleGr->contentsRect().width() - 20, vertLineDownY);
-  int horLineLeftX = tl.x() + asNoteWdg->enableChBox->x()	+ asNoteWdg->enableChBox->width() + 14;
-  painter.drawLine(horLineLeftX, tl.y() + 10, horLineLeftX, tl.y() + m_singleGr->contentsRect().height() - 20);
-  int horLineRightX = tl.x() + m_asSoundLab->geometry().x() + m_asSoundLab->geometry().width() + 14;
-  painter.drawLine(horLineRightX, tl.y() + 10, horLineRightX, tl.y() + m_singleGr->contentsRect().height() - 20);
+  int vertLineUpY = m_questLab->geometry().y() + m_questLab->geometry().height() + 14;
+  painter.drawLine(10, vertLineUpY, m_singleGr->contentsRect().width() - 20, vertLineUpY);
+  int vertLineDownY =asSoundWdg->enableChBox->geometry().y() + asSoundWdg->enableChBox->geometry().height() + 14;
+  painter.drawLine(10, vertLineDownY, m_singleGr->contentsRect().width() - 20, vertLineDownY);
+  int horLineLeftX = asNoteWdg->enableChBox->x()	+ asNoteWdg->enableChBox->width() + 14;
+  painter.drawLine(horLineLeftX,10, horLineLeftX,m_singleGr->contentsRect().height() - 20);
+  int horLineRightX = m_asSoundLab->geometry().x() + m_asSoundLab->geometry().width() + 14;
+  painter.drawLine(horLineRightX,10, horLineRightX,m_singleGr->contentsRect().height() - 20);
 	
 }
 

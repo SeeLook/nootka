@@ -34,6 +34,7 @@ class TkeySignComboBox;
 class TquestionAsWdg;
 class QRadioButton;
 class QGroupBox;
+class TpaintHandler;
 
 
 class questionsSettings : public TabstractLevelPage
@@ -63,7 +64,7 @@ public slots:
   virtual void changed();
 
 protected:
-  void paintEvent(QPaintEvent*); /** Paints lines of a table*/
+  void paintSlot(); /** Paints lines of a table*/
   void adjustToLevel(); /** Checks values were set and locks/unlocks suitable widgets. */
 
 
@@ -80,11 +81,30 @@ private:
   QGroupBox 						*m_singleGr, *m_melodiesGr;
   QCheckBox 						*m_playMelodyChB, *m_writeMelodyChB, *m_finishOnTonicChB;
   QSpinBox							*m_melodyLengthSpin;
+  TpaintHandler         *m_paintHandler;
 
 private slots:
   void whenParamsChanged(); /** Every element calls this when clicked. */
 
 };
 
+/**
+ * Simple subclass of @class QWidget
+ * that handles paint event end emits signal from there
+ * to allow other widget paint on it.
+ */
+class TpaintHandler : public QWidget
+{
+  Q_OBJECT
+public:
+  TpaintHandler(QWidget* parent = 0) : QWidget(parent) {}
+
+signals:
+  void paintMe(); /** Signal from paint event. Emitting widget is available in slot method through @p sender() */
+
+protected:
+  virtual void paintEvent(QPaintEvent* e) { emit paintMe(); QWidget::paintEvent(e); }
+
+};
 
 #endif // QUESTIONSSETTINGS_H
