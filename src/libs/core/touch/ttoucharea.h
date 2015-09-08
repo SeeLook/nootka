@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,50 +16,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tabstractlevelpage.h"
-#include "tlevelcreatordlg.h"
-#include <exam/tlevel.h>
+#ifndef TTOUCHAREA_H
+#define TTOUCHAREA_H
 
-/*static*/
-Tlevel* 								TabstractLevelPage::m_workLevel = 0;
-int 										TabstractLevelPage::m_cnt = 0;
+#include <QScrollArea>
 
 
-//#################################################################################################
-//###################                PUBLIC            ############################################
-//#################################################################################################
-
-TabstractLevelPage::TabstractLevelPage(TlevelCreatorDlg* creator) :
-	TtouchArea(0)
+/**
+ * @class TtouchArea is @class QScrollArea with touch support.
+ * It support vertical and horizontal scrolling by finger.
+ * It has already built in @class QWidget, so adding layout to it
+ * goes through @p setLayout() method of TtouchArea
+ */
+class TtouchArea : public QScrollArea
 {
-	if (!m_workLevel)
-		m_workLevel = new Tlevel();
-	m_cnt++;
-	connect(this, SIGNAL(levelChanged()), creator, SLOT(levelWasChanged()));
-}
+
+public:
+  TtouchArea(QWidget* parent = 0);
+
+  static bool touchEnabled(); /** @p TRUE when touch is enabled */
+
+  void setLayout(QLayout* l) { widget()->setLayout(l); }
+
+protected:
+  virtual bool event(QEvent *event);
 
 
-TabstractLevelPage::~TabstractLevelPage()
-{
-	m_cnt--;
-	if (m_cnt == 0) {
-		delete m_workLevel;
-		m_workLevel = 0;
-	}		
-}
+};
 
-
-void TabstractLevelPage::changedLocal() {
-	saveLevel(m_workLevel);
-	emit levelChanged();
-}
-
-
-
-
-
-
-
-
-
-
+#endif // TTOUCHAREA_H
