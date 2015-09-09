@@ -69,6 +69,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 
   navList->setCurrentRow(0);
 
+
   QPushButton *helpButt = buttonBox->addButton(QDialogButtonBox::Help);
       helpButt->setIcon(QIcon(Tcore::gl()->path + "picts/help.png"));
       helpButt->setStatusTip(helpButtonTipText());
@@ -90,6 +91,11 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   connect(helpButt, &QPushButton::clicked, this, &TlevelCreatorDlg::helpSlot);
   
   connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
+#if !defined (Q_OS_ANDROID)
+  setWidesttPage(m_questSett);
+  setHighestPage(m_questSett);
+  QTimer::singleShot(10, this, [this]{ hackSize(); } ); //HACK: adjust dialog width to biggest page width
+#endif
 }
 
 
