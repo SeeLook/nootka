@@ -102,6 +102,7 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   m_currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
   m_currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
   mainLay->addWidget(m_currKeySignChBox, 0, Qt::AlignCenter);
+  mainLay->addStretch(1);
   setLayout(mainLay);
 
   connect(m_rangeButGr, SIGNAL(buttonClicked(int)), this, SLOT(keyRangeChanged()));

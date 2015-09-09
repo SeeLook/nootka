@@ -87,7 +87,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 #if defined(Q_OS_MACX)
 	nf.setPointSize(fontMetrics().boundingRect("A").height() * 2);
 #elif defined (Q_OS_ANDROID)
-  nf.setPointSize(Tmtr::fingerPixels() / 3);
+  nf.setPointSize(qMax<int>(Tmtr::fingerPixels() / 3, fontMetrics().boundingRect("A").height()));
 #endif
 	scoreNooLab->setFont(nf);
 	qaLay->addWidget(scoreNooLab, 2, 6, Qt::AlignCenter);
@@ -199,11 +199,10 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	
 	TintonationCombo *intoCombo = new TintonationCombo(this);
 	m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
-	mainLay->setSizeConstraint(QLayout::SetFixedSize);
 	mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
 	
 #if defined (Q_OS_ANDROID) // add space at the bottom to allow touching lower boxes and combo
-  mainLay->addSpacing(Tmtr::fingerPixels());
+  mainLay->addSpacing(Tmtr::fingerPixels() / 2);
   mainLay->setContentsMargins(0, 10, 0, 10);
 #endif
 	setLayout(mainLay);
