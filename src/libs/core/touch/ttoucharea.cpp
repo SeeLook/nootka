@@ -37,6 +37,7 @@ TtouchArea::TtouchArea(QWidget* parent) :
   setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
   setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 #endif
+  setFrameShape(QFrame::NoFrame);
   setAttribute(Qt::WA_AcceptTouchEvents);
   setWidget(new QWidget);
   widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
