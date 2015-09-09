@@ -101,7 +101,9 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 #endif
   if (TtouchProxy::touchEnabled()) {
     m_fretView = new TguitarView(m_guitar, this);
+#if defined (Q_OS_ANDROID)
     QTimer::singleShot(1000, this, [this]{ m_fretView->checkIsPreview(); }); // check it after all sizes were set
+#endif
   }
 }
 

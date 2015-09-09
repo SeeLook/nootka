@@ -26,7 +26,7 @@
 #include <QDebug>
 
 
-//TODO: guitar has to emit signal when changes being enabled to stop/start touch propagation
+//TODO: guitar has to emit signal when its enable state changes to stop/start touch propagation
 
 TguitarView::TguitarView(QGraphicsView* guitar, QGraphicsView* parent) :
   QGraphicsView(0, 0),
@@ -34,7 +34,8 @@ TguitarView::TguitarView(QGraphicsView* guitar, QGraphicsView* parent) :
   m_proxy(0),
   m_mark(0),
   m_couldBeTouch(false),
-  m_touchStartedHere(false)
+  m_touchStartedHere(false),
+  m_isPreview(false)
 {
   m_parent = parent;
 //   setAttribute(Qt::WA_AcceptTouchEvents);
@@ -78,6 +79,7 @@ bool TguitarView::checkIsPreview() {
 #else
   m_isPreview = false;
 #endif
+  return m_isPreview;
 }
 
 bool TguitarView::mapTouchEvent(QTouchEvent* te) {
