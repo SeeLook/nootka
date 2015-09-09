@@ -24,18 +24,17 @@
 #include <nootkacoreglobal.h>
 
 class QDialogButtonBox;
-class QVBoxLayout;
-class QScrollArea;
+class QAbstractScrollArea;
 class TroundedLabel;
 class QListWidget;
 class QStackedLayout;
 
-/** This is base class for settings dialogues.
-  * It contains navigation list to switch widgets (pages) on
-  * QStackedLayout widget, and
-  * @class TroundedLabel @param hint that shows status tips captured by
-  * re-implementing @param event function.
-  * It has hidden "default" button - @p defaultBut
+/**
+ * This is base class for settings dialogues.
+ * It contains navigation list to switch widgets (pages) on
+ * QStackedLayout widget, and @class TroundedLabel @p hint
+ * that shows status tips captured by handling @p event()
+ * It has hidden "default" button - @p defaultBut
 */
 
 class NOOTKACORE_EXPORT TsettingsDialogBase : public QDialog
@@ -44,9 +43,14 @@ class NOOTKACORE_EXPORT TsettingsDialogBase : public QDialog
 public:
   explicit TsettingsDialogBase(QWidget *parent = 0);
 
+      /** Adds icon with label text to config pages list (@p navList - left pane) */
+  void addItem(const QString& label, const QString& iconPath);
+
+      /** Adds widget (page) to stacked layout (@p stackLayout - right pane) */
+  void addPage(QWidget* page);
+
       /** Open online documentation (http://nootka.sourceforge.net/index.php?C=doc) */
   QString helpButtonTipText() { return tr("Open online documentation") + "<br>(http://nootka.sourceforge.net/index.php?C=doc)"; }
-
 
   static bool touchEnabled(); /** @p TRUE when touch is enabled */
 
@@ -58,24 +62,38 @@ protected:
   QPushButton     					*cancelBut, *okBut, *defaultBut;
   TroundedLabel          		*hint;
   QDialogButtonBox					*buttonBox; /** Bottom layout with buttons */
+#if defined (Q_OS_ANDROID)
+  QPushButton               *menuButton;
+#endif
+
+#if !defined (Q_OS_ANDROID)
+    /** HACK: Avoiding using scroll bars when there is enough space on a desktop
+     * All settings pages rather inherit from @class TscrollArea and have scrolls.
+     * It works out of a box on mobile, where settings dialog is maximized.
+     * All derivative classes on desktop require to set
+     * @p setWidesttPage() and @p setHighestPage() (hard-coded)
+     * Then call @p hackSize() at the end of derivative  constructor
+     * with small delay (10ms).
+     * It switches to those pages, obtains maximum of scroll-bar
+     * and adds it to dialog window size, or sets window maximized if no enough space.
+     */
+  void hackSize();
+  void setWidesttPage(QAbstractScrollArea* page) { m_wiPage = page; }
+  void setHighestPage(QAbstractScrollArea* page) { m_hiPage = page; }
+#endif
+
 
 protected slots:
-      /** Checks available screen space and fits this dialog if necessary.
-        * Removes frame of the window, hides @p hint
-        * and transforms all status tip texts into tool tips. */
-  void fitSize();
+//   void fitSize();
 
-  void convertStatusTips();
-  void useScrollArea(); /** Squeezes main widget into scroll area */
+  void convertStatusTips(); /** Transforms all status tip texts into tool tips. */
   void tapMenu(); /** Displays menu created from @p navList context and @p buttonBox contex */
 
   void openHelpLink(const QString& hash); /** calls QDesktopServices::openUrl with Nootka site doc at given @p hash */
 
 private:
   bool                       m_menuTap;
-  QScrollArea 							*m_scrollArea;
-  QWidget 									*m_widget;
-  QVBoxLayout 							*m_aLay;
+  QAbstractScrollArea       *m_hiPage, *m_wiPage;
 
 };
 

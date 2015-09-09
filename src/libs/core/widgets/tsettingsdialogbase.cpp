@@ -30,75 +30,107 @@ bool TsettingsDialogBase::touchEnabled() { return TtouchProxy::touchEnabled(); }
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
   QDialog(parent),
-  m_menuTap(false)
+  m_menuTap(false),
+  m_hiPage(0), m_wiPage(0)
 {
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
+#if defined (Q_OS_ANDROID)
+    int bSize = qBound<int>(Tmtr::fingerPixels() * 1.1, Tmtr::longScreenSide() / 12, Tmtr::fingerPixels() * 1.6);
+//     int bSize = Tmtr::fingerPixels() * 1.1;
+    navList->setIconSize(QSize(bSize, bSize));
+    navList->setMaximumWidth(bSize + 10);
+    QFont f = font();
+    f.setPixelSize(qMin<int>(bSize / 5, fontMetrics().height()));
+    navList->setFont(f);
+    navList->setObjectName("navList"); // revert colors of navigation list
+    navList->setStyleSheet(navList->styleSheet() + " QListWidget#navList { background: palette(text); color: palette(base); }");
+#else
     navList->setIconSize(QSize(80, 80));
-    navList->setFixedWidth(100);
+    navList->setMaximumWidth(100);
+#endif
     navList->setViewMode(QListView::IconMode);
 		navList->setMovement(QListView::Static);
     navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    contLay->addWidget(navList);
-
-    m_aLay = new QVBoxLayout;
     stackLayout = new QStackedLayout;
     
-    m_widget = new QWidget(this);
-    m_scrollArea = new QScrollArea(this);
-		m_scrollArea->hide();
-    
-    m_widget->setLayout(stackLayout);
-    m_scrollArea->setWidgetResizable(true);
-    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    m_scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    m_aLay->addWidget(m_widget);
     hint = new TroundedLabel(this);
-    m_aLay->addWidget(hint);
     hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 		hint->setMinimumWidth(fontMetrics().boundingRect("w").width() * 70);
     hint->setWordWrap(true);
-    contLay->addLayout(m_aLay);
 
-    mainLay->addLayout(contLay);
+    buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
 
-		buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
-		mainLay->addWidget(buttonBox);
+    QVBoxLayout *mainLay = new QVBoxLayout;
+    QHBoxLayout *upLay = new QHBoxLayout;
+      upLay->addWidget(navList);
+      QVBoxLayout *aLay = new QVBoxLayout;
+        aLay->addLayout(stackLayout);
+        aLay->addWidget(hint);
+      upLay->addLayout(aLay);
+      mainLay->addLayout(upLay);
+      mainLay->addWidget(buttonBox);
     setLayout(mainLay);
 		
 		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     if (touchEnabled()) {
-      useScrollArea();
       setAttribute(Qt::WA_AcceptTouchEvents);
-      buttonBox->hide();
-      navList->hide();
     }
 #if defined (Q_OS_ANDROID)
-//     setContentsMargins(0, 0, 0, 0);
     mainLay->setContentsMargins(0, 0, 0, 0);
-    m_aLay->setContentsMargins(0, 0, 0, 0);
+    aLay->setContentsMargins(0, 0, 0, 0);
     stackLayout->setContentsMargins(0, 0, 0, 0);
+    buttonBox->hide();
+    hint->hide();
+    showMaximized();
 #endif
+    QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
+      (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0)); } );
 }
 
+
+void TsettingsDialogBase::addItem(const QString& label, const QString& iconPath) {
+  QListWidgetItem *configButton = new QListWidgetItem(navList);
+  configButton->setIcon(QIcon(iconPath));
+  configButton->setText(label);
+  configButton->setTextAlignment(Qt::AlignHCenter);
+  configButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+}
+
+
+void TsettingsDialogBase::addPage(QWidget* page) {
+  stackLayout->addWidget(page);
+}
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
-
-void TsettingsDialogBase::useScrollArea() {
-  showMaximized();
-  hint->hide();
-  m_aLay->removeWidget(m_widget);
-  m_scrollArea->setWidget(m_widget);
-  m_aLay->insertWidget(0, m_scrollArea);
-  m_scrollArea->show();
+#if !defined (Q_OS_ANDROID)
+void TsettingsDialogBase::hackSize() {
+  int currIndex = stackLayout->currentIndex();
+  if (m_wiPage) {
+    stackLayout->setCurrentWidget(m_wiPage);
+    setMinimumWidth(qMin(width() + m_wiPage->horizontalScrollBar()->maximum(), qApp->desktop()->availableGeometry().width()));
+  }
+  if (m_hiPage) {
+    stackLayout->setCurrentWidget(m_hiPage);
+    if (m_hiPage->verticalScrollBar()->maximum()) {
+      if (height() + m_hiPage->verticalScrollBar()->maximum() > qApp->desktop()->availableGeometry().height()) {
+        showMaximized();
+        convertStatusTips();
+        hint->hide();
+      } else {
+        setMinimumHeight(height() + m_hiPage->verticalScrollBar()->maximum());
+      }
+    }
+  }
+  stackLayout->setCurrentIndex(currIndex);
 }
+#endif
 
 
+/* TODO: check it under Win then remove
 void TsettingsDialogBase::fitSize() {
   if (qApp->desktop()->availableGeometry().height() <= 600) {
 #if defined (Q_OS_WIN)
@@ -112,7 +144,7 @@ void TsettingsDialogBase::fitSize() {
   navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
           (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0));
 }
-
+*/
 
 void TsettingsDialogBase::convertStatusTips() {
 	QList<QWidget*> allWidgets = findChildren<QWidget*>();
@@ -150,7 +182,6 @@ void TsettingsDialogBase::tapMenu() {
 }
 
 
-
 void TsettingsDialogBase::openHelpLink(const QString& hash) {
   QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#" + hash).
     arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
@@ -158,38 +189,12 @@ void TsettingsDialogBase::openHelpLink(const QString& hash) {
 
 
 bool TsettingsDialogBase::event(QEvent *event) {
-  if (touchEnabled()) {
-    if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
-      QTouchEvent *te = static_cast<QTouchEvent*>(event);
-      if (m_menuTap || te->touchPoints().first().pos().x() < Tmtr::fingerPixels() / 3) {
-        if (event->type() == QEvent::TouchBegin) {
-          event->accept();
-          m_menuTap = true;
-        } else if (event->type() == QEvent::TouchEnd) {
-            if (m_menuTap && te->touchPoints().first().pos().x() > width() * 0.15)
-              tapMenu();
-            else
-              m_menuTap = false;
-        }
-        return true;
-      } else {
-        if (event->type() == QEvent::TouchBegin) {
-          event->accept();
-          return true;
-        } else if (event->type() == QEvent::TouchUpdate) {
-            if (QLineF(te->touchPoints().first().pos(), te->touchPoints().first().startPos()).length() > 20) // TODO use screen factor instead 10
-              m_scrollArea->verticalScrollBar()->setValue(
-                m_scrollArea->verticalScrollBar()->value() + (te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y()));
-        }
-      }
-    }
-  } else {
+#if !defined (Q_OS_ANDROID)
       if (event->type() == QEvent::StatusTip) {
           QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
           hint->setText("<center>"+se->tip()+"</center>");
-      } else if (event->type() == QEvent::Resize)
-        QTimer::singleShot(20, this, SLOT(fitSize()));
-  }
+      }
+#endif
   return QDialog::event(event);
 }
 
