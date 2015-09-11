@@ -28,6 +28,11 @@ class QAbstractScrollArea;
 class TroundedLabel;
 class QListWidget;
 class QStackedLayout;
+class QMenu;
+#if defined (Q_OS_ANDROID)
+class TmenuWidget;
+class TtouchMenu;
+#endif
 
 /**
  * This is base class for settings dialogues.
@@ -40,6 +45,7 @@ class QStackedLayout;
 class NOOTKACORE_EXPORT TsettingsDialogBase : public QDialog
 {
   Q_OBJECT
+
 public:
   explicit TsettingsDialogBase(QWidget *parent = 0);
 
@@ -63,7 +69,7 @@ protected:
   TroundedLabel          		*hint;
   QDialogButtonBox					*buttonBox; /** Bottom layout with buttons */
 #if defined (Q_OS_ANDROID)
-  QPushButton               *menuButton;
+  TmenuWidget               *menuButton;
 #endif
 
 #if !defined (Q_OS_ANDROID)
@@ -82,19 +88,19 @@ protected:
   void setHighestPage(QAbstractScrollArea* page) { m_hiPage = page; }
 #endif
 
-
-protected slots:
 //   void fitSize();
-
+#if defined (Q_OS_ANDROID)
+  virtual void tapMenu(); /** Displays menu created from @p navList context and @p buttonBox contex */
+#endif
   void convertStatusTips(); /** Transforms all status tip texts into tool tips. */
-  void tapMenu(); /** Displays menu created from @p navList context and @p buttonBox contex */
 
   void openHelpLink(const QString& hash); /** calls QDesktopServices::openUrl with Nootka site doc at given @p hash */
 
+      /** Creates action with given button icon and text, emulating button click. */
+  QAction* actionFromButton(QPushButton* b, QMenu* parentMenu);
+
 private:
-  bool                       m_menuTap;
   QAbstractScrollArea       *m_hiPage, *m_wiPage;
 
 };
-
 #endif // TSETTINGSDIALOGBASE_H

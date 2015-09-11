@@ -21,7 +21,10 @@
 #include <widgets/troundedlabel.h>
 #include <touch/ttouchproxy.h>
 #include <touch/ttouchmenu.h>
-#include <tmtr.h>
+#if defined (Q_OS_ANDROID)
+  #include "tmtr.h"
+  #include "touch/tmenuwidget.h"
+#endif
 #include <QtWidgets>
 
 /* static */
@@ -30,13 +33,11 @@ bool TsettingsDialogBase::touchEnabled() { return TtouchProxy::touchEnabled(); }
 
 TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
   QDialog(parent),
-  m_menuTap(false),
   m_hiPage(0), m_wiPage(0)
 {
     navList = new QListWidget(this);
 #if defined (Q_OS_ANDROID)
     int bSize = qBound<int>(Tmtr::fingerPixels() * 1.1, Tmtr::longScreenSide() / 12, Tmtr::fingerPixels() * 1.6);
-//     int bSize = Tmtr::fingerPixels() * 1.1;
     navList->setIconSize(QSize(bSize, bSize));
     navList->setMaximumWidth(bSize + 10);
     QFont f = font();
@@ -51,6 +52,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setViewMode(QListView::IconMode);
 		navList->setMovement(QListView::Static);
     navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    QScroller::grabGesture(navList->viewport(), QScroller::LeftMouseButtonGesture);
 
     stackLayout = new QStackedLayout;
     
@@ -63,7 +65,10 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *upLay = new QHBoxLayout;
-      upLay->addWidget(navList);
+      QVBoxLayout *navLay = new QVBoxLayout;
+      navLay->setContentsMargins(0, 0, 0, 0);
+      navLay->addWidget(navList);
+      upLay->addLayout(navLay);
       QVBoxLayout *aLay = new QVBoxLayout;
         aLay->addLayout(stackLayout);
         aLay->addWidget(hint);
@@ -84,9 +89,17 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     buttonBox->hide();
     hint->hide();
     showMaximized();
-#endif
+    menuButton = new TmenuWidget(this);
+    menuButton->setFixedSize(navList->maximumWidth(), Tmtr::fingerPixels() * 0.7);
+    navLay->setSpacing(0);
+    navLay->addSpacing(1);
+    navLay->addWidget(menuButton);
+    navLay->addSpacing(1);
+    connect(menuButton, &TmenuWidget::clicked, this, &TsettingsDialogBase::tapMenu);
+#else
     QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
       (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0)); } );
+#endif
 }
 
 
@@ -157,29 +170,26 @@ void TsettingsDialogBase::convertStatusTips() {
 }
 
 
+QAction* TsettingsDialogBase::actionFromButton(QPushButton* b, QMenu* parentMenu) {
+  return new QAction(b->icon(), b->text(), parentMenu);
+}
+
+
+#if defined (Q_OS_ANDROID)
 void TsettingsDialogBase::tapMenu() {
   TtouchMenu *menu = new TtouchMenu(this);
-  for (int i = 0; i < navList->count(); ++i) {
-    QAction *navAction = new QAction(navList->item(i)->icon(), navList->item(i)->text(), menu);
-    navAction->setData(i * 2); // 0, 2, 4....
-    menu->addAction(navAction);
-  }
   for (int i = 0; i < buttonBox->buttons().size(); ++i) {
     QAction *buttonAction = new QAction(buttonBox->buttons()[i]->icon(), buttonBox->buttons()[i]->text(), menu);
-    buttonAction->setData((i * 2) + 1); // 1, 3, 5...
+    buttonAction->setData((i));
     menu->addAction(buttonAction);
   }
-  QAction *menuAction = menu->exec(QPoint(2, 2), QPoint(-menu->sizeHint().width(), 2));
+  QAction *menuAction = menu->exec(QPoint(navList->width(), height() -menu->sizeHint().height()), QPoint(navList->width(), height()));
   int actionNumber = menuAction ? menuAction->data().toInt() : -1;
   delete menu; // delete menu before performing its action
-  if (actionNumber != -1) {
-    if (actionNumber % 2) // 1, 3, 5....
-      buttonBox->buttons()[actionNumber / 2]->click();
-    else // 0, 2, 4....
-      stackLayout->setCurrentIndex(actionNumber / 2);
-  }
-  m_menuTap = false;
+  if (actionNumber != -1)
+    buttonBox->buttons()[actionNumber]->click();
 }
+#endif
 
 
 void TsettingsDialogBase::openHelpLink(const QString& hash) {
@@ -190,16 +200,13 @@ void TsettingsDialogBase::openHelpLink(const QString& hash) {
 
 bool TsettingsDialogBase::event(QEvent *event) {
 #if !defined (Q_OS_ANDROID)
-      if (event->type() == QEvent::StatusTip) {
-          QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-          hint->setText("<center>"+se->tip()+"</center>");
-      }
+  if (event->type() == QEvent::StatusTip) {
+      QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
+      hint->setText("<center>"+se->tip()+"</center>");
+  }
 #endif
   return QDialog::event(event);
 }
-
-
-
 
 
 
