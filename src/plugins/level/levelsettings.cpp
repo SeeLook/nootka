@@ -33,9 +33,6 @@ levelSettings::levelSettings(QWidget* parent) :
 
     m_levelSelector = new TlevelSelector();
     mainLay->addWidget(m_levelSelector);
-// #if !defined (Q_OS_ANDROID)
-//     mainLay->addStretch(1);
-// #endif
 
     m_saveBut = new QPushButton(QIcon(Tpath::img("notSaved")), tr("Save"),this);
     m_saveBut->setStatusTip(tr("Save level settings to file"));
@@ -47,7 +44,11 @@ levelSettings::levelSettings(QWidget* parent) :
     m_startExerBut = new QPushButton(QIcon(Tpath::img("practice")), tr("Start exercise"), this);
     m_startExerBut->setStatusTip(tr("Start an exercise on selected level"));
     m_startExerBut->setDisabled(true);
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID) // Mobile handles those buttons through action
+    m_saveBut->hide();
+    m_startExamBut->hide();
+    m_startExerBut->hide();
+#else
     m_saveBut->setIconSize(QSize(48, 48));
     m_startExamBut->setIconSize(QSize(48, 48));
     m_startExerBut->setIconSize(QSize(48, 48));
@@ -59,13 +60,12 @@ levelSettings::levelSettings(QWidget* parent) :
 			butLay->addWidget(m_startExerBut);
 
     mainLay->addLayout(butLay);
-// #if !defined (Q_OS_ANDROID)
-//     mainLay->addStretch(1);
-// #endif
     QLabel *moreLab = new QLabel(TexTrans::moreLevelLinkTxt(), this);
     moreLab->setOpenExternalLinks(true);
     mainLay->addWidget(moreLab, 0, Qt::AlignCenter);
     mainLay->addStretch(1);
-
+#if !defined (Q_OS_ANDROID)
+    mainLay->addSpacing(15);
+#endif
     setLayout(mainLay);
 }

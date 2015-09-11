@@ -31,7 +31,10 @@
 #include <tinitcorelib.h>
 #include <tscoreparams.h>
 #include <QtWidgets>
-#include <iostream>
+//#include <iostream>
+#if defined (Q_OS_ANDROID)
+  #include <touch/ttouchmenu.h>
+#endif
 
 
 bool isNotSaved;
@@ -91,6 +94,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   connect(helpButt, &QPushButton::clicked, this, &TlevelCreatorDlg::helpSlot);
   
   connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
+  
 #if !defined (Q_OS_ANDROID)
   setWidesttPage(m_questSett);
   setHighestPage(m_questSett);
@@ -150,6 +154,9 @@ void TlevelCreatorDlg::saveLevel() {
 
 
 void TlevelCreatorDlg::saveToFile() {
+#if defined (Q_OS_ANDROID) // TODO: Prepare file dialog for mobile
+  return;
+#endif
   Tlevel newLevel;
   m_questSett->saveLevel(&newLevel);
   m_accSett->saveLevel(&newLevel);
@@ -372,7 +379,44 @@ void TlevelCreatorDlg::helpSlot() {
   openHelpLink("level-creator");
 }
 
-
+#if defined (Q_OS_ANDROID)
+void TlevelCreatorDlg::tapMenu() {
+  TtouchMenu *menu = new TtouchMenu(this);
+  if (m_levelSett->saveButton()->isEnabled()) {
+    QAction *saveAct = actionFromButton(m_levelSett->saveButton(), menu);
+    saveAct->setData(10);
+    menu->addAction(saveAct);
+  }
+  if (m_levelSett->startExerciseButton()->isEnabled()) {
+    QAction *exerciseAct = actionFromButton(m_levelSett->startExerciseButton(), menu);
+    exerciseAct->setData(11);
+    menu->addAction(exerciseAct);
+  }
+  if (m_levelSett->startExamButton()->isEnabled()) {
+    QAction *examAct = actionFromButton(m_levelSett->startExamButton(), menu);
+    examAct->setData(12);
+    menu->addAction(examAct);
+  }
+  for (int i = 0; i < buttonBox->buttons().size(); ++i) {
+    QAction *buttonAction = new QAction(buttonBox->buttons()[i]->icon(), buttonBox->buttons()[i]->text(), menu);
+    buttonAction->setData((i));
+    menu->addAction(buttonAction);
+  }
+  QAction *menuAction = menu->exec(QPoint(navList->width(), height() -menu->sizeHint().height()), QPoint(navList->width(), height()));
+  int actionNumber = menuAction ? menuAction->data().toInt() : -1;
+  delete menu; // delete menu before performing its action
+  if (actionNumber != -1) { // no action
+    if (actionNumber < 10) // button box actions
+      buttonBox->buttons()[actionNumber]->click();
+    else if (actionNumber == 10)
+      m_levelSett->saveButton()->click();
+    else if (actionNumber == 11)
+      m_levelSett->startExerciseButton()->click();
+    else if (actionNumber == 12)
+      m_levelSett->startExamButton()->click();      
+  }
+}
+#endif
 
 
 

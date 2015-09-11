@@ -52,6 +52,11 @@ public:
 public slots:
 				/** This slot is invoked by every settings widget(page) when its settings were changed  */
 		void levelWasChanged();
+    
+#if defined (Q_OS_ANDROID)
+protected:
+    void tapMenu() override;
+#endif
 
 private:
     levelSettings 							*m_levelSett;
