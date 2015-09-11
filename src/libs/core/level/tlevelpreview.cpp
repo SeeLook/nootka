@@ -27,6 +27,7 @@
 #include <QLabel>
 #include <QTextBrowser>
 #include <QPainter>
+#include <QScroller>
 #include <QDebug>
 
 
@@ -51,6 +52,8 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
 		m_summaryEdit->setReadOnly(true);
 #if defined (Q_OS_ANDROID)
     m_summaryEdit->setFixedWidth(fontMetrics().boundingRect("W").width() * 22);
+    m_summaryEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_summaryEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);;
 #else
     m_summaryEdit->setFixedWidth(fontMetrics().boundingRect("W").width() * 28);
 #endif
@@ -62,7 +65,7 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
     setLayout(mainLay);
 		setLevel();
 		m_summaryEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-// 		adjustToHeight();
+    QScroller::grabGesture(m_summaryEdit->viewport(), QScroller::LeftMouseButtonGesture);
 }
 
 
