@@ -38,10 +38,6 @@ public:
 
   void setLayout(QLayout* l) { widget()->setLayout(l); }
 
-protected:
-  virtual bool event(QEvent *event);
-
-
 };
 
 #endif // TTOUCHAREA_H

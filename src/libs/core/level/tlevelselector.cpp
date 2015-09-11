@@ -61,7 +61,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 		m_levelsListWdg->setMouseTracking(true);
 #if defined (Q_OS_ANDROID)
 		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 15);
-    m_levelsListWdg->setFixedHeight(qApp->desktop()->availableGeometry().height() * 0.8);
+    m_levelsListWdg->setFixedHeight(qApp->desktop()->availableGeometry().height() * 0.7);
 #else
     m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
 #endif
@@ -106,6 +106,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 	connect(m_loadBut, SIGNAL(clicked()), this, SLOT(loadFromFilePrivate()));
 	connect(m_levelPreview, SIGNAL(instrumentLevelToFix()), this, SLOT(fixInstrumentSlot()));
 	connect(m_removeButt, SIGNAL(clicked()), this, SLOT(removeLevelSlot()));
+  QScroller::grabGesture(m_levelsListWdg->viewport(), QScroller::LeftMouseButtonGesture);
 }
 
 TlevelSelector::~TlevelSelector() {
