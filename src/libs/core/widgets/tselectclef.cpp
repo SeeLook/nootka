@@ -19,18 +19,19 @@
 
 #include "tselectclef.h"
 #include <graphics/tnotepixmap.h>
-#include <QAction>
-#include <QMenu>
-#include <qtoolbar.h>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QButtonGroup>
-#include <QPainter>
-#include <QEvent>
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QLayout>
-// #include <QDebug>
+#include <QtWidgets/qaction.h>
+#include <QtWidgets/qmenu.h>
+#include <QtWidgets/qtoolbar.h>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qlabel.h>
+#include <QtWidgets/qbuttongroup.h>
+#include <QtGui/qpainter.h>
+#include <QtGui/qevent.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qdesktopwidget.h>
+#if defined (Q_OS_ANDROID)
+  #include "touch/ttoucharea.h"
+#endif
 
 
 
@@ -71,20 +72,50 @@ TselectClefPrivate::TselectClefPrivate(bool isMenu, QWidget* parent) :
 			lay->addLayout(rightLay);
 			setLayout(lay);
 	} else {
-			QHBoxLayout *upLay = new QHBoxLayout;
-			QHBoxLayout *lowLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+			QVBoxLayout *upLay = new QVBoxLayout;
+			QVBoxLayout *lowLay = new QVBoxLayout;
+#else
+      QHBoxLayout *upLay = new QHBoxLayout;
+      QHBoxLayout *lowLay = new QHBoxLayout;
+#endif
 			upLay->addWidget(treble);
+#if defined (Q_OS_ANDROID)
+      static_cast<QHBoxLayout*>(treble->layout())->insertWidget(2, getLabelFromStatus(treble, false));
+#endif
 			lowLay->addWidget(treble_8);
+#if defined (Q_OS_ANDROID)
+      static_cast<QHBoxLayout*>(treble_8->layout())->insertWidget(2, getLabelFromStatus(treble_8, false));
+#endif
 			upLay->addWidget(bass);
+#if defined (Q_OS_ANDROID)
+      static_cast<QHBoxLayout*>(bass->layout())->insertWidget(2, getLabelFromStatus(bass, false));
+#endif
 			lowLay->addWidget(bass_8);
+#if defined (Q_OS_ANDROID)
+      static_cast<QHBoxLayout*>(bass_8->layout())->insertWidget(2, getLabelFromStatus(bass_8, false));
+#endif
 			upLay->addWidget(alto);
+#if defined (Q_OS_ANDROID)
+      static_cast<QHBoxLayout*>(alto->layout())->insertWidget(2, getLabelFromStatus(alto, false));
+#endif
 			lowLay->addWidget(tenor);
+#if defined (Q_OS_ANDROID)
+      static_cast<QHBoxLayout*>(tenor->layout())->insertWidget(2, getLabelFromStatus(tenor, false));
+#endif
 			QVBoxLayout *upLowLay = new QVBoxLayout;
 			upLowLay->addLayout(upLay);
 			upLowLay->addLayout(lowLay);
-			QHBoxLayout *lay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+			QVBoxLayout *lay = new QVBoxLayout;
+#else
+      QHBoxLayout *lay = new QHBoxLayout;
+#endif
 			lay->addLayout(upLowLay);
 			lay->addWidget(piano);
+#if defined (Q_OS_ANDROID)
+      static_cast<QHBoxLayout*>(piano->layout())->insertWidget(2, getLabelFromStatus(piano, false));
+#endif
 			
 			setLayout(lay);
 	}
@@ -142,7 +173,7 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 
 #if defined (Q_OS_ANDROID)
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
-    qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 150.0), this);
+    qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 110.0), this);
 // 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.0), this);
 #else
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
