@@ -19,7 +19,8 @@
 #ifndef TTOUCHAREA_H
 #define TTOUCHAREA_H
 
-#include <QScrollArea>
+#include "nootkacoreglobal.h"
+#include <QtWidgets/qscrollarea.h>
 
 
 /**
@@ -28,7 +29,7 @@
  * It has already built in @class QWidget, so adding layout to it
  * goes through @p setLayout() method of TtouchArea
  */
-class TtouchArea : public QScrollArea
+class NOOTKACORE_EXPORT TtouchArea : public QScrollArea
 {
 
 public:
@@ -39,5 +40,16 @@ public:
   void setLayout(QLayout* l) { widget()->setLayout(l); }
 
 };
+
+#if defined (Q_OS_ANDROID)
+class QLabel;
+
+    /** Generates @class QLabel with text of given status tip.
+     * Font is smaller, height has static physical size.
+     * NOTICE: @p statusTip() of given widget is emptied.
+     * Returns pointer to generated @class QLabel.
+     * When @p indent is @p TRUE, left context margin of the label is set. */
+QLabel* getLabelFromStatus(QWidget* w, bool indent = true);
+#endif
 
 #endif // TTOUCHAREA_H

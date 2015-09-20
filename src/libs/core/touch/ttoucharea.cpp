@@ -33,6 +33,7 @@ TtouchArea::TtouchArea(QWidget* parent) :
 #if defined (Q_OS_ANDROID) // hide scroll-bars for mobile
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setContentsMargins(0, 0, 0, 0);
 #else
   setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
   setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -43,4 +44,23 @@ TtouchArea::TtouchArea(QWidget* parent) :
   widget()->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
 }
+
+
+#if defined (Q_OS_ANDROID)
+QLabel* getLabelFromStatus(QWidget* w, bool indent) {
+  QLabel *l = new QLabel(w->statusTip(), w);
+  QFont f = w->font();
+  f.setPixelSize(qBound(Tmtr::fingerPixels() / 4, Tmtr::shortScreenSide() / 30, w->fontMetrics().height() - 4));
+  // minimal text size for eye (ca 2.5 mm) or screen height divided by 30 but not bigger than system font (- 4px)
+  l->setFont(f);
+  w->setStatusTip("");
+  if (indent)
+    l->setContentsMargins(Tmtr::fingerPixels() / 2, l->contentsMargins().top(), l->contentsMargins().right(), l->contentsMargins().bottom());
+  return l;
+}
+#endif
+
+
+
+
 
