@@ -215,17 +215,17 @@ Tnote TsimpleScore::lowestNote() {
 	if (staff()->isPianoStaff())
 			return Tnote(5, -2);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
-			return Tnote(6, -1);
+			return Tnote(7, -1);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G_8down)
-			return Tnote(6, -2);
-	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F)
-			return Tnote(6, -2);
-	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F_8down)
-			return Tnote(1, -3);
-	if (staff()->scoreClef()->clef().type() == Tclef::e_alto_C)
 			return Tnote(7, -2);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F)
+			return Tnote(7, -2);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_bass_F_8down)
+			return Tnote(2, -3);
+	if (staff()->scoreClef()->clef().type() == Tclef::e_alto_C)
+			return Tnote(1, -1);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_tenor_C)
-			return Tnote(5, -2);
+			return Tnote(6, -2);
 	qDebug() << "lowestNote() riches end of method without result";
 	return Tnote(6, -2); // It should never happened
 }
