@@ -17,12 +17,21 @@
  ***************************************************************************/
 
 #include "tmelodyitem.h"
+#include "tqtaudioin.h"
+#include "tqtaudioout.h"
 #include <tmtr.h>
 #include <tpath.h>
 #include <touch/ttouchmenu.h>
-#include <QAction>
-#include <QPen>
-#include <QPainter>
+#include <graphics/tdropshadoweffect.h>
+#include <QtWidgets/qaction.h>
+#include <QtGui/qpen.h>
+#include <QtGui/qpainter.h>
+
+
+/**
+ * NOTICE!!!!!!!!!!!
+ * It works only with tqtaudioin - means only under Android
+ */
 
 
 TmelodyItem* TmelodyItem::m_instance = 0;
@@ -124,10 +133,13 @@ void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
 
 void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent*) {
   TtouchMenu menu;
+  menu.setGraphicsEffect(new TdropShadowEffect());
   menu.setAnimDuration(200);
-  menu.addAction(m_playAct);
+  if (TaudioOUT::instance())
+    menu.addAction(m_playAct);
   menu.addAction(m_recAct);
-  menu.addAction(m_sniffAct);
+  if (TaudioIN::instance())
+    menu.addAction(m_sniffAct);
   menu.addAction(m_scoreMenuAct);
   menu.addAction(m_mainMenuAct);
   int xx = x() + Tmtr::fingerPixels() * 0.7;
