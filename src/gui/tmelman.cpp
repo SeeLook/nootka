@@ -19,7 +19,9 @@
 #include "tmelman.h"
 #include "tmenu.h"
 #include "score/tmainscore.h"
-#include <widgets/tmelodyitem.h>
+#if defined (Q_OS_ANDROID)
+  #include <widgets/tmelodyitem.h>
+#endif
 #include <exam/tqagroup.h>
 #include <music/tmelody.h>
 #include <tpath.h>
@@ -87,8 +89,10 @@ void TmelMan::playMelodySlot() {
       showAudioMark(e_recording);
     else
       showAudioMark(e_none);
+#if defined (Q_OS_ANDROID)
     if (TmelodyItem::instance())
         TmelodyItem::instance()->playingStopped();
+#endif
 	} else {
 		if (m_score->currentIndex() < 0) {
       if (m_score->notesCount() > 0)
@@ -114,8 +118,10 @@ void TmelMan::recordMelodySlot() {
 		m_score->setInsertMode(TmainScore::e_multi);
     if (!m_score->isScorePlayed())
       showAudioMark(e_none);
+#if defined (Q_OS_ANDROID)
     if (TmelodyItem::instance())
         TmelodyItem::instance()->recordingStopped();
+#endif
 	}
 }
 
@@ -182,13 +188,17 @@ void TmelMan::showAudioMark(EscoreState ss) {
   switch (ss) {
     case e_playing:
       m_button->setIcon(QIcon(Tpath::img("melody-play")));
+#if defined (Q_OS_ANDROID)
       TmelodyItem::instance()->playingStarted();
+#endif
 //       m_audioMark->setPixmap(QPixmap(Tpath::img("melody-play")));
 //       m_audioMark->show();
       break;
     case e_recording:
       m_button->setIcon(QIcon(Tpath::img("melody-rec")));
+#if defined (Q_OS_ANDROID)
       TmelodyItem::instance()->recordingStarted();
+#endif
 //       m_audioMark->setPixmap(QPixmap(Tpath::img("melody-rec")));
 //       m_audioMark->show();
       break;
