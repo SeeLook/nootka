@@ -21,8 +21,9 @@
 #include "thelpdialogbase.h"
 #include <graphics/tnotepixmap.h>
 #include <tpath.h>
-#include <QBoxLayout>
-#include <QApplication>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qscroller.h>
 
 #define PIXSIZE (28)
 
@@ -88,6 +89,8 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpEdit->setHtml(helpTxt);
 	helpEdit->setReadOnly(true);
   helpEdit->setOpenExternalLinks(true);
+  helpEdit->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
+  QScroller::grabGesture(helpEdit->viewport(), QScroller::LeftMouseButtonGesture);
 // 	qDebug() << helpEdit->toHtml();
   lay->addWidget(helpEdit);
   setLayout(lay);
