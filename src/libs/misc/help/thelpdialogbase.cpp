@@ -17,11 +17,10 @@
  ***************************************************************************/
 
 #include "thelpdialogbase.h"
-#include <graphics/tnotepixmap.h>
 #include <tpath.h>
+#include <graphics/tnotepixmap.h>
 #include <widgets/tsettingsdialogbase.h>
-#include <QApplication>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 /*static*/
@@ -43,14 +42,25 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
   m_stateOfChB(0)
 {
 	m_path = Tpath::main;
+#if defined (Q_OS_ANDROID)
+  showMaximized();
+#else
 	setWindowIcon(QIcon(path() + "picts/help.png"));
   setWindowTitle(tr("Nootka help"));
+#endif
   m_helpText = new QTextBrowser(this);
 		m_helpText->setReadOnly(true);
 		m_helpText->setAlignment(Qt::AlignCenter);
     m_helpText->setOpenExternalLinks(true);
+    m_helpText->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
 	m_buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
 		m_buttonBox->setCenterButtons(true);
+
+  QScroller::grabGesture(helpText()->viewport(), QScroller::LeftMouseButtonGesture);
+#if defined (Q_OS_ANDROID)
+  helpText()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  helpText()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
   
   m_lay = new QVBoxLayout;
   m_lay->addWidget(m_helpText);
