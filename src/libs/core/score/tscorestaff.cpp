@@ -629,9 +629,9 @@ void TscoreStaff::addNoteTimeOut() {
 	if (m_autoAddedNoteId > -1) {
 		if (noteSegment(m_autoAddedNoteId)->notePos()) { // automatically added note was set - approve it
 				emit noteIsAdding(number(), m_autoAddedNoteId);
-				m_autoAddedNoteId = -1;
-				if (count() == maxNoteCount() - 1)
+				if (m_autoAddedNoteId == maxNoteCount() - 1) // new staff is wanted
 					emit noMoreSpace(number());
+        m_autoAddedNoteId = -1;
 		} else if (noteSegment(m_autoAddedNoteId) == scoreScene()->currentNote()) {// note was not set but cursor is still over it
 				m_addTimer->stop();
 				m_addTimer->start(1000); // wait next 1000 ms

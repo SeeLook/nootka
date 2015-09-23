@@ -1,4 +1,11 @@
+1.2.2
+     - added flick-able scroll (by mouse dragging) to help windows
+    BUGS FIXES
+     - fixed crash related to hiding temp note segment at the staff end
+     - preventing of text selection in help windows
+
 1.2.1
+    BUGS FIXES
      - fixed finger position validation - it might corrupt exam files
      - properly hide disabled double accidentals buttons in note name menu
      - fixed position of note name menu when it is moving between staves
