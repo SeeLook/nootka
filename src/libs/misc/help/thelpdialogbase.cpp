@@ -49,9 +49,11 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
 		m_helpText->setReadOnly(true);
 		m_helpText->setAlignment(Qt::AlignCenter);
     m_helpText->setOpenExternalLinks(true);
+    m_helpText->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
 	m_buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
 		m_buttonBox->setCenterButtons(true);
-  
+
+  QScroller::grabGesture(helpText()->viewport(), QScroller::LeftMouseButtonGesture);  
   m_lay = new QVBoxLayout;
   m_lay->addWidget(m_helpText);
 	m_lay->addWidget(m_buttonBox);
