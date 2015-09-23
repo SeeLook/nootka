@@ -24,8 +24,9 @@
 #if defined (Q_OS_ANDROID)
   #include "tmtr.h"
   #include "touch/tmenuwidget.h"
+  #include <graphics/tdropshadoweffect.h>
 #endif
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 /* static */
 bool TsettingsDialogBase::touchEnabled() { return TtouchProxy::touchEnabled(); }
@@ -45,6 +46,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setFont(f);
     navList->setObjectName("navList"); // revert colors of navigation list
     navList->setStyleSheet(navList->styleSheet() + " QListWidget#navList { background: palette(text); color: palette(base); }");
+    navList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #else
     navList->setIconSize(QSize(80, 80));
     navList->setMaximumWidth(100);
@@ -86,16 +88,19 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     mainLay->setContentsMargins(0, 0, 0, 0);
     aLay->setContentsMargins(0, 0, 0, 0);
     stackLayout->setContentsMargins(0, 0, 0, 0);
+    upLay->setContentsMargins(0, 0, 0, 0);
+    navLay->setContentsMargins(0, 0, 0, 0);
     buttonBox->hide();
     hint->hide();
     showMaximized();
     menuButton = new TmenuWidget(this);
-    menuButton->setFixedSize(navList->maximumWidth(), Tmtr::fingerPixels() * 0.7);
     navLay->setSpacing(0);
     navLay->addSpacing(1);
     navLay->addWidget(menuButton);
     navLay->addSpacing(1);
     connect(menuButton, &TmenuWidget::clicked, this, &TsettingsDialogBase::tapMenu);
+    QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth());
+                                           menuButton->setFixedSize(navList->width(), Tmtr::fingerPixels() * 0.7); } );
 #else
     QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
       (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0)); } );
@@ -178,6 +183,7 @@ QAction* TsettingsDialogBase::actionFromButton(QPushButton* b, QMenu* parentMenu
 #if defined (Q_OS_ANDROID)
 void TsettingsDialogBase::tapMenu() {
   TtouchMenu *menu = new TtouchMenu(this);
+  menu->setGraphicsEffect(new TdropShadowEffect());
   for (int i = 0; i < buttonBox->buttons().size(); ++i) {
     QAction *buttonAction = new QAction(buttonBox->buttons()[i]->icon(), buttonBox->buttons()[i]->text(), menu);
     buttonAction->setData((i));
@@ -199,7 +205,13 @@ void TsettingsDialogBase::openHelpLink(const QString& hash) {
 
 
 bool TsettingsDialogBase::event(QEvent *event) {
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  if (event->type() == QEvent::KeyRelease) {
+    QKeyEvent *ke = static_cast<QKeyEvent*>(event);
+    if (ke->key() == Qt::Key_Menu)
+      QTimer::singleShot(10, this, [this]{ tapMenu(); });
+  }
+#else
   if (event->type() == QEvent::StatusTip) {
       QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
       hint->setText("<center>"+se->tip()+"</center>");
