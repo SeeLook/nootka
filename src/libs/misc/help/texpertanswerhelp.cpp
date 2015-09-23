@@ -22,10 +22,11 @@
 TexpertAnswerHelp::TexpertAnswerHelp(QWidget* parent, bool* askAboutExpert, bool showAskCheckBox) :
     ThelpDialogBase(parent, 0)
 {
-	if (parent)
-			setFixedSize(600, 380);
+#if !defined (Q_OS_ANDROID)
+  setFixedSize(600, 380);
   setWindowTitle(tr("Experts mode"));
-	helpText()->document()->setTextWidth(fontMetrics().boundingRect("w").width() * 80);
+  helpText()->document()->setTextWidth(fontMetrics().boundingRect("w").width() * 80);
+#endif
   
   helpText()->setHtml("<center><big>" + tr("You are about to enter expert mode.<br> In this mode you don't need to confirm every answer,<br><b>but remember the following:") + "</b></big><ul><li>" + 
     tr("Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.") + "<br></li><li>" +
