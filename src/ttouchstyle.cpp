@@ -18,8 +18,8 @@
 
 #include "ttouchstyle.h"
 #include <tmtr.h>
-#include <QStyleFactory>
-#include <QDebug>
+#include <QtWidgets/qstylefactory.h>
+#include <QtCore/qdebug.h>
 
 TtouchStyle::TtouchStyle() :
   QProxyStyle(QStyleFactory::create("Fusion"))
@@ -27,7 +27,10 @@ TtouchStyle::TtouchStyle() :
   qApp->setStyleSheet(
         QString("QMenu::item { height: %1px; margin: 5px; padding: 4px 10px 4px %2px; min-width: %3px; }").
                       arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::fingerPixels() * 0.9).arg(Tmtr::longScreenSide() / 5) // height, left/right padding
-      + QString("QListWidget::item { min-height: %1px; }").arg(Tmtr::fingerPixels() * 0.7)
+      + QString("QListWidget::item { min-height: %1px; }").arg(Tmtr::fingerPixels() * 0.75) +
+        QString("QSpinBox { min-width: %1px; }").arg(Tmtr::fingerPixels() * 2) +
+        QString("QSpinBox::up-button { subcontrol-position: left; width: %1px; height: %1px;}").arg(Tmtr::fingerPixels() * 0.7) +
+        QString("QSpinBox::down-button { subcontrol-position: right; width: %1px; height: %1px;}").arg(Tmtr::fingerPixels() * 0.7)
   );
 }
 
@@ -43,6 +46,8 @@ int TtouchStyle::styleHint(QStyle::StyleHint hint, const QStyleOption* option,
     return true;
   case SH_Menu_FadeOutOnHide:
     return true;
+  case SH_TabBar_Alignment:
+    return Qt::AlignCenter;
 
   default:
     return QProxyStyle::styleHint(hint, option, widget, returnData);
