@@ -48,8 +48,9 @@ class QLabel;
      * Font is smaller, height has static physical size.
      * NOTICE: @p statusTip() of given widget is emptied.
      * Returns pointer to generated @class QLabel.
-     * When @p indent is @p TRUE, left context margin of the label is set. */
-QLabel* getLabelFromStatus(QWidget* w, bool indent = true);
+     * When @p indent is @p TRUE, left context margin of the label is set.
+     * @p wordWrap parameter sets label to word-wrapping the text. */
+QLabel* getLabelFromStatus(QWidget* w, bool indent = true, bool wordWrap = false);
 #endif
 
 #endif // TTOUCHAREA_H
