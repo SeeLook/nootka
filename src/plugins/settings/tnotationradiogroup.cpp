@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,13 +19,14 @@
 
 #include "tnotationradiogroup.h"
 #include <music/tnamestylefilter.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
-QString TnotationRadioGroup::strNorskExampl = "(C, C#, Db ... Hb, H)";
-QString TnotationRadioGroup::strItalExampl = "(Do, Do#, Reb ... Sib, Si)";
-QString TnotationRadioGroup::strDeutschExampl = "(C, Cis, Des ... B, H)";
-QString TnotationRadioGroup::strEnglishExampl = "(C, C#, Db ... Bb, B)";
-QString TnotationRadioGroup::strNederExampl = "(C, Cis, Des ... Bes, B)";
+
+QString TnotationRadioGroup::strNorskExampl = QStringLiteral("(C, C#, Db ... Hb, H)");
+QString TnotationRadioGroup::strItalExampl = QStringLiteral("(Do, Do#, Reb ... Sib, Si)");
+QString TnotationRadioGroup::strDeutschExampl = QStringLiteral("(C, Cis, Des ... B, H)");
+QString TnotationRadioGroup::strEnglishExampl = QStringLiteral("(C, C#, Db ... Bb, B)");
+QString TnotationRadioGroup::strNederExampl = QStringLiteral("(C, Cis, Des ... Bes, B)");
 QString TnotationRadioGroup::strRusExampl = QString::fromUtf8("(До, До# Реb ... Сиb, Си)");
 
 
@@ -80,7 +81,12 @@ TnotationRadioGroup::TnotationRadioGroup(Tnote::EnameStyle _notation, bool lette
 				rightLay->addWidget(m_solfegeRadio);
 				rightLay->addWidget(solfegeGrPtr);
 		}
+#if defined (Q_OS_ANDROID)
+    QVBoxLayout *lay = new QVBoxLayout;
+    lay->setContentsMargins(1, 1, 1, 1);
+#else
 		QHBoxLayout *lay = new QHBoxLayout;
+#endif
 			lay->addLayout(leftLay);
 			lay->addLayout(rightLay);
 		

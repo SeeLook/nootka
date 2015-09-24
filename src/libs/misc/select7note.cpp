@@ -35,13 +35,13 @@ Select7note::Select7note(QWidget *parent) :
   bButtGr->addButton(isHRadio);
   QHBoxLayout *bLay = new QHBoxLayout;
     bLay->setAlignment(Qt::AlignCenter);
-    bLay->addStretch(1);
+//     bLay->addStretch(1);
     bLay->addWidget(seventhLab);
     bLay->addSpacing(15);
     bLay->addWidget(isBRadio);
     bLay->addSpacing(15);
     bLay->addWidget(isHRadio);
-    bLay->addStretch(1);
+//     bLay->addStretch(1);
   bGr->setLayout(bLay);
   
   QVBoxLayout *lay = new QVBoxLayout;

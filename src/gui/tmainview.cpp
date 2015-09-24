@@ -30,8 +30,9 @@
 #include <touch/ttouchmenu.h>
 #include <tpath.h>
 #include <tmtr.h>
+#include <graphics/tdropshadoweffect.h>
 #include <notename/tnotename.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
@@ -326,6 +327,7 @@ void TmainView::mouseMoveEvent(QMouseEvent* event) {
 void TmainView::mainMenuExec() {
   m_mainMenuTap = false;
   TtouchMenu menu(this);
+  menu.setGraphicsEffect(new TdropShadowEffect());
   menu.addAction(m_tool->settingsAct);
   menu.addAction(m_tool->levelCreatorAct);
   menu.addAction(m_tool->startExamAct);
@@ -337,6 +339,7 @@ void TmainView::mainMenuExec() {
 void TmainView::scoreMenuExec() {
   m_scoreMenuTap = false;
   TtouchMenu menu(this);
+  menu.setGraphicsEffect(new TdropShadowEffect());
   menu.addAction(m_tool->generateMelody());
   menu.addAction(m_tool->scoreShowNames());
   menu.addAction(m_tool->scoreExtraAccids());

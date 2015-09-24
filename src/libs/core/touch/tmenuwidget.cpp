@@ -17,7 +17,8 @@
  ***************************************************************************/
 
 #include "tmenuwidget.h"
-#include <QPainter>
+#include <QtGui/QPainter>
+
 
 TmenuWidget::TmenuWidget(QWidget* parent) :
   QWidget(parent),
@@ -38,7 +39,7 @@ void TmenuWidget::paintEvent(QPaintEvent*) {
   painter.setBrush(palette().base());
   int s = height() / 4;
   for (int i = 0; i < 3; ++i)
-    painter.drawEllipse(((width() - 3 * s) / 4) * (i + 1) + i * s , s, s, s);
+    painter.drawEllipse(((width() - 3 * s) / 4) * (i + 1) + i * s , (height() - s) / 2, s, s);
 }
 
 

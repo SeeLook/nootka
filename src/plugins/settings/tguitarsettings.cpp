@@ -24,15 +24,17 @@
 #include <score/tsimplescore.h>
 #include <score/tscorescene.h>
 #include <tscoreparams.h>
-#include <QtWidgets>
-
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
+#include <QtWidgets/QtWidgets>
 
 
 QString tuningGuitarText, scaleOfInstrText;
 
 
 TguitarSettings::TguitarSettings(QWidget *parent) :
-        QWidget(parent)
+  TtouchArea(parent)
 {
   m_customTune = new Ttune();
   *m_customTune = *(Tcore::gl()->Gtune());
@@ -41,67 +43,45 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
   tuningGuitarText = tr("tuning of the guitar");
   scaleOfInstrText = tr("scale of an instrument");
 
-  QVBoxLayout *mainLay = new QVBoxLayout;
-  mainLay->setAlignment(Qt::AlignCenter);
-
-  QHBoxLayout *upLay = new QHBoxLayout;
   m_tuneGroup = new QGroupBox(tuningGuitarText, this);
   m_tuneGroup->setStatusTip(tr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
       tr("Remember to select the appropriate clef in Score settings."));
-  QVBoxLayout *tuneLay = new QVBoxLayout;
-  tuneLay->setAlignment(Qt::AlignCenter);
   m_tuneCombo = new QComboBox(this);
-  tuneLay->addWidget(m_tuneCombo);
   m_tuneView = new TsimpleScore(6, this);
   m_tuneView->setControllersEnabled(true, false);
   m_tuneView->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
   m_tuneView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  tuneLay->addWidget(m_tuneView);
   m_tuneView->setClef(Tcore::gl()->S->clef); 
-  
-  m_tuneGroup->setLayout(tuneLay);
-//     upLay->addWidget(m_tuneGroup);
+#if defined (Q_OS_ANDROID)
+  m_tuneView->setFixedHeight(qMin(qRound(Tmtr::shortScreenSide() * 0.7), Tmtr::fingerPixels() * 6));
+#endif
 
-  QVBoxLayout *guitarLay = new QVBoxLayout;
   m_guitarGroup = new QGroupBox(tr("Instrument") + ":", this);
 // Selecting instrument type combo
+#if defined (Q_OS_ANDROID)
+  m_selectInstr = new TselectInstrument(this, TselectInstrument::e_buttonsOnlyHorizontal);
+  m_selectInstr->setGlyphSize(Tmtr::fingerPixels() * 0.8);
+#else
   m_selectInstr = new TselectInstrument(this, TselectInstrument::e_buttonsOnlyGrid);
   m_selectInstr->setGlyphSize(40);
-  guitarLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
-  guitarLay->addStretch(1);
+#endif
 // Right-handed/left-handed check box
   m_righthandCh = new QCheckBox(tr("right-handed players", "When translation will be too long try to add '\n' - line break between words."), this);
   m_righthandCh->setChecked(Tcore::gl()->GisRightHanded);
   m_righthandCh->setStatusTip(tr("Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)"));
-  guitarLay->addWidget(m_righthandCh);
-  guitarLay->addStretch(1);
 // Number of frets
   m_fretNrLab = new QLabel(tr("number of frets:"), this);
-  guitarLay->addWidget(m_fretNrLab, 1, Qt::AlignCenter);
   m_fretsNrSpin = new QSpinBox(this);
   m_fretsNrSpin->setMaximum(24);
   m_fretsNrSpin->setMinimum(15);
   m_fretsNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-  guitarLay->addWidget(m_fretsNrSpin, 1, Qt::AlignCenter);
-  guitarLay->addStretch(1);
 // Number of strings
   m_stringNrLab = new QLabel(tr("number of strings:"), this);
-  guitarLay->addWidget(m_stringNrLab, 1, Qt::AlignCenter);
   m_stringNrSpin = new QSpinBox(this);
   m_stringNrSpin->setMaximum(6);
   m_stringNrSpin->setMinimum(3);
   m_stringNrSpin->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-  guitarLay->addWidget(m_stringNrSpin, 1, Qt::AlignCenter);
-  guitarLay->addStretch(1);
-  m_guitarGroup->setLayout(guitarLay);
-  upLay->addWidget(m_guitarGroup);
-  upLay->addSpacing(3);
-  upLay->addWidget(m_tuneGroup);
 
-  mainLay->addLayout(upLay);
-
-  QHBoxLayout *downLay = new QHBoxLayout;
-  QHBoxLayout *prefLay = new QHBoxLayout;
   m_accidGroup = new QGroupBox(tr("preferred accidentals:"),this);
   m_accidGroup->setStatusTip(tr("Choose which accidentals will be shown on the staff."));
   m_prefSharpBut = new QRadioButton(tr("# - sharps"),this);
@@ -109,10 +89,6 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
   QButtonGroup *prefGr = new QButtonGroup(this);
   prefGr->addButton(m_prefSharpBut);
   prefGr->addButton(m_prefFlatBut);
-  prefLay->addWidget(m_prefSharpBut);
-  prefLay->addSpacing(10);
-  prefLay->addWidget(m_prefFlatBut);
-  m_accidGroup->setLayout(prefLay);
   if (Tcore::gl()->GpreferFlats) m_prefFlatBut->setChecked(true);
   else
       m_prefSharpBut->setChecked(true);
@@ -121,35 +97,127 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
   m_fretMarksEdit->setMaxLength(25);
   QRegExp rx("([1-2]{0,1}[0-9]{1,2}!{0,1},){0,7}");
   m_fretMarksEdit->setValidator(new QRegExpValidator(rx, 0));
+#if defined (Q_OS_ANDROID)
+  m_fretMarksEdit->setStatusTip(tr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.").replace(". ", ".<br>"));
+#else
   m_fretMarksEdit->setStatusTip(tr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice."));
+#endif
   QLabel *fretMarksLab = new QLabel(tr("marked frets", "or frets with dots/marks"), this);
+  m_disabledWidgets << fretMarksLab;
+
+  m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
+  m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
+  m_morePosCh->setChecked(Tcore::gl()->GshowOtherPos);
+
+  m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
+  m_pointColorBut = new TcolorButton(Tcore::gl()->GfingerColor, this);
+  m_selectColorLab = new QLabel(tr("color of selected string/fret"), this);
+  m_selColorBut = new TcolorButton(Tcore::gl()->GselectedColor, this);
+
+  QVBoxLayout *tuneLay = new QVBoxLayout;
+  tuneLay->setAlignment(Qt::AlignCenter);
+  tuneLay->addWidget(m_tuneCombo);
+  tuneLay->addWidget(m_tuneView);
+  m_tuneGroup->setLayout(tuneLay);
+
+  QVBoxLayout *guitarLay = new QVBoxLayout;
+    guitarLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
+    guitarLay->addWidget(m_righthandCh);
+#if defined (Q_OS_ANDROID)
+    guitarLay->setAlignment(Qt::AlignCenter);
+    m_disabledWidgets << getLabelFromStatus(m_righthandCh);
+    guitarLay->addWidget(m_disabledWidgets.last());
+#endif
+    guitarLay->addStretch(1);
+#if defined (Q_OS_ANDROID)
+    QHBoxLayout *fretsLay = new QHBoxLayout;
+      fretsLay->addStretch();
+      fretsLay->addWidget(m_fretNrLab);
+      fretsLay->addWidget(m_fretsNrSpin);
+      fretsLay->addStretch();
+    guitarLay->addLayout(fretsLay);
+    QHBoxLayout *stringsLay = new QHBoxLayout;
+      stringsLay->addStretch();
+      stringsLay->addWidget(m_stringNrLab);
+      stringsLay->addWidget(m_stringNrSpin);
+      stringsLay->addStretch();
+    guitarLay->addLayout(stringsLay);
+#else
+    guitarLay->addWidget(m_fretNrLab, 1, Qt::AlignCenter);
+    guitarLay->addStretch(1);
+    guitarLay->addWidget(m_fretsNrSpin, 1, Qt::AlignCenter);
+    guitarLay->addStretch(1);
+    guitarLay->addWidget(m_stringNrLab, 1, Qt::AlignCenter);
+    guitarLay->addWidget(m_stringNrSpin, 1, Qt::AlignCenter);
+    guitarLay->addStretch(1);
+#endif
+  m_guitarGroup->setLayout(guitarLay);
+
+#if defined (Q_OS_ANDROID)
+  QVBoxLayout *upLay = new QVBoxLayout;
+  upLay->setAlignment(Qt::AlignCenter);
+#else
+  QHBoxLayout *upLay = new QHBoxLayout;
+#endif
+    upLay->addWidget(m_guitarGroup);
+    upLay->addSpacing(3);
+    upLay->addWidget(m_tuneGroup);
+
+  QHBoxLayout *prefLay = new QHBoxLayout;
+    prefLay->addStretch();
+    prefLay->addWidget(m_prefSharpBut);
+    prefLay->addSpacing(10);
+    prefLay->addWidget(m_prefFlatBut);
+    prefLay->addStretch();
+#if defined (Q_OS_ANDROID)
+    QVBoxLayout *accBoxLay = new QVBoxLayout;
+    accBoxLay->addLayout(prefLay);
+    m_disabledWidgets << getLabelFromStatus(m_accidGroup, false);
+    accBoxLay->addWidget(m_disabledWidgets.last(), 0, Qt::AlignCenter);
+    m_accidGroup->setLayout(accBoxLay);
+#else
+  m_accidGroup->setLayout(prefLay);
+#endif
+
   QHBoxLayout *marksLay = new QHBoxLayout;
     marksLay->addWidget(fretMarksLab);
     marksLay->addWidget(m_fretMarksEdit);
   QVBoxLayout *leftDownLay = new QVBoxLayout;
     leftDownLay->addWidget(m_accidGroup);
     leftDownLay->addLayout(marksLay);
-  downLay->addLayout(leftDownLay);
-
-  m_morePosCh = new QCheckBox(tr("show all possibilities of a note"),this);
-  m_morePosCh->setStatusTip(tr("As you know, the same note can be played in several places on the fingerboard.<br>If checked, all of them will be shown."));
-  m_morePosCh->setChecked(Tcore::gl()->GshowOtherPos);
+#if defined (Q_OS_ANDROID)
+    leftDownLay->setAlignment(Qt::AlignCenter);
+    m_disabledWidgets << getLabelFromStatus(m_fretMarksEdit, false);
+    leftDownLay->addWidget(m_disabledWidgets.last(), 0, Qt::AlignCenter);
+#endif
 
   QGridLayout *colorLay = new QGridLayout;
-  m_pointerColorLab = new QLabel(tr("color of string/fret pointer"), this);
-  m_pointColorBut = new TcolorButton(Tcore::gl()->GfingerColor, this);
-  colorLay->addWidget(m_pointerColorLab, 0, 0, Qt::AlignRight);
-  colorLay->addWidget(m_pointColorBut, 0 ,1, Qt::AlignLeft);
-  m_selectColorLab = new QLabel(tr("color of selected string/fret"), this);
-  m_selColorBut = new TcolorButton(Tcore::gl()->GselectedColor, this);
-  colorLay->addWidget(m_selectColorLab, 1, 0, Qt::AlignRight);
-  colorLay->addWidget(m_selColorBut, 1, 1, Qt::AlignLeft);
+    colorLay->addWidget(m_pointerColorLab, 0, 0, Qt::AlignRight);
+    colorLay->addWidget(m_pointColorBut, 0 ,1, Qt::AlignLeft);
+    colorLay->addWidget(m_selectColorLab, 1, 0, Qt::AlignRight);
+    colorLay->addWidget(m_selColorBut, 1, 1, Qt::AlignLeft);
+
   QVBoxLayout *rightDownLay = new QVBoxLayout;
     rightDownLay->addWidget(m_morePosCh);
+#if defined (Q_OS_ANDROID)
+    rightDownLay->setAlignment(Qt::AlignCenter);
+    m_disabledWidgets << getLabelFromStatus(m_morePosCh, false);
+    rightDownLay->addWidget(m_disabledWidgets.last(), 0, Qt::AlignCenter);
+#endif
     rightDownLay->addLayout(colorLay);
-  downLay->addStretch(1);
-  downLay->addLayout(rightDownLay);
-  mainLay->addLayout(downLay);
+#if defined (Q_OS_ANDROID)
+  QVBoxLayout *downLay = new QVBoxLayout;
+#else
+  QHBoxLayout *downLay = new QHBoxLayout;
+#endif
+    downLay->addLayout(leftDownLay);
+    downLay->addStretch(1);
+    downLay->addLayout(rightDownLay);
+
+  QVBoxLayout *mainLay = new QVBoxLayout;
+    mainLay->setAlignment(Qt::AlignCenter);
+    mainLay->addLayout(upLay);
+    mainLay->addLayout(downLay);
 
   setLayout(mainLay);
 
@@ -438,24 +506,25 @@ void TguitarSettings::instrumentTypeChanged(int index) {
 
 
 void TguitarSettings::guitarDisabled(bool disabled) {
-		if (disabled) {
-			m_tuneGroup->setTitle(scaleOfInstrText);
-		} else {
-			m_tuneGroup->setTitle(tuningGuitarText);
-		}
-		m_tuneCombo->setDisabled(disabled);
-		m_fretsNrSpin->setDisabled(disabled);
-		m_fretNrLab->setDisabled(disabled);
-		m_stringNrSpin->setDisabled(disabled);
-		m_stringNrLab->setDisabled(disabled);
-		m_righthandCh->setDisabled(disabled);
-		m_accidGroup->setDisabled(disabled);
-		m_morePosCh->setDisabled(disabled);
-		m_selColorBut->setDisabled(disabled);
-		m_selectColorLab->setDisabled(disabled);
-		m_pointColorBut->setDisabled(disabled);
-		m_pointerColorLab->setDisabled(disabled);
-		m_fretMarksEdit->setDisabled(disabled);
+  if (disabled)
+    m_tuneGroup->setTitle(scaleOfInstrText);
+  else
+    m_tuneGroup->setTitle(tuningGuitarText);
+  m_tuneCombo->setDisabled(disabled);
+  m_fretsNrSpin->setDisabled(disabled);
+  m_fretNrLab->setDisabled(disabled);
+  m_stringNrSpin->setDisabled(disabled);
+  m_stringNrLab->setDisabled(disabled);
+  m_righthandCh->setDisabled(disabled);
+  m_accidGroup->setDisabled(disabled);
+  m_morePosCh->setDisabled(disabled);
+  m_selColorBut->setDisabled(disabled);
+  m_selectColorLab->setDisabled(disabled);
+  m_pointColorBut->setDisabled(disabled);
+  m_pointerColorLab->setDisabled(disabled);
+  m_fretMarksEdit->setDisabled(disabled);
+  foreach(QWidget *w, m_disabledWidgets)
+    w->setDisabled(disabled);
 }
 
 

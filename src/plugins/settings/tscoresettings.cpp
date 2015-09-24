@@ -29,19 +29,37 @@
 #include <graphics/tnotepixmap.h>
 #include <music/tnamestylefilter.h>
 #include <tmisctrans.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
+#if defined (Q_OS_ANDROID)
+  #include "tlistmenu.h"
+  #include <touch/ttoucharea.h>
+  #include <tmtr.h>
+#endif
 
 
 
 TscoreSettings::TscoreSettings(QWidget *parent) :
-    QWidget(parent)
+  TtouchArea(parent)
 {
-	QToolBox *m_toolBox = new QToolBox(this);
-	QWidget *m_1_misc, *m_2_keys, *m_3_clefs;
-	
+#if defined (Q_OS_ANDROID)
+  m_topList = new TlistMenu(QListWidget::LeftToRight, this);
+  QStackedLayout *m_stackedLay = new QStackedLayout;
+  m_stackedLay->setContentsMargins(0, 0, 0, 0);
+  TtouchArea *m_1_misc, *m_2_keys, *m_3_clefs;
+#else
+  QToolBox *m_toolBox = new QToolBox(this);
+  QWidget *m_1_misc, *m_2_keys, *m_3_clefs;
+#endif
+
 // 1. Miscellaneous score settings
-	m_1_misc = new QWidget();
+#if defined (Q_OS_ANDROID)
+  m_1_misc = new TtouchArea(this);
+  m_topList->addItem("1. " + tr("Score settings"));
+  m_stackedLay->addWidget(m_1_misc);
+#else
+  m_1_misc = new QWidget();
   m_toolBox->addItem(m_1_misc, "1. " + tr("Score settings"));
+#endif
 		m_singleNoteGr = new QGroupBox(tr("use single note only"), m_1_misc);
 			m_singleNoteGr->setStatusTip(tr("When enabled, a score displays only a single note."));
 			m_singleNoteGr->setCheckable(true);
@@ -64,16 +82,33 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     m_notePointColorBut = new TcolorButton(Tcore::gl()->S->pointerColor, m_1_misc);
 		
 		QVBoxLayout *miscLay = new QVBoxLayout;
+#if defined (Q_OS_ANDROID)
+    QVBoxLayout *enColorLay = new QVBoxLayout;
+    enColorLay->addWidget(getLabelFromStatus(m_singleNoteGr, false), 0, Qt::AlignCenter);
+    enColorLay->addWidget(m_otherEnharmChBox);
+    enColorLay->addWidget(getLabelFromStatus(m_otherEnharmChBox));
+    QHBoxLayout *enharmColorLay = new QHBoxLayout;
+      enharmColorLay->addStretch();
+      enharmColorLay->addWidget(colorLab);
+      enharmColorLay->addStretch();
+      enharmColorLay->addWidget(m_enharmColorBut);
+      enharmColorLay->addStretch();
+    enColorLay->addLayout(enharmColorLay);
+#else
 		QHBoxLayout *enColorLay = new QHBoxLayout;
 			enColorLay->addWidget(m_otherEnharmChBox);
 			enColorLay->addStretch(2);
 		  enColorLay->addWidget(colorLab);
 		  enColorLay->addStretch(1);
 		  enColorLay->addWidget(m_enharmColorBut);
+#endif
 		m_singleNoteGr->setLayout(enColorLay);
 		miscLay->addWidget(m_singleNoteGr);
 		miscLay->addStretch();
 		miscLay->addWidget(m_dblAccChBox);
+#if defined (Q_OS_ANDROID)
+    miscLay->addWidget(getLabelFromStatus(m_dblAccChBox));
+#endif
 		miscLay->addStretch();
 		QHBoxLayout *tempoLay = new QHBoxLayout;
 			tempoLay->addStretch(2);
@@ -89,18 +124,32 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 			colLay->addStretch();
 			colLay->addWidget(m_notePointColorBut);
 			colLay->addStretch(1);
+    miscLay->addStretch(1);
 		miscLay->addLayout(colLay);
-	   m_1_misc->setLayout(miscLay);
+#if defined (Q_OS_ANDROID)
+    miscLay->addSpacing(Tmtr::fingerPixels());
+#endif
+    m_1_misc->setLayout(miscLay);
 	
 // 2. Key signatures settings
-	m_2_keys = new QWidget();
+#if defined (Q_OS_ANDROID)
+  m_2_keys = new TtouchArea(this);
+  m_topList->addItem("2. " + tr("Key signatures"));
+  m_stackedLay->addWidget(m_2_keys);
+#else
+  m_2_keys = new QWidget();
   m_toolBox->addItem(m_2_keys, "2. " + tr("Key signatures"));
+#endif
     m_workStyle = Tcore::gl()->S->nameStyleInKeySign;
     QVBoxLayout *keyLay = new QVBoxLayout();
     m_enablKeySignCh = new QCheckBox(tr("enable key signature"), m_2_keys);
 			m_enablKeySignCh->setChecked(Tcore::gl()->S->keySignatureEnabled);
-    keyLay->addWidget(m_enablKeySignCh);
+    keyLay->addWidget(m_enablKeySignCh, 0, Qt::AlignCenter);
+#if defined (Q_OS_ANDROID)
+    QVBoxLayout *nameLay = new QVBoxLayout();
+#else
     QHBoxLayout *nameLay = new QHBoxLayout();
+#endif
     m_enablKeyNameGr = new QGroupBox(showKeySigName(), m_2_keys);
 			m_enablKeyNameGr->setCheckable(true);
 			m_enablKeyNameGr->setChecked(Tcore::gl()->S->showKeySignName);
@@ -135,7 +184,7 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
     minLay->addWidget(m_minExampl, 0, Qt::AlignCenter);
     minLay->addStretch(1);
 
-    QHBoxLayout *nameExtLay = new QHBoxLayout();
+    QHBoxLayout *nameExtLay = new QHBoxLayout;
     nameExtLay->addLayout(majLay);
     nameExtLay->addLayout(minLay);
     m_nameExtGr->setLayout(nameExtLay);
@@ -144,35 +193,61 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 
     m_enablKeyNameGr->setLayout(nameLay);
     keyLay->addWidget(m_enablKeyNameGr);
-	   m_2_keys->setLayout(keyLay);
+    m_2_keys->setLayout(keyLay);
     
 // 2. Clefs settings
-	m_3_clefs = new QWidget();
+#if defined (Q_OS_ANDROID)
+  m_3_clefs = new TtouchArea(this);
+  m_topList->addItem("3. " + tr("Clefs"));
+  m_stackedLay->addWidget(m_3_clefs);
+#else
+  m_3_clefs = new QWidget();
   m_toolBox->addItem(m_3_clefs, "3. " + tr("Clefs"));
+#endif
 		m_clefSelector = new TselectClef(m_3_clefs);
+#if defined (Q_OS_ANDROID)
+    QVBoxLayout* clefLay = new QVBoxLayout;
+    QLabel *clefUsageLab = new QLabel(tr("Default clef"), m_3_clefs);
+#else
 		QHBoxLayout* clefLay = new QHBoxLayout;
-		QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), m_3_clefs);
+    QLabel *clefUsageLab = new QLabel(tr("Default clef").replace(" ", "<br>"), m_3_clefs);
+#endif
 		clefUsageLab->setAlignment(Qt::AlignCenter);
       clefLay->addStretch();
 		  clefLay->addWidget(clefUsageLab);
 		  m_3_clefs->setStatusTip(tr("Select default clef for the application.") + "<br><b>" + tr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>");
+#if defined (Q_OS_ANDROID)
+      clefLay->addWidget(getLabelFromStatus(m_3_clefs, false), 0, Qt::AlignCenter);
+#endif
 		  clefLay->addWidget(m_clefSelector, 0, Qt::AlignCenter);
       clefLay->addStretch();
 		m_clefSelector->selectClef(Tcore::gl()->S->clef);
     m_3_clefs->setLayout(clefLay);
 
-  m_nameTab = new TnoteNameSettings(m_toolBox);
+  m_nameTab = new TnoteNameSettings(this); // QWidget under desktops and TtouchArea under mobile
+  QVBoxLayout *mainLay = new QVBoxLayout;
+#if defined (Q_OS_ANDROID)
+  m_topList->addItem("4. " + tr("Notes naming"));
+  m_stackedLay->addWidget(m_nameTab);
+  mainLay->addWidget(m_topList);
+  mainLay->addLayout(m_stackedLay);
+  mainLay->setContentsMargins(0, 0, 0, 0);
+  m_stackedLay->setCurrentIndex(0);
+  m_topList->setCurrentRow(0);
+  connect(m_topList, &TlistMenu::currentRowChanged, m_stackedLay, &QStackedLayout::setCurrentIndex);
+  m_topList->adjustItemsLayout(100);
+//   QTimer::singleShot(100, this, [this] { m_topList->setFixedHeight(m_topList->sizeHintForRow(0) + 2 * m_topList->frameWidth()); } );
+#else
   m_toolBox->addItem(m_nameTab, "4. " + tr("Notes naming"));
-	QVBoxLayout *mainLay = new QVBoxLayout;
-	mainLay->addWidget(m_toolBox);
-	
-	setLayout(mainLay);
+  mainLay->addWidget(m_toolBox);
+#endif
+  setLayout(mainLay);
 
-  connect(m_enablKeySignCh, SIGNAL(toggled(bool)), this, SLOT(enableKeySignGroup(bool)));
-  connect(m_nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::EnameStyle)), this, SLOT(nameStyleWasChanged(Tnote::EnameStyle)));
-  connect(m_majEdit ,SIGNAL(textChanged(QString)), this, SLOT(majorExtensionChanged()));
-  connect(m_minEdit ,SIGNAL(textChanged(QString)), this, SLOT(minorExtensionChanged()));
-  connect(m_nameTab, SIGNAL(seventhIsBChanged(bool)), this, SLOT(seventhIsBChanged(bool)));
+  connect(m_enablKeySignCh, &QCheckBox::toggled, this, &TscoreSettings::enableKeySignGroup);
+  connect(m_nameStyleGr, &TnotationRadioGroup::noteNameStyleWasChanged, this, &TscoreSettings::nameStyleWasChanged);
+  connect(m_majEdit, &QLineEdit::textChanged, this, &TscoreSettings::majorExtensionChanged);
+  connect(m_minEdit, &QLineEdit::textChanged, this, &TscoreSettings::minorExtensionChanged);
+  connect(m_nameTab, &TnoteNameSettings::seventhIsBChanged, this, &TscoreSettings::seventhIsBChanged);
   m_majExampl->setText(getMajorExample(m_workStyle));
   m_minExampl->setText(getMinorExample(m_workStyle));
 }

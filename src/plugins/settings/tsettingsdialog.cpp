@@ -17,23 +17,24 @@
  ***************************************************************************/
 
 #include "tsettingsdialog.h"
-#include "texamsettings.h"
-#include "tguitarsettings.h"
-#include "tscoresettings.h"
-#include "tnotenamesettings.h"
 #include "tglobalsettings.h"
+#include "tscoresettings.h"
+#include "tguitarsettings.h"
+#include "texamsettings.h"
 #include "audioinsettings.h"
 #include "audiooutsettings.h"
 #include "tlaysettings.h"
+#if !defined (Q_OS_ANDROID)
+  #include <trtaudio.h>
+  #include <tmidiout.h>
+#endif
+#include <tmisctrans.h>
 #include <tinitcorelib.h>
 #include <taudioparams.h>
-#include <trtaudio.h>
-#include <tmidiout.h>
 #include <tscoreparams.h>
 #include <tpath.h>
 #include <tlayoutparams.h>
-#include <tmisctrans.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 
@@ -41,8 +42,8 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	TsettingsDialogBase(parent),
 	m_globalSett(0), m_scoreSett(0),
 	m_guitarSett(0),
-	m_examSett(0), m_sndOutSett(0),
-	m_sndInSett(0), m_audioSettingsPage(0),
+	m_examSett(0),
+	m_sndOutSett(0), m_sndInSett(0), m_audioSettingsPage(0),
 	m_laySett(0),
 	m_7thNoteToDefaults(false),
 	m_mode(mode),
@@ -56,28 +57,15 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 		setWindowTitle(tr("Simple exercise settings"));
 
 	setWindowIcon(QIcon(Tpath::img("systemsettings")));
-		navList->setResizeMode(QListView::Adjust);
-    navList->addItem(tr("Common"));
-    navList->item(0)->setIcon(QIcon(Tpath::img("global")));
-    navList->item(0)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Score"));
-    navList->item(1)->setIcon(QIcon(Tpath::img("scoreSettings")));
-    navList->item(1)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Instrument"));
-    navList->item(2)->setIcon(QIcon(Tpath::img("guitarSettings")));
-    navList->item(2)->setTextAlignment(Qt::AlignCenter);
-    navList->addItem(tr("Sound"));
-    navList->item(3)->setIcon(QIcon(Tpath::img("soundSettings")));
-    navList->item(3)->setTextAlignment(Qt::AlignCenter);
-		navList->addItem(tr("Exercises") + "\n& " + tr("Exam"));
-    navList->item(4)->setIcon(QIcon(Tpath::img("questionsSettings")));
-    navList->item(4)->setTextAlignment(Qt::AlignCenter);
+  addItem(tr("Common"), Tpath::img("global"));
+  addItem(tr("Score"), Tpath::img("scoreSettings"));
+  addItem(tr("Instrument"), Tpath::img("guitarSettings"));
+  addItem(tr("Sound"), Tpath::img("soundSettings"));
+  addItem(tr("Exercises") + "\n& " + tr("Exam"), Tpath::img("questionsSettings"));
 // 		navList->addItem(tr("Shortcuts"));
 //     navList->item(6)->setIcon(QIcon(Tpath::img("shortcuts")));
 //     navList->item(6)->setTextAlignment(Qt::AlignCenter);
-		navList->addItem(tr("Appearance"));
-    navList->item(5)->setIcon(QIcon(Tpath::img("appearance")));
-    navList->item(5)->setTextAlignment(Qt::AlignCenter);
+		addItem(tr("Appearance"), Tpath::img("appearance"));
     
   defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
     defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
@@ -90,17 +78,25 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
   cancelBut = buttonBox->addButton(QDialogButtonBox::Cancel);
     cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
 
-  connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
-  connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeSettingsWidget(int)));
-  connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
-  connect(this, SIGNAL(rejected()), this, SLOT(cancelSlot()));
-  connect(defaultBut, SIGNAL(pressed()), this, SLOT(restoreDefaults()));
-  connect(m_helpButt, SIGNAL(pressed()), this, SLOT(helpSlot()));
+  connect(okBut, &QPushButton::clicked, this, &TsettingsDialog::accept);
+  connect(navList, &QListWidget::currentRowChanged, this, &TsettingsDialog::changeSettingsWidget);
+  connect(this, &TsettingsDialog::accepted, this, &TsettingsDialog::saveSettings);
+  connect(defaultBut, &QPushButton::clicked, this, &TsettingsDialog::restoreDefaults);
+  connect(m_helpButt, &QPushButton::clicked, this, &TsettingsDialog::helpSlot);
+#if !defined (Q_OS_ANDROID)
+  connect(this, &TsettingsDialog::rejected, this, &TsettingsDialog::cancelSlot);
+#endif
 
 	if (mode == e_settings) {
     navList->setCurrentRow(0);
 		changeSettingsWidget(1); // score settings must to exist
-    changeSettingsWidget(3); // instrument settings makes window big enough, to avoid re-sizing
+#if !defined (Q_OS_ANDROID)
+    changeSettingsWidget(3);
+    changeSettingsWidget(2); // instrument settings makes window big enough, to avoid re-sizing
+    setHighestPage(m_guitarSett);
+//     setWidesttPage(m_guitarSett);
+    QTimer::singleShot(150, this, [this]{ hackSize(); } ); //HACK: adjust dialog to biggest page
+#endif
 		changeSettingsWidget(0);
 	} else {
 		navList->hide();
@@ -109,12 +105,12 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	}
 }
 
-
+#if !defined (Q_OS_ANDROID)
 void TsettingsDialog::cancelSlot() {
   if (m_sndInSett && Tcore::gl()->A->JACKorASIO != m_sndInSett->rtApiCheckBox()->isChecked())
     TrtAudio::setJACKorASIO(Tcore::gl()->A->JACKorASIO);
 }
-
+#endif
 
 void TsettingsDialog::saveSettings() {
   if (m_scoreSett)
@@ -181,31 +177,31 @@ void TsettingsDialog::allDefaultsRequired() {
 }
 
 
-/** Settings pages are created on demand, also 
-* to avoid generating audio devices list every opening Nootka preferences
-* witch is slow for pulseaudio, the list is generated on demand.
-* When user first time opens Sound settings widget.*/
+    /**
+     * Settings pages are created on demand, also
+     * to avoid generating audio devices list every opening Nootka preferences
+     * witch is slow for pulseaudio, the list is generated on demand,
+     * when user first time opens Sound settings widget.
+     */
 void TsettingsDialog::changeSettingsWidget(int index) {
   QWidget* currentWidget = 0;
-	if (m_audioSettingsPage)
-		m_sndInSett->stopSoundTest();
+  if (m_audioSettingsPage)
+    m_sndInSett->stopSoundTest();
   switch (index) {
     case 0: {
       if (!m_globalSett) {
-        m_globalSett = new TglobalSettings();
-        stackLayout->addWidget(m_globalSett);
-				connect(m_globalSett, SIGNAL(restoreAllDefaults()), this, SLOT(allDefaultsRequired()));
+        addPage(m_globalSett = new TglobalSettings());
+				connect(m_globalSett, &TglobalSettings::restoreAllDefaults, this, &TsettingsDialog::allDefaultsRequired);
       }
       currentWidget = m_globalSett;
       break;
     }
     case 1: {
       if (!m_scoreSett) {
-        m_scoreSett = new TscoreSettings();
-        stackLayout->addWidget(m_scoreSett);
+        addPage(m_scoreSett = new TscoreSettings());
 				if (m_guitarSett) {
 						m_scoreSett->setDefaultClef(m_guitarSett->currentClef());
-						connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
+						connect(m_guitarSett, &TguitarSettings::clefChanged, m_scoreSett, &TscoreSettings::defaultClefChanged);
 				}
 			}
       currentWidget = m_scoreSett;
@@ -213,15 +209,14 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     }
     case 2: {
       if (!m_guitarSett) {
-        m_guitarSett = new TguitarSettings();
-        stackLayout->addWidget(m_guitarSett);
+        addPage(m_guitarSett = new TguitarSettings());
         if (m_scoreSett)
-          connect(m_guitarSett, SIGNAL(clefChanged(Tclef)), m_scoreSett, SLOT(defaultClefChanged(Tclef)));
+          connect(m_guitarSett, &TguitarSettings::clefChanged, m_scoreSett, &TscoreSettings::defaultClefChanged);
         if (m_sndOutSett)
-          connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
+          connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_sndOutSett, &AudioOutSettings::whenInstrumentChanged);
         if (m_sndInSett) {
           connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
-          connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndInSett, SLOT(whenInstrumentChanged(int)));
+          connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_sndInSett, &AudioInSettings::whenInstrumentChanged);
         }
         if (m_laySett)
           connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_laySett, &TlaySettings::instrumentChanged);
@@ -230,10 +225,8 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       break;
     }
     case 4: {
-      if (!m_examSett) {
-        m_examSett = new TexamSettings(0, m_mode);
-        stackLayout->addWidget(m_examSett);
-      }
+      if (!m_examSett)
+        stackLayout->addWidget(m_examSett = new TexamSettings(0, m_mode));
       currentWidget = m_examSett;
       break;
     }
@@ -247,8 +240,8 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 					m_sndOutSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
           m_sndInSett->whenInstrumentChanged(m_guitarSett->currentInstrument());
 					m_sndInSett->tuneWasChanged(m_guitarSett->currentTune());
-					connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndOutSett, SLOT(whenInstrumentChanged(int)));
-          connect(m_guitarSett, SIGNAL(instrumentChanged(int)), m_sndInSett, SLOT(whenInstrumentChanged(int)));
+					connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_sndOutSett, &AudioOutSettings::whenInstrumentChanged);
+          connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_sndInSett, &AudioInSettings::whenInstrumentChanged);
 					connect(m_guitarSett, SIGNAL(tuneChanged(Ttune*)), m_sndInSett, SLOT(tuneWasChanged(Ttune*)));
 				}
       }
@@ -273,34 +266,30 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 
 
 void TsettingsDialog::createAudioPage() {
+#if !defined (Q_OS_ANDROID)
 	TrtAudio::initJACKorASIO(Tcore::gl()->A->JACKorASIO);
+#endif
 	m_sndInSett = new AudioInSettings(Tcore::gl()->A, Tcore::gl()->Gtune());
 	m_sndOutSett = new AudioOutSettings(Tcore::gl()->A, m_sndInSett); // m_sndInSett is bool - true when exist
 	m_audioSettingsPage = new QWidget();
 	m_audioTab = new QTabWidget(m_audioSettingsPage);
 	QVBoxLayout *audioLay = new QVBoxLayout;
+#if defined (Q_OS_ANDROID)
+  audioLay->setContentsMargins(0, 0, 0, 0);
+#endif
 	audioLay->addWidget(m_audioTab);
 	m_audioTab->addTab(m_sndInSett, tr("listening"));
 	m_audioTab->addTab(m_sndOutSett, tr("playing"));
 	m_audioSettingsPage->setLayout(audioLay);
 	connect(m_audioTab, SIGNAL(currentChanged(int)), m_sndInSett, SLOT(stopSoundTest()));
+#if !defined (Q_OS_ANDROID)
 	connect(m_sndInSett, &AudioInSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
 	connect(m_sndOutSett, &AudioOutSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
+#endif
 #if defined(Q_OS_WIN)
   connect(m_sndInSett, &AudioInSettings::asioDriverChanged, m_sndOutSett, &AudioOutSettings::asioDeviceSlot);
   connect(m_sndOutSett, &AudioOutSettings::asioDriverChanged, m_sndInSett, &AudioInSettings::asioDeviceSlot);
 #endif
-}
-
-
-void TsettingsDialog::rtApiSlot() {
-	if (sender() == m_sndInSett) {
-		m_sndOutSett->rtApiCheckBox()->setChecked(m_sndInSett->rtApiCheckBox()->isChecked());
-		m_sndOutSett->updateAudioDevList();
-	} else {
-		m_sndInSett->rtApiCheckBox()->setChecked(m_sndOutSett->rtApiCheckBox()->isChecked());
-		m_sndInSett->updateAudioDevList();
-	}
 }
 
 
@@ -320,5 +309,16 @@ void TsettingsDialog::helpSlot() {
 }
 
 
+#if !defined (Q_OS_ANDROID)
+void TsettingsDialog::rtApiSlot() {
+  if (sender() == m_sndInSett) {
+    m_sndOutSett->rtApiCheckBox()->setChecked(m_sndInSett->rtApiCheckBox()->isChecked());
+    m_sndOutSett->updateAudioDevList();
+  } else {
+    m_sndInSett->rtApiCheckBox()->setChecked(m_sndOutSett->rtApiCheckBox()->isChecked());
+    m_sndInSett->updateAudioDevList();
+  }
+}
+#endif
 
 

@@ -49,12 +49,12 @@ public:
 
         /** Usually @p FALSE, goes @p TRUE after user wants reset. */
     bool resetToDefaults() { return m_resetToDefaults; }
-    
-
-public slots:
     void saveSettings();
-		void restoreDefaults();
-    void cancelSlot(); /** When user rejected settings */
+    void restoreDefaults();
+
+#if !defined (Q_OS_ANDROID)
+    void cancelSlot(); /** When user rejected settings. It is used to restore RtAudio previous state, so not for mobile. */
+#endif
 
 private:
     TglobalSettings   	*m_globalSett;
@@ -71,14 +71,14 @@ private:
     bool                 m_resetToDefaults; /** Usually @p FALSE, goes @p TRUE after user wants reset. */
     QPushButton         *m_helpButt;
     
-private slots:
-    void changeSettingsWidget(int index);
-		void allDefaultsRequired();
-		void rtApiSlot();
-    void helpSlot();
-    
 private:
+    void changeSettingsWidget(int index);
+    void allDefaultsRequired();
+    void helpSlot();
     void createAudioPage();
+#if !defined (Q_OS_ANDROID)
+    void rtApiSlot();
+#endif
 
 };
 

@@ -19,20 +19,34 @@
 
 
 #include "tcolorbutton.h"
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
+#if defined (Q_OS_ANDROID)
+  #include "tmtr.h"
+#endif
 
 TcolorButton::TcolorButton(QColor col, QWidget* parent): 
 	QPushButton(parent)
 {
   m_color = col;
   m_color.setAlpha(255);
+#if defined (Q_OS_ANDROID)
+  setFixedSize(Tmtr::fingerPixels(), Tmtr::fingerPixels() * 0.7);
+#else
   setFixedSize(40, 30);
+#endif
   connect(this, SIGNAL(clicked()), this, SLOT(whenClicked()));
 }
 
 
 void TcolorButton::whenClicked() {
+#if defined (Q_OS_ANDROID)
+  QColorDialog cd(m_color, this);
+  cd.showFullScreen();
+  cd.exec();
+  QColor userColor = cd.selectedColor();
+#else
   QColor userColor = QColorDialog::getColor(m_color, this, "");
+#endif
   if (userColor.isValid())
       setColor(userColor);
 }

@@ -21,15 +21,14 @@
 #include "tcolorbutton.h"
 #include <tinitcorelib.h>
 #include <plugins/tpluginsloader.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 TglobalSettings::TglobalSettings(QWidget *parent) :
-        QWidget(parent)
+  TtouchArea(parent)
 {
   QVBoxLayout *lay = new QVBoxLayout();
   lay->setAlignment(Qt::AlignCenter);
-  lay->addStretch(1);
   lay->addStretch(1);
   QHBoxLayout *langLay = new QHBoxLayout;
   langLay->addStretch(1);
@@ -58,8 +57,12 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   }
   m_langCombo->insertSeparator(1);
   lay->addLayout(langLay);
+#if defined (Q_OS_ANDROID)
+  lay->addWidget(getLabelFromStatus(m_langCombo, false), 0, Qt::AlignCenter);
+#endif
   lay->addStretch(1);
   
+#if !defined (Q_OS_ANDROID)
   QGroupBox *updateBox = new QGroupBox(this);
   QVBoxLayout *upLay = new QVBoxLayout;
   m_updateButton = new QPushButton(tr("Check for updates"), this);
@@ -72,19 +75,24 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   
 	m_pluginLoader = new TpluginsLoader(this);
   if (m_pluginLoader->load(TpluginsLoader::e_updater)) {
-    connect(m_updateButton, SIGNAL(clicked()), this, SLOT(updateSlot()));
+    connect(m_updateButton, &QPushButton::clicked, this, &TglobalSettings::updateSlot);
     connect(m_pluginLoader->node(), &TpluginObject::message, this, &TglobalSettings::processOutputSlot);
   } else 
     updateBox->hide();
-  
   lay->addStretch(1);
+#endif
+
   m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
   m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
   lay->addWidget(m_restAllDefaultsBut, 0 , Qt::AlignCenter);
+#if defined (Q_OS_ANDROID)
+  lay->addWidget(getLabelFromStatus(m_restAllDefaultsBut, false), 0, Qt::AlignCenter);
+#endif
+  lay->addStretch(1);
   
   setLayout(lay);
   
-  connect(m_restAllDefaultsBut, SIGNAL(clicked(bool)), this, SLOT(restoreRequired()));
+  connect(m_restAllDefaultsBut, &QPushButton::clicked, this, &TglobalSettings::restoreRequired);
 }
 
 
@@ -101,7 +109,7 @@ void TglobalSettings::saveSettings() {
 
 
 void TglobalSettings::restoreDefaults() {
-	
+  m_langCombo->setCurrentIndex(0); // default language
 }
 
 
@@ -111,6 +119,7 @@ void TglobalSettings::restoreRequired() {
 }
 
 
+#if !defined (Q_OS_ANDROID)
 void TglobalSettings::updateSlot() {
 	m_pluginLoader->init("", this);
   m_updateButton->setDisabled(true);
@@ -120,6 +129,6 @@ void TglobalSettings::updateSlot() {
 void TglobalSettings::processOutputSlot(QString output) {
 	m_updateLabel->setText(output);
 }
-
+#endif
 
 

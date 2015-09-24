@@ -19,16 +19,20 @@
 
 #include "audiooutsettings.h"
 #include <taudioparams.h>
-#include <tmidiout.h>
-#include <trtaudioout.h>
+#if defined (Q_OS_ANDROID)
+  #include <tqtaudioout.h>
+#else
+  #include <tmidiout.h>
+  #include <trtaudioout.h>
+#endif
 #include <music/tinstrument.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
-    QWidget(parent),
-    m_params(aParams),
-    m_listGenerated(false)
+  TtouchArea(parent),
+  m_params(aParams),
+  m_listGenerated(false)
 {
     QVBoxLayout *lay = new QVBoxLayout;
 
@@ -39,37 +43,48 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 
     QVBoxLayout *audioOutLay = new QVBoxLayout;
 
+  #if !defined (Q_OS_ANDROID)
     m_audioRadioButt = new QRadioButton(tr("real audio playback"), this);
     audioOutLay->addWidget(m_audioRadioButt);
+  #endif
     m_realAGr = new QGroupBox(this);
+#if !defined (Q_OS_ANDROID)
     m_realAGr->setStatusTip(m_audioRadioButt->statusTip());
+#endif
     QVBoxLayout *realLay = new QVBoxLayout;
     QLabel *outDevLab = new QLabel(tr("audio device for output"), this);
     realLay->addWidget(outDevLab);
     m_audioOutDevListCombo = new QComboBox(this);
       m_audioOutDevListCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-		m_JACK_ASIO_ChB = new QCheckBox(this);
-#if defined (Q_OS_WIN)
-	m_JACK_ASIO_ChB->setText("ASIO");
-#elif defined (Q_OS_LINUX)
-	m_JACK_ASIO_ChB->setText("JACK");
+#if !defined (Q_OS_ANDROID)
+      m_JACK_ASIO_ChB = new QCheckBox(this);
+  #if defined (Q_OS_WIN)
+    m_JACK_ASIO_ChB->setText("ASIO");
+  #elif defined (Q_OS_LINUX)
+    m_JACK_ASIO_ChB->setText("JACK");
+  #endif
+    m_JACK_ASIO_ChB->setChecked(m_params->JACKorASIO);
 #endif
-		m_JACK_ASIO_ChB->setChecked(m_params->JACKorASIO);
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
 		rtDevLay->addWidget(m_audioOutDevListCombo);
+#if !defined (Q_OS_ANDROID)
 		rtDevLay->addWidget(m_JACK_ASIO_ChB);
+#endif
     realLay->addLayout(rtDevLay);
 		m_audioInstrCombo = new QComboBox(this);
 		realLay->addWidget(m_audioInstrCombo);
     realLay->addStretch(1);
+#if !defined (Q_OS_ANDROID)
 		m_playInputChB = new QCheckBox(tr("forward input to output"), this);
 			m_playInputChB->setChecked(m_params->forwardInput);
 			m_playInputChB->setStatusTip(tr("All sounds captured by audio input will be forwarded directly to output device.") +
         " <b><span style=\"color: red;\">" + tr("IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!") + "</span></b>");
 		realLay->addWidget(m_playInputChB, 0, Qt::AlignLeft);
+#endif
     m_realAGr->setLayout(realLay);
     audioOutLay->addWidget(m_realAGr);
-    
+
+#if !defined (Q_OS_ANDROID)
     m_midiRadioButt = new QRadioButton(tr("midi playback"), this);
     audioOutLay->addWidget(m_midiRadioButt);
     m_midiGr = new QGroupBox(this);
@@ -85,6 +100,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     midiParamLay->addWidget(midiInstrLab, 2, 0);
     m_midiInstrCombo = new QComboBox(this);
     midiParamLay->addWidget(m_midiInstrCombo, 3, 0);
+#endif
     addInstrument(tr("Grand Piano"), 0);
     addInstrument(tr("Harpsichord"), 6);
     addInstrument(tr("Classical Guitar"), 24);
@@ -95,6 +111,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     addInstrument(tr("Violin"), 40);
     addInstrument(tr("Sax"), 66);
     addInstrument(tr("Flute"), 73);
+#if !defined (Q_OS_ANDROID)
     for(int i = 0; i < instruments.size(); i++) {
       m_midiInstrCombo->addItem(instruments[i].name);
       if (instruments[i].progNr == m_params->midiInstrNr)
@@ -106,6 +123,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     m_midiGr->setLayout(midilay);
     audioOutLay->addWidget(m_midiGr);
 		audioOutLay->addStretch();
+#endif
 		
 // 		m_playDetectedChB = new QCheckBox(tr("Play detected notes"), this);
 // 			m_playDetectedChB->setChecked(m_params->playDetected);
@@ -117,7 +135,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
       lay->addWidget(m_audioOutEnableGr);
       lay->addStretch(1);
       setLayout(lay);
-    
+#if !defined (Q_OS_ANDROID)
     QButtonGroup *radioGr = new QButtonGroup(this);
     radioGr->addButton(m_audioRadioButt);
     radioGr->addButton(m_midiRadioButt);
@@ -125,18 +143,22 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     m_midiRadioButt->setChecked(m_params->midiEnabled);
     
     audioOrMidiChanged();
+#endif
 		m_audioInstrCombo->addItem(instruments[2].name); // Classical guitar
 		m_audioInstrCombo->addItem(instruments[4].name); // Electric guitar
 		m_audioInstrCombo->addItem(instruments[6].name); // Bass guitar
 		m_audioInstrCombo->setCurrentIndex(m_params->audioInstrNr - 1);
     
+#if !defined (Q_OS_ANDROID)
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
     connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioOutSettings::JACKASIOSlot);
+#endif
 #if defined(Q_OS_WIN)
     connect(m_audioOutDevListCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
 #endif
     setFocusPolicy(Qt::StrongFocus);
 }
+
 
 void AudioOutSettings::generateDevicesList() {
   if (m_listGenerated)
@@ -149,6 +171,7 @@ void AudioOutSettings::generateDevicesList() {
 
 void AudioOutSettings::setDevicesCombo() {
   updateAudioDevList();
+#if !defined (Q_OS_ANDROID)
   if (m_params->midiPortName != "") {
       if (m_midiPortsCombo->count()) {
         int id = m_midiPortsCombo->findText(m_params->midiPortName);
@@ -159,7 +182,8 @@ void AudioOutSettings::setDevicesCombo() {
         m_midiPortsCombo->addItem(tr("no midi ports"));
         m_midiPortsCombo->setDisabled(true);
       }
-    }
+  }
+#endif
 }
 
 
@@ -168,7 +192,7 @@ void AudioOutSettings::updateAudioDevList() {
 	m_audioOutDevListCombo->clear();
   m_audioOutDevListCombo->addItems(TaudioOUT::getAudioDevicesList());
     if (m_audioOutDevListCombo->count()) {
-        QString currentDevName = TrtAudio::outputName();
+        QString currentDevName = TaudioOUT::outputName();
         if (currentDevName.isEmpty() || !m_audioOutEnableGr->isChecked()) 
           currentDevName = m_params->OUTdevName;
         int id = m_audioOutDevListCombo->findText(currentDevName);
@@ -188,52 +212,35 @@ void AudioOutSettings::saveSettings() {
     m_params->OUTenabled = m_audioOutEnableGr->isChecked();
     if (m_audioOutEnableGr->isChecked()) {
       m_params->OUTdevName = m_audioOutDevListCombo->currentText();
-      m_params->midiEnabled = m_midiRadioButt->isChecked();
-      m_params->midiInstrNr = instruments[m_midiInstrCombo->currentIndex()].progNr;
-      m_params->midiPortName = m_midiPortsCombo->currentText();
       m_params->audioInstrNr = m_audioInstrCombo->currentIndex() + 1;
+#if !defined (Q_OS_ANDROID)
       m_params->forwardInput = m_playInputChB->isChecked();
 //       m_params->playDetected = m_playDetectedChB->isChecked();
       m_params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
+      m_params->midiEnabled = m_midiRadioButt->isChecked();
+      m_params->midiInstrNr = instruments[m_midiInstrCombo->currentIndex()].progNr;
+      m_params->midiPortName = m_midiPortsCombo->currentText();
+#endif
     }
   }
 }
 
 
 void AudioOutSettings::restoreDefaults() {
-		m_audioRadioButt->setChecked(true);
 		m_audioOutEnableGr->setChecked(true);
 		m_audioOutDevListCombo->setCurrentIndex(0);
+#if !defined (Q_OS_ANDROID)
 		m_midiInstrCombo->setCurrentIndex(2); // classical guitar
+    m_audioRadioButt->setChecked(true);
+    //    m_playDetectedChB->setChecked(false);
+    m_playInputChB->setChecked(false);
+#endif
 		m_audioInstrCombo->setCurrentIndex(0);
-// 		m_playDetectedChB->setChecked(false);
-		m_playInputChB->setChecked(false);
-}
-
-
-
-
-void AudioOutSettings::audioOrMidiChanged() {
-	if (m_audioRadioButt->isChecked()) {
-		m_realAGr->setDisabled(false);
-		m_midiGr->setDisabled(true);
-	} else {
-		m_realAGr->setDisabled(true);
-		m_midiGr->setDisabled(false);
-		m_playInputChB->setChecked(false);
-	}
-}
-
-
-void AudioOutSettings::addInstrument(QString name, unsigned char midiNr) {
-	TmidiInstrListStruct mi;
-	mi.name = name;
-	mi.progNr = midiNr;
-	instruments << mi;
 }
 
 
 void AudioOutSettings::adjustOutToInstrument(TaudioParams* out, int instr) {
+#if !defined (Q_OS_ANDROID)
 	if (out->midiEnabled) {
 			switch((Einstrument)instr) {
 				case e_classicalGuitar:
@@ -247,18 +254,23 @@ void AudioOutSettings::adjustOutToInstrument(TaudioParams* out, int instr) {
 			}
 	} 
 	else
+#endif
 		out->audioInstrNr = qBound(1, instr, 3);
 }
 
 
 void AudioOutSettings::whenInstrumentChanged(int instr) {
 // 	adjustOutToInstrument(m_params, instr);
+#if !defined (Q_OS_ANDROID)
 	if (m_params->midiEnabled)
 		m_midiRadioButt->setChecked(true);
 	else
 		m_audioRadioButt->setChecked(true);
+#endif
 	m_audioInstrCombo->setCurrentIndex(qBound(0, instr - 1, 2));
+#if !defined (Q_OS_ANDROID)
 	audioOrMidiChanged();
+#endif
 }
 
 #if defined(Q_OS_WIN)
@@ -274,11 +286,37 @@ void AudioOutSettings::asioDeviceSlot(int id) {
 #endif
 
 
-void AudioOutSettings::JACKASIOSlot() {
-	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
-	updateAudioDevList();
-	emit rtApiChanged();
+void AudioOutSettings::addInstrument(QString name, unsigned char midiNr) {
+	TmidiInstrListStruct mi;
+	mi.name = name;
+	mi.progNr = midiNr;
+	instruments << mi;
 }
+
+
+void AudioOutSettings::audioOrMidiChanged() {
+#if !defined (Q_OS_ANDROID)
+  if (m_audioRadioButt->isChecked()) {
+    m_realAGr->setDisabled(false);
+    m_midiGr->setDisabled(true);
+  } else {
+    m_realAGr->setDisabled(true);
+    m_midiGr->setDisabled(false);
+    m_playInputChB->setChecked(false);
+  }
+#endif
+}
+
+void AudioOutSettings::JACKASIOSlot() {
+#if !defined (Q_OS_ANDROID)
+  TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
+  updateAudioDevList();
+  emit rtApiChanged();
+#endif
+}
+
+
+
 
 
 

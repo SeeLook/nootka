@@ -25,15 +25,18 @@
 #include <tcolor.h>
 #include <select7note.h>
 #include <tmisctrans.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 
 TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
-        QWidget(parent)
+#if defined (Q_OS_ANDROID)
+  TtouchArea(parent)
+#else
+  QWidget(parent)
+#endif
 {
   QVBoxLayout *mainLay = new QVBoxLayout;
-  mainLay->addStretch(1);
   mainLay->setAlignment(Qt::AlignCenter);
   m_nameStyleGr = new TnotationRadioGroup(Tcore::gl()->S->nameStyleInNoteName, true, this);
   m_select7 = new Select7note(this);
@@ -42,13 +45,14 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
   m_scaleLabel = new TscalePreviewLabel(Tcore::gl()->S->nameStyleInNoteName, true, this);
   m_scaleLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   
+#if defined (Q_OS_ANDROID)
+  QVBoxLayout *seventhLay = new QVBoxLayout;
+  seventhLay->setContentsMargins(1, 1, 1, 1);
+#else
   QHBoxLayout *seventhLay = new QHBoxLayout;
-//     seventhLay->addStretch();
+#endif
     seventhLay->addWidget(m_select7);
     seventhLay->addWidget(m_scaleLabel);
-//     seventhLay->addStretch();
-//   mainLay->addWidget(m_select7, 0, Qt::AlignCenter);
-//   mainLay->addWidget(m_scaleLabel, 0, Qt::AlignCenter);
   mainLay->addLayout(seventhLay);
   mainLay->addWidget(m_nameStyleGr);
 
@@ -57,12 +61,25 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
     m_nameInScoreChB->setChecked(Tcore::gl()->S->namesOnScore);
   QLabel *nameColorLab = new QLabel(tr("names highlight color"), this);
   m_nameColorButt = new TcolorButton(Tcore::gl()->S->nameColor, this);
+#if defined (Q_OS_ANDROID)
+  QVBoxLayout *nameScoreLay = new QVBoxLayout;
+  nameScoreLay->addWidget(m_nameInScoreChB, 0, Qt::AlignCenter);
+  nameScoreLay->addWidget(getLabelFromStatus(m_nameInScoreChB), 0, Qt::AlignCenter);
+  QHBoxLayout *nameColorLay = new QHBoxLayout;
+    nameColorLay->addStretch();
+    nameColorLay->addWidget(nameColorLab);
+    nameColorLay->addStretch();
+    nameColorLay->addWidget(m_nameColorButt);
+    nameColorLay->addStretch();
+  nameScoreLay->addLayout(nameColorLay);
+#else
   QHBoxLayout *nameScoreLay = new QHBoxLayout;
     nameScoreLay->addWidget(m_nameInScoreChB);
     nameScoreLay->addStretch(2);
     nameScoreLay->addWidget(nameColorLab);
     nameScoreLay->addStretch();
     nameScoreLay->addWidget(m_nameColorButt);
+#endif
   mainLay->addLayout(nameScoreLay);
   mainLay->addStretch(1);
   
@@ -70,11 +87,16 @@ TnoteNameSettings::TnoteNameSettings(QWidget *parent) :
     mainLay->addWidget(m_octInNameCh, 0, Qt::AlignCenter);
     m_octInNameCh->setStatusTip(tr("Shows formatted note name. For small octave - the name is small letter,<br>for great octave - the name starts with a capital letter,<br>for one-line, digit <sup>1</sup> is added, and so on." ));
     m_octInNameCh->setChecked(Tcore::gl()->S->octaveInNoteNameFormat);
+#if defined (Q_OS_ANDROID)
+  mainLay->addWidget(getLabelFromStatus(m_octInNameCh, false), 0, Qt::AlignCenter);
+  mainLay->addSpacing(20);
+#else
   mainLay->addStretch(1);
+#endif
   setLayout(mainLay);
 
-  connect(m_select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteWasChanged(bool)));
-  connect(m_nameStyleGr, SIGNAL(noteNameStyleWasChanged(Tnote::EnameStyle)), this, SLOT(nameStyleWasChanged(Tnote::EnameStyle)));
+  connect(m_select7, &Select7note::seventhIsBchanged, this, &TnoteNameSettings::seventhNoteWasChanged);
+  connect(m_nameStyleGr, &TnotationRadioGroup::noteNameStyleWasChanged, this, &TnoteNameSettings::nameStyleWasChanged);
 }
 
 
@@ -110,9 +132,9 @@ void TnoteNameSettings::restoreDefaults() {
 
 
 void TnoteNameSettings::seventhNoteWasChanged(bool isB) {
-        m_nameStyleGr->seventhNoteWasChanged(isB);
-        emit seventhIsBChanged(isB);
-				m_scaleLabel->changeStyle(m_nameStyleGr->getNameStyle());
+    m_nameStyleGr->seventhNoteWasChanged(isB);
+    emit seventhIsBChanged(isB);
+    m_scaleLabel->changeStyle(m_nameStyleGr->getNameStyle());
 }
 
 

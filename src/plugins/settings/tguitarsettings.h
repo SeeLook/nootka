@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,7 @@
 #ifndef TGUITARSETTINGS_H
 #define TGUITARSETTINGS_H
 
-#include <QWidget>
+#include <touch/ttoucharea.h>
 #include <music/tnote.h>
 #include <music/tclef.h>
 
@@ -36,9 +36,10 @@ class QCheckBox;
 class TsimpleScore;
 
 /** 
- * Those are guitar settings in settings window
+ * Guitar settings page in settings window
  */
-class TguitarSettings : public QWidget
+
+class TguitarSettings : public TtouchArea
 {
     Q_OBJECT
 public:
@@ -107,6 +108,7 @@ private:
 		Ttune									*m_curentTune; // current guitar tune 
 		Ttune 								*m_customTune;
 		QLineEdit							*m_fretMarksEdit;
+    QList<QWidget*>        m_disabledWidgets; // List of widgets that are disabled when instrument is different than guitar
 
 private slots:
     void tuneSelected(int tuneId);

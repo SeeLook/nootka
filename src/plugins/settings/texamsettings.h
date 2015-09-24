@@ -20,8 +20,10 @@
 #ifndef EXAMSETTINGS_H
 #define EXAMSETTINGS_H
 
-#include <QWidget>
+
+#include <touch/ttoucharea.h>
 #include "tsettingsmode.h"
+
 
 class QLabel;
 class QSpinBox;
@@ -33,7 +35,7 @@ class QLineEdit;
 class QCheckBox;
 class TcolorButton;
 
-class TexamSettings : public QWidget
+class TexamSettings : public TtouchArea
 {
     Q_OBJECT
 public:

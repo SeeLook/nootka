@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,13 +21,27 @@
 #define NAMESETTINGS_H
 
 #include "tnotationradiogroup.h"
+#if defined (Q_OS_ANDROID)
+  #include <touch/ttoucharea.h>
+#endif
 
 class TcolorButton;
 class TscalePreviewLabel;
 class QCheckBox;
 class Select7note;
 
+
+/**
+ * @class TnoteNameSettings derives from @class QWidget under desktop
+ * because whole score settings is wrapped into @class TtouchArea.
+ * Under mobile, every score settings page derives directly from @class TtouchArea.
+ */
+
+#if defined (Q_OS_ANDROID)
+class TnoteNameSettings : public TtouchArea
+#else
 class TnoteNameSettings : public QWidget
+#endif
 {
     Q_OBJECT
 public:
@@ -40,7 +54,7 @@ public:
 signals:
     void seventhIsBChanged(bool isB);
 
-protected slots:
+protected:
     void seventhNoteWasChanged(bool isB);
 		void nameStyleWasChanged(Tnote::EnameStyle style);
 
