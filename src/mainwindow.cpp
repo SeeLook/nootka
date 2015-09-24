@@ -167,7 +167,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #if defined (Q_OS_ANDROID)
   connect(bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
 #else
-  connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+//   connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
 //   connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
   connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
   connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
@@ -180,6 +180,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
   connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
   connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+  connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
   connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
   connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
   connect(guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
@@ -292,10 +293,10 @@ void MainWindow::openFile(QString runArg) {
 
 
 void MainWindow::createSettingsDialog() {
-#if !defined (Q_OS_ANDROID)
 	if (score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
 	QString args;
+#if !defined (Q_OS_ANDROID)
 	if (executor) {
 		if (executor->isExercise())
 			args = "exercise";
@@ -303,10 +304,13 @@ void MainWindow::createSettingsDialog() {
 			args = "exam";
 		executor->prepareToSettings();
 	} else {
+#endif
 			if (score->insertMode() == TmultiScore::e_record)
 				m_melButt->recordMelodySlot(); // switch to multi mode
 			sound->prepareToConf();
+#if !defined (Q_OS_ANDROID)
 	}
+#endif
   TpluginsLoader *loader = new TpluginsLoader();
   if (loader->load(TpluginsLoader::e_settings)) {
     loader->init(args, this);
@@ -314,10 +318,12 @@ void MainWindow::createSettingsDialog() {
 	QString lastWord = loader->lastWord();
 	delete loader;
 		if (lastWord.contains("Accepted")) {
+    #if !defined (Q_OS_ANDROID)
 			if (executor) {
 				executor->settingsAccepted();
 				return;
 			}
+    #endif
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);
@@ -327,7 +333,9 @@ void MainWindow::createSettingsDialog() {
 					guitar->acceptSettings(); //refresh guitar
 			bar->setBarIconStyle(gl->L->iconTextOnToolBar, bar->iconSize().width());
 			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
+      #if !defined (Q_OS_ANDROID)
 			m_statLab->setVisible(gl->L->hintsBarEnabled);
+      #endif
 			pitchView->setVisible(gl->L->soundViewEnabled);
 			guitar->setVisible(gl->L->guitarEnabled);
 			m_isPlayerFree = true;
@@ -337,7 +345,6 @@ void MainWindow::createSettingsDialog() {
   } else { // settings not accepted
 			sound->restoreAfterConf();
 	}
-#endif
 }
 
 
