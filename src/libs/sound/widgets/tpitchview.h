@@ -119,6 +119,7 @@ private:
 	bool							 m_pauseActive; /** It stores constructor state, so when audio in is created/deleted it reacts on it is was enabled. */
 #if defined (Q_OS_ANDROID)
 	QAction           *m_pauseAct;
+  void updatePauseActIcon(); /** Depends on action state (checked or not) sets the icon */
 #endif
 };
 

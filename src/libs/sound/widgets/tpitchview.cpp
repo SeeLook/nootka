@@ -232,10 +232,17 @@ void TpitchView::pauseClicked() {
 #if defined (Q_OS_ANDROID)
 void TpitchView::pauseActionSlot() {
   m_volumeView->setPaused(!m_pauseAct->isChecked());
-  QFont nf("nootka", style()->pixelMetric(QStyle::PM_SmallIconSize));
-  m_pauseAct->setIcon(QIcon(pixFromString(m_volumeView->isPaused() ? "o" : "n", nf, qApp->palette().highlight().color())));
+  updatePauseActIcon();
   pauseClicked();
 }
+
+
+void TpitchView::updatePauseActIcon() {
+  QFont nf(QStringLiteral("nootka"), style()->pixelMetric(QStyle::PM_SmallIconSize));
+  m_pauseAct->setIcon(QIcon(pixFromString(
+          m_volumeView->isPaused() ? QStringLiteral("o") : QStringLiteral("n"), nf, qApp->palette().highlight().color())));
+}
+
 #endif
 
 
@@ -261,6 +268,7 @@ void TpitchView::inputStateChanged(int inSt) {
 #if defined (Q_OS_ANDROID)
   if (TmelodyItem::instance())
     TmelodyItem::instance()->setListening((TaudioIN::Estate)inSt == TaudioIN::e_detecting);
+  updatePauseActIcon();
 #endif
 }
 
