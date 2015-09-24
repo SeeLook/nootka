@@ -22,10 +22,13 @@
 
 
 #include "tcommonlistener.h"
+#include <QtMultimedia/qaudiodeviceinfo.h>
+
 
 class QAudioInput;
 class QIODevice;
 class TaudioParams;
+
 
 /**
  * Audio input class for Nootka based on Qt audio (Qt multimedia)
@@ -38,6 +41,14 @@ public:
   explicit TaudioIN(TaudioParams* params, QObject *parent = 0);
   ~TaudioIN();
   
+  static TaudioIN* instance() { return m_instance; }
+  static QString inputName() { return m_deviceName; }
+  
+      /** Returns list of audio input devices filtered by template audio format */
+  static QStringList getAudioDevicesList(); 
+  
+  void updateAudioParams();
+  
 public slots:
   virtual void startListening();
   virtual void stopListening();
@@ -47,9 +58,17 @@ protected slots:
   void dataReady();
   void startThread();
   void stopThread();
+  
+private:
+  void createInputDevice(); /** Deletes existing @p m_audioIN (if any) and creates a new one */
 
 private:
+     /** Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
+  static TaudioIN       *m_instance;
+  static QString         m_deviceName;
+  TaudioParams          *m_audioParams;
   QAudioInput           *m_audioIN;
+  QAudioDeviceInfo       m_deviceInfo;
   QIODevice             *m_inDevice;
   qint16                *m_buffer;
   QThread               *m_thread;
