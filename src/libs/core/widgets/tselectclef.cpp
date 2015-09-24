@@ -31,6 +31,7 @@
 #include <QtWidgets/qdesktopwidget.h>
 #if defined (Q_OS_ANDROID)
   #include "touch/ttoucharea.h"
+  #include "tmtr.h"
 #endif
 
 
@@ -89,7 +90,7 @@ TselectClefPrivate::TselectClefPrivate(bool isMenu, QWidget* parent) :
 #endif
 			upLay->addWidget(bass);
 #if defined (Q_OS_ANDROID)
-      static_cast<QHBoxLayout*>(bass->layout())->insertWidget(2, getLabelFromStatus(bass, false));
+      static_cast<QHBoxLayout*>(bass->layout())->insertWidget(2, getLabelFromStatus(bass, false, true));
 #endif
 			lowLay->addWidget(bass_8);
 #if defined (Q_OS_ANDROID)
@@ -173,8 +174,9 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 
 #if defined (Q_OS_ANDROID)
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
-    qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 110.0), this);
-// 		QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0, 3.0), this);
+      qMin<float>(Tmtr::Tmtr::fingerPixels() * 1.5f,
+           qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 110.0f)),
+      this);
 #else
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
     qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 219.4285714285), this);
