@@ -149,7 +149,12 @@ void Tsound::acceptSettings() {
     if (sniffer)
       deleteSniffer();
   }
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  if (player)
+    static_cast<TaudioOUT*>(player)->setAudioOutParams();
+  if (sniffer)
+    sniffer->updateAudioParams();
+#else
   if (doParamsUpdated) {
 			if (player && player->type() == TabstractPlayer::e_audio) {
 					static_cast<TaudioOUT*>(player)->updateAudioParams();
@@ -324,7 +329,7 @@ void Tsound::createPlayer() {
       connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 	} else
       player = new TaudioOUT(Tcore::gl()->A);
-  #endif
+#endif
   m_stopSniffOnce = false;
 }
 
