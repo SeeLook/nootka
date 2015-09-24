@@ -18,8 +18,11 @@
 
 #ifndef AUDIOINSETTINGS_H
 #define AUDIOINSETTINGS_H
-#include <QWidget>
+
+
+#include <touch/ttoucharea.h>
 #include <music/tnote.h>
+
 
 class TselectInstrument;
 class QDoubleSpinBox;
@@ -38,9 +41,11 @@ class QSpinBox;
 class QGroupBox;
 class QComboBox;
 class Ttune;
+class TlistMenu;
 
 
-class AudioInSettings: public QWidget
+
+class AudioInSettings: public TtouchArea
 {
   Q_OBJECT
   
@@ -66,17 +71,19 @@ public:
 			/** Changes value of interval and adjust its suffix. Also Adjust up/down radio buttons */
 	void setTransposeInterval(int interval);
 	
-	QCheckBox* rtApiCheckBox() { return m_JACK_ASIO_ChB; }
-	
+#if !defined (Q_OS_ANDROID)
+  QCheckBox* rtApiCheckBox() { return m_JACK_ASIO_ChB; }
+#endif
+
 signals:
 	void rtApiChanged(); /** Emitted when user wants ASIO/JACK sound */
 
-#if defined(Q_OS_WIN)
-    /** When ASIO API is set and there are two or more devices (drivers) on the list
-     * signal is send when user changes it. */
-  void asioDriverChanged(int);
-#endif
-	
+  #if defined(Q_OS_WIN)
+      /** When ASIO API is set and there are two or more devices (drivers) on the list
+      * signal is send when user changes it. */
+    void asioDriverChanged(int);
+  #endif
+
 public	slots:
 	void tuneWasChanged(Ttune *tune);
 	void stopSoundTest(); /** Public method (slot) to stop sound test */
@@ -91,6 +98,11 @@ protected:
     /** Writes state of widgets to TaudioParams object. */
   void grabParams(TaudioParams *params);
   
+#if !defined (Q_OS_ANDROID)
+  void JACKASIOSlot();
+#endif
+
+  
 protected slots:
   void testSlot();
   void noteSlot(const TnoteStruct& ns);
@@ -98,7 +110,6 @@ protected slots:
   void baseFreqChanged(int bFreq);
   void minimalVolChanged(float vol);
 	void upDownIntervalSlot();
-	void JACKASIOSlot();
   void splitByVolChanged(bool enab);
   void skipStillerChanged(bool enab);
   void adjustInstrSlot(int instr);
@@ -131,9 +142,15 @@ private:
   TaudioIN 						*m_audioIn;
   TaudioParams 				*m_glParams, *m_tmpParams;
 	Ttune								*m_tune;
-	QWidget							*m_4_test;
-  QToolBox 						*m_toolBox;
-	QCheckBox						*m_JACK_ASIO_ChB, *m_splitVolChB, *m_skipStillerChB, *m_noiseFilterChB;
+#if defined (Q_OS_ANDROID)
+  TtouchArea          *m_4_test;
+  TlistMenu           *m_topList;
+#else
+  QWidget             *m_4_test;
+  QToolBox            *m_toolBox;
+  QCheckBox           *m_JACK_ASIO_ChB;
+#endif
+	QCheckBox						*m_splitVolChB, *m_skipStillerChB, *m_noiseFilterChB;
 };
 
 #endif // AUDIOINSETTINGS_H

@@ -24,11 +24,11 @@
 #include <help/texpertanswerhelp.h>
 #include <help/texamhelp.h>
 #include <widgets/troundedlabel.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
-  QWidget(parent),
+  TtouchArea(parent),
   m_params(Tcore::gl()->E),
   m_qColor(&Tcore::gl()->EquestionColor),
   m_aColor(&Tcore::gl()->EanswerColor),
@@ -77,25 +77,25 @@ TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
     m_autoNextChB->setChecked(m_params->autoNextQuest);
   m_expertAnswChB = new QCheckBox(TexamHelp::expertsAnswerTxt(), this);
     m_expertAnswChB->setChecked(m_params->expertsAnswerEnable);
-  QLabel *nameLab = new QLabel(tr("Student Name:"), this);
+  auto *nameLab = new QLabel(tr("Student Name:"), this);
   m_nameEdit = new QLineEdit(m_params->studentName, this);
     m_nameEdit->setMaxLength(30);
     m_nameEdit->setStatusTip(tr("Default name for every new exam or exercise."));
 
-  QLabel *questLab = new QLabel(tr("questions"), this);
+  auto *questLab = new QLabel(tr("questions"), this);
   m_questColorBut = new TcolorButton(*(m_qColor), this);
   m_questColorBut->setStatusTip(tr("color of questions") + " + " + tr("color of wrong answers"));
-  QLabel *answLab = new QLabel(tr("answers"), this);
+  auto *answLab = new QLabel(tr("answers"), this);
   m_answColorBut = new TcolorButton(*(m_aColor), this);
   m_answColorBut->setStatusTip(tr("color of answers"));
-  QLabel *notBadLab = new QLabel(tr("'not bad'"), this);
+  auto *notBadLab = new QLabel(tr("'not bad'"), this);
   m_notBadButt = new TcolorButton(*(m_nbColor), this);
   m_notBadButt->setStatusTip(tr("color of 'not bad' answers"));
   m_afterLab = new QLabel(tr("after mistake:"), this);
   m_contRadio = new QRadioButton(tr("continue"), this);
   m_waitRadio = new QRadioButton(tr("wait"), this);
   m_stopRadio = new QRadioButton(tr("stop"), this);
-  QButtonGroup *afterButGr = new QButtonGroup(this);
+  auto *afterButGr = new QButtonGroup(this);
   afterButGr->addButton(m_contRadio);
   afterButGr->addButton(m_waitRadio);
   afterButGr->addButton(m_stopRadio);
@@ -114,30 +114,39 @@ TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
     m_showNameChB->setStatusTip(tr("To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it."));
     m_showNameChB->setChecked(m_params->showNameOfAnswered);
 
-  QVBoxLayout *mainLay = new QVBoxLayout;
-  QGroupBox *commonGr = new QGroupBox(this);
-  QVBoxLayout *commonLay = new QVBoxLayout;
-  QHBoxLayout *nameLay = new QHBoxLayout();
+  auto *mainLay = new QVBoxLayout;
+  auto *commonGr = new QGroupBox(this);
+  auto *commonLay = new QVBoxLayout;
+  auto *nameLay = new QHBoxLayout();
     nameLay->addStretch();
     nameLay->addWidget(nameLab);
     nameLay->addStretch();
     nameLay->addWidget(m_nameEdit);
     nameLay->addStretch();
   commonLay->addLayout(nameLay);
-  QVBoxLayout *expertChBoxesLay = new QVBoxLayout;
-    QHBoxLayout *corrLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+    commonLay->addWidget(getLabelFromStatus(m_nameEdit, false), Qt::AlignCenter);
+#endif
+  auto *expertChBoxesLay = new QVBoxLayout;
+    auto *corrLay = new QHBoxLayout;
       corrLay->addWidget(m_correctChB);
       corrLay->addSpacing(15);
       corrLay->addWidget(m_correctPreviewSpin);
       corrLay->addStretch();
     expertChBoxesLay->addLayout(corrLay);
-    QHBoxLayout *autoLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+    expertChBoxesLay->addWidget(getLabelFromStatus(m_correctChB, true, true));
+#endif
+    auto *autoLay = new QHBoxLayout;
       autoLay->addWidget(m_autoNextChB);
       autoLay->addSpacing(15);
       autoLay->addWidget(m_questionDelaySpin);
       autoLay->addStretch();
     expertChBoxesLay->addLayout(autoLay);
-  QHBoxLayout *afterLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+    expertChBoxesLay->addWidget(getLabelFromStatus(m_questionDelaySpin, true, true));
+#endif
+  auto *afterLay = new QHBoxLayout;
     afterLay->addStretch(0);
     afterLay->addWidget(m_afterLab);
     afterLay->addStretch(0);
@@ -149,6 +158,9 @@ TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
     afterLay->addWidget(m_stopRadio);
     afterLay->addStretch(0);
     expertChBoxesLay->addLayout(afterLay);
+#if defined (Q_OS_ANDROID)
+    expertChBoxesLay->addWidget(getLabelFromStatus(m_afterLab, true, true));
+#endif
     expertChBoxesLay->addWidget(m_expertAnswChB, 0, Qt::AlignLeft);
   QHBoxLayout *expertLay = new QHBoxLayout;
     expertLay->addStretch();
@@ -158,8 +170,8 @@ TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
 
     commonLay->addStretch();
 // 		commonLay->addWidget(m_showNameChB, 0, Qt::AlignCenter);
-  QGroupBox *colorsGr = new QGroupBox(tr("colors"), this);
-  QHBoxLayout *colorsLay = new QHBoxLayout;
+  auto *colorsGr = new QGroupBox(tr("colors"), this);
+  auto *colorsLay = new QHBoxLayout;
     colorsLay->addWidget(questLab);
     colorsLay->addWidget(m_questColorBut);
     colorsLay->addSpacing(10);
@@ -175,24 +187,47 @@ TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
   commonGr->setLayout(commonLay);
   mainLay->addWidget(commonGr);
   mainLay->addStretch();
-  QGroupBox *exerciseGr = new QGroupBox(tr("exercises"), this);
-  QHBoxLayout *exerciseLay = new QHBoxLayout;
+  auto *exerciseGr = new QGroupBox(tr("exercises"), this);
+#if defined (Q_OS_ANDROID)
+    auto *exerciseLay = new QVBoxLayout;
+#else
+    auto *exerciseLay = new QHBoxLayout;
+#endif
     exerciseLay->addStretch();
     exerciseLay->addWidget(m_suggestExamChB);
+#if defined (Q_OS_ANDROID)
+    exerciseLay->addWidget(getLabelFromStatus(m_suggestExamChB, true, true));
+#endif
     exerciseLay->addStretch();
     exerciseLay->addWidget(m_showDetectedChB);
+#if defined (Q_OS_ANDROID)
+    exerciseLay->addWidget(getLabelFromStatus(m_showDetectedChB, true, true));
+#endif
     exerciseLay->addStretch();
     exerciseLay->addWidget(m_showNameChB);
+#if defined (Q_OS_ANDROID)
+    exerciseLay->addWidget(getLabelFromStatus(m_showNameChB, true, true));
+#endif
     exerciseLay->addStretch();
   exerciseGr->setLayout(exerciseLay);
   mainLay->addWidget(exerciseGr);
   mainLay->addStretch();
-  QGroupBox *examGr = new QGroupBox(tr("exams"), this);
-  QHBoxLayout *examLay = new QHBoxLayout;
+  auto *examGr = new QGroupBox(tr("exams"), this);
+#if defined (Q_OS_ANDROID)
+  auto *examLay = new QVBoxLayout;
+#else
+  auto *examLay = new QHBoxLayout;
+#endif
     examLay->addStretch();
     examLay->addWidget(m_repeatIncorChB);
+#if defined (Q_OS_ANDROID)
+    examLay->addWidget(getLabelFromStatus(m_repeatIncorChB, true, true));
+#endif
     examLay->addStretch();
     examLay->addWidget(m_closeConfirmChB);
+#if defined (Q_OS_ANDROID)
+    examLay->addWidget(getLabelFromStatus(m_closeConfirmChB, true, true));
+#endif
     examLay->addStretch();
   examGr->setLayout(examLay);
   mainLay->addWidget(examGr);

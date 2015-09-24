@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,46 +16,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TLAYSETTINGS_H
-#define TLAYSETTINGS_H
+#ifndef TLISTMENU_H
+#define TLISTMENU_H
 
-#include <touch/ttoucharea.h>
+#include <QtWidgets/qlistwidget.h>
 
-class TlayoutParams;
-class QRadioButton;
-class QCheckBox;
-class QGroupBox;
-
-
-/** 
- * Options for widgets layout in main Nootka window
+/**
+ * Subclass of @class QListWidget which role is a menu
+ * for switching tabs (stacked layout widgets or so).
+ * Used in Nootka under mobile platforms.
+ * By default it has left-to-right flow
  */
-class TlaySettings : public TtouchArea
+class TlistMenu : public QListWidget
 {
 
-	Q_OBJECT
-	
 public:
-	
-	TlaySettings(TlayoutParams* layParams, QWidget* parent = 0);
-	
-	void saveSettings();
-	void restoreDefaults();
+  TlistMenu(QListWidget::Flow fl = LeftToRight, QWidget* parent = 0);
 
-  void instrumentChanged(int instr);
-
-protected:
-	virtual void resizeEvent(QResizeEvent* );
-
-private:
-	TlayoutParams			*m_layParams;
-#if !defined (Q_OS_ANDROID)
-  QCheckBox					*m_barAutoHideChB;
-	QGroupBox					*m_toolBox, *m_hintBox;
-  QRadioButton			*m_textUnderRadio, *m_iconsOnlyRadio, *m_textOnlyRadio;
-#endif
-	QGroupBox					*m_soundBox, *m_scoreBox, *m_guitarBox;
+      /** Adjusts equally available free space between items.
+       * If @p delay is set it is called with it,
+       * to be invoked from any constructor
+       * and processed when all sizes have been already set. */
+  void adjustItemsLayout(int delay = 0);
 
 };
 
-#endif // TLAYSETTINGS_H
+#endif // TLISTMENU_H

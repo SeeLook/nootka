@@ -18,21 +18,24 @@
 
 #include "tlaysettings.h"
 #include <tlayoutparams.h>
-#include <widgets/troundedlabel.h>
+#if !defined (Q_OS_ANDROID)
+  #include <widgets/troundedlabel.h>
+#endif
 #include <music/tmelody.h>
 #include <widgets/tvolumeview.h>
 #include <graphics/tnotepixmap.h>
 #include <music/tinstrument.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 
 TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
-	QWidget(parent),
+	TtouchArea(parent),
 	m_layParams(layParams)
 {
-	setStatusTip(tr("Show or hide main window elements."));
 // tool bar
+#if !defined (Q_OS_ANDROID)
+  setStatusTip(tr("Show or hide main window elements."));
 	m_toolBox = new QGroupBox(tr("tool bar"), this);
 	m_barAutoHideChB = new QCheckBox(tr("auto hide"), this);
 	m_barAutoHideChB->setChecked(m_layParams->toolBarAutoHide);
@@ -55,12 +58,17 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	TroundedLabel *hintsLab = new TroundedLabel("Bla, bla, bla...", this);
 	hintsLab->setAlignment(Qt::AlignCenter);
 	m_hintBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+#endif
 // sound view
 	m_soundBox = new QGroupBox(tr("sound bar"), this);
 	m_soundBox->setCheckable(true);
 	TvolumeView *soundView = new TvolumeView(this);
 	soundView->setMinimalVolume(0.6);
-	soundView->setFixedHeight(soundView->minimumHeight());
+#if defined (Q_OS_ANDROID)
+	soundView->setFixedHeight(qApp->desktop()->availableGeometry().height() / 20);
+#else
+  soundView->setFixedHeight(soundView->minimumHeight());
+#endif
 	soundView->setVolume(0.4);
 	soundView->setPaused(false);
 	m_soundBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -79,9 +87,12 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
   delete mel;
 	scoreLab->setAlignment(Qt::AlignCenter);
 	scoreLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 10px; background-color: palette(Base);");
-	QLabel *descLab = new QLabel("<br><big><big><b>" + tr("There is no Nootka without a score!") + "</b></big></big><br>" +
+	auto *descLab = new QLabel("<br><big><big><b>" + tr("There is no Nootka without a score!") + "</b></big></big><br>" +
 			tr("But you can hide even all the rest of widgets to see a score only."), this);
 	descLab->setAlignment(Qt::AlignCenter);
+#if defined (Q_OS_ANDROID)
+  descLab->setWordWrap(true);
+#endif
 	m_scoreBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 // guitar
 	m_guitarBox = new QGroupBox(tr("guitar"), this);
@@ -91,6 +102,7 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	
 // layout
 	QVBoxLayout *mainLay = new QVBoxLayout;
+#if !defined (Q_OS_ANDROID)
 		QHBoxLayout *toolLay = new QHBoxLayout;
 			toolLay->addWidget(m_barAutoHideChB);
 			toolLay->addStretch();
@@ -103,13 +115,18 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 		QHBoxLayout *hintLay = new QHBoxLayout;
 			hintLay->addWidget(hintsLab);
 			m_hintBox->setLayout(hintLay);
+#endif
 		QHBoxLayout *soundLay = new QHBoxLayout;
 			soundLay->addWidget(soundView);
 			m_soundBox->setLayout(soundLay);
+#if defined (Q_OS_ANDROID)
+    mainLay->addWidget(m_soundBox);
+#else
 		QHBoxLayout *sndAndHintLay = new QHBoxLayout;
 			sndAndHintLay->addWidget(m_hintBox);
 			sndAndHintLay->addWidget(m_soundBox);
 	mainLay->addLayout(sndAndHintLay);
+#endif
 		QVBoxLayout *scoreLay = new QVBoxLayout;
 			scoreLay->addWidget(scoreLab);
 			scoreLay->addWidget(descLab);
@@ -124,6 +141,7 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 
 
 void TlaySettings::saveSettings() {
+#if !defined (Q_OS_ANDROID)
 	m_layParams->toolBarAutoHide = m_barAutoHideChB->isChecked();
 	if (m_textUnderRadio->isChecked())
 		m_layParams->iconTextOnToolBar = Qt::ToolButtonTextUnderIcon;
@@ -132,15 +150,18 @@ void TlaySettings::saveSettings() {
 	else
 		m_layParams->iconTextOnToolBar = Qt::ToolButtonTextOnly;
 	m_layParams->hintsBarEnabled = m_hintBox->isChecked();
+#endif
 	m_layParams->soundViewEnabled = m_soundBox->isChecked();
 	m_layParams->guitarEnabled = m_guitarBox->isChecked();
 }
 
 
 void TlaySettings::restoreDefaults() {
+#if !defined (Q_OS_ANDROID)
 	m_barAutoHideChB->setChecked(false);
 	m_textUnderRadio->setChecked(true);
 	m_hintBox->setChecked(true);
+#endif
 	m_soundBox->setChecked(true);
 	m_guitarBox->setChecked(true);
 }

@@ -20,8 +20,9 @@
 #ifndef TGLOBALSETTIGS_H
 #define TGLOBALSETTIGS_H
 
-#include <QMap>
-#include <QWidget>
+
+#include <QtCore/QMap>
+#include <touch/ttoucharea.h>
 
 class TpluginsLoader;
 class QLabel;
@@ -31,7 +32,7 @@ class TcolorButton;
 class QCheckBox;
 
 
-class TglobalSettings : public QWidget
+class TglobalSettings : public TtouchArea
 {
     Q_OBJECT
 public:
@@ -47,13 +48,18 @@ signals:
 private:
 	QComboBox 									*m_langCombo;
 	QMap<QString, QString> 			 m_langList;
-  QPushButton 								*m_updateButton, *m_restAllDefaultsBut;
+  QPushButton                 *m_restAllDefaultsBut;
+#if !defined (Q_OS_ANDROID)
+  QPushButton 								*m_updateButton;
   QLabel 											*m_updateLabel;
 	TpluginsLoader							*m_pluginLoader;
+#endif
   
-private slots:
+private:
+#if !defined (Q_OS_ANDROID)
   void updateSlot();
   void processOutputSlot(QString output);
+#endif
 	void restoreRequired(); /** when user wants to restore all Nootka settings at once */
 };
 

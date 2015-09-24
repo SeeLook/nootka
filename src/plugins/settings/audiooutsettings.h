@@ -20,7 +20,7 @@
 #ifndef AUDIOOUTSETTINGS_H
 #define AUDIOOUTSETTINGS_H
 
-#include <QWidget>
+#include <touch/ttoucharea.h>
 
 class QCheckBox;
 class TaudioParams;
@@ -29,7 +29,7 @@ class QGroupBox;
 class QRadioButton;
 
 
-class AudioOutSettings : public QWidget
+class AudioOutSettings : public TtouchArea
 {
     Q_OBJECT
     
@@ -38,34 +38,37 @@ public:
 
 	void saveSettings();
 	void restoreDefaults();
-		
-		/** The structure describes midi program (instrument).
-		 * It has @param name 
-		 * and @param progNr which is midi instrument number  */
-	struct TmidiInstrListStruct {
-		QString name;
-		unsigned char progNr;
-	};
 
-	QList<TmidiInstrListStruct> instruments; /** A list of midi instruments used in Nootka */
   
   void generateDevicesList(); /** Generates devices list for inDeviceCombo QComboBox.*/
   void setDevicesCombo(); /** Grabs devices list from TrtAudioOut and fill audioOutDevListCombo */
 	void updateAudioDevList(); /** Grabs audio devices from TrtAudio and fill combo box */
 	
-	QCheckBox* rtApiCheckBox() { return m_JACK_ASIO_ChB; }
-	
 			/** This static method sets midi instr. or audio depends on given instrument
 			 * and previous midi state. */
 	static void adjustOutToInstrument(TaudioParams *out, int instr);
-	
+  
+      /** The structure describes midi program (instrument).
+      * It has @param name 
+      * and @param progNr which is midi instrument number  */
+  struct TmidiInstrListStruct {
+    QString name;
+    unsigned char progNr;
+  };
+  QList<TmidiInstrListStruct> instruments; /** A list of midi instruments used in Nootka */
+  
+
+#if !defined (Q_OS_ANDROID)
+  QCheckBox* rtApiCheckBox() { return m_JACK_ASIO_ChB; }
+#endif
+
 signals:
 	void rtApiChanged(); /** Emitted when user wants ASIO/JACK sound */
-#if defined(Q_OS_WIN)
-      /** When ASIO API is set and there are two or more devices (drivers) on the list
-       * signal is send when user changes it. */
-  void asioDriverChanged(int);
-#endif
+  #if defined(Q_OS_WIN)
+        /** When ASIO API is set and there are two or more devices (drivers) on the list
+        * signal is send when user changes it. */
+    void asioDriverChanged(int);
+  #endif
   
 public slots:
 	void whenInstrumentChanged(int instr);
@@ -74,15 +77,20 @@ public slots:
 #endif
 
 private:
-	void addInstrument(QString name, unsigned char midiNr);
-
-  QGroupBox 				*m_audioOutEnableGr, *m_realAGr, *m_midiGr;
-  QComboBox 				*m_audioOutDevListCombo, *m_audioInstrCombo ,*m_midiPortsCombo, *m_midiInstrCombo;
-  QRadioButton 			*m_midiRadioButt, *m_audioRadioButt;
+  QGroupBox 				*m_audioOutEnableGr, *m_realAGr;
+  QComboBox 				*m_audioOutDevListCombo, *m_audioInstrCombo;
+  TaudioParams      *m_params;
+  bool               m_listGenerated;
+  
+  void addInstrument(QString name, unsigned char midiNr);
+  
+#if !defined (Q_OS_ANDROID)  
+  QGroupBox         *m_midiGr;
+  QComboBox         *m_midiPortsCombo, *m_midiInstrCombo;
+  QRadioButton      *m_midiRadioButt, *m_audioRadioButt;
 	QCheckBox					*m_playInputChB, *m_playDetectedChB;
-  TaudioParams 			*m_params;
-  bool 							 m_listGenerated;
 	QCheckBox					*m_JACK_ASIO_ChB;
+#endif
 	
 private slots:
 	void audioOrMidiChanged();

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,46 +16,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TLAYSETTINGS_H
-#define TLAYSETTINGS_H
+#include "tlistmenu.h"
+#include <QtWidgets/qscroller.h>
+#include <QtCore/qtimer.h>
 
-#include <touch/ttoucharea.h>
-
-class TlayoutParams;
-class QRadioButton;
-class QCheckBox;
-class QGroupBox;
-
-
-/** 
- * Options for widgets layout in main Nootka window
- */
-class TlaySettings : public TtouchArea
+TlistMenu::TlistMenu(QListWidget::Flow fl, QWidget* parent) :
+  QListWidget(parent)
 {
+  setObjectName("TlistMenu"); // revert colors of navigation list
+  setStyleSheet(styleSheet() + " QListWidget#TlistMenu { background: palette(text); color: palette(base); }");
+  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setViewMode(QListView::ListMode);
+  setFlow(fl);
+  setContentsMargins(0, 0, 0, 0);
+  QScroller::grabGesture(viewport(), QScroller::LeftMouseButtonGesture);
+}
 
-	Q_OBJECT
-	
-public:
-	
-	TlaySettings(TlayoutParams* layParams, QWidget* parent = 0);
-	
-	void saveSettings();
-	void restoreDefaults();
 
-  void instrumentChanged(int instr);
+void TlistMenu::adjustItemsLayout(int delay) {
+  if (delay) // call it again after delay
+    QTimer::singleShot(delay, this, [this]{ adjustItemsLayout(0); } );
+  if (flow() == LeftToRight) {
+    setFixedHeight(sizeHintForRow(0) + 2 * frameWidth());
+//     int itemsWidth = 0;
+//     for (int i = 0; i < count(); ++i)
+//       itemsWidth += fontMetrics()->width(item(i)->text());
+//     itemsWidth += count() * frameWidth();
+//     setSpacing();
+  }
+}
 
-protected:
-	virtual void resizeEvent(QResizeEvent* );
 
-private:
-	TlayoutParams			*m_layParams;
-#if !defined (Q_OS_ANDROID)
-  QCheckBox					*m_barAutoHideChB;
-	QGroupBox					*m_toolBox, *m_hintBox;
-  QRadioButton			*m_textUnderRadio, *m_iconsOnlyRadio, *m_textOnlyRadio;
-#endif
-	QGroupBox					*m_soundBox, *m_scoreBox, *m_guitarBox;
-
-};
-
-#endif // TLAYSETTINGS_H

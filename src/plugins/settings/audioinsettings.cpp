@@ -20,7 +20,13 @@
 #include "audioinsettings.h"
 #include "tvolumeslider.h"
 #include <taudioparams.h>
-#include <trtaudioin.h>
+#if defined (Q_OS_ANDROID)
+  #include "tlistmenu.h"
+  #include <tqtaudioin.h>
+  #include <tmtr.h>
+#else
+  #include <trtaudioin.h>
+#endif
 #include <tpitchfinder.h>
 #include <widgets/tintonationview.h>
 #include <widgets/tpitchview.h>
@@ -31,42 +37,55 @@
 #include <widgets/troundedlabel.h>
 #include <widgets/tselectinstrument.h>
 #include <tnoofont.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 
 bool m_paramsWereChanged = false;
 AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* parent) :
-  QWidget(parent),
+  TtouchArea(parent),
   m_audioIn(0),
   m_glParams(params),
   m_listGenerated(false),
   m_tune(tune)
 {
-	QString styleTxt = "background-color: palette(base); border: 1px solid palette(Text); border-radius: 5px;";
+	QString styleTxt = "background-color: palette(button); border: 1px solid palette(Text); border-radius: 5px;";
 	
   m_tmpParams = new TaudioParams();
   *m_tmpParams = *m_glParams;
-	
+#if defined (Q_OS_ANDROID)
+  m_topList = new TlistMenu(QListWidget::LeftToRight, this);
+  QStackedLayout *m_stackedLay = new QStackedLayout;
+  m_stackedLay->setContentsMargins(0, 0, 0, 0);
+  TtouchArea *m_1_device, *m_2_middleA, *m_3_advanced; // m_4_test is declared in header
+#else
 	m_toolBox = new QToolBox(this);
 	QWidget *m_1_device, *m_2_middleA, *m_3_advanced; // m_4_test is declared in header
+#endif
   
 //################### 1. 	Input device & pitch detection #################################
+#if defined (Q_OS_ANDROID)
+  m_1_device = new TtouchArea(this);
+  m_topList->addItem("1. " + tr("Input device and pitch detection"));
+  m_stackedLay->addWidget(m_1_device);
+#else
 	m_1_device = new QWidget();
 	m_toolBox->addItem(m_1_device, "1. " + tr("Input device and pitch detection"));
-  
+#endif
   QLabel *devLab = new QLabel(tr("input device"), m_1_device);
   m_inDeviceCombo = new QComboBox(m_1_device);
 		m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
     m_inDeviceCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	
-	m_JACK_ASIO_ChB = new QCheckBox(this);
-#if defined (Q_OS_WIN)
-	m_JACK_ASIO_ChB->setText("ASIO");
-#elif defined (Q_OS_LINUX)
-	m_JACK_ASIO_ChB->setText("JACK");
+#if !defined (Q_OS_ANDROID)
+    m_JACK_ASIO_ChB = new QCheckBox(this);
+  #if defined (Q_OS_WIN)
+    m_JACK_ASIO_ChB->setText("ASIO");
+  #elif defined (Q_OS_LINUX)
+    m_JACK_ASIO_ChB->setText("JACK");
+  #endif
+    m_JACK_ASIO_ChB->setChecked(m_glParams->JACKorASIO);
 #endif
-	m_JACK_ASIO_ChB->setChecked(m_glParams->JACKorASIO);
 	
 	durHeadLab = new QLabel(tr("minimum note duration"), m_1_device);
 	durationSpin = new QSpinBox(m_1_device);
@@ -88,38 +107,54 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	// 1. Layout
 	QVBoxLayout *deviceLay = new QVBoxLayout;
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
-//       rtDevLay->addStretch();
       rtDevLay->addWidget(devLab);
       rtDevLay->addWidget(m_inDeviceCombo);
+#if !defined (Q_OS_ANDROID)
       rtDevLay->addWidget(m_JACK_ASIO_ChB);
-//       rtDevLay->addStretch();
+#endif
 		deviceLay->addLayout(rtDevLay);
+#if defined (Q_OS_ANDROID)
+    deviceLay->addWidget(getLabelFromStatus(m_inDeviceCombo, false, true));
+    deviceLay->addStretch(2);
+#endif
 
-//   deviceLay->addStretch(1);
 	QHBoxLayout *durLay = new QHBoxLayout;
-		durLay->addStretch();
+// 		durLay->addStretch();
 		durLay->addWidget(durHeadLab);
 		durLay->addWidget(durationSpin, 0, Qt::AlignLeft);
-		durLay->addStretch();
+// 		durLay->addStretch();
 	deviceLay->addLayout(durLay);
-// 	deviceLay->addStretch(1);
+#if defined (Q_OS_ANDROID)
+//     durationSpin->setMinimumWidth(fontMetrics().width(durationSpin->suffix()) * 3);
+    deviceLay->addWidget(getLabelFromStatus(durationSpin, true, true));
+    deviceLay->addStretch(1);
+#endif
   QHBoxLayout *volLay = new QHBoxLayout;
     volLay->addWidget(volLabel);
     volLay->addWidget(volumeSlider);
   deviceLay->addLayout(volLay);
+#if defined (Q_OS_ANDROID)
+    deviceLay->addWidget(getLabelFromStatus(volumeSlider));
+    deviceLay->addStretch(1);
+#endif
   deviceLay->addWidget(intoCombo);
   deviceLay->addStretch(1);
   m_1_device->setLayout(deviceLay);
 		
 //################### 2. Middle a & transposition #################################
+#if defined (Q_OS_ANDROID)
+  m_2_middleA = new TtouchArea(this);
+  m_topList->addItem("2. " + tr("'Middle a' and transposition"));
+  m_stackedLay->addWidget(m_2_middleA);
+#else
 	m_2_middleA = new QWidget();
 	m_toolBox->addItem(m_2_middleA, "2. " + tr("'Middle a' and transposition"));
-  
+#endif
   QLabel *headLab = new QLabel("<table><tr><td valign=\"middle\">" + tr("middle A") + QString("&nbsp;&nbsp;&nbsp;%1</td></tr></table>").arg(wrapPixToHtml(Tnote(6, 1, 0), Tclef::e_treble_G, TkeySignature(0), 4.0)), m_2_middleA);
   QLabel *frLab = new QLabel(tr("frequency:"), m_2_middleA);
   
   freqSpin = new QSpinBox(m_2_middleA);
-		freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds."));
+		freqSpin->setStatusTip(tr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.").replace(". ", ".<br>"));
 		freqSpin->setMinimum(200);
 		freqSpin->setMaximum(900);
 		freqSpin->setSuffix(" Hz");
@@ -130,7 +165,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		m_intervalSpin->setRange(0, 12);
 		m_intervalSpin->setSpecialValueText(tr("none"));
 		m_intervalSpin->setMinimumWidth(fontMetrics().boundingRect("w").width() * 15); // width of ten letters 'w' 
-		m_intervalSpin->setStatusTip(tr("Shifts the frequency of <i>middle a</i>. It can be used as a transposition."));
+		m_intervalSpin->setStatusTip(tr("Shifts the frequency of <i>middle a</i>. It can be used as a transposition.").replace(". ", ".<br>"));
 	m_upSemiToneRadio = new QRadioButton(tr("up"), m_2_middleA);
 		m_upSemiToneRadio->setIcon(QIcon(style()->standardIcon(QStyle::SP_ArrowUp)));
 	m_downsSemitoneRadio = new QRadioButton(tr("down"), m_2_middleA);
@@ -160,18 +195,33 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 			intervalLay->addWidget(m_intervalSpin);
 			intervalLay->addLayout(upDownLay);
 		midGrLay->addLayout(intervalLay, 1, 1);
+#if defined (Q_OS_ANDROID)
+  QVBoxLayout *aLay = new QVBoxLayout;
+#else
 	QHBoxLayout *aLay = new QHBoxLayout;
+#endif
 		aLay->addWidget(headLab, 0, Qt::AlignCenter);
+#if defined (Q_OS_ANDROID)
+    aLay->addWidget(getLabelFromStatus(freqSpin, true, true));
+#endif
 		aLay->addLayout(midGrLay);
+#if defined (Q_OS_ANDROID)
+    aLay->addWidget(getLabelFromStatus(m_intervalSpin, true, true));
+#endif
 	QVBoxLayout *middleAlay = new QVBoxLayout();
 		middleAlay->addLayout(aLay);
 		middleAlay->addWidget(tuneFreqlab, 0, Qt::AlignCenter);
 	m_2_middleA->setLayout(middleAlay);
 	
 //################### 3. Advanced #################################
+#if defined (Q_OS_ANDROID)
+  m_3_advanced = new TtouchArea(this);
+  m_topList->addItem("3. " + tr("Advanced"));
+  m_stackedLay->addWidget(m_3_advanced);
+#else
   m_3_advanced = new QWidget();
   m_toolBox->addItem(m_3_advanced, "3. " + tr("Advanced"));
-
+#endif
   QLabel *methodLab = new QLabel(tr("pitch detection mode"), m_3_advanced);
   m_methodCombo = new QComboBox(m_3_advanced);
     m_methodCombo->addItem("MPM");
@@ -200,7 +250,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   }
 
   m_skipStillerChB = new QCheckBox(tr("skip stiller than"), this);
-    m_skipStillerChB->setStatusTip(tr("Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength."));
+    m_skipStillerChB->setStatusTip(tr("Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.").replace(". ", ".<br>"));
   m_skipStillerSpin = new QSpinBox(this);
     m_skipStillerSpin->setRange(10, 95);
     m_skipStillerSpin->setSingleStep(5);
@@ -216,7 +266,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 
   QLabel *adjustLab = new QLabel(tr("adjust to instrument"),  m_3_advanced);
   m_adjustToInstrButt = new TselectInstrument(m_3_advanced, TselectInstrument::e_buttonsOnlyHorizontal);
+#if defined (Q_OS_ANDROID)
+    m_adjustToInstrButt->setGlyphSize(Tmtr::fingerPixels() * 0.8);
+#else
     m_adjustToInstrButt->setGlyphSize(fontMetrics().height() * 2);
+#endif
 
   //3. Layout
   QVBoxLayout *advLay = new QVBoxLayout;
@@ -226,16 +280,31 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
       methodLay->addWidget(m_methodCombo);
       methodLay->addStretch();
   advLay->addLayout(methodLay);
-  QHBoxLayout *splitAndskipLay = new QHBoxLayout;
-    splitAndskipLay->addStretch();
-    splitAndskipLay->addWidget(m_splitVolChB);
-    splitAndskipLay->addWidget(m_splitVolSpin);
-    splitAndskipLay->addStretch();
-    splitAndskipLay->addWidget(m_skipStillerChB);
-    splitAndskipLay->addWidget(m_skipStillerSpin);
-    splitAndskipLay->addStretch();
-  advLay->addLayout(splitAndskipLay);
+  advLay->addStretch();
+  QHBoxLayout *splitLay = new QHBoxLayout;
+    splitLay->addStretch();
+    splitLay->addWidget(m_splitVolChB);
+    splitLay->addWidget(m_splitVolSpin);
+    splitLay->addStretch();
+  advLay->addLayout(splitLay);
+#if defined (Q_OS_ANDROID)
+  advLay->addWidget(getLabelFromStatus(m_splitVolChB, false, true));
+#endif
+  advLay->addStretch();
+  QHBoxLayout *skipLay = new QHBoxLayout;
+    skipLay->addStretch();
+    skipLay->addWidget(m_skipStillerChB);
+    skipLay->addWidget(m_skipStillerSpin);
+    skipLay->addStretch();
+  advLay->addLayout(skipLay);
+#if defined (Q_OS_ANDROID)
+  advLay->addWidget(getLabelFromStatus(m_skipStillerChB, false, true));
+#endif
+  advLay->addStretch();
   advLay->addWidget(m_noiseFilterChB, 0, Qt::AlignCenter);
+#if defined (Q_OS_ANDROID)
+  advLay->addWidget(getLabelFromStatus(m_noiseFilterChB, true, true));
+#endif
   advLay->addStretch(1);
   QHBoxLayout *adjustLay = new QHBoxLayout;
     adjustLay->addStretch();
@@ -243,13 +312,20 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
     adjustLay->addWidget(m_adjustToInstrButt);
     adjustLay->addStretch();
   advLay->addLayout(adjustLay);
+  advLay->addStretch(1);
   m_3_advanced->setLayout(advLay);
 
 
 //################### 4. Test the settings #################################
-	m_4_test= new QWidget();
-  m_4_test->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
+#if defined (Q_OS_ANDROID)
+  m_4_test = new TtouchArea(this);
+  m_topList->addItem("4. " + tr("Test the settings"));
+  m_stackedLay->addWidget(m_4_test);
+#else
+	m_4_test = new QWidget();
 	m_toolBox->addItem(m_4_test, "4. " + tr("Test the settings"));
+#endif
+  m_4_test->setStatusTip(tr("Check, are your audio input settings appropriate?<br>And how well does pitch detection work for your selected settings?"));
   
   testTxt = tr("Test");
   stopTxt = tr("Stop");
@@ -287,6 +363,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		labelsLay->addWidget(freqLab);
 		labelsLay->addStretch();
 	QVBoxLayout *testLay = new QVBoxLayout;
+#if defined (Q_OS_ANDROID)
+    testLay->addWidget(getLabelFromStatus(m_4_test, false, true));
+#endif
 		testLay->addStretch();
 		testLay->addLayout(labelsLay);
 		testLay->addStretch();
@@ -296,10 +375,21 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   
   // Whole layout
 	QVBoxLayout *inLay = new QVBoxLayout();
-		inLay->addWidget(m_toolBox);
+#if defined (Q_OS_ANDROID)
+  inLay->addWidget(m_topList);
+  inLay->addLayout(m_stackedLay);
+  inLay->setContentsMargins(0, 0, 0, 0);
+  m_stackedLay->setCurrentIndex(0);
+  m_topList->setCurrentRow(0);
+  connect(m_topList, &TlistMenu::currentRowChanged, m_stackedLay, &QStackedLayout::setCurrentIndex);
+  m_topList->adjustItemsLayout(100);
+#else
+  inLay->addWidget(m_toolBox);
+#endif
 	enableInBox = new QGroupBox(tr("enable pitch detection"), this);
   enableInBox->setLayout(inLay);
 	QVBoxLayout *lay = new QVBoxLayout();
+  lay->setContentsMargins(0, 0, 0, 0);
   lay->addWidget(enableInBox);
   setLayout(lay);
   
@@ -311,13 +401,17 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	intervalFromFreq(freqSpin->value());
   
   connect(testButt, SIGNAL(clicked()), this, SLOT(testSlot()));
-	connect(m_toolBox, SIGNAL(currentChanged(int)), this, SLOT(testSlot()));
   connect(m_intervalSpin, SIGNAL(valueChanged(int)), this, SLOT(intervalChanged()));
 	connect(m_upSemiToneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
 	connect(m_downsSemitoneRadio, SIGNAL(clicked(bool)), this, SLOT(upDownIntervalSlot()));
   connect(freqSpin, SIGNAL(valueChanged(int)), this, SLOT(baseFreqChanged(int)));
   connect(volumeSlider, SIGNAL(valueChanged(float)), this, SLOT(minimalVolChanged(float)));
+#if defined (Q_OS_ANDROID)
+  connect(m_topList,  &TlistMenu::currentRowChanged, this, &AudioInSettings::testSlot);
+#else
+  connect(m_toolBox, SIGNAL(currentChanged(int)), this, SLOT(testSlot()));
 	connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
+#endif
   connect(enableInBox, &QGroupBox::clicked, this, &AudioInSettings::testSlot);
   connect(m_splitVolChB, &QCheckBox::toggled, this, &AudioInSettings::splitByVolChanged);
   connect(m_skipStillerChB, &QCheckBox::toggled, this, &AudioInSettings::skipStillerChanged);
@@ -388,7 +482,9 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   params->minimalVol = volumeSlider->value();
 	params->minDuration = (qreal)durationSpin->value() / 1000.0;
 	params->intonation = m_intonationCombo->currentIndex();
+#if !defined (Q_OS_ANDROID)
 	params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
+#endif
   params->equalLoudness = m_noiseFilterChB->isChecked();
   params->minSplitVol = m_splitVolChB->isChecked() ? (qreal)m_splitVolSpin->value() : 0.0;
   params->skipStillerVal = m_skipStillerChB->isChecked() ? (qreal)m_skipStillerSpin->value() : 0.0;
@@ -434,7 +530,7 @@ void AudioInSettings::updateAudioDevList() {
   m_inDeviceCombo->clear();
   m_inDeviceCombo->addItems(TaudioIN::getAudioDevicesList());
   if (m_inDeviceCombo->count()) {
-        QString currentDevName = TrtAudio::inputName();
+        QString currentDevName = TaudioIN::inputName();
         if (currentDevName.isEmpty() || !enableInBox->isChecked())
           currentDevName = m_glParams->INdevName;
         int id = m_inDeviceCombo->findText(currentDevName);
@@ -539,14 +635,24 @@ void AudioInSettings::testSlot() {
   bool tempTestState = m_testDisabled;
   if (sender() == testButt)
     setTestDisabled(!m_testDisabled);
+#if defined (Q_OS_ANDROID)
+  else if (sender() == m_topList) {
+		if (m_topList->currentRow() == 3) // 4. test settings page 
+#else
 	else if (sender() == m_toolBox) {
 		if (m_toolBox->currentIndex() == 3) // 4. test settings page
+#endif
 			setTestDisabled(false);
 		else
 			setTestDisabled(true);
 	} else {
+#if defined (Q_OS_ANDROID)
+    if (enableInBox->isChecked() && m_topList->isVisible()) {
+      if (m_topList->currentRow() == 3) // 4. test settings page
+#else
       if (enableInBox->isChecked() && m_toolBox->isVisible()) {
         if (m_toolBox->currentIndex() == 3) // 4. test settings page
+#endif
           setTestDisabled(false);
         else
           setTestDisabled(true);
@@ -649,13 +755,6 @@ void AudioInSettings::freqFromInterval(int interval) {
 }
 
 
-void AudioInSettings::JACKASIOSlot() {
-	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
-	updateAudioDevList();
-	emit rtApiChanged();
-}
-
-
 void AudioInSettings::splitByVolChanged(bool enab) {
   m_splitVolSpin->setDisabled(!enab);
   if (enab)
@@ -697,6 +796,13 @@ void AudioInSettings::adjustInstrSlot(int instr) {
   }
 }
 
+#if !defined (Q_OS_ANDROID)
+void AudioInSettings::JACKASIOSlot() {
+  TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
+  updateAudioDevList();
+  emit rtApiChanged();
+}
+#endif
 
 
 

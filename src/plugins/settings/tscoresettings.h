@@ -22,10 +22,10 @@
 
 #include <music/tnote.h>
 #include <music/tclef.h>
-#include <QWidget>
+  #include <touch/ttoucharea.h>
+
 
 class TnoteNameSettings;
-
 class QSpinBox;
 class QGroupBox;
 class TnotationRadioGroup;
@@ -35,11 +35,15 @@ class QCheckBox;
 class QLabel;
 class QLineEdit;
 class TcolorButton;
+#if defined (Q_OS_ANDROID)
+  class TlistMenu;
+#endif
 
 
-class TscoreSettings : public QWidget
+class TscoreSettings : public TtouchArea
 {
-    Q_OBJECT
+  Q_OBJECT
+
 public:
   explicit TscoreSettings(QWidget *parent = 0);
 
@@ -53,7 +57,6 @@ public:
   void saveSettings();
   void restoreDefaults();
 
-public slots:
   void enableKeySignGroup(bool enable);
   void nameStyleWasChanged(Tnote::EnameStyle nameStyle);
   void majorExtensionChanged();
@@ -73,6 +76,9 @@ private:
   TselectClef						*m_clefSelector;
   QSpinBox							*m_tempoSpin;
   TnoteNameSettings     *m_nameTab;
+#if defined (Q_OS_ANDROID)
+  TlistMenu             *m_topList;
+#endif
 };
 
 
