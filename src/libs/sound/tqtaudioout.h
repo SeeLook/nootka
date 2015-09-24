@@ -23,8 +23,9 @@
 
 #include "nootkasoundglobal.h"
 #include "tabstractplayer.h"
-#include <QStringList>
-#include <QAudio>
+#include <QtCore/qstringlist.h>
+#include <QtMultimedia/qaudio.h>
+#include <QtMultimedia/qaudiodeviceinfo.h>
 
 
 class ToggScale;
@@ -44,6 +45,8 @@ public:
   virtual ~TaudioOUT();
 
   static QStringList getAudioDevicesList();
+  static QString outputName() { return m_devName; }
+  static TaudioOUT* instance() { return m_instance; }
 
         /** Starts playing given note and then returns true, otherwise gets false. */
   bool play(int noteNr);
@@ -54,6 +57,7 @@ public:
 
 protected:
   int crossCount() { return m_crossCount; } /** counts samples of crossing buffer */
+  void createOutputDevice();
   
 signals:
   void finishSignal();
@@ -70,19 +74,20 @@ private slots:
 
 
 private:
-  int        			m_samplesCnt; /** Number of performed samples. */
-  int 			      m_maxSamples; /** Duration of a sound counted in samples */
-  int             m_bufferFrames, m_sampleRate;
-	qint16         *m_crossBuffer; /** buffer with data of part of previous note to fade out */
-	bool 		        m_doCrossFade;
-	float 		      m_cross; /** current volume factor of fading effect */
-	int 						m_crossCount;
-	bool 						m_callBackIsBussy;
-  TaudioParams   *m_audioParams;
-  QAudioOutput   *m_audioOUT;
-  TaudioBuffer   *m_buffer;
-  QString         m_devName;
-
+  static QString      m_devName;
+  static TaudioOUT   *m_instance;
+  int                 m_samplesCnt; /** Number of performed samples. */
+  int                 m_maxSamples; /** Duration of a sound counted in samples */
+  int                 m_bufferFrames, m_sampleRate;
+	qint16             *m_crossBuffer; /** buffer with data of part of previous note to fade out */
+	bool                m_doCrossFade;
+	float               m_cross; /** current volume factor of fading effect */
+	int                 m_crossCount;
+	bool                m_callBackIsBussy;
+  TaudioParams       *m_audioParams;
+  QAudioOutput       *m_audioOUT;
+  TaudioBuffer       *m_buffer;
+  QAudioDeviceInfo    m_deviceInfo;
 };
 
 #endif // TRTAUDIOOUT_H
