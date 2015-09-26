@@ -22,13 +22,16 @@
 #include "widgets/tpushbutton.h"
 #include "tcolor.h"
 #include "tscoreparams.h"
-#include <QApplication>
-#include <QMessageBox>
-#include <QTranslator>
-#include <QLibraryInfo>
-#include <QFontDatabase>
-#include <QDebug>
-#include <QDir>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qmessagebox.h>
+#include <QtCore/qtranslator.h>
+#include <QtCore/qlibraryinfo.h>
+#include <QtGui/qfontdatabase.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qdir.h>
+#if defined (Q_OS_ANDROID)
+  #include "Android/tandroid.h"
+#endif
 
 
 Tglobals* Tcore::m_gl = 0;
@@ -39,7 +42,6 @@ bool initCoreLibrary() {
 		qDebug() << "Tglobals was not created. Construct it first!";
     return false;
 	}
-	Ttune::prepareDefinedTunes();
 	Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
 	TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
@@ -54,6 +56,7 @@ bool initCoreLibrary() {
 #endif
 #if defined (Q_OS_ANDROID)
   qApp->addLibraryPath(qApp->applicationDirPath());
+  Tandroid::setScreenLockDisabled(); // TODO: interact with some settings option
 #endif
 	return true;
 }
@@ -91,6 +94,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 
 	TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, 
 															Tcore::gl()->S->minKeyNameSufix);
+  Ttune::prepareDefinedTunes();
 }
 
 
