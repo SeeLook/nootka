@@ -227,8 +227,14 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			E->repeatIncorrect = cfg->value("repeatIncorrect", true).toBool();
 			E->expertsAnswerEnable = cfg->value("expertsAnswerEnable", false).toBool();
 			E->studentName = cfg->value("studentName", "").toString();
+#if defined (Q_OS_ANDROID)
+      E->examsDir = cfg->value("examsDir", qgetenv("EXTERNAL_STORAGE")).toString();
+      E->levelsDir = cfg->value("levelsDir", qgetenv("EXTERNAL_STORAGE")).toString();
+      qDebug() << "Android user name:" << qgetenv("USER") << qgetenv("EXTERNAL_STORAGE");
+#else
 			E->examsDir = cfg->value("examsDir", QDir::homePath()).toString();
 			E->levelsDir = cfg->value("levelsDir", QDir::homePath()).toString();
+#endif
 			E->closeWithoutConfirm = cfg->value("closeWithoutConfirm", false).toBool();
 			E->showCorrected = cfg->value("showCorrected", true).toBool();
 			E->mistakePreview = cfg->value("mistakePreview", 3000).toInt();
@@ -266,22 +272,19 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->skipStillerVal = cfg->value("skipStillerThan", 80.0).toReal();
 	cfg->endGroup();
 	
+  cfg->beginGroup("layout");
+    L->soundViewEnabled = cfg->value("soundViewEnabled", true).toBool();
+    L->guitarEnabled = cfg->value("guitarEnabled", true).toBool();
 #if defined (Q_OS_ANDROID)
+  // override some options not supported under mobile systems
   enableTouch = true;
   L->toolBarAutoHide = true;
   L->iconTextOnToolBar = Qt::ToolButtonTextBesideIcon;
   L->hintsBarEnabled = false;
-  L->soundViewEnabled = false;
-  L->guitarEnabled = true;
-  S->keySignatureEnabled = true;
-  S->doubleAccidentalsEnabled = true;
 #else
-	cfg->beginGroup("layout");
 		L->toolBarAutoHide = cfg->value("toolBarAutoHide", false).toBool();
 		L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value("iconTextOnToolBar", 3).toInt());
 		L->hintsBarEnabled = cfg->value("hintsBarEnabled", true).toBool();
-		L->soundViewEnabled = cfg->value("soundViewEnabled", true).toBool();
-		L->guitarEnabled = cfg->value("guitarEnabled", true).toBool();
 	cfg->endGroup();
 #endif
 
