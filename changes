@@ -1,7 +1,8 @@
 1.2.2
-     - added flick-able scroll (by mouse dragging) to help windows
+     - added flick-able scroll (by mouse dragging) to windows with help
     BUGS FIXES
      - fixed crash related to hiding temp note segment at the staff end
+     - properly loading translations of guitar tuning
      - preventing of text selection in help windows
 
 1.2.1

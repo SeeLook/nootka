@@ -39,7 +39,6 @@ bool initCoreLibrary() {
 		qDebug() << "Tglobals was not created. Construct it first!";
     return false;
 	}
-	Ttune::prepareDefinedTunes();
 	Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
 	TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
@@ -86,6 +85,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 
 	TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, 
 															Tcore::gl()->S->minKeyNameSufix);
+  Ttune::prepareDefinedTunes();
 }
 
 
