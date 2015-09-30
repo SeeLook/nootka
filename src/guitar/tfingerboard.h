@@ -21,9 +21,8 @@
 
 #include <music/tnote.h>
 #include <tfingerpos.h>
-#include <QWidget>
-#include <QGraphicsView>
-#include <QGraphicsLineItem>
+#include <QtWidgets/qgraphicsview.h>
+#include <QtWidgets/qgraphicsitem.h>
 
 
 class TcombinedAnim;
@@ -103,9 +102,15 @@ public:
 
   TfingerPos pointToFinger(const QPoint& point); /** Returns fret/string position form given position (view coordinates) */
 
+  bool isRightHanded();
+  QColor& fingerColor();
+  QColor& selectedColor();
+  int guitarTypeId(); /** id of current guitar type */
+
 signals:
   void guitarClicked(const Tnote&);
   void correctingFinished(); /** Emitted when correction animation finish */
+  void settingsUpdated(); /** Emmited when settings where changed */
 
 
 protected:
