@@ -23,10 +23,34 @@
 #include <animations/tstrikedoutitem.h>
 #include <animations/tcombinedanim.h>
 #include <tcolor.h>
-#include <QtWidgets>
-#include <QDebug>
+#include <QtWidgets/qgraphicseffect.h>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qevent.h>
+#include <QtCore/qdebug.h>
+
 
 extern Tglobals *gl;
+
+
+bool TfingerBoard::isRightHanded() {
+  return gl->GisRightHanded;
+}
+
+
+QColor& TfingerBoard::fingerColor() {
+  return gl->GfingerColor;
+}
+
+
+QColor& TfingerBoard::selectedColor() {
+  return gl->GselectedColor;
+}
+
+
+int TfingerBoard::guitarTypeId() {
+  return (int)gl->instrument;
+}
+
 
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
@@ -133,6 +157,7 @@ void TfingerBoard::acceptSettings() {
 // 		paint();
 		resizeEvent(0);
     setFinger(m_selNote);
+    emit settingsUpdated();
 }
 
 
