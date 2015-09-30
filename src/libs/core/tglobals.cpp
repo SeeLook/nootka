@@ -281,6 +281,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
   L->toolBarAutoHide = true;
   L->iconTextOnToolBar = Qt::ToolButtonTextBesideIcon;
   L->hintsBarEnabled = false;
+  GisRightHanded = true;
 #else
 		L->toolBarAutoHide = cfg->value("toolBarAutoHide", false).toBool();
 		L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value("iconTextOnToolBar", 3).toInt());
