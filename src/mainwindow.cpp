@@ -66,8 +66,10 @@ void noteToKey(Tnote& n, TkeySignature k) {
 
 #if defined (Q_OS_ANDROID)
 #include <QMediaPlayer>
+#include <QtAndroidExtras/QtAndroid>
   void fakeMultimediaDemander(QObject* parent) {
     QMediaPlayer dummyPlayer(parent);
+    QtAndroid::androidActivity();
   }
 #endif
 
@@ -700,7 +702,7 @@ void MainWindow::paintEvent(QPaintEvent* ) {
       painter.scale(-1, 1);
     }
     if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
-      painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom() - m_bgPixmap.height(), m_bgPixmap);
+      painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom() - m_bgPixmap.height() + 1, m_bgPixmap);
     } else {
       qreal ratio = (guitar->height() * 3.3) / 535;
       painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() , m_bgPixmap);
