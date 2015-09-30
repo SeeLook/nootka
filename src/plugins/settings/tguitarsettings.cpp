@@ -66,9 +66,11 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
   m_selectInstr->setGlyphSize(40);
 #endif
 // Right-handed/left-handed check box
+#if !defined (Q_OS_ANDROID)
   m_righthandCh = new QCheckBox(tr("right-handed players", "When translation will be too long try to add '\n' - line break between words."), this);
   m_righthandCh->setChecked(Tcore::gl()->GisRightHanded);
   m_righthandCh->setStatusTip(tr("Uncheck this if you are left-handed<br>and your guitar is strung for left-handed playing (changed string order)"));
+#endif
 // Number of frets
   m_fretNrLab = new QLabel(tr("number of frets:"), this);
   m_fretsNrSpin = new QSpinBox(this);
@@ -122,12 +124,14 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
   QVBoxLayout *guitarLay = new QVBoxLayout;
     guitarLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
+#if !defined (Q_OS_ANDROID)
     guitarLay->addWidget(m_righthandCh);
-#if defined (Q_OS_ANDROID)
-    guitarLay->setAlignment(Qt::AlignCenter);
-    m_disabledWidgets << getLabelFromStatus(m_righthandCh);
-    guitarLay->addWidget(m_disabledWidgets.last());
 #endif
+// #if defined (Q_OS_ANDROID)
+//     guitarLay->setAlignment(Qt::AlignCenter);
+//     m_disabledWidgets << getLabelFromStatus(m_righthandCh);
+//     guitarLay->addWidget(m_disabledWidgets.last());
+// #endif
     guitarLay->addStretch(1);
 #if defined (Q_OS_ANDROID)
     QHBoxLayout *fretsLay = new QHBoxLayout;
@@ -269,7 +273,9 @@ TguitarSettings::~TguitarSettings() {
 
 void TguitarSettings::saveSettings() {
 	Tcore::gl()->instrument = (Einstrument)m_selectInstr->instrument();
+#if !defined (Q_OS_ANDROID)
 	Tcore::gl()->GisRightHanded = m_righthandCh->isChecked();
+#endif
 	Tcore::gl()->GfretsNumber = m_fretsNrSpin->value();
 	Ttune *tmpTune = new Ttune();
 	if (Tcore::gl()->instrument != e_noInstrument)
@@ -305,7 +311,9 @@ void TguitarSettings::saveSettings() {
 
 void TguitarSettings::restoreDefaults() {
 		instrumentTypeChanged(1); // It will restore tune (standard), frets and strings number and clef
+#if !defined (Q_OS_ANDROID)
 		m_righthandCh->setChecked(true);
+#endif
 		m_prefSharpBut->setChecked(true);
 		m_morePosCh->setChecked(false);
 		m_pointColorBut->setColor(QColor(255, 0, 127, 200));
@@ -515,7 +523,9 @@ void TguitarSettings::guitarDisabled(bool disabled) {
   m_fretNrLab->setDisabled(disabled);
   m_stringNrSpin->setDisabled(disabled);
   m_stringNrLab->setDisabled(disabled);
+#if !defined (Q_OS_ANDROID)
   m_righthandCh->setDisabled(disabled);
+#endif
   m_accidGroup->setDisabled(disabled);
   m_morePosCh->setDisabled(disabled);
   m_selColorBut->setDisabled(disabled);
