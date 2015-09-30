@@ -69,7 +69,7 @@ bool TguitarView::checkIsPreview() {
       setFixedSize(m_guitar->averFretWidth() * 2.5, qMax<int>(Tmtr::fingerPixels() * 4, m_guitar->viewport()->height() * 1.1)); // also size of preview
       qreal factor = (qreal)height() / (qreal)m_guitar->viewport()->height(); // and its scale
       scale(factor, factor); // will not change
-      QColor fretHi = Qt::green; //qApp->palette().highlight().color();
+      QColor fretHi = m_guitar->selectedColor();
       fretHi.setAlpha(50);
       m_mark = m_guitar->scene()->addRect(QRectF(), Qt::NoPen, QBrush(fretHi));
       m_mark->setZValue(0);
@@ -81,6 +81,7 @@ bool TguitarView::checkIsPreview() {
 #endif
   return m_isPreview;
 }
+
 
 bool TguitarView::mapTouchEvent(QTouchEvent* te) {
 #if defined (Q_OS_ANDROID)
@@ -181,22 +182,30 @@ void TguitarView::updateContextPosition() {
 void TguitarView::paintEvent(QPaintEvent* event) {
   if (isPreview() && horizontalScrollBar()->value() >= m_guitar->fbRect().x() + m_guitar->fbRect().width()) {
     QPainter painter(viewport());
-//     if (!gl->GisRightHanded) {
+//     if (!m_guitar->isRightHanded()) {
 //       painter.translate(width(), 0);
 //       painter.scale(-1, 1);
 //     }
-//     if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
-      QPixmap guitarPixmap = QPixmap(Tpath::img("body")).scaled(
+    if (m_guitar->guitarTypeId() == 1) { // No need to check for non guitar - in such a case it never goes here
+      QPixmap guitarPixmap = QPixmap(Tpath::img(QStringLiteral("body"))).scaled(
                   (m_parent->width() / 2) * transform().m11(), height() * 2.445714285714286, Qt::IgnoreAspectRatio);
       painter.drawPixmap((m_guitar->posX12fret() + 7) * transform().m11() - horizontalScrollBar()->value(),
                          height() - guitarPixmap.height(), guitarPixmap);
-//     } else {
-//       qreal ratio = (guitar->height() * 3.3) / 535;
-//       painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() , m_bgPixmap);
+    } else {
+      QPixmap guitarPixmap;
+      if (m_guitar->guitarTypeId() == 2)
+          guitarPixmap = QPixmap(Tpath::img(QStringLiteral("body-electro"))).scaled(644 * ((height() * 2.9) / 614), height() * 2.9);
+      else
+          guitarPixmap = QPixmap(Tpath::img(QStringLiteral("body-bass"))).scaled(640 * ((height() * 2.9) / 535), height() * 2.9);
+      painter.drawPixmap((m_guitar->fbRect().right() - m_guitar->height() * 1.449532710280374) * transform().m11() - horizontalScrollBar()->value(),
+                         height() - guitarPixmap.height() , guitarPixmap);
 //       if (!gl->GisRightHanded)
 //         painter.resetTransform();
-//       painter.drawPixmap(guitar->pickRect()->x(), guitar->pickRect()->y(), m_rosettePixmap);
-//     }
+      qreal pickCoef = (((height() * 2.9) / 614.0) * 0.5);
+      QPixmap rosettePixmap = QPixmap(Tpath::img(QStringLiteral("pickup"))).scaled(291 * pickCoef, 468 * pickCoef, Qt::KeepAspectRatio);
+      painter.drawPixmap(m_guitar->pickRect()->x() * transform().m11() - horizontalScrollBar()->value(),
+                         6 * transform().m11(), rosettePixmap);
+    }
   }
   QGraphicsView::paintEvent(event);
 }
