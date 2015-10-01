@@ -10,9 +10,28 @@
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
-Issues of stable 1.2.0:
-- fix white lines off staff in the main icon
 
+ANDROID:
+- crash when audio out was disables and enabled again in settings (audio in probably also)
+- keep extra dialogues maximized (file, color dialog)
+    or create special ones for mobile
+- add 'smallest font size' to Tmtr ???
+- add labels with smallest font under level cretor options instead of status tips
+- solve issue with restart for settings reset
+- Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
+
+
+To consideration:
+- additional settings options:
+    - disable screen locking (TRUE by default)
+    - full screen mode (TRUE by default)
+
+============================================================================
+Issues of stable 1.2.2:
+- fix white lines off staff in the main icon
+============================================================================
+
+- Move context of Ttune translations from QObject to some more suitable name
 - clean tartini unused code
 
 MINOR:
@@ -42,10 +61,11 @@ MINOR:
 - make exam summary pretty
 - certificates would have some additional data about melodies
 - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
+- clear code for guitar body images
 
 - divide TexamExecutor class !!!!!
 - rhythms in score
-- in occasion of impelmenting rhythms, 
+- in occasion of implementing rhythms, 
       instead of signaling from TscoreNote to TscoreStaff call some methods of TscoreStaff directly from TscoreNote
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
@@ -78,7 +98,8 @@ MINOR:
 - migrate on preferring 48000 sample rate (ogg files and audio methods)
 - move status label out as a separate class and implement animations there (can be used in settings windows as well) 
 
-
+ANDROID:
+- unlock left-handed guitar then implement frets zoom to respect transforms
 
 Tnote
   - change class name to Tpitch (???)

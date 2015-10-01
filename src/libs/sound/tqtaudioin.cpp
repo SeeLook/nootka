@@ -146,7 +146,6 @@ void TaudioIN::startThread() {
   if (m_inDevice) {
     m_buffer = new qint16[m_audioIN->bufferSize()];
     connect(m_inDevice, &QIODevice::readyRead, this, &TaudioIN::dataReady);
-//    setState(e_detecting);
     //       qDebug() << "started with buffer" << m_audioIN->bufferSize();
   }
 }
@@ -159,7 +158,6 @@ void TaudioIN::stopThread() {
     m_buffer = 0;
     resetVolume();
     resetChunkPitch();
-//    setState(e_stopped);
     finder()->resetFinder();
   }
 }
