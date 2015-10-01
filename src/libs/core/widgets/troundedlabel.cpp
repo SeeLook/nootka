@@ -17,22 +17,24 @@
  ***************************************************************************/
 
 #include "troundedlabel.h"
-#include <QApplication>
+#include <QtWidgets/qapplication.h>
 
 
 TroundedLabel::TroundedLabel(QWidget* parent) : 
 	QLabel(parent)
 {
-	setContentsMargins(5, 5, 5, 5);
 	initBgColor();
+  setFrameShape(StyledPanel);
+  setFrameShadow(Sunken);
 }
 
 
 TroundedLabel::TroundedLabel(QString txt, QWidget* parent) :
 	QLabel(txt, parent)
 {
-	setContentsMargins(2, 2, 2 , 2);
 	initBgColor();
+  setFrameShape(StyledPanel);
+  setFrameShadow(Sunken);
 }
 
 
@@ -55,9 +57,8 @@ void TroundedLabel::setDefaultBackground() {
 }
 
 
-
 QString TroundedLabel::backgroundText() {
-  return QString("background-color: rgba(%1, %2, %3, %4); border-radius: 10px; ")
+  return QString("background-color: rgba(%1, %2, %3, %4); ")
       .arg(m_bgColor.red()).arg(m_bgColor.green()).arg(m_bgColor.blue()).arg(m_bgColor.alpha());
 }
 
