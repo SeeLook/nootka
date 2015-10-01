@@ -1,5 +1,10 @@
 1.3.0 beta
      - added touch interface, adjusted GUI layout to it
+    ANDROID
+     - new layout of dialog windows for better touch integration
+     - audio stack ported to Qt Audio for mobile devices
+    Under the hood
+     - code fully depends on c++11 capable compiler
 
 1.2.1
     BUGS FIXES
