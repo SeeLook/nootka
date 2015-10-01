@@ -3988,7 +3988,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/level/levelsettings.cpp" line="47"/>
         <source>Start exercise</source>
-        <translation>Rozpocznij cwiczenie</translation>
+        <translation>Rozpocznij ćwiczenie</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/levelsettings.cpp" line="49"/>
