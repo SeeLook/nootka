@@ -22,7 +22,7 @@
 
 #include <exam/tqaunit.h>
 #include <exam/tlevel.h>
-#include <QList>
+#include <QtCore/qlist.h>
 #include <QPointer>
 #include <QColor>
 
@@ -132,24 +132,20 @@ private:
 	void createActions();
 	void prepareToExam();
 	void restoreAfterExam();
-			/** Disables score, noteName and guitar*/
-	void disableWidgets();
+	void disableWidgets(); /** Disables score, noteName and guitar*/
 	void clearWidgets();
-			/** Clears canvas and invokes restoreAfterExam() */
-	void closeExecutor();
-	
-			/** Performs some initial routines on exam/exercise variables */
-	void initializeExecuting();
+	void closeExecutor(); /** Clears canvas and invokes restoreAfterExam() */
+	void initializeExecuting(); /** Performs some initial routines on exam/exercise variables */
 
 	QString saveExamToFile();
-	
+
 			/** Sets texts depend on exercise or exam:
 				* - main window title
 				* - startExamAct status tip */
 	void setTitleAndTexts();
 	
 	void connectPlayingFinished(); /** Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
-			
+
 private:
 	
 	TexecutorSupply 					*m_supp; 

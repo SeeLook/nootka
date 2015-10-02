@@ -27,31 +27,38 @@
 #include <tscoreparams.h>
 #include <widgets/tintonationview.h>
 #include <mainwindow.h>
-#include <QMouseEvent>
-#include <QMessageBox>
-#include <QDateTime>
-#include <QDebug>
-#include <iostream>
+#if !defined (Q_OS_ANDROID)
+  #include <QMouseEvent>
+  #include <iostream>
+#endif
+#include <QtWidgets/qmessagebox.h>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qdebug.h>
+
 
 extern Tglobals *gl;
 
+
+#if !defined (Q_OS_ANDROID)
 void debugMelody(Tmelody* mel) {
 	for (int i = 0; i < mel->length(); ++i)
 		std::cout << mel->note(i)->p().toText().toStdString() << "\t";
 	std::cout << "\n";
 }
 
+
 void debugNotesStruct(QList<TnoteStruct>& st) {
 	Tmelody mel;
 	mel.fromNoteStruct(st);
 	debugMelody(&mel);
 }
-
+#endif
 
 /*static*/
 
 bool TexecutorSupply::m_paramsMessage = false;
 bool TexecutorSupply::m_playCorrections = true;
+
 
 void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 	m_playCorrections = true;
@@ -65,6 +72,7 @@ void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 }
 
 
+#if !defined (Q_OS_ANDROID)
 void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) {
 	checkPlayCorrected(exam->level());
 	QString changesMessage = "";
@@ -96,6 +104,7 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 	} else
 			m_paramsMessage = false;
 }
+#endif
 
 
 QColor& TexecutorSupply::answerColor(const TQAunit* answer) {
@@ -578,13 +587,19 @@ quint8 TexecutorSupply::strNr(quint8 str0to6, bool ordered) {
 //#######################     EVENTS        ################################################
 //##########################################################################################
 
+#if !defined (Q_OS_ANDROID)
 bool TexecutorSupply::eventFilter(QObject* obj, QEvent* event) {
   if (event->type() == QEvent::MouseButtonPress) {
     QMouseEvent *me = static_cast<QMouseEvent *>(event);
     if (me->button() == Qt::RightButton) {
         emit rightButtonClicked();
-        return true;   
+        return true;
     }
   }
   return QObject::eventFilter(obj, event);
 }
+#endif
+
+
+
+
