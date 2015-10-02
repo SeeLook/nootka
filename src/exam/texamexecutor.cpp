@@ -50,17 +50,19 @@
 #include <graphics/tnotepixmap.h>
 #include <gui/ttoolbar.h>
 #include <gui/tmainview.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 #define WAIT_TIME (150) //[ms]
 #define SOUND_DURATION (1500) //[ms]
 
 
+#if !defined (Q_OS_ANDROID)
 void debugStyle(TQAunit &qa) {
     qDebug("styles debugging");
     qDebug() << "Q:" << qa.styleOfQuestion() << "A:" << qa.styleOfAnswer();
 }
+#endif
 
 
 extern Tglobals *gl;
@@ -74,6 +76,7 @@ QString getExamFileName(Texam* e) {
     fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
   return fName;
 }
+
 
 TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   QObject(mainW),
@@ -963,7 +966,9 @@ void TexamExecutor::displayCertificate() {
   m_snifferLocked = true;
 	mW->sound->wait();
 	m_penalty->pauseTime();
+#if !defined (Q_OS_ANDROID)
   qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
+#endif
   m_canvas->certificateTip();
 }
 
@@ -992,7 +997,9 @@ void TexamExecutor::prepareToExam() {
     connect(mW->sound, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
   else
     connect(mW->sound, &Tsound::noteFinished, this, &TexamExecutor::expertAnswersSlot);
+#if !defined (Q_OS_ANDROID)
   qApp->installEventFilter(m_supp);
+#endif
   connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
   disconnect(mW->score, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
@@ -1152,7 +1159,9 @@ void TexamExecutor::createActions() {
 
 void TexamExecutor::exerciseToExam() {
 	m_isAnswered = true;
+#if !defined (Q_OS_ANDROID)
 	qApp->installEventFilter(m_supp);
+#endif
 	m_exam->saveToFile();
 	QString userName = m_exam->userName();
 	delete m_penalty;
@@ -1163,7 +1172,9 @@ void TexamExecutor::exerciseToExam() {
 	m_exercise = 0;
   m_canvas->changeExam(m_exam);
 	setTitleAndTexts();
+#if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
 	m_canvas->levelStatusMessage();
+#endif
 	m_supp->setFinished(false); // exercise had it set to true
   m_supp->resetKeyRandom(); // new set of randomized key signatures when exam requires them
 	initializeExecuting();
@@ -1214,7 +1225,9 @@ void TexamExecutor::stopExerciseSlot() {
 		else // restore sniffing if necessary
 			if (m_exam->curQ()->answerAsSound())
 				startSniffing();
+#if !defined (Q_OS_ANDROID)
 		qApp->installEventFilter(m_supp);
+#endif
 		return;
 	} else {
 		if ((m_exam->count() == 1 && m_exam->curQ()->answered()) || m_exam->count() > 1)
@@ -1227,10 +1240,12 @@ void TexamExecutor::stopExerciseSlot() {
 void TexamExecutor::stopExamSlot() {
   if (!m_isAnswered && !gl->E->closeWithoutConfirm) {
     m_shouldBeTerminated = true;
+#if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
     QColor c = gl->GfingerColor;
     c.setAlpha(30);
     mW->setMessageBg(c);
     mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), 2000);
+#endif
     return;
   }
   if (!m_isAnswered)
@@ -1273,9 +1288,11 @@ void TexamExecutor::stopExamSlot() {
 
 
 void TexamExecutor::closeExecutor() {
+#if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
 	mW->setMessageBg(-1);
 	mW->setStatusMessage("");
 	mW->setStatusMessage(tr("Such a pity."), 5000);
+#endif
 
 	m_canvas->clearCanvas();
 	clearWidgets();
@@ -1300,7 +1317,9 @@ void TexamExecutor::settingsAccepted() {
 	}
 	if (m_exam->count() && m_exam->curQ()->answerAsSound() && !mW->pitchView->isPaused())
 		startSniffing();
+#if !defined (Q_OS_ANDROID)
 	qApp->installEventFilter(m_supp);
+#endif
 }
 
 
@@ -1309,17 +1328,21 @@ void TexamExecutor::stopSound() {
 			m_soundTimer->stop();
 	mW->sound->stopPlaying();
 	mW->sound->wait();
+#if !defined (Q_OS_ANDROID)
 	qApp->removeEventFilter(m_supp);
+#endif
 }
 
 
 void TexamExecutor::suggestDialogClosed(bool startExam) {
 	if (startExam) {
-			exerciseToExam();
+        exerciseToExam();
 	} else {
-		qApp->installEventFilter(m_supp);
-		if (m_exam->curQ()->answerAsSound())
-					startSniffing();
+#if !defined (Q_OS_ANDROID)
+      qApp->installEventFilter(m_supp);
+#endif
+      if (m_exam->curQ()->answerAsSound())
+            startSniffing();
 	}
 }
 
@@ -1332,7 +1355,9 @@ bool TexamExecutor::closeNootka() {
 		result = true;
 	} else {
     m_snifferLocked = true;
+#if !defined (Q_OS_ANDROID)
     qApp->removeEventFilter(m_supp);
+#endif
     QMessageBox *msg = new QMessageBox(mW);
 		msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
 		QAbstractButton *contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
@@ -1341,7 +1366,9 @@ bool TexamExecutor::closeNootka() {
 				msg->exec();
     if (!gl->E->closeWithoutConfirm && msg->clickedButton() == contBut) {
         m_snifferLocked = false;
+#if !defined (Q_OS_ANDROID)
         qApp->installEventFilter(m_supp);
+#endif
         result = false;
     } else {
         m_goingClosed = true;
@@ -1435,12 +1462,16 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
 
 void TexamExecutor::showExamHelp() {
   m_snifferLocked = true;
+#if !defined (Q_OS_ANDROID)
   qApp->removeEventFilter(m_supp);
+#endif
   TexamHelp *hlp = new TexamHelp(Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EanswerColor), 
 																 &gl->E->showHelpOnStart, mW);
   hlp->exec();
   delete hlp;
+#if !defined (Q_OS_ANDROID)
   qApp->installEventFilter(m_supp);
+#endif
   m_snifferLocked = false;
 }
 
@@ -1509,8 +1540,10 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
 			if (m && m_exam->curQ()->answerAsSound()) {
         if (m_melody->listened()[noteNr].pitch.isValid())
           m_canvas->detectedNoteTip(m_melody->listened()[noteNr].pitch);
-        else 
+#if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
+        else
           mW->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
+#endif
       }
 		}
 	}
@@ -1570,6 +1603,7 @@ void TexamExecutor::delayerTip() {
 
 
 void TexamExecutor::setTitleAndTexts() {
+#if !defined (Q_OS_ANDROID)
 	if (m_exercise) {
 			mW->setWindowTitle(tr("Exercises with Nootka"));
 			mW->bar->startExamAct->setStatusTip(tr("finish exercising"));
@@ -1577,6 +1611,7 @@ void TexamExecutor::setTitleAndTexts() {
 			mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
 			mW->bar->startExamAct->setStatusTip(tr("stop the exam"));
 	}
+#endif
 }
 
 
@@ -1584,7 +1619,9 @@ void TexamExecutor::unlockAnswerCapturing() {
 	if (m_exam->curQ()->answerAsSound())
 		mW->sound->go();
 	m_penalty->continueTime();
+#if !defined (Q_OS_ANDROID)
   qApp->installEventFilter(m_supp); // restore grabbing right mouse button
+#endif
   m_snifferLocked = false;
 }
 

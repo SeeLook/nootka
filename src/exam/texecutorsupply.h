@@ -22,7 +22,7 @@
 
 #include <music/tnotestruct.h>
 #include <exam/tqaunit.h>
-#include <QPointer>
+#include <QtCore/qpointer.h>
 
 class TequalRand;
 class MainWindow;
@@ -31,7 +31,7 @@ class QWidget;
 class Tlevel;
 
 
-/** 
+/**
  * A purpose of this class is to make the exam executor smaller.
  * Also it has eventFilter() re-implementation to manage right mouse button,
  * witch can not be simply captured by contextMenuEvent from disabled widgets. 
@@ -79,10 +79,12 @@ public:
 			 * When corrections are possible on guitar it returns @p False */
   static bool isCorrectedPlayable() { return m_playCorrections; }
 		
+#if !defined (Q_OS_ANDROID)
 			/** Check. are current guitar fret number and tuning different than exercise or exam level.
 			 * Adjust globals (tune and fret number have to be stored before) and
 			 * Displays message about changes, if any. */
   static void checkGuitarParamsChanged(MainWindow* parent, Texam* exam);
+#endif
 		
 			/** It is true when checkGuitarParamsChanged() obtained message to display.
 			 * It is used to inform MainWindow that status label is busy by the message. */
@@ -122,8 +124,9 @@ signals:
   void rightButtonClicked();
   
 protected:
-	
+#if !defined (Q_OS_ANDROID)
   virtual bool eventFilter(QObject* obj, QEvent* event);
+#endif
 	
       /** Calculates how many question/answer combinations are possible for different types enabled in a level. */
   void calcQAPossibleCount();
@@ -178,7 +181,7 @@ private:
 			 * LEVEL VALUES REMAINED UNTOUCHED */
 	int 										m_loFret, m_hiFret;
 	TequalRand 						 *m_randKey;
-      
+
 };
 
 #endif // TEXECUTORSUPPLY_H
