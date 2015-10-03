@@ -37,7 +37,7 @@ TpluginsLoader::~TpluginsLoader()
 {
   if (m_loader->isLoaded()) {
    if (!m_loader->unload())
-     qDebug() << "Cannot unload plugin" << m_loader->fileName() << m_loader->errorString();
+     qDebug() << "Cannot unload plugin" << m_loader->fileName() << qPrintable(m_loader->errorString());
   }
 }
 
@@ -45,10 +45,11 @@ TpluginsLoader::~TpluginsLoader()
 bool TpluginsLoader::load(TpluginsLoader::Etype pluginType) {
   m_type = pluginType;
   QStringList names;
-  names << "Level" << "Settings" << "Analyzer" << "Updater" << "Wizard";
-  QString f = "Nootka" + names[(int)pluginType] + "Plugin";
+  names << QStringLiteral("Level") << QStringLiteral("Settings") << QStringLiteral("Analyzer")
+        << QStringLiteral("Updater") << QStringLiteral("Wizard");
+  QString f = QStringLiteral("Nootka") + names[(int)pluginType] + QStringLiteral("Plugin");
 #if defined (Q_OS_WIN)
-  f.prepend("lib");
+  f.prepend(QStringLiteral("lib"));
 #endif
   m_loader->setFileName(f);
   if (!m_loader->load()) {
