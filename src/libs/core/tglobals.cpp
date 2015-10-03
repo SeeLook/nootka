@@ -271,11 +271,11 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->minSplitVol = cfg->value("minVolumeToSplit", 10.0).toReal();
     A->skipStillerVal = cfg->value("skipStillerThan", 80.0).toReal();
 	cfg->endGroup();
-	
+
   cfg->beginGroup("layout");
-    L->soundViewEnabled = cfg->value("soundViewEnabled", true).toBool();
     L->guitarEnabled = cfg->value("guitarEnabled", true).toBool();
 #if defined (Q_OS_ANDROID)
+    L->soundViewEnabled = cfg->value("soundViewEnabled", false).toBool();
   // override some options not supported under mobile systems
   enableTouch = true;
   L->toolBarAutoHide = true;
@@ -283,6 +283,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
   L->hintsBarEnabled = false;
   GisRightHanded = true;
 #else
+    L->soundViewEnabled = cfg->value("soundViewEnabled", true).toBool();
 		L->toolBarAutoHide = cfg->value("toolBarAutoHide", false).toBool();
 		L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value("iconTextOnToolBar", 3).toInt());
 		L->hintsBarEnabled = cfg->value("hintsBarEnabled", true).toBool();

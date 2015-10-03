@@ -34,7 +34,8 @@ QString tuningGuitarText, scaleOfInstrText;
 
 
 TguitarSettings::TguitarSettings(QWidget *parent) :
-  TtouchArea(parent)
+  TtouchArea(parent),
+  m_currentInstr(-1)
 {
   m_customTune = new Ttune();
   *m_customTune = *(Tcore::gl()->Gtune());

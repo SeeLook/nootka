@@ -77,16 +77,19 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
 			m_tempoSpin->setMinimum(50);
 			m_tempoSpin->setMaximum(240);
 			m_tempoSpin->setValue(Tcore::gl()->S->tempo);
-	
+
     QLabel *colLab = new QLabel(tr("note-cursor color"), m_1_misc);
     m_notePointColorBut = new TcolorButton(Tcore::gl()->S->pointerColor, m_1_misc);
-		
+
 		QVBoxLayout *miscLay = new QVBoxLayout;
-#if defined (Q_OS_ANDROID)
     QVBoxLayout *enColorLay = new QVBoxLayout;
+#if defined (Q_OS_ANDROID)
     enColorLay->addWidget(getLabelFromStatus(m_singleNoteGr, false), 0, Qt::AlignCenter);
+#endif
     enColorLay->addWidget(m_otherEnharmChBox);
+#if defined (Q_OS_ANDROID)
     enColorLay->addWidget(getLabelFromStatus(m_otherEnharmChBox));
+#endif
     QHBoxLayout *enharmColorLay = new QHBoxLayout;
       enharmColorLay->addStretch();
       enharmColorLay->addWidget(colorLab);
@@ -94,14 +97,6 @@ TscoreSettings::TscoreSettings(QWidget *parent) :
       enharmColorLay->addWidget(m_enharmColorBut);
       enharmColorLay->addStretch();
     enColorLay->addLayout(enharmColorLay);
-#else
-		QHBoxLayout *enColorLay = new QHBoxLayout;
-			enColorLay->addWidget(m_otherEnharmChBox);
-			enColorLay->addStretch(2);
-		  enColorLay->addWidget(colorLab);
-		  enColorLay->addStretch(1);
-		  enColorLay->addWidget(m_enharmColorBut);
-#endif
 		m_singleNoteGr->setLayout(enColorLay);
 		miscLay->addWidget(m_singleNoteGr);
 		miscLay->addStretch();
