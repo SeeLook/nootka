@@ -252,7 +252,7 @@
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="215"/>
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
-        <translation>Jest raczej potrzebny dla wejścia mikrofonowego ale może być wyączony dla instrumentu podłączonego kablem, który generule mniejsze szumy.</translation>
+        <translation>Jest raczej potrzebny dla wejścia mikrofonowego ale może być wyłączony dla instrumentu podłączonego kablem, który generuje mniejsze szumy.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="217"/>
@@ -272,7 +272,7 @@
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="257"/>
         <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
-        <translation>Sprawdź, czy twoje ustawienia wejścia audio są właściwe,&lt;br&gt;oraz czy rozpozawanie wysokości dźwięku działa wystarczajco dobrze?</translation>
+        <translation>Sprawdź, czy twoje ustawienia wejścia audio są właściwe,&lt;br&gt;oraz czy rozpoznawanie wysokości dźwięku działa wystarczająco dobrze?</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="271"/>
@@ -305,7 +305,7 @@
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="47"/>
         <source>audio device for output</source>
-        <translation>urządzenie dżwiękowe do odtwarzania</translation>
+        <translation>urządzenie dźwiękowe do odtwarzania</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="65"/>
@@ -490,7 +490,7 @@
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="76"/>
         <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation>Podaj nazwę dźwięku w gamie C-dur lub pokaż nutę na pięciolini znając jej nazwę.</translation>
+        <translation>Podaj nazwę dźwięku w gamie C-dur lub pokaż nutę na pięciolinii znając jej nazwę.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="101"/>
@@ -612,7 +612,7 @@
     <message>
         <location filename="../src/libs/misc/tsupportnootka.cpp" line="70"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Nie martw się. To okno.pojawia się tylko raz na wydanie programu.&lt;br&gt;Zawsze znajdziesz je w oknie &apos;O aplikacji Nootka&apos;</translation>
+        <translation>Nie martw się. Ta informacja pojawia się tylko raz na wydanie programu.&lt;br&gt;Zawsze znajdziesz ją w oknie &apos;O aplikacji Nootka&apos;</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.cpp" line="63"/>
@@ -767,7 +767,7 @@
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation>zadawnych pytań</translation>
+        <translation>zadawanych pytań</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="89"/>
@@ -930,7 +930,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="64"/>
         <source>Played number</source>
-        <translation>Licza zagranych</translation>
+        <translation>Liczba zagranych</translation>
     </message>
 </context>
 <context>
@@ -1214,7 +1214,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="29"/>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
-        <translation>Egazminy mogą być zapisywane do pliku i później kontynuowane. Ponadto, pliki egaminów mogą być otwierane do analizy.</translation>
+        <translation>Egzaminy mogą być zapisywane do pliku i później kontynuowane. Ponadto, pliki egzaminów mogą być otwierane do analizy.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="30"/>
@@ -1249,7 +1249,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="52"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation>Wskaż odpowiedź na &lt;span style=&quot;%1&quot;&gt;elemencie okna Nootki zaznzczonym tym kolorem.&lt;/span&gt;&lt;br&gt;</translation>
+        <translation>Wskaż odpowiedź na &lt;span style=&quot;%1&quot;&gt;elemencie okna Nootki, który jest zaznaczony tym kolorem.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="59"/>
@@ -1284,7 +1284,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="75"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>Wystarczy kliknąć ten przycisk ustawień żeby dopasować ćwiczenie lub examin do aktualnych potrzeb.</translation>
+        <translation>Wystarczy kliknąć ten przycisk ustawień żeby dopasować ćwiczenie lub egzamin do aktualnych potrzeb.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
@@ -1382,7 +1382,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="63"/>
         <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation>Program będzie obsewował postępy ćwiczenia i kiedy będzie ci dobrze szło, zaproponuje zdawanie egzaminu na aktualnym poziomie.</translation>
+        <translation>Program będzie obserwował postępy ćwiczenia i kiedy będzie ci dobrze szło, zaproponuje zdawanie egzaminu na aktualnym poziomie.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="65"/>
@@ -1422,7 +1422,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="83"/>
         <source>Default name for every new exam or exercise.</source>
-        <translation>Domyśne imię dla każdego ćwiczenia lub egzaminu.</translation>
+        <translation>Domyślne imię dla każdego ćwiczenia lub egzaminu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="85"/>
@@ -1452,7 +1452,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="91"/>
         <source>&apos;not bad&apos;</source>
-        <translation>&apos;nieżle&apos;</translation>
+        <translation>&apos;nieźle&apos;</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="93"/>
@@ -1482,7 +1482,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="102"/>
         <source>When &lt;b&gt;&apos;ask next question automatically&apos;&lt;/b&gt; is checked and you commit a mistake, the program can: &lt;b&gt;continue asking immediately&lt;/b&gt;, &lt;b&gt;wait defined period of time&lt;/b&gt; or &lt;b&gt;stop questioning&lt;/b&gt;, to give you possibility to analyze what was wrong.</source>
-        <translation>Kiedy jest zaznaczone&lt;b&gt;&apos;atomatycznie zadaj następne pytanie&apos;&lt;/b&gt; i popełnisz błąd, program może: &lt;b&gt;kontynuować pytanie od razu&lt;/b&gt;, &lt;b&gt;zaczekać ogreślony czas&lt;/b&gt; lub &lt;b&gt;zatrzymać odpytywanie&lt;/b&gt;, żeby dać możliwość przeanalizowania błędu.</translation>
+        <translation>Kiedy jest zaznaczone&lt;b&gt;&apos;automatycznie zadaj następne pytanie&apos;&lt;/b&gt; i popełnisz błąd, program może: &lt;b&gt;kontynuować pytanie od razu&lt;/b&gt;, &lt;b&gt;zaczekać określony czas&lt;/b&gt; lub &lt;b&gt;zatrzymać odpytywanie&lt;/b&gt;, żeby dać możliwość przeanalizowania błędu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="113"/>
@@ -1492,7 +1492,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="114"/>
         <source>To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation>Żeby poprawić kojarzenie nuty na pięciolini lub pozycji na gitarze z nazwą dźwięku, Nootka będzie wyświetlać nazwy dźwięków nawet gdy rodzaj pytania i odpowiedzi nie jest z tym związany.</translation>
+        <translation>Żeby poprawić kojarzenie nuty na pięciolinii lub pozycji na gitarze z nazwą dźwięku, Nootka będzie wyświetlać nazwy dźwięków nawet gdy rodzaj pytania i odpowiedzi nie jest z tym związany.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="160"/>
@@ -1714,12 +1714,12 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="30"/>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale pamietaj o niżej wymienionych zasadach:</translation>
+        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale pamiętaj o niżej wymienionych zasadach:</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="31"/>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation>Wybranie nuty na pięciolini lub pozycji na podstrunnicy skutkuje sprawdzeniem twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
+        <translation>Wybranie nuty na pięciolinii lub pozycji na podstrunnicy skutkuje sprawdzeniem twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="32"/>
@@ -1918,7 +1918,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="135"/>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation>Jak wiesz, ta sama nuta może być zagrana w kilku miejscach.na gryfie.&lt;br&gt;Gdy zaznaczone, pokazywane są wszystkie z nich.</translation>
+        <translation>Jak wiesz, ta sama nuta może być zagrana w kilku miejscach na gryfie.&lt;br&gt;Gdy zaznaczone, pokazywane są wszystkie z nich.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="139"/>
@@ -2078,7 +2078,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="91"/>
         <source>Check, Are your settings for the level possible to perform.</source>
-        <translation>Sprawdź czy ustawenia poziomu są możliwe do wykonania.</translation>
+        <translation>Sprawdź czy ustawienia poziomu są możliwe do wykonania.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="145"/>
@@ -2120,7 +2120,7 @@ ale nie zapisany!</translation>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="268"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolini będzie taka sama jak pytanie. Żeby tego uniknąć poziom musi używać krzyżiki i bemole oraz/lub podwójne znaki, a także różne style nazw nut.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolinii będzie taka sama jak pytanie. Żeby tego uniknąć poziom musi używać krzyżyki i bemole oraz/lub podwójne znaki, a także różne style nazw nut.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="272"/>
@@ -2130,12 +2130,12 @@ ale nie zapisany!</translation>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="276"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolini będzie taka sama jak pytanie. Żeby tego uniknąć &quot;ręczny wybór tonacji&quot; lub &quot;wymusś odpowiedni znak&quot; muszą być zaznaczone.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolinii będzie taka sama jak pytanie. Żeby tego uniknąć &quot;ręczny wybór tonacji&quot; lub &quot;wymuś odpowiedni znak&quot; muszą być zaznaczone.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="281"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Został zaznzczony ręczny wybór tonacji ale żadna odpowiedź jako nuta na pięciolini nie została wybrana.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Został zaznaczony ręczny wybór tonacji ale żadna odpowiedź jako nuta na pięciolinii nie została wybrana.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="292"/>
@@ -2360,7 +2360,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="34"/>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
-        <translation>Wiele zależy od wybranego poziomu. Kliknij przycisk %1 żeby utowrzyć swój własny zestaw pytań (poziom).</translation>
+        <translation>Wiele zależy od wybranego poziomu. Kliknij przycisk %1 żeby utworzyć swój własny zestaw pytań (poziom).</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="36"/>
@@ -2370,7 +2370,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="44"/>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
-        <translation>Będziesz uczyć się odpowiadając na pytania. Żeby odpowiedzieć, możesz grać, śpiewać, podać nazwę dźwięku, idt.</translation>
+        <translation>Będziesz uczyć się odpowiadając na pytania. Żeby odpowiedzieć, możesz grać, śpiewać, podać nazwę dźwięku, itd.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="49"/>
@@ -2514,7 +2514,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/exam/tnootkacertificate.cpp" line="89"/>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
-        <translation>Niniejszym, wydaje sie świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć dnia [DATE].</translation>
+        <translation>Niniejszym, wydaje się świadectwo&lt;br&gt;jako dowód wymienionych osiągnięć dnia [DATE].</translation>
     </message>
     <message>
         <location filename="../src/exam/tnootkacertificate.cpp" line="93"/>
@@ -2725,7 +2725,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="65"/>
         <source>Next note</source>
-        <translation>Natępna nuta</translation>
+        <translation>Następna nuta</translation>
     </message>
     <message>
         <location filename="../src/notename/tnotename.cpp" line="69"/>
@@ -3035,17 +3035,17 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/core/widgets/tselectclef.cpp" line="161"/>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation>Najbardziej rozpowrzechniony klucz (dla skrzypiec, fletu, saksofonów, itp.)</translation>
+        <translation>Najbardziej rozpowszechniony klucz (dla skrzypiec, fletu, saksofonów, itp.)</translation>
     </message>
     <message>
         <location filename="../src/libs/core/widgets/tselectclef.cpp" line="164"/>
         <source>Clef for guitars (classical, electric and so)</source>
-        <translation>Klucz dla gitar (klasycznej, elektycznej, itp.)</translation>
+        <translation>Klucz dla gitar (klasycznej, elektrycznej, itp.)</translation>
     </message>
     <message>
         <location filename="../src/libs/core/widgets/tselectclef.cpp" line="167"/>
         <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
-        <translation>Klucz na dolnej pięciolini zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
+        <translation>Klucz na dolnej pięciolinii zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/widgets/tselectclef.cpp" line="170"/>
@@ -3097,7 +3097,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="44"/>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Pokaż znaki z tonacji także przy nucie. &lt;b&gt;UWAGA! Nigdy nie zapisuje się ich w prawdziwych nutach - wykorzystwać tylko w celach teoretycznych.&lt;/b&gt;</translation>
+        <translation>Pokaż znaki z tonacji także przy nucie. &lt;b&gt;UWAGA! Nigdy nie zapisuje się ich w prawdziwych nutach - wykorzystywać tylko w celach teoretycznych.&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="46"/>
@@ -3132,7 +3132,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="59"/>
         <source>Staff above</source>
-        <translation>Pięciolina powyżej</translation>
+        <translation>Pięciolinia powyżej</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="61"/>
@@ -3147,7 +3147,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="65"/>
         <source>Next note</source>
-        <translation>Natępna nuta</translation>
+        <translation>Następna nuta</translation>
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="68"/>
@@ -3173,7 +3173,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/core/score/tscorekeysignature.cpp" line="88"/>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation>Tonacja - żeby ją zmienić, kliknij powyżej lub poniżej pięciolini lub użyj kółka myszy.</translation>
+        <translation>Tonacja - żeby ją zmienić, kliknij powyżej lub poniżej pięciolinii lub użyj kółka myszy.</translation>
     </message>
 </context>
 <context>
@@ -3224,7 +3224,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="45"/>
         <source>When enabled, a score displays only a single note.</source>
-        <translation>Gdy zaznzczone, zapis nutowy pokazuje tylko jedną nutę.</translation>
+        <translation>Gdy zaznaczone, zapis nutowy pokazuje tylko jedną nutę.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="48"/>
@@ -3289,7 +3289,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="155"/>
         <source>Select default clef for the application.</source>
-        <translation>Wybież domyślny klucz dla programu.</translation>
+        <translation>Wybierz domyślny klucz dla programu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.h" line="46"/>
@@ -3328,7 +3328,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="71"/>
         <source>Sound</source>
-        <translation>Dżwięk</translation>
+        <translation>Dźwięk</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="54"/>
@@ -3492,7 +3492,7 @@ nutowy</translation>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="66"/>
         <source>Load an exam file</source>
-        <translation>Wczytaj plik egazminu</translation>
+        <translation>Wczytaj plik egzaminu</translation>
     </message>
 </context>
 <context>
@@ -3797,7 +3797,7 @@ nutowy</translation>
     <message>
         <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="46"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation>Pokazuje gośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana.</translation>
+        <translation>Pokazuje głośność dźwięku wejściowego i sygnalizuje kiedy nuta jest rozpoznana.</translation>
     </message>
     <message>
         <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="47"/>
@@ -3815,7 +3815,7 @@ nutowy</translation>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="12"/>
         <source>Do you really want to remove Nootka and all its components?</source>
-        <translation>Czy rzeczwiście chcesz usunąć Nootkę i jej składniki?</translation>
+        <translation>Czy rzeczywiście chcesz usunąć Nootkę i jej składniki?</translation>
     </message>
 </context>
 <context>
@@ -3837,7 +3837,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="35"/>
         <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Krzyżyki będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
+        <translation>Krzyżyki będą używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
@@ -3847,7 +3847,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="38"/>
         <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Bemole będa używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
+        <translation>Bemole będą używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="40"/>
@@ -3993,7 +3993,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/level/levelsettings.cpp" line="49"/>
         <source>Start an exercise on selected level</source>
-        <translation>Rozpocznij cwiczenie na wybranym poziomie</translation>
+        <translation>Rozpocznij ćwiczenie na wybranym poziomie</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="70"/>
@@ -4069,7 +4069,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="171"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation>Pokazuje, na której strunie ma być odpowiedź.&lt;br&gt;Ostrożnie z tym, kiedy ta opcja jest potzrebna, a kiedy nie ma sensu.</translation>
+        <translation>Pokazuje, na której strunie ma być odpowiedź.&lt;br&gt;Ostrożnie z tym, kiedy ta opcja jest potrzebna, a kiedy nie ma sensu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="176"/>
