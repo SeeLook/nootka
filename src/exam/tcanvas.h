@@ -20,9 +20,9 @@
 #ifndef TCANVAS_H
 #define TCANVAS_H
 
-#include <QObject>
-#include <QPointer>
-#include <QGraphicsView>
+#include <QtCore/qobject.h>
+#include <QtCore/qpointer.h>
+#include <QtWidgets/qgraphicsview.h>
 #include <exam/tqatype.h>
 #include <tfingerpos.h>
 

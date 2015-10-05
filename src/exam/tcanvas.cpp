@@ -38,10 +38,9 @@
 #include <widgets/tquestionaswdg.h>
 #include <tpath.h>
 #include <score/tmainscore.h>
-#include <QDebug>
-#include <QTimer>
-#include <QEvent>
-#include <QMouseEvent>
+#include <QtCore/qdebug.h>
+#include <QtCore/qtimer.h>
+#include <QtGui/qevent.h>
 
 
 extern Tglobals *gl;
@@ -89,6 +88,7 @@ int Tcanvas::bigFont() {
   return (m_view->fontMetrics().boundingRect("A").height() * 2);
 }
 
+
 QFont Tcanvas::tipFont(qreal factor) {
   QFont f = m_view->font();
   f.setPointSize(qRound((qreal)bigFont() * factor));
@@ -110,7 +110,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
     else
       time = gl->E->mistakePreview; // user defined wait time
   }
-    
+
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bigFont()));
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
@@ -133,11 +133,13 @@ QString Tcanvas::detectedText(const QString& txt) {
 
 
 void Tcanvas::detectedNoteTip(const Tnote& note) {
+#if !defined (Q_OS_ANDROID)
   Tnote n = note;
   if (n.isValid())
     m_window->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " +
         wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + " " +
       detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + "</td></tr></table>", 5000);
+#endif
 }
 
 
@@ -243,12 +245,14 @@ void Tcanvas::showConfirmTip() {
 
 
 void Tcanvas::playMelodyAgainMessage() {
+#if !defined (Q_OS_ANDROID)
   m_window->setStatusMessage(detectedText(tr("Select any note to play it again.")), 3000);
+#endif
 }
 
 
 void Tcanvas::questionTip() {
-	delete m_startTip;  
+	delete m_startTip;
   delete m_whatTip;
 	delete m_outTuneTip;
   clearMelodyCorrectMessage();
@@ -297,12 +301,14 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
 
 
 void Tcanvas::melodyCorrectMessage() {
+#if !defined (Q_OS_ANDROID)
 	if (m_melodyCorrectMessage)
 		return;
 	m_melodyCorrectMessage = true;
   m_window->setMessageBg (-1);
   m_window->setStatusMessage(QString("<span style=\"color: %1;\"><big>").arg(gl->EanswerColor.name()) + 
 										tr("Click incorrect notes to see<br>and to listen to them corrected.") + "</big></span>");
+#endif
 }
 
 
@@ -360,11 +366,13 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 //#################################################################################################
 
 void Tcanvas::levelStatusMessage() {
+#if !defined (Q_OS_ANDROID)
   m_window->setMessageBg(-1); // reset background
   if (m_exam->isExercise())
       m_window->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_exam->level()->name + "</b>");
   else
       m_window->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_exam->level()->name + "</b>");
+#endif
 }
 
 

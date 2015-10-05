@@ -40,7 +40,6 @@
 #include <notename/tnotename.h>
 #include <widgets/tintonationview.h>
 #include <widgets/tpitchview.h>
-#include <level/tfixleveldialog.h>
 #include <tglobals.h>
 #include <taudioparams.h>
 #include <texamparams.h>
@@ -50,6 +49,9 @@
 #include <graphics/tnotepixmap.h>
 #include <gui/ttoolbar.h>
 #include <gui/tmainview.h>
+#if !defined (Q_OS_ANDROID)
+  #include <level/tfixleveldialog.h>
+#endif
 #include <QtWidgets/QtWidgets>
 
 
@@ -122,11 +124,13 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	m_glStore->instrument = gl->instrument;
 	if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
 			m_exam = new Texam(&m_level, resultText); // resultText is userName
+#if !defined (Q_OS_ANDROID)
 			if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
 				}
+#endif
 			gl->E->studentName = resultText; // store user name
 			m_exam->setTune(*gl->Gtune());
 //         mW->examResults->startExam(m_exam);
@@ -142,12 +146,14 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 				if (err == Texam::e_file_corrupted)
 					QMessageBox::warning(mW, " ", 
 						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
+#if !defined (Q_OS_ANDROID)
 				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
 						!showExamSummary(mW, m_exam, true)) {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
 				}
+#endif
 			} else {
 					if (err == Texam::e_file_not_valid)
 							QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
@@ -164,8 +170,10 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 			deleteExam();
 			return;
 	}
-	//We check are guitar's params suitable for an exam 
+	//We check are guitar's params suitable for an exam
+#if !defined (Q_OS_ANDROID)
 	TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
+#endif
 	// ---------- End of checking ----------------------------------
 
 	if (m_exam->melodies())
