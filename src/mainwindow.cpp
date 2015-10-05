@@ -24,6 +24,9 @@
 #include "gui/ttoolbar.h"
 #include "gui/tmenu.h"
 #include "gui/tmelman.h"
+#include "exam/tprogresswidget.h"
+#include "exam/texamview.h"
+#include "exam/texamexecutor.h"
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
 #include <tscoreparams.h>
@@ -32,12 +35,8 @@
 #include <exam/texam.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 #if !defined (Q_OS_ANDROID)
-  #include "exam/tprogresswidget.h"
-  #include "exam/texamview.h"
-  #include "exam/texamexecutor.h"
-
   #include <taboutnootka.h>
   #include <tsupportnootka.h>
 #endif
@@ -64,6 +63,8 @@ void noteToKey(Tnote& n, TkeySignature k) {
 	}
 }
 
+
+// HACK: Workaround to force qtandroiddeploy include QtMultimedia and QtAndroidExtras libs
 #if defined (Q_OS_ANDROID)
 #include <QMediaPlayer>
 #include <QtAndroidExtras/QtAndroid>
@@ -76,9 +77,9 @@ void noteToKey(Tnote& n, TkeySignature k) {
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-#if !defined (Q_OS_ANDROID)
   examResults(0),
   progress(0),
+#if !defined (Q_OS_ANDROID)
   m_statusText(""),
   m_curBG(-1), m_prevBg(-1),
   m_lockStat(false),
@@ -169,9 +170,6 @@ MainWindow::MainWindow(QWidget *parent) :
 #if defined (Q_OS_ANDROID)
   connect(bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
 #else
-//   connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
-//   connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
-  connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
   connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
   connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
   connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
@@ -183,6 +181,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
   connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
   connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+  connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
   connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
   connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
   connect(guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
@@ -242,11 +241,12 @@ void MainWindow::setMessageBg(QColor bg) {
 
 
 void MainWindow::clearAfterExam(int examState) {
-#if !defined (Q_OS_ANDROID)
 	bar->actionsAfterExam();
+#if !defined (Q_OS_ANDROID)
 	m_curBG = -1;
 	m_prevBg = -1;
 	setMessageBg(-1);
+#endif
 	if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
 			openLevelCreator();
 	else
@@ -254,12 +254,13 @@ void MainWindow::clearAfterExam(int examState) {
 	innerWidget->takeExamViews();
 	progress = 0;
 	examResults = 0;
+#if !defined (Q_OS_ANDROID)
 	if (score->insertMode() != TmultiScore::e_single)
 		bar->setMelodyButtonVisible(true);
+#endif
 	updateSize(innerWidget->size());
   delete executor;
   m_deleteExecutor = true;
-#endif
 }
 
 //##########################################################################################
@@ -298,7 +299,6 @@ void MainWindow::createSettingsDialog() {
 	if (score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
 	QString args;
-#if !defined (Q_OS_ANDROID)
 	if (executor) {
 		if (executor->isExercise())
 			args = "exercise";
@@ -306,13 +306,10 @@ void MainWindow::createSettingsDialog() {
 			args = "exam";
 		executor->prepareToSettings();
 	} else {
-#endif
 			if (score->insertMode() == TmultiScore::e_record)
 				m_melButt->recordMelodySlot(); // switch to multi mode
 			sound->prepareToConf();
-#if !defined (Q_OS_ANDROID)
 	}
-#endif
   TpluginsLoader *loader = new TpluginsLoader();
   if (loader->load(TpluginsLoader::e_settings)) {
     loader->init(args, this);
@@ -320,12 +317,10 @@ void MainWindow::createSettingsDialog() {
 	QString lastWord = loader->lastWord();
 	delete loader;
 		if (lastWord.contains("Accepted")) {
-    #if !defined (Q_OS_ANDROID)
 			if (executor) {
 				executor->settingsAccepted();
 				return;
 			}
-    #endif
 			m_isPlayerFree = false;
 			sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);
@@ -335,9 +330,9 @@ void MainWindow::createSettingsDialog() {
 					guitar->acceptSettings(); //refresh guitar
 			bar->setBarIconStyle(gl->L->iconTextOnToolBar, bar->iconSize().width());
 			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
-      #if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID)
 			m_statLab->setVisible(gl->L->hintsBarEnabled);
-      #endif
+#endif
 			pitchView->setVisible(gl->L->soundViewEnabled);
 			guitar->setVisible(gl->L->guitarEnabled);
 			m_isPlayerFree = true;
@@ -373,13 +368,11 @@ void MainWindow::openLevelCreator(QString levelFile) {
   bool ok;
   int levelNr = levelText.toInt(&ok);
   if (ok) {
-#if !defined (Q_OS_ANDROID)
     TlevelSelector ls;
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
     executor = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam
-#endif
   }
   else
     sound->go(); // restore pitch detection
@@ -387,13 +380,11 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 
 void MainWindow::startExamSlot() {
-#if !defined (Q_OS_ANDROID)
 	prepareToExam();
   m_deleteExecutor = false;
 	executor = new TexamExecutor(this);
   if (m_deleteExecutor)
     delete executor;
-#endif
 }
 
 
@@ -467,20 +458,16 @@ void MainWindow::soundWasFinished(Tchunk* chunk) {
 
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
-#if !defined (Q_OS_ANDROID)
-		if (!executor)
-			m_melButt->melodyAction()->setVisible(false);
-#endif
-		innerWidget->addNoteName();
-		score->setInsertMode(TmultiScore::e_single);
+      if (!executor)
+          m_melButt->melodyAction()->setVisible(false);
+      innerWidget->addNoteName();
+      score->setInsertMode(TmultiScore::e_single);
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
-#if !defined (Q_OS_ANDROID)
-		if (!executor)
-			m_melButt->melodyAction()->setVisible(true);
-#endif
-		innerWidget->takeNoteName();
-		noteName->setNoteName(Tnote(1, 0)); // unset buttons
-		score->setInsertMode(TmultiScore::e_multi);
+      if (!executor)
+          m_melButt->melodyAction()->setVisible(true);
+      innerWidget->takeNoteName();
+      noteName->setNoteName(Tnote(1, 0)); // unset buttons
+      score->setInsertMode(TmultiScore::e_multi);
 	}
 }
 
@@ -572,7 +559,6 @@ void MainWindow::adjustAmbitus() {
 //#################################################################################################
 
 void MainWindow::prepareToExam() {
-#if !defined (Q_OS_ANDROID)
 	if (score->insertMode() != TmultiScore::e_single) {
 		if (score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing when played
@@ -583,7 +569,6 @@ void MainWindow::prepareToExam() {
 	examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
 	progress = new TprogressWidget();
 	innerWidget->addExamViews(examResults, progress);
-#endif
 }
 
 
@@ -598,7 +583,6 @@ void MainWindow::updateSize(QSize newS) {
 	if (m_statFontSize < 0)
 		return;
 
-#if !defined (Q_OS_ANDROID)
 	if (gl->L->soundViewEnabled) {
 		if (gl->L->hintsBarEnabled) {
 			pitchView->setDirection(QBoxLayout::TopToBottom);
@@ -612,6 +596,7 @@ void MainWindow::updateSize(QSize newS) {
 			pitchView->setFixedHeight(newS.height() * 0.04);
 		}
 	}
+#if !defined (Q_OS_ANDROID)
 	int barIconSize = qMin(newS.width(), newS.height()) / 20;
   bar->setBarIconStyle(gl->L->iconTextOnToolBar, barIconSize);
 #endif
@@ -684,13 +669,14 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 #if !defined (Q_OS_ANDROID)
   disconnect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
   disconnect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-	if (executor) {
-		if (executor->closeNootka()) {
-				event->accept();
-    } else
-				event->ignore();
-	}
 #endif
+	if (executor) {
+      if (executor->closeNootka()) {
+          event->accept();
+      } else {
+          event->ignore();
+      }
+	}
 }
 
 

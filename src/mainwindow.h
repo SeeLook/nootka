@@ -39,9 +39,9 @@ class TmelMan;
 class TpitchView;
 class Tsound;
 class TpluginsLoader;
-#if !defined (Q_OS_ANDROID)
   class TexamView;
   class TprogressWidget;
+#if !defined (Q_OS_ANDROID)
   class TnootkaLabel;
 #endif
 
@@ -90,10 +90,8 @@ protected:
 	TfingerBoard *guitar;
   Tsound *sound;
   TpitchView *pitchView;
-#if !defined (Q_OS_ANDROID)
 	TexamView *examResults;
 	TprogressWidget *progress;
-#endif
 
   QPointer<TexamExecutor> executor;
 
