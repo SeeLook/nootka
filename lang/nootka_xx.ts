@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="xx_XX">
+<TS version="2.0" language="xx_XX">
 <context>
     <name>AnswerText</name>
     <message>
@@ -1603,7 +1603,7 @@
     </message>
     <message>
         <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2492,10 +2492,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show note names</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2541,6 +2537,10 @@
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
