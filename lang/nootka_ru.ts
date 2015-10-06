@@ -4,50 +4,52 @@
 <context>
     <name>AnswerText</name>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="211"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="56"/>
         <source>Wrong answer!</source>
         <translation>Ответ неверный!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="208"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="53"/>
         <source>Good answer!</source>
         <comment>or &apos;Good!&apos; or &apos;Correct!&apos; would be somewhat more specific than merely &apos;It was good!&apos; (previous version) &apos;It&apos; in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one&apos;s back. I know that&apos;s probably confusing, but the implied subject of &apos;Correct! is in a certain sense much more specific than a mere &apos;It&apos; and is more certain to refer to the answer.</comment>
         <translation>Отличный ответ!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="213"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="58"/>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
         <translation>Неплохо, но:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="216"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="61"/>
         <source>wrong string</source>
         <translation>неправильная струна</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="218"/>
+        <location filename="../src/exam/texamsummary.cpp" line="169"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="63"/>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
         <translation>мало правильных нот</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="223"/>
+        <location filename="../src/exam/texamsummary.cpp" line="172"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="68"/>
         <source>poor effectiveness</source>
         <translation>низкая эффективность</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="226"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="71"/>
         <source>wrong accidental</source>
         <translation>неправильный знак альтерации</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="229"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="74"/>
         <source>wrong key signature</source>
         <translation>неправильная тональность</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="233"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="78"/>
         <source>wrong octave</source>
         <translation>неправильная октава</translation>
     </message>
@@ -97,7 +99,7 @@
         <translation>неправильные струны</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="237"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="82"/>
         <location filename="../src/plugins/charts/sorting.cpp" line="367"/>
         <source>out of tune</source>
         <translation>не в тон</translation>
@@ -131,29 +133,9 @@
         <translation>режим определения высоты звука</translation>
     </message>
     <message>
-        <source>for playing</source>
-        <translation type="obsolete">для игры</translation>
-    </message>
-    <message>
-        <source>1. Input device and pitch detection</source>
-        <translation>1. Входное звуковое устройство и определение высоты звука</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="60"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Убедитесь, что входное устройство подключено и  правильно сконфигурировано.</translation>
-    </message>
-    <message>
-        <source>for singing</source>
-        <translation type="obsolete">для пения</translation>
-    </message>
-    <message>
-        <source>This mode is more accurate but slower. It is recommended for singing and for instruments with &quot;wobbly&quot; intonation.</source>
-        <translation type="obsolete">Этот режим более точен, но работает медленнее. Он рекомендован для пения и инструментов с неустойчивым интонированием.</translation>
-    </message>
-    <message>
-        <source>This mode is faster and good enough for guitars and other instruments.</source>
-        <translation type="obsolete">Этот режим работает быстрее и достаточно хорош для гитар и других инструментов.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="71"/>
@@ -166,10 +148,6 @@
         <translation>Определяются только ноты, длиннее данного времени.&lt;br&gt;Б&lt;i&gt;о&lt;/i&gt;льшие значения позволяют снизить ошибку в определении высоты звука, но уменьшают скорость реакции алгоритма.</translation>
     </message>
     <message>
-        <source>2. Pitch detection parameters</source>
-        <translation>2. Параметры определения высоты звука</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="79"/>
         <source>minimum volume</source>
         <translation>минимальная громкость</translation>
@@ -178,22 +156,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="82"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Уровень громкости, при превышениие которого запускается алгоритм определения высоты звука</translation>
-    </message>
-    <message>
-        <source>low</source>
-        <translation type="obsolete">низкие</translation>
-    </message>
-    <message>
-        <source>Notes above &lt;b&gt;A contra&lt;/b&gt;.&lt;br&gt;Suitable for guitar, cello, human voice, etc.</source>
-        <translation type="obsolete">Ноты выше &lt;b&gt;ля контроктавы&lt;/b&gt;.&lt;br&gt;Подходит для гитары, виолончели, человеческого голоса и т.д.</translation>
-    </message>
-    <message>
-        <source>Notes above &lt;b&gt;small g&lt;/b&gt;.&lt;br&gt;Suitable for high pitched instruments such as flute, piccolo, etc.</source>
-        <translation type="obsolete">Ноты выше &lt;b&gt;соль малой октавы&lt;/b&gt;.&lt;br&gt;Подходит для инструментов с высоким строем.</translation>
-    </message>
-    <message>
-        <source>3. &apos;Middle a&apos; and transposition</source>
-        <translation>3. Среднее ля и транспозиция</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="118"/>
@@ -246,12 +208,12 @@
         <translation>подстроить к инструменту</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="251"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="252"/>
         <source>Test the settings</source>
         <translation>Проверка настроек</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="257"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="251"/>
         <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
         <translation>Проверьте правильность настроек входного устройства и&lt;br&gt;насколько правильно работает алгоритм определения высоты звука.</translation>
     </message>
@@ -270,14 +232,6 @@
         </translation>
     </message>
     <message>
-        <source>Range of note pitches:</source>
-        <translation type="obsolete">Диапазон определяемых нот:</translation>
-    </message>
-    <message>
-        <source>The lowest notes.&lt;br&gt;Suitable for bass guitar, double bass, etc.</source>
-        <translation type="obsolete">Низкие ноты.&lt;br&gt;Подходит для бас-гитар, контрабасов и т.д.</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="128"/>
         <source>interval:</source>
         <translation>интервал:</translation>
@@ -291,14 +245,6 @@
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="131"/>
         <source>none</source>
         <translation>нет</translation>
-    </message>
-    <message>
-        <source>middle</source>
-        <translation type="obsolete">средние</translation>
-    </message>
-    <message>
-        <source>high</source>
-        <translation type="obsolete">высокие</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="122"/>
@@ -321,16 +267,12 @@
         <translation>вниз</translation>
     </message>
     <message>
-        <source>4. Test the settings</source>
-        <translation>4. Проверка настроек</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="253"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="254"/>
         <source>Test</source>
         <translation>Проверка</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="254"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="255"/>
         <source>Stop</source>
         <translation>Стоп</translation>
     </message>
@@ -388,7 +330,7 @@
         <translation>MIDI-порт</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="158"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="159"/>
         <source>no midi ports</source>
         <translation>нет MIDI-выходов</translation>
     </message>
@@ -453,7 +395,7 @@
         <translation>Флейта</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="178"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="179"/>
         <source>no devices found</source>
         <translation>устройства не найдены</translation>
     </message>
@@ -508,58 +450,6 @@
         <location filename="../src/libs/misc/translationHeader.h" line="10"/>
         <source>Nootka exam file</source>
         <translation>Файл Нутки с экзаменом</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindow</name>
-    <message>
-        <source>main toolbar</source>
-        <translation type="obsolete">главная панель</translation>
-    </message>
-    <message>
-        <source>show correct answer for every mistake</source>
-        <translation type="obsolete">показывать правильный ответ при каждой ошибке</translation>
-    </message>
-    <message>
-        <source>Analyze</source>
-        <comment>could be Chart as well</comment>
-        <translation type="obsolete">Анализ</translation>
-    </message>
-    <message>
-        <source>Analysis of exam results</source>
-        <translation type="obsolete">Анализ результатов экзамена</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="obsolete">О..</translation>
-    </message>
-    <message>
-        <source>Level</source>
-        <translation type="obsolete">Уровень</translation>
-    </message>
-    <message>
-        <source>Start!</source>
-        <translation type="obsolete">Начать!</translation>
-    </message>
-    <message>
-        <source>Start exercises or an exam</source>
-        <translation type="obsolete">Начать упражнение или экзамен</translation>
-    </message>
-    <message>
-        <source>Problems with sound output</source>
-        <translation type="obsolete">Проблема с выводом звука</translation>
-    </message>
-    <message>
-        <source>Application preferences</source>
-        <translation type="obsolete">Настройки приложения</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Настройки</translation>
-    </message>
-    <message>
-        <source>About Nootka</source>
-        <translation type="obsolete">О Нутке</translation>
     </message>
 </context>
 <context>
@@ -722,12 +612,12 @@
         <translation>Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="68"/>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="70"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Не беспокойтесь: это окно появляется только раз, после выхода каждой новой версии программы.&lt;br&gt;Повторно эту информацию можно просмотреть в диалоге «О программе»</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tyaxis.cpp" line="63"/>
+        <location filename="../src/plugins/charts/tyaxis.cpp" line="87"/>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
         <translation>время [с]</translation>
@@ -754,22 +644,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="244"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="247"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
         <translation>Добро пожаловать.&lt;br&gt;Нутка - это программа с открытым исходным кодом для обучения классической нотной нотации.&lt;br&gt;Программа была задумана для гитаристов, но и не гитаристы смогут найти в ней что-нибудь полезное.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="245"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="248"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Это бета-версия программы. В ней могут быть ошибки и не до конца реализованные функции.&lt;br&gt;Несмотря на это, попробуйте её!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="246"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="249"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Посетите &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;сайт программы&lt;/a&gt; для дополнительной информации и загрузки обновлений.&lt;/p&gt;&lt;p&gt;Сообщения об ошибках, предложения, переводы и т.д. отправляйте на: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;С уважением&lt;br&gt;Автор</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="250"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="253"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Чтобы поддержать проект и избежать заражения вашего компьютера вирусами&lt;br&gt;&lt;b&gt;ПОЖАЛУЙСТА используйте официальный сайт для загрузки обновлений, новых релизов и ознакомления с новостями проекта.&lt;/b&gt;</translation>
     </message>
@@ -850,151 +740,146 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="83"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="85"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>упорядочить по:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="84"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="86"/>
         <source>student name:</source>
         <translation>имя ученика:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="85"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="87"/>
         <source>level:</source>
         <translation>уровень:</translation>
     </message>
     <message>
-        <source>question number</source>
-        <comment>see coment in &apos;ordered by:&apos; entry</comment>
-        <translation type="obsolete">номеру вопроса</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="89"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="91"/>
         <source>note pitch</source>
         <translation>высоте ноты</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="90"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="92"/>
         <source>fret number</source>
         <translation>номеру лада</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="91"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="93"/>
         <source>key signature</source>
         <translation>тональности</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="92"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="94"/>
         <source>accidentals</source>
         <translation>знакам альтерации</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="93"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="95"/>
         <source>question type</source>
         <translation>типу вопроса</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="94"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="96"/>
         <source>mistake</source>
         <translation>ошибкам</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="101"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="103"/>
         <source>Level summary:</source>
         <translation>Сводка уровня:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="102"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="104"/>
         <source>Tuning</source>
         <translation>Строй</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="156"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="158"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Щелкните мышью и тащите, чтобы передвинуть график.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="188"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="190"/>
         <source>Question number</source>
         <translation>Количество вопросов</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="280"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="282"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Файл: %1 
  это не файл с экзаменом!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="290"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="292"/>
         <source>Open an exam to analyze</source>
         <translation>Открыть экзамен для анализа</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="301"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="303"/>
         <source>Recent exercise on level</source>
         <translation>Недавнее упражнение</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="308"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="310"/>
         <source>recent opened exams:</source>
         <translation>недавно открытые экзамены:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="326"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="328"/>
         <source>Close analyzer window</source>
         <translation>Закрыть анализ</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="349"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="351"/>
         <source>Settings of a chart</source>
         <translation>Настройки диаграммы</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="357"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="359"/>
         <source>Maximize</source>
         <translation>Максимально увеличить</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="361"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="363"/>
         <source>linear chart</source>
         <translation>линейная диаграмма</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="364"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="366"/>
         <source>bar chart</source>
         <translation>столбчатый график</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="581"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="588"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="154"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Нажмите кнопку %1 для загрузки экзамена из файла.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="59"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="60"/>
         <source>Analyze</source>
         <translation>Анализ</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="76"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="78"/>
         <source>Y value:</source>
         <translation>Y значение:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="90"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
         <translation>номеру вопроса</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="154"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="156"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Используйте %1 + колесо мыши или кнопки %2 для изменения масштаба диаграммы.</translation>
     </message>
@@ -1005,22 +890,22 @@
         <translation>Количество вопросов</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="329"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="331"/>
         <source>zoom in</source>
         <translation>увеличить</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="332"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="334"/>
         <source>zoom out</source>
         <translation>уменьшить</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="335"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="337"/>
         <source>include time of wrong answers to average</source>
         <translation>включить время неправильных ответов в среднее</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="337"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="339"/>
         <source>show wrong answers separately</source>
         <translation>показывать неправильные ответы отдельно</translation>
     </message>
@@ -1053,73 +938,73 @@
 <context>
     <name>Tcanvas</name>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="129"/>
+        <location filename="../src/exam/tcanvas.cpp" line="140"/>
         <source>%1 was detected</source>
         <comment>note name</comment>
         <translation>Было обнаружена нота %1</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="135"/>
+        <location filename="../src/exam/tcanvas.cpp" line="146"/>
         <source>Try again!</source>
         <translation>Попробуйте еще раз!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="179"/>
+        <location filename="../src/exam/tcanvas.cpp" line="190"/>
         <source>To correct an answer</source>
         <translation>Для корректировки ответа</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="182"/>
+        <location filename="../src/exam/tcanvas.cpp" line="193"/>
         <source>To try this melody again</source>
         <translation>Чтобы попробовать эту мелодию еще раз</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="190"/>
+        <location filename="../src/exam/tcanvas.cpp" line="201"/>
         <source>To see corrected answer</source>
         <translation>Чтобы посмотреть правильный ответ</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="192"/>
+        <location filename="../src/exam/tcanvas.cpp" line="203"/>
         <source>To see some hints</source>
         <translation>Чтобы посмотреть некоторые подсказки</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="221"/>
+        <location filename="../src/exam/tcanvas.cpp" line="229"/>
         <source>To check the answer confirm it:</source>
         <translation>Для проверки ответа подтвердите его:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="224"/>
+        <location filename="../src/exam/tcanvas.cpp" line="232"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>В справке по экзамену %1 описано, как сделать это автоматически</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="238"/>
+        <location filename="../src/exam/tcanvas.cpp" line="246"/>
         <source>Select any note to play it again.</source>
         <translation>Выберите любую ноту, чтобы проиграть ее еще раз.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="276"/>
+        <location filename="../src/exam/tcanvas.cpp" line="284"/>
         <source>too low</source>
         <translation>слишком низко</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="278"/>
+        <location filename="../src/exam/tcanvas.cpp" line="286"/>
         <source>too high</source>
         <translation>слишком высоко</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="297"/>
+        <location filename="../src/exam/tcanvas.cpp" line="305"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation>Щелкните по неправильным нотам, чтобы увидеть&lt;br&gt;и послушать исправленные.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="357"/>
+        <location filename="../src/exam/tcanvas.cpp" line="365"/>
         <source>You are exercising on level</source>
         <translation>Вы занимаетесь на уровне</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="359"/>
+        <location filename="../src/exam/tcanvas.cpp" line="367"/>
         <source>Exam started on level</source>
         <translation>начался экзамен на уровне</translation>
     </message>
@@ -1234,161 +1119,88 @@
 <context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="131"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="141"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Похоже, что файл экзамена поврежден&lt;/b&gt;&lt;br&gt;Лучше начать новый экрамен на том же уровне</translation>
     </message>
     <message>
-        <source>next question
-(space %1)</source>
-        <translation type="obsolete">следующий вопрос
-(пробел %1)</translation>
-    </message>
-    <message>
-        <source>check answer
-(enter %1)</source>
-        <translation type="obsolete">проверить ответ
-(Enter %1)</translation>
-    </message>
-    <message>
-        <source>play sound again</source>
-        <translation type="obsolete">проиграть звук снова</translation>
-    </message>
-    <message>
-        <source>repeat previous question (backspace)</source>
-        <translation type="obsolete">повторить предыдущий вопрос (backspace)</translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="140"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="150"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Файл: %1 некорректный файл экзамена!</translation>
     </message>
     <message>
-        <source>Exercise or exam require sound but&lt;br&gt;sound output is not available!</source>
-        <translation type="obsolete">Упражнение или экзамен требует использование аудиовыхода&lt;br&gt;но он недоступен!</translation>
-    </message>
-    <message>
-        <source>An exercises or exam require sound input but&lt;br&gt;it is not available!</source>
-        <translation type="obsolete">Упражнение или экзамен требует использование аудиовхода&lt;br&gt;но он недоступен!</translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="167"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="177"/>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Уровень &lt;b&gt;%1&lt;b&gt;&lt;br&gt;не имеет смысла, т.к. нечего спрашивать.&lt;br&gt;Он может не соответствовать текущей настойке инструмента.&lt;br&gt;Исправьте уровень в Редакторе уровней и попробуйте снова.</translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="obsolete">Помощь</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="obsolete">Стоп</translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <comment>like a next question</comment>
-        <translation type="obsolete">Следующий</translation>
-    </message>
-    <message>
-        <source>Repeat</source>
-        <comment>like a repeat question</comment>
-        <translation type="obsolete">Повтор</translation>
-    </message>
-    <message>
-        <source>Check</source>
-        <comment>like a check answer</comment>
-        <translation type="obsolete">Проверить</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="obsolete">Играть</translation>
-    </message>
-    <message>
-        <source>Correct</source>
-        <comment>like a correct answer with mistake</comment>
-        <translation type="obsolete">Ответ</translation>
-    </message>
-    <message>
-        <source>correct answer
-(enter)</source>
-        <translation type="obsolete">Показать правильный ответ (Enter)</translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1211"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1233"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Сначала дайте ответ!&lt;br&gt;Потом экзамен закончится.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1257"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1278"/>
         <source>Such a pity.</source>
         <translation>Очень жаль.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1360"/>
         <source>Save exam results as:</source>
         <translation>Сохранить результат экзамена как:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1343"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1363"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Если вы не сохраните экзамен в файл&lt;br&gt;все результаты будут потеряны!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1492"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1513"/>
         <source>This note was not played!</source>
         <translation>Эта нота не была сыграна!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1553"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1574"/>
         <source>Exercises with Nootka</source>
         <translation>Упражнения</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1554"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1575"/>
         <source>finish exercising</source>
         <translation>закончить упражнение</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1556"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1577"/>
         <source>EXAM!</source>
         <translation>ЭКЗАМЕН!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1557"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1578"/>
         <source>stop the exam</source>
         <translation>остановить экзамен</translation>
     </message>
     <message>
-        <source>You are exercising on level</source>
-        <translation type="obsolete">Вы занимаетесь на уровне</translation>
-    </message>
-    <message>
-        <source>Exam started on level</source>
-        <translation type="obsolete">начался экзамен на уровне</translation>
-    </message>
-    <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1316"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1337"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Тссс... Идёт экзамен.&lt;br&gt;&lt;br&gt;&lt;b&gt;Продолжить&lt;/b&gt; его&lt;br&gt;или&lt;br&gt;&lt;b&gt;Завершить&lt;/b&gt; для проверки, сохранения и выхода&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1317"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1338"/>
         <source>Continue</source>
         <translation>Продолжить</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1318"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
         <source>Terminate</source>
         <translation>Завершить</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1344"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1364"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1345"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1365"/>
         <source>Discard</source>
         <translation>Отмена</translation>
     </message>
@@ -1431,10 +1243,6 @@
         <translation>Вкратце: Нутка задаёт вопрос, и Вы на него отвечаете...</translation>
     </message>
     <message>
-        <source>Select 2nd check box to get the question automatically.</source>
-        <translation type="obsolete">Отметьте второй пункт, чтобы получать вопросы автоматически.</translation>
-    </message>
-    <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="51"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Вопросы отмечены этим цветом и знаком &quot;?&quot;.</translation>
@@ -1445,10 +1253,6 @@
         <translation>Чтобы дать ответ, выберите его на &lt;span style=&quot;%1&quot;&gt;элементе Нутки, отмеченным этим цветом.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <source>By selecting the 3rd check box, answers will be checked immediately without confirmation required.</source>
-        <translation type="obsolete">Отметьте третий пункт, и ответы будут проверяться автоматически.</translation>
-    </message>
-    <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="59"/>
         <source>Exercises</source>
         <translation>Упражнения</translation>
@@ -1457,10 +1261,6 @@
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="61"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
         <translation>Если Вы сделали ошибку во время упражнения, то Нутка может показать правильный ответ. Для этого:</translation>
-    </message>
-    <message>
-        <source>Select 1st check box to see corrected answer for every mistake.</source>
-        <translation type="obsolete">Отметьте первый пункт, чтобы видеть правильный ответ при каждой ошибке.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="63"/>
@@ -1491,10 +1291,6 @@
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
         <source>GOOD LUCK!</source>
         <translation>УДАЧИ!</translation>
-    </message>
-    <message>
-        <source>Experts corner</source>
-        <translation type="obsolete">Уголок эксперта</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="55"/>
@@ -1555,10 +1351,6 @@
         <location filename="../src/libs/misc/help/texamhelp.h" line="61"/>
         <source>Click %1 button to stop.</source>
         <translation>Нажмите кнопку %1 чтобы остановить.</translation>
-    </message>
-    <message>
-        <source>To stop the exam click %1 button.</source>
-        <translation type="obsolete">Чтобы остановить экзамен, нажмите %1.</translation>
     </message>
 </context>
 <context>
@@ -1704,31 +1496,19 @@
         <translation>Чтобы вам было проще ассоциировать ноту на нотоносце или позицию на грифе с названием ноты, Нутка будет показывать  названия, даже если вопрос или ответ с ними не связан.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/texamsettings.cpp" line="160"/>
+        <location filename="../src/plugins/settings/texamsettings.cpp" line="161"/>
         <source>colors</source>
         <translation>цвета</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/texamsettings.cpp" line="177"/>
+        <location filename="../src/plugins/settings/texamsettings.cpp" line="178"/>
         <source>exercises</source>
         <translation>упражнения</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/texamsettings.cpp" line="189"/>
+        <location filename="../src/plugins/settings/texamsettings.cpp" line="190"/>
         <source>exams</source>
         <translation>экзамены</translation>
-    </message>
-    <message>
-        <source>ask next question automatically</source>
-        <translation type="obsolete">задавать следующий вопрос автоматически</translation>
-    </message>
-    <message>
-        <source>check answers without requiring confirmation</source>
-        <translation type="obsolete">проверять ответ без подтверждения</translation>
-    </message>
-    <message>
-        <source>correct mistakes (exercises only)</source>
-        <translation type="obsolete">показывать правильный ответ (только для упражнений)</translation>
     </message>
 </context>
 <context>
@@ -1759,10 +1539,6 @@
         <translation>Время ответа</translation>
     </message>
     <message>
-        <source>Analyse</source>
-        <translation type="obsolete">Анализ</translation>
-    </message>
-    <message>
         <location filename="../src/exam/texamsummary.cpp" line="99"/>
         <source>Close</source>
         <translation>Закрыть</translation>
@@ -1783,62 +1559,62 @@
         <translation>Результаты:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="147"/>
+        <location filename="../src/exam/texamsummary.cpp" line="150"/>
         <source>Kinds of mistakes</source>
         <translation>Типы ошибок</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="150"/>
+        <location filename="../src/exam/texamsummary.cpp" line="153"/>
         <source>Wrong notes</source>
         <translation>Неправильные ноты</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="152"/>
+        <location filename="../src/exam/texamsummary.cpp" line="155"/>
         <source>Wrong accidentals</source>
         <translation>Неправильные знаки альтерации</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="154"/>
+        <location filename="../src/exam/texamsummary.cpp" line="157"/>
         <source>Wrong key signatures</source>
         <translation>Неправильные тональности</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="156"/>
+        <location filename="../src/exam/texamsummary.cpp" line="159"/>
         <source>Wrong octaves</source>
         <translation>Неправильные октавы</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="158"/>
+        <location filename="../src/exam/texamsummary.cpp" line="161"/>
         <source>Wrong note names</source>
         <translation>Неправильное название нот</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="165"/>
+        <location filename="../src/exam/texamsummary.cpp" line="167"/>
         <source>Out of tune</source>
         <translation>Не в тон</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="193"/>
+        <location filename="../src/exam/texamsummary.cpp" line="201"/>
         <source>Progress of exercises</source>
         <translation>Выполнено</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="194"/>
+        <location filename="../src/exam/texamsummary.cpp" line="202"/>
         <source>Pass an exam</source>
         <translation>Сдать экзамен</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="195"/>
+        <location filename="../src/exam/texamsummary.cpp" line="203"/>
         <source>Finish exercise and pass an exam on this level.</source>
         <translation>Закончить упражнение и начать экзамен на этом уровне.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="201"/>
+        <location filename="../src/exam/texamsummary.cpp" line="209"/>
         <source>Finish this exercise</source>
         <translation>Закончить упражнение</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="161"/>
+        <location filename="../src/exam/texamsummary.cpp" line="163"/>
         <source>Wrong positions on guitar</source>
         <translation>Неправильная позиция на грифе</translation>
     </message>
@@ -1848,7 +1624,7 @@
         <translation>Анализ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="163"/>
+        <location filename="../src/exam/texamsummary.cpp" line="165"/>
         <source>Wrong strings</source>
         <translation>Неправильная струна</translation>
     </message>
@@ -1959,7 +1735,6 @@
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="34"/>
         <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translatorcomment>Not exactly sure. I need to check this thorougly.</translatorcomment>
         <translation>Когда последняя нота задания, которое является мелодией, была сыграна - начинается проверка.</translation>
     </message>
     <message>
@@ -1989,113 +1764,23 @@
         <translation>Мастер настройки</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="61"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="60"/>
         <source>What instrument do you play?</source>
         <translation>На каком инструменте Вы играете?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="176"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="175"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
         <translation>Для записи нот бас-гитары используется &lt;b&gt;басовый ключ&lt;/b&gt;, но ноты играются октавой ниже. Если использовать &lt;b&gt;басовый ключ с понижением на октаву&lt;/b&gt; (с цифрой 8 под ключом), то ноты будут звучать именно так, как они записаны. Такой ключ используется в Нутке для бас-гитары.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="179"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="178"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>При записи нот для гитары использует скрипичный ключ с цифрой 8 под ним (даже если некоторые редакторы забывают об этом). &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;На обеих картинках изображена одинаковая нота: до&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(нота до первой октавы)&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="obsolete">При записи нот для гитары использует скрипичный ключ с цифрой 8 под ним (даже если некоторые редакторы забывают об этом). &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;На обеих картинках изображена одинаковая нота: до&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(нота до первой октавы)&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>next</source>
-        <translation type="obsolete">Далее</translation>
-    </message>
-</context>
-<context>
-    <name>TfirstRunWizzard</name>
-    <message>
-        <source>First run wizard</source>
-        <translation type="obsolete">Мастер настройки</translation>
-    </message>
-    <message>
-        <source>skip wizard</source>
-        <translation type="obsolete">Пропустить</translation>
-    </message>
-    <message>
-        <source>previous</source>
-        <translation type="obsolete">Назад</translation>
-    </message>
-    <message>
-        <source>What instrument do you play?</source>
-        <translation type="obsolete">На каком инструменте Вы играете?</translation>
-    </message>
-    <message>
-        <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="obsolete">Для записи нот бас-гитары используется &lt;b&gt;басовый ключ&lt;/b&gt;, но ноты играются октавой ниже. Если использовать &lt;b&gt;басовый ключ с понижением на октаву&lt;/b&gt; (с цифрой 8 под ключом), то ноты будут звучать именно так, как они записаны. Такой ключ используется в Нутке для бас-гитары.</translation>
-    </message>
-    <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="obsolete">При записи нот для гитары использует скрипичный ключ с цифрой 8 под ним (даже если некоторые редакторы забывают об этом). &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;span style=&quot;font-size:20px;&quot;&gt;На обеих картинках изображена одинаковая нота: до&lt;sup&gt;1&lt;/sup&gt;&lt;/span&gt;&lt;br&gt;(нота до первой октавы)&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <source>Finish</source>
-        <translation type="obsolete">Закончить</translation>
-    </message>
-    <message>
-        <source>next</source>
-        <translation type="obsolete">Далее</translation>
-    </message>
-</context>
-<context>
-    <name>TfixLevelDialog</name>
-    <message>
-        <source>fix an instrument</source>
-        <translation type="obsolete">исправить тип инструмента</translation>
-    </message>
-    <message>
-        <source>Due to bug in &lt;b&gt;Nootka version 0.8.95&lt;/b&gt; instrument type can be incorrect.&lt;br&gt;Please, select a correct instrument for the level %1</source>
-        <translation type="obsolete">Из-за ошибки в &lt;b&gt;Нутке 0.8.95&lt;/b&gt; тип инструмента может быть неправильным.&lt;br&gt;Пожалуйста, выберите правильный инструмент для уровняl %1</translation>
-    </message>
-    <message>
-        <source>fix levels automatically</source>
-        <translation type="obsolete">исправлять уровни автоматически</translation>
-    </message>
-    <message>
-        <source>When you are sure that &lt;b&gt;all your Nootka files&lt;/b&gt; were created exactly for selected instrument&lt;br&gt;you can check this box and&lt;br&gt;&lt;b&gt;all incorrect files will be fixing automatically.&lt;/b&gt;</source>
-        <translation type="obsolete">Если Вы уверены, что &lt;b&gt;все Ваши файлы&lt;/b&gt; были созданны именного для выбранного инструмента&lt;br&gt;Вы можете поставить здесь флажок и&lt;br&gt;&lt;b&gt;все файлы с ошибкой будут исправлены автоматически.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
     <name>TglobalSettings</name>
-    <message>
-        <source>show enharmonic variants of notes</source>
-        <translation type="obsolete">показывать энгармонические варианты нот</translation>
-    </message>
-    <message>
-        <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation type="obsolete">Показывать энгармонические варианты нот.&lt;br&gt;Например, нота Ми это также Фаb (Фа-бемоль) и Реx (Ре с дубль-диезом).</translation>
-    </message>
-    <message>
-        <source>color of enharmonic notes</source>
-        <translation type="obsolete">цвет энгармонических нот</translation>
-    </message>
-    <message>
-        <source>use double accidentals</source>
-        <translation type="obsolete">использовать двойные знаки альтерации</translation>
-    </message>
-    <message>
-        <source>If checked, you can use double sharps and double flats.</source>
-        <translation type="obsolete">Использовать дубль-диезы и дубль-бемоли.</translation>
-    </message>
-    <message>
-        <source>show hints</source>
-        <translation type="obsolete">показывать подсказки</translation>
-    </message>
-    <message>
-        <source>Show description of Nootka&apos;s elements.</source>
-        <translation type="obsolete">Показывать описания элементов интерфейса.</translation>
-    </message>
     <message>
         <location filename="../src/plugins/settings/tglobalsettings.cpp" line="36"/>
         <source>Application language</source>
@@ -2136,12 +1821,12 @@
         <translation>Время на ответ</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="70"/>
+        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="71"/>
         <source>descending - you are progressing better</source>
         <translation>Понижается - Вы отвечаете быстрее</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="72"/>
+        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="74"/>
         <source>ascending - you are thinking too much</source>
         <translation>Повышается - Вы слишком долго думаете</translation>
     </message>
@@ -2248,19 +1933,15 @@
     </message>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="182"/>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="428"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="432"/>
         <source>Custom tuning</source>
         <translation>Свой строй</translation>
-    </message>
-    <message>
-        <source>Custom tune</source>
-        <translation type="obsolete">Свой строй</translation>
     </message>
 </context>
 <context>
     <name>ThelpDialogBase</name>
     <message>
-        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="36"/>
+        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="47"/>
         <source>Nootka help</source>
         <translation>Справка по Нутке</translation>
     </message>
@@ -2273,45 +1954,40 @@
 <context>
     <name>TintonationCombo</name>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="253"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="254"/>
         <source>intonation accuracy</source>
         <translation>точность интонирования</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="274"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="275"/>
         <source>do not check</source>
         <translation>не проверять</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="275"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="276"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
         <translation>совсем плохо</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="276"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="277"/>
         <source>violinist beginner</source>
         <translation>начинающий скрипач</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="277"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="278"/>
         <source>old strings</source>
         <translation>старые струны</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="278"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="279"/>
         <source>well tuned instrument</source>
         <translation>хорошо настроенный инструмент</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="279"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="280"/>
         <source>perfect</source>
         <translation>идеал</translation>
-    </message>
-    <message>
-        <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
-        <translation>центы</translation>
     </message>
     <message>
         <location filename="../src/libs/sound/widgets/tintonationview.h" line="123"/>
@@ -2413,63 +2089,63 @@
         <translation>Уровень был изменён, но не сохранён!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="187"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="190"/>
         <source>Save exam level</source>
         <translation>Сохранить экзаменационный уровень</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="224"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="226"/>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
         <translation>Ни один вопрос не выбран.&lt;br&gt;Уровень не имеет смысла.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="245"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="247"/>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Диапазон ладов выходит за пределы диапазона нот уровня&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="258"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="260"/>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;В диапазоне нот используются знаки альтерции,&lt;br&gt;но они отключены для этого уровня&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="262"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="264"/>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Было выбрано использование принудительных знаков альтерации, но ни диезы, ни бемоли не разрешены на вкладке зн. альтерации.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="268"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="270"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
         <translation>&lt;li&gt;&quot;Название ноты&quot; используется и для вопросов, и для ответов. В таком случае для избежания повторений, должно быть разрешено использование знаков альтерации и/или использование другого стиля обозначения нот.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="272"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="274"/>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Было выбрано &quot;использовать другой стиль обозначния нот&quot;, но ни в ответах, ни в вопросах не выбрано &quot;название ноты&quot;.&lt;br&gt;Либо разрешите такие вопросы/ответы, либо выключите &quot;использовать другой стиль обозначния нот&quot;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="276"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="278"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Уровень содержит вопрос и ответ &quot;на нотном стане&quot;. Должны быть выбраны или ручной выбор тональности или принудительные знаки альтерации.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="281"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="283"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Ручной выбор тональности включён, но ни один ответ &quot;нота на нотном стане&quot; не выбран.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="292"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="294"/>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Диапазон ладов недостаточен. По крайней мере требуется &lt;b&gt;%1&lt;/b&gt;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="359"/>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="365"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="361"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="367"/>
         <source>Level validation</source>
         <translation>Проверка корректности уровня</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="367"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="369"/>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has some mistakes:&lt;/b&gt;</source>
         <translation>&lt;center&gt;&lt;b&gt;Похоже, что уровень содержит ошибки:&lt;/b&gt;</translation>
     </message>
@@ -2479,17 +2155,17 @@
         <translation>Проверить</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="195"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="197"/>
         <source>Cannot open file for writing</source>
         <translation>Не могу открыть файл для записи</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="314"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="316"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation>&lt;li&gt;Возможно отсутствует тоника для некоторых тональностей в выбранном диапазоне нот.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="359"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="361"/>
         <source>Level seems to be correct</source>
         <translation>Похоже, что уровень в порядке</translation>
     </message>
@@ -2669,15 +2345,15 @@
         <translation>для нот без знаков альтерации</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="183"/>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="209"/>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="235"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="187"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="213"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="239"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translatorcomment>can&apos;t found</translatorcomment>
         <translation>вопросы не связанные&lt;br&gt;с типом диаграммы</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="240"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="244"/>
         <source>without accidentals</source>
         <translatorcomment>can&apos;t found</translatorcomment>
         <translation>без знаков альтерации</translation>
@@ -2686,68 +2362,68 @@
 <context>
     <name>TmainHelp</name>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="34"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="35"/>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
         <translation>Это зависит от выбранного уровня. Нажмите %1 чтобы создать свой собственный набор вопросов (уровень).</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="36"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="37"/>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
         <translation>Выберите уровень и потренируйтесь, выполняя упражнения. Потом попробуйте сдать экзамен.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="44"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="45"/>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
         <translation>Вы будете учиться, отвечая на вопросы. Может потребоваться сыграть на инструменте, спеть, выбрать правильную ноту и так далее.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="49"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="50"/>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
         <translation>Во время выполнения упражнений %1 программа будет понимающим и дружелюбным наставником. В случае ошибки она покажет Вам правильный ответ.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="54"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="55"/>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
         <translation>Во время экзаменов %1 Нутка будет строгим и бескомпромиссным преподавателем. Любая ошибка приведет к штрафу в виде дополнительных вопросов...&lt;br&gt;При успешном завершении экзамена вы получите сертификат!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="65"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="67"/>
         <source>Using Nootka may be divided into three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like &apos;%1&apos; are images(icons) inside the text</comment>
         <translation>Использование Нутки можно разделить на три этапа:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="68"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="70"/>
         <source>I. Discovering</source>
         <translation>I. Изучение</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="69"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="71"/>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
         <translation>Изучите интерфейс приложения. Просто щелкайте мышью по элементам интерфейса и смотрите, что произойдет. Также Вы можете играть на инструмене или петь при наличии микрофона.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="70"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="72"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
         <translation>Используйте кнопки %1 для получения помощи, а %2 для настройки приложения.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="74"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="77"/>
         <source>II. Exercises and exams</source>
         <translation>II. Упражнения и экзамены</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="78"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="81"/>
         <source>III. Analyzing</source>
         <translation>III. Анализ результатов</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="79"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="82"/>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
         <translation>Нутка покажет Вам, чего вы успели достичь. &lt;br&gt;Нажмите %1 чтобы увидеть и проанализировать результаты экзаменов, найти свои слабые места и улучшить результаты.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="82"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="87"/>
         <source>Have fun!</source>
         <translation>Развлекайтесь!</translation>
     </message>
@@ -2809,71 +2485,71 @@
 <context>
     <name>TnootkaCertificate</name>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="60"/>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
         <translation>&lt;h3&gt;Музыкальная академия Нутки&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
         <translation>[DATE]&lt;br&gt;&lt;i&gt;дата&lt;i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="70"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="69"/>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
         <comment>2nd line, single indent</comment>
         <translation>Выдан ученику &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="77"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="76"/>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
         <translatorcomment>&lt;h1&gt;Сертификат&lt;/h1&gt;&lt;br&gt; об успешной &lt;br&gt;сдаче экзамена</translatorcomment>
         <translation>&lt;h1&gt;СЕРТИФИКАТ&lt;/h1&gt;&lt;br&gt;подтвержающий успешную сдачу экзамена</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="85"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="84"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
         <translation>на уровне: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;отвечено вопросов: &lt;big&gt;&lt;b&gt;[QUESTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;за время: &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;общая эффективность: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="89"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="88"/>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
         <translation> </translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="93"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="92"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
         <translation>&lt;small&gt;&lt;i&gt;Экзаменационная комиссия:&lt;/i&gt;&lt;br&gt;&lt;i&gt;презитент&lt;/i&gt;&lt;b&gt; Нутка&lt;/b&gt;,&lt;br&gt;&lt;i&gt;профессор&lt;/i&gt; &lt;b&gt;г-н Процессор&lt;/b&gt; и&lt;br&gt; его &lt;i&gt;ассистент&lt;/i&gt;&lt;b&gt; г-жа ОЗУ&lt;/b&gt;.&lt;br&gt;&lt;i&gt;Секретарь комиссии&lt;/i&gt;&lt;b&gt; г-н Диск&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="105"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="103"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
         <comment>bottom, centered</comment>
         <translation>&lt;i&gt;М.П.&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="172"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="175"/>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
         <translation>ПОЗДРАВЛЯЕМ!&lt;br&gt;Вы успешно сдали экзамен!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="172"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="175"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Вы можете сохранить сертификат в файл.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="179"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="183"/>
         <source>You can still play with it and improve effectiveness.</source>
         <translation>Вы можете продолжить занятия.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="219"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="225"/>
         <source>Save certificate</source>
         <translation>Сохранить сертификат</translation>
     </message>
@@ -2939,32 +2615,32 @@
         <translation>Щелкните, чтобы добавить новую ноту</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="350"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="351"/>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
         <translation>&lt;b&gt;дубль-диез&lt;/b&gt; - повышает ноту на два полутона (целый тон).&lt;br&gt;На гитаре это два лада вверх (ближе к корпусу).</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="352"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="353"/>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
         <translation>&lt;b&gt;диез&lt;/b&gt; - повышает ноту на полутон.&lt;br&gt;На гитаре это один лад вверх (ближе к корпусу).</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="354"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="355"/>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
         <translation>&lt;b&gt;бемоль&lt;/b&gt; - понижает ноту на один полутон.&lt;br&gt;На гитаре это один лад вниз (ближе к головке грифа).</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="356"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="357"/>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
         <translation>&lt;b&gt;дубль-бемоль&lt;/b&gt; - понижает ноту на два полутона (целый тон).&lt;br&gt;На гитаре это два лада вниз (ближе к головке грифа).</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="358"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="359"/>
         <source>Click %1 to remove a note</source>
         <translation>Щелкните %1, чтобы удалить ноту</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="361"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="362"/>
         <source>Click %1 to edit note name</source>
         <translation>Щелкните %1, чтобы поменять название ноты</translation>
     </message>
@@ -3052,23 +2728,23 @@
         <translation>Четвёртая октава</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="65"/>
+        <location filename="../src/notename/tnotename.cpp" line="64"/>
         <source>Next note</source>
         <translation>Следующая нота</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="69"/>
+        <location filename="../src/notename/tnotename.cpp" line="68"/>
         <source>Previous note</source>
         <translation>Предыдущая нота</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="116"/>
+        <location filename="../src/notename/tnotename.cpp" line="115"/>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
         <translation>Щелкните чтобы посмотреть, что такое &lt;i&gt;октавы&lt;/i&gt; в Википедии &quot;https://ru.wikipedia.org/wiki/%D0%9E%D0%BA%D1%82%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0&quot;</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="119"/>
+        <location filename="../src/notename/tnotename.cpp" line="118"/>
         <source>Octaves</source>
         <translation>Oктавы</translation>
     </message>
@@ -3076,27 +2752,27 @@
 <context>
     <name>TnoteNameSettings</name>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="53"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="55"/>
         <source>note name on the staff</source>
         <translation>Название ноты на нотном стане</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="54"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="56"/>
         <source>Shows names of all notes on the staff.</source>
         <translation>Показывает названия всех нот на нотном стане.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="56"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="58"/>
         <source>names highlight color</source>
         <translation>цвет выделения названий</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="67"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="69"/>
         <source>show octave in name of note</source>
         <translation>показывать октаву в названии ноты</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="69"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="71"/>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
         <translation>Использовать стандартный формат для наименования нот.&lt;br&gt;Для малой октавы используются строчные буквы, для большой октавы - название ноты начинается с прописной буквы, для первой октавы добавляется цифра&lt;sup&gt;1&lt;/sup&gt; и т.д.</translation>
     </message>
@@ -3104,7 +2780,7 @@
 <context>
     <name>Tpage_2</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="203"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="202"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Выберите ключ и нотный диапазон вашего инструмента.</translation>
     </message>
@@ -3112,22 +2788,22 @@
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="262"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="261"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation>7-я нота может быть B или H, в зависимости от страны (для России обычно не актуально, и нота всегда обозначается как Cи)&lt;br&gt;Что вы предпочитаете?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="276"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="275"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Я знаю о дубль-диезах (x) и дубль-бемолях (bb)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="280"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="279"/>
         <source>I know that e# is the same as f</source>
         <translation>Я знаю, что Ми# (E#) это то же самое, что и Фа (F)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="285"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="284"/>
         <source>I know about key signatures</source>
         <translation>Я знаю о тональностях и ключевых знаках</translation>
     </message>
@@ -3143,37 +2819,16 @@
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>solfege</translation>
     </message>
-    <message>
-        <source>letters</source>
-        <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country prefered style of nameing key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation type="obsolete">solfege</translation>
-    </message>
 </context>
 <context>
     <name>TpitchView</name>
     <message>
-        <source>Toggles between pitch detection for singing and for playing</source>
-        <translation type="obsolete">Переключение режима определения высоты звука между режимом для пения и режимом для инструмента</translation>
-    </message>
-    <message>
-        <source>Switch on/off pitch detection</source>
-        <translation type="obsolete">Включить/выключить определение высоты звука</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="170"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="171"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Интонация - чистота звука. Правильно ли он настроен.</translation>
     </message>
     <message>
-        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation type="obsolete">Уровень входного сигнала и порог срабатывания определения нот.</translation>
-    </message>
-    <message>
-        <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="obsolete">Переместите ползунок для изменения этого параметра.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="172"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="173"/>
         <source>Click note symbol to change it.</source>
         <translation>Щелкните по символу ноты, чтобы изменить ее.</translation>
     </message>
@@ -3407,10 +3062,6 @@
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
         <translation>В основном используется для альтов.</translation>
     </message>
-    <message>
-        <source>Sometimes is called clef for viola and mostly used for it.</source>
-        <translation type="obsolete">В осносном используется для альтов.</translation>
-    </message>
 </context>
 <context>
     <name>TremoveLevel</name>
@@ -3450,8 +3101,7 @@
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="44"/>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translatorcomment>WARRING! - means WARNING?</translatorcomment>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation>Показывает знаки альтерации из основной записи также после ноты. &lt;b&gt;ПРЕДУПРЕЖДЕНИЕ! В реальных нотных записях это не используется - применяйте только для теоретических предназначений.&lt;/b&gt;</translation>
     </message>
     <message>
@@ -3524,25 +3174,6 @@
     </message>
 </context>
 <context>
-    <name>TscoreControl</name>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="obsolete">&lt;b&gt;дубль-диез&lt;/b&gt; - повышает ноту на два полутона (целый тон).&lt;br&gt;На гитаре это два лада вверх (ближе к корпусу).</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="obsolete">&lt;b&gt;диез&lt;/b&gt; - повышает ноту на полутон.&lt;br&gt;На гитаре это один лад вверх (ближе к корпусу).</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="obsolete">&lt;b&gt;бемоль&lt;/b&gt; - понижает ноту на один полутон.&lt;br&gt;На гитаре это один лад вниз (ближе к головке грифа).</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="obsolete">&lt;b&gt;дубль-бемоль&lt;/b&gt; - понижает ноту на два полутона (целый тон).&lt;br&gt;На гитаре это два лада вниз (ближе к головке грифа).</translation>
-    </message>
-</context>
-<context>
     <name>TscoreKeySignature</name>
     <message>
         <location filename="../src/libs/core/score/tscorekeysignature.cpp" line="88"/>
@@ -3553,16 +3184,12 @@
 <context>
     <name>TscoreNote</name>
     <message>
-        <source>Click to select a note, use mouse wheel to change accidentals.</source>
-        <translation type="obsolete">Щёлкните мышью для выбора ноты, используйте колесо мыши для изменения знаков альтерации.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="98"/>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
         <translation>Щелкните, чтобы ввести ноту, используйте горизонтальную прокрутку, чтобы поменять знак альтерации.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="100"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
         <source>Right mouse button just selects a note.</source>
         <translation>Правая кнопка мыши только выбирает ноту.</translation>
     </message>
@@ -3570,102 +3197,102 @@
 <context>
     <name>TscoreSettings</name>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="98"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="100"/>
         <source>enable key signature</source>
         <translation>использовать тональности</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="110"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="112"/>
         <source>Naming extension</source>
         <translation>Изменение обозначения</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="113"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="115"/>
         <source>in the major keys:</source>
         <translation>в мажоре:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="125"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="127"/>
         <source>in the minor keys:</source>
         <translation>в миноре:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="62"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="63"/>
         <source>note-cursor color</source>
         <translation>цвет указателя для ноты</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="44"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="45"/>
         <source>use single note only</source>
         <translation>использовать только одну ноту</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="45"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="46"/>
         <source>When enabled, a score displays only a single note.</source>
         <translation>Когда включено, на нотном стане отображается только одна нота.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="48"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="49"/>
         <source>show enharmonic variants of notes</source>
         <translation>показывать энгармонические варианты нот</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="49"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="50"/>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
         <translation>Показывать энгармонические варианты нот.&lt;br&gt;Например, нота Ми это также Фаb (Фа-бемоль) и РеX (Ре с дубль-диезом).</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="50"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="51"/>
         <source>color of enharmonic notes</source>
         <translation>цвет энгармонических нот</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="53"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="54"/>
         <source>use double accidentals</source>
         <translation>использовать двойные знаки альтерации</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="54"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="55"/>
         <source>If checked, you can use double sharps and double flats.</source>
         <translation>Использовать дубль-диезы и дубль-бемоли.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="56"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="57"/>
         <source>tempo of played notes</source>
         <translation>темп проигрываемых нот</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="155"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="158"/>
         <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
         <translation>Запомните! Не все ключи подходят для всех строев и типов инструментов!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="163"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="44"/>
         <source>Score settings</source>
         <translation>Настройки нотной записи</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="164"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="97"/>
         <source>Key signatures</source>
         <translation>Tональности</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="165"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="151"/>
         <source>Clefs</source>
         <translation>Ключи</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="166"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="165"/>
         <source>Notes naming</source>
         <translation>Наименование нот</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="151"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="154"/>
         <source>Default clef</source>
         <translation>Ключ по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="155"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="158"/>
         <source>Select default clef for the application.</source>
         <translation>Ключ по умолчанию для прилоожения.</translation>
     </message>
@@ -3688,28 +3315,22 @@
         <translation>настройки приложения</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="62"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="60"/>
         <source>Common</source>
         <translation>Общие</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="65"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="63"/>
         <source>Score</source>
         <translation>Нотоносец</translation>
     </message>
     <message>
-        <source>Names</source>
-        <comment>name-calling</comment>
-        <translation type="obsolete">Наименование
-нот</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="74"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="72"/>
         <source>Exam</source>
         <translation>Экзамен</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="71"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="69"/>
         <source>Sound</source>
         <translation>Звук</translation>
     </message>
@@ -3724,33 +3345,33 @@
         <translation>Настройки простого упражнения</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="68"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="66"/>
         <source>Instrument</source>
         <translation>Инструмент</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="74"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="72"/>
         <source>Exercises</source>
         <translation>Упражнения</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="80"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="78"/>
         <source>Appearance</source>
         <translatorcomment>Seems that one word would be ok. This is the earlier variant &quot;Внешний\nвид&quot;.</translatorcomment>
         <translation>Вид</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="86"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="84"/>
         <source>Restore default settings for above parameters.</source>
         <translation>Восстановить параметры по умолчанию.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="296"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="283"/>
         <source>listening</source>
         <translation>определение нот</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="297"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="284"/>
         <source>playing</source>
         <translation>воспроизведение звука</translation>
     </message>
@@ -3759,6 +3380,8 @@
     <name>TsettingsDialogBase</name>
     <message>
         <location filename="../src/libs/core/widgets/tsettingsdialogbase.h" line="48"/>
+        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="32"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="375"/>
         <source>Open online documentation</source>
         <translation>Открыть руководство в интернете</translation>
     </message>
@@ -3816,40 +3439,40 @@
         <translation>Чтобы начать упражнение или экзамен, введите своё имя и выберите уровень. Чтобы продолжить предыдущий экзамен, выберите его из списка или загрузите из файла.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="152"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="153"/>
         <source>recent opened exams:</source>
         <translation>недавно открытые экзамены:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="183"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="184"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="331"/>
         <source>Start exercise on level:</source>
         <translation>Начать упражнение на уровне:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="186"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="187"/>
         <source>Continue the latest exam:</source>
         <translation>Продолжить последний экзамен:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="252"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="323"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="253"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="324"/>
         <source>No level was selected!</source>
         <translation>Уровень не был выбран!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="264"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="273"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="265"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="274"/>
         <source>Give a user name!</source>
         <translation>Введите имя пользователя!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="329"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
         <source>Pass new exam on level:</source>
         <translation>Начать экзамен на уровне:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="343"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="344"/>
         <source>To exercise or to pass an exam?</source>
         <translation>Начать упражнение или сдать экзамен?</translation>
     </message>
@@ -3890,37 +3513,37 @@
 <context>
     <name>TsuggestExam</name>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="106"/>
+        <location filename="../src/exam/texercises.cpp" line="107"/>
         <source>Start an exam</source>
         <translation>Начать экзамен</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="108"/>
+        <location filename="../src/exam/texercises.cpp" line="109"/>
         <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
         <translation>У Вас очень хорошие результаты в этом упражнении!&lt;br&gt;Не хотите ли сдать экзамен на этом уровне и получить сертификат?</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="111"/>
+        <location filename="../src/exam/texercises.cpp" line="112"/>
         <source>Sure! Lets start an exam!</source>
         <translation>Конечно! Начнём экзамен!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="112"/>
+        <location filename="../src/exam/texercises.cpp" line="113"/>
         <source>Not now, ask me for a moment.</source>
         <translation>Не сейчас, спросите меня позже.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="113"/>
+        <location filename="../src/exam/texercises.cpp" line="114"/>
         <source>Not in this exercise.</source>
         <translation>Не в этом упражнении.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="114"/>
+        <location filename="../src/exam/texercises.cpp" line="115"/>
         <source>Never more suggest me to start an exam!</source>
         <translation>Никогда больше не предлагать экзамен!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="123"/>
+        <location filename="../src/exam/texercises.cpp" line="124"/>
         <source>OK</source>
         <translation>ОК</translation>
     </message>
@@ -3928,13 +3551,13 @@
 <context>
     <name>TtipMelody</name>
     <message>
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="58"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="62"/>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
         <translation>из</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="61"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="67"/>
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translatorcomment>Plural in Russian starts from 5 only (&quot;5 raz&quot;). 2, 3, 4 use dual form (&quot;raza&quot;).</translatorcomment>
         <translation>
@@ -3944,13 +3567,13 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="105"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="112"/>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
         <translation>сыграна</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="106"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="113"/>
         <source>time</source>
         <translation>время</translation>
     </message>
@@ -4215,97 +3838,97 @@
 <context>
     <name>accidSettings</name>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="34"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="33"/>
         <source># - sharps</source>
         <translation># - диезы</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="35"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="34"/>
         <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
         <translation>Диезы будут использованы в вопросах и ответах экзамена.&lt;br&gt;Опция должна быть включена, если используются тональности с диезами.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="36"/>
         <source>b - flats</source>
         <translation>b - бемоли</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="38"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
         <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
         <translation>Бемоли будут использованы в вопросах и ответах экзамена.&lt;br&gt;Опция должна быть включена, если используются тональности с бемолями.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="40"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="39"/>
         <source>x, bb - double accidentals</source>
         <translation>x, bb - двойные знаки альтерации</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="46"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="45"/>
         <source>Accidentals used in exam.</source>
         <translation>Случайные знаки альтерации, используемые в экзамене.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="48"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="47"/>
         <source>force using appropriate accidental</source>
         <translation>использовать принудительный знак альтерации</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="49"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="48"/>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>возможно выбрать ноту только с данным знаком альтерации.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="63"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="62"/>
         <source>single key</source>
         <translation>одна тональность</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="64"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="63"/>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
         <translation>только одна тональность используется во всем экзамене.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="65"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="64"/>
         <source>range of keys</source>
         <translation>диапазон тональностей</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="66"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="65"/>
         <source>random key signature from selected range.</source>
         <translation>случайные  ключевые знаки для тональностей из диапазона.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="75"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="74"/>
         <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
         <translation>Выберите тональность.&lt;br&gt;Соответствующие знаки альтерации для экзамена&lt;br&gt;будут выбраны автоматически !</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="96"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="95"/>
         <source>notes in current key signature only</source>
         <translation>ноты только в текущей тональности</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="97"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="96"/>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
         <translation>Принимаются только ноты из текущей тональности.&lt;br&gt;Если тональности отлючены, то знаки альтерации не используются.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="332"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="333"/>
         <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
         <translation>Элементы не активны, потому что соответствующие типы вопросов или ответов не выбраны.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="86"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="85"/>
         <source>select a key signature manually</source>
         <translation>выбирать тональность вручую</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="58"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="57"/>
         <source>use key signatures</source>
         <translation>использовать ключевые знаки</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="87"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="86"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
         <translation>если включено, то пользователь должен выбрать тональность,&lt;br&gt;иначе она отображается приложением.</translation>
     </message>
@@ -4324,25 +3947,25 @@
         <translation>нет</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="90"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="89"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
         <translation>для ноты:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="94"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="93"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
         <translation>для лада:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="98"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="97"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
         <translation>для тональности:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="102"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="101"/>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
         <translation>для знаков альтерации:</translation>
@@ -4389,11 +4012,7 @@
 <context>
     <name>main</name>
     <message>
-        <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.otf manually.&lt;/center&gt;</source>
-        <translation type="obsolete">&lt;center&gt;Не могу загрузить шрифты.&lt;br&gt;Попробуйте установить nootka.otf вручную.&lt;/center&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/tinitcorelib.cpp" line="87"/>
+        <location filename="../src/libs/core/tinitcorelib.cpp" line="96"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Не могу загрузить шрифты.&lt;br&gt;Попробуйте установить nootka.ttf вручную.&lt;/center&gt;</translation>
     </message>
@@ -4409,14 +4028,6 @@
         <location filename="../src/plugins/level/questionssettings.cpp" line="163"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>при ответе требовать правильную октаву</translation>
-    </message>
-    <message>
-        <source>force using appropriate accidental</source>
-        <translation type="obsolete">использовать принудительный знак альтерации</translation>
-    </message>
-    <message>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="obsolete">возможно выбрать ноту только с данным знаком альтерации.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
@@ -4479,14 +4090,6 @@
         <location filename="../src/plugins/level/questionssettings.cpp" line="175"/>
         <source>notes in the lowest position only</source>
         <translation>ноты в нижних позициях</translation>
-    </message>
-    <message>
-        <source>notes in current key signature only</source>
-        <translation type="obsolete">ноты только в текущей тональности</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="obsolete">Принимаются только ноты из текущей тональности.&lt;br&gt;Если тональности отлючены, то знаки альтерации не используются.</translation>
     </message>
 </context>
 <context>

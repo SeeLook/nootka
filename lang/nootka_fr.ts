@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR" sourcelanguage="en">
-    <extra-po-header-language_team>LANGUAGE &lt;LL@li.org&gt;</extra-po-header-language_team>
-    <extra-po-header-last_translator>Jean-Marc &lt;Unknown&gt;</extra-po-header-last_translator>
-    <extra-po-header-po_revision_date>2015-10-04 21:09+0000</extra-po-header-po_revision_date>
-    <extra-po-header-pot_creation_date>2015-02-01 13:21+0000</extra-po-header-pot_creation_date>
-    <extra-po-header-project_id_version>PACKAGE VERSION</extra-po-header-project_id_version>
-    <extra-po-header-report_msgid_bugs_to></extra-po-header-report_msgid_bugs_to>
-    <extra-po-header-x_generator>Launchpad (build 17783)</extra-po-header-x_generator>
-    <extra-po-header-x_launchpad_export_date>2015-10-04 21:12+0000</extra-po-header-x_launchpad_export_date>
-    <extra-po-headers>Project-Id-Version,Report-Msgid-Bugs-To,POT-Creation-Date,PO-Revision-Date,Last-Translator,Language-Team,MIME-Version,Content-Type,Content-Transfer-Encoding,Plural-Forms,X-Launchpad-Export-Date,X-Generator,X-Qt-Contexts,X-Language,X-Source-Language</extra-po-headers>
 <context>
     <name>AnswerText</name>
     <message>
@@ -2526,10 +2517,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Altérations supplémentaires</translation>
     </message>
     <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Afficher aussi les altérations près des notes. &lt;b&gt;Attention ! Ce n&apos;est jamais le cas sur une portée : utiliser uniquement de manière théorique. &lt;/b&gt;</translation>
-    </message>
-    <message>
         <source>Show note names</source>
         <translation>Afficher le nom des notes</translation>
     </message>
@@ -2576,6 +2563,10 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Shows names of all notes on the staff.</source>
         <translation>Afficher le nom de toutes les notes sur la portée.</translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation>Afficher aussi les altérations près des notes. &lt;b&gt;Attention ! Ce n&apos;est jamais le cas sur une portée : utiliser uniquement de manière théorique. &lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -3118,7 +3109,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
