@@ -53,9 +53,9 @@ QColor TabstractSoundView::gradColorAtPoint(float lineX1, float lineX2, QColor s
   float segmentLength = sqrt((lineX2 - lineX1) * (lineX2 - lineX1));
   double pdist = sqrt((posC - lineX1) * (posC - lineX1));
   double ratio = pdist / segmentLength;
-  int red = (int)(ratio * endC.red() + ( 1 - ratio) * startC.red()); //in your case, the values are 12 and 122
-  int green = (int)(ratio * endC.green() + (1 - ratio) * startC.green()); //in your case, the values are 23 and 233
-  int blue = (int)(ratio * endC.blue() + (1 - ratio) * startC.blue()); //in your case, the values are 24 and 244
+  int red = qBound(0, (int)(ratio * endC.red() + ( 1 - ratio) * startC.red()), 255);
+  int green = qBound(0, (int)(ratio * endC.green() + (1 - ratio) * startC.green()), 255);
+  int blue = qBound(0, (int)(ratio * endC.blue() + (1 - ratio) * startC.blue()), 255);
   return QColor(red, green, blue);
 }
 
