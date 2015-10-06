@@ -441,15 +441,15 @@
     </message>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation>Standard: E A D G B E </translation>
+        <translation>Standard: E A D G H E </translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation>Dropped D: D A D G B E </translation>
+        <translation>Dropped D: D A D G H E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation>falsche Laute: D A D F# B E </translation>
+        <translation>falsche Laute: D A D F# H E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
@@ -469,11 +469,11 @@
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation>5-Saiten Bass: B E A D G</translation>
+        <translation>5-Saiten Bass: H E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation>6-Saiten Bass: B E A D G C</translation>
+        <translation>6-Saiten Bass: H E A D G C</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
@@ -747,8 +747,6 @@
     </message>
     <message>
         <source>Played number</source>
-        <translatorcomment>how often something is played? , like played x times
-Yes,but rather without X if possible</translatorcomment>
         <translation type="unfinished">mal gespielt</translation>
     </message>
     <message>
