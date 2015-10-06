@@ -23,22 +23,27 @@
 #include "help/tmainhelp.h"
 #include <tinitcorelib.h>
 #include <widgets/troundedlabel.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
+#define LI (QStringLiteral("<li>"))
 
-
-QString createLink(QString desc, QString href) {
-  return "<a href=\"" + href + "\">" + desc + "</a>";
+QString createLink(const QString& desc, const QString& href) {
+  return QStringLiteral("<a href=\"") + href + QStringLiteral("\">") + desc + QStringLiteral("</a>");
 }
+
 
 /** Returns text header with defined text size and background */
-QString getHeader(QString text) {
-	return "<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: x-large;\"><b>" + text + "</b></p></center>";
+QString getHeader(const QString& text) {
+	return QStringLiteral("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: x-large;\"><b>") + text + QStringLiteral("</b></p></center>");
 }
 
-QString transRow (QString flag, QString lang, QString name, QString mailAndSite) {
-  return QString("<tr valign=\"middle\" align=\"center\"><td> <img src=\"%1\">&nbsp;&nbsp;&nbsp;</td><td> %2 &nbsp;&nbsp;&nbsp;</td><td> <b>%3</b> </td><td>&nbsp;&nbsp;&nbsp; %4 </td></tr>").
-      arg(Tcore::gl()->path + "picts/flags-" + flag + ".png").arg(lang).arg(name).arg(mailAndSite);
+
+QString transRow (const char* flag, const QString& lang, const QString& name, const QString& mailAndSite) {
+  return QString("<tr valign=\"middle\" align=\"center\"><td>&nbsp;&nbsp;<img src=\"%1\">&nbsp;&nbsp;</td><td>&nbsp; %2 &nbsp;&nbsp;&nbsp;</td><td> <b>&nbsp; %3 &nbsp;</b> </td><td>&nbsp;&nbsp; %4 </td></tr>").
+      arg(Tcore::gl()->path + QStringLiteral("picts/flags-") + QString(flag) + QStringLiteral(".png")).
+      arg(lang).
+      arg(name).
+      arg(mailAndSite);
 }
 
 
@@ -95,53 +100,55 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QWidget *authorsPage = new QWidget();
 		authorsPage->setContentsMargins(5, 5, 5, 5);
     QVBoxLayout *wiLLay = new QVBoxLayout;
-  // AUTHORS
+// AUTHORS
 		QString authorStr = getHeader(tr("Code"));
-		authorStr += "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>";
+		authorStr += QStringLiteral("<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>");
 		authorStr += getHeader(tr("Audio"));
-		authorStr += tr("editing and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>";
-  // TRANSLATORS
+		authorStr += tr("editing and/or recording of samples:") + QStringLiteral("<br><b>Sergei Ivanov (tico-tico)</b><br>");
+// TRANSLATORS
     QString translStr = getHeader(tr("Translators"));
-    translStr += "<table valign=\"middle\" align=\"center\">";
-  // Czech
-    translStr += transRow("cs", QString::fromUtf8("český"), "Pavel Fric",
-                          "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>");
-  // German
-    translStr += transRow("de", "deutsch", "Johann C. Weihe", "");
-  // English
-		translStr += transRow("en", "english", "Luster", 
-                          "<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>");
-  // French
-    translStr += transRow("fr", QString::fromUtf8("français"), "Olivier Devineau", "");
-  // Polish
-    translStr += transRow("pl", "polski", "Tomasz Bojczuk", 
-                          "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>");
-		translStr += transRow("ru", QString::fromUtf8("русский"), "Sergei Ivanov (tico-tico)", "");
+    translStr += QStringLiteral("<table valign=\"middle\" align=\"center\">");
+// Czech
+    translStr += transRow("cs", QStringLiteral("český"), QStringLiteral("Pavel Fric"),
+                          QStringLiteral("<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"));
+// German
+    translStr += transRow("de", QStringLiteral("deutsch"), "Johann C. Weihe", "");
+// English
+		translStr += transRow("en", QStringLiteral("english"), QStringLiteral("Luster"),
+                          QStringLiteral("<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>"));
+// French
+    translStr += transRow("fr", QStringLiteral("français"), QStringLiteral("Olivier Devineau,<br>&nbsp;&nbsp;Jean-Marc Lartigue"),
+                          QStringLiteral(""));
+// Polish
+    translStr += transRow("pl", QStringLiteral("polski"), QStringLiteral("Tomasz Bojczuk"),
+                          QStringLiteral("<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"));
+		translStr += transRow("ru", QStringLiteral("русский"),
+                          QStringLiteral("Sergei Ivanov (tico-tico),<br>&nbsp;&nbsp;Timur Artykov"), QStringLiteral(""));
     translStr += "</table>";
 		QString otherStr = getHeader(tr("Other projects")) +
 				tr("However this application could not exist without various open source projects.<br>Especially:") + 
-       "<ul><li>" + createLink("Qt", "http://qt-project.org/") + " by Digia</li>" +
-       "<li>" + createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson</li>" +
-       "<li>" + createLink("ogg vorbis", "http://vorbis.com") + " by XIPH</li>" +
-       "<li>" + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + " by G. P. Scavone</li>" +
-       "<li>" + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod</li>" +
-       "<li>" + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen</li>" +
-       "<li>" + createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html");
+       QStringLiteral("<ul><li>") + createLink("Qt", "http://qt-project.org/") + QStringLiteral(" by Digia</li>") +
+       LI + createLink("FFTW", "http://www.fftw.org") + QStringLiteral(" by M. Frigo & S. G. Johnson</li>") +
+       LI + createLink("ogg vorbis", "http://vorbis.com") + QStringLiteral(" by XIPH</li>") +
+       LI + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + QStringLiteral(" by G. P. Scavone</li>") +
+       LI + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + QStringLiteral(" by P. McLeod</li>") +
+       LI + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + QStringLiteral(" by Olli Parviainen</li>") +
+       LI + createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html");
 #if defined (Q_OS_WIN)
-		otherStr += "<li>" + createLink("NSIS", "http://nsis.sourceforge.net/Main_Page") + "</li>";
+		otherStr += LI + createLink("NSIS", "http://nsis.sourceforge.net/Main_Page") + QStringLiteral("</li>");
 #endif
-    otherStr += "</ul>";
-		
+    otherStr += QStringLiteral("</ul>");
+
 		QString thankStr = getHeader(tr("Thanks"));
-		thankStr += "I would like to say <b>THANK YOU</b> for all people who helped me with developing Nootka.<br>I will try to mention them in some random order:<br>";
-		thankStr += "<br><b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.<br>";
-		thankStr += "<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>";
-		thankStr += "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>";
-		thankStr += "<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>";
-		thankStr += "<b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.<br>";
-		thankStr += "<b>Translators (Pavel, Olivier, Sergei and Johann)</b> for many, maaaany clues and comments.<br>";
-		thankStr += "<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>";
-		thankStr += "<b>And all others that helped.</b><br>";
+		thankStr += QStringLiteral("I would like to say <b>THANK YOU</b> for all people who helped me with developing Nootka.<br>I will try to mention them in some random order:<br>");
+		thankStr += QStringLiteral("<br><b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.<br>");
+		thankStr += QStringLiteral("<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>");
+		thankStr += QStringLiteral("<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>");
+		thankStr += QStringLiteral("<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>");
+		thankStr += QStringLiteral("<b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.<br>");
+		thankStr += QStringLiteral("<b>Translators (Pavel, Olivier, Sergei and Johann)</b> for many, maaaany clues and comments.<br>");
+		thankStr += QStringLiteral("<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>");
+		thankStr += QStringLiteral("<b>And all others that helped.</b><br>");
     QLabel *authorsLab = new QLabel(authorStr + translStr + otherStr + thankStr);
     authorsLab->setOpenExternalLinks(true);
 		authorsLab->setWordWrap(true);
@@ -158,11 +165,11 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 // LICENSE GPL or Copyright for Debian based
     QTextEdit *licenseTxt = new QTextEdit();
     licenseTxt->setReadOnly(true);
-    QFile file(Tcore::gl()->path + "gpl");
+    QFile file(Tcore::gl()->path + QStringLiteral("gpl"));
 		if (!file.exists()) { // Debian based
 				QDir d(Tcore::gl()->path);
 				d.cdUp();
-				file.setFileName(d.path() + "/doc/nootka/copyright");
+				file.setFileName(d.path() + QStringLiteral("/doc/nootka/copyright"));
 		}
     if(file.open(QFile::ReadOnly | QFile::Text)) {
 	      QTextStream in(&file);
@@ -172,35 +179,35 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     file.close();
 
     TsupportNootka *support = new TsupportNootka(this);
-    
+
 // CHANGESLOG
     QTextEdit *chLogTxt = new QTextEdit();
     chLogTxt->setReadOnly(true);
-    QFile chfile(Tcore::gl()->path + "changes");
+    QFile chfile(Tcore::gl()->path + QStringLiteral("changes"));
     if(chfile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&chfile);
         in.setCodec("UTF-8");
-        QStringList htmlText = in.readAll().replace("  ", "&nbsp;&nbsp;").split("\n");
+        QStringList htmlText = in.readAll().replace(QStringLiteral("  "), QStringLiteral("&nbsp;&nbsp;")).split("\n");
         for (int i = 0; i < htmlText.size(); i++) {
-          if (htmlText[i].contains("0.") || htmlText[i].contains("1."))
-            htmlText[i] = "<u><b>&nbsp;" + htmlText[i] + "</b></u>";
-					else if (htmlText[i].contains("======"))
-						htmlText[i] = "<br><hr><b><big><center>Nootka ONE</big></b></center><hr>";
-          else if (htmlText[i].contains("BUG"))
-            htmlText[i] = "&nbsp;&nbsp;<u>BUG FIXES</u>";
-          else if (htmlText[i].contains("Under the hood"))
-            htmlText[i] = "&nbsp;&nbsp;<u>Under the hood</u>";
-          else if (!htmlText[i].contains("&nbsp;&nbsp; - "))
-            htmlText[i] = "<b>" + htmlText[i] + "</b>";
-          htmlText[i].append("<br>");
+          if (htmlText[i].contains(QStringLiteral("0.")) || htmlText[i].contains(QStringLiteral("1.")))
+            htmlText[i] = QStringLiteral("<u><b>&nbsp;") + htmlText[i] + QStringLiteral("</b></u>");
+					else if (htmlText[i].contains(QStringLiteral("======")))
+						htmlText[i] = QStringLiteral("<br><hr><b><big><center>Nootka ONE</big></b></center><hr>");
+          else if (htmlText[i].contains(QStringLiteral("BUG")))
+            htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>BUG FIXES</u>");
+          else if (htmlText[i].contains(QStringLiteral("Under the hood")))
+            htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>Under the hood</u>");
+          else if (!htmlText[i].contains(QStringLiteral("&nbsp;&nbsp; - ")))
+            htmlText[i] = QStringLiteral("<b>") + htmlText[i] + QStringLiteral("</b>");
+          htmlText[i].append(QStringLiteral("<br>"));
         }
-        chLogTxt->setHtml(htmlText.join(""));
+        chLogTxt->setHtml(htmlText.join(QStringLiteral("")));
     }
     chfile.close();
 
     m_stackLayout->addWidget(m_about);
-    
-    m_stackLayout->addWidget(help);    
+
+    m_stackLayout->addWidget(help);
     m_stackLayout->addWidget(m_authorScroll);
     m_stackLayout->addWidget(licenseTxt);
     m_stackLayout->addWidget(support);
@@ -242,7 +249,7 @@ Tabout::Tabout(QWidget *parent) :
         QWidget(parent)
 {
     QVBoxLayout *lay = new QVBoxLayout;
-    TnootkaLabel *nootkaLab = new TnootkaLabel(Tcore::gl()->path + "picts/logo.png", this, palette().highlight().color());
+    TnootkaLabel *nootkaLab = new TnootkaLabel(Tcore::gl()->path + QStringLiteral("picts/logo.png"), this, palette().highlight().color());
     lay->addWidget(nootkaLab);
     QString info = tr("Welcome on board.<br>Nootka is an open source application to help you in learning (and in teaching) classical score notation.<br>It is specially designed for guitarists but others will find many usable features as well.");
     QString betaInfo = tr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!");
