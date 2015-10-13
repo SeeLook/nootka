@@ -155,9 +155,13 @@ void Tcanvas::tryAgainTip(int time) {
 
 
 QString Tcanvas::startTipText() {
-  return TexamHelp::toGetQuestTxt() + ":<br>" + 
-    TexamHelp::clickSomeButtonTxt("<a href=\"nextQuest\">" + pixToHtml(Tpath::img("nextQuest"), m_iconSize) + "</a>") + 
-    ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt();
+  return TexamHelp::toGetQuestTxt() + QStringLiteral(":<br>") +
+    TexamHelp::clickSomeButtonTxt(QStringLiteral("<a href=\"nextQuest\">") +
+                                  pixToHtml(Tpath::img("nextQuest"), m_iconSize) + QStringLiteral("</a>"))
+    #if !defined (Q_OS_ANDROID)
+      + ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt()
+    #endif
+    ;
 }
 
 
@@ -187,27 +191,36 @@ void Tcanvas::certificateTip() {
 void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	delete m_questionTip;
 	delete m_whatTip;
-	QString whatNextText = startTipText();;
+	QString whatNextText = startTipText();
+  const QString br = QStringLiteral("<br>");
+  const QString space = QStringLiteral(" ");
+  const QString a = QStringLiteral("</a>");
 	if (!isCorrect) {
 		QString t = tr("To correct an answer");
-		QString href = "<a href=\"prevQuest\">";
+		QString href = QStringLiteral("<a href=\"prevQuest\">");
 		if (m_exam->melodies()) {
 			t = tr("To try this melody again");
-			href = "<a href=\"newAttempt\">";
+			href = QStringLiteral("<a href=\"newAttempt\">");
 		}
-		whatNextText += "<br>" + t + " " + 
-				TexamHelp::clickSomeButtonTxt(href + pixToHtml(Tpath::img("prevQuest"), m_iconSize) +	"</a>") +
-				" " + TexamHelp::orPressBackSpace();
+		whatNextText += br + t + space +
+				TexamHelp::clickSomeButtonTxt(href + pixToHtml(Tpath::img("prevQuest"), m_iconSize) +	a)
+    #if !defined (Q_OS_ANDROID)
+				+ space + TexamHelp::orPressBackSpace()
+    #endif
+        ;
 	}
 	if (toCorrection) {
 		QString t = tr("To see corrected answer");
 		if (m_exam->curQ()->melody())
 				t = tr("To see some hints");
-		whatNextText += "<br>" + t + " " + 
-			TexamHelp::clickSomeButtonTxt("<a href=\"correct\">" + pixToHtml(Tpath::img("correct"), m_iconSize) + "</a>") + "<br>" +
-			TexamHelp::orPressEnterKey();
+		whatNextText += br + t + space +
+			TexamHelp::clickSomeButtonTxt(QStringLiteral("<a href=\"correct\">") + pixToHtml(Tpath::img("correct"), m_iconSize) + a)
+    #if !defined (Q_OS_ANDROID)
+      + br + TexamHelp::orPressEnterKey()
+    #endif
+      ;
 	}
-	whatNextText += "<br>" + TexamHelp::toStopExamTxt("<a href=\"stopExam\">" + pixToHtml(Tpath::img("stopExam"), m_iconSize) + "</a>");		
+	whatNextText += br + TexamHelp::toStopExamTxt(QStringLiteral("<a href=\"stopExam\">") + pixToHtml(Tpath::img("stopExam"), m_iconSize) + a);
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
 // 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
 // 			m_whatTip->setTextWidth(m_maxTipWidth);
@@ -228,11 +241,18 @@ void Tcanvas::confirmTip(int time) {
 void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
   if (!m_confirmTip) {
-    m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + "<br>- " +
-      TexamHelp::clickSomeButtonTxt("<a href=\"checkAnswer\">" + pixToHtml(Tpath::img("check"), m_iconSize) + "</a>") +
-      "<br>- " + TexamHelp::pressEnterKey() + "<br>- " + TexamHelp::orRightButtTxt() + "<br>" +
-      tr("Check in exam help %1 how to do it automatically").arg("<a href=\"examHelp\">" +
-      pixToHtml(Tpath::img("help"), m_iconSize) + "</a>"), gl->EanswerColor);
+    const QString br_ = QStringLiteral("<br>- ");
+    const QString a = QStringLiteral("</a>");
+    m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + br_ +
+#if defined (Q_OS_ANDROID)
+      TexamHelp::clickIconTxt(QStringLiteral("<a href=\"checkAnswer\">") + pixToHtml(Tpath::img("check"), m_iconSize) + a) + br_ +
+#else
+      TexamHelp::clickSomeButtonTxt(QStringLiteral("<a href=\"checkAnswer\">") + pixToHtml(Tpath::img("check"), m_iconSize) + a) + br_ +
+      TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QStringLiteral("<br>") +
+#endif
+      tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
+      pixToHtml(Tpath::img("help"), m_iconSize) + a), gl->EanswerColor
+    );
     m_confirmTip->setScale(m_scale * 1.2);
     m_scene->addItem(m_confirmTip);
     m_confirmTip->setTipMovable(true);

@@ -27,6 +27,9 @@
 #include <help/thelpdialogbase.h>
 #include <help/tmainhelp.h>
 #include <help/texamhelp.h>
+#if defined (Q_OS_ANDROID)
+  #include <touch/ttoucharea.h>
+#endif
 #include <QtWidgets>
 #include <stdlib.h> // for getenv()
 
@@ -46,7 +49,11 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   m_examParams(examParams),
   m_selectedExamFile("")
 {
+#if defined (Q_OS_ANDROID)
+  showMaximized();
+#else
   setWindowTitle(tr("Start exercises or an exam"));
+#endif
 
   QVBoxLayout *levLay = new QVBoxLayout;
   QHBoxLayout *nameLay = new QHBoxLayout;
@@ -134,7 +141,16 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   mainLay->addLayout(examLay);
   mainLay->addWidget(m_hintLabel);
 
+#if defined (Q_OS_ANDROID)
+  m_hintLabel->hide();
+  auto *touchArea = new TtouchArea(this);
+  touchArea->setLayout(mainLay);
+  auto *mobileLay = new QVBoxLayout;
+  mobileLay->addWidget(touchArea);
+  setLayout(mobileLay);
+#else
   setLayout(mainLay);
+#endif
 
   statusTipText = tr("To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file." );
   m_hintLabel->setStatusTip("<b>" + statusTipText + "</b>");
@@ -340,7 +356,11 @@ void TstartExamDlg::levelWasSelected(Tlevel level) {
 
 void TstartExamDlg::helpSelected() {
   ThelpDialogBase *help = new ThelpDialogBase(this);
+#if defined (Q_OS_ANDROID)
+  help->showMaximized();
+#else
   help->setFixedSize(width(), height() * 0.8);
+#endif
   QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " +
   help->pix("exam", 64) + "</h2>" +
   TmainHelp::youWillLearnText() + "<br><br>" +
