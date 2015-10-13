@@ -158,9 +158,9 @@ TnoteName::TnoteName(QWidget *parent) :
 //   m_upOctaveLay->addStretch(2); // no octaves link under Android
   mainLay->setContentsMargins(0, 0, 0, 0);
   mainLay->setSpacing(0);
-  m_accLay->setContentsMargins(0, 0, 0, 0);
+  m_accLay->setContentsMargins(0, 2, 0, 2);
   m_accLay->setSpacing(0);
-  m_upOctaveLay->setContentsMargins(0, 0, 0, 0);
+  m_upOctaveLay->setContentsMargins(0, 0, 0, 2);
   m_upOctaveLay->setSpacing(0);
   m_loOctaveLay->setContentsMargins(0, 0, 0, 0);
   m_loOctaveLay->setSpacing(0);
@@ -330,12 +330,14 @@ void TnoteName::resize(int fontSize) {
 		for (int i = 0; i < m_accidButtons.size(); ++i)
 			m_accidButtons[i]->setFont(f);
 		int widthOffset = 0;
-    int nameHfactor = 5;
-		if (m_isMenu) {
 #if defined (Q_OS_ANDROID)
+    int nameHfactor = 4;
+    if (m_isMenu) {
 			widthOffset = 30;
       nameHfactor = 3;
 #else
+    int nameHfactor = 5;
+    if (m_isMenu) {
       widthOffset = 15;
       nameHfactor = 4;
 #endif
@@ -344,10 +346,10 @@ void TnoteName::resize(int fontSize) {
 		m_nameLabel->setFixedHeight(fontSize * nameHfactor);
 		m_nextNoteButt->setFixedHeight(m_nameLabel->height());
 		m_prevNoteButt->setFixedHeight(m_nameLabel->height());
-    #if defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
     m_nextNoteButt->setFixedWidth(m_nameLabel->height() * 0.6);
     m_prevNoteButt->setFixedWidth(m_nameLabel->height() * 0.6);
-    #endif
+#endif
 		updateSizeHint();
 		adjustSize();
 		if (tip())
@@ -411,10 +413,6 @@ void TnoteName::enableArrows(bool en) {
       m_menu = 0;
     }
 	}
-// #if defined(Q_OS_ANDROID)
-//   m_prevNoteButt->hide();
-//   m_nextNoteButt->hide();
-// #endif
 	resize(m_fontSize);
 }
 
