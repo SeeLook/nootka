@@ -33,10 +33,12 @@ QString TexamHelp::examFeaturesText() {
 }
 
 
-TexamHelp::TexamHelp(QString questColorTxt, QString answColorTxt, bool* showHelp, QWidget* parent) :
+TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, bool* showHelp, QWidget* parent) :
     ThelpDialogBase(parent, 0)
 {
+#if !defined (Q_OS_ANDROID)
   resize((parent->width() / 3) * 2, (parent->height() / 3) * 2);
+#endif
   const int iconsSize = fontMetrics().boundingRect("A").height() * 2;
   const int bigIconSize = iconsSize * 2;
   helpText()->setHtml(
