@@ -21,7 +21,7 @@
 #include "tqtaudioout.h"
 #include <tmtr.h>
 #include <tpath.h>
-#include <touch/ttouchmenu.h>
+// #include <touch/ttouchmenu.h>
 #include <graphics/tdropshadoweffect.h>
 #include <QtWidgets/qaction.h>
 #include <QtGui/qpen.h>
@@ -50,10 +50,10 @@ TmelodyItem::TmelodyItem(QAction* playAction, QAction* recordAction, QAction* li
   m_recDot = createDot(2);
   m_snifDot = createDot(3);
 
-  m_scoreMenuAct = new QAction(QIcon(Tpath::img("score")), tr("score menu"), this);
-  connect(m_scoreMenuAct, SIGNAL(triggered()), this, SIGNAL(scoreMenuSignal()));
-  m_mainMenuAct = new QAction(QIcon(Tpath::img("nootka")), tr("main menu"), this);
-  connect(m_mainMenuAct, SIGNAL(triggered()), this, SIGNAL(mainMenuSignal()));
+//   m_scoreMenuAct = new QAction(QIcon(Tpath::img("score")), tr("score menu"), this);
+//   connect(m_scoreMenuAct, SIGNAL(triggered()), this, SIGNAL(scoreMenuSignal()));
+//   m_mainMenuAct = new QAction(QIcon(Tpath::img("nootka")), tr("main menu"), this);
+//   connect(m_mainMenuAct, SIGNAL(triggered()), this, SIGNAL(mainMenuSignal()));
 }
 
 
@@ -128,23 +128,27 @@ void TmelodyItem::setDotColor(QGraphicsEllipseItem* dot, const QColor& c) {
 void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
   m_touched = true;
   update();
+  emit touched();
 }
 
 
 void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent*) {
-  TtouchMenu menu;
-  menu.setGraphicsEffect(new TdropShadowEffect());
-  menu.setAnimDuration(200);
-  if (TaudioOUT::instance())
-    menu.addAction(m_playAct);
-  menu.addAction(m_recAct);
-  if (TaudioIN::instance())
-    menu.addAction(m_sniffAct);
-  menu.addAction(m_scoreMenuAct);
-  menu.addAction(m_mainMenuAct);
-  int xx = x() + Tmtr::fingerPixels() * 0.7;
   m_touched = false;
-  menu.exec(QPoint(xx, 2), QPoint(xx, -menu.sizeHint().height()));
+  update();
+  emit menuSignal();
+  update();
+//   TtouchMenu menu;
+//   menu.setGraphicsEffect(new TdropShadowEffect());
+//   menu.setAnimDuration(200);
+//   if (TaudioOUT::instance())
+//     menu.addAction(m_playAct);
+//   menu.addAction(m_recAct);
+//   if (TaudioIN::instance())
+//     menu.addAction(m_sniffAct);
+//   menu.addAction(m_scoreMenuAct);
+//   menu.addAction(m_mainMenuAct);
+//   int xx = x() + Tmtr::fingerPixels() * 0.7;
+//   menu.exec(QPoint(xx, 2), QPoint(xx, -menu.sizeHint().height()));
 }
 
 

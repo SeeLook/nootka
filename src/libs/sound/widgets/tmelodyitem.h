@@ -60,6 +60,8 @@ public:
 signals:
   void scoreMenuSignal();
   void mainMenuSignal();
+  void menuSignal();
+  void touched();
 
 protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent*);

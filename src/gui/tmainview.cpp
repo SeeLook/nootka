@@ -20,7 +20,10 @@
 #include "ttoolbar.h"
 #include "tmenu.h"
 #if defined (Q_OS_ANDROID)
+  #include "tmaterialmenu.h"
   #include <widgets/tmelodyitem.h>
+  #include "tqtaudioin.h"
+  #include "tqtaudioout.h"
 #endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
@@ -97,8 +100,9 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   TmelodyItem *melItem = new TmelodyItem(m_tool->playMelody(), m_tool->recordMelody(), m_pitch->pauseAction());
   scene()->addItem(melItem);
   melItem->setPos(0, 0);
-  connect(melItem, &TmelodyItem::scoreMenuSignal, this, &TmainView::scoreMenuExec);
-  connect(melItem, &TmelodyItem::mainMenuSignal, this, &TmainView::mainMenuExec);
+//  connect(melItem, &TmelodyItem::scoreMenuSignal, this, &TmainView::scoreMenuExec);
+//  connect(melItem, &TmelodyItem::mainMenuSignal, this, &TmainView::mainMenuExec);
+  connect(melItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
 #endif
   if (TtouchProxy::touchEnabled()) {
     m_fretView = new TguitarView(m_guitar, this);
@@ -325,14 +329,26 @@ void TmainView::mouseMoveEvent(QMouseEvent* event) {
 
 
 void TmainView::mainMenuExec() {
+#if defined (Q_OS_ANDROID)
   m_mainMenuTap = false;
-  TtouchMenu menu(this);
-  menu.setGraphicsEffect(new TdropShadowEffect());
-  menu.addAction(m_tool->settingsAct);
-  menu.addAction(m_tool->levelCreatorAct);
+  TmaterialMenu menu(this);
+//  menu.setGraphicsEffect(new TdropShadowEffect());
+  if (TaudioOUT::instance())
+    menu.addAction(m_tool->playMelody());
+  menu.addAction(m_tool->recordMelody());
+  if (TaudioIN::instance())
+    menu.addAction(m_pitch->pauseAction());
   menu.addAction(m_tool->startExamAct);
+  menu.addAction(m_tool->levelCreatorAct);
+  auto scoreMenuAct = new QAction(QIcon(Tpath::img("score")), tr("score menu"), this);
+  connect(scoreMenuAct, &QAction::triggered, this, &TmainView::scoreMenuExec);
+  menu.addAction(scoreMenuAct);
+  menu.addAction(m_tool->settingsAct);
   menu.addAction(m_tool->aboutSimpleAct);
-  menu.exec(QPoint(2, 2), QPoint(-menu.sizeHint().width(), 2));
+  auto a = menu.exec();
+  if (a)
+    a->trigger();
+#endif
 }
 
 
