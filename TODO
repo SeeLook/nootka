@@ -11,7 +11,13 @@
 ================              TODO LIST               ======================
 ============================================================================
 
+New translations
+waring - merge with stable
+
+
+
 ANDROID:
+- resize name label in single note mode
 - crash when audio out was disables and enabled again in settings (audio in probably also)
 - keep extra dialogues maximized (file, color dialog)
     or create special ones for mobile
@@ -19,12 +25,22 @@ ANDROID:
 - add labels with smallest font under level cretor options instead of status tips
 - solve issue with restart for settings reset
 - Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
+- HOME button would be switching available menus
+- handle BACK button to destroy visible menu and/or prevent to close exam
+- As long as there is not status label there has to be some other way to display exam messages
+- take out some options from exam settings:
+    - detected wrong note in exercises
+    OR find a way to display them
+- alternate enharmonical names color is wihite by default in settings (when single note is unlocked)
+  its change is not aproved to score
 
+- remove tanimedtextitem.cpp - probably unused
 
 To consideration:
 - additional settings options:
     - disable screen locking (TRUE by default)
     - full screen mode (TRUE by default)
+    - home button actions
 
 ============================================================================
 Issues of stable 1.2.2:
@@ -100,6 +116,11 @@ MINOR:
 
 ANDROID:
 - unlock left-handed guitar then implement frets zoom to respect transforms
+
+Tpath 
+  - change type of parameters from QString to char* then not necessary to use QStringLiteral in calls
+       (file names are always in ascii)
+- the same with ThelpDialogBase::pix()
 
 Tnote
   - change class name to Tpitch (???)

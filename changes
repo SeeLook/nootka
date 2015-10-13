@@ -6,6 +6,16 @@
     Under the hood
      - code fully depends on c++11 capable compiler
 
+1.2.2
+     - updated Russian translation
+     - added flick-able scroll (by mouse dragging) to windows with help
+    BUGS FIXES
+     - fixed crash related to hiding temp note segment at the staff end
+     - properly loading translations of guitar tuning
+     - fixed French translation
+     - fixed mistakes in Polish translation
+     - preventing of text selection in help windows
+
 1.2.1
     BUGS FIXES
      - fixed finger position validation - it might corrupt exam files
