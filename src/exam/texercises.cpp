@@ -19,12 +19,12 @@
 #include "texercises.h"
 #include <exam/texam.h>
 #include <widgets/troundedlabel.h>
-#include <QRadioButton>
-#include <QButtonGroup>
-#include <QPushButton>
-#include <QStyle>
-#include <QVBoxLayout>
-#include <QGroupBox>
+#include <QtWidgets/qradiobutton.h>
+#include <QtWidgets/qbuttongroup.h>
+#include <QtWidgets/qpushbutton.h>
+#include <QtWidgets/qstyle.h>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qgroupbox.h>
 
 // #include <QDebug>
 
@@ -104,10 +104,14 @@ void Texercises::checkAnswer() {
 TsuggestExam::TsuggestExam() :
 	QDialog()
 {
+#if defined (Q_OS_ANDROID)
+  showMaximized();
+#else
   setWindowTitle(tr("Start an exam"));
-  TroundedLabel *mainLab = new TroundedLabel("<h3>" + 
+#endif
+  TroundedLabel *mainLab = new TroundedLabel(QStringLiteral("<h3>") +
   tr("You are very good in this exercise!<br>Would you like to pass an exam on the same level and got a certificate?") +
-  "</h3>", this);
+  QStringLiteral("</h3>"), this);
   mainLab->setAlignment(Qt::AlignCenter);
   m_redyExamRadio = new QRadioButton(tr("Sure! Lets start an exam!"), this);
   m_notNowRadio = new QRadioButton(tr("Not now, ask me for a moment."), this);

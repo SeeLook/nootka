@@ -616,11 +616,11 @@ void MainWindow::updateSize(QSize newS) {
 	qreal fact = (qreal)(m_statFontSize * 1.4) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
+#endif
   if (progress) {
     progress->resize(m_statFontSize);
     examResults->setFontSize(m_statFontSize);
   }
-#endif
 	int newGuitH = (newS.height() - bar->height()) * 0.25;
 	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
 		QPixmap rosePix(gl->path + "picts/pickup.png");
