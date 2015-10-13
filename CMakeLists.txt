@@ -7,8 +7,8 @@ cmake_minimum_required(VERSION 2.8.12)
 project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
-SET(Nootka_VERSION_MINOR  "2")
-SET(Nootka_VERSION_PATCH  "0")
+SET(Nootka_VERSION_MINOR  "3")
+SET(Nootka_VERSION_PATCH  "0-alpha")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -18,7 +18,7 @@ ${PROJECT_NAME}-${Nootka_VERSION_FULL}
 
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src) 
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 
 if (UNIX AND NOT APPLE) # config with version number is generated once on developer platform
 configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
@@ -176,5 +176,6 @@ add_subdirectory( packaging ) # cpack rules
 # add_subdirectory( tests/plugtester )
 # add_subdirectory( tests/nootini )
 # add_subdirectory( tests/nootoxml )
+# add_subdirectory( tests/menu )
 
 
