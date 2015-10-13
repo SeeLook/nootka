@@ -29,7 +29,7 @@ void Tandroid::setScreenLockDisabled() {
       const int FLAG_KEEP_SCREEN_ON = 128;
       const int FLAG_FULLSCREEN = 1024;
 //      const int FLAG_FORCE_NOT_FULLSCREEN = 2048;
-      window.callObjectMethod("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON | FLAG_FULLSCREEN);
+      window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON | FLAG_FULLSCREEN);
     }
   }
 }
