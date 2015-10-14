@@ -34,6 +34,7 @@ class QVBoxLayout;
 class QBoxLayout;
 class QGraphicsProxyWidget;
 class QAction;
+class TmelodyItem;
 
 /** 
  * This widget manages of a layout of main Nootka window
@@ -107,6 +108,9 @@ private:
 	QTimer													*m_timerBar;
 	TnameTip												*m_nameTip;
   bool                             m_mainMenuTap, m_scoreMenuTap, m_playBarTap;
+#if defined (Q_OS_ANDROID)
+  TmelodyItem                     *m_menuItem;
+#endif
 
 };
 

@@ -20,18 +20,19 @@
 #define TMELODYITEM_H
 
 #include "nootkasoundglobal.h"
-#include <QGraphicsObject>
+#include <QtWidgets/qgraphicsitem.h>
 
 
 class QGraphicsEllipseItem;
 class QAction;
+class QTimer;
+class TgraphicsTextTip;
 
 /**
  * This is a "three-points-button on touchable screens to:
  * - start/stop playing
  * - enter into record mode
  * - start/stop sniffing (pitch detection)
- * It has got the actions for score menu and main menu
  * TmelodyItem is available as a static @p instance() method.
  * @class TmelMan and @class TpitchView use it to manage playing/sniffing/recording
  */
@@ -40,7 +41,7 @@ class NOOTKASOUND_EXPORT TmelodyItem : public QGraphicsObject
   Q_OBJECT
 
 public:
-  TmelodyItem(QAction* playAction, QAction* recordAction, QAction* listenAction);
+  TmelodyItem();
   virtual ~TmelodyItem();
 
   static TmelodyItem* instance() { return m_instance; } /** Instance of @class TmelodyItem or 0 */
@@ -57,28 +58,49 @@ public:
   void recordingStarted() { setRecording(true); } /** Signalizes about recording process  */
   void recordingStopped() { setRecording(false); }
 
+  bool isTouched() { return m_touched; }
+
+  bool audioInEnabled(); /** @p True when audio input (sniffing) is enabled  */
+  bool audioOutEnabled(); /** @p True when audio output (listening) is enabled  */
+
+      /** List of actions from which side icons are created
+       * They are drawn in order of list
+       * o-------------1
+       * |\_
+       * |  \_
+       * |    \_
+       * |       2
+       * 3
+       * Use @p insert() to add some action between,
+       * and @p removeOne(QAction) to take it from the list.
+       */
+  QList<QAction*>* actions() { return &m_actions; }
+
+  virtual QRectF boundingRect() const;
+
 signals:
-  void scoreMenuSignal();
-  void mainMenuSignal();
-  void menuSignal();
-  void touched();
+  void menuSignal(); /** Emitted when item was touched and released */
+  void touched(); /** Emitted when item was just touched */
 
 protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
-  virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent*);
+  virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+  virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
-  virtual QRectF boundingRect() const;
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
   void setDotColor(QGraphicsEllipseItem* dot, const QColor& c);
   QGraphicsEllipseItem* createDot(int dotNr);
+  void createFlyActions();
 
 private:
   static TmelodyItem          *m_instance;
-  QAction                     *m_playAct, *m_recAct, *m_sniffAct, *m_scoreMenuAct, *m_mainMenuAct;
   QGraphicsEllipseItem        *m_playDot, *m_recDot, *m_snifDot;
   bool                         m_touched;
-
+  QList<TgraphicsTextTip*>     m_flyList;
+  QList<QAction*>              m_actions;
+  QTimer                      *m_timer; /** Counts time when to display fly-icons menu */
+  QAction                     *m_selectedAction;
 };
 
 #endif // TMELODYITEM_H

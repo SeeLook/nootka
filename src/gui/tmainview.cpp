@@ -22,8 +22,6 @@
 #if defined (Q_OS_ANDROID)
   #include "tmaterialmenu.h"
   #include <widgets/tmelodyitem.h>
-  #include "tqtaudioin.h"
-  #include "tqtaudioout.h"
 #endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
@@ -50,6 +48,9 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	m_touchedWidget(0),
 	m_name(name),
 	m_nameLay(0),
+#if defined (Q_OS_ANDROID)
+  m_menuItem(0),
+#endif
 	m_mainMenuTap(false), m_scoreMenuTap(false), m_playBarTap(false)
 {
 	setScene(new QGraphicsScene(this));
@@ -97,12 +98,14 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	
 	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
 #if defined (Q_OS_ANDROID)
-  TmelodyItem *melItem = new TmelodyItem(m_tool->playMelody(), m_tool->recordMelody(), m_pitch->pauseAction());
-  scene()->addItem(melItem);
-  melItem->setPos(0, 0);
-//  connect(melItem, &TmelodyItem::scoreMenuSignal, this, &TmainView::scoreMenuExec);
-//  connect(melItem, &TmelodyItem::mainMenuSignal, this, &TmainView::mainMenuExec);
-  connect(melItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
+  m_menuItem = new TmelodyItem();
+  scene()->addItem(m_menuItem);
+  m_menuItem->setPos(0, 0);
+  connect(m_menuItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
+  m_menuItem->actions()->append(m_tool->playMelody());
+  m_menuItem->actions()->append(m_tool->recordMelody());
+  m_menuItem->actions()->append(m_tool->aboutSimpleAct);
+  m_menuItem->actions()->append(m_pitch->pauseAction());
 #endif
   if (TtouchProxy::touchEnabled()) {
     m_fretView = new TguitarView(m_guitar, this);
@@ -118,7 +121,6 @@ TmainView::~TmainView()
   if (TtouchProxy::touchEnabled())
     delete m_fretView;
 }
-
 
 
 void TmainView::addNoteName() {
@@ -332,11 +334,10 @@ void TmainView::mainMenuExec() {
 #if defined (Q_OS_ANDROID)
   m_mainMenuTap = false;
   TmaterialMenu menu(this);
-//  menu.setGraphicsEffect(new TdropShadowEffect());
-  if (TaudioOUT::instance())
+  if (m_menuItem->audioOutEnabled())
     menu.addAction(m_tool->playMelody());
   menu.addAction(m_tool->recordMelody());
-  if (TaudioIN::instance())
+  if (m_menuItem->audioInEnabled())
     menu.addAction(m_pitch->pauseAction());
   menu.addAction(m_tool->startExamAct);
   menu.addAction(m_tool->levelCreatorAct);
@@ -368,6 +369,9 @@ void TmainView::scoreMenuExec() {
 
 bool TmainView::viewportEvent(QEvent *event) {
   if (TtouchProxy::touchEnabled()) {
+#if defined (Q_OS_ANDROID)
+    if (m_menuItem && !m_menuItem->isTouched()) { // ignore touch propagation when melody item was touched
+#endif
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
       QTouchEvent *te = static_cast<QTouchEvent*>(event);
 // 1.  Main widget of view was touched
@@ -437,6 +441,9 @@ bool TmainView::viewportEvent(QEvent *event) {
       }
     }
   }
+#if defined (Q_OS_ANDROID)
+  } // if (!m_menuItem->isTouched())
+#endif
   return QAbstractScrollArea::viewportEvent(event);
 }
 
