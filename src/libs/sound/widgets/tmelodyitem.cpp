@@ -21,11 +21,22 @@
 #include "tqtaudioout.h"
 #include <tmtr.h>
 #include <tpath.h>
-// #include <touch/ttouchmenu.h>
+#include <graphics/tnotepixmap.h>
 #include <graphics/tdropshadoweffect.h>
+#include <graphics/tgraphicstexttip.h>
 #include <QtWidgets/qaction.h>
+#include <QtWidgets/qstyle.h>
+#include <QtWidgets/qgraphicsscene.h>
+#include <QtWidgets/qgraphicssceneevent.h>
 #include <QtGui/qpen.h>
 #include <QtGui/qpainter.h>
+#include <QtCore/qtimer.h>
+#include <QtCore/qmath.h>
+
+#include <QtCore/qdebug.h>
+
+
+#define SHORT_TAP_TIME (150)
 
 
 /**
@@ -37,29 +48,37 @@
 TmelodyItem* TmelodyItem::m_instance = 0;
 
 
-TmelodyItem::TmelodyItem(QAction* playAction, QAction* recordAction, QAction* listenAction) :
+TmelodyItem::TmelodyItem() :
   QGraphicsObject(0),
-  m_playAct(playAction),
-  m_recAct(recordAction),
-  m_sniffAct(listenAction),
-  m_touched(false)
+  m_touched(false),
+  m_selectedAction(0)
 {
   m_instance = this;
   setAcceptTouchEvents(true);
   m_playDot = createDot(1);
   m_recDot = createDot(2);
   m_snifDot = createDot(3);
-
-//   m_scoreMenuAct = new QAction(QIcon(Tpath::img("score")), tr("score menu"), this);
-//   connect(m_scoreMenuAct, SIGNAL(triggered()), this, SIGNAL(scoreMenuSignal()));
-//   m_mainMenuAct = new QAction(QIcon(Tpath::img("nootka")), tr("main menu"), this);
-//   connect(m_mainMenuAct, SIGNAL(triggered()), this, SIGNAL(mainMenuSignal()));
+  m_timer = new QTimer(this);
+  m_timer->setSingleShot(true);
+  m_timer->setTimerType(Qt::PreciseTimer);
+  m_timer->setInterval(SHORT_TAP_TIME);
+  connect(m_timer, &QTimer::timeout, this, &TmelodyItem::createFlyActions);
 }
 
 
 TmelodyItem::~TmelodyItem()
 {
   m_instance = 0;
+}
+
+
+bool TmelodyItem::audioInEnabled() {
+  return (bool)TaudioIN::instance();
+}
+
+
+bool TmelodyItem::audioOutEnabled() {
+  return (bool)TaudioOUT::instance();
 }
 
 
@@ -125,30 +144,68 @@ void TmelodyItem::setDotColor(QGraphicsEllipseItem* dot, const QColor& c) {
 }
 
 
+void TmelodyItem::createFlyActions() {
+  m_selectedAction = 0;
+  qreal angle = qDegreesToRadians(88.0) / (m_actions.size() - 1);
+  qreal off = qDegreesToRadians(89.0);
+  qreal r = Tmtr::fingerPixels() * 4;
+  int iconSize = qApp->style()->pixelMetric(QStyle::PM_SmallIconSize);
+  for (int i = 0; i < m_actions.size(); ++i) {
+    auto it = new TgraphicsTextTip(pixToHtml(m_actions[i]->icon().pixmap(iconSize, iconSize)), qApp->palette().highlight().color());
+    scene()->addItem(it);
+    it->setData(0, i);
+    m_flyList << it;
+    it->setPos(qSin(off - i * angle) * r, qCos(off - i * angle) * r);
+  }
+}
+
+
+//#################################################################################################
+//###################              EVENTS              ############################################
+//#################################################################################################
+
 void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
   m_touched = true;
   update();
   emit touched();
+  m_timer->start();
 }
 
 
-void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent*) {
-  m_touched = false;
-  update();
-  emit menuSignal();
-  update();
-//   TtouchMenu menu;
-//   menu.setGraphicsEffect(new TdropShadowEffect());
-//   menu.setAnimDuration(200);
-//   if (TaudioOUT::instance())
-//     menu.addAction(m_playAct);
-//   menu.addAction(m_recAct);
-//   if (TaudioIN::instance())
-//     menu.addAction(m_sniffAct);
-//   menu.addAction(m_scoreMenuAct);
-//   menu.addAction(m_mainMenuAct);
-//   int xx = x() + Tmtr::fingerPixels() * 0.7;
-//   menu.exec(QPoint(xx, 2), QPoint(xx, -menu.sizeHint().height()));
+void TmelodyItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+  if (!m_timer->isActive() && m_touched && // actions were created
+    event->pos().x() > boundingRect().width() || event->pos().y() > boundingRect().height()) { // enough as long as this item is at (0, 0)
+      auto *it = static_cast<TgraphicsTextTip*>(scene()->itemAt(mapToScene(event->pos()), transform()));
+      if (m_flyList.contains(it)) {
+        m_touched = false; // ignore menu
+        m_selectedAction = m_actions.at(it->data(0).toInt());
+        it->setBgColor(Qt::green);
+      }
+  }
+  QGraphicsItem::mouseMoveEvent(event);
 }
+
+
+
+void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+  m_timer->stop();
+  for (int i = 0 ; i < m_flyList.size(); ++i)
+    delete m_flyList[i];
+  m_flyList.clear();
+  if (!m_touched && m_selectedAction) {
+    update();
+    m_selectedAction->trigger();
+    m_selectedAction = 0;
+  } else {
+    m_touched = false;
+    update();
+    emit menuSignal();
+  }
+  QGraphicsItem::mouseReleaseEvent(event);
+}
+
+
+
+
 
 
