@@ -23,7 +23,6 @@
 #include <tpath.h>
 #include <graphics/tnotepixmap.h>
 #include <graphics/tdropshadoweffect.h>
-#include <graphics/tgraphicstexttip.h>
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qstyle.h>
 #include <QtWidgets/qgraphicsscene.h>
@@ -36,7 +35,8 @@
 #include <QtCore/qdebug.h>
 
 
-#define SHORT_TAP_TIME (150)
+#define SHORT_TAP_TIME (300)
+#define BG_ALPHA (200) // alpha of items background color
 
 
 /**
@@ -45,8 +45,57 @@
  */
 
 
-TmelodyItem* TmelodyItem::m_instance = 0;
+/**
+ * Note-head shaped item with icon inside.
+ */
+class TflyItem : public QGraphicsItem
+{
 
+public:
+  TflyItem(const QIcon& icon, QGraphicsItem* parent = 0) :
+      QGraphicsItem(parent),
+      m_pixmap(icon.pixmap(Tmtr::fingerPixels() * 0.85))
+  {
+    setBgColor(Qt::black);
+    setGraphicsEffect(new TdropShadowEffect);
+  }
+
+  enum { FlyItemType = UserType + 2 };
+  virtual int type() const { return FlyItemType; }
+
+  void setBgColor(const QColor& c) { m_bgColor = QColor(c.red(), c.green(), c.blue(), BG_ALPHA); update(); }
+
+  virtual QRectF boundingRect() const {
+    return QRectF(0, 0, Tmtr::fingerPixels() * 1.4, Tmtr::fingerPixels() * 1.4);
+  }
+
+  virtual QPainterPath shape() const {
+    QPainterPath path;
+    path.addEllipse(boundingRect());
+    return path;
+  }
+
+protected:
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {
+    painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    painter->setPen(QPen(Qt::black, 2));
+    painter->setBrush(QBrush(m_bgColor));
+    painter->drawEllipse(0, 0, boundingRect().width(), boundingRect().height());
+    painter->drawPixmap((boundingRect().width() - m_pixmap.width()) / 2,
+                        (boundingRect().height() - m_pixmap.height()) / 2, m_pixmap);
+  }
+
+private:
+  QPixmap             m_pixmap;
+  QColor              m_bgColor;
+};
+
+
+//#################################################################################################
+//###################             TmelodyItem          ############################################
+//#################################################################################################
+
+TmelodyItem* TmelodyItem::m_instance = 0;
 
 TmelodyItem::TmelodyItem() :
   QGraphicsObject(0),
@@ -118,8 +167,9 @@ QRectF TmelodyItem::boundingRect() const {
 void TmelodyItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
-  QColor bg(m_touched ? qApp->palette().highlight().color() : qApp->palette().base().color());
-  bg.setAlpha(200);
+  QColor bg(m_touched ? qApp->palette().highlight().color() : Qt::white);
+  bg.setAlpha(BG_ALPHA);
+  painter->setRenderHints(QPainter::Antialiasing);
   painter->setBrush(bg);
   painter->setPen(Qt::NoPen);
   painter->drawRoundedRect(boundingRect().adjusted(0, 0, -Tmtr::fingerPixels() / 2, 0), 30, 30, Qt::RelativeSize);
@@ -145,26 +195,29 @@ void TmelodyItem::setDotColor(QGraphicsEllipseItem* dot, const QColor& c) {
 
 
 void TmelodyItem::createFlyActions() {
-  m_selectedAction = 0;
-  qreal angle = qDegreesToRadians(88.0) / (m_actions.size() - 1);
-  qreal off = qDegreesToRadians(89.0);
-  qreal r = Tmtr::fingerPixels() * 4;
-  int iconSize = qApp->style()->pixelMetric(QStyle::PM_SmallIconSize);
-  for (int i = 0; i < m_actions.size(); ++i) {
-    auto it = new TgraphicsTextTip(pixToHtml(m_actions[i]->icon().pixmap(iconSize, iconSize)), qApp->palette().highlight().color());
-    scene()->addItem(it);
-    it->setData(0, i);
-    m_flyList << it;
-    it->setPos(qSin(off - i * angle) * r, qCos(off - i * angle) * r);
+  m_timer->stop();
+  if (m_flyList.isEmpty()) {
+    m_selectedAction = 0;
+    qreal angle = qDegreesToRadians(86.0) / (m_actions.size() - 1);
+    qreal off = qDegreesToRadians(88.0);
+    qreal r = Tmtr::fingerPixels() * 4;
+    for (int i = 0; i < m_actions.size(); ++i) {
+      if (m_actions[i]->isEnabled()) {
+        auto it = new TflyItem(m_actions[i]->icon(), this);
+        it->setData(0, i);
+        m_flyList << it;
+        it->setPos(qSin(off - i * angle) * r, qCos(off - i * angle) * r);
+      }
+    }
   }
 }
-
 
 //#################################################################################################
 //###################              EVENTS              ############################################
 //#################################################################################################
 
 void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
+  m_currentIt = 0;
   m_touched = true;
   update();
   emit touched();
@@ -173,18 +226,26 @@ void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
 
 
 void TmelodyItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-  if (!m_timer->isActive() && m_touched && // actions were created
-    event->pos().x() > boundingRect().width() || event->pos().y() > boundingRect().height()) { // enough as long as this item is at (0, 0)
-      auto *it = static_cast<TgraphicsTextTip*>(scene()->itemAt(mapToScene(event->pos()), transform()));
-      if (m_flyList.contains(it)) {
-        m_touched = false; // ignore menu
-        m_selectedAction = m_actions.at(it->data(0).toInt());
-        it->setBgColor(Qt::green);
-      }
+  if (m_touched && event->pos().x() > Tmtr::fingerPixels() || event->pos().y() > Tmtr::fingerPixels()) {
+    // condition is correct as long as melody item is at (0, 0) position
+    if (m_timer->isActive()) {
+        createFlyActions(); // finger was moved over the melody item buy flying items have been not created yet.
+    } else {
+        auto it = scene()->itemAt(mapToScene(event->pos()), transform());
+        if (it->type() == TflyItem::FlyItemType) {
+          auto flyIt = qgraphicsitem_cast<TflyItem*>(it);
+          if (flyIt != m_currentIt) {
+            m_selectedAction = m_actions.at(flyIt->data(0).toInt());
+            flyIt->setBgColor(qApp->palette().highlight().color());
+            if (m_currentIt) // revert selection of previous fly item
+                m_currentIt->setBgColor(Qt::black);
+            m_currentIt = flyIt;
+          }
+        }
+    }
   }
   QGraphicsItem::mouseMoveEvent(event);
 }
-
 
 
 void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
@@ -192,15 +253,13 @@ void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
   for (int i = 0 ; i < m_flyList.size(); ++i)
     delete m_flyList[i];
   m_flyList.clear();
-  if (!m_touched && m_selectedAction) {
-    update();
-    m_selectedAction->trigger();
-    m_selectedAction = 0;
-  } else {
-    m_touched = false;
-    update();
-    emit menuSignal();
-  }
+  m_touched = false;
+  update();
+  if (m_selectedAction) {
+      m_selectedAction->trigger();
+      m_selectedAction = 0;
+  } else if (event->pos().x() < Tmtr::fingerPixels() && event->pos().y() < Tmtr::fingerPixels())
+      emit menuSignal(); // send a signal only when finger was not moved over the melody tip
   QGraphicsItem::mouseReleaseEvent(event);
 }
 

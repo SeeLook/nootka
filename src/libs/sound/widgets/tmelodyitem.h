@@ -26,13 +26,12 @@
 class QGraphicsEllipseItem;
 class QAction;
 class QTimer;
-class TgraphicsTextTip;
+class TflyItem;
 
 /**
- * This is a "three-points-button on touchable screens to:
- * - start/stop playing
- * - enter into record mode
- * - start/stop sniffing (pitch detection)
+ * This is a "three-points-button" on touchable screens to
+ * handle touch (sends signal usually associated with main menu)
+ * and manages flying icons-buttons with actions.
  * TmelodyItem is available as a static @p instance() method.
  * @class TmelMan and @class TpitchView use it to manage playing/sniffing/recording
  */
@@ -64,7 +63,7 @@ public:
   bool audioOutEnabled(); /** @p True when audio output (listening) is enabled  */
 
       /** List of actions from which side icons are created
-       * They are drawn in order of list
+       * They are drawn in order of the list
        * o-------------1
        * |\_
        * |  \_
@@ -73,6 +72,7 @@ public:
        * 3
        * Use @p insert() to add some action between,
        * and @p removeOne(QAction) to take it from the list.
+       * Disabled actions are not displayed but spare space remains.
        */
   QList<QAction*>* actions() { return &m_actions; }
 
@@ -97,10 +97,11 @@ private:
   static TmelodyItem          *m_instance;
   QGraphicsEllipseItem        *m_playDot, *m_recDot, *m_snifDot;
   bool                         m_touched;
-  QList<TgraphicsTextTip*>     m_flyList;
+  QList<TflyItem*>             m_flyList;
   QList<QAction*>              m_actions;
   QTimer                      *m_timer; /** Counts time when to display fly-icons menu */
   QAction                     *m_selectedAction;
+  TflyItem                    *m_currentIt;
 };
 
 #endif // TMELODYITEM_H
