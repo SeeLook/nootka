@@ -104,7 +104,7 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   connect(m_menuItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
   m_menuItem->actions()->append(m_tool->playMelody());
   m_menuItem->actions()->append(m_tool->recordMelody());
-  m_menuItem->actions()->append(m_tool->aboutSimpleAct);
+//   m_menuItem->actions()->append(m_tool->aboutSimpleAct);
   m_menuItem->actions()->append(m_pitch->pauseAction());
 #endif
   if (TtouchProxy::touchEnabled()) {
