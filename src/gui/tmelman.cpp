@@ -34,11 +34,11 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_audioMark(0)
 {	
 	m_menu = new Tmenu();
-	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
-							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
-	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
+  m_playMelAct = createAction(tr("Play melody"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
+               QIcon(Tpath::img("playMelody")));
+	m_recMelAct = createAction(tr("Note by note"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
 							 QIcon(Tpath::img("record")));
-	m_recMelAct->setStatusTip(tr("When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically."));
+	m_recMelAct->setStatusTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to staff automatically."));
 	m_genMelodyAct = createAction(tr("Generate melody"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	m_genMelodyAct->setStatusTip(tr("Generate a melody with random notes."));
 
@@ -84,7 +84,7 @@ void TmelMan::playMelodySlot() {
 	if (m_score->isScorePlayed()) {
 		m_score->playScore(); // It will be stopped
 		m_recMelAct->setDisabled(false);
-		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaPlay)));
+    m_playMelAct->setIcon(QIcon(Tpath::img("playMelody")));
 		if (m_score->insertMode() == TmultiScore::e_record)
       showAudioMark(e_recording);
     else
@@ -101,7 +101,7 @@ void TmelMan::playMelodySlot() {
         return;
     }
 		m_recMelAct->setDisabled(true);
-		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
+    m_playMelAct->setIcon(QIcon(Tpath::img("stopMelody")));
 		m_score->playScore();
     showAudioMark(e_playing);
 	}
@@ -110,7 +110,7 @@ void TmelMan::playMelodySlot() {
 
 void TmelMan::recordMelodySlot() {
 	if (m_score->insertMode() == TmainScore::e_multi) {
-		m_recMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
+		m_recMelAct->setIcon(QIcon(Tpath::img("stopMelody")));
 		m_score->setInsertMode(TmainScore::e_record);
     showAudioMark(e_recording);
 	} else {
