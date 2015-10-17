@@ -61,14 +61,14 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
   helpText()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   helpText()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #endif
-  
+
   m_lay = new QVBoxLayout;
   m_lay->addWidget(m_helpText);
 	m_lay->addWidget(m_buttonBox);
-	
+
   setLayout(m_lay);
 	showButtons(true, false); // OK button by default
-	
+
 	connect(buttonBox(), SIGNAL(accepted()), this, SLOT(accept()));
 	connect(buttonBox(), SIGNAL(rejected()), this, SLOT(reject()));
 }
@@ -85,6 +85,16 @@ void ThelpDialogBase::showCheckBox(const QString& label, bool* state) {
   if (!m_checkBox) {
     m_checkBox = new QCheckBox(label, this);
     m_lay->insertWidget(1, m_checkBox, 0 , Qt::AlignCenter); // insert after m_helpText
+#if defined (Q_OS_ANDROID)
+    m_lay->removeWidget(m_buttonBox);
+    auto extraLay = new QHBoxLayout;
+      extraLay->addStretch(2);
+      extraLay->addWidget(m_checkBox);
+      extraLay->addStretch(1);
+      extraLay->addWidget(m_buttonBox);
+      extraLay->addStretch(2);
+    m_lay->addLayout(extraLay);
+#endif
   }
   m_stateOfChB = state;
   m_checkBox->setChecked(*state);
