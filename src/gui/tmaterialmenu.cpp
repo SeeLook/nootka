@@ -18,7 +18,6 @@
 
 
 #include "tmaterialmenu.h"
-#include <tmtr.h>
 #include <tpath.h>
 #include <tnootkalabel.h>
 #include <touch/ttouchmenu.h>
@@ -31,6 +30,8 @@
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qstyle.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qdesktopwidget.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qevent.h>
 #include <QtCore/qtimer.h>
@@ -42,7 +43,7 @@ TmaterialMenu::TmaterialMenu(QWidget* parent) :
   m_selectedAction(0),
   m_isMoving(false)
 {
-  setFixedHeight(Tmtr::shortScreenSide());
+  setFixedHeight(qApp->desktop()->availableGeometry().height());
   auto w = new QWidget(this);
   m_scrollArea = new QScrollArea(this);
   m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -50,7 +51,7 @@ TmaterialMenu::TmaterialMenu(QWidget* parent) :
   m_scrollArea->setFrameShape(QFrame::NoFrame);
   m_scrollArea->setWidgetResizable(true);
   m_scrollArea->setWidget(w);
-// HACK: to allow paintEvent painting dummy scroll bar over this widget all proxies widgets have to be transparent
+// HACK: to allow paintEvent painting dummy scroll bar over this widget all proxy widgets have to be transparent
   m_scrollArea->viewport()->setObjectName(QStringLiteral("menuView"));
   m_scrollArea->viewport()->setStyleSheet(QStringLiteral("QWidget#menuView { background: transparent; }"));
   w->setObjectName(QStringLiteral("menuWidget"));
@@ -63,7 +64,9 @@ TmaterialMenu::TmaterialMenu(QWidget* parent) :
   m_lay = new QVBoxLayout;
   m_lay->setContentsMargins(2, 5, 10, 0);
   m_lay->addWidget(m_nootkaLabel);
-  m_lay->addStretch(); // Add stretch in case all actions (buttons) don't fill whole visible space (screen height)
+  auto spaceWidget = new QWidget(this);
+  spaceWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+  m_lay->addWidget(spaceWidget);
   w->setContentsMargins(0, 0, 0, 0);
   w->setLayout(m_lay);
 
@@ -101,8 +104,8 @@ void TmaterialMenu::addAction(QAction* a) {
   butt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   butt->setStyleSheet(QStringLiteral("text-align: left;"));
 //   butt->setFont(QFont(font().family(), 20));
-  if (m_lay->count() > 1) // some button has been already added
-    m_lay->addWidget(new TlineSpacer(1, this));
+  if (m_lay->count() > 2) // some button has been already added
+    m_lay->insertWidget(m_lay->count() - 1, new TlineSpacer(1, this));
   if (a->isCheckable()) {
       auto chB = new QCheckBox(this);
       auto lay = new QHBoxLayout;
@@ -110,9 +113,9 @@ void TmaterialMenu::addAction(QAction* a) {
       lay->addWidget(chB);
       chB->setChecked(a->isChecked());
       connect(chB, &QCheckBox::clicked, butt, &QPushButton::click);
-      m_lay->insertLayout(m_lay->count(), lay); // Squeeze it before last element which is a stretch.
+      m_lay->insertLayout(m_lay->count() - 1, lay); // Squeeze it before last element which is a stretch.
   } else
-      m_lay->insertWidget(m_lay->count(), butt);
+      m_lay->insertWidget(m_lay->count() - 1, butt);
   butt->insertAction(0, a);
   connect(butt, &QPushButton::clicked, this, [this]{
       m_selectedAction = qobject_cast<QWidget*>(sender())->actions().first();
@@ -130,7 +133,7 @@ QAction* TmaterialMenu::exec() {
   menuLay->addWidget(this);
   m_menu = new TtouchMenu;
   m_menu->setLayout(menuLay);
-  m_menu->setFixedSize(sizeHint().width(), Tmtr::shortScreenSide());
+  m_menu->setFixedSize(sizeHint().width(), qApp->desktop()->availableGeometry().height());
   m_menu->setContentsMargins(0, 0, 0, 0);
   m_menu->exec(QPoint(), QPoint(-width(), 0));
   menuLay->removeWidget(this);
