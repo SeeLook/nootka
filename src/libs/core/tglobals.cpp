@@ -47,7 +47,6 @@ QString Tglobals::getInstPath(QString appInstPath) {
 #if defined (Q_OS_WIN)
 		p = d.path() + "/"; 				//	Windows
   #elif defined (Q_OS_ANDROID)
-//    p = "assets:/";
     p = ":/";
   #elif defined (Q_OS_LINUX)
 		  d.cdUp();
@@ -68,11 +67,7 @@ TtouchProxy* onlyOneTouchProxy = 0; // It is available through TtouchProxy::inst
 Tglobals::Tglobals(bool fromTemp) :
 	m_tune(0)
 {
-#if defined (Q_OS_ANDROID)
-  version = "1.1.8-alpha";
-#else
 	version = NOOTKA_VERSION;
-#endif
 //    path ; Is declared in main()
 
 	qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
@@ -230,7 +225,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 #if defined (Q_OS_ANDROID)
       E->examsDir = cfg->value("examsDir", qgetenv("EXTERNAL_STORAGE")).toString();
       E->levelsDir = cfg->value("levelsDir", qgetenv("EXTERNAL_STORAGE")).toString();
-      qDebug() << "Android user name:" << qgetenv("USER") << qgetenv("EXTERNAL_STORAGE");
 #else
 			E->examsDir = cfg->value("examsDir", QDir::homePath()).toString();
 			E->levelsDir = cfg->value("levelsDir", QDir::homePath()).toString();

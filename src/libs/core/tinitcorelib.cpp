@@ -73,7 +73,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
   QLocale::setDefault(loc);
 
 	QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-#if !defined (Q_OS_LINUX)
+#if !defined (Q_OS_LINUX) || defined (Q_OS_ANDROID)
   translationsPath = Tcore::gl()->path + "lang";
 #endif
   /** Until Qt 5.2 version translations where inside qt_xx.ts files
