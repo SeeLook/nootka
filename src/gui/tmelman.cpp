@@ -36,9 +36,11 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_menu = new Tmenu();
   m_playMelAct = createAction(tr("Play melody"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
                QIcon(Tpath::img("playMelody")));
+  m_playMelAct->setCheckable(true);
 	m_recMelAct = createAction(tr("Note by note"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
 							 QIcon(Tpath::img("record")));
-	m_recMelAct->setStatusTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to staff automatically."));
+	m_recMelAct->setStatusTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically."));
+  m_recMelAct->setCheckable(true);
 	m_genMelodyAct = createAction(tr("Generate melody"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	m_genMelodyAct->setStatusTip(tr("Generate a melody with random notes."));
 
@@ -85,6 +87,7 @@ void TmelMan::playMelodySlot() {
 		m_score->playScore(); // It will be stopped
 		m_recMelAct->setDisabled(false);
     m_playMelAct->setIcon(QIcon(Tpath::img("playMelody")));
+    m_playMelAct->setChecked(false);
 		if (m_score->insertMode() == TmultiScore::e_record)
       showAudioMark(e_recording);
     else
@@ -102,6 +105,7 @@ void TmelMan::playMelodySlot() {
     }
 		m_recMelAct->setDisabled(true);
     m_playMelAct->setIcon(QIcon(Tpath::img("stopMelody")));
+    m_playMelAct->setChecked(true);
 		m_score->playScore();
     showAudioMark(e_playing);
 	}
@@ -111,10 +115,12 @@ void TmelMan::playMelodySlot() {
 void TmelMan::recordMelodySlot() {
 	if (m_score->insertMode() == TmainScore::e_multi) {
 		m_recMelAct->setIcon(QIcon(Tpath::img("stopMelody")));
+    m_recMelAct->setChecked(true);
 		m_score->setInsertMode(TmainScore::e_record);
     showAudioMark(e_recording);
 	} else {
 		m_recMelAct->setIcon(QIcon(Tpath::img("record")));
+    m_recMelAct->setChecked(false);
 		m_score->setInsertMode(TmainScore::e_multi);
     if (!m_score->isScorePlayed())
       showAudioMark(e_none);
