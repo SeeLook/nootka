@@ -104,7 +104,6 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   connect(m_menuItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
   m_menuItem->actions()->append(m_tool->playMelody());
   m_menuItem->actions()->append(m_tool->recordMelody());
-//   m_menuItem->actions()->append(m_tool->aboutSimpleAct);
   m_menuItem->actions()->append(m_pitch->pauseAction());
 #endif
   if (TtouchProxy::touchEnabled()) {
@@ -345,7 +344,6 @@ void TmainView::mainMenuExec() {
   connect(scoreMenuAct, &QAction::triggered, this, &TmainView::scoreMenuExec);
   menu.addAction(scoreMenuAct);
   menu.addAction(m_tool->settingsAct);
-  menu.addAction(m_tool->aboutSimpleAct);
   auto a = menu.exec();
   if (a)
     a->trigger();
