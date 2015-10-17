@@ -19,6 +19,7 @@
 
 #include "tandroid.h"
 #include <QtAndroidExtras/qandroidfunctions.h>
+#include <QtAndroidExtras/qandroidjnienvironment.h>
 
 
 void Tandroid::setScreenLockDisabled() {
@@ -30,6 +31,9 @@ void Tandroid::setScreenLockDisabled() {
       const int FLAG_FULLSCREEN = 1024;
 //      const int FLAG_FORCE_NOT_FULLSCREEN = 2048;
       window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON | FLAG_FULLSCREEN);
+      QAndroidJniEnvironment env;
+      if (env->ExceptionCheck())
+        env->ExceptionClear();
     }
   }
 }
