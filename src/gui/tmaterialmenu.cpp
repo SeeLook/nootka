@@ -23,7 +23,7 @@
 #include <touch/ttouchmenu.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qpushbutton.h>
-#include <QtWidgets/qcheckbox.h>
+#include <QtWidgets/qradiobutton.h>
 #include <QtWidgets/qmenu.h>
 #include <QtWidgets/qscrollbar.h>
 #include <QtWidgets/qscroller.h>
@@ -107,12 +107,12 @@ void TmaterialMenu::addAction(QAction* a) {
   if (m_lay->count() > 2) // some button has been already added
     m_lay->insertWidget(m_lay->count() - 1, new TlineSpacer(1, this));
   if (a->isCheckable()) {
-      auto chB = new QCheckBox(this);
+      auto radio = new QRadioButton(this);
       auto lay = new QHBoxLayout;
       lay->addWidget(butt);
-      lay->addWidget(chB);
-      chB->setChecked(a->isChecked());
-      connect(chB, &QCheckBox::clicked, butt, &QPushButton::click);
+      lay->addWidget(radio);
+      radio->setChecked(a->isChecked());
+      connect(radio, &QRadioButton::clicked, butt, &QPushButton::click);
       m_lay->insertLayout(m_lay->count() - 1, lay); // Squeeze it before last element which is a stretch.
   } else
       m_lay->insertWidget(m_lay->count() - 1, butt);
