@@ -19,7 +19,7 @@
 #ifndef TGUITARVIEW_H
 #define TGUITARVIEW_H
 
-#include <QGraphicsView>
+#include <QtWidgets/qgraphicsview.h>
 
 
 class QGraphicsProxyWidget;
@@ -64,8 +64,10 @@ public:
   bool touchStartedFromView() { return m_touchStartedHere; }
   void setTouched() { m_touchStartedHere = true; }
   bool isPreview() { return m_isPreview; } /** @p TRUE when guitar is too small and fret preview is displayed */
+  bool guitarEnabled();
 
 protected:
+  void guitarAvailChanged(bool guitEnabled);
 #if defined (Q_OS_ANDROID)
   void displayAt(const QPointF& scenePos); /** Shows view at given scene position. IN PREVIEW MODE ONLY! */
   void updateMarkPosition(); /** Fret mark position depends on current fret */

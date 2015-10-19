@@ -102,6 +102,8 @@ public:
 
   TfingerPos pointToFinger(const QPoint& point); /** Returns fret/string position form given position (view coordinates) */
 
+  bool guitarEnabled() { return !m_isDisabled; } /** @p TRUE when guitar accepts mouse/touch */
+
   bool isRightHanded();
   QColor& fingerColor();
   QColor& selectedColor();
@@ -111,6 +113,7 @@ signals:
   void guitarClicked(const Tnote&);
   void correctingFinished(); /** Emitted when correction animation finish */
   void settingsUpdated(); /** Emmited when settings where changed */
+  void enabilityChanged(bool); /** When guitar goes through disable/enable states this is sent. */
 
 
 protected:

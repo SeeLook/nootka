@@ -423,8 +423,9 @@ bool TmainView::viewportEvent(QEvent *event) {
                 m_touchedWidget = 0;
               return true;
 // 1.1.5 guitar was touched
-          } else if (m_fretView->isVisible() || m_touchedWidget == m_guitar->viewport() ||
-                      m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_guitar->viewport()) {
+          } else if (m_fretView->guitarEnabled() &&
+                      (m_fretView->isVisible() || m_touchedWidget == m_guitar->viewport() ||
+                      m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_guitar->viewport())) {
               if (event->type() == QEvent::TouchEnd) {
                 m_touchedWidget = 0;
               } else
@@ -433,14 +434,14 @@ bool TmainView::viewportEvent(QEvent *event) {
               return true;
           }
 // 2. Other temporary item was touched
-      } else if (m_fretView && itemAt(te->touchPoints().first().startPos().toPoint()) == m_fretView->proxy()) {
+      } else if (m_fretView && m_fretView->guitarEnabled() && itemAt(te->touchPoints().first().startPos().toPoint()) == m_fretView->proxy()) {
           m_fretView->setTouched();
           return m_fretView->mapTouchEvent(te);
       }
     }
   }
 #if defined (Q_OS_ANDROID)
-  } // if (!m_menuItem->isTouched())
+  } // CLOSES: if (!m_menuItem->isTouched())
 #endif
   return QAbstractScrollArea::viewportEvent(event);
 }
