@@ -21,12 +21,12 @@
 #include <tmtr.h>
 #include <graphics/tdropshadoweffect.h>
 #include <tpath.h>
-#include <QGraphicsProxyWidget>
-#include <QScrollBar>
-#include <QDebug>
+#include <QtWidgets/qgraphicsproxywidget.h>
+#include <QtWidgets/qscrollbar.h>
+#include <QtCore/qdebug.h>
 
 
-//TODO: guitar has to emit signal when its enable state changes to stop/start touch propagation
+// TODO: Implement left-handed guitar view (someday)
 
 TguitarView::TguitarView(QGraphicsView* guitar, QGraphicsView* parent) :
   QGraphicsView(0, 0),
@@ -38,7 +38,6 @@ TguitarView::TguitarView(QGraphicsView* guitar, QGraphicsView* parent) :
   m_isPreview(false)
 {
   m_parent = parent;
-//   setAttribute(Qt::WA_AcceptTouchEvents);
   m_guitar = static_cast<TfingerBoard*>(guitar);
   setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
   setStyleSheet("background-color: transparent;");
@@ -47,6 +46,7 @@ TguitarView::TguitarView(QGraphicsView* guitar, QGraphicsView* parent) :
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setFrameShape(QFrame::NoFrame);
   hide();
+  connect(m_guitar, &TfingerBoard::enabilityChanged, this, &TguitarView::guitarAvailChanged);
 }
 
 
@@ -54,6 +54,11 @@ TguitarView::~TguitarView()
 {
   if (m_mark)
     delete m_mark;
+}
+
+
+bool TguitarView::guitarEnabled() {
+  return m_guitar->guitarEnabled();
 }
 
 
@@ -145,6 +150,18 @@ bool TguitarView::mapTouchEvent(QTouchEvent* te) {
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
+
+void TguitarView::guitarAvailChanged(bool guitEnabled) {
+  if (guitEnabled) {
+
+  } else {
+    if (isVisible()) {
+      hide();
+    }
+  }
+}
+
+
 #if defined (Q_OS_ANDROID)
 void TguitarView::displayAt(const QPointF& scenePos) {
   m_fret = m_guitar->pointToFinger(QPoint(scenePos.x(), m_guitar->height() / 2)).fret();

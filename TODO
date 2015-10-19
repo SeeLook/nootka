@@ -15,15 +15,14 @@ New translations
 waring - merge with stable
 
 
-
 ANDROID:
-- resize name label in single note mode
 - crash when audio out was disables and enabled again in settings (audio in probably also)
 - keep extra dialogues maximized (file, color dialog)
     or create special ones for mobile
 - add 'smallest font size' to Tmtr ???
 - add labels with smallest font under level cretor options instead of status tips
 - solve issue with restart for settings reset
+- keep scroll bar of score always off - it appears when switching single/multi
 - Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
 - HOME button would be switching available menus
 - handle BACK button to destroy visible menu and/or prevent to close exam

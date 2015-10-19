@@ -277,20 +277,22 @@ void TfingerBoard::clearFingerBoard() {
 
 
 void TfingerBoard::setGuitarDisabled(bool disabled) {
-  if (disabled) {
-    setMouseTracking(false);
-    m_isDisabled = true;
-    m_workFinger->hide();
-    for(int i = 0; i < gl->Gtune()->stringNr(); i++)
-      m_workStrings[i]->hide();
-  } else {
-    setMouseTracking(true);
-    m_isDisabled = false;
-    if (isCursorOverGuitar()) {
-      m_curStr = 7;
-      m_curFret = 99;
-      paintFingerAtPoint(mapFromGlobal(cursor().pos()));
+  if (disabled != m_isDisabled) {
+    m_isDisabled = disabled;
+    if (disabled) {
+      setMouseTracking(false);
+      m_workFinger->hide();
+      for(int i = 0; i < gl->Gtune()->stringNr(); i++)
+        m_workStrings[i]->hide();
+    } else {
+      setMouseTracking(true);
+      if (isCursorOverGuitar()) {
+        m_curStr = 7;
+        m_curFret = 99;
+        paintFingerAtPoint(mapFromGlobal(cursor().pos()));
+      }
     }
+    emit enabilityChanged(!m_isDisabled);
   }
 }
 
