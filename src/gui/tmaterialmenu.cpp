@@ -20,6 +20,7 @@
 #include "tmaterialmenu.h"
 #include <tpath.h>
 #include <tnootkalabel.h>
+#include <nootkaconfig.h>
 #include <touch/ttouchmenu.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qpushbutton.h>
@@ -35,8 +36,42 @@
 #include <QtGui/qpainter.h>
 #include <QtGui/qevent.h>
 #include <QtCore/qtimer.h>
+#include <QtCore/qdatetime.h>
 
 #include <QtCore/qdebug.h>
+
+
+/**
+ * @class TnootkaLabel wrapped by widget with the same background color.
+ * Color is randomized during construction time.
+ */
+class TlabelWidget : public QWidget {
+
+public:
+  explicit TlabelWidget(QWidget* parent = 0) : QWidget(parent)
+  {
+    qsrand(QDateTime::currentDateTime().toTime_t());
+    m_color = QColor(qrand() % 250, qrand() % 250, qrand() % 250);
+    m_label = new TnootkaLabel(Tpath::img("logo"), this, m_color, QStringLiteral(NOOTKA_VERSION));
+    auto lay = new QHBoxLayout;
+    lay->addWidget(m_label);
+    setLayout(lay);
+  }
+
+protected:
+  virtual void paintEvent(QPaintEvent* e) {
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setPen(Qt::NoPen);
+    p.setBrush(QBrush(m_color));
+    p.drawRect(contentsRect());
+    QWidget::paintEvent(e);
+  }
+
+private:
+  TnootkaLabel            *m_label;
+  QColor                   m_color;
+};
 
 TmaterialMenu::TmaterialMenu(QWidget* parent) :
   QWidget(parent),
@@ -59,10 +94,10 @@ TmaterialMenu::TmaterialMenu(QWidget* parent) :
   m_scrollArea->setObjectName(QStringLiteral("menuArea"));
   m_scrollArea->setStyleSheet(QStringLiteral("QScrollArea#menuArea { background: transparent; }"));
 
-  m_nootkaLabel = new TnootkaLabel(Tpath::img("logo"), this, Qt::darkGray, QStringLiteral("1.3.0-alpha"));
+  m_nootkaLabel = new TlabelWidget(this);
 
   m_lay = new QVBoxLayout;
-  m_lay->setContentsMargins(2, 5, 10, 0);
+  m_lay->setContentsMargins(2, 5, 4, 0);
   m_lay->addWidget(m_nootkaLabel);
   auto spaceWidget = new QWidget(this);
   spaceWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
