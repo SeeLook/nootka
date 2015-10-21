@@ -29,7 +29,7 @@ class QScrollArea;
 class QAction;
 class QVBoxLayout;
 class QPushButton;
-class TnootkaLabel;
+class TlabelWidget;
 class TtouchMenu;
 
 
@@ -56,7 +56,7 @@ protected:
 private:
   QScrollArea           *m_scrollArea;
   QVBoxLayout           *m_lay;
-  TnootkaLabel          *m_nootkaLabel;
+  QWidget               *m_nootkaLabel;
   QTimer                *m_hideScrollTimer;
   QAction               *m_selectedAction;
   bool                   m_isMoving;
