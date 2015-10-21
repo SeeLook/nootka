@@ -17,12 +17,13 @@
  ***************************************************************************/
 
 
-
 #include "tcolorbutton.h"
 #include <QtWidgets/QtWidgets>
 #if defined (Q_OS_ANDROID)
-  #include "tmtr.h"
+  #include <tmtr.h>
+  #include "tcolordialog.h"
 #endif
+
 
 TcolorButton::TcolorButton(QColor col, QWidget* parent): 
 	QPushButton(parent)
@@ -40,16 +41,16 @@ TcolorButton::TcolorButton(QColor col, QWidget* parent):
 
 void TcolorButton::whenClicked() {
 #if defined (Q_OS_ANDROID)
-  QColorDialog cd(m_color, this);
-  cd.showFullScreen();
-  cd.exec();
-  QColor userColor = cd.selectedColor();
+  TcolorDialog cd(m_color, this);
+  if (cd.exec() == TcolorDialog::Accepted)
+    setColor(cd.selectedColor());
 #else
   QColor userColor = QColorDialog::getColor(m_color, this, "");
-#endif
   if (userColor.isValid())
       setColor(userColor);
+#endif
 }
+
 
 void TcolorButton::setColor(QColor col) {
   m_color = col;
@@ -57,19 +58,19 @@ void TcolorButton::setColor(QColor col) {
   repaint();
 }
 
+
 void TcolorButton::paintEvent(QPaintEvent* event) {
   QPushButton::paintEvent(event);
   QPainter painter(this);
   painter.setRenderHint(QPainter::Antialiasing, true);
-  painter.setWindow(0, 0, width(), height());
   painter.setPen(Qt::NoPen);
   painter.setBrush(QBrush(palette().text().color()));
-  painter.drawEllipse(5, 5, width()-8, height()-10);
+  painter.drawRect(5, 5, width() - 8, height() - 10);
   if (isEnabled())
     painter.setBrush(QBrush(m_color));
   else
     painter.setBrush(QBrush(palette().color(QPalette::Disabled, QPalette::Text)));
-  painter.drawEllipse(4, 4, width()-8, height()-10);
+  painter.drawRect(4, 4, width() - 8, height() - 10);
 }
 
 
