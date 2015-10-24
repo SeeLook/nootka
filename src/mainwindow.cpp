@@ -169,6 +169,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 #if defined (Q_OS_ANDROID)
   connect(bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
+  innerWidget->flyActions()->append(bar->playMelody()); // default quick actions for mobile
+  innerWidget->flyActions()->append(bar->recordMelody());
+  innerWidget->flyActions()->append(pitchView->pauseAction());
 #else
   connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
   connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
@@ -301,9 +304,9 @@ void MainWindow::createSettingsDialog() {
 	QString args;
 	if (executor) {
 		if (executor->isExercise())
-			args = "exercise";
+			args = QStringLiteral("exercise");
 		else
-			args = "exam";
+			args = QStringLiteral("exam");
 		executor->prepareToSettings();
 	} else {
 			if (score->insertMode() == TmultiScore::e_record)
@@ -316,7 +319,7 @@ void MainWindow::createSettingsDialog() {
   }
 	QString lastWord = loader->lastWord();
 	delete loader;
-		if (lastWord.contains("Accepted")) {
+		if (lastWord.contains(QStringLiteral("Accepted"))) {
 			if (executor) {
 				executor->settingsAccepted();
 				return;
@@ -336,7 +339,7 @@ void MainWindow::createSettingsDialog() {
 			pitchView->setVisible(gl->L->soundViewEnabled);
 			guitar->setVisible(gl->L->guitarEnabled);
 			m_isPlayerFree = true;
-	} else if (lastWord.contains("Reset")) {
+	} else if (lastWord.contains(QStringLiteral("Reset"))) {
       resetConfig = true;
       close();
   } else { // settings not accepted
@@ -358,10 +361,10 @@ void MainWindow::openLevelCreator(QString levelFile) {
   QString levelText = loader.lastWord();
   gl->config->sync(); // it is necessary to save recent levels list
   bool startExercise = false;
-  if (levelText.contains("exam:"))
-    levelText.remove("exam:");
+  if (levelText.contains(QStringLiteral("exam:")))
+    levelText.remove(QStringLiteral("exam:"));
   else {
-    levelText.remove("exercise:");
+    levelText.remove(QStringLiteral("exercise:"));
     startExercise = true;
   }
   m_levelCreatorExist = false;
@@ -372,7 +375,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
-    executor = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam
+    executor = new TexamExecutor(this, startExercise ? QStringLiteral("exercise") : QStringLiteral(""), &m_level); // start exam
   }
   else
     sound->go(); // restore pitch detection
@@ -462,12 +465,24 @@ void MainWindow::setSingleNoteMode(bool isSingle) {
           m_melButt->melodyAction()->setVisible(false);
       innerWidget->addNoteName();
       score->setInsertMode(TmultiScore::e_single);
+#if defined (Q_OS_ANDROID)
+      innerWidget->flyActions()->removeOne(bar->playMelody());
+      innerWidget->flyActions()->removeOne(bar->recordMelody());
+      bar->playMelody()->setVisible(false);
+      bar->recordMelody()->setVisible(false);
+#endif
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
       if (!executor)
           m_melButt->melodyAction()->setVisible(true);
       innerWidget->takeNoteName();
       noteName->setNoteName(Tnote(1, 0)); // unset buttons
       score->setInsertMode(TmultiScore::e_multi);
+#if defined (Q_OS_ANDROID) // 'pitch detection' is first so insert other actions before
+      innerWidget->flyActions()->insert(0, bar->recordMelody());
+      innerWidget->flyActions()->insert(0, bar->playMelody());
+      bar->playMelody()->setVisible(true);
+      bar->recordMelody()->setVisible(true);
+#endif
 	}
 }
 
