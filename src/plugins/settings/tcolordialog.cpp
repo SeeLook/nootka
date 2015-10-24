@@ -60,12 +60,15 @@ TcolorDialog::TcolorDialog(const QColor& initial, QWidget* parent) :
 
   m_redSpin = new QSpinBox(this);
   m_redSpin->setRange(0, 255);
+  m_redSpin->setStyleSheet(m_redSpin->styleSheet() + QStringLiteral("color: #ff0000;"));
 
   m_greenSpin = new QSpinBox(this);
   m_greenSpin->setRange(0, 255);
+  m_greenSpin->setStyleSheet(m_greenSpin->styleSheet() + QStringLiteral("color: #00ff00;"));
 
   m_blueSpin = new QSpinBox(this);
   m_blueSpin->setRange(0, 255);
+  m_blueSpin->setStyleSheet(m_blueSpin->styleSheet() + QStringLiteral("color: #0000ff;"));
 
   QDialogButtonBox box;
   auto save = box.addButton(QDialogButtonBox::Save);
