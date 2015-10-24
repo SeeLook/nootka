@@ -177,5 +177,6 @@ add_subdirectory( packaging ) # cpack rules
 # add_subdirectory( tests/nootini )
 # add_subdirectory( tests/nootoxml )
 # add_subdirectory( tests/menu )
+# add_subdirectory( tests/colordialog )
 
 
