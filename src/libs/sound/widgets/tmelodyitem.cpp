@@ -206,7 +206,10 @@ void TmelodyItem::createFlyActions() {
         auto it = new TflyItem(m_actions[i]->icon(), this);
         it->setData(0, i);
         m_flyList << it;
-        it->setPos(qSin(off - i * angle) * r, qCos(off - i * angle) * r);
+        if (m_actions.size() > 1)
+          it->setPos(qSin(off - i * angle) * r, qCos(off - i * angle) * r);
+        else
+          it->setPos(10, r); // when there is only one item
       }
     }
   }

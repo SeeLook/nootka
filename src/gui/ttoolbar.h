@@ -19,8 +19,8 @@
 #ifndef TTOOLBAR_H
 #define TTOOLBAR_H
 
-#include <QToolBar>
-#include <QPointer>
+#include <QtWidgets/qtoolbar.h>
+#include <QtCore/qpointer.h>
 
 class TscoreActions;
 class TnootkaLabel;
@@ -30,11 +30,18 @@ class QAction;
 
 
 /** 
- * This is main tool bar in Nootka. 
+ * This is main tool bar in Nootka.
  * It handles all actions in the app.
  * Due to all widgets in Nootka are squeezed into QGraphicsView as items
  * it has no parent, @p QMainWindow in constructor is used as an owner of the actions.
  * @p addMelodyButton(@class TmelMan) takes control over melody button icon size and its style.
+ * Under Mobile it is just container for actions.
+ * Overridden @p addAction() makes action visible,
+ * so created on demand menus can know that it is available.
+ * @p removeAction() makes an action not visible,
+ * (and of course takes it from the tool bar on desktop)
+ * WARING! @p actions() list is not valid under mobile
+ * as long as @p addAction() doesn't add it to this tool bar.
  */
 class TtoolBar : public QToolBar
 {
@@ -62,23 +69,27 @@ public:
   QAction* generateMelody();
   QAction* recordMelody();
   QAction* playMelody();
-	
+
 			/** Changes names and icons of actions suitable to normal mode.
 			 * Deletes actions related to exam.	 */
 	void actionsAfterExam();
-	
-	void addAction(QAction* a); /** It inserts any given action before Nootka label which is always on the right side (the last). */
+
+    /** It inserts any given action before Nootka label which is always on the right side (the last). */
+	void addAction(QAction* a);
+
+      /** Ramoves given QAction from tool bar. Makes it not visible. */
+  void removeAction(QAction* a);
 	
 			/** Changes names and icons of actions suitable to exam.
 			 * Creates common actions used in exams/exercises.
 			 * Other ones (like @p repeatSndAct) has to be called separately. */
 	void actionsToExam();
-	
+
 	void createRepeatSoundAction(); /** Creates @p repeatSndAct. Don't add to tool bar */
 	void createCorrectAction(); /** Creates @p correctAct. Don't add to tool bar */
 	void createTuneForkAction(); /** Creates @p tuneForkAct. Don't add to tool bar */
 	void createAttemptAction(); /** Creates @p attemptAct. Don't add to tool bar */
-	
+
 			/** Removes actions for previous and next question @p prevQuestAct & @p nextQuestAct.
 			 * Adds check answer action (@p checkAct) 
 			 * and @p repeatSndAct when @p TRUE and @p tuneForkAct when @p TRUE	 */

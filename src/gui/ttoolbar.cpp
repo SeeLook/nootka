@@ -27,7 +27,7 @@
 #include <tcolor.h>
 #include <touch/ttouchproxy.h>
 #include <score/tscoreactions.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
@@ -47,11 +47,11 @@ TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
   aboutSimpleAct->setStatusTip(tr("About Nootka"));
   aboutSimpleAct->setIcon(QIcon(Tpath::img("nootka")));
   QColor C(palette().text().color());
-  #if defined (Q_OS_WIN)
+#if defined (Q_OS_WIN)
     C.setAlpha(50);
-  #else
+#else
     C.setAlpha(40);
-  #endif
+#endif
   m_spacer = new QWidget(this);
   m_spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   addWidget(m_spacer);
@@ -85,11 +85,21 @@ TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
 
 void TtoolBar::addAction(QAction* a) {
 #if defined(Q_OS_ANDROID)
-  QToolBar::addAction(a);
+  a->setVisible(true); // No tool bar under mobile, just ensure that action is visible
 #else
 	insertAction(actions()[actions().count() - 2], a);
 #endif
 }
+
+
+void TtoolBar::removeAction(QAction* a) {
+#if defined(Q_OS_ANDROID)
+  a->setVisible(false);
+#else
+  QToolBar::removeAction(a);
+#endif
+}
+
 
 
 void TtoolBar::addMelodyButton(TmelMan* melBut) {
@@ -217,15 +227,21 @@ void TtoolBar::actionsToExam() {
 		checkAct->setIcon(QIcon(Tpath::img("check")));
 		checkAct->setShortcut(QKeySequence(Qt::Key_Return));
 	}
+#if defined (Q_OS_ANDROID)
+	prevQuestAct->setVisible(false);
+  checkAct->setVisible(false);
+#endif
 }
 
 
 void TtoolBar::createRepeatSoundAction() {
 	if (!repeatSndAct) {
 		repeatSndAct = new QAction(tr("Play"), this);
-#if !defined (Q_OS_ANDROID)
-		repeatSndAct->setStatusTip(tr("play sound again") + "<br>(" + 
-										TexamHelp::pressSpaceKey().replace("<b>", " ").replace("</b>", ")"));
+#if defined (Q_OS_ANDROID)
+    repeatSndAct->setVisible(false);
+#else
+		repeatSndAct->setStatusTip(tr("play sound again") + QStringLiteral("<br>(") +
+          TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")));
 #endif
 		repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
 		repeatSndAct->setIcon(QIcon(Tpath::img("repeatSound")));
@@ -239,6 +255,9 @@ void TtoolBar::createCorrectAction() {
 		correctAct->setStatusTip(tr("correct answer\n(enter)"));
 		correctAct->setIcon(QIcon(Tpath::img("correct")));
 		correctAct->setShortcut(QKeySequence(Qt::Key_Return));
+#if defined (Q_OS_ANDROID)
+    correctAct->setVisible(false);
+#endif
 	}
 }
 
@@ -249,6 +268,9 @@ void TtoolBar::createTuneForkAction() {
 		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tuning fork.\n(Press key 'a')"));
 		tuneForkAct->setIcon(QIcon(Tpath::img("fork")));
 		tuneForkAct->setShortcut(QKeySequence(Qt::Key_A));
+#if defined (Q_OS_ANDROID)
+    tuneForkAct->setVisible(false);
+#endif
 	}
 }
 
@@ -259,6 +281,9 @@ void TtoolBar::createAttemptAction() {
 		attemptAct->setStatusTip(tr("Try this melody once again. (backspace)"));
 		attemptAct->setIcon(QIcon(Tpath::img("prevQuest")));
 		attemptAct->setShortcut(QKeySequence(Qt::Key_Backspace));
+#if defined (Q_OS_ANDROID)
+    attemptAct->setVisible(false);
+#endif
 	}
 }
 
