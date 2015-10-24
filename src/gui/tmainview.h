@@ -62,6 +62,14 @@ public:
 	void setBarAutoHide(bool autoHide); /** Makes tool bar permanently visible or displayed on demand (mouse action) */
 	bool isAutoHide() { return m_isAutoHide; }
 
+#if defined (Q_OS_ANDROID)
+      /** Redirected  from @p TmelodyItem::actions() the list of quick icons.
+       * Use @p insert() to add some action between,
+       * and @p removeOne(QAction) to take it from the list.
+       * Disabled actions are not displayed but spare space remains. */
+  QList<QAction*>* flyActions();
+#endif
+
 signals:
 	void statusTip(const QString&);
   void sizeChanged(const QSize&);

@@ -47,7 +47,8 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	m_guitar(guitarW),
 	m_touchedWidget(0),
 	m_name(name),
-	m_nameLay(0),
+	m_progress(0),
+	m_results(0),
 #if defined (Q_OS_ANDROID)
   m_menuItem(0),
 #endif
@@ -102,9 +103,6 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   scene()->addItem(m_menuItem);
   m_menuItem->setPos(0, 0);
   connect(m_menuItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
-  m_menuItem->actions()->append(m_tool->playMelody());
-  m_menuItem->actions()->append(m_tool->recordMelody());
-  m_menuItem->actions()->append(m_pitch->pauseAction());
 #endif
   if (TtouchProxy::touchEnabled()) {
     m_fretView = new TguitarView(m_guitar, this);
@@ -120,6 +118,13 @@ TmainView::~TmainView()
   if (TtouchProxy::touchEnabled())
     delete m_fretView;
 }
+
+
+#if defined (Q_OS_ANDROID)
+QList< QAction*>* TmainView::flyActions() {
+  return m_menuItem->actions();
+}
+#endif
 
 
 void TmainView::addNoteName() {
@@ -145,7 +150,6 @@ void TmainView::takeNoteName() {
 	if (m_nameLay) {
 		m_nameLay->removeWidget(m_name);
 		delete m_nameLay;
-		m_nameLay = 0;
 		m_name->hide();
 		m_name->enableArrows(true);
     #if defined (Q_OS_ANDROID)
@@ -333,16 +337,34 @@ void TmainView::mainMenuExec() {
 #if defined (Q_OS_ANDROID)
   m_mainMenuTap = false;
   TmaterialMenu menu(this);
-  if (m_menuItem->audioOutEnabled())
+  if (m_progress && m_results) { // exam/exercise is pending
+    if (m_tool->checkAct && m_tool->checkAct->isVisible())
+      menu.addAction(m_tool->checkAct);
+    if (m_tool->nextQuestAct && m_tool->nextQuestAct->isVisible())
+      menu.addAction(m_tool->nextQuestAct);
+    if (m_tool->prevQuestAct && m_tool->prevQuestAct->isVisible())
+      menu.addAction(m_tool->prevQuestAct);
+    if (m_tool->attemptAct && m_tool->attemptAct->isVisible())
+      menu.addAction(m_tool->attemptAct);
+    if (m_tool->correctAct && m_tool->correctAct->isVisible())
+      menu.addAction(m_tool->correctAct);
+    if (m_tool->repeatSndAct && m_tool->repeatSndAct->isVisible())
+      menu.addAction(m_tool->repeatSndAct);
+    if (m_tool->tuneForkAct && m_tool->tuneForkAct->isVisible())
+      menu.addAction(m_tool->tuneForkAct);
+  }
+  if (m_menuItem->audioOutEnabled() && m_tool->playMelody()->isVisible())
     menu.addAction(m_tool->playMelody());
-  menu.addAction(m_tool->recordMelody());
-  if (m_menuItem->audioInEnabled())
+  if (m_tool->recordMelody()->isVisible())
+    menu.addAction(m_tool->recordMelody());
+  if (m_menuItem->audioInEnabled() && m_pitch->pauseAction()->isVisible())
     menu.addAction(m_pitch->pauseAction());
   menu.addAction(m_tool->startExamAct);
   menu.addAction(m_tool->levelCreatorAct);
   auto scoreMenuAct = new QAction(QIcon(Tpath::img("score")), tr("score menu"), this);
   connect(scoreMenuAct, &QAction::triggered, this, &TmainView::scoreMenuExec);
-  menu.addAction(scoreMenuAct);
+  if (!m_nameLay) // multi notes mode
+    menu.addAction(scoreMenuAct);
   menu.addAction(m_tool->settingsAct);
   auto a = menu.exec();
   if (a)
@@ -387,7 +409,8 @@ bool TmainView::viewportEvent(QEvent *event) {
               }
               return true;
 // 1.1.2 on the right screen edge - score menu
-          } else if (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - Tmtr::fingerPixels() / 3) {
+          } else if (!m_nameLay && // // multi notes mode
+                     (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - Tmtr::fingerPixels() / 3)) {
               if (event->type() == QEvent::TouchBegin) {
                 m_scoreMenuTap = true;
               } else if (event->type() == QEvent::TouchEnd) {
@@ -400,7 +423,7 @@ bool TmainView::viewportEvent(QEvent *event) {
           } else if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_score->viewport()) {
 // 1.1.4 score was touched
-              if (m_fretView->isVisible()) {
+              if (m_fretView->isVisible()) { // but check first is fret view visible - handle it then
                 if (m_fretView->touchStartedFromView())
                   m_fretView->mapTouchEvent(te);
                 else
