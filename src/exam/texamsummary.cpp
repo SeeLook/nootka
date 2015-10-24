@@ -26,11 +26,14 @@
 #include <widgets/troundedlabel.h>
 #include <tpath.h>
 #include <plugins/tpluginsloader.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
+#if defined (Q_OS_ANDROID)
+  #include <touch/ttoucharea.h>
+#endif
 
 
   /** returns 2 columns row of table */
-QString row2(QString S1, QString S2) {
+QString row2(const QString& S1, const QString& S2) {
   return QString("<tr><td>%1: </td><td><b>%2</b></td></tr>").arg(S1).arg(S2);
 }
 
@@ -60,8 +63,12 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   m_closeButt(0), m_examButton(0),
   m_mainWIndow(parent)
 {
+#if defined (Q_OS_ANDROID)
+  showMaximized();
+#else
   setWindowTitle(tr("Exam results"));
   setWindowIcon(QIcon(Tpath::img("startExam")));
+#endif
   QHBoxLayout *lay = new QHBoxLayout();
 //-------  left layout -----------------------
   m_leftLay = new QVBoxLayout();
@@ -96,6 +103,9 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
     analyseButt->setIconSize(QSize(48, 48));
   if (exam->count() == 0)
     analyseButt->setDisabled(true);
+#if defined (Q_OS_ANDROID) // TODO: delete if mobile version will support analysis
+    analyseButt->hide();
+#endif
   m_okButt = new QPushButton(tr("Close"), this);
   if (cont) {
       m_okButt->setText(tr("Continue"));
@@ -108,7 +118,6 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
       m_okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
   m_okButt->setIconSize(QSize(48, 48));
 
-
   buttLay->addWidget(m_okButt);
   buttLay->addWidget(analyseButt);
 
@@ -118,7 +127,7 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
     m_leftLay->addWidget(m_closeButt);
 
 	lay->addLayout(m_leftLay);
-  
+
 //-------  right layout -----------------------	
 	QVBoxLayout *rightLay = new QVBoxLayout();
 	TlevelPreview *levelWdg = new TlevelPreview(this);
@@ -147,45 +156,55 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
           if(exam->question(i)->poorEffect())       wPoor++;
       }
     }
-    effStr += "<tr><td colspan=\"2\">-------- " + tr("Kinds of mistakes") + ": --------</td></tr>";
+    effStr += "<tr><td colspan=\"2\">-------- " + tr("Kinds of mistakes") + QStringLiteral(": --------</td></tr>");
     wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString + wInto + wLittle + wPoor;
+    QString cp = QStringLiteral("%)"); // closing percent '%)'
     if (wNote)
-      effStr += row2(tr("Wrong notes"), QString("%1 (").arg(wNote) + QString::number(qRound(wNote * 100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong notes"), QString("%1 (").arg(wNote) + QString::number(qRound(wNote * 100.0 / wTotal)) + cp);
     if (wAccid)
-      effStr += row2(tr("Wrong accidentals"), QString("%1 (").arg(wAccid) + QString::number(qRound(wAccid * 100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong accidentals"), QString("%1 (").arg(wAccid) + QString::number(qRound(wAccid * 100.0 / wTotal)) + cp);
     if (wKey)
-      effStr += row2(tr("Wrong key signatures"), QString("%1 (").arg(wKey) + QString::number(qRound(wKey * 100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong key signatures"), QString("%1 (").arg(wKey) + QString::number(qRound(wKey * 100.0 / wTotal)) + cp);
     if (wOctave)
-      effStr += row2(tr("Wrong octaves"), QString("%1 (").arg(wOctave) + QString::number(qRound(wOctave * 100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong octaves"), QString("%1 (").arg(wOctave) + QString::number(qRound(wOctave * 100.0 / wTotal)) + cp);
     if (wStyle)
-      effStr += row2(tr("Wrong note names"), QString("%1 (").arg(wStyle)) + QString::number(qRound(wStyle * 100.0 / wTotal)) + "%)";
+      effStr += row2(tr("Wrong note names"), QString("%1 (").arg(wStyle)) + QString::number(qRound(wStyle * 100.0 / wTotal)) + cp;
     if (wPos)
-      effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos * 100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos * 100.0 / wTotal)) + cp);
     if (wString)
-      effStr += row2(tr("Wrong strings"), QString("%1 (").arg(wString) + QString::number(qRound(wString * 100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Wrong strings"), QString("%1 (").arg(wString) + QString::number(qRound(wString * 100.0 / wTotal)) + cp);
 		if (wInto)
-      effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto * 100.0 / wTotal)) + "%)");
+      effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto * 100.0 / wTotal)) + cp);
     if (wLittle)
       effStr += row2(QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little"),
-                     QString("%1 (").arg(wLittle) + QString::number(qRound(wLittle * 100.0 / wTotal)) + "%)");
+                     QString("%1 (").arg(wLittle) + QString::number(qRound(wLittle * 100.0 / wTotal)) + cp);
     if (wPoor)
       effStr += row2(QApplication::translate("AnswerText", "poor effectiveness"),
-                     QString("%1 (").arg(wPoor) + QString::number(qRound(wPoor * 100.0 / wTotal)) + "%)");
+                     QString("%1 (").arg(wPoor) + QString::number(qRound(wPoor * 100.0 / wTotal)) + cp);
   }
-	TroundedLabel *resLab = new TroundedLabel("<table>" +
-    row2(TexTrans::effectTxt(), QString::number(qRound(exam->effectiveness())) + "%") + effStr + "</table>", this);
+	TroundedLabel *resLab = new TroundedLabel(QStringLiteral("<table>") +
+    row2(TexTrans::effectTxt(), QString::number(qRound(exam->effectiveness())) + QStringLiteral("%")) + effStr + QStringLiteral("</table>"), this);
   resLab->setContentsMargins(5, 5, 5, 5);
 	resLay->addWidget(resLab);
-	
+
 	resGr->setLayout(resLay);
 	rightLay->addWidget(resGr);
-	
+
 	lay->addLayout(rightLay);
+
+#if defined (Q_OS_ANDROID)
+  auto ta = new TtouchArea(this);
+  ta->setLayout(lay);
+  auto touchLay = new QVBoxLayout;
+  touchLay->addWidget(ta);
+  setLayout(touchLay);
+#else
   setLayout(lay);
-  
+#endif
+
   connect(analyseButt, SIGNAL(clicked()), this, SLOT(analyseSlot()));
   connect(m_okButt, SIGNAL(clicked()), this, SLOT(continueSlot()));
-  
+
   if (m_exam->isExercise())
     setForExercise();
 }
