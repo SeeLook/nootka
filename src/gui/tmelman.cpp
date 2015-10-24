@@ -149,7 +149,7 @@ void TmelMan::randomizeMelodySlot() {
 
 
 void TmelMan::loadMelodySlot() {
-	QString melodyFile = QFileDialog::getOpenFileName(0, tr("Open melody file"), "", tr("MusicXML file") + " (*.xml)");
+	QString melodyFile = QFileDialog::getOpenFileName(0, tr("Open melody file"), "", tr("MusicXML file") + QStringLiteral(" (*.xml)"));
 	if (!melodyFile.isEmpty()) {
 		Tmelody *mel = new Tmelody();
 		if (mel->grabFromMusicXml(melodyFile)) {
@@ -161,12 +161,12 @@ void TmelMan::loadMelodySlot() {
 
 
 void TmelMan::saveMelodySlot() {
-	QString melodyFile = QFileDialog::getSaveFileName(0, tr("Save melody as:"), "", tr("MusicXML file") + " (*.xml)");
+	QString melodyFile = QFileDialog::getSaveFileName(0, tr("Save melody as:"), "", tr("MusicXML file") + QStringLiteral(" (*.xml)"));
 	if (!melodyFile.isEmpty()) {
-		if (melodyFile.right(4) != ".xml")
-        melodyFile += ".xml";
+		if (melodyFile.right(4) != QLatin1String(".xml"))
+        melodyFile += QStringLiteral(".xml");
 		Tmelody *mel = new Tmelody();
-		m_score->getMelody(mel, "some melody");
+		m_score->getMelody(mel, QStringLiteral("some melody"));
 		mel->saveToMusicXml(melodyFile);
 		delete mel;
 	}

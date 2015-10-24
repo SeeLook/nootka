@@ -23,12 +23,12 @@
 #include <QtCore/qpointer.h>
 #include <QtGui/qicon.h>
 #include <QtWidgets/qwidget.h>
+#include <QtWidgets/qpushbutton.h>
 
 
 class QScrollArea;
 class QAction;
 class QVBoxLayout;
-class QPushButton;
 class TlabelWidget;
 class TtouchMenu;
 
@@ -63,6 +63,26 @@ private:
   QPointer<TtouchMenu>   m_menu;
 };
 
+
+/**
+ * Reimplemented @class QPushButton with @p paintEvent() nicely displaying icon and text
+ */
+class TmenuButton : public QPushButton {
+
+  Q_OBJECT
+
+public:
+  explicit TmenuButton(QAction* action, QWidget* parent = 0);
+
+  virtual QSize sizeHint() const { return m_sizeHint; }
+
+protected:
+  virtual void paintEvent(QPaintEvent* e);
+
+private:
+  QSize         m_sizeHint;
+
+};
 
 
 /**

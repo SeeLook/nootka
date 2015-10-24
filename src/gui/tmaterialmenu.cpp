@@ -22,25 +22,15 @@
 #include <tnootkalabel.h>
 #include <nootkaconfig.h>
 #include <touch/ttouchmenu.h>
-#include <QtWidgets/qboxlayout.h>
-#include <QtWidgets/qpushbutton.h>
-#include <QtWidgets/qradiobutton.h>
-#include <QtWidgets/qmenu.h>
-#include <QtWidgets/qscrollbar.h>
-#include <QtWidgets/qscroller.h>
-#include <QtWidgets/qlabel.h>
-#include <QtWidgets/qaction.h>
-#include <QtWidgets/qstyle.h>
-#include <QtWidgets/qapplication.h>
-#include <QtWidgets/qdesktopwidget.h>
-#include <QtGui/qpainter.h>
-#include <QtGui/qevent.h>
+#include <QtWidgets/QtWidgets>
+#include <QtGui/QtGui>
 #include <QtCore/qtimer.h>
 #include <QtCore/qdatetime.h>
 
-#include <QtCore/qdebug.h>
 
-
+//=================================================================================
+//                            class TlabelWidget
+//=================================================================================
 /**
  * @class TnootkaLabel wrapped by widget with the same background color.
  * Color is randomized during construction time.
@@ -65,7 +55,7 @@ protected:
     p.setPen(Qt::NoPen);
     p.setBrush(QBrush(m_color));
     p.drawRect(contentsRect());
-    QWidget::paintEvent(e);
+//     QWidget::paintEvent(e);
   }
 
 private:
@@ -73,6 +63,10 @@ private:
   QColor                   m_color;
 };
 
+
+//=================================================================================
+//                                 class TmaterialMenu
+//=================================================================================
 TmaterialMenu::TmaterialMenu(QWidget* parent) :
   QWidget(parent),
   m_selectedAction(0),
@@ -97,7 +91,7 @@ TmaterialMenu::TmaterialMenu(QWidget* parent) :
   m_nootkaLabel = new TlabelWidget(this);
 
   m_lay = new QVBoxLayout;
-  m_lay->setContentsMargins(2, 5, 4, 0);
+  m_lay->setContentsMargins(2, 5, 10, 0);
   m_lay->addWidget(m_nootkaLabel);
   auto spaceWidget = new QWidget(this);
   spaceWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
@@ -123,6 +117,7 @@ TmaterialMenu::TmaterialMenu(QWidget* parent) :
   QScrollerProperties prop = scroller->scrollerProperties();
   QVariant overshootPolicy = QVariant::fromValue<QScrollerProperties::OvershootPolicy>(QScrollerProperties::OvershootAlwaysOff);
   prop.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, overshootPolicy);
+  prop.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, overshootPolicy);
   scroller->setScrollerProperties(prop);
   connect(m_scrollArea->verticalScrollBar(), &QScrollBar::valueChanged, this, [this]{
       m_isMoving = true;
@@ -133,14 +128,7 @@ TmaterialMenu::TmaterialMenu(QWidget* parent) :
 
 
 void TmaterialMenu::addAction(QAction* a) {
-  auto butt = new QPushButton(a->icon(), a->text(), this);
-  butt->setFlat(true);
-  butt->setIconSize(QSize(style()->pixelMetric(QStyle::PM_SmallIconSize), style()->pixelMetric(QStyle::PM_SmallIconSize)));
-  butt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-  butt->setStyleSheet(QStringLiteral("text-align: left;"));
-//   butt->setFont(QFont(font().family(), 20));
-  if (m_lay->count() > 2) // some button has been already added
-    m_lay->insertWidget(m_lay->count() - 1, new TlineSpacer(1, this));
+  auto butt = new TmenuButton(a, this);
   if (a->isCheckable()) {
       auto radio = new QRadioButton(this);
       auto lay = new QHBoxLayout;
@@ -151,7 +139,7 @@ void TmaterialMenu::addAction(QAction* a) {
       m_lay->insertLayout(m_lay->count() - 1, lay); // Squeeze it before last element which is a stretch.
   } else
       m_lay->insertWidget(m_lay->count() - 1, butt);
-  butt->insertAction(0, a);
+  m_lay->insertWidget(m_lay->count() - 1, new TlineSpacer(1, this)); // add line spacer
   connect(butt, &QPushButton::clicked, this, [this]{
       m_selectedAction = qobject_cast<QWidget*>(sender())->actions().first();
       if (m_menu)
@@ -198,9 +186,47 @@ void TmaterialMenu::paintEvent(QPaintEvent* event) {
   }
 }
 
-//#################################################################################################
-//###################               TlineSpacer        ############################################
-//#################################################################################################
+
+#define SPACING (5)
+//=================================================================================
+//                                 class TmenuButton
+//=================================================================================
+TmenuButton::TmenuButton(QAction* action, QWidget* parent) :
+  QPushButton(parent)
+{
+  addAction(action);
+  setFlat(true);
+  setFont(parent->font());
+  setEnabled(action->isEnabled());
+  setIconSize(QSize(style()->pixelMetric(QStyle::PM_SmallIconSize), style()->pixelMetric(QStyle::PM_SmallIconSize)));
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+  m_sizeHint.setWidth(4 * SPACING + iconSize().width() + fontMetrics().boundingRect(action->text()).width());
+  m_sizeHint.setHeight(iconSize().height() + contentsMargins().top() + contentsMargins().bottom());
+}
+
+
+void TmenuButton::paintEvent(QPaintEvent* e) {
+  QPainter p(this);
+  QStyleOptionButton option;
+  option.initFrom(this);
+  option.state |= (actions().first()->isChecked() ? QStyle::State_On : QStyle::State_Off);
+
+  style()->drawPrimitive(QStyle::PE_Widget, &option, &p, this);
+  if(!actions().first()->icon().isNull())   {
+    QIcon::Mode iconMode = ((option.state & QStyle::State_MouseOver) == 0) ? QIcon::Normal : QIcon::Active;
+    if(!isEnabled())
+        iconMode = QIcon::Disabled;
+    QIcon::State iconState = actions().first()->isChecked() ? QIcon::On : QIcon::Off;
+    p.drawPixmap(SPACING, 0, actions().first()->icon().pixmap(iconSize().width(), iconMode, iconState));
+  }
+  option.rect = rect().adjusted(iconSize().width() + 3 * SPACING, 0, 0, 0);
+  option.text = actions().first()->text();
+  style()->drawControl(QStyle::CE_CheckBoxLabel, &option, &p, this);
+}
+
+//=================================================================================
+//                                 class TlineSpacer
+//=================================================================================
 
 TlineSpacer::TlineSpacer(int lineWidth, QWidget* parent) :
   m_lineWidth(lineWidth),
