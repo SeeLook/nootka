@@ -54,8 +54,11 @@
 #endif
 #include <QtWidgets/QtWidgets>
 
-
-#define WAIT_TIME (150) //[ms]
+#if defined (Q_OS_ANDROID)
+  #define WAIT_TIME (500) //[ms]
+#else
+  #define WAIT_TIME (150) //[ms]
+#endif
 #define SOUND_DURATION (1500) //[ms]
 
 
@@ -516,7 +519,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
   
   if (curQ->answerAsSound()) {
+#if !defined (Q_OS_ANDROID)
     mW->sound->prepareAnswer();
+#endif
     if (curQ->questionAsSound()) {
         connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying())); // sniffing after finished sound
     } else
@@ -995,7 +1000,7 @@ void TexamExecutor::displayCertificate() {
 void TexamExecutor::prepareToExam() {
   setTitleAndTexts();
   mW->bar->actionsToExam();
-  
+
   disableWidgets();
 // connect all events to check an answer or display tip how to check
   connect(mW->score, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
@@ -1028,7 +1033,16 @@ void TexamExecutor::prepareToExam() {
   m_glStore->prepareGlobalsToExam(m_level);
 
   mW->setSingleNoteMode(gl->S->isSingleNoteMode);
+#if defined (Q_OS_ANDROID) // remove/hide actions from main and score menus
+  if (!gl->S->isSingleNoteMode) {
+    mW->bar->playMelody()->setVisible(false);
+    mW->bar->recordMelody()->setVisible(false);
+    mW->bar->generateMelody()->setVisible(false);
+  }
+#endif
+#if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
   mW->pitchView->setVisible(gl->L->soundViewEnabled);
+#endif
   mW->guitar->setVisible(gl->L->guitarEnabled);
   mW->score->acceptSettings();
   mW->noteName->setEnabledEnharmNotes(false);
@@ -1089,11 +1103,22 @@ void TexamExecutor::restoreAfterExam() {
   if (m_exercise) {
     gl->E->suggestExam = m_exercise->suggestInFuture();
   }
-  
+
   TnotePixmap::setDefaultClef(gl->S->clef);
   mW->pitchView->setVisible(gl->L->soundViewEnabled);
   mW->guitar->setVisible(gl->L->guitarEnabled);
   mW->setSingleNoteMode(gl->S->isSingleNoteMode);
+  #if defined (Q_OS_ANDROID) // revert actions
+  if (!m_level.answerIsSound()) {
+    mW->pitchView->pauseAction()->setVisible(true);
+    mW->innerWidget->flyActions()->append(mW->pitchView->pauseAction());
+  }
+  if (!gl->S->isSingleNoteMode) {
+    mW->bar->playMelody()->setVisible(true);
+    mW->bar->recordMelody()->setVisible(true);
+    mW->bar->generateMelody()->setVisible(true);
+  }
+#endif
   mW->score->acceptSettings();
   mW->score->enableAccidToKeyAnim(true);
   mW->noteName->setEnabledEnharmNotes(false);
@@ -1143,6 +1168,12 @@ void TexamExecutor::clearWidgets() {
 
 
 void TexamExecutor::createActions() {
+#if defined (Q_OS_ANDROID)
+  if (!m_level.answerIsSound()) {
+    mW->pitchView->pauseAction()->setVisible(false);
+    mW->innerWidget->flyActions()->removeOne(mW->pitchView->pauseAction());
+  }
+#endif
 	connect(mW->bar->nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
 	connect(mW->bar->prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 	connect(mW->bar->checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
