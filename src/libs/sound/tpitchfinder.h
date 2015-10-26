@@ -21,8 +21,8 @@
 
 
 #include "nootkasoundglobal.h"
-#include <QObject>
-#include <QMutex>
+#include <QtCore/qobject.h>
+#include <QtCore/qmutex.h>
 #include <music/tnotestruct.h>
 #include "tartiniparams.h"
 
@@ -56,6 +56,35 @@ class NoteData;
 class MyTransforms;
 
 
+/**
+ * This is buffer that stores audio data converted to float,
+ * before it is filtered and send to @class Channel.
+ */
+class TfloatBuffer {
+
+public:
+  TfloatBuffer(quint32 buffSize) {
+    processed = true;
+    data = new float[buffSize];
+    size = buffSize;
+  }
+
+  ~TfloatBuffer() { delete data; }
+
+  float*      data; /** Pointer to float array of buffer size */
+  bool        processed; /** Set it to @p TRUE when data has been used already */
+  quint32     size;
+
+  void resize(quint32 newSize) {
+    if (newSize != size) {
+      delete data;
+      data = new float[newSize];
+      size = newSize;
+    }
+  }
+};
+
+
 /** 
  * The main purpose of this class is to recognize pitch of audio data flowing through it. 
  * Finding pitch method(s) are taken from Tartini project written by Philip McLeod.
@@ -71,7 +100,7 @@ class MyTransforms;
 class NOOTKASOUND_EXPORT TpitchFinder : public QObject
 {
 	Q_OBJECT
-	
+
 public:
 	explicit TpitchFinder(QObject *parent = 0);
 	virtual ~TpitchFinder();
@@ -105,10 +134,10 @@ public:
 	void incrementChunk() { m_chunkNum++; }
 	
 			/** Adds given sample to the buffer at the current position, 
-				* when buffer is full, @p startPitchDetection() is invoked and 
+				* when buffer is full, @p bufferReady() is invoked and
 				* current buffer is swapped. */
 	void fillBuffer(float sample) {
-      *(m_currentBuff + m_posInBuffer) = sample;
+    *(m_currentBuff->data + m_posInBuffer) = sample;
     m_posInBuffer++;
     m_workVol = qMax<float>(m_workVol, sample);
     if (m_posInBuffer == m_aGl->framesPerChunk)
@@ -204,12 +233,12 @@ private:
 	
 	
 private:
-  QThread					*m_thread;
-  MyTransforms    *m_transforms;
-  float           *m_filteredChunk, *m_workChunk, *m_prevChunk;
-	float						*m_buffer_1, *m_buffer_2; // real buffers
-	int							 m_posInBuffer;
-	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
+  QThread					        *m_thread;
+  MyTransforms            *m_transforms;
+  TfloatBuffer            *m_filteredChunk, *m_prevChunk, *m_currentBuff;
+  QList<TfloatBuffer*>     m_buffers; // list of real buffers (number depends on platform)
+	int							         m_posInBuffer, m_currentBufferNr, m_processingBuffNr;
+	float						        *m_workChunk; // virtual buffer pointing to real ones
 
 
   bool             m_doReset, m_isOffline, m_copyInThread;
