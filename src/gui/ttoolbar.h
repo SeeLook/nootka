@@ -47,16 +47,16 @@ class TtoolBar : public QToolBar
 {
 
 	Q_OBJECT
-	
+
 public:
 	explicit TtoolBar(const QString& version, QMainWindow* mainWindow);
-	
+
 			/** Main actions */
 	QAction *settingsAct, *levelCreatorAct, *startExamAct, *analyseAct;
   QAction *aboutAct, *aboutSimpleAct; /** Button with Nootka logo and simple text & icon QAction */
-	
+
 			/** Exam related */
-	QAction *prevQuestAct, *checkAct;
+	QPointer<QAction> prevQuestAct, checkAct;
 	QPointer<QAction> nextQuestAct, repeatSndAct, correctAct, tuneForkAct, attemptAct;
 
       /** TmelMan and TscoreActions has to be set before call above actions!
@@ -95,19 +95,19 @@ public:
 			 * and @p repeatSndAct when @p TRUE and @p tuneForkAct when @p TRUE	 */
 	void setForQuestion(bool repeatSound, bool tuneFork);
 	void setAfterAnswer(); /** Removes actions required during answering */
-	
+
 	void addMelodyButton(TmelMan* melBut);
 	void setMelodyButtonVisible(bool vis); /** Hides or shows melody button */
-  
+
   void addScoreActions(TscoreActions* scoreBut); /** Adds button with associated menu with actions to manage the score. */
-	
+
 	void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
-	
+
 	void setProxy(QGraphicsProxyWidget* proxy);
-	
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
-	
+
 private:
 	TmelMan													*m_melButton;
   TscoreActions                   *m_scoreActs;
