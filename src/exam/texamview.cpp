@@ -22,7 +22,7 @@
 #include <exam/texam.h>
 #include <exam/textrans.h>
 #include <exam/tattempt.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 #define SPACE_GAP (7)
 
@@ -35,9 +35,11 @@ TexamView::TexamView(QWidget *parent) :
     m_exam(0)
 {
   setStatusTip(tr("Exam results"));
-  
-  QHBoxLayout *mainLay = new QHBoxLayout;
 
+  QHBoxLayout *mainLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+  mainLay->setContentsMargins(0, 0, 0, 0);
+#endif
   mainLay->addStretch();
   QHBoxLayout *okMistLay = new QHBoxLayout;
   m_corrLab = new QLabel(this);
@@ -49,7 +51,7 @@ TexamView::TexamView(QWidget *parent) :
   okMistLay->addSpacing(SPACE_GAP);
   m_mistLab = new QLabel(this);
   okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
-  mainLay->addLayout(okMistLay);    
+  mainLay->addLayout(okMistLay);
   mainLay->addStretch();
 
   m_effLab = new QLabel(this);
