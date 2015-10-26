@@ -69,6 +69,7 @@ TaudioIN::~TaudioIN() {
   m_audioIN->stop();
   finder()->blockSignals(true);
   if (m_thread->isRunning()) {
+      m_thread->wait(10);
       m_thread->terminate();
       m_thread->quit();
   }
@@ -152,14 +153,14 @@ void TaudioIN::startThread() {
 
 
 void TaudioIN::stopThread() {
-  if (detectingState() != e_stopped) {
+//   if (detectingState() != e_stopped) {
     m_audioIN->stop();
     delete m_buffer;
     m_buffer = 0;
     resetVolume();
     resetChunkPitch();
     finder()->resetFinder();
-  }
+//   }
 }
 
 
