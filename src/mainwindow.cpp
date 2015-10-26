@@ -595,6 +595,9 @@ void MainWindow::prepareToExam() {
 void MainWindow::updateSize(QSize newS) {
   setUpdatesEnabled(false);
 	m_statFontSize = (newS.height() / 10) / 4 - 2;
+#if defined (Q_OS_ANDROID) // keep Mobile font not too big
+  m_statFontSize = qMin(m_statFontSize, fontMetrics().height());
+#endif
 	if (m_statFontSize < 0)
 		return;
 
@@ -621,7 +624,7 @@ void MainWindow::updateSize(QSize newS) {
 	else
     noteName->setMaximumWidth(QWIDGETSIZE_MAX);
 #if defined (Q_OS_ANDROID)
-  noteName->resize(baseH / 20);
+  noteName->resize(qMin(baseH / 20, fontMetrics().height()));
 #else
   noteName->resize(baseH / 40);
 	m_statLab->setFixedHeight(newS.height() / 10);
