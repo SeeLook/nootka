@@ -19,27 +19,33 @@
 #include "mainwindow.h"
 #if defined (Q_OS_ANDROID)
   #include "ttouchstyle.h"
+  // #include <QtWidgets/qstylefactory.h>
 #endif
 #include <tinitcorelib.h>
 #include <tmtr.h>
-#include <QPointer>
-#include <QFile>
-#include <QSettings>
-#include <QApplication>
-#include <QStyleFactory>
-#include <QDebug>
-#include <QTranslator>
+#include <QtCore/qpointer.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qsettings.h>
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qtranslator.h>
+#include <QtCore/qdatetime.h>
 
 
 /** It allows to grab all debug messages into nootka-log.txt file */
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
   Q_UNUSED(context)
-  if (type == QtDebugMsg) {
-    QFile outFile("nootka-log.txt");
+  Q_UNUSED(type)
+//   if (type == QtDebugMsg) {
+#if defined (Q_OS_ANDROID)
+    QFile outFile(qgetenv("EXTERNAL_STORAGE") + QStringLiteral("/nootka-log.txt"));
+#else
+    QFile outFile(QStringLiteral("nootka-log.txt"));
+#endif
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream ts(&outFile);
     ts << msg << endl;
-  }
+//   }
 }
 
 
@@ -48,8 +54,16 @@ bool resetConfig;
 
 
 int main(int argc, char *argv[])
-{    
-//   qInstallMessageHandler(myMessageOutput);
+{
+#if defined (Q_OS_ANDROID)
+  {
+    QString logFile(qgetenv("EXTERNAL_STORAGE") + QStringLiteral("/nootka-log.txt"));
+    if (QFile::exists(logFile))
+      QFile::remove(logFile);
+  }
+  qInstallMessageHandler(myMessageOutput);
+  qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
+#endif
 	QTranslator qtTranslator;
 	QTranslator nooTranslator;
 	QPointer<QApplication> a = 0;
