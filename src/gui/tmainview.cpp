@@ -167,12 +167,12 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 	m_results->hide();
 	m_progress->hide();
 	m_resultLay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+    m_resultLay->setContentsMargins(0, 0, 0, 0);
+#endif
 		m_resultLay->addWidget(m_progress);
 		m_resultLay->addWidget(m_results);
-		int examResultsPos = 2; // third layout row by default
-		if (isAutoHide())
-			examResultsPos--;
-		m_mainLay->insertLayout(examResultsPos, m_resultLay);
+		m_mainLay->insertLayout(isAutoHide() ? 1 : 2, m_resultLay);
 #if !defined (Q_OS_ANDROID)
 	resultsW->installEventFilter(this);
 	progressW->installEventFilter(this);
@@ -184,6 +184,7 @@ void TmainView::takeExamViews() {
 	delete m_results;
 	delete m_progress;
 }
+
 
 /** We are assuming that vertical layout of exam views can occur only when note name is already there.
  * Also there is no other way back than remove (delete) exam views at all. */

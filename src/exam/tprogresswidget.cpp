@@ -21,7 +21,7 @@
 #include <tglobals.h>
 #include <tcolor.h>
 #include <exam/texam.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 extern Tglobals *gl;
@@ -32,6 +32,9 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   m_totalNr(0)
 {
   QHBoxLayout *lay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+    lay->setContentsMargins(0, 0, 0, 0);
+#endif
   m_answLab = new QLabel(zeroLabTxt(), this);
   m_answLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(gl->EnotBadColor));
   lay->addWidget(m_answLab);
