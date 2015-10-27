@@ -29,6 +29,7 @@
 #include <help/texamhelp.h>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
+  #include <widgets/tfiledialog.h>
 #endif
 #include <QtWidgets>
 #include <stdlib.h> // for getenv()
@@ -316,10 +317,13 @@ void TstartExamDlg::continuePrevExam() {
 
 
 void TstartExamDlg::examFromFileDialog() {
+#if defined (Q_OS_ANDROID)
+  QString fileName = TfileDialog::getOpenFileName(this, TexTrans::loadExamFileTxt(), m_examParams->examsDir, TexTrans::examFilterTxt());
+#else
   QString fileName = QFileDialog::getOpenFileName(this, TexTrans::loadExamFileTxt(), m_examParams->examsDir, TexTrans::examFilterTxt());
-  if (fileName != "") {
+#endif
+  if (!fileName.isEmpty())
       examToContSelected(fileName);
-  }
 }
 
 
