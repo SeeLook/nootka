@@ -24,11 +24,13 @@
 #include <level/tlevelpreview.h>
 #include <texamparams.h>
 #include <music/ttune.h>
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  #include <widgets/tfiledialog.h>
+#else
   #include "tfixleveldialog.h"
 #endif
 #include <tinitcorelib.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 
@@ -62,6 +64,8 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 #if defined (Q_OS_ANDROID)
 		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 15);
     m_levelsListWdg->setFixedHeight(qApp->desktop()->availableGeometry().height() * 0.7);
+    m_levelsListWdg->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_levelsListWdg->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #else
     m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
 #endif
@@ -228,8 +232,12 @@ void TlevelSelector::selectLevel() {
 
 
 void TlevelSelector::loadFromFile(QString levelFile) {
-  if (levelFile == "")
+  if (levelFile.isEmpty())
+#if defined (Q_OS_ANDROID)
+    levelFile = TfileDialog::getOpenFileName(this, tr("Load exam's level"), Tcore::gl()->E->levelsDir, levelFilterTxt() + " (*.nel)");
+#else
     levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"), Tcore::gl()->E->levelsDir, levelFilterTxt() + " (*.nel)");
+#endif
   QFile file(levelFile);
   Tlevel level = getLevelFromFile(file);
   if (level.name != "") {

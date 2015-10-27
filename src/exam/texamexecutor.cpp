@@ -49,7 +49,9 @@
 #include <graphics/tnotepixmap.h>
 #include <gui/ttoolbar.h>
 #include <gui/tmainview.h>
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  #include <widgets/tfiledialog.h>
+#else
   #include <level/tfixleveldialog.h>
 #endif
 #include <QtWidgets/QtWidgets>
@@ -1397,12 +1399,16 @@ bool TexamExecutor::closeNootka() {
 #if !defined (Q_OS_ANDROID)
     qApp->removeEventFilter(m_supp);
 #endif
-    QMessageBox *msg = new QMessageBox(mW);
+    auto msg = new QMessageBox(mW);
 		msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
-		QAbstractButton *contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
+		auto contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
 		msg->addButton(tr("Terminate"), QMessageBox::RejectRole);
-		if (!gl->E->closeWithoutConfirm)
+		if (!gl->E->closeWithoutConfirm) {
+#if defined (Q_OS_ANDROID)
+        msg->showMaximized();
+#endif
 				msg->exec();
+    }
     if (!gl->E->closeWithoutConfirm && msg->clickedButton() == contBut) {
         m_snifferLocked = false;
 #if !defined (Q_OS_ANDROID)
@@ -1418,23 +1424,31 @@ bool TexamExecutor::closeNootka() {
     }
     delete msg;
 	}
-    return result;
+  return result;
 }
 
 
 QString TexamExecutor::saveExamToFile() {
+#if defined (Q_OS_ANDROID)
+  QString fileName = TfileDialog::getSaveFileName(mW, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
+#else
   QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
-  if (fileName == "") {
-      QMessageBox *msg = new QMessageBox(mW);
+#endif
+  if (fileName.isEmpty()) {
+      auto msg = new QMessageBox(mW);
       msg->setText(tr("If you don't save to file<br>you lost all results!"));
-      QAbstractButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
+      auto saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
       msg->addButton(tr("Discard"), QMessageBox::RejectRole);
+#if defined (Q_OS_ANDROID)
+      msg->showMaximized();
+#endif
       msg->exec();
       if (msg->clickedButton() == saveButt)
           fileName = saveExamToFile();
+      delete msg;
   }
-  if (!fileName.isEmpty() && fileName.right(4) != ".noo")
-      fileName += ".noo";
+  if (!fileName.isEmpty() && fileName.right(4) != QLatin1String(".noo"))
+      fileName += QStringLiteral(".noo");
   return fileName;
 }
 
@@ -1601,25 +1615,25 @@ void TexamExecutor::rightButtonSlot() {
 
 
 void TexamExecutor::tipButtonSlot(const QString& name) {
-	if (name == "nextQuest")
+	if (name == QLatin1String("nextQuest"))
 			askQuestion();
-	else if (name == "stopExam") {
+	else if (name == QLatin1String("stopExam")) {
 		if (m_exercise)
 			stopExerciseSlot();
 		else
 			stopExamSlot();
 	}
-	else if (name == "prevQuest")
+	else if (name == QLatin1String("prevQuest"))
 			repeatQuestion();
-	else if (name == "checkAnswer")
+	else if (name == QLatin1String("checkAnswer"))
 			checkAnswer();
-	else if (name == "examHelp")
+	else if (name == QLatin1String("examHelp"))
 			showExamHelp();
-	else if (name == "correct")
+	else if (name == QLatin1String("correct"))
 			correctAnswer();
-	else if (name == "certClosing")
+	else if (name == QLatin1String("certClosing"))
 			unlockAnswerCapturing();
-	else if (name == "newAttempt")
+	else if (name == QLatin1String("newAttempt"))
 			newAttempt();
 } 
 

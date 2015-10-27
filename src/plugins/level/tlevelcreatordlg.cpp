@@ -30,10 +30,10 @@
 #include <level/tlevelselector.h>
 #include <tinitcorelib.h>
 #include <tscoreparams.h>
-#include <QtWidgets>
-//#include <iostream>
+#include <QtWidgets/QtWidgets>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttouchmenu.h>
+  #include <widgets/tfiledialog.h>
 #endif
 
 
@@ -154,9 +154,6 @@ void TlevelCreatorDlg::saveLevel() {
 
 
 void TlevelCreatorDlg::saveToFile() {
-#if defined (Q_OS_ANDROID) // TODO: Prepare file dialog for mobile
-  return;
-#endif
   Tlevel newLevel;
   m_questSett->saveLevel(&newLevel);
   m_accSett->saveLevel(&newLevel);
@@ -172,7 +169,7 @@ void TlevelCreatorDlg::saveToFile() {
       newLevel.usedStrings[str] = true;
   }
   QString isLevelValid = validateLevel(newLevel);
-  if (isLevelValid != "") {
+  if (!isLevelValid.isEmpty()) {
       showValidationMessage(isLevelValid);
       return;
   }
@@ -183,17 +180,22 @@ void TlevelCreatorDlg::saveToFile() {
   newLevel.name = nameList[0];
   newLevel.desc = nameList[1];
 // Saving to file
-  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->examsDir + "/" + newLevel.name);
-  if (QFileInfo(fName  + ".nel").exists())
-    fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + " (*.nel)");
-  if (fileName == "")
+  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->examsDir + QStringLiteral("/") + newLevel.name);
+  if (QFileInfo(fName  + QStringLiteral(".nel")).exists())
+    fName += QStringLiteral("-") + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
+
+#if defined (Q_OS_ANDROID)
+  QString fileName = TfileDialog::getSaveFileName(this, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QStringLiteral(" (*.nel)"));
+#else
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QStringLiteral(" (*.nel)"));
+#endif
+  if (fileName.isEmpty())
       return;
-  if (fileName.right(4) != ".nel")
-    fileName += ".nel";
+  if (fileName.right(4) != QLatin1String(".nel"))
+    fileName += QStringLiteral(".nel");
   Tcore::gl()->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
   if (!Tlevel::saveToFile(newLevel, fileName)) {
-      QMessageBox::critical(this, " ", tr("Cannot open file for writing"));
+      QMessageBox::critical(this, QStringLiteral(" "), tr("Cannot open file for writing"));
       return;
   }
   isNotSaved = false;
