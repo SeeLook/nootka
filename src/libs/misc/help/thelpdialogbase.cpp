@@ -24,7 +24,7 @@
 
 
 /*static*/
-QString ThelpDialogBase::m_path = "";
+QString ThelpDialogBase::m_path = QString();
 
 QString ThelpDialogBase::onlineDocP(const QString& hash) {
   return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash) + 
@@ -45,7 +45,7 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
 #if defined (Q_OS_ANDROID)
   showMaximized();
 #else
-	setWindowIcon(QIcon(path() + "picts/help.png"));
+	setWindowIcon(QIcon(Tpath::img("help")));
   setWindowTitle(tr("Nootka help"));
 #endif
   m_helpText = new QTextBrowser(this);
@@ -101,8 +101,8 @@ void ThelpDialogBase::showCheckBox(const QString& label, bool* state) {
 }
 
 
-QString ThelpDialogBase::pix(const QString& imageName, int height) {
-  return pixToHtml(path() + "picts/" + imageName + ".png", height);
+QString ThelpDialogBase::pix(const char* imageName, int height) {
+  return pixToHtml(Tpath::img(imageName), height);
 }
 
 

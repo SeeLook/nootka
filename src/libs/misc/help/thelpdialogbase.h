@@ -20,10 +20,10 @@
 #define THELPDIALOGBASE_H
 
 #include "nootkamiscglobal.h"
-#include <QDialog>
-#include <QCheckBox>
-#include <QTextBrowser>
-#include <QPointer>
+#include <QtWidgets/qdialog.h>
+#include <QtWidgets/qcheckbox.h>
+#include <QtWidgets/qtextbrowser.h>
+#include <QtCore/qpointer.h>
 
 
 class QDialogButtonBox;
@@ -66,7 +66,7 @@ public:
   bool isDoNotShowChecked() { if (m_checkBox) return m_checkBox->isChecked(); else return false; }
   
       /** Shortcut to global pixToHtml function. @p imageName is only filename without extension and path */
-  QString pix(const QString &imageName, int height = 32);
+  QString pix(const char* imageName, int height = 32);
   
 			/** Path to Nootka resources */
   static QString& path() { return m_path; }
@@ -83,7 +83,7 @@ protected:
 			
   
 private:
-  QTextBrowser       				*m_helpText;
+  QTextBrowser       			*m_helpText;
   QCheckBox       				*m_checkBox;
   QPointer<QPushButton>    m_OkButton, m_cancelButton;
 	QDialogButtonBox				*m_buttonBox;

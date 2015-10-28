@@ -182,21 +182,20 @@ void ToggScale::setPitchOffset(float pitchOff) {
 }
 
 
-
 bool ToggScale::loadAudioData(int instrument) {
 	QString fileName;
 	if (instrument != m_instrument) {
 		switch ((Einstrument)instrument) {
 			case e_classicalGuitar:
-				fileName = Tpath::sound("classical-guitar"); 
+				fileName = Tpath::sound("classical-guitar");
 				m_firstNote = -11; m_lastNote = 41;
 				break;
 			case e_electricGuitar:
-				fileName = Tpath::sound("electric-guitar"); 
+				fileName = Tpath::sound("electric-guitar");
 				m_firstNote = -11; m_lastNote = 41;
 				break;
 			case e_bassGuitar:
-				fileName = Tpath::sound("bass-guitar"); 
+				fileName = Tpath::sound("bass-guitar");
 				m_firstNote = -24; m_lastNote = 21;
 				break;
 			default:
@@ -205,10 +204,6 @@ bool ToggScale::loadAudioData(int instrument) {
 	} else
 			return false;
 
-#if defined (Q_OS_ANDROID)
-  fileName = fileName.replace(":", "assets:");
-#endif
-	
   QFile oggFile(fileName);
   if (!oggFile.exists())
       return false;
@@ -312,7 +307,7 @@ void ToggScale::decodeAndResample() {
         if (tmpRead > 0) { /// 2. push data to SoundTouch
             m_touch->putSamples((SAMPLETYPE*)left, tmpRead);
         }
-    }    
+    }
     samplesReady = m_touch->numSamples();
     if (samplesReady > 0) { /// 3. Get resampled/offsetted data from SoundTouch
       read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);      
@@ -327,7 +322,7 @@ void ToggScale::decodeAndResample() {
 //   qDebug() << "decodeAndResample finished" << pos;
   m_touch->clear();
   m_thread->quit();
-  delete tmpTouch;
+  delete[] tmpTouch;
 }
 
 //###########################################################################
