@@ -116,15 +116,9 @@ MINOR:
 ANDROID:
 - unlock left-handed guitar then implement frets zoom to respect transforms
 
-Tpath 
-  - change type of parameters from QString to char* then not necessary to use QStringLiteral in calls
-       (file names are always in ascii)
-- the same with ThelpDialogBase::pix()
-
 Tnote
   - change class name to Tpitch (???)
 	- overload + and - operators to raise/drop a note
-	- make appropriate methods const
 
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
