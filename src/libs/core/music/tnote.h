@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,9 +19,9 @@
 #define TNOTE_H
 
 #include <string>
-#include <QDataStream>
-#include <QXmlStreamWriter>
 #include <vector>
+#include <QtCore/qdatastream.h>
+#include <QtCore/qxmlstream.h>
 #include <nootkacoreglobal.h>
 
 class Tnote;
@@ -38,11 +38,10 @@ const std::string signsAcid[5] = {"bb","b","","#","x",};
  * This class provides the descriptions of classical notation for different variables in apps.
  * It helps to convert the letter notation (C D E ...) for Do Re Mi.
  * It supports accidentals (sharps, flats, double sharps and double flats.
- * General format for each note is its number. 
+ * General format for each note is its number.
 */
 class NOOTKACORE_EXPORT Tnote
 {
-	
 
 public:
 	
@@ -80,11 +79,11 @@ public:
 				* @li .......
 				* @li 7 for B (H in Deutsh)
 				* If accidental is not defined, the note is natural.	*/
-	Tnote (char diatonNote, char oct, char accid = 0);
+	Tnote(char diatonNote, char oct, char accid = 0);
 	
 				/** The simple constructor, creates the note instance with 0 note - 
 				* It makes no sense in musical notation. It's needed for vectors. */
-	Tnote ();
+	Tnote();
 
 				/** Construct object of Tnote from number, that represents:
 				* @li "1" for C1 in first octave
@@ -92,60 +91,68 @@ public:
 				* @li .......
 				* @li 13 for C2 in next octave
 				* @li -12 for C in little octave etc....
-				* The sharp accidental is default. If You need others, you can use convToFlat. */
-	Tnote (short chromaticNrOfNote);
-	~Tnote ();
+				* The sharp accidental is default. If You need others, you can use @p showWithFlat(). */
+	Tnote(short chromaticNrOfNote);
+	~Tnote();
 	
 			/** Returns @p TRUE when note is valid. There are used 'undefined' notes with 0 - they are invalid. */
-	bool isValid() { return (note > 0 && note < 8); }
+	bool isValid() const { return (note > 0 && note < 8); }
 	
 			/** Static value determines default name style for a note */
 	static EnameStyle defaultStyle; 
-	
-//--Methods--
 
-	bool operator==( const Tnote N2 );
-	bool operator!=( const Tnote N2 );
+	bool operator==(const Tnote N2) const {
+    return (note == N2.note && octave == N2.octave && alter == N2.alter);
+  }
 
-	void convToSharp ();
-	void convToFlat ();
+	bool operator!=(const Tnote N2) const {
+    return ( note != N2.note || octave != N2.octave || alter != N2.alter);
+  }
 
-				/** @return List of pointers to Tnote objects, which are the same (in sound sence),
-				* like note represents by class. (C# = Db, or Cx = D = Ebb)  
-				* @param enableDbAccids if @p TRUE - checks substitutes with double accids	*/
-	TnotesList getTheSameNotes (bool enableDbAccids);
+				/** @return List of Tnote objects, which are the same (in sound sense),
+				* like note represents by class. (C# = Db, or Cx = D = Ebb)
+				* @param enableDbAccids if @p TRUE - checks substitutes with double accidentals	*/
+	TnotesList getTheSameNotes (bool enableDbAccids) const;
 
+      /** Return this note converted into double-sharp or the same note if not possible. */
+	Tnote showWithDoubleSharp() const;
 
-	Tnote showWithDoubleSharp ();
-	Tnote showWithSharp ();
-	
-			/** It returns Tnote object with no accidentals, if it's possible,
-				* or with sharps if not.  */
-	Tnote showAsNatural ();
-	Tnote showWithFlat ();
-	Tnote showWithDoubleFlat ();
-	
+      /** Return this note converted into sharp or the same note if not possible. */
+	Tnote showWithSharp() const;
+
+			/** It returns Tnote object with no accidentals, if it's possible, or with sharps if not.  */
+	Tnote showAsNatural() const;
+
+      /** Return this note converted into flat or the same note if not possible. */
+	Tnote showWithFlat() const;
+
+      /** Return this note converted into double-flat or the same note if not possible. */
+	Tnote showWithDoubleFlat() const;
+
 			/** This method compares actual note, with otherNote.
-				* @param otherNote 
-				* @param ignoreOctave .If 1 (TRUE) the octave values are ignored,
+				* @param otherNote
+				* @param ignoreOctave If 1 (TRUE) the octave values are ignored,
 				* and method compares only number of note and accidental.
 				* @return 1 for TRUE or 0 if notes are different */
-	short compareNotes(Tnote otherNote, short ignoreOctave = 0);
+	short compareNotes(const Tnote& otherNote, short ignoreOctave = 0) const;
 
-	std::string getName (EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
-	std::string getName (Tnote eNote, EnameStyle notation = e_norsk_Hb, bool showOctave = 1);
-	
+	std::string getName(EnameStyle notation = e_norsk_Hb, bool showOctave = 1) const;
+
 				/** Returns note name converted to QString */
-  QString toText (EnameStyle notation, bool showOctave = true);
-	QString toText (bool showOctave = true) { return toText(defaultStyle, showOctave); }
+  QString toText (EnameStyle notation, bool showOctave = true) const {
+    return QString::fromUtf8(getName(notation, showOctave).data());
+  }
+
+      /** Returns note name converted to QString */
+	QString toText (bool showOctave = true) const { return toText(defaultStyle, showOctave); }
 	
 				/** Returns note name formatted to HTML*/
-  QString toRichText(EnameStyle notation, bool showOctave = true);
+  QString toRichText(EnameStyle notation, bool showOctave = true) const;
 	
 				/** Returns note name formatted to HTML in default name style sets by @p defaultStyle. */
-	QString toRichText(bool showOctave = true) { return toRichText(defaultStyle, showOctave); }
+	QString toRichText(bool showOctave = true) const { return toRichText(defaultStyle, showOctave); }
 	
-	short chromatic(); /** Returns chromatic number of note f.e. C1 is 60 */
+	short chromatic() const; /** Returns chromatic number of note f.e. C1 is 60 */
 	void setChromatic(short noteNr); /** Determines note, octave and accidental from chromatic value. */
 
 			/** Adds given @p tag or 'pitch' key to XML stream compatible with MusicXML format with current note
@@ -156,22 +163,22 @@ public:
        * 		<prefix-octave>2</prefix-octave>
        * 		<prefix-alter>-1</prefix-alter>
        * </pitch>  */
-	void toXml(QXmlStreamWriter& xml, const QString& tag = "pitch", const QString& prefix = "",
-						 const QString& attr = "", const QString& val = "");
+	void toXml(QXmlStreamWriter& xml, const QString& tag = QStringLiteral("pitch"), const QString& prefix = QString(),
+						 const QString& attr = QString(), const QString& val = QString()) const;
 	
 			/** Reads this note from XML stream. 
 			 * It looks every note element prefixed with @p prefix. */
-	void fromXml(QXmlStreamReader& xml, const QString& prefix = ""); 
+	void fromXml(QXmlStreamReader& xml, const QString& prefix = QString());
 	
 	
-	unsigned int toMidi() { return chromatic() + 47; } /** Returns this note as midi number. */
+	unsigned int toMidi() const { return chromatic() + 47; } /** Returns this note as midi number. */
 	void fromMidi(unsigned int midiNote) { setChromatic(midiNote - 47); } /** Sets this note from midi note number. */
 
 private:
-	
+
 	static std::string m_solmization[7];
 	static std::string m_solmizationRu[7];
-	
+
 };
     /** This function is substitute of >> operator for @class Tnote.
     * It checks is Tnote valid, and return Boolean about it. */

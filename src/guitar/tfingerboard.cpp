@@ -162,9 +162,8 @@ void TfingerBoard::acceptSettings() {
 
 
 void TfingerBoard::setFinger(const Tnote& note) {
-	Tnote n = note; // TODO delete it when Tnote will get const methods
 	if (note.note) {
-			short noteNr = n.chromatic();
+			short noteNr = note.chromatic();
 			bool doShow = true;
 			bool foundPos = false;
 			for(int i = 0; i < gl->Gtune()->stringNr(); i++) { // looking for pos to show

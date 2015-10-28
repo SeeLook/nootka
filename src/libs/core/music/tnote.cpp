@@ -22,7 +22,7 @@
 #include <string>
 #include <iostream>
 #include <unistd.h>
-#include <QVariant>
+#include <QtCore/qvariant.h>
 
 
 std::string IntToString(int num) {
@@ -40,13 +40,13 @@ std::string CharToString(char chr) {
 
 
 QString accidInSpan(char accid) {
-	QString accTxt = "";
+	QString accTxt;
 	switch (accid) {
-		case -2: accTxt = "B"; break;
-		case -1: accTxt = "b"; break;
-		case 1: accTxt = "#"; break;
-		case 2: accTxt = "x"; break;
-		default: accTxt = "";
+		case -2: accTxt = QStringLiteral("B"); break;
+		case -1: accTxt = QStringLiteral("b"); break;
+		case 1: accTxt = QStringLiteral("#"); break;
+		case 2: accTxt = QStringLiteral("x"); break;
+		default: break;
 	}
 	return  QString("<span style=\"font-family: nootka;\">%1</span>").arg(accTxt);
 }
@@ -108,7 +108,7 @@ void Tnote::setChromatic(short int noteNr) {
 }
 
 
-short Tnote::chromatic() {
+short Tnote::chromatic() const {
 	char a;
 	switch  (Tnote::note)	{
 		case 1: a = 1; break;	// note C
@@ -119,16 +119,16 @@ short Tnote::chromatic() {
 		case 6: a = 10; break;	// A
 		case 7: a = 12; break;	// H
 	}
-    return a + (Tnote::octave)*12 + Tnote::alter;
+    return a + (Tnote::octave) * 12 + Tnote::alter;
 }
 
 
-Tnote Tnote::showAsNatural() {
-	return Tnote(Tnote(note,octave,alter).chromatic());
+Tnote Tnote::showAsNatural() const {
+	return Tnote(Tnote(note, octave, alter).chromatic());
 }
 
 
-Tnote Tnote::showWithFlat() {
+Tnote Tnote::showWithFlat() const {
 	if (alter != Tnote::e_Flat)	{
 		Tnote outputNote = Tnote::showAsNatural();
 // Tnote::showAsNatural() allways returns notes with sharps or neutral, and never returns H# or E#, but
@@ -145,11 +145,11 @@ Tnote Tnote::showWithFlat() {
 		}
 		return outputNote;
 	}
-	else	return Tnote(note,octave,alter);
+	else	return Tnote(note, octave, alter);
 }
 
 
-Tnote Tnote::showWithSharp() {
+Tnote Tnote::showWithSharp() const {
 	if (alter != Tnote::e_Sharp)	{
 		Tnote outputNote = Tnote::showAsNatural();
 		if (outputNote.alter == Tnote::e_Natural)	{
@@ -164,7 +164,7 @@ Tnote Tnote::showWithSharp() {
 }
 
 
-Tnote Tnote::showWithDoubleSharp() {
+Tnote Tnote::showWithDoubleSharp() const {
 	if (alter != Tnote::e_DoubleSharp)	{
 		Tnote outputNote = Tnote::showAsNatural();
 		if (outputNote.alter == Tnote::e_Natural)	{
@@ -177,13 +177,13 @@ Tnote Tnote::showWithDoubleSharp() {
 		}
                 return outputNote;
 	}
-	else return Tnote(note,octave,alter);
+	else return Tnote(note, octave, alter);
 }
 
 
-Tnote Tnote::showWithDoubleFlat() {
+Tnote Tnote::showWithDoubleFlat() const {
 	if (alter != Tnote::e_DoubleFlat)	{
-		Tnote outputNote = Tnote(note,octave,alter);
+		Tnote outputNote = Tnote(note, octave, alter);
 		if (outputNote.alter == Tnote::e_Flat && ( (outputNote.note == 3) || (outputNote.note == 7)) )	{
 			if (outputNote.note == 3) {outputNote.alter = Tnote::e_DoubleFlat; outputNote.note = 4;}
 			else
@@ -213,23 +213,26 @@ Tnote Tnote::showWithDoubleFlat() {
 		}
                 return outputNote;
 	}
-	else return Tnote(note,octave,alter);
+	else return Tnote(note, octave, alter);
 }
 
 
-short Tnote::compareNotes( Tnote otherNote, short ignoreOctave ) {
-	if (!ignoreOctave)
-		if ( (note == otherNote.note) && ( alter == otherNote.alter)
-			&& (octave == otherNote.octave) ) return 1;
-		else return 0;
-	else
-		if ( (note == otherNote.note) && ( alter == otherNote.alter) )
-			return 1;
-		else return 0;
+short Tnote::compareNotes(const Tnote& otherNote, short int ignoreOctave) const {
+	if (!ignoreOctave) {
+      if (note == otherNote.note && alter == otherNote.alter && octave == otherNote.octave)
+        return 1;
+      else
+        return 0;
+  } else {
+      if (note == otherNote.note && alter == otherNote.alter)
+        return 1;
+      else
+        return 0;
+  }
 }
 
 
-TnotesList Tnote::getTheSameNotes(bool enableDbAccids) {
+TnotesList Tnote::getTheSameNotes(bool enableDbAccids) const {
 	TnotesList notesL;
 	short cnt;//counter of notes. With double accids is 5 (4) without 3 (2)
 	notesL.push_back(Tnote(note,octave,alter));
@@ -258,7 +261,7 @@ TnotesList Tnote::getTheSameNotes(bool enableDbAccids) {
 }
 
 
-std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
+std::string Tnote::getName(Tnote::EnameStyle notation, bool showOctave) const {
 	std::string noteStr;
 	if (note < 1 || note > 7) {
 			std::cout << "Oops !! getName() with note=0\n";
@@ -327,21 +330,7 @@ std::string Tnote::getName( EnameStyle notation, bool showOctave ) {
 }
 
 
-std::string Tnote::getName( Tnote eNote, EnameStyle notation, bool showOctave )
-{
-	note = eNote.note;
-	alter = eNote.alter;
-	octave = eNote.octave;
-	return getName(notation, showOctave);
-}
-
-
-QString Tnote::toText(Tnote::EnameStyle notation, bool showOctave) {
-	return QString::fromUtf8(getName(notation, showOctave).data()); 
-}
-
-
-QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
+QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) const {
   QString result = toText(notation, false);
     if (notation == Tnote::e_italiano_Si ||
 			  notation == Tnote::e_russian_Ci ||
@@ -351,10 +340,10 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
 					result.replace(QString::fromStdString(signsAcid[alter + 2]), QString("<sub>%1</sub>").arg(accidInSpan(alter)));
     }
     if (alter == -2)
-				result.replace("B", "!"); // store capital B otherwise toLower() make it lower
+				result.replace(QLatin1String("B"), QLatin1String("!")); // store capital B otherwise toLower() make it lower
     result = result.toLower(); // it converts double flat (B) to single flat (b)
 		if (alter == -2) 
-				result.replace("!", "B"); // bring back capital B
+				result.replace(QLatin1String("!"), QLatin1String("B")); // bring back capital B
     if (showOctave) {
         if (octave < 0) { //first letter capitalize
 					QString l1 = result.mid(0, 1).toUpper();
@@ -369,8 +358,8 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) {
 }
 
 
-void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& prefix, 
-									const QString& attr, const QString& val) {
+void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& prefix,
+									const QString& attr, const QString& val) const {
 	if (!tag.isEmpty()) {
 		xml.writeStartElement(tag);
 		if (!attr.isEmpty())
@@ -378,10 +367,10 @@ void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& pref
 	}
 	if (note !=0) { // write <pitch> context only if note is valid
 		Tnote bareNote = Tnote(note, octave, 0);
-		xml.writeTextElement(prefix + "step", bareNote.toText(Tnote::e_english_Bb, false));
-		xml.writeTextElement(prefix + "octave", QVariant((int)octave + 3).toString());
+		xml.writeTextElement(prefix + QLatin1String("step"), bareNote.toText(Tnote::e_english_Bb, false));
+		xml.writeTextElement(prefix + QLatin1String("octave"), QVariant((int)octave + 3).toString());
 		if (alter)
-			xml.writeTextElement(prefix + "alter", QVariant((int)alter).toString());
+			xml.writeTextElement(prefix + QLatin1String("alter"), QVariant((int)alter).toString());
 	}
 	if (!tag.isEmpty())
 		xml.writeEndElement(); // pitch
@@ -392,7 +381,7 @@ void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
 // 	if (xml.name() == "pitch") {
 		note = 0; octave = 0; alter = 0; // reset this note
 		while (xml.readNextStartElement()) {
-			if (xml.name() == (prefix + "step")) {
+			if (xml.name() == (prefix + QLatin1String("step"))) {
 				QString step = xml.readElementText().toUpper();
 				for (char i = 1; i < 8; i++) {
 					Tnote n(i, 0, 0);
@@ -401,24 +390,14 @@ void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
 						break;
 					}
 				}
-			} else if (xml.name() == (prefix + "octave"))
+			} else if (xml.name() == (prefix + QLatin1String("octave")))
 				octave = char(xml.readElementText().toInt() - 3);
-			else if (xml.name() == (prefix + "alter"))
+			else if (xml.name() == (prefix + QLatin1String("alter")))
 				alter = char(xml.readElementText().toInt());
-			else 
+			else
 				xml.skipCurrentElement();
 		}
 // 	}
-}
-
-
-bool Tnote::operator ==( const Tnote N2 ) {
-        return ( note == N2.note && octave == N2.octave && alter == N2.alter);
-}
-
-
-bool Tnote::operator !=( const Tnote N2 ) {
-    return ( note != N2.note || octave != N2.octave || alter != N2.alter);
 }
 
 
