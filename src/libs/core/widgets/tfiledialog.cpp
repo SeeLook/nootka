@@ -56,7 +56,7 @@ TfileDialog::TfileDialog(QWidget* parent, const QString& caption, const QString&
 #endif
 
   foreach(QAbstractScrollArea *a, findChildren<QAbstractScrollArea*>()) {
-    qDebug() << "scrolls" << a->objectName();
+//     qDebug() << "scrolls" << a->objectName();
     a->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     a->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
       QScroller::grabGesture(a->viewport(), QScroller::LeftMouseButtonGesture);

@@ -80,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
   examResults(0),
   progress(0),
 #if !defined (Q_OS_ANDROID)
-  m_statusText(""),
+  m_statusText(QString()),
   m_curBG(-1), m_prevBg(-1),
   m_lockStat(false),
   m_updaterPlugin(0),
@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *parent) :
   if (gl->isFirstRun) {
       TpluginsLoader *loader = new TpluginsLoader();
       if (loader->load(TpluginsLoader::e_wizard)) {
-        loader->init("", this);
+        loader->init(QString(), this);
       }
       delete loader;
       gl->isFirstRun = false;
@@ -375,7 +375,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
-    executor = new TexamExecutor(this, startExercise ? QStringLiteral("exercise") : QStringLiteral(""), &m_level); // start exam
+    executor = new TexamExecutor(this, startExercise ? QStringLiteral("exercise") : QString(), &m_level); // start exam
   }
   else
     sound->go(); // restore pitch detection
@@ -413,7 +413,7 @@ void MainWindow::analyseSlot() {
 	sound->stopPlaying();
 	TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_analyzer)) {
-    loader.init("", this);
+    loader.init(QString(), this);
   }
 	sound->go();
 #endif
@@ -495,7 +495,7 @@ void MainWindow::restoreMessage() {
 	m_lockStat = false;
 	setStatusMessage(m_prevMsg);
 	setMessageBg(m_prevBg);
-	m_prevMsg = "";
+	m_prevMsg.clear();
 #endif
 }
 
@@ -506,14 +506,14 @@ void MainWindow::messageSlot(const QString& msg) {
 //       m_statLab->setDefaultBackground();
 //       m_statLab->setStyleSheet("color: palette(text)");
 			setMessageBg(m_prevBg);
-			m_statLab->setText("<center>" + m_statusText + "</center>");
+			m_statLab->setText(QLatin1String("<center>") + m_statusText + QLatin1String("</center>"));
 			m_prevMsg = m_statusText;
 	} else {
 //       m_statLab->setBackroundColor(palette().highlightedText().color());
 //       m_statLab->setStyleSheet("color: palette(highlight)");
 			m_prevBg = m_curBG;
 			setMessageBg(-1);
-			m_statLab->setText("<center>" + msg + "</center>");
+			m_statLab->setText(QLatin1String("<center>") + msg + QLatin1String("</center>"));
 	}
 #endif
 }

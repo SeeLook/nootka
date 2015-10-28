@@ -112,18 +112,17 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     translStr += transRow("cs", QStringLiteral("český"), QStringLiteral("Pavel Fric"),
                           QStringLiteral("<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"));
 // German
-    translStr += transRow("de", QStringLiteral("deutsch"), "Johann C. Weihe", "");
+    translStr += transRow("de", QStringLiteral("deutsch"), "Johann C. Weihe", QString());
 // English
 		translStr += transRow("en", QStringLiteral("english"), QStringLiteral("Luster"),
                           QStringLiteral("<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>"));
 // French
-    translStr += transRow("fr", QStringLiteral("français"), QStringLiteral("Olivier Devineau,<br>&nbsp;&nbsp;Jean-Marc Lartigue"),
-                          QStringLiteral(""));
+    translStr += transRow("fr", QStringLiteral("français"), QStringLiteral("Olivier Devineau,<br>&nbsp;&nbsp;Jean-Marc Lartigue"), QString());
 // Polish
     translStr += transRow("pl", QStringLiteral("polski"), QStringLiteral("Tomasz Bojczuk"),
                           QStringLiteral("<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"));
 		translStr += transRow("ru", QStringLiteral("русский"),
-                          QStringLiteral("Sergei Ivanov (tico-tico),<br>&nbsp;&nbsp;Timur Artykov"), QStringLiteral(""));
+                          QStringLiteral("Sergei Ivanov (tico-tico),<br>&nbsp;&nbsp;Timur Artykov"), QString());
     translStr += "</table>";
 		QString otherStr = getHeader(tr("Other projects")) +
 				tr("However this application could not exist without various open source projects.<br>Especially:") + 
@@ -183,25 +182,25 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 // CHANGESLOG
     QTextEdit *chLogTxt = new QTextEdit();
     chLogTxt->setReadOnly(true);
-    QFile chfile(Tcore::gl()->path + QStringLiteral("changes"));
+    QFile chfile(Tcore::gl()->path + QLatin1String("changes"));
     if(chfile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream in(&chfile);
         in.setCodec("UTF-8");
-        QStringList htmlText = in.readAll().replace(QStringLiteral("  "), QStringLiteral("&nbsp;&nbsp;")).split("\n");
+        QStringList htmlText = in.readAll().replace(QLatin1String("  "), QLatin1String("&nbsp;&nbsp;")).split(QLatin1String("\n"));
         for (int i = 0; i < htmlText.size(); i++) {
-          if (htmlText[i].contains(QStringLiteral("0.")) || htmlText[i].contains(QStringLiteral("1.")))
+          if (htmlText[i].contains(QLatin1String("0.")) || htmlText[i].contains(QStringLiteral("1.")))
             htmlText[i] = QStringLiteral("<u><b>&nbsp;") + htmlText[i] + QStringLiteral("</b></u>");
-					else if (htmlText[i].contains(QStringLiteral("======")))
+					else if (htmlText[i].contains(QLatin1String("======")))
 						htmlText[i] = QStringLiteral("<br><hr><b><big><center>Nootka ONE</big></b></center><hr>");
-          else if (htmlText[i].contains(QStringLiteral("BUG")))
+          else if (htmlText[i].contains(QLatin1String("BUG")))
             htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>BUG FIXES</u>");
-          else if (htmlText[i].contains(QStringLiteral("Under the hood")))
+          else if (htmlText[i].contains(QLatin1String("Under the hood")))
             htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>Under the hood</u>");
-          else if (!htmlText[i].contains(QStringLiteral("&nbsp;&nbsp; - ")))
-            htmlText[i] = QStringLiteral("<b>") + htmlText[i] + QStringLiteral("</b>");
-          htmlText[i].append(QStringLiteral("<br>"));
+          else if (!htmlText[i].contains(QLatin1String("&nbsp;&nbsp; - ")))
+            htmlText[i] = QLatin1String("<b>") + htmlText[i] + QStringLiteral("</b>");
+          htmlText[i].append(QLatin1String("<br>"));
         }
-        chLogTxt->setHtml(htmlText.join(QStringLiteral("")));
+        chLogTxt->setHtml(htmlText.join(QString()));
     }
     chfile.close();
 
