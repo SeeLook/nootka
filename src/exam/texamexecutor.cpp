@@ -1401,15 +1401,14 @@ bool TexamExecutor::closeNootka() {
 #endif
     auto msg = new QMessageBox(mW);
 		msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
-		auto contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
-		msg->addButton(tr("Terminate"), QMessageBox::RejectRole);
+    msg->setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    auto continueButt = msg->button(QMessageBox::Ok);
+    continueButt->setText(tr("Continue"));
+    msg->button(QMessageBox::Cancel)->setText(tr("Terminate"));
 		if (!gl->E->closeWithoutConfirm) {
-#if defined (Q_OS_ANDROID)
-        msg->showMaximized();
-#endif
 				msg->exec();
     }
-    if (!gl->E->closeWithoutConfirm && msg->clickedButton() == contBut) {
+    if (!gl->E->closeWithoutConfirm && msg->clickedButton() == continueButt) {
         m_snifferLocked = false;
 #if !defined (Q_OS_ANDROID)
         qApp->installEventFilter(m_supp);
@@ -1430,25 +1429,21 @@ bool TexamExecutor::closeNootka() {
 
 QString TexamExecutor::saveExamToFile() {
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getSaveFileName(mW, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
+  QString fileName = TfileDialog::getSaveFileName(mW, getExamFileName(m_exam), QStringLiteral("noo"));
 #else
   QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
 #endif
+  QLatin1String noo(".noo");
   if (fileName.isEmpty()) {
       auto msg = new QMessageBox(mW);
       msg->setText(tr("If you don't save to file<br>you lost all results!"));
-      auto saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
-      msg->addButton(tr("Discard"), QMessageBox::RejectRole);
-#if defined (Q_OS_ANDROID)
-      msg->showMaximized();
-#endif
-      msg->exec();
-      if (msg->clickedButton() == saveButt)
+      msg->setStandardButtons(QMessageBox::Save | QMessageBox::Discard);
+      if (msg->exec() == QMessageBox::Save)
           fileName = saveExamToFile();
       delete msg;
   }
-  if (!fileName.isEmpty() && fileName.right(4) != QLatin1String(".noo"))
-      fileName += QStringLiteral(".noo");
+  if (!fileName.isEmpty() && fileName.right(4) != noo)
+      fileName += noo;
   return fileName;
 }
 
