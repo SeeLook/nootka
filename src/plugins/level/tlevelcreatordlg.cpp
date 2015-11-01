@@ -137,8 +137,8 @@ void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
 
 void TlevelCreatorDlg::levelNotSaved() {
 	if (!isNotSaved) {
-    navList->item(0)->setIcon(QIcon(Tcore::gl()->path+"picts/notSaved.png"));
-    setWindowTitle(levelCreatorTxt() + "  (" + tr("level not saved!") + ")");
+    navList->item(0)->setIcon(QIcon(Tcore::gl()->path + "picts/notSaved.png"));
+    setWindowTitle(levelCreatorTxt() + QLatin1String("  (") + tr("level not saved!") + QLatin1String(")"));
 		isNotSaved = true;
 	}
 }
@@ -148,7 +148,7 @@ void TlevelCreatorDlg::saveLevel() {
     if ( QMessageBox::question(this, tr("level not saved!"), tr("Level was changed and not saved!"),
 			QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
         saveToFile();
-    } else 
+    } else
 				levelSaved();
 }
 
@@ -180,19 +180,22 @@ void TlevelCreatorDlg::saveToFile() {
   newLevel.name = nameList[0];
   newLevel.desc = nameList[1];
 // Saving to file
-  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->examsDir + QStringLiteral("/") + newLevel.name);
-  if (QFileInfo(fName  + QStringLiteral(".nel")).exists())
-    fName += QStringLiteral("-") + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
-
+  QLatin1String dotNel(".nel");
+  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->levelsDir + QLatin1String("/") + newLevel.name);
+  if (QFileInfo(fName  + dotNel).exists())
+    fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
+  qDebug() << "Sugested name" << fName;
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getSaveFileName(this, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QStringLiteral(" (*.nel)"));
+  QString fileName = TfileDialog::getSaveFileName(this, fName, QStringLiteral("nel"));
 #else
-  QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QStringLiteral(" (*.nel)"));
+  QString fileName = QFileDialog::getSaveFileName(this, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif
-  if (fileName.isEmpty())
+  if (fileName.isEmpty()) {
+    qDebug() << "empty file name";
       return;
-  if (fileName.right(4) != QLatin1String(".nel"))
-    fileName += QStringLiteral(".nel");
+  }
+  if (fileName.right(4) != dotNel)
+    fileName += dotNel;
   Tcore::gl()->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
   if (!Tlevel::saveToFile(newLevel, fileName)) {
       QMessageBox::critical(this, QStringLiteral(" "), tr("Cannot open file for writing"));
@@ -226,7 +229,7 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
     if (!l.canBeScore() && ! l.canBeName() && !l.canBeGuitar() && !l.canBeSound()) {
         res = tr("There aren't any questions or answers selected.<br>Level makes no sense.");
         return res;
-    }      
+    }
   // checking range
   // determine the highest note of fret range on available strings
     if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.answerIsSound())) {

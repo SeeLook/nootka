@@ -37,7 +37,7 @@
 /*static*/
 
 QString TlevelSelector::checkLevel(Tlevel& l) {
-	QString warringText = "";
+	QString warringText;
 	if (Tcore::gl()->instrument == e_noInstrument && l.instrument != e_noInstrument)
 					warringText = tr("Level is not suitable for current instrument type");
 	else if (l.canBeGuitar() || (l.instrument != e_noInstrument && l.canBeSound())) {
@@ -102,8 +102,8 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 	mainLay->addWidget(m_levelPreview);
 	setLayout(mainLay);
 
-	m_fakeLevel.name = "";
-	m_fakeLevel.desc = "";
+	m_fakeLevel.name.clear();
+	m_fakeLevel.desc.clear();
 	findLevels();
 
 	connect(m_levelsListWdg, SIGNAL(currentRowChanged(int)), this, SLOT(levelSelected(int)));
@@ -125,7 +125,7 @@ TlevelSelector::~TlevelSelector() {
 void TlevelSelector::levelSelected(int id) {
 	if (id >= 0 && id < m_levelsListWdg->count()) {
     m_levelPreview->setLevel(m_levels[id].level);
-		if (m_levels[id].file == "")
+		if (m_levels[id].file.isEmpty())
 				m_removeButt->setDisabled(true);
 		else
 				m_removeButt->setDisabled(false);
@@ -153,7 +153,7 @@ void TlevelSelector::findLevels() {
       QFile file(recentLevels[i]);
       if (file.exists()) {
           Tlevel level = getLevelFromFile(file);
-          if (level.name != "") {
+          if (!level.name.isEmpty()) {
               addLevel(level, file.fileName());
               m_levels.last().suitable = isSuitable(level);
           } else
@@ -166,7 +166,7 @@ void TlevelSelector::findLevels() {
 
 
 void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) {
-  if (check && levelFile != "") {
+  if (check && !levelFile.isEmpty()) {
     int pos = -1;
     for (int i = 0; i < m_levels.size(); i++)
       if (m_levels[i].file == levelFile) // file and level exist
@@ -194,7 +194,7 @@ void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) 
 
 bool TlevelSelector::isSuitable(Tlevel &l) {
 	QString warringText = checkLevel(l);
-	if (warringText != "") {
+	if (!warringText.isEmpty()) {
 			m_levels.last().item->setStatusTip("<span style=\"color: red;\">" + warringText + "</span>");
 			m_levels.last().item->setForeground(QBrush(Qt::red));
 			return false;
@@ -234,13 +234,13 @@ void TlevelSelector::selectLevel() {
 void TlevelSelector::loadFromFile(QString levelFile) {
   if (levelFile.isEmpty())
 #if defined (Q_OS_ANDROID)
-    levelFile = TfileDialog::getOpenFileName(this, tr("Load exam's level"), Tcore::gl()->E->levelsDir, levelFilterTxt() + " (*.nel)");
+    levelFile = TfileDialog::getOpenFileName(this, Tcore::gl()->E->levelsDir, QStringLiteral("nel"));
 #else
     levelFile = QFileDialog::getOpenFileName(this, tr("Load exam's level"), Tcore::gl()->E->levelsDir, levelFilterTxt() + " (*.nel)");
 #endif
   QFile file(levelFile);
   Tlevel level = getLevelFromFile(file);
-  if (level.name != "") {
+  if (!level.name.isEmpty()) {
       Tcore::gl()->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
       addLevel(level, levelFile, true);
       if (isSuitable(level))
@@ -261,7 +261,7 @@ Tlevel& TlevelSelector::getSelectedLevel() {
 void TlevelSelector::updateRecentLevels() {
 	QStringList recentLevels;
 	for (int i = m_levels.size() - 1; i > 1; i--) {
-		if (m_levels[i].file != "")
+		if (!m_levels[i].file.isEmpty())
 			recentLevels << m_levels[i].file;
 	}
 	Tcore::gl()->config->setValue("recentLevels", recentLevels);
@@ -280,7 +280,7 @@ void TlevelSelector::loadFromFilePrivate() {
 
 Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
     Tlevel level;
-    level.name = "";
+    level.name.clear();;
     if (file.open(QIODevice::ReadOnly)) {
          QDataStream in(&file);
          in.setVersion(QDataStream::Qt_5_2);
@@ -310,13 +310,13 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
 							wasLevelFile = false;
 				 file.close();
 				 if (!wasLevelFile) {
-						QMessageBox::critical(this, "", tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
-						level.name = "";
+						QMessageBox::critical(this, QString(), tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
+						level.name.clear();
 						return level;
 				 } else if (!wasLevelValid)
-             QMessageBox::warning(0, "", tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
+             QMessageBox::warning(0, QString(), tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
     } else {
-				if (file.fileName() != "") // skip empty file names (ignored by user)
+				if (!file.fileName().isEmpty()) // skip empty file names (ignored by user)
 					Tlevel::fileIOerrorMsg(file, this);
     }
     return level;
@@ -360,10 +360,10 @@ TremoveLevel::TremoveLevel(const QString& levelName, const QString& fileName, QW
 	QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint),
 	m_levelFile(fileName)
 {
-		setWindowTitle(removeTxt().replace("<b>", "").replace("</b>", ""));
+		setWindowTitle(removeTxt().replace("<b>", QString()).replace("</b>", QString()));
 		QLabel *removeLab = new QLabel(removeTxt(levelName), this);
 		m_deleteChB = new QCheckBox(tr("Also delete level file:"), this);
-		QLabel *fNameLab = new QLabel("<b>" + fileName + "</b>", this);
+		QLabel *fNameLab = new QLabel(QLatin1String("<b>") + fileName + QLatin1String("</b>"), this);
 		
 		QDialogButtonBox *stdButtons = new QDialogButtonBox(this);
 		QPushButton *removeButton = stdButtons->addButton(tr("Remove"), QDialogButtonBox::AcceptRole);
