@@ -53,7 +53,7 @@ public:
 			/** Returns a path to given ogg file with samples in sound resource directory */
 	static QString sound(const char* soundFileName, const char* ext = ".ogg") {
 #if defined (Q_OS_ANDROID)
-      return QString("assets:/sounds/%1%2").arg(main).arg(soundFileName).arg(ext);
+      return QString("assets:/sounds/%1%2").arg(soundFileName).arg(ext);
 #else
       return QString("%1sounds/%2%3").arg(main).arg(soundFileName).arg(ext);
 #endif
