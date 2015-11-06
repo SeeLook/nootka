@@ -56,7 +56,7 @@ protected:
 private:
   QScrollArea           *m_scrollArea;
   QVBoxLayout           *m_lay;
-  QWidget               *m_nootkaLabel;
+  TlabelWidget          *m_nootkaLabel;
   QTimer                *m_hideScrollTimer;
   QAction               *m_selectedAction;
   bool                   m_isMoving;

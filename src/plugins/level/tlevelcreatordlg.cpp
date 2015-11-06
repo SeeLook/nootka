@@ -59,14 +59,14 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   addPage(m_accSett = new accidSettings(this));
 // 		addPage(m_meloSett = new TmelodySettings(this));
   addPage(m_rangeSett = new rangeSettings(this));
-  
+
   if (Tcore::gl()->instrument == e_noInstrument)
     m_questSett->hideGuitarRelated();
   m_questSett->blockSignals(true);
   m_questSett->setMelodiesEnabled(!Tcore::gl()->S->isSingleNoteMode);
   m_questSett->blockSignals(false);
   if (!touchEnabled())
-    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
+    hint->setFixedHeight(fontMetrics().height() * 5);
 
   connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 
