@@ -23,27 +23,23 @@
 #include "tinitcorelib.h"
 #include <tnoofont.h>
 #include <tscoreparams.h>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QTextBrowser>
-#include <QPainter>
-#include <QScroller>
-#include <QDebug>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qlabel.h>
+#include <QtWidgets/qtextbrowser.h>
+#include <QtGui/qpainter.h>
+#include <QtWidgets/qscroller.h>
+#include <QtCore/qdebug.h>
 
-
-/** Returns size of 'A' letter in current widget font. */
-int heightOfA(QWidget *w) {
-	return w->fontMetrics().boundingRect("A").height();
-}
 
 
 QString tdAlign() {
-	return "<td valign=\"middle\" align=\"center\">";
+	return QStringLiteral("<td valign=\"middle\" align=\"center\">");
 }
+
 
 TlevelPreview::TlevelPreview(QWidget* parent) :
   QWidget(parent),
-  m_instrText(""),
+  m_instrText(QString()),
   m_enableFixing(false)
 {
 		setMouseTracking(true);
@@ -60,6 +56,7 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
     m_summaryEdit->viewport()->setStyleSheet("background-color: transparent;");
 		m_summaryEdit->setOpenLinks(false);
 		QVBoxLayout *mainLay = new QVBoxLayout;
+      mainLay->setContentsMargins(0, 0, 0, 0); // Others layouts have enough margins
 			mainLay->addWidget(headLab);
 			mainLay->addWidget(m_summaryEdit);
     setLayout(mainLay);
@@ -93,104 +90,111 @@ void TlevelPreview::setLevel() {
 
 
 void TlevelPreview::setLevel(Tlevel& tl) {
-	QString instrName = "";
+	QString instrName;
 	if (tl.hasInstrToFix) {
-		m_instrText = ""; // don't display background instrument symbol
+		m_instrText.clear(); // don't display background instrument symbol
+#if !defined (Q_OS_ANDROID)
 		if (m_enableFixing) {
-				instrName = "<a href=\"fixInstrument\">" + tr("fix an instrument") + "</a>";
+				instrName = QLatin1String("<a href=\"fixInstrument\">") + tr("fix an instrument") + QLatin1String("</a>");
 				m_summaryEdit->setTextInteractionFlags(Qt::TextBrowserInteraction);
 		}
+#endif
 	} else {
 		m_instrText = instrumentToGlyph(tl.instrument);
 		instrName = instrumentToText(tl.instrument);
 		m_summaryEdit->setTextInteractionFlags(Qt::NoTextInteraction);
 	}
+	const QString spTDEnd = QStringLiteral(" </td>");
+  const QString nbsp = QStringLiteral("&nbsp;");
+  const QString TRTD = QStringLiteral("<tr><td>");
+  const QString TDTREnd = QStringLiteral("</td></tr>");
   QString S;
-    S = "<center><b>" + tl.name + "</b>";
-    S += "<table border=\"1\" cellpadding=\"3\">";
-		S += "<tr><td colspan=\"2\" align=\"center\">" + instrName + "</td>";
-    QString clefString = tr("Clef") + ":&nbsp;&nbsp;";
+    S = QLatin1String("<center><b>") + tl.name + QLatin1String("</b>");
+    S += QLatin1String("<table border=\"1\" cellpadding=\"3\">");
+		S += QLatin1String("<tr><td colspan=\"2\" align=\"center\">") + instrName + spTDEnd;
+    QString clefString(tr("Clef") + QLatin1String(":") + nbsp + nbsp); // "Clef:  "
     if (tl.loNote.isValid() && tl.hiNote.isValid())
       clefString += QString("<br><br>%1</td></tr>").
         arg(wrapPixToHtml(Tnote(0, 0, 0), tl.clef.type(), TkeySignature(0), (tl.clef.type() == Tclef::e_pianoStaff) ? 3.0 : 5.0)).
-                          replace("<img", "<img width=\"70px\"");
-    S += "<td rowspan=\"_ROW_SPAN_\"><br>&nbsp;&nbsp;" + clefString;
-    S += "<tr><td>" + notesRangeTxt() + " </td>";
+                          replace(QLatin1String("<img"), QLatin1String("<img width=\"70px\""));
+    S += QLatin1String("<td rowspan=\"_ROW_SPAN_\"><br>&nbsp;&nbsp;") + clefString;
+    S += TRTD + notesRangeTxt() + spTDEnd;
 		if (tl.loNote.note && tl.hiNote.note)
-			S += tdAlign() + tl.loNote.toRichText() + " - " + tl.hiNote.toRichText() + "</td></tr>";
+			S += tdAlign() + tl.loNote.toRichText() + QLatin1String(" - ") + tl.hiNote.toRichText() + TDTREnd;
     if (tl.canBeGuitar()) { // level uses guitar
-        S += "<tr><td>" + fretsRangeTxt() + " </td>";
-        S += tdAlign() + QString("%1 - %2").arg(int(tl.loFret)).arg(int(tl.hiFret)) + "</td></tr>";
+        S += TRTD + fretsRangeTxt() + spTDEnd;
+        S += tdAlign() + QString("%1 - %2").arg(int(tl.loFret)).arg(int(tl.hiFret)) + TDTREnd;
     }
     if (tl.useKeySign) {
-        S += "<tr><td>" + tr("key signature:") + " </td>" + tdAlign();
-        S += tl.loKey.getMajorName().remove("-" + Tcore::gl()->S->majKeyNameSufix);
-        S += " (" + tl.loKey.accidNumber(true) +")";
+        S += TRTD + tr("key signature:") + spTDEnd + tdAlign();
+        S += tl.loKey.getMajorName().remove(QLatin1String("-") + Tcore::gl()->S->majKeyNameSufix);
+        S += QLatin1String(" (") + tl.loKey.accidNumber(true) + QLatin1String(")");
         if (!tl.isSingleKey) {
-            S += " - " + tl.hiKey.getMajorName().remove("-" + Tcore::gl()->S->majKeyNameSufix);
-            S += " (" + tl.hiKey.accidNumber(true) + ")";
+            S += QLatin1String(" - ") + tl.hiKey.getMajorName().remove(QLatin1String("-") + Tcore::gl()->S->majKeyNameSufix);
+            S += QLatin1String(" (") + tl.hiKey.accidNumber(true) + QLatin1String(")");
         }
-        S += "</td></tr>";
+        S += TDTREnd;
     }
-    S += "<tr><td>" + tr("accidentals:") + " </td>" + tdAlign();
+    S += TRTD + tr("accidentals:") + spTDEnd + tdAlign();
     if (!tl.withSharps && !tl.withFlats && !tl.withDblAcc)
         S += tr("none");
     else {
-        if (tl.withSharps) S += TnooFont::span(" #");
-        if (tl.withFlats) S += TnooFont::span(" b");
-        if (tl.withDblAcc) S += TnooFont::span(" x B");
+        if (tl.withSharps) S += TnooFont::span(QLatin1String(" #"));
+        if (tl.withFlats) S += TnooFont::span(QLatin1String(" b"));
+        if (tl.withDblAcc) S += TnooFont::span(QLatin1String(" x B"));
     }
-    S += "</td></tr>";
-    S += "<tr><td>" + TquestionAsWdg::questionsTxt() + ": </td>" + tdAlign(); // QUESTIONS
+    S += TDTREnd;
+    S += TRTD + TquestionAsWdg::questionsTxt() + QLatin1String(": </td>") + tdAlign(); // QUESTIONS
     QString tmp;
+    const QString space = QStringLiteral(" ");
     if (tl.questionAs.isNote())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
+      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + space;
     if (tl.questionAs.isName())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
+      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + space;
     if (tl.questionAs.isFret())
-      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
+      tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + space;
     if (tl.questionAs.isSound()) {
 			if (tl.canBeMelody())
-				tmp += "m";
+				tmp += QLatin1String("m");
 			else
 				tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
 		}
-    int fontSize = heightOfA(this) * 1.3;
+    int fontSize = fontMetrics().height() * 1.3;
     S += TnooFont::span(tmp, fontSize);
-    S += "</td></tr>";
-    tmp   = "";
-    S += "<tr><td>" + TquestionAsWdg::answersTxt() + ": </td><td align=\"center\">"; // ANSWERS
+    S += TDTREnd;
+    tmp.clear();
+    S += TRTD + TquestionAsWdg::answersTxt() + QLatin1String(": </td><td align=\"center\">"); // ANSWERS
     if (tl.answerIsNote())
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + " ";
+            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asNote) + space;
     if (tl.answerIsName())
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + " ";
+            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asName) + space;
     if (tl.answerIsGuitar())
-            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + " ";
+            tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asFretPos) + space;
     if (tl.answerIsSound()) {
 			if (tl.canBeMelody())
-				tmp += "m";
+				tmp += QLatin1String("m");
 			else
 				tmp += TquestionAsWdg::qaTypeSymbol(TQAtype::e_asSound);
 		}
     S += TnooFont::span(tmp, fontSize);
-    S += "</td></tr>";
+    S += TDTREnd;
     if (tl.canBeName() || tl.canBeScore() || tl.canBeSound()) {
-      S += "<tr><td colspan=\"2\" align=\"center\">";
+      S += QLatin1String("<tr><td colspan=\"2\" align=\"center\">");
       if (tl.requireOctave)
           S += tr("proper octave is required");
       else
           S += tr("octave does no matter");
-      S += "</td></tr>";
+      S += TDTREnd;
     }
-    S += "</table></center>";
-    S.replace("_ROW_SPAN_", QString("%1").arg(S.count("<tr>")));
-		S += "<br><br>" + tl.desc;
+    S += QLatin1String("</table></center>");
+    S.replace(QLatin1String("_ROW_SPAN_"), QString("%1").arg(S.count(QLatin1String("<tr>"))));
+		S += QLatin1String("<br><br>") + tl.desc;
 		m_summaryEdit->setHtml(S);
 }
 
 
 void TlevelPreview::adjustToHeight() {
-	m_summaryEdit->setFixedHeight((m_summaryEdit->document()->toHtml().count("<tr>") + 3) * (heightOfA(this) + 7));
+	m_summaryEdit->setFixedHeight((m_summaryEdit->document()->toHtml().count(QLatin1String("<tr>")) + 3) * (fontMetrics().height() + 7));
 }
 
 //##########################################################################################################
@@ -225,7 +229,7 @@ void TlevelPreview::paintEvent(QPaintEvent* ) {
 
 
 void TlevelPreview::linkToFixLevel(QUrl url) {
-	if (url.toString() == "fixInstrument")
+	if (url.toString() == QLatin1String("fixInstrument"))
 		emit instrumentLevelToFix();
 }
 
