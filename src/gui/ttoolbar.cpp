@@ -166,7 +166,7 @@ void TtoolBar::actionsAfterExam() {
 	levelCreatorAct->setStatusTip(tr("Levels creator"));
 	levelCreatorAct->setIcon(QIcon(Tpath::img("levelCreator")));
 
-	startExamAct->setText(tr("Start!"));
+	startExamAct->setText(tr("Lessons"));
 	startExamAct->setStatusTip(tr("Start exercises or an exam"));
 	startExamAct->setIcon(QIcon(Tpath::img("startExam")));
 	

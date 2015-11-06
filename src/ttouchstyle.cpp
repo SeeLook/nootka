@@ -22,7 +22,7 @@
 #include <QtCore/qdebug.h>
 
 TtouchStyle::TtouchStyle() :
-  QProxyStyle(QStyleFactory::create("Fusion"))
+  QProxyStyle(QStyleFactory::create("Fusion")) // android style is weird
 {
   qApp->setStyleSheet(
         QString("QMenu::item { height: %1px; margin: 5px; padding: 4px 10px 4px %2px; min-width: %3px; }").
@@ -63,6 +63,14 @@ int TtouchStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption* opt
   case PM_IndicatorHeight: // check box size
   case PM_IndicatorWidth:
     return Tmtr::fingerPixels() * 0.5;
+  case PM_LayoutLeftMargin:
+  case PM_LayoutRightMargin:
+  case PM_LayoutBottomMargin:
+  case PM_LayoutTopMargin:
+//   case PM_ButtonMargin:
+//   case PM_DefaultChildMargin:
+//   case PM_DefaultTopLevelMargin:
+    return 4;
 
   case PM_ExclusiveIndicatorHeight: // radio button ellipse size
   case PM_ExclusiveIndicatorWidth:
