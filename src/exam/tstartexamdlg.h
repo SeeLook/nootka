@@ -54,7 +54,13 @@ public:
   Eactions showDialog(QString &txt, Tlevel &lev);
 
       /** Returns system user name (log-in name)  */
-  static QString systemUserName() { return qgetenv("USERNAME"); }
+  static QString systemUserName() {
+#if defined(Q_OS_WIN32)
+      return qgetenv("USERNAME");
+#else
+      return qgetenv("USER");
+#endif
+  }
 
 
 private:
