@@ -58,18 +58,21 @@ QString TlevelSelector::checkLevel(Tlevel& l) {
 TlevelSelector::TlevelSelector(QWidget *parent) :
 	QWidget(parent)
 {
-	QLabel *levLab = new QLabel(levelFilterTxt() + ":",this);
+	QLabel *levLab = new QLabel(levelFilterTxt() + QLatin1String(":"), this);
 	m_levelsListWdg = new QListWidget(this);
 		m_levelsListWdg->setMouseTracking(true);
+    m_levelsListWdg->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 #if defined (Q_OS_ANDROID)
-		m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 15);
-    m_levelsListWdg->setFixedHeight(qApp->desktop()->availableGeometry().height() * 0.7);
+		m_levelsListWdg->setMinimumWidth(fontMetrics().boundingRect(QStringLiteral("W")).width() * 15);
+    m_levelsListWdg->setMaximumWidth(qApp->desktop()->availableGeometry().width() * 0.45);
+    m_levelsListWdg->setMaximumHeight(qApp->desktop()->availableGeometry().height() * 0.7);
     m_levelsListWdg->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_levelsListWdg->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #else
-    m_levelsListWdg->setFixedWidth(fontMetrics().boundingRect("W").width() * 20);
+    m_levelsListWdg->setMinimumWidth(fontMetrics().boundingRect(QStringLiteral("W")).width() * 20);
+    m_levelsListWdg->setMinimumHeight(fontMetrics().height() * 8); // to see four items at least
 #endif
-		m_levelsListWdg->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+		m_levelsListWdg->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
 	m_loadBut = new QPushButton(tr("Load"), this);
 		m_loadBut->setStatusTip(tr("Load level from file"));
@@ -82,7 +85,7 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
     m_removeButt->setIconSize(QSize(22, 22));
     m_loadBut->setIconSize(QSize(22, 22));
 #endif
-	
+
 	m_levelPreview = new TlevelPreview(this);
 #if !defined (Q_OS_ANDROID)
 	m_levelPreview->setFixInstrEnabled(true);
@@ -91,9 +94,9 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 
 	QHBoxLayout *mainLay = new QHBoxLayout;
 	QVBoxLayout *levLay = new QVBoxLayout;
+    levLay->setContentsMargins(0, 0, 0, 0);
 		levLay->addWidget(levLab);
-		levLay->addWidget(m_levelsListWdg, 0, Qt::AlignCenter);
-		levLay->addStretch();
+		levLay->addWidget(m_levelsListWdg);
 		QHBoxLayout *buttLay = new QHBoxLayout;
 			buttLay->addWidget(m_loadBut);
 			buttLay->addWidget(m_removeButt);
