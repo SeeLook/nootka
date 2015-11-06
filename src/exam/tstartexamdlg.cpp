@@ -30,131 +30,186 @@
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
   #include <widgets/tfiledialog.h>
+  #include <tmtr.h>
 #endif
-#include <QtWidgets>
-#include <stdlib.h> // for getenv()
-
-QString TstartExamDlg::systemUserName() {
-#if defined(Q_OS_WIN32)
-        return QString::fromLocal8Bit(getenv("USERNAME"));
-#else
-        return QString::fromLocal8Bit(getenv("USER"));
-#endif
-}
+#include <QtWidgets/QtWidgets>
 
 
-QString statusTipText;
 TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidget* parent) :
   QDialog(parent),
   m_Acction(e_none),
   m_examParams(examParams),
-  m_selectedExamFile("")
+  m_selectedExamFile(QString())
 {
 #if defined (Q_OS_ANDROID)
   showMaximized();
+  m_sideButtSize = Tmtr::fingerPixels() * 0.8;
 #else
   setWindowTitle(tr("Start exercises or an exam"));
+  m_sideButtSize = qMin<int>(fontMetrics().height() * 2.5, qApp->desktop()->height() / 16);
 #endif
 
-  QVBoxLayout *levLay = new QVBoxLayout;
-  QHBoxLayout *nameLay = new QHBoxLayout;
-  QLabel *nameLab = new QLabel(tr("student name:"), this);
-  nameLay->addWidget(nameLab);
+  const QString selectLevelText(tr("Select a level suitable for you<br>or create new one."));
+  auto nameLab = new QLabel(tr("student name:"), this);
   m_nameEdit = new QLineEdit(nick, this);
-  if (nick == "")
+  if (nick.isEmpty())
     m_nameEdit->setText(systemUserName());
-  m_nameEdit->setMaxLength(30);
+  m_nameEdit->setMaxLength(40);
     m_nameEdit->setStatusTip(tr("Enter your name or nick-name."));
-    nameLay->addWidget(m_nameEdit);
-  levLay->addLayout(nameLay);
+  if (m_nameEdit->text().isEmpty()) // when still there is no user name - put gray text of status tip
+    m_nameEdit->setPlaceholderText(m_nameEdit->statusTip());
+
+// 2nd layout with level selector/preview ===================================
   m_levelsView = new TlevelSelector(this);
   m_levelsView->disableNotSuitable();
-  levLay->addWidget(m_levelsView);
-  QLabel *moreLab = new QLabel(TexTrans::moreLevelLinkTxt(), this);
-    moreLab->setOpenExternalLinks(true);
-    levLay->addWidget(moreLab, 0, Qt::AlignCenter);
-  levelGr = new QGroupBox(this);
-    levelGr->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
-    levelGr->setLayout(levLay);
+#if defined (Q_OS_ANDROID)
+  m_levelsView->setMinimumHeight(Tmtr::shortScreenSide() * 0.6);
+#endif
 
-  m_createLevelButt = new QPushButton(this);
+  auto moreLab = new QLabel(TexTrans::moreLevelLinkTxt(), this);
+    moreLab->setOpenExternalLinks(true);
+
+  m_createLevelButt = new QPushButton(tr("Create new level"), this);
     m_createLevelButt->setStatusTip(tr("Dialog window for creating new level<br>will be opened."));
     m_createLevelButt->setIcon(QIcon(Tpath::img("levelCreator")));
     setIconSize(m_createLevelButt);
-  QLabel *newLevelLab = new QLabel(tr("Create new level").replace(" ", "<br>"), this);
-    newLevelLab->setAlignment(Qt::AlignCenter);
-    newLevelLab->setStatusTip(m_createLevelButt->statusTip());
+    m_createLevelButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+// ============================================================================
+#if defined (Q_OS_ANDROID)
+  m_selectLevelBut = new QPushButton(this);
+    m_selectLevelBut->setText(selectLevelText.left(selectLevelText.indexOf(QLatin1String("<br>"))));
+    m_selectLevelBut->setIcon(QIcon(Tpath::img("nootka-level")));
+    setIconSize(m_selectLevelBut);
+#endif
 
-  m_exerciseButt = new QPushButton(tr("exercises"));
+  m_exerciseButt = new QPushButton(tr("Start exercise on level:"));
     m_exerciseButt->setIcon(QIcon(Tpath::img("practice")));
     setIconSize(m_exerciseButt);
+    m_exerciseButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+  m_exerLevelLab = new QLabel(this);
+    m_exerLevelLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+#if defined (Q_OS_ANDROID)
+    m_exerLevelLab->setAlignment(Qt::AlignCenter);
+#else
+    m_exerLevelLab->setAlignment(Qt::AlignLeft);
+#endif
 
   m_examMenu = new QMenu("open exam file", this);
-  m_newExamButt = new QPushButton(tr("pass new exam"), this);
+  m_newExamButt = new QPushButton(tr("Pass new exam on level:"), this);
     m_newExamButt->setIcon(QIcon(Tpath::img("exam")));
     setIconSize(m_newExamButt);
-  m_contExamButt = new QPushButton(tr("continue exam"), this);
+    m_newExamButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+  m_examLevelLab = new QLabel(this);
+    m_examLevelLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+#if defined (Q_OS_ANDROID)
+    m_examLevelLab->setAlignment(Qt::AlignCenter);
+#else
+    m_examLevelLab->setAlignment(Qt::AlignLeft);
+#endif
+
+  m_contExamButt = new QPushButton(tr("Continue exam"), this);
     m_contExamButt->setIcon(QIcon(Tpath::img("exam")));
     setIconSize(m_contExamButt);
     m_contExamButt->setStatusTip(tr("Click and select an exam to continue"));
     m_contExamButt->setMenu(m_examMenu);
-  m_lastExamButt = new QPushButton(QIcon(Tpath::img("exam")), "", this);
+    m_contExamButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+  m_lastExamButt = new QPushButton(QIcon(Tpath::img("exam")), tr("Latest exam"), this);
     setIconSize(m_lastExamButt);
-    m_lastExamButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+//     m_lastExamButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   m_helpButt = new QPushButton(this);
     m_helpButt->setIcon(QIcon(Tpath::img("help")));
-    m_helpButt->setStatusTip(tr("Help"));
+    m_helpButt->setStatusTip(QApplication::translate("QShortcut", "Help"));
     m_helpButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setIconSize(m_helpButt);
   m_cancelBut = new QPushButton(this);
     m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-    m_cancelBut->setStatusTip(tr("Discard"));
+    m_cancelBut->setStatusTip(QApplication::translate("QPlatformTheme", "Discard"));
     m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setIconSize(m_cancelBut);
 
   m_hintLabel = new TroundedLabel(this);
-  m_hintLabel->setFixedHeight(70);
+  m_hintLabel->setFixedHeight(fontMetrics().height() * 5);
   m_hintLabel->setWordWrap(true);
+#if !defined (Q_OS_ANDROID)
+  m_cancelBut->setFixedHeight(m_hintLabel->height());
+#endif
 
+// Main layout
+  auto mainLay = new QVBoxLayout;
+    auto topLay = new QHBoxLayout;
+      topLay->addWidget(m_helpButt);
+      topLay->addWidget(nameLab);
+      topLay->addWidget(m_nameEdit);
+#if defined (Q_OS_ANDROID)
+      topLay->addWidget(m_cancelBut);
+#endif
+  mainLay->addLayout(topLay);
+#if defined (Q_OS_ANDROID)
+  mainLay->addWidget(m_selectLevelBut);
+  mainLay->addStretch();
+#endif
 
-  QHBoxLayout *upperLay = new QHBoxLayout;
-    upperLay->addWidget(levelGr);
-    QVBoxLayout *helpLevelLay = new QVBoxLayout;
-      helpLevelLay->addWidget(m_helpButt);
-      helpLevelLay->addStretch(1);
-      helpLevelLay->addWidget(m_createLevelButt);
-      helpLevelLay->addWidget(newLevelLab);
-      helpLevelLay->addStretch(1);
-      helpLevelLay->addWidget(m_cancelBut);
-    upperLay->addLayout(helpLevelLay);
-  QVBoxLayout *mainLay = new QVBoxLayout;
-    mainLay->addLayout(upperLay);
-    QHBoxLayout *exerciseLay = new QHBoxLayout;
-      exerciseLay->addSpacing(40);
-      exerciseLay->addWidget(m_exerciseButt);
-      exerciseLay->addSpacing(40);
-    mainLay->addLayout(exerciseLay);
-  QHBoxLayout *examLay = new QHBoxLayout;
-    examLay->addWidget(m_newExamButt);
-    examLay->addWidget(m_contExamButt);
-    examLay->addWidget(m_lastExamButt);
-  mainLay->addLayout(examLay);
-  mainLay->addWidget(m_hintLabel);
+// -------- level selector and preview (under mobile hidden at the beginning)
+  auto levelsLay = new QVBoxLayout;
+  levelsLay->addWidget(m_levelsView);
+#if defined (Q_OS_ANDROID)
+    auto moreLay = new QVBoxLayout;
+      moreLay->addWidget(moreLab, 0, Qt::AlignCenter);
+#else
+    auto moreLay = new QHBoxLayout;
+      moreLay->addWidget(moreLab);
+#endif
+      moreLay->addWidget(m_createLevelButt);
+  levelsLay->addLayout(moreLay);
+  auto levelsBox = new QWidget(this);
+    levelsLay->setContentsMargins(0, 0, 0, 0);
+    levelsBox->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
+    levelsBox->setLayout(levelsLay);
+#if defined (Q_OS_ANDROID)
+    levelsBox->hide();
+#endif
+// --------
+  mainLay->addWidget(levelsBox);
+#if defined (Q_OS_ANDROID) // Mobile has button then its label vertically
+  mainLay->addWidget(m_exerciseButt);
+  mainLay->addWidget(m_exerLevelLab);
+  mainLay->addStretch();
+  mainLay->addWidget(m_newExamButt);
+  mainLay->addWidget(m_examLevelLab);
+  mainLay->addStretch();
+#else // Desktop has | Button | Label | in two rows
+  auto buttonsLay = new QGridLayout;
+    buttonsLay->addWidget(m_exerciseButt, 0, 0);
+    buttonsLay->addWidget(m_exerLevelLab, 0, 1);
+    buttonsLay->addWidget(m_newExamButt, 1, 0);
+    buttonsLay->addWidget(m_examLevelLab, 1, 1);
+    mainLay->addLayout(buttonsLay);
+#endif
+  auto examsLay = new QHBoxLayout;
+    examsLay->addWidget(m_contExamButt);
+    examsLay->addWidget(m_lastExamButt);
+  mainLay->addLayout(examsLay);
 
 #if defined (Q_OS_ANDROID)
   m_hintLabel->hide();
-  auto *touchArea = new TtouchArea(this);
+  mainLay->addStretch();
+  auto touchArea = new TtouchArea(this);
   touchArea->setLayout(mainLay);
-  auto *mobileLay = new QVBoxLayout;
+  auto mobileLay = new QVBoxLayout;
   mobileLay->addWidget(touchArea);
   setLayout(mobileLay);
 #else
+  auto bottomLay = new QHBoxLayout;
+    bottomLay->addWidget(m_hintLabel);
+    bottomLay->addWidget(m_cancelBut);
+  mainLay->addLayout(bottomLay);
   setLayout(mainLay);
 #endif
 
-  statusTipText = tr("To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file." );
-  m_hintLabel->setStatusTip("<b>" + statusTipText + "</b>");
+#if !defined (Q_OS_ANDROID)
+  m_hintLabel->setStatusTip("<b>" + tr("To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file." ) + "</b>");
+#endif
 
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
   QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
@@ -163,13 +218,16 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 #endif
   QAction *loadExamAct = new QAction(TexTrans::loadExamFileTxt(), this);
     loadExamAct->setIcon(QIcon(Tpath::img("nootka-exam")));
+#if !defined (Q_OS_ANDROID)
     loadExamAct->setShortcut(QKeySequence::Open);
+#endif
     connect(loadExamAct, SIGNAL(triggered(bool)), this, SLOT(examFromFileDialog()));
   m_examMenu->addAction(loadExamAct);
   m_examMenu->addSeparator();
   m_examMenu->addAction(tr("recent opened exams:"));
 
-  m_recentExams = sett.value("recentExams").toStringList();
+  const QString recentExams(QStringLiteral("recentExams"));
+  m_recentExams = sett.value(recentExams).toStringList();
   for (int i = 0; i < m_recentExams.size(); i++) {
       QFileInfo fi(m_recentExams[i]);
       if (fi.exists()) {
@@ -181,27 +239,24 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
           m_recentExams.removeAt(i);
   }
   if (m_recentExams.size()) {
-      sett.setValue("recentExams", m_recentExams);
+      sett.setValue(recentExams, m_recentExams);
   }
 
-  updateButtonStatusText("");
   QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise.noo");
-  m_prevExerciseLevel.name = ""; // empty means - no previous level
+  m_prevExerciseLevel.name.clear(); // empty means - no previous level
   if (QFileInfo(exerciseFile).exists()) {
-      Texam exam(&m_prevExerciseLevel, "");
+      Texam exam(&m_prevExerciseLevel, QString());
       Texam::EerrorType err = exam.loadFromFile(exerciseFile);
       if (err != Texam::e_file_OK && err != Texam::e_file_corrupted) {
           qDebug() << "exercise file was corrupted... and deleted...";
           QFile::remove(exerciseFile);
       }
   }
-  if (TlevelSelector::checkLevel(m_prevExerciseLevel) != "")
-      m_prevExerciseLevel.name = ""; // Returned string means that the level doesn't match to current settings
-  if (m_prevExerciseLevel.name != "")
-      m_exerciseButt->setStatusTip(tr("Start exercise on level:") + "<br><b>" + m_prevExerciseLevel.name + "</b>");
+  if (!TlevelSelector::checkLevel(m_prevExerciseLevel).isEmpty())
+      m_prevExerciseLevel.name.clear(); // Returned string means that the level doesn't match to current settings
 
   if (m_recentExams.size())
-      m_lastExamButt->setStatusTip(tr("Continue the latest exam:") + "<br><b>" + m_recentExams.at(0) + "</b>");
+      m_lastExamButt->setStatusTip(tr("Continue the latest exam:") + QLatin1String("<br><b>") + m_recentExams.at(0) + QLatin1String("</b>"));
   else
       m_lastExamButt->hide();
 
@@ -214,9 +269,21 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   connect(m_exerciseButt, SIGNAL(clicked()), this, SLOT(startAccepted()));
   connect(m_levelsView, SIGNAL(levelChanged(Tlevel)), this, SLOT(levelWasSelected(Tlevel)));
   connect(m_helpButt,  SIGNAL(clicked()), this, SLOT(helpSelected()));
+#if defined (Q_OS_ANDROID)
+  connect(m_selectLevelBut, &QPushButton::clicked, [=] { levelsBox->setVisible(!levelsBox->isVisible()); });
+#endif
+
+  QTimer::singleShot(10, [=] {
+      updateButtonStatusText(QString());
+      if (!m_prevExerciseLevel.name.isEmpty()) {
+          m_exerciseButt->setStatusTip(tr("Start exercise on level:") + QLatin1String("<br><b>") +
+                                    m_prevExerciseLevel.name + QLatin1String("</b>"));
+          m_exerLevelLab->setText(QLatin1String("<b>") + m_prevExerciseLevel.name + QLatin1String("</b>"));
+      }
+  });
 
   if (m_examParams->showVeryBeginHelp)
-    QTimer::singleShot(10, this, SLOT(helpSelected()));
+    QTimer::singleShot(100, this, SLOT(helpSelected()));
 }
 
 
@@ -225,13 +292,13 @@ TstartExamDlg::Eactions TstartExamDlg::showDialog(QString &txt, Tlevel &lev) {
     if (result() == QDialog::Accepted) {
         if (m_Acction == e_newExam || m_Acction == e_runExercise) {
             txt = m_nameEdit->text();
-						if (m_prevExerciseLevel.name == "")
+						if (m_prevExerciseLevel.name.isEmpty())
 								lev = m_levelsView->getSelectedLevel();
 						else
 								lev = m_prevExerciseLevel;
             return m_Acction;
         } else if (m_Acction == e_contExam) {
-            if (m_selectedExamFile != "") {
+            if (!m_selectedExamFile.isEmpty()) {
                 txt = m_selectedExamFile;
                 return e_contExam;
             } else
@@ -266,8 +333,8 @@ void TstartExamDlg::continueTheLast() {
 
 bool TstartExamDlg::isAnyLevelSelected() {
 	Tlevel l = m_levelsView->getSelectedLevel();
-	if (l.name == "") { // nothing selected
-			QMessageBox::warning(this, "Nootka", tr("No level was selected!"));
+	if (l.name.isEmpty()) { // nothing selected
+			QMessageBox::warning(this, QStringLiteral("Nootka"), tr("No level was selected!"));
 			return false;
 	}
 	return true;
@@ -278,27 +345,32 @@ void TstartExamDlg::startAccepted() {
     if (sender() == m_newExamButt) { // new exam on selected level
         if (!isAnyLevelSelected())
             return;
-				if (m_nameEdit->text() == "") {
-						QMessageBox::warning(this, "", tr("Give a user name!"));
+				if (m_nameEdit->text().isEmpty()) {
+						giveUserNameMessage();
 						return;
 				}
 				m_Acction = e_newExam;
 				accept();
     } else if (sender() == m_exerciseButt) { // exercise on selected level or previous one
-				if (m_prevExerciseLevel.name == "" && !isAnyLevelSelected())
+				if (m_prevExerciseLevel.name.isEmpty() && !isAnyLevelSelected())
 					return;
-				if (m_nameEdit->text() == "") {
-						QMessageBox::warning(this, "", tr("Give a user name!"));
+				if (m_nameEdit->text().isEmpty()) {
+						giveUserNameMessage();
 						return;
 				}
 				m_Acction = e_runExercise;
 				accept();
     } else { // exam to continue
-				if (m_selectedExamFile != "")    {
+				if (!m_selectedExamFile.isEmpty())    {
 					m_Acction = e_contExam;
 					accept();
 			}
     }
+}
+
+
+void TstartExamDlg::giveUserNameMessage() {
+  QMessageBox::warning(this, QString(), tr("Give a user name!"));
 }
 
 
@@ -327,8 +399,8 @@ void TstartExamDlg::examFromFileDialog() {
 }
 
 
-void TstartExamDlg::examToContSelected(QString eFile) {
-  if (eFile != "") {
+void TstartExamDlg::examToContSelected(const QString& eFile) {
+  if (!eFile.isEmpty()) {
       m_examParams->examsDir = QFileInfo(eFile).absoluteDir().absolutePath();
       m_recentExams.prepend(eFile);
       m_selectedExamFile = eFile;
@@ -340,21 +412,22 @@ void TstartExamDlg::examToContSelected(QString eFile) {
 
 void TstartExamDlg::updateButtonStatusText(const QString& levelName) {
 	QString statusText;
-	if (levelName == "") {
-			statusText += tr("No level was selected!");
-	}	else {
-			statusText += levelName;
-	}
-	statusText.prepend("<br><b>");
-	statusText.append("</b>");
-	m_newExamButt->setStatusTip(tr("Pass new exam on level:") + statusText);
-	m_exerciseButt->setStatusTip(tr("Start exercise on level:") + statusText);
+  if (levelName.isEmpty())
+      statusText += tr("No level was selected!");
+  else
+      statusText += levelName;
+  statusText.prepend(QLatin1String("<br><b>"));
+  statusText.append(QLatin1String("</b>"));
+  m_newExamButt->setStatusTip(tr("Pass new exam on level:") + statusText);
+  m_exerciseButt->setStatusTip(tr("Start exercise on level:") + statusText);
+  m_exerLevelLab->setText(statusText);
+  m_examLevelLab->setText(statusText);
 }
 
 
 void TstartExamDlg::levelWasSelected(Tlevel level) {
-	m_prevExerciseLevel.name = ""; // Reset the name - now level is taken from selection 
-	updateButtonStatusText(level.name);		
+	m_prevExerciseLevel.name.clear(); // Reset the name - now level is taken from selection 
+	updateButtonStatusText(level.name);
 }
 
 
@@ -365,14 +438,14 @@ void TstartExamDlg::helpSelected() {
 #else
   help->setFixedSize(width(), height() * 0.8);
 #endif
-  QString ht = "<center><h2>" + help->pix("practice", 64) + " " + tr("To exercise or to pass an exam?") + " " +
-  help->pix("exam", 64) + "</h2>" +
-  TmainHelp::youWillLearnText() + "<br><br>" +
-  "</center><table><tr><td style=\"padding: 10px;\" align=\"center\">" +
-  TmainHelp::duringExercisingText() + "<br>" + TexamHelp::exerciseFeaturesText() +
-  "</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">" +
-  TmainHelp::duringExamsText() + "<br>" + TexamHelp::examFeaturesText() + "</td></tr></table>" +
-  help->onlineDocP("start-exam");
+  QLatin1String br("<br>");
+  QString ht = QLatin1String("<center><h2>") + help->pix("practice", 64) + QLatin1String(" ") + tr("To exercise or to pass an exam?") +
+  QLatin1String(" ") + help->pix("exam", 64) + QLatin1String("</h2>") + TmainHelp::youWillLearnText() + br + br +
+  QLatin1String("</center><table><tr><td style=\"padding: 10px;\" align=\"center\">") +
+  TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() +
+  QLatin1String("</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">") +
+  TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText() + QLatin1String("</td></tr></table>") +
+  help->onlineDocP(QStringLiteral("start-exam"));
 
   help->helpText()->setHtml(ht);
   help->showCheckBox(&m_examParams->showVeryBeginHelp);
@@ -381,10 +454,6 @@ void TstartExamDlg::helpSelected() {
   delete help;
 }
 
-
-void TstartExamDlg::setIconSize(QPushButton* button) {
-	button->setIconSize(QSize(48, 48));
-}
 
 
 
