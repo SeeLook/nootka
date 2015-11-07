@@ -84,6 +84,11 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
 				setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 				m_currentIndex = 0;
         m_selectReadOnly = false;
+        if (!m_fakeLines.isEmpty()) {
+          for (int i = 0 ; i < m_fakeLines.size(); ++i)
+            delete m_fakeLines[i];
+          m_fakeLines.clear();
+        }
 		} else {
 				staff()->setStafNumber(0);
 				staff()->removeNote(2);
