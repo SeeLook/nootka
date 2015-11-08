@@ -698,15 +698,15 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	markAnswer(curQ);
 	int waitTime = gl->E->questionDelay;
 	if (m_exercise) {
-    if (gl->E->afterMistake != TexamParams::e_continue || gl->E->showCorrected)
+    if ((gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_continue) || !gl->E->autoNextQuest || gl->E->showCorrected)
       waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
     m_exercise->checkAnswer();
     if (!curQ->isCorrect()) { // correcting wrong answer
         if (gl->E->showCorrected) // TODO for dictation it should always stop and show mistakes
           correctAnswer();
         else {
-          if (gl->E->afterMistake == TexamParams::e_stop) // user doesn't want corrections - show too button only when exam stops after mistake
-              mW->bar->addAction(mW->bar->correctAct);
+          if (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake == TexamParams::e_stop))
+              mW->bar->addAction(mW->bar->correctAct); // show too button only when exam stops after mistake
           if (!autoNext) {
               m_canvas->whatNextTip(true, true);
               m_lockRightButt = false;
