@@ -542,11 +542,12 @@ void MainWindow::adjustAmbitus() {
 
 bool updaterStoppedSound = false;
 void MainWindow::updaterMessagesSlot(const QString& m) {
-	if (m.contains("No need") || m.contains("finished") || m.contains("error occurred")) {
+	if (m.contains(QLatin1String("offline")) || m.contains(QLatin1String("No need")) ||
+      m.contains(QLatin1String("finished")) || m.contains(QLatin1String("error occurred"))) {
 		m_updaterPlugin->deleteLater();
     if (updaterStoppedSound)
       sound->go();
-  } else if (m.contains("success") && !sound->isSnifferPaused()) {
+  } else if (m.contains(QLatin1String("success")) && !sound->isSnifferPaused()) {
     sound->wait();
     updaterStoppedSound = true;
   }
