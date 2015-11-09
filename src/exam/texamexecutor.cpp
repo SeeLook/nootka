@@ -1359,9 +1359,9 @@ bool TexamExecutor::closeNootka() {
 QString TexamExecutor::saveExamToFile() {
   QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
   if (fileName.isEmpty()) {
-      auto msg = new QMessageBox(mW);
+      QMessageBox *msg = new QMessageBox(mW);
       msg->setText(tr("If you don't save to file<br>you lost all results!"));
-      auto saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
+      QPushButton *saveButt = msg->addButton(tr("Save"), QMessageBox::ApplyRole);
       msg->addButton(tr("Discard"), QMessageBox::RejectRole);
       msg->exec();
       if (msg->clickedButton() == saveButt)

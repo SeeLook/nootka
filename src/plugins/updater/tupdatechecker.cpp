@@ -18,6 +18,7 @@
 
 
 #include "tupdatechecker.h"
+#include <nootkaconfig.h>
 #include <QMessageBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -34,30 +35,33 @@ TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
   getUpdateRules(m_updateRules);
 
   m_netManager = new QNetworkAccessManager(qApp);
-  connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
-//   connect(this, &TupdateChecker::communicate, this, &TupdateChecker::communicateSlot);
+  if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible)
+    connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
 }
 
 
 void TupdateChecker::check(bool checkRules){
-  m_respectRules = checkRules;
-  if (!m_respectRules)
-    emit communicate(tr("Checking for updates. Please wait..."));
-  if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-      QNetworkRequest request(QUrl("http://nootka.sldc.pl/ch/version.php"));
-      // This is additional hosting to improve updates system. It is much faster than sf.net
-//         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
-#if defined(Q_OS_WIN32)
-        request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E)");
-#elif defined(Q_OS_LINUX)
-        request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; U; Linux i686 (x86_64); ");
-#else
-        request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
-#endif
-        m_reply = m_netManager->get(request);
-        connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
+  if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible) {
+    m_respectRules = checkRules;
+    if (!m_respectRules)
+      emit communicate(tr("Checking for updates. Please wait..."));
+    if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
+        QNetworkRequest request(QUrl(QString("http://nootka.sldc.pl/ch/version.php?v=%1").arg(QLatin1String(NOOTKA_VERSION))));
+        // This is additional hosting to improve updates system. It is much faster than sf.net
+        //         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
+  #if defined(Q_OS_WIN32)
+          request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E)");
+  #elif defined(Q_OS_LINUX)
+          request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux i686 (x86_64); ");
+  #else
+          request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
+  #endif
+          m_reply = m_netManager->get(request);
+          connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
+    } else
+        emit communicate("No need for updates");
   } else
-			emit communicate("No need for updates");
+      emit communicate(QLatin1String("offline"));
 }
 
 
