@@ -97,14 +97,14 @@ MainWindow::MainWindow(QWidget *parent) :
   setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
 
   if (gl->isFirstRun) {
-      TpluginsLoader *loader = new TpluginsLoader();
-      if (loader->load(TpluginsLoader::e_wizard)) {
-        loader->init(QString(), this);
+      TpluginsLoader *wizardLoader = new TpluginsLoader();
+      if (wizardLoader->load(TpluginsLoader::e_wizard)) {
+        wizardLoader->init(QString(), this);
       }
-      delete loader;
+      delete wizardLoader;
       gl->isFirstRun = false;
   } else { // show support window once but not with first run wizard
-      QString newVersion = gl->config->value("version", "").toString();
+      QString newVersion = gl->config->value("version", QString()).toString();
       if (newVersion != gl->version) {
         QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
       } else { // check for updates
@@ -536,7 +536,8 @@ void MainWindow::showSupportDialog() {
 
 void MainWindow::updaterMessagesSlot(const QString& m) {
 #if !defined (Q_OS_ANDROID)
-  if (m.contains("No need") || m.contains("finished") || m.contains("error occurred")) {
+  if (m.contains(QLatin1String("offline")) || m.contains(QLatin1String("No need")) ||
+      m.contains(QLatin1String("finished")) || m.contains(QLatin1String("error occurred"))) {
     m_updaterPlugin->deleteLater();
     if (m_updaterStoppedSound)
       sound->go();
