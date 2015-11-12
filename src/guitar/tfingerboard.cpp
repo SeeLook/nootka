@@ -1020,7 +1020,6 @@ void TfingerBoard::strikeBlinkingFinished() {
 		m_strikeOut->hide();
 		m_strikeOut->deleteLater();
 		m_strikeOut = 0;
-// 		markAnswer(Qt::transparent);
 		deleteNoteName();
 		bool isLine = false, toLine;
 		qreal strWidth = 0.0;
@@ -1074,8 +1073,7 @@ void TfingerBoard::strikeBlinkingFinished() {
 						endPos = stringLine(m_goodPos.str()).p1();
 					else
 						endPos = fretToPos(m_goodPos);
-		}
-// 		connect(m_animation, SIGNAL(finished()), this, SLOT(finishCorrection()));
+		};
 		m_animation->setMoving(startPos, endPos);
 		m_animation->moving()->setEasingCurveType(QEasingCurve::OutExpo);
 		if (strWidth != 0.0) {
@@ -1086,7 +1084,9 @@ void TfingerBoard::strikeBlinkingFinished() {
 				m_animation->scaling()->setEasingCurveType(QEasingCurve::OutExpo);
 		}
 		m_animation->startAnimations();
-		QTimer::singleShot(m_animation->duration() + 100, this, SLOT(finishCorrection()));
+    connect(m_animation, &TcombinedAnim::finished, [=] {
+                QTimer::singleShot(20, [=] { finishCorrection(); });
+    });
 }
 
 
