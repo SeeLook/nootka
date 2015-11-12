@@ -26,16 +26,16 @@
 #include <animations/tcombinedanim.h>
 #include <music/tnote.h>
 #include <tnoofont.h>
-#include <QEasingCurve>
-#include <QGraphicsEffect>
-#include <QGraphicsSceneHoverEvent>
-#include <QPainter>
-#include <QApplication>
-#include <QPalette>
-#include <QTimer>
-#include <QTouchEvent>
+#include <QtCore/qeasingcurve.h>
+#include <QtWidgets/qgraphicseffect.h>
+#include <QtWidgets/qgraphicssceneevent.h>
+#include <QtGui/qpainter.h>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qpalette.h>
+#include <QtCore/qtimer.h>
+#include <QtGui/qevent.h>
 
-#include <QDebug>
+#include <QtCore/qdebug.h>
 
 #define SHORT_TAP_TIME (150) // 150 ms takes short tap - otherwise note is edited
 
@@ -60,8 +60,8 @@ QGraphicsEllipseItem* TscoreNote::createNoteHead(QGraphicsItem* parentIt) {
 /** To avoid creating many tips - each one for every instance and waste RAM
  * this text exist as static variable 
  * and TscoreNote manages itself when status tip is necessary to be displayed. */
-QString TscoreNote::m_staticTip = "";
-QString m_selectedTip = "";
+QString TscoreNote::m_staticTip = QString();
+QString m_selectedTip = QString();
 
 
 //#################################################################################################
@@ -122,7 +122,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainAccid->setScale(scoreScene()->accidScale());
 	if (prepareScale) {
 			scoreScene()->setAccidYoffset(m_mainAccid->boundingRect().height() * scoreScene()->accidScale() * 0.34);
-			m_mainAccid->setText("");
+			m_mainAccid->setText(QString());
 	}
 	m_mainAccid->setPos(-3.0, - scoreScene()->accidYoffset());
 	
@@ -131,7 +131,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	
   setColor(m_mainColor);
   m_mainNote->setZValue(34); // under
-  m_mainAccid->setZValue(m_mainNote->zValue());
+  m_mainAccid->setZValue(m_mainNote->zValue() - 1);
   if (staff->isPianoStaff())
 		setAmbitus(40, 2);
 	else
@@ -184,7 +184,7 @@ void TscoreNote::moveNote(int posY) {
   bool theSame = (posY == m_mainPosY);
   if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
       hideNote();
-      m_mainAccid->setText("");
+      m_mainAccid->setText(QString());
       m_accidental = 0;
       return;
   }
@@ -214,7 +214,7 @@ void TscoreNote::moveNote(int posY) {
           if (staff()->extraAccids()) // accidental from key signature in braces
             newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));
           else
-            newAccid = ""; // hide accidental
+            newAccid.clear(); // hide accidental
         }
     }
   }
@@ -478,7 +478,7 @@ void TscoreNote::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 // 	qDebug() << "hoverEnterEvent";
 	scoreScene()->noteEntered(this);
 	if (!isReadOnly()) {
-		emit statusTip(m_staticTip + (staff()->selectableNotes() ? m_selectedTip : ""));
+		emit statusTip(m_staticTip + (staff()->selectableNotes() ? m_selectedTip : QString()));
 		m_emptyText->hide();
 	}
   TscoreItem::hoverEnterEvent(event);
