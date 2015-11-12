@@ -387,8 +387,8 @@ void TmainScore::isExamExecuting(bool isIt) {
 			scoreScene()->addItem(m_questMark);
       m_questMark->setZValue(4);
       if (insertMode() == e_single) {
-        staff()->noteSegment(1)->setColor(palette().text().color()); // it can have color of enharmonic notes
-        staff()->noteSegment(2)->setColor(palette().text().color());
+        staff()->noteSegment(1)->setColor(qApp->palette().text().color()); // it may have color of enharmonic notes
+        staff()->noteSegment(2)->setColor(qApp->palette().text().color()); // when disabled - color is not black
       }
 	} else {
 // 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
@@ -457,8 +457,8 @@ void TmainScore::askQuestion(Tnote note, char realStr) {
 	setBGcolor(Tcolor::merge(Tcore::gl()->EquestionColor, mainWindow()->palette().window().color()));
 	m_questMark->show();
   TsimpleScore::setNote(1, note);
-  staff()->noteSegment(1)->setColor(palette().text().color()); // Otherwise note is strange light
-	if (realStr) 
+  staff()->noteSegment(1)->setColor(qApp->palette().text().color()); // Otherwise note is strange light
+	if (realStr)
 		setStringNumber(1, realStr);
 }
 
@@ -804,14 +804,14 @@ void TmainScore::strikeBlinkingFinished() {
 	}
 	deleteNoteName(m_correctNoteNr);
 	TscoreNote *sn = noteFromId(m_correctNoteNr);
-	sn->setColor(palette().text().color());
+	sn->setColor(qApp->palette().text().color());
 	sn->enableNoteAnim(true, 300);
 	sn->markNote(-1);
 	bool animEnabled = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations - it looks ugly with correction animations
 	staves(m_correctNoteNr / staff()->maxNoteCount())->setNote(m_correctNoteNr % staff()->maxNoteCount(), m_goodNote);
 	enableAccidToKeyAnim(animEnabled);
-	QTimer::singleShot(320, this, SLOT(finishCorrection()));	
+	QTimer::singleShot(500, this, SLOT(finishCorrection()));
 }
 
 
@@ -822,7 +822,8 @@ void TmainScore::keyBlinkingFinished() {
 			setKeySignature(m_goodKey); // set proper key
 			enableAccidToKeyAnim(animEnabled);
 			if (m_questKey) // desired key name make green and replace ? for !
-				m_questKey->setHtml(m_questKey->toHtml().replace("?", "!").replace(Tcore::gl()->EquestionColor.name(), Tcore::gl()->EanswerColor.name()));
+				m_questKey->setHtml(m_questKey->toHtml().replace(QLatin1String("?"), QLatin1String("!")).
+                                                 replace(Tcore::gl()->EquestionColor.name(), Tcore::gl()->EanswerColor.name()));
 			m_keyBlinking->startBlinking(3); // and blink again
 	} else { // finished 2nd time
 			delete m_keyBlinking;
