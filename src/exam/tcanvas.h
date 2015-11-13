@@ -115,23 +115,21 @@ public slots:
 	void clearWhatNextTip();
   void clearMelodyCorrectMessage();
   void certificateTip(); // paper like exam report when finished
-  
+
       /** Message on a status bar about currently performed exercise/exam.
        * It has to be updated whenever correcting melody message is displayed and deleted.*/
   void levelStatusMessage();
-  
   void playMelodyAgainMessage(); /** displays message text: Select any note to play it again. */
 
 signals:
 	void buttonClicked(const QString&); /** This signal is emitted when user click image button (a link) on any tip.*/
 	void certificateMagicKeys(); /** When translator wants to see a certificate preview */
   void correctingFinished(); /** Emitted when correction animation finish */
-		
 
 protected:
 	virtual bool eventFilter(QObject* obj, QEvent* event);
-	
-	
+
+
 protected slots:
 			/** Calls sizeChanged with delay to allow MainWindow deploy its new geometry. */
 	void sizeChangedDelayed(const QRectF& newRect);
@@ -139,8 +137,8 @@ protected slots:
 	void correctAnimFinished();
   void tipMoved(); /** It is used as a slot to store position of a tip moved by user */
   void tipStateChanged(); /** It is used as a slot to store minimization state of a tip. */
-	
-	
+
+
 private:
 	MainWindow 										*m_window;
 	QGraphicsView									*m_view;
@@ -149,6 +147,10 @@ private:
 	QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip;
 	QPointer<TgraphicsTextTip>		 m_confirmTip, m_outTuneTip;
 	QPointer<TquestionTip>				 m_questionTip;
+#if defined (Q_OS_ANDROID)
+  QPointer<TgraphicsTextTip> m_nextTip, m_prevTip, m_correctTip;
+#endif
+
 	QPointer<TnootkaCertificate>	 m_certifyTip;
 	Texam 												*m_exam;
 	QPointer<TcombinedAnim>				 m_correctAnim;

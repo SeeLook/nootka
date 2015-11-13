@@ -37,13 +37,33 @@
 #include <tsound.h>
 #include <widgets/tquestionaswdg.h>
 #include <tpath.h>
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
 #include <score/tmainscore.h>
+#include <gui/ttoolbar.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qtimer.h>
 #include <QtGui/qevent.h>
 
 
 extern Tglobals *gl;
+
+
+#if defined (Q_OS_ANDROID)
+inline QString getTipText(const char* href, const char* iconName, const char* barText) {
+  return QString("<a href=\"%1\">").arg(href) +  pixToHtml(Tpath::img(iconName), Tmtr::fingerPixels() * 0.7) + QLatin1String("<a/><br>") +
+         QApplication::translate("TtoolBar", barText)/* + QLatin1String("<a/>")*/;
+}
+
+
+QFont smalTipFont(QWidget* w) {
+  int bSize = qBound<int>(Tmtr::fingerPixels() * 1.1, Tmtr::longScreenSide() / 12, Tmtr::fingerPixels() * 1.6);
+  QFont f = w->font();
+  f.setPixelSize(qMin<int>(bSize / 5, w->fontMetrics().height()));
+  return f;
+}
+#endif
 
 
 Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
@@ -60,7 +80,11 @@ Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
   m_scene = m_view->scene();
 	m_newSize = m_scene->sceneRect().size().toSize();
 	m_prevSize = m_scene->sceneRect().size();
-  m_iconSize = m_view->fontMetrics().boundingRect("A").height() * 2;
+#if defined (Q_OS_ANDROID)
+  m_iconSize = Tmtr::fingerPixels() * 0.7;
+#else
+    m_iconSize = m_view->fontMetrics().boundingRect("A").height() * 2;
+#endif
   sizeChanged();
 	connect(m_scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sizeChangedDelayed(QRectF)));
   connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
@@ -85,7 +109,11 @@ void Tcanvas::changeExam(Texam* newExam) {
 //######################################################################
 
 int Tcanvas::bigFont() {
+#if defined (Q_OS_ANDROID)
+  return (m_view->fontMetrics().boundingRect("A").height() * 1.2);
+#else
   return (m_view->fontMetrics().boundingRect("A").height() * 2);
+#endif
 }
 
 
@@ -128,7 +156,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
 
 
 QString Tcanvas::detectedText(const QString& txt) {
-  return QString("<span style=\"color: %1;\"><big>").arg(gl->EquestionColor.name()) + txt + "</big></span>";
+  return QString("<span style=\"color: %1;\"><big>").arg(gl->EquestionColor.name()) + txt + QLatin1String("</big></span>");
 }
 
 
@@ -155,11 +183,11 @@ void Tcanvas::tryAgainTip(int time) {
 
 
 QString Tcanvas::startTipText() {
-  return TexamHelp::toGetQuestTxt() + QStringLiteral(":<br>") +
-    TexamHelp::clickSomeButtonTxt(QStringLiteral("<a href=\"nextQuest\">") +
-                                  pixToHtml(Tpath::img("nextQuest"), m_iconSize) + QStringLiteral("</a>"))
+  return TexamHelp::toGetQuestTxt() + QLatin1String(":<br>") +
+    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") +
+                                  pixToHtml(Tpath::img("nextQuest"), m_iconSize) + QLatin1String("</a>"))
     #if !defined (Q_OS_ANDROID)
-      + ",<br>" + TexamHelp::pressSpaceKey() + " " + TexamHelp::orRightButtTxt()
+      + QLatin1String(",<br>") + TexamHelp::pressSpaceKey() + QLatin1String(" ") + TexamHelp::orRightButtTxt()
     #endif
     ;
 }
@@ -190,7 +218,33 @@ void Tcanvas::certificateTip() {
 
 void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	delete m_questionTip;
-	delete m_whatTip;
+  clearWhatNextTip();
+#if defined (Q_OS_ANDROID)
+  m_nextTip = new TgraphicsTextTip(getTipText("nextQuest", "nextQuest", "Next"), m_window->palette().highlight().color());
+  m_scene->addItem(m_nextTip);
+  m_nextTip->setFont(smalTipFont(m_view));
+  m_nextTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+  connect(m_nextTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+  if (!isCorrect) {
+    m_prevTip = new TgraphicsTextTip(getTipText("prevQuest", "prevQuest", m_exam->melodies() ? "Try again" : "Repeat"),
+                                     m_window->palette().highlight().color());
+    m_scene->addItem(m_prevTip);
+    m_prevTip->setFont(smalTipFont(m_view));
+    m_prevTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    connect(m_prevTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+  }
+  if (toCorrection) {
+    m_correctTip = new TgraphicsTextTip(getTipText("correct", "correct", "Correct"), gl->EanswerColor);
+    m_scene->addItem(m_correctTip);
+    m_correctTip->setFont(smalTipFont(m_view));
+    m_correctTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    connect(m_correctTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+    int maxTipWidth = qMax<int>(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width(),
+                                m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width()) * 1.2;
+    m_correctTip->setTextWidth(maxTipWidth); // keep the same width if both tips are displayed
+    m_nextTip->setTextWidth(maxTipWidth);
+  }
+#else
 	QString whatNextText = startTipText();
   const QString br = QStringLiteral("<br>");
   const QString space = QStringLiteral(" ");
@@ -204,23 +258,17 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 		}
 		whatNextText += br + t + space +
 				TexamHelp::clickSomeButtonTxt(href + pixToHtml(Tpath::img("prevQuest"), m_iconSize) +	a)
-    #if !defined (Q_OS_ANDROID)
-				+ space + TexamHelp::orPressBackSpace()
-    #endif
-        ;
+				+ space + TexamHelp::orPressBackSpace();
 	}
 	if (toCorrection) {
 		QString t = tr("To see corrected answer");
 		if (m_exam->curQ()->melody())
 				t = tr("To see some hints");
 		whatNextText += br + t + space +
-			TexamHelp::clickSomeButtonTxt(QStringLiteral("<a href=\"correct\">") + pixToHtml(Tpath::img("correct"), m_iconSize) + a)
-    #if !defined (Q_OS_ANDROID)
-      + br + TexamHelp::orPressEnterKey()
-    #endif
-      ;
+			TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"correct\">") + pixToHtml(Tpath::img("correct"), m_iconSize) + a)
+      + br + TexamHelp::orPressEnterKey();
 	}
-	whatNextText += br + TexamHelp::toStopExamTxt(QStringLiteral("<a href=\"stopExam\">") + pixToHtml(Tpath::img("stopExam"), m_iconSize) + a);
+	whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">") + pixToHtml(Tpath::img("stopExam"), m_iconSize) + a);
   m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
 // 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
 // 			m_whatTip->setTextWidth(m_maxTipWidth);
@@ -229,27 +277,35 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   m_whatTip->setTipMovable(true);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
   connect(m_whatTip, SIGNAL(moved()), this, SLOT(tipMoved()));
+#endif
   setWhatNextPos();
 }
 
 
 void Tcanvas::confirmTip(int time) {
+#if defined (Q_OS_ANDROID)
+  showConfirmTip();
+#else
   m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
+#endif
 }
 
 
 void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
   if (!m_confirmTip) {
+#if defined (Q_OS_ANDROID)
+    m_confirmTip = new TgraphicsTextTip(getTipText("checkAnswer", "check", "Check"), gl->EanswerColor);
+    m_scene->addItem(m_confirmTip);
+    m_confirmTip->setFont(smalTipFont(m_view));
+    m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
+    connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+#else
     const QString br_ = QStringLiteral("<br>- ");
     const QString a = QStringLiteral("</a>");
     m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + br_ +
-#if defined (Q_OS_ANDROID)
-      TexamHelp::clickIconTxt(QStringLiteral("<a href=\"checkAnswer\">") + pixToHtml(Tpath::img("check"), m_iconSize) + a) + br_ +
-#else
-      TexamHelp::clickSomeButtonTxt(QStringLiteral("<a href=\"checkAnswer\">") + pixToHtml(Tpath::img("check"), m_iconSize) + a) + br_ +
-      TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QStringLiteral("<br>") +
-#endif
+      TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + pixToHtml(Tpath::img("check"), m_iconSize) + a) + br_ +
+      TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
       tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
       pixToHtml(Tpath::img("help"), m_iconSize) + a), gl->EanswerColor
     );
@@ -259,6 +315,7 @@ void Tcanvas::showConfirmTip() {
     m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
     connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
     connect(m_confirmTip, SIGNAL(moved()), this, SLOT(tipMoved()));
+#endif
     setConfirmPos();
   }
 }
@@ -273,8 +330,8 @@ void Tcanvas::playMelodyAgainMessage() {
 
 void Tcanvas::questionTip() {
 	delete m_startTip;
-  delete m_whatTip;
 	delete m_outTuneTip;
+  clearWhatNextTip();
   clearMelodyCorrectMessage();
 	createQuestionTip();
 	m_guitarFree = m_questionTip->freeGuitar() && m_window->guitar->isVisible();
@@ -408,6 +465,11 @@ void Tcanvas::clearCanvas() {
 	delete m_certifyTip;
   delete m_outTuneTip;
   clearMelodyCorrectMessage();
+#if defined (Q_OS_ANDROID)
+  delete m_nextTip;
+  delete m_prevTip;
+  delete m_correctTip;
+#endif
 }
 
 
@@ -444,7 +506,15 @@ void Tcanvas::clearCorrection() {
 }
 
 
-void Tcanvas::clearWhatNextTip() { delete m_whatTip; }
+void Tcanvas::clearWhatNextTip() {
+#if defined (Q_OS_ANDROID)
+  delete m_nextTip;
+  delete m_prevTip;
+  delete m_correctTip;
+#else
+  delete m_whatTip;
+#endif
+}
 
 
 void Tcanvas::clearMelodyCorrectMessage() {
@@ -457,8 +527,8 @@ void Tcanvas::clearMelodyCorrectMessage() {
 
 void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
 }
-  
-  
+
+
 const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
   switch (kindOf) {
     case TQAtype::e_asNote:
@@ -525,8 +595,10 @@ void Tcanvas::sizeChanged() {
 		setQuestionPos();
   }
   if (m_confirmTip) {
-    m_confirmTip->setScale(m_scale * 1.2);
-    setConfirmPos();
+    clearConfirmTip(); // To re-create confirm tip works better than re-scaling
+    showConfirmTip();
+//     m_confirmTip->setScale(m_scale * 1.2);
+//     setConfirmPos();
   }
   if (m_certifyTip) {
     clearCertificate();
@@ -536,11 +608,20 @@ void Tcanvas::sizeChanged() {
 		m_outTuneTip->setScale(m_scale);
 		setOutTunePos();
   }
+#if defined (Q_OS_ANDROID)
+  if (m_nextTip) {
+    setWhatNextPos();
+  }
+#endif
 }
 
 
 void Tcanvas::linkActivatedSlot(const QString& link) {
 	emit buttonClicked(link);
+#if defined (Q_OS_ANDROID)
+  if (link == QLatin1String("correct"))
+    delete m_correctTip;
+#endif
 	if (m_certifyTip)
 		clearCertificate();
 }
@@ -564,7 +645,7 @@ bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
 						emit certificateMagicKeys();
 			}
     }
-  }     
+  }
 	return QObject::eventFilter(obj, event);
 }
 
@@ -614,6 +695,14 @@ void Tcanvas::setTryAgainPos() {
 
 
 void Tcanvas::setWhatNextPos() {
+#if defined (Q_OS_ANDROID)
+  qreal hh = m_guitarFree ? m_view->height() - 4.0 : m_window->guitar->y(); // 4 is more-less tip shadow size
+  m_nextTip->setPos(m_window->width() - m_nextTip->realW() - 4, hh - m_nextTip->realH());
+  if (m_prevTip)
+    m_prevTip->setPos(4, hh - m_prevTip->realH());
+  if (m_correctTip)
+    m_correctTip->setPos(m_window->width() - m_correctTip->realW() - 4, m_nextTip->y() - m_correctTip->realH() - 8);
+#else
 	int maxTipHeight = getMaxTipHeight();
   if (!m_nameFree && m_whatTip->realH() != maxTipHeight)
 			m_whatTip->setScale((qreal)maxTipHeight / m_whatTip->realH());
@@ -628,6 +717,7 @@ void Tcanvas::setWhatNextPos() {
 		setPosOfTip(m_whatTip);
 	else
 		m_whatTip->setFixPos(m_posOfWhatTips[(int)m_tipPos]);
+#endif
 }
 
 
@@ -638,7 +728,11 @@ void Tcanvas::setStartTipPos() {
 
 
 void Tcanvas::setConfirmPos() { // right top corner
-	m_confirmTip->setPos(m_window->width() - m_confirmTip->realW() - 20, 20);  
+#if defined (Q_OS_ANDROID)
+  m_confirmTip->setPos(m_window->width() - m_confirmTip->realW() - 4, 4); // 4 is more-less tip shadow size
+#else
+   m_confirmTip->setPos(m_window->width() - m_confirmTip->realW() - 20, 20);
+#endif
 }
 
 
