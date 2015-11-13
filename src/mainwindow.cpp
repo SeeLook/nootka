@@ -172,6 +172,7 @@ MainWindow::MainWindow(QWidget *parent) :
   innerWidget->flyActions()->append(bar->playMelody()); // default quick actions for mobile
   innerWidget->flyActions()->append(bar->recordMelody());
   innerWidget->flyActions()->append(pitchView->pauseAction());
+  bar->setFlyingActions(innerWidget->flyActions());
 #else
   connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
   connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
@@ -257,10 +258,8 @@ void MainWindow::clearAfterExam(int examState) {
 	innerWidget->takeExamViews();
 	progress = 0;
 	examResults = 0;
-#if !defined (Q_OS_ANDROID)
 	if (score->insertMode() != TmultiScore::e_single)
 		bar->setMelodyButtonVisible(true);
-#endif
 	updateSize(innerWidget->size());
   delete executor;
   m_deleteExecutor = true;
@@ -462,27 +461,17 @@ void MainWindow::soundWasFinished(Tchunk* chunk) {
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && score->insertMode() != TmultiScore::e_single) {
       if (!executor)
-          m_melButt->melodyAction()->setVisible(false);
+          bar->setMelodyButtonVisible(false);
+//           m_melButt->melodyAction()->setVisible(false);
       innerWidget->addNoteName();
       score->setInsertMode(TmultiScore::e_single);
-#if defined (Q_OS_ANDROID)
-      innerWidget->flyActions()->removeOne(bar->playMelody());
-      innerWidget->flyActions()->removeOne(bar->recordMelody());
-      bar->playMelody()->setVisible(false);
-      bar->recordMelody()->setVisible(false);
-#endif
 	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
       if (!executor)
-          m_melButt->melodyAction()->setVisible(true);
+          bar->setMelodyButtonVisible(true);
+//           m_melButt->melodyAction()->setVisible(true);
       innerWidget->takeNoteName();
       noteName->setNoteName(Tnote(1, 0)); // unset buttons
       score->setInsertMode(TmultiScore::e_multi);
-#if defined (Q_OS_ANDROID) // 'pitch detection' is first so insert other actions before
-      innerWidget->flyActions()->insert(0, bar->recordMelody());
-      innerWidget->flyActions()->insert(0, bar->playMelody());
-      bar->playMelody()->setVisible(true);
-      bar->recordMelody()->setVisible(true);
-#endif
 	}
 }
 
@@ -536,14 +525,14 @@ void MainWindow::showSupportDialog() {
 
 void MainWindow::updaterMessagesSlot(const QString& m) {
 #if !defined (Q_OS_ANDROID)
-  if (m.contains(QLatin1String("offline")) || m.contains(QLatin1String("No need")) ||
-      m.contains(QLatin1String("finished")) || m.contains(QLatin1String("error occurred"))) {
-    m_updaterPlugin->deleteLater();
-    if (m_updaterStoppedSound)
-      sound->go();
-  } else if (m.contains("success") && !sound->isSnifferPaused()) {
-    sound->wait();
-    m_updaterStoppedSound = true;
+  if (m.contains(QLatin1String("offline")) || m.contains(QLatin1String("No need"))
+    || m.contains(QLatin1String("finished")) || m.contains(QLatin1String("error occurred"))) {
+      m_updaterPlugin->deleteLater();
+      if (m_updaterStoppedSound)
+        sound->go();
+  } else if (m.contains(QLatin1String("success")) && !sound->isSnifferPaused()) {
+      sound->wait();
+      m_updaterStoppedSound = true;
   }
   // It sends 'success' as well but it means that updater window is displayed, when user will close it - 'finished' is send
 #endif
