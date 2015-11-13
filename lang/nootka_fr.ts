@@ -2223,7 +2223,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation>Pour savoir ce que sont les &lt;i&gt;octaves&lt;i&gt;, cliquez sur « https://fr.wikipedia.org/wiki/Octave »</translation>
+        <translation>Pour savoir ce que sont les &lt;i&gt;octaves&lt;/i&gt;, cliquez sur &quot;https://fr.wikipedia.org/wiki/Octave&quot;</translation>
     </message>
     <message>
         <source>Octaves</source>
