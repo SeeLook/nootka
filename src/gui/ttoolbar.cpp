@@ -74,9 +74,8 @@ TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
 	addAction(analyseAct);
 	addAction(startExamAct);
 	setMovable(false);
-  if (TtouchProxy::touchEnabled()) {
+  if (TtouchProxy::touchEnabled())
     hide();
-  }
 }
 
 //#################################################################################################
@@ -111,6 +110,18 @@ void TtoolBar::addMelodyButton(TmelMan* melBut) {
 void TtoolBar::setMelodyButtonVisible(bool vis) {
 	m_melButton->melodyAction()->setVisible(vis);
 	m_melButton->button()->menu()->setDisabled(!vis);
+#if defined (Q_OS_ANDROID)
+  playMelody()->setVisible(vis); // This way Android menu skips those actions when not visible
+  recordMelody()->setVisible(vis);
+  generateMelody()->setVisible(vis);
+  if (vis) {
+      flyActions()->insert(0, recordMelody()); // 'pitch detection' is first so insert other actions before
+      flyActions()->insert(0, playMelody());
+  } else {
+      flyActions()->removeOne(playMelody());
+      flyActions()->removeOne(recordMelody());
+  }
+#endif
 }
 
 
@@ -209,20 +220,21 @@ void TtoolBar::actionsToExam() {
 	if (!nextQuestAct) {
 		nextQuestAct = new QAction(tr("Next", "like a next question"), this);
 #if !defined (Q_OS_ANDROID)
-		nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()));
+		nextQuestAct->setStatusTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")));
 #endif
 		nextQuestAct->setIcon(QIcon(Tpath::img("nextQuest")));
 		nextQuestAct->setShortcut(QKeySequence(Qt::Key_Space));
+    nextQuestAct->setData(true);
 		addAction(nextQuestAct);
 
 		prevQuestAct = new QAction(tr("Repeat", "like a repeat question"), this);
-		prevQuestAct->setStatusTip(tr("repeat previous question (backspace)"));
+		prevQuestAct->setStatusTip(tr("repeat previous question (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")));
 		prevQuestAct->setIcon(QIcon(Tpath::img("prevQuest")));
 		prevQuestAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 
 		checkAct = new QAction(tr("Check", "like a check answer"), this);
 #if !defined (Q_OS_ANDROID)
-		checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()));
+		checkAct->setStatusTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")));
 #endif
 		checkAct->setIcon(QIcon(Tpath::img("check")));
 		checkAct->setShortcut(QKeySequence(Qt::Key_Return));
@@ -234,7 +246,7 @@ void TtoolBar::actionsToExam() {
 }
 
 
-void TtoolBar::createRepeatSoundAction() {
+void TtoolBar::createRepeatSoundAction() { // TODO add bool for melodies/single to adjust status tip
 	if (!repeatSndAct) {
 		repeatSndAct = new QAction(tr("Play"), this);
 #if defined (Q_OS_ANDROID)
@@ -244,7 +256,7 @@ void TtoolBar::createRepeatSoundAction() {
           TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")));
 #endif
 		repeatSndAct->setShortcut(QKeySequence(Qt::Key_Space));
-		repeatSndAct->setIcon(QIcon(Tpath::img("repeatSound")));
+		repeatSndAct->setIcon(QIcon(Tpath::img("playMelody")));
 	}
 }
 
@@ -252,7 +264,7 @@ void TtoolBar::createRepeatSoundAction() {
 void TtoolBar::createCorrectAction() {
 	if (!correctAct) {
 		correctAct = new QAction(tr("Correct", "like a correct answer with mistake"), this);
-		correctAct->setStatusTip(tr("correct answer\n(enter)"));
+		correctAct->setStatusTip(tr("correct answer\n(enter)").replace(QLatin1String("\n"), QLatin1String("<br>")));
 		correctAct->setIcon(QIcon(Tpath::img("correct")));
 		correctAct->setShortcut(QKeySequence(Qt::Key_Return));
 #if defined (Q_OS_ANDROID)
@@ -265,7 +277,7 @@ void TtoolBar::createCorrectAction() {
 void TtoolBar::createTuneForkAction() {
 	if (!tuneForkAct) {
 		tuneForkAct = new QAction(Tnote(6, 1, 0).toText(), this);
-		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tuning fork.\n(Press key 'a')"));
+		tuneForkAct->setStatusTip(tr("Play <i>middle a</i> like a tuning fork.\n(Press key 'a')").replace(QLatin1String("\n"), QLatin1String("<br>")));
 		tuneForkAct->setIcon(QIcon(Tpath::img("fork")));
 		tuneForkAct->setShortcut(QKeySequence(Qt::Key_A));
 #if defined (Q_OS_ANDROID)
@@ -278,7 +290,7 @@ void TtoolBar::createTuneForkAction() {
 void TtoolBar::createAttemptAction() {
 	if (!attemptAct) {
 		attemptAct = new QAction(tr("Try again"), this);
-		attemptAct->setStatusTip(tr("Try this melody once again. (backspace)"));
+		attemptAct->setStatusTip(tr("Try this melody once again. (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")));
 		attemptAct->setIcon(QIcon(Tpath::img("prevQuest")));
 		attemptAct->setShortcut(QKeySequence(Qt::Key_Backspace));
 #if defined (Q_OS_ANDROID)
@@ -291,20 +303,36 @@ void TtoolBar::createAttemptAction() {
 void TtoolBar::setForQuestion(bool repeatSound, bool tuneFork) {
 	removeAction(nextQuestAct);
 	removeAction(prevQuestAct);
-	if (repeatSound && repeatSndAct)
+	if (repeatSound && repeatSndAct) {
 		addAction(repeatSndAct);
-	if (tuneFork && tuneForkAct)
+#if defined (Q_OS_ANDROID)
+    flyActions()->append(repeatSndAct);
+#endif
+  }
+	if (tuneFork && tuneForkAct) {
 		addAction(tuneForkAct);
+#if defined (Q_OS_ANDROID)
+    flyActions()->append(tuneForkAct);
+#endif
+  }
 	addAction(checkAct);
 }
 
 
 void TtoolBar::setAfterAnswer() {
 	removeAction(checkAct);
-	if (repeatSndAct)
+	if (repeatSndAct) {
 		removeAction(repeatSndAct);
-	if (tuneForkAct)
+#if defined (Q_OS_ANDROID)
+    flyActions()->removeOne(repeatSndAct);
+#endif
+  }
+	if (tuneForkAct) {
 		removeAction(tuneForkAct);
+#if defined (Q_OS_ANDROID)
+    flyActions()->removeOne(tuneForkAct);
+#endif
+  }
 }
 
 

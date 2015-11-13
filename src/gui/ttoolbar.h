@@ -105,6 +105,12 @@ public:
 
 	void setProxy(QGraphicsProxyWidget* proxy);
 
+#if defined (Q_OS_ANDROID)
+      /** Initializes pointer to quick actions list (owned by @class TmelodyItem - see more there) */
+  void setFlyingActions(QList<QAction*> *fly) { m_flyActions = fly; }
+  QList<QAction*>* flyActions() { return m_flyActions; }
+#endif
+
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
 
@@ -114,6 +120,9 @@ private:
 	TnootkaLabel 										*m_nootLabel;
 	QGraphicsProxyWidget						*m_proxy;
 	QWidget 												*m_spacer;
+#if defined (Q_OS_ANDROID)
+  QList<QAction*>                 *m_flyActions;
+#endif
 };
 
 #endif // TTOOLBAR_H

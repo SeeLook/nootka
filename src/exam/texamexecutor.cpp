@@ -521,9 +521,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
   
   if (curQ->answerAsSound()) {
-#if !defined (Q_OS_ANDROID)
     mW->sound->prepareAnswer();
-#endif
     if (curQ->questionAsSound()) {
         connect(mW->sound, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying())); // sniffing after finished sound
     } else
@@ -532,7 +530,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         // It avoids capture previous played sound as current answer
   } else
       mW->sound->wait(); // stop sniffing if answer is not a played sound
-  
+
   mW->bar->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
   m_penalty->startQuestionTime();
   m_canvas->questionTip();
@@ -1114,11 +1112,6 @@ void TexamExecutor::restoreAfterExam() {
   if (!m_level.answerIsSound()) {
     mW->pitchView->pauseAction()->setVisible(true);
     mW->innerWidget->flyActions()->append(mW->pitchView->pauseAction());
-  }
-  if (!gl->S->isSingleNoteMode) {
-    mW->bar->playMelody()->setVisible(true);
-    mW->bar->recordMelody()->setVisible(true);
-    mW->bar->generateMelody()->setVisible(true);
   }
 #endif
   mW->score->acceptSettings();

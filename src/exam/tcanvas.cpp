@@ -52,7 +52,7 @@ extern Tglobals *gl;
 
 #if defined (Q_OS_ANDROID)
 inline QString getTipText(const char* href, const char* iconName, const char* barText) {
-  return QString("<a href=\"%1\">").arg(href) +  pixToHtml(Tpath::img(iconName), Tmtr::fingerPixels() * 0.7) + QLatin1String("<a/><br>") +
+  return QString("<a href=\"%1\">").arg(href) +  pixToHtml(Tpath::img(iconName), Tmtr::fingerPixels() * 0.7) + QLatin1String("</a><br>") +
          QApplication::translate("TtoolBar", barText)/* + QLatin1String("<a/>")*/;
 }
 
