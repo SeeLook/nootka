@@ -1,3 +1,10 @@
+1.2.3
+    BUGS FIXES
+     - Additional staff lines are hiding properly
+     - Fixed conditions when 'correct' tool button is displayed
+     - Questioned note and corrected one might have distorted colors - fixed
+     - small fixes of translations
+
 1.2.2
      - updated Russian translation
      - added flick-able scroll (by mouse dragging) to windows with help
