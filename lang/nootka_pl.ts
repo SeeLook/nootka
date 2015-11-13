@@ -527,12 +527,12 @@
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="196"/>
         <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Weź swój instrument i po prostu graj...&lt;br&gt;Bez nazw nut, bez gryfu. Tonacje do 4 zanków. Podwójne krzyżyki i bemole. Skala całej gitary bez dźwięków w pozycjach.</translation>
+        <translation>Weź swój instrument i po prostu graj...&lt;br&gt;Bez nazw nut, bez gryfu. Tonacje do 4 znaków. Podwójne krzyżyki i bemole. Skala całej gitary bez dźwięków w pozycjach.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="227"/>
         <source>Sing scores</source>
-        <translation>Spiewaj z nut</translation>
+        <translation>Śpiewaj z nut</translation>
     </message>
     <message>
         <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="228"/>
@@ -1331,7 +1331,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.h" line="59"/>
         <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
-        <translation>lub klawisz &lt;b&gt;Bakspace&lt;/b&gt;</translation>
+        <translation>lub klawisz &lt;b&gt;Backspace&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.h" line="61"/>
@@ -2942,7 +2942,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="136"/>
         <source>Given note show on the staff</source>
-        <translation>Podaną nutę pokaż na pięciolini</translation>
+        <translation>Podaną nutę pokaż na pięciolinii</translation>
     </message>
     <message>
         <location filename="../src/exam/tquestiontip.cpp" line="138"/>
@@ -3607,7 +3607,7 @@ nutowy</translation>
         <location filename="../src/gui/ttoolbar.cpp" line="50"/>
         <location filename="../src/gui/ttoolbar.cpp" line="66"/>
         <source>About Nootka</source>
-        <translation>O aplikacji Nootka</translation>
+        <translation type="unfinished">O aplikacji Nootka</translation>
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="117"/>
