@@ -5600,7 +5600,7 @@ Please turn one of those options off.</source>
     <message>
         <location line="+5"/>
         <source>Back</source>
-        <translation>Back</translation>
+        <translation>Powrót</translation>
     </message>
     <message>
         <location line="+1"/>
