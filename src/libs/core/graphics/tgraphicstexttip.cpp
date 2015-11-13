@@ -90,12 +90,14 @@ void TgraphicsTextTip::setHtml(QString htmlText) {
 
 void TgraphicsTextTip::setScale(qreal sc) {
   QFont f = font();
-  f.setPointSizeF(sc * f.pointSize());
+  if (f.pointSize() == -1) { // point size was not set
+      if (f.pixelSize() != -1) // check pixel size then
+          f.setPixelSize(f.pixelSize() *sc);
+  } else
+      f.setPointSizeF(sc * f.pointSize());
   setFont(f);
   if (textWidth() != -1)
     setTextWidth(textWidth() * sc);
-//   QGraphicsTextItem::setScale(sc);
-//   qDebug() << "scale" << realH() << realW(); 
 }
 
 
@@ -127,7 +129,7 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
 			borderColor = borderColor.lighter();
 		painter->setPen(QPen(borderColor, 1.5));
 		painter->setBrush(QBrush(qApp->palette().base().color()));
-    painter->drawRoundedRect(rect, 5, 5);
+    painter->drawRoundedRect(rect, 2, 2);
     QLinearGradient grad(rect.width() / 2, 0, rect.width() / 2, rect.height());
     grad.setColorAt(0.4, startColor);
     grad.setColorAt(0.9, endColor);
