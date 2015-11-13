@@ -393,8 +393,8 @@ void TmainScore::isExamExecuting(bool isIt) {
 			scoreScene()->addItem(m_questMark);
       m_questMark->setZValue(4);
       if (insertMode() == e_single) {
-        staff()->noteSegment(1)->setColor(palette().text().color()); // it can have color of enharmonic notes
-        staff()->noteSegment(2)->setColor(palette().text().color());
+        staff()->noteSegment(1)->setColor(qApp->palette().text().color()); // it can have color of enharmonic notes
+        staff()->noteSegment(2)->setColor(qApp->palette().text().color());
       }
 	} else {
 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
@@ -461,7 +461,7 @@ void TmainScore::askQuestion(Tnote note, char realStr) {
 	setBGcolor(Tcolor::merge(Tcore::gl()->EquestionColor, mainWindow()->palette().window().color()));
 	m_questMark->show();
   TsimpleScore::setNote(1, note);
-  staff()->noteSegment(1)->setColor(palette().text().color()); // Otherwise note is strange light
+  staff()->noteSegment(1)->setColor(qApp->palette().text().color()); // Otherwise note is strange light
 	if (realStr) 
 		setStringNumber(1, realStr);
 }
@@ -808,7 +808,7 @@ void TmainScore::strikeBlinkingFinished() {
 	}
 	deleteNoteName(m_correctNoteNr);
 	TscoreNote *sn = noteFromId(m_correctNoteNr);
-	sn->setColor(palette().text().color());
+	sn->setColor(qApp->palette().text().color());
 	sn->enableNoteAnim(true, 300);
 	sn->markNote(-1);
 	bool animEnabled = isAccidToKeyAnimEnabled();
