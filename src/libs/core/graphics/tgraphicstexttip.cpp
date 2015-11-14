@@ -54,13 +54,16 @@ void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor)
 //###################            CONSTRUCTORS          ############################################
 //#################################################################################################
 
-TgraphicsTextTip::TgraphicsTextTip(QString text, QColor bgColor) :
+TgraphicsTextTip::TgraphicsTextTip(const QString& text, QColor bgColor) :
   QGraphicsTextItem(),
   m_bgColor(bgColor),
   m_movable(false), m_mouseClick(false)
 {
   setHtml(text);
-  setDropShadow(this, bgColor);  
+  setDropShadow(this, bgColor);
+  if (m_bgColor != -1)
+      m_frameColor = QColor(m_bgColor.name());
+  m_baseColor = qApp->palette().base().color();
 }
 
 
@@ -82,7 +85,7 @@ TgraphicsTextTip::~TgraphicsTextTip()
 //###################                PUBLIC            ############################################
 //#################################################################################################
 
-void TgraphicsTextTip::setHtml(QString htmlText) {
+void TgraphicsTextTip::setHtml(const QString& htmlText) {
   QGraphicsTextItem::setHtml(htmlText);
   alignCenter(this);
 }
@@ -101,8 +104,10 @@ void TgraphicsTextTip::setScale(qreal sc) {
 }
 
 
-void TgraphicsTextTip::setBgColor(QColor col) {
-  m_bgColor = col; 
+void TgraphicsTextTip::setBgColor(const QColor& col) {
+  if (m_bgColor != -1)
+      m_frameColor = QColor(col.name());
+  m_bgColor = col;
   delete graphicsEffect();
   setDropShadow(this, QColor(col.name()));
 }
@@ -124,17 +129,17 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     startColor.setAlpha(25);
     QColor endColor = startColor;
     endColor.setAlpha(75);
-		QColor borderColor = QColor(m_bgColor.name());
+		QColor borderColor = m_frameColor;
 		if (m_mouseClick)
 			borderColor = borderColor.lighter();
 		painter->setPen(QPen(borderColor, 1.5));
-		painter->setBrush(QBrush(qApp->palette().base().color()));
+		painter->setBrush(QBrush(m_baseColor));
     painter->drawRoundedRect(rect, 2, 2);
     QLinearGradient grad(rect.width() / 2, 0, rect.width() / 2, rect.height());
     grad.setColorAt(0.4, startColor);
     grad.setColorAt(0.9, endColor);
     painter->setBrush(QBrush(grad));
-    painter->drawRoundedRect(rect, 5, 5);
+    painter->drawRoundedRect(rect, 2, 2);
   }
 	QGraphicsTextItem::paint(painter, option, widget);
 }
