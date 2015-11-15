@@ -1274,12 +1274,15 @@ void TexamExecutor::stopExerciseSlot() {
 void TexamExecutor::stopExamSlot() {
   if (!m_isAnswered && !gl->E->closeWithoutConfirm) {
     m_shouldBeTerminated = true;
-#if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
+  int messageDuration = 2000;
+#if defined (Q_OS_ANDROID)
+  messageDuration = 5000;
+#else
     QColor c = gl->GfingerColor;
     c.setAlpha(30);
     mW->setMessageBg(c);
-    mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), 2000);
 #endif
+    mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration);
     return;
   }
   if (!m_isAnswered)
@@ -1322,11 +1325,11 @@ void TexamExecutor::stopExamSlot() {
 
 
 void TexamExecutor::closeExecutor() {
-#if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
+#if !defined (Q_OS_ANDROID)
 	mW->setMessageBg(-1);
-	mW->setStatusMessage("");
-	mW->setStatusMessage(tr("Such a pity."), 5000);
+	mW->setStatusMessage(QString());
 #endif
+  mW->setStatusMessage(tr("Such a pity."), 5000);
 
 	m_canvas->clearCanvas();
 	clearWidgets();
@@ -1581,10 +1584,8 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
 			if (m && m_exam->curQ()->answerAsSound()) {
         if (m_melody->listened()[noteNr].pitch.isValid())
           m_canvas->detectedNoteTip(m_melody->listened()[noteNr].pitch);
-#if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
         else
           mW->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
-#endif
       }
 		}
 	}
@@ -1623,7 +1624,7 @@ void TexamExecutor::tipButtonSlot(const QString& name) {
 			unlockAnswerCapturing();
 	else if (name == QLatin1String("newAttempt"))
 			newAttempt();
-} 
+}
 
 
 void TexamExecutor::deleteExam() {

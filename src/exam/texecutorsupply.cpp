@@ -72,10 +72,9 @@ void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 }
 
 
-#if !defined (Q_OS_ANDROID)
 void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) {
 	checkPlayCorrected(exam->level());
-	QString changesMessage = "";
+	QString changesMessage;
 	if (exam->level()->instrument != e_noInstrument) { // when instrument is guitar it has a matter
 			if (exam->level()->instrument != gl->instrument)
 					changesMessage = tr("Instrument type was changed!");
@@ -83,28 +82,31 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 	} // otherwise it reminds unchanged
 	if ((exam->level()->canBeGuitar() || exam->level()->canBeSound()) && !m_playCorrections &&
 		exam->tune() != *gl->Gtune() ) { // Is tune the same?
-			if (changesMessage != "")
-						changesMessage += "<br>";
+			if (!changesMessage.isEmpty())
+						changesMessage += QLatin1String("<br>");
 			Ttune tmpTune = exam->tune();
 			gl->setTune(tmpTune);
-			changesMessage += tr("Tuning of the guitar was changed to:") + " <b> " + gl->Gtune()->name + "!</b>";
+			changesMessage += tr("Tuning of the guitar was changed to:") + QLatin1String(" <b> ") + gl->Gtune()->name + QLatin1String("!</b>");
 	}
 	if (exam->level()->canBeGuitar() && exam->level()->hiFret > gl->GfretsNumber) { // Are enough frets?
-			if (changesMessage != "")
-					changesMessage += "<br>";
+			if (!changesMessage.isEmpty())
+					changesMessage += QLatin1String("<br>");
 			changesMessage += tr("Guitar fret number was changed!");
 			gl->GfretsNumber = exam->level()->hiFret;
 	}
-	if (changesMessage != "") {
-			QColor c = Qt::red;
-			c.setAlpha(50);
-			parent->setMessageBg(c);
-			parent->setStatusMessage(changesMessage);
+	if (!changesMessage.isEmpty()) {
+#if defined (Q_OS_ANDROID)
+      parent->setStatusMessage(changesMessage, 0);
+#else
+      QColor c = Qt::red;
+      c.setAlpha(50);
+      parent->setMessageBg(c);
+      parent->setStatusMessage(changesMessage);
+#endif
 			m_paramsMessage = true;
 	} else
 			m_paramsMessage = false;
 }
-#endif
 
 
 QColor& TexecutorSupply::answerColor(const TQAunit* answer) {
