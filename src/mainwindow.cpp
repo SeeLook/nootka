@@ -36,7 +36,9 @@
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #include <QtWidgets/QtWidgets>
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  #include <gui/ttouchmessage.h>
+#else
   #include <taboutnootka.h>
   #include <tsupportnootka.h>
 #endif
@@ -66,12 +68,15 @@ void noteToKey(Tnote& n, TkeySignature k) {
 
 // HACK: Workaround to force qtandroiddeploy include QtMultimedia and QtAndroidExtras libs
 #if defined (Q_OS_ANDROID)
-#include <QMediaPlayer>
-#include <QtAndroidExtras/QtAndroid>
-  void fakeMultimediaDemander(QObject* parent) {
-    QMediaPlayer dummyPlayer(parent);
-    QtAndroid::androidActivity();
-  }
+  #include <QMediaPlayer>
+  #include <QtAndroidExtras/QtAndroid>
+
+    void fakeMultimediaDemander(QObject* parent) {
+      QMediaPlayer dummyPlayer(parent);
+      QtAndroid::androidActivity();
+    }
+
+  TtouchMessage *m_touchMessage;
 #endif
 
 
@@ -122,7 +127,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
   if (!gl->config->group().isEmpty()) // close settings group when was open
 		gl->config->endGroup();
-	
+
   Tnote::defaultStyle = gl->S->nameStyleInNoteName;
   sound = new Tsound(this);
 #if !defined (Q_OS_ANDROID)
@@ -159,6 +164,8 @@ MainWindow::MainWindow(QWidget *parent) :
   bar->addMelodyButton(m_melButt);
 #if defined (Q_OS_ANDROID)
   innerWidget = new TmainView(gl->L, bar, 0, pitchView, score, guitar, noteName, this);
+  m_touchMessage = new TtouchMessage();
+  innerWidget->scene()->addItem(m_touchMessage);
 #else
   innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, noteName, this);
 #endif
@@ -213,7 +220,7 @@ void MainWindow::setStatusMessage(const QString& msg) {
 	if (!gl->L->hintsBarEnabled)
 		return;
 	if (!m_lockStat)
-			m_statLab->setText("<center>" + msg + "</center>");
+			m_statLab->setText(QLatin1String("<center>") + msg + QLatin1String("</center>"));
 	else
 			m_prevMsg = msg;
 	m_statusText = msg;
@@ -222,11 +229,13 @@ void MainWindow::setStatusMessage(const QString& msg) {
 
 
 void MainWindow::setStatusMessage(const QString& msg, int time) {
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  m_touchMessage->setMessage(msg, time);
+#else
 	if (!gl->L->hintsBarEnabled)
 		return;
 	m_prevMsg = m_statusText;
-	m_statLab->setText("<center>" + msg + "</center>");
+	m_statLab->setText(QLatin1String("<center>") + msg + QLatin1String("</center>"));
 	m_lockStat = true;
 	m_messageTimer->start(time);
 #endif
@@ -644,7 +653,7 @@ void MainWindow::updateSize(QSize newS) {
 #if defined (Q_OS_ANDROID)
 	guitar->setFixedHeight(newS.height() * 0.25);
 #else
-  guitar->setFixedHeight((newS.height() - bar->height()) * 0.25);
+  guitar->setFixedHeight(newGuitH);
 #endif
 	if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
 		QPixmap bgPix;
