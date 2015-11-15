@@ -63,13 +63,12 @@ void TmovedAnim::animationRoutine() {
 			} else
 					item()->setPos(xx, yy);
 	} else {
-		timer()->stop();
 		if (m_line)
 			m_line->setLine(m_line->line().p1().x(), m_endPos.y(), m_line->line().p2().x(), m_endPos.y());
 		else
 			item()->setPos(m_endPos);
 		m_currStep = 0;
-		emit finished();
+		stopAnim();
 	}
 }
 

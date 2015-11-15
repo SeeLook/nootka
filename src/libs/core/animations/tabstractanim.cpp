@@ -33,18 +33,17 @@ TabstractAnim::TabstractAnim(QGraphicsItem* it, QObject* parent) :
 
 TabstractAnim::~TabstractAnim()
 {
-  if (timer()->isActive()) {
-    qDebug() << "Animation seems to be going but will be deleted";
-    stopAnim();
-  }
+  timer()->stop();
   delete m_easingCurve;
 }
 
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void TabstractAnim::installTimer() {
 	if (!m_timer) {
 			m_timer = new QTimer(this);
-// 			m_timer->setTimerType(Qt::PreciseTimer);
 			connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
 	}
 }
@@ -73,7 +72,6 @@ void TabstractAnim::setTimer(QTimer* tim) {
 	if (m_timer)
 		delete m_timer;
 	m_timer = tim;
-//   m_timer->setTimerType(Qt::PreciseTimer);
 	if (m_timer)
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(animationRoutine()));
 }
