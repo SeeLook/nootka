@@ -24,10 +24,6 @@ ANDROID:
 - Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
 - HOME button would be switching available menus
 - handle BACK button to destroy visible menu and/or prevent to close exam
-- As long as there is not status label there has to be some other way to display exam messages
-- take out some options from exam settings:
-    - detected wrong note in exercises
-    OR find a way to display them
 - alternate enharmonical names color is white by default in settings (when single note is unlocked)
   its change is not approved to score
 
