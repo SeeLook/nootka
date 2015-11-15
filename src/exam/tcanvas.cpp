@@ -27,7 +27,6 @@
 #include <exam/tresulttext.h>
 #include <animations/tcombinedanim.h>
 #include <texamparams.h>
-#include <graphics/tgraphicstexttip.h>
 #include <graphics/tnotepixmap.h>
 #include <tglobals.h>
 #include <help/texamhelp.h>
@@ -51,9 +50,9 @@ extern Tglobals *gl;
 
 
 #if defined (Q_OS_ANDROID)
-inline QString getTipText(const char* href, const char* iconName, const char* barText) {
-  return QString("<a href=\"%1\">").arg(href) +  pixToHtml(Tpath::img(iconName), Tmtr::fingerPixels() * 0.7) + QLatin1String("</a><br>") +
-         QApplication::translate("TtoolBar", barText)/* + QLatin1String("<a/>")*/;
+inline QString getTipText(const char* iconName, const char* barText) {
+  return pixToHtml(Tpath::img(iconName), Tmtr::fingerPixels() * 0.7) + QLatin1String("<br>") +
+         QApplication::translate("TtoolBar", barText);
 }
 
 
@@ -161,13 +160,11 @@ QString Tcanvas::detectedText(const QString& txt) {
 
 
 void Tcanvas::detectedNoteTip(const Tnote& note) {
-#if !defined (Q_OS_ANDROID)
   Tnote n = note;
   if (n.isValid())
-    m_window->setStatusMessage("<table valign=\"middle\" align=\"center\"><tr><td> " +
-        wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + " " +
-      detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + "</td></tr></table>", 5000);
-#endif
+    m_window->setStatusMessage(QLatin1String("<table valign=\"middle\" align=\"center\"><tr><td> ") +
+        wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + QLatin1String(" ") +
+      detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + QLatin1String("</td></tr></table>"), 5000);
 }
 
 
@@ -220,30 +217,43 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	delete m_questionTip;
   clearWhatNextTip();
 #if defined (Q_OS_ANDROID)
-  m_nextTip = new TgraphicsTextTip(getTipText("nextQuest", "nextQuest", "Next"), m_window->palette().highlight().color());
+  m_nextTip = new ThackedTouchTip(getTipText("nextQuest", "Next"), m_window->palette().highlight().color());
   m_scene->addItem(m_nextTip);
   m_nextTip->setFont(smalTipFont(m_view));
-  m_nextTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-  connect(m_nextTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+  connect(m_nextTip, &ThackedTouchTip::clicked, [=] {
+      QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("nextQuest")); });
+  });
+  int maxTipWidth = m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Next")).width();
   if (!isCorrect) {
-    m_prevTip = new TgraphicsTextTip(getTipText("prevQuest", "prevQuest", m_exam->melodies() ? "Try again" : "Repeat"),
+    m_prevTip = new ThackedTouchTip(getTipText("prevQuest", m_exam->melodies() ? "Try again" : "Repeat"),
                                      m_window->palette().highlight().color());
     m_scene->addItem(m_prevTip);
     m_prevTip->setFont(smalTipFont(m_view));
-    m_prevTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-    connect(m_prevTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+    maxTipWidth = qMax<int>(maxTipWidth,
+            m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", m_exam->melodies() ? "Try again" : "Repeat")).width()) * 1.2;
+    m_prevTip->setTextWidth(maxTipWidth);
+    QString tipLink;
+    if (m_exam->melodies())
+      connect(m_prevTip, &ThackedTouchTip::clicked, [=] {
+          QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("newAttempt")); });
+      });
+    else
+      connect(m_prevTip, &ThackedTouchTip::clicked, [=] {
+          QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("prevQuest")); });
+      });
   }
   if (toCorrection) {
-    m_correctTip = new TgraphicsTextTip(getTipText("correct", "correct", "Correct"), gl->EanswerColor);
+    m_correctTip = new ThackedTouchTip(getTipText("correct", "Correct"), gl->EanswerColor);
     m_scene->addItem(m_correctTip);
     m_correctTip->setFont(smalTipFont(m_view));
-    m_correctTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-    connect(m_correctTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-    int maxTipWidth = qMax<int>(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width(),
-                                m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width()) * 1.2;
+    connect(m_correctTip, &ThackedTouchTip::clicked, [=] {
+      QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("correct")); });
+    });
+    maxTipWidth = qMax<int>(maxTipWidth,
+                            m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width()) * 1.2;
     m_correctTip->setTextWidth(maxTipWidth); // keep the same width if both tips are displayed
-    m_nextTip->setTextWidth(maxTipWidth);
   }
+  m_nextTip->setTextWidth(maxTipWidth);
 #else
 	QString whatNextText = startTipText();
   const QString br = QStringLiteral("<br>");
@@ -295,11 +305,12 @@ void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
   if (!m_confirmTip) {
 #if defined (Q_OS_ANDROID)
-    m_confirmTip = new TgraphicsTextTip(getTipText("checkAnswer", "check", "Check"), gl->EanswerColor);
+    m_confirmTip = new ThackedTouchTip(getTipText("check", "Check"), gl->EanswerColor);
     m_scene->addItem(m_confirmTip);
     m_confirmTip->setFont(smalTipFont(m_view));
-    m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-    connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
+    connect(m_confirmTip, &ThackedTouchTip::clicked, [=] {
+      QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("checkAnswer")); });
+    });
 #else
     const QString br_ = QStringLiteral("<br>- ");
     const QString a = QStringLiteral("</a>");
@@ -322,9 +333,7 @@ void Tcanvas::showConfirmTip() {
 
 
 void Tcanvas::playMelodyAgainMessage() {
-#if !defined (Q_OS_ANDROID)
   m_window->setStatusMessage(detectedText(tr("Select any note to play it again.")), 3000);
-#endif
 }
 
 
@@ -352,7 +361,7 @@ void Tcanvas::questionTip() {
 
 
 void Tcanvas::addTip(TgraphicsTextTip* tip) {
-  m_scene->addItem(tip);  
+  m_scene->addItem(tip);
 }
 
 
@@ -378,13 +387,16 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
 
 
 void Tcanvas::melodyCorrectMessage() {
-#if !defined (Q_OS_ANDROID)
 	if (m_melodyCorrectMessage)
 		return;
 	m_melodyCorrectMessage = true;
-  m_window->setMessageBg (-1);
-  m_window->setStatusMessage(QString("<span style=\"color: %1;\"><big>").arg(gl->EanswerColor.name()) + 
-										tr("Click incorrect notes to see<br>and to listen to them corrected.") + "</big></span>");
+  QString message = QString("<span style=\"color: %1;\"><big>").arg(gl->EanswerColor.name()) +
+                    tr("Click incorrect notes to see<br>and to listen to them corrected.") + QLatin1String("</big></span>");
+#if defined (Q_OS_ANDROID)
+  m_window->setStatusMessage(message, 10000); // temporary message on a tip
+#else
+  m_window->setMessageBg(-1);
+  m_window->setStatusMessage(message); // permanent message on status label
 #endif
 }
 
@@ -444,11 +456,14 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 
 void Tcanvas::levelStatusMessage() {
 #if !defined (Q_OS_ANDROID)
-  m_window->setMessageBg(-1); // reset background
+  QString message;
   if (m_exam->isExercise())
-      m_window->setStatusMessage(tr("You are exercising on level") + ":<br><b>" + m_exam->level()->name + "</b>");
+      message = tr("You are exercising on level");
   else
-      m_window->setStatusMessage(tr("Exam started on level") + ":<br><b>" + m_exam->level()->name + "</b>");
+      message = tr("Exam started on level");
+  message.append(QLatin1String(":<br><b>") + m_exam->level()->name + QLatin1String("</b>"));
+  m_window->setMessageBg(-1); // reset background
+  m_window->setStatusMessage(message);
 #endif
 }
 
@@ -457,7 +472,6 @@ void Tcanvas::clearCanvas() {
   clearConfirmTip();
   clearResultTip();
   if (m_whatTip) {
-//     m_window->guitar->setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
     delete m_whatTip;
   }
 	delete m_startTip;
@@ -696,7 +710,7 @@ void Tcanvas::setTryAgainPos() {
 
 void Tcanvas::setWhatNextPos() {
 #if defined (Q_OS_ANDROID)
-  qreal hh = m_guitarFree ? m_view->height() - 4.0 : m_window->guitar->y(); // 4 is more-less tip shadow size
+  qreal hh = m_view->height() * 0.75; // place tips above guitar, even it is hidden or doesn't exist
   m_nextTip->setPos(m_window->width() - m_nextTip->realW() - 4, hh - m_nextTip->realH());
   if (m_prevTip)
     m_prevTip->setPos(4, hh - m_prevTip->realH());

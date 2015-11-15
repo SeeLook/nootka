@@ -23,6 +23,7 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qpointer.h>
 #include <QtWidgets/qgraphicsview.h>
+#include <graphics/tgraphicstexttip.h>
 #include <exam/tqatype.h>
 #include <tfingerpos.h>
 
@@ -38,10 +39,29 @@ class Texam;
 class TquestionTip;
 class MainWindow;
 class TQAunit;
-class TgraphicsTextTip;
 
 
-/** 
+
+/** HACK
+ * Touching a tip doesn't work properly due to mouseMoveEvent spoils emitting clicked() signal.
+ * This is workaround for it - to override mousePressEvent() and call clicked() there
+ */
+class ThackedTouchTip : public TgraphicsTextTip {
+
+  Q_OBJECT
+
+public:
+  ThackedTouchTip(const QString& text, QColor bgColor = -1) : TgraphicsTextTip(text, bgColor) {}
+
+protected:
+  virtual void mousePressEvent(QGraphicsSceneMouseEvent*) {
+    emit clicked();
+  }
+};
+
+
+
+/**
  * This class managing Nootka main View
  * to show notifications (tips) during an exam.  
  */
@@ -145,10 +165,12 @@ private:
 	QGraphicsScene 								*m_scene;
 	double 												 m_scale;
 	QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip;
-	QPointer<TgraphicsTextTip>		 m_confirmTip, m_outTuneTip;
+	QPointer<TgraphicsTextTip>		 m_outTuneTip;
 	QPointer<TquestionTip>				 m_questionTip;
 #if defined (Q_OS_ANDROID)
-  QPointer<TgraphicsTextTip> m_nextTip, m_prevTip, m_correctTip;
+  QPointer<ThackedTouchTip>      m_nextTip, m_prevTip, m_correctTip, m_confirmTip;
+#else
+  QPointer<TgraphicsTextTip>     m_confirmTip;
 #endif
 
 	QPointer<TnootkaCertificate>	 m_certifyTip;
@@ -168,7 +190,7 @@ private:
 	bool													 m_minimizedQuestion, m_melodyCorrectMessage;
 	EtipPos												 m_tipPos; /** Kind of tip position */
 	int                            m_iconSize; /** Icon image size on tips calculated from actual font metrics. */
-	
+
 private:
 	int getMaxTipHeight(); /** Calculates maximal tip height depends on free MainWindow widget. */
 	void setPosOfTip(TgraphicsTextTip *tip); /** Universal method to place given tip above free MainWindow widget.  */
