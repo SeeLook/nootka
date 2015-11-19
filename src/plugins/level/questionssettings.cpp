@@ -25,7 +25,8 @@
 #include <tnoofont.h>
 #include <tmtr.h>
 #include <widgets/tintonationview.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
+
 
 // TODO make order with layout code!!!
 // It works fine: more horizontal for desktop and more vertical for mobile
@@ -117,6 +118,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	
 	QLabel *melodyLab = new QLabel(TnooFont::span("m", nootFontSize * 2, nooColor), this);
 	melodyLab->setAlignment(Qt::AlignCenter);
+  melodyLab->setMaximumWidth(melodyLab->sizeHint().width());
 	m_playMelodyChB = new QCheckBox(TexTrans::playMelodyTxt(), this);
 		m_playMelodyChB->setStatusTip(tableTip(TexTrans::playDescTxt(), TQAtype::e_asNote, TQAtype::e_asSound, nootFontSize));
 	m_writeMelodyChB = new QCheckBox(TexTrans::writeMelodyTxt(), this);
@@ -142,8 +144,8 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
       outTabLay->addWidget(m_paintHandler);
       outTabLay->setContentsMargins(0, 0, 0, 0);
 			m_singleGr->setLayout(outTabLay);
-	
-	QVBoxLayout *melLay = new QVBoxLayout;
+
+	auto melLay = new QVBoxLayout;
 #if !defined (Q_OS_ANDROID)
 		melLay->addWidget(melodyLab, 0, Qt::AlignCenter);
 #endif
@@ -152,56 +154,89 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 		melLay->addWidget(m_writeMelodyChB);
 // 			melLay->addWidget(m_repeatMelodyChB);
 		melLay->addStretch();
-		QHBoxLayout *lenLay= new QHBoxLayout;
+		auto lenLay= new QHBoxLayout;
 			lenLay->addWidget(lenghtLab);
 			lenLay->addWidget(m_melodyLengthSpin);
 		melLay->addLayout(lenLay);
+#if defined (Q_OS_ANDROID)
+    melLay->addWidget(getLabelFromStatus(m_melodyLengthSpin, true, true));
+#endif
 		melLay->addWidget(m_finishOnTonicChB);
+#if defined (Q_OS_ANDROID)
+    melLay->addWidget(getLabelFromStatus(m_finishOnTonicChB, true, true));
+#endif
 		melLay->addStretch();
 	m_melodiesGr = new QGroupBox(tr("melodies"), this);
 			m_melodiesGr->setCheckable(true);
 #if defined (Q_OS_ANDROID)
-    QHBoxLayout *androidMelLay = new QHBoxLayout;
+    auto androidMelLay = new QHBoxLayout;
+    melodyLab->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     androidMelLay->addWidget(melodyLab);
     androidMelLay->addLayout(melLay);
     m_melodiesGr->setLayout(androidMelLay);
     QVBoxLayout *grBoxLay = new QVBoxLayout;
 #else
     m_melodiesGr->setLayout(melLay);
-    QHBoxLayout *grBoxLay = new QHBoxLayout;
+    auto grBoxLay = new QHBoxLayout;
 #endif
 		grBoxLay->addStretch();
 		grBoxLay->addWidget(m_singleGr);
 		grBoxLay->addStretch();
 		grBoxLay->addWidget(m_melodiesGr);
 		grBoxLay->addStretch();
-	
+
 	mainLay->addLayout(grBoxLay);
 	mainLay->addStretch();
-	
+
 // some checkBoxes
-	QGridLayout *chLay = new QGridLayout;
+#if defined (Q_OS_ANDROID)
+  auto chLay = new QVBoxLayout;
+#else
+	auto chLay = new QGridLayout;
+#endif
 	octaveRequiredChB = new QCheckBox(tr("require octave"),this);
 	octaveRequiredChB->setStatusTip(tr("if checked, selecting of valid octave is required"));
+#if defined (Q_OS_ANDROID)
+  chLay->addWidget(octaveRequiredChB, 0, Qt::AlignLeft);
+  chLay->addWidget(getLabelFromStatus(octaveRequiredChB, true, true));
+#else
 	chLay->addWidget(octaveRequiredChB, 0, 0, Qt::AlignLeft);
-	
+#endif
+
 	styleRequiredChB = new QCheckBox(tr("use different naming styles"),this);
 	styleRequiredChB->setStatusTip(tr("if checked, note names are switched between letters and solfege."));
+#if defined (Q_OS_ANDROID)
+  chLay->addWidget(styleRequiredChB, 0, Qt::AlignLeft);
+  chLay->addWidget(getLabelFromStatus(styleRequiredChB, true, true));
+#else
 	chLay->addWidget(styleRequiredChB, 1, 0, Qt::AlignLeft);
-	
+#endif
+
 	showStrNrChB = new QCheckBox(tr("show string number in questions"), this);
-	showStrNrChB->setStatusTip(tr("Shows on which string an answer has to be given.<br>Be careful, sometimes it is needed and sometimes it makes no sense."));
+	showStrNrChB->setStatusTip(
+      tr("Shows on which string an answer has to be given.<br>Be careful, sometimes it is needed and sometimes it makes no sense."));
+#if defined (Q_OS_ANDROID)
+  chLay->addWidget(showStrNrChB, 0, Qt::AlignLeft);
+  chLay->addWidget(getLabelFromStatus(showStrNrChB, true, true));
+#else
 	chLay->addWidget(showStrNrChB, 0, 1, Qt::AlignLeft);
+#endif
+
+  lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
+  lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected fret range is required,<br>otherwise all possible positions of the note are acceptable.<br>To use this, all strings have to be available!"));
+#if defined (Q_OS_ANDROID)
+  chLay->addWidget(lowPosOnlyChBox, 0, Qt::AlignLeft);
+  chLay->addWidget(getLabelFromStatus(lowPosOnlyChBox, true, true));
+#else
+  chLay->addWidget(lowPosOnlyChBox, 1, 1, Qt::AlignLeft);
+#endif
+
 	mainLay->addLayout(chLay);
-	
-	lowPosOnlyChBox = new QCheckBox(tr("notes in the lowest position only"),this);
-	lowPosOnlyChBox->setStatusTip(tr("if checked, the lowest position in selected fret range is required,<br>otherwise all possible positions of the note are acceptable.<br>To use this, all strings have to be available!"));
-	chLay->addWidget(lowPosOnlyChBox, 1, 1, Qt::AlignLeft);
-	
+
 	TintonationCombo *intoCombo = new TintonationCombo(this);
 	m_intonationCombo = intoCombo->accuracyCombo; // we need only combo box (label is not necessary)
 	mainLay->addWidget(intoCombo, 0, Qt::AlignCenter);
-	
+
 #if defined (Q_OS_ANDROID) // add space at the bottom to allow touching lower boxes and combo
   mainLay->addSpacing(Tmtr::fingerPixels() / 2);
   mainLay->setContentsMargins(0, 10, 0, 10);
