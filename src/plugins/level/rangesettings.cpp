@@ -28,110 +28,119 @@
 #include <music/ttune.h>
 #include <tscoreparams.h>
 #include <tinitcorelib.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     TabstractLevelPage(creator)
 {
-    QVBoxLayout *mainLay = new QVBoxLayout;
-    mainLay->setAlignment(Qt::AlignCenter);
+  QVBoxLayout *mainLay = new QVBoxLayout;
+  mainLay->setAlignment(Qt::AlignCenter);
 
-    QHBoxLayout *allLay = new QHBoxLayout;
+  QHBoxLayout *allLay = new QHBoxLayout;
 
-    QVBoxLayout *scoreLay = new QVBoxLayout;
-    m_scoreRang = new TsimpleScore(2, this);
-			m_scoreRang->setClef(Tclef(Tcore::gl()->S->clef));
-			m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
-			m_scoreRang->setNote(0, Tnote(1, 0));
-			m_scoreRang->setNote(1, Tnote(1, 1));
-			m_scoreRang->addBGglyph((int)Tcore::gl()->instrument);
-			m_scoreRang->setControllersEnabled(true, false);
-			m_scoreRang->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
+  QVBoxLayout *scoreLay = new QVBoxLayout;
+  m_scoreRang = new TsimpleScore(2, this);
+    m_scoreRang->setClef(Tclef(Tcore::gl()->S->clef));
+    m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
+    m_scoreRang->setNote(0, Tnote(1, 0));
+    m_scoreRang->setNote(1, Tnote(1, 1));
+    m_scoreRang->addBGglyph((int)Tcore::gl()->instrument);
+    m_scoreRang->setControllersEnabled(true, false);
+    m_scoreRang->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
 #if defined (Q_OS_ANDROID)
-      m_scoreRang->setFixedHeight(Tmtr::shortScreenSide() * 0.7);
+    m_scoreRang->setFixedHeight(Tmtr::shortScreenSide() * 0.7);
 #endif
-		m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
-			m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
-    QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
-    scoreLay->addWidget(m_scoreRang);
-		scoreLay->addWidget(m_fretAdjustButt);
+  m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
+    m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
+  QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
+  scoreLay->addWidget(m_scoreRang);
+  scoreLay->addWidget(m_fretAdjustButt);
+#if defined (Q_OS_ANDROID)
+  scoreLay->addWidget(getLabelFromStatus(m_fretAdjustButt, false, true));
+#endif
 
-    notesRangGr->setLayout(scoreLay);
-    allLay->addWidget(notesRangGr);
+  notesRangGr->setLayout(scoreLay);
+  allLay->addWidget(notesRangGr);
 
-    QVBoxLayout *guitLay = new QVBoxLayout;
-    m_fretGr = new QGroupBox(TlevelPreview::fretsRangeTxt(), this);
-    QHBoxLayout *fretLay = new QHBoxLayout;
-    QLabel *fromLab = new QLabel(tr("from"),this);
-    m_fromSpinB = new QSpinBox(this);
-    m_fromSpinB->setMaximum(Tcore::gl()->GfretsNumber);
-    QLabel *toLab = new QLabel(tr("to"),this);
-    m_toSpinB = new QSpinBox(this);
-    m_toSpinB->setMaximum(Tcore::gl()->GfretsNumber);
-    m_toSpinB->setValue(3);
-    fretLay->addWidget(fromLab);
-    fretLay->addWidget(m_fromSpinB);
-    fretLay->addStretch(1);
-    fretLay->addWidget(toLab);
-    fretLay->addWidget(m_toSpinB);
-		m_noteAdjustButt = new QPushButton(tr("adjust note range"), this);
-		m_noteAdjustButt->setStatusTip(tr("Adjust note range in a level to currently selected fret range"));
-    m_fretGr->setLayout(fretLay);
-    guitLay->addWidget(m_fretGr);
-		guitLay->addWidget(m_noteAdjustButt, 1, Qt::AlignCenter);
-    guitLay->addStretch(1);
+  QVBoxLayout *guitLay = new QVBoxLayout;
+  m_fretGr = new QGroupBox(TlevelPreview::fretsRangeTxt(), this);
+  QHBoxLayout *fretLay = new QHBoxLayout;
+  QLabel *fromLab = new QLabel(tr("from"),this);
+  m_fromSpinB = new QSpinBox(this);
+  m_fromSpinB->setMaximum(Tcore::gl()->GfretsNumber);
+  QLabel *toLab = new QLabel(tr("to"),this);
+  m_toSpinB = new QSpinBox(this);
+  m_toSpinB->setMaximum(Tcore::gl()->GfretsNumber);
+  m_toSpinB->setValue(3);
+  fretLay->addWidget(fromLab);
+  fretLay->addWidget(m_fromSpinB);
+  fretLay->addStretch(1);
+  fretLay->addWidget(toLab);
+  fretLay->addWidget(m_toSpinB);
+  m_noteAdjustButt = new QPushButton(tr("adjust note range"), this);
+  m_noteAdjustButt->setStatusTip(tr("Adjust note range in a level to currently selected fret range"));
+  m_fretGr->setLayout(fretLay);
+  guitLay->addWidget(m_fretGr);
+  guitLay->addWidget(m_noteAdjustButt, 1, Qt::AlignCenter);
+#if defined (Q_OS_ANDROID)
+  guitLay->addWidget(getLabelFromStatus(m_noteAdjustButt, false, true));
+#endif
+  guitLay->addStretch(1);
 
-    m_stringsGr = new QGroupBox(tr("available strings:"),this);
-    m_stringsGr->setStatusTip(tr("Uncheck strings if you want to skip them<br>in an exam."));
-    QGridLayout *strLay = new QGridLayout;
-    for (int i = 0; i < 6; i++) {
-        m_stringBut[i] = new QCheckBox(QString("%1").arg(i + 1),this);
-    #if defined (Q_OS_ANDROID)
-        m_stringBut[i]->setFont(QFont("nootka", Tmtr::fingerPixels() * 0.5, QFont::Normal));
-    #else
-        m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize() * 2.5), QFont::Normal));
-    #endif
-        m_stringBut[i]->setChecked(true);
-        connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
-        connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-        if (i<3)
-            strLay->addWidget(m_stringBut[i], 1, i + 1, 0);
-        else
-            strLay->addWidget(m_stringBut[i], 2, i - 2, 0);
-				if (i >= Tcore::gl()->Gtune()->stringNr())
-					m_stringBut[i]->hide();
-    }
-    m_stringsGr->setLayout(strLay);
-    guitLay->addWidget(m_stringsGr);
-    guitLay->addStretch(1);
+  m_stringsGr = new QGroupBox(tr("available strings:"),this); // TODO: take <br> from translation
+  m_stringsGr->setStatusTip(tr("Uncheck strings if you want to skip them<br>in an exam."));
+  QGridLayout *strLay = new QGridLayout;
+  for (int i = 0; i < 6; i++) {
+      m_stringBut[i] = new QCheckBox(QString("%1").arg(i + 1),this);
+  #if defined (Q_OS_ANDROID)
+      m_stringBut[i]->setFont(QFont("nootka", Tmtr::fingerPixels() * 0.5, QFont::Normal));
+  #else
+      m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize() * 2.5), QFont::Normal));
+  #endif
+      m_stringBut[i]->setChecked(true);
+      connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
+      connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
+      if (i<3)
+          strLay->addWidget(m_stringBut[i], 1, i + 1, 0);
+      else
+          strLay->addWidget(m_stringBut[i], 2, i - 2, 0);
+      if (i >= Tcore::gl()->Gtune()->stringNr())
+        m_stringBut[i]->hide();
+  }
+  m_stringsGr->setLayout(strLay);
+  guitLay->addWidget(m_stringsGr);
+#if defined (Q_OS_ANDROID)
+  guitLay->addWidget(getLabelFromStatus(m_stringsGr, false, true));
+#endif
+  guitLay->addStretch(1);
 
-    allLay->addLayout(guitLay);
-    mainLay->addLayout(allLay);
-    setLayout(mainLay);
-		
-		if (Tcore::gl()->instrument == e_noInstrument) {
-			m_fretGr->hide();
-			m_stringsGr->hide();
-			m_fretAdjustButt->hide();
-			m_noteAdjustButt->hide();
-		}
+  allLay->addLayout(guitLay);
+  mainLay->addLayout(allLay);
+  setLayout(mainLay);
 
-    connect(m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
-		connect(m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
-    connect(m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-    connect(m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
-		connect(m_fretAdjustButt, SIGNAL(clicked()), this, SLOT(adjustFrets()));
-		connect(m_noteAdjustButt, SIGNAL(clicked()), this, SLOT(adjustNotes()));
+  if (Tcore::gl()->instrument == e_noInstrument) {
+    m_fretGr->hide();
+    m_stringsGr->hide();
+    m_fretAdjustButt->hide();
+    m_noteAdjustButt->hide();
+  }
+
+  connect(m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
+  connect(m_scoreRang, SIGNAL(clefChanged(Tclef)), this, SLOT(whenParamsChanged()));
+  connect(m_fromSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+  connect(m_toSpinB, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
+  connect(m_fretAdjustButt, SIGNAL(clicked()), this, SLOT(adjustFrets()));
+  connect(m_noteAdjustButt, SIGNAL(clicked()), this, SLOT(adjustNotes()));
 }
 
 
 void rangeSettings::stringSelected() {
-    if ( !m_stringBut[0]->isChecked() && !m_stringBut[1]->isChecked()
-        && !m_stringBut[2]->isChecked() && !m_stringBut[3]->isChecked()
-        && !m_stringBut[4]->isChecked() && !m_stringBut[5]->isChecked() ) {
-        m_stringBut[0]->setChecked(true);
-    }
+  if ( !m_stringBut[0]->isChecked() && !m_stringBut[1]->isChecked()
+      && !m_stringBut[2]->isChecked() && !m_stringBut[3]->isChecked()
+      && !m_stringBut[4]->isChecked() && !m_stringBut[5]->isChecked() ) {
+      m_stringBut[0]->setChecked(true);
+  }
 }
 
 
@@ -152,19 +161,19 @@ void rangeSettings::loadLevel(Tlevel* level) {
 
 
 void rangeSettings::whenParamsChanged() {
-		m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
-    if (!m_stringBut[0]->isChecked() || !m_stringBut[1]->isChecked()
-        || !m_stringBut[2]->isChecked() || !m_stringBut[3]->isChecked()
-        || !m_stringBut[4]->isChecked() || !m_stringBut[5]->isChecked() )
-      emit allStringsChecked(false);
-    else
-      emit allStringsChecked(true);
-        /** It has two reasons:
-         1. when questions list is created there is no conditions to check
-            unavailable (unchecked) strings
-         2. in level validation method is hard to determine dependency unchecked
-            strings between range of frets and notes. */
-		changedLocal();
+  m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
+  if (!m_stringBut[0]->isChecked() || !m_stringBut[1]->isChecked()
+      || !m_stringBut[2]->isChecked() || !m_stringBut[3]->isChecked()
+      || !m_stringBut[4]->isChecked() || !m_stringBut[5]->isChecked() )
+    emit allStringsChecked(false);
+  else
+    emit allStringsChecked(true);
+      /** It has two reasons:
+        1. when questions list is created there is no conditions to check
+          unavailable (unchecked) strings
+        2. in level validation method is hard to determine dependency unchecked
+          strings between range of frets and notes. */
+  changedLocal();
 }
 
 
@@ -176,7 +185,7 @@ void rangeSettings::saveLevel(Tlevel* level) {
 		if (m_scoreRang->getNote(1).note == 0)
 				m_scoreRang->setNote(1, 
 										Tnote(qMin(Tcore::gl()->hiNote().chromatic(), m_scoreRang->highestNote().chromatic())));
-				
+
     if (m_scoreRang->getNote(0).chromatic() <= m_scoreRang->getNote(1).chromatic()) {
 				level->loNote = m_scoreRang->getNote(0);
 				level->hiNote = m_scoreRang->getNote(1);
@@ -209,7 +218,7 @@ void rangeSettings::changed() {
 			m_stringsGr->setDisabled(true);
 			m_fretAdjustButt->setDisabled(true);
 			m_noteAdjustButt->setDisabled(true);
-		}			
+		}
 	blockSignals(false);
 }
 
