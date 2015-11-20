@@ -121,7 +121,7 @@ TmainView::~TmainView()
 
 
 #if defined (Q_OS_ANDROID)
-QList< QAction*>* TmainView::flyActions() {
+QList<QAction*>* TmainView::flyActions() {
   return m_menuItem->actions();
 }
 #endif
@@ -129,8 +129,10 @@ QList< QAction*>* TmainView::flyActions() {
 
 void TmainView::addNoteName() {
 	if (!m_nameLay) {
+#if defined (Q_OS_ANDROID)
+    m_mainLay->setContentsMargins(0, 0, 0, 0);
+#else
     m_mainLay->setContentsMargins(7, 2, 7, 2);
-#if !defined (Q_OS_ANDROID)
 		m_name->installEventFilter(this);
 #endif
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -307,7 +309,7 @@ bool TmainView::eventFilter(QObject* ob, QEvent* event) {
       QStatusTipEvent *tip = static_cast<QStatusTipEvent *>(event);
       emit statusTip(tip->tip());
   }
-  if (isAutoHide() && ob->objectName() == "toolBar" && event->type() == QEvent::Leave)
+  if (isAutoHide() && ob->objectName() == QLatin1String("toolBar") && event->type() == QEvent::Leave)
       startHideAnim();
   return QAbstractScrollArea::eventFilter(ob, event);
 }
