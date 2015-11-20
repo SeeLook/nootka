@@ -55,7 +55,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   m_instance = this;
   finder()->setCopyInThread(false);
   finder()->setNrChunksToReset(500); // Less memory usage
-  
+
   createInputDevice();
 
   moveToThread(m_thread);
@@ -68,13 +68,14 @@ TaudioIN::~TaudioIN() {
   stopListening();
   m_audioIN->stop();
   finder()->blockSignals(true);
-  if (m_thread->isRunning()) {
-      m_thread->wait(10);
+  if (m_thread->isRunning()) { // In fact, it never goes here
+      qDebug() << "Terminating audio input thread";
       m_thread->terminate();
       m_thread->quit();
+      stopThread();
   }
   m_audioParams->INdevName = m_deviceName; // store device name at the app exit
-  m_thread->deleteLater();
+  delete m_thread;
   m_instance = 0;
 }
 
@@ -153,14 +154,14 @@ void TaudioIN::startThread() {
 
 
 void TaudioIN::stopThread() {
-//   if (detectingState() != e_stopped) {
-    m_audioIN->stop();
+  m_audioIN->stop();
+  if (m_buffer) {
     delete m_buffer;
     m_buffer = 0;
-    resetVolume();
-    resetChunkPitch();
-    finder()->resetFinder();
-//   }
+  }
+  resetVolume();
+  resetChunkPitch();
+  finder()->resetFinder();
 }
 
 
