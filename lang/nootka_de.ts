@@ -747,7 +747,7 @@
     </message>
     <message>
         <source>Played number</source>
-        <translation type="unfinished">mal gespielt</translation>
+        <translation>mal gespielt</translation>
     </message>
     <message>
         <source>Analyze</source>
@@ -1618,7 +1618,7 @@ Check answer just after last note of melody was played.</translatorcomment>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
         <translatorcomment>It should be rather plural form.
 cents???</translatorcomment>
-        <translation type="unfinished">Cent</translation>
+        <translation>Cent</translation>
     </message>
 </context>
 <context>
@@ -2509,10 +2509,6 @@ nicht öffnen</translation>
         <translation>Notation bearbeiten und darin bewegen.</translation>
     </message>
     <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Zeigt die Vorzeichen der Tonart auch neben der Note. &lt;b&gt;ACHTUNG! Dies kommt niemals in echten Partituren vor - nutze es nur für Übungszwecke&lt;/b&gt;</translation>
-    </message>
-    <message>
         <source>Show note names</source>
         <translation>Zeige Notenname</translation>
     </message>
@@ -2564,6 +2560,10 @@ nicht öffnen</translation>
     <message>
         <source>Shows names of all notes on the staff.</source>
         <translation>Zeigt die Namen aller Noten in der Notation.</translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation>Zeigt die Vorzeichen der Tonart auch neben der Note. &lt;b&gt;ACHTUNG! Dies kommt niemals in echten Partituren vor - nutze es nur für Übungszwecke&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -2894,11 +2894,7 @@ nicht öffnen</translation>
     <message>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
-        <translatorcomment>I&apos;m guessing:
-gespielt
-Then Nootka will display in short:
-gespielt 5, effectiveness 3%, time 3 days 6:53:25</translatorcomment>
-        <translation type="unfinished">gespielt</translation>
+        <translation>gespielt</translation>
     </message>
 </context>
 <context>

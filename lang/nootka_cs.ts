@@ -3097,7 +3097,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/score/tscoreactions.cpp" line="44"/>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation>Ukáže posuvky z předznamenání i vedle noty. &lt;b&gt;VAROVÁNÍ! Nikdy se neukáží ve skutečných notových zápisech - Používejte je pouze pro teoretické účely.&lt;/b&gt;</translation>
     </message>
     <message>

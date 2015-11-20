@@ -2232,7 +2232,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation>Pour savoir ce que sont les &lt;i&gt;octaves&lt;i&gt;, cliquez sur « https://fr.wikipedia.org/wiki/Octave »</translation>
+        <translation>Pour savoir ce que sont les &lt;i&gt;octaves&lt;/i&gt;, cliquez sur &quot;https://fr.wikipedia.org/wiki/Octave&quot;</translation>
     </message>
     <message>
         <source>Octaves</source>
@@ -2526,10 +2526,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Altérations supplémentaires</translation>
     </message>
     <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Afficher aussi les altérations près des notes. &lt;b&gt;Attention ! Ce n&apos;est jamais le cas sur une portée : utiliser uniquement de manière théorique. &lt;/b&gt;</translation>
-    </message>
-    <message>
         <source>Show note names</source>
         <translation>Afficher le nom des notes</translation>
     </message>
@@ -2576,6 +2572,10 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Shows names of all notes on the staff.</source>
         <translation>Afficher le nom de toutes les notes sur la portée.</translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation>Afficher aussi les altérations près des notes. &lt;b&gt;Attention ! Ce n&apos;est jamais le cas sur une portée : utiliser uniquement de manière théorique. &lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -3118,7 +3118,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
