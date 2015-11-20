@@ -77,11 +77,12 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setStyleSheet(("background: transparent"));
     setScene(m_scene);
     setMouseTracking(true);
-    setStatusTip(tr("Select a string or fret and click to see it on the staff."));
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 #if defined (Q_OS_ANDROID)
-  setContentsMargins(0, 0, 0, 0);
+    setContentsMargins(0, 0, 0, 0);
+#else
+    setStatusTip(tr("Select a string or fret and click to see it on the staff."));
 #endif
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QGraphicsBlurEffect *blur[6];
     for (int i = 0; i < 6; i++) {
@@ -105,7 +106,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         blur[i]->setBlurRadius(3);
         m_workStrings[i]->setGraphicsEffect(blur[i]);
     }
-    
+
     m_pickRect = new QRect(); // empty rectangle
 
     m_workFinger = new QGraphicsEllipseItem();
@@ -130,9 +131,9 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_isDisabled = false;
 		m_beyondTip = 0;
 		m_fingerPos.setPos(1, 30);
-		
+
 		setTune();
-		
+
 }
 
 
@@ -191,10 +192,11 @@ void TfingerBoard::setFinger(const Tnote& note) {
 			if (foundPos)
 				deleteBeyondTip();
 			else if (!m_beyondTip) {
-					m_beyondTip = new TgraphicsTextTip(QString("<span style=\"font-size: %1px; color: %2;\"><br><b> ").
-													arg(height() / 7).arg(gl->EquestionColor.name()) +
-													tr("This note is beyond the scale of the guitar!") + " </b></span><br>", 
-																							QColor(qApp->palette().text().color().darker().name()));
+					m_beyondTip = new TgraphicsTextTip(QLatin1String("<b> ") +
+                          tr("This note is beyond the scale of the guitar!") + QLatin1String("</b> "),	Qt::red);
+          m_beyondTip->setBaseColor(Qt::black);
+          m_beyondTip->setFrameColor(Qt::red);
+          m_beyondTip->setDefaultTextColor(Qt::white);
 					if (!gl->GisRightHanded) {
 						QTransform trans;
 						trans.translate(width() / 2, 0);
@@ -203,8 +205,9 @@ void TfingerBoard::setFinger(const Tnote& note) {
 					}
 					m_scene->addItem(m_beyondTip);
 					m_beyondTip->setZValue(150);
-					m_beyondTip->setPos((m_scene->width() - m_beyondTip->boundingRect().width()) / 2,
-											(m_scene->height() - m_beyondTip->boundingRect().height()) / 2);
+          m_beyondTip->setScale((height() / 3.0) / m_beyondTip->realH());
+					m_beyondTip->setPos((m_scene->width() - m_beyondTip->realW()) / 2,
+											(m_scene->height() - m_beyondTip->realH()) / 2);
 			}
 	} else { // hide highlighted fingers/string if no note
 			for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
@@ -447,7 +450,6 @@ void TfingerBoard::createRangeBox(char loFret, char hiFret) {
 
 
 void TfingerBoard::prepareAnswer() {
-//     setAttribute(Qt::WA_TransparentForMouseEvents, false); // unlock guitar for mouse
     if (m_rangeBox1)
         m_rangeBox1->show();
     if (m_rangeBox2)

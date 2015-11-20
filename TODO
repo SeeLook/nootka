@@ -10,10 +10,8 @@
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
-
-New translations
-waring - merge with stable
-
+Translations:
+ - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
 
 ANDROID:
 - crash when audio out was disables and enabled again in settings (audio in probably also)
@@ -26,6 +24,7 @@ ANDROID:
 - handle BACK button to destroy visible menu and/or prevent to close exam
 - alternate enharmonical names color is white by default in settings (when single note is unlocked)
   its change is not approved to score
+- TexamExecutor has many, many un-wrapped strings, many ""
 
 - remove tanimedtextitem.cpp - probably unused
 

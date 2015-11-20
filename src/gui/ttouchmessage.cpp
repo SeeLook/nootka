@@ -26,7 +26,7 @@
 
 
 TtouchMessage::TtouchMessage() :
-  TgraphicsTextTip(QString(), qApp->palette().text().color())
+  TgraphicsTextTip(QString(), qApp->palette().base().color())
 {
   setFrameColor(qApp->palette().highlight().color());
   setBaseColor(qApp->palette().highlight().color().lighter());
@@ -46,7 +46,8 @@ TtouchMessage::TtouchMessage() :
 
 TtouchMessage::~TtouchMessage()
 {
-  delete m_anim;
+  m_anim->blockSignals(true);
+  m_anim->deleteLater();
 }
 
 
