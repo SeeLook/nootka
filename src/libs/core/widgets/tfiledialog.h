@@ -30,7 +30,7 @@ class TfileDialog : public QDialog
   Q_OBJECT
 
 public:
-  enum EacceptMode { e_acceptSave, e_acceptOpen }; /** File dialog type: for opening or saving */
+  enum EacceptMode { e_acceptSave, e_acceptOpen }; /**< File dialog type: for opening or saving */
   Q_ENUM(EacceptMode)
 
   explicit TfileDialog(QWidget* parent, const QString& directory, const QString& filter, EacceptMode mode);
@@ -50,7 +50,7 @@ protected:
   void menuClickedSlot(QListWidgetItem* item);
   void dirUpSlot();
   void newDirSlot();
-  void performAction(); /** Open or save */
+  void performAction(); /**< Open or save */
 
   QListWidgetItem* addMenuItem(const QIcon& icon, const QString& text = QString());
   void updateLocationLabel();

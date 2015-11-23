@@ -11,14 +11,14 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
-   width="1365"
-   height="1270"
+   width="1240.4091"
+   height="950.86475"
    id="svg2"
    inkscape:version="0.91 r13725"
    sodipodi:docname="dirUp.svg"
    inkscape:export-filename="/home/tom/DEVELOP/QT5/nootka/spare_parts/mobile/dirUp.png"
-   inkscape:export-xdpi="16.870001"
-   inkscape:export-ydpi="16.870001">
+   inkscape:export-xdpi="18.551535"
+   inkscape:export-ydpi="18.551535">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -28,13 +28,13 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1600"
-     inkscape:window-height="1163"
+     inkscape:window-width="1366"
+     inkscape:window-height="737"
      id="namedview10"
      showgrid="false"
      inkscape:zoom="0.3337544"
-     inkscape:cx="834.42009"
-     inkscape:cy="779.83"
+     inkscape:cx="611.21323"
+     inkscape:cy="479.24265"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -61,7 +61,7 @@
        inkscape:label="In and Out"
        inkscape:menu="Shadows and Glows"
        inkscape:menu-tooltip="Inner colorized shadow, outer black shadow"
-       color-interpolation-filters="sRGB">
+       style="color-interpolation-filters:sRGB">
       <feGaussianBlur
          id="feGaussianBlur5559"
          result="result0"
@@ -201,41 +201,24 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <rect
-     style="fill:#ffffff;fill-opacity:1;stroke:none"
-     id="rect5537"
-     width="1306.5997"
-     height="1197.0548"
-     x="1.7004147"
-     y="25.193596"
-     ry="136.87044" />
   <g
-     transform="matrix(0.78209789,0,0,0.78209789,-209.09806,981.0467)"
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
+     transform="matrix(0.81976052,0,0,0.78209789,-288.15103,842.65021)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5163" />
   <g
-     transform="matrix(0.78209789,0,0,0.78209789,-209.09806,981.0467)"
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
+     transform="matrix(0.81976052,0,0,0.78209789,-288.15103,842.65021)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5167" />
   <g
-     transform="matrix(-0.55847483,-0.65715374,0,1,382.92129,501.57664)"
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
+     transform="matrix(-0.58536869,-0.65715374,0,1,332.37754,363.18015)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5163-8" />
   <g
-     transform="matrix(-0.55847483,-0.65715374,0,1,382.92129,501.57664)"
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
+     transform="matrix(-0.58536869,-0.65715374,0,1,332.37754,363.18015)"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5167-7" />
-  <rect
-     style="fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter5557)"
-     id="rect5537-4"
-     width="284.49728"
-     height="260.64511"
-     x="2018.7683"
-     y="592.26843"
-     ry="29.801985"
-     transform="matrix(4.5971475,0,0,4.5971475,-9261.2385,-2699.7861)" />
   <g
-     transform="matrix(20.403801,0,0,18.285787,-7842.1159,-8817.9434)"
+     transform="matrix(21.386364,0,0,18.285787,-8288.7437,-8956.3399)"
      id="g4152">
     <path
        sodipodi:nodetypes="ccsssssccccccc"
@@ -277,7 +260,7 @@
   <path
      sodipodi:nodetypes="ccccccccc"
      id="path8643"
-     d="m 544.07058,1046.7372 224.88602,0 0,-266.90511 163.92343,0 -274.56933,-410.30968 -276.1414,412.75197 161.97146,0 -0.0701,264.46282 z"
+     d="m 501.28712,908.34071 235.71561,0 0,-266.90511 171.81731,0 -287.79146,-410.30968 -289.43924,412.75197 169.77134,0 -0.0735,264.46282 z"
      style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.00000048;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none"
      inkscape:connector-curvature="0" />
 </svg>
