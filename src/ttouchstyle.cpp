@@ -19,7 +19,9 @@
 #include "ttouchstyle.h"
 #include <tmtr.h>
 #include <QtWidgets/qstylefactory.h>
+#include <QtWidgets/qapplication.h>
 #include <QtCore/qdebug.h>
+
 
 TtouchStyle::TtouchStyle() :
   QProxyStyle(QStyleFactory::create("Fusion")) // android style is weird
@@ -32,6 +34,7 @@ TtouchStyle::TtouchStyle() :
         QString("QSpinBox::up-button { subcontrol-position: left; width: %1px; height: %1px;}").arg(Tmtr::fingerPixels() * 0.7) +
         QString("QSpinBox::down-button { subcontrol-position: right; width: %1px; height: %1px;}").arg(Tmtr::fingerPixels() * 0.7)
   );
+  qApp->setGlobalStrut(QSize(qApp->globalStrut().width(), qMax<int>(qApp->globalStrut().height(), Tmtr::fingerPixels() * 0.7)));
 }
 
 
