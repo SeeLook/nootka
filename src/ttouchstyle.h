@@ -19,7 +19,7 @@
 #ifndef TTOUCHSTYLE_H
 #define TTOUCHSTYLE_H
 
-#include <qproxystyle.h>
+#include <QtWidgets/qproxystyle.h>
 
 class TtouchStyle : public QProxyStyle
 {
