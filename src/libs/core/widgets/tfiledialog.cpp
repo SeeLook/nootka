@@ -41,7 +41,12 @@ private:
   QFileIconProvider           *m_realProvider;
 };
 
-
+//#################################################################################################
+//###################     class   TnewDirMessage       ############################################
+//#################################################################################################
+/**
+ * Subclass of QDialog to get name of new directory
+ */
 class TnewDirMessage : public QDialog
 {
 
@@ -51,21 +56,37 @@ public:
   {
     auto label = new QLabel(QApplication::translate("QFileDialog", "Create New Folder"), this);
     m_edit = new QLineEdit(this);
-    m_edit->setPlaceholderText(QApplication::translate("QFileDialog", "Directory:"));
-    auto box = new QDialogButtonBox(this);
-    auto okButt = box->addButton(QDialogButtonBox::Ok);
-    okButt->setIcon(style()->standardIcon(QStyle::QStyle::SP_FileDialogNewFolder));
-    auto cancelButt = box->addButton(QDialogButtonBox::Cancel);
-    cancelButt->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
+    m_edit->setPlaceholderText(QApplication::translate("QFileSystemModel", "Name"));
+    m_edit->setMinimumWidth(qMin<int>(Tmtr::longScreenSide() / 3, fontMetrics().width(QStringLiteral("w")) * 20));
+
+    QSize iconS(Tmtr::fingerPixels() * 0.7, Tmtr::fingerPixels() * 0.7);
+    m_createButt = new QPushButton(QIcon(QLatin1String(":/mobile/newDir.png")),
+                               QApplication::translate("QFileDialog", "&New Folder").replace(QLatin1String("&"), QString()),
+                               this);
+      m_createButt->setIconSize(iconS);
+      m_createButt->setDisabled(true);
+      m_createButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    auto cancelButt = new QPushButton(style()->standardIcon(QStyle::SP_DialogCancelButton),
+                                  QApplication::translate("QPlatformTheme", "Cancel"),
+                                  this);
+      cancelButt->setIconSize(iconS);
+      cancelButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     auto lay = new QVBoxLayout;
-    lay->addWidget(label);
-    lay->addWidget(m_edit);
-    lay->addWidget(box);
+      lay->addWidget(label);
+      lay->addWidget(m_edit);
+      lay->addSpacing(Tmtr::fingerPixels() / 2);
+      auto buttonLay = new QHBoxLayout;
+        buttonLay->addWidget(m_createButt);
+        buttonLay->addWidget(cancelButt);
+        buttonLay->setContentsMargins(0, 0, 0, 0);
+      lay->addLayout(buttonLay);
+      lay->setContentsMargins(0, 0, 0, 0);
     setLayout(lay);
 
-    connect(box, &QDialogButtonBox::accepted, this, &QDialog::accept);
-    connect(box, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    connect(m_createButt, &QPushButton::clicked, this, &QDialog::accept);
+    connect(cancelButt, &QPushButton::clicked, this, &QDialog::reject);
+    connect(m_edit, &QLineEdit::textChanged, this, &TnewDirMessage::textChangedSlot);
   }
 
   QString getName() { return m_edit->text(); }
@@ -78,8 +99,12 @@ public:
       return QString();
   }
 
+protected:
+  void textChangedSlot(const QString& t) {  m_createButt->setDisabled(t.isEmpty()); }
+
 private:
-  QLineEdit           *m_edit;
+  QLineEdit     *m_edit;
+  QPushButton   *m_createButt;
 };
 
 
@@ -127,31 +152,48 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   QFont f = font();
   f.setPixelSize(qMin<int>(bSize / 5, fontMetrics().height()));
   m_menu->setFont(f);
-//   m_menu->setObjectName("fileMenu"); // revert colors
-//   m_menu->setStyleSheet(m_menu->styleSheet() + " QListWidget#fileMenu { background: palette(text); color: palette(base); }");
+  m_menu->setObjectName(QLatin1String("fileMenu")); // revert colors
+  m_menu->setStyleSheet(m_menu->styleSheet() + QLatin1String(" QListWidget#fileMenu { background: palette(text); color: palette(base); }"));
   QScroller::grabGesture(m_menu->viewport(), QScroller::LeftMouseButtonGesture);
 
-  if (mode == e_acceptSave)
-    m_acceptItem = addMenuItem(style()->standardIcon(QStyle::SP_DialogSaveButton), QApplication::translate("QShortcut", "Save"));
-  else
-    m_acceptItem = addMenuItem(style()->standardIcon(QStyle::SP_DialogOpenButton), QApplication::translate("QShortcut", "Open"));
+  QStringList filters = filter.split(QLatin1String("|"));
 
-  m_dirUpItem = addMenuItem(style()->standardIcon(QStyle::SP_ArrowUp));
-  m_newDirItem = addMenuItem(style()->standardIcon(QStyle::QStyle::SP_FileDialogNewFolder));
-  m_cancelItem = addMenuItem(style()->standardIcon(QStyle::QStyle::SP_DialogCloseButton), QApplication::translate("QShortcut", "Close"));
+  QIcon fileIcon;
+  if (filters.size() == 1) { // if filter has only one entry - check is it *.nel or *.noo and use its icon
+    if (filters.first().contains(QLatin1String("nel")))
+      fileIcon = QIcon(Tpath::img("nootka-level"));
+    else if (filters.first().contains(QLatin1String("noo")))
+      fileIcon = QIcon(Tpath::img("nootka-exam"));
+  }
+  if (filters.size() != 1 || fileIcon.isNull()) { // if more or none filters or other file types use standard icons
+    if (mode == e_acceptSave)
+      fileIcon = style()->standardIcon(QStyle::SP_DialogSaveButton);
+    else
+      fileIcon = style()->standardIcon(QStyle::SP_DialogOpenButton);
+  }
+  m_acceptItem = addMenuItem(fileIcon,
+                mode == e_acceptSave ? QApplication::translate("QShortcut", "Save") : QApplication::translate("QShortcut", "Open"));
+
+  QString space = QLatin1String(" ");
+  QString newLine = QLatin1String("\n");
+  m_dirUpItem = addMenuItem(QIcon(QLatin1String(":/mobile/dirUp.png")),
+                            QApplication::translate("QFileDialog", "Parent Directory").replace(space, newLine));
+  m_newDirItem = addMenuItem(QIcon(QLatin1String(":/mobile/newDir.png")),
+                             QApplication::translate("QFileDialog", "&New Folder").replace(space, newLine).replace(QLatin1String("&"), QString()));
+  m_cancelItem = addMenuItem(QIcon(QLatin1String(":/mobile/exit.png")), QApplication::translate("QShortcut", "Close"));
 
   m_locationLab = new QLabel(this);
   m_locationLab->setAlignment(Qt::AlignRight);
   m_locationLab->setFixedWidth(Tmtr::longScreenSide() / 3);
 
   m_editName = new QLineEdit(this);
-  m_editName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);;
+  m_editName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
   if (mode == e_acceptOpen)
     m_editName->setReadOnly(true);
 
   m_extensionCombo = new QComboBox(this);
   m_list = new QListView(this);
-  int is = style()->pixelMetric(QStyle::PM_SmallIconSize) * 1.1;
+  int is = Tmtr::fingerPixels();
   m_list->setIconSize(QSize(is, is));
   m_list->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
   m_list->setSelectionBehavior(QAbstractItemView::SelectItems);
@@ -171,7 +213,8 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
     innLay->addWidget(m_list);
   m_lay->addLayout(innLay);
   setLayout(m_lay);
-  m_lay->setContentsMargins(0, m_lay->contentsMargins().top(), m_lay->contentsMargins().right(), 0);
+  innLay->setContentsMargins(0, m_lay->contentsMargins().top(), 0, 0);
+  m_lay->setContentsMargins(0, 0, m_lay->contentsMargins().right(), 0);
 
   m_fileModel = new QFileSystemModel(this);
 
@@ -184,7 +227,6 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   }
   updateLocationLabel();
 
-  QStringList filters = filter.split(QLatin1String("|"));
   if (filters.size()) {
     for(int i = 0; i < filters.size(); ++i) {
       filters[i].prepend(QLatin1String("."));
@@ -192,6 +234,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
       filters[i].prepend(QLatin1String("*"));
     }
     m_extensionCombo->setCurrentIndex(0);
+//     m_extensionCombo->setMinimumWidth(fontMetrics().width(m_extensionCombo->currentText()) + 20); // keep whole extension text visible
     m_fileModel->setNameFilters(filters);
     m_fileModel->setNameFilterDisables(false);
   }
@@ -307,5 +350,6 @@ void TfileDialog::updateLocationLabel() {
   m_locationLab->setText(fontMetrics().elidedText(m_fileModel->rootPath() + QLatin1String("/"),
                                                   Qt::ElideMiddle, m_locationLab->width(), Qt::TextShowMnemonic));
 }
+
 
 
