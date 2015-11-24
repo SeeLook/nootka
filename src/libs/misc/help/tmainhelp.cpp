@@ -91,6 +91,10 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpEdit->setOpenExternalLinks(true);
   helpEdit->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
   QScroller::grabGesture(helpEdit->viewport(), QScroller::LeftMouseButtonGesture);
+#if defined (Q_OS_ANDROID)
+  helpEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  helpEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
 // 	qDebug() << helpEdit->toHtml();
   lay->addWidget(helpEdit);
   setLayout(lay);
