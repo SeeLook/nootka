@@ -35,7 +35,6 @@
 #include <exam/texam.h>
 #include <widgets/tpitchview.h>
 #include <tsound.h>
-#include <QtWidgets/QtWidgets>
 #if defined (Q_OS_ANDROID)
   #include <gui/ttouchmessage.h>
 #else
@@ -44,6 +43,8 @@
 #endif
 #include <level/tlevelselector.h>
 #include <plugins/tpluginsloader.h>
+#include <QtWidgets/QtWidgets>
+
 
 extern Tglobals *gl;
 extern bool resetConfig;
@@ -94,13 +95,12 @@ MainWindow::MainWindow(QWidget *parent) :
   m_isPlayerFree(true)
 {
   setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
-#if defined (Q_OS_ANDROID)
-
-#else
+#if !defined (Q_OS_ANDROID)
   setMinimumSize(720, 480);
   gl->config->beginGroup("General");
   setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
-
+  gl->config->endGroup();
+#endif
   if (gl->isFirstRun) {
       TpluginsLoader *wizardLoader = new TpluginsLoader();
       if (wizardLoader->load(TpluginsLoader::e_wizard)) {
@@ -108,18 +108,21 @@ MainWindow::MainWindow(QWidget *parent) :
       }
       delete wizardLoader;
       gl->isFirstRun = false;
-  } else { // show support window once but not with first run wizard
+  }
+#if !defined (Q_OS_ANDROID)
+  else { // show support window once but not with first run wizard
+      gl->config->beginGroup("General");
       QString newVersion = gl->config->value("version", QString()).toString();
+      gl->config->endGroup();
       if (newVersion != gl->version) {
         QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
       } else { // check for updates
-        gl->config->endGroup();
         gl->config->beginGroup("Updates");
 				m_updaterPlugin = new TpluginsLoader();
         if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
-					connect(m_updaterPlugin->node(), &TpluginObject::message, this, &MainWindow::updaterMessagesSlot);
-					gl->config->endGroup(); // close settings note because updater need to open it again
-					m_updaterPlugin->init("false", this); // string argument stops displaying update dialog when no news were send
+            connect(m_updaterPlugin->node(), &TpluginObject::message, this, &MainWindow::updaterMessagesSlot);
+            gl->config->endGroup(); // close settings note because updater need to open it again
+            m_updaterPlugin->init("false", this); // string argument stops displaying update dialog when no news were send
         } else
 						delete m_updaterPlugin;
       }
@@ -134,7 +137,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_messageTimer = new QTimer(this);
   connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
 #endif
-  
+
 //-------------------------------------------------------------------
 // Creating GUI elements
   bar = new TtoolBar(gl->version, this);

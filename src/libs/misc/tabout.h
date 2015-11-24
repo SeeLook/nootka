@@ -12,53 +12,31 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#ifndef TABOUTNOOTKA_H
-#define TABOUTNOOTKA_H
+#ifndef TABOUT_H
+#define TABOUT_H
 
 #include "nootkamiscglobal.h"
-#include <QtWidgets/qdialog.h>
+#include <QtWidgets/qwidget.h>
 
-class QTimer;
-class QScrollArea;
-class QListWidget;
-class QStackedLayout;
+class TroundedLabel;
 
 
 /**
- * Dialog with multiple pages:
- * - intro
- * - help
- * - authors
- * - license
- * - support
+ * Widget with initial information about Nootka
  */
-class NOOTKAMISC_EXPORT TaboutNootka : public QDialog
+class NOOTKAMISC_EXPORT Tabout : public QWidget
 {
   Q_OBJECT
 public:
-  explicit TaboutNootka(QWidget *parent = 0);
+  explicit Tabout(QWidget *parent = 0);
 
-  static QString authorsTxt() { return tr("Authors"); }
-
-protected slots:
-  void moveScroll();
-  void changeCurrentPage(int page);
-    /** It is called after dialog constructor to grab and fix window size (avoid resizing) */
-  void fixSize();
 
 private:
-  QListWidget 		*m_navList;
-  QStackedLayout 	*m_stackLayout;
-  QPushButton 		*m_okBut;
-  QScrollArea 		*m_authorScroll;
-  QTimer					*m_timer;
-
+    TroundedLabel *m_aboutLab;
 };
 
-
-#endif // TABOUTNOOTKA_H
+#endif // TABOUT_H
