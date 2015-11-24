@@ -18,7 +18,7 @@
 
 
 #include "tfirstrunwizard.h"
-#include <taboutnootka.h>
+#include <tabout.h>
 #include <tscalepreviewlabel.h>
 #include <select7note.h>
 #include <help/tmainhelp.h>
@@ -34,58 +34,84 @@
 #include <taudioparams.h>
 #include <tscoreparams.h>
 #include <tlayoutparams.h>
-#include <QtWidgets>
+#include <tpath.h>
+#include <QtWidgets/QtWidgets>
 
 
+#if defined (Q_OS_ANDROID)
+  const QString headSpan = QLatin1String("<span style=\"font-size: large;\"><b>");
+#else
+  const QString headSpan = QLatin1String("<span style=\"font-size: x-large;\"><b>");
+#endif
+const QString headClose = QLatin1String("</b></span>");
 
 TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
-    QWizard(parent)
+  QWizard(parent)
 {
-  setWindowIcon(QIcon(Tcore::gl()->path + "picts/nootka.png"));
-  setWindowTitle("Nootka   " + tr("First run wizard"));
+#if defined (Q_OS_ANDROID)
+  showMaximized();
+#else
+  setWindowIcon(QIcon(Tpath::img("nootka")));
+  setWindowTitle(QLatin1String("Nootka   ") + tr("First run wizard"));
+  QPixmap bgPix(Tpath::img("wizard-left"));
+  setPixmap(WatermarkPixmap, bgPix);
+#endif
   setWizardStyle(ClassicStyle);
-  QPixmap bgPix(Tcore::gl()->path + "picts/wizard-left.png");
-  setPixmap(WatermarkPixmap, bgPix);  
-  
+  setOption(IgnoreSubTitles);
+
 // 1. About Nootka page
-  Tabout *aboutNoot = new Tabout();
-  QWizardPage *aboutPage = new QWizardPage;
-  QVBoxLayout *aLay = new QVBoxLayout;
-  aLay->addWidget(aboutNoot);
-  aboutPage->setLayout(aLay);
+  auto aboutPage = new QWizardPage(this);
+  auto aboutNootka = new Tabout();
+  auto aboutLay = new QVBoxLayout;
+    aboutLay->addWidget(aboutNootka);
+#if defined (Q_OS_ANDROID)
+    aboutLay->setContentsMargins(0, 0, 0, 0);
+#endif
+  aboutPage->setLayout(aboutLay);
+
 // 2. Select instrument page
-  m_selectInstr = new TselectInstrument();
+  auto instrumentPage = new QWizardPage(this);
+  auto whatLabel = new QLabel(headSpan + tr("What instrument do you play?") + headClose, instrumentPage);
+  m_selectInstr = new TselectInstrument(instrumentPage);
   m_selectInstr->setInstrument(int(e_classicalGuitar));
-  QWizardPage *instrumentPage = new QWizardPage;
-  instrumentPage->setTitle("<center>" + tr("What instrument do you play?") + "</center>");
-  QVBoxLayout *iLay = new QVBoxLayout;
-  iLay->addStretch();
-  iLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
-  iLay->addStretch();
-  instrumentPage->setLayout(iLay);
+  auto instrLay = new QVBoxLayout;
+    instrLay->addStretch();
+    instrLay->addWidget(whatLabel, 0, Qt::AlignCenter);
+    instrLay->addStretch();
+    instrLay->addWidget(m_selectInstr, 0, Qt::AlignCenter);
+    instrLay->addStretch();
+#if defined (Q_OS_ANDROID)
+    instrLay->setContentsMargins(0, 0, 0, 0);
+#endif
+  instrumentPage->setLayout(instrLay);
+
 // 3. Select clef and instrument note range
   m_notationWidget = new Tpage_2;
   whenInstrumentChanged(1);
+
 // 4. Some options page 
-  m_page3 = new Tpage_3();
+  m_page3 = new Tpage_3(this);
+
 // 5. Last page with some help
-  m_page4 = new TmainHelp();
-  QWizardPage *helpPage = new QWizardPage;
-  QVBoxLayout *hLay = new QVBoxLayout;
-  hLay->addWidget(m_page4);
-  helpPage->setLayout(hLay);
+  auto helpPage = new QWizardPage(this);
+  m_page4 = new TmainHelp(helpPage);
+  auto helpLay = new QVBoxLayout;
+    helpLay->addWidget(m_page4);
+#if defined (Q_OS_ANDROID)
+    helpLay->setContentsMargins(0, 0, 0, 0);
+#endif
+  helpPage->setLayout(helpLay);
 
   addPage(aboutPage);
   addPage(instrumentPage);
   addPage(m_notationWidget);
   addPage(m_page3);
   addPage(helpPage);
-  
-  
+
   // grab 7-th note from translation
-  if (TmiscTrans::note7txt().toLower() == "b") {
+  if (TmiscTrans::note7txt().toLower() == QLatin1String("b")) {
       Tcore::gl()->S->seventhIs_B = true; // rest S->nameStyleInNoteName
-      if (TmiscTrans::keyNameStyle() == "solfege")
+      if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
       else
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
@@ -93,7 +119,7 @@ TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
   else {
       Tcore::gl()->S->seventhIs_B = false;
       Tcore::gl()->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
-      if (TmiscTrans::keyNameStyle() == "solfege")
+      if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
       else
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_deutsch_His;
@@ -106,8 +132,8 @@ TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
 
 void TfirstRunWizard::pageChanged(int pageNr) {
   if (pageNr == 1) { // Take out keyboard focus
-    if (qApp->focusWidget()) // instrument page highlights 2nd button (classicla) by default, but keyboard focus goes to first one
-      qApp->focusWidget()->clearFocus(); // it may be confusing if some style have the same colors for focus and highlight.
+    if (qApp->focusWidget()) // instrument page highlights 2nd button (classical) by default, but keyboard focus goes to first one
+        qApp->focusWidget()->clearFocus(); // it may be confusing if some style have the same colors for focus and highlight.
   }
 }
 
@@ -116,20 +142,20 @@ void TfirstRunWizard::done(int result) {
   if (m_page3->select7->is7th_B()) {
       Tcore::gl()->S->seventhIs_B = true;
       Tcore::gl()->S->nameStyleInNoteName = Tnote::e_english_Bb;
-      if (TmiscTrans::keyNameStyle() == "solfege")
+      if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
       else
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
   } else {
       Tcore::gl()->S->seventhIs_B = false;
       Tcore::gl()->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
-      if (TmiscTrans::keyNameStyle() == "solfege")
+      if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
       else
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_deutsch_His;
   }
-  if (QLocale::system().name().contains("ru")) // override name style for Russian localization
-    Tcore::gl()->S->nameStyleInNoteName = Tnote::e_russian_Ci;        
+  if (QLocale::system().name().contains(QLatin1String("ru"))) // override name style for Russian localization
+    Tcore::gl()->S->nameStyleInNoteName = Tnote::e_russian_Ci;
   Tcore::gl()->S->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
   Tcore::gl()->S->showEnharmNotes = m_page3->enharmChB->isChecked();
   Tcore::gl()->S->keySignatureEnabled = m_page3->useKeyChB->isChecked();
@@ -147,15 +173,14 @@ void TfirstRunWizard::done(int result) {
       Tcore::gl()->L->guitarEnabled = false;
       Tcore::gl()->S->clef = m_notationWidget->score()->clef().type();
       Tnote hiN, loN; // fix notes order
-      if (m_notationWidget->score()->getNote(1).chromatic() <
-              m_notationWidget->score()->getNote(0).chromatic()) {
+      if (m_notationWidget->score()->getNote(1).chromatic() < m_notationWidget->score()->getNote(0).chromatic()) {
           hiN = m_notationWidget->score()->getNote(1);
           loN = m_notationWidget->score()->getNote(0);
       } else {
           hiN = m_notationWidget->score()->getNote(0);
           loN = m_notationWidget->score()->getNote(1);
       }
-      Ttune instrScale("scale", Tnote(hiN.chromatic() - Tcore::gl()->GfretsNumber), loN);
+      Ttune instrScale(QStringLiteral("scale"), Tnote(hiN.chromatic() - Tcore::gl()->GfretsNumber), loN);
       Tcore::gl()->setTune(instrScale);
       Tcore::gl()->A->detectMethod = 0; // MPM for other instruments
       Tcore::gl()->A->minSplitVol = 0.0;
@@ -173,11 +198,11 @@ void TfirstRunWizard::whenInstrumentChanged(int instr) {
 				m_notationWidget->notationNote()->setHtml(QString("<center>%1<br>").
 				arg(wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
 				tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
-					"<br><br>" + wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
+					QLatin1String("<br><br>") + wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
 	else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
-				m_notationWidget->notationNote()->setHtml("<br><br><center>" + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><b><big>Both pictures above show the same note: c<sup>1</sup></big></b><br>(note c in one-line octave)</p>").
+				m_notationWidget->notationNote()->setHtml(QLatin1String("<br><br><center>") + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><b><big>Both pictures above show the same note: c<sup>1</sup></big></b><br>(note c in one-line octave)</p>").
 				arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
-				arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + "</center>");
+				arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + QLatin1String("</center>"));
 }
 
 //###############################################  Tpage_2   ###############################################
@@ -188,6 +213,9 @@ Tpage_2::Tpage_2(QWidget* parent) :
 	m_score(0)
 {
 	m_lay = new QVBoxLayout;
+#if defined (Q_OS_ANDROID)
+  m_lay->setContentsMargins(0, 0, 0, 0);
+#endif
 	setLayout(m_lay);
 }
 
@@ -199,7 +227,11 @@ void Tpage_2::setNoteForInstrument(int instr) {
 				delete m_notationNote;
 				m_notationNote = 0;
 			}
-      setTitle("<center>" + tr("Select a clef and scale of notes appropriate for your instrument.") + "</center>");
+      m_lay->addStretch();
+      m_headLabel = new QLabel(headSpan + tr("Select a clef and scale of notes appropriate for your instrument.") + headClose, this);
+      m_headLabel->setWordWrap(true);
+      m_headLabel->setAlignment(Qt::AlignCenter);
+      m_lay->addWidget(m_headLabel);
 			m_score = new TsimpleScore(2, this);
       m_lay->addStretch();
 			m_lay->addWidget(m_score, 0, Qt::AlignCenter);
@@ -209,13 +241,15 @@ void Tpage_2::setNoteForInstrument(int instr) {
       m_score->setMinimumSize(contentsRect().size() / 1.5);
 			clefChanged();
       m_lay->addStretch();
+#if !defined (Q_OS_ANDROID)
       m_scoreHint = new TroundedLabel(this);
       m_lay->addWidget(m_scoreHint);
-      m_scoreHint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
+      m_scoreHint->setFixedHeight(fontMetrics().boundingRect(QLatin1String("A")).height() * 4);
       m_scoreHint->setWordWrap(true);
       m_scoreHint->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-			scoreHint("");
+			scoreHint(QString());
 			connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(scoreHint(QString)));
+#endif
 			connect(m_score, SIGNAL(clefChanged(Tclef)), this, SLOT(clefChanged()));
 		}
 	} else {
@@ -223,23 +257,31 @@ void Tpage_2::setNoteForInstrument(int instr) {
 			if (m_score) {
 				delete m_score;
 				m_score = 0;
+        delete m_headLabel;
+#if !defined (Q_OS_ANDROID)
 				delete m_scoreHint;
-        setTitle("");
+#endif
         QLayoutItem *child;
         while ((child = m_lay->takeAt(0)) != 0)
-            delete child;
+          delete child;
 			}
 			m_notationNote = new QTextEdit(this);
 			layout()->addWidget(m_notationNote);
 			m_notationNote->setWordWrapMode(QTextOption::WordWrap);
 			m_notationNote->setReadOnly(true);
+#if defined (Q_OS_ANDROID)
+      m_notationNote->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+      m_notationNote->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
 		}
 	}
 }
 
 
 void Tpage_2::scoreHint(QString hint) {
-  m_scoreHint->setText("<center>" + hint);
+#if !defined (Q_OS_ANDROID)
+  m_scoreHint->setText(QLatin1String("<center>") + hint);
+#endif
 }
 
 
@@ -254,39 +296,43 @@ void Tpage_2::clefChanged() {
 //###############################################  Tpage_3   ###############################################
 
 Tpage_3::Tpage_3(QWidget *parent) :
-        QWizardPage(parent)
+  QWizardPage(parent)
 {
-    QVBoxLayout *lay = new QVBoxLayout;
+  auto headLab = new QLabel(headSpan +
+                tr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?") +
+                headClose, this);
+  headLab->setWordWrap(true);
+  headLab->setAlignment(Qt::AlignCenter);
+  select7 = new Select7note(this);
+  if (TmiscTrans::note7txt().toLower() == QLatin1String("b"))
+    select7->set7th_B(true);
+  else
+    select7->set7th_B(false);
+  scaleLab = new TscalePreviewLabel(select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb, false, this);
+  connect(select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteChanged(bool)));
+  dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
+  dblAccChB->setChecked(Tcore::gl()->S->doubleAccidentalsEnabled);
+
+  enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
+  enharmChB->setChecked(Tcore::gl()->S->showEnharmNotes);
+
+  useKeyChB = new QCheckBox(tr("I know about key signatures"), this);
+  useKeyChB->setChecked(Tcore::gl()->S->keySignatureEnabled);
+
+  QVBoxLayout *lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
-    setTitle("<center>" + tr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?").replace("<br>", " ") 
-            + "</center>");
-
-    select7 = new Select7note(this);
+    lay->addStretch();
+    lay->addWidget(headLab);
+    lay->addStretch();
     lay->addWidget(select7);
-    if (TmiscTrans::note7txt().toLower() == "b")
-      select7->set7th_B(true);
-    else
-      select7->set7th_B(false);
-		scaleLab = new TscalePreviewLabel(select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb, false, this);
-		lay->addWidget(scaleLab, 0, Qt::AlignCenter);
-    lay->addStretch(1);
-		connect(select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteChanged(bool)));
-    lay->addStretch(1);
-    dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
+    lay->addWidget(scaleLab, 0, Qt::AlignCenter);
+    lay->addStretch();
     lay->addWidget(dblAccChB, 0, Qt::AlignCenter);
-    dblAccChB->setChecked(Tcore::gl()->S->doubleAccidentalsEnabled);
-
-    enharmChB = new QCheckBox(tr("I know that e# is the same as f"), this);
     lay->addWidget(enharmChB, 0, Qt::AlignCenter);
-    enharmChB->setChecked(Tcore::gl()->S->showEnharmNotes);
-//     lay->addStretch(1);
-
-    useKeyChB = new QCheckBox(tr("I know about key signatures"), this);
     lay->addWidget(useKeyChB, 0, Qt::AlignCenter);
-    useKeyChB->setChecked(Tcore::gl()->S->keySignatureEnabled);
-    lay->addStretch(1);
+    lay->addStretch();
 
-    setLayout(lay);
+  setLayout(lay);
 }
 
 void Tpage_3::seventhNoteChanged(bool is7_B) {
