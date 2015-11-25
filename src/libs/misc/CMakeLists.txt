@@ -9,11 +9,9 @@ include_directories( . ../core )
 
 set(LIB_NOOTKAMISC_SRC
 	select7note.cpp
-	taboutnootka.cpp
 	tabout.cpp
 	tnootkalabel.cpp
 	tscalepreviewlabel.cpp
-	tsupportnootka.cpp
 	tmisctrans.h
 
 	help/thelpdialogbase.cpp

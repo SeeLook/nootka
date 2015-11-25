@@ -37,9 +37,6 @@
 #include <tsound.h>
 #if defined (Q_OS_ANDROID)
   #include <gui/ttouchmessage.h>
-#else
-  #include <taboutnootka.h>
-  #include <tsupportnootka.h>
 #endif
 #include <level/tlevelselector.h>
 #include <plugins/tpluginsloader.h>
@@ -330,7 +327,7 @@ void MainWindow::createSettingsDialog() {
   }
 	QString lastWord = loader->lastWord();
 	delete loader;
-		if (lastWord.contains(QStringLiteral("Accepted"))) {
+		if (lastWord.contains(QLatin1String("Accepted"))) {
 			if (executor) {
 				executor->settingsAccepted();
 				return;
@@ -350,7 +347,7 @@ void MainWindow::createSettingsDialog() {
 			pitchView->setVisible(gl->L->soundViewEnabled);
 			guitar->setVisible(gl->L->guitarEnabled);
 			m_isPlayerFree = true;
-	} else if (lastWord.contains(QStringLiteral("Reset"))) {
+	} else if (lastWord.contains(QLatin1String("Reset"))) {
       resetConfig = true;
       close();
   } else { // settings not accepted
@@ -365,17 +362,17 @@ void MainWindow::openLevelCreator(QString levelFile) {
   sound->wait(); // stops pitch detection
   sound->stopPlaying();
   m_levelCreatorExist = true;
-		TpluginsLoader loader;
+  TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_level)) {
     loader.init(levelFile, this);
   }
   QString levelText = loader.lastWord();
   gl->config->sync(); // it is necessary to save recent levels list
   bool startExercise = false;
-  if (levelText.contains(QStringLiteral("exam:")))
-    levelText.remove(QStringLiteral("exam:"));
+  if (levelText.contains(QLatin1String("exam:")))
+    levelText.remove(QLatin1String("exam:"));
   else {
-    levelText.remove(QStringLiteral("exercise:"));
+    levelText.remove(QLatin1String("exercise:"));
     startExercise = true;
   }
   m_levelCreatorExist = false;
@@ -386,7 +383,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
-    executor = new TexamExecutor(this, startExercise ? QStringLiteral("exercise") : QString(), &m_level); // start exam
+    executor = new TexamExecutor(this, startExercise ? QLatin1String("exercise") : QString(), &m_level); // start exam
   }
   else
     sound->go(); // restore pitch detection
@@ -403,16 +400,14 @@ void MainWindow::startExamSlot() {
 
 
 void MainWindow::aboutSlot() {
-#if !defined (Q_OS_ANDROID)
 	if (score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing
 	sound->wait();
 	sound->stopPlaying();
-	TaboutNootka *ab = new TaboutNootka(this);
-	ab->exec();
-	delete ab;
+  TpluginsLoader loader;
+  if (loader.load(TpluginsLoader::e_about))
+    loader.init(QString(), this);
 	sound->go();
-#endif
 }
 
 
@@ -521,17 +516,15 @@ void MainWindow::messageSlot(const QString& msg) {
 
 
 void MainWindow::showSupportDialog() {
-#if !defined (Q_OS_ANDROID)
   sound->wait();
   sound->stopPlaying();
-  TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
-  supp->exec();
+  TpluginsLoader loader;
+  if (loader.load(TpluginsLoader::e_about))
+    loader.init(QStringLiteral("support"), this);
   gl->config->beginGroup("General");
     gl->config->setValue("version", gl->version);
   gl->config->endGroup();
-  delete supp;
   sound->go();
-#endif
 }
 
 
