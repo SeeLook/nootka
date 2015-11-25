@@ -37,6 +37,7 @@ class NOOTKACORE_EXPORT TtouchProxy : public QObject
 
 public:
   TtouchProxy(QObject* parent = 0);
+  virtual ~TtouchProxy();
 
   static bool touchEnabled() { return m_touchEnabled; }
   static void setTouchEnabled(bool touch);
