@@ -1,0 +1,236 @@
+/***************************************************************************
+ *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   tomaszbojczuk@gmail.com                                               *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
+
+
+#include "taboutnootka.h"
+#include "tsupportnootka.h"
+#include "tabout.h"
+#include "tnootkalabel.h"
+#include "help/tmainhelp.h"
+#include <tpath.h>
+#include <widgets/troundedlabel.h>
+#include <touch/ttoucharea.h>
+#include <QtWidgets/QtWidgets>
+
+#define LI (QLatin1String("<li>"))
+
+QString createLink(const QString& desc, const QString& href) {
+  return QLatin1String("<a href=\"") + href + QLatin1String("\">") + desc + QLatin1String("</a>");
+}
+
+
+/** Returns text header with defined text size and background */
+QString getHeader(const QString& text) {
+	return QLatin1String("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: x-large;\"><b>") + text + QLatin1String("</b></p></center>");
+}
+
+
+QString transRow (const char* flag, const QString& lang, const QString& name, const QString& mailAndSite) {
+  return QString("<tr valign=\"middle\" align=\"center\"><td>&nbsp;&nbsp;<img src=\"%1\">&nbsp;&nbsp;</td><td>&nbsp; %2 &nbsp;&nbsp;&nbsp;</td><td> <b>&nbsp; %3 &nbsp;</b> </td><td>&nbsp;&nbsp; %4 </td></tr>").
+      arg(Tpath::main + QLatin1String("picts/flags-") + QString(flag) + QLatin1String(".png")).
+      arg(lang).
+      arg(name).
+      arg(mailAndSite);
+}
+
+//#################################################################################################
+//###################                TaboutNootka      ############################################
+//#################################################################################################
+
+TaboutNootka::TaboutNootka(QWidget *parent) :
+  TsettingsDialogBase(parent)
+{
+#if defined (Q_OS_ANDROID)
+  showMaximized();
+#else
+  setWindowTitle(tr("About Nootka"));
+#endif
+
+  addItem(tr("About"), Tpath::img("nootka"));                                     // 0
+  addItem(tr("Help"), Tpath::img("help"));                                        // 1
+  addItem(authorsTxt(), Tpath::img("author"));                                    // 2
+  addItem(tr("License"), Tpath::img("license"));                                  // 3
+  addItem(tr("Support"), Tpath::img("support"));                                  // 4
+  addItem(tr("Changes"), Tpath::img("chlog"));                                    // 5
+  addItem(QStringLiteral("Qt"), QString());                                       // 6
+  navList->item(6)->setIcon(style()->standardIcon(QStyle::SP_ComputerIcon));
+  addItem(QApplication::translate("QShortcut", "Close"), Tpath::img("exit"));     // 7
+
+  m_timer = new QTimer(this);
+  connect(m_timer, SIGNAL(timeout()), this, SLOT(moveScroll()));
+
+  auto aboutPage = new Tabout(this);
+
+  auto helpPage = new TmainHelp(this);
+
+  auto authorsPage = new QWidget(this);
+  authorsPage->setContentsMargins(5, 5, 5, 5);
+// AUTHORS
+  QString authorStr = getHeader(tr("Code"));
+  authorStr += QLatin1String("<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>");
+  authorStr += getHeader(tr("Audio"));
+  authorStr += tr("editing and/or recording of samples:") + QLatin1String("<br><b>Sergei Ivanov (tico-tico)</b><br>");
+// TRANSLATORS
+  QString translStr = getHeader(tr("Translators"));
+  translStr += QLatin1String("<table valign=\"middle\" align=\"center\">");
+// Czech
+  translStr += transRow("cs", QStringLiteral("český"), QStringLiteral("Pavel Fric"),
+                        QStringLiteral("<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"));
+// German
+  translStr += transRow("de", QStringLiteral("deutsch"), "Johann C. Weihe", QString());
+// English
+  translStr += transRow("en", QStringLiteral("english"), QStringLiteral("Luster"),
+                        QStringLiteral("<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>"));
+// French
+  translStr += transRow("fr", QStringLiteral("français"), QStringLiteral("Olivier Devineau,<br>&nbsp;&nbsp;Jean-Marc Lartigue"), QString());
+// Polish
+  translStr += transRow("pl", QStringLiteral("polski"), QStringLiteral("Tomasz Bojczuk"),
+                        QStringLiteral("<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"));
+  translStr += transRow("ru", QStringLiteral("русский"),
+                        QStringLiteral("Sergei Ivanov (tico-tico),<br>&nbsp;&nbsp;Timur Artykov"), QString());
+  translStr += QLatin1String("</table>");
+  QString otherStr = getHeader(tr("Other projects")) +
+      tr("However this application could not exist without various open source projects.<br>Especially:") +
+      QLatin1String("<ul><li>") + createLink("Qt", "http://qt-project.org/") + QLatin1String(" by Digia</li>") +
+      LI + createLink("FFTW", "http://www.fftw.org") + QLatin1String(" by M. Frigo & S. G. Johnson</li>") +
+      LI + createLink("ogg vorbis", "http://vorbis.com") + QLatin1String(" by XIPH</li>") +
+      LI + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + QLatin1String(" by G. P. Scavone</li>") +
+      LI + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + QLatin1String(" by P. McLeod</li>") +
+      LI + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + QLatin1String(" by Olli Parviainen</li>") +
+      LI + createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html");
+#if defined (Q_OS_WIN)
+  otherStr += LI + createLink("NSIS", "http://nsis.sourceforge.net/Main_Page") + QLatin1String("</li>");
+#endif
+  otherStr += QLatin1String("</ul>");
+
+  QString thankStr = getHeader(tr("Thanks"));
+  thankStr += QLatin1String("I would like to say <b>THANK YOU</b> for all people who helped me with developing Nootka.<br>I will try to mention them in some random order:<br>");
+  thankStr += QLatin1String("<br><b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.<br>");
+  thankStr += QLatin1String("<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>");
+  thankStr += QLatin1String("<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>");
+  thankStr += QLatin1String("<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>");
+  thankStr += QLatin1String("<b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.<br>");
+  thankStr += QLatin1String("<b>Translators (Pavel, Olivier, Sergei and Johann)</b> for many, maaaany clues and comments.<br>");
+  thankStr += QLatin1String("<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>");
+  thankStr += QLatin1String("<b>And all others that helped.</b><br>");
+  auto authorsLab = new QLabel(authorStr + translStr + otherStr + thankStr, authorsPage);
+    authorsLab->setOpenExternalLinks(true);
+    authorsLab->setWordWrap(true);
+  auto wiLLay = new QVBoxLayout;
+    wiLLay->addWidget(authorsLab);
+    wiLLay->addStretch(1);
+  authorsPage->setLayout(wiLLay);
+
+  m_authorScroll = new TtouchArea(this);
+  m_authorScroll->setAlignment(Qt::AlignCenter);
+  m_authorScroll->setWidget(authorsPage);
+
+  QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
+
+// LICENSE GPL or Copyright for Debian based
+  auto licensePage = new QTextEdit(this);
+  licensePage->setReadOnly(true);
+  QScroller::grabGesture(licensePage->viewport(), QScroller::LeftMouseButtonGesture);
+  QFile file(Tpath::main + QLatin1String("gpl"));
+  if (!file.exists()) { // Debian based
+      QDir d(Tpath::main);
+      d.cdUp();
+      file.setFileName(d.path() + QLatin1String("/doc/nootka/copyright"));
+  }
+  if(file.open(QFile::ReadOnly | QFile::Text)) {
+      QTextStream in(&file);
+      in.setCodec("UTF-8");
+      licensePage->setPlainText(in.readAll());
+  }
+  file.close();
+
+  auto supportPage = new TsupportNootka(this);
+
+// CHANGESLOG
+  auto chLogPage = new QTextEdit(this);
+  QScroller::grabGesture(chLogPage->viewport(), QScroller::LeftMouseButtonGesture);
+  chLogPage->setReadOnly(true);
+  QFile chfile(Tpath::main + QLatin1String("changes"));
+  if(chfile.open(QFile::ReadOnly | QFile::Text)) {
+      QTextStream in(&chfile);
+      in.setCodec("UTF-8");
+      QStringList htmlText = in.readAll().replace(QLatin1String("  "), QLatin1String("&nbsp;&nbsp;")).split(QLatin1String("\n"));
+      for (int i = 0; i < htmlText.size(); i++) {
+        if (htmlText[i].contains(QLatin1String("0.")) || htmlText[i].contains(QLatin1String("1.")))
+          htmlText[i] = QLatin1String("<u><b>&nbsp;") + htmlText[i] + QLatin1String("</b></u>");
+        else if (htmlText[i].contains(QLatin1String("======")))
+          htmlText[i] = QStringLiteral("<br><hr><b><big><center>Nootka ONE</big></b></center><hr>");
+        else if (htmlText[i].contains(QLatin1String("BUG")))
+          htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>BUG FIXES</u>");
+        else if (htmlText[i].contains(QLatin1String("Under the hood")))
+          htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>Under the hood</u>");
+        else if (!htmlText[i].contains(QLatin1String("&nbsp;&nbsp; - ")))
+          htmlText[i] = QLatin1String("<b>") + htmlText[i] + QLatin1String("</b>");
+        htmlText[i].append(QLatin1String("<br>"));
+      }
+      chLogPage->setHtml(htmlText.join(QString()));
+  }
+  chfile.close();
+
+  auto qtAboutPage = new TtouchArea(this);
+  auto qtLabel = new QLabel(QApplication::translate("QMessageBox", "<h3>About Qt</h3><p>This program uses Qt version %1.</p>").arg(qVersion()) +
+    QApplication::translate("QMessageBox",
+    "<p>Qt is a C++ toolkit for cross-platform application development.</p><p>Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.</p><p>Qt is available under three different licensing options designed to accommodate the needs of our various users.</p><p>Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of the GNU LGPL version 2.1 or GNU GPL version 3.0.</p><p>Qt licensed under the GNU LGPL version 2.1 is appropriate for the development of Qt applications provided you can comply with the terms and conditions of the GNU LGPL version 2.1.</p><p>Qt licensed under the GNU General Public License version 3.0 is appropriate for the development of Qt applications where you wish to use such applications in combination with software subject to the terms of the GNU GPL version 3.0 or where you are otherwise willing to comply with the terms of the GNU GPL version 3.0.</p><p>Please see <a href=\"http://qt.digia.com/Product/Licensing/\">qt.digia.com/Product/Licensing</a> for an overview of Qt licensing.</p><p>Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies) and other contributors.</p><p>Qt and the Qt logo are trademarks of Digia Plc and/or its subsidiary(-ies).</p><p>Qt is developed as an open source project on <a href=\"http://qt-project.org/\">qt-project.org</a>.</p><p>Qt is a Digia product. See <a href=\"http://qt.digia.com/\">qt.digia.com</a> for more information.</p>"),
+    this);
+  qtLabel->setWordWrap(true);
+  auto qtLay = new QVBoxLayout;
+    qtLay->addWidget(qtLabel);
+  qtAboutPage->setLayout(qtLay);
+
+  hint->hide();
+
+  addPage(aboutPage);
+  addPage(helpPage);
+  addPage(m_authorScroll);
+  addPage(licensePage);
+  addPage(supportPage);
+  addPage(chLogPage);
+  addPage(qtAboutPage);
+
+  connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeCurrentPage(int)));
+
+  layout()->setSizeConstraint(QLayout::SetFixedSize);
+}
+
+
+void TaboutNootka::changeCurrentPage(int page) {
+  if (page < 7)
+    stackLayout->setCurrentIndex(page);
+  if (page == 2) {
+      m_timer->start(100);
+  } else {
+      m_timer->stop();
+      if (page == 7)
+          close();
+  }
+}
+
+
+void TaboutNootka::moveScroll() {
+  m_authorScroll->verticalScrollBar()->setValue(m_authorScroll->verticalScrollBar()->value() + 1);
+}
+
+
+
+
+
