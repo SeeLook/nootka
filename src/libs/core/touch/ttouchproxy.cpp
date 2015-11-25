@@ -36,6 +36,12 @@ TtouchProxy::TtouchProxy(QObject* parent) :
 }
 
 
+TtouchProxy::~TtouchProxy()
+{
+  m_instance = 0;
+}
+
+
 void TtouchProxy::setTouchEnabled(bool touch) {
   if (touch != m_touchEnabled) {
     m_touchEnabled = touch;
