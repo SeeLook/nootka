@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,13 +20,14 @@
 #define TWIZARDPLUGIN_H
 
 
-#include <QtPlugin>
+#include <QtCore/qplugin.h>
 #include <plugins/tplugininterface.h>
 
 
 class TfirstRunWizard;
 
-/** 
+/**
+ * Dialog like, multiple pages window with Nootka initial settings
  */
 class TwizardPlugin : public QObject, public TpluginInterface
 {
@@ -34,19 +35,18 @@ class TwizardPlugin : public QObject, public TpluginInterface
   Q_OBJECT
   Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
   Q_INTERFACES(TpluginInterface)
-  
+
 public:
   virtual ~TwizardPlugin();
-  
-      /** For level plugin @p ob and @p exam are unused */
-  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
-  
+
+      /** For wizard plugin @p argument @p ob and @p exam are unused */
+  virtual void init(const QString& argument = QString(), TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+
   virtual QString& lastWord() { return m_lastWord; }
-    
+
 private:
   QString                   m_lastWord;
-  TfirstRunWizard         *m_wizard;
-  
+  TfirstRunWizard           *m_wizard;
 };
 
 
