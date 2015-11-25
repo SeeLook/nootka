@@ -46,7 +46,7 @@ bool TpluginsLoader::load(TpluginsLoader::Etype pluginType) {
   m_type = pluginType;
   QStringList names;
   names << QStringLiteral("Level") << QStringLiteral("Settings") << QStringLiteral("Analyzer")
-        << QStringLiteral("Updater") << QStringLiteral("Wizard");
+        << QStringLiteral("Updater") << QStringLiteral("Wizard") << QStringLiteral("About") ;
   QString f = QStringLiteral("Nootka") + names[(int)pluginType] + QStringLiteral("Plugin");
 #if defined (Q_OS_WIN)
   f.prepend(QStringLiteral("lib"));

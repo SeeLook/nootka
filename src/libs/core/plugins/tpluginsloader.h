@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +28,7 @@ class QWidget;
 class Texam;
 class QPluginLoader;
 
-/** 
+/**
  * Common class to load Nootka plugins.
  * After constructing a loader object:
  * 1. call @p load(plugin type) and check is it loaded
@@ -38,24 +38,23 @@ class QPluginLoader;
 class NOOTKACORE_EXPORT TpluginsLoader : public QObject
 {
   Q_OBJECT
-  
+
 public:
   explicit TpluginsLoader(QObject* parent = 0);
   virtual ~TpluginsLoader();
-  
-  enum Etype {
-    e_level = 0, e_settings = 1, e_analyzer = 2, e_updater = 3, e_wizard = 4
-  }; /** Plugin type. */
-  
+
+      /** Plugin type. */
+  enum Etype { e_level = 0, e_settings = 1, e_analyzer = 2, e_updater = 3, e_wizard = 4, e_about = 5 };
+
   bool load(Etype pluginType); /** Loads given plugin type and returns @p TRUE when loaded properly. */
-  bool init(const QString& argument = "", QWidget* parent = 0, Texam* exam = 0); /** Starts plugin routines. */
-  QString& lastWord() { return m_lastWord; } /** Returns last plugin string. */
-  
-  TpluginObject* node() { return m_signalNode; } /** Object through which a plugin can sends signals */
-  
+  bool init(const QString& argument = QString(), QWidget* parent = 0, Texam* exam = 0); /** Starts plugin routines. */
+  QString& lastWord() { return m_lastWord; } /**< Returns last plugin string. */
+
+  TpluginObject* node() { return m_signalNode; } /**< Object through which a plugin can sends signals */
+
 protected:
   void pluginMessage(const QString& m) { m_lastWord = m; }
-  
+
 private:
   TpluginInterface     *m_plugInterface;
   QPluginLoader        *m_loader;

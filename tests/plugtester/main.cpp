@@ -17,11 +17,11 @@
  ***************************************************************************/
 
 
-#include <QTranslator>
-#include <QDir>
-#include <QPluginLoader>
-#include <QDebug>
-#include <QApplication>
+#include <QtCore/qtranslator.h>
+#include <QtCore/qdir.h>
+#include <QtCore/qpluginloader.h>
+#include <QtCore/qdebug.h>
+#include <QtWidgets/qapplication.h>
 #include <tinitcorelib.h>
 #include <exam/texam.h>
 #include <exam/tlevel.h>
@@ -35,7 +35,7 @@ Tglobals *gl;
 int main(int argc, char *argv[])
 {
   if (argc < 2) {
-    qDebug() << "Usage:\nnootest <plugin name[Level|Settings|Analyzer|Updater|Wizard]> [leve/exam filename]";
+    qDebug() << "Usage:\nnootest <plugin name[Level|Settings|Analyzer|Updater|Wizard|About]> [argument(s), leve/exam filename]";
     return 0;
   }
   QTranslator qtTranslator;
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
   prepareTranslations(&a, qtTranslator, nooTranslator);
   if (!loadNootkaFont(&a))
     return 111;
-  
+
 // Determine plugin type
   TpluginsLoader::Etype plugType;
   if (a.arguments()[1] == "Level")
@@ -61,37 +61,39 @@ int main(int argc, char *argv[])
     plugType = TpluginsLoader::e_updater;
   else if (a.arguments()[1] == "Wizard")
     plugType = TpluginsLoader::e_wizard;
+  else if (a.arguments()[1] == "About")
+    plugType = TpluginsLoader::e_about;
   else {
     qDebug() << "Unrecognized plugin type:" << a.arguments()[1];
     return 1;
   }
-  
+
 // Prepare additional plugin parameters
   Tlevel *level = 0;
   Texam *exam = 0;
   bool plugOk = false;
   TpluginsLoader *loader = new TpluginsLoader(0);
-  QString fileName = "";
+  QString pluginArgument;
   if (a.arguments().size() > 2)
-    fileName = a.arguments()[2];
-  if (!fileName.isEmpty() && plugType == TpluginsLoader::e_analyzer) { // create exam file
+    pluginArgument = a.arguments()[2];
+  if (!pluginArgument.isEmpty() && plugType == TpluginsLoader::e_analyzer) { // create exam file
     level = new Tlevel();
-    exam = new Texam(level, "");
-    Texam::EerrorType err = exam->loadFromFile(fileName);
+    exam = new Texam(level, QString());
+    Texam::EerrorType err = exam->loadFromFile(pluginArgument);
       if (!(err == Texam::e_file_OK || err == Texam::e_file_corrupted)) {
-        qDebug() << "Can not read from exam file" << fileName << (int)err;
+        qDebug() << "Can not read from exam file" << pluginArgument << (int)err;
         delete exam;
         exam = 0;
         delete level;
         level = 0;
       }
   }
-  
+
 // Load a plugin and initialize it
   if (loader->load(plugType)) {
-    plugOk = loader->init(fileName, 0, exam);
+    plugOk = loader->init(pluginArgument, 0, exam);
   }
-  
+
   if (plugOk) {
     if (plugType == TpluginsLoader::e_updater) {
 			QMainWindow w;

@@ -2,7 +2,8 @@
 # CMakeList.txt plugins
 ########################################################################
 
-
+# add_subdirectory( about )
+#
 # add_subdirectory( level )
 #
 # add_subdirectory( charts )
