@@ -29,48 +29,13 @@
 
 
 //=================================================================================
-//                            class TlabelWidget
-//=================================================================================
-/**
- * @class TnootkaLabel wrapped by widget with the same background color.
- * Color is randomized during construction time.
- */
-class TlabelWidget : public QWidget {
-
-public:
-  explicit TlabelWidget(QWidget* parent = 0) : QWidget(parent)
-  {
-    qsrand(QDateTime::currentDateTime().toTime_t());
-    m_color = QColor(qrand() % 250, qrand() % 250, qrand() % 250);
-    m_label = new TnootkaLabel(Tpath::img("logo"), this, m_color, QStringLiteral(NOOTKA_VERSION));
-    auto lay = new QHBoxLayout;
-    lay->addWidget(m_label);
-    setLayout(lay);
-  }
-
-protected:
-  virtual void paintEvent(QPaintEvent* e) {
-    QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
-    p.setPen(Qt::NoPen);
-    p.setBrush(QBrush(m_color));
-    p.drawRect(contentsRect());
-//     QWidget::paintEvent(e);
-  }
-
-private:
-  TnootkaLabel            *m_label;
-  QColor                   m_color;
-};
-
-
-//=================================================================================
 //                                 class TmaterialMenu
 //=================================================================================
 TmaterialMenu::TmaterialMenu(QWidget* parent) :
   QWidget(parent),
   m_selectedAction(0),
-  m_isMoving(false)
+  m_isMoving(false),
+  m_aboutAction(0)
 {
   setFixedHeight(qApp->desktop()->availableGeometry().height());
   auto w = new QWidget(this);
@@ -140,11 +105,14 @@ void TmaterialMenu::addAction(QAction* a) {
   } else
       m_lay->insertWidget(m_lay->count() - 1, butt);
   m_lay->insertWidget(m_lay->count() - 1, new TlineSpacer(1, this)); // add line spacer
-  connect(butt, &QPushButton::clicked, this, [this]{
-      m_selectedAction = qobject_cast<QWidget*>(sender())->actions().first();
-      if (m_menu)
-        m_menu->close();
-  });
+  connect(butt, &QPushButton::clicked, this, &TmaterialMenu::menuItemClicked);
+}
+
+
+void TmaterialMenu::setAboutAction(QAction* a) {
+  m_aboutAction = a;
+  m_nootkaLabel->addAction(a);
+  connect(m_nootkaLabel, &TlabelWidget::clicked, this, &TmaterialMenu::menuItemClicked, Qt::UniqueConnection);
 }
 
 
@@ -187,10 +155,48 @@ void TmaterialMenu::paintEvent(QPaintEvent* event) {
 }
 
 
-#define SPACING (5)
+void TmaterialMenu::menuItemClicked() {
+  m_selectedAction = qobject_cast<QWidget*>(sender())->actions().first();
+  if (m_menu)
+    m_menu->close();
+}
+
+
+//=================================================================================
+//                            class TlabelWidget
+//=================================================================================
+TlabelWidget::TlabelWidget(QWidget* parent) :
+  QWidget(parent)
+{
+  qsrand(QDateTime::currentDateTime().toTime_t());
+  m_color = QColor(qrand() % 250, qrand() % 250, qrand() % 250);
+  m_label = new TnootkaLabel(Tpath::img("logo"), this, m_color, QStringLiteral(NOOTKA_VERSION));
+  auto lay = new QHBoxLayout;
+  lay->addWidget(m_label);
+  setLayout(lay);
+  connect(m_label, SIGNAL(clicked()), this, SIGNAL(clicked()));
+}
+
+
+void TlabelWidget::paintEvent(QPaintEvent* e) {
+  QPainter p(this);
+  p.setRenderHint(QPainter::Antialiasing);
+  p.setPen(Qt::NoPen);
+  p.setBrush(QBrush(m_color));
+  p.drawRect(contentsRect());
+}
+
+
+void TlabelWidget::mouseReleaseEvent(QMouseEvent* e) {
+  QWidget::mouseReleaseEvent(e);
+  emit clicked();
+}
+
+
 //=================================================================================
 //                                 class TmenuButton
 //=================================================================================
+#define SPACING (5)
 TmenuButton::TmenuButton(QAction* action, QWidget* parent) :
   QPushButton(parent)
 {

@@ -340,6 +340,7 @@ void TmainView::mainMenuExec() {
 #if defined (Q_OS_ANDROID)
   m_mainMenuTap = false;
   TmaterialMenu menu(this);
+  menu.setAboutAction(m_tool->aboutSimpleAct);
   if (m_progress && m_results) { // exam/exercise is pending
     if (m_tool->checkAct && m_tool->checkAct->isVisible())
       menu.addAction(m_tool->checkAct);
