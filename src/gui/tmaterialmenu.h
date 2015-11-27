@@ -31,6 +31,7 @@ class QAction;
 class QVBoxLayout;
 class TlabelWidget;
 class TtouchMenu;
+class TnootkaLabel;
 
 
 /**
@@ -48,22 +49,55 @@ public:
 
   void addAction(QAction* a);
 
+      /** Action invoked after clicking of header widget. */
+  void setAboutAction(QAction* a);
+
   QAction* exec();
 
 protected:
   virtual void paintEvent(QPaintEvent* event);
+  void menuItemClicked(); /**< Slot invoked when menu item (button or header widget) is clicked */
 
 private:
   QScrollArea           *m_scrollArea;
   QVBoxLayout           *m_lay;
   TlabelWidget          *m_nootkaLabel;
   QTimer                *m_hideScrollTimer;
-  QAction               *m_selectedAction;
+  QAction               *m_selectedAction, *m_aboutAction;
   bool                   m_isMoving;
   QPointer<TtouchMenu>   m_menu;
 };
 
+//=================================================================================
+//                            class TlabelWidget
+//=================================================================================
+/**
+ * @class TnootkaLabel wrapped by widget with the same background color.
+ * Color is randomized during construction time.
+ */
+class TlabelWidget : public QWidget {
 
+  Q_OBJECT
+
+public:
+  explicit TlabelWidget(QWidget* parent = 0);
+
+signals:
+  void clicked();
+
+protected:
+  virtual void paintEvent(QPaintEvent* e);
+  virtual void mouseReleaseEvent(QMouseEvent* e);
+
+private:
+  TnootkaLabel            *m_label;
+  QColor                   m_color;
+};
+
+
+//=================================================================================
+//                                 class TmenuButton
+//=================================================================================
 /**
  * Reimplemented @class QPushButton with @p paintEvent() nicely displaying icon and text
  */
@@ -85,6 +119,9 @@ private:
 };
 
 
+//=================================================================================
+//                                 class TlineSpacer
+//=================================================================================
 /**
  * Just paints horizontal line with given width
  */
