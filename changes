@@ -1,6 +1,7 @@
-1.3.0 beta
+1.3.0 alpha
      - added touch interface, adjusted GUI layout to it
     ANDROID
+     - corner menu button and menu like standard Android apps have
      - new layout of dialog windows for better touch integration
      - audio stack ported to Qt Audio for mobile devices
     Under the hood
