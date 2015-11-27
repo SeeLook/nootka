@@ -35,21 +35,25 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
     headLab->setContentsMargins(5, 5, 5, 5);
   auto textLab = new QLabel(this);
   QString supp;
-  supp += "<ul>";
-  supp += "<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>";
+  supp += QLatin1String("<ul>");
+  supp += QLatin1String("<li><big><b style=\"color: #FF8000;\">Make a donation</b></big><br>Nootka is free of charge but it requires some expenses.<br>To make donation use <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
+  supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
 //     supp += "<li><big><b>Maintain Nootka package</b></big><br>Windows, MacOs and various Linux distributions 32 or 64 bits.<br>Life is too short...<br>If you know how to compile Nootka from sources you could keep Nootka version for your platform.<br></li>";
-  supp += "<li><big><b style=\"color: #FF8000;\">Make a donation</b></big><br>Nootka is free of charge but it requires some expenses.<br>To make donation use <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>";
-  supp += "<li><big><b style=\"color: #FF0000;\">Report an issue</b></big><br>If you find any issue or a bug than request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a><br></li>";
-  supp += "<li><big><b style=\"color: #C000C0;\">Vote on Nootka</b></big><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br>or add <b>like</b> or/and <b>g+</b> on <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>";
-  supp += "<li><big><b>Express your opinion</b></big><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>";
-  supp += "</ul><p>&nbsp;&nbsp;Thanks in advance<br>&nbsp;&nbsp;Author</p>";
+  supp += QLatin1String("<li><big><b style=\"color: #FF0000;\">Report an issue</b></big><br>If you find any issue or a bug than request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a><br></li>");
+  supp += QLatin1String("<li><big><b style=\"color: #C000C0;\">Vote on Nootka</b></big><br>There are a lot of services. For example:<br><a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, <a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br>or add <b>like</b> or/and <b>g+</b> on <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
+  supp += QLatin1String("<li><big><b>Express your opinion</b></big><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>");
+  supp += QLatin1String("</ul><p>&nbsp;&nbsp;Thanks in advance<br>&nbsp;&nbsp;Author</p><br>");
   textLab->setText(supp);
   textLab->setWordWrap(true);
   textLab->setOpenExternalLinks(true);
 
   auto lay = new QVBoxLayout;
+#if !defined (Q_OS_ANDROID)
+    lay->setContentsMargins(0, 0, 0, 0);
+#endif
     lay->addWidget(headLab);
     lay->addWidget(textLab);
+    lay->addStretch();
   setLayout(lay);
 
 #if !defined (Q_OS_ANDROID)
@@ -66,8 +70,9 @@ TsupportStandalone::TsupportStandalone(QWidget* parent) :
   showMaximized();
 #else
   setWindowTitle("Support Nootka");
+  auto leftLab = new QLabel(this);
+  leftLab->setPixmap(QPixmap(Tpath::img("wizard-left")));
 #endif
-  auto leftLab = new QLabel(pixToHtml(Tpath::img("wizard-left")), this);
   auto supportArea = new TsupportNootka(this);
   supportArea->setFrameShape(QFrame::QFrame::StyledPanel);
   auto neverLab = new TroundedLabel(QObject::tr("Don't worry. This window appears only once per Nootka release.<br>You can find it always in 'About Nootka' dialog"), this);
@@ -76,10 +81,16 @@ TsupportStandalone::TsupportStandalone(QWidget* parent) :
 //     neverLab->setStyleSheet("color: palette(highlightedText)");
     neverLab->setContentsMargins(5, 5, 5, 5);
   auto thanksButton = new QPushButton(QIcon(Tpath::img("nootka")), QLatin1String("  Thanks"), this);
+#if !defined (Q_OS_ANDROID)
     thanksButton->setIconSize(QSize(48, 48));
+#endif
 // Layout
   auto lay = new QHBoxLayout;
+#if defined (Q_OS_ANDROID)
+    lay->setContentsMargins(0, 0, 0, 0);
+#else
     lay->addWidget(leftLab);
+#endif
   auto supportLay = new QVBoxLayout();
     supportLay->addWidget(supportArea);
     auto bottomLay = new QHBoxLayout;
