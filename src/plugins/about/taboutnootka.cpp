@@ -61,15 +61,17 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   setWindowTitle(tr("About Nootka"));
 #endif
 
-  addItem(tr("About"), Tpath::img("nootka"));                                     // 0
-  addItem(tr("Help"), Tpath::img("help"));                                        // 1
+  addItem(tr("About"), Tpath::img("nootka-frame"));                               // 0
+  addItem(tr("Help"), Tpath::img("help-frame"));                                  // 1
   addItem(authorsTxt(), Tpath::img("author"));                                    // 2
   addItem(tr("License"), Tpath::img("license"));                                  // 3
   addItem(tr("Support"), Tpath::img("support"));                                  // 4
   addItem(tr("Changes"), Tpath::img("chlog"));                                    // 5
-  addItem(QStringLiteral("Qt"), QString());                                       // 6
-  navList->item(6)->setIcon(style()->standardIcon(QStyle::SP_ComputerIcon));
+  addItem(QStringLiteral("Qt"), Tpath::img("qt"));                                // 6
+//   addItem(QStringLiteral("Qt"), QLatin1String(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
+#if !defined (Q_OS_ANDROID)
   addItem(QApplication::translate("QShortcut", "Close"), Tpath::img("exit"));     // 7
+#endif
 
   m_timer = new QTimer(this);
   connect(m_timer, SIGNAL(timeout()), this, SLOT(moveScroll()));
@@ -146,6 +148,10 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   auto licensePage = new QTextEdit(this);
   licensePage->setReadOnly(true);
   QScroller::grabGesture(licensePage->viewport(), QScroller::LeftMouseButtonGesture);
+#if defined (Q_OS_ANDROID)
+  licensePage->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  licensePage->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
   QFile file(Tpath::main + QLatin1String("gpl"));
   if (!file.exists()) { // Debian based
       QDir d(Tpath::main);
@@ -164,6 +170,10 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 // CHANGESLOG
   auto chLogPage = new QTextEdit(this);
   QScroller::grabGesture(chLogPage->viewport(), QScroller::LeftMouseButtonGesture);
+#if defined (Q_OS_ANDROID)
+  chLogPage->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  chLogPage->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+#endif
   chLogPage->setReadOnly(true);
   QFile chfile(Tpath::main + QLatin1String("changes"));
   if(chfile.open(QFile::ReadOnly | QFile::Text)) {
@@ -190,8 +200,33 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   auto qtAboutPage = new TtouchArea(this);
   auto qtLabel = new QLabel(QApplication::translate("QMessageBox", "<h3>About Qt</h3><p>This program uses Qt version %1.</p>").arg(qVersion()) +
     QApplication::translate("QMessageBox",
-    "<p>Qt is a C++ toolkit for cross-platform application development.</p><p>Qt provides single-source portability across all major desktop operating systems. It is also available for embedded Linux and other embedded and mobile operating systems.</p><p>Qt is available under three different licensing options designed to accommodate the needs of our various users.</p><p>Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of the GNU LGPL version 2.1 or GNU GPL version 3.0.</p><p>Qt licensed under the GNU LGPL version 2.1 is appropriate for the development of Qt applications provided you can comply with the terms and conditions of the GNU LGPL version 2.1.</p><p>Qt licensed under the GNU General Public License version 3.0 is appropriate for the development of Qt applications where you wish to use such applications in combination with software subject to the terms of the GNU GPL version 3.0 or where you are otherwise willing to comply with the terms of the GNU GPL version 3.0.</p><p>Please see <a href=\"http://qt.digia.com/Product/Licensing/\">qt.digia.com/Product/Licensing</a> for an overview of Qt licensing.</p><p>Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies) and other contributors.</p><p>Qt and the Qt logo are trademarks of Digia Plc and/or its subsidiary(-ies).</p><p>Qt is developed as an open source project on <a href=\"http://qt-project.org/\">qt-project.org</a>.</p><p>Qt is a Digia product. See <a href=\"http://qt.digia.com/\">qt.digia.com</a> for more information.</p>"),
-    this);
+    "<p>Qt is a C++ toolkit for cross-platform application "
+      "development.</p>"
+      "<p>Qt provides single-source portability across all major desktop "
+      "operating systems. It is also available for embedded Linux and other "
+      "embedded and mobile operating systems.</p>"
+      "<p>Qt is available under three different licensing options designed "
+      "to accommodate the needs of our various users.</p>"
+      "<p>Qt licensed under our commercial license agreement is appropriate "
+      "for development of proprietary/commercial software where you do not "
+      "want to share any source code with third parties or otherwise cannot "
+      "comply with the terms of the GNU LGPL version 3 or GNU LGPL version 2.1.</p>"
+      "<p>Qt licensed under the GNU LGPL version 3 is appropriate for the "
+      "development of Qt&nbsp;applications provided you can comply with the terms "
+      "and conditions of the GNU LGPL version 3.</p>"
+      "<p>Qt licensed under the GNU LGPL version 2.1 is appropriate for the "
+      "development of Qt&nbsp;applications provided you can comply with the terms "
+      "and conditions of the GNU LGPL version 2.1.</p>"
+      "<p>Please see <a href=\"http://%2/\">%2</a> "
+      "for an overview of Qt licensing.</p>"
+      "<p>Copyright (C) %1 The Qt Company Ltd and other "
+      "contributors.</p>"
+      "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
+      "<p>Qt is The Qt Company Ltd product developed as an open source "
+      "project. See <a href=\"http://%3/\">%3</a> for more information.</p>"
+      ).arg(QStringLiteral("2015"),
+            QStringLiteral("qt.io/licensing"),
+            QStringLiteral("qt.io")), this);
   qtLabel->setWordWrap(true);
   auto qtLay = new QVBoxLayout;
     qtLay->addWidget(qtLabel);
@@ -208,8 +243,13 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   addPage(qtAboutPage);
 
   connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeCurrentPage(int)));
-
+#if defined (Q_OS_ANDROID)
+  cancelBut = buttonBox->addButton(QDialogButtonBox::Close);
+  cancelBut->setIcon(QIcon(QLatin1String(":/mobile/exit.png")));
+  connect(cancelBut, &QPushButton::clicked, this, &TaboutNootka::accept);
+#else
   layout()->setSizeConstraint(QLayout::SetFixedSize);
+#endif
 }
 
 
@@ -217,7 +257,11 @@ void TaboutNootka::changeCurrentPage(int page) {
   if (page < 7)
     stackLayout->setCurrentIndex(page);
   if (page == 2) {
+#if defined (Q_OS_ANDROID)
+      m_timer->start(60);
+#else
       m_timer->start(100);
+#endif
   } else {
       m_timer->stop();
       if (page == 7)
