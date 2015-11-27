@@ -91,8 +91,8 @@ MainWindow::MainWindow(QWidget *parent) :
 #endif
   m_isPlayerFree(true)
 {
-  setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
 #if !defined (Q_OS_ANDROID)
+  setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
   setMinimumSize(720, 480);
   gl->config->beginGroup("General");
   setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
@@ -105,15 +105,15 @@ MainWindow::MainWindow(QWidget *parent) :
       }
       delete wizardLoader;
       gl->isFirstRun = false;
-  }
-#if !defined (Q_OS_ANDROID)
-  else { // show support window once but not with first run wizard
+  } else { // show support window once but not with first run wizard
       gl->config->beginGroup("General");
       QString newVersion = gl->config->value("version", QString()).toString();
       gl->config->endGroup();
       if (newVersion != gl->version) {
         QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
-      } else { // check for updates
+      }
+#if !defined (Q_OS_ANDROID)
+      else { // check for updates
         gl->config->beginGroup("Updates");
 				m_updaterPlugin = new TpluginsLoader();
         if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
@@ -123,8 +123,8 @@ MainWindow::MainWindow(QWidget *parent) :
         } else
 						delete m_updaterPlugin;
       }
-  }
 #endif
+  }
   if (!gl->config->group().isEmpty()) // close settings group when was open
 		gl->config->endGroup();
 
