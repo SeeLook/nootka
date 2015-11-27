@@ -55,9 +55,15 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 		navList->setMovement(QListView::Static);
     navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QScroller::grabGesture(navList->viewport(), QScroller::LeftMouseButtonGesture);
+    auto scroller = QScroller::scroller(navList->viewport());
+    QScrollerProperties prop = scroller->scrollerProperties();
+    QVariant overshootPolicy = QVariant::fromValue<QScrollerProperties::OvershootPolicy>(QScrollerProperties::OvershootAlwaysOff);
+//     prop.setScrollMetric(QScrollerProperties::VerticalOvershootPolicy, overshootPolicy);
+    prop.setScrollMetric(QScrollerProperties::HorizontalOvershootPolicy, overshootPolicy);
+    scroller->setScrollerProperties(prop);
 
     stackLayout = new QStackedLayout;
-    
+
     hint = new TroundedLabel(this);
     hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
 		hint->setMinimumWidth(fontMetrics().boundingRect("w").width() * 70);
