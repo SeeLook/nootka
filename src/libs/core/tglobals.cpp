@@ -42,7 +42,7 @@ QString tmpConfigFile() {
 QString& Tglobals::path = Tpath::main;
 
 QString Tglobals::getInstPath(QString appInstPath) {
-    QString p = "";
+    QString p;
     QDir d = QDir(appInstPath);
 #if defined (Q_OS_WIN)
 		p = d.path() + "/"; 				//	Windows
@@ -121,7 +121,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			isFirstRun = cfg->value("isFirstRun", true).toBool();
 			useAnimations = cfg->value("useAnimations", true).toBool();
       enableTouch = cfg->value("enableTouch", false).toBool();
-			lang = cfg->value("language", "").toString();
+			lang = cfg->value("language", QString()).toString();
 			instrumentToFix = cfg->value("instrumentToFix", -1).toInt();
 	cfg->endGroup();
 
@@ -132,8 +132,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			S->showKeySignName = cfg->value("keyName", true).toBool(); //true;
 			S->nameStyleInKeySign = Tnote::EnameStyle(cfg->value("nameStyleInKey",
 																													(int)Tnote::e_english_Bb).toInt());
-			S->majKeyNameSufix = cfg->value("majorKeysSufix", "").toString();
-			S->minKeyNameSufix = cfg->value("minorKeysSufix", "").toString();
+			S->majKeyNameSufix = cfg->value("majorKeysSufix", QString()).toString();
+			S->minKeyNameSufix = cfg->value("minorKeysSufix", QString()).toString();
 			if (cfg->contains("pointerColor"))
 					S->pointerColor = cfg->value("pointerColor").value<QColor>(); //-1;
 			else 
@@ -221,7 +221,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			E->autoNextQuest = cfg->value("autoNextQuest", false).toBool();
 			E->repeatIncorrect = cfg->value("repeatIncorrect", true).toBool();
 			E->expertsAnswerEnable = cfg->value("expertsAnswerEnable", false).toBool();
-			E->studentName = cfg->value("studentName", "").toString();
+			E->studentName = cfg->value("studentName", QString()).toString();
 #if defined (Q_OS_ANDROID)
       E->examsDir = cfg->value("examsDir", qgetenv("EXTERNAL_STORAGE")).toString();
       E->levelsDir = cfg->value("levelsDir", qgetenv("EXTERNAL_STORAGE")).toString();
@@ -247,13 +247,13 @@ void Tglobals::loadSettings(QSettings* cfg) {
 	cfg->beginGroup("sound");
 		A->JACKorASIO = cfg->value("JACKorASIO", false).toBool();
 		A->OUTenabled = cfg->value("outSoundEnabled", true).toBool();
-		A->OUTdevName = cfg->value("outDeviceName", "").toString();
+		A->OUTdevName = cfg->value("outDeviceName", QString()).toString();
 		A->midiEnabled = cfg->value("midiEnabled", false).toBool();
-		A->midiPortName = cfg->value("midiPortName", "").toString();
+		A->midiPortName = cfg->value("midiPortName", QString()).toString();
 		A->midiInstrNr = (unsigned char)cfg->value("midiInstrumentNr", 0).toInt();
 		A->audioInstrNr = qBound(1, cfg->value("audioInstrumentNr", 1).toInt(), 3);
 		A->INenabled = cfg->value("inSoundEnabled", true).toBool();
-		A->INdevName = cfg->value("inDeviceName", "").toString();
+		A->INdevName = cfg->value("inDeviceName", QString()).toString();
 		A->detectMethod = qBound(0, cfg->value("detectionMethod", 2).toInt(), 2); // MPM modified cepstrum
 		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
 		A->minDuration = cfg->value("minimalDuration", 0.09).toFloat();
@@ -281,9 +281,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		L->toolBarAutoHide = cfg->value("toolBarAutoHide", false).toBool();
 		L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value("iconTextOnToolBar", 3).toInt());
 		L->hintsBarEnabled = cfg->value("hintsBarEnabled", true).toBool();
-	cfg->endGroup();
 #endif
-
+  cfg->endGroup();
   TtouchProxy::setTouchEnabled(enableTouch);
 }
 
@@ -325,9 +324,9 @@ Tnote Tglobals::loString() {
 Tnote::EnameStyle Tglobals::getSolfegeStyle() {
 		Tnote::EnameStyle solStyle = Tnote::e_italiano_Si;
 		QString ll = lang;
-		if (ll == "")
+		if (ll.isEmpty())
 			ll = QLocale::system().name();
-		if (ll.contains("ru"))
+		if (ll.contains(QLatin1String("ru")))
 			solStyle = Tnote::e_russian_Ci;
 		return solStyle;
 }
@@ -352,11 +351,15 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("keyName", S->showKeySignName);
 			cfg->setValue("nameStyleInKey", (int)S->nameStyleInKeySign);
 	QString majS, minS;
-	if (S->majKeyNameSufix != TkeySignature::majorSufixTxt()) majS = S->majKeyNameSufix;
-	else majS = ""; // default suffixes are reset to be translatable in next run
+	if (S->majKeyNameSufix != TkeySignature::majorSufixTxt())
+    majS = S->majKeyNameSufix;
+	else
+    majS.clear(); // default suffixes are reset to be translatable in next run
 			cfg->setValue("majorKeysSufix", majS);
-	if (S->minKeyNameSufix != TkeySignature::minorSufixTxt()) minS = S->minKeyNameSufix;
-	else minS = "";
+	if (S->minKeyNameSufix != TkeySignature::minorSufixTxt())
+    minS = S->minKeyNameSufix;
+	else
+    minS.clear();
 			cfg->setValue("minorKeysSufix", minS);
 			cfg->setValue("pointerColor", S->pointerColor);
 			cfg->setValue("clef", (int)S->clef);
