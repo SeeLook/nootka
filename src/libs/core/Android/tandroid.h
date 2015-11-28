@@ -27,8 +27,8 @@
  */
 namespace Tandroid {
 
-      /** Sets phone/tablet screen saving disabled. */
-  void setScreenLockDisabled();
+  void setScreenLockDisabled(); /**< Sets phone/tablet screen saving disabled. */
+  QString getExternalPath(); /**< Returns path to external storage (SD card). */
   QString accountName();
 
 }
