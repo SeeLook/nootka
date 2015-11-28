@@ -39,6 +39,18 @@ void Tandroid::setScreenLockDisabled() {
 }
 
 
+QString Tandroid::getExternalPath() {
+  QAndroidJniObject extDirObject =
+      QAndroidJniObject::callStaticObjectMethod("android/os/Environment", "getExternalStorageDirectory", "()Ljava/io/File;");
+  QAndroidJniObject externalPath = extDirObject.callObjectMethod( "getAbsolutePath", "()Ljava/lang/String;" );
+  QAndroidJniEnvironment env;
+  if (env->ExceptionCheck()) {
+    env->ExceptionClear();
+  }
+  return externalPath.toString();
+}
+
+
 QString Tandroid::accountName() {
   return "fake";
 //  return QAndroidJniObject::callStaticObjectMethod<jstring>
