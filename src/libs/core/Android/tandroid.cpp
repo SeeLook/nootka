@@ -20,6 +20,7 @@
 #include "tandroid.h"
 #include <QtAndroidExtras/qandroidfunctions.h>
 #include <QtAndroidExtras/qandroidjnienvironment.h>
+#include <QtCore/qdebug.h>
 
 
 void Tandroid::setScreenLockDisabled() {
@@ -40,14 +41,17 @@ void Tandroid::setScreenLockDisabled() {
 
 
 QString Tandroid::getExternalPath() {
-  QAndroidJniObject extDirObject =
-      QAndroidJniObject::callStaticObjectMethod("android/os/Environment", "getExternalStorageDirectory", "()Ljava/io/File;");
-  QAndroidJniObject externalPath = extDirObject.callObjectMethod( "getAbsolutePath", "()Ljava/lang/String;" );
-  QAndroidJniEnvironment env;
-  if (env->ExceptionCheck()) {
-    env->ExceptionClear();
-  }
-  return externalPath.toString();
+  QString extPath = qgetenv("SECONDARY_STORAGE");
+  if (extPath.isEmpty())
+    extPath = qgetenv("EXTERNAL_STORAGE"); // return primary storage path (device internal)
+  return extPath;
+//  QAndroidJniObject extDirObject =
+//      QAndroidJniObject::callStaticObjectMethod("android/os/Environment", "getExternalStorageDirectory", "()Ljava/io/File;");
+//  QAndroidJniObject externalPath = extDirObject.callObjectMethod( "getAbsolutePath", "()Ljava/lang/String;" );
+//  QAndroidJniEnvironment env;
+//  if (env->ExceptionCheck())
+//    env->ExceptionClear();
+//  return externalPath.toString();
 }
 
 
