@@ -365,11 +365,14 @@ void TmainView::mainMenuExec() {
     menu.addAction(m_pitch->pauseAction());
   menu.addAction(m_tool->startExamAct);
   menu.addAction(m_tool->levelCreatorAct);
-  auto scoreMenuAct = new QAction(QIcon(Tpath::img("score")), tr("score menu"), this);
-  connect(scoreMenuAct, &QAction::triggered, this, &TmainView::scoreMenuExec);
+  QAction scoreMenuAct(QIcon(Tpath::img("score")), tr("score menu"), this);
+  connect(&scoreMenuAct, &QAction::triggered, this, &TmainView::scoreMenuExec);
   if (!m_nameLay) // multi notes mode
-    menu.addAction(scoreMenuAct);
+    menu.addAction(&scoreMenuAct);
   menu.addAction(m_tool->settingsAct);
+  QAction closeAct(QIcon(QLatin1String(":/mobile/exit.png")), QApplication::translate("QShortcut", "Close"), this);
+  connect(&closeAct, &QAction::triggered, parentWidget(), &QWidget::close);
+  menu.addAction(&closeAct);
   auto a = menu.exec();
   if (a)
     a->trigger();
