@@ -28,6 +28,9 @@
 #include "touch/ttouchproxy.h"
 #include "tlayoutparams.h"
 #include "tinitcorelib.h"
+#if defined (Q_OS_ANDROID)
+  #include <Android/tandroid.h>
+#endif
 #include <QDir>
 #include <QSettings>
 #include <QCoreApplication>
@@ -223,8 +226,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			E->expertsAnswerEnable = cfg->value("expertsAnswerEnable", false).toBool();
 			E->studentName = cfg->value("studentName", QString()).toString();
 #if defined (Q_OS_ANDROID)
-      E->examsDir = cfg->value("examsDir", qgetenv("EXTERNAL_STORAGE")).toString();
-      E->levelsDir = cfg->value("levelsDir", qgetenv("EXTERNAL_STORAGE")).toString();
+      E->examsDir = cfg->value("examsDir", Tandroid::getExternalPath()).toString();
+      E->levelsDir = cfg->value("levelsDir", Tandroid::getExternalPath()).toString();
 #else
 			E->examsDir = cfg->value("examsDir", QDir::homePath()).toString();
 			E->levelsDir = cfg->value("levelsDir", QDir::homePath()).toString();
