@@ -56,7 +56,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
     m_nameEdit->setText(systemUserName());
   m_nameEdit->setMaxLength(40);
     m_nameEdit->setStatusTip(tr("Enter your name or nick-name."));
-  if (m_nameEdit->text().isEmpty()) // when still there is no user name - put gray text of status tip
+//   if (m_nameEdit->text().isEmpty()) // when still there is no user name - put gray text of status tip
     m_nameEdit->setPlaceholderText(m_nameEdit->statusTip());
 
 // 2nd layout with level selector/preview ===================================
@@ -76,10 +76,13 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
     m_createLevelButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 // ============================================================================
 #if defined (Q_OS_ANDROID)
-  m_selectLevelBut = new QPushButton(this);
+  m_selectLevelBut = new QPushButton(this); // button to switch between layouts
     m_selectLevelBut->setText(selectLevelText.left(selectLevelText.indexOf(QLatin1String("<br>"))));
     m_selectLevelBut->setIcon(QIcon(Tpath::img("nootka-level")));
     setIconSize(m_selectLevelBut);
+  auto backButton = new QPushButton(QApplication::translate("QFileDialog", "Back"), this);
+    backButton->setIcon(style()->standardIcon(QStyle::SP_ArrowBack));
+    setIconSize(backButton);
 #endif
 
   m_exerciseButt = new QPushButton(tr("Start exercise on level:"));
@@ -146,38 +149,36 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 #endif
   mainLay->addLayout(topLay);
 #if defined (Q_OS_ANDROID)
+  mainLay->addStretch(1);
   mainLay->addWidget(m_selectLevelBut);
-  mainLay->addStretch();
+  mainLay->addStretch(1);
 #endif
 
 // -------- level selector and preview (under mobile hidden at the beginning)
   auto levelsLay = new QVBoxLayout;
   levelsLay->addWidget(m_levelsView);
+  levelsLay->addWidget(m_createLevelButt);
+  levelsLay->addWidget(moreLab, 0, Qt::AlignCenter);
 #if defined (Q_OS_ANDROID)
-    auto moreLay = new QVBoxLayout;
-      moreLay->addWidget(moreLab, 0, Qt::AlignCenter);
-#else
-    auto moreLay = new QHBoxLayout;
-      moreLay->addWidget(moreLab);
+  levelsLay->addStretch();
+  levelsLay->addWidget(backButton);
+  levelsLay->addStretch();
 #endif
-      moreLay->addWidget(m_createLevelButt);
-  levelsLay->addLayout(moreLay);
   auto levelsBox = new QWidget(this);
     levelsLay->setContentsMargins(0, 0, 0, 0);
-    levelsBox->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
     levelsBox->setLayout(levelsLay);
-#if defined (Q_OS_ANDROID)
-    levelsBox->hide();
+#if !defined (Q_OS_ANDROID)
+    levelsBox->setStatusTip(tr("Select a level suitable for you<br>or create new one."));
+    mainLay->addWidget(levelsBox);
 #endif
 // --------
-  mainLay->addWidget(levelsBox);
 #if defined (Q_OS_ANDROID) // Mobile has button then its label vertically
   mainLay->addWidget(m_exerciseButt);
   mainLay->addWidget(m_exerLevelLab);
-  mainLay->addStretch();
+  mainLay->addStretch(1);
   mainLay->addWidget(m_newExamButt);
   mainLay->addWidget(m_examLevelLab);
-  mainLay->addStretch();
+  mainLay->addStretch(1);
 #else // Desktop has | Button | Label | in two rows
   auto buttonsLay = new QGridLayout;
     buttonsLay->addWidget(m_exerciseButt, 0, 0);
@@ -193,11 +194,12 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 
 #if defined (Q_OS_ANDROID)
   m_hintLabel->hide();
-  mainLay->addStretch();
-  auto touchArea = new TtouchArea(this);
-  touchArea->setLayout(mainLay);
-  auto mobileLay = new QVBoxLayout;
-  mobileLay->addWidget(touchArea);
+  mainLay->addStretch(2);
+  auto mainArea = new TtouchArea(this);
+    mainArea->setLayout(mainLay);
+  auto mobileLay = new QStackedLayout;
+    mobileLay->addWidget(mainArea);
+    mobileLay->addWidget(levelsBox);
   setLayout(mobileLay);
 #else
   auto bottomLay = new QHBoxLayout;
@@ -270,7 +272,8 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   connect(m_levelsView, SIGNAL(levelChanged(Tlevel)), this, SLOT(levelWasSelected(Tlevel)));
   connect(m_helpButt,  SIGNAL(clicked()), this, SLOT(helpSelected()));
 #if defined (Q_OS_ANDROID)
-  connect(m_selectLevelBut, &QPushButton::clicked, [=] { levelsBox->setVisible(!levelsBox->isVisible()); });
+  connect(m_selectLevelBut, &QPushButton::clicked, [=] { mobileLay->setCurrentIndex(1); });
+  connect(backButton, &QPushButton::clicked, [=] { mobileLay->setCurrentIndex(0); });
 #endif
 
   QTimer::singleShot(10, [=] {

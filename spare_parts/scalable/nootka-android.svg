@@ -793,8 +793,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="226.35723"
-     inkscape:cy="230.81297"
+     inkscape:cx="267.07152"
+     inkscape:cy="287.95583"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1417,9 +1417,9 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:149.61332703px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="171.23944"
-       y="394.86542"
+       style="font-style:normal;font-weight:normal;font-size:149.61332703px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000080;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="154.09659"
+       y="579.15112"
        id="text4413"
        sodipodi:linespacing="125%"
        inkscape:export-filename="/home/tom/DEVELOP/QT5/nootka/spare_parts/mobile/text4413.png"
@@ -1427,8 +1427,8 @@
        inkscape:export-ydpi="72.11409"><tspan
          sodipodi:role="line"
          id="tspan4415"
-         x="171.23944"
-         y="394.86542"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:MaszynaAEG;-inkscape-font-specification:MaszynaAEG;fill:#ffff00">beta</tspan></text>
+         x="154.09659"
+         y="579.15112"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:MaszynaAEG;-inkscape-font-specification:MaszynaAEG;fill:#000080;">beta</tspan></text>
   </g>
 </svg>
