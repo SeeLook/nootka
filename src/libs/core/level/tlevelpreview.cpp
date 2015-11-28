@@ -28,6 +28,8 @@
 #include <QtWidgets/qtextbrowser.h>
 #include <QtGui/qpainter.h>
 #include <QtWidgets/qscroller.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qdesktopwidget.h>
 #include <QtCore/qdebug.h>
 
 
@@ -47,12 +49,13 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
 		m_summaryEdit = new QTextBrowser(this);
 		m_summaryEdit->setReadOnly(true);
 #if defined (Q_OS_ANDROID)
-    m_summaryEdit->setFixedWidth(fontMetrics().boundingRect("W").width() * 22);
+    m_summaryEdit->setMinimumWidth(fontMetrics().boundingRect("W").width() * 22);
     m_summaryEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_summaryEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);;
 #else
-    m_summaryEdit->setFixedWidth(fontMetrics().boundingRect("W").width() * 28);
+    m_summaryEdit->setMinimumWidth(fontMetrics().boundingRect("W").width() * 28);
 #endif
+    m_summaryEdit->setMaximumWidth(qApp->desktop()->availableGeometry().width() * 0.45);
     m_summaryEdit->viewport()->setStyleSheet("background-color: transparent;");
 		m_summaryEdit->setOpenLinks(false);
 		QVBoxLayout *mainLay = new QVBoxLayout;
