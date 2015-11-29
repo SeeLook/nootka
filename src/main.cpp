@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
     a->installEventFilter(w);
 #endif
 #if defined (Q_OS_ANDROID)
+    qDebug() << "params" << argc;
     w->showFullScreen();
 #else
     w->show();
@@ -113,6 +114,9 @@ int main(int argc, char *argv[])
 		exitCode = a->exec();
 		delete w;
     delete gl;
+#if defined (Q_OS_ANDROID)
+    resetConfig = false; // Close Android app anyway - it doesn't support restarting
+#endif
 	} while (resetConfig);
   delete a;
 	return exitCode;

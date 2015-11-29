@@ -67,13 +67,13 @@ QFont smalTipFont(QWidget* w) {
 
 Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
   QObject(parent->centralWidget()),
-  m_view(view),
   m_window(parent),
+  m_view(view),
+  m_scale(1),
   m_certifyTip(0),
   m_exam(exam),
-  m_scale(1),
-  m_flyEllipse(0),
   m_timerToConfirm(new QTimer(this)),
+  m_flyEllipse(0),
   m_minimizedQuestion(false), m_melodyCorrectMessage(false)
 {
   m_scene = m_view->scene();
