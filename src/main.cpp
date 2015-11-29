@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
   qInstallMessageHandler(myMessageOutput);
   qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
+
 	QTranslator qtTranslator;
 	QTranslator nooTranslator;
 	QPointer<QApplication> a = 0;
@@ -72,13 +73,15 @@ int main(int argc, char *argv[])
 	bool firstTime = true;
 	QString confFile;
 	resetConfig = false;
-	do {		
+	do {
+#if !defined (Q_OS_ANDROID)
 		if (a) delete a;
 		if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
 				QFile f(confFile);
 				f.remove();
 		}
 		resetConfig = false;
+#endif
 		a = new QApplication(argc, argv);
     Tmtr::init(a);
 #if defined (Q_OS_ANDROID)
@@ -93,7 +96,7 @@ int main(int argc, char *argv[])
 		prepareTranslations(a, qtTranslator, nooTranslator);
 		if (!loadNootkaFont(a))
 			return 111;
-		
+
 // creating main window
     w = new MainWindow();
 
@@ -115,6 +118,10 @@ int main(int argc, char *argv[])
 		delete w;
     delete gl;
 #if defined (Q_OS_ANDROID)
+    if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
+        QFile f(confFile);
+        f.remove();
+    }
     resetConfig = false; // Close Android app anyway - it doesn't support restarting
 #endif
 	} while (resetConfig);

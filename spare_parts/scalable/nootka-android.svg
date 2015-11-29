@@ -793,8 +793,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="267.07152"
-     inkscape:cy="287.95583"
+     inkscape:cx="425.85799"
+     inkscape:cy="234.93837"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -827,63 +827,54 @@
      id="layer1"
      transform="translate(-50.46962,-257.45591)">
     <g
-       id="g4345"
-       transform="matrix(23.916601,0,0,34.801947,67.920327,219.74744)">
-      <g
-         id="g867"
-         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,13.810804)">
-        <line
-           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
-           id="line869"
-           y2="0"
-           x2="80.938499"
-           y1="0"
-           x1="0.042417582" />
-      </g>
-      <g
-         id="g871"
-         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,11.526315)">
-        <line
-           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
-           id="line873"
-           y2="0"
-           x2="80.938499"
-           y1="0"
-           x1="0.042417582" />
-      </g>
-      <g
-         id="g875"
-         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,9.2418271)">
-        <line
-           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
-           id="line877"
-           y2="0"
-           x2="80.938499"
-           y1="0"
-           x1="0.042417582" />
-      </g>
-      <g
-         id="g879"
-         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,6.9573391)">
-        <line
-           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
-           id="line881"
-           y2="0"
-           x2="80.938499"
-           y1="0"
-           x1="0.042417582" />
-      </g>
-      <g
-         id="g883"
-         transform="matrix(0.31002331,0,0,2.2844887,0.08375204,4.6728501)">
-        <line
-           style="stroke:currentColor;stroke-width:0.25815895;stroke-linecap:round;stroke-linejoin:round"
-           id="line885"
-           y2="0"
-           x2="80.938499"
-           y1="0"
-           x1="0.042417582" />
-      </g>
+       transform="matrix(7.4147038,0,0,79.504655,69.923391,700.39031)"
+       id="g867"
+       style="opacity:1;stroke-width:0.28830678;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:#505050;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round">
+      <path
+         inkscape:connector-curvature="0"
+         id="line869"
+         d="M 0.04241758,0 80.938499,0"
+         style="stroke:#505050;stroke-width:0.28830678;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke-opacity:1" />
+    </g>
+    <g
+       transform="matrix(7.4147038,0,0,79.504655,69.923391,620.88564)"
+       id="g871"
+       style="opacity:1;stroke-width:0.28830678;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:#505050;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round">
+      <path
+         inkscape:connector-curvature="0"
+         id="line873"
+         d="M 0.04241758,0 80.938499,0"
+         style="stroke:#505050;stroke-width:0.28830678;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke-opacity:1" />
+    </g>
+    <g
+       transform="matrix(7.4147038,0,0,79.504655,69.923391,541.38102)"
+       id="g875"
+       style="opacity:1;stroke-width:0.28830678;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:#505050;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round">
+      <path
+         inkscape:connector-curvature="0"
+         id="line877"
+         d="M 0.04241758,0 80.938499,0"
+         style="stroke:#505050;stroke-width:0.28830678;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke-opacity:1" />
+    </g>
+    <g
+       transform="matrix(7.4147038,0,0,79.504655,69.923391,461.87639)"
+       id="g879"
+       style="opacity:1;stroke-width:0.28830678;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:#505050;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round">
+      <path
+         inkscape:connector-curvature="0"
+         id="line881"
+         d="M 0.04241758,0 80.938499,0"
+         style="stroke:#505050;stroke-width:0.28830678;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke-opacity:1" />
+    </g>
+    <g
+       transform="matrix(7.4147038,0,0,79.504655,69.923391,382.37172)"
+       id="g883"
+       style="opacity:1;stroke-width:0.28830678;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:#505050;stroke-opacity:1;stroke-linejoin:round;stroke-linecap:round">
+      <path
+         inkscape:connector-curvature="0"
+         id="line885"
+         d="M 0.04241758,0 80.938499,0"
+         style="stroke:#505050;stroke-width:0.28830678;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke-opacity:1" />
     </g>
     <path
        style="fill:#550000;stroke:#000000;stroke-width:1.98267743;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter7429-9);stroke-miterlimit:4;stroke-dasharray:none"
@@ -1417,9 +1408,9 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:149.61332703px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#000080;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       x="154.09659"
-       y="579.15112"
+       style="font-style:normal;font-weight:normal;font-size:178.14405823px;line-height:125%;font-family:Sans;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="114.73682"
+       y="494.69193"
        id="text4413"
        sodipodi:linespacing="125%"
        inkscape:export-filename="/home/tom/DEVELOP/QT5/nootka/spare_parts/mobile/text4413.png"
@@ -1427,8 +1418,8 @@
        inkscape:export-ydpi="72.11409"><tspan
          sodipodi:role="line"
          id="tspan4415"
-         x="154.09659"
-         y="579.15112"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:MaszynaAEG;-inkscape-font-specification:MaszynaAEG;fill:#000080;">beta</tspan></text>
+         x="114.73682"
+         y="494.69193"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:MaszynaAEG;-inkscape-font-specification:MaszynaAEG;fill:#1a1a1a">beta</tspan></text>
   </g>
 </svg>
