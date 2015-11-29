@@ -161,8 +161,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
 					S->enharmNotesColor = -1;
 			S->seventhIs_B = cfg->value("is7thNote_B", true).toBool(); //true;
 	cfg->endGroup();
-	
-//note name settings    
+
+//note name settings
 	cfg->beginGroup("noteName");
 			S->nameStyleInNoteName = Tnote::EnameStyle(cfg->value("nameStyle", (int)Tnote::e_english_Bb).toInt());
 			S->solfegeStyle = Tnote::EnameStyle(cfg->value("solfegeStyle", (int)getSolfegeStyle()).toInt());
@@ -200,7 +200,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			GmarkedFrets = cfg->value("dotsOnFrets", fretsList).toList();
 	cfg->endGroup();
 
-	
 // Exam settings
 	cfg->beginGroup("exam");
 			if (cfg->contains("questionColor"))
@@ -227,10 +226,18 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			E->studentName = cfg->value("studentName", QString()).toString();
 #if defined (Q_OS_ANDROID)
       E->examsDir = cfg->value("examsDir", Tandroid::getExternalPath()).toString();
+      if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
+        E->examsDir = Tandroid::getExternalPath();
       E->levelsDir = cfg->value("levelsDir", Tandroid::getExternalPath()).toString();
+      if (!QFileInfo::exists(E->levelsDir))
+        E->levelsDir = Tandroid::getExternalPath();
 #else
 			E->examsDir = cfg->value("examsDir", QDir::homePath()).toString();
+      if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
+        E->examsDir = QDir::homePath();
 			E->levelsDir = cfg->value("levelsDir", QDir::homePath()).toString();
+      if (!QFileInfo::exists(E->levelsDir)) // reset if doesn't exist
+        E->levelsDir = QDir::homePath();
 #endif
 			E->closeWithoutConfirm = cfg->value("closeWithoutConfirm", false).toBool();
 			E->showCorrected = cfg->value("showCorrected", true).toBool();
@@ -259,7 +266,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->INdevName = cfg->value("inDeviceName", QString()).toString();
 		A->detectMethod = qBound(0, cfg->value("detectionMethod", 2).toInt(), 2); // MPM modified cepstrum
 		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
-		A->minDuration = cfg->value("minimalDuration", 0.09).toFloat();
+		A->minDuration = cfg->value("minimalDuration", 0.15).toFloat(); // 150 ms
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
