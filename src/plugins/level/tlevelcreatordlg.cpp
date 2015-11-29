@@ -184,7 +184,6 @@ void TlevelCreatorDlg::saveToFile() {
   QString fName = QDir::toNativeSeparators(Tcore::gl()->E->levelsDir + QLatin1String("/") + newLevel.name);
   if (QFileInfo(fName  + dotNel).exists())
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
-  qDebug() << "Sugested name" << fName;
 #if defined (Q_OS_ANDROID)
   QString fileName = TfileDialog::getSaveFileName(this, fName, QStringLiteral("nel"));
 #else
@@ -224,7 +223,7 @@ void TlevelCreatorDlg::loadFromFile() {
 
 
 QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
-    QString res = "";
+    QString res;
   // Check has a level sense - are there an questions and answers
     if (!l.canBeScore() && ! l.canBeName() && !l.canBeGuitar() && !l.canBeSound()) {
         res = tr("There aren't any questions or answers selected.<br>Level makes no sense.");
@@ -324,9 +323,9 @@ QString TlevelCreatorDlg::validateLevel(Tlevel &l) {
 			}
 		}
   // Resume warnings
-    if (res != "") {
-        res.prepend("<ul>");
-        res += "</ul></center>";
+    if (!res.isEmpty()) {
+        res.prepend(QLatin1String("<ul>"));
+        res += QLatin1String("</ul></center>");
     }
     return res;
 
@@ -359,7 +358,7 @@ void TlevelCreatorDlg::checkLevelSlot() {
     m_accSett->saveLevel(&tmpLevel);
     m_rangeSett->saveLevel(&tmpLevel);
     QString validMessage =  validateLevel(tmpLevel);
-    if (validMessage != "")
+    if (!validMessage.isEmpty())
       showValidationMessage(validMessage);
     else
       QMessageBox::information(this, tr("Level validation"), tr("Level seems to be correct"));
@@ -367,7 +366,7 @@ void TlevelCreatorDlg::checkLevelSlot() {
 
 
 void TlevelCreatorDlg::showValidationMessage(QString message) {
-      if (message != "") {
+      if (!message.isEmpty()) {
 				QString title = tr("Level validation");
         if (message.contains("</li>")) { // when <li> exist - warring
           message.prepend(tr("<center><b>It seems the level has some mistakes:</b>"));
@@ -381,7 +380,7 @@ void TlevelCreatorDlg::showValidationMessage(QString message) {
 
 
 void TlevelCreatorDlg::helpSlot() {
-  openHelpLink("level-creator");
+  openHelpLink(QLatin1String("level-creator"));
 }
 
 #if defined (Q_OS_ANDROID)
