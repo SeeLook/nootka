@@ -278,7 +278,6 @@ void MainWindow::clearAfterExam(int examState) {
 //#######################     PUBLIC SLOTS       ###########################################
 //##########################################################################################
 void MainWindow::openFile(QString runArg) {
-#if !defined (Q_OS_ANDROID)
   if (executor || m_levelCreatorExist)
     return;
   if (QFile::exists(runArg)) {
@@ -302,7 +301,6 @@ void MainWindow::openFile(QString runArg) {
       }
     }
   }
-#endif
 }
 
 
