@@ -51,6 +51,11 @@ protected:
   void dirUpSlot();
   void newDirSlot();
   void performAction(); /**< Open or save */
+  void createNewDir(const QString& newDir); /**< Creates new directory with name @p newDir in current model node */
+
+    /**< Displays message about possibility of creating Nootka folder on external card (if exists - or internal then).
+     * If user agreed - creates the directory.  */
+  void createNootkaDir();
 
   QListWidgetItem* addMenuItem(const QIcon& icon, const QString& text = QString());
   void updateLocationLabel();

@@ -3,6 +3,7 @@
 #include "tfiledialog.h"
 #include "tmtr.h"
 #include <tpath.h>
+#include <Android/tandroid.h>
 #include <QtWidgets/QtWidgets>
 
 
@@ -66,6 +67,7 @@ public:
       m_createButt->setIconSize(iconS);
       m_createButt->setDisabled(true);
       m_createButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+      m_createButt->setDefault(true);
     auto cancelButt = new QPushButton(style()->standardIcon(QStyle::SP_DialogCancelButton),
                                   QApplication::translate("QPlatformTheme", "Cancel"),
                                   this);
@@ -139,6 +141,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
 {
   showMaximized();
 
+// left side menu
   m_menu = new QListWidget(this);
   m_menu->setIconSize(QSize(60, 60));
   m_menu->setMaximumWidth(80);
@@ -180,8 +183,10 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
                             QApplication::translate("QFileDialog", "Parent Directory").replace(space, newLine));
   m_newDirItem = addMenuItem(QIcon(QLatin1String(":/mobile/newDir.png")),
                              QApplication::translate("QFileDialog", "&New Folder").replace(space, newLine).replace(QLatin1String("&"), QString()));
+  addMenuItem(QIcon(QLatin1String(":/mobile/card.png")), tr("Memory card").replace(space, newLine));
   m_cancelItem = addMenuItem(QIcon(QLatin1String(":/mobile/exit.png")), QApplication::translate("QShortcut", "Close"));
 
+// upper location label, file name edit, extension combo
   m_locationLab = new QLabel(this);
   m_locationLab->setAlignment(Qt::AlignRight);
   m_locationLab->setFixedWidth(Tmtr::longScreenSide() / 3);
@@ -192,6 +197,8 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
     m_editName->setReadOnly(true);
 
   m_extensionCombo = new QComboBox(this);
+
+// file list
   m_list = new QListView(this);
   int is = Tmtr::fingerPixels();
   m_list->setIconSize(QSize(is, is));
@@ -202,6 +209,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   m_list->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   QScroller::grabGesture(m_list->viewport(), QScroller::LeftMouseButtonGesture);
 
+// Layout
   m_lay = new QBoxLayout(QBoxLayout::LeftToRight);
   m_lay->addWidget(m_menu);
     auto innLay = new QVBoxLayout;
@@ -216,9 +224,10 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   innLay->setContentsMargins(0, m_lay->contentsMargins().top(), 0, 0);
   m_lay->setContentsMargins(0, 0, m_lay->contentsMargins().right(), 0);
 
+// Determine root path from given parameter 'directory'
   m_fileModel = new QFileSystemModel(this);
-
   QFileInfo fi(directory);
+  // Directory rather exists (checked at the very beginning) - if not it is treated as a file
   if (fi.isDir())
     m_fileModel->setRootPath(directory);
   else {
@@ -227,6 +236,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   }
   updateLocationLabel();
 
+// Set filters
   if (filters.size()) {
     for(int i = 0; i < filters.size(); ++i) {
       filters[i].prepend(QLatin1String("."));
@@ -234,7 +244,6 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
       filters[i].prepend(QLatin1String("*"));
     }
     m_extensionCombo->setCurrentIndex(0);
-//     m_extensionCombo->setMinimumWidth(fontMetrics().width(m_extensionCombo->currentText()) + 20); // keep whole extension text visible
     m_fileModel->setNameFilters(filters);
     m_fileModel->setNameFilterDisables(false);
   }
@@ -246,6 +255,16 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
 
   connect(m_menu, &QListWidget::itemClicked, this, &TfileDialog::menuClickedSlot);
   connect(m_list, &QListView::clicked, this, &TfileDialog::itemClickedSlot);
+
+// Adjust width of menu list according to widest text
+  QTimer::singleShot(100, [=] { m_menu->setFixedWidth(m_menu->sizeHintForColumn(0) + 2 * m_menu->frameWidth()); });
+
+  QString externalStorage = Tandroid::getExternalPath();
+  if (mode == e_acceptSave && externalStorage == m_fileModel->rootPath()) {
+    // Ask to create Nootka folder but only when file dialog is called with external storage path (first launch)
+    if (!externalStorage.isEmpty() && !QFileInfo::exists(externalStorage + QLatin1String("/Nootka")))
+      QTimer::singleShot(200, [=] { createNootkaDir(); });
+  }
 }
 
 
@@ -315,6 +334,9 @@ void TfileDialog::menuClickedSlot(QListWidgetItem* item) {
     dirUpSlot();
   else if (item == m_newDirItem)
     newDirSlot();
+  else if (m_menu->currentRow() == 3) {
+    itemClickedSlot(m_fileModel->index(Tandroid::getExternalPath()));
+  }
 }
 
 
@@ -329,9 +351,19 @@ void TfileDialog::dirUpSlot() {
 
 
 void TfileDialog::newDirSlot() {
-  QString newDir = TnewDirMessage::dirName(this);
-  if (!newDir.isEmpty())
-    m_fileModel->mkdir(m_list->rootIndex(), newDir);
+  createNewDir(TnewDirMessage::dirName(this));
+}
+
+
+void TfileDialog::createNewDir(const QString& newDir) {
+  if (!newDir.isEmpty()) {
+    auto dirIndex = m_fileModel->mkdir(m_list->rootIndex(), newDir);
+    if (dirIndex.isValid())
+        itemClickedSlot(dirIndex);
+    else
+        QMessageBox::warning(this,
+                  m_newDirItem->text(), QApplication::translate("QFtp", "Creating directory failed:\n%1").arg(newDir));
+  }
 }
 
 
@@ -349,6 +381,14 @@ QListWidgetItem* TfileDialog::addMenuItem(const QIcon& icon, const QString& text
 void TfileDialog::updateLocationLabel() {
   m_locationLab->setText(fontMetrics().elidedText(m_fileModel->rootPath() + QLatin1String("/"),
                                                   Qt::ElideMiddle, m_locationLab->width(), Qt::TextShowMnemonic));
+}
+
+
+void TfileDialog::createNootkaDir() {
+  if (QMessageBox::question(this, QString(),
+      tr("Directory named <b>Nootka</b> will be created in<br>%1<br>Application files will be written there.").arg(m_fileModel->rootPath()))
+      == QMessageBox::Yes)
+      createNewDir(QLatin1String("Nootka"));
 }
 
 
