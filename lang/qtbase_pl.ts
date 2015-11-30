@@ -1725,7 +1725,7 @@ Czy na pewno chcesz go skasować?</translation>
         <location line="+4"/>
         <source>Creating directory failed:
 %1</source>
-        <translation type="unfinished">Tworzenie katalogu zakończone błędem:
+        <translation>Tworzenie katalogu zakończone błędem:
 %1</translation>
     </message>
     <message>
