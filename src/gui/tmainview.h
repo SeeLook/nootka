@@ -35,6 +35,7 @@ class QBoxLayout;
 class QGraphicsProxyWidget;
 class QAction;
 class TmelodyItem;
+class MainWindow;
 
 /** 
  * This widget manages of a layout of main Nootka window
@@ -48,17 +49,17 @@ Q_OBJECT
 
 public:
 	TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
-            QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QWidget* parent = 0);
+            QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, MainWindow* parent);
   virtual ~TmainView();
-	
+
 	void addNoteName(); /** Adds note name widget over a score (for single note mode) */
 	void takeNoteName(); /** Takes note name from view. */
-	
+
 	void addExamViews(QWidget* resultsW, QWidget* progressW); /** Adds bar with those widgets */
 	void takeExamViews(); /** Removes exam widgets, WIDGETS ARE DELETED! */
-	
+
 	void moveExamToName(); /** Moves 'exam view' above note view. Changes its direction to vertical. */
-	
+
 	void setBarAutoHide(bool autoHide); /** Makes tool bar permanently visible or displayed on demand (mouse action) */
 	bool isAutoHide() { return m_isAutoHide; }
 
@@ -97,8 +98,9 @@ protected slots:
 
   void mainMenuExec();
   void scoreMenuExec();
-	
+
 private:
+  MainWindow                      *m_mainWindow;
 	QWidget													*m_status;
   QGraphicsView                   *m_score, *m_guitar;
 	QWidget													*m_results, *m_progress, *m_container, *m_touchedWidget;
