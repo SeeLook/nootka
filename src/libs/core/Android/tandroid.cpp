@@ -55,6 +55,24 @@ QString Tandroid::getExternalPath() {
 }
 
 
+QString Tandroid::getRunArgument() {
+  QString argument;
+  QAndroidJniObject activity = QtAndroid::androidActivity();
+  if (activity.isValid()) {
+    QAndroidJniObject intent = activity.callObjectMethod("getIntent", "()Landroid/content/Intent;");
+    if (intent.isValid()) {
+       QAndroidJniObject data = intent.callObjectMethod("getData", "()Landroid/net/Uri;");
+       if (data.isValid()) {
+         QAndroidJniObject arg = data.callObjectMethod("getPath", "()Ljava/lang/String;");
+         if (arg.isValid())
+           argument = arg.toString();
+       }
+    }
+  }
+  return argument;
+}
+
+
 QString Tandroid::accountName() {
   return "fake";
 //  return QAndroidJniObject::callStaticObjectMethod<jstring>
