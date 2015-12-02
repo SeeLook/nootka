@@ -19,6 +19,7 @@
 #include "mainwindow.h"
 #if defined (Q_OS_ANDROID)
   #include "ttouchstyle.h"
+  #include <Android/tandroid.h>
   // #include <QtWidgets/qstylefactory.h>
 #endif
 #include <tinitcorelib.h>
@@ -105,14 +106,21 @@ int main(int argc, char *argv[])
     a->installEventFilter(w);
 #endif
 #if defined (Q_OS_ANDROID)
-    qDebug() << "params" << argc;
     w->showFullScreen();
 #else
     w->show();
 #endif
 
-    if (firstTime && argc > 1)
+    if (firstTime) {
+#if defined (Q_OS_ANDROID)
+      QString androidArg = Tandroid::getRunArgument();
+      if (!androidArg.isEmpty())
+        w->openFile(androidArg);
+#else
+      if (argc > 1)
         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+#endif
+    }
 		firstTime = false;
 		exitCode = a->exec();
 		delete w;
