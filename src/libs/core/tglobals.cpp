@@ -23,6 +23,7 @@
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
+#include <touch/ttouchparams.h>
 #include <music/tnamestylefilter.h>
 #include "tpath.h"
 #include "touch/ttouchproxy.h"
@@ -85,14 +86,15 @@ Tglobals::Tglobals(bool fromTemp) :
 	A = new TaudioParams();
 	S = new TscoreParams();
 	L = new TlayoutParams();
-	
+  new TtouchParams;
+
 #if defined(Q_OS_WIN32) // I hate mess in Win registry
 	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", qApp->applicationName());
 #else
 	config = new QSettings();
 #endif
 	loadSettings(config);
-	
+
 	if (Tcore::gl() == 0)
 		Tcore::setGlobals(this);
 	else {
@@ -111,6 +113,7 @@ Tglobals::~Tglobals() {
 	delete m_tune;
 	delete config;
   delete onlyOneTouchProxy;
+  delete TtouchParams::i();
 	Tcore::reset();
 }
 
@@ -294,6 +297,11 @@ void Tglobals::loadSettings(QSettings* cfg) {
 #endif
   cfg->endGroup();
   TtouchProxy::setTouchEnabled(enableTouch);
+
+  cfg->beginGroup("touch");
+    TtouchParams::i()->scoreWasTouched = cfg->value("scoreWasTouched", false).toBool();
+    TtouchParams::i()->guitarWasTouched = cfg->value("guitarWasTouched", false).toBool();
+  cfg->endGroup();
 }
 
 
@@ -443,7 +451,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue("minVolumeToSplit", A->minSplitVol);
       cfg->setValue("skipStillerThan", A->skipStillerVal);
 	cfg->endGroup();
-	
+
 	cfg->beginGroup("layout");
 			cfg->setValue("toolBarAutoHide", L->toolBarAutoHide);
 			cfg->setValue("iconTextOnToolBar", (int)L->iconTextOnToolBar);
@@ -451,4 +459,9 @@ void Tglobals::storeSettings(QSettings* cfg) {
 			cfg->setValue("soundViewEnabled", L->soundViewEnabled);
 			cfg->setValue("guitarEnabled", L->guitarEnabled);
 	cfg->endGroup();
+
+  cfg->beginGroup("touch");
+    cfg->setValue("scoreWasTouched", TtouchParams::i()->scoreWasTouched);
+    cfg->setValue("guitarWasTouched", TtouchParams::i()->guitarWasTouched);
+  cfg->endGroup();
 }
