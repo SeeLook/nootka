@@ -43,6 +43,9 @@ public:
   static void setTouchEnabled(bool touch);
   static TtouchProxy* instance() { return m_instance; }
 
+  static QString touchScoreHelp(); /** Returns description text (multiple lines) how to use score with touch */
+  static QString touchGuitarHelp(); /** Returns description text (multiple lines) how to use fingerboard with touch */
+
 signals:
   void touchStateChanged(bool); /** Emitting when enabling of touch events changes. */
 

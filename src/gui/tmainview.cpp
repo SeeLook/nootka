@@ -19,6 +19,7 @@
 #include "tmainview.h"
 #include "ttoolbar.h"
 #include "tmenu.h"
+#include "mainwindow.h"
 #if defined (Q_OS_ANDROID)
   #include "tmaterialmenu.h"
   #include <widgets/tmelodyitem.h>
@@ -29,6 +30,7 @@
 #include <tlayoutparams.h>
 #include <touch/ttouchproxy.h>
 #include <touch/ttouchmenu.h>
+#include <touch/ttouchparams.h>
 #include <tpath.h>
 #include <tmtr.h>
 #include <graphics/tdropshadoweffect.h>
@@ -37,8 +39,9 @@
 
 
 TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
-                     QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QWidget* parent) :
+                     QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, MainWindow* parent) :
 	QGraphicsView(parent),
+	m_mainWindow(parent),
 	m_layParams(layParams),
 	m_tool(toolW),
 	m_status(statLabW),
@@ -437,31 +440,40 @@ bool TmainView::viewportEvent(QEvent *event) {
                   m_fretView->hide();
               }
 // mapping all touches to score
-              QList<QTouchEvent::TouchPoint> pointList;
-              for (int i = 0; i < te->touchPoints().size(); ++i) {
-                QTouchEvent::TouchPoint touchPoint(te->touchPoints()[i]);
-                touchPoint.setPos(m_score->mapFromParent(touchPoint.pos().toPoint())); // map to score
-                touchPoint.setLastPos(m_score->mapFromParent(touchPoint.lastPos().toPoint()));
-//                 touchPoint.setStartPos(m_score->mapFromParent(touchPoint.startPos().toPoint())); // So far unused
-                pointList << touchPoint;
+              if (TtouchParams::i()->scoreWasTouched) {
+                  QList<QTouchEvent::TouchPoint> pointList;
+                  for (int i = 0; i < te->touchPoints().size(); ++i) {
+                    QTouchEvent::TouchPoint touchPoint(te->touchPoints()[i]);
+                    touchPoint.setPos(m_score->mapFromParent(touchPoint.pos().toPoint())); // map to score
+                    touchPoint.setLastPos(m_score->mapFromParent(touchPoint.lastPos().toPoint()));
+    //                 touchPoint.setStartPos(m_score->mapFromParent(touchPoint.startPos().toPoint())); // So far unused
+                    pointList << touchPoint;
+                  }
+                  QTouchEvent touchToSend(event->type(), te->device(), te->modifiers(), te->touchPointStates(), pointList);
+                  if (qApp->notify(m_score->viewport(), &touchToSend)) {
+                    m_touchedWidget = m_score->viewport();
+                  }
+                  if (event->type() == QEvent::TouchEnd)
+                    m_touchedWidget = 0;
+                  return true;
+              } else {
+                  m_mainWindow->setStatusMessage(TtouchProxy::touchScoreHelp(), 0);
+                  TtouchParams::i()->scoreWasTouched = true;
               }
-              QTouchEvent touchToSend(event->type(), te->device(), te->modifiers(), te->touchPointStates(), pointList);
-              if (qApp->notify(m_score->viewport(), &touchToSend)) {
-                m_touchedWidget = m_score->viewport();
-              }
-              if (event->type() == QEvent::TouchEnd)
-                m_touchedWidget = 0;
-              return true;
 // 1.1.5 guitar was touched
           } else if (m_fretView->guitarEnabled() &&
                       (m_fretView->isVisible() || m_touchedWidget == m_guitar->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_guitar->viewport())) {
+              if (m_fretView->isPreview() && !TtouchParams::i()->guitarWasTouched) {
+                m_mainWindow->setStatusMessage(TtouchProxy::touchGuitarHelp(), 0);
+                TtouchParams::i()->guitarWasTouched = true;
+                return false;
+              }
               if (event->type() == QEvent::TouchEnd) {
                 m_touchedWidget = 0;
               } else
                   m_touchedWidget = m_guitar->viewport();
-              m_fretView->mapTouchEvent(te);
-              return true;
+              return m_fretView->mapTouchEvent(te);
           }
 // 2. Other temporary item was touched
       } else if (m_fretView && m_fretView->guitarEnabled() && itemAt(te->touchPoints().first().startPos().toPoint()) == m_fretView->proxy()) {

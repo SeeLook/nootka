@@ -24,6 +24,26 @@
 bool              TtouchProxy::m_touchEnabled = false;
 TtouchProxy*      TtouchProxy::m_instance = 0;
 
+QString TtouchProxy::touchScoreHelp() {
+  return tr("To edit a note in a score:<br>"
+            "Touch area about some note and move a finger - note cursor will appear to set a pitch of this note.<br>"
+            "Then take the finger away - additional buttons will appear for a while.<br>"
+            "You may add/remove an accidental or a note.<br>"
+            "Touch and move again to continue setting the pitch.<br>"
+            "To select the note - tap it quickly again.<br>"
+            "Touch a clef for a while to change it.<br>"
+            "To scroll the score with multiple staves - use two fingers");
+}
+
+
+QString TtouchProxy::touchGuitarHelp() {
+  return tr("Tap a fret you want to select - zoomed preview will appear.<br>"
+            "You may drag it right or left to change the fret.<br>"
+            "Tap zoomed preview on desired string to set the position."
+  );
+}
+
+
 
 TtouchProxy::TtouchProxy(QObject* parent) :
   QObject(parent)
