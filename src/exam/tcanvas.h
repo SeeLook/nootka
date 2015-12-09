@@ -51,7 +51,7 @@ class ThackedTouchTip : public TgraphicsTextTip {
   Q_OBJECT
 
 public:
-  ThackedTouchTip(const QString& text, QColor bgColor = -1) : TgraphicsTextTip(text, bgColor) {}
+  ThackedTouchTip(const QString& text, QColor bgColor = -1);
 
 protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent*) {

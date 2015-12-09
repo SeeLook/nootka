@@ -65,6 +65,14 @@ QFont smalTipFont(QWidget* w) {
 #endif
 
 
+ThackedTouchTip::ThackedTouchTip(const QString& text, QColor bgColor) :
+  TgraphicsTextTip(text, bgColor)
+{
+  setBaseColor(qApp->palette().text().color());
+  setDefaultTextColor(qApp->palette().base().color());
+}
+
+
 Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
   QObject(parent->centralWidget()),
   m_window(parent),
@@ -696,7 +704,7 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 
 
 void Tcanvas::setResultPos() {
-	m_resultTip->setPos(m_scene->width() * 0.52 + (m_scene->width() * 0.48 - m_resultTip->realW()) / 2, m_scene->height() * 0.01);
+	m_resultTip->setPos(m_scene->width() * 0.52 + (m_scene->width() * 0.48 - m_resultTip->realW()) / 2, m_scene->height() * 0.05);
 }
 
 
@@ -710,12 +718,21 @@ void Tcanvas::setTryAgainPos() {
 
 void Tcanvas::setWhatNextPos() {
 #if defined (Q_OS_ANDROID)
+  qreal sc = (m_view->height() / 8.0) / m_nextTip->realH();
+  if (sc > 1.0)
+    m_nextTip->setScale(sc);
   qreal hh = m_view->height() * 0.75; // place tips above guitar, even it is hidden or doesn't exist
   m_nextTip->setPos(m_window->width() - m_nextTip->realW() - 4, hh - m_nextTip->realH());
-  if (m_prevTip)
+  if (m_prevTip) {
+    if (sc > 1.0)
+      m_prevTip->setScale(sc);
     m_prevTip->setPos(4, hh - m_prevTip->realH());
-  if (m_correctTip)
+  }
+  if (m_correctTip) {
+    if (sc > 1.0)
+      m_correctTip->setScale(sc);
     m_correctTip->setPos(m_window->width() - m_correctTip->realW() - 4, m_nextTip->y() - m_correctTip->realH() - 8);
+  }
 #else
 	int maxTipHeight = getMaxTipHeight();
   if (!m_nameFree && m_whatTip->realH() != maxTipHeight)
@@ -743,6 +760,9 @@ void Tcanvas::setStartTipPos() {
 
 void Tcanvas::setConfirmPos() { // right top corner
 #if defined (Q_OS_ANDROID)
+  qreal sc = (m_view->height() / 8.0) / m_confirmTip->realH();
+  if (sc > 1.0)
+    m_confirmTip->setScale(sc);
   m_confirmTip->setPos(m_window->width() - m_confirmTip->realW() - 4, 4); // 4 is more-less tip shadow size
 #else
    m_confirmTip->setPos(m_window->width() - m_confirmTip->realW() - 20, 20);

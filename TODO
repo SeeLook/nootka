@@ -11,6 +11,8 @@
 ================              TODO LIST               ======================
 ============================================================================
 Translations:
+ - All uses of QApplication::translate("QtClass", "text") change int QtClass::tr("text") - 
+      this way no Qt translations go into Nootka ts
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
 
 ANDROID:
