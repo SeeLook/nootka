@@ -11,14 +11,11 @@
 ================              TODO LIST               ======================
 ============================================================================
 Translations:
- - All uses of QApplication::translate("QtClass", "text") change int QtClass::tr("text") - 
-      this way no Qt translations go into Nootka ts
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
 
 ANDROID:
 - crash when audio out was disables and enabled again in settings (audio in probably also)
 - add 'smallest font size' to Tmtr ???
-- add labels with smallest font under level cretor options instead of status tips
 - solve issue with restart for settings reset
 - keep scroll bar of score always off - it appears when switching single/multi
 - Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good

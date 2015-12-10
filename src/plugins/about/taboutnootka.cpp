@@ -25,6 +25,7 @@
 #include <tpath.h>
 #include <widgets/troundedlabel.h>
 #include <touch/ttoucharea.h>
+#include <touch/ttouchproxy.h>
 #include <QtWidgets/QtWidgets>
 
 #define LI (QLatin1String("<li>"))
@@ -62,7 +63,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 #endif
 
   addItem(tr("About"), Tpath::img("nootka-frame"));                               // 0
-  addItem(tr("Help"), Tpath::img("help-frame"));                                  // 1
+  addItem(QApplication::translate("QShortcut", "Help"), Tpath::img("help-frame"));// 1
   addItem(authorsTxt(), Tpath::img("author"));                                    // 2
   addItem(tr("License"), Tpath::img("license"));                                  // 3
   addItem(tr("Support"), Tpath::img("support"));                                  // 4
@@ -75,10 +76,20 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
   m_timer = new QTimer(this);
   connect(m_timer, SIGNAL(timeout()), this, SLOT(moveScroll()));
-
+// ABOUT
   auto aboutPage = new Tabout(this);
-
-  auto helpPage = new TmainHelp(this);
+// HELP
+  auto helpPage = new QTabWidget(this);
+    helpPage->setTabBarAutoHide(true);
+  auto helpWidget = new TmainHelp(this);
+    helpPage->addTab(helpWidget, QStringLiteral(" 1 "));
+  if (TtouchProxy::touchEnabled()) {
+    auto touchEdit = new QTextEdit(this);
+      touchEdit->setReadOnly(true);
+      QScroller::grabGesture(touchEdit->viewport(), QScroller::LeftMouseButtonGesture);
+      touchEdit->setHtml(TtouchProxy::touchScoreHelp());
+    helpPage->addTab(touchEdit, QStringLiteral(" 2 "));
+  }
 
   auto authorsPage = new QWidget(this);
   authorsPage->setContentsMargins(5, 5, 5, 5);
