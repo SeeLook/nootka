@@ -132,7 +132,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
     setIconSize(m_cancelBut);
 
   m_hintLabel = new TroundedLabel(this);
-  m_hintLabel->setFixedHeight(fontMetrics().height() * 5);
+  m_hintLabel->setFixedHeight(fontMetrics().height() * 4);
   m_hintLabel->setWordWrap(true);
 #if !defined (Q_OS_ANDROID)
   m_cancelBut->setFixedHeight(m_hintLabel->height());

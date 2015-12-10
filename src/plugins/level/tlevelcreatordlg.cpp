@@ -66,7 +66,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   m_questSett->setMelodiesEnabled(!Tcore::gl()->S->isSingleNoteMode);
   m_questSett->blockSignals(false);
   if (!touchEnabled())
-    hint->setFixedHeight(fontMetrics().height() * 5);
+    hint->setFixedHeight(fontMetrics().height() * 4);
 
   connect(navList, SIGNAL(currentRowChanged(int)), stackLayout, SLOT(setCurrentIndex(int)));
 

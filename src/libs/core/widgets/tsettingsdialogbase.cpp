@@ -65,7 +65,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     stackLayout = new QStackedLayout;
 
     hint = new TroundedLabel(this);
-    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 4);
+    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 3.5);
 		hint->setMinimumWidth(fontMetrics().boundingRect("w").width() * 70);
     hint->setWordWrap(true);
 
@@ -84,7 +84,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
       mainLay->addLayout(upLay);
       mainLay->addWidget(buttonBox);
     setLayout(mainLay);
-		
+
 		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     if (touchEnabled()) {
