@@ -15,7 +15,7 @@ set(LIB_NOOTKACORE_SRC
 	tnoofont.cpp
 	tpath.cpp
 	tmtr.cpp
-	
+
 	animations/tabstractanim.cpp
 	animations/tblinkingitem.cpp
 	animations/tcoloredanim.cpp
@@ -25,7 +25,7 @@ set(LIB_NOOTKACORE_SRC
 	animations/tmovedanim.cpp
 	animations/tscaledanim.cpp
 	animations/tcrossfadetextanim.cpp
-	
+
 	music/tnote.cpp
 	music/tnamestylefilter.cpp
 	music/ttune.cpp
@@ -35,11 +35,11 @@ set(LIB_NOOTKACORE_SRC
 	music/tchunk.cpp
 	music/tmeasure.cpp
 	music/tmelody.cpp
-	
+
 	graphics/tdropshadoweffect.cpp
 	graphics/tgraphicstexttip.cpp
 	graphics/tnotepixmap.cpp
-	
+
 	exam/tqatype.cpp
 	exam/tqaunit.cpp
 	exam/tqagroup.cpp
@@ -48,12 +48,12 @@ set(LIB_NOOTKACORE_SRC
 	exam/texam.cpp
 	exam/textrans.h
 	exam/tresulttext.cpp
-	
+
 	level/tlevelsdefs.cpp
 	level/tlevelpreview.cpp
 	level/tlevelselector.cpp
 	level/tfixleveldialog.cpp
-	
+
 	score/tscoreitem.cpp
 	score/tscoreclef.cpp
 	score/tscorekeysignature.cpp
@@ -65,7 +65,7 @@ set(LIB_NOOTKACORE_SRC
 	score/tnotecontrol.cpp
 	score/tscorelines.cpp
 	score/tsimplescore.cpp
-	
+
 	widgets/tpushbutton.cpp
 	widgets/tselectclef.cpp
 	widgets/tquestionaswdg.cpp
@@ -76,7 +76,8 @@ set(LIB_NOOTKACORE_SRC
 	touch/ttouchproxy.cpp
 	touch/ttouchmenu.cpp
 	touch/ttoucharea.cpp
-	
+	touch/ttouchparams.cpp
+
 	plugins/tplugininterface.h
 	plugins/tpluginsloader.cpp
 )
