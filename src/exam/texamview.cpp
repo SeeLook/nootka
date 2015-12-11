@@ -27,19 +27,20 @@
 #define SPACE_GAP (7)
 
 
-QString borderStyleTxt = "border: 1px solid palette(shadow); border-radius: 4px;";
+QString borderStyleTxt = QStringLiteral("border: 1px solid palette(shadow); border-radius: 2px;");
+QString space = QStringLiteral(" ");
 
 
 TexamView::TexamView(QWidget *parent) :
-    QWidget(parent),
-    m_exam(0)
+  QWidget(parent),
+  m_exam(0)
 {
-  setStatusTip(tr("Exam results"));
-
-  QHBoxLayout *mainLay = new QHBoxLayout;
 #if defined (Q_OS_ANDROID)
   mainLay->setContentsMargins(0, 0, 0, 0);
+#else
+  setStatusTip(tr("Exam results"));
 #endif
+  QHBoxLayout *mainLay = new QHBoxLayout;
   mainLay->addStretch();
   QHBoxLayout *okMistLay = new QHBoxLayout;
   m_corrLab = new QLabel(this);
@@ -84,9 +85,9 @@ TexamView::TexamView(QWidget *parent) :
   m_halfLab->setAlignment(Qt::AlignCenter);
   m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
   m_mistLab->setAlignment(Qt::AlignCenter);
-  m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + " " + TexTrans::inSecondsTxt());
+  m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + space + TexTrans::inSecondsTxt());
   m_averTimeLab->setAlignment(Qt::AlignCenter);
-  m_reactTimeLab->setStatusTip(TexTrans::reactTimeTxt() + " " + TexTrans::inSecondsTxt());
+  m_reactTimeLab->setStatusTip(TexTrans::reactTimeTxt() + space + TexTrans::inSecondsTxt());
   m_reactTimeLab->setAlignment(Qt::AlignCenter);
   m_totalTimeLab->setStatusTip(TexTrans::totalTimetxt());
   m_totalTimeLab->setAlignment(Qt::AlignCenter);
@@ -160,7 +161,7 @@ void TexamView::startExam(Texam* exam) {
 		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt());
 	} else {
 		m_effLab->setStatusTip(TexTrans::effectTxt());
-		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + "<br>" + TexTrans::halfMistakenAddTxt());
+		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + QLatin1String("<br>") + TexTrans::halfMistakenAddTxt());
 	}
 }
 
@@ -173,18 +174,17 @@ void TexamView::answered() {
 
 
 void TexamView::setFontSize(int s) {
-    QFont f = m_reactTimeLab->font();
-    f.setPointSize(s);
-    m_reactTimeLab->setFont(f);
-    m_averTimeLab->setFont(f);
-    m_totalTimeLab->setFont(f);
-    m_mistLab->setFont(f);
-    m_corrLab->setFont(f);
-    m_halfLab->setFont(f);
-    m_effLab->setFont(f);
-		m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 35 + layout()->spacing() * 8);
-		m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
-		setFixedWidth(m_sizeHint.width());
+  QFont f = m_reactTimeLab->font();
+  f.setPointSize(s);
+  m_reactTimeLab->setFont(f);
+  m_averTimeLab->setFont(f);
+  m_totalTimeLab->setFont(f);
+  m_mistLab->setFont(f);
+  m_corrLab->setFont(f);
+  m_halfLab->setFont(f);
+  m_effLab->setFont(f);
+  m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 35 + layout()->spacing() * 8);
+  m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
 }
 
 
@@ -193,7 +193,7 @@ void TexamView::setFontSize(int s) {
 //######################################################################
 void TexamView::reactTimesUpdate() {
 	if (m_exam && isVisible())
-		m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
+		m_averTimeLab->setText(space + Texam::formatReactTime(m_exam->averageReactonTime()) + space);
 }
 
 
@@ -226,18 +226,19 @@ void TexamView::countTime() {
 	if (isVisible()) {
 		if (m_showReact)
 				m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time)));
-		m_totalTimeLab->setText(" " + formatedTotalTime(m_startExamTime * 1000 + m_totalTime.elapsed()) + " ");
+		m_totalTimeLab->setText(space + formatedTotalTime(m_startExamTime * 1000 + m_totalTime.elapsed()) + space);
 	}
 }
 
 
 void TexamView::clearResults() {
-    m_corrLab->setText("0");
-    m_mistLab->setText("0");
-    m_halfLab->setText("0");
-    m_effLab->setText("<b>100%</b>");
-    m_averTimeLab->setText(" 0.0 ");
-    m_reactTimeLab->setText(" 0.0 ");
-    m_totalTimeLab->setText(" 0:00:00 ");
+  QString zero = QStringLiteral("0");
+  m_corrLab->setText(zero);
+  m_mistLab->setText(zero);
+  m_halfLab->setText(zero);
+  m_effLab->setText(QStringLiteral("<b>100%</b>"));
+  m_averTimeLab->setText(QLatin1String(" 0.0 "));
+  m_reactTimeLab->setText(QLatin1String(" 0.0 "));
+  m_totalTimeLab->setText(QStringLiteral(" 0:00:00 "));
 }
 
