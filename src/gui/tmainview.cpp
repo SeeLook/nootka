@@ -171,13 +171,16 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 	m_progress = progressW;
 	m_results->hide();
 	m_progress->hide();
-	m_resultLay = new QHBoxLayout;
+  if (!m_resultLay) {
+    m_resultLay = new QBoxLayout(QBoxLayout::LeftToRight);
+    m_results->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 #if defined (Q_OS_ANDROID)
     m_resultLay->setContentsMargins(0, 0, 0, 0);
 #endif
-		m_resultLay->addWidget(m_progress);
-		m_resultLay->addWidget(m_results);
-		m_mainLay->insertLayout(isAutoHide() ? 1 : 2, m_resultLay);
+  }
+  m_resultLay->addWidget(m_progress);
+  m_resultLay->addWidget(m_results);
+  m_mainLay->insertLayout(isAutoHide() ? 1 : 2, m_resultLay);
 #if !defined (Q_OS_ANDROID)
 	resultsW->installEventFilter(this);
 	progressW->installEventFilter(this);
@@ -188,6 +191,7 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 void TmainView::takeExamViews() {
 	delete m_results;
 	delete m_progress;
+  delete m_resultLay;
 }
 
 
@@ -195,6 +199,7 @@ void TmainView::takeExamViews() {
  * Also there is no other way back than remove (delete) exam views at all. */
 void TmainView::moveExamToName() {
 	m_progress->show();
+  m_results->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	m_results->show();
 	if (m_nameLay && m_resultLay && m_resultLay->direction() == QBoxLayout::LeftToRight) {
 		m_mainLay->removeItem(m_resultLay);
