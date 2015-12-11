@@ -1100,9 +1100,9 @@
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation>
-            <numerusform>%n попытка(ок)</numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n попытка</numerusform>
+            <numerusform>%n попытки</numerusform>
+            <numerusform>%n попыток</numerusform>
         </translation>
     </message>
     <message>
@@ -2859,12 +2859,12 @@
     <message>
         <location filename="../src/exam/tprogresswidget.h" line="45"/>
         <source>Progress of the exam</source>
-        <translation>Выполнено</translation>
+        <translation>Прогресс экзамена</translation>
     </message>
     <message>
         <location filename="../src/exam/tprogresswidget.h" line="46"/>
         <source>Exam was finished</source>
-        <translation></translation>
+        <translation>Экзамен закончен</translation>
     </message>
 </context>
 <context>
