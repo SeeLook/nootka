@@ -20,7 +20,7 @@ public:
 
   virtual QIcon icon(const QFileInfo& info) const {
     if (info.isDir())
-      return qApp->style()->standardIcon(QStyle::SP_DirIcon);
+      return QIcon(QLatin1String(":/mobile/dir.png"));
     else if (info.suffix().contains(QLatin1String("nel")))
       return QIcon(Tpath::img("nootka-level"));
     else if (info.suffix().contains(QLatin1String("noo")))
