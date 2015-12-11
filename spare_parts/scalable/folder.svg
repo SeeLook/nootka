@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg5269"
+   sodipodi:docname="folder.svg"
+   viewBox="0 0 850.59 617.58"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   width="850.59003"
+   height="617.58002"
+   inkscape:export-filename="/home/tom/DEVELOP/QT5/nootka/spare_parts/mobile/dir.png"
+   inkscape:export-xdpi="27.105799"
+   inkscape:export-ydpi="27.105799">
+  <defs
+     id="defs28" />
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     pagecolor="#ffffff"
+     inkscape:window-height="737"
+     inkscape:window-maximized="1"
+     inkscape:zoom="0.35"
+     inkscape:window-x="0"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="360.39875"
+     inkscape:cy="208.91331"
+     inkscape:window-width="1366"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-20.429,-28.634994)">
+    <g
+       id="g4176"
+       transform="translate(24.003194,7.4910094)">
+      <rect
+         id="rect5279"
+         style="fill:#c4a000;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:19.73999977"
+         ry="35.122002"
+         height="457.14001"
+         width="687.14001"
+         y="100.64999"
+         x="21.429001" />
+      <path
+         id="rect5281"
+         style="fill:#edd400;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:19.73999977"
+         d="m 178.15,146.36 616.9,0 c 19.457,0 30.925,14.147 25.711,31.719 l -103.67,349.42 c -5.2136,17.573 -25.075,31.719 -44.533,31.719 l -616.9,0 c -19.457,0 -30.925,-14.147 -25.711,-31.719 l 103.67,-349.42 c 5.2136,-17.573 25.075,-31.719 44.533,-31.719 z"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <metadata
+     id="metadata26">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Folder</dc:title>
+        <dc:date>2010-07-20T15:54:26</dc:date>
+        <dc:description>Yellow folder</dc:description>
+        <dc:source>https://openclipart.org/detail/74023/folder-by-vorre-74023</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>vorre</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Yellow folder</rdf:li>
+            <rdf:li>folder</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
