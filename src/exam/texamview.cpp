@@ -171,18 +171,17 @@ void TexamView::answered() {
 
 
 void TexamView::setFontSize(int s) {
-    QFont f = m_reactTimeLab->font();
-    f.setPointSize(s);
-    m_reactTimeLab->setFont(f);
-    m_averTimeLab->setFont(f);
-    m_totalTimeLab->setFont(f);
-    m_mistLab->setFont(f);
-    m_corrLab->setFont(f);
-    m_halfLab->setFont(f);
-    m_effLab->setFont(f);
-		m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 35 + layout()->spacing() * 8);
-		m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
-		setFixedWidth(m_sizeHint.width());
+  QFont f = m_reactTimeLab->font();
+  f.setPointSize(s);
+  m_reactTimeLab->setFont(f);
+  m_averTimeLab->setFont(f);
+  m_totalTimeLab->setFont(f);
+  m_mistLab->setFont(f);
+  m_corrLab->setFont(f);
+  m_halfLab->setFont(f);
+  m_effLab->setFont(f);
+  m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 35 + layout()->spacing() * 8);
+  m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
 }
 
 

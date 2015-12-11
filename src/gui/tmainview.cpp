@@ -108,7 +108,10 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 	m_progress = progressW;
 	m_results->hide();
 	m_progress->hide();
-	m_resultLay = new QHBoxLayout;
+  if (!m_resultLay) {
+    m_resultLay = new QBoxLayout(QBoxLayout::LeftToRight);
+    m_results->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+  }
 		m_resultLay->addWidget(m_progress);
 		m_resultLay->addWidget(m_results);
 		int examResultsPos = 2; // third layout row by default
@@ -123,12 +126,14 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 void TmainView::takeExamViews() {
 	delete m_results;
 	delete m_progress;
+  delete m_resultLay;
 }
 
 /** We are assuming that vertical layout of exam views can occur only when note name is already there.
  * Also there is no other way back than remove (delete) exam views at all. */
 void TmainView::moveExamToName() {
 	m_progress->show();
+  m_results->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	m_results->show();
 	if (m_nameLay && m_resultLay && m_resultLay->direction() == QBoxLayout::LeftToRight) {
 		m_mainLay->removeItem(m_resultLay);
