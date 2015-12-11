@@ -10,6 +10,8 @@ SET(Nootka_VERSION_MAJOR  "1")
 SET(Nootka_VERSION_MINOR  "3")
 SET(Nootka_VERSION_PATCH  "0-alpha")
 
+set(Nootka_ANDROID_VERSION "1.2A.3-beta1")
+
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
 message(STATUS "
