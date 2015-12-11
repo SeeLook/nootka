@@ -1396,15 +1396,15 @@ bool TexamExecutor::closeNootka() {
     qApp->removeEventFilter(m_supp);
 #endif
     auto msg = new QMessageBox(mW);
-		msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
-    msg->setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    auto continueButt = msg->button(QMessageBox::Ok);
-    continueButt->setText(tr("Continue"));
-    msg->button(QMessageBox::Cancel)->setText(tr("Terminate"));
-		if (!gl->E->closeWithoutConfirm) {
+		msg->setText(tr("Psssst... Exam is going.<br><br>"
+                    "Select <b>%1</b> to check, save and exit<br>"
+                    "or <b>%2</b> to continue.<br>")
+                .arg(QApplication::translate("QShortcut", "Save"))
+                .arg(QApplication::translate("QPlatformTheme", "Retry")));
+    msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
+		if (!gl->E->closeWithoutConfirm)
 				msg->exec();
-    }
-    if (!gl->E->closeWithoutConfirm && msg->clickedButton() == continueButt) {
+    if (!gl->E->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
         m_snifferLocked = false;
 #if !defined (Q_OS_ANDROID)
         qApp->installEventFilter(m_supp);
