@@ -1071,9 +1071,8 @@ void TexamExecutor::prepareToExam() {
   connect(m_askingTimer, SIGNAL(timeout()), this, SLOT(askQuestion()));
 
   if (!m_exercise) {
-    if (mW->guitar->isVisible() && !m_level.canBeMelody()) {
+    if (mW->guitar->isVisible() && !m_level.canBeMelody())
         mW->innerWidget->moveExamToName();
-    }
   }
   m_snifferLocked = false;
   m_canvas = new Tcanvas(mW->innerWidget, m_exam, mW);
@@ -1200,6 +1199,7 @@ void TexamExecutor::exerciseToExam() {
 	QString userName = m_exam->userName();
 	delete m_penalty;
 	delete m_exam;
+  delete mW->bar->correctAct;
 	m_exam = new Texam(&m_level, userName);
   m_exam->setTune(*gl->Gtune());
 	delete m_exercise;
@@ -1217,6 +1217,8 @@ void TexamExecutor::exerciseToExam() {
 	clearWidgets();
 	m_canvas->clearCanvas();
 	m_canvas->startTip();
+  if (mW->guitar->isVisible() && !m_level.canBeMelody())
+    mW->innerWidget->moveExamToName();
 }
 
 
