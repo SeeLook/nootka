@@ -107,11 +107,11 @@ MainWindow::MainWindow(QWidget *parent) :
       gl->isFirstRun = false;
   } else { // show support window once but not with first run wizard
       gl->config->beginGroup("General");
-      QString newVersion = gl->config->value("version", QString()).toString();
+//       QString newVersion = gl->config->value("version", QString()).toString();
+      int supportDaysPass = gl->config->value("supportDate", QDate(2012, 12, 31)).toDate().daysTo(QDate::currentDate());
       gl->config->endGroup();
-      if (newVersion != gl->version) {
-        QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
-      }
+      if (/*newVersion != gl->version*/ supportDaysPass > 2) // display support dialog every two days
+        QTimer::singleShot(2000, [=] { showSupportDialog(); });
 #if !defined (Q_OS_ANDROID)
       else { // check for updates
         gl->config->beginGroup("Updates");
@@ -521,6 +521,7 @@ void MainWindow::showSupportDialog() {
     loader.init(QStringLiteral("support"), this);
   gl->config->beginGroup("General");
     gl->config->setValue("version", gl->version);
+    gl->config->setValue("supportDate", QDate::currentDate());
   gl->config->endGroup();
   sound->go();
 }
