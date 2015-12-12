@@ -86,9 +86,9 @@ MainWindow::MainWindow(QWidget *parent) :
   m_statusText(QString()),
   m_curBG(-1), m_prevBg(-1),
   m_lockStat(false),
+#endif
   m_updaterPlugin(0),
   m_updaterStoppedSound(false),
-#endif
   m_isPlayerFree(true)
 {
 #if !defined (Q_OS_ANDROID)

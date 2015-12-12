@@ -35,12 +35,12 @@ TexamView::TexamView(QWidget *parent) :
   QWidget(parent),
   m_exam(0)
 {
+  auto mainLay = new QHBoxLayout;
 #if defined (Q_OS_ANDROID)
   mainLay->setContentsMargins(0, 0, 0, 0);
 #else
   setStatusTip(tr("Exam results"));
 #endif
-  QHBoxLayout *mainLay = new QHBoxLayout;
   mainLay->addStretch();
   QHBoxLayout *okMistLay = new QHBoxLayout;
   m_corrLab = new QLabel(this);
