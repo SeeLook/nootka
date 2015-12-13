@@ -70,7 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
 		examResults(0),
 		progress(0),
-		m_statusText(""),
+		m_statusText(QString()),
 		m_curBG(-1), m_prevBg(-1),
 		m_lockStat(false),
     m_isPlayerFree(true),
@@ -87,15 +87,16 @@ MainWindow::MainWindow(QWidget *parent) :
   if (gl->isFirstRun) {
       TpluginsLoader *loader = new TpluginsLoader();
       if (loader->load(TpluginsLoader::e_wizard)) {
-        loader->init("", this);
+        loader->init(QString(), this);
       }
       delete loader;
       gl->isFirstRun = false;
   } else { // show support window once but not with first run wizard
-      QString newVersion = gl->config->value("version", "").toString();
-      if (newVersion != gl->version) {
+//       QString newVersion = gl->config->value("version", "").toString();
+      int supportDaysPass = gl->config->value("supportDate", QDate(2012, 12, 31)).toDate().daysTo(QDate::currentDate());
+      if (/*newVersion != gl->version*/ supportDaysPass > 5) // display support dialog every five days
         QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
-      } else { // check for updates
+      else { // check for updates
         gl->config->endGroup();
         gl->config->beginGroup("Updates");
 				m_updaterPlugin = new TpluginsLoader();
@@ -380,7 +381,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
-    executor = new TexamExecutor(this, startExercise ? "exercise" : "", &m_level); // start exam
+    executor = new TexamExecutor(this, startExercise ? "exercise" : QString(), &m_level); // start exam
   }
 // 		setAttribute(Qt::WA_TransparentForMouseEvents, false);
 		
@@ -417,7 +418,7 @@ void MainWindow::analyseSlot() {
 	sound->stopPlaying();
 	TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_analyzer)) {
-    loader.init("", this);
+    loader.init(QString(), this);
   }
 	sound->go();
 }
@@ -487,7 +488,7 @@ void MainWindow::restoreMessage() {
 	m_lockStat = false;
 	setStatusMessage(m_prevMsg);
 	setMessageBg(m_prevBg);
-	m_prevMsg = "";
+	m_prevMsg.clear();
 }
 
 
@@ -511,10 +512,11 @@ void MainWindow::messageSlot(const QString& msg) {
 void MainWindow::showSupportDialog() {
   sound->wait();
   sound->stopPlaying();
-  TsupportStandalone *supp = new TsupportStandalone(gl->path, this);
+  TsupportStandalone *supp = new TsupportStandalone(this);
   supp->exec();
   gl->config->beginGroup("General");
     gl->config->setValue("version", gl->version);
+    gl->config->setValue("supportDate", QDate::currentDate());
   gl->config->endGroup();
   delete supp;
   sound->go();

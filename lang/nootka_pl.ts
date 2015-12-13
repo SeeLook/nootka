@@ -602,19 +602,16 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="31"/>
         <source>You also can help with making Nootka better.</source>
-        <translation>Ty także możesz pomóc w ulepszaniu programu Nootka.</translation>
+        <translation type="vanished">Ty także możesz pomóc w ulepszaniu programu Nootka.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="32"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Wymaga to nieco angielskiego, więc jeżeli możesz przeczytać poniższy tekst będzie tam coś w co mógłbyś się zaangażować.</translation>
+        <translation type="vanished">Wymaga to nieco angielskiego, więc jeżeli możesz przeczytać poniższy tekst będzie tam coś w co mógłbyś się zaangażować.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="70"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Nie martw się. Ta informacja pojawia się tylko raz na wydanie programu.&lt;br&gt;Zawsze znajdziesz ją w oknie &apos;O aplikacji Nootka&apos;</translation>
+        <translation type="vanished">Nie martw się. Ta informacja pojawia się tylko raz na wydanie programu.&lt;br&gt;Zawsze znajdziesz ją w oknie &apos;O aplikacji Nootka&apos;</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.cpp" line="87"/>
@@ -644,22 +641,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="247"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="254"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego.&lt;br&gt;Jest szczególnie dedykowana gitarzystom ale inni także znajdą w niej dużo użytecznych funkcji.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="248"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="255"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Ta wersja to beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="249"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="256"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="253"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="260"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Żeby wesprzeć projekt, a także uniknąć zarażenia twojego komputera&lt;br&gt;&lt;b&gt;do pobierania aktualizacji, nowych wersji i czytania o nowościach, proszę używać strony www projektu&lt;/b&gt;</translation>
     </message>
@@ -667,62 +664,62 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="49"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="54"/>
         <source>About Nootka</source>
         <translation>O aplikacji Nootka</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="70"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="75"/>
         <source>About</source>
         <translation>O</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="73"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="78"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="82"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="87"/>
         <source>Support</source>
         <translation>Wsparcie</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="85"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="90"/>
         <source>Changes</source>
         <translation>Zmiany</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="99"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="104"/>
         <source>Code</source>
         <translation>Kod</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="101"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="106"/>
         <source>Audio</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="135"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="142"/>
         <source>Thanks</source>
         <translation>Podziękowania</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="104"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="109"/>
         <source>Translators</source>
         <translation>Tłumacze</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="102"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="107"/>
         <source>editing and/or recording of samples:</source>
         <translation>edycja i/lub nagrywanie sampli:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="121"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="128"/>
         <source>Other projects</source>
         <translation>Inne projekty</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="122"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="129"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
     </message>
@@ -732,7 +729,7 @@
         <translation>Autorzy</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="79"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="84"/>
         <source>License</source>
         <translation>Licencja</translation>
     </message>
@@ -1124,12 +1121,12 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>&lt;b&gt;Plik egzaminu wygląda na uszkodzony&lt;/b&gt;&lt;br&gt;Lepiej zacznij nowy na tym samym poziomie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1364"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1366"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1365"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1367"/>
         <source>Discard</source>
         <translation>Porzuć</translation>
     </message>
@@ -1146,62 +1143,62 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1233"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1235"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1278"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1280"/>
         <source>Such a pity.</source>
         <translation>Jaka szkoda.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1360"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1362"/>
         <source>Save exam results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1363"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1365"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1513"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1516"/>
         <source>This note was not played!</source>
         <translation>Ta nuta nie była zagrana!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1574"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1577"/>
         <source>Exercises with Nootka</source>
         <translation>Ćwiczenia z Nootką</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1575"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1578"/>
         <source>finish exercising</source>
         <translation>zakończ ćwiczenie</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1577"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1580"/>
         <source>EXAM!</source>
         <translation>EGZAMIN!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1337"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;&lt;b&gt;Kontynuuj&lt;/b&gt; go &lt;br&gt;lub&lt;br&gt;&lt;b&gt;Zakończ&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1338"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1340"/>
         <source>Continue</source>
         <translation>Kontynuuj</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1341"/>
         <source>Terminate</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1578"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1581"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -3546,6 +3543,44 @@ nutowy</translation>
     </message>
 </context>
 <context>
+    <name>TsupportNootka</name>
+    <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="37"/>
+        <source>You also can help with making Nootka better.</source>
+        <translation>Ty także możesz pomóc w ulepszaniu programu Nootka.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="38"/>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
+        <translation>Wymaga to nieco angielskiego, więc jeżeli możesz przeczytać poniższy tekst będzie tam coś w co mógłbyś się zaangażować.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="49"/>
+        <source>Donate Nootka campaign</source>
+        <translation>Kampania „Wspomóż Nootkę”</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="50"/>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation>Funkcja za funkcją i Nootka stała się dużym i złożonym projektem.&lt;br&gt;Żeby móc rozwijać ten program dalej,&lt;br&gt; dokończyć wersję na Androida, (a później na inne mobilne systemy),&lt;br&gt;potrzebny jest sprzęt który temu podoła.&lt;br&gt; Po prostu komputer na którym pracuję jest na to za stary…&lt;br&gt;Wspomóż Nootkę darowizną.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="57"/>
+        <source>Through PayPal or a card</source>
+        <translation>Przez PayPal lub kartą</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="59"/>
+        <source>or send email for an account number</source>
+        <translation>lub wyślij emaila po numer konta</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="97"/>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
+        <translation>Nie martw się. Ta informacja pojawia się tylko raz na wydanie programu.&lt;br&gt;Zawsze znajdziesz ją w oknie &apos;O aplikacji Nootka&apos;</translation>
+    </message>
+</context>
+<context>
     <name>TtipMelody</name>
     <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="62"/>
@@ -3607,7 +3642,7 @@ nutowy</translation>
         <location filename="../src/gui/ttoolbar.cpp" line="50"/>
         <location filename="../src/gui/ttoolbar.cpp" line="66"/>
         <source>About Nootka</source>
-        <translation type="unfinished">O aplikacji Nootka</translation>
+        <translation>O aplikacji Nootka</translation>
     </message>
     <message>
         <location filename="../src/gui/ttoolbar.cpp" line="117"/>
@@ -3725,7 +3760,7 @@ nutowy</translation>
 <context>
     <name>TupdateChecker</name>
     <message>
-        <location filename="../src/plugins/updater/tupdatechecker.cpp" line="45"/>
+        <location filename="../src/plugins/updater/tupdatechecker.cpp" line="47"/>
         <source>Checking for updates. Please wait...</source>
         <translation>Sprawdzanie uaktualnień. Proszę czekać...</translation>
     </message>
@@ -3825,7 +3860,7 @@ nutowy</translation>
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="156"/>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="163"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation></translation>

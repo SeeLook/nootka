@@ -22,13 +22,14 @@
 #define TSUPPORTNOOTKA_H
 
 #include "nootkamiscglobal.h"
-#include <QWidget>
+#include <QScrollArea>
 #include <QDialog>
 
 
 
-class NOOTKAMISC_EXPORT TsupportNootka : public QWidget
+class NOOTKAMISC_EXPORT TsupportNootka : public QScrollArea
 {
+  Q_OBJECT
 public:
     explicit TsupportNootka(QWidget *parent = 0);
 };
@@ -37,10 +38,10 @@ public:
 
 class NOOTKAMISC_EXPORT TsupportStandalone : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
     
 public:
-    explicit TsupportStandalone(QString &path, QWidget *parent = 0);
+    explicit TsupportStandalone(QWidget *parent = 0);
 };
 
 #endif // TSUPPORTNOOTKA_H
