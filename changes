@@ -1,5 +1,6 @@
 1.2.3
     BUGS FIXES
+     - Fixed layout of exam results when note name is visible
      - Additional staff lines are hiding properly
      - Fixed conditions when 'correct' tool button is displayed
      - Questioned note and corrected one might have distorted colors - fixed
