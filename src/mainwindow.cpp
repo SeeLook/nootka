@@ -110,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //       QString newVersion = gl->config->value("version", QString()).toString();
       int supportDaysPass = gl->config->value("supportDate", QDate(2012, 12, 31)).toDate().daysTo(QDate::currentDate());
       gl->config->endGroup();
-      if (/*newVersion != gl->version*/ supportDaysPass > 2) // display support dialog every two days
+      if (/*newVersion != gl->version*/ supportDaysPass > 5) // display support dialog every five days
         QTimer::singleShot(2000, [=] { showSupportDialog(); });
 #if !defined (Q_OS_ANDROID)
       else { // check for updates
