@@ -39,14 +39,14 @@ class TmelMan;
 class TpitchView;
 class Tsound;
 class TpluginsLoader;
-  class TexamView;
-  class TprogressWidget;
+class TexamView;
+class TprogressWidget;
 #if !defined (Q_OS_ANDROID)
   class TnootkaLabel;
 #endif
 
 
-/** 
+/**
  * Implementation of main Nootka window
  */
 class MainWindow : public QMainWindow
@@ -141,10 +141,9 @@ private:
   /** Keeps true when statusMesage is locked by temporary message and stops any status messages in this time.*/
   bool 									m_lockStat;
   QColor 								m_prevBg, m_curBG;
-  TpluginsLoader			 *m_updaterPlugin;
-  bool                  m_updaterStoppedSound;
 #endif
-
+  TpluginsLoader       *m_updaterPlugin;
+  bool                  m_updaterStoppedSound;
 };
 
 #endif // MAINWINDOW_H
