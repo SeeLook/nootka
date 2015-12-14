@@ -30,7 +30,7 @@
 #include <tlayoutparams.h>
 #include <touch/ttouchproxy.h>
 #include <touch/ttouchmenu.h>
-#include <touch/ttouchparams.h>
+// #include <touch/ttouchparams.h>
 #include <tpath.h>
 #include <tmtr.h>
 #include <graphics/tdropshadoweffect.h>
@@ -445,7 +445,7 @@ bool TmainView::viewportEvent(QEvent *event) {
                   m_fretView->hide();
               }
 // mapping all touches to score
-              if (TtouchParams::i()->scoreWasTouched) {
+//               if (TtouchParams::i()->scoreWasTouched) {
                   QList<QTouchEvent::TouchPoint> pointList;
                   for (int i = 0; i < te->touchPoints().size(); ++i) {
                     QTouchEvent::TouchPoint touchPoint(te->touchPoints()[i]);
@@ -461,19 +461,19 @@ bool TmainView::viewportEvent(QEvent *event) {
                   if (event->type() == QEvent::TouchEnd)
                     m_touchedWidget = 0;
                   return true;
-              } else {
-                  m_mainWindow->setStatusMessage(TtouchProxy::touchScoreHelp(), 0);
-                  TtouchParams::i()->scoreWasTouched = true;
-              }
+//               } else {
+//                   m_mainWindow->setStatusMessage(TtouchProxy::touchScoreHelp(), 0);
+//                   TtouchParams::i()->scoreWasTouched = true;
+//               }
 // 1.1.5 guitar was touched
           } else if (m_fretView->guitarEnabled() &&
                       (m_fretView->isVisible() || m_touchedWidget == m_guitar->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_guitar->viewport())) {
-              if (m_fretView->isPreview() && !TtouchParams::i()->guitarWasTouched) {
-                m_mainWindow->setStatusMessage(TtouchProxy::touchGuitarHelp(), 0);
-                TtouchParams::i()->guitarWasTouched = true;
-                return false;
-              }
+//               if (m_fretView->isPreview() && !TtouchParams::i()->guitarWasTouched) {
+//                 m_mainWindow->setStatusMessage(TtouchProxy::touchGuitarHelp(), 0);
+//                 TtouchParams::i()->guitarWasTouched = true;
+//                 return false;
+//               }
               if (event->type() == QEvent::TouchEnd) {
                 m_touchedWidget = 0;
               } else

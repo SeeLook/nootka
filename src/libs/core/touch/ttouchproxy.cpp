@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "ttouchproxy.h"
+#include <qtr.h>
 #include <QApplication>
 #include <QDebug>
 
@@ -25,7 +26,7 @@ bool              TtouchProxy::m_touchEnabled = false;
 TtouchProxy*      TtouchProxy::m_instance = 0;
 
 QString TtouchProxy::touchScoreHelp() {
-  return tr("To edit a note in a score:<br>"
+  return qTR("Fake", "To edit a note in a score:<br>"
             "Touch area about some note and move a finger - note cursor will appear to set a pitch of this note.<br>"
             "Then take the finger away - additional buttons will appear for a while.<br>"
             "You may add/remove an accidental or a note.<br>"
@@ -37,7 +38,7 @@ QString TtouchProxy::touchScoreHelp() {
 
 
 QString TtouchProxy::touchGuitarHelp() {
-  return tr("Tap a fret you want to select - zoomed preview will appear.<br>"
+  return qTR("Fake", "Tap a fret you want to select - zoomed preview will appear.<br>"
             "You may drag it right or left to change the fret.<br>"
             "Tap zoomed preview on desired string to set the position."
   );
