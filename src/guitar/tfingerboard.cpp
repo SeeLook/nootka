@@ -976,6 +976,7 @@ TfingerPos TfingerBoard::pointToFinger(const QPoint& point) {
 
 
 void TfingerBoard::paintFingerAtPoint(QPoint p) {
+#if !defined (Q_OS_ANDROID) // FIXME: clumsy workaround to avoid finger cursor on Android with side effect - mouse will not work
   int strNr = 7, fretNr = 99;
   if ( (p.y() >= m_fbRect.y()) && (p.y() <= (height() - m_fbRect.y() - 4)) ) {
       int tx, ty = p.y();
@@ -1007,6 +1008,7 @@ void TfingerBoard::paintFingerAtPoint(QPoint p) {
       m_curFret = fretNr;
       deleteBeyondTip();
   }
+#endif
 }
 
 
