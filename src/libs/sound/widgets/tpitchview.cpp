@@ -66,7 +66,7 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   connect(m_intoView, SIGNAL(accuracyChanged()), this, SLOT(accuracyChangedSlot()));
   connect(m_intoView, &TintonationView::animationFinished, this, &TpitchView::intoAnimFinished);
 #if defined (Q_OS_ANDROID)
-  m_pauseAct = new QAction("pitch detection", this);
+  m_pauseAct = new QAction(tr("Pitch recognition", "Android menu entry, could be 'Note recognition' or 'detection' as well"), this);
   m_pauseAct->setCheckable(true);
   connect(m_pauseAct, &QAction::triggered, this, &TpitchView::pauseActionSlot);
   m_pauseAct->setChecked(false);
