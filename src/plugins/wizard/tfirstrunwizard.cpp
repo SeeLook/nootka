@@ -48,8 +48,8 @@ const QString headClose = QLatin1String("</b></span>");
 TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
   QWizard(parent)
 {
-#if defined (Q_OS_ANDROID)
-  showFullScreen();
+#if defined (Q_OS_ANDROID) // there is no other way than fixed size of available screen
+  setFixedSize(qApp->desktop()->availableGeometry().size());
 #else
   setWindowIcon(QIcon(Tpath::img("nootka")));
   setWindowTitle(QLatin1String("Nootka   ") + tr("First run wizard"));
