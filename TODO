@@ -11,12 +11,22 @@
 ================              TODO LIST               ======================
 ============================================================================
 Translations:
+ - "You also can help with making Nootka better." &
+   "It requires little bit English, so if you can read a text below there will be something you may get involved."
+   context changed from QObject to TsupportNootka
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
 
 ANDROID:
-- crash when audio out was disables and enabled again in settings (audio in probably also)
-- add 'smallest font size' to Tmtr ???
-- solve issue with restart for settings reset
+Knowing issues:
+    - crash when audio out was disables and enabled again in settings
+    - resetting options closes Nootka but does not launch it again
+    - sometimes note cursor remains visible on the score - looks messy
+    - after finished exercise or exam pitch detection is working even if it was stopped and not used in the exam
+    - no level/exam icon in file manager, not all file managers support opening Nootka files
+    
+- when no guitar preview - staff lines are too big
+- 'Material menu' can be stretched due to short texts and there is not enough space for top image, 
+    also texts may be to wide (elide them then)
 - keep scroll bar of score always off - it appears when switching single/multi
 - Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
 - HOME button would be switching available menus

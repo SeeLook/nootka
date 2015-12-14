@@ -49,7 +49,7 @@ TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
   QWizard(parent)
 {
 #if defined (Q_OS_ANDROID)
-  showMaximized();
+  showFullScreen();
 #else
   setWindowIcon(QIcon(Tpath::img("nootka")));
   setWindowTitle(QLatin1String("Nootka   ") + tr("First run wizard"));
