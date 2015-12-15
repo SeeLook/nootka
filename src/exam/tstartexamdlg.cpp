@@ -19,6 +19,7 @@
 
 #include "tstartexamdlg.h"
 #include "texamparams.h"
+#include <qtr.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
 #include <level/tlevelselector.h>
@@ -80,9 +81,17 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
     m_selectLevelBut->setText(selectLevelText.left(selectLevelText.indexOf(QLatin1String("<br>"))));
     m_selectLevelBut->setIcon(QIcon(Tpath::img("nootka-level")));
     setIconSize(m_selectLevelBut);
-  auto backButton = new QPushButton(QApplication::translate("QFileDialog", "Back"), this);
+  auto backButton = new QPushButton(qTR("QFileDialog", "Back"), this);
     backButton->setIcon(style()->standardIcon(QStyle::SP_ArrowBack));
     setIconSize(backButton);
+  m_mobExerButton = new QPushButton(QApplication::translate("levelSettings", "Start exercise"), this);
+    m_mobExerButton->setIcon(QIcon(Tpath::img("practice")));
+    setIconSize(m_mobExerButton);
+    m_mobExerButton->setDisabled(true);
+  m_mobExamButton = new QPushButton(QApplication::translate("TexamSummary", "Pass an exam"), this);
+    m_mobExamButton->setIcon(QIcon(Tpath::img("exam")));
+    setIconSize(m_mobExamButton);
+    m_mobExamButton->setDisabled(true);
 #endif
 
   m_exerciseButt = new QPushButton(tr("Start exercise on level:"));
@@ -122,12 +131,12 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 
   m_helpButt = new QPushButton(this);
     m_helpButt->setIcon(QIcon(Tpath::img("help")));
-    m_helpButt->setStatusTip(QApplication::translate("QShortcut", "Help"));
+    m_helpButt->setStatusTip(qTR("QShortcut", "Help"));
     m_helpButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setIconSize(m_helpButt);
   m_cancelBut = new QPushButton(this);
     m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-    m_cancelBut->setStatusTip(QApplication::translate("QPlatformTheme", "Discard"));
+    m_cancelBut->setStatusTip(qTR("QPlatformTheme", "Discard"));
     m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setIconSize(m_cancelBut);
 
@@ -154,14 +163,18 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   mainLay->addStretch(1);
 #endif
 
-// -------- level selector and preview (under mobile hidden at the beginning)
+// -------- level selector and preview (under mobile it is another widget on the stack)
   auto levelsLay = new QVBoxLayout;
   levelsLay->addWidget(m_levelsView);
   levelsLay->addWidget(m_createLevelButt);
   levelsLay->addWidget(moreLab, 0, Qt::AlignCenter);
 #if defined (Q_OS_ANDROID)
   levelsLay->addStretch();
-  levelsLay->addWidget(backButton);
+    auto addButtLay = new QHBoxLayout;
+      addButtLay->addWidget(m_mobExerButton);
+      addButtLay->addWidget(m_mobExamButton);
+      addButtLay->addWidget(backButton);
+  levelsLay->addLayout(addButtLay);
   levelsLay->addStretch();
 #endif
   auto levelsBox = new QWidget(this);
@@ -274,6 +287,8 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 #if defined (Q_OS_ANDROID)
   connect(m_selectLevelBut, &QPushButton::clicked, [=] { mobileLay->setCurrentIndex(1); });
   connect(backButton, &QPushButton::clicked, [=] { mobileLay->setCurrentIndex(0); });
+  connect(m_mobExamButton, &QPushButton::clicked, this, &TstartExamDlg::startAccepted);
+  connect(m_mobExerButton, &QPushButton::clicked, this, &TstartExamDlg::startAccepted);
 #endif
 
   QTimer::singleShot(10, [=] {
@@ -345,7 +360,7 @@ bool TstartExamDlg::isAnyLevelSelected() {
 
 
 void TstartExamDlg::startAccepted() {
-    if (sender() == m_newExamButt) { // new exam on selected level
+    if (sender() == m_newExamButt || sender() == m_mobExamButton) { // new exam on selected level
         if (!isAnyLevelSelected())
             return;
 				if (m_nameEdit->text().isEmpty()) {
@@ -354,7 +369,7 @@ void TstartExamDlg::startAccepted() {
 				}
 				m_Acction = e_newExam;
 				accept();
-    } else if (sender() == m_exerciseButt) { // exercise on selected level or previous one
+    } else if (sender() == m_exerciseButt || sender() == m_mobExerButton) { // exercise on selected level or previous one
 				if (m_prevExerciseLevel.name.isEmpty() && !isAnyLevelSelected())
 					return;
 				if (m_nameEdit->text().isEmpty()) {
@@ -431,6 +446,10 @@ void TstartExamDlg::updateButtonStatusText(const QString& levelName) {
 void TstartExamDlg::levelWasSelected(Tlevel level) {
 	m_prevExerciseLevel.name.clear(); // Reset the name - now level is taken from selection 
 	updateButtonStatusText(level.name);
+#if defined (Q_OS_ANDROID)
+  m_mobExerButton->setDisabled(false);
+  m_mobExamButton->setDisabled(false);
+#endif
 }
 
 
