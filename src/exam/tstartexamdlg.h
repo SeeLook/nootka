@@ -21,6 +21,7 @@
 
 #include <QtWidgets/qdialog.h>
 #include <QtWidgets/qpushbutton.h>
+#include <QtCore/qpointer.h>
 #include <exam/tlevel.h>
 
 class QMenu;
@@ -73,21 +74,22 @@ private:
       /** Updates status tip text of new exercise/exam buttons when user selected a level. */
   void updateButtonStatusText(const QString& levelName);
 
-  TlevelSelector      *m_levelsView;
-  QLineEdit           *m_nameEdit;
-  QPushButton         *m_createLevelButt, *m_selectLevelBut;
-  QPushButton         *m_exerciseButt;
-  QPushButton         *m_newExamButt, *m_contExamButt, *m_lastExamButt;
-  QPushButton         *m_helpButt, *m_cancelBut;
-  QLabel              *m_exerLevelLab, *m_examLevelLab;
-  TroundedLabel       *m_hintLabel;
-  QStringList          m_recentExams;
-  Eactions             m_Acction;
-  TexamParams         *m_examParams;
-  QMenu               *m_examMenu;
-  QString              m_selectedExamFile;
-  Tlevel               m_prevExerciseLevel; /**< Level grabbed from exercise.noo file */
-  int                  m_sideButtSize; /**< Used for sizing of all buttons icon */
+  TlevelSelector            *m_levelsView;
+  QLineEdit                 *m_nameEdit;
+  QPushButton               *m_createLevelButt, *m_selectLevelBut;
+  QPushButton               *m_exerciseButt;
+  QPushButton               *m_newExamButt, *m_contExamButt, *m_lastExamButt;
+  QPushButton               *m_helpButt, *m_cancelBut;
+  QPointer<QPushButton>      m_mobExerButton, m_mobExamButton; // exist only under mobile
+  QLabel                    *m_exerLevelLab, *m_examLevelLab;
+  TroundedLabel             *m_hintLabel;
+  QStringList                m_recentExams;
+  Eactions                   m_Acction;
+  TexamParams               *m_examParams;
+  QMenu                     *m_examMenu;
+  QString                    m_selectedExamFile;
+  Tlevel                     m_prevExerciseLevel; /**< Level grabbed from exercise.noo file */
+  int                        m_sideButtSize; /**< Used for sizing of all buttons icon */
 
 private slots:
   void levelToLoad();
