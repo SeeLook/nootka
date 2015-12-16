@@ -349,7 +349,8 @@ void MainWindow::createSettingsDialog() {
       resetConfig = true;
       close();
   } else { // settings not accepted
-			sound->restoreAfterConf();
+      if (!executor) // skip this when settings were called during exam
+        sound->restoreAfterConf();
 	}
 }
 

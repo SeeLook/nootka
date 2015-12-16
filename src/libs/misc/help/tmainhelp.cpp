@@ -93,7 +93,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
 
   helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "III. Analyzing") + bbrEnd;
 #if defined (Q_OS_ANDROID)
-  helpTxt += QLatin1String("This feature has not been ready yet in Android version.<br><b>You may transfer Nootka files to desktop computer and see results in Nootka version there.");
+  helpTxt += QLatin1String("This feature isn't ready yet in Android version.<br><b>You may transfer Nootka files to desktop computer and see the results in Nootka version there.");
 #else
   helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
     arg(nbsp3 + pixToHtml(Tpath::img("charts"), pixSize) + nbsp3);
