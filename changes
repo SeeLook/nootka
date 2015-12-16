@@ -7,6 +7,15 @@
      - audio stack ported to Qt Audio for mobile devices
     Under the hood
      - code fully depends on c++11 capable compiler
+     
+1.2.3
+    BUGS FIXES
+     - During exams - don't run pitch detection after settings dialog was closed
+     - Fixed layout of exam results when note name is visible
+     - Additional staff lines are hiding properly
+     - Fixed conditions when 'correct' tool button is displayed
+     - Questioned note and corrected one might have distorted colors - fixed
+     - small fixes of translations
 
 1.2.2
      - updated Russian translation
