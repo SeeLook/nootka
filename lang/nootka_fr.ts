@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR" sourcelanguage="en">
-    <extra-po-header-language_team>LANGUAGE &lt;LL@li.org&gt;</extra-po-header-language_team>
-    <extra-po-header-last_translator>Jean-Marc &lt;Unknown&gt;</extra-po-header-last_translator>
-    <extra-po-header-po_revision_date>2015-10-04 21:09+0000</extra-po-header-po_revision_date>
-    <extra-po-header-pot_creation_date>2015-02-01 13:21+0000</extra-po-header-pot_creation_date>
-    <extra-po-header-project_id_version>PACKAGE VERSION</extra-po-header-project_id_version>
-    <extra-po-header-report_msgid_bugs_to></extra-po-header-report_msgid_bugs_to>
-    <extra-po-header-x_generator>Launchpad (build 17783)</extra-po-header-x_generator>
-    <extra-po-header-x_launchpad_export_date>2015-10-04 21:12+0000</extra-po-header-x_launchpad_export_date>
-    <extra-po-headers>Project-Id-Version,Report-Msgid-Bugs-To,POT-Creation-Date,PO-Revision-Date,Last-Translator,Language-Team,MIME-Version,Content-Type,Content-Transfer-Encoding,Plural-Forms,X-Launchpad-Export-Date,X-Generator,X-Qt-Contexts,X-Language,X-Source-Language</extra-po-headers>
 <context>
     <name>AnswerText</name>
     <message>
@@ -494,15 +485,15 @@
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation>Vous pouvez également contribuer à améliorer Nootka.</translation>
+        <translation type="vanished">Vous pouvez également contribuer à améliorer Nootka.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Ceci nécessite quelques connaissances en anglais, mais si vous êtes en mesure de lire un texte ci-dessous vous pouvez vous impliquer.</translation>
+        <translation type="vanished">Ceci nécessite quelques connaissances en anglais, mais si vous êtes en mesure de lire un texte ci-dessous vous pouvez vous impliquer.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu « À propos de Nootka »</translation>
+        <translation type="vanished">Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu « À propos de Nootka »</translation>
     </message>
     <message>
         <source>time [s]</source>
@@ -556,7 +547,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Aide</translation>
+        <translation type="vanished">Aide</translation>
     </message>
     <message>
         <source>License</source>
@@ -936,15 +927,15 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation>Psssst... Examen en cours.&lt;br&gt;Cliquez sur :&lt;br&gt;&lt;b&gt;Continuer&lt;/b&gt; pour poursuivre l&apos;examen&lt;br&gt;ou sur &lt;br&gt;&lt;br&gt;&lt;b&gt;Arrêter&lt;/b&gt; pour vérifier, enregistrer et sortir. &lt;br&gt;</translation>
+        <translation type="vanished">Psssst... Examen en cours.&lt;br&gt;Cliquez sur :&lt;br&gt;&lt;b&gt;Continuer&lt;/b&gt; pour poursuivre l&apos;examen&lt;br&gt;ou sur &lt;br&gt;&lt;br&gt;&lt;b&gt;Arrêter&lt;/b&gt; pour vérifier, enregistrer et sortir. &lt;br&gt;</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Continuer</translation>
+        <translation type="vanished">Continuer</translation>
     </message>
     <message>
         <source>Terminate</source>
-        <translation>Arrêter</translation>
+        <translation type="vanished">Arrêter</translation>
     </message>
     <message>
         <source>Save exam results as:</source>
@@ -956,11 +947,11 @@
     </message>
     <message>
         <source>Save</source>
-        <translation>Enregistrer</translation>
+        <translation type="vanished">Enregistrer</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Annuler</translation>
+        <translation type="vanished">Annuler</translation>
     </message>
     <message>
         <source>This note was not played!</source>
@@ -981,6 +972,10 @@
     <message>
         <source>stop the exam</source>
         <translation>Arrêter l&apos;examen</translation>
+    </message>
+    <message>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1100,6 +1095,16 @@
     <message>
         <source>Click %1 button to stop.</source>
         <translation>Cliquer sur le bouton %1 pour arrêter.</translation>
+    </message>
+    <message>
+        <source>click %1</source>
+        <comment>click &lt;icon image&gt;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1419,6 +1424,17 @@
     <message>
         <source>Always remind me about this</source>
         <translation>Toujours me rappeler ceci</translation>
+    </message>
+</context>
+<context>
+    <name>TfileDialog</name>
+    <message>
+        <source>Memory card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1974,22 +1990,29 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
+    <name>TmainView</name>
+    <message>
+        <source>score menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation>Jouer</translation>
+        <translation type="vanished">Jouer</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation>Enregistrer</translation>
+        <translation type="vanished">Enregistrer</translation>
     </message>
     <message>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation>Avec l&apos;enregistrement, les notes jouées sont écrites une à une. Sélectionner une frette ou le nom d&apos;une note ajoute également la note correspondante.</translation>
+        <translation type="vanished">Avec l&apos;enregistrement, les notes jouées sont écrites une à une. Sélectionner une frette ou le nom d&apos;une note ajoute également la note correspondante.</translation>
     </message>
     <message>
         <source>Generate</source>
-        <translation>Générer</translation>
+        <translation type="vanished">Générer</translation>
     </message>
     <message>
         <source>Generate a melody with random notes.</source>
@@ -2014,6 +2037,22 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Save melody as:</source>
         <translation>Enregistre la mélodie sous :</translation>
+    </message>
+    <message>
+        <source>Play melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note by note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate melody</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2308,6 +2347,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Click note symbol to change it.</source>
         <translation>Cliquer sur un symbole de note pour le changer.</translation>
     </message>
+    <message>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TprogressWidget</name>
@@ -2577,6 +2621,10 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation>Afficher aussi les altérations près des notes. &lt;b&gt;Attention ! Ce n&apos;est jamais le cas sur une portée : utiliser uniquement de manière théorique. &lt;/b&gt;</translation>
     </message>
+    <message>
+        <source>Score</source>
+        <translation>Portée</translation>
+    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -2784,15 +2832,15 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>exercises</source>
-        <translation>Exercices</translation>
+        <translation type="vanished">Exercices</translation>
     </message>
     <message>
         <source>pass new exam</source>
-        <translation>Passer un nouvel examen</translation>
+        <translation type="vanished">Passer un nouvel examen</translation>
     </message>
     <message>
         <source>continue exam</source>
-        <translation>Continer l&apos;examen</translation>
+        <translation type="vanished">Continer l&apos;examen</translation>
     </message>
     <message>
         <source>Click and select an exam to continue</source>
@@ -2800,11 +2848,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Help</source>
-        <translation>Aide</translation>
+        <translation type="vanished">Aide</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Annuler</translation>
+        <translation type="vanished">Annuler</translation>
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
@@ -2846,6 +2894,14 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Load an exam file</source>
         <translation>Charger un fichier d&apos;examen</translation>
     </message>
+    <message>
+        <source>Continue exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest exam</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TstatisticTip</name>
@@ -2885,6 +2941,37 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>TsupportNootka</name>
+    <message>
+        <source>You also can help with making Nootka better.</source>
+        <translation>Vous pouvez également contribuer à améliorer Nootka.</translation>
+    </message>
+    <message>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
+        <translation>Ceci nécessite quelques connaissances en anglais, mais si vous êtes en mesure de lire un texte ci-dessous vous pouvez vous impliquer.</translation>
+    </message>
+    <message>
+        <source>Donate Nootka campaign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Through PayPal or a card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or send email for an account number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
+        <translation>Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu « À propos de Nootka »</translation>
     </message>
 </context>
 <context>
@@ -2948,7 +3035,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Start!</source>
-        <translation>Commencer !</translation>
+        <translation type="vanished">Commencer !</translation>
     </message>
     <message>
         <source>Start exercises or an exam</source>
@@ -3028,6 +3115,18 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Try this melody once again. (backspace)</source>
         <translation>Essayer cette mélodie encore une fois (Retour arrière)</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Suivant</translation>
+    </message>
+    <message>
+        <source>Correct</source>
+        <translation>Correct</translation>
+    </message>
+    <message>
+        <source>Lessons</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3145,7 +3244,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Accidentals used in exam.</source>
-        <translation>Altérations utilisées dans l&apos;examen.</translation>
+        <translation type="vanished">Altérations utilisées dans l&apos;examen.</translation>
     </message>
     <message>
         <source>force using appropriate accidental</source>
