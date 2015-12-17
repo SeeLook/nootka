@@ -175,8 +175,10 @@ void Tsound::setPitchView(TpitchView* pView) {
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
 	m_pitchView->setAudioInput(sniffer);
 #if defined (Q_OS_ANDROID)
-  if (sniffer)
+  if (sniffer) {
     sniffer->setStoppedByUser(true); // don't launch pitch detection at start under mobile
+    m_userState = true;
+  }
 #else
   if (sniffer)
     QTimer::singleShot(750, sniffer, SLOT(startListening()));
