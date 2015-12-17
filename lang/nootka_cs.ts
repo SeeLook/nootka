@@ -4,50 +4,52 @@
 <context>
     <name>AnswerText</name>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="211"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="56"/>
         <source>Wrong answer!</source>
         <translation>Špatná odpověď!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="208"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="53"/>
         <source>Good answer!</source>
         <comment>or &apos;Good!&apos; or &apos;Correct!&apos; would be somewhat more specific than merely &apos;It was good!&apos; (previous version) &apos;It&apos; in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one&apos;s back. I know that&apos;s probably confusing, but the implied subject of &apos;Correct! is in a certain sense much more specific than a mere &apos;It&apos; and is more certain to refer to the answer.</comment>
         <translation>To bylo dobré!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="213"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="58"/>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
         <translation>Nebylo to tak špatné, ale:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="216"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="61"/>
         <source>wrong string</source>
         <translation>Nesprávná struna</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="218"/>
+        <location filename="../src/exam/texamsummary.cpp" line="179"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="63"/>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
         <translation>Málo správných not</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="223"/>
+        <location filename="../src/exam/texamsummary.cpp" line="182"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="68"/>
         <source>poor effectiveness</source>
         <translation>Chabá účinnost</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="226"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="71"/>
         <source>wrong accidental</source>
         <translation>Nesprávná posuvka</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="229"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="74"/>
         <source>wrong key signature</source>
         <translation>Nesprávné předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="233"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="78"/>
         <source>wrong octave</source>
         <translation>Nesprávná oktáva</translation>
     </message>
@@ -97,7 +99,7 @@
         <translation>Nesprávné struny</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/graphics/tnotepixmap.cpp" line="237"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="82"/>
         <location filename="../src/plugins/charts/sorting.cpp" line="367"/>
         <source>out of tune</source>
         <translation>Rozladěno</translation>
@@ -106,112 +108,114 @@
 <context>
     <name>AudioInSettings</name>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="300"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="389"/>
         <source>enable pitch detection</source>
         <translation>Povolit zjištění výšky tónu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="58"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="75"/>
         <source>input device</source>
         <translation>Vstupní zařízení</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="175"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="225"/>
         <source>pitch detection mode</source>
         <translation>Režim zjištění výšky tónu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="60"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="77"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Ujistěte se, že vaše vstupní zařízení (mikrofon, kamera počítače, k počítači připojený nástroj) je nastaveno správně a pracuje.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="71"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="90"/>
         <source>minimum note duration</source>
         <translation>Nejmenší doba trvání noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="78"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="97"/>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
         <translation>Jsou zjišťovány pouze zvuky delší než zadaný čas.&lt;br&gt;Při delší době trvání se lze vyhnout zachycování některých šumů nebo neočekávaných zvuků, ale je snížena citlivost.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="79"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="98"/>
         <source>minimum volume</source>
         <translation>Nejmenší hlasitost</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="82"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="101"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Nejmenší hlasitost zvuku zjišťovaného podle výšky tónu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="118"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="153"/>
         <source>middle A</source>
         <translation>Komorní A</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="119"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="154"/>
         <source>frequency:</source>
         <translation>Kmitočet:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="173"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="219"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="223"/>
         <source>Advanced</source>
         <translation>Pokročilé</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="187"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="237"/>
         <source>split when volume rise</source>
         <translation>Rozdělit při zvýšení hlasitosti</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="188"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="238"/>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
         <translation>Pomůže správně rozpoznat stejné noty rychle opakované na kytaře.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="202"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="252"/>
         <source>skip stiller than</source>
         <translation>Přeskočit tišší než</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="203"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="253"/>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
         <translation>Přeskočí tišší zvuky, pod zadaným procentem průměrné hlasitosti. Zabraňuje rozpoznání alikvotních/částkových tónů na klasických nebo akustických kytarách, ale vyžaduje hru s podobnou sílou zvuku.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="213"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="263"/>
         <source>noise filter</source>
         <translation>Filtr šumu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="215"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="265"/>
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
         <translation>Je to poměrně nezbytné pro vstup mikrofonu, ale může to být vypnuto pro spojení nástroje zapojeného s méně šumu.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="217"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="267"/>
         <source>adjust to instrument</source>
         <translation>Seřídit podle nástroje</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="251"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="322"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="326"/>
         <source>Test the settings</source>
         <translation>Vyzkoušet nastavení</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="257"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="328"/>
         <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
         <translation>Ověřte, zda jsou nastavení vstupu zvuku pro vás vhodná,&lt;br&gt;a jak dobře zjištění výšky tónu pracuje v případě vámi zvolených nastavení?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="480"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="576"/>
         <source>Frequency of detected note. You can use this for tuning.</source>
         <translation>Kmitočet zjištěné noty. Můžete jej použít pro ladění.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="631"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="737"/>
         <source>%n semitone(s)</source>
         <translation>
             <numerusform>%n půltón</numerusform>
@@ -220,67 +224,69 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="128"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="163"/>
         <source>interval:</source>
         <translation>Interval:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="75"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="94"/>
         <source>[milliseconds]</source>
         <translation>[v milisekundách]</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="131"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="166"/>
         <source>none</source>
         <translation>Žádný</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="122"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="157"/>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
         <translation>Základní kmitočet &lt;i&gt;komorního a&lt;/i&gt;.&lt;br&gt;Na této hodnotě závisí výška tónu při zjišťování not. Také ovlivňuje přehrávané zvuky.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="56"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="69"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="73"/>
         <source>Input device and pitch detection</source>
         <translation>Vstupní zařízení a zjištění zvuku</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="116"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="147"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="151"/>
         <source>&apos;Middle a&apos; and transposition</source>
         <translation>Komorní A a transpozice</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="133"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="168"/>
         <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt;. It can be used as a transposition.</source>
         <translation>Posune kmitočet &lt;i&gt;komorního a&lt;/i&gt;. Lze to použít jako transpozici.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="134"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="169"/>
         <source>up</source>
         <translation>Nahoru</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="136"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="171"/>
         <source>down</source>
         <translation>Dolů</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="253"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="330"/>
         <source>Test</source>
         <translation>Vyzkoušet</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="254"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="331"/>
         <source>Stop</source>
         <translation>Zastavit</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="271"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="347"/>
         <source>Detected pitch</source>
         <translation>Zjištění výšky tónu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audioinsettings.cpp" line="445"/>
+        <location filename="../src/plugins/settings/audioinsettings.cpp" line="541"/>
         <source>no devices found</source>
         <translation>Nebylo nalezeno žádné zařízení</translation>
     </message>
@@ -288,112 +294,112 @@
 <context>
     <name>AudioOutSettings</name>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="35"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="39"/>
         <source>play sound</source>
         <translation>Přehrát zvuk</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="36"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="40"/>
         <source>Selected notes and guitar positions will be played.</source>
         <translation>Budou přehrány vybrané noty a kytarové polohy.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="42"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="47"/>
         <source>real audio playback</source>
         <translation>Přehrávání skutečného zvuku</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="47"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="55"/>
         <source>audio device for output</source>
         <translation>Zvukové zařízení pro výstup</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="65"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="78"/>
         <source>forward input to output</source>
         <translation>Poslat vstup do výstupu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="67"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="80"/>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation>Veškeré zvuky zachycené na vstupu zvuku budou přeposlány přímo do výstupního zařízení.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="73"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
         <source>midi playback</source>
         <translation>Přehrávání MIDI</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="79"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="94"/>
         <source>midi port</source>
         <translation>Přípojka MIDI</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="158"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="182"/>
         <source>no midi ports</source>
         <translation>Žádné přípojky MIDI</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="84"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="99"/>
         <source>instrument</source>
         <translation>Nástroj</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="68"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="81"/>
         <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
         <translation>PRACUJE POUZE PRO JEDNU ZVUKOVOU KARTU NEBO S ASIO NEBO JACK!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="88"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="104"/>
         <source>Grand Piano</source>
         <translation>Klavír, křídlo</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="89"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="105"/>
         <source>Harpsichord</source>
         <translation>Cembalo</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="90"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="106"/>
         <source>Classical Guitar</source>
         <translation>Klasická kytara</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="91"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="107"/>
         <source>Acoustic Guitar</source>
         <translation>Akustická kytara</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="92"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="108"/>
         <source>Electric Guitar</source>
         <translation>Elektrická kytara</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="93"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="109"/>
         <source>Electric Guitar (Overdriven)</source>
         <translation>Elektrická kytara (na plné obrátky)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="94"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="110"/>
         <source>Bass Guitar</source>
         <translation>Basová kytara</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="95"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="111"/>
         <source>Violin</source>
         <translation>Housle</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="96"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="112"/>
         <source>Sax</source>
         <translation>Saxofon</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="97"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="113"/>
         <source>Flute</source>
         <translation>Flétna</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="178"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="203"/>
         <source>no devices found</source>
         <translation>Nebylo nalezeno žádné zařízení</translation>
     </message>
@@ -600,22 +606,19 @@
 %1</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="30"/>
         <source>You also can help with making Nootka better.</source>
-        <translation>I vy můžete pomoci s vylepšením Nootky.</translation>
+        <translation type="vanished">I vy můžete pomoci s vylepšením Nootky.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="31"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
+        <translation type="vanished">Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tsupportnootka.cpp" line="70"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
+        <translation type="vanished">Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tyaxis.cpp" line="63"/>
+        <location filename="../src/plugins/charts/tyaxis.cpp" line="87"/>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
         <translation>čas [s]</translation>
@@ -642,22 +645,22 @@
 <context>
     <name>Tabout</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="244"/>
+        <location filename="../src/libs/misc/tabout.cpp" line="33"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
         <translation>Vítejte.&lt;br&gt; Nootka je program s otevřeným zdojovým kódem, který vám má pomoci se naučit (a učit) klasický notový zápis.&lt;br&gt;Je zvláště určen kytaristům, ale i ostatní zde najdou mnoho užitečných funkcí.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="245"/>
+        <location filename="../src/libs/misc/tabout.cpp" line="34"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Toto je beta verse, která může obsahovat chyby, nebo se chovat neočekávaným způsobem. Také má některé funkce nedokončeny.&lt;br&gt;Přesto jse zváni, abyste ji zkusili!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="246"/>
+        <location filename="../src/libs/misc/tabout.cpp" line="35"/>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation>Podívejte se na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stránky programu&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Všechny chyby, návrhy, překlady atd. hlašte: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="250"/>
+        <location filename="../src/libs/misc/tabout.cpp" line="39"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation>&lt;br&gt;Pro podporu projektu, a abyste se vyhnuli možnému nakažení vašeho počítače, používejte, prosím, &lt;br&gt;&lt;b&gt;pro stahování aktualizací, nových vydání a pro sledování novinek stránky projektu.&lt;/b&gt;</translation>
     </message>
@@ -665,72 +668,71 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="49"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="63"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="70"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="66"/>
         <source>About</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="73"/>
         <source>Help</source>
-        <translation>Nápověda</translation>
+        <translation type="vanished">Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="82"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="70"/>
         <source>Support</source>
         <translation>Podpora</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="85"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="71"/>
         <source>Changes</source>
         <translation>Změny</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="99"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="103"/>
         <source>Code</source>
         <translation>Kód</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="101"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="105"/>
         <source>Audio</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="135"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="140"/>
         <source>Thanks</source>
         <translation>Poděkování</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="104"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="108"/>
         <source>Translators</source>
         <translation>Překladatelé</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="102"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="106"/>
         <source>editing and/or recording of samples:</source>
         <translation>Hlavní nahrávka a/nebo nahrávání vzorků:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="121"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="126"/>
         <source>Other projects</source>
         <translation>Jiné projekty</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="122"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="127"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Tento program by nebyl bez různých projektů s otevřeným zdrojovým kódem.&lt;br&gt;Obzvláště:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.h" line="37"/>
+        <location filename="../src/plugins/about/taboutnootka.h" line="47"/>
         <source>Authors</source>
         <translation>Autoři</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="79"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="69"/>
         <source>License</source>
         <translation>Povolení</translation>
     </message>
@@ -738,146 +740,146 @@
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="83"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="85"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>Seřazeno podle:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="84"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="86"/>
         <source>student name:</source>
         <translation>Žákovo jméno:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="85"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="87"/>
         <source>level:</source>
         <translation>Úroveň:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="89"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="91"/>
         <source>note pitch</source>
         <translation>Výška tónu noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="90"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="92"/>
         <source>fret number</source>
         <translation>Číslo pražce</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="91"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="93"/>
         <source>key signature</source>
         <translation>Předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="92"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="94"/>
         <source>accidentals</source>
         <translation>Posuvky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="93"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="95"/>
         <source>question type</source>
         <translation>Typ otázky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="94"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="96"/>
         <source>mistake</source>
         <translation>Omyl</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="101"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="103"/>
         <source>Level summary:</source>
         <translation>Přehled úrovně:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="102"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="104"/>
         <source>Tuning</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="156"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="158"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Klepněte a táhněte ukazovátko pro posun grafu.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="188"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="190"/>
         <source>Question number</source>
         <translation>Číslo otázky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="280"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="282"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Soubor: %1 
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="290"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="292"/>
         <source>Open an exam to analyze</source>
         <translation>Otevřít zkoušku k rozebrání</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="301"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="303"/>
         <source>Recent exercise on level</source>
         <translation>Nedávné cvičení na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="308"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="310"/>
         <source>recent opened exams:</source>
         <translation>Naposledy otevřené zkoušky:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="326"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="328"/>
         <source>Close analyzer window</source>
         <translation>Zavřít analyzátor</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="349"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="351"/>
         <source>Settings of a chart</source>
         <translation>Nastavení grafu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="357"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="359"/>
         <source>Maximize</source>
         <translation>Zvětšit</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="361"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="363"/>
         <source>linear chart</source>
         <translation>Lineární graf</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="364"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="366"/>
         <source>bar chart</source>
         <translation>Sloupcový graf</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="581"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="588"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="152"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="154"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Stiskněte tlačítko %1, abyste vybrali zkoušku ze souboru.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="59"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="60"/>
         <source>Analyze</source>
         <translation>Rozbor</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="76"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="78"/>
         <source>Y value:</source>
         <translation>Hodnota Y:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="90"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
         <translation>Otázka číslo</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="154"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="156"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Použijte %1 + kolečko myši nebo tlačítka %2 pro přiblížení grafu.</translation>
     </message>
@@ -888,22 +890,22 @@ není platným souborem zkoušky!</translation>
         <translation>Číslo otázky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="329"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="331"/>
         <source>zoom in</source>
         <translation>Přiblížit</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="332"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="334"/>
         <source>zoom out</source>
         <translation>Oddálit</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="335"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="337"/>
         <source>include time of wrong answers to average</source>
         <translation>Zahrnout čas nesprávných odpovědí do průměru</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="337"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="339"/>
         <source>show wrong answers separately</source>
         <translation>Ukázat nesprávné odpovědi každou zvlášť</translation>
     </message>
@@ -936,74 +938,74 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>Tcanvas</name>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="129"/>
+        <location filename="../src/exam/tcanvas.cpp" line="175"/>
         <source>%1 was detected</source>
         <comment>note name</comment>
         <translation>%1 byl zjištěn</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="135"/>
+        <location filename="../src/exam/tcanvas.cpp" line="181"/>
         <source>Try again!</source>
         <translation>Zkuste znovu!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="179"/>
+        <location filename="../src/exam/tcanvas.cpp" line="271"/>
         <source>To correct an answer</source>
         <translation>Pro opravu odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="182"/>
+        <location filename="../src/exam/tcanvas.cpp" line="274"/>
         <source>To try this melody again</source>
         <translation>Pro opětovný pokus o tuto melodii</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="190"/>
+        <location filename="../src/exam/tcanvas.cpp" line="282"/>
         <source>To see corrected answer</source>
         <translation>Prozobrazení správné odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="192"/>
+        <location filename="../src/exam/tcanvas.cpp" line="284"/>
         <source>To see some hints</source>
         <translation>Pro zobrazení nějakých rad</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="221"/>
+        <location filename="../src/exam/tcanvas.cpp" line="325"/>
         <source>To check the answer confirm it:</source>
         <translation>Pro prověření odpovědi ji potvrďte:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="224"/>
+        <location filename="../src/exam/tcanvas.cpp" line="328"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>Prověřte v nápovědě ke zkoušce %1, jak to dělat automaticky</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="238"/>
+        <location filename="../src/exam/tcanvas.cpp" line="344"/>
         <source>Select any note to play it again.</source>
         <translation>Vyberte nějakou notu pro její opětovné přehrání.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="276"/>
+        <location filename="../src/exam/tcanvas.cpp" line="382"/>
         <source>too low</source>
         <translation>Příliš nízko</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="278"/>
+        <location filename="../src/exam/tcanvas.cpp" line="384"/>
         <source>too high</source>
         <translation>Příliš vysoko</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="297"/>
+        <location filename="../src/exam/tcanvas.cpp" line="402"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation>Klepněte na nesprávné noty, abyste&lt;br&gt;
 je viděli a poslechli si správně.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="357"/>
+        <location filename="../src/exam/tcanvas.cpp" line="469"/>
         <source>You are exercising on level</source>
         <translation>Cvičíte na úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/tcanvas.cpp" line="359"/>
+        <location filename="../src/exam/tcanvas.cpp" line="471"/>
         <source>Exam started on level</source>
         <translation>Zkouška začala na úrovni</translation>
     </message>
@@ -1118,89 +1120,89 @@ je viděli a poslechli si správně.</translation>
 <context>
     <name>TexamExecutor</name>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="131"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="153"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Zdá se, že soubor se zkouškou je poškozený.&lt;/b&gt;&lt;br&gt;Lepší bude začít novou zkoušku na stejné úrovni</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1344"/>
         <source>Save</source>
-        <translation>Uložit</translation>
+        <translation type="vanished">Uložit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1345"/>
         <source>Discard</source>
-        <translation>Odmítnout</translation>
+        <translation type="vanished">Odmítnout</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="140"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="164"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Soubor: %1 
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="167"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="193"/>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1211"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1287"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1257"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1334"/>
         <source>Such a pity.</source>
         <translation>Jaká škoda.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1316"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation>Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
+        <translation type="vanished">Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1317"/>
         <source>Continue</source>
-        <translation>Pokračovat</translation>
+        <translation type="vanished">Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1318"/>
         <source>Terminate</source>
-        <translation>Ukončit</translation>
+        <translation type="vanished">Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1339"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1401"/>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamexecutor.cpp" line="1432"/>
         <source>Save exam results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1343"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1437"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1492"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1590"/>
         <source>This note was not played!</source>
         <translation>Tato nota nebla přehrána!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1553"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1652"/>
         <source>Exercises with Nootka</source>
         <translation>Cvičení s Nootkou</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1554"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1653"/>
         <source>finish exercising</source>
         <translation>Dokončit cvičení</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1556"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1655"/>
         <source>EXAM!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1557"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1656"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
@@ -1233,124 +1235,136 @@ není platným souborem zkoušky!</translation>
         <translation>Když odpověď není zas tak špatná, dostanete jednu pokutovou navíc.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="44"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="46"/>
         <source>How does an exercise or an exam work?</source>
         <translation>Jak cvičení nebo zkouška pracuje?</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="46"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="48"/>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
         <translation> Stručně: Nootka vám dá otázku a vy odpovíte...</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="51"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="53"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Otázky jsou označeny touto barvou a znakem &quot;?&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="52"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="54"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
         <translation>Pro podání odpovědi ji vyberte na &lt;span style=&quot;%1&quot;&gt;prvku Nootky zdůrazněném touto barvou.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="59"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="61"/>
         <source>Exercises</source>
         <translation>Cvičení</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="61"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="63"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
         <translation>Pokud jste během cvičení udělal chybu, Nootka vám může ukázat správnou odpověď. Abyste ji uviděl:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="63"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="65"/>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
         <translation>Kdykoli můžete klepnout na tlačítko %1 pro pozastavení nebo zastavení cvičení a zobrazení svých výsledků.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="66"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="68"/>
         <source>Exams</source>
         <translation>Zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="68"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="70"/>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
         <translation>Pokud jste se během zkoušky zmýlili a chcete otázku zopakovat:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="73"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="75"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="75"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="77"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
         <translation>Jednoduše klepněte na tlačítko pro toto nastavení a upravte cvičení nebo zkoušku podle svých současných potřeb.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="80"/>
         <source>GOOD LUCK!</source>
         <translation>Hodně štěstí!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="55"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="57"/>
         <source>To check the answer confirm it:</source>
         <translation>Pro prověření odpovědi ji potvrďte:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="43"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="44"/>
         <source>check answers without requiring confirmation</source>
         <translation>Ověřit odpovědi bez potvrzení</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="46"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="47"/>
         <source>correct mistakes (exercises only)</source>
         <translation>Opravit chyby (jen u cvičení)</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="49"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="50"/>
         <source>ask next question automatically</source>
         <translation>Položit další otázku automaticky</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="51"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="52"/>
         <source>or right mouse button</source>
         <translation>nebo pravé tlačítko myši</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="53"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="54"/>
         <source>click %1 button</source>
         <translation>Klepněte na tlačítko %1 </translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="55"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="57"/>
+        <source>click %1</source>
+        <comment>click &lt;icon image&gt;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="60"/>
         <source>To get question</source>
         <translation>Pro dostání otázky</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="56"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="61"/>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
         <translation>stiskněte klávesu &lt;b&gt;mezerníku&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="57"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="62"/>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
         <translation>stiskněte klávesu &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="58"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="63"/>
         <source>or press &lt;b&gt;Enter&lt;/b&gt; key</source>
         <translation>nebo stiskněte klávesu &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="59"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="64"/>
         <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
         <translation>nebo klávesu &lt;b&gt;Backspace&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.h" line="61"/>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="66"/>
         <source>Click %1 button to stop.</source>
         <translation>Klepněte na tlačítko %1 pro zastavení.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texamhelp.h" line="70"/>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1496,17 +1510,17 @@ není platným souborem zkoušky!</translation>
         <translation>Pro vylepšení spojení mezi notou v notovém zápisu nebo polohouy na kytaře a názvem noty, Nootka bude zobrazovat názvy, i když se k tomu nepojí ani otázka ani odpověď.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/texamsettings.cpp" line="160"/>
+        <location filename="../src/plugins/settings/texamsettings.cpp" line="173"/>
         <source>colors</source>
         <translation>Barvy</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/texamsettings.cpp" line="177"/>
+        <location filename="../src/plugins/settings/texamsettings.cpp" line="190"/>
         <source>exercises</source>
         <translation>Cvičení</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/texamsettings.cpp" line="189"/>
+        <location filename="../src/plugins/settings/texamsettings.cpp" line="215"/>
         <source>exams</source>
         <translation>Zkoušky</translation>
     </message>
@@ -1514,117 +1528,118 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TexamSummary</name>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="63"/>
+        <location filename="../src/exam/texamsummary.cpp" line="69"/>
         <source>Exam results</source>
         <translation>Výsledky zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="69"/>
+        <location filename="../src/exam/texamsummary.cpp" line="76"/>
         <source>student:</source>
         <translation>Žák:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="79"/>
+        <location filename="../src/exam/texamsummary.cpp" line="86"/>
         <source>times:</source>
         <translation>Časy:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="71"/>
+        <location filename="../src/exam/texamsummary.cpp" line="78"/>
         <source>Number of questions:</source>
         <translation>Číslo otázky:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="82"/>
+        <location filename="../src/exam/texamsummary.cpp" line="89"/>
         <source>Time taken to answer</source>
         <translation>Čas odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="99"/>
+        <location filename="../src/exam/texamsummary.cpp" line="109"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="101"/>
+        <location filename="../src/exam/texamsummary.cpp" line="111"/>
         <source>Continue</source>
         <translation>Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="103"/>
+        <location filename="../src/exam/texamsummary.cpp" line="113"/>
         <source>Discard</source>
         <translation>Zahodit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="129"/>
+        <location filename="../src/exam/texamsummary.cpp" line="138"/>
         <source>Results:</source>
         <translation>Výsledky:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="147"/>
+        <location filename="../src/exam/texamsummary.cpp" line="159"/>
         <source>Kinds of mistakes</source>
         <translation>Druhy omylů</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="150"/>
+        <location filename="../src/exam/texamsummary.cpp" line="163"/>
         <source>Wrong notes</source>
         <translation>Nesprávné noty</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="152"/>
+        <location filename="../src/exam/texamsummary.cpp" line="165"/>
         <source>Wrong accidentals</source>
         <translation>Nesprávné posuvky</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="154"/>
+        <location filename="../src/exam/texamsummary.cpp" line="167"/>
         <source>Wrong key signatures</source>
         <translation>Nesprávná předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="156"/>
+        <location filename="../src/exam/texamsummary.cpp" line="169"/>
         <source>Wrong octaves</source>
         <translation>Nesprávné oktávy</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="158"/>
+        <location filename="../src/exam/texamsummary.cpp" line="171"/>
         <source>Wrong note names</source>
         <translation>Nesprávný název noty</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="165"/>
+        <location filename="../src/exam/texamsummary.cpp" line="177"/>
         <source>Out of tune</source>
         <translation>Rozladěné</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="193"/>
+        <location filename="../src/exam/texamsummary.cpp" line="220"/>
         <source>Progress of exercises</source>
         <translation>Postup cvičení</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="194"/>
+        <location filename="../src/exam/texamsummary.cpp" line="221"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="91"/>
         <source>Pass an exam</source>
         <translation>Složit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="195"/>
+        <location filename="../src/exam/texamsummary.cpp" line="222"/>
         <source>Finish exercise and pass an exam on this level.</source>
         <translation>Dokončit cvičení a složit zkoušku na této úrovni.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="201"/>
+        <location filename="../src/exam/texamsummary.cpp" line="228"/>
         <source>Finish this exercise</source>
         <translation>Dokončit toto cvičení</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="161"/>
+        <location filename="../src/exam/texamsummary.cpp" line="173"/>
         <source>Wrong positions on guitar</source>
         <translation> Nesprávné polohy na kytaře</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="94"/>
+        <location filename="../src/exam/texamsummary.cpp" line="101"/>
         <source>Analyze</source>
         <translation>Rozbor</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="163"/>
+        <location filename="../src/exam/texamsummary.cpp" line="175"/>
         <source>Wrong strings</source>
         <translation>Nesprávné struny</translation>
     </message>
@@ -1677,12 +1692,12 @@ není platným souborem zkoušky!</translation>
         <translation>(počítáno za půl chyby)</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamview.cpp" line="37"/>
+        <location filename="../src/exam/texamview.cpp" line="42"/>
         <source>Exam results</source>
         <translation>Výsledky zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamview.cpp" line="157"/>
+        <location filename="../src/exam/texamview.cpp" line="160"/>
         <source>Effectiveness of whole exam (and effectiveness of current question).</source>
         <translation>Účinnost v celé zkoušce (a účinnost v nynější otázce).</translation>
     </message>
@@ -1690,17 +1705,17 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TexecutorSupply</name>
     <message>
-        <location filename="../src/exam/texecutorsupply.cpp" line="73"/>
+        <location filename="../src/exam/texecutorsupply.cpp" line="80"/>
         <source>Instrument type was changed!</source>
         <translation>Typ nástroje byl změněn!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texecutorsupply.cpp" line="82"/>
+        <location filename="../src/exam/texecutorsupply.cpp" line="89"/>
         <source>Tuning of the guitar was changed to:</source>
         <translation>Naladění kytary bylo změněno na:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texecutorsupply.cpp" line="87"/>
+        <location filename="../src/exam/texecutorsupply.cpp" line="94"/>
         <source>Guitar fret number was changed!</source>
         <translation>Počet pražců kytary byl změněn!</translation>
     </message>
@@ -1713,45 +1728,58 @@ není platným souborem zkoušky!</translation>
         <translation>Odborníkův režim</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="30"/>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="31"/>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
         <translation>Chystáte se jít do odborníkových odpovědí.&lt;br&gt; V tomto režimu nepotřebujete potvrzovat každou odpověď,&lt;br&gt;&lt;b&gt;ale zapamatujte si toto&lt;/b&gt;:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="31"/>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="32"/>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
         <translation>Výběr noty v notovém zápisu nebo polohy na hmatníku vyvolá ověření vaší odpovědi, takže nejprve, když je to vyžadováno, označte tóninu.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="32"/>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="33"/>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
         <translation>Když odpovědí je název noty &lt;b&gt;vyberte nejprve&lt;/b&gt; správnou posuvku a oktávu, a pak klepněte na tlačítko noty - vyvolá to ověření.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="33"/>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="34"/>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
         <translation>Když máte jako odpověď zahrát notu - bude vzat první zahraný zvuk. Ujistěte se, že vaše vstupní zařízení zachytává přesně to, co chcete.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="34"/>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="35"/>
         <source>When the last note of question that is a melody was played - checking starts.</source>
         <translation>Když byla zahrána poslední nota otázky, která je melodií - začíná ověřování.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="37"/>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="38"/>
         <source>Always remind me about this</source>
         <translation>Toto připomínat vždy</translation>
     </message>
 </context>
 <context>
+    <name>TfileDialog</name>
+    <message>
+        <location filename="../src/libs/core/widgets/tfiledialog.cpp" line="186"/>
+        <source>Memory card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/widgets/tfiledialog.cpp" line="389"/>
+        <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TfingerBoard</name>
     <message>
-        <location filename="../src/guitar/tfingerboard.cpp" line="56"/>
+        <location filename="../src/guitar/tfingerboard.cpp" line="83"/>
         <source>Select a string or fret and click to see it on the staff.</source>
         <translation>Vyberte strunu nebo pražec a klepněte, abyste ji/jej uviděli v notách.</translation>
     </message>
     <message>
-        <location filename="../src/guitar/tfingerboard.cpp" line="169"/>
+        <location filename="../src/guitar/tfingerboard.cpp" line="196"/>
         <source>This note is beyond the scale of the guitar!</source>
         <translation>Tato nota je za rozsahem kytary!</translation>
     </message>
@@ -1759,22 +1787,22 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TfirstRunWizard</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="45"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="55"/>
         <source>First run wizard</source>
         <translation>Průvodce prvním spuštěním</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="61"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="74"/>
         <source>What instrument do you play?</source>
         <translation>Na jaký nástroj hrajete?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="176"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="200"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
         <translation>Pro psaní not pro basovou kytaru se používá &lt;b&gt;basový klíč&lt;/b&gt;, ale zahrané noty zní o oktávu níže. Správným klíčem je &lt;b&gt;basový snížený klíč&lt;/b&gt; (s číslicí &quot;osm&quot; dole), kde znějí noty přesně tak, jak jsou zapsány, a tento klíč se v Nootce používá pro basovou kytaru.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="179"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="203"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1&quot; &quot;%2&lt;br&gt;&lt;b&gt;&lt;big&gt;Oba dva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/p&gt;</translation>
     </message>
@@ -1782,33 +1810,33 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TglobalSettings</name>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="36"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="35"/>
         <source>Application language</source>
         <translation>Jazyk programu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="42"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="41"/>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
         <translation>Vyberte jazyk.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Vyžaduje, aby byl program spuštěn znovu!&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="81"/>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="109"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="85"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="117"/>
         <source>Restore all default settings</source>
         <translation>Obnovit všechna výchozí nastavení</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="43"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="42"/>
         <source>default</source>
         <translation>Výchozí</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="65"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="68"/>
         <source>Check for updates</source>
         <translation>Prověřit, zda již je novější vydání</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.h" line="42"/>
+        <location filename="../src/plugins/settings/tglobalsettings.h" line="43"/>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
         <translation>Všechna nastavení programu budou smazána!&lt;br&gt;Nootka se spustí s průvodcem prvním spuštěním.</translation>
     </message>
@@ -1821,12 +1849,12 @@ není platným souborem zkoušky!</translation>
         <translation>Čára postupu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="70"/>
+        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="71"/>
         <source>descending - you are progressing better</source>
         <translation>Sestupná - překonáte</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="72"/>
+        <location filename="../src/plugins/charts/tgraphicsline.cpp" line="74"/>
         <source>ascending - you are thinking too much</source>
         <translation>Vzestupná - rozmýšlíte se</translation>
     </message>
@@ -1834,106 +1862,107 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TguitarSettings</name>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="79"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="76"/>
         <source>number of frets:</source>
         <translation>Počet pražců:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="88"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="82"/>
         <source>number of strings:</source>
         <translation>Počet strun:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="41"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="44"/>
         <source>tuning of the guitar</source>
         <translation>Zvuk kytary</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="42"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="45"/>
         <source>scale of an instrument</source>
         <translation>Rozsah nástroje</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="49"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="48"/>
         <source>Select appropriate tuning from the list or prepare your own.</source>
         <translation>Vyberte vhodný zvuk ze seznamu nebo připravte svůj vlastní.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="50"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="49"/>
         <source>Remember to select the appropriate clef in Score settings.</source>
         <translation>Pamatujte na to, že máte v nastavení notového zápisu vybrat náležitý klíč.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="66"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="60"/>
         <source>Instrument</source>
         <translation>Nástroj</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="73"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="71"/>
         <source>right-handed players</source>
         <comment>When translation will be too long try to add &apos;
 &apos; - line break between words.</comment>
         <translation>Kytara pro pravoruké</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="75"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="73"/>
         <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
         <translation>Zrušte zaškrtnutí, pokud jste levoruký(á),&lt;br&gt;a vaše kytara má změněné pořadí strun (změněno pořadí strun).</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="105"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="88"/>
         <source>preferred accidentals:</source>
         <translation>Upřednostňované posuvky:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="106"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="89"/>
         <source>Choose which accidentals will be shown on the staff.</source>
         <translation>Vyberte, které posuvky budou ukazovány v notové osnově.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="107"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="90"/>
         <source># - sharps</source>
         <translation># - křížky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="108"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="91"/>
         <source>b - flats</source>
         <translation>b - béčka</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="124"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="104"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="106"/>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
         <translation>Vložte čísla pražců označených tečkou. Čísla oddělujte čárkou. Přidejte ! (znak pro vykřičník) za číslo, aby byla tečka vykreslena dvakrát.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="125"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="108"/>
         <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
         <translation>označené pražce</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="134"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="111"/>
         <source>show all possibilities of a note</source>
         <translation>Ukázat všechny možnosti dané noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="135"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="112"/>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
         <translation>Jak víte, ta samá nota může být na hmatníku zahrána na několika místech.&lt;br&gt;Je-li zaškrtnuto, jsou ukazována všechna.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="139"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="115"/>
         <source>color of string/fret pointer</source>
         <translation>Barva ukazatele struny/pražce</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="143"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="117"/>
         <source>color of selected string/fret</source>
         <translation>Barva vybrané struny/pražce</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="182"/>
-        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="428"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="255"/>
+        <location filename="../src/plugins/settings/tguitarsettings.cpp" line="509"/>
         <source>Custom tuning</source>
         <translation>Vlastní zvuk</translation>
     </message>
@@ -1941,7 +1970,7 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>ThelpDialogBase</name>
     <message>
-        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="36"/>
+        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="49"/>
         <source>Nootka help</source>
         <translation>Nápověda programu Nootka</translation>
     </message>
@@ -1954,38 +1983,38 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TintonationCombo</name>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="253"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="255"/>
         <source>intonation accuracy</source>
         <translation>Přesnost intonace</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="274"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="276"/>
         <source>do not check</source>
         <translation>Neověřovat</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="275"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="277"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
         <translation>Trnutí zubů</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="276"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="278"/>
         <source>violinist beginner</source>
         <translation>Houslista začátečník</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="277"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="279"/>
         <source>old strings</source>
         <translation>Staré struny</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="278"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="280"/>
         <source>well tuned instrument</source>
         <translation>Dobře naladěný nástroj</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="279"/>
+        <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="281"/>
         <source>perfect</source>
         <translation>Dokonale</translation>
     </message>
@@ -1999,57 +2028,57 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TlaySettings</name>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="34"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="38"/>
         <source>Show or hide main window elements.</source>
         <translation>Ukázat nebo skrýt prvky hlavního okna.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="36"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="39"/>
         <source>tool bar</source>
         <translation>Nástrojový pruh</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="37"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="40"/>
         <source>auto hide</source>
         <translation>Skrýt automaticky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="39"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="42"/>
         <source>text under icons</source>
         <translation>Text pod ikonami</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="40"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="43"/>
         <source>icons only</source>
         <translation>Pouze ikony</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="41"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="44"/>
         <source>text only</source>
         <translation>Pouze text</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="51"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="54"/>
         <source>hints</source>
         <translation>Rady</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="59"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="63"/>
         <source>sound bar</source>
         <translation>Zvukový pruh</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="82"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="90"/>
         <source>There is no Nootka without a score!</source>
         <translation>Není žádná Nootka bez notového zápisu!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="83"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="91"/>
         <source>But you can hide even all the rest of widgets to see a score only.</source>
         <translation>Ale můžete skrýt všechny prvky rozhraní a vidět jen notový zápis.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tlaysettings.cpp" line="87"/>
+        <location filename="../src/plugins/settings/tlaysettings.cpp" line="98"/>
         <source>guitar</source>
         <translation>kytara</translation>
     </message>
@@ -2057,115 +2086,115 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TlevelCreatorDlg</name>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="49"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="50"/>
         <source>Questions</source>
         <translation>Otázky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="52"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="51"/>
         <source>Accidentals</source>
         <translation>Posuvky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="58"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="55"/>
         <source>Range</source>
         <translation>Rozsah</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="91"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="81"/>
         <source>Check, Are your settings for the level possible to perform.</source>
         <translation>Ověřit, zda je možné vaše nastavení úrovně provést.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="145"/>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="152"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="141"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="148"/>
         <source>level not saved!</source>
         <translation>Úroveň neuložena!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="152"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="148"/>
         <source>Level was changed and not saved!</source>
         <translation>Úroveň zkoušky byla změněna
 ale nebyla uložena!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="187"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="190"/>
         <source>Save exam level</source>
         <translation>Uložit úroveň zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="224"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="229"/>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
         <translation>Nejsou vybrány ani otázky ani odpovědi.&lt;br&gt;Úroveň nemá smysl.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="245"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="250"/>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Rozmezí pražců je za rozsahem této úrovně&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="258"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="263"/>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;V rozsahu not se používají některé posuvky, &lt;br&gt;které ale v této úrovni nejsou dostupné&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="262"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="267"/>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Je povoleno vynucení odpovídající posuvky, ale nebyla vybrána žádná posuvka.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="268"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="273"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Otázky a odpovědi jako názvy not budou stejné. Úroveň musí používat béčka a křížky a/nebo dvojité posuvky, a/nebo používat různé názvy not, aby se tomu zabránilo.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="272"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="277"/>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Bylo zaškrtnuto Používat různé názvy not, ale nejsou zaškrtnuty ani otázky ani odpovědi jako název noty.&lt;br&gt;Zaškrtněte tento typ odpovědi/otázky nebo zrušte zaškrtnutí volby Používat různé názvy not.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="276"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="281"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Otázky a odpovědi jako noty v notovém zápisu budou stejné. Musí být vybrán ruční výběr předznamenání nebo vynucení posuvek, aby se tomu zabránilo.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="281"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="286"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Byl vybrán vybrán ruční výběr předznamenání, ale nebyla zaškrtnuta žádná odpověď jako nota v notovém zápisu.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="292"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="297"/>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Rozsah pražců není dostatečný pro nalezení jakékoli noty v jiných polohách. Je požadován rozsah pražců alespoň &lt;b&gt;%1&lt;/b&gt;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="359"/>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="365"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="364"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="370"/>
         <source>Level validation</source>
         <translation>Ověření správnosti úrovně</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="367"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="372"/>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has some mistakes:&lt;/b&gt;</source>
         <translation>&lt;center&gt;&lt;b&gt;Vypadá to na to, że úroveň má nějaké chyby:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="89"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="79"/>
         <source>Check</source>
         <translation>Ověřit</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="195"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="200"/>
         <source>Cannot open file for writing</source>
         <translation>Nelze otevřít soubor pro zápis</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="314"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="319"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation>&lt;li&gt;Ve vybraném notovém rozsahu možná chybí nota tóniky (první stupeň tóniny) pro některá předznamenání.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="359"/>
+        <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="364"/>
         <source>Level seems to be correct</source>
         <translation>Zdá se, že úroveň je správná</translation>
     </message>
@@ -2201,47 +2230,47 @@ ale nebyla uložena!</translation>
 <context>
     <name>TlevelPreview</name>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="49"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="48"/>
         <source>Level summary:</source>
         <translation>Přehled úrovně:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="70"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="77"/>
         <source>no level selected</source>
         <translation>Nebyla vybrána žádná úroveň</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="93"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="101"/>
         <source>fix an instrument</source>
         <translation>Opravit nástroj</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="119"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="132"/>
         <source>key signature:</source>
         <translation>Předznamenání:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="128"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="141"/>
         <source>accidentals:</source>
         <translation>Posuvky:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="130"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="143"/>
         <source>none</source>
         <translation>Žádné</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="173"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="187"/>
         <source>proper octave is required</source>
         <translation>Je požadována správná oktáva</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="175"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="189"/>
         <source>octave does no matter</source>
         <translation>Na oktávě nezáleží</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="105"/>
+        <location filename="../src/libs/core/level/tlevelpreview.cpp" line="118"/>
         <source>Clef</source>
         <translation>Klíč</translation>
     </message>
@@ -2273,39 +2302,39 @@ ale nebyla uložena!</translation>
         <translation>Nebyl zadán žádný název souboru</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="38"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="42"/>
         <source>Level is not suitable for current instrument type</source>
         <translation>Úroveň není vhodná pro nynější typ nástroje.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="43"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="47"/>
         <source>Level is not suitable for current tuning and/or fret number</source>
         <translation>Úroveň není vhodná pro současný zvuk a/nebo počet pražců</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="63"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="77"/>
         <source>Load</source>
         <translation>Nahrát</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="64"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="78"/>
         <source>Load level from file</source>
         <translation>Nahrát úroveň zkoušky ze souboru</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="67"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="80"/>
         <source>Remove</source>
         <translation>Odstranit</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="293"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="316"/>
         <source>File: %1 
  is not Nootka level file!</source>
         <translation>Soubor: %1 
  není souborem s úrovní programu Nootka!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="297"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="320"/>
         <source>Level file
  %1 
  was corrupted and repaired!
@@ -2316,7 +2345,7 @@ ale nebyla uložena!</translation>
 Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="220"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="242"/>
         <source>Load exam&apos;s level</source>
         <translation>Nahrát úroveň zkoušky</translation>
     </message>
@@ -2344,14 +2373,14 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Pro noty bez posuvek</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="183"/>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="209"/>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="235"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="187"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="213"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="239"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translation>Otázky nesouvisející&lt;br&gt;s typem grafu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/tlinearchart.cpp" line="240"/>
+        <location filename="../src/plugins/charts/tlinearchart.cpp" line="244"/>
         <source>without accidentals</source>
         <translation>Bez posuvek</translation>
     </message>
@@ -2359,122 +2388,146 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TmainHelp</name>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="34"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="42"/>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
         <translation>Mnohé závisi na zvolené úrovni. Stiskněte tlačítko %1 pro vytvoření svého vlastního souboru otázek (úrovně).</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="36"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="44"/>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
         <translation>Vyberte úroveň a rozcvičte se při cvičení. Potom se pokuste o složení zkoušky.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="44"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="52"/>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
         <translation>Budete se učit odpovídáním na otázky. Pro zodpovězení otázky můžete hrát, zpívat, napsat název noty a tak dále.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="49"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="59"/>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
         <translation>Během cvičení %1 bude program vaším chápajícím a přátelským učitelem - Pokud se zmýlíte, ukáže vám správné odpovědi.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="54"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="65"/>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
         <translation>Během zkoušení %1 vám bude Nootka přísným učitelem &amp;quot;ze staré školy&amp;quot;. Každá chyba bude pokutována dodatečnými otázkami...&lt;br&gt;Když zkoušku složíte, dostanete vysvědčení!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="65"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="79"/>
         <source>Using Nootka may be divided into three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like &apos;%1&apos; are images(icons) inside the text</comment>
         <translation>Používání Nootky se dá rozdělit do tří fází:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="68"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="82"/>
         <source>I. Discovering</source>
         <translation>I. Objevování</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="69"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="83"/>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
         <translation>Zkoumáte rozhraní programu a to, jak pracuje zápis not. Jednoduše klepněte na prvek rozhraní a sledujte, co se děje. Můžete také zahrát na nástroj nebo zazpívat, jestliže máte mikrofon nebo webovou kameru.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="70"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="84"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
         <translation>Stiskněte tlačítko %1, abyste si zběžně prohlédli tuto nápovědu, a tlačítko %2, abyste program přizpůsobili svým potřebám.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="74"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="90"/>
         <source>II. Exercises and exams</source>
         <translation>II. Cvičení a zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="78"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="94"/>
         <source>III. Analyzing</source>
         <translation>III. Rozbor</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="79"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="98"/>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
         <translation>Nootka vám poví to, co už dlouho tušíte..., a řekne vám o postupu, který jste dosud udělal...&lt;br&gt;Stiskněte tlačítko %1, abyste se podíval na výsledky zkoušek a mohl se jimi zaobírat. Najděte své slabé stránky a zlepšete se.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="82"/>
+        <location filename="../src/libs/misc/help/tmainhelp.cpp" line="105"/>
         <source>Have fun!</source>
         <translation>Užijte si spoustu zábavy!</translation>
     </message>
 </context>
 <context>
+    <name>TmainView</name>
+    <message>
+        <location filename="../src/gui/tmainview.cpp" line="376"/>
+        <source>score menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TmelMan</name>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="34"/>
         <source>Play</source>
-        <translation>Přehrát</translation>
+        <translation type="vanished">Přehrát</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="36"/>
         <source>Record</source>
-        <translation>Nahrávat</translation>
+        <translation type="vanished">Nahrávat</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="38"/>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation>Když je nastaveno nahrávání, jsou zapisovány nejen přehrávané noty, jak jdou za sebou, ale buď vybrání pražce nebo názvu noty přidá novou notu automaticky.</translation>
+        <translation type="vanished">Když je nastaveno nahrávání, jsou zapisovány nejen přehrávané noty, jak jdou za sebou, ale buď vybrání pražce nebo názvu noty přidá novou notu automaticky.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="39"/>
         <source>Generate</source>
-        <translation>Vytvořit</translation>
+        <translation type="vanished">Vytvořit</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tmelman.cpp" line="37"/>
+        <source>Play melody</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/tmelman.cpp" line="40"/>
+        <source>Note by note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tmelman.cpp" line="42"/>
+        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tmelman.cpp" line="44"/>
+        <source>Generate melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tmelman.cpp" line="45"/>
         <source>Generate a melody with random notes.</source>
         <translation>Vytvořit melodii z náhodných not.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="54"/>
+        <location filename="../src/gui/tmelman.cpp" line="59"/>
         <source>Melody</source>
         <translation>Melodie</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="55"/>
+        <location filename="../src/gui/tmelman.cpp" line="60"/>
         <source>Open, save, generate and play a melody.</source>
         <translation>Otevřít, uložit, vytvořit a přehrát melodii.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="135"/>
+        <location filename="../src/gui/tmelman.cpp" line="152"/>
         <source>Open melody file</source>
         <translation>Otevřít soubor s melodií</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="135"/>
-        <location filename="../src/gui/tmelman.cpp" line="147"/>
+        <location filename="../src/gui/tmelman.cpp" line="152"/>
+        <location filename="../src/gui/tmelman.cpp" line="164"/>
         <source>MusicXML file</source>
         <translation>Soubor MusicXML</translation>
     </message>
     <message>
-        <location filename="../src/gui/tmelman.cpp" line="147"/>
+        <location filename="../src/gui/tmelman.cpp" line="164"/>
         <source>Save melody as:</source>
         <translation>Uložit melodii jako:</translation>
     </message>
@@ -2482,70 +2535,70 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TnootkaCertificate</name>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="60"/>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
         <translation>&lt;h3&gt;Nootčina akademie hudby&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="62"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
         <translation>[DATE]&lt;br&gt;&lt;i&gt;datum&lt;i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="70"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="69"/>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
         <comment>2nd line, single indent</comment>
         <translation>Žáku &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; bylo uděleno</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="77"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="76"/>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
         <translation>&lt;h1&gt;Vysvědčení o složení zkoušky&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="85"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="84"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
         <translation>Složil zkoušku na úrovni &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;zodpověděl požadovaných [QUESTNR] otázek&lt;br&gt;v čase &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;a dosáhl výsledku &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="89"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="88"/>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
         <translation>Na dosvědčení tohoto úspěchu&lt;br&gt;nyní udělujeme toto vysvědčení &lt;b&gt;[DATE]&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="93"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="92"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
         <translation>&lt;small&gt;&lt;i&gt;Zkušební komise:&lt;/i&gt;&lt;br&gt;&lt;i&gt;Předseda:&lt;/i&gt;&lt;b&gt; Nootka sama&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;paní RAM&lt;/b&gt; jeho pomocnice&lt;br&gt;&lt;i&gt;Zapisovatel:&lt;/i&gt;&lt;b&gt; pan Disk&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="105"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="103"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
         <comment>bottom, centered</comment>
         <translation>&lt;i&gt;známka&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="172"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="175"/>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
         <translation>Blahopřeji!&lt;br&gt;Právě jste složil svoji zkoušku!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="172"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="175"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Toto vysvědčení uložit do souboru na památku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="179"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="183"/>
         <source>You can still play with it and improve effectiveness.</source>
         <translation>Můžete si s tím dál hrát a zlepšit svůj výkon.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="219"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="225"/>
         <source>Save certificate</source>
         <translation>Uložit vysvědčení</translation>
     </message>
@@ -2583,22 +2636,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Ruský</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="37"/>
+        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Naming style</source>
         <translation>Styl názvů</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="38"/>
+        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
         <translation>Způsob nazývání not. Hlavní rozdíl je u sedmé noty.&lt;br&gt;Zda je to B a Bb, nebo H a B?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="46"/>
+        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="47"/>
         <source>letter names</source>
         <translation>Názvy v podobě písmen</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="47"/>
+        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="48"/>
         <source>solfege names</source>
         <translation>Názvy v podobě solmizace</translation>
     </message>
@@ -2606,37 +2659,37 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TnoteControl</name>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="340"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="361"/>
         <source>Click to add a new note</source>
         <translation>Klepněte pro přidání nové noty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="350"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="372"/>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
         <translation>&lt;b&gt;dvojitý křížek&lt;/b&gt; - zvýší notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce nahoru.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="352"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="374"/>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
         <translation>&lt;b&gt;křížek&lt;/b&gt; - zvýší notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec nahoru.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="354"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="376"/>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
         <translation>&lt;b&gt;béčko&lt;/b&gt; - sníží notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec dolů.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="356"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="378"/>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
         <translation>&lt;b&gt;dvojité béčko&lt;/b&gt; - sníží notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce dolů.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="358"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="380"/>
         <source>Click %1 to remove a note</source>
         <translation>Klepněte na %1 pro odstranění noty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="361"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="383"/>
         <source>Click %1 to edit note name</source>
         <translation>Klepněte na %1 pro upravení názvu noty</translation>
     </message>
@@ -2724,23 +2777,23 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Čtyřčárkovaná oktáva</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="65"/>
+        <location filename="../src/notename/tnotename.cpp" line="66"/>
         <source>Next note</source>
         <translation>Další nota</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="69"/>
+        <location filename="../src/notename/tnotename.cpp" line="70"/>
         <source>Previous note</source>
         <translation>Předchozí nota</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="116"/>
+        <location filename="../src/notename/tnotename.cpp" line="113"/>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
         <translation>Klepněte, abyste viděli, co se o &lt;i&gt;oktávách&lt;/i&gt; píše na &quot;http://cs.wikipedia.org/wiki/oktáva</translation>
     </message>
     <message>
-        <location filename="../src/notename/tnotename.cpp" line="119"/>
+        <location filename="../src/notename/tnotename.cpp" line="116"/>
         <source>Octaves</source>
         <translation>Oktávy</translation>
     </message>
@@ -2748,27 +2801,27 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TnoteNameSettings</name>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="53"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="59"/>
         <source>note name on the staff</source>
         <translation>Název noty v notové osnově</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="54"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="60"/>
         <source>Shows names of all notes on the staff.</source>
         <translation>Ukáže názvy všech not v notové osnově.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="56"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="62"/>
         <source>names highlight color</source>
         <translation>Barva zvýraznění názvů</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="67"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="86"/>
         <source>show octave in name of note</source>
         <translation>Ukázat oktávu v názvu noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="69"/>
+        <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="88"/>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
         <translation>Ukázat formátovaný název noty. Pro malou oktávu - název je malé písmeno,&lt;br&gt;pro velkou oktávu - název začíná velkým písmenem.&lt;br&gt;pro jednočárkované - je přidána číslice&lt;sup&gt;1&lt;/sup&gt;, atd.</translation>
     </message>
@@ -2776,7 +2829,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_2</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="203"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="231"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Vyberte klíč a rozsah not odpovídající vašemu nástroji.</translation>
     </message>
@@ -2784,22 +2837,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="262"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="302"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation>Sedmá nota může být H nebo B, v závislosti na zemi. &lt;br&gt;Jak je to u vás?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="276"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="313"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Vím o dvojitých křížcích (x) a o dvojitých béčcích (bb)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="280"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="316"/>
         <source>I know that e# is the same as f</source>
         <translation>Vím, že e# je to samé co f</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="285"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="319"/>
         <source>I know about key signatures</source>
         <translation>Vím o předznamenáních</translation>
     </message>
@@ -2819,12 +2872,18 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TpitchView</name>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="170"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="69"/>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="183"/>
         <source>Intonation - clarity of the sound. Is it in tune.</source>
         <translation>Intonace - jasnost zvuku. Zda je to čistý tón.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="172"/>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="185"/>
         <source>Click note symbol to change it.</source>
         <translation>Klepněte na symbol noty pro jeho změnu.</translation>
     </message>
@@ -2832,23 +2891,23 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TprogressWidget</name>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="95"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="98"/>
         <source>Answered questions</source>
         <translation>Zodpovězené otázky</translation>
     </message>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="96"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="99"/>
         <source>Unanswered questions</source>
         <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
         <translation>Nezodpovězené otázky</translation>
     </message>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="99"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="102"/>
         <source>penalties</source>
         <translation>Pokuty</translation>
     </message>
     <message>
-        <location filename="../src/exam/tprogresswidget.cpp" line="98"/>
+        <location filename="../src/exam/tprogresswidget.cpp" line="101"/>
         <source>Total questions in this exam</source>
         <translation>Celkem otázek v této zkoušce</translation>
     </message>
@@ -3034,27 +3093,27 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TradioClef</name>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="161"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="194"/>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
         <translation>Běžně používaný klíč (pro housle, flétnu, saxofony atd.)</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="164"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="197"/>
         <source>Clef for guitars (classical, electric and so)</source>
         <translation>Klíč pro kytary (klasická, elektrická atd.)</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="167"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="200"/>
         <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
         <translation>Spodní klíč ve velké osnově používaný ale i violoncello, trombón atd.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="170"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="203"/>
         <source> Clef for bass guitar and double bass.</source>
         <translation>Klíč pro basovou kytaru a kontrabas.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="173"/>
+        <location filename="../src/libs/core/widgets/tselectclef.cpp" line="206"/>
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
         <translation>Někdy se nazývá klíčem pro violu a většinou se pro ni používá.</translation>
     </message>
@@ -3062,12 +3121,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TremoveLevel</name>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="343"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="368"/>
         <source>Also delete level file:</source>
         <translation>Smazat také soubor s úrovní:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/level/tlevelselector.cpp" line="347"/>
+        <location filename="../src/libs/core/level/tlevelselector.cpp" line="372"/>
         <source>Remove</source>
         <translation>Odstranit</translation>
     </message>
@@ -3121,50 +3180,55 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Přiblížit notový zápis</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="55"/>
+        <location filename="../src/score/tscoreactions.cpp" line="57"/>
         <source>Previous note</source>
         <translation>Předchozí nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="57"/>
+        <location filename="../src/score/tscoreactions.cpp" line="59"/>
         <source>First note</source>
         <translation>První nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="59"/>
+        <location filename="../src/score/tscoreactions.cpp" line="61"/>
         <source>Staff above</source>
         <translation>Osnova nad</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="61"/>
+        <location filename="../src/score/tscoreactions.cpp" line="63"/>
         <source>Staff below</source>
         <translation>Osnova pod</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="63"/>
+        <location filename="../src/score/tscoreactions.cpp" line="65"/>
         <source>Last note</source>
         <translation>Poslední nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="65"/>
+        <location filename="../src/score/tscoreactions.cpp" line="67"/>
         <source>Next note</source>
         <translation>Další nota</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="68"/>
+        <location filename="../src/score/tscoreactions.cpp" line="70"/>
         <source>Delete note</source>
         <translation>Smazat notu</translation>
     </message>
     <message>
-        <location filename="../src/score/tscoreactions.cpp" line="72"/>
+        <location filename="../src/score/tscoreactions.cpp" line="74"/>
         <source>Delete all notes</source>
         <translation>Smazat všechny noty</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="97"/>
+        <source>Score</source>
+        <translation>Noty</translation>
     </message>
 </context>
 <context>
     <name>TscoreClef</name>
     <message>
-        <location filename="../src/libs/core/score/tscoreclef.cpp" line="201"/>
+        <location filename="../src/libs/core/score/tscoreclef.cpp" line="188"/>
         <source>Click to select another clef.</source>
         <translation>Klepněte pro výběr dalšího klíče.</translation>
     </message>
@@ -3180,12 +3244,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TscoreNote</name>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="99"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="104"/>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
         <translation>Klepněte pro zadání noty. Použijte vodorovný posuvník pro změnu posuvek.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="100"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="105"/>
         <source>Right mouse button just selects a note.</source>
         <translation>Pravé tlačítko myši pouze vybere notu.</translation>
     </message>
@@ -3193,112 +3257,117 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TscoreSettings</name>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="98"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="140"/>
         <source>enable key signature</source>
         <translation>Povolit předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="110"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="156"/>
         <source>Naming extension</source>
         <translation>Doplnění názvu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="113"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="159"/>
         <source>in the major keys:</source>
         <translation>V &lt;br&gt;durových tóninách:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="125"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="171"/>
         <source>in the minor keys:</source>
         <translation>V &lt;br&gt;molových tóninách:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="62"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="81"/>
         <source>note-cursor color</source>
         <translation>Barva zdůrazněné noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="44"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="63"/>
         <source>use single note only</source>
         <translation>Použít pouze jednu notu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="45"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="64"/>
         <source>When enabled, a score displays only a single note.</source>
         <translation>Když je povoleno, v notovém zápisu je zobrazena jen jedna nota.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="48"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="67"/>
         <source>show enharmonic variants of notes</source>
         <translation>Ukázat další enharmonické varianty noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="49"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="68"/>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
         <translation>Ukázat enharmonické varianty noty.&lt;br&gt;Např.: Nota E je také Fb (F s béčkem) a Dx (D s dvojitým křížkem).</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="50"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="69"/>
         <source>color of enharmonic notes</source>
         <translation>Barva enharmonických not</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="53"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="72"/>
         <source>use double accidentals</source>
         <translation>Použít dvojité posuvky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="54"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="73"/>
         <source>If checked, you can use double sharps and double flats.</source>
         <translation>Je-li zaškrtnuto, můžete používat dvojité křížky a dvojitá béčka.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="56"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="75"/>
         <source>tempo of played notes</source>
         <translation>Tempo přehrávaných not</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="155"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="213"/>
         <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
         <translation>Zapamatujte si! Ne všechny klíče jsou vhodné pro současné ladění nebo typ nástroje!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="163"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="57"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="61"/>
         <source>Score settings</source>
         <translation>Nastavení notového zápisu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="164"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="132"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="136"/>
         <source>Key signatures</source>
         <translation>Předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="165"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="196"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="200"/>
         <source>Clefs</source>
         <translation>Klíče</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="166"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="225"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="236"/>
         <source>Notes naming</source>
         <translation>Pojmenování not</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="151"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="205"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="208"/>
         <source>Default clef</source>
         <translation>Výchozí klíč</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.cpp" line="155"/>
+        <location filename="../src/plugins/settings/tscoresettings.cpp" line="213"/>
         <source>Select default clef for the application.</source>
         <translation>Vyberte výchozí klíč pro program.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.h" line="46"/>
+        <location filename="../src/plugins/settings/tscoresettings.h" line="50"/>
         <source>for example</source>
         <translation>Například</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tscoresettings.h" line="47"/>
+        <location filename="../src/plugins/settings/tscoresettings.h" line="51"/>
         <source>show names of key signature</source>
         <translation>Ukázat názvy tónin</translation>
     </message>
@@ -3306,37 +3375,37 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TsettingsDialog</name>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="52"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="57"/>
         <source>application&apos;s settings</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="62"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="66"/>
         <source>Common</source>
         <translation>Společné</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="65"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="67"/>
         <source>Score</source>
         <translation>Noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="74"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="70"/>
         <source>Exam</source>
         <translation>Zkouška</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="71"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="69"/>
         <source>Sound</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="54"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="59"/>
         <source>Simple exam settings</source>
         <translation>Nastavení jednoduché zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="56"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="61"/>
         <source>Simple exercise settings</source>
         <translation>Nastavení jednoduchého cvičení</translation>
     </message>
@@ -3346,27 +3415,27 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Nástroj</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="74"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="70"/>
         <source>Exercises</source>
         <translation>Cvičení</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="80"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="74"/>
         <source>Appearance</source>
         <translation>Vzhled</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="86"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="79"/>
         <source>Restore default settings for above parameters.</source>
         <translation>Obnovit výchozí nastavení pro parametry výše.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="296"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="304"/>
         <source>listening</source>
         <translation>Poslech</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="297"/>
+        <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="305"/>
         <source>playing</source>
         <translation>Hra</translation>
     </message>
@@ -3374,7 +3443,9 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TsettingsDialogBase</name>
     <message>
-        <location filename="../src/libs/core/widgets/tsettingsdialogbase.h" line="48"/>
+        <location filename="../src/libs/core/widgets/tsettingsdialogbase.h" line="59"/>
+        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="31"/>
+        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="375"/>
         <source>Open online documentation</source>
         <translation>Otevřít internetovou dokumentaci</translation>
     </message>
@@ -3387,7 +3458,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Začít cvičení nebo zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="53"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="54"/>
         <source>student name:</source>
         <translation>Žákovo jméno:</translation>
     </message>
@@ -3397,92 +3468,99 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>apište své jméno a přezdívku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="69"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="53"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="184"/>
         <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
         <translation>Vyberte úroveň, která je pro vás vhodná, &lt;br&gt;nebo vytvořte novou.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="76"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="73"/>
         <source>Create new level</source>
         <translation>Vytvořit novou úroveň</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="80"/>
         <source>exercises</source>
-        <translation>Cvičení</translation>
+        <translation type="vanished">Cvičení</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="85"/>
         <source>pass new exam</source>
-        <translation>Složit novou zkoušku</translation>
+        <translation type="vanished">Složit novou zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="91"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="125"/>
         <source>Click and select an exam to continue</source>
         <translation>Klepněte a vyberte zkoušku pro pokračování</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="99"/>
         <source>Help</source>
-        <translation>Nápověda</translation>
+        <translation type="vanished">Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="139"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="226"/>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
         <translation>Pro započetí s cvičením nebo pro složení nové zkoušky zadejte své jméno a vyberte úroveň. Pro pokračování v předchozí zkoušce tuto vyberte v seznamu nebo nahrajte ze souboru.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="152"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="242"/>
         <source>recent opened exams:</source>
         <translation>Naposledy otevřené zkoušky:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="183"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="330"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="97"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="297"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="440"/>
         <source>Start exercise on level:</source>
         <translation>Začít cvičení na úrovni:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="186"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="122"/>
+        <source>Continue exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="128"/>
+        <source>Latest exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="274"/>
         <source>Continue the latest exam:</source>
         <translation>Pokračovat v poslední zkoušce:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="252"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="323"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="355"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="434"/>
         <source>No level was selected!</source>
         <translation>Nebyla vybrána žádná úroveň!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="264"/>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="273"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="391"/>
         <source>Give a user name!</source>
         <translation>Zadejte nějaké uživatelské jméno!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="329"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="110"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="439"/>
         <source>Pass new exam on level:</source>
         <translation>Složit novou zkoušku na úrovni:</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="343"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="464"/>
         <source>To exercise or to pass an exam?</source>
         <translation>Cvičit nebo složit zkoušku?</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="73"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="74"/>
         <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
         <translation>Bude otevřeno dialogové okno pro vytvoření nové úrovně&lt;br&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="88"/>
         <source>continue exam</source>
-        <translation>Pokračovat ve zkoušce</translation>
+        <translation type="vanished">Pokračovat ve zkoušce</translation>
     </message>
     <message>
-        <location filename="../src/exam/tstartexamdlg.cpp" line="104"/>
         <source>Discard</source>
-        <translation>Odmítnout</translation>
+        <translation type="vanished">Odmítnout</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="63"/>
@@ -3506,51 +3584,89 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TsuggestExam</name>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="106"/>
+        <location filename="../src/exam/texercises.cpp" line="110"/>
         <source>Start an exam</source>
         <translation>Začít zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="108"/>
+        <location filename="../src/exam/texercises.cpp" line="113"/>
         <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
         <translation>Jste v tomto cvičení velmi dobrý!&lt;br&gt;Chtěl byste na téže úrovni složit zkoušku a dostat vysvědčení?</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="111"/>
+        <location filename="../src/exam/texercises.cpp" line="116"/>
         <source>Sure! Lets start an exam!</source>
         <translation>Ano! Začněme se zkouškou!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="112"/>
+        <location filename="../src/exam/texercises.cpp" line="117"/>
         <source>Not now, ask me for a moment.</source>
         <translation>Teď ne. Zeptejte se mě za chvíli.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="113"/>
+        <location filename="../src/exam/texercises.cpp" line="118"/>
         <source>Not in this exercise.</source>
         <translation>Ne v tomto cvičení.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="114"/>
+        <location filename="../src/exam/texercises.cpp" line="119"/>
         <source>Never more suggest me to start an exam!</source>
         <translation>Už nikdy mi žádné zkoušení nenavrhujte!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texercises.cpp" line="123"/>
+        <location filename="../src/exam/texercises.cpp" line="128"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
 </context>
 <context>
+    <name>TsupportNootka</name>
+    <message>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="40"/>
+        <source>You also can help with making Nootka better.</source>
+        <translation>I vy můžete pomoci s vylepšením Nootky.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="41"/>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
+        <translation>Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="55"/>
+        <source>Donate Nootka campaign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="56"/>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="63"/>
+        <source>Through PayPal or a card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="65"/>
+        <source>or send email for an account number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="106"/>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
+        <translation>Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
+    </message>
+</context>
+<context>
     <name>TtipMelody</name>
     <message>
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="58"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="62"/>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
         <translation>z</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="61"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="67"/>
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation>
             <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt;krát</numerusform>
@@ -3559,13 +3675,13 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         </translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="105"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="112"/>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
         <translation>Hráno</translation>
     </message>
     <message>
-        <location filename="../src/plugins/charts/ttipmelody.cpp" line="106"/>
+        <location filename="../src/plugins/charts/ttipmelody.cpp" line="113"/>
         <source>time</source>
         <translation>krát</translation>
     </message>
@@ -3573,155 +3689,169 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TtoolBar</name>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="40"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="38"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="41"/>
-        <location filename="../src/gui/ttoolbar.cpp" line="126"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="39"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="185"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="44"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="42"/>
         <source>Analyze</source>
         <comment>could be Chart as well</comment>
         <translation>Rozbor</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="46"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="44"/>
         <source>Analysis of exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="49"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="46"/>
         <source>About</source>
         <translation>O programu</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="50"/>
-        <location filename="../src/gui/ttoolbar.cpp" line="66"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="47"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="63"/>
         <source>About Nootka</source>
         <translation>O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="117"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="176"/>
         <source>Level</source>
         <translation>Úroveň</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="118"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="177"/>
         <source>Levels creator</source>
         <translation>Tvůrce úrovní</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="121"/>
         <source>Start!</source>
-        <translation>Spustit!</translation>
+        <translation type="vanished">Spustit!</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="122"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="180"/>
+        <source>Lessons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ttoolbar.cpp" line="181"/>
         <source>Start exercises or an exam</source>
         <translation>Začít cvičení nebo zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="152"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="213"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="155"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="216"/>
         <source>Stop</source>
         <translation>Zastavit</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="157"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="218"/>
         <source>Exercise or exam preferences</source>
         <translation>Nastavení cvičení nebo zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="160"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="221"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation>Další</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="161"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="223"/>
         <source>next question
 (space %1)</source>
         <translation>Další otázku
 (mezerník %1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="166"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="230"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
         <translation>Opakovat</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="167"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="231"/>
         <source>repeat previous question (backspace)</source>
         <translation>Opakovat předchozí otázku (klávesa Backspace)</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="171"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="235"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation>Ověřit</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="172"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="237"/>
         <source>check answer
 (enter %1)</source>
         <translation>Ověřit odpověď
 (klávesa Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="181"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="251"/>
         <source>Play</source>
         <translation>Přehrát</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="182"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="255"/>
         <source>play sound again</source>
         <translation>Přehrát zvuk znovu</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="192"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="266"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
         <translation>Správně</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="193"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="267"/>
         <source>correct answer
 (enter)</source>
         <translation>Správná odpověď
 (zadejte)</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="203"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="280"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
         <translation>Přehrát &lt;i&gt;jednočárkované A&lt;/i&gt; (A1) jako ladička.
 (Stiskněte &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="212"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="292"/>
         <source>Try again</source>
         <translation>Zkusit znovu</translation>
     </message>
     <message>
-        <location filename="../src/gui/ttoolbar.cpp" line="213"/>
+        <location filename="../src/gui/ttoolbar.cpp" line="293"/>
         <source>Try this melody once again. (backspace)</source>
         <translation>Zkuste tuto melodii ještě jednou. (Backspace)</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tcanvas.cpp" line="234"/>
+        <source>Next</source>
+        <translation>Další</translation>
+    </message>
+    <message>
+        <location filename="../src/exam/tcanvas.cpp" line="261"/>
+        <source>Correct</source>
+        <translation>Správně</translation>
     </message>
 </context>
 <context>
     <name>TupdateChecker</name>
     <message>
-        <location filename="../src/plugins/updater/tupdatechecker.cpp" line="45"/>
+        <location filename="../src/plugins/updater/tupdatechecker.cpp" line="50"/>
         <source>Checking for updates. Please wait...</source>
         <translation>Prověřuje se, zda již je novější vydání. Počkejte, prosím...</translation>
     </message>
@@ -3795,17 +3925,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TvolumeView</name>
     <message>
-        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="46"/>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="48"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
         <translation>Ukáže úroveň hlasitosti vstupního zvuku a naznačí, když je zjištěna nota.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="47"/>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="49"/>
         <source>Drag a knob to adjust minimum input volume.</source>
         <translation>Táhněte otočným knoflíkem pro upravení nejmenší vstupní hlasitosti zvuku.</translation>
     </message>
     <message>
-        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="179"/>
+        <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="181"/>
         <source>Switch on/off pitch detection</source>
         <translation>Zapnout/Vypnout zjištění zvuku</translation>
     </message>
@@ -3821,7 +3951,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/libs/misc/taboutnootka.cpp" line="156"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="162"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation>Pavel Fric&lt;br&gt;fripohled.blogspot.com</translation>
@@ -3830,97 +3960,96 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>accidSettings</name>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="34"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="33"/>
         <source># - sharps</source>
         <translation># - křížky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="35"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="34"/>
         <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
         <translation>Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="36"/>
         <source>b - flats</source>
         <translation>b - béčka</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="38"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
         <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
         <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="40"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="39"/>
         <source>x, bb - double accidentals</source>
         <translation>x, bb - dvojité posuvky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="46"/>
         <source>Accidentals used in exam.</source>
-        <translation>Posuvky používané během zkoušky.</translation>
+        <translation type="vanished">Posuvky používané během zkoušky.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="48"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="51"/>
         <source>force using appropriate accidental</source>
         <translation>Vynutit používání náležitých posuvek</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="49"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="52"/>
         <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
         <translation>Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="63"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="68"/>
         <source>single key</source>
         <translation>Jedna tónina</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="64"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="69"/>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
         <translation>Pouze jedna vybraná tónina&lt;br&gt;pro celou zkoušku.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="65"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="70"/>
         <source>range of keys</source>
         <translation>Rozsah tónin</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="66"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="71"/>
         <source>random key signature from selected range.</source>
         <translation>Náhodně vybraná tónina z vybraného rozsahu.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="75"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="86"/>
         <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
         <translation>Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="96"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="114"/>
         <source>notes in current key signature only</source>
         <translation>Pouze noty z nynější tóniny</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="97"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="115"/>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
         <translation>Používají se pouze noty z nynější tóniny.&lt;br&gt;Pokud je předznamenání zakázáno, posuvky se nepoužívají.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="332"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="357"/>
         <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
         <translation>Prvky jsou zakázány, protože příslušné typy otázek nebo odpovědí nejsou vybrány.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="86"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="101"/>
         <source>select a key signature manually</source>
         <translation>Vybrat tóninu ručně</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="58"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="63"/>
         <source>use key signatures</source>
         <translation>Používat předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/accidsettings.cpp" line="87"/>
+        <location filename="../src/plugins/level/accidsettings.cpp" line="102"/>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
         <translation>Je-li zaškrtnuto, musí tóninu ve zkoušce vybrat uživatel,&lt;br&gt;jinak je ukázána programem.</translation>
     </message>
@@ -3939,25 +4068,25 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Žádná</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="90"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="89"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
         <translation>Pro notu:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="94"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="93"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
         <translation>Pro pražec:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="98"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="97"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
         <translation>Pro tóninu:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tgroupedqaunit.h" line="102"/>
+        <location filename="../src/plugins/charts/tgroupedqaunit.h" line="101"/>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
         <translation>Pro posuvku:</translation>
@@ -3966,32 +4095,33 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>levelSettings</name>
     <message>
-        <location filename="../src/plugins/level/levelsettings.cpp" line="38"/>
+        <location filename="../src/plugins/level/levelsettings.cpp" line="37"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/levelsettings.cpp" line="40"/>
+        <location filename="../src/plugins/level/levelsettings.cpp" line="38"/>
         <source>Save level settings to file</source>
         <translation>Uložit nastavení úrovně do souboru</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/levelsettings.cpp" line="42"/>
+        <location filename="../src/plugins/level/levelsettings.cpp" line="40"/>
         <source>Start exam</source>
         <translation>Začít zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/levelsettings.cpp" line="44"/>
+        <location filename="../src/plugins/level/levelsettings.cpp" line="41"/>
         <source>Start an exam on selected level</source>
         <translation>Začít zkoušku na vybrané úrovni</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/levelsettings.cpp" line="47"/>
+        <location filename="../src/exam/tstartexamdlg.cpp" line="87"/>
+        <location filename="../src/plugins/level/levelsettings.cpp" line="44"/>
         <source>Start exercise</source>
         <translation>Začít cvičení</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/levelsettings.cpp" line="49"/>
+        <location filename="../src/plugins/level/levelsettings.cpp" line="45"/>
         <source>Start an exercise on selected level</source>
         <translation>Začít cvičení na vybrané úrovni</translation>
     </message>
@@ -4004,7 +4134,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/libs/core/tinitcorelib.cpp" line="88"/>
+        <location filename="../src/libs/core/tinitcorelib.cpp" line="112"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nelze nahrát písmo.&lt;br&gt;Zkuste nainstalovat nootka.ttf ručně.&lt;/center&gt;</translation>
     </message>
@@ -4012,72 +4142,72 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>questionsSettings</name>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="162"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="197"/>
         <source>require octave</source>
         <translation>Požadována oktáva</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="163"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="198"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>Je-li zaškrtnuto, je požadován výběr platné oktávy</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="122"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="131"/>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation>Nejvyšší počet not v melodii. Délka melodie je náhodná hodnota mezi 70 % and 100 % toho čísla.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="123"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="132"/>
         <source>Melody length</source>
         <translation>Délka melodie</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="126"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="135"/>
         <source>Melody ends on tonic note</source>
         <translation>Melodie končí na notě tóniky</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="127"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="136"/>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
         <translation>Určuje poslední notu melodie.&lt;br&gt;Je-li nastaveno, melodie bude končit na notě tóniky (první stupeň tóniny) současného předznamenání.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="130"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="141"/>
         <source>single note</source>
         <translation>Jedna nota</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="147"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="169"/>
         <source>melodies</source>
         <translation>Melodie</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="166"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="206"/>
         <source>use different naming styles</source>
         <translation>Používat různé názvy not</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="167"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="207"/>
         <source>if checked, note names are switched between letters and solfege.</source>
         <translation>Je-li zaškrtnuto, jsou názvy not přepínány mezi písmeny a solmizací.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="170"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="215"/>
         <source>show string number in questions</source>
         <translation>Ukázat číslo struny v otázkách</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="171"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="217"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
         <translation>Ukazuje, na které struně má být dána odpověď.&lt;br&gt;U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="176"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="226"/>
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
         <translation>Je-li zaškrtnuto, jsou v rozsahu vybraných pražců vyžadovány nejnižší polohy, &lt;br&gt;jinak jsou používány všechny možné polohy noty.&lt;br&gt;Aby se to dalo použít, je třeba, aby byly dostupné všechny noty!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/questionssettings.cpp" line="175"/>
+        <location filename="../src/plugins/level/questionssettings.cpp" line="225"/>
         <source>notes in the lowest position only</source>
         <translation>Pouze noty v nejnižší poloze</translation>
     </message>
@@ -4085,42 +4215,42 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>rangeSettings</name>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="48"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="54"/>
         <source>adjust fret range</source>
         <translation>Upravit rozsah pražců</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="49"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="55"/>
         <source>Adjust fret range in a level to currently selected note range</source>
         <translation>Upravit rozsah pražců v úrovni na nyní vybraný rozsah not</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="59"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="69"/>
         <source>from</source>
         <translation>od</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="62"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="72"/>
         <source>to</source>
         <translation>do</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="71"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="81"/>
         <source>adjust note range</source>
         <translation>Upravit rozsah not</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="72"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="82"/>
         <source>Adjust note range in a level to currently selected fret range</source>
         <translation>Upravit rozsah pražců v úrovni na nyní vybraný rozsah pražců</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="78"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="91"/>
         <source>available strings:</source>
         <translation>Používané struny:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/level/rangesettings.cpp" line="79"/>
+        <location filename="../src/plugins/level/rangesettings.cpp" line="92"/>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
         <translation>Odznačte struny, pokud je &lt;br&gt;při zkoušce chcete přeskočit.</translation>
     </message>

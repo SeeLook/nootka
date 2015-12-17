@@ -477,15 +477,15 @@
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation>Du kannst auch helfen Nootka zu verbessern.</translation>
+        <translation type="vanished">Du kannst auch helfen Nootka zu verbessern.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
+        <translation type="vanished">Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
+        <translation type="vanished">Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
     </message>
     <message>
         <source>time [s]</source>
@@ -547,7 +547,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Hilfe</translation>
+        <translation type="vanished">Hilfe</translation>
     </message>
     <message>
         <source>License</source>
@@ -952,27 +952,31 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation>Psssst... Prüfung läuft.&lt;br&gt;&lt;br&gt;&lt;b&gt;Prüfung&lt;/b&gt;Fortsetzen&lt;br&gt;oder&lt;br&gt;&lt;b&gt;Abbrechen&lt;/b&gt;zum Bestätigen, speichern und beenden&lt;br&gt;</translation>
+        <translation type="vanished">Psssst... Prüfung läuft.&lt;br&gt;&lt;br&gt;&lt;b&gt;Prüfung&lt;/b&gt;Fortsetzen&lt;br&gt;oder&lt;br&gt;&lt;b&gt;Abbrechen&lt;/b&gt;zum Bestätigen, speichern und beenden&lt;br&gt;</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Fortfahren</translation>
+        <translation type="vanished">Fortfahren</translation>
     </message>
     <message>
         <source>Terminate</source>
-        <translation>Abbrechen</translation>
+        <translation type="vanished">Abbrechen</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Speichern</translation>
+        <translation type="vanished">Speichern</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation type="vanished">Verwerfen</translation>
     </message>
     <message>
         <source>This note was not played!</source>
         <translation>Diese Note wurde nicht gespielt!</translation>
+    </message>
+    <message>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1092,6 +1096,16 @@
     <message>
         <source>ask next question automatically</source>
         <translation>stelle nächste Frage automatisch</translation>
+    </message>
+    <message>
+        <source>click %1</source>
+        <comment>click &lt;icon image&gt;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1410,6 +1424,17 @@
         <translatorcomment>show stats after the last note of the question?
 No!!!!
 Check answer just after last note of melody was played.</translatorcomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TfileDialog</name>
+    <message>
+        <source>Memory card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1965,18 +1990,25 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
+    <name>TmainView</name>
+    <message>
+        <source>score menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation>Wiedergabe</translation>
+        <translation type="vanished">Wiedergabe</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation>Aufnahme</translation>
+        <translation type="vanished">Aufnahme</translation>
     </message>
     <message>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation>Bei der Aufnahme werden nicht nur die gespilten Noten nacheinander aufgezeichnet, sondern auch das Auswählen des Bundes oder des Notennamens fügt automatisch neue Noten hinzu.</translation>
+        <translation type="vanished">Bei der Aufnahme werden nicht nur die gespilten Noten nacheinander aufgezeichnet, sondern auch das Auswählen des Bundes oder des Notennamens fügt automatisch neue Noten hinzu.</translation>
     </message>
     <message>
         <source>Melody</source>
@@ -2000,11 +2032,27 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Generate</source>
-        <translation>Erstellen</translation>
+        <translation type="vanished">Erstellen</translation>
     </message>
     <message>
         <source>Generate a melody with random notes.</source>
         <translation>Erstelle eine Melodie aus zufälligen Noten.</translation>
+    </message>
+    <message>
+        <source>Play melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note by note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate melody</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2297,6 +2345,11 @@ nicht öffnen</translation>
         <source>Click note symbol to change it.</source>
         <translation>Für Änderung auf Notensymbol klicken.</translation>
     </message>
+    <message>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TprogressWidget</name>
@@ -2565,6 +2618,10 @@ nicht öffnen</translation>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation>Zeigt die Vorzeichen der Tonart auch neben der Note. &lt;b&gt;ACHTUNG! Dies kommt niemals in echten Partituren vor - nutze es nur für Übungszwecke&lt;/b&gt;</translation>
     </message>
+    <message>
+        <source>Score</source>
+        <translation>Notation</translation>
+    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -2768,11 +2825,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>exercises</source>
-        <translation>Übungen</translation>
+        <translation type="vanished">Übungen</translation>
     </message>
     <message>
         <source>pass new exam</source>
-        <translation>neue Prüfung ablegen</translation>
+        <translation type="vanished">neue Prüfung ablegen</translation>
     </message>
     <message>
         <source>Click and select an exam to continue</source>
@@ -2780,7 +2837,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation>Hilfe</translation>
+        <translation type="vanished">Hilfe</translation>
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
@@ -2820,11 +2877,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>continue exam</source>
-        <translation>Prüfung fortsetzen</translation>
+        <translation type="vanished">Prüfung fortsetzen</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation type="vanished">Verwerfen</translation>
     </message>
     <message>
         <source>Exam results</source>
@@ -2833,6 +2890,14 @@ nicht öffnen</translation>
     <message>
         <source>Load an exam file</source>
         <translation>Lade eine Prüfungsdatei</translation>
+    </message>
+    <message>
+        <source>Continue exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest exam</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2871,6 +2936,37 @@ nicht öffnen</translation>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>TsupportNootka</name>
+    <message>
+        <source>You also can help with making Nootka better.</source>
+        <translation>Du kannst auch helfen Nootka zu verbessern.</translation>
+    </message>
+    <message>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
+        <translation>Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
+    </message>
+    <message>
+        <source>Donate Nootka campaign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Through PayPal or a card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or send email for an account number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
+        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
     </message>
 </context>
 <context>
@@ -2934,7 +3030,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Start!</source>
-        <translation>Start!</translation>
+        <translation type="vanished">Start!</translation>
     </message>
     <message>
         <source>Start exercises or an exam</source>
@@ -3014,6 +3110,18 @@ nicht öffnen</translation>
     <message>
         <source>Try this melody once again. (backspace)</source>
         <translation>Versuche die Meldoie nocheinmal. (Backspace)</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Weiter</translation>
+    </message>
+    <message>
+        <source>Correct</source>
+        <translation>Richtig</translation>
+    </message>
+    <message>
+        <source>Lessons</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3131,7 +3239,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Accidentals used in exam.</source>
-        <translation>Vorzeichen, die in der Prüfung verwendet werden.</translation>
+        <translation type="vanished">Vorzeichen, die in der Prüfung verwendet werden.</translation>
     </message>
     <message>
         <source>single key</source>
