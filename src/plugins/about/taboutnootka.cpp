@@ -22,6 +22,7 @@
 #include "tabout.h"
 #include "tnootkalabel.h"
 #include "help/tmainhelp.h"
+#include <help/thelpdialogbase.h>
 #include <tpath.h>
 #include <widgets/troundedlabel.h>
 #include <touch/ttoucharea.h>
@@ -82,17 +83,18 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   auto helpPage = new QTabWidget(this);
     helpPage->setTabBarAutoHide(true);
   auto helpWidget = new TmainHelp(this);
-    helpPage->addTab(helpWidget, QStringLiteral(" 1 "));
+    helpPage->addTab(helpWidget, QStringLiteral("Nootka"));
   if (TtouchProxy::touchEnabled()) {
     auto touchEdit = new QTextEdit(this);
       touchEdit->setReadOnly(true);
       QScroller::grabGesture(touchEdit->viewport(), QScroller::LeftMouseButtonGesture);
       QString touchText = TtouchProxy::touchScoreHelp();
+      touchText += ThelpDialogBase::onlineDocP("getting-started");
 #if defined (Q_OS_ANDROID) // zoomed fret occurs only under mobile
       touchText += QLatin1String("<br><hr><br>") + TtouchProxy::touchGuitarHelp();
 #endif
       touchEdit->setHtml(touchText);
-    helpPage->addTab(touchEdit, QStringLiteral(" 2 "));
+    helpPage->addTab(touchEdit, QApplication::translate("TscoreActions", "Score"));
   }
 
   auto authorsPage = new QWidget(this);
