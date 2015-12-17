@@ -24,7 +24,9 @@
 #include "audioinsettings.h"
 #include "audiooutsettings.h"
 #include "tlaysettings.h"
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  #include <touch/tmenuwidget.h>
+#else
   #include <trtaudio.h>
   #include <tmidiout.h>
 #endif
@@ -34,6 +36,7 @@
 #include <tscoreparams.h>
 #include <tpath.h>
 #include <tlayoutparams.h>
+#include <qtr.h>
 #include <QtWidgets/QtWidgets>
 
 
@@ -49,24 +52,28 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	m_mode(mode),
 	m_resetToDefaults(false)
 {
+#if !defined (Q_OS_ANDROID)
 	if (m_mode == e_settings)
     setWindowTitle("Nootka - " + tr("application's settings"));
 	else if (m_mode == e_exam)
 		setWindowTitle(tr("Simple exam settings"));
 	else
 		setWindowTitle(tr("Simple exercise settings"));
+#endif
 
 	setWindowIcon(QIcon(Tpath::img("systemsettings")));
-  addItem(tr("Common"), Tpath::img("global"));
-  addItem(tr("Score"), Tpath::img("scoreSettings"));
-  addItem(tr("Instrument"), Tpath::img("guitarSettings"));
-  addItem(tr("Sound"), Tpath::img("soundSettings"));
-  addItem(tr("Exercises") + "\n& " + tr("Exam"), Tpath::img("questionsSettings"));
-// 		navList->addItem(tr("Shortcuts"));
-//     navList->item(6)->setIcon(QIcon(Tpath::img("shortcuts")));
-//     navList->item(6)->setTextAlignment(Qt::AlignCenter);
-		addItem(tr("Appearance"), Tpath::img("appearance"));
-    
+  if (mode == e_settings) {
+    addItem(tr("Common"), Tpath::img("global"));
+    addItem(tr("Score"), Tpath::img("scoreSettings"));
+    addItem(tr("Instrument"), Tpath::img("guitarSettings"));
+    addItem(tr("Sound"), Tpath::img("soundSettings"));
+    addItem(tr("Exercises") + "\n& " + tr("Exam"), Tpath::img("questionsSettings"));
+  // 		navList->addItem(tr("Shortcuts"));
+  //     navList->item(6)->setIcon(QIcon(Tpath::img("shortcuts")));
+  //     navList->item(6)->setTextAlignment(Qt::AlignCenter);
+      addItem(tr("Appearance"), Tpath::img("appearance"));
+  }
+
   defaultBut = buttonBox->addButton(QDialogButtonBox::RestoreDefaults);
     defaultBut->setIcon(style()->standardIcon(QStyle::SP_BrowserReload));
     defaultBut->setStatusTip(tr("Restore default settings for above parameters."));
@@ -79,7 +86,8 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
     cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
 
   connect(okBut, &QPushButton::clicked, this, &TsettingsDialog::accept);
-  connect(navList, &QListWidget::currentRowChanged, this, &TsettingsDialog::changeSettingsWidget);
+  if (mode == e_settings)
+    connect(navList, &QListWidget::currentRowChanged, this, &TsettingsDialog::changeSettingsWidget);
   connect(this, &TsettingsDialog::accepted, this, &TsettingsDialog::saveSettings);
   connect(defaultBut, &QPushButton::clicked, this, &TsettingsDialog::restoreDefaults);
   connect(m_helpButt, &QPushButton::clicked, this, &TsettingsDialog::helpSlot);
@@ -94,16 +102,31 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
     changeSettingsWidget(3);
     changeSettingsWidget(2); // instrument settings makes window big enough, to avoid re-sizing
     setHighestPage(m_guitarSett);
-//     setWidesttPage(m_guitarSett);
-    QTimer::singleShot(150, this, [this]{ hackSize(); } ); //HACK: adjust dialog to biggest page
+    QTimer::singleShot(150, [=] { hackSize(); } ); //HACK: adjust dialog to biggest page
 #endif
 		changeSettingsWidget(0);
 	} else {
+#if defined (Q_OS_ANDROID)
+    addItem(qTR("QPlatformTheme", "Apply"), Tpath::img("check"));
+    addItem(qTR("QPlatformTheme", "Help"), Tpath::img("help"));
+    addItem(qTR("QPlatformTheme", "Cancel"), QLatin1String(":/mobile/exit.png"));
+    connect(navList, &QListWidget::currentRowChanged, [=] {
+          if (navList->currentRow() == 0)
+            accept();
+          else if (navList->currentRow() == 1)
+            helpSlot();
+          else
+            reject();
+    });
+    menuButton->hide();
+#else
 		navList->hide();
 		defaultBut->hide();
+#endif
 		changeSettingsWidget(4);
 	}
 }
+
 
 #if !defined (Q_OS_ANDROID)
 void TsettingsDialog::cancelSlot() {
@@ -131,14 +154,14 @@ void TsettingsDialog::saveSettings() {
   if (m_sndInSett)
 				m_sndInSett->saveSettings();
 	if (m_7thNoteToDefaults) {
-		if ((TmiscTrans::note7txt().toLower() == "b") != (Tcore::gl()->S->seventhIs_B)) {
+		if ((TmiscTrans::note7txt().toLower() == QLatin1String("b")) != (Tcore::gl()->S->seventhIs_B)) {
 			/** NOTE As long as TscoreSettings is created at first and always exist 
 			 * only adjustment of global note names is required. 
 			 * How: When user opens Name settings and changes 7-th note TscoreSettings changes automatically 
 			 * This condition is called in opposite situation: 
 			 * TscoreSettings wants defaults and already has been adjusted. 
 			 * Theoretically - if TscoreSettings would not exist it is more difficult to restore its defaults here. */
-			if (TmiscTrans::note7txt().toLower() == "b")
+			if (TmiscTrans::note7txt().toLower() == QLatin1String("b"))
 					Tcore::gl()->S->seventhIs_B = true;
 			else
 					Tcore::gl()->S->seventhIs_B = false;
@@ -294,17 +317,17 @@ void TsettingsDialog::createAudioPage() {
 
 
 void TsettingsDialog::helpSlot() {
-  QString docHash = "settings";
+  QString docHash = QStringLiteral("settings");
   if (stackLayout->currentWidget() == m_audioSettingsPage)
-    docHash = "input-settings";
+    docHash = QStringLiteral("input-settings");
   else if (stackLayout->currentWidget() == m_scoreSett)
-    docHash = "score-settings";
+    docHash = QStringLiteral("score-settings");
   else if (stackLayout->currentWidget() == m_guitarSett)
-    docHash = "instrument-settings";
+    docHash = QStringLiteral("instrument-settings");
   else if (stackLayout->currentWidget() == m_laySett)
-    docHash = "appearance-settings";
+    docHash = QStringLiteral("appearance-settings");
   else if (stackLayout->currentWidget() == m_examSett)
-    docHash = "exam-settings";
+    docHash = ("exam-settings");
   openHelpLink(docHash);
 }
 
