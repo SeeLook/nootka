@@ -1210,92 +1210,92 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TexamHelp</name>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="24"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="34"/>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
         <translation>Když vám cvičení půjde dobře, Nootka vám navrhne, abyste začali se zkouškou.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="29"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="39"/>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
         <translation>Zkoušky lze ukládat do souborů a pokračovat v nich později. Nadto je možné soubory se zkouškami otevřít a nechat podrobit rozboru.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="30"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="40"/>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
         <translation>Zkouška bude hotova, když odpovíte na všechny otázky.&lt;br&gt;Jejich počet závisí naúrovni zkoušky.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="31"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="41"/>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
         <translation>Pokud se spletete, bude taková otázka položena ještě dvakrát a celkový počet otázek bude navýšen. To jsou pokutové otázky.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="32"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="41"/>
         <source>When answer is &apos;not bad&apos;, you get one penalty more.</source>
         <translation>Když odpověď není zas tak špatná, dostanete jednu pokutovou navíc.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="46"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="55"/>
         <source>How does an exercise or an exam work?</source>
         <translation>Jak cvičení nebo zkouška pracuje?</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="48"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="57"/>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
         <translation> Stručně: Nootka vám dá otázku a vy odpovíte...</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="53"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="67"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Otázky jsou označeny touto barvou a znakem &quot;?&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="54"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="68"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
         <translation>Pro podání odpovědi ji vyberte na &lt;span style=&quot;%1&quot;&gt;prvku Nootky zdůrazněném touto barvou.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="61"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
         <source>Exercises</source>
         <translation>Cvičení</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="63"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="80"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
         <translation>Pokud jste během cvičení udělal chybu, Nootka vám může ukázat správnou odpověď. Abyste ji uviděl:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="65"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="86"/>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
         <translation>Kdykoli můžete klepnout na tlačítko %1 pro pozastavení nebo zastavení cvičení a zobrazení svých výsledků.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="68"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="89"/>
         <source>Exams</source>
         <translation>Zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="70"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="91"/>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
         <translation>Pokud jste se během zkoušky zmýlili a chcete otázku zopakovat:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="75"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="100"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="77"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="102"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
         <translation>Jednoduše klepněte na tlačítko pro toto nastavení a upravte cvičení nebo zkoušku podle svých současných potřeb.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="80"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="106"/>
         <source>GOOD LUCK!</source>
         <translation>Hodně štěstí!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="57"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="70"/>
         <source>To check the answer confirm it:</source>
         <translation>Pro prověření odpovědi ji potvrďte:</translation>
     </message>
@@ -1326,8 +1326,8 @@ není platným souborem zkoušky!</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.h" line="57"/>
-        <source>click %1</source>
-        <comment>click &lt;icon image&gt;</comment>
+        <source>tap %1</source>
+        <comment>tap &lt;icon image follows&gt;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>

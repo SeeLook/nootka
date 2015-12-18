@@ -11,9 +11,6 @@
 ================              TODO LIST               ======================
 ============================================================================
 Translations:
- - "You also can help with making Nootka better." &
-   "It requires little bit English, so if you can read a text below there will be something you may get involved."
-   context changed from QObject to TsupportNootka
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
 
 ANDROID:
@@ -21,7 +18,7 @@ Knowing issues:
     - crash when audio out was disables and enabled again in settings
     - resetting options closes Nootka but does not launch it again
     - sometimes note cursor remains visible on the score - looks messy
-    - after finished exercise or exam pitch detection is working even if it was stopped and not used in the exam
+    - played sound is sometimes distorted (when note starts playing)
     - no level/exam icon in file manager, not all file managers support opening Nootka files
     
 - when no guitar preview - staff lines are too big

@@ -1208,92 +1208,92 @@
 <context>
     <name>TexamHelp</name>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="24"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="34"/>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
         <translation>Если упражнения выполняются без ошибок, Нутка будет предлагать начать экзамен.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="29"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="39"/>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
         <translation>Экзамен может быть сохранён в файл, чтобы возобновить его сдачу позднее. Кроме того, файл экзамена может быть открыт для анализа.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="30"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="40"/>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
         <translation>Экзамен завершится, когда Вы ответите на все вопросы.&lt;br&gt;Количество вопросов зависит от сложности экзамена.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="31"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="41"/>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
         <translation>Если вы сделаете ошибку, вопрос будет спрошен дважды и общее количество вопросов увеличится. Это штрафные вопросы.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="32"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="41"/>
         <source>When answer is &apos;not bad&apos;, you get one penalty more.</source>
         <translation>Когда ответ &quot;неплох, но..&quot;, вы получите еще штрафной вопрос.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="46"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="55"/>
         <source>How does an exercise or an exam work?</source>
         <translation>Как работают упражнения и экзамены?</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="48"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="57"/>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
         <translation>Вкратце: Нутка задаёт вопрос, и Вы на него отвечаете...</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="53"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="67"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Вопросы отмечены этим цветом и знаком &quot;?&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="54"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="68"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
         <translation>Чтобы дать ответ, выберите его на &lt;span style=&quot;%1&quot;&gt;элементе Нутки, отмеченным этим цветом.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="61"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="78"/>
         <source>Exercises</source>
         <translation>Упражнения</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="63"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="80"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
         <translation>Если Вы сделали ошибку во время упражнения, то Нутка может показать правильный ответ. Для этого:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="65"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="86"/>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
         <translation>В любое время вы можете нажать %1 чтобы приостановить или закончить упражнение и увидеть свои результаты.</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="68"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="89"/>
         <source>Exams</source>
         <translation>Экзамены</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="70"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="91"/>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
         <translation>Если вы сделали ошибку во время экзамена и хотите повторить вопрос:</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="75"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="100"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="77"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="102"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
         <translation>Просто щелкните эту кнопку настроек, чтобы подогнать упражнение или экзамен под ваши потребности. </translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="80"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="106"/>
         <source>GOOD LUCK!</source>
         <translation>УДАЧИ!</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/help/texamhelp.cpp" line="57"/>
+        <location filename="../src/libs/misc/help/texamhelp.cpp" line="70"/>
         <source>To check the answer confirm it:</source>
         <translation>Чтобы проверить ответ - подтвердите его:</translation>
     </message>
@@ -1324,8 +1324,8 @@
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.h" line="57"/>
-        <source>click %1</source>
-        <comment>click &lt;icon image&gt;</comment>
+        <source>tap %1</source>
+        <comment>tap &lt;icon image follows&gt;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
