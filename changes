@@ -1,5 +1,6 @@
 1.2.3
     BUGS FIXES
+     - During exams - don't run pitch detection after settings dialog was closed
      - Fixed layout of exam results when note name is visible
      - Additional staff lines are hiding properly
      - Fixed conditions when 'correct' tool button is displayed
