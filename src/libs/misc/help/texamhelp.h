@@ -49,19 +49,19 @@ public:
 			/** ask next question automatically */
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
 	
-  static QString orRightButtTxt() { return tr("or right mouse button"); } // or right mouse button
+  static QString orRightButtTxt() { return tr("or right mouse button"); } /**< or right mouse button */
   static QString clickSomeButtonTxt(const QString& imgHtmlTag) {
     return tr("click %1 button").arg(imgHtmlTag);
-  } // click <button-icon> button
-  static QString clickIconTxt(const QString& imgHtmlTag) {
-    return tr("click %1", "click <icon image>").arg(imgHtmlTag); // click <icon image>
+  } /**< click /button-icon/ button */
+  static QString tapIconTxt(const QString& imgHtmlTag) {
+    return tr("tap %1", "tap <icon image follows>").arg(imgHtmlTag); /** tap (icon image) */
   }
 
-  static QString toGetQuestTxt() { return tr("To get question"); } // To get question
-  static QString pressSpaceKey() { return tr("press <b>space</b> key"); } // press <b>space</b> key
-  static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } // press <b>Enter</b> key
-  static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); } // or  press <b>Enter</b> key
-  static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); } // or <b>Backspace</b> key
+  static QString toGetQuestTxt() { return tr("To get question"); } /**< To get question */
+  static QString pressSpaceKey() { return tr("press <b>space</b> key"); } /**< press space key */
+  static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } /**< press Enter key */
+  static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); } /**< or  press Enter key */
+  static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); } /**< or Backspace key */
   static QString toStopExamTxt(const QString& imgHtmlTag) {
     return tr("Click %1 button to stop.").arg(imgHtmlTag);
   } /** Click %1 button to stop. */

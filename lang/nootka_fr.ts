@@ -1097,13 +1097,13 @@
         <translation>Cliquer sur le bouton %1 pour arrêter.</translation>
     </message>
     <message>
-        <source>click %1</source>
-        <comment>click &lt;icon image&gt;</comment>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Click %1 to stop.</source>
-        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
+        <source>tap %1</source>
+        <comment>tap &lt;icon image follows&gt;</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>

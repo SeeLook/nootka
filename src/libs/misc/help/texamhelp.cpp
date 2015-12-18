@@ -19,6 +19,16 @@
 #include "texamhelp.h"
 
 
+// Width of exam screenshot
+#if defined (Q_OS_ANDROID)
+    #define SCR_FACTOR (0.9)
+#else
+    #define SCR_FACTOR (0.6)
+#endif
+
+
+QString br = QStringLiteral("<br>");
+QString br_ = QStringLiteral("<br>- ");
 
 QString TexamHelp::exerciseFeaturesText() {
 	return tr("When your exercising will go well Nootka will suggest you to start an exam.");
@@ -26,10 +36,9 @@ QString TexamHelp::exerciseFeaturesText() {
 
 
 QString TexamHelp::examFeaturesText() {
-	return tr("Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.") + "<br>" +
-    tr("Exam will be completed when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + "<br>" +
-    tr("If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.") + "<br>" +
-    tr("When answer is 'not bad', you get one penalty more.");
+	return tr("Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.") + br +
+    tr("Exam will be completed when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + br +
+    tr("If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.") + br + tr("When answer is 'not bad', you get one penalty more.");
 }
 
 
@@ -42,45 +51,62 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
   const int iconsSize = fontMetrics().boundingRect("A").height() * 2;
   const int bigIconSize = iconsSize * 2;
   helpText()->setHtml(
-    QString("<center><h2>%1").arg(pix("help", bigIconSize)) + "<br>" +
-    tr("How does an exercise or an exam work?") + "</h2><br>" +
-		pix("practice", bigIconSize) + "&nbsp;&nbsp;&nbsp;&nbsp;" + pix("exam", bigIconSize) + "<br>" +
-		tr(" Briefly: Nootka give you a question and you give an answer...") + "<br><br><br><br>" +
-    toGetQuestTxt() + ":<br>- " + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + "<br>- " +
-    pressSpaceKey() + "<br>- " + orRightButtTxt() + "<br>" +
-		
-    QString("<br><br><span style=\"%1\">").arg(questColorTxt) +
-    tr("Questions are marked with this color and \"?\" mark.") + "</span><br>" + 
+    QString("<center><h2>%1").arg(pix("help", bigIconSize)) + br +
+    tr("How does an exercise or an exam work?") + QLatin1String("</h2>") + br +
+		pix("practice", bigIconSize) + "&nbsp;&nbsp;&nbsp;&nbsp;" + pix("exam", bigIconSize) + br +
+		tr(" Briefly: Nootka give you a question and you give an answer...") + br + br + br + br +
+    toGetQuestTxt() + QLatin1String(":") + br_
+#if defined (Q_OS_ANDROID)
+    + tapIconTxt(pix("nextQuest", iconsSize))
+#else
+    + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + br_ +
+    pressSpaceKey() + br_ + orRightButtTxt()
+#endif
+
+    + br + br + br + QString("<span style=\"%1\">").arg(questColorTxt) +
+    tr("Questions are marked with this color and \"?\" mark.") + QLatin1String("</span>") +br +
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>")
-      .arg(answColorTxt) +
-    QString("<br><br>%1<br><br>").arg(pix("scr", parent->width() * 0.6)) +
-    tr("To check the answer confirm it:") + "<br>- " + 
-    clickSomeButtonTxt(pix("check", iconsSize)) + "<br>- " +
-    pressEnterKey() + "<br>- " + orRightButtTxt() + "<br><br>" +
-        
-    "<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("practice", bigIconSize) + "<br>" + tr("Exercises") +
-    "</td><td align=\"center\">" +
-    tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + 
-    "<br>- " + clickSomeButtonTxt(pix("correct", iconsSize)) + "<br>- " + orPressEnterKey() + "<br><br>" +
-    tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize)) +
-    "<br>" + exerciseFeaturesText() +	"</td></tr></table><br><br>" +
+      .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", parent->width() * SCR_FACTOR)) + br + br +
+    tr("To check the answer confirm it:") + br_
+#if defined (Q_OS_ANDROID)
+    + tapIconTxt(pix("check", iconsSize))
+#else
+    + clickSomeButtonTxt(pix("check", iconsSize)) + br_ +
+    pressEnterKey() + br_ + orRightButtTxt() + br + br
+#endif
 
-    "<hr><table><tr><td  valign=\"middle\" align=\"center\">" + pix("exam", bigIconSize) + "<br>" + tr("Exams") +
-    "</td><td align=\"center\">" +
-    tr("If you made a mistake during an exam and you want to repeat the question:") + "<br>- " + 
-    clickSomeButtonTxt(pix("prevQuest", iconsSize)) + "<br>- " + orPressBackSpace() + "<br><br>" +
-    toStopExamTxt(pix("stopExam", iconsSize)) + "<br>" + 
-    examFeaturesText() + "</td></tr></table></center><center>" +
+    + QLatin1String("<hr><table><tr><td valign=\"middle\" align=\"center\">") + pix("practice", bigIconSize) + br + tr("Exercises")
+    + QLatin1String("</td><td align=\"center\">") +
+    tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + br_
+#if defined (Q_OS_ANDROID)
+    + tapIconTxt(pix("correct", iconsSize))
+#else
+    + clickSomeButtonTxt(pix("correct", iconsSize)) + br_ + orPressEnterKey()
+#endif
+    + br + br + tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize)) +
+    br + exerciseFeaturesText() +	QLatin1String("</td></tr></table>") + br + br +
 
-    "<hr><table><tr><td valign=\"middle\" align=\"center\">" + pix("exam-settings", bigIconSize) + "<br>" + tr("Settings") +
-    "</td><td align=\"center\"><br><br>" +
-    tr("Just click this settings button to adjust an exercise or an exam to your current needs.") +	"</td></tr></table><br><br>" +
+    QLatin1String("<hr><table><tr><td  valign=\"middle\" align=\"center\">") + pix("exam", bigIconSize) + br + tr("Exams")
+    + QLatin1String("</td><td align=\"center\">") +
+    tr("If you made a mistake during an exam and you want to repeat the question:") + br_
+#if defined (Q_OS_ANDROID)
+    + tapIconTxt(pix("prevQuest", iconsSize))
+#else
+    + clickSomeButtonTxt(pix("prevQuest", iconsSize)) + br_ + orPressBackSpace()
+#endif
+    + br + br + toStopExamTxt(pix("stopExam", iconsSize)) + br +
+    examFeaturesText() + QLatin1String("</td></tr></table></center><center>") +
 
-    "<hr><br><br><span style=\"font-size: xx-large;\"><b>" +
+    QLatin1String("<hr><table><tr><td valign=\"middle\" align=\"center\">") + pix("exam-settings", bigIconSize) + br + tr("Settings") +
+    QLatin1String("</td><td align=\"center\">") + br + br +
+    tr("Just click this settings button to adjust an exercise or an exam to your current needs.")
+    +	QLatin1String("</td></tr></table>") + br + br
+
+    + QLatin1String("<hr><br><br><span style=\"font-size: xx-large;\"><b>") +
     tr("GOOD LUCK!") + "</b></span>" +
-    onlineDocP("exercises") +
-    "<br></center>");
-  
+    onlineDocP("exercises") + br
+    + QLatin1String("</center>"));
+
   helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);
 	showCheckBox(showHelp);
 }
