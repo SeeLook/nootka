@@ -312,30 +312,7 @@ void MainWindow::createSettingsDialog() {
 			sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);
 			score->acceptSettings();
-// 			noteName->setAmbitus(gl->loString(),
-// 															Tnote(gl->hiString().chromatic() + gl->GfretsNumber));
 			updateSize(innerWidget->size());
-// 			if (score->getNote(0).note != 0) {
-// 				TnotesList nList;
-// 				nList = score->getNote(0).getTheSameNotes(gl->S->doubleAccidentalsEnabled);
-// 				if (nList[0].chromatic() >= gl->loString().chromatic() && 
-// 					nList[0].chromatic() <= gl->hiString().chromatic() + gl->GfretsNumber ) {
-// 						if (gl->S->showEnharmNotes) { // refresh note name and score
-// // 								noteName->setNoteName(nList);
-// 								if (nList.size() > 1)
-// 										score->setNote(1, nList[1]);
-// 								else {
-// 										score->clearNote(1);
-// 										score->clearNote(2);
-// 								}
-// 								if (nList.size() > 2)
-// 										score->setNote(2, nList[2]);
-// 								else
-// 										score->clearNote(2);
-// 						} else
-// 								noteName->setNoteName(nList[0]);
-// 				}
-// 			}
 			if (gl->L->guitarEnabled && gl->instrument != e_noInstrument)
 					guitar->acceptSettings(); //refresh guitar
 			bar->setBarIconStyle(gl->L->iconTextOnToolBar, bar->iconSize().width());
@@ -348,7 +325,8 @@ void MainWindow::createSettingsDialog() {
       resetConfig = true;
       close();
   } else { // settings not accepted
-			sound->restoreAfterConf();
+      if (!executor) // skip this when settings were called during exam
+        sound->restoreAfterConf();
 	}
 }
 
