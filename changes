@@ -7,7 +7,7 @@
      - audio stack ported to Qt Audio for mobile devices
     Under the hood
      - code fully depends on c++11 capable compiler
-     
+
 1.2.3
     BUGS FIXES
      - During exams - don't run pitch detection after settings dialog was closed
