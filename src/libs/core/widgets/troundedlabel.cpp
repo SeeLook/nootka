@@ -24,8 +24,8 @@ TroundedLabel::TroundedLabel(QWidget* parent) :
 	QLabel(parent)
 {
 	initBgColor();
-  setFrameShape(StyledPanel);
-  setFrameShadow(Sunken);
+//   setFrameShape(StyledPanel);
+//   setFrameShadow(Sunken);
 }
 
 
@@ -33,8 +33,8 @@ TroundedLabel::TroundedLabel(QString txt, QWidget* parent) :
 	QLabel(txt, parent)
 {
 	initBgColor();
-  setFrameShape(StyledPanel);
-  setFrameShadow(Sunken);
+//   setFrameShape(StyledPanel);
+//   setFrameShadow(Sunken);
 }
 
 
