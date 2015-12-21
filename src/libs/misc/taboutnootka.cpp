@@ -73,10 +73,10 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     setLayout(mainLay);
 
     m_navList->addItem(tr("About"));
-    m_navList->item(0)->setIcon(QIcon(Tcore::gl()->path+"picts/nootka.png"));
+    m_navList->item(0)->setIcon(QIcon(Tcore::gl()->path+"picts/nootka-frame.png"));
     m_navList->item(0)->setTextAlignment(Qt::AlignCenter);
     m_navList->addItem(tr("Help"));
-    m_navList->item(1)->setIcon(QIcon(Tcore::gl()->path+"picts/help.png"));
+    m_navList->item(1)->setIcon(QIcon(Tcore::gl()->path+"picts/help-frame.png"));
     m_navList->item(1)->setTextAlignment(Qt::AlignCenter);
     m_navList->addItem(authorsTxt());
     m_navList->item(2)->setIcon(QIcon(Tcore::gl()->path+"picts/author.png"));
