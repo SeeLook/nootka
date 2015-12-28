@@ -194,7 +194,13 @@ public:
   void setTidyKey(bool tidy);
   bool isTidyKey() { return m_tidyKey; } /** Is positioning adjusted to accidentals number in key sign. */
 
-	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
+      /** When @p m_autoAddedNoteId exists (staff generated temporary note)
+       * this method adds it to staff permanently. Emits signal @p noteIsAdding()
+       * Stops @p m_addTimer ass well.
+       * If not exists - does nothing. */
+  void applyAutoAddedNote();
+
+	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {};
 	virtual QRectF boundingRect() const;
 
 signals:
@@ -229,7 +235,6 @@ signals:
 				* Sending parameters are the staff number and difference of Y position. */
 	void loNoteChanged(int,qreal);
 	void hiNoteChanged(int,qreal);
-
 
 public slots:
 	void onClefChanged(Tclef clef); /** It is connected with clef, but also refresh m_offset appropriate to current clef. */
