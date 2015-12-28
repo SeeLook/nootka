@@ -652,6 +652,7 @@ void TmainScore::whenNoteWasChanged(int index, Tnote note) {
 //####################################################################################################
 
 void TmainScore::showNameMenu(TscoreNote* sn) {
+  sn->staff()->applyAutoAddedNote();
 	m_nameMenu->setNoteName(*sn->note());
 	m_currentNameSegment = sn;
 	changeCurrentIndex(sn->staff()->number() * staff()->maxNoteCount() + sn->index());

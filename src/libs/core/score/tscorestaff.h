@@ -87,7 +87,7 @@ public:
 	void setNote(int index, const Tnote& note);
 	void setNoteDisabled(int index, bool isDisabled);
 
-	int count() { return m_scoreNotes.size(); } /** Number of notes on the score */
+	int count() { return m_scoreNotes.size(); } /**< Number of notes on the score */
 
 			/** adds note at the end of the staff
 				* Empty Tnote creates new instance of TscoreNote item. */
@@ -101,8 +101,8 @@ public:
 			/** Inserts note in given position (index).
 				* When @p index is out of scope adds it at the end. */
 	void insertNote(int index, const Tnote& note, bool disabled = false);
-	void insertNote(int index, bool disabled = false); /** Insert empty note */
-	void removeNote(int index); /** Deletes given note from the staff */
+	void insertNote(int index, bool disabled = false); /**< Insert empty note */
+	void removeNote(int index); /**< Deletes given note from the staff */
 
 			/** Removes all note segments from @p from to @p to
 				* and puts those TscoreNote pointers to given @p nList.
@@ -122,16 +122,16 @@ public:
 			/** Sets scordature according to given tune.
 				* To delete it just call this with Ttune::standardTune.*/
 	void setScordature(Ttune& tune);
-	bool hasScordature() { return (bool)m_scordature; } /** @p TRUE when staff has got scordature. */
+	bool hasScordature() { return (bool)m_scordature; } /**< @p TRUE when staff has got scordature. */
 	void removeScordatute();
 
-	qreal upperLinePos() const { return m_upperLinePos; } /** Y position of upper line of a staff. */
-	qreal lowerLinePos() const { return m_lowerStaffPos; } /** Y position of lower line of a lower staff. */
+	qreal upperLinePos() const { return m_upperLinePos; } /**< Y position of upper line of a staff. */
+	qreal lowerLinePos() const { return m_lowerStaffPos; } /**< Y position of lower line of a lower staff. */
 	qreal height() const { return m_height; } // staff height
 	qreal width() const { return m_width; } // staff width
 
-	qreal loNotePos() { return m_loNotePos; } /** Y position of lowest note on the staff */
-	qreal hiNotePos() { return m_hiNotePos; } /** Y position of highest note on the staff */
+	qreal loNotePos() { return m_loNotePos; } /**< Y position of lowest note on the staff */
+	qreal hiNotePos() { return m_hiNotePos; } /**< Y position of highest note on the staff */
 
 			/** Minimal height of the staff to display all its notes. */
 	qreal minHight() { return m_loNotePos - m_hiNotePos; }
@@ -158,9 +158,9 @@ public:
 			/** Returns number of accidental in key signature, fe.: F# - 0, C# - 1 or Bb - 0, Eb - 1 */
 	int accidNrInKey(int noteNr, char key);
 
-	int noteToPos(const Tnote& note); /** Return Y position of given note. */
-	int fixNotePos(int pianoPos); /** Checks is note position on grand staff and adds 2 to it. */
-	qreal notesOffset(); /** X Position of first TscoreNote on the staff (depends on clef, key and scordature) */
+	int noteToPos(const Tnote& note); /**< Return Y position of given note. */
+	int fixNotePos(int pianoPos); /**< Checks is note position on grand staff and adds 2 to it. */
+	qreal notesOffset(); /**< X Position of first TscoreNote on the staff (depends on clef, key and scordature) */
 
 			/** Informs a staff about QGraphicsView width displaying this staff.
 				* With this value the staff determines maximal lines width and maximal notes count.
@@ -192,9 +192,15 @@ public:
        * Calling this invokes notes replacing when @p tidy value really changes,
        * which may be expensive. */
   void setTidyKey(bool tidy);
-  bool isTidyKey() { return m_tidyKey; } /** Is positioning adjusted to accidentals number in key sign. */
+  bool isTidyKey() { return m_tidyKey; } /**< Is positioning adjusted to accidentals number in key sign. */
 
-	virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {};
+      /** When @p m_autoAddedNoteId exists (staff generated temporary note)
+       * this method adds it to staff permanently. Emits signal @p noteIsAdding()
+       * Stops @p m_addTimer ass well.
+       * If not exists - does nothing. */
+  void applyAutoAddedNote();
+
+	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {};
 	virtual QRectF boundingRect() const;
 
 signals:
@@ -223,7 +229,7 @@ signals:
 				* Signal is emitted when note still exists. */
 	void noteIsRemoving(int, int);
 
-	void noteIsAdding(int, int); /** Emitting when note is added/inserted to a staff */
+	void noteIsAdding(int, int); /**< Emitting when note is added/inserted to a staff */
 
 			/** Signals informing about changing note range on the staff.
 				* Sending parameters are the staff number and difference of Y position. */
@@ -232,8 +238,8 @@ signals:
 
 
 public slots:
-	void onClefChanged(Tclef clef); /** It is connected with clef, but also refresh m_offset appropriate to current clef. */
-	void noteChangedAccid(int accid); /** TscoreNote wheel event - changes accidental */
+	void onClefChanged(Tclef clef); /**< It is connected with clef, but also refresh m_offset appropriate to current clef. */
+	void noteChangedAccid(int accid); /**< TscoreNote wheel event - changes accidental */
 
 protected:
 			/** Creates staff lines at first call, sets lines width, creates lower staff lines as well.
@@ -248,9 +254,9 @@ protected:
 			/** Calculates current width of a staff depends on is key sign. enabled. */
 	void updateWidth();
 
-	void updateIndexes(); /** Iterates through all notes, sets theirs indexes. It must to be invoked after inserting or removing a note. */
-	void updateLines(); /** Updates staff lines  */
-	void updateNotesPos(int startId = 0); /** Replaces (performs pos()) all TscoreNote items. Starts from @p startId */
+	void updateIndexes(); /**< Iterates through all notes, sets theirs indexes. It must to be invoked after inserting or removing a note. */
+	void updateLines(); /**< Updates staff lines  */
+	void updateNotesPos(int startId = 0); /**< Replaces (performs pos()) all TscoreNote items. Starts from @p startId */
 
 			/** Protected method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
 				* It doesn't perform any checks */
@@ -266,7 +272,7 @@ protected slots:
 	void fromKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos);
 	void accidAnimFinished();
 	void addNoteTimeOut();
-  void noteDestroingSlot(QObject* n); /** Every note segment call this before it will be deleted */
+  void noteDestroingSlot(QObject* n); /**< Every note segment call this before it will be deleted */
 
 private:
 	int 															 m_staffNr;
@@ -277,7 +283,7 @@ private:
 	QList<TscoreNote*>       					 m_scoreNotes;
 	qreal                    					 m_upperLinePos, m_lowerStaffPos;
 	qreal                    					 m_height, m_width;
-	qreal															 m_viewWidth; // width of QGraphicsView in scene coordinates.
+	qreal															 m_viewWidth; /**< width of QGraphicsView in scene coordinates. */
 	TnoteOffset              					 m_offset;
 	bool 										 					 m_isPianoStaff;
 	TscoreScordature				 					*m_scordature;
@@ -287,17 +293,17 @@ private:
 	bool 										 					 m_selectableNotes, m_extraAccids;
 	int																 m_maxNotesCount;
 	qreal															 m_loNotePos, m_hiNotePos;
-	bool															 m_lockRangeCheck; // to prevent the checking during clef switching
+	bool															 m_lockRangeCheck; /**< to prevent the checking during clef switching */
 	QPointer<QTimer>									 m_addTimer;
-	int																 m_autoAddedNoteId; /** Index of automatically added last note. */
-	QPointer<TscoreNote>               m_noteWithAccidAnimed; /** Pointer to note segment currently invoked to key animation */
+	int																 m_autoAddedNoteId; /**< Index of automatically added last note. */
+	QPointer<TscoreNote>               m_noteWithAccidAnimed; /**< Pointer to note segment currently invoked to key animation */
 
 private:
 	void createBrace();
-	int getMaxNotesNr(qreal maxWidth); /** Calculates notes number from given width */
-	void findLowestNote(); /** Checks all Y positions of staff notes ti find lowest one */
-	void findHighestNote(); /** Checks all Y positions of staff notes ti find highest one */
-	void connectNote(TscoreNote *sn); /** Performs all TscoreNote connections to this staff */
+	int getMaxNotesNr(qreal maxWidth); /**< Calculates notes number from given width */
+	void findLowestNote(); /**< Checks all Y positions of staff notes ti find lowest one */
+	void findHighestNote(); /**< Checks all Y positions of staff notes ti find highest one */
+	void connectNote(TscoreNote *sn); /**< Performs all TscoreNote connections to this staff */
 
 };
 
