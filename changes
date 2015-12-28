@@ -1,3 +1,7 @@
+1.2.4
+    BUGS FIXES
+     - Fixed crash when note name tip was invoked from temporary, auto added note segment
+
 1.2.3
     BUGS FIXES
      - During exams - don't run pitch detection after settings dialog was closed
