@@ -4,17 +4,17 @@
     begin                : Sat Dec 11 2004
     copyright            : (C) 2004 by Philip McLeod
     email                : pmcleod@cs.otago.ac.nz
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-   
+
    Please read LICENSE.txt for details.   
-   
+
    Adjusted to Nootka by Tomasz Bojczuk
 	  tomaszbojczuk@gmail.com
-	  Copyright (C) 2011
+	  Copyright (C) 2011-2016
  ***************************************************************************/
 
 #ifndef MYTRANSFORMS_H
@@ -30,32 +30,21 @@ class Filter;
 
 class MyTransforms
 {
-  int n, k, size; //n = size of data, k = size of padding for autocorrelation, size = n+k
-  fftwf_plan planDataTime2FFT, planDataFFT2Time;
-  fftwf_plan planAutocorrTime2FFT, planAutocorrFFT2Time;
-  float *dataTemp;
-  float *dataTime, *dataFFT;
-  float *autocorrTime, *autocorrFFT;
-  //float *storeFFT; //stores a copy of the fft done during the autocorr calculation
-  float *hanningCoeff, hanningScalar;
-  float *harmonicsAmpLeft, *harmonicsPhaseLeft;
-  float *harmonicsAmpCenter, *harmonicsPhaseCenter;
-  float *harmonicsAmpRight, *harmonicsPhaseRight;
-  bool beenInit;
-  double freqPerBin;
-  double rate;
-  int numHarmonics;
-  fast_smooth *fastSmooth;
-  TartiniParams *m_params;
-  
+
  public:
   bool equalLoudness;
-  
+
   MyTransforms();
   virtual ~MyTransforms();
 
-  void init(TartiniParams* tParams, int n_, int k_, double rate_, bool equalLoudness_=false, int numHarmonics_=40); 
-//   void init(TartiniParam *tParams); 
+    /**
+    * Initalises the parameters of a class instance. This must be called before use
+    * @p windowSize The size of the data windows to be processed
+    * @p padding The number of outputs wanted (autocorr size = windowSize + padding).
+    * Set padding = 0, to get default windowSize / 2
+    * @p rate The sampling rate of the incoming signal to process
+    */
+  void init(TartiniParams* tParams, int windowSize, int padding, double rate, int numHarmonics_ = 40);
   void uninit();
   double autocorr(float *input, float *output);
   double autoLogCorr(float *input, float *output);
@@ -70,8 +59,25 @@ class MyTransforms
   float get_fine_clarity_measure(double period);
   double get_max_note_change(float *input, double period);
   void applyHanningWindow(float *d);
-  static double calcFreqCentroid(float *buffer, int len);
-  static double calcFreqCentroidFromLogMagnitudes(float *buffer, int len);
+
+private:
+  int             m_windowSize; /**< size of audio data window (2048 by default) */
+  int             m_corrPadd; /**< padding for autocorrelation */
+  int             m_size; /**< @p m_windowSize + @p m_corrPadd */
+  fftwf_plan      planDataTime2FFT, planDataFFT2Time;
+  fftwf_plan      planAutocorrTime2FFT, planAutocorrFFT2Time;
+  float          *dataTemp;
+  float          *dataTime, *dataFFT;
+  float          *autocorrTime, *autocorrFFT;
+  float          *hanningCoeff, hanningScalar;
+  float          *harmonicsAmpLeft, *harmonicsPhaseLeft;
+  float          *harmonicsAmpCenter, *harmonicsPhaseCenter;
+  float          *harmonicsAmpRight, *harmonicsPhaseRight;
+  bool            m_beenInit;
+  double          m_rate;
+  int             m_numHarmonics;
+  fast_smooth    *fastSmooth;
+  TartiniParams  *m_params;
 };
-  
+
 #endif

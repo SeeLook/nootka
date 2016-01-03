@@ -1,20 +1,20 @@
 /***************************************************************************
-                          mytransforms.cpp  -  description
-                             -------------------
-    begin                : Sat Dec 11 2004
-    copyright            : (C) 2004 by Philip McLeod
-    email                : pmcleod@cs.otago.ac.nz
- 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-   
-   Please read LICENSE.txt for details.
-      
-   Adjusted to Nootka by Tomasz Bojczuk
-	  tomaszbojczuk@gmail.com
-	  Copyright (C) 2011
+                        mytransforms.cpp  -  description
+                            -------------------
+  begin                : Sat Dec 11 2004
+  copyright            : (C) 2004 by Philip McLeod
+  email                : pmcleod@cs.otago.ac.nz
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  Please read LICENSE.txt for details.
+
+  Adjusted to Nootka by Tomasz Bojczuk
+  tomaszbojczuk@gmail.com
+  Copyright (C) 2011-2016
  ***************************************************************************/
 
 #include "mytransforms.h"
@@ -35,70 +35,64 @@
 
 MyTransforms::MyTransforms()
 {
-  beenInit = false;
+  m_beenInit = false;
 }
-  
+
+
 MyTransforms::~MyTransforms()
 {
   uninit();
 }
 
-/** init() Initalises the parameters of a class instance. This must be called before use
-  @param n_ The size of the data windows to be processed
-  @param k_ The number of outputs wanted (autocorr size = n_ + k_). Set k_ = 0, to get default n_/2
-  @param rate_ The sampling rate of the incoming signal to process
-  @param threshold_ The ratio of highest peak to the first peak allowed to be chosen
-*/
-void MyTransforms::init(TartiniParams* tParams, int n_, int k_, double rate_,bool equalLoudness_, int numHarmonics_)
-// void MyTransforms::init(TartiniParams* tParams)
+
+void MyTransforms::init(TartiniParams* tParams, int windowSize, int padding, double rate, int numHarmonics_)
 {
   m_params = tParams;
   const int myFFTMode = FFTW_ESTIMATE;
   uninit();
-  if(k_ == 0) k_ = (n_ + 1) / 2;
-  
-  n = n_;
-  k = k_;
-  size = n + k;
-  rate = rate_;
-  equalLoudness = equalLoudness_;
-  numHarmonics = numHarmonics_;
+  if(padding == 0)
+      padding = (windowSize + 1) / 2;
 
-  dataTemp = (float*)fftwf_malloc(sizeof(float) * n);
-  dataTime = (float*)fftwf_malloc(sizeof(float) * n);
-  dataFFT  =  (float*)fftwf_malloc(sizeof(float) * n);
-  autocorrTime = (float*)fftwf_malloc(sizeof(float) * size);
-  autocorrFFT  = (float*)fftwf_malloc(sizeof(float) * size);
-  hanningCoeff  = (float*)fftwf_malloc(sizeof(float) * n);
+  m_windowSize = windowSize;
+  m_corrPadd = padding;
+  m_size = m_windowSize + m_corrPadd;
+  m_rate = rate;
+  m_numHarmonics = numHarmonics_;
 
-  planAutocorrTime2FFT = fftwf_plan_r2r_1d(size, autocorrTime, autocorrFFT, FFTW_R2HC, myFFTMode);
-  planAutocorrFFT2Time = fftwf_plan_r2r_1d(size, autocorrFFT, autocorrTime, FFTW_HC2R, myFFTMode);
-  
-  planDataTime2FFT = fftwf_plan_r2r_1d(n, dataTime, dataFFT, FFTW_R2HC, myFFTMode);
-  planDataFFT2Time = fftwf_plan_r2r_1d(n, dataFFT, dataTime, FFTW_HC2R, myFFTMode); //???
+  dataTemp = (float*)fftwf_malloc(sizeof(float) * m_windowSize);
+  dataTime = (float*)fftwf_malloc(sizeof(float) * m_windowSize);
+  dataFFT = (float*)fftwf_malloc(sizeof(float) * m_windowSize);
+  autocorrTime = (float*)fftwf_malloc(sizeof(float) * m_size);
+  autocorrFFT = (float*)fftwf_malloc(sizeof(float) * m_size);
+  hanningCoeff = (float*)fftwf_malloc(sizeof(float) * m_windowSize);
 
-  harmonicsAmpLeft = (float*)fftwf_malloc(numHarmonics * sizeof(float));
-  harmonicsPhaseLeft = (float*)fftwf_malloc(numHarmonics * sizeof(float));
-  harmonicsAmpCenter = (float*)fftwf_malloc(numHarmonics * sizeof(float));
-  harmonicsPhaseCenter = (float*)fftwf_malloc(numHarmonics * sizeof(float));
-  harmonicsAmpRight = (float*)fftwf_malloc(numHarmonics * sizeof(float));
-  harmonicsPhaseRight = (float*)fftwf_malloc(numHarmonics * sizeof(float));
+  planAutocorrTime2FFT = fftwf_plan_r2r_1d(m_size, autocorrTime, autocorrFFT, FFTW_R2HC, myFFTMode);
+  planAutocorrFFT2Time = fftwf_plan_r2r_1d(m_size, autocorrFFT, autocorrTime, FFTW_HC2R, myFFTMode);
   
-  freqPerBin = rate / double(size);
+  planDataTime2FFT = fftwf_plan_r2r_1d(m_windowSize, dataTime, dataFFT, FFTW_R2HC, myFFTMode);
+  planDataFFT2Time = fftwf_plan_r2r_1d(m_windowSize, dataFFT, dataTime, FFTW_HC2R, myFFTMode); //???
+
+  harmonicsAmpLeft = (float*)fftwf_malloc(m_numHarmonics * sizeof(float));
+  harmonicsPhaseLeft = (float*)fftwf_malloc(m_numHarmonics * sizeof(float));
+  harmonicsAmpCenter = (float*)fftwf_malloc(m_numHarmonics * sizeof(float));
+  harmonicsPhaseCenter = (float*)fftwf_malloc(m_numHarmonics * sizeof(float));
+  harmonicsAmpRight = (float*)fftwf_malloc(m_numHarmonics * sizeof(float));
+  harmonicsPhaseRight = (float*)fftwf_malloc(m_numHarmonics * sizeof(float));
+
   hanningScalar = 0;
-  for(int j=0; j<n; j++) {
-    hanningCoeff[j] = (1.0 - cos(double(j+1) / double(n+1) * twoPI)) / 2.0;
+  for(int j=0; j<m_windowSize; j++) {
+    hanningCoeff[j] = (1.0 - cos(double(j+1) / double(m_windowSize+1) * twoPI)) / 2.0;
     hanningScalar += hanningCoeff[j];
   }
-  hanningScalar /= 2; //to normalise the FFT coefficients we divide by the sum of the hanning window / 2
+  hanningScalar /= 2; // to normalize the FFT coefficients we divide by the sum of the hanning window / 2
 
-  fastSmooth = new fast_smooth(n/8);
-  beenInit = true;
+  fastSmooth = new fast_smooth(m_windowSize/8);
+  m_beenInit = true;
 }
 
 void MyTransforms::uninit()
 {
-  if(beenInit) {
+  if(m_beenInit) {
     fftwf_free(harmonicsAmpLeft);
     fftwf_free(harmonicsPhaseLeft);
     fftwf_free(harmonicsAmpCenter);
@@ -115,7 +109,7 @@ void MyTransforms::uninit()
     fftwf_free(dataTime);
     fftwf_free(dataTemp);
     delete fastSmooth;
-    beenInit = false;
+    m_beenInit = false;
   }
 }
 
@@ -129,11 +123,11 @@ void MyTransforms::uninit()
 */
 double MyTransforms::autocorr(float *input, float *output)
 {
-  float fsize = float(size);
+  float fsize = float(m_size);
   
   //pack the data into an array which is zero padded by k elements
-  std::copy(input, input+n, autocorrTime);
-  std::fill(autocorrTime+n, autocorrTime+size, 0.0f);
+  std::copy(input, input+m_windowSize, autocorrTime);
+  std::fill(autocorrTime+m_windowSize, autocorrTime+m_size, 0.0f);
 
   //Do a forward FFT
   fftwf_execute(planAutocorrTime2FFT);
@@ -141,30 +135,30 @@ double MyTransforms::autocorr(float *input, float *output)
   //calculate the (real*real + ima*imag) for each coefficient
   //Note: The numbers are packed in half_complex form (refer fftw)
   //ie. R[0], R[1], R[2], ... R[size/2], I[(size+1)/2+1], ... I[3], I[2], I[1]
-  for(int j=1; j<size/2; j++) {
-    autocorrFFT[j] = sq(autocorrFFT[j]) + sq(autocorrFFT[size-j]);
-    autocorrFFT[size-j] = 0.0f;
+  for(int j=1; j<m_size/2; j++) {
+    autocorrFFT[j] = sq(autocorrFFT[j]) + sq(autocorrFFT[m_size-j]);
+    autocorrFFT[m_size-j] = 0.0f;
   }
   autocorrFFT[0] = sq(autocorrFFT[0]);
-  autocorrFFT[size/2] = sq(autocorrFFT[size/2]);
+  autocorrFFT[m_size/2] = sq(autocorrFFT[m_size/2]);
 
   //Do an inverse FFT
   fftwf_execute(planAutocorrFFT2Time);
 
   //extract the wanted elements out, and normalise
-  for(float *p1=output, *p2=autocorrTime+1; p1<output+k;)
+  for(float *p1=output, *p2=autocorrTime+1; p1<output+m_corrPadd;)
     *p1++ = *p2++ / fsize;
     
-  return double(autocorrTime[0]) / double(size);
+  return double(autocorrTime[0]) / double(m_size);
 }
 
 double MyTransforms::autoLogCorr(float *input, float *output)
 {
-  float fsize = float(size);
+  float fsize = float(m_size);
   
   //pack the data into an array which is zero padded by k elements
-  std::copy(input, input+n, autocorrTime);
-  std::fill(autocorrTime+n, autocorrTime+size, 0.0f);
+  std::copy(input, input+m_windowSize, autocorrTime);
+  std::fill(autocorrTime+m_windowSize, autocorrTime+m_size, 0.0f);
 
   //Do a forward FFT
   fftwf_execute(planAutocorrTime2FFT);
@@ -172,21 +166,21 @@ double MyTransforms::autoLogCorr(float *input, float *output)
   //calculate the (real*real + ima*imag) for each coefficient
   //Note: The numbers are packed in half_complex form (refer fftw)
   //ie. R[0], R[1], R[2], ... R[size/2], I[(size+1)/2+1], ... I[3], I[2], I[1]
-  for(int j=1; j<size/2; j++) {
-    autocorrFFT[j] = (sq(autocorrFFT[j]) + sq(autocorrFFT[size-j]));
-    autocorrFFT[size-j] = 0.0f;
+  for(int j=1; j<m_size/2; j++) {
+    autocorrFFT[j] = (sq(autocorrFFT[j]) + sq(autocorrFFT[m_size-j]));
+    autocorrFFT[m_size-j] = 0.0f;
   }
   autocorrFFT[0] = (sq(autocorrFFT[0]));
-  autocorrFFT[size/2] = (sq(autocorrFFT[size/2]));
+  autocorrFFT[m_size/2] = (sq(autocorrFFT[m_size/2]));
 
   //Do an inverse FFT
   fftwf_execute(planAutocorrFFT2Time);
 
   //extract the wanted elements out, and normalise
-  for(float *p1=output, *p2=autocorrTime+1; p1<output+k;)
+  for(float *p1=output, *p2=autocorrTime+1; p1<output+m_corrPadd;)
     *p1++ = *p2++ / fsize;
     
-  return double(autocorrTime[0]) / double(size);
+  return double(autocorrTime[0]) / double(m_size);
 }
 
 /** The Average Square Difference Function.
@@ -197,8 +191,8 @@ double MyTransforms::asdf(float *input, float *output)
 {
   double sumSq = autocorr(input, output); //Do an autocorrelation and return the sum of squares of the input
   double sumRightSq = sumSq, sumLeftSq = sumSq;
-  for(int j=0; j<k; j++) {
-    sumLeftSq  -= sq(input[n-1-j]);
+  for(int j=0; j<m_corrPadd; j++) {
+    sumLeftSq  -= sq(input[m_windowSize-1-j]);
     sumRightSq -= sq(input[j]);
     output[j] = sumLeftSq + sumRightSq - 2*output[j];
   }
@@ -216,14 +210,14 @@ double MyTransforms::nsdf(float *input, float *output)
   double sumSq = autocorr(input, output); //the sum of squares of the input
   double totalSumSq = sumSq * 2.0;
     if(m_params->analysisType == e_MPM || m_params->analysisType == e_MPM_MODIFIED_CEPSTRUM) { //nsdf
-    for(int j=0; j<k; j++) {
-      totalSumSq  -= sq(input[n-1-j]) + sq(input[j]);
+    for(int j=0; j<m_corrPadd; j++) {
+      totalSumSq  -= sq(input[m_windowSize-1-j]) + sq(input[j]);
       //dividing by zero is very slow, so deal with it seperately
       if(totalSumSq > 0.0) output[j] *= 2.0 / totalSumSq;
       else output[j] = 0.0;
     }
   } else { //autocorr
-    for(int j=0; j<k; j++) {
+    for(int j=0; j<m_corrPadd; j++) {
       //dividing by zero is very slow, so deal with it seperately
       if(totalSumSq > 0.0) output[j] /= sumSq;
       else output[j] = 0.0;
@@ -317,24 +311,23 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
   AnalysisData &analysisData = *ch->dataAtChunk(chunk);
   AnalysisData *prevAnalysisData = ch->dataAtChunk(chunk-1);
   float *output = ch->nsdfData.begin();
-//   float *curInput = (equalLoudness) ? ch->filteredInput.begin() : ch->directInput.begin();
   float *curInput = ch->directInput.begin();
 
   std::vector<int> nsdfMaxPositions;
   
-  analysisData.maxIntensityDB() = linear2dB(fabs(*std::max_element(curInput, curInput+n, absoluteLess<float>())));
+  analysisData.maxIntensityDB() = linear2dB(fabs(*std::max_element(curInput, curInput+m_windowSize, absoluteLess<float>())));
 	
   doChannelDataFFT(ch, curInput, chunk);
-  std::copy(curInput, curInput+n, dataTime);
+  std::copy(curInput, curInput+m_windowSize, dataTime);
   if(m_params->doingFreqAnalysis && (ch->firstTimeThrough() || m_params->doingFreqAnalysis)) {
     //calculate the Normalised Square Difference Function
-    double logrms = linear2dB(nsdf(dataTime, ch->nsdfData.begin()) / double(n)); /**< Do the NSDF calculation */
+    double logrms = linear2dB(nsdf(dataTime, ch->nsdfData.begin()) / double(m_windowSize)); /**< Do the NSDF calculation */
     analysisData.logrms() = logrms;
 	if(m_params->doingAutoNoiseFloor && !analysisData.done) {
       //do it for gdata. this is only here for old code. remove some stage
 	  if(chunk == 0) {
-		m_params->ampThresholds[AMPLITUDE_RMS][0] = 0.0; //gdata->rmsFloor() = 0.0;
-		m_params->ampThresholds[AMPLITUDE_RMS][1] = m_params->dBFloor; //gdata->rmsCeiling() = gdata->dBFloor(); 
+      m_params->ampThresholds[AMPLITUDE_RMS][0] = 0.0;
+      m_params->ampThresholds[AMPLITUDE_RMS][1] = m_params->dBFloor;
 	  }
 	  if(logrms+15 < m_params->ampThresholds[AMPLITUDE_RMS][0]) 
 		  m_params->ampThresholds[AMPLITUDE_RMS][0] = logrms+15;
@@ -347,14 +340,9 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
 	  }
       if(logrms+15 < ch->rmsFloor) ch->rmsFloor = logrms+15;
       if(logrms > ch->rmsCeiling) ch->rmsCeiling = logrms;
-    }    
-    analysisData.freqCentroid() = calcFreqCentroidFromLogMagnitudes(ch->fftData1.begin(), ch->fftData1.size());
-    if(prevAnalysisData)
-      analysisData.deltaFreqCentroid() = bound(fabs(analysisData.freqCentroid() - prevAnalysisData->freqCentroid())*20.0, 0.0, 1.0);
-    else 
-      analysisData.deltaFreqCentroid() = 0.0;
-    
-    findNSDFMaxima(ch->nsdfData.begin(), k, nsdfMaxPositions);
+    }
+
+    findNSDFMaxima(ch->nsdfData.begin(), m_corrPadd, nsdfMaxPositions);
     if(!analysisData.done) {
     }
 
@@ -380,8 +368,7 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       //goto finished; //return;
     } else {
       //calc the periodDiff
-      if(chunk > 0 && prevAnalysisData->highestCorrelationIndex!=-1) {
-/**       if(chunk > 0) { */
+      if(chunk > 0 && prevAnalysisData->highestCorrelationIndex != -1) {
         float prevPeriod = prevAnalysisData->periodEstimates[prevAnalysisData->highestCorrelationIndex];
         std::vector<float>::iterator closestIter = binary_search_closest(analysisData.periodEstimates.begin(), analysisData.periodEstimates.end(), prevPeriod);
         periodDiff = *closestIter - prevPeriod;
@@ -392,22 +379,21 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       analysisData.highestCorrelationIndex = nsdfMaxIndex;
 
       if(!analysisData.done) {
-		if(m_params->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
+        if(m_params->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
             ch->chooseCorrelationIndex(chunk, float(analysisData.cepstrumIndex)); //calculate pitch
         } else {
           if(ch->isNotePlaying() && chunk > 0) {
-            ch->chooseCorrelationIndex(chunk, ch->periodOctaveEstimate(chunk-1)); //calculate pitch
+              ch->chooseCorrelationIndex(chunk, ch->periodOctaveEstimate(chunk-1)); //calculate pitch
           } else {
-            ch->chooseCorrelationIndex1(chunk); //calculate pitch
+              ch->chooseCorrelationIndex1(chunk); //calculate pitch
           }
         }
         ch->calcDeviation(chunk);
-
       }
 
       analysisData.changeness() = 0.0f;
 	  if(m_params->doingHarmonicAnalysis) {
-        std::copy(dataTime, dataTime+n, dataTemp);
+        std::copy(dataTime, dataTime + m_windowSize, dataTemp);
         if(analysisData.chosenCorrelationIndex >= 0)
           doHarmonicAnalysis(dataTemp, analysisData, analysisData.periodEstimates[analysisData.chosenCorrelationIndex]/*period*/);
       }
@@ -416,8 +402,6 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
     if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
       float periodDiff2 = ch->calcDetailedPitch(curInput, analysisData.period, chunk);
       periodDiff = periodDiff2;
-      ch->pitchLookup.push_back(ch->detailedPitchData.begin(), ch->detailedPitchData.size());
-      ch->pitchLookupSmoothed.push_back(ch->detailedPitchDataSmoothed.begin(), ch->detailedPitchDataSmoothed.size());
     }
 
     if(!analysisData.done) {
@@ -425,25 +409,16 @@ void MyTransforms::calculateAnalysisData(int chunk, Channel *ch)
       ch->processNoteDecisions(chunk, periodDiff);
       analysisData.done = true;
     }
-
-//     if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && ch->firstTimeThrough()) {
-//       ch->calcVibratoData(chunk);
-//     }
-  }
-
-  if(m_params->doingFreqAnalysis && ch->doingDetailedPitch() && (!ch->firstTimeThrough())) {
-    ch->pitchLookup.copyTo(ch->detailedPitchData.begin(), chunk*ch->detailedPitchData.size(), ch->detailedPitchData.size());
-    ch->pitchLookupSmoothed.copyTo(ch->detailedPitchDataSmoothed.begin(), chunk*ch->detailedPitchDataSmoothed.size(), ch->detailedPitchDataSmoothed.size());
   }
 
   if(!analysisData.done) {
     int j;
     //calc rms by hand
     double rms = 0.0;
-    for(j=0; j<n; j++) {
+    for(j=0; j<m_windowSize; j++) {
       rms += sq(dataTime[j]);
     }
-    analysisData.logrms() = linear2dB(rms / float(n));
+    analysisData.logrms() = linear2dB(rms / float(m_windowSize));
     analysisData.calcScores(m_params);
     analysisData.done = true;
   }
@@ -456,11 +431,11 @@ which slide through the window. The smallest clarity measure of this
 moving sub window is returned.*/
 float MyTransforms::get_fine_clarity_measure(double period)
 {
-    int tempN = n - int(ceil(period));
+    int tempN = m_windowSize - int(ceil(period));
     float *tempData = new float[tempN];
     float bigSum=0, corrSum=0, matchVal, matchMin=1.0;
     //create some data points at the fractional period delay into tempData
-    stretch_array(n, dataTime, tempN, tempData, period, tempN, LINEAR);
+    stretch_array(m_windowSize, dataTime, tempN, tempData, period, tempN, LINEAR);
     int dN = int(floor(period)); //tempN / 4;
     for(int j=0; j<dN; j++) {
       bigSum += sq(dataTime[j]) + sq(tempData[j]);
@@ -483,14 +458,14 @@ float MyTransforms::get_fine_clarity_measure(double period)
 double MyTransforms::get_max_note_change(float *input, double period)
 {
   int i, j, j2;
-  int max_subwindow = n / 4;
+  int max_subwindow = m_windowSize / 4;
   int subwindow_size;
   if(period < 1.0) return 0.0; //period too small
-  if(period > n/2) { printf("period = %lf\n", period); return 0.0; }
+  if(period > m_windowSize/2) { printf("period = %lf\n", period); return 0.0; }
   int iPeriod = int(floor(period));
   if(period < double(max_subwindow)) subwindow_size = int(floor(period * (double(max_subwindow) / period)));
   else subwindow_size = int(floor(period));
-  int num = n-subwindow_size-iPeriod;
+  int num = m_windowSize-subwindow_size-iPeriod;
 
   std::vector<int> offsets;
   for(j=-4; j<=4; j++) offsets.push_back(j); //do a total of 9 subwindows at once. 4 either side.
@@ -539,7 +514,7 @@ double MyTransforms::get_max_note_change(float *input, double period)
     smoothed_diff[j] = fabs(smoothed[j+1] - smoothed[j]);
     if(smoothed_diff[j] > smoothed_diff[max_pos]) max_pos = j;
   }
-  double ret = smoothed_diff[max_pos] / period * double(rate) * double(subwindow_size) / 10000.0;
+  double ret = smoothed_diff[max_pos] / period * double(m_rate) * double(subwindow_size) / 10000.0;
   return ret;
 }
 
@@ -575,16 +550,16 @@ int findCepstrumMaximum(float *data, int length, float threshold)
 */
 void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
 {
-  std::copy(curInput, curInput+n, dataTime);
+  std::copy(curInput, curInput+m_windowSize, dataTime);
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
-  int nDiv2 = n/2;
+  int nDiv2 = m_windowSize/2;
   double logSize = log10(double(ch->fftData1.size())); //0.0
   //Adjust the coefficents, both real and imaginary part by same amount
   double sqValue;
   const double logBase = 100.0;
   for(int j=1; j<nDiv2; j++) {
-    sqValue = sq(dataFFT[j]) + sq(dataFFT[n-j]);
+    sqValue = sq(dataFFT[j]) + sq(dataFFT[m_windowSize-j]);
     ch->fftData2[j] = logBaseN(logBase, 1.0 + 2.0*sqrt(sqValue) / double(nDiv2) * (logBase-1.0));
     if(sqValue > 0.0)
 			ch->fftData1[j] = bound(log10(sqValue) / 2.0 - logSize, m_params->dBFloor, 0.0);
@@ -599,12 +574,12 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
   if(m_params->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
     for(int j=1; j<nDiv2; j++) {
       dataFFT[j] = ch->fftData2[j];
-      dataFFT[n-j] = 0.0;
+      dataFFT[m_windowSize-j] = 0.0;
     }
     dataFFT[0] = ch->fftData2[0];
     dataFFT[nDiv2] = 0.0;
     fftwf_execute(planDataFFT2Time);
-    for(int j=1; j<n; j++) {
+    for(int j=1; j<m_windowSize; j++) {
       dataTime[j] /= dataTime[0];
     }
     dataTime[0] = 1.0;
@@ -620,11 +595,11 @@ void MyTransforms::doChannelDataFFT(Channel *ch, float *curInput, int chunk)
 void MyTransforms::calcHarmonicAmpPhase(float *harmonicsAmp, float *harmonicsPhase, int binsPerHarmonic)
 {
   int harmonic;
-  for(int j=0; j<numHarmonics; j++) {
+  for(int j=0; j<m_numHarmonics; j++) {
     harmonic = (j+1) * binsPerHarmonic;
-    if(harmonic < n) {
-      harmonicsAmp[j] = sqrt(sq(dataFFT[harmonic]) + sq(dataFFT[n-harmonic]));
-      harmonicsPhase[j] = atan2((double)dataFFT[n-harmonic], (double)dataFFT[harmonic]);
+    if(harmonic < m_windowSize) {
+      harmonicsAmp[j] = sqrt(sq(dataFFT[harmonic]) + sq(dataFFT[m_windowSize-harmonic]));
+      harmonicsPhase[j] = atan2((double)dataFFT[m_windowSize-harmonic], (double)dataFFT[harmonic]);
     } else {
       harmonicsAmp[j] = 0.0;
       harmonicsPhase[j] = 0.0;
@@ -634,54 +609,55 @@ void MyTransforms::calcHarmonicAmpPhase(float *harmonicsAmp, float *harmonicsPha
 
 void MyTransforms::doHarmonicAnalysis(float *input, AnalysisData &analysisData, double period)
 {
-  double numPeriodsFit = floor(double(n) / period); //2.0
+  double numPeriodsFit = floor(double(m_windowSize) / period); //2.0
   double numPeriodsUse = numPeriodsFit - 1.0;
   int iNumPeriodsUse = int(numPeriodsUse);
-  double centerX = float(n) / 2.0;
+  double centerX = float(m_windowSize) / 2.0;
   //printf("iNumPeriodsUse = %d\n", iNumPeriodsUse);
   //do left
   //stretch_array(n, input, n, dataTime, (float(n) / 2.0) - period, period, LINEAR);
   double start = centerX - (numPeriodsFit / 2.0) * period;
   double length = (numPeriodsUse) * period;
-  stretch_array(n, input, n, dataTime, start, length, LINEAR);
+  stretch_array(m_windowSize, input, m_windowSize, dataTime, start, length, LINEAR);
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
   calcHarmonicAmpPhase(harmonicsAmpLeft, harmonicsPhaseLeft, iNumPeriodsUse);  
   
   //do center
   start += period / 2.0;
-  stretch_array(n, input, n, dataTime, start, length, LINEAR);
+  stretch_array(m_windowSize, input, m_windowSize, dataTime, start, length, LINEAR);
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
   calcHarmonicAmpPhase(harmonicsAmpCenter, harmonicsPhaseCenter, iNumPeriodsUse);
   
   //do right
   start += period / 2.0;
-  stretch_array(n, input, n, dataTime, start, length, LINEAR);
+  stretch_array(m_windowSize, input, m_windowSize, dataTime, start, length, LINEAR);
   applyHanningWindow(dataTime);
   fftwf_execute(planDataTime2FFT);
   calcHarmonicAmpPhase(harmonicsAmpRight, harmonicsPhaseRight, iNumPeriodsUse);
   
-  double freq = rate / period;
+  double freq = m_rate / period;
   int harmonic;
   
-  analysisData.harmonicAmpNoCutOff.resize(numHarmonics);
-  analysisData.harmonicAmp.resize(numHarmonics);
-  analysisData.harmonicFreq.resize(numHarmonics);
-  analysisData.harmonicNoise.resize(numHarmonics);
+  analysisData.harmonicAmpNoCutOff.resize(m_numHarmonics);
+  analysisData.harmonicAmp.resize(m_numHarmonics);
+  analysisData.harmonicFreq.resize(m_numHarmonics);
+  analysisData.harmonicNoise.resize(m_numHarmonics);
 
-  for(int j=0; j<numHarmonics; j++) {
+  for(int j=0; j<m_numHarmonics; j++) {
     harmonic = (j+1) * iNumPeriodsUse;
     analysisData.harmonicAmpNoCutOff[j] = analysisData.harmonicAmp[j] = log10(harmonicsAmpCenter[j] / hanningScalar) * 20;
-//     analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / gdata->ampThreshold(AMPLITUDE_RMS, 0));
-	analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / m_params->ampThresholds[AMPLITUDE_RMS][0]);
-    if(analysisData.harmonicAmp[j] < 0.0) analysisData.harmonicAmp[j] = 0.0;
+    analysisData.harmonicAmp[j] = 1.0 - (analysisData.harmonicAmp[j] / m_params->ampThresholds[AMPLITUDE_RMS][0]);
+    if(analysisData.harmonicAmp[j] < 0.0)
+        analysisData.harmonicAmp[j] = 0.0;
     //should be 1 whole period between left and right. i.e. the same freq give 0 phase difference
     double diffAngle = (harmonicsPhaseRight[j] - harmonicsPhaseLeft[j]) / twoPI;
     diffAngle = cycle(diffAngle + 0.5, 1.0) - 0.5;
     double diffAngle2 = (harmonicsPhaseCenter[j] - harmonicsPhaseLeft[j]) / twoPI;
     //if an odd harmonic the phase will be 180 degrees out. So correct for this
-    if(j % 2 == 0) diffAngle2 += 0.5;
+    if(j % 2 == 0)
+        diffAngle2 += 0.5;
     diffAngle2 = cycle(diffAngle2 + 0.5, 1.0) - 0.5;
     analysisData.harmonicNoise[j] = fabs(diffAngle2 - diffAngle);
     analysisData.harmonicFreq[j] = float(freq * double(j+1)) + (freq*diffAngle);
@@ -689,46 +665,9 @@ void MyTransforms::doHarmonicAnalysis(float *input, AnalysisData &analysisData, 
 }
 
 
-void MyTransforms::applyHanningWindow(float *d)
-{
-  for(int j=0; j<n; j++) d[j] *= hanningCoeff[j];
+void MyTransforms::applyHanningWindow(float *d) {
+  for(int j = 0; j < m_windowSize; j++) d[j] *= hanningCoeff[j];
 }
 
 
-/**
-  @param buffer The input buffer, as outputted from the fftw. ie 1st half real, 2nd half imaginary parts
-  @param len The length of the buffer, including real and imaganary parts
-  @return The normalised frequency centriod
-*/
-double MyTransforms::calcFreqCentroid(float *buffer, int len)
-{
-  double centroid = 0.0;
-  double totalWeight = 0.0;
-  double absValue;
-  for(int j=1; j<len/2; j++) { //ignore the end freq bins, ie j=0
-    //calculate centroid
-    absValue = sqrt(sq(buffer[j]) + sq(buffer[len-j]));
-    centroid += double(j)*absValue;
-    totalWeight += absValue;
-  }
-  centroid /= totalWeight * double(len/2);
-  return centroid;
-}
 
-
-/**
-  @param buffer The input buffer of logarithmic magnitudes
-  @param len The length of the buffer
-  @return The normalised frequency centriod
-*/
-double MyTransforms::calcFreqCentroidFromLogMagnitudes(float *buffer, int len)
-{
-  double centroid = 0.0;
-  double totalWeight = 0.0;
-  for(int j=1; j<len; j++) { //ignore the end freq bins, ie j=0
-    //calculate centroid
-    centroid += double(j)*buffer[j];
-    totalWeight += buffer[j];
-  }
-  return centroid;
-}

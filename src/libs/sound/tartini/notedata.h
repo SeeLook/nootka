@@ -1,16 +1,20 @@
 /***************************************************************************
-                          notedata.h  -  description
+                          notedata.cpp  -  description
                              -------------------
     begin                : Mon May 23 2005
     copyright            : (C) 2005 by Philip McLeod
     email                : pmcleod@cs.otago.ac.nz
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-   
+
    Please read LICENSE.txt for details.
+
+   Adjusted to Nootka by Tomasz Bojczuk
+    tomaszbojczuk@gmail.com
+    Copyright (C) 2011-2016
  ***************************************************************************/
 
 #ifndef NOTEDATA_H
@@ -25,29 +29,10 @@ class TartiniParams;
 class Channel;
 
 /**
-@author Philip McLeod
+ * @author Philip McLeod
 */
 class NoteData
 {
-  Channel *channel;
-  int _startChunk; //the chunk at which this note starts on
-  int _endChunk; //the chunk after the last one in the note
-  float maxLogRMS; //The maximum RMS volume during the note
-  float maxIntensityDB; //The maximum intensity volume during the note
-  float maxCorrelation;
-  float maxPurity;
-  float _numPeriods;
-  float _periodOctaveEstimate; /*< This is in terms of the periodRatio at the beginning of the note */
-  float _volume; //A normalised volume between 0 and 1
-  float _avgPitch;
-  int loopStep;  // In the vibrato-analysis, search pitchLookupSmoothed with steps of the size of loopStep
-  int loopStart;  // Remembers where the previous vibrato-analysis broke off
-  int prevExtremumTime;
-  float prevExtremumPitch;
-  enum PrevExtremum {NONE, FIRST_MAXIMUM, FIRST_MINIMUM, MAXIMUM, MINIMUM};
-  PrevExtremum prevExtremum;
-  
-  TartiniParams *m_params;
 
 public:
   Array1d<float> nsdfAggregateData;
@@ -64,23 +49,39 @@ public:
   SmartPtr<Array1d<int> > maxima;
   SmartPtr<Array1d<int> > minima;
 
-  void    resetData();
+  void    resetData(); /**< Reset @p numPeriods() tp 0. */
   bool    isValid() { return (numChunks() > 2); }
-  void    setStartChunk(int startChunk_) { _startChunk = startChunk_; }
-  void    setEndChunk(int endChunk_) { _endChunk = endChunk_; }
-  int     startChunk() { return _startChunk; }
-  int     endChunk() { return _endChunk; }
+  void    setStartChunk(int startChunk_) { m_startChunk = startChunk_; }
+  void    setEndChunk(int endChunk_) { m_endChunk = endChunk_; }
+  int     startChunk() { return m_startChunk; }
+  int     endChunk() { return m_endChunk; }
   void    addData(AnalysisData *analysisData, float periods);
-  int     numChunks() { return _endChunk - _startChunk; }
-  double  noteLength(); /**< in seconds */
-  float   numPeriods() { return _numPeriods; }
+  int     numChunks() { return m_endChunk - m_startChunk; }
+  double  noteLength(); /**< Returns the length of the note (in seconds) */
+  float   numPeriods() { return m_numPeriods; }
   double  avgFreq() { return numPeriods() / noteLength(); } /**< in Hertz */
-  double  avgPitch(); /**< in semi-tones */
-  void    setPeriodOctaveEstimate(float periodOctaveEstimate_) { _periodOctaveEstimate = periodOctaveEstimate_; }
-  float   periodOctaveEstimate() { return _periodOctaveEstimate; }
-  void    addVibratoData(int chunk);
-  float   volume() { return _volume; }
+  double  avgPitch() { return m_avgPitch; } /**< The average of this note, in fractions of semi-tones. */
+  void    setPeriodOctaveEstimate(float periodOctaveEstimate_) { m_periodOctaveEstimate = periodOctaveEstimate_; }
+  float   periodOctaveEstimate() { return m_periodOctaveEstimate; }
+  float   volume() { return m_volume; }
   void    recalcAvgPitch();
+
+private:
+  Channel      *channel;
+  int           m_startChunk; /**< the chunk at which this note starts on */
+  int           m_endChunk; /**< the chunk after the last one in the note */
+  float         m_maxLogRMS; /**< The maximum RMS volume during the note */
+  float         m_maxIntensityDB; /**< The maximum intensity volume during the note */
+  float         m_maxCorrelation;
+  float         m_maxPurity;
+  float         m_numPeriods;
+  float         m_periodOctaveEstimate; /**< This is in terms of the periodRatio at the beginning of the note */
+  float         m_volume; /**< A normalized volume between 0 and 1 */
+  float         m_avgPitch;
+  int           m_prevExtremumTime;
+  float         m_prevExtremumPitch;
+
+  TartiniParams *m_params;
 };
 
 #endif
