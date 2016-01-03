@@ -86,7 +86,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	setSampleRate(m_aGl->rate);
 	m_channel = new Channel(this, aGl()->windowSize);
   m_transforms = new MyTransforms();
-	m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+	m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
 	moveToThread(m_thread);
 	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection);
 	connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
@@ -183,7 +183,7 @@ void TpitchFinder::resetFinder() {
       m_averVolume = 0.0;
       m_transforms->uninit();
       m_channel = new Channel(this, aGl()->windowSize);
-      m_transforms->init(aGl(), aGl()->windowSize, 0, aGl()->rate, aGl()->equalLoudness);
+      m_transforms->init(aGl(), aGl()->windowSize, 0, aGl()->rate);
       for (int i = 0; i < m_buffers.size(); ++i)
         m_buffers[i]->processed = true;
     m_currentBuff = m_buffers.first();
