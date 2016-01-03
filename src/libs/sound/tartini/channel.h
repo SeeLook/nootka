@@ -4,17 +4,17 @@
     begin                : Sat Jul 10 2004
     copyright            : (C) 2004-2005 by Philip McLeod
     email                : pmcleod@cs.otago.ac.nz
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-   
+
    Please read LICENSE.txt for details.
-   
+
    Adjusted to Nootka by Tomasz Bojczuk
 	  tomaszbojczuk@gmail.com
-	  Copyright (C) 2011
+	  Copyright (C) 2011-2016
  ***************************************************************************/
 
 #ifndef CHANNEL_H
@@ -34,22 +34,9 @@ class TpitchFinder;
 
 class Channel
 {
-private:
-  TpitchFinder *parent;
-  float freq; /**< Channel's frequency */
-  bool visible;
-  bool noteIsPlaying;
-  large_vector<AnalysisData> lookup;
-  float _threshold;
-  QMutex *mutex;
-  bool isLocked;
-  fast_smooth *fastSmooth;
 
 public:
-  large_vector<float> pitchLookup;
-  large_vector<float> pitchLookupSmoothed;
   Array1d<float> directInput;
-  Array1d<float> coefficients_table;
   Array1d<float> nsdfData;
   Array1d<float> nsdfAggregateData;
   Array1d<float> nsdfAggregateDataScaled;
@@ -58,15 +45,12 @@ public:
   Array1d<float> fftData2;
   Array1d<float> fftData3;
   Array1d<float> cepstrumData;
-  Array1d<float> detailedPitchData;
-  Array1d<float> detailedPitchDataSmoothed;
   large_vector<NoteData> noteData;
   Filter *highPassFilter;
-  Filter *pitchSmallSmoothingFilter;
-  Filter *pitchBigSmoothingFilter;
+
   double rmsFloor; //in dB
   double rmsCeiling; //in dB
-    
+
   void lock() { mutex->lock(); isLocked = true; }
   void unlock() { isLocked = false; mutex->unlock(); }
   bool locked() { return isLocked; } //For same thread testing of asserts only
@@ -77,31 +61,33 @@ public:
   float *end() { return directInput.end(); }
   int size() { return directInput.size(); }
   float &at(int pos) { return directInput.at(pos); }
-  int rate() { return parent->aGl()->rate ; }
+  int rate() { return m_parent->aGl()->rate ; }
   virtual void resize(int newSize, int k_=0);
   virtual void shift_left(int n);
-  int framesPerChunk() { return parent->aGl()->framesPerChunk ; }
-  void calc_last_n_coefficients(int n);
+  int framesPerChunk() { return m_parent->aGl()->framesPerChunk ; }
+
+    /** Analysis the current data and add it to the end of the lookup table.
+    * NOTE: The Channel should be locked before calling this. */
   void processNewChunk(FilterState *filterState);
-  void processChunk(int chunk);
-  bool isVisible() { return visible; }
-  void setVisible(bool state=true) { visible = state; }
+
+  bool isVisible() { return m_visible; }
+  void setVisible(bool state=true) { m_visible = state; }
   void reset();
 
-  double timePerChunk() { return double(parent->aGl()->framesPerChunk) / double(parent->aGl()->rate) ; }
-  int totalChunks() { return lookup.size(); }
+  double timePerChunk() { return double(m_parent->aGl()->framesPerChunk) / double(m_parent->aGl()->rate) ; }
+  int totalChunks() { return m_lookup.size(); }
   double totalTime() { return double(MAX(totalChunks()-1, 0)) * timePerChunk(); }
   int chunkAtTime(double t) { return toInt(chunkFractionAtTime(t)) ; }
   double chunkFractionAtTime(double t) { return t / timePerChunk(); }
-  int currentChunk() { return parent->currentChunk(); } //this one should be use to retrieve current info
+  int currentChunk() { return m_parent->currentChunk(); } //this one should be use to retrieve current info
   double timeAtChunk(int chunk) { return double(chunk) * timePerChunk(); }
 
-  AnalysisData *dataAtChunk(int chunk) { return (isValidChunk(chunk)) ? &lookup[chunk] : NULL; }
+  AnalysisData *dataAtChunk(int chunk) { return (isValidChunk(chunk)) ? &m_lookup[chunk] : NULL; }
   AnalysisData *dataAtCurrentChunk() { return dataAtChunk(currentChunk()); }
   AnalysisData *dataAtTime(double t) { return dataAtChunk(chunkAtTime(t)); }
-  large_vector<AnalysisData>::iterator dataIteratorAtChunk(int chunk) { return lookup.iterator_at(chunk); }
+  large_vector<AnalysisData>::iterator dataIteratorAtChunk(int chunk) { return m_lookup.iterator_at(chunk); }
   
-  bool hasAnalysisData() { return !lookup.empty(); }
+  bool hasAnalysisData() { return !m_lookup.empty(); }
   bool isValidChunk(int chunk) { return (chunk >= 0 && chunk < totalChunks()); }
   bool isValidTime(double t) { return isValidChunk(chunkAtTime(t)); }
   
@@ -110,23 +96,24 @@ public:
 
   float threshold() { return _threshold; }
   void setIntThreshold(int thresholdPercentage) { _threshold = float(thresholdPercentage) / 100.0f; }
-  void resetIntThreshold(int thresholdPercentage);
 
-  bool isNotePlaying() { return noteIsPlaying; }
-  bool isVisibleNote(int noteIndex_);
-  bool isVisibleChunk(int chunk_) { return isVisibleChunk(dataAtChunk(chunk_)); }
+  bool isNotePlaying() { return m_noteIsPlaying; }
+
+      /** @p noteId the index of the note to inquire about.
+      * Returns @p TRUE if the loudest part of the note is above the noiseThreshold */
+  bool isVisibleNote(int noteId) { return noteId == NO_NOTE ? false : true; }
+
   bool isVisibleChunk(AnalysisData *data);
   bool isChangingChunk(AnalysisData *data);
   bool isNoteChanging(int chunk);
-  bool isLabelNote(int noteIndex_);
-  void clearFreqLookup();
-  void clearAmplitudeLookup();
-  void recalcScoreThresholds();
 
+    /** @p noteId - the index of the note to inquire about
+    * Returns @p TRUE if the note is long enough */
+  bool isLabelNote(int noteId) { return (noteId >= 0 && noteData[noteId].isValid()) ? true : false; }
 
-  NoteData *getLastNote();
+  NoteData *getLastNote() { return noteData.empty() ? NULL : &noteData.back(); }
   NoteData *getCurrentNote();
-  NoteData *getNote(int noteIndex);
+  NoteData *getNote(int noteIndex) { return (noteIndex >= 0 && noteIndex < (int)noteData.size()) ? &noteData[noteIndex] : NULL; }
   int getCurrentNoteIndex() { return int(noteData.size())-1; }
   void backTrackNoteChange(int chunk);
   void processNoteDecisions(int chunk, float periodDiff);
@@ -134,36 +121,41 @@ public:
   void noteEnding(int chunk);
   float calcOctaveEstimate();
   void recalcNotePitches(int chunk);
+
+    /** Choose the correlation index (with no starting octave estimate)
+    * For use with at the start of the note.  */
   void chooseCorrelationIndex1(int chunk);
+
+    /** This uses an octave estimate to help chose the correct correlation index
+    * Returns true if the new correlation index is different from the old one */
   bool chooseCorrelationIndex(int chunk, float periodOctaveEstimate);
   void calcDeviation(int chunk);
   bool isFirstChunkInNote(int chunk);
   void resetNSDFAggregate(float period);
   void addToNSDFAggregate(const float scaler, float periodDiff);
-  float calcDetailedPitch(float *input, double period, int chunk);
-  bool firstTimeThrough() { return parent->aGl()->firstTimeThrough; }
-  bool doingDetailedPitch() { return parent->aGl()->doingDetailedPitch; }
 
-  void calcVibratoData(int chunk);
+    /** Calculate (the middle half of) pitches within the current window of the input
+    * Calculates pitches for positions 1/4 of size() to 3/4 of size()
+    * e.g. for size() == 1024, does indexs 256 through < 768
+    * @param period The period estimate
+    * @return The change in period size. */
+  float calcDetailedPitch(float *input, double period, int chunk);
+  bool firstTimeThrough() { return m_parent->aGl()->firstTimeThrough; }
+  bool doingDetailedPitch() { return m_parent->aGl()->doingDetailedPitch; }
+
   float periodOctaveEstimate(int chunk); // A estimate from over the whole duration of the note, to help get the correct octave
 
+private:
+  TpitchFinder               *m_parent;
+  bool                        m_visible;
+  bool                        m_noteIsPlaying;
+  large_vector<AnalysisData>  m_lookup;
+  float _threshold;
+  QMutex *mutex;
+  bool isLocked;
+  fast_smooth *fastSmooth;
+
 };
 
-/** Create a ChannelLocker on the stack, the channel will be freed automaticly when
-  the ChannelLocker goes out of scope
-*/
-class ChannelLocker
-{
-  Channel *channel;
-  
-public:
-  ChannelLocker(Channel *channel_) {
-    channel = channel_;
-    channel->lock();
-  }
-  ~ChannelLocker() {
-    channel->unlock();
-  }
-};
 
 #endif

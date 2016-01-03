@@ -14,7 +14,7 @@
    
    Adjusted to Nootka by Tomasz Bojczuk
 	  tomaszbojczuk@gmail.com
-	  Copyright (C) 2011
+	  Copyright (C) 2011-2016
  ***************************************************************************/
 
 #include "analysisdata.h"
@@ -25,11 +25,10 @@ double(*amp_mode_inv_func[NUM_AMP_MODES])(double) = { &normalised2dB, &normalise
 
 AnalysisData::AnalysisData()
 {
-  std::fill(values, values+NUM_AMP_MODES, 0.0f);
+  std::fill(values, values + NUM_AMP_MODES, 0.0f);
   period = 0.0f;
   fundamentalFreq = 0.0f;
   pitch = 0.0f;
-  _freqCentroid = 0.0f;
   pitchSum = 0.0f;
   pitch2Sum = 0.0;
   shortTermMean = 0.0;
@@ -37,12 +36,7 @@ AnalysisData::AnalysisData()
   longTermMean = 0.0;
   longTermDeviation = 0.0;
   spread = spread2 = 0.0;
-  vibratoPitch = 0.0f;
-  vibratoWidth = 0.0f;
-  vibratoSpeed = 0.0f;
-  vibratoWidthAdjust = 0.0f;
-  vibratoPhase = 0.0f;
-  vibratoError = 0.0f;
+
   reason = 0;
   highestCorrelationIndex = -1;
   chosenCorrelationIndex = -1;
@@ -52,7 +46,6 @@ AnalysisData::AnalysisData()
   noteIndex = NO_NOTE;
   notePlaying = false;
   done = false;
-
 }
 
 
