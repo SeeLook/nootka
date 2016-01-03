@@ -4,17 +4,17 @@
     begin                : Sat Jul 10 2004
     copyright            : (C) 2004-2005 by Philip McLeod
     email                : pmcleod@cs.otago.ac.nz
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-   
+
    Please read LICENSE.txt for details.
-   
+
    Adjusted to Nootka by Tomasz Bojczuk
 	  tomaszbojczuk@gmail.com
-	  Copyright (C) 2011
+	  Copyright (C) 2011-2016
  ***************************************************************************/
 
 #include "channel.h"
@@ -29,6 +29,7 @@
 #include "bspline.h"
 #include "mytransforms.h"
 #include "useful.h"
+#include <QDebug>
 
 
 const double shortTime = 0.08; //0.08; //0.18;
@@ -145,30 +146,26 @@ double lowPassFilterCoeffA[3][3] = {
 };
 
 Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
-	lookup(0, 128),
-	parent(parent_)
+	m_lookup(0, 128),
+	m_parent(parent_)
 {
-  int sampleRate = parent->aGl()->rate;
+  int sampleRate = m_parent->aGl()->rate;
   if(k_ == 0) k_ = (size_ + 1) / 2;
   directInput.resize(size_, 0.0);
   nsdfData.resize(k_, 0.0);
   nsdfAggregateData.resize(k_, 0.0);
   nsdfAggregateDataScaled.resize(k_, 0.0);
   nsdfAggregateRoof = 0.0;
-  fftData1.resize(size_/2, 0.0);
-  fftData2.resize(size_/2, 0.0);
-  fftData3.resize(size_/2, 0.0);
-  cepstrumData.resize(size_/2, 0.0);
-  detailedPitchData.resize(size_/2, 0.0);
-  detailedPitchDataSmoothed.resize(size_/2, 0.0);
-  coefficients_table.resize(size_*4);
-  rmsFloor = parent->aGl()->dBFloor;
-  rmsCeiling = parent->aGl()->dBFloor;
+  fftData1.resize(size_ / 2, 0.0);
+  fftData2.resize(size_ / 2, 0.0);
+  fftData3.resize(size_ / 2, 0.0);
+  cepstrumData.resize(size_ / 2, 0.0);
+  rmsFloor = m_parent->aGl()->dBFloor;
+  rmsCeiling = m_parent->aGl()->dBFloor;
 
-  visible = true;
-  noteIsPlaying = false;
-  setIntThreshold(parent->aGl()->threshold);
-  freq = 0.0;
+  m_visible = true;
+  m_noteIsPlaying = false;
+  setIntThreshold(m_parent->aGl()->threshold);
 //   mutex = new QMutex(true);
   mutex = new QMutex();
   isLocked = false;
@@ -182,10 +179,8 @@ Channel::Channel(TpitchFinder *parent_, int size_, int k_) :
   else if(sampleRate > (8000 + 11025) / 2) filterIndex = 4; //11025 Hz
   else filterIndex = 5; //8000 Hz
   highPassFilter = new IIR_Filter(highPassFilterCoeffB[filterIndex], highPassFilterCoeffA[filterIndex], 3);
-  pitchSmallSmoothingFilter = new GrowingAverageFilter(sampleRate/64);
-  pitchBigSmoothingFilter = new FastSmoothedAveragingFilter(sampleRate/16);
-  
-  fastSmooth = new fast_smooth(size_/8);
+
+  fastSmooth = new fast_smooth(size_ / 8);
 }
 
 Channel::~Channel()
@@ -197,86 +192,37 @@ Channel::~Channel()
   delete highPassFilter;
 }
 
-void Channel::resetIntThreshold(int thresholdPercentage)
-{
-  _threshold = float(thresholdPercentage) / 100.0f;
-  uint j;
-  for(j=0; j<lookup.size(); j++) {
-    chooseCorrelationIndex(j, periodOctaveEstimate(j));
-    calcDeviation(j);
-  }
-  clearFreqLookup();
-}
 
-void Channel::resize(int newSize, int k_)
-{
-  coefficients_table.resize(newSize*4);
+void Channel::resize(int newSize, int k_) {
   if(k_ == 0) k_ = (newSize + 1) / 2;
   directInput.resize(newSize, 0.0);
-//   filteredInput.resize(newSize, 0.0);
   nsdfData.resize(k_, 0.0);
   nsdfAggregateData.resize(k_, 0.0);
   nsdfAggregateDataScaled.resize(k_, 0.0);
-  fftData1.resize(newSize/2, 0.0);
-  fftData2.resize(newSize/2, 0.0);
-  fftData3.resize(newSize/2, 0.0);
-  cepstrumData.resize(newSize/2, 0.0);
-  detailedPitchData.resize(newSize/2, 0.0);
-  detailedPitchDataSmoothed.resize(newSize/2, 0.0);
-  lookup.clear();
+  fftData1.resize(newSize / 2, 0.0);
+  fftData2.resize(newSize / 2, 0.0);
+  fftData3.resize(newSize / 2, 0.0);
+  cepstrumData.resize(newSize / 2, 0.0);
+  m_lookup.clear();
 }
 
-void Channel::shift_left(int n)
-{
+
+void Channel::shift_left(int n) {
   directInput.shift_left(n);
-//   filteredInput.shift_left(n);
-  coefficients_table.shift_left(n*4);
 }
 
-void Channel::calc_last_n_coefficients(int n)
-{
-  //build a table of coefficients for calculating interpolation
-	int start_pos = MAX(size() - n, 3);
-	float *buf_pos = begin() + start_pos;
-	float *coeff_pos = coefficients_table.begin()+start_pos*4;
-	for(;buf_pos < end(); buf_pos++) {
-    const float &xm1 = buf_pos[-3];
-    const float &x0 = buf_pos[-2];
-    const float &x1 = buf_pos[-1];
-    const float &x2 = buf_pos[0];
-    *coeff_pos++ = (3 * (x0-x1) - xm1 + x2) / 2;
-    *coeff_pos++ = 2*x1 + xm1 - (5*x0 + x2) / 2;
-    *coeff_pos++ = (x1 - xm1) / 2;
-    *coeff_pos++ = x0;
-  }
-}
 
-/** Analysis the current data and add it to the end of the lookup table
-  Note: The Channel shoud be locked before calling this.
-*/
-void Channel::processNewChunk(FilterState *filterState)
-{
+void Channel::processNewChunk(FilterState *filterState) {
   lock();
-  lookup.push_back(AnalysisData());
-  lookup.back().filterState = *filterState;
-  parent->transforms()->calculateAnalysisData(int(lookup.size())-1, this);
+  m_lookup.push_back(AnalysisData());
+  m_lookup.back().filterState = *filterState;
+  m_parent->transforms()->calculateAnalysisData(int(m_lookup.size())-1, this);
   unlock();
 }
 
-/** Analysis the current data and put it at chunk position in the lookup table
-  Note: The Channel shoud be locked before calling this.
-  @param chunk The chunk number to store the data at
-*/
-void Channel::processChunk(int chunk)
-{
-  if(chunk >= 0 && chunk < totalChunks())
-    parent->transforms()->calculateAnalysisData(chunk, this);
-}
 
-void Channel::reset()
-{
+void Channel::reset() {
   std::fill(begin(), end(), 0.0f);
-  std::fill(coefficients_table.begin(), coefficients_table.end(), 0.0f);
 }
 
 /**
@@ -328,43 +274,15 @@ float Channel::averageMaxCorrelation(int begin, int end)
 }
 
 
-void Channel::clearFreqLookup()
-{
-  ChannelLocker channelLocker(this);
-}
-
-void Channel::clearAmplitudeLookup()
-{
-  ChannelLocker channelLocker(this);
-}
-
-void Channel::recalcScoreThresholds()
-{
-  AnalysisData *d;
-  ChannelLocker channelLocker(this);
-  for(int j=0; j<totalChunks(); j++)
-    if((d = dataAtChunk(j)) != NULL) d->calcScores(parent->aGl());
-}
-
-/**
-  @param noteIndex_ the index of the note to inquire about
-  @return true if the loudest part of the note is above the noiseThreshold
-*/
-bool Channel::isVisibleNote(int noteIndex_)
-{
-  if(noteIndex_ == NO_NOTE) return false;
-  else return true;
-}
-
 bool Channel::isVisibleChunk(AnalysisData *data)
 {
-  if(data->noteScore() >= parent->aGl()->ampThresholds[NOTE_SCORE][0]) return true;
+  if(data->noteScore() >= m_parent->aGl()->ampThresholds[NOTE_SCORE][0]) return true;
 	else return false;
 }
 
 bool Channel::isChangingChunk(AnalysisData *data)
 {
-  if(data->noteChangeScore() >= parent->aGl()->ampThresholds[NOTE_CHANGE_SCORE][0]) return true;
+  if(data->noteChangeScore() >= m_parent->aGl()->ampThresholds[NOTE_CHANGE_SCORE][0]) return true;
   else return false;
 }
 
@@ -405,7 +323,7 @@ void Channel::backTrackNoteChange(int chunk) {
     curChunk++;
   }
   if((curChunk < last) && isVisibleChunk(dataAtChunk(curChunk))) {
-    noteIsPlaying = true;
+    m_noteIsPlaying = true;
     noteBeginning(curChunk);
     NoteData *currentNote = getLastNote();
 
@@ -461,15 +379,6 @@ bool Channel::isNoteChanging(int chunk)
   return false;
 }
 
-/**
-  @param noteIndex_ the index of the note to inquire about
-  @return true if the note is long enough
-*/
-bool Channel::isLabelNote(int noteIndex_)
-{
-  if(noteIndex_ >= 0 && noteData[noteIndex_].isValid()) return true;
-  else return false;
-}
 
 void Channel::processNoteDecisions(int chunk, float periodDiff)
 {
@@ -477,23 +386,23 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
 
   analysisData.reason = 0;
   //look for note transitions
-  if(noteIsPlaying) {
+  if(m_noteIsPlaying) {
     if(isVisibleChunk(&analysisData) && !isNoteChanging(chunk)) {
     } else {
-      noteIsPlaying = false;
+      m_noteIsPlaying = false;
       noteEnding(chunk);
     }
   } else { //if(!noteIsPlaying)
     if(isVisibleChunk(&analysisData)) {
       noteBeginning(chunk);
       periodDiff = 0.0f;
-      noteIsPlaying = true;
+      m_noteIsPlaying = true;
     }
   }
 
-  analysisData.notePlaying = noteIsPlaying;
+  analysisData.notePlaying = m_noteIsPlaying;
 
-  if(noteIsPlaying) {
+  if(m_noteIsPlaying) {
       addToNSDFAggregate(dB2Linear(analysisData.logrms()), periodDiff);
       NoteData *currentNote = getLastNote();
 
@@ -502,21 +411,17 @@ void Channel::processNoteDecisions(int chunk, float periodDiff)
 
       currentNote->addData(&analysisData, float(framesPerChunk()) / float(analysisData.period));
       currentNote->setPeriodOctaveEstimate(calcOctaveEstimate());
-	  if(parent->aGl()->analysisType != e_MPM_MODIFIED_CEPSTRUM) {
+	  if(m_parent->aGl()->analysisType != e_MPM_MODIFIED_CEPSTRUM) {
         recalcNotePitches(chunk);
       }
-  } 
+  }
 }
 
 
-void Channel::noteBeginning(int chunk)
-{
+void Channel::noteBeginning(int chunk) {
   AnalysisData *analysisData = dataAtChunk(chunk);
-  noteData.push_back(NoteData(this, chunk, analysisData, parent->aGl()));
+  noteData.push_back(NoteData(this, chunk, analysisData, m_parent->aGl()));
   resetNSDFAggregate(analysisData->period);
-
-  pitchSmallSmoothingFilter->reset();
-  pitchBigSmoothingFilter->reset();
 }
 
 
@@ -559,10 +464,10 @@ float Channel::calcOctaveEstimate() {
 }
 
 
-void Channel::recalcNotePitches(int chunk)
-{
-  if(!isValidChunk(chunk)) return;
-  
+void Channel::recalcNotePitches(int chunk) {
+  if(!isValidChunk(chunk))
+    return;
+
   //recalculate the values for the note using the overall periodOctaveEstimate
   NoteData *currentNote = getLastNote();
   if(currentNote == NULL) return;
@@ -578,14 +483,7 @@ void Channel::recalcNotePitches(int chunk)
 }
 
 
-NoteData *Channel::getLastNote()
-{
-  return (noteData.empty()) ? NULL : &noteData.back();
-}
-
-
-NoteData *Channel::getCurrentNote()
-{
+NoteData *Channel::getCurrentNote() {
   AnalysisData *analysisData = dataAtCurrentChunk();
   if(analysisData) {
     int noteIndex = analysisData->noteIndex;
@@ -595,17 +493,7 @@ NoteData *Channel::getCurrentNote()
 }
 
 
-NoteData *Channel::getNote(int noteIndex)
-{
-  if(noteIndex >= 0 && noteIndex < (int)noteData.size()) return &noteData[noteIndex];
-  else return NULL;
-}
-
-/** Choose the correlation index (with no starting octave estimate)
-  * For use with at the start of the note
-  */
-void Channel::chooseCorrelationIndex1(int chunk)
-{
+void Channel::chooseCorrelationIndex1(int chunk) {
   AnalysisData &analysisData = *dataAtChunk(chunk);
   uint iterPos;
   int choosenMaxIndex = 0;
@@ -625,17 +513,13 @@ void Channel::chooseCorrelationIndex1(int chunk)
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
-  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl()->topPitch);
+  analysisData.pitch = bound(freq2pitch(freq), 0.0, m_parent->aGl()->topPitch);
   analysisData.pitchSum = (double)analysisData.pitch;
   analysisData.pitch2Sum = sq((double)analysisData.pitch);
 }
 
 
-/** This uses an octave extimate to help chose the correct correlation index
-  * Returns true if the new correlation index is different from the old one
-  */
-bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
-{
+bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate) {
   AnalysisData &analysisData = *dataAtChunk(chunk);
   uint iterPos;
   int choosenMaxIndex = 0;
@@ -643,7 +527,7 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
   if(analysisData.periodEstimates.empty()) { //no period found
     return false;
   }
-  if(parent->aGl()->analysisType == e_MPM || parent->aGl()->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
+  if(m_parent->aGl()->analysisType == e_MPM || m_parent->aGl()->analysisType == e_MPM_MODIFIED_CEPSTRUM) {
   //choose the periodEstimate which is closest to the periodOctaveEstimate
     float minDist = fabs(analysisData.periodEstimates[0] - periodOctaveEstimate);
     float dist;
@@ -661,7 +545,7 @@ bool Channel::chooseCorrelationIndex(int chunk, float periodOctaveEstimate)
   analysisData.period = analysisData.periodEstimates[choosenMaxIndex];
   double freq = rate() / analysisData.period;
   analysisData.fundamentalFreq = float(freq);
-  analysisData.pitch = bound(freq2pitch(freq), 0.0, parent->aGl()->topPitch );
+  analysisData.pitch = bound(freq2pitch(freq), 0.0, m_parent->aGl()->topPitch );
   if(chunk > 0 && !isFirstChunkInNote(chunk)) {
     analysisData.pitchSum = dataAtChunk(chunk-1)->pitchSum + (double)analysisData.pitch;
     analysisData.pitch2Sum = dataAtChunk(chunk-1)->pitch2Sum + sq((double)analysisData.pitch);
@@ -761,24 +645,15 @@ void Channel::addToNSDFAggregate(const float scaler, float periodDiff)
 }
 
 
-/** Calculate (the middle half of) pitches within the current window of the input
-    Calculates pitches for positions 1/4 of size() to 3/4 of size()
-    e.g. for size() == 1024, does indexs 256 through < 768
-    @param period The period estimate
-    @return The change in period size
-*/
-float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
-{
+float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/) {
   const int pitchSamplesRange = 4; //look 4 samples either side of the period. Total of 9 different subwindows.
 
   int n = size();
   int i, j, j2;
   int subwindow_size;
-  if(period < pitchSamplesRange || period > double(n)*(3.0/8.0) - pitchSamplesRange) {
-    std::fill(detailedPitchData.begin(), detailedPitchData.end(), 0.0f); //invalid period
-    std::fill(detailedPitchDataSmoothed.begin(), detailedPitchDataSmoothed.end(), 0.0f); //invalid period
+  if(period < pitchSamplesRange || period > double(n)*(3.0/8.0) - pitchSamplesRange)
     return 0.0f;
-  }
+
   int iPeriod = int(floor(period));
   subwindow_size = n/4;
   int num = n/2;
@@ -825,8 +700,8 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
   int right1;
   int right2 = left1 + subwindow_size + iPeriod;
 
-  for(; left1<num; left1++, right2++) {
-    for(i=0; i<ln; i++) {
+  for(; left1 < num; left1++, right2++) {
+    for(i = 0; i < ln; i++) {
       right1 = left1+periods[i];
       left2 = right2 - periods[i];
 
@@ -844,34 +719,12 @@ float Channel::calcDetailedPitch(float *input, double period, int /*chunk*/)
     else
       unsmoothed[left1] = double(periods[pos]);
   }
-
   float periodDiff = unsmoothed.back() - unsmoothed.front();
-  for(j=0; j<num; j++) {
-    unsmoothed[j] = freq2pitch(rate() / unsmoothed[j]);
-  }
-
-  pitchBigSmoothingFilter->filter(unsmoothed.begin(), detailedPitchDataSmoothed.begin(), num);
-  for(j=0; j<num; j++) 
-	  detailedPitchDataSmoothed[j] = bound(detailedPitchDataSmoothed[j], 0.0f, (float)parent->aGl()->topPitch);
-
-  pitchSmallSmoothingFilter->filter(unsmoothed.begin(), detailedPitchData.begin(), num);
-  for(j=0; j<num; j++)
-	  detailedPitchData[j] = bound(detailedPitchData[j], 0.0f, (float)parent->aGl()->topPitch);
-
   return periodDiff;
 }
 
 
-void Channel::calcVibratoData(int chunk)
-{
-  NoteData *currentNote = getLastNote();
-  if (currentNote && (dataAtChunk(chunk)->noteIndex >=0)) {
-    currentNote->addVibratoData(chunk);
-  }
-}
-
-float Channel::periodOctaveEstimate(int chunk)
-{
+float Channel::periodOctaveEstimate(int chunk) {
   AnalysisData *analysisData = dataAtChunk(chunk);
   if(analysisData && analysisData->noteIndex >= 0) {
     return noteData[analysisData->noteIndex].periodOctaveEstimate() * analysisData->periodRatio;
