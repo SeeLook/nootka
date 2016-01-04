@@ -39,7 +39,6 @@ TaudioIN*        			TaudioIN::m_instance = 0;
 QString          			TaudioIN::m_deviceName = QStringLiteral("anything");
 
 
-
 TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   TcommonListener(params, parent),
   m_audioParams(params),
@@ -54,7 +53,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   }
   m_instance = this;
   finder()->setCopyInThread(false);
-  finder()->setNrChunksToReset(500); // Less memory usage
+//   finder()->setNrChunksToReset(500); // Less memory usage
 
   createInputDevice();
 
