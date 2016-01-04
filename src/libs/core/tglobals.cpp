@@ -253,7 +253,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			E->showWrongPlayed = cfg->value("showWrongPlayed", false).toBool();
 			E->showHelpOnStart = cfg->value("showHelpOnStart", true).toBool();
 			E->askAboutExpert = cfg->value("askAboutExpert", true).toBool();
-			E->showVeryBeginHelp = cfg->value("showVeryBeginHelp", true).toBool();
+			E->showVeryBeginHelp = cfg->value("showVeryBeginHelp", false).toBool();
 	cfg->endGroup();
 
 // Sound settings
