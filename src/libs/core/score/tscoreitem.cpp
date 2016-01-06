@@ -35,7 +35,7 @@ bool TscoreItem::touchEnabled() {
 
 TscoreItem::TscoreItem(TscoreScene* scene) :
   m_scene(scene),
-  m_statusTip(""),
+  m_statusTip(QString()),
   m_staff(0),
   m_hasCursor(false)
 {
@@ -48,7 +48,7 @@ TscoreItem::TscoreItem(TscoreScene* scene) :
 
 void TscoreItem::setStatusTip(QString status) {
   m_statusTip = status;
-  if (m_statusTip == "")
+  if (m_statusTip.isEmpty())
       disconnect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)));
   else
       connect(this, SIGNAL(statusTip(QString)), m_scene, SLOT(statusTipChanged(QString)), Qt::UniqueConnection);
@@ -91,14 +91,14 @@ void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
 void TscoreItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   Q_UNUSED(event);
 	m_hasCursor = true;
-  if (m_statusTip != "")
+  if (!m_statusTip.isEmpty())
     emit statusTip(m_statusTip);
 }
 
 void TscoreItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
   Q_UNUSED(event);
 	m_hasCursor = false;
-  emit statusTip("");
+  emit statusTip(QString());
 }
 
 
