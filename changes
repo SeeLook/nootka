@@ -1,6 +1,8 @@
 1.2.4
+     - reduced memory consumption of pitch detection process
     BUGS FIXES
      - Fixed crash when note name tip was invoked from temporary, auto added note segment
+     - Default color of enharmonic notes/names is set properly and approved when changed
 
 1.2.3
     BUGS FIXES
