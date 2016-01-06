@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -115,6 +115,7 @@ void TmainScore::acceptSettings() {
 		refreshNoteNames = true;
 	if (Tcore::gl()->S->isSingleNoteMode) {
 		setInsertMode(e_single);
+    setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 	} else
 		setInsertMode(e_multi);
 // Double accidentals
@@ -866,8 +867,8 @@ void TmainScore::createActions() {
 
 
 void TmainScore::restoreNotesSettings() {
-// 		if (Tcore::gl()->S->enharmNotesColor == -1)
-// 					Tcore::gl()->S->enharmNotesColor = palette().highlight().color();
+  if (Tcore::gl()->S->enharmNotesColor == -1)
+      Tcore::gl()->S->enharmNotesColor = QColor(0, 162, 162); // turquoise
 // 	TscoreNote::setNameColor(Tcore::gl()->S->nameColor);
 	scoreScene()->right()->adjustSize();
 	if (Tcore::gl()->S->pointerColor == -1) {

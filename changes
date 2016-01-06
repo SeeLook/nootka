@@ -1,3 +1,9 @@
+1.2A.4 beta2
+    ANDROID
+     - added quick icon to clear score with single move
+    BUGS FIXES
+     - fixed crash when re-enabling input/output settings
+
 1.2A.3 beta1
      - added touch interface, adjusted GUI layout to it
     ANDROID

@@ -344,6 +344,8 @@ void MainWindow::createSettingsDialog() {
 #endif
 			pitchView->setVisible(gl->L->soundViewEnabled);
 			guitar->setVisible(gl->L->guitarEnabled);
+      if (gl->S->isSingleNoteMode) // refresh note name
+        noteName->setNoteName(noteName->getNoteName());
 			m_isPlayerFree = true;
 	} else if (lastWord.contains(QLatin1String("Reset"))) {
       resetConfig = true;
