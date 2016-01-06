@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -82,13 +82,18 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
 }
 
 
-TaudioOUT::~TaudioOUT() 
+TaudioOUT::~TaudioOUT()
 {
   delete oggScale;
   delete m_crossBuffer;
   stop();
   m_audioParams->OUTdevName = m_devName;
+  m_devName = QStringLiteral("anything");
   m_instance = 0;
+  if (m_audioOUT) {
+    delete m_audioOUT;
+    delete m_buffer;
+  }
 }
 
 
@@ -144,15 +149,15 @@ void TaudioOUT::createOutputDevice() {
   }
   m_audioOUT = new QAudioOutput(m_deviceInfo, format, this);
   m_audioOUT->setBufferSize(m_bufferFrames * 2);
-  
+
   m_buffer = new TaudioBuffer(this);
   m_buffer->open(QIODevice::ReadOnly);
   m_buffer->setBufferSize(m_audioOUT->bufferSize());
-  
+
   m_maxSamples = m_sampleRate * 1.5;
 
   qDebug() << "OUT:" << m_deviceInfo.deviceName() << m_audioOUT->format().sampleRate() << m_maxSamples;
-  
+
   connect(m_buffer, &TaudioBuffer::feedAudio, this, &TaudioOUT::outCallBack, Qt::DirectConnection);
   connect(m_audioOUT, &QAudioOutput::stateChanged, this, &TaudioOUT::stateChangedSlot);  
 }
