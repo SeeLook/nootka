@@ -320,6 +320,8 @@ void MainWindow::createSettingsDialog() {
 			m_statLab->setVisible(gl->L->hintsBarEnabled);
 			pitchView->setVisible(gl->L->soundViewEnabled);
 			guitar->setVisible(gl->L->guitarEnabled);
+      if (gl->S->isSingleNoteMode) // refresh note name
+        noteName->setNoteName(noteName->getNoteName());
 			m_isPlayerFree = true;
 	} else if (lastWord.contains("Reset")) {
       resetConfig = true;

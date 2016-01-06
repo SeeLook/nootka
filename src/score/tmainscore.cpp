@@ -117,6 +117,7 @@ void TmainScore::acceptSettings() {
 		refreshNoteNames = true;
 	if (Tcore::gl()->S->isSingleNoteMode) {
 		setInsertMode(e_single);
+    setEnableEnharmNotes(Tcore::gl()->S->showEnharmNotes);
 	} else
 		setInsertMode(e_multi);
 // Double accidentals
@@ -875,23 +876,13 @@ void TmainScore::createActions() {
 
 
 void TmainScore::restoreNotesSettings() {
-// 		if (Tcore::gl()->S->enharmNotesColor == -1)
-// 					Tcore::gl()->S->enharmNotesColor = palette().highlight().color();
-// 	TscoreNote::setNameColor(Tcore::gl()->S->nameColor);
-	scoreScene()->right()->adjustSize();
+  if (Tcore::gl()->S->enharmNotesColor == -1)
+      Tcore::gl()->S->enharmNotesColor = QColor(0, 162, 162); // turquoise	scoreScene()->right()->adjustSize();
 	if (Tcore::gl()->S->pointerColor == -1) {
 				Tcore::gl()->S->pointerColor = Tcolor::invert(palette().highlight().color());
 				Tcore::gl()->S->pointerColor.setAlpha(200);
 	}
 	scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
-// 	for (int i = 0; i < staff()->count(); i++)
-// 			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
-// 		staff()->noteSegment(1)->setReadOnly(true);
-// 		staff()->noteSegment(1)->setColor(Tcore::gl()->S->enharmNotesColor);
-// 		staff()->noteSegment(2)->setReadOnly(true);
-// 		staff()->noteSegment(2)->setColor(Tcore::gl()->S->enharmNotesColor);
-// 		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
-		
 }
 
 
