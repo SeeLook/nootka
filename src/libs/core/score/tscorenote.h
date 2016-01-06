@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@
 
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
-#include <QElapsedTimer>
+#include <QtCore/qelapsedtimer.h>
 
 
 class TscoreLines;
@@ -61,7 +61,7 @@ public:
 				 * This value has to be set through setNote() */
 		Tnote* note() { return m_note; }
 		
-		void adjustSize(); /** Grabs height from staff and adjust to it. */
+		void adjustSize(); /**< Grabs height from staff and adjust to it. */
 		
         /** Sets color of main note. */
     void setColor(const QColor& color);
@@ -93,54 +93,55 @@ public:
 
         /** This return value of -2 is bb,  1 is #,  etc... */ 
     int accidental() {return m_accidental;}
-    int ottava() { return m_ottava; } /** NOTE: for this moment it is unused and set to 0 */
+    int ottava() { return m_ottava; } /**< NOTE: for this moment it is unused and set to 0 */
     int notePos() { return m_mainPosY; }  /** Y Position of note head */
 
-    static QString getAccid(int accNr); /** Returns QString with accidental symbol*/
+    static QString getAccid(int accNr); /**< Returns QString with accidental symbol*/
 		
 		    /** Prepares note-head (ellipse) */
     static QGraphicsEllipseItem* createNoteHead(QGraphicsItem* parentIt);
 		
 				/** It paints string number symbol. Automatically determines above or below staff. */
     void setString(int realNr);
-    void removeString(); /** Removes string number */
-		int stringNumber() { return m_stringNr; } /** Displayed string number or 0 if not. */
+    void removeString(); /**< Removes string number */
+		int stringNumber() { return m_stringNr; } /**< Number of displayed string or 0 if none. */
 		
 				/** Starts displaying note name of this note. 
 				 * Name will change appropriate to moved note until removeNoteName() will be invoked.
 				 * If no color is set the default one defined in TscoreScene will be used. */
 		void showNoteName(const QColor& dropShadowColor = -1);
 		void removeNoteName();
-		QGraphicsTextItem* noteName() { return m_nameText; } /** Graphics item of note name text */
+		QGraphicsTextItem* noteName() { return m_nameText; } /**< Graphics item of note name text */
 		
 				/** Enables moving note animation during its position (pitch) change.
 				 * In fact, when accidental is visible it is animated as well. */
 		void enableNoteAnim(bool enable, int duration = 150);
 		bool isNoteAnimEnabled() { return (bool)m_noteAnim; }
 		
-		void popUpAnim(int durTime); /** Performs pop-up animation */
+		void popUpAnim(int durTime); /**< Performs pop-up animation */
     
         /** Defines when lines above and below staff are visible when note is empty. */
     void setEmptyLinesVisible(bool visible) { m_emptyLinesVisible = visible; }
     bool emptyLinesVisible() { return m_emptyLinesVisible; }
+    bool wasTouched() { return m_wasTouched; } /**< @p TRUE during touch only */
     
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
 		
 signals:
     void noteWasClicked(int);
-		void noteWasSelected(int); /** When right button was clicked. */
+		void noteWasSelected(int); /**< When right button was clicked. */
 		
-		void toKeyAnim(const QString&, const QPointF&, int notePos); /** Emitted when accidental has been in key already */
-		void fromKeyAnim(const QString&, const QPointF&, int notePos); /** Emitted when neutral is necessary */
+		void toKeyAnim(const QString&, const QPointF&, int notePos); /**< Emitted when accidental has been in key already */
+		void fromKeyAnim(const QString&, const QPointF&, int notePos); /**< Emitted when neutral is necessary */
 		
-		void roNoteClicked(TscoreNote*, const QPointF&); /** Emitted after mouse left click in read only state with clicked position. */
-		void roNoteSelected(TscoreNote*, const QPointF&); /** Emitted after mouse right click or double click in read only state */ 
+		void roNoteClicked(TscoreNote*, const QPointF&); /**< Emitted after mouse left click in read only state with clicked position. */
+		void roNoteSelected(TscoreNote*, const QPointF&); /**< Emitted after mouse right click or double click in read only state */
 		
 public slots:
 		void keyAnimFinished();
-    void hideNote(); /** Hides main note */
-    void hideWorkNote(); /** Hides pointing (work) note */
+    void hideNote(); /**< Hides main note */
+    void hideWorkNote(); /**< Hides pointing (work) note */
 
 protected:
     virtual void touched(const QPointF& scenePos);
@@ -162,30 +163,30 @@ private:
 		Tnote                                  *m_note;
     
     int                            					m_mainPosY, m_accidental;
-    int                            					m_index; /** note index in external list */
+    int                            					m_index; /**< note index in external list */
 //     int 													m_noteNr; // note number depends on octave
-    int                            					m_ambitMin, m_ambitMax; /** Represents range (ambitus) of notes on score */
+    int                            					m_ambitMin, m_ambitMax; /**< Represents range (ambitus) of notes on score */
 		int 													 					m_stringNr;
 		QGraphicsSimpleTextItem 							 *m_stringText;
     qreal                          					m_height;
 		bool													 					m_readOnly, m_emptyLinesVisible;
 		QGraphicsTextItem											 *m_nameText;
-		int 													 					m_ottava; /** values from -2 (two octaves down), to 2 (two octaves up) */
+		int 													 					m_ottava; /**< values from -2 (two octaves down), to 2 (two octaves up) */
 		QColor                         					m_bgColor;
 		TcombinedAnim													 *m_noteAnim, *m_popUpAnim;
 		QGraphicsSimpleTextItem								 *m_emptyText;
 		bool													 					m_selected;
 		TscoreLines														 *m_lines;
 		
-		bool 																		m_touchedToMove; /** Determines whether cursor follows moving finger */
+		bool 																		m_touchedToMove; /**< Determines whether cursor follows moving finger */
+		bool                                    m_wasTouched;
 		static QString													m_staticTip;
-    QTimer                                 *m_touchHideTimer;
     QElapsedTimer                           m_touchTime;
     
 private:
-		void setStringPos(); /** Determines and set string number position (above or below the staff) depends on note position */
-		void initNoteCursor(); /** Creates note cursor when first TscoreNote instance is created and there is a view */
-		void checkEmptyText(); /** Decides whether show or hide text about empty note. */
+		void setStringPos(); /**< Determines and set string number position (above or below the staff) depends on note position */
+		void initNoteCursor(); /**< Creates note cursor when first TscoreNote instance is created and there is a view */
+		void checkEmptyText(); /**< Decides whether show or hide text about empty note. */
 		
 private slots:
 		void popUpAnimFinished();

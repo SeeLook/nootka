@@ -501,7 +501,7 @@ void AudioInSettings::restoreDefaults() {
 	m_inDeviceCombo->setCurrentIndex(0);
 	m_methodCombo->setCurrentIndex(2);
 	volumeSlider->setValue(0.4); // It is multiplied by 100
-	durationSpin->setValue(90);
+	durationSpin->setValue(150);
 	m_intonationCombo->setCurrentIndex(3); // normal
   adjustInstrSlot((int)e_classicalGuitar);
 }

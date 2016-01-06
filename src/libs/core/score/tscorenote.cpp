@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -80,11 +80,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_bgColor(-1),
   m_noteAnim(0), m_popUpAnim(0),
   m_selected(false),
-  m_touchedToMove(false)
+  m_touchedToMove(false), m_wasTouched(false)
 {
-//   m_touchHideTimer = new QTimer(scene);
-//   connect(m_touchHideTimer, SIGNAL(timeout()), this, SLOT(hideWorkNote()));
-//   m_touchHideTimer->setSingleShot(true);
   setStaff(staff);
 	setParentItem(staff);
   m_height = staff->height();
@@ -496,7 +493,16 @@ void TscoreNote::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 }
 
 
+/** FIXME: disabling hover under Android removes mouse usage functionality.
+ * But so far there is no possibility to test it.
+ * But it solves calling this when touch only is used on real devices.
+ * So far a reason of calling it is unknown... */
 void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
+#if defined (Q_OS_ANDROID)
+  qDebug() << "hoverMoveEvent";
+  if (wasTouched()) // It doesn't work here
+      return;
+#else
   if ((event->pos().y() >= m_ambitMax) && (event->pos().y() <= m_ambitMin)) {
 		if (staff()->isPianoStaff() && // dead space between staves
 			(event->pos().y() >= staff()->upperLinePos() + 10.6) && (event->pos().y() <= staff()->lowerLinePos() - 2.4)) {
@@ -507,6 +513,7 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 			scoreScene()->noteMoved(this, event->pos().y() - 0.6);
     }
   }
+#endif
 }
 
 
@@ -546,7 +553,7 @@ void TscoreNote::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) {
 void TscoreNote::touched(const QPointF& scenePos) {
 	if (m_readOnly)
     return;
-
+  m_wasTouched = true;
   TscoreItem::touched(scenePos);
   scoreScene()->noteEntered(this);
   m_touchTime.start();
@@ -581,6 +588,8 @@ void TscoreNote::untouched(const QPointF& scenePos) {
     emit roNoteClicked(this, mapFromScene(scenePos));
     return;
   }
+
+  m_wasTouched = false;
   TscoreItem::untouched(scenePos);
   if (scenePos.isNull()) { // touch canceled
     hideWorkNote();

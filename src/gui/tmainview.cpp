@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -486,10 +486,10 @@ bool TmainView::viewportEvent(QEvent *event) {
           return m_fretView->mapTouchEvent(te);
       }
     }
-  }
 #if defined (Q_OS_ANDROID)
   } // CLOSES: if (!m_menuItem->isTouched())
 #endif
+  }
   return QAbstractScrollArea::viewportEvent(event);
 }
 
