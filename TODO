@@ -14,10 +14,10 @@ Translations:
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
 
 ANDROID:
-Knowing issues:
-    - crash when audio out was disables and enabled again in settings
+    - quick icons:
+        - disable sniffing/note by note when audio input is off
+        - hide 'clear score' one when undesired (single mode, exam with playing)
     - resetting options closes Nootka but does not launch it again
-    - sometimes note cursor remains visible on the score - looks messy
     - played sound is sometimes distorted (when note starts playing)
     - no level/exam icon in file manager, not all file managers support opening Nootka files
     - correct animation of note does not finish - note head remains bigger (animations takes more time than before)
@@ -41,10 +41,6 @@ To consideration:
     - full screen mode (TRUE by default)
     - home button actions
 
-============================================================================
-Issues of stable 1.2.2:
-- fix white lines off staff in the main icon
-============================================================================
 
 - Move context of Ttune translations from QObject to some more suitable name
 - NotaData of Tartini might be cleaned

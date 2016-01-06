@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -74,8 +74,11 @@ TaudioIN::~TaudioIN() {
       stopThread();
   }
   m_audioParams->INdevName = m_deviceName; // store device name at the app exit
+  m_deviceName = QStringLiteral("anything");
   delete m_thread;
   m_instance = 0;
+  if (m_audioIN)
+    delete m_audioIN;
 }
 
 
