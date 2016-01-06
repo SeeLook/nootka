@@ -279,7 +279,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->INdevName = cfg->value("inDeviceName", "").toString();
 		A->detectMethod = qBound(0, cfg->value("detectionMethod", 2).toInt(), 2); // MPM modified cepstrum
 		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
-		A->minDuration = cfg->value("minimalDuration", 0.09).toFloat();
+		A->minDuration = cfg->value("minimalDuration", 0.15).toFloat();
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
 		A->forwardInput = cfg->value("forwardInput", false).toBool();
