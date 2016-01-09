@@ -151,14 +151,21 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 				if (err == Texam::e_file_corrupted)
 					QMessageBox::warning(mW, " ", 
 						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-#if !defined (Q_OS_ANDROID)
-				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
-						!showExamSummary(mW, m_exam, true)) {
+#if defined (Q_OS_ANDROID)
+        if (!showExamSummary(mW, m_exam, true)) {
+            mW->clearAfterExam(e_failed);
+            deleteExam();
+            return;
+        }
+#else
+				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) ||
+						!showExamSummary(mW, m_exam, true))
+#endif
+        {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
 				}
-#endif
 			} else {
 					if (err == Texam::e_file_not_valid)
 							QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
