@@ -30,6 +30,7 @@ namespace Tandroid {
   void setScreenLockDisabled(); /**< Sets phone/tablet screen saving disabled. */
   QString getExternalPath(); /**< Returns path to external storage (SD card). */
   QString getRunArgument(); /**< Returns command line argument (usually exam/level file name. */
+  void sendExam(const QString& title, const QString& message, const QString& filePath);
   QString accountName();
 
 }

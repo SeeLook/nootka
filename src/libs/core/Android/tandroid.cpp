@@ -69,7 +69,24 @@ QString Tandroid::getRunArgument() {
        }
     }
   }
+  QAndroidJniEnvironment env;
+  if (env->ExceptionCheck())
+    env->ExceptionClear();
   return argument;
+}
+
+
+void Tandroid::sendExam(const QString& title, const QString &message, const QString& filePath) {
+  QAndroidJniObject jTitle = QAndroidJniObject::fromString(title);
+  QAndroidJniObject jMessage = QAndroidJniObject::fromString(message);
+  QAndroidJniObject jFile = QAndroidJniObject::fromString(filePath);
+  QAndroidJniObject::callStaticMethod<void>(
+        "net/sf/nootka/TshareExam", "send",
+        "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+        jTitle.object<jstring>(), jMessage.object<jstring>(), jFile.object<jstring>());
+  QAndroidJniEnvironment env;
+  if (env->ExceptionCheck())
+    env->ExceptionClear();
 }
 
 
