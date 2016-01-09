@@ -22,6 +22,7 @@
 #include <exam/texam.h>
 #include <exam/tqaunit.h>
 #include <exam/textrans.h>
+#include <exam/tlevel.h>
 #include <level/tlevelpreview.h>
 #include <widgets/troundedlabel.h>
 #include <tpath.h>
@@ -29,7 +30,9 @@
 #include <QtWidgets/QtWidgets>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
+  #include <Android/tandroid.h>
 #endif
+#include <qtr.h>
 
 
   /** returns 2 columns row of table */
@@ -96,8 +99,6 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   timeGr->setLayout(timeLay);
   m_leftLay->addWidget(timeGr);
 
-  QHBoxLayout *buttLay =new QHBoxLayout;
-
   QPushButton *analyseButt = new QPushButton(tr("Analyze"), this);
     analyseButt->setIcon(QIcon(Tpath::img("charts")));
     analyseButt->setIconSize(QSize(48, 48));
@@ -105,24 +106,32 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
     analyseButt->setDisabled(true);
 #if defined (Q_OS_ANDROID) // TODO: delete if mobile version will support analysis
     analyseButt->hide();
+  m_sendButt = new QPushButton(qTR("QShortcut", "Send"), this);
+    m_sendButt->setIcon(QIcon(Tpath::img("nootka-exam")));
+    m_sendButt->setIconSize(QSize(48, 48));
 #endif
-  m_okButt = new QPushButton(tr("Close"), this);
+
+  m_okButt = new QPushButton(qTR("QPlatformTheme", "Close"), this);
   if (cont) {
-      m_okButt->setText(tr("Continue"));
+      m_okButt->setText(qTR("QWizard", "Continue"));
       m_okButt->setIcon(QIcon(Tpath::img("exam")));
-      m_closeButt = new QPushButton(tr("Discard"), this);
-      m_closeButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+      m_closeButt = new QPushButton(qTR("QPlatformTheme", "Discard"), this);
+      m_closeButt->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
       m_closeButt->setIconSize(QSize(48, 48));
-      connect(m_closeButt, SIGNAL(clicked()), this, SLOT(closeSlot()));
+      connect(m_closeButt, &QPushButton::clicked, this, &TexamSummary::closeSlot);
   } else
-      m_okButt->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+      m_okButt->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
   m_okButt->setIconSize(QSize(48, 48));
 
-  buttLay->addWidget(m_okButt);
-  buttLay->addWidget(analyseButt);
+  auto buttLay = new QHBoxLayout;
+    buttLay->addWidget(m_okButt);
+    buttLay->addWidget(analyseButt);
 
   m_leftLay->addStretch(1);
   m_leftLay->addLayout(buttLay);
+#if defined (Q_OS_ANDROID)
+  m_leftLay->addWidget(m_sendButt);
+#endif
   if (cont)
     m_leftLay->addWidget(m_closeButt);
 
@@ -136,7 +145,7 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
 	levelWdg->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 	QVBoxLayout *resLay = new QVBoxLayout();
 	QGroupBox *resGr = new QGroupBox(tr("Results:"), this);
-  QString effStr = "";
+  QString effStr;
   if (exam->mistakes() || exam->halfMistaken()) {
 //     effStr = row2(TexamView::mistakesNrTxt(), QString::number(exam->mistakes()));
 //     effStr += row2(TexamView::corrAnswersNrTxt(), QString::number(exam->count()-exam->mistakes()));
@@ -202,8 +211,11 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   setLayout(lay);
 #endif
 
-  connect(analyseButt, SIGNAL(clicked()), this, SLOT(analyseSlot()));
-  connect(m_okButt, SIGNAL(clicked()), this, SLOT(continueSlot()));
+  connect(analyseButt, &QPushButton::clicked, this, &TexamSummary::analyseSlot);
+  connect(m_okButt, &QPushButton::clicked, this, &TexamSummary::continueSlot);
+#if defined (Q_OS_ANDROID)
+  connect(m_sendButt, &QPushButton::clicked, this, &TexamSummary::sendExamSlot);
+#endif
 
   if (m_exam->isExercise())
     setForExercise();
@@ -222,13 +234,16 @@ void TexamSummary::setForExercise() {
 		m_examButton->setToolTip(tr("Finish exercise and pass an exam on this level."));
 		m_examButton->setIcon(QIcon(Tpath::img("exam")));
 		m_examButton->setIconSize(QSize(48, 48));
-	connect(m_examButton, SIGNAL(clicked()), this, SLOT(startExamSlot()));
+  connect(m_examButton, &QPushButton::clicked, this, &TexamSummary::startExamSlot);
 	if (m_closeButt) {
 		m_okButt->setIcon(QIcon(Tpath::img("practice")));
 		m_closeButt->setText(tr("Finish this exercise"));
 		m_leftLay->insertWidget(m_leftLay->count() - 1, m_examButton);
 	} else
 		m_leftLay->addWidget(m_examButton);
+#if defined (Q_OS_ANDROID)
+  m_sendButt->hide(); // don't send exercise file
+#endif
 }
 
 
@@ -239,9 +254,21 @@ void TexamSummary::setForExercise() {
 void TexamSummary::analyseSlot() {
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_analyzer)) {
-    loader.init("", m_mainWIndow, m_exam); 
+    loader.init(QString(), m_mainWIndow, m_exam);
   }
 }
+
+
+#if defined (Q_OS_ANDROID)
+void TexamSummary::sendExamSlot() {
+  QString space = QStringLiteral(" ");
+  QString br = QStringLiteral("\n");
+  QString message = qTR("TexamSummary", "student:") + space + m_exam->userName() + br;
+  message += qTR("TanalysDialog", "level:") + space + m_exam->level()->name + br;
+  message += qTR("TexamSummary", "Number of questions:") + space + QString::number(m_exam->count()) + br;
+  Tandroid::sendExam(tr("Send exam file"), message, m_exam->fileName());
+}
+#endif
 
 void TexamSummary::closeSlot() {
   m_state = e_discard;
