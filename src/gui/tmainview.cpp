@@ -175,7 +175,10 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
     m_resultLay = new QBoxLayout(QBoxLayout::LeftToRight);
     m_results->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
 #if defined (Q_OS_ANDROID)
-    m_resultLay->setContentsMargins(0, 0, 0, 0);
+    m_resultLay->setContentsMargins(0, 5, 0, 0);
+    auto spacerW = new QWidget(resultsW);
+    spacerW->setFixedSize(Tmtr::fingerPixels() * 0.7, 5);
+    m_resultLay->addWidget(spacerW); // space for menu dots, also makes nice gap above exam views when placed above note name
 #endif
   }
   m_resultLay->addWidget(m_progress);
