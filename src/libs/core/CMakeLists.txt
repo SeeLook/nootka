@@ -74,7 +74,6 @@ set(LIB_NOOTKACORE_SRC
 	widgets/tselectinstrument.cpp
 
 	touch/ttouchproxy.cpp
-	touch/ttouchmenu.cpp
 	touch/ttoucharea.cpp
 	touch/ttouchparams.cpp
 
