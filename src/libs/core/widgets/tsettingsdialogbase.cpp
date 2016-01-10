@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                  				   *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                  				   *
  *   tomaszbojczuk@gmail.com   						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,11 +20,11 @@
 #include "tsettingsdialogbase.h"
 #include <widgets/troundedlabel.h>
 #include <touch/ttouchproxy.h>
-#include <touch/ttouchmenu.h>
 #if defined (Q_OS_ANDROID)
   #include "tmtr.h"
   #include "touch/tmenuwidget.h"
   #include <graphics/tdropshadoweffect.h>
+  #include <touch/ttouchmenu.h>
 #endif
 #include <QtWidgets/QtWidgets>
 

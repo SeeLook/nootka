@@ -23,13 +23,13 @@
 #if defined (Q_OS_ANDROID)
   #include "tmaterialmenu.h"
   #include <widgets/tmelodyitem.h>
+  #include <touch/ttouchmenu.h>
 #endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
 #include <animations/tcombinedanim.h>
 #include <tlayoutparams.h>
 #include <touch/ttouchproxy.h>
-#include <touch/ttouchmenu.h>
 // #include <touch/ttouchparams.h>
 #include <tpath.h>
 #include <tmtr.h>
@@ -392,6 +392,7 @@ void TmainView::mainMenuExec() {
 
 
 void TmainView::scoreMenuExec() {
+#if defined (Q_OS_ANDROID)
   m_scoreMenuTap = false;
   TtouchMenu menu(this);
   menu.setGraphicsEffect(new TdropShadowEffect());
@@ -402,6 +403,7 @@ void TmainView::scoreMenuExec() {
   menu.addAction(m_tool->scoreZoomOut());
   menu.addAction(m_tool->scoreDeleteAll());
   menu.exec(QPoint(width() - menu.sizeHint().width() - 2, 2), QPoint(width(), 2));
+#endif
 }
 
 
