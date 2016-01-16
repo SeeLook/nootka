@@ -674,7 +674,7 @@ void MainWindow::updateSize(QSize newS) {
 		}
 	}
 	setUpdatesEnabled(true);
-	QTimer::singleShot(2, this, SLOT(update()));
+// // // 	QTimer::singleShot(2, this, SLOT(update()));
 }
 
 

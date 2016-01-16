@@ -273,12 +273,11 @@ void TmainView::updateBarLine() {
 
 
 void TmainView::updateLayout() {
-  m_proxy->setGeometry(0, 0, width(), height());
+  emit sizeChanged(size());
   scene()->setSceneRect(0, 0, width(), height());
   if (!TtouchProxy::touchEnabled())
     updateBarLine();
-  m_container->resize(size());
-  emit sizeChanged(size());
+  m_container->setFixedSize(size());
 }
 
 
@@ -310,7 +309,7 @@ void TmainView::menuSlot(Tmenu* m) {
 
 void TmainView::resizeEvent(QResizeEvent* event) {
   Q_UNUSED (event)
-  QTimer::singleShot(0, this, SLOT(updateLayout()));
+  updateLayout();
 }
 
 
