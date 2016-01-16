@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -238,10 +238,10 @@ void TmainView::updateBarLine() {
 
 
 void TmainView::updateLayout() {
-  m_proxy->setGeometry(0, 0, width(), height());
+//   m_proxy->setGeometry(0, 0, width(), height());
   scene()->setSceneRect(0, 0, width(), height());
   updateBarLine();
-  m_container->resize(size());
+  m_container->setFixedSize(size());
   emit sizeChanged(size());
 }
 

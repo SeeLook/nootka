@@ -3,6 +3,7 @@
     BUGS FIXES
      - Fixed crash when note name tip was invoked from temporary, auto added note segment
      - Default color of enharmonic notes/names is set properly and approved when changed
+     - Resizing issues - fingerboard never goes out of view
 
 1.2.3
     BUGS FIXES

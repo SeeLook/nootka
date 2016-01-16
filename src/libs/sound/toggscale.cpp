@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -323,7 +323,7 @@ void ToggScale::decodeAndResample() {
 //   qDebug() << "decodeAndResample finished" << pos;
   m_touch->clear();
   m_thread->quit();
-  delete tmpTouch;
+  delete[] tmpTouch;
 }
 
 //###########################################################################
