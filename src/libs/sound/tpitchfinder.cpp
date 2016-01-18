@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -346,7 +346,7 @@ void TpitchFinder::copyToChannel() {
 
   if (!m_copyInThread) {
     while (isBusy()) {
-      qDebug() << "Detection is processing but new data come! Waiting";
+//       qDebug() << "Detection is processing but new data come! Waiting";
       qApp->thread()->msleep(1);
     }
   }
