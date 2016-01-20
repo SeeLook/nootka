@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,6 @@
 #include <QtCore/qpointer.h>
 #include <QtGui/qicon.h>
 #include <QtWidgets/qwidget.h>
-#include <QtWidgets/qpushbutton.h>
 
 
 class QScrollArea;
@@ -37,7 +36,7 @@ class TnootkaLabel;
 /**
  * Implementation of Android-like menu with possibility of scrolling context.
  * It converts @class QAction given in @p addAction() method
- * into a QPushButton and displays them in @class QScrollArea wrapped by @class QScroller.
+ * into a QLabel-s and displays them in @class QScrollArea wrapped by @class QScroller.
  * @p exec method calls @class TtouchMenu instance positioned on left-hand side.
  */
 class TmaterialMenu : public QWidget
@@ -57,6 +56,7 @@ public:
 protected:
   virtual void paintEvent(QPaintEvent* event);
   void menuItemClicked(); /**< Slot invoked when menu item (button or header widget) is clicked */
+  virtual bool eventFilter(QObject* ob, QEvent* e);
 
 private:
   QScrollArea           *m_scrollArea;
@@ -66,6 +66,7 @@ private:
   QAction               *m_selectedAction, *m_aboutAction;
   bool                   m_isMoving;
   QPointer<TtouchMenu>   m_menu;
+  QPoint                 m_startPos;
 };
 
 //=================================================================================
@@ -82,6 +83,8 @@ class TlabelWidget : public QWidget {
 public:
   explicit TlabelWidget(QWidget* parent = 0);
 
+  QColor color() const { return m_color; }
+
 signals:
   void clicked();
 
@@ -90,52 +93,51 @@ protected:
   virtual void mouseReleaseEvent(QMouseEvent* e);
 
 private:
-  TnootkaLabel            *m_label;
-  QColor                   m_color;
+  QColor                  m_color;
 };
 
 
 //=================================================================================
-//                                 class TmenuButton
+//                                 class TmenuItem
 //=================================================================================
+
+class QLabel;
+class QRadioButton;
+
 /**
- * Reimplemented @class QPushButton with @p paintEvent() nicely displaying icon and text
+ * Item represents single entry taken form QAction in menu.
+ * This is label with icon (or space if not set)
+ * + label with text (elided if necessary)
+ * + radio widget if parent action is checkeble.
+ * @class TmenuItem emits @p clicked signal.
+ * It handles mouse (actually touch) moves to ignore click (tap) when finger got moved.
  */
-class TmenuButton : public QPushButton {
+class TmenuItem : public QWidget {
 
   Q_OBJECT
 
 public:
-  explicit TmenuButton(QAction* action, QWidget* parent = 0);
+  explicit TmenuItem(QAction* action, QWidget* parent = 0);
 
   virtual QSize sizeHint() const { return m_sizeHint; }
 
-protected:
-  virtual void paintEvent(QPaintEvent* e);
-
-private:
-  QSize         m_sizeHint;
-
-};
-
-
-//=================================================================================
-//                                 class TlineSpacer
-//=================================================================================
-/**
- * Just paints horizontal line with given width
- */
-class TlineSpacer : public QWidget
-{
-
-public:
-  explicit TlineSpacer(int lineWidth = 1, QWidget* parent = 0);
+signals:
+  void clicked();
 
 protected:
-  virtual void paintEvent(QPaintEvent* e);
+  virtual void paintEvent(QPaintEvent*);
+  virtual void mousePressEvent(QMouseEvent* e);
+  virtual void mouseMoveEvent(QMouseEvent* e);
+  virtual void mouseReleaseEvent(QMouseEvent* e);
 
 private:
-  int           m_lineWidth;
+  QSize            m_sizeHint;
+  QLabel          *m_iconLabel;
+  QLabel          *m_textLabel;
+  QRadioButton    *m_radio;
+  bool             m_pressed;
+  QPoint           m_startPos;
 };
+
 
 #endif // TMATERIALMENU_H

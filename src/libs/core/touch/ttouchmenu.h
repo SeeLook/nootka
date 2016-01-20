@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,8 +19,8 @@
 #ifndef TTOUCHMENU_H
 #define TTOUCHMENU_H
 
-#include <nootkacoreglobal.h>
-#include <QMenu>
+
+#include <QtWidgets/qmenu.h>
 
 
 class QTimer;
@@ -30,7 +30,7 @@ class QVBoxLayout;
  * Kind of @p QMenu but optimized for touch events (Android quirks)
  * and with built-in appear animation
  */
-class NOOTKACORE_EXPORT TtouchMenu : public QMenu
+class TtouchMenu : public QMenu
 {
   Q_OBJECT
 
@@ -63,7 +63,9 @@ private:
   int             m_animDuration;
   QTimer         *m_animTimer;
   int             m_step, m_count;
-  QPoint          m_startPos, m_endPos, m_offset;
+  QPoint          m_startPos, m_endPos, m_offset, m_touchStartPos;
+  bool            m_vertical, m_horizontal; // determine whether menu is moving vertical or horizontal (or both)
+  bool            m_swiped; /**< @p TRUE when menu is swiped by finger (movement larger than some tolerance) */
 
 };
 

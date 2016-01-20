@@ -24,8 +24,6 @@ ANDROID:
     - correct animation of note does not finish - note head remains bigger (animations takes more time than before)
     
 - when no guitar preview - staff lines are too big
-- 'Material menu' can be stretched due to short texts and there is not enough space for top image, 
-    also texts may be to wide (elide them then)
 - keep scroll bar of score always off - it appears when switching single/multi
 - Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
 - HOME button would be switching available menus
@@ -41,6 +39,7 @@ To consideration:
     - full screen mode (TRUE by default)
     - home button actions
 
+Test scaling of alpha under Windows
 
 - Move context of Ttune translations from QObject to some more suitable name
 - NotaData of Tartini might be cleaned
