@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,19 +18,24 @@
 
 #include "ttouchmenu.h"
 #include <tmtr.h>
-#include <QTimer>
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QBoxLayout>
-#include <QPushButton>
-#include <QCheckBox>
-#include <QDebug>
+#include <QtCore/qtimer.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qdesktopwidget.h>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qpushbutton.h>
+#include <QtWidgets/qcheckbox.h>
+#include <QtGui/qevent.h>
+
+#include <QtCore/qdebug.h>
 
 
 TtouchMenu::TtouchMenu(QWidget *parent) :
   QMenu(parent),
   m_animDuration(200),
-  m_animTimer(new QTimer(this))
+  m_animTimer(new QTimer(this)),
+  m_vertical(false),
+  m_horizontal(false),
+  m_swiped(false)
 {
   connect(m_animTimer, SIGNAL(timeout()), this, SLOT(animTimeOut()));
 }
@@ -55,6 +60,8 @@ QAction* TtouchMenu::exec(const QPoint& endPos, const QPoint& startPos) {
   else {
     m_endPos = endPos;
     m_startPos = startPos;
+    m_horizontal = m_endPos.x() != m_startPos.x();
+    m_vertical = m_endPos.y() != m_startPos.y();
     m_count = m_animDuration / 40; // 40 ms for frame
     m_step = 0;
     m_offset = QPoint((m_endPos.x() - m_startPos.x()) / m_count, (m_endPos.y() - m_startPos.y()) / m_count);
@@ -71,9 +78,57 @@ void TtouchMenu::showEvent(QShowEvent* e) {
 
 
 bool TtouchMenu::event(QEvent *e) {
-  if (e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate || e->type() == QEvent::TouchEnd) {
-    qDebug() << "Menu got touch";
-  }
+/*  if (e->type() == QEvent::MouseButtonPress || e->type() == QEvent::MouseMove || e->type() == QEvent::MouseButtonRelease) {
+    auto me = static_cast<QMouseEvent*>(e);
+    if (geometry().contains(me->pos())) {
+      if (me->type() == QEvent::MouseButtonPress) {
+          m_touchStartPos = me->pos();
+          qDebug() << "Menu pressed" << e->isAccepted();
+      } else if (me->type() == QEvent::MouseMove) {
+          QPoint newPos(pos());
+          if (m_horizontal) {
+            if (!m_swiped && qAbs<int>(m_touchStartPos.x() - me->pos().x()) > Tmtr::fingerPixels() / 3) { // if finger moved enough
+              m_swiped = true; // swipe of menu started
+              m_touchStartPos = me->pos(); // reset initial position
+            }
+            if (m_swiped) // move menu horizontally
+              if (m_touchStartPos.x() - me->pos().x() > 5)
+                newPos.setX(qBound<int>(m_startPos.x(), m_endPos.x() - (m_touchStartPos.x() - me->pos().x()), m_endPos.x()));
+          }
+          if (m_vertical) {
+            if (!m_swiped && qAbs<int>(m_touchStartPos.y() - me->pos().y()) > Tmtr::fingerPixels() / 3) { // if finger moved enough
+              m_swiped = true; // swipe of menu started
+              m_touchStartPos = me->pos(); // reset initial position
+            }
+            if (m_swiped) // move menu vertically
+              newPos.setY(qBound<int>(m_startPos.y(), m_endPos.y() - (m_touchStartPos.y() - me->pos().y()), m_endPos.y()));
+          }
+          if (m_swiped)
+            move(newPos);
+      } else { // release
+          qDebug() << "Menu released" << e->isAccepted();
+          if (m_swiped) {
+            bool hideMenu = false;
+            QLine distance(pos(), m_endPos);
+            // check, hide menu or back to position
+            if (m_horizontal)
+                hideMenu = distance.dx() > Tmtr::fingerPixels() * 2;
+            if (m_vertical)
+                hideMenu = distance.dy() > Tmtr::fingerPixels() * 2;
+            m_swiped = false;
+            if (!hideMenu) {
+              qDebug() << "back to pos" << m_step;
+              move(m_endPos);
+              return true;
+            } else
+                qDebug() << "Menu moved much - hide";
+          } else {
+            if (QLineF(QLine(m_touchStartPos, me->pos())).length() >= Tmtr::fingerPixels() / 3) // ignore touch when finger moved much
+              return false;
+          }
+      }
+    }
+  }*/
   return QMenu::event(e);
 }
 
