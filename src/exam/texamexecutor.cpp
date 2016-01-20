@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -78,9 +78,9 @@ extern Tglobals *gl;
         /** Returns a file name generated from user name and level,
         * but when such a file exists in current exam directory some time mark is added. */
 QString getExamFileName(Texam* e) {
-  QString fName = QDir::toNativeSeparators(gl->E->examsDir + "/" + e->userName() + "-" + e->level()->name);
+  QString fName = QDir::toNativeSeparators(gl->E->examsDir + QStringLiteral("/") + e->userName() + QStringLiteral("-") + e->level()->name);
   if (QFileInfo(fName  + ".noo").exists())
-    fName += "-" + QDateTime::currentDateTime().toString("(dd-MMM-hhmmss)");
+    fName += "-" + QDateTime::currentDateTime().toString(QStringLiteral("(dd-MMM-hhmmss)"));
   return fName;
 }
 
@@ -109,12 +109,12 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 					resultText = TstartExamDlg::systemUserName();
 			} else
 					resultText = gl->E->studentName;
-			if (examFile == "exercise")
+			if (examFile == QLatin1String("exercise"))
 				userAct = TstartExamDlg::e_runExercise;
 			else
 				userAct = TstartExamDlg::e_newExam;
 	} else {
-			if (examFile == "") { // start exam dialog
+			if (examFile.isEmpty()) { // start exam dialog
 					TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->E, mW);
 					userAct = startDlg->showDialog(resultText, m_level);
 					delete startDlg;
@@ -130,7 +130,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
 			m_exam = new Texam(&m_level, resultText); // resultText is userName
 #if !defined (Q_OS_ANDROID)
-			if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
+			if (!fixLevelInstrument(m_level, QString(), gl->instrumentToFix, mainW)) {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
@@ -145,18 +145,14 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 // 			//We check are guitar's params suitable for an exam 
 // 				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
 	} else if (userAct == TstartExamDlg::e_contExam) {
-			m_exam = new Texam(&m_level, "");
+			m_exam = new Texam(&m_level, QString());
 			Texam::EerrorType err = m_exam->loadFromFile(resultText);
 			if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
 				if (err == Texam::e_file_corrupted)
-					QMessageBox::warning(mW, " ", 
+					QMessageBox::warning(mW, QString(),
 						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
 #if defined (Q_OS_ANDROID)
-        if (!showExamSummary(mW, m_exam, true)) {
-            mW->clearAfterExam(e_failed);
-            deleteExam();
-            return;
-        }
+        if (!showExamSummary(mW, m_exam, true)) // there is no level fix under android - just display summary window
 #else
 				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) ||
 						!showExamSummary(mW, m_exam, true))
@@ -168,7 +164,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 				}
 			} else {
 					if (err == Texam::e_file_not_valid)
-							QMessageBox::critical(mW, " ", tr("File: %1 \n is not valid exam file!")
+							QMessageBox::critical(mW, QString(), tr("File: %1 \n is not valid exam file!")
 																.arg(resultText));
 					mW->clearAfterExam(e_failed);
 					deleteExam();
@@ -197,7 +193,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   if (m_exam->melodies())
     m_melody = new TexamMelody(this);
 	if (m_questList.isEmpty()) {
-			QMessageBox::critical(mW, " ", tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+			QMessageBox::critical(mW, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
 			delete m_supp;
 			mW->clearAfterExam(e_failed);
 			deleteExam();
