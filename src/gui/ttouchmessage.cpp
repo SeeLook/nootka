@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,6 +37,7 @@ TtouchMessage::TtouchMessage() :
   m_anim = new TmovedAnim(this, 0);
   m_anim->setDuration(200);
   hide();
+  setZValue(255); // always above
   connect(m_anim, &TmovedAnim::finished, [=] {
             if (pos().y() > qApp->desktop()->height())
               hide();

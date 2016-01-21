@@ -12,6 +12,8 @@
 ============================================================================
 Translations:
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
+ 
+- when note is added with + hide pane(s) immediately
 
 ============================================================================
 ANDROID:
