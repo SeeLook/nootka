@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -658,15 +658,25 @@ void Tcanvas::correctAnimFinished() {
 }
 
 
+bool m_menuKeyPressed = false;
 bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
+#if defined (Q_OS_ANDROID)
+  if (event->type() == QEvent::KeyPress) // Press any physical device key with single tap to get cert preview
+      m_menuKeyPressed = true;
+  else if (event->type() == QEvent::KeyRelease)
+      m_menuKeyPressed = false;
+#endif
 	if (event->type() == QEvent::MouseButtonPress) {
-    QMouseEvent *me = static_cast<QMouseEvent *>(event);
-    if (event->type() == QEvent::MouseButtonPress) {
-			if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
+#if defined (Q_OS_ANDROID)
+      if (m_menuKeyPressed)
+#else
+      QMouseEvent *me = static_cast<QMouseEvent*>(event);
+			if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier)
+#endif
+      {
 					if (m_exam)
 						emit certificateMagicKeys();
 			}
-    }
   }
 	return QObject::eventFilter(obj, event);
 }
