@@ -38,6 +38,22 @@
 #include <QtWidgets/QtWidgets>
 
 
+class TsceneHandler : public QGraphicsScene {
+
+public:
+  TsceneHandler(QObject* parent = 0) : QGraphicsScene(parent) {}
+
+protected:
+  virtual bool event(QEvent* event) {
+    if (event->type() == QEvent::GraphicsSceneMousePress ||
+        event->type() == QEvent::GraphicsSceneMouseRelease ||
+        event->type() == QEvent::GraphicsSceneMouseMove) {
+          qDebug() << "scene got mouse event" << event->type();
+    }
+    return QGraphicsScene::event(event);
+  }
+};
+
 TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
                      QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, MainWindow* parent) :
 	QGraphicsView(parent),
@@ -57,7 +73,7 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 #endif
 	m_mainMenuTap(false), m_scoreMenuTap(false), m_playBarTap(false)
 {
-	setScene(new QGraphicsScene(this));
+	setScene(new TsceneHandler(this));
 	
 	setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -273,11 +289,11 @@ void TmainView::updateBarLine() {
 
 
 void TmainView::updateLayout() {
-  emit sizeChanged(size());
   scene()->setSceneRect(0, 0, width(), height());
   if (!TtouchProxy::touchEnabled())
     updateBarLine();
   m_container->setFixedSize(size());
+  emit sizeChanged(size());
 }
 
 
@@ -386,6 +402,9 @@ void TmainView::mainMenuExec() {
   auto a = menu.exec();
   if (a)
     a->trigger();
+  else {
+    m_proxy->unsetCursor();
+  }
 #endif
 }
 
@@ -409,6 +428,8 @@ void TmainView::scoreMenuExec() {
 bool TmainView::viewportEvent(QEvent *event) {
   if (TtouchProxy::touchEnabled()) {
 #if defined (Q_OS_ANDROID)
+    if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd)
+      qDebug() << "m_menuItem" << m_menuItem->hasCursor() << m_menuItem->hasFocus();
     if (m_menuItem && !m_menuItem->isTouched()) { // ignore touch propagation when melody item was touched
 #endif
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
@@ -488,6 +509,15 @@ bool TmainView::viewportEvent(QEvent *event) {
       } else if (m_fretView && m_fretView->guitarEnabled() && itemAt(te->touchPoints().first().startPos().toPoint()) == m_fretView->proxy()) {
           m_fretView->setTouched();
           return m_fretView->mapTouchEvent(te);
+      } else {
+// #if defined (Q_OS_ANDROID)
+//         if (itemAt(te->touchPoints().first().startPos().toPoint()) == m_menuItem) {
+//           QGraphicsSceneEvent se(QEvent::GraphicsSceneMousePress);
+//           se;
+          qDebug() << "scene" << scene()->hasFocus() << "score" << m_score->hasFocus() << m_proxy->hasCursor();
+//           event->ignore();
+//         }
+// #endif
       }
     }
 #if defined (Q_OS_ANDROID)
