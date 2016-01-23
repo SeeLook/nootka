@@ -313,6 +313,8 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
     if (cPos.y() < staff()->upperLinePos() - 3.0) {
       if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
           m_scoreNote->hideWorkNote();
+          if (m_scoreNote->index() == staff()->count() - 1)
+            QTimer::singleShot(50, [=]{ hide(); }); // hide right pane when note is added at staff end to edit new one easily (otherwise pane covers it)
           staff()->insertNote(m_scoreNote->index() + 1);
           return;
       } else { // left control - preppend a note
@@ -324,6 +326,8 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
   } else {
     if (m_adding) {
       if (pos().x() > m_scoreNote->pos().x()) { // right control - append a note
+          if (m_scoreNote->index() == staff()->count() - 1)
+            QTimer::singleShot(50, [=]{ hide(); }); // hide right pane when note is added at staff end to edit new one easily (otherwise pane covers it)
           staff()->insertNote(m_scoreNote->index() + 1);
       } else { // left control - preppend a note
           staff()->insertNote(m_scoreNote->index());
