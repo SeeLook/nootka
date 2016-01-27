@@ -1,9 +1,10 @@
 1.2.4
      - reduced memory consumption of pitch detection process
+     - Mac Os version updated
     BUGS FIXES
      - Fixed crash when note name tip was invoked from temporary, auto added note segment
      - Default color of enharmonic notes/names is set properly and approved when changed
-     - Resizing issues - fingerboard never goes out of view
+     - Resizing issues - fingerboard never goes out of a view
 
 1.2.3
     BUGS FIXES
