@@ -24,6 +24,13 @@ if (UNIX AND NOT APPLE) # config with version number is generated once on develo
 configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
 endif (UNIX AND NOT APPLE)
 
+if (APPLE)
+  install( CODE "
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/nootka.app/Contents)
+    ")
+endif (APPLE)
+
 add_subdirectory(src)
 
 ###########################################################################
@@ -80,7 +87,7 @@ endif(WIN32)
 
 if(APPLE)
   install( CODE "
-      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_BINARY_DIR} ${QT_BINARY_DIR} ${FFTW3_LIBRARIES} ${VORBIS_LIBRARIES} )
+      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_INSTALL_PREFIX} ${SOUNDTOUCH_LIBRARY} ${FFTW3_LIBRARIES} ${VORBIS_LIBRARIES} )
   " )
 	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
 	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
@@ -98,11 +105,16 @@ if(APPLE OR WIN32)
   find_package(Qt5Core)
   get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
   get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
-	set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
+  if (WIN32)
+    set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
+	else (WIN32)
+    set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
+  endif (WIN32)
 	install(FILES gpl DESTINATION "${INS_PREF}")
-  LIST(APPEND langs "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
-										"${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
-										"${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
+ LIST(APPEND langs
+   "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
 										# So far not provided by Qt
 										#"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_fr.qm"
                     #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_pl.qm"
