@@ -650,9 +650,11 @@ void AudioInSettings::freqFromInterval(int interval) {
 
 
 void AudioInSettings::JACKASIOSlot() {
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
 	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
 	updateAudioDevList();
 	emit rtApiChanged();
+#endif
 }
 
 

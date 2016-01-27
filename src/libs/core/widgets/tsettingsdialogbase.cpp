@@ -109,7 +109,7 @@ void TsettingsDialogBase::convertStatusTips() {
 
 void TsettingsDialogBase::openHelpLink(const QString& hash) {
   QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#" + hash).
-    arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
+    arg(QString(qgetenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 
 
