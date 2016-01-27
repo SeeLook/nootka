@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -66,7 +66,11 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 	if (!Tcore::gl())
     return;
 
+#if defined (Q_OS_MAC)
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system().uiLanguages().first() : Tcore::gl()->lang);
+#else
   QLocale loc(Tcore::gl()->lang.isEmpty() ? qgetenv("LANG") : Tcore::gl()->lang);
+#endif
   QLocale::setDefault(loc);
 
 	QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
