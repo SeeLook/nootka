@@ -24,7 +24,7 @@ if(ENABLE_UPDATER)
 		if(WIN32) 			# Windows
 			install(TARGETS NootkaUpdaterPlugin DESTINATION .)
 		else(WIN32) 			# MacOs
-			install(TARGETS NootkaUpdaterPlugin DESTINATION "nootka.app/Contents/MacOS/")
+      install(TARGETS NootkaUpdaterPlugin DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
 		endif(WIN32)
 	endif(UNIX AND NOT APPLE)
     

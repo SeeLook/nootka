@@ -226,7 +226,7 @@ if(WIN32)
    )
 ELSE(WIN32)
 	if (APPLE)
-		set(LINK_PATH "${CMAKE_BINARY_DIR}/nootka.app/Contents/Resources")
+    set(LINK_PATH "${CMAKE_BINARY_DIR}/Resources")
 	else (APPLE)
 		set(LINK_PATH "${CMAKE_BINARY_DIR}")
 	endif (APPLE)
@@ -235,17 +235,14 @@ ELSE(WIN32)
 	)
 ENDIF(WIN32)
 
-
-###########################################################################
-# packaging targets (make mac)
-###########################################################################
-# if(${UNIX})
-#     execute_process(COMMAND printf "\n\n\nTo prepare independency of mac boundle:\n")
-#     execute_process(COMMAND printf "\tmake mac\n\n\n" )
-# 
-#   add_custom_target(mac
-#   COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mac/linking.sh ${QT_LIBRARY_DIR} ${QTMULTIMEDIA_LIBRARIES} ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}
-#    )
-# ENDIF(${UNIX})
-#${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY}
+if (APPLE)
+  find_package(Qt5Core)
+  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+  get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
+  add_custom_target(deploy
+    COMMAND echo "deploying..."
+    COMMAND echo ${QT_BINARY_DIR}/../../bin
+    COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/nootka.app -executable=${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks/libNootkaUpdaterPlugin.dylib ${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks/libNootkaSound.dylib
+  )
+endif(APPLE)
 

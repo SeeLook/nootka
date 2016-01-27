@@ -46,13 +46,19 @@ bool initCoreLibrary() {
 	TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
   qApp->addLibraryPath(qApp->applicationDirPath());
 #endif
+
 #if defined(Q_OS_LINUX)
   QDir dir(qApp->applicationDirPath());
   dir.cdUp();
-  qApp->addLibraryPath(dir.path() + "/lib/nootka");
+  qApp->addLibraryPath(dir.path() + QStringLiteral("/lib/nootka"));
 #endif
-  
-	return true;
+
+#if defined(Q_OS_MAC)
+  QDir dir(qApp->applicationDirPath());
+  dir.cdUp();
+  qApp->addLibraryPath(dir.path() + QStringLiteral("/Frameworks"));
+#endif
+  return true;
 }
 
 
@@ -60,7 +66,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 	if (!Tcore::gl())
     return;
 
-  QLocale loc(Tcore::gl()->lang.isEmpty() ? std::getenv("LANG") : Tcore::gl()->lang);
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? qgetenv("LANG") : Tcore::gl()->lang);
   QLocale::setDefault(loc);
 
 	QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
