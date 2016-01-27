@@ -1,18 +1,22 @@
 #! /bin/bash
-# This script helps to prepare Mac Os bundle 
+# This script copies 3d party libraries to Mac Os bundle
+# It converts links to shared libraries into regular files before copying
 # params are:
-# install - path_to_nootka_bundle Qt_binary_dir path_to_FFTW_dynlib
+# 1. install path to nootka bundle (CMAKE_INSTALL_PREFIX)
+# 2. soundTouch library
+# 3. fftw3f library
+# 4. vorbis libray (from this location other vorbis libs are obtained - ogg and vorbisFile)
 # Author:
 #           Tomasz Bojczuk <tomaszbojczuk@gmail.com>
 
 #B_PATH=$1/nootka.app/Contents/Resurces
-B_PATH=$1/src/nootka.app
-# QT_PATH=$(dirname $2)
-MACDEPOLOYQT=$2/macdeployqt
+B_PATH=$1/nootka.app
+STOUCH_LIB=$2
 FFTW_LIB=$3
 VORBFILE_LIB=$4
 
-echo "Preparing bundle to install"
+
+echo "Copying libraries to bundle"
 
 if [ -L $FFTW_LIB ]; then
 	printf "\033[01;31m Converting $FFTW_LIB to regular file !!!\033[01;00m\n"
@@ -24,6 +28,14 @@ fi
 mkdir $B_PATH/Contents/Frameworks
 cp $FFTW_LIB $B_PATH/Contents/Frameworks/
 
+if [ -L $STOUCH_LIB ]; then
+  printf "\033[01;31m Converting $STOUCH_LIB to regular file !!!\033[01;00m\n"
+  ST_DIR=$(dirname $STOUCH_LIB)
+  ST_FILE=$(readlink $STOUCH_LIB)
+  STOUCH_LIB=$(echo "$ST_DIR/$ST_FILE")
+  echo $STOUCH_LIB
+fi
+cp $STOUCH_LIB $B_PATH/Contents/Frameworks/
 
 OGG_DIR=$(dirname $VORBFILE_LIB)
 if [ -L $VORBFILE_LIB ]; then
@@ -51,41 +63,5 @@ if [ -L $OGG_LIB ]; then
   echo $OGG_LIB
 fi
  cp $OGG_LIB $B_PATH/Contents/Frameworks/
-#  exit
 
 
-if [ -d "$B_PATH/Contents/Resources" ]; then
-        echo "Cleaning Resurces Dir"
-         rm $B_PATH/Contents/Resources/* # There are only links
-else
-        echo "no dir $B_PATH"
-fi
-
-# if [ -f $QT_PATH/bin/macdeployqt ]; then
-if [ -f $MACDEPOLOYQT ]; then
-#         $QT_PATH/bin/macdeployqt $B_PATH
-    $MACDEPOLOYQT $B_PATH
-	echo "deploy qt done"
-     if [ -d $B_PATH/Contents/Frameworks/QtSvg.framework ]; then
-        rm -r $B_PATH/Contents/Frameworks/QtSvg.framework
-        rm -r $B_PATH/Contents/Frameworks/QtDeclarative.framework
-        rm -r $B_PATH/Contents/Frameworks/QtMultimedia.framework
-        rm -r $B_PATH/Contents/Frameworks/QtScript.framework
-        rm -r $B_PATH/Contents/Frameworks/QtSql.framework
-        rm -r $B_PATH/Contents/Frameworks/QtXmlPatterns.framework
-        rm -r $B_PATH/Contents/Plugins
-        rm -r $B_PATH/Contents/Pluglns
-    fi
-else
-	echo "Can not find macdeployqt executable"
-fi
-
-
-#install_name_tool -id @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore nootka.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
-#install_name_tool -id @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui  nootka.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
-#install_name_tool -id @executable_path/../Frameworks/QtNetwork.framework/Versions/4/QtNetwork nootka.app/Contents/Frameworks/QtNetwork.framework/Versions/4/QtNetwork
-
-#install_name_tool -change QtCore.framework/Versions/4/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore nootka.app/Contents/MacOS/nootka-updater
-#install_name_tool -change QtGui.framework/Versions/4/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui  nootka.app/Contents/MacOS/nootka-updater
-#install_name_tool -change QtNetwork.framework/Versions/4/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/4/QtNetwork nootka.app/Contents/MacOS/nootka-updater
-#hdiutil create -format UDBZ -quiet -srcfolder nootka.app nootka.dmg
