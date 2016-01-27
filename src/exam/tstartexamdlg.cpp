@@ -139,7 +139,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   statusTipText = tr("To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file." );
   m_hintLabel->setStatusTip("<b>" + statusTipText + "</b>");
 
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
+#if defined(Q_OS_WIN32) || defined(Q_OS_MAC) // I hate mess in Win registry
   QSettings sett(QSettings::IniFormat, QSettings::UserScope, "Nootka", "Nootka");
 #else
   QSettings sett;

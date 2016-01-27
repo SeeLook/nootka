@@ -81,7 +81,7 @@ Tglobals::Tglobals(bool fromTemp) :
 	S = new TscoreParams();
 	L = new TlayoutParams();
 	
-#if defined(Q_OS_WIN32) // I hate mess in Win registry
+#if defined(Q_OS_WIN32) || defined(Q_OS_MAC) // I hate mess in Win registry
 	config = new QSettings(QSettings::IniFormat, QSettings::UserScope, "Nootka", qApp->applicationName());
 #else
 	config = new QSettings();
