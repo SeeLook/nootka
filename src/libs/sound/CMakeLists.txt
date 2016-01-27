@@ -138,7 +138,7 @@ include_directories(${VORBIS_INCLUDE_DIR})
 ###########################################################################
 ########   Looking for SoundTouch
 ###########################################################################
-if (UNIX AND NOT APPLE)
+if (UNIX)
   IF(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
     set(SOUNDTOUCH_FOUND TRUE)
   ELSE(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
@@ -184,7 +184,7 @@ if (UNIX AND NOT APPLE)
     ENDIF(SOUNDTOUCH_FOUND)
 
   ENDIF(SOUNDTOUCH_LIBRARIES AND SOUNDTOUCH_INCLUDE_DIRS)
-endif (UNIX AND NOT APPLE)
+endif (UNIX)
 
 ###########################################################################
 #libraries and compiler definitions for RtMidi
@@ -231,7 +231,7 @@ if(APPLE)
 endif(APPLE)
 
 
-IF(UNIX AND NOT APPLE)    
+IF(UNIX AND NOT APPLE)
 	##### PulseAudio ###########################################
       find_path(PULSE_INCLUDE_DIR
         NAMES
@@ -409,6 +409,9 @@ target_link_libraries(NootkaSound
 		${JACK_LIBRARY}
 		${VORBIS_LIBRARIES}
 		${SOUNDTOUCH_LIBRARY}
+    ${CoreAudio_LIB}
+    ${CoreMidi_LIB}
+    ${CoreFoundation_LIB}
 )
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
@@ -417,7 +420,7 @@ else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
     install(TARGETS NootkaSound DESTINATION .)
   else(WIN32) 			# MacOs
-    install(TARGETS NootkaSound BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(TARGETS NootkaSound DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
