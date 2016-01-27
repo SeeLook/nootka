@@ -275,7 +275,9 @@ void AudioOutSettings::asioDeviceSlot(int id) {
 
 
 void AudioOutSettings::JACKASIOSlot() {
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
 	TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
+#endif
 	updateAudioDevList();
 	emit rtApiChanged();
 }

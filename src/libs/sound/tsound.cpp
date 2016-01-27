@@ -38,7 +38,9 @@ Tsound::Tsound(QObject* parent) :
 {
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
 	TrtAudio::initJACKorASIO(Tcore::gl()->A->JACKorASIO);
+#endif
   if (Tcore::gl()->A->OUTenabled)
       createPlayer();
   else

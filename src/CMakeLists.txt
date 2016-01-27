@@ -42,6 +42,12 @@ if(UNIX AND NOT APPLE)
 	endif("${isSystemDir}" STREQUAL "-1")
 endif(UNIX AND NOT APPLE)
 
+if (APPLE) # Mac RPath
+  set(CMAKE_MACOSX_RPATH 1)
+  set(CMAKE_INSTALL_RPATH "@loader_path/../Frameworks")
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+endif (APPLE)
+
 
 add_subdirectory( libs/core ) # libNootkaCore
 add_subdirectory( libs/sound ) # libNootkaSound
@@ -115,7 +121,7 @@ else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
     install(TARGETS nootka DESTINATION .)
   else(WIN32) 			# MacOs
-    install(TARGETS nootka BUNDLE DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
     install( CODE "
     execute_process(COMMAND echo copying info.plist )
     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"

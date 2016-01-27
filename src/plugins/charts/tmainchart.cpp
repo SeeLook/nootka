@@ -28,6 +28,7 @@
 #include <widgets/tquestionaswdg.h>
 #include <exam/texam.h>
 #include <QScrollBar>
+#include <QTimer>
 
 
 

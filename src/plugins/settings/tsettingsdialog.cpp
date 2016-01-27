@@ -111,8 +111,10 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 
 
 void TsettingsDialog::cancelSlot() {
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
   if (m_sndInSett && Tcore::gl()->A->JACKorASIO != m_sndInSett->rtApiCheckBox()->isChecked())
     TrtAudio::setJACKorASIO(Tcore::gl()->A->JACKorASIO);
+#endif
 }
 
 
@@ -273,7 +275,9 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 
 
 void TsettingsDialog::createAudioPage() {
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
 	TrtAudio::initJACKorASIO(Tcore::gl()->A->JACKorASIO);
+#endif
 	m_sndInSett = new AudioInSettings(Tcore::gl()->A, Tcore::gl()->Gtune());
 	m_sndOutSett = new AudioOutSettings(Tcore::gl()->A, m_sndInSett); // m_sndInSett is bool - true when exist
 	m_audioSettingsPage = new QWidget();

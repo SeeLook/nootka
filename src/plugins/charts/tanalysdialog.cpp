@@ -23,6 +23,7 @@
 #include <exam/textrans.h>
 #include <level/tlevelpreview.h>
 #include <graphics/tnotepixmap.h>
+#include <tcolor.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
 #include <tnoofont.h>
@@ -655,7 +656,7 @@ void TanalysDialog::showTuningPreview() {
 
 void TanalysDialog::openOnlineHelp() {
   QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#analyze").
-    arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
+    arg(QString(qgetenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 
 
