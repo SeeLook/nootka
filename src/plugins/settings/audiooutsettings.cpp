@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -50,11 +50,16 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
       m_audioOutDevListCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_JACK_ASIO_ChB = new QCheckBox(this);
 #if defined (Q_OS_WIN)
-	m_JACK_ASIO_ChB->setText("ASIO");
+    m_JACK_ASIO_ChB->setText("ASIO");
 #elif defined (Q_OS_LINUX)
-	m_JACK_ASIO_ChB->setText("JACK");
+    m_JACK_ASIO_ChB->setText("JACK");
 #endif
 		m_JACK_ASIO_ChB->setChecked(m_params->JACKorASIO);
+
+#if defined (Q_OS_MAC)
+  m_JACK_ASIO_ChB->hide();
+#endif
+
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
 		rtDevLay->addWidget(m_audioOutDevListCombo);
 		rtDevLay->addWidget(m_JACK_ASIO_ChB);

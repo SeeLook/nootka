@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -67,7 +67,11 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	m_JACK_ASIO_ChB->setText("JACK");
 #endif
 	m_JACK_ASIO_ChB->setChecked(m_glParams->JACKorASIO);
-	
+
+#if defined (Q_OS_MAC)
+  m_JACK_ASIO_ChB->hide();
+#endif
+
 	durHeadLab = new QLabel(tr("minimum note duration"), m_1_device);
 	durationSpin = new QSpinBox(m_1_device);
 		durationSpin->setMinimum(10);
