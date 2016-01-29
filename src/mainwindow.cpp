@@ -684,3 +684,15 @@ void MainWindow::paintEvent(QPaintEvent* ) {
 }
 
 
+#if defined (Q_OS_MAC)
+bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
+  if (event->type() == QEvent::FileOpen) {
+    QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);
+    openFile(fileEvent->file());
+    return true;
+  }
+  // standard event processing
+  return QObject::eventFilter(obj, event);
+}
+#endif
+

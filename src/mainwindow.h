@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -98,7 +98,10 @@ protected:
 	void resizeEvent(QResizeEvent *event);
 	void closeEvent(QCloseEvent *event);
 	void paintEvent(QPaintEvent *);
-        
+#if defined (Q_OS_MAC)
+  bool eventFilter(QObject *obj, QEvent *event);
+#endif
+
 protected slots:
 	void restoreMessage();
 	void messageSlot(const QString& msg);
