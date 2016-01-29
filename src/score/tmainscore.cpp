@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -932,7 +932,6 @@ void TmainScore::createNoteName() {
     m_nameMenu = new TnoteName(mainWindow());
     connect(m_nameMenu, &TnoteName::nextNote, this, &TmainScore::moveNameForward);
     connect(m_nameMenu, &TnoteName::prevNote, this, &TmainScore::moveNameBack);
-    connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
     connect(m_nameMenu, &TnoteName::statusTipRequired, this, &TmainScore::statusTipChanged);
     m_nameMenu->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
     m_nameMenu->hide();
