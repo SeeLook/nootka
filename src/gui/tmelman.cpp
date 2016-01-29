@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,8 +33,13 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_menu = new Tmenu();
 	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
-	m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
+#if defined (Q_OS_MAC) // Ctrl is CMD under Mac and CMD+space is system wide shortcut - use Ctrl (Meta there) instead
+  m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Meta+Space"),
 							 QIcon(Tpath::img("record")));
+#else
+  m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
+               QIcon(Tpath::img("record")));
+#endif
 	m_recMelAct->setStatusTip(tr("When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically."));
 	QAction* genAct = createAction(tr("Generate"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	genAct->setStatusTip(tr("Generate a melody with random notes."));
