@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,6 +36,10 @@ TnameTip::TnameTip(TnoteName* noteName) :
 	m_lay = new QVBoxLayout;
 	wrapNoteName();
 	m_widget->setLayout(m_lay);
+#if defined (Q_OS_MAC) // fix spacing under Mac
+  m_lay->setSpacing(0);
+  m_lay->setContentsMargins(5, 0, 5, 0);
+#endif
 	m_proxy = new QGraphicsProxyWidget(this);
 	m_proxy->setWidget(m_widget);
 	m_proxy->setParentItem(this);

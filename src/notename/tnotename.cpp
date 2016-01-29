@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,6 +58,9 @@ TnoteName::TnoteName(QWidget *parent) :
 	QVBoxLayout *mainLay = new QVBoxLayout();
 	mainLay->setAlignment(Qt::AlignCenter);
 	mainLay->setContentsMargins(2, 2, 2, 2);
+#if defined (Q_OS_MAC)
+  mainLay->setSpacing(5);
+#endif
 
 	m_nextNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowRight)), "", this);
 	m_nextNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -74,7 +77,7 @@ TnoteName::TnoteName(QWidget *parent) :
 	QBoxLayout *nameLay = new QBoxLayout(QBoxLayout::LeftToRight);
 		nameLay->addWidget(m_prevNoteButt);
 		nameLay->addWidget(m_nameLabel);
-		nameLay->addWidget(m_nextNoteButt);
+    nameLay->addWidget(m_nextNoteButt);
 	mainLay->addLayout(nameLay);
 	m_buttonsLay = new QBoxLayout(QBoxLayout::TopToBottom);
 // BUTTONS WITH NOTES TOOLBAR
@@ -298,15 +301,15 @@ void TnoteName::resize(int fontSize) {
 		f.setPointSize(f.pointSize() * fact);
 		for (int i = 0; i < m_accidButtons.size(); ++i)
 			m_accidButtons[i]->setFont(f);
-// #if defined (Q_OS_ANDROID)
 		int widthOffset = 0;
-		if (m_isMenu)
-			widthOffset = 15;
-		setButtonsSize(widthOffset, fontSize * 1.5);
-// #if defined (Q_OS_ANDROID)
-// #else
-// 		m_nameLabel->setFixedHeight(fontSize * 3);
-// #endif
+    if (m_isMenu) {
+#if defined (Q_OS_MAC)
+      widthOffset = 30;
+#else
+      widthOffset = 15;
+#endif
+    }
+    setButtonsSize(widthOffset, fontSize * 1.5);
 		int nameHfactor = 5;
 		if (m_isMenu)
 			nameHfactor = 4;
@@ -325,17 +328,24 @@ void TnoteName::setButtonsSize(int widthOff, int fixedH, bool skipOctaves) {
 	for (int i = 0; i < 7; i++) {
 		m_noteButtons[i]->setFixedHeight(fixedH);
 		fixButtonWidth(widthOff, m_noteButtons[i]);
-	}
+  }
+#if defined (Q_OS_MAC)
+  fixedH *= 1.3;
+#endif
 	if (!skipOctaves) {
 		for (int i = 0; i < 8; i++) {
 			m_octaveButtons[i]->setFixedHeight(fixedH);
 			fixButtonWidth(widthOff, m_octaveButtons[i]);
 		}
 	}
-	for (int i = 0; i < m_accidButtons.size(); ++i) {
-		m_accidButtons[i]->setFixedHeight(fixedH);
-		fixButtonWidth(widthOff, m_accidButtons[i]);
-	}
+#if defined (Q_OS_MAC)
+  if (m_isMenu)
+    fixedH *= 1.2;
+#endif
+  for (int i = 0; i < m_accidButtons.size(); ++i) {
+    m_accidButtons[i]->setFixedHeight(fixedH);
+    fixButtonWidth(widthOff, m_accidButtons[i]);
+  }
 }
 
 
