@@ -82,7 +82,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QApplication::translate("TmainHelp", "I. Discovering") + bbrEnd;
   helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(nbsp3 + pixToHtml(Tpath::img("logo"), pixSize * 1.8) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
+      arg(nbsp3 + pixToHtml(Tpath::img("logo"), pixSize * 2.2) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
                             + pixToHtml(Tpath::img("help"), pixSize)  + nbsp3).
       arg(nbsp3 + pixToHtml(Tpath::img("systemsettings"), pixSize) + nbsp3);
   helpTxt += ThelpDialogBase::onlineDocP("getting-started");
