@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,15 +25,15 @@
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qscroller.h>
 
-#define PIXSIZE (28)
-
 
 /*static*/
+inline int getPixSize() { return qApp->fontMetrics().height() * 1.5; }
+
 QString TmainHelp::exerciseAndExamText() {
 	QString helpTxt;
 	helpTxt = youWillLearnText() + " ";
 	helpTxt += QApplication::translate("TmainHelp", "Much depends on the chosen level. Press %1 button to create your own questions set (a level).").
-			arg(" &nbsp; " + pixToHtml(Tpath::img("levelCreator"), PIXSIZE) + " &nbsp; ");
+			arg(" &nbsp; " + pixToHtml(Tpath::img("levelCreator"), getPixSize()) + " &nbsp; ");
   helpTxt += "<br>" + QApplication::translate("TmainHelp", "Select a level and warm up yourself exercising. Then try to pass an exam.");
 	helpTxt += "<br>" + duringExercisingText();
 	helpTxt += "<br>" + duringExamsText();
@@ -70,8 +70,8 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QApplication::translate("TmainHelp", "I. Discovering") + "</b><br>";
   helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(" &nbsp; " + pixToHtml(Tpath::img("about"), PIXSIZE) + " <span style=\"font-size: x-large;\"> + </span> " + pixToHtml(Tpath::img("help"), PIXSIZE)  + " &nbsp; ").
-      arg(" &nbsp; " + pixToHtml(Tpath::img("systemsettings"), PIXSIZE) + " &nbsp; ");
+      arg(" &nbsp; " + pixToHtml(Tpath::img("logo"), getPixSize() * 2.2) + " <span style=\"font-size: x-large;\"> + </span> " + pixToHtml(Tpath::img("help"), getPixSize())  + " &nbsp; ").
+      arg(" &nbsp; " + pixToHtml(Tpath::img("systemsettings"), getPixSize()) + " &nbsp; ");
   helpTxt += ThelpDialogBase::onlineDocP("getting-started");
   
   helpTxt += "<hr><b>" + QApplication::translate("TmainHelp", "II. Exercises and exams") + "</b><br>";
@@ -80,7 +80,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
 	
   helpTxt += "<hr><b>" + QApplication::translate("TmainHelp", "III. Analyzing") + "</b><br>";
   helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
-    arg(" &nbsp; " + pixToHtml(Tpath::img("charts"), PIXSIZE) + " &nbsp; ");
+    arg(" &nbsp; " + pixToHtml(Tpath::img("charts"), getPixSize()) + " &nbsp; ");
   helpTxt += ThelpDialogBase::onlineDocP("analyze");
   helpTxt += "</td></tr></table>";
   
