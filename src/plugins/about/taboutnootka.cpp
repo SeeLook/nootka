@@ -89,6 +89,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
       touchEdit->setReadOnly(true);
       QScroller::grabGesture(touchEdit->viewport(), QScroller::LeftMouseButtonGesture);
       QString touchText = TtouchProxy::touchScoreHelp();
+      touchText += QLatin1String("<br>") + TtouchProxy::touchClefHelp();
       touchText += ThelpDialogBase::onlineDocP("getting-started");
 #if defined (Q_OS_ANDROID) // zoomed fret occurs only under mobile
       touchText += QLatin1String("<br><hr><br>") + TtouchProxy::touchGuitarHelp();
