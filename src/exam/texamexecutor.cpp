@@ -95,7 +95,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	mW->sound->wait();
 	if (lev) {
 			m_level = *lev;
-			if (gl->E->studentName == "") {
+			if (gl->E->studentName.isEmpty()) {
 					resultText = TstartExamDlg::systemUserName();
 			} else
 					resultText = gl->E->studentName;
@@ -104,7 +104,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 			else
 				userAct = TstartExamDlg::e_newExam;
 	} else {
-			if (examFile == "") { // start exam dialog
+			if (examFile.isEmpty()) { // start exam dialog
 					TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->E, mW);
 					userAct = startDlg->showDialog(resultText, m_level);
 					delete startDlg;
@@ -119,7 +119,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	m_glStore->instrument = gl->instrument;
 	if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
 			m_exam = new Texam(&m_level, resultText); // resultText is userName
-			if (!fixLevelInstrument(m_level, "", gl->instrumentToFix, mainW)) {
+			if (!fixLevelInstrument(m_level, QString(), gl->instrumentToFix, mainW)) {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
@@ -130,20 +130,18 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 			if (userAct == TstartExamDlg::e_runExercise) {
 					m_exercise = new Texercises(m_exam);
 			}
-// 			//We check are guitar's params suitable for an exam 
-// 				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
 	} else if (userAct == TstartExamDlg::e_contExam) {
-			m_exam = new Texam(&m_level, "");
+			m_exam = new Texam(&m_level, QString());
 			Texam::EerrorType err = m_exam->loadFromFile(resultText);
 			if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
 				if (err == Texam::e_file_corrupted)
 					QMessageBox::warning(mW, " ", 
 						tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) || 
+				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) ||
 						!showExamSummary(mW, m_exam, true)) {
-						mW->clearAfterExam(e_failed);
-						deleteExam();
-						return;
+              mW->clearAfterExam(e_failed);
+              deleteExam();
+              return;
 				}
 			} else {
 					if (err == Texam::e_file_not_valid)
@@ -156,7 +154,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	} else {
 			if (userAct == TstartExamDlg::e_levelCreator) {
 					mW->clearAfterExam(e_openCreator);
-			}	else 	
+			}	else
 					mW->clearAfterExam(e_failed);
 			deleteExam();
 			return;
@@ -1336,6 +1334,7 @@ bool TexamExecutor::closeNootka() {
     m_snifferLocked = true;
     qApp->removeEventFilter(m_supp);
     QMessageBox *msg = new QMessageBox(mW);
+    msg->setWindowTitle(" ");
 		msg->setText(tr("Psssst... Exam is going.<br><br><b>Continue</b> it<br>or<br><b>Terminate</b> to check, save and exit<br>"));
 		QAbstractButton *contBut = msg->addButton(tr("Continue"), QMessageBox::ApplyRole);
 		msg->addButton(tr("Terminate"), QMessageBox::RejectRole);

@@ -246,11 +246,6 @@ void MainWindow::clearAfterExam(int examState) {
   m_deleteExecutor = true;
 }
 
-/*
-QPoint MainWindow::relatedPoint() {
-    return QPoint(noteName->geometry().x(), m_statLab->geometry().bottom() + 5);
-}
-*/
 //##########################################################################################
 //#######################     PUBLIC SLOTS       ###########################################
 //##########################################################################################
@@ -270,7 +265,10 @@ void MainWindow::openFile(QString runArg) {
 				if (Texam::couldBeExam(hdr)) {
 					if (Texam::isExamVersion(hdr)) {
 						prepareToExam();
+            m_deleteExecutor = false;
 						executor = new TexamExecutor(this, runArg);
+            if (m_deleteExecutor)
+                delete executor;
 					}
 				} else {
 					if (Tlevel::couldBeLevel(hdr)) {
