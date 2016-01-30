@@ -37,6 +37,7 @@ public:
 
   bool scoreWasTouched; /**< Becomes @p TRUE when user first time touched the score widget and read how it works */
   bool guitarWasTouched; /**< Becomes @p TRUE when user first time touched the fingerboard widget and read how it works */
+  bool clefWasTouched; /**< Becomes @p TRUE when user first time touched clef */
 
 private:
   static TtouchParams            *m_instance;

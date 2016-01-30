@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,11 @@
 #include <QtWidgets/qgraphicsproxywidget.h>
 #include <QtWidgets/qscrollbar.h>
 #include <QtCore/qdebug.h>
+#if defined (Q_OS_ANDROID)
+  #include <touch/ttouchproxy.h>
+  #include <touch/ttouchparams.h>
+  #include <touch/ttouchmessage.h>
+#endif
 
 
 // TODO: Implement left-handed guitar view (someday)
@@ -91,6 +96,10 @@ bool TguitarView::checkIsPreview() {
 bool TguitarView::mapTouchEvent(QTouchEvent* te) {
 #if defined (Q_OS_ANDROID)
   if (isPreview()) { // PREVIEW MODE
+      if (!TtouchParams::i()->guitarWasTouched) { // display hint how to use fret preview
+          tMessage->setMessage(TtouchProxy::touchGuitarHelp(), 0);
+          TtouchParams::i()->guitarWasTouched = true;
+      }
       switch (te->type()) {
         case QEvent::TouchBegin: {
           if (proxy()->isVisible()) // already displayed - can be scrolled or selected

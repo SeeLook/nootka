@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@
 
 
 #include <nootkacoreglobal.h>
-#include <QObject>
+#include <QtCore/qobject.h>
 
 
 /**
@@ -44,6 +44,7 @@ public:
   static TtouchProxy* instance() { return m_instance; }
 
   static QString touchScoreHelp(); /** Returns description text (multiple lines) how to use score with touch */
+  static QString touchClefHelp(); /** Returns description text (single lines) how to use score with touch */
   static QString touchGuitarHelp(); /** Returns description text (multiple lines) how to use fingerboard with touch */
 
 signals:

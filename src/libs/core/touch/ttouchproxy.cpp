@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,27 +18,31 @@
 
 #include "ttouchproxy.h"
 #include <qtr.h>
-#include <QApplication>
-#include <QDebug>
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qdebug.h>
 
 
 bool              TtouchProxy::m_touchEnabled = false;
 TtouchProxy*      TtouchProxy::m_instance = 0;
 
 QString TtouchProxy::touchScoreHelp() {
-  return qTR("Fake", "To edit a note in a score:<br>"
-            "Touch area about some note and move a finger - note cursor will appear to set a pitch of this note.<br>"
-            "Then take the finger away - additional buttons will appear for a while.<br>"
-            "You may add/remove an accidental or a note.<br>"
+  return QApplication::translate("TouchHelp", "To edit a note in a score:<br>"
+            "Touch area about some note and move a finger to set its pitch.<br>"
+            "Then take the finger away to add/remove an accidental or a note.<br>"
             "Touch and move again to continue setting the pitch.<br>"
             "To select the note - tap it quickly again.<br>"
-            "Touch a clef for a while to change it.<br>"
             "To scroll the score with multiple staves - use two fingers");
 }
 
 
+QString TtouchProxy::touchClefHelp() {
+  return QApplication::translate("TouchHelp", "Touch a clef for a while to change it.");
+}
+
+
+
 QString TtouchProxy::touchGuitarHelp() {
-  return qTR("Fake", "Tap a fret you want to select - zoomed preview will appear.<br>"
+  return QApplication::translate("TouchHelp", "Tap a fret you want to select - zoomed preview will appear.<br>"
             "You may drag it right or left to change the fret.<br>"
             "Tap zoomed preview on desired string to set the position."
   );

@@ -37,7 +37,8 @@ class QAction;
 class TmelodyItem;
 class MainWindow;
 
-/** 
+
+/**
  * This widget manages of a layout of main Nootka window
  * All widgets are wrapped with QGraphicsProxyWidget 
  * and their layout is managed QGraphicsLayout
@@ -100,7 +101,6 @@ protected slots:
   void scoreMenuExec();
 
 private:
-  MainWindow                      *m_mainWindow;
 	QWidget													*m_status;
   QGraphicsView                   *m_score, *m_guitar;
 	QWidget													*m_results, *m_progress, *m_container, *m_touchedWidget;
