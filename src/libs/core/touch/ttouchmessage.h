@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,9 +21,14 @@
 
 
 #include <graphics/tgraphicstexttip.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qwidget.h>
 
+
+#define tMessage TtouchMessage::instance() // shortcut for TtouchMessage::instance();
 
 class TmovedAnim;
+
 
 /**
  * This is temporary message box derived from @class TgraphicsTextTip
@@ -31,7 +36,10 @@ class TmovedAnim;
  * where time of preview may be set to determine how long the message is displayed.
  * Otherwise it is not hidden until click on it.
  * By default colors are inverted against current palette (white text on black background).
- * Message tip is displayed at the bottom of Nootka window and has the window width.
+ * Message tip is displayed at the bottom of main Nootka window and has the window width.
+ * There is @p mainWindowOnTop() method to check is main Nootka window on the top.
+ *
+ * There is static @p instance() method or macro @p tMessage to access it.
  */
 class TtouchMessage : public TgraphicsTextTip
 {
@@ -45,6 +53,14 @@ public:
       /** Displays message (HTML formatted) and hides it when @p previewTime is set */
   void setMessage(const QString& message, int previewTime = 0);
 
+      /** There is only one instance of @class TtouchMessage handled by @class MainWindow.
+      * It is created during constructor and available through @p instance() method
+      * or through a macro tMessage. */
+  static TtouchMessage* instance() { return m_instance; }
+
+      /** Returns @p TRUE if there is no any dialog above main Nootka window */
+  static bool mainWindowOnTop() { return qApp->activeWindow()->objectName() == QLatin1String("MainNootkaWindow"); }
+
 protected:
   void showAnim();
   void hideAnim();
@@ -53,8 +69,10 @@ protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
-  TmovedAnim          *m_anim;
-  QTimer              *m_timer;
+  static TtouchMessage    *m_instance;
+
+  TmovedAnim              *m_anim;
+  QTimer                  *m_timer;
 };
 
 #endif // TTOUCHMESSAGE_H

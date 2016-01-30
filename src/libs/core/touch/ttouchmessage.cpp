@@ -18,16 +18,25 @@
 
 #include "ttouchmessage.h"
 #include <animations/tmovedanim.h>
-#include <QtWidgets/qapplication.h>
 #include <QtWidgets/qdesktopwidget.h>
 #include <QtGui/qpalette.h>
 #include <QtGui/qpainter.h>
 #include <QtCore/qtimer.h>
+#include <QtCore/qdebug.h>
+
+
+TtouchMessage* TtouchMessage::m_instance = nullptr;
 
 
 TtouchMessage::TtouchMessage() :
   TgraphicsTextTip(QString(), qApp->palette().base().color())
 {
+  if (m_instance != nullptr) {
+    qDebug() << "TtouchMessage instance already exist";
+    return;
+  }
+
+  m_instance = this;
   setFrameColor(qApp->palette().highlight().color());
   setBaseColor(qApp->palette().highlight().color().lighter());
   setTextWidth(qApp->desktop()->width() * 0.9);
@@ -49,6 +58,7 @@ TtouchMessage::~TtouchMessage()
 {
   m_anim->blockSignals(true);
   m_anim->deleteLater();
+  m_instance = nullptr;
 }
 
 

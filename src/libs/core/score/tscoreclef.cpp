@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,12 +22,16 @@
 #include <music/tclef.h>
 #include "widgets/tselectclef.h"
 #include <tnoofont.h>
-#include <QGraphicsSceneHoverEvent>
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QPalette>
-#include <QGraphicsView>
-
+#if defined (Q_OS_ANDROID)
+  #include <touch/ttouchproxy.h>
+  #include <touch/ttouchparams.h>
+  #include <touch/ttouchmessage.h>
+#endif
+#include <QtWidgets/qgraphicssceneevent.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qdesktopwidget.h>
+#include <QtGui/qpalette.h>
+#include <QtWidgets/qgraphicsview.h>
 
 #include <QDebug>
 
@@ -128,6 +132,12 @@ void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 void TscoreClef::touched(const QPointF& scenePos) {
   Q_UNUSED(scenePos)
   m_tapTimer.start();
+#if defined (Q_OS_ANDROID)
+  if (!TtouchParams::i()->clefWasTouched && !tMessage->isVisible() && tMessage->mainWindowOnTop()) {
+    tMessage->setMessage(TtouchProxy::touchClefHelp(), 0);
+    TtouchParams::i()->clefWasTouched = true;
+  }
+#endif
 }
 
 
@@ -210,8 +220,8 @@ int TscoreClef::getClefPosInList(Tclef clef) {
     if (m_typesList[i] == clef.type()) {
       return i;
     }
-    qDebug() << "getClefPosInList(): no clef was found";
-		return 0;    
+  qDebug() << "getClefPosInList(): no clef was found";
+  return 0;
 }
 
 
