@@ -36,7 +36,7 @@
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #if defined (Q_OS_ANDROID)
-  #include <gui/ttouchmessage.h>
+  #include <touch/ttouchmessage.h>
 #endif
 #include <level/tlevelselector.h>
 #include <plugins/tpluginsloader.h>
@@ -91,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_updaterStoppedSound(false),
   m_isPlayerFree(true)
 {
+  setObjectName(QStringLiteral("MainNootkaWindow"));
 #if !defined (Q_OS_ANDROID)
   setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
   setMinimumSize(720, 480);
@@ -292,7 +293,10 @@ void MainWindow::openFile(QString runArg) {
     if (Texam::couldBeExam(hdr)) {
       if (Texam::isExamVersion(hdr)) {
         prepareToExam();
+        m_deleteExecutor = false;
         executor = new TexamExecutor(this, runArg);
+        if (m_deleteExecutor)
+          delete executor;
       }
     } else {
       if (Tlevel::couldBeLevel(hdr)) {
