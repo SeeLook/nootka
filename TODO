@@ -12,14 +12,27 @@
 ============================================================================
 Translations:
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
- 
-- when note is added with + hide pane(s) immediately
+ - get rid of Qt texts through translate() - use qTr instead
+
+============================================================================
+ - Merge (graft some) Mac changes from stable branch:
+   - resolve JACK (so far disabled under Mac)
+   - there is no std::getenv() - qgetenv() instead
+   - some missing headers
+   - disable low latency
+   - settings are forced similar to Win way
+   - proper addLibraryPath()
+   - cmake and install scripts
+   - launching from Finder (event filter in MainWindow)
+   - "note by note" - shortcut (TmelMan)
+   - note name layout
 
 ============================================================================
 ANDROID:
     - quick icons:
         - disable sniffing/note by note when audio input is off
-        - hide 'clear score' one when undesired (single mode, exam with playing)
+        - hide 'clear score' one when undesired (single mode, exam with playing):
+          innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
     - resetting options closes Nootka but does not launch it again
     - played sound is sometimes distorted (when note starts playing)
     - no level/exam icon in file manager, not all file managers support opening Nootka files
@@ -47,6 +60,7 @@ Test scaling of alpha under Windows
 - NotaData of Tartini might be cleaned
 
 MINOR:
+- clef selecting menu lost highlight when mouse is over item text - try to use QActionWidget
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
@@ -59,7 +73,6 @@ MINOR:
 
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
 - selecting read only notes (right and double click) is unused - it is good - but clean a code
-- revert to native style under MacOs when Qt5
 
 
 

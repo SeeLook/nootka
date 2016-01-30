@@ -856,7 +856,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="328"/>
         <source>Close analyzer window</source>
-        <translation>Zamknij   okno analizy</translation>
+        <translation>Zamknij okno analizy</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="351"/>

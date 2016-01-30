@@ -1407,6 +1407,7 @@ bool TexamExecutor::closeNootka() {
                 .arg(QApplication::translate("QShortcut", "Save"))
                 .arg(QApplication::translate("QPlatformTheme", "Retry")));
     msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
+    msg->setWindowTitle(QStringLiteral("Psssst..."));
 		if (!gl->E->closeWithoutConfirm)
 				msg->exec();
     if (!gl->E->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
