@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -92,20 +92,19 @@ MainWindow::MainWindow(QWidget *parent) :
       delete loader;
       gl->isFirstRun = false;
   } else { // show support window once but not with first run wizard
-//       QString newVersion = gl->config->value("version", "").toString();
-      int supportDaysPass = gl->config->value("supportDate", QDate(2012, 12, 31)).toDate().daysTo(QDate::currentDate());
-      if (/*newVersion != gl->version*/ supportDaysPass > 5) // display support dialog every five days
-        QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
-      else { // check for updates
-        gl->config->endGroup();
-        gl->config->beginGroup("Updates");
-				m_updaterPlugin = new TpluginsLoader();
-        if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
-					connect(m_updaterPlugin->node(), &TpluginObject::message, this, &MainWindow::updaterMessagesSlot);
-					gl->config->endGroup(); // close settings note because updater need to open it again
-					m_updaterPlugin->init("false", this); // string argument stops displaying update dialog when no news were send
-        } else
-						delete m_updaterPlugin;
+      QString newVersion = gl->config->value("version", QString()).toString();
+      if (newVersion != gl->version) {
+          QTimer::singleShot(2000, this, SLOT(showSupportDialog()));
+      } else { // check for updates
+          gl->config->endGroup();
+          gl->config->beginGroup("Updates");
+          m_updaterPlugin = new TpluginsLoader();
+          if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
+            connect(m_updaterPlugin->node(), &TpluginObject::message, this, &MainWindow::updaterMessagesSlot);
+            gl->config->endGroup(); // close settings note because updater need to open it again
+            m_updaterPlugin->init("false", this); // string argument stops displaying update dialog when no news were send
+          } else
+              delete m_updaterPlugin;
       }
   }
   if (!gl->config->group().isEmpty()) // close settings group when was open
