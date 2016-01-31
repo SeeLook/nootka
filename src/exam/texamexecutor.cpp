@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -1620,6 +1620,7 @@ void TexamExecutor::correctionFinished() {
       m_canvas->melodyCorrectMessage();
   if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
       QTimer::singleShot(4000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
+  m_lockRightButt = false;
 }
 
 
