@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -115,7 +115,7 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
   if (cont) {
       m_okButt->setText(qTR("QWizard", "Continue"));
       m_okButt->setIcon(QIcon(Tpath::img("exam")));
-      m_closeButt = new QPushButton(qTR("QPlatformTheme", "Discard"), this);
+      m_closeButt = new QPushButton(qTR("QPlatformTheme", "Close"), this);
       m_closeButt->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
       m_closeButt->setIconSize(QSize(48, 48));
       connect(m_closeButt, &QPushButton::clicked, this, &TexamSummary::closeSlot);

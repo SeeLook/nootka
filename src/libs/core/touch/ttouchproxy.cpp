@@ -27,11 +27,11 @@ TtouchProxy*      TtouchProxy::m_instance = 0;
 
 QString TtouchProxy::touchScoreHelp() {
   return QApplication::translate("TouchHelp", "To edit a note in a score:<br>"
-            "Touch area about some note and move a finger to set its pitch.<br>"
+            "Touch area about some note and move a finger to select its pitch.<br>"
             "Then take the finger away to add/remove an accidental or a note.<br>"
-            "Touch and move again to continue setting the pitch.<br>"
-            "To select the note - tap it quickly again.<br>"
-            "To scroll the score with multiple staves - use two fingers");
+            "Touch and move again to continue selecting the pitch.<br>"
+            "To set the note - tap it quickly again.<br>"
+            "To scroll the score with multiple staves - use two fingers.");
 }
 
 
@@ -44,7 +44,7 @@ QString TtouchProxy::touchClefHelp() {
 QString TtouchProxy::touchGuitarHelp() {
   return QApplication::translate("TouchHelp", "Tap a fret you want to select - zoomed preview will appear.<br>"
             "You may drag it right or left to change the fret.<br>"
-            "Tap zoomed preview on desired string to set the position."
+            "Tap desired string on the preview to set the position."
   );
 }
 

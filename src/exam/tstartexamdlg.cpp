@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -136,7 +136,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
     setIconSize(m_helpButt);
   m_cancelBut = new QPushButton(this);
     m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
-    m_cancelBut->setStatusTip(qTR("QPlatformTheme", "Discard"));
+    m_cancelBut->setStatusTip(qTR("QPlatformTheme", "Close"));
     m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setIconSize(m_cancelBut);
 
