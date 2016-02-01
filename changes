@@ -1,8 +1,19 @@
 1.2A.4 beta2
     ANDROID
-     - added quick icon to clear score with single move
+     - improved main menu
     BUGS FIXES
      - fixed crash when re-enabling input/output settings
+     - fixed note scaling during correction animation
+     - other glitches repaired
+
+1.2.4
+     - reduced memory consumption of pitch detection process
+     - Ported 1.2 branch to Mac Os
+    BUGS FIXES
+     - Fixed crash when note name tip was invoked from temporary, auto added note segment
+     - Default color of enharmonic notes/names is set properly and approved when changed
+     - Resizing issues - fingerboard never goes out of a view
+     - other small fixes
 
 1.2A.3 beta1
      - added touch interface, adjusted GUI layout to it
