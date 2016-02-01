@@ -807,7 +807,7 @@ void TmainScore::strikeBlinkingFinished() {
 	deleteNoteName(m_correctNoteNr);
 	TscoreNote *sn = noteFromId(m_correctNoteNr);
 	sn->setColor(qApp->palette().text().color());
-	sn->enableNoteAnim(true, 300);
+	sn->enableNoteAnim(true, 200);
 	sn->markNote(-1);
 	bool animEnabled = isAccidToKeyAnimEnabled();
 	enableAccidToKeyAnim(false); // prevent animations - it looks ugly with correction animations
