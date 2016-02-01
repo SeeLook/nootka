@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,8 +17,8 @@
  ***************************************************************************/
 
 #include "tsupportnootka.h"
-// #include <widgets/troundedlabel.h>
 #include <graphics/tnotepixmap.h>
+#include <widgets/troundedlabel.h>
 #include <tpath.h>
 #include <QtWidgets/QtWidgets>
 #if defined (Q_OS_ANDROID)
@@ -43,29 +43,33 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
   auto headLab = new QLabel(QLatin1String("<big><b>") + makinkBetter + QLatin1String("</big></b><br>") + littleEnglish, this);
     headLab->setWordWrap(true);
     headLab->setAlignment(Qt::AlignCenter);
-//     headLab->setBackroundColor(palette().base().color());
     headLab->setStyleSheet("background: palette(base)");
-//     headLab->setContentsMargins(5, 5, 5, 5);
+    headLab->setContentsMargins(5, 5, 5, 5);
 
-  auto donateLab = new QLabel(this);
-    donateLab->setWordWrap(true);
-    donateLab->setOpenExternalLinks(true);
-//     donateLab->setContentsMargins(5, 5, 5, 5);
-    donateLab->setStyleSheet(QStringLiteral("background: #0F3F0A; color: #FFFFFF;"));
-    donateLab->setText(QLatin1String("<ul>") + coloredLi("#42DA06", tr("Donate Nootka campaign")) + QLatin1String("<big>")
-       + tr("Feature by feature and Nootka became big and complex project.<br>"
-          "To be able developing this application further,<br>"
-          "to finish version for Android (and other mobile systems later on),<br>"
-          "an equipment capable for that is needed.<br>"
-          "Simply, the PC I'm working on is to old for that…<br>"
-          "Donate Nootka, please.")
-       + QLatin1String("<p><a href=\"http://sourceforge.net/donate/index.php?group_id=515420\">")
-       + tr("Through PayPal or a card") + QLatin1String("</a></p>")
-       + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
-       + tr("or send email for an account number") + QLatin1String("</a></big></p>") + endLi + QLatin1String("</ul><br>"));
+//   auto donateLab = new QLabel(this);
+//     donateLab->setWordWrap(true);
+//     donateLab->setOpenExternalLinks(true);
+// //     donateLab->setContentsMargins(5, 5, 5, 5);
+//     donateLab->setStyleSheet(QStringLiteral("background: #0F3F0A; color: #FFFFFF;"));
+//     donateLab->setText(QLatin1String("<ul>") + coloredLi("#42DA06", tr("Donate Nootka campaign")) + QLatin1String("<big>")
+//        + tr("Feature by feature and Nootka became big and complex project.<br>"
+//           "To be able developing this application further,<br>"
+//           "to finish version for Android (and other mobile systems later on),<br>"
+//           "an equipment capable for that is needed.<br>"
+//           "Simply, the PC I'm working on is to old for that…<br>"
+//           "Donate Nootka, please.")
+//        + QLatin1String("<p><a href=\"http://sourceforge.net/donate/index.php?group_id=515420\">")
+//        + tr("Through PayPal or a card") + QLatin1String("</a></p>")
+//        + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
+//        + tr("or send email for an account number") + QLatin1String("</a></big></p>") + endLi + QLatin1String("</ul><br>"));
   QString supp;
   supp += QLatin1String("<ul>");
 //   supp += QLatin1String("<li><big><b style=\"color: #FF8000;\">Make a donation</b></big><br>Nootka is free of charge but it requires some expenses.<br>To make donation use <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
+  supp += coloredLi("#42DA06", tr("Donate Nootka campaign"))
+       + QLatin1String("<a href=\"http://sourceforge.net/donate/index.php?group_id=515420\">")
+       + tr("Through PayPal or a card") + QLatin1String("</a>")
+       + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
+       + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
   supp += coloredLi("#E57300", "Test Android version") + QLatin1String("Using <a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a> or <a href=\"mailto:seelook.gmail.com\">email</a> send your phone/tablet model to inform that it works (or not)") + br + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
   supp += QLatin1String("<li><big><b style=\"color: #FF0000;\">Report an issue</b></big><br>If you find any issue or a bug than request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a><br></li>");
@@ -80,7 +84,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
 #if !defined (Q_OS_ANDROID)
     lay->setContentsMargins(0, 0, 0, 0);
 #endif
-    lay->addWidget(donateLab);
+//     lay->addWidget(donateLab);
     lay->addWidget(headLab);
     lay->addWidget(textLab);
     lay->addStretch();
@@ -92,7 +96,9 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
 }
 
 
-
+//#################################################################################################
+//###################         TsupportStandalone       ############################################
+//#################################################################################################
 TsupportStandalone::TsupportStandalone(QWidget* parent) :
   QDialog(parent)
 {
@@ -112,7 +118,7 @@ TsupportStandalone::TsupportStandalone(QWidget* parent) :
 //     neverLab->setBackroundColor(palette().base().color());
 //     neverLab->setStyleSheet("color: palette(highlightedText)");
 //     neverLab->setContentsMargins(5, 5, 5, 5);
-  auto thanksButton = new QPushButton(QIcon(Tpath::img("support")), QLatin1String("  Thanks"), this);
+  auto thanksButton = new QPushButton(QIcon(Tpath::img("support")), QLatin1String("  Thanks!"), this);
 #if defined (Q_OS_ANDROID)
     thanksButton->setIconSize(QSize(Tmtr::fingerPixels(), Tmtr::fingerPixels()));
 #else
