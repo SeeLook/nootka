@@ -26,14 +26,14 @@
         <translation>Nesprávná struna</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="179"/>
+        <location filename="../src/exam/texamsummary.cpp" line="188"/>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="63"/>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
         <translation>Málo správných not</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="182"/>
+        <location filename="../src/exam/texamsummary.cpp" line="191"/>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="68"/>
         <source>poor effectiveness</source>
         <translation>Chabá účinnost</translation>
@@ -692,37 +692,37 @@
         <translation>Změny</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="103"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="104"/>
         <source>Code</source>
         <translation>Kód</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="105"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="106"/>
         <source>Audio</source>
         <translation>Zvuk</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="140"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="141"/>
         <source>Thanks</source>
         <translation>Poděkování</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="108"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="109"/>
         <source>Translators</source>
         <translation>Překladatelé</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="106"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="107"/>
         <source>editing and/or recording of samples:</source>
         <translation>Hlavní nahrávka a/nebo nahrávání vzorků:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="126"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="127"/>
         <source>Other projects</source>
         <translation>Jiné projekty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="127"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="128"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Tento program by nebyl bez různých projektů s otevřeným zdrojovým kódem.&lt;br&gt;Obzvláště:</translation>
     </message>
@@ -1133,24 +1133,24 @@ je viděli a poslechli si správně.</translation>
         <translation type="vanished">Odmítnout</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="164"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="167"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Soubor: %1 
 není platným souborem zkoušky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="193"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="196"/>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1287"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1290"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1334"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1337"/>
         <source>Such a pity.</source>
         <translation>Jaká škoda.</translation>
     </message>
@@ -1167,42 +1167,42 @@ není platným souborem zkoušky!</translation>
         <translation type="vanished">Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1401"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1404"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1432"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1436"/>
         <source>Save exam results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1437"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1441"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1590"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1594"/>
         <source>This note was not played!</source>
         <translation>Tato nota nebla přehrána!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1652"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1656"/>
         <source>Exercises with Nootka</source>
         <translation>Cvičení s Nootkou</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1653"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1657"/>
         <source>finish exercising</source>
         <translation>Dokončit cvičení</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1655"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1659"/>
         <source>EXAM!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="1656"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="1660"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
@@ -1528,118 +1528,120 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TexamSummary</name>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="69"/>
+        <location filename="../src/exam/texamsummary.cpp" line="72"/>
         <source>Exam results</source>
         <translation>Výsledky zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="76"/>
+        <location filename="../src/exam/texamsummary.cpp" line="79"/>
         <source>student:</source>
         <translation>Žák:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="86"/>
+        <location filename="../src/exam/texamsummary.cpp" line="89"/>
         <source>times:</source>
         <translation>Časy:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="78"/>
+        <location filename="../src/exam/texamsummary.cpp" line="81"/>
         <source>Number of questions:</source>
         <translation>Číslo otázky:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="89"/>
+        <location filename="../src/exam/texamsummary.cpp" line="92"/>
         <source>Time taken to answer</source>
         <translation>Čas odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="109"/>
         <source>Close</source>
-        <translation>Zavřít</translation>
+        <translation type="vanished">Zavřít</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="111"/>
         <source>Continue</source>
-        <translation>Pokračovat</translation>
+        <translation type="vanished">Pokračovat</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="113"/>
         <source>Discard</source>
-        <translation>Zahodit</translation>
+        <translation type="vanished">Zahodit</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="138"/>
+        <location filename="../src/exam/texamsummary.cpp" line="147"/>
         <source>Results:</source>
         <translation>Výsledky:</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="159"/>
+        <location filename="../src/exam/texamsummary.cpp" line="168"/>
         <source>Kinds of mistakes</source>
         <translation>Druhy omylů</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="163"/>
+        <location filename="../src/exam/texamsummary.cpp" line="172"/>
         <source>Wrong notes</source>
         <translation>Nesprávné noty</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="165"/>
+        <location filename="../src/exam/texamsummary.cpp" line="174"/>
         <source>Wrong accidentals</source>
         <translation>Nesprávné posuvky</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="167"/>
+        <location filename="../src/exam/texamsummary.cpp" line="176"/>
         <source>Wrong key signatures</source>
         <translation>Nesprávná předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="169"/>
+        <location filename="../src/exam/texamsummary.cpp" line="178"/>
         <source>Wrong octaves</source>
         <translation>Nesprávné oktávy</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="171"/>
+        <location filename="../src/exam/texamsummary.cpp" line="180"/>
         <source>Wrong note names</source>
         <translation>Nesprávný název noty</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="177"/>
+        <location filename="../src/exam/texamsummary.cpp" line="186"/>
         <source>Out of tune</source>
         <translation>Rozladěné</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="220"/>
+        <location filename="../src/exam/texamsummary.cpp" line="232"/>
         <source>Progress of exercises</source>
         <translation>Postup cvičení</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="221"/>
+        <location filename="../src/exam/texamsummary.cpp" line="233"/>
         <location filename="../src/exam/tstartexamdlg.cpp" line="91"/>
         <source>Pass an exam</source>
         <translation>Složit zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="222"/>
+        <location filename="../src/exam/texamsummary.cpp" line="234"/>
         <source>Finish exercise and pass an exam on this level.</source>
         <translation>Dokončit cvičení a složit zkoušku na této úrovni.</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="228"/>
+        <location filename="../src/exam/texamsummary.cpp" line="240"/>
         <source>Finish this exercise</source>
         <translation>Dokončit toto cvičení</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="173"/>
+        <location filename="../src/exam/texamsummary.cpp" line="269"/>
+        <source>Send exam file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/exam/texamsummary.cpp" line="182"/>
         <source>Wrong positions on guitar</source>
         <translation> Nesprávné polohy na kytaře</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="101"/>
+        <location filename="../src/exam/texamsummary.cpp" line="102"/>
         <source>Analyze</source>
         <translation>Rozbor</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="175"/>
+        <location filename="../src/exam/texamsummary.cpp" line="184"/>
         <source>Wrong strings</source>
         <translation>Nesprávné struny</translation>
     </message>
@@ -2457,7 +2459,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TmainView</name>
     <message>
-        <location filename="../src/gui/tmainview.cpp" line="376"/>
+        <location filename="../src/gui/tmainview.cpp" line="395"/>
         <source>score menu</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2535,70 +2537,70 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TnootkaCertificate</name>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="60"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="66"/>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
         <translation>&lt;h3&gt;Nootčina akademie hudby&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="61"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="67"/>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
         <translation>[DATE]&lt;br&gt;&lt;i&gt;datum&lt;i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="69"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="75"/>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
         <comment>2nd line, single indent</comment>
         <translation>Žáku &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; bylo uděleno</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="76"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="82"/>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
         <comment>Main header - centered</comment>
         <translation>&lt;h1&gt;Vysvědčení o složení zkoušky&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="84"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="90"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
         <translation>Složil zkoušku na úrovni &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;zodpověděl požadovaných [QUESTNR] otázek&lt;br&gt;v čase &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;a dosáhl výsledku &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="88"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="94"/>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
         <translation>Na dosvědčení tohoto úspěchu&lt;br&gt;nyní udělujeme toto vysvědčení &lt;b&gt;[DATE]&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="92"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="98"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
         <translation>&lt;small&gt;&lt;i&gt;Zkušební komise:&lt;/i&gt;&lt;br&gt;&lt;i&gt;Předseda:&lt;/i&gt;&lt;b&gt; Nootka sama&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;paní RAM&lt;/b&gt; jeho pomocnice&lt;br&gt;&lt;i&gt;Zapisovatel:&lt;/i&gt;&lt;b&gt; pan Disk&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="103"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="108"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
         <comment>bottom, centered</comment>
         <translation>&lt;i&gt;známka&lt;/i&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="175"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="190"/>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
         <translation>Blahopřeji!&lt;br&gt;Právě jste složil svoji zkoušku!</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="175"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="195"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Toto vysvědčení uložit do souboru na památku.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="183"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="203"/>
         <source>You can still play with it and improve effectiveness.</source>
         <translation>Můžete si s tím dál hrát a zlepšit svůj výkon.</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="225"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="259"/>
         <source>Save certificate</source>
         <translation>Uložit vysvědčení</translation>
     </message>
@@ -2659,37 +2661,37 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TnoteControl</name>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="361"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="365"/>
         <source>Click to add a new note</source>
         <translation>Klepněte pro přidání nové noty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="372"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="376"/>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
         <translation>&lt;b&gt;dvojitý křížek&lt;/b&gt; - zvýší notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce nahoru.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="374"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="378"/>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
         <translation>&lt;b&gt;křížek&lt;/b&gt; - zvýší notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec nahoru.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="376"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="380"/>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
         <translation>&lt;b&gt;béčko&lt;/b&gt; - sníží notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec dolů.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="378"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="382"/>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
         <translation>&lt;b&gt;dvojité béčko&lt;/b&gt; - sníží notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce dolů.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="380"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="384"/>
         <source>Click %1 to remove a note</source>
         <translation>Klepněte na %1 pro odstranění noty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="383"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="387"/>
         <source>Click %1 to edit note name</source>
         <translation>Klepněte na %1 pro upravení názvu noty</translation>
     </message>
@@ -2824,6 +2826,24 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="88"/>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
         <translation>Ukázat formátovaný název noty. Pro malou oktávu - název je malé písmeno,&lt;br&gt;pro velkou oktávu - název začíná velkým písmenem.&lt;br&gt;pro jednočárkované - je přidána číslice&lt;sup&gt;1&lt;/sup&gt;, atd.</translation>
+    </message>
+</context>
+<context>
+    <name>TouchHelp</name>
+    <message>
+        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="29"/>
+        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="39"/>
+        <source>Touch a clef for a while to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="45"/>
+        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3220,7 +3240,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Smazat všechny noty</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="97"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="98"/>
         <source>Score</source>
         <translation>Noty</translation>
     </message>
@@ -3228,7 +3248,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TscoreClef</name>
     <message>
-        <location filename="../src/libs/core/score/tscoreclef.cpp" line="188"/>
+        <location filename="../src/libs/core/score/tscoreclef.cpp" line="198"/>
         <source>Click to select another clef.</source>
         <translation>Klepněte pro výběr dalšího klíče.</translation>
     </message>
@@ -3244,12 +3264,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TscoreNote</name>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="104"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="101"/>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
         <translation>Klepněte pro zadání noty. Použijte vodorovný posuvník pro změnu posuvek.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="105"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="102"/>
         <source>Right mouse button just selects a note.</source>
         <translation>Pravé tlačítko myši pouze vybere notu.</translation>
     </message>
@@ -3632,27 +3652,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="55"/>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="68"/>
         <source>Donate Nootka campaign</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="56"/>
-        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="63"/>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="70"/>
         <source>Through PayPal or a card</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="65"/>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="72"/>
         <source>or send email for an account number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="106"/>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="112"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
     </message>
@@ -3951,7 +3966,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>about translator</name>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="162"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="163"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation>Pavel Fric&lt;br&gt;fripohled.blogspot.com</translation>

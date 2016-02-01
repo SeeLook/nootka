@@ -1259,15 +1259,15 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Schließen</translation>
+        <translation type="vanished">Schließen</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Fortfahren</translation>
+        <translation type="vanished">Fortfahren</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Verwerfen</translation>
+        <translation type="vanished">Verwerfen</translation>
     </message>
     <message>
         <source>Results:</source>
@@ -1328,6 +1328,10 @@
     <message>
         <source>Analyze</source>
         <translation>Statistik</translation>
+    </message>
+    <message>
+        <source>Send exam file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2300,6 +2304,21 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
+    <name>TouchHelp</name>
+    <message>
+        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Touch a clef for a while to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Tpage_2</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
@@ -2950,10 +2969,6 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Donate Nootka campaign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that…&lt;br&gt;Donate Nootka, please.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
