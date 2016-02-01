@@ -92,7 +92,7 @@
         <translation>notes correctes</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="+182"/>
+        <location filename="../src/exam/texamsummary.cpp" line="+191"/>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="-3"/>
         <source>poor effectiveness</source>
         <translation>Peu performant</translation>
@@ -671,7 +671,7 @@
     <message>
         <location line="+4"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation>&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;Veuillez utiliser le site du projet pour télécharger les mises à jour ou les nouvelles versions et pour vous tenir informé des nouvelles.&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;Veuillez utiliser le site du projet pour télécharger les mises à jour ou les nouvelles versions et pour vous tenir informé des nouveautés.&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="-6"/>
@@ -687,7 +687,7 @@
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="+103"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="+104"/>
         <source>Code</source>
         <translation>Code</translation>
     </message>
@@ -696,17 +696,17 @@
         <translation type="vanished">Aide</translation>
     </message>
     <message>
-        <location line="-37"/>
+        <location line="-38"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+40"/>
         <source>Audio</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location line="-42"/>
+        <location line="-43"/>
         <source>About Nootka</source>
         <translation>À propos de Nootka</translation>
     </message>
@@ -716,7 +716,7 @@
         <translation>Licence</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+58"/>
         <source>Other projects</source>
         <translation>Autres projets</translation>
     </message>
@@ -731,24 +731,24 @@
         <translation>Développeurs</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/taboutnootka.cpp" line="-69"/>
+        <location filename="../src/plugins/about/taboutnootka.cpp" line="-70"/>
         <source>Changes</source>
         <translation>Notes
 de
 version</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+38"/>
         <source>Translators</source>
         <translation>Traducteurs</translation>
     </message>
     <message>
-        <location line="-38"/>
+        <location line="-39"/>
         <source>Support</source>
         <translation>Participez !</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+58"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Cependant, cette application ne pourrait pas exister sans d&apos;autres projets libres. &lt;br&gt; En particulier :</translation>
     </message>
@@ -1162,7 +1162,7 @@ version</translation>
         <translation type="vanished">Enregistrer</translation>
     </message>
     <message>
-        <location filename="../src/exam/texamexecutor.cpp" line="+1655"/>
+        <location filename="../src/exam/texamexecutor.cpp" line="+1659"/>
         <source>EXAM!</source>
         <translation>EXAMEN !</translation>
     </message>
@@ -1172,12 +1172,12 @@ version</translation>
         <translation>Cette note n&apos;a pas été jouée !</translation>
     </message>
     <message>
-        <location line="-189"/>
+        <location line="-190"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation>Psssst... L&apos;examen est en cours.&lt;br&gt;&lt;br&gt;Sélectionnez &lt;b&gt;%1&lt;/b&gt; pour vérifier, enregistrer et quitter&lt;br&gt;ou &lt;b&gt;%2&lt;/b&gt; pour continuer.&lt;br&gt;</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+32"/>
         <source>Save exam results as:</source>
         <translation>Enregistrer les résultats de l&apos;examen sous :</translation>
     </message>
@@ -1187,19 +1187,19 @@ version</translation>
         <translation>Arrêter l&apos;exercice</translation>
     </message>
     <message>
-        <location line="-1489"/>
+        <location line="-1490"/>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Le fichier : %1 
  n&apos;est pas un fichier d&apos;examen valide !</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
         <translation>&lt;b&gt;Le fichier d&apos;examen semble corrompu&lt;/b&gt;&lt;br&gt;Mieux vaut débuter un nouvel examen du même niveau</translation>
     </message>
     <message>
-        <location line="+1503"/>
+        <location line="+1507"/>
         <source>stop the exam</source>
         <translation>Arrêter l&apos;examen</translation>
     </message>
@@ -1213,7 +1213,7 @@ version</translation>
         <translation type="vanished">Continuer</translation>
     </message>
     <message>
-        <location line="-103"/>
+        <location line="-104"/>
         <source>Such a pity.</source>
         <translation>Quel dommage !</translation>
     </message>
@@ -1240,7 +1240,7 @@ version</translation>
         <translation>Donnez d&apos;abord une réponse !&lt;br&gt;Ensuite l&apos;examen s&apos;arrêtera.</translation>
     </message>
     <message>
-        <location line="+365"/>
+        <location line="+366"/>
         <source>Exercises with Nootka</source>
         <translation>Exercices avec Nootka</translation>
     </message>
@@ -1574,28 +1574,27 @@ version</translation>
 <context>
     <name>TexamSummary</name>
     <message>
-        <location filename="../src/exam/texamsummary.cpp" line="-70"/>
         <source>Close</source>
-        <translation>Fermer</translation>
+        <translation type="vanished">Fermer</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location filename="../src/exam/texamsummary.cpp" line="-12"/>
         <source>Wrong key signatures</source>
         <translation>Mauvaises tonalités</translation>
     </message>
     <message>
-        <location line="-89"/>
+        <location line="-95"/>
         <source>Number of questions:</source>
         <translation>Nombre de questions :</translation>
     </message>
     <message>
-        <location line="+143"/>
+        <location line="+152"/>
         <location filename="../src/exam/tstartexamdlg.cpp" line="+91"/>
         <source>Pass an exam</source>
         <translation>Passer un examen</translation>
     </message>
     <message>
-        <location line="-56"/>
+        <location line="-59"/>
         <source>Wrong accidentals</source>
         <translation>Mauvaises altérations</translation>
     </message>
@@ -1605,12 +1604,17 @@ version</translation>
         <translation>Mauvais nom de note</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+60"/>
         <source>Finish this exercise</source>
         <translation>Terminer l&apos;exercice</translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="+29"/>
+        <source>Send exam file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-85"/>
         <source>Wrong strings</source>
         <translation>Mauvaises cordes</translation>
     </message>
@@ -1625,17 +1629,16 @@ version</translation>
         <translation>Types d&apos;erreurs</translation>
     </message>
     <message>
-        <location line="-48"/>
         <source>Continue</source>
-        <translation>Continuer</translation>
+        <translation type="vanished">Continuer</translation>
     </message>
     <message>
-        <location line="+62"/>
+        <location line="+14"/>
         <source>Wrong positions on guitar</source>
         <translation>Mauvaise position sur la guitare</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-93"/>
         <source>times:</source>
         <translation>Temps :</translation>
     </message>
@@ -1645,7 +1648,7 @@ version</translation>
         <translation>Temps passé pour répondre</translation>
     </message>
     <message>
-        <location line="+133"/>
+        <location line="+142"/>
         <source>Finish exercise and pass an exam on this level.</source>
         <translation>Terminer l&apos;exercice et passer un examen du même niveau.</translation>
     </message>
@@ -1655,27 +1658,26 @@ version</translation>
         <translation>Avancement des exercices</translation>
     </message>
     <message>
-        <location line="-119"/>
+        <location line="-130"/>
         <source>Analyze</source>
         <translation>Analyse</translation>
     </message>
     <message>
-        <location line="+62"/>
+        <location line="+70"/>
         <source>Wrong notes</source>
         <translation>Mauvaises notes</translation>
     </message>
     <message>
-        <location line="-50"/>
         <source>Discard</source>
-        <translation>Annuler</translation>
+        <translation type="vanished">Annuler</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+6"/>
         <source>Wrong octaves</source>
         <translation>Mauvaises octaves</translation>
     </message>
     <message>
-        <location line="-93"/>
+        <location line="-99"/>
         <source>student:</source>
         <translation>Élève :</translation>
     </message>
@@ -1685,7 +1687,7 @@ version</translation>
         <translation>Résultats d&apos;examen</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+75"/>
         <source>Results:</source>
         <translation>Résultats :</translation>
     </message>
@@ -2522,7 +2524,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TmainView</name>
     <message>
-        <location filename="../src/gui/tmainview.cpp" line="+376"/>
+        <location filename="../src/gui/tmainview.cpp" line="+395"/>
         <source>score menu</source>
         <translation>Menu des partitions</translation>
     </message>
@@ -2604,7 +2606,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation type="vanished">&lt;small&gt;&lt;i&gt;Président du jury :&lt;/i&gt;&lt;b&gt; Nootka lui-même&lt;/b&gt;&lt;br&gt;&lt;i&gt;Jury d&apos;examen :&lt;/i&gt;&lt;br&gt;&lt;b&gt;M. le Professeur Processeur&lt;/b&gt; &amp;amp;&lt;br&gt;son assitante &lt;b&gt;Mme RAM&lt;/b&gt;&lt;br&gt;&lt;i&gt;Secrétaire :&lt;/i&gt;&lt;b&gt; M. Disque&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location filename="../src/exam/tnootkacertificate.cpp" line="+175"/>
+        <location filename="../src/exam/tnootkacertificate.cpp" line="+195"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Enregistrer ce certificat dans un fichier en souvenir.</translation>
     </message>
@@ -2613,7 +2615,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation type="vanished">Ayant réussi l&apos;examen de niveau &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;en ayant répondu aux [QUESTNR] questions requises&lt;br&gt;en &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt; et en ayant atteint le score de&lt;br&gt;&lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt; de bonnes réponses.</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-5"/>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
         <translation>Félicitations !&lt;br&gt;Vous avez réussi l&apos;examen !</translation>
     </message>
@@ -2630,12 +2632,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation type="vanished">L&apos;élève &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; a reçu le</translation>
     </message>
     <message>
-        <location line="+50"/>
+        <location line="+69"/>
         <source>Save certificate</source>
         <translation>Enregistrer le certificat</translation>
     </message>
     <message>
-        <location line="-42"/>
+        <location line="-56"/>
         <source>You can still play with it and improve effectiveness.</source>
         <translation>Vous pouvez encore jouer et améliorer vos performances.</translation>
     </message>
@@ -2652,7 +2654,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation type="vanished">&lt;h3&gt;Académie de Musique Nootka&lt;/h3&gt;</translation>
     </message>
     <message>
-        <location line="-123"/>
+        <location line="-137"/>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
         <translation>&lt;h3&gt;Académie de Musique Nootka&lt;/h3&gt;</translation>
@@ -2694,7 +2696,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>&lt;small&gt;&lt;i&gt;Président du jury :&lt;/i&gt;&lt;b&gt; Nootka lui-même&lt;/b&gt;&lt;br&gt;&lt;i&gt;Jury d&apos;examen :&lt;/i&gt;&lt;br&gt;&lt;b&gt;M. le Professeur Processeur&lt;/b&gt; &amp;amp;&lt;br&gt;son assitante &lt;b&gt;Mme RAM&lt;/b&gt;&lt;br&gt;&lt;i&gt;Secrétaire :&lt;/i&gt;&lt;b&gt; M. Disque&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+10"/>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
         <comment>bottom, centered</comment>
         <translation>&lt;i&gt;tampon&lt;/i&gt;</translation>
@@ -2756,7 +2758,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TnoteControl</name>
     <message>
-        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="+372"/>
+        <location filename="../src/libs/core/score/tnotecontrol.cpp" line="+376"/>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
         <translation>&lt;b&gt;Double dièse&lt;/b&gt; - augmente la note de deux demi-tons (un ton).&lt;br&gt;Équivaut à deux frettes vers le haut sur la guitare.</translation>
     </message>
@@ -2931,6 +2933,24 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+2"/>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
         <translation>Affiche le nom de la note au format suivant : nom de la note en minuscules pour la petite octave,&lt;br&gt;nom de la note en majuscules pour la grande octave,&lt;br&gt;un exposant numérique associé au nom de la note pour les 2e, 3e, 4e et 5e petites octaves.</translation>
+    </message>
+</context>
+<context>
+    <name>TouchHelp</name>
+    <message>
+        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="+29"/>
+        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Touch a clef for a while to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3363,7 +3383,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TscoreClef</name>
     <message>
-        <location filename="../src/libs/core/score/tscoreclef.cpp" line="+188"/>
+        <location filename="../src/libs/core/score/tscoreclef.cpp" line="+198"/>
         <source>Click to select another clef.</source>
         <translation>Cliquez pour sélectionner une autre clé.</translation>
     </message>
@@ -3379,7 +3399,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TscoreNote</name>
     <message>
-        <location filename="../src/libs/core/score/tscorenote.cpp" line="+104"/>
+        <location filename="../src/libs/core/score/tscorenote.cpp" line="+101"/>
         <source>Click to enter a note, use horizontal scroll to change accidental.</source>
         <translation>Cliquez pour entrer une note, utilisez le défilement horizontal pour changer l&apos;altération.</translation>
     </message>
@@ -3757,16 +3777,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TsupportNootka</name>
     <message>
-        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that?&lt;br&gt;Donate Nootka, please.</source>
-        <translation type="vanished">Fonctionnalités après fonctionnalités, Nootka devient un projet complexe.&lt;br&gt;Afin de pouvoir continuer à développer cette application,&lt;br&gt;et pour finaliser la version pour Android (et pour d&apos;autres systèmes mobiles plus  tard),&lt;br&gt;un équipement adapté est nécessaire.&lt;br&gt;Le PC que j&apos;utilise est trop ancien pour cela...&lt;br&gt;Merci de faire un don.</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="+65"/>
+        <location filename="../src/plugins/about/tsupportnootka.cpp" line="+72"/>
         <source>or send email for an account number</source>
         <translation>ou envoyez un courriel pour obtenir un numéro de compte</translation>
     </message>
     <message>
-        <location line="-24"/>
+        <location line="-31"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation>Ceci nécessite quelques connaissances en anglais, mais si vous êtes en mesure de lire un texte ci-dessous vous pouvez vous impliquer.</translation>
     </message>
@@ -3776,24 +3792,19 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Vous pouvez également contribuer à améliorer Nootka.</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+72"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu « À propos de Nootka »</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="-42"/>
         <source>Through PayPal or a card</source>
         <translation>Via PayPal ou par carte de crédit</translation>
     </message>
     <message>
-        <location line="-8"/>
+        <location line="-2"/>
         <source>Donate Nootka campaign</source>
         <translation>Campagne d&apos;appel aux dons en faveur de Nootka</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is to old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation>Fonctionnalités après fonctionnalités, Nootka devient un projet complexe.&lt;br&gt;Afin de pouvoir continuer à développer cette application,&lt;br&gt;et pour finaliser la version pour Android (et pour d&apos;autres systèmes mobiles plus  tard),&lt;br&gt;un équipement adapté est nécessaire.&lt;br&gt;Le PC que j&apos;utilise est trop ancien pour cela...&lt;br&gt;Merci de faire un don.</translation>
     </message>
 </context>
 <context>
