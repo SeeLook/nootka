@@ -1,9 +1,11 @@
 1.2A.4 beta2
     ANDROID
+     - exam file can be sent directly through Android native services
      - improved main menu
     BUGS FIXES
      - fixed crash when re-enabling input/output settings
      - fixed note scaling during correction animation
+     - note cursor is hidden properly
      - other glitches repaired
 
 1.2.4
