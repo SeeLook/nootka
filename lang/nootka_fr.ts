@@ -667,7 +667,7 @@
     <message>
         <location line="+4"/>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation>&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;Veuillez utiliser le site du projet pour télécharger les mises à jour ou les nouvelles versions et pour vous tenir informé des nouvelles.&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;Afin de soutenir le projet et d&apos;éviter l&apos;infection de votre PC&lt;br&gt;&lt;b&gt;Veuillez utiliser le site du projet pour télécharger les mises à jour ou les nouvelles versions et pour vous tenir informé des nouveautés.&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="-6"/>
