@@ -2839,7 +2839,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="45"/>
         <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
-        <translation>Dotknij wybranego próg - pojawi się jego powiększenie.&lt;br&gt;Można je przeciągać w prawo lub w lewo żeby zmienić próg.&lt;br&gt;Dotknij wybranej struny na powiększeniu żeby ustawić pozycję.</translation>
+        <translation>Dotknij wybrany próg - pojawi się jego powiększenie.&lt;br&gt;Można je przeciągać w prawo lub w lewo żeby zmienić próg.&lt;br&gt;Dotknij wybranej struny na powiększeniu żeby ustawić pozycję.</translation>
     </message>
 </context>
 <context>
