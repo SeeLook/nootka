@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,13 +53,20 @@ bool initCoreLibrary() {
 #if defined(Q_OS_LINUX)
   QDir dir(qApp->applicationDirPath());
   dir.cdUp();
-  qApp->addLibraryPath(dir.path() + "/lib/nootka");
+  qApp->addLibraryPath(dir.path() + QLatin1String("/lib/nootka"));
 #endif
 #if defined (Q_OS_ANDROID)
   qApp->addLibraryPath(qApp->applicationDirPath());
   Tandroid::setScreenLockDisabled(); // TODO: interact with some settings option
 #endif
-	return true;
+
+#if defined(Q_OS_MAC)
+  QDir dir(qApp->applicationDirPath());
+  dir.cdUp();
+  qApp->addLibraryPath(dir.path() + QLatin1String("/Frameworks"));
+#endif
+
+  return true;
 }
 
 
@@ -69,7 +76,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 #if defined (Q_OS_ANDROID)
   QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
 #else
-  QLocale loc(Tcore::gl()->lang.isEmpty() ? std::getenv("LANG") : Tcore::gl()->lang);
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? qgetenv("LANG") : Tcore::gl()->lang);
 #endif
   QLocale::setDefault(loc);
 

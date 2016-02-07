@@ -19,6 +19,6 @@ else(UNIX AND NOT APPLE)
   if(WIN32) 			# Windows
     install(TARGETS NootkaAboutPlugin DESTINATION .)
   else(WIN32) 			# MacOs
-    install(TARGETS NootkaAboutPlugin BUNDLE DESTINATION "nootka.app/Contents/MacOS/")
+    install(TARGETS NootkaAboutPlugin DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
   endif(WIN32)
 endif(UNIX AND NOT APPLE)

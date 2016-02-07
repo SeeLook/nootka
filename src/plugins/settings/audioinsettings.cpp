@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -77,7 +77,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		m_inDeviceCombo->setStatusTip(tr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working."));
     m_inDeviceCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
     m_JACK_ASIO_ChB = new QCheckBox(this);
   #if defined (Q_OS_WIN)
     m_JACK_ASIO_ChB->setText("ASIO");
@@ -109,7 +109,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
       rtDevLay->addWidget(devLab);
       rtDevLay->addWidget(m_inDeviceCombo);
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
       rtDevLay->addWidget(m_JACK_ASIO_ChB);
 #endif
 		deviceLay->addLayout(rtDevLay);
@@ -410,7 +410,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   connect(m_topList,  &TlistMenu::currentRowChanged, this, &AudioInSettings::testSlot);
 #else
   connect(m_toolBox, SIGNAL(currentChanged(int)), this, SLOT(testSlot()));
-	connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
+  #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
+    connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
+  #endif
 #endif
   connect(enableInBox, &QGroupBox::clicked, this, &AudioInSettings::testSlot);
   connect(m_splitVolChB, &QCheckBox::toggled, this, &AudioInSettings::splitByVolChanged);
@@ -482,7 +484,7 @@ void AudioInSettings::grabParams(TaudioParams *params) {
   params->minimalVol = volumeSlider->value();
 	params->minDuration = (qreal)durationSpin->value() / 1000.0;
 	params->intonation = m_intonationCombo->currentIndex();
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
 	params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
 #endif
   params->equalLoudness = m_noiseFilterChB->isChecked();
@@ -512,8 +514,8 @@ void AudioInSettings::saveSettings() {
   if (m_listGenerated && enableInBox->isChecked()) {
       grabParams(m_glParams);
   } else // do not save any state to global params if disabled
-    m_glParams->INenabled = false;
-    m_paramsWereChanged = false; // params were accepted
+      m_glParams->INenabled = false;
+      m_paramsWereChanged = false; // params were accepted
 }
 
 
@@ -796,7 +798,7 @@ void AudioInSettings::adjustInstrSlot(int instr) {
   }
 }
 
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
 void AudioInSettings::JACKASIOSlot() {
   TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
   updateAudioDevList();

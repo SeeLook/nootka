@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +27,8 @@
 #include <exam/tlevel.h>
 #include <widgets/tquestionaswdg.h>
 #include <exam/texam.h>
-#include <QScrollBar>
+#include <QtWidgets/qscrollbar.h>
+#include <QtCore/qtimer.h>
 
 
 

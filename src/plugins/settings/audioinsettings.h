@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -71,7 +71,7 @@ public:
 			/** Changes value of interval and adjust its suffix. Also Adjust up/down radio buttons */
 	void setTransposeInterval(int interval);
 	
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
   QCheckBox* rtApiCheckBox() { return m_JACK_ASIO_ChB; }
 #endif
 
@@ -98,7 +98,7 @@ protected:
     /** Writes state of widgets to TaudioParams object. */
   void grabParams(TaudioParams *params);
   
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
   void JACKASIOSlot();
 #endif
 
@@ -148,7 +148,9 @@ private:
 #else
   QWidget             *m_4_test;
   QToolBox            *m_toolBox;
-  QCheckBox           *m_JACK_ASIO_ChB;
+  #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
+    QCheckBox         *m_JACK_ASIO_ChB;
+  #endif
 #endif
 	QCheckBox						*m_splitVolChB, *m_skipStillerChB, *m_noiseFilterChB;
 };
