@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -212,7 +212,9 @@ void TrtAudio::updateAudioParams() {
   if (forceUpdate || (m_inParams && m_inDevName != audioParams()->INdevName) || (m_outParams && m_outDevName != m_audioParams->OUTdevName) ||
       (audioParams()->forwardInput && m_callBack == &duplexCallBack) || (!audioParams()->forwardInput && m_callBack == &passInputCallBack) ) {
     closeStream();
+#if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
     setJACKorASIO(audioParams()->JACKorASIO);
+#endif
 		forceUpdate = false; // no more
 		m_audioUpdated = true;
 		if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO) {

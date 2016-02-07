@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,8 +56,8 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     realLay->addWidget(outDevLab);
     m_audioOutDevListCombo = new QComboBox(this);
       m_audioOutDevListCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-#if !defined (Q_OS_ANDROID)
-      m_JACK_ASIO_ChB = new QCheckBox(this);
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
+    m_JACK_ASIO_ChB = new QCheckBox(this);
   #if defined (Q_OS_WIN)
     m_JACK_ASIO_ChB->setText("ASIO");
   #elif defined (Q_OS_LINUX)
@@ -67,7 +67,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 #endif
 		QHBoxLayout *rtDevLay = new QHBoxLayout;
 		rtDevLay->addWidget(m_audioOutDevListCombo);
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
 		rtDevLay->addWidget(m_JACK_ASIO_ChB);
 #endif
     realLay->addLayout(rtDevLay);
@@ -151,7 +151,9 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     
 #if !defined (Q_OS_ANDROID)
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
-    connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioOutSettings::JACKASIOSlot);
+    #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
+      connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioOutSettings::JACKASIOSlot);
+    #endif
 #endif
 #if defined(Q_OS_WIN)
     connect(m_audioOutDevListCombo, SIGNAL(currentIndexChanged(int)), this, SIGNAL(asioDriverChanged(int)));
@@ -216,7 +218,9 @@ void AudioOutSettings::saveSettings() {
 #if !defined (Q_OS_ANDROID)
       m_params->forwardInput = m_playInputChB->isChecked();
 //       m_params->playDetected = m_playDetectedChB->isChecked();
-      m_params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
+      #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
+        m_params->JACKorASIO = m_JACK_ASIO_ChB->isChecked();
+      #endif
       m_params->midiEnabled = m_midiRadioButt->isChecked();
       m_params->midiInstrNr = instruments[m_midiInstrCombo->currentIndex()].progNr;
       m_params->midiPortName = m_midiPortsCombo->currentText();
@@ -308,7 +312,7 @@ void AudioOutSettings::audioOrMidiChanged() {
 }
 
 void AudioOutSettings::JACKASIOSlot() {
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
   TrtAudio::setJACKorASIO(m_JACK_ASIO_ChB->isChecked());
   updateAudioDevList();
   emit rtApiChanged();

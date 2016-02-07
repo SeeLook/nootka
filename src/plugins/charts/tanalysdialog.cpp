@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,6 +27,7 @@
 #include <tscoreparams.h>
 #include <tnoofont.h>
 #include <tinitcorelib.h>
+#include <tcolor.h>
 #include <widgets/tsettingsdialogbase.h>
 #include "tchart.h"
 #include "tmainchart.h"
@@ -35,7 +36,7 @@
 #include "tquestionpoint.h"
 #include "ttipchart.h"
 #include "tyaxis.h"
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 
@@ -655,7 +656,7 @@ void TanalysDialog::showTuningPreview() {
 
 void TanalysDialog::openOnlineHelp() {
   QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#analyze").
-    arg(QString(std::getenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
+    arg(QString(qgetenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 
 
