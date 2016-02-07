@@ -59,18 +59,21 @@ void TrtAudio::createRtAudio() {
 			rtAPI = RtAudio::WINDOWS_WASAPI;
 		if (m_JACKorASIO)
 			rtAPI = RtAudio::UNSPECIFIED; // ASIO has a priority
-#else
+#elif defined(Q_OS_LINUX)
 		RtAudio::Api rtAPI;
 		if (m_JACKorASIO)
       rtAPI = RtAudio::UNSPECIFIED; // check is JACK possible and allow it
     else
       rtAPI = RtAudio::LINUX_ALSA; // force ALSA
-#endif
-#if defined(__LINUX_PULSE__)
+    #if defined(__LINUX_PULSE__)
       QFileInfo pulseBin("/usr/bin/pulseaudio");
       if (!m_JACKorASIO && pulseBin.exists()) // we check is PA possible to run - without check, it can hang over.
-				rtAPI = RtAudio::LINUX_PULSE;
-#endif
+        rtAPI = RtAudio::LINUX_PULSE;
+    #endif
+#else
+    RtAudio::Api rtAPI = RtAudio::MACOSX_CORE;
+ #endif
+
     try {
       m_rtAduio = new RtAudio(rtAPI);  
       m_rtAduio->showWarnings(false);
@@ -312,7 +315,9 @@ void TrtAudio::updateAudioParams() {
       m_inSR = m_sampleRate;
       m_outSR = m_sampleRate;
     }
+#if !defined (Q_OS_MAC) // Mac has reaction for this flag - it open streams with 15 buffer frames
     streamOptions->flags |= RTAUDIO_MINIMIZE_LATENCY;
+#endif
     if (audioParams()->forwardInput && m_inParams && m_outParams)
         m_callBack = &passInputCallBack;
     else
