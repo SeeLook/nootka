@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,19 +26,23 @@
 #include <music/tmelody.h>
 #include <tpath.h>
 #include "exam/trandmelody.h"
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
+
 
 TmelMan::TmelMan(TmainScore* score) :
 	QObject(score),
 	m_score(score),
 	m_audioMark(0)
-{	
+{
 	m_menu = new Tmenu();
   m_playMelAct = createAction(tr("Play melody"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
                QIcon(Tpath::img("playMelody")));
   m_playMelAct->setCheckable(true);
 	m_recMelAct = createAction(tr("Note by note"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
 							 QIcon(Tpath::img("record")));
+#if defined (Q_OS_MAC) // Ctrl is CMD under Mac and CMD+space is system wide shortcut - use Ctrl (Meta there) instead
+  m_recMelAct->setShortcut(QKeySequence(QStringLiteral("Meta+Space")));
+#endif
 	m_recMelAct->setStatusTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically."));
   m_recMelAct->setCheckable(true);
 	m_genMelodyAct = createAction(tr("Generate melody"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
@@ -140,7 +144,7 @@ void TmelMan::randomizeMelodySlot() {
 		qa.note = Tnote(1 + i);
 		ql << qa;
 	}
-	Tmelody *mel = new Tmelody("", m_score->keySignature());
+	Tmelody *mel = new Tmelody(QString(), m_score->keySignature());
   mel->setClef(m_score->clef().type());
 	getRandomMelody(ql, mel, 14, true, true);
 	m_score->setMelody(mel);
@@ -149,7 +153,7 @@ void TmelMan::randomizeMelodySlot() {
 
 
 void TmelMan::loadMelodySlot() {
-	QString melodyFile = QFileDialog::getOpenFileName(0, tr("Open melody file"), "", tr("MusicXML file") + QStringLiteral(" (*.xml)"));
+	QString melodyFile = QFileDialog::getOpenFileName(0, tr("Open melody file"), QString(), tr("MusicXML file") + QStringLiteral(" (*.xml)"));
 	if (!melodyFile.isEmpty()) {
 		Tmelody *mel = new Tmelody();
 		if (mel->grabFromMusicXml(melodyFile)) {
@@ -161,7 +165,7 @@ void TmelMan::loadMelodySlot() {
 
 
 void TmelMan::saveMelodySlot() {
-	QString melodyFile = QFileDialog::getSaveFileName(0, tr("Save melody as:"), "", tr("MusicXML file") + QStringLiteral(" (*.xml)"));
+	QString melodyFile = QFileDialog::getSaveFileName(0, tr("Save melody as:"), QString(), tr("MusicXML file") + QStringLiteral(" (*.xml)"));
 	if (!melodyFile.isEmpty()) {
 		if (melodyFile.right(4) != QLatin1String(".xml"))
         melodyFile += QStringLiteral(".xml");
