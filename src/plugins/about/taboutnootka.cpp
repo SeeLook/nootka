@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,7 @@
 #include "help/tmainhelp.h"
 #include <help/thelpdialogbase.h>
 #include <tpath.h>
+#include <qtr.h>
 #include <widgets/troundedlabel.h>
 #include <touch/ttoucharea.h>
 #include <touch/ttouchproxy.h>
@@ -64,7 +65,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 #endif
 
   addItem(tr("About"), Tpath::img("nootka-frame"));                               // 0
-  addItem(QApplication::translate("QShortcut", "Help"), Tpath::img("help-frame"));// 1
+  addItem(qTR("QShortcut", "Help"), Tpath::img("help-frame"));// 1
   addItem(authorsTxt(), Tpath::img("author"));                                    // 2
   addItem(tr("License"), Tpath::img("license"));                                  // 3
   addItem(tr("Support"), Tpath::img("support"));                                  // 4
@@ -72,7 +73,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   addItem(QStringLiteral("Qt"), Tpath::img("qt"));                                // 6
 //   addItem(QStringLiteral("Qt"), QLatin1String(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
 #if !defined (Q_OS_ANDROID)
-  addItem(QApplication::translate("QShortcut", "Close"), Tpath::img("exit"));     // 7
+  addItem(qTR("QShortcut", "Close"), Tpath::img("exit"));     // 7
 #endif
 
   m_timer = new QTimer(this);
@@ -95,7 +96,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
       touchText += QLatin1String("<br><hr><br>") + TtouchProxy::touchGuitarHelp();
 #endif
       touchEdit->setHtml(touchText);
-    helpPage->addTab(touchEdit, QApplication::translate("TscoreActions", "Score"));
+    helpPage->addTab(touchEdit, qTR("TscoreActions", "Score"));
   }
 
   auto authorsPage = new QWidget(this);
@@ -216,8 +217,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   chfile.close();
 
   auto qtAboutPage = new TtouchArea(this);
-  auto qtLabel = new QLabel(QApplication::translate("QMessageBox", "<h3>About Qt</h3><p>This program uses Qt version %1.</p>").arg(qVersion()) +
-    QApplication::translate("QMessageBox",
+  auto qtLabel = new QLabel(qTR("QMessageBox", "<h3>About Qt</h3><p>This program uses Qt version %1.</p>").arg(qVersion()) +
+    qTR("QMessageBox",
     "<p>Qt is a C++ toolkit for cross-platform application "
       "development.</p>"
       "<p>Qt provides single-source portability across all major desktop "

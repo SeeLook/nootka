@@ -34,6 +34,7 @@
 #include <touch/ttouchproxy.h>
 #include <tpath.h>
 #include <tmtr.h>
+#include <qtr.h>
 #include <graphics/tdropshadoweffect.h>
 #include <notename/tnotename.h>
 #include <QtWidgets/QtWidgets>
@@ -397,7 +398,7 @@ void TmainView::mainMenuExec() {
   if (!m_nameLay) // multi notes mode
     menu.addAction(&scoreMenuAct);
   menu.addAction(m_tool->settingsAct);
-  QAction closeAct(QIcon(QLatin1String(":/mobile/exit.png")), QApplication::translate("QShortcut", "Close"), this);
+  QAction closeAct(QIcon(QLatin1String(":/mobile/exit.png")), qTR("QShortcut", "Close"), this);
   connect(&closeAct, &QAction::triggered, parentWidget(), &QWidget::close);
   menu.addAction(&closeAct);
   auto a = menu.exec();

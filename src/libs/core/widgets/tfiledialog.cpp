@@ -1,7 +1,24 @@
-
+/***************************************************************************
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
 
 #include "tfiledialog.h"
 #include "tmtr.h"
+#include <qtr.h>
 #include <tpath.h>
 #include <Android/tandroid.h>
 #include <QtWidgets/QtWidgets>
@@ -55,21 +72,21 @@ public:
   explicit TnewDirMessage(QWidget* parent = 0) :
     QDialog(parent)
   {
-    auto label = new QLabel(QApplication::translate("QFileDialog", "Create New Folder"), this);
+    auto label = new QLabel(qTR("QFileDialog", "Create New Folder"), this);
     m_edit = new QLineEdit(this);
-    m_edit->setPlaceholderText(QApplication::translate("QFileSystemModel", "Name"));
+    m_edit->setPlaceholderText(qTR("QFileSystemModel", "Name"));
     m_edit->setMinimumWidth(qMin<int>(Tmtr::longScreenSide() / 3, fontMetrics().width(QStringLiteral("w")) * 20));
 
     QSize iconS(Tmtr::fingerPixels() * 0.7, Tmtr::fingerPixels() * 0.7);
     m_createButt = new QPushButton(QIcon(QLatin1String(":/mobile/newDir.png")),
-                               QApplication::translate("QFileDialog", "&New Folder").replace(QLatin1String("&"), QString()),
+                               qTR("QFileDialog", "&New Folder").replace(QLatin1String("&"), QString()),
                                this);
       m_createButt->setIconSize(iconS);
       m_createButt->setDisabled(true);
       m_createButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
       m_createButt->setDefault(true);
     auto cancelButt = new QPushButton(style()->standardIcon(QStyle::SP_DialogCancelButton),
-                                  QApplication::translate("QPlatformTheme", "Cancel"),
+                                  qTR("QPlatformTheme", "Cancel"),
                                   this);
       cancelButt->setIconSize(iconS);
       cancelButt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -175,16 +192,16 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
       fileIcon = style()->standardIcon(QStyle::SP_DialogOpenButton);
   }
   m_acceptItem = addMenuItem(fileIcon,
-                mode == e_acceptSave ? QApplication::translate("QShortcut", "Save") : QApplication::translate("QShortcut", "Open"));
+                mode == e_acceptSave ? qTR("QShortcut", "Save") : qTR("QShortcut", "Open"));
 
   QString space = QLatin1String(" ");
   QString newLine = QLatin1String("\n");
   m_dirUpItem = addMenuItem(QIcon(QLatin1String(":/mobile/dirUp.png")),
-                            QApplication::translate("QFileDialog", "Parent Directory").replace(space, newLine));
+                            qTR("QFileDialog", "Parent Directory").replace(space, newLine));
   m_newDirItem = addMenuItem(QIcon(QLatin1String(":/mobile/newDir.png")),
-                             QApplication::translate("QFileDialog", "&New Folder").replace(space, newLine).replace(QLatin1String("&"), QString()));
+                             qTR("QFileDialog", "&New Folder").replace(space, newLine).replace(QLatin1String("&"), QString()));
   addMenuItem(QIcon(QLatin1String(":/mobile/card.png")), tr("Memory card").replace(space, newLine));
-  m_cancelItem = addMenuItem(QIcon(QLatin1String(":/mobile/exit.png")), QApplication::translate("QShortcut", "Close"));
+  m_cancelItem = addMenuItem(QIcon(QLatin1String(":/mobile/exit.png")), qTR("QShortcut", "Close"));
 
 // upper location label, file name edit, extension combo
   m_locationLab = new QLabel(this);
@@ -297,7 +314,7 @@ void TfileDialog::itemClickedSlot(const QModelIndex& index) {
 void TfileDialog::performAction() {
   if (acceptMode() == e_acceptSave) {
     if (m_editName->text().isEmpty()) {
-        QMessageBox::warning(this, QString(), QApplication::translate("QFileSystemModel", "Invalid filename"));
+        QMessageBox::warning(this, QString(), qTR("QFileSystemModel", "Invalid filename"));
         return;
     } else {
       m_selectedFile = m_fileModel->rootPath() + QLatin1String("/") + m_editName->text();
@@ -314,7 +331,7 @@ void TfileDialog::performAction() {
       }
       if (fi.exists()) {
         if (QMessageBox::question(this, QString(),
-            QApplication::translate("QFileDialog", "%1 already exists.\nDo you want to replace it?").arg(m_selectedFile)) != QMessageBox::Ok) {
+            qTR("QFileDialog", "%1 already exists.\nDo you want to replace it?").arg(m_selectedFile)) != QMessageBox::Ok) {
                 m_selectedFile.clear();
                 return;
         }
@@ -362,7 +379,7 @@ void TfileDialog::createNewDir(const QString& newDir) {
         itemClickedSlot(dirIndex);
     else
         QMessageBox::warning(this,
-                  m_newDirItem->text(), QApplication::translate("QFtp", "Creating directory failed:\n%1").arg(newDir));
+                  m_newDirItem->text(), qTR("QFtp", "Creating directory failed:\n%1").arg(newDir));
   }
 }
 
