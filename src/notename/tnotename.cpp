@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,7 @@
 #include <widgets/tpushbutton.h>
 #include <tnoofont.h>
 #include <tscoreparams.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 extern Tglobals *gl;
@@ -52,14 +52,16 @@ TnoteName::TnoteName(QWidget *parent) :
 	m_menuParent = parent;
 	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-// #if !defined(Q_OS_ANDROID)
-	setObjectName("TnoteName");
-	setStyleSheet("QWidget#TnoteName {background: transparent;}");
-// #endif
+	setObjectName(QStringLiteral("TnoteName"));
+	setStyleSheet(QStringLiteral("QWidget#TnoteName {background: transparent;}"));
+
 // NAME LABEL
 	QVBoxLayout *mainLay = new QVBoxLayout();
 	mainLay->setAlignment(Qt::AlignCenter);
 	mainLay->setContentsMargins(2, 2, 2, 2);
+#if defined (Q_OS_MAC)
+  mainLay->setSpacing(5);
+#endif
 
 	m_nextNoteButt = new QPushButton(QIcon(QWidget::style()->standardIcon(QStyle::SP_ArrowRight)), "", this);
 	m_nextNoteButt->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -70,7 +72,7 @@ TnoteName::TnoteName(QWidget *parent) :
 	m_prevNoteButt->setStatusTip(tr("Previous note"));
 	connect(m_prevNoteButt, SIGNAL(clicked()), this, SLOT(prevNoteSlot()));
 	
-	m_nameLabel = new TnoteNameLabel("", this);
+	m_nameLabel = new TnoteNameLabel(QString(), this);
 	connect(m_nameLabel, SIGNAL(blinkingFinished()), this, SLOT(correctAnimationFinished()));
 
 	QBoxLayout *nameLay = new QBoxLayout(QBoxLayout::LeftToRight);
@@ -98,13 +100,13 @@ TnoteName::TnoteName(QWidget *parent) :
 // ACCID BUTTONS TOOOLBAR
 	m_accLay = new QBoxLayout(QBoxLayout::LeftToRight);
 	m_accLay->addStretch(2);
-	m_dblFlatButt = createAccidButton("B");
-	m_flatButt = createAccidButton("b");
-	m_sharpButt = createAccidButton("#");
-	m_dblSharpButt = createAccidButton("x");
+	m_dblFlatButt = createAccidButton(QStringLiteral("B"));
+	m_flatButt = createAccidButton(QStringLiteral("b"));
+	m_sharpButt = createAccidButton(QStringLiteral("#"));
+	m_dblSharpButt = createAccidButton(QStringLiteral("x"));
 	m_accLay->addStretch(2);
 	m_buttonsLay->addLayout(m_accLay);
-// OCTAVE BUTTONS TOOLBAR        
+// OCTAVE BUTTONS TOOLBAR
 	m_upOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
 	m_loOctaveLay = new QBoxLayout(QBoxLayout::LeftToRight);
 #if !defined (Q_OS_ANDROID)
@@ -112,9 +114,9 @@ TnoteName::TnoteName(QWidget *parent) :
 	m_octavesLab->setOpenExternalLinks(true);
 	m_octavesLab->setStatusTip(tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
 															"You can change this link to article in your language. Leave quotation matks around the address!"));
-	m_octavesLab->setText("<a href=" + m_octavesLab->statusTip().mid(m_octavesLab->statusTip().indexOf("\"")) + ">" +
-											tr("Octaves") + "</a>");
-	m_octavesLab->setStatusTip(m_octavesLab->statusTip().replace("\"", "<b><i>"));
+	m_octavesLab->setText(QLatin1String("<a href=") + m_octavesLab->statusTip().mid(m_octavesLab->statusTip().indexOf("\"")) + QLatin1String(">") +
+											tr("Octaves") + QLatin1String("</a>"));
+	m_octavesLab->setStatusTip(m_octavesLab->statusTip().replace(QLatin1String("\""), QLatin1String("<b><i>")));
 	m_upOctaveLay->addStretch(1);
 #endif
 	m_octaveGroup = new QButtonGroup(this);
@@ -338,7 +340,11 @@ void TnoteName::resize(int fontSize) {
 #else
     int nameHfactor = 5;
     if (m_isMenu) {
+#if defined (Q_OS_MAC)
+      widthOffset = 30;
+#else
       widthOffset = 15;
+#endif
       nameHfactor = 4;
 #endif
     }
@@ -361,6 +367,8 @@ void TnoteName::resize(int fontSize) {
 void TnoteName::setButtonsSize(int widthOff, int fixedH, bool skipOctaves) {
 #if defined (Q_OS_ANDROID)
   fixedH *= 1.2;
+#elif defined (Q_OS_MAC)
+  fixedH *= 1.3;
 #endif
 	for (int i = 0; i < 7; i++) {
 		m_noteButtons[i]->setFixedHeight(fixedH);
@@ -372,6 +380,9 @@ void TnoteName::setButtonsSize(int widthOff, int fixedH, bool skipOctaves) {
 			fixButtonWidth(widthOff, m_octaveButtons[i]);
 		}
 	}
+#if defined (Q_OS_MAC)
+  fixedH *= 1.2;
+#endif
 	for (int i = 0; i < m_accidButtons.size(); ++i) {
 		m_accidButtons[i]->setFixedHeight(fixedH);
 		fixButtonWidth(widthOff, m_accidButtons[i]);

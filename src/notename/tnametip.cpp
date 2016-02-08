@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,31 +18,35 @@
 
 #include "tnametip.h"
 #include "tnotename.h"
-#include <QApplication>
-#include <QDebug>
-#include <QTimer>
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qtimer.h>
 
 
 TnameTip::TnameTip(TnoteName* noteName) :
-	TgraphicsTextTip("", qApp->palette().text().color()),
+	TgraphicsTextTip(QString(), qApp->palette().text().color()),
 	m_proxy(0),
 	m_name(noteName),
 	m_cursorEntered(false)
 {
 	m_widget = new QWidget();
-	m_widget->setObjectName("TnameTip");
-	m_widget->setStyleSheet("QWidget#TnameTip { background: transparent }");
-	
+	m_widget->setObjectName(QStringLiteral("TnameTip"));
+	m_widget->setStyleSheet(QStringLiteral("QWidget#TnameTip { background: transparent }"));
+
 	m_lay = new QVBoxLayout;
 	wrapNoteName();
 	m_widget->setLayout(m_lay);
+#if defined (Q_OS_MAC) // fix spacing under Mac
+  m_lay->setSpacing(0);
+  m_lay->setContentsMargins(5, 0, 5, 0);
+#endif
 	m_proxy = new QGraphicsProxyWidget(this);
 	m_proxy->setWidget(m_widget);
 	m_proxy->setParentItem(this);
-	
+
 	m_hideTimer = new QTimer(this);
 	m_hideTimer->setSingleShot(true);
-	
+
 	connect(this, SIGNAL(entered()), this, SLOT(enteredSlot()));
 	connect(this, SIGNAL(leaved()), this, SLOT(hide()));
 	connect(m_hideTimer, SIGNAL(timeout()), this, SLOT(showTimeExpired()));
