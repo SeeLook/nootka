@@ -28,6 +28,7 @@
 #include "tpenalty.h"
 #include "texammelody.h"
 #include "mainwindow.h"
+#include <qtr.h>
 #include <level/tlevelselector.h>
 #include <tsound.h>
 #include <exam/texam.h>
@@ -1404,8 +1405,8 @@ bool TexamExecutor::closeNootka() {
 		msg->setText(tr("Psssst... Exam is going.<br><br>"
                     "Select <b>%1</b> to check, save and exit<br>"
                     "or <b>%2</b> to continue.<br>")
-                .arg(QApplication::translate("QShortcut", "Save"))
-                .arg(QApplication::translate("QPlatformTheme", "Retry")));
+                .arg(qTR("QShortcut", "Save"))
+                .arg(qTR("QPlatformTheme", "Retry")));
     msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
     msg->setWindowTitle(QStringLiteral("Psssst..."));
 		if (!gl->E->closeWithoutConfirm)
