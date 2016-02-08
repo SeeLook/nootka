@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -95,15 +95,18 @@ protected:
 
   QPointer<TexamExecutor> executor;
 
-	TtoolBar *bar; /** Main Nootka tool bar. */
+	TtoolBar *bar; /**< Main Nootka tool bar. */
 	void clearAfterExam(int examState);
 	
-	void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
+	void updateSize(QSize newS); /**< Updates position and sizes of the widgets. */
 	
-	void setSingleNoteMode(bool isSingle); /** Performs changes when insert mode differs then the set one. */
+	void setSingleNoteMode(bool isSingle); /**< Performs changes when insert mode differs then the set one. */
 	void closeEvent(QCloseEvent *event);
 	void paintEvent(QPaintEvent *);
-        
+#if defined (Q_OS_MAC)
+  bool eventFilter(QObject *obj, QEvent *event); /**< Handles opening exam/level files from Finder */
+#endif
+
 protected slots:
 	void restoreMessage();
 	void messageSlot(const QString& msg);
@@ -123,10 +126,10 @@ private:
 private:
 	QPixmap 							m_bgPixmap, m_rosettePixmap;
 	int 									m_statFontSize;
-	bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
+	bool 									m_levelCreatorExist; /**< Keeps true when Dialog windows is opened, to avoid opening another file. */
 	Tlevel 						    m_level;
 	bool 									m_isPlayerFree;
-	int										m_startedSoundId; /** Index of note on the score that has been just started.  */
+	int										m_startedSoundId; /**< Index of note on the score that has been just started.  */
 	
       /** This is tricky workaround when TexamExecutor calls clearAfterExam() where it is deleted
        * and @p executor variable is brought back because execution back to startExamSlot().  */

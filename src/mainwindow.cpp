@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -718,4 +718,16 @@ void MainWindow::paintEvent(QPaintEvent* ) {
   }
 }
 
+
+#if defined (Q_OS_MAC)
+bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
+  if (event->type() == QEvent::FileOpen) {
+    QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);
+    openFile(fileEvent->file());
+    return true;
+  }
+  // standard event processing
+  return QObject::eventFilter(obj, event);
+}
+#endif
 
