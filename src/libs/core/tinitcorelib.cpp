@@ -46,10 +46,14 @@ bool initCoreLibrary() {
 	Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
 	TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
+  QDir dir(qApp->applicationDirPath());
+  dir.cdUp();
+  qApp->addLibraryPath(dir.path() + QLatin1String("/Frameworks"));
 #else
 	TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
   qApp->addLibraryPath(qApp->applicationDirPath());
 #endif
+
 #if defined(Q_OS_LINUX)
   QDir dir(qApp->applicationDirPath());
   dir.cdUp();
@@ -60,12 +64,6 @@ bool initCoreLibrary() {
   Tandroid::setScreenLockDisabled(); // TODO: interact with some settings option
 #endif
 
-#if defined(Q_OS_MAC)
-  QDir dir(qApp->applicationDirPath());
-  dir.cdUp();
-  qApp->addLibraryPath(dir.path() + QLatin1String("/Frameworks"));
-#endif
-
   return true;
 }
 
@@ -73,8 +71,11 @@ bool initCoreLibrary() {
 void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 	if (!Tcore::gl())
     return;
+
 #if defined (Q_OS_ANDROID)
   QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
+#elif defined (Q_OS_MAC)
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system().uiLanguages().first() : Tcore::gl()->lang);
 #else
   QLocale loc(Tcore::gl()->lang.isEmpty() ? qgetenv("LANG") : Tcore::gl()->lang);
 #endif
@@ -84,6 +85,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 #if !defined (Q_OS_LINUX) || defined (Q_OS_ANDROID)
   translationsPath = Tpath::lang();
 #endif
+
   /** Until Qt 5.2 version translations where inside qt_xx.ts files
    * and all shipped with Qt for all supported languages.
    * But since Qt 5.3 they are split into several files and Nootka requires just qtbase_xx.ts.
