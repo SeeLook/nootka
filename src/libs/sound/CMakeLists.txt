@@ -330,7 +330,7 @@ endif(UNIX AND NOT APPLE)
 
 add_definitions(-DNOOTKASOUND_LIBRARY)
 
-include_directories( . ../core )
+include_directories( . ../core ../score )
 
 if (WIN32)
 	include_directories( rt )
@@ -400,9 +400,10 @@ IF(WIN32)
 endif(WIN32)
 
 add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
-target_link_libraries(NootkaSound 
+target_link_libraries(NootkaSound
 		Qt5::Widgets
 		NootkaCore
+		NootkaScore
 		${WIN_LIBS}
 		${FFTW3_LIBRARIES}
 		${ALSA_LIBRARY} ${PTHREAD_LIBRARY}

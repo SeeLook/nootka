@@ -38,7 +38,6 @@ set(LIB_NOOTKACORE_SRC
 
 	graphics/tdropshadoweffect.cpp
 	graphics/tgraphicstexttip.cpp
-	graphics/tnotepixmap.cpp
 
 	exam/tqatype.cpp
 	exam/tqaunit.cpp
@@ -49,25 +48,7 @@ set(LIB_NOOTKACORE_SRC
 	exam/textrans.h
 	exam/tresulttext.cpp
 
-	level/tlevelsdefs.cpp
-	level/tlevelpreview.cpp
-	level/tlevelselector.cpp
-	level/tfixleveldialog.cpp
-
-	score/tscoreitem.cpp
-	score/tscoreclef.cpp
-	score/tscorekeysignature.cpp
-	score/tscorenote.cpp
-	score/tscorescene.cpp
-	score/tscorescordature.cpp
-	score/tscorestaff.cpp
-	score/tscore5lines.cpp
-	score/tnotecontrol.cpp
-	score/tscorelines.cpp
-	score/tsimplescore.cpp
-
 	widgets/tpushbutton.cpp
-	widgets/tselectclef.cpp
 	widgets/tquestionaswdg.cpp
 	widgets/tsettingsdialogbase.cpp
 	widgets/troundedlabel.cpp

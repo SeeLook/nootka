@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,8 +21,8 @@
 #include <tinitcorelib.h>
 #include <widgets/tselectinstrument.h>
 #include <music/ttune.h>
-#include <score/tsimplescore.h>
-#include <score/tscorescene.h>
+#include <tsimplescore.h>
+#include <tscorescene.h>
 #include <tscoreparams.h>
 #if defined (Q_OS_ANDROID)
   #include <tmtr.h>

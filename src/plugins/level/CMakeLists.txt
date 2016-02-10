@@ -18,7 +18,7 @@ set(LEVEL_SRC
 
 
 add_library(NootkaLevelPlugin SHARED ${LEVEL_SRC} )
-target_link_libraries(NootkaLevelPlugin NootkaCore NootkaSound Qt5::Widgets)
+target_link_libraries(NootkaLevelPlugin NootkaWidgets NootkaSound Qt5::Widgets)
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
   install(TARGETS NootkaLevelPlugin DESTINATION lib/nootka)

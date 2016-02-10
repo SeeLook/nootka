@@ -46,33 +46,35 @@ if (APPLE) # Mac RPath
 endif (APPLE)
 
 
-add_subdirectory( libs/core ) # libNootkaCore
-add_subdirectory( libs/sound ) # libNootkaSound
-add_subdirectory( libs/misc ) # libNootkaMisc
-		
-include_directories( libs/core libs/sound libs/misc )
+add_subdirectory( libs/core )     # libNootkaCore
+add_subdirectory( libs/score )    # libNootkaScore
+add_subdirectory( libs/widgets )  # libNootkaWidgets
+add_subdirectory( libs/sound )    # libNootkaSound
+add_subdirectory( libs/misc )     # libNootkaMisc
+
+include_directories( libs/core libs/score libs/widgets libs/sound libs/misc )
 
 # nootka executable
 set(NOOTKA_SRC
 	main.cpp
 	mainwindow.cpp
-	
+
 	gui/tmainview.cpp
 	gui/tmelman.cpp
 	gui/ttoolbar.cpp
 	gui/tmenu.cpp
-	
+
 	guitar/tfingerboard.cpp
 	guitar/tguitarview.cpp
-	
+
 	notename/tnotename.cpp
 	notename/tnotenamelabel.cpp
 	notename/tnametip.cpp
-	
+
 	score/tmultiscore.cpp
 	score/tmainscore.cpp
 	score/tscoreactions.cpp
-	
+
 	exam/tcanvas.cpp
 	exam/tnootkacertificate.cpp
 	exam/tquestiontip.cpp
@@ -88,7 +90,7 @@ set(NOOTKA_SRC
 	exam/trandmelody.cpp
 	exam/tpenalty.cpp
 	exam/texammelody.cpp
-	
+
 	animations/tstrikedoutitem.cpp
 )
 
@@ -105,6 +107,8 @@ endif(MINGW)
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
 target_link_libraries(nootka
 		NootkaCore
+		NootkaScore
+		NootkaWidgets
 		NootkaSound
 		NootkaMisc
 		Qt5::Widgets

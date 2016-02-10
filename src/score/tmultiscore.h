@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,9 @@
 #ifndef TMULTISCORE_H
 #define TMULTISCORE_H
 
-#include <score/tsimplescore.h>
-#include <score/tscorenote.h>
-#include <score/tscorestaff.h>
+#include <tsimplescore.h>
+#include <tscorenote.h>
+#include <tscorestaff.h>
 
 
 class Tscore5lines;

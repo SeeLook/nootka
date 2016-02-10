@@ -5,7 +5,7 @@
 
 add_definitions(-DNOOTKAMISC_LIBRARY)
 
-include_directories( . ../core )
+include_directories( . ../core ../score )
 
 set(LIB_NOOTKAMISC_SRC
 	select7note.cpp
@@ -22,7 +22,7 @@ set(LIB_NOOTKAMISC_SRC
 
 
 add_library(NootkaMisc SHARED ${LIB_NOOTKAMISC_SRC} )
-target_link_libraries(NootkaMisc Qt5::Widgets NootkaCore )
+target_link_libraries(NootkaMisc Qt5::Widgets NootkaCore NootkaScore)
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
   install(TARGETS NootkaMisc DESTINATION lib/nootka)

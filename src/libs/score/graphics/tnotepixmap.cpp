@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,16 +21,16 @@
 #include <music/tkeysignature.h>
 #include <music/tmelody.h>
 #include <exam/tqaunit.h>
-#include <score/tscorenote.h>
-#include <score/tscorescene.h>
-#include <score/tscoreclef.h>
-#include <score/tscorekeysignature.h>
-#include <score/tscorestaff.h>
-#include <QPainter>
-#include <QPalette>
-#include <QBuffer>
-#include <QApplication>
-#include <QDebug>
+#include <tscorenote.h>
+#include <tscorescene.h>
+#include <tscoreclef.h>
+#include <tscorekeysignature.h>
+#include <tscorestaff.h>
+#include <QtGui/qpainter.h>
+#include <QtGui/qpalette.h>
+#include <QtCore/qbuffer.h>
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qdebug.h>
 
 
 

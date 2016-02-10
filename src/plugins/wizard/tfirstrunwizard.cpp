@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,7 +30,7 @@
 #include <graphics/tnotepixmap.h>
 #include <music/tkeysignature.h>
 #include <music/ttune.h>
-#include <score/tsimplescore.h>
+#include <tsimplescore.h>
 #include <taudioparams.h>
 #include <tscoreparams.h>
 #include <tlayoutparams.h>
