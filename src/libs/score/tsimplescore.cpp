@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,16 +18,16 @@
 
 
 #include "tsimplescore.h"
-#include <score/tscorescene.h>
-#include <score/tscorestaff.h>
-#include <score/tscorenote.h>
-#include <score/tscorekeysignature.h>
-#include <score/tscoreclef.h>
+#include <tscorescene.h>
+#include <tscorestaff.h>
+#include <tscorenote.h>
+#include <tscorekeysignature.h>
+#include <tscoreclef.h>
 #include "tnotecontrol.h"
 #include <music/tinstrument.h>
 #include <tcolor.h>
 #include <tnoofont.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 #define TAP_TIME (200) //  ms

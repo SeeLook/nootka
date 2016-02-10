@@ -18,12 +18,12 @@
 
 #include "tmainscore.h"
 #include "tscoreactions.h"
-#include <score/tscorestaff.h>
-#include <score/tscorenote.h>
-#include <score/tscorekeysignature.h>
-#include <score/tscoreclef.h>
-#include <score/tscorescene.h>
-#include <score/tnotecontrol.h>
+#include <tscorestaff.h>
+#include <tscorenote.h>
+#include <tscorekeysignature.h>
+#include <tscoreclef.h>
+#include <tscorescene.h>
+#include <tnotecontrol.h>
 #include <music/ttune.h>
 #include <music/tmelody.h>
 #include <tscoreparams.h>

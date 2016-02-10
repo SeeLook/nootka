@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,9 +18,9 @@
 
 #include "tmelodyview.h"
 #include "tquestionpoint.h"
-#include <score/tscorescene.h>
-#include <score/tscorestaff.h>
-#include <score/tscorekeysignature.h>
+#include <tscorescene.h>
+#include <tscorestaff.h>
+#include <tscorekeysignature.h>
 #include <music/tmelody.h>
 #include <exam/tqaunit.h>
 #include <QScrollBar>

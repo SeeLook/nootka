@@ -158,16 +158,6 @@ if(WIN32)
   install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
   install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
-# The rest of libraries are copied to install directory by deploy 'target'
-#   install(FILES "${QT_BINARY_DIR}/Qt5Core.dll" "${QT_BINARY_DIR}/Qt5Gui.dll" "${QT_BINARY_DIR}/Qt5Widgets.dll" "${QT_BINARY_DIR}/Qt5Network.dll" "${QT_BINARY_DIR}/Qt5PrintSupport.dll" DESTINATION "${INS_PREF}")
-#   file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
-#   install(FILES ${ICU_DLLS} DESTINATION ${INS_PREF})
-#   install(FILES ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll DESTINATION "${INS_PREF}/platforms")
-#   install(FILES ${QT_BINARY_DIR}/../plugins/bearer/qgenericbearer.dll DESTINATION "${INS_PREF}/bearer") # network plugin hangs without it
-#   install(FILES ${QT_BINARY_DIR}/../plugins/bearer/qnativewifibearer.dll DESTINATION "${INS_PREF}/bearer")
-#   if(MINGW) # mingw related
-#     install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
-#   endif(MINGW)
 endif(WIN32)
 
 ###########################################################################
@@ -190,7 +180,5 @@ add_subdirectory( packaging ) # cpack rules
 # add_subdirectory( tests/plugtester )
 # add_subdirectory( tests/nootini )
 # add_subdirectory( tests/nootoxml )
-# add_subdirectory( tests/menu )
-# add_subdirectory( tests/colordialog )
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,7 @@
 
 #include <QGraphicsView>
 #include "tmainline.h"
-#include <score/tscorescene.h>
+#include <tscorescene.h>
 
 
 class TYaxis;

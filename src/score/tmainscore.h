@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 #define TMAINSCORE_H
 
 #include "tmultiscore.h"
-#include <QPointer>
+#include <QtCore/qpointer.h>
 
 class Tmelody;
 class TcornerProxy;

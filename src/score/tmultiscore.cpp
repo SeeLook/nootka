@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,14 +17,14 @@
  ***************************************************************************/
 
 #include "tmultiscore.h"
-#include <score/tscorestaff.h>
-#include <score/tscore5lines.h>
-#include <score/tscorekeysignature.h>
-#include <score/tscorescene.h>
-#include <score/tscorenote.h>
-#include <score/tscoreclef.h>
-#include <score/tnotecontrol.h>
-#include <QtWidgets>
+#include <tscorestaff.h>
+#include <tscore5lines.h>
+#include <tscorekeysignature.h>
+#include <tscorescene.h>
+#include <tscorenote.h>
+#include <tscoreclef.h>
+#include <tnotecontrol.h>
+#include <QtWidgets/QtWidgets>
 
 
 

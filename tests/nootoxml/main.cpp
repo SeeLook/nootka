@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,10 +17,10 @@
  ***************************************************************************/
 
 
-
-#include <QtCore//QCoreApplication>
-#include <QtCore/QFile>
-#include <QtCore/QDebug>
+#include <QtCore//qcoreapplication.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qdatastream.h>
 
 
 int main(int argc, char *argv[])
