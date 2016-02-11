@@ -7,20 +7,15 @@ include_directories( . ../core ../score )
 add_definitions(-DNOOTKACORE_LIBRARY)
 
 set(LIB_NOOTKAWIDGETS_SRC
-# 	graphics/tdropshadoweffect.cpp
-# 	graphics/tgraphicstexttip.cpp
-
 	level/tlevelsdefs.cpp
 	level/tlevelpreview.cpp
 	level/tlevelselector.cpp
 	level/tfixleveldialog.cpp
 
-# 	widgets/tpushbutton.cpp
-# 	widgets/tselectclef.cpp
-# 	widgets/tquestionaswdg.cpp
-# 	widgets/tsettingsdialogbase.cpp
-# 	widgets/troundedlabel.cpp
-# 	widgets/tselectinstrument.cpp
+	widgets/tquestionaswdg.cpp
+	widgets/tsettingsdialogbase.cpp
+	widgets/troundedlabel.cpp
+	widgets/tselectinstrument.cpp
 )
 
 add_library(NootkaWidgets SHARED ${LIB_NOOTKAWIDGETS_SRC} )

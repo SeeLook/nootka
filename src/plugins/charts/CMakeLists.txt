@@ -29,7 +29,7 @@ set(ANALYZER_SRC
 
 
 add_library(NootkaAnalyzerPlugin SHARED ${ANALYZER_SRC} )
-target_link_libraries(NootkaAnalyzerPlugin NootkaCore Qt5::Widgets)
+target_link_libraries(NootkaAnalyzerPlugin NootkaWidgets Qt5::Widgets)
 
 if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
   install(TARGETS NootkaAnalyzerPlugin DESTINATION lib/nootka)
