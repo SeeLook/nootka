@@ -49,10 +49,6 @@ set(LIB_NOOTKACORE_SRC
 	exam/tresulttext.cpp
 
 	widgets/tpushbutton.cpp
-	widgets/tquestionaswdg.cpp
-	widgets/tsettingsdialogbase.cpp
-	widgets/troundedlabel.cpp
-	widgets/tselectinstrument.cpp
 
 	touch/ttouchproxy.cpp
 	touch/ttoucharea.cpp
