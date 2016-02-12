@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,7 @@
 #include <exam/tattempt.h>
 #include <music/ttune.h>
 #include <music/tmelody.h>
-#include <tglobals.h>
+#include <tinitcorelib.h>
 #include <tscoreparams.h>
 #include <widgets/tintonationview.h>
 #include <mainwindow.h>
@@ -35,8 +35,6 @@
 #include <QtCore/qdatetime.h>
 #include <QtCore/qdebug.h>
 
-
-extern Tglobals *gl;
 
 
 #if !defined (Q_OS_ANDROID)
@@ -64,8 +62,8 @@ void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 	m_playCorrections = true;
 	if (level->instrument == e_noInstrument) {
 		if (level->answerIsSound())
-			if (gl->instrument != e_noInstrument)
-				if (level->inScaleOf(gl->loString().chromatic(), gl->hiNote().chromatic()))
+			if (Tcore::gl()->instrument != e_noInstrument)
+				if (level->inScaleOf(Tcore::gl()->loString().chromatic(), Tcore::gl()->hiNote().chromatic()))
 					m_playCorrections = false;
 	} else
 			m_playCorrections = false;
@@ -76,23 +74,23 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 	checkPlayCorrected(exam->level());
 	QString changesMessage;
 	if (exam->level()->instrument != e_noInstrument) { // when instrument is guitar it has a matter
-			if (exam->level()->instrument != gl->instrument)
+			if (exam->level()->instrument != Tcore::gl()->instrument)
 					changesMessage = tr("Instrument type was changed!");
-			gl->instrument = exam->level()->instrument;
+			Tcore::gl()->instrument = exam->level()->instrument;
 	} // otherwise it reminds unchanged
 	if ((exam->level()->canBeGuitar() || exam->level()->canBeSound()) && !m_playCorrections &&
-		exam->tune() != *gl->Gtune() ) { // Is tune the same?
+		exam->tune() != *Tcore::gl()->Gtune() ) { // Is tune the same?
 			if (!changesMessage.isEmpty())
 						changesMessage += QLatin1String("<br>");
 			Ttune tmpTune = exam->tune();
-			gl->setTune(tmpTune);
-			changesMessage += tr("Tuning of the guitar was changed to:") + QLatin1String(" <b> ") + gl->Gtune()->name + QLatin1String("!</b>");
+			Tcore::gl()->setTune(tmpTune);
+			changesMessage += tr("Tuning of the guitar was changed to:") + QLatin1String(" <b> ") + Tcore::gl()->Gtune()->name + QLatin1String("!</b>");
 	}
-	if (exam->level()->canBeGuitar() && exam->level()->hiFret > gl->GfretsNumber) { // Are enough frets?
+	if (exam->level()->canBeGuitar() && exam->level()->hiFret > Tcore::gl()->GfretsNumber) { // Are enough frets?
 			if (!changesMessage.isEmpty())
 					changesMessage += QLatin1String("<br>");
 			changesMessage += tr("Guitar fret number was changed!");
-			gl->GfretsNumber = exam->level()->hiFret;
+			Tcore::gl()->GfretsNumber = exam->level()->hiFret;
 	}
 	if (!changesMessage.isEmpty()) {
 #if defined (Q_OS_ANDROID)
@@ -116,11 +114,11 @@ QColor& TexecutorSupply::answerColor(const TQAunit* answer) {
 
 QColor& TexecutorSupply::answerColor(quint32 mistake) {
 	if (mistake == (quint32)TQAunit::e_correct)
-    return gl->EanswerColor;
+    return Tcore::gl()->EanswerColor;
   else if (!(mistake & TQAunit::e_wrongPos) && !(mistake & TQAunit::e_wrongNote) && !(mistake & TQAunit::e_veryPoor))
-    return gl->EnotBadColor;
+    return Tcore::gl()->EnotBadColor;
   else
-    return gl->EquestionColor;
+    return Tcore::gl()->EquestionColor;
 }
 
 
@@ -161,8 +159,8 @@ TexecutorSupply::~TexecutorSupply()
 void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 	char openStr[6];
 //       for (int i = 0; i < 6; i++)
-	for (int i = 0; i < gl->Gtune()->stringNr(); i++)
-			openStr[i] = gl->Gtune()->str(i + 1).chromatic();
+	for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
+			openStr[i] = Tcore::gl()->Gtune()->str(i + 1).chromatic();
 		
 		/** FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL 
 			* When there is no guitar in a level,
@@ -172,12 +170,12 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 		m_level->onlyLowPos = true;
 
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
-// 		qDebug() << "Question list created fret by fret. Tune:" << gl->Gtune()->name << gl->Gtune()->stringNr();
-		if (m_level->instrument == e_noInstrument && gl->instrument != e_noInstrument) {
-// 			if (Tnote(gl->hiString().chromatic() + m_hiFret).chromatic() < m_level->hiNote.chromatic())
-// 					m_hiFret = m_level->hiNote.chromatic() - gl->hiString().chromatic();
-// 			if (Tnote(gl->loString().chromatic() + m_loFret).chromatic() > m_level->loNote.chromatic())
-// 				m_loFret = gl->loString().chromatic() - m_level->loNote.chromatic();
+// 		qDebug() << "Question list created fret by fret. Tune:" << Tcore::gl()->Gtune()->name << Tcore::gl()->Gtune()->stringNr();
+		if (m_level->instrument == e_noInstrument && Tcore::gl()->instrument != e_noInstrument) {
+// 			if (Tnote(Tcore::gl()->hiString().chromatic() + m_hiFret).chromatic() < m_level->hiNote.chromatic())
+// 					m_hiFret = m_level->hiNote.chromatic() - Tcore::gl()->hiString().chromatic();
+// 			if (Tnote(Tcore::gl()->loString().chromatic() + m_loFret).chromatic() > m_level->loNote.chromatic())
+// 				m_loFret = Tcore::gl()->loString().chromatic() - m_level->loNote.chromatic();
 			char hi = m_hiFret, lo = m_loFret;
 			if (!m_level->adjustFretsToScale(lo, hi))
 					qDebug() << "Cant adjust fret range. Corrections will be played!";
@@ -186,10 +184,10 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 		}
 		if (m_level->loFret != m_loFret || m_level->hiFret != m_hiFret)
 				qDebug() << "Fret range of a level adjusted to current instrument [" << m_loFret << m_hiFret << "]";
-		for(int s = 0; s < gl->Gtune()->stringNr(); s++) {
-				if (m_level->usedStrings[gl->strOrder(s)])// check string by strOrder
+		for(int s = 0; s < Tcore::gl()->Gtune()->stringNr(); s++) {
+				if (m_level->usedStrings[Tcore::gl()->strOrder(s)])// check string by strOrder
 						for (int f = m_loFret; f <= m_hiFret; f++) {
-								Tnote n = Tnote(gl->Gtune()->str(gl->strOrder(s) + 1).chromatic() + f);
+								Tnote n = Tnote(Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(s) + 1).chromatic() + f);
 							if (n.chromatic() >= m_level->loNote.chromatic() &&
 										n.chromatic() <= m_level->hiNote.chromatic()) {
 								bool hope = true; // we still have hope that note is proper for the level
@@ -197,7 +195,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 									if (s > 0) {
 											// we have to check when note is on the lowest positions.
 											// Is it really lowest position when strOrder[s] is 0 - it is the highest sting
-											char diff = openStr[gl->strOrder(s-1)] - openStr[gl->strOrder(s)];
+											char diff = openStr[Tcore::gl()->strOrder(s-1)] - openStr[Tcore::gl()->strOrder(s)];
 											if( (f - diff) >= m_loFret && (f - diff) <= m_hiFret)
 													hope = false; //There is the same note on highest string
 											else
@@ -210,7 +208,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 										if (n.alter && (!m_level->withFlats && !m_level->withSharps))
 												continue;
 										else {
-											TfingerPos ff = TfingerPos(gl->strOrder(s) + 1, f);
+											TfingerPos ff = TfingerPos(Tcore::gl()->strOrder(s) + 1, f);
 											addToList(list, n, ff);
 										}
 								}
@@ -355,12 +353,12 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
     if (m_isSolfege) {
         m_isSolfege = false;
         if (qrand() % 2) { // full name like cis, gisis
-            if (gl->S->seventhIs_B)
+            if (Tcore::gl()->S->seventhIs_B)
                 return Tnote::e_nederl_Bis;
             else
                 return Tnote::e_deutsch_His;
         } else { // name and sign like c#, gx
-            if (gl->S->seventhIs_B)
+            if (Tcore::gl()->S->seventhIs_B)
                 return Tnote::e_english_Bb;
             else
                 return Tnote::e_norsk_Hb;
@@ -373,12 +371,12 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
 
 
 void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck, bool order) {
-  int chStr = gl->Gtune()->str(strNr(fingerPos.str() - 1, order) + 1).chromatic();
-  for (int i = 0; i < gl->Gtune()->stringNr(); i++)
+  int chStr = Tcore::gl()->Gtune()->str(strNr(fingerPos.str() - 1, order) + 1).chromatic();
+  for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
     if (i != strNr(fingerPos.str() - 1, order)) { 
       if (strCheck && !m_level->usedStrings[i])
           continue; // skip unavailable strings when strCheck is true
-      int fret = chStr + fingerPos.fret() - gl->Gtune()->str(strNr(i, order) + 1).chromatic();
+      int fret = chStr + fingerPos.fret() - Tcore::gl()->Gtune()->str(strNr(i, order) + 1).chromatic();
       if (fret >= m_level->loFret && fret <= m_level->hiFret) {
         posList << TfingerPos(strNr(i, order) + 1, fret);
       }
@@ -580,7 +578,7 @@ void TexecutorSupply::addToList(QList<TQAgroup>& list, Tnote& n, TfingerPos& f) 
 
 quint8 TexecutorSupply::strNr(quint8 str0to6, bool ordered) {
 	if (ordered)
-		return gl->strOrder((char)str0to6);
+		return Tcore::gl()->strOrder((char)str0to6);
 	else
 		return str0to6;
 }
