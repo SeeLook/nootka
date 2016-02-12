@@ -58,13 +58,6 @@
 #include <QtWidgets/QtWidgets>
 
 
-// shortcut macros to different classes
-#define   SOUND       mW->sound
-#define   SCORE       mW->score
-#define   TOOLBAR     mW->bar
-#define   NOTENAME    mW->noteName
-#define   GUITAR      mW->guitar
-
 #if defined (Q_OS_ANDROID)
   #define WAIT_TIME (500) //[ms]
 #else
@@ -234,7 +227,7 @@ void TexamExecutor::initializeExecuting() {
 	m_shouldBeTerminated = false;
 	m_incorrectRepeated = false;
 	m_isAnswered = true;
-	m_penalty = new Tpenalty(m_exam, m_supp, mW->examResults, mW->progress);
+	m_penalty = new Tpenalty(m_exam, m_supp);
 	connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
 	if (m_exercise) {
     if (Tcore::gl()->E->suggestExam)
@@ -814,7 +807,7 @@ void TexamExecutor::correctAnswer() {
 		} else {
 			if (curQ->wrongIntonation()) {
 					float outTune = SOUND->pitch() - (float)qRound(SOUND->pitch());
-					mW->pitchView->outOfTuneAnim(outTune, 1200);
+					SOUND->pitchView()->outOfTuneAnim(outTune, 1200);
 					m_canvas->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
           correctAnimStarted = true;
 			}
@@ -880,7 +873,7 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 				NOTENAME->markNameLabel(markColor);
 				break;
 			case TQAtype::e_asSound:
-				mW->pitchView->markAnswer(markColor);
+				SOUND->pitchView()->markAnswer(markColor);
 				break;
 		}
 		switch (curQ->questionAs) {
@@ -1046,7 +1039,7 @@ void TexamExecutor::prepareToExam() {
   }
 #endif
 #if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
-  mW->pitchView->setVisible(Tcore::gl()->L->soundViewEnabled);
+  SOUND->pitchView()->setVisible(Tcore::gl()->L->soundViewEnabled);
 #endif
   GUITAR->setVisible(Tcore::gl()->L->guitarEnabled);
   SCORE->acceptSettings();
@@ -1062,8 +1055,8 @@ void TexamExecutor::prepareToExam() {
     if (m_level.requireOctave)
       SOUND->prepareToExam(m_level.loNote, m_level.hiNote);
     // when octave are not required do not change ambitus - it is already set to instrument scale
-    mW->pitchView->setIntonationAccuracy(m_level.intonation);
-    mW->pitchView->enableAccuracyChange(false);
+    SOUND->pitchView()->setIntonationAccuracy(m_level.intonation);
+    SOUND->pitchView()->enableAccuracyChange(false);
   }
   TnotePixmap::setDefaultClef(m_level.clef);
   mW->updateSize(mW->centralWidget()->size());
@@ -1091,7 +1084,7 @@ void TexamExecutor::prepareToExam() {
     if (m_level.answerIsGuitar())
       connect(GUITAR, &TfingerBoard::correctingFinished, this, &TexamExecutor::correctionFinished);
     if (m_level.answerIsSound()) {
-      connect(mW->pitchView, &TpitchView::correctingFinished, this, &TexamExecutor::correctionFinished);
+      connect(SOUND->pitchView(), &TpitchView::correctingFinished, this, &TexamExecutor::correctionFinished);
       connect(m_canvas, &Tcanvas::correctingFinished, this, &TexamExecutor::correctionFinished);
     }
   }
@@ -1109,13 +1102,13 @@ void TexamExecutor::restoreAfterExam() {
   }
 
   TnotePixmap::setDefaultClef(Tcore::gl()->S->clef);
-  mW->pitchView->setVisible(Tcore::gl()->L->soundViewEnabled);
+  SOUND->pitchView()->setVisible(Tcore::gl()->L->soundViewEnabled);
   GUITAR->setVisible(Tcore::gl()->L->guitarEnabled);
   mW->setSingleNoteMode(Tcore::gl()->S->isSingleNoteMode);
   #if defined (Q_OS_ANDROID) // revert actions
   if (!m_level.answerIsSound()) {
-    mW->pitchView->pauseAction()->setVisible(true);
-    mW->innerWidget->flyActions()->append(mW->pitchView->pauseAction());
+    SOUND->pitchView()->pauseAction()->setVisible(true);
+    mW->innerWidget->flyActions()->append(SOUND->pitchView()->pauseAction());
   }
 #endif
   SCORE->acceptSettings();
@@ -1125,8 +1118,8 @@ void TexamExecutor::restoreAfterExam() {
   GUITAR->acceptSettings();
   NOTENAME->setNoteNamesOnButt(Tcore::gl()->S->nameStyleInNoteName);
   SOUND->acceptSettings();
-  mW->pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
-  mW->pitchView->enableAccuracyChange(true);
+  SOUND->pitchView()->setIntonationAccuracy(Tcore::gl()->A->intonation);
+  SOUND->pitchView()->enableAccuracyChange(true);
 
   NOTENAME->setNameDisabled(false);
   GUITAR->setGuitarDisabled(false);
@@ -1169,8 +1162,8 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::createActions() {
 #if defined (Q_OS_ANDROID)
   if (!m_level.answerIsSound()) {
-    mW->pitchView->pauseAction()->setVisible(false);
-    mW->innerWidget->flyActions()->removeOne(mW->pitchView->pauseAction());
+    SOUND->pitchView()->pauseAction()->setVisible(false);
+    mW->innerWidget->flyActions()->removeOne(SOUND->pitchView()->pauseAction());
   }
 #endif
 	connect(TOOLBAR->nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
@@ -1359,7 +1352,7 @@ void TexamExecutor::settingsAccepted() {
 		else
 			m_exercise->setSuggestionEnabled(0);
 	}
-	if (m_exam->count() && m_exam->curQ()->answerAsSound() && !mW->pitchView->isPaused())
+	if (m_exam->count() && m_exam->curQ()->answerAsSound() && !SOUND->pitchView()->isPaused())
 		startSniffing();
 #if !defined (Q_OS_ANDROID)
 	qApp->installEventFilter(m_supp);

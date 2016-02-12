@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
+
 #include "tsound.h"
 #include "widgets/tpitchview.h"
 #if defined (Q_OS_ANDROID)
@@ -32,6 +33,8 @@
 #include <QPushButton>
 #include <QDebug>
 
+/* static */
+Tsound* Tsound::m_instance = nullptr;
 
 
 Tsound::Tsound(QObject* parent) :
@@ -41,6 +44,12 @@ Tsound::Tsound(QObject* parent) :
   m_examMode(false),
   m_melodyNoteIndex(-1)
 {
+  if (m_instance) {
+    qDebug() << "Tsound instance already exists!";
+    return;
+  }
+
+  m_instance = this;
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
 #if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
@@ -61,6 +70,7 @@ Tsound::~Tsound()
 { //They have not a parent
   deleteSniffer();
   deletePlayer();
+  m_instance = nullptr;
 }
 
 //#################################################################################################

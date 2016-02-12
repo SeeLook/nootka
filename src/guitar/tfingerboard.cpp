@@ -29,6 +29,9 @@
 #include <QtCore/qdebug.h>
 
 
+TfingerBoard* TfingerBoard::m_instance = nullptr;
+
+
 bool TfingerBoard::isRightHanded() {
   return Tcore::gl()->GisRightHanded;
 }
@@ -57,6 +60,12 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_noteName(0),
     m_corrStyle(Tnote::defaultStyle)
 {
+  if (m_instance) {
+    qDebug() << "TfingerBoard instance already exists";
+    return;
+  }
+
+  m_instance = this;
     if (Tcore::gl()->GfingerColor == -1) {
         Tcore::gl()->GfingerColor = Tcolor::invert(palette().highlight().color());
         Tcore::gl()->GfingerColor.setAlpha(200);
@@ -137,6 +146,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 TfingerBoard::~TfingerBoard()
 {
 	delete m_pickRect;
+  m_instance = nullptr;
 }
 
 

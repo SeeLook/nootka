@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,14 +21,12 @@
 #include "texamview.h"
 #include "tprogresswidget.h"
 #include <exam/texam.h>
-#include <QDebug>
+#include <QtCore/qdebug.h>
 
 
 
-Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, TprogressWidget* progress) :
+Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply) :
 	QObject(),
-	m_examView(examView),
-	m_progress(progress),
 	m_exam(exam),
 	m_supply(supply),
 	m_blackQuestNr(-1), m_blackNumber(-1),
@@ -38,11 +36,11 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, Tp
 	if (m_exam->isExercise()) { // Do not count penalties in exercising mode
 			m_exam->setFinished(); // to avoid adding penalties in exercising
 			m_supply->setFinished();
-			m_progress->hide();
-			m_examView->hide();
+			PROGRESS->hide();
+			RESULTS->hide();
 	} else {
-			m_progress->show();
-			m_examView->show();
+			PROGRESS->show();
+			RESULTS->show();
 			if (m_exam->isFinished()) {
 					m_supply->setFinished();
 					qDebug() << "Exam was finished";
@@ -52,7 +50,7 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, Tp
 						if (remained < m_exam->blackCount()) {
 							m_exam->increasePenaltys(m_exam->blackCount() - remained);
 							qDebug() << "penalties number adjusted:" << m_exam->blackCount() - remained;
-// 							m_progress->activate(m_exam, m_supply->obligQuestions());
+// 							PROGRESS->activate(m_exam, m_supply->obligQuestions());
 						}
 						if (remained == 0 && m_exam->blackCount() == 0) {
 							m_supply->setFinished();
@@ -60,10 +58,10 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, Tp
 							qDebug() << "Finished exam was detected";
 						}
 				}
-			m_examView->displayTime();
+			RESULTS->displayTime();
 	}
-	m_progress->activate(m_exam, m_supply->obligQuestions());
-	m_examView->startExam(m_exam);
+	PROGRESS->activate(m_exam, m_supply->obligQuestions());
+	RESULTS->startExam(m_exam);
 	updatePenalStep();
 }
 
@@ -122,12 +120,12 @@ void Tpenalty::checkAnswer() {
     m_exam->curQ()->setAnswered();
 	m_exam->sumarizeAnswer();
 	if (!m_exam->melodies()) // when melody question counters are not ready here, setMelodyPenalties() will do it.
-		m_examView->questionCountUpdate();	
-	m_examView->reactTimesUpdate();
-	m_examView->effectUpdate();
+		RESULTS->questionCountUpdate();
+	RESULTS->reactTimesUpdate();
+	RESULTS->effectUpdate();
 	if (!m_exam->isExercise()) {
 		releaseBlackList();
-		m_progress->progress();
+		PROGRESS->progress();
 		if (!m_exam->curQ()->isCorrect())
 				updatePenalStep();
 		checkForCert();
@@ -137,7 +135,7 @@ void Tpenalty::checkAnswer() {
 
 void Tpenalty::newAttempt() {
 	m_exam->newAttempt();
-	m_examView->effectUpdate();
+	RESULTS->effectUpdate();
 }
 
 
@@ -154,13 +152,13 @@ void Tpenalty::setMelodyPenalties() {
         updatePenalStep();
 		}
 		if (!m_exam->isExercise()) {
-			m_progress->progress();
+			PROGRESS->progress();
 			checkForCert();
 		}
 	}
 	if (!m_exam->isExercise()) {
-		m_examView->questionCountUpdate(); // counters are not used/visible for exercises
-		m_examView->effectUpdate();
+		RESULTS->questionCountUpdate(); // counters are not used/visible for exercises
+		RESULTS->effectUpdate();
 	}
 }
 
@@ -187,7 +185,7 @@ void Tpenalty::checkForCert() {
 				qDebug() << "penalties increased. Can't finish this exam yet.";
 		} else {
 				m_exam->setFinished();
-				m_progress->setFinished();
+				PROGRESS->setFinished();
 				emit certificate();
 				m_supply->setFinished();
 		}
@@ -213,37 +211,37 @@ void Tpenalty::updatePenalStep() {
 //#################   FORWARDED METHODS OF TexamView       #############
 //######################################################################
 void Tpenalty::pauseTime() {
-	m_examView->pause();
+	RESULTS->pause();
 }
 
 
 void Tpenalty::continueTime() {
-	m_examView->go();
+	RESULTS->go();
 }
 
 
 void Tpenalty::updateExamTimes() {
-	m_examView->updateExam();
+	RESULTS->updateExam();
 }
 
 
 void Tpenalty::stopTimeView() {
-	m_examView->stopExam();
+	RESULTS->stopExam();
 }
 
 
 void Tpenalty::startQuestionTime() {
-	m_examView->questionStart();
+	RESULTS->questionStart();
 }
 
 
 void Tpenalty::stopQuestionTime() {
-	m_examView->questionStop();
+	RESULTS->questionStop();
 }
 
 
 quint32 Tpenalty::elapsedTime() {
-	return m_examView->questionTime();
+	return RESULTS->questionTime();
 }
 
 

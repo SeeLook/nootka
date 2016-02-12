@@ -80,8 +80,8 @@ void noteToKey(Tnote& n, TkeySignature k) {
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  examResults(0),
-  progress(0),
+  m_examResults(0),
+  m_progress(0),
 #if !defined (Q_OS_ANDROID)
   m_statusText(QString()),
   m_curBG(-1), m_prevBg(-1),
@@ -130,7 +130,7 @@ MainWindow::MainWindow(QWidget *parent) :
 		gl->config->endGroup();
 
   Tnote::defaultStyle = gl->S->nameStyleInNoteName;
-  sound = new Tsound(this);
+  m_sound = new Tsound(this);
 #if !defined (Q_OS_ANDROID)
   m_messageTimer = new QTimer(this);
   connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
@@ -138,14 +138,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 //-------------------------------------------------------------------
 // Creating GUI elements
-  bar = new TtoolBar(gl->version, this);
-  bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); // otherwise it follows global Qt style settings
+  m_bar = new TtoolBar(gl->version, this);
+  m_bar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon); // otherwise it follows global Qt style settings
 
-  score = new TmainScore(this);
-  noteName = score->noteName();
-  pitchView = new TpitchView(sound->sniffer, this);
-  sound->setPitchView(pitchView);
-  pitchView->setVisible(gl->L->soundViewEnabled);
+  m_score = new TmainScore(this);
+  m_noteName = m_score->noteName();
+  m_pitchView = new TpitchView(m_sound->sniffer, this);
+  m_sound->setPitchView(m_pitchView);
+  m_pitchView->setVisible(gl->L->soundViewEnabled);
 #if !defined (Q_OS_ANDROID)
 // Hints - label with clues
   m_statLab = new TroundedLabel(this);
@@ -155,20 +155,20 @@ MainWindow::MainWindow(QWidget *parent) :
   m_statLab->setVisible(gl->L->hintsBarEnabled);
 #endif
 
-  guitar = new TfingerBoard(this);
-  guitar->setVisible(gl->L->guitarEnabled);
+  m_guitar = new TfingerBoard(this);
+  m_guitar->setVisible(gl->L->guitarEnabled);
 
 //-------------------------------------------------------------------		
 // Setting a layout
-  m_melButt = new TmelMan(score);
-  bar->addScoreActions(score->scoreActions());
-  bar->addMelodyButton(m_melButt);
+  m_melButt = new TmelMan(m_score);
+  m_bar->addScoreActions(m_score->scoreActions());
+  m_bar->addMelodyButton(m_melButt);
 #if defined (Q_OS_ANDROID)
   innerWidget = new TmainView(gl->L, bar, 0, pitchView, score, guitar, noteName, this);
   m_touchMessage = new TtouchMessage();
   innerWidget->scene()->addItem(m_touchMessage);
 #else
-  innerWidget = new TmainView(gl->L, bar, m_statLab, pitchView, score, guitar, noteName, this);
+  innerWidget = new TmainView(gl->L, m_bar, m_statLab, m_pitchView, m_score, m_guitar, m_noteName, this);
 #endif
   setCentralWidget(innerWidget);
   Tmenu::setMainWidget(innerWidget);
@@ -182,21 +182,21 @@ MainWindow::MainWindow(QWidget *parent) :
   innerWidget->flyActions()->append(pitchView->pauseAction());
   bar->setFlyingActions(innerWidget->flyActions());
 #else
-  connect(bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
-  connect(bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
-  connect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+  connect(m_bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
+  connect(m_bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
+  connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
   connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 #endif
   setSingleNoteMode(gl->S->isSingleNoteMode);
 
-  connect(sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
-  connect(sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
-  connect(bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
-  connect(bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
-  connect(bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
-  connect(score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
-  connect(score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
-  connect(guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
+  connect(m_sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
+  connect(m_sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
+  connect(m_bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+  connect(m_bar->settingsAct, SIGNAL(triggered()), this, SLOT(createSettingsDialog()));
+  connect(m_bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+  connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+  connect(m_score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
+  connect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
   connect(innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
 }
 
@@ -255,7 +255,7 @@ void MainWindow::setMessageBg(QColor bg) {
 
 
 void MainWindow::clearAfterExam(int examState) {
-	bar->actionsAfterExam();
+	m_bar->actionsAfterExam();
 #if !defined (Q_OS_ANDROID)
 	m_curBG = -1;
 	m_prevBg = -1;
@@ -264,12 +264,12 @@ void MainWindow::clearAfterExam(int examState) {
 	if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
 			openLevelCreator();
 	else
-			sound->go();
+			m_sound->go();
 	innerWidget->takeExamViews();
-	progress = 0;
-	examResults = 0;
-	if (score->insertMode() != TmultiScore::e_single)
-		bar->setMelodyButtonVisible(true);
+	m_progress = 0;
+	m_examResults = 0;
+	if (m_score->insertMode() != TmultiScore::e_single)
+		m_bar->setMelodyButtonVisible(true);
 	updateSize(innerWidget->size());
   delete executor;
   m_deleteExecutor = true;
@@ -309,7 +309,7 @@ void MainWindow::openFile(QString runArg) {
 
 
 void MainWindow::createSettingsDialog() {
-	if (score->isScorePlayed())
+	if (m_score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
 	QString args;
 	if (executor) {
@@ -319,9 +319,9 @@ void MainWindow::createSettingsDialog() {
 			args = QStringLiteral("exam");
 		executor->prepareToSettings();
 	} else {
-			if (score->insertMode() == TmultiScore::e_record)
+			if (m_score->insertMode() == TmultiScore::e_record)
 				m_melButt->recordMelodySlot(); // switch to multi mode
-			sound->prepareToConf();
+			m_sound->prepareToConf();
 	}
   TpluginsLoader *loader = new TpluginsLoader();
   if (loader->load(TpluginsLoader::e_settings)) {
@@ -335,37 +335,37 @@ void MainWindow::createSettingsDialog() {
 				return;
 			}
 			m_isPlayerFree = false;
-			sound->acceptSettings();
+			m_sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);
-			score->acceptSettings();
+			m_score->acceptSettings();
 			updateSize(innerWidget->size());
 			if (gl->L->guitarEnabled && gl->instrument != e_noInstrument)
-					guitar->acceptSettings(); //refresh guitar
-			bar->setBarIconStyle(gl->L->iconTextOnToolBar, bar->iconSize().width());
+					m_guitar->acceptSettings(); //refresh guitar
+			m_bar->setBarIconStyle(gl->L->iconTextOnToolBar, m_bar->iconSize().width());
 			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
 #if !defined (Q_OS_ANDROID)
 			m_statLab->setVisible(gl->L->hintsBarEnabled);
 #endif
-			pitchView->setVisible(gl->L->soundViewEnabled);
-			guitar->setVisible(gl->L->guitarEnabled);
+			m_pitchView->setVisible(gl->L->soundViewEnabled);
+			m_guitar->setVisible(gl->L->guitarEnabled);
       if (gl->S->isSingleNoteMode) // refresh note name
-        noteName->setNoteName(noteName->getNoteName());
+        m_noteName->setNoteName(m_noteName->getNoteName());
 			m_isPlayerFree = true;
 	} else if (lastWord.contains(QLatin1String("Reset"))) {
       resetConfig = true;
       close();
   } else { // settings not accepted
       if (!executor) // skip this when settings were called during exam
-        sound->restoreAfterConf();
+        m_sound->restoreAfterConf();
 	}
 }
 
 
 void MainWindow::openLevelCreator(QString levelFile) {
-  if (score->isScorePlayed())
+  if (m_score->isScorePlayed())
     m_melButt->playMelodySlot(); // stop playing
-  sound->wait(); // stops pitch detection
-  sound->stopPlaying();
+  m_sound->wait(); // stops pitch detection
+  m_sound->stopPlaying();
   m_levelCreatorExist = true;
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_level)) {
@@ -391,7 +391,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     executor = new TexamExecutor(this, startExercise ? QLatin1String("exercise") : QString(), &m_level); // start exam
   }
   else
-    sound->go(); // restore pitch detection
+    m_sound->go(); // restore pitch detection
 }
 
 
@@ -405,56 +405,56 @@ void MainWindow::startExamSlot() {
 
 
 void MainWindow::aboutSlot() {
-	if (score->isScorePlayed())
+	if (m_score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing
-	sound->wait();
-	sound->stopPlaying();
+	m_sound->wait();
+	m_sound->stopPlaying();
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_about))
     loader.init(QString(), this);
-	sound->go();
+	m_sound->go();
 }
 
 
 void MainWindow::analyseSlot() {
 #if !defined (Q_OS_ANDROID)
-	if (score->isScorePlayed())
+	if (m_score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing
-	sound->wait();
-	sound->stopPlaying();
+	m_sound->wait();
+	m_sound->stopPlaying();
 	TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_analyzer)) {
     loader.init(QString(), this);
   }
-	sound->go();
+	m_sound->go();
 #endif
 }
 
 void MainWindow::noteWasClicked(int index, Tnote note) {
 	Q_UNUSED(index)
 	if (m_isPlayerFree)
-			sound->play(note);
-		if (guitar->isVisible())
-	guitar->setFinger(note);
+			m_sound->play(note);
+		if (m_guitar->isVisible())
+	m_guitar->setFinger(note);
 }
 
 
 void MainWindow::guitarWasClicked(const Tnote& note) {
 	Tnote n = note;
-	noteToKey(n, score->keySignature());
-	sound->play(n);
-	score->setNote(n);
+	noteToKey(n, m_score->keySignature());
+	m_sound->play(n);
+	m_score->setNote(n);
 }
 
 
 void MainWindow::soundWasStarted(const Tnote& note) {
 //   if (gl->instrument != e_noInstrument) { // quick reaction for guitar
     Tnote n = note;
-    noteToKey(n, score->keySignature());
-    score->setNote(n);
-    m_startedSoundId = qMax<int>(score->currentIndex(), 0);
-    if (guitar->isVisible())
-      guitar->setFinger(note);
+    noteToKey(n, m_score->keySignature());
+    m_score->setNote(n);
+    m_startedSoundId = qMax<int>(m_score->currentIndex(), 0);
+    if (m_guitar->isVisible())
+      m_guitar->setFinger(note);
 //   }
 }
 
@@ -462,28 +462,28 @@ void MainWindow::soundWasStarted(const Tnote& note) {
 void MainWindow::soundWasFinished(Tchunk* chunk) {
 //   if (gl->instrument == e_noInstrument) { // whole played note and average pitch for other instruments
     Tnote n = chunk->p();
-    noteToKey(n, score->keySignature());
-    score->setNote(m_startedSoundId, n);
-    if (guitar->isVisible())
-      guitar->setFinger(chunk->p());
+    noteToKey(n, m_score->keySignature());
+    m_score->setNote(m_startedSoundId, n);
+    if (m_guitar->isVisible())
+      m_guitar->setFinger(chunk->p());
 //   }
 }
 
 
 void MainWindow::setSingleNoteMode(bool isSingle) {
-	if (isSingle && score->insertMode() != TmultiScore::e_single) {
+	if (isSingle && m_score->insertMode() != TmultiScore::e_single) {
       if (!executor)
-          bar->setMelodyButtonVisible(false);
+          m_bar->setMelodyButtonVisible(false);
 //           m_melButt->melodyAction()->setVisible(false);
       innerWidget->addNoteName();
-      score->setInsertMode(TmultiScore::e_single);
-	} else if	(!isSingle && score->insertMode() == TmultiScore::e_single) {
+      m_score->setInsertMode(TmultiScore::e_single);
+	} else if	(!isSingle && m_score->insertMode() == TmultiScore::e_single) {
       if (!executor)
-          bar->setMelodyButtonVisible(true);
+          m_bar->setMelodyButtonVisible(true);
 //           m_melButt->melodyAction()->setVisible(true);
       innerWidget->takeNoteName();
-      noteName->setNoteName(Tnote(1, 0)); // unset buttons
-      score->setInsertMode(TmultiScore::e_multi);
+      m_noteName->setNoteName(Tnote(1, 0)); // unset buttons
+      m_score->setInsertMode(TmultiScore::e_multi);
 	}
 }
 
@@ -521,8 +521,8 @@ void MainWindow::messageSlot(const QString& msg) {
 
 
 void MainWindow::showSupportDialog() {
-  sound->wait();
-  sound->stopPlaying();
+  m_sound->wait();
+  m_sound->stopPlaying();
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_about))
     loader.init(QStringLiteral("support"), this);
@@ -530,7 +530,7 @@ void MainWindow::showSupportDialog() {
     gl->config->setValue("version", gl->version);
     gl->config->setValue("supportDate", QDate::currentDate());
   gl->config->endGroup();
-  sound->go();
+  m_sound->go();
 }
 
 
@@ -540,9 +540,9 @@ void MainWindow::updaterMessagesSlot(const QString& m) {
     || m.contains(QLatin1String("finished")) || m.contains(QLatin1String("error occurred"))) {
       m_updaterPlugin->deleteLater();
       if (m_updaterStoppedSound)
-        sound->go();
-  } else if (m.contains(QLatin1String("success")) && !sound->isSnifferPaused()) {
-      sound->wait();
+        m_sound->go();
+  } else if (m.contains(QLatin1String("success")) && !m_sound->isSnifferPaused()) {
+      m_sound->wait();
       m_updaterStoppedSound = true;
   }
   // It sends 'success' as well but it means that updater window is displayed, when user will close it - 'finished' is send
@@ -551,22 +551,22 @@ void MainWindow::updaterMessagesSlot(const QString& m) {
 
 
 void MainWindow::adjustAmbitus() {
-	if (!sound->sniffer)
+	if (!m_sound->sniffer)
 		return;
 	Tnote hiNote, loNote;
 	const int noteOffset = 2; // major 2nd up and down 
-	if (score->clef().type() != gl->S->clef) {
-		if (score->highestNote().chromatic() < gl->hiNote().chromatic())
+	if (m_score->clef().type() != gl->S->clef) {
+		if (m_score->highestNote().chromatic() < gl->hiNote().chromatic())
 			hiNote = Tnote(gl->hiNote().chromatic() + noteOffset);
 		else
-			hiNote = Tnote(score->highestNote().chromatic() + noteOffset);
-		if (score->lowestNote().chromatic() > gl->loNote().chromatic())
+			hiNote = Tnote(m_score->highestNote().chromatic() + noteOffset);
+		if (m_score->lowestNote().chromatic() > gl->loNote().chromatic())
 			loNote = Tnote(gl->loNote().chromatic() - noteOffset);
 		else
-			loNote = Tnote(score->lowestNote().chromatic() - noteOffset);
-		sound->sniffer->setAmbitus(loNote, hiNote);
+			loNote = Tnote(m_score->lowestNote().chromatic() - noteOffset);
+		m_sound->sniffer->setAmbitus(loNote, hiNote);
 	} else
-		sound->setDefaultAmbitus();
+		m_sound->setDefaultAmbitus();
 }
 
 
@@ -575,16 +575,16 @@ void MainWindow::adjustAmbitus() {
 //#################################################################################################
 
 void MainWindow::prepareToExam() {
-	if (score->insertMode() != TmultiScore::e_single) {
-		if (score->isScorePlayed())
+	if (m_score->insertMode() != TmultiScore::e_single) {
+		if (m_score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing when played
-		bar->setMelodyButtonVisible(false);
+		m_bar->setMelodyButtonVisible(false);
 	}
-	sound->stopPlaying();
-	examResults = new TexamView();
-	examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
-	progress = new TprogressWidget();
-	innerWidget->addExamViews(examResults, progress);
+	m_sound->stopPlaying();
+	m_examResults = new TexamView();
+	m_examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
+	m_progress = new TprogressWidget();
+	innerWidget->addExamViews(m_examResults, m_progress);
 }
 
 
@@ -604,30 +604,30 @@ void MainWindow::updateSize(QSize newS) {
 
 	if (gl->L->soundViewEnabled) {
 		if (gl->L->hintsBarEnabled) {
-			pitchView->setDirection(QBoxLayout::TopToBottom);
-			pitchView->setMaximumHeight(QWIDGETSIZE_MAX);
-      pitchView->setMinimumHeight(0);
-			pitchView->setFixedWidth(newS.width() * 0.4);
+			m_pitchView->setDirection(QBoxLayout::TopToBottom);
+			m_pitchView->setMaximumHeight(QWIDGETSIZE_MAX);
+      m_pitchView->setMinimumHeight(0);
+			m_pitchView->setFixedWidth(newS.width() * 0.4);
 		} else {
-			pitchView->setDirection(QBoxLayout::LeftToRight);
-      pitchView->setMaximumWidth(QWIDGETSIZE_MAX);
-      pitchView->setMinimumWidth(0);
-			pitchView->setFixedHeight(newS.height() * 0.04);
+			m_pitchView->setDirection(QBoxLayout::LeftToRight);
+      m_pitchView->setMaximumWidth(QWIDGETSIZE_MAX);
+      m_pitchView->setMinimumWidth(0);
+			m_pitchView->setFixedHeight(newS.height() * 0.04);
 		}
 	}
 #if !defined (Q_OS_ANDROID)
 	int barIconSize = qMin(newS.width(), newS.height()) / 20;
-  bar->setBarIconStyle(gl->L->iconTextOnToolBar, barIconSize);
+  m_bar->setBarIconStyle(gl->L->iconTextOnToolBar, barIconSize);
 #endif
 	int baseH = qMin(newS.height(), newS.width());
-	if (score->insertMode() == TmultiScore::e_single)
-		noteName->setMaximumWidth(newS.width() / 2);
+	if (m_score->insertMode() == TmultiScore::e_single)
+		m_noteName->setMaximumWidth(newS.width() / 2);
 	else
-    noteName->setMaximumWidth(QWIDGETSIZE_MAX);
+    m_noteName->setMaximumWidth(QWIDGETSIZE_MAX);
 #if defined (Q_OS_ANDROID)
   noteName->resize(qMin(baseH / 20, fontMetrics().height()));
 #else
-  noteName->resize(baseH / 40);
+  m_noteName->resize(baseH / 40);
 	m_statLab->setFixedHeight(newS.height() / 10);
 	QFont f = m_statLab->font();
 	f.setPointSize(m_statFontSize * 0.95);
@@ -636,11 +636,11 @@ void MainWindow::updateSize(QSize newS) {
 	f.setPointSize(f.pointSize() * fact);
 	m_statLab->setFont(f);
 #endif
-  if (progress) {
-    progress->resize(m_statFontSize);
-    examResults->setFontSize(m_statFontSize);
+  if (m_progress) {
+    m_progress->resize(m_statFontSize);
+    m_examResults->setFontSize(m_statFontSize);
   }
-	int newGuitH = (newS.height() - bar->height()) * 0.25;
+	int newGuitH = (newS.height() - m_bar->height()) * 0.25;
 	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
 		QPixmap rosePix(gl->path + "picts/pickup.png");
 		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
@@ -650,21 +650,21 @@ void MainWindow::updateSize(QSize newS) {
     int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
 		if (!gl->GisRightHanded)
 				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
-		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
+		m_guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
 	}
 #if defined (Q_OS_ANDROID)
 	guitar->setFixedHeight(newS.height() * 0.25);
 #else
-  guitar->setFixedHeight(newGuitH);
+  m_guitar->setFixedHeight(newGuitH);
 #endif
 	if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
 		QPixmap bgPix;
 		qreal guitH;
 		qreal ratio;
 		if (gl->instrument == e_classicalGuitar) {
-			guitar->setPickUpRect(QRect());
+			m_guitar->setPickUpRect(QRect());
 			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
-			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
+			guitH = qRound(((double)m_guitar->height() / 350.0) * 856.0);
 			int guitW = centralWidget()->width() / 2;
 			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
 		} else {
@@ -672,7 +672,7 @@ void MainWindow::updateSize(QSize newS) {
 					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
 			else
 					bgPix = QPixmap(gl->path + "picts/body-electro.png");
-			guitH = guitar->height() * 2.9;
+			guitH = m_guitar->height() * 2.9;
 			ratio = guitH / bgPix.height();
 			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
 		}
@@ -683,10 +683,10 @@ void MainWindow::updateSize(QSize newS) {
 
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-  sound->stopPlaying();
-  sound->wait();
+  m_sound->stopPlaying();
+  m_sound->wait();
 #if !defined (Q_OS_ANDROID)
-  disconnect(score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+  disconnect(m_score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
   disconnect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 #endif
 	if (executor) {
@@ -707,13 +707,13 @@ void MainWindow::paintEvent(QPaintEvent* ) {
       painter.scale(-1, 1);
     }
     if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
-      painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom() - m_bgPixmap.height() + 1, m_bgPixmap);
+      painter.drawPixmap(m_guitar->posX12fret() + 7, m_guitar->geometry().bottom() - m_bgPixmap.height() + 1, m_bgPixmap);
     } else {
-      qreal ratio = (guitar->height() * 3.3) / 535;
-      painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() , m_bgPixmap);
+      qreal ratio = (m_guitar->height() * 3.3) / 535;
+      painter.drawPixmap(m_guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() , m_bgPixmap);
       if (!gl->GisRightHanded)
         painter.resetTransform();
-      painter.drawPixmap(guitar->pickRect()->x(), guitar->pickRect()->y(), m_rosettePixmap);
+      painter.drawPixmap(m_guitar->pickRect()->x(), m_guitar->pickRect()->y(), m_rosettePixmap);
     }
   }
 }

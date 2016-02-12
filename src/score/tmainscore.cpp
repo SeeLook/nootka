@@ -36,11 +36,13 @@
 #include <widgets/tpushbutton.h>
 #include <tinitcorelib.h>
 #include <notename/tnotename.h>
-#include <QtWidgets>
+#include <QtWidgets/QtWidgets>
 
 
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
 
+
+TmainScore* TmainScore::m_instance = nullptr;
 
 
 TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
@@ -54,8 +56,14 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
   m_scoreIsPlayed(false),
   m_emitExpertNoteClicked(true)
 {
+  if (m_instance) {
+    qDebug() << "TmainScore instance already exists";
+    return;
+  }
+
+  m_instance = this;
 	m_acts = new TscoreActions(this);
-	
+
 	scoreScene()->setNameColor(Tcore::gl()->S->nameColor);
 	restoreNotesSettings();
 	addStaff(staff());
@@ -63,7 +71,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
   createActions();
 // set preferred clef
 	setClef(Tcore::gl()->S->clef);
-	
+
 // set note colors
 // 	restoreNotesSettings();
 	setScordature();
@@ -74,7 +82,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
   setScoreScale(Tcore::gl()->S->scoreScale);
 	if (staff()->scoreKey())
 		staff()->scoreKey()->showKeyName(Tcore::gl()->S->showKeySignName);
-	
+
 	connect(scoreScene()->right(), SIGNAL(nameMenu(TscoreNote*)), SLOT(showNameMenu(TscoreNote*)));
 //     setAmbitus(Tnote(Tcore::gl()->loString().chromatic()-1),
 //                Tnote(Tcore::gl()->hiString().chromatic()+Tcore::gl()->GfretsNumber+1));
@@ -86,7 +94,9 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 
 
 TmainScore::~TmainScore()
-{}
+{
+  m_instance = nullptr;
+}
 
 
 //####################################################################################################
