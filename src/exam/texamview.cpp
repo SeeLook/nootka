@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,10 +31,18 @@ QString borderStyleTxt = QStringLiteral("border: 1px solid palette(shadow); bord
 QString space = QStringLiteral(" ");
 
 
+TexamView* TexamView::m_instance = nullptr;
+
 TexamView::TexamView(QWidget *parent) :
   QWidget(parent),
   m_exam(0)
 {
+  if (m_instance) {
+    qDebug() << "TexamView instance already exists";
+    return;
+  }
+
+  m_instance = this;
   auto mainLay = new QHBoxLayout;
 #if defined (Q_OS_ANDROID)
   mainLay->setContentsMargins(0, 0, 0, 0);
@@ -94,6 +102,12 @@ TexamView::TexamView(QWidget *parent) :
 
   m_timer = new QTimer(this);
   connect(m_timer, SIGNAL(timeout()), this, SLOT(countTime()));
+}
+
+
+TexamView::~TexamView()
+{
+  m_instance = nullptr;
 }
 
 

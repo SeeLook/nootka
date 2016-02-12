@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,15 +20,13 @@
 #define TPENALTY_H
 
 
-#include <QObject>
+#include <QtCore/qobject.h>
 
-class TprogressWidget;
-class TexamView;
 class TexecutorSupply;
 class Texam;
 
 
-/** 
+/**
  * This class manages penalties during exam execution.
  * Also it takes care about state of @class TexamView and @class TprogressWidget widgets
  * @p m_penalStep determines how many 'normal' questions is asked between penalties
@@ -53,19 +51,19 @@ class Texam;
  */
 class Tpenalty : public QObject
 {
-	
+
 	Q_OBJECT
-	
+
 public:
-	Tpenalty(Texam* exam, TexecutorSupply* supply, TexamView* examView, TprogressWidget* progress);
-	
+	Tpenalty(Texam* exam, TexecutorSupply* supply);
+
 	bool isNot() { return m_blackQuestNr == -1 && m_blackNumber == -1; } /** @p TRUE when a question is not a penalty */
-	
+
 			/** Check state of counters and if it is time for penalty
 			 * prepares last question in @p Texam list by copying someone from black list
 			 * and returns @p TRUE. Otherwise just returns @p FALSE */
 	bool ask();
-	
+
 	void updatePenalStep();
 	void nextQuestion(); /** Increases counter of question, resets m_blackQuestNr. Starts timer */
 	void checkAnswer(); /** Checks last answer and when not valid adds penalty(s) to black list. */
@@ -73,12 +71,12 @@ public:
 	void setMelodyPenalties();
 	void releaseBlackList(); /** If asked question was penalty and answer was correct it removes penalty from black list. */
 	void checkForCert(); /** Checks could be exam finished and emits @p certificate() when it can. */
-	
+
 			/** Sets @p m_blackQuestNr to the last question from the black list
 			* because previous answer was wrong or not so bad and it was added at the end of blacList
 			* When an answer will be correct the list will be decreased. */
 	void setBlackQuestion();
-	
+
 	// Methods only forwarding functionality of TexamView and TprogressWidget classes
 	void pauseTime(); /** Pauses exam view timers. */
 	void continueTime(); /** Continues exam view timers. */
@@ -87,14 +85,11 @@ public:
 	void startQuestionTime(); /** Initializes counting time for a new question. */
 	void stopQuestionTime(); /** Stops counting time of the current question and updates counters and labels. */
 	quint32 elapsedTime(); /** Elapsed time of current question. */
-	
-	
+
 signals:
 	void certificate(); /** Emitted when last mandatory question was correct, so certificate can be displayed. */
-	
+
 private:
-	TexamView								*m_examView;
-	TprogressWidget					*m_progress;
 	Texam										*m_exam;
 	TexecutorSupply					*m_supply;
 	int 										 m_blackQuestNr; /** -1 if no black, otherwise points question in blackList list. */

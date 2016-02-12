@@ -85,17 +85,8 @@ public slots:
 	void analyseSlot();
 
 protected:
-	TmainScore *score;
-	TnoteName *noteName;
-	TfingerBoard *guitar;
-  Tsound *sound;
-  TpitchView *pitchView;
-	TexamView *examResults;
-	TprogressWidget *progress;
-
   QPointer<TexamExecutor> executor;
 
-	TtoolBar *bar; /**< Main Nootka tool bar. */
 	void clearAfterExam(int examState);
 	
 	void updateSize(QSize newS); /**< Updates position and sizes of the widgets. */
@@ -124,6 +115,14 @@ private:
 	void prepareToExam();
 
 private:
+  Tsound               *m_sound;
+  TtoolBar             *m_bar; /**< Main Nootka tool bar. */
+  TmainScore           *m_score;
+  TnoteName            *m_noteName;
+  TpitchView           *m_pitchView;
+  TfingerBoard         *m_guitar;
+  TexamView            *m_examResults;
+  TprogressWidget      *m_progress;
 	QPixmap 							m_bgPixmap, m_rosettePixmap;
 	int 									m_statFontSize;
 	bool 									m_levelCreatorExist; /**< Keeps true when Dialog windows is opened, to avoid opening another file. */

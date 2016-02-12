@@ -40,9 +40,14 @@ class QGraphicsRectItem;
 class QGraphicsTextItem;
 class QGraphicsSimpleTextItem;
 
-/** 
+#define   SCORE    TmainScore::instance()
+
+/**
  * This is a main score of Nootka.
  * In exam mode it responses for locking/unlocking, backgrounds, question marks.
+ *
+ * It has single instance available through @p instance()
+ * defined also as a macro @p SCORE
  */
 class TmainScore : public TmultiScore
 {
@@ -52,6 +57,7 @@ public:
   TmainScore(QMainWindow* mw, QWidget* parent = 0);
   ~TmainScore();
 
+  static TmainScore* instance() { return m_instance; }
 
   void setEnableEnharmNotes(bool isEnabled);
   void acceptSettings();
@@ -190,6 +196,7 @@ private:
   TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
   int 												 m_playedIndex;
   bool 												 m_emitExpertNoteClicked;
+  static TmainScore           *m_instance;
 };
 
 #endif // TMAINSCORE_H

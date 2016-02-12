@@ -24,11 +24,19 @@
 #include <QtWidgets/QtWidgets>
 
 
+TprogressWidget* TprogressWidget::m_instance = nullptr;
+
 
 TprogressWidget::TprogressWidget(QWidget* parent) :
   QWidget(parent),
   m_totalNr(0)
 {
+  if (m_instance) {
+    qDebug() << "TprogressWidget already exists";
+    return;
+  }
+
+  m_instance = this;
   QHBoxLayout *lay = new QHBoxLayout;
 #if defined (Q_OS_ANDROID)
     lay->setContentsMargins(0, 0, 0, 0);
@@ -45,6 +53,13 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   setLayout(lay);
   setStatusTip(progressExamTxt());
 }
+
+
+TprogressWidget::~TprogressWidget()
+{
+  m_instance = nullptr;
+}
+
 
 
 void TprogressWidget::activate(Texam* exam, int totalNr) {

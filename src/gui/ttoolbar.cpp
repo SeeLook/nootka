@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,11 +30,20 @@
 #include <QtWidgets/QtWidgets>
 
 
+TtoolBar* TtoolBar::m_instance = nullptr;
+
+
 TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
 	QToolBar(0),
 	aboutAct(0),
 	m_proxy(0)
 {
+  if (m_instance) {
+    qDebug() << "TtoolBar instance already exists";
+    return;
+  }
+
+  m_instance = this;
 	settingsAct = new QAction(tr("Settings"), this);
 	settingsAct->setStatusTip(tr("Application preferences"));
 	settingsAct->setIcon(QIcon(Tpath::img("systemsettings")));
@@ -76,6 +85,11 @@ TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
 	setMovable(false);
   if (TtouchProxy::touchEnabled())
     hide();
+}
+
+TtoolBar::~TtoolBar()
+{
+  m_instance = nullptr;
 }
 
 //#################################################################################################

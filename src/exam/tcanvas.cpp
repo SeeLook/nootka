@@ -153,8 +153,8 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
 		m_resultTip->setScale(m_scale * 1.2);
   setResultPos();
   if (Tcore::gl()->E->showWrongPlayed && Tcore::gl()->E->showWrongPlayed && !answer->melody() &&
-			answer->answerAsSound() && !answer->isCorrect() && m_window->sound->note().note)
-					detectedNoteTip(m_window->sound->note()); // In exercise mode display detected note when it was incorrect
+			answer->answerAsSound() && !answer->isCorrect() && SOUND->note().note)
+					detectedNoteTip(SOUND->note()); // In exercise mode display detected note when it was incorrect
   if (time)
 			QTimer::singleShot(time, this, SLOT(clearResultTip()));
 }
@@ -199,7 +199,7 @@ QString Tcanvas::startTipText() {
 void Tcanvas::startTip() {
    m_startTip = new TgraphicsTextTip(QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75)) + startTipText() + ".<br>" +
      TexamHelp::toStopExamTxt("<a href=\"stopExam\"> " + pixToHtml(Tpath::img("stopExam"), m_iconSize) + "</a>") + 
-     "</p>", m_window->palette().highlight().color());
+     "</p>", m_view->palette().highlight().color());
    m_scene->addItem(m_startTip);
    m_startTip->setScale(m_scale);
    m_startTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
@@ -223,7 +223,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
 	delete m_questionTip;
   clearWhatNextTip();
 #if defined (Q_OS_ANDROID)
-  m_nextTip = new ThackedTouchTip(getTipText("nextQuest", "Next"), m_window->palette().highlight().color());
+  m_nextTip = new ThackedTouchTip(getTipText("nextQuest", "Next"), m_view->palette().highlight().color());
   m_scene->addItem(m_nextTip);
   m_nextTip->setFont(smalTipFont(m_view));
   connect(m_nextTip, &ThackedTouchTip::clicked, [=] {
@@ -232,7 +232,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   int maxTipWidth = m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Next")).width();
   if (!isCorrect) {
     m_prevTip = new ThackedTouchTip(getTipText("prevQuest", m_exam->melodies() ? "Try again" : "Repeat"),
-                                     m_window->palette().highlight().color());
+                                     m_view->palette().highlight().color());
     m_scene->addItem(m_prevTip);
     m_prevTip->setFont(smalTipFont(m_view));
     maxTipWidth = qMax<int>(maxTipWidth,
@@ -285,7 +285,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
       + br + TexamHelp::orPressEnterKey();
 	}
 	whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">") + pixToHtml(Tpath::img("stopExam"), m_iconSize) + a);
-  m_whatTip = new TgraphicsTextTip(whatNextText, m_window->palette().highlight().color());
+  m_whatTip = new TgraphicsTextTip(whatNextText, m_view->palette().highlight().color());
 // 	if (m_guitarFree) // tip is wide there, otherwise text is word-wrapped and is narrowest but higher
 // 			m_whatTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_whatTip);
@@ -349,17 +349,17 @@ void Tcanvas::questionTip() {
   clearWhatNextTip();
   clearMelodyCorrectMessage();
 	createQuestionTip();
-	m_guitarFree = m_questionTip->freeGuitar() && m_window->guitar->isVisible();
-	m_nameFree = m_questionTip->freeName() && m_window->score->insertMode() == TmultiScore::e_single;
+	m_guitarFree = m_questionTip->freeGuitar() && GUITAR->isVisible();
+	m_nameFree = m_questionTip->freeName() && SCORE->insertMode() == TmultiScore::e_single;
 	m_scoreFree = m_questionTip->freeScore();
   if (!m_guitarFree && !m_nameFree && !m_scoreFree) // workaround when only score is visible
     m_scoreFree = true;
 	m_tipPos = e_scoreOver; // score is visible always
-	if (m_nameFree && m_window->score->insertMode() == TmultiScore::e_single)
+	if (m_nameFree && SCORE->insertMode() == TmultiScore::e_single)
 		m_tipPos = e_nameOver;
 	else if (m_scoreFree)
 		m_tipPos = e_scoreOver;
-	else if (m_guitarFree && m_window->guitar->isVisible())
+	else if (m_guitarFree && GUITAR->isVisible())
 		m_tipPos = e_guitarOver;
 	m_questionTip->setMinimized(m_minimizedQuestion);
 	setQuestionPos();
@@ -417,40 +417,40 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 	m_flyEllipse->setBrush(QBrush(QColor(Tcore::gl()->EquestionColor.name())));
 	m_scene->addItem(m_flyEllipse);
 	if (question == TQAtype::e_asNote) {
-			m_flyEllipse->setRect(m_window->score->noteRect(1)); // 1 - answer note segment	
-			m_flyEllipse->setPos(m_view->mapToScene(m_window->score->notePos(1)));
+			m_flyEllipse->setRect(SCORE->noteRect(1)); // 1 - answer note segment
+			m_flyEllipse->setPos(m_view->mapToScene(SCORE->notePos(1)));
 	} else if (question == TQAtype::e_asName) {
-			m_flyEllipse->setRect(QRectF(0, 0, m_window->noteName->labelRect().height() * 2, m_window->noteName->labelRect().height()));
-			m_flyEllipse->setPos(m_view->mapToScene(m_window->noteName->mapToParent(m_window->noteName->labelRect().topLeft())));
+			m_flyEllipse->setRect(QRectF(0, 0, NOTENAME->labelRect().height() * 2, NOTENAME->labelRect().height()));
+			m_flyEllipse->setPos(m_view->mapToScene(NOTENAME->mapToParent(NOTENAME->labelRect().topLeft())));
 	} else if (question == TQAtype::e_asSound) {
-			m_flyEllipse->setRect(QRectF(0, 0, m_window->pitchView->height() * 2, m_window->pitchView->height()));
-			m_flyEllipse->setPos(m_view->mapToScene((m_window->pitchView->geometry().topLeft() + 
-				QPoint(m_window->pitchView->width() / 2 , 0))));
+			m_flyEllipse->setRect(QRectF(0, 0, SOUND->pitchView()->height() * 2, SOUND->pitchView()->height()));
+			m_flyEllipse->setPos(m_view->mapToScene((SOUND->pitchView()->geometry().topLeft() +
+				QPoint(SOUND->pitchView()->width() / 2 , 0))));
 	}
-	
+
 	m_correctAnim = new TcombinedAnim(m_flyEllipse, this);
 	m_correctAnim->setDuration(600);
 	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
-	QPointF destP = m_view->mapToScene(m_window->guitar->mapToParent(m_window->guitar->mapFromScene(m_window->guitar->fretToPos(goodPos))));
+	QPointF destP = m_view->mapToScene(GUITAR->mapToParent(GUITAR->mapFromScene(GUITAR->fretToPos(goodPos))));
 	if (!Tcore::gl()->GisRightHanded) { // fix destination position point for left-handed guitars
 		if (goodPos.fret())
-			destP.setX(destP.x() - m_window->guitar->fingerRect().width());
+			destP.setX(destP.x() - GUITAR->fingerRect().width());
 		else
 			destP.setX(m_view->width() - destP.x());
 	}
 	m_correctAnim->setMoving(m_flyEllipse->pos(), destP);
 	m_correctAnim->moving()->setEasingCurveType(QEasingCurve::InOutBack);
 	if (goodPos.fret() != 0) {
-			m_correctAnim->setScaling(m_window->guitar->fingerRect().width() / m_flyEllipse->rect().width(), 2.0);
+			m_correctAnim->setScaling(GUITAR->fingerRect().width() / m_flyEllipse->rect().width(), 2.0);
 			m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
 	}
 	m_correctAnim->setColoring(QColor(Tcore::gl()->EanswerColor.name()));
 	if (goodPos.fret() == 0) {
-		QPointF p1(m_view->mapToScene(m_window->guitar->mapToParent(
-							m_window->guitar->mapFromScene(m_window->guitar->stringLine(goodPos.str()).p1()))));
-		QPointF p2(m_view->mapToScene(m_window->guitar->mapToParent(
-							m_window->guitar->mapFromScene(m_window->guitar->stringLine(goodPos.str()).p2()))));
-		m_correctAnim->setMorphing(QLineF(p1, p2), m_window->guitar->stringWidth(goodPos.str() - 1));
+		QPointF p1(m_view->mapToScene(GUITAR->mapToParent(
+							GUITAR->mapFromScene(GUITAR->stringLine(goodPos.str()).p1()))));
+		QPointF p2(m_view->mapToScene(GUITAR->mapToParent(
+							GUITAR->mapFromScene(GUITAR->stringLine(goodPos.str()).p2()))));
+		m_correctAnim->setMorphing(QLineF(p1, p2), GUITAR->stringWidth(goodPos.str() - 1));
 	}
 	m_correctAnim->startAnimations();
 	QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
@@ -552,13 +552,13 @@ void Tcanvas::markAnswer(TQAtype::Etype qType, TQAtype::Etype aType) {
 const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
   switch (kindOf) {
     case TQAtype::e_asNote:
-      return m_window->score->geometry();
+      return SCORE->geometry();
     case TQAtype::e_asName:
-      return m_window->noteName->geometry();
+      return NOTENAME->geometry();
     case TQAtype::e_asFretPos:
-          return m_window->guitar->geometry();
+          return GUITAR->geometry();
     case TQAtype::e_asSound:
-      return m_window->pitchView->geometry();
+      return SOUND->pitchView()->geometry();
   }
 }
 
@@ -650,8 +650,8 @@ void Tcanvas::linkActivatedSlot(const QString& link) {
 void Tcanvas::correctAnimFinished() {
 // 	clearCorrection();
 	m_flyEllipse->hide();
-	m_window->guitar->setFinger(m_goodPos);
-	m_window->guitar->markAnswer(QColor(Tcore::gl()->EanswerColor.name()));
+	GUITAR->setFinger(m_goodPos);
+	GUITAR->markAnswer(QColor(Tcore::gl()->EanswerColor.name()));
 	m_window->update();
 }
 
@@ -685,28 +685,28 @@ bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
 
 int Tcanvas::getMaxTipHeight() {
 	if (m_nameFree || m_scoreFree)
-		return m_window->score->height() * 0.6;
+		return SCORE->height() * 0.6;
 	else
-		return m_window->guitar->height() * 1.1;
+		return GUITAR->height() * 1.1;
 }
 
 
 void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 	QRect geoRect;
 	if (m_nameFree) { // middle of the noteName
-			geoRect = m_window->noteName->geometry();
+			geoRect = NOTENAME->geometry();
 	} else if (m_scoreFree) {// on the score at its center
-			geoRect = m_window->score->geometry();
+			geoRect = SCORE->geometry();
 			fixWidthOverScore(tip);
-      if (m_window->score->insertMode() != TmultiScore::e_single && !m_window->guitar->isVisible()) // only score - place it bottom right
+      if (SCORE->insertMode() != TmultiScore::e_single && !GUITAR->isVisible()) // only score - place it bottom right
         geoRect = QRect(m_view->width() - tip->realW(), m_view->height() - tip->realH(), tip->realW(), tip->realH());
 	} else { // middle of the guitar
-			geoRect = m_window->guitar->geometry();
+			geoRect = GUITAR->geometry();
       if (m_exam && !m_exam->melodies()) // in single mode put a tip on the right guitar side, below note name
-        geoRect.setRect(m_window->noteName->x(), m_window->guitar->y(), m_window->noteName->width(), m_window->guitar->height());
+        geoRect.setRect(NOTENAME->x(), GUITAR->y(), NOTENAME->width(), GUITAR->height());
   }
-	tip->setPos(qMin(geoRect.x() + (geoRect.width() - tip->realW()) / 2, m_window->width() - tip->realW() - 5.0),
-							qMin(geoRect.y() + (geoRect.height() - tip->realH()) / 2, m_window->height() - tip->realH() - 5.0));
+	tip->setPos(qMin(geoRect.x() + (geoRect.width() - tip->realW()) / 2, m_view->width() - tip->realW() - 5.0),
+							qMin(geoRect.y() + (geoRect.height() - tip->realH()) / 2, m_view->height() - tip->realH() - 5.0));
 	// qMin guards a tip position in scene boundaries 
 }
 
@@ -730,7 +730,7 @@ void Tcanvas::setWhatNextPos() {
   if (sc > 1.0)
     m_nextTip->setScale(sc);
   qreal hh = m_view->height() * 0.75; // place tips above guitar, even it is hidden or doesn't exist
-  m_nextTip->setPos(m_window->width() - m_nextTip->realW() - 4, hh - m_nextTip->realH());
+  m_nextTip->setPos(m_view->width() - m_nextTip->realW() - 4, hh - m_nextTip->realH());
   if (m_prevTip) {
     if (sc > 1.0)
       m_prevTip->setScale(sc);
@@ -739,17 +739,17 @@ void Tcanvas::setWhatNextPos() {
   if (m_correctTip) {
     if (sc > 1.0)
       m_correctTip->setScale(sc);
-    m_correctTip->setPos(m_window->width() - m_correctTip->realW() - 4, m_nextTip->y() - m_correctTip->realH() - 8);
+    m_correctTip->setPos(m_view->width() - m_correctTip->realW() - 4, m_nextTip->y() - m_correctTip->realH() - 8);
   }
 #else
 	int maxTipHeight = getMaxTipHeight();
   if (!m_nameFree && m_whatTip->realH() != maxTipHeight)
 			m_whatTip->setScale((qreal)maxTipHeight / m_whatTip->realH());
 	if (m_tipPos == e_nameOver) {
-		if (m_whatTip->realW() != m_window->width() * 0.45)
-			m_whatTip->setScale((m_window->width() * 0.45) / m_whatTip->realW());
-		if (m_whatTip->realH() > m_window->score->height())
-			m_whatTip->setScale((qreal)(m_window->score->height()) / m_whatTip->realH());
+		if (m_whatTip->realW() != m_view->width() * 0.45)
+			m_whatTip->setScale((m_view->width() * 0.45) / m_whatTip->realW());
+		if (m_whatTip->realH() > SCORE->height())
+			m_whatTip->setScale((qreal)(SCORE->height()) / m_whatTip->realH());
 	} else
 			fixWidthOverScore(m_whatTip);
 	if (m_posOfWhatTips[(int)m_tipPos].isNull()) // calculate tip position only when user doesn't change it
@@ -771,9 +771,9 @@ void Tcanvas::setConfirmPos() { // right top corner
   qreal sc = (m_view->height() / 8.0) / m_confirmTip->realH();
   if (sc > 1.0)
     m_confirmTip->setScale(sc);
-  m_confirmTip->setPos(m_window->width() - m_confirmTip->realW() - 4, 4); // 4 is more-less tip shadow size
+  m_confirmTip->setPos(m_view->width() - m_confirmTip->realW() - 4, 4); // 4 is more-less tip shadow size
 #else
-   m_confirmTip->setPos(m_window->width() - m_confirmTip->realW() - 20, 20);
+   m_confirmTip->setPos(m_view->width() - m_confirmTip->realW() - 20, 20);
 #endif
 }
 
@@ -813,25 +813,25 @@ void Tcanvas::setQuestionPos() {
 
 
 void Tcanvas::setOutTunePos() {
-	int startX = m_window->pitchView->geometry().x();
-	if (m_outTuneTip->realW() > m_window->pitchView->geometry().width() / 2)
-			m_outTuneTip->setScale(m_outTuneTip->realW() / (m_window->pitchView->geometry().width() / 2));
+	int startX = SOUND->pitchView()->geometry().x();
+	if (m_outTuneTip->realW() > SOUND->pitchView()->geometry().width() / 2)
+			m_outTuneTip->setScale(m_outTuneTip->realW() / (SOUND->pitchView()->geometry().width() / 2));
 	if (!m_outTuneTip->data(0).toBool())
-		startX += m_window->pitchView->geometry().width() / 2;
-	m_outTuneTip->setPos(startX + (m_window->pitchView->geometry().width() / 2 - m_outTuneTip->realW()) / 2, 
-												m_window->pitchView->y() - m_outTuneTip->realH());
+		startX += SOUND->pitchView()->geometry().width() / 2;
+	m_outTuneTip->setPos(startX + (SOUND->pitchView()->geometry().width() / 2 - m_outTuneTip->realW()) / 2,
+												SOUND->pitchView()->y() - m_outTuneTip->realH());
 }
 
 
 void Tcanvas::updateRelatedPoint() {
-	m_relPoint.setX(m_window->score->geometry().x() + (m_window->noteName->geometry().x() - m_window->score->geometry().x()) / 2);
-	m_relPoint.setY(m_window->score->geometry().y());
+	m_relPoint.setX(SCORE->geometry().x() + (NOTENAME->geometry().x() - SCORE->geometry().x()) / 2);
+	m_relPoint.setY(SCORE->geometry().y());
 }
 
 
 void Tcanvas::fixWidthOverScore ( TgraphicsTextTip* tip ) {
-	if (m_tipPos == e_scoreOver && tip->realW() > m_window->score->width())
-    tip->setScale((qMax((qreal)m_window->score->width() * 0.9, m_window->width() / 3.0) / (tip->boundingRect().width())));
+	if (m_tipPos == e_scoreOver && tip->realW() > SCORE->width())
+    tip->setScale((qMax((qreal)SCORE->width() * 0.9, m_view->width() / 3.0) / (tip->boundingRect().width())));
 }
 
 

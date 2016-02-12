@@ -36,8 +36,9 @@ const char * const TnoteName::octavesFull[8] = { QT_TR_NOOP("Subcontra octave"),
                     QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
                     QT_TR_NOOP("Three-line octave"), QT_TR_NOOP("Four-line octave") };
 
+TnoteName* TnoteName::m_instance = nullptr;
 
-QLabel *m_octavesLab = 0;
+
 
 TnoteName::TnoteName(QWidget *parent) :
 	QWidget(parent),
@@ -46,6 +47,12 @@ TnoteName::TnoteName(QWidget *parent) :
 	m_tip(0),
 	m_isMenu(true)
 {
+  if (m_instance) {
+    qDebug() << "TnoteName instance already exists";
+    return;
+  }
+
+  m_instance = this;
 	m_menuParent = parent;
 	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
@@ -170,7 +177,9 @@ TnoteName::TnoteName(QWidget *parent) :
 
 
 TnoteName::~TnoteName()
-{}
+{
+  m_instance = nullptr;
+}
 
 //####################################################################################################
 //########################################## PUBLIC  #################################################

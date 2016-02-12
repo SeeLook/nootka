@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,8 +28,9 @@ class TmelMan;
 class QMainWindow;
 class QAction;
 
+#define   TOOLBAR     TtoolBar::instance()
 
-/** 
+/**
  * This is main tool bar in Nootka.
  * It handles all actions in the app.
  * Due to all widgets in Nootka are squeezed into QGraphicsView as items
@@ -42,6 +43,9 @@ class QAction;
  * (and of course takes it from the tool bar on desktop)
  * WARING! @p actions() list is not valid under mobile
  * as long as @p addAction() doesn't add it to this tool bar.
+ *
+ * It has single instance available through @p instance()
+ * defined also as a macro @p TOOLBAR
  */
 class TtoolBar : public QToolBar
 {
@@ -51,9 +55,13 @@ class TtoolBar : public QToolBar
 public:
 	explicit TtoolBar(const QString& version, QMainWindow* mainWindow);
 
+  virtual ~TtoolBar();
+
+  static TtoolBar* instance() { return m_instance; }
+
 			/** Main actions */
 	QAction *settingsAct, *levelCreatorAct, *startExamAct, *analyseAct;
-  QAction *aboutAct, *aboutSimpleAct; /** Button with Nootka logo and simple text & icon QAction */
+  QAction *aboutAct, *aboutSimpleAct; /**< Button with Nootka logo and simple text & icon QAction */
 
 			/** Exam related */
 	QPointer<QAction> prevQuestAct, checkAct;
@@ -85,21 +93,21 @@ public:
 			 * Other ones (like @p repeatSndAct) has to be called separately. */
 	void actionsToExam();
 
-	void createRepeatSoundAction(); /** Creates @p repeatSndAct. Don't add to tool bar */
-	void createCorrectAction(); /** Creates @p correctAct. Don't add to tool bar */
-	void createTuneForkAction(); /** Creates @p tuneForkAct. Don't add to tool bar */
-	void createAttemptAction(); /** Creates @p attemptAct. Don't add to tool bar */
+	void createRepeatSoundAction(); /**< Creates @p repeatSndAct. Don't add to tool bar */
+	void createCorrectAction(); /**< Creates @p correctAct. Don't add to tool bar */
+	void createTuneForkAction(); /**< Creates @p tuneForkAct. Don't add to tool bar */
+	void createAttemptAction(); /**< Creates @p attemptAct. Don't add to tool bar */
 
 			/** Removes actions for previous and next question @p prevQuestAct & @p nextQuestAct.
 			 * Adds check answer action (@p checkAct) 
 			 * and @p repeatSndAct when @p TRUE and @p tuneForkAct when @p TRUE	 */
 	void setForQuestion(bool repeatSound, bool tuneFork);
-	void setAfterAnswer(); /** Removes actions required during answering */
+	void setAfterAnswer(); /**< Removes actions required during answering */
 
 	void addMelodyButton(TmelMan* melBut);
-	void setMelodyButtonVisible(bool vis); /** Hides or shows melody button */
+	void setMelodyButtonVisible(bool vis); /**< Hides or shows melody button */
 
-  void addScoreActions(TscoreActions* scoreBut); /** Adds button with associated menu with actions to manage the score. */
+  void addScoreActions(TscoreActions* scoreBut); /**< Adds button with associated menu with actions to manage the score. */
 
 	void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
 
@@ -123,6 +131,7 @@ private:
 #if defined (Q_OS_ANDROID)
   QList<QAction*>                 *m_flyActions;
 #endif
+  static TtoolBar                 *m_instance;
 };
 
 #endif // TTOOLBAR_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,8 @@ class TcombinedAnim;
 class TstrikedOutItem;
 class TgraphicsTextTip;
 
+#define   GUITAR      TfingerBoard::instance()
+
 class TfingerBoard : public QGraphicsView
 {
 
@@ -39,6 +41,8 @@ public:
   explicit TfingerBoard(QWidget *parent = 0);
   virtual ~TfingerBoard();
 
+  static TfingerBoard* instance() { return m_instance; }
+
   void acceptSettings();
 
       /** It paints fingerprint on the fretboard in place where note is.
@@ -48,7 +52,7 @@ public:
   void setFinger(const Tnote& note);
   void setFinger(TfingerPos pos);
 
-  TfingerPos getfingerPos() { return m_fingerPos; } /** Returns position of currently selected finger */
+  TfingerPos getfingerPos() { return m_fingerPos; } /**< Returns position of currently selected finger */
 
   void askQuestion(TfingerPos pos);
   void clearFingerBoard();
@@ -59,13 +63,13 @@ public:
   void deleteRangeBox();
   void setGuitarDisabled(bool disabled);
 
-  void setHighlitedString(char realStrNr); /** Highlights given string */
+  void setHighlitedString(char realStrNr); /**< Highlights given string */
   void clearHighLight();
 
-  int posX12fret(); /** Returns x coordinate of 12th fret where guitar body starts. */
+  int posX12fret(); /**< Returns x coordinate of 12th fret where guitar body starts. */
 
-  QRect fbRect() { return m_fbRect; } /** Guitar fingerboard rectangle */
-  QRect* pickRect() { return m_pickRect; } /** Rectangle of guitar pickup or empty if none */
+  QRect fbRect() { return m_fbRect; } /**< Guitar fingerboard rectangle */
+  QRect* pickRect() { return m_pickRect; } /**< Rectangle of guitar pickup or empty if none */
 
       /** Sets Rectangle describing pickup image
         * x() has to point its x coordinate in TfingerBoard measures. */
@@ -95,25 +99,25 @@ public:
   void showName(Tnote::EnameStyle st, const QColor& textColor) { Tnote empty(0, 0, 0); showName(st, empty, textColor); }
   void deleteNoteName();
 
-  QPointF fretToPos(TfingerPos &pos); /** Returns scene coordinates of given guitar position (between bars) */
-  int fretPositionX(int fretNr); /** X absolute coordinate of given fret or end of fingerboard. */
+  QPointF fretToPos(TfingerPos &pos); /**< Returns scene coordinates of given guitar position (between bars) */
+  int fretPositionX(int fretNr); /**< X absolute coordinate of given fret or end of fingerboard. */
   short averFretWidth() { return m_fretWidth; }
-  QRectF fingerRect() const; /** Average width of a fret */
+  QRectF fingerRect() const; /**< Average width of a fret */
 
-  TfingerPos pointToFinger(const QPoint& point); /** Returns fret/string position form given position (view coordinates) */
+  TfingerPos pointToFinger(const QPoint& point); /**< Returns fret/string position form given position (view coordinates) */
 
-  bool guitarEnabled() { return !m_isDisabled; } /** @p TRUE when guitar accepts mouse/touch */
+  bool guitarEnabled() { return !m_isDisabled; } /**< @p TRUE when guitar accepts mouse/touch */
 
   bool isRightHanded();
   QColor& fingerColor();
   QColor& selectedColor();
-  int guitarTypeId(); /** id of current guitar type */
+  int guitarTypeId(); /**< id of current guitar type */
 
 signals:
   void guitarClicked(const Tnote&);
-  void correctingFinished(); /** Emitted when correction animation finish */
-  void settingsUpdated(); /** Emmited when settings where changed */
-  void enabilityChanged(bool); /** When guitar goes through disable/enable states this is sent. */
+  void correctingFinished(); /**< Emitted when correction animation finish */
+  void settingsUpdated(); /**< Emmited when settings where changed */
+  void enabilityChanged(bool); /**< When guitar goes through disable/enable states this is sent. */
 
 
 protected:
@@ -128,19 +132,19 @@ protected:
       /** Determines string width by its note pitch. Sets loNote & hiNote */
   void setTune();
   
-  void fakePress(const QPoint& viewPos); /** Imitates mouse press, available only for friendly classes  */
+  void fakePress(const QPoint& viewPos); /**< Imitates mouse press, available only for friendly classes  */
 
 private:
-  QRect 			m_fbRect; /** Represents top left positions and size of a fingerboard */
-  short 			m_strGap; /** Distance between strings */
-  short 			m_fretWidth; /** Average width of fret */
-  short 			lastFret; /** Position of the last fret (in whole widget coordinates) */
-  short 			m_curStr, m_curFret; /** Actual position of cursor over the guitar in strings/frets coordinates */
-  short 			m_loNote, m_hiNote; /** Chromatic numbers of lowest note in tune and highest. */
-  TfingerPos 	m_fingerPos; /** It keeps position of selected fingerprint.*/
-  short 			m_fretsPos[24]; /** @param fretsPos stores X positions of frets in global widget coordinates */
-  qreal 			m_strWidth[6]; /** Array of width each string. Width depends on fretboard height. */
-  qreal 			m_widthFromPitch[6]; /** Base values from which m_strWidth is calculated determined from tune. */
+  QRect 			m_fbRect; /**< Represents top left positions and size of a fingerboard */
+  short 			m_strGap; /**< Distance between strings */
+  short 			m_fretWidth; /**< Average width of fret */
+  short 			lastFret; /**< Position of the last fret (in whole widget coordinates) */
+  short 			m_curStr, m_curFret; /**< Actual position of cursor over the guitar in strings/frets coordinates */
+  short 			m_loNote, m_hiNote; /**< Chromatic numbers of lowest note in tune and highest. */
+  TfingerPos 	m_fingerPos; /**< It keeps position of selected fingerprint.*/
+  short 			m_fretsPos[24]; /**< @param fretsPos stores X positions of frets in global widget coordinates */
+  qreal 			m_strWidth[6]; /**< Array of width each string. Width depends on fretboard height. */
+  qreal 			m_widthFromPitch[6]; /**< Base values from which m_strWidth is calculated determined from tune. */
   QColor 			m_strColors[6];
 
   QGraphicsScene 						*m_scene;
@@ -148,16 +152,16 @@ private:
   int 											 m_strNr, m_fretNr;
   QGraphicsLineItem 				*m_workStrings[6], *m_strings[6], *m_questString, *m_highString;
   QGraphicsSimpleTextItem 	*m_questMark;
-  TgraphicsTextTip 					*m_beyondTip; /** Tip about a note is impossible to show with current tune. */
-  TgraphicsTextTip 					*m_noteName; /** Note name text. */
-  Tnote::EnameStyle					 m_corrStyle; /** Name style of corrected note */
+  TgraphicsTextTip 					*m_beyondTip; /**< Tip about a note is impossible to show with current tune. */
+  TgraphicsTextTip 					*m_noteName; /**< Note name text. */
+  Tnote::EnameStyle					 m_corrStyle; /**< Name style of corrected note */
   bool											 m_nameInCorrection;
-  Tnote 										 m_selNote; /** Keeps selected note */
+  Tnote 										 m_selNote; /**< Keeps selected note */
 
       /** Position from a question - is needed to calculate size of questioned finger
       * or string if naughty user changes window size. */
   TfingerPos 								 m_questPos;
-  char 											 m_loFret, m_hiFret; /** Frets range in an exam*/
+  char 											 m_loFret, m_hiFret; /**< Frets range in an exam*/
   QGraphicsRectItem 				*m_rangeBox1, *m_rangeBox2;
   bool 											 m_isDisabled;
   int 											 m_hilightedStrNr;
@@ -165,8 +169,9 @@ private:
   TfingerPos 								 m_goodPos;
   TstrikedOutItem 					*m_strikeOut;
   TcombinedAnim							*m_animation;
-  QGraphicsItem 						*m_movingItem; /** string line during animation */
-  QRect											*m_pickRect; /** Rectangle of guitar pickup or empty if none */
+  QGraphicsItem 						*m_movingItem; /**< string line during animation */
+  QRect											*m_pickRect; /**< Rectangle of guitar pickup or empty if none */
+  static TfingerBoard       *m_instance;
 
 private:
   void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);

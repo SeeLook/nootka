@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,14 +30,19 @@ class QMenu;
 class QGraphicsTextItem;
 class QHBoxLayout;
 class TnoteNameLabel;
+class QLabel;
 class QPushButton;
 class TpushButton;
 class QButtonGroup;
 
+#define   NOTENAME    TnoteName::instance()
 
 /**
  * This widget displays note name and buttons to manipulate it.
  * Since Nootka 1.1.0 it is also pop up tip managed by score.
+ *
+ * It has single instance available through @p instance()
+ * defined also as a macro @p TOOLBAR
  */
 class TnoteName : public QWidget
 {
@@ -46,9 +51,11 @@ public:
 	explicit TnoteName(QWidget *parent = 0);
 	virtual ~TnoteName();
 
+  static TnoteName* instance() { return m_instance; }
+
 	static const char * const octaves[8];
 	static const char * const octavesFull[8];
-	
+
 			/** Displays note name as menu. @p pos is desired position in screen coordinates
 				* @p scoreFactor is m11() factor of a scene to automatically calculate and place the menu
 				* on the right or left side of given position */
@@ -73,8 +80,8 @@ public:
 	
 	void createNameTip(QGraphicsScene* scene);
 	TnameTip* tip() { return m_tip; }
-	void enableArrows(bool en); /** Hides or shows arrow buttons on name label sides. */
-	int widthForHorizontal(); /** Estimated width for horizontal buttons layout */
+	void enableArrows(bool en); /**< Hides or shows arrow buttons on name label sides. */
+	int widthForHorizontal(); /**< Estimated width for horizontal buttons layout */
 	
 	virtual QSize sizeHint() const;
 	
@@ -90,9 +97,9 @@ public:
 			/** Returns given color mixed with palette base and 220 of alpha. */
 	QColor prepareBgColor(const QColor &halfColor);
 	
-	QRectF textRect(); /** Rectangle of note name text item */
-	QPoint textPos(); /** Position of name text in main window coordinates. */
-	QRect labelRect(); /** Name label position and size in TnoteName coordinates. */		
+	QRectF textRect(); /**< Rectangle of note name text item */
+	QPoint textPos(); /**< Position of name text in main window coordinates. */
+	QRect labelRect(); /**< Name label position and size in TnoteName coordinates. */
 
 signals:
 	void noteNameWasChanged(Tnote note);
@@ -100,8 +107,7 @@ signals:
 	void statusTipRequired(QString status);
 	void nextNote();
 	void prevNote();
-  void correctingFinished(); /** Emitted when correction animation finish */
-	
+  void correctingFinished(); /**< Emitted when correction animation finish */
 
 protected:
 	virtual bool event(QEvent* event);
@@ -112,10 +118,11 @@ private:
 	TpushButton 					*m_noteButtons[7];
 	TpushButton 					*m_octaveButtons[8];
 	TpushButton 					*m_dblFlatButt, *m_flatButt, *m_sharpButt, *m_dblSharpButt;
-	QList<TpushButton*>		 m_accidButtons; /** List of buttons with accidental symbols. */
+	QList<TpushButton*>		 m_accidButtons; /**< List of buttons with accidental symbols. */
 	QButtonGroup 					*m_noteGroup, *m_octaveGroup;
 	QPushButton						*m_nextNoteButt, *m_prevNoteButt;
-	int 								 	 m_prevOctButton; /** Keeps index of previous selected octave button, none if -1 */
+  QLabel                *m_octavesLab;
+	int 								 	 m_prevOctButton; /**< Keeps index of previous selected octave button, none if -1 */
 	static 								 Tnote::EnameStyle m_style;
 
 	TnotesList 						 m_notes;
@@ -123,30 +130,30 @@ private:
 	Tnote 								 m_goodNote;
 	int 									 m_blinkingPhase;
 	QMenu									*m_menu;
-	
+
 	QBoxLayout 						*m_buttonsLay, *m_noteLay, *m_accLay, *m_upOctaveLay, *m_loOctaveLay;
 	QSize 								 m_sizeHint;
 	int 									 m_fontSize;
 	TnameTip							*m_tip;
-	
+
   bool 									 m_isMenu;
 	QWidget 							*m_menuParent;
+  static TnoteName      *m_instance;
 
-	
 private:
 	void setNoteName(char noteNr, char octNr, char accNr);
 	void setNameText();
 	
-	void setButtons(const Tnote& note); /** Sets note, accidental and octave buttons according to given note. */
+	void setButtons(const Tnote& note); /**< Sets note, accidental and octave buttons according to given note. */
 	
 			/** Presses accidental button or un-check them all if accidental none (0). */
 	void checkAccidButtons(char accid);
 	void uncheckAccidButtons();
 	void uncheckAllButtons();
 	
-	char getSelectedAccid(); /** Returns current state of accidental buttons converted to accidental value [-2 to 2] */
+	char getSelectedAccid(); /**< Returns current state of accidental buttons converted to accidental value [-2 to 2] */
 	void updateSizeHint();
-	void setButtonsSize(int widthOff, int fixedH, bool skipOctaves = false); /** Iterates all buttons and adjust their size to context (text)  */
+	void setButtonsSize(int widthOff, int fixedH, bool skipOctaves = false); /**< Iterates all buttons and adjust their size to context (text)  */
 	TpushButton* createAccidButton(const QString& accidText);
 	
 			/** Sets fixed button width to its text width + @p widthOff or reset to default when @p widthOff = 0. */
