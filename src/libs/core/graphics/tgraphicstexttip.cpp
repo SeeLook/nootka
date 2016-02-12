@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,11 +41,9 @@ void TgraphicsTextTip::alignCenter(QGraphicsTextItem* tip) {
 
 
 void TgraphicsTextTip::setDropShadow(QGraphicsTextItem* tip, QColor shadowColor) {
+  Q_UNUSED(shadowColor)
   TdropShadowEffect *shadow = new TdropShadowEffect();
-//   if (shadowColor != -1)
-//     shadow->setColor(QColor(shadowColor.name()));
-//   else
-    shadow->setColor(qApp->palette().text().color()); // consistent shadow color looks better than colored
+  shadow->setColor(qApp->palette().text().color()); // consistent shadow color looks better than colored
   tip->setGraphicsEffect(shadow);
 }
 
@@ -73,6 +71,7 @@ TgraphicsTextTip::TgraphicsTextTip() :
   m_movable(false)
 {
   setDropShadow(this);
+  m_baseColor = qApp->palette().base().color();
 }
 
 
