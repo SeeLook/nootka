@@ -41,7 +41,7 @@
 #include <notename/tnotename.h>
 #include <widgets/tintonationview.h>
 #include <widgets/tpitchview.h>
-#include <tglobals.h>
+#include <tinitcorelib.h>
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
@@ -73,15 +73,12 @@ void debugStyle(TQAunit &qa) {
 #endif
 
 
-extern Tglobals *gl;
-
-
         /** Returns a file name generated from user name and level,
         * but when such a file exists in current exam directory some time mark is added. */
 QString getExamFileName(Texam* e) {
-  QString fName = QDir::toNativeSeparators(gl->E->examsDir + QStringLiteral("/") + e->userName() + QStringLiteral("-") + e->level()->name);
-  if (QFileInfo(fName  + ".noo").exists())
-    fName += "-" + QDateTime::currentDateTime().toString(QStringLiteral("(dd-MMM-hhmmss)"));
+  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
+  if (QFileInfo(fName  + QLatin1String(".noo")).exists())
+    fName += QLatin1String("-")+ QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
   return fName;
 }
 
@@ -106,17 +103,17 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	mW->sound->wait();
 	if (lev) {
 			m_level = *lev;
-			if (gl->E->studentName == "") {
+			if (Tcore::gl()->E->studentName.isEmpty()) {
 					resultText = TstartExamDlg::systemUserName();
 			} else
-					resultText = gl->E->studentName;
+					resultText = Tcore::gl()->E->studentName;
 			if (examFile == QLatin1String("exercise"))
 				userAct = TstartExamDlg::e_runExercise;
 			else
 				userAct = TstartExamDlg::e_newExam;
 	} else {
 			if (examFile.isEmpty()) { // start exam dialog
-					TstartExamDlg *startDlg = new TstartExamDlg(gl->E->studentName, gl->E, mW);
+					TstartExamDlg *startDlg = new TstartExamDlg(Tcore::gl()->E->studentName, Tcore::gl()->E, mW);
 					userAct = startDlg->showDialog(resultText, m_level);
 					delete startDlg;
 			} else { // command line arg with given filename
@@ -124,27 +121,23 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 					userAct = TstartExamDlg::e_contExam;
 			}
 	}
-	m_glStore = new TglobalExamStore(gl);
-	m_glStore->tune = *gl->Gtune();
-	m_glStore->fretsNumber = gl->GfretsNumber;
-	m_glStore->instrument = gl->instrument;
+	m_glStore = new TglobalExamStore(Tcore::gl());
+	m_glStore->tune = *Tcore::gl()->Gtune();
+	m_glStore->fretsNumber = Tcore::gl()->GfretsNumber;
+	m_glStore->instrument = Tcore::gl()->instrument;
 	if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
 			m_exam = new Texam(&m_level, resultText); // resultText is userName
 #if !defined (Q_OS_ANDROID)
-			if (!fixLevelInstrument(m_level, QString(), gl->instrumentToFix, mainW)) {
+			if (!fixLevelInstrument(m_level, QString(), Tcore::gl()->instrumentToFix, mainW)) {
 						mW->clearAfterExam(e_failed);
 						deleteExam();
 						return;
 				}
 #endif
-			gl->E->studentName = resultText; // store user name
-			m_exam->setTune(*gl->Gtune());
-//         mW->examResults->startExam(m_exam);
-			if (userAct == TstartExamDlg::e_runExercise) {
+			Tcore::gl()->E->studentName = resultText; // store user name
+			m_exam->setTune(*Tcore::gl()->Gtune());
+			if (userAct == TstartExamDlg::e_runExercise)
 					m_exercise = new Texercises(m_exam);
-			}
-// 			//We check are guitar's params suitable for an exam 
-// 				TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
 	} else if (userAct == TstartExamDlg::e_contExam) {
 			m_exam = new Texam(&m_level, QString());
 			Texam::EerrorType err = m_exam->loadFromFile(resultText);
@@ -155,7 +148,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 #if defined (Q_OS_ANDROID)
         if (!showExamSummary(mW, m_exam, true)) // there is no level fix under android - just display summary window
 #else
-				if (!fixLevelInstrument(m_level, m_exam->fileName(), gl->instrumentToFix, mainW) ||
+				if (!fixLevelInstrument(m_level, m_exam->fileName(), Tcore::gl()->instrumentToFix, mainW) ||
 						!showExamSummary(mW, m_exam, true))
 #endif
         {
@@ -174,7 +167,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	} else {
 			if (userAct == TstartExamDlg::e_levelCreator) {
 					mW->clearAfterExam(e_openCreator);
-			}	else 	
+			}	else
 					mW->clearAfterExam(e_failed);
 			deleteExam();
 			return;
@@ -201,7 +194,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 			return;
 	}
 	prepareToExam();
-	if (gl->E->showHelpOnStart)
+	if (Tcore::gl()->E->showHelpOnStart)
 			showExamHelp();
 	if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
 		if (!m_supp->isGuitarOnlyPossible()) {
@@ -236,7 +229,7 @@ void TexamExecutor::initializeExecuting() {
 	m_penalty = new Tpenalty(m_exam, m_supp, mW->examResults, mW->progress);
 	connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
 	if (m_exercise) {
-    if (gl->E->suggestExam)
+    if (Tcore::gl()->E->suggestExam)
       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
 	} else {
 			connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
@@ -244,11 +237,11 @@ void TexamExecutor::initializeExecuting() {
         mW->score->enableAccidToKeyAnim(false);
 	}
 	if (m_level.requireStyle) {
-			m_prevQuestStyle = m_supp->randomNameStyle(gl->S->nameStyleInNoteName);
+			m_prevQuestStyle = m_supp->randomNameStyle(Tcore::gl()->S->nameStyleInNoteName);
 			m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
 	} else {
-			m_prevQuestStyle = gl->S->nameStyleInNoteName;
-			m_prevAnswStyle = gl->S->nameStyleInNoteName;
+			m_prevQuestStyle = Tcore::gl()->S->nameStyleInNoteName;
+			m_prevAnswStyle = Tcore::gl()->S->nameStyleInNoteName;
 	}
 	
 	m_level.questionAs.randNext(); // Randomize question and answer type
@@ -268,7 +261,7 @@ void TexamExecutor::initializeExecuting() {
 void TexamExecutor::askQuestion(bool isAttempt) {
 	m_askingTimer->stop();
 	m_lockRightButt = false; // release mouse button events
-	if (m_exercise && !gl->E->showCorrected) // hide correct action button
+	if (m_exercise && !Tcore::gl()->E->showCorrected) // hide correct action button
       mW->bar->removeAction(mW->bar->correctAct);
 	if (m_exam->count() && m_exercise && m_exam->melodies())
     disconnect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
@@ -291,7 +284,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 				deleteExam();
 				return;
 		}
-    if (!gl->E->autoNextQuest) {
+    if (!Tcore::gl()->E->autoNextQuest) {
 			if (!m_exercise)
 					mW->bar->startExamAct->setDisabled(true);
 			m_canvas->clearCanvas();
@@ -302,8 +295,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
 		
-		mW->noteName->setStyle(gl->S->nameStyleInNoteName);
-    mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
+		mW->noteName->setStyle(Tcore::gl()->S->nameStyleInNoteName);
+    mW->noteName->setNoteNamesOnButt(Tcore::gl()->S->nameStyleInNoteName);
     
 		m_penalty->nextQuestion();
 		if (!m_exercise && m_penalty->ask()) {
@@ -392,18 +385,18 @@ void TexamExecutor::askQuestion(bool isAttempt) {
                 curQ->setStyle(m_prevQuestStyle, m_supp->randomNameStyle(m_prevQuestStyle)); // randomize style
                 m_prevAnswStyle= curQ->styleOfAnswer(); 
             } else { // enharmonic notes in the same style
-                curQ->setStyle(gl->S->nameStyleInNoteName, gl->S->nameStyleInNoteName);
-                m_prevAnswStyle = gl->S->nameStyleInNoteName;
-                m_prevQuestStyle = gl->S->nameStyleInNoteName;
+                curQ->setStyle(Tcore::gl()->S->nameStyleInNoteName, Tcore::gl()->S->nameStyleInNoteName);
+                m_prevAnswStyle = Tcore::gl()->S->nameStyleInNoteName;
+                m_prevQuestStyle = Tcore::gl()->S->nameStyleInNoteName;
             }
           } else // note name only in question
               if (m_level.requireStyle) { // switch previous used style
-                curQ->setStyle(m_supp->randomNameStyle(m_prevQuestStyle), gl->S->nameStyleInNoteName);
+                curQ->setStyle(m_supp->randomNameStyle(m_prevQuestStyle), Tcore::gl()->S->nameStyleInNoteName);
 								m_prevQuestStyle = curQ->styleOfQuestion();
 //                 m_prevQuestStyle = m_supp->randomNameStyle(curQ->styleOfQuestion());
               } else {
-                  curQ->setStyle(gl->S->nameStyleInNoteName, curQ->styleOfAnswer());
-                  m_prevQuestStyle = gl->S->nameStyleInNoteName;
+                  curQ->setStyle(Tcore::gl()->S->nameStyleInNoteName, curQ->styleOfAnswer());
+                  m_prevQuestStyle = Tcore::gl()->S->nameStyleInNoteName;
               }
         }
         // Show question on TnoteName widget
@@ -560,7 +553,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	if (m_exam->melodies() && mW->sound->melodyIsPlaying())
 		mW->sound->stopPlaying();
 		
-	if (!gl->E->autoNextQuest || m_exercise)
+	if (!Tcore::gl()->E->autoNextQuest || m_exercise)
 			mW->bar->startExamAct->setDisabled(false);
 	m_isAnswered = true;
 // Let's check
@@ -680,8 +673,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	m_penalty->checkAnswer();
 	
 	disableWidgets();
-	bool autoNext = gl->E->autoNextQuest;
-	if (gl->E->afterMistake == TexamParams::e_stop && !curQ->isCorrect())
+	bool autoNext = Tcore::gl()->E->autoNextQuest;
+	if (Tcore::gl()->E->afterMistake == TexamParams::e_stop && !curQ->isCorrect())
 			autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 		
 	if (showResults) {
@@ -698,16 +691,16 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	}
 
 	markAnswer(curQ);
-	int waitTime = gl->E->questionDelay;
+	int waitTime = Tcore::gl()->E->questionDelay;
 	if (m_exercise) {
-    if ((gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_continue) || !gl->E->autoNextQuest || gl->E->showCorrected)
-      waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
+    if ((Tcore::gl()->E->autoNextQuest && Tcore::gl()->E->afterMistake != TexamParams::e_continue) || !Tcore::gl()->E->autoNextQuest || Tcore::gl()->E->showCorrected)
+      waitTime = Tcore::gl()->E->correctPreview; // user has to have time to see his mistake and correct answer
     m_exercise->checkAnswer();
     if (!curQ->isCorrect()) { // correcting wrong answer
-        if (gl->E->showCorrected) // TODO for dictation it should always stop and show mistakes
+        if (Tcore::gl()->E->showCorrected) // TODO for dictation it should always stop and show mistakes
           correctAnswer();
         else {
-          if (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake == TexamParams::e_stop))
+          if (!Tcore::gl()->E->autoNextQuest || (Tcore::gl()->E->autoNextQuest && Tcore::gl()->E->afterMistake == TexamParams::e_stop))
               mW->bar->addAction(mW->bar->correctAct); // show too button only when exam stops after mistake
           if (!autoNext) {
               m_canvas->whatNextTip(true, true);
@@ -723,9 +716,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
           stopExamSlot();
       else {
 				if (curQ->isCorrect()) {
-          m_askingTimer->start(gl->E->questionDelay);
+          m_askingTimer->start(Tcore::gl()->E->questionDelay);
       } else {
-					if (gl->E->repeatIncorrect && !m_incorrectRepeated) {
+					if (Tcore::gl()->E->repeatIncorrect && !m_incorrectRepeated) {
 						if (curQ->melody())
 							QTimer::singleShot(waitTime, this, SLOT(newAttempt()));
 						else {
@@ -735,8 +728,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 								m_askingTimer->start(waitTime);
 						}
 					} else {
-							if (gl->E->afterMistake == TexamParams::e_wait && (!m_exercise || !gl->E->showCorrected))
-									waitTime = gl->E->mistakePreview; // for exercises time was set above
+							if (Tcore::gl()->E->afterMistake == TexamParams::e_wait && (!m_exercise || !Tcore::gl()->E->showCorrected))
+									waitTime = Tcore::gl()->E->mistakePreview; // for exercises time was set above
 							m_askingTimer->start(waitTime);
 					}
         }
@@ -756,7 +749,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
  * Detected note if wrong appears for result tip time or 5000 ms when no auto next question
  */
 void TexamExecutor::correctAnswer() {
-	if (!gl->E->showCorrected)
+	if (!Tcore::gl()->E->showCorrected)
     mW->bar->removeAction(mW->bar->correctAct);
   bool correctAnimStarted = false;
 	if (m_askingTimer->isActive())
@@ -825,7 +818,7 @@ void TexamExecutor::correctAnswer() {
 					if (curQ->questionAsFret())
 						mW->guitar->correctPosition(curQ->qa.pos, markColor);
 					else
-						m_canvas->correctToGuitar(curQ->questionAs, gl->E->mistakePreview, curQ->qa.pos);
+						m_canvas->correctToGuitar(curQ->questionAs, Tcore::gl()->E->mistakePreview, curQ->qa.pos);
           correctAnimStarted = true;
 				}
 			}
@@ -896,14 +889,14 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 				break;
 		}
 	}                                                       // TODO
-  if (m_exercise && gl->E->showNameOfAnswered /*&& (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_continue))*/) {
+  if (m_exercise && Tcore::gl()->E->showNameOfAnswered /*&& (!Tcore::gl()->E->autoNextQuest || (Tcore::gl()->E->autoNextQuest && Tcore::gl()->E->afterMistake != TexamParams::e_continue))*/) {
 		if (!curQ->questionAsName() && !curQ->answerAsName()) {
 			if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
-				mW->score->showNames(gl->S->nameStyleInNoteName);
+				mW->score->showNames(Tcore::gl()->S->nameStyleInNoteName);
 			else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
-				mW->guitar->showName(gl->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
+				mW->guitar->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
 			else if (curQ->answerAsSound() && curQ->questionAsFret())
-					mW->guitar->showName(gl->S->nameStyleInNoteName, curQ->qa.note, markColor);
+					mW->guitar->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor);
 		} else { // cases when name was an question
 			if (curQ->questionAsName()) {
 				if (curQ->answerAsNote())
@@ -921,7 +914,7 @@ void TexamExecutor::repeatQuestion() {
   m_lockRightButt = false;
   m_incorrectRepeated = true;
   m_isAnswered = false;
-  if (gl->E->showNameOfAnswered) {
+  if (Tcore::gl()->E->showNameOfAnswered) {
     for (int i = 0; i < 2; i++)
       mW->score->deleteNoteName(i);
     mW->guitar->deleteNoteName();
@@ -929,7 +922,7 @@ void TexamExecutor::repeatQuestion() {
 // for melodies it never comes here - questions are newer repeated - copying of TQAunit is safe 
   TQAunit curQ(*m_exam->curQ()); // copy last unit as a new one
 
-  if (!gl->E->autoNextQuest) {
+  if (!Tcore::gl()->E->autoNextQuest) {
       m_canvas->clearCanvas();
   }
   curQ.setMistake(TQAunit::e_correct);
@@ -969,7 +962,7 @@ void TexamExecutor::repeatQuestion() {
   m_exam->addQuestion(curQ); // curQ is copied here - it becomes differ than this in exam list
   m_penalty->setBlackQuestion();
     
-  if (!gl->E->autoNextQuest)
+  if (!Tcore::gl()->E->autoNextQuest)
       mW->bar->startExamAct->setDisabled(true);
   mW->bar->setForQuestion(m_exam->curQ()->questionAsSound(), m_exam->curQ()->questionAsSound() && m_exam->curQ()->answerAsNote());
   if (m_exam->curQ()->questionAsSound())
@@ -1036,24 +1029,24 @@ void TexamExecutor::prepareToExam() {
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
 
-  mW->setSingleNoteMode(gl->S->isSingleNoteMode);
+  mW->setSingleNoteMode(Tcore::gl()->S->isSingleNoteMode);
 #if defined (Q_OS_ANDROID) // remove/hide actions from main and score menus
-  if (!gl->S->isSingleNoteMode) {
+  if (!Tcore::gl()->S->isSingleNoteMode) {
     mW->bar->playMelody()->setVisible(false);
     mW->bar->recordMelody()->setVisible(false);
     mW->bar->generateMelody()->setVisible(false);
   }
 #endif
 #if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
-  mW->pitchView->setVisible(gl->L->soundViewEnabled);
+  mW->pitchView->setVisible(Tcore::gl()->L->soundViewEnabled);
 #endif
-  mW->guitar->setVisible(gl->L->guitarEnabled);
+  mW->guitar->setVisible(Tcore::gl()->L->guitarEnabled);
   mW->score->acceptSettings();
   mW->noteName->setEnabledEnharmNotes(false);
   mW->noteName->setEnabledDblAccid(m_level.withDblAcc);
   mW->guitar->acceptSettings();
   mW->score->isExamExecuting(true);
-  mW->score->enableAccidToKeyAnim(!gl->E->expertsAnswerEnable); // no key animation for experts (no time for it)
+  mW->score->enableAccidToKeyAnim(!Tcore::gl()->E->expertsAnswerEnable); // no key animation for experts (no time for it)
   if (m_level.canBeSound()) {
       mW->sound->acceptSettings();
     if (mW->sound->isSniffable())
@@ -1067,7 +1060,7 @@ void TexamExecutor::prepareToExam() {
   TnotePixmap::setDefaultClef(m_level.clef);
   mW->updateSize(mW->centralWidget()->size());
   clearWidgets();
-  if (gl->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
+  if (Tcore::gl()->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
       mW->guitar->createRangeBox(m_supp->loFret(), m_supp->hiFret());
   m_soundTimer = new QTimer(this);
   connect(m_soundTimer, SIGNAL(timeout()), this, SLOT(startSniffing()));
@@ -1104,13 +1097,13 @@ void TexamExecutor::restoreAfterExam() {
 
   m_glStore->restoreSettings();
   if (m_exercise) {
-    gl->E->suggestExam = m_exercise->suggestInFuture();
+    Tcore::gl()->E->suggestExam = m_exercise->suggestInFuture();
   }
 
-  TnotePixmap::setDefaultClef(gl->S->clef);
-  mW->pitchView->setVisible(gl->L->soundViewEnabled);
-  mW->guitar->setVisible(gl->L->guitarEnabled);
-  mW->setSingleNoteMode(gl->S->isSingleNoteMode);
+  TnotePixmap::setDefaultClef(Tcore::gl()->S->clef);
+  mW->pitchView->setVisible(Tcore::gl()->L->soundViewEnabled);
+  mW->guitar->setVisible(Tcore::gl()->L->guitarEnabled);
+  mW->setSingleNoteMode(Tcore::gl()->S->isSingleNoteMode);
   #if defined (Q_OS_ANDROID) // revert actions
   if (!m_level.answerIsSound()) {
     mW->pitchView->pauseAction()->setVisible(true);
@@ -1120,11 +1113,11 @@ void TexamExecutor::restoreAfterExam() {
   mW->score->acceptSettings();
   mW->score->enableAccidToKeyAnim(true);
   mW->noteName->setEnabledEnharmNotes(false);
-  mW->noteName->setEnabledDblAccid(gl->S->doubleAccidentalsEnabled);
+  mW->noteName->setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
   mW->guitar->acceptSettings();
-  mW->noteName->setNoteNamesOnButt(gl->S->nameStyleInNoteName);
+  mW->noteName->setNoteNamesOnButt(Tcore::gl()->S->nameStyleInNoteName);
   mW->sound->acceptSettings();
-  mW->pitchView->setIntonationAccuracy(gl->A->intonation);
+  mW->pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
   mW->pitchView->enableAccuracyChange(true);
 
   mW->noteName->setNameDisabled(false);
@@ -1205,7 +1198,7 @@ void TexamExecutor::exerciseToExam() {
 	delete m_exam;
   delete mW->bar->correctAct;
 	m_exam = new Texam(&m_level, userName);
-  m_exam->setTune(*gl->Gtune());
+  m_exam->setTune(*Tcore::gl()->Gtune());
 	delete m_exercise;
 	m_exercise = 0;
   m_canvas->changeExam(m_exam);
@@ -1239,8 +1232,8 @@ void TexamExecutor::stopExerciseSlot() {
 		if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) 
       m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + ";skip"); // user still can take new attempt to correct a melody, so hide it
 		m_penalty->updateExamTimes();
-		Tnote::EnameStyle tmpStyle = gl->S->nameStyleInNoteName;
-		gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style  
+		Tnote::EnameStyle tmpStyle = Tcore::gl()->S->nameStyleInNoteName;
+		Tcore::gl()->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
 			
 		bool startExam = false;
 		if (!m_goingClosed)
@@ -1249,7 +1242,7 @@ void TexamExecutor::stopExerciseSlot() {
       m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title().remove(";skip"));
     if (m_isAnswered)
         m_exam->curQ()->setAnswered();
-		gl->S->nameStyleInNoteName = tmpStyle;
+		Tcore::gl()->S->nameStyleInNoteName = tmpStyle;
 		if (startExam) {
 				exerciseToExam();
 				return;
@@ -1278,13 +1271,13 @@ void TexamExecutor::stopExerciseSlot() {
 
 
 void TexamExecutor::stopExamSlot() {
-  if (!m_isAnswered && !gl->E->closeWithoutConfirm) {
+  if (!m_isAnswered && !Tcore::gl()->E->closeWithoutConfirm) {
     m_shouldBeTerminated = true;
   int messageDuration = 2000;
 #if defined (Q_OS_ANDROID)
   messageDuration = 5000;
 #else
-    QColor c = gl->GfingerColor;
+    QColor c = Tcore::gl()->GfingerColor;
     c.setAlpha(30);
     mW->setMessageBg(c);
 #endif
@@ -1303,24 +1296,24 @@ void TexamExecutor::stopExamSlot() {
       }
     }
     if (m_exam->fileName() == "") {
-      if (gl->E->closeWithoutConfirm) {
+      if (Tcore::gl()->E->closeWithoutConfirm) {
         m_exam->setFileName(getExamFileName(m_exam) + ".noo");
       } else {
         m_exam->setFileName(saveExamToFile());
         if (m_exam->fileName() != "")
-          gl->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
+          Tcore::gl()->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
       }
     }
     if (m_exam->fileName() != "") {
       if (m_exam->melodies()) // summarize answer if not summarized yet (melodies can have such cases)
         m_penalty->setMelodyPenalties();
       m_penalty->updateExamTimes();
-      gl->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style  
+      Tcore::gl()->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style
       if (m_exam->saveToFile() == Texam::e_file_OK) {
-          QStringList recentExams = gl->config->value("recentExams").toStringList();
+          QStringList recentExams = Tcore::gl()->config->value("recentExams").toStringList();
           recentExams.removeAll(m_exam->fileName());
           recentExams.prepend(m_exam->fileName());
-          gl->config->setValue("recentExams", recentExams);
+          Tcore::gl()->config->setValue("recentExams", recentExams);
       }
       if (!m_goingClosed) // if Nootka is closing don't show summary 
           showExamSummary(mW, m_exam, false);
@@ -1350,10 +1343,10 @@ void TexamExecutor::prepareToSettings() {
 
 void TexamExecutor::settingsAccepted() {
 // set new colors in exam view - so far it is not allowed during exams
-// 			examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor),
-// 															Tcolor::bgTag(gl->EnotBadColor));
+// 			examResults->setStyleBg(Tcolor::bgTag(Tcore::gl()->EanswerColor), Tcolor::bgTag(Tcore::gl()->EquestionColor),
+// 															Tcolor::bgTag(Tcore::gl()->EnotBadColor));
 	if (m_exercise) {
-		if (gl->E->suggestExam)
+		if (Tcore::gl()->E->suggestExam)
 			m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
 		else
 			m_exercise->setSuggestionEnabled(0);
@@ -1409,9 +1402,9 @@ bool TexamExecutor::closeNootka() {
                 .arg(qTR("QPlatformTheme", "Retry")));
     msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
     msg->setWindowTitle(QStringLiteral("Psssst..."));
-		if (!gl->E->closeWithoutConfirm)
+		if (!Tcore::gl()->E->closeWithoutConfirm)
 				msg->exec();
-    if (!gl->E->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
+    if (!Tcore::gl()->E->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
         m_snifferLocked = false;
 #if !defined (Q_OS_ANDROID)
         qApp->installEventFilter(m_supp);
@@ -1492,7 +1485,7 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
 void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   m_melody->setNote(n);
   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
-    if (gl->E->expertsAnswerEnable)
+    if (Tcore::gl()->E->expertsAnswerEnable)
       checkAnswer();
     else {
       m_canvas->playMelodyAgainMessage();
@@ -1516,8 +1509,8 @@ void TexamExecutor::showExamHelp() {
 #if !defined (Q_OS_ANDROID)
   qApp->removeEventFilter(m_supp);
 #endif
-  TexamHelp *hlp = new TexamHelp(Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EanswerColor), 
-																 &gl->E->showHelpOnStart, mW);
+  TexamHelp *hlp = new TexamHelp(Tcolor::bgTag(Tcore::gl()->EquestionColor), Tcolor::bgTag(Tcore::gl()->EanswerColor),
+																 &Tcore::gl()->E->showHelpOnStart, mW);
   hlp->exec();
   delete hlp;
 #if !defined (Q_OS_ANDROID)
@@ -1546,7 +1539,7 @@ void TexamExecutor::startSniffing() {
 
 
 void TexamExecutor::expertAnswersSlot() {
-	if (!gl->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
+	if (!Tcore::gl()->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
 			m_canvas->confirmTip(1500);
       return;
 	}
@@ -1644,7 +1637,7 @@ void TexamExecutor::deleteExam() {
 
 void TexamExecutor::delayerTip() {
 	m_lockRightButt = false;
-	m_canvas->whatNextTip(!(!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated));
+	m_canvas->whatNextTip(!(!m_exercise && Tcore::gl()->E->repeatIncorrect && !m_incorrectRepeated));
 	/** When exam mode and mistake occurred it will be true,
 	 * so whatNextTip(false) is invoked - whatNextTip displays repeat question hint
 	 * otherwise (exercise and/or correct answer) @p whatNextTip(true) goes. */
@@ -1684,25 +1677,25 @@ void TexamExecutor::blindQuestion() {
 
 void TexamExecutor::correctionFinished() {
   if (sender() == mW->score) { // show name on score only when it is enabled and corrected
-    if (gl->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
+    if (Tcore::gl()->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
       Tnote::EnameStyle tmpStyle = Tnote::defaultStyle; // store current name style
       Tnote::defaultStyle = m_exam->curQ()->styleOfQuestion(); // set style of question
-      mW->score->noteFromId(m_exercise->idOfCorrectedNote())->showNoteName(QColor(gl->EanswerColor.lighter().name())); // show note name
+      mW->score->noteFromId(m_exercise->idOfCorrectedNote())->showNoteName(QColor(Tcore::gl()->EanswerColor.lighter().name())); // show note name
       Tnote::defaultStyle = tmpStyle; // restore style
     }
   }
   mW->bar->nextQuestAct->setDisabled(false);
-  if (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_stop && !m_exam->curQ()->melody()) {
-    m_askingTimer->start(gl->E->correctPreview); // new question will be started after preview time
+  if (Tcore::gl()->E->autoNextQuest && Tcore::gl()->E->afterMistake != TexamParams::e_stop && !m_exam->curQ()->melody()) {
+    m_askingTimer->start(Tcore::gl()->E->correctPreview); // new question will be started after preview time
   }
   if (m_exam->curQ()->melody()) { // despite of 'auto' settings when melody - auto next question will not work
     m_canvas->whatNextTip(false, false);
     connect(mW->score, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
-  } else if (!gl->E->autoNextQuest || gl->E->afterMistake == TexamParams::e_stop)
-      m_canvas->whatNextTip(!(!m_exercise && gl->E->repeatIncorrect && !m_incorrectRepeated));
+  } else if (!Tcore::gl()->E->autoNextQuest || Tcore::gl()->E->afterMistake == TexamParams::e_stop)
+      m_canvas->whatNextTip(!(!m_exercise && Tcore::gl()->E->repeatIncorrect && !m_incorrectRepeated));
   if (m_exam->curQ()->melody() && (m_exam->curQ()->questionAsNote() || m_exam->curQ()->answerAsNote()))
       m_canvas->melodyCorrectMessage();
-  if (!gl->E->autoNextQuest || !gl->E->showCorrected || gl->E->afterMistake == TexamParams::e_stop)
+  if (!Tcore::gl()->E->autoNextQuest || !Tcore::gl()->E->showCorrected || Tcore::gl()->E->afterMistake == TexamParams::e_stop)
       QTimer::singleShot(4000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
   m_lockRightButt = false;
 }
