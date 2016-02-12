@@ -28,7 +28,7 @@
 #include <animations/tcombinedanim.h>
 #include <texamparams.h>
 #include <graphics/tnotepixmap.h>
-#include <tglobals.h>
+#include <tinitcorelib.h>
 #include <help/texamhelp.h>
 #include <notename/tnotename.h>
 #include <guitar/tfingerboard.h>
@@ -45,8 +45,6 @@
 #include <QtCore/qtimer.h>
 #include <QtGui/qevent.h>
 
-
-extern Tglobals *gl;
 
 
 #if defined (Q_OS_ANDROID)
@@ -136,14 +134,14 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
   clearResultTip();
   clearTryAgainTip();
 
-  bool autoNext = gl->E->autoNextQuest;
-  if (gl->E->afterMistake == TexamParams::e_stop && !answer->isCorrect())
+  bool autoNext = Tcore::gl()->E->autoNextQuest;
+  if (Tcore::gl()->E->afterMistake == TexamParams::e_stop && !answer->isCorrect())
       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
   if (autoNext) { // determine time of displaying
-    if (answer->isCorrect() || gl->E->afterMistake == TexamParams::e_continue)
+    if (answer->isCorrect() || Tcore::gl()->E->afterMistake == TexamParams::e_continue)
       time = 2500; // hard-coded
     else
-      time = gl->E->mistakePreview; // user defined wait time
+      time = Tcore::gl()->E->mistakePreview; // user defined wait time
   }
 
   m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bigFont()));
@@ -154,7 +152,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
 	else
 		m_resultTip->setScale(m_scale * 1.2);
   setResultPos();
-  if (gl->E->showWrongPlayed && gl->E->showWrongPlayed && !answer->melody() &&
+  if (Tcore::gl()->E->showWrongPlayed && Tcore::gl()->E->showWrongPlayed && !answer->melody() &&
 			answer->answerAsSound() && !answer->isCorrect() && m_window->sound->note().note)
 					detectedNoteTip(m_window->sound->note()); // In exercise mode display detected note when it was incorrect
   if (time)
@@ -163,7 +161,7 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
 
 
 QString Tcanvas::detectedText(const QString& txt) {
-  return QString("<span style=\"color: %1;\"><big>").arg(gl->EquestionColor.name()) + txt + QLatin1String("</big></span>");
+  return QString("<span style=\"color: %1;\"><big>").arg(Tcore::gl()->EquestionColor.name()) + txt + QLatin1String("</big></span>");
 }
 
 
@@ -178,7 +176,7 @@ void Tcanvas::detectedNoteTip(const Tnote& note) {
 
 void Tcanvas::tryAgainTip(int time) {
   m_tryAgainTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
-      .arg(gl->EquestionColor.name()).arg(bigFont()) + tr("Try again!") + "</span>");
+      .arg(Tcore::gl()->EquestionColor.name()).arg(bigFont()) + tr("Try again!") + "</span>");
   m_scene->addItem(m_tryAgainTip);
   m_tryAgainTip->setZValue(100);
   m_tryAgainTip->setScale(m_scale);
@@ -251,7 +249,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
       });
   }
   if (toCorrection) {
-    m_correctTip = new ThackedTouchTip(getTipText("correct", "Correct"), gl->EanswerColor);
+    m_correctTip = new ThackedTouchTip(getTipText("correct", "Correct"), Tcore::gl()->EanswerColor);
     m_scene->addItem(m_correctTip);
     m_correctTip->setFont(smalTipFont(m_view));
     connect(m_correctTip, &ThackedTouchTip::clicked, [=] {
@@ -313,7 +311,7 @@ void Tcanvas::showConfirmTip() {
   m_timerToConfirm->stop();
   if (!m_confirmTip) {
 #if defined (Q_OS_ANDROID)
-    m_confirmTip = new ThackedTouchTip(getTipText("check", "Check"), gl->EanswerColor);
+    m_confirmTip = new ThackedTouchTip(getTipText("check", "Check"), Tcore::gl()->EanswerColor);
     m_scene->addItem(m_confirmTip);
     m_confirmTip->setFont(smalTipFont(m_view));
     connect(m_confirmTip, &ThackedTouchTip::clicked, [=] {
@@ -326,7 +324,7 @@ void Tcanvas::showConfirmTip() {
       TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + pixToHtml(Tpath::img("check"), m_iconSize) + a) + br_ +
       TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
       tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
-      pixToHtml(Tpath::img("help"), m_iconSize) + a), gl->EanswerColor
+      pixToHtml(Tpath::img("help"), m_iconSize) + a), Tcore::gl()->EanswerColor
     );
     m_confirmTip->setScale(m_scale * 1.2);
     m_scene->addItem(m_confirmTip);
@@ -385,7 +383,7 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
 		tooLow = false;
 	}
 	m_outTuneTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
-      .arg(gl->EanswerColor.name()).arg(bigFont()) + tuneText + "</span>");
+      .arg(Tcore::gl()->EanswerColor.name()).arg(bigFont()) + tuneText + "</span>");
   m_scene->addItem(m_outTuneTip);
   m_outTuneTip->setZValue(100);
   m_outTuneTip->setScale(m_scale);
@@ -398,7 +396,7 @@ void Tcanvas::melodyCorrectMessage() {
 	if (m_melodyCorrectMessage)
 		return;
 	m_melodyCorrectMessage = true;
-  QString message = QString("<span style=\"color: %1;\"><big>").arg(gl->EanswerColor.name()) +
+  QString message = QString("<span style=\"color: %1;\"><big>").arg(Tcore::gl()->EanswerColor.name()) +
                     tr("Click incorrect notes to see<br>and to listen to them corrected.") + QLatin1String("</big></span>");
 #if defined (Q_OS_ANDROID)
   m_window->setStatusMessage(message, 10000); // temporary message on a tip
@@ -416,7 +414,7 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 	m_goodPos = goodPos;
 	m_flyEllipse = new QGraphicsEllipseItem;
 	m_flyEllipse->setPen(Qt::NoPen);
-	m_flyEllipse->setBrush(QBrush(QColor(gl->EquestionColor.name())));
+	m_flyEllipse->setBrush(QBrush(QColor(Tcore::gl()->EquestionColor.name())));
 	m_scene->addItem(m_flyEllipse);
 	if (question == TQAtype::e_asNote) {
 			m_flyEllipse->setRect(m_window->score->noteRect(1)); // 1 - answer note segment	
@@ -434,7 +432,7 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 	m_correctAnim->setDuration(600);
 	connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
 	QPointF destP = m_view->mapToScene(m_window->guitar->mapToParent(m_window->guitar->mapFromScene(m_window->guitar->fretToPos(goodPos))));
-	if (!gl->GisRightHanded) { // fix destination position point for left-handed guitars
+	if (!Tcore::gl()->GisRightHanded) { // fix destination position point for left-handed guitars
 		if (goodPos.fret())
 			destP.setX(destP.x() - m_window->guitar->fingerRect().width());
 		else
@@ -446,7 +444,7 @@ void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos
 			m_correctAnim->setScaling(m_window->guitar->fingerRect().width() / m_flyEllipse->rect().width(), 2.0);
 			m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
 	}
-	m_correctAnim->setColoring(QColor(gl->EanswerColor.name()));
+	m_correctAnim->setColoring(QColor(Tcore::gl()->EanswerColor.name()));
 	if (goodPos.fret() == 0) {
 		QPointF p1(m_view->mapToScene(m_window->guitar->mapToParent(
 							m_window->guitar->mapFromScene(m_window->guitar->stringLine(goodPos.str()).p1()))));
@@ -653,7 +651,7 @@ void Tcanvas::correctAnimFinished() {
 // 	clearCorrection();
 	m_flyEllipse->hide();
 	m_window->guitar->setFinger(m_goodPos);
-	m_window->guitar->markAnswer(QColor(gl->EanswerColor.name()));
+	m_window->guitar->markAnswer(QColor(Tcore::gl()->EanswerColor.name()));
 	m_window->update();
 }
 

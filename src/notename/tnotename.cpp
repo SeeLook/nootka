@@ -20,14 +20,11 @@
 #include "tnotename.h"
 #include "tnotenamelabel.h"
 #include "tnametip.h"
-#include <tglobals.h>
+#include <tinitcorelib.h>
 #include <widgets/tpushbutton.h>
 #include <tnoofont.h>
 #include <tscoreparams.h>
 #include <QtWidgets/QtWidgets>
-
-
-extern Tglobals *gl;
 
 
 /**static*/
@@ -152,10 +149,10 @@ TnoteName::TnoteName(QWidget *parent) :
 	mainLay->addLayout(m_buttonsLay);
 	setLayout(mainLay);
 
-	setStyle(gl->S->nameStyleInNoteName);
+	setStyle(Tcore::gl()->S->nameStyleInNoteName);
 	setNoteNamesOnButt(style());
 	for (int i = 0; i < 3; i++) m_notes.push_back(Tnote());
-	setAmbitus(gl->loString(), Tnote(gl->hiString().chromatic()+gl->GfretsNumber));
+	setAmbitus(Tcore::gl()->loString(), Tnote(Tcore::gl()->hiString().chromatic()+Tcore::gl()->GfretsNumber));
 #if defined (Q_OS_ANDROID)
 //   m_upOctaveLay->addStretch(2); // no octaves link under Android
   mainLay->setContentsMargins(0, 0, 0, 0);
@@ -456,17 +453,17 @@ void TnoteName::askQuestion(Tnote note, Tnote::EnameStyle questStyle, char strNr
 	Tnote::EnameStyle tmpStyle = m_style;
 	setStyle(questStyle);
 	setNoteName(note);
-	m_nameLabel->showQuestionMark(QColor(gl->EquestionColor.name()));
+	m_nameLabel->showQuestionMark(QColor(Tcore::gl()->EquestionColor.name()));
 	if (strNr)
-		m_nameLabel->showStringNumber(strNr, QColor(gl->EquestionColor.name()));
-	m_nameLabel->setBackgroundColor(prepareBgColor(gl->EquestionColor));
+		m_nameLabel->showStringNumber(strNr, QColor(Tcore::gl()->EquestionColor.name()));
+	m_nameLabel->setBackgroundColor(prepareBgColor(Tcore::gl()->EquestionColor));
 	uncheckAllButtons();
 	setStyle(tmpStyle);
 }
 
 
 void TnoteName::prepAnswer(Tnote::EnameStyle answStyle) {
-	m_nameLabel->setBackgroundColor(prepareBgColor(gl->EanswerColor));
+	m_nameLabel->setBackgroundColor(prepareBgColor(Tcore::gl()->EanswerColor));
 	setNoteNamesOnButt(answStyle);
 	setNameDisabled(false);
 	m_notes[0] = Tnote(0,0,0); // Reset, otherwise getNoteName() returns it
@@ -551,12 +548,12 @@ void TnoteName::mousePressEvent(QMouseEvent*) {}
 
 void TnoteName::setNameText() {
 	if (m_notes[0].note) {
-		QString txt = "<big>" + m_notes[0].toRichText(gl->S->octaveInNoteNameFormat) + "</big>";
+		QString txt = "<big>" + m_notes[0].toRichText(Tcore::gl()->S->octaveInNoteNameFormat) + "</big>";
 		if (m_notes[1].note) {
-				txt = txt + QString("  <small style=\"color: %1\">(").arg(gl->S->enharmNotesColor.name()) + 
-					m_notes[1].toRichText(gl->S->octaveInNoteNameFormat);
+				txt = txt + QString("  <small style=\"color: %1\">(").arg(Tcore::gl()->S->enharmNotesColor.name()) +
+					m_notes[1].toRichText(Tcore::gl()->S->octaveInNoteNameFormat);
 				if (m_notes[2].note)
-						txt = txt + "  " + m_notes[2].toRichText(gl->S->octaveInNoteNameFormat);
+						txt = txt + "  " + m_notes[2].toRichText(Tcore::gl()->S->octaveInNoteNameFormat);
 				txt = txt + ")</small>";
 		}
 		m_nameLabel->setText(txt);
@@ -568,8 +565,8 @@ void TnoteName::setNameText() {
 void TnoteName::setNoteName(char noteNr, char octNr, char accNr) {
 	m_notes[0] = Tnote(noteNr, octNr, accNr);
 	if (noteNr) {
-		if (gl->S->showEnharmNotes && !m_isMenu) {
-				TnotesList enharmList = m_notes[0].getTheSameNotes(gl->S->doubleAccidentalsEnabled);
+		if (Tcore::gl()->S->showEnharmNotes && !m_isMenu) {
+				TnotesList enharmList = m_notes[0].getTheSameNotes(Tcore::gl()->S->doubleAccidentalsEnabled);
 				TnotesList::iterator it = enharmList.begin();
 				++it;
 				if (it != enharmList.end())
@@ -723,7 +720,7 @@ void TnoteName::correctAnimationFinished() {
 void TnoteName::invokeBlinkingAgain() {
 	disconnect(m_nameLabel, SIGNAL(throwingFinished()), this, SLOT(correctAnimationFinished()));
 	if (m_notes[0] != m_goodNote) {
-		markNameLabel(QColor(gl->EanswerColor.name()));
+		markNameLabel(QColor(Tcore::gl()->EanswerColor.name()));
 		m_nameLabel->thrownText(m_goodNote.toRichText(), 150, 150);
 	}
 	emit correctingFinished();

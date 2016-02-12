@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,13 +18,11 @@
 
 
 #include "tprogresswidget.h"
-#include <tglobals.h>
+#include <tinitcorelib.h>
 #include <tcolor.h>
 #include <exam/texam.h>
 #include <QtWidgets/QtWidgets>
 
-
-extern Tglobals *gl;
 
 
 TprogressWidget::TprogressWidget(QWidget* parent) :
@@ -36,13 +34,13 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
     lay->setContentsMargins(0, 0, 0, 0);
 #endif
   m_answLab = new QLabel(zeroLabTxt(), this);
-  m_answLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(gl->EnotBadColor));
+  m_answLab->setStyleSheet( "border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(Tcore::gl()->EnotBadColor));
   lay->addWidget(m_answLab);
   m_bar = new QProgressBar(this);
   m_bar->setValue(0);
   lay->addWidget(m_bar);
   m_totalLab = new QLabel(zeroLabTxt(), this);
-  m_totalLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(gl->EanswerColor));
+  m_totalLab->setStyleSheet(QLatin1String("border: 1px solid palette(Text); border-radius: 4px;") + Tcolor::bgTag(Tcore::gl()->EanswerColor));
   lay->addWidget(m_totalLab);
   setLayout(lay);
   setStatusTip(progressExamTxt());
@@ -70,9 +68,9 @@ void TprogressWidget::setFinished() {
 
 void TprogressWidget::terminate() {
   m_answLab->setText(zeroLabTxt());
-  m_answLab->setStatusTip("");
+  m_answLab->setStatusTip(QString());
   m_totalLab->setText(zeroLabTxt());
-  m_totalLab->setStatusTip("");
+  m_totalLab->setStatusTip(QString());
   m_bar->reset();
   m_bar->setValue(0);
   m_bar->setStatusTip(progressExamTxt());
@@ -104,7 +102,7 @@ void TprogressWidget::updateLabels() {
   m_bar->setMaximum(m_totalNr + m_exam->penalty());
   if (remained) {
     m_bar->setValue(m_exam->count());
-    m_bar->setStatusTip(progressExamTxt() + "<br>" + m_bar->text());
+    m_bar->setStatusTip(progressExamTxt() + QLatin1String("<br>") + m_bar->text());
   } else {
     m_bar->setValue(m_totalNr + m_exam->penalty());
     if (m_exam->isFinished()) 
@@ -114,7 +112,7 @@ void TprogressWidget::updateLabels() {
 
 
 QString TprogressWidget::zeroLabTxt() {
-  return "<span style=\"color: transparent;\">0 + </span>0<span style=\"color: transparent;\">0</span>";
+  return QStringLiteral("<span style=\"color: transparent;\">0 + </span>0<span style=\"color: transparent;\">0</span>");
 }
 
 
