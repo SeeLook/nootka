@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,8 +19,9 @@
 #ifndef TMAINVIEW_H
 #define TMAINVIEW_H
 
-#include <QGraphicsView>
-#include <QPointer>
+#include <QtWidgets/qgraphicsview.h>
+#include <QtCore/qpointer.h>
+
 
 class Tmenu;
 class TtoolBar;
@@ -35,33 +36,42 @@ class QBoxLayout;
 class QGraphicsProxyWidget;
 class QAction;
 class TmelodyItem;
-class MainWindow;
+class QMainWindow;
 
+
+#define   MAINVIEW    TmainView::instance()
 
 /**
  * This widget manages of a layout of main Nootka window
  * All widgets are wrapped with QGraphicsProxyWidget 
  * and their layout is managed QGraphicsLayout
+ *
+ * It has single instance available through @p instance()
+ * defined also as a macro @p MAINVIEW
  */
 class TmainView : public QGraphicsView
 {
 
-Q_OBJECT
+  Q_OBJECT
 
 public:
 	TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
-            QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, MainWindow* parent);
+            QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QMainWindow* parent);
   virtual ~TmainView();
 
-	void addNoteName(); /** Adds note name widget over a score (for single note mode) */
-	void takeNoteName(); /** Takes note name from view. */
+  static TmainView* instance() { return m_instance; }
 
-	void addExamViews(QWidget* resultsW, QWidget* progressW); /** Adds bar with those widgets */
-	void takeExamViews(); /** Removes exam widgets, WIDGETS ARE DELETED! */
+  QMainWindow* mainWindow() { return m_mainWindow; } /**< Nootka main window */
 
-	void moveExamToName(); /** Moves 'exam view' above note view. Changes its direction to vertical. */
+	void addNoteName(); /**< Adds note name widget over a score (for single note mode) */
+	void takeNoteName(); /**< Takes note name from view. */
 
-	void setBarAutoHide(bool autoHide); /** Makes tool bar permanently visible or displayed on demand (mouse action) */
+	void addExamViews(QWidget* resultsW, QWidget* progressW); /**< Adds bar with those widgets */
+	void takeExamViews(); /**< Removes exam widgets, WIDGETS ARE DELETED! */
+
+	void moveExamToName(); /**< Moves 'exam view' above note view. Changes its direction to vertical. */
+
+	void setBarAutoHide(bool autoHide); /**< Makes tool bar permanently visible or displayed on demand (mouse action) */
 	bool isAutoHide() { return m_isAutoHide; }
 
 #if defined (Q_OS_ANDROID)
@@ -82,7 +92,7 @@ protected:
 
 #if defined (Q_OS_ANDROID)
   virtual void keyPressEvent(QKeyEvent* event);
-  virtual void keyReleaseEvent(QKeyEvent* event); /** Handles mobile device buttons (menu, back) */
+  virtual void keyReleaseEvent(QKeyEvent* event); /**< Handles mobile device buttons (menu, back) */
 #else
   virtual bool eventFilter(QObject* ob, QEvent* event);
   virtual void mouseMoveEvent(QMouseEvent* event);
@@ -94,13 +104,14 @@ protected:
 
 protected slots:
 	void showToolBar();
-  void updateLayout(); /** Method called by timer from resizeEvent() */
+  void updateLayout(); /**< Method called by timer from resizeEvent() */
 	void menuSlot(Tmenu* m);
 
   void mainMenuExec();
   void scoreMenuExec();
 
 private:
+  QMainWindow                     *m_mainWindow;
 	QWidget													*m_status;
   QGraphicsView                   *m_score, *m_guitar;
 	QWidget													*m_results, *m_progress, *m_container, *m_touchedWidget;
@@ -121,7 +132,7 @@ private:
 #if defined (Q_OS_ANDROID)
   TmelodyItem                     *m_menuItem;
 #endif
-
+  static TmainView                *m_instance;
 };
 
 #endif // TMAINVIEW_H

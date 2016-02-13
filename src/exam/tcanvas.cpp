@@ -38,6 +38,9 @@
 #include <tpath.h>
 #if defined (Q_OS_ANDROID)
   #include <tmtr.h>
+  #include <ttouchmessage.h>
+#else
+  #include <gui/tstatuslabel.h>
 #endif
 #include <score/tmainscore.h>
 #include <gui/ttoolbar.h>
@@ -71,9 +74,8 @@ ThackedTouchTip::ThackedTouchTip(const QString& text, QColor bgColor) :
 }
 
 
-Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam, MainWindow* parent) :
-  QObject(parent->centralWidget()),
-  m_window(parent),
+Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam) :
+  QObject(view),
   m_view(view),
   m_scale(1),
   m_certifyTip(0),
@@ -106,6 +108,15 @@ Tcanvas::~Tcanvas()
 
 void Tcanvas::changeExam(Texam* newExam) {
   m_exam = newExam;
+}
+
+
+void Tcanvas::setStatusMessage(const QString& text, int duration) {
+#if defined (Q_OS_ANDROID)
+  tMessage->setMessage(text, duration);
+#else
+  STATUS->setMessage(text, duration);
+#endif
 }
 
 
@@ -168,9 +179,9 @@ QString Tcanvas::detectedText(const QString& txt) {
 void Tcanvas::detectedNoteTip(const Tnote& note) {
   Tnote n = note;
   if (n.isValid())
-    m_window->setStatusMessage(QLatin1String("<table valign=\"middle\" align=\"center\"><tr><td> ") +
-        wrapPixToHtml(n, m_exam->level()->clef.type(),	TkeySignature(0), m_window->centralWidget()->height() / 260.0) + QLatin1String(" ") +
-      detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + QLatin1String("</td></tr></table>"), 5000);
+    setStatusMessage(QLatin1String("<table valign=\"middle\" align=\"center\"><tr><td> ") +
+        wrapPixToHtml(n, m_exam->level()->clef.type(),  TkeySignature(0), m_view->height() / 260.0) + QLatin1String(" ") +
+        detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + QLatin1String("</td></tr></table>"), 5000);
 }
 
 
@@ -339,7 +350,11 @@ void Tcanvas::showConfirmTip() {
 
 
 void Tcanvas::playMelodyAgainMessage() {
-  m_window->setStatusMessage(detectedText(tr("Select any note to play it again.")), 3000);
+#if defined (Q_OS_ANDROID)
+  tMessage->setMessage(detectedText(tr("Select any note to play it again.")), 3000);
+#else
+  STATUS->setMessage(detectedText(tr("Select any note to play it again.")), 3000);
+#endif
 }
 
 
@@ -395,14 +410,15 @@ void Tcanvas::outOfTuneTip(float pitchDiff) {
 void Tcanvas::melodyCorrectMessage() {
 	if (m_melodyCorrectMessage)
 		return;
+
 	m_melodyCorrectMessage = true;
   QString message = QString("<span style=\"color: %1;\"><big>").arg(Tcore::gl()->EanswerColor.name()) +
                     tr("Click incorrect notes to see<br>and to listen to them corrected.") + QLatin1String("</big></span>");
 #if defined (Q_OS_ANDROID)
-  m_window->setStatusMessage(message, 10000); // temporary message on a tip
+  tMessage->setMessage(message, 10000); // temporary message on a tip
 #else
-  m_window->setMessageBg(-1);
-  m_window->setStatusMessage(message); // permanent message on status label
+  STATUS->setBackground(-1);
+  setStatusMessage(message); // permanent message on status label
 #endif
 }
 
@@ -468,8 +484,8 @@ void Tcanvas::levelStatusMessage() {
   else
       message = tr("Exam started on level");
   message.append(QLatin1String(":<br><b>") + m_exam->level()->name + QLatin1String("</b>"));
-  m_window->setMessageBg(-1); // reset background
-  m_window->setStatusMessage(message);
+  STATUS->setBackground(-1); // reset background
+  setStatusMessage(message);
 #endif
 }
 
@@ -652,7 +668,7 @@ void Tcanvas::correctAnimFinished() {
 	m_flyEllipse->hide();
 	GUITAR->setFinger(m_goodPos);
 	GUITAR->markAnswer(QColor(Tcore::gl()->EanswerColor.name()));
-	m_window->update();
+	m_view->update();
 }
 
 

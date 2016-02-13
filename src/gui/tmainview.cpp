@@ -56,9 +56,14 @@ protected:
   }
 };
 
+
+TmainView* TmainView::m_instance = nullptr;
+
+
 TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
-                     QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, MainWindow* parent) :
+                     QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QMainWindow* parent) :
 	QGraphicsView(parent),
+	m_mainWindow(parent),
 	m_layParams(layParams),
 	m_tool(toolW),
 	m_status(statLabW),
@@ -74,6 +79,12 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 #endif
 	m_mainMenuTap(false), m_scoreMenuTap(false), m_playBarTap(false)
 {
+  if (m_instance) {
+    qDebug() << "TmainView instance already exists";
+    return;
+  }
+
+  m_instance = this;
 // 	setScene(new TsceneHandler(this)); // for debugging
   setScene(new QGraphicsScene(this));
 
@@ -117,7 +128,7 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
 	setBarAutoHide(m_layParams->toolBarAutoHide);
 	m_name->createNameTip(scene());
-	
+
 	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
 #if defined (Q_OS_ANDROID)
   m_menuItem = new TmelodyItem();
@@ -138,6 +149,7 @@ TmainView::~TmainView()
 {
   if (TtouchProxy::touchEnabled())
     delete m_fretView;
+  m_instance = nullptr;
 }
 
 

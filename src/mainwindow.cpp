@@ -28,7 +28,6 @@
 #include "exam/texamview.h"
 #include "exam/texamexecutor.h"
 #include <tglobals.h>
-#include <widgets/troundedlabel.h>
 #include <tscoreparams.h>
 #include <music/tchunk.h>
 #include <tlayoutparams.h>
@@ -37,6 +36,8 @@
 #include <tsound.h>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttouchmessage.h>
+#else
+  #include "gui/tstatuslabel.h"
 #endif
 #include <level/tlevelselector.h>
 #include <plugins/tpluginsloader.h>
@@ -82,11 +83,6 @@ MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   m_examResults(0),
   m_progress(0),
-#if !defined (Q_OS_ANDROID)
-  m_statusText(QString()),
-  m_curBG(-1), m_prevBg(-1),
-  m_lockStat(false),
-#endif
   m_updaterPlugin(0),
   m_updaterStoppedSound(false),
   m_isPlayerFree(true)
@@ -131,11 +127,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
   Tnote::defaultStyle = gl->S->nameStyleInNoteName;
   m_sound = new Tsound(this);
-#if !defined (Q_OS_ANDROID)
-  m_messageTimer = new QTimer(this);
-  connect(m_messageTimer, SIGNAL(timeout()), this, SLOT(restoreMessage()));
-#endif
-
 //-------------------------------------------------------------------
 // Creating GUI elements
   m_bar = new TtoolBar(gl->version, this);
@@ -148,11 +139,8 @@ MainWindow::MainWindow(QWidget *parent) :
   m_pitchView->setVisible(gl->L->soundViewEnabled);
 #if !defined (Q_OS_ANDROID)
 // Hints - label with clues
-  m_statLab = new TroundedLabel(this);
-  m_statLab->setWordWrap(true);
-  m_statLab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-  m_statLab->setContentsMargins(1, 1, 1, 1); // overwrite 5 px margins of TroundedLabel
-  m_statLab->setVisible(gl->L->hintsBarEnabled);
+  m_statusLabel = new TstatusLabel(this);
+  m_statusLabel->setVisible(gl->L->hintsBarEnabled);
 #endif
 
   m_guitar = new TfingerBoard(this);
@@ -168,7 +156,7 @@ MainWindow::MainWindow(QWidget *parent) :
   m_touchMessage = new TtouchMessage();
   innerWidget->scene()->addItem(m_touchMessage);
 #else
-  innerWidget = new TmainView(gl->L, m_bar, m_statLab, m_pitchView, m_score, m_guitar, m_noteName, this);
+  innerWidget = new TmainView(gl->L, m_bar, m_statusLabel, m_pitchView, m_score, m_guitar, m_noteName, this);
 #endif
   setCentralWidget(innerWidget);
   Tmenu::setMainWidget(innerWidget);
@@ -184,8 +172,8 @@ MainWindow::MainWindow(QWidget *parent) :
 #else
   connect(m_bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
   connect(m_bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
-  connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-  connect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+  connect(m_score, &TmainScore::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
+  connect(innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
 #endif
   setSingleNoteMode(gl->S->isSingleNoteMode);
 
@@ -216,50 +204,11 @@ MainWindow::~MainWindow()
 //#######################     METHODS       ################################################
 //##########################################################################################
 
-void MainWindow::setStatusMessage(const QString& msg) {
-#if !defined (Q_OS_ANDROID)
-	if (!gl->L->hintsBarEnabled)
-		return;
-	if (!m_lockStat)
-			m_statLab->setText(QLatin1String("<center>") + msg + QLatin1String("</center>"));
-	else
-			m_prevMsg = msg;
-	m_statusText = msg;
-#endif
-}
-
-
-void MainWindow::setStatusMessage(const QString& msg, int time) {
-#if defined (Q_OS_ANDROID)
-  m_touchMessage->setMessage(msg, time);
-#else
-	if (!gl->L->hintsBarEnabled)
-		return;
-	m_prevMsg = m_statusText;
-	m_statLab->setText(QLatin1String("<center>") + msg + QLatin1String("</center>"));
-	m_lockStat = true;
-	m_messageTimer->start(time);
-#endif
-}
-
-
-void MainWindow::setMessageBg(QColor bg) {
-#if !defined (Q_OS_ANDROID)
-	if (bg == -1) {
-			m_statLab->setDefaultBackground();
-	} else
-			m_statLab->setBackroundColor(bg);
-	m_curBG = bg;
-#endif
-}
-
-
 void MainWindow::clearAfterExam(int examState) {
 	m_bar->actionsAfterExam();
 #if !defined (Q_OS_ANDROID)
-	m_curBG = -1;
-	m_prevBg = -1;
-	setMessageBg(-1);
+// 	setMessageBg(-1);
+  m_statusLabel->setBackground(-1);
 #endif
 	if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
 			openLevelCreator();
@@ -344,7 +293,7 @@ void MainWindow::createSettingsDialog() {
 			m_bar->setBarIconStyle(gl->L->iconTextOnToolBar, m_bar->iconSize().width());
 			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
 #if !defined (Q_OS_ANDROID)
-			m_statLab->setVisible(gl->L->hintsBarEnabled);
+			m_statusLabel->setVisible(gl->L->hintsBarEnabled);
 #endif
 			m_pitchView->setVisible(gl->L->soundViewEnabled);
 			m_guitar->setVisible(gl->L->guitarEnabled);
@@ -490,36 +439,6 @@ void MainWindow::setSingleNoteMode(bool isSingle) {
 //##########################################################################################
 //#######################     PROTECTED SLOTS       ########################################
 //##########################################################################################
-void MainWindow::restoreMessage() {
-#if !defined (Q_OS_ANDROID)
-	m_messageTimer->stop();
-	m_lockStat = false;
-	setStatusMessage(m_prevMsg);
-	setMessageBg(m_prevBg);
-	m_prevMsg.clear();
-#endif
-}
-
-
-void MainWindow::messageSlot(const QString& msg) {
-#if !defined (Q_OS_ANDROID)
-	if (msg.isEmpty()) {
-//       m_statLab->setDefaultBackground();
-//       m_statLab->setStyleSheet("color: palette(text)");
-			setMessageBg(m_prevBg);
-			m_statLab->setText(QLatin1String("<center>") + m_statusText + QLatin1String("</center>"));
-			m_prevMsg = m_statusText;
-	} else {
-//       m_statLab->setBackroundColor(palette().highlightedText().color());
-//       m_statLab->setStyleSheet("color: palette(highlight)");
-			m_prevBg = m_curBG;
-			setMessageBg(-1);
-			m_statLab->setText(QLatin1String("<center>") + msg + QLatin1String("</center>"));
-	}
-#endif
-}
-
-
 void MainWindow::showSupportDialog() {
   m_sound->wait();
   m_sound->stopPlaying();
@@ -628,13 +547,13 @@ void MainWindow::updateSize(QSize newS) {
   noteName->resize(qMin(baseH / 20, fontMetrics().height()));
 #else
   m_noteName->resize(baseH / 40);
-	m_statLab->setFixedHeight(newS.height() / 10);
-	QFont f = m_statLab->font();
+	m_statusLabel->setFixedHeight(newS.height() / 10);
+	QFont f = m_statusLabel->font();
 	f.setPointSize(m_statFontSize * 0.95);
 	QFontMetrics fMetr(f);
 	qreal fact = (qreal)(m_statFontSize * 1.4) / (qreal)fMetr.boundingRect("A").height();
 	f.setPointSize(f.pointSize() * fact);
-	m_statLab->setFont(f);
+	m_statusLabel->setFont(f);
 #endif
   if (m_progress) {
     m_progress->resize(m_statFontSize);
@@ -678,7 +597,6 @@ void MainWindow::updateSize(QSize newS) {
 		}
 	}
 	setUpdatesEnabled(true);
-// // // 	QTimer::singleShot(2, this, SLOT(update()));
 }
 
 
@@ -686,8 +604,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
   m_sound->stopPlaying();
   m_sound->wait();
 #if !defined (Q_OS_ANDROID)
-  disconnect(m_score, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
-  disconnect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
+  disconnect(m_score, &TmainScore::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
+  disconnect(innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
 #endif
 	if (executor) {
       if (executor->closeNootka()) {

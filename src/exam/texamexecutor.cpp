@@ -54,6 +54,7 @@
   #include <widgets/tfiledialog.h>
 #else
   #include <level/tfixleveldialog.h>
+  #include <gui/tstatuslabel.h>
 #endif
 #include <QtWidgets/QtWidgets>
 
@@ -175,7 +176,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	}
 	//We check are guitar's params suitable for an exam
 #if !defined (Q_OS_ANDROID)
-	TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
+	TexecutorSupply::checkGuitarParamsChanged(m_exam);
 #endif
 	// ---------- End of checking ----------------------------------
 
@@ -1073,7 +1074,7 @@ void TexamExecutor::prepareToExam() {
         mW->innerWidget->moveExamToName();
   }
   m_snifferLocked = false;
-  m_canvas = new Tcanvas(mW->innerWidget, m_exam, mW);
+  m_canvas = new Tcanvas(mW->innerWidget, m_exam);
   connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
   m_canvas->startTip();
   if (m_exercise && !m_exam->melodies()) {
@@ -1280,9 +1281,9 @@ void TexamExecutor::stopExamSlot() {
 #else
     QColor c = Tcore::gl()->GfingerColor;
     c.setAlpha(30);
-    mW->setMessageBg(c);
+    STATUS->setBackground(c);
 #endif
-    mW->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration);
+    m_canvas->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration);
     return;
   }
   if (!m_isAnswered)
@@ -1326,10 +1327,10 @@ void TexamExecutor::stopExamSlot() {
 
 void TexamExecutor::closeExecutor() {
 #if !defined (Q_OS_ANDROID)
-	mW->setMessageBg(-1);
-	mW->setStatusMessage(QString());
+	STATUS->setBackground(-1);
+	STATUS->setMessage(QString());
 #endif
-  mW->setStatusMessage(tr("Such a pity."), 5000);
+  m_canvas->setStatusMessage(tr("Such a pity."), 5000);
 
 	m_canvas->clearCanvas();
 	clearWidgets();
@@ -1586,7 +1587,7 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
         if (m_melody->listened()[noteNr].pitch.isValid())
           m_canvas->detectedNoteTip(m_melody->listened()[noteNr].pitch);
         else
-          mW->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
+          m_canvas->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
       }
 		}
 	}
