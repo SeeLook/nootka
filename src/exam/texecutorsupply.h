@@ -82,8 +82,8 @@ public:
 
 			/** Check. are current guitar fret number and tuning different than exercise or exam level.
 			 * Adjust globals (tune and fret number have to be stored before) and
-			 * Displays message about changes, if any. */
-  static void checkGuitarParamsChanged(MainWindow* parent, Texam* exam);
+			 * displays message about changes, if any. */
+  static void checkGuitarParamsChanged(Texam* exam);
 
 			/** It is true when checkGuitarParamsChanged() obtained message to display.
 			 * It is used to inform MainWindow that status label is busy by the message. */

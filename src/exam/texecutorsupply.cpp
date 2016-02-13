@@ -26,7 +26,7 @@
 #include <tinitcorelib.h>
 #include <tscoreparams.h>
 #include <widgets/tintonationview.h>
-#include <mainwindow.h>
+#include <gui/tstatuslabel.h>
 #if !defined (Q_OS_ANDROID)
   #include <QMouseEvent>
   #include <iostream>
@@ -70,7 +70,7 @@ void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 }
 
 
-void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) {
+void TexecutorSupply::checkGuitarParamsChanged(Texam* exam) {
 	checkPlayCorrected(exam->level());
 	QString changesMessage;
 	if (exam->level()->instrument != e_noInstrument) { // when instrument is guitar it has a matter
@@ -98,8 +98,8 @@ void TexecutorSupply::checkGuitarParamsChanged(MainWindow* parent, Texam* exam) 
 #else
       QColor c = Qt::red;
       c.setAlpha(50);
-      parent->setMessageBg(c);
-      parent->setStatusMessage(changesMessage);
+      STATUS->setBackground(c);
+      STATUS->setMessage(changesMessage);
 #endif
 			m_paramsMessage = true;
 	} else
@@ -516,9 +516,7 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
       }
   } else { // for many key signatures
       if (m_randKey)
-        key = TkeySignature(m_randKey->get());
-      else 
-        qDebug() << "NO m_randKey WAS CREATED! DO YOU LIKE CRASHES SO MUCH?"; // TODO clear it when OK
+          key = TkeySignature(m_randKey->get());
       if (m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
           int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
           int patience = 0; // we are looking for suitable key
