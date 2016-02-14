@@ -27,7 +27,6 @@
 #include "trandmelody.h"
 #include "tpenalty.h"
 #include "texammelody.h"
-#include "mainwindow.h"
 #include <qtr.h>
 #include <level/tlevelselector.h>
 #include <tsound.h>
@@ -85,10 +84,10 @@ QString getExamFileName(Texam* e) {
 }
 
 
-TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
-  QObject(mainW),
+TexamExecutor::TexamExecutor(QObject* parent) :
+  QObject(parent),
   m_exam(0),
-  mW(mainW),
+  mW(MAINVIEW->mainWindow()),
   m_lockRightButt(false),
   m_goingClosed(false),
   m_snifferLocked(false),
@@ -99,6 +98,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
   m_blindCounter(0),
   m_rand(0)
 {
+}
+
+void TexamExecutor::init(QString examFile, Tlevel *lev) {
 	QString resultText;
 	TstartExamDlg::Eactions userAct;
 
@@ -131,7 +133,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 			m_exam = new Texam(&m_level, resultText); // resultText is userName
 #if !defined (Q_OS_ANDROID)
 			if (!fixLevelInstrument(m_level, QString(), Tcore::gl()->instrumentToFix, mW)) {
-						mW->clearAfterExam(e_failed);
+            emit examMessage(QStringLiteral("failed"));
 						deleteExam();
 						return;
 				}
@@ -154,7 +156,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 						!showExamSummary(mW, m_exam, true))
 #endif
         {
-						mW->clearAfterExam(e_failed);
+						emit examMessage(QStringLiteral("failed"));
 						deleteExam();
 						return;
 				}
@@ -162,15 +164,15 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 					if (err == Texam::e_file_not_valid)
 							QMessageBox::critical(mW, QString(), tr("File: %1 \n is not valid exam file!")
 																.arg(resultText));
-					mW->clearAfterExam(e_failed);
+					emit examMessage(QStringLiteral("failed"));
 					deleteExam();
 					return;
 			}
 	} else {
 			if (userAct == TstartExamDlg::e_levelCreator) {
-					mW->clearAfterExam(e_openCreator);
+					emit examMessage(QStringLiteral("creator"));
 			}	else
-					mW->clearAfterExam(e_failed);
+					emit examMessage(QStringLiteral("failed"));
 			deleteExam();
 			return;
 	}
@@ -181,9 +183,9 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	// ---------- End of checking ----------------------------------
 
 	if (m_exam->melodies())
-		mW->setSingleNoteMode(false);
+		emit examMessage(QStringLiteral("multiple"));
 	else
-		mW->setSingleNoteMode(true);
+		emit examMessage(QStringLiteral("single"));
 	m_supp = new TexecutorSupply(&m_level, this);
 	m_supp->createQuestionsList(m_questList);
   if (m_exam->melodies())
@@ -191,7 +193,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	if (m_questList.isEmpty()) {
 			QMessageBox::critical(mW, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
 			delete m_supp;
-			mW->clearAfterExam(e_failed);
+			emit examMessage(QStringLiteral("failed"));
 			deleteExam();
 			return;
 	}
@@ -201,7 +203,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
 		if (!m_supp->isGuitarOnlyPossible()) {
 				qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
-				mW->clearAfterExam(e_failed);
+				emit examMessage(QStringLiteral("failed"));
 				deleteExam();
 				return;
 		}
@@ -282,7 +284,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		clearWidgets();
 		if (m_blindCounter > 20) {
 				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further releases."));
-				mW->clearAfterExam(e_failed);
+				emit examMessage(QStringLiteral("failed"));
 				deleteExam();
 				return;
 		}
@@ -1014,12 +1016,7 @@ void TexamExecutor::prepareToExam() {
 #endif
   connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
-  disconnect(SCORE, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-  disconnect(GUITAR, &TfingerBoard::guitarClicked, mW, &MainWindow::guitarWasClicked);
-  disconnect(SOUND, &Tsound::noteStarted, mW, &MainWindow::soundWasStarted);
-  disconnect(SOUND, &Tsound::noteFinished, mW, &MainWindow::soundWasFinished);
-  disconnect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
-  disconnect(TOOLBAR->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
+  emit examMessage(QStringLiteral("disconnect")); // disconnect main window widgets
   if (m_exercise) {
     connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
     connect(m_exercise, SIGNAL(messageDisplayed()), this, SLOT(stopSound()));
@@ -1031,7 +1028,10 @@ void TexamExecutor::prepareToExam() {
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
 
-  mW->setSingleNoteMode(Tcore::gl()->S->isSingleNoteMode);
+  if (Tcore::gl()->S->isSingleNoteMode)
+    emit examMessage(QStringLiteral("single"));
+  else
+    emit examMessage(QStringLiteral("multiple"));
 #if defined (Q_OS_ANDROID) // remove/hide actions from main and score menus
   if (!Tcore::gl()->S->isSingleNoteMode) {
     TOOLBAR->playMelody()->setVisible(false);
@@ -1060,7 +1060,7 @@ void TexamExecutor::prepareToExam() {
     SOUND->pitchView()->enableAccuracyChange(false);
   }
   TnotePixmap::setDefaultClef(m_level.clef);
-  mW->updateSize(mW->centralWidget()->size());
+  emit examMessage(QStringLiteral("resize"));
   clearWidgets();
   if (Tcore::gl()->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
       GUITAR->createRangeBox(m_supp->loFret(), m_supp->hiFret());
@@ -1071,10 +1071,10 @@ void TexamExecutor::prepareToExam() {
 
   if (!m_exercise) {
     if (GUITAR->isVisible() && !m_level.canBeMelody())
-        mW->innerWidget->moveExamToName();
+        MAINVIEW->moveExamToName();
   }
   m_snifferLocked = false;
-  m_canvas = new Tcanvas(mW->innerWidget, m_exam);
+  m_canvas = new Tcanvas(MAINVIEW, m_exam);
   connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
   m_canvas->startTip();
   if (m_exercise && !m_exam->melodies()) {
@@ -1105,11 +1105,14 @@ void TexamExecutor::restoreAfterExam() {
   TnotePixmap::setDefaultClef(Tcore::gl()->S->clef);
   SOUND->pitchView()->setVisible(Tcore::gl()->L->soundViewEnabled);
   GUITAR->setVisible(Tcore::gl()->L->guitarEnabled);
-  mW->setSingleNoteMode(Tcore::gl()->S->isSingleNoteMode);
+  if (Tcore::gl()->S->isSingleNoteMode)
+    emit examMessage(QStringLiteral("single"));
+  else
+    emit examMessage(QStringLiteral("multiple"));
   #if defined (Q_OS_ANDROID) // revert actions
   if (!m_level.answerIsSound()) {
     SOUND->pitchView()->pauseAction()->setVisible(true);
-    mW->innerWidget->flyActions()->append(SOUND->pitchView()->pauseAction());
+    MAINVIEW->flyActions()->append(SOUND->pitchView()->pauseAction());
   }
 #endif
   SCORE->acceptSettings();
@@ -1128,20 +1131,15 @@ void TexamExecutor::restoreAfterExam() {
   if (m_canvas)
       m_canvas->deleteLater();
 
-  connect(SCORE, SIGNAL(noteChanged(int,Tnote)), mW, SLOT(noteWasClicked(int,Tnote)));
-  connect(GUITAR, &TfingerBoard::guitarClicked, mW, &MainWindow::guitarWasClicked);
-  connect(SOUND, &Tsound::noteStarted, mW, &MainWindow::soundWasStarted);
-  connect(SOUND, &Tsound::noteFinished, mW, &MainWindow::soundWasFinished);
   disconnect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
   disconnect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-  connect(TOOLBAR->startExamAct, SIGNAL(triggered()), mW, SLOT(startExamSlot()));
-  connect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), mW, SLOT(openLevelCreator()));
+  emit examMessage(QStringLiteral("connect"));
   SCORE->unLockScore();
   // unfortunately, unLockScore locks clef again
   SCORE->setClefDisabled(false);
   GUITAR->deleteRangeBox();
   SOUND->restoreAfterExam();
-  mW->clearAfterExam(e_finished);
+  emit examMessage(QStringLiteral("finished"));
 }
 
 
@@ -1164,7 +1162,7 @@ void TexamExecutor::createActions() {
 #if defined (Q_OS_ANDROID)
   if (!m_level.answerIsSound()) {
     SOUND->pitchView()->pauseAction()->setVisible(false);
-    mW->innerWidget->flyActions()->removeOne(SOUND->pitchView()->pauseAction());
+    MAINVIEW->flyActions()->removeOne(SOUND->pitchView()->pauseAction());
   }
 #endif
 	connect(TOOLBAR->nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
@@ -1217,7 +1215,7 @@ void TexamExecutor::exerciseToExam() {
 	m_canvas->clearCanvas();
 	m_canvas->startTip();
   if (GUITAR->isVisible() && !m_level.canBeMelody())
-    mW->innerWidget->moveExamToName();
+    MAINVIEW->moveExamToName();
 }
 
 
@@ -1317,7 +1315,7 @@ void TexamExecutor::stopExamSlot() {
           recentExams.prepend(m_exam->fileName());
           Tcore::gl()->config->setValue("recentExams", recentExams);
       }
-      if (!m_goingClosed) // if Nootka is closing don't show summary 
+      if (!m_goingClosed) // if Nootka is closing don't show summary
           showExamSummary(mW, m_exam, false);
     }
   }

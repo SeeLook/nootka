@@ -204,16 +204,44 @@ MainWindow::~MainWindow()
 //#######################     METHODS       ################################################
 //##########################################################################################
 
-void MainWindow::clearAfterExam(int examState) {
+void MainWindow::examMessageSlot(const QString& examState) {
+  if (examState.isEmpty())
+      return;
+
+  qDebug() << "message" << examState;
+  // First, handle executor demands during processing
+  if (examState == QLatin1String("single")) {
+      setSingleNoteMode(true);
+      return;
+  } else if (examState == QLatin1String("multiple")) {
+      setSingleNoteMode(false);
+      return;
+  } else if (examState == QLatin1String("resize")) {
+      updateSize(innerWidget->size());
+      return;
+  } else if (examState == QLatin1String("disconnect")) {
+      disconnect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+      disconnect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
+      disconnect(m_sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
+      disconnect(m_sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
+      disconnect(m_bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+      disconnect(m_bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+      return;
+  } else if (examState == QLatin1String("connect")) {
+      connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
+      connect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
+      connect(m_sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
+      connect(m_sound, &Tsound::noteFinished, this, &MainWindow::soundWasFinished);
+      connect(m_bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
+      connect(m_bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
+      return;
+  }
+
+  // Other messages are about finishing/closing
 	m_bar->actionsAfterExam();
 #if !defined (Q_OS_ANDROID)
-// 	setMessageBg(-1);
   m_statusLabel->setBackground(-1);
 #endif
-	if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
-			openLevelCreator();
-	else
-			m_sound->go();
 	innerWidget->takeExamViews();
 	m_progress = 0;
 	m_examResults = 0;
@@ -222,6 +250,10 @@ void MainWindow::clearAfterExam(int examState) {
 	updateSize(innerWidget->size());
   delete executor;
   m_deleteExecutor = true;
+  if (examState == QLatin1String("creator"))
+      QTimer::singleShot(500, [=] { openLevelCreator(); }); // open creator with delay to give executor time to finish his routines
+  else
+      m_sound->go();
 }
 
 //##########################################################################################
@@ -243,7 +275,9 @@ void MainWindow::openFile(QString runArg) {
       if (Texam::isExamVersion(hdr)) {
         prepareToExam();
         m_deleteExecutor = false;
-        executor = new TexamExecutor(this, runArg);
+        executor = new TexamExecutor(this);
+        connect(executor, &TexamExecutor::examMessage, this, &MainWindow::examMessageSlot);
+        executor->init(runArg);
         if (m_deleteExecutor)
           delete executor;
       }
@@ -337,7 +371,9 @@ void MainWindow::openLevelCreator(QString levelFile) {
     ls.selectLevel(levelNr);
     m_level = ls.getSelectedLevel();
     prepareToExam();
-    executor = new TexamExecutor(this, startExercise ? QLatin1String("exercise") : QString(), &m_level); // start exam
+    executor = new TexamExecutor(this);
+    connect(executor, &TexamExecutor::examMessage, this, &MainWindow::examMessageSlot);
+    executor->init(startExercise ? QLatin1String("exercise") : QString(), &m_level); // start exam
   }
   else
     m_sound->go(); // restore pitch detection
@@ -348,6 +384,8 @@ void MainWindow::startExamSlot() {
 	prepareToExam();
   m_deleteExecutor = false;
 	executor = new TexamExecutor(this);
+  connect(executor, &TexamExecutor::examMessage, this, &MainWindow::examMessageSlot);
+  executor->init();
   if (m_deleteExecutor)
     delete executor;
 }

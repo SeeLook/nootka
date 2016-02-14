@@ -51,8 +51,6 @@ class TprogressWidget;
  */
 class MainWindow : public QMainWindow
 {
-  friend class TexamExecutor;
-  friend class Tcanvas;
 
   Q_OBJECT
 
@@ -71,15 +69,13 @@ public slots:
 
 	void openFile(QString runArg); // opens *.nel or *.noo file
 	void createSettingsDialog();
-	void openLevelCreator(QString levelFile = "");
+	void openLevelCreator(QString levelFile = QString());
 	void startExamSlot();
 	void aboutSlot();
 	void analyseSlot();
 
 protected:
   QPointer<TexamExecutor> executor;
-
-	void clearAfterExam(int examState);
 
 	void updateSize(QSize newS); /**< Updates position and sizes of the widgets. */
 
@@ -93,6 +89,7 @@ protected:
 protected slots:
 	void showSupportDialog();
 	void updaterMessagesSlot(const QString& m = QString());
+  void examMessageSlot(const QString& examState);
 
       /** This slot is invoked when clef is changed by clicking score.
         * It adjust ambitus to score possibilities if clef is differ than default
