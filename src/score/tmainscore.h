@@ -19,7 +19,7 @@
 #ifndef TMAINSCORE_H
 #define TMAINSCORE_H
 
-#include "tmultiscore.h"
+#include <tmultiscore.h>
 #include <QtCore/qpointer.h>
 
 class Tmelody;

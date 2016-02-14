@@ -22,6 +22,7 @@ set(LIB_NOOTKASCORE_SRC
 	tnotecontrol.cpp
 	tscorelines.cpp
 	tsimplescore.cpp
+	tmultiscore.cpp
 )
 
 add_library(NootkaScore SHARED ${LIB_NOOTKASCORE_SRC} )
