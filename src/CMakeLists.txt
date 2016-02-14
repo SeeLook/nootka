@@ -72,7 +72,6 @@ set(NOOTKA_SRC
 	notename/tnotenamelabel.cpp
 	notename/tnametip.cpp
 
-	score/tmultiscore.cpp
 	score/tmainscore.cpp
 	score/tscoreactions.cpp
 

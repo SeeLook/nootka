@@ -17,13 +17,13 @@
  ***************************************************************************/
 
 #include "tmultiscore.h"
-#include <tscorestaff.h>
-#include <tscore5lines.h>
-#include <tscorekeysignature.h>
-#include <tscorescene.h>
-#include <tscorenote.h>
-#include <tscoreclef.h>
-#include <tnotecontrol.h>
+#include "tscorestaff.h"
+#include "tscore5lines.h"
+#include "tscorekeysignature.h"
+#include "tscorescene.h"
+#include "tscorenote.h"
+#include "tscoreclef.h"
+#include "tnotecontrol.h"
 #include <QtWidgets/QtWidgets>
 
 
