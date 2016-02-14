@@ -42,7 +42,7 @@ class Tcanvas;
 class QTimer;
 class TexecutorSupply;
 class Texam;
-class MainWindow;
+class QMainWindow;
 class QAction;
 
 
@@ -56,9 +56,10 @@ class TexamExecutor : public QObject
 	Q_OBJECT
 
 public:
-	explicit TexamExecutor(MainWindow *mainW, QString examFile = "", Tlevel *lev = 0);
-
+	explicit TexamExecutor(QObject* parent);
 	~TexamExecutor();
+
+  void init(QString examFile = QString(), Tlevel *lev = 0);
 
 	struct TanswerRequire {
 			bool octave;
@@ -66,22 +67,25 @@ public:
 			bool key;
 	};
 
-	enum Estate {
-		e_starting = 0,
-		e_failed, 
-		e_openCreator,
-		e_questioning,
-		e_answering,
-		e_saveing,
-		e_finished
-	}; /**< Describes state of exam executing */
-
 	bool closeNootka();
 	bool isAnswered() { return m_isAnswered; }
 	bool isExercise() { return (bool)m_exercise; } /** @p TRUE when exercise or @p FALSE when exam. */
 
+signals:
+      /**< Text messages sent to Nootka main window with demands:
+       * - 'failed' - when exam could not be started
+       * - 'finished' - when exam was finished
+       * - 'creator' - when start exam dialog wants to open level creator
+       * - 'single' - switch to single note mode
+       * - 'multiple' - switch to multiple note mode
+       * - 'resize' - update sizes of main window widgets
+       * - 'disconnect' - remove signal/slot connections between widgets - executor will handle them itself
+       * - 'connect' - connect main window widgets again
+       */
+  void examMessage(const QString&);
+
 protected:
-	MainWindow *mW;
+	QMainWindow *mW;
 	void deleteExam();
 
 protected slots:
