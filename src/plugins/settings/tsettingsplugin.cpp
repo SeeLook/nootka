@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,22 +19,24 @@
 
 #include "tsettingsplugin.h"
 #include "tsettingsdialog.h"
-#include <QTimer>
+#include "tsettingsdemands.h"
+
 
 void TsettingsPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
   EsettingsMode mode = e_settings;
-  if (argument == "exam")
-    mode = e_exam;
-  else if (argument == "exercise")
-    mode = e_exercise;
+  if (argument == QLatin1String("exam"))
+      mode = e_exam;
+  else if (argument == QLatin1String("exercise"))
+      mode = e_exercise;
   m_settings = new TsettingsDialog(parent, mode);
+  TsettingsDemands::Emessage lastValue;
   if (m_settings->exec() == QDialog::Accepted)
-    m_lastWord = "Accepted";
+      lastValue = TsettingsDemands::e_accepted;
   else
-    m_lastWord = "Canceled";
+      lastValue = TsettingsDemands::e_canceled;
   if (m_settings->resetToDefaults())
-    m_lastWord = "Reset";
-  ob->emitMessage(m_lastWord);
+      lastValue = TsettingsDemands::e_reset;
+  ob->emitValue(lastValue);
 }
 
 

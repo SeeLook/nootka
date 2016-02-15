@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,12 +19,12 @@
 #ifndef TSETTINGSPLUGIN_H
 #define TSETTINGSPLUGIN_H
 
-#include <QObject>
+
 #include <plugins/tplugininterface.h>
 
 class TsettingsDialog;
 
-/** 
+/**
  * Dialog window with Nootka settings.
  * It takes just text argument 'exercise' or 'exam' to adjust contents.
  */
@@ -33,18 +33,20 @@ class TsettingsPlugin : public QObject, public TpluginInterface
   Q_OBJECT
   Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
   Q_INTERFACES(TpluginInterface)
-  
+
 public:
   virtual ~TsettingsPlugin();
-  
-  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
-  
-  virtual QString& lastWord() { return m_lastWord; }
-  
+
+  virtual void init(const QString& argument = QString(), TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+
+  virtual QString lastWord() { return QString(); }
+
+protected:
+  void backValueSlot(int v);
+
 private:
   TsettingsDialog         *m_settings;
-  QString                  m_lastWord;
-  
+
 };
 
 #endif // TSETTINGSPLUGIN_H

@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
- *   tomaszbojczuk@gmail.com                                               *
+ *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,39 +16,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TUPDATERPLUGIN_H
-#define TUPDATERPLUGIN_H
+#ifndef TSETTINGSDEMANDS_H
+#define TSETTINGSDEMANDS_H
 
-
-#include <plugins/tplugininterface.h>
-
-class TupdateChecker;
-
-/**
- * This plugin perform update checking for new Nootka versions.
- * It sends signals through @p ob QObject about current state of checking process
- */
-class TupdaterPlugin : public QObject, public TpluginInterface
+class TsettingsDemands
 {
-  Q_OBJECT
-  Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
-  Q_INTERFACES(TpluginInterface)
 
-  virtual ~TupdaterPlugin();
-
-  virtual void init(const QString& argument = QString(), TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
-
-  virtual QString lastWord() { return m_lastWord; }
-
-protected:
-  void messageSlot(const QString& m);
-
-private:
-  TpluginObject         *m_sender;
-  TupdateChecker        *m_updater;
-  QString                m_lastWord;
-
+public:
+  enum Emessage {
+    e_accepted = 0, // settings were accepted
+    e_canceled = 1, // settings canceled
+    e_reset = 2     // demand for reset all settings
+  };
 };
 
-
-#endif // TUPDATERPLUGIN_H
+#endif // TSETTINGSDEMANDS_H

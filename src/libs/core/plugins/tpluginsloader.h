@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 #define TPLUGINSLOADER_H
 
 #include <nootkacoreglobal.h>
-#include <QObject>
+#include <QtCore/qobject.h>
 #include "tplugininterface.h"
 
 
@@ -44,16 +44,18 @@ public:
   virtual ~TpluginsLoader();
 
       /** Plugin type. */
-  enum Etype { e_level = 0, e_settings = 1, e_analyzer = 2, e_updater = 3, e_wizard = 4, e_about = 5 };
+  enum Etype { e_level = 0, e_settings = 1, e_analyzer = 2, e_updater = 3, e_wizard = 4, e_about = 5, e_exam = 6 };
 
-  bool load(Etype pluginType); /** Loads given plugin type and returns @p TRUE when loaded properly. */
-  bool init(const QString& argument = QString(), QWidget* parent = 0, Texam* exam = 0); /** Starts plugin routines. */
-  QString& lastWord() { return m_lastWord; } /**< Returns last plugin string. */
+  bool load(Etype pluginType); /**< Loads given plugin type and returns @p TRUE when loaded properly. */
+  bool init(const QString& argument = QString(), QWidget* parent = 0, Texam* exam = 0); /**< Starts plugin routines. */
+  QString lastWord() { return m_lastWord; } /**< Returns last plugin string. */
+  int lastValue() { return m_lastValue; } /**< Returns last value of plugin or -1 when plugin doesn't send values  */
 
   TpluginObject* node() { return m_signalNode; } /**< Object through which a plugin can sends signals */
 
 protected:
   void pluginMessage(const QString& m) { m_lastWord = m; }
+  void pluginValue(int v) { m_lastValue = v; }
 
 private:
   TpluginInterface     *m_plugInterface;
@@ -61,6 +63,7 @@ private:
   TpluginObject        *m_signalNode;
   Etype                 m_type;
   QString               m_lastWord;
+  int                   m_lastValue;
 };
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,17 +18,15 @@
 
 #ifndef TLEVELPLUGIN_H
 #define TLEVELPLUGIN_H
-#include <QObject>
-#include <QtPlugin>
-#include <QStringList>
-#include <plugins/tplugininterface.h>
 
+
+#include <plugins/tplugininterface.h>
 
 
 class TlevelCreatorDlg;
 
 
-/** 
+/**
  * This plugin loads the level creator.
  * @p args given in @p init() method can contain path to level file
  * @p lastWord() returns level creator communicate with level name to start exam or exercise
@@ -39,19 +37,19 @@ class TlevelPlugin : public QObject, public TpluginInterface
   Q_OBJECT
   Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
   Q_INTERFACES(TpluginInterface)
-  
+
 public:
   virtual ~TlevelPlugin();
-  
+
       /** For level plugin @p ob and @p exam are unused */
-  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
-  
-  virtual QString& lastWord() { return m_lastWord; }
-    
+  virtual void init(const QString& argument = QString(), TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+
+  virtual QString lastWord() { return m_lastWord; }
+
 private:
   TlevelCreatorDlg        *m_creator;
   QString                  m_lastWord;
-  
+
 };
 
 
