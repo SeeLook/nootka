@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,7 @@
 
 class TanalysDialog;
 
-/** 
+/**
  * This plugin loads Nootka analyzer dialog
  */
 class TanalyzerPlugin : public QObject, public TpluginInterface
@@ -32,18 +32,17 @@ class TanalyzerPlugin : public QObject, public TpluginInterface
   Q_OBJECT
   Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
   Q_INTERFACES(TpluginInterface)
-  
+
 public:
   virtual ~TanalyzerPlugin();
-  
-  virtual void init(const QString& argument = "", TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
-  
-  virtual QString& lastWord() { return m_emptyText; } /** So far analyzer returns nothing */
-  
+
+  virtual void init(const QString& argument = QString(), TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+
+  virtual QString lastWord() { return QString(); } /** So far analyzer returns nothing */
+
 private:
   TanalysDialog       *m_analyzer;
-  QString              m_emptyText;
-  
+
 };
 
 #endif // TANALYZERPLUGIN_H

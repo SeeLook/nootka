@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,14 +19,15 @@
 
 #include "tpluginsloader.h"
 #include "tplugininterface.h"
-#include <QStringList>
-#include <QDebug>
-#include <QPluginLoader>
+#include <QtCore/qstringlist.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qpluginloader.h>
 
 
 TpluginsLoader::TpluginsLoader(QObject* parent) :
   QObject(parent),
-  m_plugInterface(0)
+  m_plugInterface(0),
+  m_lastValue(-1)
 {
   m_loader = new QPluginLoader(this);
   m_signalNode = new TpluginObject(this);
@@ -36,8 +37,8 @@ TpluginsLoader::TpluginsLoader(QObject* parent) :
 TpluginsLoader::~TpluginsLoader()
 {
   if (m_loader->isLoaded()) {
-   if (!m_loader->unload())
-     qDebug() << "Cannot unload plugin" << m_loader->fileName() << qPrintable(m_loader->errorString());
+    if (!m_loader->unload())
+      qDebug() << "Cannot unload plugin" << m_loader->fileName() << qPrintable(m_loader->errorString());
   }
 }
 
@@ -46,7 +47,8 @@ bool TpluginsLoader::load(TpluginsLoader::Etype pluginType) {
   m_type = pluginType;
   QStringList names;
   names << QStringLiteral("Level") << QStringLiteral("Settings") << QStringLiteral("Analyzer")
-        << QStringLiteral("Updater") << QStringLiteral("Wizard") << QStringLiteral("About") ;
+        << QStringLiteral("Updater") << QStringLiteral("Wizard") << QStringLiteral("About")
+        << QStringLiteral("Exam");
   QString f = QStringLiteral("Nootka") + names[(int)pluginType] + QStringLiteral("Plugin");
 #if defined (Q_OS_WIN)
   f.prepend(QStringLiteral("lib"));
@@ -67,6 +69,7 @@ bool TpluginsLoader::init(const QString& argument, QWidget* parent, Texam* exam)
       m_plugInterface = qobject_cast<TpluginInterface*>(plugin);
       if (m_plugInterface) {
         connect(m_signalNode, &TpluginObject::message, this, &TpluginsLoader::pluginMessage);
+        connect(m_signalNode, &TpluginObject::value, this, &TpluginsLoader::pluginValue);
         m_plugInterface->init(argument, m_signalNode, parent, exam);
         return true;
       }
