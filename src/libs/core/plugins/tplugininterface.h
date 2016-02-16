@@ -22,6 +22,47 @@
 #include <nootkacoreglobal.h>
 #include <QtCore/qplugin.h>
 
+namespace Torders {
+      /**< Enumeration messages sends between @class TexamPlugin and @class MainWindow with demands:
+       * @p e_examFailed - when exam could not be started
+       * @p e_examFinished - when exam was finished
+       * @p e_examAskCreator - when start exam dialog wants to open level creator
+       * @p e_examSingle - switch to single note mode
+       * @p e_examMultiple - switch to multiple note mode
+       * @p e_examResize - update sizes of main window widgets
+       * @p e_examDisconnect - remove signal/slot connections between widgets - executor will handle them itself
+       * @p e_examConnect - connect main window widgets again
+       * Orders sent to plugin
+       * @p e_examAllowClose - when exam is pending and executor checked that it is allowed
+       * @p e_examSettings - when settings dialog window is going to be opened
+       */
+  enum Eexam {
+    e_examFailed = 0,     //when exam could not be started
+    e_examFinished = 1,   // when exam was finished
+    e_examAskCreator = 2, // when start exam dialog wants to open level creator
+    e_examSingle = 3,     // switch to single note mode
+    e_examMultiple = 4,   // switch to multiple note mode
+    e_examResize = 5,     // update sizes of main window widgets
+    e_examDisconnect = 6, // remove signal/slot connections between widgets - executor will handle them itself
+    e_examConnect = 7,    // connect main window widgets again
+    e_examAllowClose = 8, // when exam is pending and executor checked that it is allowed
+    // demands sends to exam executor
+    e_examClose = 100,     // when main window is going to close during exam/exercise
+    e_examSettings = 101,  // when settings dialog window is going to be opened
+  };
+
+      /** Enumeration with results returned by settings plugin
+      * @p e_settingsAccept - settings were accepted
+      * @p e_canceled - settings canceled
+      * @p e_reset - demand for reset all settings
+      */
+  enum Esettings {
+    e_settingsAccept = 0,   // settings were accepted
+    e_settingsCancel = 1, // settings canceled
+    e_settingsReset = 2     // demand for reset all settings
+  };
+}
+
 class Texam;
 
 /**
@@ -54,7 +95,7 @@ signals:
 /**
  * Abstract class defining plugin interface to load extra dialog windows
  */
-class NOOTKACORE_EXPORT TpluginInterface 
+class NOOTKACORE_EXPORT TpluginInterface
 {
 
 public:

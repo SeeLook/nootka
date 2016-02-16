@@ -19,7 +19,6 @@
 
 #include "tsettingsplugin.h"
 #include "tsettingsdialog.h"
-#include "tsettingsdemands.h"
 
 
 void TsettingsPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
@@ -29,13 +28,13 @@ void TsettingsPlugin::init(const QString& argument, TpluginObject* ob, QWidget* 
   else if (argument == QLatin1String("exercise"))
       mode = e_exercise;
   m_settings = new TsettingsDialog(parent, mode);
-  TsettingsDemands::Emessage lastValue;
+  Torders::Esettings lastValue;
   if (m_settings->exec() == QDialog::Accepted)
-      lastValue = TsettingsDemands::e_accepted;
+      lastValue = Torders::e_settingsAccept;
   else
-      lastValue = TsettingsDemands::e_canceled;
+      lastValue = Torders::e_settingsCancel;
   if (m_settings->resetToDefaults())
-      lastValue = TsettingsDemands::e_reset;
+      lastValue = Torders::e_settingsReset;
   ob->emitValue(lastValue);
 }
 

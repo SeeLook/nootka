@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,32 +12,16 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TANIMEDTEXTITEM_H
-#define TANIMEDTEXTITEM_H
-
-#include <QObject>
-#include <QGraphicsSimpleTextItem>
+#include <QtCore/qglobal.h>
 
 
-class TanimedTextItem : public QObject, public QGraphicsSimpleTextItem
-{
-    Q_OBJECT
-    Q_PROPERTY(int alpha READ alpha WRITE setAlpha)
-    Q_PROPERTY(qreal scale READ scale WRITE setScale)
-    Q_PROPERTY(QPointF pos READ pos WRITE setPos)
-    
-public:
-  TanimedTextItem();
-  virtual ~TanimedTextItem();
-  int alpha();
-  void setAlpha(int al);
-  
-protected:
-  virtual void hoverEnterEvent(QGraphicsSceneHoverEvent*);
-};
+#if defined(NOOTKAMAIN_LIBRARY)
+#  define NOOTKAMAIN_EXPORT Q_DECL_EXPORT
+#else
+#  define NOOTKAMAIN_EXPORT Q_DECL_IMPORT
+#endif
 
-#endif // TANIMEDTEXTITEM_H

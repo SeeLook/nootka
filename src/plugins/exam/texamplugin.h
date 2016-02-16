@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,32 +16,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tanimedtextitem.h"
-#include <QPen>
+#ifndef TEXAMPLUGIN_H
+#define TEXAMPLUGIN_H
 
-TanimedTextItem::TanimedTextItem() :
-  QGraphicsSimpleTextItem()
+#include <QtCore/qobject.h>
+#include <plugins/tplugininterface.h>
+
+class TexamExecutor;
+class Tlevel;
+
+/**
+ * Exam executing plugin
+ */
+class TexamPlugin : public QObject, public TpluginInterface
 {
-  setAcceptHoverEvents(true);
-}
+  Q_OBJECT
+  Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
+  Q_INTERFACES(TpluginInterface)
 
-TanimedTextItem::~TanimedTextItem()
-{}
+public:
+  virtual ~TexamPlugin();
 
-int TanimedTextItem::alpha() {
-  return pen().color().alpha();
-}
+  virtual void init(const QString& argument = QString(), TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
+  virtual QString lastWord() { return QString(); } // so far unused
 
-void TanimedTextItem::setAlpha(int al) {
-  QColor cc = brush().color();
-  cc.setAlpha(al);
-  setBrush(cc);
-}
+protected:
+  void backValueSlot(int v);
 
+private:
+  TpluginObject           *m_sender;
+  QWidget                 *m_parentWidget;
+  TexamExecutor           *m_executor;
+  Tlevel                  *m_level;
+};
 
-void TanimedTextItem::hoverEnterEvent(QGraphicsSceneHoverEvent* ) {
-  hide();
-}
-
-
-
+#endif // TEXAMPLUGIN_H

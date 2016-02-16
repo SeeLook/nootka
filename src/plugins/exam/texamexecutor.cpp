@@ -24,12 +24,13 @@
 #include "tglobalexamstore.h"
 #include "texercises.h"
 #include "tequalrand.h"
-#include "trandmelody.h"
 #include "tpenalty.h"
 #include "texammelody.h"
+#include "texamplugin.h"
 #include <qtr.h>
 #include <level/tlevelselector.h>
 #include <tsound.h>
+#include <exam/trandmelody.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
 #include <exam/tattempt.h>
@@ -133,7 +134,7 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 			m_exam = new Texam(&m_level, resultText); // resultText is userName
 #if !defined (Q_OS_ANDROID)
 			if (!fixLevelInstrument(m_level, QString(), Tcore::gl()->instrumentToFix, mW)) {
-            emit examMessage(QStringLiteral("failed"));
+            emit examMessage(Torders::e_examFailed);
 						deleteExam();
 						return;
 				}
@@ -156,7 +157,7 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 						!showExamSummary(mW, m_exam, true))
 #endif
         {
-						emit examMessage(QStringLiteral("failed"));
+						emit examMessage(Torders::e_examFailed);
 						deleteExam();
 						return;
 				}
@@ -164,15 +165,15 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 					if (err == Texam::e_file_not_valid)
 							QMessageBox::critical(mW, QString(), tr("File: %1 \n is not valid exam file!")
 																.arg(resultText));
-					emit examMessage(QStringLiteral("failed"));
+					emit examMessage(Torders::e_examFailed);
 					deleteExam();
 					return;
 			}
 	} else {
 			if (userAct == TstartExamDlg::e_levelCreator) {
-					emit examMessage(QStringLiteral("creator"));
+					emit examMessage(Torders::e_examAskCreator);
 			}	else
-					emit examMessage(QStringLiteral("failed"));
+					emit examMessage(Torders::e_examFailed);
 			deleteExam();
 			return;
 	}
@@ -183,9 +184,9 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 	// ---------- End of checking ----------------------------------
 
 	if (m_exam->melodies())
-		emit examMessage(QStringLiteral("multiple"));
+		emit examMessage(Torders::e_examMultiple);
 	else
-		emit examMessage(QStringLiteral("single"));
+		emit examMessage(Torders::e_examSingle);
 	m_supp = new TexecutorSupply(&m_level, this);
 	m_supp->createQuestionsList(m_questList);
   if (m_exam->melodies())
@@ -193,7 +194,7 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 	if (m_questList.isEmpty()) {
 			QMessageBox::critical(mW, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
 			delete m_supp;
-			emit examMessage(QStringLiteral("failed"));
+			emit examMessage(Torders::e_examFailed);
 			deleteExam();
 			return;
 	}
@@ -203,7 +204,7 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 	if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
 		if (!m_supp->isGuitarOnlyPossible()) {
 				qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
-				emit examMessage(QStringLiteral("failed"));
+				emit examMessage(Torders::e_examFailed);
 				deleteExam();
 				return;
 		}
@@ -284,7 +285,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		clearWidgets();
 		if (m_blindCounter > 20) {
 				QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further releases."));
-				emit examMessage(QStringLiteral("failed"));
+				emit examMessage(Torders::e_examFailed);
 				deleteExam();
 				return;
 		}
@@ -1016,7 +1017,7 @@ void TexamExecutor::prepareToExam() {
 #endif
   connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
-  emit examMessage(QStringLiteral("disconnect")); // disconnect main window widgets
+  emit examMessage(Torders::e_examDisconnect); // disconnect main window widgets
   if (m_exercise) {
     connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
     connect(m_exercise, SIGNAL(messageDisplayed()), this, SLOT(stopSound()));
@@ -1029,9 +1030,9 @@ void TexamExecutor::prepareToExam() {
   m_glStore->prepareGlobalsToExam(m_level);
 
   if (Tcore::gl()->S->isSingleNoteMode)
-    emit examMessage(QStringLiteral("single"));
+    emit examMessage(Torders::e_examSingle);
   else
-    emit examMessage(QStringLiteral("multiple"));
+    emit examMessage(Torders::e_examMultiple);
 #if defined (Q_OS_ANDROID) // remove/hide actions from main and score menus
   if (!Tcore::gl()->S->isSingleNoteMode) {
     TOOLBAR->playMelody()->setVisible(false);
@@ -1060,7 +1061,7 @@ void TexamExecutor::prepareToExam() {
     SOUND->pitchView()->enableAccuracyChange(false);
   }
   TnotePixmap::setDefaultClef(m_level.clef);
-  emit examMessage(QStringLiteral("resize"));
+  emit examMessage(Torders::e_examResize);
   clearWidgets();
   if (Tcore::gl()->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
       GUITAR->createRangeBox(m_supp->loFret(), m_supp->hiFret());
@@ -1106,9 +1107,9 @@ void TexamExecutor::restoreAfterExam() {
   SOUND->pitchView()->setVisible(Tcore::gl()->L->soundViewEnabled);
   GUITAR->setVisible(Tcore::gl()->L->guitarEnabled);
   if (Tcore::gl()->S->isSingleNoteMode)
-    emit examMessage(QStringLiteral("single"));
+    emit examMessage(Torders::e_examSingle);
   else
-    emit examMessage(QStringLiteral("multiple"));
+    emit examMessage(Torders::e_examMultiple);
   #if defined (Q_OS_ANDROID) // revert actions
   if (!m_level.answerIsSound()) {
     SOUND->pitchView()->pauseAction()->setVisible(true);
@@ -1133,13 +1134,13 @@ void TexamExecutor::restoreAfterExam() {
 
   disconnect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
   disconnect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-  emit examMessage(QStringLiteral("connect"));
+  emit examMessage(Torders::e_examConnect);
   SCORE->unLockScore();
   // unfortunately, unLockScore locks clef again
   SCORE->setClefDisabled(false);
   GUITAR->deleteRangeBox();
   SOUND->restoreAfterExam();
-  emit examMessage(QStringLiteral("finished"));
+  emit examMessage(Torders::e_examFinished);
 }
 
 
@@ -1628,10 +1629,10 @@ void TexamExecutor::tipButtonSlot(const QString& name) {
 
 
 void TexamExecutor::deleteExam() {
-		if (m_exam) {
-			delete m_exam;
-			m_exam = 0;
-		}
+  if (m_exam) {
+    delete m_exam;
+    m_exam = 0;
+  }
 }
 
 

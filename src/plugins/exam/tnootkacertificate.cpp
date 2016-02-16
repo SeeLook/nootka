@@ -19,7 +19,7 @@
 
 #include "tnootkacertificate.h"
 #include <exam/texam.h>
-#include "texamview.h"
+#include <exam/texamview.h>
 #include <exam/tlevel.h>
 #include <graphics/tgraphicstexttip.h>
 #include <graphics/tnotepixmap.h>

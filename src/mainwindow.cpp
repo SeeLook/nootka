@@ -17,16 +17,15 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
-#include "score/tmainscore.h"
-#include "guitar/tfingerboard.h"
-#include "notename/tnotename.h"
-#include "gui/tmainview.h"
-#include "gui/ttoolbar.h"
-#include "gui/tmenu.h"
-#include "gui/tmelman.h"
-#include "exam/tprogresswidget.h"
-#include "exam/texamview.h"
-#include "exam/texamexecutor.h"
+#include <score/tmainscore.h>
+#include <guitar/tfingerboard.h>
+#include <notename/tnotename.h>
+#include <gui/tmainview.h>
+#include <gui/ttoolbar.h>
+#include <gui/tmenu.h>
+#include <gui/tmelman.h>
+#include <exam/tprogresswidget.h>
+#include <exam/texamview.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
 #include <music/tchunk.h>
@@ -39,7 +38,7 @@
 #else
   #include "gui/tstatuslabel.h"
 #endif
-#include <level/tlevelselector.h>
+#include <exam/tlevel.h>
 #include <plugins/tpluginsloader.h>
 #include <QtWidgets/QtWidgets>
 
@@ -156,10 +155,10 @@ MainWindow::MainWindow(QWidget *parent) :
   m_touchMessage = new TtouchMessage();
   innerWidget->scene()->addItem(m_touchMessage);
 #else
-  innerWidget = new TmainView(gl->L, m_bar, m_statusLabel, m_pitchView, m_score, m_guitar, m_noteName, this);
+  m_innerWidget = new TmainView(gl->L, m_bar, m_statusLabel, m_pitchView, m_score, m_guitar, m_noteName, this);
 #endif
-  setCentralWidget(innerWidget);
-  Tmenu::setMainWidget(innerWidget);
+  setCentralWidget(m_innerWidget);
+  Tmenu::setMainWidget(m_innerWidget);
 //-------------------------------------------------------------------
   m_levelCreatorExist = false;
 
@@ -173,7 +172,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
   connect(m_bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
   connect(m_score, &TmainScore::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
-  connect(innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
+  connect(m_innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
 #endif
   setSingleNoteMode(gl->S->isSingleNoteMode);
 
@@ -185,7 +184,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
   connect(m_score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
   connect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
-  connect(innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
+  connect(m_innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
 }
 
 
@@ -204,22 +203,18 @@ MainWindow::~MainWindow()
 //#######################     METHODS       ################################################
 //##########################################################################################
 
-void MainWindow::examMessageSlot(const QString& examState) {
-  if (examState.isEmpty())
-      return;
-
-  qDebug() << "message" << examState;
-  // First, handle executor demands during processing
-  if (examState == QLatin1String("single")) {
+void MainWindow::examMessageSlot(int demand) {
+// First, handle executor demands during processing
+  if (demand == Torders::e_examSingle) {
       setSingleNoteMode(true);
       return;
-  } else if (examState == QLatin1String("multiple")) {
+  } else if (demand == Torders::e_examMultiple) {
       setSingleNoteMode(false);
       return;
-  } else if (examState == QLatin1String("resize")) {
-      updateSize(innerWidget->size());
+  } else if (demand == Torders::e_examResize) {
+      updateSize(m_innerWidget->size());
       return;
-  } else if (examState == QLatin1String("disconnect")) {
+  } else if (demand == Torders::e_examDisconnect) {
       disconnect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
       disconnect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
       disconnect(m_sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
@@ -227,7 +222,7 @@ void MainWindow::examMessageSlot(const QString& examState) {
       disconnect(m_bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
       disconnect(m_bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
       return;
-  } else if (examState == QLatin1String("connect")) {
+  } else if (demand == Torders::e_examConnect) {
       connect(m_score, SIGNAL(noteChanged(int,Tnote)), this, SLOT(noteWasClicked(int,Tnote)));
       connect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
       connect(m_sound, &Tsound::noteStarted, this, &MainWindow::soundWasStarted);
@@ -235,23 +230,25 @@ void MainWindow::examMessageSlot(const QString& examState) {
       connect(m_bar->levelCreatorAct, SIGNAL(triggered()), this, SLOT(openLevelCreator()));
       connect(m_bar->startExamAct, SIGNAL(triggered()), this, SLOT(startExamSlot()));
       return;
+  } else if (demand == Torders::e_examAllowClose) {
+      m_executorAllowsClose = true;
+      return;
   }
 
-  // Other messages are about finishing/closing
+// Other messages are about finishing/closing
 	m_bar->actionsAfterExam();
 #if !defined (Q_OS_ANDROID)
   m_statusLabel->setBackground(-1);
 #endif
-	innerWidget->takeExamViews();
+	m_innerWidget->takeExamViews();
 	m_progress = 0;
 	m_examResults = 0;
 	if (m_score->insertMode() != TmultiScore::e_single)
-		m_bar->setMelodyButtonVisible(true);
-	updateSize(innerWidget->size());
-  delete executor;
-  m_deleteExecutor = true;
-  if (examState == QLatin1String("creator"))
-      QTimer::singleShot(500, [=] { openLevelCreator(); }); // open creator with delay to give executor time to finish his routines
+      m_bar->setMelodyButtonVisible(true);
+	updateSize(m_innerWidget->size());
+  m_examPlugin->deleteLater();
+  if (demand == Torders::e_examAskCreator)
+      QTimer::singleShot(500, [=]{ openLevelCreator(); }); // open creator with delay to give executor time to finish his routines
   else
       m_sound->go();
 }
@@ -260,7 +257,7 @@ void MainWindow::examMessageSlot(const QString& examState) {
 //#######################     PUBLIC SLOTS       ###########################################
 //##########################################################################################
 void MainWindow::openFile(QString runArg) {
-  if (executor || m_levelCreatorExist)
+  if (m_examPlugin || m_levelCreatorExist)
     return;
   if (QFile::exists(runArg)) {
     QFile file(runArg);
@@ -273,13 +270,14 @@ void MainWindow::openFile(QString runArg) {
     file.close();
     if (Texam::couldBeExam(hdr)) {
       if (Texam::isExamVersion(hdr)) {
-        prepareToExam();
-        m_deleteExecutor = false;
-        executor = new TexamExecutor(this);
-        connect(executor, &TexamExecutor::examMessage, this, &MainWindow::examMessageSlot);
-        executor->init(runArg);
-        if (m_deleteExecutor)
-          delete executor;
+//         prepareToExam();
+        runArg.prepend(QLatin1String("file:")); // exam file path starts with 'file:' text
+        startExamPlugin(runArg);
+//         m_examPlugin = new TpluginsLoader(this);
+//         if (m_examPlugin->load(TpluginsLoader::e_exam)) {
+//             connect(m_examPlugin->node(), &TpluginObject::value, this, &MainWindow::examMessageSlot);
+//             m_examPlugin->init(runArg, this);
+//         }
       }
     } else {
       if (Tlevel::couldBeLevel(hdr)) {
@@ -295,37 +293,29 @@ void MainWindow::createSettingsDialog() {
 	if (m_score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
 	QString args;
-	if (executor) {
-		if (executor->isExercise())
-			args = QStringLiteral("exercise");
-		else
-			args = QStringLiteral("exam");
-		executor->prepareToSettings();
-	} else {
+  if (m_examPlugin) {
+      m_examPlugin->node()->emitBackValue(Torders::e_examSettings);
+      return; // exam plugin will invoke settings plugin itself
+  } else {
 			if (m_score->insertMode() == TmultiScore::e_record)
 				m_melButt->recordMelodySlot(); // switch to multi mode
 			m_sound->prepareToConf();
 	}
   TpluginsLoader *loader = new TpluginsLoader();
-  if (loader->load(TpluginsLoader::e_settings)) {
-    loader->init(args, this);
-  }
-	QString lastWord = loader->lastWord();
-	delete loader;
-		if (lastWord.contains(QLatin1String("Accepted"))) {
-			if (executor) {
-				executor->settingsAccepted();
-				return;
-			}
+  if (loader->load(TpluginsLoader::e_settings))
+      loader->init(args, this);
+	Torders::Esettings lastValue = (Torders::Esettings)loader->lastValue();
+	loader->deleteLater();
+		if (lastValue == Torders::e_settingsAccept) {
 			m_isPlayerFree = false;
 			m_sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);
 			m_score->acceptSettings();
-			updateSize(innerWidget->size());
+			updateSize(m_innerWidget->size());
 			if (gl->L->guitarEnabled && gl->instrument != e_noInstrument)
 					m_guitar->acceptSettings(); //refresh guitar
 			m_bar->setBarIconStyle(gl->L->iconTextOnToolBar, m_bar->iconSize().width());
-			innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
+			m_innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
 #if !defined (Q_OS_ANDROID)
 			m_statusLabel->setVisible(gl->L->hintsBarEnabled);
 #endif
@@ -334,11 +324,11 @@ void MainWindow::createSettingsDialog() {
       if (gl->S->isSingleNoteMode) // refresh note name
         m_noteName->setNoteName(m_noteName->getNoteName());
 			m_isPlayerFree = true;
-	} else if (lastWord.contains(QLatin1String("Reset"))) {
+	} else if (lastValue == Torders::e_settingsReset) {
       resetConfig = true;
       close();
   } else { // settings not accepted
-      if (!executor) // skip this when settings were called during exam
+      if (!m_examPlugin) // skip this when settings were called during exam
         m_sound->restoreAfterConf();
 	}
 }
@@ -367,13 +357,16 @@ void MainWindow::openLevelCreator(QString levelFile) {
   bool ok;
   int levelNr = levelText.toInt(&ok);
   if (ok) {
-    TlevelSelector ls;
-    ls.selectLevel(levelNr);
-    m_level = ls.getSelectedLevel();
-    prepareToExam();
-    executor = new TexamExecutor(this);
-    connect(executor, &TexamExecutor::examMessage, this, &MainWindow::examMessageSlot);
-    executor->init(startExercise ? QLatin1String("exercise") : QString(), &m_level); // start exam
+//     prepareToExam();
+    QString args = QString("level:%1").arg(levelNr); // plugin run argument is string  'level:' with level number
+    if (startExercise)
+        args.append(QLatin1String(":exercise")); // and ';exercise' string if exercise has to be started
+    startExamPlugin(args);
+//     m_examPlugin = new TpluginsLoader(this);
+//     if (m_examPlugin->load(TpluginsLoader::e_exam)) {
+//         connect(m_examPlugin->node(), &TpluginObject::value, this, &MainWindow::examMessageSlot);
+//         m_examPlugin->init(args, this);
+//     }
   }
   else
     m_sound->go(); // restore pitch detection
@@ -381,13 +374,13 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 
 void MainWindow::startExamSlot() {
-	prepareToExam();
-  m_deleteExecutor = false;
-	executor = new TexamExecutor(this);
-  connect(executor, &TexamExecutor::examMessage, this, &MainWindow::examMessageSlot);
-  executor->init();
-  if (m_deleteExecutor)
-    delete executor;
+// 	prepareToExam();
+  startExamPlugin(QString());
+//   m_examPlugin = new TpluginsLoader(this);
+//   if (m_examPlugin->load(TpluginsLoader::e_exam)) {
+//     connect(m_examPlugin->node(), &TpluginObject::value, this, &MainWindow::examMessageSlot);
+//     m_examPlugin->init(QString(), this);
+//   }
 }
 
 
@@ -459,16 +452,16 @@ void MainWindow::soundWasFinished(Tchunk* chunk) {
 
 void MainWindow::setSingleNoteMode(bool isSingle) {
 	if (isSingle && m_score->insertMode() != TmultiScore::e_single) {
-      if (!executor)
+      if (!m_examPlugin)
           m_bar->setMelodyButtonVisible(false);
 //           m_melButt->melodyAction()->setVisible(false);
-      innerWidget->addNoteName();
+      m_innerWidget->addNoteName();
       m_score->setInsertMode(TmultiScore::e_single);
 	} else if	(!isSingle && m_score->insertMode() == TmultiScore::e_single) {
-      if (!executor)
+      if (!m_examPlugin)
           m_bar->setMelodyButtonVisible(true);
 //           m_melButt->melodyAction()->setVisible(true);
-      innerWidget->takeNoteName();
+      m_innerWidget->takeNoteName();
       m_noteName->setNoteName(Tnote(1, 0)); // unset buttons
       m_score->setInsertMode(TmultiScore::e_multi);
 	}
@@ -531,17 +524,28 @@ void MainWindow::adjustAmbitus() {
 //###################              PRIVATE             ############################################
 //#################################################################################################
 
-void MainWindow::prepareToExam() {
-	if (m_score->insertMode() != TmultiScore::e_single) {
-		if (m_score->isScorePlayed())
-			m_melButt->playMelodySlot(); // stop playing when played
-		m_bar->setMelodyButtonVisible(false);
-	}
-	m_sound->stopPlaying();
-	m_examResults = new TexamView();
-	m_examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
-	m_progress = new TprogressWidget();
-	innerWidget->addExamViews(m_examResults, m_progress);
+void MainWindow::startExamPlugin(const QString& pluginArgs) {
+  if (m_examPlugin) {
+    qDebug() << "Exam plugin is already loaded/started!";
+    return;
+  }
+
+  if (m_score->insertMode() != TmultiScore::e_single) {
+    if (m_score->isScorePlayed())
+      m_melButt->playMelodySlot(); // stop playing when played
+    m_bar->setMelodyButtonVisible(false);
+  }
+  m_sound->stopPlaying();
+  m_examResults = new TexamView();
+  m_examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
+  m_progress = new TprogressWidget();
+  m_innerWidget->addExamViews(m_examResults, m_progress);
+
+  m_examPlugin = new TpluginsLoader(this);
+  if (m_examPlugin->load(TpluginsLoader::e_exam)) {
+    connect(m_examPlugin->node(), &TpluginObject::value, this, &MainWindow::examMessageSlot);
+    m_examPlugin->init(pluginArgs, this);
+  }
 }
 
 
@@ -643,15 +647,18 @@ void MainWindow::closeEvent(QCloseEvent *event) {
   m_sound->wait();
 #if !defined (Q_OS_ANDROID)
   disconnect(m_score, &TmainScore::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
-  disconnect(innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
+  disconnect(m_innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
 #endif
-	if (executor) {
-      if (executor->closeNootka()) {
-          event->accept();
-      } else {
-          event->ignore();
-      }
-	}
+  if (m_examPlugin) {
+    m_executorAllowsClose = false;
+    m_examPlugin->node()->emitBackValue(Torders::e_examClose);
+    // After sending above demand TexamExecutor displays question and emits demand to plugin
+    // examMessageSlot() will set m_executorAllowsClose to TRUE or FALSE apparently
+    if (m_executorAllowsClose)
+        event->accept();
+    else
+        event->ignore();
+  }
 }
 
 

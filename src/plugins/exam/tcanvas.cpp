@@ -21,10 +21,10 @@
 #include "tquestiontip.h"
 #include "tnootkacertificate.h"
 #include "texecutorsupply.h"
-#include "mainwindow.h"
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/tresulttext.h>
+#include <exam/tlevel.h>
 #include <animations/tcombinedanim.h>
 #include <texamparams.h>
 #include <graphics/tnotepixmap.h>
