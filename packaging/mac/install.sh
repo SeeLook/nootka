@@ -7,7 +7,7 @@
 # 3. fftw3f library
 # 4. vorbis libray (from this location other vorbis libs are obtained - ogg and vorbisFile)
 # Author:
-#           Tomasz Bojczuk <tomaszbojczuk@gmail.com>
+#           Tomasz Bojczuk <seelook@gmail.com>
 
 #B_PATH=$1/nootka.app/Contents/Resurces
 B_PATH=$1/nootka.app

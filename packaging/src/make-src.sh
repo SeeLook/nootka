@@ -5,7 +5,7 @@
 # make-src.sh version build-directory source-directory
 # 
 # Author:
-#           Tomasz Bojczuk <tomaszbojczuk@gmail.com>
+#           Tomasz Bojczuk <seelook@gmail.com>
 #
 
 VERSION=$1

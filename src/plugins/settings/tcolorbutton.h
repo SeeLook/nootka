@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011=2014 by Tomasz Bojczuk  				                   *
- *   tomaszbojczuk@gmail.com   						                                 *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
+ *   seelook@gmail.com        						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *

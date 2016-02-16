@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
- *   tomaszbojczuk@gmail.com                                               *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,7 +29,7 @@ void TpushButton::setCheckColor(QColor background, QColor text) {
 
 
 
-TpushButton::TpushButton(QString text, QWidget* parent):
+TpushButton::TpushButton(const QString& text, QWidget* parent):
 	 QPushButton(text, parent),
 	 m_Ichecked(false)
 {
