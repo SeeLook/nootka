@@ -55,7 +55,6 @@ To consideration:
 
 Test scaling of alpha under Windows
 
-- Move context of Ttune translations from QObject to some more suitable name
 - NotaData of Tartini might be cleaned
 
 MINOR:

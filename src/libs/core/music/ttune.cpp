@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2013 by Tomasz Bojczuk  				                   *
+ *   Copyright (C) 2006-2016 by Tomasz Bojczuk  				                   *
  *   seelook@gmail.com   	      					                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,36 +17,39 @@
  ***************************************************************************/
 
 #include "ttune.h"
-#include <QVariant>
-#include <QDebug>
+#include <QtCore/qvariant.h>
+#include <QtCore/qdebug.h>
+#include <QtWidgets/qapplication.h>
+
 
 /*static*/
-Ttune Ttune::stdTune = Ttune("", Tnote(3,1,0), Tnote(7,0,0),
+Ttune Ttune::stdTune = Ttune(QString(), Tnote(3,1,0), Tnote(7,0,0),
                                           Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
 
 Ttune Ttune::tunes[4];
 Ttune Ttune::bassTunes[4];
 
+
 void Ttune::prepareDefinedTunes() {
-	stdTune = Ttune(QObject::tr("Standard: E A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
+	stdTune = Ttune(QApplication::translate("Ttune", "Standard: E A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
 					Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0), Tnote(3, -1, 0));
-	
-	tunes[0] = Ttune(QObject::tr("Dropped D: D A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
+
+	tunes[0] = Ttune(QApplication::translate("Ttune", "Dropped D: D A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
 									 Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
-	tunes[1] = Ttune(QObject::tr("Dummy Lute: D A D F# B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
+	tunes[1] = Ttune(QApplication::translate("Ttune", "Dummy Lute: D A D F# B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
 									 Tnote(4, 0, 1), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
-	tunes[2] = Ttune(QObject::tr("Open: D A D G A D "), Tnote(2, 1, 0), Tnote(6, 0, 0), 
+	tunes[2] = Ttune(QApplication::translate("Ttune", "Open: D A D G A D "), Tnote(2, 1, 0), Tnote(6, 0, 0),
 									 Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
-	tunes[3] = Ttune(QObject::tr("Kouyanbaba: D A D A D F "), Tnote(4, 1, 0), Tnote(2, 1, 0), 
+	tunes[3] = Ttune(QApplication::translate("Ttune", "Kouyanbaba: D A D A D F "), Tnote(4, 1, 0), Tnote(2, 1, 0),
 									 Tnote(6, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
 	
-	bassTunes[0] = Ttune(QObject::tr("Standard bass: E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
+	bassTunes[0] = Ttune(QApplication::translate("Ttune", "Standard bass: E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
 												Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0));
-	bassTunes[1] = Ttune(QObject::tr("Bass in fifths: C G D A"), Tnote(6, -1, 0), Tnote(2, -1, 0),
+	bassTunes[1] = Ttune(QApplication::translate("Ttune", "Bass in fifths: C G D A"), Tnote(6, -1, 0), Tnote(2, -1, 0),
 												Tnote(5, -2, 0), Tnote(1, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0));
-	bassTunes[2] = Ttune(QObject::tr("5-str. bass: B E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
+	bassTunes[2] = Ttune(QApplication::translate("Ttune", "5-str. bass: B E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
 												Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0), Tnote(0, 0, 0));
-	bassTunes[3] = Ttune(QObject::tr("6-str. bass: B E A D G C"), Tnote(1, 0, 0), Tnote(5, -1, 0), Tnote(2, -1, 0),
+	bassTunes[3] = Ttune(QApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 0, 0), Tnote(5, -1, 0), Tnote(2, -1, 0),
 												Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0));
 }
 
@@ -204,13 +207,13 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
 }
 
 
-
 QDataStream &operator<< (QDataStream &out, const Ttune &t) {
     out << t.name;
     for (int i=0; i < 6; i++)
       out << t.stringsArray[i];
     return out;
 }
+
 
 QDataStream &operator>> (QDataStream &in, Ttune &t) {
     in >> t.name;
