@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2014 by Tomasz Bojczuk  				                   *
+ *   Copyright (C) 2006-2016 by Tomasz Bojczuk  				                   *
  *   seelook@gmail.com   						                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,8 @@
 #define TTUNE_H
 
 #include "tnote.h"
-#include <QString>
-#include <QMetaType>
-#include <QXmlStreamWriter>
+#include <QtCore/qmetatype.h>
+#include <QtCore/qxmlstream.h>
 #include <nootkacoreglobal.h>
 
 
@@ -38,11 +37,11 @@ public:
 				* Empty notes (Tnote(0,0,0)) can control strings number 
 				* when empty - it is moved to the end of a array and stringNr() is less. 
 				* This way only a number of string [from 1 to 6] is supported. */
-    Ttune(const QString& tuneName = "", const Tnote& S1 = Tnote(0,0,0) , const Tnote& S2 = Tnote(0,0,0),
+    Ttune(const QString& tuneName = QString(), const Tnote& S1 = Tnote(0,0,0) , const Tnote& S2 = Tnote(0,0,0),
                     const Tnote& S3 = Tnote(0,0,0), const Tnote& S4 = Tnote(0,0,0),
                     const Tnote& S5 = Tnote(0,0,0), const Tnote& S6 = Tnote(0,0,0));
 				
-    QString name; /** It is a name of the tune*/
+    QString name; /**< It is a name of the tune*/
 		quint8 stringNr() { return m_strNumber; } /** Number of strings for current tune/guitar */
 		
 				/** When tune has less than 3 strings and "scale" as a name it represents a scale of an instrument 
@@ -56,9 +55,9 @@ public:
     static Ttune tunes[4]; // templates for guitar tunes
 		static Ttune bassTunes[4]; // templates for bass guitar tunes
 		
-		void copy(Ttune& t); /** Copies given tuning to this one. */
+		void copy(Ttune& t); /**< Copies given tuning to this one. */
         
-    static void prepareDefinedTunes(); /** Makes translations in defined tunes. */
+    static void prepareDefinedTunes(); /**< Makes translations in defined tunes. */
 		
     friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
     friend QDataStream &operator>> (QDataStream &in, Ttune &t);
@@ -85,7 +84,7 @@ public:
     }
 
 protected:
-		Tnote stringsArray[6]; /** Array of Tnote that represent six strings */
+		Tnote stringsArray[6]; /**< Array of Tnote that represent six strings */
 		
 				/** This method is called by constructor and operator.
 				 * It calculates number of strings by selecting string with defined notes
