@@ -38,10 +38,6 @@
 #include <QDebug>
 
 
-QString tmpConfigFile() {
-	return QDir::tempPath() + "/nootkaTmp.conf";
-}
-
 /*static*/
 QString& Tglobals::path = Tpath::main;
 
@@ -68,7 +64,7 @@ TtouchProxy* onlyOneTouchProxy = 0; // It is available through TtouchProxy::inst
 /*end static*/
 
 
-Tglobals::Tglobals(bool fromTemp) :
+Tglobals::Tglobals() :
 	m_tune(0)
 {
 	version = NOOTKA_VERSION;
@@ -104,6 +100,7 @@ Tglobals::Tglobals(bool fromTemp) :
 	onlyOneTouchProxy = new TtouchProxy();
 }
 
+
 Tglobals::~Tglobals() {
 	storeSettings(config);
 	delete E;
@@ -134,7 +131,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 //score widget settings
 	cfg->beginGroup("score");
 			S->keySignatureEnabled = cfg->value("keySignature", false).toBool();
-// S->keySignatureEnabled = true;
 			S->showKeySignName = cfg->value("keyName", true).toBool(); //true;
 			S->nameStyleInKeySign = Tnote::EnameStyle(cfg->value("nameStyleInKey",
 																													(int)Tnote::e_english_Bb).toInt());
@@ -142,7 +138,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 			S->minKeyNameSufix = cfg->value("minorKeysSufix", QString()).toString();
 			if (cfg->contains("pointerColor"))
 					S->pointerColor = cfg->value("pointerColor").value<QColor>(); //-1;
-			else 
+			else
 					S->pointerColor = -1;
 			S->clef = Tclef::Etype(cfg->value("clef", (int)Tclef::e_treble_G_8down).toInt());
 			S->isSingleNoteMode = cfg->value("singleNoteMode", false).toBool();
@@ -154,7 +150,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 //common for score widget and note name
 	cfg->beginGroup("common");
 			S->doubleAccidentalsEnabled = cfg->value("doubleAccidentals", false).toBool();
-// S->doubleAccidentalsEnabled = true;
 			S->showEnharmNotes = cfg->value("showEnaharmonicNotes", false).toBool();
 			if (!S->isSingleNoteMode) // enharmonically equal notes can be enabled only in single note mode
 					S->showEnharmNotes = false;
