@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
- *   tomaszbojczuk@gmail.com   						                                 *
+ *   seelook@gmail.com        						                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -30,7 +30,7 @@ class NOOTKACORE_EXPORT TpushButton : public QPushButton
 {
 	Q_OBJECT
 public:
-    TpushButton(QString text = "", QWidget *parent = 0);
+  TpushButton(const QString& text = QString(), QWidget *parent = 0);
 	void setChecked(bool isChecked);
 	bool isChecked() { return m_Ichecked; }
 	

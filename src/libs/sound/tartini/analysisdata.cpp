@@ -13,7 +13,7 @@
    Please read LICENSE.txt for details.
    
    Adjusted to Nootka by Tomasz Bojczuk
-	  tomaszbojczuk@gmail.com
+	  seelook@gmail.com
 	  Copyright (C) 2011-2016
  ***************************************************************************/
 

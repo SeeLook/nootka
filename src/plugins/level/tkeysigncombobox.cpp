@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
- *   tomaszbojczuk@gmail.com   						                                 *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk  				                   *
+ *   seelook@gmail.com   						                                       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,16 +26,15 @@
 TkeySignComboBox::TkeySignComboBox(QWidget *parent) :
     QComboBox(parent)
 {
-    if (TkeySignature::majorNames[0] == "")
-        TkeySignature::setNameStyle(
-                Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
-    for (int i=-7; i<8; i++) {
+    if (TkeySignature::majorNames[0].isEmpty())
+        TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, Tcore::gl()->S->minKeyNameSufix);
+    for (int i = -7; i < 8; i++) {
         TkeySignature k = TkeySignature(i);
-        addItem("(" + k.accidNumber() + ") " + TkeySignature::majorNames[i+7] + " / "
-                + TkeySignature::minorNames[i+7]);
+        addItem(QLatin1String("(") + k.accidNumber() + QLatin1String(") ") + TkeySignature::majorNames[i + 7] + QLatin1String(" / ")
+                + TkeySignature::minorNames[i + 7]);
     }
 }
 
 void TkeySignComboBox::setKeySignature(TkeySignature key) {
-    setCurrentIndex(key.value()+7);
+    setCurrentIndex(key.value() + 7);
 }
