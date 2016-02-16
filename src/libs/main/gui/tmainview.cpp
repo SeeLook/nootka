@@ -19,7 +19,6 @@
 #include "tmainview.h"
 #include "ttoolbar.h"
 #include "tmenu.h"
-#include "mainwindow.h"
 #if defined (Q_OS_ANDROID)
   #include "tmaterialmenu.h"
   #include <widgets/tmelodyitem.h>

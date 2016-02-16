@@ -18,7 +18,7 @@
 
 
 #include "texamsummary.h"
-#include "texamview.h"
+#include <exam/texamview.h>
 #include <exam/texam.h>
 #include <exam/tqaunit.h>
 #include <exam/textrans.h>

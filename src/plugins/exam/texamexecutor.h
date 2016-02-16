@@ -26,6 +26,7 @@
 #include <QtCore/qpointer.h>
 #include <QtGui/qcolor.h>
 
+
 class TnoteStruct;
 class TexamMelody;
 class Tpenalty;
@@ -46,12 +47,12 @@ class QMainWindow;
 class QAction;
 
 
-/** 
+/**
  * This class manages exam executing and practicing.
  */
 class TexamExecutor : public QObject
 {
-	friend class MainWindow;
+	friend class TexamPlugin;
 
 	Q_OBJECT
 
@@ -72,17 +73,8 @@ public:
 	bool isExercise() { return (bool)m_exercise; } /** @p TRUE when exercise or @p FALSE when exam. */
 
 signals:
-      /**< Text messages sent to Nootka main window with demands:
-       * - 'failed' - when exam could not be started
-       * - 'finished' - when exam was finished
-       * - 'creator' - when start exam dialog wants to open level creator
-       * - 'single' - switch to single note mode
-       * - 'multiple' - switch to multiple note mode
-       * - 'resize' - update sizes of main window widgets
-       * - 'disconnect' - remove signal/slot connections between widgets - executor will handle them itself
-       * - 'connect' - connect main window widgets again
-       */
-  void examMessage(const QString&);
+    /** int values of type @class TexamDemands::Emessage sent to Nootka main window with demands */
+  void examMessage(int);
 
 protected:
 	QMainWindow *mW;

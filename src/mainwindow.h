@@ -20,12 +20,10 @@
 #define MAINWINDOW_H
 
 #include <music/tnote.h>
-#include <exam/tlevel.h>
 #include <QtWidgets/qmainwindow.h>
 #include <QtCore/qpointer.h>
 
 
-class TexamExecutor;
 class Tchunk;
 class TtoolBar;
 class TmainView;
@@ -58,8 +56,6 @@ public:
 	MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
-	TmainView *innerWidget;
-
 public slots:
   void noteWasClicked(int index, Tnote note);
   void guitarWasClicked(const Tnote& note);
@@ -75,7 +71,7 @@ public slots:
 	void analyseSlot();
 
 protected:
-  QPointer<TexamExecutor> executor;
+  QPointer<TpluginsLoader> m_examPlugin;
 
 	void updateSize(QSize newS); /**< Updates position and sizes of the widgets. */
 
@@ -89,7 +85,7 @@ protected:
 protected slots:
 	void showSupportDialog();
 	void updaterMessagesSlot(const QString& m = QString());
-  void examMessageSlot(const QString& examState);
+  void examMessageSlot(int demand);
 
       /** This slot is invoked when clef is changed by clicking score.
         * It adjust ambitus to score possibilities if clef is differ than default
@@ -97,10 +93,11 @@ protected slots:
   void adjustAmbitus();
 
 private:
-	void prepareToExam();
+  void startExamPlugin(const QString& pluginArgs);
 
 private:
   Tsound               *m_sound;
+  TmainView            *m_innerWidget;
   TtoolBar             *m_bar; /**< Main Nootka tool bar. */
   TmainScore           *m_score;
   TnoteName            *m_noteName;
@@ -111,14 +108,10 @@ private:
 	QPixmap 							m_bgPixmap, m_rosettePixmap;
 	int 									m_statFontSize;
 	bool 									m_levelCreatorExist; /**< Keeps true when Dialog windows is opened, to avoid opening another file. */
-	Tlevel 						    m_level;
 	bool 									m_isPlayerFree;
 	int										m_startedSoundId; /**< Index of note on the score that has been just started.  */
-
-      /** This is tricky workaround when TexamExecutor calls clearAfterExam() where it is deleted
-       * and @p executor variable is brought back because execution back to startExamSlot().  */
-	bool                  m_deleteExecutor;
   TmelMan							 *m_melButt;
+  bool                  m_executorAllowsClose;
 
 #if !defined (Q_OS_ANDROID)
   TstatusLabel 			   *m_statusLabel;

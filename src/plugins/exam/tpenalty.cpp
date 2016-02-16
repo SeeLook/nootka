@@ -18,8 +18,8 @@
 
 #include "tpenalty.h"
 #include "texecutorsupply.h"
-#include "texamview.h"
-#include "tprogresswidget.h"
+#include <exam/texamview.h>
+#include <exam/tprogresswidget.h>
 #include <exam/texam.h>
 #include <QtCore/qdebug.h>
 

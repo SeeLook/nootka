@@ -51,47 +51,14 @@ add_subdirectory( libs/score )    # libNootkaScore
 add_subdirectory( libs/widgets )  # libNootkaWidgets
 add_subdirectory( libs/sound )    # libNootkaSound
 add_subdirectory( libs/misc )     # libNootkaMisc
+add_subdirectory( libs/main )     # libNootkaMain
 
-include_directories( libs/core libs/score libs/widgets libs/sound libs/misc )
+include_directories( libs/core libs/score libs/widgets libs/sound libs/misc libs/main )
 
 # nootka executable
 set(NOOTKA_SRC
 	main.cpp
 	mainwindow.cpp
-
-	gui/tmainview.cpp
-	gui/tmelman.cpp
-	gui/ttoolbar.cpp
-	gui/tmenu.cpp
-	gui/tstatuslabel.cpp
-
-	guitar/tfingerboard.cpp
-	guitar/tguitarview.cpp
-
-	notename/tnotename.cpp
-	notename/tnotenamelabel.cpp
-	notename/tnametip.cpp
-
-	score/tmainscore.cpp
-	score/tscoreactions.cpp
-
-	exam/tcanvas.cpp
-	exam/tnootkacertificate.cpp
-	exam/tquestiontip.cpp
-	exam/texamview.cpp
-	exam/tprogresswidget.cpp
-	exam/tstartexamdlg.cpp
-	exam/texamexecutor.cpp
-	exam/texecutorsupply.cpp
-	exam/texercises.cpp
-	exam/tglobalexamstore.cpp
-	exam/texamsummary.cpp
-	exam/tequalrand.cpp
-	exam/trandmelody.cpp
-	exam/tpenalty.cpp
-	exam/texammelody.cpp
-
-	animations/tstrikedoutitem.cpp
 )
 
 
@@ -106,13 +73,8 @@ endif(MINGW)
 
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
 target_link_libraries(nootka
-		NootkaCore
-		NootkaScore
-		NootkaWidgets
-		NootkaSound
-		NootkaMisc
+		NootkaMain
 		Qt5::Widgets
-		Qt5::PrintSupport
 )
 
 

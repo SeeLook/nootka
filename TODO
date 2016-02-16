@@ -47,8 +47,6 @@ ANDROID:
 ============================================================================
 - TexamExecutor has many, many un-wrapped strings, many ""
 
-- remove tanimedtextitem.cpp - probably unused
-
 To consideration:
 - additional settings options:
     - disable screen locking (TRUE by default)
