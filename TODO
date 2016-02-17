@@ -12,21 +12,9 @@
 ============================================================================
 Translations:
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
- - get rid of Qt texts through translate() - use qTr instead
+ - Ttune - new context moved from QObject 
 
-============================================================================
- - Merge (graft some) Mac changes from stable branch:
-   - resolve JACK (so far disabled under Mac)
-   - there is no std::getenv() - qgetenv() instead
-   - some missing headers
-   - disable low latency
-   - settings are forced similar to Win way
-   - proper addLibraryPath()
-   - cmake and install scripts
-   - launching from Finder (event filter in MainWindow)
-   - "note by note" - shortcut (TmelMan)
-   - note name layout
-
+ 
 ============================================================================
 ANDROID:
     - quick icons:
@@ -46,6 +34,7 @@ ANDROID:
   but it would be better to signal when it is finished and perform some routines in main score after that
 ============================================================================
 - TexamExecutor has many, many un-wrapped strings, many ""
+- Use int and enumerations between plugins and main window instead of text messages - especially updater
 
 To consideration:
 - additional settings options:

@@ -25,7 +25,7 @@
 #include "audiooutsettings.h"
 #include "tlaysettings.h"
 #if defined (Q_OS_ANDROID)
-  #include <touch/tmenuwidget.h>
+  #include <tmenuwidget.h>
 #else
   #include <trtaudio.h>
   #include <tmidiout.h>

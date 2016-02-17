@@ -51,7 +51,7 @@
 #include <gui/ttoolbar.h>
 #include <gui/tmainview.h>
 #if defined (Q_OS_ANDROID)
-  #include <widgets/tfiledialog.h>
+  #include <tfiledialog.h>
 #else
   #include <level/tfixleveldialog.h>
   #include <gui/tstatuslabel.h>

@@ -32,7 +32,7 @@
 #include <QStyle>
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
-  #include <widgets/tfiledialog.h>
+  #include <tfiledialog.h>
   #include <tmtr.h>
 #else
   #include <QFileDialog>

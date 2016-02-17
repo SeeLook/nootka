@@ -32,8 +32,8 @@
 #include <tscoreparams.h>
 #include <QtWidgets/QtWidgets>
 #if defined (Q_OS_ANDROID)
-  #include <touch/ttouchmenu.h>
-  #include <widgets/tfiledialog.h>
+  #include <ttouchmenu.h>
+  #include <tfiledialog.h>
 #endif
 
 

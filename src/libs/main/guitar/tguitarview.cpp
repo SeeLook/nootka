@@ -27,7 +27,7 @@
 #if defined (Q_OS_ANDROID)
   #include <touch/ttouchproxy.h>
   #include <touch/ttouchparams.h>
-  #include <touch/ttouchmessage.h>
+  #include <ttouchmessage.h>
 #endif
 
 
