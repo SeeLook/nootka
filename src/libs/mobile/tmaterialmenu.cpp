@@ -17,9 +17,9 @@
  ***************************************************************************/
 
 #include "tmaterialmenu.h"
+#include "ttouchmenu.h"
 #include <tpath.h>
 #include <nootkaconfig.h>
-#include <touch/ttouchmenu.h>
 #include <QtWidgets/QtWidgets>
 #include <QtGui/QtGui>
 #include <QtCore/qtimer.h>

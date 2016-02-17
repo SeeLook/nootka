@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>picts/wizard-left.png</file>
+    </qresource>
+</RCC>

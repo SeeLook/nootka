@@ -22,9 +22,9 @@
 #include <touch/ttouchproxy.h>
 #if defined (Q_OS_ANDROID)
   #include "tmtr.h"
-  #include "touch/tmenuwidget.h"
+  #include <tmenuwidget.h>
   #include <graphics/tdropshadoweffect.h>
-  #include <touch/ttouchmenu.h>
+  #include <ttouchmenu.h>
 #endif
 #include <QtWidgets/QtWidgets>
 

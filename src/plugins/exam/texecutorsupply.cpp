@@ -27,7 +27,9 @@
 #include <tscoreparams.h>
 #include <widgets/tintonationview.h>
 #include <gui/tstatuslabel.h>
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  #include <ttouchmessage.h>
+#else
   #include <QMouseEvent>
   #include <iostream>
 #endif
@@ -94,7 +96,7 @@ void TexecutorSupply::checkGuitarParamsChanged(Texam* exam) {
 	}
 	if (!changesMessage.isEmpty()) {
 #if defined (Q_OS_ANDROID)
-      parent->setStatusMessage(changesMessage, 0);
+      tMessage->setMessage(changesMessage, 0);
 #else
       QColor c = Qt::red;
       c.setAlpha(50);

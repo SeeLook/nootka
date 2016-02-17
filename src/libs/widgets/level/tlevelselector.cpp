@@ -25,7 +25,7 @@
 #include <texamparams.h>
 #include <music/ttune.h>
 #if defined (Q_OS_ANDROID)
-  #include <widgets/tfiledialog.h>
+  #include <tfiledialog.h>
 #else
   #include "tfixleveldialog.h"
 #endif

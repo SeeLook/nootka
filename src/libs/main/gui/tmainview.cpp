@@ -22,9 +22,9 @@
 #if defined (Q_OS_ANDROID)
   #include "tmaterialmenu.h"
   #include <widgets/tmelodyitem.h>
-  #include <touch/ttouchmenu.h>
+  #include <ttouchmenu.h>
   #include <touch/ttouchparams.h>
-  #include <touch/ttouchmessage.h>
+  #include <ttouchmessage.h>
 #endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>

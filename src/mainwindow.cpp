@@ -34,7 +34,7 @@
 #include <widgets/tpitchview.h>
 #include <tsound.h>
 #if defined (Q_OS_ANDROID)
-  #include <touch/ttouchmessage.h>
+  #include <ttouchmessage.h>
 #else
   #include "gui/tstatuslabel.h"
 #endif
@@ -64,14 +64,16 @@ void noteToKey(Tnote& n, TkeySignature k) {
 }
 
 
-// HACK: Workaround to force qtandroiddeploy include QtMultimedia and QtAndroidExtras libs
+// HACK: Workaround to force qtandroiddeploy include QtMultimedia, QtPrintSupport and QtAndroidExtras libs
 #if defined (Q_OS_ANDROID)
   #include <QMediaPlayer>
+  #include <QtPrintSupport/QPrinter>
   #include <QtAndroidExtras/QtAndroid>
 
-    void fakeMultimediaDemander(QObject* parent) {
+    void fakeLibsDemander(QObject* parent) {
       QMediaPlayer dummyPlayer(parent);
       QtAndroid::androidActivity();
+      QPrinter printer;
     }
 
   TtouchMessage *m_touchMessage;
@@ -151,9 +153,9 @@ MainWindow::MainWindow(QWidget *parent) :
   m_bar->addScoreActions(m_score->scoreActions());
   m_bar->addMelodyButton(m_melButt);
 #if defined (Q_OS_ANDROID)
-  innerWidget = new TmainView(gl->L, bar, 0, pitchView, score, guitar, noteName, this);
+  m_innerWidget = new TmainView(gl->L, m_bar, 0, m_pitchView, m_score, m_guitar, m_noteName, this);
   m_touchMessage = new TtouchMessage();
-  innerWidget->scene()->addItem(m_touchMessage);
+  m_innerWidget->scene()->addItem(m_touchMessage);
 #else
   m_innerWidget = new TmainView(gl->L, m_bar, m_statusLabel, m_pitchView, m_score, m_guitar, m_noteName, this);
 #endif
@@ -163,11 +165,11 @@ MainWindow::MainWindow(QWidget *parent) :
   m_levelCreatorExist = false;
 
 #if defined (Q_OS_ANDROID)
-  connect(bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
-  innerWidget->flyActions()->append(bar->playMelody()); // default quick actions for mobile
-  innerWidget->flyActions()->append(bar->recordMelody());
-  innerWidget->flyActions()->append(pitchView->pauseAction());
-  bar->setFlyingActions(innerWidget->flyActions());
+  connect(m_bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
+  m_innerWidget->flyActions()->append(m_bar->playMelody()); // default quick actions for mobile
+  m_innerWidget->flyActions()->append(m_bar->recordMelody());
+  m_innerWidget->flyActions()->append(m_pitchView->pauseAction());
+  m_bar->setFlyingActions(m_innerWidget->flyActions());
 #else
   connect(m_bar->analyseAct, SIGNAL(triggered()), this, SLOT(analyseSlot()));
   connect(m_bar->aboutAct, &QAction::triggered, this, &MainWindow::aboutSlot);
@@ -586,7 +588,7 @@ void MainWindow::updateSize(QSize newS) {
 	else
     m_noteName->setMaximumWidth(QWIDGETSIZE_MAX);
 #if defined (Q_OS_ANDROID)
-  noteName->resize(qMin(baseH / 20, fontMetrics().height()));
+  m_noteName->resize(qMin(baseH / 20, fontMetrics().height()));
 #else
   m_noteName->resize(baseH / 40);
 	m_statusLabel->setFixedHeight(newS.height() / 10);
@@ -614,7 +616,7 @@ void MainWindow::updateSize(QSize newS) {
 		m_guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
 	}
 #if defined (Q_OS_ANDROID)
-	guitar->setFixedHeight(newS.height() * 0.25);
+  m_guitar->setFixedHeight(newS.height() * 0.25);
 #else
   m_guitar->setFixedHeight(newGuitH);
 #endif

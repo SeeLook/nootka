@@ -30,7 +30,7 @@
 #include <help/texamhelp.h>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
-  #include <widgets/tfiledialog.h>
+  #include <tfiledialog.h>
   #include <tmtr.h>
 #endif
 #include <QtWidgets/QtWidgets>
