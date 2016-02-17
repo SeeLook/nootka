@@ -1,3 +1,9 @@
+1.3.0 alpha
+     - removed roundness of widget/tips
+     - prepared code for further features
+    Under the hood
+     - reorganized layout of libraries, exam execution moved to plugin
+
 1.2A.4 beta2
     ANDROID
      - exam file can be sent directly through Android native services
