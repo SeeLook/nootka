@@ -1,8 +1,9 @@
-1.3.0 alpha
+1.3.0 alpha1
      - removed roundness of widget/tips
      - prepared code for further features
     Under the hood
-     - reorganized layout of libraries, exam execution moved to plugin
+     - reorganized layout of libraries, score is in separate lib
+     - exam execution moved to plugin
 
 1.2A.4 beta2
     ANDROID
