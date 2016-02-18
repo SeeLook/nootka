@@ -86,12 +86,12 @@ void TstatusLabel::setBackground(const QColor& bg) {
 void TstatusLabel::messageSlot(const QString& msg) {
   if (msg.isEmpty()) { // restore previous message
       setBackground(m_prevBg);
-      setMessage(m_text);
+      TroundedLabel::setText(center(m_text));
       m_prevText = m_text;
   } else {
       m_prevBg = m_currentBg;
       setBackground(-1);
-      setMessage(msg);
+      TroundedLabel::setText(center(msg));
   }
 }
 
