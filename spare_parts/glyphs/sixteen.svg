@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="1000"
+   height="1000"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="sixteen.svg"
+   inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/unused-picts/proto/note.png"
+   inkscape:export-xdpi="300.09186"
+   inkscape:export-ydpi="300.09186">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1046"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="0.953125"
+     inkscape:cx="691.60585"
+     inkscape:cy="566.93839"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="1,0"
+       position="348.68479,854.64867"
+       id="guide5187" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="-83.090843,500.02882"
+       id="guide2996" />
+  </sodipodi:namedview>
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="g4174">
+    <g
+       id="text5163"
+       style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler" />
+    <g
+       id="text5167"
+       style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler" />
+    <g
+       transform="matrix(31.830764,0,0,31.830764,-41791.487,-25786.228)"
+       id="g4149">
+      <a
+         transform="matrix(6.2266488,0,0,6.2266488,930.3788,782.27256)"
+         style="color:inherit"
+         xlink:href="textedit:///home/tom/Nuty/LilyPond/rhythms/rhythms.ly:19:8:9"
+         id="a56" />
+      <path
+         style="fill:currentColor"
+         d="M 584.66016 123.98828 C 580.26751 123.98828 576.73047 127.52401 576.73047 131.91602 L 576.73047 677.01953 C 560.59413 664.69643 538.63199 658.72852 516.04102 658.72852 C 483.53544 658.72852 451.82585 670.62077 423.2832 687.26953 C 386.02211 709.46767 341.62891 748.31533 341.62891 805.39648 C 341.62891 854.54987 383.64542 877.54102 428.04297 877.54102 C 460.54854 877.54102 492.25814 865.64876 520.80078 849 C 558.06187 826.80186 602.45703 787.95452 602.45703 730.87305 C 602.45703 728.85894 602.3786 726.89327 602.24023 724.9668 C 602.40253 724.33282 602.49805 723.6723 602.49805 722.98633 L 602.49805 528.31445 L 602.49805 468.85547 C 659.57697 521.17983 734.89453 595.7023 734.89453 672.60352 C 734.89453 718.58592 722.20931 764.56767 701.5957 805.79297 C 699.21795 818.47785 709.52451 827.19922 719.82812 827.19922 C 725.37941 827.19922 730.92842 824.02783 734.89453 817.68555 C 755.50495 771.70346 768.19336 722.5498 768.19336 672.60352 C 768.19336 639.30631 759.4709 609.17934 745.20117 579.8457 C 756.30056 556.06176 763.43359 530.69359 763.43359 504.53125 C 763.43359 363.4137 602.49805 273.03389 602.49805 131.91602 C 602.49805 127.52401 598.961 123.98828 594.56836 123.98828 L 584.66016 123.98828 z M 602.49805 300.78125 C 657.19921 353.89852 729.34375 428.42294 729.34375 504.53125 C 729.34375 517.21613 727.75785 529.90131 723.79492 541.79297 C 674.64186 464.09917 602.49805 394.33123 602.49805 300.78125 z "
+         transform="matrix(0.03141615,0,0,0.03141615,1312.9276,810.10396)"
+         id="path62" />
+    </g>
+  </g>
+</svg>
