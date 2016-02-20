@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,8 @@
 #define TNOOFONT_H
 
 #include <nootkacoreglobal.h>
-#include <QFont>
-#include <QString>
+#include <QtGui/qfont.h>
+
 
 /**
  * This is QFont with nootka.ttf initialized with size of 20 pixels
@@ -32,25 +32,24 @@ class NOOTKACORE_EXPORT TnooFont : public QFont
 
 public:
 	TnooFont(int pointSize = 20);
-	
+
 			/** Returns given text wrapped with given HTML tag and:
 			* - font size (if set)
 			* - extra Style (if set)
-			* like 
+			* like:
 			* <tag style="font-family: nootka; extraStyle; font-size: XXpx;">text</tag>
 			*/
-	static QString tag(const QString& tag, const QString& text, int fontSize = 0, const QString& extraStyle = "");
-	
+	static QString tag(const QString& tag, const QString& text, int fontSize = 0, const QString& extraStyle = QString());
+
 			/** tag() method with span tag */
-	static QString span(const QString& text, int fontSize = 0, const QString& extraStyle = "") { 
+	static QString span(const QString& text, int fontSize = 0, const QString& extraStyle = QString()) {
 									return	tag("span", text, fontSize, extraStyle); }
-									
-	
-			/** Overloaded method with current font size */
-// 	QString span(const QString& text, const QString& extraStyle = "") { return span(text, pointSize(), extraStyle); }
-	
-	
-	
+
+      /** Bare digits starts from UNI-0x180 in nootka.ttf
+       * due to glyphs of ordinary numbers are used for strings (circled).
+       * This method returns proper string of given digit
+       */
+  static QString digit(quint8 d) { return (d / 10 ? QString(QChar(0x0180 + d / 10)) : QString()) + QString(QChar(0x0180 + d % 10)); }
 
 };
 

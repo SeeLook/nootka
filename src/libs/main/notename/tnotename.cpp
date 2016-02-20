@@ -93,7 +93,7 @@ TnoteName::TnoteName(QWidget *parent) :
 	m_noteLay = new QBoxLayout(QBoxLayout::LeftToRight);
 	m_noteGroup =new QButtonGroup(this);
 	for (int i = 0; i < 7; i++) {
-			m_noteButtons[i] = new TpushButton("", this);
+			m_noteButtons[i] = new TpushButton(QString(), this);
 						m_noteLay->addWidget(m_noteButtons[i]);
 			m_noteButtons[i]->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 			m_noteGroup->addButton(m_noteButtons[i], i);

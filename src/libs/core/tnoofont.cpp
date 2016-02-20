@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,6 +16,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+/** Glyphs (some)
+ * Rests:
+ * 0xe102 - whole rest
+ * 0xe103 - half rest
+ * 0xe108 - quarter rest
+ * 0xe10A - eight rest
+ * 0xe10B - sixteen rest
+ * Flags
+ * 0xe21C - eight Up
+ * 0xe21D - sixteen Up
+ * 0xe221 - eight Down
+ * 0xe221 - sixteen Down
+ *
+ * digits [0-9] starts from 0x0180
+ */
 
 #include "tnoofont.h"
 
@@ -29,13 +44,14 @@ TnooFont::TnooFont(int pointSize) :
 
 
 QString TnooFont::tag(const QString& tag, const QString& text, int fontSize, const QString& extraStyle) {
-	QString fSize = "";
+	QString fSize;
 	if (fontSize)
 			fSize = QString("font-size: %1px;").arg(fontSize);
 	QString ex = extraStyle;
 	if (!extraStyle.isEmpty() && !extraStyle.endsWith(";"))
-			ex = extraStyle + ";";
-	return "<" + tag + " style=\"font-family: nootka;" + fSize + ex + "\">" + text + "</" + tag + ">";
+			ex = extraStyle + QLatin1String(";");
+	return QLatin1String("<") + tag + QLatin1String(" style=\"font-family: nootka;") + fSize + ex + QLatin1String("\">")
+          + text + QLatin1String("</") + tag + QLatin1String(">");
 }
 
 

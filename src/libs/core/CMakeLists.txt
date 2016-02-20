@@ -35,6 +35,7 @@ set(LIB_NOOTKACORE_SRC
 	music/tchunk.cpp
 	music/tmeasure.cpp
 	music/tmelody.cpp
+	music/tmetrum.cpp
 
 	graphics/tdropshadoweffect.cpp
 	graphics/tgraphicstexttip.cpp
