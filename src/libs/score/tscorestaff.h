@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,7 @@
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
 #include <music/tclef.h>
-#include <QPointer>
+#include <QtCore/qpointer.h>
 
 class QTimer;
 class TcombinedAnim;
@@ -35,10 +35,11 @@ class TscoreNote;
 class TscoreClef;
 class TscoreScene;
 class Tscore5lines;
+class TscoreMetrum;
 
 
-/** 
- * Describes offset of a note. 
+/**
+ * Describes offset of a note.
  */
 class NOOTKACORE_EXPORT TnoteOffset
 {
@@ -80,7 +81,7 @@ public:
 	TscoreClef* scoreClef() { return m_clef; }
 
 	void setPianoStaff(bool isPiano);
-	bool isPianoStaff() { return m_isPianoStaff; }
+	bool isPianoStaff() const { return m_isPianoStaff; }
 
 			/** Returns current @p index note or Tnote(0, 0, 0) if not set. */
 	Tnote* getNote(int index);
@@ -125,16 +126,19 @@ public:
 	bool hasScordature() { return (bool)m_scordature; } /**< @p TRUE when staff has got scordature. */
 	void removeScordatute();
 
+  void setEnableMetrum(bool isEnabled);
+  TscoreMetrum* scoreMetrum() { return m_metrum; }
+
 	qreal upperLinePos() const { return m_upperLinePos; } /**< Y position of upper line of a staff. */
 	qreal lowerLinePos() const { return m_lowerStaffPos; } /**< Y position of lower line of a lower staff. */
 	qreal height() const { return m_height; } // staff height
 	qreal width() const { return m_width; } // staff width
 
-	qreal loNotePos() { return m_loNotePos; } /**< Y position of lowest note on the staff */
-	qreal hiNotePos() { return m_hiNotePos; } /**< Y position of highest note on the staff */
+	qreal loNotePos() const { return m_loNotePos; } /**< Y position of lowest note on the staff */
+	qreal hiNotePos() const { return m_hiNotePos; } /**< Y position of highest note on the staff */
 
 			/** Minimal height of the staff to display all its notes. */
-	qreal minHight() { return m_loNotePos - m_hiNotePos; }
+	qreal minHight() const { return m_loNotePos - m_hiNotePos; }
 
 			/** Checks positions of all notes to find lowest and highest.
 				* @p doEmit determines whether this method sends appropriate signals */
@@ -297,6 +301,7 @@ private:
 	QPointer<QTimer>									 m_addTimer;
 	int																 m_autoAddedNoteId; /**< Index of automatically added last note. */
 	QPointer<TscoreNote>               m_noteWithAccidAnimed; /**< Pointer to note segment currently invoked to key animation */
+	TscoreMetrum                      *m_metrum;
 
 private:
 	void createBrace();

@@ -24,6 +24,8 @@
 #include "tscorenote.h"
 #include "tscoreclef.h"
 #include "tnotecontrol.h"
+#include "tscoremetrum.h"
+#include <music/tmetrum.h>
 #include <QtWidgets/QtWidgets>
 
 
@@ -52,6 +54,11 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	
 	setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
 	setAlignment(Qt::AlignCenter);
+
+  if (qApp->applicationName() == QLatin1String("Scorek")) {
+    addStaff(staff()); // TODO: main score does that - but TmultiScore is dependent on it then - try to move it here
+    setNote(0, Tnote()); // To display fake empty note properly
+  }
 }
 
 TmultiScore::~TmultiScore()
@@ -157,6 +164,18 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 		if (isEnabled)
 				staff()->scoreKey()->showKeyName(true);
 	}
+}
+
+
+void TmultiScore::setTimeSignature(const Tmetrum& m) {
+  if (m.meter() == Tmetrum::e_none) {
+    if (staff()->scoreMetrum())
+      staff()->setEnableMetrum(false);
+  } else {
+    if (!staff()->scoreMetrum())
+      staff()->setEnableMetrum(true);
+    staff()->scoreMetrum()->setMetrum(m);
+  }
 }
 
 

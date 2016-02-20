@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,14 +24,15 @@
 #include "tscorescordature.h"
 #include "tnotecontrol.h"
 #include "tscore5lines.h"
+#include "tscoremetrum.h"
 #include <music/tnote.h>
 #include <animations/tcombinedanim.h>
 #include <tnoofont.h>
-#include <QApplication>
-#include <QGraphicsView>
-#include <QPalette>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qgraphicsview.h>
+#include <QtGui/qpalette.h>
 
-#include <QDebug>
+#include <QtCore/qdebug.h>
 
 
 TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
@@ -55,7 +56,8 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 	m_selectableNotes(false), m_extraAccids(false),
 	m_maxNotesCount(0),
 	m_loNotePos(28.0), m_hiNotePos(12.0),
-	m_lockRangeCheck(false), m_autoAddedNoteId(-1)
+	m_lockRangeCheck(false), m_autoAddedNoteId(-1),
+	m_metrum(0)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	setZValue(10);
@@ -260,7 +262,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 			m_flyAccid->setScale(scoreScene()->accidScale());
       m_flyAccid->setZValue(255);
 			m_flyAccid->hide();
-			if (m_scoreNotes.size())				
+			if (m_scoreNotes.size())
 					m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->brush());
 			m_accidAnim = new TcombinedAnim(m_flyAccid, this);
 			connect(m_accidAnim, SIGNAL(finished()), this, SLOT(accidAnimFinished()));
@@ -299,7 +301,7 @@ void TscoreStaff::setScordature(Ttune& tune) {
 		m_scordature->setZValue(35); // above key signature
 	}
 	m_scordature->setTune(tune);
-	if (m_scordature->isScordatured())	{ 
+	if (m_scordature->isScordatured())	{
 			m_enableScord = true;
 	} else { // nothing to show - standard tune
 			delete m_scordature;
@@ -320,6 +322,40 @@ void TscoreStaff::removeScordatute() {
 }
 
 
+void TscoreStaff::setEnableMetrum(bool isEnabled) {
+  bool changed = false;
+  if (isEnabled) {
+    if (!m_metrum) {
+      m_metrum = new TscoreMetrum(scoreScene(), this);
+      if (m_keySignature)
+        m_keySignature->moveBy(m_metrum->width(), 0.0);
+      m_metrum->setPos(6.5, upperLinePos());
+      m_metrum->setZValue(30);
+      changed = true;
+      connect(m_metrum, &TscoreMetrum::metrumChanged, [=]{
+            if (m_keySignature)
+              m_keySignature->setX(6.5 + m_metrum->width());
+            updateWidth();
+            updateNotesPos();
+      });
+    }
+  } else {
+    if (m_metrum) {
+      delete m_metrum;
+      m_metrum = 0;
+      if (m_keySignature)
+        m_keySignature->setX(6.5);
+      changed = true;
+    }
+  }
+  if (changed) {
+    updateWidth();
+    updateNotesPos();
+  }
+}
+
+
+
 void TscoreStaff::setDisabled(bool disabled) {
 	scoreClef()->setReadOnly(disabled);
   scoreClef()->setAcceptHoverEvents(!disabled); // stops displaying status tip
@@ -331,6 +367,8 @@ void TscoreStaff::setDisabled(bool disabled) {
 		m_scoreNotes[i]->setReadOnly(disabled);
 	if (disabled && count())
 		m_scoreNotes[0]->hideWorkNote();
+  if (m_metrum)
+    m_metrum->setReadOnly(!disabled);
 // 	setControlledNotes(!disabled);
 }
 
@@ -372,8 +410,12 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
         delete m_brace;
 		}
 		prepareStaffLines();
+    if (m_metrum) {
+        m_metrum->setPianoStaff(m_isPianoStaff);
+        m_metrum->setY(upperLinePos());
+    }
 		if (m_keySignature)
-				m_keySignature->setPos(7.0, upperLinePos() - TscoreKeySignature::relatedLine);
+				m_keySignature->setPos(6.5 + (m_metrum ? m_metrum->width() : 0.0), upperLinePos() - TscoreKeySignature::relatedLine);
 		for (int i = 0; i < count(); i++) {
 			noteSegment(i)->adjustSize();
 			noteSegment(i)->setAmbitus(isPiano ? 40 : 34, 2); // TODO It may cause problems when any other class will invoke note ambitus
@@ -461,6 +503,8 @@ qreal TscoreStaff::notesOffset() {
         off = KEY_WIDTH + 1;
   } else if (m_enableScord)
 			off = KEY_WIDTH / 2;
+  if (m_metrum)
+    off += m_metrum->width();
 	return off;
 }
 
@@ -499,7 +543,7 @@ void TscoreStaff::onClefChanged(Tclef clef) {
 			for (int i = 0; i < m_scoreNotes.size(); i++) {
 				if (m_scoreNotes[i]->notePos()) {
 						setNote(i, *(m_scoreNotes[i]->note()));
-				} 
+				}
 			}
 	}
 	m_lockRangeCheck = false;

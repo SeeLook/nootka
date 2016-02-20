@@ -20,6 +20,7 @@
 #ifndef TMULTISCORE_H
 #define TMULTISCORE_H
 
+#include "nootkacoreglobal.h"
 #include "tsimplescore.h"
 #include "tscorenote.h"
 #include "tscorestaff.h"
@@ -28,12 +29,13 @@
 class Tscore5lines;
 class QMainWindow;
 class TscoreStaff;
+class Tmetrum;
 
 
 /**
  * This is subclass of TsimpleScore which adds support for multiple staves/systems
  */
-class TmultiScore : public TsimpleScore
+class NOOTKACORE_EXPORT TmultiScore : public TsimpleScore
 {
 	Q_OBJECT
 
@@ -72,6 +74,9 @@ public:
 
 	void setScoreDisabled(bool disabled);
   bool isScoreDisabled() { return m_isDisabled; }
+
+  void setTimeSignature(const Tmetrum& m);
+  Tmetrum* timeSignature(); /**< Returns @class Tmetrum object or 0 if no rhythms. */
 
 	qreal scoreScale() { return m_scale; } /**< Scale factor of user zoom. */
 	void setScoreScale(qreal sc);
