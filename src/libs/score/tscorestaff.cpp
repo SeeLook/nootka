@@ -263,7 +263,7 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
       m_flyAccid->setZValue(255);
 			m_flyAccid->hide();
 			if (m_scoreNotes.size())
-					m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->brush());
+					m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->color());
 			m_accidAnim = new TcombinedAnim(m_flyAccid, this);
 			connect(m_accidAnim, SIGNAL(finished()), this, SLOT(accidAnimFinished()));
 			m_accidAnim->setDuration(400);
@@ -327,14 +327,10 @@ void TscoreStaff::setEnableMetrum(bool isEnabled) {
   if (isEnabled) {
     if (!m_metrum) {
       m_metrum = new TscoreMetrum(scoreScene(), this);
-      if (m_keySignature)
-        m_keySignature->moveBy(m_metrum->width(), 0.0);
-      m_metrum->setPos(6.5, upperLinePos());
+      m_metrum->setPos(6.5 + (m_keySignature ? m_keySignature->boundingRect().width() : 0.0), upperLinePos());
       m_metrum->setZValue(30);
       changed = true;
       connect(m_metrum, &TscoreMetrum::metrumChanged, [=]{
-            if (m_keySignature)
-              m_keySignature->setX(6.5 + m_metrum->width());
             updateWidth();
             updateNotesPos();
       });
@@ -415,7 +411,7 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
         m_metrum->setY(upperLinePos());
     }
 		if (m_keySignature)
-				m_keySignature->setPos(6.5 + (m_metrum ? m_metrum->width() : 0.0), upperLinePos() - TscoreKeySignature::relatedLine);
+				m_keySignature->setPos(6.5, upperLinePos() - TscoreKeySignature::relatedLine);
 		for (int i = 0; i < count(); i++) {
 			noteSegment(i)->adjustSize();
 			noteSegment(i)->setAmbitus(isPiano ? 40 : 34, 2); // TODO It may cause problems when any other class will invoke note ambitus
