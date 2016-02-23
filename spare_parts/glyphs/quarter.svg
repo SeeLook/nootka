@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
@@ -32,13 +31,13 @@
      inkscape:window-height="1046"
      id="namedview8"
      showgrid="false"
-     inkscape:zoom="0.953125"
-     inkscape:cx="593.06428"
-     inkscape:cy="504.4463"
+     inkscape:zoom="0.5"
+     inkscape:cx="567.60226"
+     inkscape:cy="439.66038"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="g4163"
      showguides="true"
      inkscape:guide-bbox="true">
     <sodipodi:guide
@@ -46,9 +45,17 @@
        position="348.68479,854.64867"
        id="guide5187" />
     <sodipodi:guide
+       position="-298.15625,199.99609"
        orientation="0,1"
-       position="-83.090843,500.02882"
-       id="guide2996" />
+       id="guide4152" />
+    <sodipodi:guide
+       position="-294.64844,75"
+       orientation="0,1"
+       id="guide4154" />
+    <sodipodi:guide
+       position="-283.97656,325"
+       orientation="0,1"
+       id="guide4156" />
   </sodipodi:namedview>
   <defs
      id="defs4" />
@@ -60,28 +67,25 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     id="g4149"
-     transform="matrix(2.0145408,0,0,2.0145408,-1358.4951,-385.93368)">
-    <a
-       id="a90-4"
-       xlink:href="textedit:///home/tom/Nuty/LilyPond/rhythms/rhythms.ly:18:2:3"
-       style="color:inherit"
-       transform="matrix(95.663848,0,0,95.663848,-3703.8908,-224.62162)" />
+     id="g4163"
+     transform="matrix(0.91800511,0,0,0.91800511,-1.2160381,65.749885)">
+    <rect
+       id="rect32"
+       ry="9.836833"
+       height="814.539"
+       width="31.969706"
+       y="-60.764149"
+       x="293.5192"
+       style="fill:currentColor" />
     <path
+       id="path40"
+       d="m 218.24243,664.20993 c 55.08629,0 107.22154,28.52675 107.22154,89.51517 0,70.8254 -55.08628,119.02575 -101.3194,146.56909 -35.41272,20.65701 -74.7599,35.41232 -115.09088,35.41232 -55.08632,0 -107.2215408,-28.52678 -107.2215408,-89.51517 0,-70.82503 55.0862888,-119.02578 101.3194108,-146.56872 35.41271,-20.65741 74.75989,-35.41269 115.09087,-35.41269 z"
        style="fill:currentColor"
-       d="M 581.5918 159.57031 C 577.32093 159.57031 573.88281 163.00843 573.88281 167.2793 L 573.88281 681.25586 C 558.1923 669.27309 536.83729 663.47266 514.87109 663.47266 C 483.26523 663.47266 452.43118 675.03429 424.67969 691.22266 C 388.44857 712.80715 345.2793 750.58101 345.2793 806.08398 C 345.2793 853.87824 386.1357 876.23242 429.30469 876.23242 C 460.91056 876.23242 491.74461 864.67079 519.49609 848.48242 C 555.72723 826.89793 598.89648 789.12409 598.89648 733.62109 C 598.89648 731.66 598.82046 729.74674 598.68555 727.87109 C 598.84238 727.25641 598.93555 726.61605 598.93555 725.95117 L 598.93555 167.2793 C 598.93555 163.00843 595.49713 159.57031 591.22656 159.57031 L 581.5918 159.57031 z "
-       transform="matrix(0.49639104,0,0,0.49639104,674.34479,191.57402)"
-       id="rect94-4" />
+       inkscape:connector-curvature="0" />
   </g>
-  <g
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
-     id="text5163" />
-  <g
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
-     id="text5167" />
 </svg>

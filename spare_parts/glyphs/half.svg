@@ -7,7 +7,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
@@ -15,7 +14,7 @@
    height="1000"
    id="svg2"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="half.svg"
+   sodipodi:docname="half1.svg"
    inkscape:export-filename="/home/tom/DEVELOP/QT4/nootka/unused-picts/proto/note.png"
    inkscape:export-xdpi="300.09186"
    inkscape:export-ydpi="300.09186">
@@ -32,13 +31,13 @@
      inkscape:window-height="1046"
      id="namedview8"
      showgrid="false"
-     inkscape:zoom="0.953125"
-     inkscape:cx="613.13177"
-     inkscape:cy="472.42559"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="8.256851"
+     inkscape:cy="421.73412"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2"
+     inkscape:current-layer="g4163"
      showguides="true"
      inkscape:guide-bbox="true">
     <sodipodi:guide
@@ -46,9 +45,17 @@
        position="348.68479,854.64867"
        id="guide5187" />
     <sodipodi:guide
+       position="-298.15625,199.99609"
        orientation="0,1"
-       position="-83.090843,500.02882"
-       id="guide2996" />
+       id="guide4152" />
+    <sodipodi:guide
+       position="-294.64844,75"
+       orientation="0,1"
+       id="guide4154" />
+    <sodipodi:guide
+       position="-283.97656,325"
+       orientation="0,1"
+       id="guide4156" />
   </sodipodi:namedview>
   <defs
      id="defs4" />
@@ -65,23 +72,20 @@
     </rdf:RDF>
   </metadata>
   <g
-     id="g4149"
-     transform="matrix(31.20063,0,0,31.20063,-26154.743,-24063.717)">
-    <a
-       id="a96-1"
-       xlink:href="textedit:///home/tom/Nuty/LilyPond/rhythms/rhythms.ly:17:2:3"
-       style="color:inherit"
-       transform="matrix(6.2266488,0,0,6.2266488,613.57902,743.99875)" />
+     id="g4163"
+     transform="matrix(0.91800511,0,0,0.91800511,-1.2160381,65.749885)">
     <path
+       inkscape:connector-curvature="0"
        style="fill:currentColor"
-       d="M 582.07617 155.58789 C 577.77111 155.58789 574.30469 159.05236 574.30469 163.35742 L 574.30469 673.26562 C 563.48408 667.15415 549.81791 664.33594 534.67188 664.33594 C 476.3891 664.33594 429.76438 675.21567 387.80078 703.19141 C 362.15667 720.28748 347.39165 748.26313 338.06641 777.79297 C 333.40378 792.55804 329.51758 806.54578 329.51758 821.31055 C 329.51758 860.94284 358.27115 878.03906 394.79492 878.03906 C 453.0777 878.03906 498.92538 866.38167 540.88867 838.40625 C 566.53309 821.30986 582.07515 793.33452 591.40039 763.80469 C 596.06395 749.03993 599.17188 735.05218 599.17188 720.28711 C 599.17188 718.5309 599.09841 716.83714 598.99023 715.17188 C 599.35598 714.26868 599.56055 713.28158 599.56055 712.24414 L 599.56055 163.35742 C 599.56055 159.05236 596.09413 155.58789 591.78906 155.58789 L 582.07617 155.58789 z M 541.66602 688.42578 C 557.98519 688.42578 574.30469 701.63693 574.30469 720.28711 C 574.30469 728.05825 571.97303 735.83015 566.5332 742.04688 C 550.99123 761.47426 514.46778 784.00967 485.71484 802.66016 C 456.96222 821.31064 420.43962 845.40091 396.34961 852.39453 C 393.24109 853.17143 390.13102 853.17188 387.02344 853.17188 C 370.70426 853.17188 354.38477 839.96104 354.38477 821.31055 C 354.38477 813.53941 357.49408 805.76751 362.93359 799.55078 C 378.47556 780.12308 414.99901 757.58799 443.75195 738.9375 C 472.50458 720.28701 508.25179 696.19706 532.3418 689.20312 C 535.45032 688.42623 538.55843 688.42578 541.66602 688.42578 z "
-       transform="matrix(0.03205063,0,0,0.03205063,838.27612,771.25741)"
-       id="rect100-5" />
+       d="m 293.86454,735.63673 c 0,-23.60842 -20.65749,-40.33099 -41.31497,-40.33099 -3.93457,0 -7.86948,0 -11.80404,0.98256 -30.49426,8.8531 -75.7438,39.34734 -112.13988,62.95576 -36.39643,23.60843 -82.62927,52.1354 -102.30313,76.72746 -6.88584,7.86945 -10.82037,17.70621 -10.82037,27.54296 0,23.60841 20.65749,40.331 41.31462,40.331 3.93492,0 7.86948,0 11.8044,-0.98257 30.49387,-8.8531 76.72707,-39.34735 113.12352,-62.95576 36.39607,-23.60841 82.62924,-52.13502 102.30276,-76.72709 6.88585,-7.86946 9.83709,-17.70658 9.83709,-27.54333 z m -50.16809,-70.82524 c 46.2332,0 81.64563,20.65749 81.64563,70.82524 0,18.69023 -3.93455,36.39644 -9.83673,55.0863 -11.80404,37.38008 -31.4779,72.79253 -63.93943,94.43367 -53.11866,35.41245 -111.15624,50.16774 -184.93239,50.16774 -46.23285,0 -82.62927,-21.64112 -82.62927,-71.80888 0,-18.68984 4.91853,-36.39607 10.82037,-55.0863 11.8044,-37.37972 30.49425,-72.79253 62.95578,-94.43331 53.11902,-35.41278 112.13989,-49.18446 185.91604,-49.18446 z"
+       id="path70-0" />
+    <rect
+       style="fill:currentColor"
+       x="293.86322"
+       y="-61.146057"
+       width="31.969688"
+       height="796.43872"
+       ry="9.8368282"
+       id="rect72" />
   </g>
-  <g
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
-     id="text5163" />
-  <g
-     style="font-size:600px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Emmentaler;-inkscape-font-specification:Emmentaler"
-     id="text5167" />
 </svg>
