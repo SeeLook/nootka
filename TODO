@@ -10,7 +10,14 @@
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
+- TqaUnit::setMistake(Etype mis) -  use casting of mistake type enum to int instead of switch/case evry type
+- TexamExecutor has many, many un-wrapped strings, many ""
+- Use int and enumerations between plugins and main window instead of text messages - especially updater
+
+
+============================================================================
 Translations:
+ - merge French changes from latest *.qm into *.ts
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
  - Ttune - new context moved from QObject 
 
@@ -33,8 +40,6 @@ ANDROID:
 - duration of animation of note correction was decreased to 200ms to work properly under Android,
   but it would be better to signal when it is finished and perform some routines in main score after that
 ============================================================================
-- TexamExecutor has many, many un-wrapped strings, many ""
-- Use int and enumerations between plugins and main window instead of text messages - especially updater
 
 To consideration:
 - additional settings options:
