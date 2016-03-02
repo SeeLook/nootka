@@ -251,7 +251,6 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 	if (isEnabled != (bool)m_keySignature) {
 		if (isEnabled) {
 			m_keySignature = new TscoreKeySignature(scoreScene(), this);
-// 			m_keySignature->setPos(7.0, 0.0);
 			m_keySignature->setPos(6.5, upperLinePos() - TscoreKeySignature::relatedLine);
 			m_keySignature->setClef(m_clef->clef());
 			m_keySignature->setZValue(30);
@@ -277,6 +276,8 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
         connect(m_scoreNotes[i], SIGNAL(destroyed(QObject*)), this, SLOT(noteDestroingSlot(QObject*)), Qt::UniqueConnection);
 // 				connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
 			}
+			if (m_scoreMeter)
+        m_scoreMeter->setPos(m_keySignature->x() + m_keySignature->boundingRect().width(), upperLinePos());
 		} else {
         m_keySignature->blockSignals(true);
         m_keySignature->setKeySignature(0);
@@ -287,6 +288,8 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
         m_accidAnim = 0;
         delete m_flyAccid;
         m_flyAccid = 0;
+        if (m_scoreMeter)
+          m_scoreMeter->setPos(6.5, upperLinePos());
 		}
 		updateLines();
 		updateNotesPos();

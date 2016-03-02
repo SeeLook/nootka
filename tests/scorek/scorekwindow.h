@@ -34,7 +34,10 @@ public:
   ScorekWindow(QWidget* parent = 0);
 
 protected:
-  virtual void resizeEvent(QResizeEvent*);
+  void keySignatureSlot(bool keyEnabled);
+  void meterSlot(bool meterEnabled);
+  void dblAccidsSlot(bool dblAccidsEnabled);
+
 
 private:
   TmultiScore           *m_score;

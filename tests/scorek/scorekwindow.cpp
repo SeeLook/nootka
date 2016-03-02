@@ -42,17 +42,45 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
 
   setCentralWidget(centralW);
 
-  m_score->setEnabledDblAccid(true);
-  m_score->setEnableKeySign(true);
+  dblAccidsSlot(true);
+  keySignatureSlot(true);
+
   m_score->scoreScene()->setRhythmEnabled(true);
   m_score->setMeter(Tmeter(Tmeter::e_9_8));
+
+  auto scoreMenu = new QMenu("Score");
+    auto keyAct = scoreMenu->addAction("Key signature");
+      keyAct->setCheckable(true);
+      keyAct->setChecked(true);
+      connect(keyAct, &QAction::toggled, this, &ScorekWindow::keySignatureSlot);
+    auto meterAct = scoreMenu->addAction("Time signature");
+      meterAct->setCheckable(true);
+      meterAct->setChecked(true);
+      connect(meterAct, &QAction::toggled, this, &ScorekWindow::meterSlot);
+    auto dblAccidsAct = scoreMenu->addAction("Double accidentals");
+      dblAccidsAct->setCheckable(true);
+      dblAccidsAct->setChecked(true);
+      connect(dblAccidsAct, &QAction::toggled, this, &ScorekWindow::dblAccidsSlot);
+
+  auto bar = menuBar();
+  bar->addMenu(scoreMenu);
 
   connect(m_score, &TmultiScore::statusTip, [=](const QString& s){ statusLabel->setText(s); });
   TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color());
 }
 
 
-void ScorekWindow::resizeEvent(QResizeEvent*) {
-//   m_score->resize(contentsRect().size());
+void ScorekWindow::keySignatureSlot(bool keyEnabled) {
+  m_score->setEnableKeySign(keyEnabled);
+}
+
+
+void ScorekWindow::meterSlot(bool meterEnabled) {
+  m_score->scoreScene()->setRhythmEnabled(meterEnabled);
+}
+
+
+void ScorekWindow::dblAccidsSlot(bool dblAccidsEnabled) {
+  m_score->setEnabledDblAccid(dblAccidsEnabled);
 }
 

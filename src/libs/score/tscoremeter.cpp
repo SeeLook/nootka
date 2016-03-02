@@ -103,8 +103,10 @@ TselectMeter::TselectMeter(const Tmeter& meter, QWidget* parent) :
       lay->addWidget(button, i / 3, i % 3);
     m_group->addButton(button, qPow(2, i));
     button->setCheckable(true);
-    if (meter == m)
+    if (meter == m) {
       button->setChecked(true);
+      button->click(); // click a button with current meter to initialize the group
+    }
   }
   setLayout(lay);
   resize(lay->sizeHint());
