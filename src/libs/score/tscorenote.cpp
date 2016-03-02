@@ -25,6 +25,7 @@
 #include <animations/tcrossfadetextanim.h>
 #include <animations/tcombinedanim.h>
 #include <music/tnote.h>
+#include <music/trhythm.h>
 #include <tnoofont.h>
 #include <QtCore/qeasingcurve.h>
 #include <QtWidgets/qgraphicseffect.h>
@@ -87,41 +88,45 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_height = staff->height();
   m_mainColor = qApp->palette().text().color();
 	m_note = new Tnote(0, 0, 0);
+  m_rhythm = new Trhythm(scoreScene()->isRhythmEnabled() ? Trhythm::e_quarter : Trhythm::e_none); // TODO: has to be lower digit of meter
 
 	m_lines = new TscoreLines(this);
-  m_mainNote = createNoteHead(this);
-	
+//   m_mainNote = createNoteHead(this);
+  m_mainNote = new TnoteItem(scoreScene(), m_rhythm);
+  m_mainNote->setParentItem(this);
+  m_mainNote->hide();
+
   m_mainAccid = new QGraphicsSimpleTextItem();
 	m_mainAccid->setParentItem(m_mainNote);
-	
+
   m_mainAccid->setFont(TnooFont(5));
 	bool prepareScale = false;
-	if (scoreScene()->accidScale() == -1.0) { // only when first TscoreNote is constructed
-			m_staticTip = 
+	if (scoreScene()->accidScale() == -1.0) { // only when first instance of TscoreNote is constructed
+			m_staticTip =
 						tr("Click to enter a note, use horizontal scroll to change accidental.");
-		  m_selectedTip = "<br>" + tr("Right mouse button just selects a note.");
+		  m_selectedTip = QLatin1String("<br>") + tr("Right mouse button just selects a note.");
 			m_mainAccid->setText(getAccid(1));
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
 			prepareScale = true;
 	}
-	m_emptyText = new QGraphicsSimpleTextItem("n", this);
-		m_emptyText->setFont(TnooFont());
+	m_emptyText = new QGraphicsSimpleTextItem(QStringLiteral("n"), this);
+		m_emptyText->setFont(TnooFont(8));
 		m_emptyText->setZValue(1);
 		QColor cc = qApp->palette().highlight().color();
 		cc.setAlpha(50);
 		m_emptyText->setBrush(cc);
 		m_emptyText->setPen(QPen(qApp->palette().highlight().color(), 0.1));
-		m_emptyText->setScale(5.5 / m_emptyText->boundingRect().width());
+// 		m_emptyText->setScale(5.5 / m_emptyText->boundingRect().width());
 		m_emptyText->setPos((7.0 - m_emptyText->boundingRect().width() * m_emptyText->scale()) / 2,
-												staff->upperLinePos() - 1 + (staff->isPianoStaff() ? 6 : 0));
+												staff->upperLinePos() + 1.0 + (staff->isPianoStaff() ? 6 : 0));
 		m_emptyText->hide();
-		
+
   m_mainAccid->setScale(scoreScene()->accidScale());
 	if (prepareScale) {
 			scoreScene()->setAccidYoffset(m_mainAccid->boundingRect().height() * scoreScene()->accidScale() * 0.34);
 			m_mainAccid->setText(QString());
 	}
-	m_mainAccid->setPos(-3.0, - scoreScene()->accidYoffset());
+	m_mainAccid->setPos(-2.3, - scoreScene()->accidYoffset());
 	
 	if (!scene->views().isEmpty() && scoreScene()->right() == 0)
 			initNoteCursor();
@@ -142,6 +147,7 @@ TscoreNote::~TscoreNote() { // release work note and controls from destructing p
 	if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
 		scoreScene()->noteDeleted(this);
   delete m_note;
+  delete m_rhythm;
 }
 
 //##############################################################################
@@ -161,8 +167,9 @@ void TscoreNote::adjustSize() {
 
 void TscoreNote::setColor(const QColor& color) {
 	m_mainColor = color;
-	m_mainNote->setPen(Qt::NoPen);
-	m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
+  m_mainNote->setColor(color);
+// 	m_mainNote->setPen(Qt::NoPen);
+// 	m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
 	m_mainAccid->setBrush(QBrush(m_mainColor));
 	m_lines->setColor(color);
 	if (m_stringText)
@@ -193,7 +200,12 @@ void TscoreNote::moveNote(int posY) {
       m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, posY));
       m_noteAnim->startAnimations();
   } else { // just move a note
-    m_mainNote->setPos(3.0, posY);
+    if (m_rhythm->isRest()) {
+        m_mainNote->setPos(3.0, 20.5);
+    } else {
+        m_mainNote->setStemUp(posY > 14); // 14 looks good also for grand staff
+        m_mainNote->setPos(3.0, posY);
+    }
   }
   m_mainPosY = posY;
   int noteNr = (56 + staff()->notePosRelatedToClef(staff()->fixNotePos(posY))) % 7;
@@ -283,10 +295,10 @@ void TscoreNote::hideWorkNote() {
 
 void TscoreNote::markNote(QColor blurColor) {
 	if (blurColor == -1) {
-		m_mainNote->setPen(Qt::NoPen);
+// 		m_mainNote->setPen(Qt::NoPen); TODO: check it
 		m_mainNote->setGraphicsEffect(0);
 	} else {
-		m_mainNote->setPen(QPen(blurColor, 0.2));
+// 		m_mainNote->setPen(QPen(blurColor, 0.2));
 		QGraphicsDropShadowEffect *bluredPen = new QGraphicsDropShadowEffect();
 		bluredPen->setBlurRadius(10);
 		bluredPen->setColor(QColor(blurColor.name()));
@@ -436,10 +448,11 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 	if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor() &&
 			scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
 		QColor emptyNoteColor;
-		if (m_mainNote->pen().style() == Qt::NoPen)
+// 		if (m_mainNote->pen().style() == Qt::NoPen) // TODO: check it
+    if (!m_mainNote->graphicsEffect())
 			emptyNoteColor = qApp->palette().highlight().color();
 		else
-			emptyNoteColor = m_mainNote->pen().color();
+			emptyNoteColor = m_mainNote->color(); //m_mainNote->pen().color();
 		emptyNoteColor.setAlpha(120);
 		painter->setPen(QPen(emptyNoteColor, 0.4, Qt::SolidLine, Qt::RoundCap));
 		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, 6.5, staff()->upperLinePos() - 2.0));
@@ -521,6 +534,10 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (scoreScene()->workPosY()) { // edit mode
 		if (event->button() == Qt::LeftButton) {
 				m_accidental = scoreScene()->currentAccid();
+        if (scoreScene()->isRhythmEnabled()) {
+            m_mainNote->setRhythm(scoreScene()->workNote()->rhythm());
+            m_rhythm->setRhythm(*scoreScene()->workNote()->rhythm());
+        }
         moveNote(scoreScene()->workPosY());
         emit noteWasClicked(m_index);
 				if (m_nameText)
