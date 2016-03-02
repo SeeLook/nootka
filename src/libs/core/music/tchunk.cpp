@@ -39,7 +39,7 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 	xml.writeStartElement("note");
 		if (m_rhythm.isRest() || !m_pitch.isValid())
 			xml.writeEmptyElement("rest");
-		else 
+		else
 			m_pitch.toXml(xml);
 		if (m_rhythm.rhythm() == Trhythm::e_none) {
 			if (!m_rhythm.isRest() && m_pitch.isValid())
@@ -66,7 +66,7 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
 	bool ok = true;
 	int stNr = 1;
-	m_rhythm.setNoteValue(Trhythm::e_none);
+	m_rhythm.setRhythm(Trhythm::e_none);
 	while (xml.readNextStartElement()) {
 			if (xml.name() == "pitch")
 				m_pitch.fromXml(xml);
@@ -74,7 +74,7 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
 				m_rhythm.setRest(true);
 				xml.skipCurrentElement();
 			} else if (xml.name() == "type")
-				m_rhythm.setNoteValue(xml.readElementText().toStdString());
+				m_rhythm.setRhythmValue(xml.readElementText().toStdString());
 			else if (xml.name() == "notations")
 				m_fretPos.fromXml(xml);
 			else if (xml.name() == "voice") {
