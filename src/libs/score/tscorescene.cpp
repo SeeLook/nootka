@@ -18,13 +18,15 @@
 
 #include "tscorescene.h"
 #include "tnotecontrol.h"
+#include "trhythmpane.h"
 #include <graphics/tdropshadoweffect.h>
 #include <tnoofont.h>
-#include <QGraphicsView>
-#include <QGraphicsEffect>
-#include <QApplication>
-#include <QTimer>
-#include <QDebug>
+#include <music/trhythm.h>
+#include <QtWidgets/qgraphicsview.h>
+#include <QtWidgets/qgraphicseffect.h>
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qtimer.h>
+#include <QtCore/qdebug.h>
 
 
 #define WORK_HIDE_DELAY (5000)
@@ -34,31 +36,35 @@ TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent),
   m_workPosY(0),
   m_workNote(0),
-  m_workAccid(0), m_workAccid2(0),
+  m_workAccid(0),
   m_nameColor(Qt::darkCyan),
   m_rightBox(0), m_leftBox(0),
+  m_rhythmBox(0),
   m_accidYoffset(0.0),
   m_accidScale(-1.0),
   m_scoreNote(0),
+  m_rhythmEnabled(true),
   m_controlledNotes(true),
   m_mouseOverKey(false), m_rectIsChanging(false)
 {
 	m_showTimer = new QTimer(this);
 	m_hideTimer = new QTimer(this);
+  m_workRhythm = new Trhythm(Trhythm::e_none);
   setDoubleAccidsEnabled(true);
   m_currentAccid = 0;
-	
+
 	connect(m_showTimer, SIGNAL(timeout()), this, SLOT(showTimeOut()));
 	connect(m_hideTimer, SIGNAL(timeout()), this, SLOT(hideTimeOut()));
 }
 
 
-TscoreScene::~TscoreScene() 
+TscoreScene::~TscoreScene()
 {
 	if (m_rightBox) { // all items are into scene so they will be deleted
 		delete m_rightBox; // but the last TscoreNote has to skip deleting depending items itself
 		m_rightBox = 0;
 	}
+	delete m_workRhythm;
 }
 
 
@@ -67,8 +73,6 @@ void TscoreScene::setCurrentAccid(char accid) {
 	m_currentAccid = (char)qBound((int)-m_dblAccFuse, (int)accid, (int)m_dblAccFuse);
 	if (m_workAccid && prevAcc != m_currentAccid) {
 		m_workAccid->setText(TscoreNote::getAccid(m_currentAccid));
-//     if (m_workAccid2)
-//       m_workAccid2->setText(TscoreNote::getAccid(m_currentAccid));
 		if (m_currentAccid == 0)
 			m_workAccid->hide();
 		else
@@ -108,11 +112,10 @@ void TscoreScene::adjustCursor(TscoreNote* sn) {
 
 void TscoreScene::setPointedColor(const QColor& color) {
 	workColor = color;
-	m_workNote->setPen(QPen(workColor, 0.2));
-	m_workNote->setBrush(QBrush(workColor, Qt::SolidPattern));
+  m_workNote->setColor(color);
+// 	m_workNote->setPen(QPen(workColor, 0.2));
+// 	m_workNote->setBrush(QBrush(workColor, Qt::SolidPattern));
 	m_workAccid->setBrush(QBrush(workColor));
-//   if (m_workAccid2)
-//       m_workAccid2->setBrush(QBrush(workColor));
 	m_workLines->setColor(color);
 }
 
@@ -126,11 +129,13 @@ void TscoreScene::noteEntered(TscoreNote* sn) {
 		m_scoreNote = sn;
 		if (controlledNotes()) {
 			if (right()->isEnabled()) {
-				right()->setPos(sn->pos().x() + sn->boundingRect().width(), 0.0);
+				right()->setPos(sn->pos().x() + sn->boundingRect().width(),
+                        (sn->parentItem()->boundingRect().height() - right()->boundingRect().height() + 6.0) / 2.0);
 				right()->setScoreNote(sn);
 			}
 			if (left()->isEnabled()) {
-				left()->setPos(sn->pos().x() - left()->boundingRect().width(), 0.0);
+				left()->setPos(sn->pos().x() - left()->boundingRect().width(),
+                       (sn->parentItem()->boundingRect().height() - left()->boundingRect().height() + 6.0) / 2.0);
 				left()->setScoreNote(sn);
 			}
 		}
@@ -143,8 +148,14 @@ void TscoreScene::noteEntered(TscoreNote* sn) {
 void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
   if (!m_rectIsChanging) {
     setWorkPosY(yPos);
-    workNote()->setPos(3.0, workPosY());
-    workLines()->checkLines(yPos);
+    if (m_workRhythm->isRest()) {
+      workNote()->setPos(2.5, 20.5);
+    } else {
+      workNote()->setStemUp(yPos > 14);
+      workNote()->setPos(2.5, workPosY());
+  //     workNote()->setPos(3.0, workPosY());
+      workLines()->checkLines(yPos);
+    }
     if (!workNote()->isVisible())
       showTimeOut();
     if (sn != m_scoreNote) {
@@ -175,7 +186,7 @@ void TscoreScene::noteDeleted(TscoreNote* sn) {
 		left()->setScoreNote(0);
 		setCursorParent(0);
 		hideTimeOut();
-    statusTipChanged(""); // hide status tip of deleting note
+    statusTipChanged(QString()); // hide status tip of deleting note
 	}
 	m_scoreNote = 0;
 }
@@ -206,11 +217,10 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 		m_workLines = new TscoreLines(scoreNote);
 		workColor = qApp->palette().highlight().color();
 		workColor.setAlpha(200);
-		m_workNote = TscoreNote::createNoteHead(scoreNote);
-//     if (TscoreNote::touchEnabled())
-//       m_workNote->setRect(-10.5, 0, 22, 2); // long ellipse for touch screens visible under finger
-//     else
-    m_workNote->setRect(0, 0, 3.5, 2); // normal note head
+// 		m_workNote = TscoreNote::createNoteHead(scoreNote);
+//     m_workNote->setRect(0, 0, 3.5, 2); // normal note head
+    m_workNote = new TnoteItem(this, m_workRhythm);
+    m_workNote->setParentItem(scoreNote);
 		QGraphicsDropShadowEffect *workEffect = new QGraphicsDropShadowEffect();
 		workEffect->setOffset(3.0, 3.0);
 		workEffect->setBlurRadius(15);
@@ -222,23 +232,24 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 		m_workAccid->setParentItem(m_workNote);
 		m_workAccid->setFont(TnooFont(5));
 		m_workAccid->setScale(accidScale());
-//     if (TscoreNote::touchEnabled())
-//       m_workAccid->setPos(-13.5, - accidYoffset());
-//     else
-    m_workAccid->setPos(-3.0, - accidYoffset());
-//     if (TscoreNote::touchEnabled()) { // two the same accidentals on long note sides
-//       m_workAccid2 = new QGraphicsSimpleTextItem();
-//       m_workAccid2->setBrush(QBrush(workColor));
-//       m_workAccid2->setParentItem(m_workAccid);
-//       m_workAccid2->setFont(TnooFont(5));
-//       m_workAccid2->setPos(21, 0);
-//     }
+    m_workAccid->setPos(-2.3, - accidYoffset());
     m_workAccid->hide();
 		setPointedColor(workColor);
-		
-		m_rightBox = new TnoteControl(scoreNote->staff(), this);
-		m_leftBox = new TnoteControl(scoreNote->staff(), this);
+
+		m_rightBox = new TnoteControl(false, scoreNote->staff(), this);
+		m_leftBox = new TnoteControl(true, scoreNote->staff(), this);
 		m_leftBox->addAccidentals();
+    if (isRhythmEnabled()) {
+      m_rhythmBox = new TrhythmPane(scoreNote->staff(), this);
+      m_workRhythm->setRhythm(Trhythm::e_quarter);
+      m_workNote->setRhythm(m_workRhythm);
+      connect(m_rightBox, &TnoteControl::rhythmItemClicked, this, &TscoreScene::showRhythmPane);
+      connect(m_rhythmBox, &TrhythmPane::rhythmChanged, [=]{
+                m_workRhythm->setRhythm(*m_rhythmBox->rhythm());
+                m_workNote->setRhythm(m_rhythmBox->rhythm());
+                m_rightBox->setRhythm(m_rhythmBox->rhythm());
+      });
+    }
 	}
 }
 
@@ -256,17 +267,28 @@ void TscoreScene::setCursorParent(TscoreNote* sn) {
 void TscoreScene::showPanes() {
   if (left()->isEnabled())
     left()->show();
-  if (right()->isEnabled())
+  if (right()->isEnabled()) {
     right()->show();
+  }
 }
 
 
 void TscoreScene::hidePanes() {
   if (left()->isEnabled())
     left()->hide();
-  if (right()->isEnabled())
+  if (right()->isEnabled()) {
     right()->hide();
+  }
 }
+
+
+void TscoreScene::showRhythmPane() {
+  right()->hide();
+  if (m_rhythmBox)
+    m_rhythmBox->setPos(right()->x(), (m_scoreNote->parentItem()->boundingRect().height() - m_rhythmBox->boundingRect().height()) / 2.0);
+  m_rhythmBox->show();
+}
+
 
 
 void TscoreScene::showTimeOut() {

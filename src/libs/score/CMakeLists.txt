@@ -15,12 +15,16 @@ set(LIB_NOOTKASCORE_SRC
 	tscoreclef.cpp
 	tscorekeysignature.cpp
 	tscorenote.cpp
+	tnoteitem.cpp
 	tscorescene.cpp
 	tscorescordature.cpp
 	tscorestaff.cpp
 	tscore5lines.cpp
 	tnotecontrol.cpp
+	tpaneitem.cpp
+	trhythmpane.cpp
 	tscorelines.cpp
+	tscoremetrum.cpp
 	tsimplescore.cpp
 	tmultiscore.cpp
 )
