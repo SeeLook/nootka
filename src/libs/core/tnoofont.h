@@ -51,6 +51,14 @@ public:
        */
   static QString digit(quint8 d) { return (d / 10 ? QString(QChar(0x0180 + d / 10)) : QString()) + QString(QChar(0x0180 + d % 10)); }
 
+      /** Converts rhythm value (0, 1, 2, 4 - 16) into uni-code char number in Nootka font
+       * 0 (no rhythm returns full note head symbol)
+       * set @p stemUp to false to get symbols with stem down.
+       * Returned characters are optimized for score (staff lines height),
+       * to get just note symbol use 'n' and 'N' (stem down) instead
+       */
+  static quint16 getCharFromRhythm(quint16 rhythm, bool stemUp = true, bool rest = false);
+
 };
 
 #endif // TNOOFONT_H
