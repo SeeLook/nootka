@@ -348,8 +348,8 @@ void TmainScore::lockKeySignature(bool lock) {
 
 
 QRectF TmainScore::noteRect(int noteNr) {
-	return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->rect().width() * transform().m11(), 
-		staff()->noteSegment(noteNr)->mainNote()->rect().height() * transform().m11());
+	return QRectF(0, 0, staff()->noteSegment(noteNr)->mainNote()->boundingRect().width() * transform().m11(),
+		staff()->noteSegment(noteNr)->mainNote()->boundingRect().height() * transform().m11());
 }
 
 

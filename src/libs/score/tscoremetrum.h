@@ -68,7 +68,9 @@ private:
 class QButtonGroup;
 
 /**
- * Inner part of menu to select a time signature
+ * A menu to select a time signature.
+ * It works as ordinary @class QMenu,
+ * just returns @class Tmetrum.
  */
 class NOOTKACORE_EXPORT TselectMetrum : public QMenu {
 

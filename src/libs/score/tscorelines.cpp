@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,7 @@
 #include "tscorelines.h"
 #include "tscorenote.h"
 #include "tscorestaff.h"
-#include <QPen>
+#include <QtGui/qpen.h>
 
 TscoreLines::TscoreLines(TscoreNote* note) :
 	m_parentNote(note)
@@ -46,7 +46,7 @@ void TscoreLines::checkLines(int curPos) {
 			m_middle[1]->hide();
 	}
 	for (int i = 0; i < m_lower.size(); i++) {
-		if (curPos > m_lower[i]->line().y1() - 2) 
+		if (curPos > m_lower[i]->line().y1() - 2)
 			m_lower[i]->show();
 		else 
 			m_lower[i]->hide();
@@ -92,7 +92,7 @@ QGraphicsLineItem* TscoreLines::createNoteLine(int yPos) {
 	line->hide();
 	line->setParentItem(m_parentNote);
 	line->setZValue(7);
-	line->setLine(2.5, yPos, 7.0, yPos);
+	line->setLine(2.5, yPos, 6.0, yPos);
 	return line;
 }
 
