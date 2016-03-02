@@ -322,7 +322,7 @@ void TscoreStaff::removeScordatute() {
 }
 
 
-void TscoreStaff::setEnableMetrum(bool isEnabled) {
+void TscoreStaff::setMeterEnabled(bool isEnabled) {
   bool changed = false;
   if (isEnabled) {
     if (!m_scoreMeter) {

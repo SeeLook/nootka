@@ -126,8 +126,8 @@ public:
 	bool hasScordature() { return (bool)m_scordature; } /**< @p TRUE when staff has got scordature. */
 	void removeScordatute();
 
-  void setEnableMetrum(bool isEnabled);
-  TscoreMeter* scoreMetrum() { return m_scoreMeter; }
+  void setMeterEnabled(bool isEnabled);
+  TscoreMeter* scoreMeter() { return m_scoreMeter; }
 
 	qreal upperLinePos() const { return m_upperLinePos; } /**< Y position of upper line of a staff. */
 	qreal lowerLinePos() const { return m_lowerStaffPos; } /**< Y position of lower line of a lower staff. */

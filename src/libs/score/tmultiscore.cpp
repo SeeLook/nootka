@@ -169,12 +169,12 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 
 void TmultiScore::setMeter(const Tmeter& m) {
   if (m.meter() == Tmeter::e_none) {
-    if (staff()->scoreMetrum())
-      staff()->setEnableMetrum(false);
+    if (staff()->scoreMeter())
+      staff()->setMeterEnabled(false);
   } else {
-    if (!staff()->scoreMetrum())
-      staff()->setEnableMetrum(true);
-    staff()->scoreMetrum()->setMeter(m);
+    if (!staff()->scoreMeter())
+      staff()->setMeterEnabled(true);
+    staff()->scoreMeter()->setMeter(m);
   }
 }
 
