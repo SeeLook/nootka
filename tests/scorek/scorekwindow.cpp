@@ -19,7 +19,7 @@
 #include "scorekwindow.h"
 #include <tmultiscore.h>
 #include <tscorescene.h>
-#include <music/tmetrum.h>
+#include <music/tmeter.h>
 #include <widgets/tpushbutton.h>
 #include <QtWidgets/QtWidgets>
 
@@ -45,7 +45,7 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
   m_score->setEnabledDblAccid(true);
   m_score->setEnableKeySign(true);
   m_score->scoreScene()->setRhythmEnabled(true);
-  m_score->setTimeSignature(Tmetrum(Tmetrum::e_9_8));
+  m_score->setMeter(Tmeter(Tmeter::e_9_8));
 
   connect(m_score, &TmultiScore::statusTip, [=](const QString& s){ statusLabel->setText(s); });
   TpushButton::setCheckColor(palette().highlight().color(), palette().highlightedText().color());

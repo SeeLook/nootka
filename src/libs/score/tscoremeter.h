@@ -16,27 +16,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCOREMETRUM_H
-#define TSCOREMETRUM_H
+#ifndef TSCOREMETER_H
+#define TSCOREMETER_H
 
 #include "nootkacoreglobal.h"
 #include "tscoreitem.h"
-#include <music/tmetrum.h>
+#include <music/tmeter.h>
 
 
 /**
  * Graphical representation of time signature on a staff (first one)
  */
-class NOOTKACORE_EXPORT TscoreMetrum : public TscoreItem
+class NOOTKACORE_EXPORT TscoreMeter : public TscoreItem
 {
 
   Q_OBJECT
 
 public:
-  TscoreMetrum(TscoreScene* scene, TscoreStaff* staff);
+  TscoreMeter(TscoreScene* scene, TscoreStaff* staff);
 
-  void setMetrum(const Tmetrum& metrum);
-  Tmetrum metrum() const { return m_metrum; }
+  void setMeter(const Tmeter& meter);
+  Tmeter meter() const { return m_meter; }
 
   void setReadOnly(bool readOnly) { m_isReadOnly = readOnly; }
   bool isReadOnly() { return m_isReadOnly; }
@@ -50,13 +50,13 @@ public:
   qreal width() { return m_width; }
 
 signals:
-  void metrumChanged();
+  void meterChanged();
 
 protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
 private:
-  Tmetrum           m_metrum;
+  Tmeter            m_meter;
   bool              m_isReadOnly, m_pianoStaff;
   QString           m_upperDigit, m_lowerDigit;
   qreal             m_width;
@@ -70,19 +70,19 @@ class QButtonGroup;
 /**
  * A menu to select a time signature.
  * It works as ordinary @class QMenu,
- * just returns @class Tmetrum.
+ * just returns @class Tmeter.
  */
-class NOOTKACORE_EXPORT TselectMetrum : public QMenu {
+class NOOTKACORE_EXPORT TselectMeter : public QMenu {
 
   Q_OBJECT
 
 public:
-  explicit TselectMetrum(const Tmetrum& metrum, QWidget* parent = 0);
+  explicit TselectMeter(const Tmeter& meter, QWidget* parent = 0);
 
-  Tmetrum exec(const QPoint& pos);
+  Tmeter exec(const QPoint& pos);
 
 private:
   QButtonGroup        *m_group;
 };
 
-#endif // TSCOREMETRUM_H
+#endif // TSCOREMETER_H

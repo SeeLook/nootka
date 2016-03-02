@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,37 +19,37 @@
 #ifndef TMEASURE_H
 #define TMEASURE_H
 
-#include "tmetrum.h"
+#include "tmeter.h"
 #include "tchunk.h"
 
 
-/** 
+/**
  * A musical measure
  */
 class NOOTKACORE_EXPORT Tmeasure
 {
-	
+
 public:
 	Tmeasure(int nr);
-	
-	Tmetrum metrum() { return m_metrum; }
-	
+
+	Tmeter meter() { return m_meter; }
+
 	int number() { return m_number; }
-	
+
 			/** Adds a note. For this moment it doesn't check duration (rhythm) */
 	void addNote(const Tchunk& n);
 	Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
 	Tchunk& lastNote() { return m_notes.last(); }
-	
+
 	void removeLastNote();
-	
+
 	int conunt() { return m_notes.size(); }
-	
+
 private:
 	int								m_number;
-	Tmetrum						m_metrum;
+	Tmeter						m_meter;
 	QList<Tchunk>			m_notes;
-	
+
 };
 
 #endif // TMEASURE_H

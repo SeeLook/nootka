@@ -96,7 +96,7 @@ HEADERS  += nootkaconfig.h\
             music/tkeysignature.h\
             music/tmeasure.h\
             music/tmelody.h\
-            music/tmetrum.h\
+            music/tmeter.h\
             music/tnamestylefilter.h\
             music/tnote.h\
             music/tnotestruct.h\

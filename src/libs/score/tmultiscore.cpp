@@ -24,8 +24,8 @@
 #include "tscorenote.h"
 #include "tscoreclef.h"
 #include "tnotecontrol.h"
-#include "tscoremetrum.h"
-#include <music/tmetrum.h>
+#include "tscoremeter.h"
+#include <music/tmeter.h>
 #include <QtWidgets/QtWidgets>
 
 
@@ -167,14 +167,14 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 }
 
 
-void TmultiScore::setTimeSignature(const Tmetrum& m) {
-  if (m.meter() == Tmetrum::e_none) {
+void TmultiScore::setMeter(const Tmeter& m) {
+  if (m.meter() == Tmeter::e_none) {
     if (staff()->scoreMetrum())
       staff()->setEnableMetrum(false);
   } else {
     if (!staff()->scoreMetrum())
       staff()->setEnableMetrum(true);
-    staff()->scoreMetrum()->setMetrum(m);
+    staff()->scoreMetrum()->setMeter(m);
   }
 }
 

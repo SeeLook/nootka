@@ -24,7 +24,7 @@
 #include "tscorescordature.h"
 #include "tnotecontrol.h"
 #include "tscore5lines.h"
-#include "tscoremetrum.h"
+#include "tscoremeter.h"
 #include <music/tnote.h>
 #include <animations/tcombinedanim.h>
 #include <tnoofont.h>
@@ -57,7 +57,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 	m_maxNotesCount(0),
 	m_loNotePos(28.0), m_hiNotePos(12.0),
 	m_lockRangeCheck(false), m_autoAddedNoteId(-1),
-	m_metrum(0)
+	m_scoreMeter(0)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	setZValue(10);
@@ -93,7 +93,7 @@ TscoreStaff::~TscoreStaff() {
 	if (scoreScene()->right() && scoreScene()->right()->parentItem() == this) {
 		scoreScene()->right()->setParentItem(0);
 		scoreScene()->left()->setParentItem(0);
-	}		
+	}
 }
 
 //####################################################################################################
@@ -325,20 +325,20 @@ void TscoreStaff::removeScordatute() {
 void TscoreStaff::setEnableMetrum(bool isEnabled) {
   bool changed = false;
   if (isEnabled) {
-    if (!m_metrum) {
-      m_metrum = new TscoreMetrum(scoreScene(), this);
-      m_metrum->setPos(6.5 + (m_keySignature ? m_keySignature->boundingRect().width() : 0.0), upperLinePos());
-      m_metrum->setZValue(30);
+    if (!m_scoreMeter) {
+      m_scoreMeter = new TscoreMeter(scoreScene(), this);
+      m_scoreMeter->setPos(6.5 + (m_keySignature ? m_keySignature->boundingRect().width() : 0.0), upperLinePos());
+      m_scoreMeter->setZValue(30);
       changed = true;
-      connect(m_metrum, &TscoreMetrum::metrumChanged, [=]{
+      connect(m_scoreMeter, &TscoreMeter::meterChanged, [=]{
             updateWidth();
             updateNotesPos();
       });
     }
   } else {
-    if (m_metrum) {
-      delete m_metrum;
-      m_metrum = 0;
+    if (m_scoreMeter) {
+      delete m_scoreMeter;
+      m_scoreMeter = 0;
       if (m_keySignature)
         m_keySignature->setX(6.5);
       changed = true;
@@ -363,8 +363,8 @@ void TscoreStaff::setDisabled(bool disabled) {
 		m_scoreNotes[i]->setReadOnly(disabled);
 	if (disabled && count())
 		m_scoreNotes[0]->hideWorkNote();
-  if (m_metrum)
-    m_metrum->setReadOnly(!disabled);
+  if (m_scoreMeter)
+    m_scoreMeter->setReadOnly(!disabled);
 // 	setControlledNotes(!disabled);
 }
 
@@ -406,9 +406,9 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
         delete m_brace;
 		}
 		prepareStaffLines();
-    if (m_metrum) {
-        m_metrum->setPianoStaff(m_isPianoStaff);
-        m_metrum->setY(upperLinePos());
+    if (m_scoreMeter) {
+        m_scoreMeter->setPianoStaff(m_isPianoStaff);
+        m_scoreMeter->setY(upperLinePos());
     }
 		if (m_keySignature)
 				m_keySignature->setPos(6.5, upperLinePos() - TscoreKeySignature::relatedLine);
@@ -499,8 +499,8 @@ qreal TscoreStaff::notesOffset() {
         off = KEY_WIDTH + 1;
   } else if (m_enableScord)
 			off = KEY_WIDTH / 2;
-  if (m_metrum)
-    off += m_metrum->width();
+  if (m_scoreMeter)
+    off += m_scoreMeter->width();
 	return off;
 }
 

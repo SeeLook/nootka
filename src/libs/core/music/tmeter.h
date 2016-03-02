@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMETRUM_H
-#define TMETRUM_H
+#ifndef TMETER_H
+#define TMETER_H
 
 #include <nootkacoreglobal.h>
 #include <QtCore/qxmlstream.h>
@@ -27,7 +27,7 @@
 /**
  * Describes musical time signature
  */
-class NOOTKACORE_EXPORT Tmetrum
+class NOOTKACORE_EXPORT Tmeter
 {
 
 public:
@@ -37,7 +37,7 @@ public:
     e_3_8 = 64, e_5_8 = 128, e_6_8 = 256, e_7_8 = 512, e_9_8 = 1024, e_12_8 = 2048
 	};
 
-	Tmetrum(Emeter meter = e_none) : m_meter(meter) {}
+	Tmeter(Emeter meter = e_none) : m_meter(meter) {}
 
 	Emeter meter() const { return m_meter; }
 
@@ -51,11 +51,11 @@ public:
   void toXml(QXmlStreamWriter& xml) const;
   bool fromXml(QXmlStreamReader& xml);
 
-  bool operator==(const Tmetrum& m) const { return meter() == m.meter(); }
-  bool operator!=(const Tmetrum& m) const { return meter() != m.meter(); }
+  bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
+  bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }
 
 private:
 	Emeter				m_meter;
 };
 
-#endif // TMETRUM_H
+#endif // TMETER_H

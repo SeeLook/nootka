@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tscoremetrum.h"
+#include "tscoremeter.h"
 #include "tscorestaff.h"
 // #include "graphics/tnotepixmap.h"
 #include <tnoofont.h>
@@ -27,9 +27,9 @@
 #define METRUM_HEIGHT (8.0)
 
 
-TscoreMetrum::TscoreMetrum(TscoreScene* scene, TscoreStaff* staff) :
+TscoreMeter::TscoreMeter(TscoreScene* scene, TscoreStaff* staff) :
   TscoreItem(scene),
-  m_metrum(Tmetrum(Tmetrum::e_4_4)),
+  m_meter(Tmeter(Tmeter::e_4_4)),
   m_isReadOnly(false),
   m_pianoStaff(false),
   m_width(4.0)
@@ -40,18 +40,18 @@ TscoreMetrum::TscoreMetrum(TscoreScene* scene, TscoreStaff* staff) :
 }
 
 
-void TscoreMetrum::setMetrum(const Tmetrum& metrum) {
-  m_metrum = metrum;
-  m_upperDigit = TnooFont::digit(m_metrum.upper());
-  m_lowerDigit = TnooFont::digit(m_metrum.lower());
+void TscoreMeter::setMeter(const Tmeter& meter) {
+  m_meter = meter;
+  m_upperDigit = TnooFont::digit(m_meter.upper());
+  m_lowerDigit = TnooFont::digit(m_meter.lower());
   QFontMetrics fm(TnooFont(8));
   m_width = fm.boundingRect(m_upperDigit).width();
   update();
-  emit metrumChanged();
+  emit meterChanged();
 }
 
 
-void TscoreMetrum::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void TscoreMeter::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
 //   paintBackground(painter, Qt::yellow);
@@ -66,36 +66,36 @@ void TscoreMetrum::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 }
 
 
-QRectF TscoreMetrum::boundingRect() const {
+QRectF TscoreMeter::boundingRect() const {
   return QRectF(0.0, 0.0, m_width, m_pianoStaff ? 22.0 : 8.0);
 }
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
-void TscoreMetrum::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+void TscoreMeter::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (isReadOnly())
     QGraphicsItem::mousePressEvent(event);
   else {
-    TselectMetrum menu(m_metrum);
-    Tmetrum m = menu.exec(event->screenPos());
-    if (m.meter() != Tmetrum::e_none && m != m_metrum)
-      setMetrum(m);
+    TselectMeter menu(m_meter);
+    Tmeter m = menu.exec(event->screenPos());
+    if (m.meter() != Tmeter::e_none && m != m_meter)
+      setMeter(m);
   }
 }
 
 
 
 //#################################################################################################
-//###################              TselectMetrum       ############################################
+//###################              TselectMeter       ############################################
 //#################################################################################################
-TselectMetrum::TselectMetrum(const Tmetrum& metrum, QWidget* parent) :
+TselectMeter::TselectMeter(const Tmeter& meter, QWidget* parent) :
   QMenu(parent)
 {
   m_group = new QButtonGroup(this);
   auto lay = new QGridLayout;
   for (int i = 0 ; i < 12; ++i) {
-    Tmetrum m(Tmetrum::Emeter(qPow(2, i)));
+    Tmeter m(Tmeter::Emeter(qPow(2, i)));
     auto button = new TpushButton(QString(), this);
     int s = qApp->screens()[0]->geometry().width() / (qApp->screens()[0]->physicalSize().width() / 9.0);
     button->setIcon(QIcon(m.pixmap(s)));
@@ -103,7 +103,7 @@ TselectMetrum::TselectMetrum(const Tmetrum& metrum, QWidget* parent) :
       lay->addWidget(button, i / 3, i % 3);
     m_group->addButton(button, qPow(2, i));
     button->setCheckable(true);
-    if (metrum == m)
+    if (meter == m)
       button->setChecked(true);
   }
   setLayout(lay);
@@ -112,9 +112,9 @@ TselectMetrum::TselectMetrum(const Tmetrum& metrum, QWidget* parent) :
 }
 
 
-Tmetrum TselectMetrum::exec(const QPoint& pos) {
+Tmeter TselectMeter::exec(const QPoint& pos) {
   QMenu::exec(pos);
-  return Tmetrum((Tmetrum::Emeter)m_group->checkedId());
+  return Tmeter((Tmeter::Emeter)m_group->checkedId());
 }
 
 

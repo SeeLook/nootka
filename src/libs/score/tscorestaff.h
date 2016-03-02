@@ -35,7 +35,7 @@ class TscoreNote;
 class TscoreClef;
 class TscoreScene;
 class Tscore5lines;
-class TscoreMetrum;
+class TscoreMeter;
 
 
 /**
@@ -45,7 +45,7 @@ class NOOTKACORE_EXPORT TnoteOffset
 {
 public:
   TnoteOffset(int noteOff, int octaveOff);
-  
+
   int note;
   int octave;
   int total() { return octave * 7 + note; }
@@ -64,7 +64,7 @@ class NOOTKACORE_EXPORT TscoreStaff : public TscoreItem
     Q_OBJECT
 
 public:
-    
+
 	TscoreStaff(TscoreScene* scene, int notesNr);
 	virtual ~TscoreStaff();
 
@@ -127,7 +127,7 @@ public:
 	void removeScordatute();
 
   void setEnableMetrum(bool isEnabled);
-  TscoreMetrum* scoreMetrum() { return m_metrum; }
+  TscoreMeter* scoreMetrum() { return m_scoreMeter; }
 
 	qreal upperLinePos() const { return m_upperLinePos; } /**< Y position of upper line of a staff. */
 	qreal lowerLinePos() const { return m_lowerStaffPos; } /**< Y position of lower line of a lower staff. */
@@ -301,7 +301,7 @@ private:
 	QPointer<QTimer>									 m_addTimer;
 	int																 m_autoAddedNoteId; /**< Index of automatically added last note. */
 	QPointer<TscoreNote>               m_noteWithAccidAnimed; /**< Pointer to note segment currently invoked to key animation */
-	TscoreMetrum                      *m_metrum;
+	TscoreMeter                       *m_scoreMeter;
 
 private:
 	void createBrace();

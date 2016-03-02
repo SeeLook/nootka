@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,16 +20,16 @@
 #define TMELODY_H
 
 
-#include <QString>
-#include <QList>
+#include <QtCore/qstring.h>
+#include <QtCore/qlist.h>
 #include "tkeysignature.h"
 #include "tmeasure.h"
 #include "tclef.h"
 
-class Tmetrum;
+class Tmeter;
 class TnoteStruct;
 
-/** 
+/**
  * Class describing a musical melody - sequence of notes (Tchunk)
  * Also it is able to save/load a melody into/from MusicXML structure 
  * Default tempo of a melody is 120 bpm.
@@ -38,43 +38,43 @@ class NOOTKACORE_EXPORT Tmelody
 {
 
 public:
-	Tmelody(const QString& title = "", const TkeySignature& k = TkeySignature());
-	
+	Tmelody(const QString& title = QString(), const TkeySignature& k = TkeySignature());
+
 	QString& title() {return m_title; }
 	void setTitle(const QString& t) { m_title = t; }
-	
+
 	int length() { return m_notes.size(); } /** A length of the melody (notes number) */
-	
+
 	void addNote(const Tchunk& n);
 	Tchunk* note(int index) { return m_notes[index]; } /** A pointer to note @p index */
-	
+
 	Tmeasure& measure(int nr) { return m_measures[nr]; }
 	Tmeasure& lastMeasure() { return m_measures.last(); }
-	
+
 	int tempo() { return m_tempo; }
 	void setTempo(int tmp) { m_tempo = tmp; }
-	
+
 	TkeySignature key() { return m_key; }
 	void setKey(const TkeySignature& k) { m_key = k; }
-	
+
 	Tclef::Etype clef() { return m_clef; }
 	void setClef(Tclef::Etype type) { m_clef = type; }
-	
+
 	void toXml(QXmlStreamWriter& xml);
 	bool fromXml(QXmlStreamReader& xml);
-	
+
 	bool saveToMusicXml(const QString& xmlFileName);
 	bool grabFromMusicXml(const QString& xmlFileName);
-	
-	void fromNoteStruct(QList<TnoteStruct>& ns); /** Converts given list to melody */
-	
+
+	void fromNoteStruct(QList<TnoteStruct>& ns); /**< Converts given list to melody */
+
 private:
 	QString						m_title;
 	QList<Tmeasure>		m_measures;
-	QList<Tchunk*>		m_notes; /** List of pointers to ordered notes */
+	QList<Tchunk*>		m_notes; /**< List of pointers to ordered notes */
 	int								m_tempo;
 	TkeySignature			m_key;
-	Tmetrum					 *m_metrum;
+	Tmeter					 *m_meter;
 	Tclef::Etype			m_clef;
 };
 

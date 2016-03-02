@@ -16,16 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tmetrum.h"
+#include "tmeter.h"
 #include <tnoofont.h>
 #include <QtGui/qfontmetrics.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qpalette.h>
 #include <QtWidgets/qapplication.h>
 
-// qDebug() << "Metrum" << QString("%1/%2").arg(m.upper()).arg(m.lower());
+// qDebug() << "Meter" << QString("%1/%2").arg(m.upper()).arg(m.lower());
 
-int Tmetrum::upper() const {
+int Tmeter::upper() const {
   switch (m_meter) {
     case e_2_4: return 2;
     case e_3_4:
@@ -44,7 +44,7 @@ int Tmetrum::upper() const {
 }
 
 
-int Tmetrum::lower() const {
+int Tmeter::lower() const {
   int v = (int)m_meter;
   if (v > 0) {
     if (v <= 32)
@@ -56,7 +56,7 @@ int Tmetrum::lower() const {
 }
 
 
-qreal Tmetrum::value() const {
+qreal Tmeter::value() const {
   switch (m_meter) {
     case e_2_4: return 0.5;
     case e_6_8:
@@ -75,7 +75,7 @@ qreal Tmetrum::value() const {
 }
 
 
-QPixmap Tmetrum::pixmap(int fontSize, const QColor& c) {
+QPixmap Tmeter::pixmap(int fontSize, const QColor& c) {
   if (meter() == e_none)
     return QPixmap();
 
@@ -95,13 +95,13 @@ QPixmap Tmetrum::pixmap(int fontSize, const QColor& c) {
 }
 
 
-void Tmetrum::toXml(QXmlStreamWriter& xml) const
+void Tmeter::toXml(QXmlStreamWriter& xml) const
 {
 
 }
 
 
-bool Tmetrum::fromXml(QXmlStreamReader& xml)
+bool Tmeter::fromXml(QXmlStreamReader& xml)
 {
   return false;
 }

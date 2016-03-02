@@ -24,7 +24,7 @@ set(LIB_NOOTKASCORE_SRC
 	tpaneitem.cpp
 	trhythmpane.cpp
 	tscorelines.cpp
-	tscoremetrum.cpp
+	tscoremeter.cpp
 	tsimplescore.cpp
 	tmultiscore.cpp
 )
