@@ -284,9 +284,11 @@ void TscoreScene::hidePanes() {
 
 void TscoreScene::showRhythmPane() {
   right()->hide();
-  if (m_rhythmBox)
-    m_rhythmBox->setPos(right()->x(), (m_scoreNote->parentItem()->boundingRect().height() - m_rhythmBox->boundingRect().height()) / 2.0);
-  m_rhythmBox->show();
+  if (m_rhythmBox) {
+    m_rhythmBox->setParentItem(m_scoreNote->parentItem());
+    m_rhythmBox->setPos(right()->x(), (m_scoreNote->boundingRect().height() - m_rhythmBox->boundingRect().height()) / 2.0);
+    m_rhythmBox->show();
+  }
 }
 
 

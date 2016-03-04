@@ -23,6 +23,7 @@
 #include "tscorescene.h"
 #include <tnoofont.h>
 #include <music/trhythm.h>
+#include <graphics/tdropshadoweffect.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>
@@ -51,7 +52,7 @@ public:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {
     TpaneItem::paint(painter, option, widget);
     if (m_hasDot || m_isTriplet) {
-        painter->setPen(QPen(qApp->palette().text().color(), 1));
+        painter->setPen(QPen(color(), 1));
         if (m_hasDot) {
             painter->drawText(QPointF(2.1, 2.5), QStringLiteral("."));
         } else if (m_isTriplet) {
@@ -125,6 +126,7 @@ if (isLeft) {
     m_rhythmItem = new TrhythmItem(0x45, this); // initialize with quarter TODO it has to depend on lower meter digit
       m_rhythmItem->setPos(0.0, 11.0);
       m_rhythmItem->setStatusTip(tr("select rhythm value"));
+      m_rhythmItem->setColor(Qt::darkYellow);
       connect(m_rhythmItem, &TpaneItem::clicked, this, &TnoteControl::rightItemClicked);
       connect(m_rhythmItem, &TpaneItem::entered, this, &TnoteControl::itemHoverEntered);
       connect(m_rhythmItem, &TpaneItem::leaved, this, &TnoteControl::itemHoverLeaved);
@@ -132,6 +134,7 @@ if (isLeft) {
 
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
 // 	connect(m_delayTimer, SIGNAL(timeout()), this, SLOT(showDelayed()));
+  setGraphicsEffect(new TdropShadowEffect);
 }
 
 
@@ -193,11 +196,11 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
     painter->setBrush(QBrush(m_gradient));
   else {
     QColor bc = qApp->palette().base().color();
-    bc.setAlpha(200);
+    bc.setAlpha(240);
     painter->setBrush(QBrush(bc));
   }
   painter->setPen(Qt::NoPen);
-  painter->drawRoundedRect(boundingRect(), 0.75, 0.75);
+  painter->drawRoundedRect(boundingRect(), 0.25, 0.25);
   if ((touchEnabled() && notesAddingEnabled()) || (m_entered && m_adding)) { // 'plus' symbol
     if (touchEnabled())
       painter->setPen(QPen(qApp->palette().text().color(), 0.4, Qt::SolidLine, Qt::RoundCap));

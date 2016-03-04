@@ -20,6 +20,8 @@
 #include "tpaneitem.h"
 #include "tscorestaff.h"
 #include <music/trhythm.h>
+#include <tnoofont.h>
+#include <graphics/tdropshadoweffect.h>
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qgraphicseffect.h>
 #include <QtGui/qpainter.h>
@@ -53,6 +55,11 @@ TrhythmPane::TrhythmPane(TscoreStaff* staff, TscoreScene* scene) :
   m_sixteenRest = createPaneItem(0xe10b,  QPointF(WIDTH, m_eightRest->bottomY()));
   m_triplet = createPaneItem(387, QPointF(WIDTH, m_sixteenRest->bottomY()));
 
+  m_tie = createPaneItem(0xe18c, QPointF(0.0, m_dot->bottomY()));
+  QTransform t;
+  t.scale(2.0, 1.0);
+  m_tie->setTransform(t);
+
   m_quarter->setSelected(true); // some rhythm value has to be selected
   m_selectedRhythmItem = m_quarter;
 
@@ -60,6 +67,8 @@ TrhythmPane::TrhythmPane(TscoreStaff* staff, TscoreScene* scene) :
 
   m_notes << m_whole << m_half << m_quarter << m_eight << m_sixteen;
   m_rests << m_wholeRest << m_halfRest << m_quarterRest << m_eightRest << m_sixteenRest;
+
+  setGraphicsEffect(new TdropShadowEffect);
 }
 
 
@@ -86,7 +95,7 @@ void TrhythmPane::setRhythm(Trhythm* r) {
 
 
 QRectF TrhythmPane::boundingRect() const {
-  return QRectF(0.0, 0.0, WIDTH * 2, 21.0);
+  return QRectF(0.0, 0.0, WIDTH * 2, 24.0);
 }
 
 
@@ -96,9 +105,9 @@ void TrhythmPane::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
   painter->setPen(Qt::NoPen);
     QColor bc = qApp->palette().base().color();
-  bc.setAlpha(200);
+  bc.setAlpha(240);
   painter->setBrush(QBrush(bc));
-  painter->drawRoundedRect(boundingRect(), 0.75, 0.75);
+  painter->drawRoundedRect(boundingRect(), 0.25, 0.25);
 }
 
 
@@ -107,8 +116,13 @@ void TrhythmPane::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 //#################################################################################################
 
 void TrhythmPane::itemClicked() {
+  if (sender() == m_tie) {
+      m_tie->setSelected(!m_tie->isSelected());
+      return;
+  }
   if (sender() == m_dot) {
       m_triplet->setSelected(false); // no tuplets with dot
+      m_rhythm->setTriplet(false);
       m_dot->setSelected(!m_dot->isSelected());
   } else if (sender() == m_triplet) {
       m_dot->setSelected(false); // un-select dot
@@ -128,7 +142,8 @@ void TrhythmPane::itemClicked() {
   } else
       m_rhythm->setRest(false);
 //   qDebug() << m_rhythm->xmlType() << m_rhythm->isRest() << m_rhythm->hasDot() << m_rhythm->isTriplet();
-  m_rhythm->setRhythmValue(Trhythm::Erhythm(qPow(2, valueIndex)));
+  if (valueIndex != -1)
+    m_rhythm->setRhythmValue(Trhythm::Erhythm(qPow(2, valueIndex)));
   m_rhythm->setDot(m_dot->isSelected());
   m_rhythm->setTriplet(m_triplet->isSelected());
   showHideDotTriplet();

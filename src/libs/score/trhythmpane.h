@@ -64,7 +64,7 @@ private:
   TpaneItem           *m_selectedRhythmItem; /**< Keeps previously selected rhythm item (not dot nor tupplet) */
   TpaneItem           *m_whole, *m_half, *m_quarter, *m_eight, *m_sixteen;
   TpaneItem           *m_wholeRest, *m_halfRest, *m_quarterRest, *m_eightRest, *m_sixteenRest;
-  TpaneItem           *m_dot, *m_triplet;
+  TpaneItem           *m_dot, *m_triplet, *m_tie;
   QList<TpaneItem*>    m_notes, m_rests; // lists with pointers
   QTimer              *m_hideTimer;
 };
