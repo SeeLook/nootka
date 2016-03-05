@@ -25,6 +25,13 @@
 
 const std::string rhythmStrings [6] = {"", "whole", "half", "quarter", "eighth", "16th"};
 
+    /** Base value to calculate proportional values of rhythm duration:
+     * 96 - whole note
+     * 6 - sixteen note
+     * 4 - sixteen triplet
+     */
+#define RVALUE (96)
+
 
 /**
  * This class describes musical note value (relative duration)
@@ -49,6 +56,11 @@ public:
     setRhythm(nVal, rest, dot, triplet);
   }
 
+  Trhythm(int rhythmDuration)
+  {
+    setRhythm(rhythmDuration);
+  }
+
       /** Copy constructor */
   Trhythm(const Trhythm& r) { setRhythm(r); }
 
@@ -61,26 +73,19 @@ public:
 	Erhythm rhythm() const { return m_r; }
 	void setRhythmValue(Erhythm nVal) { m_r = nVal; } /**< Changes rhythmic value only, state of dot and triplet remains unchanged */
 
-			/** It converts std::string into rhythm value */
-	void setRhythmValue(const std::string& nVal) {
-		for (int i = 0; i < 6; ++i) {
-			if (nVal == rhythmStrings[i]) {
-				m_r = (Erhythm)i;
-				return;
-			}
-		}
-	}
+			/** It converts std::string into rhythm value. Doesn't change state of triplet or dot. */
+	void setRhythmValue(const std::string& nVal);
 
-      /**< Makes quick copy of another Trhythm instance   */
+      /**< Makes quick copy of another Trhythm instance. */
   void setRhythm(const Trhythm& r) { m_r = r.rhythm(); m_params = r.parameters(); }
+
+      /** Converts given value into rhythm */
+  void setRhythm(quint16 durationValue);
 
   int weight() { return (int)m_r; } /**< Rhythm value cast to int: i.e. quarter is 4, half is 2 and so on */
 
-      /** Whole note is 1.0, half is 0.5, quarter is 0.25 and with dot is 0.375. Single eight triplet is 0.16667 */
-  qreal duration() {
-      qreal d = (2.0 / weight()) / (isTriplet() ? 3.0 : 2.0);
-      return d + (hasDot() ? d / 2.0 : 0.0);
-  }
+      /** Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8 */
+  int duration();
 
 	bool isRest() const { return m_params & e_rest; }
   void setRest(bool rest) {
@@ -108,12 +113,8 @@ public:
           m_params ^= e_triplet;
   } /**< Allows to set triplet only if no dot */
 
-	QString const xmlType() {
-    if (m_r == e_none)
-      return QString();
-    else
-      return QString::fromStdString(rhythmStrings[(int)std::log2<int>(m_r) + 1]);
-	}
+	QString const xmlType();
+	void debug(const QString& text = QString()); /**< Prints current rhythm parameters to std out with given text */
 
 protected:
   quint8 parameters() const { return m_params; } /**< For copy purposes */
@@ -121,7 +122,7 @@ protected:
 
 private:
 	Erhythm 						  	m_r;
-  quint8                  m_params; /**< Stores additional parameters as a logic flags of @enum EnotePrefs */
+  quint8                  m_params = 0; /**< Stores additional parameters as a logic flags of @enum EnotePrefs */
 };
 
 #endif // TRHYTHM_H

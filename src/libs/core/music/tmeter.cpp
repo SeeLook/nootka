@@ -17,13 +17,14 @@
  ***************************************************************************/
 
 #include "tmeter.h"
-#include <tnoofont.h>
+#include "tnoofont.h"
+#include "trhythm.h"
 #include <QtGui/qfontmetrics.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qpalette.h>
 #include <QtWidgets/qapplication.h>
+#include <QtCore/qdebug.h>
 
-// qDebug() << "Meter" << QString("%1/%2").arg(m.upper()).arg(m.lower());
 
 int Tmeter::upper() const {
   switch (m_meter) {
@@ -56,22 +57,11 @@ int Tmeter::lower() const {
 }
 
 
-qreal Tmeter::value() const {
-  switch (m_meter) {
-    case e_2_4: return 0.5;
-    case e_6_8:
-    case e_3_4: return 0.75;
-    case e_4_4: return 1.0;
-    case e_5_4: return 1.25;
-    case e_12_8:
-    case e_6_4: return 1.5;
-    case e_7_4: return 1.75;
-    case e_3_8: return 0.375;
-    case e_5_8: return 0.625;
-    case e_7_8: return 0.875;
-    case e_9_8: return 1.125;
-    default: return 0.0;
-  }
+quint16 Tmeter::duration() const {
+  if (e_none)
+    return 0;
+  else
+    return (RVALUE / lower()) * upper();
 }
 
 
@@ -92,6 +82,11 @@ QPixmap Tmeter::pixmap(int fontSize, const QColor& c) {
   p.drawText(QRect(0, 0, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, upperDigit);
   p.drawText(QRect(0, fontSize / 2 - 1, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, TnooFont::digit(lower()));
   return pix;
+}
+
+
+void Tmeter::debug(const QString& text) {
+  qDebug() << text << "Meter" << QString("%1/%2").arg(upper()).arg(lower());
 }
 
 

@@ -44,12 +44,17 @@ public:
   int upper() const; /**< Returns upper digit of time signature  */
   int lower() const; /**< Returns lower digit of time signature  */
 
-  qreal value() const; /**< Returns numeric value representing duration of single measure: 3/4 is 0.75, 4/4 is 1.0, etc. */
+    /** Returns numeric value representing duration of single measure,
+     * which is based on Trhythm calculation (RVALUE)
+     * 3/4 is 72, 4/4 is 96 (RVALUE), etc. */
+  quint16 duration() const;
 
   QPixmap pixmap(int fontSize, const QColor& c = -1); /**< Returns QPixmap of this time signature with given font size and color. */
 
   void toXml(QXmlStreamWriter& xml) const;
   bool fromXml(QXmlStreamReader& xml);
+
+  void debug(const QString& text = QString()); /**< Prints current meter to std out with given text */
 
   bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
   bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }

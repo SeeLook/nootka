@@ -141,7 +141,6 @@ void TrhythmPane::itemClicked() {
       m_rhythm->setRest(m_rests.contains(m_selectedRhythmItem));
   } else
       m_rhythm->setRest(false);
-//   qDebug() << m_rhythm->xmlType() << m_rhythm->isRest() << m_rhythm->hasDot() << m_rhythm->isTriplet();
   if (valueIndex != -1)
     m_rhythm->setRhythmValue(Trhythm::Erhythm(qPow(2, valueIndex)));
   m_rhythm->setDot(m_dot->isSelected());
