@@ -22,6 +22,7 @@
 #include <QtGui/qpen.h>
 
 TscoreLines::TscoreLines(TscoreNote* note) :
+  QGraphicsItemGroup(note),
 	m_parentNote(note)
 {
 	createLines();
@@ -64,23 +65,17 @@ void TscoreLines::hideAllLines() {
 
 void TscoreLines::setParent(TscoreNote* sn) {
   m_parentNote = sn;
-	for (int i = 0; i < m_upper.size(); i++)
-		m_upper[i]->setParentItem(sn);
-	for (int i = 0; i < m_middle.size(); i++)
-		m_middle[i]->setParentItem(sn);
-	for (int i = 0; i < m_lower.size(); i++)
-		m_lower[i]->setParentItem(sn);
+  setParentItem(sn);
 }
-
 
 
 void TscoreLines::setColor(const QColor& lineColor) {
 	for (int i = 0; i < m_upper.size(); i++)
-        m_upper[i]->setPen(QPen(lineColor, 0.2));
+        m_upper[i]->setPen(QPen(lineColor, 0.2, Qt::SolidLine, Qt::RoundCap));
 	for (int i = 0; i < m_lower.size(); i++)
-      m_lower[i]->setPen(QPen(lineColor, 0.2));
+      m_lower[i]->setPen(QPen(lineColor, 0.2, Qt::SolidLine, Qt::RoundCap));
 	for (int i = 0; i < m_middle.size(); i++)
-      m_middle[i]->setPen(QPen(lineColor, 0.2));
+      m_middle[i]->setPen(QPen(lineColor, 0.2, Qt::SolidLine, Qt::RoundCap));
 }
 
 //##########################################################################################
@@ -88,11 +83,10 @@ void TscoreLines::setColor(const QColor& lineColor) {
 //##########################################################################################
 
 QGraphicsLineItem* TscoreLines::createNoteLine(int yPos) {
-	QGraphicsLineItem *line = new QGraphicsLineItem();
+	QGraphicsLineItem *line = new QGraphicsLineItem(this);
 	line->hide();
-	line->setParentItem(m_parentNote);
 	line->setZValue(7);
-	line->setLine(2.5, yPos, 6.0, yPos);
+	line->setLine(0.0, yPos, 3.3, yPos);
 	return line;
 }
 
