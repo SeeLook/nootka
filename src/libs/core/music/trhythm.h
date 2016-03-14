@@ -42,13 +42,21 @@ class Trhythm
 
 public:
 
-	enum Erhythm {
+	enum Erhythm : quint8 {
 		e_none = 0, e_whole = 1, e_half = 2, e_quarter = 4, e_eighth = 8, e_sixteenth = 16
 	}; /**< Describes note duration */
 
-  enum Epreferences {
+  enum Eprefs : quint8 {
     e_rest = 1, e_dot = 2, e_triplet = 4, e_stemDown = 8
   }; /**< Addidtional note preferences */
+
+  enum Ebeam : quint8 {
+    e_noBeam = 0, e_beamStart = 16, e_beamCont = 32, e_beamEnd = 48
+  }; /**< It covers 16&32 bits of @p m_prefs value. It is mapped into @enum Ebeam then */
+
+  enum Etie : quint8 {
+    e_noTie = 0, e_tieStart = 64, e_tieCont = 128, e_tieEnd = 192
+  };
 
 			/** DEFAULT CONSTRUCTOR: by default it is quarter (without dot) */
 	Trhythm(Erhythm nVal = e_quarter, bool rest = false, bool dot = false, bool triplet = false)
@@ -56,6 +64,7 @@ public:
     setRhythm(nVal, rest, dot, triplet);
   }
 
+      /** Creates rhythm from given duration value */
   Trhythm(int rhythmDuration)
   {
     setRhythm(rhythmDuration);
@@ -67,62 +76,91 @@ public:
 			/** Sets rhythm parameters, Resets all previous values! */
 	void setRhythm(Erhythm nVal, bool rest = false, bool dot = false, bool triplet = false) {
 		m_r = nVal;
-    m_params = (rest ? 1 : 0) + (dot ? 2 : (triplet ? 4 : 0));
+    m_prefs = (rest ? 1 : 0) + (dot ? 2 : (triplet ? 4 : 0));
 	}
 
 	Erhythm rhythm() const { return m_r; }
-	void setRhythmValue(Erhythm nVal) { m_r = nVal; } /**< Changes rhythmic value only, state of dot and triplet remains unchanged */
+	void setRhythmValue(Erhythm nVal) { m_r = nVal; } /**< Changes rhythmic value only, state of dot, triplet, beams remains unchanged */
 
-			/** It converts std::string into rhythm value. Doesn't change state of triplet or dot. */
+			/** It converts std::string into rhythm value. Doesn't change state of triplet, dot or beam. */
 	void setRhythmValue(const std::string& nVal);
 
       /**< Makes quick copy of another Trhythm instance. */
-  void setRhythm(const Trhythm& r) { m_r = r.rhythm(); m_params = r.parameters(); }
+  void setRhythm(const Trhythm& r) { m_r = r.rhythm(); m_prefs = r.parameters(); }
 
       /** Converts given value into rhythm */
   void setRhythm(quint16 durationValue);
 
-  int weight() { return (int)m_r; } /**< Rhythm value cast to int: i.e. quarter is 4, half is 2 and so on */
+  int weight() const { return (int)m_r; } /**< Rhythm value cast to int: i.e. quarter is 4, half is 2 and so on */
 
-      /** Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8 */
-  int duration();
+      /** Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8.
+       * Base value is defined in @p RVALUE macro */
+  int duration() const;
 
-	bool isRest() const { return m_params & e_rest; }
+	bool isRest() const { return m_prefs & e_rest; }
   void setRest(bool rest) {
       if (rest)
-        m_params |= e_rest;
-      else if (isRest())
-        m_params ^= e_rest;
+        m_prefs |= e_rest;
+      else
+        m_prefs &= ~e_rest;
   }
 
-	bool hasDot() const { return m_params & e_dot; }
+	bool hasDot() const { return m_prefs & e_dot; }
 	void setDot(bool dot) {
       if (dot) {
         if (!isTriplet())
-            m_params |= e_dot;
-      } else if (hasDot())
-          m_params ^= e_dot;
+            m_prefs |= e_dot;
+      } else
+          m_prefs &= ~e_dot;
   } /**< Allows to set dot only if no triplet */
 
-	bool isTriplet() const { return m_params & e_triplet; }
+	bool isTriplet() const { return m_prefs & e_triplet; }
 	void setTriplet(bool tri) {
       if (tri) {
         if (!hasDot())
-            m_params |= e_triplet;
-      } else if (isTriplet())
-          m_params ^= e_triplet;
+            m_prefs |= e_triplet;
+      } else
+          m_prefs &= ~e_triplet;
   } /**< Allows to set triplet only if no dot */
 
-	QString const xmlType();
-	void debug(const QString& text = QString()); /**< Prints current rhythm parameters to std out with given text */
+  void setBeam(Ebeam b) {
+      m_prefs &= ~e_beamEnd; // reset previous beam to none (~e_beamEnd is reverted bin of 48 to set those bits to 0)
+      m_prefs |= b;
+  }
+  Ebeam beam() const { return Ebeam(m_prefs & e_beamEnd); }
+
+  void setTie(Etie t) {
+      m_prefs &= ~e_tieEnd;
+      m_prefs |= t;
+  }
+  Etie tie() const { return Etie(m_prefs & e_tieEnd); }
+
+  void setStemDown(bool stemD) {
+    if (stemD)
+      m_prefs |= e_stemDown;
+    else
+      m_prefs &= ~e_stemDown;
+  }
+  bool stemDown() const { return m_prefs & e_stemDown; }
+
+	QString xmlType() const;
+	void debug(const char* text = 0) const; /**< Prints current rhythm parameters to std out with given text */
+
+	bool operator==(const Trhythm& r) const {
+    return m_r == r.rhythm() && ((m_prefs % 8) == (r.parameters() % 8)); // compare only first three bits of m_prefs (rest, dot and triplet)
+	}
+
+	bool operator!=(const Trhythm& r) const {
+    return m_r != r.rhythm() || ((m_prefs % 8) != (r.parameters() % 8)); // compare only first three bits of m_prefs (rest, dot and triplet)
+  }
 
 protected:
-  quint8 parameters() const { return m_params; } /**< For copy purposes */
-  void setParameters(quint8 p) { m_params = p; }
+  quint8 parameters() const { return m_prefs; } /**< For copy purposes */
+  void setParameters(quint8 p) { m_prefs = p; }
 
 private:
 	Erhythm 						  	m_r;
-  quint8                  m_params = 0; /**< Stores additional parameters as a logic flags of @enum EnotePrefs */
+  quint8                  m_prefs = 0;
 };
 
 #endif // TRHYTHM_H

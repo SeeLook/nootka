@@ -30,7 +30,7 @@ void Trhythm::setRhythmValue(const std::string& nVal) {
 }
 
 
-const QString Trhythm::xmlType() {
+QString Trhythm::xmlType() const {
   if (m_r == e_none)
       return QString();
   else
@@ -38,7 +38,7 @@ const QString Trhythm::xmlType() {
 }
 
 
-int Trhythm::duration() {
+int Trhythm::duration() const {
   if (m_r == e_none)
     return -1;
   int d = ((2 * RVALUE) / weight()) / (isTriplet() ? 3 : 2);
@@ -47,19 +47,19 @@ int Trhythm::duration() {
 
 
 void Trhythm::setRhythm(quint16 durationValue) {
-  m_params = 0;
+  m_prefs = 0;
   m_r = e_none;
   quint16 tmpDur = durationValue;
   if (durationValue > RVALUE * 1.5)
     qDebug() << "Too big rhythm duration value" << durationValue;
   else {
     if (RVALUE % durationValue) { // has dot
-      m_params = e_dot;
+      m_prefs = e_dot;
       durationValue = (durationValue / 3) * 2;
     }
     quint32 r = RVALUE / durationValue;
     if (!hasDot() && qNextPowerOfTwo(r - 1) != r) { // it is triplet
-      m_params = e_triplet;
+      m_prefs = e_triplet;
       durationValue = (durationValue * 3) / 2;
       r = RVALUE / durationValue;
     }
@@ -75,10 +75,13 @@ void Trhythm::setRhythm(quint16 durationValue) {
 }
 
 
-void Trhythm::debug(const QString& text) {
+void Trhythm::debug(const char* text) const {
   if (m_r == e_none)
     qDebug() << text << "no rhythm";
-  else
-    qDebug() << text << xmlType() << "rest" << isRest() << "dot" << hasDot() << "triplet" << isTriplet() << "duration" << duration();
+  else {
+    qDebug() << text << xmlType() << "| rest" << isRest() << "| dot" << hasDot() << "| triplet" << isTriplet() << "| duration" << duration()
+             << "| beam" << beam() << "| tie" << tie() << "| stem" << (stemDown() ? "down" : "up")
+             << "|" << (m_prefs % 8) << m_prefs;
+  }
 }
 
