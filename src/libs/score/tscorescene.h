@@ -20,15 +20,18 @@
 #define TSCORESCENE_H
 
 #include <nootkacoreglobal.h>
-#include <QtWidgets/qgraphicsscene.h>
 #include "tscorenote.h"
 #include "tnoteitem.h"
 #include "tscorelines.h"
+#include <QtWidgets/qgraphicsscene.h>
+
 
 class QTimer;
 class TnoteControl;
 class TrhythmPane;
 class QGraphicsItem;
+class TscoreMeter;
+class Tmeter;
 
 
 /**
@@ -46,6 +49,7 @@ class NOOTKACORE_EXPORT TscoreScene : public QGraphicsScene
 {
 
   friend class TscoreNote;
+  friend class TscoreStaff;
 
   Q_OBJECT
 
@@ -55,13 +59,13 @@ public:
 
 
   void setDoubleAccidsEnabled(bool enable);
-
       /** Returns value 2 when double accidentals are enabled and 1 if not. */
   qint8 doubleAccidsFuse() { return m_dblAccFuse; }
 
-
   void setCurrentAccid(char accid); /**< Working accidental in  also changed by buttons. */
   char currentAccid() { return m_currentAccid; }
+
+  Trhythm* workRhythm() { return m_workRhythm; }
 
       /** Adds blur graphics effect. In the contrary to QGraphicsItem::setGraphicsEffect()
         * a radius value in global scale.  */
@@ -90,8 +94,8 @@ public:
   bool isAccidAnimated() const { return m_accidAnimated; } /**< Whether note accidental to key signature animations are allowed */
   void enableAccidsAnimation(bool anim) { m_accidAnimated = anim; } /**< Sets state of note accidental to key signature animations */
 
-  bool isRhythmEnabled() { return m_rhythmEnabled; } /**< @p TRUE when score has rhythm enabled. */
-  void setRhythmEnabled(bool r) { m_rhythmEnabled = r; } /**< Sets availability of rhythm in the score. TODO: something has to manage time sign. */
+  bool isRhythmEnabled() { return (bool)m_scoreMeter; } /**< @p TRUE when score has rhythm enabled. */
+  TscoreMeter* scoreMeter() { return m_scoreMeter; } /**< Score meter - if it is @p nullptr - there is no rhythms */
 
       /** Additional note controls are displayed when note gets cursor.
         This is default behavior and without those controls accidentals can not be managed with wheel. */
@@ -128,6 +132,10 @@ protected:
   void setAccidScale(qreal as) { m_accidScale = as; }
   void setCursorParent(TscoreNote* sn); /**< Sets parent of note cursor to this instance */
 
+      /** Sets meter, enables rhythms if meter is valid or disables rhythm if it is @p nullptr.
+       * This is global meter for all score items and it is managed through @class TscoreStaff */
+  void setScoreMeter(TscoreMeter* m);
+
 
 protected slots:
   void statusTipChanged(QString status) { emit statusTip(status); }
@@ -155,9 +163,9 @@ private:
   QTimer													 *m_showTimer, *m_hideTimer;
   TscoreNote											 *m_scoreNote; /**< current note segment or NULL. */
   bool															m_controlledNotes;
-  bool                              m_rhythmEnabled;
   bool															m_mouseOverKey, m_rectIsChanging;
   bool                              m_accidAnimated;
+  TscoreMeter                      *m_scoreMeter;
 };
 
 #endif // TSCORESCENE_H

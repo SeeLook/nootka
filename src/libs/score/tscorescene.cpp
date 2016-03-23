@@ -19,9 +19,11 @@
 #include "tscorescene.h"
 #include "tnotecontrol.h"
 #include "trhythmpane.h"
+#include "tscoremeter.h"
 #include <graphics/tdropshadoweffect.h>
 #include <tnoofont.h>
 #include <music/trhythm.h>
+#include <music/tmeter.h>
 #include <QtWidgets/qgraphicsview.h>
 #include <QtWidgets/qgraphicseffect.h>
 #include <QtWidgets/qapplication.h>
@@ -43,9 +45,9 @@ TscoreScene::TscoreScene(QObject* parent) :
   m_accidYoffset(0.0),
   m_accidScale(-1.0),
   m_scoreNote(0),
-  m_rhythmEnabled(true),
   m_controlledNotes(true),
-  m_mouseOverKey(false), m_rectIsChanging(false)
+  m_mouseOverKey(false), m_rectIsChanging(false),
+  m_scoreMeter(nullptr)
 {
 	m_showTimer = new QTimer(this);
 	m_hideTimer = new QTimer(this);
@@ -65,6 +67,7 @@ TscoreScene::~TscoreScene()
 		m_rightBox = 0;
 	}
 	delete m_workRhythm;
+  delete m_scoreMeter;
 }
 
 
@@ -119,6 +122,30 @@ void TscoreScene::setPointedColor(const QColor& color) {
 	m_workLines->setColor(color);
 }
 
+
+void TscoreScene::setScoreMeter(TscoreMeter* m) {
+  if (m == nullptr && m_scoreMeter) { // disable rhythms
+      m_workRhythm->setRhythm(Trhythm::e_none);
+      m_rightBox->setRhythm(m_workRhythm); // hide rhythm symbol on the right pane
+      delete m_rhythmBox;
+      m_rhythmBox = 0;
+      m_workNote->setRhythm(*m_workRhythm); // bare note head
+      m_scoreMeter = nullptr;
+  } else if (m && m_scoreMeter == nullptr) { // enable rhythms
+      m_workRhythm->setRhythm(Trhythm(m->meter()->lower() == 4 ? Trhythm::e_quarter : Trhythm::e_eighth));
+      m_rightBox->setRhythm(m_workRhythm);
+      m_rhythmBox = new TrhythmPane(0, this);
+      m_workNote->setRhythm(*m_workRhythm);
+      connect(m_rightBox, &TnoteControl::rhythmItemClicked, this, &TscoreScene::showRhythmPane, Qt::UniqueConnection);
+      connect(m_rhythmBox, &TrhythmPane::rhythmChanged, [=]{
+                m_workRhythm->setRhythm(*m_rhythmBox->rhythm());
+                m_workNote->setRhythm(*m_rhythmBox->rhythm());
+                m_rightBox->setRhythm(m_rhythmBox->rhythm());
+      });
+  }
+  m_scoreMeter = m;
+}
+
 //##########################################################################################
 //#######################        Note CURSOR     ###########################################
 //##########################################################################################
@@ -129,12 +156,12 @@ void TscoreScene::noteEntered(TscoreNote* sn) {
 		m_scoreNote = sn;
 		if (controlledNotes()) {
 			if (right()->isEnabled()) {
-				right()->setPos(sn->pos().x() + sn->boundingRect().width(),
+				right()->setPos(sn->x() + sn->width(),
                         (sn->parentItem()->boundingRect().height() - right()->boundingRect().height() + 6.0) / 2.0);
 				right()->setScoreNote(sn);
 			}
 			if (left()->isEnabled()) {
-				left()->setPos(sn->pos().x() - left()->boundingRect().width(),
+				left()->setPos(sn->pos().x() /*- ((7.0 - sn->width()) / 2.0)*/ - left()->boundingRect().width(),
                        (sn->parentItem()->boundingRect().height() - left()->boundingRect().height() + 6.0) / 2.0);
 				left()->setScoreNote(sn);
 			}
@@ -149,12 +176,13 @@ void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
   if (!m_rectIsChanging) {
     setWorkPosY(yPos);
     if (m_workRhythm->isRest()) {
-      workNote()->setPos(2.5, 20.5);
+        workNote()->setPos(sn->width() - 3.2, 20.5);
     } else {
-      workNote()->setStemUp(yPos > 14);
-      workNote()->setPos(2.5, workPosY());
-  //     workNote()->setPos(3.0, workPosY());
-      workLines()->checkLines(yPos);
+        m_workRhythm->setStemDown(yPos <= 18);
+        workNote()->setRhythm(*m_workRhythm);
+        workNote()->setPos(sn->width() - 3.2, workPosY());
+    //     workNote()->setPos(3.0, workPosY());
+        workLines()->checkLines(yPos);
     }
     if (!workNote()->isVisible())
       showTimeOut();
@@ -215,11 +243,11 @@ void TscoreScene::restoreAfterRectChange() {
 void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 	if (!m_workNote) {
 		m_workLines = new TscoreLines(scoreNote);
+    m_workLines->setPos(0.4, 0.0);
 		workColor = qApp->palette().highlight().color();
 		workColor.setAlpha(200);
-// 		m_workNote = TscoreNote::createNoteHead(scoreNote);
-//     m_workNote->setRect(0, 0, 3.5, 2); // normal note head
-    m_workNote = new TnoteItem(this, m_workRhythm);
+    m_workNote = new TnoteItem(this, *m_workRhythm);
+    m_workNote->setFlagsPaint(true);
     m_workNote->setParentItem(scoreNote);
 		QGraphicsDropShadowEffect *workEffect = new QGraphicsDropShadowEffect();
 		workEffect->setOffset(3.0, 3.0);
@@ -239,17 +267,6 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
 		m_rightBox = new TnoteControl(false, scoreNote->staff(), this);
 		m_leftBox = new TnoteControl(true, scoreNote->staff(), this);
 		m_leftBox->addAccidentals();
-    if (isRhythmEnabled()) {
-      m_rhythmBox = new TrhythmPane(scoreNote->staff(), this);
-      m_workRhythm->setRhythm(Trhythm::e_quarter);
-      m_workNote->setRhythm(m_workRhythm);
-      connect(m_rightBox, &TnoteControl::rhythmItemClicked, this, &TscoreScene::showRhythmPane);
-      connect(m_rhythmBox, &TrhythmPane::rhythmChanged, [=]{
-                m_workRhythm->setRhythm(*m_rhythmBox->rhythm());
-                m_workNote->setRhythm(m_rhythmBox->rhythm());
-                m_rightBox->setRhythm(m_rhythmBox->rhythm());
-      });
-    }
 	}
 }
 
