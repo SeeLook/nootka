@@ -30,6 +30,7 @@ class Tscore5lines;
 class QMainWindow;
 class TscoreStaff;
 class Tmeter;
+class TmeasPatcher;
 
 
 /**
@@ -151,6 +152,7 @@ private:
 
 	QList<TscoreStaff*>					 m_staves; // list of staves in page view
 	QList<Tscore5lines*>         m_fakeLines; // list of blurred staves displayed when score scene has much space
+	TmeasPatcher                *m_measPatcher;
 
 };
 
