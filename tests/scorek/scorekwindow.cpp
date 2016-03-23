@@ -27,7 +27,7 @@
 ScorekWindow::ScorekWindow(QWidget* parent) :
   QMainWindow(parent)
 {
-  setGeometry(100, 100, 1600, 768);
+  setGeometry(500, 100, 1400, 768);
   m_score = new TmultiScore(this, this);
   auto statusLabel = new QLabel(this);
     statusLabel->setFixedHeight(fontMetrics().boundingRect("A").height() * 3);
@@ -45,8 +45,7 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
   dblAccidsSlot(true);
   keySignatureSlot(true);
 
-  m_score->scoreScene()->setRhythmEnabled(true);
-  m_score->setMeter(Tmeter(Tmeter::e_9_8));
+  m_score->setMeter(Tmeter(Tmeter::e_2_4));
 
   auto scoreMenu = new QMenu("Score");
     auto keyAct = scoreMenu->addAction("Key signature");
@@ -76,7 +75,10 @@ void ScorekWindow::keySignatureSlot(bool keyEnabled) {
 
 
 void ScorekWindow::meterSlot(bool meterEnabled) {
-  m_score->scoreScene()->setRhythmEnabled(meterEnabled);
+  if (meterEnabled)
+    m_score->setMeter(Tmeter(Tmeter::e_3_4));
+  else
+    m_score->setMeter(Tmeter(Tmeter::e_none));
 }
 
 
