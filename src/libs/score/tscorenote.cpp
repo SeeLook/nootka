@@ -49,20 +49,11 @@ QString TscoreNote::getAccid(int accNr) {
 }
 
 
-QGraphicsEllipseItem* TscoreNote::createNoteHead(QGraphicsItem* parentIt) {
-  QGraphicsEllipseItem *noteHead = new QGraphicsEllipseItem();
-	noteHead->setParentItem(parentIt);
-  noteHead->setRect(0, 0, 3.5, 2);
-  noteHead->hide();
-  return noteHead;
-}
-
-
 /** To avoid creating many tips - each one for every instance and waste RAM
  * this text exist as static variable 
  * and TscoreNote manages itself when status tip is necessary to be displayed. */
 QString TscoreNote::m_staticTip = QString();
-QString m_selectedTip = QString();
+QString TscoreNote::m_selectedTip = QString();
 
 
 //#################################################################################################
@@ -71,8 +62,9 @@ QString m_selectedTip = QString();
 
 TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
-  m_mainPosY(0.0),
-  m_accidental(0),
+  m_mainPosY(0.0), m_newPosY(0),
+  m_accidental(0), m_newAccid(0),
+  m_newRhythm(new Trhythm(Trhythm::e_none)),
   m_index(index),
   m_stringText(0), m_stringNr(0),
   m_readOnly(false), m_emptyLinesVisible(true),
@@ -86,15 +78,17 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   setStaff(staff);
 	setParentItem(staff);
   m_height = staff->height();
+  m_width = scene->isRhythmEnabled() ? 4.0 : 7.0;
+//   m_width = 7.0;
   m_mainColor = qApp->palette().text().color();
 	m_note = new Tnote(0, 0, 0);
-  m_rhythm = new Trhythm(scoreScene()->isRhythmEnabled() ? Trhythm::e_quarter : Trhythm::e_none); // TODO: has to be lower digit of meter
 
 	m_lines = new TscoreLines(this);
-//   m_mainNote = createNoteHead(this);
-  m_mainNote = new TnoteItem(scoreScene(), m_rhythm);
+  m_lines->setPos(0.6, 0.0);
+  m_mainNote = new TnoteItem(scoreScene(), Trhythm(Trhythm::e_none));
   m_mainNote->setParentItem(this);
   m_mainNote->hide();
+  m_mainNote->setX(3.0);
 
   m_mainAccid = new QGraphicsSimpleTextItem();
 	m_mainAccid->setParentItem(m_mainNote);
@@ -102,8 +96,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainAccid->setFont(TnooFont(5));
 	bool prepareScale = false;
 	if (scoreScene()->accidScale() == -1.0) { // only when first instance of TscoreNote is constructed
-			m_staticTip =
-						tr("Click to enter a note, use horizontal scroll to change accidental.");
+			m_staticTip = tr("Click to enter a note, use horizontal scroll to change accidental.");
 		  m_selectedTip = QLatin1String("<br>") + tr("Right mouse button just selects a note.");
 			m_mainAccid->setText(getAccid(1));
 			scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
@@ -116,8 +109,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 		cc.setAlpha(50);
 		m_emptyText->setBrush(cc);
 		m_emptyText->setPen(QPen(qApp->palette().highlight().color(), 0.1));
-// 		m_emptyText->setScale(5.5 / m_emptyText->boundingRect().width());
-		m_emptyText->setPos((7.0 - m_emptyText->boundingRect().width() * m_emptyText->scale()) / 2,
+// 		m_emptyText->setScale(m_width / m_emptyText->boundingRect().width());
+		m_emptyText->setPos((m_width - m_emptyText->boundingRect().width() * m_emptyText->scale()) / 2,
 												staff->upperLinePos() + 1.0 + (staff->isPianoStaff() ? 6 : 0));
 		m_emptyText->hide();
 
@@ -127,10 +120,10 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 			m_mainAccid->setText(QString());
 	}
 	m_mainAccid->setPos(-2.3, - scoreScene()->accidYoffset());
-	
+
 	if (!scene->views().isEmpty() && scoreScene()->right() == 0)
 			initNoteCursor();
-	
+
   setColor(m_mainColor);
   m_mainNote->setZValue(34); // under
   m_mainAccid->setZValue(m_mainNote->zValue() - 1);
@@ -139,20 +132,32 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 	else
 		setAmbitus(34, 2);
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
+  setRhythmEnabled(scoreScene()->isRhythmEnabled());
   checkEmptyText();
 }
 
 
-TscoreNote::~TscoreNote() { // release work note and controls from destructing parent
+TscoreNote::~TscoreNote() { // release work note and controls from parent being destructed
 	if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
 		scoreScene()->noteDeleted(this);
   delete m_note;
-  delete m_rhythm;
+  delete m_newRhythm;
 }
 
 //##############################################################################
 //#################### PUBLIC METHODS    #######################################
 //##############################################################################
+
+Trhythm* TscoreNote::rhythm() const {
+  return m_mainNote->rhythm();
+}
+
+
+void TscoreNote::setRhythm(const Trhythm& r) {
+  m_mainNote->setRhythm(r);
+}
+
+
 
 void TscoreNote::adjustSize() {
 	m_height = staff()->height();
@@ -165,10 +170,27 @@ void TscoreNote::adjustSize() {
 }
 
 
+void TscoreNote::setRhythmEnabled(bool rhythmEnabled) {
+  if (rhythmEnabled != scoreScene()->isRhythmEnabled())
+      qDebug() << "Note has rhythms available different than scene!";
+
+  if (rhythmEnabled) {
+      m_emptyText->setText(QString(QChar(TnooFont::getCharFromRhythm(scoreScene()->workRhythm()->weight(), true, scoreScene()->workRhythm()->isRest()))));
+      m_mainNote->setRhythm(Trhythm(scoreScene()->workRhythm()->rhythm(), !m_note->isValid()));
+//       if (!m_note->isValid())
+//         moveNote(15);
+  } else {
+        m_emptyText->setText(QStringLiteral("n"));
+        m_mainNote->setRhythm(Trhythm(Trhythm::e_none));
+  }
+  changeWidth();
+}
+
+
 void TscoreNote::setColor(const QColor& color) {
 	m_mainColor = color;
   m_mainNote->setColor(color);
-// 	m_mainNote->setPen(Qt::NoPen);
+// 	m_mainNote->setPen(Qt::NoPen); // TODO
 // 	m_mainNote->setBrush(QBrush(m_mainColor, Qt::SolidPattern));
 	m_mainAccid->setBrush(QBrush(m_mainColor));
 	m_lines->setColor(color);
@@ -200,12 +222,10 @@ void TscoreNote::moveNote(int posY) {
       m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, posY));
       m_noteAnim->startAnimations();
   } else { // just move a note
-    if (m_rhythm->isRest()) {
-        m_mainNote->setPos(3.0, 20.5);
-    } else {
-        m_mainNote->setStemUp(posY > 14); // 14 looks good also for grand staff
-        m_mainNote->setPos(3.0, posY);
-    }
+      if (m_mainNote->rhythm()->isRest())
+          m_mainNote->setY(20.5);
+      else
+          m_mainNote->setY(posY);
   }
   m_mainPosY = posY;
   int noteNr = (56 + staff()->notePosRelatedToClef(staff()->fixNotePos(posY))) % 7;
@@ -242,7 +262,6 @@ void TscoreNote::moveNote(int posY) {
     m_accidAnim->startCrossFading(newAccid, m_mainColor);
   else
     m_mainAccid->setText(newAccid);
-
   setStringPos();
   m_lines->checkLines(posY);
 	checkEmptyText();
@@ -268,7 +287,7 @@ void TscoreNote::hideNote() {
 	m_lines->hideAllLines();
 	m_mainPosY = 0;
 	m_accidental = 0;
-	m_mainNote->setPos(3.0, 0);
+	m_mainNote->setY(0);
 }
 
 
@@ -409,20 +428,30 @@ void TscoreNote::enableNoteAnim(bool enable, int duration) {
 
 
 void TscoreNote::setAmbitus(int lo, int hi) { 
-	m_ambitMin = qBound(2, lo, (int)m_height - 1); 
+	m_ambitMin = qBound(2, lo, (int)m_height - 1);
 	m_ambitMax = qBound(2, hi, (int)m_height - 1);
 }
 
 
+/** When note duration is longer than shortest rhythm in current staff
+ * a space (gap) is added to visually represent note duration as a space between notes */
+qreal TscoreNote::rightX() {
+  int dur = m_mainNote->rhythm()->duration();
+  return x() + m_width
+      + (dur > staff()->shortestRhythm() ? staff()->gapFactor() * (((m_mainNote->rhythm()->duration() / staff()->shortestRhythm()) - 1.0)) : 0.0);
+}
+
+
 QRectF TscoreNote::boundingRect() const{
-    return QRectF(0, 0, 7.0, m_height);
+  return QRectF(0.0, 0.0, m_width, m_height);
 }
 
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    paintBackground(painter, Qt::yellow);
 	if (m_bgColor != -1) {
 // 			paintBackground(painter, m_bgColor);
-		QPointF center(3.5, m_mainPosY + 1.0);
+		QPointF center(m_width / 2.0, m_mainPosY + 1.0);
 		if (m_mainPosY == 0)
 			center.setY(staff()->upperLinePos() + 4.0);
 		QRadialGradient gr(center, 10.0);
@@ -436,7 +465,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		gr.setColorAt(1.0, Qt::transparent);
 		painter->setBrush(gr);
 		painter->setPen(Qt::NoPen);
-		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), 7.0, qMin(center.y() + 10.0, m_height));
+		painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), m_width, qMin(center.y() + 10.0, m_height));
 	}
 	if (scoreScene()->currentNote() == this && m_touchedToMove) {
     painter->setPen(Qt::NoPen);
@@ -455,9 +484,9 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 			emptyNoteColor = m_mainNote->color(); //m_mainNote->pen().color();
 		emptyNoteColor.setAlpha(120);
 		painter->setPen(QPen(emptyNoteColor, 0.4, Qt::SolidLine, Qt::RoundCap));
-		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, 6.5, staff()->upperLinePos() - 2.0));
+		painter->drawLine(QLineF(0.5, staff()->upperLinePos() - 1.0, m_width - 0.5, staff()->upperLinePos() - 2.0));
 		qreal loLine = staff()->isPianoStaff() ? staff()->lowerLinePos() : staff()->upperLinePos();
-		painter->drawLine(QLineF(0.5, loLine + 10.0, 6.5, loLine + 9.0));
+		painter->drawLine(QLineF(0.5, loLine + 10.0, m_width - 0.5, loLine + 9.0));
 	}
 }
 
@@ -479,6 +508,9 @@ void TscoreNote::popUpAnim(int durTime) {
 }
 
 
+bool TscoreNote::rhythmChanged() const {
+  return *m_mainNote->rhythm() != *m_newRhythm;
+}
 
 //#################################################################################################
 //########################################## PROTECTED   ##########################################
@@ -533,12 +565,29 @@ void TscoreNote::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 	if (scoreScene()->workPosY()) { // edit mode
 		if (event->button() == Qt::LeftButton) {
-				m_accidental = scoreScene()->currentAccid();
+				m_newAccid = scoreScene()->currentAccid();
+        m_newPosY = scoreScene()->workPosY();
+        qreal widthDiff = 0.0;
         if (scoreScene()->isRhythmEnabled()) {
-            m_mainNote->setRhythm(scoreScene()->workNote()->rhythm());
-            m_rhythm->setRhythm(*scoreScene()->workNote()->rhythm());
+            m_newRhythm->setRhythm(*scoreScene()->workRhythm());
+            qreal newWidth = 4.0;
+            if (m_newAccid)
+              newWidth += 2.0; // when removed - width remains smaller
+            if (newWidth != m_width) {
+              widthDiff =  newWidth - m_width;
+              qDebug() << "Note width differs" << m_width << newWidth << widthDiff;
+            }
         }
+        if (pitchChanged() || rhythmChanged() || accidChanged() || widthDiff != 0.0) {
+            emit noteGoingToChange(this);
+            staff()->prepareNoteChange(this, widthDiff);
+//             if (rhythmChanged())
+//                 m_mainNote->setRhythm(*m_newRhythm);
+        }
+        m_mainNote->setRhythm(*m_newRhythm);
+        m_accidental = m_newAccid;
         moveNote(scoreScene()->workPosY());
+        changeWidth();
         emit noteWasClicked(m_index);
 				if (m_nameText)
 					showNoteName();
@@ -638,7 +687,7 @@ void TscoreNote::setStringPos() {
     qreal yy = staff()->upperLinePos() + 9.0; // below the staff
     if (m_mainPosY > staff()->upperLinePos() + 4.0)
         yy = staff()->upperLinePos() - 7.0; // above the staff
-    m_stringText->setPos(7.5 - m_stringText->boundingRect().width() * m_stringText->scale(), yy);
+    m_stringText->setPos(m_width + 0.5 - m_stringText->boundingRect().width() * m_stringText->scale(), yy);
 	}
 }
 
@@ -650,11 +699,13 @@ void TscoreNote::initNoteCursor() {
 
 
 void TscoreNote::checkEmptyText() {
-	if (!isReadOnly() && staff()->selectableNotes() && !m_selected && m_mainPosY == 0 &&
-				scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
-		m_emptyText->show();
-	else
-		m_emptyText->hide();
+  if (!scoreScene()->isRhythmEnabled()) {
+    if (!isReadOnly() && staff()->selectableNotes() && !m_selected && m_mainPosY == 0 &&
+          scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
+      m_emptyText->show();
+    else
+      m_emptyText->hide();
+  }
 }
 
 
@@ -662,6 +713,31 @@ void TscoreNote::popUpAnimFinished() {
 // 	delete m_emptyText;
 	m_popUpAnim->deleteLater();
 	m_popUpAnim = 0;
+}
+
+
+void TscoreNote::changeWidth() {
+  qreal oldWidth = m_width;
+  qreal newWidth = 7.0;
+  if (scoreScene()->isRhythmEnabled()) {
+    newWidth = 4.0;
+    if (!m_mainAccid->text().isEmpty()) {
+        newWidth += 2.0;
+        m_mainNote->setX(2.5);
+        m_lines->setX(2.1);
+    } else {
+        m_mainNote->setX(0.5);
+        m_lines->setX(0.1);
+    }
+    if (m_mainNote->rhythm()->weight() > 4 && m_mainNote->rhythm()->beam() == Trhythm::e_noBeam)
+      newWidth += 1.0;
+  }
+  if (newWidth != oldWidth) {
+      qDebug() << "Note changed width" << newWidth;
+      prepareGeometryChange();
+      m_width = newWidth;
+      staff()->noteChangedWidth(index());
+  }
 }
 
 
