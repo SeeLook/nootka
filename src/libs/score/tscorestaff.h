@@ -36,6 +36,8 @@ class TscoreClef;
 class TscoreScene;
 class Tscore5lines;
 class TscoreMeter;
+class Trhythm;
+class Tmeter;
 
 
 /**
@@ -51,17 +53,21 @@ public:
   int total() { return octave * 7 + note; }
 };
 
-/** 
+/**
  * @class TscoreStaff manages score items on the staff.
  * It has got:
- * - clef - @p TscoreClef - accessing by @p scoreClef()
- * - key signature - @p TscoreKeySignature - scoreKey()
+ * - clef - @class TscoreClef - accessing by @p scoreClef()
+ * - key signature - @class TscoreKeySignature - @p scoreKey()
+ * - meter (if enabled) - @class TscoreMeter - @p scoreMeter()
  * - notes (in QList) - @p TscoreNote - @p noteSegment(int nr)
  * - scordature - below clef through @p setScordature()
  */
 class NOOTKACORE_EXPORT TscoreStaff : public TscoreItem
 {
-    Q_OBJECT
+
+  friend class TscoreNote;
+
+  Q_OBJECT
 
 public:
 
@@ -126,7 +132,7 @@ public:
 	bool hasScordature() { return (bool)m_scordature; } /**< @p TRUE when staff has got scordature. */
 	void removeScordatute();
 
-  void setMeterEnabled(bool isEnabled);
+  void setMeter(const Tmeter& m);
   TscoreMeter* scoreMeter() { return m_scoreMeter; }
 
 	qreal upperLinePos() const { return m_upperLinePos; } /**< Y position of upper line of a staff. */
@@ -204,6 +210,12 @@ public:
        * If not exists - does nothing. */
   void applyAutoAddedNote();
 
+  qreal spaceForNotes(); /**< Width of the staff without clef, key and meter items */
+  int shortestRhythm() { return m_shortestR; } /**< Shortest rhythm duration in the staff */
+  int longestRhythm() { return m_longestR; } /**< Longest rhythm duration in the staff */
+  qreal gapFactor() { return m_gapFactor; } /**< Multiplexer of rhythm gaps between notes */
+
+
 	virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {};
 	virtual QRectF boundingRect() const;
 
@@ -237,9 +249,8 @@ signals:
 
 			/** Signals informing about changing note range on the staff.
 				* Sending parameters are the staff number and difference of Y position. */
-	void loNoteChanged(int,qreal);
-	void hiNoteChanged(int,qreal);
-
+	void loNoteChanged(int, qreal);
+	void hiNoteChanged(int, qreal);
 
 public slots:
 	void onClefChanged(Tclef clef); /**< It is connected with clef, but also refresh m_offset appropriate to current clef. */
@@ -265,6 +276,9 @@ protected:
 			/** Protected method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
 				* It doesn't perform any checks */
 	void insert(int index);
+
+  void noteChangedWidth(int noteId); /**< Called by @class TscoreNote  */
+  void prepareNoteChange(TscoreNote* sn, qreal widthDiff);
 
 protected slots:
 	void onKeyChanged();
@@ -297,6 +311,9 @@ private:
 	bool 										 					 m_selectableNotes, m_extraAccids;
 	int																 m_maxNotesCount;
 	qreal															 m_loNotePos, m_hiNotePos;
+  qreal                              m_allNotesWidth; /**< Width of all notes on the staff (without gaps between) */
+  qreal                              m_gapFactor; /**< multiplexer of rhythm gaps between notes */
+  int                                m_shortestR, m_longestR;
 	bool															 m_lockRangeCheck; /**< to prevent the checking during clef switching */
 	QPointer<QTimer>									 m_addTimer;
 	int																 m_autoAddedNoteId; /**< Index of automatically added last note. */

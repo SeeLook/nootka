@@ -26,6 +26,8 @@
 #include "tscore5lines.h"
 #include "tscoremeter.h"
 #include <music/tnote.h>
+#include <music/trhythm.h>
+#include <music/tmeter.h>
 #include <animations/tcombinedanim.h>
 #include <tnoofont.h>
 #include <QtWidgets/qapplication.h>
@@ -45,7 +47,7 @@ TnoteOffset::TnoteOffset(int noteOff, int octaveOff) :
 TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   TscoreItem(scene),
   m_staffNr(-1), m_brace(0),
-  m_keySignature(0),
+  m_keySignature(nullptr),
   m_upperLinePos(16.0), m_lowerStaffPos(0.0),
   m_height(36.0),
   m_viewWidth(0.0),
@@ -56,8 +58,11 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 	m_selectableNotes(false), m_extraAccids(false),
 	m_maxNotesCount(0),
 	m_loNotePos(28.0), m_hiNotePos(12.0),
+	m_allNotesWidth(0.0),
+	m_gapFactor(0.0),
+	m_shortestR(12),
 	m_lockRangeCheck(false), m_autoAddedNoteId(-1),
-	m_scoreMeter(0)
+	m_scoreMeter(nullptr)
 {
 	setFlag(QGraphicsItem::ItemHasNoContents);
 	setZValue(10);
@@ -111,7 +116,7 @@ int TscoreStaff::noteToPos(const Tnote& note)	{
 		/** Calculation of note position works As folow:
 		 * 1) expr: m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 returns y position of note C in offset octave
 		 * 2) (note.octave * 7 + (note.note - 1)) is number of note to be set.
-		 * 3) Subtraction of them gives position of the note on staff with current clef and it is displayed 
+		 * 3) Subtraction of them gives position of the note on staff with current clef and it is displayed
 		 * when this value is in staff scale. */
 void TscoreStaff::setNote(int index, const Tnote& note) {
 	if (index >= 0 && index < m_scoreNotes.size()) {
@@ -182,6 +187,7 @@ void TscoreStaff::removeNote(int index) {
 			else
 				m_autoAddedNoteId--;
 		}
+		m_allNotesWidth -= m_scoreNotes[index]->width();
 		delete m_scoreNotes[index];
 		m_scoreNotes.removeAt(index);
 		if (maxNoteCount() > count())
@@ -197,14 +203,15 @@ void TscoreStaff::removeNote(int index) {
 
 
 void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
-	if (index >= 0 && index <= count() && nList.size() <= maxNoteCount() - index)
-	for (int i = index; i < nList.size() + index; i++) {
-		TscoreNote *sn = nList[i - index];
-		m_scoreNotes.insert(i, sn);
-		connectNote(sn);
-		sn->setParentItem(this);
-		sn->setStaff(this);
-	}
+	if (index >= 0 && index <= count() && nList.size() <= maxNoteCount() - index) {
+      for (int i = index; i < nList.size() + index; i++) {
+        TscoreNote *sn = nList[i - index];
+        m_scoreNotes.insert(i, sn);
+        connectNote(sn);
+        sn->setParentItem(this);
+        sn->setStaff(this);
+      }
+  }
 	updateNotesPos(index);
 	updateIndexes();
 	checkNoteRange(false);
@@ -325,29 +332,30 @@ void TscoreStaff::removeScordatute() {
 }
 
 
-void TscoreStaff::setMeterEnabled(bool isEnabled) {
+void TscoreStaff::setMeter(const Tmeter& m) {
   bool changed = false;
-  if (isEnabled) {
-    if (!m_scoreMeter) {
+  if (m.meter() != Tmeter::e_none && !m_scoreMeter) { // create score meter
       m_scoreMeter = new TscoreMeter(scoreScene(), this);
       m_scoreMeter->setPos(6.5 + (m_keySignature ? m_keySignature->boundingRect().width() : 0.0), upperLinePos());
       m_scoreMeter->setZValue(30);
+      m_scoreMeter->setMeter(m);
       changed = true;
       connect(m_scoreMeter, &TscoreMeter::meterChanged, [=]{
             updateWidth();
             updateNotesPos();
       });
-    }
-  } else {
-    if (m_scoreMeter) {
+  } else if (m_scoreMeter && m.meter() == Tmeter::e_none) { // delete meter
       delete m_scoreMeter;
-      m_scoreMeter = 0;
+      m_scoreMeter = nullptr;
       if (m_keySignature)
         m_keySignature->setX(6.5);
       changed = true;
-    }
-  }
+  } else if (m_scoreMeter)
+      m_scoreMeter->setMeter(m); // score meter will call signal to update staff
+  scoreScene()->setScoreMeter(m_scoreMeter);
   if (changed) {
+    for (int i = 0; i < m_scoreNotes.size(); i++) // set default rhythm value for all notes or hide all stems when no rhythms
+      m_scoreNotes[i]->setRhythmEnabled((bool)m_scoreMeter);
     updateWidth();
     updateNotesPos();
   }
@@ -508,6 +516,31 @@ qreal TscoreStaff::notesOffset() {
 }
 
 
+void TscoreStaff::noteChangedWidth(int noteId) {
+  updateNotesPos();
+}
+
+
+void TscoreStaff::prepareNoteChange(TscoreNote* sn, qreal widthDiff) {
+//   m_allNotesWidth += widthDiff;
+  if (sn->rhythmChanged()) {
+    m_shortestR = qMin<quint8>(m_shortestR, sn->newRhythm()->duration());
+    m_longestR = qMax<quint8>(m_longestR, sn->newRhythm()->duration());
+    qreal allGaps = 0.0;
+    m_allNotesWidth = 0.0;
+    foreach (TscoreNote* n, m_scoreNotes) {
+      if (n->index() != m_autoAddedNoteId) {
+        if (n->rhythm()->duration() > m_shortestR)
+            allGaps += ((qreal)n->rhythm()->duration() / m_shortestR) - 1.0;
+        m_allNotesWidth += n->width();
+      }
+    }
+    m_gapFactor = qMin<qreal>((spaceForNotes() - m_allNotesWidth) / allGaps, 5.0);
+    qDebug() << "gap factor" << m_gapFactor << allGaps << spaceForNotes() << m_allNotesWidth;
+  }
+}
+
+
 //##########################################################################################################
 //####################################### PUBLIC SLOTS     #################################################
 //##########################################################################################################
@@ -576,6 +609,14 @@ void TscoreStaff::applyAutoAddedNote() {
   }
 }
 
+
+qreal TscoreStaff::spaceForNotes() {
+  return width() - (m_clef ? m_clef->boundingRect().width() : 0.0)
+                 - (m_keySignature ? m_keySignature->boundingRect().width() : 0.0)
+                 - (m_scoreMeter ? m_scoreMeter->width() : 0.0);
+}
+
+
 //##########################################################################################################
 //####################################### PROTECTED SLOTS  #################################################
 //##########################################################################################################
@@ -611,7 +652,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
       m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos());
 	emit noteChanged(noteIndex);
 	checkNoteRange();
-	// when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic 
+	// when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic
 	if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
 		m_addTimer->stop();
 		insert(noteIndex + 1);
@@ -704,9 +745,26 @@ void TscoreStaff::updateIndexes() {
 
 
 void TscoreStaff::updateNotesPos(int startId) {
-	qreal off = notesOffset();
-	for (int i = startId; i < m_scoreNotes.size(); i++) // update positions of the notes
-    m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
+// 	qreal off = notesOffset();
+  qDebug() << "updateNotesPos" << startId;
+  if (m_scoreNotes.isEmpty())
+    return;
+  if (startId == 0)
+    m_scoreNotes[0]->setX(6.5 + notesOffset());
+  else
+    m_scoreNotes[startId]->setX(m_scoreNotes[startId - 1]->rightX());
+//   qreal gap = 0.0;
+	for (int i = startId + 1; i < m_scoreNotes.size(); i++) {// update positions of the notes
+//       if (scoreScene()->isRhythmEnabled()) {
+//         int dur = m_scoreNotes[i - 1]->rhythm()->duration();
+//         if (dur > m_shortestR)
+//           gap = ((dur / m_shortestR) - 1.0) * m_gapFactor;
+//         else
+//           gap = 0.0;
+//       }
+      m_scoreNotes[i]->setX(m_scoreNotes[i - 1]->rightX() /*+ gap*/);
+  }
+//     m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
 }
 
 
