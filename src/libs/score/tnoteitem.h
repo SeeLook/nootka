@@ -26,15 +26,20 @@
 
 class Trhythm;
 
+
 /**
  * Paints note head on the @class TscoreNote
- * and if rhythm is enabled steam and flag
+ * and rhythm when it is enabled.
+ * It paints steam and flag of whole and quarter notes
+ * but eights and sixteenths have only heads - their stems are painted outside
+ * It is controlled through @p setFlagsPaint() - @p FALSE forces painting flag always
  */
 class NOOTKACORE_EXPORT TnoteItem : public TscoreItem
 {
 
 public:
-  TnoteItem(TscoreScene* scene, Trhythm *r = 0);
+  TnoteItem(TscoreScene* scene, const Trhythm& r);
+  virtual ~TnoteItem();
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const;
@@ -42,19 +47,23 @@ public:
   void setColor(const QColor& c) { m_color = c; }
   QColor color() { return m_color; }
 
-  bool stemUp() { return m_stemUp; }
-  void setStemUp(bool isUp);
+      /** When sets to @p TRUE beaming of Trhythm is ignored and flags of 8 and 16 are painted.
+       * This is for cursor note.
+       * Otherwise, 8 and 16 have only heads */
+  void setFlagsPaint(bool flagPaint) { m_paintFlags = flagPaint; }
 
-  void setRhythm(Trhythm *r);
-  Trhythm* rhythm() const { return m_rhythm; }
+
+  void setRhythm(const Trhythm& r);
+  Trhythm* rhythm() const { return m_rhythm; } /**< Actual rhythm of a note */
 
 private:
   void obtainNoteLetter(); /**< Common routine to get letter of actual rhythm value */
+  bool upsideDown(const Trhythm& r);
 
 private:
   QColor        m_color;
-  Trhythm      *m_rhythm; /**< This is pointer only to external instance. Note head and flags are determined by it */
-  bool          m_stemUp; /**< By default stems are up - if set to @p FALSE it is down */
+  Trhythm      *m_rhythm; /**< This is pointer of @class Trhythm - Note head and flags are determined by it */
+  bool          m_paintFlags, m_upsideDown;
   QString       m_noteLetter; /**< single letter representing a note symbol in Nootka font */
 };
 

@@ -26,35 +26,43 @@
 #include <QtCore/qdebug.h>
 
 
-TnoteItem::TnoteItem(TscoreScene* scene, Trhythm *r) :
+TnoteItem::TnoteItem(TscoreScene* scene, const Trhythm& r) :
   TscoreItem(scene),
   m_color(qApp->palette().text().color()),
-  m_rhythm(r),
-  m_stemUp(true)
+  m_paintFlags(false),
+  m_upsideDown(false)
+//   m_stemHeight(6.1)
 {
+  m_rhythm = new Trhythm(r);
   setAcceptHoverEvents(false);
   obtainNoteLetter();
 }
 
 
-void TnoteItem::setRhythm(Trhythm *r) {
-//   if (r->rhythm() != m_rhythm->rhythm()) {
-    m_rhythm = r;
-    if (m_rhythm && m_rhythm->isRest())
-      m_stemUp = true;
-    obtainNoteLetter();
-    update();
-//   }
+TnoteItem::~TnoteItem()
+{
+  delete m_rhythm;
 }
 
 
-void TnoteItem::setStemUp(bool isUp) {
-  if (m_stemUp != isUp) { // makes no sense to change stem when there is not - rhythm is 0
-    if (m_rhythm && !m_rhythm->isRest() && m_rhythm->rhythm() > Trhythm::e_whole) {
+void TnoteItem::setRhythm(const Trhythm& r) {
+  bool up = false;
+  bool upDown = upsideDown(r);
+  if (r.stemDown() != m_rhythm->stemDown() || upDown != upsideDown(*m_rhythm)) {
+    if (r.stemDown() != m_rhythm->stemDown() && r == *m_rhythm && r.stemDown() != upDown) {
+      qDebug() << "Ignore geometry change";
+      m_rhythm->setRhythm(r);
+    } else {
+      qDebug() << "stem direction requires geometry change";
       prepareGeometryChange();
-      m_stemUp = isUp;
-      obtainNoteLetter();
+      up = true;
     }
+  }
+  if (up || *m_rhythm != r || (r.beam() && !m_rhythm->beam()) || (!r.beam() && m_rhythm->beam())) {
+    m_rhythm->setRhythm(r);
+    m_upsideDown = upDown;
+    obtainNoteLetter();
+    update();
   }
 }
 
@@ -64,27 +72,33 @@ void TnoteItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
   Q_UNUSED(widget)
 
 //   paintBackground(painter, Qt::blue);
-  painter->setPen(QPen(m_color, 0.4));
+//   painter->setPen(QPen(m_color, 0.25));
+  painter->setPen(m_color);
 
   painter->setFont(TnooFont(8));
-  painter->drawText(QPointF(0.0, m_stemUp ? 1.0 : 6.32), m_noteLetter);
-  if (m_rhythm && m_rhythm->hasDot()) {
+  // place note head into bounding rectangle that it Y = 0 is always inside the head
+  painter->drawText(QPointF(0.0, m_upsideDown ? (/*!m_paintFlags && m_rhythm->weight() > 4 ? 1.0 :*/ 6.32) : 1.0),
+                    m_noteLetter);
+//   if (!m_paintFlags && m_rhythm->weight() > 4) {
+//     if (m_rhythm->stemDown())
+//       painter->drawLine(QLineF(0.13, 1.14, 0.13, 1.14 + m_stemHeight));
+//     else
+//       painter->drawLine(QLineF(2.23, 0.85, 2.23, -(m_stemHeight - 0.85)));
+//   }
+  if (m_rhythm->hasDot()) {
     painter->drawText(QPointF(m_rhythm->rhythm() == Trhythm::e_whole ? 3.5 : 2.7,
-                              1.4 + (m_stemUp ? 1.0 : -1.0) * ((int)y() % 2)),
+                              1.4 + (m_upsideDown ? -1.0 : 1.0) * ((int)y() % 2)),
                       QStringLiteral("."));
   }
 }
 
 QRectF TnoteItem::boundingRect() const {
-  return QRectF(0.0, m_stemUp ? -5.5 : -0.5, 4.4, 8.0);
+  return QRectF(0.0, m_upsideDown ? -0.5 : -5.5, 4.4, 8.0);
 }
 
 
 void TnoteItem::obtainNoteLetter() {
-  Trhythm::Erhythm v = Trhythm::e_none;
-  bool rest = false;
-  if (m_rhythm) {
-    v = m_rhythm->rhythm();
+    quint16 v = m_rhythm->weight();
     if (m_rhythm->isRest()) { // handle rest glyphs - for score they are just rectangles without leading line and getCharFromRhythm not works for it
       int charNr = 0;
       if (m_rhythm->rhythm() == Trhythm::e_whole)
@@ -95,11 +109,19 @@ void TnoteItem::obtainNoteLetter() {
         m_noteLetter = QString(QChar(charNr));
         return;
       }
-      rest = true;
-    }
-  }
-  m_noteLetter = QString(QChar(TnooFont::getCharFromRhythm(v, m_stemUp, rest)));
+    } if (!m_paintFlags && m_rhythm->weight() > 4 && m_rhythm->beam())
+          v = 0; // paint head only - stems and beams are handled outside then
+  m_noteLetter = QString(QChar(TnooFont::getCharFromRhythm(v, !m_rhythm->stemDown(), m_rhythm->isRest())));
 }
 
+/**
+ * Determine whether bounding rectangle is different (notes with stems down)
+ * + stem down flag is set but it is performed only when:
+ *   -- there is no beam and rhythm is higher than whole (whole has no stem)
+ *   -- or there is a beam, so half and quarter notes are up-side-down
+ */
+bool TnoteItem::upsideDown(const Trhythm& r) {
+  return r.stemDown() && ((!r.beam() && r.weight() > 1) || (r.beam() && r.weight() > 1 && r.weight() < 8));
+}
 
 
