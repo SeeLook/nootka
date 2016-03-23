@@ -46,7 +46,9 @@ public:
 	TscoreNote* scoreNote() { return m_scoreNote; }
 	void setScoreNote(TscoreNote* sn);
 
-  void setRhythm(Trhythm* r); /**< Updates rhythm icon on the right pane */
+      /** Updates rhythm icon on the right pane.
+       * When set @p Trhythm::e_none - rhythm item is hidden. */
+  void setRhythm(Trhythm* r);
 
 	void adjustSize(); /**< Grabs height from staff and adjust items to it. */
 

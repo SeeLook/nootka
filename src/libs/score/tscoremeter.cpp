@@ -20,6 +20,7 @@
 #include "tscorestaff.h"
 // #include "graphics/tnotepixmap.h"
 #include <tnoofont.h>
+#include <music/tmeter.h>
 #include <widgets/tpushbutton.h>
 #include <QtWidgets/QtWidgets>
 
@@ -29,7 +30,7 @@
 
 TscoreMeter::TscoreMeter(TscoreScene* scene, TscoreStaff* staff) :
   TscoreItem(scene),
-  m_meter(Tmeter(Tmeter::e_4_4)),
+  m_meter(new Tmeter(Tmeter::e_4_4)),
   m_isReadOnly(false),
   m_pianoStaff(false),
   m_width(4.0)
@@ -40,14 +41,51 @@ TscoreMeter::TscoreMeter(TscoreScene* scene, TscoreStaff* staff) :
 }
 
 
-void TscoreMeter::setMeter(const Tmeter& meter) {
-  m_meter = meter;
-  m_upperDigit = TnooFont::digit(m_meter.upper());
-  m_lowerDigit = TnooFont::digit(m_meter.lower());
+TscoreMeter::~TscoreMeter()
+{
+  delete m_meter;
+}
+
+
+void TscoreMeter::setMeter(const Tmeter& meter, bool emitSignal) {
+  *m_meter = meter;
+  m_upperDigit = TnooFont::digit(m_meter->upper());
+  m_lowerDigit = TnooFont::digit(m_meter->lower());
   QFontMetrics fm(TnooFont(8));
   m_width = fm.boundingRect(m_upperDigit).width();
   update();
-  emit meterChanged();
+
+// set notes grouping
+  m_groups.clear();
+  if (m_meter->lower() == 4) { // simple grouping: one group for each quarter
+    m_groups << 24 << 48; // 2/4 and above
+    if (m_meter->meter() > Tmeter::e_2_4)
+      m_groups << 72;
+    if (m_meter->meter() > Tmeter::e_3_4)
+      m_groups << 96;
+    if (m_meter->meter() > Tmeter::e_4_4)
+      m_groups << 120;
+    if (m_meter->meter() > Tmeter::e_5_4)
+      m_groups << 144;
+    if (m_meter->meter() > Tmeter::e_6_4)
+      m_groups << 168;
+  } else {
+    if (m_meter->meter() == Tmeter::e_3_8)
+      m_groups << 36;
+    else if (m_meter->meter() == Tmeter::e_5_8)
+      m_groups << 60;
+    else if (m_meter->meter() == Tmeter::e_6_8)
+      m_groups << 36 << 72;
+    else if (m_meter->meter() == Tmeter::e_7_8)
+      m_groups << 36 << 60 << 84;
+    else if (m_meter->meter() == Tmeter::e_9_8)
+      m_groups << 36 << 72 << 108;
+    else if (m_meter->meter() == Tmeter::e_12_8)
+      m_groups << 36 << 72 << 108 << 144;
+  }
+
+  if (emitSignal)
+    emit meterChanged();
 }
 
 
@@ -77,9 +115,9 @@ void TscoreMeter::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (isReadOnly())
     QGraphicsItem::mousePressEvent(event);
   else {
-    TselectMeter menu(m_meter);
+    TselectMeter menu(*m_meter);
     Tmeter m = menu.exec(event->screenPos());
-    if (m.meter() != Tmeter::e_none && m != m_meter)
+    if (m.meter() != Tmeter::e_none && m != *m_meter)
       setMeter(m);
   }
 }

@@ -150,8 +150,14 @@ void TnoteControl::adjustSize() {
 
 
 void TnoteControl::setRhythm(Trhythm* r) {
-  if (!isLeftPane())
-    m_rhythmItem->setRhythmGlyph(r);
+  if (!isLeftPane()) {
+    if (r->rhythm() == Trhythm::e_none)
+      m_rhythmItem->hide();
+    else {
+      m_rhythmItem->show();
+      m_rhythmItem->setRhythmGlyph(r);
+    }
+  }
 }
 
 

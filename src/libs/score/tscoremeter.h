@@ -19,9 +19,15 @@
 #ifndef TSCOREMETER_H
 #define TSCOREMETER_H
 
+
 #include "nootkacoreglobal.h"
 #include "tscoreitem.h"
-#include <music/tmeter.h>
+
+
+class Tmeter;
+
+
+#define MIN_GAP (1.0) /**< Minimal distance between notes of the shortest duration in a staff */
 
 
 /**
@@ -34,15 +40,26 @@ class NOOTKACORE_EXPORT TscoreMeter : public TscoreItem
 
 public:
   TscoreMeter(TscoreScene* scene, TscoreStaff* staff);
+  virtual ~TscoreMeter();
 
-  void setMeter(const Tmeter& meter);
-  Tmeter meter() const { return m_meter; }
+  void setMeter(const Tmeter& meter, bool emitSignal = true);
+  Tmeter* meter() const { return m_meter; }
 
   void setReadOnly(bool readOnly) { m_isReadOnly = readOnly; }
   bool isReadOnly() { return m_isReadOnly; }
 
       /** This is only way to inform const boundingRect about staff type changed */
   void setPianoStaff(bool piano) { m_pianoStaff = piano; }
+  bool isPianoStaff() { return m_pianoStaff; }
+
+      /**
+       * Describes grouping (beaming - beam connections) of notes in a single measure for current meter.
+       * This is a group of a few int values - each representing duration of the one group:
+       * - for 3/8 it is only single 36 value - whole measure under one beam
+       * - for 3/4 it is 24, 48, 72) - three groups
+       */
+  quint8 groupPos(int grNr) { return m_groups[grNr]; } /**< Duration of given group starting from measure beginning */
+  int groupCount() { return m_groups.count(); } /**< Number of beaming groups for this meter  */
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const;
@@ -56,10 +73,11 @@ protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
 private:
-  Tmeter            m_meter;
+  Tmeter           *m_meter;
   bool              m_isReadOnly, m_pianoStaff;
   QString           m_upperDigit, m_lowerDigit;
   qreal             m_width;
+  QList<quint8>     m_groups;
 };
 
 
