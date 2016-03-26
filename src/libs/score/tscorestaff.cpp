@@ -528,8 +528,8 @@ void TscoreStaff::prepareNoteChange(TscoreNote* sn, qreal widthDiff) {
     m_longestR = qMax<quint8>(m_longestR, sn->newRhythm()->duration());
     qreal allGaps = 0.0;
     m_allNotesWidth = 0.0;
-    foreach (TscoreNote* n, m_scoreNotes) {
-      if (n->index() != m_autoAddedNoteId) {
+    for (TscoreNote* n : m_scoreNotes) {
+      if (n->index() != m_autoAddedNoteId) { // skip auto added (temporary) note
         if (n->rhythm()->duration() > m_shortestR)
             allGaps += ((qreal)n->rhythm()->duration() / m_shortestR) - 1.0;
         m_allNotesWidth += n->width();

@@ -178,7 +178,7 @@ void TscoreBeam::performBeaming() {
   for (int i = 1; i < m_stems.count() - 1; ++i) {
       QPointF stemEnd;
       beamLine.intersect(QLineF(m_notes[i]->pos() + m_stems[i]->line().p1(), m_notes[i]->pos() + m_stems[i]->line().p2()), &stemEnd);
-      m_stems[i]->setLine(QLineF(m_stems[i]->line().p1(), stemEnd - m_notes[i]->pos() - stemOff));
+      m_stems[i]->setLine(QLineF(m_stems[i]->line().p1(), stemEnd - m_notes[i]->pos() - 2 * stemOff));
   }
   QPolygonF poly;
   poly << beamLine.p1();
