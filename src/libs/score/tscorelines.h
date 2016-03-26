@@ -38,36 +38,36 @@ class NOOTKACORE_EXPORT TscoreLines : public QGraphicsItemGroup
 {
 
 public:
-	TscoreLines(TscoreNote* note);
+  TscoreLines(TscoreNote* note);
 
-	TaddLines& up() { return m_upper; }
-	TaddLines& mid() { return m_middle; }
-	TaddLines& lo() { return m_lower; }
+  TaddLines& up() { return m_upper; }
+  TaddLines& mid() { return m_middle; }
+  TaddLines& lo() { return m_lower; }
 
-	void setColor(const QColor& lineColor);
+  void setColor(const QColor& lineColor);
 
-			/** Recreates lines adjusting them to new staff (clef) */
-	void adjustLines(TscoreNote* scoreNote) { m_parentNote = scoreNote; createLines(); }
+      /** Recreates lines adjusting them to new staff (clef) */
+  void adjustLines(TscoreNote* scoreNote) { m_parentNote = scoreNote; createLines(); }
 
-	void hideAllLines();
+  void hideAllLines();
 
-	void checkLines(int curPos); /** Checks whose lines show and hide. @p curPos is current position of note those lines belong to. */
+  void checkLines(int curPos); /** Checks whose lines show and hide. @p curPos is current position of note those lines belong to. */
 
-	void setParent(TscoreNote* sn);
-
-private:
-	QGraphicsLineItem* createNoteLine(int yPos);
-
-					/** Common method creating upper and lower staff lines.
-				 * It appends new lines to list 
-				 * so do not forget to clear list before every next call. */
-	void createLines();
-	void hideLines(TaddLines &linesList);	
-	void deleteLines(TaddLines &linesList); /** Deletes lines in the list and clears the list */
+  void setParent(TscoreNote* sn);
 
 private:
-	TaddLines 				m_upper, m_middle, m_lower;
-	TscoreNote			 *m_parentNote;
+  QGraphicsLineItem* createNoteLine(int yPos);
+
+          /** Common method creating upper and lower staff lines.
+         * It appends new lines to list
+         * so do not forget to clear list before every next call. */
+  void createLines();
+  void hideLines(TaddLines &linesList);
+  void deleteLines(TaddLines &linesList); /** Deletes lines in the list and clears the list */
+
+private:
+  TaddLines         m_upper, m_middle, m_lower;
+  TscoreNote       *m_parentNote;
 
 };
 

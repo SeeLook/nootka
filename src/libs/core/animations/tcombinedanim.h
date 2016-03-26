@@ -30,55 +30,55 @@
 
 /**
  * Class that performs combined animations.
- * 
+ *
  * WARRING! duration has to be set before any animation type is initialized.
- */ 
+ */
 class NOOTKACORE_EXPORT TcombinedAnim : public TabstractAnim
 {
     Q_OBJECT
 
 public:
-	explicit TcombinedAnim(QGraphicsItem* item = 0, QObject* parent = 0);
-	
-	void startAnimations();
-	
-	void setMoving(const QPointF& start, const QPointF& stop);
-	TmovedAnim* moving() { return m_moving; }
-	
-	void setScaling(qreal scaleEnd, qreal scaleMid = -1.0);
-	TscaledAnim* scaling() { return m_scaling; }
-	
-	void setColoring(const QColor &endColor, const QColor &midColor = -1);
-	TcoloredAnim* coloring() { return m_coloring; }
-	
-	void setMorphing(const QLineF &line, qreal width, bool toLine = true);
-	TmorphedAnim* morphing() { return m_morphing; }
-	
-	void setFading(qreal endOpacity, qreal midOpacity = -1);
-	TfadeAnim* fading() { return m_fading; }
-	
+  explicit TcombinedAnim(QGraphicsItem* item = 0, QObject* parent = 0);
+
+  void startAnimations();
+
+  void setMoving(const QPointF& start, const QPointF& stop);
+  TmovedAnim* moving() { return m_moving; }
+
+  void setScaling(qreal scaleEnd, qreal scaleMid = -1.0);
+  TscaledAnim* scaling() { return m_scaling; }
+
+  void setColoring(const QColor &endColor, const QColor &midColor = -1);
+  TcoloredAnim* coloring() { return m_coloring; }
+
+  void setMorphing(const QLineF &line, qreal width, bool toLine = true);
+  TmorphedAnim* morphing() { return m_morphing; }
+
+  void setFading(qreal endOpacity, qreal midOpacity = -1);
+  TfadeAnim* fading() { return m_fading; }
+
 protected slots:
-	void finishSlot();
-	void emitFinish() { emit finished(); }
-	
-private:
-			/** Common routines for all kinds of animations */
-	void prepareAnim(TabstractAnim *anim);
+  void finishSlot();
+  void emitFinish() { emit finished(); }
 
 private:
-	TmovedAnim				*m_moving;
-	QPointF						 m_startMov, m_stopMov;
-	TscaledAnim				*m_scaling;
-	qreal							 m_scaleEnd, m_scaleMid;
-	TcoloredAnim			*m_coloring;
-	QColor						 m_endColor, m_midColor;
-	TmorphedAnim			*m_morphing;
-	QLineF						 m_line;
-	qreal							 m_lineWidth;
-	TfadeAnim					*m_fading;
-	qreal							 m_endOp, m_midOp;
-	bool							 m_toLine;
-	
+      /** Common routines for all kinds of animations */
+  void prepareAnim(TabstractAnim *anim);
+
+private:
+  TmovedAnim        *m_moving;
+  QPointF             m_startMov, m_stopMov;
+  TscaledAnim        *m_scaling;
+  qreal               m_scaleEnd, m_scaleMid;
+  TcoloredAnim      *m_coloring;
+  QColor             m_endColor, m_midColor;
+  TmorphedAnim      *m_morphing;
+  QLineF             m_line;
+  qreal               m_lineWidth;
+  TfadeAnim          *m_fading;
+  qreal               m_endOp, m_midOp;
+  bool               m_toLine;
+
 };
 
 #endif // TCOMBINEDANIM_H

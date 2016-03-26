@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
- 
+
 
 #ifndef TSIMPLESCORE_H
 #define TSIMPLESCORE_H
@@ -41,7 +41,7 @@ class TscoreScene;
 class NOOTKACORE_EXPORT TsimpleScore : public QGraphicsView
 {
   Q_OBJECT
-  
+
 public:
 
   TsimpleScore(int notesNumber, QWidget *parent = 0);
@@ -134,7 +134,7 @@ protected slots:
       /** Except response for scaling TscoreView widget to according to new height,
         * this method takes care about new width of the score.
         * It is necessary to call it after staff width changed f.e by:
-        * setPianoStaff(), setEnableKeySign() and setScordature()				 */
+        * setPianoStaff(), setEnableKeySign() and setScordature()         */
   virtual void resizeEvent(QResizeEvent* event);
 
       /** It grabs TscoreItems statusTips and generates QStatusTipEvent for parent widget. */
@@ -142,15 +142,15 @@ protected slots:
   void onClefChanged(Tclef clef);
 
 private:
-  TscoreScene     						*m_scene;
-  TscoreStaff     						*m_staff;
-  QGraphicsSimpleTextItem 		*m_bgGlyph;
-  int 												 m_notesNr;
-  int 												 m_prevBGglyph;
-  Tclef::Etype								 m_clefType;
-  QSize												 m_sizeHint;
-  QPointer<TscoreItem>				 m_currentIt;
-  QPointF											 m_initPos; /** In scene coordinates. */
+  TscoreScene                 *m_scene;
+  TscoreStaff                 *m_staff;
+  QGraphicsSimpleTextItem     *m_bgGlyph;
+  int                          m_notesNr;
+  int                          m_prevBGglyph;
+  Tclef::Etype                 m_clefType;
+  QSize                         m_sizeHint;
+  QPointer<TscoreItem>         m_currentIt;
+  QPointF                       m_initPos; /** In scene coordinates. */
   bool                         m_wheelFree;
   QTimer                      *m_wheelLockTimer;
 };

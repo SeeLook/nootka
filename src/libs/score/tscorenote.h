@@ -187,26 +187,26 @@ private:
   TcrossFadeTextAnim                     *m_accidAnim;
   Tnote                                  *m_note;
 
-  int                            					m_mainPosY, m_newPosY, m_accidental, m_newAccid;
+  int                                      m_mainPosY, m_newPosY, m_accidental, m_newAccid;
   Trhythm                                *m_newRhythm;
-  int                            					m_index; /**< note index in external list */
-//     int 													m_noteNr; // note number depends on octave
-  int                            					m_ambitMin, m_ambitMax; /**< Represents range (ambitus) of notes on score */
-  int 													 					m_stringNr;
-  QGraphicsSimpleTextItem 							 *m_stringText;
-  qreal                          					m_width, m_height;
-  bool													 					m_readOnly, m_emptyLinesVisible;
-  QGraphicsTextItem											 *m_nameText;
-  int 													 					m_ottava; /**< values from -2 (two octaves down), to 2 (two octaves up) */
-  QColor                         					m_bgColor;
-  TcombinedAnim													 *m_noteAnim, *m_popUpAnim;
-  QGraphicsSimpleTextItem								 *m_emptyText;
-  bool													 					m_selected;
-  TscoreLines														 *m_lines;
+  int                                      m_index; /**< note index in external list */
+//     int                           m_noteNr; // note number depends on octave
+  int                                      m_ambitMin, m_ambitMax; /**< Represents range (ambitus) of notes on score */
+  int                                      m_stringNr;
+  QGraphicsSimpleTextItem                *m_stringText;
+  qreal                                    m_width, m_height;
+  bool                                     m_readOnly, m_emptyLinesVisible;
+  QGraphicsTextItem                       *m_nameText;
+  int                                      m_ottava; /**< values from -2 (two octaves down), to 2 (two octaves up) */
+  QColor                                   m_bgColor;
+  TcombinedAnim                           *m_noteAnim, *m_popUpAnim;
+  QGraphicsSimpleTextItem                 *m_emptyText;
+  bool                                     m_selected;
+  TscoreLines                             *m_lines;
 
-  bool 																		m_touchedToMove; /**< Determines whether cursor follows moving finger */
+  bool                                     m_touchedToMove; /**< Determines whether cursor follows moving finger */
   bool                                    m_wasTouched;
-  static QString													m_staticTip, m_selectedTip;
+  static QString                          m_staticTip, m_selectedTip;
   QElapsedTimer                           m_touchTime;
 
 private:

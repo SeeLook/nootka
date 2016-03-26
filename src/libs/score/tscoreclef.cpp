@@ -53,8 +53,8 @@ QChar TscoreClef::clefToChar(Tclef clef) {
       ch = QChar(0xe171); break;
     case Tclef::e_tenor_C:
       ch = QChar(0xe16e); break;
-		default : 
-			ch = QChar(0x20); break; // space
+    default :
+      ch = QChar(0x20); break; // space
   }
   return ch;
 }
@@ -70,47 +70,47 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   m_readOnly(false)
 {
   setStaff(staff);
-	setParentItem(staff);
+  setParentItem(staff);
   if (m_typesList.size() == 0) // initialize types list
     m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down <<
     Tclef::e_alto_C << Tclef::e_tenor_C << Tclef::e_treble_G_8down;
-  
+
   m_textClef = new QGraphicsSimpleTextItem();
   registryItem(m_textClef);
   m_textClef->setBrush(qApp->palette().text().color());
-  
+
   m_textClef->setFont(TnooFont(18));
   setClef(clef);
 }
-  
+
 
 TscoreClef::~TscoreClef() {
-	if (m_clefMenu)
-		delete m_clefMenu;
+  if (m_clefMenu)
+    delete m_clefMenu;
 }
 
 
 void TscoreClef::setClef(Tclef clef) {
-	if (clef.type() == Tclef::e_pianoStaff) {
-		if (!m_lowerClef) {
-			m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::e_bass_F));
-			m_lowerClef->setPos(0.5, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()) + 0.1);
-			connect(m_lowerClef, SIGNAL(clefChanged(Tclef)), this, SLOT(lowerClefChanged(Tclef)));
-		} else // clefs already set to piano mode
-				return;
-		clef.setClef(Tclef::e_treble_G);
-	} else {
-		if (m_lowerClef)
-			delete m_lowerClef;
-	}
-			m_clef = clef;
-			m_currClefInList = getClefPosInList(m_clef);
-			m_textClef->setText(QString(clefToChar(m_clef.type())));
-			qreal fineOff = 0.1;
-			if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
-				fineOff = 0.0;
-			setPos(0.5, getYclefPos(m_clef) - (16.0 - staff()->upperLinePos()) + fineOff);
-			getStatusTip();
+  if (clef.type() == Tclef::e_pianoStaff) {
+    if (!m_lowerClef) {
+      m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::e_bass_F));
+      m_lowerClef->setPos(0.5, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()) + 0.1);
+      connect(m_lowerClef, SIGNAL(clefChanged(Tclef)), this, SLOT(lowerClefChanged(Tclef)));
+    } else // clefs already set to piano mode
+        return;
+    clef.setClef(Tclef::e_treble_G);
+  } else {
+    if (m_lowerClef)
+      delete m_lowerClef;
+  }
+      m_clef = clef;
+      m_currClefInList = getClefPosInList(m_clef);
+      m_textClef->setText(QString(clefToChar(m_clef.type())));
+      qreal fineOff = 0.1;
+      if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
+        fineOff = 0.0;
+      setPos(0.5, getYclefPos(m_clef) - (16.0 - staff()->upperLinePos()) + fineOff);
+      getStatusTip();
 }
 
 
@@ -119,10 +119,10 @@ QRectF TscoreClef::boundingRect() const {
 }
 
 void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-	Q_UNUSED(painter)
-	Q_UNUSED(option)
-	Q_UNUSED(widget)
-// 	paintBackground(painter, Qt::magenta);
+  Q_UNUSED(painter)
+  Q_UNUSED(option)
+  Q_UNUSED(widget)
+//   paintBackground(painter, Qt::magenta);
 }
 
 //#################################################################################################
@@ -152,9 +152,9 @@ void TscoreClef::untouched(const QPointF& scenePos) {
 
 
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (m_readOnly) {
-		TscoreItem::mousePressEvent(event);
-	} else {
+  if (m_readOnly) {
+    TscoreItem::mousePressEvent(event);
+  } else {
     if (!m_menu) {
       m_menu = new QMenu();
       if (!m_clefMenu) {
@@ -179,13 +179,13 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         emit clefChanged(cl);
       }
     }
-	}
+  }
 }
 
 
 void TscoreClef::lowerClefChanged(Tclef clef) {
-	if (clef.type() != Tclef::e_pianoStaff) // lower staff means piano staff already
-		emit clefChanged(clef);
+  if (clef.type() != Tclef::e_pianoStaff) // lower staff means piano staff already
+    emit clefChanged(clef);
 }
 
 //##########################################################################################################
@@ -193,10 +193,10 @@ void TscoreClef::lowerClefChanged(Tclef clef) {
 //##########################################################################################################
 
 void TscoreClef::getStatusTip() {
-	QString tip = "<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")";
-	if (!readOnly())
-		tip += "<br>" + tr("Click to select another clef.");
-	setStatusTip(tip);
+  QString tip = "<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")";
+  if (!readOnly())
+    tip += "<br>" + tr("Click to select another clef.");
+  setStatusTip(tip);
 }
 
 

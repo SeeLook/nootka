@@ -49,42 +49,42 @@ TscoreScene::TscoreScene(QObject* parent) :
   m_mouseOverKey(false), m_rectIsChanging(false),
   m_scoreMeter(nullptr)
 {
-	m_showTimer = new QTimer(this);
-	m_hideTimer = new QTimer(this);
+  m_showTimer = new QTimer(this);
+  m_hideTimer = new QTimer(this);
   m_workRhythm = new Trhythm(Trhythm::e_none);
   setDoubleAccidsEnabled(true);
   m_currentAccid = 0;
 
-	connect(m_showTimer, SIGNAL(timeout()), this, SLOT(showTimeOut()));
-	connect(m_hideTimer, SIGNAL(timeout()), this, SLOT(hideTimeOut()));
+  connect(m_showTimer, SIGNAL(timeout()), this, SLOT(showTimeOut()));
+  connect(m_hideTimer, SIGNAL(timeout()), this, SLOT(hideTimeOut()));
 }
 
 
 TscoreScene::~TscoreScene()
 {
-	if (m_rightBox) { // all items are into scene so they will be deleted
-		delete m_rightBox; // but the last TscoreNote has to skip deleting depending items itself
-		m_rightBox = 0;
-	}
-	delete m_workRhythm;
+  if (m_rightBox) { // all items are into scene so they will be deleted
+    delete m_rightBox; // but the last TscoreNote has to skip deleting depending items itself
+    m_rightBox = 0;
+  }
+  delete m_workRhythm;
   delete m_scoreMeter;
 }
 
 
 void TscoreScene::setCurrentAccid(char accid) {
-	char prevAcc = m_currentAccid;
-	m_currentAccid = (char)qBound((int)-m_dblAccFuse, (int)accid, (int)m_dblAccFuse);
-	if (m_workAccid && prevAcc != m_currentAccid) {
-		m_workAccid->setText(TscoreNote::getAccid(m_currentAccid));
-		if (m_currentAccid == 0)
-			m_workAccid->hide();
-		else
-			m_workAccid->show();
-		if (m_leftBox)
-			m_leftBox->setAccidental(m_currentAccid);
-		if (m_hideTimer->isActive())
-			m_hideTimer->start(1000);
-	}
+  char prevAcc = m_currentAccid;
+  m_currentAccid = (char)qBound((int)-m_dblAccFuse, (int)accid, (int)m_dblAccFuse);
+  if (m_workAccid && prevAcc != m_currentAccid) {
+    m_workAccid->setText(TscoreNote::getAccid(m_currentAccid));
+    if (m_currentAccid == 0)
+      m_workAccid->hide();
+    else
+      m_workAccid->show();
+    if (m_leftBox)
+      m_leftBox->setAccidental(m_currentAccid);
+    if (m_hideTimer->isActive())
+      m_hideTimer->start(1000);
+  }
 }
 
 
@@ -104,22 +104,22 @@ void TscoreScene::addBlur(QGraphicsItem* item, qreal radius) {
 
 
 void TscoreScene::adjustCursor(TscoreNote* sn) {
-	if (m_rightBox && !views().isEmpty()) {
-		m_rightBox->adjustSize();
-		m_leftBox->adjustSize();
-		workLines()->adjustLines(sn);
-		setPointedColor(workColor);
-	}
+  if (m_rightBox && !views().isEmpty()) {
+    m_rightBox->adjustSize();
+    m_leftBox->adjustSize();
+    workLines()->adjustLines(sn);
+    setPointedColor(workColor);
+  }
 }
 
 
 void TscoreScene::setPointedColor(const QColor& color) {
-	workColor = color;
+  workColor = color;
   m_workNote->setColor(color);
-// 	m_workNote->setPen(QPen(workColor, 0.2));
-// 	m_workNote->setBrush(QBrush(workColor, Qt::SolidPattern));
-	m_workAccid->setBrush(QBrush(workColor));
-	m_workLines->setColor(color);
+//   m_workNote->setPen(QPen(workColor, 0.2));
+//   m_workNote->setBrush(QBrush(workColor, Qt::SolidPattern));
+  m_workAccid->setBrush(QBrush(workColor));
+  m_workLines->setColor(color);
 }
 
 
@@ -152,23 +152,23 @@ void TscoreScene::setScoreMeter(TscoreMeter* m) {
 
 void TscoreScene::noteEntered(TscoreNote* sn) {
   m_hideTimer->stop();
-	if (!m_rectIsChanging && sn != m_scoreNote && sn != 0) {
-		m_scoreNote = sn;
-		if (controlledNotes()) {
-			if (right()->isEnabled()) {
-				right()->setPos(sn->x() + sn->width(),
+  if (!m_rectIsChanging && sn != m_scoreNote && sn != 0) {
+    m_scoreNote = sn;
+    if (controlledNotes()) {
+      if (right()->isEnabled()) {
+        right()->setPos(sn->x() + sn->width(),
                         (sn->parentItem()->boundingRect().height() - right()->boundingRect().height() + 6.0) / 2.0);
-				right()->setScoreNote(sn);
-			}
-			if (left()->isEnabled()) {
-				left()->setPos(sn->pos().x() /*- ((7.0 - sn->width()) / 2.0)*/ - left()->boundingRect().width(),
+        right()->setScoreNote(sn);
+      }
+      if (left()->isEnabled()) {
+        left()->setPos(sn->pos().x() /*- ((7.0 - sn->width()) / 2.0)*/ - left()->boundingRect().width(),
                        (sn->parentItem()->boundingRect().height() - left()->boundingRect().height() + 6.0) / 2.0);
-				left()->setScoreNote(sn);
-			}
-		}
-		if (workNote()->parentItem() != sn)
-				setCursorParent(sn);
-	}
+        left()->setScoreNote(sn);
+      }
+    }
+    if (workNote()->parentItem() != sn)
+        setCursorParent(sn);
+  }
 }
 
 
@@ -200,7 +200,7 @@ void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
 
 
 void TscoreScene::noteLeaved(TscoreNote* sn) {
-	Q_UNUSED(sn)
+  Q_UNUSED(sn)
   if (!m_rectIsChanging) {
     m_showTimer->stop();
     m_hideTimer->start(TscoreItem::touchEnabled() ? 2000 : 300);
@@ -209,19 +209,19 @@ void TscoreScene::noteLeaved(TscoreNote* sn) {
 
 
 void TscoreScene::noteDeleted(TscoreNote* sn) {
-	if (right() && (workNote()->parentItem() == sn || right()->parentItem() == sn->parentItem())) {
-		right()->setScoreNote(0);
-		left()->setScoreNote(0);
-		setCursorParent(0);
-		hideTimeOut();
+  if (right() && (workNote()->parentItem() == sn || right()->parentItem() == sn->parentItem())) {
+    right()->setScoreNote(0);
+    left()->setScoreNote(0);
+    setCursorParent(0);
+    hideTimeOut();
     statusTipChanged(QString()); // hide status tip of deleting note
-	}
-	m_scoreNote = 0;
+  }
+  m_scoreNote = 0;
 }
 
 
 void TscoreScene::controlMoved() {
-	m_hideTimer->start(WORK_HIDE_DELAY);
+  m_hideTimer->start(WORK_HIDE_DELAY);
 }
 
 
@@ -241,39 +241,39 @@ void TscoreScene::restoreAfterRectChange() {
 //##########################################################################################
 
 void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
-	if (!m_workNote) {
-		m_workLines = new TscoreLines(scoreNote);
+  if (!m_workNote) {
+    m_workLines = new TscoreLines(scoreNote);
     m_workLines->setPos(0.4, 0.0);
-		workColor = qApp->palette().highlight().color();
-		workColor.setAlpha(200);
+    workColor = qApp->palette().highlight().color();
+    workColor.setAlpha(200);
     m_workNote = new TnoteItem(this, *m_workRhythm);
     m_workNote->setFlagsPaint(true);
     m_workNote->setParentItem(scoreNote);
-		QGraphicsDropShadowEffect *workEffect = new QGraphicsDropShadowEffect();
-		workEffect->setOffset(3.0, 3.0);
-		workEffect->setBlurRadius(15);
-		workEffect->setColor(qApp->palette().text().color());
-		m_workNote->setGraphicsEffect(workEffect);
+    QGraphicsDropShadowEffect *workEffect = new QGraphicsDropShadowEffect();
+    workEffect->setOffset(3.0, 3.0);
+    workEffect->setBlurRadius(15);
+    workEffect->setColor(qApp->palette().text().color());
+    m_workNote->setGraphicsEffect(workEffect);
     m_workNote->setZValue(35);
-		m_workAccid = new QGraphicsSimpleTextItem();
-		m_workAccid->setBrush(QBrush(workColor));
-		m_workAccid->setParentItem(m_workNote);
-		m_workAccid->setFont(TnooFont(5));
-		m_workAccid->setScale(accidScale());
+    m_workAccid = new QGraphicsSimpleTextItem();
+    m_workAccid->setBrush(QBrush(workColor));
+    m_workAccid->setParentItem(m_workNote);
+    m_workAccid->setFont(TnooFont(5));
+    m_workAccid->setScale(accidScale());
     m_workAccid->setPos(-2.3, - accidYoffset());
     m_workAccid->hide();
-		setPointedColor(workColor);
+    setPointedColor(workColor);
 
-		m_rightBox = new TnoteControl(false, scoreNote->staff(), this);
-		m_leftBox = new TnoteControl(true, scoreNote->staff(), this);
-		m_leftBox->addAccidentals();
-	}
+    m_rightBox = new TnoteControl(false, scoreNote->staff(), this);
+    m_leftBox = new TnoteControl(true, scoreNote->staff(), this);
+    m_leftBox->addAccidentals();
+  }
 }
 
 
 void TscoreScene::setCursorParent(TscoreNote* sn) {
-	workNote()->setParentItem(sn);
-	m_workLines->setParent(sn);
+  workNote()->setParentItem(sn);
+  m_workLines->setParent(sn);
 }
 
 
@@ -311,14 +311,14 @@ void TscoreScene::showRhythmPane() {
 
 
 void TscoreScene::showTimeOut() {
-	m_showTimer->stop();
-	m_workNote->show();
+  m_showTimer->stop();
+  m_workNote->show();
   showPanes();
 }
 
 
 void TscoreScene::hideTimeOut() {
-	m_hideTimer->stop();
+  m_hideTimer->stop();
   if (m_scoreNote)
     m_scoreNote->hideWorkNote();
   hidePanes();

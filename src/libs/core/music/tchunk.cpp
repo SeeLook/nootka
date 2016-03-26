@@ -24,9 +24,9 @@
 
 
 Tchunk::Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos) :
-	m_pitch(pitch),
-	m_rhythm(rhythm),
-	m_fretPos(fretPos)
+  m_pitch(pitch),
+  m_rhythm(rhythm),
+  m_fretPos(fretPos)
 {
 }
 
@@ -36,59 +36,59 @@ Tchunk::~Tchunk()
 
 
 void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
-	xml.writeStartElement("note");
-		if (m_rhythm.isRest() || !m_pitch.isValid())
-			xml.writeEmptyElement("rest");
-		else
-			m_pitch.toXml(xml);
-		if (m_rhythm.rhythm() == Trhythm::e_none) {
-			if (!m_rhythm.isRest() && m_pitch.isValid())
-				xml.writeTextElement("stem", "none");
-		} else {
-			xml.writeTextElement("type", m_rhythm.xmlType());
-			if (m_rhythm.hasDot())
-				xml.writeEmptyElement("dot");
-		}
-		xml.writeTextElement("duration", "1");
-		if (validPos()) {
-			xml.writeStartElement("notations");
-				g().toXml(xml);
-			xml.writeEndElement();
-		}
-		if (staffNr)
-			xml.writeTextElement("staff", QString("%1").arg(*staffNr));
-	xml.writeEndElement(); // note
+  xml.writeStartElement("note");
+    if (m_rhythm.isRest() || !m_pitch.isValid())
+      xml.writeEmptyElement("rest");
+    else
+      m_pitch.toXml(xml);
+    if (m_rhythm.rhythm() == Trhythm::e_none) {
+      if (!m_rhythm.isRest() && m_pitch.isValid())
+        xml.writeTextElement("stem", "none");
+    } else {
+      xml.writeTextElement("type", m_rhythm.xmlType());
+      if (m_rhythm.hasDot())
+        xml.writeEmptyElement("dot");
+    }
+    xml.writeTextElement("duration", "1");
+    if (validPos()) {
+      xml.writeStartElement("notations");
+        g().toXml(xml);
+      xml.writeEndElement();
+    }
+    if (staffNr)
+      xml.writeTextElement("staff", QString("%1").arg(*staffNr));
+  xml.writeEndElement(); // note
 }
 
 
-/** So far, returned @p FALSE value is used to inform that chunk (a note) was in other voice than 'first' 
+/** So far, returned @p FALSE value is used to inform that chunk (a note) was in other voice than 'first'
  * More voices are not (and never be) supported... */
 bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
-	bool ok = true;
-	int stNr = 1;
-	m_rhythm.setRhythm(Trhythm::e_none);
-	while (xml.readNextStartElement()) {
-			if (xml.name() == "pitch")
-				m_pitch.fromXml(xml);
-			else if (xml.name() == "rest") {
-				m_rhythm.setRest(true);
-				xml.skipCurrentElement();
-			} else if (xml.name() == "type")
-				m_rhythm.setRhythmValue(xml.readElementText().toStdString());
-			else if (xml.name() == "notations")
-				m_fretPos.fromXml(xml);
-			else if (xml.name() == "voice") {
-				if (xml.readElementText().toInt() != 1) {
-					ok = false;
-				}
-			} else if (xml.name() == "staff") 
-					stNr = xml.readElementText().toInt();
-			else
-				xml.skipCurrentElement();
-	}
-	if (staffNr)
-			*staffNr = stNr;
-	return ok;
+  bool ok = true;
+  int stNr = 1;
+  m_rhythm.setRhythm(Trhythm::e_none);
+  while (xml.readNextStartElement()) {
+      if (xml.name() == "pitch")
+        m_pitch.fromXml(xml);
+      else if (xml.name() == "rest") {
+        m_rhythm.setRest(true);
+        xml.skipCurrentElement();
+      } else if (xml.name() == "type")
+        m_rhythm.setRhythmValue(xml.readElementText().toStdString());
+      else if (xml.name() == "notations")
+        m_fretPos.fromXml(xml);
+      else if (xml.name() == "voice") {
+        if (xml.readElementText().toInt() != 1) {
+          ok = false;
+        }
+      } else if (xml.name() == "staff")
+          stNr = xml.readElementText().toInt();
+      else
+        xml.skipCurrentElement();
+  }
+  if (staffNr)
+      *staffNr = stNr;
+  return ok;
 }
 
 

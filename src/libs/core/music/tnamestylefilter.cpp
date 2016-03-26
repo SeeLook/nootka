@@ -26,32 +26,32 @@ TnameStyleFilter::TnameStyleFilter()
 {}
 
 void TnameStyleFilter::setStyleFilter(bool* is7th_B, Tnote::EnameStyle* solfegeStyle) {
-		m_is7th_B = is7th_B;
-		m_solfegeStyle = solfegeStyle;
+    m_is7th_B = is7th_B;
+    m_solfegeStyle = solfegeStyle;
 }
 
 
 Tnote::EnameStyle TnameStyleFilter::get(Tnote::EnameStyle style) {
-	if (m_is7th_B) {
-		if (style == Tnote::e_italiano_Si || style == Tnote::e_russian_Ci)
-			return *(m_solfegeStyle);
-		
-		if (style == Tnote::e_deutsch_His || style == Tnote::e_nederl_Bis) {
-			if (*(m_is7th_B))
-				return Tnote::e_nederl_Bis;
-			else
-				return Tnote::e_deutsch_His;
-		}
-		
-		if (style == Tnote::e_english_Bb|| style == Tnote::e_norsk_Hb) {
-			if (*(m_is7th_B))
-				return Tnote::e_english_Bb;
-			else
-				return Tnote::e_norsk_Hb;
-		}
-	}
-		
-	return style;
+  if (m_is7th_B) {
+    if (style == Tnote::e_italiano_Si || style == Tnote::e_russian_Ci)
+      return *(m_solfegeStyle);
+
+    if (style == Tnote::e_deutsch_His || style == Tnote::e_nederl_Bis) {
+      if (*(m_is7th_B))
+        return Tnote::e_nederl_Bis;
+      else
+        return Tnote::e_deutsch_His;
+    }
+
+    if (style == Tnote::e_english_Bb|| style == Tnote::e_norsk_Hb) {
+      if (*(m_is7th_B))
+        return Tnote::e_english_Bb;
+      else
+        return Tnote::e_norsk_Hb;
+    }
+  }
+
+  return style;
 }
 
 

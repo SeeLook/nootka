@@ -31,15 +31,15 @@ class NOOTKACORE_EXPORT Tmeter
 {
 
 public:
-	enum Emeter {
-		e_none = 0,
-		e_2_4 = 1, e_3_4 = 2, e_4_4 = 4, e_5_4 = 8, e_6_4 = 16, e_7_4 = 32,
+  enum Emeter {
+    e_none = 0,
+    e_2_4 = 1, e_3_4 = 2, e_4_4 = 4, e_5_4 = 8, e_6_4 = 16, e_7_4 = 32,
     e_3_8 = 64, e_5_8 = 128, e_6_8 = 256, e_7_8 = 512, e_9_8 = 1024, e_12_8 = 2048
-	};
+  };
 
-	Tmeter(Emeter meter = e_none) : m_meter(meter) {}
+  Tmeter(Emeter meter = e_none) : m_meter(meter) {}
 
-	Emeter meter() const { return m_meter; }
+  Emeter meter() const { return m_meter; }
 
   int upper() const; /**< Returns upper digit of time signature  */
   int lower() const; /**< Returns lower digit of time signature  */
@@ -60,7 +60,7 @@ public:
   bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }
 
 private:
-	Emeter				m_meter;
+  Emeter        m_meter;
 };
 
 #endif // TMETER_H

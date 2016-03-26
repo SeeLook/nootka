@@ -31,19 +31,19 @@ class NOOTKACORE_EXPORT TnooFont : public QFont
 {
 
 public:
-	TnooFont(int pointSize = 20);
+  TnooFont(int pointSize = 20);
 
-			/** Returns given text wrapped with given HTML tag and:
-			* - font size (if set)
-			* - extra Style (if set)
-			* like:
-			* <tag style="font-family: nootka; extraStyle; font-size: XXpx;">text</tag>
-			*/
-	static QString tag(const QString& tag, const QString& text, int fontSize = 0, const QString& extraStyle = QString());
+      /** Returns given text wrapped with given HTML tag and:
+      * - font size (if set)
+      * - extra Style (if set)
+      * like:
+      * <tag style="font-family: nootka; extraStyle; font-size: XXpx;">text</tag>
+      */
+  static QString tag(const QString& tag, const QString& text, int fontSize = 0, const QString& extraStyle = QString());
 
-			/** tag() method with span tag */
-	static QString span(const QString& text, int fontSize = 0, const QString& extraStyle = QString()) {
-									return	tag("span", text, fontSize, extraStyle); }
+      /** tag() method with span tag */
+  static QString span(const QString& text, int fontSize = 0, const QString& extraStyle = QString()) {
+                  return  tag("span", text, fontSize, extraStyle); }
 
       /** Bare digits starts from UNI-0x180 in nootka.ttf
        * due to glyphs of ordinary numbers are used for strings (circled).

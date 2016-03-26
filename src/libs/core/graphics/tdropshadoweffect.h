@@ -23,7 +23,7 @@
 #include <nootkacoreglobal.h>
 #include <QGraphicsEffect>
 
-/** 
+/**
  * Shadow effect used for all tips.
  * Base idea was taken from: http://stackoverflow.com/questions/23718827/qt-shadow-around-window
 */
@@ -32,7 +32,7 @@ class NOOTKACORE_EXPORT TdropShadowEffect : public QGraphicsEffect
 
 public:
   TdropShadowEffect(const QColor& color = -1);
-    
+
   void setDistance(qreal distance) { m_distance = distance; updateBoundingRect(); }
   qreal distance() const { return m_distance; }
 
@@ -41,7 +41,7 @@ public:
 
   void setColor(const QColor& color) { m_color = color; m_color.setAlpha(200); }
   QColor& color() { return m_color; }
-  
+
 protected:
   virtual void draw(QPainter* painter);
   virtual QRectF boundingRectFor(const QRectF& sourceRect) const;

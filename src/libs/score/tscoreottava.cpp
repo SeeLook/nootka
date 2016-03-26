@@ -20,10 +20,10 @@
 #include "tscorestaff.h"
 
 TscoreOttava::TscoreOttava(TscoreStaff* staff, int beginNote, int endNote) :
-	TscoreItem(0)
+  TscoreItem(0)
 {
-	setStaff(staff);
-	setParentItem(staff);
+  setStaff(staff);
+  setParentItem(staff);
 }
 
 

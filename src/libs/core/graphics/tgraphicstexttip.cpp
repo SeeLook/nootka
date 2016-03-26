@@ -77,7 +77,7 @@ TgraphicsTextTip::TgraphicsTextTip() :
 
 TgraphicsTextTip::~TgraphicsTextTip()
 {
-	setCursor(Qt::ArrowCursor); // when exam is managed with keys it may stay look as 'dragging', better back it to 'arrow'
+  setCursor(Qt::ArrowCursor); // when exam is managed with keys it may stay look as 'dragging', better back it to 'arrow'
 }
 
 //#################################################################################################
@@ -113,11 +113,11 @@ void TgraphicsTextTip::setBgColor(const QColor& col) {
 
 
 void TgraphicsTextTip::setTextInteractionFlags(Qt::TextInteractionFlags flags) {
-	if (flags | Qt::LinksAccessibleByMouse)
-		connect(this, &TgraphicsTextTip::linkHovered, this, &TgraphicsTextTip::linkHoveredSlot, Qt::UniqueConnection);
-	else
-		disconnect(this, &TgraphicsTextTip::linkHovered, this, &TgraphicsTextTip::linkHoveredSlot);
-	QGraphicsTextItem::setTextInteractionFlags(flags);
+  if (flags | Qt::LinksAccessibleByMouse)
+    connect(this, &TgraphicsTextTip::linkHovered, this, &TgraphicsTextTip::linkHoveredSlot, Qt::UniqueConnection);
+  else
+    disconnect(this, &TgraphicsTextTip::linkHovered, this, &TgraphicsTextTip::linkHoveredSlot);
+  QGraphicsTextItem::setTextInteractionFlags(flags);
 }
 
 
@@ -128,11 +128,11 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     startColor.setAlpha(25);
     QColor endColor = startColor;
     endColor.setAlpha(75);
-		QColor borderColor = m_frameColor;
-		if (m_mouseClick)
-			borderColor = borderColor.lighter();
-		painter->setPen(QPen(borderColor, 1.5));
-		painter->setBrush(QBrush(m_baseColor));
+    QColor borderColor = m_frameColor;
+    if (m_mouseClick)
+      borderColor = borderColor.lighter();
+    painter->setPen(QPen(borderColor, 1.5));
+    painter->setBrush(QBrush(m_baseColor));
     painter->drawRoundedRect(rect, 2, 2);
     QLinearGradient grad(rect.width() / 2, 0, rect.width() / 2, rect.height());
     grad.setColorAt(0.4, startColor);
@@ -140,7 +140,7 @@ void TgraphicsTextTip::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     painter->setBrush(QBrush(grad));
     painter->drawRoundedRect(rect, 2, 2);
   }
-	QGraphicsTextItem::paint(painter, option, widget);
+  QGraphicsTextItem::paint(painter, option, widget);
 }
 
 
@@ -153,70 +153,70 @@ QRectF TgraphicsTextTip::boundingRect() const {
 //#################################################################################################
 
 /** !!!!!!!!!!!!!!!
- * All moving methods will work properly only for items with no parent - those ones belong to scene directly 
+ * All moving methods will work properly only for items with no parent - those ones belong to scene directly
 */
 void TgraphicsTextTip::linkHoveredSlot(const QString& link) {
-	if (link.isEmpty()) {
-		setCursor(m_lastLinkCursor);
-	} else {
-		m_lastLinkCursor = cursor().shape();
-		setCursor(Qt::PointingHandCursor);
-	}
+  if (link.isEmpty()) {
+    setCursor(m_lastLinkCursor);
+  } else {
+    m_lastLinkCursor = cursor().shape();
+    setCursor(Qt::PointingHandCursor);
+  }
 }
 
 
 void TgraphicsTextTip::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-	if (isMovable())
-		setCursor(Qt::SizeAllCursor);
+  if (isMovable())
+    setCursor(Qt::SizeAllCursor);
   emit entered();
 }
 
 
 void TgraphicsTextTip::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
-	if (isMovable())
-		setCursor(Qt::ArrowCursor);
+  if (isMovable())
+    setCursor(Qt::ArrowCursor);
   emit leaved();
 }
 
 
 void TgraphicsTextTip::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (event->button() == Qt::LeftButton) {
-		bool prevClickState = m_mouseClick;
-		if (isMovable())
-			setCursor(Qt::DragMoveCursor);
-		m_lastPos = event->scenePos();
-		m_mouseClick = true;
-		if (prevClickState != m_mouseClick)
-			update();
-	}
+    bool prevClickState = m_mouseClick;
+    if (isMovable())
+      setCursor(Qt::DragMoveCursor);
+    m_lastPos = event->scenePos();
+    m_mouseClick = true;
+    if (prevClickState != m_mouseClick)
+      update();
+  }
 }
 
 
 void TgraphicsTextTip::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-	if (isMovable() && event->buttons() == Qt::LeftButton) {
-		if (!m_lastPos.isNull()) {
-			setFixPos(x() + event->scenePos().x() - m_lastPos.x(), y() + event->scenePos().y() - m_lastPos.y());
-			emit moved();
-		}
-		m_lastPos = event->scenePos();
-	}
-	QGraphicsTextItem::mouseMoveEvent(event);
+  if (isMovable() && event->buttons() == Qt::LeftButton) {
+    if (!m_lastPos.isNull()) {
+      setFixPos(x() + event->scenePos().x() - m_lastPos.x(), y() + event->scenePos().y() - m_lastPos.y());
+      emit moved();
+    }
+    m_lastPos = event->scenePos();
+  }
+  QGraphicsTextItem::mouseMoveEvent(event);
 }
 
 
 void TgraphicsTextTip::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-	if (isMovable())
-		setCursor(Qt::SizeAllCursor);
-	if (m_mouseClick) {
-		if (m_lastPos == event->scenePos()) {
+  if (isMovable())
+    setCursor(Qt::SizeAllCursor);
+  if (m_mouseClick) {
+    if (m_lastPos == event->scenePos()) {
       clearFocus();
-			emit clicked();
+      emit clicked();
     }
-		m_mouseClick = false;
-		update();
-	}
-	event->accept();
-	QGraphicsTextItem::mouseReleaseEvent(event);
+    m_mouseClick = false;
+    update();
+  }
+  event->accept();
+  QGraphicsTextItem::mouseReleaseEvent(event);
 }
 
 

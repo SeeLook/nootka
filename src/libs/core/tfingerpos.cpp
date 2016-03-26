@@ -27,7 +27,7 @@ const QString TfingerPos::fretsList[25] = { "0",
       "XI", "XII", "XIII", "XIV"
     };
 
-    
+
 QString TfingerPos::romanFret(quint8 fret) {
     if (fret >= 0 && fret < 25)
       return fretsList[fret];
@@ -43,29 +43,29 @@ QString TfingerPos::toHtml() {
 
 
 void TfingerPos::toXml(QXmlStreamWriter& xml, const QString& tag) {
-	if (!tag.isEmpty())
-		xml.writeStartElement(tag);
-	xml.writeTextElement("string", QString("%1").arg(str()));
-	xml.writeTextElement("fret", QString("%1").arg(fret()));	
-	if (!tag.isEmpty())
-		xml.writeEndElement(); // tag
+  if (!tag.isEmpty())
+    xml.writeStartElement(tag);
+  xml.writeTextElement("string", QString("%1").arg(str()));
+  xml.writeTextElement("fret", QString("%1").arg(fret()));
+  if (!tag.isEmpty())
+    xml.writeEndElement(); // tag
 }
 
 
 void TfingerPos::fromXml(QXmlStreamReader& xml) {
-	int s = 0, f = 50;
-	while (xml.readNextStartElement()) {
-		if (xml.name() == "string")
-			s = xml.readElementText().toInt();
-		else if (xml.name() == "fret")
-			f = xml.readElementText().toInt();
-		else
-			xml.skipCurrentElement();
-	}
-	if (s == 0 || f == 50)
-		m_pos = 255; // invalid
-	else
-		setPos(s, f);
+  int s = 0, f = 50;
+  while (xml.readNextStartElement()) {
+    if (xml.name() == "string")
+      s = xml.readElementText().toInt();
+    else if (xml.name() == "fret")
+      f = xml.readElementText().toInt();
+    else
+      xml.skipCurrentElement();
+  }
+  if (s == 0 || f == 50)
+    m_pos = 255; // invalid
+  else
+    setPos(s, f);
 }
 
 
@@ -73,5 +73,5 @@ void TfingerPos::fromXml(QXmlStreamReader& xml) {
 
 
 
-    
-    
+
+

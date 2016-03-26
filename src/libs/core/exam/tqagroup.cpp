@@ -19,25 +19,25 @@
 #include "tqagroup.h"
 
 void qaGroupToXml(TQAgroup& gr, QXmlStreamWriter& xml, const QString& tag) {
-	xml.writeStartElement(tag);
-		if (gr.note.isValid())
-			gr.note.toXml(xml, "n"); // n like note
-		if (gr.pos.str() > 0)
-			gr.pos.toXml(xml, "p"); // p like position
-	xml.writeEndElement();
+  xml.writeStartElement(tag);
+    if (gr.note.isValid())
+      gr.note.toXml(xml, "n"); // n like note
+    if (gr.pos.str() > 0)
+      gr.pos.toXml(xml, "p"); // p like position
+  xml.writeEndElement();
 }
 
 
 bool qaGroupFromXml(TQAgroup& gr, QXmlStreamReader& xml) {
   bool ok = true;
-	while (xml.readNextStartElement()) {
-		if (xml.name() == "n")
-			gr.note.fromXml(xml);
-		else if (xml.name() == "p")
-			gr.pos.fromXml(xml);
-		else
-			xml.skipCurrentElement();
-	}
-	return ok;
+  while (xml.readNextStartElement()) {
+    if (xml.name() == "n")
+      gr.note.fromXml(xml);
+    else if (xml.name() == "p")
+      gr.pos.fromXml(xml);
+    else
+      xml.skipCurrentElement();
+  }
+  return ok;
 }
 

@@ -42,9 +42,9 @@ class Trhythm
 
 public:
 
-	enum Erhythm : quint8 {
-		e_none = 0, e_whole = 1, e_half = 2, e_quarter = 4, e_eighth = 8, e_sixteenth = 16
-	}; /**< Describes note duration */
+  enum Erhythm : quint8 {
+    e_none = 0, e_whole = 1, e_half = 2, e_quarter = 4, e_eighth = 8, e_sixteenth = 16
+  }; /**< Describes note duration */
 
   enum Eprefs : quint8 {
     e_rest = 1, e_dot = 2, e_triplet = 4, e_stemDown = 8
@@ -58,9 +58,9 @@ public:
     e_noTie = 0, e_tieStart = 64, e_tieCont = 128, e_tieEnd = 192
   };
 
-			/** DEFAULT CONSTRUCTOR: by default it is quarter (without dot) */
-	Trhythm(Erhythm nVal = e_quarter, bool rest = false, bool dot = false, bool triplet = false)
-	{
+      /** DEFAULT CONSTRUCTOR: by default it is quarter (without dot) */
+  Trhythm(Erhythm nVal = e_quarter, bool rest = false, bool dot = false, bool triplet = false)
+  {
     setRhythm(nVal, rest, dot, triplet);
   }
 
@@ -73,17 +73,17 @@ public:
       /** Copy constructor */
   Trhythm(const Trhythm& r) { setRhythm(r); }
 
-			/** Sets rhythm parameters, Resets all previous values! */
-	void setRhythm(Erhythm nVal, bool rest = false, bool dot = false, bool triplet = false) {
-		m_r = nVal;
+      /** Sets rhythm parameters, Resets all previous values! */
+  void setRhythm(Erhythm nVal, bool rest = false, bool dot = false, bool triplet = false) {
+    m_r = nVal;
     m_prefs = (rest ? 1 : 0) + (dot ? 2 : (triplet ? 4 : 0));
-	}
+  }
 
-	Erhythm rhythm() const { return m_r; }
-	void setRhythmValue(Erhythm nVal) { m_r = nVal; } /**< Changes rhythmic value only, state of dot, triplet, beams remains unchanged */
+  Erhythm rhythm() const { return m_r; }
+  void setRhythmValue(Erhythm nVal) { m_r = nVal; } /**< Changes rhythmic value only, state of dot, triplet, beams remains unchanged */
 
-			/** It converts std::string into rhythm value. Doesn't change state of triplet, dot or beam. */
-	void setRhythmValue(const std::string& nVal);
+      /** It converts std::string into rhythm value. Doesn't change state of triplet, dot or beam. */
+  void setRhythmValue(const std::string& nVal);
 
       /**< Makes quick copy of another Trhythm instance. */
   void setRhythm(const Trhythm& r) { m_r = r.rhythm(); m_prefs = r.parameters(); }
@@ -97,7 +97,7 @@ public:
        * Base value is defined in @p RVALUE macro */
   int duration() const;
 
-	bool isRest() const { return m_prefs & e_rest; }
+  bool isRest() const { return m_prefs & e_rest; }
   void setRest(bool rest) {
       if (rest)
         m_prefs |= e_rest;
@@ -105,8 +105,8 @@ public:
         m_prefs &= ~e_rest;
   }
 
-	bool hasDot() const { return m_prefs & e_dot; }
-	void setDot(bool dot) {
+  bool hasDot() const { return m_prefs & e_dot; }
+  void setDot(bool dot) {
       if (dot) {
         if (!isTriplet())
             m_prefs |= e_dot;
@@ -114,8 +114,8 @@ public:
           m_prefs &= ~e_dot;
   } /**< Allows to set dot only if no triplet */
 
-	bool isTriplet() const { return m_prefs & e_triplet; }
-	void setTriplet(bool tri) {
+  bool isTriplet() const { return m_prefs & e_triplet; }
+  void setTriplet(bool tri) {
       if (tri) {
         if (!hasDot())
             m_prefs |= e_triplet;
@@ -143,14 +143,14 @@ public:
   }
   bool stemDown() const { return m_prefs & e_stemDown; }
 
-	QString xmlType() const;
-	void debug(const char* text = 0) const; /**< Prints current rhythm parameters to std out with given text */
+  QString xmlType() const;
+  void debug(const char* text = 0) const; /**< Prints current rhythm parameters to std out with given text */
 
-	bool operator==(const Trhythm& r) const {
+  bool operator==(const Trhythm& r) const {
     return m_r == r.rhythm() && ((m_prefs % 8) == (r.parameters() % 8)); // compare only first three bits of m_prefs (rest, dot and triplet)
-	}
+  }
 
-	bool operator!=(const Trhythm& r) const {
+  bool operator!=(const Trhythm& r) const {
     return m_r != r.rhythm() || ((m_prefs % 8) != (r.parameters() % 8)); // compare only first three bits of m_prefs (rest, dot and triplet)
   }
 
@@ -159,7 +159,7 @@ protected:
   void setParameters(quint8 p) { m_prefs = p; }
 
 private:
-	Erhythm 						  	m_r;
+  Erhythm                 m_r;
   quint8                  m_prefs = 0;
 };
 

@@ -26,81 +26,81 @@
 #include <QMenu>
 #include <music/tclef.h>
 
-/** 
+/**
  * Classes below are used to switching a clef.
  * @class TradioClef is like menu entry
  * @class TselectClefPrivate is base class for selecting a clef
  * @class TclefMenu is context menu with clefs list
- * @class TselectClef is a QWidget with clefs to select 
+ * @class TselectClef is a QWidget with clefs to select
  */
 
 
 
 //######################################################################################
-/** 
+/**
  * This is a QRadioButton, clef pixmap and name.
  * It is used as a QMenu entry or in some settings widgets
  */
 class NOOTKACORE_EXPORT TradioClef : public QWidget
 {
-		Q_OBJECT
+    Q_OBJECT
 public:
-		explicit TradioClef(Tclef clef, QWidget* parent = 0, bool isMenu = false);
-		
-		QRadioButton* radio() { return m_radio; }
-		Tclef clef() { return m_clef; }
-		void setChecked(bool checked);
-		
+    explicit TradioClef(Tclef clef, QWidget* parent = 0, bool isMenu = false);
+
+    QRadioButton* radio() { return m_radio; }
+    Tclef clef() { return m_clef; }
+    void setChecked(bool checked);
+
 signals:
-		void selectedClef(Tclef);
-		void statusTipWanted(QString);
-		
+    void selectedClef(Tclef);
+    void statusTipWanted(QString);
+
 protected:
-				/** Event handler for capturing mouse - it manages hihgtlight */
-		virtual bool event(QEvent* event);
-		virtual void paintEvent(QPaintEvent* event);
-		
+        /** Event handler for capturing mouse - it manages hihgtlight */
+    virtual bool event(QEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
+
 protected slots:
-		void clefClickedSlot();
-    
+    void clefClickedSlot();
+
 private:
-		QRadioButton *m_radio;
-		Tclef					m_clef;
-		bool 					m_hasMouseOver;
-	
+    QRadioButton *m_radio;
+    Tclef          m_clef;
+    bool           m_hasMouseOver;
+
 };
 
 //####################################################################################################
-/** 
+/**
  * It keeps all TradioClef-s objects and selects one of them by @p selectClef(Tclef)
- * Virtual method clefWasSelected has to be imlpemented in derived classes. 
+ * Virtual method clefWasSelected has to be imlpemented in derived classes.
  */
 class NOOTKACORE_EXPORT TselectClefPrivate : public QWidget
 {
-	Q_OBJECT
+  Q_OBJECT
 public:
-		TselectClefPrivate(bool isMenu, QWidget *parent);
-		
-		void selectClef(Tclef clef);
-		
-signals:
-		void statusTipRequired(QString);
+    TselectClefPrivate(bool isMenu, QWidget *parent);
 
-		
+    void selectClef(Tclef clef);
+
+signals:
+    void statusTipRequired(QString);
+
+
 protected:
-    TradioClef 	*treble, *treble_8, *bass, *bass_8, *tenor, *alto, *piano;
-		
+    TradioClef   *treble, *treble_8, *bass, *bass_8, *tenor, *alto, *piano;
+
 protected slots:
         virtual void clefWasSelected(Tclef clef) {}
-		void onStatusTip(QString tip) { emit statusTipRequired(tip); }
-    
-		public slots:
-		
+    void onStatusTip(QString tip) { emit statusTipRequired(tip); }
+
+    public slots:
+
 };
 
 
 //####################################################################################################
-/** 
+/**
  * This class is a QWidget to select a clef (or piano staff)
  */
 class NOOTKACORE_EXPORT TselectClef : public TselectClefPrivate
@@ -108,14 +108,14 @@ class NOOTKACORE_EXPORT TselectClef : public TselectClefPrivate
     Q_OBJECT
 public:
     TselectClef(QWidget *parent);
-		Tclef selectedClef();
-		
+    Tclef selectedClef();
+
 signals:
-		void clefSelected(Tclef);
-		
+    void clefSelected(Tclef);
+
 protected slots:
-		virtual void clefWasSelected(Tclef clef);
-    
+    virtual void clefWasSelected(Tclef clef);
+
 };
 
 //####################################################################################################
@@ -124,7 +124,7 @@ protected slots:
  */
 class NOOTKACORE_EXPORT TclefMenu : public TselectClefPrivate
 {
-		Q_OBJECT
+    Q_OBJECT
 public:
   TclefMenu(QMenu* parent = 0);
 
@@ -142,7 +142,7 @@ private:
   Tclef m_curentClef;
   QMenu *m_menu;
 
-	
+
 };
 
 

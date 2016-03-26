@@ -59,13 +59,13 @@ void TscoreItem::setStatusTip(QString status) {
 //####################################################################################
 
 void TscoreItem::touched(const QPointF& scenePos) {
-	m_hasCursor = true;
+  m_hasCursor = true;
 }
 
 
 void TscoreItem::untouched(const QPointF& scenePos) {
-	Q_UNUSED(scenePos)
-	m_hasCursor = false;
+  Q_UNUSED(scenePos)
+  m_hasCursor = false;
 }
 
 //####################################################################################
@@ -73,31 +73,31 @@ void TscoreItem::untouched(const QPointF& scenePos) {
 //####################################################################################
 
 void TscoreItem::paintBackground(QPainter* painter, QColor bgColor) {
-	QLinearGradient gr(boundingRect().topLeft(), boundingRect().topRight());
-	QColor c1 = bgColor;
-	c1.setAlpha(80);
-	QColor c2 = bgColor;
-	c2.setAlpha(40);
-	gr.setColorAt(0.0, c1);
-	gr.setColorAt(0.1, c2);
-	gr.setColorAt(0.9, c2);
-	gr.setColorAt(1.0, c1);
-	painter->setBrush(gr);
-	painter->setPen(Qt::NoPen);
-	painter->drawRect(boundingRect());
+  QLinearGradient gr(boundingRect().topLeft(), boundingRect().topRight());
+  QColor c1 = bgColor;
+  c1.setAlpha(80);
+  QColor c2 = bgColor;
+  c2.setAlpha(40);
+  gr.setColorAt(0.0, c1);
+  gr.setColorAt(0.1, c2);
+  gr.setColorAt(0.9, c2);
+  gr.setColorAt(1.0, c1);
+  painter->setBrush(gr);
+  painter->setPen(Qt::NoPen);
+  painter->drawRect(boundingRect());
 }
 
 
 void TscoreItem::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
   Q_UNUSED(event);
-	m_hasCursor = true;
+  m_hasCursor = true;
   if (!m_statusTip.isEmpty())
     emit statusTip(m_statusTip);
 }
 
 void TscoreItem::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
   Q_UNUSED(event);
-	m_hasCursor = false;
+  m_hasCursor = false;
   emit statusTip(QString());
 }
 

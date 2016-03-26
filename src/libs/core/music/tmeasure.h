@@ -30,25 +30,25 @@ class NOOTKACORE_EXPORT Tmeasure
 {
 
 public:
-	Tmeasure(int nr);
+  Tmeasure(int nr);
 
-	Tmeter meter() { return m_meter; }
+  Tmeter meter() { return m_meter; }
 
-	int number() { return m_number; }
+  int number() { return m_number; }
 
-			/** Adds a note. For this moment it doesn't check duration (rhythm) */
-	void addNote(const Tchunk& n);
-	Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
-	Tchunk& lastNote() { return m_notes.last(); }
+      /** Adds a note. For this moment it doesn't check duration (rhythm) */
+  void addNote(const Tchunk& n);
+  Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
+  Tchunk& lastNote() { return m_notes.last(); }
 
-	void removeLastNote();
+  void removeLastNote();
 
-	int conunt() { return m_notes.size(); }
+  int conunt() { return m_notes.size(); }
 
 private:
-	int								m_number;
-	Tmeter						m_meter;
-	QList<Tchunk>			m_notes;
+  int                m_number;
+  Tmeter            m_meter;
+  QList<Tchunk>      m_notes;
 
 };
 

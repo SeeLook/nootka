@@ -39,18 +39,18 @@ Tglobals* Tcore::m_gl = 0;
 
 
 bool initCoreLibrary() {
-	if (Tcore::gl() == 0) {
-		qDebug() << "Tglobals was not created. Construct it first!";
+  if (Tcore::gl() == 0) {
+    qDebug() << "Tglobals was not created. Construct it first!";
     return false;
-	}
-	Tcolor::setShadow(qApp->palette());
+  }
+  Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
-	TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
+  TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
   QDir dir(qApp->applicationDirPath());
   dir.cdUp();
   qApp->addLibraryPath(dir.path() + QLatin1String("/Frameworks"));
 #else
-	TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
+  TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
   qApp->addLibraryPath(qApp->applicationDirPath());
 #endif
 
@@ -69,7 +69,7 @@ bool initCoreLibrary() {
 
 
 void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
-	if (!Tcore::gl())
+  if (!Tcore::gl())
     return;
 
 #if defined (Q_OS_ANDROID)
@@ -81,7 +81,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 #endif
   QLocale::setDefault(loc);
 
-	QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+  QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 #if !defined (Q_OS_LINUX) || defined (Q_OS_ANDROID)
   translationsPath = Tpath::lang();
 #endif
@@ -108,20 +108,20 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
   noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang());
   a->installTranslator(&noo);
 
-	TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix, 
-															Tcore::gl()->S->minKeyNameSufix);
+  TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix,
+                              Tcore::gl()->S->minKeyNameSufix);
   Ttune::prepareDefinedTunes();
 }
 
 
 bool loadNootkaFont(QApplication* a) {
     QFontDatabase fd;
-	int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
-	if (fid == -1) {
+  int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
+  if (fid == -1) {
       QMessageBox::critical(0, QString(), a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
-			return false;
-	}
-	return true;
+      return false;
+  }
+  return true;
 }
 
 

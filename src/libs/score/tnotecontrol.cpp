@@ -68,30 +68,30 @@ private:
 
 
 QGraphicsDropShadowEffect* ItemHighLight() {
-	QGraphicsDropShadowEffect *hiBlur = new QGraphicsDropShadowEffect();
-	hiBlur->setColor(qApp->palette().highlight().color());
-	hiBlur->setOffset(1.0, 1.0);
-	hiBlur->setBlurRadius(7.0);
-	return hiBlur;
+  QGraphicsDropShadowEffect *hiBlur = new QGraphicsDropShadowEffect();
+  hiBlur->setColor(qApp->palette().highlight().color());
+  hiBlur->setOffset(1.0, 1.0);
+  hiBlur->setBlurRadius(7.0);
+  return hiBlur;
 }
 
 
 TnoteControl::TnoteControl(bool isLeft, TscoreStaff* staff, TscoreScene* scene) :
-	TscoreItem(scene),
-	m_isLeft(isLeft),
-	m_scoreNote(0),
-	m_isEnabled(true), m_entered(false),
-	m_underItem(0),
-	m_moveNote(false),
-	m_accidental(0), m_prevAccidIt(0),
-	m_notesAdding(true),
-	m_adding(false),
-	m_delayTimer(new QTimer(this))
+  TscoreItem(scene),
+  m_isLeft(isLeft),
+  m_scoreNote(0),
+  m_isEnabled(true), m_entered(false),
+  m_underItem(0),
+  m_moveNote(false),
+  m_accidental(0), m_prevAccidIt(0),
+  m_notesAdding(true),
+  m_adding(false),
+  m_delayTimer(new QTimer(this))
 {
-	setStaff(staff);
-	setParentItem(staff);
-	setZValue(60);
-	hide();
+  setStaff(staff);
+  setParentItem(staff);
+  setZValue(60);
+  hide();
 
   QColor startC = qApp->palette().text().color(), endC = startC;
   startC.setAlpha(150);
@@ -132,8 +132,8 @@ if (isLeft) {
       connect(m_rhythmItem, &TpaneItem::leaved, this, &TnoteControl::itemHoverLeaved);
 }
 
-	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
-// 	connect(m_delayTimer, SIGNAL(timeout()), this, SLOT(showDelayed()));
+  connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
+//   connect(m_delayTimer, SIGNAL(timeout()), this, SLOT(showDelayed()));
   setGraphicsEffect(new TdropShadowEffect);
 }
 
@@ -172,7 +172,7 @@ void TnoteControl::hideWithDelay(int delay) {
 
 
 void TnoteControl::addAccidentals() {
-	if (isLeftPane()) {
+  if (isLeftPane()) {
     if (scoreScene()->doubleAccidsFuse() == 2) { // double accidentals
       if (!m_dblSharp) {
         m_dblSharp = createPaneItem(120, 4.0,
@@ -220,16 +220,16 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 
 
 void TnoteControl::setScoreNote(TscoreNote* sn) {
-	m_scoreNote = sn;
-	if (sn) {
-			if (sn->parentItem() && parentItem() != sn->parentItem()) {
-				if (parentItem())
-						parentItem()->setZValue(10);
-				setParentItem(sn->parentItem());
-				setStaff(sn->staff());
-				parentItem()->setZValue(11);
-			}
-			if (!isLeftPane()) {
+  m_scoreNote = sn;
+  if (sn) {
+      if (sn->parentItem() && parentItem() != sn->parentItem()) {
+        if (parentItem())
+            parentItem()->setZValue(10);
+        setParentItem(sn->parentItem());
+        setStaff(sn->staff());
+        parentItem()->setZValue(11);
+      }
+      if (!isLeftPane()) {
         if (notesAddingEnabled()) {
             if (staff()->number() == 0 && staff()->count() < 2)
                 m_deleteNote->hide(); // prevent deleting only one note
@@ -237,9 +237,9 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
                 m_deleteNote->show();
         }
       }
-	} else {
-			hide();
-	}
+  } else {
+      hide();
+  }
 }
 
 
@@ -266,7 +266,7 @@ void TnoteControl::setAccidental(int acc) {
 
 
 void TnoteControl::enableToAddNotes(bool addEnabled) {
-	m_notesAdding = addEnabled;
+  m_notesAdding = addEnabled;
   if (!isLeftPane()) {
     if (notesAddingEnabled()) {
       if (staff()->number() == 0 && staff()->count() < 2)
@@ -281,8 +281,8 @@ void TnoteControl::enableToAddNotes(bool addEnabled) {
 
 
 void TnoteControl::hide() {
-	m_adding = false;
-	QGraphicsItem::hide();
+  m_adding = false;
+  QGraphicsItem::hide();
 }
 
 //##########################################################################################################
@@ -341,53 +341,53 @@ void TnoteControl::rightItemClicked() {
 
 
 void TnoteControl::hideDelayed() {
-	if (scoreScene()->isCursorVisible())
-		return;
-	if (hasCursor())
-		hideWithDelay();
-	else
-		hide();
+  if (scoreScene()->isCursorVisible())
+    return;
+  if (hasCursor())
+    hideWithDelay();
+  else
+    hide();
 }
 
 
 void TnoteControl::showDelayed() {
-	m_delayTimer->stop();
-	if (hasCursor()) {
-		m_entered = true;
-		if (m_adding)
-			update();
-	}
+  m_delayTimer->stop();
+  if (hasCursor()) {
+    m_entered = true;
+    if (m_adding)
+      update();
+  }
 }
 
 
 void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-	TscoreItem::hoverEnterEvent(0);
+  TscoreItem::hoverEnterEvent(0);
   m_entered = true;
-// 	m_delayTimer->start(150);
+//   m_delayTimer->start(150);
 }
 
 
 void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
-	scoreScene()->controlMoved();
-	if (m_notesAdding) {
+  scoreScene()->controlMoved();
+  if (m_notesAdding) {
       if (!m_adding) {
         emit statusTip(tr("Click to add a new note"));
         m_adding = true;
         update();
       }
-	}
+  }
 }
 
 
 void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
-	if (m_adding) {
-		m_adding = false;
-		update();
-	}
-	hideWithDelay();
-	TscoreItem::hoverLeaveEvent(event);
-	m_entered = false;
-	scoreScene()->controlLeaved(scoreNote());
+  if (m_adding) {
+    m_adding = false;
+    update();
+  }
+  hideWithDelay();
+  TscoreItem::hoverLeaveEvent(event);
+  m_entered = false;
+  scoreScene()->controlLeaved(scoreNote());
 }
 
 
@@ -417,7 +417,7 @@ void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void TnoteControl::touched(const QPointF& scenePos) {
-	TscoreItem::hoverEnterEvent(0);
+  TscoreItem::hoverEnterEvent(0);
 //   QGraphicsSceneHoverEvent he(QEvent::GraphicsSceneHoverMove);
 //   he.setPos(mapFromScene(scenePos));
   hoverMoveEvent(0);

@@ -51,30 +51,30 @@ QString TkeySignature::majorNames[15] = { "", "", "", "", "", "", "", "", "", ""
 QString TkeySignature::minorNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
 void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QString minSuf) {
-	Tnote n;
-	QString majS = "", minS = "";
-	if (majSuf == "") {
-		majS = "-" + majorSufixTxt();
-		Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
-	} else
-		if (majSuf != " ")
-			majS = "-" + majSuf;
-		
-	if (minSuf == "") {
-		minS = "-" + minorSufixTxt();
-		Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
-	}
-	else
-		if (minSuf != " ")
-			minS = "-" + minSuf;
-		
+  Tnote n;
+  QString majS = "", minS = "";
+  if (majSuf == "") {
+    majS = "-" + majorSufixTxt();
+    Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
+  } else
+    if (majSuf != " ")
+      majS = "-" + majSuf;
+
+  if (minSuf == "") {
+    minS = "-" + minorSufixTxt();
+    Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
+  }
+  else
+    if (minSuf != " ")
+      minS = "-" + minSuf;
+
     for (int i=0; i<15; i++) {
         n = Tnote(majorKeys[i]+1, 0, scalesDefArr[i][majorKeys[i]]);
         majorNames[i] = n.toText(style, false);
-		majorNames[i] += majS;
+    majorNames[i] += majS;
         n = Tnote(minorKeys[i]+1, 0, scalesDefArr[i][minorKeys[i]]);
         minorNames[i] = n.toText(style, false ).toLower();
-		minorNames[i] += minS;
+    minorNames[i] += minS;
     }
 }
 
@@ -140,30 +140,30 @@ Tnote TkeySignature::inKey(Tnote n) {
 
 
 void TkeySignature::toXml(QXmlStreamWriter& xml) {
-	xml.writeStartElement("key");
-		xml.writeTextElement("fifths", QVariant((int)value()).toString());
-		QString mode = "major";
-		if (isMinor())
-			mode ="minor";
-		xml.writeTextElement("mode", mode);
-	xml.writeEndElement(); // key
+  xml.writeStartElement("key");
+    xml.writeTextElement("fifths", QVariant((int)value()).toString());
+    QString mode = "major";
+    if (isMinor())
+      mode ="minor";
+    xml.writeTextElement("mode", mode);
+  xml.writeEndElement(); // key
 }
 
 
 void TkeySignature::fromXml(QXmlStreamReader& xml) {
-	if (xml.name() == "key") {
-		while (xml.readNextStartElement()) {
-			if (xml.name() == "fifths") {
-				m_key = (char)qBound(-7, xml.readElementText().toInt(), 7);
-			} else if (xml.name() == "mode") {
-					if (xml.readElementText() == "minor")
-							m_isMinor = true;
-					else
-							m_isMinor = false;
-			} else 
-				xml.skipCurrentElement();
-		}
-	}
+  if (xml.name() == "key") {
+    while (xml.readNextStartElement()) {
+      if (xml.name() == "fifths") {
+        m_key = (char)qBound(-7, xml.readElementText().toInt(), 7);
+      } else if (xml.name() == "mode") {
+          if (xml.readElementText() == "minor")
+              m_isMinor = true;
+          else
+              m_isMinor = false;
+      } else
+        xml.skipCurrentElement();
+    }
+  }
 }
 
 
@@ -185,11 +185,11 @@ bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
 //     if (kk < -7 || kk > 7) {
     if (kk < -7 || kk > 22) {
         kk = 0; ok = false;
-    } 
+    }
     if (ok && kk > 7 ) // is minor key
-	k = TkeySignature(char(kk - 15), true);
+  k = TkeySignature(char(kk - 15), true);
     else
-	k = TkeySignature(char(kk));
+  k = TkeySignature(char(kk));
     return ok;
 }
 

@@ -24,19 +24,19 @@
 
 
 
-	/** Some instruments used in Nootka */
+  /** Some instruments used in Nootka */
 enum Einstrument {
-	e_noInstrument = 0, // 0, however level and exam save it as 255 for backward comparability
-	e_classicalGuitar = 1,
-	e_electricGuitar = 2,
-	e_bassGuitar = 3
+  e_noInstrument = 0, // 0, however level and exam save it as 255 for backward comparability
+  e_classicalGuitar = 1,
+  e_electricGuitar = 2,
+  e_bassGuitar = 3
 };
 
 
-		/** Converts Einstrument enum to translated text. */
+    /** Converts Einstrument enum to translated text. */
 NOOTKACORE_EXPORT QString instrumentToText(Einstrument instr);
 
-		/** Converts Einstrument enum to instrument symbol (singer for e_noInstrument). */
+    /** Converts Einstrument enum to instrument symbol (singer for e_noInstrument). */
 NOOTKACORE_EXPORT QString instrumentToGlyph(Einstrument instr);
 
 

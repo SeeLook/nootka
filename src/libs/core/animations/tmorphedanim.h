@@ -24,29 +24,29 @@
 
 /**
  * It imitates transforming ellipse into line and opposite.
- * Ellipse is stretched to imitate line. 
- * Position of ellipse remains untouched. 
+ * Ellipse is stretched to imitate line.
+ * Position of ellipse remains untouched.
  */
 class NOOTKACORE_EXPORT TmorphedAnim : public TabstractAnim
 {
     Q_OBJECT
 
 public:
-	explicit TmorphedAnim(QGraphicsEllipseItem* ellipse = 0, QObject* parent = 0);
+  explicit TmorphedAnim(QGraphicsEllipseItem* ellipse = 0, QObject* parent = 0);
 
-			/** Starts animation. When @p toLine is false It transforms line to ellipse 
-			 * otherwise ellipse to line */
-	void startMorphing(const QLineF& line, qreal width, bool toLine = true);
-	
+      /** Starts animation. When @p toLine is false It transforms line to ellipse
+       * otherwise ellipse to line */
+  void startMorphing(const QLineF& line, qreal width, bool toLine = true);
+
 protected slots:
-	void animationRoutine();
-	
+  void animationRoutine();
+
 private:
-	QLineF											m_line;
-	QGraphicsEllipseItem				*m_ellipse;	
-	bool 												m_toLine;
-	QPointF											m_startPos;
-	qreal												m_width;
+  QLineF                      m_line;
+  QGraphicsEllipseItem        *m_ellipse;
+  bool                         m_toLine;
+  QPointF                      m_startPos;
+  qreal                        m_width;
 };
 
 #endif // TMORPHEDANIM_H

@@ -27,39 +27,39 @@
 
 class QGraphicsSimpleTextItem;
 
-/** 
-* Crossfading animation of passing two texts of given QGraphicsSimpleTextItem.  
+/**
+* Crossfading animation of passing two texts of given QGraphicsSimpleTextItem.
 */
 class NOOTKACORE_EXPORT TcrossFadeTextAnim : public QObject
 {
-		Q_OBJECT
-   
+    Q_OBJECT
+
 public:
-	
-	TcrossFadeTextAnim(QGraphicsSimpleTextItem* textItem, QObject *parent = 0);
-	
-	void setDuration(int duration) { m_duration = duration; m_maxStep = m_duration / CLIP_TIME; }
-	
+
+  TcrossFadeTextAnim(QGraphicsSimpleTextItem* textItem, QObject *parent = 0);
+
+  void setDuration(int duration) { m_duration = duration; m_maxStep = m_duration / CLIP_TIME; }
+
 signals:
-		void crossFadingFinished();
-	
+    void crossFadingFinished();
+
 public slots:
-	void startCrossFading(const QString &newText, const QColor &newColor = -1);
-	
-	
+  void startCrossFading(const QString &newText, const QColor &newColor = -1);
+
+
 protected slots:
-	void crossFadingSlot();
-	
+  void crossFadingSlot();
+
 private:
-			/** Sets alpha value of item brush color.  */
-	void setItemAlpha(int alpha);
-	
+      /** Sets alpha value of item brush color.  */
+  void setItemAlpha(int alpha);
+
 private:
-	QGraphicsSimpleTextItem		*m_item;
-	int												 m_maxStep, m_currStep, m_duration, m_alpha;
-	QString										 m_newText;
-	QColor										 m_newColor;
-		
+  QGraphicsSimpleTextItem    *m_item;
+  int                         m_maxStep, m_currStep, m_duration, m_alpha;
+  QString                     m_newText;
+  QColor                     m_newColor;
+
 };
 
 #endif // TCROSSFADETEXTITEM_H

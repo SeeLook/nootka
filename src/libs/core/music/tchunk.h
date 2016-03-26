@@ -28,34 +28,34 @@ class QXmlStreamReader;
 class QXmlStreamWriter;
 
 
-/** 
- * This class represent a note: 
- * a pitch described by @p Tnote 
+/**
+ * This class represent a note:
+ * a pitch described by @p Tnote
  * and its value (relative duration) described by @p Trhythm
  */
 class NOOTKACORE_EXPORT Tchunk
 {
 
 public:
-	Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos = TfingerPos());
+  Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos = TfingerPos());
   Tchunk() {} /** Default constructor - creates 'empty' note, rhythm and position. */
-	~Tchunk();
-	
-	Tnote& p() { return m_pitch; } /** The pitch of a note */
-	TfingerPos& g() { return m_fretPos; } /** Position a note on a guitar (if any) - by default it is invalid */
-	Trhythm& r() { return m_rhythm; } /** rhythm value of a note */
+  ~Tchunk();
 
-			/** Returns @p TRUE when position on the guitar is valid. */
-	bool validPos() { if (g().str() == 7) return false; else return true; }
-	
-	void toXml(QXmlStreamWriter& xml, int* staffNr = 0); /** If @p staffNr is set appropriate <staff>staffNr</staff> is added */
-	bool fromXml(QXmlStreamReader& xml, int* staffNr = 0); /** Trough @p staffNr (if set) is returned staff number the note belongs to. */
-	
-	
+  Tnote& p() { return m_pitch; } /** The pitch of a note */
+  TfingerPos& g() { return m_fretPos; } /** Position a note on a guitar (if any) - by default it is invalid */
+  Trhythm& r() { return m_rhythm; } /** rhythm value of a note */
+
+      /** Returns @p TRUE when position on the guitar is valid. */
+  bool validPos() { if (g().str() == 7) return false; else return true; }
+
+  void toXml(QXmlStreamWriter& xml, int* staffNr = 0); /** If @p staffNr is set appropriate <staff>staffNr</staff> is added */
+  bool fromXml(QXmlStreamReader& xml, int* staffNr = 0); /** Trough @p staffNr (if set) is returned staff number the note belongs to. */
+
+
 private:
-	Tnote				m_pitch;
-	Trhythm			m_rhythm;
-	TfingerPos  m_fretPos;
+  Tnote        m_pitch;
+  Trhythm      m_rhythm;
+  TfingerPos  m_fretPos;
 };
 
 #endif // TCHUNK_H

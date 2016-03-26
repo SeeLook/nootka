@@ -25,32 +25,32 @@
 
 
 
-/** 
- * This class implements moving animation of QGraphicsItem. 
- * Default duration is 150 ms and item is moving every 30 ms. 
+/**
+ * This class implements moving animation of QGraphicsItem.
+ * Default duration is 150 ms and item is moving every 30 ms.
  */
 class NOOTKACORE_EXPORT TmovedAnim : public TabstractAnim
 {
     Q_OBJECT
 
 public:
-	explicit TmovedAnim(QGraphicsItem* item, QObject* parent = 0);
-	
-	bool isMoving() { return !(bool)m_currStep; }
-	
-	
+  explicit TmovedAnim(QGraphicsItem* item, QObject* parent = 0);
+
+  bool isMoving() { return !(bool)m_currStep; }
+
+
 public slots:
-	void startMoving(const QPointF& start, const QPointF& stop);
-	
-	
+  void startMoving(const QPointF& start, const QPointF& stop);
+
+
 protected slots:
-	void animationRoutine();
-	
+  void animationRoutine();
+
 private:
-	QPointF										 m_startPos, m_endPos;
-	int												 m_step, m_currStep;
-	QGraphicsLineItem 				*m_line;
-  
+  QPointF                     m_startPos, m_endPos;
+  int                         m_step, m_currStep;
+  QGraphicsLineItem         *m_line;
+
 
 };
 

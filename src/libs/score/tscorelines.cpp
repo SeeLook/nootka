@@ -23,43 +23,43 @@
 
 TscoreLines::TscoreLines(TscoreNote* note) :
   QGraphicsItemGroup(note),
-	m_parentNote(note)
+  m_parentNote(note)
 {
-	createLines();
+  createLines();
 }
 
 
 void TscoreLines::checkLines(int curPos) {
-	for (int i = 0; i < m_upper.size(); i++) {
-		if (curPos < m_upper[i]->line().y1())
-			m_upper[i]->show();
-		else 
-			m_upper[i]->hide();
-	}
-	if (m_parentNote && m_parentNote->staff()->isPianoStaff()) {
-		if (curPos == m_middle[0]->line().y1() - 1)
-			m_middle[0]->show();
-		else
-			m_middle[0]->hide();
-		if (curPos == m_middle[1]->line().y1() - 1)
-			m_middle[1]->show();
-		else
-			m_middle[1]->hide();
-	}
-	for (int i = 0; i < m_lower.size(); i++) {
-		if (curPos > m_lower[i]->line().y1() - 2)
-			m_lower[i]->show();
-		else 
-			m_lower[i]->hide();
-	}
+  for (int i = 0; i < m_upper.size(); i++) {
+    if (curPos < m_upper[i]->line().y1())
+      m_upper[i]->show();
+    else
+      m_upper[i]->hide();
+  }
+  if (m_parentNote && m_parentNote->staff()->isPianoStaff()) {
+    if (curPos == m_middle[0]->line().y1() - 1)
+      m_middle[0]->show();
+    else
+      m_middle[0]->hide();
+    if (curPos == m_middle[1]->line().y1() - 1)
+      m_middle[1]->show();
+    else
+      m_middle[1]->hide();
+  }
+  for (int i = 0; i < m_lower.size(); i++) {
+    if (curPos > m_lower[i]->line().y1() - 2)
+      m_lower[i]->show();
+    else
+      m_lower[i]->hide();
+  }
 }
 
 
 void TscoreLines::hideAllLines() {
-	hideLines(m_upper);
-	hideLines(m_lower);
-	if (m_parentNote && m_parentNote->staff()->isPianoStaff())
-		hideLines(m_middle);
+  hideLines(m_upper);
+  hideLines(m_lower);
+  if (m_parentNote && m_parentNote->staff()->isPianoStaff())
+    hideLines(m_middle);
 }
 
 
@@ -70,11 +70,11 @@ void TscoreLines::setParent(TscoreNote* sn) {
 
 
 void TscoreLines::setColor(const QColor& lineColor) {
-	for (int i = 0; i < m_upper.size(); i++)
+  for (int i = 0; i < m_upper.size(); i++)
         m_upper[i]->setPen(QPen(lineColor, 0.2, Qt::SolidLine, Qt::RoundCap));
-	for (int i = 0; i < m_lower.size(); i++)
+  for (int i = 0; i < m_lower.size(); i++)
       m_lower[i]->setPen(QPen(lineColor, 0.2, Qt::SolidLine, Qt::RoundCap));
-	for (int i = 0; i < m_middle.size(); i++)
+  for (int i = 0; i < m_middle.size(); i++)
       m_middle[i]->setPen(QPen(lineColor, 0.2, Qt::SolidLine, Qt::RoundCap));
 }
 
@@ -83,46 +83,46 @@ void TscoreLines::setColor(const QColor& lineColor) {
 //##########################################################################################
 
 QGraphicsLineItem* TscoreLines::createNoteLine(int yPos) {
-	QGraphicsLineItem *line = new QGraphicsLineItem(this);
-	line->hide();
-	line->setZValue(7);
-	line->setLine(0.0, yPos, 3.3, yPos);
-	return line;
+  QGraphicsLineItem *line = new QGraphicsLineItem(this);
+  line->hide();
+  line->setZValue(7);
+  line->setLine(0.0, yPos, 3.3, yPos);
+  return line;
 }
 
 
 void TscoreLines::createLines() {
-	deleteLines(m_upper);
-	deleteLines(m_middle);
-	deleteLines(m_lower);
+  deleteLines(m_upper);
+  deleteLines(m_middle);
+  deleteLines(m_lower);
   int i = m_parentNote->staff()->upperLinePos() - 2;
   while (i > 0) { // upper lines
-		m_upper << createNoteLine(i);
+    m_upper << createNoteLine(i);
     i -= 2;
   }
   i = m_parentNote->staff()->upperLinePos() + 10.0; // distance between upper and lower (or lower grand staff) staff line
   if (m_parentNote->staff()->isPianoStaff()) {
-		i = m_parentNote->staff()->lowerLinePos() + 10.0;
-		m_middle << createNoteLine(m_parentNote->staff()->upperLinePos() + 10);
-		m_middle << createNoteLine(m_parentNote->staff()->lowerLinePos() - 2);
-	}
+    i = m_parentNote->staff()->lowerLinePos() + 10.0;
+    m_middle << createNoteLine(m_parentNote->staff()->upperLinePos() + 10);
+    m_middle << createNoteLine(m_parentNote->staff()->lowerLinePos() - 2);
+  }
   while (i < m_parentNote->boundingRect().height()) {
-		m_lower << createNoteLine(i);
+    m_lower << createNoteLine(i);
     i += 2;
   }
 }
 
 
 void TscoreLines::deleteLines(TaddLines& linesList) {
-	for (int i = 0; i < linesList.size(); i++)
-		delete linesList[i];
-	linesList.clear();
+  for (int i = 0; i < linesList.size(); i++)
+    delete linesList[i];
+  linesList.clear();
 }
 
 
 void TscoreLines::hideLines(TaddLines& linesList) {
-	for (int i=0; i < linesList.size(); i++)
-		linesList[i]->hide();
+  for (int i=0; i < linesList.size(); i++)
+    linesList[i]->hide();
 }
 
 

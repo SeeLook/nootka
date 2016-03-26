@@ -39,7 +39,7 @@ class Tmeter;
  *
  * It manages a 'note cursor' - note shape under mouse and 'note controllers' - panes on the sides of a note.
  * Three methods are responsible for smart displaying cursor/panes:
- * - @p noteMoved() - invokes timer to display cursor when mouse stays over a note segment 
+ * - @p noteMoved() - invokes timer to display cursor when mouse stays over a note segment
  * and timer to hide it when cursor stops over the segment
  * - @p noteLeaved() - invokes timer to hide cursor when mouse leaves the segment
  * - @p controlEntered() - to stop timers and keep cursor and pane visible
@@ -147,23 +147,23 @@ protected slots:
 
 private:
       /** It is @p 2 if double accidentals are enabled and @p 1 if not*/
-  qint8 														m_dblAccFuse;
-  char  														m_currentAccid;
+  qint8                             m_dblAccFuse;
+  char                              m_currentAccid;
 // note cursor
-  int                            		m_workPosY;
-  TnoteItem                     	 *m_workNote;
-  QGraphicsSimpleTextItem       	 *m_workAccid;
-  TscoreLines											 *m_workLines;
+  int                                m_workPosY;
+  TnoteItem                        *m_workNote;
+  QGraphicsSimpleTextItem          *m_workAccid;
+  TscoreLines                       *m_workLines;
   Trhythm                          *m_workRhythm;
-  QColor														m_nameColor;
-  TnoteControl				  				 	 *m_rightBox, *m_leftBox;
+  QColor                            m_nameColor;
+  TnoteControl                      *m_rightBox, *m_leftBox;
   TrhythmPane                      *m_rhythmBox;
-  qreal 									 					m_accidYoffset; /**< difference between y note position. */
-  qreal									 						m_accidScale;
-  QTimer													 *m_showTimer, *m_hideTimer;
-  TscoreNote											 *m_scoreNote; /**< current note segment or NULL. */
-  bool															m_controlledNotes;
-  bool															m_mouseOverKey, m_rectIsChanging;
+  qreal                              m_accidYoffset; /**< difference between y note position. */
+  qreal                               m_accidScale;
+  QTimer                           *m_showTimer, *m_hideTimer;
+  TscoreNote                       *m_scoreNote; /**< current note segment or NULL. */
+  bool                              m_controlledNotes;
+  bool                              m_mouseOverKey, m_rectIsChanging;
   bool                              m_accidAnimated;
   TscoreMeter                      *m_scoreMeter;
 };

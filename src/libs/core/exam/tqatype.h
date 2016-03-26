@@ -27,7 +27,7 @@ class QXmlStreamReader;
 class QXmlStreamWriter;
 
 
-/** 
+/**
 * Question-Answer type. It keeps array of four bool elements
 * witch say is appropriate type enabled or not.
 * Also it randomize possible type by calling @param randNext(),
@@ -53,13 +53,13 @@ public:
 
     Etype next();
     Etype randNext();
-		
-				/** Adds 'qaType' key to given XML stream with types as bool attributes. For instance:
-				 * <qaType id="-1" score="true" name="true" guitar="true" sound="false"/> 
-				 * @p id is to intricate qaType keys in file. */
-		void toXml(int id, QXmlStreamWriter& xml);
-		
-		int fromXml(QXmlStreamReader& xml);
+
+        /** Adds 'qaType' key to given XML stream with types as bool attributes. For instance:
+         * <qaType id="-1" score="true" name="true" guitar="true" sound="false"/>
+         * @p id is to intricate qaType keys in file. */
+    void toXml(int id, QXmlStreamWriter& xml);
+
+    int fromXml(QXmlStreamReader& xml);
 
 private:
     bool m_typeArr[4];

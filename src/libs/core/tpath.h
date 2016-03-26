@@ -41,17 +41,17 @@ class NOOTKACORE_EXPORT Tpath
 
 public:
 
-	static QString main; /** Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
+  static QString main; /** Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
 
-			/** Returns path to Nootka images (picts) with given image name.
-			 * By default a '.png' extensions is added
-			 * but it can be changed through @p ext parameter. */
-	static QString img(const char* imageFileName, const char* ext = ".png") {
+      /** Returns path to Nootka images (picts) with given image name.
+       * By default a '.png' extensions is added
+       * but it can be changed through @p ext parameter. */
+  static QString img(const char* imageFileName, const char* ext = ".png") {
       return QString("%1picts/%2%3").arg(main).arg(imageFileName).arg(ext);
   }
 
-			/** Returns a path to given ogg file with samples in sound resource directory */
-	static QString sound(const char* soundFileName, const char* ext = ".ogg") {
+      /** Returns a path to given ogg file with samples in sound resource directory */
+  static QString sound(const char* soundFileName, const char* ext = ".ogg") {
 #if defined (Q_OS_ANDROID)
       return QString("assets:/sounds/%1%2").arg(soundFileName).arg(ext);
 #else
