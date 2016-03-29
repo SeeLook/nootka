@@ -200,6 +200,7 @@ void TnoteName::exec(QPoint pos, qreal scoreFactor) {
   show();
   if (pos.x() > m_menuParent->width() / 2)
     pos.setX(pos.x() - sizeHint().width() - 11.5 * scoreFactor);
+  m_menu->show();
   m_menu->exec(pos);
   hide();
 //   setParent(m_menuParent);

@@ -8,7 +8,6 @@ TEMPLATE = lib
 SOURCES +=  level/tlevelsdefs.cpp \
             level/tlevelpreview.cpp \
             level/tlevelselector.cpp \
-            level/tfixleveldialog.cpp \
           \
             widgets/tquestionaswdg.cpp \
             widgets/tsettingsdialogbase.cpp \
@@ -18,7 +17,6 @@ SOURCES +=  level/tlevelsdefs.cpp \
 HEADERS  += level/tlevelsdefs.h \
             level/tlevelpreview.h \
             level/tlevelselector.h \
-            level/tfixleveldialog.h \
           \
             widgets/tquestionaswdg.h \
             widgets/tsettingsdialogbase.h \
