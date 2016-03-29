@@ -326,6 +326,7 @@ Tclef TclefMenu::exec(QPoint pos) {
   if (!m_menu)
     return Tclef(Tclef::e_none);
   m_menu->move(pos.x(), qMin<int>(pos.y(), qApp->desktop()->availableGeometry().height() * 0.55)); // It works everywhere (Qt style)
+  m_menu->show();
   m_menu->exec(); // in contrary to exec(pos)
   return m_curentClef;
 }
