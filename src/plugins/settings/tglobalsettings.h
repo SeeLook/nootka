@@ -34,7 +34,9 @@ class QCheckBox;
 
 class TglobalSettings : public TtouchArea
 {
-    Q_OBJECT
+
+  Q_OBJECT
+
 public:
 	explicit TglobalSettings(QWidget *parent = 0);
 
@@ -46,20 +48,16 @@ signals:
 	void restoreAllDefaults(); /** Is emitted when user click m_restAllDefaultsBut QPushButton. */
 		
 private:
-	QComboBox 									*m_langCombo;
-	QMap<QString, QString> 			 m_langList;
+  QComboBox 									*m_langCombo;
+  QMap<QString, QString> 			 m_langList;
   QPushButton                 *m_restAllDefaultsBut;
-#if !defined (Q_OS_ANDROID)
   QPushButton 								*m_updateButton;
   QLabel 											*m_updateLabel;
-	TpluginsLoader							*m_pluginLoader;
-#endif
+  TpluginsLoader							*m_pluginLoader;
   
 private:
-#if !defined (Q_OS_ANDROID)
   void updateSlot();
-  void processOutputSlot(QString output);
-#endif
+  void processOutputSlot(int m);
 	void restoreRequired(); /** when user wants to restore all Nootka settings at once */
 };
 

@@ -58,8 +58,25 @@ namespace Torders {
       */
   enum Esettings {
     e_settingsAccept = 0,   // settings were accepted
-    e_settingsCancel = 1, // settings canceled
+    e_settingsCancel = 1,   // settings canceled
     e_settingsReset = 2     // demand for reset all settings
+  };
+
+      /** Enumeration with updater plugin status
+       * @p e_updaterChecking - updater process started
+       * @p e_updaterNoNeed - up to date - no need for updates
+       * @p e_updaterOffline - network is not accessible - probably offline
+       * @p e_updaterSuccess - updater found updates - dialog is displayed
+       * @p e_updaterFinished - updater finished checking
+       * @p e_updaterError - @p QNetworkReply::NetworkError code number plus 100
+       */
+  enum Eupdater {
+    e_updaterChecking = 0,  // updater process started
+    e_updaterNoNeed = 1,    // up to date - no need for updates
+    e_updaterOffline = 2,   // network is not accessible - probably offline
+    e_updaterSuccess = 3,   // updater found updates - dialog is displayed
+    e_updaterFinished = 4,  // updater finished checking
+    e_updaterError = 100    // QNetworkReply::NetworkError code number plus 100
   };
 }
 

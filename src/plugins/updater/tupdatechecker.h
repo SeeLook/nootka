@@ -26,36 +26,35 @@
 
 class QNetworkAccessManager;
 
-/** 
+/**
  * Connects with nootka.sf.net to check updates.
  * Displays summary dialog after and console output.
  * Also emits signals with output communicates.
  */
 class TupdateChecker : public QObject
 {
+
   Q_OBJECT
-  
+
 public:
   TupdateChecker(QObject *parent = 0, QWidget* parentWidget = 0);
   virtual ~TupdateChecker();
-  
+
     /** Performs checking.
      * When @param checkRules = true it checks is it necessary in nootka config.
      * Doesn't display dialog when no new version was found.
      * otherwise forces connection and when versions are the sane displays 'no update found'. */
   void check(bool checkRules = true);
-  
+
 signals:
-  void communicate(const QString&); /** Messages of checking process state. */
-  
+  void updateMessage(int); /**< int values of type @p Torders::Eupdater with updater states */
+
 protected slots:
   void replySlot(QNetworkReply* netReply);
-  
+
     /** Grabs connection errors if any. */
   void errorSlot(QNetworkReply::NetworkError err);
-  
-  void communicateSlot(const QString& message);
-  
+
 private:
   QWidget                   *m_parentWidget;
   QNetworkAccessManager     *m_netManager;

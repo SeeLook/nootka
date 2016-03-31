@@ -69,11 +69,13 @@ void noteToKey(Tnote& n, TkeySignature k) {
   #include <QMediaPlayer>
   #include <QtPrintSupport/QPrinter>
   #include <QtAndroidExtras/QtAndroid>
+  #include <QtNetwork/qnetworkaccessmanager.h>
 
     void fakeLibsDemander(QObject* parent) {
       QMediaPlayer dummyPlayer(parent);
       QtAndroid::androidActivity();
       QPrinter printer;
+      QNetworkAccessManager nam;
     }
 
   TtouchMessage *m_touchMessage;
@@ -105,26 +107,23 @@ MainWindow::MainWindow(QWidget *parent) :
       gl->isFirstRun = false;
   } else { // show support window once but not with first run wizard
       gl->config->beginGroup("General");
-//       QString newVersion = gl->config->value("version", QString()).toString();
-      int supportDaysPass = gl->config->value("supportDate", QDate(2012, 12, 31)).toDate().daysTo(QDate::currentDate());
+      QString newVersion = gl->config->value("version", QString()).toString();
       gl->config->endGroup();
-      if (/*newVersion != gl->version*/ supportDaysPass > 5) // display support dialog every five days
+      if (newVersion != gl->version) // display support dialog when new version
         QTimer::singleShot(2000, [=] { showSupportDialog(); });
-#if !defined (Q_OS_ANDROID)
       else { // check for updates
         gl->config->beginGroup("Updates");
-				m_updaterPlugin = new TpluginsLoader();
+        m_updaterPlugin = new TpluginsLoader();
         if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
-            connect(m_updaterPlugin->node(), &TpluginObject::message, this, &MainWindow::updaterMessagesSlot);
+            connect(m_updaterPlugin->node(), &TpluginObject::value, this, &MainWindow::updaterMessagesSlot);
             gl->config->endGroup(); // close settings note because updater need to open it again
-            m_updaterPlugin->init("false", this); // string argument stops displaying update dialog when no news were send
+            m_updaterPlugin->init(QStringLiteral("false"), this); // string argument stops displaying update dialog when no news were send
         } else
-						delete m_updaterPlugin;
+            delete m_updaterPlugin;
       }
-#endif
   }
   if (!gl->config->group().isEmpty()) // close settings group when was open
-		gl->config->endGroup();
+    gl->config->endGroup();
 
   Tnote::defaultStyle = gl->S->nameStyleInNoteName;
   m_sound = new Tsound(this);
@@ -486,19 +485,18 @@ void MainWindow::showSupportDialog() {
 }
 
 
-void MainWindow::updaterMessagesSlot(const QString& m) {
-#if !defined (Q_OS_ANDROID)
-  if (m.contains(QLatin1String("offline")) || m.contains(QLatin1String("No need"))
-    || m.contains(QLatin1String("finished")) || m.contains(QLatin1String("error occurred"))) {
+void MainWindow::updaterMessagesSlot(int m) {
+  if (m == Torders::e_updaterOffline || m == Torders::e_updaterNoNeed
+      || m == Torders::e_updaterFinished || m >= Torders::e_updaterError) {
       m_updaterPlugin->deleteLater();
       if (m_updaterStoppedSound)
         m_sound->go();
-  } else if (m.contains(QLatin1String("success")) && !m_sound->isSnifferPaused()) {
+  } else if (m == Torders::e_updaterSuccess && !m_sound->isSnifferPaused()) {
       m_sound->wait();
       m_updaterStoppedSound = true;
   }
-  // It sends 'success' as well but it means that updater window is displayed, when user will close it - 'finished' is send
-#endif
+  // It sends Torders::e_updaterSuccess as well but it means that updater window is displayed,
+  // when user will close it - Torders::e_updaterFinished is send
 }
 
 

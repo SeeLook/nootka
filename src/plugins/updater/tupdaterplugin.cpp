@@ -21,9 +21,10 @@
 
 
 void TupdaterPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
+  Q_UNUSED(exam)
   m_sender = ob;
   m_updater = new TupdateChecker(this, parent);
-  connect(m_updater, &TupdateChecker::communicate, this, &TupdaterPlugin::messageSlot);
+  connect(m_updater, &TupdateChecker::updateMessage, [=](int v){ m_sender->emitValue(v); });
   if (argument.isEmpty())
     m_updater->check(false);
   else
@@ -35,11 +36,5 @@ TupdaterPlugin::~TupdaterPlugin() {
   delete m_updater;
 }
 
-
-void TupdaterPlugin::messageSlot(const QString& m) { 
-  m_lastWord = m;
-  if (m_sender)
-    m_sender->emitMessage(m); 
-}
 
 

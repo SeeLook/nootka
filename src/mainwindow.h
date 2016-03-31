@@ -84,7 +84,7 @@ protected:
 
 protected slots:
 	void showSupportDialog();
-	void updaterMessagesSlot(const QString& m = QString());
+  void updaterMessagesSlot(int m);
   void examMessageSlot(int demand);
 
       /** This slot is invoked when clef is changed by clicking score.
