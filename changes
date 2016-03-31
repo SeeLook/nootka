@@ -1,3 +1,6 @@
+1.2.5
+     Clef menu visibility fixes for Qt 5.6 compatibility
+
 1.2.4
      - reduced memory consumption of pitch detection process
      - Ported 1.2 branch to Mac Os
