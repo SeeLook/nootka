@@ -38,15 +38,11 @@ class TupdaterPlugin : public QObject, public TpluginInterface
 
   virtual void init(const QString& argument = QString(), TpluginObject* ob = 0, QWidget* parent = 0, Texam* exam = 0);
 
-  virtual QString lastWord() { return m_lastWord; }
-
-protected:
-  void messageSlot(const QString& m);
+  virtual QString lastWord() { return QString(); } // so far unused
 
 private:
   TpluginObject         *m_sender;
   TupdateChecker        *m_updater;
-  QString                m_lastWord;
 
 };
 

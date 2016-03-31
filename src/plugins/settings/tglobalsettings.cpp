@@ -62,7 +62,6 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 #endif
   lay->addStretch(1);
   
-#if !defined (Q_OS_ANDROID)
   QGroupBox *updateBox = new QGroupBox(this);
   QVBoxLayout *upLay = new QVBoxLayout;
   m_updateButton = new QPushButton(tr("Check for updates"), this);
@@ -76,11 +75,10 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
 	m_pluginLoader = new TpluginsLoader(this);
   if (m_pluginLoader->load(TpluginsLoader::e_updater)) {
     connect(m_updateButton, &QPushButton::clicked, this, &TglobalSettings::updateSlot);
-    connect(m_pluginLoader->node(), &TpluginObject::message, this, &TglobalSettings::processOutputSlot);
+    connect(m_pluginLoader->node(), &TpluginObject::value, this, &TglobalSettings::processOutputSlot);
   } else 
     updateBox->hide();
   lay->addStretch(1);
-#endif
 
   m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
   m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
@@ -119,16 +117,40 @@ void TglobalSettings::restoreRequired() {
 }
 
 
-#if !defined (Q_OS_ANDROID)
 void TglobalSettings::updateSlot() {
-	m_pluginLoader->init("", this);
+  m_pluginLoader->init(QString(), this);
   m_updateButton->setDisabled(true);
 }
 
 
-void TglobalSettings::processOutputSlot(QString output) {
-	m_updateLabel->setText(output);
+void TglobalSettings::processOutputSlot(int m) {
+  QString updateText;
+  int err = -1;
+  if (m > 100) {
+    err = m - 100;
+    m = 100;
+  }
+  switch ((Torders::Eupdater)m) {
+  case Torders::e_updaterChecking:
+    updateText = QApplication::translate("TupdateChecker", "Checking for updates. Please wait...");
+    break;
+  case Torders::e_updaterOffline:
+    updateText = QStringLiteral("offline");
+    break;
+  case Torders::e_updaterNoNeed:
+    updateText = QStringLiteral("No need for updates");
+    break;
+  case Torders::e_updaterError:
+    updateText = QString("An error occurred: %1").arg((int)err);
+    break;
+  case Torders::e_updaterSuccess:
+    updateText = QStringLiteral("success");
+    break;
+  default:
+    break;
+  }
+  m_updateLabel->setText(updateText);
 }
-#endif
+
 
 

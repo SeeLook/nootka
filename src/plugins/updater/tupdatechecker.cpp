@@ -18,6 +18,7 @@
 
 
 #include "tupdatechecker.h"
+#include "tupdaterplugin.h"
 #include <nootkaconfig.h>
 #include <QtWidgets/qmessagebox.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
@@ -34,12 +35,12 @@ TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
   m_reply(0),
   m_success(true)
 {
+  Q_UNUSED(parent)
   getUpdateRules(m_updateRules);
 
   m_netManager = new QNetworkAccessManager(qApp);
   if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible)
     connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
-//   connect(this, &TupdateChecker::communicate, this, &TupdateChecker::communicateSlot);
 }
 
 
@@ -47,35 +48,37 @@ void TupdateChecker::check(bool checkRules){
   if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible) {
     m_respectRules = checkRules;
     if (!m_respectRules)
-      emit communicate(tr("Checking for updates. Please wait..."));
+      emit updateMessage(Torders::e_updaterChecking);
     if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
         QNetworkRequest request(QUrl(QString("http://nootka.sldc.pl/ch/version.php?v=%1").arg(QStringLiteral(NOOTKA_VERSION))));
         // This is additional hosting to improve updates system. It is much faster than sf.net
         //         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
   #if defined(Q_OS_WIN32)
           request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E)");
+  #elif defined (Q_OS_ANDROID)
+          request.setRawHeader("User-Agent" , "Mozilla/5.0 (Linux; Android 4.0.4; AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19");
   #elif defined(Q_OS_LINUX)
-          request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux i686 (x86_64); ");
+          request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux i686 (x86_64); AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19");
   #else
-          request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
+          request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
   #endif
           m_reply = m_netManager->get(request);
           connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
     } else
-        emit communicate("No need for updates");
+        emit updateMessage(Torders::e_updaterNoNeed);
   } else
-      emit communicate(QLatin1String("offline"));
+      emit updateMessage(Torders::e_updaterOffline);
 }
 
 
 TupdateChecker::~TupdateChecker()
 {
-	delete m_netManager;
+  delete m_netManager;
 }
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
   if (!m_respectRules)
-    emit communicate(QString("An error occurred: %1").arg((int)err));
+      emit updateMessage(Torders::e_updaterError + err);
   m_success = false;
 }
 
@@ -83,36 +86,33 @@ void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
   if (m_success) {
       QString replyString(netReply->readAll());
-      QStringList replyLines = replyString.split(";", QString::SkipEmptyParts);
+      QStringList replyLines = replyString.split(QLatin1String(";"), QString::SkipEmptyParts);
       QString newVersion = replyLines.at(0);
-      if (newVersion.contains("Nootka:"))
-        newVersion.replace("Nootka:", "");
+      if (newVersion.contains(QLatin1String("Nootka:")))
+        newVersion.replace(QLatin1String("Nootka:"), QString());
       else 
         m_success = false;
       if (m_success) {
-          emit communicate("success");
+          emit updateMessage(Torders::e_updaterSuccess);
           replyLines.removeFirst();
-          QString changes = replyLines.join("");
+          QString changes = replyLines.join(QString());
           if (m_updateRules.curentVersion != newVersion) {
             showUpdateSummary(newVersion, changes, m_parentWidget, &m_updateRules);
           } else if (!m_respectRules) {
-              showUpdateSummary("", "", m_parentWidget, &m_updateRules);
+              showUpdateSummary(QString(), QString(), m_parentWidget, &m_updateRules);
           }
           m_updateRules.recentDate = QDate::currentDate();
           saveUpdateRules(m_updateRules);
       }
   }
   if (m_respectRules)
-		emit communicate("checking finished");
+      emit updateMessage(Torders::e_updaterFinished);
   netReply->abort();
   netReply->close();
   netReply->deleteLater();
 }
 
 
-void TupdateChecker::communicateSlot(const QString& message) {
-  qDebug() << message;
-}
 
 
 

@@ -20,39 +20,56 @@
 #include "tupdatesummary.h"
 #include "tupdateruleswdg.h"
 #include <tpath.h>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QTextEdit>
+#include <qtr.h>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qlabel.h>
+#include <QtWidgets/qpushbutton.h>
+#include <QtWidgets/qtextedit.h>
+#include <QtWidgets/qscroller.h>
+
 
 TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* updateRules, QWidget* parent): 
   QDialog(parent, Qt::WindowStaysOnTopHint),
   m_updateRules(updateRules)
 {
+#if defined (Q_OS_ANDROID)
+  showMaximized();
+#else
 	setWindowIcon(QIcon(Tpath::img("nootka")));
 	setWindowTitle(tr("Updates"));
+#endif
   QVBoxLayout *mainLay = new QVBoxLayout;
   QLabel *lab = new QLabel(this);
   mainLay->addWidget(lab);
   lab->setAlignment(Qt::AlignCenter);
-  if (version != "") {
-    lab->setText("<br><p style=\"font-size: xx-large;\">" +
-      tr("New Nootka %1 is available.").arg(version) + "<br>" +
-      tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.") + "</p><br>");
+  if (!version.isEmpty()) {
+#if defined (Q_OS_ANDROID)
+    lab->setText(QStringLiteral("<p style=\"font-size: large;\">") +
+      tr("New Nootka %1 is available.").arg(version) + QStringLiteral(" ") +
+      tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.")
+                 + QStringLiteral("</p>"));
+#else
+    lab->setText(QStringLiteral("<br><p style=\"font-size: xx-large;\">") +
+      tr("New Nootka %1 is available.").arg(version) + QStringLiteral("<br>") +
+      tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.")
+                 + QStringLiteral("</p><br>"));
+#endif
     lab->setOpenExternalLinks(true);
     QTextEdit *news = new QTextEdit(this);
+    QScroller::grabGesture(news->viewport(), QScroller::LeftMouseButtonGesture);
     news->setReadOnly(true);
     mainLay->addWidget(news);
     news->setText(tr("News:") + changes);
   } else {
-    lab->setText("<br><p style=\"font-size: xx-large;\">" + tr("No changes found.<br>This version is up to date.") + "</p><br>");
+    lab->setText(QStringLiteral("<br><p style=\"font-size: xx-large;\">")
+                 + tr("No changes found.<br>This version is up to date.") + QStringLiteral("</p><br>"));
   }
   if (m_updateRules) {
     m_rulesWidget = new TupdateRulesWdg(m_updateRules, this);
     mainLay->addWidget(m_rulesWidget);
   }
   mainLay->addSpacing(10);
-  m_okButton = new QPushButton(tr("Ok"), this);
+  m_okButton = new QPushButton(qTR("QDialogButtonBox", "Ok"), this);
   mainLay->addWidget(m_okButton, 0, Qt::AlignCenter);
   
   setLayout(mainLay);

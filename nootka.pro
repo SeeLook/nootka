@@ -18,6 +18,7 @@ SUBDIRS = src/libs/core\
           src/plugins/settings\
           src/plugins/wizard\
           src/plugins/exam\
+          src/plugins/updater\
 
 
 CONFIG += ordered
@@ -34,7 +35,7 @@ src/plugins/level.depends = src/libs/widgets src/libs/sound
 src/plugins/settings.depends = src/libs/misc
 src/plugins/wizard.depends = src/libs/misc
 src/plugins/exam.depends = src/libs/main
-
+src/plugins/updater.depends = src/libs/core
 
 
  
