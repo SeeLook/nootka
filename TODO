@@ -22,19 +22,17 @@ ANDROID:
         - hide 'clear score' one when undesired (single mode, exam with playing):
           innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
     - resetting options closes Nootka but does not launch it again
-    - played sound is sometimes distorted (when note starts playing)
     - no level/exam icon in file manager, not all file managers support opening Nootka files
 
 - when no guitar preview - staff lines are too big
 - keep scroll bar of score always off - it appears when switching single/multi
-- Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
 - HOME button would be switching available menus
 - handle BACK button to destroy visible menu and/or prevent to close exam
 - duration of animation of note correction was decreased to 200ms to work properly under Android,
   but it would be better to signal when it is finished and perform some routines in main score after that
 ============================================================================
 - TexamExecutor has many, many un-wrapped strings, many ""
-- Use int and enumerations between plugins and main window instead of text messages - especially updater
+- Use int and enumerations between plugins and main window instead of text messages (level plugin to do)
 
 To consideration:
 - additional settings options:

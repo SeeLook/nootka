@@ -1,9 +1,12 @@
-1.3.0 alpha1
-     - removed roundness of widget/tips
-     - prepared code for further features
+1.2A.5 testing
+   ANDROID
+     - fixed fluency of playing, no more glitches
     Under the hood
      - reorganized layout of libraries, score is in separate lib
      - exam execution moved to plugin
+
+1.2.5
+     Clef menu visibility fixes for Qt 5.6 compatibility
 
 1.2A.4 beta2
     ANDROID
