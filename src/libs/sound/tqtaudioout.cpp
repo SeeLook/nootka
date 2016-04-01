@@ -47,8 +47,8 @@ QStringList TaudioOUT::getAudioDevicesList() {
   return devNamesList;
 }
 
-QString          			TaudioOUT::m_devName = QStringLiteral("anything");
-TaudioOUT*            TaudioOUT::m_instance = 0;
+QString                TaudioOUT::m_devName = QStringLiteral("anything");
+TaudioOUT*             TaudioOUT::m_instance = 0;
 /*end static*/
 
 
@@ -73,12 +73,13 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   }
   m_instance = this;
   setType(e_audio);
-	m_crossBuffer = new qint16[1000];
+  m_crossBuffer = new qint16[1000];
 
   setAudioOutParams();
 
   connect(this, &TaudioOUT::finishSignal, this, &TaudioOUT::playingFinishedSlot);
-  
+  connect(oggScale, &ToggScale::oggReady, this, &TaudioOUT::startPlayingSlot);
+
 }
 
 
@@ -98,23 +99,23 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams() {
-	playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
+  playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
   if (m_audioParams->OUTdevName != m_devName)
     createOutputDevice();
-	if (playable) {
-			ratioOfRate = m_sampleRate / 44100;
-			quint32 oggSR = m_sampleRate;
-			if (ratioOfRate > 1) { //
-				if (m_sampleRate == 88200 || m_sampleRate == 176400)
-					oggSR = 44100;
-				else if (m_sampleRate == 96000 || m_sampleRate == 192000)
-					oggSR = 48000;
-			}
-			oggScale->setSampleRate(oggSR);
-			// Shifts only float part of a440diff - integer part is shifted by play() method
-			oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
+  if (playable) {
+      ratioOfRate = m_sampleRate / 44100;
+      quint32 oggSR = m_sampleRate;
+      if (ratioOfRate > 1) { //
+        if (m_sampleRate == 88200 || m_sampleRate == 176400)
+          oggSR = 44100;
+        else if (m_sampleRate == 96000 || m_sampleRate == 192000)
+          oggSR = 48000;
+      }
+      oggScale->setSampleRate(oggSR);
+      // Shifts only float part of a440diff - integer part is shifted by play() method
+      oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
 
-	} else
+  } else
       playable = false;
 }
 
@@ -159,44 +160,41 @@ void TaudioOUT::createOutputDevice() {
   qDebug() << "OUT:" << m_deviceInfo.deviceName() << m_audioOUT->format().sampleRate() << m_maxSamples;
 
   connect(m_buffer, &TaudioBuffer::feedAudio, this, &TaudioOUT::outCallBack, Qt::DirectConnection);
-  connect(m_audioOUT, &QAudioOutput::stateChanged, this, &TaudioOUT::stateChangedSlot);  
+  connect(m_audioOUT, &QAudioOutput::stateChanged, this, &TaudioOUT::stateChangedSlot);
 }
 
 
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
-  
-	while (m_callBackIsBussy) {
-		  SLEEP(1);
-// 			qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
-	}
-	
-  if (m_samplesCnt < m_maxSamples) {
-			int off = m_samplesCnt + 1; // next chunk of playing sound
-			for (int i = 0; i < 1000; i++) // copy data of current sound to perform crrosfading
-				m_crossBuffer[i] = oggScale->getSample(off + i);
-			m_doCrossFade = true;
-	} else
-			m_doCrossFade = false;
-  
-  noteNr = noteNr + int(audioParams()->a440diff);
-	
-  doEmit = true;
-  oggScale->setNote(noteNr);
-  int loops = 0;
-  while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
-      SLEEP(1);
-      loops++;
+
+  while (m_callBackIsBussy) {
+      SLEEP(1); // TODO: seems like it never occurs in Qt Audio - remove it then
+       qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
   }
+
+  if (m_samplesCnt < m_maxSamples) {
+      int off = m_samplesCnt + 1; // next chunk of playing sound
+      for (int i = 0; i < 1000; i++) // copy data of current sound to perform crrosfading
+        m_crossBuffer[i] = oggScale->getSample(off + i);
+      m_doCrossFade = true;
+  } else
+      m_doCrossFade = false;
+
+  noteNr = noteNr + int(audioParams()->a440diff);
+
+  doEmit = true;
+  oggScale->setNote(noteNr); // oggScale will emit oggReady() and invoke startPlayingSlot()
+
+  return true;
+}
+
+
+void TaudioOUT::startPlayingSlot() {
   m_samplesCnt = -1;
-//   if (loops)
-//     qDebug() << "latency:" << loops << "ms";
-    
+
   if (m_audioOUT->state() != QAudio::ActiveState)
     m_audioOUT->start(m_buffer);
-    
-  return true;
 }
 
 
