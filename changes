@@ -1,5 +1,6 @@
-1.2A.5 testing
+1.2A.5 beta3
    ANDROID
+     - added update checker
      - fixed fluency of playing, no more glitches
     Under the hood
      - reorganized layout of libraries, score is in separate lib

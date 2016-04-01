@@ -78,8 +78,9 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   setAudioOutParams();
 
   connect(this, &TaudioOUT::finishSignal, this, &TaudioOUT::playingFinishedSlot);
-  connect(oggScale, &ToggScale::oggReady, this, &TaudioOUT::startPlayingSlot);
-
+  connect(oggScale, &ToggScale::oggReady, this, &TaudioOUT::startPlayingSlot, Qt::DirectConnection);
+  // With direct connection playing is called immediately after minimal audio data amount was decoded
+  // without event loop delay like for default queued connection
 }
 
 
