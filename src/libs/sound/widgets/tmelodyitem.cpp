@@ -103,7 +103,7 @@ TmelodyItem::TmelodyItem() :
   m_selectedAction(0)
 {
   m_instance = this;
-  setAcceptTouchEvents(true);
+//  setAcceptTouchEvents(true);
   m_playDot = createDot(1);
   m_recDot = createDot(2);
   m_snifDot = createDot(3);
@@ -261,8 +261,10 @@ void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
   if (m_selectedAction) {
       m_selectedAction->trigger();
       m_selectedAction = 0;
-  } else if (event->pos().x() < Tmtr::fingerPixels() && event->pos().y() < Tmtr::fingerPixels())
-      emit menuSignal(); // send a signal only when finger was not moved over the melody tip
+  } else if (event->pos().x() < Tmtr::fingerPixels() && event->pos().y() < Tmtr::fingerPixels()) {
+    // send a signal only when finger was not moved over the melody tip
+      QTimer::singleShot(5, [=]{ emit menuSignal(); }); // delay fixes garbing touch by scene when menu is ignored
+  }
   QGraphicsItem::mouseReleaseEvent(event);
 }
 
