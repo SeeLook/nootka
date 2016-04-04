@@ -337,10 +337,10 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
   }
 	QGraphicsItem *it = scene()->itemAt(mapToScene(cPos), scene()->views()[0]->transform());
 	if (it == 0 || it->parentItem() != this || it == m_accidGap)
-		return;
+    return;
 	if (it == m_name) {
 		hoverLeaveEvent(0);
-		emit nameMenu(m_scoreNote);
+    QTimer::singleShot(5, [=]{ emit nameMenu(m_scoreNote); });
 	} else if (it == m_cross) {
 		staff()->removeNote(m_scoreNote->index());
 		hoverLeaveEvent(0);
