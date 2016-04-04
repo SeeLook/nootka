@@ -32,8 +32,9 @@
 #include <QtWidgets/qdesktopwidget.h>
 #include <QtGui/qpalette.h>
 #include <QtWidgets/qgraphicsview.h>
+#include <QtCore/qtimer.h>
 
-#include <QDebug>
+#include <QtCore/qdebug.h>
 
 /*static*/
 QChar TscoreClef::clefToChar(Tclef clef) {
@@ -53,75 +54,84 @@ QChar TscoreClef::clefToChar(Tclef clef) {
       ch = QChar(0xe171); break;
     case Tclef::e_tenor_C:
       ch = QChar(0xe16e); break;
-		default : 
-			ch = QChar(0x20); break; // space
+    default :
+      ch = QChar(0x20); break; // space
   }
   return ch;
 }
 
-QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>();
 
+QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>();
 
 
 TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   TscoreItem(scene),
   m_clef(Tclef(Tclef::e_none)),
+  m_lowerClef(0),
   m_textClef(0),
   m_readOnly(false)
 {
+  m_fakeMouseEvent = new QGraphicsSceneMouseEvent(QEvent::MouseButtonPress);
+  m_fakeMouseEvent->setButton(Qt::LeftButton);
   setStaff(staff);
-	setParentItem(staff);
+  setParentItem(staff);
   if (m_typesList.size() == 0) // initialize types list
     m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down <<
     Tclef::e_alto_C << Tclef::e_tenor_C << Tclef::e_treble_G_8down;
-  
+
   m_textClef = new QGraphicsSimpleTextItem();
   registryItem(m_textClef);
   m_textClef->setBrush(qApp->palette().text().color());
-  
+
   m_textClef->setFont(TnooFont(18));
   setClef(clef);
+  m_tapTimer = new QTimer(this);
+  connect(m_tapTimer, &QTimer::timeout, [=]{ m_textClef->setBrush(qApp->palette().highlight().color()); });
 }
-  
+
 
 TscoreClef::~TscoreClef() {
-	if (m_clefMenu)
-		delete m_clefMenu;
+  if (m_clefMenu)
+    delete m_clefMenu;
+  delete m_fakeMouseEvent;
 }
 
 
 void TscoreClef::setClef(Tclef clef) {
-	if (clef.type() == Tclef::e_pianoStaff) {
-		if (!m_lowerClef) {
-			m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::e_bass_F));
-			m_lowerClef->setPos(0.5, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()) + 0.1);
-			connect(m_lowerClef, SIGNAL(clefChanged(Tclef)), this, SLOT(lowerClefChanged(Tclef)));
-		} else // clefs already set to piano mode
-				return;
-		clef.setClef(Tclef::e_treble_G);
-	} else {
-		if (m_lowerClef)
-			delete m_lowerClef;
-	}
-			m_clef = clef;
-			m_currClefInList = getClefPosInList(m_clef);
-			m_textClef->setText(QString(clefToChar(m_clef.type())));
-			qreal fineOff = 0.1;
-			if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
-				fineOff = 0.0;
-			setPos(0.5, getYclefPos(m_clef) - (16.0 - staff()->upperLinePos()) + fineOff);
-			getStatusTip();
+  if (clef.type() == Tclef::e_pianoStaff) {
+    if (!m_lowerClef) {
+        m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::e_bass_F));
+        m_lowerClef->setPos(0.5, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()));
+        connect(m_lowerClef, SIGNAL(clefChanged(Tclef)), this, SLOT(lowerClefChanged(Tclef)));
+    } else // clefs already set to piano mode
+        return;
+    clef.setClef(Tclef::e_treble_G);
+  } else {
+    if (m_lowerClef) {
+      m_lowerClef->deleteLater();
+      m_lowerClef = 0;
+    }
+  }
+  m_clef = clef;
+  m_currClefInList = getClefPosInList(m_clef);
+  m_textClef->setText(QString(clefToChar(m_clef.type())));
+  qreal fineOff = 0.1;
+  if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
+    fineOff = 0.0;
+  setPos(0.5, getYclefPos(m_clef) - (16.0 - staff()->upperLinePos()) + fineOff);
+  getStatusTip();
 }
 
 
 QRectF TscoreClef::boundingRect() const {
-      return QRectF(0, 0, 6, 18); // optimal height for all clef types
+  return QRectF(0, 0, 6, 18); // optimal height for all clef types
 }
 
+
 void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-	Q_UNUSED(painter)
-	Q_UNUSED(option)
-	Q_UNUSED(widget)
+  Q_UNUSED(painter)
+  Q_UNUSED(option)
+  Q_UNUSED(widget)
 // 	paintBackground(painter, Qt::magenta);
 }
 
@@ -131,7 +141,7 @@ void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 void TscoreClef::touched(const QPointF& scenePos) {
   Q_UNUSED(scenePos)
-  m_tapTimer.start();
+  m_tapTimer->start(300);
 #if defined (Q_OS_ANDROID)
   if (!TtouchParams::i()->clefWasTouched && !tMessage->isVisible() && tMessage->mainWindowOnTop()) {
     tMessage->setMessage(TtouchProxy::touchClefHelp(), 0);
@@ -142,24 +152,26 @@ void TscoreClef::touched(const QPointF& scenePos) {
 
 
 void TscoreClef::untouched(const QPointF& scenePos) {
-  if (!scenePos.isNull() && m_tapTimer.hasExpired(300)) {
-    QGraphicsSceneMouseEvent me(QEvent::MouseButtonPress);
-    me.setPos(mapFromScene(scenePos));
-    me.setButton(Qt::LeftButton);
-    mousePressEvent(&me);
+  m_tapTimer->stop();
+  if (!scenePos.isNull() && m_textClef->brush().color() == qApp->palette().highlight().color()) {
+    m_textClef->setBrush(qApp->palette().text().color());
+    m_fakeMouseEvent->setPos(mapFromScene(scenePos));
+    QTimer::singleShot(5, [=]{ mousePressEvent(m_fakeMouseEvent); });
   }
 }
 
 
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-	if (m_readOnly) {
-		TscoreItem::mousePressEvent(event);
-	} else {
+  if (m_readOnly) {
+    TscoreItem::mousePressEvent(event);
+  } else {
     if (!m_menu) {
       m_menu = new QMenu();
       if (!m_clefMenu) {
           m_clefMenu = new TclefMenu(m_menu);
-          connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
+          #if !defined (Q_OS_ANDROID)
+            connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
+          #endif
       } else
           m_clefMenu->setMenu(m_menu);
       Tclef curClef = m_clef;
@@ -171,21 +183,22 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
       #else
         Tclef cl = m_clefMenu->exec(QCursor::pos());
       #endif
+      m_clef = cl;
       m_clefMenu->setMenu(0);
       delete m_menu;
       if (cl.type() == Tclef::e_none)
         return;
       if (curClef.type() != cl.type()) {
-        emit clefChanged(cl);
+        QTimer::singleShot(5, [=]{ emit clefChanged(m_clef); });
       }
     }
-	}
+  }
 }
 
 
 void TscoreClef::lowerClefChanged(Tclef clef) {
-	if (clef.type() != Tclef::e_pianoStaff) // lower staff means piano staff already
-		emit clefChanged(clef);
+  if (clef.type() != Tclef::e_pianoStaff) // lower staff means piano staff already
+    emit clefChanged(clef);
 }
 
 //##########################################################################################################
@@ -193,10 +206,10 @@ void TscoreClef::lowerClefChanged(Tclef clef) {
 //##########################################################################################################
 
 void TscoreClef::getStatusTip() {
-	QString tip = "<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")";
-	if (!readOnly())
-		tip += "<br>" + tr("Click to select another clef.");
-	setStatusTip(tip);
+  QString tip = QLatin1String("<b>") + m_clef.name() + QLatin1String("</b>  (") + m_clef.desc() + QLatin1String(")");
+  if (!readOnly())
+    tip += QLatin1String("<br>") + tr("Click to select another clef.");
+  setStatusTip(tip);
 }
 
 

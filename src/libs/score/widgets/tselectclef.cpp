@@ -19,8 +19,6 @@
 
 #include "tselectclef.h"
 #include <graphics/tnotepixmap.h>
-#include <QtWidgets/qaction.h>
-#include <QtWidgets/qmenu.h>
 #include <QtWidgets/qtoolbar.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlabel.h>
@@ -29,6 +27,7 @@
 #include <QtGui/qevent.h>
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qdesktopwidget.h>
+#include <QtCore/qtimer.h>
 #if defined (Q_OS_ANDROID)
   #include "touch/ttoucharea.h"
   #include "tmtr.h"
@@ -39,123 +38,123 @@
 //######### TselectClefPrivate #######################################################################
 
 TselectClefPrivate::TselectClefPrivate(bool isMenu, QWidget* parent) :
-	QWidget(parent)
+  QWidget(parent)
 {
-	treble = new TradioClef(Tclef(Tclef::e_treble_G), parent, isMenu);
-	treble_8 = new TradioClef(Tclef(Tclef::e_treble_G_8down), parent, isMenu);
-	bass = new TradioClef(Tclef(Tclef::e_bass_F), parent, isMenu);
-	bass_8 = new TradioClef(Tclef(Tclef::e_bass_F_8down), parent, isMenu);
-	alto = new TradioClef(Tclef(Tclef::e_alto_C), parent, isMenu);
-	tenor = new TradioClef(Tclef(Tclef::e_tenor_C), parent, isMenu);
-	piano = new TradioClef(Tclef(Tclef::e_pianoStaff), parent, isMenu);
-	
-	QButtonGroup *clefsGroup = new QButtonGroup(this);
-		clefsGroup->addButton(treble->radio());
-		clefsGroup->addButton(treble_8->radio());
-		clefsGroup->addButton(bass->radio());
-		clefsGroup->addButton(bass_8->radio());
-		clefsGroup->addButton(alto->radio());
-		clefsGroup->addButton(tenor->radio());
-		clefsGroup->addButton(piano->radio());
-	
-	if (isMenu) {
-			QVBoxLayout *leftLay = new QVBoxLayout;
-			QVBoxLayout *rightLay = new QVBoxLayout;
-			leftLay->addWidget(treble);
-			leftLay->addWidget(treble_8);
-			leftLay->addWidget(bass);
-			leftLay->addWidget(bass_8);
-			rightLay->addWidget(alto);
-			rightLay->addWidget(tenor);
-			rightLay->addWidget(piano);
-			QHBoxLayout *lay = new QHBoxLayout;
-			lay->addLayout(leftLay);
-			lay->addLayout(rightLay);
-			setLayout(lay);
-	} else {
+  treble = new TradioClef(Tclef(Tclef::e_treble_G), parent, isMenu);
+  treble_8 = new TradioClef(Tclef(Tclef::e_treble_G_8down), parent, isMenu);
+  bass = new TradioClef(Tclef(Tclef::e_bass_F), parent, isMenu);
+  bass_8 = new TradioClef(Tclef(Tclef::e_bass_F_8down), parent, isMenu);
+  alto = new TradioClef(Tclef(Tclef::e_alto_C), parent, isMenu);
+  tenor = new TradioClef(Tclef(Tclef::e_tenor_C), parent, isMenu);
+  piano = new TradioClef(Tclef(Tclef::e_pianoStaff), parent, isMenu);
+
+  QButtonGroup *clefsGroup = new QButtonGroup(this);
+    clefsGroup->addButton(treble->radio());
+    clefsGroup->addButton(treble_8->radio());
+    clefsGroup->addButton(bass->radio());
+    clefsGroup->addButton(bass_8->radio());
+    clefsGroup->addButton(alto->radio());
+    clefsGroup->addButton(tenor->radio());
+    clefsGroup->addButton(piano->radio());
+
+  if (isMenu) {
+      QVBoxLayout *leftLay = new QVBoxLayout;
+      QVBoxLayout *rightLay = new QVBoxLayout;
+      leftLay->addWidget(treble);
+      leftLay->addWidget(treble_8);
+      leftLay->addWidget(bass);
+      leftLay->addWidget(bass_8);
+      rightLay->addWidget(alto);
+      rightLay->addWidget(tenor);
+      rightLay->addWidget(piano);
+      QHBoxLayout *lay = new QHBoxLayout;
+      lay->addLayout(leftLay);
+      lay->addLayout(rightLay);
+      setLayout(lay);
+  } else {
 #if defined (Q_OS_ANDROID)
-			QVBoxLayout *upLay = new QVBoxLayout;
-			QVBoxLayout *lowLay = new QVBoxLayout;
+      QVBoxLayout *upLay = new QVBoxLayout;
+      QVBoxLayout *lowLay = new QVBoxLayout;
 #else
       QHBoxLayout *upLay = new QHBoxLayout;
       QHBoxLayout *lowLay = new QHBoxLayout;
 #endif
-			upLay->addWidget(treble);
+      upLay->addWidget(treble);
 #if defined (Q_OS_ANDROID)
       static_cast<QHBoxLayout*>(treble->layout())->insertWidget(2, getLabelFromStatus(treble, false));
 #endif
-			lowLay->addWidget(treble_8);
+      lowLay->addWidget(treble_8);
 #if defined (Q_OS_ANDROID)
       static_cast<QHBoxLayout*>(treble_8->layout())->insertWidget(2, getLabelFromStatus(treble_8, false));
 #endif
-			upLay->addWidget(bass);
+      upLay->addWidget(bass);
 #if defined (Q_OS_ANDROID)
       static_cast<QHBoxLayout*>(bass->layout())->insertWidget(2, getLabelFromStatus(bass, false, true));
 #endif
-			lowLay->addWidget(bass_8);
+      lowLay->addWidget(bass_8);
 #if defined (Q_OS_ANDROID)
       static_cast<QHBoxLayout*>(bass_8->layout())->insertWidget(2, getLabelFromStatus(bass_8, false));
 #endif
-			upLay->addWidget(alto);
+      upLay->addWidget(alto);
 #if defined (Q_OS_ANDROID)
       static_cast<QHBoxLayout*>(alto->layout())->insertWidget(2, getLabelFromStatus(alto, false));
 #endif
-			lowLay->addWidget(tenor);
+      lowLay->addWidget(tenor);
 #if defined (Q_OS_ANDROID)
       static_cast<QHBoxLayout*>(tenor->layout())->insertWidget(2, getLabelFromStatus(tenor, false));
 #endif
-			QVBoxLayout *upLowLay = new QVBoxLayout;
-			upLowLay->addLayout(upLay);
-			upLowLay->addLayout(lowLay);
+      QVBoxLayout *upLowLay = new QVBoxLayout;
+      upLowLay->addLayout(upLay);
+      upLowLay->addLayout(lowLay);
 #if defined (Q_OS_ANDROID)
-			QVBoxLayout *lay = new QVBoxLayout;
+      QVBoxLayout *lay = new QVBoxLayout;
 #else
       QHBoxLayout *lay = new QHBoxLayout;
 #endif
-			lay->addLayout(upLowLay);
-			lay->addWidget(piano);
+      lay->addLayout(upLowLay);
+      lay->addWidget(piano);
 #if defined (Q_OS_ANDROID)
       static_cast<QHBoxLayout*>(piano->layout())->insertWidget(2, getLabelFromStatus(piano, false));
 #endif
-			
-			setLayout(lay);
-	}
-	connect(treble, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
-	connect(treble_8, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
-	connect(bass, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
-	connect(bass_8, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
-	connect(alto, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
-	connect(tenor, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
-	connect(piano, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
-	
-	connect(treble, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
-	connect(treble_8, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
-	connect(bass, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
-	connect(bass_8, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
-	connect(alto, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
-	connect(tenor, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
-	connect(piano, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+
+      setLayout(lay);
+  }
+  connect(treble, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+  connect(treble_8, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+  connect(bass, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+  connect(bass_8, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+  connect(alto, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+  connect(tenor, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+  connect(piano, SIGNAL(selectedClef(Tclef)), this, SLOT(clefWasSelected(Tclef)));
+
+  connect(treble, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+  connect(treble_8, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+  connect(bass, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+  connect(bass_8, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+  connect(alto, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+  connect(tenor, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
+  connect(piano, SIGNAL(statusTipWanted(QString)), this, SLOT(onStatusTip(QString)));
 }
 
 
 void TselectClefPrivate::selectClef(Tclef clef) {
-	switch(clef.type()) {
-		case Tclef::e_treble_G:
-			treble->setChecked(true); break;
-		case Tclef::e_treble_G_8down:
-			treble_8->setChecked(true); break;
-		case Tclef::e_bass_F:
-			bass->setChecked(true); break;
-		case Tclef::e_bass_F_8down:
-			bass_8->setChecked(true); break;
-		case Tclef::e_alto_C:
-			alto->setChecked(true); break;
-		case Tclef::e_tenor_C:
-			tenor->setChecked(true); break;
-		case Tclef::e_pianoStaff:
-			piano->setChecked(true); break;
-		default: break;
-	}
+  switch(clef.type()) {
+    case Tclef::e_treble_G:
+      treble->setChecked(true); break;
+    case Tclef::e_treble_G_8down:
+      treble_8->setChecked(true); break;
+    case Tclef::e_bass_F:
+      bass->setChecked(true); break;
+    case Tclef::e_bass_F_8down:
+      bass_8->setChecked(true); break;
+    case Tclef::e_alto_C:
+      alto->setChecked(true); break;
+    case Tclef::e_tenor_C:
+      tenor->setChecked(true); break;
+    case Tclef::e_pianoStaff:
+      piano->setChecked(true); break;
+    default: break;
+  }
 }
 
 
@@ -163,9 +162,9 @@ void TselectClefPrivate::selectClef(Tclef clef) {
 
 
 TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
-	QWidget(parent),
-	m_clef(clef),
-	m_hasMouseOver(false)
+  QWidget(parent),
+  m_clef(clef),
+  m_hasMouseOver(false)
 {
   QHBoxLayout *lay = new QHBoxLayout;
   m_radio = new QRadioButton(this);
@@ -188,7 +187,7 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
   }
   lay->addStretch();
   setLayout(lay);
-  QString clefUsage = "";
+  QString clefUsage;
   switch (clef.type()) {
     case Tclef::e_treble_G:
       clefUsage = tr("Common used clef (for violin, flute, saxophones, etc.)");
@@ -206,10 +205,9 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
       clefUsage = tr("Sometimes it is called clef for viola and mostly used for this instrument.");
       break;
     default:
-      clefUsage = "";
       break;
   }
-  setStatusTip("<b>" + m_clef.name() + "</b>  (" + m_clef.desc() + ")<br>" + clefUsage);
+  setStatusTip(QLatin1String("<b>") + m_clef.name() + QLatin1String("</b>  (") + m_clef.desc() + QLatin1String(")<br>") + clefUsage);
   m_radio->setStatusTip(statusTip());
   pixLabel->setStatusTip(statusTip());
   connect(m_radio, SIGNAL(pressed()), this, SLOT(clefClickedSlot()));
@@ -217,7 +215,7 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 
 
 void TradioClef::setChecked(bool checked) {
-		m_radio->setChecked(checked);
+    m_radio->setChecked(checked);
 }
 
 
@@ -243,26 +241,26 @@ bool TradioClef::event(QEvent* event) {
       m_hasMouseOver = true;
       update();
       emit statusTipWanted(statusTip());
-  }	else
+  }  else
 #endif
     if (event->type() == QEvent::MouseButtonPress)
-      clefClickedSlot();
+      QTimer::singleShot(5, [=]{ clefClickedSlot(); });
   return QWidget::event(event);
 }
 
 
 void TradioClef::paintEvent(QPaintEvent* event) {
-	if (m_hasMouseOver) {
-		QPainter painter(this);
-		QLinearGradient lg(width() / 2, 0, width() / 2, height());
-		QColor bg = palette().highlight().color();
-		bg.setAlpha(100);
-		lg.setColorAt(0.0, bg.darker());
-		lg.setColorAt(0.9, palette().highlight().color());
-		painter.setPen(Qt::NoPen);
-		painter.setBrush(lg);
-		painter.drawRoundedRect(0, 0, width(), height(), 6, 6);
-	}
+  if (m_hasMouseOver) {
+    QPainter painter(this);
+    QLinearGradient lg(width() / 2, 0, width() / 2, height());
+    QColor bg = palette().highlight().color();
+    bg.setAlpha(100);
+    lg.setColorAt(0.0, bg.darker());
+    lg.setColorAt(0.9, palette().highlight().color());
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(lg);
+    painter.drawRoundedRect(0, 0, width(), height(), 6, 6);
+  }
 }
 
 
@@ -270,7 +268,7 @@ void TradioClef::paintEvent(QPaintEvent* event) {
 //########### TselectClef #################################################################################
 
 TselectClef::TselectClef(QWidget* parent) :
-	TselectClefPrivate(false, parent)
+  TselectClefPrivate(false, parent)
 {}
 
 
@@ -301,8 +299,8 @@ Tclef TselectClef::selectedClef(){
 
 //########### TclefMenu ###########################################################################
 TclefMenu::TclefMenu(QMenu* parent) :
-	TselectClefPrivate(true, new QWidget(parent)),
-	m_menu(parent)
+  TselectClefPrivate(true, new QWidget(parent)),
+  m_menu(parent)
 {
   m_menu->setLayout(TselectClefPrivate::layout());
   m_menu->installEventFilter(this);
@@ -311,12 +309,12 @@ TclefMenu::TclefMenu(QMenu* parent) :
 
 
 void TclefMenu::setMenu(QMenu* menuParent) {
-	if (m_menu) // free a layout from current menu
-		TselectClefPrivate::setLayout(m_menu->layout());
-	m_menu = menuParent;
-	setParent(menuParent);
-	if (m_menu) { // When new menu - add a layout to it
-		m_menu->setLayout(TselectClefPrivate::layout());
+  if (m_menu) // free a layout from current menu
+    TselectClefPrivate::setLayout(m_menu->layout());
+  m_menu = menuParent;
+  setParent(menuParent);
+  if (m_menu) { // When new menu - add a layout to it
+    m_menu->setLayout(TselectClefPrivate::layout());
     m_menu->installEventFilter(this); // grab leave event
   }
 }
@@ -326,7 +324,7 @@ Tclef TclefMenu::exec(QPoint pos) {
   if (!m_menu)
     return Tclef(Tclef::e_none);
   m_menu->move(pos.x(), qMin<int>(pos.y(), qApp->desktop()->availableGeometry().height() * 0.55)); // It works everywhere (Qt style)
-  m_menu->show();
+  m_menu->show(); // since Qt 5.6 it is necessary
   m_menu->exec(); // in contrary to exec(pos)
   return m_curentClef;
 }
