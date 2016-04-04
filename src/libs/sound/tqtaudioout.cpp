@@ -164,11 +164,13 @@ void TaudioOUT::createOutputDevice() {
   connect(m_audioOUT, &QAudioOutput::stateChanged, this, &TaudioOUT::stateChangedSlot);
 }
 
-
+#include <QtCore/qelapsedtimer.h>
+QElapsedTimer pt;
 bool TaudioOUT::play(int noteNr) {
   if (!playable)
       return false;
 
+  pt.start();
   while (m_callBackIsBussy) {
       SLEEP(1); // TODO: seems like it never occurs in Qt Audio - remove it then
        qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
@@ -192,8 +194,8 @@ bool TaudioOUT::play(int noteNr) {
 
 
 void TaudioOUT::startPlayingSlot() {
+  qDebug() << "preparation time" << pt.elapsed();
   m_samplesCnt = -1;
-
   if (m_audioOUT->state() != QAudio::ActiveState)
     m_audioOUT->start(m_buffer);
 }
@@ -208,6 +210,13 @@ void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
         m_cross = 1.0f;
         m_crossCount = 0;
     }
+//    if (m_samplesCnt > oggScale->alreadyDecoded()) {
+//      qDebug() << "Uh-uh! Ogg data not decoded yet!" << m_samplesCnt << oggScale->alreadyDecoded();
+//      while (m_samplesCnt > oggScale->alreadyDecoded()) {
+//        SLEEP(1);
+//        qDebug() << "waiting";
+//      }
+//    }
     qint16 *outPtr = (qint16*)data;
     for (int i = 0; i < (maxLen / 2) / ratioOfRate; i++) {
       m_samplesCnt++;

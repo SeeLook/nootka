@@ -96,7 +96,8 @@ ToggScale::ToggScale() :
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
   m_pitchOffset(0.0f), m_innerOffset(0.0),
   m_oggConnected(false), m_touchConnected(false),
-  m_instrument(-1)
+  m_instrument(-1),
+  m_alreadyDecoded(0)
 {
   m_touch = new soundtouch::SoundTouch();
   m_touch->setChannels(1);
@@ -104,6 +105,9 @@ ToggScale::ToggScale() :
   QFileInfo pulseBin("/usr/bin/pulseaudio");
   if (pulseBin.exists()) // it is necessary both for Nootka with native PA and PA in ALSA bridge mode
     minDataAmount = 15000;
+#endif
+#if defined (Q_OS_ANDROID)
+  minDataAmount = 15000;
 #endif
   moveToThread(m_thread);
   connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
@@ -164,7 +168,7 @@ void ToggScale::setNote(int noteNr) {
       fasterOffset = 0;
   stopDecoding();
   m_prevNote = noteNr;
-  int ret = ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 - fasterOffset);
+  /*int ret = */ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 - fasterOffset);
   m_thread->start();
 }
 
@@ -275,18 +279,18 @@ void ToggScale::decodeOgg() {
   long int read = 0;
   int maxSize = 44100 * 4 - 4096; // 2 for two seconds of note * 2 for two bytes of sample - silence at the end of note
   int loops = 0;
-  long int pos = 0;
-  while (m_doDecode && loops < 500 && pos < maxSize) {
-    read = ov_read(&m_ogg, (char*)m_pcmBuffer + pos, maxSize - pos, 0, 2, 1, &bitStream);
-    pos += read;
-    if (pos > minDataAmount && !m_isReady) { // amount of data needed by single loop of rtAudio outCallBack
+  m_alreadyDecoded = 0;
+  while (m_doDecode && loops < 500 && m_alreadyDecoded < maxSize) {
+    read = ov_read(&m_ogg, (char*)m_pcmBuffer + m_alreadyDecoded, maxSize - m_alreadyDecoded, 0, 2, 1, &bitStream);
+    m_alreadyDecoded += read;
+    if (m_alreadyDecoded > minDataAmount && !m_isReady) { // amount of data needed by single loop of audio outCallBack
       m_isReady = true;
       emit oggReady();
     }
     loops++;
   }
   m_isDecoding = false;
-//   qDebug() << "readFromOgg" << pos << "loops" << loops;
+//   qDebug() << "readFromOgg" << m_alreadyDecoded << "loops" << loops;
   m_thread->quit();
 }
 
@@ -295,19 +299,20 @@ void ToggScale::decodeAndResample() {
   m_isDecoding = true;
   int maxSize = 44100 * 2 - 8192; // two sec. of audio minus some silence on the end
   long int tmpPos = 0, tmpRead = 0;
-  uint pos = 0, read = 0;
+  uint read = 0;
+  m_alreadyDecoded = 0;
   int samplesReady = 0;
 
   float **oggChannels;
   float *left ;
   float *tmpTouch = new float[8192];
 
-  while (m_doDecode && pos < maxSize) {
+  while (m_doDecode && m_alreadyDecoded < maxSize) {
     /// 1. Grab audio data from ogg
     if (tmpPos < 172000) { // almost 2 sec. of a note
         tmpRead = ov_read_float(&m_ogg, &oggChannels, 2048, 0);
         tmpPos += tmpRead;
-        left = oggChannels[0]; // pointer to lefta channel chunk
+        left = oggChannels[0]; // pointer to left channel chunk
         if (tmpRead > 0) { /// 2. push data to SoundTouch
             m_touch->putSamples((SAMPLETYPE*)left, tmpRead);
         }
@@ -316,16 +321,16 @@ void ToggScale::decodeAndResample() {
     if (samplesReady > 0) { /// 3. Get resampled/offsetted data from SoundTouch
       read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);
       for (int i = 0; i < read; i++) /// 4. Convert samples to 16bit integer
-          *(m_pcmBuffer + pos + i) = qint16(*(tmpTouch + i) * 32768);
-      pos += read;
+          *(m_pcmBuffer + m_alreadyDecoded + i) = qint16(*(tmpTouch + i) * 32768);
+      m_alreadyDecoded += read;
     }
-    if (pos > minDataAmount && !m_isReady) { // below this value SoundTouch is not able to prepare data
+    if (m_alreadyDecoded > minDataAmount && !m_isReady) { // below this value SoundTouch is not able to prepare data
       m_isReady = true;
       emit oggReady();
     }
   }
   m_isDecoding = false;
-//   qDebug() << "decodeAndResample finished" << pos;
+//   qDebug() << "decodeAndResample finished" << m_alreadyDecoded;
   m_touch->clear();
   m_thread->quit();
   delete[] tmpTouch;
