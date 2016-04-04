@@ -1,4 +1,6 @@
 1.2.5
+     - added new levels
+    BUGS FIXES
      Clef menu visibility fixes for Qt 5.6 compatibility
 
 1.2.4
