@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,7 @@
 
 #include "tmenuwidget.h"
 #include <QtGui/QPainter>
+#include <QtCore/qtimer.h>
 
 
 TmenuWidget::TmenuWidget(QWidget* parent) :
@@ -52,6 +53,6 @@ void TmenuWidget::mousePressEvent(QMouseEvent*) {
 void TmenuWidget::mouseReleaseEvent(QMouseEvent*) {
   m_touched = false;
   update();
-  emit clicked();
+  QTimer::singleShot(5, [=]{ emit clicked(); });
 }
 
