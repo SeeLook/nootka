@@ -153,6 +153,50 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.melodyLen = 1;
   llist << l;
   //----------------------------------------------------------------------------
+  if (Tclef::defaultType != Tclef::e_bass_F && Tclef::defaultType != Tclef::e_bass_F_8down) {
+    l = Tlevel();
+    l.name = QApplication::translate("Tlevel", "Bass clef");
+    l.desc = QApplication::translate("Tlevel", "Play a short and simple melody in bass clef");
+    l.clef = Tclef(Tclef::e_bass_F);
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
+    l.withSharps = false;
+    l.withFlats = false;
+    l.withDblAcc = false;
+    l.useKeySign = false;
+    l.manualKey = false;
+    l.onlyCurrKey = true;
+    l.endsOnTonic = true;
+    l.loKey = 0;
+    l.hiKey = 0;
+  //  l.instrument = Tcore::gl()->instrument;
+    l.forceAccids = false;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    l.loNote = Tcore::gl()->loNote();
+    if (isGuitar) {
+      if (l.hiFret >= 12) { // adjust highest note to 12th fret
+        l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 5);
+        l.hiFret = 5;
+      }
+    } else { // find note 3 octaves up from lowest one or keep highest one ot the instrument
+      Tnote up3octaves(l.loNote.note, l.loNote.octave + 3, l.loNote.alter);
+      if (up3octaves.chromatic() < l.hiNote.chromatic())
+        l.hiNote = up3octaves;
+    }
+    //     l.hiFret by constructor
+    //     l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
+    l.onlyLowPos = true;
+    l.melodyLen = 7;
+    llist << l;
+  }
+  //----------------------------------------------------------------------------
   l = Tlevel();
   l.name = QObject::tr("Ear training");
   l.desc = QObject::tr("Listen to a sound and show it on the staff.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
@@ -321,7 +365,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   }
   //     l.hiFret by constructor
   //     l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
-  l.onlyLowPos = true;
+  l.onlyLowPos = false;
   l.melodyLen = 15;
   llist << l;
 }
