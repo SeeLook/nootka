@@ -441,39 +441,39 @@
     </message>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation>Standard: E A D G H E </translation>
+        <translation type="vanished">Standard: E A D G H E </translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation>Dropped D: D A D G H E </translation>
+        <translation type="vanished">Dropped D: D A D G H E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation>falsche Laute: D A D F# H E </translation>
+        <translation type="vanished">falsche Laute: D A D F# H E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation>Offen: D A D G A D </translation>
+        <translation type="vanished">Offen: D A D G A D </translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation>Kouyanbaba: D A D A D F </translation>
+        <translation type="vanished">Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
         <source>Standard bass: E A D G</source>
-        <translation>Standard Bass: E A D G</translation>
+        <translation type="vanished">Standard Bass: E A D G</translation>
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation>Quintenstimmung für Bass: C G D A</translation>
+        <translation type="vanished">Quintenstimmung für Bass: C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation>5-Saiten Bass: H E A D G</translation>
+        <translation type="vanished">5-Saiten Bass: H E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation>6-Saiten Bass: H E A D G C</translation>
+        <translation type="vanished">6-Saiten Bass: H E A D G C</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
@@ -592,6 +592,15 @@
     <message>
         <source>Authors</source>
         <translation>Autoren</translation>
+    </message>
+    <message>
+        <source>Donors</source>
+        <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>People and companies who gave material support for the Nootka project</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1698,6 +1707,33 @@ cents???</translatorcomment>
     </message>
 </context>
 <context>
+    <name>Tlevel</name>
+    <message>
+        <source>Grand staff</source>
+        <translation>Akkolade</translation>
+    </message>
+    <message>
+        <source>Guess notes from grand staff in different keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play a short and simple melody in bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play grand staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TlevelCreatorDlg</name>
     <message>
         <source>Questions</source>
@@ -2639,7 +2675,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Score</source>
-        <translation>Notation</translation>
+        <translation type="vanished">Notation</translation>
     </message>
 </context>
 <context>
@@ -3140,6 +3176,45 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
+    <name>Ttune</name>
+    <message>
+        <source>Standard: E A D G B E </source>
+        <translation>Standard: E A D G H E </translation>
+    </message>
+    <message>
+        <source>Dropped D: D A D G B E </source>
+        <translation>Dropped D: D A D G H E </translation>
+    </message>
+    <message>
+        <source>Dummy Lute: D A D F# B E </source>
+        <translation>falsche Laute: D A D F# H E </translation>
+    </message>
+    <message>
+        <source>Open: D A D G A D </source>
+        <translation>Offen: D A D G A D </translation>
+    </message>
+    <message>
+        <source>Kouyanbaba: D A D A D F </source>
+        <translation>Kouyanbaba: D A D A D F </translation>
+    </message>
+    <message>
+        <source>Standard bass: E A D G</source>
+        <translation>Standard Bass: E A D G</translation>
+    </message>
+    <message>
+        <source>Bass in fifths: C G D A</source>
+        <translation>Quintenstimmung für Bass: C G D A</translation>
+    </message>
+    <message>
+        <source>5-str. bass: B E A D G</source>
+        <translation>5-Saiten Bass: H E A D G</translation>
+    </message>
+    <message>
+        <source>6-str. bass: B E A D G C</source>
+        <translation>6-Saiten Bass: H E A D G C</translation>
+    </message>
+</context>
+<context>
     <name>TupdateChecker</name>
     <message>
         <source>Checking for updates. Please wait...</source>
@@ -3193,7 +3268,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation>Ok</translation>
+        <translation type="vanished">Ok</translation>
     </message>
     <message>
         <source>Updates</source>
