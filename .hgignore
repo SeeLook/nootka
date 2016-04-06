@@ -8,4 +8,4 @@ CMakeLists.txt.user*
 *pro.user
 .kdev_include_paths
 .DS_Store
-
+gradle.properties*
