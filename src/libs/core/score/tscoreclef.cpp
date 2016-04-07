@@ -92,7 +92,7 @@ void TscoreClef::setClef(Tclef clef) {
 	if (clef.type() == Tclef::e_pianoStaff) {
 		if (!m_lowerClef) {
 			m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::e_bass_F));
-			m_lowerClef->setPos(0.5, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()) + 0.1);
+      m_lowerClef->setPos(0.5, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()));
 			connect(m_lowerClef, SIGNAL(clefChanged(Tclef)), this, SLOT(lowerClefChanged(Tclef)));
 		} else // clefs already set to piano mode
 				return;

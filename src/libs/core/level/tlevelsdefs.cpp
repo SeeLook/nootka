@@ -125,6 +125,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.melodyLen = 1;
   llist << l;
   //----------------------------------------------------------------------------
+  l = Tlevel();
   l.name = QApplication::translate("Tlevel", "Grand staff");
   l.desc = QApplication::translate("Tlevel", "Guess notes from grand staff in different keys");
   l.clef = Tclef(Tclef::e_pianoStaff);
@@ -133,7 +134,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.questionAs.setAsFret(isGuitar);
   l.answersAs[0] = TQAtype(false, true, isGuitar, false);
   l.answersAs[1] = TQAtype(true, false, false, false);
-  l.answersAs[2] = TQAtype(false, false, false, false);
+  l.answersAs[2] = TQAtype(isGuitar, false, false, false);
   l.answersAs[3] = TQAtype(false, false, false, false);
   l.withSharps = true;
   l.withFlats = true;
@@ -146,9 +147,15 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.requireOctave = true;
   l.requireStyle = false;
   l.showStrNr = isGuitar;
-  l.loNote = Tcore::gl()->loNote();
-  l.hiNote = Tcore::gl()->hiNote();
-  l.hiFret = Tcore::gl()->GfretsNumber;// loFret is 0 by constructor
+  if (isGuitar) { // till 12 fret on guitar
+    if (l.hiFret >= 12) { // adjust highest note to 12th fret
+      l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 12);
+      l.hiFret = 12;
+    }
+  } else { // for non guitar whole scale
+    l.loNote = Tcore::gl()->loNote();
+    l.hiNote = Tcore::gl()->hiNote();
+  }
   l.intonation = 0; // do not check
   l.melodyLen = 1;
   llist << l;

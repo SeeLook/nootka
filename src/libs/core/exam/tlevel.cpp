@@ -256,10 +256,10 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 	if (name == "") {
 		qDebug() << "Level key has empty 'name' attribute";
 		return e_otherError;
-	} else if (name.size() > 25) {
-		name = name.left(25);
+  } else if (name.size() > 29) {
+    name = name.left(29);
 		er = e_levelFixed;
-		qDebug() << "Name of a level was reduced to 25 characters:" << name;
+    qDebug() << "Name of a level was reduced to 29 characters:" << name;
 	}
 // 	}
 	while (xml.readNextStartElement()) {
