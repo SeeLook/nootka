@@ -440,6 +440,7 @@ void TmainScore::clearScore() {
 			selectNote(-1);
 			staff()->noteSegment(0)->markNote(-1);
 			staff()->noteSegment(0)->removeNoteName();
+      staff()->noteSegment(0)->removeString();
 	}
 // 	for (int st = 0; st < staffCount(); st++) {
 // 		for (int no = 0; no < staves(st)->count(); no++)
