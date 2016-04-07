@@ -165,18 +165,18 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
 
 // -------- level selector and preview (under mobile it is another widget on the stack)
   auto levelsLay = new QVBoxLayout;
-  levelsLay->addWidget(m_levelsView);
-  levelsLay->addWidget(m_createLevelButt);
-  levelsLay->addWidget(moreLab, 0, Qt::AlignCenter);
 #if defined (Q_OS_ANDROID)
   levelsLay->addStretch();
     auto addButtLay = new QHBoxLayout;
+      addButtLay->addWidget(backButton);
       addButtLay->addWidget(m_mobExerButton);
       addButtLay->addWidget(m_mobExamButton);
-      addButtLay->addWidget(backButton);
   levelsLay->addLayout(addButtLay);
-  levelsLay->addStretch();
 #endif
+  levelsLay->addWidget(m_levelsView);
+  levelsLay->addWidget(m_createLevelButt);
+  levelsLay->addWidget(moreLab, 0, Qt::AlignCenter);
+  levelsLay->addStretch();
   auto levelsBox = new QWidget(this);
     levelsLay->setContentsMargins(0, 0, 0, 0);
     levelsBox->setLayout(levelsLay);
