@@ -37,8 +37,11 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
   TtouchArea(parent),
   m_currentInstr(-1)
 {
-  m_customTune = new Ttune();
-  *m_customTune = *(Tcore::gl()->Gtune());
+  qDebug() << Tcore::gl()->Gtune()->name << Tcore::gl()->Gtune()->stringNr() << Tcore::gl()->Gtune()->str(1).toRichText()
+           << Tcore::gl()->Gtune()->str(2).toRichText() << Tcore::gl()->Gtune()->str(3).toRichText();
+  m_customTune = new Ttune(Tcore::gl()->Gtune()->name, Tcore::gl()->Gtune()->str(1), Tcore::gl()->Gtune()->str(2),
+                           Tcore::gl()->Gtune()->str(3), Tcore::gl()->Gtune()->str(4), Tcore::gl()->Gtune()->str(5));
+  qDebug() << m_customTune->name << Tcore::gl()->Gtune()->name;
   m_curentTune = Tcore::gl()->Gtune();
   
   tuningGuitarText = tr("tuning of the guitar");
@@ -226,14 +229,17 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
   setLayout(mainLay);
 
-  connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
-  connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
-  connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-  connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
-  connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
+//  connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
+//  connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
+//  connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+//  connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
+//  connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
   
   m_selectInstr->setInstrument((int)Tcore::gl()->instrument);
-  instrumentTypeChanged((int)Tcore::gl()->instrument);
+  if (Tcore::gl()->instrument == e_noInstrument) {
+      guitarDisabled(true);
+  } else
+      instrumentTypeChanged((int)Tcore::gl()->instrument);
   setTune(Tcore::gl()->Gtune());
   m_fretsNrSpin->setValue(Tcore::gl()->GfretsNumber);
   if (Tcore::gl()->instrument != e_noInstrument) {
@@ -261,6 +267,13 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
     m_tuneView->setNote(5, Tcore::gl()->hiNote());
   }
   updateAmbitus();
+
+  connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
+  connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
+  connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+  connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
+  connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
+
 #if defined(Q_OS_WIN)
   QTimer::singleShot(5, this, SLOT(delayedBgGlyph()));
 #endif
@@ -268,78 +281,77 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
 
 TguitarSettings::~TguitarSettings() {
-	delete m_customTune;
+  delete m_customTune;
 }
 
 
 void TguitarSettings::saveSettings() {
-	Tcore::gl()->instrument = (Einstrument)m_selectInstr->instrument();
+  Tcore::gl()->instrument = (Einstrument)m_selectInstr->instrument();
 #if !defined (Q_OS_ANDROID)
-	Tcore::gl()->GisRightHanded = m_righthandCh->isChecked();
+  Tcore::gl()->GisRightHanded = m_righthandCh->isChecked();
 #endif
-	Tcore::gl()->GfretsNumber = m_fretsNrSpin->value();
-	Ttune *tmpTune = new Ttune();
-	if (Tcore::gl()->instrument != e_noInstrument)
-			grabTuneFromScore(tmpTune);
-// 			tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
-// 											m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
-	else { // instrument scale taken from note segments 4 & 5
-		Tnote hiN, loN; // fix notes order
-		if (m_tuneView->getNote(5).chromatic() < m_tuneView->getNote(4).chromatic()) {
-			hiN = m_tuneView->getNote(4);
-			loN = m_tuneView->getNote(5);
-		} else {
-			hiN = m_tuneView->getNote(5);
-			loN = m_tuneView->getNote(4);
-		}
-		*tmpTune = Ttune("scale", 
-												Tnote(hiN.chromatic() - m_fretsNrSpin->value()), loN,
-												Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)	);
-	}
-	Tcore::gl()->setTune(*tmpTune);
-	delete tmpTune;
-	Tcore::gl()->GshowOtherPos = m_morePosCh->isChecked();
-	if (m_prefFlatBut->isChecked()) 
-			Tcore::gl()->GpreferFlats = true;
-	else 
-			Tcore::gl()->GpreferFlats = false;
-	Tcore::gl()->GfingerColor = m_pointColorBut->getColor();
-	Tcore::gl()->GfingerColor.setAlpha(200);
-	Tcore::gl()->GselectedColor = m_selColorBut->getColor();
-	checkFretsAndStore(Tcore::gl()->GmarkedFrets);
+  Tcore::gl()->GfretsNumber = m_fretsNrSpin->value();
+  Ttune *tmpTune = new Ttune();
+  if (Tcore::gl()->instrument != e_noInstrument)
+      grabTuneFromScore(tmpTune);
+//       tmpTune = new Ttune(m_tuneCombo->currentText(), m_tuneView->getNote(5), m_tuneView->getNote(4),
+//                       m_tuneView->getNote(3), m_tuneView->getNote(2), m_tuneView->getNote(1), m_tuneView->getNote(0));
+  else { // instrument scale taken from note segments 4 & 5
+    Tnote hiN, loN; // fix notes order
+    if (m_tuneView->getNote(5).chromatic() < m_tuneView->getNote(4).chromatic()) {
+      hiN = m_tuneView->getNote(4);
+      loN = m_tuneView->getNote(5);
+    } else {
+      hiN = m_tuneView->getNote(5);
+      loN = m_tuneView->getNote(4);
+    }
+    *tmpTune = Ttune(QLatin1String("scale"), Tnote(hiN.chromatic() - m_fretsNrSpin->value()), loN,
+                                             Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Tnote(0, 0, 0)  );
+  }
+  Tcore::gl()->setTune(*tmpTune);
+  delete tmpTune;
+  Tcore::gl()->GshowOtherPos = m_morePosCh->isChecked();
+  if (m_prefFlatBut->isChecked())
+      Tcore::gl()->GpreferFlats = true;
+  else
+      Tcore::gl()->GpreferFlats = false;
+  Tcore::gl()->GfingerColor = m_pointColorBut->getColor();
+  Tcore::gl()->GfingerColor.setAlpha(200);
+  Tcore::gl()->GselectedColor = m_selColorBut->getColor();
+  checkFretsAndStore(Tcore::gl()->GmarkedFrets);
 }
 
 
 void TguitarSettings::restoreDefaults() {
-		instrumentTypeChanged(1); // It will restore tune (standard), frets and strings number and clef
+    instrumentTypeChanged(1); // It will restore tune (standard), frets and strings number and clef
 #if !defined (Q_OS_ANDROID)
-		m_righthandCh->setChecked(true);
+    m_righthandCh->setChecked(true);
 #endif
-		m_prefSharpBut->setChecked(true);
-		m_morePosCh->setChecked(false);
-		m_pointColorBut->setColor(QColor(255, 0, 127, 200));
-		m_selColorBut->setColor(QColor(51, 153, 255));
-		m_fretMarksEdit->setText("5,7,9,12!,15,19");
+    m_prefSharpBut->setChecked(true);
+    m_morePosCh->setChecked(false);
+    m_pointColorBut->setColor(QColor(255, 0, 127, 200));
+    m_selColorBut->setColor(QColor(51, 153, 255));
+    m_fretMarksEdit->setText("5,7,9,12!,15,19");
 }
 
 
 Tnote TguitarSettings::lowestNote() {
-// 		int lowest = -1;
-// 		char loNr = 127;
-// 		for (int i = 0; i < 6; i++) {
-// 			if (m_tuneView->getNote(i).note) {
-// 				if (m_tuneView->getNote(i).chromatic() < loNr) {
-// 					loNr = m_tuneView->getNote(i).chromatic();
-// 					lowest = i;
-// 				}
-// 			}
-// 		}
-// 		if (lowest > -1)
-// 			return m_tuneView->getNote(lowest);
-// 		else
-			return m_tuneView->lowestNote();
-	/** it should be quite enough to determine pitch detection range.
-	 * For other purposes enable the above code. */
+//     int lowest = -1;
+//     char loNr = 127;
+//     for (int i = 0; i < 6; i++) {
+//       if (m_tuneView->getNote(i).note) {
+//         if (m_tuneView->getNote(i).chromatic() < loNr) {
+//           loNr = m_tuneView->getNote(i).chromatic();
+//           lowest = i;
+//         }
+//       }
+//     }
+//     if (lowest > -1)
+//       return m_tuneView->getNote(lowest);
+//     else
+      return m_tuneView->lowestNote();
+  /** it should be quite enough to determine pitch detection range.
+   * For other purposes enable the above code. */
 }
 
 
@@ -349,44 +361,44 @@ Tnote TguitarSettings::lowestNote() {
 
 void TguitarSettings::setTune(Ttune* tune) {
     for (int i = 0; i < 6; i++) {
-				m_tuneView->setNote(i, tune->str(6 - i));
-				m_tuneView->setNoteDisabled(i, !(bool)tune->str(6 - i).note);
-				if (m_selectInstr->instrument() != 0 && tune->str(6 - i).note)
-					m_tuneView->setStringNumber(i, 6 - i);
-				else
-					m_tuneView->clearStringNumber(i);
+        m_tuneView->setNote(i, tune->str(6 - i));
+        m_tuneView->setNoteDisabled(i, !(bool)tune->str(6 - i).note);
+        if (m_selectInstr->instrument() != 0 && tune->str(6 - i).note)
+          m_tuneView->setStringNumber(i, 6 - i);
+        else
+          m_tuneView->clearStringNumber(i);
     }
     m_stringNrSpin->setValue(tune->stringNr());
-		m_curentTune = tune;
-		emit tuneChanged(m_curentTune);
+    m_curentTune = tune;
+    emit tuneChanged(m_curentTune);
 }
 
 
 void TguitarSettings::updateAmbitus() {
-	Tnote highest = Tnote(m_tuneView->highestNote().chromatic() - m_fretsNrSpin->value());
-	if (m_selectInstr->instrument() == 0) // other instrument has no frets
-		highest = m_tuneView->highestNote();
-	for (int i = 0; i < 6; i++)
-		m_tuneView->setAmbitus(i, m_tuneView->lowestNote(), highest);
+  Tnote highest = Tnote(m_tuneView->highestNote().chromatic() - m_fretsNrSpin->value());
+  if (m_selectInstr->instrument() == 0) // other instrument has no frets
+    highest = m_tuneView->highestNote();
+  for (int i = 0; i < 6; i++)
+    m_tuneView->setAmbitus(i, m_tuneView->lowestNote(), highest);
 }
 
 
 void TguitarSettings::grabTuneFromScore(Ttune* tune) {
-		Tnote nn[6];
-		int stringNr = 0;
-		for (int i = 0; i < 6; i++) {
-			nn[i] = fixEmptyNote(i);
-			if (nn[i].note !=0)
-					stringNr++;
-		}
-		QString tuneName;
-		if (stringNr > 2)
-				tuneName = m_tuneCombo->currentText();
-		else {
-				tuneName = "scale";
-				nn[5] = Tnote(nn[5].chromatic() - m_fretsNrSpin->value());
-		}
-		*tune = Ttune(tuneName, nn[5], nn[4], nn[3], nn[2], nn[1], nn[0]);
+    Tnote nn[6];
+    int stringNr = 0;
+    for (int i = 0; i < 6; i++) {
+      nn[i] = fixEmptyNote(i);
+      if (nn[i].note !=0)
+          stringNr++;
+    }
+    QString tuneName;
+    if (stringNr > 2)
+        tuneName = m_tuneCombo->currentText();
+    else {
+        tuneName = "scale";
+        nn[5] = Tnote(nn[5].chromatic() - m_fretsNrSpin->value());
+    }
+    *tune = Ttune(tuneName, nn[5], nn[4], nn[3], nn[2], nn[1], nn[0]);
 }
 
 
@@ -395,29 +407,29 @@ void TguitarSettings::grabTuneFromScore(Ttune* tune) {
 //##########################################################################################################
 
 void TguitarSettings::tuneSelected(int tuneId) {
-	disconnect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
-	if (m_selectInstr->instrument() == 1 || m_selectInstr->instrument() == 2) { // classical guitar
-		if (tuneId < m_tuneCombo->count() - 1) // set default clef for defined tunes
-				m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
+  disconnect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
+  if (m_selectInstr->instrument() == 1 || m_selectInstr->instrument() == 2) { // classical guitar
+    if (tuneId < m_tuneCombo->count() - 1) // set default clef for defined tunes
+        m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
     if (tuneId == 0)
         setTune(&Ttune::stdTune);
     else if (tuneId != m_tuneCombo->count() - 1) //the last is custom
-				setTune(&Ttune::tunes[tuneId - 1]);
-	} else if (m_selectInstr->instrument() == 3) { // bass guitar
-			if (tuneId != m_tuneCombo->count() - 1) { //the last is custom
-				m_tuneView->setClef(Tclef(Tclef::e_bass_F_8down));
-				setTune(&Ttune::bassTunes[tuneId]);
-			}
-	}
-	connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
+        setTune(&Ttune::tunes[tuneId - 1]);
+  } else if (m_selectInstr->instrument() == 3) { // bass guitar
+      if (tuneId != m_tuneCombo->count() - 1) { //the last is custom
+        m_tuneView->setClef(Tclef(Tclef::e_bass_F_8down));
+        setTune(&Ttune::bassTunes[tuneId]);
+      }
+  }
+  connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
 }
 
 
 void TguitarSettings::userTune(int, Tnote) {
     m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
-		grabTuneFromScore(m_customTune);
-		m_curentTune = m_customTune;
-		emit tuneChanged(m_customTune);
+    grabTuneFromScore(m_customTune);
+    m_curentTune = m_customTune;
+    emit tuneChanged(m_customTune);
 }
 
 
@@ -434,83 +446,83 @@ void TguitarSettings::onClefChanged(Tclef clef) {
 
 
 Tclef TguitarSettings::currentClef() {
-		return m_tuneView->clef();
+    return m_tuneView->clef();
 }
 
 
 void TguitarSettings::stringNrChanged(int strNr) {
-		for (int i = 0; i < 6; i++) {
-			if (m_tuneView->getNote(i).note) {
-				if (i < 6 - strNr) {
-					m_tuneView->setNote(i ,Tnote(0, 0, 0));
-					m_tuneView->clearStringNumber(i);
-					m_tuneView->setNoteDisabled(i, true);
-				}
-			} else {
-				if (i >= 6 - strNr) {
-					m_tuneView->setNote(i, m_tuneView->lowestNote());
-					m_tuneView->setStringNumber(i, 6 - i);
-					m_tuneView->setNoteDisabled(i, false);
-				}
-			}
-		}
-		userTune(0, Tnote()); // values in params are unused
+    for (int i = 0; i < 6; i++) {
+      if (m_tuneView->getNote(i).note) {
+        if (i < 6 - strNr) {
+          m_tuneView->setNote(i ,Tnote(0, 0, 0));
+          m_tuneView->clearStringNumber(i);
+          m_tuneView->setNoteDisabled(i, true);
+        }
+      } else {
+        if (i >= 6 - strNr) {
+          m_tuneView->setNote(i, m_tuneView->lowestNote());
+          m_tuneView->setStringNumber(i, 6 - i);
+          m_tuneView->setNoteDisabled(i, false);
+        }
+      }
+    }
+    userTune(0, Tnote()); // values in params are unused
 }
 
 
 void TguitarSettings::instrumentTypeChanged(int index) {
-	if (m_currentInstr == index)
-		return;
-	
-	m_tuneCombo->clear();
-	m_currentInstr = index;
-	if ((Einstrument)index == e_classicalGuitar || (Einstrument)index == e_electricGuitar) {
-			m_tuneCombo->addItem(Ttune::stdTune.name);
-			for (int i = 0; i < 4; i++) {
-					m_tuneCombo->addItem(Ttune::tunes[i].name);
-			}
-			if ((Einstrument)index == e_classicalGuitar)
-					m_fretsNrSpin->setValue(19);
-			else
-					m_fretsNrSpin->setValue(23);
-			m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
-			setTune(&Ttune::stdTune);
-			m_tuneCombo->setCurrentIndex(0);
-			m_stringNrSpin->setValue(Ttune::tunes[0].stringNr());
-	} else if ((Einstrument)index == e_bassGuitar) { // bass guitar
-			for (int i = 0; i < 4; i++) {
+  if (m_currentInstr == index)
+    return;
+
+  m_tuneCombo->clear();
+  m_currentInstr = index;
+  if ((Einstrument)index == e_classicalGuitar || (Einstrument)index == e_electricGuitar) {
+      m_tuneCombo->addItem(Ttune::stdTune.name);
+      for (int i = 0; i < 4; i++) {
+          m_tuneCombo->addItem(Ttune::tunes[i].name);
+      }
+      if ((Einstrument)index == e_classicalGuitar)
+          m_fretsNrSpin->setValue(19);
+      else
+          m_fretsNrSpin->setValue(23);
+      m_tuneView->setClef(Tclef(Tclef::e_treble_G_8down));
+      setTune(&Ttune::stdTune);
+      m_tuneCombo->setCurrentIndex(0);
+      m_stringNrSpin->setValue(Ttune::tunes[0].stringNr());
+  } else if ((Einstrument)index == e_bassGuitar) { // bass guitar
+      for (int i = 0; i < 4; i++) {
         m_tuneCombo->addItem(Ttune::bassTunes[i].name);
-			}
-			m_fretsNrSpin->setValue(20);
-			m_tuneView->setClef(Tclef(Tclef::e_bass_F_8down));
-			setTune(&Ttune::bassTunes[0]);
-			m_tuneCombo->setCurrentIndex(0);
-			m_stringNrSpin->setValue(Ttune::bassTunes[0].stringNr());
-	} else {
-			guitarDisabled(true);
-			m_stringNrSpin->setValue(2); // fake two strings
-			m_tuneView->setClef(Tclef(Tclef::e_treble_G));
-			m_fretsNrSpin->setValue(19); // no need but keep it default
-			for (int i = 0; i < 6; i++) {
-				if (i < 4)
-					m_tuneView->setNoteDisabled(i, true);
-				m_tuneView->clearNote(i);
-				m_tuneView->clearStringNumber(i);
-			}
-			updateAmbitus();
-			m_tuneView->setNote(4, m_tuneView->lowestNote());
-			m_tuneView->setNote(5, m_tuneView->highestNote());
-			grabTuneFromScore(m_curentTune);
-			emit tuneChanged(currentTune());
-	}
-	if ((Einstrument)index != e_noInstrument) {
-		if (!m_accidGroup->isEnabled())
-				guitarDisabled(false);
-		m_tuneCombo->addItem(tr("Custom tuning"));
-	}
+      }
+      m_fretsNrSpin->setValue(20);
+      m_tuneView->setClef(Tclef(Tclef::e_bass_F_8down));
+      setTune(&Ttune::bassTunes[0]);
+      m_tuneCombo->setCurrentIndex(0);
+      m_stringNrSpin->setValue(Ttune::bassTunes[0].stringNr());
+  } else {
+      guitarDisabled(true);
+      m_stringNrSpin->setValue(2); // fake two strings
+      m_tuneView->setClef(Tclef(Tclef::e_treble_G));
+      m_fretsNrSpin->setValue(19); // no need but keep it default
+      for (int i = 0; i < 6; i++) {
+        if (i < 4)
+          m_tuneView->setNoteDisabled(i, true);
+        m_tuneView->clearNote(i);
+        m_tuneView->clearStringNumber(i);
+      }
+      updateAmbitus();
+      m_tuneView->setNote(4, m_tuneView->lowestNote());
+      m_tuneView->setNote(5, m_tuneView->highestNote());
+      grabTuneFromScore(m_curentTune);
+      emit tuneChanged(currentTune());
+  }
+  if ((Einstrument)index != e_noInstrument) {
+    if (!m_accidGroup->isEnabled())
+        guitarDisabled(false);
+    m_tuneCombo->addItem(tr("Custom tuning"));
+  }
   m_tuneView->addBGglyph(index);
-	emit instrumentChanged(index);
-	emit clefChanged(m_tuneView->clef());
+  emit instrumentChanged(index);
+  emit clefChanged(m_tuneView->clef());
 }
 
 
@@ -540,10 +552,10 @@ void TguitarSettings::guitarDisabled(bool disabled) {
 
 
 void TguitarSettings::updateNotesState() {
-		Ttune *tmpTune = new Ttune();
-		grabTuneFromScore(tmpTune);
-		for (int i = 0; i < 6; i++) {
-			if (i >= 6 - tmpTune->stringNr()) {
+    Ttune *tmpTune = new Ttune();
+    grabTuneFromScore(tmpTune);
+    for (int i = 0; i < 6; i++) {
+      if (i >= 6 - tmpTune->stringNr()) {
         if (m_tuneView->getNote(i).note == 0) {
           m_tuneView->setNote(i, m_tuneView->lowestNote());
           userTune(0, Tnote());
@@ -552,47 +564,47 @@ void TguitarSettings::updateNotesState() {
           m_tuneView->setStringNumber(i, 6 - i);
         else
           m_tuneView->clearStringNumber(i);
-			}
-		}
-		delete tmpTune;
+      }
+    }
+    delete tmpTune;
 }
 
 
 Tnote TguitarSettings::fixEmptyNote(int noteSegm) {
-	Tnote nn = m_tuneView->getNote(noteSegm);
-	if (m_tuneView->isNoteDisabled(noteSegm))
-			nn = Tnote(); // empty because disabled
-	else if (nn.note == 0) // empty because stupid
-			nn = Tnote(m_tuneView->lowestNote().chromatic() + noteSegm);
-	return nn;
+  Tnote nn = m_tuneView->getNote(noteSegm);
+  if (m_tuneView->isNoteDisabled(noteSegm))
+      nn = Tnote(); // empty because disabled
+  else if (nn.note == 0) // empty because stupid
+      nn = Tnote(m_tuneView->lowestNote().chromatic() + noteSegm);
+  return nn;
 }
 
 
 void TguitarSettings::checkFretsAndStore(QList<QVariant>& fretList) {
-	fretList.clear();
-	QStringList fr = m_fretMarksEdit->text().split(",");
-	for (int i = 0; i < fr.size(); ++i) {
-		QString exMark = "";
-		if (fr[i].contains("!")) {
-			exMark = "!";
-			fr[i].replace("!", "");
-		}
-		bool ok;
-		int frNr = fr[i].toInt(&ok);
-		if (ok && frNr > 0 && frNr <= m_fretsNrSpin->value())
-			fretList << fr[i] + exMark;
-	}
+  fretList.clear();
+  QStringList fr = m_fretMarksEdit->text().split(",");
+  for (int i = 0; i < fr.size(); ++i) {
+    QString exMark = "";
+    if (fr[i].contains("!")) {
+      exMark = "!";
+      fr[i].replace("!", "");
+    }
+    bool ok;
+    int frNr = fr[i].toInt(&ok);
+    if (ok && frNr > 0 && frNr <= m_fretsNrSpin->value())
+      fretList << fr[i] + exMark;
+  }
 }
 
 
 QString TguitarSettings::grabFretsFromList(const QList<QVariant>& fretList) {
-	QString fretText;
-	for (int i = 0; i < fretList.size(); ++i) {
-		fretText.append(fretList.at(i).toString());
-		if (i < fretList.size() - 1)
-			fretText.append(",");
-	}
-	return fretText;
+  QString fretText;
+  for (int i = 0; i < fretList.size(); ++i) {
+    fretText.append(fretList.at(i).toString());
+    if (i < fretList.size() - 1)
+      fretText.append(",");
+  }
+  return fretText;
 }
 
 
