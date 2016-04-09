@@ -96,12 +96,15 @@ protected:
 
 	void linkHoveredSlot(const QString & link);
 
+private:
+  void initTimer();
 
 private:
   QColor 							m_bgColor, m_baseColor, m_frameColor;
 	bool 								m_movable, m_mouseClick;
 	QPointF 						m_lastPos;
 	Qt::CursorShape			m_lastLinkCursor;
+  QTimer             *m_signalTimer; /**< Delays emitting click signals to properly release mouse event */
 };
 
 #endif // TGRAPHICSTEXTTIP_H

@@ -63,6 +63,7 @@ TgraphicsTextTip::TgraphicsTextTip(const QString& text, QColor bgColor) :
   if (m_bgColor != -1)
       m_frameColor = QColor(m_bgColor.name());
   m_baseColor = qApp->palette().base().color();
+  initTimer();
 }
 
 
@@ -73,11 +74,13 @@ TgraphicsTextTip::TgraphicsTextTip() :
 {
   setDropShadow(this);
   m_baseColor = qApp->palette().base().color();
+  initTimer();
 }
 
 
 TgraphicsTextTip::~TgraphicsTextTip()
 {
+  m_signalTimer->stop();
   setCursor(Qt::ArrowCursor); // when exam is managed with keys it may stay look as 'dragging', better back it to 'arrow'
 }
 
@@ -211,7 +214,7 @@ void TgraphicsTextTip::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
   if (m_mouseClick) {
     if (m_lastPos == event->scenePos()) {
       clearFocus();
-      QTimer::singleShot(5, [=]{ emit clicked(); });
+      m_signalTimer->start(5);
     }
     m_mouseClick = false;
     update();
@@ -221,7 +224,13 @@ void TgraphicsTextTip::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 
-
+void TgraphicsTextTip::initTimer() {
+  m_signalTimer = new QTimer(this);
+  connect(m_signalTimer, &QTimer::timeout, [=]{
+    m_signalTimer->stop();
+    emit clicked();
+  });
+}
 
 
 
