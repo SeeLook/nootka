@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -113,6 +113,13 @@ void TfirstRunWizard::pageChanged(int pageNr) {
 
 
 void TfirstRunWizard::done(int result) {
+  if (result == QDialog::Rejected) { // restore defaults
+    Tcore::gl()->instrument = e_classicalGuitar;
+    m_page3->select7->set7th_B(TmiscTrans::note7txt().toLower() == QLatin1String("b"));
+    m_page3->dblAccChB->setChecked(false);
+    m_page3->enharmChB->setChecked(false);
+    m_page3->useKeyChB->setChecked(false);
+  }
   if (m_page3->select7->is7th_B()) {
       Tcore::gl()->S->seventhIs_B = true;
       Tcore::gl()->S->nameStyleInNoteName = Tnote::e_english_Bb;
@@ -149,11 +156,11 @@ void TfirstRunWizard::done(int result) {
       Tnote hiN, loN; // fix notes order
       if (m_notationWidget->score()->getNote(1).chromatic() <
               m_notationWidget->score()->getNote(0).chromatic()) {
-          hiN = m_notationWidget->score()->getNote(1);
-          loN = m_notationWidget->score()->getNote(0);
-      } else {
           hiN = m_notationWidget->score()->getNote(0);
           loN = m_notationWidget->score()->getNote(1);
+      } else {
+          hiN = m_notationWidget->score()->getNote(1);
+          loN = m_notationWidget->score()->getNote(0);
       }
       Ttune instrScale("scale", Tnote(hiN.chromatic() - Tcore::gl()->GfretsNumber), loN);
       Tcore::gl()->setTune(instrScale);
@@ -263,10 +270,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
 
     select7 = new Select7note(this);
     lay->addWidget(select7);
-    if (TmiscTrans::note7txt().toLower() == "b")
-      select7->set7th_B(true);
-    else
-      select7->set7th_B(false);
+    select7->set7th_B(TmiscTrans::note7txt().toLower() == "b");
 		scaleLab = new TscalePreviewLabel(select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb, false, this);
 		lay->addWidget(scaleLab, 0, Qt::AlignCenter);
     lay->addStretch(1);

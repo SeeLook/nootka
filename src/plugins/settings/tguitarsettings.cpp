@@ -153,14 +153,11 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
 
   setLayout(mainLay);
 
-  connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
-  connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
-  connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-  connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
-  connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
-  
   m_selectInstr->setInstrument((int)Tcore::gl()->instrument);
-  instrumentTypeChanged((int)Tcore::gl()->instrument);
+  if (Tcore::gl()->instrument == e_noInstrument) {
+      guitarDisabled(true);
+  } else
+      instrumentTypeChanged((int)Tcore::gl()->instrument);
   setTune(Tcore::gl()->Gtune());
   m_fretsNrSpin->setValue(Tcore::gl()->GfretsNumber);
   if (Tcore::gl()->instrument != e_noInstrument) {
@@ -183,11 +180,19 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
       if (Tcore::gl()->Gtune()->name == S)
           m_tuneCombo->setCurrentIndex(m_tuneCombo->count() - 1);
   } else { // Apply instrument scale
+    qDebug() << instrumentToText(Tcore::gl()->instrument) << Tcore::gl()->Gtune()->name << Tcore::gl()->loNote().toRichText()
+             << Tcore::gl()->hiNote().toRichText();
     m_tuneView->setClef(Tclef(Tcore::gl()->S->clef));
     m_tuneView->setNote(4, Tcore::gl()->loNote());
     m_tuneView->setNote(5, Tcore::gl()->hiNote());
   }
   updateAmbitus();
+
+  connect(m_tuneCombo, SIGNAL(activated(int)), this, SLOT(tuneSelected(int)));
+  connect(m_tuneView, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(userTune(int, Tnote)));
+  connect(m_tuneView, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
+  connect(m_selectInstr, SIGNAL(instrumentChanged(int)), this, SLOT(instrumentTypeChanged(int)));
+  connect(m_stringNrSpin, SIGNAL(valueChanged(int)), this, SLOT(stringNrChanged(int)));
 #if defined(Q_OS_WIN)
   QTimer::singleShot(5, this, SLOT(delayedBgGlyph()));
 #endif
