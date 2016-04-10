@@ -62,7 +62,9 @@ private:
     QSpinBox 				*m_fromSpinB, *m_toSpinB;
     QCheckBox 			*m_stringBut[6];
 		QPushButton			*m_fretAdjustButt, *m_noteAdjustButt;
-		
+#if defined (Q_OS_ANDROID)
+    QLabel          *m_fretAdjLabel, *m_noteAdjLabel, *m_strGrLabel;
+#endif
 
 private slots:
     void stringSelected();
