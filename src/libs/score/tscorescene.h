@@ -106,6 +106,9 @@ public:
 		
 		void prepareToChangeRect(); /** It has to be invoked whenever score rectangle is going to change. I.e. by resize event of a view. */
     void restoreAfterRectChange(); /** Scene will try to adjust itself to new size.  */
+
+       /** Sets note cursor parent item to 0 */
+    void releaseNoteCursor() { setCursorParent(0); }
 		
 signals:
     void statusTip(QString);
