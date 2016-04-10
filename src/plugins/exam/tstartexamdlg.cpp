@@ -388,7 +388,14 @@ void TstartExamDlg::startAccepted() {
 
 
 void TstartExamDlg::giveUserNameMessage() {
+#if defined (Q_OS_ANDROID)
+  QString name = QInputDialog::getText(this, tr("Give a user name!"), tr("Enter your name or nick-name."));
+  if (name.isEmpty())
+    name = QStringLiteral("Android");
+  m_nameEdit->setText(name);
+#else
   QMessageBox::warning(this, QString(), tr("Give a user name!"));
+#endif
 }
 
 
