@@ -57,7 +57,8 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
   scoreLay->addWidget(m_scoreRang);
   scoreLay->addWidget(m_fretAdjustButt);
 #if defined (Q_OS_ANDROID)
-  scoreLay->addWidget(getLabelFromStatus(m_fretAdjustButt, false, true));
+  m_fretAdjLabel = getLabelFromStatus(m_fretAdjustButt, false, true);
+  scoreLay->addWidget(m_fretAdjLabel);
 #endif
 
   notesRangGr->setLayout(scoreLay);
@@ -84,7 +85,8 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
   guitLay->addWidget(m_fretGr);
   guitLay->addWidget(m_noteAdjustButt, 1, Qt::AlignCenter);
 #if defined (Q_OS_ANDROID)
-  guitLay->addWidget(getLabelFromStatus(m_noteAdjustButt, false, true));
+  m_noteAdjLabel = getLabelFromStatus(m_noteAdjustButt, false, true);
+  guitLay->addWidget(m_noteAdjLabel);
 #endif
   guitLay->addStretch(1);
 
@@ -111,7 +113,8 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
   m_stringsGr->setLayout(strLay);
   guitLay->addWidget(m_stringsGr);
 #if defined (Q_OS_ANDROID)
-  guitLay->addWidget(getLabelFromStatus(m_stringsGr, false, true));
+  m_strGrLabel = getLabelFromStatus(m_stringsGr, false, true);
+  guitLay->addWidget(m_strGrLabel);
 #endif
   guitLay->addStretch(1);
 
@@ -124,6 +127,11 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     m_stringsGr->hide();
     m_fretAdjustButt->hide();
     m_noteAdjustButt->hide();
+#if defined (Q_OS_ANDROID)
+    m_strGrLabel->hide();
+    m_fretAdjLabel->hide();
+    m_noteAdjLabel->hide();
+#endif
   }
 
   connect(m_scoreRang, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenParamsChanged()));
