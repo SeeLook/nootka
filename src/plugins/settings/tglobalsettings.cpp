@@ -58,6 +58,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   m_langCombo->insertSeparator(1);
   lay->addLayout(langLay);
 #if defined (Q_OS_ANDROID)
+  QString restartText = m_langCombo->statusTip(); // status text is deleted by calling getLabelFromStatus
   lay->addWidget(getLabelFromStatus(m_langCombo, false), 0, Qt::AlignCenter);
 #endif
   lay->addStretch(1);
@@ -84,7 +85,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
   lay->addWidget(m_restAllDefaultsBut, 0 , Qt::AlignCenter);
 #if defined (Q_OS_ANDROID)
-  lay->addWidget(getLabelFromStatus(m_restAllDefaultsBut, false), 0, Qt::AlignCenter);
+  lay->addWidget(new QLabel(restartText, this), 0, Qt::AlignCenter); // reuse the same text as m_langCombo had
 #endif
   lay->addStretch(1);
   
