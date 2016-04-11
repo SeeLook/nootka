@@ -186,17 +186,6 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
   connect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
   connect(m_innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
-#if defined (Q_OS_ANDROID)
-  // HACK: The ugly workaround to properly set max note count of staff
-  // by forcing score scene size update.
-  // TODO: find better way in score with rhythms
-  if (!gl->L->guitarEnabled && m_score->insertMode() != TmainScore::e_single) {
-    QTimer::singleShot(100, [=]{
-      m_innerWidget->resize(m_innerWidget->width() - 1, m_innerWidget->height() - 1);
-      m_innerWidget->resize(m_innerWidget->width() + 1, m_innerWidget->height() + 1);
-    });
-  }
-#endif
 }
 
 
