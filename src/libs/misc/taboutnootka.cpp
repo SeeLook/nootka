@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -87,10 +87,14 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     m_navList->addItem(tr("Support"));
     m_navList->item(4)->setIcon(QIcon(Tcore::gl()->path+"picts/support.png"));
     m_navList->item(4)->setTextAlignment(Qt::AlignCenter);
-    m_navList->addItem(tr("Changes"));
-    m_navList->item(5)->setIcon(QIcon(Tcore::gl()->path+"picts/chlog.png"));
+    m_navList->addItem(tr("Donors", "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"));
+    m_navList->item(5)->setIcon(QIcon(Tcore::gl()->path+"picts/donors.png"));
     m_navList->item(5)->setTextAlignment(Qt::AlignCenter);
+    m_navList->addItem(tr("Changes"));
+    m_navList->item(6)->setIcon(QIcon(Tcore::gl()->path+"picts/chlog.png"));
+    m_navList->item(6)->setTextAlignment(Qt::AlignCenter);
 
+    QString br = QStringLiteral("<br>");
 		m_timer = new QTimer(this);
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(moveScroll()));
 		
@@ -180,6 +184,21 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
     TsupportNootka *support = new TsupportNootka(this);
 
+// SPONSORS
+  QWidget *sponsorsWidget = new QWidget(this);
+  QString sponText = QLatin1String("<p style=\"text-align: center;\"><u>")
+      + tr("People and companies who gave material support for the Nootka project") + QLatin1String("</u></p>") + br;
+  sponText += QLatin1String("<ul>");
+  sponText += QString::fromUtf8("<li>Илья Б.</li>");
+  sponText += QLatin1String("<li>Yves Balhant</li>");
+  sponText += QLatin1String("<li>Tomasz Matuszewski</li>");
+  sponText += QLatin1String("</ul>");
+  sponText += QLatin1String("<p style=\"text-align: center;\"><b><big>THANK YOU!</b></big>");
+  QLabel *sponLab = new QLabel(sponText, this);
+  QVBoxLayout *laySpon = new QVBoxLayout;
+    laySpon->addWidget(sponLab);
+  sponsorsWidget->setLayout(laySpon);
+
 // CHANGESLOG
     QTextEdit *chLogTxt = new QTextEdit();
     chLogTxt->setReadOnly(true);
@@ -211,6 +230,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     m_stackLayout->addWidget(m_authorScroll);
     m_stackLayout->addWidget(licenseTxt);
     m_stackLayout->addWidget(support);
+    m_stackLayout->addWidget(sponsorsWidget);
     m_stackLayout->addWidget(chLogTxt);
 
     connect(m_okBut, SIGNAL(clicked()), this, SLOT(accept()));
