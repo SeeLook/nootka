@@ -213,7 +213,7 @@ void TsimpleScore::setAmbitus(Tnote lo, Tnote hi) {
 /** !!!!All values are hard coded */
 Tnote TsimpleScore::lowestNote() {
 	if (staff()->isPianoStaff())
-			return Tnote(5, -2);
+      return Tnote(1, -1);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G)
 			return Tnote(7, -1);
 	if (staff()->scoreClef()->clef().type() == Tclef::e_treble_G_8down)

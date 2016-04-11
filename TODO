@@ -12,8 +12,6 @@
 ============================================================================
 Translations:
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
- - Ttune - new context moved from QObject 
-
  
 ============================================================================
 ANDROID:
@@ -21,11 +19,8 @@ ANDROID:
         - disable sniffing/note by note when audio input is off
         - hide 'clear score' one when undesired (single mode, exam with playing):
           innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
-    - resetting options closes Nootka but does not launch it again
     - no level/exam icon in file manager, not all file managers support opening Nootka files
 
-- when no guitar preview - staff lines are too big
-- keep scroll bar of score always off - it appears when switching single/multi
 - HOME button would be switching available menus
 - handle BACK button to destroy visible menu and/or prevent to close exam
 - duration of animation of note correction was decreased to 200ms to work properly under Android,
