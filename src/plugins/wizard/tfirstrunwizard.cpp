@@ -35,6 +35,9 @@
 #include <tscoreparams.h>
 #include <tlayoutparams.h>
 #include <tpath.h>
+#if defined (Q_OS_ANDROID)
+  #include <qtr.h>
+#endif
 #include <QtWidgets/QtWidgets>
 
 
@@ -139,6 +142,13 @@ void TfirstRunWizard::pageChanged(int pageNr) {
 
 
 void TfirstRunWizard::done(int result) {
+  if (result == QDialog::Rejected) { // restore defaults
+    Tcore::gl()->instrument = e_classicalGuitar;
+    m_page3->select7->set7th_B(TmiscTrans::note7txt().toLower() == QLatin1String("b"));
+    m_page3->dblAccChB->setChecked(false);
+    m_page3->enharmChB->setChecked(false);
+    m_page3->useKeyChB->setChecked(false);
+  }
   if (m_page3->select7->is7th_B()) {
       Tcore::gl()->S->seventhIs_B = true;
       Tcore::gl()->S->nameStyleInNoteName = Tnote::e_english_Bb;
@@ -174,13 +184,13 @@ void TfirstRunWizard::done(int result) {
       Tcore::gl()->S->clef = m_notationWidget->score()->clef().type();
       Tnote hiN, loN; // fix notes order
       if (m_notationWidget->score()->getNote(1).chromatic() < m_notationWidget->score()->getNote(0).chromatic()) {
-          hiN = m_notationWidget->score()->getNote(1);
-          loN = m_notationWidget->score()->getNote(0);
-      } else {
           hiN = m_notationWidget->score()->getNote(0);
           loN = m_notationWidget->score()->getNote(1);
+      } else {
+          hiN = m_notationWidget->score()->getNote(1);
+          loN = m_notationWidget->score()->getNote(0);
       }
-      Ttune instrScale(QStringLiteral("scale"), Tnote(hiN.chromatic() - Tcore::gl()->GfretsNumber), loN);
+      Ttune instrScale(QLatin1String("scale"), Tnote(hiN.chromatic() - Tcore::gl()->GfretsNumber), loN);
       Tcore::gl()->setTune(instrScale);
       Tcore::gl()->A->detectMethod = 0; // MPM for other instruments
       Tcore::gl()->A->minSplitVol = 0.0;
@@ -192,89 +202,91 @@ void TfirstRunWizard::done(int result) {
 
 // To write notes of bass guitar this application uses <b>bass dropped clef</b> (bass clef with \"eight\" digit below) but common practice is to skip this digit and write it in ordinary bass clef. Remember, bass guitar sounds octave lower than notes written in 'normal' bass clef.
 void TfirstRunWizard::whenInstrumentChanged(int instr) {
-	Tcore::gl()->instrument = Einstrument(instr);
-	m_notationWidget->setNoteForInstrument(instr);
-	if ((Einstrument)instr == e_bassGuitar)
-				m_notationWidget->notationNote()->setHtml(QString("<center>%1<br>").
-				arg(wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
-				tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
-					QLatin1String("<br><br>") + wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
-	else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
-				m_notationWidget->notationNote()->setHtml(QLatin1String("<br><br><center>") + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><b><big>Both pictures above show the same note: c<sup>1</sup></big></b><br>(note c in one-line octave)</p>").
-				arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
-				arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + QLatin1String("</center>"));
+    Tcore::gl()->instrument = Einstrument(instr);
+    m_notationWidget->setNoteForInstrument(instr);
+    if ((Einstrument)instr == e_bassGuitar)
+                m_notationWidget->notationNote()->setHtml(QString("<center>%1<br>").
+                arg(wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F, TkeySignature(0), 5.0)) +
+                tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
+                    QLatin1String("<br><br>") + wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
+    else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
+                m_notationWidget->notationNote()->setHtml(QLatin1String("<br><br><center>") + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><b><big>Both pictures above show the same note: c<sup>1</sup></big></b><br>(note c in one-line octave)</p>").
+                arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
+                arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + QLatin1String("</center>"));
 }
 
 //###############################################  Tpage_2   ###############################################
 
 Tpage_2::Tpage_2(QWidget* parent) :
-	QWizardPage(parent),
-	m_notationNote(0),
-	m_score(0)
+    QWizardPage(parent),
+    m_notationNote(0),
+    m_score(0)
 {
-	m_lay = new QVBoxLayout;
+    m_lay = new QVBoxLayout;
 #if defined (Q_OS_ANDROID)
   m_lay->setContentsMargins(0, 0, 0, 0);
 #endif
-	setLayout(m_lay);
+    setLayout(m_lay);
 }
 
 
 void Tpage_2::setNoteForInstrument(int instr) {
-	if ((Einstrument)instr == e_noInstrument) {
-		if (!m_score) {
-			if (m_notationNote) {
-				delete m_notationNote;
-				m_notationNote = 0;
-			}
+  if ((Einstrument)instr == e_noInstrument) {
+    if (!m_score) {
+      if (m_notationNote) {
+        delete m_notationNote;
+        m_notationNote = 0;
+      }
       m_lay->addStretch();
       m_headLabel = new QLabel(headSpan + tr("Select a clef and scale of notes appropriate for your instrument.") + headClose, this);
       m_headLabel->setWordWrap(true);
       m_headLabel->setAlignment(Qt::AlignCenter);
       m_lay->addWidget(m_headLabel);
-			m_score = new TsimpleScore(2, this);
+      m_score = new TsimpleScore(2, this);
       m_lay->addStretch();
-			m_lay->addWidget(m_score, 0, Qt::AlignCenter);
-			m_score->addBGglyph((int)e_noInstrument);
-			m_score->setClef(Tclef(Tclef::e_treble_G));
+      m_lay->addWidget(m_score, 0, Qt::AlignCenter);
+      m_score->addBGglyph((int)e_noInstrument);
+      m_score->setClef(Tclef(Tclef::e_treble_G));
       m_score->setControllersEnabled(false, false); // hide both note controllers
       m_score->setMinimumSize(contentsRect().size() / 1.5);
-			clefChanged();
+      m_score->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+      clefChanged();
       m_lay->addStretch();
-#if !defined (Q_OS_ANDROID)
       m_scoreHint = new TroundedLabel(this);
       m_lay->addWidget(m_scoreHint);
+#if defined (Q_OS_ANDROID)
+      m_scoreHint->setAlignment(Qt::AlignCenter);
+      m_scoreHint->setText(qTR("TouchHelp", "Touch a clef for a while to change it."));
+#else
       m_scoreHint->setFixedHeight(fontMetrics().boundingRect(QLatin1String("A")).height() * 4);
       m_scoreHint->setWordWrap(true);
       m_scoreHint->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-			scoreHint(QString());
-			connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(scoreHint(QString)));
+      scoreHint(QString());
+      connect(m_score, SIGNAL(statusTip(QString)), this, SLOT(scoreHint(QString)));
 #endif
-			connect(m_score, SIGNAL(clefChanged(Tclef)), this, SLOT(clefChanged()));
-		}
-	} else {
-		if (!m_notationNote) {
-			if (m_score) {
-				delete m_score;
-				m_score = 0;
+      connect(m_score, SIGNAL(clefChanged(Tclef)), this, SLOT(clefChanged()));
+    }
+  } else {
+    if (!m_notationNote) {
+      if (m_score) {
+        delete m_score;
+        m_score = 0;
         delete m_headLabel;
-#if !defined (Q_OS_ANDROID)
-				delete m_scoreHint;
-#endif
+        delete m_scoreHint;
         QLayoutItem *child;
         while ((child = m_lay->takeAt(0)) != 0)
           delete child;
-			}
-			m_notationNote = new QTextEdit(this);
-			layout()->addWidget(m_notationNote);
-			m_notationNote->setWordWrapMode(QTextOption::WordWrap);
-			m_notationNote->setReadOnly(true);
+      }
+      m_notationNote = new QTextEdit(this);
+      m_lay->addWidget(m_notationNote);
+      m_notationNote->setWordWrapMode(QTextOption::WordWrap);
+      m_notationNote->setReadOnly(true);
 #if defined (Q_OS_ANDROID)
       m_notationNote->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
       m_notationNote->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #endif
-		}
-	}
+    }
+  }
 }
 
 
@@ -304,10 +316,7 @@ Tpage_3::Tpage_3(QWidget *parent) :
   headLab->setWordWrap(true);
   headLab->setAlignment(Qt::AlignCenter);
   select7 = new Select7note(this);
-  if (TmiscTrans::note7txt().toLower() == QLatin1String("b"))
-    select7->set7th_B(true);
-  else
-    select7->set7th_B(false);
+  select7->set7th_B(TmiscTrans::note7txt().toLower() == QLatin1String("b"));
   scaleLab = new TscalePreviewLabel(select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb, false, this);
   connect(select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteChanged(bool)));
   dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
@@ -336,6 +345,6 @@ Tpage_3::Tpage_3(QWidget *parent) :
 }
 
 void Tpage_3::seventhNoteChanged(bool is7_B) {
-		scaleLab->changeStyle(is7_B? Tnote::e_english_Bb : Tnote::e_norsk_Hb);
+        scaleLab->changeStyle(is7_B? Tnote::e_english_Bb : Tnote::e_norsk_Hb);
 }
 
