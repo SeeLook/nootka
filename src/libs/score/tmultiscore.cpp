@@ -24,6 +24,9 @@
 #include "tscorenote.h"
 #include "tscoreclef.h"
 #include "tnotecontrol.h"
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
 #include <QtWidgets/QtWidgets>
 
 
@@ -49,7 +52,7 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); // it is off by default
   staff()->setZValue(11); // to be above next staves - TnoteControl requires it
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  
+
   setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
   setAlignment(Qt::AlignCenter);
 }
@@ -98,7 +101,8 @@ void TmultiScore::setInsertMode(TmultiScore::EinMode mode) {
         setControllersEnabled(true, true);
         scoreScene()->left()->enableToAddNotes(true);
         scoreScene()->right()->enableToAddNotes(true);
-        setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        if (!TscoreNote::touchEnabled())
+          setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
         setNote(0, Tnote());
     }
@@ -247,6 +251,7 @@ void TmultiScore::removeCurrentNote() {
 void TmultiScore::deleteNotes() {
   if (!staff()->count())
       return; // nothing to delete
+  scoreScene()->releaseNoteCursor();
   m_currentIndex = 0;
   while (staffCount() > 1)
     deleteLastStaff();
@@ -283,8 +288,9 @@ void TmultiScore::roClickedSlot(TscoreNote* sn, const QPointF& clickPos) {
 
 
 void TmultiScore::roSelectedSlot(TscoreNote* sn, const QPointF& clickPos) {
+  Q_UNUSED(clickPos)
   if (m_selectReadOnly) {
-    qDebug() << "roSelectedSlot is here";
+//    qDebug() << "roSelectedSlot is here";
     emit lockedNoteSelected(sn->staff()->number() * staff()->maxNoteCount() + sn->index());
   }
 }
@@ -319,7 +325,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
     if (staff()->isPianoStaff())
       staffOff = 1.1;
 #if defined (Q_OS_ANDROID)
-    hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()));
+    hh = qMin<int>(hh, Tmtr::fingerPixels() * 6);
 #else
     hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
 #endif
@@ -352,7 +358,7 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
           QList<TscoreNote*> stNotes = allNotes.mid(i * m_staves[i]->maxNoteCount(), m_staves[i]->maxNoteCount());
           m_staves[i]->addNotes(0, stNotes);
       }
-      
+
       if (i == 0)
         m_staves[i]->setPos(staffOff, 0.0);
       else {
@@ -374,7 +380,7 @@ void TmultiScore::updateSceneRect() {
   else
     sh = m_staves.last()->pos().y() + m_staves.last()->height();
   sh = qMax<qreal>(sh, viewport()->height() / transform().m11());
-  QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0, 
+  QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0,
                 staff()->width() + (staff()->isPianoStaff() ? 1.1 : 0.0),  sh)).boundingRect();
   scoreScene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
   scoreScene()->restoreAfterRectChange();
@@ -414,7 +420,7 @@ void TmultiScore::changeCurrentIndex(int newIndex) {
             checkAndAddNote(currentStaff(), m_currentIndex % staff()->maxNoteCount() - 1);
         } else if (m_currentIndex / staff()->maxNoteCount() > m_staves.size() ||
                 m_currentIndex % staff()->maxNoteCount() > currentStaff()->count()) {
-                    qDebug() << "Something wrong with current index" << m_currentIndex; 
+                    qDebug() << "Something wrong with current index" << m_currentIndex;
                     return;
         }
       }
