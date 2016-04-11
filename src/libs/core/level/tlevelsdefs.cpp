@@ -125,42 +125,59 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.melodyLen = 1;
   llist << l;
   //----------------------------------------------------------------------------
-  l = Tlevel();
-  l.name = QApplication::translate("Tlevel", "Grand staff");
-  l.desc = QApplication::translate("Tlevel", "Guess notes from grand staff in different keys");
-  l.clef = Tclef(Tclef::e_pianoStaff);
-  l.instrument = Tcore::gl()->instrument;
-  l.questionAs.setAsSound(false);
-  l.questionAs.setAsFret(isGuitar);
-  l.answersAs[0] = TQAtype(false, true, isGuitar, false);
-  l.answersAs[1] = TQAtype(true, false, false, false);
-  l.answersAs[2] = TQAtype(isGuitar, false, false, false);
-  l.answersAs[3] = TQAtype(false, false, false, false);
-  l.withSharps = true;
-  l.withFlats = true;
-  l.withDblAcc = false;
-  l.useKeySign = true;
-  l.manualKey = true;
-  l.loKey = -3;
-  l.hiKey = 3;
-  l.forceAccids = true;
-  l.requireOctave = true;
-  l.requireStyle = false;
-  l.showStrNr = isGuitar;
-  if (isGuitar) { // till 12 fret on guitar
-    if (l.hiFret >= 12) { // adjust highest note to 12th fret
-      l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 12);
-      l.hiFret = 12;
+  if (Tcore::gl()->loNote().chromatic() <= Tnote(5, 0).chromatic()) {
+    // This level makes sense only when lowest note instrument is lowest or equal than g small note
+    l = Tlevel();
+    l.name = QApplication::translate("Tlevel", "Grand staff");
+    l.desc = QApplication::translate("Tlevel", "Guess notes from grand staff in different keys");
+    l.clef = Tclef(Tclef::e_pianoStaff);
+    l.instrument = Tcore::gl()->instrument;
+    l.questionAs.setAsSound(false);
+    l.questionAs.setAsFret(isGuitar);
+    l.answersAs[0] = TQAtype(false, true, isGuitar, false);
+    l.answersAs[1] = TQAtype(true, false, false, false);
+    l.answersAs[2] = TQAtype(isGuitar, false, false, false);
+    l.answersAs[3] = TQAtype(false, false, false, false);
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = true;
+    l.manualKey = true;
+    l.loKey = -3;
+    l.hiKey = 3;
+    l.forceAccids = true;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = isGuitar;
+    if (isGuitar) { // till 12 fret on guitar
+      if (l.hiFret >= 12) { // adjust highest note to 12th fret
+        l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 12);
+        l.hiFret = 12;
+      }
+    } else { // for non guitar whole scale
+      // set scale to C great -> a2
+      Tnote C_great(1, -1);
+      if (Tcore::gl()->loNote().chromatic() > C_great.chromatic()) { // lowest note is higher
+        if (Tcore::gl()->loNote().note > 1) { // if lowest isn't c note
+          if (Tcore::gl()->loNote().octave <= -1) // check is near c note lays on bottom staff
+            l.loNote = Tnote(1, Tcore::gl()->loNote().octave + 1); // and start from next c note in instrument scale
+        }
+        // or the lowest level note is the same like lowest scale one
+      } else
+        l.loNote = C_great;
+      Tnote a_2(6, 2);
+      if (Tcore::gl()->hiNote().chromatic() > a_2.chromatic()) // if highest note is high than a2
+        l.hiNote = a_2; // set end to a2
+      // or keep highest note the same as highest in the scale
     }
-  } else { // for non guitar whole scale
-    l.loNote = Tcore::gl()->loNote();
-    l.hiNote = Tcore::gl()->hiNote();
+    l.intonation = 0; // do not check
+    l.melodyLen = 1;
+    llist << l;
   }
-  l.intonation = 0; // do not check
-  l.melodyLen = 1;
-  llist << l;
   //----------------------------------------------------------------------------
-  if (Tclef::defaultType != Tclef::e_bass_F && Tclef::defaultType != Tclef::e_bass_F_8down) {
+  if (Tclef::defaultType != Tclef::e_bass_F && Tclef::defaultType != Tclef::e_bass_F_8down
+      && Tcore::gl()->loNote().chromatic() < Tnote(1, 1).chromatic()) {
+    // makes no sense if lowest note is above c 1 (i.e. flute)
     l = Tlevel();
     l.name = QApplication::translate("Tlevel", "Bass clef");
     l.desc = QApplication::translate("Tlevel", "Play a short and simple melody in bass clef");
