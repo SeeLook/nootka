@@ -69,13 +69,17 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   addItem(authorsTxt(), Tpath::img("author"));                                    // 2
   addItem(tr("License"), Tpath::img("license"));                                  // 3
   addItem(tr("Support"), Tpath::img("support"));                                  // 4
-  addItem(tr("Changes"), Tpath::img("chlog"));                                    // 5
-  addItem(QStringLiteral("Qt"), Tpath::img("qt"));                                // 6
+  addItem(tr("Donors",
+             "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"),
+          Tpath::img("donors"));                                                  // 5
+  addItem(tr("Changes"), Tpath::img("chlog"));                                    // 6
+  addItem(QStringLiteral("Qt"), Tpath::img("qt"));                                // 7
 //   addItem(QStringLiteral("Qt"), QLatin1String(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
 #if !defined (Q_OS_ANDROID)
-  addItem(qTR("QShortcut", "Close"), Tpath::img("exit"));     // 7
+  addItem(qTR("QShortcut", "Close"), Tpath::img("exit"));                         // 8
 #endif
 
+  QString br = QStringLiteral("<br>");
   m_timer = new QTimer(this);
   connect(m_timer, SIGNAL(timeout()), this, SLOT(moveScroll()));
 // ABOUT
@@ -130,7 +134,9 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
       QLatin1String("<ul><li>") + createLink("Qt", "http://qt-project.org/") + QLatin1String(" by Digia</li>") +
       LI + createLink("FFTW", "http://www.fftw.org") + QLatin1String(" by M. Frigo & S. G. Johnson</li>") +
       LI + createLink("ogg vorbis", "http://vorbis.com") + QLatin1String(" by XIPH</li>") +
+    #if !defined (Q_OS_ANDROID)
       LI + createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + QLatin1String(" by G. P. Scavone</li>") +
+    #endif
       LI + createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + QLatin1String(" by P. McLeod</li>") +
       LI + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + QLatin1String(" by Olli Parviainen</li>") +
       LI + createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html");
@@ -162,6 +168,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   m_authorScroll->setWidget(authorsPage);
 
   QString trans = QApplication::translate("about translator", "translator", "Do not translate this, just put in 'translator comment field' your data: Translator's' Name<br>Tramslator's' e-mail(optional)<br>Translator site(optional)");
+  Q_UNUSED(trans);
 
 // LICENSE GPL or Copyright for Debian based
   auto licensePage = new QTextEdit(this);
@@ -185,6 +192,23 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   file.close();
 
   auto supportPage = new TsupportNootka(this);
+
+// SPONSORS
+  auto sponsorsWidget = new QWidget(this);
+  QString sponText = QLatin1String("<p style=\"text-align: center;\"><u>")
+      + tr("People and companies who gave material support for the Nootka project") + QLatin1String("</u></p>") + br;
+  sponText += QLatin1String("<ul>");
+  sponText += QString::fromUtf8("<li>Илья Б.</li>");
+  sponText += QLatin1String("<li>Yves Balhant</li>");
+  sponText += QLatin1String("<li>Tomasz Matuszewski</li>");
+  sponText += QLatin1String("</ul>");
+  sponText += QLatin1String("<p style=\"text-align: center;\"><b><big>THANK YOU!</b></big>");
+  auto sponLab = new QLabel(sponText, this);
+  auto laySpon = new QVBoxLayout;
+    laySpon->addWidget(sponLab);
+  auto sponsorsPage = new TtouchArea(this);
+  sponsorsWidget->setLayout(laySpon);
+  sponsorsPage->setWidget(sponsorsWidget);
 
 // CHANGESLOG
   auto chLogPage = new QTextEdit(this);
@@ -258,6 +282,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   addPage(m_authorScroll);
   addPage(licensePage);
   addPage(supportPage);
+  addPage(sponsorsPage);
   addPage(chLogPage);
   addPage(qtAboutPage);
 

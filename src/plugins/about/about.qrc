@@ -9,5 +9,6 @@
         <file>picts/qt.png</file>
         <file>picts/help-frame.png</file>
         <file>picts/nootka-frame.png</file>
+        <file>picts/donors.png</file>
     </qresource>
 </RCC>
