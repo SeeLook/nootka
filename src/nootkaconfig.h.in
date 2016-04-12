@@ -1,6 +1,6 @@
-//#if defined (Q_OS_ANDROID)
-//  #define NOOTKA_VERSION "@Nootka_ANDROID_VERSION@"
-//#else
+#if defined (Q_OS_ANDROID)
+ #define NOOTKA_VERSION "@Nootka_ANDROID_VERSION@"
+#else
   #define NOOTKA_VERSION "@Nootka_VERSION_FULL@"
-//#endif
+#endif
 
