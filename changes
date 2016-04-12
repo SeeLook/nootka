@@ -1,13 +1,21 @@
-1.2A.5 beta3
+1.2A.5 rc1
    ANDROID
      - added update checker
-     - fixed fluency of playing, no more glitches
+     - improved widget to starting lessons
+    BUGS FIXES
+     - fixed fluency of playing guitar sounds
+     - fixed random crashes during editing score with multiple staves
     Under the hood
      - reorganized layout of libraries, score is in separate lib
      - exam execution moved to plugin
 
 1.2.5
-     Clef menu visibility fixes for Qt 5.6 compatibility
+     - added new levels
+     - added donors list
+    BUGS FIXES
+     - clef menu visibility fixes for Qt 5.6 compatibility
+     - fixed storing of instrument scale for non guitars
+     - other minor fixes
 
 1.2A.4 beta2
     ANDROID
