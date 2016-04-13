@@ -211,8 +211,18 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
   m_radio->setStatusTip(statusTip());
   pixLabel->setStatusTip(statusTip());
   connect(m_radio, SIGNAL(pressed()), this, SLOT(clefClickedSlot()));
+
+  m_signalTimer = new QTimer(this);
+  connect(m_signalTimer, &QTimer::timeout, [=]{
+    m_signalTimer->stop();
+    emit selectedClef(m_clef);
+  });
 }
 
+
+TradioClef::~TradioClef() {
+  m_signalTimer->stop();
+}
 
 void TradioClef::setChecked(bool checked) {
     m_radio->setChecked(checked);
@@ -222,7 +232,7 @@ void TradioClef::setChecked(bool checked) {
 void TradioClef::clefClickedSlot() {
   if (!m_radio->isChecked())
     m_radio->setChecked(true);
-  emit selectedClef(m_clef);
+  m_signalTimer->start(5);
 }
 
 
@@ -232,7 +242,7 @@ bool TradioClef::event(QEvent* event) {
       m_hasMouseOver = false;
       update();
       if (event->type() == QEvent::Leave)
-        emit statusTipWanted("");
+        emit statusTipWanted(QString());
   } else if (event->type() == QEvent::MouseMove && !m_hasMouseOver) {
       m_hasMouseOver = true;
       update();
@@ -244,7 +254,7 @@ bool TradioClef::event(QEvent* event) {
   }  else
 #endif
     if (event->type() == QEvent::MouseButtonPress)
-      QTimer::singleShot(5, [=]{ clefClickedSlot(); });
+      clefClickedSlot();
   return QWidget::event(event);
 }
 
