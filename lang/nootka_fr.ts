@@ -478,7 +478,7 @@
         <translation type="vanished">temps [s]</translation>
     </message>
     <message>
-        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="+232"/>
+        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="+239"/>
         <source>Melody on trebles</source>
         <translation>Mélodies dans les aigus</translation>
     </message>
@@ -497,7 +497,7 @@
         <translation type="vanished">Koyunbaba : ré la ré la ré fa (DADADF) </translation>
     </message>
     <message>
-        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="-161"/>
+        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="-168"/>
         <source>C-major scale</source>
         <translation>Gamme de do majeur</translation>
     </message>
@@ -540,7 +540,7 @@
         <translation>Toutes les notes chromatiques jusqu&apos;à la 5e frette, pas de son. &lt;br&gt; Pas d&apos;altération double. &lt;br&gt;Tonalités : do (C), sol (G), ré (D), la (A)</translation>
     </message>
     <message>
-        <location line="+197"/>
+        <location line="+204"/>
         <source>Sing scores</source>
         <translation>Chant avec partition</translation>
     </message>
@@ -550,7 +550,7 @@
         <translation>Jeu avec partition</translation>
     </message>
     <message>
-        <location line="-196"/>
+        <location line="-203"/>
         <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
         <translation>En première position. &lt;br&gt;Pas d&apos;armure, pas de son. &lt;br&gt;Octave requise.</translation>
     </message>
@@ -559,7 +559,7 @@
         <translation type="vanished">Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu « À propos de Nootka »</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+137"/>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
         <translation>Écouter un son et indiquez-le sur la portée. &lt;br&gt; La guitare, le nom des notes et les armures ne sont pas utilisés. &lt;br&gt;Gamme de la-la grande octave (A-A2).</translation>
     </message>
@@ -597,7 +597,7 @@
         <translation type="vanished">Basse 6 cordes : B E A D G C</translation>
     </message>
     <message>
-        <location line="-99"/>
+        <location line="-106"/>
         <source>All to V fret</source>
         <translation>Jusqu&apos;à la 5e frette</translation>
     </message>
@@ -710,7 +710,7 @@
         <location line="+2"/>
         <source>Donors</source>
         <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
-        <translation type="unfinished"></translation>
+        <translation>Donateurs</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -725,7 +725,7 @@
     <message>
         <location line="+51"/>
         <source>People and companies who gave material support for the Nootka project</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnes et entreprises ayant apporté un soutien matériel au projet Nootka</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/taboutnootka.h" line="+47"/>
@@ -1763,7 +1763,7 @@ version</translation>
     <message>
         <location line="+5"/>
         <source>Guitar fret number was changed!</source>
-        <translation>Le nombre de frette sur la guitare a été changé !</translation>
+        <translation>Le nombre de frettes sur la guitare a été modifié !</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -1938,7 +1938,7 @@ version</translation>
     <message>
         <location line="+68"/>
         <source>color of selected string/fret</source>
-        <translation>Couleur de la corde/case sélectionnée</translation>
+        <translation>Couleur de la corde/case jouée</translation>
     </message>
     <message>
         <location line="-29"/>
@@ -2153,34 +2153,34 @@ version</translation>
 <context>
     <name>Tlevel</name>
     <message>
-        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="+92"/>
+        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="+93"/>
         <source>Grand staff</source>
         <translation>Système de portée</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Guess notes from grand staff in different keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Deviner les notes à partir d&apos;un système de portées dans différentes tonalités</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+35"/>
         <source>Bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Cle de fa</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Play a short and simple melody in bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouer une mélodie simple et courte en clé de fa</translation>
     </message>
     <message>
         <location line="+172"/>
         <source>Play grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouer un système de portées</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouer des mélodies aléatoires à partir d&apos;un système de portées. Tonalités de plus de quatre altérations.</translation>
     </message>
 </context>
 <context>
@@ -2562,14 +2562,14 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <location filename="../src/libs/main/gui/tmainview.cpp" line="+407"/>
         <source>score menu</source>
-        <translation>Menu des partitions</translation>
+        <translation>Portée</translation>
     </message>
 </context>
 <context>
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation type="vanished">Jouer</translation>
+        <translation type="vanished">Lecture</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="+48"/>
@@ -3060,7 +3060,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="-116"/>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation>Détection des notes</translation>
+        <translation>Détection</translation>
     </message>
 </context>
 <context>
