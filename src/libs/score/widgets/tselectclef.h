@@ -19,14 +19,16 @@
 #ifndef TSELECTCLEF_H
 #define TSELECTCLEF_H
 
+
 #include <nootkacoreglobal.h>
-#include <QObject>
-#include <QWidget>
-#include <QRadioButton>
-#include <QMenu>
+#include <QtCore/qobject.h>
+#include <QtWidgets/qwidget.h>
+#include <QtWidgets/qradiobutton.h>
+#include <QtWidgets/qmenu.h>
 #include <music/tclef.h>
 
-/** 
+
+/**
  * Classes below are used to switching a clef.
  * @class TradioClef is like menu entry
  * @class TselectClefPrivate is base class for selecting a clef
@@ -46,6 +48,7 @@ class NOOTKACORE_EXPORT TradioClef : public QWidget
 		Q_OBJECT
 public:
 		explicit TradioClef(Tclef clef, QWidget* parent = 0, bool isMenu = false);
+    ~TradioClef();
 		
 		QRadioButton* radio() { return m_radio; }
 		Tclef clef() { return m_clef; }
@@ -67,6 +70,7 @@ private:
 		QRadioButton *m_radio;
 		Tclef					m_clef;
 		bool 					m_hasMouseOver;
+    QTimer       *m_signalTimer; /**< timer to invoke @p selectedClef() signal */
 	
 };
 

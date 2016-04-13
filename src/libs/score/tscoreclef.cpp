@@ -143,7 +143,7 @@ void TscoreClef::touched(const QPointF& scenePos) {
   Q_UNUSED(scenePos)
   m_tapTimer->start(300);
 #if defined (Q_OS_ANDROID)
-  if (!TtouchParams::i()->clefWasTouched && !tMessage->isVisible() && tMessage->mainWindowOnTop()) {
+  if (!TtouchParams::i()->clefWasTouched && tMessage && !tMessage->isVisible() && tMessage->mainWindowOnTop()) {
     tMessage->setMessage(TtouchProxy::touchClefHelp(), 0);
     TtouchParams::i()->clefWasTouched = true;
   }
@@ -183,7 +183,8 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
       #else
         Tclef cl = m_clefMenu->exec(QCursor::pos());
       #endif
-      m_clef = cl;
+      if (cl.type() != Tclef::e_none)
+        m_clef = cl;
       m_clefMenu->setMenu(0);
       delete m_menu;
       if (cl.type() == Tclef::e_none)

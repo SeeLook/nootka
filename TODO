@@ -21,8 +21,7 @@ ANDROID:
           innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
     - no level/exam icon in file manager, not all file managers support opening Nootka files
 
-- HOME button would be switching available menus
-- handle BACK button to destroy visible menu and/or prevent to close exam
+- HOME button would be switching available menus or get rid of score menu (merge with the main)
 - duration of animation of note correction was decreased to 200ms to work properly under Android,
   but it would be better to signal when it is finished and perform some routines in main score after that
 ============================================================================
