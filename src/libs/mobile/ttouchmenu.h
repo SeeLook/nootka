@@ -38,6 +38,8 @@ public:
   TtouchMenu(QWidget *parent = 0);
   virtual ~TtouchMenu();
 
+  static TtouchMenu* instance() { return m_instance; }
+
   int animDuration() { return m_animDuration; }
 
       /** Sets duration of moving menu animation, by default it is 400 ms.
@@ -60,13 +62,13 @@ protected slots:
   void animTimeOut();
 
 private:
-  int             m_animDuration;
-  QTimer         *m_animTimer;
-  int             m_step, m_count;
-  QPoint          m_startPos, m_endPos, m_offset, m_touchStartPos;
-  bool            m_vertical, m_horizontal; // determine whether menu is moving vertical or horizontal (or both)
-  bool            m_swiped; /**< @p TRUE when menu is swiped by finger (movement larger than some tolerance) */
-
+  int                   m_animDuration;
+  QTimer               *m_animTimer;
+  int                   m_step, m_count;
+  QPoint                m_startPos, m_endPos, m_offset, m_touchStartPos;
+  bool                  m_vertical, m_horizontal; // determine whether menu is moving vertical or horizontal (or both)
+  bool                  m_swiped; /**< @p TRUE when menu is swiped by finger (movement larger than some tolerance) */
+  static TtouchMenu    *m_instance;
 };
 
 #endif // TTOUCHMENU_H

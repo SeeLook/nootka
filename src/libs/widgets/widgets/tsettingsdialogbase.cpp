@@ -188,19 +188,29 @@ QAction* TsettingsDialogBase::actionFromButton(QPushButton* b, QMenu* parentMenu
 
 #if defined (Q_OS_ANDROID)
 void TsettingsDialogBase::tapMenu() {
-  TtouchMenu *menu = new TtouchMenu(this);
-  menu->setGraphicsEffect(new TdropShadowEffect());
+  m_touchMenu = new TtouchMenu(this);
+  m_touchMenu->setGraphicsEffect(new TdropShadowEffect());
   for (int i = 0; i < buttonBox->buttons().size(); ++i) {
-    QAction *buttonAction = new QAction(buttonBox->buttons()[i]->icon(), buttonBox->buttons()[i]->text(), menu);
+    QAction *buttonAction = new QAction(buttonBox->buttons()[i]->icon(), buttonBox->buttons()[i]->text(), m_touchMenu);
     buttonAction->setData((i));
-    menu->addAction(buttonAction);
+    m_touchMenu->addAction(buttonAction);
   }
-  QAction *menuAction = menu->exec(QPoint(navList->width(), height() -menu->sizeHint().height()), QPoint(navList->width(), height()));
+  QAction *menuAction = m_touchMenu->exec(QPoint(navList->width(), height() -m_touchMenu->sizeHint().height()), QPoint(navList->width(), height()));
   int actionNumber = menuAction ? menuAction->data().toInt() : -1;
-  delete menu; // delete menu before performing its action
+  delete m_touchMenu; // delete menu before performing its action
   if (actionNumber != -1)
     buttonBox->buttons()[actionNumber]->click();
 }
+
+
+void TsettingsDialogBase::closeEvent(QCloseEvent *event) {
+  if (m_touchMenu) {
+      event->ignore();
+      m_touchMenu->close();
+  } else
+      event->accept();
+}
+
 #endif
 
 
