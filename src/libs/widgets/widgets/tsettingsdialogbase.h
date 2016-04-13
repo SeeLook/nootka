@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                  				   *
- *   seelook@gmail.com        						                                 *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -20,8 +20,10 @@
 #ifndef TSETTINGSDIALOGBASE_H
 #define TSETTINGSDIALOGBASE_H
 
-#include <QDialog>
+#include <QtWidgets/qdialog.h>
+#include <QtCore/qpointer.h>
 #include <nootkacoreglobal.h>
+
 
 class QDialogButtonBox;
 class QAbstractScrollArea;
@@ -33,6 +35,7 @@ class QMenu;
 class TmenuWidget;
 class TtouchMenu;
 #endif
+
 
 /**
  * This is base class for settings dialogues.
@@ -58,18 +61,18 @@ public:
       /** Open online documentation (http://nootka.sourceforge.net/index.php?C=doc) */
   QString helpButtonTipText() { return tr("Open online documentation") + "<br>(http://nootka.sourceforge.net/index.php?C=doc)"; }
 
-  static bool touchEnabled(); /** @p TRUE when touch is enabled */
+  static bool touchEnabled(); /**< @p TRUE when touch is enabled */
 
 protected:
   bool event(QEvent *event);
 
-  QListWidget  					   	*navList;
-  QStackedLayout  					*stackLayout;
-  QPushButton     					*cancelBut, *okBut, *defaultBut;
-  TroundedLabel          		*hint;
-  QDialogButtonBox					*buttonBox; /** Bottom layout with buttons */
+  QListWidget                 *navList;
+  QStackedLayout              *stackLayout;
+  QPushButton                 *cancelBut, *okBut, *defaultBut;
+  TroundedLabel               *hint;
+  QDialogButtonBox            *buttonBox; /**< Bottom layout with buttons */
 #if defined (Q_OS_ANDROID)
-  TmenuWidget               *menuButton;
+  TmenuWidget                 *menuButton;
 #endif
 
 #if !defined (Q_OS_ANDROID)
@@ -90,17 +93,22 @@ protected:
 
 //   void fitSize();
 #if defined (Q_OS_ANDROID)
-  virtual void tapMenu(); /** Displays menu created from @p navList context and @p buttonBox contex */
+  virtual void tapMenu(); /**< Displays menu created from @p navList context and @p buttonBox context */
+  virtual void closeEvent(QCloseEvent *event);
 #endif
-  void convertStatusTips(); /** Transforms all status tip texts into tool tips. */
+  void convertStatusTips(); /**< Transforms all status tip texts into tool tips. */
 
-  void openHelpLink(const QString& hash); /** calls QDesktopServices::openUrl with Nootka site doc at given @p hash */
+  void openHelpLink(const QString& hash); /**< calls QDesktopServices::openUrl with Nootka site doc at given @p hash */
 
       /** Creates action with given button icon and text, emulating button click. */
   QAction* actionFromButton(QPushButton* b, QMenu* parentMenu);
 
 private:
   QAbstractScrollArea       *m_hiPage, *m_wiPage;
+
+#if defined (Q_OS_ANDROID)
+  QPointer<TtouchMenu>       m_touchMenu;
+#endif
 
 };
 #endif // TSETTINGSDIALOGBASE_H

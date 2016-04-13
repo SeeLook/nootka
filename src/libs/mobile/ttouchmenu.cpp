@@ -29,6 +29,9 @@
 #include <QtCore/qdebug.h>
 
 
+TtouchMenu* TtouchMenu::m_instance = nullptr;
+
+
 TtouchMenu::TtouchMenu(QWidget *parent) :
   QMenu(parent),
   m_animDuration(200),
@@ -37,6 +40,11 @@ TtouchMenu::TtouchMenu(QWidget *parent) :
   m_horizontal(false),
   m_swiped(false)
 {
+  if (m_instance) {
+    qDebug() << "TtouchMenu instance already exists!";
+    return;
+  }
+  m_instance = this;
   connect(m_animTimer, SIGNAL(timeout()), this, SLOT(animTimeOut()));
 }
 
@@ -44,6 +52,7 @@ TtouchMenu::TtouchMenu(QWidget *parent) :
 TtouchMenu::~TtouchMenu()
 {
   m_animTimer->stop();
+  m_instance = 0;
 }
 
 

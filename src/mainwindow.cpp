@@ -35,6 +35,7 @@
 #include <tsound.h>
 #if defined (Q_OS_ANDROID)
   #include <ttouchmessage.h>
+  #include <ttouchmenu.h>
 #else
   #include "gui/tstatuslabel.h"
 #endif
@@ -648,6 +649,12 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 #if !defined (Q_OS_ANDROID)
   disconnect(m_score, &TmainScore::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
   disconnect(m_innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
+#endif
+#if defined (Q_OS_ANDROID)
+  if (TtouchMenu::instance()) {
+    TtouchMenu::instance()->close();
+    event->ignore();
+  } else
 #endif
   if (m_examPlugin) {
     m_executorAllowsClose = false;
