@@ -40,7 +40,7 @@ QString Trhythm::xmlType() const {
 
 int Trhythm::duration() const {
   if (m_r == e_none)
-    return -1;
+    return 0;
   int d = ((2 * RVALUE) / weight()) / (isTriplet() ? 3 : 2);
   return d + (hasDot() ? d / 2 : 0);
 }

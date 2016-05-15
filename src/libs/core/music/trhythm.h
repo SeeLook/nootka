@@ -65,9 +65,10 @@ public:
   }
 
       /** Creates rhythm from given duration value */
-  Trhythm(int rhythmDuration)
+  Trhythm(int rhythmDuration, bool rest = false)
   {
     setRhythm(rhythmDuration);
+    setRest(rest);
   }
 
       /** Copy constructor */
@@ -85,7 +86,7 @@ public:
       /** It converts std::string into rhythm value. Doesn't change state of triplet, dot or beam. */
   void setRhythmValue(const std::string& nVal);
 
-      /**< Makes quick copy of another Trhythm instance. */
+      /** Makes quick copy of another Trhythm instance. */
   void setRhythm(const Trhythm& r) { m_r = r.rhythm(); m_prefs = r.parameters(); }
 
       /** Converts given value into rhythm */
