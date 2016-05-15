@@ -64,31 +64,6 @@ Tnote::EnameStyle Tnote::defaultStyle = Tnote::e_norsk_Hb;
 //#############################################################################################
 //################################ PUBLIC #####################################################
 //#############################################################################################
-Tnote::Tnote ()
-{
-  note = 0;
-  octave = 0;
-  alter = Tnote::e_Natural;
-}
-
-
-Tnote::Tnote( char diatonNote, char oct, char accid)
-{
-  note = diatonNote;
-  octave = oct;
-  alter = accid;
-}
-
-
-Tnote::Tnote (short chromaticNrOfNote)
-{
-   setChromatic(chromaticNrOfNote);
-}
-
-
-Tnote::~Tnote ()
-{}
-
 
 void Tnote::setChromatic(short int noteNr) {
   switch ((noteNr + 143) % 12 + 1)  {
