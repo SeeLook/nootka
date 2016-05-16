@@ -1,3 +1,8 @@
+1.2.6
+     - updated Russian translation
+    BUGS FIXES
+     - keep right note pane always visible, even at the staff end
+
 1.2.5
      - added new levels
      - added donors list

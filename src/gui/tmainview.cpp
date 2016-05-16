@@ -57,7 +57,7 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 		  m_statAndPitchLay->addWidget(m_status);
 		  m_statAndPitchLay->addWidget(m_pitch);
 	m_mainLay->addLayout(m_statAndPitchLay);
-		m_scoreAndNameLay = new QBoxLayout(QBoxLayout::LeftToRight);
+    m_scoreAndNameLay = new QBoxLayout(QBoxLayout::LeftToRight);
 			m_scoreAndNameLay->addWidget(m_score);
 		m_mainLay->addLayout(m_scoreAndNameLay);
 		m_mainLay->addWidget(m_guitar);
