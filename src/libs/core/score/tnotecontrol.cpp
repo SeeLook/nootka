@@ -73,7 +73,7 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	hide();
 
 	m_gradient = &m_rightGrad;
-// 'name' glyph for editing note throught its name
+// 'name' glyph for editing note through its name
 	m_name = new QGraphicsSimpleTextItem("c");
 	m_name->setFont(TnooFont());
 	m_name->setParentItem(this);
@@ -231,7 +231,7 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 #if defined (Q_OS_ANDROID)
 			show();
 #endif
-			if (pos().x() < m_scoreNote->pos().x()) { // hide 'name' and 'cross' for left control
+			if (isLeftPane()) { // hide 'name' and 'cross' for left control
 				m_name->hide();
 				m_cross->hide();
 			}
