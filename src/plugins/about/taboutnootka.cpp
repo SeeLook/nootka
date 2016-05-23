@@ -298,7 +298,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 
 
 void TaboutNootka::changeCurrentPage(int page) {
-  if (page < 7)
+  if (page < stackLayout->count())
     stackLayout->setCurrentIndex(page);
   if (page == 2) {
 #if defined (Q_OS_ANDROID)
