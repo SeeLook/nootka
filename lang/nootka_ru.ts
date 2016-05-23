@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.0" language="ru_RU">
 <context>
     <name>AnswerText</name>
     <message>
@@ -432,7 +432,7 @@
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="6"/>
         <source>to play scores</source>
-        <translation>чтобы играть с нот</translation>
+        <translation>чтобы играть с листа</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="7"/>
@@ -443,17 +443,17 @@
         <location filename="../src/libs/misc/translationHeader.h" line="8"/>
         <source>Nootka level file</source>
         <comment>for file browsers</comment>
-        <translation>Файл Нутки с уровнем</translation>
+        <translation>Файл с уровнем Нутки</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="9"/>
         <source>Open with Nootka</source>
-        <translation>Открыть</translation>
+        <translation>Открыть в Нутке</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/translationHeader.h" line="10"/>
         <source>Nootka exam file</source>
-        <translation>Файл Нутки с экзаменом</translation>
+        <translation>Файл с экзаменом Нутки</translation>
     </message>
 </context>
 <context>
@@ -548,7 +548,7 @@
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="300"/>
         <source>Sing scores</source>
-        <translation>Пение нот</translation>
+        <translation>Петь ноты</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tkeysignature.h" line="62"/>
@@ -562,51 +562,51 @@
     </message>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation type="vanished">Стандартный: E A D G B E </translation>
+        <translation>Стандартный: E A D G B E </translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation type="vanished">Dropped D: D A D G B E </translation>
+        <translation>Dropped D: D A D G B E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation type="vanished">Dummy Lute: D A D F# B E </translation>
+        <translation>Dummy Lute: D A D F# B E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation type="vanished">Open: D A D G A D </translation>
+        <translation>Open: D A D G A D </translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation type="vanished">Kouyanbaba: D A D A D F </translation>
+        <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
         <source>Standard bass: E A D G</source>
-        <translation type="vanished">Стандартный бас: E A D G</translation>
+        <translation>Стандартный бас: E A D G</translation>
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation type="vanished">Бас по квинтам: C G D A</translation>
+        <translation>Бас по квинтам: C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation type="vanished">Пятиструнный бас: B E A D G</translation>
+        <translation>Пятиструнный бас: B E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="vanished">Шестиструнный бас: B E A D G C</translation>
+        <translation>Шестиструнный бас: B E A D G C</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation type="vanished">Вы можете помочь сделать Нутку лучше.</translation>
+        <translation>Вы можете помочь сделать Нутку лучше.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="vanished">Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
+        <translation>Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="vanished">Не беспокойтесь: это окно появляется только раз, после выхода каждой новой версии программы.&lt;br&gt;Повторно эту информацию можно просмотреть в диалоге «О программе»</translation>
+        <translation>Не беспокойтесь. Это окно появляется один раз, после выхода новой версии Нутки.&lt;br&gt;Эту информацию всегда можно посмотреть в окне «О Нутке»</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.cpp" line="87"/>
@@ -638,7 +638,7 @@
     <message>
         <location filename="../src/libs/misc/tabout.cpp" line="33"/>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation>Добро пожаловать.&lt;br&gt;Нутка - это программа с открытым исходным кодом для обучения классической нотной нотации.&lt;br&gt;Программа была задумана для гитаристов, но и не гитаристы смогут найти в ней что-нибудь полезное.</translation>
+        <translation>Добро пожаловать.&lt;br&gt;Нутка - это программа с открытым исходным кодом для обучения классической нотной записи.&lt;br&gt;Программа была задумана для гитаристов, но и другие музыканты смогут найти в ней что-нибудь полезное.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/tabout.cpp" line="34"/>
@@ -670,7 +670,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Помощь</translation>
+        <translation>Помощь</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="70"/>
@@ -686,7 +686,7 @@
         <location filename="../src/plugins/about/taboutnootka.cpp" line="72"/>
         <source>Donors</source>
         <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
-        <translation type="unfinished"></translation>
+        <translation>Спонсоры</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="75"/>
@@ -711,7 +711,7 @@
     <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="199"/>
         <source>People and companies who gave material support for the Nootka project</source>
-        <translation type="unfinished"></translation>
+        <translation>Люди и организации, предоставившие материальную поддержку проекту Нутка.</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="114"/>
@@ -1111,12 +1111,12 @@
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="86"/>
         <source>Play a melody written in a score</source>
-        <translation>Проиграть мелодию, записанную на нотном стане</translation>
+        <translation>Проиграть мелодию, записанную на нотоносце</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="90"/>
         <source>Listen to a melody and write it on a score</source>
-        <translation>Прослушать мелодию и записать ее на нотном стане</translation>
+        <translation>Прослушать мелодию и записать ее на нотоносце</translation>
     </message>
 </context>
 <context>
@@ -1150,7 +1150,7 @@
     <message>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="1399"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Тссс... Идет экзамен.&lt;br&gt;&lt;br&gt;Выберите &lt;b&gt;%1&lt;/b&gt; чтобы проверить, сохранить или выйти&lt;br&gt;или &lt;b&gt;%2&lt;/b&gt; чтобы продолжить.&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="1431"/>
@@ -1170,7 +1170,7 @@
     <message>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="1651"/>
         <source>Exercises with Nootka</source>
-        <translation>Упражнения</translation>
+        <translation>Упражнения с Нуткой</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="1652"/>
@@ -1189,23 +1189,23 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation type="vanished">Тссс... Идёт экзамен.&lt;br&gt;&lt;br&gt;&lt;b&gt;Продолжить&lt;/b&gt; его&lt;br&gt;или&lt;br&gt;&lt;b&gt;Завершить&lt;/b&gt; для проверки, сохранения и выхода&lt;br&gt;</translation>
+        <translation>Тссс... Идёт экзамен.&lt;br&gt;&lt;br&gt;&lt;b&gt;Продолжить&lt;/b&gt; его&lt;br&gt;или&lt;br&gt;&lt;b&gt;Завершить&lt;/b&gt; для проверки, сохранения и выхода&lt;br&gt;</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="vanished">Продолжить</translation>
+        <translation>Продолжить</translation>
     </message>
     <message>
         <source>Terminate</source>
-        <translation type="vanished">Завершить</translation>
+        <translation>Завершить</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="vanished">Сохранить</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1329,7 +1329,7 @@
         <location filename="../src/libs/misc/help/texamhelp.h" line="57"/>
         <source>tap %1</source>
         <comment>tap &lt;icon image follows&gt;</comment>
-        <translation type="unfinished"></translation>
+        <translation>тап %1</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.h" line="60"/>
@@ -1365,7 +1365,7 @@
         <location filename="../src/libs/misc/help/texamhelp.h" line="70"/>
         <source>Click %1 to stop.</source>
         <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Щелкните %1, чтобы остановить.</translation>
     </message>
 </context>
 <context>
@@ -1555,15 +1555,15 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="vanished">Закрыть</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="vanished">Продолжить</translation>
+        <translation>Продолжить</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="147"/>
@@ -1629,7 +1629,7 @@
     <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="269"/>
         <source>Send exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправить файл экзамена</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="182"/>
@@ -1766,12 +1766,12 @@
     <message>
         <location filename="../src/libs/mobile/tfiledialog.cpp" line="203"/>
         <source>Memory card</source>
-        <translation type="unfinished"></translation>
+        <translation>Карта памяти</translation>
     </message>
     <message>
         <location filename="../src/libs/mobile/tfiledialog.cpp" line="406"/>
         <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
-        <translation type="unfinished"></translation>
+        <translation>В &lt;br&gt;%1&lt;br&gt;будет создана папка с именем &lt;b&gt;Nootka&lt;/b&gt; &lt;br&gt;В нее будут записаны файлы приложения.</translation>
     </message>
 </context>
 <context>
@@ -1841,7 +1841,7 @@
     <message>
         <location filename="../src/plugins/settings/tglobalsettings.h" line="45"/>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation>Все настойки приложения будут удалены!&lt;br&gt;При следующем запуске работа начнется с Мастера настройки. </translation>
+        <translation>Все настойки приложения будут удалены!&lt;br&gt;При следующем запуске Нутка начнетс с Мастера настройки. </translation>
     </message>
 </context>
 <context>
@@ -2073,12 +2073,12 @@
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="90"/>
         <source>There is no Nootka without a score!</source>
-        <translation>Nootka без нотного стана не бывает!</translation>
+        <translation>Нутки без нотоносца не бывает!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="91"/>
         <source>But you can hide even all the rest of widgets to see a score only.</source>
-        <translation>Но вы можете скрыть практически все остальные элементы, чтобы видеть только нотный стан.</translation>
+        <translation>Но вы можете скрыть практически все остальные элементы, чтобы видеть только нотоносец.</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tlaysettings.cpp" line="98"/>
@@ -2091,32 +2091,32 @@
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="128"/>
         <source>Grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Два нотоносца</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="129"/>
         <source>Guess notes from grand staff in different keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Угадайте ноты из большого нотоносца в разных ладах</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="158"/>
         <source>Bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Басовый ключ</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="159"/>
         <source>Play a short and simple melody in bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Играть короткую и простую мелодию в басовом ключе</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="331"/>
         <source>Play grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Играть на двойном нотоносце</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="332"/>
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Играть случайные мелодии с двух нотоносцев для пианино. Ключи до четырех знаков альтерации.</translation>
     </message>
 </context>
 <context>
@@ -2191,12 +2191,12 @@
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="281"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Уровень содержит вопрос и ответ &quot;на нотном стане&quot;. Должны быть выбраны или ручной выбор тональности или принудительные знаки альтерации.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Вопросы и ответы, как ноты на нотоносце, будут одинаковыми. Чтобы избежать этого, надо вручную выбрать тональность или обязательные знаки альтерации.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="286"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Ручной выбор тональности включён, но ни один ответ &quot;нота на нотном стане&quot; не выбран.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Ручной выбор тональности включён, но ни один ответ &quot;нота на нотоносце&quot; не выбран.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="297"/>
@@ -2367,7 +2367,7 @@
         <source>File: %1 
  is not Nootka level file!</source>
         <translation>Файл: %1 
- это не файл уровня!</translation>
+ это не файл уровня Нутки!</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelselector.cpp" line="320"/>
@@ -2449,7 +2449,7 @@
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="65"/>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
-        <translation>Во время экзаменов %1 Нутка будет строгим и бескомпромиссным преподавателем. Любая ошибка приведет к штрафу в виде дополнительных вопросов...&lt;br&gt;При успешном завершении экзамена вы получите сертификат!</translation>
+        <translation>Во время экзаменов %1 Нутка будет строгим и бескомпромиссным учителем. Любая ошибка приведет к штрафу в виде дополнительных вопросов...&lt;br&gt;При успешном завершении экзамена вы получите сертификат!</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="79"/>
@@ -2465,12 +2465,12 @@
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="83"/>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
-        <translation>Изучите интерфейс приложения. Просто щелкайте мышью по элементам интерфейса и смотрите, что произойдет. Также Вы можете играть на инструмене или петь при наличии микрофона.</translation>
+        <translation>Изучайте интерфейс Нутки и устройство нотоносца. Просто щелкайте мышью по элементам интерфейса и осваивайте Нутку. Также Вы можете играть на инструменте или петь при наличии микрофона.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="84"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Используйте кнопки %1 для получения помощи, а %2 для настройки приложения.</translation>
+        <translation>Используйте кнопки %1 для получения помощи, а %2 для настройки Нутки под ваши предпочтения.</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/tmainhelp.cpp" line="90"/>
@@ -2498,46 +2498,46 @@
     <message>
         <location filename="../src/libs/main/gui/tmainview.cpp" line="407"/>
         <source>score menu</source>
-        <translation type="unfinished"></translation>
+        <translation>меню нотоносца</translation>
     </message>
 </context>
 <context>
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation type="vanished">Воспроизведение</translation>
+        <translation>Воспроизведение</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="vanished">Запись</translation>
+        <translation>Запись</translation>
     </message>
     <message>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="vanished">Когда включена запись, записываются одна за другой не только воспроизводимые ноты, но и выбор лада или название ноты автоматически добавляют новую ноту.</translation>
+        <translation>Когда включена запись, записываются одна за другой не только воспроизводимые ноты, но и выбор лада или название ноты автоматически добавляют новую ноту.</translation>
     </message>
     <message>
         <source>Generate</source>
-        <translation type="vanished">Генерация</translation>
+        <translation>Генерация</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="38"/>
         <source>Play melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Играть мелодию</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="41"/>
         <source>Note by note</source>
-        <translation type="unfinished"></translation>
+        <translation>Нота за нотой</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="46"/>
         <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ноты записываются на нотоносце одна за другой. Звукоизвлечение, выбор лада или названия ноты автоматически добавляют новую ноту на нотоносец.</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="48"/>
         <source>Generate melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Генерировать мелодию</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="49"/>
@@ -2583,7 +2583,7 @@
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="67"/>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
-        <translation>[DATE]&lt;br&gt;&lt;i&gt;дата&lt;i&gt;</translation>
+        <translation>[DATE]&lt;br&gt;&lt;i&gt;данные&lt;i&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="75"/>
@@ -2602,7 +2602,7 @@
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="90"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
-        <translation>на уровне: &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;отвечено вопросов: &lt;big&gt;&lt;b&gt;[QUESTNR]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;за время: &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;общая эффективность: &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
+        <translation>При сдаче экзамена на уровне &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;получено &lt;big&gt;&lt;b&gt;[QUESTNR]&lt;/b&gt;&lt;/big&gt;требуемых ответов на вопросы&lt;br&gt;за время &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt; и получена оценка &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="94"/>
@@ -2614,7 +2614,7 @@
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="98"/>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation>&lt;small&gt;&lt;i&gt;Экзаменационная комиссия:&lt;/i&gt;&lt;br&gt;&lt;i&gt;презитент&lt;/i&gt;&lt;b&gt; Нутка&lt;/b&gt;,&lt;br&gt;&lt;i&gt;профессор&lt;/i&gt; &lt;b&gt;г-н Процессор&lt;/b&gt; и&lt;br&gt; его &lt;i&gt;ассистент&lt;/i&gt;&lt;b&gt; г-жа ОЗУ&lt;/b&gt;.&lt;br&gt;&lt;i&gt;Секретарь комиссии&lt;/i&gt;&lt;b&gt; г-н Диск&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;Экзаменационная комиссия:&lt;/i&gt;&lt;br&gt;&lt;i&gt;президент&lt;/i&gt;&lt;b&gt; Нутка&lt;/b&gt;,&lt;br&gt;&lt;i&gt;профессор&lt;/i&gt; &lt;b&gt;г-н Процессор&lt;/b&gt; и&lt;br&gt; его &lt;i&gt;ассистент&lt;/i&gt;&lt;b&gt; г-жа ОЗУ&lt;/b&gt;.&lt;br&gt;&lt;i&gt;Секретарь комиссии&lt;/i&gt;&lt;b&gt; г-н Диск&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="108"/>
@@ -2871,17 +2871,17 @@
     <message>
         <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="29"/>
         <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для правки нот в записи:&lt;br&gt;Коснитесь области рядом с какой-либо нотой и перемещайте палец для выбора ее тона.&lt;br&gt;Затем уберите палец, чтобы добавить/удалить знак альтерации или ноту.&lt;br&gt;Коснитесь и перемещайте снова, чтобы продолжить выбор тона.&lt;br&gt;Для установки ноты - быстро коснитесь ее еще раз.&lt;br&gt;Для прокрутки нотоносца на несколько линий - используйте два пальца.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="39"/>
         <source>Touch a clef for a while to change it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Удерживайте палец на ключе, чтобы поменять его.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="45"/>
         <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на лад, который вы хотите выбрать - появится увеличенный просмотр.&lt;br&gt;Вы можете перетаскивать его вправо или влево, чтобы сменить лад.&lt;br&gt;Нажмите на нужную струну на просмотре, чтобы задать позицию.</translation>
     </message>
 </context>
 <context>
@@ -2933,7 +2933,7 @@
         <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="69"/>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>Распознавание нот</translation>
     </message>
     <message>
         <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="183"/>
@@ -3279,7 +3279,7 @@
     </message>
     <message>
         <source>Score</source>
-        <translation type="vanished">Нотоносец</translation>
+        <translation>Нотоносец</translation>
     </message>
 </context>
 <context>
@@ -3538,11 +3538,11 @@
     </message>
     <message>
         <source>exercises</source>
-        <translation type="vanished">Упражнения</translation>
+        <translation>Упражнения</translation>
     </message>
     <message>
         <source>pass new exam</source>
-        <translation type="vanished">Начать новый экзамен</translation>
+        <translation>Начать новый экзамен</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="125"/>
@@ -3551,7 +3551,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Помощь</translation>
+        <translation>Помощь</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="226"/>
@@ -3573,12 +3573,12 @@
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="122"/>
         <source>Continue exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжить экзамен</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="128"/>
         <source>Latest exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Недавний экзамен</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="274"/>
@@ -3614,11 +3614,11 @@
     </message>
     <message>
         <source>continue exam</source>
-        <translation type="vanished">Продолжить экзамен</translation>
+        <translation>Продолжить экзамен</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="63"/>
@@ -3692,22 +3692,22 @@
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="68"/>
         <source>Donate Nootka campaign</source>
-        <translation type="unfinished"></translation>
+        <translation>Кампания спонсирования Нутки</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="70"/>
         <source>Through PayPal or a card</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевести с PayPal или карты</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="72"/>
         <source>or send email for an account number</source>
-        <translation type="unfinished"></translation>
+        <translation>или отправить письмо для номера счета</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="112"/>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>Не беспокойтесь: это окно появляется только раз, после выхода каждой новой версии программы.&lt;br&gt;Повторно эту информацию можно просмотреть в диалоге «О программе»</translation>
+        <translation>Не беспокойтесь: это окно появляется один раз, после выхода новой версии Нутки.&lt;br&gt;Эту информацию всегда можно посмотреть в диалоге «О Нутке»</translation>
     </message>
 </context>
 <context>
@@ -3787,12 +3787,12 @@
     </message>
     <message>
         <source>Start!</source>
-        <translation type="vanished">Начать!</translation>
+        <translation>Начать!</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/ttoolbar.cpp" line="194"/>
         <source>Lessons</source>
-        <translation type="unfinished"></translation>
+        <translation>Уроки</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/ttoolbar.cpp" line="195"/>
@@ -3963,7 +3963,7 @@
     <message>
         <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="29"/>
         <source>check for Nootka updates</source>
-        <translation>проверять обновления программы</translation>
+        <translation>проверить обновления Нутки</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdateruleswdg.cpp" line="37"/>
@@ -4002,13 +4002,13 @@
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="48"/>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="53"/>
         <source>New Nootka %1 is available.</source>
-        <translation>Доступна новая версия %1 .</translation>
+        <translation>Доступна новая Нутка %1 .</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="49"/>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="54"/>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Для загрузки обновления посетите &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;сайт&lt;/a&gt;.</translation>
+        <translation>Для загрузки перейдите на &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;сайт Нутки&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="62"/>
@@ -4022,7 +4022,7 @@
     </message>
     <message>
         <source>Ok</source>
-        <translation type="vanished">ОК</translation>
+        <translation>ОК</translation>
     </message>
 </context>
 <context>
@@ -4089,7 +4089,7 @@
     </message>
     <message>
         <source>Accidentals used in exam.</source>
-        <translation type="vanished">Случайные знаки альтерации, используемые в экзамене.</translation>
+        <translation>Случайные знаки альтерации, используемые в экзамене.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="51"/>
@@ -4231,7 +4231,7 @@
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="70"/>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation>Загрузить больше уровней с &lt;a href=&quot;%1&quot;&gt;домашней страницы&lt;/a&gt; Нутки</translation>
+        <translation>Скачайте больше уровней с &lt;a href=&quot;%1&quot;&gt;домашней страницы Нутки&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -4239,7 +4239,7 @@
     <message>
         <location filename="../src/libs/core/tinitcorelib.cpp" line="121"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
-        <translation>&lt;center&gt;Не могу загрузить шрифты.&lt;br&gt;Попробуйте установить nootka.ttf вручную.&lt;/center&gt;</translation>
+        <translation>&lt;center&gt;Не могу загрузить шрифт.&lt;br&gt;Попробуйте установить nootka.ttf вручную.&lt;/center&gt;</translation>
     </message>
 </context>
 <context>
