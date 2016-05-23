@@ -20,6 +20,7 @@
 #include "taboutnootka.h"
 #include "tsupportnootka.h"
 #include "tnootkalabel.h"
+#include "tdonorswidget.h"
 #include "help/tmainhelp.h"
 #include <tinitcorelib.h>
 #include <widgets/troundedlabel.h>
@@ -185,19 +186,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     TsupportNootka *support = new TsupportNootka(this);
 
 // SPONSORS
-  QWidget *sponsorsWidget = new QWidget(this);
-  QString sponText = QLatin1String("<p style=\"text-align: center;\"><u>")
-      + tr("People and companies who gave material support for the Nootka project") + QLatin1String("</u></p>") + br;
-  sponText += QLatin1String("<ul>");
-  sponText += QString::fromUtf8("<li>Илья Б.</li>");
-  sponText += QLatin1String("<li>Yves Balhant</li>");
-  sponText += QLatin1String("<li>Tomasz Matuszewski</li>");
-  sponText += QLatin1String("</ul>");
-  sponText += QLatin1String("<p style=\"text-align: center;\"><b><big>THANK YOU!</b></big>");
-  QLabel *sponLab = new QLabel(sponText, this);
-  QVBoxLayout *laySpon = new QVBoxLayout;
-    laySpon->addWidget(sponLab);
-  sponsorsWidget->setLayout(laySpon);
+    QWidget *donorsWidget = new TdonorsWidget(this);
 
 // CHANGESLOG
     QTextEdit *chLogTxt = new QTextEdit();
@@ -230,7 +219,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     m_stackLayout->addWidget(m_authorScroll);
     m_stackLayout->addWidget(licenseTxt);
     m_stackLayout->addWidget(support);
-    m_stackLayout->addWidget(sponsorsWidget);
+    m_stackLayout->addWidget(donorsWidget);
     m_stackLayout->addWidget(chLogTxt);
 
     connect(m_okBut, SIGNAL(clicked()), this, SLOT(accept()));
