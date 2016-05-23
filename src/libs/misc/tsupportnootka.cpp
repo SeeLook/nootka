@@ -54,7 +54,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
 //           "an equipment capable for that is needed.<br>"
 //           "Simply, the PC I'm working on is to old for that…<br>"
 //           "Donate Nootka, please.")
-//        + QLatin1String("<p><a href=\"http://sourceforge.net/donate/index.php?group_id=515420\">")
+//        + QLatin1String("<p><a href=\"http://nootka.sourceforge.net/index.php?C=donate\">")
 //        + tr("Through PayPal or a card") + QLatin1String("</a></p>")
 //        + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
 //        + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi + QLatin1String("</ul><br>"));
@@ -62,7 +62,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
   supp += QLatin1String("<ul>");
 //   supp += QLatin1String("<li><big><b style=\"color: #FF8000;\">Make a donation</b></big><br>Nootka is free of charge but it requires some expenses.<br>To make donation use <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
   supp += coloredLi("#42DA06", tr("Donate Nootka campaign"))
-       + QLatin1String("<a href=\"http://sourceforge.net/donate/index.php?group_id=515420\">")
+       + QLatin1String("<a href=\"http://nootka.sourceforge.net/index.php?C=donate\">")
        + tr("Through PayPal or a card") + QLatin1String("</a>")
        + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
        + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
