@@ -20,6 +20,7 @@
 #include "taboutnootka.h"
 #include "tsupportnootka.h"
 #include "tabout.h"
+#include "tdonorswidget.h"
 #include "tnootkalabel.h"
 #include "help/tmainhelp.h"
 #include <help/thelpdialogbase.h>
@@ -194,21 +195,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   auto supportPage = new TsupportNootka(this);
 
 // SPONSORS
-  auto sponsorsWidget = new QWidget(this);
-  QString sponText = QLatin1String("<p style=\"text-align: center;\"><u>")
-      + tr("People and companies who gave material support for the Nootka project") + QLatin1String("</u></p>") + br;
-  sponText += QLatin1String("<ul>");
-  sponText += QString::fromUtf8("<li>Илья Б.</li>");
-  sponText += QLatin1String("<li>Yves Balhant</li>");
-  sponText += QLatin1String("<li>Tomasz Matuszewski</li>");
-  sponText += QLatin1String("</ul>");
-  sponText += QLatin1String("<p style=\"text-align: center;\"><b><big>THANK YOU!</b></big>");
-  auto sponLab = new QLabel(sponText, this);
-  auto laySpon = new QVBoxLayout;
-    laySpon->addWidget(sponLab);
-  auto sponsorsPage = new TtouchArea(this);
-  sponsorsWidget->setLayout(laySpon);
-  sponsorsPage->setWidget(sponsorsWidget);
+  auto donorsWidget = new TdonorsWidget(this);
 
 // CHANGESLOG
   auto chLogPage = new QTextEdit(this);
@@ -282,7 +269,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   addPage(m_authorScroll);
   addPage(licensePage);
   addPage(supportPage);
-  addPage(sponsorsPage);
+  addPage(donorsWidget);
   addPage(chLogPage);
   addPage(qtAboutPage);
 
@@ -300,7 +287,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 void TaboutNootka::changeCurrentPage(int page) {
   if (page < stackLayout->count())
     stackLayout->setCurrentIndex(page);
-  if (page == 2) {
+  if (page == 2) { // scroll authors page
 #if defined (Q_OS_ANDROID)
       m_timer->start(60);
 #else
@@ -308,8 +295,10 @@ void TaboutNootka::changeCurrentPage(int page) {
 #endif
   } else {
       m_timer->stop();
-      if (page == 7)
+#if !defined (Q_OS_ANDROID)
+      if (page == stackLayout->count() - 1)
           close();
+#endif
   }
 }
 

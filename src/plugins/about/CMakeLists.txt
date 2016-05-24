@@ -7,6 +7,7 @@ set(ABOUT_SRC
   taboutplugin.cpp
   taboutnootka.cpp
   tsupportnootka.cpp
+  tdonorswidget.cpp
 )
 
 
