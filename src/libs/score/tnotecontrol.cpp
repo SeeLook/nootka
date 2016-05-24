@@ -240,7 +240,7 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 					else
 							m_cross->show();
 			}
-			if (pos().x() < m_scoreNote->pos().x()) { // hide 'name' and 'cross' for left control
+			if (isLeftPane()) { // hide 'name' and 'cross' for left control
 				m_name->hide();
 				m_cross->hide();
 			}
