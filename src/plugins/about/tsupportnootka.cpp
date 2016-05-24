@@ -51,7 +51,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
 //     donateLab->setOpenExternalLinks(true);
 // //     donateLab->setContentsMargins(5, 5, 5, 5);
 //     donateLab->setStyleSheet(QStringLiteral("background: #0F3F0A; color: #FFFFFF;"));
-//     donateLab->setText(QLatin1String("<ul>") + coloredLi("#42DA06", tr("Donate Nootka campaign")) + QLatin1String("<big>")
+//     donateLab->setText(QLatin1String("<ul>") + coloredLi("#42DA06", tr("Donate Nootka campaign"))
 //        + tr("Feature by feature and Nootka became big and complex project.<br>"
 //           "To be able developing this application further,<br>"
 //           "to finish version for Android (and other mobile systems later on),<br>"
@@ -66,7 +66,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
   supp += QLatin1String("<ul>");
 //   supp += QLatin1String("<li><big><b style=\"color: #FF8000;\">Make a donation</b></big><br>Nootka is free of charge but it requires some expenses.<br>To make donation use <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
   supp += coloredLi("#42DA06", tr("Donate Nootka campaign"))
-       + QLatin1String("<a href=\"http://sourceforge.net/donate/index.php?group_id=515420\">")
+       + QLatin1String("<a href=\"http://nootka.sourceforge.net/index.php?C=donate\">")
        + tr("Through PayPal or a card") + QLatin1String("</a>")
        + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
        + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
