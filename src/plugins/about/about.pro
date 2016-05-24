@@ -8,10 +8,12 @@ TEMPLATE = lib
 SOURCES +=  taboutplugin.cpp \
             taboutnootka.cpp \
             tsupportnootka.cpp \
+            tdonorswidget.cpp \
 
 HEADERS +=  taboutplugin.h \
             taboutnootka.h \
             tsupportnootka.h \
+            tdonorswidget.h \
 
 CONFIG += mobility warn_off
 MOBILITY =
