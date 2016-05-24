@@ -18,6 +18,7 @@
 
 #include "tscorescene.h"
 #include "tnotecontrol.h"
+#include "tscorestaff.h"
 #include <graphics/tdropshadoweffect.h>
 #include <tnoofont.h>
 #include <QGraphicsView>
@@ -64,7 +65,7 @@ TscoreScene::~TscoreScene()
 
 void TscoreScene::setCurrentAccid(char accid) {
 	char prevAcc = m_currentAccid;
-	m_currentAccid = (char)qBound((int)-m_dblAccFuse, (int)accid, (int)m_dblAccFuse);
+  m_currentAccid = char(qBound(int(-m_dblAccFuse), int(accid), int(m_dblAccFuse)));
 	if (m_workAccid && prevAcc != m_currentAccid) {
 		m_workAccid->setText(TscoreNote::getAccid(m_currentAccid));
 //     if (m_workAccid2)
@@ -122,20 +123,27 @@ void TscoreScene::setPointedColor(const QColor& color) {
 
 void TscoreScene::noteEntered(TscoreNote* sn) {
   m_hideTimer->stop();
-	if (!m_rectIsChanging && sn != m_scoreNote && sn != 0) {
-		m_scoreNote = sn;
-		if (controlledNotes()) {
-			if (right()->isEnabled()) {
-				right()->setPos(sn->pos().x() + sn->boundingRect().width(), 0.0);
-				right()->setScoreNote(sn);
-			}
-			if (left()->isEnabled()) {
-				left()->setPos(sn->pos().x() - left()->boundingRect().width(), 0.0);
-				left()->setScoreNote(sn);
-			}
-		}
-		if (workNote()->parentItem() != sn)
-				setCursorParent(sn);
+  if (!m_rectIsChanging && sn != m_scoreNote && sn != 0) {
+    m_scoreNote = sn;
+    if (controlledNotes()) {
+      if (right()->isEnabled()) {
+        if (sn->index() < sn->staff()->maxNoteCount() - 1)
+          right()->setPos(sn->pos().x() + sn->boundingRect().width(), 0.0);
+        else // Put right pane on the left if the last note on the staff
+          right()->setPos(sn->pos().x() - right()->boundingRect().width(), 0.0);
+        right()->setScoreNote(sn);
+      }
+      if (left()->isEnabled()) {
+        if (sn->index() < sn->staff()->maxNoteCount() - 1)
+          left()->setPos(sn->pos().x() - left()->boundingRect().width(), 0.0);
+        else
+          left()->setPos(sn->pos().x() - left()->boundingRect().width()
+                         - (right()->isEnabled() ? right()->boundingRect().width() : 0.0), 0.0);
+        left()->setScoreNote(sn);
+      }
+    }
+    if (workNote()->parentItem() != sn)
+      setCursorParent(sn);
 	}
 }
 
