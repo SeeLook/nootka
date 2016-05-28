@@ -38,7 +38,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
 {
     navList = new QListWidget(this);
 #if defined (Q_OS_ANDROID)
-    int bSize = qBound<int>(Tmtr::fingerPixels() * 1.1, Tmtr::longScreenSide() / 12, Tmtr::fingerPixels() * 1.6);
+    int bSize = qBound(qRound(Tmtr::fingerPixels() * 1.1), Tmtr::longScreenSide() / 12, qRound(Tmtr::fingerPixels() * 1.6));
     navList->setIconSize(QSize(bSize, bSize));
     navList->setMaximumWidth(bSize + 10);
     QFont f = font();
@@ -48,8 +48,9 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navList->setStyleSheet(navList->styleSheet() + " QListWidget#navList { background: palette(text); color: palette(base); }");
     navList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #else
-    navList->setIconSize(QSize(80, 80));
-    navList->setMaximumWidth(100);
+    int w = fontMetrics().boundingRect(QStringLiteral("Instrument")).width();
+    navList->setIconSize(QSize(w, w));
+    navList->setFixedWidth(w * 1.2);
 #endif
     navList->setViewMode(QListView::IconMode);
 		navList->setMovement(QListView::Static);
