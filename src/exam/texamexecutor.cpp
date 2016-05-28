@@ -1432,6 +1432,8 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
   mW->score->selectNote(nr);
   mW->sound->go();
   m_canvas->clearConfirmTip();
+  if (isExercise() && mW->guitar->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
+    mW->guitar->setFinger(m_exam->curQ()->melody()->note(nr)->g());
 }
 
 
