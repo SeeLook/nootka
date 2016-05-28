@@ -1477,7 +1477,7 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
     m_exam->curQ()->lastAttempt()->melodyWasPlayed();
   m_melody->noteStarted();
 	if (m_melody->currentIndex() == 0) // first played note was detected
-		m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - n.duration);
+    m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
   if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
     SCORE->selectNote(m_melody->currentIndex() + 1);
 }
@@ -1502,6 +1502,8 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
   SCORE->selectNote(nr);
   SOUND->go();
   m_canvas->clearConfirmTip();
+  if (isExercise() && GUITAR->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
+      GUITAR->setFinger(m_exam->curQ()->melody()->note(nr)->g());
 }
 
 
