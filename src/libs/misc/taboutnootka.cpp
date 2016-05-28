@@ -56,11 +56,13 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *abLay = new QHBoxLayout;
     m_navList = new QListWidget(this);
-    m_navList->setIconSize(QSize(80, 80));
-    m_navList->setFixedWidth(110);
+    int w = fontMetrics().boundingRect(QStringLiteral("Instrument")).width();
+    m_navList->setIconSize(QSize(w, w));
+    m_navList->setFixedWidth(w * 1.2);
     m_navList->setViewMode(QListView::IconMode);
-		m_navList->setMovement(QListView::Static);
+    m_navList->setMovement(QListView::Static);
     m_navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     abLay->addWidget(m_navList);
 
     m_stackLayout = new QStackedLayout;
