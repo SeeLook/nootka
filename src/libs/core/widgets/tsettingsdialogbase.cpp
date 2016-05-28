@@ -28,10 +28,11 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QVBoxLayout *mainLay = new QVBoxLayout;
     QHBoxLayout *contLay = new QHBoxLayout;
     navList = new QListWidget(this);
-    navList->setIconSize(QSize(80, 80));
-    navList->setFixedWidth(100);
+    int w = fontMetrics().boundingRect(QStringLiteral("Instrument")).width();
+    navList->setIconSize(QSize(w, w));
+    navList->setFixedWidth(w * 1.2);
     navList->setViewMode(QListView::IconMode);
-		navList->setMovement(QListView::Static);
+    navList->setMovement(QListView::Static);
     navList->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     contLay->addWidget(navList);
