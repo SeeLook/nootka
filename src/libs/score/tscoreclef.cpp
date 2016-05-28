@@ -143,7 +143,7 @@ void TscoreClef::touched(const QPointF& scenePos) {
   Q_UNUSED(scenePos)
   m_tapTimer->start(300);
 #if defined (Q_OS_ANDROID)
-  if (!TtouchParams::i()->clefWasTouched && tMessage && !tMessage->isVisible() && tMessage->mainWindowOnTop()) {
+  if (!readOnly() && !TtouchParams::i()->clefWasTouched && tMessage && !tMessage->isVisible() && tMessage->mainWindowOnTop()) {
     tMessage->setMessage(TtouchProxy::touchClefHelp(), 0);
     TtouchParams::i()->clefWasTouched = true;
   }
@@ -153,7 +153,7 @@ void TscoreClef::touched(const QPointF& scenePos) {
 
 void TscoreClef::untouched(const QPointF& scenePos) {
   m_tapTimer->stop();
-  if (!scenePos.isNull() && m_textClef->brush().color() == qApp->palette().highlight().color()) {
+  if (!readOnly() && !scenePos.isNull() && m_textClef->brush().color() == qApp->palette().highlight().color()) {
     m_textClef->setBrush(qApp->palette().text().color());
     m_fakeMouseEvent->setPos(mapFromScene(scenePos));
     QTimer::singleShot(5, [=]{ mousePressEvent(m_fakeMouseEvent); });
