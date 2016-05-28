@@ -1,3 +1,9 @@
+1.2.6
+     - clicking melody note displays guitar position (only exercises)
+     - updated Russian translation
+    BUGS FIXES
+     - keep right-side note pane always visible, even at the staff end
+
 1.2A.5 rc1
    ANDROID
      - added update checker
