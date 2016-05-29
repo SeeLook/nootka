@@ -24,6 +24,7 @@
 #include <level/tlevelpreview.h>
 #include <tsimplescore.h>
 #include <tscorescene.h>
+#include <tnoofont.h>
 #include <exam/tlevel.h>
 #include <music/ttune.h>
 #include <tscoreparams.h>
@@ -45,11 +46,11 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
     m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
     m_scoreRang->setNote(0, Tnote(1, 0));
     m_scoreRang->setNote(1, Tnote(1, 1));
-    m_scoreRang->addBGglyph((int)Tcore::gl()->instrument);
+    m_scoreRang->addBGglyph(int(Tcore::gl()->instrument));
     m_scoreRang->setControllersEnabled(true, false);
     m_scoreRang->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
 #if defined (Q_OS_ANDROID)
-    m_scoreRang->setFixedHeight(Tmtr::shortScreenSide() * 0.7);
+    m_scoreRang->setFixedHeight(qRound(Tmtr::shortScreenSide() * 0.7));
 #endif
   m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
     m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
@@ -96,14 +97,14 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
   for (int i = 0; i < 6; i++) {
       m_stringBut[i] = new QCheckBox(QString("%1").arg(i + 1),this);
   #if defined (Q_OS_ANDROID)
-      m_stringBut[i]->setFont(QFont("nootka", Tmtr::fingerPixels() * 0.5, QFont::Normal));
+      m_stringBut[i]->setFont(TnooFont(qRound(Tmtr::fingerPixels() * 0.5)));
   #else
-      m_stringBut[i]->setFont(QFont("nootka", qRound(font().pointSize() * 2.5), QFont::Normal));
+      m_stringBut[i]->setFont(TnooFont(qRound(font().pointSize() * 2.5)));
   #endif
       m_stringBut[i]->setChecked(true);
       connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(stringSelected()));
       connect(m_stringBut[i], SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-      if (i<3)
+      if (i < 3)
           strLay->addWidget(m_stringBut[i], 1, i + 1, 0);
       else
           strLay->addWidget(m_stringBut[i], 2, i - 2, 0);
