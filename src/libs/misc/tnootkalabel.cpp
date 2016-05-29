@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,9 +17,9 @@
  ***************************************************************************/
 
 #include "tnootkalabel.h"
-#include <QGraphicsPixmapItem>
-#include <QGraphicsColorizeEffect>
-#include <QMouseEvent>
+#include <QtWidgets/qgraphicsitem.h>
+#include <QtWidgets/qgraphicseffect.h>
+#include <QtGui/qevent.h>
 
 
 TnootkaLabel::TnootkaLabel(const QString& pixmapPath, QWidget* parent, QColor bgColor, const QString& version) :
@@ -27,40 +27,40 @@ TnootkaLabel::TnootkaLabel(const QString& pixmapPath, QWidget* parent, QColor bg
   m_bgColor(bgColor),
   m_hoverColor(-1)
 {
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFrameShape(QFrame::NoFrame);
-    setStyleSheet(("background: transparent; border-radius: 10px;"));
-    setRenderHint(QPainter::TextAntialiasing, true);
+  setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setFrameShape(QFrame::NoFrame);
+  setStyleSheet(QStringLiteral("background: transparent; border-radius: 10px;"));
+  setRenderHint(QPainter::TextAntialiasing, true);
 
-    QGraphicsScene *scene = new QGraphicsScene(this);
-    setScene(scene);
-    
-    m_pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
-		m_pixItem->setTransformationMode(Qt::SmoothTransformation);
-    scene->addItem(m_pixItem);
-		if (!version.isEmpty()) {
-			QGraphicsSimpleTextItem *ver = new QGraphicsSimpleTextItem(version);
-			scene->addItem(ver);
-			ver->setBrush(Qt::white);
-			ver->setZValue(255);
-			ver->setScale((m_pixItem->pixmap().height() / 3.5) / ver->boundingRect().height());
-			ver->setPos(m_pixItem->boundingRect().width() / 7.0, 
-									m_pixItem->pixmap().height() - ver->boundingRect().height() * ver->scale());
-		}
-		if (parent && parent->height() > m_pixItem->pixmap().height())
-			resize(m_pixItem->pixmap().size());
-		else {
-			qreal factor = (qreal)parent->height() / (qreal)m_pixItem->pixmap().height();
-			scale(factor, factor);
-		}
-// 		setMaximumSize(m_pixItem->pixmap().size());
-    m_effect = new QGraphicsColorizeEffect();
-    if (m_bgColor == -1)
-        m_bgColor = palette().window().color();
-    m_effect->setColor(m_bgColor);
-    m_pixItem->setGraphicsEffect(m_effect);
-		setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+  QGraphicsScene *scene = new QGraphicsScene(this);
+  setScene(scene);
+
+  m_pixItem = new QGraphicsPixmapItem(QPixmap(pixmapPath));
+  m_pixItem->setTransformationMode(Qt::SmoothTransformation);
+  scene->addItem(m_pixItem);
+  if (!version.isEmpty()) {
+    QGraphicsSimpleTextItem *ver = new QGraphicsSimpleTextItem(version);
+    scene->addItem(ver);
+    ver->setBrush(Qt::white);
+    ver->setZValue(255);
+    ver->setScale((m_pixItem->pixmap().height() / 3.5) / ver->boundingRect().height());
+    ver->setPos(m_pixItem->boundingRect().width() / 7.0,
+                m_pixItem->pixmap().height() - ver->boundingRect().height() * ver->scale());
+  }
+  if (parent && parent->height() > m_pixItem->pixmap().height())
+    resize(m_pixItem->pixmap().size());
+  else {
+    qreal factor = qreal(parent->height()) / qreal(m_pixItem->pixmap().height());
+    scale(factor, factor);
+  }
+
+  m_effect = new QGraphicsColorizeEffect();
+  if (m_bgColor == -1)
+    m_bgColor = palette().window().color();
+  m_effect->setColor(m_bgColor);
+  m_pixItem->setGraphicsEffect(m_effect);
+  setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 }
 
 //#################################################################################################
@@ -68,29 +68,29 @@ TnootkaLabel::TnootkaLabel(const QString& pixmapPath, QWidget* parent, QColor bg
 //#################################################################################################
 
 bool TnootkaLabel::event(QEvent* event) {
-	if (m_hoverColor != -1) {
-		if (event->type() == QEvent::Enter)
-			m_effect->setColor(m_hoverColor);
-		else if (event->type() == QEvent::Leave)
-			m_effect->setColor(m_bgColor);
-	}
-	return QGraphicsView::event(event);
+  if (m_hoverColor != -1) {
+    if (event->type() == QEvent::Enter)
+      m_effect->setColor(m_hoverColor);
+    else if (event->type() == QEvent::Leave)
+      m_effect->setColor(m_bgColor);
+  }
+  return QGraphicsView::event(event);
 }
 
 
 void TnootkaLabel::mousePressEvent(QMouseEvent* event) {
-	if (event->button() == Qt::LeftButton)
-		emit clicked();
+  if (event->button() == Qt::LeftButton)
+    emit clicked();
 }
 
 
 void TnootkaLabel::resizeEvent(QResizeEvent* event) {
-	if (height() < m_pixItem->pixmap().height()) {
-		qreal factor = ((qreal)height() / (qreal)m_pixItem->pixmap().height()) / transform().m11();
-		scale(factor, factor);
-		setMinimumWidth(m_pixItem->pixmap().width() * transform().m11());
-	}
-	QGraphicsView::resizeEvent(event);
+  if (height() < m_pixItem->pixmap().height()) {
+    qreal factor = (qreal(height()) / qreal(m_pixItem->pixmap().height())) / transform().m11();
+    scale(factor, factor);
+    setMinimumWidth(qRound(m_pixItem->pixmap().width() * transform().m11()));
+  }
+  QGraphicsView::resizeEvent(event);
 }
 
 

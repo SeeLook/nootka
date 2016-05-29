@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,39 +20,42 @@
 #define TNOOTKALABEL_H
 
 #include "nootkamiscglobal.h"
-#include <QWidget>
-#include <QGraphicsView>
+#include <QtWidgets/qwidget.h>
+#include <QtWidgets/qgraphicsview.h>
+
 
 class QGraphicsColorizeEffect;
 
-/** 
+
+/**
  * This is QGraphicsView with given image (and its size)
  * colored with given color (palette().window().color() by default).
- * When @setHoverColor() is called then given color is set when mouse is over
+ * When @p setHoverColor() is called then given color is set when mouse is over
  */
 class NOOTKAMISC_EXPORT TnootkaLabel : public QGraphicsView
 {
 
-	Q_OBJECT
-	
+  Q_OBJECT
+
 public:
-	TnootkaLabel(const QString& pixmapPath, QWidget *parent = 0, QColor bgColor= -1, const QString& version = "");
-	
-	void setHoverColor(const QColor& hoverCol) { m_hoverColor = hoverCol; } /** Color when mouse is over */
+  TnootkaLabel(const QString& pixmapPath, QWidget *parent = 0, QColor bgColor= -1, const QString& version = QString());
+
+      /** Color when mouse is over */
+  void setHoverColor(const QColor& hoverCol) { m_hoverColor = hoverCol; }
 
 signals:
-	void clicked();
-		
+  void clicked();
+
 protected:
-	virtual void resizeEvent(QResizeEvent* event);
-	virtual void mousePressEvent(QMouseEvent* event);
-	virtual bool event(QEvent* event);
-    
+  virtual void resizeEvent(QResizeEvent* event);
+  virtual void mousePressEvent(QMouseEvent* event);
+  virtual bool event(QEvent* event);
+
 private:
-	QGraphicsPixmapItem 					*m_pixItem;
-	QGraphicsColorizeEffect 			*m_effect;
-	QColor												 m_bgColor, m_hoverColor;
-	
+  QGraphicsPixmapItem           *m_pixItem;
+  QGraphicsColorizeEffect       *m_effect;
+  QColor                         m_bgColor, m_hoverColor;
+
 };
 
 #endif // TNOOTKALABEL_H
