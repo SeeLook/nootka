@@ -296,7 +296,7 @@ void TaboutNootka::changeCurrentPage(int page) {
   } else {
       m_timer->stop();
 #if !defined (Q_OS_ANDROID)
-      if (page == stackLayout->count() - 1)
+      if (page == navList->count() - 1)
           close();
 #endif
   }
