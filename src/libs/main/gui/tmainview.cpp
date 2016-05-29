@@ -61,22 +61,22 @@ TmainView* TmainView::m_instance = nullptr;
 
 TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
                      QGraphicsView* scoreW, QGraphicsView* guitarW, TnoteName* name, QMainWindow* parent) :
-	QGraphicsView(parent),
-	m_mainWindow(parent),
-	m_layParams(layParams),
-	m_tool(toolW),
-	m_status(statLabW),
-	m_pitch(pitchW),
-	m_score(scoreW),
-	m_guitar(guitarW),
-	m_touchedWidget(0),
-	m_name(name),
-	m_progress(0),
-	m_results(0),
+  QGraphicsView(parent),
+  m_mainWindow(parent),
+  m_status(statLabW),
+  m_score(scoreW),
+  m_guitar(guitarW),
+  m_results(0),
+  m_progress(0),
+  m_touchedWidget(0),
+  m_pitch(pitchW),
+  m_name(name),
+  m_tool(toolW),
+  m_layParams(layParams),
+  m_mainMenuTap(false), m_scoreMenuTap(false), m_playBarTap(false)
 #if defined (Q_OS_ANDROID)
-  m_menuItem(0),
+  ,m_menuItem(0)
 #endif
-	m_mainMenuTap(false), m_scoreMenuTap(false), m_playBarTap(false)
 {
   if (m_instance) {
     qDebug() << "TmainView instance already exists";
@@ -206,7 +206,7 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 #if defined (Q_OS_ANDROID)
     m_resultLay->setContentsMargins(0, 5, 0, 0);
     auto spacerW = new QWidget(resultsW);
-    spacerW->setFixedSize(Tmtr::fingerPixels() * 0.7, 5);
+    spacerW->setFixedSize(qRound(Tmtr::fingerPixels() * 0.7), 5);
     m_resultLay->addWidget(spacerW); // space for menu dots, also makes nice gap above exam views when placed above note name
 #endif
   }
@@ -323,12 +323,9 @@ void TmainView::showToolBar() {
 
 
 void TmainView::menuSlot(Tmenu* m) {
-	int xOff = 0;
-	if (isAutoHide()) {
-		startHideAnim();
-		xOff = m_proxyBar->pos().x();
-	}
-	QPoint scoreGlobalPos = mapToGlobal(m_score->pos());
+  if (isAutoHide())
+    startHideAnim();
+  QPoint scoreGlobalPos = mapToGlobal(m_score->pos());
   m->move(QCursor::pos().x() - 5, scoreGlobalPos.y());
 }
 
@@ -430,7 +427,7 @@ void TmainView::scoreMenuExec() {
   menu.addAction(m_tool->scoreZoomIn());
   menu.addAction(m_tool->scoreZoomOut());
   menu.addAction(m_tool->scoreDeleteAll());
-  menu.exec(QPoint(width() - menu.sizeHint().width() - 2, 2), QPoint(width(), 2));
+  menu.exec(QPoint(0, 2), QPoint(- menu.sizeHint().width(), 2));
 #endif
 }
 
@@ -457,17 +454,6 @@ bool TmainView::viewportEvent(QEvent *event) {
               }
               return true;
 // 1.1.2 on the right screen edge - score menu
-          } else if (!m_nameLay && // // multi notes mode
-                     (m_scoreMenuTap || te->touchPoints().first().pos().x() > width() - Tmtr::fingerPixels() / 3)) {
-              if (event->type() == QEvent::TouchBegin) {
-                m_scoreMenuTap = true;
-              } else if (event->type() == QEvent::TouchEnd) {
-                if (m_scoreMenuTap && te->touchPoints().first().pos().x() < width() * 0.85)
-                    QTimer::singleShot(10, this, SLOT(scoreMenuExec()));
-                  else
-                    m_scoreMenuTap = false;
-              }
-              return true;
           } else if (m_touchedWidget == m_score->viewport() ||
                       m_container->childAt(mapFromScene(te->touchPoints().first().startPos())) == m_score->viewport()) {
 // 1.1.4 score was touched
@@ -534,7 +520,7 @@ void TmainView::keyPressEvent(QKeyEvent* event) {
 
 
 void TmainView::keyReleaseEvent(QKeyEvent* event) {
-  if ((Qt::Key)event->key() == Qt::Key_Menu)
+  if (Qt::Key(event->key()) == Qt::Key_Menu)
     QTimer::singleShot(10, this, SLOT(mainMenuExec()));
   QGraphicsView::keyReleaseEvent(event);
 }
