@@ -24,6 +24,7 @@
 #include <QtWidgets/qboxlayout.h>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
+  #include <tmtr.h>
 #endif
 
 Tabout::Tabout(QWidget* parent) :
@@ -47,6 +48,7 @@ Tabout::Tabout(QWidget* parent) :
     lay->addWidget(nootkaLab);
     lay->addWidget(m_aboutLab);
 #if defined (Q_OS_ANDROID)
+    nootkaLab->setMinimumHeight(Tmtr::fingerPixels() * 2);
     lay->setContentsMargins(0, 0, 0, 0);
   auto touchArea = new TtouchArea(this);
     touchArea->setLayout(lay);
