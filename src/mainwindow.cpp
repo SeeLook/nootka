@@ -87,9 +87,9 @@ MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   m_examResults(0),
   m_progress(0),
+  m_isPlayerFree(true),
   m_updaterPlugin(0),
-  m_updaterStoppedSound(false),
-  m_isPlayerFree(true)
+  m_updaterStoppedSound(false)
 {
   setObjectName(QStringLiteral("MainNootkaWindow"));
 #if !defined (Q_OS_ANDROID)
@@ -114,7 +114,7 @@ MainWindow::MainWindow(QWidget *parent) :
         QTimer::singleShot(2000, [=] { showSupportDialog(); });
       else { // check for updates
         gl->config->beginGroup("Updates");
-        m_updaterPlugin = new TpluginsLoader();
+        m_updaterPlugin = new TpluginsLoader(this);
         if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
             connect(m_updaterPlugin->node(), &TpluginObject::value, this, &MainWindow::updaterMessagesSlot);
             gl->config->endGroup(); // close settings note because updater need to open it again

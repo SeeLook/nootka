@@ -116,7 +116,7 @@ private:
 #if !defined (Q_OS_ANDROID)
   TstatusLabel 			   *m_statusLabel;
 #endif
-  TpluginsLoader       *m_updaterPlugin;
+  QPointer<TpluginsLoader> m_updaterPlugin;
   bool                  m_updaterStoppedSound;
 };
 
