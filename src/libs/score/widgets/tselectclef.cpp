@@ -173,8 +173,8 @@ TradioClef::TradioClef(Tclef clef, QWidget* parent, bool isMenu) :
 
 #if defined (Q_OS_ANDROID)
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
-      qMin<float>(Tmtr::Tmtr::fingerPixels() * 1.5f,
-           qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 110.0f)),
+      qMin(Tmtr::fingerPixels() * 1.5,
+           qMin(qApp->desktop()->availableGeometry().width(), qApp->desktop()->availableGeometry().height()) / 110.0)),
       this);
 #else
   QLabel *pixLabel = new QLabel(wrapPixToHtml(Tnote(0, 0, 0), m_clef.type(), 0,
@@ -260,6 +260,7 @@ bool TradioClef::event(QEvent* event) {
 
 
 void TradioClef::paintEvent(QPaintEvent* event) {
+  Q_UNUSED(event)
   if (m_hasMouseOver) {
     QPainter painter(this);
     QLinearGradient lg(width() / 2, 0, width() / 2, height());
@@ -333,7 +334,7 @@ void TclefMenu::setMenu(QMenu* menuParent) {
 Tclef TclefMenu::exec(QPoint pos) {
   if (!m_menu)
     return Tclef(Tclef::e_none);
-  m_menu->move(pos.x(), qMin<int>(pos.y(), qApp->desktop()->availableGeometry().height() * 0.55)); // It works everywhere (Qt style)
+  m_menu->move(pos.x(), qMin(pos.y(), qRound(qApp->desktop()->availableGeometry().height() * 0.55))); // It works everywhere (Qt style)
   m_menu->show(); // since Qt 5.6 it is necessary
   m_menu->exec(); // in contrary to exec(pos)
   return m_curentClef;
@@ -343,7 +344,8 @@ Tclef TclefMenu::exec(QPoint pos) {
 
 void TclefMenu::clefWasSelected(Tclef clef) {
   m_curentClef = clef;
-  m_menu->close();
+  if (m_menu)
+    m_menu->close();
 }
 
 
