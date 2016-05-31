@@ -46,15 +46,16 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 	m_globalSett(0), m_scoreSett(0),
 	m_guitarSett(0),
 	m_examSett(0),
-	m_sndOutSett(0), m_sndInSett(0), m_audioSettingsPage(0),
+  m_sndOutSett(0), m_sndInSett(0),
 	m_laySett(0),
+  m_audioSettingsPage(0),
 	m_7thNoteToDefaults(false),
 	m_mode(mode),
 	m_resetToDefaults(false)
 {
 #if !defined (Q_OS_ANDROID)
 	if (m_mode == e_settings)
-    setWindowTitle("Nootka - " + tr("application's settings"));
+    setWindowTitle(QLatin1String("Nootka) - " + tr("application's settings"));
 	else if (m_mode == e_exam)
 		setWindowTitle(tr("Simple exam settings"));
 	else
@@ -214,7 +215,7 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     case 0: {
       if (!m_globalSett) {
         addPage(m_globalSett = new TglobalSettings());
-				connect(m_globalSett, &TglobalSettings::restoreAllDefaults, this, &TsettingsDialog::allDefaultsRequired);
+        connect(m_globalSett, &TglobalSettings::restoreAllDefaults, this, &TsettingsDialog::allDefaultsRequired);
       }
       currentWidget = m_globalSett;
       break;
@@ -222,6 +223,9 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     case 1: {
       if (!m_scoreSett) {
         addPage(m_scoreSett = new TscoreSettings());
+#if defined (Q_OS_ANDROID)
+        markChanges(m_scoreSett);
+#endif
 				if (m_guitarSett) {
 						m_scoreSett->setDefaultClef(m_guitarSett->currentClef());
 						connect(m_guitarSett, &TguitarSettings::clefChanged, m_scoreSett, &TscoreSettings::defaultClefChanged);
@@ -233,6 +237,9 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     case 2: {
       if (!m_guitarSett) {
         addPage(m_guitarSett = new TguitarSettings());
+#if defined (Q_OS_ANDROID)
+        markChanges(m_guitarSett);
+#endif
         if (m_scoreSett)
           connect(m_guitarSett, &TguitarSettings::clefChanged, m_scoreSett, &TscoreSettings::defaultClefChanged);
         if (m_sndOutSett)
@@ -248,14 +255,21 @@ void TsettingsDialog::changeSettingsWidget(int index) {
       break;
     }
     case 4: {
-      if (!m_examSett)
+      if (!m_examSett) {
         stackLayout->addWidget(m_examSett = new TexamSettings(0, m_mode));
+#if defined (Q_OS_ANDROID)
+        markChanges(m_examSett);
+#endif
+      }
       currentWidget = m_examSett;
       break;
     }
     case 3: {
       if (!m_audioSettingsPage) {
         createAudioPage();
+#if defined (Q_OS_ANDROID)
+        markChanges(m_audioSettingsPage);
+#endif
         stackLayout->addWidget(m_audioSettingsPage);
         m_sndInSett->generateDevicesList();
         m_sndOutSett->generateDevicesList();
@@ -274,6 +288,9 @@ void TsettingsDialog::changeSettingsWidget(int index) {
 		case 5: {
 			if (!m_laySett) {
 				m_laySett = new TlaySettings(Tcore::gl()->L);
+#if defined (Q_OS_ANDROID)
+        markChanges(m_laySett);
+#endif
 				stackLayout->addWidget(m_laySett);
 				if (m_guitarSett) {
           connect(m_guitarSett, &TguitarSettings::instrumentChanged, m_laySett, &TlaySettings::instrumentChanged);

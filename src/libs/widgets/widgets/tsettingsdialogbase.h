@@ -44,9 +44,9 @@ class TtouchMenu;
  * that shows status tips captured by handling @p event()
  * It has hidden "default" button - @p defaultBut
 */
-
 class NOOTKACORE_EXPORT TsettingsDialogBase : public QDialog
 {
+
   Q_OBJECT
 
 public:
@@ -73,6 +73,11 @@ protected:
   QDialogButtonBox            *buttonBox; /**< Bottom layout with buttons */
 #if defined (Q_OS_ANDROID)
   TmenuWidget                 *menuButton;
+
+     /** Connects all configurable GUI elements (check, spin boxes, radio buttons)
+      * of @p container widget with animation of the menu button (three dots)
+      * to mark every user action that changes the options */
+  void markChanges(QWidget *container);
 #endif
 
 #if !defined (Q_OS_ANDROID)
