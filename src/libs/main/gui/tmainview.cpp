@@ -160,23 +160,27 @@ QList<QAction*>* TmainView::flyActions() {
 
 
 void TmainView::addNoteName() {
-	if (!m_nameLay) {
+  if (!m_nameLay) {
 #if defined (Q_OS_ANDROID)
     m_mainLay->setContentsMargins(0, 0, 0, 0);
 #else
     m_mainLay->setContentsMargins(7, 2, 7, 2);
-		m_name->installEventFilter(this);
+    m_name->installEventFilter(this);
 #endif
-		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-		m_name->setParent(0);
-		m_name->enableArrows(false);
-			m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
-				m_nameLay->addStretch();
-				m_nameLay->addWidget(m_name);
-				m_nameLay->addStretch();
-			m_scoreAndNameLay->addLayout(m_nameLay);
-		m_name->show();
-	}
+    m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    m_name->setParent(0);
+    m_name->enableArrows(false);
+    m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
+    m_nameLay->addStretch();
+#if defined (Q_OS_ANDROID)
+    m_nameLay->addWidget(m_name, 0, Qt::AlignCenter);
+#else
+    m_nameLay->addWidget(m_name);
+#endif
+    m_nameLay->addStretch();
+    m_scoreAndNameLay->addLayout(m_nameLay);
+    m_name->show();
+  }
 }
 
 
