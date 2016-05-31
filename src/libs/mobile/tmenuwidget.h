@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,17 +19,27 @@
 #ifndef TMENUWIDGET_H
 #define TMENUWIDGET_H
 
-#include <QWidget>
+
+#include <QtWidgets/qwidget.h>
+
 
 /**
  * Widget with three dots aka Android menu.
- * It paints itself and emits @p clicked() signal
+ * It paints itself and emits @p clicked() signal.
+ * It can be animated by @p animate() method
  */
 class TmenuWidget : public QWidget
 {
+
   Q_OBJECT
+
 public:
   TmenuWidget(QWidget* parent = 0);
+
+public slots:
+    /** Performs animation to mark the widget:
+     * every dot blinks once */
+  void animate();
 
 signals:
   void clicked();
@@ -39,9 +49,12 @@ protected:
   virtual void mousePressEvent(QMouseEvent*);
   virtual void mouseReleaseEvent(QMouseEvent*);
 
+protected slots:
+  void animSlot();
+
 private:
   bool            m_touched;
-
+  int             m_marked; /**< Number of marked dot. 0 - first and so on, @default -1 */
 
 };
 

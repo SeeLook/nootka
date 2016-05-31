@@ -1,3 +1,9 @@
+1.2A.6
+  Google Play(s) with Nootka
+    ANDROID
+     - prepared to release in Google Play
+     - change of any option highlights menu button to remember about confirmation
+
 1.2.6
      - clicking melody note displays guitar position (only exercises)
      - updated Russian translation
@@ -5,7 +11,7 @@
      - keep right-side note pane always visible, even at the staff end
 
 1.2A.5 rc1
-   ANDROID
+    ANDROID
      - added update checker
      - improved widget to starting lessons
     BUGS FIXES

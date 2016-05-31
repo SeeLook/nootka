@@ -44,8 +44,8 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QFont f = font();
     f.setPixelSize(qMin<int>(bSize / 5, fontMetrics().height()));
     navList->setFont(f);
-    navList->setObjectName("navList"); // revert colors of navigation list
-    navList->setStyleSheet(navList->styleSheet() + " QListWidget#navList { background: palette(text); color: palette(base); }");
+    navList->setObjectName(QStringLiteral("navList")); // revert colors of navigation list
+    navList->setStyleSheet(navList->styleSheet() + QStringLiteral(" QListWidget#navList { background: palette(text); color: palette(base); }"));
     navList->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #else
     int w = fontMetrics().boundingRect(QStringLiteral("Instrument")).width();
@@ -66,7 +66,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     stackLayout = new QStackedLayout;
 
     hint = new TroundedLabel(this);
-    hint->setFixedHeight(fontMetrics().boundingRect("A").height() * 3.5);
+    hint->setFixedHeight(qRound(fontMetrics().boundingRect("A").height() * 3.5));
 		hint->setMinimumWidth(fontMetrics().boundingRect("w").width() * 70);
     hint->setWordWrap(true);
 
@@ -86,7 +86,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
       mainLay->addWidget(buttonBox);
     setLayout(mainLay);
 
-		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     if (touchEnabled()) {
       setAttribute(Qt::WA_AcceptTouchEvents);
@@ -107,7 +107,7 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     navLay->addSpacing(1);
     connect(menuButton, &TmenuWidget::clicked, this, &TsettingsDialogBase::tapMenu);
     QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth());
-                                           menuButton->setFixedSize(navList->width(), Tmtr::fingerPixels() * 0.7); } );
+                                           menuButton->setFixedSize(navList->width(), qRound(Tmtr::fingerPixels() * 0.7)); } );
 #else
     QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
       (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0)); } );
@@ -172,13 +172,13 @@ void TsettingsDialogBase::fitSize() {
 */
 
 void TsettingsDialogBase::convertStatusTips() {
-	QList<QWidget*> allWidgets = findChildren<QWidget*>();
-	foreach(QWidget *w, allWidgets) {
-		if (w->statusTip() != "") {
-			w->setToolTip(w->statusTip());
-			w->setStatusTip("");
-		}
-	}
+  QList<QWidget*> allWidgets = findChildren<QWidget*>();
+  foreach(QWidget *w, allWidgets) {
+    if (!w->statusTip().isEmpty()) {
+      w->setToolTip(w->statusTip());
+      w->setStatusTip(QString());
+    }
+  }
 }
 
 
@@ -212,6 +212,22 @@ void TsettingsDialogBase::closeEvent(QCloseEvent *event) {
       event->accept();
 }
 
+
+void TsettingsDialogBase::markChanges(QWidget *container) {
+  foreach(QCheckBox *chB, container->findChildren<QCheckBox*>())
+    connect(chB, &QCheckBox::clicked, menuButton, &TmenuWidget::animate);
+  foreach(QGroupBox *grB, container->findChildren<QGroupBox*>())
+    connect(grB, &QGroupBox::clicked, menuButton, &TmenuWidget::animate);
+  foreach(QPushButton *butt, container->findChildren<QPushButton*>())
+    connect(butt, &QPushButton::clicked, menuButton, &TmenuWidget::animate);
+  foreach(QRadioButton *radio, container->findChildren<QRadioButton*>())
+    connect(radio, &QCheckBox::clicked, menuButton, &TmenuWidget::animate);
+  foreach(QComboBox *combo, container->findChildren<QComboBox*>())
+    connect(combo, SIGNAL(currentIndexChanged(int)), menuButton, SLOT(animate()));
+  foreach(QSpinBox *spin, container->findChildren<QSpinBox*>())
+    connect(spin, SIGNAL(valueChanged(int)), menuButton, SLOT(animate()));
+}
+
 #endif
 
 
@@ -231,7 +247,7 @@ bool TsettingsDialogBase::event(QEvent *event) {
 #else
   if (event->type() == QEvent::StatusTip) {
       QStatusTipEvent *se = static_cast<QStatusTipEvent *>(event);
-      hint->setText("<center>"+se->tip()+"</center>");
+      hint->setText(QLatin1String("<center>") + se->tip() + QLatin1String("</center>"));
   }
 #endif
   return QDialog::event(event);

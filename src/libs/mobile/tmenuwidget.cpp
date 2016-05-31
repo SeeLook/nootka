@@ -17,15 +17,37 @@
  ***************************************************************************/
 
 #include "tmenuwidget.h"
-#include <QtGui/QPainter>
+#include <QtGui/qpainter.h>
 #include <QtCore/qtimer.h>
 
+#define ANIM_DURATION (100)
 
 TmenuWidget::TmenuWidget(QWidget* parent) :
   QWidget(parent),
-  m_touched(false)
+  m_touched(false),
+  m_marked(-1)
 {
   setContentsMargins(0, 0, 0, 0);
+}
+
+
+void TmenuWidget::animate() {
+  m_marked = 0;
+  repaint();
+  QTimer::singleShot(ANIM_DURATION, this, SLOT(animSlot()));
+}
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
+void TmenuWidget::animSlot() {
+  m_marked++;
+  if (m_marked < 3)
+      QTimer::singleShot(ANIM_DURATION, this, SLOT(animSlot()));
+  else
+      m_marked = -1;
+  repaint();
 }
 
 
@@ -39,8 +61,13 @@ void TmenuWidget::paintEvent(QPaintEvent*) {
   painter.drawRect(contentsRect());
   painter.setBrush(palette().base());
   int s = height() / 4;
-  for (int i = 0; i < 3; ++i)
+  for (int i = 0; i < 3; ++i) {
+    if (m_marked == i)
+      painter.setBrush(Qt::red);
+    else
+      painter.setBrush(palette().base());
     painter.drawEllipse(((width() - 3 * s) / 4) * (i + 1) + i * s , (height() - s) / 2, s, s);
+  }
 }
 
 

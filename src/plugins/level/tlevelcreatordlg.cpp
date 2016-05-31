@@ -34,10 +34,12 @@
 #if defined (Q_OS_ANDROID)
   #include <ttouchmenu.h>
   #include <tfiledialog.h>
+  #include <tmenuwidget.h>
 #endif
 
 
 bool isNotSaved;
+
 
 TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     TsettingsDialogBase(parent)
@@ -95,7 +97,9 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   
   connect(m_rangeSett, SIGNAL(allStringsChecked(bool)), m_questSett, SLOT(stringsCheckedSlot(bool)));
   
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  markChanges(this);
+#else
   setWidesttPage(m_questSett);
   setHighestPage(m_questSett);
   QTimer::singleShot(10, this, [this]{ hackSize(); } ); //HACK: adjust dialog width to biggest page width
