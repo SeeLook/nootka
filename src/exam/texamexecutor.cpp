@@ -876,12 +876,13 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 	}                                                       // TODO
   if (m_exercise && gl->E->showNameOfAnswered /*&& (!gl->E->autoNextQuest || (gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_continue))*/) {
 		if (!curQ->questionAsName() && !curQ->answerAsName()) {
+      Tnote emptyNote; // to force guitar to find note name set by user
 			if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
 				mW->score->showNames(gl->S->nameStyleInNoteName);
 			else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
-				mW->guitar->showName(gl->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
+				mW->guitar->showName(gl->S->nameStyleInNoteName, emptyNote, markColor); // Take it from user answer
 			else if (curQ->answerAsSound() && curQ->questionAsFret())
-					mW->guitar->showName(gl->S->nameStyleInNoteName, curQ->qa.note, markColor);
+					mW->guitar->showName(gl->S->nameStyleInNoteName, emptyNote, markColor);
 		} else { // cases when name was an question
 			if (curQ->questionAsName()) {
 				if (curQ->answerAsNote())
