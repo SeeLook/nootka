@@ -27,8 +27,8 @@
 #define SPACE_GAP (7)
 
 
-QString borderStyleTxt = QStringLiteral("border: 1px solid palette(shadow); border-radius: 2px;");
-QString space = QStringLiteral(" ");
+static QString borderStyleTxt = QStringLiteral("border: 1px solid palette(shadow); border-radius: 2px;");
+static QString space = QStringLiteral(" ");
 
 
 TexamView* TexamView::m_instance = nullptr;
@@ -133,13 +133,13 @@ void TexamView::questionStart() {
 
 
 quint16 TexamView::questionTime() {
-	return qRound(m_questionTime.elapsed() / 100.0);
+  return quint16(qRound(m_questionTime.elapsed() / 100.0));
 }
 
 
 void TexamView::questionStop() {
 	m_showReact = false;
-	quint16 t = qRound(m_questionTime.elapsed() / 100.0);
+  quint16 t = quint16(qRound(m_questionTime.elapsed() / 100.0));
 	if (m_exam->melodies()) {
 		m_exam->curQ()->time += t; // total time of all attempts
 		m_exam->curQ()->lastAttempt()->setTotalTime(t);
@@ -157,14 +157,14 @@ void TexamView::pause() {
 
 void TexamView::go() {
 	m_questionTime.start();
-	m_questionTime = m_questionTime.addMSecs(-m_pausedAt);		
+  m_questionTime = m_questionTime.addMSecs(-m_pausedAt);
 }
 
 
 void TexamView::startExam(Texam* exam) {
 	m_exam = exam;
 	m_totalTime = QTime(0, 0);
-	m_startExamTime = m_exam->totalTime();
+  m_startExamTime = int(m_exam->totalTime());
 	m_showReact = false;
 	m_totalTime.start();
 	countTime();
