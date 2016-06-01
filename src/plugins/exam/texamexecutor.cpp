@@ -899,9 +899,9 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 			if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
 				SCORE->showNames(Tcore::gl()->S->nameStyleInNoteName);
 			else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
-				GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
+        GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, markColor); // Take it from user answer
 			else if (curQ->answerAsSound() && curQ->questionAsFret())
-					GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor);
+          GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, markColor);
 		} else { // cases when name was an question
 			if (curQ->questionAsName()) {
 				if (curQ->answerAsNote())

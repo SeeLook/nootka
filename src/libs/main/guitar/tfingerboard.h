@@ -95,8 +95,8 @@ public:
 
       /** Displays name of note at current position
       * When note is empty the method tries to grab note (position) from that what was selected. */
-  void showName(Tnote::EnameStyle st, Tnote& note, const QColor& textColor);
-  void showName(Tnote::EnameStyle st, const QColor& textColor) { Tnote empty(0, 0, 0); showName(st, empty, textColor); }
+  void showName(Tnote::EnameStyle st, const Tnote& note, const QColor& textColor);
+  void showName(Tnote::EnameStyle st, const QColor& textColor) { showName(st, Tnote(), textColor); }
   void deleteNoteName();
 
   QPointF fretToPos(TfingerPos &pos); /**< Returns scene coordinates of given guitar position (between bars) */

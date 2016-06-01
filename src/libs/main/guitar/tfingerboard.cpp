@@ -374,7 +374,7 @@ void TfingerBoard::markQuestion(QColor blurColor) {
 }
 
 
-void TfingerBoard::showName(Tnote::EnameStyle st, Tnote& note, const QColor& textColor) {
+void TfingerBoard::showName(Tnote::EnameStyle st, const Tnote &note, const QColor& textColor) {
 	m_nameInCorrection = false;
 	m_corrStyle = st;
 	QGraphicsEllipseItem *qFinger = 0;
