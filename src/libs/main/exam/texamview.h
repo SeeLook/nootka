@@ -20,15 +20,23 @@
 #ifndef TEXAMVIEW_H
 #define TEXAMVIEW_H
 
+
 #include <QtWidgets/qwidget.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qtimer.h>
+
 
 class Texam;
 class TQAunit;
 class QLabel;
 
 #define    RESULTS    TexamView::instance()
+
+#if defined (Q_OS_ANDROID)
+  #define    REFRESH_TIME (250)
+#else
+  #define    REFRESH_TIME (100)
+#endif
 
 /**
  * A @class TexamView represents status of exam.
@@ -51,7 +59,7 @@ public:
 
   static TexamView* instance() { return m_instance; }
 
-    /** Returns time given in milisec. in format h:mm:ss */
+    /** Returns time given in &milliseconds in format h:mm:ss */
   static QString formatedTotalTime(int t) { return QString("%1:%2:%3")
           .arg(t/3600000)
           .arg((t%3600000)/60000, 2, 'f', 0, '0')
@@ -71,9 +79,10 @@ public:
   void stopExam() { m_timer->stop(); }
 
   void doNotdisplayTime() { m_timer->stop(); } /**< Stops displaying pending time */
-  void displayTime() { 	m_timer->start(100); } /**< Starts Refreshing elapsing time every 100 ms  */
+  void displayTime() { 	m_timer->start(REFRESH_TIME); } /**< Starts Refreshing elapsing time every 100 ms  */
 
-  quint32 totalTime() {return m_startExamTime + quint32(m_totalTime.elapsed() / 1000); } /**< Total time of the exam. */
+      /** Total time of the exam. */
+  quint32 totalTime() {return quint32(m_startExamTime) + quint32(m_totalTime.elapsed() / 1000); }
   void updateExam(); /**< Updates elapsed time and average time in current @p Texam */
   void clearResults();
 
@@ -91,14 +100,14 @@ public slots:
   void questionCountUpdate(); /**< Updates mistakes, correct, and 'not bad' numbers to current exam values */
 
 private:
-  bool 	      	    	m_showReact; /** switches whether displays pending question time counter */
+  bool 	      	    	m_showReact; /**< switches whether displays pending question time counter */
   QLabel 	           *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
   QLabel 	           *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
-  QTime 		          m_questionTime; /** Elapsing time of a question - started with questionStart() and stopped with questionStop() */
-  int				          m_startExamTime; /** Elapsed time from previous exam sessions */
+  QTime 		          m_questionTime; /**< Elapsing time of a question - started with questionStart() and stopped with questionStop() */
+  int				          m_startExamTime; /**< Elapsed time from previous exam sessions */
   QTimer 	           *m_timer;
-  QTime 		          m_totalTime; /** Total time of an exam */
-  int 			          m_pausedAt; /** when m_averTime was paused */
+  QTime 		          m_totalTime; /**< Total time of an exam */
+  int 			          m_pausedAt; /**< when m_averTime was paused */
   QSize			          m_sizeHint;
   Texam		           *m_exam;
   static TexamView   *m_instance;
