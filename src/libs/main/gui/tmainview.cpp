@@ -416,6 +416,12 @@ void TmainView::mainMenuExec() {
   auto a = menu.exec();
   if (a)
     a->trigger();
+  else { // when menu touched first time - display help but only if user doesn't select any action
+    if (!TOUCHPARAMS->initialAnimAccepted) {
+      m_menuItem->initialAnim();
+      TOUCHPARAMS->initialAnimAccepted = true;
+    }
+  }
 #endif
 }
 

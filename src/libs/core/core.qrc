@@ -50,5 +50,6 @@
         <file>mobile/card.png</file>
         <file>mobile/dir.png</file>
         <file>picts/scr.png</file>
+        <file>picts/fingerpoint.png</file>
     </qresource>
 </RCC>

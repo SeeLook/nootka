@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,8 +21,11 @@
 #include "tqtaudioout.h"
 #include <tmtr.h>
 #include <tpath.h>
+#include <qtr.h>
 #include <graphics/tnotepixmap.h>
 #include <graphics/tdropshadoweffect.h>
+#include <graphics/tgraphicstexttip.h>
+#include <../mobile/tfingerpointer.h>
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qstyle.h>
 #include <QtWidgets/qgraphicsscene.h>
@@ -61,22 +64,22 @@ public:
   }
 
   enum { FlyItemType = UserType + 2 };
-  virtual int type() const { return FlyItemType; }
+  virtual int type() const override { return FlyItemType; }
 
   void setBgColor(const QColor& c) { m_bgColor = QColor(c.red(), c.green(), c.blue(), BG_ALPHA); update(); }
 
-  virtual QRectF boundingRect() const {
+  virtual QRectF boundingRect() const override {
     return QRectF(0, 0, Tmtr::fingerPixels() * 1.4, Tmtr::fingerPixels() * 1.4);
   }
 
-  virtual QPainterPath shape() const {
+  virtual QPainterPath shape() const override {
     QPainterPath path;
     path.addEllipse(boundingRect());
     return path;
   }
 
 protected:
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem*, QWidget*) override {
     painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     painter->setPen(QPen(Qt::black, 2));
     painter->setBrush(QBrush(m_bgColor));
@@ -100,10 +103,10 @@ TmelodyItem* TmelodyItem::m_instance = 0;
 TmelodyItem::TmelodyItem() :
   QGraphicsObject(0),
   m_touched(false),
+  m_locked(false),
   m_selectedAction(0)
 {
   m_instance = this;
-//  setAcceptTouchEvents(true);
   m_playDot = createDot(1);
   m_recDot = createDot(2);
   m_snifDot = createDot(3);
@@ -155,6 +158,68 @@ void TmelodyItem::setListening(bool isListen) {
     setDotColor(m_snifDot, qApp->palette().text().color());
 }
 
+
+void TmelodyItem::initialAnim() {
+  QRadialGradient gr(0.0, 0.0, scene()->width() * 0.7);
+  QColor bg = qApp->palette().highlight().color();
+  bg.setAlpha(240);
+  gr.setColorAt(0.0, Qt::transparent);
+  gr.setColorAt(0.5, Qt::transparent);
+  gr.setColorAt(0.8, bg);
+  gr.setColorAt(1.0, qApp->palette().highlight().color());
+  auto bgRect = scene()->addRect(0.0, 0.0, scene()->width(), scene()->height(), Qt::NoPen, QBrush(gr));
+
+  createFlyActions();
+  m_touched = true; // to highlight menu button
+  update();
+  m_locked = true; // to lock menu button
+  auto fingerPoint = new TfingerPointer(bgRect);
+  fingerPoint->setZValue(200);
+  qreal radius = Tmtr::fingerPixels() * 0.7;
+  for (int i = 0; i < m_flyList.size(); ++i) {
+    QString hText = QLatin1String("<b>") + m_actions[i]->text() + QLatin1String("</b>");
+    if (!m_actions[i]->statusTip().isEmpty())
+      hText += QLatin1String("<br>") + m_actions[i]->statusTip().replace(QLatin1String(". "), QLatin1String(".<br>"));
+    if (i == 2)
+      hText += QLatin1String("<br>") + qTR("TvolumeView", "Switch on/off pitch detection");
+    auto hint = new TgraphicsTextTip(hText, qApp->palette().highlight().color());
+    scene()->addItem(hint);
+    hint->setParentItem(bgRect);
+    if (hint->boundingRect().width() + m_flyList[i]->x() + Tmtr::fingerPixels() * 1.7 > scene()->width() * 0.9)
+      hint->setTextWidth(scene()->width() * 0.9 - (m_flyList[i]->x() + Tmtr::fingerPixels() * 1.7));
+    if (i == 2)
+      hint->setPos(m_flyList[i]->x(),
+                 m_flyList[i]->y() + m_flyList[i]->boundingRect().height() + 15.0);
+    else
+      hint->setPos(m_flyList[i]->x() + Tmtr::fingerPixels() * 1.7,
+                 m_flyList[i]->y() + (m_flyList[i]->boundingRect().height() - hint->realH()) / 2.0);
+    fingerPoint->addMove(QPointF(x() + 10.0, y() + boundingRect().height() / 2.0), QPointF(m_flyList[i]->x() + radius, m_flyList[i]->y() + radius), 500, 750);
+  }
+  connect(fingerPoint, &TfingerPointer::moved, [=](int s){
+    m_flyList[s]->setBgColor(qApp->palette().highlight().color());
+    if (s > 0)
+      m_flyList[s - 1]->setBgColor(Qt::black);
+  });
+  connect(fingerPoint, &TfingerPointer::finished, [=](){
+    m_flyList.last()->setBgColor(Qt::black);
+    QTimer::singleShot(10, [=]{ fingerPoint->start(); });
+  });
+
+  auto gotIt = new TgraphicsTextTip(qTR("QDialogButtonBox", "OK") + QLatin1String(" !"));
+  gotIt->setDefaultTextColor(qApp->palette().base().color());
+  gotIt->setParentItem(bgRect);
+  gotIt->setScale(3.0);
+  gotIt->setPos(scene()->width() * 0.95 - gotIt->realW(), scene()->height() * 0.95 - gotIt->realH());
+  connect(gotIt, &TgraphicsTextTip::clicked, [=]{
+    delete bgRect;
+    qDeleteAll(m_flyList);
+    m_flyList.clear();
+    m_touched = false;
+    m_locked = false;
+    update();
+  });
+  fingerPoint->start();
+}
 
 QRectF TmelodyItem::boundingRect() const {
   return QRectF(0, 0, Tmtr::fingerPixels(), Tmtr::fingerPixels());
@@ -220,6 +285,8 @@ void TmelodyItem::createFlyActions() {
 //#################################################################################################
 
 void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
+  if (m_locked) // this is initial help preview - ignore touching menu button
+    return;
   m_currentIt = 0;
   m_touched = true;
   update();
@@ -229,7 +296,9 @@ void TmelodyItem::mousePressEvent(QGraphicsSceneMouseEvent*) {
 
 
 void TmelodyItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-  if (m_touched && event->pos().x() > Tmtr::fingerPixels() || event->pos().y() > Tmtr::fingerPixels()) {
+  if (m_locked) // this is initial help preview - ignore touching menu button
+    return;
+  if ((m_touched && event->pos().x() > Tmtr::fingerPixels()) || event->pos().y() > Tmtr::fingerPixels()) {
     // condition is correct as long as melody item is at (0, 0) position
     if (m_timer->isActive()) {
         createFlyActions(); // finger was moved over the melody item buy flying items have been not created yet.
@@ -252,9 +321,10 @@ void TmelodyItem::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void TmelodyItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+  if (m_locked) // this is initial help preview - ignore touching menu button
+    return;
   m_timer->stop();
-  for (int i = 0 ; i < m_flyList.size(); ++i)
-    delete m_flyList[i];
+  qDeleteAll(m_flyList);
   m_flyList.clear();
   m_touched = false;
   update();

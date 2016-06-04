@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,10 @@
 
 #include <nootkacoreglobal.h>
 
+
+#define   TOUCHPARAMS     TtouchParams::i()
+
+
 /**
  * Parameters related to touch in Nootka.
  * This is singleton class created once in @class Tglobals
@@ -33,11 +37,13 @@ public:
 
   ~TtouchParams();
 
-  static TtouchParams* i() { return m_instance; } /**< Single instance of TtouchParams object */
+      /** Single instance of TtouchParams object */
+  static TtouchParams* i() { return m_instance; }
 
   bool scoreWasTouched; /**< Becomes @p TRUE when user first time touched the score widget and read how it works */
   bool guitarWasTouched; /**< Becomes @p TRUE when user first time touched the fingerboard widget and read how it works */
   bool clefWasTouched; /**< Becomes @p TRUE when user first time touched clef */
+  bool initialAnimAccepted; /**<  Becomes @p TRUE when user accepts initial animation how to use main menu button */
 
 private:
   static TtouchParams            *m_instance;
