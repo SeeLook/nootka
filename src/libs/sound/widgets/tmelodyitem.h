@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,24 +43,35 @@ public:
   TmelodyItem();
   virtual ~TmelodyItem();
 
-  static TmelodyItem* instance() { return m_instance; } /** Instance of @class TmelodyItem or 0 */
+      /** Instance of @class TmelodyItem or 0 */
+  static TmelodyItem* instance() { return m_instance; }
 
-  void setPlaying(bool isPlay); /** Signalizes about playing process  */
+      /** Signalizes about playing process  */
+  void setPlaying(bool isPlay);
   void playingStarted() { setPlaying(true); }
   void playingStopped() { setPlaying(false); }
 
-  void setListening(bool isListen); /** Signalizes about listening (sniffing) process  */
+      /** Signalizes about listening (sniffing) process  */
+  void setListening(bool isListen);
   void listeningStarted() { setListening(true); }
   void listeningStopped() { setListening(false); }
 
   void setRecording(bool isRecord);
-  void recordingStarted() { setRecording(true); } /** Signalizes about recording process  */
+
+      /** Signalizes about recording process  */
+  void recordingStarted() { setRecording(true); }
   void recordingStopped() { setRecording(false); }
 
   bool isTouched() { return m_touched; }
 
-  bool audioInEnabled(); /** @p True when audio input (sniffing) is enabled  */
-  bool audioOutEnabled(); /** @p True when audio output (listening) is enabled  */
+      /** @p True when audio input (sniffing) is enabled  */
+  bool audioInEnabled();
+
+      /** @p True when audio output (listening) is enabled  */
+  bool audioOutEnabled();
+
+      /** Performs initial helping animation how to use the button  */
+  void initialAnim();
 
       /** List of actions from which side icons are created
        * They are drawn in order of the list
@@ -79,8 +90,11 @@ public:
   virtual QRectF boundingRect() const;
 
 signals:
-  void menuSignal(); /** Emitted when item was touched and released */
-  void touched(); /** Emitted when item was just touched */
+      /** Emitted when item was touched and released */
+  void menuSignal();
+
+      /** Emitted when item was just touched */
+  void touched();
 
 protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
@@ -99,8 +113,9 @@ private:
   bool                         m_touched;
   QList<TflyItem*>             m_flyList;
   QList<QAction*>              m_actions;
-  QTimer                      *m_timer; /** Counts time when to display fly-icons menu */
+  QTimer                      *m_timer; /**< Counts time when to display fly-icons menu */
   QAction                     *m_selectedAction;
+  bool                         m_locked; /**< @p TRUE when preview mode */
   TflyItem                    *m_currentIt;
 };
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,9 +19,11 @@
 #ifndef TMTR_H
 #define TMTR_H
 
+
 #include "nootkacoreglobal.h"
-#include <QApplication>
-#include <QScreen>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qscreen.h>
+
 
 /**
  * These are static measurement units depend on available screen size,
@@ -34,9 +36,14 @@ class NOOTKACORE_EXPORT Tmtr
 public:
   static void init(QApplication* a);
 
-  static int fingerPixels() { return m_fingerPixels; } /** size of finger (1 cm) in pixels */
-  static int shortScreenSide() { return m_shortScreenSide; } /** height or width of a screen (less of them) */
-  static int longScreenSide() { return m_longScreenSide; } /** height or width of a screen (bigger of them) */
+      /** size of finger (1 cm) in pixels */
+  static int fingerPixels() { return m_fingerPixels; }
+
+      /** height or width of a screen (less of them) */
+  static int shortScreenSide() { return m_shortScreenSide; }
+
+      /** height or width of a screen (bigger of them) */
+  static int longScreenSide() { return m_longScreenSide; }
 
   static int screenWidth() { return qApp->screens().first()->geometry().width(); }
   static int screenHeight() { return qApp->screens().first()->geometry().height(); }

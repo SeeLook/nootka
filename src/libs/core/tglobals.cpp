@@ -297,6 +297,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     TtouchParams::i()->scoreWasTouched = cfg->value("scoreWasTouched", false).toBool();
     TtouchParams::i()->clefWasTouched = cfg->value("clefWasTouched", false).toBool();
     TtouchParams::i()->guitarWasTouched = cfg->value("guitarWasTouched", false).toBool();
+    TtouchParams::i()->initialAnimAccepted = cfg->value("initialAnimAccepted", false).toBool();
   cfg->endGroup();
 }
 
@@ -460,5 +461,6 @@ void Tglobals::storeSettings(QSettings* cfg) {
     cfg->setValue("scoreWasTouched", TtouchParams::i()->scoreWasTouched);
     cfg->setValue("clefWasTouched", TtouchParams::i()->clefWasTouched);
     cfg->setValue("guitarWasTouched", TtouchParams::i()->guitarWasTouched);
+    cfg->setValue("initialAnimAccepted", TtouchParams::i()->initialAnimAccepted);
   cfg->endGroup();
 }

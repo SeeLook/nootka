@@ -10,12 +10,14 @@ SOURCES +=  ttouchmessage.cpp \
             ttouchmenu.cpp \
             tmenuwidget.cpp \
             tmaterialmenu.cpp \
+            tfingerpointer.cpp \
 
 HEADERS  += ttouchmessage.h \
             tfiledialog.h \
             ttouchmenu.h \
             tmenuwidget.h \
             tmaterialmenu.h \
+            tfingerpointer.h \
 
 CONFIG += mobility warn_off
 MOBILITY = 
