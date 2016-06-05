@@ -594,7 +594,7 @@ void TfingerBoard::paint() {
 	lastFret = m_fretsPos[Tcore::gl()->GfretsNumber - 1];
 	if (lastFret > (m_fbRect.width() + 10)) {
 			m_fbRect.setWidth(lastFret - 8);
-			qDebug("fretboard size changed");
+// 			qDebug("fretboard size changed");
 	}
 // Let's paint
 	QPixmap pixmap(size());
@@ -620,8 +620,8 @@ void TfingerBoard::paint() {
 	}
 	QPolygon a;
 	int fbThick = ((m_strGap * Tcore::gl()->Gtune()->stringNr()) / 6) / 4; // thickness of fretboard
-	a.setPoints(6, m_fbRect.x() - 6, m_fbRect.y(),
-							m_fbRect.x() + 2, m_fbRect.y() - fbThick,
+  a.setPoints(6, m_fbRect.x(), m_fbRect.y(),
+              m_fbRect.x() + qRound(m_fbRect.width() * 0.005), m_fbRect.y() - fbThick,
 							m_fbRect.x() + m_fbRect.width() + fbThick, m_fbRect.y() - fbThick,
 							m_fbRect.x() + m_fbRect.width() + fbThick, height() - fbThick,
 							m_fbRect.x() + m_fbRect.width(), height(),
@@ -634,24 +634,25 @@ void TfingerBoard::paint() {
 	painter.drawRect(m_fbRect);
 // FRETS
 	// zero fret (upper bridge or HUESO)
-	if (Tcore::gl()->instrument == e_classicalGuitar) {
-			painter.setPen(Qt::NoPen);
-			painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); //#FFFBF0 cream color for hueso
-			painter.drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, 7, m_fbRect.height());
-			a.setPoints(4, m_fbRect.x() - 8,							m_fbRect.y() + 4,
-									m_fbRect.x() - 1, 								m_fbRect.y() + 4,
-									m_fbRect.x() + m_strGap / 3 - 1,	m_fbRect.y() - m_strGap / 3,
-									m_fbRect.x() + m_strGap / 3 - 8,	m_fbRect.y() - m_strGap / 3);
-			painter.setBrush(QBrush(QColor("#FFEEBC"),Qt::SolidPattern)); // a bit darker for its rant
-			painter.drawPolygon(a);
+  int huesoW = qRound(m_fbRect.width() * 0.01);
+  if (Tcore::gl()->instrument == e_classicalGuitar) {
+      painter.setPen(Qt::NoPen);
+      painter.setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); // #FFFBF0 cream color for hueso
+      painter.drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, huesoW, m_fbRect.height());
+      a.setPoints(4, m_fbRect.x() - 8,                            m_fbRect.y() + 4,
+                  m_fbRect.x() - 8 + huesoW,                      m_fbRect.y() + 4,
+                  m_fbRect.x() + m_strGap / 3 - 8 + huesoW,       m_fbRect.y() - m_strGap / 3,
+                  m_fbRect.x() + m_strGap / 3 - 8,                m_fbRect.y() - m_strGap / 3);
+      painter.setBrush(QBrush(QColor("#FFEEBC"),Qt::SolidPattern)); // a bit darker for its rant
+      painter.drawPolygon(a);
 	} else {
-			QLinearGradient fretGrad(fbRect().x() - 8, 10.0, fbRect().x() + 6, 10.0);
+      QLinearGradient fretGrad(fbRect().x() - 8, 10.0, fbRect().x() - 8 + huesoW, 10.0);
 			fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
 			fretGrad.setColorAt(0.4, QColor("#7F806E"));
 			fretGrad.setColorAt(0.7, QColor("#3B382B"));
 			fretGrad.setColorAt(0.9, QColor("#000000"));
 			painter.setBrush(fretGrad);
-			painter.drawRoundedRect(fbRect().x() - 8, m_fbRect.y() + 2, 14, m_fbRect.height() - 4, 2, 2);
+      painter.drawRoundedRect(fbRect().x() - 8, m_fbRect.y() + 2, huesoW, m_fbRect.height() - 4, 2, 2);
 	}
 // others frets
   qint8 fretMarks[Tcore::gl()->GfretsNumber]; // array keeps whether fret is marked with dots (1) or two (2)
@@ -673,14 +674,15 @@ void TfingerBoard::paint() {
     }
   }
 	for (int i = 0; i < Tcore::gl()->GfretsNumber; i++) {
-			QLinearGradient fretGrad(m_fretsPos[i], 10.0, m_fretsPos[i] + 8, 10.0);
-			fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
-			fretGrad.setColorAt(0.4, QColor("#7F806E"));
-			fretGrad.setColorAt(0.7, QColor("#3B382B"));
-			fretGrad.setColorAt(0.9, QColor("#000000"));
-			painter.setBrush(fretGrad);
-			painter.drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, 9, m_fbRect.height() - 4, 2, 2);
-			
+      QLinearGradient fretGrad(0.0, 0.0, 1.0, 0.0);
+      fretGrad.setCoordinateMode(QGradient::ObjectBoundingMode);
+      fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
+      fretGrad.setColorAt(0.4, QColor("#7F806E"));
+      fretGrad.setColorAt(0.7, QColor("#3B382B"));
+      fretGrad.setColorAt(0.9, QColor("#000000"));
+      painter.setBrush(fretGrad);
+      painter.drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, m_fbRect.width() * 0.0085, m_fbRect.height() - 4, 2, 2);
+
       if (fretMarks[i]) {
         int markW = m_strGap / 3;
         painter.setBrush(QBrush(Qt::white, Qt::SolidPattern)); //white color for circles marking 5, 7, 9... frets
@@ -703,9 +705,10 @@ void TfingerBoard::paint() {
 	for (int i = 0; i < 6; i++) {
 //  drawing main strings
 		qreal lineYpos = m_fbRect.y() + m_strGap / 2 + i * m_strGap;
-		QLinearGradient strGrad(1.0, lineYpos - m_strWidth[i] / 2, 1.0, lineYpos + m_strWidth[i] / 2);
-		strGrad.setColorAt(0.0, m_strColors[i]);
-		strGrad.setColorAt(0.5, m_strColors[i].darker());
+    QLinearGradient strGrad(1.0, lineYpos - m_strWidth[i] / 2, 1.0, lineYpos + m_strWidth[i] / 2);
+    strGrad.setColorAt(0.0, m_strColors[i]);
+    strGrad.setColorAt(0.3, m_strColors[i]);
+    strGrad.setColorAt(0.7, m_strColors[i].darker());
 		painter.setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
 		painter.drawLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
 		if (i < Tcore::gl()->Gtune()->stringNr()) {
@@ -737,14 +740,11 @@ void TfingerBoard::paint() {
 					}
 	// shadow of the strings
 					painter.setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
-// 							int yy = m_fbRect.y() + m_strGap / 2 + (i - 1) * m_strGap - 3 - m_strWidth[i];
 					int yy = lineYpos + m_strGap * 0.2;
-					painter.drawLine(m_fbRect.x() + 3, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
-					painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
-					painter.drawLine(m_fbRect.x() - 8, lineYpos - 2,
-													m_fbRect.x(), lineYpos - 2);
-					painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1,
-													m_fbRect.x() - 1, lineYpos + m_strWidth[i] - 1);
+          painter.drawLine(m_fbRect.x() - 6 + huesoW, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
+          painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
+          painter.drawLine(m_fbRect.x() - 8, lineYpos - 2, m_fbRect.x() - 8 + huesoW , lineYpos - 2);
+          painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1, m_fbRect.x() - 8 + huesoW, lineYpos + m_strWidth[i] - 1);
 					if (m_pickRect->width()) { // shadow on the pickup if exist (bass or electric guitar)
 						int pickX = m_pickRect->x();
 						if (!Tcore::gl()->GisRightHanded)
