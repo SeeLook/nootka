@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,7 +38,7 @@
 QString TmainHelp::exerciseAndExamText() {
 	QString helpTxt;
   QString br = QStringLiteral("<br>");
-	helpTxt = youWillLearnText() + " ";
+	helpTxt = youWillLearnText() + QLatin1String(" ");
 	helpTxt += QApplication::translate("TmainHelp", "Much depends on the chosen level. Press %1 button to create your own questions set (a level).").
 			arg(QLatin1String(" &nbsp; ") + pixToHtml(Tpath::img("levelCreator"), getPixSize()) + QLatin1String(" &nbsp; "));
   helpTxt += br + QApplication::translate("TmainHelp", "Select a level and warm up yourself exercising. Then try to pass an exam.");
@@ -93,7 +93,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
 
   helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "III. Analyzing") + bbrEnd;
 #if defined (Q_OS_ANDROID)
-  helpTxt += QLatin1String("This feature isn't ready yet in Android version.<br><b>You may transfer Nootka files to desktop computer and see the results in Nootka version there.");
+  helpTxt += QLatin1String("This feature isn't ready yet in Android version.<br><b>You may transfer Nootka files to desktop computer and see the results in Nootka version there.</b>");
 #else
   helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
     arg(nbsp3 + pixToHtml(Tpath::img("charts"), pixSize) + nbsp3);

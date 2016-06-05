@@ -37,13 +37,10 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
   TtouchArea(parent),
   m_currentInstr(-1)
 {
-  qDebug() << Tcore::gl()->Gtune()->name << Tcore::gl()->Gtune()->stringNr() << Tcore::gl()->Gtune()->str(1).toRichText()
-           << Tcore::gl()->Gtune()->str(2).toRichText() << Tcore::gl()->Gtune()->str(3).toRichText();
   m_customTune = new Ttune(Tcore::gl()->Gtune()->name, Tcore::gl()->Gtune()->str(1), Tcore::gl()->Gtune()->str(2),
                            Tcore::gl()->Gtune()->str(3), Tcore::gl()->Gtune()->str(4), Tcore::gl()->Gtune()->str(5));
-  qDebug() << m_customTune->name << Tcore::gl()->Gtune()->name;
   m_curentTune = Tcore::gl()->Gtune();
-  
+
   tuningGuitarText = tr("tuning of the guitar");
   scaleOfInstrText = tr("scale of an instrument");
 

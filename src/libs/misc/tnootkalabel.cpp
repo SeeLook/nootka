@@ -85,7 +85,7 @@ void TnootkaLabel::mousePressEvent(QMouseEvent* event) {
 
 
 void TnootkaLabel::resizeEvent(QResizeEvent* event) {
-  if (height() < m_pixItem->pixmap().height()) {
+  if (height() < m_pixItem->pixmap().height() * 1.5) {
     qreal factor = (qreal(height()) / qreal(m_pixItem->pixmap().height())) / transform().m11();
     scale(factor, factor);
     setMinimumWidth(qRound(m_pixItem->pixmap().width() * transform().m11()));
