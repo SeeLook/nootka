@@ -148,6 +148,7 @@ private:
   QColor 			m_strColors[6];
 
   QGraphicsScene 						*m_scene;
+  QGraphicsPixmapItem       *m_bgPix;
   QGraphicsEllipseItem 			*m_workFinger, *m_fingers[6], *m_questFinger;
   int 											 m_strNr, m_fretNr;
   QGraphicsLineItem 				*m_workStrings[6], *m_strings[6], *m_questString, *m_highString;
