@@ -2,6 +2,7 @@
      - clicking melody note displays guitar position (only exercises)
      - updated Russian translation
     BUGS FIXES
+     - fixed bug with doubled fingerboard on high resolution screens
      - keep right-side note pane always visible, even at the staff end
 
 1.2.5
