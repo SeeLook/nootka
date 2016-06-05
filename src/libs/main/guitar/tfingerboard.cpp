@@ -54,11 +54,11 @@ int TfingerBoard::guitarTypeId() {
 
 
 TfingerBoard::TfingerBoard(QWidget *parent) :
-    QGraphicsView(parent),
-    m_isCursorOverGuitar(false),
-    m_movingItem(0),
-    m_noteName(0),
-    m_corrStyle(Tnote::defaultStyle)
+  QGraphicsView(parent),
+  m_noteName(0),
+  m_corrStyle(Tnote::defaultStyle),
+  m_isCursorOverGuitar(false),
+  m_movingItem(0)
 {
   if (m_instance) {
     qDebug() << "TfingerBoard instance already exists";
@@ -75,6 +75,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     }
 
     m_scene = new QGraphicsScene(this);
+    m_bgPix = m_scene->addPixmap(QPixmap());
 
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -653,24 +654,24 @@ void TfingerBoard::paint() {
 			painter.drawRoundedRect(fbRect().x() - 8, m_fbRect.y() + 2, 14, m_fbRect.height() - 4, 2, 2);
 	}
 // others frets
-	qint8 fretMarks[Tcore::gl()->GfretsNumber]; // array keeps whether fret is marked with dots (1) or two (2)
-	for (int i = 0; i < Tcore::gl()->GfretsNumber; ++i)
-		fretMarks[i] = 0;
-	for (int fr = 0; fr < Tcore::gl()->GmarkedFrets.size(); ++fr) {
-		QString exMark = "", frTxt = Tcore::gl()->GmarkedFrets[fr].toString();
-		if (frTxt.contains("!")) {
-			exMark = "!";
-			frTxt.replace("!", "");
-		}
-		bool ok;
-		int frNr = frTxt.toInt(&ok);
-		if (ok && frNr > 0 && frNr <= Tcore::gl()->GfretsNumber) {
-			if (exMark.isEmpty())
-				fretMarks[frNr - 1] = 1;
-			else
-				fretMarks[frNr - 1] = 2;
-		}
-	}
+  qint8 fretMarks[Tcore::gl()->GfretsNumber]; // array keeps whether fret is marked with dots (1) or two (2)
+  for (int i = 0; i < Tcore::gl()->GfretsNumber; ++i)
+    fretMarks[i] = 0;
+  for (int fr = 0; fr < Tcore::gl()->GmarkedFrets.size(); ++fr) {
+    QString exMark, frTxt = Tcore::gl()->GmarkedFrets[fr].toString();
+    if (frTxt.contains(QLatin1String("!"))) {
+      exMark = QStringLiteral("!");
+      frTxt.replace(QLatin1String("!"), QString());
+    }
+    bool ok;
+    int frNr = frTxt.toInt(&ok);
+    if (ok && frNr > 0 && frNr <= Tcore::gl()->GfretsNumber) {
+      if (exMark.isEmpty())
+        fretMarks[frNr - 1] = 1;
+      else
+        fretMarks[frNr - 1] = 2;
+    }
+  }
 	for (int i = 0; i < Tcore::gl()->GfretsNumber; i++) {
 			QLinearGradient fretGrad(m_fretsPos[i], 10.0, m_fretsPos[i] + 8, 10.0);
 			fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
@@ -680,23 +681,20 @@ void TfingerBoard::paint() {
 			painter.setBrush(fretGrad);
 			painter.drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, 9, m_fbRect.height() - 4, 2, 2);
 			
-			if (fretMarks[i])	{
-				painter.setBrush(QBrush(Qt::white, Qt::SolidPattern)); //white color for circles marking 5, 7, 9... frets
-				if (fretMarks[i] == 1)
-					painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-															m_fbRect.y() + m_strGap * (int)(Tcore::gl()->Gtune()->stringNr() / 2) - 2, 8, 8);
-				else {
-// 					painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-// 															m_fbRect.y() + m_strGap * (int)(Tcore::gl()->Gtune()->stringNr() / 2) - 10, 8, 8);
-// 					painter.drawEllipse(m_fretsPos[i] - 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-// 															m_fbRect.y() + m_strGap * (int)(Tcore::gl()->Gtune()->stringNr() / 2) + 8, 8, 8);
-					painter.drawEllipse(m_fretsPos[i] - 12 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-															m_fbRect.y() + m_strGap * (int)(Tcore::gl()->Gtune()->stringNr() / 2) - 2, 8, 8);
-					painter.drawEllipse(m_fretsPos[i] + 4 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
-															m_fbRect.y() + m_strGap * (int)(Tcore::gl()->Gtune()->stringNr() / 2) - 2, 8, 8);
-				}
-			}
-	}
+      if (fretMarks[i]) {
+        int markW = m_strGap / 3;
+        painter.setBrush(QBrush(Qt::white, Qt::SolidPattern)); //white color for circles marking 5, 7, 9... frets
+        if (fretMarks[i] == 1)
+          painter.drawEllipse(m_fretsPos[i] - markW / 2 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+                              m_fbRect.y() + m_strGap * int((Tcore::gl()->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
+        else {
+          painter.drawEllipse(m_fretsPos[i - 1] + 2 + ((m_fretsPos[i] - m_fretsPos[i - 1]) - 2 * markW) / 3,
+                              m_fbRect.y() + m_strGap * int((Tcore::gl()->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
+          painter.drawEllipse(m_fretsPos[i - 1] + 2 + (((m_fretsPos[i] - m_fretsPos[i - 1]) - 2 * markW) / 3) * 2 + markW,
+                              m_fbRect.y() + m_strGap * int((Tcore::gl()->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
+        }
+      }
+  }
 // STRINGS
 	QFont strFont = font();
 	strFont.setPixelSize((int)qRound(0.75 * m_strGap));//setting font for digits
@@ -787,7 +785,9 @@ void TfingerBoard::paint() {
 			m_questString->setLine(m_strings[m_questPos.str() - 1]->line());
 	if (m_questMark) paintQuestMark();
 	resizeRangeBox();
-	m_scene->setBackgroundBrush(QBrush(pixmap));
+
+  m_bgPix->setPixmap(pixmap); // apply created pixmap
+
 	setFinger(m_selNote);
 	if (m_highString)
 		setHighlitedString(m_hilightedStrNr);
