@@ -3,7 +3,10 @@
     ANDROID
      - prepared to release in Google Play
      - change of any option highlights menu button to remember about confirmation
-     - added help-like animation to describe how works sweeping the mobile menu
+     - added help-like animation to describe how to use sweeping of main menu
+     - better fit to high dpi screens
+    BUGS FIXES
+     - fixed some scaling issues
 
 1.2.6
      - clicking melody note displays guitar position (only exercises)
