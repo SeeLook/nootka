@@ -173,6 +173,7 @@ void TmainView::addNoteName() {
     m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
     m_nameLay->addStretch();
 #if defined (Q_OS_ANDROID)
+    m_name->setMinimumWidth(qRound(width() * 0.4));
     m_nameLay->addWidget(m_name, 0, Qt::AlignCenter);
 #else
     m_nameLay->addWidget(m_name);

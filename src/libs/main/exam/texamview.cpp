@@ -23,6 +23,10 @@
 #include <exam/textrans.h>
 #include <exam/tattempt.h>
 #include <QtWidgets/QtWidgets>
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
+
 
 #define SPACE_GAP (7)
 
@@ -45,7 +49,7 @@ TexamView::TexamView(QWidget *parent) :
   m_instance = this;
   auto mainLay = new QHBoxLayout;
 #if defined (Q_OS_ANDROID)
-  mainLay->setContentsMargins(0, 0, 0, 0);
+  mainLay->setContentsMargins(0, 1, 2, 1);
 #else
   setStatusTip(tr("Exam results"));
 #endif
@@ -146,7 +150,7 @@ void TexamView::questionStop() {
 	} else
 		m_exam->curQ()->time = t; // just elapsed time of single answer
 	if (isVisible())
-		m_reactTimeLab->setText(" " + Texam::formatReactTime(m_exam->curQ()->time) + " ");
+		m_reactTimeLab->setText(QLatin1String(" ") + Texam::formatReactTime(m_exam->curQ()->time) + QLatin1String(" "));
 }
 
 
@@ -188,8 +192,17 @@ void TexamView::answered() {
 
 
 void TexamView::setFontSize(int s) {
-  QFont f = m_reactTimeLab->font();
+  QFont f = font();
   f.setPointSize(s);
+#if defined (Q_OS_ANDROID)
+  QFontMetrics fm(f);
+  int zeroW = fm.width(QStringLiteral("0")) * 35;
+  if (zeroW + layout()->spacing() * 8 > qRound(Tmtr::longScreenSide() * 0.48)) {
+      s = qRound(qreal(s) * (Tmtr::longScreenSide() * 0.48) / qreal(zeroW + layout()->spacing() * 8)) - 1;
+      f.setPointSize(s);
+  }
+#endif
+  setFont(f);
   m_reactTimeLab->setFont(f);
   m_averTimeLab->setFont(f);
   m_totalTimeLab->setFont(f);
@@ -197,7 +210,7 @@ void TexamView::setFontSize(int s) {
   m_corrLab->setFont(f);
   m_halfLab->setFont(f);
   m_effLab->setFont(f);
-  m_sizeHint.setWidth(m_effLab->fontMetrics().width("0") * 35 + layout()->spacing() * 8);
+  m_sizeHint.setWidth(m_effLab->fontMetrics().width(QStringLiteral("0")) * 35 + layout()->spacing() * 8);
   m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
 }
 
