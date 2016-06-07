@@ -541,6 +541,7 @@ void MainWindow::startExamPlugin(const QString& pluginArgs) {
   m_examResults->setStyleBg(Tcolor::bgTag(gl->EanswerColor), Tcolor::bgTag(gl->EquestionColor), Tcolor::bgTag(gl->EnotBadColor));
   m_progress = new TprogressWidget();
   m_innerWidget->addExamViews(m_examResults, m_progress);
+  m_progress->resize(m_examResults->font().pointSize());
 
   m_examPlugin = new TpluginsLoader(this);
   if (m_examPlugin->load(TpluginsLoader::e_exam)) {
@@ -599,8 +600,8 @@ void MainWindow::updateSize(QSize newS) {
 	m_statusLabel->setFont(f);
 #endif
   if (m_progress) {
-    m_progress->resize(m_statFontSize);
     m_examResults->setFontSize(m_statFontSize);
+    m_progress->resize(m_examResults->font().pointSize());
   }
 	int newGuitH = (newS.height() - m_bar->height()) * 0.25;
 	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {

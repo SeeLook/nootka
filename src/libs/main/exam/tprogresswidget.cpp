@@ -22,6 +22,9 @@
 #include <tcolor.h>
 #include <exam/texam.h>
 #include <QtWidgets/QtWidgets>
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
 
 
 TprogressWidget* TprogressWidget::m_instance = nullptr;
@@ -39,7 +42,7 @@ TprogressWidget::TprogressWidget(QWidget* parent) :
   m_instance = this;
   QHBoxLayout *lay = new QHBoxLayout;
 #if defined (Q_OS_ANDROID)
-    lay->setContentsMargins(0, 0, 0, 0);
+    lay->setContentsMargins(0, 1, 2, 1);
 #endif
   m_answLab = new QLabel(zeroLabTxt(), this);
   m_answLab->setStyleSheet( "border: 1px solid palette(Text); border-radius: 4px;" + Tcolor::bgTag(Tcore::gl()->EnotBadColor));
@@ -91,16 +94,18 @@ void TprogressWidget::terminate() {
   m_bar->setStatusTip(progressExamTxt());
 }
 
+
 void TprogressWidget::resize(int fontSize) {
-    QFont f = font();
-    f.setPointSize(fontSize);
-    m_answLab->setFont(f);
-    m_totalLab->setFont(f);
+  QFont f = font();
+  f.setPointSize(fontSize);
+  m_answLab->setFont(f);
+  m_totalLab->setFont(f);
+  m_bar->setFont(f);
 }
 
-//#############################################################################
-// PROTECTED
-//#############################################################################
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void TprogressWidget::updateLabels() {
   int remained = qMax(0, m_totalNr + m_exam->penalty() - m_exam->count());
