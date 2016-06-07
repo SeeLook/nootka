@@ -387,6 +387,9 @@ void MainWindow::startExamSlot() {
 
 
 void MainWindow::aboutSlot() {
+  if (m_examPlugin) // ignore About dialog during exams/exercises
+    return;
+
 	if (m_score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing
 	m_sound->wait();
