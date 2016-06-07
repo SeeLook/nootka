@@ -66,16 +66,16 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   m_status(statLabW),
   m_score(scoreW),
   m_guitar(guitarW),
-  m_results(0),
-  m_progress(0),
-  m_touchedWidget(0),
+  m_results(nullptr),
+  m_progress(nullptr),
+  m_touchedWidget(nullptr),
   m_pitch(pitchW),
   m_name(name),
   m_tool(toolW),
   m_layParams(layParams),
   m_mainMenuTap(false), m_scoreMenuTap(false), m_playBarTap(false)
 #if defined (Q_OS_ANDROID)
-  ,m_menuItem(0)
+  ,m_menuItem(nullptr)
 #endif
 {
   if (m_instance) {
@@ -226,9 +226,12 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 
 
 void TmainView::takeExamViews() {
-	delete m_results;
-	delete m_progress;
+  delete m_results;
+  m_results = nullptr;
+  delete m_progress;
+  m_progress = nullptr;
   delete m_resultLay;
+  m_resultLay = nullptr;
 }
 
 
@@ -417,8 +420,10 @@ void TmainView::mainMenuExec() {
   auto a = menu.exec();
   if (a)
     a->trigger();
-  else { // when menu touched first time - display help but only if user doesn't select any action
-    if (!TOUCHPARAMS->initialAnimAccepted) {
+  else {
+    if (!TOUCHPARAMS->initialAnimAccepted && !(m_name && m_name->isVisible()) && !m_results) {
+      // when menu touched first time - display help,
+      // but only in full score mode and not during exercise and if user doesn't select any action from menu
       m_menuItem->initialAnim();
       TOUCHPARAMS->initialAnimAccepted = true;
     }

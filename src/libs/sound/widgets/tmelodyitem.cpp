@@ -193,7 +193,7 @@ void TmelodyItem::initialAnim() {
     else
       hint->setPos(m_flyList[i]->x() + Tmtr::fingerPixels() * 1.7,
                  m_flyList[i]->y() + (m_flyList[i]->boundingRect().height() - hint->realH()) / 2.0);
-    fingerPoint->addMove(QPointF(x() + 10.0, y() + boundingRect().height() / 2.0), QPointF(m_flyList[i]->x() + radius, m_flyList[i]->y() + radius), 500, 750);
+    fingerPoint->addMove(QPointF(x() + 10.0, y() + boundingRect().height() / 2.0), QPointF(m_flyList[i]->x() + radius, m_flyList[i]->y() + radius), 300, 750);
   }
   connect(fingerPoint, &TfingerPointer::moved, [=](int s){
     m_flyList[s]->setBgColor(qApp->palette().highlight().color());
