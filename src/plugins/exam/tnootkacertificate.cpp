@@ -26,23 +26,14 @@
 #include <help/texamhelp.h>
 #include <animations/tcombinedanim.h>
 #include <tpath.h>
-#include <QDate>
-#include <QBuffer>
-#include <QApplication>
-#include <QStyle>
+#include <QtWidgets/QtWidgets>
+#include <QtPrintSupport/qprinter.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
   #include <tfiledialog.h>
   #include <tmtr.h>
-#else
-  #include <QFileDialog>
 #endif
-#include <QGraphicsScene>
-#include <QtPrintSupport/QPrinter>
-#include <QPainter>
-#include <QGraphicsView>
-#include <QGraphicsEffect>
-#include <QDebug>
+
 
 #define MARGIN (40.0) // margin of Certificate paper
 #define SPACER (10.0) // line space
@@ -52,7 +43,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
 	QGraphicsObject(),
 	m_view(view),
   m_exam(exam),
-  m_saveHint(0)
+  m_saveHint(nullptr)
 {
   setFlag(ItemHasNoContents);
   m_view->scene()->addItem(this);
@@ -175,57 +166,73 @@ TnootkaCertificate::~TnootkaCertificate() {
 
 
 void TnootkaCertificate::createHints() {
-	if (!m_saveHint) {
-		QIcon ic = QApplication::style()->standardIcon(QStyle::SP_DialogSaveButton);
+  if (!m_saveHint) {
+    QIcon ic = QApplication::style()->standardIcon(QStyle::SP_DialogSaveButton);
     QString br = QStringLiteral("<br>");
-		QByteArray byteArray;
-		QBuffer buffer(&byteArray);
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
 #if defined (Q_OS_ANDROID)
     QPixmap scaledPix = ic.pixmap(Tmtr::fingerPixels() * 0.7, Tmtr::fingerPixels() * 0.7);
 #else
     QPixmap scaledPix = ic.pixmap(32, 32);
 #endif
     scaledPix.save(&buffer, "PNG");
-		m_saveHint = new TgraphicsTextTip(QLatin1String("<big>")
-                + tr("CONGRATULATIONS!<br>You have just passed the exam!") + br
-#if !defined (Q_OS_ANDROID) // one line break more on desktop
-                + br
-#endif
-                + QLatin1String("<img src=\"data:image/png;base64,")
-                + byteArray.toBase64() + QLatin1String("\"/>") + br + tr("Save this certificate to file in remembrance.") + QLatin1String("</big>"),
-            qApp->palette().highlight().color());
-			m_saveHint->setTextWidth((pos().x() - 10));
-			m_view->scene()->addItem(m_saveHint);
-			m_saveHint->setPos((pos().x() - m_saveHint->boundingRect().width()) / 2, 20.0);
-      m_saveHint->setZValue(3);
-      connect(m_saveHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
-
-      m_nextHint = new TgraphicsTextTip(tr("You can still play with it and improve effectiveness.")
-          + br + QLatin1String("<big>") + TexamHelp::toGetQuestTxt()
 #if defined (Q_OS_ANDROID)
-          + br + TexamHelp::tapIconTxt(pixToHtml(Tpath::img("nextQuest"), Tmtr::fingerPixels() * 0.7))
+    m_saveHint = new ThackedTouchTip(QLatin1String("<big>")
 #else
-          + QLatin1String(":") + br +  TexamHelp::clickSomeButtonTxt(pixToHtml(Tpath::img("nextQuest"), 32))
-          + "," + br + TexamHelp::pressSpaceKey() + QLatin1String(" ") + TexamHelp::orRightButtTxt()
+    m_saveHint = new TgraphicsTextTip(QLatin1String("<big>")
 #endif
-          + QLatin1String("</big>"), m_view->palette().window().color());
-			m_view->scene()->addItem(m_nextHint);
-      m_nextHint->setTextWidth((pos().x() - 10));
-			m_nextHint->setPos((pos().x() - m_nextHint->boundingRect().width()) / 2, m_view->height() / 2);
-      m_nextHint->setZValue(3);
-      connect(m_nextHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
+              + tr("CONGRATULATIONS!<br>You have just passed the exam!") + br
+#if !defined (Q_OS_ANDROID) // one line break more on desktop
+              + br
+#endif
+              + QLatin1String("<img src=\"data:image/png;base64,")
+              + byteArray.toBase64() + QLatin1String("\"/>") + br + tr("Save this certificate to file in remembrance.") + QLatin1String("</big>"),
+          qApp->palette().highlight().color());
+    m_saveHint->setTextWidth((pos().x() - 10));
+    m_view->scene()->addItem(m_saveHint);
+    if (m_saveHint->realH() > m_view->height() * 0.3)
+      m_saveHint->setScale((m_view->height() * 0.3) / m_saveHint->boundingRect().height());
+    m_saveHint->setPos((pos().x() - m_saveHint->realW()) / 2.0, m_view->height() * 0.03);
+    m_saveHint->setZValue(3);
+    connect(m_saveHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
+#if defined (Q_OS_ANDROID)
+    m_nextHint = new ThackedTouchTip(tr("You can still play with it and improve effectiveness.")
+#else
+    m_nextHint = new TgraphicsTextTip(tr("You can still play with it and improve effectiveness.")
+#endif
+        + br + QLatin1String("<big>") + TexamHelp::toGetQuestTxt()
+#if defined (Q_OS_ANDROID)
+        + br + TexamHelp::tapIconTxt(pixToHtml(Tpath::img("nextQuest"), Tmtr::fingerPixels() * 0.7))
+#else
+        + QLatin1String(":") + br +  TexamHelp::clickSomeButtonTxt(pixToHtml(Tpath::img("nextQuest"), 32))
+        + QLatin1String(",") + br + TexamHelp::pressSpaceKey() + QLatin1String(" ") + TexamHelp::orRightButtTxt()
+#endif
+        + QLatin1String("</big>"), m_view->palette().window().color());
+    m_view->scene()->addItem(m_nextHint);
+    m_nextHint->setTextWidth((pos().x() - 10));
+    if (m_nextHint->realH() > m_view->height() * 0.3)
+      m_nextHint->setScale((m_view->height() * 0.3) / m_nextHint->boundingRect().height());
+    m_nextHint->setPos((pos().x() - m_nextHint->realW()) / 2, m_view->height() * 0.4);
+    m_nextHint->setZValue(3);
+    connect(m_nextHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
 
-      ic = QIcon(Tpath::img("stopExam"));
-      m_closeHint = new TgraphicsTextTip(QLatin1String("<big>")
-          + TexamHelp::toStopExamTxt(pixToHtml(Tpath::img("stopExam"), 32).replace(QLatin1String("<img"), QLatin1String("<br><img"))
-          + QLatin1String("</big>")), Qt::red);
-			m_view->scene()->addItem(m_closeHint);
-      m_closeHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
-			m_closeHint->setPos((pos().x() - m_closeHint->boundingRect().width()) / 2,
-                          m_view->height() - m_closeHint->boundingRect().height() * m_closeHint->scale() - 20.0);
-      m_closeHint->setZValue(3);
-      connect(m_closeHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
-	}
+    ic = QIcon(Tpath::img("stopExam"));
+#if defined (Q_OS_ANDROID)
+    m_closeHint = new ThackedTouchTip(QLatin1String("<big>")
+#else
+    m_closeHint = new TgraphicsTextTip(QLatin1String("<big>")
+#endif
+        + TexamHelp::toStopExamTxt(pixToHtml(Tpath::img("stopExam"), 32).replace(QLatin1String("<img"), QLatin1String("<br><img"))
+        + QLatin1String("</big>")), Qt::red);
+    m_view->scene()->addItem(m_closeHint);
+    m_closeHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
+    if (m_closeHint->realH() > m_view->height() * 0.25)
+      m_closeHint->setScale((m_view->height() * 0.24) / m_closeHint->boundingRect().height());
+    m_closeHint->setPos((pos().x() - m_closeHint->realW()) / 2.0, m_view->height() * 0.74);
+    m_closeHint->setZValue(3);
+    connect(m_closeHint, &TgraphicsTextTip::clicked, this, &TnootkaCertificate::hintClicked);
+  }
 }
 
 
