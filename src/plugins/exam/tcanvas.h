@@ -23,7 +23,6 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qpointer.h>
 #include <QtWidgets/qgraphicsview.h>
-#include <graphics/tgraphicstexttip.h>
 #include <exam/tqatype.h>
 #include <tfingerpos.h>
 
@@ -38,25 +37,8 @@ class QTimer;
 class Texam;
 class TquestionTip;
 class TQAunit;
-
-
-
-/** HACK
- * Touching a tip doesn't work properly due to mouseMoveEvent spoils emitting clicked() signal.
- * This is workaround for it - to override mousePressEvent() and call clicked() there
- */
-class ThackedTouchTip : public TgraphicsTextTip {
-
-  Q_OBJECT
-
-public:
-  ThackedTouchTip(const QString& text, QColor bgColor = -1);
-
-protected:
-  virtual void mousePressEvent(QGraphicsSceneMouseEvent*) {
-    emit clicked();
-  }
-};
+class TgraphicsTextTip;
+class ThackedTouchTip;
 
 
 

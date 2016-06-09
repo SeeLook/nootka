@@ -52,32 +52,32 @@
 
 #if defined (Q_OS_ANDROID)
 inline QString getTipText(const char* iconName, const char* barText) {
-  return pixToHtml(Tpath::img(iconName), Tmtr::fingerPixels() * 0.7) + QLatin1String("<br>") +
+  return pixToHtml(Tpath::img(iconName), qRound(Tmtr::fingerPixels() * 0.7)) + QLatin1String("<br>") +
          QApplication::translate("TtoolBar", barText);
 }
 
 
 QFont smalTipFont(QWidget* w) {
-  int bSize = qBound<int>(Tmtr::fingerPixels() * 1.1, Tmtr::longScreenSide() / 12, Tmtr::fingerPixels() * 1.6);
+  int bSize = qBound(qRound(Tmtr::fingerPixels() * 1.1), Tmtr::longScreenSide() / 12, qRound(Tmtr::fingerPixels() * 1.6));
   QFont f = w->font();
   f.setPixelSize(qMin<int>(bSize / 5, w->fontMetrics().height()));
   return f;
 }
+
+
+/** Multiplexer of question tip scale factor to make it big enough on hi dpi tablet screens */
+inline qreal multiScale() {
+  return qreal(Tmtr::shortScreenSide() / Tmtr::fingerPixels()) / 5.0;
+}
+
 #endif
 
-
-ThackedTouchTip::ThackedTouchTip(const QString& text, QColor bgColor) :
-  TgraphicsTextTip(text, bgColor)
-{
-  setBaseColor(qApp->palette().text().color());
-  setDefaultTextColor(qApp->palette().base().color());
-}
 
 
 Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam) :
   QObject(view),
   m_view(view),
-  m_scale(1),
+  m_scale(1.0),
   m_certifyTip(0),
   m_exam(exam),
   m_timerToConfirm(new QTimer(this)),
@@ -88,9 +88,9 @@ Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam) :
 	m_newSize = m_scene->sceneRect().size().toSize();
 	m_prevSize = m_scene->sceneRect().size();
 #if defined (Q_OS_ANDROID)
-  m_iconSize = Tmtr::fingerPixels() * 0.7;
+  m_iconSize = qRound(Tmtr::fingerPixels() * 0.7);
 #else
-    m_iconSize = m_view->fontMetrics().boundingRect("A").height() * 2;
+    m_iconSize = m_view->fontMetrics().boundingRect(QStringLiteral("A")).height() * 2;
 #endif
   sizeChanged();
 	connect(m_scene, SIGNAL(sceneRectChanged(QRectF)), this, SLOT(sizeChangedDelayed(QRectF)));
@@ -135,7 +135,7 @@ int Tcanvas::bigFont() {
 
 QFont Tcanvas::tipFont(qreal factor) {
   QFont f = m_view->font();
-  f.setPointSize(qRound((qreal)bigFont() * factor));
+  f.setPointSize(qRound(qreal(bigFont()) * factor));
   return f;
 }
 
@@ -155,13 +155,19 @@ void Tcanvas::resultTip(TQAunit* answer, int time) {
       time = Tcore::gl()->E->mistakePreview; // user defined wait time
   }
 
-  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bigFont()));
+#if defined (Q_OS_ANDROID)
+  int bf = qMin(Tmtr::shortScreenSide() / 10, qRound(Tmtr::fingerPixels() * 2.0));
+#else
+  int bf = bigFont();
+#endif
+  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bf));
   m_scene->addItem(m_resultTip);
   m_resultTip->setZValue(100);
+
 	if (answer->isNotSoBad())
 		m_resultTip->setScale(m_scale);
 	else
-		m_resultTip->setScale(m_scale * 1.2);
+    m_resultTip->setScale(m_scale * 1.2);
   setResultPos();
   if (Tcore::gl()->E->showWrongPlayed && Tcore::gl()->E->showWrongPlayed && !answer->melody() &&
 			answer->answerAsSound() && !answer->isCorrect() && SOUND->note().note)
@@ -240,16 +246,15 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   connect(m_nextTip, &ThackedTouchTip::clicked, [=] {
       QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("nextQuest")); });
   });
-  int maxTipWidth = m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Next")).width();
+  int maxTipWidth = qRound(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Next")).width() * 1.5);
   if (!isCorrect) {
     m_prevTip = new ThackedTouchTip(getTipText("prevQuest", m_exam->melodies() ? "Try again" : "Repeat"),
                                      m_view->palette().highlight().color());
     m_scene->addItem(m_prevTip);
     m_prevTip->setFont(smalTipFont(m_view));
-    maxTipWidth = qMax<int>(maxTipWidth,
-            m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", m_exam->melodies() ? "Try again" : "Repeat")).width()) * 1.2;
+    maxTipWidth = qMax(maxTipWidth,
+           qRound(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", m_exam->melodies() ? "Try again" : "Repeat")).width() * 1.5));
     m_prevTip->setTextWidth(maxTipWidth);
-    QString tipLink;
     if (m_exam->melodies())
       connect(m_prevTip, &ThackedTouchTip::clicked, [=] {
           QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("newAttempt")); });
@@ -266,8 +271,8 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
     connect(m_correctTip, &ThackedTouchTip::clicked, [=] {
       QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("correct")); });
     });
-    maxTipWidth = qMax<int>(maxTipWidth,
-                            m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width()) * 1.2;
+    maxTipWidth = qMax(maxTipWidth,
+                           qRound(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width() * 1.5));
     m_correctTip->setTextWidth(maxTipWidth); // keep the same width if both tips are displayed
   }
   m_nextTip->setTextWidth(maxTipWidth);
@@ -600,12 +605,12 @@ void Tcanvas::sizeChangedDelayed(const QRectF& newRect) {
 
 void Tcanvas::sizeChanged() {
 	updateRelatedPoint();
-  int hi;
-  if (m_scene->height())
+  qreal hi;
+  if (bool(m_scene->height()))
     hi = m_scene->height();
   else
     hi = 580;
-  m_scale = m_scale * ((double)m_newSize.height() / hi);
+  m_scale = m_scale * (qreal(m_newSize.height()) / hi);
 	m_maxTipWidth = m_view->width() / 3;
   if (m_resultTip) {
 			if (m_exam->curQ()->isNotSoBad())
@@ -672,27 +677,17 @@ void Tcanvas::correctAnimFinished() {
 }
 
 
-bool m_menuKeyPressed = false;
 bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
-#if defined (Q_OS_ANDROID)
-  if (event->type() == QEvent::KeyPress) // Press any physical device key with single tap to get cert preview
-      m_menuKeyPressed = true;
-  else if (event->type() == QEvent::KeyRelease)
-      m_menuKeyPressed = false;
-#endif
-	if (event->type() == QEvent::MouseButtonPress) {
-#if defined (Q_OS_ANDROID)
-      if (m_menuKeyPressed)
-#else
-      QMouseEvent *me = static_cast<QMouseEvent*>(event);
-			if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier)
-#endif
-      {
-					if (m_exam)
-						emit certificateMagicKeys();
-			}
+#if !defined (Q_OS_ANDROID)
+  if (event->type() == QEvent::MouseButtonPress) {
+    QMouseEvent *me = static_cast<QMouseEvent*>(event);
+    if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
+        if (m_exam)
+          emit certificateMagicKeys();
+    }
   }
-	return QObject::eventFilter(obj, event);
+#endif
+  return QObject::eventFilter(obj, event);
 }
 
 //##################################################################################################
@@ -728,7 +723,20 @@ void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
 
 
 void Tcanvas::setResultPos() {
-	m_resultTip->setPos(m_scene->width() * 0.52 + (m_scene->width() * 0.48 - m_resultTip->realW()) / 2, m_scene->height() * 0.05);
+#if defined (Q_OS_ANDROID)
+// place the tip on the right screen side, but when answer is a name - on the left
+  m_resultTip->setPos(m_scene->width() * (m_exam->curQ()->answerAsName() ? 0.02 : 0.48) + (m_scene->width() * 0.48 - m_resultTip->realW()) / 2,
+                      m_scene->height() * (m_exam->isExercise() ? 0.02 : 0.15));
+#else
+  m_resultTip->setPos(m_scene->width() * 0.52 + (m_scene->width() * 0.48 - m_resultTip->realW()) / 2,
+                      m_scene->height() * 0.05);
+#endif
+  if (m_resultTip->realH() > m_scene->height() * 0.5) {
+      m_resultTip->setScale((m_scene->height() * 0.48) / m_resultTip->boundingRect().height());
+    setResultPos();
+  }
+  if (m_scene->width() - m_resultTip->x() < m_resultTip->realW() - 10.0) // keep the tip on the screen
+    m_resultTip->setX(m_scene->width() - m_resultTip->realW() - 10.0);
 }
 
 
@@ -795,8 +803,12 @@ void Tcanvas::setConfirmPos() { // right top corner
 
 
 void Tcanvas::createQuestionTip() {
-	delete m_questionTip;
-  m_questionTip = new TquestionTip(m_exam, m_scale * 1.2);
+  delete m_questionTip;
+  qreal scaleFactor = 1.2;
+#if defined (Q_OS_ANDROID) // HACK: to keep question big enough on tablet big screens
+  scaleFactor = 1.2 * multiScale();
+#endif
+  m_questionTip = new TquestionTip(m_exam, m_scale * scaleFactor);
 	m_questionTip->setTextWidth(m_maxTipWidth);
   m_scene->addItem(m_questionTip);
   connect(m_questionTip, SIGNAL(moved()), this, SLOT(tipMoved()));
@@ -809,6 +821,10 @@ void Tcanvas::setQuestionPos() {
 	qreal fineScale;
 	if (m_questionTip->boundingRect().height() > maxTipHeight) { // check is scaling needed
 			fineScale = (qreal)maxTipHeight / m_questionTip->boundingRect().height();
+#if defined (Q_OS_ANDROID)
+      fineScale *= multiScale();
+#endif
+
 			qreal scaleStep = 0.0;
 			while (m_questionTip->realH() > maxTipHeight) {
 					delete m_questionTip;
