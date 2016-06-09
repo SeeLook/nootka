@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,21 +19,28 @@
 #include "tresulttext.h"
 #include "tqaunit.h"
 #include "tattempt.h"
-#include <QApplication>
-#include <QColor>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qcolor.h>
 
 
-/** Adds comma and space ', ' to not empty string or returns the same. */
+    /** Adds comma and space ', ' (',<br>' on Android) to not empty string or returns the same. */
 void addSpaceToNotEmpty(QString& txt) {
-  if (txt != "")
-      txt += ", ";
+  if (!txt.isEmpty()) {
+#if defined (Q_OS_ANDROID)
+      txt += QLatin1String(",<br>"); // new line for any mistake entry under Android (big letters)
+#else
+      txt += QLatin1String(", ");
+#endif
+  }
 }
 
 
 /** Checks the length of string @p txt and adds new line tag if necessary */
 void newLineText(QString& txt, const QString& newText) {
-  if (txt.length() > 20 && !txt.contains("<br>"))
-      txt += "<br>";
+#if !defined (Q_OS_ANDROID) // ignore it under mobile
+  if (txt.length() > 20 && !txt.contains(QLatin1String("<br>")))
+      txt += QLatin1String("<br>");
+#endif
   txt += newText;
 }
 
@@ -55,20 +62,24 @@ QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize, 
       if (curQ.wrongNote() || curQ.wrongPos() || curQ.veryPoor())
           txt += QApplication::translate("AnswerText", "Wrong answer!");
       else {
-          txt += QApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + "<br>";
-          QString misMes = ""; // Message with mistakes
+          txt += QApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + QLatin1String("<br>");
+          QString misMes; // Message with mistakes
           if (curQ.wrongString())
               misMes = QApplication::translate("AnswerText", "wrong string");
           if (answer->melody() && curQ.littleNotes())
               misMes = QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little");
           if (curQ.poorEffect()) {
               addSpaceToNotEmpty(misMes);
+#if !defined (Q_OS_ANDROID) // Under mobile - above method does it
               if (!misMes.isEmpty())
-                misMes += "<br>";
+                misMes += QLatin1String("<br>");
+#endif
               misMes += QApplication::translate("AnswerText", "poor effectiveness");
           }
-          if (curQ.wrongAccid())
+
+          if (curQ.wrongAccid()) {
               misMes = QApplication::translate("AnswerText", "wrong accidental");
+          }
           if (curQ.wrongKey()) {
               addSpaceToNotEmpty(misMes);
               newLineText(misMes, QApplication::translate("AnswerText", "wrong key signature"));
@@ -83,7 +94,7 @@ QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize, 
           }
           txt += misMes;
       }
-  txt += "</span><br>";
+  txt += QLatin1String("</span><br>");
   return txt;
 
 }
