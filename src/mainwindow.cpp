@@ -109,8 +109,9 @@ MainWindow::MainWindow(QWidget *parent) :
   } else { // show support window once but not with first run wizard
       gl->config->beginGroup("General");
       QString newVersion = gl->config->value("version", QString()).toString();
+      int supportDaysPass = gl->config->value("supportDate", QDate(2012, 12, 31)).toDate().daysTo(QDate::currentDate());
       gl->config->endGroup();
-      if (newVersion != gl->version) // display support dialog when new version
+      if (supportDaysPass > 5) // display support dialog every five days
         QTimer::singleShot(2000, [=] { showSupportDialog(); });
       else { // check for updates
         gl->config->beginGroup("Updates");

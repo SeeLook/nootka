@@ -3841,6 +3841,10 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Donate Nootka campaign</source>
         <translation>Campagne d&apos;appel aux dons en faveur de Nootka</translation>
     </message>
+    <message>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation>Fonctionnalités après fonctionnalités, Nootka devient un projet complexe.&lt;br&gt;Afin de pouvoir continuer à développer cette application,&lt;br&gt;et pour finaliser la version pour Android (et pour d&apos;autres systèmes mobiles plus  tard),&lt;br&gt;un équipement adapté est nécessaire.&lt;br&gt;Le PC que j&apos;utilise est trop ancien pour cela...&lt;br&gt;Merci de faire un don.</translation>
+    </message>
 </context>
 <context>
     <name>TtipMelody</name>

@@ -66,10 +66,16 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
   supp += QLatin1String("<ul>");
 //   supp += QLatin1String("<li><big><b style=\"color: #FF8000;\">Make a donation</b></big><br>Nootka is free of charge but it requires some expenses.<br>To make donation use <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
   supp += coloredLi("#42DA06", tr("Donate Nootka campaign"))
-       + QLatin1String("<a href=\"http://nootka.sourceforge.net/index.php?C=donate\">")
-       + tr("Through PayPal or a card") + QLatin1String("</a>")
-       + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
-       + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
+        + tr("Feature by feature and Nootka became big and complex project.<br>"
+          "To be able developing this application further,<br>"
+          "to finish version for Android (and other mobile systems later on),<br>"
+          "an equipment capable for that is needed.<br>"
+          "Simply, the PC I'm working on is too old for that…<br>"
+          "Donate Nootka, please.")
+        + QLatin1String("<br><a href=\"http://nootka.sourceforge.net/index.php?C=donate\">")
+        + tr("Through PayPal or a card") + QLatin1String("</a>")
+        + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
+        + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
   supp += QLatin1String("<li><big><b style=\"color: #C000C0;\">Vote on Nootka</b></big><br>There are a lot of services. For example:<br>"
                         "<a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, "
