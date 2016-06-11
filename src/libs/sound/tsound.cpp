@@ -30,8 +30,9 @@
 #include <tinitcorelib.h>
 #include <taudioparams.h>
 #include <music/tmelody.h>
-#include <QPushButton>
-#include <QDebug>
+#include <QtWidgets/qpushbutton.h>
+#include <QtGui/qaction.h>
+#include <QtCore/qdebug.h>
 
 /* static */
 Tsound* Tsound::m_instance = nullptr;
@@ -184,15 +185,14 @@ void Tsound::setPitchView(TpitchView* pView) {
   m_pitchView->setMinimalVolume(Tcore::gl()->A->minimalVol);
 	m_pitchView->setIntonationAccuracy(Tcore::gl()->A->intonation);
 	m_pitchView->setAudioInput(sniffer);
-#if defined (Q_OS_ANDROID)
+
   if (sniffer) {
-    sniffer->setStoppedByUser(true); // don't launch pitch detection at start under mobile
-    m_userState = true;
-  }
+#if defined (Q_OS_ANDROID)
+    QTimer::singleShot(750, [=]{ m_pitchView->pauseAction()->trigger(); });
 #else
-  if (sniffer)
-    QTimer::singleShot(750, sniffer, SLOT(startListening()));
+    QTimer::singleShot(750, [=]{ sniffer->startListening(); });
 #endif
+  }
 }
 
 
