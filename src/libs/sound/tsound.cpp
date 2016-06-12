@@ -31,7 +31,7 @@
 #include <taudioparams.h>
 #include <music/tmelody.h>
 #include <QtWidgets/qpushbutton.h>
-#include <QtGui/qaction.h>
+#include <QtWidgets/qaction.h>
 #include <QtCore/qdebug.h>
 
 /* static */
@@ -40,8 +40,8 @@ Tsound* Tsound::m_instance = nullptr;
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
-  sniffer(0),
   player(0),
+  sniffer(0),
   m_examMode(false),
   m_melodyNoteIndex(-1)
 {
