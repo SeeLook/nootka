@@ -129,8 +129,10 @@ int main(int argc, char *argv[])
     if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
         QFile f(confFile);
         f.remove();
+        Tandroid::restartNootka(); // and call Nootka after delay
+        a->quit();
     }
-    resetConfig = false; // Close Android app anyway - it doesn't support restarting
+    resetConfig = false; // do - while loop doesn't work with Android
 #endif
 	} while (resetConfig);
   delete a;
