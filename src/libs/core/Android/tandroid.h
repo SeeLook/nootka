@@ -27,10 +27,21 @@
  */
 namespace Tandroid {
 
-  void setScreenLockDisabled(); /**< Sets phone/tablet screen saving disabled. */
-  QString getExternalPath(); /**< Returns path to external storage (SD card). */
-  QString getRunArgument(); /**< Returns command line argument (usually exam/level file name. */
+      /** Sets phone/tablet screen saving disabled. */
+  void setScreenLockDisabled();
+
+      /** Returns path to external storage (SD card). */
+  QString getExternalPath();
+
+      /** Returns command line argument (usually exam/level file name. */
+  QString getRunArgument();
+
   void sendExam(const QString& title, const QString& message, const QString& filePath);
+
+      /** Restarts the application by calling java code with delay.
+       * WARING! Application has to be terminated just after this method. */
+  void restartNootka();
+
   QString accountName();
 
 }
