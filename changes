@@ -1,4 +1,5 @@
     ANDROID
+     - handle pinch gesture to zoom score in/out
      - application can restart itself to restore initial settings
 
 1.2A.6

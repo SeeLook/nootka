@@ -29,7 +29,12 @@
 #endif
 #include <QtWidgets/QtWidgets>
 
-
+/** Definition of maximum staff height depends on platform  */
+#if defined (Q_OS_ANDROID)
+  #define MAX_STAFF_HEIGHT qMin(height(), Tmtr::fingerPixels() * 8)
+#else
+  #define MAX_STAFF_HEIGHT qMin(qreal(height()), qMin(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 1.5)
+#endif
 
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
 
@@ -179,7 +184,26 @@ void TmultiScore::setScoreDisabled(bool disabled) {
 }
 
 
+/**
+ * @p m_scale represents scale sets by user
+ * - this value can be ignored:
+ *   -- if scale is too big to display entire staff
+ *   -- or when it is too small and clef goes under mobile menu
+ * By default @p m_scale = 1.0 - bigger values make score smaller
+ * smaller values increase the score
+ */
 void TmultiScore::setScoreScale(qreal sc) {
+  qreal scoreFactor = transform().m11() * getScaleFactor(height(), sc);
+  if (staff()->height() * scoreFactor > MAX_STAFF_HEIGHT) {
+    qDebug() << "Staff height out of score! Scaling ignored";
+    return;
+  }
+#if defined (Q_OS_ANDROID)
+  if (CLEF_WIDTH * scoreFactor < Tmtr::fingerPixels() * 0.5) {
+    qDebug() << "Score will be too small! Scaling ignored!";
+    return;
+  }
+#endif
   if (sc != m_scale) {
     m_scale = sc;
     resizeEvent(0);
@@ -303,6 +327,15 @@ void TmultiScore::ensureNoteIsVisible() {
 //####################################################################################################
 //###################################   PROTECTED   ##################################################
 //####################################################################################################
+qreal TmultiScore::getScaleFactor(int minH, qreal sc) {
+#if defined (Q_OS_ANDROID)
+    qreal hh = qMin(qreal(minH), Tmtr::fingerPixels() * 6.0);
+#else
+    qreal hh = qMin(minH, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
+#endif
+    return ((hh / (staff()->height() + 0.4)) / transform().m11()) / sc;
+
+}
 
 void TmultiScore::resizeEvent(QResizeEvent* event) {
   int hh = height(), ww = width();
@@ -324,12 +357,8 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
     qreal staffOff = 0.0;
     if (staff()->isPianoStaff())
       staffOff = 1.1;
-#if defined (Q_OS_ANDROID)
-    hh = qMin<int>(hh, Tmtr::fingerPixels() * 6);
-#else
-    hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
-#endif
-    qreal factor = (((qreal)hh / (staff()->height() + 0.4)) / transform().m11()) / m_scale;
+
+    qreal factor = getScaleFactor(hh, m_scale);
     scoreScene()->prepareToChangeRect();
     scale(factor, factor);
     int stavesNumber; // how many staves are needed

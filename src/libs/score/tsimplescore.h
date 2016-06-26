@@ -77,7 +77,7 @@ public:
 
   bool isPianoStaff();
 
-      /** Sets background color. Alpha value will be overriden. */
+      /** Sets background color. Alpha value will be overridden. */
   void setBGcolor(QColor bgColor);
 
       /** It disables accids buttons and locks editing,
@@ -105,6 +105,13 @@ signals:
 
       /** TsimpleScore takes care about changing staves but also emits this signal when changes are done.*/
   void clefChanged(Tclef);
+
+      /** Emitted when score detects pinch touch gesture.
+       * Emitted value is zoom factor:
+       * - positive (> 0): zoom out
+       * - negative (< 0): zoom in
+       * Signal is emitted once per touch (m_pinchZoomEmitted is responsible for it) */
+  void pinchZoom(int);
 
 
 public slots:
@@ -150,9 +157,10 @@ private:
   Tclef::Etype								 m_clefType;
   QSize												 m_sizeHint;
   QPointer<TscoreItem>				 m_currentIt;
-  QPointF											 m_initPos; /** In scene coordinates. */
+  QPointF											 m_initPos; /**< In scene coordinates. */
   bool                         m_wheelFree;
   QTimer                      *m_wheelLockTimer;
+  bool                         m_pinchZoomEmitted;
 };
 
 #endif // TSIMPLESCORE_H

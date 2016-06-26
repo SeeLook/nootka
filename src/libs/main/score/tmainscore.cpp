@@ -90,6 +90,13 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	createNoteName();
 	isExamExecuting(false); // initialize some connections
   setNote(0, Tnote()); // To display fake empty note properly
+
+  connect(this, &TmultiScore::pinchZoom, [=](int dir) {
+    if (dir > 0)
+      m_acts->zoomIn()->trigger();
+    else
+      m_acts->zoomOut()->trigger();
+  });
 }
 
 
@@ -714,16 +721,30 @@ void TmainScore::showNamesSlot() {
 }
 
 
+/**
+ * @p zoomScoreSlot() is invoked by zoom in/out actions
+ * triggered from menu or through pinch zoom signal,
+ * and represents user scale factor.
+ * By default preferred scale of a staff is:
+ * - half of screen height on desktop
+ * - 6 * finger size on mobile,
+ * but not greater than score widget height - to ensure display entire staff
+ * On bigger tablet screens maximum height is bounded by 8 * finger size (mobile)
+ * or screen height / 1.5 (desktop).
+ * Minimal size is bounded by user scale factor but under mobile,
+ * also by minimal clef width that can be smaller than half of finger
+ * to avoid covering clef by menu button
+ */
 void TmainScore::zoomScoreSlot() {
-	qreal newScale = Tcore::gl()->S->scoreScale;
-	if (sender() == m_acts->zoomOut()) {
-			newScale = qMin(Tcore::gl()->S->scoreScale + 0.25, 2.0);
-	} else {
-			newScale = qMax(Tcore::gl()->S->scoreScale - 0.25, 1.0);
-	}
-	if (newScale != Tcore::gl()->S->scoreScale) {
-		Tcore::gl()->S->scoreScale = newScale;
-		setScoreScale(newScale);
+  qreal newScale = Tcore::gl()->S->scoreScale;
+  if (sender() == m_acts->zoomOut())
+    newScale = qMin(Tcore::gl()->S->scoreScale + 0.2, 3.0);
+  else
+    newScale = qMax(Tcore::gl()->S->scoreScale - 0.2, 0.4);
+
+  if (newScale != Tcore::gl()->S->scoreScale) {
+    setScoreScale(newScale);
+    Tcore::gl()->S->scoreScale = scoreScale();
     if (m_questMark) {
       m_questMark->setPos(0, 0); // reset position to enable positioning again
       setQuestionMarkPos();
