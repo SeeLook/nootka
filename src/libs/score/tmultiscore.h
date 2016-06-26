@@ -113,6 +113,10 @@ protected:
 
   void deleteFakeLines(int lastNr); /**< Deletes last @p lastNr lines from the fake list. */
 
+      /** Calculates score view scale factor with given user scale @p sc
+       * and minimal score height @p minH */
+  qreal getScaleFactor(int minH, qreal sc);
+
 protected slots:
 	void keyChangedSlot();
 

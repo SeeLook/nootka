@@ -28,6 +28,7 @@
 #include <tcolor.h>
 #include <tnoofont.h>
 #include <QtWidgets/QtWidgets>
+#include <tmtr.h>
 
 
 #define TAP_TIME (200) //  ms
@@ -36,10 +37,11 @@
 
 TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   QGraphicsView(parent),
-  m_notesNr(notesNumber),
   m_bgGlyph(0),
-	m_prevBGglyph(-1)
-{   
+  m_notesNr(notesNumber),
+  m_prevBGglyph(-1),
+  m_pinchZoomEmitted(false)
+{
   if (TscoreNote::touchEnabled())
     viewport()->setAttribute(Qt::WA_AcceptTouchEvents, true);
   else {
@@ -342,7 +344,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
  * with latest touch position in scene coordinates. To use them, TscoreItem subclass has to map it first.
  * When second finger touches screen, last touch event is canceled by putting null point as a parameter.
  * So far, only: @class TscoreNote, @class TscoreKeySignature and @class TscoreClef handles those methods.
- * Two fingers touch is used to scroll score
+ * Two fingers touch is used to scroll score and to zoom score in/out
  */
 bool TsimpleScore::viewportEvent(QEvent* event) {
   if (TscoreNote::touchEnabled()) {
@@ -366,6 +368,7 @@ bool TsimpleScore::viewportEvent(QEvent* event) {
             break;
           }
           case Qt::TouchPointReleased: {
+            m_pinchZoomEmitted = false;
             if (m_currentIt) {
               m_currentIt->untouched(touchScenePos);
               m_currentIt = 0;
@@ -381,7 +384,21 @@ bool TsimpleScore::viewportEvent(QEvent* event) {
           m_currentIt->untouched(QPointF(0, 0));
           m_currentIt = 0;
         }
-        verticalScrollBar()->setValue(verticalScrollBar()->value() + (te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y()));
+        QLineF l1(te->touchPoints()[0].startPos(), te->touchPoints()[1].startPos()); // initial double-touch position
+        QLineF l2(te->touchPoints()[0].pos(), te->touchPoints()[1].pos()); // final position
+        qreal distance = l1.length() - l2.length();
+        if (distance < -2.0 * Tmtr::fingerPixels()) { // zoom out
+          if (!m_pinchZoomEmitted) {
+            emit pinchZoom(1);
+            m_pinchZoomEmitted = true;
+          }
+        } else if (distance > 2.0 * Tmtr::fingerPixels()) { // zoom in
+          if (!m_pinchZoomEmitted) {
+            emit pinchZoom(-1);
+            m_pinchZoomEmitted = true;
+          }
+        } else if (distance < Tmtr::fingerPixels()) // just scroll
+          verticalScrollBar()->setValue(verticalScrollBar()->value() + int(te->touchPoints()[0].lastPos().y() - te->touchPoints()[0].pos().y()));
         return true;
       }
     }
