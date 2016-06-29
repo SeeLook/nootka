@@ -109,7 +109,6 @@ public:
 
   int newNotePos() const { return m_newPosY; } /**< Position of note after click but before head was moved */
   int newAccidental() const { return m_newAccid; } /**< Accidental going to be set. */
-  Trhythm* newRhythm() const { return m_newRhythm; } /**< Note cursor rhythm going to be set to this note */
 
   bool accidChanged() const { return (bool)m_newAccid != (bool)m_accidental; } /**< @p TRUE only when accidental appears or hides */
   bool pitchChanged() const { return m_newPosY != m_mainPosY; }
@@ -141,11 +140,16 @@ public:
   bool emptyLinesVisible() const { return m_emptyLinesVisible; }
   bool wasTouched() const { return m_wasTouched; } /**< @p TRUE during touch only */
 
+      /** Overrides standard @p QGraphicsItem::update() method,
+       * checks are rhythms (@p note()->rtm and @p workNote->rhythm() the same) */
+  void update();
+
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const;
   qreal width() const { return m_width; }
   qreal height() const { return m_height; }
   qreal rightX(); /**< shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor */
+  qreal estimateWidth(const Tnote& n); /**< Estimate width of the given note @p n */
 
 signals:
   void noteWasClicked(int);
@@ -176,24 +180,19 @@ protected:
   virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
   virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
-      /** This is rhythm taken from note cursor but has not approved to note yet.
-       * @class TscoreMeasure is a friendly class and sets stems directions and beaming through it */
-  Trhythm* newRhythmToFix() { return m_newRhythm; }
-
 private:
-  TnoteItem                              *m_mainNote;
-  QGraphicsSimpleTextItem                *m_mainAccid;
-  QColor                                  m_mainColor;
-  TcrossFadeTextAnim                     *m_accidAnim;
-  Tnote                                  *m_note;
+  TnoteItem                               *m_mainNote;
+  QGraphicsSimpleTextItem                 *m_mainAccid;
+  QColor                                   m_mainColor;
+  TcrossFadeTextAnim                      *m_accidAnim;
+  Tnote                                   *m_note;
 
   int                                      m_mainPosY, m_newPosY, m_accidental, m_newAccid;
-  Trhythm                                *m_newRhythm;
   int                                      m_index; /**< note index in external list */
 //     int                           m_noteNr; // note number depends on octave
   int                                      m_ambitMin, m_ambitMax; /**< Represents range (ambitus) of notes on score */
   int                                      m_stringNr;
-  QGraphicsSimpleTextItem                *m_stringText;
+  QGraphicsSimpleTextItem                 *m_stringText;
   qreal                                    m_width, m_height;
   bool                                     m_readOnly, m_emptyLinesVisible;
   QGraphicsTextItem                       *m_nameText;
@@ -205,9 +204,9 @@ private:
   TscoreLines                             *m_lines;
 
   bool                                     m_touchedToMove; /**< Determines whether cursor follows moving finger */
-  bool                                    m_wasTouched;
-  static QString                          m_staticTip, m_selectedTip;
-  QElapsedTimer                           m_touchTime;
+  bool                                     m_wasTouched;
+  static QString                           m_staticTip, m_selectedTip;
+  QElapsedTimer                            m_touchTime;
 
 private:
   void setStringPos(); /**< Determines and set string number position (above or below the staff) depends on note position */

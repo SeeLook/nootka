@@ -25,7 +25,6 @@
 #include <animations/tcrossfadetextanim.h>
 #include <animations/tcombinedanim.h>
 #include <music/tnote.h>
-#include <music/trhythm.h>
 #include <tnoofont.h>
 #include <QtCore/qeasingcurve.h>
 #include <QtWidgets/qgraphicseffect.h>
@@ -64,7 +63,6 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   TscoreItem(scene),
   m_mainPosY(0.0), m_newPosY(0),
   m_accidental(0), m_newAccid(0),
-  m_newRhythm(new Trhythm(Trhythm::e_none)),
   m_index(index),
   m_stringText(0), m_stringNr(0),
   m_readOnly(false), m_emptyLinesVisible(true),
@@ -81,7 +79,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_width = scene->isRhythmEnabled() ? 4.0 : 7.0;
 //   m_width = 7.0;
   m_mainColor = qApp->palette().text().color();
-  m_note = new Tnote(0, 0, 0);
+  m_note = new Tnote(); // empty note with no rhythm
 
   m_lines = new TscoreLines(this);
   m_lines->setPos(0.6, 0.0);
@@ -141,7 +139,6 @@ TscoreNote::~TscoreNote() { // release work note and controls from parent being 
   if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
     scoreScene()->noteDeleted(this);
   delete m_note;
-  delete m_newRhythm;
 }
 
 //##############################################################################
@@ -154,7 +151,9 @@ Trhythm* TscoreNote::rhythm() const {
 
 
 void TscoreNote::setRhythm(const Trhythm& r) {
-  m_mainNote->setRhythm(r);
+//   m_mainNote->setRhythm(r);
+  m_note->setRhythm(r);
+  update();
 }
 
 
@@ -176,12 +175,12 @@ void TscoreNote::setRhythmEnabled(bool rhythmEnabled) {
 
   if (rhythmEnabled) {
       m_emptyText->setText(QString(QChar(TnooFont::getCharFromRhythm(scoreScene()->workRhythm()->weight(), true, scoreScene()->workRhythm()->isRest()))));
-      m_mainNote->setRhythm(Trhythm(scoreScene()->workRhythm()->rhythm(), !m_note->isValid()));
+//       m_mainNote->setRhythm(Trhythm(scoreScene()->workRhythm()->rhythm(), !m_note->isValid()));
 //       if (!m_note->isValid())
 //         moveNote(15);
   } else {
         m_emptyText->setText(QStringLiteral("n"));
-        m_mainNote->setRhythm(Trhythm(Trhythm::e_none));
+//         m_mainNote->setRhythm(Trhythm(Trhythm::e_none));
   }
   changeWidth();
 }
@@ -209,7 +208,11 @@ void TscoreNote::moveNote(int posY) {
 //     if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
   bool theSame = (posY == m_mainPosY);
   if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
-      hideNote();
+      if (m_mainNote->rhythm()->isRest()) {
+          m_mainNote->setY(20.5);
+          m_mainNote->show();
+      } else
+          hideNote();
       m_mainAccid->setText(QString());
       m_accidental = 0;
       return;
@@ -222,7 +225,7 @@ void TscoreNote::moveNote(int posY) {
       m_noteAnim->setMoving(m_mainNote->pos(), QPointF(3.0, posY));
       m_noteAnim->startAnimations();
   } else { // just move a note
-      if (m_mainNote->rhythm()->isRest())
+      if (note()->isRest())
           m_mainNote->setY(20.5);
       else
           m_mainNote->setY(posY);
@@ -271,11 +274,18 @@ void TscoreNote::moveNote(int posY) {
 void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
   m_accidental = accNr;
   *m_note = n;
+  m_mainNote->setRhythm(Trhythm(n.rhythm(), notePos == 0, n.hasDot(), n.isTriplet()));
   moveNote(notePos);
-  if (m_mainPosY == 0)
-      *m_note = Tnote(); // set note to null if beyond the score possibilities
+  if (m_mainPosY == 0) {
+    m_note->note = 0;
+    m_note->alter = 0;
+//     m_mainNote->setY(20.5);
+  }
+//   if (m_note->rhythm() != Trhythm::e_none)
+//     setRhythm(Trhythm(n.rhythm(), m_mainPosY == 0, n.hasDot(), n.isTriplet()));
+  changeWidth();
   if (m_nameText)
-      showNoteName();
+    showNoteName();
   checkEmptyText();
   update();
 }
@@ -433,12 +443,18 @@ void TscoreNote::setAmbitus(int lo, int hi) {
 }
 
 
-/** When note duration is longer than shortest rhythm in current staff
- * a space (gap) is added to visually represent note duration as a space between notes */
+      /** When note duration is longer than shortest rhythm in current staff
+       *  a space (gap) is added to visually represent note duration as a space between notes */
 qreal TscoreNote::rightX() {
   int dur = m_mainNote->rhythm()->duration();
-  return x() + m_width
-      + (dur > staff()->shortestRhythm() ? staff()->gapFactor() * (((m_mainNote->rhythm()->duration() / staff()->shortestRhythm()) - 1.0)) : 0.0);
+  return x() + m_width + (dur > staff()->shortestRhythm() ? staff()->gapFactor() * (((dur / staff()->shortestRhythm()) - 1.0)) : 0.0);
+}
+
+
+void TscoreNote::update() {
+//   if (note()->rtm != *m_mainNote->rhythm())
+    m_mainNote->setRhythm(note()->rtm);
+  QGraphicsItem::update();
 }
 
 
@@ -448,7 +464,7 @@ QRectF TscoreNote::boundingRect() const{
 
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-    paintBackground(painter, Qt::yellow);
+//     paintBackground(painter, Qt::yellow);
   if (m_bgColor != -1) {
 //       paintBackground(painter, m_bgColor);
     QPointF center(m_width / 2.0, m_mainPosY + 1.0);
@@ -509,7 +525,7 @@ void TscoreNote::popUpAnim(int durTime) {
 
 
 bool TscoreNote::rhythmChanged() const {
-  return *m_mainNote->rhythm() != *m_newRhythm;
+  return *m_mainNote->rhythm() != m_note->rtm;
 }
 
 //#################################################################################################
@@ -569,11 +585,17 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         m_newPosY = scoreScene()->workPosY();
         qreal widthDiff = 0.0;
         if (scoreScene()->isRhythmEnabled()) {
-            m_newRhythm->setRhythm(*scoreScene()->workRhythm());
+            if (note()->rtm != *scoreScene()->workRhythm()) {
+              note()->rtm.setRhythm(*scoreScene()->workRhythm());
+              qDebug() << "[TscoreNote] rhythm changed" << rhythmChanged();
+            } else {
+              note()->rtm.setStemDown(scoreScene()->workRhythm()->stemDown());
+              qDebug() << "[TscoreNote] rhythm the same";
+            }
             qreal newWidth = 4.0;
             if (m_newAccid)
               newWidth += 2.0; // when removed - width remains smaller
-            if (newWidth != m_width) {
+            if (newWidth > m_width || newWidth < m_width) { // newWidth != m_width
               widthDiff =  newWidth - m_width;
               qDebug() << "Note width differs" << m_width << newWidth << widthDiff;
             }
@@ -584,7 +606,7 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 //             if (rhythmChanged())
 //                 m_mainNote->setRhythm(*m_newRhythm);
         }
-        m_mainNote->setRhythm(*m_newRhythm);
+//         m_mainNote->setRhythm(*m_newRhythm);
         m_accidental = m_newAccid;
         moveNote(scoreScene()->workPosY());
         changeWidth();
@@ -716,6 +738,27 @@ void TscoreNote::popUpAnimFinished() {
 }
 
 
+qreal TscoreNote::estimateWidth(const Tnote& n) {
+  qreal w = 4.0;
+  if (n.rhythm() == Trhythm::e_none)
+    w = 7.0;
+  else {
+    if (n.alter != 0)
+      w += 2.0;
+    if (n.hasDot() || (n.rtm.weight() > 4 && n.rtm.beam() == Trhythm::e_noBeam))
+      w += 1.0;
+  }
+  return w;
+}
+
+
+/**
+ * Note width:
+ * 4 - base (minimal) width of bare note (no accidental, no flag)
+ * 5 - eighth/sixteenth flag or a dot
+ * 6 - when note has accidental (neutral as well)
+ * 7 - an accidental and a flag or a dot (maximal width)
+ */
 void TscoreNote::changeWidth() {
   qreal oldWidth = m_width;
   qreal newWidth = 7.0;
