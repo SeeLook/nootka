@@ -22,7 +22,7 @@
 #include "tscorenote.h"
 #include "tscorescene.h"
 #include <tnoofont.h>
-#include <music/trhythm.h>
+#include <music/tnote.h>
 #include <graphics/tdropshadoweffect.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qpalette.h>
@@ -393,23 +393,24 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 
 void TnoteControl::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   Q_UNUSED(event)
+  Tnote insNote(0, 0, 0, Trhythm(scoreScene()->workRhythm()->rhythm(), true, scoreScene()->workRhythm()->hasDot()));
   if (touchEnabled() && notesAddingEnabled()) {
       m_scoreNote->hideWorkNote();
       if (!isLeftPane()) { // right control - append a note
           if (m_scoreNote->index() == staff()->count() - 1)
             QTimer::singleShot(50, [=]{ hide(); }); // hide right pane when note is added at staff end to edit new one easily (otherwise pane covers it)
-          staff()->insertNote(m_scoreNote->index() + 1);
+          staff()->insertNote(m_scoreNote->index() + 1, insNote);
       } else { // left control - preppend a note
-          staff()->insertNote(m_scoreNote->index());
+          staff()->insertNote(m_scoreNote->index(), insNote);
       }
   } else {
     if (m_adding) {
       if (!isLeftPane()) { // right control - append a note
           if (m_scoreNote->index() == staff()->count() - 1)
             QTimer::singleShot(50, [=]{ hide(); }); // hide right pane when note is added at staff end to edit new one easily (otherwise pane covers it)
-          staff()->insertNote(m_scoreNote->index() + 1);
+          staff()->insertNote(m_scoreNote->index() + 1, insNote);
       } else { // left control - preppend a note
-          staff()->insertNote(m_scoreNote->index());
+          staff()->insertNote(m_scoreNote->index(), insNote);
       }
     }
   }

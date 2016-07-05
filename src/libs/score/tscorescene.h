@@ -150,16 +150,16 @@ private:
   qint8                             m_dblAccFuse;
   char                              m_currentAccid;
 // note cursor
-  int                                m_workPosY;
+  int                               m_workPosY;
   TnoteItem                        *m_workNote;
   QGraphicsSimpleTextItem          *m_workAccid;
-  TscoreLines                       *m_workLines;
+  TscoreLines                      *m_workLines;
   Trhythm                          *m_workRhythm;
   QColor                            m_nameColor;
-  TnoteControl                      *m_rightBox, *m_leftBox;
+  TnoteControl                     *m_rightBox, *m_leftBox;
   TrhythmPane                      *m_rhythmBox;
-  qreal                              m_accidYoffset; /**< difference between y note position. */
-  qreal                               m_accidScale;
+  qreal                             m_accidYoffset; /**< difference between y note position. */
+  qreal                             m_accidScale;
   QTimer                           *m_showTimer, *m_hideTimer;
   TscoreNote                       *m_scoreNote; /**< current note segment or NULL. */
   bool                              m_controlledNotes;

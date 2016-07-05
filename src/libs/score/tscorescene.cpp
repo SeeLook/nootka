@@ -20,6 +20,7 @@
 #include "tnotecontrol.h"
 #include "trhythmpane.h"
 #include "tscoremeter.h"
+#include "tscoremeasure.h"
 #include <graphics/tdropshadoweffect.h>
 #include <tnoofont.h>
 #include <music/trhythm.h>
@@ -128,9 +129,8 @@ void TscoreScene::setScoreMeter(TscoreMeter* m) {
       m_workRhythm->setRhythm(Trhythm::e_none);
       m_rightBox->setRhythm(m_workRhythm); // hide rhythm symbol on the right pane
       delete m_rhythmBox;
-      m_rhythmBox = 0;
+      m_rhythmBox = nullptr;
       m_workNote->setRhythm(*m_workRhythm); // bare note head
-      m_scoreMeter = nullptr;
   } else if (m && m_scoreMeter == nullptr) { // enable rhythms
       m_workRhythm->setRhythm(Trhythm(m->meter()->lower() == 4 ? Trhythm::e_quarter : Trhythm::e_eighth));
       m_rightBox->setRhythm(m_workRhythm);
@@ -145,6 +145,7 @@ void TscoreScene::setScoreMeter(TscoreMeter* m) {
   }
   m_scoreMeter = m;
 }
+
 
 //##########################################################################################
 //#######################        Note CURSOR     ###########################################
