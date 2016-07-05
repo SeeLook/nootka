@@ -62,14 +62,10 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
     setNote(0, Tnote()); // To display fake empty note properly
   }
 
-  m_measPatcher = new TmeasPatcher(scoreScene()->scoreMeter());
-  m_measPatcher->addNote(0, staff()->noteSegment(0));
 }
 
 TmultiScore::~TmultiScore()
-{
-  delete m_measPatcher;
-}
+{}
 
 //####################################################################################################
 //########################################## PUBLIC ##################################################
@@ -148,7 +144,6 @@ void TmultiScore::setNote(int index, const Tnote& note) {
 }
 
 
-
 Tnote TmultiScore::getNote(int index) {
   if (index >= 0 && index < notesCount()) {
     if (insertMode() == e_single)
@@ -175,10 +170,15 @@ void TmultiScore::setEnableKeySign(bool isEnabled) {
 
 
 void TmultiScore::setMeter(const Tmeter& m) {
-  staff()->setMeter(m);
+  bool meterCreated = m.meter() != Tmeter::e_none && !scoreScene()->scoreMeter();
+  // TODO: what with case of disabling meter?
+  if (meterCreated) {
+    staff()->setMeter(m);
+    connect(scoreScene()->scoreMeter(), &TscoreMeter::meterChanged, [=]{ setMeter(*scoreScene()->scoreMeter()->meter()); });
   // TODO; all staves as well
   // TODO: following call will introduce measures recalculation, so updating every note (and staff) from above is not necessary there
-  m_measPatcher->setScoreMeter(scoreScene()->scoreMeter());
+  }
+//   scoreScene()->measureDispatcher()->setScoreMeter(scoreScene()->scoreMeter());
 }
 
 
@@ -403,7 +403,7 @@ void TmultiScore::updateSceneRect() {
     sh = m_staves.last()->pos().y() + m_staves.last()->height();
   sh = qMax<qreal>(sh, viewport()->height() / transform().m11());
   QRectF scRec = staff()->mapToScene(QRectF(0.0, 0.0,
-                staff()->width() + (staff()->isPianoStaff() ? 1.1 : 0.0),  sh)).boundingRect();
+                staff()->width() + (staff()->isPianoStaff() ? 1.1 : 0.0), sh)).boundingRect();
   scoreScene()->setSceneRect(0.0, 0.0, scRec.width(), scRec.height());
   scoreScene()->restoreAfterRectChange();
   qreal minFree = 17.0;
@@ -509,6 +509,7 @@ void TmultiScore::addStaff(TscoreStaff* st) {
   connect(lastStaff(), SIGNAL(noteIsRemoving(int,int)), this, SLOT(noteRemovingSlot(int,int)));
   connect(lastStaff(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
   connect(lastStaff(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
+  connect(lastStaff(), &TscoreStaff::moveMeasure, this, &TmultiScore::moveMeasureSlot);
   if (lastStaff()->scoreKey())
     connect(lastStaff()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 }
@@ -624,17 +625,17 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 //     qDebug() << "selected note moved forward";
     m_currentIndex++;
   }
-  m_measPatcher->addNote(noteToAdd, m_staves[staffNr]->noteSegment(noteToAdd));
+  auto noteAdded = m_staves[staffNr]->noteSegment(noteToAdd);
   if (staff()->noteSegment(0)->noteName() || staff()->noteSegment(staff()->count() - 1)->noteName())
-    m_staves[staffNr]->noteSegment(noteToAdd)->showNoteName();
-  if (m_useAinim && m_addNoteAnim && !m_staves[staffNr]->noteSegment(noteToAdd)->notePos())
-    m_staves[staffNr]->noteSegment(noteToAdd)->popUpAnim(300);
-  if (scoreScene()->isRhythmEnabled()) {
-    m_staves[staffNr]->noteSegment(noteToAdd)->setRhythm(Trhythm(scoreScene()->workRhythm()->rhythm(), true));
-    m_staves[staffNr]->noteSegment(noteToAdd)->moveNote(22);
-  }
+    noteAdded->showNoteName();
+  if (m_useAinim && m_addNoteAnim && meter()->meter() == Tmeter::e_none && !noteAdded->notePos())
+    noteAdded->popUpAnim(300);
+//   if (scoreScene()->isRhythmEnabled() && noteAdded->rhythm()->rhythm() == Trhythm::e_none) {
+//     noteAdded->setRhythm(Trhythm(scoreScene()->workRhythm()->rhythm(), true));
+//     noteAdded->moveNote(22);
+//   }
   m_addNoteAnim = true;
-  connectForReadOnly(m_staves[staffNr]->noteSegment(noteToAdd));
+  connectForReadOnly(noteAdded);
 }
 
 
@@ -648,7 +649,6 @@ void TmultiScore::noteRemovingSlot(int staffNr, int noteToDel) {
 //     qDebug() << "selected note moved backward";
     m_currentIndex--;
   }
-  m_measPatcher->removeNote(staffNr, noteToDel);
 }
 
 
@@ -664,6 +664,17 @@ void TmultiScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
     for (int i = staffNr + 1; i < m_staves.size(); i++) // move every staff with difference
       m_staves[i]->setY(m_staves[i]->y() + loNoteYoff);
     updateSceneRect();
+  }
+}
+
+
+void TmultiScore::moveMeasureSlot(TscoreStaff* st, int measureNr) {
+  if (st == m_staves.last()) { // last staff has no space
+      staffHasNoSpace(st->number()); // so create a new staff
+      //TODO: delete empty note - staff is created wit it
+      lastStaff()->insertMeasure(0, st->takeMeasure(measureNr));
+  } else {
+      staves(st->number() + 1)->insertMeasure(0, st->takeMeasure(measureNr));
   }
 }
 

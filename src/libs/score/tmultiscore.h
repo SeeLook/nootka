@@ -30,7 +30,6 @@ class Tscore5lines;
 class QMainWindow;
 class TscoreStaff;
 class Tmeter;
-class TmeasPatcher;
 
 
 /**
@@ -131,6 +130,10 @@ protected slots:
   void staffHiNoteChanged(int staffNr, qreal hiNoteYoff);
   void adjustStaffWidth(TscoreStaff *st); /**< Calls TscoreStaff::setViewWidth with score width  */
 
+      /** Staff @p st wants to take out its last measure number @p measureNr.
+       * This method (slot) moves it to the next staff (creates a new staff if necessary). */
+  void moveMeasureSlot(TscoreStaff* st, int measureNr);
+
       /** Adds given staff at the end of m_staves list or creates a new one.
       * Sets staff number corresponding to its index in the m_staves list,
       * connects the staff with TmainScore slots */
@@ -148,12 +151,10 @@ private:
       /** m_clickedOff indicates whether setNote() is set to m_currentIndex and whether to the next after current */
   int                           m_clickedOff, m_currentIndex;
   bool                          m_useAinim, m_addNoteAnim;
-  bool                         m_selectReadOnly, m_isDisabled;
+  bool                          m_selectReadOnly, m_isDisabled;
 
   QList<TscoreStaff*>           m_staves; // list of staves in page view
-  QList<Tscore5lines*>         m_fakeLines; // list of blurred staves displayed when score scene has much space
-  TmeasPatcher                *m_measPatcher;
-
+  QList<Tscore5lines*>          m_fakeLines; // list of blurred staves displayed when score scene has much space
 };
 
 #endif // TMULTISCORE_H
