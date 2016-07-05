@@ -48,14 +48,14 @@ public:
   ~TsimpleScore();
 
   virtual void setNote(int index, const Tnote& note);
-  Tnote getNote(int index); /** It returns @p note with hope that index points existed Tnote element. */
-  void clearNote(int index); /** It hides pointed note and sets note to Tnote(0,0,0)*/
-  void setStringNumber(int index, int realNr); /** Adds string number @p realNr to note @p index.  */
-  void clearStringNumber(int index); /** Removes string number from note @p index. */
-  void setNoteDisabled(int index, bool isDisabled); /** Disables/enables a note. */
+  Tnote getNote(int index); /**< It returns @p note with hope that index points existed Tnote element. */
+  void clearNote(int index); /**< It hides pointed note and sets note to Tnote(0,0,0)*/
+  void setStringNumber(int index, int realNr); /**< Adds string number @p realNr to note @p index.  */
+  void clearStringNumber(int index); /**< Removes string number from note @p index. */
+  void setNoteDisabled(int index, bool isDisabled); /**< Disables/enables a note. */
   bool isNoteDisabled(int index);
-  void setNoteNameEnabled(bool nameEnabled); /** Allows to call name edit from note controller */
-  void setControllersEnabled(bool leftCtrl, bool rightCtrl); /** shows/hides a note controllers. */
+  void setNoteNameEnabled(bool nameEnabled); /**< Allows to call name edit from note controller */
+  void setControllersEnabled(bool leftCtrl, bool rightCtrl); /**< shows/hides a note controllers. */
 
   void setClef(Tclef clef);
   Tclef clef();
@@ -90,9 +90,9 @@ public:
       /** Sets the lowest and the highest note for @p index of note segment .*/
   void setAmbitus(int index, Tnote lo, Tnote hi);
 
-  Tnote lowestNote(); /** Returns lowest possible note on the staff in current clef */
-  Tnote highestNote(); /** Returns highest possible note on the staff in current clef */
-  void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */
+  Tnote lowestNote(); /**< Returns lowest possible note on the staff in current clef */
+  Tnote highestNote(); /**< Returns highest possible note on the staff in current clef */
+  void addBGglyph(int instr); /**< Adds background with glyph identified  kind of instrument. */
 
   virtual QSize sizeHint() const;
 
@@ -118,7 +118,7 @@ protected:
         * a @p m_wheelFree locks a wheel event for e while to avoid switching keys to fast. */
   void wheelLockSlot();
 
-  TscoreStaff* staff() { return m_staff; } /** Pointer to TscoreStaff. Better keep it protected */
+  TscoreStaff* staff() { return m_staff; } /**< Pointer to TscoreStaff. Better keep it protected */
 
       /** Returns previously set clef. It is used to figure is it scaling of score necessary.  */
   Tclef::Etype clefType() { return m_clefType; }
@@ -148,9 +148,9 @@ private:
   int                          m_notesNr;
   int                          m_prevBGglyph;
   Tclef::Etype                 m_clefType;
-  QSize                         m_sizeHint;
+  QSize                        m_sizeHint;
   QPointer<TscoreItem>         m_currentIt;
-  QPointF                       m_initPos; /** In scene coordinates. */
+  QPointF                      m_initPos; /**< In scene coordinates. */
   bool                         m_wheelFree;
   QTimer                      *m_wheelLockTimer;
 };

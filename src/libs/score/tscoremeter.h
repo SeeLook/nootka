@@ -53,13 +53,16 @@ public:
   bool isPianoStaff() { return m_pianoStaff; }
 
       /**
+       * Returns duration of given @p grNr group starting from measure beginning
        * Describes grouping (beaming - beam connections) of notes in a single measure for current meter.
        * This is a group of a few int values - each representing duration of the one group:
        * - for 3/8 it is only single 36 value - whole measure under one beam
        * - for 3/4 it is 24, 48, 72) - three groups
        */
-  quint8 groupPos(int grNr) { return m_groups[grNr]; } /**< Duration of given group starting from measure beginning */
-  int groupCount() { return m_groups.count(); } /**< Number of beaming groups for this meter  */
+  quint8 groupPos(int grNr) { return m_groups[grNr]; }
+
+      /** Number of beaming groups for this meter  */
+  int groupCount() { return m_groups.count(); }
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const;

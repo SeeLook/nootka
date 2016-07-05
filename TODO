@@ -10,16 +10,16 @@
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
-- TqaUnit::setMistake(Etype mis) -  use casting of mistake type enum to int instead of switch/case evry type
+- TqaUnit::setMistake(Etype mis) -  use casting of mistake type enum to int instead of switch/case every type
 - TexamExecutor has many, many un-wrapped strings, many ""
 - Use int and enumerations between plugins and main window instead of text messages - especially updater
 
 
 ============================================================================
 Translations:
- - merge French changes from latest *.qm into *.ts
  - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
- - Ttune - new context moved from QObject 
+ - Ttune - new context moved from QObject
+ - move translations from level definitions into Tlevel context (some are there already)
 
  
 ============================================================================
@@ -28,15 +28,9 @@ ANDROID:
         - disable sniffing/note by note when audio input is off
         - hide 'clear score' one when undesired (single mode, exam with playing):
           innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
-    - resetting options closes Nootka but does not launch it again
-    - played sound is sometimes distorted (when note starts playing)
-    - no level/exam icon in file manager, not all file managers support opening Nootka files
 
 - when no guitar preview - staff lines are too big
-- keep scroll bar of score always off - it appears when switching single/multi
-- Help QTextBrowser has QScroller but it works only with two-touch move, but TlevelPreview works good
-- HOME button would be switching available menus
-- handle BACK button to destroy visible menu and/or prevent to close exam
+
 - duration of animation of note correction was decreased to 200ms to work properly under Android,
   but it would be better to signal when it is finished and perform some routines in main score after that
 ============================================================================
@@ -49,10 +43,9 @@ To consideration:
 
 Test scaling of alpha under Windows
 
-- NotaData of Tartini might be cleaned
+- NoteData of Tartini might be cleaned
 
 MINOR:
-- clef selecting menu lost highlight when mouse is over item text - try to use QActionWidget
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
@@ -73,7 +66,6 @@ MINOR:
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
-- add minimal zoom value depends on screen resolution
 - average effectiveness line in chart
 - make exam summary pretty
 - certificates would have some additional data about melodies
@@ -119,7 +111,6 @@ ANDROID:
 - unlock left-handed guitar then implement frets zoom to respect transforms
 
 Tnote
-  - change class name to Tpitch (???)
 	- overload + and - operators to raise/drop a note
 
 TEXAMEXECUTOR
@@ -129,6 +120,6 @@ TEXAMEXECUTOR
 
 TO CONSIDER:
   - In wizard: option for single note mode for very beginners
-  - simplify license text - take translations from Wine project
+  - simplify license text at first look
 
 

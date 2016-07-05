@@ -73,7 +73,7 @@ void TscoreMeter::setMeter(const Tmeter& meter, bool emitSignal) {
     if (m_meter->meter() == Tmeter::e_3_8)
       m_groups << 36;
     else if (m_meter->meter() == Tmeter::e_5_8)
-      m_groups << 60;
+      m_groups << 36 << 60;
     else if (m_meter->meter() == Tmeter::e_6_8)
       m_groups << 36 << 72;
     else if (m_meter->meter() == Tmeter::e_7_8)
@@ -153,6 +153,7 @@ TselectMeter::TselectMeter(const Tmeter& meter, QWidget* parent) :
 
 
 Tmeter TselectMeter::exec(const QPoint& pos) {
+  show(); // necessary since Qt 5.6
   QMenu::exec(pos);
   return Tmeter((Tmeter::Emeter)m_group->checkedId());
 }
