@@ -157,6 +157,12 @@ void TscoreNote::setRhythm(const Trhythm& r) {
 }
 
 
+// TODO: move it to header
+void TscoreNote::setBeam(TscoreBeam* b) {
+  m_beam = b;
+}
+
+
 
 void TscoreNote::adjustSize() {
   m_height = staff()->height();
@@ -453,11 +459,12 @@ qreal TscoreNote::rightX() {
 
 void TscoreNote::update() {
 //   if (note()->rtm != *m_mainNote->rhythm())
-    m_mainNote->setRhythm(note()->rtm);
+  m_mainNote->setRhythm(note()->rtm);
   QGraphicsItem::update();
 }
 
 
+// TODO: move it to header
 QRectF TscoreNote::boundingRect() const{
   return QRectF(0.0, 0.0, m_width, m_height);
 }

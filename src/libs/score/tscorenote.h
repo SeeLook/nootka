@@ -33,6 +33,7 @@ class TcrossFadeTextAnim;
 class TscoreControl;
 class TscoreScene;
 class TnoteItem;
+class TscoreBeam;
 
 
 /*!
@@ -103,12 +104,19 @@ public:
   void setAmbitus(int lo, int hi);
 
       /** This return value of -2 is bb,  1 is #,  etc... */
-  int accidental() const {return m_accidental;}
-  int ottava() const { return m_ottava; } /**< NOTE: for this moment it is unused and set to 0 */
-  int notePos() const { return m_mainPosY; }  /** Y Position of note head */
+  qint8 accidental() const {return m_accidental;}
 
-  int newNotePos() const { return m_newPosY; } /**< Position of note after click but before head was moved */
-  int newAccidental() const { return m_newAccid; } /**< Accidental going to be set. */
+      /** NOTE: for this moment it is unused and set to 0 */
+  qint8 ottava() const { return m_ottava; }
+
+      /** Y Position of note head */
+  qint16 notePos() const { return m_mainPosY; }
+
+      /** Position of note after click but before head was moved */
+  qint16 newNotePos() const { return m_newPosY; }
+
+      /** Accidental going to be set. */
+  qint8 newAccidental() const { return m_newAccid; }
 
   bool accidChanged() const { return (bool)m_newAccid != (bool)m_accidental; } /**< @p TRUE only when accidental appears or hides */
   bool pitchChanged() const { return m_newPosY != m_mainPosY; }
@@ -143,6 +151,14 @@ public:
       /** Overrides standard @p QGraphicsItem::update() method,
        * checks are rhythms (@p note()->rtm and @p workNote->rhythm() the same) */
   void update();
+
+      /** Number of rhythmical group in the measure, -1 (undefined) by default */
+  qint8 rhythmGroup() { return m_group; }
+  void setRhythmGroup(qint8 g) { m_group = g; }
+
+      /** Pointer to @c TscoreBeam or null if note has no beam */
+  TscoreBeam* beam() { return m_beam; }
+  void setBeam(TscoreBeam* b);
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const;
@@ -187,16 +203,17 @@ private:
   TcrossFadeTextAnim                      *m_accidAnim;
   Tnote                                   *m_note;
 
-  int                                      m_mainPosY, m_newPosY, m_accidental, m_newAccid;
+  qint16                                   m_mainPosY, m_newPosY;
+  qint8                                    m_accidental, m_newAccid;
   int                                      m_index; /**< note index in external list */
 //     int                           m_noteNr; // note number depends on octave
-  int                                      m_ambitMin, m_ambitMax; /**< Represents range (ambitus) of notes on score */
-  int                                      m_stringNr;
+  quint16                                  m_ambitMin, m_ambitMax; /**< Represents range (ambitus) of notes on score */
+  quint8                                   m_stringNr;
   QGraphicsSimpleTextItem                 *m_stringText;
   qreal                                    m_width, m_height;
   bool                                     m_readOnly, m_emptyLinesVisible;
   QGraphicsTextItem                       *m_nameText;
-  int                                      m_ottava; /**< values from -2 (two octaves down), to 2 (two octaves up) */
+  qint8                                    m_ottava; /**< values from -2 (two octaves down), to 2 (two octaves up) */
   QColor                                   m_bgColor;
   TcombinedAnim                           *m_noteAnim, *m_popUpAnim;
   QGraphicsSimpleTextItem                 *m_emptyText;
@@ -207,6 +224,9 @@ private:
   bool                                     m_wasTouched;
   static QString                           m_staticTip, m_selectedTip;
   QElapsedTimer                            m_touchTime;
+
+  qint8                                    m_group = -1;
+  TscoreBeam                              *m_beam = nullptr;
 
 private:
   void setStringPos(); /**< Determines and set string number position (above or below the staff) depends on note position */
