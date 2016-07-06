@@ -37,7 +37,9 @@ class T16beam;
  */
 class NOOTKACORE_EXPORT TscoreBeam : public QObject
 {
-  friend TscoreMeasure;
+
+  friend class TscoreMeasure;
+  friend class TscoreStaff;
 
   Q_OBJECT
 
@@ -45,26 +47,43 @@ public:
   explicit TscoreBeam(TscoreNote* sn, TscoreMeasure* m);
   virtual ~TscoreBeam();
 
-      /** Adds @class TscoreNote to beam group.
+      /** Adds @p TscoreNote to beam group.
        * note has to have properly set beam state in TscoreNote::newRhythm()
        * It changes stem direction of note(s) when necessary.
        * It does not perform painting yet
        */
   void addNote(TscoreNote* sn);
-  TscoreNote* note(int id) { return m_notes[id]; } /**< Returns note is beam group */
 
-  int count() { return m_notes.count(); } /**< Number of notes in the beam group */
-  void closeBeam(); /**< Sets beam flag of the last note to 'beam end'  */
+      /** Returns note @p id in beam group */
+  TscoreNote* note(int id) { return m_notes[id]; }
+
+      /** First note in the beam group */
+  TscoreNote* first() { return m_notes.first(); }
+
+      /** Last note in the beam group */
+  TscoreNote* last() { return m_notes.last(); }
+
+      /** Number of notes in the beam group */
+  int count() { return m_notes.count(); }
+  
+      /** Sets beam flag of the last note to 'beam end'  */
+  void closeBeam();
 
 protected:
+      /** calls @p performBeaming when note belongs to beam group */
+  void beamsUpdateSlot(TscoreNote* sn);
   void performBeaming();
 
 private:
-      /** Given polygon has to have two points (upper beam boundary line).
+      /**
+       * Given polygon has to have two points (upper beam boundary line).
        * This method adds bottom boundary, closes polygon
-       * and applying it into @class QGraphicsPolygonItem. */
+       * and applying it into @c QGraphicsPolygonItem. 
+       */
   void applyBeam(QPolygonF& poly, const QPointF& offset, QGraphicsPolygonItem* polyItem);
-  QGraphicsPolygonItem* createBeam(TscoreNote* sn); /**< Initial routines of beam (polygon) - color of note, staff as the parent  */
+
+      /** Initial routines of beam (polygon) - color of note, staff as the parent  */
+  QGraphicsPolygonItem* createBeam(TscoreNote* sn);
 
 private:
   TscoreMeasure                    *m_measure;

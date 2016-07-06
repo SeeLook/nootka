@@ -38,6 +38,7 @@ class Tscore5lines;
 class TscoreMeter;
 class Trhythm;
 class Tmeter;
+class TscoreMeasure;
 
 
 /**
@@ -66,6 +67,7 @@ class NOOTKACORE_EXPORT TscoreStaff : public TscoreItem
 {
 
   friend class TscoreNote;
+  friend class TscoreMeasure;
 
   Q_OBJECT
 
@@ -98,7 +100,7 @@ public:
 
       /** adds note at the end of the staff
         * Empty Tnote creates new instance of TscoreNote item. */
-  void addNote(Tnote& note, bool disabled = false);
+  void addNote(const Tnote& note, bool disabled = false);
 
       /** Adds notes from the list to this staff, starting from given @p index.
         * Notes number in the list can not be bigger than available space on the staff */
@@ -108,13 +110,13 @@ public:
       /** Inserts note in given position (index).
         * When @p index is out of scope adds it at the end. */
   void insertNote(int index, const Tnote& note, bool disabled = false);
-  void insertNote(int index, bool disabled = false); /**< Insert empty note */
+  void insertNote(int index, bool disabled = false); /**< Inserts empty note at @p index position*/
   void removeNote(int index); /**< Deletes given note from the staff */
 
       /** Removes all note segments from @p from to @p to
         * and puts those TscoreNote pointers to given @p nList.
         * To grab all notes from a staff just invoke:
-        * takeNotes(smoeList, 0, count() - 1); */
+        * takeNotes(someList, 0, count() - 1); */
   void takeNotes(QList<TscoreNote*>& nList, int from, int to);
 
   void setEnableKeySign(bool isEnabled);
@@ -215,6 +217,17 @@ public:
   int longestRhythm() { return m_longestR; } /**< Longest rhythm duration in the staff */
   qreal gapFactor() { return m_gapFactor; } /**< Multiplexer of rhythm gaps between notes */
 
+  bool hasSpaceFor(qreal newWidth = 7.0); /**< @p TRUE when there is enough space for a new note at the staff end */
+  bool hasSpaceFor(const Tnote& n); /**< @p TRUE when there is enough space for given note */
+
+  int measureOfNoteId(int id); /**< Returns measure number where note with @p id can be placed */
+
+  QList<TscoreMeasure*>& measures() { return m_measures; } /**< List of measures on the staff */
+
+      /** Removes @p measId measure from the list and its notes from the staff as well.
+       * Returns @p TscoreMeasure pointer which contains list of taken notes. */
+  TscoreMeasure* takeMeasure(int measId);
+  void insertMeasure(int id, TscoreMeasure* m);
 
   virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {};
   virtual QRectF boundingRect() const;
@@ -252,6 +265,9 @@ signals:
   void loNoteChanged(int, qreal);
   void hiNoteChanged(int, qreal);
 
+      /** This staff asks to take out its measure (usually the last one) with given number  */
+  void moveMeasure(TscoreStaff*, int);
+
 public slots:
   void onClefChanged(Tclef clef); /**< It is connected with clef, but also refresh m_offset appropriate to current clef. */
   void noteChangedAccid(int accid); /**< TscoreNote wheel event - changes accidental */
@@ -273,12 +289,14 @@ protected:
   void updateLines(); /**< Updates staff lines  */
   void updateNotesPos(int startId = 0); /**< Replaces (performs pos()) all TscoreNote items. Starts from @p startId */
 
-      /** Protected method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
-        * It doesn't perform any checks */
-  void insert(int index);
-
   void noteChangedWidth(int noteId); /**< Called by @class TscoreNote  */
   void prepareNoteChange(TscoreNote* sn, qreal widthDiff);
+  void insertNote(const Tnote& note, int index, bool disabled = false); // TODO: consider to shift it to private
+
+      /** Shifts given @p notesToShift list to measure @p measureNr.
+       * All shifted notes still belongs to this staff,
+       * so their positions and indexes don't change. */
+  void shiftToMeasure(int measureNr, QList<TscoreNote*>& notesToShift);
 
 protected slots:
   void onKeyChanged();
@@ -299,20 +317,22 @@ private:
   QGraphicsSimpleTextItem            *m_brace;
   TscoreKeySignature                 *m_keySignature;
   QList<TscoreNote*>                  m_scoreNotes;
+  QList<TscoreMeasure*>               m_measures;
   qreal                               m_upperLinePos, m_lowerStaffPos;
   qreal                               m_height, m_width;
   qreal                               m_viewWidth; /**< width of QGraphicsView in scene coordinates. */
   TnoteOffset                         m_offset;
-  bool                                 m_isPianoStaff;
+  bool                                m_isPianoStaff;
   TscoreScordature                   *m_scordature;
   bool                                m_enableScord, m_tidyKey;
   TcombinedAnim                      *m_accidAnim;
   QGraphicsSimpleTextItem            *m_flyAccid;
-  bool                                 m_selectableNotes, m_extraAccids;
+  bool                                m_selectableNotes, m_extraAccids;
   int                                 m_maxNotesCount;
   qreal                               m_loNotePos, m_hiNotePos;
   qreal                               m_allNotesWidth; /**< Width of all notes on the staff (without gaps between) */
   qreal                               m_gapFactor; /**< multiplexer of rhythm gaps between notes */
+  qreal                               m_allGaps; /**< Virtual sum of rhythm gaps - multiplied by @p m_gapFactor gives real width of gaps */
   int                                 m_shortestR, m_longestR;
   bool                                m_lockRangeCheck; /**< to prevent the checking during clef switching */
   QPointer<QTimer>                    m_addTimer;
@@ -326,6 +346,10 @@ private:
   void findLowestNote(); /**< Checks all Y positions of staff notes ti find lowest one */
   void findHighestNote(); /**< Checks all Y positions of staff notes ti find highest one */
   void connectNote(TscoreNote *sn); /**< Performs all TscoreNote connections to this staff */
+
+        /** Protected method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
+        * It doesn't perform any checks */
+  void insert(int index);
 
 };
 

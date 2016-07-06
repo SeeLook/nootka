@@ -21,7 +21,7 @@
 #include "tscorestaff.h"
 #include "tnoteitem.h"
 #include "tscoremeasure.h"
-#include <music/trhythm.h>
+#include <music/tnote.h>
 #include <QtWidgets/qgraphicsscene.h>
 #include <QtCore/qdebug.h>
 
@@ -36,7 +36,9 @@ public:
   ~T16beam() { delete b; }
   int startStem = -1; /**< Undefined by default */
   int endStem = -1; /**< When remains undefined - beam is partial */
-  bool isHalf() { return endStem == -1; } /**< @p TRUE when beam is not connected to another stem */
+
+      /** @p TRUE when beam is not connected to another stem */
+  bool isHalf() { return endStem == -1; }
   QGraphicsPolygonItem* b = nullptr; /**< beam item */
 };
 
@@ -51,25 +53,29 @@ TscoreBeam::TscoreBeam(TscoreNote* sn, TscoreMeasure* m) :
   QObject(m),
   m_measure(m)
 {
+  sn->note()->rtm.setBeam(Trhythm::e_beamStart);
   addNote(sn);
+  qDebug() << "[BEAM] created for note id" << sn->index();
 }
 
 
 TscoreBeam::~TscoreBeam()
 {
-  for (TscoreNote* note : m_notes) // restore beams
-    note->newRhythmToFix()->setBeam(Trhythm::e_noBeam);
+  qDebug() << "[BEAM] deleted of id" << m_notes.first()->index();
+  for (TscoreNote* note : m_notes) {
+    note->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
+    note->setBeam(nullptr);
+  }
   qDeleteAll(m_stems);
   qDeleteAll(m_16_beams);
   delete m_8_beam;
-  qDebug() << "[BEAM] deleted";
 }
 
 
 void TscoreBeam::addNote(TscoreNote* sn) {
-  if (m_notes.isEmpty() && sn->newRhythm()->beam() != Trhythm::e_beamStart) // TODO: delete it when no errors
+  if (m_notes.isEmpty() && sn->note()->rtm.beam() != Trhythm::e_beamStart) // TODO: delete it when no errors
     qDebug() << "[BEAM] new beam starts but not proper flag is set!";
-  else if (!m_notes.isEmpty() && m_notes.last()->newRhythm()->beam() == Trhythm::e_beamEnd)
+  else if (!m_notes.isEmpty() && m_notes.last()->note()->rtm.beam() == Trhythm::e_beamEnd)
     qDebug() << "[BEAM] Adding note to beam group that already ended!";
 
   if (m_notes.isEmpty())
@@ -77,30 +83,31 @@ void TscoreBeam::addNote(TscoreNote* sn) {
   m_summaryPos += sn->newNotePos();
 
   m_notes << sn;
+  sn->setBeam(this);
 //   if (sn->newRhythm()->beam() == Trhythm::e_beamEnd)
     connect(sn, &TscoreNote::noteWasClicked, this, &TscoreBeam::performBeaming);
   m_stems << new QGraphicsLineItem(sn);
-  if (sn->newRhythm()->isRest()) // when there is a rest - stem is used to determine beam position over it
+  if (sn->note()->isRest()) // when there is a rest - stem is used to determine beam position over it
     m_stems.last()->hide();
   else
     m_stems.last()->setPen(QPen(sn->mainNote()->color(), 2 * HALF_STEM));
 
 // 'main' beam of eights - always exists
-  if (sn->newRhythm()->beam() == Trhythm::e_beamStart) { // resume grouping, prepare for painting
+  if (sn->note()->rtm.beam() == Trhythm::e_beamStart) { // resume grouping, prepare for painting
     m_8_beam = createBeam(sn);
   }
 
 // beam of 16th - it may be chunked when rest or eight occurs
-  if (sn->newRhythm()->rhythm() == Trhythm::e_sixteenth) {
-    if (sn->newRhythm()->isRest()) {
+  if (sn->note()->rhythm() == Trhythm::e_sixteenth) {
+    if (sn->note()->isRest()) {
 
     } else {
-        if (m_16_beams.isEmpty() || m_notes.at(m_notes.count() - 2)->newRhythm()->rhythm() != Trhythm::e_sixteenth
-           || (m_notes.at(m_notes.count() - 2)->newRhythm()->rhythm() == Trhythm::e_sixteenth && m_notes.at(m_notes.count() - 2)->newRhythm()->isRest())) {
+        if (m_16_beams.isEmpty() || m_notes.at(m_notes.count() - 2)->note()->rhythm() != Trhythm::e_sixteenth
+           || (m_notes.at(m_notes.count() - 2)->note()->rhythm() == Trhythm::e_sixteenth && m_notes.at(m_notes.count() - 2)->note()->isRest())) {
         // is first in beam  or previous note was not a sixteenth or it was sixteenth but rest
               m_16_beams << new T16beam(m_notes.count() - 1, createBeam(sn)); // then create new beam segment
-        } else if (!m_16_beams.isEmpty() && m_notes.at(m_notes.count() - 2)->newRhythm()->rhythm() == Trhythm::e_sixteenth
-                   && !m_notes.at(m_notes.count() - 2)->newRhythm()->isRest()) {
+        } else if (!m_16_beams.isEmpty() && m_notes.at(m_notes.count() - 2)->note()->rhythm() == Trhythm::e_sixteenth
+                   && !m_notes.at(m_notes.count() - 2)->note()->isRest()) {
         // there is 16 beam and previous note was 16th and not a rest
               m_16_beams.last()->endStem = m_notes.count() - 1; // then set end stem for it
         }
@@ -113,12 +120,10 @@ void TscoreBeam::addNote(TscoreNote* sn) {
 
 
 void TscoreBeam::closeBeam() {
-  m_notes.last()->newRhythmToFix()->setBeam(Trhythm::e_beamEnd);
-  connect(m_measure, &TscoreMeasure::updateBeams, [=](TscoreNote* sn){
-      if (!sn || (sn->index() >= m_notes.first()->index() && sn->index()))
-          performBeaming();
-  });
-  if (m_notes.first()->newRhythm()->beam() == Trhythm::e_beamStart && m_notes.first()->newRhythm()->beam() == Trhythm::e_beamStart)
+  m_notes.last()->note()->rtm.setBeam(Trhythm::e_beamEnd);
+  connect(m_measure, &TscoreMeasure::updateBeams, this, &TscoreBeam::beamsUpdateSlot);
+
+  if (m_notes.first()->note()->rtm.beam() == Trhythm::e_beamStart && m_notes.last()->note()->rtm.beam() == Trhythm::e_beamEnd)
     qDebug() << "[BEAM] closed correctly with" << count() << "notes";
   else
     qDebug() << "[BEAM] is corrupted!!!!";
@@ -127,9 +132,16 @@ void TscoreBeam::closeBeam() {
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
+void TscoreBeam::beamsUpdateSlot(TscoreNote* sn) {
+  if (!sn || (sn->index() >= m_notes.first()->index() && sn->index() <= m_notes.last()->index()))
+    performBeaming();
+  else
+    qDebug() << "[BEAM] ignored beaming of" << sn->index();
+}
+
 
     /**
-    * This method (slot) is invoked after TscoreNote is updated and placed apparently rhythm in measure (staff).
+    * This method (slot) is invoked after TscoreNote is updated and placed apparently to the rhythm in measure (staff).
     * TscoreNote::noteWasClicked() signal invokes it actually
     *
     * With @p stemDirStrength (strength of stem direction) we trying to determine preferred common direction of stems in the group.
@@ -148,6 +160,9 @@ void TscoreBeam::performBeaming() {
           stemsUpPossible = false;
       else if (sn->notePos() > sn->staff()->height() - MIN_STEM_HEIGHT)
           stemsDownPossible = false;
+//       sn->update();
+      if (sn == m_notes.last() && m_notes.last()->note()->rtm.beam() != Trhythm::e_beamEnd)
+        qDebug() << "[BEAM] was not closed!!" << m_notes.size();
   }
   bool allStemsDown = false;
   if (stemDirStrength < 0)
@@ -156,14 +171,15 @@ void TscoreBeam::performBeaming() {
 //   qreal averStemAdd = (qreal)m_summaryPos / count();
 // setting stems directions and stem lines
   for (int i = 0; i < m_notes.size(); ++i) {
-    if (m_notes[i]->rhythm()->stemDown() != allStemsDown) {
-        Trhythm r(*m_notes[i]->rhythm());
-        r.setStemDown(allStemsDown);
-        m_notes[i]->setRhythm(r);
-    }
+//     if (m_notes[i]->note()->rtm.stemDown() != allStemsDown) {
+//         Trhythm r(*m_notes[i]->rhythm());
+//         r.setStemDown(allStemsDown);
+//         m_notes[i]->setRhythm(r);
+        m_notes[i]->note()->rtm.setStemDown(allStemsDown);
+//     }
   // set only first and last stems - the inner ones later - adjusted to leading beam line
 //     if ( i == 0 || i == m_notes.count() - 1) {
-      if (m_notes[i]->rhythm()->stemDown())
+      if (m_notes[i]->note()->rtm.stemDown())
           m_stems[i]->setLine(m_notes[i]->mainNote()->x() + 0.13, m_notes[i]->mainNote()->y() + 1.14,
                               m_notes[i]->mainNote()->x() + 0.13, m_notes[i]->mainNote()->y() + 1.14 + STEM_HEIGHT);
       else
@@ -172,7 +188,7 @@ void TscoreBeam::performBeaming() {
 //     }
   }
 
-  QPointF stemOff(0.0, m_notes.last()->rhythm()->stemDown() ? HALF_STEM : -HALF_STEM); // offset to cover stem line thickness
+  QPointF stemOff(0.0, m_notes.last()->note()->rtm.stemDown() ? HALF_STEM : -HALF_STEM); // offset to cover stem line thickness
   QLineF beamLine(m_notes.first()->pos() + m_stems.first()->line().p2() + stemOff, m_notes.last()->pos() + m_stems.last()->line().p2() + stemOff);
 // adjust stem lines length of inner notes in the beam group to leading beam line
   for (int i = 1; i < m_stems.count() - 1; ++i) {
@@ -181,10 +197,9 @@ void TscoreBeam::performBeaming() {
       m_stems[i]->setLine(QLineF(m_stems[i]->line().p1(), stemEnd - m_notes[i]->pos() - 2 * stemOff));
   }
   QPolygonF poly;
-  poly << beamLine.p1();
-  poly << beamLine.p2();
+  poly << beamLine.p1() << beamLine.p2();
       /** @p beamOff the lower point on a stem for bottom beam outline (it depends on beam line angel) */
-  QPointF beamOff(0.0, (m_notes.last()->rhythm()->stemDown() ? -BEAM_THICK : BEAM_THICK) / qCos(qDegreesToRadians(beamLine.angle())));
+  QPointF beamOff(0.0, (m_notes.last()->note()->rtm.stemDown() ? -BEAM_THICK : BEAM_THICK) / qCos(qDegreesToRadians(beamLine.angle())));
   applyBeam(poly, beamOff, m_8_beam);
 
   if (!m_16_beams.isEmpty()) {
@@ -204,7 +219,7 @@ void TscoreBeam::performBeaming() {
         applyBeam(poly, beamOff, b16->b);
     }
   }
-  qDebug() << "performBeaming" << stemDirStrength << m_16_beams.count();
+  qDebug() << "[BEAM" << m_notes.first()->index() << "]" << "performBeaming" << stemDirStrength << m_16_beams.count();
 }
 
 //#################################################################################################

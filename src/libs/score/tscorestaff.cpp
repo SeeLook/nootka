@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tscorestaff.h"
+#include "tscorebeam.h"
 #include "tscorescene.h"
 #include "tscoreclef.h"
 #include "tscorenote.h"
@@ -25,6 +26,7 @@
 #include "tnotecontrol.h"
 #include "tscore5lines.h"
 #include "tscoremeter.h"
+#include "tscoremeasure.h"
 #include <music/tnote.h>
 #include <music/trhythm.h>
 #include <music/tmeter.h>
@@ -59,7 +61,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_maxNotesCount(0),
   m_loNotePos(28.0), m_hiNotePos(12.0),
   m_allNotesWidth(0.0),
-  m_gapFactor(0.0),
+  m_gapFactor(1.0),
   m_shortestR(12),
   m_lockRangeCheck(false), m_autoAddedNoteId(-1),
   m_scoreMeter(nullptr)
@@ -72,12 +74,14 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_clef = new TscoreClef(scene, this, cl);
   connect(m_clef, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
   m_clef->setZValue(29); // lower than key signature (if any)
+  m_measures << new TscoreMeasure(this, 0);
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_scoreNotes << new TscoreNote(scene, this, i);
       m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
       m_scoreNotes[i]->setZValue(50);
       connectNote(m_scoreNotes[i]);
+      measures().last()->insertNote(i, m_scoreNotes[i]);
   }
 
 // Staff lines, it also sets m_width of staff
@@ -99,6 +103,7 @@ TscoreStaff::~TscoreStaff() {
     scoreScene()->right()->setParentItem(0);
     scoreScene()->left()->setParentItem(0);
   }
+  qDeleteAll(m_measures);
 }
 
 //####################################################################################################
@@ -121,7 +126,7 @@ int TscoreStaff::noteToPos(const Tnote& note)  {
 void TscoreStaff::setNote(int index, const Tnote& note) {
   if (index >= 0 && index < m_scoreNotes.size()) {
     Tnote prevNote = *getNote(index);
-    if (note.note)
+    if (note.isValid())
         m_scoreNotes[index]->setNote(noteToPos(note), (int)note.alter, note);
     else
         m_scoreNotes[index]->setNote(0, 0, note);
@@ -139,15 +144,40 @@ Tnote* TscoreStaff::getNote(int index) {
 void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
   if (m_autoAddedNoteId > -1) // naughty user can insert or add new note just after clicking the last one what invokes auto adding
     addNoteTimeOut();
-  index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
-  insert(index);
-  setNote(index, note);
-  m_scoreNotes[index]->setZValue(50);
-  setNoteDisabled(index, disabled);
+
+  //TODO: check is inserting note fit into a measure:
+  // - split it if it is longer, then shift the next measure
+
+  int measureNr = m_measures.count() - 1; // add to the last measure by default
+  if (index < count())
+    measureNr = measureOfNoteId(index);
+  if (!hasSpaceFor(note)) { // move next measure (or this one where the note is adding) to the next staff to make room for a new note
+    if (measureNr > -1) {
+        if (measureNr == m_measures.count() - 1) { // last measure
+          // TODO moving this (the last one) measure to the next staff
+        } else { // note is adding to not last measure so just easily move the last one
+          qDebug() << "[STAFF] move measure to staff" << number() + 1;
+            emit moveMeasure(this, m_measures.count() - 1);
+        }
+    } else {
+        qDebug() << "There is no measure with such note index" << index << "(staff) on staff" << number();
+    }
+  }
+  insertNote(note, index, disabled);
+
+  qDebug() << "\n[STAFF] inserting note" << m_scoreNotes[index]->note()->toText() 
+           << m_scoreNotes[index]->note()->rtm.xmlType() << (m_scoreNotes[index]->note()->hasDot() ? "." : QString())
+           << m_scoreNotes[index]->rhythm()->xmlType();
+  m_measures[measureNr]->insertNote(index - m_measures[measureNr]->firstNoteId(), m_scoreNotes[index]);
+  prepareNoteChange(m_scoreNotes[index], 0.0);
+
   if (number() > -1) {
     emit noteIsAdding(number(), index);
-    if (maxNoteCount()) {
-      if (count() > maxNoteCount()) {
+//     if (maxNoteCount()) {
+//       if (count() > maxNoteCount()) {
+      // TODO: seems to be unnecessary - space issues were solved above
+      /*qreal freeX = width() - m_scoreNotes.last()->rightX();
+      if (freeX < 7.0) {
           m_scoreNotes.last()->disconnect(SIGNAL(noteWasClicked(int)));
           m_scoreNotes.last()->disconnect(SIGNAL(noteWasSelected(int)));
           m_scoreNotes.last()->disconnect(SIGNAL(toKeyAnim(QString,QPointF,int)));
@@ -155,11 +185,13 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
           m_scoreNotes.last()->disconnect(SIGNAL(destroyed(QObject*)));
           emit noteToMove(number(), m_scoreNotes.takeLast());
           checkNoteRange(); // find range again
-      } else if (count() == maxNoteCount())
-          emit noMoreSpace(number());
-    }
+      } else
+//           if (count() == maxNoteCount())
+          if (spaceForNotes() - m_allNotesWidth - m_allGaps < 7.0)
+            emit noMoreSpace(number());*/
+//     }
   }
-  updateIndexes();
+//   updateIndexes();
   updateNotesPos(index);
   if (number() == -1) {
       updateLines();
@@ -169,11 +201,11 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 
 
 void TscoreStaff::insertNote(int index, bool disabled) {
-  insertNote(index, Tnote(0, 0, 0), disabled);
+  insertNote(index, Tnote(), disabled);
 }
 
 
-void TscoreStaff::addNote(Tnote& note, bool disabled) {
+void TscoreStaff::addNote(const Tnote& note, bool disabled) {
   insertNote(m_scoreNotes.size(), note, disabled);
 }
 
@@ -190,7 +222,8 @@ void TscoreStaff::removeNote(int index) {
     m_allNotesWidth -= m_scoreNotes[index]->width();
     delete m_scoreNotes[index];
     m_scoreNotes.removeAt(index);
-    if (maxNoteCount() > count())
+//     if (maxNoteCount() > count())
+    if (spaceForNotes() - m_allNotesWidth - m_allGaps <= 7.0)
         emit freeSpace(number(), 1);
     updateIndexes();
     updateNotesPos(index);
@@ -203,7 +236,7 @@ void TscoreStaff::removeNote(int index) {
 
 
 void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
-  if (index >= 0 && index <= count() && nList.size() <= maxNoteCount() - index) {
+//   if (index >= 0 && index <= count() && nList.size() <= maxNoteCount() - index) {
       for (int i = index; i < nList.size() + index; i++) {
         TscoreNote *sn = nList[i - index];
         m_scoreNotes.insert(i, sn);
@@ -211,8 +244,8 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
         sn->setParentItem(this);
         sn->setStaff(this);
       }
-  }
-  updateNotesPos(index);
+//   }
+  updateNotesPos(index); // TODO: update position after resolving measure
   updateIndexes();
   checkNoteRange(false);
 }
@@ -354,6 +387,7 @@ void TscoreStaff::setMeter(const Tmeter& m) {
       m_scoreMeter->setMeter(m); // score meter will call signal to update staff
   scoreScene()->setScoreMeter(m_scoreMeter);
   if (changed) {
+    measures().first()->changeMeter(m);
     for (int i = 0; i < m_scoreNotes.size(); i++) // set default rhythm value for all notes or hide all stems when no rhythms
       m_scoreNotes[i]->setRhythmEnabled((bool)m_scoreMeter);
     updateWidth();
@@ -472,6 +506,64 @@ void TscoreStaff::enableToAddNotes(bool alowAdding) {
   scoreScene()->right()->enableToAddNotes(alowAdding);
 }
 
+
+int TscoreStaff::measureOfNoteId(int id) {
+  if (id == count())
+    return m_measures.size() - 1; // last measure for the last note
+  for (int i = 0; i < m_measures.size(); ++i) {
+    qDebug() << "[STAFF:" << number() << "]" << "measure" << i << "first Id" << m_measures[i]->firstNoteId() << "last Id" << m_measures[i]->lastNoteId();
+    if (id >= m_measures[i]->firstNoteId() && id <= m_measures[i]->lastNoteId())
+      return i;
+  }
+  qDebug() << "There is no measure for note id:" << id << "in staff nr:" << number();
+  return -1;
+}
+
+
+/**
+ * It is hard to imagine when other than the last measure of the staff is taken
+ */
+TscoreMeasure* TscoreStaff::takeMeasure(int measId) {
+  if (measId >= 0 && measId < m_measures.count()) {
+      int firstIndex = m_measures[measId]->firstNoteId();
+      int lastIndex = m_measures[measId]->lastNoteId();
+      for (int i = firstIndex; i <= lastIndex; ++i) {
+          m_scoreNotes[firstIndex]->disconnect(SIGNAL(noteWasClicked(int)));
+          m_scoreNotes[firstIndex]->disconnect(SIGNAL(noteWasSelected(int)));
+          m_scoreNotes[firstIndex]->setParentItem(0); // to avoid deleting with staff as its parent
+          m_scoreNotes.removeAt(firstIndex); // when note segment with firstIndex is removed the next segment is at the firstIndex position
+      }
+      updateIndexes();
+      // No need to update measure numbers
+      // TODO: positioning?
+      return m_measures.takeAt(measId);
+  } else
+      qDebug() << "Unable to take measure" << measId << "out of range";
+  return nullptr;
+}
+
+
+/**
+ * Only entire measures are inserted, eventually partial, when it is the last measure,
+ * so there is no need to recalculate measure (content and beaming) just set notes position.
+ */
+void TscoreStaff::insertMeasure(int id, TscoreMeasure* m) {
+  if (!hasSpaceFor(m->notesWidth())) { // if no space, move the last measure to the next staff
+    if (id >= m_measures.count() - 1)
+      qDebug() << "Trying to insert measure to staff" << number() << "at" << id << "but there is no space for it";
+    emit moveMeasure(this, m_measures.count() - 1);
+  }
+  int noteId = 0;
+  if (id > 0) // find index where to insert notes of the measure
+      noteId = m_measures[id - 1]->lastNoteId() + 1;
+  m_measures.insert(id, m);
+  addNotes(noteId, m->notes());
+  m->setStaff(this);
+  for (int i = 0; i < m_measures.size(); ++i)
+    m_measures[i]->setNumber(i);
+  // TODO: indexing notes, positioning
+}
+
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
@@ -481,14 +573,6 @@ void TscoreStaff::prepareStaffLines() {
   m_5lines->setPos(0.0, upperLinePos());
   updateLines();
   updateNotesPos();
-}
-
-
-void TscoreStaff::insert(int index) {
-  TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
-  newNote->setZValue(50);
-  connectNote(newNote);
-  m_scoreNotes.insert(index, newNote);
 }
 
 
@@ -521,25 +605,49 @@ void TscoreStaff::noteChangedWidth(int noteId) {
 }
 
 
+/**
+ * rhythm gap of single note:
+ * Tnote::duration() / m_shortestR - 1.0
+ */
 void TscoreStaff::prepareNoteChange(TscoreNote* sn, qreal widthDiff) {
+  Q_UNUSED(widthDiff) // TODO: remove it from declaration at all
 //   m_allNotesWidth += widthDiff;
-  if (sn->rhythmChanged()) {
-    m_shortestR = qMin<quint8>(m_shortestR, sn->newRhythm()->duration());
-    m_longestR = qMax<quint8>(m_longestR, sn->newRhythm()->duration());
-    qreal allGaps = 0.0;
+//   if (sn->rhythmChanged()) {
+    m_shortestR = qMin<quint8>(m_shortestR, sn->note()->duration());
+//     m_longestR = qMax<quint8>(m_longestR, sn->note()->duration()); // TODO: so far unused delete or make common var
+    m_allGaps = 0.0;
     m_allNotesWidth = 0.0;
     for (TscoreNote* n : m_scoreNotes) {
       if (n->index() != m_autoAddedNoteId) { // skip auto added (temporary) note
         if (n->rhythm()->duration() > m_shortestR)
-            allGaps += ((qreal)n->rhythm()->duration() / m_shortestR) - 1.0;
+            m_allGaps += ((qreal)n->rhythm()->duration() / m_shortestR) - 1.0;
         m_allNotesWidth += n->width();
       }
     }
-    m_gapFactor = qMin<qreal>((spaceForNotes() - m_allNotesWidth) / allGaps, 5.0);
-    qDebug() << "gap factor" << m_gapFactor << allGaps << spaceForNotes() << m_allNotesWidth;
-  }
+    m_gapFactor = qMin<qreal>((spaceForNotes() - m_allNotesWidth) / m_allGaps, 5.0);
+    qDebug() << "gap factor" << m_gapFactor << m_allGaps << spaceForNotes() << m_allNotesWidth;
+//   }
 }
 
+
+void TscoreStaff::insertNote(const Tnote& note, int index, bool disabled) {
+  index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
+  insert(index);
+  setNote(index, note);
+  m_scoreNotes[index]->setZValue(50);
+  setNoteDisabled(index, disabled);
+  updateIndexes();
+}
+
+
+void TscoreStaff::shiftToMeasure(int measureNr, QList<TscoreNote*>& notesToShift) {
+  qDebug() << "[STAFF] shift" << notesToShift.count() << "notes to measure" << measureNr;
+  if (measureNr == m_measures.count()) { // no such a measure - create it first
+    qDebug() << "Create new measure nr" << m_measures.count();
+    m_measures << new TscoreMeasure(this, m_measures.count());
+  }
+  m_measures[measureNr]->prependNotes(notesToShift);
+}
 
 //##########################################################################################################
 //####################################### PUBLIC SLOTS     #################################################
@@ -603,19 +711,34 @@ void TscoreStaff::applyAutoAddedNote() {
   if (m_autoAddedNoteId > -1) {
     m_addTimer->stop();
     emit noteIsAdding(number(), m_autoAddedNoteId);
-    if (m_autoAddedNoteId == maxNoteCount() - 1) // new staff is wanted
+//     if (m_autoAddedNoteId == maxNoteCount() - 1) // new staff is wanted
+    if (spaceForNotes() - m_allNotesWidth - m_allGaps < 7.0)
         emit noMoreSpace(number());
     m_autoAddedNoteId = -1;
   }
 }
 
 
+// TODO: keep var for it instead of following calculations (it could be always actual when take care of it during clef/meter/key width changes)
 qreal TscoreStaff::spaceForNotes() {
   return width() - (m_clef ? m_clef->boundingRect().width() : 0.0)
                  - (m_keySignature ? m_keySignature->boundingRect().width() : 0.0)
                  - (m_scoreMeter ? m_scoreMeter->width() : 0.0);
 }
 
+
+bool TscoreStaff::hasSpaceFor(qreal newWidth) {
+  return m_allNotesWidth + newWidth + (m_allGaps * m_gapFactor) <= spaceForNotes();
+//   return width() - m_scoreNotes.last()->rightX() >= newWidth;
+}
+
+
+/**
+ * m_allNotesWidth + m_scoreNotes.first()->estimateWidth(n) ===> physical width of all notes
+ */
+bool TscoreStaff::hasSpaceFor(const Tnote& n) {
+  return m_allNotesWidth + m_scoreNotes.first()->estimateWidth(n) + (m_allGaps * m_gapFactor) <= spaceForNotes();
+}
 
 //##########################################################################################################
 //####################################### PROTECTED SLOTS  #################################################
@@ -636,24 +759,31 @@ void TscoreStaff::onKeyChanged() {
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
-  if (m_autoAddedNoteId > -1) {
-    if (noteIndex == m_autoAddedNoteId - 1) {
-        m_addTimer->stop();
-        m_addTimer->start(2000);
-    } else
-        addNoteTimeOut();
-  }
   int globalNr = notePosRelatedToClef(fixNotePos(m_scoreNotes[noteIndex]->notePos())
         + m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
   m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
   m_scoreNotes[noteIndex]->note()->octave = (char)(56 + globalNr) / 7 - 8;
   m_scoreNotes[noteIndex]->note()->alter = (char)m_scoreNotes[noteIndex]->accidental();
-  for (int i = noteIndex + 1; i < count(); ++i) // refresh neutrals in all next notes
+  if (m_autoAddedNoteId > -1) {
+    if (noteIndex == m_autoAddedNoteId - 1) {
+        m_addTimer->stop();
+        m_addTimer->start(2000);
+    } else {
+        addNoteTimeOut();
+    }
+  }
+//   int globalNr = notePosRelatedToClef(fixNotePos(m_scoreNotes[noteIndex]->notePos())
+//         + m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
+//   m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
+//   m_scoreNotes[noteIndex]->note()->octave = (char)(56 + globalNr) / 7 - 8;
+//   m_scoreNotes[noteIndex]->note()->alter = (char)m_scoreNotes[noteIndex]->accidental();
+  for (int i = noteIndex + 1; i < count(); ++i) // refresh neutrals in all next notes // TODO: move it to measure
       m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos());
   emit noteChanged(noteIndex);
   checkNoteRange();
   // when score is in record mode the signal above invokes adding new note so count is increased and code below is skipped - This is a magic
-  if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
+//   if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && noteIndex < maxNoteCount() - 1) {
+  if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && spaceForNotes() - m_allNotesWidth - m_allGaps >= 7.0) {
     m_addTimer->stop();
     insert(noteIndex + 1);
     m_scoreNotes.last()->popUpAnim(300);
@@ -719,9 +849,13 @@ void TscoreStaff::noteDestroingSlot(QObject* n) {
 
 void TscoreStaff::addNoteTimeOut() {
   if (m_autoAddedNoteId > -1) {
-    if (noteSegment(m_autoAddedNoteId)->notePos()) // automatically added note was set - approve it
+    if (noteSegment(m_autoAddedNoteId)->notePos()) { // automatically added note was set - approve it
         applyAutoAddedNote(); // puts m_autoAddedNoteId back to -1
-    else if (noteSegment(m_autoAddedNoteId) == scoreScene()->currentNote()) {// note was not set but cursor is still over it
+        qDebug() << "[STAFF] auto note approved" << m_scoreNotes.last()->note()->rtm.xmlType() << m_scoreNotes.last()->rhythm()->xmlType();
+        m_measures.last()->insertNote(m_scoreNotes.last()->index() - m_measures.last()->firstNoteId(), m_scoreNotes.last());
+        if (m_scoreNotes.last()->beam())
+          m_scoreNotes.last()->beam()->performBeaming();
+    } else if (noteSegment(m_autoAddedNoteId) == scoreScene()->currentNote()) {// note was not set but cursor is still over it
         m_addTimer->stop();
         m_addTimer->start(1000); // wait next 1000 ms
     } else if (m_autoAddedNoteId != count() - 1) { // some note was added after this one - ignore
@@ -753,16 +887,8 @@ void TscoreStaff::updateNotesPos(int startId) {
     m_scoreNotes[0]->setX(6.5 + notesOffset());
   else
     m_scoreNotes[startId]->setX(m_scoreNotes[startId - 1]->rightX());
-//   qreal gap = 0.0;
   for (int i = startId + 1; i < m_scoreNotes.size(); i++) {// update positions of the notes
-//       if (scoreScene()->isRhythmEnabled()) {
-//         int dur = m_scoreNotes[i - 1]->rhythm()->duration();
-//         if (dur > m_shortestR)
-//           gap = ((dur / m_shortestR) - 1.0) * m_gapFactor;
-//         else
-//           gap = 0.0;
-//       }
-      m_scoreNotes[i]->setX(m_scoreNotes[i - 1]->rightX() /*+ gap*/);
+      m_scoreNotes[i]->setX(m_scoreNotes[i - 1]->rightX());
   }
 //     m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
 }
@@ -826,6 +952,14 @@ void TscoreStaff::findLowestNote() {
   m_loNotePos = (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 13.0;
   for (int i = 0; i < m_scoreNotes.size(); i++)
       m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos() + 2), m_loNotePos);
+}
+
+
+void TscoreStaff::insert(int index) {
+  TscoreNote *newNote = new TscoreNote(scoreScene(), this, index);
+  newNote->setZValue(50);
+  connectNote(newNote);
+  m_scoreNotes.insert(index, newNote);
 }
 
 
