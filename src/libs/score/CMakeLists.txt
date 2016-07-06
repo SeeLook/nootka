@@ -7,28 +7,28 @@ include_directories( . ../core )
 add_definitions(-DNOOTKACORE_LIBRARY)
 
 set(LIB_NOOTKASCORE_SRC
-	graphics/tnotepixmap.cpp
+  graphics/tnotepixmap.cpp
 
-	widgets/tselectclef.cpp
+  widgets/tselectclef.cpp
 
-	tscoreitem.cpp
-	tscoreclef.cpp
-	tscorekeysignature.cpp
-	tscorenote.cpp
-	tnoteitem.cpp
-	tscorescene.cpp
-	tscorescordature.cpp
-	tscorestaff.cpp
-	tscoremeasure.cpp
-	tscorebeam.cpp
-	tscore5lines.cpp
-	tnotecontrol.cpp
-	tpaneitem.cpp
-	trhythmpane.cpp
-	tscorelines.cpp
-	tscoremeter.cpp
-	tsimplescore.cpp
-	tmultiscore.cpp
+  tscoreitem.cpp
+  tscoreclef.cpp
+  tscorekeysignature.cpp
+  tscorenote.cpp
+  tnoteitem.cpp
+  tscorescene.cpp
+  tscorescordature.cpp
+  tscorestaff.cpp
+  tscoremeasure.cpp
+  tscorebeam.cpp
+  tscore5lines.cpp
+  tnotecontrol.cpp
+  tpaneitem.cpp
+  trhythmpane.cpp
+  tscorelines.cpp
+  tscoremeter.cpp
+  tsimplescore.cpp
+  tmultiscore.cpp
 )
 
 add_library(NootkaScore SHARED ${LIB_NOOTKASCORE_SRC} )
