@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "scorekwindow.h"
+#include <tpath.h>
 #include <tmultiscore.h>
 #include <tscorescene.h>
 #include <music/tmeter.h>
@@ -27,6 +28,7 @@
 ScorekWindow::ScorekWindow(QWidget* parent) :
   QMainWindow(parent)
 {
+  setWindowIcon(QIcon(Tpath::img("score")));
   setGeometry(500, 100, 1400, 768);
   m_score = new TmultiScore(this, this);
   auto statusLabel = new QLabel(this);

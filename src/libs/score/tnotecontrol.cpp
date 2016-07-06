@@ -35,7 +35,7 @@
 #include <QtWidgets/qgraphicsview.h>
 
 
-/** Subclass of @class TpaneItem to paint note symbol with dot or triplet */
+/** Subclass of @c TpaneItem to paint note symbol with dot or triplet */
 class TrhythmItem : public TpaneItem {
 public:
   explicit TrhythmItem(int charNr, QGraphicsObject* parent) :
@@ -78,12 +78,14 @@ QGraphicsDropShadowEffect* ItemHighLight() {
 
 TnoteControl::TnoteControl(bool isLeft, TscoreStaff* staff, TscoreScene* scene) :
   TscoreItem(scene),
-  m_isLeft(isLeft),
   m_scoreNote(0),
-  m_isEnabled(true), m_entered(false),
+  m_isLeft(isLeft),
+  m_isEnabled(true),
+  m_entered(false),
+  m_prevAccidIt(0),
   m_underItem(0),
   m_moveNote(false),
-  m_accidental(0), m_prevAccidIt(0),
+  m_accidental(0),
   m_notesAdding(true),
   m_adding(false),
   m_delayTimer(new QTimer(this))
