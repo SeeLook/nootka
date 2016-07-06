@@ -31,7 +31,6 @@ TnoteItem::TnoteItem(TscoreScene* scene, const Trhythm& r) :
   m_color(qApp->palette().text().color()),
   m_paintFlags(false),
   m_upsideDown(false)
-//   m_stemHeight(6.1)
 {
   m_rhythm = new Trhythm(r);
   setAcceptHoverEvents(false);
@@ -50,10 +49,12 @@ void TnoteItem::setRhythm(const Trhythm& r) {
   bool upDown = upsideDown(r);
   if (r.stemDown() != m_rhythm->stemDown() || upDown != upsideDown(*m_rhythm)) {
     if (r.stemDown() != m_rhythm->stemDown() && r == *m_rhythm && r.stemDown() != upDown) {
-      qDebug() << "Ignore geometry change";
+      if (!m_paintFlags)
+        qDebug() << "Ignore geometry change";
       m_rhythm->setRhythm(r);
     } else {
-      qDebug() << "stem direction requires geometry change";
+      if (!m_paintFlags)
+        qDebug() << "stem direction requires geometry change";
       prepareGeometryChange();
       up = true;
     }
@@ -72,19 +73,11 @@ void TnoteItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
   Q_UNUSED(widget)
 
 //   paintBackground(painter, Qt::blue);
-//   painter->setPen(QPen(m_color, 0.25));
   painter->setPen(m_color);
 
   painter->setFont(TnooFont(8));
   // place note head into bounding rectangle that it Y = 0 is always inside the head
-  painter->drawText(QPointF(0.0, m_upsideDown ? (/*!m_paintFlags && m_rhythm->weight() > 4 ? 1.0 :*/ 6.32) : 1.0),
-                    m_noteLetter);
-//   if (!m_paintFlags && m_rhythm->weight() > 4) {
-//     if (m_rhythm->stemDown())
-//       painter->drawLine(QLineF(0.13, 1.14, 0.13, 1.14 + m_stemHeight));
-//     else
-//       painter->drawLine(QLineF(2.23, 0.85, 2.23, -(m_stemHeight - 0.85)));
-//   }
+  painter->drawText(QPointF(0.0, m_upsideDown ? 6.32 : 1.0), m_noteLetter);
   if (m_rhythm->hasDot()) {
     painter->drawText(QPointF(m_rhythm->rhythm() == Trhythm::e_whole ? 3.5 : 2.7,
                               1.4 + (m_upsideDown ? -1.0 : 1.0) * ((int)y() % 2)),
@@ -100,19 +93,21 @@ QRectF TnoteItem::boundingRect() const {
 void TnoteItem::obtainNoteLetter() {
     quint16 v = m_rhythm->weight();
     if (m_rhythm->isRest()) { // handle rest glyphs - for score they are just rectangles without leading line and getCharFromRhythm not works for it
-      int charNr = 0;
-      if (m_rhythm->rhythm() == Trhythm::e_whole)
-        charNr = 0xe102;
-      else if (m_rhythm->rhythm() == Trhythm::e_half)
-        charNr = 0xe103;
-      if (charNr) {
-        m_noteLetter = QString(QChar(charNr));
-        return;
-      }
-    } if (!m_paintFlags && m_rhythm->weight() > 4 && m_rhythm->beam())
-          v = 0; // paint head only - stems and beams are handled outside then
+        int charNr = 0;
+        if (m_rhythm->rhythm() == Trhythm::e_whole)
+          charNr = 0xe102;
+        else if (m_rhythm->rhythm() == Trhythm::e_half)
+          charNr = 0xe103;
+        if (charNr) {
+          m_noteLetter = QString(QChar(charNr));
+          return;
+        }
+    } else
+        if (!m_paintFlags && m_rhythm->weight() > 4 && m_rhythm->beam())
+            v = 0; // paint head only - stems and beams are handled outside
   m_noteLetter = QString(QChar(TnooFont::getCharFromRhythm(v, !m_rhythm->stemDown(), m_rhythm->isRest())));
 }
+
 
 /**
  * Determine whether bounding rectangle is different (notes with stems down)
