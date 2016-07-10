@@ -58,9 +58,18 @@ public:
        */
   void prependNotes(QList<TscoreNote*>& nl);
 
-  void removeNote(int noteToRemove);
+      /**
+       * Adds list of notes @p nl at the measure end.
+       * Measure has to have already space for them
+       */
+  void appendNotes(QList<TscoreNote*>& nl);
 
-  TscoreNote* takeNote(int noteId);
+      /**
+       * Removes note with index @p noteToRemove, 
+       * Asks the staff for notes from the next measure
+       * to fulfill free space
+       */
+  void removeNote(int noteToRemove);
 
   QList<TscoreNote*>& notes() { return m_notes; }
 
@@ -100,8 +109,8 @@ public:
       /** Width of all notes in this measure. Calculated on every call */
   qreal notesWidth();
 
-      /** Returns string with [MEASURE nr] */
-  QString debug();
+      /** Prints debug message with [nr MEASURE] */
+  char debug();
 
       /**
        * Returns summary duration of notes in the list.
@@ -151,14 +160,21 @@ protected:
        */
   int releaseAtEnd(int dur, QList<TscoreNote*>& notesToOut, Tnote& newNote, int endNote = 0);
 
+      /**
+       * Takes @p dur (duration) of notes at the measure beginning
+       * and packs them into @p notesToOut list.
+       */
+  int takeAtStart(int dur, QList<TscoreNote*>& notesToOut);
+
       /** Checks to display or hide the bar line */
   void checkBarLine();
 
 private:
 
-      /** Deletes beams starting from @p firstB */
-  void deleteBeams(int firstB = 0);
-
+      /**
+       * Adds @p newNote with index +1 than the last note
+       * by invoking @p TscoreStaff::insertNote() 
+       */
   void addNewNote(Tnote& newNote);
 
       /**
@@ -167,6 +183,12 @@ private:
        * and creating new, tied note @p newNote at the beginning of the next measure 
        */
   void shiftReleased(QList<TscoreNote*>& notesToOut, Tnote& newNote);
+
+      /**
+       * Common method calling the staff for notes from the next measure
+       * to fill this one. @p m_free has to be updated before.
+       */
+  void fill();
 
 private:
   int                      m_duration;

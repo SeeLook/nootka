@@ -221,6 +221,13 @@ void TmultiScore::selectNote(int id) {
 }
 
 
+char TmultiScore::debug() {
+  QTextStream o(stdout);
+  o << "\033[01;35m[SCORE]\033[01;00m";
+  return 32;
+}
+
+
 //####################################################################################################
 //#################################    PUBLIC SLOTS       ############################################
 //####################################################################################################
@@ -510,6 +517,7 @@ void TmultiScore::addStaff(TscoreStaff* st) {
   connect(lastStaff(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
   connect(lastStaff(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
   connect(lastStaff(), &TscoreStaff::moveMeasure, this, &TmultiScore::moveMeasureSlot);
+  connect(lastStaff(), &TscoreStaff::getNextStaff, this, &TmultiScore::giveStaffSlot);
   if (lastStaff()->scoreKey())
     connect(lastStaff()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
 }
@@ -669,7 +677,7 @@ void TmultiScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
 
 
 void TmultiScore::moveMeasureSlot(TscoreStaff* st, int measureNr) {
-  if (st == m_staves.last()) { // last staff has no space
+  if (st == lastStaff()) { // last staff has no space
       staffHasNoSpace(st->number()); // so create a new staff
       //TODO: delete empty note - staff is created wit it
       lastStaff()->insertMeasure(0, st->takeMeasure(measureNr));
@@ -677,6 +685,15 @@ void TmultiScore::moveMeasureSlot(TscoreStaff* st, int measureNr) {
       staves(st->number() + 1)->insertMeasure(0, st->takeMeasure(measureNr));
   }
 }
+
+
+void TmultiScore::giveStaffSlot(TscoreStaff *& st) {
+  if (st == lastStaff())
+    st = nullptr;
+  else
+    st = staves(st->number() + 1);
+}
+
 
 
 void TmultiScore::deleteFakeLines(int lastNr) {

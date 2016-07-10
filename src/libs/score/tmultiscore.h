@@ -33,7 +33,7 @@ class Tmeter;
 
 
 /**
- * This is subclass of TsimpleScore which adds support for multiple staves/systems
+ * This is subclass of @p TsimpleScore which adds support for multiple staves/systems
  */
 class NOOTKACORE_EXPORT TmultiScore : public TsimpleScore
 {
@@ -93,6 +93,8 @@ public:
   void setReadOnlyReacting(bool doIt) { m_selectReadOnly = doIt; }
   bool readOnlyReacting() { return m_selectReadOnly; }
 
+  char debug();
+
 signals:
   void lockedNoteClicked(int noteNumber); /**< Emitted number is in range [0 to notesCount()] */
   void lockedNoteSelected(int noteNumber); /**< Emitted number is in range [0 to notesCount()] */
@@ -133,6 +135,12 @@ protected slots:
       /** Staff @p st wants to take out its last measure number @p measureNr.
        * This method (slot) moves it to the next staff (creates a new staff if necessary). */
   void moveMeasureSlot(TscoreStaff* st, int measureNr);
+
+      /**
+       * Checks is next staff to @p st available
+       * and puts pointer of it to @p st or null if not
+       */
+  void giveStaffSlot(TscoreStaff*& st);
 
       /** Adds given staff at the end of m_staves list or creates a new one.
       * Sets staff number corresponding to its index in the m_staves list,

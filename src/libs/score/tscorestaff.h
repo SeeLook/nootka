@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 
+class notesToShift;
 #ifndef TSCORESTAFF_H
 #define TSCORESTAFF_H
 
@@ -55,11 +56,11 @@ public:
 };
 
 /**
- * @class TscoreStaff manages score items on the staff.
+ * @p TscoreStaff manages score items on the staff.
  * It has got:
- * - clef - @class TscoreClef - accessing by @p scoreClef()
- * - key signature - @class TscoreKeySignature - @p scoreKey()
- * - meter (if enabled) - @class TscoreMeter - @p scoreMeter()
+ * - clef of @p TscoreClef - available by @p scoreClef()
+ * - key signature - @p TscoreKeySignature - @p scoreKey()
+ * - meter (if enabled) - @p TscoreMeter - @p scoreMeter()
  * - notes (in QList) - @p TscoreNote - @p noteSegment(int nr)
  * - scordature - below clef through @p setScordature()
  */
@@ -68,6 +69,7 @@ class NOOTKACORE_EXPORT TscoreStaff : public TscoreItem
 
   friend class TscoreNote;
   friend class TscoreMeasure;
+  friend class TmultiScore;
 
   Q_OBJECT
 
@@ -224,6 +226,12 @@ public:
 
   QList<TscoreMeasure*>& measures() { return m_measures; } /**< List of measures on the staff */
 
+  TscoreMeasure* lastMeasure() { return m_measures.last(); }
+  TscoreMeasure* firstMeasure() { return m_measures.first(); }
+
+  TscoreMeasure* nextMeasure(TscoreMeasure* before);
+  TscoreMeasure* nextMeasure(int id) { return id < m_measures.count() ? nextMeasure(m_measures[id]) : nullptr; }
+
       /** Removes @p measId measure from the list and its notes from the staff as well.
        * Returns @p TscoreMeasure pointer which contains list of taken notes. */
   TscoreMeasure* takeMeasure(int measId);
@@ -231,6 +239,9 @@ public:
 
   virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {};
   virtual QRectF boundingRect() const;
+
+      /** Prints to std out debug info about this staff: [nr STAFF] in color */
+  char debug();
 
 signals:
   void pianoStaffSwitched();
@@ -268,18 +279,26 @@ signals:
       /** This staff asks to take out its measure (usually the last one) with given number  */
   void moveMeasure(TscoreStaff*, int);
 
+      /**
+       * Asks for next staff. 
+       * In the argument pointer of the next staff is put or null if none.
+       */
+  void getNextStaff(TscoreStaff*&);
+
 public slots:
   void onClefChanged(Tclef clef); /**< It is connected with clef, but also refresh m_offset appropriate to current clef. */
   void noteChangedAccid(int accid); /**< TscoreNote wheel event - changes accidental */
 
 protected:
       /** Creates staff lines at first call, sets lines width, creates lower staff lines as well.
-        * It also calls createBrace().  */
+        * It also calls @p createBrace().  */
   void prepareStaffLines();
 
-      /** It doesn't add scordature like setScordature() method,
+      /**
+        * It doesn't add scordature like @p setScordature() method,
         * just make place (re-sizes staff width if necessary) for scordature.
-        * setScordature calls it itself. */
+        * @p setScordature() calls it itself.
+        */
   void setEnableScordtature(bool enable);
 
       /** Calculates current width of a staff depends on is key sign. enabled. */
@@ -291,12 +310,17 @@ protected:
 
   void noteChangedWidth(int noteId); /**< Called by @class TscoreNote  */
   void prepareNoteChange(TscoreNote* sn, qreal widthDiff);
-  void insertNote(const Tnote& note, int index, bool disabled = false); // TODO: consider to shift it to private
 
-      /** Shifts given @p notesToShift list to measure @p measureNr.
+  TscoreNote* insertNote(const Tnote& note, int index, bool disabled = false);
+
+      /**
+       * Shifts given @p notesToShift list to measure @p measureNr.
        * All shifted notes still belongs to this staff,
-       * so their positions and indexes don't change. */
+       * so their positions and indexes don't change.
+       */
   void shiftToMeasure(int measureNr, QList<TscoreNote*>& notesToShift);
+
+  int shiftFromMeasure(int measureNr, int dur, QList<TscoreNote*>& notesToShift);
 
 protected slots:
   void onKeyChanged();
@@ -347,10 +371,13 @@ private:
   void findHighestNote(); /**< Checks all Y positions of staff notes ti find highest one */
   void connectNote(TscoreNote *sn); /**< Performs all TscoreNote connections to this staff */
 
-        /** Protected method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
-        * It doesn't perform any checks */
-  void insert(int index);
+        /**
+         * Private method that creates new TscoreNote note instance and inserts it to m_scoreNotes.
+         * It doesn't perform any checks, and returns instance of created note
+         */
+  TscoreNote* insert(int index);
 
 };
 
 #endif // TSCORESTAFF_H
+

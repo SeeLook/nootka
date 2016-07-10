@@ -55,13 +55,13 @@ TscoreBeam::TscoreBeam(TscoreNote* sn, TscoreMeasure* m) :
 {
   sn->note()->rtm.setBeam(Trhythm::e_beamStart);
   addNote(sn);
-  qDebug() << "[BEAM] created for note id" << sn->index();
+  qDebug() << "     [BEAM] created for note id" << sn->index();
 }
 
 
 TscoreBeam::~TscoreBeam()
 {
-  qDebug() << "[BEAM] deleted of id" << m_notes.first()->index();
+  qDebug() << "     [BEAM] deleted of id" << m_notes.first()->index();
   for (TscoreNote* note : m_notes) {
     note->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
     note->setBeam(nullptr);
@@ -74,9 +74,9 @@ TscoreBeam::~TscoreBeam()
 
 void TscoreBeam::addNote(TscoreNote* sn) {
   if (m_notes.isEmpty() && sn->note()->rtm.beam() != Trhythm::e_beamStart) // TODO: delete it when no errors
-    qDebug() << "[BEAM] new beam starts but not proper flag is set!";
+    qDebug() << "     [BEAM] new beam starts but not proper flag is set!";
   else if (!m_notes.isEmpty() && m_notes.last()->note()->rtm.beam() == Trhythm::e_beamEnd)
-    qDebug() << "[BEAM] Adding note to beam group that already ended!";
+    qDebug() << "     [BEAM] Adding note to beam group that already ended!";
 
   if (m_notes.isEmpty())
     m_summaryPos = 0;
@@ -124,9 +124,9 @@ void TscoreBeam::closeBeam() {
   connect(m_measure, &TscoreMeasure::updateBeams, this, &TscoreBeam::beamsUpdateSlot);
 
   if (m_notes.first()->note()->rtm.beam() == Trhythm::e_beamStart && m_notes.last()->note()->rtm.beam() == Trhythm::e_beamEnd)
-    qDebug() << "[BEAM] closed correctly with" << count() << "notes";
+    qDebug() << "     [BEAM] closed correctly with" << count() << "notes";
   else
-    qDebug() << "[BEAM] is corrupted!!!!";
+    qDebug() << "     [BEAM] is corrupted!!!!";
 }
 
 //#################################################################################################
@@ -136,7 +136,7 @@ void TscoreBeam::beamsUpdateSlot(TscoreNote* sn) {
   if (!sn || (sn->index() >= m_notes.first()->index() && sn->index() <= m_notes.last()->index()))
     performBeaming();
   else
-    qDebug() << "[BEAM] ignored beaming of" << sn->index();
+    qDebug() << "     [BEAM] ignored beaming of" << sn->index();
 }
 
 
@@ -162,7 +162,7 @@ void TscoreBeam::performBeaming() {
           stemsDownPossible = false;
 //       sn->update();
       if (sn == m_notes.last() && m_notes.last()->note()->rtm.beam() != Trhythm::e_beamEnd)
-        qDebug() << "[BEAM] was not closed!!" << m_notes.size();
+        qDebug() << "     [BEAM] was not closed!!" << m_notes.size();
   }
   bool allStemsDown = false;
   if (stemDirStrength < 0)
