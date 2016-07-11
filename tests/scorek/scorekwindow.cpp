@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "scorekwindow.h"
+#include "pianokeybd.h"
 #include <tpath.h>
 #include <tmultiscore.h>
 #include <tscorescene.h>
@@ -29,16 +30,20 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
   QMainWindow(parent)
 {
   setWindowIcon(QIcon(Tpath::img("score")));
-  setGeometry(500, 100, 1400, 768);
+  setGeometry(500, 300, 1400, 768);
   m_score = new TmultiScore(this, this);
   auto statusLabel = new QLabel(this);
     statusLabel->setFixedHeight(fontMetrics().boundingRect("A").height() * 3);
     statusLabel->setWordWrap(true);
     statusLabel->setAlignment(Qt::AlignCenter);
 
+  m_piano = new PianoKeybd(this);
+
   auto lay = new QVBoxLayout;
     lay->addWidget(m_score);
     lay->addWidget(statusLabel);
+    lay->addWidget(m_piano);
+
   auto centralW = new QWidget(this);
     centralW->setLayout(lay);
 
@@ -86,5 +91,11 @@ void ScorekWindow::meterSlot(bool meterEnabled) {
 
 void ScorekWindow::dblAccidsSlot(bool dblAccidsEnabled) {
   m_score->setEnabledDblAccid(dblAccidsEnabled);
+}
+
+
+void ScorekWindow::resizeEvent(QResizeEvent* event) {
+  m_piano->setFixedHeight(height() / 5);
+  QMainWindow::resizeEvent(event);
 }
 

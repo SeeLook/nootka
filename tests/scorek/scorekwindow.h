@@ -23,6 +23,7 @@
 
 
 class TmultiScore;
+class PianoKeybd;
 
 
 class ScorekWindow : public QMainWindow
@@ -37,10 +38,12 @@ protected:
   void keySignatureSlot(bool keyEnabled);
   void meterSlot(bool meterEnabled);
   void dblAccidsSlot(bool dblAccidsEnabled);
+  void resizeEvent(QResizeEvent* event) override;
 
 
 private:
   TmultiScore           *m_score;
+  PianoKeybd            *m_piano;
 };
 
 #endif // SCOREKWINDOW_H
