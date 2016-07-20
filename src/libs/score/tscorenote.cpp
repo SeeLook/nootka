@@ -54,6 +54,24 @@ QString TscoreNote::getAccid(int accNr) {
 QString TscoreNote::m_staticTip = QString();
 QString TscoreNote::m_selectedTip = QString();
 
+const qreal TscoreNote::m_rtmGapArray[5][3] = {
+//  | bare | dot | triplet |
+    { 5.0,   6.0,   4.5}, // whole note
+    { 4.0,   5.0,   3.3}, // half note
+    { 2.0,   2.5,   1.3}, // quarter note
+    { 1.0,   1.5,   0.3}, // eighth note
+    { 0.15,  0.5,   0.0}  // sixteenth note
+};
+
+
+qreal TscoreNote::space(const Trhythm& r) {
+  if (r.rhythm() == Trhythm::e_none)
+    return 0.0;
+
+  int add = r.hasDot() ? 1 : (r.isTriplet() ? 2 : 0);
+  return m_rtmGapArray[int(std::log2<int>(r.weight())) - 1][add];
+}
+
 
 //#################################################################################################
 //###################              CONSTRUCTOR         ############################################
@@ -64,7 +82,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainPosY(0.0), m_newPosY(0),
   m_accidental(0), m_newAccid(0),
   m_index(index),
-  m_stringText(0), m_stringNr(0),
+  m_stringNr(0), m_stringText(0),
   m_readOnly(false), m_emptyLinesVisible(true),
   m_nameText(0),
   m_ottava(0),
@@ -344,6 +362,11 @@ void TscoreNote::markNote(QColor blurColor) {
 }
 
 
+qreal TscoreNote::space() {
+  return space(note()->rtm);
+}
+
+
 void TscoreNote::setString(int realNr) {
   if (!m_stringText) {
         m_stringText = new QGraphicsSimpleTextItem();
@@ -453,7 +476,8 @@ void TscoreNote::setAmbitus(int lo, int hi) {
        *  a space (gap) is added to visually represent note duration as a space between notes */
 qreal TscoreNote::rightX() {
   int dur = m_mainNote->rhythm()->duration();
-  return x() + m_width + (dur > staff()->shortestRhythm() ? staff()->gapFactor() * (((dur / staff()->shortestRhythm()) - 1.0)) : 0.0);
+  return x() + m_width + staff()->gapFactor() * space(note()->rtm);
+//   return x() + m_width + (dur > staff()->shortestRhythm() ? staff()->gapFactor() * (((dur / staff()->shortestRhythm()) - 1.0)) : 0.0);
 }
 
 
@@ -523,7 +547,7 @@ void TscoreNote::keyAnimFinished() {
 void TscoreNote::popUpAnim(int durTime) {
   if (m_popUpAnim)
     return;
-  m_popUpAnim = new TcombinedAnim(m_emptyText);
+  m_popUpAnim = new TcombinedAnim(m_emptyText, this);
     m_popUpAnim->setDuration(durTime);
     m_popUpAnim->setMoving(QPointF(m_emptyText->x(), -10), m_emptyText->pos());
   connect(m_popUpAnim, SIGNAL(finished()), this, SLOT(popUpAnimFinished()));
@@ -609,7 +633,7 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         }
         if (pitchChanged() || rhythmChanged() || accidChanged() || widthDiff != 0.0) {
             emit noteGoingToChange(this);
-            staff()->prepareNoteChange(this, widthDiff);
+            staff()->prepareNoteChange(this);
 //             if (rhythmChanged())
 //                 m_mainNote->setRhythm(*m_newRhythm);
         }

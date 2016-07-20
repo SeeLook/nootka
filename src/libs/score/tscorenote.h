@@ -41,7 +41,7 @@ class TscoreBeam;
  * It is a rectangle area over the staff with handling mouse move event to display working note cursor.
  * It also grabs wheel event to manipulate accidentals
  * It can be set to read-only mode through setReadOnly() then mouse events are ignored.
- * When mouse cursor appears over it, @p TscoreNote starts to be a parent for @class TscoreControl
+ * When mouse cursor appears over it, @p TscoreNote starts to be a parent for @p TscoreControl
  * and it displays panes on the note sides with additional switches (accidentals, name menu, add/delete note)
  */
 class NOOTKACORE_EXPORT TscoreNote : public TscoreItem
@@ -94,7 +94,7 @@ public:
 
   void setRhythmEnabled(bool rhythmEnabled); /**< Switches rhythm on/off */
 
-      /** Returns pointer to main note @class TnoteItem.  */
+      /** Returns pointer to main note @p TnoteItem.  */
   TnoteItem* mainNote() { return m_mainNote; }
 
       /** Returns pointer to main accidental QGraphicsSimpleTextItem.  */
@@ -123,6 +123,16 @@ public:
   bool rhythmChanged() const;
 
   static QString getAccid(int accNr); /**< Returns QString with accidental symbol*/
+
+      /**
+       * Returns space factor after note with given @p r rhythm.
+       */
+  static qreal space(const Trhythm& r);
+
+      /**
+       * Space factor after this note
+       */
+  qreal space();
 
       /** It paints string number symbol. Automatically determines above or below staff. */
   void setString(int realNr);
@@ -227,6 +237,8 @@ private:
 
   qint8                                    m_group = -1;
   TscoreBeam                              *m_beam = nullptr;
+
+  static const qreal                       m_rtmGapArray[5][3]; /**< static array with space definitions for each rhythm value */
 
 private:
   void setStringPos(); /**< Determines and set string number position (above or below the staff) depends on note position */
