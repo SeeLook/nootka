@@ -20,6 +20,23 @@
 #include <QtCore/qdebug.h>
 
 
+// TODO
+//   if (m_duration == 0) {
+//     quint8 rArray[RVALUE];
+//     rArray[0] = 0;
+//     QString s;
+//     for (int d = 1; d <= RVALUE; ++d) {
+//       Trhythm r(d);
+//       if (d == r.duration()) {
+//         s += QString("%1").arg(r.weight()) + (r.hasDot() ? "." : (r.isTriplet() ? "_3" : "")) + QString(" %1 | ").arg(d);
+//         rArray[d] = r.weight() + (r.hasDot() ? 64 : 0) + (r.isTriplet() ? 128 : 0);
+//       } else
+//           rArray[d] = 0;
+//     }
+//     qDebug() << s;
+//   }
+
+
 void Trhythm::setRhythmValue(const std::string& nVal) {
   for (int i = 0; i < 6; ++i) {
     if (nVal == rhythmStrings[i]) {
@@ -64,12 +81,13 @@ void Trhythm::setRhythm(quint16 durationValue) {
       r = RVALUE / durationValue;
     }
     if (qNextPowerOfTwo(r - 1) > 16)
-      qDebug() << "Unsupported rhythm value" << qNextPowerOfTwo(r - 1);
+        qDebug() << "Unsupported rhythm value" << qNextPowerOfTwo(r - 1);
     else {
-      m_r = Erhythm(r);
-      // debug message TODO comment it when tested
-      if (tmpDur != duration())
-        qDebug() << "Input duration" << tmpDur << "is different than obtained!!!" << duration();
+        if (qNextPowerOfTwo(r - 1) == r)
+          m_r = Erhythm(r);
+        // debug message TODO comment it when tested
+        if (tmpDur != duration())
+          qDebug() << "Input duration" << tmpDur << "is different than obtained!!!" << duration();
     }
   }
 }
