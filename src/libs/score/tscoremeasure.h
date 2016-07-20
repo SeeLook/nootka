@@ -47,7 +47,10 @@ public:
 
   void changeMeter(const Tmeter& m);
 
-  void setStaff(TscoreStaff* st) { m_staff = st; }
+      /**
+       * Sets parent staff and parent object as well
+       */
+  void setStaff(TscoreStaff* st);
 
   void insertNote(int id, TscoreNote* sn);
 

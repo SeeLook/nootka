@@ -84,6 +84,8 @@ void TscoreMeter::setMeter(const Tmeter& meter, bool emitSignal) {
       m_groups << 36 << 72 << 108 << 144;
   }
 
+  updateOptGap();
+
   if (emitSignal)
     emit meterChanged();
 }
@@ -119,6 +121,26 @@ void TscoreMeter::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     Tmeter m = menu.exec(event->screenPos());
     if (m.meter() != Tmeter::e_none && m != *m_meter)
       setMeter(m);
+  }
+}
+
+
+void TscoreMeter::updateOptGap() {
+  if (m_meter->lower() == 4) {
+      m_optGap = m_meter->upper() * 2.0; // simple multiply number of quarters by gap for quarter (see TscoreNote)
+  } else {
+      if (m_meter->meter() == Tmeter::e_3_8)
+        m_optGap = 2.5; // quarter with dot
+      else if (m_meter->meter() == Tmeter::e_5_8)
+        m_optGap = 2.5 + 2.0; // quarter with dot and quarter
+      if (m_meter->meter() == Tmeter::e_6_8)
+        m_optGap = 2.0 * 2.5; // two quarters with dot
+      if (m_meter->meter() == Tmeter::e_7_8)
+        m_optGap = 2.5 + 2.0 * 2.0; // quarter with dot and two quarters
+      if (m_meter->meter() == Tmeter::e_9_8)
+        m_optGap = 3.0 * 2.5; // three quarters with dot
+      if (m_meter->meter() == Tmeter::e_12_8)
+        m_optGap = 4.0 * 2.5; // four quarters with dot
   }
 }
 

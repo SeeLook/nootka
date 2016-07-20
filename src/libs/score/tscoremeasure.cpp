@@ -110,6 +110,12 @@ TscoreMeter* TscoreMeasure::scoreMeter() const {
 }
 
 
+void TscoreMeasure::setStaff(TscoreStaff* st) {
+  m_staff = st;
+  setParent(st);
+}
+
+
 void TscoreMeasure::changeMeter(const Tmeter& m) {
   m_duration = m.duration();
   m_free = duration();
@@ -190,7 +196,7 @@ void TscoreMeasure::insertNote(int id, TscoreNote* sn) {
           newNote = Tnote(*sn->note(), Trhythm(noteDur - m_free, sn->note()->isRest()));
           noteDur = m_free;
       } else { // measure has not at all space
-          qDebug() << debug() << "move entire note";
+          qDebug() << debug() << "move entire note" << sn->note()->toText();
           notesToOut << sn;
           m_staff->shiftToMeasure(number() + 1, notesToOut);
           return;
@@ -280,10 +286,10 @@ void TscoreMeasure::fill() {
 
 
 qreal TscoreMeasure::notesWidth() {
-  qreal w = 0.0;
-  for (TscoreNote* sn : m_notes)
-    w += sn->width();
-  return w;
+  if (!isEmpty())
+    return lastNote()->rightX() - firstNote()->x();
+  else
+    return 0.0;
 }
 
 

@@ -69,6 +69,16 @@ public:
 
   qreal width() { return m_width; }
 
+      /**
+       * @p optimalGap is summary of note gaps for
+       * optimal measure content, i.e.:
+       * 2/4  is | 4 4 | so two gaps of quarter note
+       * 5/8  is | 4. 4 | so gap of quarter with dot and just quarter
+       * 12/8 is | 4. 4. 4. 4. | so four gaps of quarter and dot
+       * It is used to determine has a staff space for a new measure
+       */
+  qreal optimalGap() { return m_optGap; }
+
 signals:
   void meterChanged();
 
@@ -76,11 +86,15 @@ protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
 private:
+  void updateOptGap();
+
+private:
   Tmeter           *m_meter;
   bool              m_isReadOnly, m_pianoStaff;
   QString           m_upperDigit, m_lowerDigit;
   qreal             m_width;
   QList<quint8>     m_groups;
+  qreal             m_optGap;
 };
 
 

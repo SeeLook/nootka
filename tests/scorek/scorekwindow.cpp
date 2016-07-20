@@ -40,8 +40,8 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
   m_piano = new PianoKeybd(this);
 
   auto lay = new QVBoxLayout;
-    lay->addWidget(m_score);
     lay->addWidget(statusLabel);
+    lay->addWidget(m_score);
     lay->addWidget(m_piano);
 
   auto centralW = new QWidget(this);
