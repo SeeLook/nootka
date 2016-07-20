@@ -28,6 +28,9 @@
 #include "tscoremeasure.h"
 #include <music/tmeter.h>
 #include <music/trhythm.h>
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
 #include <QtWidgets/QtWidgets>
 
 
@@ -235,7 +238,7 @@ char TmultiScore::debug() {
 void TmultiScore::noteWasClicked(int index) {
   TscoreStaff *st = SENDER_TO_STAFF;
   Tnote note = *(st->getNote(index));
-  changeCurrentIndex(index + st->number() * st->maxNoteCount());
+//   changeCurrentIndex(index + st->number() * st->maxNoteCount());
   m_clickedOff = 0;
   emit noteWasChanged(index, note);
   st->noteSegment(index)->update();
@@ -246,7 +249,7 @@ void TmultiScore::noteWasClicked(int index) {
 void TmultiScore::noteWasSelected(int index) {
   m_clickedOff = 0;
   TscoreStaff *st = SENDER_TO_STAFF;
-  changeCurrentIndex(index + st->number() * st->maxNoteCount());
+//   changeCurrentIndex(index + st->number() * st->maxNoteCount());
   emit noteWasChanged(index, *st->getNote(index));
 }
 
@@ -346,56 +349,37 @@ void TmultiScore::resizeEvent(QResizeEvent* event) {
   } else {
     if (ww < 400 || hh < 200)
       return;
-    QList<TscoreNote*> allNotes;
-    for (int i = 0; i < m_staves.size(); i++) { // grab all TscoreNote
-      m_staves[i]->takeNotes(allNotes, 0, m_staves[i]->count() - 1);
-    }
-    qreal staffOff = 0.0;
-    if (staff()->isPianoStaff())
-      staffOff = 1.1;
-// #if defined (Q_OS_ANDROID)
-    hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()));
-// #else
-//     hh = qMin<int>(hh, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
-// #endif
-    qreal factor = (((qreal)hh / (staff()->height() + 0.4)) / transform().m11()) / m_scale;
+
+    qreal factor = getScaleFactor(hh, m_scale);
     scoreScene()->prepareToChangeRect();
     scale(factor, factor);
-    int stavesNumber; // how many staves are needed
-    for (int i = 0; i < m_staves.size(); i++) {
+    qreal oldStaffWidth = staff()->viewWidth();
+    for (int i = 0; i < m_staves.size(); i++)
       adjustStaffWidth(m_staves[i]);
-      if (i == 0) { // first loop - make preparations for new amount of staves
-        stavesNumber = allNotes.size() / m_staves[0]->maxNoteCount(); // needed staves for this amount of notes
-        if (allNotes.size() % staff()->maxNoteCount())
-            stavesNumber++;
-        if (stavesNumber > m_staves.size()) { // create new staff(staves)
-            int stavesToAdd = stavesNumber - m_staves.size();
-            for (int s = 0; s < stavesToAdd; s++) {
-              addStaff();
-              lastStaff()->blockSignals(true);
-              lastStaff()->removeNote(0);
-              lastStaff()->blockSignals(false);
-            }
-        } else if (stavesNumber < m_staves.size()) { // or delete unnecessary staves
-            int stavesToDel = m_staves.size() - stavesNumber;
-            for (int s = 0; s < stavesToDel; s++) {
-              deleteLastStaff();
-            }
+
+    if (oldStaffWidth != staff()->viewWidth()) {
+    // TODO: another routine for non-rhythms
+      for (int i = 0; i < m_staves.size(); i++) {
+        qreal staffContentWidth = m_staves[i]->contentWidth(m_staves[i]->gapFactor());
+        if (staffContentWidth != m_staves[i]->width()) {
+          qDebug() << debug() << "staff width changed about" << qAbs(staffContentWidth - m_staves[i]->width()) << "- fitting";
+          m_staves[i]->fit();
+          m_staves[i]->updateNotesPos();
         }
       }
-      if (allNotes.size() > i * m_staves[i]->maxNoteCount()) {
-          QList<TscoreNote*> stNotes = allNotes.mid(i * m_staves[i]->maxNoteCount(), m_staves[i]->maxNoteCount());
-          m_staves[i]->addNotes(0, stNotes);
+      for (int i = 0; i < m_staves.size(); i++) {
+        if (m_staves[i]->count() == 0)
+          deleteLastStaff();
       }
+    }
 
+    qreal staffOff = staff()->isPianoStaff() ? 1.1 : 0.0;
+    for (int i = 0; i < m_staves.size(); i++) {
       if (i == 0)
         m_staves[i]->setPos(staffOff, 0.0);
-      else {
-        qreal yOff = 4.0;
-        if (staff()->hasScordature() && i == 1)
-            yOff += 3.0;
-        m_staves[i]->setPos(staffOff, m_staves[i - 1]->pos().y() + m_staves[i - 1]->loNotePos() - m_staves[i]->hiNotePos() + yOff);
-      }
+      else
+        m_staves[i]->setPos(staffOff, m_staves[i - 1]->pos().y() + m_staves[i - 1]->loNotePos() - m_staves[i]->hiNotePos() +
+                            ((staff()->hasScordature() && i == 1) ? 7.0 : 4.0));
     }
     updateSceneRect();
   }
@@ -504,7 +488,9 @@ void TmultiScore::addStaff(TscoreStaff* st) {
     st->disconnect(SIGNAL(clefChanged(Tclef)));
     m_staves << st;
   }
-  connectForReadOnly(lastStaff()->noteSegment(0));
+  connectForReadOnly(lastStaff()->firstNote());
+  if (scoreScene()->scoreMeter())
+    lastStaff()->setNote(0, Tnote(0, 0, 0, Trhythm(scoreScene()->scoreMeter()->meter()->lower() == 4 ? Trhythm::e_quarter : Trhythm::e_eighth)));
   lastStaff()->setStafNumber(m_staves.size() - 1);
   lastStaff()->setSelectableNotes(true);
   connect(lastStaff(), SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
@@ -517,16 +503,18 @@ void TmultiScore::addStaff(TscoreStaff* st) {
   connect(lastStaff(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
   connect(lastStaff(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
   connect(lastStaff(), &TscoreStaff::moveMeasure, this, &TmultiScore::moveMeasureSlot);
-  connect(lastStaff(), &TscoreStaff::getNextStaff, this, &TmultiScore::giveStaffSlot);
+  connect(lastStaff(), SIGNAL(getNextStaff(TscoreStaff*&)), this, SLOT(giveStaffSlot(TscoreStaff*&)));
+//   connect(lastStaff(), &TscoreStaff::getNextStaff, this, &TmultiScore::giveStaffSlot);
   if (lastStaff()->scoreKey())
     connect(lastStaff()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
+  qDebug() << debug() << "Added staff number" << lastStaff()->number();
 }
 
 
 void TmultiScore::deleteLastStaff() {
   delete m_staves.last();
   m_staves.removeLast();
-//   qDebug() << "staff deleted";
+  qDebug() << debug() << "staff deleted";
 }
 
 
@@ -534,6 +522,18 @@ void TmultiScore::connectForReadOnly(TscoreNote* sn) {
   connect(sn, &TscoreNote::roNoteClicked, this, &TmultiScore::roClickedSlot, Qt::UniqueConnection);
   connect(sn, &TscoreNote::roNoteSelected, this, &TmultiScore::roSelectedSlot, Qt::UniqueConnection);
 }
+
+
+qreal TmultiScore::getScaleFactor(int minH, qreal sc) {
+#if defined (Q_OS_ANDROID)
+    qreal hh = qMin(qreal(minH), Tmtr::fingerPixels() * 6.0);
+#else
+    qreal hh = qMin(minH, qMin<int>(qApp->desktop()->screenGeometry().width(), qApp->desktop()->screenGeometry().height()) / 2);
+#endif
+    return ((hh / (staff()->height() + 0.4)) / transform().m11()) / sc;
+
+}
+
 
 //####################################################################################################
 //#################################    PROTECTED SLOTS    ############################################
@@ -571,18 +571,17 @@ void TmultiScore::keyChangedSlot() {
 void TmultiScore::staffHasNoSpace(int staffNr) {
   addStaff();
   adjustStaffWidth(m_staves.last());
-  m_staves.last()->checkNoteRange(false);
+  lastStaff()->checkNoteRange(false);
   qreal yOff = 4.0;
-  if (staff()->hasScordature() && m_staves.last()->number() == 1)
+  if (staff()->hasScordature() && lastStaff()->number() == 1)
     yOff += 3.0;
-  m_staves.last()->setPos(staff()->pos().x(),
-                          m_staves[staffNr]->y() + m_staves[staffNr]->loNotePos() - m_staves.last()->hiNotePos() + yOff);
+  lastStaff()->setPos(staff()->pos().x(), m_staves[staffNr]->y() + m_staves[staffNr]->loNotePos() - lastStaff()->hiNotePos() + yOff);
   updateSceneRect();
 }
 
 
 void TmultiScore::staffHasFreeSpace(int staffNr, int notesFree) {
-//   qDebug() << "staffHasFreeSpace" << staffNr << notesFree;
+  qDebug() << debug() << "staffHasFreeSpace" << staffNr << notesFree;
   if (m_staves[staffNr] != m_staves.last()) { // is not the last staff,
     QList<TscoreNote*> notes;
     m_staves[staffNr + 1]->takeNotes(notes, 0, notesFree - 1); // take first note from the next staff
@@ -677,23 +676,28 @@ void TmultiScore::staffLoNoteChanged(int staffNr, qreal loNoteYoff) {
 
 
 void TmultiScore::moveMeasureSlot(TscoreStaff* st, int measureNr) {
+  if (st->measures().at(measureNr)->isEmpty()) { // TODO: delete if not occurs (It shouldn't!)
+    qDebug() << debug() << "Measure" << measureNr << "of staff" << st->number() << "is empty. Nothing to move!";
+    return;
+  }
   if (st == lastStaff()) { // last staff has no space
-      staffHasNoSpace(st->number()); // so create a new staff
-      //TODO: delete empty note - staff is created wit it
+      addNewStaff();
       lastStaff()->insertMeasure(0, st->takeMeasure(measureNr));
+      updateSceneRect();
+      // FIXME: Here is a good place to detect will score (QGraphicsView) change scroll bar state.
+      // Such a change invokes resizing so updateSceneRect() is called once more then
   } else {
       staves(st->number() + 1)->insertMeasure(0, st->takeMeasure(measureNr));
   }
 }
 
 
-void TmultiScore::giveStaffSlot(TscoreStaff *& st) {
+void TmultiScore::giveStaffSlot(TscoreStaff*& st) {
   if (st == lastStaff())
     st = nullptr;
   else
     st = staves(st->number() + 1);
 }
-
 
 
 void TmultiScore::deleteFakeLines(int lastNr) {
@@ -704,6 +708,23 @@ void TmultiScore::deleteFakeLines(int lastNr) {
     }
   }
 }
+
+
+/**
+ * Creates new staff, sets its position and removes automatically created first note 
+ */
+void TmultiScore::addNewStaff() {
+  addStaff();
+  adjustStaffWidth(lastStaff());
+  lastStaff()->checkNoteRange(false);
+  lastStaff()->setPos(staff()->pos().x(),
+                      m_staves[lastStaff()->number() - 1]->y() + m_staves[lastStaff()->number() - 1]->loNotePos() - lastStaff()->hiNotePos() +
+                      ((staff()->hasScordature() && lastStaff()->number() == 1) ? 7.0 : 4.0)); // Y offset depends on scordature
+  lastStaff()->blockSignals(true);
+  lastStaff()->removeNote(0);
+  lastStaff()->blockSignals(false);
+}
+
 
 
 
