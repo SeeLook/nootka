@@ -48,10 +48,10 @@ class TscoreMeasure;
 class NOOTKACORE_EXPORT TnoteOffset
 {
 public:
-  TnoteOffset(int noteOff, int octaveOff);
+  TnoteOffset(qint8 noteOff = 0, qint8 octaveOff = 0) : note(noteOff), octave(octaveOff) {}
 
-  int note;
-  int octave;
+  qint8 note;
+  qint8 octave;
   int total() { return octave * 7 + note; }
 };
 
@@ -85,6 +85,8 @@ public:
 
       /** Returns pointer to TscoreNote element in the score. */
   TscoreNote* noteSegment(int nr) { return m_scoreNotes[nr]; }
+  TscoreNote* firstNote() { return m_scoreNotes.first(); }
+  TscoreNote* lastNote() { return m_scoreNotes.last(); }
 
   TscoreKeySignature* scoreKey() { return m_keySignature; }
 
@@ -123,11 +125,13 @@ public:
 
   void setEnableKeySign(bool isEnabled);
 
-      /** This array keeps values (-1, 0 or 1) for accidentals in key sign.
-        * It is common for TscoreKeySignature and all TscoreNote.
-        * TscoreKeySignature::setAccidInKeyPointer and TscoreNote::setAccidInKeyPointer
-        * have to be set to connect them.
-        * When TscoreKeySignature is deleted it should be set to 0. */
+      /**
+       * This array keeps values (-1, 0 or 1) for accidentals in key sign.
+       * It is common for TscoreKeySignature and all TscoreNote.
+       * TscoreKeySignature::setAccidInKeyPointer and TscoreNote::setAccidInKeyPointer
+       * have to be set to connect them.
+       * When TscoreKeySignature is deleted it should be set to 0. 
+       */
   char accidInKeyArray[7];
 
       /** Sets scordature according to given tune.
@@ -164,10 +168,10 @@ public:
   int notePosRelatedToClef(int pos) { return notePosRelatedToClef(pos, m_offset); }
 
       /** Returns offset of a y coefficient of a note related to current clef. */
-  int noteOffset() { return m_offset.note; }
+  int noteOffset() { return int(m_offset.note); }
 
       /** octave offset related to middle (one-line) octave. */
-  int octaveOffset() { return m_offset.octave; }
+  int octaveOffset() { return int(m_offset.octave); }
 
       /** Returns number of accidental in key signature, fe.: F# - 0, C# - 1 or Bb - 0, Eb - 1 */
   int accidNrInKey(int noteNr, char key);
@@ -176,11 +180,18 @@ public:
   int fixNotePos(int pianoPos); /**< Checks is note position on grand staff and adds 2 to it. */
   qreal notesOffset(); /**< X Position of first TscoreNote on the staff (depends on clef, key and scordature) */
 
-      /** Informs a staff about QGraphicsView width displaying this staff.
-        * With this value the staff determines maximal lines width and maximal notes count.
-        * If not set (0.0) - single staff, If set - m_externWidth is ignored.
-        * This is very important for multi-system view (vertical staves) */
+      /**
+       * Informs a staff about QGraphicsView width displaying this staff.
+       * With this value the staff determines maximal lines width and maximal notes count.
+       * If not set (0.0) - single staff, If set - m_externWidth is ignored.
+       * This is very important for multi-system view (vertical staves) 
+       */
   void setViewWidth(qreal viewW);
+
+      /**
+       * width of QGraphicsView in scene coordinates. 
+       */
+  qreal viewWidth() { return m_viewWidth; }
 
       /** Returns maximal note number which staff can display in single line in view area.
         * or current notes count if staff is in linear mode */
@@ -214,10 +225,31 @@ public:
        * If not exists - does nothing. */
   void applyAutoAddedNote();
 
-  qreal spaceForNotes(); /**< Width of the staff without clef, key and meter items */
+      /**
+       * Width of the staff without clef, key and meter items 
+       */
+  qreal spaceForNotes();
+
+      /**
+       * Return width of the staff content (clef, key signature, meter and all notes with rhythm gaps)
+       * @p gapFact parameter can regulate distance between notes.
+       */
+  qreal contentWidth(qreal gapFact = 1.0);
+
   int shortestRhythm() { return m_shortestR; } /**< Shortest rhythm duration in the staff */
   int longestRhythm() { return m_longestR; } /**< Longest rhythm duration in the staff */
-  qreal gapFactor() { return m_gapFactor; } /**< Multiplexer of rhythm gaps between notes */
+
+      /**
+       * Multiplexer of rhythm gaps between notes.
+       * It changes to place all notes nicely over entire staff width
+       */
+  qreal gapFactor() { return m_gapFactor; }
+
+      /**
+       * Virtual sum of rhythm gaps.
+       * Multiplied by @p m_gapFactor gives real width of all gaps 
+       */
+  qreal gapsSum() { return m_gapsSum; }
 
   bool hasSpaceFor(qreal newWidth = 7.0); /**< @p TRUE when there is enough space for a new note at the staff end */
   bool hasSpaceFor(const Tnote& n); /**< @p TRUE when there is enough space for given note */
@@ -285,20 +317,25 @@ signals:
        */
   void getNextStaff(TscoreStaff*&);
 
+
 public slots:
   void onClefChanged(Tclef clef); /**< It is connected with clef, but also refresh m_offset appropriate to current clef. */
   void noteChangedAccid(int accid); /**< TscoreNote wheel event - changes accidental */
 
+
 protected:
-      /** Creates staff lines at first call, sets lines width, creates lower staff lines as well.
-        * It also calls @p createBrace().  */
+
+      /**
+       * Creates staff lines at first call, sets lines width, creates lower staff lines as well.
+       * It also calls @p createBrace().  
+       */
   void prepareStaffLines();
 
       /**
-        * It doesn't add scordature like @p setScordature() method,
-        * just make place (re-sizes staff width if necessary) for scordature.
-        * @p setScordature() calls it itself.
-        */
+       * It doesn't add scordature like @p setScordature() method,
+       * just make place (re-sizes staff width if necessary) for scordature.
+       * @p setScordature() calls it itself.
+       */
   void setEnableScordtature(bool enable);
 
       /** Calculates current width of a staff depends on is key sign. enabled. */
@@ -309,9 +346,17 @@ protected:
   void updateNotesPos(int startId = 0); /**< Replaces (performs pos()) all TscoreNote items. Starts from @p startId */
 
   void noteChangedWidth(int noteId); /**< Called by @class TscoreNote  */
-  void prepareNoteChange(TscoreNote* sn, qreal widthDiff);
+  void prepareNoteChange(TscoreNote* sn = nullptr);
 
   TscoreNote* insertNote(const Tnote& note, int index, bool disabled = false);
+
+      /**
+       * Fits all notes on the staff by calculating their rhythm gaps and widths.
+       * Determines when there is too many notes (measures)
+       * and shift them to the next staff.
+       * Updates (and fits) the gap factor @p m_gapFactor
+       */
+  void fit();
 
       /**
        * Shifts given @p notesToShift list to measure @p measureNr.
@@ -356,7 +401,7 @@ private:
   qreal                               m_loNotePos, m_hiNotePos;
   qreal                               m_allNotesWidth; /**< Width of all notes on the staff (without gaps between) */
   qreal                               m_gapFactor; /**< multiplexer of rhythm gaps between notes */
-  qreal                               m_allGaps; /**< Virtual sum of rhythm gaps - multiplied by @p m_gapFactor gives real width of gaps */
+  qreal                               m_gapsSum; /**< Virtual sum of rhythm gaps - multiplied by @p m_gapFactor gives real width of all gaps */
   int                                 m_shortestR, m_longestR;
   bool                                m_lockRangeCheck; /**< to prevent the checking during clef switching */
   QPointer<QTimer>                    m_addTimer;
