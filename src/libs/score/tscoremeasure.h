@@ -106,10 +106,17 @@ public:
   Tmeter* meter() const;
   TscoreMeter* scoreMeter() const;
 
-      /** Measure number */
-  int number() const { return m_number; }
+      /**
+       * Measure index - number in current staff
+       * Starts from 0 in every staff.
+       */
+  int id() const { return m_id; }
 
-      /** Width of all notes in this measure. Calculated on every call */
+      /**
+       * Width of all notes in this measure.
+       * Difference between last note position with its rhythm gap
+       * and X coordinate of the first note
+       */
   qreal notesWidth();
 
       /** Prints debug message with [nr MEASURE] */
@@ -141,7 +148,7 @@ protected:
   void noteChangedSlot(TscoreNote* sn);
 
       /** Only class TscoreStaff can do this */
-  void setNumber(int nr) { m_number = nr; }
+  void setId(int id) { m_id = id; }
 
       /**
        * Sets beams in measure notes starting from beam group of @p firstGroup
@@ -195,7 +202,7 @@ private:
 
 private:
   int                      m_duration;
-  int                      m_number;
+  int                      m_id;
   int                      m_free;
   TscoreStaff             *m_staff; /**< Parent staff */
   QList<TscoreNote*>       m_notes;

@@ -219,8 +219,15 @@ void TscoreBeam::performBeaming() {
         applyBeam(poly, beamOff, b16->b);
     }
   }
-  qDebug() << "[BEAM" << m_notes.first()->index() << "]" << "performBeaming" << stemDirStrength << m_16_beams.count();
+  qDebug() << "     [BEAM" << m_notes.first()->index() << "]" << "beaming was done" << stemDirStrength << m_16_beams.count();
 }
+
+void TscoreBeam::changeStaff(TscoreStaff* st) {
+  for (T16beam* b16 : m_16_beams)
+    b16->b->setParentItem(st);
+  m_8_beam->setParentItem(st);
+}
+
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

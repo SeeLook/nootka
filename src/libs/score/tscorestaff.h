@@ -317,6 +317,12 @@ signals:
        */
   void getNextStaff(TscoreStaff*&);
 
+      /**
+       * Asks for previous staff. 
+       * In the argument pointer of the next staff is put or null if none.
+       */
+  void getPrevStaff(TscoreStaff*&);
+
 
 public slots:
   void onClefChanged(Tclef clef); /**< It is connected with clef, but also refresh m_offset appropriate to current clef. */

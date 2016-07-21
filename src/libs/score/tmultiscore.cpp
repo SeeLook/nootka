@@ -503,8 +503,8 @@ void TmultiScore::addStaff(TscoreStaff* st) {
   connect(lastStaff(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
   connect(lastStaff(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
   connect(lastStaff(), &TscoreStaff::moveMeasure, this, &TmultiScore::moveMeasureSlot);
-  connect(lastStaff(), SIGNAL(getNextStaff(TscoreStaff*&)), this, SLOT(giveStaffSlot(TscoreStaff*&)));
-//   connect(lastStaff(), &TscoreStaff::getNextStaff, this, &TmultiScore::giveStaffSlot);
+  connect(lastStaff(), SIGNAL(getNextStaff(TscoreStaff*&)), this, SLOT(giveNextStaffSlot(TscoreStaff*&)));
+  connect(lastStaff(), SIGNAL(getPrevStaff(TscoreStaff*&)), this, SLOT(givePrevStaffSlot(TscoreStaff*&)));
   if (lastStaff()->scoreKey())
     connect(lastStaff()->scoreKey(), SIGNAL(keySignatureChanged()), this, SLOT(keyChangedSlot()));
   qDebug() << debug() << "Added staff number" << lastStaff()->number();
@@ -692,12 +692,21 @@ void TmultiScore::moveMeasureSlot(TscoreStaff* st, int measureNr) {
 }
 
 
-void TmultiScore::giveStaffSlot(TscoreStaff*& st) {
+void TmultiScore::giveNextStaffSlot(TscoreStaff*& st) {
   if (st == lastStaff())
     st = nullptr;
   else
     st = staves(st->number() + 1);
 }
+
+
+void TmultiScore::givePrevStaffSlot(TscoreStaff*& st) {
+  if (st == firstStaff())
+    st = nullptr;
+  else
+    st = staves(st->number() - 1);
+}
+
 
 
 void TmultiScore::deleteFakeLines(int lastNr) {
@@ -723,6 +732,7 @@ void TmultiScore::addNewStaff() {
   lastStaff()->blockSignals(true);
   lastStaff()->removeNote(0);
   lastStaff()->blockSignals(false);
+//   lastStaff()->firstMeasure()->setNumber(m_staves[lastStaff()->number() - 1]->lastMeasure()->number() + 1);
 }
 
 

@@ -157,41 +157,12 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 
   qDebug() << "\n";
 
-//   if (lastMeasure()->free() == 0 && index >= count() - 1) { // note at the staff end - check is there space for whole measure
-//     if (scoreMeter()->optimalGap() * m_gapFactor + scoreMeter()->groupCount() * 5.0 > width() - lastNote()->rightX()) {
-//       qDebug() << debug() << "No more space - insert this note to the next staff";
-//       auto st = this;
-//       emit getNextStaff(st);
-//       if (st == nullptr) { // if no more staves
-//           emit noMoreSpace(number()); // ask for creating the new one
-//           st = this;
-//           emit getNextStaff(st);
-//           qDebug() << st->debug() << "setting first note in staff";
-// //           st->setNote(0, note); // set first note which is a rest
-//       } // else // insert new note to already existing staff
-//       st->insertNote(0, note, disabled); // insert this note at the next staff beginning
-//       return;
-//     }
-//   }
-
   //TODO: check is inserting note fit into a measure:
   // - split it if it is longer, then shift the next measure
 
   int measureNr = m_measures.count() - 1; // add to the last measure by default
   if (index < count())
     measureNr = measureOfNoteId(index);
-//   if (!hasSpaceFor(note)) { // move next measure (or this one where the note is adding) to the next staff to make room for a new note
-//     if (measureNr > -1) {
-//         if (measureNr == m_measures.count() - 1) { // last measure
-//           // TODO moving this (the last one) measure to the next staff
-//         } else { // note is adding to not last measure so just easily move the last one
-//           qDebug() << debug() << "move measure to staff" << number() + 1;
-//             emit moveMeasure(this, m_measures.count() - 1);
-//         }
-//     } else {
-//         qDebug() << debug() << "There is no measure with such note index" << index;
-//     }
-//   }
   auto inserted = insertNote(note, index, disabled);
 
   qDebug() << debug() << "--> inserting note" << (inserted->note()->isValid() ? inserted->note()->toText() : "rest")
@@ -577,7 +548,7 @@ TscoreMeasure* TscoreStaff::nextMeasure(TscoreMeasure* before) {
       emit getNextStaff(st);
       return st ? st->firstMeasure() : nullptr;
   } else
-      return m_measures[before->number() + 1];
+      return m_measures[before->id() + 1];
 }
 
 
@@ -629,7 +600,7 @@ void TscoreStaff::insertMeasure(int id, TscoreMeasure* m) {
 //   addNotes(noteId, m->notes());
   m->setStaff(this);
   for (int i = 0; i < m_measures.size(); ++i)
-    m_measures[i]->setNumber(i);
+    m_measures[i]->setId(i);
   fit();
   updateNotesPos();
 }

@@ -28,6 +28,7 @@ class TscoreNote;
 class QGraphicsLineItem;
 class QGraphicsPolygonItem;
 class TscoreMeasure;
+class TscoreStaff;
 class T16beam;
 
 
@@ -73,6 +74,12 @@ protected:
       /** calls @p performBeaming when note belongs to beam group */
   void beamsUpdateSlot(TscoreNote* sn);
   void performBeaming();
+
+      /**
+       * Because beams are parented with staff it is important
+       * to change their staff when measure is shifted between staves
+       */
+  void changeStaff(TscoreStaff* st);
 
 private:
       /**

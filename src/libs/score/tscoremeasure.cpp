@@ -79,7 +79,7 @@ int TscoreMeasure::groupDuration(const QList<TscoreNote*>& notes) {
  */
 TscoreMeasure::TscoreMeasure(TscoreStaff* staff, int nr) :
   QObject(staff),
-  m_number(nr),
+  m_id(nr),
   m_staff(staff),
   m_firstInGr(new qint8[1])
 {
@@ -113,6 +113,8 @@ TscoreMeter* TscoreMeasure::scoreMeter() const {
 void TscoreMeasure::setStaff(TscoreStaff* st) {
   m_staff = st;
   setParent(st);
+  for (TscoreBeam* b : m_beams)
+    b->changeStaff(st);
 }
 
 
@@ -198,7 +200,7 @@ void TscoreMeasure::insertNote(int id, TscoreNote* sn) {
       } else { // measure has not at all space
           qDebug() << debug() << "move entire note" << sn->note()->toText();
           notesToOut << sn;
-          m_staff->shiftToMeasure(number() + 1, notesToOut);
+          m_staff->shiftToMeasure(m_staff->measures().indexOf(this) + 1, notesToOut);
           return;
       }
     }
@@ -257,7 +259,7 @@ void TscoreMeasure::removeNote(int noteToRemove) {
 // TODO: move down to private 
 void TscoreMeasure::fill() {
   QList<TscoreNote*> notesToShift;
-  int remainDur = m_staff->shiftFromMeasure(number() + 1, m_free, notesToShift);
+  int remainDur = m_staff->shiftFromMeasure(id() + 1, m_free, notesToShift);
   qDebug() << debug() << "fill, remain" << remainDur << "to shift:" << notesToShift.count();
   for (int i = 0; i < notesToShift.size(); ++i) {
     m_notes.append(notesToShift[i]);
@@ -265,7 +267,7 @@ void TscoreMeasure::fill() {
   }
   if (remainDur) { // next measure has a part of a new note
       qDebug() << debug() << remainDur << "remained in next measure";
-      auto firstInNext = m_staff->measures()[number() + 1]->firstNote()->note();
+      auto firstInNext = m_staff->measures()[id() + 1]->firstNote()->note();
       Tnote newNote(*firstInNext, Trhythm(remainDur, firstInNext->isRest()));
       if (!newNote.isRest())
         firstInNext->rtm.setTie(Trhythm::e_tieEnd); // TODO: what about this note had starting tie before?
@@ -322,7 +324,7 @@ int TscoreMeasure::lastNoteId() const {
 
 char TscoreMeasure::debug() {
   QTextStream o(stdout);
-  o << " \033[01;33m[" << number() << " MEASURE]\033[01;00m";
+  o << " \033[01;33m[" << m_staff->number() << "-" << id() << " MEASURE]\033[01;00m";
   return 32; // fake
 }
 
@@ -542,7 +544,7 @@ void TscoreMeasure::addNewNote(Tnote& newNote) {
 
 void TscoreMeasure::shiftReleased(QList<TscoreNote*>& notesToOut, Tnote& newNote) {
   if (!notesToOut.isEmpty())
-    m_staff->shiftToMeasure(number() + 1, notesToOut);
+    m_staff->shiftToMeasure(id() + 1, notesToOut);
 
   if (newNote.rhythm() != Trhythm::e_none)
     addNewNote(newNote);

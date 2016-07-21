@@ -146,7 +146,13 @@ protected slots:
        * Checks is next staff to @p st available
        * and puts pointer of it to @p st or null if not
        */
-  void giveStaffSlot(TscoreStaff*& st);
+  void giveNextStaffSlot(TscoreStaff*& st);
+
+      /**
+       * Returns pointer to previous staff.
+       * Better check is the first staff calling it
+       */
+  void givePrevStaffSlot(TscoreStaff*& st);
 
       /** Adds given staff at the end of m_staves list or creates a new one.
       * Sets staff number corresponding to its index in the m_staves list,
