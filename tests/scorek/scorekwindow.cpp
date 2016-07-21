@@ -52,6 +52,7 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
   dblAccidsSlot(true);
   keySignatureSlot(true);
 
+  m_score->scoreScene()->enableAccidsAnimation(true);
   m_score->setMeter(Tmeter(Tmeter::e_2_4));
 
   auto scoreMenu = new QMenu("Score");

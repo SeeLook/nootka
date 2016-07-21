@@ -154,6 +154,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 
 
 TscoreNote::~TscoreNote() { // release work note and controls from parent being destructed
+  if (staff())
+    staff()->noteGoingDestroy(this);
   if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
     scoreScene()->noteDeleted(this);
   delete m_note;
@@ -262,11 +264,11 @@ void TscoreNote::moveNote(int posY) {
         newAccid = getAccid(3); // neutral
         m_mainAccid->hide();
         if (scoreScene()->isAccidAnimated() && !isReadOnly() && !theSame)
-            emit fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
+            staff()->fromKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
     } else {
         if (staff()->accidInKeyArray[noteNr] == m_accidental) {
           if (scoreScene()->isAccidAnimated() && !isReadOnly() && !theSame)
-              emit toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
+              staff()->toKeyAnim(newAccid, m_mainAccid->scenePos(), m_mainPosY);
           if (staff()->extraAccids()) // accidental from key signature in braces
             newAccid = QString(QChar(accCharTable[m_accidental + 2] + 1));
           else
@@ -641,6 +643,7 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         m_accidental = m_newAccid;
         moveNote(scoreScene()->workPosY());
         changeWidth();
+        staff()->onNoteClicked(m_index);
         emit noteWasClicked(m_index);
         if (m_nameText)
           showNoteName();
@@ -648,7 +651,7 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     } else if (event->button() == Qt::RightButton) {
         if (!isReadOnly() && staff()->selectableNotes()) {
             setBackgroundColor(qApp->palette().highlight().color());
-            emit noteWasSelected(m_index);
+            emitNoteWasSelected();
             update();
         }
     }
@@ -663,7 +666,7 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 void TscoreNote::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) {
   if (scoreScene()->workPosY()) // edit mode
-    emit noteWasSelected(m_index);
+      emitNoteWasSelected();
   else // read only mode
     emit roNoteSelected(this, event->pos());
 }
@@ -726,7 +729,7 @@ void TscoreNote::untouched(const QPointF& scenePos) {
           me.setButton(Qt::LeftButton);
           mousePressEvent(&me);
       } else
-          emit noteWasSelected(m_index);
+          emitNoteWasSelected();
   }
   scoreScene()->noteLeaved(this);
 }
@@ -780,6 +783,12 @@ qreal TscoreNote::estimateWidth(const Tnote& n) {
       w += 1.0;
   }
   return w;
+}
+
+
+void TscoreNote::emitNoteWasSelected() {
+  staff()->onNoteSelected(m_index);
+  emit noteWasSelected(m_index);
 }
 
 

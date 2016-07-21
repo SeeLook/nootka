@@ -373,17 +373,22 @@ protected:
 
   int shiftFromMeasure(int measureNr, int dur, QList<TscoreNote*>& notesToShift);
 
+      /**
+       * Every note segment call this before it will be deleted 
+       */
+  void noteGoingDestroy(QObject* n);
+
+  void toKeyAnim(const QString& accidText, const QPointF& accidPos, int notePos);
+  void fromKeyAnim(const QString& accidText, const QPointF& accidPos, int notePos);
+
 protected slots:
   void onKeyChanged();
   void onNoteClicked(int noteIndex);
   void onNoteSelected(int noteIndex);
   void onAccidButtonPressed(int accid); // TnoteControl accid button pressed
   void onPianoStaffChanged(Tclef clef); // clef demands piano staff
-  void toKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos);
-  void fromKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos);
   void accidAnimFinished();
   void addNoteTimeOut();
-  void noteDestroingSlot(QObject* n); /**< Every note segment call this before it will be deleted */
 
 private:
   int                                 m_staffNr;
@@ -420,7 +425,6 @@ private:
   int getMaxNotesNr(qreal maxWidth); /**< Calculates notes number from given width */
   void findLowestNote(); /**< Checks all Y positions of staff notes ti find lowest one */
   void findHighestNote(); /**< Checks all Y positions of staff notes ti find highest one */
-  void connectNote(TscoreNote *sn); /**< Performs all TscoreNote connections to this staff */
 
         /**
          * Private method that creates new TscoreNote note instance and inserts it to m_scoreNotes.

@@ -78,8 +78,6 @@ MINOR:
 
 - divide TexamExecutor class !!!!!
 - rhythms in score
-- in occasion of implementing rhythms, 
-      instead of signaling from TscoreNote to TscoreStaff call some methods of TscoreStaff directly from TscoreNote
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)

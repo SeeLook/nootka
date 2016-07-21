@@ -181,9 +181,6 @@ signals:
   void noteWasClicked(int);
   void noteWasSelected(int); /**< When right button was clicked. */
 
-  void toKeyAnim(const QString&, const QPointF&, int notePos); /**< Emitted when accidental has been in key already */
-  void fromKeyAnim(const QString&, const QPointF&, int notePos); /**< Emitted when neutral is necessary */
-
   void roNoteClicked(TscoreNote*, const QPointF&); /**< Emitted after mouse left click in read only state with clicked position. */
   void roNoteSelected(TscoreNote*, const QPointF&); /**< Emitted after mouse right click or double click in read only state */
 
@@ -245,6 +242,7 @@ private:
   void initNoteCursor(); /**< Creates note cursor when first TscoreNote instance is created and there is a view */
   void checkEmptyText(); /**< Decides whether show or hide text about empty note. */
   void changeWidth(); /**< Changes bounding rectangle width appropriate to current accidental and rhythm */
+  void emitNoteWasSelected();
 
 private slots:
   void popUpAnimFinished();

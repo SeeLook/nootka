@@ -89,7 +89,6 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
       m_scoreNotes << new TscoreNote(scene, this, i);
       m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
       m_scoreNotes[i]->setZValue(50);
-      connectNote(m_scoreNotes[i]);
       measures().last()->insertNote(i, m_scoreNotes[i]);
   }
 
@@ -179,11 +178,6 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
       // TODO: seems to be unnecessary - space issues were solved above
       /*qreal freeX = width() - m_scoreNotes.last()->rightX();
       if (freeX < 7.0) {
-          m_scoreNotes.last()->disconnect(SIGNAL(noteWasClicked(int)));
-          m_scoreNotes.last()->disconnect(SIGNAL(noteWasSelected(int)));
-          m_scoreNotes.last()->disconnect(SIGNAL(toKeyAnim(QString,QPointF,int)));
-          m_scoreNotes.last()->disconnect(SIGNAL(fromKeyAnim(QString,QPointF,int)));
-          m_scoreNotes.last()->disconnect(SIGNAL(destroyed(QObject*)));
           emit noteToMove(number(), m_scoreNotes.takeLast());
           checkNoteRange(); // find range again
       } else
@@ -258,7 +252,6 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
       for (int i = index; i < nList.size() + index; i++) {
         TscoreNote *sn = nList[i - index];
         m_scoreNotes.insert(i, sn);
-        connectNote(sn);
         sn->setParentItem(this);
         sn->setStaff(this);
       }
@@ -272,7 +265,6 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 
 void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
   m_scoreNotes.insert(index, freeNote);
-  connectNote(freeNote);
   freeNote->setParentItem(this);
   freeNote->setStaff(this);
   updateNotesPos(index);
@@ -283,8 +275,6 @@ void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
 void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
   if (from >= 0 && from < count() && to < count() && to >= from) {
     for (int i = from; i <= to; i++) { // 'from' is always the next item after takeAt() on current one
-      m_scoreNotes[from]->disconnect(SIGNAL(noteWasClicked(int)));
-      m_scoreNotes[from]->disconnect(SIGNAL(noteWasSelected(int)));
       m_scoreNotes[from]->setParentItem(0); // to avoid deleting with staff as its parent
       nList << m_scoreNotes.takeAt(from);
     }
@@ -329,12 +319,6 @@ void TscoreStaff::setEnableKeySign(bool isEnabled) {
 //       m_accidAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
       m_accidAnim->setMoving(QPointF(), QPointF()); // initialize moving
       m_accidAnim->moving()->setEasingCurveType(QEasingCurve::OutBack);
-      for (int i = 0; i < m_scoreNotes.size(); i++) {
-        connect(m_scoreNotes[i], SIGNAL(fromKeyAnim(QString,QPointF,int)), this, SLOT(fromKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
-        connect(m_scoreNotes[i], SIGNAL(toKeyAnim(QString,QPointF,int)), this, SLOT(toKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
-        connect(m_scoreNotes[i], SIGNAL(destroyed(QObject*)), this, SLOT(noteDestroingSlot(QObject*)), Qt::UniqueConnection);
-//         connect(m_accidAnim, SIGNAL(finished()), m_scoreNotes[i], SLOT(keyAnimFinished()));
-      }
       if (m_scoreMeter)
         m_scoreMeter->setPos(m_keySignature->x() + m_keySignature->boundingRect().width(), upperLinePos());
     } else {
@@ -565,8 +549,6 @@ TscoreMeasure* TscoreStaff::takeMeasure(int measId) {
       int firstIndex = m_measures[measId]->firstNoteId();
       int lastIndex = m_measures[measId]->lastNoteId();
       for (int i = firstIndex; i <= lastIndex; ++i) {
-          m_scoreNotes[firstIndex]->disconnect(SIGNAL(noteWasClicked(int)));
-          m_scoreNotes[firstIndex]->disconnect(SIGNAL(noteWasSelected(int)));
           m_scoreNotes[firstIndex]->setParentItem(0); // to avoid deleting with staff as its parent
           m_scoreNotes.removeAt(firstIndex); // when note segment with firstIndex is removed the next segment is at the firstIndex position
       }
@@ -925,7 +907,7 @@ void TscoreStaff::onAccidButtonPressed(int accid) {
 }
 
 
-void TscoreStaff::fromKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos) {
+void TscoreStaff::fromKeyAnim(const QString& accidText, const QPointF& accidPos, int notePos) {
   m_flyAccid->setText(accidText);
   m_accidAnim->setMoving(mapFromScene(m_keySignature->accidTextPos(accidNrInKey(notePos, scoreKey()->keySignature()))),
                          mapFromScene(accidPos));
@@ -934,7 +916,7 @@ void TscoreStaff::fromKeyAnimSlot(const QString& accidText, const QPointF& accid
 }
 
 
-void TscoreStaff::toKeyAnimSlot(const QString& accidText, const QPointF& accidPos, int notePos) {
+void TscoreStaff::toKeyAnim(const QString& accidText, const QPointF& accidPos, int notePos) {
   if (m_noteWithAccidAnimed)
     return;
   else
@@ -956,9 +938,8 @@ void TscoreStaff::accidAnimFinished() {
 }
 
 
-void TscoreStaff::noteDestroingSlot(QObject* n) {
-  Q_UNUSED(n)
-  if (sender() == m_noteWithAccidAnimed)
+void TscoreStaff::noteGoingDestroy(QObject* n) {
+  if (n == m_noteWithAccidAnimed)
     m_noteWithAccidAnimed = 0;
 }
 
@@ -1084,19 +1065,11 @@ void TscoreStaff::findLowestNote() {
 TscoreNote* TscoreStaff::insert(int index) {
   auto newNote = new TscoreNote(scoreScene(), this, index);
   newNote->setZValue(50);
-  connectNote(newNote);
   m_scoreNotes.insert(index, newNote);
   return newNote;
 }
 
 
-void TscoreStaff::connectNote(TscoreNote* sn) {
-  connect(sn, SIGNAL(noteWasClicked(int)), this, SLOT(onNoteClicked(int)));
-  connect(sn, SIGNAL(noteWasSelected(int)), this, SLOT(onNoteSelected(int)));
-  connect(sn, SIGNAL(toKeyAnim(QString,QPointF,int)), this, SLOT(toKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
-  connect(sn, SIGNAL(fromKeyAnim(QString,QPointF,int)), this, SLOT(fromKeyAnimSlot(QString,QPointF,int)), Qt::UniqueConnection);
-  connect(sn, SIGNAL(destroyed(QObject*)), this, SLOT(noteDestroingSlot(QObject*)), Qt::UniqueConnection);
-}
 
 
 
