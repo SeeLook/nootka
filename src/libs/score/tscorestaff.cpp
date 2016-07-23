@@ -60,7 +60,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
   m_staffNr(-1), m_brace(0),
   m_keySignature(nullptr),
   m_upperLinePos(16.0), m_lowerStaffPos(0.0),
-  m_height(36.0),
+  m_height(38.0),
   m_viewWidth(0.0),
   m_offset(TnoteOffset(3, 2)),
   m_isPianoStaff(false),
@@ -445,12 +445,12 @@ void TscoreStaff::setPianoStaff(bool isPiano) {
     if (isPiano) {
         m_upperLinePos = 14.0;
         m_lowerStaffPos = 28.0;
-        m_height = 42.0;
+        m_height = 44.0;
         createBrace();
     } else {
         m_upperLinePos = 16.0;
         m_lowerStaffPos = 0.0;
-        m_height = 36.0;
+        m_height = 38.0;
         delete m_brace;
     }
     prepareStaffLines();
@@ -1047,7 +1047,7 @@ void TscoreStaff::findHighestNote() {
   m_hiNotePos = upperLinePos() - 4.0;
   for (int i = 0; i < m_scoreNotes.size(); i++)
     if (m_scoreNotes[i]->notePos()) // is visible
-      m_hiNotePos = qMin(qreal(m_scoreNotes[i]->notePos() - 2), m_hiNotePos);
+      m_hiNotePos = qMin(qreal(m_scoreNotes[i]->notePos() - (m_scoreNotes[i]->note()->rtm.stemDown() ? 2 : 4)), m_hiNotePos);
 }
 
 
@@ -1058,7 +1058,7 @@ void TscoreStaff::findLowestNote() {
   }
   m_loNotePos = (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 13.0;
   for (int i = 0; i < m_scoreNotes.size(); i++)
-      m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos() + 2), m_loNotePos);
+      m_loNotePos = qMax(qreal(m_scoreNotes[i]->notePos() + (m_scoreNotes[i]->note()->rtm.stemDown() ? 4 : 2)), m_loNotePos);
 }
 
 

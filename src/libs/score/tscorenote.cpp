@@ -469,8 +469,8 @@ void TscoreNote::enableNoteAnim(bool enable, int duration) {
 
 
 void TscoreNote::setAmbitus(int lo, int hi) {
-  m_ambitMin = qBound(2, lo, (int)m_height - 1);
-  m_ambitMax = qBound(2, hi, (int)m_height - 1);
+  m_ambitMin = qBound(2, lo, (int)m_height - 3);
+  m_ambitMax = qBound(2, hi, (int)m_height - 3);
 }
 
 

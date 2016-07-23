@@ -45,6 +45,7 @@ public:
 
 #define MIN_STEM_HEIGHT (4) // minimal stem height (distance of note head to staff boundary)
 #define STEM_HEIGHT (6.1)
+#define SLOPER (3.0) // common value to change first and last stems length when there are more than two notes in a beam
 #define HALF_STEM (0.125) // half of stem line width - this is also distance that stem line takes above stem points
 #define BEAM_THICK (0.8) // thickness of a beam
 
@@ -61,7 +62,7 @@ TscoreBeam::TscoreBeam(TscoreNote* sn, TscoreMeasure* m) :
 
 TscoreBeam::~TscoreBeam()
 {
-  qDebug() << "     [BEAM] deleted of id" << m_notes.first()->index();
+  qDebug() << "     [BEAM] deleted of id" << first()->index();
   for (TscoreNote* note : m_notes) {
     note->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
     note->setBeam(nullptr);
@@ -75,7 +76,7 @@ TscoreBeam::~TscoreBeam()
 void TscoreBeam::addNote(TscoreNote* sn) {
   if (m_notes.isEmpty() && sn->note()->rtm.beam() != Trhythm::e_beamStart) // TODO: delete it when no errors
     qDebug() << "     [BEAM] new beam starts but not proper flag is set!";
-  else if (!m_notes.isEmpty() && m_notes.last()->note()->rtm.beam() == Trhythm::e_beamEnd)
+  else if (!m_notes.isEmpty() && last()->note()->rtm.beam() == Trhythm::e_beamEnd)
     qDebug() << "     [BEAM] Adding note to beam group that already ended!";
 
   if (m_notes.isEmpty())
@@ -114,16 +115,14 @@ void TscoreBeam::addNote(TscoreNote* sn) {
     }
   }
 
-//   if (sn->newRhythm()->beam() == Trhythm::e_beamEnd) { // resume grouping, prepare for painting
-//   }
 }
 
 
 void TscoreBeam::closeBeam() {
-  m_notes.last()->note()->rtm.setBeam(Trhythm::e_beamEnd);
+  last()->note()->rtm.setBeam(Trhythm::e_beamEnd);
   connect(m_measure, &TscoreMeasure::updateBeams, this, &TscoreBeam::beamsUpdateSlot);
 
-  if (m_notes.first()->note()->rtm.beam() == Trhythm::e_beamStart && m_notes.last()->note()->rtm.beam() == Trhythm::e_beamEnd)
+  if (first()->note()->rtm.beam() == Trhythm::e_beamStart && last()->note()->rtm.beam() == Trhythm::e_beamEnd)
     qDebug() << "     [BEAM] closed correctly with" << count() << "notes";
   else
     qDebug() << "     [BEAM] is corrupted!!!!";
@@ -133,64 +132,80 @@ void TscoreBeam::closeBeam() {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 void TscoreBeam::beamsUpdateSlot(TscoreNote* sn) {
-  if (!sn || (sn->index() >= m_notes.first()->index() && sn->index() <= m_notes.last()->index()))
+  if (!sn || (sn->index() >= first()->index() && sn->index() <= last()->index()))
     performBeaming();
   else
     qDebug() << "     [BEAM] ignored beaming of" << sn->index();
 }
 
 
-    /**
-    * This method (slot) is invoked after TscoreNote is updated and placed apparently to the rhythm in measure (staff).
-    * TscoreNote::noteWasClicked() signal invokes it actually
-    *
-    * With @p stemDirStrength (strength of stem direction) we trying to determine preferred common direction of stems in the group.
-    * More far from middle of the staff (18) note is placed - stronger its direction has to be preserved
-    * to keep beaming more natural and looking good
-    * @p stemsDownPossible and @p stemsUpPossible keep true when there is enough space between note head and staff border
-    * if there is not - common stem direction has to be adjusted for this fact
-    */
+/**
+ * This method (slot) is invoked after TscoreNote is updated and placed apparently to the rhythm in measure (staff).
+ * TscoreNote::noteWasClicked() signal invokes it actually
+ *
+ * With @p stemDirStrength (strength of stem direction) we trying to determine preferred common direction of stems in the group.
+ * More far from middle of the staff (18) note is placed - stronger its direction has to be preserved
+ * to keep beaming more natural and looking good
+ * 
+ * @p stemsUpPossible keep true when there is enough space between note head and staff border for whole stem
+ * @p firstStemOff and @p lastStemOff are calculated to make appropriate stems longer
+ * and keep beam slope nice and avoid collisions with notes in between first and last ones.
+ *
+ * Then @p beamLine is calculated as a base line, inner stems fitted to it.
+ * If there are some sixteenths - @p m_16_beams are painted
+*/
 void TscoreBeam::performBeaming() {
 // find common stem direction for beaming
   int stemDirStrength = 0;
-  bool stemsUpPossible = true, stemsDownPossible = true;
+  bool stemsUpPossible = true;
+  qint16 hiNote = 99, loNote = 0;
   for (TscoreNote* sn : m_notes) {
       stemDirStrength += sn->notePos() - 18;
       if (sn->notePos() < MIN_STEM_HEIGHT)
           stemsUpPossible = false;
-      else if (sn->notePos() > sn->staff()->height() - MIN_STEM_HEIGHT)
-          stemsDownPossible = false;
-//       sn->update();
-      if (sn == m_notes.last() && m_notes.last()->note()->rtm.beam() != Trhythm::e_beamEnd)
-        qDebug() << "     [BEAM] was not closed!!" << m_notes.size();
+      hiNote = qMin(hiNote, sn->notePos());
+      loNote = qMax(loNote, sn->notePos());
   }
-  bool allStemsDown = false;
-  if (stemDirStrength < 0)
-    allStemsDown = true;
 
-//   qreal averStemAdd = (qreal)m_summaryPos / count();
-// setting stems directions and stem lines
-  for (int i = 0; i < m_notes.size(); ++i) {
-//     if (m_notes[i]->note()->rtm.stemDown() != allStemsDown) {
-//         Trhythm r(*m_notes[i]->rhythm());
-//         r.setStemDown(allStemsDown);
-//         m_notes[i]->setRhythm(r);
-        m_notes[i]->note()->rtm.setStemDown(allStemsDown);
-//     }
+  if (last()->note()->rtm.beam() != Trhythm::e_beamEnd)
+      qDebug() << "     [BEAM] was not closed!!" << m_notes.size();
+
+  bool allStemsDown = !stemsUpPossible;
+  if (stemDirStrength < 0)
+    allStemsDown = true; // stems down are always possible
+
+  qreal firstStemOff = 0.0, lastStemOff = 0.0;
+
+  // pick up or pull down fist and/or last stems to keep beam above all notes and avoid collision of middle note(s) and beam
+  if (allStemsDown) {
+      firstStemOff = qMax(qreal(loNote - first()->notePos()) - SLOPER, 0.0);
+      lastStemOff = qMax(qreal(loNote - last()->notePos()) - SLOPER, 0.0);
+  } else {
+      firstStemOff = qMax(qreal(first()->notePos() - hiNote) - SLOPER, 0.0);
+      lastStemOff = qMax(qreal(last()->notePos() - hiNote) - SLOPER, 0.0);
+  }
+
+// initial setting stems directions and stem lines
+  for (int i = 0; i < count(); ++i) {
+      m_notes[i]->note()->rtm.setStemDown(allStemsDown);
   // set only first and last stems - the inner ones later - adjusted to leading beam line
-//     if ( i == 0 || i == m_notes.count() - 1) {
       if (m_notes[i]->note()->rtm.stemDown())
           m_stems[i]->setLine(m_notes[i]->mainNote()->x() + 0.13, m_notes[i]->mainNote()->y() + 1.14,
-                              m_notes[i]->mainNote()->x() + 0.13, m_notes[i]->mainNote()->y() + 1.14 + STEM_HEIGHT);
+                              m_notes[i]->mainNote()->x() + 0.13, m_notes[i]->mainNote()->y() + 1.14
+                              + (m_notes[i]->notePos() < m_notes[i]->staff()->height() - STEM_HEIGHT ? STEM_HEIGHT : 3.5)
+                              + (m_notes[i] == first() ? firstStemOff : 0.0)
+                              + (m_notes[i] == last() ? lastStemOff : 0.0));
       else
           m_stems[i]->setLine(m_notes[i]->mainNote()->x() + 2.23, m_notes[i]->mainNote()->y() + 0.85,
-                              m_notes[i]->mainNote()->x() + 2.23, m_notes[i]->mainNote()->y() -(STEM_HEIGHT - 0.85));
-//     }
+                              m_notes[i]->mainNote()->x() + 2.23, m_notes[i]->mainNote()->y()
+                              - ((m_notes[i]->notePos() < STEM_HEIGHT ? 3.5 : STEM_HEIGHT) - 0.85)
+                              - (m_notes[i] == first() ? firstStemOff : 0.0)
+                              - (m_notes[i] == last() ? lastStemOff : 0.0));
   }
 
-  QPointF stemOff(0.0, m_notes.last()->note()->rtm.stemDown() ? HALF_STEM : -HALF_STEM); // offset to cover stem line thickness
-  QLineF beamLine(m_notes.first()->pos() + m_stems.first()->line().p2() + stemOff, m_notes.last()->pos() + m_stems.last()->line().p2() + stemOff);
-// adjust stem lines length of inner notes in the beam group to leading beam line
+  QPointF stemOff(0.0, last()->note()->rtm.stemDown() ? HALF_STEM : -HALF_STEM); // offset to cover stem line thickness
+  QLineF beamLine(first()->pos() + m_stems.first()->line().p2() + stemOff, last()->pos() + m_stems.last()->line().p2() + stemOff);
+// adjust stem lines length to leading beam line for notes in between of the beam group
   for (int i = 1; i < m_stems.count() - 1; ++i) {
       QPointF stemEnd;
       beamLine.intersect(QLineF(m_notes[i]->pos() + m_stems[i]->line().p1(), m_notes[i]->pos() + m_stems[i]->line().p2()), &stemEnd);
@@ -199,7 +214,7 @@ void TscoreBeam::performBeaming() {
   QPolygonF poly;
   poly << beamLine.p1() << beamLine.p2();
       /** @p beamOff the lower point on a stem for bottom beam outline (it depends on beam line angel) */
-  QPointF beamOff(0.0, (m_notes.last()->note()->rtm.stemDown() ? -BEAM_THICK : BEAM_THICK) / qCos(qDegreesToRadians(beamLine.angle())));
+  QPointF beamOff(0.0, (last()->note()->rtm.stemDown() ? -BEAM_THICK : BEAM_THICK) / qCos(qDegreesToRadians(beamLine.angle())));
   applyBeam(poly, beamOff, m_8_beam);
 
   if (!m_16_beams.isEmpty()) {
@@ -219,8 +234,9 @@ void TscoreBeam::performBeaming() {
         applyBeam(poly, beamOff, b16->b);
     }
   }
-  qDebug() << "     [BEAM" << m_notes.first()->index() << "]" << "beaming was done" << stemDirStrength << m_16_beams.count();
+  qDebug() << "     [BEAM" << first()->index() << "]" << "beaming was done" << stemDirStrength << m_16_beams.count();
 }
+
 
 void TscoreBeam::changeStaff(TscoreStaff* st) {
   for (T16beam* b16 : m_16_beams)
