@@ -168,7 +168,7 @@ public:
 
       /** Pointer to @c TscoreBeam or null if note has no beam */
   TscoreBeam* beam() { return m_beam; }
-  void setBeam(TscoreBeam* b);
+  void setBeam(TscoreBeam* b) { m_beam = b; }
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const;
@@ -176,6 +176,10 @@ public:
   qreal height() const { return m_height; }
   qreal rightX(); /**< shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor */
   qreal estimateWidth(const Tnote& n); /**< Estimate width of the given note @p n */
+
+  void setX(qreal x);
+  void setPos(const QPointF &pos);
+  void setPos(qreal ax, qreal ay) { setPos(QPointF(ax, ay)); }
 
 signals:
   void noteWasClicked(int);

@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 #include "tscorestaff.h"
-#include "tscorebeam.h"
 #include "tscorescene.h"
 #include "tscoreclef.h"
 #include "tscorenote.h"
@@ -87,7 +86,7 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 // Notes
   for (int i = 0; i < notesNr; i++) {
       m_scoreNotes << new TscoreNote(scene, this, i);
-      m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0);
+      m_scoreNotes[i]->setPos(7.0 + i * m_scoreNotes[i]->boundingRect().width(), 0.0);
       m_scoreNotes[i]->setZValue(50);
       measures().last()->insertNote(i, m_scoreNotes[i]);
   }
@@ -700,7 +699,7 @@ void TscoreStaff::fit() {
           insertMeasure(m_measures.count(), st->takeMeasure(0));
           st->updateNotesPos();
         }
-      }    
+      }
   }
   m_gapFactor = qBound(1.0, factor, 2.0); // notes in this staff are ready to positioning
   qDebug() << debug() << "fitting... Gap factor is" << m_gapFactor;
@@ -849,18 +848,20 @@ void TscoreStaff::onPianoStaffChanged(Tclef clef) {
 
 void TscoreStaff::onKeyChanged() {
   for (int i = 0; i < m_scoreNotes.size(); i++) {
-    if (m_scoreNotes[i]->notePos())
-        m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos());
+    auto noteSeg = m_scoreNotes[i];
+    if (noteSeg->notePos())
+        noteSeg->moveNote(noteSeg->notePos());
   }
 }
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
-  int globalNr = notePosRelatedToClef(fixNotePos(m_scoreNotes[noteIndex]->notePos())
-        + m_scoreNotes[noteIndex]->ottava() * 7, m_offset);
-  m_scoreNotes[noteIndex]->note()->note = (char)(56 + globalNr) % 7 + 1;
-  m_scoreNotes[noteIndex]->note()->octave = (char)(56 + globalNr) / 7 - 8;
-  m_scoreNotes[noteIndex]->note()->alter = (char)m_scoreNotes[noteIndex]->accidental();
+  auto noteOfId = m_scoreNotes[noteIndex];
+  int globalNr = notePosRelatedToClef(fixNotePos(noteOfId->notePos())
+        + noteOfId->ottava() * 7, m_offset);
+  noteOfId->note()->note = (char)(56 + globalNr) % 7 + 1;
+  noteOfId->note()->octave = (char)(56 + globalNr) / 7 - 8;
+  noteOfId->note()->alter = (char)noteOfId->accidental();
   if (m_autoAddedNoteId > -1) {
     if (noteIndex == m_autoAddedNoteId - 1) {
         m_addTimer->stop();
@@ -978,24 +979,24 @@ void TscoreStaff::updateIndexes() {
 
 
 void TscoreStaff::updateNotesPos(int startId) {
-//   qreal off = notesOffset();
   qDebug() << debug() << "updating notes positions from" << startId;
   if (m_scoreNotes.isEmpty())
     return;
+
   if (startId == 0)
     m_scoreNotes[0]->setX(6.5 + notesOffset());
   else
     m_scoreNotes[startId]->setX(m_scoreNotes[startId - 1]->rightX());
+
   int m = 0;
   for (int i = startId + 1; i < m_scoreNotes.size(); i++) {// update positions of the notes
-      m_scoreNotes[i]->setX(m_scoreNotes[i - 1]->rightX());
-      if (m < m_measures.count() && !m_measures[m]->isEmpty() && m_scoreNotes[i] == m_measures[m]->lastNote()) {
+      auto noteSeg = m_scoreNotes[i]; // cache pointer to TscoreNote for multiple reuse
+      noteSeg->setX(m_scoreNotes[i - 1]->rightX());
+      if (m < m_measures.count() && !m_measures[m]->isEmpty() && noteSeg == m_measures[m]->lastNote()) {
         m_measures[m]->checkBarLine();
         m++;
       }
-      if (m_scoreNotes[i]->beam() && m_scoreNotes[i]->beam()->last() == m_scoreNotes[i])
-        m_scoreNotes[i]->beam()->performBeaming();
-      m_scoreNotes[i]->update();
+      noteSeg->update();
   }
 //     m_scoreNotes[i]->setPos(7.0 + off + i * m_scoreNotes[0]->boundingRect().width(), 0);
 }
@@ -1045,9 +1046,11 @@ int TscoreStaff::getMaxNotesNr(qreal maxWidth) {
 
 void TscoreStaff::findHighestNote() {
   m_hiNotePos = upperLinePos() - 4.0;
-  for (int i = 0; i < m_scoreNotes.size(); i++)
-    if (m_scoreNotes[i]->notePos()) // is visible
-      m_hiNotePos = qMin(qreal(m_scoreNotes[i]->notePos() - (m_scoreNotes[i]->note()->rtm.stemDown() ? 2 : 4)), m_hiNotePos);
+  for (int i = 0; i < m_scoreNotes.size(); i++) {
+    auto noteSeg = m_scoreNotes[i];
+    if (noteSeg->notePos()) // is visible
+      m_hiNotePos = qMin(qreal(noteSeg->notePos() - (noteSeg->note()->rtm.stemDown() ? 2 : 4)), m_hiNotePos);
+  }
 }
 
 

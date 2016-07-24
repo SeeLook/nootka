@@ -187,20 +187,21 @@ void TscoreBeam::performBeaming() {
 
 // initial setting stems directions and stem lines
   for (int i = 0; i < count(); ++i) {
-      m_notes[i]->note()->rtm.setStemDown(allStemsDown);
-  // set only first and last stems - the inner ones later - adjusted to leading beam line
-      if (m_notes[i]->note()->rtm.stemDown())
-          m_stems[i]->setLine(m_notes[i]->mainNote()->x() + 0.13, m_notes[i]->mainNote()->y() + 1.14,
-                              m_notes[i]->mainNote()->x() + 0.13, m_notes[i]->mainNote()->y() + 1.14
-                              + (m_notes[i]->notePos() < m_notes[i]->staff()->height() - STEM_HEIGHT ? STEM_HEIGHT : 3.5)
-                              + (m_notes[i] == first() ? firstStemOff : 0.0)
-                              + (m_notes[i] == last() ? lastStemOff : 0.0));
+      auto n = m_notes[i]; // cache pointer for multiple reuse
+      n->note()->rtm.setStemDown(allStemsDown);
+    // set only first and last stems - the inner ones later - adjusted to leading beam line
+      if (n->note()->rtm.stemDown())
+          m_stems[i]->setLine(n->mainNote()->x() + 0.13, n->mainNote()->y() + 1.14,
+                              n->mainNote()->x() + 0.13, n->mainNote()->y() + 1.14
+                              + (n->notePos() < n->staff()->height() - STEM_HEIGHT ? STEM_HEIGHT : 3.5)
+                              + (n == first() ? firstStemOff : 0.0)
+                              + (n == last() ? lastStemOff : 0.0));
       else
-          m_stems[i]->setLine(m_notes[i]->mainNote()->x() + 2.23, m_notes[i]->mainNote()->y() + 0.85,
-                              m_notes[i]->mainNote()->x() + 2.23, m_notes[i]->mainNote()->y()
-                              - ((m_notes[i]->notePos() < STEM_HEIGHT ? 3.5 : STEM_HEIGHT) - 0.85)
-                              - (m_notes[i] == first() ? firstStemOff : 0.0)
-                              - (m_notes[i] == last() ? lastStemOff : 0.0));
+          m_stems[i]->setLine(n->mainNote()->x() + 2.23, n->mainNote()->y() + 0.85,
+                              n->mainNote()->x() + 2.23, n->mainNote()->y()
+                              - ((n->notePos() < STEM_HEIGHT ? 3.5 : STEM_HEIGHT) - 0.85)
+                              - (n == first() ? firstStemOff : 0.0)
+                              - (n == last() ? lastStemOff : 0.0));
   }
 
   QPointF stemOff(0.0, last()->note()->rtm.stemDown() ? HALF_STEM : -HALF_STEM); // offset to cover stem line thickness
@@ -208,8 +209,10 @@ void TscoreBeam::performBeaming() {
 // adjust stem lines length to leading beam line for notes in between of the beam group
   for (int i = 1; i < m_stems.count() - 1; ++i) {
       QPointF stemEnd;
-      beamLine.intersect(QLineF(m_notes[i]->pos() + m_stems[i]->line().p1(), m_notes[i]->pos() + m_stems[i]->line().p2()), &stemEnd);
-      m_stems[i]->setLine(QLineF(m_stems[i]->line().p1(), stemEnd - m_notes[i]->pos() - 2 * stemOff));
+      auto s = m_stems[i];
+      auto nPos = m_notes[i]->pos();
+      beamLine.intersect(QLineF(nPos + s->line().p1(), nPos + s->line().p2()), &stemEnd);
+      s->setLine(QLineF(s->line().p1(), stemEnd - nPos - 2 * stemOff));
   }
   QPolygonF poly;
   poly << beamLine.p1() << beamLine.p2();

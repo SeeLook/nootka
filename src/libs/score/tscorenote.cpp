@@ -21,6 +21,7 @@
 #include "tscorescene.h"
 #include "tscorestaff.h"
 #include "tnotecontrol.h"
+#include "tscorebeam.h"
 #include <graphics/tdropshadoweffect.h>
 #include <animations/tcrossfadetextanim.h>
 #include <animations/tcombinedanim.h>
@@ -175,13 +176,6 @@ void TscoreNote::setRhythm(const Trhythm& r) {
   m_note->setRhythm(r);
   update();
 }
-
-
-// TODO: move it to header
-void TscoreNote::setBeam(TscoreBeam* b) {
-  m_beam = b;
-}
-
 
 
 void TscoreNote::adjustSize() {
@@ -559,6 +553,27 @@ void TscoreNote::popUpAnim(int durTime) {
 
 bool TscoreNote::rhythmChanged() const {
   return *m_mainNote->rhythm() != m_note->rtm;
+}
+
+
+void TscoreNote::setX(qreal x) {
+  bool xChanged = QGraphicsItem::x() != x;
+  QGraphicsItem::setX(x);
+  if (xChanged) {
+    if (m_beam && m_beam->last() == this) // when this note is the last one in a beam - update beam
+      m_beam->performBeaming();
+  }
+}
+
+
+
+void TscoreNote::setPos(const QPointF& pos) {
+  bool xChanged = QGraphicsItem::x() == pos.x();
+  QGraphicsItem::setPos(pos);
+  if (xChanged) {
+    if (m_beam && m_beam->last() != this) // when this note is the last one in a beam - update beam
+      m_beam->performBeaming();
+  }
 }
 
 //#################################################################################################

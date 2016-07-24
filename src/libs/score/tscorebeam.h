@@ -41,6 +41,7 @@ class NOOTKACORE_EXPORT TscoreBeam : public QObject
 
   friend class TscoreMeasure;
   friend class TscoreStaff;
+  friend class TscoreNote;
 
   Q_OBJECT
 

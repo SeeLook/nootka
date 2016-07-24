@@ -347,21 +347,11 @@ void TscoreMeasure::noteChangedSlot(TscoreNote* sn) {
         updateRhythmicGroups();
         resolveBeaming(sn->rhythmGroup());
         checkBarLine();
-        // TODO: Rather perform beaming after staff will change notes positions
-//         for (TscoreBeam* b : m_beams) { // update beams but only after this note group
-//           if (b->first()->rhythmGroup() > sn->rhythmGroup())
-//             b->performBeaming();
-//         }
     } else if (newDur == prevDur) {
         if (sn->note()->isRest() != sn->rhythm()->isRest())
           qDebug() << "note" << sn->index() << "changed to/from rest";
         resolveBeaming(sn->rhythmGroup(), sn->rhythmGroup());
         checkBarLine();
-        // TODO: Rather perform beaming after staff will change notes positions
-//         for (TscoreBeam* b : m_beams) { // update beams but only after this note group
-//           if (b->first()->rhythmGroup() == sn->rhythmGroup())
-//             b->performBeaming();
-//         }
     } else { // measure duration is less than meter - take notes from the next measure
         m_free += prevDur - newDur;
         qDebug() << debug() << "needs duration" << m_free;
@@ -424,15 +414,17 @@ void TscoreMeasure::resolveBeaming(int firstGroup, int endGroup) {
   while (firstGroup <= endGroup && m_firstInGr[firstGroup] > -1) {
     int noteNr = qMax(1, int(m_firstInGr[firstGroup]) + 1);
     while (noteNr < m_notes.count() && m_notes[noteNr]->rhythmGroup() == firstGroup) {
-        if (!m_notes[noteNr]->note()->isRest() && !m_notes[noteNr - 1]->note()->isRest() // not a rest
-            && m_notes[noteNr]->note()->rhythm() > Trhythm::e_quarter // sixteenth or eighth
-            && m_notes[noteNr - 1]->note()->rhythm() > Trhythm::e_quarter)
+        auto noteSeg = m_notes[noteNr]; // cache pointer to TscoreNote for multiple reuse
+        auto prevSeg = m_notes[noteNr - 1];
+        if (!noteSeg->note()->isRest() && !prevSeg->note()->isRest() // not a rest
+            && noteSeg->note()->rhythm() > Trhythm::e_quarter // sixteenth or eighth
+            && prevSeg->note()->rhythm() > Trhythm::e_quarter)
         {
-          if (m_notes[noteNr - 1]->note()->rtm.beam() == Trhythm::e_noBeam) // start beam group
-              m_beams << new TscoreBeam(m_notes[noteNr - 1], this);
+          if (prevSeg->note()->rtm.beam() == Trhythm::e_noBeam) // start beam group
+              m_beams << new TscoreBeam(prevSeg, this);
           if (!m_beams.isEmpty()) {
-              m_notes[noteNr]->note()->rtm.setBeam(Trhythm::e_beamCont);
-              m_beams.last()->addNote(m_notes[noteNr]);
+              noteSeg->note()->rtm.setBeam(Trhythm::e_beamCont);
+              m_beams.last()->addNote(noteSeg);
           }
         }
         noteNr++;
