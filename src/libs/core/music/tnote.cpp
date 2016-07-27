@@ -193,21 +193,6 @@ Tnote Tnote::showWithDoubleFlat() const {
 }
 
 
-short Tnote::compareNotes(const Tnote& otherNote, short int ignoreOctave) const {
-  if (!ignoreOctave) {
-      if (note == otherNote.note && alter == otherNote.alter && octave == otherNote.octave)
-        return 1;
-      else
-        return 0;
-  } else {
-      if (note == otherNote.note && alter == otherNote.alter)
-        return 1;
-      else
-        return 0;
-  }
-}
-
-
 TnotesList Tnote::getTheSameNotes(bool enableDbAccids) const {
   TnotesList notesL;
   short cnt;//counter of notes. With double accids is 5 (4) without 3 (2)

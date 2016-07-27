@@ -193,12 +193,14 @@ public:
       /** Return this note converted into double-flat or the same note if not possible. */
   Tnote showWithDoubleFlat() const;
 
-      /** This method compares actual note, with otherNote.
-        * @param otherNote
-        * @param ignoreOctave If 1 (TRUE) the octave values are ignored,
+      /**
+        * This method compares actual note, with otherNote @p otherNote.
+        * @p ignoreOctave, if @p TRUE - the octave values are ignored,
         * and method compares only number of note and accidental.
-        * @return 1 for TRUE or 0 if notes are different */
-  short compareNotes(const Tnote& otherNote, short ignoreOctave = 0) const;
+        */
+  bool compareNotes(const Tnote& otherNote, bool ignoreOctave = false) const {
+    return note == otherNote.note && alter == otherNote.alter && (ignoreOctave || octave == otherNote.octave);
+  }
 
   std::string getName(EnameStyle notation = e_norsk_Hb, bool showOctave = 1) const;
 
