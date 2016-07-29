@@ -21,6 +21,7 @@ set(LIB_NOOTKASCORE_SRC
   tscorestaff.cpp
   tscoremeasure.cpp
   tscorebeam.cpp
+  tscoretie.cpp
   tscore5lines.cpp
   tnotecontrol.cpp
   tpaneitem.cpp
