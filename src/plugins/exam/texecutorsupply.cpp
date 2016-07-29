@@ -130,9 +130,9 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   QObject(parent),
   m_level(level),
   m_prevAccid(Tnote::e_Natural),
-  m_isSolfege(false),
   m_dblAccidsCntr(0),
   m_eisCesCntr(0),
+  m_isSolfege(false),
   m_wasFinished(false)
 {
 	m_loFret = m_level->loFret;
@@ -270,7 +270,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 }
 
 
-Tnote TexecutorSupply::determineAccid(Tnote n) {
+Tnote TexecutorSupply::determineAccid(const Tnote& n) {
     Tnote nA = n;
     bool notFound = true;
     if (m_level->withSharps || m_level->withFlats || m_level->withDblAcc) {
@@ -319,7 +319,7 @@ Tnote TexecutorSupply::determineAccid(Tnote n) {
 }
 
 
-Tnote TexecutorSupply::forceEnharmAccid(Tnote n) {
+Tnote TexecutorSupply::forceEnharmAccid(const Tnote& n) {
     Tnote nX;
     char acc = m_prevAccid;
      for (int i = 0; i < 6; i++) { // to be sure that all cases are checked
@@ -509,12 +509,14 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
   Tnote tmpNote = note;
   TkeySignature key; // C-major by default
   if (m_level->isSingleKey) { //for single key
-    key = m_level->loKey;
+      key = m_level->loKey;
       if (m_level->onlyCurrKey) {
-          tmpNote = m_level->loKey.inKey(note);
-          if (!tmpNote.isValid())
-            qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
-                  "It should never happened!";
+        if (!m_level->canBeMelody()) {
+            tmpNote = m_level->loKey.inKey(note);
+            if (!tmpNote.isValid())
+              qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
+                    "It should never happened!";
+        }
       }
   } else { // for many key signatures
       if (m_randKey)
@@ -539,7 +541,7 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
       }
   }
   note = tmpNote;
-return key;
+  return key;
 }
 
 

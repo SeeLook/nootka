@@ -45,9 +45,9 @@ public:
 	virtual ~TexecutorSupply();
 
   void createQuestionsList(QList<TQAgroup> &list);
-  Tnote determineAccid(Tnote n);
+  Tnote determineAccid(const Tnote& n);
 
-  Tnote forceEnharmAccid(Tnote n);
+  Tnote forceEnharmAccid(const Tnote& n);
 
 			/** Switches given style to opposite (letters or solfege).
 			* If none specified, gives opposite to previous returned. */
