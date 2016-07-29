@@ -22,6 +22,7 @@
 #include "tscorestaff.h"
 #include "tnotecontrol.h"
 #include "tscorebeam.h"
+#include "tscoretie.h"
 #include <graphics/tdropshadoweffect.h>
 #include <animations/tcrossfadetextanim.h>
 #include <animations/tcombinedanim.h>
@@ -154,11 +155,12 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 }
 
 
-TscoreNote::~TscoreNote() { // release work note and controls from parent being destructed
+TscoreNote::~TscoreNote() {
+  removeTie();
   if (staff())
     staff()->noteGoingDestroy(this);
   if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
-    scoreScene()->noteDeleted(this);
+    scoreScene()->noteDeleted(this); // release work note and controls from parent being destructed
   delete m_note;
 }
 
@@ -358,6 +360,30 @@ void TscoreNote::markNote(QColor blurColor) {
 }
 
 
+TscoreNote* TscoreNote::nextNote() {
+  TscoreNote* next = nullptr; // find next note first
+  if (this == staff()->lastNote()) { // take first note from the next staff
+      auto st = staff()->nextStaff();
+      if (st)
+        next = st->firstNote();
+  } else // or just next one
+      next = staff()->noteSegment(index() + 1);
+  return next;
+}
+
+
+TscoreNote* TscoreNote::prevNote() {
+  TscoreNote* prev = nullptr; // find next note first
+  if (this == staff()->firstNote()) { // take first note from the next staff
+      auto st = staff()->prevStaff();
+      if (st)
+        prev = st->lastNote();
+  } else // or just next one
+      prev = staff()->noteSegment(index() - 1);
+  return prev;
+}
+
+
 qreal TscoreNote::space() {
   return space(note()->rtm);
 }
@@ -484,9 +510,13 @@ void TscoreNote::update() {
 }
 
 
-// TODO: move it to header
-QRectF TscoreNote::boundingRect() const{
-  return QRectF(0.0, 0.0, m_width, m_height);
+void TscoreNote::setTie(TscoreTie* t) {
+  if (t && m_tie) // TODO: remove when not occur
+    qDebug() << "[NOTE] note" << index() << "already has a tie!!!" ;
+  m_tie = t;
+//   for (int i = 0; i < staff()->count(); ++i)
+//     if (staff()->noteSegment(i)->note()->rtm.tie())
+//       qDebug() << i << "tie" << staff()->noteSegment(i)->note()->rtm.tie();
 }
 
 
@@ -562,6 +592,13 @@ void TscoreNote::setX(qreal x) {
   if (xChanged) {
     if (m_beam && m_beam->last() == this) // when this note is the last one in a beam - update beam
       m_beam->performBeaming();
+    if (note()->rtm.tie() == Trhythm::e_tieCont || note()->rtm.tie() == Trhythm::e_tieEnd) {
+      auto prev = prevNote();
+      if (prev->tie())
+        prev->tie()->updateLength();
+      else // TODO: delete it
+        qDebug() << "[TSCORENOTE] BOOM! No tie in previous note of" << index();
+    }
   }
 }
 
@@ -651,9 +688,9 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         if (pitchChanged() || rhythmChanged() || accidChanged() || widthDiff != 0.0) {
             emit noteGoingToChange(this);
             staff()->prepareNoteChange(this);
-//             if (rhythmChanged())
-//                 m_mainNote->setRhythm(*m_newRhythm);
         }
+        if ((pitchChanged() || accidChanged()))
+          removeTie();
 //         m_mainNote->setRhythm(*m_newRhythm);
         m_accidental = m_newAccid;
         moveNote(scoreScene()->workPosY());
@@ -834,7 +871,19 @@ void TscoreNote::changeWidth() {
       qDebug() << "Note changed width" << newWidth;
       prepareGeometryChange();
       m_width = newWidth;
-      staff()->noteChangedWidth(index());
+//       staff()->noteChangedWidth(index());
+  }
+}
+
+
+void TscoreNote::removeTie() {
+  if (note()->rtm.tie() == Trhythm::e_tieCont) { // remove this tie end set previous to end
+      delete m_tie;
+      delete prevNote()->tie();
+  } else if (note()->rtm.tie() == Trhythm::e_tieEnd) {
+      delete prevNote()->tie();
+  } else if (note()->rtm.tie() == Trhythm::e_tieStart) {
+      delete m_tie;
   }
 }
 

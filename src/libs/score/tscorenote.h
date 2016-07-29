@@ -34,6 +34,7 @@ class TscoreControl;
 class TscoreScene;
 class TnoteItem;
 class TscoreBeam;
+class TscoreTie;
 
 
 /*!
@@ -49,6 +50,7 @@ class NOOTKACORE_EXPORT TscoreNote : public TscoreItem
 
   friend class TscoreMeasure;
   friend class TscoreBeam;
+  friend class TscoreTie;
 
   Q_OBJECT
 
@@ -65,8 +67,11 @@ public:
 
   void adjustSize(); /**< Grabs height from staff and adjust to it. */
 
-      /** Sets color of main note. */
+      /**
+       * Sets color of main note. 
+       */
   void setColor(const QColor& color);
+  QColor color() const { return m_mainColor; }
 
       /** It sets background of the note segment. When sets to -1 means transparent - no background. */
   void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
@@ -125,6 +130,18 @@ public:
   static QString getAccid(int accNr); /**< Returns QString with accidental symbol*/
 
       /**
+       * Pointer to the note after this segment or the first one in the next staff
+       * or null if no note.
+       */
+  TscoreNote* nextNote();
+
+      /**
+       * Pointer to the note before this segment or the last one in the previous staff
+       * or null if no note.
+       */
+  TscoreNote* prevNote();
+
+      /**
        * Returns space factor after note with given @p r rhythm.
        */
   static qreal space(const Trhythm& r);
@@ -166,12 +183,19 @@ public:
   qint8 rhythmGroup() { return m_group; }
   void setRhythmGroup(qint8 g) { m_group = g; }
 
-      /** Pointer to @c TscoreBeam or null if note has no beam */
+      /**
+       * Pointer to @p TscoreBeam or null if note has no beam 
+       */
   TscoreBeam* beam() { return m_beam; }
   void setBeam(TscoreBeam* b) { m_beam = b; }
 
+      /**
+       * Pointer to @p TscoreTie (ligature) or null if note has no tie 
+       */
+  TscoreTie* tie() { return m_tie; }
+
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-  virtual QRectF boundingRect() const;
+  virtual QRectF boundingRect() const { return QRectF(0.0, 0.0, m_width, m_height); }
   qreal width() const { return m_width; }
   qreal height() const { return m_height; }
   qreal rightX(); /**< shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor */
@@ -207,6 +231,9 @@ protected:
   virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
   virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
+      /** Sets @p TscoreTie */
+  void setTie(TscoreTie* t);
+
 private:
   TnoteItem                               *m_mainNote;
   QGraphicsSimpleTextItem                 *m_mainAccid;
@@ -238,6 +265,7 @@ private:
 
   qint8                                    m_group = -1;
   TscoreBeam                              *m_beam = nullptr;
+  TscoreTie                               *m_tie = nullptr;
 
   static const qreal                       m_rtmGapArray[5][3]; /**< static array with space definitions for each rhythm value */
 
@@ -247,6 +275,7 @@ private:
   void checkEmptyText(); /**< Decides whether show or hide text about empty note. */
   void changeWidth(); /**< Changes bounding rectangle width appropriate to current accidental and rhythm */
   void emitNoteWasSelected();
+  void removeTie(); /**< Checks and removes tie of this note or the previous one if exist */
 
 private slots:
   void popUpAnimFinished();
