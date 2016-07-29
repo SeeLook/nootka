@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -47,34 +47,38 @@ const char TkeySignature::scalesDefArr[15][7] = {
 const char TkeySignature::majorKeys[15] = { 0, 4, 1, 5, 2, 6, 3, 0, 4, 1, 5, 2, 6, 3, 0 };
 const char TkeySignature::minorKeys[15] = { 5, 2, 6, 3, 0, 4, 1, 5, 2, 6, 3, 0, 4, 1, 5 };
 
-QString TkeySignature::majorNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
-QString TkeySignature::minorNames[15] = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+QString TkeySignature::majorNames[15] = { QString(), QString(), QString(), QString(), QString(),
+                                          QString(), QString(), QString(), QString(), QString(),
+                                          QString(), QString(), QString(), QString(), QString()};
+QString TkeySignature::minorNames[15] = { QString(), QString(), QString(), QString(), QString(),
+                                          QString(), QString(), QString(), QString(), QString(),
+                                          QString(), QString(), QString(), QString(), QString()};
 
 void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QString minSuf) {
-	Tnote n;
-	QString majS = "", minS = "";
-	if (majSuf == "") {
-		majS = "-" + majorSufixTxt();
-		Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
-	} else
-		if (majSuf != " ")
-			majS = "-" + majSuf;
-		
-	if (minSuf == "") {
-		minS = "-" + minorSufixTxt();
-		Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
-	}
-	else
-		if (minSuf != " ")
-			minS = "-" + minSuf;
-		
-    for (int i=0; i<15; i++) {
-        n = Tnote(majorKeys[i]+1, 0, scalesDefArr[i][majorKeys[i]]);
+  Tnote n;
+  QString majS, minS;
+  auto minus = QStringLiteral("-");
+  if (majSuf.isEmpty()) {
+      majS = minus + majorSufixTxt();
+      Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
+  } else
+      if (majSuf != QLatin1String(" "))
+        majS = minus + majSuf;
+
+  if (minSuf.isEmpty()) {
+      minS = minus + minorSufixTxt();
+      Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
+  } else
+    if (minSuf != QLatin1String(" "))
+      minS = minus + minSuf;
+
+    for (int i = 0; i < 15; i++) {
+        n = Tnote(majorKeys[i] + 1, 0, scalesDefArr[i][int(majorKeys[i])]);
         majorNames[i] = n.toText(style, false);
-		majorNames[i] += majS;
-        n = Tnote(minorKeys[i]+1, 0, scalesDefArr[i][minorKeys[i]]);
+        majorNames[i] += majS;
+        n = Tnote(minorKeys[i] + 1, 0, scalesDefArr[i][int(minorKeys[i])]);
         minorNames[i] = n.toText(style, false ).toLower();
-		minorNames[i] += minS;
+        minorNames[i] += minS;
     }
 }
 
@@ -84,20 +88,20 @@ Tnote TkeySignature::inKey(TkeySignature k, Tnote n) {
 
 /*private static*/
 Tnote TkeySignature::m_inKey(char val, Tnote n) {
-    val = val+7;
-    if (scalesDefArr[val][n.note-1] == n.alter)
-        return n;
-    Tnote tmpN = n.showWithFlat();
-    if (scalesDefArr[val][tmpN.note-1] == tmpN.alter)
-        return tmpN;
-    tmpN = n.showWithSharp();
-    if (scalesDefArr[val][tmpN.note-1] == tmpN.alter)
-        return tmpN;
-    tmpN = n.showAsNatural();
-    if (scalesDefArr[val][tmpN.note-1] == tmpN.alter)
-        return tmpN;
+  int v = val + 7;
+  if (scalesDefArr[v][n.note - 1] == n.alter)
+      return n;
+  Tnote tmpN = n.showWithFlat();
+  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+      return tmpN;
+  tmpN = n.showWithSharp();
+  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+      return tmpN;
+  tmpN = n.showAsNatural();
+  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+      return tmpN;
 
-    return Tnote(0,0,0);
+  return Tnote(0, 0, 0);
 }
 
 /*end satic */
@@ -105,31 +109,33 @@ Tnote TkeySignature::m_inKey(char val, Tnote n) {
 
 TkeySignature::TkeySignature()
 {
-    m_key = 0;
-    m_isMinor = false;
+  m_key = 0;
+  m_isMinor = false;
 }
 
 
 TkeySignature::TkeySignature(char keyS, bool isMinor)
 {
-    if (keyS > -8 && keyS <8)
-        m_key = keyS;
-    else
-        m_key = 0;
-    m_isMinor = isMinor;
+  if (keyS > -8 && keyS < 8)
+      m_key = keyS;
+  else
+      m_key = 0;
+  m_isMinor = isMinor;
 }
 
 
 QString TkeySignature::accidNumber(bool inHtml) {
-    QString a = "";
-    if (m_key < 0) a = "b";
-    if (m_key > 0) a = "#";
+    QString a;
+    if (m_key < 0)
+        a = QStringLiteral("b");
+    if (m_key > 0)
+        a = QStringLiteral("#");
     QString S = QString("%1").arg(int(qAbs(m_key)));
     if (inHtml)
-        S += "<span style=\"font-family: nootka;\">";
+        S += QLatin1String("<span style=\"font-family: nootka;\">");
     S += a;
     if (inHtml)
-        S += "</span>";
+        S += QLatin1String("</span>");
     return S;
 }
 
@@ -140,30 +146,28 @@ Tnote TkeySignature::inKey(Tnote n) {
 
 
 void TkeySignature::toXml(QXmlStreamWriter& xml) {
-	xml.writeStartElement("key");
-		xml.writeTextElement("fifths", QVariant((int)value()).toString());
-		QString mode = "major";
-		if (isMinor())
-			mode ="minor";
-		xml.writeTextElement("mode", mode);
-	xml.writeEndElement(); // key
+  xml.writeStartElement("key");
+    xml.writeTextElement("fifths", QVariant((int)value()).toString());
+    QString mode = isMinor() ? QStringLiteral("minor") : QStringLiteral("major");
+    xml.writeTextElement("mode", mode);
+  xml.writeEndElement(); // key
 }
 
 
 void TkeySignature::fromXml(QXmlStreamReader& xml) {
-	if (xml.name() == "key") {
-		while (xml.readNextStartElement()) {
-			if (xml.name() == "fifths") {
-				m_key = (char)qBound(-7, xml.readElementText().toInt(), 7);
-			} else if (xml.name() == "mode") {
-					if (xml.readElementText() == "minor")
-							m_isMinor = true;
-					else
-							m_isMinor = false;
-			} else 
-				xml.skipCurrentElement();
-		}
-	}
+  if (xml.name() == QLatin1String("key")) {
+    while (xml.readNextStartElement()) {
+      if (xml.name() == QLatin1String("fifths")) {
+        m_key = (char)qBound(-7, xml.readElementText().toInt(), 7);
+      } else if (xml.name() == QLatin1String("mode")) {
+          if (xml.readElementText() == QLatin1String("minor"))
+              m_isMinor = true;
+          else
+              m_isMinor = false;
+      } else
+        xml.skipCurrentElement();
+    }
+  }
 }
 
 
@@ -185,11 +189,11 @@ bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
 //     if (kk < -7 || kk > 7) {
     if (kk < -7 || kk > 22) {
         kk = 0; ok = false;
-    } 
+    }
     if (ok && kk > 7 ) // is minor key
-	k = TkeySignature(char(kk - 15), true);
+  k = TkeySignature(char(kk - 15), true);
     else
-	k = TkeySignature(char(kk));
+  k = TkeySignature(char(kk));
     return ok;
 }
 
