@@ -316,8 +316,8 @@ void TpitchFinder::bufferReady() {
   if (m_currentBufferNr == m_buffers.size())
     m_currentBufferNr = 0;
   m_currentBuff = m_buffers[m_currentBufferNr];
-  if (!m_currentBuff->processed)
-    qDebug() << "Buffers swapped but new one is not processed!!!!!";
+//   if (!m_currentBuff->processed)
+//     qDebug() << "Buffers swapped but new one is not processed!!!!!";
   m_currentBuff->processed = false;
   if (!copyInThread()) // false in offline mode
     copyToChannel();
