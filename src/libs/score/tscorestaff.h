@@ -262,10 +262,22 @@ public:
   TscoreMeasure* firstMeasure() { return m_measures.first(); }
 
   TscoreMeasure* nextMeasure(TscoreMeasure* before);
-  TscoreMeasure* nextMeasure(int id) { return id < m_measures.count() ? nextMeasure(m_measures[id]) : nullptr; }
+  TscoreMeasure* nextMeasure(int id) { return id < m_measures.count() ? nextMeasure(m_measures[id]) : nextMeasure(lastMeasure()); }
 
-      /** Removes @p measId measure from the list and its notes from the staff as well.
-       * Returns @p TscoreMeasure pointer which contains list of taken notes. */
+      /**
+       * Returns pointer to the next staff or null if none or this staff is the last one.
+       */
+  TscoreStaff* nextStaff();
+
+      /**
+       * Returns pointer to the previous staff or null if none or this staff is the first one.
+       */
+  TscoreStaff* prevStaff();
+
+      /**
+       * Removes @p measId measure from the list and its notes from the staff as well.
+       * Returns @p TscoreMeasure pointer which contains list of taken notes.
+       */
   TscoreMeasure* takeMeasure(int measId);
   void insertMeasure(int id, TscoreMeasure* m);
 

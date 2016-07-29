@@ -26,6 +26,7 @@
 #include "tscore5lines.h"
 #include "tscoremeter.h"
 #include "tscoremeasure.h"
+#include "tscoretie.h"
 #include <music/tnote.h>
 #include <music/trhythm.h>
 #include <music/tmeter.h>
@@ -153,6 +154,15 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
   if (m_autoAddedNoteId > -1) // naughty user can insert or add new note just after clicking the last one what invokes auto adding
     addNoteTimeOut();
 
+// break a tie, if any
+//   if (index) {
+//       if (m_scoreNotes[index - 1]->tie());
+//         delete m_scoreNotes[index - 1]->tie();
+//   } else {
+//       if (number() > 0 && firstNote()->note()->rtm.tie() == Trhythm::e_tieEnd)
+//         delete prevStaff()->lastNote()->tie();
+//   }
+
   qDebug() << "\n";
 
   //TODO: check is inserting note fit into a measure:
@@ -251,8 +261,9 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
       for (int i = index; i < nList.size() + index; i++) {
         TscoreNote *sn = nList[i - index];
         m_scoreNotes.insert(i, sn);
-        sn->setParentItem(this);
         sn->setStaff(this);
+        sn->setParentItem(this);
+//         sn->setStaff(this);
       }
 //   }
   updateIndexes();
@@ -264,8 +275,9 @@ void TscoreStaff::addNotes(int index, QList<TscoreNote*>& nList) {
 
 void TscoreStaff::addNote(int index, TscoreNote* freeNote) {
   m_scoreNotes.insert(index, freeNote);
-  freeNote->setParentItem(this);
   freeNote->setStaff(this);
+  freeNote->setParentItem(this);
+//   freeNote->setStaff(this);
   updateNotesPos(index);
   updateIndexes();
 }
@@ -527,11 +539,24 @@ int TscoreStaff::measureOfNoteId(int id) {
 
 TscoreMeasure* TscoreStaff::nextMeasure(TscoreMeasure* before) {
   if (before == lastMeasure()) {
-      auto st = this;
-      emit getNextStaff(st);
+      auto st = nextStaff();
       return st ? st->firstMeasure() : nullptr;
   } else
       return m_measures[before->id() + 1];
+}
+
+
+TscoreStaff* TscoreStaff::nextStaff() {
+  auto st = this;
+  emit getNextStaff(st);
+  return st;
+}
+
+
+TscoreStaff * TscoreStaff::prevStaff() {
+  auto st = this;
+  emit getPrevStaff(st);
+  return st;
 }
 
 
@@ -579,9 +604,10 @@ void TscoreStaff::insertMeasure(int id, TscoreMeasure* m) {
   addNotes(noteId, m->notes());
   m_measures.insert(id, m);
 //   addNotes(noteId, m->notes());
-  m->setStaff(this);
+//   m->setStaff(this);
   for (int i = 0; i < m_measures.size(); ++i)
     m_measures[i]->setId(i);
+  m->setStaff(this);
   fit();
   updateNotesPos();
 }
@@ -691,8 +717,7 @@ void TscoreStaff::fit() {
           emit moveMeasure(this, m_measures.count() - 1); // it will perform fitting as well
       }
   } else if (factor > 2.0) { // staff has free space
-      auto st = this;
-      emit getNextStaff(st);
+      auto st = nextStaff();
       if (st && st != this && st->count()) {
         qDebug() << debug() << "staff has free space - getting fist measure of staff" << st->number();
         if (st->firstMeasure()->notesWidth() <= width() - contentWidth(1.0)) {
@@ -726,8 +751,7 @@ int TscoreStaff::shiftFromMeasure(int measureNr, int dur, QList<TscoreNote*>& no
         delete m_measures.takeLast(); // it is empty, so delete it then
       }
   } else {
-      auto st = this;
-      emit getNextStaff(st);
+      auto st = nextStaff();
       if (st && st != this) {
         qDebug() << debug() << "Looking for notes in the next staff id" << st->number();
         st->shiftFromMeasure(0, dur, notesToShift);
@@ -881,7 +905,7 @@ void TscoreStaff::onNoteClicked(int noteIndex) {
   if (scoreScene()->right() && scoreScene()->right()->notesAddingEnabled() && noteIndex == count() - 1 && width() - contentWidth(m_gapFactor) >= 7.0) {
     m_addTimer->stop();
     insert(noteIndex + 1);
-    m_scoreNotes.last()->popUpAnim(300);
+    lastNote()->popUpAnim(300);
     updateIndexes();
     updateNotesPos(noteIndex + 1);
 //     if (m_scoreNotes.last()->x() + m_scoreNotes.last()->width() > width()) {
