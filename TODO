@@ -10,9 +10,22 @@
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
+          RHYTHMS
 ISSUES of the new score (with rhythms)
 - TscoreMeasure has many TODOs - clear them
 - eight notes meter 3/8, 5/8 - when set, rhythm pane still shows quarter as default - it should be a eight note
+
+- triplets
+- changing meter
+- enable/disable meter
+- beams and switching kind of clef
+- additional accidentals across measure (so far it is staff wide), has to be aware of tie as well
+- breaking measure (among staves)????
+- dynamical size of key signature item
+- updating beams and single single flags after measurement
+- side panes behavior
+- score note width change
+
 ============================================================================
 - TqaUnit::setMistake(Etype mis) -  use casting of mistake type enum to int instead of switch/case every type
 - TexamExecutor has many, many un-wrapped strings, many ""

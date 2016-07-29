@@ -1,7 +1,9 @@
 1.3.1 alpha2
-     - added time signature item to score and menu to change it
-     - added pane to manage rhythm of notes
-     - added glyphs with note heads and rhythm symbols to Nootka font
+     - stems and beams - direction is determined automatically
+     - ties (ligature) between notes
+     - time signature item to score and menu to change it
+     - pane to manage rhythm of notes
+     - glyphs with note heads and rhythm symbols to Nootka font
 
 1.3.0 alpha1
      - removed roundness of widget/tips

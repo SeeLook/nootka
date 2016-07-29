@@ -304,6 +304,7 @@ void TscoreScene::showRhythmPane() {
   right()->hide();
   if (m_rhythmBox) {
     m_rhythmBox->setParentItem(m_scoreNote->parentItem());
+    m_rhythmBox->setCurrentNote(m_scoreNote);
     m_rhythmBox->setPos(right()->x(), (m_scoreNote->boundingRect().height() - m_rhythmBox->boundingRect().height()) / 2.0);
     m_rhythmBox->show();
   }
@@ -323,7 +324,7 @@ void TscoreScene::hideTimeOut() {
   if (m_scoreNote)
     m_scoreNote->hideWorkNote();
   hidePanes();
-  TscoreNote *sn = m_scoreNote;
+  auto *sn = m_scoreNote;
   m_scoreNote = 0;
   if (TscoreItem::touchEnabled() && sn)
     sn->update();
