@@ -21,6 +21,7 @@
 #include "tscorestaff.h"
 #include "tscoremeter.h"
 #include "tscorebeam.h"
+#include "tscoretie.h"
 #include "tscorescene.h"
 #include <music/tmeter.h>
 #include <music/tnote.h>
@@ -115,6 +116,22 @@ void TscoreMeasure::setStaff(TscoreStaff* st) {
   setParent(st);
   for (TscoreBeam* b : m_beams)
     b->changeStaff(st);
+
+  if (st->firstMeasure() == this) { // this measure was the last and went at the beginning of the next staff
+      auto first = firstNote();
+      qDebug() << "Tie of first" << first->note()->rtm.tie();
+      if (first->note()->rtm.tie() > Trhythm::e_tieStart) { // tie continues or ends on first note
+        auto prev = first->prevNote();
+        if (prev->tie())
+          prev->tie()->checkStaves();
+        else
+          qDebug() << debug() << "first note has tie flag set but not tie exists";
+      }
+  } else if (st->lastMeasure() == this) { // this measure was the first and went at the end of previous staff
+      auto last = lastNote();
+      if (last->tie())
+        last->tie()->checkStaves();
+  }
 }
 
 
@@ -192,7 +209,10 @@ void TscoreMeasure::insertNote(int id, TscoreNote* sn) {
     int toRelease = releaseAtEnd(noteDur - m_free, notesToOut, newNote, id);
     if (toRelease > 0) { // There is still not enough space
       if (m_free > 0) { // measure has some free space for the new note but not for entire
+          auto oldRhythm(sn->note()->rtm);
           sn->setRhythm(Trhythm(m_free, sn->note()->isRest()));
+          sn->note()->rtm.setTie(oldRhythm.tie());
+          sn->note()->rtm.setStemDown(oldRhythm.stemDown());
           if (newNote.rhythm() != Trhythm::e_none) // TODO: remove when tested
             qDebug() << "NEW NOTE is already created!!!";
           newNote = Tnote(*sn->note(), Trhythm(noteDur - m_free, sn->note()->isRest()));
@@ -235,22 +255,6 @@ void TscoreMeasure::removeNote(int noteToRemove) {
       }
       m_free += rmDur;
       fill();
-//       QList<TscoreNote*> notesToShift;
-//       int remainDur = m_staff->shiftFromMeasure(number() + 1, rmDur, notesToShift);
-// //       appendNotes(notesToShift);
-//       for (int i = 0; i < notesToShift.size(); ++i) {
-//         m_notes.append(notesToShift[i]);
-//         connect(notesToShift[i], &TscoreNote::noteGoingToChange, this, &TscoreMeasure::noteChangedSlot);
-//       }
-//       if (remainDur) { // next measure has a part of a new note
-//           qDebug() << debug() << remainDur << "remained in next measure";
-//           Tnote newNote(*m_staff->measures()[number() + 1]->firstNote()->note(), Trhythm(remainDur, m_staff->measures()[number() + 1]->firstNote()->note()->isRest()));
-//           m_staff->insertNote(lastNote()->index() + 1, newNote); // it will invoke grouping
-//       } else {
-//           updateRhythmicGroups();
-//           resolveBeaming(m_notes[qBound(0, noteToRemove - 1, m_notes.count() - 1)]->rhythmGroup());
-//           checkBarLine();
-//       }
   } else
       qDebug() << "[TscoreMeasure] Tried to remove note out of range";
 }
@@ -446,10 +450,15 @@ void TscoreMeasure::resolveBeaming(int firstGroup, int endGroup) {
 int TscoreMeasure::releaseAtEnd(int dur, QList<TscoreNote*>& notesToOut, Tnote& newNote, int endNote) {
   int noteNr = m_notes.count() - 1;
   while (noteNr >= endNote && dur > 0) {
-      int lastDur = lastNote()->note()->duration();
+      auto lastN = lastNote();
+      int lastDur = lastN->note()->duration();
       if (lastDur > dur) { // last note is longer than required space - split it then create and move the rest of its duration to the next measure
-          lastNote()->setRhythm(Trhythm(lastDur - dur, lastNote()->note()->isRest()));
-          newNote = Tnote(*lastNote()->note(), Trhythm(dur, lastNote()->note()->isRest()));
+          Trhythm oldRhythm(lastN->note()->rtm); // preserve tie and stem direction
+          lastN->setRhythm(Trhythm(lastDur - dur, lastN->note()->isRest()));
+          lastN->note()->rtm.setStemDown(oldRhythm.stemDown());
+          lastN->note()->rtm.setTie(oldRhythm.tie());
+          newNote = Tnote(*lastN->note(), Trhythm(dur, lastN->note()->isRest()));
+          newNote.rtm.setStemDown(oldRhythm.stemDown());
           lastDur = dur;
       } else { // last note is the same long or smaller than required space - so move it to the next measure
           notesToOut << m_notes.takeLast();
@@ -524,13 +533,39 @@ void TscoreMeasure::checkBarLine() {
 //#################################################################################################
 void TscoreMeasure::addNewNote(Tnote& newNote) {
   qDebug() << debug() << "creating new note" << lastNote()->index() << newNote.rtm.xmlType();
-  if (!m_staff->hasSpaceFor(newNote))
-      qDebug() << "Such a kerfuffle! Staff has no space for new, split note";
-  if (!lastNote()->note()->rtm.isRest()) { // add ligatures if no rest
-      lastNote()->note()->rtm.setTie(Trhythm::e_tieStart);
-      newNote.rtm.setTie(Trhythm::e_tieEnd);
+//   if (!m_staff->hasSpaceFor(newNote))
+//       qDebug() << "Such a kerfuffle! Staff has no space for new, split note";
+
+// prepare tie, if any to restore it after new note will be created
+  auto lastN = lastNote();
+  TscoreNote* beforeLast = nullptr;
+  auto lastTie = lastN->note()->rtm.tie(); // backup tie state to revert it after new note will be added
+  if (lastN->note()->rtm.isRest())
+      lastN = nullptr;
+  else if (lastTie) {
+      beforeLast = lastN->prevNote();
+      if (lastTie == Trhythm::e_tieCont) {
+          delete lastN->tie();
+          delete beforeLast->tie();
+      } else if (lastTie == Trhythm::e_tieEnd)
+          delete beforeLast->tie();
+      else
+          delete lastN->tie();
   }
+// create a new note on the staff
   m_staff->insertNote(lastNote()->index() + 1, newNote);
+
+// restore tie
+  if (lastN) {
+    TscoreTie::check(lastN);
+    if (lastTie) {
+        if (lastTie == Trhythm::e_tieCont) { // tie with previous and next notes
+            TscoreTie::check(beforeLast);
+            TscoreTie::check(lastN->nextNote());
+        } else if (lastTie == Trhythm::e_tieEnd)
+            TscoreTie::check(beforeLast);
+    }
+  }
 }
 
 
