@@ -26,6 +26,7 @@
 
 class TpaneItem;
 class Trhythm;
+class TscoreNote;
 
 
 /**
@@ -40,8 +41,14 @@ public:
   TrhythmPane(TscoreStaff* staff, TscoreScene* scene);
   virtual ~TrhythmPane();
 
+      /**
+       * Returns currently selected rhythm 
+       */
+  Trhythm* rhythm() const { return m_rhythm; }
   void setRhythm(Trhythm* r);
-  Trhythm* rhythm() const { return m_rhythm; } /**< REturns currently selected rhythm */
+
+  TscoreNote* currentNote() { return m_currentNote; }
+  void setCurrentNote(TscoreNote* sn) { m_currentNote = sn; }
 
   virtual QRectF boundingRect() const;
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -52,8 +59,8 @@ signals:
 protected:
   void itemClicked(); /**< Slot connected with all items */
 
-  virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-  virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+  virtual void hoverEnterEvent(QGraphicsSceneHoverEvent*);
+  virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent*);
 
 private:
   TpaneItem* createPaneItem(int charNr, const QPointF& p); /**< Creates an item and places it on given @p p position. */
@@ -67,6 +74,7 @@ private:
   TpaneItem           *m_dot, *m_triplet, *m_tie;
   QList<TpaneItem*>    m_notes, m_rests; // lists with pointers
   QTimer              *m_hideTimer;
+  TscoreNote          *m_currentNote = nullptr;
 };
 
 #endif // TRHYTHMPANE_H

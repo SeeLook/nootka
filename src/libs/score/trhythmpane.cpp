@@ -19,6 +19,7 @@
 #include "trhythmpane.h"
 #include "tpaneitem.h"
 #include "tscorestaff.h"
+#include "tscoretie.h"
 #include <music/trhythm.h>
 #include <tnoofont.h>
 #include <graphics/tdropshadoweffect.h>
@@ -117,9 +118,12 @@ void TrhythmPane::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 void TrhythmPane::itemClicked() {
   if (sender() == m_tie) {
-      m_tie->setSelected(!m_tie->isSelected());
-      return;
+//       m_tie->setSelected(!m_tie->isSelected());
+    if (m_currentNote)
+      TscoreTie::check(m_currentNote);
+    return;
   }
+
   if (sender() == m_dot) {
       m_triplet->setSelected(false); // no tuplets with dot
       m_rhythm->setTriplet(false);
@@ -151,15 +155,13 @@ void TrhythmPane::itemClicked() {
 }
 
 
-void TrhythmPane::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
+void TrhythmPane::hoverEnterEvent(QGraphicsSceneHoverEvent*) {
   m_hideTimer->stop();
-//   TscoreItem::hoverEnterEvent(event);
 }
 
 
-void TrhythmPane::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
+void TrhythmPane::hoverLeaveEvent(QGraphicsSceneHoverEvent*) {
   m_hideTimer->start(1000);
-// TscoreItem::hoverLeaveEvent(event);
 }
 
 
