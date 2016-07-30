@@ -88,13 +88,13 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 
   /** Until Qt 5.2 version translations where inside qt_xx.ts files
    * and all shipped with Qt for all supported languages.
-   * But since Qt 5.3 they are split into several files and Nootka requires just qtbase_xx.ts.
-   * qtbase_pl.ts and qtbase_fr.ts are missing so far but they was obtained and shipped with Nootka. */
+   * But since Qt 5.3 they are split into several files and Nootka requires just qtbase_xx.qm.
+   * qtbase_pl.qm, qtbase_es.qm and qtbase_fr.qm are missing so far but they was obtained and shipped with Nootka. */
   QString qtlang = QStringLiteral("qtbase_");
 #if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
   qtlang = QStringLiteral("qt_");
 #else
-  if ( loc.country() == QLocale::Poland || loc.country() == QLocale::France) // So far, there are missing
+  if (loc.language() == QLocale::Polish || loc.language() == QLocale::French || loc.language() == QLocale::Spanish) // So far, there are missing
     translationsPath = Tpath::lang(); // TODO Check when those qtbase translations will be shipped with Qt
 #endif
   if (qt.load(loc, qtlang, QString(), translationsPath))
