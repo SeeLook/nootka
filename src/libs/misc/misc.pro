@@ -44,10 +44,12 @@ lang.files += lang/nootka_cs.qm
 lang.files += lang/nootka_de.qm
 lang.files += lang/nootka_fr.qm
 lang.files += lang/nootka_ru.qm
+lang.files += lang/nootka_es.qm
 lang.files += lang/qtbase_cs.qm
 lang.files += lang/qtbase_de.qm
 lang.files += lang/qtbase_fr.qm
 lang.files += lang/qtbase_ru.qm
+lang.files += lang/qtbase_es.qm
 
 lang.depends += FORCE
 
