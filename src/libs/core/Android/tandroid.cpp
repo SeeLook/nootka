@@ -116,7 +116,14 @@ void Tandroid::sendExam(const QString& title, const QString &message, const QStr
 
 
 QString Tandroid::accountName() {
-  return "fake";
+//  QAndroidJniObject::callStaticMethod<void>(
+//        "net/sf/nootka/Tusers", "getUserName",
+//        "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+//        jTitle.object<jstring>(), jMessage.object<jstring>(), jFile.object<jstring>());
+
+  QAndroidJniObject juser = QtAndroid::androidActivity().callObjectMethod("getUser", "()Ljava/lang/String;");
+  return juser.toString();
+//  return "fake";
 //  return QAndroidJniObject::callStaticObjectMethod<jstring>
 //              ("net/sf/nootka/account",
 //               "getName").toString();

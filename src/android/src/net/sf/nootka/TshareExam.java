@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                  				         *
- *   seelook@gmail.com        						                                 *
+ *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -28,11 +28,12 @@ import android.net.Uri;
 public class TshareExam 
 {
 
-    /** @fn send(String title, String message, String filePath)
+    /** 
+      * @fn send(String title, String message, String filePath)
       * Displays chooser dialog to send/share exam file
       * @p title - is head text of that dialog
       * @p message - is message content when send by email was chosen.
-    */
+     */
   public static void send(String title, String message, String filePath) {
     if (QtNative.activity() == null)
         return;
