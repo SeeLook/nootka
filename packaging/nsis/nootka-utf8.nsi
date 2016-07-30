@@ -54,6 +54,7 @@ SetCompressor lzma
 !insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Russian"
+!insertmacro MUI_LANGUAGE "Spanish"
 
 
 ; Reserve files
@@ -69,19 +70,21 @@ InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
 
-LangString NelDesc ${LANG_ENGLISH} "Nootka exam level"
+LangString NelDesc ${LANG_ENGLISH} "Nootka level file"
 LangString NelDesc ${LANG_CZECH} "Úroveň zkoušky programu Nootka"
 LangString NelDesc ${LANG_GERMAN} "Nootka-Level Datei"
 LangString NelDesc ${LANG_FRENCH} "Fichier de niveau Nootka"
 LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
 LangString NelDesc ${LANG_RUSSIAN} "Файл Нутки с уровнем"
+LangString NelDesc ${LANG_SPANISH} "Fichero de nivel de Nootka"
 
-LangString NootkaAct ${LANG_ENGLISH} "Open with nootka"
+LangString NootkaAct ${LANG_ENGLISH} "Open with Nootka"
 LangString NootkaAct ${LANG_CZECH} "Otevřít v Nootka"
 LangString NootkaAct ${LANG_GERMAN} "Mit Nootka öffnen"
 LangString NootkaAct ${LANG_FRENCH} "Ouvrir avec Nootka"
 LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
-LangString NootkaAct ${LANG_RUSSIAN} "Открыть"
+LangString NootkaAct ${LANG_RUSSIAN} "Открыть в Нутке"
+LangString NootkaAct ${LANG_SPANISH} "Abrir con Nootka"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
 LangString NooDesc ${LANG_CZECH} "Zkušební soubor programu Nootka"
@@ -89,6 +92,7 @@ LangString NooDesc ${LANG_GERMAN} "Nootka-Prüfungs Datei"
 LangString NooDesc ${LANG_FRENCH} "Fichier d'examen Nootka"
 LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
 LangString NooDesc ${LANG_RUSSIAN} "Файл Нутки с экзаменом"
+LangString NooDesc ${LANG_SPANISH} "Fichero de examen de Nootka"
 
 Section -AssociateMime
 ;FILE ASSOCIATION
@@ -195,6 +199,7 @@ Section "GrupaGlowna" SEC01
 		File "picts\help.png"
 		File "picts\help-frame.png"
 		File "picts\flags-ru.png"
+		File "picts\flags-es.png"
 		File "picts\appearance.png"
 		File "picts\author.png"
 		File "picts\melody-play.png"
@@ -243,11 +248,13 @@ Section "GrupaGlowna" SEC01
 		File "lang\nootka_fr.qm"
 		File "lang\nootka_de.qm"
 		File "lang\nootka_ru.qm"
+		File "lang\nootka_es.qm"
 		File "lang\qtbase_de.qm"
 		File "lang\qtbase_cs.qm"
 		File "lang\qtbase_fr.qm"
 		File "lang\qtbase_pl.qm"
 		File "lang\qtbase_ru.qm"
+		File "lang\qtbase_es.qm"
   SetOutPath "$INSTDIR\fonts"
 		File "fonts\README"
 		File "fonts\nootka.ttf"
@@ -283,6 +290,7 @@ SectionEnd
    LangString UninstallMess ${LANG_FRENCH} "Voulez-vous vraiment supprimer Nootka et tous ses composants?"
    LangString UninstallMess ${LANG_POLISH} "Czy rzeczywiście chcesz usunąć Nootkę i jej składniki?"
    LangString UninstallMess ${LANG_RUSSIAN} "Вы действительно хотите удалить Нутку и все компоненты программы?"
+   LangString UninstallMess ${LANG_SPANISH} "¿Quiere realmente desinstalar Nootka y todos sus componentes?"
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE
@@ -333,6 +341,7 @@ Section Uninstall
   Delete "$INSTDIR\picts\help.png"
   Delete "$INSTDIR\picts\help-frame.png"
   Delete "$INSTDIR\picts\flags-ru.png"
+  Delete "$INSTDIR\picts\flags-es.png"
   Delete "$INSTDIR\picts\appearance.png"
   Delete "$INSTDIR\picts\author.png"
   Delete "$INSTDIR\picts\melody-play.png"
@@ -382,11 +391,13 @@ Section Uninstall
   Delete "$INSTDIR\lang\qtbase_fr.qm"
   Delete "$INSTDIR\lang\qtbase_pl.qm"
   Delete "$INSTDIR\lang\qtbase_ru.qm"
+  Delete "$INSTDIR\lang\qtbase_es.qm"
   Delete "$INSTDIR\lang\nootka_pl.qm"
   Delete "$INSTDIR\lang\nootka_cs.qm"
   Delete "$INSTDIR\lang\nootka_fr.qm"
   Delete "$INSTDIR\lang\nootka_de.qm"
   Delete "$INSTDIR\lang\nootka_ru.qm"
+  Delete "$INSTDIR\lang\nootka_es.qm"
   Delete "$INSTDIR\libNootkaMisc.dll"
   Delete "$INSTDIR\libvorbis.dll"
   Delete "$INSTDIR\libogg.dll"
