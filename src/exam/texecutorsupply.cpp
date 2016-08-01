@@ -498,18 +498,18 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
   Tnote tmpNote = note;
   TkeySignature key; // C-major by default
   if (m_level->isSingleKey) { //for single key
-    key = m_level->loKey;
+      key = m_level->loKey;
       if (m_level->onlyCurrKey) {
-          tmpNote = m_level->loKey.inKey(note);
-          if (!tmpNote.isValid())
-            qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
-                  "It should never happened!";
+        if (!m_level->canBeMelody()) {
+            tmpNote = m_level->loKey.inKey(note);
+            if (!tmpNote.isValid())
+              qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
+                    "It should never happened!";
+        }
       }
   } else { // for many key signatures
       if (m_randKey)
-        key = TkeySignature(m_randKey->get());
-      else 
-        qDebug() << "NO m_randKey WAS CREATED! DO YOU LIKE CRASHES SO MUCH?"; // TODO clear it when OK
+          key = TkeySignature(m_randKey->get());
       if (m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
           int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
           int patience = 0; // we are looking for suitable key
@@ -530,7 +530,8 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
       }
   }
   note = tmpNote;
-return key;
+  key.setMinor(bool(qrand() % 2));
+  return key;
 }
 
 

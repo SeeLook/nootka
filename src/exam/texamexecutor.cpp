@@ -420,8 +420,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (!curQ->melody()) {
       if (m_level.useKeySign) {
           if (m_level.manualKey) { // user have to manually select a key
-              if (m_penalty->isNot()) // if black question key mode is defined
-                  curQ->key.setMinor(bool(qrand() % 2));
+//               if (m_penalty->isNot()) // if black question key mode is defined
+//                   curQ->key.setMinor(bool(qrand() % 2));
               mW->score->prepareKeyToAnswer(// we randomize some key to cover this expected one
                   (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value(), curQ->key.getName());
               m_answRequire.key = true;
