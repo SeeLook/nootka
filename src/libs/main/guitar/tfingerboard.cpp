@@ -544,8 +544,8 @@ int TfingerBoard::fretPositionX(int fretNr) {
 //################################################################################################
 
 void TfingerBoard::setTune() {
-	for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++) {
-		if (Tcore::gl()->Gtune()->str(i + 1.5).chromatic() > 14) { // highest than cis1
+  for (quint8 i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++) {
+    if (Tcore::gl()->Gtune()->str(i + 1).chromatic() > 14) { // highest than cis1
 			m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
 			m_widthFromPitch[i] = 2; // and thinner
 		} else if (Tcore::gl()->Gtune()->str(i + 1).chromatic() > 10) { // highest than gis
