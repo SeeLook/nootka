@@ -45,11 +45,16 @@ QString getHeader(const QString& text) {
 
 
 QString transRow (const char* flag, const QString& lang, const QString& name, const QString& mailAndSite) {
-  return QString("<tr valign=\"middle\" align=\"center\"><td>&nbsp;&nbsp;<img src=\"%1\">&nbsp;&nbsp;</td><td>&nbsp; %2 &nbsp;&nbsp;&nbsp;</td><td> <b>&nbsp; %3 &nbsp;</b> </td><td>&nbsp;&nbsp; %4 </td></tr>").
-      arg(Tpath::main + QLatin1String("picts/flags-") + QString(flag) + QLatin1String(".png")).
-      arg(lang).
-      arg(name).
-      arg(mailAndSite);
+  return QString("<tr valign=\"middle\" align=\"center\">"
+                 "<td>&nbsp;&nbsp;<img src=\"%1\">&nbsp;&nbsp;</td>"
+                 "<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; %2 &nbsp;&nbsp;&nbsp;</td>"
+                 "<td> <b>&nbsp; %3 &nbsp;</b> </td>"
+                 "<td>&nbsp;&nbsp; %4 </td></tr>"
+                 /*"<tr><td colspan=\"4\"><hr></td><tr/>"*/)
+      .arg(Tcore::gl()->path + QLatin1String("picts/flags-") + QString(flag) + QLatin1String(".png"))
+      .arg(lang)
+      .arg(name)
+      .arg(mailAndSite);
 }
 
 //#################################################################################################
@@ -112,18 +117,22 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   authorStr += getHeader(tr("Audio"));
   authorStr += tr("editing and/or recording of samples:") + QLatin1String("<br><b>Sergei Ivanov (tico-tico)</b><br>");
 // TRANSLATORS
-  QString translStr = getHeader(tr("Translators"));
-  translStr += QLatin1String("<table valign=\"middle\" align=\"center\">");
+    QString translStr = getHeader(tr("Translators"));
+    translStr += QStringLiteral("<table valign=\"middle\" align=\"center\" cellpadding=\"5\">");
 // Czech
   translStr += transRow("cs", QStringLiteral("český"), QStringLiteral("Pavel Fric"),
                         QStringLiteral("<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"));
 // German
-  translStr += transRow("de", QStringLiteral("deutsch"), "Johann C. Weihe", QString());
+  translStr += transRow("de", QStringLiteral("deutsch"), QStringLiteral("Johann C. Weihe"), QString());
 // English
   translStr += transRow("en", QStringLiteral("english"), QStringLiteral("Luster"),
                         QStringLiteral("<a href=\"http://linuxmusicians.com\">http://linuxmusicians.com</a>"));
+// Spanish
+  translStr += transRow("es", QStringLiteral("español"), QStringLiteral("José Luis Marín"),
+                          QStringLiteral("<a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>"));
 // French
-  translStr += transRow("fr", QStringLiteral("français"), QStringLiteral("Olivier Devineau,<br>&nbsp;&nbsp;Jean-Marc Lartigue"), QString());
+  translStr += transRow("fr", QStringLiteral("français"), QStringLiteral("Olivier Devineau,<br>&nbsp;&nbsp;Jean-Marc Lartigue"),
+                        QString());
 // Polish
   translStr += transRow("pl", QStringLiteral("polski"), QStringLiteral("Tomasz Bojczuk"),
                         QStringLiteral("<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"));

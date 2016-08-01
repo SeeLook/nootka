@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,13 +39,14 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   langLay->addWidget(m_langCombo);
   langLay->addStretch(1);
   m_langCombo->setStatusTip(tr("Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>"));
-  m_langList[""] = tr("default");
-  m_langList["cs"] = QString::fromUtf8("český");
-  m_langList["de"] = "deutsch";
-  m_langList["en"] = "english";
-  m_langList["fr"] = QString::fromUtf8("français");
-  m_langList["pl"] = "polski";
-  m_langList["ru"] = QString::fromUtf8("русский");
+  m_langList[QString()] = tr("default");
+  m_langList[QStringLiteral("cs")] = QString::fromUtf8("český");
+  m_langList[QStringLiteral("de")] = QStringLiteral("deutsch");
+  m_langList[QStringLiteral("en")] = QStringLiteral("english");
+  m_langList[QStringLiteral("es")] = QString::fromUtf8("español");
+  m_langList[QStringLiteral("fr")] = QString::fromUtf8("français");
+  m_langList[QStringLiteral("pl")] = QStringLiteral("polski");
+  m_langList[QStringLiteral("ru")] = QString::fromUtf8("русский");
   QMapIterator<QString, QString> i(m_langList);
   int id = 0;
   while (i.hasNext()) {
