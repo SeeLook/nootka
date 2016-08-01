@@ -498,15 +498,15 @@ QRectF TfingerBoard::fingerRect() const {
 //################################################################################################
 
 void TfingerBoard::setTune() {
-	for (int i = 0; i < gl->Gtune()->stringNr(); i++) {
-		if (gl->Gtune()->str(i + 1.5).chromatic() > 14) { // highest than cis1
-			m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
+	for (quint8 i = 0; i < gl->Gtune()->stringNr(); i++) {
+		if (gl->Gtune()->str(i + 1).chromatic() > 14) { // highest than cis1
+			m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
 			m_widthFromPitch[i] = 2; // and thiner
 		} else if (gl->Gtune()->str(i + 1).chromatic() > 10) { // highest than gis
-				m_strColors[i] = QColor(255, 255, 255, 175); // are nylon
+				m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
 				m_widthFromPitch[i] = 2.5; // and more thick
 		} else if (gl->Gtune()->str(i + 1).chromatic() > 4) { // highest than dis
-				m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
+				m_strColors[i] = QColor(255, 255, 255, 150); // are nylon
 				m_widthFromPitch[i] = 3; // and more thick
 		} else if (gl->Gtune()->str(i + 1).chromatic() > 0) { // highest than b-1(contra)
 				m_strColors[i] = QColor("#C29432"); // are gold-plated
