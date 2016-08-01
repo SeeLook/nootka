@@ -23,15 +23,38 @@
 
 #include "tcommonlistener.h"
 #include <QtMultimedia/qaudiodeviceinfo.h>
+#include <QtCore/qmutex.h>
+#include <QtCore/qtimer.h>
 
 
 class QAudioInput;
 class QIODevice;
 class TaudioParams;
+class QTimer;
+
+
+class TtouchHandler : public QObject
+{
+  Q_OBJECT
+public:
+  TtouchHandler(TcommonListener* sniffer);
+
+  void skip() { m_touchTimer->stop(); }
+
+protected:
+  virtual bool eventFilter(QObject* obj, QEvent* event);
+  void touchTimerSlot();
+
+private:
+  bool                  m_touched = false;
+  QTimer               *m_touchTimer;
+  TcommonListener      *m_sniffer;
+};
+
 
 
 /**
- * Audio input class for Nootka based on Qt audio (Qt multimedia)
+ * Audio input class for Nootka, based on Qt audio (Qt multimedia)
  */
 class NOOTKASOUND_EXPORT TaudioIN : public TcommonListener
 {
@@ -72,6 +95,8 @@ private:
   QIODevice             *m_inDevice;
   qint16                *m_buffer;
   QThread               *m_thread;
+  QMutex                 m_mutex;
+  TtouchHandler         *m_touchHandler;
 };
 
 #endif // TAUDIOIN_H
