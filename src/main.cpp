@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
     if (QFile::exists(logFile))
       QFile::remove(logFile);
   }
-//  qInstallMessageHandler(myMessageOutput);
-//  qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
+  qInstallMessageHandler(myMessageOutput);
+  qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
 
 	QTranslator qtTranslator;
