@@ -22,7 +22,12 @@
 #include <QtMultimedia/qaudioinput.h>
 #include <QtCore/qiodevice.h>
 #include <QtCore/qthread.h>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qevent.h>
 #include <QtCore/qdebug.h>
+
+
+#define TOUCH_PAUSE (1000)
 
 
 /*static */
@@ -55,6 +60,8 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   finder()->setCopyInThread(false);
 //   finder()->setNrChunksToReset(500); // Less memory usage
 
+  m_touchHandler = new TtouchHandler(this);
+
   createInputDevice();
 
   moveToThread(m_thread);
@@ -65,6 +72,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
 
 TaudioIN::~TaudioIN() {
   stopListening();
+  delete m_touchHandler;
   m_audioIN->stop();
   finder()->blockSignals(true);
   if (m_thread->isRunning()) { // In fact, it never goes here
@@ -90,7 +98,10 @@ void TaudioIN::updateAudioParams() {
 
 
 void TaudioIN::startListening() {
+  m_touchHandler->skip();
   if (!stoppedByUser() && detectingState() != e_detecting) {
+    if (!m_mutex.tryLock())
+      qDebug() << "[AUDIO-IN] Something blocking START. Waiting...";
     m_thread->start();
     setState(e_detecting);
   }
@@ -98,6 +109,9 @@ void TaudioIN::startListening() {
 
 
 void TaudioIN::stopListening() {
+  m_touchHandler->skip();
+  if (!m_mutex.tryLock())
+    qDebug() << "[AUDIO-IN] Something blocking STOP. Waiting...";
   m_thread->quit();
   setState(e_stopped);
 }
@@ -152,6 +166,7 @@ void TaudioIN::startThread() {
     connect(m_inDevice, &QIODevice::readyRead, this, &TaudioIN::dataReady);
     //       qDebug() << "started with buffer" << m_audioIN->bufferSize();
   }
+  m_mutex.unlock();
 }
 
 
@@ -164,6 +179,7 @@ void TaudioIN::stopThread() {
   resetVolume();
   resetChunkPitch();
   finder()->resetFinder();
+  m_mutex.unlock();
 }
 
 
@@ -179,6 +195,48 @@ void TaudioIN::dataReady() {
 }
 
 
+//#################################################################################################
+//###################        class TtouchHandler       ############################################
+//#################################################################################################
 
+TtouchHandler::TtouchHandler(TcommonListener* sniffer) :
+  m_sniffer(sniffer)
+{
+  m_touchTimer = new QTimer(this);
+  connect(m_touchTimer, &QTimer::timeout, this, &TtouchHandler::touchTimerSlot);
+//  qApp->installEventFilter(this);
+}
+
+
+bool TtouchHandler::eventFilter(QObject* obj, QEvent* event) {
+  if (event->type() == QEvent::TouchBegin) {
+    if (!m_touched) {
+      m_touched = true;
+      if (m_sniffer->detectingState() == TaudioIN::e_detecting) {
+        m_sniffer->stopListening();
+        m_touchTimer->start(TOUCH_PAUSE);
+      }
+    }
+  } else if (event->type() == QEvent::TouchEnd) {
+    if (m_touched) {
+      m_touched = false;
+      if (m_touchTimer->isActive()) {
+        m_touchTimer->stop();
+        m_touchTimer->start(TOUCH_PAUSE);
+      }
+    }
+  }
+  return QObject::eventFilter(obj, event);
+}
+
+
+
+void TtouchHandler::touchTimerSlot() {
+  m_touchTimer->stop();
+  if (!m_touched)
+    m_sniffer->startListening();
+  else
+    m_touchTimer->start(TOUCH_PAUSE);
+}
 
 
