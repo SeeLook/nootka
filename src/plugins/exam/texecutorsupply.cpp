@@ -541,6 +541,7 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
       }
   }
   note = tmpNote;
+  key.setMinor(bool(qrand() % 2));
   return key;
 }
 
