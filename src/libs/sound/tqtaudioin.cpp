@@ -100,9 +100,11 @@ void TaudioIN::updateAudioParams() {
 void TaudioIN::startListening() {
   m_touchHandler->skip();
   if (!stoppedByUser() && detectingState() != e_detecting) {
-    if (!m_mutex.tryLock())
-      qDebug() << "[AUDIO-IN] Something blocking START. Waiting...";
-    m_thread->start();
+    if (!m_thread->isRunning()) {
+      if (!m_mutex.tryLock())
+        qDebug() << "[AUDIO-IN] Something blocking START. Waiting...";
+      m_thread->start();
+    }
     setState(e_detecting);
   }
 }
@@ -110,10 +112,13 @@ void TaudioIN::startListening() {
 
 void TaudioIN::stopListening() {
   m_touchHandler->skip();
-  if (!m_mutex.tryLock())
-    qDebug() << "[AUDIO-IN] Something blocking STOP. Waiting...";
-  m_thread->quit();
-  setState(e_stopped);
+//  qDebug() << "Stopping, thread was running" << m_thread->isRunning() << detectingState();
+  if (m_thread->isRunning()) {
+    if (!m_mutex.tryLock())
+      qDebug() << "[AUDIO-IN] Something blocking STOP. Waiting...";
+    m_thread->quit();
+    setState(e_stopped);
+  }
 }
 
 //#################################################################################################
@@ -164,7 +169,7 @@ void TaudioIN::startThread() {
   if (m_inDevice) {
     m_buffer = new qint16[m_audioIN->bufferSize()];
     connect(m_inDevice, &QIODevice::readyRead, this, &TaudioIN::dataReady);
-    //       qDebug() << "started with buffer" << m_audioIN->bufferSize();
+//    qDebug() << "started with buffer" << m_audioIN->bufferSize();
   }
   m_mutex.unlock();
 }
@@ -185,7 +190,6 @@ void TaudioIN::stopThread() {
 
 void TaudioIN::dataReady() {
   int bytesReady = m_audioIN->bytesReady();
-//   qDebug() << "latency" << latencyGap.elapsed() << bytesReady << m_audioIN->error();
   while (bytesReady > 0) {
     int dataToRead = m_inDevice->read((char*)m_buffer, m_audioIN->bufferSize()) / 2;
     for (int i = 0; i < dataToRead; i++)
