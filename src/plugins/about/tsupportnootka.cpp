@@ -77,13 +77,16 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
         + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
         + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
+#if defined (Q_OS_ANDROID)
+  supp += coloredLi("#C90000", "Rate this app") + QLatin1String("Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, rate it nicely and put a comment in your native language.") + br + endLi;
+#else
   supp += QLatin1String("<li><big><b style=\"color: #C000C0;\">Vote on Nootka</b></big><br>There are a lot of services. For example:<br>"
                         "<a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, "
-                        "<a href=\"http://kde-apps.org/content/show.php/Nootka?content=143598\">Kde-Apps</a>, "
-                        "<a href=\"http://qt-apps.org/content/show.php/Nootka?content=148705\">Qt-Apps</a>, "
+                        "<a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, "
                         "<a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br>"
                         "or add <b>like</b> or/and <b>g+</b> on <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
-  supp += coloredLi("#E57300", "Test Android version") + QLatin1String("Using <a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a> or <a href=\"mailto:seelook.gmail.com\">email</a> send your phone/tablet model to inform that it works (or not)") + br + endLi;
+#endif
+  supp += coloredLi("#E57300", "Update German translation") + QLatin1String("It seems to abandoned, so continue translating, please.") + br + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #FF0000;\">Report an issue</b></big><br>If you find any issue or a bug than request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a><br></li>");
   supp += QLatin1String("<li><big><b>Express your opinion</b></big><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>");
   supp += QLatin1String("</ul><p>&nbsp;&nbsp;Thanks in advance<br>&nbsp;&nbsp;Author</p><br>");

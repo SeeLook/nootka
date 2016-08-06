@@ -55,7 +55,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 {
 #if !defined (Q_OS_ANDROID)
 	if (m_mode == e_settings)
-    setWindowTitle(QLatin1String("Nootka) - " + tr("application's settings"));
+    setWindowTitle(QLatin1String("Nootka - ") + tr("application's settings"));
 	else if (m_mode == e_exam)
 		setWindowTitle(tr("Simple exam settings"));
 	else
