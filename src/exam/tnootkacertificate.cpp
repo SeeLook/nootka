@@ -50,7 +50,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
 {
 		setFlag(ItemHasNoContents);
 		m_view->scene()->addItem(this);
-		setZValue(100);
+		setZValue(105); // higher than result tips
     m_cert = new QGraphicsRectItem;
       m_cert->setParentItem(this);
       m_cert->setPen(Qt::NoPen);
