@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,32 +20,41 @@
 #define TAUDIOBUFFER_H
 
 
-#include <QIODevice>
+#include <QtCore/qiodevice.h>
 
 
 /**
- * The TaudioBuffer class is proxy between physical mobile sound device
- * and Nootka @p TaudioOUT class.
- * It catch readData() method and emits @p feedAudio signal from there,
- * then audio data is send to the physical device.
+ * The @p TaudioBuffer class is proxy between physical mobile sound device
+ * and Nootka @p TaudioOUT and @p TaudioIN classes.
+ * It catch @p readData() method and emits @p feedAudio signal from there (output)
+ * or @p writeData() and emits @p readAudio (input)
+ * then audio data is send to/from the physical device.
+ *
+ * Both re-implemented methods of @p QIODevice are performed in device thread, so
+ * when those signals are connected with @p Qt::DirectConnection
+ * also the slots will be done in that thread.
  */
 class TaudioBuffer : public QIODevice
 {
 
   Q_OBJECT
-  
+
 public:
   TaudioBuffer(QObject* parent = 0) : QIODevice(parent), m_bufferSize(2048) {}
 
-      /** In fact, there is no any buffer!
+      /**
+       * In fact, there is no any buffer!
        * That value controls size of data to get by @p feedAudio()
-       * instead of @maxlen value sending in @p readData(data, maxlen) */
+       * instead of @p maxlen value sending in @p readData(data, maxlen)
+       * or @p len value from @p writeData(data, len)
+       */
   void setBufferSize(qint64 s) { m_bufferSize = s; }
   qint64 bufferSize() const { return m_bufferSize; }
-  
+
 signals:
   void feedAudio(char*, qint64, qint64&);
-  
+  void readAudio(const char*, qint64&);
+
 protected:
 
   virtual qint64 readData(char *data, qint64 maxlen) {
@@ -56,11 +65,16 @@ protected:
   }
 
 
-  virtual qint64 writeData(const char *data, qint64 len) { return 0; }  /** Dummy - does nothing */
+  virtual qint64 writeData(const char *data, qint64 len) {
+    Q_UNUSED(len)
+    qint64 dataLenght = m_bufferSize;
+    emit readAudio(data, dataLenght);
+    return dataLenght;
+  }
 
 private:
   qint64          m_bufferSize;
-  
+
 };
 
 #endif // TAUDIOBUFFER_H
