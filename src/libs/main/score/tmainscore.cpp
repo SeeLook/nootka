@@ -46,13 +46,13 @@ TmainScore* TmainScore::m_instance = nullptr;
 
 
 TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
-	TmultiScore(mw, parent),
-	m_questMark(0),
-	m_questKey(0),
-	m_strikeOut(0),
-	m_bliking(0), m_keyBlinking(0),
-	m_corrStyle(Tnote::defaultStyle),
-	m_nameMenu(0),
+  TmultiScore(mw, parent),
+  m_questMark(nullptr),
+  m_questKey(nullptr),
+  m_strikeOut(nullptr),
+  m_bliking(nullptr), m_keyBlinking(nullptr),
+  m_corrStyle(Tnote::defaultStyle),
+  m_nameMenu(nullptr),
   m_scoreIsPlayed(false),
   m_emitExpertNoteClicked(true)
 {
@@ -588,7 +588,7 @@ void TmainScore::correctNote(Tnote& goodNote, const QColor& color, int noteNr) {
 }
 
 
-/** As long as correctAccidental() is used in single mode only 
+/** As long as correctAccidental() is used in single mode only
  * it is sufficient to set m_correctNoteNr = 0 here
  * but number of note will be necessary if melody will want it */
 void TmainScore::correctAccidental(Tnote& goodNote) {
@@ -829,9 +829,10 @@ void TmainScore::playSlot() {
 void TmainScore::strikeBlinkingFinished() {
 	if (m_strikeOut) {
 		m_strikeOut->deleteLater();
-		m_strikeOut = 0;
+		m_strikeOut = nullptr;
 	}
   delete m_bliking;
+  m_bliking = nullptr;
 	if (m_correctNoteNr < 0) {
 		qDebug() << "TmainScore::strikeBlinkingFinished has wrong note number. Fix it!";
 		return;
@@ -861,14 +862,19 @@ void TmainScore::keyBlinkingFinished() {
 			m_keyBlinking->startBlinking(3); // and blink again
 	} else { // finished 2nd time
 			delete m_keyBlinking;
+      m_keyBlinking = nullptr;
+      if (!m_strikeOut && !m_bliking) // no other animations that will emit correctingFinished()
+        QTimer::singleShot(100, this, SLOT(finishCorrection())); // it might be invoked even immediately
 	}
 }
 
 
 void TmainScore::finishCorrection() {
-	noteFromId(m_correctNoteNr)->enableNoteAnim(false);
-	noteFromId(m_correctNoteNr)->markNote(QColor(Tcore::gl()->EanswerColor.lighter().name()));
-	m_correctNoteNr = -1;
+  if (m_correctNoteNr > -1) {
+    noteFromId(m_correctNoteNr)->enableNoteAnim(false);
+    noteFromId(m_correctNoteNr)->markNote(QColor(Tcore::gl()->EanswerColor.lighter().name()));
+    m_correctNoteNr = -1;
+  }
   emit correctingFinished();
 }
 
