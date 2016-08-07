@@ -25,7 +25,7 @@
 #include <graphics/tnotepixmap.h>
 #include <graphics/tdropshadoweffect.h>
 #include <graphics/tgraphicstexttip.h>
-#include <../mobile/tfingerpointer.h>
+#include <tfingerpointer.h>
 #include <QtWidgets/qaction.h>
 #include <QtWidgets/qstyle.h>
 #include <QtWidgets/qgraphicsscene.h>
@@ -103,8 +103,8 @@ TmelodyItem* TmelodyItem::m_instance = 0;
 TmelodyItem::TmelodyItem() :
   QGraphicsObject(0),
   m_touched(false),
-  m_locked(false),
-  m_selectedAction(0)
+  m_selectedAction(0),
+  m_locked(false)
 {
   m_instance = this;
   m_playDot = createDot(1);
@@ -217,6 +217,7 @@ void TmelodyItem::initialAnim() {
     m_touched = false;
     m_locked = false;
     update();
+    emit previewFinished();
   });
   fingerPoint->start();
 }

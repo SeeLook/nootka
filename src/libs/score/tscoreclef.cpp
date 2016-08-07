@@ -156,44 +156,18 @@ void TscoreClef::untouched(const QPointF& scenePos) {
   if (!readOnly() && !scenePos.isNull() && m_textClef->brush().color() == qApp->palette().highlight().color()) {
     m_textClef->setBrush(qApp->palette().text().color());
     m_fakeMouseEvent->setPos(mapFromScene(scenePos));
-    QTimer::singleShot(5, [=]{ mousePressEvent(m_fakeMouseEvent); });
+    QTimer::singleShot(5, [=]{ showMenu(); });
   }
 }
 
 
 void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-  if (m_readOnly) {
+  if (m_readOnly)
     TscoreItem::mousePressEvent(event);
-  } else {
-    if (!m_menu) {
-      m_menu = new QMenu();
-      if (!m_clefMenu) {
-          m_clefMenu = new TclefMenu(m_menu);
-          #if !defined (Q_OS_ANDROID)
-            connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
-          #endif
-      } else
-          m_clefMenu->setMenu(m_menu);
-      Tclef curClef = m_clef;
-      if (staff()->isPianoStaff())
-        curClef = Tclef(Tclef::e_pianoStaff);
-      m_clefMenu->selectClef(curClef);
-      #if defined (Q_OS_ANDROID)
-        Tclef cl = m_clefMenu->exec(QPoint(qApp->desktop()->availableGeometry().width() / 8, 10));
-      #else
-        Tclef cl = m_clefMenu->exec(QCursor::pos());
-      #endif
-      if (cl.type() != Tclef::e_none)
-        m_clef = cl;
-      m_clefMenu->setMenu(0);
-      delete m_menu;
-      if (cl.type() == Tclef::e_none)
-        return;
-      if (curClef.type() != cl.type()) {
-        QTimer::singleShot(5, [=]{ emit clefChanged(m_clef); });
-      }
-    }
-  }
+#if !defined (Q_OS_ANDROID)
+  else // FIXME: but it will not work on Android with mouse
+    showMenu();
+#endif
 }
 
 
@@ -238,6 +212,37 @@ int TscoreClef::getClefPosInList(Tclef clef) {
   return 0;
 }
 
+
+void TscoreClef::showMenu() {
+  if (!m_menu) {
+    m_menu = new QMenu();
+    if (!m_clefMenu) {
+        m_clefMenu = new TclefMenu(m_menu);
+        #if !defined (Q_OS_ANDROID)
+          connect(m_clefMenu, SIGNAL(statusTipRequired(QString)), this, SLOT(clefMenuStatusTip(QString)));
+        #endif
+    } else
+        m_clefMenu->setMenu(m_menu);
+    Tclef curClef = m_clef;
+    if (staff()->isPianoStaff())
+      curClef = Tclef(Tclef::e_pianoStaff);
+    m_clefMenu->selectClef(curClef);
+    #if defined (Q_OS_ANDROID)
+      Tclef cl = m_clefMenu->exec(QPoint(qApp->desktop()->availableGeometry().width() / 8, 10));
+    #else
+      Tclef cl = m_clefMenu->exec(QCursor::pos());
+    #endif
+    if (cl.type() != Tclef::e_none)
+      m_clef = cl;
+    m_clefMenu->setMenu(0);
+    delete m_menu;
+    if (cl.type() == Tclef::e_none)
+      return;
+
+    if (curClef.type() != cl.type())
+      QTimer::singleShot(5, [=]{ emit clefChanged(m_clef); });
+  }
+}
 
 
 

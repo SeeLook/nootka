@@ -424,6 +424,8 @@ void TmainView::mainMenuExec() {
     if (!TOUCHPARAMS->initialAnimAccepted && !(m_name && m_name->isVisible()) && !m_results) {
       // when menu touched first time - display help,
       // but only in full score mode and not during exercise and if user doesn't select any action from menu
+      m_score->setDisabled(true); // disable clef and key signature
+      connect(m_menuItem, &TmelodyItem::previewFinished, [=]{ m_score->setDisabled(false); });
       m_menuItem->initialAnim();
       TOUCHPARAMS->initialAnimAccepted = true;
     }
