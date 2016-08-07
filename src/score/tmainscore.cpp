@@ -805,6 +805,7 @@ void TmainScore::strikeBlinkingFinished() {
 		m_strikeOut = 0;
 	}
   delete m_bliking;
+  m_bliking = 0;
 	if (m_correctNoteNr < 0) {
 		qDebug() << "TmainScore::strikeBlinkingFinished has wrong note number. Fix it!";
 		return;
@@ -833,14 +834,19 @@ void TmainScore::keyBlinkingFinished() {
 			m_keyBlinking->startBlinking(3); // and blink again
 	} else { // finished 2nd time
 			delete m_keyBlinking;
+      m_keyBlinking = 0;
+      if (!m_strikeOut && !m_bliking) // no other animations that will emit correctingFinished()
+        QTimer::singleShot(100, this, SLOT(finishCorrection())); // it might be invoked even immediately
 	}
 }
 
 
 void TmainScore::finishCorrection() {
-	noteFromId(m_correctNoteNr)->enableNoteAnim(false);
-	noteFromId(m_correctNoteNr)->markNote(QColor(Tcore::gl()->EanswerColor.lighter().name()));
-	m_correctNoteNr = -1;
+  if (m_correctNoteNr > -1) {
+    noteFromId(m_correctNoteNr)->enableNoteAnim(false);
+    noteFromId(m_correctNoteNr)->markNote(QColor(Tcore::gl()->EanswerColor.lighter().name()));
+    m_correctNoteNr = -1;
+  }
   emit correctingFinished();
 }
 
