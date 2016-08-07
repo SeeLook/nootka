@@ -96,6 +96,9 @@ signals:
       /** Emitted when item was just touched */
   void touched();
 
+      /** Emitted when user clicked 'Got It' button during preview */
+  void previewFinished();
+
 protected:
   virtual void mousePressEvent(QGraphicsSceneMouseEvent*);
   virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);

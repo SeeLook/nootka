@@ -73,6 +73,7 @@ private:
   int getYclefPos(Tclef clef);
   int getClefPosInList(Tclef clef);
   void getStatusTip(); /**< Generates and refresh status tip depends on readOnly() and isClickable() state. */
+  void showMenu();
 
 private:
   Tclef                              m_clef;
