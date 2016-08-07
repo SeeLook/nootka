@@ -94,6 +94,7 @@ bool TguitarView::checkIsPreview() {
 
 
 bool TguitarView::mapTouchEvent(QTouchEvent* te) {
+  m_guitar->deleteBeyondTip(); // in any case delete 'note beyond guitar scale' tip
 #if defined (Q_OS_ANDROID)
   if (isPreview()) { // PREVIEW MODE
       if (!TtouchParams::i()->guitarWasTouched) { // display hint how to use fret preview

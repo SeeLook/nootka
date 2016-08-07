@@ -134,6 +134,8 @@ protected:
   
   void fakePress(const QPoint& viewPos); /**< Imitates mouse press, available only for friendly classes  */
 
+  void deleteBeyondTip();
+
 private:
   QRect 			m_fbRect; /**< Represents top left positions and size of a fingerboard */
   short 			m_strGap; /**< Distance between strings */
@@ -179,7 +181,6 @@ private:
   void paintQuestMark();
   void resizeRangeBox();
   void paintFingerAtPoint(QPoint p);
-  void deleteBeyondTip();
 
 private slots:
   void strikeBlinkingFinished();

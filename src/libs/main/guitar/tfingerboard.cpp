@@ -136,7 +136,7 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     m_rangeBox2 = 0;
     m_highString = 0;
     m_isDisabled = false;
-		m_beyondTip = 0;
+		m_beyondTip = nullptr;
 		m_fingerPos.setPos(1, 30);
 
 		setTune();
@@ -958,6 +958,12 @@ void TfingerBoard::fakePress(const QPoint& viewPos) {
 }
 
 
+void TfingerBoard::deleteBeyondTip() {
+  delete m_beyondTip;
+  m_beyondTip = nullptr;
+}
+
+
 TfingerPos TfingerBoard::pointToFinger(const QPoint& point) {
   int strNr = 7, fretNr = 99;
   if (point.y() >= m_fbRect.y() && point.y() <= height() /*- m_fbRect.y() - 4*/) {
@@ -1016,12 +1022,6 @@ void TfingerBoard::paintFingerAtPoint(QPoint p) {
       deleteBeyondTip();
   }
 #endif
-}
-
-
-void TfingerBoard::deleteBeyondTip() {
-		delete m_beyondTip;
-		m_beyondTip = 0;
 }
 
 //################################################################################################
