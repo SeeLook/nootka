@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,11 @@
 #ifndef TUPDATECHECKER_H
 #define TUPDATECHECKER_H
 
-#include <QObject>
-#include <QNetworkReply>
+
+#include <QtCore/qobject.h>
+#include <QtNetwork/qnetworkreply.h>
 #include "updatefunctions.h"
+
 
 class QNetworkAccessManager;
 
@@ -52,8 +54,9 @@ signals:
 protected slots:
   void replySlot(QNetworkReply* netReply);
 
-    /** Grabs connection errors if any. */
+      /** Grabs connection errors if any. */
   void errorSlot(QNetworkReply::NetworkError err);
+
 
 private:
   QWidget                   *m_parentWidget;
@@ -63,7 +66,7 @@ private:
   bool                       m_respectRules;
   bool                       m_success;
   TupdateRules               m_updateRules;
-  
+
 };
 
 #endif // TUPDATECHECKER_H

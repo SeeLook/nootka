@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,25 +22,21 @@
 #include <nootkaconfig.h>
 #include <QtWidgets/qmessagebox.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
-#include <QtNetwork/qnetworkreply.h>
-#include <QtWidgets/qapplication.h>
 #include <QtCore/qdebug.h>
-#include <QtCore/qtimer.h>
 
 
 TupdateChecker::TupdateChecker(QObject* parent, QWidget* parentWidget) :
-  QObject(0),
+  QObject(parent),
   m_parentWidget(parentWidget),
-  m_respectRules(false),
   m_reply(0),
+  m_respectRules(false),
   m_success(true)
 {
-  Q_UNUSED(parent)
   getUpdateRules(m_updateRules);
 
-  m_netManager = new QNetworkAccessManager(qApp);
+  m_netManager = new QNetworkAccessManager();
   if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible)
-    connect(m_netManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replySlot(QNetworkReply*)));
+    connect(m_netManager, &QNetworkAccessManager::finished, this, &TupdateChecker::replySlot);
 }
 
 
@@ -50,7 +46,7 @@ void TupdateChecker::check(bool checkRules){
     if (!m_respectRules)
       emit updateMessage(Torders::e_updaterChecking);
     if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-        QNetworkRequest request(QUrl(QString("http://nootka.sldc.pl/ch/version.php?v=%1").arg(QStringLiteral(NOOTKA_VERSION))));
+        QNetworkRequest request(QUrl(QString("http://nootka.sldc.pl/ch/version.php?v=%1").arg(QLatin1String(NOOTKA_VERSION))));
         // This is additional hosting to improve updates system. It is much faster than sf.net
         //         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
   #if defined(Q_OS_WIN32)
@@ -62,8 +58,9 @@ void TupdateChecker::check(bool checkRules){
   #else
           request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
   #endif
+          request.setOriginatingObject(this);
           m_reply = m_netManager->get(request);
-          connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(errorSlot(QNetworkReply::NetworkError)));
+          connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(errorSlot(QNetworkReply::NetworkError)));
     } else
         emit updateMessage(Torders::e_updaterNoNeed);
   } else
@@ -73,8 +70,17 @@ void TupdateChecker::check(bool checkRules){
 
 TupdateChecker::~TupdateChecker()
 {
+  if (m_reply) {
+    qDebug() << "Update checking doesn't finish, trying to abort...";
+    disconnect(m_netManager, &QNetworkAccessManager::finished, this, &TupdateChecker::replySlot);
+    disconnect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(errorSlot(QNetworkReply::NetworkError)));
+    m_reply->abort();
+    m_reply->close();
+    m_reply->deleteLater();
+  }
   delete m_netManager;
 }
+
 
 void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
   if (!m_respectRules)
@@ -110,6 +116,7 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
   netReply->abort();
   netReply->close();
   netReply->deleteLater();
+  m_reply = 0;
 }
 
 
