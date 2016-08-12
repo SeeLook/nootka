@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -159,39 +159,10 @@ protected:
 #endif
 
 private:
-	static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-    if (m_cbOut) {
-      if (m_cbOut(outBuffer, nBufferFrames, status))
-        if (m_cbIn)
-          m_cbIn(inBuffer, nBufferFrames, status);
-    } else
-        if (m_cbIn)
-          m_cbIn(inBuffer, nBufferFrames, status);
-    return 0;
-  }
-
-	static int passInputCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-    qint16 *in = (qint16*)inBuffer;
-    qint16 *out = (qint16*)outBuffer;
-    if (m_cbOut(outBuffer, nBufferFrames, status)) // none playing is performed
-        for (int i = 0; i < nBufferFrames; i++) { // then forward input
-            *out++ = *(in + i); // left channel
-            *out++ = *(in + i); // right channel
-        }
-    m_cbIn(inBuffer, nBufferFrames, status);
-    return 0;
-  }
-
-  static int playCallBack(void *outBuffer, void*, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-    if (m_cbOut(outBuffer, nBufferFrames, status))
-      ao()->emitPlayingFinished();
-    return 0;
-  }
-
-  static int listenCallBack(void*, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-    m_cbIn(inBuffer, nBufferFrames, status);
-    return 0;
-  }
+	static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
+	static int passInputCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
+  static int playCallBack(void *outBuffer, void*, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
+  static int listenCallBack(void*, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
 	
 private:
 	TaudioParams													*m_audioParams;

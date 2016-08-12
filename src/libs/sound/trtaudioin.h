@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -129,19 +129,7 @@ public slots:
 	void stopListening();
   
 protected:
-	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st) {
-    if (m_goingDelete || instance()->isStoped())
-      return true;
-    if (st)
-      qDebug() << "input buffer underflow";
-    qint16 *in = (qint16*)inBuff;
-    qint16 value;
-    for (int i = 0; i < nBufferFrames; i++) {
-          value = *(in + i);
-          instance()->m_pitch->fillBuffer(float(double(value) / 32760.0f));
-    }
-    return false;
-	}
+	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st);
   
 
 private slots:
