@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,21 +24,23 @@
 #include "tartini/mytransforms.h"
 #include <QtWidgets/QApplication>
 #include <QThread>
+
 #include <QDebug>
 
+
+#define BUFF_SIZE (16384)
 
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
   m_thread(new QThread),
-  m_chunkNum(0),
-  m_channel(0),
   m_filteredChunk(0), m_prevChunk(0),
-  m_buffer_1(0), m_buffer_2(0),
-  m_posInBuffer(0),
-  m_minVolume(0.4),
-  m_prevNoteIndex(-1),
-  m_minDuration(0.09),
+  m_floatBuffer(0),
   m_doReset(false), m_isOffline(false),
+  m_channel(0),
+  m_chunkNum(0),
+  m_prevNoteIndex(-1),
+  m_minVolume(0.4),
+  m_minDuration(0.15),
   m_rateRatio(1.0),
   m_volume(0),
   m_state(e_silence), m_prevState(e_silence),
@@ -71,6 +73,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 	m_aGl->ampThresholds[NOTE_SCORE][0]              =  0.03; m_aGl->ampThresholds[NOTE_SCORE][1]              =  0.20;
 	m_aGl->ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; m_aGl->ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
 	
+  m_framesReady = 0;
 	m_averVolume = 0.0;
   m_currentNote.init(0, 0, 0);
 	setSampleRate(m_aGl->rate);
@@ -78,29 +81,34 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_transforms = new MyTransforms();
   m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
 	moveToThread(m_thread);
-	connect(m_thread, &QThread::started, this, &TpitchFinder::startPitchDetection);
-	connect(m_thread, &QThread::finished, this, &TpitchFinder::processed);
-	
-	m_isBussy = false;
+	connect(m_thread, &QThread::started, this, &TpitchFinder::detectingThread);
+	connect(m_thread, &QThread::finished, this, &TpitchFinder::threadFinished);
+
+  m_tokenBuffer = new qint16[BUFF_SIZE]; // big enough for any circumstances
+  m_writePos = 0;
+  m_readPos = 0;
+  m_doProcess = true;
+  m_thread->start(QThread::HighestPriority);
 }
 
 
 TpitchFinder::~TpitchFinder()
 {
-	if (m_thread->isRunning()) {
-			m_thread->terminate();
-			m_thread->quit();  
-	}
+  qDebug() << "[TpitchFinder] deleting....";
+  m_doProcess = false;
+  m_mutex.lock();
+  m_mutex.unlock();
 	if (m_filteredChunk)
 			delete m_filteredChunk;
 	delete m_prevChunk;
-	delete m_buffer_1;
-	delete m_buffer_2;
+	delete m_floatBuffer;
   delete m_transforms;
 	if (m_channel)
 		delete m_channel;
 	delete m_aGl;
-	m_thread->deleteLater();
+  delete m_thread;
+  delete m_tokenBuffer;
+  qDebug() << "[TpitchFinder] deleted";
 }
 
 //##########################################################################################################
@@ -114,7 +122,11 @@ void TpitchFinder::setOffLine(bool off) {
 
 
 void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
-	m_mutex.lock();
+  if (m_framesReady > 0) {
+    qDebug() << "[TpitchFinder] Detection in progress. Don't call setSampleRate now!!!";
+    return;
+  }
+
 	int oldRate = m_aGl->rate, oldFramesPerChunk = m_aGl->framesPerChunk;
 	m_aGl->rate = sRate;
 	switch (range) {
@@ -138,64 +150,121 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 		delete m_prevChunk;
 		delete m_filteredChunk;
     m_filteredChunk = 0;
-		delete m_buffer_1;
-		delete m_buffer_2;
+		delete m_floatBuffer;
 		if (aGl()->equalLoudness)
 			m_filteredChunk = new float[aGl()->framesPerChunk];
 		m_prevChunk = new float[aGl()->framesPerChunk];
-		m_buffer_1 = new float[aGl()->framesPerChunk];
-		m_buffer_2 = new float[aGl()->framesPerChunk];
-		m_currentBuff = m_buffer_1;
+		m_floatBuffer = new float[aGl()->framesPerChunk];
 		doReset = true;
     m_chunkTime = (qreal)aGl()->framesPerChunk / (qreal)aGl()->rate;
     setMinimalDuration(m_minDuration); // recalculate minimum chunks number
-// 		qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
-//              << "min chunks" << m_minChunks << "chunk time" << m_chunkTime;
+		qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
+             << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << m_framesReady;
 	}
-	m_mutex.unlock();
 	if (doReset)
 		resetFinder();
 }
 
 
-void TpitchFinder::resetFinder() {
-	if (!m_mutex.tryLock()) {
-// 		qDebug() << "Pitch detection in progress, have to wait for reset...";
-		m_mutex.lock();
-	}
-  m_doReset = false;
-  if (m_channel) {
-      delete m_channel;
-      m_chunkNum = 0;
-      m_averVolume = 0.0;
-      m_transforms->uninit();
-      m_channel = new Channel(this, aGl()->windowSize);
-      m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
-//       qDebug() << "reset channel";
+void TpitchFinder::stop(bool resetAfter) {
+  m_framesReady = 0;
+  qDebug() << "[TpitchFinder] Stopping detection process";
+  m_doReset = resetAfter;
+}
+
+
+/**
+ * This method is invoked by audio callback thread, so it has to be as light as possible.
+ * It only copies sent @p data to @p m_tokenBuffer and sets appropriate @p m_readPos.
+ * It increases @p m_framesReady size, so if there is enough data pitch detection will be performed.
+ * In case when too much data incomes in short time (on by one callbacks)
+ * and amount of gathered, unprocessed data is bigger than buffer size
+ * it starts gathering process from buffer beginning - audio data consistency is lost,
+ * but it happens only when audio stream starts (Pulse audio mostly),
+ * so its doesn't harm further pitch detection
+ */
+void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
+  if (m_framesReady + nBufferFrames > BUFF_SIZE) {
+    qDebug() << "[TpitchFinder] Fulfilled with data. Skipping!";
+    m_framesReady = 0;
+    m_readPos = 0;
+    m_writePos = 0;
+    return;
   }
-//   qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
-//           << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << "noise filter" << aGl()->equalLoudness;
-  m_mutex.unlock();
+
+  qint16* dataPtr = (qint16*)data;
+  long unsigned int framesToCopy = nBufferFrames;
+  if (m_writePos + nBufferFrames >= BUFF_SIZE)
+    framesToCopy = BUFF_SIZE - m_writePos;
+  if (framesToCopy) {
+    memcpy(m_tokenBuffer + m_writePos, dataPtr, framesToCopy * 2); // 2 bytes are size of qint16
+    m_writePos += framesToCopy;
+//     qDebug() << "copied" << framesToCopy << "position" << m_writePos;
+  }
+  if (m_writePos >= BUFF_SIZE) {
+    m_writePos = 0;
+    if (framesToCopy < nBufferFrames) {
+      framesToCopy = nBufferFrames - framesToCopy;
+      memcpy(m_tokenBuffer + m_writePos, dataPtr, framesToCopy * 2); // 2 bytes are size of qint16
+      m_writePos += framesToCopy;
+      qDebug() << "reset and copied" << framesToCopy << "position" << m_writePos;
+    }
+  }
+  m_framesReady += nBufferFrames;
 }
 
 //##########################################################################################################
 //##########################       PROTECTED SLOTS    ######################################################
 //##########################################################################################################
+void TpitchFinder::detectingThread() {
+  m_mutex.lock();
+  while (m_doProcess) {
+    int loops = 0;
+    while (m_framesReady >= aGl()->framesPerChunk && loops < BUFF_SIZE / aGl()->framesPerChunk) {
+      m_workVol = 0;
+      for (int i = 0; i < aGl()->framesPerChunk; ++i) {
+        qint16 value = *(m_tokenBuffer + m_readPos + i);
+        float sample = float(double(value) / 32760.0f);
+        *(m_floatBuffer + i) = sample;
+        m_workVol = qMax<float>(m_workVol, sample);
+      }
+      m_framesReady -= aGl()->framesPerChunk;
+      m_readPos += aGl()->framesPerChunk;
+      if (m_readPos >= BUFF_SIZE)
+        m_readPos = 0;
+
+      startPitchDetection();
+      processed();
+      loops++;
+//       qDebug() << "[TpitchFinder] detecting.... Chunk nr" << m_chunkNum;
+    }
+    if (loops > 1)
+      qDebug() << "[TpitchFinder] loops" << loops;
+
+    m_thread->usleep(750);
+    if (m_doReset && m_framesReady == 0 && m_chunkNum > 0) {
+      qDebug() << "[TpitchFinder] Is good time for reset";
+      resetFinder();
+    }
+//     m_rateMutex.unlock();
+  }
+  qDebug() << "[TpitchFinder] Thread reached end";
+  m_mutex.unlock();
+  m_thread->quit();
+}
+
 
 void TpitchFinder::startPitchDetection() {
-	m_mutex.lock();
   m_isBussy = true;
 	if (m_doReset) { // copy last chunk to keep capturing data continuous
 		if (aGl()->equalLoudness)
 				std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
 		else
 				std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
-		m_mutex.unlock();
 		resetFinder();
-		m_mutex.lock();
 		std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
 	}
-	m_workChunk = m_filledBuff;
+	m_workChunk = m_floatBuffer;
 	m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
 	if (aGl()->equalLoudness) { // filter it and copy to channel
 		m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
@@ -204,10 +273,8 @@ void TpitchFinder::startPitchDetection() {
 		std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
 	} else // copy without filtering
 			std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+
 	detect();
-  if (!m_isOffline)
-    m_thread->quit();
-	m_mutex.unlock();
 }
 
 
@@ -217,8 +284,8 @@ void TpitchFinder::processed() {
 		if (m_prevState == e_noticed) {
 			if (m_state == e_playing) {
         emit noteStarted(m_currentNote.getAverage(3, minChunksNumber()), m_currentNote.freq, m_currentNote.duration); // new note started
-// 				qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
-// 									 << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
+//         qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
+//                   << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 			}
 		} else if (m_prevState == e_playing) {
 				if (m_state == e_silence || m_state == e_noticed) {
@@ -227,13 +294,14 @@ void TpitchFinder::processed() {
             m_averVolume = m_currentNote.maxVol;
           else
             m_averVolume = (m_averVolume + m_currentNote.maxVol) / 2.0;
-//           qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
-//                    << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
+//             qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
+//                     << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 				}
 		}
 	}
 	m_prevState = m_state;
 	emit volume(m_volume);
+//   qDebug() << "[TpitchFinder] processed, volume" << m_volume << "state" << (m_state == e_silence ? "silence" : (m_state == e_noticed ? "noticed" : "playing"));
 }
 
 
@@ -290,30 +358,34 @@ void TpitchFinder::detect() {
     }
   }
   m_prevNoteIndex = data->noteIndex;
-  if (!m_isOffline && m_chunkNum > 1000 && data->noteIndex == NO_NOTE)
+  if (!m_isOffline && m_chunkNum > 1000 && data->noteIndex == NO_NOTE) {
+    qDebug() << "[TpitchFinder] reset inside detecting thread";
     m_doReset = true;
+  }
 
   incrementChunk();
   m_isBussy = false;
 }
 
 
-void TpitchFinder::bufferReady() {
-  m_filledBuff = m_currentBuff;
-  m_pcmVolume = m_workVol;
-  m_workVol = 0.0;
-  m_posInBuffer = 0;
-  if (m_currentBuff == m_buffer_1) // swap buffers
-    m_currentBuff = m_buffer_2;
-  else
-    m_currentBuff = m_buffer_1;
-//   if (m_isOffline) {
-//     startPitchDetection();
-//     processed();
-//   } else {
-    m_thread->start(QThread::HighestPriority);
-//   }
+void TpitchFinder::resetFinder() {
+  m_doReset = false;
+  if (m_channel) {
+      delete m_channel;
+      m_chunkNum = 0;
+      m_averVolume = 0.0;
+      m_transforms->uninit();
+      m_channel = new Channel(this, aGl()->windowSize);
+      m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
+      qDebug() << "[TpitchFinder] reset channel";
+  }
 }
+
+
+void TpitchFinder::threadFinished() {
+  qDebug() << "[TpitchFinder] Thread finished";
+}
+
 
 
 
