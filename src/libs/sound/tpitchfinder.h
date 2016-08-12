@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,7 +51,6 @@ inline qreal pitch2freq(qreal note) {
 
 
 class Channel;
-class QThread;
 class NoteData;
 class MyTransforms;
 
@@ -59,7 +58,7 @@ class MyTransforms;
 /** 
  * The main purpose of this class is to recognize pitch of audio data flowing through it. 
  * Finding pitch method(s) are taken from Tartini project written by Philip McLeod.
- * It collects samples by calling @p fillBuffer(float sample) method, 
+ * It collects audio data by calling @p copyToBuffer() method,
  * when buffer is full pitch detection is performed.
  * It emits signal with volume @p volume(float)
  * signal with pitch in every processed chunk @p pichInChunk(float)
@@ -104,23 +103,23 @@ public:
 	void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
 	void incrementChunk() { m_chunkNum++; }
 	
-			/** Adds given sample to the buffer at the current position, 
-				* when buffer is full, @p startPitchDetection() is invoked and 
-				* current buffer is swapped. */
-	void fillBuffer(float sample) {
-      *(m_currentBuff + m_posInBuffer) = sample;
-    m_posInBuffer++;
-    m_workVol = qMax<float>(m_workVol, sample);
-    if (m_posInBuffer == m_aGl->framesPerChunk)
-      bufferReady();
-  }
-	
+      /**
+       * Copies @p nBufferFrames of @p data to buffer.
+       * Parallel thread detects that appropriate amount of audio data is ready
+       * and starts pitch detection
+       */
+  void copyToBuffer(void* data, unsigned int nBufferFrames);
+
+      /**
+       * Informs @p TpitchFinder that audio input stops.
+       * Given Boolean switch decides about resetting.
+       */
+  void stop(bool resetAfter = false);
+
 			/** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
 				* @p range is TaudioParams::Erange cast. Default is e_middle
 				* Better don't call this during processing. */
 	void setSampleRate(unsigned int sRate, int range = 1);
-	
-	void resetFinder(); /** Cleans all buffers, sets m_chunkNum to 0. */
 				
 				/** Only notes with volume above this value are sending. 
 					* If note has got such volume it is observed till its end - even below. */
@@ -172,39 +171,44 @@ signals:
 protected slots:
 	void startPitchDetection(); /** Starts searching thread */
 	void processed(); /** Performs signal emitting after chunk was done but out of processing thread */
+  void detectingThread();
+  void threadFinished();
 	
 	
 private:
 	void detect();
-  void bufferReady(); /** Performed when all required amount of samples is collected it current buffer. */
+
+      /** Cleans all buffers, sets m_chunkNum to 0. */
+  void resetFinder();
 	
 	
 private:
-  QThread					*m_thread;
-  MyTransforms    *m_transforms;
-  float           *m_filteredChunk, *m_workChunk, *m_prevChunk;
-	float						*m_buffer_1, *m_buffer_2; // real buffers
-	int							 m_posInBuffer;
-	float						*m_currentBuff, *m_filledBuff; // virtual buffers pointing to real ones
+  QThread              *m_thread;
+  MyTransforms         *m_transforms;
+  float                *m_filteredChunk, *m_workChunk, *m_prevChunk;
+  float                *m_floatBuffer;
+  qint16               *m_tokenBuffer;
+  unsigned int          m_writePos, m_readPos;
+  volatile quint32      m_framesReady; /**< Number of frames ready for processing */
+  volatile bool         m_doProcess, m_doReset; /**< When @p TRUE when detecting thread p  */
 
-
-  bool             m_doReset, m_isOffline;
-	TartiniParams   *m_aGl;
-	Channel         *m_channel;
-	int              m_chunkNum;
-	bool             m_isBussy;
-  int              m_prevNoteIndex;
-  float            m_minVolume;
-	float						 m_minDuration;
-	float						 m_rateRatio; // multiplexer of the sample rate determined from pitch detection range
-	QMutex					 m_mutex, m_offLineMutex;
-	float 					 m_volume, m_chunkPitch;
-	EnoteState			 m_state, m_prevState;
-  float            m_pcmVolume, m_workVol;
-  TnoteStruct      m_newNote, m_currentNote;
-  bool             m_splitByVol;
-  qreal            m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
-  int              m_minChunks;
+  bool                  m_isOffline;
+  TartiniParams        *m_aGl;
+  Channel              *m_channel;
+  int                   m_chunkNum;
+  bool                  m_isBussy;
+  int                   m_prevNoteIndex;
+  float                 m_minVolume;
+  float                 m_minDuration;
+  float                 m_rateRatio; /**< multiplexer of the sample rate determined from pitch detection range */
+  QMutex                m_mutex;
+  float                 m_volume, m_chunkPitch;
+  EnoteState            m_state, m_prevState;
+  float                 m_pcmVolume, m_workVol;
+  TnoteStruct           m_newNote, m_currentNote;
+  bool                  m_splitByVol;
+  qreal                 m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
+  int                   m_minChunks;
 
 };
 
