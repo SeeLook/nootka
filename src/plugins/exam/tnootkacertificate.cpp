@@ -72,7 +72,9 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
     Fake = QStringLiteral("<h3>Translators preview of</h3>");
   m_certHeadI = createCertItem(Fake + tr("<h1>Certificate Of Exam Completion</h1>", "Main header - centered"));
   TgraphicsTextTip::alignCenter(m_certHeadI);
-//     m_certHeadI->setGraphicsEffect(new QGraphicsDropShadowEffect);
+  if (m_certHeadI->boundingRect().width() > width() - 2 * SPACER)
+      m_certHeadI->setScale((width() - 2 * SPACER) / m_certHeadI->boundingRect().width());
+  m_certHeadI->setPos((width() - m_certHeadI->boundingRect().width() * m_certHeadI->scale()) / 2, height());
   m_certHeadI->setPos((width() - m_certHeadI->boundingRect().width()) / 2, height());
   m_height += m_certHeadI->boundingRect().height() + 2 * SPACER;
 //-MARGIN-MARGIN-Exam results-----------------
@@ -304,7 +306,7 @@ QString TnootkaCertificate::fillCert(QString entry) {
   entry.replace(QLatin1String("[LEVELNAME]"), m_exam->level()->name);
   entry.replace(QLatin1String("[TOTALTIME]"), TexamView::formatedTotalTime(m_exam->workTime() * 1000));
   entry.replace(QLatin1String("[SCORE]"), QString("%1 %").arg(m_exam->effectiveness(), 0, 'f', 1, '0'));
-  entry.replace(QLatin1String("[QUESTNR]"), QString("%1").arg(m_exam->count()));
+  entry.replace(QLatin1String("[QUESTNR]"), QString("<b>%1</b>").arg(m_exam->count()));
   return entry;
 }
 
