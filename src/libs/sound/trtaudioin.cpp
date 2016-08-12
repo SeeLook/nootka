@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,11 +59,11 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   TrtAudio(params, e_input, inCallBack),
   m_pitch(0),
   m_volume(0.0),
-  m_state(e_stopped),
   m_stoppedByUser(false),
   m_loPitch(15), m_hiPitch(140),
   m_noteWasStarted(false),
-  m_currentRange(1)
+  m_currentRange(1),
+  m_state(e_stopped)
 {
   if (m_instance) {
     qDebug() << "Nothing of this kind... TaudioIN already exist!";
@@ -85,10 +85,12 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
 
 TaudioIN::~TaudioIN()
 {
+  stopListening();
 	m_goingDelete = true;
   closeStream();
 	m_pitch->blockSignals(true);
-	m_pitch->deleteLater();
+// 	m_pitch->deleteLater();
+  delete m_pitch;
   m_instance = 0;
   deleteInParams();
   resetCallBack();
@@ -187,7 +189,7 @@ void TaudioIN::startListening() {
         openStream();
       if (startStream())
         setState(e_listening);
-// 			qDebug() << "start listening";
+			qDebug() << "start listening";
 		}
   }
 }
@@ -195,13 +197,13 @@ void TaudioIN::startListening() {
 
 void TaudioIN::stopListening() {
   if (state() != e_stopped) {
-//     qDebug() << "stop listening";
+    qDebug() << "stop listening";
     m_volume = 0.0;
     m_LastChunkPitch = 0.0;
 		if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
 			abortStream();
     setState(e_stopped);
-    m_pitch->resetFinder();
+    m_pitch->stop(true);
   }
 }
 
@@ -238,6 +240,19 @@ void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
 				emit noteFinished(m_lastNote);
   } else 
 			m_lastNote.set(); // reset last detected note structure
+}
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st) {
+  if (m_goingDelete || instance()->isStoped())
+    return true;
+  if (st)
+    qDebug() << "input buffer underflow";
+
+  instance()->m_pitch->copyToBuffer(inBuff, nBufferFrames);
+  return false;
 }
 
 //#################################################################################################

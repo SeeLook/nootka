@@ -594,9 +594,44 @@ void TrtAudio::restartASIO() {
 }
 #endif
 
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  if (m_cbOut) {
+    if (m_cbOut(outBuffer, nBufferFrames, status))
+      if (m_cbIn)
+        m_cbIn(inBuffer, nBufferFrames, status);
+  } else
+      if (m_cbIn)
+        m_cbIn(inBuffer, nBufferFrames, status);
+  return 0;
+}
 
 
+int TrtAudio::passInputCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  qint16 *in = (qint16*)inBuffer;
+  qint16 *out = (qint16*)outBuffer;
+  if (m_cbOut(outBuffer, nBufferFrames, status)) // none playing is performed
+      for (int i = 0; i < nBufferFrames; i++) { // then forward input
+          *out++ = *(in + i); // left channel
+          *out++ = *(in + i); // right channel
+      }
+  m_cbIn(inBuffer, nBufferFrames, status);
+  return 0;
+}
 
 
+int TrtAudio::playCallBack(void* outBuffer, void*, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  if (m_cbOut(outBuffer, nBufferFrames, status))
+    ao()->emitPlayingFinished();
+  return 0;
+}
+
+
+int TrtAudio::listenCallBack(void*, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  m_cbIn(inBuffer, nBufferFrames, status);
+  return 0;
+}
 
 
