@@ -163,10 +163,7 @@ TexamExecutor::TexamExecutor(MainWindow *mainW, QString examFile, Tlevel *lev) :
 	TexecutorSupply::checkGuitarParamsChanged(mW, m_exam);
 	// ---------- End of checking ----------------------------------
 
-	if (m_exam->melodies())
-		mW->setSingleNoteMode(false);
-	else
-		mW->setSingleNoteMode(true);
+  mW->setSingleNoteMode(!m_exam->melodies());
 	m_supp = new TexecutorSupply(&m_level, this);
 	m_supp->createQuestionsList(m_questList);
   if (m_exam->melodies())
@@ -1011,7 +1008,6 @@ void TexamExecutor::prepareToExam() {
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
 
-  mW->setSingleNoteMode(gl->S->isSingleNoteMode);
   mW->pitchView->setVisible(gl->L->soundViewEnabled);
   mW->guitar->setVisible(gl->L->guitarEnabled);
   mW->score->acceptSettings();

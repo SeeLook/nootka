@@ -173,6 +173,7 @@ void TtoolBar::actionsToExam() {
 		checkAct->setIcon(QIcon(Tpath::img("check")));
 		checkAct->setShortcut(QKeySequence(Qt::Key_Return));
 	}
+	setMelodyButtonVisible(false);
 }
 
 

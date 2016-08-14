@@ -542,7 +542,6 @@ void MainWindow::prepareToExam() {
 	if (score->insertMode() != TmultiScore::e_single) {
 		if (score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing when played
-		bar->setMelodyButtonVisible(false);
 	}
 	sound->stopPlaying();
 	examResults = new TexamView();
