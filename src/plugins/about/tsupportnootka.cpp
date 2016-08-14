@@ -86,7 +86,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
                         "<a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br>"
                         "or add <b>like</b> or/and <b>g+</b> on <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
 #endif
-  supp += coloredLi("#E57300", "Update German translation") + QLatin1String("It seems to abandoned, so continue translating, please.") + br + endLi;
+  supp += coloredLi("#E57300", "Update German translation") + QLatin1String("It seems to be abandoned, so continue translating, please.") + br + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #FF0000;\">Report an issue</b></big><br>If you find any issue or a bug than request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a><br></li>");
   supp += QLatin1String("<li><big><b>Express your opinion</b></big><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>");
   supp += QLatin1String("</ul><p>&nbsp;&nbsp;Thanks in advance<br>&nbsp;&nbsp;Author</p><br>");
