@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,9 +43,9 @@
 
 TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
   QDialog(parent),
+  m_chart(0),
   m_exam(0),
   m_level(new Tlevel()),
-  m_chart(0),
   m_wasExamCreated(false),
   m_isMaximized(false)
 {
@@ -221,7 +221,7 @@ void TanalysDialog::setExam(Texam* exam) {
     else
         enableComboItem(m_XorderCombo, 2, false);
   // sort by key signature
-  if (m_exam->level()->canBeScore() && m_exam->level()->useKeySign)
+  if (m_exam->level()->canBeScore() && m_exam->level()->useKeySign && !m_exam->level()->isSingleKey)
       enableComboItem(m_XorderCombo, 3, true);
   else
       enableComboItem(m_XorderCombo, 3, false);
@@ -299,7 +299,7 @@ void TanalysDialog::createActions() {
   QString exerciseFile = QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + "/exercise.noo");
   if (QFileInfo(exerciseFile).exists()) {
     Tlevel lev;
-    Texam ex(&lev, "");
+    Texam ex(&lev, QString());
     ex.loadFromFile(exerciseFile);
     QAction *exerciseAct = new QAction(tr("Recent exercise on level") + ": " + lev.name, this);
     exerciseAct->setIcon(QIcon(Tcore::gl()->path + "picts/practice.png"));
@@ -339,21 +339,22 @@ void TanalysDialog::createActions() {
   m_inclWrongAct->setCheckable(true);
   m_wrongSeparateAct = new QAction(tr("show wrong answers separately"), this);
   m_wrongSeparateAct->setCheckable(true);
+  m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
+  m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
+  m_wrongSeparateAct->setDisabled(true); // that options makes no sense for default chart
+  m_inclWrongAct->setDisabled(true);
   QMenu *menu = new QMenu("chart menu", this);
   menu->addAction(m_wrongSeparateAct);
   menu->addAction(m_inclWrongAct);
-  connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-  connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
-  m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
-  m_inclWrongAct->setChecked(m_chartSetts.inclWrongAnsw);
-  
+  connect(m_wrongSeparateAct, SIGNAL(triggered()), this, SLOT(wrongSeparateSlot()), Qt::UniqueConnection);
+  connect(m_inclWrongAct, SIGNAL(triggered()), this, SLOT(includeWrongSlot()), Qt::UniqueConnection);
+
   m_settButt = new QToolButton(this);
   m_settButt->setIcon(QIcon(Tcore::gl()->path + "picts/exam-settings.png"));
   m_settButt->setToolTip(tr("Settings of a chart"));
   m_settButt->setMenu(menu);
   m_settButt->setPopupMode(QToolButton::InstantPopup);
-  m_settButt->setDisabled(true); // that options have no sense for default chart
-  
+
   QWidgetAction* toolButtonAction = new QWidgetAction(this);
   toolButtonAction->setDefaultWidget(m_settButt);
   
@@ -466,10 +467,10 @@ void TanalysDialog::openRecentExam() {
 void TanalysDialog::xOrderChanged(int index) {
   if (!m_exam)
     return;
-	if (index)
-		m_settButt->setDisabled(false);
-	else
-		m_settButt->setDisabled(true);
+
+  m_wrongSeparateAct->setDisabled(index == 0);
+  m_inclWrongAct->setDisabled(index == 0);
+
   switch (index) {
     case 0:
       m_chartSetts.order = Tchart::e_byNumber;
@@ -494,15 +495,15 @@ void TanalysDialog::xOrderChanged(int index) {
       break;
   }
   if (m_chartSetts.order == Tchart::e_byQuestAndAnsw || m_chartSetts.order == Tchart::e_byMistake) {
-      disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
+      disconnect(m_wrongSeparateAct, SIGNAL(triggered()), this, SLOT(wrongSeparateSlot()));
       m_wrongSeparateAct->setChecked(false); // this sorting types require it!!
       m_wrongSeparateAct->setDisabled(true);
       m_chartSetts.separateWrong = false;
       m_inclWrongAct->setDisabled(false);
   } else {
       m_wrongSeparateAct->setDisabled(false);
-      connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
-  }  
+      connect(m_wrongSeparateAct, SIGNAL(triggered()), this, SLOT(wrongSeparateSlot()), Qt::UniqueConnection);
+  }
   createChart(m_chartSetts);
 }
 
@@ -510,10 +511,10 @@ void TanalysDialog::xOrderChanged(int index) {
 void TanalysDialog::yValueChanged(int index) {
   if (!m_exam)
     return;
-  if (index)
-    m_settButt->setDisabled(false);
-  else
-    m_settButt->setDisabled(true);
+
+  m_wrongSeparateAct->setDisabled(index == 0);
+  m_inclWrongAct->setDisabled(index == 0);
+
   switch (index) {
     case 0:
       m_chartSetts.yValue = TmainLine::e_questionTime;
@@ -557,15 +558,15 @@ void TanalysDialog::maximizeWindow() {
 void TanalysDialog::wrongSeparateSlot() {
   m_chartSetts.separateWrong = m_wrongSeparateAct->isChecked();
   if (m_wrongSeparateAct->isChecked()) {
-    disconnect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+    disconnect(m_inclWrongAct, SIGNAL(triggered()), this, SLOT(includeWrongSlot()));
     m_inclWrongAct->setDisabled(true); // wrong separeted - it has no sense - lock it!
     m_chartSetts.inclWrongAnsw = false; // and reset 
     m_inclWrongAct->setChecked(false);
   }
   else {
-    disconnect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+    disconnect(m_inclWrongAct, SIGNAL(triggered()), this, SLOT(includeWrongSlot()));
     m_inclWrongAct->setDisabled(false); // unlock
-    connect(m_inclWrongAct, SIGNAL(changed()), this, SLOT(includeWrongSlot()));
+    connect(m_inclWrongAct, SIGNAL(triggered()), this, SLOT(includeWrongSlot()), Qt::UniqueConnection);
   }
   createChart(m_chartSetts);
 }
@@ -604,11 +605,12 @@ void TanalysDialog::chartTypeChanged() {
       m_wrongSeparateAct->setDisabled(false);
       connect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
       createChart(m_chartSetts);
-    }        
+    }
   } else { // bar chart
       if (m_chartSetts.type != Tchart::e_bar) {
         m_chartSetts.type = Tchart::e_bar;
-        m_settButt->setDisabled(false); // unlock settings
+        m_wrongSeparateAct->setDisabled(false); // unlock settings
+        m_inclWrongAct->setDisabled(false);
         disconnect(m_wrongSeparateAct, SIGNAL(changed()), this, SLOT(wrongSeparateSlot()));
         m_wrongSeparateAct->setDisabled(true);
         m_wrongSeparateAct->setChecked(false);
