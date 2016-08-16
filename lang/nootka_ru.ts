@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AnswerText</name>
     <message>
@@ -2577,13 +2577,13 @@
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="66"/>
         <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
         <comment>top-left corner</comment>
-        <translation>&lt;h3&gt;Музыкальная академия Нутки&lt;/h3&gt;</translation>
+        <translation>&lt;h3&gt;Музыкальная Aкадемия Нутки&lt;/h3&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="67"/>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
-        <translation>[DATE]&lt;br&gt;&lt;i&gt;данные&lt;i&gt;</translation>
+        <translation>[DATE]</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="75"/>
@@ -2602,7 +2602,7 @@
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="90"/>
         <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
         <comment>Exam results - double indented, left aligned</comment>
-        <translation>При сдаче экзамена на уровне &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;получено &lt;big&gt;&lt;b&gt;[QUESTNR]&lt;/b&gt;&lt;/big&gt;требуемых ответов на вопросы&lt;br&gt;за время &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt; и получена оценка &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
+        <translation>При сдаче экзамена на уровне &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;получено &lt;big&gt;&lt;b&gt;[QUESTNR]&lt;/b&gt;&lt;/big&gt; требуемых ответов на вопросы&lt;br&gt;за время &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt; и получена оценка &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="94"/>
