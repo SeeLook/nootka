@@ -593,6 +593,15 @@
         <source>Authors</source>
         <translation>Autoren</translation>
     </message>
+    <message>
+        <source>Donors</source>
+        <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>People and companies who gave material support for the Nootka project</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TanalysDialog</name>
@@ -974,6 +983,10 @@
         <source>This note was not played!</source>
         <translation>Diese Note wurde nicht gespielt!</translation>
     </message>
+    <message>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TexamHelp</name>
@@ -1092,6 +1105,16 @@
     <message>
         <source>ask next question automatically</source>
         <translation>stelle nächste Frage automatisch</translation>
+    </message>
+    <message>
+        <source>tap %1</source>
+        <comment>tap &lt;icon image follows&gt;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1315,6 +1338,10 @@
         <source>Analyze</source>
         <translation>Statistik</translation>
     </message>
+    <message>
+        <source>Send exam file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TexamView</name>
@@ -1410,6 +1437,17 @@
         <translatorcomment>show stats after the last note of the question?
 No!!!!
 Check answer just after last note of melody was played.</translatorcomment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TfileDialog</name>
+    <message>
+        <source>Memory card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1666,6 +1704,33 @@ cents???</translatorcomment>
     <message>
         <source>Show or hide main window elements.</source>
         <translation>Anzeigen / Verbergen der Elemete des Hauptfensters.</translation>
+    </message>
+</context>
+<context>
+    <name>Tlevel</name>
+    <message>
+        <source>Grand staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Guess notes from grand staff in different keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play a short and simple melody in bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play grand staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1965,6 +2030,13 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
+    <name>TmainView</name>
+    <message>
+        <source>score menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TmelMan</name>
     <message>
         <source>Play</source>
@@ -2005,6 +2077,22 @@ nicht öffnen</translation>
     <message>
         <source>Generate a melody with random notes.</source>
         <translation>Erstelle eine Melodie aus zufälligen Noten.</translation>
+    </message>
+    <message>
+        <source>Play melody</source>
+        <translation>Spiele Melodie</translation>
+    </message>
+    <message>
+        <source>Note by note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate melody</source>
+        <translation>Erstellen Melodie </translation>
     </message>
 </context>
 <context>
@@ -2252,6 +2340,21 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
+    <name>TouchHelp</name>
+    <message>
+        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Touch a clef for a while to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Tpage_2</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
@@ -2296,6 +2399,11 @@ nicht öffnen</translation>
     <message>
         <source>Click note symbol to change it.</source>
         <translation>Für Änderung auf Notensymbol klicken.</translation>
+    </message>
+    <message>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2834,6 +2942,14 @@ nicht öffnen</translation>
         <source>Load an exam file</source>
         <translation>Lade eine Prüfungsdatei</translation>
     </message>
+    <message>
+        <source>Continue exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest exam</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TstatisticTip</name>
@@ -2871,6 +2987,37 @@ nicht öffnen</translation>
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+</context>
+<context>
+    <name>TsupportNootka</name>
+    <message>
+        <source>You also can help with making Nootka better.</source>
+        <translation>Du kannst auch helfen Nootka zu verbessern.</translation>
+    </message>
+    <message>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
+        <translation>Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
+    </message>
+    <message>
+        <source>Donate Nootka campaign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Through PayPal or a card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or send email for an account number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
+        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
+    </message>
+    <message>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3014,6 +3161,57 @@ nicht öffnen</translation>
     <message>
         <source>Try this melody once again. (backspace)</source>
         <translation>Versuche die Meldoie nocheinmal. (Backspace)</translation>
+    </message>
+    <message>
+        <source>Lessons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Weiter</translation>
+    </message>
+    <message>
+        <source>Correct</source>
+        <translation>Richtig</translation>
+    </message>
+</context>
+<context>
+    <name>Ttune</name>
+    <message>
+        <source>Standard: E A D G B E </source>
+        <translation>Standard: E A D G H E </translation>
+    </message>
+    <message>
+        <source>Dropped D: D A D G B E </source>
+        <translation>Dropped D: D A D G H E </translation>
+    </message>
+    <message>
+        <source>Dummy Lute: D A D F# B E </source>
+        <translation>falsche Laute: D A D F# H E </translation>
+    </message>
+    <message>
+        <source>Open: D A D G A D </source>
+        <translation>Offen: D A D G A D </translation>
+    </message>
+    <message>
+        <source>Kouyanbaba: D A D A D F </source>
+        <translation>Kouyanbaba: D A D A D F </translation>
+    </message>
+    <message>
+        <source>Standard bass: E A D G</source>
+        <translation>Standard Bass: E A D G</translation>
+    </message>
+    <message>
+        <source>Bass in fifths: C G D A</source>
+        <translation>Quintenstimmung für Bass: C G D A</translation>
+    </message>
+    <message>
+        <source>5-str. bass: B E A D G</source>
+        <translation>5-Saiten Bass: H E A D G</translation>
+    </message>
+    <message>
+        <source>6-str. bass: B E A D G C</source>
+        <translation>6-Saiten Bass: H E A D G C</translation>
     </message>
 </context>
 <context>

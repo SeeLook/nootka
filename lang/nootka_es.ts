@@ -91,7 +91,7 @@
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation>Asegúrese de que su dispositivo de entrada (micrófono, cámara web, instrumento, etc) está conectado, configurado adecuadamente y funcionando.</translation>
+        <translation>Asegúrate de que tu dispositivo de entrada (micrófono, cámara web, instrumento, etc) está conectado, configurado adecuadamente y funcionando.</translation>
     </message>
     <message>
         <source>minimum note duration</source>
@@ -202,7 +202,7 @@
     </message>
     <message>
         <source>skip stiller than</source>
-        <translation>saltar lo más silencioso que</translation>
+        <translation>saltar lo que sea más silencioso que</translation>
     </message>
     <message>
         <source>noise filter</source>
@@ -352,7 +352,7 @@
     <message>
         <source>Nootka level file</source>
         <comment>for file browsers</comment>
-        <translation>fichero de nivel de Nootka</translation>
+        <translation>Fichero de nivel de Nootka</translation>
     </message>
     <message>
         <source>Open with Nootka</source>
@@ -401,7 +401,7 @@
     </message>
     <message>
         <source>All to V fret</source>
-        <translation>Todo al traste V</translation>
+        <translation>Usar todas las notas hasta el traste V</translation>
     </message>
     <message>
         <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
@@ -498,7 +498,7 @@
     <message>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
-        <translation>vez [veces]</translation>
+        <translation>tiempo [segundos]</translation>
     </message>
 </context>
 <context>
@@ -520,7 +520,7 @@
     <name>Tabout</name>
     <message>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation>Bienvenido a bordo &lt;br&gt;Nootka es una aplicación de código abierto (open source) para ayudarte en tu aprendizaje (y enseñanza) de la notación de partituras clásicas.&lt;br&gt;Está especialmente diseñado para guitarristas pero otros encontrarán también muchas características usables.</translation>
+        <translation>Bienvenido a bordo &lt;br&gt;Nootka es una aplicación de código abierto (open source) para ayudarte en tu aprendizaje (y enseñanza) de la notación de partituras clásicas.&lt;br&gt;Está especialmente diseñado para guitarristas pero los demás encontrarán también muchas características usables.</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
@@ -596,11 +596,11 @@
     <message>
         <source>Donors</source>
         <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
-        <translation type="unfinished"></translation>
+        <translation>Donantes</translation>
     </message>
     <message>
         <source>People and companies who gave material support for the Nootka project</source>
-        <translation type="unfinished"></translation>
+        <translation>Personas y compañías que han dado soporte material para el proyecto Nootka</translation>
     </message>
 </context>
 <context>
@@ -665,15 +665,15 @@
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>Pulse el botón %1 para seleccionar un examen desde un fichero.</translation>
+        <translation>Pulsa el botón %1 para seleccionar un examen desde un fichero.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Usar %1 + rueda del ratón or botones %2 para acercar un diagrama.</translation>
+        <translation>Usa %1 + rueda del ratón or botones %2 para acercar un diagrama.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Pulse y arrastre el cursor para mover el diagrama.</translation>
+        <translation>Pulsa y arrastra el cursor para mover el diagrama.</translation>
     </message>
     <message>
         <source>Question number</source>
@@ -687,7 +687,7 @@
     </message>
     <message>
         <source>Open an exam to analyze</source>
-        <translation>Abrir un examen para analizar</translation>
+        <translation>Abrir un examen para analizarlo</translation>
     </message>
     <message>
         <source>Recent exercise on level</source>
@@ -699,7 +699,7 @@
     </message>
     <message>
         <source>Close analyzer window</source>
-        <translation>Cerrar ventana de analizador</translation>
+        <translation>Cerrar ventana del analizador</translation>
     </message>
     <message>
         <source>zoom in</source>
@@ -743,7 +743,7 @@
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation>Análisis de ejercicio</translation>
+        <translation>Análisis del ejercicio</translation>
     </message>
     <message>
         <source>Questions number</source>
@@ -771,7 +771,7 @@
     </message>
     <message>
         <source>Try again!</source>
-        <translation>¡Intenta de nuevo!</translation>
+        <translation>¡Inténtalo de nuevo!</translation>
     </message>
     <message>
         <source>To correct an answer</source>
@@ -791,15 +791,15 @@
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation>Para comprobar la respuesta confírmela:</translation>
+        <translation>Para comprobar la respuesta confírmala:</translation>
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
-        <translation>Compruebe en la ayuda del examen %1 cómo hacerlo automáticamente</translation>
+        <translation>Comprueba en la ayuda del examen %1 cómo hacerlo automáticamente</translation>
     </message>
     <message>
         <source>Select any note to play it again.</source>
-        <translation>Seleccione cualquier nota para ejecutarla de nuevo.</translation>
+        <translation>Selecciona cualquier nota para ejecutarla de nuevo.</translation>
     </message>
     <message>
         <source>too low</source>
@@ -811,7 +811,7 @@
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation>Pulse notas incorrectas para verlas&lt;br&gt;y escucharlas corregidas.</translation>
+        <translation>Pulsa en las notas incorrectas para verlas&lt;br&gt;y escucharlas corregidas.</translation>
     </message>
     <message>
         <source>You are exercising on level</source>
@@ -830,7 +830,7 @@
     </message>
     <message>
         <source>treble dropped</source>
-        <translation>bajada de octava de agudos</translation>
+        <translation>una octava de agudos menor</translation>
     </message>
     <message>
         <source>bass</source>
@@ -838,7 +838,7 @@
     </message>
     <message>
         <source>bass dropped</source>
-        <translation>bajada de octava de graves</translation>
+        <translation>una octava de graves menor</translation>
     </message>
     <message>
         <source>alto</source>
@@ -850,7 +850,7 @@
     </message>
     <message>
         <source>grand staff</source>
-        <translation>pentagrama</translation>
+        <translation>pentagrama doble</translation>
     </message>
     <message>
         <source>clef G</source>
@@ -930,7 +930,7 @@
     </message>
     <message>
         <source>Such a pity.</source>
-        <translation>Una pena.</translation>
+        <translation>Qué pena dejarlo.</translation>
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
@@ -950,7 +950,7 @@
     </message>
     <message>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
-        <translation>Si no guardas en fichero&lt;br&gt;¡perderás todos los resultados!</translation>
+        <translation>Si no los guardas en fichero&lt;br&gt;¡perderás todos los resultados!</translation>
     </message>
     <message>
         <source>Save</source>
@@ -974,11 +974,15 @@
     </message>
     <message>
         <source>EXAM!</source>
-        <translation>¡EXAMEN¡</translation>
+        <translation>¡EXAMEN!</translation>
     </message>
     <message>
         <source>stop the exam</source>
         <translation>detener el examen</translation>
+    </message>
+    <message>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
+        <translation>Psssst... Examen en curso.&lt;br&gt;&lt;br&gt;&lt;b&gt;Selecciona&lt;b&gt;%1&lt;/b&gt;para comprobar, guardar y salir&lt;br&gt; o &lt;b&gt;%2&lt;/b&gt; para continuar.&lt;br&gt;</translation>
     </message>
 </context>
 <context>
@@ -1073,7 +1077,7 @@
     </message>
     <message>
         <source>click %1 button</source>
-        <translation>Pulse el botón %1</translation>
+        <translation>Pulsa el botón %1</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -1099,12 +1103,22 @@
         <source>Click %1 button to stop.</source>
         <translation>Pulsa el botón %1 para parar.</translation>
     </message>
+    <message>
+        <source>tap %1</source>
+        <comment>tap &lt;icon image follows&gt;</comment>
+        <translation>da un pulsación en %1</translation>
+    </message>
+    <message>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
+        <translation>Pulsa %1 para terminar.</translation>
+    </message>
 </context>
 <context>
     <name>TexamSettings</name>
     <message>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
-        <translation>Cuando cometas un error, el programa te mostrará automáticamente cómo debería ser un respuesta correcta.</translation>
+        <translation>Cuando cometas un error, el programa te mostrará automáticamente cómo debería ser una respuesta correcta.</translation>
     </message>
     <message>
         <source>Preview time of corrected answer when next question is asked automatically.</source>
@@ -1116,7 +1130,7 @@
     </message>
     <message>
         <source>A time of displaying incorrect answers.</source>
-        <translation>Tiempo de mostrar respuestas incorrectas.</translation>
+        <translation>Tiempo para mostrar respuestas incorrectas.</translation>
     </message>
     <message>
         <source>suggest an exam</source>
@@ -1124,7 +1138,7 @@
     </message>
     <message>
         <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation>Observar el progreso de la ejercicitación y cuando transcurra bien, sugerir comenzar un examen en el nivel del ejercicio.</translation>
+        <translation>Observar el progreso de la ejercitación y, cuando transcurra bien, sugerir el comenzar un examen en el nivel del ejercicio.</translation>
     </message>
     <message>
         <source>show wrong played</source>
@@ -1140,7 +1154,7 @@
     </message>
     <message>
         <source>A question with an incorrect answer will be asked once again.</source>
-        <translation>Una pregunta con una respuesta equivocada se preguntará una vez más.</translation>
+        <translation>Una pregunta con una respuesta equivocada se volverá a preguntar una vez más.</translation>
     </message>
     <message>
         <source>close without confirm</source>
@@ -1148,7 +1162,7 @@
     </message>
     <message>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
-        <translation>Si se selecciona, una aplicación no pedirá responder la pregunta pendiente sino que la marcará como equivocada, guardará un examen en fichero (en el directorio: %1) y se cerrará sin necesidad de confirmación.</translation>
+        <translation>Si se selecciona, la aplicación no pedirá responder la pregunta pendiente sino que la marcará como equivocada, guardará un examen en fichero (en el directorio: %1) y se cerrará sin necesidad de confirmación.</translation>
     </message>
     <message>
         <source>Student Name:</source>
@@ -1307,7 +1321,7 @@
     </message>
     <message>
         <source>Progress of exercises</source>
-        <translation>Progreso de ejercicios</translation>
+        <translation>Progreso de los ejercicios</translation>
     </message>
     <message>
         <source>Pass an exam</source>
@@ -1315,11 +1329,15 @@
     </message>
     <message>
         <source>Finish exercise and pass an exam on this level.</source>
-        <translation>Terminar ejercicio y pasar a un examen en este nivel.</translation>
+        <translation>Terminar ejercicio y aprobar un examen en este nivel.</translation>
     </message>
     <message>
         <source>Finish this exercise</source>
         <translation>Terminar este ejercicio</translation>
+    </message>
+    <message>
+        <source>Send exam file</source>
+        <translation>Enviar fichero de examen</translation>
     </message>
 </context>
 <context>
@@ -1388,7 +1406,7 @@
     <name>TexpertAnswerHelp</name>
     <message>
         <source>Experts mode</source>
-        <translation>Modo expertos</translation>
+        <translation>Modo de expertos</translation>
     </message>
     <message>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
@@ -1412,14 +1430,25 @@
     </message>
     <message>
         <source>Always remind me about this</source>
-        <translation>Recuérdame siempre sobre esto</translation>
+        <translation>Recuérdame siempre acerca de esto</translation>
+    </message>
+</context>
+<context>
+    <name>TfileDialog</name>
+    <message>
+        <source>Memory card</source>
+        <translation>Tarjeta de memoria</translation>
+    </message>
+    <message>
+        <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
+        <translation>El directorio llamado &lt;b&gt;Nootka&lt;/b&gt; se creará en&lt;br&gt;%1&lt;br&gt;Los ficheros de Aplicación se escribirán allí.</translation>
     </message>
 </context>
 <context>
     <name>TfingerBoard</name>
     <message>
         <source>Select a string or fret and click to see it on the staff.</source>
-        <translation>Seleccione una cuerda o traste y púlsala(o) para verlo en la partitura.</translation>
+        <translation>Selecciona una cuerda o traste y púlsala(o) para verlo en la partitura.</translation>
     </message>
     <message>
         <source>This note is beyond the scale of the guitar!</source>
@@ -1449,11 +1478,11 @@
     <name>TglobalSettings</name>
     <message>
         <source>Application language</source>
-        <translation>Idioma de aplicación</translation>
+        <translation>Idioma de la aplicación</translation>
     </message>
     <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation>Seleccione un idioma.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Para que surta efecto, ¡esto requiere reiniciar la  aplicación!&lt;/span&gt;</translation>
+        <translation>Selecciona un idioma.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Para que surta efecto, ¡esto requiere reiniciar la  aplicación!&lt;/span&gt;</translation>
     </message>
     <message>
         <source>default</source>
@@ -1550,7 +1579,7 @@
     <message>
         <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
-        <translation>trastes con marcas/puntos</translation>
+        <translation>o trastes con marcas/puntos</translation>
     </message>
     <message>
         <source>show all possibilities of a note</source>
@@ -1558,7 +1587,7 @@
     </message>
     <message>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation>Como sabes, la misma nota puede ser interpretada en varios lugares del diapasón.&lt;br&gt;Si se selecciona, todos ellos se mostrarán.</translation>
+        <translation>Como sabes, la misma nota puede ser interpretada en varios lugares del diapasón.&lt;br&gt;Si se selecciona la opción, todos ellos se mostrarán.</translation>
     </message>
     <message>
         <source>color of string/fret pointer</source>
@@ -1672,27 +1701,27 @@
     <name>Tlevel</name>
     <message>
         <source>Grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Partitura doble</translation>
     </message>
     <message>
         <source>Guess notes from grand staff in different keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Adivinar notas de partitura doble en diferentes armaduras</translation>
     </message>
     <message>
         <source>Bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave de Fa</translation>
     </message>
     <message>
         <source>Play a short and simple melody in bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Interpretar una melodía breve y sencilla en clave para bajo</translation>
     </message>
     <message>
         <source>Play grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Interpretar partitura doble</translation>
     </message>
     <message>
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Interpreta melodías aleatorias de notación de piano en partitura doble. Armaduras con hasta cuatro alteraciones.</translation>
     </message>
 </context>
 <context>
@@ -1931,7 +1960,7 @@
     </message>
     <message>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation>preguntas no relaciondas&lt;br&gt;con el tipo de diagrama</translation>
+        <translation>preguntas no relacionadas&lt;br&gt;con el tipo de diagrama</translation>
     </message>
     <message>
         <source>without accidentals</source>
@@ -1987,11 +2016,18 @@
     </message>
     <message>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation>Nootka te explicará sobre aquello en que has estado pensando durante tanto tiempo... y acerca del progreso que has estado haciendo hasta ahora....&lt;br&gt;Pulsa el botón %1 para ver y analizar los resultados de tus exámenes, encontrar tus puntos débiles, y mejorar.</translation>
+        <translation>Nootka te explicará aquello en lo que has estado pensando durante tanto tiempo... y acerca del progreso que has estado haciendo hasta ahora....&lt;br&gt;Pulsa el botón %1 para ver y analizar los resultados de tus exámenes, encontrar tus puntos débiles, y mejorar.</translation>
     </message>
     <message>
         <source>Have fun!</source>
         <translation>¡Que lo disfrutes!</translation>
+    </message>
+</context>
+<context>
+    <name>TmainView</name>
+    <message>
+        <source>score menu</source>
+        <translation>menú de pentagrama</translation>
     </message>
 </context>
 <context>
@@ -2030,11 +2066,27 @@
     </message>
     <message>
         <source>MusicXML file</source>
-        <translation>Fichero XML de música</translation>
+        <translation>Fichero de música en formato MusicXML</translation>
     </message>
     <message>
         <source>Save melody as:</source>
         <translation>Guardar melodía como:</translation>
+    </message>
+    <message>
+        <source>Play melody</source>
+        <translation>Interpretar melodía</translation>
+    </message>
+    <message>
+        <source>Note by note</source>
+        <translation>Nota por nota</translation>
+    </message>
+    <message>
+        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <translation>Las notas se escriben en la partitura una por una. Tanto la interpretación, selección del traste o del nombre de nota añade la nueva nota al pentagrama automáticamente.</translation>
+    </message>
+    <message>
+        <source>Generate melody</source>
+        <translation>Generar melodía</translation>
     </message>
 </context>
 <context>
@@ -2047,7 +2099,7 @@
     <message>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
-        <translation>[DATE]&lt;br&gt;&lt;i&gt;fecha&lt;i&gt;</translation>
+        <translation>&lt;i&gt;fecha:&lt;i&gt;&lt;br&gt;[DATE]</translation>
     </message>
     <message>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
@@ -2072,7 +2124,7 @@
     <message>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation>&lt;small&gt;&lt;i&gt;tribunal examinador:&lt;/i&gt;&lt;br&gt;&lt;i&gt;presidente:&lt;/i&gt;&lt;b&gt; la propia Nootka&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesador&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Sra RAM&lt;/b&gt; su ayudante &lt;br&gt;&lt;i&gt;secretaria:&lt;/i&gt;&lt;b&gt; Sr Disco&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;tribunal examinador:&lt;/i&gt;&lt;br&gt;&lt;i&gt;presidente:&lt;/i&gt;&lt;b&gt; la propia Nootka&lt;/b&gt;&lt;br&gt;&lt;b&gt;profesor Procesador&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Sra RAM&lt;/b&gt; su ayudante &lt;br&gt;&lt;i&gt;secretario:&lt;/i&gt;&lt;b&gt; Sr Disco&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
@@ -2247,7 +2299,7 @@
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation>Pulsa en &quot;https://es.wikipedia.org/wiki/Octava&quot; para ver lo que las &lt;i&gt;octavas&lt;/i&gt; son</translation>
+        <translation>Para ver lo que las &lt;i&gt;octavas&lt;/i&gt; son pulsa en &quot;https://es.wikipedia.org/wiki/Octava&quot;</translation>
     </message>
     <message>
         <source>Octaves</source>
@@ -2278,6 +2330,21 @@
     </message>
 </context>
 <context>
+    <name>TouchHelp</name>
+    <message>
+        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
+        <translation>Para editar una nota en el pentagrama:&lt;br&gt;Toca un área cerca de alguna nota y mueve el dedo para seleccionar su tono.&lt;br&gt;Luego aparta el dedo para añadir/quitar una alteración o una nota.&lt;br&gt;Toca y mueve de nuevo para continuar con la selección del tono.&lt;br&gt;Para establecer la nota - toca con el dedo de nuevo rápidamente.&lt;br&gt;Para desplazar la partitura con múltiples pentagramas - usa dos dedos.</translation>
+    </message>
+    <message>
+        <source>Touch a clef for a while to change it.</source>
+        <translation>Mantener la pulsación sobre una clave para cambiarla.</translation>
+    </message>
+    <message>
+        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
+        <translation>Toca con el dedo el traste que quieres seleccionar - aparecerá una visión previa.&lt;br&gt;Puedes arrastrarla a derecha o izquierda para cambiar el traste.&lt;br&gt;Toca con el dedo la cuerda deseada en la visión previa para establecer la posición.</translation>
+    </message>
+</context>
+<context>
     <name>Tpage_2</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
@@ -2289,7 +2356,7 @@
     <message>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translatorcomment>It is &apos;si&apos;, but you asks for not using it so I have left &apos;b&apos;</translatorcomment>
+        <translatorcomment>It is &apos;si&apos;, but you ask for not using it so I have left &apos;b&apos;</translatorcomment>
         <translation>b</translation>
     </message>
     <message>
@@ -2322,7 +2389,12 @@
     </message>
     <message>
         <source>Click note symbol to change it.</source>
-        <translation>Pulse el símbolo de la nota para cambiarla.</translation>
+        <translation>Pulsar el símbolo de la nota para cambiarla.</translation>
+    </message>
+    <message>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
+        <translation>Detectar tono</translation>
     </message>
 </context>
 <context>
@@ -2426,7 +2498,7 @@
     <message>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation>&lt;br&gt;&lt;b&gt;en clave %1.&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;&lt;b&gt;en armadura %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Give name of</source>
@@ -2459,7 +2531,7 @@
     <message>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation>&lt;b&gt;en clave %1.&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;en armadura %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Show sound from position:</source>
@@ -2472,7 +2544,7 @@
     </message>
     <message>
         <source>Listened sound show on the staff</source>
-        <translation>Mostra en el pentagrama el sonido escuchado</translation>
+        <translation>Mostrar en el pentagrama el sonido escuchado</translation>
     </message>
     <message>
         <source>Give name of listened sound</source>
@@ -2480,7 +2552,7 @@
     </message>
     <message>
         <source>Listened sound show on the guitar</source>
-        <translation>Mostra en la guitarra el sonido escuchado</translation>
+        <translation>Mostrar en la guitarra el sonido escuchado</translation>
     </message>
     <message>
         <source>Play or sing listened sound</source>
@@ -2601,7 +2673,7 @@
     <name>TscoreClef</name>
     <message>
         <source>Click to select another clef.</source>
-        <translation>Pulse para seleccionar otra clave.</translation>
+        <translation>Pulsa para seleccionar otra clave.</translation>
     </message>
 </context>
 <context>
@@ -2650,7 +2722,7 @@
     </message>
     <message>
         <source>If checked, you can use double sharps and double flats.</source>
-        <translation>Si seleccionado, puedes usar dobles sostenidos y dobles bemoles.</translation>
+        <translation>Si está seleccionado, puedes usar dobles sostenidos y dobles bemoles.</translation>
     </message>
     <message>
         <source>tempo of played notes</source>
@@ -2855,7 +2927,7 @@
     </message>
     <message>
         <source>To exercise or to pass an exam?</source>
-        <translation>¿Ejercitarse o pasar un examen?</translation>
+        <translation>¿Ejercitarse o aprobar un examen?</translation>
     </message>
     <message>
         <source>Exam results</source>
@@ -2864,6 +2936,14 @@
     <message>
         <source>Load an exam file</source>
         <translation>Cargar un fichero de examen</translation>
+    </message>
+    <message>
+        <source>Continue exam</source>
+        <translation>Continuar examen</translation>
+    </message>
+    <message>
+        <source>Latest exam</source>
+        <translation>Último examen</translation>
     </message>
 </context>
 <context>
@@ -2885,7 +2965,7 @@
     </message>
     <message>
         <source>Sure! Lets start an exam!</source>
-        <translation>¡Seguro! ¡Comencemos un examen!</translation>
+        <translation>¡Sin duda! ¡Comencemos un examen!</translation>
     </message>
     <message>
         <source>Not now, ask me for a moment.</source>
@@ -2897,7 +2977,7 @@
     </message>
     <message>
         <source>Never more suggest me to start an exam!</source>
-        <translation>!Nunca más me sugieras comenzar un examen!</translation>
+        <translation>¡Nunca más me sugieras comenzar un examen!</translation>
     </message>
     <message>
         <source>OK</source>
@@ -2916,19 +2996,23 @@
     </message>
     <message>
         <source>Donate Nootka campaign</source>
-        <translation type="unfinished"></translation>
+        <translation>Campaña de donación a Nootka</translation>
     </message>
     <message>
         <source>Through PayPal or a card</source>
-        <translation type="unfinished"></translation>
+        <translation>A través de PayPal o una tarjeta</translation>
     </message>
     <message>
         <source>or send email for an account number</source>
-        <translation type="unfinished"></translation>
+        <translation>o enviar un correo electrónico para usar un número de cuenta</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>No te preocupes. Esta ventana aparece solamente una vez por cada versión de Nootka. &lt;br&gt;Siempre puedes buscarla en el diálogo &apos;Acerca de Nootka&apos;</translation>
+    </message>
+    <message>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation>Según se han ido añadiendo características Nootka se ha convertido en un proyecto grande y complejo.&lt;br&gt;Para poder desarrollar esta aplicación aún más allá,&lt;br&gt;para terminar la versión para Android (y otros sistemas móviles posteriormente), &lt;br&gt;hace falta un equipo capaz para ello.&lt;br&gt;Simplemente, el PC en el que trabajo es demasiado antiguo para eso...&gt;br&gt;Dona a Nootka, por favor.</translation>
     </message>
 </context>
 <context>
@@ -3056,12 +3140,13 @@
     <message>
         <source>correct answer
 (enter)</source>
-        <translation>respuesta correcta (enter)</translation>
+        <translation>respuesta correcta
+(enter)</translation>
     </message>
     <message>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
-        <translation>Interpretar &lt;i&gt;La (A) medio&lt;/i&gt; como un diapasón de afinación.
+        <translation>Interpretar &lt;i&gt;La (A) medio&lt;/i&gt; como si fuera un diapasón de afinación.
 (Pulsar tecla &apos;a&apos;)</translation>
     </message>
     <message>
@@ -3072,12 +3157,63 @@
         <source>Try this melody once again. (backspace)</source>
         <translation>Intentar esta melodía de nuevo. (retroceso)</translation>
     </message>
+    <message>
+        <source>Lessons</source>
+        <translation>Lecciones</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation>Siguiente</translation>
+    </message>
+    <message>
+        <source>Correct</source>
+        <translation>Correcto</translation>
+    </message>
+</context>
+<context>
+    <name>Ttune</name>
+    <message>
+        <source>Standard: E A D G B E </source>
+        <translation>Estándar: E A D G B E</translation>
+    </message>
+    <message>
+        <source>Dropped D: D A D G B E </source>
+        <translation>D bajado un tono: D A D G B E</translation>
+    </message>
+    <message>
+        <source>Dummy Lute: D A D F# B E </source>
+        <translation>Laúd ficticio: D A D F# B E</translation>
+    </message>
+    <message>
+        <source>Open: D A D G A D </source>
+        <translation>Abierto: D A D G A D</translation>
+    </message>
+    <message>
+        <source>Kouyanbaba: D A D A D F </source>
+        <translation>Kouyanbaba: D A D A D F </translation>
+    </message>
+    <message>
+        <source>Standard bass: E A D G</source>
+        <translation>Bajo estándar: E A D G</translation>
+    </message>
+    <message>
+        <source>Bass in fifths: C G D A</source>
+        <translation>Bajo en quintas: C G D A</translation>
+    </message>
+    <message>
+        <source>5-str. bass: B E A D G</source>
+        <translation>Bajo de 5 cuerdas: B E A D G</translation>
+    </message>
+    <message>
+        <source>6-str. bass: B E A D G C</source>
+        <translation>Bajo de 6 cuerdas: B E A D G C</translation>
+    </message>
 </context>
 <context>
     <name>TupdateChecker</name>
     <message>
         <source>Checking for updates. Please wait...</source>
-        <translation>Comprobando actualizaciones. Por favor, espere...</translation>
+        <translation>Comprobando actualizaciones. Por favor, espera...</translation>
     </message>
 </context>
 <context>
@@ -3142,7 +3278,7 @@
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation>Arrastrar un mando para ajustar el volumen de entrada mínimo.</translation>
+        <translation>Arrastrar el mando para ajustar el volumen de entrada mínimo.</translation>
     </message>
     <message>
         <source>Switch on/off pitch detection</source>
@@ -3229,7 +3365,7 @@
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation>Si seleccionado, el usuario tiene que seleccionar en el examen una armadura,&lt;br&gt;en caso contrario se muestra por la aplicación.</translation>
+        <translation>Si se marca, el usuario tiene que seleccionar en el examen una armadura,&lt;br&gt;en caso contrario se muestra por la aplicación.</translation>
     </message>
     <message>
         <source>notes in current key signature only</source>
@@ -3310,7 +3446,7 @@
     <name>main</name>
     <message>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
-        <translation>&lt;center&gt;No puede cargar una fuente.&lt;br&gt;Intenta instalar nootka.ttf manualmente.&lt;/center&gt;</translation>
+        <translation>&lt;center&gt;No puede cargarse una fuente.&lt;br&gt;Intenta instalar nootka.ttf manualmente.&lt;/center&gt;</translation>
     </message>
 </context>
 <context>
