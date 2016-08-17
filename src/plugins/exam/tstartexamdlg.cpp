@@ -32,8 +32,20 @@
   #include <touch/ttoucharea.h>
   #include <tfiledialog.h>
   #include <tmtr.h>
+  #include <Android/tandroid.h>
 #endif
 #include <QtWidgets/QtWidgets>
+
+
+QString TstartExamDlg::systemUserName() {
+#if defined (Q_OS_ANDROID)
+  return Tandroid::accountName();
+#elif defined(Q_OS_WIN32)
+  return qgetenv("USERNAME");
+#else
+  return qgetenv("USER");
+#endif
+}
 
 
 TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidget* parent) :
@@ -436,11 +448,7 @@ void TstartExamDlg::examToContSelected(const QString& eFile) {
 
 
 void TstartExamDlg::updateButtonStatusText(const QString& levelName) {
-	QString statusText;
-  if (levelName.isEmpty())
-      statusText += tr("No level was selected!");
-  else
-      statusText += levelName;
+  QString statusText = levelName.isEmpty() ? tr("No level was selected!") : levelName;
   statusText.prepend(QLatin1String("<br><b>"));
   statusText.append(QLatin1String("</b>"));
   m_newExamButt->setStatusTip(tr("Pass new exam on level:") + statusText);
