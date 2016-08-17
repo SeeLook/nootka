@@ -77,8 +77,7 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
 #if !defined (Q_OS_ANDROID)
 		m_playInputChB = new QCheckBox(tr("forward input to output"), this);
 			m_playInputChB->setChecked(m_params->forwardInput);
-			m_playInputChB->setStatusTip(tr("All sounds captured by audio input will be forwarded directly to output device.") +
-        " <b><span style=\"color: red;\">" + tr("IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!") + "</span></b>");
+      m_playInputChB->setStatusTip(tr("All sounds captured by audio input will be forwarded directly to output device."));
 		realLay->addWidget(m_playInputChB, 0, Qt::AlignLeft);
 #endif
     m_realAGr->setLayout(realLay);
