@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,13 +55,7 @@ public:
   Eactions showDialog(QString &txt, Tlevel &lev);
 
       /** Returns system user name (log-in name)  */
-  static QString systemUserName() {
-#if defined(Q_OS_WIN32)
-      return qgetenv("USERNAME");
-#else
-      return qgetenv("USER");
-#endif
-  }
+  static QString systemUserName();
 
 
 private:
