@@ -21,6 +21,7 @@
 #include <QtAndroidExtras/qandroidfunctions.h>
 #include <QtAndroidExtras/qandroidjnienvironment.h>
 #include <QtCore/qdatetime.h>
+#include <QtCore/qfileinfo.h>
 #include <QtCore/qdebug.h>
 
 
@@ -43,8 +44,18 @@ void Tandroid::setScreenLockDisabled() {
 
 QString Tandroid::getExternalPath() {
   QString extPath = qgetenv("SECONDARY_STORAGE");
+  if (!extPath.isEmpty()) {
+    if (!QFileInfo(extPath).isWritable()) {
+      qDebug() << "[Tandroid] No write access to secondary storage!";
+      extPath.clear();
+    }
+  }
   if (extPath.isEmpty())
     extPath = qgetenv("EXTERNAL_STORAGE"); // return primary storage path (device internal)
+  if (!QFileInfo(extPath).isWritable()) {
+    qDebug() << "[Tandroid] No write access to primary storage!";
+    extPath.clear();
+  }
   return extPath;
 //  QAndroidJniObject extDirObject =
 //      QAndroidJniObject::callStaticObjectMethod("android/os/Environment", "getExternalStorageDirectory", "()Ljava/io/File;");
@@ -116,14 +127,10 @@ void Tandroid::sendExam(const QString& title, const QString &message, const QStr
 
 
 QString Tandroid::accountName() {
-//  QAndroidJniObject::callStaticMethod<void>(
-//        "net/sf/nootka/Tusers", "getUserName",
-//        "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
-//        jTitle.object<jstring>(), jMessage.object<jstring>(), jFile.object<jstring>());
-
-  QAndroidJniObject juser = QtAndroid::androidActivity().callObjectMethod("getUser", "()Ljava/lang/String;");
-  return juser.toString();
-//  return "fake";
+//  QString model = QAndroidJniObject::getStaticObjectField<jstring>("android/os/Build", "MODEL").toString();
+//  QAndroidJniObject juser = QtAndroid::androidActivity().callObjectMethod("getUser", "()Ljava/lang/String;");
+//  return model;
+  return QStringLiteral("Android");
 //  return QAndroidJniObject::callStaticObjectMethod<jstring>
 //              ("net/sf/nootka/account",
 //               "getName").toString();
