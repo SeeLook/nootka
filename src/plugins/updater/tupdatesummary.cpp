@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,7 +45,7 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
   if (!version.isEmpty()) {
 #if defined (Q_OS_ANDROID)
     lab->setText(QStringLiteral("<p style=\"font-size: large;\">") +
-      tr("New Nootka %1 is available.").arg(version) + QStringLiteral(" ") +
+      tr("New Nootka %1 is available.").arg(version) + QStringLiteral("<br>") +
       tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.")
                  + QStringLiteral("</p>"));
 #else
@@ -56,6 +56,11 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
 #endif
     lab->setOpenExternalLinks(true);
     QTextEdit *news = new QTextEdit(this);
+#if defined (Q_OS_ANDROID)
+    news->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    news->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    news->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+#endif
     QScroller::grabGesture(news->viewport(), QScroller::LeftMouseButtonGesture);
     news->setReadOnly(true);
     mainLay->addWidget(news);
