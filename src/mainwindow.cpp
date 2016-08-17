@@ -538,7 +538,6 @@ void MainWindow::startExamPlugin(const QString& pluginArgs) {
   if (m_score->insertMode() != TmultiScore::e_single) {
     if (m_score->isScorePlayed())
       m_melButt->playMelodySlot(); // stop playing when played
-    m_bar->setMelodyButtonVisible(false);
   }
   m_sound->stopPlaying();
   m_examResults = new TexamView();
