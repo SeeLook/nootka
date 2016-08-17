@@ -257,6 +257,7 @@ void TtoolBar::actionsToExam() {
 	prevQuestAct->setVisible(false);
   checkAct->setVisible(false);
 #endif
+  setMelodyButtonVisible(false);
 }
 
 
