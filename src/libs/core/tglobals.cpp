@@ -263,7 +263,11 @@ void Tglobals::loadSettings(QSettings* cfg) {
 		A->INenabled = cfg->value("inSoundEnabled", true).toBool();
 		A->INdevName = cfg->value("inDeviceName", QString()).toString();
 		A->detectMethod = qBound(0, cfg->value("detectionMethod", 2).toInt(), 2); // MPM modified cepstrum
-		A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
+#if defined (Q_OS_ANDROID) // Input sound is loud on mobile
+    A->minimalVol = cfg->value("minimalVolume", 0.6).toFloat();
+#else
+    A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
+#endif
 		A->minDuration = cfg->value("minimalDuration", 0.15).toFloat(); // 150 ms
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
 		A->intonation = (quint8)qBound(0, cfg->value("intonation", 3).toInt(), 5);
