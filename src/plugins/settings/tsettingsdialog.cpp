@@ -215,6 +215,9 @@ void TsettingsDialog::changeSettingsWidget(int index) {
     case 0: {
       if (!m_globalSett) {
         addPage(m_globalSett = new TglobalSettings());
+#if defined (Q_OS_ANDROID)
+        markChanges(m_globalSett);
+#endif
         connect(m_globalSett, &TglobalSettings::restoreAllDefaults, this, &TsettingsDialog::allDefaultsRequired);
       }
       currentWidget = m_globalSett;
