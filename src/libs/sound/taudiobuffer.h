@@ -46,7 +46,8 @@ public:
        * In fact, there is no any buffer!
        * That value controls size of data to get by @p feedAudio()
        * instead of @p maxlen value sending in @p readData(data, maxlen)
-       * or @p len value from @p writeData(data, len)
+       * or @p len value from @p writeData(data, len).
+       * If this value is set to 0, then values send by device are respected.
        */
   void setBufferSize(qint64 s) { m_bufferSize = s; }
   qint64 bufferSize() const { return m_bufferSize; }
@@ -58,16 +59,15 @@ signals:
 protected:
 
   virtual qint64 readData(char *data, qint64 maxlen) {
-    Q_UNUSED(maxlen)
     qint64 wasRead = 0;
-    emit feedAudio(data, m_bufferSize, wasRead);
+    emit feedAudio(data, m_bufferSize ? m_bufferSize : maxlen, wasRead);
     return wasRead;
   }
 
 
+      /** When @p m_bufferSize is set to 0 @p len parameter is respected */
   virtual qint64 writeData(const char *data, qint64 len) {
-    Q_UNUSED(len)
-    qint64 dataLenght = m_bufferSize;
+    qint64 dataLenght = m_bufferSize ? m_bufferSize : len;
     emit readAudio(data, dataLenght);
     return dataLenght;
   }
