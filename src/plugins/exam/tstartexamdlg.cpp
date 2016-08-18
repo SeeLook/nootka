@@ -65,8 +65,10 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   const QString selectLevelText(tr("Select a level suitable for you<br>or create new one."));
   auto nameLab = new QLabel(tr("student name:"), this);
   m_nameEdit = new QLineEdit(nick, this);
+#if !defined (Q_OS_ANDROID) // if undefined, keep it empty under Android, it will ask user
   if (nick.isEmpty())
     m_nameEdit->setText(systemUserName());
+#endif
   m_nameEdit->setMaxLength(40);
     m_nameEdit->setStatusTip(tr("Enter your name or nick-name."));
 //   if (m_nameEdit->text().isEmpty()) // when still there is no user name - put gray text of status tip
