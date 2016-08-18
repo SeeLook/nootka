@@ -33,6 +33,7 @@ TmelMan::TmelMan(TmainScore* score) :
 	m_menu = new Tmenu();
 	m_playMelAct = createAction(tr("Play"), SLOT(playMelodySlot()), QKeySequence(Qt::Key_Space),
 							 QIcon(score->style()->standardIcon(QStyle::SP_MediaPlay)));
+  m_playMelAct->setCheckable(true);
 #if defined (Q_OS_MAC) // Ctrl is CMD under Mac and CMD+space is system wide shortcut - use Ctrl (Meta there) instead
   m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Meta+Space"),
 							 QIcon(Tpath::img("record")));
@@ -40,6 +41,7 @@ TmelMan::TmelMan(TmainScore* score) :
   m_recMelAct = createAction(tr("Record"), SLOT(recordMelodySlot()), QKeySequence("Ctrl+Space"),
                QIcon(Tpath::img("record")));
 #endif
+  m_recMelAct->setCheckable(true);
 	m_recMelAct->setStatusTip(tr("When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically."));
 	QAction* genAct = createAction(tr("Generate"), SLOT(randomizeMelodySlot()), QKeySequence(), QIcon(Tpath::img("melody")));
 	genAct->setStatusTip(tr("Generate a melody with random notes."));
@@ -87,6 +89,7 @@ void TmelMan::playMelodySlot() {
 		m_score->playScore(); // It will be stopped
 		m_recMelAct->setDisabled(false);
 		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaPlay)));
+    m_playMelAct->setChecked(false);
 		if (m_score->insertMode() == TmultiScore::e_record)
       showAudioMark(e_recording);
     else
@@ -100,6 +103,7 @@ void TmelMan::playMelodySlot() {
     }
 		m_recMelAct->setDisabled(true);
 		m_playMelAct->setIcon(QIcon(m_score->style()->standardIcon(QStyle::SP_MediaStop)));
+    m_playMelAct->setChecked(true);
 		m_score->playScore();
     showAudioMark(e_playing);
 	}

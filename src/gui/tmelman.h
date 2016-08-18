@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,7 +46,8 @@ public:
 	
 	QWidgetAction* melodyAction() { return m_melAct; }
 	QToolButton* button() { return m_button; }
-	
+	QAction* recordAction() { return m_recMelAct; }
+
 public slots:
 	void playMelodySlot();
 	void recordMelodySlot();
