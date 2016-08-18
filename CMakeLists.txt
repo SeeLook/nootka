@@ -10,7 +10,7 @@ SET(Nootka_VERSION_MAJOR  "1")
 SET(Nootka_VERSION_MINOR  "3")
 SET(Nootka_VERSION_PATCH  "0-alpha")
 
-set(Nootka_ANDROID_VERSION "1.2A.7")
+set(Nootka_ANDROID_VERSION "1.2A.7-rc3")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -146,7 +146,7 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
 	" )
   if (DPKG_CMD) # Debian changelog
-      install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
+      install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka RENAME changelog.gz)
   endif (DPKG_CMD)
 	install(FILES copyright DESTINATION share/doc/nootka)
 	install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
