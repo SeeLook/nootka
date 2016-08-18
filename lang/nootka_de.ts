@@ -441,51 +441,51 @@
     </message>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation type="vanished">Standard: E A D G H E </translation>
+        <translation>Standard: E A D G H E </translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation type="vanished">Dropped D: D A D G H E </translation>
+        <translation>Dropped D: D A D G H E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation type="vanished">falsche Laute: D A D F# H E </translation>
+        <translation>falsche Laute: D A D F# H E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation type="vanished">Offen: D A D G A D </translation>
+        <translation>Offen: D A D G A D </translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation type="vanished">Kouyanbaba: D A D A D F </translation>
+        <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
         <source>Standard bass: E A D G</source>
-        <translation type="vanished">Standard Bass: E A D G</translation>
+        <translation>Standard Bass: E A D G</translation>
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation type="vanished">Quintenstimmung für Bass: C G D A</translation>
+        <translation>Quintenstimmung für Bass: C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation type="vanished">5-Saiten Bass: H E A D G</translation>
+        <translation>5-Saiten Bass: H E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="vanished">6-Saiten Bass: H E A D G C</translation>
+        <translation>6-Saiten Bass: H E A D G C</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation type="vanished">Du kannst auch helfen Nootka zu verbessern.</translation>
+        <translation>Du kannst auch helfen Nootka zu verbessern.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="vanished">Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
+        <translation>Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen kannst, gibt es Möglichkeiten mitzuhelfen.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="vanished">Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
+        <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
     </message>
     <message>
         <source>time [s]</source>
@@ -547,7 +547,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Hilfe</translation>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <source>License</source>
@@ -961,23 +961,23 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation type="vanished">Psssst... Prüfung läuft.&lt;br&gt;&lt;br&gt;&lt;b&gt;Prüfung&lt;/b&gt;Fortsetzen&lt;br&gt;oder&lt;br&gt;&lt;b&gt;Abbrechen&lt;/b&gt;zum Bestätigen, speichern und beenden&lt;br&gt;</translation>
+        <translation>Psssst... Prüfung läuft.&lt;br&gt;&lt;br&gt;&lt;b&gt;Prüfung&lt;/b&gt;Fortsetzen&lt;br&gt;oder&lt;br&gt;&lt;b&gt;Abbrechen&lt;/b&gt;zum Bestätigen, speichern und beenden&lt;br&gt;</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="vanished">Fortfahren</translation>
+        <translation>Fortfahren</translation>
     </message>
     <message>
         <source>Terminate</source>
-        <translation type="vanished">Abbrechen</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="vanished">Speichern</translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Verwerfen</translation>
+        <translation>Verwerfen</translation>
     </message>
     <message>
         <source>This note was not played!</source>
@@ -1107,13 +1107,13 @@
         <translation>stelle nächste Frage automatisch</translation>
     </message>
     <message>
-        <source>Click %1 to stop.</source>
-        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
+        <source>tap %1</source>
+        <comment>tap &lt;icon image follows&gt;</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>tap %1</source>
-        <comment>tap &lt;icon image follows&gt;</comment>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1268,15 +1268,15 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="vanished">Schließen</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="vanished">Fortfahren</translation>
+        <translation>Fortfahren</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Verwerfen</translation>
+        <translation>Verwerfen</translation>
     </message>
     <message>
         <source>Results:</source>
@@ -1710,7 +1710,7 @@ cents???</translatorcomment>
     <name>Tlevel</name>
     <message>
         <source>Grand staff</source>
-        <translation>Akkolade</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Guess notes from grand staff in different keys</source>
@@ -2040,15 +2040,15 @@ nicht öffnen</translation>
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation type="vanished">Wiedergabe</translation>
+        <translation>Wiedergabe</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="vanished">Aufnahme</translation>
+        <translation>Aufnahme</translation>
     </message>
     <message>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="vanished">Bei der Aufnahme werden nicht nur die gespilten Noten nacheinander aufgezeichnet, sondern auch das Auswählen des Bundes oder des Notennamens fügt automatisch neue Noten hinzu.</translation>
+        <translation>Bei der Aufnahme werden nicht nur die gespilten Noten nacheinander aufgezeichnet, sondern auch das Auswählen des Bundes oder des Notennamens fügt automatisch neue Noten hinzu.</translation>
     </message>
     <message>
         <source>Melody</source>
@@ -2072,7 +2072,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Generate</source>
-        <translation type="vanished">Erstellen</translation>
+        <translation>Erstellen</translation>
     </message>
     <message>
         <source>Generate a melody with random notes.</source>
@@ -2080,7 +2080,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Play melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele Melodie</translation>
     </message>
     <message>
         <source>Note by note</source>
@@ -2092,7 +2092,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Generate melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstellen Melodie </translation>
     </message>
 </context>
 <context>
@@ -2673,10 +2673,6 @@ nicht öffnen</translation>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation>Zeigt die Vorzeichen der Tonart auch neben der Note. &lt;b&gt;ACHTUNG! Dies kommt niemals in echten Partituren vor - nutze es nur für Übungszwecke&lt;/b&gt;</translation>
     </message>
-    <message>
-        <source>Score</source>
-        <translation type="vanished">Notation</translation>
-    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -2880,11 +2876,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>exercises</source>
-        <translation type="vanished">Übungen</translation>
+        <translation>Übungen</translation>
     </message>
     <message>
         <source>pass new exam</source>
-        <translation type="vanished">neue Prüfung ablegen</translation>
+        <translation>neue Prüfung ablegen</translation>
     </message>
     <message>
         <source>Click and select an exam to continue</source>
@@ -2892,7 +2888,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Hilfe</translation>
+        <translation>Hilfe</translation>
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
@@ -2932,11 +2928,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>continue exam</source>
-        <translation type="vanished">Prüfung fortsetzen</translation>
+        <translation>Prüfung fortsetzen</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Verwerfen</translation>
+        <translation>Verwerfen</translation>
     </message>
     <message>
         <source>Exam results</source>
@@ -3019,6 +3015,10 @@ nicht öffnen</translation>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation>Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka Release.&lt;br&gt;Du findest es immer im &quot;Nootka Info&quot; Dialog</translation>
     </message>
+    <message>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TtipMelody</name>
@@ -3081,7 +3081,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Start!</source>
-        <translation type="vanished">Start!</translation>
+        <translation>Start!</translation>
     </message>
     <message>
         <source>Start exercises or an exam</source>
@@ -3163,16 +3163,16 @@ nicht öffnen</translation>
         <translation>Versuche die Meldoie nocheinmal. (Backspace)</translation>
     </message>
     <message>
+        <source>Lessons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Next</source>
         <translation>Weiter</translation>
     </message>
     <message>
         <source>Correct</source>
         <translation>Richtig</translation>
-    </message>
-    <message>
-        <source>Lessons</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3268,7 +3268,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Ok</source>
-        <translation type="vanished">Ok</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <source>Updates</source>
@@ -3329,7 +3329,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Accidentals used in exam.</source>
-        <translation type="vanished">Vorzeichen, die in der Prüfung verwendet werden.</translation>
+        <translation>Vorzeichen, die in der Prüfung verwendet werden.</translation>
     </message>
     <message>
         <source>single key</source>
