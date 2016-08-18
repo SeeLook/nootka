@@ -1,9 +1,26 @@
-1.2A.7
+1.2A.7 rc3
     ANDROID
      - handle pinch gesture to zoom score in/out
+     - touching screen suspends pitch detection
      - application can restart itself to restore initial settings
+     - updated Qt version to 5.6.1
+    BUGS FIXES
+     - prevent stopping input sound randomly
+     - fixed issues with saving exams/levels on device
 
-1.2A.6
+1.2.7
+  Nootka says: I speak Spanish
+     - translated to Spanish language
+     - better handling input audio data, increased buffer size
+     - less fragmented pitch detection, if any
+     - forwarding input to output works with every sound system now
+    BUGS FIXES
+     - fixed reason of random crashes when audio input started
+     - repaired starting exam with melodies from single note mode view
+     - fixed deb package compatibility with Ubuntu 16.04
+     - minor fixes
+
+1.2A.6 rc2
   Google Play(s) with Nootka
     ANDROID
      - prepared to release in Google Play
