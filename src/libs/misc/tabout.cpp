@@ -22,15 +22,69 @@
 #include <widgets/troundedlabel.h>
 #include <tpath.h>
 #include <QtWidgets/qboxlayout.h>
+#include <QtCore/qdatetime.h>
+#include <QtWidgets/qgraphicseffect.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qdesktopwidget.h>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
   #include <tmtr.h>
 #endif
 
+
+// TODO: merge it with commonly used TnootaLabel class
+class TheadLabel : public QWidget {
+
+public:
+
+  TheadLabel(QWidget* parent) :
+    QWidget(parent)
+  {
+    qsrand(QDateTime::currentDateTime().toTime_t());
+    m_color = QColor(qrand() % 220, qrand() % 220, qrand() % 220);
+    QPixmap nootkaLogo(Tpath::img("logo"));
+    QPixmap pixmap(nootkaLogo.size());
+    pixmap.fill(m_color);
+    QPainter p(&pixmap);
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.drawPixmap(0, 0, nootkaLogo);
+    p.setPen(QPen(Qt::white));
+    p.end();
+    auto *label = new QLabel(this);
+    label->setContentsMargins(0, 0, 0, 0);
+    label->setPixmap(pixmap.scaledToWidth(qApp->desktop()->width() / 6, Qt::SmoothTransformation));
+    auto colorEffect = new QGraphicsColorizeEffect;
+    colorEffect->setColor(m_color);
+    label->setGraphicsEffect(colorEffect);
+    auto lay = new QHBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    lay->addWidget(label, 0, Qt::AlignCenter);
+    setLayout(lay);
+  }
+
+protected:
+  void paintEvent(QPaintEvent*) override {
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing);
+    p.setRenderHint(QPainter::SmoothPixmapTransform);
+    p.setPen(Qt::NoPen);
+    p.setBrush(QBrush(m_color));
+    p.drawRect(contentsRect());
+    p.end();
+  }
+
+private:
+  QColor                  m_color;
+};
+
+
+
 Tabout::Tabout(QWidget* parent) :
   QWidget(parent)
 {
-  auto nootkaLab = new TnootkaLabel(Tpath::img("logo"), this, palette().highlight().color());
+//  auto nootkaLab = new TnootkaLabel(Tpath::img("logo"), this, palette().highlight().color());
+  auto nootkaLab = new TheadLabel(this);
   QString info = tr("Welcome on board.<br>Nootka is an open source application to help you in learning (and in teaching) classical score notation.<br>It is specially designed for guitarists but others will find many usable features as well.");
   QString betaInfo = tr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!");
   QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, suggestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
@@ -43,12 +97,14 @@ Tabout::Tabout(QWidget* parent) :
   m_aboutLab->setContentsMargins(10, 10, 10, 10);
   m_aboutLab->setWordWrap(true);
   m_aboutLab->setOpenExternalLinks(true);
+  m_aboutLab->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 
   auto lay = new QVBoxLayout;
     lay->addWidget(nootkaLab);
+    lay->addStretch();
     lay->addWidget(m_aboutLab);
+    lay->addStretch();
 #if defined (Q_OS_ANDROID)
-    nootkaLab->setMinimumHeight(Tmtr::fingerPixels() * 2);
     lay->setContentsMargins(0, 0, 0, 0);
   auto touchArea = new TtouchArea(this);
     touchArea->setLayout(lay);
