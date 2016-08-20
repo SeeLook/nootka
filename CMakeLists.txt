@@ -123,6 +123,12 @@ endif(APPLE OR WIN32)
 
 install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
 
+if(APPLE)
+  file(GLOB mimeTrans "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
+  install(DIRECTORY ${mimeTrans} DESTINATION ${INS_PREF})
+endif(APPLE)
+
+
 file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*-guitar.ogg")
 install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
