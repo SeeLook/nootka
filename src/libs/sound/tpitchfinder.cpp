@@ -127,23 +127,24 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
     return;
   }
 
-	int oldRate = m_aGl->rate, oldFramesPerChunk = m_aGl->framesPerChunk;
+	unsigned int oldRate = m_aGl->rate, oldFramesPerChunk = m_aGl->framesPerChunk;
 	m_aGl->rate = sRate;
-	switch (range) {
-		case 0: 
-			m_rateRatio = 0.5; break; // e_high - lowest pitch is F small
-		case 2:
-			m_rateRatio = 2.0; break; // e_low - lowest pitch is ... very low
-		default:
-			m_rateRatio = 1.0; break; // e_middle - lowest pitch is F contra
-	}
+  m_rateRatio = range == 2 ? 2.0 : 1.0; // e_low for 2, for other cases e_middle
+//   switch (range) {
+//     case 0:
+//       m_rateRatio = 0.5; break; // e_high - lowest pitch is F small
+//     case 2:
+//       m_rateRatio = 2.0; break; // e_low - lowest pitch is ... very low
+//     default:
+//       m_rateRatio = 1.0; break; // e_middle - lowest pitch is F contra
+//   }
 // 		qDebug() << "m_rateRatio is " << m_rateRatio;
-	if (sRate > 96000)
-		m_aGl->framesPerChunk = 4096 * m_rateRatio;
-	else if (sRate > 48000)
-		m_aGl->framesPerChunk = 2048 * m_rateRatio;
-	else
-		m_aGl->framesPerChunk = 1024 * m_rateRatio;
+  if (sRate > 96000)
+    m_aGl->framesPerChunk = static_cast<quint32>(4096 * m_rateRatio);
+  else if (sRate > 48000)
+    m_aGl->framesPerChunk = static_cast<quint32>(2048 * m_rateRatio);
+  else
+    m_aGl->framesPerChunk = static_cast<quint32>(1024 * m_rateRatio);
 	bool doReset = false;
 	if (oldRate != m_aGl->rate || oldFramesPerChunk != m_aGl->framesPerChunk) {
 		m_aGl->windowSize = 2 * m_aGl->framesPerChunk;
@@ -156,10 +157,10 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 		m_prevChunk = new float[aGl()->framesPerChunk];
 		m_floatBuffer = new float[aGl()->framesPerChunk];
 		doReset = true;
-    m_chunkTime = (qreal)aGl()->framesPerChunk / (qreal)aGl()->rate;
+    m_chunkTime = static_cast<qreal>(aGl()->framesPerChunk) / static_cast<qreal>(aGl()->rate);
     setMinimalDuration(m_minDuration); // recalculate minimum chunks number
-		qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
-             << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << m_framesReady;
+// 		qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
+//              << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << m_framesReady;
 	}
 	if (doReset)
 		resetFinder();
@@ -168,8 +169,11 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 
 void TpitchFinder::stop(bool resetAfter) {
   m_framesReady = 0;
-  qDebug() << "[TpitchFinder] Stopping detection process";
+  m_volume = 0.0;
   m_doReset = resetAfter;
+  m_state = e_silence;
+  m_prevState = e_silence;
+//   emit volume(m_volume);
 }
 
 
@@ -192,8 +196,8 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
     return;
   }
 
-  qint16* dataPtr = (qint16*)data;
-  long unsigned int framesToCopy = nBufferFrames;
+  qint16* dataPtr = static_cast<qint16*>(data);
+  unsigned int framesToCopy = nBufferFrames;
   if (m_writePos + nBufferFrames >= BUFF_SIZE)
     framesToCopy = BUFF_SIZE - m_writePos;
   if (framesToCopy) {
@@ -207,7 +211,6 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
       framesToCopy = nBufferFrames - framesToCopy;
       memcpy(m_tokenBuffer + m_writePos, dataPtr, framesToCopy * 2); // 2 bytes are size of qint16
       m_writePos += framesToCopy;
-      qDebug() << "reset and copied" << framesToCopy << "position" << m_writePos;
     }
   }
   m_framesReady += nBufferFrames;
@@ -224,7 +227,7 @@ void TpitchFinder::detectingThread() {
       m_workVol = 0;
       for (int i = 0; i < aGl()->framesPerChunk; ++i) {
         qint16 value = *(m_tokenBuffer + m_readPos + i);
-        float sample = float(double(value) / 32760.0f);
+        float sample = float(double(value) / 32760.0);
         *(m_floatBuffer + i) = sample;
         m_workVol = qMax<float>(m_workVol, sample);
       }
@@ -236,19 +239,12 @@ void TpitchFinder::detectingThread() {
       startPitchDetection();
       processed();
       loops++;
-//       qDebug() << "[TpitchFinder] detecting.... Chunk nr" << m_chunkNum;
     }
-    if (loops > 1)
-      qDebug() << "[TpitchFinder] loops" << loops;
 
-    m_thread->usleep(750);
-    if (m_doReset && m_framesReady == 0 && m_chunkNum > 0) {
-      qDebug() << "[TpitchFinder] Is good time for reset";
+    m_thread->usleep(500);
+    if (m_doReset && m_framesReady == 0 && m_chunkNum > 0)
       resetFinder();
-    }
-//     m_rateMutex.unlock();
   }
-  qDebug() << "[TpitchFinder] Thread reached end";
   m_mutex.unlock();
   m_thread->quit();
 }
@@ -283,19 +279,19 @@ void TpitchFinder::processed() {
 	if (m_state != m_prevState) {
 		if (m_prevState == e_noticed) {
 			if (m_state == e_playing) {
+//         qDebug() << "[TpitchFinder] started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
+//                   << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration * 1000;
         emit noteStarted(m_currentNote.getAverage(3, minChunksNumber()), m_currentNote.freq, m_currentNote.duration); // new note started
-//         qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
-//                   << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 			}
 		} else if (m_prevState == e_playing) {
 				if (m_state == e_silence || m_state == e_noticed) {
+//           qDebug() << "[TpitchFinder] finished" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
+//                    << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration * 1000;
           emit noteFinished(&m_currentNote); // previous note was finished
           if (m_averVolume == 0.0)
             m_averVolume = m_currentNote.maxVol;
           else
             m_averVolume = (m_averVolume + m_currentNote.maxVol) / 2.0;
-//             qDebug() << "started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
-//                     << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration;
 				}
 		}
 	}
@@ -318,7 +314,7 @@ void TpitchFinder::detect() {
     m_isBussy = false;
     return;
   }
-  data->pcmVolume = m_pcmVolume;
+  data->pcmVolume = m_workVol;
   if (data->noteIndex == NO_NOTE) {
     m_chunkPitch = 0;
     m_volume = 0;
@@ -358,10 +354,8 @@ void TpitchFinder::detect() {
     }
   }
   m_prevNoteIndex = data->noteIndex;
-  if (!m_isOffline && m_chunkNum > 1000 && data->noteIndex == NO_NOTE) {
-    qDebug() << "[TpitchFinder] reset inside detecting thread";
+  if (!m_isOffline && m_chunkNum > 1000 && data->noteIndex == NO_NOTE)
     m_doReset = true;
-  }
 
   incrementChunk();
   m_isBussy = false;
@@ -377,7 +371,7 @@ void TpitchFinder::resetFinder() {
       m_transforms->uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
-      qDebug() << "[TpitchFinder] reset channel";
+//       qDebug() << "[TpitchFinder] reset channel";
   }
 }
 
