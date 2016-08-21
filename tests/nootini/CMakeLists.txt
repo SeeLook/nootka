@@ -30,6 +30,7 @@ set(NOOTINI_SRC
   ../../src/plugins/charts/txaxis.cpp
   ../../src/plugins/charts/tyaxis.cpp
   ../../src/plugins/charts/ttiphandler.cpp
+  ../../src//plugins/charts/tgroupedqaunit.cpp
   ../../src/plugins/settings/tvolumeslider.cpp
 
 )
