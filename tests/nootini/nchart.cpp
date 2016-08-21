@@ -227,7 +227,7 @@ void Nchart::setXnumber(int xN) {
       "<span style=\"color: " + minVolumeColor.name() + "\";>" + QString("min. volume: <b>%1</b>").arg(Tcore::gl()->A->minimalVol * 100) + "</span><br>"
       "<span style=\"color: " + minDurColor.name() + "\";>" + QString("min. duration: <b>%1 [ms]</b>").arg(Tcore::gl()->A->minDuration * 1000) + "</span>" +
       QString("<br>chunk time: <b>%1 [ms]</b>").arg(m_pitchF->chunkTime() * 1000));
-    settingsTexts->setPos(xMap(xN - 2), yMap(100));
+    settingsTexts->setPos(xMap(xN - 2), yMap(110));
 }
 
 
