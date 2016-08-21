@@ -111,6 +111,13 @@ public:
   void copyToBuffer(void* data, unsigned int nBufferFrames);
 
       /**
+       * This method copies @p framesPerChunk from given @p data
+       * and performs pitch detection routines (in this thread)
+       * then sends appropriate signals (also in this thread)
+       */
+  void copyToBufferOffline(qint16* data);
+
+      /**
        * Informs @p TpitchFinder that audio input stops.
        * Given Boolean switch decides about resetting.
        */
@@ -185,10 +192,11 @@ private:
 private:
   QThread              *m_thread;
   MyTransforms         *m_transforms;
-  float                *m_filteredChunk, *m_workChunk, *m_prevChunk;
-  float                *m_floatBuffer;
-  qint16               *m_tokenBuffer;
-  unsigned int          m_writePos, m_readPos;
+  float                *m_filteredChunk; /**< audio data after high pass filter */
+  float                *m_floatBuffer; /**< raw audio data */
+  qint16               *m_tokenBuffer; /**< 16k buffer to keep incoming audio data, feed in input audio thread   */
+  unsigned int          m_readPos; /** Position to read from token buffer */
+  unsigned int          m_writePos; /** Position to write to token buffer */
   volatile quint32      m_framesReady; /**< Number of frames ready for processing */
   volatile bool         m_doProcess, m_doReset; /**< When @p TRUE when detecting thread p  */
 
