@@ -12,53 +12,6 @@ cat <<EOF
 <dict>
         <key>CFBundleDevelopmentRegion</key>
         <string>English</string>
-        <key>UTExportedTypeDeclarations</key>
-        <array>
-                <dict>
-                        <key>UTTypeIdentifier</key>
-                        <string>org.nootka.bin</string>
-                        <key>UTTypeDescription</key>
-                        <string>Nootka level file</string>
-                        <key>UTTypeConformsTo</key>
-                        <array>
-                                <string>public.data</string>
-                                <string>public.content</string>
-                        </array>
-                        <key>UTTypeTagSpecification</key>
-                        <dict>
-                                <key>public.filename-extension</key>
-                                <array>
-                                        <string>nel</string>
-                                </array>
-                                <key>public.mime-type</key>
-                                <array>
-                                        <string>application/x-nootka</string>
-                                </array>
-                        </dict>
-                </dict>
-                <dict>
-                        <key>UTTypeIdentifier</key>
-                        <string>org.nootka.bin</string>
-                        <key>UTTypeDescription</key>
-                        <string>Nootka exam file</string>
-                        <key>UTTypeConformsTo</key>
-                        <array>
-                                <string>public.data</string>
-                                <string>public.content</string>
-                        </array>
-                        <key>UTTypeTagSpecification</key>
-                        <dict>
-                                <key>public.filename-extension</key>
-                                <array>
-                                        <string>noo</string>
-                                </array>
-                                <key>public.mime-type</key>
-                                <array>
-                                        <string>application/x-nootka</string>
-                                </array>
-                        </dict>
-                </dict>
-        </array>
         <key>CFBundleDocumentTypes</key>
         <array>
                 <dict>
