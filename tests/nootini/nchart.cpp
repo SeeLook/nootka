@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,9 +26,9 @@
 #include <music/tnotestruct.h>
 #include <tinitcorelib.h>
 #include <taudioparams.h>
-#include <score/tscorescene.h>
-#include <score/tscorestaff.h>
-#include <score/tscoreclef.h>
+#include <tscorescene.h>
+#include <tscorestaff.h>
+#include <tscoreclef.h>
 #include <graphics/tgraphicstexttip.h>
 #include <tscoreparams.h>
 #include <tcolor.h>
