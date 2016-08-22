@@ -151,7 +151,7 @@ void NaudioLoader::fillTartiniParams(TartiniParams* tp) {
     m_pf->setMinimalDuration(Tcore::gl()->A->minDuration);
     m_pf->setSplitByVolChange(Tcore::gl()->A->minSplitVol > 0.0);
     m_pf->setSplitVolume(Tcore::gl()->A->minSplitVol / 100.0);
-    m_pf->resetFinder();
+    m_pf->stop(true);
     m_totalChunks = m_samplesCount / m_pf->aGl()->framesPerChunk + 1;
   }
 }
@@ -179,19 +179,22 @@ void NaudioLoader::threadFinished() {
 
 void NaudioLoader::performThread() {
   qint16 chL, chR;
+  qint16* buffer = new qint16[m_pf->aGl()->framesPerChunk];
   for (int i = 0; i < m_pf->aGl()->framesPerChunk; ++i) {
     if (m_samplesCount > m_pf->currentChunk() * m_pf->aGl()->framesPerChunk + i) {
-      m_in >> chL;
-      chL = qFromBigEndian<qint16>(chL);
-      if (m_channelsNr == 2) {
-        m_in >> chR;
-        chR = qFromBigEndian<qint16>(chR);
-        chL = ((qint32)chL + (qint32)chR) / 2; // mix channels to mono
-      }
-      m_pf->fillBuffer(float(double(chL) / 32760.0f));
+        m_in >> chL;
+        chL = qFromBigEndian<qint16>(chL);
+        if (m_channelsNr == 2) {
+          m_in >> chR;
+          chR = qFromBigEndian<qint16>(chR);
+          chL = ((qint32)chL + (qint32)chR) / 2; // mix channels to mono
+        }
+        buffer[i] = chL;
     } else
-      m_pf->fillBuffer(0.0f);
+        buffer[i] = 0;
   }
+  m_pf->copyToBufferOffline(buffer);
+  delete[] buffer;
 }
 
 
