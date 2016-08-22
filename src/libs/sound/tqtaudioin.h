@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,11 +25,13 @@
 #include <QtMultimedia/qaudiodeviceinfo.h>
 #include <QtCore/qmutex.h>
 #include <QtCore/qtimer.h>
+#include <QtCore/qiodevice.h>
 
 
 class QAudioInput;
 class QIODevice;
 class TaudioParams;
+class TaudioBuffer;
 class QTimer;
 
 
@@ -63,39 +65,39 @@ class NOOTKASOUND_EXPORT TaudioIN : public TcommonListener
 public:
   explicit TaudioIN(TaudioParams* params, QObject *parent = 0);
   ~TaudioIN();
-  
+
+      /**
+       * Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access.
+       */
   static TaudioIN* instance() { return m_instance; }
   static QString inputName() { return m_deviceName; }
-  
-      /** Returns list of audio input devices filtered by template audio format */
+
+      /**
+       * Returns list of audio input devices filtered by template audio format.
+       */
   static QStringList getAudioDevicesList(); 
-  
+
   void updateAudioParams();
-  
+
 public slots:
   virtual void startListening();
   virtual void stopListening();
 
 
 protected slots:
-  void dataReady();
-  void startThread();
-  void stopThread();
-  
-private:
-  void createInputDevice(); /** Deletes existing @p m_audioIN (if any) and creates a new one */
+  void bufferReady(const char* data, qint64& dataLenght);
+  void stateChangedSlot(QAudio::State s);
 
 private:
-     /** Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
+  void createInputDevice(); /** Deletes existing @p m_audioIN (when names are different) and creates a new one */
+
+private:
   static TaudioIN       *m_instance;
   static QString         m_deviceName;
   TaudioParams          *m_audioParams;
   QAudioInput           *m_audioIN;
   QAudioDeviceInfo       m_deviceInfo;
-  QIODevice             *m_inDevice;
-  qint16                *m_buffer;
-  QThread               *m_thread;
-  QMutex                 m_mutex;
+  TaudioBuffer          *m_inBuffer;
   TtouchHandler         *m_touchHandler;
 };
 
