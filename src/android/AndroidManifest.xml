@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <manifest package="net.sf.nootka" 
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="1.2A.6-rc2"
-          android:versionCode="7"
+          android:versionName="1.2A.7-rc3"
+          android:versionCode="8"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
                  android:name="org.qtproject.qt5.android.bindings.QtApplication"
@@ -126,6 +126,8 @@
     
     <uses-feature android:name="android.hardware.microphone" android:required="false"/>
     <uses-feature android:name="android.hardware.audio.low_latency" android:required="false"/>
+    <uses-feature android:name="android.hardware.touchscreen" required="false" />
+
 
 <!--     <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
 <!--     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"/> -->
