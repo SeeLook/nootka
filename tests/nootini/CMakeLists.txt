@@ -13,7 +13,7 @@ set(CMAKE_AUTOMOC ON)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../../src/)
 
-include_directories( ../../src/libs/core ../../src/libs/sound ../../src/plugins/charts )
+include_directories( ../../src/libs/core ../../src/libs/score ../../src/libs/sound ../../src/plugins/charts )
 if (${WIN32})
   include_directories(${FFTW3_INCLUDE_DIRS})
 endif(${WIN32})
@@ -36,5 +36,5 @@ set(NOOTINI_SRC
 )
   
 add_executable(nootini WIN32 ${NOOTINI_SRC})
-target_link_libraries(nootini NootkaCore NootkaSound Qt5::Widgets Qt5::Svg)
+target_link_libraries(nootini NootkaScore NootkaSound Qt5::Widgets Qt5::Svg)
 
