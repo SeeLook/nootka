@@ -31,7 +31,7 @@
 TpitchFinder::TpitchFinder(QObject* parent) :
   QObject(parent),
   m_thread(new QThread),
-  m_filteredChunk(0), m_prevChunk(0),
+  m_filteredChunk(0),
   m_floatBuffer(0),
   m_doReset(false), m_isOffline(false),
   m_channel(0),
@@ -97,7 +97,6 @@ TpitchFinder::~TpitchFinder()
   m_mutex.unlock();
 	if (m_filteredChunk)
 			delete m_filteredChunk;
-	delete m_prevChunk;
 	delete m_floatBuffer;
   delete m_transforms;
 	if (m_channel)
@@ -113,6 +112,11 @@ TpitchFinder::~TpitchFinder()
 void TpitchFinder::setOffLine(bool off) {
   if (off != m_isOffline) {
     m_isOffline = off;
+    if (m_isOffline) {
+      m_doProcess = false; // terminate the thread
+      m_mutex.lock();
+      m_mutex.unlock();
+    }
   }
 }
 
@@ -144,13 +148,11 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 	bool doReset = false;
 	if (oldRate != m_aGl->rate || oldFramesPerChunk != m_aGl->framesPerChunk) {
 		m_aGl->windowSize = 2 * m_aGl->framesPerChunk;
-		delete m_prevChunk;
 		delete m_filteredChunk;
     m_filteredChunk = 0;
 		delete m_floatBuffer;
 		if (aGl()->equalLoudness)
 			m_filteredChunk = new float[aGl()->framesPerChunk];
-		m_prevChunk = new float[aGl()->framesPerChunk];
 		m_floatBuffer = new float[aGl()->framesPerChunk];
 		doReset = true;
     m_chunkTime = static_cast<qreal>(aGl()->framesPerChunk) / static_cast<qreal>(aGl()->rate);
@@ -166,7 +168,7 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 
 void TpitchFinder::stop(bool resetAfter) {
   m_framesReady = 0;
-//  qDebug() << "[TpitchFinder] Stopping detection process";
+  m_volume = 0.0;
   m_doReset = resetAfter;
   m_state = e_silence;
   m_prevState = e_silence;
@@ -197,14 +199,14 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
   if (m_writePos + nBufferFrames >= BUFF_SIZE)
     framesToCopy = BUFF_SIZE - m_writePos;
   if (framesToCopy) {
-    memcpy(m_tokenBuffer + m_writePos, dataPtr, framesToCopy * 2); // 2 bytes are size of qint16
+    std::copy(dataPtr, dataPtr + framesToCopy * 2, m_tokenBuffer + m_writePos); // 2 bytes are size of qint16
     m_writePos += framesToCopy;
   }
   if (m_writePos >= BUFF_SIZE) {
     m_writePos = 0;
     if (framesToCopy < nBufferFrames) {
       framesToCopy = nBufferFrames - framesToCopy;
-      memcpy(m_tokenBuffer + m_writePos, dataPtr, framesToCopy * 2); // 2 bytes are size of qint16
+      std::copy(dataPtr, dataPtr + framesToCopy * 2, m_tokenBuffer + m_writePos); // 2 bytes are size of qint16
       m_writePos += framesToCopy;
       qDebug() << "reset and copied" << framesToCopy << "position" << m_writePos;
     }
@@ -212,13 +214,25 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
   m_framesReady += nBufferFrames;
 }
 
+
+void TpitchFinder::copyToBufferOffline(qint16* data) {
+  std::copy(data, data + aGl()->framesPerChunk * 2, m_tokenBuffer); // 2 bytes are size of qint16
+  m_framesReady = m_aGl->framesPerChunk;
+  m_doProcess = true;
+  detectingThread();
+}
+
+
 //##########################################################################################################
 //##########################       PROTECTED SLOTS    ######################################################
 //##########################################################################################################
 void TpitchFinder::detectingThread() {
-  m_mutex.lock();
+  if (!m_isOffline)
+    m_mutex.lock();
+
   while (m_doProcess) {
-    while (m_framesReady >= aGl()->framesPerChunk /*&& loops < BUFF_SIZE / aGl()->framesPerChunk*/) {
+    int loops = 0;
+    while (m_framesReady >= aGl()->framesPerChunk && loops < BUFF_SIZE / aGl()->framesPerChunk) {
       m_workVol = 0;
       for (unsigned int i = 0; i < aGl()->framesPerChunk; ++i) {
         qint16 value = *(m_tokenBuffer + m_readPos + i);
@@ -227,43 +241,49 @@ void TpitchFinder::detectingThread() {
         m_workVol = qMax<float>(m_workVol, sample);
       }
       m_framesReady -= aGl()->framesPerChunk;
-      m_readPos += aGl()->framesPerChunk;
-      if (m_readPos >= BUFF_SIZE)
-        m_readPos = 0;
+      if (!m_isOffline) {
+        m_readPos += aGl()->framesPerChunk;
+        if (m_readPos >= BUFF_SIZE)
+          m_readPos = 0;
+      }
 
       startPitchDetection();
       processed();
+      loops++;
     }
-
-    m_thread->usleep(750);
-    if (m_doReset && m_framesReady == 0 && m_chunkNum > 0)
-      resetFinder();
+    if (m_isOffline)
+        m_doProcess = false;
+    else {
+        m_thread->usleep(500);
+        if (m_doReset && m_framesReady == 0 && m_chunkNum > 0)
+          resetFinder();
+    }
   }
-  qDebug() << "[TpitchFinder] Thread reached end";
-  m_mutex.unlock();
-  m_thread->quit();
+  if (!m_isOffline)
+    m_mutex.unlock();
+
+  if (m_thread->isRunning())
+    m_thread->quit();
 }
 
 
 void TpitchFinder::startPitchDetection() {
   m_isBussy = true;
-	if (m_doReset) { // copy last chunk to keep capturing data continuous
-		if (aGl()->equalLoudness)
-				std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_prevChunk);
-		else
-				std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_prevChunk);
+  if (m_doReset) { // copy last chunk to keep capturing data continuous
 		resetFinder();
-		std::copy(m_prevChunk, m_prevChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
-	}
-	m_workChunk = m_floatBuffer;
+    if (aGl()->equalLoudness) // initialize channel with previous data
+      std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
+    else
+      std::copy(m_floatBuffer, m_floatBuffer + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
+  }
 	m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
 	if (aGl()->equalLoudness) { // filter it and copy to channel
-		m_channel->highPassFilter->filter(m_workChunk, m_filteredChunk, aGl()->framesPerChunk);
-    for(quint32 i = 0; i < aGl()->framesPerChunk; i++)
-				m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
-		std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
-	} else // copy without filtering
-			std::copy(m_workChunk, m_workChunk + aGl()->framesPerChunk - 1, m_channel->end() - aGl()->framesPerChunk);
+      m_channel->highPassFilter->filter(m_floatBuffer, m_filteredChunk, aGl()->framesPerChunk);
+      for(int i = 0; i < aGl()->framesPerChunk; i++)
+          m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
+      std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
+  } else // copy without filtering
+      std::copy(m_floatBuffer, m_floatBuffer + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
 
 	detect();
 }
@@ -309,7 +329,7 @@ void TpitchFinder::detect() {
     m_isBussy = false;
     return;
   }
-  data->pcmVolume = m_workVol; // rather unused
+  data->pcmVolume = m_workVol;
   if (data->noteIndex == NO_NOTE) {
     m_chunkPitch = 0;
     m_volume = 0;
@@ -366,7 +386,7 @@ void TpitchFinder::resetFinder() {
       m_transforms->uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
-      qDebug() << "[TpitchFinder] reset channel";
+//       qDebug() << "[TpitchFinder] reset channel";
   }
 }
 
