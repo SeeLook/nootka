@@ -60,12 +60,8 @@ protected:
       return true;
     if (st)
       qDebug() << "input buffer underflow";
-    qint16 *in = (qint16*)inBuff;
-    qint16 value;
-    for (int i = 0; i < nBufferFrames; i++) {
-          value = *(in + i);
-          instance()->finder()->fillBuffer(float(double(value) / 32760.0f));
-    }
+
+    instance()->finder()->copyToBuffer(inBuff, nBufferFrames);
     return false;
 	}
   
