@@ -32,6 +32,7 @@
 #include <QtCore/qtranslator.h>
 #include <QtCore/qdatetime.h>
 
+static QString logFile;
 
 /** It allows to grab all debug messages into nootka-log.txt file */
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
@@ -39,7 +40,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
   Q_UNUSED(type)
 //   if (type == QtDebugMsg) {
 #if defined (Q_OS_ANDROID)
-    QFile outFile(qgetenv("EXTERNAL_STORAGE") + QStringLiteral("/nootka-log.txt"));
+    QFile outFile(logFile);
 #else
     QFile outFile(QStringLiteral("nootka-log.txt"));
 #endif
@@ -57,11 +58,10 @@ bool resetConfig;
 int main(int argc, char *argv[])
 {
 #if defined (Q_OS_ANDROID)
-  {
-    QString logFile(qgetenv("EXTERNAL_STORAGE") + QStringLiteral("/nootka-log.txt"));
-    if (QFile::exists(logFile))
-      QFile::remove(logFile);
-  }
+  // log to any writable storage
+  logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
+  if (QFile::exists(logFile))
+    QFile::remove(logFile);
   qInstallMessageHandler(myMessageOutput);
   qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
