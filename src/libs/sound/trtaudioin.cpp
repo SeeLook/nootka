@@ -115,7 +115,7 @@ void TaudioIN::startListening() {
         openStream();
       if (startStream())
         setState(e_detecting);
-// 			qDebug() << "start listening";
+			qDebug() << "start listening";
 		}
   }
 }
@@ -129,7 +129,7 @@ void TaudioIN::stopListening() {
 		if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
 			abortStream();
     setState(e_stopped);
-    finder()->resetFinder();
+    finder()->stop(true);
   }
 }
 
