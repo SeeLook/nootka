@@ -6,6 +6,10 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(nootini)
 
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
+endif (CMAKE_BUILD_TYPE STREQUAL "Release")
+
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Svg REQUIRED)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
