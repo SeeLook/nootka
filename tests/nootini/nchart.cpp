@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -115,10 +115,10 @@ void Nchart::setAudioLoader(NaudioLoader* loader) {
   m_loader = loader;
   m_pitchF = loader->finder();
   m_chunkNr = -1;
-  connect(m_loader, &NaudioLoader::chunkReady, this, &Nchart::drawChunk, Qt::DirectConnection);
-  connect(m_loader, &NaudioLoader::processingFinished, this, &Nchart::allDataLoaded, Qt::DirectConnection);
-  connect(m_pitchF, &TpitchFinder::noteStarted, this, &Nchart::noteStartedSlot, Qt::DirectConnection);
-  connect(m_loader, &NaudioLoader::noteFinished, this, &Nchart::copyChunk, Qt::DirectConnection);
+  connect(m_loader, &NaudioLoader::chunkReady, this, &Nchart::drawChunk, Qt::UniqueConnection);
+  connect(m_loader, &NaudioLoader::processingFinished, this, &Nchart::allDataLoaded, Qt::UniqueConnection);
+  connect(m_pitchF, &TpitchFinder::noteStarted, this, &Nchart::noteStartedSlot, Qt::UniqueConnection);
+  connect(m_loader, &NaudioLoader::noteFinished, this, &Nchart::copyChunk, Qt::UniqueConnection);
   m_progresItem->show();
   m_prevNoteIndex = 0;
   m_prevChunk = 0;
@@ -430,6 +430,14 @@ void Nchart::clefChanged(Tclef clef) {
 void Nchart::adjustHeight() {
   qreal factor = (viewport()->rect().height() / scene->sceneRect().height()) * 0.95;
   scale(factor, factor);
+}
+
+
+void Nchart::scrollContentsBy(int dx, int dy) {
+  QGraphicsView::scrollContentsBy(dx, dy);
+  if (m_progresItem->isVisible()) {
+    m_progresItem->setPos(mapToScene(0, 0));
+  }
 }
 
 

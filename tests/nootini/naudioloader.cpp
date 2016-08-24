@@ -31,15 +31,10 @@ NaudioLoader::NaudioLoader(QObject* parent) :
   QObject(parent),
   m_pf(0)
 {
-//   moveToThread(&m_thread);
-//   connect(&m_thread, &QThread::started, this, &NaudioLoader::performThread, Qt::DirectConnection);
-//   connect(&m_thread, &QThread::finished, this, &NaudioLoader::threadFinished, Qt::DirectConnection);
 }
 
 
 NaudioLoader::~NaudioLoader() {
-  m_thread.quit();
-  m_thread.wait();
   delete m_pf;
 }
 
@@ -131,12 +126,11 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
 
 void NaudioLoader::startLoading() {
   if (m_audioFile.isOpen()) {
-    connect(m_pf, SIGNAL(noteFinished(TnoteStruct*)), this, SLOT(forwardNoteFinished(TnoteStruct*)), Qt::DirectConnection);
-    connect(m_pf, SIGNAL(volume(float)), this, SLOT(chunkProcessed()), Qt::DirectConnection);
+    connect(m_pf, SIGNAL(noteFinished(TnoteStruct*)), this, SLOT(forwardNoteFinished(TnoteStruct*)), Qt::UniqueConnection);
+    connect(m_pf, SIGNAL(volume(float)), this, SLOT(chunkProcessed()), Qt::UniqueConnection);
     performThread();
   } else
       qDebug() << "Wrong file" << m_audioFile.fileName();
-//   m_thread.start(QThread::HighestPriority);
 }
 
 
@@ -167,7 +161,6 @@ void NaudioLoader::chunkProcessed() {
   } else {
     emit chunkReady();
     performThread();
-//       m_thread.start();
   }
 }
 
@@ -186,8 +179,8 @@ void NaudioLoader::performThread() {
         chL = qFromBigEndian<qint16>(chL);
         if (m_channelsNr == 2) {
           m_in >> chR;
-          chR = qFromBigEndian<qint16>(chR);
-          chL = ((qint32)chL + (qint32)chR) / 2; // mix channels to mono
+//           chR = qFromBigEndian<qint16>(chR);
+//           chL = ((qint32)chL + (qint32)chR) / 2; // mix channels to mono FIXME: mixing doesn't work in all cases
         }
         buffer[i] = chL;
     } else
