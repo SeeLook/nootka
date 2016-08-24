@@ -79,15 +79,16 @@ void TcommonListener::setAmbitus(Tnote loNote, Tnote hiNote) {
   m_hiPitch = hiNote.toMidi() + 1;
   m_loNote = loNote;
   m_hiNote = hiNote;
-  TpitchFinder::Erange range = TpitchFinder::e_middle;
-  if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())
-    range = TpitchFinder::e_high;
-  else if (loNote.chromatic() > Tnote(5, -2, 0).chromatic())
-    range = TpitchFinder::e_middle;
-  else
-    range = TpitchFinder::e_low;
-  if ((int)range != m_currentRange) {
-    m_currentRange = (int)range;
+  TpitchFinder::Erange range = loNote.chromatic() > Tnote(5, -2, 0).chromatic() ? TpitchFinder::e_middle : TpitchFinder::e_low;
+//  TpitchFinder::Erange range = TpitchFinder::e_middle;
+//  if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())
+//    range = TpitchFinder::e_high;
+//  else if (loNote.chromatic() > Tnote(5, -2, 0).chromatic())
+//    range = TpitchFinder::e_middle;
+//  else
+//    range = TpitchFinder::e_low;
+if (static_cast<int>(range) != m_currentRange) {
+    m_currentRange = static_cast<int>(range);
     bool isStop = isStoped();
     stopListening();
     finder()->setSampleRate(finder()->aGl()->rate, m_currentRange);
