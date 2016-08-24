@@ -75,6 +75,7 @@ protected:
   int xMap(int xx) { return m_xLine->line().x1() + (xx + 1) * xSc; }
   qreal yMap(qreal yy) { return yAxis->y() + yAxis->mapValue(yy); }
 
+  virtual void scrollContentsBy(int dx, int dy) Q_DECL_OVERRIDE;
 
 protected slots:
   void adjustHeight();
