@@ -161,7 +161,7 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 		doReset = true;
     m_chunkTime = static_cast<qreal>(aGl()->framesPerChunk) / static_cast<qreal>(aGl()->rate);
     setMinimalDuration(m_minDuration); // recalculate minimum chunks number
-// 		qDebug() << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
+// 		qDebug() << "sample rate" << m_aGl->rate << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
 //              << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << m_framesReady;
 	}
 	if (doReset)
@@ -202,8 +202,7 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
   if (m_writePos + nBufferFrames >= BUFF_SIZE)
     framesToCopy = BUFF_SIZE - m_writePos;
   if (framesToCopy) {
-    std::copy(dataPtr, dataPtr + framesToCopy * 2, m_tokenBuffer + m_writePos); // 2 bytes are size of qint16
-//     memcpy(m_tokenBuffer + m_writePos, dataPtr, framesToCopy * 2); // 2 bytes are size of qint16
+    std::copy(dataPtr, dataPtr + framesToCopy, m_tokenBuffer + m_writePos);
     m_writePos += framesToCopy;
 //     qDebug() << "copied" << framesToCopy << "position" << m_writePos;
   }
@@ -211,8 +210,7 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
     m_writePos = 0;
     if (framesToCopy < nBufferFrames) {
       framesToCopy = nBufferFrames - framesToCopy;
-      std::copy(dataPtr, dataPtr + framesToCopy * 2, m_tokenBuffer + m_writePos); // 2 bytes are size of qint16
-//       memcpy(m_tokenBuffer + m_writePos, dataPtr, framesToCopy * 2); // 2 bytes are size of qint16
+      std::copy(dataPtr, dataPtr + framesToCopy, m_tokenBuffer + m_writePos);
       m_writePos += framesToCopy;
     }
   }
@@ -221,8 +219,7 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
 
 
 void TpitchFinder::copyToBufferOffline(qint16* data) {
-  std::copy(data, data + aGl()->framesPerChunk * 2, m_tokenBuffer); // 2 bytes are size of qint16
-//   memcpy(m_tokenBuffer, data, aGl()->framesPerChunk * 2); // 2 bytes are size of qint16
+  std::copy(data, data + aGl()->framesPerChunk, m_tokenBuffer); // 2 bytes are size of qint16
   m_framesReady = m_aGl->framesPerChunk;
   m_doProcess = true;
   detectingThread();
@@ -276,7 +273,7 @@ void TpitchFinder::detectingThread() {
 void TpitchFinder::startPitchDetection() {
   m_isBussy = true;
   if (m_doReset) { // copy last chunk to keep capturing data continuous
-		resetFinder();
+    resetFinder();
     if (aGl()->equalLoudness) // initialize channel with previous data
       std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
     else
@@ -392,7 +389,7 @@ void TpitchFinder::resetFinder() {
       m_transforms->uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
-//       qDebug() << "[TpitchFinder] reset channel";
+      qDebug() << "[TpitchFinder] reset channel";
   }
 }
 
