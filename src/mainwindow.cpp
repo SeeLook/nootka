@@ -64,7 +64,7 @@ void noteToKey(Tnote& n, TkeySignature k) {
 }
 
 
-QTimer *m_messageTimer;
+static QTimer *m_messageTimer;
 
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent),
@@ -227,20 +227,20 @@ void MainWindow::setMessageBg(QColor bg) {
 
 
 void MainWindow::clearAfterExam(int examState) {
-	bar->actionsAfterExam();
-	m_curBG = -1;
-	m_prevBg = -1;
-	setMessageBg(-1);
-	if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
-			openLevelCreator();
-	else
-			sound->go();
-	innerWidget->takeExamViews();
-	progress = 0;
-	examResults = 0;
-	if (score->insertMode() != TmultiScore::e_single)
-		bar->setMelodyButtonVisible(true);
-	updateSize(innerWidget->size());
+  bar->actionsAfterExam();
+  m_curBG = -1;
+  m_prevBg = -1;
+  setMessageBg(-1);
+  if ((TexamExecutor::Estate)examState == TexamExecutor::e_openCreator) 
+      openLevelCreator();
+  else
+      sound->go();
+  innerWidget->takeExamViews();
+  progress = 0;
+  examResults = 0;
+  if (score->insertMode() != TmultiScore::e_single)
+    bar->setMelodyButtonVisible(true);
+  updateSize(innerWidget->size());
   delete executor;
   m_deleteExecutor = true;
 }
@@ -653,7 +653,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
   disconnect(innerWidget, SIGNAL(statusTip(QString)), this, SLOT(messageSlot(QString)));
 	if (executor) {
 		if (executor->closeNootka()) {
-				event->accept();
+        qApp->quit(); // FIXME: force quick of the app during exercise, otherwise it hangs (it is dirty solution)
+//         event->accept();
     } else
 				event->ignore();
 	}
