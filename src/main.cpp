@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
         Tandroid::restartNootka(); // and call Nootka after delay
     }
     resetConfig = false; // do - while loop doesn't work with Android
-    a->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries
+    qApp->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries
 #endif
 	} while (resetConfig);
   delete a;
