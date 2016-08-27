@@ -668,7 +668,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     // After sending above demand TexamExecutor displays question and emits demand to plugin
     // examMessageSlot() will set m_executorAllowsClose to TRUE or FALSE apparently
     if (m_executorAllowsClose)
-        event->accept();
+      qApp->quit(); // FIXME: force quick of the app during exercise, otherwise it hangs (it is dirty solution)
+//      event->accept();
     else
         event->ignore();
   }
