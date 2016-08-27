@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,9 @@ namespace Tandroid {
 
       /** Sets phone/tablet screen saving disabled. */
   void setScreenLockDisabled();
+
+      /** Returns a number of Android API on a hosting device. */
+  int getAPIlevelNr();
 
       /** Returns path to external storage (SD card). */
   QString getExternalPath();

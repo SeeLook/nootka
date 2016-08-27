@@ -154,7 +154,8 @@ QString TfileDialog::getSaveFileName(QWidget* parent, const QString& directory, 
 //#################################################################################################
 TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QString& filter, EacceptMode mode) :
   QDialog(parent),
-  m_acceptMode(mode)
+  m_acceptMode(mode),
+  m_newDirItem(nullptr)
 {
   showMaximized();
 
@@ -198,9 +199,11 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   QString newLine = QLatin1String("\n");
   m_dirUpItem = addMenuItem(QIcon(QLatin1String(":/mobile/dirUp.png")),
                             qTR("QFileDialog", "Parent Directory").replace(space, newLine));
-  m_newDirItem = addMenuItem(QIcon(QLatin1String(":/mobile/newDir.png")),
+  if (mode == e_acceptSave)
+    m_newDirItem = addMenuItem(QIcon(QLatin1String(":/mobile/newDir.png")),
                              qTR("QFileDialog", "&New Folder").replace(space, newLine).replace(QLatin1String("&"), QString()));
-  addMenuItem(QIcon(QLatin1String(":/mobile/card.png")), tr("Memory card").replace(space, newLine));
+  if (Tandroid::getAPIlevelNr() < 19) // display SD card shortcut only below Kitkat
+    addMenuItem(QIcon(QLatin1String(":/mobile/card.png")), tr("Memory card").replace(space, newLine));
   m_cancelItem = addMenuItem(QIcon(QLatin1String(":/mobile/exit.png")), qTR("QShortcut", "Close"));
 
 // upper location label, file name edit, extension combo
