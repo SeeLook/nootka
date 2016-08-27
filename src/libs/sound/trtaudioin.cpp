@@ -129,23 +129,25 @@ void TaudioIN::setMinimalVolume(float minVol) {
 }
 
 
-/** Range of notes is increased semitone down and up.
- * This 46 and 48 are its sign. 
- * Normally 47 is offset of midi note to Nootka Tnote. */
+/**
+ * Range of notes is increased semitone down and up.
+ * This 46 and 48 are its sign.
+ * Normally 47 is offset of midi note to Nootka Tnote. 
+*/
 void TaudioIN::setAmbitus(Tnote loNote, Tnote hiNote) {
 	m_loPitch = loNote.toMidi() - 1;
 	m_hiPitch = hiNote.toMidi() + 1;
 	m_loNote = loNote;
 	m_hiNote = hiNote;
-	TpitchFinder::Erange range = TpitchFinder::e_middle;
-	if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())
-		range = TpitchFinder::e_high;
-	else if (loNote.chromatic() > Tnote(5, -2, 0).chromatic())
-		range = TpitchFinder::e_middle;
-	else
-		range = TpitchFinder::e_low;
-	if ((int)range != m_currentRange) {
-		m_currentRange = (int)range;
+	TpitchFinder::Erange range = loNote.chromatic() > Tnote(5, -2, 0).chromatic() ? TpitchFinder::e_middle : TpitchFinder::e_low;
+// 	if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())
+// 		range = TpitchFinder::e_high;
+// 	else if (loNote.chromatic() > Tnote(5, -2, 0).chromatic())
+// 		range = TpitchFinder::e_middle;
+// 	else
+// 		range = TpitchFinder::e_low;
+	if (static_cast<int>(range) != m_currentRange) {
+		m_currentRange = static_cast<int>(range);
 		bool isStop = isStoped();
 		stopListening();
 		m_pitch->setSampleRate(m_pitch->aGl()->rate, m_currentRange);
@@ -189,7 +191,7 @@ void TaudioIN::startListening() {
         openStream();
       if (startStream())
         setState(e_listening);
-			qDebug() << "start listening";
+// 			qDebug() << "start listening";
 		}
   }
 }
@@ -197,7 +199,7 @@ void TaudioIN::startListening() {
 
 void TaudioIN::stopListening() {
   if (state() != e_stopped) {
-    qDebug() << "stop listening";
+//     qDebug() << "stop listening";
     m_volume = 0.0;
     m_LastChunkPitch = 0.0;
 		if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
@@ -211,8 +213,8 @@ void TaudioIN::stopListening() {
 void TaudioIN::pitchInChunkSlot(float pitch) {
 	if (isPaused())
 			return;
-  if (pitch == 0.0)
-			m_LastChunkPitch = 0.0;
+  if (pitch == 0.0f)
+			m_LastChunkPitch = 0.0f;
   else
 			m_LastChunkPitch = pitch - audioParams()->a440diff;
 }
@@ -223,8 +225,10 @@ void TaudioIN::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
 			m_lastNote.set(pitch - audioParams()->a440diff, freq, duration);
 			if (inRange(m_lastNote.pitchF)) {
 				m_noteWasStarted = true;
+//         qDebug() << "[TaudioIN] started" << pitch << m_lastNote.pitch.toText();
 				emit noteStarted(m_lastNote);
-			}
+			} // else
+//         qDebug() << "[TaudioIN] started but out of range";
   } else
 			m_lastNote.set(); // reset last detected note structure
 }
@@ -236,8 +240,10 @@ void TaudioIN::noteFinishedSlot(TnoteStruct* lastNote) {
       qreal midiPitch = lastNote->getAverage(3, // non guitar pitch is average of all pitches
                               Tcore::gl()->instrument == e_noInstrument ? lastNote->pitches()->size() : m_pitch->minChunksNumber());
       m_lastNote.set(midiPitch - audioParams()->a440diff, pitch2freq(midiPitch), lastNote->duration);
-			if (inRange(m_lastNote.pitchF))
+			if (inRange(m_lastNote.pitchF)) {
+//         qDebug() << "[TaudioIN] finished" << m_lastNote.pitchF << m_lastNote.pitch.toText();
 				emit noteFinished(m_lastNote);
+      }
   } else 
 			m_lastNote.set(); // reset last detected note structure
 }

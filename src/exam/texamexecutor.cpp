@@ -312,6 +312,12 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure 
       if (m_exercise) 
         m_melody->clearToFix(melodyLength);
+      // melody debug output
+//       QStringList notes;
+//       for (int i = 0; i < curQ->melody()->length(); ++i)
+//         notes << curQ->melody()->note(i)->p().toText();
+//       qDebug() << "\n[TexamExecutor] Question" << m_exam->count() << "attempt" << curQ->attemptsCount();
+//       qDebug() << "Melody" << notes;
 		}
 //    qDebug() << curQ->qa.note.toText() << "Q" << (int)curQ->questionAs
 //            << "A" << (int)curQ->answerAs << curQ->key.getName()
@@ -1271,7 +1277,7 @@ void TexamExecutor::stopExamSlot() {
 
 void TexamExecutor::closeExecutor() {
 	mW->setMessageBg(-1);
-	mW->setStatusMessage("");
+	mW->setStatusMessage(QString());
 	mW->setStatusMessage(tr("Such a pity."), 5000);
 
 	m_canvas->clearCanvas();
@@ -1350,7 +1356,7 @@ bool TexamExecutor::closeNootka() {
     }
     delete msg;
 	}
-    return result;
+  return result;
 }
 
 
@@ -1400,6 +1406,8 @@ void TexamExecutor::connectPlayingFinished() {
 
 
 void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
+//   Tnote nn = n.pitch;
+//   qDebug() << "[TexamExecutor] note started" << nn.toText();
   if (m_melody->wasIndexChanged())
     m_exam->curQ()->lastAttempt()->melodyWasPlayed();
   m_melody->noteStarted();
@@ -1411,6 +1419,8 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
 
 
 void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
+//   Tnote nn = n.pitch;
+//   qDebug() << "[TexamExecutor] note finished" << nn.toText();
   m_melody->setNote(n);
   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
     if (gl->E->expertsAnswerEnable)
