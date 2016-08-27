@@ -3012,7 +3012,7 @@
     </message>
     <message>
         <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation>Según se han ido añadiendo características Nootka se ha convertido en un proyecto grande y complejo.&lt;br&gt;Para poder desarrollar esta aplicación aún más allá,&lt;br&gt;para terminar la versión para Android (y otros sistemas móviles posteriormente), &lt;br&gt;hace falta un equipo capaz para ello.&lt;br&gt;Simplemente, el PC en el que trabajo es demasiado antiguo para eso...&gt;br&gt;Dona a Nootka, por favor.</translation>
+        <translation>Según se han ido añadiendo características Nootka se ha convertido en un proyecto grande y complejo.&lt;br&gt;Para poder desarrollar esta aplicación aún más allá,&lt;br&gt;para terminar la versión para Android (y otros sistemas móviles posteriormente), &lt;br&gt;hace falta un equipo capaz para ello.&lt;br&gt;Simplemente, el PC en el que trabajo es demasiado antiguo para eso...&lt;br&gt;Dona a Nootka, por favor.</translation>
     </message>
 </context>
 <context>
