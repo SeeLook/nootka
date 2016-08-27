@@ -80,9 +80,9 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
 	moveToThread(m_thread);
 	connect(m_thread, &QThread::started, this, &TpitchFinder::detectingThread);
-	connect(m_thread, &QThread::finished, this, &TpitchFinder::threadFinished);
+//	connect(m_thread, &QThread::finished, this, &TpitchFinder::threadFinished);
 
-  m_tokenBuffer = new qint16[BUFF_SIZE]; // big enough for any circumstances
+  m_ringBuffer = new qint16[BUFF_SIZE]; // big enough for any circumstances
   m_writePos = 0;
   m_readPos = 0;
   m_doProcess = true;
@@ -103,7 +103,7 @@ TpitchFinder::~TpitchFinder()
 		delete m_channel;
 	delete m_aGl;
   delete m_thread;
-  delete m_tokenBuffer;
+  delete m_ringBuffer;
 }
 
 //##########################################################################################################
@@ -177,7 +177,7 @@ void TpitchFinder::stop(bool resetAfter) {
 
 /**
  * This method is invoked by audio callback thread, so it has to be as light as possible.
- * It only copies sent @p data to @p m_tokenBuffer and sets appropriate @p m_readPos.
+ * It only copies sent @p data to @p m_ringBuffer and sets appropriate @p m_readPos.
  * It increases @p m_framesReady size, so if there is enough data pitch detection will be performed.
  * In case when too much data incomes in short time (on by one callbacks)
  * and amount of gathered, unprocessed data is bigger than buffer size
@@ -199,14 +199,14 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
   if (m_writePos + nBufferFrames >= BUFF_SIZE)
     framesToCopy = BUFF_SIZE - m_writePos;
   if (framesToCopy) {
-    std::copy(dataPtr, dataPtr + framesToCopy * 2, m_tokenBuffer + m_writePos); // 2 bytes are size of qint16
+    std::copy(dataPtr, dataPtr + framesToCopy, m_ringBuffer + m_writePos);
     m_writePos += framesToCopy;
   }
   if (m_writePos >= BUFF_SIZE) {
     m_writePos = 0;
     if (framesToCopy < nBufferFrames) {
       framesToCopy = nBufferFrames - framesToCopy;
-      std::copy(dataPtr, dataPtr + framesToCopy * 2, m_tokenBuffer + m_writePos); // 2 bytes are size of qint16
+      std::copy(dataPtr, dataPtr + framesToCopy, m_ringBuffer + m_writePos);
       m_writePos += framesToCopy;
       qDebug() << "reset and copied" << framesToCopy << "position" << m_writePos;
     }
@@ -215,17 +215,19 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
 }
 
 
+#if !defined (Q_OS_ANDROID)
 void TpitchFinder::copyToBufferOffline(qint16* data) {
-  std::copy(data, data + aGl()->framesPerChunk * 2, m_tokenBuffer); // 2 bytes are size of qint16
+  std::copy(data, data + aGl()->framesPerChunk, m_ringBuffer); // 2 bytes are size of qint16
   m_framesReady = m_aGl->framesPerChunk;
   m_doProcess = true;
   detectingThread();
 }
-
+#endif
 
 //##########################################################################################################
 //##########################       PROTECTED SLOTS    ######################################################
 //##########################################################################################################
+
 void TpitchFinder::detectingThread() {
   if (!m_isOffline)
     m_mutex.lock();
@@ -235,7 +237,7 @@ void TpitchFinder::detectingThread() {
     while (m_framesReady >= aGl()->framesPerChunk && loops < BUFF_SIZE / aGl()->framesPerChunk) {
       m_workVol = 0;
       for (unsigned int i = 0; i < aGl()->framesPerChunk; ++i) {
-        qint16 value = *(m_tokenBuffer + m_readPos + i);
+        qint16 value = *(m_ringBuffer + m_readPos + i);
         float sample = float(double(value) / 32760.0);
         *(m_floatBuffer + i) = sample;
         m_workVol = qMax<float>(m_workVol, sample);
@@ -392,7 +394,7 @@ void TpitchFinder::resetFinder() {
 
 
 void TpitchFinder::threadFinished() {
-  qDebug() << "[TpitchFinder] Thread finished";
+//  qDebug() << "[TpitchFinder] Thread finished";
 }
 
 
