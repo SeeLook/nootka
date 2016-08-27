@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,12 +42,23 @@ void Tandroid::setScreenLockDisabled() {
 }
 
 
+int Tandroid::getAPIlevelNr() {
+  return  QtAndroid::androidSdkVersion();
+}
+
+
 QString Tandroid::getExternalPath() {
-  QString extPath = qgetenv("SECONDARY_STORAGE");
-  if (!extPath.isEmpty()) {
-    if (!QFileInfo(extPath).isWritable()) {
-      qDebug() << "[Tandroid] No write access to secondary storage!";
-      extPath.clear();
+  QString extPath;
+  if (getAPIlevelNr() < 19) { // look for SD card only before Kitkat, otherwise it is unaccessible
+    extPath = qgetenv("SECONDARY_STORAGE");
+    //  QAndroidJniObject mediaDir = QAndroidJniObject::callStaticObjectMethod("android/os/Environment",
+    //                                                                         "getExternalStorageDirectory", "()Ljava/io/File;");
+    //  QString extPath = mediaDir.callObjectMethod("getAbsolutePath", "()Ljava/lang/String;").toString();
+    if (!extPath.isEmpty()) {
+      if (!QFileInfo(extPath).isWritable()) {
+        qDebug() << "[Tandroid] No write access to secondary storage!";
+        extPath.clear();
+      }
     }
   }
   if (extPath.isEmpty())
@@ -57,13 +68,6 @@ QString Tandroid::getExternalPath() {
     extPath.clear();
   }
   return extPath;
-//  QAndroidJniObject extDirObject =
-//      QAndroidJniObject::callStaticObjectMethod("android/os/Environment", "getExternalStorageDirectory", "()Ljava/io/File;");
-//  QAndroidJniObject externalPath = extDirObject.callObjectMethod( "getAbsolutePath", "()Ljava/lang/String;" );
-//  QAndroidJniEnvironment env;
-//  if (env->ExceptionCheck())
-//    env->ExceptionClear();
-//  return externalPath.toString();
 }
 
 
@@ -108,9 +112,10 @@ void Tandroid::restartNootka() {
   alarmManager.callMethod<void>("set",
                                 "(IJLandroid/app/PendingIntent;)V",
                                 QAndroidJniObject::getStaticField<jint>("android/app/AlarmManager", "RTC"),
-                                jlong(QDateTime::currentMSecsSinceEpoch() + 100), pendingIntent.object());
+                                jlong(QDateTime::currentMSecsSinceEpoch() + 750), pendingIntent.object());
 
 }
+
 
 void Tandroid::sendExam(const QString& title, const QString &message, const QString& filePath) {
   QAndroidJniObject jTitle = QAndroidJniObject::fromString(title);
