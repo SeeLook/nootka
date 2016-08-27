@@ -94,7 +94,6 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 
 TpitchFinder::~TpitchFinder()
 {
-  qDebug() << "[TpitchFinder] deleting....";
   m_doProcess = false;
   m_mutex.lock();
   m_mutex.unlock();
@@ -107,7 +106,6 @@ TpitchFinder::~TpitchFinder()
 	delete m_aGl;
   delete m_thread;
   delete m_tokenBuffer;
-  qDebug() << "[TpitchFinder] deleted";
 }
 
 //##########################################################################################################
