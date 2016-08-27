@@ -210,7 +210,7 @@ void TfirstRunWizard::whenInstrumentChanged(int instr) {
                 tr("When writing notation for bass guitar, the <b>bass clef</b> is used but the played notes sound an octave lower. The proper clef is <b>bass dropped clef</b> (with the digit \"eight\" written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.") +
                     QLatin1String("<br><br>") + wrapPixToHtml(Tnote(0, 0, 0), Tclef::e_bass_F_8down, TkeySignature(0), 8.0));
     else if ((Einstrument)instr == e_classicalGuitar || (Einstrument)instr == e_electricGuitar)
-                m_notationWidget->notationNote()->setHtml(QLatin1String("<br><br><center>") + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><b><big>Both pictures above show the same note: c<sup>1</sup></big></b><br>(note c in one-line octave)</p>").
+                m_notationWidget->notationNote()->setHtml(QLatin1String("<center>") + tr("Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this. <br><br><p> %1 %2<br><b><big>Both pictures above show the same note: c<sup>1</sup></big></b><br>(note c in one-line octave)</p>").
                 arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G, TkeySignature(0), 6.0)).
                 arg(wrapPixToHtml(Tnote(1, 1, 0), Tclef::e_treble_G_8down, TkeySignature(0), 6.0)) + QLatin1String("</center>"));
 }
