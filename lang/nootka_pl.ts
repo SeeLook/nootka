@@ -679,6 +679,12 @@
         <translation>Wsparcie</translation>
     </message>
     <message>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="90"/>
+        <source>Donors</source>
+        <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
+        <translation>Sponsorzy</translation>
+    </message>
+    <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="71"/>
         <source>Changes</source>
         <translation>Zmiany</translation>
@@ -697,6 +703,11 @@
         <location filename="../src/plugins/about/taboutnootka.cpp" line="141"/>
         <source>Thanks</source>
         <translation>Podziękowania</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/taboutnootka.cpp" line="190"/>
+        <source>People and companies who gave material support for the Nootka project</source>
+        <translation>Osoby i instytucje, które udzieliły materialnego wsparcia dla projektu Nootka</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="109"/>
@@ -3658,6 +3669,11 @@ nutowy</translation>
         <translation>Kampania „Wspomóż Nootkę”</translation>
     </message>
     <message>
+        <location filename="../src/libs/misc/tsupportnootka.cpp" line="50"/>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
+        <translation>Funkcja za funkcją i Nootka stała się dużym i złożonym projektem.&lt;br&gt;Żeby móc rozwijać ten program dalej,&lt;br&gt; dokończyć wersję na Androida, (a później na inne mobilne systemy),&lt;br&gt;potrzebny jest sprzęt który temu podoła.&lt;br&gt; Po prostu komputer na którym pracuję jest na to za stary…&lt;br&gt;Wspomóż Nootkę darowizną.</translation>
+    </message>
+    <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="70"/>
         <source>Through PayPal or a card</source>
         <translation>Przez PayPal lub kartą</translation>
@@ -4265,6 +4281,39 @@ nutowy</translation>
         <location filename="../src/plugins/level/rangesettings.cpp" line="92"/>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
         <translation>Odznacz struny jeżeli chcesz pominąć je podczas egzaminu.</translation>
+    </message>
+</context>
+<context>
+    <name>Tlevel</name>
+    <message>
+        <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="128"/>
+        <source>Grand staff</source>
+        <translation>Zapis fortepianowy</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="129"/>
+        <source>Guess notes from grand staff in different keys</source>
+        <translation>Odgadnij nuty z zapisu fortepianowego w różnych tonacjach</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="158"/>
+        <source>Bass clef</source>
+        <translation>Klucz basowy</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="159"/>
+        <source>Play a short and simple melody in bass clef</source>
+        <translation>Graj prostą i krótką melodię w kluczu basowym</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="287"/>
+        <source>Play grand staff</source>
+        <translation>Graj z fortepianówki</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/level/tlevelsdefs.cpp" line="288"/>
+        <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
+        <translation>Graj losowe melodie z dwóch pięciolinii zapisu fortepianowego. Tonacje do czterech znaków.</translation>
     </message>
 </context>
 </TS>

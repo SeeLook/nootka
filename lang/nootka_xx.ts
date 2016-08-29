@@ -314,10 +314,6 @@
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Einstrument</name>
@@ -446,6 +442,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>time [s]</source>
+        <comment>unit of Y axis</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Standard: E A D G B E </source>
         <translation type="unfinished"></translation>
     </message>
@@ -479,23 +480,6 @@
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You also can help with making Nootka better.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>time [s]</source>
-        <comment>unit of Y axis</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -544,10 +528,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>License</source>
         <translation type="unfinished"></translation>
     </message>
@@ -589,6 +569,19 @@
     </message>
     <message>
         <source>Authors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donors</source>
+        <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>People and companies who gave material support for the Nootka project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -919,31 +912,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Save exam results as:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -964,6 +937,30 @@
     </message>
     <message>
         <source>stop the exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Continue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Terminate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1083,6 +1080,16 @@
     </message>
     <message>
         <source>Click %1 button to stop.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tap %1</source>
+        <comment>tap &lt;icon image follows&gt;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click %1 to stop.</source>
+        <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1240,18 +1247,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Results:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1305,6 +1300,22 @@
     </message>
     <message>
         <source>Finish this exercise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send exam file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Continue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1398,6 +1409,17 @@
     </message>
     <message>
         <source>Always remind me about this</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TfileDialog</name>
+    <message>
+        <source>Memory card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1651,6 +1673,33 @@
     </message>
     <message>
         <source>Show or hide main window elements.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Tlevel</name>
+    <message>
+        <source>Grand staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Guess notes from grand staff in different keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play a short and simple melody in bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play grand staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1948,23 +1997,14 @@
     </message>
 </context>
 <context>
+    <name>TmainView</name>
+    <message>
+        <source>score menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TmelMan</name>
-    <message>
-        <source>Play</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Record</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Generate</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Generate a melody with random notes.</source>
         <translation type="unfinished"></translation>
@@ -1987,6 +2027,38 @@
     </message>
     <message>
         <source>Save melody as:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note by note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2231,6 +2303,21 @@
     </message>
 </context>
 <context>
+    <name>TouchHelp</name>
+    <message>
+        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Touch a clef for a while to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Tpage_2</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
@@ -2274,6 +2361,11 @@
     </message>
     <message>
         <source>Click note symbol to change it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2492,10 +2584,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show note names</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2541,6 +2629,10 @@
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2749,27 +2841,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>exercises</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>pass new exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>continue exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Click and select an exam to continue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2812,6 +2884,34 @@
         <source>Load an exam file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Continue exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>exercises</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>pass new exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>continue exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TstatisticTip</name>
@@ -2848,6 +2948,37 @@
     </message>
     <message>
         <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TsupportNootka</name>
+    <message>
+        <source>You also can help with making Nootka better.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate Nootka campaign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Through PayPal or a card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or send email for an account number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2907,10 +3038,6 @@
     </message>
     <message>
         <source>Levels creator</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2989,6 +3116,22 @@
         <source>Try this melody once again. (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Lessons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Correct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TupdateChecker</name>
@@ -3043,11 +3186,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Ok</source>
+        <source>Updates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Updates</source>
+        <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3104,10 +3247,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Accidentals used in exam.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>force using appropriate accidental</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3161,6 +3300,10 @@
     </message>
     <message>
         <source>accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accidentals used in exam.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
