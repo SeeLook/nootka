@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,8 @@
 #ifndef TPITCHVIEW_H
 #define TPITCHVIEW_H
 
-#include <QWidget>
-#include <QBoxLayout>
+#include <QtWidgets/qwidget.h>
+#include <QtWidgets/qboxlayout.h>
 #include <music/tnote.h>
 
 #if defined (Q_OS_ANDROID)
@@ -36,6 +36,7 @@ class QCheckBox;
 class QBoxLayout;
 class TvolumeView;
 class TintonationView;
+class TpcmView;
 class QTimer;
 class QAction;
 
@@ -84,9 +85,14 @@ public:
   void outOfTuneAnim(float outTune, int duration = 300);
 
 signals:
-  void correctingFinished(); /** Emitted when correction animation finish */
+      /** Emitted when correction animation finish */
+  void correctingFinished();
 
-  
+      /** Emitted when raw PCM volume is too high or too low for a few detected notes */
+  void lowPCMvolume(const QString&);
+  void hiPCMvolume(const QString&);
+
+
 protected slots:
   void noteSlot();
   void updateLevel();
@@ -109,6 +115,7 @@ protected:
 private:
   TvolumeView 			*m_volumeView;
   TintonationView 	*m_intoView;
+  TpcmView          *m_pcmView;
   TaudioIN 					*m_audioIN;
   QTimer 						*m_watchTimer;
   QColor 						 m_pitchColor, m_bgColor;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,26 +20,27 @@
 #include "tpitchview.h"
 #include "tvolumeview.h"
 #include "tintonationview.h"
+#include "tpcmview.h"
 #include <tcolor.h>
 #include <graphics/tnotepixmap.h>
 #if defined (Q_OS_ANDROID)
   #include "widgets/tmelodyitem.h"
 #endif
-#include <QTimer>
-#include <QLabel>
-#include <QPainter>
-#include <QApplication>
-#include <QAction>
-#include <QStyle>
-#include <QDebug>
+#include <QtCore/qtimer.h>
+#include <QtWidgets/qlabel.h>
+#include <QtGui/qpainter.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qaction.h>
+#include <QtWidgets/qstyle.h>
+#include <QtCore/qdebug.h>
 
 
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   QWidget(parent),
   m_audioIN(audioIn),
   m_pitchColor(Qt::red),
-  m_hideCnt(8),
   m_bgColor(Qt::transparent),
+  m_hideCnt(8),
   m_prevState((int)TaudioIN::e_paused),
   m_pauseActive(pauseActive)
 {
@@ -52,9 +53,12 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   m_volumeView = new TvolumeView(this);
 		m_volumeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_volumeView->setPauseActive(pauseActive);
+
+  m_pcmView = new TpcmView(this);
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
 	m_lay->addWidget(m_volumeView);
+  m_lay->addWidget(m_pcmView);
 	outLay->addLayout(m_lay);
   setLayout(outLay);
   
@@ -81,11 +85,18 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
 void TpitchView::setAudioInput(TaudioIN* audioIn) {
   m_audioIN = audioIn;
   if (m_audioIN) {
-    connect(m_audioIN, &TaudioIN::stateChanged, this, &TpitchView::inputStateChanged);
-    connect(m_audioIN, &TaudioIN::destroyed, this, &TpitchView::inputDeviceDeleted);
-    setDisabled(false);
-  } else 
-    inputDeviceDeleted();
+      connect(m_audioIN, &TaudioIN::stateChanged, this, &TpitchView::inputStateChanged);
+      connect(m_audioIN, &TaudioIN::destroyed, this, &TpitchView::inputDeviceDeleted);
+      // Redirect signals, send appropriate messages
+      connect(m_audioIN, &TaudioIN::lowPCMvolume, [=]{
+          emit lowPCMvolume(QLatin1String("<span style=\"color: red;\">") + tr("Too low volume of input sound!").toUpper() + QLatin1String("</span>"));
+      });
+      connect(m_audioIN, &TaudioIN::hiPCMvolume, [=]{
+          emit hiPCMvolume(QLatin1String("<span style=\"color: red;\">") + tr("Too high volume of input sound!").toUpper() + QLatin1String("</span>"));
+      });
+      setDisabled(false);
+  } else
+      inputDeviceDeleted();
 }
 
 
@@ -213,6 +224,7 @@ void TpitchView::updateLevel() {
 	if (m_intoView->accuracy() != TintonationView::e_noCheck && m_prevPitch != m_audioIN->lastChunkPitch())
 			m_intoView->pitchSlot(m_audioIN->lastChunkPitch());
 	m_prevPitch = m_audioIN->lastChunkPitch();
+  m_pcmView->setPCMvolume(m_audioIN->pcmVolume());
 }
 
 
