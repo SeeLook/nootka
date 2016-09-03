@@ -188,6 +188,8 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
   connect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
   connect(m_innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
+  connect(m_pitchView, &TpitchView::lowPCMvolume, this, &MainWindow::pcmStatusMessage);
+  connect(m_pitchView, &TpitchView::hiPCMvolume, this, &MainWindow::pcmStatusMessage);
 }
 
 
@@ -524,6 +526,14 @@ void MainWindow::adjustAmbitus() {
 		m_sound->setDefaultAmbitus();
 }
 
+
+void MainWindow::pcmStatusMessage(const QString& msg) {
+#if defined (Q_OS_ANDROID)
+
+#else
+  m_statusLabel->setMessage(msg, 7000);
+#endif
+}
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

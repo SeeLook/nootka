@@ -44,9 +44,9 @@
 bool m_paramsWereChanged = false;
 AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* parent) :
   TtouchArea(parent),
-  m_audioIn(0),
-  m_glParams(params),
   m_listGenerated(false),
+  m_audioIn(nullptr),
+  m_glParams(params),
   m_tune(tune)
 {
 	QString styleTxt = "background-color: palette(button); border: 1px solid palette(Text); border-radius: 5px;";
@@ -410,6 +410,8 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   connect(m_topList,  &TlistMenu::currentRowChanged, this, &AudioInSettings::testSlot);
 #else
   connect(m_toolBox, SIGNAL(currentChanged(int)), this, SLOT(testSlot()));
+  connect(pitchView, &TpitchView::lowPCMvolume, this, &AudioInSettings::pcmStatusMessage);
+  connect(pitchView, &TpitchView::hiPCMvolume, this, &AudioInSettings::pcmStatusMessage);
   #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
     connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
   #endif
@@ -734,7 +736,7 @@ void AudioInSettings::baseFreqChanged(int bFreq) {
 
 void AudioInSettings::setTransposeInterval(int interval) {
 	int n = qAbs(interval);
-	QString suff = "";
+	QString suff;
 	if (n)
 		suff = tr("%n semitone(s)", "", n).replace(QString("%1").arg(n), "");
 	m_intervalSpin->setSuffix(suff);
@@ -796,6 +798,12 @@ void AudioInSettings::adjustInstrSlot(int instr) {
     default:
       break;
   }
+}
+
+
+void AudioInSettings::pcmStatusMessage(const QString& msg) {
+  QStatusTipEvent e(msg);
+  qApp->notify(this, &e);
 }
 
 #if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))

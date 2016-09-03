@@ -113,6 +113,7 @@ protected slots:
   void splitByVolChanged(bool enab);
   void skipStillerChanged(bool enab);
   void adjustInstrSlot(int instr);
+  void pcmStatusMessage(const QString& msg);
   
 private:
     /** Calculates frequencies of strings related to a440diff and sets status tip.*/
