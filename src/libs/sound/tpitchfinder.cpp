@@ -242,6 +242,7 @@ void TpitchFinder::detectingThread() {
         *(m_floatBuffer + i) = sample;
         m_workVol = qMax<float>(m_workVol, sample);
       }
+      m_pcmVolume = m_workVol;
       m_framesReady -= aGl()->framesPerChunk;
       if (!m_isOffline) {
         m_readPos += aGl()->framesPerChunk;
@@ -353,6 +354,7 @@ void TpitchFinder::detect() {
   } else { // note is still playing
     if (data->noteIndex != NO_NOTE) {
       m_newNote.update(m_chunkNum, data->pitch, m_volume);
+      m_newNote.maxPCMvol = qMax(m_newNote.maxPCMvol, m_pcmVolume);
       if (m_newNote.maxVol >= m_minVolume && m_newNote.maxVol >= m_averVolume * m_skipStillerVal) { // note was loud enough
         if (m_newNote.numChunks() == m_minChunks) { // note is accepted by Nootka
           m_currentNote = m_newNote;

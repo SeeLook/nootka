@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,7 +42,7 @@ public:
 	TnoteStruct() {	freq = 0; duration = 0; pitchF = 0;	} /** Default constructor  */
 
 
-      /** Initializes and cleans @class TnoteStruct values  */
+      /** Initializes and cleans @p TnoteStruct values  */
 	void init(int _index, int chunkNr, qreal floatPitch) {
     startChunk = chunkNr;
     endChunk = chunkNr;
@@ -50,6 +50,7 @@ public:
     index = _index;
     maxVol = 0.0f;
     minVol = 1.0f;
+    maxPCMvol = 0.0f;
     m_totalAver = 0.0;
     m_shortAver = 0.0;
     m_pList.clear();
@@ -91,21 +92,23 @@ public:
 			return true;
 	}
 	
+      /** Sets values of note structure, or sets them to NULL if no values defined. */
 	void set(qreal midiPitch = 0.0, qreal f = 0.0, qreal dur = 0.0) {
 		midiPitch ? pitch = Tnote(qRound(midiPitch) - 47) : pitch = Tnote(); pitchF = midiPitch; freq = f; duration = dur;
-	} /** Sets values of note structure, or sets them to NULL if no values defined. */
+	}
 	
-	int     index;            /** Note index in entire channel */
-	Tnote   pitch; 		        /** Note pitch like C, D, E or C3, D#  */
-	qreal   pitchF; 	        /** Chromatic note number in MIDI scale, C1 = 60 */
-	qreal   bestPitch;        /** Closest value to rounded (perfect) pitch among all occurred pitches. */
-	int     basePitch;        /** Midi value (rounded to integer) of a pitch */
-	qreal   freq; 		        /** Frequency of a note */
-	qreal   duration;         /** Duration of a note */
-	int     startChunk;       /** Chunk in which note was noticed */
-	int     endChunk;         /** Last chunk with this note */
-	float   maxVol;           /** Loudest volume occurred */
-	float   minVol;           /** Less volume occurred */
+	int     index;            /**< Note index in entire channel */
+	Tnote   pitch; 		        /**< Note pitch like C, D, E or C3, D#  */
+	qreal   pitchF; 	        /**< Chromatic note number in MIDI scale, C1 = 60 */
+	qreal   bestPitch;        /**< Closest value to rounded (perfect) pitch among all occurred pitches. */
+	int     basePitch;        /**< Midi value (rounded to integer) of a pitch */
+	qreal   freq; 		        /**< Frequency of a note */
+	qreal   duration;         /**< Duration of a note */
+	int     startChunk;       /**< Chunk in which note was noticed */
+	int     endChunk;         /**< Last chunk with this note */
+	float   maxVol;           /**< Loudest volume occurred */
+	float   minVol;           /**< Less volume occurred */
+	float   maxPCMvol;        /**< Maximal Raw PCM volume during whole note */
 
 	int     numChunks() { return endChunk - startChunk + 1; } /** Note duration in chunks */
 

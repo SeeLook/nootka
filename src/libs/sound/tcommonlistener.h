@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,14 +61,18 @@ public:
        * It helps to sniff whole sound/note from begin to its end. */
   void pause() { m_LastChunkPitch = 0.0; if (m_state == e_detecting) setState(e_paused); }
 
-      /** Starts emitting @param noteDetected and @param fundamentalFreq signals again. */
+      /** Starts emitting @p noteStarted() and @p noteFinished() signals again. */
   void unPause() { if (m_state == e_paused) setState(e_detecting); }
   bool isPaused() { return m_state == e_paused; }
   bool isStoped() { return m_state == e_stopped; }
 
   Estate detectingState() { return m_state; }
 
-  float volume() { return m_volume; } /** Current volume of detecting sound or 0 if silence */
+      /** Current volume of detecting sound or 0 if silence */
+  float volume() { return m_volume; }
+
+      /** Volume of raw PCM signal */
+  qreal pcmVolume();
 
     /** Sets device parameters stores in structure SaudioInParams.
      * SaudioInParams::deviceName is ignored. It have to be set separately. */
@@ -112,9 +116,18 @@ public:
 
 
 signals:
-  void noteStarted(const TnoteStruct&); /** Emitted when note was played and its duration is longer than minimal duration */
-  void noteFinished(const TnoteStruct&); /** When already started note fade out */
-  void stateChanged(int); /** When device changes its state. It can be cast on @p Estate enumeration. */
+      /** Emitted when note was played and its duration is longer than minimal duration */
+  void noteStarted(const TnoteStruct&);
+
+      /** When already started note fade out and finished */
+  void noteFinished(const TnoteStruct&);
+
+      /** When device changes its state. It can be cast on @p Estate enumeration. */
+  void stateChanged(int);
+
+      /** Emitted when raw PCM volume is too high or too low for a few detected notes */
+  void lowPCMvolume();
+  void hiPCMvolume();
 
 
 public slots:
@@ -123,8 +136,8 @@ public slots:
 
 
 protected:
-  TpitchFinder* finder() { return m_pitchFinder; } /** Instance of @class TpitchFinder */
-  void resetVolume() { m_volume = 0.0; } /** Sets volume to 0 */
+  TpitchFinder* finder() { return m_pitchFinder; } /**< Instance of @p TpitchFinder */
+  void resetVolume() { m_volume = 0.0; } /**< Sets volume to 0 */
   void resetChunkPitch() { m_LastChunkPitch = 0.0; }
 
 
@@ -142,14 +155,15 @@ private:
   TaudioParams     *m_audioParams;
   TpitchFinder     *m_pitchFinder;
   float             m_volume;
-  Tnote             m_loNote, m_hiNote;     /** Boundary notes of the ambitus. */
+  Tnote             m_loNote, m_hiNote; /**< Boundary notes of the ambitus. */
   TnoteStruct       m_lastNote;
-  float             m_LastChunkPitch; /** Pitch from recent processed chunk or 0.0 if silence */
+  float             m_LastChunkPitch; /**< Pitch from recent processed chunk or 0.0 if silence */
   bool              m_stoppedByUser;
   qreal             m_loPitch, m_hiPitch;
   bool              m_noteWasStarted;
-  int               m_currentRange; /** Current range of detected note - see @class TaudioParams */
+  int               m_currentRange; /**< Current range of detected note - see @class TaudioParams */
   Estate            m_state;
+  int               m_loPCMnumber = 0, m_hiPCMnumber = 0; /**< Counts number of PCM volumes out of range, to emit warning note  */
 };
 
 #endif // TCOMMONLISTENER_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,16 +22,19 @@
 #include <taudioparams.h>
 #include <tinitcorelib.h>
 
+#define LOWEST_PCM (0.2f) // lowest raw PCM volume to start counting 
+#define HIGHEST_PCM (0.8f)
+#define MAX_OUT_NUM (5)
 
 TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
   QObject(parent),
   m_audioParams(params),
-  m_volume(0.0),
-  m_state(e_stopped),
+  m_volume(0.0f),
   m_stoppedByUser(false),
   m_loPitch(15), m_hiPitch(140),
   m_noteWasStarted(false),
-  m_currentRange(1)
+  m_currentRange(1),
+  m_state(e_stopped)
 {
   m_pitchFinder = new TpitchFinder();
   setAudioInParams();
@@ -115,6 +118,12 @@ void TcommonListener::setIntonationAccuracy(qint8 intAcc) {
   m_audioParams->intonation = qBound<quint8>(0, intAcc, 5);
 }
 
+
+qreal TcommonListener::pcmVolume() {
+  return static_cast<qreal>(m_pitchFinder->pcmVolume());
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -149,6 +158,25 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       m_lastNote.set(midiPitch - m_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
       if (inRange(m_lastNote.pitchF))
         emit noteFinished(m_lastNote);
+
+      if (lastNote->maxPCMvol < LOWEST_PCM) {
+          m_hiPCMnumber = 0;
+          m_loPCMnumber++;
+          if (m_loPCMnumber > MAX_OUT_NUM) {
+            emit lowPCMvolume();
+            m_loPCMnumber = 0;
+          }
+      } else if (lastNote->maxPCMvol > HIGHEST_PCM) {
+          m_loPCMnumber = 0;
+          m_hiPCMnumber++;
+          if (m_hiPCMnumber > MAX_OUT_NUM) {
+            emit hiPCMvolume();
+            m_hiPCMnumber = 0;
+          }
+      } else { // reset counters
+          m_hiPCMnumber = 0;
+          m_loPCMnumber = 0;
+      }
   } else
       m_lastNote.set(); // reset last detected note structure
 }

@@ -171,6 +171,8 @@ public:
       /** Returns current range of pitch detection */
   Erange pitchRange() { if (m_rateRatio == 0.5f) return e_high; else if (m_rateRatio == 2.0f) return e_low; else return e_middle; }
 
+  float pcmVolume() { return m_pcmVolume; }
+
 signals:
   void pitchInChunk(float); /** Pitch in chunk that has been just processed */
   void volume(float);
