@@ -22,11 +22,12 @@
 #include "nootkasoundglobal.h"
 #include <music/tnote.h>
 #include <music/tnotestruct.h>
-#include <QObject>
+#include <QtCore/qobject.h>
 
 
 class TpitchFinder;
 class TaudioParams;
+
 
 /**
  * Common class for managing a pitch detection process.
@@ -113,6 +114,9 @@ public:
   void setIntonationAccuracy(qint8 intAcc); /** Sets global value of intonation accuracy. It doesn't refresh intonation view. */
 
   int detectionRange() { return m_currentRange; } /** Integer value of @p TpitchFinder::Erange */
+#if !defined (Q_OS_ANDROID)
+  void setDumpFileName(const QString& fName);
+#endif
 
 
 signals:

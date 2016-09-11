@@ -24,6 +24,8 @@
 #include "tartini/mytransforms.h"
 #include <QtCore/qthread.h>
 #include <QtCore/qdebug.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qdir.h>
 
 
 #define BUFF_SIZE (16384)
@@ -95,6 +97,9 @@ TpitchFinder::~TpitchFinder()
   m_doProcess = false;
   m_mutex.lock();
   m_mutex.unlock();
+#if !defined (Q_OS_ANDROID)
+  destroyDumpFile();
+#endif
 	if (m_filteredChunk)
 			delete m_filteredChunk;
 	delete m_floatBuffer;
@@ -172,6 +177,9 @@ void TpitchFinder::stop(bool resetAfter) {
   m_doReset = resetAfter;
   m_state = e_silence;
   m_prevState = e_silence;
+#if !defined (Q_OS_ANDROID)
+  destroyDumpFile();
+#endif
 }
 
 
@@ -216,6 +224,30 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
 
 
 #if !defined (Q_OS_ANDROID)
+/**
+ * By settings valid (existing and writable) path dumping incoming audio data to file becomes enabled.
+ * Data are dumped into default file 'nootka_dump' with numbered prefix.
+ * File is closed whenever @p stop() is called and prefix increased.
+ * If there is less data (below 2 seconds) - file is deleted.
+ * Then new data is dumped into another file.
+ * Default file name can be changed through @p setDumpFileName() method.
+ *
+ * IT SHOULD NEVER BE CALLED DURING PITCH DETECTION PROCESS (when @p m_framesReady is greater than 0)!
+ */
+void TpitchFinder::setDumpDirPath(const QString& dumpPath) {
+  if (m_dumpPath.isEmpty() != dumpPath.isEmpty()) {
+    if (dumpPath.isEmpty()) {
+        destroyDumpFile();
+    } else {
+        m_dumpPath = dumpPath;
+        if (m_dumpName.isEmpty())
+          m_dumpName = QStringLiteral("nootka_dump");
+    }
+  }
+  m_dumpPath = dumpPath;
+}
+
+
 void TpitchFinder::copyToBufferOffline(qint16* data) {
   std::copy(data, data + aGl()->framesPerChunk, m_ringBuffer); // 2 bytes are size of qint16
   m_framesReady = m_aGl->framesPerChunk;
@@ -235,6 +267,15 @@ void TpitchFinder::detectingThread() {
   while (m_doProcess) {
     int loops = 0;
     while (m_framesReady >= aGl()->framesPerChunk && loops < BUFF_SIZE / aGl()->framesPerChunk) {
+
+      #if !defined (Q_OS_ANDROID)
+        if (!m_dumpPath.isEmpty()) {
+          if (!m_dumpFile)
+            createDumpFile();
+          if (m_dumpFile)
+            m_dumpFile->write((char*)(m_ringBuffer + m_readPos), aGl()->framesPerChunk * 2);
+        }
+      #endif
       m_workVol = 0;
       for (unsigned int i = 0; i < aGl()->framesPerChunk; ++i) {
         qint16 value = *(m_ringBuffer + m_readPos + i);
@@ -394,6 +435,37 @@ void TpitchFinder::resetFinder() {
   }
 }
 
+
+#if !defined (Q_OS_ANDROID)
+void TpitchFinder::createDumpFile() {
+  m_dumpFile = new QFile(m_dumpPath + QLatin1String("/") + QString("#%1-").arg(m_dumpSufixNr, 3, 'i', 0, '0') + m_dumpName + QLatin1String(".pcm"));
+  if (m_dumpFile->open(QFile::WriteOnly)) {
+      qDebug() << "Dumping into" << m_dumpFile->fileName();
+      m_dumpSufixNr++;
+      quint64 pcmHead = 0x97042300 + aGl()->rate / 1000; // 44100 : 44, 48000 : 48, 88200 : 88, 96000 : 96, etc...
+      QDataStream dump(m_dumpFile); // save header with sample rate (normally pcm/raw format doesn't contain any info)
+      dump << pcmHead;
+  } else {
+      qDebug() << "Filed to create dump file" << m_dumpFile->fileName();
+      destroyDumpFile();
+  }
+}
+
+
+void TpitchFinder::destroyDumpFile() {
+  if (m_dumpFile) {
+    if (m_dumpFile->isOpen()) {
+      if (m_dumpFile->size() < 160000) { // delete file when below 2 seconds
+          m_dumpFile->remove();
+          m_dumpSufixNr--;
+      } else
+          m_dumpFile->close();
+    }
+    delete m_dumpFile;
+    m_dumpFile = nullptr;
+  }
+}
+#endif
 
 void TpitchFinder::threadFinished() {
 //  qDebug() << "[TpitchFinder] Thread finished";
