@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -267,6 +267,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->minimalVol = cfg->value("minimalVolume", 0.6).toFloat();
 #else
     A->minimalVol = cfg->value("minimalVolume", 0.4).toFloat();
+    A->dumpPath = cfg->value(QLatin1String("dumpPath"), QString()).toString();
 #endif
 		A->minDuration = cfg->value("minimalDuration", 0.15).toFloat(); // 150 ms
 		A->a440diff = cfg->value("a440Offset", 0).toFloat();
@@ -451,6 +452,9 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue("equalLoudness", A->equalLoudness);
       cfg->setValue("minVolumeToSplit", A->minSplitVol);
       cfg->setValue("skipStillerThan", A->skipStillerVal);
+#if !defined (Q_OS_ANDROID)
+      cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
+#endif
 	cfg->endGroup();
 
 	cfg->beginGroup("layout");
