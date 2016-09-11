@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,12 +24,13 @@
 #include <tinitcorelib.h>
 #include <tpath.h>
 #include <tpitchfinder.h>
-#include <QtWidgets/QBoxLayout>
 #include <QtWidgets/QtWidgets>
-#include <QtSvg/QSvgGenerator>
+#include <QtSvg/qsvggenerator.h>
 
-bool    m_drawVolume = true;
-QString m_lastWavDir;
+
+static bool    m_drawVolume = true;
+static QString m_lastAudioDir;
+
 
 NootiniWindow::NootiniWindow(const QString& audioFile, QWidget* parent) :
   QMainWindow(parent),
@@ -85,10 +86,10 @@ NootiniWindow::~NootiniWindow()
 //#################################################################################################
 
 void NootiniWindow::openFileSlot() {
-  QString wavFileName = QFileDialog::getOpenFileName(this, "", m_lastWavDir, tr("WAV file (*.wav)"));
-  if (!wavFileName.isEmpty()) {
-    m_lastWavDir = QFileInfo(wavFileName).absoluteDir().absolutePath();
-    processAudioFile(wavFileName);
+  QString audioFileName = QFileDialog::getOpenFileName(this, QString(), m_lastAudioDir, tr("WAV file or raw audio (*.wav *.pcm *.raw)"));
+  if (!audioFileName.isEmpty()) {
+    m_lastAudioDir = QFileInfo(audioFileName).absoluteDir().absolutePath();
+    processAudioFile(audioFileName);
   }
 }
 
@@ -170,7 +171,7 @@ void NootiniWindow::readConfig() {
     m_tartiniParams.dBFloor = Tcore::gl()->config->value("dBFloor", -150).toDouble();
     m_drawVolume = Tcore::gl()->config->value("drawVolumeChart", true).toBool();
     NaudioLoader::setPitchRange(Tcore::gl()->config->value("pitchRange", 1).toInt());
-    m_lastWavDir = Tcore::gl()->config->value("lastWavDir", QDir::homePath()).toString();
+    m_lastAudioDir = Tcore::gl()->config->value("lastWavDir", QDir::homePath()).toString();
   Tcore::gl()->config->endGroup();
 }
 
@@ -183,7 +184,7 @@ void NootiniWindow::writeConfig() {
     Tcore::gl()->config->setValue("dBFloor", m_tartiniParams.dBFloor);
     Tcore::gl()->config->setValue("drawVolumeChart", m_drawVolume);
     Tcore::gl()->config->setValue("pitchRange", NaudioLoader::pitchRange());
-    Tcore::gl()->config->setValue("lastWavDir", m_lastWavDir);
+    Tcore::gl()->config->setValue("lastWavDir", m_lastAudioDir);
   Tcore::gl()->config->endGroup();
 }
 

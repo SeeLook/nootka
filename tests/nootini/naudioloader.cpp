@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,9 @@
 #include <tpitchfinder.h>
 #include <tinitcorelib.h>
 #include <taudioparams.h>
-#include <QtCore/QtEndian>
-#include <QtCore/QDebug>
-#include <QtWidgets/QMessageBox>
+#include <QtCore/qendian.h>
+#include <QtWidgets/QtWidgets>
+
 
 /*static*/
 int NaudioLoader::m_range = 1;
@@ -50,72 +50,92 @@ bool NaudioLoader::setAudioFile(const QString& fileName) {
   m_audioFile.setFileName(fileName);
   if (m_audioFile.open(QIODevice::ReadOnly)) {
     m_in.setDevice(&m_audioFile);
-    qint32 headChunk;
-    m_in >> headChunk;
-    headChunk = qFromBigEndian<qint32>(headChunk);
-    QString headStr((char*)&headChunk);
-
-    quint32 chunkSize;
-    m_in >> chunkSize;
-    chunkSize = qFromBigEndian<quint32>(chunkSize);
-    m_in >> headChunk;
-    headChunk = qFromBigEndian<qint32>(headChunk);
-    headStr = QString((char*)&headChunk);
-
-    if (headChunk == 1163280727) { // 1163280727 is 'value' of 'WAVE' text in valid WAV file
-      m_in >> headChunk;
-      headChunk = qFromBigEndian<qint32>(headChunk);
-
-      m_in >> chunkSize;
-      quint16 audioFormat;
-      m_in >> audioFormat;
-      audioFormat = qFromBigEndian<quint16>(audioFormat);
-      if (headChunk == 544501094 && audioFormat == 1) { // 544501094 is 'value' of 'fmt ' text in valid WAV file
-        m_in >> m_channelsNr;
-        m_channelsNr = qFromBigEndian<quint16>(m_channelsNr);
-        qDebug() << "channels:" << m_channelsNr;
-        m_in >> m_sampleRate;
-        m_sampleRate = qFromBigEndian<quint32>(m_sampleRate);
-        qDebug() << "sample Rate:" << m_sampleRate;
-        quint32 byteRate;
-        m_in >> byteRate;
-        byteRate = qFromBigEndian<quint32>(byteRate);
-        qDebug() << "byte Rate:" << byteRate;
-        quint16 blockAlign;
-        m_in >> blockAlign;
-        blockAlign = qFromBigEndian<quint16>(blockAlign);
-        qDebug() << "block align:" << blockAlign;
-        quint16 bitsPerSample;
-        m_in >> bitsPerSample;
-        bitsPerSample = qFromBigEndian<quint16>(bitsPerSample);
-        qDebug() << "bits per sample:" << bitsPerSample;
-        if (bitsPerSample != 16) {
-          QMessageBox::warning(0, "Nootini", tr("Only WAV with 16 bit per sample are supported."));
-          ok = false;
+    QString audioExt = fileName.right(3);
+    if (audioExt == QLatin1String("pcm") || audioExt == QLatin1String("raw")) {
+        quint64 headInfo;
+        m_in >> headInfo;
+        if (headInfo & 0x97042300) {
+            m_channelsNr = 1;
+            int sr = headInfo % 0x97042300;
+            if (sr == 44)
+              m_sampleRate = 44100;
+            else if (sr == 88)
+              m_sampleRate = 88200;
+            else
+              m_sampleRate = sr * 1000;
+            m_samplesCount = (m_audioFile.size() - 8) / 2;
+        } else {
+            QMessageBox::warning(nullptr, QLatin1String("Nootini"), tr("Raw file created out of Nootka are not supported yet"));
+            m_channelsNr = 1;
+            m_sampleRate = 48000;
+            ok = false;
         }
+    } else { // WAV file
+        qint32 headChunk;
+        m_in >> headChunk;
+        headChunk = qFromBigEndian<qint32>(headChunk);
+        QString headStr((char*)&headChunk);
+
+        quint32 chunkSize;
+        m_in >> chunkSize;
+        chunkSize = qFromBigEndian<quint32>(chunkSize);
         m_in >> headChunk;
         headChunk = qFromBigEndian<qint32>(headChunk);
         headStr = QString((char*)&headChunk);
 
-        quint32 audioDataSize;
-        m_in >> audioDataSize;
-        audioDataSize = qFromBigEndian<quint32>(audioDataSize);
+        if (headChunk == 1163280727) { // 1163280727 is 'value' of 'WAVE' text in valid WAV file
+          m_in >> headChunk;
+          headChunk = qFromBigEndian<qint32>(headChunk);
 
-        m_samplesCount = (audioDataSize / (m_channelsNr * 2));
-        m_totalChunks = m_samplesCount / m_pf->aGl()->framesPerChunk + 1;
-        qDebug() << "chunks to go:" << m_totalChunks;
+          m_in >> chunkSize;
+          quint16 audioFormat;
+          m_in >> audioFormat;
+          audioFormat = qFromBigEndian<quint16>(audioFormat);
+          if (headChunk == 544501094 && audioFormat == 1) { // 544501094 is 'value' of 'fmt ' text in valid WAV file
+            m_in >> m_channelsNr;
+            m_channelsNr = qFromBigEndian<quint16>(m_channelsNr);
+            m_in >> m_sampleRate;
+            m_sampleRate = qFromBigEndian<quint32>(m_sampleRate);
+            quint32 byteRate;
+            m_in >> byteRate;
+            byteRate = qFromBigEndian<quint32>(byteRate);
+            quint16 blockAlign;
+            m_in >> blockAlign;
+            blockAlign = qFromBigEndian<quint16>(blockAlign);
+            quint16 bitsPerSample;
+            m_in >> bitsPerSample;
+            bitsPerSample = qFromBigEndian<quint16>(bitsPerSample);
+            if (bitsPerSample != 16) {
+              QMessageBox::warning(nullptr, QLatin1String("Nootini"), tr("Only WAV with 16 bit per sample are supported."));
+              ok = false;
+            }
+            m_in >> headChunk;
+            headChunk = qFromBigEndian<qint32>(headChunk);
+            headStr = QString((char*)&headChunk);
 
-        m_pf->setSampleRate(m_sampleRate, m_range);
-      } else {
-        QMessageBox::warning(0, "Nootini", tr("Unsupported audio format in file:") + "<br>" + fileName);
-        ok = false;
-      }
-    } else {
-        QMessageBox::warning(0, "Nootini", fileName + "<br>" + tr("is not valid WAV file"));
-        ok = false;
+            quint32 audioDataSize;
+            m_in >> audioDataSize;
+            audioDataSize = qFromBigEndian<quint32>(audioDataSize);
+
+            m_samplesCount = (audioDataSize / (m_channelsNr * 2));
+          } else {
+            QMessageBox::warning(nullptr, QLatin1String("Nootini"), tr("Unsupported audio format in file:") + "<br>" + fileName);
+            ok = false;
+          }
+        } else {
+            QMessageBox::warning(nullptr, QLatin1String("Nootini"), fileName + "<br>" + tr("is not valid WAV file"));
+            ok = false;
+        }
     }
   } else {
-    QMessageBox::warning(0, "Nootini", tr("Cannot open file:") + "<br>" + fileName);
+      QMessageBox::warning(nullptr, QLatin1String("Nootini"), tr("Cannot open file:") + "<br>" + fileName);
+  }
+
+  if (ok) {
+    m_totalChunks = m_samplesCount / m_pf->aGl()->framesPerChunk + 1;
+    m_pf->setSampleRate(m_sampleRate, m_range);
+    qDebug() << fileName;
+    qDebug() << "channels:" << m_channelsNr << "sample rate:" << m_sampleRate << "chunks to go:" << m_totalChunks;
   }
 
   if (!ok && m_audioFile.isOpen())
