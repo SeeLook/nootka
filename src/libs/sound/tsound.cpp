@@ -325,6 +325,13 @@ void Tsound::setDefaultAmbitus() {
 }
 
 
+#if !defined (Q_OS_ANDROID)
+void Tsound::setDumpFileName(const QString& fName) {
+  if (sniffer && !Tcore::gl()->A->dumpPath.isEmpty())
+    sniffer->setDumpFileName(fName);
+}
+#endif
+
 //#################################################################################################
 //###################                PRIVATE           ############################################
 //#################################################################################################

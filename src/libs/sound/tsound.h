@@ -15,13 +15,15 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
+
 #ifndef TSOUND_H
 #define TSOUND_H
 
 
 #include "nootkasoundglobal.h"
-#include <QObject>
+#include <QtCore/qobject.h>
 #include <music/tnote.h>
+
 
 class Tglobals;
 class Tchunk;
@@ -31,7 +33,9 @@ class TabstractPlayer;
 class TpitchView;
 class TaudioIN;
 
+
 #define   SOUND   Tsound::instance()
+
 
 /**
  * Tsound is a wrapper of TaudioIN & TaudioOUT classes
@@ -89,6 +93,10 @@ public:
   void restoreAfterAnswer(); /**< Clears bg color and disables TpitchView. */
   void stopPlaying();
 	void setDefaultAmbitus(); /**< Instrument scale extended of perfect 4th up and down. */
+
+#if !defined (Q_OS_ANDROID)
+  void setDumpFileName(const QString& fName);
+#endif
 
 signals:
 	void noteStarted(const Tnote&);

@@ -1097,6 +1097,10 @@ void TexamExecutor::restoreAfterExam() {
   mW->setWindowTitle(qApp->applicationName());
   TOOLBAR->removeAction(TOOLBAR->nextQuestAct);
   SCORE->isExamExecuting(false);
+#if !defined (Q_OS_ANDROID)
+  if (!Tcore::gl()->A->dumpPath.isEmpty())
+    SOUND->setDumpFileName(QLatin1String("nootka_dump"));
+#endif
 
   m_glStore->restoreSettings();
   if (m_exercise) {
@@ -1110,7 +1114,7 @@ void TexamExecutor::restoreAfterExam() {
     emit examMessage(Torders::e_examSingle);
   else
     emit examMessage(Torders::e_examMultiple);
-  #if defined (Q_OS_ANDROID) // revert actions
+#if defined (Q_OS_ANDROID) // revert actions
   if (!m_level.answerIsSound()) {
     SOUND->pitchView()->pauseAction()->setVisible(true);
     MAINVIEW->flyActions()->append(SOUND->pitchView()->pauseAction());
@@ -1532,12 +1536,20 @@ void TexamExecutor::sniffAfterPlaying() {
 
 
 void TexamExecutor::startSniffing() {
-	if (m_soundTimer->isActive())
-		m_soundTimer->stop();
-	if (SOUND->isSnifferPaused()) {
-			SOUND->unPauseSniffing();
-	} else
-			SOUND->go();
+  if (m_soundTimer->isActive())
+    m_soundTimer->stop();
+#if !defined (Q_OS_ANDROID)
+      if (m_exam->curQ()->answerAsSound() && !Tcore::gl()->A->dumpPath.isEmpty()) {
+        QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
+        if (m_melody)
+          dumpFileName += QString("-attempt%1").arg(m_exam->curQ()->attemptsCount());
+        SOUND->setDumpFileName(dumpFileName);
+      }
+#endif
+  if (SOUND->isSnifferPaused())
+    SOUND->unPauseSniffing();
+	else
+    SOUND->go();
 }
 
 

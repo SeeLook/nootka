@@ -21,10 +21,15 @@
 #include "tpitchfinder.h"
 #include <taudioparams.h>
 #include <tinitcorelib.h>
+#include <QtCore/qdir.h>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qdebug.h>
+
 
 #define LOWEST_PCM (0.2f) // lowest raw PCM volume to start counting 
 #define HIGHEST_PCM (0.8f)
 #define MAX_OUT_NUM (5)
+
 
 TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
   QObject(parent),
@@ -37,6 +42,24 @@ TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
   m_state(e_stopped)
 {
   m_pitchFinder = new TpitchFinder();
+#if !defined (Q_OS_ANDROID)
+  if (!m_audioParams->dumpPath.isEmpty()) {
+      QDir dumpDir(m_audioParams->dumpPath);
+      if (dumpDir.exists() && QFileInfo(m_audioParams->dumpPath).isWritable()) {
+          /**
+           * If dump path exists and it is writable,
+           * create sub-directory with time stamp name
+           * and set it as dump directory for @p TpitchFinder
+           */
+          QString subDir = QDateTime::currentDateTime().toString(Qt::ISODate);
+          dumpDir.mkpath(subDir);
+          m_pitchFinder->setDumpDirPath(m_audioParams->dumpPath + QLatin1String("/") + subDir);
+          qDebug() << "Dumping audio data into:" << m_pitchFinder->dumpDirPath();
+      } else {
+          qDebug() << "Problem with dump directory" << m_audioParams->dumpPath << "\nAudio data will not be dumped!";
+      }
+  }
+#endif
   setAudioInParams();
 
   connect(finder(), &TpitchFinder::noteStarted, this, &TcommonListener::noteStartedSlot);
@@ -47,7 +70,7 @@ TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
 
 
 TcommonListener::~TcommonListener() {
-  finder()->deleteLater();
+  delete m_pitchFinder;
 }
 
 
@@ -123,6 +146,12 @@ qreal TcommonListener::pcmVolume() {
   return static_cast<qreal>(m_pitchFinder->pcmVolume());
 }
 
+
+#if !defined (Q_OS_ANDROID)
+void TcommonListener::setDumpFileName(const QString& fName) {
+  m_pitchFinder->setDumpFileName(fName);
+}
+#endif
 
 //#################################################################################################
 //###################              PROTECTED           ############################################

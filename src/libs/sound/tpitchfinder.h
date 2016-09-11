@@ -53,6 +53,7 @@ inline qreal pitch2freq(qreal note) {
 class Channel;
 class NoteData;
 class MyTransforms;
+class QFile;
 
 
 /** 
@@ -161,10 +162,12 @@ public:
 	bool isOffline() { return m_isOffline; }
 	void setOffLine(bool off);
 
-      /** Pointer to detection processing @class Channel.
-       * WARRING!
+      /**
+       * Pointer to detection processing @p Channel.
+       * WARNING!
        * In online mode it is reset every 1000 chunks,
-       * only in offline mode all detected data exists. */
+       * only in offline mode all detected data exists.
+       */
 	Channel* ch() { return m_channel; }
 	MyTransforms* transforms() { return m_transforms; }
 
@@ -172,6 +175,18 @@ public:
   Erange pitchRange() { if (m_rateRatio == 0.5f) return e_high; else if (m_rateRatio == 2.0f) return e_low; else return e_middle; }
 
   float pcmVolume() { return m_pcmVolume; }
+
+#if !defined (Q_OS_ANDROID)
+      /**
+       * It enables dumping audio data to file(s) to watch them in external applications
+       * Sets dump directory path to @p dumpPath
+       * By default it is empty and dumping audio to file is not performed.
+       */
+  void setDumpDirPath(const QString& dumpPath);
+  void setDumpFileName(const QString& fName) { m_dumpName = fName; }
+  bool isDumpingToFile() { return m_dumpFile != nullptr; }
+  QString dumpDirPath() const { return m_dumpPath; }
+#endif
 
 signals:
   void pitchInChunk(float); /** Pitch in chunk that has been just processed */
@@ -191,18 +206,20 @@ private:
 
       /** Cleans all buffers, sets m_chunkNum to 0. */
   void resetFinder();
+  void createDumpFile();
+  void destroyDumpFile();
 	
 	
 private:
   QThread              *m_thread;
   MyTransforms         *m_transforms;
   float                *m_filteredChunk; /**< audio data after high pass filter */
-  float                *m_floatBuffer; /**< raw audio data */
+  float                *m_floatBuffer; /**< raw audio data converted to float */
   qint16               *m_ringBuffer; /**< 16k buffer to keep incoming audio data, feed in input audio thread   */
-  unsigned int          m_readPos; /** Position to read from token buffer */
-  unsigned int          m_writePos; /** Position to write to token buffer */
+  unsigned int          m_readPos; /**< Position to read from token buffer */
+  unsigned int          m_writePos; /**< Position to write to token buffer */
   volatile quint32      m_framesReady; /**< Number of frames ready for processing */
-  volatile bool         m_doProcess, m_doReset; /**< When @p TRUE when detecting thread p  */
+  volatile bool         m_doProcess, m_doReset;
 
   bool                  m_isOffline;
   TartiniParams        *m_aGl;
@@ -221,7 +238,11 @@ private:
   bool                  m_splitByVol;
   qreal                 m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
   int                   m_minChunks;
-
+#if !defined (Q_OS_ANDROID)
+  int                   m_dumpSufixNr = 0;
+  QString               m_dumpPath, m_dumpName;
+  QFile                *m_dumpFile = nullptr;
+#endif
 };
 
 #endif // TPITCHFINDER_H
