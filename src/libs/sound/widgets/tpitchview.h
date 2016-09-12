@@ -20,16 +20,15 @@
 #ifndef TPITCHVIEW_H
 #define TPITCHVIEW_H
 
+#include "nootkasoundglobal.h"
 #include <QtWidgets/qwidget.h>
 #include <QtWidgets/qboxlayout.h>
 #include <music/tnote.h>
-
 #if defined (Q_OS_ANDROID)
   #include "tqtaudioin.h"
 #else
   #include "trtaudioin.h"
 #endif
-#include "nootkasoundglobal.h"
 
 
 class QCheckBox;
@@ -74,8 +73,8 @@ public:
       /** Sets an accuracy of intonation.
         * When 0 - 'do not check' m_intoView becomes disabled. */
   void setIntonationAccuracy(int accuracy);
-  void enableAccuracyChange(bool enAcc); /** Redirects suitable method from @class TintonationView */
-  bool isAccuracyChangeEnabled(); /** Redirects suitable method from @class TintonationView */
+  void enableAccuracyChange(bool enAcc); /** Redirects suitable method from @p TintonationView */
+  bool isAccuracyChangeEnabled(); /** Redirects suitable method from @p TintonationView */
 
 
       /** Pitch view can be placed in one row (horizontal) or one over another (vertical) - default */
@@ -83,6 +82,12 @@ public:
 
       /** Starts animation displaying correction of unclear sound.  */
   void outOfTuneAnim(float outTune, int duration = 300);
+
+      /** Text: Too low volume of input sound! */
+  static QString tooLowInputText() { return m_tooLowText; }
+
+      /** Text: Too high volume of input sound! */
+  static QString tooHighInputText() { return m_tooHighText; }
 
 signals:
       /** Emitted when correction animation finish */
@@ -128,6 +133,7 @@ private:
 	QAction           *m_pauseAct;
   void updatePauseActIcon(); /** Depends on action state (checked or not) sets the icon */
 #endif
+  static QString     m_tooLowText, m_tooHighText;
 };
 
 #endif // TPITCHVIEW_H

@@ -35,6 +35,11 @@
 #include <QtCore/qdebug.h>
 
 
+/*static*/
+QString TpitchView::m_tooLowText = QLatin1String("<span style=\"color: red;\">") + tr("Too low volume of input sound!").toUpper() + QLatin1String("</span>");
+QString TpitchView::m_tooHighText = QLatin1String("<span style=\"color: red;\">") + tr("Too high volume of input sound!").toUpper() + QLatin1String("</span>");
+
+
 TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
   QWidget(parent),
   m_audioIN(audioIn),
@@ -88,12 +93,8 @@ void TpitchView::setAudioInput(TaudioIN* audioIn) {
       connect(m_audioIN, &TaudioIN::stateChanged, this, &TpitchView::inputStateChanged);
       connect(m_audioIN, &TaudioIN::destroyed, this, &TpitchView::inputDeviceDeleted);
       // Redirect signals, send appropriate messages
-      connect(m_audioIN, &TaudioIN::lowPCMvolume, [=]{
-          emit lowPCMvolume(QLatin1String("<span style=\"color: red;\">") + tr("Too low volume of input sound!").toUpper() + QLatin1String("</span>"));
-      });
-      connect(m_audioIN, &TaudioIN::hiPCMvolume, [=]{
-          emit hiPCMvolume(QLatin1String("<span style=\"color: red;\">") + tr("Too high volume of input sound!").toUpper() + QLatin1String("</span>"));
-      });
+      connect(m_audioIN, &TaudioIN::lowPCMvolume, [=]{ emit lowPCMvolume(m_tooLowText); });
+      connect(m_audioIN, &TaudioIN::hiPCMvolume, [=]{ emit hiPCMvolume(m_tooHighText); });
       setDisabled(false);
   } else
       inputDeviceDeleted();
