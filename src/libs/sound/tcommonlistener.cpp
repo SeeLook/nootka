@@ -28,7 +28,7 @@
 
 #define LOWEST_PCM (0.2f) // lowest raw PCM volume to start counting 
 #define HIGHEST_PCM (0.8f)
-#define MAX_OUT_NUM (5)
+#define MAX_OUT_NUM (10)
 
 
 TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
