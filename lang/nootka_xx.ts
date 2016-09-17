@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="xx_XX">
+<TS version="2.1" language="xx_XX">
 <context>
     <name>AnswerText</name>
     <message>
@@ -314,10 +314,6 @@
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Einstrument</name>
@@ -482,18 +478,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You also can help with making Nootka better.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
         <translation type="unfinished"></translation>
@@ -589,6 +573,15 @@
     </message>
     <message>
         <source>Authors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donors</source>
+        <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>People and companies who gave material support for the Nootka project</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1603,7 +1596,7 @@
     </message>
     <message>
         <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; Â±	[5, 10, 20, 30] cents &apos; </comment>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1651,6 +1644,33 @@
     </message>
     <message>
         <source>Show or hide main window elements.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Tlevel</name>
+    <message>
+        <source>Grand staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Guess notes from grand staff in different keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play a short and simple melody in bass clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play grand staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2848,6 +2868,33 @@
     </message>
     <message>
         <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TsupportNootka</name>
+    <message>
+        <source>You also can help with making Nootka better.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donate Nootka campaign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Through PayPal or a card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or send email for an account number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
