@@ -521,15 +521,15 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       GUITAR->setGuitarDisabled(false);
       GUITAR->prepareAnswer();
   }
-  
+
   if (curQ->answerAsSound()) {
-    SOUND->prepareAnswer();
-    if (curQ->questionAsSound()) {
-        connect(SOUND, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying())); // sniffing after finished sound
-    } else
-        QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
-        // Give a student some time to prepare itself for next question in expert mode
-        // It avoids capture previous played sound as current answer
+      SOUND->prepareAnswer();
+      if (curQ->questionAsSound())
+          connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying); // sniffing after finished sound
+      else
+          QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
+          // Give a student some time to prepare itself for next question in expert mode
+          // It avoids capture previous played sound as current answer
   } else
       SOUND->wait(); // stop sniffing if answer is not a played sound
 
@@ -545,10 +545,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	m_penalty->stopQuestionTime();
 	TOOLBAR->setAfterAnswer();
 	if (curQ->answerAsSound()) {
-			if (m_exam->melodies())
-				SOUND->wait(); // flush buffers after captured melody
-			else
-				SOUND->pauseSinffing(); // but only skip detected for single sound
+      SOUND->pauseSinffing(); // but only skip detected for single sound
 			SCORE->selectNote(-1);
 			disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
 			disconnect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
