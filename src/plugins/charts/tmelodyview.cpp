@@ -23,8 +23,8 @@
 #include <score/tscorekeysignature.h>
 #include <music/tmelody.h>
 #include <exam/tqaunit.h>
-#include <QScrollBar>
-#include <QDebug>
+#include <QtWidgets/qscrollbar.h>
+#include <QtCore/qdebug.h>
 
 
 
@@ -39,7 +39,6 @@ QColor answerColor(quint32 mistake) {
 
 
 
-
 TmelodyView::TmelodyView(Tmelody* melody, QWidget* parent) :
   QGraphicsView(parent),
   m_melody(melody),
@@ -49,12 +48,12 @@ TmelodyView::TmelodyView(Tmelody* melody, QWidget* parent) :
   setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
   setFrameShape(QFrame::NoFrame);
-  setStyleSheet("background-color: transparent;");
-  
+  setStyleSheet(QStringLiteral("background-color: transparent;"));
+
   TscoreScene *scoreScene = new TscoreScene(this);
   setScene(scoreScene);
-  
-  bool skip = m_melody->title().contains(";skip");
+
+  bool skip = m_melody->title().contains(QLatin1String(";skip"));
   for (int s = 0; s <= (m_melody->length() / (m_maxNotes + 1)); ++s) {
     if (s > 0 && skip)
       break;
@@ -89,14 +88,14 @@ TmelodyView::TmelodyView(Tmelody* melody, QWidget* parent) :
       staff->setPos(staffOff, -staff->hiNotePos());
     else
       staff->setPos(staffOff, m_staves[s - 1]->pos().y() + m_staves[s - 1]->loNotePos() - staff->hiNotePos() + 2.0);
-      
+
     m_staves << staff;
   }
 }
 
 
 void TmelodyView::markMistakes(QList< quint32 > mistakes) {
-  if (m_melody->title().contains(";skip"))
+  if (m_melody->title().contains(QLatin1String(";skip")))
     return;
   for (int i = 0; i < mistakes.size(); ++i) {
     if (i < m_melody->length())
@@ -106,7 +105,7 @@ void TmelodyView::markMistakes(QList< quint32 > mistakes) {
 
 
 void TmelodyView::clearMistakes() {
-  if (m_melody->title().contains(";skip"))
+  if (m_melody->title().contains(QLatin1String(";skip")))
     return;
   for (int i = 0; i < m_melody->length(); ++i)
     m_staves[i / m_maxNotes]->noteSegment(i % m_maxNotes)->markNote(-1);
@@ -115,7 +114,8 @@ void TmelodyView::clearMistakes() {
 
 void TmelodyView::showStringNumbers(bool strNrOn) {
   for (int i = 0; i < m_melody->length(); ++i) {
-    if (strNrOn)
+    // melody XML doesn't store positions, so validation of position is required
+    if (strNrOn && m_melody->note(i)->g().isValid())
       m_staves[i / m_maxNotes]->noteSegment(i % m_maxNotes)->setString(m_melody->note(i)->g().str());
     else
       m_staves[i / m_maxNotes]->noteSegment(i % m_maxNotes)->removeString();
