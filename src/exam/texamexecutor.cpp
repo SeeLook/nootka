@@ -528,10 +528,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 	m_penalty->stopQuestionTime();
 	mW->bar->setAfterAnswer();
 	if (curQ->answerAsSound()) {
-			if (m_exam->melodies())
-				mW->sound->wait(); // flush buffers after captured melody
-			else
-				mW->sound->pauseSinffing(); // but only skip detected for single sound
+      mW->sound->pauseSinffing(); // but only skip detected for single sound
 			mW->score->selectNote(-1);
 			disconnect(mW->sound, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
 			disconnect(mW->sound, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
