@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,11 +16,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
 #include "tchunk.h"
 #include "trhythm.h"
 #include "tnote.h"
-#include <QXmlStreamWriter>
-
+#include <QtCore/qxmlstream.h>
 
 
 Tchunk::Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos) :
@@ -75,9 +75,12 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
 				xml.skipCurrentElement();
 			} else if (xml.name() == "type")
 				m_rhythm.setNoteValue(xml.readElementText().toStdString());
-			else if (xml.name() == "notations")
-				m_fretPos.fromXml(xml);
-			else if (xml.name() == "voice") {
+      else if (xml.name() == QLatin1String("notations")) {
+          xml.readNextStartElement();
+          if (xml.name() == QLatin1String("technical"))
+            m_fretPos.fromXml(xml);
+          xml.skipCurrentElement();
+      } else if (xml.name() == QLatin1String("voice")) {
 				if (xml.readElementText().toInt() != 1) {
 					ok = false;
 				}
