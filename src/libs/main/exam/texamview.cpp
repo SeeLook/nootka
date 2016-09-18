@@ -156,12 +156,14 @@ void TexamView::questionStop() {
 
 void TexamView::pause() {
 	m_pausedAt = m_questionTime.elapsed();
+  doNotdisplayTime();
 }
 
 
 void TexamView::go() {
 	m_questionTime.start();
   m_questionTime = m_questionTime.addMSecs(-m_pausedAt);
+  displayTime();
 }
 
 
@@ -173,7 +175,7 @@ void TexamView::startExam(Texam* exam) {
 	m_totalTime.start();
 	countTime();
 	answered();
-	m_averTimeLab->setText(" " + Texam::formatReactTime(m_exam->averageReactonTime()) + " ");
+	m_averTimeLab->setText(QLatin1String(" ") + Texam::formatReactTime(m_exam->averageReactonTime()) + QLatin1String(" "));
 	if (m_exam->melodies()) {
 		m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of current question)."));
 		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt());
