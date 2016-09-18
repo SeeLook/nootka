@@ -40,10 +40,10 @@
 
 
 TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) : 
-	QGraphicsObject(),
-	m_view(view),
+  QGraphicsObject(),
   m_exam(exam),
-  m_saveHint(nullptr)
+  m_saveHint(nullptr),
+  m_view(view)
 {
   setFlag(ItemHasNoContents);
   m_view->scene()->addItem(this);
@@ -131,7 +131,7 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
 #else
   m_stampPixmap->setScale(3.0);
   TcombinedAnim *flyingStamp = new TcombinedAnim(m_stampPixmap, this);
-    flyingStamp->setDuration(750);
+    flyingStamp->setDuration(400);
     flyingStamp->setMoving(QPointF(width() + 50.0, stampYpos - 100.0), QPointF((width() - m_stampPixmap->boundingRect().width()) / 2, stampYpos));
     flyingStamp->setScaling(1.0);
     flyingStamp->startAnimations();

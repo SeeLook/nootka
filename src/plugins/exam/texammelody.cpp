@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,7 @@
 
 #include "texammelody.h"
 #include <music/tnotestruct.h>
-#include <QDebug>
+#include <QtCore/qdebug.h>
 
 
 TexamMelody::TexamMelody(QObject* parent) :
@@ -50,12 +50,16 @@ void TexamMelody::noteStarted() {
   m_currentIndex++;
   if (m_currentIndex >= listened().size()) {
     m_currentIndex = listened().size() - 1;
-    qDebug() << "TexamMelody reached end of melody.";
+    qDebug() << "[TexamMelody] reached end of melody.";
   }
 }
 
 
 void TexamMelody::setNote(const TnoteStruct& n) {
+  if (m_currentIndex < 0 || m_currentIndex > m_listened.count() - 1) {
+    qDebug() << "[TexamMelody::setNote] note index out of range" << m_currentIndex;
+    return;
+  }
   m_listened[m_currentIndex] = n;
 }
 
@@ -66,9 +70,9 @@ void TexamMelody::setCurrentIndex(int id) {
       m_currentIndex = id - 1; // decrease it because noteStarted() will increase it again
       m_indexChanged = true;
     } else
-        qDebug() << "TexamMelody Index out of range!";
+        qDebug() << "[TexamMelody::setCurrentIndex] Index out of range!";
   } else {
-    qDebug() << "TexamMelody list is empty, cannot change index!";
+    qDebug() << "[TexamMelody::setCurrentIndex] list is empty, cannot change index!";
   }
 }
 

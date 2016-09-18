@@ -78,10 +78,10 @@ Tcanvas::Tcanvas(QGraphicsView* view, Texam* exam) :
   QObject(view),
   m_view(view),
   m_scale(1.0),
-  m_certifyTip(0),
+  m_certifyTip(nullptr),
   m_exam(exam),
   m_timerToConfirm(new QTimer(this)),
-  m_flyEllipse(0),
+  m_flyEllipse(nullptr),
   m_minimizedQuestion(false), m_melodyCorrectMessage(false)
 {
   m_scene = m_view->scene();
@@ -226,6 +226,9 @@ void Tcanvas::startTip() {
 
 
 void Tcanvas::certificateTip() {
+  if (m_certifyTip)
+    return;
+
   delete m_questionTip;
   clearResultTip();
   clearWhatNextTip();
@@ -503,7 +506,7 @@ void Tcanvas::clearCanvas() {
   }
 	delete m_startTip;
 	delete m_questionTip;
-	delete m_certifyTip;
+	clearCertificate();
   delete m_outTuneTip;
   clearMelodyCorrectMessage();
 #if defined (Q_OS_ANDROID)
@@ -527,10 +530,10 @@ void Tcanvas::clearConfirmTip() {
 
 
 void Tcanvas::clearCertificate() {
-	if (m_certifyTip) {
-		m_certifyTip->deleteLater();
-		m_certifyTip = 0;
-	}
+  if (m_certifyTip) {
+    m_certifyTip->deleteLater();
+    m_certifyTip = nullptr;
+  }
 }
 
 
@@ -682,7 +685,7 @@ bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
   if (event->type() == QEvent::MouseButtonPress) {
     QMouseEvent *me = static_cast<QMouseEvent*>(event);
     if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
-        if (m_exam)
+        if (m_exam && !m_certifyTip)
           emit certificateMagicKeys();
     }
   }

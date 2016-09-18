@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,6 +25,7 @@
 #include <QtWidgets/qgraphicsview.h>
 #include <exam/tqatype.h>
 #include <tfingerpos.h>
+
 
 class Tnote;
 class TnoteName;
@@ -109,6 +110,8 @@ public:
 
   QString detectedText(const QString& txt); /**< Returns bigger @p txt in question color. Used for 'detected'  message. */
 
+  bool hasCertificate() { return m_certifyTip != nullptr; }
+
 public slots:
 	void clearResultTip(); // clears tip with results
 	void clearTryAgainTip();
@@ -157,7 +160,7 @@ private:
   QPointer<TgraphicsTextTip>     m_confirmTip;
 #endif
 
-	QPointer<TnootkaCertificate>	 m_certifyTip;
+	TnootkaCertificate         	  *m_certifyTip;
 	Texam 												*m_exam;
 	QPointer<TcombinedAnim>				 m_correctAnim;
 	QTimer 												*m_timerToConfirm;
