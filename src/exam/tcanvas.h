@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -103,7 +103,9 @@ public:
 	void detectedNoteTip(const Tnote& note);
   
   QString detectedText(const QString& txt); /** Returns bigger @p txt in question color. Used for 'detected'  message. */
-	
+
+  bool hasCertificate() { return m_certifyTip != 0; }
+
 public slots:
 	void clearResultTip(); // clears tip with results
 	void clearTryAgainTip();
@@ -149,7 +151,7 @@ private:
 	QPointer<TgraphicsTextTip>		 m_resultTip, m_whatTip, m_startTip, m_tryAgainTip;
 	QPointer<TgraphicsTextTip>		 m_confirmTip, m_outTuneTip;
 	QPointer<TquestionTip>				 m_questionTip;
-	QPointer<TnootkaCertificate>	 m_certifyTip;
+	TnootkaCertificate         	  *m_certifyTip;
 	Texam 												*m_exam;
 	QPointer<TcombinedAnim>				 m_correctAnim;
 	QTimer 												*m_timerToConfirm;

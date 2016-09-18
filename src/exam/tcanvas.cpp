@@ -172,6 +172,9 @@ void Tcanvas::startTip() {
 
 
 void Tcanvas::certificateTip() {
+  if (m_certifyTip)
+    return;
+
   delete m_questionTip;
   clearResultTip();
   clearWhatNextTip();
@@ -377,7 +380,7 @@ void Tcanvas::clearCanvas() {
   }
 	delete m_startTip;
 	delete m_questionTip;
-	delete m_certifyTip;
+  clearCertificate();
   delete m_outTuneTip;
   clearMelodyCorrectMessage();
 }
@@ -532,7 +535,7 @@ bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
     QMouseEvent *me = static_cast<QMouseEvent *>(event);
     if (event->type() == QEvent::MouseButtonPress) {
 			if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
-					if (m_exam)
+          if (m_exam && !m_certifyTip)
 						emit certificateMagicKeys();
 			}
     }

@@ -242,6 +242,9 @@ void TexamExecutor::initializeExecuting() {
 
 void TexamExecutor::askQuestion(bool isAttempt) {
 	m_askingTimer->stop();
+  if (m_canvas->hasCertificate()) // in auto mode new question can be asked "under" certificate
+    return;
+
 	m_lockRightButt = false; // release mouse button events
 	if (m_exercise && !gl->E->showCorrected) // hide correct action button
       mW->bar->removeAction(mW->bar->correctAct);
@@ -677,6 +680,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
 	markAnswer(curQ);
 	int waitTime = gl->E->questionDelay;
+  if (m_melody) // increase minimal delay before next question for melodies to 500ms
+    waitTime = qMax(waitTime, 500);
 	if (m_exercise) {
     if ((gl->E->autoNextQuest && gl->E->afterMistake != TexamParams::e_continue) || !gl->E->autoNextQuest || gl->E->showCorrected)
       waitTime = gl->E->correctPreview; // user has to have time to see his mistake and correct answer
@@ -701,7 +706,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           stopExamSlot();
       else {
 				if (curQ->isCorrect()) {
-          m_askingTimer->start(gl->E->questionDelay);
+          m_askingTimer->start(m_melody ? qMax(gl->E->questionDelay, 500) : gl->E->questionDelay);
       } else {
 					if (gl->E->repeatIncorrect && !m_incorrectRepeated) {
 						if (curQ->melody())
@@ -1418,6 +1423,9 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
 void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
 //   Tnote nn = n.pitch;
 //   qDebug() << "[TexamExecutor] note finished" << nn.toText();
+  if (m_melody->currentIndex() < 0) // meanwhile new question melody was asked - some undesired note was finished
+    return;
+
   m_melody->setNote(n);
   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
     if (gl->E->expertsAnswerEnable)
