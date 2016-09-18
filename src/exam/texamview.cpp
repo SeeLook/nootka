@@ -135,12 +135,14 @@ void TexamView::questionStop() {
 
 void TexamView::pause() {
 	m_pausedAt = m_questionTime.elapsed();
+  doNotdisplayTime();
 }
 
 
 void TexamView::go() {
 	m_questionTime.start();
-	m_questionTime = m_questionTime.addMSecs(-m_pausedAt);		
+  m_questionTime = m_questionTime.addMSecs(-m_pausedAt);
+  displayTime();
 }
 
 
