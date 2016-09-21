@@ -44,7 +44,7 @@ public:
   {}
 
   void setRhythmGlyph(Trhythm* r) {
-    setSymbol(TnooFont::getCharFromRhythm(r->rhythm(), true, r->isRest()));
+    setSymbol(TnooFont::getCharFromRhythm(r->weight(), true, r->isRest()));
     m_hasDot = r->hasDot();
     m_isTriplet = r->isTriplet();
   }

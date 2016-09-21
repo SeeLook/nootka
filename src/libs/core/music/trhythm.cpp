@@ -20,27 +20,47 @@
 #include <QtCore/qdebug.h>
 
 
-// TODO
-//   if (m_duration == 0) {
-//     quint8 rArray[RVALUE];
-//     rArray[0] = 0;
-//     QString s;
-//     for (int d = 1; d <= RVALUE; ++d) {
-//       Trhythm r(d);
-//       if (d == r.duration()) {
-//         s += QString("%1").arg(r.weight()) + (r.hasDot() ? "." : (r.isTriplet() ? "_3" : "")) + QString(" %1 | ").arg(d);
-//         rArray[d] = r.weight() + (r.hasDot() ? 64 : 0) + (r.isTriplet() ? 128 : 0);
-//       } else
-//           rArray[d] = 0;
-//     }
-//     qDebug() << s;
-//   }
+/**
+ * Converts @p Trhythm into value:
+ * - rhythmic value number: first 3 bytes [0-7]
+ * - is dot: byte 7 [64]
+ * - or is triplet: byte 8 [128]
+ * It is used to store rhythm info in single byte for duration array
+ */
+inline quint8 rHash(const Trhythm& r) {
+  return r.rhythm() + (r.hasDot() ? 64 : 0) + (r.isTriplet() ? 128 : 0);
+}
+
+/*-----static-------*/
+/**
+ * Array that keeps hash values for every numeric duration [0-96]
+ * or null if no such duration
+ */
+static quint8  rArray[RVALUE + 1];
+
+void Trhythm::initialize() {
+  for (int d = 0; d < RVALUE + 1; ++d)
+    rArray[d] = 0;
+
+  for (int d = 1; d < 6 ; ++d) {
+    Trhythm r(static_cast<Erhythm>(d));
+    rArray[r.duration()] = rHash(r);
+    if (d > 1) { // skip whole with dot (144 is too big)
+      r.setDot(true);
+      rArray[r.duration()] = rHash(r);
+      r.setDot(false);
+    }
+    r.setTriplet(true);
+    rArray[r.duration()] = rHash(r);
+  }
+}
+/*------------------*/
 
 
 void Trhythm::setRhythmValue(const std::string& nVal) {
   for (int i = 0; i < 6; ++i) {
     if (nVal == rhythmStrings[i]) {
-        m_r = (Erhythm)i;
+        m_r = static_cast<Erhythm>(i);
         return;
     }
   }
@@ -48,47 +68,26 @@ void Trhythm::setRhythmValue(const std::string& nVal) {
 
 
 QString Trhythm::xmlType() const {
-  if (m_r == e_none)
-      return QString();
-  else
-      return QString::fromStdString(rhythmStrings[(int)std::log2<int>(weight()) + 1]);
-}
-
-
-int Trhythm::duration() const {
-  if (m_r == e_none)
-    return 0;
-  int d = ((2 * RVALUE) / weight()) / (isTriplet() ? 3 : 2);
-  return d + (hasDot() ? d / 2 : 0);
+  return QString::fromStdString(rhythmStrings[m_r]);
 }
 
 
 void Trhythm::setRhythm(quint16 durationValue) {
   m_prefs = 0;
   m_r = e_none;
-  quint16 tmpDur = durationValue;
-  if (durationValue > RVALUE * 1.5)
-    qDebug() << "Too big rhythm duration value" << durationValue;
-  else {
-    if (RVALUE % durationValue) { // has dot
-      m_prefs = e_dot;
-      durationValue = (durationValue / 3) * 2;
-    }
-    quint32 r = RVALUE / durationValue;
-    if (!hasDot() && qNextPowerOfTwo(r - 1) != r) { // it is triplet
-      m_prefs = e_triplet;
-      durationValue = (durationValue * 3) / 2;
-      r = RVALUE / durationValue;
-    }
-    if (qNextPowerOfTwo(r - 1) > 16)
-        qDebug() << "Unsupported rhythm value" << qNextPowerOfTwo(r - 1);
-    else {
-        if (qNextPowerOfTwo(r - 1) == r)
-          m_r = Erhythm(r);
-        // debug message TODO comment it when tested
-        if (tmpDur != duration())
-          qDebug() << "Input duration" << tmpDur << "is different than obtained!!!" << duration();
-    }
+  if (durationValue <= 96) {
+      m_r = static_cast<Erhythm>(rArray[durationValue] & 7); // bit mask 11100000 to extract rhythm value
+      if (m_r != e_none) {
+        if (rArray[durationValue] & 64)
+          m_prefs = e_dot;
+        else if (rArray[durationValue] & 128)
+          m_prefs = e_triplet;
+      }
+  } else {
+      if (durationValue == 144) { // "manually catch whole note with dot"
+        m_prefs = e_dot;
+        m_r = e_whole;
+      }
   }
 }
 

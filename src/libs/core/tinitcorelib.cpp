@@ -43,6 +43,7 @@ bool initCoreLibrary() {
     qDebug() << "Tglobals was not created. Construct it first!";
     return false;
   }
+  Trhythm::initialize();
   Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
   TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());

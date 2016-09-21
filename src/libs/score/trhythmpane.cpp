@@ -84,9 +84,9 @@ void TrhythmPane::setRhythm(Trhythm* r) {
     return;
 
   if (r->isRest())
-    m_selectedRhythmItem = m_rests[std::log2<int>((int)r->rhythm())];
+    m_selectedRhythmItem = m_rests[r->rhythm() - 1];
   else
-    m_selectedRhythmItem = m_notes[std::log2<int>((int)r->rhythm())];
+    m_selectedRhythmItem = m_notes[r->rhythm() - 1];
   m_selectedRhythmItem->setSelected(true);
   m_dot->setSelected(r->hasDot());
   m_triplet->setSelected(r->isTriplet());
@@ -146,7 +146,7 @@ void TrhythmPane::itemClicked() {
   } else
       m_rhythm->setRest(false);
   if (valueIndex != -1)
-    m_rhythm->setRhythmValue(Trhythm::Erhythm(qPow(2, valueIndex)));
+    m_rhythm->setRhythmValue(static_cast<Trhythm::Erhythm>(valueIndex + 1));
   m_rhythm->setDot(m_dot->isSelected());
   m_rhythm->setTriplet(m_triplet->isSelected());
   showHideDotTriplet();

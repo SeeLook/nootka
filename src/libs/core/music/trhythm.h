@@ -25,34 +25,63 @@
 
 const std::string rhythmStrings [6] = {"", "whole", "half", "quarter", "eighth", "16th"};
 
-    /** Base value to calculate proportional values of rhythm duration:
+    /** Almost powers of 2, used to quickly mapping @p Erhythm enumerator into weight of rhythm value */
+const quint8 rtm2weightArr[6] = {0, 1, 2, 4, 8, 16};
+
+
+    /**
+     * Base value to calculate proportional values of rhythm duration:
      * 96 - whole note
      * 6 - sixteen note
      * 4 - sixteen triplet
      */
 #define RVALUE (96)
 
+    /** Array with duration values */
+const quint8 durArray[6][3] = {
+//  |  bare note |      dot         |    triplet |
+    { 0,             0,                  0           }, // none
+    { RVALUE,     (RVALUE * 3) / 2,  (RVALUE * 2) / 3}, // whole note      (96, 144, 64)
+    { RVALUE / 2, (RVALUE * 3) / 4,   RVALUE / 3     }, // half note       (48, 72,  32)
+    { RVALUE / 4, (RVALUE * 3) / 8,   RVALUE / 6     }, // quarter note    (24, 36,  16)
+    { RVALUE / 8, (RVALUE * 3) / 16,  RVALUE / 12    }, // eighth note     (12, 18,   8)
+    { RVALUE / 16,(RVALUE * 3) / 32,  RVALUE / 24    }  // sixteenth note  (6,  9,    4)
+};
+
+
 
 /**
  * This class describes musical note value (relative duration)
- * It supports only triplet but without dots
+ * but has limitations for Nootka purposes.
+ * It supports triplets but without dots
+ *
+ * To have full functionality it has to be initialized by static @p initialize()
  */
 class Trhythm
 {
 
 public:
 
-  enum Erhythm : quint8 {
-    e_none = 0, e_whole = 1, e_half = 2, e_quarter = 4, e_eighth = 8, e_sixteenth = 16
-  }; /**< Describes note duration */
+      /**
+       * Initialize class @p Trhythm with values of duration.
+       * Without this, @p setRhythm(int) will not work.
+       */
+  static void initialize();
 
+      /** Describes note duration */
+  enum Erhythm : quint8 {
+    e_none = 0, e_whole = 1, e_half = 2, e_quarter = 3, e_eighth = 4, e_sixteenth = 5
+  };
+
+      /** Additional note preferences */
   enum Eprefs : quint8 {
     e_rest = 1, e_dot = 2, e_triplet = 4, e_stemDown = 8
-  }; /**< Addidtional note preferences */
+  };
 
+      /** It covers 16&32 bits of @p m_prefs value. It is mapped into @enum Ebeam then */
   enum Ebeam : quint8 {
     e_noBeam = 0, e_beamStart = 16, e_beamCont = 32, e_beamEnd = 48
-  }; /**< It covers 16&32 bits of @p m_prefs value. It is mapped into @enum Ebeam then */
+  };
 
   enum Etie : quint8 {
     e_noTie = 0, e_tieStart = 64, e_tieCont = 128, e_tieEnd = 192
@@ -92,11 +121,14 @@ public:
       /** Converts given value into rhythm */
   void setRhythm(quint16 durationValue);
 
-  int weight() const { return (int)m_r; } /**< Rhythm value cast to int: i.e. quarter is 4, half is 2 and so on */
+      /** Rhythm value: i.e. sixteen is 16, quarter is 4, half is 2 and so on */
+  quint8 weight() const { return rtm2weightArr[m_r]; }
 
       /** Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8.
        * Base value is defined in @p RVALUE macro */
-  int duration() const;
+  int duration() const {
+      return durArray[m_r][hasDot() ? 1 : (isTriplet() ? 2 : 0)];
+  }
 
   bool isRest() const { return m_prefs & e_rest; }
   void setRest(bool rest) {
