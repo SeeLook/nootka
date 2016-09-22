@@ -38,7 +38,9 @@ protected:
   void keySignatureSlot(bool keyEnabled);
   void meterSlot(bool meterEnabled);
   void dblAccidsSlot(bool dblAccidsEnabled);
-  void resizeEvent(QResizeEvent* event) override;
+  void randomSlot();
+
+  virtual void resizeEvent(QResizeEvent* event) override;
 
 
 private:

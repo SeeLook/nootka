@@ -22,6 +22,8 @@
 #include <tmultiscore.h>
 #include <tscorescene.h>
 #include <music/tmeter.h>
+#include <../../src/libs/main/exam/trandmelody.h>
+#include <music/tmelody.h>
 #include <widgets/tpushbutton.h>
 #include <QtWidgets/QtWidgets>
 
@@ -68,6 +70,9 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
       dblAccidsAct->setCheckable(true);
       dblAccidsAct->setChecked(true);
       connect(dblAccidsAct, &QAction::toggled, this, &ScorekWindow::dblAccidsSlot);
+    auto randMelAct = scoreMenu->addAction(QStringLiteral("Random melody"));
+      randMelAct->setShortcut(QKeySequence(QStringLiteral("Ctrl+r")));
+      connect(randMelAct, &QAction::triggered, this, &ScorekWindow::randomSlot);
 
   auto bar = menuBar();
   bar->addMenu(scoreMenu);
@@ -92,6 +97,38 @@ void ScorekWindow::meterSlot(bool meterEnabled) {
 
 void ScorekWindow::dblAccidsSlot(bool dblAccidsEnabled) {
   m_score->setEnabledDblAccid(dblAccidsEnabled);
+}
+
+
+void ScorekWindow::randomSlot() {
+  bool ok = false;
+  int len = QInputDialog::getInt(this, QStringLiteral("Generate random melody"), QStringLiteral("Melody length"), 10, 2, 100, 1, &ok);
+  if (ok) {
+    QList<TQAgroup> ql;
+    int ambit = 25; //highestNote().chromatic() - lowestNote().chromatic();
+    for (int i = 0; i < ambit; i++) {
+      TQAgroup qa;
+      qa.note = Tnote(1 + i);
+      ql << qa;
+    }
+    Tmelody *mel = new Tmelody(QString(), m_score->keySignature());
+    mel->setClef(m_score->clef().type());
+    getRandomMelody(ql, mel, len, true, true);
+//     Trhythm r(m_score->meter()->lower() == 4 ? Trhythm::e_quarter : Trhythm::e_eighth);
+    qsrand(QDateTime::currentDateTime().toTime_t());
+    for (int n = 0; n < len; ++n) {
+      int val = 3 + (qrand() % 3);
+      bool rest = static_cast<bool>(qrand() % 2);
+      if (rest)
+        mel->note(n)->p().note = 0;
+      bool dot = false;
+      if (val < 5)
+        dot = static_cast<bool>(qrand() % 2);
+      mel->note(n)->p().setRhythm(Trhythm(static_cast<Trhythm::Erhythm>(val), rest, dot));
+      m_score->lastStaff()->addNote(mel->note(n)->p());
+    }
+    delete mel;
+  }
 }
 
 

@@ -21,6 +21,7 @@ include_directories( ../../src/libs/core ../../src/libs/score )
 set(SCOREK_SRC
   main.cpp
   scorekwindow.cpp
+  ../../src/libs/main/exam/trandmelody.cpp
 
   keylabel.cpp
   keyboardmap.cpp
