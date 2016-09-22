@@ -177,6 +177,10 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
            << inserted->note()->rtm.xmlType() << (inserted->note()->hasDot() ? "." : QString())
            << inserted->rhythm()->xmlType()
            << "to measure" << measureNr;
+  if (measureNr < 0) {
+    qDebug() << debug() << "Not such a measure for index" << index;
+    return;
+  }
   m_measures[measureNr]->insertNote(index - m_measures[measureNr]->firstNoteId(), inserted);
 //   prepareNoteChange(inserted);
 
@@ -289,8 +293,12 @@ void TscoreStaff::takeNotes(QList<TscoreNote*>& nList, int from, int to) {
       m_scoreNotes[from]->setParentItem(0); // to avoid deleting with staff as its parent
       nList << m_scoreNotes.takeAt(from);
     }
-    updateNotesPos();
-    updateIndexes();
+    if (m_scoreNotes.isEmpty())
+        emit staffIsEmpty();
+    else {
+        updateNotesPos();
+        updateIndexes();
+    }
   }
 }
 
@@ -656,6 +664,7 @@ qreal TscoreStaff::notesOffset() {
 
 
 void TscoreStaff::noteChangedWidth(int noteId) {
+  Q_UNUSED(noteId)
   updateNotesPos();
 }
 
@@ -681,8 +690,10 @@ TscoreNote* TscoreStaff::insertNote(const Tnote& note, int index, bool disabled)
 
 
 void TscoreStaff::fit() {
-  if (m_scoreNotes.isEmpty())
+  if (m_scoreNotes.isEmpty()) {
+    qDebug() << debug() << "Empty staff - nothing to fit";
     return;
+  }
 
   int measureNr = 0, mCnt = 0;
   qreal factor = 2.0;
@@ -734,7 +745,7 @@ void TscoreStaff::fit() {
 void TscoreStaff::shiftToMeasure(int measureNr, QList<TscoreNote*>& notesToShift) {
   qDebug() << debug() << "shift" << notesToShift.count() << "notes to measure" << measureNr;
   if (measureNr == m_measures.count()) { // no such a measure - create it first
-    qDebug() << "Create new measure nr" << m_measures.count();
+    qDebug() << debug() << "Create new measure nr" << m_measures.count();
     m_measures << new TscoreMeasure(this, m_measures.count());
   }
   m_measures[measureNr]->prependNotes(notesToShift);
@@ -755,6 +766,13 @@ int TscoreStaff::shiftFromMeasure(int measureNr, int dur, QList<TscoreNote*>& no
       if (st && st != this) {
         qDebug() << debug() << "Looking for notes in the next staff id" << st->number();
         st->shiftFromMeasure(0, dur, notesToShift);
+        if (!notesToShift.isEmpty()) {
+          QList<TscoreNote*> fakeList; // notesToShift has already all notes
+          st->takeNotes(fakeList, notesToShift.first()->index(), notesToShift.last()->index());
+          qDebug() << debug() << "Setting new staff for" << notesToShift.size() << "notes";
+          addNotes(count(), notesToShift);
+          content(this);
+        }
       }
   }
   return retDur;
@@ -1013,7 +1031,7 @@ void TscoreStaff::updateNotesPos(int startId) {
     m_scoreNotes[startId]->setX(m_scoreNotes[startId - 1]->rightX());
 
   int m = 0;
-  for (int i = startId + 1; i < m_scoreNotes.size(); i++) {// update positions of the notes
+  for (int i = startId + 1; i < m_scoreNotes.size(); i++) { // update positions of the notes
       auto noteSeg = m_scoreNotes[i]; // cache pointer to TscoreNote for multiple reuse
       noteSeg->setX(m_scoreNotes[i - 1]->rightX());
       if (m < m_measures.count() && !m_measures[m]->isEmpty() && noteSeg == m_measures[m]->lastNote()) {

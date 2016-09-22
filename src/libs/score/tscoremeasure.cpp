@@ -119,13 +119,12 @@ void TscoreMeasure::setStaff(TscoreStaff* st) {
 
   if (st->firstMeasure() == this) { // this measure was the last and went at the beginning of the next staff
       auto first = firstNote();
-      qDebug() << "Tie of first" << first->note()->rtm.tie();
       if (first->note()->rtm.tie() > Trhythm::e_tieStart) { // tie continues or ends on first note
         auto prev = first->prevNote();
         if (prev->tie())
           prev->tie()->checkStaves();
-        else
-          qDebug() << debug() << "first note has tie flag set but not tie exists";
+        else // TODO: delete if not occurs
+          qDebug() << debug() << "first note has tie flag set but tie doesn't exists";
       }
   } else if (st->lastMeasure() == this) { // this measure was the first and went at the end of previous staff
       auto last = lastNote();
@@ -209,7 +208,7 @@ void TscoreMeasure::insertNote(int id, TscoreNote* sn) {
     int toRelease = releaseAtEnd(noteDur - m_free, notesToOut, newNote, id);
     if (toRelease > 0) { // There is still not enough space
       if (m_free > 0) { // measure has some free space for the new note but not for entire
-          auto oldRhythm(sn->note()->rtm);
+          Trhythm oldRhythm(sn->note()->rtm);
           sn->setRhythm(Trhythm(m_free, sn->note()->isRest()));
           sn->note()->rtm.setTie(oldRhythm.tie());
           sn->note()->rtm.setStemDown(oldRhythm.stemDown());
@@ -260,37 +259,6 @@ void TscoreMeasure::removeNote(int noteToRemove) {
 }
 
 
-// TODO: move down to private 
-void TscoreMeasure::fill() {
-  QList<TscoreNote*> notesToShift;
-  int remainDur = m_staff->shiftFromMeasure(id() + 1, m_free, notesToShift);
-  qDebug() << debug() << "fill, remain" << remainDur << "to shift:" << notesToShift.count();
-  for (int i = 0; i < notesToShift.size(); ++i) {
-    m_notes.append(notesToShift[i]);
-    connect(notesToShift[i], &TscoreNote::noteGoingToChange, this, &TscoreMeasure::noteChangedSlot);
-  }
-  if (remainDur) { // next measure has a part of a new note
-      qDebug() << debug() << remainDur << "remained in next measure";
-      auto firstInNext = m_staff->measures()[id() + 1]->firstNote()->note();
-      Tnote newNote(*firstInNext, Trhythm(remainDur, firstInNext->isRest()));
-      if (!newNote.isRest())
-        firstInNext->rtm.setTie(Trhythm::e_tieEnd); // TODO: what about this note had starting tie before?
-//       m_staff->insertNote(lastNote()->index() + 1, newNote); // it will invoke grouping
-      auto inserted = m_staff->insertNote(newNote, lastNoteId() + 1, lastNote()->isReadOnly());
-      insertNote(inserted->index() - firstNoteId(), inserted);
-//       m_staff->prepareNoteChange(inserted, 0.0);
-      if (!inserted->note()->isRest())
-        inserted->note()->rtm.setTie(Trhythm::e_tieStart);
-  } else {
-      updateRhythmicGroups();
-      resolveBeaming(0);
-      checkBarLine();
-  }
-
-  content(this);
-}
-
-
 qreal TscoreMeasure::notesWidth() {
   if (!isEmpty())
     return lastNote()->rightX() - firstNote()->x();
@@ -328,7 +296,7 @@ int TscoreMeasure::lastNoteId() const {
 
 char TscoreMeasure::debug() {
   QTextStream o(stdout);
-  o << " \033[01;33m[" << m_staff->number() << "-" << id() << " MEASURE]\033[01;00m";
+  o << " \033[01;33m[" << QString("%1/%2").arg(id()).arg(m_staff->number()) << " MEASURE]\033[01;00m";
   return 32; // fake
 }
 
@@ -343,17 +311,17 @@ void TscoreMeasure::noteChangedSlot(TscoreNote* sn) {
   if (sn->rhythmChanged()) {
     int prevDur = sn->rhythm()->duration();
     int newDur = sn->note()->duration();
-    qDebug() << "rhythm changed from" << prevDur << "to" << newDur << "free" << m_free;
+    qDebug() << debug() << "rhythm changed from" << prevDur << "to" << newDur << "free" << m_free;
     if (m_free - (newDur - prevDur) < 0) {
         qDebug() << debug() << "recalculate() needs release measure about" << newDur - prevDur - m_free;
         int rel = releaseAtEnd(newDur - prevDur - m_free, notesToOut, newNote, sn->index() - firstNoteId());
-        qDebug() << "RECALCULATED, remained" << rel;
+        qDebug() << debug() << "RECALCULATED, remained" << rel;
         updateRhythmicGroups();
         resolveBeaming(sn->rhythmGroup());
         checkBarLine();
     } else if (newDur == prevDur) {
         if (sn->note()->isRest() != sn->rhythm()->isRest())
-          qDebug() << "note" << sn->index() << "changed to/from rest";
+          qDebug() << debug() << "note" << sn->index() << "changed to/from rest";
         resolveBeaming(sn->rhythmGroup(), sn->rhythmGroup());
         checkBarLine();
     } else { // measure duration is less than meter - take notes from the next measure
@@ -577,6 +545,33 @@ void TscoreMeasure::shiftReleased(QList<TscoreNote*>& notesToOut, Tnote& newNote
     addNewNote(newNote);
 }
 
+
+void TscoreMeasure::fill() {
+  QList<TscoreNote*> notesToShift;
+  int remainDur = m_staff->shiftFromMeasure(id() + 1, m_free, notesToShift);
+  qDebug() << debug() << "fill, remain" << remainDur << "to shift:" << notesToShift.count();
+  for (int i = 0; i < notesToShift.size(); ++i) {
+    m_notes.append(notesToShift[i]);
+    connect(notesToShift[i], &TscoreNote::noteGoingToChange, this, &TscoreMeasure::noteChangedSlot);
+  }
+  if (remainDur) { // next measure has a part of a new note
+      qDebug() << debug() << remainDur << "remained in the next measure";
+      auto firstInNext = m_staff->measures()[id() + 1]->firstNote()->note();
+      Tnote newNote(*firstInNext, Trhythm(remainDur, firstInNext->isRest()));
+//       m_staff->insertNote(lastNote()->index() + 1, newNote); // it will invoke grouping
+      auto inserted = m_staff->insertNote(newNote, lastNoteId() + 1, lastNote()->isReadOnly());
+      insertNote(inserted->index() - firstNoteId(), inserted);
+      m_staff->updateNotesPos();
+      if (!inserted->note()->isRest()) // add a tie
+        TscoreTie::check(inserted);
+  } else {
+      updateRhythmicGroups();
+      resolveBeaming(0);
+      checkBarLine();
+  }
+
+  content(this);
+}
 
 
 

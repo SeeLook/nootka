@@ -39,10 +39,17 @@
 
 #include <QtCore/qdebug.h>
 
+
 #define SHORT_TAP_TIME (150) // 150 ms takes short tap - otherwise note is edited
 
 
-const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
+static const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
+
+char d(TscoreNote* sn) {
+  QTextStream o(stdout);
+  o << "   \033[01;29m[" << sn->index() << " NOTE]\033[01;00m";
+  return 32; // fake
+}
 
 /*static*/
 QString TscoreNote::getAccid(int accNr) {
@@ -193,7 +200,7 @@ void TscoreNote::adjustSize() {
 
 void TscoreNote::setRhythmEnabled(bool rhythmEnabled) {
   if (rhythmEnabled != scoreScene()->isRhythmEnabled())
-      qDebug() << "Note has rhythms available different than scene!";
+      qDebug() << d(this) << "Note has rhythms available different than scene!";
 
   if (rhythmEnabled) {
       m_emptyText->setText(QString(QChar(TnooFont::getCharFromRhythm(scoreScene()->workRhythm()->weight(), true, scoreScene()->workRhythm()->isRest()))));
@@ -512,7 +519,7 @@ void TscoreNote::update() {
 
 void TscoreNote::setTie(TscoreTie* t) {
   if (t && m_tie) // TODO: remove when not occur
-    qDebug() << "[NOTE] note" << index() << "already has a tie!!!" ;
+    qDebug() << d(this) << "already has a tie!!!" ;
   m_tie = t;
 //   for (int i = 0; i < staff()->count(); ++i)
 //     if (staff()->noteSegment(i)->note()->rtm.tie())
@@ -597,7 +604,7 @@ void TscoreNote::setX(qreal x) {
       if (prev->tie())
         prev->tie()->updateLength();
       else // TODO: delete it
-        qDebug() << "[TSCORENOTE] BOOM! No tie in previous note of" << index();
+        qDebug() << d(this) << "BOOOOOOOOM! No tie in previous note of" << index();
     }
   }
 }
@@ -608,7 +615,7 @@ void TscoreNote::setPos(const QPointF& pos) {
   bool xChanged = QGraphicsItem::x() == pos.x();
   QGraphicsItem::setPos(pos);
   if (xChanged) {
-    if (m_beam && m_beam->last() != this) // when this note is the last one in a beam - update beam
+    if (m_beam && m_beam->last() == this) // when this note is the last one in a beam - update beam
       m_beam->performBeaming();
   }
 }
@@ -672,17 +679,17 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         if (scoreScene()->isRhythmEnabled()) {
             if (note()->rtm != *scoreScene()->workRhythm()) {
               note()->rtm.setRhythm(*scoreScene()->workRhythm());
-              qDebug() << "[TscoreNote] rhythm changed" << rhythmChanged();
+              qDebug() << d(this) << "rhythm changed" << rhythmChanged();
             } else {
               note()->rtm.setStemDown(scoreScene()->workRhythm()->stemDown());
-              qDebug() << "[TscoreNote] rhythm the same";
+              qDebug() << d(this) << "rhythm the same";
             }
             qreal newWidth = 4.0;
             if (m_newAccid)
               newWidth += 2.0; // when removed - width remains smaller
             if (newWidth > m_width || newWidth < m_width) { // newWidth != m_width
               widthDiff =  newWidth - m_width;
-              qDebug() << "Note width differs" << m_width << newWidth << widthDiff;
+              qDebug() << d(this) << "Note width differs" << m_width << newWidth << widthDiff;
             }
         }
         if (pitchChanged() || rhythmChanged() || accidChanged() || widthDiff != 0.0) {
@@ -868,7 +875,7 @@ void TscoreNote::changeWidth() {
       newWidth += 1.0;
   }
   if (newWidth != oldWidth) {
-      qDebug() << "Note changed width" << newWidth;
+      qDebug() << d(this) << "Note changed width" << newWidth;
       prepareGeometryChange();
       m_width = newWidth;
 //       staff()->noteChangedWidth(index());

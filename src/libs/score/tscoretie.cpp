@@ -85,7 +85,7 @@ void TscoreTie::check(TscoreNote* sn) {
       delete sn->tie();
   else {
       auto next = sn->nextNote();
-      if (next && sn->note()->compareNotes(*next->note()))
+      if (!sn->note()->isRest() && next && !next->note()->isRest() && sn->note()->compareNotes(*next->note()))
           sn->setTie(new TscoreTie(sn, next));
   }
 }

@@ -474,7 +474,7 @@ void TmultiScore::adjustStaffWidth(TscoreStaff* st) {
 
 void TmultiScore::addStaff(TscoreStaff* st) {
   if (st == 0) { // create new staff at the end of a list
-    m_staves << new TscoreStaff(scoreScene(), 1);
+    m_staves << new TscoreStaff(scoreScene(), 0);
     lastStaff()->onClefChanged(m_staves.first()->scoreClef()->clef());
     lastStaff()->scoreClef()->setReadOnly(m_staves.first()->scoreClef()->readOnly());
     lastStaff()->setEnableKeySign(staff()->scoreKey());
@@ -488,7 +488,6 @@ void TmultiScore::addStaff(TscoreStaff* st) {
     st->disconnect(SIGNAL(clefChanged(Tclef)));
     m_staves << st;
   }
-  connectForReadOnly(lastStaff()->firstNote());
   if (scoreScene()->scoreMeter())
     lastStaff()->setNote(0, Tnote(0, 0, 0, Trhythm(scoreScene()->scoreMeter()->meter()->lower() == 4 ? Trhythm::e_quarter : Trhythm::e_eighth)));
   lastStaff()->setStafNumber(m_staves.size() - 1);
@@ -503,6 +502,7 @@ void TmultiScore::addStaff(TscoreStaff* st) {
   connect(lastStaff(), SIGNAL(noteIsAdding(int,int)), this, SLOT(noteAddingSlot(int,int)));
   connect(lastStaff(), SIGNAL(loNoteChanged(int,qreal)), this, SLOT(staffLoNoteChanged(int,qreal)));
   connect(lastStaff(), &TscoreStaff::moveMeasure, this, &TmultiScore::moveMeasureSlot);
+  connect(lastStaff(), &TscoreStaff::staffIsEmpty, this, &TmultiScore::emptyStaffSlot);
   connect(lastStaff(), SIGNAL(getNextStaff(TscoreStaff*&)), this, SLOT(giveNextStaffSlot(TscoreStaff*&)));
   connect(lastStaff(), SIGNAL(getPrevStaff(TscoreStaff*&)), this, SLOT(givePrevStaffSlot(TscoreStaff*&)));
   if (lastStaff()->scoreKey())
@@ -515,6 +515,13 @@ void TmultiScore::deleteLastStaff() {
   delete m_staves.last();
   m_staves.removeLast();
   qDebug() << debug() << "staff deleted";
+}
+
+
+void TmultiScore::emptyStaffSlot() {
+  m_staves.last()->deleteLater();
+  m_staves.removeLast();
+  updateSceneRect();
 }
 
 
@@ -647,7 +654,7 @@ void TmultiScore::noteAddingSlot(int staffNr, int noteToAdd) {
 
 
 void TmultiScore::noteRemovingSlot(int staffNr, int noteToDel) {
-  qDebug() << "noteRemovingSlot" << staffNr;
+  qDebug() << debug() << "noteRemovingSlot" << staffNr;
   if (staffNr * staff()->maxNoteCount() + noteToDel == m_currentIndex) {
 //     qDebug() << "current selected note will be removed";
     emit noteWasChanged(m_currentIndex, Tnote());
@@ -720,7 +727,7 @@ void TmultiScore::deleteFakeLines(int lastNr) {
 
 
 /**
- * Creates new staff, sets its position and removes automatically created first note 
+ * Creates new staff, sets its position
  */
 void TmultiScore::addNewStaff() {
   addStaff();
@@ -729,10 +736,6 @@ void TmultiScore::addNewStaff() {
   lastStaff()->setPos(staff()->pos().x(),
                       m_staves[lastStaff()->number() - 1]->y() + m_staves[lastStaff()->number() - 1]->loNotePos() - lastStaff()->hiNotePos() +
                       ((staff()->hasScordature() && lastStaff()->number() == 1) ? 7.0 : 4.0)); // Y offset depends on scordature
-  lastStaff()->blockSignals(true);
-  lastStaff()->removeNote(0);
-  lastStaff()->blockSignals(false);
-//   lastStaff()->firstMeasure()->setNumber(m_staves[lastStaff()->number() - 1]->lastMeasure()->number() + 1);
 }
 
 

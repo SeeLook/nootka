@@ -330,10 +330,13 @@ signals:
   void getNextStaff(TscoreStaff*&);
 
       /**
-       * Asks for previous staff. 
+       * Asks for previous staff.
        * In the argument pointer of the next staff is put or null if none.
        */
   void getPrevStaff(TscoreStaff*&);
+
+      /** When staff has no more notes */
+  void staffIsEmpty();
 
 
 public slots:

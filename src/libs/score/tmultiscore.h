@@ -159,6 +159,7 @@ protected slots:
       * connects the staff with TmainScore slots */
   virtual void addStaff(TscoreStaff* st = 0);
   void deleteLastStaff();
+  void emptyStaffSlot();
 
   void roClickedSlot(TscoreNote* sn, const QPointF& clickPos);
   void roSelectedSlot(TscoreNote* sn, const QPointF& clickPos);
