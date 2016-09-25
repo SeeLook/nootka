@@ -118,7 +118,8 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 bool loadNootkaFont(QApplication* a) {
     QFontDatabase fd;
   int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
-  if (fid == -1) {
+  int fid2 = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
+  if (fid == -1 || fid2 == -1) {
       QMessageBox::critical(0, QString(), a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
       return false;
   }
