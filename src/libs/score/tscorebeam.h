@@ -75,6 +75,7 @@ protected:
       /** calls @p performBeaming when note belongs to beam group */
   void beamsUpdateSlot(TscoreNote* sn);
   void performBeaming();
+  void drawBeam();
 
       /**
        * Because beams are parented with staff it is important
@@ -96,7 +97,6 @@ private:
 private:
   TscoreMeasure                    *m_measure;
   QList<TscoreNote*>                m_notes;
-  QList<QGraphicsLineItem*>         m_stems;
   QGraphicsPolygonItem             *m_8_beam; /**< line of main beam of eight */
   QList<T16beam*>                   m_16_beams; /**< list of lines of sixteenths */
   int                               m_summaryPos;

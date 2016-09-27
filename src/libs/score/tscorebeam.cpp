@@ -44,9 +44,9 @@ public:
 
 
 #define MIN_STEM_HEIGHT (4) // minimal stem height (distance of note head to staff boundary)
-#define STEM_HEIGHT (6.1)
-#define SLOPER (3.0) // common value to change first and last stems length when there are more than two notes in a beam
-#define HALF_STEM (0.125) // half of stem line width - this is also distance that stem line takes above stem points
+#define STEM_HEIGHT (5.8)
+#define SLOPER (1.5) // common value to change first and last stems length when there are more than two notes in a beam
+#define HALF_STEM (0.1) // half of stem line width - this is also distance that stem line takes above stem points
 #define BEAM_THICK (0.8) // thickness of a beam
 
 
@@ -67,7 +67,6 @@ TscoreBeam::~TscoreBeam()
     note->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
     note->setBeam(nullptr);
   }
-  qDeleteAll(m_stems);
   qDeleteAll(m_16_beams);
   delete m_8_beam;
 }
@@ -86,12 +85,7 @@ void TscoreBeam::addNote(TscoreNote* sn) {
   m_notes << sn;
   sn->setBeam(this);
 //   if (sn->newRhythm()->beam() == Trhythm::e_beamEnd)
-    connect(sn, &TscoreNote::noteWasClicked, this, &TscoreBeam::performBeaming);
-  m_stems << new QGraphicsLineItem(sn);
-  if (sn->note()->isRest()) // when there is a rest - stem is used to determine beam position over it
-    m_stems.last()->hide();
-  else
-    m_stems.last()->setPen(QPen(sn->mainNote()->color(), 2 * HALF_STEM));
+  connect(sn, &TscoreNote::noteWasClicked, this, &TscoreBeam::performBeaming);
 
 // 'main' beam of eights - always exists
   if (sn->note()->rtm.beam() == Trhythm::e_beamStart) { // resume grouping, prepare for painting
@@ -151,8 +145,9 @@ void TscoreBeam::beamsUpdateSlot(TscoreNote* sn) {
  * @p firstStemOff and @p lastStemOff are calculated to make appropriate stems longer
  * and keep beam slope nice and avoid collisions with notes in between first and last ones.
  *
- * Then @p beamLine is calculated as a base line, inner stems fitted to it.
- * If there are some sixteenths - @p m_16_beams are painted
+ * Then @p drawBeam() is called.
+ *
+ * TODO: WHAT ABOUT PIANO STAFF WHERE ARE TWO MIDDLE LINES
 */
 void TscoreBeam::performBeaming() {
 // find common stem direction for beaming
@@ -175,7 +170,6 @@ void TscoreBeam::performBeaming() {
     allStemsDown = true; // stems down are always possible
 
   qreal firstStemOff = 0.0, lastStemOff = 0.0;
-
   // pick up or pull down fist and/or last stems to keep beam above all notes and avoid collision of middle note(s) and beam
   if (allStemsDown) {
       firstStemOff = qMax(qreal(loNote - first()->notePos()) - SLOPER, 0.0);
@@ -187,30 +181,40 @@ void TscoreBeam::performBeaming() {
 
 // initial setting stems directions and stem lines
   for (int i = 0; i < count(); ++i) {
-      auto n = m_notes[i]; // cache pointer for multiple reuse
-      n->note()->rtm.setStemDown(allStemsDown);
+    auto n = m_notes[i]; // cache pointer for multiple reuse
+    Trhythm r(n->note()->rtm);
+    r.setStemDown(allStemsDown);
+    n->setRhythm(r);
     // set only first and last stems - the inner ones later - adjusted to leading beam line
+    if (n == last() || n == first()) {
       if (n->note()->rtm.stemDown())
-          m_stems[i]->setLine(n->mainNote()->x() + 0.13, n->mainNote()->y() + 1.14,
-                              n->mainNote()->x() + 0.13, n->mainNote()->y() + 1.14
-                              + (n->notePos() < n->staff()->height() - STEM_HEIGHT ? STEM_HEIGHT : 3.5)
-                              + (n == first() ? firstStemOff : 0.0)
-                              + (n == last() ? lastStemOff : 0.0));
+        n->mainNote()->setStemLength((n->notePos() < n->staff()->height() - STEM_HEIGHT ? STEM_HEIGHT : 3.5)
+                                    + (n == first() ? firstStemOff : 0.0)
+                                    + (n == last() ? lastStemOff : 0.0));
       else
-          m_stems[i]->setLine(n->mainNote()->x() + 2.23, n->mainNote()->y() + 0.85,
-                              n->mainNote()->x() + 2.23, n->mainNote()->y()
-                              - ((n->notePos() < STEM_HEIGHT ? 3.5 : STEM_HEIGHT) - 0.85)
-                              - (n == first() ? firstStemOff : 0.0)
-                              - (n == last() ? lastStemOff : 0.0));
+        n->mainNote()->setStemLength(-((n->notePos() < STEM_HEIGHT ? 3.5 : STEM_HEIGHT) - 0.85)
+                                    - (n == first() ? firstStemOff : 0.0)
+                                    - (n == last() ? lastStemOff : 0.0));
+    }
   }
 
+  qDebug() << "     [BEAM" << first()->index() << "]" << "beaming was done" << stemDirStrength << m_16_beams.count();
+
+  drawBeam();
+}
+
+/**
+ * @p beamLine is calculated as a base line, inner stems fitted to it.
+ * If there are some sixteenths - @p m_16_beams are painted
+ */
+void TscoreBeam::drawBeam() {
   QPointF stemOff(0.0, last()->note()->rtm.stemDown() ? HALF_STEM : -HALF_STEM); // offset to cover stem line thickness
-  QLineF beamLine(first()->pos() + m_stems.first()->line().p2() + stemOff, last()->pos() + m_stems.last()->line().p2() + stemOff);
+  QLineF beamLine(first()->pos() + first()->mainNote()->stemEndPoint() + stemOff, last()->pos() + last()->mainNote()->stemEndPoint() + stemOff);
 // adjust stem lines length to leading beam line for notes in between of the beam group
-  for (int i = 1; i < m_stems.count() - 1; ++i) {
+  for (int i = 1; i < m_notes.count() - 1; ++i) {
       QPointF stemEnd;
-      auto s = m_stems[i];
-      auto nPos = m_notes[i]->pos();
+      auto s = m_notes[i]->stem();
+      auto nPos = m_notes[i]->pos() + m_notes[i]->mainNote()->pos();
       beamLine.intersect(QLineF(nPos + s->line().p1(), nPos + s->line().p2()), &stemEnd);
       s->setLine(QLineF(s->line().p1(), stemEnd - nPos - 2 * stemOff));
   }
@@ -225,7 +229,7 @@ void TscoreBeam::performBeaming() {
     beamLine.translate(beam16LineOff);
     for (T16beam* b16 : m_16_beams) {
         poly.clear();
-        poly << m_notes[b16->startStem]->pos() + m_stems[b16->startStem]->line().p2() + stemOff + beam16LineOff;
+        poly << m_notes[b16->startStem]->pos() + m_notes[b16->startStem]->mainNote()->stemEndPoint() + stemOff + beam16LineOff;
         if (b16->isHalf()) { // 16th beam of fist stem is right-sided others are left-sided
             QPointF halfPoint;
             qreal halfX = poly.last().x() + BEAM_THICK * (b16->startStem == 0 ? 2 : -2);
@@ -233,11 +237,11 @@ void TscoreBeam::performBeaming() {
             beamLine.intersect(QLineF(halfX, poly.last().y(), halfX, poly.last().y() - 6.0), &halfPoint);
             poly << halfPoint;
         } else
-            poly << m_notes[b16->endStem]->pos() + m_stems[b16->endStem]->line().p2()  + stemOff + beam16LineOff;
+            poly << m_notes[b16->endStem]->pos() + m_notes[b16->endStem]->mainNote()->stemEndPoint()  + stemOff + beam16LineOff;
         applyBeam(poly, beamOff, b16->b);
     }
   }
-  qDebug() << "     [BEAM" << first()->index() << "]" << "beaming was done" << stemDirStrength << m_16_beams.count();
+  qDebug() << "     [BEAM" << first()->index() << "]" << "DRAW BEAM";
 }
 
 
