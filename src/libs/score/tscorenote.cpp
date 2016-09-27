@@ -41,6 +41,7 @@
 
 
 #define SHORT_TAP_TIME (150) // 150 ms takes short tap - otherwise note is edited
+#define REST_Y (19.0)
 
 
 static const int accCharTable[6] = { 0xe123, 0xe11a, 0x20, 0xe10e, 0xe125, 0xe116 };
@@ -238,7 +239,7 @@ void TscoreNote::moveNote(int posY) {
   bool theSame = (posY == m_mainPosY);
   if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
       if (m_mainNote->rhythm()->isRest()) {
-          m_mainNote->setY(20.5);
+          m_mainNote->setY(REST_Y);
           m_mainNote->show();
       } else
           hideNote();
@@ -255,8 +256,8 @@ void TscoreNote::moveNote(int posY) {
       m_noteAnim->startAnimations();
   } else { // just move a note
       if (note()->isRest())
-          m_mainNote->setY(20.5);
-      else
+          m_mainNote->setY(REST_Y);
+      else if (posY != static_cast<int>(m_mainNote->y()))
           m_mainNote->setY(posY);
   }
   m_mainPosY = posY;
@@ -308,7 +309,7 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
   if (m_mainPosY == 0) {
     m_note->note = 0;
     m_note->alter = 0;
-//     m_mainNote->setY(20.5);
+//     m_mainNote->setY(REST_Y);
   }
 //   if (m_note->rhythm() != Trhythm::e_none)
 //     setRhythm(Trhythm(n.rhythm(), m_mainPosY == 0, n.hasDot(), n.isTriplet()));
@@ -393,6 +394,11 @@ TscoreNote* TscoreNote::prevNote() {
 
 qreal TscoreNote::space() {
   return space(note()->rtm);
+}
+
+
+QGraphicsLineItem* TscoreNote::stem() {
+  return m_mainNote->stem();
 }
 
 
@@ -512,6 +518,7 @@ qreal TscoreNote::rightX() {
 
 void TscoreNote::update() {
 //   if (note()->rtm != *m_mainNote->rhythm())
+//   qDebug() << d(this) << "UPDATE";
   m_mainNote->setRhythm(note()->rtm);
   QGraphicsItem::update();
 }
@@ -554,7 +561,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->setBrush(QBrush(workBg));
     painter->drawRect(boundingRect());
   }
-  if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor() &&
+  if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && m_mainNote->rhythm()->rhythm() == Trhythm::e_none && !hasCursor() &&
       scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
     QColor emptyNoteColor;
 //     if (m_mainNote->pen().style() == Qt::NoPen) // TODO: check it
@@ -598,7 +605,7 @@ void TscoreNote::setX(qreal x) {
   QGraphicsItem::setX(x);
   if (xChanged) {
     if (m_beam && m_beam->last() == this) // when this note is the last one in a beam - update beam
-      m_beam->performBeaming();
+      m_beam->drawBeam();
     if (note()->rtm.tie() == Trhythm::e_tieCont || note()->rtm.tie() == Trhythm::e_tieEnd) {
       auto prev = prevNote();
       if (prev->tie())

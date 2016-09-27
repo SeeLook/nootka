@@ -102,6 +102,9 @@ public:
       /** Returns pointer to main note @p TnoteItem.  */
   TnoteItem* mainNote() { return m_mainNote; }
 
+      /** A line representing note stem */
+  QGraphicsLineItem* stem();
+
       /** Returns pointer to main accidental QGraphicsSimpleTextItem.  */
   QGraphicsSimpleTextItem *mainAccid() { return m_mainAccid; }
 

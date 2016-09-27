@@ -33,6 +33,8 @@
 
 
 #define WORK_HIDE_DELAY (5000)
+#define REST_Y (19.0)
+#define WORK_X (1.2) // x coordinate of the cursor note head
 
 
 TscoreScene::TscoreScene(QObject* parent) :
@@ -176,13 +178,13 @@ void TscoreScene::noteEntered(TscoreNote* sn) {
 void TscoreScene::noteMoved(TscoreNote* sn, int yPos) {
   if (!m_rectIsChanging) {
     setWorkPosY(yPos);
+    workNote()->setX(WORK_X);
     if (m_workRhythm->isRest()) {
-        workNote()->setPos(sn->width() - 3.2, 20.5);
+        workNote()->setY(REST_Y);
     } else {
         m_workRhythm->setStemDown(yPos <= 18);
         workNote()->setRhythm(*m_workRhythm);
-        workNote()->setPos(sn->width() - 3.2, workPosY());
-    //     workNote()->setPos(3.0, workPosY());
+        workNote()->setY(workPosY());
         workLines()->checkLines(yPos);
     }
     if (!workNote()->isVisible())
@@ -248,7 +250,7 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
     workColor = qApp->palette().highlight().color();
     workColor.setAlpha(200);
     m_workNote = new TnoteItem(this, *m_workRhythm);
-    m_workNote->setFlagsPaint(true);
+    m_workNote->setItAsCursor();
     m_workNote->setParentItem(scoreNote);
     QGraphicsDropShadowEffect *workEffect = new QGraphicsDropShadowEffect();
     workEffect->setOffset(3.0, 3.0);
