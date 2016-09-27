@@ -31,8 +31,10 @@ class Trhythm;
  * Paints note head on the @class TscoreNote
  * and rhythm when it is enabled.
  * It paints steam and flag of whole and quarter notes
- * but eights and sixteenths have only heads - their stems are painted outside
- * It is controlled through @p setFlagsPaint() - @p FALSE forces painting flag always
+ * but if rhythm has any beam,
+ * notes above quarter have hidden flags
+ *
+ * It can be just a cursor without stem and flag when @p setItAsCursor() is called
  */
 class NOOTKACORE_EXPORT TnoteItem : public TscoreItem
 {
@@ -44,27 +46,33 @@ public:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const;
 
-  void setColor(const QColor& c) { m_color = c; }
+  void setColor(const QColor& c);
   QColor color() { return m_color; }
 
-      /** When sets to @p TRUE beaming of Trhythm is ignored and flags of 8 and 16 are painted.
-       * This is for cursor note.
-       * Otherwise, 8 and 16 have only heads */
-  void setFlagsPaint(bool flagPaint) { m_paintFlags = flagPaint; }
+      /** In cursor mode there are no steam and flag - only note head or a rest */
+  void setItAsCursor();
 
 
   void setRhythm(const Trhythm& r);
   Trhythm* rhythm() const { return m_rhythm; } /**< Actual rhythm of a note */
 
-private:
-  void obtainNoteLetter(); /**< Common routine to get letter of actual rhythm value */
-  bool upsideDown(const Trhythm& r);
+  QGraphicsLineItem* stem() { return m_stem; }
+
+      /** Sets stem length - adds @p len value to y1 of stem line */
+  void setStemLength(qreal len);
+
+      /** End point (p2) of stem line in parent note coordinates */
+  QPointF stemEndPoint() { return pos() + m_stem->line().p2(); }
+
+  void setY(qreal yPos);
+
 
 private:
-  QColor        m_color;
-  Trhythm      *m_rhythm; /**< This is pointer of @class Trhythm - Note head and flags are determined by it */
-  bool          m_paintFlags, m_upsideDown;
-  QString       m_noteLetter; /**< single letter representing a note symbol in Nootka font */
+  QColor                       m_color;
+  Trhythm                     *m_rhythm; /**< This is pointer of @p Trhythm - Note head and flags are determined by it */
+  QString                      m_noteLetter; /**< single letter representing a note symbol in Nootka font */
+  QGraphicsLineItem           *m_stem;
+  QGraphicsSimpleTextItem     *m_flag;
 };
 
 #endif // TNOTEITEM_H
