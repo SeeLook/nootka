@@ -68,7 +68,12 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 }
 
 TmultiScore::~TmultiScore()
-{}
+{
+  blockSignals(true);
+  int stavesNr = m_staves.count();
+  for (int s = 0; s < stavesNr; ++s)
+    delete m_staves.takeLast();
+}
 
 //####################################################################################################
 //########################################## PUBLIC ##################################################

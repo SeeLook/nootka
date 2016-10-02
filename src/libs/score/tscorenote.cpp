@@ -164,7 +164,8 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 
 
 TscoreNote::~TscoreNote() {
-  removeTie();
+  if (!staff()->goingDelete())
+    removeTie();
   if (staff())
     staff()->noteGoingDestroy(this);
   if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
@@ -381,14 +382,17 @@ TscoreNote* TscoreNote::nextNote() {
 
 
 TscoreNote* TscoreNote::prevNote() {
-  TscoreNote* prev = nullptr; // find next note first
-  if (this == staff()->firstNote()) { // take first note from the next staff
-      auto st = staff()->prevStaff();
-      if (st)
-        prev = st->lastNote();
-  } else // or just next one
-      prev = staff()->noteSegment(index() - 1);
-  return prev;
+  if (staff()->count()) {
+      TscoreNote* prev = nullptr; // find next note first
+      if (this == staff()->firstNote()) { // take first note from the next staff
+          auto st = staff()->prevStaff();
+          if (st)
+            prev = st->lastNote();
+      } else // or just next one
+          prev = staff()->noteSegment(index() - 1);
+      return prev;
+  }
+  return nullptr;
 }
 
 
@@ -527,10 +531,9 @@ void TscoreNote::update() {
 void TscoreNote::setTie(TscoreTie* t) {
   if (t && m_tie) // TODO: remove when not occur
     qDebug() << d(this) << "already has a tie!!!" ;
+  if (m_tie)
+    delete m_tie;
   m_tie = t;
-//   for (int i = 0; i < staff()->count(); ++i)
-//     if (staff()->noteSegment(i)->note()->rtm.tie())
-//       qDebug() << i << "tie" << staff()->noteSegment(i)->note()->rtm.tie();
 }
 
 
@@ -906,16 +909,12 @@ void TscoreNote::changeWidth() {
 
 void TscoreNote::removeTie() {
   if (note()->rtm.tie() == Trhythm::e_tieCont) { // remove this tie end set previous to end
-      delete m_tie;
-      auto prev = prevNote();
-      if (prev)
-        delete prevNote()->tie();
+      prevNote()->setTie(nullptr);
+      setTie(nullptr);
   } else if (note()->rtm.tie() == Trhythm::e_tieEnd) {
-      auto prev = prevNote();
-      if (prev)
-        delete prevNote()->tie();
+      prevNote()->setTie(nullptr);
   } else if (note()->rtm.tie() == Trhythm::e_tieStart) {
-      delete m_tie;
+      setTie(nullptr);
   }
 }
 

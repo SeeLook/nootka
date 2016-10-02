@@ -107,12 +107,19 @@ TscoreStaff::TscoreStaff(TscoreScene* scene, int notesNr) :
 
 
 TscoreStaff::~TscoreStaff() {
+  m_goingDelete = true;
   if (scoreScene()->right() && scoreScene()->right()->parentItem() == this) {
     scoreScene()->right()->setParentItem(0);
     scoreScene()->left()->setParentItem(0);
   }
-//   if (!m_measures.isEmpty())
-//     qDeleteAll(m_measures);
+  int measuresCnt = m_measures.count();
+  for (int m = 0; m < measuresCnt; ++m)
+    delete m_measures.takeLast();
+  int notesCnt = count();
+  for (int n = 0; n < notesCnt; ++n)
+    delete m_scoreNotes.takeLast();
+  if (m_scoreMeter)
+    setMeter(Tmeter());
 }
 
 //####################################################################################################
@@ -185,7 +192,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
 //   prepareNoteChange(inserted);
 
   if (number() > -1) {
-    emit noteIsAdding(number(), index);
+    emit noteIsAdding(number(), inserted->index());
 //     if (maxNoteCount()) {
 //       if (count() > maxNoteCount()) {
       // TODO: seems to be unnecessary - space issues were solved above
@@ -408,7 +415,7 @@ void TscoreStaff::setMeter(const Tmeter& m) {
   } else if (m_scoreMeter)
       m_scoreMeter->setMeter(m); // score meter will call signal to update staff
   scoreScene()->setScoreMeter(m_scoreMeter);
-  if (changed) {
+  if (changed && !measures().isEmpty()) {
     measures().first()->changeMeter(m);
     for (int i = 0; i < m_scoreNotes.size(); i++) // set default rhythm value for all notes or hide all stems when no rhythms
       m_scoreNotes[i]->setRhythmEnabled((bool)m_scoreMeter);

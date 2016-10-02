@@ -118,7 +118,7 @@ void ScorekWindow::randomSlot() {
     qsrand(QDateTime::currentDateTime().toTime_t());
     for (int n = 0; n < len; ++n) {
       int val = 3 + (qrand() % 3);
-      bool rest = static_cast<bool>(qrand() % 2);
+      bool rest = qrand() % 5 == 0;
       if (rest)
         mel->note(n)->p().note = 0;
       bool dot = false;

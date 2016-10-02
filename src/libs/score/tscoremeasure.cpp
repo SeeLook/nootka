@@ -95,7 +95,6 @@ TscoreMeasure::TscoreMeasure(TscoreStaff* staff, int nr) :
 
 TscoreMeasure::~TscoreMeasure()
 {
-  qDebug() << debug() << "delete";
   delete[] m_firstInGr;
   delete m_barLine;
 }
@@ -602,12 +601,13 @@ void TscoreMeasure::preserveTie(quint8 tieCopy, TscoreNote* thisNote) {
   if (tieCopy) {
     auto prevNote = thisNote->prevNote();
     if (tieCopy == Trhythm::e_tieCont) {
-        delete prevNote->tie();
-        delete thisNote->tie();
-    } else if (tieCopy == Trhythm::e_tieStart)
-        delete thisNote->tie();
-    else // end of tie
-        delete prevNote->tie();
+        prevNote->setTie(nullptr);
+        thisNote->setTie(nullptr);
+    } else if (tieCopy == Trhythm::e_tieStart) {
+        thisNote->setTie(nullptr);
+    } else { // end of tie
+        prevNote->setTie(nullptr);
+    }
   }
 }
 

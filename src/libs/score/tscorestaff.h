@@ -274,6 +274,8 @@ public:
        */
   TscoreStaff* prevStaff();
 
+  bool goingDelete() { return m_goingDelete; }
+
       /**
        * Removes @p measId measure from the list and its notes from the staff as well.
        * Returns @p TscoreMeasure pointer which contains list of taken notes.
@@ -434,6 +436,7 @@ private:
   int                                 m_autoAddedNoteId; /**< Index of automatically added last note. */
   QPointer<TscoreNote>                m_noteWithAccidAnimed; /**< Pointer to note segment currently invoked to key animation */
   TscoreMeter                        *m_scoreMeter;
+  bool                                m_goingDelete = false;
 
 private:
   void createBrace();
