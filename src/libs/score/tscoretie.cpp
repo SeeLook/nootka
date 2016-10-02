@@ -114,7 +114,7 @@ void TscoreTie::checkStaves() {
 void TscoreTie::updateLength() {
   QTransform t;
   if (firstNote()->staff() == secondNote()->staff())
-    t.scale((secondNote()->x() - firstNote()->x() - firstNote()->width()) / m_tieItem->boundingRect().width(),
+    t.scale((secondNote()->x() - firstNote()->x() - firstNote()->width() * 0.8) / m_tieItem->boundingRect().width(),
             firstNote()->note()->rtm.stemDown() ? -1.0 : 1.0);
   else
     t.scale(1.0, firstNote()->note()->rtm.stemDown() ? -1.0 : 1.0);

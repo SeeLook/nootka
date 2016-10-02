@@ -421,6 +421,10 @@ int TscoreMeasure::releaseAtEnd(int dur, QList<TscoreNote*>& notesToOut, Tnote& 
       auto lastN = lastNote();
       int lastDur = lastN->note()->duration();
       if (lastDur > dur) { // last note is longer than required space - split it then create and move the rest of its duration to the next measure
+          if (Trhythm(lastDur - dur).rhythm() == Trhythm::e_none) { // subtracting can't be solved by single note
+            split(lastN);                                           // then split on two notes
+            continue;                                               // and call while loop again
+          }
           Trhythm oldRhythm(lastN->note()->rtm); // preserve tie and stem direction
           lastN->setRhythm(Trhythm(lastDur - dur, lastN->note()->isRest()));
           lastN->note()->rtm.setStemDown(oldRhythm.stemDown());
@@ -453,6 +457,10 @@ int TscoreMeasure::takeAtStart(int dur, QList<TscoreNote*>& notesToOut) {
   while (noteNr < m_notes.count() && dur > 0) {
     int firstDur = firstNote()->note()->duration();
     if (firstDur > dur) { // first measure note is longer than required duration - shrink it and create new one
+      if (Trhythm(firstDur - dur).rhythm() == Trhythm::e_none) { // subtracting can't be solved by single note
+        split(firstNote());                                      // then split on two notes
+        continue;                                                // and call while loop again
+      }
       firstNote()->note()->setRhythm(Trhythm(firstDur - dur, firstNote()->note()->isRest()));
       firstDur = dur;
       retDur = dur;
@@ -500,40 +508,19 @@ void TscoreMeasure::checkBarLine() {
 //###################              PRIVATE             ############################################
 //#################################################################################################
 void TscoreMeasure::addNewNote(Tnote& newNote) {
-  qDebug() << debug() << "creating new note" << lastNote()->index() << newNote.rtm.xmlType();
-//   if (!m_staff->hasSpaceFor(newNote))
-//       qDebug() << "Such a kerfuffle! Staff has no space for new, split note";
-
 // prepare tie, if any to restore it after new note will be created
   auto lastN = lastNote();
-  TscoreNote* beforeLast = nullptr;
   auto lastTie = lastN->note()->rtm.tie(); // backup tie state to revert it after new note will be added
-  if (lastN->note()->rtm.isRest())
-      lastN = nullptr;
-  else if (lastTie) {
-      beforeLast = lastN->prevNote();
-      if (lastTie == Trhythm::e_tieCont) {
-          delete lastN->tie();
-          delete beforeLast->tie();
-      } else if (lastTie == Trhythm::e_tieEnd)
-          delete beforeLast->tie();
-      else
-          delete lastN->tie();
-  }
+  if (!lastN->note()->rtm.isRest())
+    preserveTie(lastTie, lastN);
+
 // create a new note on the staff
   m_staff->insertNote(lastNote()->index() + 1, newNote);
+  fixStemDirection(lastNote());
+  qDebug() << debug() << "creating new note" << lastN->index() << newNote.rtm.xmlType() << "stem down" << newNote.rtm.stemDown() << lastNote()->note()->rtm.stemDown();
 
-// restore tie
-  if (lastN) {
-    TscoreTie::check(lastN);
-    if (lastTie) {
-        if (lastTie == Trhythm::e_tieCont) { // tie with previous and next notes
-            TscoreTie::check(beforeLast);
-            TscoreTie::check(lastN->nextNote());
-        } else if (lastTie == Trhythm::e_tieEnd)
-            TscoreTie::check(beforeLast);
-    }
-  }
+  if (!newNote.isRest())
+    restoreTie(lastTie, lastN);
 }
 
 
@@ -560,6 +547,7 @@ void TscoreMeasure::fill() {
       Tnote newNote(*firstInNext, Trhythm(remainDur, firstInNext->isRest()));
 //       m_staff->insertNote(lastNote()->index() + 1, newNote); // it will invoke grouping
       auto inserted = m_staff->insertNote(newNote, lastNoteId() + 1, lastNote()->isReadOnly());
+      fixStemDirection(inserted);
       insertNote(inserted->index() - firstNoteId(), inserted);
       m_staff->updateNotesPos();
       if (!inserted->note()->isRest()) // add a tie
@@ -574,4 +562,71 @@ void TscoreMeasure::fill() {
 }
 
 
+/**
+ * This method is called when subtracting from rhythm value can't be solved in single note.
+ * So given 'long' note is split, then calling method tries to subtract from smaller rhythm.
+ * Because adding new, split note doesn't change measure duration,
+ * this method simplifies process of adding new note to staff and measure.
+ * It ties notes as well.
+ */
+void TscoreMeasure::split(TscoreNote* sn) {
+  auto tieCopy = sn->note()->rtm.tie();
+  if (!sn->note()->isRest())
+    preserveTie(tieCopy, sn);
+
+  TrhythmList splitList;
+  sn->note()->rtm.spilt(splitList);
+  sn->note()->rtm.setRhythm(splitList.first());
+  Tnote n2(*sn->note(), splitList.last());
+  auto inserted = m_staff->insertNote(n2, sn->index() + 1, sn->isReadOnly());
+  fixStemDirection(inserted);
+  m_notes.insert(inserted->index() - firstNoteId(), inserted);
+  connect(inserted, &TscoreNote::noteGoingToChange, this, &TscoreMeasure::noteChangedSlot);
+  inserted->setGroup(sn->group());
+
+  if (!sn->note()->isRest())
+    restoreTie(tieCopy, sn);
+}
+
+
+void TscoreMeasure::fixStemDirection(TscoreNote* sn) {
+  sn->note()->rtm.setStemDown(sn->notePos() <= 18);
+}
+
+
+/**
+ * Depends on @p tieCopy, this methods removes ties from given note and/or from previous one
+ * To restore ties call @p restoreTie() with the same value of @p tieCopy and the same @p TscoreNote.
+ */
+void TscoreMeasure::preserveTie(quint8 tieCopy, TscoreNote* thisNote) {
+  if (tieCopy) {
+    auto prevNote = thisNote->prevNote();
+    if (tieCopy == Trhythm::e_tieCont) {
+        delete prevNote->tie();
+        delete thisNote->tie();
+    } else if (tieCopy == Trhythm::e_tieStart)
+        delete thisNote->tie();
+    else // end of tie
+        delete prevNote->tie();
+  }
+}
+
+
+/**
+ * Restores ties.
+ * It always ties @p thisNote with the next one (if the same)
+ * and depends on @p tieCopy, adds ties to previous note and to the next one
+ */
+void TscoreMeasure::restoreTie(quint8 tieCopy, TscoreNote* thisNote) {
+  TscoreTie::check(thisNote);
+  auto prevNote = thisNote->prevNote();
+  auto nextNote = thisNote->nextNote();
+    if (tieCopy == Trhythm::e_tieCont) {
+        TscoreTie::check(prevNote);
+        TscoreTie::check(nextNote);
+    } else if (tieCopy == Trhythm::e_tieEnd)
+        TscoreTie::check(prevNote);
+    else // tie started
+        TscoreTie::check(nextNote);
+}
 

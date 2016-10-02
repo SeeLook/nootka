@@ -200,6 +200,21 @@ private:
        */
   void fill();
 
+      /**
+       * Splits given note into two (using @p Trhythm::split()).
+       * It adds that second note to the staff and this measure
+       * and ties with given @p sn note
+       */
+  void split(TscoreNote* sn);
+
+  void fixStemDirection(TscoreNote* sn);
+
+      /** Removes appropriate ties from given @p thisNote and its previous note */
+  void preserveTie(quint8 tieCopy, TscoreNote* thisNote);
+
+      /** Restores ties by given @p tieCopy value of @p Trhythm::Etie to @p thisNote*/
+  void restoreTie(quint8 tieCopy, TscoreNote* thisNote);
+
 private:
   int                      m_duration;
   int                      m_id;
