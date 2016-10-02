@@ -79,7 +79,7 @@ qreal TscoreNote::space(const Trhythm& r) {
     return 0.0;
 
   int add = r.hasDot() ? 1 : (r.isTriplet() ? 2 : 0);
-  return m_rtmGapArray[int(std::log2<int>(r.weight())) - 1][add];
+  return m_rtmGapArray[static_cast<int>(r.rhythm()) - 1][add];
 }
 
 
@@ -510,7 +510,7 @@ void TscoreNote::setAmbitus(int lo, int hi) {
       /** When note duration is longer than shortest rhythm in current staff
        *  a space (gap) is added to visually represent note duration as a space between notes */
 qreal TscoreNote::rightX() {
-  int dur = m_mainNote->rhythm()->duration();
+//   int dur = m_mainNote->rhythm()->duration();
   return x() + m_width + staff()->gapFactor() * space(note()->rtm);
 //   return x() + m_width + (dur > staff()->shortestRhythm() ? staff()->gapFactor() * (((dur / staff()->shortestRhythm()) - 1.0)) : 0.0);
 }
@@ -554,6 +554,20 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->setPen(Qt::NoPen);
     painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), m_width, qMin(center.y() + 10.0, m_height));
   }
+  // for debug - index number
+  painter->setPen(Qt::red);
+  QFont f(qApp->font());
+  f.setPointSize(1);
+  painter->setFont(f);
+  painter->drawText(QRectF(0.0, 6.0, width(), 1.5), Qt::AlignCenter, QString::number(index()));
+  painter->drawText(QRectF(0.0, 9.0, width(), 1.5), Qt::AlignCenter,
+                    (beam() ? "B " : "") + QString::number(m_group) + (note()->rtm.stemDown() ? " \\/" : " /\\"));
+  if (note()->rtm.tie()) {
+    Trhythm::Etie t = note()->rtm.tie();
+    painter->drawText(QRectF(0.0, 7.5, width(), 1.5), Qt::AlignCenter,
+                      QString("T%1").arg(t == Trhythm::e_tieStart ? "s" : (t == Trhythm::e_tieCont ? "c" : "e")));
+  }
+
   if (scoreScene()->currentNote() == this && m_touchedToMove) {
     painter->setPen(Qt::NoPen);
     QColor workBg(scoreScene()->workColor);
@@ -893,9 +907,13 @@ void TscoreNote::changeWidth() {
 void TscoreNote::removeTie() {
   if (note()->rtm.tie() == Trhythm::e_tieCont) { // remove this tie end set previous to end
       delete m_tie;
-      delete prevNote()->tie();
+      auto prev = prevNote();
+      if (prev)
+        delete prevNote()->tie();
   } else if (note()->rtm.tie() == Trhythm::e_tieEnd) {
-      delete prevNote()->tie();
+      auto prev = prevNote();
+      if (prev)
+        delete prevNote()->tie();
   } else if (note()->rtm.tie() == Trhythm::e_tieStart) {
       delete m_tie;
   }
