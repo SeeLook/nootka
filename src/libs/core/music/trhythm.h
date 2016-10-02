@@ -20,6 +20,7 @@
 #define TRHYTHM_H
 
 #include <QtCore/qstring.h>
+#include <QtCore/qlist.h>
 #include <QtCore/qmath.h>
 
 
@@ -48,7 +49,9 @@ const quint8 durArray[6][3] = {
     { RVALUE / 16,(RVALUE * 3) / 32,  RVALUE / 24    }  // sixteenth note  (6,  9,    4)
 };
 
+class Trhythm;
 
+typedef QList<Trhythm> TrhythmList;
 
 /**
  * This class describes musical note value (relative duration)
@@ -176,8 +179,32 @@ public:
   }
   bool stemDown() const { return m_prefs & e_stemDown; }
 
+      /**
+       * Subtract @p r rhythm from current rhythm and writes returned rhythm(s) to given list @p remained.
+       * The list is necessary due to some of subtractions are impossible to be expressed in single @p Trhythm value.
+       * I.e. half - 16th is quarter and eight with dot.
+       * It doesn't change current rhythm.
+       * @p remained list may be empty (unchanged) when subtraction is impossible to perform
+       */
+  void sub(const Trhythm& r, TrhythmList& remained) const;
+
+      /**
+       * Splits current rhythm into two rhythm values and writes result into @p twoRhythms list
+       * When current rhythm is without dot it divides it into two equal parts:
+       * - i.e. quarter will be two eighths
+       * but notes with dots splits on main part and dot part:
+       * - i.e. 8. will be 8 and sixteenth
+       * It doesn't change current rhythm
+       */
+  void spilt(TrhythmList& twoRhythms) const;
+
+      /** Returns string with formatted rhythm value i.e. 4 or 8. or 16^3 */
+  QString string();
+
   QString xmlType() const;
-  void debug(const char* text = 0) const; /**< Prints current rhythm parameters to std out with given text */
+
+      /** Prints current rhythm parameters to std out with given text */
+  void debug(const char* text = 0) const;
 
   bool operator==(const Trhythm& r) const {
     return m_r == r.rhythm() && ((m_prefs % 8) == (r.parameters() % 8)); // compare only first three bits of m_prefs (rest, dot and triplet)

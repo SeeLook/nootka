@@ -53,6 +53,11 @@ void Trhythm::initialize() {
     r.setTriplet(true);
     rArray[r.duration()] = rHash(r);
   }
+//   for (quint8 r = 0; r <= RVALUE; ++r) {
+//     Trhythm rm(r);
+//     if (rm.rhythm() != Trhythm::e_none)
+//       qDebug() << r << rm.string();
+//   }
 }
 /*------------------*/
 
@@ -89,6 +94,114 @@ void Trhythm::setRhythm(quint16 durationValue) {
         m_r = e_whole;
       }
   }
+}
+
+
+/**
+ * In most cases it returns only single element list because subtracting can be resolved with only one rhythm value.
+ */
+void Trhythm::sub(const Trhythm& r, TrhythmList& remained) const {
+  if (r.rhythm() == e_none) {
+      remained << *this;
+      qDebug() << "[Trhythm] subtracting null rhythm! IS IT REALLY NECESSARY?";
+  } else {
+      if (r.isTriplet() != isTriplet()) { // TODO: It has to be solved by changing main note
+        qDebug() << "[Trhythm] Subtracting triplets and no triplets unsupported";
+        return;
+      }
+
+      int baseDur = duration();
+      int subDur = r.duration();
+
+      if (subDur > baseDur) {
+        qDebug() << "[Trhythm] Subtracting rhythm" << r.duration() << "is greater than" << duration();
+        return;
+      }
+      if (baseDur - subDur == 0) { // Return empty (null) rhythm when rhythms are the same
+        remained << Trhythm(e_none);
+        return;
+      }
+      Trhythm newR(baseDur - subDur, isRest());
+      if (newR.rhythm() != e_none) { // In most cases subtracting returns single rhythm
+        remained << newR;
+        return;
+      }
+
+      if (r.isTriplet() || isTriplet()) // There is no support for subtracting triplets into multiple notes
+        return;
+      if (baseDur == 4) // 16th triplet - nothing to subtract from
+        return;
+
+      // For the rest cases list will contain two Trhythm elements
+      if (baseDur == 36 && subDur == 6) // quarter with dot (4.) minus 16th = 4 and 16th
+          remained << Trhythm(e_quarter, isRest()) << Trhythm(e_eighth, isRest(), true);
+      else if (baseDur == 48) { // subtracting form half note
+          remained << Trhythm(e_quarter, isRest());
+          if (subDur == 6) // 2 - 16th = 4 and 8.
+              remained << Trhythm(e_eighth, isRest(), true);
+          else if (subDur == 18) // 2 - 8. = 4 and 16th
+              remained << Trhythm(e_sixteenth, isRest());
+      } else if (baseDur == 72) { // subtracting from half with dot
+          remained << Trhythm(e_whole, isRest()); // whole is always first
+          if (baseDur == 6) // 2. - 16th = 2 and 8.
+              remained << Trhythm(e_eighth, isRest(), true);
+          else if (baseDur == 12) // 2. - 8 = 2 and 8
+              remained << Trhythm(e_eighth, isRest());
+          else if (baseDur == 18) // 2. - 8. = 2 and 16th
+              remained << Trhythm(e_sixteenth, isRest());
+      } else if (baseDur == 96) { // subtracting from whole note
+          remained << Trhythm(e_whole, isRest(), true); // whole wit dot is always first
+          if (subDur == 6) // 1 - 16 = 2. and 8.
+            remained << Trhythm(e_eighth, isRest(), true);
+          else if (baseDur == 12) // 1 - 8 = 2. and 8
+              remained << Trhythm(e_eighth, isRest());
+          else if (baseDur == 18) // 1 - 8. = 2. and 16th
+              remained << Trhythm(e_sixteenth, isRest());
+          else if (baseDur == 36) { // 1 - 4. = 2 and 16th
+              remained[0].setDot(false); // revert a dot set above
+              remained << Trhythm(e_sixteenth, isRest());
+          }
+      } else if (baseDur == 144) { // subtracting from whole and dot
+          if (subDur <= 48) {
+              Trhythm half(e_half, isRest());
+              half.sub(r, remained);
+              remained.prepend(Trhythm(e_whole, isRest()));
+          }
+      }
+  }
+}
+
+
+void Trhythm::spilt(TrhythmList& twoRhythms) const {
+  if (rhythm() == e_none || rhythm() == e_sixteenth)
+    return; // nothing to split
+
+  if (hasDot()) {
+      twoRhythms << Trhythm(rhythm(), isRest(), false) // no triplet for sure
+                << Trhythm(static_cast<Erhythm>(rhythm() + 1), isRest());
+          // Also when there is a dot, for sure it is not lowest possible rhythm, so we may add 1 to rhythm value to obtain its half
+  } else {
+      Trhythm half(static_cast<Erhythm>(rhythm() + 1), isRest(), false, isTriplet());
+      twoRhythms << half << half;
+  }
+  if (!isRest() && twoRhythms.size() == 2) {
+//     twoRhythms.first().setTie(tie() == e_noTie ? e_tieStart : e_tieCont);
+    twoRhythms.first().setStemDown(stemDown());
+//     twoRhythms.last().setTie(tie() == e_tieStart || tie() == e_tieCont ? e_tieCont : e_tieEnd);
+    twoRhythms.last().setStemDown(stemDown());
+  }
+}
+
+
+QString Trhythm::string() {
+  QString ret = QString::number(weight());
+  if (isRest())
+    ret.prepend(QStringLiteral("R"));
+  if (hasDot())
+    ret.append(QStringLiteral("."));
+  else if (isTriplet())
+    ret.append(QStringLiteral("^3"));
+  return ret;
 }
 
 
