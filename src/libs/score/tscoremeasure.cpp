@@ -199,6 +199,7 @@ void TscoreMeasure::appendNotes(QList<TscoreNote*>& nl) {
 void TscoreMeasure::insertNote(int id, TscoreNote* sn) {
 //   qDebug() << debug() << sn->note()->rtm.xmlType() << "inserting id" << id << "count" << m_notes.count() << "free" << m_free;
   int noteDur = sn->note()->duration();
+  int resolveAfter = 0; // un-resolvable duration of new note
 
   QList<TscoreNote*> notesToOut;
   Tnote newNote; // new note that has to be created when rhythm duration is split
@@ -207,13 +208,28 @@ void TscoreMeasure::insertNote(int id, TscoreNote* sn) {
     int toRelease = releaseAtEnd(noteDur - m_free, notesToOut, newNote, id);
     if (toRelease > 0) { // There is still not enough space
       if (m_free > 0) { // measure has some free space for the new note but not for entire
+          if (Trhythm(m_free).rhythm() == Trhythm::e_none) {
+              Trhythm subRhythm(noteDur - m_free, sn->note()->isRest());
+              if (subRhythm.rhythm() == Trhythm::e_none)
+                qDebug() << debug() << "can not shrink note to duration" << noteDur - m_free;
+              sn->setRhythm(subRhythm);
+              splitThenInsert(m_free, id, *sn->note(), sn->isReadOnly());
+              insertNote(lastNoteId() + 1, sn);
+              if (!sn->note()->isRest())
+                TscoreTie::check(lastNote());
+              return;
+          }
           Trhythm oldRhythm(sn->note()->rtm);
           sn->setRhythm(Trhythm(m_free, sn->note()->isRest()));
           sn->note()->rtm.setTie(oldRhythm.tie());
           sn->note()->rtm.setStemDown(oldRhythm.stemDown());
           if (newNote.rhythm() != Trhythm::e_none) // TODO: remove when tested
             qDebug() << "NEW NOTE is already created!!!";
-          newNote = Tnote(*sn->note(), Trhythm(noteDur - m_free, sn->note()->isRest()));
+          Trhythm newRtm(noteDur - m_free, sn->note()->isRest());
+          if (newRtm.rhythm() == Trhythm::e_none) // two notes have to be added
+            resolveAfter = noteDur - m_free; // do it after
+          else
+            newNote = Tnote(*sn->note(), newRtm);
           noteDur = m_free;
       } else { // measure has not at all space
           qDebug() << debug() << "move entire note" << sn->note()->toText();
@@ -235,6 +251,10 @@ void TscoreMeasure::insertNote(int id, TscoreNote* sn) {
   checkBarLine();
 
   shiftReleased(notesToOut, newNote);
+  if (resolveAfter) {
+    auto lastN = lastNote();
+    splitThenInsert(resolveAfter, lastN->index() + 1, *lastN->note(), lastN->isReadOnly());
+  }
 
   content(this);
 }
@@ -585,6 +605,50 @@ void TscoreMeasure::split(TscoreNote* sn) {
 
   if (!sn->note()->isRest())
     restoreTie(tieCopy, sn);
+}
+
+
+/**
+ * Looks for smallest rhythm that given duration divides,
+ * then tries to assembly that duration for two notes which are multiplicity of obtained smallest value.
+ * Inserts that notes to staff using given @p id index
+ */
+int TscoreMeasure::splitThenInsert(int dur, int id, const Tnote& note, bool readOnly) {
+  int smallestDur = 0;
+  for (int i = 1; i < 6; ++i) { // looking for smallest rhythm to divide given duration @p dur
+    smallestDur = Trhythm(static_cast<Trhythm::Erhythm>(i)).duration(); // no triplets here
+    if (smallestDur < dur) {
+      if ((dur / smallestDur) * smallestDur == dur)
+        break;
+    }
+  }
+  if (smallestDur) {
+      int chunksNr = dur / smallestDur; // number of smallest rhythm values in duration @p dur
+      int step = 0;
+      Trhythm r1, r2;
+      do { // find when rhythms of two divided notes of duration are valid
+          step++;
+          r1.setRhythm((chunksNr - step) * smallestDur);
+          r1.setRest(note.isRest());
+          r2.setRhythm(smallestDur * step);
+          r2.setRest(note.isRest());
+      } while (step < chunksNr - 1 && r1.rhythm() != Trhythm::e_none && r2.rhythm() != Trhythm::e_none);
+
+      if (r1.rhythm() != Trhythm::e_none && r2.rhythm() != Trhythm::e_none) {
+        // We found it!
+          auto note1 = m_staff->insertNote(id, Tnote(note, r2), readOnly);
+          fixStemDirection(note1);
+          auto note2 = m_staff->insertNote(note1->index() + 1, Tnote(note, r1), readOnly);
+          fixStemDirection(note2);
+          if (!note1->note()->isRest())
+            TscoreTie::check(note1);
+          // return remained duration
+          return r2.duration();
+      } else
+          qDebug() << debug() << "Can't resolve duration of " << dur << "dividing by" << Trhythm(smallestDur).string();
+  } else
+      qDebug() << debug() << "Can't resolve duration" << dur << "and split it!";
+  return 0;
 }
 
 

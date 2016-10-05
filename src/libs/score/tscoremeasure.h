@@ -207,6 +207,9 @@ private:
        */
   void split(TscoreNote* sn);
 
+      /** Splits given duration @p dur into two notes of @p note and adds them to the staff at @p id */
+  int splitThenInsert(int dur, int id, const Tnote& note, bool readOnly);
+
   void fixStemDirection(TscoreNote* sn);
 
       /** Removes appropriate ties from given @p thisNote and its previous note */
