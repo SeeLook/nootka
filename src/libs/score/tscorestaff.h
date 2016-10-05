@@ -111,9 +111,12 @@ public:
   void addNotes(int index, QList<TscoreNote*>& nList);
   void addNote(int index, TscoreNote* freeNotet);
 
-      /** Inserts note in given position (index).
-        * When @p index is out of scope adds it at the end. */
-  void insertNote(int index, const Tnote& note, bool disabled = false);
+      /**
+       * Inserts note in given position (index).
+       * When @p index is out of scope adds it at the end.
+       * Returns pointer to inserted note
+       */
+  TscoreNote* insertNote(int index, const Tnote& note, bool disabled = false);
   void insertNote(int index, bool disabled = false); /**< Inserts empty note at @p index position*/
   void removeNote(int index); /**< Deletes given note from the staff */
 

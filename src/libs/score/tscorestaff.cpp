@@ -157,7 +157,7 @@ Tnote* TscoreStaff::getNote(int index) {
 }
 
 
-void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
+TscoreNote* TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
   if (m_autoAddedNoteId > -1) // naughty user can insert or add new note just after clicking the last one what invokes auto adding
     addNoteTimeOut();
 
@@ -186,7 +186,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
            << "to measure" << measureNr;
   if (measureNr < 0) {
     qDebug() << debug() << "Not such a measure for index" << index;
-    return;
+    return nullptr;
   }
   m_measures[measureNr]->insertNote(index - m_measures[measureNr]->firstNoteId(), inserted);
 //   prepareNoteChange(inserted);
@@ -213,6 +213,7 @@ void TscoreStaff::insertNote(int index, const Tnote& note, bool disabled) {
       updateLines();
       updateSceneRect(); // Update only for single staff view
   }
+  return inserted;
 }
 
 
@@ -540,13 +541,21 @@ void TscoreStaff::enableToAddNotes(bool alowAdding) {
 
 
 int TscoreStaff::measureOfNoteId(int id) {
-  if (id == count())
-    return m_measures.size() - 1; // last measure for the last note
+  if (m_measures.isEmpty())
+    return - 1;
+  if (m_measures.count() == 1)
+    return 0;
+  auto lastMeas = lastMeasure();
+  if (lastMeas && !lastMeas->isEmpty()) {
+    if (id >= lastMeas->lastNoteId())
+      return m_measures.count() - 1; // last measure for the last note
+  }
   for (int i = 0; i < m_measures.size(); ++i) {
-    qDebug() << debug() << "measure" << i << "first Id" << m_measures[i]->firstNoteId() << "last Id" << m_measures[i]->lastNoteId();
     if (id >= m_measures[i]->firstNoteId() && id <= m_measures[i]->lastNoteId())
       return i;
   }
+
+  // TODO: It should never occur, delete it
   qDebug() << debug() << "There is no measure for note id:" << id << "in this staff";
   return -1;
 }
