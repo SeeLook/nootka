@@ -65,7 +65,6 @@ TscoreTie::~TscoreTie()
     firstRtm.setTie(Trhythm::e_tieEnd);
   else
     firstRtm.setTie(Trhythm::e_noTie);
-  firstNote()->setTie(nullptr);
 
   Trhythm& secondRtm = secondNote()->note()->rtm;
   if (secondRtm.tie() == Trhythm::e_tieCont) // when second note has a tie - set it to tie start
@@ -81,12 +80,14 @@ TscoreTie::~TscoreTie()
 
 /*static*/
 void TscoreTie::check(TscoreNote* sn) {
-  if (sn->tie())
-      delete sn->tie();
-  else {
-      auto next = sn->nextNote();
-      if (!sn->note()->isRest() && next && !next->note()->isRest() && sn->note()->compareNotes(*next->note()))
-          sn->setTie(new TscoreTie(sn, next));
+  if (sn) {
+    if (sn->tie())
+        sn->setTie(nullptr);
+    else {
+        auto next = sn->nextNote();
+        if (!sn->note()->isRest() && next && !next->note()->isRest() && sn->note()->compareNotes(*next->note()))
+            sn->setTie(new TscoreTie(sn, next));
+    }
   }
 }
 
@@ -95,6 +96,7 @@ void TscoreTie::checkStaves() {
   if ((m_extraTieItem == nullptr) != (firstNote()->staff() == secondNote()->staff())) {
       if (m_extraTieItem) {
           delete m_extraTieItem;
+          m_extraTieItem = nullptr;
       } else {
           m_extraTieItem = newTie(secondNote());
           QTransform t;

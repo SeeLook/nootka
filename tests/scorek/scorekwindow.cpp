@@ -73,6 +73,9 @@ ScorekWindow::ScorekWindow(QWidget* parent) :
     auto randMelAct = scoreMenu->addAction(QStringLiteral("Random melody"));
       randMelAct->setShortcut(QKeySequence(QStringLiteral("Ctrl+r")));
       connect(randMelAct, &QAction::triggered, this, &ScorekWindow::randomSlot);
+    auto clearAct = scoreMenu->addAction(QStringLiteral("Clear score"));
+      clearAct->setShortcut(QKeySequence(QStringLiteral("Shift+DEL")));
+      connect(clearAct, &QAction::triggered, [=]{ m_score->deleteNotes(); });
 
   auto bar = menuBar();
   bar->addMenu(scoreMenu);

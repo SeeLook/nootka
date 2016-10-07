@@ -538,6 +538,8 @@ void TscoreNote::setTie(TscoreTie* t) {
 
 
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+  Q_UNUSED(option)
+  Q_UNUSED(widget)
 //     paintBackground(painter, Qt::yellow);
   if (m_bgColor != -1) {
 //       paintBackground(painter, m_bgColor);
@@ -557,7 +559,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->setPen(Qt::NoPen);
     painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), m_width, qMin(center.y() + 10.0, m_height));
   }
-  // for debug - index number
+  // for debug - index number, tie, group number, beam
   painter->setPen(Qt::red);
   QFont f(qApp->font());
   f.setPointSize(1);
@@ -701,9 +703,12 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         m_newPosY = scoreScene()->workPosY();
         qreal widthDiff = 0.0;
         if (scoreScene()->isRhythmEnabled()) {
+            Trhythm::Etie oldTie = note()->rtm.tie();
             if (note()->rtm != *scoreScene()->workRhythm()) {
               note()->rtm.setRhythm(*scoreScene()->workRhythm());
               qDebug() << d(this) << "rhythm changed" << rhythmChanged();
+              if (!pitchChanged()) // copy tie state
+                note()->rtm.setTie(oldTie);
             } else {
               note()->rtm.setStemDown(scoreScene()->workRhythm()->stemDown());
               qDebug() << d(this) << "rhythm the same";
