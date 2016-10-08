@@ -237,7 +237,7 @@ void TscoreStaff::removeNote(int index) {
         m_autoAddedNoteId--;
     }
     auto removed = m_scoreNotes[index];
-    qDebug() << debug() << "Preparing to remove note nr" << index << removed->note()->toText();
+    qDebug() << debug() << "Preparing to remove note nr" << index << removed->note()->toText() << removed->note()->rtm.string();
     content(this);
     int measureNr = measureOfNoteId(index);
     if (measureNr > -1) {
@@ -247,9 +247,10 @@ void TscoreStaff::removeNote(int index) {
 //     m_allNotesWidth -= removed->width();
     qDebug() << debug() << "After measure routines index is" << index << "removing id" << removed->index() 
               << (index != removed->index() ? "BOOOOOOOM!!!!" : "");
-    m_scoreNotes.removeOne(removed);
-    delete removed;
-//     m_scoreNotes.removeAt(index);
+
+    bool tieAfter = !goingDelete() && removed->note()->rtm.tie() == Trhythm::e_tieCont;
+    delete m_scoreNotes.takeAt(index);
+
     if (m_measures.last()->isEmpty())
       delete m_measures.takeLast(); // it is empty, so delete it then
 
@@ -260,6 +261,8 @@ void TscoreStaff::removeNote(int index) {
     fit();
     if (index < count())
       updateNotesPos(index);
+    if (tieAfter) // restore tie between note before removed with note after removed (it should never crash if is TRUE)
+      m_scoreNotes[index - 1]->tieWithNext();
     for (int i = index; i < count(); ++i) // refresh neutrals in all next notes TODO: IT HAS TO BE DONE BY MEASURE
       m_scoreNotes[i]->moveNote(m_scoreNotes[i]->notePos());
     if (number() == -1) // single note mode only
@@ -701,6 +704,11 @@ TscoreNote* TscoreStaff::insertNote(const Tnote& note, int index, bool disabled)
   m_scoreNotes[index]->setZValue(50);
   setNoteDisabled(index, disabled);
   updateIndexes();
+  if (n->index() > 0) {
+      auto prev = n->prevNote();
+      if (prev && (prev->note()->rtm.tie() == Trhythm::e_tieStart || prev->note()->rtm.tie() == Trhythm::e_tieCont))
+        prev->tieRemove(); // it will also set a proper tie of next note if the previous was connected with it before inserting
+  }
   return n;
 }
 

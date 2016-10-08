@@ -55,7 +55,7 @@ public:
        * Initial static method to create new tie with next note to given one
        * or delete the tie if given note has it already.
        */
-  static void check(TscoreNote* sn);
+  static TscoreTie* check(TscoreNote* sn);
 
 
   TscoreNote* firstNote() { return m_firstNote; }

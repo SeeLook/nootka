@@ -164,8 +164,14 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
 
 
 TscoreNote::~TscoreNote() {
-  if (!staff()->goingDelete())
-    removeTie();
+  if (note()->rtm.tie() == Trhythm::e_tieEnd || note()->rtm.tie() == Trhythm::e_tieCont) {
+    auto prev = prevNote();
+    if (prev)
+      prev->tieRemove();
+  }
+  if (m_tie)
+    delete m_tie;
+
   if (staff())
     staff()->noteGoingDestroy(this);
   if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
@@ -184,7 +190,10 @@ Trhythm* TscoreNote::rhythm() const {
 
 void TscoreNote::setRhythm(const Trhythm& r) {
 //   m_mainNote->setRhythm(r);
+//   Trhythm old(m_note->rtm);
   m_note->setRhythm(r);
+//   m_note->rtm.setTie(old.tie());
+//   m_note->rtm.setStemDown(old.stemDown());
   update();
 }
 
@@ -528,15 +537,6 @@ void TscoreNote::update() {
 }
 
 
-void TscoreNote::setTie(TscoreTie* t) {
-  if (t && m_tie) // TODO: remove when not occur
-    qDebug() << d(this) << "already has a tie!!!" ;
-  if (m_tie)
-    delete m_tie;
-  m_tie = t;
-}
-
-
 void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
@@ -725,8 +725,16 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
             emit noteGoingToChange(this);
             staff()->prepareNoteChange(this);
         }
-        if ((pitchChanged() || accidChanged()))
-          removeTie();
+        if ((pitchChanged() || accidChanged())) {
+          if (note()->rtm.tie()) {
+            if (note()->rtm.tie() == Trhythm::e_tieEnd || note()->rtm.tie() == Trhythm::e_tieCont) {
+                auto prev = prevNote();
+                if (prev)
+                  prev->tieRemove();
+            }
+            tieRemove();
+          }
+        }
 //         m_mainNote->setRhythm(*m_newRhythm);
         m_accidental = m_newAccid;
         moveNote(scoreScene()->workPosY());
@@ -912,16 +920,30 @@ void TscoreNote::changeWidth() {
 }
 
 
-void TscoreNote::removeTie() {
-  if (note()->rtm.tie() == Trhythm::e_tieCont) { // remove this tie end set previous to end
-      prevNote()->setTie(nullptr);
-      setTie(nullptr);
-  } else if (note()->rtm.tie() == Trhythm::e_tieEnd) {
-      prevNote()->setTie(nullptr);
-  } else if (note()->rtm.tie() == Trhythm::e_tieStart) {
-      setTie(nullptr);
+void TscoreNote::tieWithNext() {
+  if (!m_tie)
+    m_tie = TscoreTie::check(this);
+  else
+    qDebug() << d(this) << "has already tie";
+}
+
+
+void TscoreNote::tieRemove() {
+  if (m_tie) {
+    if (note()->rtm.tie() == Trhythm::e_tieCont) {
+      auto prev = prevNote();
+      if (prev)
+        prev->note()->rtm.setTie(Trhythm::e_tieEnd);
+      auto next = nextNote();
+      if (next)
+        next->note()->rtm.setTie(Trhythm::e_tieStart);
+    }
+    delete m_tie; // it will set this note tie to none
+    m_tie = nullptr;
   }
 }
+
+
 
 
 

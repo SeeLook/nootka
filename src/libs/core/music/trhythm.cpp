@@ -185,15 +185,13 @@ void Trhythm::spilt(TrhythmList& twoRhythms) const {
       twoRhythms << half << half;
   }
   if (!isRest() && twoRhythms.size() == 2) {
-//     twoRhythms.first().setTie(tie() == e_noTie ? e_tieStart : e_tieCont);
     twoRhythms.first().setStemDown(stemDown());
-//     twoRhythms.last().setTie(tie() == e_tieStart || tie() == e_tieCont ? e_tieCont : e_tieEnd);
     twoRhythms.last().setStemDown(stemDown());
   }
 }
 
 
-QString Trhythm::string() {
+QString Trhythm::string() const {
   QString ret = QString::number(weight());
   if (isRest())
     ret.prepend(QStringLiteral("R"));

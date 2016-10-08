@@ -20,6 +20,7 @@
 #include "tpaneitem.h"
 #include "tscorestaff.h"
 #include "tscoretie.h"
+#include "tscorenote.h"
 #include <music/trhythm.h>
 #include <tnoofont.h>
 #include <graphics/tdropshadoweffect.h>
@@ -118,9 +119,12 @@ void TrhythmPane::paint(QPainter* painter, const QStyleOptionGraphicsItem* optio
 
 void TrhythmPane::itemClicked() {
   if (sender() == m_tie) {
-//       m_tie->setSelected(!m_tie->isSelected());
-    if (m_currentNote)
-      TscoreTie::check(m_currentNote);
+    if (m_currentNote) {
+      if (m_currentNote->tie())
+        m_currentNote->tieRemove();
+      else
+        m_currentNote->tieWithNext();
+    }
     return;
   }
 

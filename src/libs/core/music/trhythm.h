@@ -199,7 +199,7 @@ public:
   void spilt(TrhythmList& twoRhythms) const;
 
       /** Returns string with formatted rhythm value i.e. 4 or 8. or 16^3 */
-  QString string();
+  QString string() const;
 
   QString xmlType() const;
 

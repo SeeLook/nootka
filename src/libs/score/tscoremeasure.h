@@ -30,6 +30,7 @@ class TscoreBeam;
 class QGraphicsLineItem;
 class Tmeter;
 class Tnote;
+class Trhythm;
 
 /**
  * Implementation of the measure
@@ -217,6 +218,8 @@ private:
 
       /** Restores ties by given @p tieCopy value of @p Trhythm::Etie to @p thisNote*/
   void restoreTie(quint8 tieCopy, TscoreNote* thisNote);
+
+  void copyRhythmParams(TscoreNote* sn, const Trhythm& r);
 
 private:
   int                      m_duration;

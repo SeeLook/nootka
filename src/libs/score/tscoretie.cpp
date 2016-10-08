@@ -79,16 +79,13 @@ TscoreTie::~TscoreTie()
 
 
 /*static*/
-void TscoreTie::check(TscoreNote* sn) {
-  if (sn) {
-    if (sn->tie())
-        sn->setTie(nullptr);
-    else {
-        auto next = sn->nextNote();
-        if (!sn->note()->isRest() && next && !next->note()->isRest() && sn->note()->compareNotes(*next->note()))
-            sn->setTie(new TscoreTie(sn, next));
-    }
+TscoreTie* TscoreTie::check(TscoreNote* sn) {
+  if (sn && !sn->tie()) {
+    auto next = sn->nextNote();
+    if (!sn->note()->isRest() && next && !next->note()->isRest() && sn->note()->compareNotes(*next->note()))
+        return new TscoreTie(sn, next);
   }
+  return nullptr;
 }
 
 

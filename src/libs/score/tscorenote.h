@@ -192,10 +192,14 @@ public:
   TscoreBeam* beam() { return m_beam; }
   void setBeam(TscoreBeam* b) { m_beam = b; }
 
-      /**
-       * Pointer to @p TscoreTie (ligature) or null if note has no tie 
-       */
-  TscoreTie* tie() { return m_tie; }
+      /** Ties this note with the next one (if they are the same) */
+  void tieWithNext();
+
+      /** Pointer to @p TscoreTie (ligature) or null if note has no tie */
+  TscoreTie* tie() const { return m_tie; }
+
+      /** Removes the tie of this note. */
+  void tieRemove();
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
   virtual QRectF boundingRect() const { return QRectF(0.0, 0.0, m_width, m_height); }
@@ -234,8 +238,6 @@ protected:
   virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
   virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
 
-      /** Sets @p TscoreTie */
-  void setTie(TscoreTie* t);
 
 private:
   TnoteItem                               *m_mainNote;
@@ -278,7 +280,6 @@ private:
   void checkEmptyText(); /**< Decides whether show or hide text about empty note. */
   void changeWidth(); /**< Changes bounding rectangle width appropriate to current accidental and rhythm */
   void emitNoteWasSelected();
-  void removeTie(); /**< Checks and removes tie of this note or the previous one if exist */
 
 private slots:
   void popUpAnimFinished();
