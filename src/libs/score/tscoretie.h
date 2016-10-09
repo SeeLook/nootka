@@ -31,9 +31,9 @@ class TscoreNote;
  * The bow connecting two notes (ligature)
  * It could be created by constructor but there is static method
  * @p TscoreTie::check() with @p TscoreNote as a parameter
- * that checks given note and next one to it are notes the same
- * and creates tie then, or if there is a tie already - deletes it.
- * Also @p check() method sets @p TscoreNote::tie() to point on this instance
+ * that checks given note and next one to it are they the same
+ * and returns @p TscoreTie instance or @p nullptr if not created.
+ * The common way to create tie is to call @p TscoreNote::tieWithNext()
  *
  * There is single bow adjusted to notes position if they lay at the same staff.
  * When second note lays on the next one, an additional bow is added - before second note.

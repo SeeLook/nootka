@@ -699,16 +699,16 @@ void TscoreStaff::prepareNoteChange(TscoreNote* sn) {
 
 TscoreNote* TscoreStaff::insertNote(const Tnote& note, int index, bool disabled) {
   index = qBound(0, index, m_scoreNotes.size()); // 0 - adds at the begin, size() - adds at the end
+  if (index) {
+    auto prev = m_scoreNotes[index - 1];
+    if (prev->note()->rtm.tie() == Trhythm::e_tieStart || prev->note()->rtm.tie() == Trhythm::e_tieCont)
+        prev->tieRemove(); // it will also set a proper tie of next note if the previous was connected with it before inserting
+  }
   auto n = insert(index);
   setNote(index, note);
   m_scoreNotes[index]->setZValue(50);
   setNoteDisabled(index, disabled);
   updateIndexes();
-  if (n->index() > 0) {
-      auto prev = n->prevNote();
-      if (prev && (prev->note()->rtm.tie() == Trhythm::e_tieStart || prev->note()->rtm.tie() == Trhythm::e_tieCont))
-        prev->tieRemove(); // it will also set a proper tie of next note if the previous was connected with it before inserting
-  }
   return n;
 }
 

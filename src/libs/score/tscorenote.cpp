@@ -930,14 +930,6 @@ void TscoreNote::tieWithNext() {
 
 void TscoreNote::tieRemove() {
   if (m_tie) {
-    if (note()->rtm.tie() == Trhythm::e_tieCont) {
-      auto prev = prevNote();
-      if (prev)
-        prev->note()->rtm.setTie(Trhythm::e_tieEnd);
-      auto next = nextNote();
-      if (next)
-        next->note()->rtm.setTie(Trhythm::e_tieStart);
-    }
     delete m_tie; // it will set this note tie to none
     m_tie = nullptr;
   }
