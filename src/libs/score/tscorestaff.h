@@ -401,6 +401,11 @@ protected:
   void toKeyAnim(const QString& accidText, const QPointF& accidPos, int notePos);
   void fromKeyAnim(const QString& accidText, const QPointF& accidPos, int notePos);
 
+      /**
+       * Takes actual position of note item @p noteIndex and sets its @p TscoreNote::note() to appropriate value  
+       */
+  void updatePitch(int noteIndex);
+
 protected slots:
   void onKeyChanged();
   void onNoteClicked(int noteIndex);

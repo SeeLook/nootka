@@ -161,15 +161,6 @@ TscoreNote* TscoreStaff::insertNote(int index, const Tnote& note, bool disabled)
   if (m_autoAddedNoteId > -1) // naughty user can insert or add new note just after clicking the last one what invokes auto adding
     addNoteTimeOut();
 
-// break a tie, if any
-//   if (index) {
-//       if (m_scoreNotes[index - 1]->tie());
-//         delete m_scoreNotes[index - 1]->tie();
-//   } else {
-//       if (number() > 0 && firstNote()->note()->rtm.tie() == Trhythm::e_tieEnd)
-//         delete prevStaff()->lastNote()->tie();
-//   }
-
   qDebug() << "\n";
 
   //TODO: check is inserting note fit into a measure:
@@ -178,18 +169,17 @@ TscoreNote* TscoreStaff::insertNote(int index, const Tnote& note, bool disabled)
   int measureNr = m_measures.count() - 1; // add to the last measure by default
   if (index < count())
     measureNr = measureOfNoteId(index);
+  if (measureNr < 0) {
+    qDebug() << debug() << "Not such a measure for index," << index << " inserting to the last measure";
+    measureNr = m_measures.count() - 1;
+  }
   auto inserted = insertNote(note, index, disabled);
 
   qDebug() << debug() << "--> inserting note" << (inserted->note()->isValid() ? inserted->note()->toText() : "rest")
            << inserted->note()->rtm.xmlType() << (inserted->note()->hasDot() ? "." : QString())
            << inserted->rhythm()->xmlType()
            << "to measure" << measureNr;
-  if (measureNr < 0) {
-    qDebug() << debug() << "Not such a measure for index" << index;
-    return nullptr;
-  }
   m_measures[measureNr]->insertNote(index - m_measures[measureNr]->firstNoteId(), inserted);
-//   prepareNoteChange(inserted);
 
   if (number() > -1) {
     emit noteIsAdding(number(), inserted->index());
@@ -544,8 +534,10 @@ void TscoreStaff::enableToAddNotes(bool alowAdding) {
 
 
 int TscoreStaff::measureOfNoteId(int id) {
-  if (m_measures.isEmpty())
+  if (m_measures.isEmpty()) {
+    qDebug() << debug() << "No measures in this staff, can not find it for note" << id;
     return - 1;
+  }
   if (m_measures.count() == 1)
     return 0;
   auto lastMeas = lastMeasure();
@@ -559,7 +551,7 @@ int TscoreStaff::measureOfNoteId(int id) {
   }
 
   // TODO: It should never occur, delete it
-  qDebug() << debug() << "There is no measure for note id:" << id << "in this staff";
+  qDebug() << debug() << "There is no measure for note id:" << id << "in this staff with notes number" << count();
   return -1;
 }
 
@@ -922,12 +914,12 @@ void TscoreStaff::onKeyChanged() {
 
 
 void TscoreStaff::onNoteClicked(int noteIndex) {
-  auto noteOfId = m_scoreNotes[noteIndex];
-  int globalNr = notePosRelatedToClef(fixNotePos(noteOfId->notePos())
-        + noteOfId->ottava() * 7, m_offset);
-  noteOfId->note()->note = (char)(56 + globalNr) % 7 + 1;
-  noteOfId->note()->octave = (char)(56 + globalNr) / 7 - 8;
-  noteOfId->note()->alter = (char)noteOfId->accidental();
+  updatePitch(noteIndex);
+//   auto noteOfId = m_scoreNotes[noteIndex];
+//   int globalNr = notePosRelatedToClef(fixNotePos(noteOfId->notePos()) + noteOfId->ottava() * 7, m_offset);
+//   noteOfId->note()->note = (char)(56 + globalNr) % 7 + 1;
+//   noteOfId->note()->octave = (char)(56 + globalNr) / 7 - 8;
+//   noteOfId->note()->alter = (char)noteOfId->accidental();
   if (m_autoAddedNoteId > -1) {
     if (noteIndex == m_autoAddedNoteId - 1) {
         m_addTimer->stop();
@@ -1032,6 +1024,17 @@ void TscoreStaff::addNoteTimeOut() {
     }
   }
 }
+
+
+void TscoreStaff::updatePitch(int noteIndex) {
+  auto sn = m_scoreNotes[noteIndex];
+  int globalNr = notePosRelatedToClef(fixNotePos(sn->notePos()) + sn->ottava() * 7, m_offset);
+  sn->note()->note = (char)(56 + globalNr) % 7 + 1;
+  sn->note()->octave = (char)(56 + globalNr) / 7 - 8;
+  sn->note()->alter = (char)sn->accidental();
+  qDebug() << debug() << "updating pitch of" << noteIndex << sn->note()->toText();
+}
+
 
 //##########################################################################################################
 //########################################## PRIVATE     ###################################################
