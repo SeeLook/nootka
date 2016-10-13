@@ -172,7 +172,7 @@ void Trhythm::sub(const Trhythm& r, TrhythmList& remained) const {
 }
 
 
-void Trhythm::spilt(TrhythmList& twoRhythms) const {
+void Trhythm::split(TrhythmList& twoRhythms) const {
   if (rhythm() == e_none || rhythm() == e_sixteenth)
     return; // nothing to split
 
@@ -189,6 +189,31 @@ void Trhythm::spilt(TrhythmList& twoRhythms) const {
     twoRhythms.last().setStemDown(stemDown());
   }
 }
+
+
+void Trhythm::resolve(int problemDur, TrhythmList& solvList) {
+  int smallestDur = 0;
+  for (int i = 1; i < 6; ++i) { // looking for smallest rhythm to divide given duration @p dur
+      smallestDur = Trhythm(static_cast<Trhythm::Erhythm>(i)).duration(); // no triplets here
+      if (smallestDur < problemDur) {
+        if ((problemDur / smallestDur) * smallestDur == problemDur)
+          break;
+      }
+  }
+  if (smallestDur) {
+      int chunksNr = problemDur / smallestDur; // number of smallest rhythm values in duration @p dur
+      int step = 0;
+      solvList << Trhythm() << Trhythm();
+      do { // find when rhythms of two divided notes of duration are valid
+          step++;
+          solvList[0].setRhythm((chunksNr - step) * smallestDur);
+      //       r1.setRest(note.isRest());
+          solvList[1].setRhythm(smallestDur * step);
+      //       r2.setRest(note.isRest());
+      } while (step < chunksNr - 1 && solvList[0].rhythm() != Trhythm::e_none && solvList[1].rhythm() != Trhythm::e_none);
+  }
+}
+
 
 
 QString Trhythm::string() const {

@@ -196,7 +196,13 @@ public:
        * - i.e. 8. will be 8 and sixteenth
        * It doesn't change current rhythm
        */
-  void spilt(TrhythmList& twoRhythms) const;
+  void split(TrhythmList& twoRhythms) const;
+
+      /**
+       * Tries to solve given @p problemDur which is not possible to express in single @p Trhythm instance
+       * with a few rhythms put into @p solvList
+       */
+  static void resolve(int problemDur, TrhythmList& solvList);
 
       /** Returns string with formatted rhythm value i.e. 4 or 8. or 16^3 */
   QString string() const;
