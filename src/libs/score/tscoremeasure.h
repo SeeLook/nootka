@@ -32,6 +32,7 @@ class Tmeter;
 class Tnote;
 class Trhythm;
 
+
 /**
  * Implementation of the measure
  */
@@ -209,14 +210,11 @@ private:
   void split(TscoreNote* sn);
 
       /** Splits given duration @p dur into two notes of @p note and adds them to the staff at @p id */
-  int splitThenInsert(int dur, int id, const Tnote& note, bool readOnly);
+  void splitThenInsert(int dur, int id, const Tnote& note, bool readOnly);
 
   void fixStemDirection(TscoreNote* sn);
 
-      /** Removes appropriate ties from given @p thisNote and its previous note */
-  void preserveTie(quint8 tieCopy, TscoreNote* thisNote);
-
-      /** Restores ties by given @p tieCopy value of @p Trhythm::Etie to @p thisNote*/
+      /** Restores ties of @p thisNote by given @p tieCopy value of @p Trhythm::Etie*/
   void restoreTie(quint8 tieCopy, TscoreNote* thisNote);
 
   void copyRhythmParams(TscoreNote* sn, const Trhythm& r);

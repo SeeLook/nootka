@@ -700,14 +700,14 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (scoreScene()->workPosY()) { // edit mode
     if (event->button() == Qt::LeftButton) {
         m_newAccid = scoreScene()->currentAccid();
-        m_newPosY = scoreScene()->workPosY();
+        m_newPosY = scoreScene()->workRhythm()->isRest() ? 0 : scoreScene()->workPosY();
         qreal widthDiff = 0.0;
         if (scoreScene()->isRhythmEnabled()) {
             Trhythm::Etie oldTie = note()->rtm.tie();
             if (note()->rtm != *scoreScene()->workRhythm()) {
               note()->rtm.setRhythm(*scoreScene()->workRhythm());
               qDebug() << d(this) << "rhythm changed" << rhythmChanged();
-              if (!pitchChanged()) // copy tie state
+              if (!pitchChanged() && !accidChanged()) // copy tie state
                 note()->rtm.setTie(oldTie);
             } else {
               note()->rtm.setStemDown(scoreScene()->workRhythm()->stemDown());
@@ -722,18 +722,18 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
             }
         }
         if (pitchChanged() || rhythmChanged() || accidChanged() || widthDiff != 0.0) {
+            if ((pitchChanged() || accidChanged())) {
+              if (note()->rtm.tie()) {
+                if (note()->rtm.tie() == Trhythm::e_tieEnd || note()->rtm.tie() == Trhythm::e_tieCont) {
+                    auto prev = prevNote();
+                    if (prev)
+                      prev->tieRemove();
+                }
+                tieRemove();
+              }
+            }
             emit noteGoingToChange(this);
             staff()->prepareNoteChange(this);
-        }
-        if ((pitchChanged() || accidChanged())) {
-          if (note()->rtm.tie()) {
-            if (note()->rtm.tie() == Trhythm::e_tieEnd || note()->rtm.tie() == Trhythm::e_tieCont) {
-                auto prev = prevNote();
-                if (prev)
-                  prev->tieRemove();
-            }
-            tieRemove();
-          }
         }
 //         m_mainNote->setRhythm(*m_newRhythm);
         m_accidental = m_newAccid;
