@@ -31,6 +31,7 @@ SOURCES +=  tabstractplayer.cpp\
             widgets/tpitchview.cpp\
             widgets/tvolumeview.cpp\
             widgets/tmelodyitem.cpp\
+            widgets/tpcmview.cpp\
             \
             stouch/SoundTouch.cpp\
             stouch/TDStretch.cpp\
@@ -77,6 +78,7 @@ HEADERS  += tartiniparams.h\
             widgets/tpitchview.h\
             widgets/tvolumeview.h\
             widgets/tmelodyitem.h\
+            widgets/tpcmview.h\
             \
             stouch\STTypes.h\
             stouch/SoundTouch.h\
