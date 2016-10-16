@@ -303,7 +303,7 @@ void TmainScore::setScordature() {
 
 void TmainScore::unLockScore() {
 	setScoreDisabled(false);
-	if (isExam() && insertMode() == e_single) {
+	if (insertMode() == e_single) {
 		setNoteDisabled(1, true);
 		setNoteDisabled(2, true);
 	}
