@@ -18,6 +18,8 @@
 
 #include "tabstractsoundview.h"
 #include <math.h>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qscreen.h>
 
 
 QColor TabstractSoundView::startColor = Qt::green;
@@ -25,16 +27,23 @@ QColor TabstractSoundView::middleColor = Qt::yellow;
 QColor TabstractSoundView::endColor = Qt::red;
 QColor TabstractSoundView::totalColor = QColor(117, 21, 86); // brown
 QColor TabstractSoundView::disabledColor = Qt::gray;
+int    TabstractSoundView::m_tickWidth = 0;
+int    TabstractSoundView::m_tickGap = 0;
 
 
 TabstractSoundView::TabstractSoundView(QWidget* parent) :
   QWidget(parent)
 {
-  nootFont = QFont("nootka");
+  nootFont = QFont(QStringLiteral("nootka"));
   nootFont.setBold(false);
-	tc = palette().color(palette().currentColorGroup(), QPalette::Text);
-	disabledColor = palette().color(QPalette::Disabled, QPalette::Text);
-	disabledColor.setAlpha(150);
+  tc = palette().color(palette().currentColorGroup(), QPalette::Text);
+  disabledColor = palette().color(QPalette::Disabled, QPalette::Text);
+  disabledColor.setAlpha(150);
+  if (m_tickWidth == 0) {
+    m_tickWidth = qRound((qApp->screens().first()->physicalDotsPerInchX() / 22.0) * 0.4);
+    m_tickGap = qRound(m_tickWidth * 1.25);
+  }
+
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,32 +20,41 @@
 #ifndef TABSTRACTSOUNDVIEW_H
 #define TABSTRACTSOUNDVIEW_H
 
-#include <QWidget>
+
+#include <QtWidgets/qwidget.h>
 #include "nootkasoundglobal.h"
 
 
 class NOOTKASOUND_EXPORT TabstractSoundView : public QWidget {
-  
-public:
-  
-    explicit TabstractSoundView(QWidget* parent = 0);
-    
-    QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
-    
-    static QColor startColor, middleColor, endColor, totalColor, disabledColor;
-    QColor tc;
 
-    virtual void setDisabled(bool isDisabled);
-		
-		virtual void setEnabled(bool isEnabled) { setDisabled(!isEnabled); }
-    
+public:
+
+  explicit TabstractSoundView(QWidget* parent = 0);
+
+  QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);
+
+  static QColor startColor, middleColor, endColor, totalColor, disabledColor;
+  QColor tc;
+
+  virtual void setDisabled(bool isDisabled);
+
+  virtual void setEnabled(bool isEnabled) { setDisabled(!isEnabled); }
+
 protected:
-    virtual void resizeIt(int myHeight);
-    
+  virtual void resizeIt(int myHeight);
+
+      /** Width of a tick dependent on screen DPI */
+  static int tickWidth() { return m_tickWidth; }
+
+      /** Distance between ticks dependent on screen DPI */
+  static int tickGap() { return m_tickGap; }
+
 protected:
-    QFont           nootFont;
-    QRect           noteBound;
-  
+  QFont           nootFont;
+  QRect           noteBound;
+  static int      m_tickWidth;
+  static int      m_tickGap;
+
 };
 
 
