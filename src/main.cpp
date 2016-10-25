@@ -58,6 +58,8 @@ bool resetConfig;
 int main(int argc, char *argv[])
 {
 #if defined (Q_OS_ANDROID)
+  qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
+
   // log to any writable storage
   logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
   if (QFile::exists(logFile))

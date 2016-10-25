@@ -25,6 +25,7 @@
   #include <ttouchmenu.h>
   #include <touch/ttouchparams.h>
   #include <ttouchmessage.h>
+  #include <widgets/tintestwidget.h>
 #endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
@@ -128,15 +129,20 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	setBarAutoHide(m_layParams->toolBarAutoHide);
 	m_name->createNameTip(scene());
 
-	connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
+  connect(Tmenu::menuHandler(), &TmenuHandler::menuShown, this, &TmainView::menuSlot);
+
 #if defined (Q_OS_ANDROID)
   m_menuItem = new TmelodyItem();
   scene()->addItem(m_menuItem);
   m_menuItem->setPos(0, 0);
   connect(m_menuItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
+
+  m_inVolAct = new QAction(style()->standardIcon(QStyle::SP_MediaVolume), qTR("TsettingsDialog", "Sound"), this);
+  connect(m_inVolAct, &QAction::triggered, this, &TmainView::showInVolume);
 #endif
   if (TtouchProxy::touchEnabled()) {
     m_fretView = new TguitarView(m_guitar, this);
+
 #if defined (Q_OS_ANDROID)
     QTimer::singleShot(1000, this, [this]{ m_fretView->checkIsPreview(); }); // check it after all sizes were set
 #endif
@@ -337,6 +343,31 @@ void TmainView::menuSlot(Tmenu* m) {
   m->move(QCursor::pos().x() - 5, scoreGlobalPos.y());
 }
 
+
+#if defined (Q_OS_ANDROID)
+void TmainView::showInVolume() {
+  if (m_pitch->isEnabled())
+    m_pitch->setDisabled(true);
+
+  m_inVolWidget = new TinTestWidget(this);
+  connect(m_inVolWidget, &TinTestWidget::exit, this, &TmainView::inVolExit);
+  m_inVolWidget->exec();
+}
+
+
+void TmainView::inVolExit(int exMessage) {
+  if (static_cast<TinTestWidget::EexitMessage>(exMessage) == TinTestWidget::e_accepted) {
+    m_pitch->setMinimalVolume(m_inVolWidget->pitchView()->minimalVolume());
+    m_pitch->setIntonationAccuracy(m_inVolWidget->pitchView()->intonationAccuracy());
+  }
+  if (m_layParams->soundViewEnabled)
+    m_pitch->setDisabled(false);
+  m_inVolWidget->deleteLater();
+  m_inVolWidget = nullptr;
+}
+
+#endif
+
 //##########################################################################################
 //#######################     EVENTS       #################################################
 //##########################################################################################
@@ -410,9 +441,12 @@ void TmainView::mainMenuExec() {
   menu.addAction(m_tool->startExamAct);
   menu.addAction(m_tool->levelCreatorAct);
   QAction scoreMenuAct(QIcon(Tpath::img("score")), tr("score menu"), this);
-  connect(&scoreMenuAct, &QAction::triggered, this, &TmainView::scoreMenuExec);
-  if (!m_nameLay) // multi notes mode
+  if (!m_nameLay) { // multi notes mode
+    connect(&scoreMenuAct, &QAction::triggered, this, &TmainView::scoreMenuExec);
     menu.addAction(&scoreMenuAct);
+  }
+  if (!m_layParams->soundViewEnabled)
+    menu.addAction(m_inVolAct);
   menu.addAction(m_tool->settingsAct);
   QAction closeAct(QIcon(QLatin1String(":/mobile/exit.png")), qTR("QShortcut", "Close"), this);
   connect(&closeAct, &QAction::triggered, parentWidget(), &QWidget::close);
@@ -532,14 +566,19 @@ bool TmainView::viewportEvent(QEvent *event) {
 
 #if defined (Q_OS_ANDROID)
 void TmainView::keyPressEvent(QKeyEvent* event) {
-//   qDebug() << "pressed" << (Qt::Key)event->key();
+//   qDebug() << "pressed" << static_cast<Qt::Key>(event->key());
   QGraphicsView::keyPressEvent(event);
 }
 
 
 void TmainView::keyReleaseEvent(QKeyEvent* event) {
-  if (Qt::Key(event->key()) == Qt::Key_Menu)
+  auto k = static_cast<Qt::Key>(event->key());
+  if (k == Qt::Key_Menu)
     QTimer::singleShot(10, this, SLOT(mainMenuExec()));
+  else if (k == Qt::Key_VolumeDown || k == Qt::Key_VolumeUp) {
+    if (!m_inVolWidget)
+      QTimer::singleShot(10, [=]{ showInVolume(); });
+  }
   QGraphicsView::keyReleaseEvent(event);
 }
 #endif
