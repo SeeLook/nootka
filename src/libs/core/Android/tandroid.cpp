@@ -49,7 +49,7 @@ int Tandroid::getAPIlevelNr() {
 
 QString Tandroid::getExternalPath() {
   QString extPath;
-  if (getAPIlevelNr() < 19) { // look for SD card only before Kitkat, otherwise it is unaccessible
+  if (getAPIlevelNr() < 19) { // look for SD card only before Kitkat, otherwise it is inaccessible
     extPath = qgetenv("SECONDARY_STORAGE");
     //  QAndroidJniObject mediaDir = QAndroidJniObject::callStaticObjectMethod("android/os/Environment",
     //                                                                         "getExternalStorageDirectory", "()Ljava/io/File;");
@@ -113,7 +113,9 @@ void Tandroid::restartNootka() {
                                 "(IJLandroid/app/PendingIntent;)V",
                                 QAndroidJniObject::getStaticField<jint>("android/app/AlarmManager", "RTC"),
                                 jlong(QDateTime::currentMSecsSinceEpoch() + 750), pendingIntent.object());
-
+  QAndroidJniEnvironment env;
+  if (env->ExceptionCheck())
+    env->ExceptionClear();
 }
 
 
