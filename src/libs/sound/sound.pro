@@ -1,5 +1,5 @@
 
-QT += core multimedia gui widgets
+QT += core multimedia gui widgets androidextras
 
 
 TARGET = NootkaSound
@@ -31,7 +31,8 @@ SOURCES +=  tabstractplayer.cpp\
             widgets/tpitchview.cpp\
             widgets/tvolumeview.cpp\
             widgets/tmelodyitem.cpp\
-            widgets/tpcmview.cpp\
+#            widgets/tpcmview.cpp\
+            widgets/tintestwidget.cpp\
             \
             stouch/SoundTouch.cpp\
             stouch/TDStretch.cpp\
@@ -78,7 +79,8 @@ HEADERS  += tartiniparams.h\
             widgets/tpitchview.h\
             widgets/tvolumeview.h\
             widgets/tmelodyitem.h\
-            widgets/tpcmview.h\
+#            widgets/tpcmview.h\
+            widgets/tintestwidget.h\
             \
             stouch\STTypes.h\
             stouch/SoundTouch.h\
