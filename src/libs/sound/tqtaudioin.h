@@ -43,6 +43,9 @@ public:
 
   void skip() { m_touchTimer->stop(); }
 
+  void stopHandling();
+  void startHandling();
+
 protected:
   virtual bool eventFilter(QObject* obj, QEvent* event);
   void touchTimerSlot();
@@ -78,6 +81,10 @@ public:
   static QStringList getAudioDevicesList(); 
 
   void updateAudioParams();
+
+      /** Stops handling touch events by filter which stops sniffing  */
+  void stopTouchHandle() { m_touchHandler->stopHandling(); }
+  void startTouchHandle() { m_touchHandler->startHandling(); }
 
 public slots:
   virtual void startListening();

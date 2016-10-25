@@ -35,9 +35,10 @@ class QCheckBox;
 class QBoxLayout;
 class TvolumeView;
 class TintonationView;
-class TpcmView;
+// class TpcmView;
 class QTimer;
 class QAction;
+
 
 /** 
  * This class manages of displaying volume meter and intonation indicator.
@@ -50,19 +51,23 @@ class QAction;
  */
 class NOOTKASOUND_EXPORT TpitchView : public QWidget
 {
+
   Q_OBJECT
-  
+
+  friend class TinTestWidget;
+
 public:
   explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool pauseActive = true);
   
   void setAudioInput(TaudioIN *audioIn);
-  void watchInput(); /** Starts displaying volume level and intonation (when enabled). */
-  void stopWatching(); /** Stops displaying volume (and intonation) */
+  void watchInput(); /**< Starts displaying volume level and intonation (when enabled). */
+  void stopWatching(); /**< Stops displaying volume (and intonation) */
   void setPitchColor(QColor col);
 
   bool isPaused();
   void setBgColor(const QColor &col) { m_bgColor = col; }
   void setMinimalVolume(float vol);
+  float minimalVolume();
   void setDisabled(bool isDisabled);
 #if defined (Q_OS_ANDROID)
   QAction* pauseAction() { return m_pauseAct; }
@@ -73,8 +78,9 @@ public:
       /** Sets an accuracy of intonation.
         * When 0 - 'do not check' m_intoView becomes disabled. */
   void setIntonationAccuracy(int accuracy);
-  void enableAccuracyChange(bool enAcc); /** Redirects suitable method from @p TintonationView */
-  bool isAccuracyChangeEnabled(); /** Redirects suitable method from @p TintonationView */
+  int intonationAccuracy();
+  void enableAccuracyChange(bool enAcc); /**< Redirects suitable method from @p TintonationView */
+  bool isAccuracyChangeEnabled(); /**< Redirects suitable method from @p TintonationView */
 
 
       /** Pitch view can be placed in one row (horizontal) or one over another (vertical) - default */
@@ -113,14 +119,17 @@ protected slots:
   
 protected:
   virtual void paintEvent(QPaintEvent*);
-	virtual void showEvent(QShowEvent* e);
-	virtual void hideEvent(QHideEvent* e);
-	virtual void resizeEvent(QResizeEvent*);
-  
+  virtual void showEvent(QShowEvent* e);
+  virtual void hideEvent(QHideEvent* e);
+  virtual void resizeEvent(QResizeEvent*);
+
+      /** Gives protected access (for friend class) to @p TvolumeView widget of @p TpitchView  */
+  TvolumeView* volumeView() { return m_volumeView; }
+
 private:
   TvolumeView 			*m_volumeView;
   TintonationView 	*m_intoView;
-  TpcmView          *m_pcmView;
+//   TpcmView          *m_pcmView;
   TaudioIN 					*m_audioIN;
   QTimer 						*m_watchTimer;
   QColor 						 m_pitchColor, m_bgColor;
@@ -128,10 +137,10 @@ private:
   int 							 m_hideCnt; // counter of m_volTimer loops.
   float 						 m_prevVolume, m_prevPitch;
   int                m_prevState;
-	bool							 m_pauseActive; /** It stores constructor state, so when audio in is created/deleted it reacts on it is was enabled. */
+	bool							 m_pauseActive; /**< It stores constructor state, so when audio in is created/deleted it reacts on it is was enabled. */
 #if defined (Q_OS_ANDROID)
 	QAction           *m_pauseAct;
-  void updatePauseActIcon(); /** Depends on action state (checked or not) sets the icon */
+  void updatePauseActIcon(); /**< Depends on action state (checked or not) sets the icon */
 #endif
   static QString     m_tooLowText, m_tooHighText;
 };

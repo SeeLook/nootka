@@ -81,6 +81,7 @@ public:
 
       /** Sets minimal volume needed that note will be detected. Overrides global setting.  */
   void setMinimalVolume(float minVol);
+  float minimalVolume();
 
 
   void setAmbitus(Tnote loNote, Tnote hiNote);   /** Sets range of notes which are detected. Others are ignored. */

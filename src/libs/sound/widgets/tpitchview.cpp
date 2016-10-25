@@ -20,11 +20,12 @@
 #include "tpitchview.h"
 #include "tvolumeview.h"
 #include "tintonationview.h"
-#include "tpcmview.h"
+// #include "tpcmview.h"
 #include <tcolor.h>
 #include <graphics/tnotepixmap.h>
 #if defined (Q_OS_ANDROID)
   #include "widgets/tmelodyitem.h"
+  #include "tintestwidget.h"
 #endif
 #include <QtCore/qtimer.h>
 #include <QtWidgets/qlabel.h>
@@ -59,11 +60,11 @@ TpitchView::TpitchView(TaudioIN* audioIn, QWidget* parent, bool pauseActive) :
 		m_volumeView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 		m_volumeView->setPauseActive(pauseActive);
 
-  m_pcmView = new TpcmView(this);
+//   m_pcmView = new TpcmView(this);
   
 	m_lay->addWidget(m_intoView, 0, Qt::AlignBottom);
 	m_lay->addWidget(m_volumeView);
-  m_lay->addWidget(m_pcmView);
+//   m_lay->addWidget(m_pcmView);
 	outLay->addLayout(m_lay);
   setLayout(outLay);
   
@@ -138,6 +139,11 @@ void TpitchView::setMinimalVolume(float vol) {
 }
 
 
+float TpitchView::minimalVolume() {
+  return m_audioIN ? m_audioIN->minimalVolume() : 0.0;
+}
+
+
 void TpitchView::setDisabled(bool isDisabled) {
   QWidget::setDisabled(isDisabled);
   if (isDisabled)
@@ -152,7 +158,12 @@ void TpitchView::setDisabled(bool isDisabled) {
 
 
 void TpitchView::setIntonationAccuracy(int accuracy) {
-	m_intoView->setAccuracy(accuracy);
+  m_intoView->setAccuracy(accuracy);
+}
+
+
+int TpitchView::intonationAccuracy() {
+  return static_cast<int>(m_intoView->accuracy());
 }
 
 
@@ -194,9 +205,8 @@ void TpitchView::enableAccuracyChange(bool enAcc) {
   m_intoView->setAccuracyChangeEnabled(enAcc);
   m_intoView->setStatusTip(tr("Intonation - clarity of the sound. Is it in tune."));
   if (enAcc && m_intoView->isEnabled())
-    m_intoView->setStatusTip(m_intoView->statusTip() + "<br>" + tr("Click note symbol to change it."));
+    m_intoView->setStatusTip(m_intoView->statusTip() + QLatin1String("<br>") + tr("Click note symbol to change it."));
 }
-
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
@@ -225,7 +235,7 @@ void TpitchView::updateLevel() {
 	if (m_intoView->accuracy() != TintonationView::e_noCheck && m_prevPitch != m_audioIN->lastChunkPitch())
 			m_intoView->pitchSlot(m_audioIN->lastChunkPitch());
 	m_prevPitch = m_audioIN->lastChunkPitch();
-  m_pcmView->setPCMvolume(m_audioIN->pcmVolume());
+//   m_pcmView->setPCMvolume(m_audioIN->pcmVolume());
 }
 
 
@@ -315,14 +325,14 @@ void TpitchView::paintEvent(QPaintEvent* ) {
 }
 
 
-void TpitchView::resizeEvent(QResizeEvent*) {
-	if (m_lay->direction() == QBoxLayout::TopToBottom || m_lay->direction() == QBoxLayout::BottomToTop) {
-		m_volumeView->setFixedHeight(height() * 0.3);
-		m_intoView->setFixedHeight(height() * 0.3);
-	} else {
-		m_volumeView->setFixedHeight(contentsRect().height() * 0.7);
-		m_intoView->setFixedHeight(contentsRect().height() * 0.7);
-	}
+  void TpitchView::resizeEvent(QResizeEvent*) {
+  if (m_lay->direction() == QBoxLayout::TopToBottom || m_lay->direction() == QBoxLayout::BottomToTop) {
+      m_volumeView->setFixedHeight(height() * 0.35);
+      m_intoView->setFixedHeight(height() * 0.35);
+  } else {
+      m_volumeView->setFixedHeight(contentsRect().height() * 0.9);
+      m_intoView->setFixedHeight(contentsRect().height() * 0.9);
+  }
 }
 
 

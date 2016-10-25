@@ -200,6 +200,17 @@ TtouchHandler::TtouchHandler(TcommonListener* sniffer) :
 }
 
 
+void TtouchHandler::stopHandling() {
+  qApp->removeEventFilter(this);
+  touchTimerSlot();
+}
+
+
+void TtouchHandler::startHandling() {
+  qApp->installEventFilter(this);
+}
+
+
 bool TtouchHandler::eventFilter(QObject* obj, QEvent* event) {
   if (event->type() == QEvent::TouchBegin) {
     if (!m_touched) {
