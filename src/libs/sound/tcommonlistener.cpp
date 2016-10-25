@@ -97,6 +97,11 @@ void TcommonListener::setMinimalVolume(float minVol) {
 }
 
 
+float TcommonListener::minimalVolume() {
+  return m_audioParams->minimalVol;
+}
+
+
 /** Range of notes is increased semitone down and up.
  * This 46 and 48 are its sign.
  * Normally 47 is offset of midi note to Nootka Tnote. */
