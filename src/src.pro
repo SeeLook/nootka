@@ -47,8 +47,7 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat \
     android/net/sf/nootka/TshareExam.java\
-#     android/net/sf/nootka/Ttoast.java\
-#    android/net/sf/nootka/account.java
+    android/net/sf/nootka/ToutVolume.java\
 
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
