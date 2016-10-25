@@ -37,6 +37,7 @@ class QGraphicsProxyWidget;
 class QAction;
 class TmelodyItem;
 class QMainWindow;
+class TinTestWidget;
 
 
 #define   MAINVIEW    TmainView::instance()
@@ -92,7 +93,14 @@ protected:
 
 #if defined (Q_OS_ANDROID)
   virtual void keyPressEvent(QKeyEvent* event);
-  virtual void keyReleaseEvent(QKeyEvent* event); /**< Handles mobile device buttons (menu, back) */
+
+      /** Handles mobile device buttons (menu, back) */
+  virtual void keyReleaseEvent(QKeyEvent* event);
+
+      /** Displays input volume widget */
+  void showInVolume();
+  void inVolExit(int exMessage);
+
 #else
   virtual bool eventFilter(QObject* ob, QEvent* event);
   virtual void mouseMoveEvent(QMouseEvent* event);
@@ -100,7 +108,7 @@ protected:
 
   void updateBarLine();
 
-	void startHideAnim();
+  void startHideAnim();
 
 protected slots:
 	void showToolBar();
@@ -131,6 +139,8 @@ private:
   bool                             m_mainMenuTap, m_scoreMenuTap, m_playBarTap;
 #if defined (Q_OS_ANDROID)
   TmelodyItem                     *m_menuItem;
+  QAction                         *m_inVolAct;
+  TinTestWidget                   *m_inVolWidget = nullptr;
 #endif
   static TmainView                *m_instance;
 };
