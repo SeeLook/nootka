@@ -19,13 +19,16 @@
 #ifndef TPCMVIEW_H
 #define TPCMVIEW_H
 
+
+#include "nootkasoundglobal.h"
 #include <QtWidgets/qwidget.h>
+
 
 /**
  * Displays simple thin bar line with PCM input volume.
  * Volume is set through @p setPCMvolume, then bar is repainted
  */
-class TpcmView : public QWidget
+class NOOTKASOUND_EXPORT TpcmView : public QWidget
 {
 
   Q_OBJECT
