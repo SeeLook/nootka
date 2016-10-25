@@ -28,6 +28,26 @@
 #include <QDebug>
 
 
+#if defined(Q_OS_WIN32)
+  #include <windows.h>
+  #define SLEEP(msecs) Sleep(msecs)
+#else
+  #include <unistd.h>
+  #define SLEEP(msecs) usleep(msecs * 1000)
+#endif
+
+
+/** Common routine that waits 100ms until detecting thread will finish */
+void goToSleep(QThread* t) {
+  int cnt = 0;
+  while (t->isRunning() && cnt < 100) {
+    SLEEP(1);
+    cnt++;
+  }
+  if (t->isRunning() && cnt >= 100)
+    qDebug() << "[TpitchFinder] Can't stop detecting thread in 100ms";
+}
+
 #define BUFF_SIZE (16384)
 
 TpitchFinder::TpitchFinder(QObject* parent) :
@@ -95,8 +115,9 @@ TpitchFinder::TpitchFinder(QObject* parent) :
 TpitchFinder::~TpitchFinder()
 {
   m_doProcess = false;
-  m_mutex.lock();
-  m_mutex.unlock();
+  if (m_thread->isRunning())
+    goToSleep(m_thread);
+
 	if (m_filteredChunk)
 			delete m_filteredChunk;
 	delete m_floatBuffer;
@@ -116,8 +137,8 @@ void TpitchFinder::setOffLine(bool off) {
     m_isOffline = off;
     if (m_isOffline) {
       m_doProcess = false; // terminate the thread
-      m_mutex.lock();
-      m_mutex.unlock();
+      if (m_thread->isRunning())
+        goToSleep(m_thread);
     }
   }
 }
@@ -227,10 +248,8 @@ void TpitchFinder::copyToBufferOffline(qint16* data) {
 //##########################################################################################################
 //##########################       PROTECTED SLOTS    ######################################################
 //##########################################################################################################
-void TpitchFinder::detectingThread() {
-  if (!m_isOffline)
-    m_mutex.lock();
 
+void TpitchFinder::detectingThread() {
   while (m_doProcess) {
     int loops = 0;
     while (m_framesReady >= aGl()->framesPerChunk && loops < BUFF_SIZE / aGl()->framesPerChunk) {
@@ -260,10 +279,8 @@ void TpitchFinder::detectingThread() {
           resetFinder();
     }
   }
-  if (!m_isOffline)
-    m_mutex.unlock();
 
-  if (m_thread->isRunning())
+  if (!m_isOffline && m_thread->isRunning())
     m_thread->quit();
 }
 
@@ -387,13 +404,13 @@ void TpitchFinder::resetFinder() {
       m_transforms->uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
-      qDebug() << "[TpitchFinder] reset channel";
+//       qDebug() << "[TpitchFinder] reset channel";
   }
 }
 
 
 void TpitchFinder::threadFinished() {
-  qDebug() << "[TpitchFinder] Thread finished";
+//  qDebug() << "[TpitchFinder] Thread finished";
 }
 
 
