@@ -24,6 +24,7 @@
   #include "tlistmenu.h"
   #include <tqtaudioin.h>
   #include <tmtr.h>
+  #include <tinitcorelib.h>
 #else
   #include <trtaudioin.h>
 #endif
@@ -91,7 +92,7 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
 	durationSpin = new QSpinBox(m_1_device);
 		durationSpin->setMinimum(10);
 		durationSpin->setMaximum(1000);
-		durationSpin->setSuffix("   "  + tr("[milliseconds]"));
+		durationSpin->setSuffix(QLatin1String("   ")  + tr("[milliseconds]"));
 		durationSpin->setSingleStep(50);
 		durationSpin->setValue(qRound(m_glParams->minDuration * 1000)); // minimum duration is stored in seconds but displayed in milliseconds
 		durationSpin->setStatusTip(tr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness."));
@@ -99,6 +100,9 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   volumeSlider = new TvolumeSlider(m_1_device);
     volumeSlider->setValue(m_glParams->minimalVol);
     volumeSlider->setStatusTip(tr("Minimum volume of a sound to be pitch-detected"));
+#if defined (Q_OS_ANDROID)
+    volumeSlider->setStyle(Tcore::androidStyle);
+#endif
 
   TintonationCombo *intoCombo = new TintonationCombo(m_1_device);
     m_intonationCombo = intoCombo->accuracyCombo;

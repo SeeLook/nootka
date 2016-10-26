@@ -43,6 +43,7 @@ TinTestWidget::TinTestWidget(QWidget* parent) :
   int maxWidgetW = qMin(Tmtr::fingerPixels() * 12, Tmtr::longScreenSide() - 6); // about 4"
 
   m_outVolSlider = new QSlider(Qt::Horizontal, this);
+    m_outVolSlider->setStyle(Tcore::androidStyle);
     m_outVolSlider->setRange(0, QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "maxStreamVolume"));
     m_outVolSlider->setValue(QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume"));
     m_outVolSlider->setFixedWidth(maxWidgetW);
@@ -82,6 +83,8 @@ TinTestWidget::TinTestWidget(QWidget* parent) :
   QString tuneText = TabstractSoundView::getStringsFreqText(Tcore::gl()->Gtune(), Tcore::gl()->A->a440diff);
   QString br = QStringLiteral("<br>");
   m_tuneLab = new QLabel(this);
+    labFont.setPixelSize(qRound(Aheight * 1.3));
+    m_tuneLab->setFont(labFont);
     m_tuneLab->setStyleSheet(labelsStyle);
     m_tuneLab->setAlignment(Qt::AlignCenter);
     m_tuneLab->setText(tuneText.replace(br, QString()).replace(QLatin1String("ALT_BR"), br));
@@ -92,18 +95,19 @@ TinTestWidget::TinTestWidget(QWidget* parent) :
     topButtLay->addStretch();
     topButtLay->addWidget(m_exitButt);
   auto labelsLay = new QHBoxLayout;
+    labelsLay->addStretch();
     labelsLay->addWidget(m_pitchLab);
     labelsLay->addWidget(m_freqLab);
+    labelsLay->addStretch();
   auto lay = new QVBoxLayout;
     lay->setAlignment(Qt::AlignCenter);
     lay->addLayout(topButtLay);
     lay->addStretch();
     lay->addWidget(m_outVolSlider, 0, Qt::AlignCenter);
     lay->addLayout(labelsLay);
-    lay->addSpacing(Tmtr::fingerPixels() / 4);
+    lay->addWidget(m_tuneLab, 0, Qt::AlignCenter);
     lay->addWidget(m_pitchView, 0, Qt::AlignCenter);
     lay->addStretch();
-    lay->addWidget(m_tuneLab, 0, Qt::AlignCenter);
 
   setLayout(lay);
 
