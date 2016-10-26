@@ -69,7 +69,7 @@ protected:
 
 private:
   TpitchView                *m_pitchView;
-  QLabel                    *m_pitchLab, *m_freqLab;
+  QLabel                    *m_pitchLab, *m_freqLab, *m_tuneLab;
   QPushButton               *m_sysVolButt, *m_exitButt;
   QSlider                   *m_outVolSlider;
 };

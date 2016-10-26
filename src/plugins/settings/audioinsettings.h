@@ -122,9 +122,7 @@ private:
       /** returns frequency of @param freq shifted by a440diff 
        * rounded to int */
   int getFreq(double freq);
-  
-  float offPitch(float pitch);
-	
+
       /** returns difference of @param freq related to 440 Hz in semitones */
   float getDiff(int freq);
 	

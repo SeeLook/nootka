@@ -549,37 +549,14 @@ void AudioInSettings::updateAudioDevList() {
 }
 
 
-float AudioInSettings::offPitch(float pitch) {
-  return pitch2freq(pitch + m_glParams->a440diff);
-}
-
-
 void AudioInSettings::getFreqStatusTip() {
-  QString freqTxt = "";
-  if (m_tune->stringNr() > 2) { // guitar
-    for (int i = 1; i <= m_tune->stringNr(); i++) {
-      freqTxt += QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz, ").arg(i).
-      arg((m_tune->str(i)).toRichText()).
-      arg(offPitch((float)m_tune->str(i).chromatic() + 47), 0, 'f', 1);
-      if (i % 2 == 0 && i < 6)
-          freqTxt += "<br>"; // two entries per line
-      else if (i % 3 == 0 && i < 6)
-          freqTxt += "ALT_BR"; // three entries per line
-    }
-  } else { // no guitar - C-major scale frequencies
-    for (int i = 1; i < 8; i++) {
-      freqTxt += QString("<b>%1</b> = %2 Hz, ").arg(Tnote(i, 1, 0).toRichText()).
-          arg(offPitch((float)Tnote(i, 1, 0).chromatic() + 47), 0, 'f', 1);
-      if (i % 2 == 0 && i < 7)
-          freqTxt += "<br>"; // three entries per line
-      else if (i % 3 == 0 && i < 7)
-          freqTxt += "ALT_BR"; // four entries per line
-    }
-  }
+  QString freqTxt = TabstractSoundView::getStringsFreqText(m_tune, m_glParams->a440diff);
+  QString br = QStringLiteral("<br>");
+  QString altBr = QStringLiteral("ALT_BR");
   QString freq2 = freqTxt;
-  freqLab->setStatusTip(tr("Frequency of detected note. You can use this for tuning.") + "<br>" +
-        freq2.replace("<br>", "").replace("ALT_BR", "<br>")); // three entries per line in status tip
-  tuneFreqlab->setText(freqTxt.replace("ALT_BR", "")); // two entries per line on the label
+  freqLab->setStatusTip(tr("Frequency of detected note. You can use this for tuning.") + br +
+        freq2.replace(br, QString()).replace(altBr, br)); // three entries per line in status tip
+  tuneFreqlab->setText(freqTxt.replace(altBr, QString())); // two entries per line on the label
 }
 
 

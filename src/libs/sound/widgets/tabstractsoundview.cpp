@@ -17,6 +17,8 @@
  ***************************************************************************/
 
 #include "tabstractsoundview.h"
+#include <music/ttune.h>
+#include <music/tnotestruct.h>
 #include <math.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qscreen.h>
@@ -29,6 +31,39 @@ QColor TabstractSoundView::totalColor = QColor(117, 21, 86); // brown
 QColor TabstractSoundView::disabledColor = Qt::gray;
 int    TabstractSoundView::m_tickWidth = 0;
 int    TabstractSoundView::m_tickGap = 0;
+
+
+/**
+ * It adds line break tag after every two entries
+ * and ALT_BR text after every three.
+ * This way it can be easily split into 
+ */
+QString TabstractSoundView::getStringsFreqText(Ttune* t, float pitch440Offset) {
+  QString freqTxt;
+  QString br = QStringLiteral("<br>");
+  QString altBr = QStringLiteral("ALT_BR");
+  if (t->stringNr() > 2) { // guitar
+    for (int i = 1; i <= t->stringNr(); i++) {
+      float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset);
+      freqTxt += QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz, ").arg(i).arg((t->str(i)).toRichText()).arg(offPitch, 0, 'f', 1);
+      if (i % 2 == 0 && i < 6)
+          freqTxt += br; // two entries per line
+      else if (i % 3 == 0 && i < 6)
+          freqTxt += altBr; // three entries per line
+    }
+  } else { // no guitar - C-major scale frequencies
+    for (int i = 1; i < 8; i++) {
+      float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset);
+      freqTxt += QString("<b>%1</b> = %2 Hz, ").arg(Tnote(i, 1, 0).toRichText()).arg(offPitch, 0, 'f', 1);
+      if (i % 2 == 0 && i < 7)
+          freqTxt += br; // three entries per line
+      else if (i % 3 == 0 && i < 7)
+          freqTxt += altBr; // four entries per line
+    }
+  }
+  return freqTxt;
+}
+
 
 
 TabstractSoundView::TabstractSoundView(QWidget* parent) :

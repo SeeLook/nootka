@@ -24,6 +24,8 @@
 #include <QtWidgets/qwidget.h>
 #include "nootkasoundglobal.h"
 
+class Ttune;
+
 
 class NOOTKASOUND_EXPORT TabstractSoundView : public QWidget {
 
@@ -39,6 +41,9 @@ public:
   virtual void setDisabled(bool isDisabled);
 
   virtual void setEnabled(bool isEnabled) { setDisabled(!isEnabled); }
+
+      /** Returns string with frequencies of every string in @p Ttune */
+  static QString getStringsFreqText(Ttune* t, float pitch440Offset);
 
 protected:
   virtual void resizeIt(int myHeight);
