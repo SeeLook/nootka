@@ -137,6 +137,10 @@ int main(int argc, char *argv[])
     qApp->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries
 #endif
 	} while (resetConfig);
+
+#if defined (Q_OS_ANDROID)
+  Tcore::androidStyle->deleteLater();
+#endif
   delete a;
 	return exitCode;
 }

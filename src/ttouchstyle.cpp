@@ -61,11 +61,11 @@ int TtouchStyle::styleHint(QStyle::StyleHint hint, const QStyleOption* option,
 int TtouchStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption* option, const QWidget* widget) const {
   switch (metric) {
   case PM_SmallIconSize:
-    return Tmtr::fingerPixels() * 0.7; // small icon size
+    return qRound(Tmtr::fingerPixels() * 0.7); // small icon size
 
   case PM_IndicatorHeight: // check box size
   case PM_IndicatorWidth:
-    return Tmtr::fingerPixels() * 0.5;
+    return qRound(Tmtr::fingerPixels() * 0.5);
   case PM_LayoutLeftMargin:
   case PM_LayoutRightMargin:
   case PM_LayoutBottomMargin:
@@ -77,7 +77,7 @@ int TtouchStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption* opt
 
   case PM_ExclusiveIndicatorHeight: // radio button ellipse size
   case PM_ExclusiveIndicatorWidth:
-    return Tmtr::fingerPixels() * 0.4;
+    return qRound(Tmtr::fingerPixels() * 0.4);
 
 //  case PM_MenuTearoffHeight:
 //    return Tmtr::fingerPixels();

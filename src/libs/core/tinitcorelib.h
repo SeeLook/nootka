@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,8 +22,10 @@
 #include "nootkacoreglobal.h"
 #include "tglobals.h"
 
+
 class QTranslator;
 class QApplication;
+class QStyle;
 
 /** 
  * Internal instance of Tglobals pointer used by in initCoreLibrary. *
@@ -36,6 +38,9 @@ class NOOTKACORE_EXPORT Tcore
 	
 public:
 	static Tglobals* gl() { return m_gl; } /** static global pointer to Tglobals */
+#if defined (Q_OS_ANDROID)
+  static QStyle* androidStyle;
+#endif
 	
 protected:
 	static void setGlobals(Tglobals *g) { m_gl = g; }
