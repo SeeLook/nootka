@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,18 +19,15 @@
 
 #include "tintonationview.h"
 #include "tleavemenu.h"
-#include <QPainter>
-#include <QMouseEvent>
-#include <QVBoxLayout>
-#include <QComboBox>
-#include <QLabel>
-#include <QDebug>
-#include <QTimer>
+#include <QtGui/qpainter.h>
+#include <QtGui/qevent.h>
+#include <QtWidgets/qboxlayout.h>
+#include <QtWidgets/qcombobox.h>
+#include <QtWidgets/qlabel.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qtimer.h>
 #include <math.h>
 
-
-#define TICK_WIDTH (2)
-#define TICK_GAP (3)
 
 /*static*/
 float TintonationView::getThreshold(TintonationView::Eaccuracy acc) {
@@ -149,11 +146,11 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 	QString nSymbol = (isEnabled() && m_accuracy != e_noCheck) ? "n" : "o";
 	if (m_entered) {
 		QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
-		painter.setBrush(m_overNote ? palette().highlightedText().color().darker(95) : palette().highlight().color());
+		painter.setBrush(m_overNote ? qApp->palette().highlightedText().color().darker(95) : qApp->palette().highlight().color());
 		painter.drawRoundedRect((width() - nRect.width() * 2) / 2, 0, nRect.width() * 2, height(), 50, 50, Qt::RelativeSize);
 	}
 	if (m_entered)
-			painter.setPen(m_overNote ? palette().highlight().color() : palette().highlightedText().color());
+			painter.setPen(m_overNote ? qApp->palette().highlight().color() : qApp->palette().highlightedText().color());
   else if (m_pitchDiff == 0.0)
 			painter.setPen(m_enableAccurChange ? tc : disabledColor);
   else
@@ -174,12 +171,12 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 					leftThickColor = thickColor; rightThickColor = tc;
 			} else {
 					leftThickColor = tc; rightThickColor = thickColor; }
-			int xx = m_noteX - ((i + 1) * (TICK_GAP + TICK_WIDTH));
+			int xx = m_noteX - ((i + 1) * (tickGap() + tickWidth()));
 			float yy = (float)i * m_hiTickStep + 1.0f;
-			painter.setPen(QPen(leftThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
+			painter.setPen(QPen(leftThickColor, tickWidth(), Qt::SolidLine, Qt::RoundCap));
 			painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
-			painter.setPen(QPen(rightThickColor, TICK_WIDTH, Qt::SolidLine, Qt::RoundCap));
-			xx = (width() - m_noteX) + ((i + 1) * (TICK_GAP + TICK_WIDTH)) - TICK_WIDTH;
+			painter.setPen(QPen(rightThickColor, tickWidth(), Qt::SolidLine, Qt::RoundCap));
+			xx = (width() - m_noteX) + ((i + 1) * (tickGap() + tickWidth())) - tickWidth();
 			painter.drawLine(QLineF(xx, (height() - yy) / 2, xx, height() - (height() - yy) / 2));
   }
 }
@@ -188,7 +185,7 @@ void TintonationView::paintEvent(QPaintEvent* ) {
 void TintonationView::resizeEvent(QResizeEvent* ) {
   resizeIt(height());
   m_noteX = (width() - noteBound.width() * 2) / 2;
-  m_ticksCount = (m_noteX / (TICK_WIDTH + TICK_GAP));
+  m_ticksCount = (m_noteX / (tickWidth() + tickGap()));
   m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
@@ -215,7 +212,6 @@ void TintonationView::mousePressEvent(QMouseEvent* e) {
 			if (m_accuracy == Eaccuracy(i))
 				a->setChecked(true);
 		}
-// 		QAction *ia = menu.exec(QPoint(e->globalPos().x() - menu.sizeHint().width() / 2, e->globalPos().y() + (height() - e->y())));
     QAction *ia = menu.exec(QPoint(QCursor::pos()));
 		if (ia){
 			setAccuracy(ia->data().toInt());

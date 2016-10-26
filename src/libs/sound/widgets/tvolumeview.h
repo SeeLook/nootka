@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -73,6 +73,8 @@ private:
 	bool 						m_drawKnob, m_leftButton;
 	bool						m_paused, m_activePause;
 	bool						m_overNote, m_drawPaused;
+  QFont           m_fontOfMinVol;
+  int             m_widthOfMinVol;
 };
 
 #endif // TVOLUMEVIEW_H

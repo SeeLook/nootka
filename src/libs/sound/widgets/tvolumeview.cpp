@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,13 +24,6 @@
 #include <QApplication>
 #include <QDebug>
 
-#define TICK_WIDTH (2)
-#define TICK_GAP (3)
-#if defined (Q_OS_WIN)
-  #define Y_OFF (-6)
-#else
-  #define Y_OFF (-1)
-#endif
 
 
 TvolumeView::TvolumeView(QWidget* parent) :
@@ -43,7 +36,7 @@ TvolumeView::TvolumeView(QWidget* parent) :
   m_overNote(false), m_drawPaused(false)
 {
 	setMouseTracking(true);
-  setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + "<br>" +
+  setStatusTip(tr("Shows volume level of input sound and indicates when the note was pitch-detected.") + QLatin1String("<br>") +
         tr("Drag a knob to adjust minimum input volume."));
   setMinimumSize(200, 17);
   resizeEvent(0);
@@ -90,40 +83,44 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
       m_pitchColor.setAlpha(m_alpha);
       painter.setBrush(QBrush(m_pitchColor));
       noteColor = palette().highlightedText().color();
-			painter.drawRoundedRect(painter.viewport(), 4, 4);
+      painter.drawRoundedRect(painter.viewport(), 4, 4);
   }
   painter.setFont(nootFont);
-  QString nSymbol = (m_activePause && m_paused) ? "o" : "n";
-	QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
-	if (m_drawPaused) { // Stop/start highlight
-		painter.setBrush(m_overNote ? palette().highlightedText().color().darker(95) : palette().highlight().color());
-		painter.drawRoundedRect(width() - nRect.width() * 1.8, 0, nRect.width() * 1.8, height(), 50, 50, Qt::RelativeSize);
+  QString nSymbol = (m_activePause && m_paused) ? QStringLiteral("o") : QStringLiteral("n");
+  QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
+  if (m_drawPaused) { // Stop/start highlight
+    painter.setBrush(m_overNote ? qApp->palette().highlightedText().color().darker(95) : qApp->palette().highlight().color());
+    painter.drawRoundedRect(width() - nRect.width() * 1.5, 0, nRect.width() * 1.5, height(), 10, 10, Qt::RelativeSize);
   }
-	if (m_drawPaused) // and note symbol
-		painter.setPen(m_overNote ? palette().highlight().color() : palette().highlightedText().color());
+  if (m_drawPaused) // and note symbol
+    painter.setPen(m_overNote ? qApp->palette().highlight().color() : qApp->palette().highlightedText().color());
   else if (m_alpha)
-		painter.setPen(noteColor);
+    painter.setPen(noteColor);
   else
-		painter.setPen(tc);
-	painter.drawText(0, 0, width() - nRect.width() * 0.3, height(), Qt::AlignRight, nSymbol);
+    painter.setPen(tc);
+  painter.drawText(0, 0, width(), height(), Qt::AlignRight, nSymbol);
 
-  qreal tickWidth = TICK_WIDTH - 1.0;
+  painter.setPen(m_activePause && m_paused ? disabledColor : tc);
+  painter.setFont(m_fontOfMinVol);
+  painter.drawText(0, 0, width(), height(), Qt::AlignLeft | Qt::AlignVCenter, QString("%1%").arg(qRound(m_minVolume * 100)));
+
+  qreal tickW = tickWidth() / 2.0;
   for (int i = 1; i < m_ticksCount - 2; i++) { // volume ticks
     if (i >= m_ticksCount * m_minVolume)
-      tickWidth = TICK_WIDTH;
-		if (m_activePause && m_paused)
-			painter.setPen(QPen(disabledColor, tickWidth, Qt::SolidLine, Qt::RoundCap));
+      tickW = tickWidth();
+    if (m_activePause && m_paused)
+      painter.setPen(QPen(disabledColor, tickW, Qt::SolidLine, Qt::RoundCap));
     else if (m_volume * m_ticksCount >= i)
-      painter.setPen(QPen(m_tickColors[i], tickWidth, Qt::SolidLine, Qt::RoundCap));
+      painter.setPen(QPen(m_tickColors[i], tickW, Qt::SolidLine, Qt::RoundCap));
     else 
-      painter.setPen(QPen(tc, tickWidth, Qt::SolidLine, Qt::RoundCap));
-		float ticH = (((float)i * m_hiTickStep + 1.0));
-    painter.drawLine(QLineF((i + 1) * (TICK_GAP + TICK_WIDTH) - TICK_WIDTH, (height() - ticH) / 2,
-                            (i + 1) * (TICK_GAP + TICK_WIDTH) - TICK_WIDTH, height() - (height() - ticH) / 2));
+      painter.setPen(QPen(tc, tickW, Qt::SolidLine, Qt::RoundCap));
+    qreal ticH = ((static_cast<qreal>(i) * m_hiTickStep + 1.0));
+    painter.drawLine(QLineF(m_widthOfMinVol + (i + 1) * (tickGap() + tickWidth()) - tickWidth(), (height() - ticH) / 2.0,
+                            m_widthOfMinVol + (i + 1) * (tickGap() + tickWidth()) - tickWidth(), height() - (height() - ticH) / 2));
   }
   if (m_drawKnob) { // volume knob
 		painter.setPen(Qt::NoPen);
-		QColor knobBrush = palette().highlight().color(), shade = palette().text().color();
+		QColor knobBrush = qApp->palette().highlight().color(), shade = qApp->palette().text().color();
 		if (m_leftButton)
 			knobBrush = knobBrush.lighter();
 		shade.setAlpha(150);
@@ -136,7 +133,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 		lg.setColorAt(0.8, knobBrush.darker());
 		painter.setBrush(QBrush(lg));
 		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.05, height() * 0.9, height() * 0.9));
-		painter.setBrush(palette().highlightedText());
+		painter.setBrush(qApp->palette().highlightedText());
 		painter.setPen(QPen(shade, 0.7));
 		painter.drawEllipse(QRectF(xPos - height() * 0.27, height() * 0.27, height() * 0.45, height() * 0.45));
   }
@@ -145,9 +142,11 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 
 void TvolumeView::resizeEvent(QResizeEvent* ) {
   resizeIt(height());
-//   qDebug() << "TvolumeView" << height() << nootFont;
+  m_fontOfMinVol = font();
+  m_fontOfMinVol.setPixelSize(height() / 2); // nice looking size for min value
+  m_widthOfMinVol = QFontMetrics(m_fontOfMinVol).boundingRect(QStringLiteral("000")).width();
   m_noteWidth = noteBound.width();
-  m_ticksCount = (width() - m_noteWidth) / (TICK_WIDTH + TICK_GAP);
+  m_ticksCount = (width() - m_noteWidth - qRound(height() * 0.7)) / (tickWidth() + tickGap());
   m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
   m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
@@ -192,16 +191,14 @@ void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
     if (!isPaused())
       m_drawKnob = true;
     if (m_leftButton) {
-      float minV = (float)event->pos().x() / (float)(width() - m_noteWidth);
-      if (minV >= 0.1 && minV < 0.81) {
+      float minV = static_cast<float>(event->pos().x()) / static_cast<float>(width() - m_noteWidth);
+      if (minV > 0.09 && minV < 0.81) {
         m_minVolume = minV;
-        setToolTip(QString("%1 %").arg((int)(m_minVolume * 100)));
-        QToolTip::showText(QCursor::pos(), toolTip());
         emit minimalVolume(m_minVolume);
       }
     }
   }
-	update();
+  update();
 }
 
 
