@@ -79,6 +79,13 @@ TinTestWidget::TinTestWidget(QWidget* parent) :
   m_exitButt = new QPushButton(QIcon(QStringLiteral(":/mobile/exit.png")), QString(), this);
     m_exitButt->setIconSize(QSize(Tmtr::fingerPixels(), Tmtr::fingerPixels()));
 
+  QString tuneText = TabstractSoundView::getStringsFreqText(Tcore::gl()->Gtune(), Tcore::gl()->A->a440diff);
+  QString br = QStringLiteral("<br>");
+  m_tuneLab = new QLabel(this);
+    m_tuneLab->setStyleSheet(labelsStyle);
+    m_tuneLab->setAlignment(Qt::AlignCenter);
+    m_tuneLab->setText(tuneText.replace(br, QString()).replace(QLatin1String("ALT_BR"), br));
+
   // layout
   auto topButtLay = new QHBoxLayout;
     topButtLay->addWidget(m_sysVolButt);
@@ -96,6 +103,7 @@ TinTestWidget::TinTestWidget(QWidget* parent) :
     lay->addSpacing(Tmtr::fingerPixels() / 4);
     lay->addWidget(m_pitchView, 0, Qt::AlignCenter);
     lay->addStretch();
+    lay->addWidget(m_tuneLab, 0, Qt::AlignCenter);
 
   setLayout(lay);
 
