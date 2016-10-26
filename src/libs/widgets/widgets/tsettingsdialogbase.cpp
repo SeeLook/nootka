@@ -25,6 +25,7 @@
   #include <tmenuwidget.h>
   #include <graphics/tdropshadoweffect.h>
   #include <ttouchmenu.h>
+  #include <tinitcorelib.h>
 #endif
 #include <QtWidgets/QtWidgets>
 
@@ -214,17 +215,19 @@ void TsettingsDialogBase::closeEvent(QCloseEvent *event) {
 
 
 void TsettingsDialogBase::markChanges(QWidget *container) {
-  foreach(QCheckBox *chB, container->findChildren<QCheckBox*>())
+  for(QCheckBox *chB : container->findChildren<QCheckBox*>())
     connect(chB, &QCheckBox::clicked, menuButton, &TmenuWidget::animate);
-  foreach(QGroupBox *grB, container->findChildren<QGroupBox*>())
+  for(QGroupBox *grB : container->findChildren<QGroupBox*>())
     connect(grB, &QGroupBox::clicked, menuButton, &TmenuWidget::animate);
-  foreach(QPushButton *butt, container->findChildren<QPushButton*>())
+  for(QPushButton *butt : container->findChildren<QPushButton*>())
     connect(butt, &QPushButton::clicked, menuButton, &TmenuWidget::animate);
-  foreach(QRadioButton *radio, container->findChildren<QRadioButton*>())
+  for(QRadioButton *radio : container->findChildren<QRadioButton*>()) {
     connect(radio, &QCheckBox::clicked, menuButton, &TmenuWidget::animate);
-  foreach(QComboBox *combo, container->findChildren<QComboBox*>())
+    radio->setStyle(Tcore::androidStyle);
+  }
+  for(QComboBox *combo : container->findChildren<QComboBox*>())
     connect(combo, SIGNAL(currentIndexChanged(int)), menuButton, SLOT(animate()));
-  foreach(QSpinBox *spin, container->findChildren<QSpinBox*>())
+  for(QSpinBox *spin : container->findChildren<QSpinBox*>())
     connect(spin, SIGNAL(valueChanged(int)), menuButton, SLOT(animate()));
 }
 

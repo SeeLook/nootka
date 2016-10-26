@@ -32,17 +32,27 @@
 #include <QtCore/qdir.h>
 #if defined (Q_OS_ANDROID)
   #include "Android/tandroid.h"
+  #include <QtWidgets/qstylefactory.h>
 #endif
 
 
 Tglobals* Tcore::m_gl = 0;
 
+#if defined (Q_OS_ANDROID)
+  QStyle* Tcore::androidStyle = nullptr;
+#endif
 
 bool initCoreLibrary() {
 	if (Tcore::gl() == 0) {
 		qDebug() << "Tglobals was not created. Construct it first!";
     return false;
 	}
+
+#if defined (Q_OS_ANDROID)
+  if (Tcore::androidStyle == nullptr)
+    Tcore::androidStyle = QStyleFactory::create(QStringLiteral("android"));
+#endif
+
 	Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
 	TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
