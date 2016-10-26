@@ -1,3 +1,6 @@
+    ANDROID
+     - added quick volume settings and pitch preview invoked with vol keys
+
 1.2A.7 rc3
     ANDROID
      - handle pinch gesture to zoom score in/out
