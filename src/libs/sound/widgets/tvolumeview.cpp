@@ -93,7 +93,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
   QRect nRect = painter.fontMetrics().boundingRect(nSymbol);
   if (m_drawPaused) { // Stop/start highlight
     painter.setBrush(m_overNote ? qApp->palette().highlightedText().color().darker(95) : qApp->palette().highlight().color());
-    painter.drawRoundedRect(width() - nRect.width() * 1.5, 0, nRect.width() * 1.5, height(), 10, 10, Qt::RelativeSize);
+    painter.drawRoundedRect(width() - nRect.width() * 1.5, 0, nRect.width() * 1.5, height(), 30, 30, Qt::RelativeSize);
   }
   if (m_drawPaused) // and note symbol
     painter.setPen(m_overNote ? qApp->palette().highlight().color() : qApp->palette().highlightedText().color());
@@ -129,7 +129,7 @@ void TvolumeView::paintEvent(QPaintEvent* ) {
 			knobBrush = knobBrush.lighter();
 		shade.setAlpha(150);
 		painter.setBrush(shade);
-		float xPos = (float)(width() - m_noteWidth) * m_minVolume; 
+		qreal xPos = (static_cast<qreal>(width()) - m_noteWidth + height() * 0.7) * m_minVolume; 
 		painter.drawEllipse(QRectF(xPos - height() * 0.5, height() * 0.1, height() * 0.9, height() * 0.9)); // shade
 		QLinearGradient lg(xPos, 0, xPos, height());
 		lg.setColorAt(0, knobBrush);
@@ -200,7 +200,7 @@ void TvolumeView::mouseMoveEvent(QMouseEvent* event) {
       m_drawKnob = true;
     if (m_leftButton) {
       float minV = static_cast<float>(event->pos().x()) / static_cast<float>(width() - m_noteWidth);
-      if (minV > 0.09 && minV < 0.81) {
+      if (minV > 0.1 && minV < 0.8) {
         m_minVolume = minV;
         emit minimalVolume(m_minVolume);
       }
