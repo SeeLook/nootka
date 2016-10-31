@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QColor>
 
-#define CLIP_TIME (30) // every move per 30 ms
+#define FADE_CLIP_TIME (50) // every move per 50 ms
 
 class QGraphicsSimpleTextItem;
 
@@ -38,7 +38,7 @@ public:
 	
 	TcrossFadeTextAnim(QGraphicsSimpleTextItem* textItem, QObject *parent = 0);
 	
-	void setDuration(int duration) { m_duration = duration; m_maxStep = m_duration / CLIP_TIME; }
+	void setDuration(int duration) { m_duration = duration; m_maxStep = m_duration / FADE_CLIP_TIME; }
 	
 signals:
 		void crossFadingFinished();
