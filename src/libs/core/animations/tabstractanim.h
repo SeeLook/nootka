@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <QGraphicsItem>
 
-#define CLIP_TIME (30) // every move per 30 ms
+#define CLIP_TIME (50) // every move per 50 ms
 
 
 /** 

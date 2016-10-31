@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,7 +56,7 @@ void TcrossFadeTextAnim::crossFadingSlot() {
 			setItemAlpha((m_currStep - (m_maxStep / 2)) * (m_alpha / (m_maxStep / 2)));
 // 				easingC.valueForProgress(((qreal)m_currStep - (m_maxStep / 2.0)) / (m_maxStep / 2.0)));
 		}
-		QTimer::singleShot(CLIP_TIME, this, SLOT(crossFadingSlot()));
+		QTimer::singleShot(FADE_CLIP_TIME, this, SLOT(crossFadingSlot()));
 	} else {
 			setItemAlpha(m_alpha);
 			emit crossFadingFinished();
