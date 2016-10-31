@@ -19,6 +19,7 @@
 #include "tmainscore.h"
 #include "tcornerproxy.h"
 #include "tscoreactions.h"
+#include "gui/tbgpixmap.h"
 #include <score/tscorestaff.h>
 #include <score/tscorenote.h>
 #include <score/tscorekeysignature.h>
@@ -41,7 +42,7 @@
 
 
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
-
+#define ROUNDNESS (10)
 
 
 TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
@@ -84,6 +85,10 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	createNoteName();
 	isExamExecuting(false);
   setNote(0, Tnote()); // To display fake empty note properly
+//   setStyleSheet(QString());
+//   setStyleSheet(QLatin1String("border-radius: 10px;")); // reset style sheet - we are using paint event here
+
+  setBGcolor(palette().base().color());
 }
 
 
@@ -624,6 +629,34 @@ void TmainScore::deleteNoteName(int id) {
 			noteFromId(id)->removeNoteName();
 }
 
+
+void TmainScore::setBGcolor(const QColor& bgColor) {
+  if (m_bgColor != bgColor) {
+    m_bgColor = bgColor;
+    m_bgColor.setAlpha(230);
+  }
+}
+
+
+void TmainScore::paintEvent(QPaintEvent* event) {
+  QPainter painter(viewport());
+  if (!BG_PIX->isNull() && event->rect().bottomRight().x() >= BG_PIX->globalPos().x()) {
+      painter.drawPixmap(BG_PIX->globalPos().x() , BG_PIX->globalPos().y() - y(), *BG_PIX);
+  }
+
+  painter.setBrush(m_bgColor);
+  painter.setPen(Qt::NoPen);
+  if (event->rect().x() <= ROUNDNESS || painter.viewport().width() - (event->rect().x() + event->rect().width()) <= ROUNDNESS)
+        // repaint entire background only if it contains margins with roundness
+      painter.drawRoundedRect(0, 0, painter.viewport().width(), painter.viewport().height(), 10, 10);
+  else // otherwise repaint only fragment
+      painter.drawRect(event->rect());
+
+  QGraphicsView::paintEvent(event);
+}
+
+
+
 //####################################################################################################
 //########################################## PUBLIC SLOTS ############################################
 //####################################################################################################
@@ -857,6 +890,9 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
       return;
 	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size
+//   setBgPixmapPos(m_bgPixPos);
+//   QPointF zero = mapToScene(QPoint(0, 0));
+//   m_bgItem->setRect(zero.x(), zero.y(), width(), height());
 }
 
 

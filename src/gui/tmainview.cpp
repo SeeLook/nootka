@@ -19,10 +19,32 @@
 #include "tmainview.h"
 #include "ttoolbar.h"
 #include "tmenu.h"
+#include "tbgpixmap.h"
 #include <animations/tcombinedanim.h>
 #include <tlayoutparams.h>
 #include <notename/tnotename.h>
 #include <QtWidgets>
+
+
+
+class TnameBgWidget : public QWidget
+{
+public:
+  explicit TnameBgWidget(QWidget* parent = 0) : QWidget(parent) {}
+
+protected:
+  virtual void paintEvent(QPaintEvent* event) {
+    if (!BG_PIX->isNull() && BG_PIX->rightHandedGuitar() && event->rect().bottomRight().x() >= BG_PIX->globalPos().x() - x()
+                          && event->rect().bottomRight().y() >= BG_PIX->globalPos().y() - y()) {
+      QPainter painter(this);
+      painter.drawPixmap(BG_PIX->globalPos().x() - x() + 2, BG_PIX->globalPos().y() - y(), *BG_PIX);
+    }
+  }
+};
+
+
+static TnameBgWidget *m_nameBgWidget = 0;
+static QSpacerItem *m_nameSpacer = 0;
 
 
 TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW, QWidget* pitchW,
@@ -44,7 +66,6 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setFrameShape(QFrame::NoFrame);
 	setObjectName("TmainView");
-	setStyleSheet(("QGraphicsView#TmainView { background: transparent }"));
 	
 	toolW->installEventFilter(this);
 	pitchW->installEventFilter(this);
@@ -52,18 +73,19 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 	toolW->setObjectName("toolBar");
 	
 	m_mainLay = new QBoxLayout(QBoxLayout::TopToBottom);
-		m_mainLay->setContentsMargins(2, 2, 2, 2);
+    m_mainLay->setContentsMargins(2, 0, 2, 0);
+    m_mainLay->setSpacing(0);
+// 		m_mainLay->setContentsMargins(2, 2, 2, 2);
 		m_statAndPitchLay = new QBoxLayout(QBoxLayout::LeftToRight);
 		  m_statAndPitchLay->addWidget(m_status);
 		  m_statAndPitchLay->addWidget(m_pitch);
 	m_mainLay->addLayout(m_statAndPitchLay);
     m_scoreAndNameLay = new QBoxLayout(QBoxLayout::LeftToRight);
 			m_scoreAndNameLay->addWidget(m_score);
+    m_mainLay->addSpacing(2);
 		m_mainLay->addLayout(m_scoreAndNameLay);
 		m_mainLay->addWidget(m_guitar);
 	   m_container = new QWidget;
-	   m_container->setObjectName("proxyWidget");
-	   m_container->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
 	   m_container->setLayout(m_mainLay);
 	m_proxy = scene()->addWidget(m_container);
 	m_isAutoHide = !m_layParams->toolBarAutoHide; // revert to activate it first time
@@ -76,16 +98,21 @@ TmainView::TmainView(TlayoutParams* layParams, QWidget* toolW, QWidget* statLabW
 
 void TmainView::addNoteName() {
 	if (!m_nameLay) {
-    m_mainLay->setContentsMargins(7, 2, 7, 2);
 		m_name->installEventFilter(this);
 		m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 		m_name->setParent(0);
 		m_name->enableArrows(false);
+      m_nameBgWidget = new TnameBgWidget(m_container);
 			m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
+        m_nameLay->setContentsMargins(0, 0, 0, 0);
 				m_nameLay->addStretch();
 				m_nameLay->addWidget(m_name);
 				m_nameLay->addStretch();
-			m_scoreAndNameLay->addLayout(m_nameLay);
+      m_nameBgWidget->setLayout(m_nameLay);
+      m_nameBgWidget->setContentsMargins(0, 0, 0, 0);
+      m_nameSpacer = new QSpacerItem(5, 5);
+      m_scoreAndNameLay->addSpacerItem(m_nameSpacer);
+			m_scoreAndNameLay->addWidget(m_nameBgWidget);
 		m_name->show();
 	}
 }
@@ -94,11 +121,13 @@ void TmainView::addNoteName() {
 void TmainView::takeNoteName() {
 	if (m_nameLay) {
 		m_nameLay->removeWidget(m_name);
-		delete m_nameLay;
+    m_name->setParent(0);
+		delete m_nameBgWidget;
+    m_scoreAndNameLay->removeItem(m_nameSpacer);
+    delete m_nameSpacer;
 		m_nameLay = 0;
 		m_name->hide();
 		m_name->enableArrows(true);
-    m_mainLay->setContentsMargins(2, 2, 2, 2);
 	}
 }
 

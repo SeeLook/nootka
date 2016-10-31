@@ -67,7 +67,6 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
 	
-	setBGcolor(palette().base().color());
 	setEnabledDblAccid(false);
 	setAlignment(Qt::AlignLeft);
 	resizeEvent(0);
@@ -305,12 +304,8 @@ bool TsimpleScore::isPianoStaff() {
 
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
-//   if (bgColor == -1) {
-//     viewport()->setStyleSheet(Tcolor::bgTag(bgColor)); // it doesn't work under win
-//   } else {
-    bgColor.setAlpha(230);
-    viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
-//   }
+  bgColor.setAlpha(230);
+  viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
 }
 
 //##########################################################################################################

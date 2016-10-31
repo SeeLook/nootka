@@ -62,13 +62,6 @@ public:
   int posX12fret(); /** Returns x coordinate of 12th fret where guitar body starts. */
 
   QRect fbRect() { return m_fbRect; } /** Guitar fingerboard rectangle */
-  QRect* pickRect() { return m_pickRect; } /** Rectangle of guitar pickup or empty if none */
-
-      /** Sets Rectangle describing pickup image
-        * x() has to point its x coordinate in TfingerBoard measures. */
-  void setPickUpRect(const QRect& rect) {
-    m_pickRect->setRect(rect.x(), rect.y(), rect.width(), rect.height()); }
-
 
       /** Returns width of a string */
   qreal stringWidth(int realStr) { return m_strWidth[qBound(1, realStr, 6)]; }
@@ -95,6 +88,9 @@ public:
       /** Returns scene coordinates of given guitar position */
   QPointF fretToPos(TfingerPos &pos);
   QRectF fingerRect() const;
+
+      /** Calculates @p fbRect(), and frets sizes according to @p newSize */
+  void updateSize(const QSize& newSize);
 
 signals:
   void guitarClicked(const Tnote&);
@@ -150,7 +146,6 @@ private:
   TstrikedOutItem 					*m_strikeOut;
   TcombinedAnim							*m_animation;
   QGraphicsItem 						*m_movingItem; /** string line during animation */
-  QRect											*m_pickRect; /** Rectangle of guitar pickup or empty if none */
 
 private:
   void paintFinger(QGraphicsEllipseItem *f, char strNr, char fretNr);

@@ -28,6 +28,7 @@
 #include "gui/tmainview.h"
 #include "gui/ttoolbar.h"
 #include "gui/tmenu.h"
+#include "gui/tbgpixmap.h"
 #include <tglobals.h>
 #include <widgets/troundedlabel.h>
 #include <tscoreparams.h>
@@ -45,6 +46,8 @@
 
 extern Tglobals *gl;
 extern bool resetConfig;
+
+static TbgPixmap *m_bgPix;
 
 
 /** Converts given note to key signature accidentals or/and preferred accidental */
@@ -77,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_updaterPlugin(0)
 {
   setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
+  m_bgPix = new TbgPixmap;
   
   //    setAttribute(Qt::WA_AcceptTouchEvents);
   
@@ -189,6 +193,7 @@ MainWindow::~MainWindow()
 	gl->config->endGroup();
 	Tmenu::deleteMenuHandler();
   Tmenu::setMainWidget(0);
+  delete m_bgPix;
 }
 
 //##########################################################################################
@@ -602,47 +607,11 @@ void MainWindow::updateSize(QSize newS) {
 		progress->resize(m_statFontSize);
 		examResults->setFontSize(m_statFontSize);
 	}
-	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
-		QPixmap rosePix(gl->path + "picts/pickup.png");
-		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
-		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
-		pickCoef = (newGuitH * 3.3) / 535;
-		int xPic = (newS.width()) * 0.8571428571 + 20 * pickCoef;;
-    int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
-		if (!gl->GisRightHanded)
-				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
-		guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
-	}
-	guitar->setFixedHeight((newS.height() - bar->height()) * 0.25);
-	
-	if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
-		QPixmap bgPix;
-		qreal guitH;
-		qreal ratio;
-		if (gl->instrument == e_classicalGuitar) {
-			guitar->setPickUpRect(QRect());
-			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
-			guitH = qRound(((double)guitar->height() / 350.0) * 856.0);
-			int guitW = centralWidget()->width() / 2;
-			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-		} else {
-			if (gl->instrument == e_bassGuitar)
-					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
-			else
-					bgPix = QPixmap(gl->path + "picts/body-electro.png");
-			guitH = guitar->height() * 2.9;
-			ratio = guitH / bgPix.height();
-			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
-		}
-	}
+
+  guitar->updateSize(QSize(innerWidget->width(), newGuitH));
+  BG_PIX->update(size(), (int)gl->instrument, newGuitH, guitar->posX12fret(), guitar->fbRect().right(), gl->GisRightHanded);
+  guitar->setFixedHeight(newGuitH);
 	setUpdatesEnabled(true);
-// 	fixPitchViewPos();
-	QTimer::singleShot(2, this, SLOT(update()));
-}
-
-
-void MainWindow::resizeEvent(QResizeEvent * event) {
-	Q_UNUSED(event)
 }
 
 
@@ -658,28 +627,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     } else
 				event->ignore();
 	}
-}
-
-
-void MainWindow::paintEvent(QPaintEvent* ) {
-		if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
-			QPainter painter(this);
-			if (!gl->GisRightHanded) {
-					painter.translate(width(), 0);
-					painter.scale(-1, 1);
-			}
-			if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
-				painter.drawPixmap(guitar->posX12fret() + 7, guitar->geometry().bottom() - m_bgPixmap.height(), m_bgPixmap);
-// 				painter.drawPixmap(width() - qRound(m_rosettePixmap.width() * 0.75), 
-// 												height() - ratio * 250 - (height() - guitar->geometry().bottom()), m_rosettePixmap );
-			} else {
-					qreal ratio = (guitar->height() * 3.3) / 535;
-					painter.drawPixmap(guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() , m_bgPixmap);
-          if (!gl->GisRightHanded)
-							painter.resetTransform();
-          painter.drawPixmap(guitar->pickRect()->x(), guitar->pickRect()->y(), m_rosettePixmap);
-      }
-		}
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -123,6 +123,8 @@ public:
 
   bool isCorrectAnimPending() { return m_correctNoteNr > -1; } /** @p TRUE when animation is in progress. */
 
+  void setBGcolor(const QColor& bgColor);
+
 signals:
   void noteChanged(int index, Tnote note);
 
@@ -139,7 +141,8 @@ public slots:
   void playScore(); /** Plays (actually emits noteChanged()) all notes starting from the selected one. */
 
 protected:
-virtual void resizeEvent(QResizeEvent* event);
+  virtual void resizeEvent(QResizeEvent* event);
+  virtual void paintEvent(QPaintEvent * event);
 
 protected slots:
   void strikeBlinkingFinished();
@@ -194,6 +197,7 @@ private:
   TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
   int 												 m_playedIndex;
   bool 												 m_emitExpertNoteClicked;
+  QColor                       m_bgColor;
 };
 
 #endif // TMAINSCORE_H

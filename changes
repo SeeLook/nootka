@@ -1,3 +1,9 @@
+1.2.8
+     - reduced paint operations, up to three times less CPU usage
+     - improved look of sound views, better fit to high DPI screens
+    BUGS FIXES
+     - other small fixes
+
 1.2.7
   Nootka says: I speak Spanish
      - translated to Spanish language

@@ -68,7 +68,7 @@ public slots:
 	void setStatusMessage(const QString& msg);
 	void openFile(QString runArg); // opens *.nel or *.noo file
 	void createSettingsDialog();
-	void openLevelCreator(QString levelFile = "");
+	void openLevelCreator(QString levelFile = QString());
 	void startExamSlot();
 	void aboutSlot();
 	void analyseSlot();
@@ -95,9 +95,7 @@ protected:
 	void updateSize(QSize newS); /** Updates position and sizes of the widgets. */
 	
 	void setSingleNoteMode(bool isSingle); /** Performs changes when insert mode differs then the set one. */
-	void resizeEvent(QResizeEvent *event);
 	void closeEvent(QCloseEvent *event);
-	void paintEvent(QPaintEvent *);
 #if defined (Q_OS_MAC)
   bool eventFilter(QObject *obj, QEvent *event);
 #endif
@@ -112,7 +110,7 @@ protected slots:
 				* It adjust ambitus to score possibilities if clef is differ than default
 				* or to instrument scale if clef backs to default */
 	void adjustAmbitus();
-	void updaterMessagesSlot(const QString& m = "");
+	void updaterMessagesSlot(const QString& m = QString());
 		
 private:
 	void prepareToExam();
@@ -124,7 +122,6 @@ private:
 			/** Keeps true when statusMesage is locked by temporary message and stops any status messages in this time.*/
 	bool 									m_lockStat;
 	QColor 								m_prevBg, m_curBG;
-	QPixmap 							m_bgPixmap, m_rosettePixmap;
 	int 									m_statFontSize;
 	bool 									m_levelCreatorExist; /** Keeps true when Dialog windows is opened, to avoid opening another file. */
 	Tlevel 						    m_level;

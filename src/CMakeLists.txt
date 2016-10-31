@@ -64,6 +64,7 @@ set(NOOTKA_SRC
 	gui/tmelman.cpp
 	gui/ttoolbar.cpp
 	gui/tmenu.cpp
+	gui/tbgpixmap.cpp
 	
 	guitar/tfingerboard.cpp
 	
