@@ -37,6 +37,7 @@ class TbgPixmap : public QPixmap
 public:
 
   TbgPixmap();
+  ~TbgPixmap();
 
   static TbgPixmap* instance() { return m_instance; }
 

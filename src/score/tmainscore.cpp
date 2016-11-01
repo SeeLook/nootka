@@ -85,8 +85,7 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	createNoteName();
 	isExamExecuting(false);
   setNote(0, Tnote()); // To display fake empty note properly
-//   setStyleSheet(QString());
-//   setStyleSheet(QLatin1String("border-radius: 10px;")); // reset style sheet - we are using paint event here
+  viewport()->setStyleSheet(QStringLiteral("border-radius: 10px;"));
 
   setBGcolor(palette().base().color());
 }
@@ -643,7 +642,6 @@ void TmainScore::paintEvent(QPaintEvent* event) {
   if (!BG_PIX->isNull() && event->rect().bottomRight().x() >= BG_PIX->globalPos().x()) {
       painter.drawPixmap(BG_PIX->globalPos().x() , BG_PIX->globalPos().y() - y(), *BG_PIX);
   }
-
   painter.setBrush(m_bgColor);
   painter.setPen(Qt::NoPen);
   if (event->rect().x() <= ROUNDNESS || painter.viewport().width() - (event->rect().x() + event->rect().width()) <= ROUNDNESS)
@@ -890,9 +888,6 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
       return;
 	setBarsIconSize();
 	performScordatureSet(); // To keep scordature size up to date with score size
-//   setBgPixmapPos(m_bgPixPos);
-//   QPointF zero = mapToScene(QPoint(0, 0));
-//   m_bgItem->setRect(zero.x(), zero.y(), width(), height());
 }
 
 

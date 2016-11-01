@@ -43,7 +43,6 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
 	m_selectReadOnly(false), m_isDisabled(false)
 {
 	setObjectName("m_mainScore");
-	setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
 	setContentsMargins(2, 2, 2, 2);
 	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	staff()->setZValue(11); // to be above next staves - TnoteControl requires it

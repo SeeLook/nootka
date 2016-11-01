@@ -36,6 +36,13 @@ TbgPixmap::TbgPixmap() :
   m_instance = this;
 }
 
+
+TbgPixmap::~TbgPixmap()
+{
+  m_instance = 0;
+}
+
+
 void TbgPixmap::update(const QSize& windowSize, int instr, int guitarHeight, int XIIfretXpos, int fingerboardX, bool rightHanded) {
   if (windowSize != m_windowSize || instr != m_instr || m_rightHanded != rightHanded) {
     Einstrument in = static_cast<Einstrument>(instr);
