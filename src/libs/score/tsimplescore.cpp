@@ -57,6 +57,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
   setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+  setFrameShape(QFrame::NoFrame);
   
   m_scene = new TscoreScene(this);
   connect(m_scene, SIGNAL(statusTip(QString)), this, SLOT(statusTipChanged(QString)));
@@ -67,8 +68,7 @@ TsimpleScore::TsimpleScore(int notesNumber, QWidget* parent) :
 	m_clefType = m_staff->scoreClef()->clef().type();
 	connect(m_staff, SIGNAL(noteChanged(int)), this, SLOT(noteWasClicked(int)));
 	connect(m_staff, SIGNAL(clefChanged(Tclef)), this, SLOT(onClefChanged(Tclef)));
-	
-	setBGcolor(palette().base().color());
+
 	setEnabledDblAccid(false);
 	setAlignment(Qt::AlignLeft);
 	resizeEvent(0);
@@ -297,13 +297,8 @@ bool TsimpleScore::isPianoStaff() {
 
 
 void TsimpleScore::setBGcolor(QColor bgColor) {
-//   if (bgColor == -1) {
-//     viewport()->setStyleSheet(Tcolor::bgTag(bgColor)); // it doesn't work under win
-//   } else {
-    bgColor.setAlpha(230);
-//     viewport()->setStyleSheet(QString("border: 1px solid palette(Text); border-radius: 10px; %1;").arg(Tcolor::bgTag(bgColor)));
+  bgColor.setAlpha(230);
   viewport()->setStyleSheet(Tcolor::bgTag(bgColor));
-//   }
 }
 
 //##########################################################################################################

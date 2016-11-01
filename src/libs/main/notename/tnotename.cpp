@@ -57,7 +57,7 @@ TnoteName::TnoteName(QWidget *parent) :
 	setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
 	setObjectName(QStringLiteral("TnoteName"));
-	setStyleSheet(QStringLiteral("QWidget#TnoteName {background: transparent;}"));
+// 	setStyleSheet(QStringLiteral("QWidget#TnoteName {background: transparent;}"));
 
 // NAME LABEL
 	QVBoxLayout *mainLay = new QVBoxLayout();

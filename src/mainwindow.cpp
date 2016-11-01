@@ -24,6 +24,7 @@
 #include <gui/ttoolbar.h>
 #include <gui/tmenu.h>
 #include <gui/tmelman.h>
+#include <gui/tbgpixmap.h>
 #include <exam/tprogresswidget.h>
 #include <exam/texamview.h>
 #include <tglobals.h>
@@ -46,6 +47,8 @@
 
 extern Tglobals *gl;
 extern bool resetConfig;
+
+static TbgPixmap *m_bgPix;
 
 
 /** Converts given note to key signature accidentals or/and preferred accidental */
@@ -99,6 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
   setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
   gl->config->endGroup();
 #endif
+  m_bgPix = new TbgPixmap;
   if (gl->isFirstRun) {
       TpluginsLoader *wizardLoader = new TpluginsLoader();
       if (wizardLoader->load(TpluginsLoader::e_wizard)) {
@@ -202,6 +206,7 @@ MainWindow::~MainWindow()
 #endif
   Tmenu::deleteMenuHandler();
   Tmenu::setMainWidget(0);
+  delete m_bgPix;
 }
 
 //##########################################################################################
@@ -618,43 +623,15 @@ void MainWindow::updateSize(QSize newS) {
     m_examResults->setFontSize(m_statFontSize);
     m_progress->resize(m_examResults->font().pointSize());
   }
-	int newGuitH = (newS.height() - m_bar->height()) * 0.25;
-	if (gl->instrument == e_electricGuitar || gl->instrument == e_bassGuitar) {
-		QPixmap rosePix(gl->path + "picts/pickup.png");
-		qreal pickCoef = ((newGuitH * 2.9) / 614.0) * 0.6;
-		m_rosettePixmap = rosePix.scaled(rosePix.width() * pickCoef, rosePix.height() * pickCoef, Qt::KeepAspectRatio);
-		pickCoef = (newGuitH * 3.3) / 535;
-		int xPic = (newS.width()) * 0.8571428571 + 20 * pickCoef;;
-    int yPic = (newS.height() - newGuitH) - 30 * pickCoef;
-		if (!gl->GisRightHanded)
-				xPic = newS.width() - xPic - m_rosettePixmap.width(); // reversed
-		m_guitar->setPickUpRect(QRect(QPoint(xPic, yPic), m_rosettePixmap.size()));
-	}
 #if defined (Q_OS_ANDROID)
-  m_guitar->setFixedHeight(newS.height() * 0.25);
+  int newGuitH = newS.height() / 4;
 #else
-  m_guitar->setFixedHeight(newGuitH);
+	int newGuitH = (newS.height() - m_bar->height()) / 4;
 #endif
-	if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
-		QPixmap bgPix;
-		qreal guitH;
-		qreal ratio;
-		if (gl->instrument == e_classicalGuitar) {
-			m_guitar->setPickUpRect(QRect());
-			bgPix = QPixmap(gl->path + "picts/body.png"); // size 800x535
-			guitH = qRound(((double)m_guitar->height() / 350.0) * 856.0);
-			int guitW = centralWidget()->width() / 2;
-			m_bgPixmap = bgPix.scaled(guitW, guitH, Qt::IgnoreAspectRatio);
-		} else {
-			if (gl->instrument == e_bassGuitar)
-					bgPix = QPixmap(gl->path + "picts/body-bass.png"); // size 
-			else
-					bgPix = QPixmap(gl->path + "picts/body-electro.png");
-			guitH = m_guitar->height() * 2.9;
-			ratio = guitH / bgPix.height();
-			m_bgPixmap = bgPix.scaled(qRound(bgPix.width() * ratio), guitH, Qt::KeepAspectRatio);
-		}
-	}
+
+  m_guitar->updateSize(QSize(m_innerWidget->width(), newGuitH));
+  BG_PIX->update(size(), (int)gl->instrument, newGuitH, m_guitar->posX12fret(), m_guitar->fbRect().right(), gl->GisRightHanded);
+  m_guitar->setFixedHeight(newGuitH);
 	setUpdatesEnabled(true);
 }
 
@@ -682,26 +659,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 //      event->accept();
     else
         event->ignore();
-  }
-}
-
-
-void MainWindow::paintEvent(QPaintEvent* ) {
-  if (gl->instrument != e_noInstrument && gl->L->guitarEnabled) {
-    QPainter painter(this);
-    if (!gl->GisRightHanded) {
-      painter.translate(width(), 0);
-      painter.scale(-1, 1);
-    }
-    if (gl->instrument == e_classicalGuitar || gl->instrument == e_noInstrument) {
-      painter.drawPixmap(m_guitar->posX12fret() + 7, m_guitar->geometry().bottom() - m_bgPixmap.height() + 1, m_bgPixmap);
-    } else {
-      qreal ratio = (m_guitar->height() * 3.3) / 535;
-      painter.drawPixmap(m_guitar->fbRect().right() - 235 * ratio, height() - m_bgPixmap.height() , m_bgPixmap);
-      if (!gl->GisRightHanded)
-        painter.resetTransform();
-      painter.drawPixmap(m_guitar->pickRect()->x(), m_guitar->pickRect()->y(), m_rosettePixmap);
-    }
   }
 }
 

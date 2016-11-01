@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tfingerboard.h"
+#include "gui/tbgpixmap.h"
 #include <tinitcorelib.h>
 #include <music/ttune.h>
 #include <graphics/tgraphicstexttip.h>
@@ -81,7 +82,6 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameShape(QFrame::NoFrame);
-    setStyleSheet(("background: transparent"));
     setScene(m_scene);
     setMouseTracking(true);
 #if defined (Q_OS_ANDROID)
@@ -114,8 +114,6 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
         m_workStrings[i]->setGraphicsEffect(blur[i]);
     }
 
-    m_pickRect = new QRect(); // empty rectangle
-
     m_workFinger = new QGraphicsEllipseItem();
     m_workFinger->hide();
     QGraphicsBlurEffect *workBlur = new QGraphicsBlurEffect();
@@ -146,7 +144,6 @@ TfingerBoard::TfingerBoard(QWidget *parent) :
 
 TfingerBoard::~TfingerBoard()
 {
-	delete m_pickRect;
   m_instance = nullptr;
 }
 
@@ -316,6 +313,24 @@ void TfingerBoard::clearHighLight() {
 
 int TfingerBoard::posX12fret() {
      return m_fretsPos[qMin(11, 12 - (19 - Tcore::gl()->GfretsNumber))];
+}
+
+
+void TfingerBoard::updateSize(const QSize& newSize) {
+  if (newSize != size()) {
+      m_fbRect = QRect(10, newSize.height() / 18, (6 * newSize.width()) / 7, newSize.height() - newSize.height() / 18);
+      m_fretWidth = ((m_fbRect.width() + ((Tcore::gl()->GfretsNumber / 2)*(Tcore::gl()->GfretsNumber / 2 + 1))
+                    + Tcore::gl()->GfretsNumber / 4) / (Tcore::gl()->GfretsNumber+1)) + 1;
+      m_strGap = m_fbRect.height() / Tcore::gl()->Gtune()->stringNr();
+      m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
+      for (int i = 2; i < Tcore::gl()->GfretsNumber + 1; i++)
+          m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
+      lastFret = m_fretsPos[Tcore::gl()->GfretsNumber - 1];
+      if (lastFret > (m_fbRect.width() + 10)) {
+          m_fbRect.setWidth(lastFret - 8);
+          qDebug("[TfingerBoard] fretboard size changed");
+      }
+  }
 }
 
 //################################################################################################
@@ -583,19 +598,7 @@ void TfingerBoard::setTune() {
 
 
 void TfingerBoard::paint() {
-	m_fbRect = QRect(10, height() / 18, (6 * width()) / 7, height() - height() / 18);
-	m_fretWidth = ((m_fbRect.width() + ((Tcore::gl()->GfretsNumber / 2)*(Tcore::gl()->GfretsNumber / 2 + 1))
-								+ Tcore::gl()->GfretsNumber / 4) / (Tcore::gl()->GfretsNumber+1)) + 1;
-//     m_strGap = m_fbRect.height() / 6;
-	m_strGap = m_fbRect.height() / Tcore::gl()->Gtune()->stringNr();
-	m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
-	for (int i = 2; i < Tcore::gl()->GfretsNumber + 1; i++)
-			m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
-	lastFret = m_fretsPos[Tcore::gl()->GfretsNumber - 1];
-	if (lastFret > (m_fbRect.width() + 10)) {
-			m_fbRect.setWidth(lastFret - 8);
-// 			qDebug("fretboard size changed");
-	}
+  updateSize(size());
 // Let's paint
 	QPixmap pixmap(size());
 	pixmap.fill(QColor(palette().window().color()));
@@ -605,10 +608,24 @@ void TfingerBoard::paint() {
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setWindow(0 , 0, width(), height());
 	resetTransform();
-	if (!Tcore::gl()->GisRightHanded) {
-			translate(width(), 0);
-			scale(-1, 1);
-	}
+  if (!Tcore::gl()->GisRightHanded) {
+      translate(width(), 0);
+      scale(-1, 1);
+      painter.scale (-1, 1);
+      painter.translate(-width(), 0);
+  }
+    // guitar body
+  if (Tcore::gl()->instrument == e_classicalGuitar) {
+      int bodyX = Tcore::gl()->GisRightHanded ? posX12fret() + 7 : (BG_PIX->windowSize().width() - (posX12fret() + 7)) - BG_PIX->width();
+      painter.drawPixmap(bodyX, height() - BG_PIX->height(), *BG_PIX);
+  } else {
+      int bodyX = Tcore::gl()->GisRightHanded ? fbRect().right() - 1.449532710280374 * height() :
+                                        (BG_PIX->windowSize().width() - (fbRect().right() - 1.449532710280374 * height()) - BG_PIX->width());
+      painter.drawPixmap(bodyX, height() - BG_PIX->height() , *BG_PIX);
+  }
+  if (!Tcore::gl()->GisRightHanded)
+    painter.resetTransform();
+
 // FINGERBOARD
 	painter.setPen(QPen(Qt::black, 0, Qt::NoPen));
 	if (Tcore::gl()->instrument == e_classicalGuitar)
@@ -745,19 +762,19 @@ void TfingerBoard::paint() {
           painter.setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
           painter.drawLine(m_fbRect.x() - 8, lineYpos - 2, m_fbRect.x() - 8 + huesoW , lineYpos - 2);
           painter.drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1, m_fbRect.x() - 8 + huesoW, lineYpos + m_strWidth[i] - 1);
-					if (m_pickRect->width()) { // shadow on the pickup if exist (bass or electric guitar)
-						int pickX = m_pickRect->x();
+					if (BG_PIX->pickUpRect().width()) { // shadow on the pickup if exist (bass or electric guitar)
+						int pickX = BG_PIX->pickUpRect().x();
 						if (!Tcore::gl()->GisRightHanded)
-								pickX = width() - (m_pickRect->x() + m_pickRect->width());
+								pickX = width() - (BG_PIX->pickUpRect().x() + BG_PIX->pickUpRect().width());
 						painter.setPen(QPen(QColor(28, 28, 28, 30), m_strWidth[i], Qt::SolidLine));
 						yy += m_strGap * 0.1;
-						int subW = qRound((qreal)m_pickRect->width() * 0.15);
+						int subW = qRound((qreal)BG_PIX->pickUpRect().width() * 0.15);
 						QPoint ps[5] = {
 									QPoint(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.12),
 									QPoint(pickX, yy + m_strGap * 0.12),
 									QPoint(pickX + subW, yy),
-									QPoint(pickX + m_pickRect->width() - subW, yy),
-									QPoint(pickX + m_pickRect->width() - subW * 0.3, yy + m_strGap * 0.15)
+									QPoint(pickX + BG_PIX->pickUpRect().width() - subW, yy),
+									QPoint(pickX + BG_PIX->pickUpRect().width() - subW * 0.3, yy + m_strGap * 0.15)
 						};
 						painter.drawPolyline(ps, 5);
 					}							

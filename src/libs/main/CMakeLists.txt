@@ -15,6 +15,7 @@ set(LIB_NOOTKAMAIN_SRC
   gui/ttoolbar.cpp
   gui/tmenu.cpp
   gui/tstatuslabel.cpp
+  gui/tbgpixmap.cpp
 
   guitar/tfingerboard.cpp
   guitar/tguitarview.cpp

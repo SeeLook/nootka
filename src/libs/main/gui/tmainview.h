@@ -89,7 +89,9 @@ signals:
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
+#if defined (Q_OS_ANDROID)
   virtual bool viewportEvent(QEvent *event);
+#endif
 
 #if defined (Q_OS_ANDROID)
   virtual void keyPressEvent(QKeyEvent* event);
