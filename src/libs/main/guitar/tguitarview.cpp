@@ -206,38 +206,6 @@ void TguitarView::updateContextPosition() {
 }
 
 
-void TguitarView::paintEvent(QPaintEvent* event) {
-  if (isPreview() && horizontalScrollBar()->value() >= m_guitar->fbRect().x() + m_guitar->fbRect().width()) {
-    QPainter painter(viewport());
-//     if (!m_guitar->isRightHanded()) {
-//       painter.translate(width(), 0);
-//       painter.scale(-1, 1);
-//     }
-    if (m_guitar->guitarTypeId() == 1) { // No need to check for non guitar - in such a case it never goes here
-      QPixmap guitarPixmap = QPixmap(Tpath::img("body")).scaled(
-                  (m_parent->width() / 2) * transform().m11(), height() * 2.445714285714286, Qt::IgnoreAspectRatio);
-      painter.drawPixmap((m_guitar->posX12fret() + 7) * transform().m11() - horizontalScrollBar()->value(),
-                         height() - guitarPixmap.height(), guitarPixmap);
-    } else {
-      QPixmap guitarPixmap;
-      if (m_guitar->guitarTypeId() == 2)
-          guitarPixmap = QPixmap(Tpath::img("body-electro")).scaled(644 * ((height() * 2.9) / 614), height() * 2.9);
-      else
-          guitarPixmap = QPixmap(Tpath::img("body-bass")).scaled(640 * ((height() * 2.9) / 535), height() * 2.9);
-      painter.drawPixmap((m_guitar->fbRect().right() - m_guitar->height() * 1.449532710280374) * transform().m11() - horizontalScrollBar()->value(),
-                         height() - guitarPixmap.height() , guitarPixmap);
-//       if (!gl->GisRightHanded)
-//         painter.resetTransform();
-      qreal pickCoef = (((height() * 2.9) / 614.0) * 0.5);
-      QPixmap rosettePixmap = QPixmap(Tpath::img("pickup")).scaled(291 * pickCoef, 468 * pickCoef, Qt::KeepAspectRatio);
-      painter.drawPixmap(m_guitar->pickRect()->x() * transform().m11() - horizontalScrollBar()->value(),
-                         6 * transform().m11(), rosettePixmap);
-    }
-  }
-  QGraphicsView::paintEvent(event);
-}
-
-
 void TguitarView::hideEvent(QHideEvent* event) {
   if (m_mark)
     m_mark->hide();

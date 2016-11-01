@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -72,7 +72,6 @@ protected:
   void displayAt(const QPointF& scenePos); /** Shows view at given scene position. IN PREVIEW MODE ONLY! */
   void updateMarkPosition(); /** Fret mark position depends on current fret */
   void updateContextPosition(); /** Sets value of scroll bar at the beginning position of current fret. */
-  void paintEvent(QPaintEvent* event); /** Paint visible piece of guitar body */
   void hideEvent(QHideEvent *event);
 #endif
 
