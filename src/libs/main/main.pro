@@ -12,6 +12,7 @@ SOURCES +=  animations/tstrikedoutitem.cpp \
             gui/ttoolbar.cpp \
             gui/tmenu.cpp \
             gui/tstatuslabel.cpp \
+            gui/tbgpixmap.cpp \
           \
             guitar/tfingerboard.cpp \
             guitar/tguitarview.cpp \
@@ -34,6 +35,7 @@ HEADERS  += animations/tstrikedoutitem.h \
             gui/ttoolbar.h \
             gui/tmenu.h \
             gui/tstatuslabel.h \
+            gui/tbgpixmap.h \
           \
             guitar/tfingerboard.h \
             guitar/tguitarview.h \

@@ -18,6 +18,7 @@
 
 #include "tmainscore.h"
 #include "tscoreactions.h"
+#include "gui/tbgpixmap.h"
 #include <tscorestaff.h>
 #include <tscorenote.h>
 #include <tscorekeysignature.h>
@@ -40,6 +41,7 @@
 
 
 #define SENDER_TO_STAFF static_cast<TscoreStaff*>(sender())
+#define ROUNDNESS (10)
 
 
 TmainScore* TmainScore::m_instance = nullptr;
@@ -90,6 +92,8 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 	createNoteName();
 	isExamExecuting(false); // initialize some connections
   setNote(0, Tnote()); // To display fake empty note properly
+
+  setBGcolor(palette().base().color());
 
   connect(this, &TmultiScore::pinchZoom, [=](int dir) {
     if (dir > 0)
@@ -385,6 +389,13 @@ int TmainScore::widthToHeight(int hi) {
 	return qRound((qreal)hi / height()) * width();
 }
 
+
+void TmainScore::setBGcolor(const QColor& bgColor) {
+  if (m_bgColor != bgColor) {
+    m_bgColor = bgColor;
+    m_bgColor.setAlpha(230);
+  }
+}
 
 //####################################################################################################
 //############################## METHODS RELATED TO EXAMS ############################################
@@ -884,6 +895,22 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 	if (width() < 300 || height() < 200)
       return;
 	performScordatureSet(); // To keep scordature size up to date with score size
+}
+
+
+#include <QElapsedTimer>
+QElapsedTimer elti;
+void TmainScore::paintEvent(QPaintEvent* event) {
+  QPainter painter(viewport());
+  if (!BG_PIX->isNull() && event->rect().bottomRight().x() >= BG_PIX->globalPos().x()) {
+      painter.drawPixmap(BG_PIX->globalPos().x() , BG_PIX->globalPos().y() - y(), *BG_PIX);
+  }
+  qDebug() << "[TmainScore] paint" << event->rect() << elti.elapsed() << parentWidget()->objectName();
+  elti.restart();
+  painter.setBrush(m_bgColor);
+  painter.setPen(Qt::NoPen);
+  painter.drawRect(event->rect());
+  QGraphicsView::paintEvent(event);
 }
 
 

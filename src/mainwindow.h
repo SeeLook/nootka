@@ -77,7 +77,6 @@ protected:
 
 	void setSingleNoteMode(bool isSingle); /**< Performs changes when insert mode differs then the set one. */
 	void closeEvent(QCloseEvent *event);
-	void paintEvent(QPaintEvent *);
 #if defined (Q_OS_MAC)
   bool eventFilter(QObject *obj, QEvent *event); /**< Handles opening exam/level files from Finder */
 #endif
@@ -106,7 +105,6 @@ private:
   TfingerBoard         *m_guitar;
   TexamView            *m_examResults;
   TprogressWidget      *m_progress;
-	QPixmap 							m_bgPixmap, m_rosettePixmap;
 	int 									m_statFontSize;
 	bool 									m_levelCreatorExist; /**< Keeps true when Dialog windows is opened, to avoid opening another file. */
 	bool 									m_isPlayerFree;

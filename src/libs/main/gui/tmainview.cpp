@@ -19,6 +19,7 @@
 #include "tmainview.h"
 #include "ttoolbar.h"
 #include "tmenu.h"
+#include "tbgpixmap.h"
 #if defined (Q_OS_ANDROID)
   #include "tmaterialmenu.h"
   #include <widgets/tmelodyitem.h>
@@ -57,7 +58,27 @@ protected:
 };
 
 
+class TnameBgWidget : public QWidget
+{
+public:
+  explicit TnameBgWidget(QWidget* parent = 0) : QWidget(parent) {}
+
+protected:
+  virtual void paintEvent(QPaintEvent* event) {
+    if (!BG_PIX->isNull() && BG_PIX->rightHandedGuitar() && event->rect().bottomRight().x() >= BG_PIX->globalPos().x() - x()
+                          && event->rect().bottomRight().y() >= BG_PIX->globalPos().y() - y()) {
+      QPainter painter(this);
+      painter.drawPixmap(BG_PIX->globalPos().x() - x() + 2, BG_PIX->globalPos().y() - y(), *BG_PIX);
+    }
+  }
+};
+
+
 TmainView* TmainView::m_instance = nullptr;
+
+
+static TnameBgWidget *m_nameBgWidget = nullptr;
+static QSpacerItem *m_nameSpacer = nullptr;
 
 
 TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLabW, TpitchView* pitchW,
@@ -93,7 +114,6 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setFrameShape(QFrame::NoFrame);
 	setObjectName("TmainView");
-	setStyleSheet(("QGraphicsView#TmainView { background: transparent }"));
 #if !defined (Q_OS_ANDROID) // no status messages under Android
 	toolW->installEventFilter(this);
 	pitchW->installEventFilter(this);
@@ -102,10 +122,11 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	toolW->setObjectName("toolBar");
 	
 	m_mainLay = new QBoxLayout(QBoxLayout::TopToBottom);
+  m_mainLay->setSpacing(0);
   #if defined (Q_OS_ANDROID)
     m_mainLay->setContentsMargins(0, 0, 0, 0);
   #else
-		m_mainLay->setContentsMargins(2, 2, 2, 2);
+		m_mainLay->setContentsMargins(2, 0, 2, 0);
   #endif
 		m_statAndPitchLay = new QBoxLayout(QBoxLayout::LeftToRight);
 #if !defined (Q_OS_ANDROID)
@@ -115,13 +136,12 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	m_mainLay->addLayout(m_statAndPitchLay);
 		m_scoreAndNameLay = new QBoxLayout(QBoxLayout::LeftToRight);
 			m_scoreAndNameLay->addWidget(m_score);
+    m_mainLay->addSpacing(2);
 		m_mainLay->addLayout(m_scoreAndNameLay);
 		m_mainLay->addWidget(m_guitar);
 	   m_container = new QWidget;
      m_score->setParent(m_container);
      m_guitar->setParent(m_container);
-	   m_container->setObjectName("proxyWidget");
-	   m_container->setStyleSheet(("QWidget#proxyWidget { background: transparent }"));
 	   m_container->setLayout(m_mainLay);
 	m_proxy = scene()->addWidget(m_container);
 
@@ -167,16 +187,15 @@ QList<QAction*>* TmainView::flyActions() {
 
 void TmainView::addNoteName() {
   if (!m_nameLay) {
-#if defined (Q_OS_ANDROID)
-    m_mainLay->setContentsMargins(0, 0, 0, 0);
-#else
-    m_mainLay->setContentsMargins(7, 2, 7, 2);
+#if !defined (Q_OS_ANDROID)
     m_name->installEventFilter(this);
 #endif
     m_name->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_name->setParent(0);
     m_name->enableArrows(false);
+    m_nameBgWidget = new TnameBgWidget(m_container);
     m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
+    m_nameLay->setContentsMargins(0, 0, 0, 0);
     m_nameLay->addStretch();
 #if defined (Q_OS_ANDROID)
     m_name->setMinimumWidth(qRound(width() * 0.4));
@@ -185,7 +204,11 @@ void TmainView::addNoteName() {
     m_nameLay->addWidget(m_name);
 #endif
     m_nameLay->addStretch();
-    m_scoreAndNameLay->addLayout(m_nameLay);
+    m_nameBgWidget->setLayout(m_nameLay);
+    m_nameBgWidget->setContentsMargins(0, 0, 0, 0);
+    m_nameSpacer = new QSpacerItem(5, 5);
+    m_scoreAndNameLay->addSpacerItem(m_nameSpacer);
+    m_scoreAndNameLay->addWidget(m_nameBgWidget);
     m_name->show();
   }
 }
@@ -194,14 +217,13 @@ void TmainView::addNoteName() {
 void TmainView::takeNoteName() {
 	if (m_nameLay) {
 		m_nameLay->removeWidget(m_name);
-		delete m_nameLay;
+    m_name->setParent(0);
+    delete m_nameBgWidget;
+    m_scoreAndNameLay->removeItem(m_nameSpacer);
+    delete m_nameSpacer;
+    m_nameLay = nullptr;
 		m_name->hide();
 		m_name->enableArrows(true);
-    #if defined (Q_OS_ANDROID)
-      m_mainLay->setContentsMargins(0, 0, 0, 0);
-    #else
-      m_mainLay->setContentsMargins(2, 2, 2, 2);
-    #endif
 	}
 }
 
@@ -484,6 +506,7 @@ void TmainView::scoreMenuExec() {
 }
 
 
+#if defined (Q_OS_ANDROID)
 bool TmainView::viewportEvent(QEvent *event) {
   if (TtouchProxy::touchEnabled()) {
 #if defined (Q_OS_ANDROID)
@@ -562,7 +585,7 @@ bool TmainView::viewportEvent(QEvent *event) {
   }
   return QAbstractScrollArea::viewportEvent(event);
 }
-
+#endif
 
 #if defined (Q_OS_ANDROID)
 void TmainView::keyPressEvent(QKeyEvent* event) {

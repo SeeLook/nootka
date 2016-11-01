@@ -51,7 +51,6 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
   m_selectReadOnly(false), m_isDisabled(false)
 {
   setObjectName("m_mainScore");
-  setStyleSheet("TsimpleScore#m_mainScore { background: transparent }");
   setContentsMargins(2, 2, 2, 2);
   if (!TscoreNote::touchEnabled())
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); // it is off by default

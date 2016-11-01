@@ -129,6 +129,8 @@ public:
 
   bool isCorrectAnimPending() { return m_correctNoteNr > -1; } /** @p TRUE when animation is in progress. */
 
+  void setBGcolor(const QColor& bgColor);
+
 signals:
   void noteChanged(int index, Tnote note);
 
@@ -145,7 +147,8 @@ public slots:
   void playScore(); /** Plays (actually emits noteChanged()) all notes starting from the selected one. */
 
 protected:
-virtual void resizeEvent(QResizeEvent* event);
+  virtual void resizeEvent(QResizeEvent* event) override;
+  virtual void paintEvent(QPaintEvent * event) override;
 
 protected slots:
   void strikeBlinkingFinished();
@@ -168,7 +171,7 @@ private:
   void performScordatureSet(); /** Common method to set scordature */
   void setQuestionMarkPos(); /** updates position of question mark in the middle of score view */
 
-  virtual void addStaff(TscoreStaff* st = 0);
+  virtual void addStaff(TscoreStaff* st = 0) override;
 
       /** Creates QGraphicsRectItem with answer color, places it under the staff and adds to m_bgRects list.
         * clearScore() removes it. */
@@ -197,6 +200,7 @@ private:
   int 												 m_playedIndex;
   bool 												 m_emitExpertNoteClicked;
   static TmainScore           *m_instance;
+  QColor                       m_bgColor;
 };
 
 #endif // TMAINSCORE_H
