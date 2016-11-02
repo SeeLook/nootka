@@ -317,20 +317,16 @@ int TfingerBoard::posX12fret() {
 
 
 void TfingerBoard::updateSize(const QSize& newSize) {
-  if (newSize != size()) {
-      m_fbRect = QRect(10, newSize.height() / 18, (6 * newSize.width()) / 7, newSize.height() - newSize.height() / 18);
-      m_fretWidth = ((m_fbRect.width() + ((Tcore::gl()->GfretsNumber / 2)*(Tcore::gl()->GfretsNumber / 2 + 1))
-                    + Tcore::gl()->GfretsNumber / 4) / (Tcore::gl()->GfretsNumber+1)) + 1;
-      m_strGap = m_fbRect.height() / Tcore::gl()->Gtune()->stringNr();
-      m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
-      for (int i = 2; i < Tcore::gl()->GfretsNumber + 1; i++)
-          m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
-      lastFret = m_fretsPos[Tcore::gl()->GfretsNumber - 1];
-      if (lastFret > (m_fbRect.width() + 10)) {
-          m_fbRect.setWidth(lastFret - 8);
-          qDebug("[TfingerBoard] fretboard size changed");
-      }
-  }
+  m_fbRect = QRect(10, newSize.height() / 18, (6 * newSize.width()) / 7, newSize.height() - newSize.height() / 18);
+  m_fretWidth = ((m_fbRect.width() + ((Tcore::gl()->GfretsNumber / 2)*(Tcore::gl()->GfretsNumber / 2 + 1))
+                + Tcore::gl()->GfretsNumber / 4) / (Tcore::gl()->GfretsNumber+1)) + 1;
+  m_strGap = m_fbRect.height() / Tcore::gl()->Gtune()->stringNr();
+  m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
+  for (int i = 2; i < Tcore::gl()->GfretsNumber + 1; i++)
+      m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
+  lastFret = m_fretsPos[Tcore::gl()->GfretsNumber - 1];
+  if (lastFret > (m_fbRect.width() + 10))
+      m_fbRect.setWidth(lastFret - 8);
 }
 
 //################################################################################################
