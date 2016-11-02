@@ -394,6 +394,7 @@ void TmainScore::setBGcolor(const QColor& bgColor) {
   if (m_bgColor != bgColor) {
     m_bgColor = bgColor;
     m_bgColor.setAlpha(230);
+    update();
   }
 }
 
@@ -898,15 +899,11 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 }
 
 
-#include <QElapsedTimer>
-QElapsedTimer elti;
 void TmainScore::paintEvent(QPaintEvent* event) {
   QPainter painter(viewport());
   if (!BG_PIX->isNull() && event->rect().bottomRight().x() >= BG_PIX->globalPos().x()) {
       painter.drawPixmap(BG_PIX->globalPos().x() , BG_PIX->globalPos().y() - y(), *BG_PIX);
   }
-  qDebug() << "[TmainScore] paint" << event->rect() << elti.elapsed() << parentWidget()->objectName();
-  elti.restart();
   painter.setBrush(m_bgColor);
   painter.setPen(Qt::NoPen);
   painter.drawRect(event->rect());
