@@ -506,8 +506,7 @@ void TmainView::scoreMenuExec() {
 }
 
 
-#if defined (Q_OS_ANDROID)
-bool TmainView::viewportEvent(QEvent *event) {
+bool TmainView::handleTouchEvent(QEvent *event) {
   if (TtouchProxy::touchEnabled()) {
 #if defined (Q_OS_ANDROID)
     if (m_menuItem && !m_menuItem->isTouched()) { // ignore touch propagation when melody item was touched
@@ -583,9 +582,9 @@ bool TmainView::viewportEvent(QEvent *event) {
   } // CLOSES: if (!m_menuItem->isTouched())
 #endif
   }
-  return QAbstractScrollArea::viewportEvent(event);
+  return false;
 }
-#endif
+
 
 #if defined (Q_OS_ANDROID)
 void TmainView::keyPressEvent(QKeyEvent* event) {

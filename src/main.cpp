@@ -103,10 +103,6 @@ int main(int argc, char *argv[])
 // creating main window
     w = new MainWindow();
 
-#if defined (Q_OS_MAC)
-	// to allow opening nootka files by clicking them in MacOs finder
-    a->installEventFilter(w);
-#endif
 #if defined (Q_OS_ANDROID)
     w->showFullScreen();
 #else

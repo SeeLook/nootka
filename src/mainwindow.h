@@ -77,9 +77,9 @@ protected:
 
 	void setSingleNoteMode(bool isSingle); /**< Performs changes when insert mode differs then the set one. */
 	void closeEvent(QCloseEvent *event);
-#if defined (Q_OS_MAC)
+// #if defined (Q_OS_MAC)
   bool eventFilter(QObject *obj, QEvent *event); /**< Handles opening exam/level files from Finder */
-#endif
+// #endif
 
 protected slots:
 	void showSupportDialog();
