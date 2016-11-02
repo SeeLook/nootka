@@ -194,6 +194,8 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
   connect(m_pitchView, &TpitchView::lowPCMvolume, this, &MainWindow::pcmStatusMessage);
   connect(m_pitchView, &TpitchView::hiPCMvolume, this, &MainWindow::pcmStatusMessage);
+
+  qApp->installEventFilter(this);
 }
 
 
@@ -663,15 +665,19 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 
-#if defined (Q_OS_MAC)
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
+#if defined (Q_OS_MAC)
   if (event->type() == QEvent::FileOpen) {
     QFileOpenEvent* fileEvent = static_cast<QFileOpenEvent*>(event);
     openFile(fileEvent->file());
     return true;
   }
-  // standard event processing
+#endif
+  if (obj == m_innerWidget->viewport()) {
+    if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchEnd || event->type() == QEvent::TouchUpdate) {
+        return m_innerWidget->handleTouchEvent(event);
+    }
+  }
   return QObject::eventFilter(obj, event);
 }
-#endif
 
