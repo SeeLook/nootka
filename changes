@@ -1,5 +1,10 @@
+1.???
+     - improved look of sound views, better fit to high DPI screens
     ANDROID
-     - added quick volume settings and pitch preview invoked with vol keys
+     - reduced paint operations, application works even 2-4 times faster
+     - volume settings and pitch preview can be invoked with volume keys
+    BUGS FIXES
+     - other small fixes
 
 1.2A.7 rc3
     ANDROID

@@ -126,17 +126,13 @@ TnootkaCertificate::TnootkaCertificate(QGraphicsView* view, Texam* exam) :
   waterMark->setGraphicsEffect(new QGraphicsBlurEffect);
   waterMark->setPos((m_width - waterMark->boundingRect().width()) / 2, (m_height - waterMark->boundingRect().height()) / 2 );
 
-#if defined (Q_OS_ANDROID)
-  m_stampPixmap->setPos((width() - m_stampPixmap->boundingRect().width()) / 2, stampYpos);
-#else
   m_stampPixmap->setScale(3.0);
   TcombinedAnim *flyingStamp = new TcombinedAnim(m_stampPixmap, this);
-    flyingStamp->setDuration(400);
+    flyingStamp->setDuration(800);
     flyingStamp->setMoving(QPointF(width() + 50.0, stampYpos - 100.0), QPointF((width() - m_stampPixmap->boundingRect().width()) / 2, stampYpos));
     flyingStamp->setScaling(1.0);
     flyingStamp->startAnimations();
   connect(flyingStamp, SIGNAL(finished()), scene(), SLOT(update()));
-#endif
 
   if (height() != m_view->sceneRect().height() * 0.96) {
     m_cert->setScale((m_view->sceneRect().height() * 0.96) / height());

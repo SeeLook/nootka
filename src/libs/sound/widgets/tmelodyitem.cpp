@@ -57,7 +57,7 @@ class TflyItem : public QGraphicsItem
 public:
   TflyItem(const QIcon& icon, QGraphicsItem* parent = 0) :
       QGraphicsItem(parent),
-      m_pixmap(icon.pixmap(Tmtr::fingerPixels() * 0.85))
+      m_pixmap(icon.pixmap(qRound(Tmtr::fingerPixels() * 0.85)))
   {
     setBgColor(Qt::black);
     setGraphicsEffect(new TdropShadowEffect);
@@ -83,7 +83,7 @@ protected:
     painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     painter->setPen(QPen(Qt::black, 2));
     painter->setBrush(QBrush(m_bgColor));
-    painter->drawEllipse(0, 0, boundingRect().width(), boundingRect().height());
+    painter->drawEllipse(QRectF(0, 0, boundingRect().width(), boundingRect().height()));
     painter->drawPixmap((boundingRect().width() - m_pixmap.width()) / 2,
                         (boundingRect().height() - m_pixmap.height()) / 2, m_pixmap);
   }
@@ -120,17 +120,17 @@ TmelodyItem::TmelodyItem() :
 
 TmelodyItem::~TmelodyItem()
 {
-  m_instance = 0;
+  m_instance = nullptr;
 }
 
 
 bool TmelodyItem::audioInEnabled() {
-  return (bool)TaudioIN::instance();
+  return static_cast<bool>(TaudioIN::instance());
 }
 
 
 bool TmelodyItem::audioOutEnabled() {
-  return (bool)TaudioOUT::instance();
+  return static_cast<bool>(TaudioOUT::instance());
 }
 
 
@@ -193,7 +193,7 @@ void TmelodyItem::initialAnim() {
     else
       hint->setPos(m_flyList[i]->x() + Tmtr::fingerPixels() * 1.7,
                  m_flyList[i]->y() + (m_flyList[i]->boundingRect().height() - hint->realH()) / 2.0);
-    fingerPoint->addMove(QPointF(x() + 10.0, y() + boundingRect().height() / 2.0), QPointF(m_flyList[i]->x() + radius, m_flyList[i]->y() + radius), 300, 750);
+    fingerPoint->addMove(QPointF(x() + 10.0, y() + boundingRect().height() / 2.0), QPointF(m_flyList[i]->x() + radius, m_flyList[i]->y() + radius), 500, 750);
   }
   connect(fingerPoint, &TfingerPointer::moved, [=](int s){
     m_flyList[s]->setBgColor(qApp->palette().highlight().color());
@@ -205,7 +205,7 @@ void TmelodyItem::initialAnim() {
     QTimer::singleShot(10, [=]{ fingerPoint->start(); });
   });
 
-  auto gotIt = new TgraphicsTextTip(qTR("QDialogButtonBox", "OK") + QLatin1String(" !"));
+  auto gotIt = new TgraphicsTextTip(qTR("QDialogButtonBox", "OK") + QLatin1String(" !"), qApp->palette().highlight().color());
   gotIt->setDefaultTextColor(qApp->palette().base().color());
   gotIt->setParentItem(bgRect);
   gotIt->setScale(3.0);
@@ -221,6 +221,7 @@ void TmelodyItem::initialAnim() {
   });
   fingerPoint->start();
 }
+
 
 QRectF TmelodyItem::boundingRect() const {
   return QRectF(0, 0, Tmtr::fingerPixels(), Tmtr::fingerPixels());

@@ -19,11 +19,8 @@ ANDROID:
         - disable sniffing/note by note when audio input is off
         - hide 'clear score' one when undesired (single mode, exam with playing):
           innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
-    - no level/exam icon in file manager, not all file managers support opening Nootka files
 
 - HOME button would be switching available menus or get rid of score menu (merge with the main)
-- duration of animation of note correction was decreased to 200ms to work properly under Android,
-  but it would be better to signal when it is finished and perform some routines in main score after that
 ============================================================================
 - TexamExecutor has many, many un-wrapped strings, many ""
 - Use int and enumerations between plugins and main window instead of text messages (level plugin to do)
@@ -39,12 +36,9 @@ Test scaling of alpha under Windows
 - NotaData of Tartini might be cleaned
 
 MINOR:
-- clef selecting menu lost highlight when mouse is over item text - try to use QActionWidget
 - when instrument in new exercise changes: 
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
-- try to avoid many resizeEvent-s of TmultiScore during window size change
-
 
 - changing tool bar auto-hiding causes sometimes locked melody menu
 - auto hidden tool bar remains big after decreased window size
@@ -105,9 +99,6 @@ MINOR:
 ANDROID:
 - unlock left-handed guitar then implement frets zoom to respect transforms
 
-Tnote
-  - change class name to Tpitch (???)
-	- overload + and - operators to raise/drop a note
 
 TEXAMEXECUTOR
   - think about hide octave in note name format when octaves are not required in answers. 
