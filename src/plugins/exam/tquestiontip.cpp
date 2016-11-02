@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -69,6 +69,7 @@ TquestionTip::TquestionTip(Texam* exam, double scale) :
 {
   setOpacity(0.0);
   m_fadeInAnim = new TfadeAnim(this);
+  m_fadeInAnim->setDuration(300);
   m_fadeInAnim->setEasingCurveType(QEasingCurve::OutCubic);
   m_fadeInAnim->startFade(1.0);
 	setAcceptHoverEvents(true);
