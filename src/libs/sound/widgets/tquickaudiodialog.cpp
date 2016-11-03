@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 
-#include "tintestwidget.h"
+#include "tquickaudiodialog.h"
 #include <music/tnotestruct.h>
 #include "tpitchview.h"
 #include "tvolumeview.h"
@@ -35,7 +35,7 @@
 static QString noneText = QStringLiteral("--");
 
 
-TinTestWidget::TinTestWidget(QWidget* parent) :
+TquickAudioDialog::TquickAudioDialog(QWidget* parent) :
   QDialog(parent)
 {
   showMaximized();
@@ -111,16 +111,16 @@ TinTestWidget::TinTestWidget(QWidget* parent) :
 
   setLayout(lay);
 
-  connect(m_exitButt, &QPushButton::clicked, this, &TinTestWidget::exitSlot);
-  connect(m_sysVolButt, &QPushButton::clicked, this, &TinTestWidget::exitSlot);
-  connect(m_outVolSlider, &QSlider::valueChanged, this, &TinTestWidget::volChangedSlot);
+  connect(m_exitButt, &QPushButton::clicked, this, &TquickAudioDialog::exitSlot);
+  connect(m_sysVolButt, &QPushButton::clicked, this, &TquickAudioDialog::exitSlot);
+  connect(m_outVolSlider, &QSlider::valueChanged, this, &TquickAudioDialog::volChangedSlot);
 
   if (SOUND->sniffer) {
     pitchView()->setAudioInput(SOUND->sniffer);
     pitchView()->setMinimalVolume(SOUND->sniffer->minimalVolume());
     pitchView()->setIntonationAccuracy(SOUND->sniffer->intonationAccuracy());
     SOUND->sniffer->stopTouchHandle();
-    connect(SOUND->sniffer, &TaudioIN::noteStarted, this, &TinTestWidget::noteSlot);
+    connect(SOUND->sniffer, &TaudioIN::noteStarted, this, &TquickAudioDialog::noteSlot);
     pitchView()->setDisabled(false);
     pitchView()->pauseAction()->setChecked(true);
     pitchView()->volumeView()->setPaused(false);
@@ -138,21 +138,21 @@ TinTestWidget::TinTestWidget(QWidget* parent) :
 }
 
 
-TinTestWidget::~TinTestWidget() {
+TquickAudioDialog::~TquickAudioDialog() {
   if (SOUND->sniffer) {
-    disconnect(SOUND->sniffer, &TaudioIN::noteStarted, this, &TinTestWidget::noteSlot);
+    disconnect(SOUND->sniffer, &TaudioIN::noteStarted, this, &TquickAudioDialog::noteSlot);
     SOUND->sniffer->startTouchHandle();
   }
   SOUND->blockSignals(false);
 }
 
 
-void TinTestWidget::volUp() {
+void TquickAudioDialog::volUp() {
   m_outVolSlider->setValue(m_outVolSlider->value() + 1);
 }
 
 
-void TinTestWidget::volDown() {
+void TquickAudioDialog::volDown() {
   m_outVolSlider->setValue(m_outVolSlider->value() - 1);
 }
 
@@ -160,19 +160,19 @@ void TinTestWidget::volDown() {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
-void TinTestWidget::noteSlot(const TnoteStruct& ns) {
+void TquickAudioDialog::noteSlot(const TnoteStruct& ns) {
   m_pitchLab->setText(QLatin1String("<b>") + ns.pitch.toRichText() + QLatin1String("</b>"));
   m_freqLab->setText(QString("%1 Hz").arg(ns.freq, 0, 'f', 1, '0'));
 }
 
 
-void TinTestWidget::exitSlot() {
+void TquickAudioDialog::exitSlot() {
   emit exit(sender() == m_exitButt ? static_cast<int>(e_accepted) : static_cast<int>(e_audioSettings));
   done(QDialog::Accepted);
 }
 
 
-void TinTestWidget::sysVolSlot() {
+void TquickAudioDialog::sysVolSlot() {
   QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "show");
   QAndroidJniEnvironment env;
   if (env->ExceptionCheck())
@@ -180,12 +180,12 @@ void TinTestWidget::sysVolSlot() {
 }
 
 
-void TinTestWidget::volChangedSlot(int v) {
+void TquickAudioDialog::volChangedSlot(int v) {
   QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "setStreamVolume", "(I)V", v);
 }
 
 
-void TinTestWidget::keyPressEvent(QKeyEvent* e) {
+void TquickAudioDialog::keyPressEvent(QKeyEvent* e) {
   auto k = static_cast<Qt::Key>(e->key());
   if (k == Qt::Key_VolumeDown)
     volDown();

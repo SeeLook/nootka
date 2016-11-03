@@ -25,7 +25,6 @@
 #include <graphics/tnotepixmap.h>
 #if defined (Q_OS_ANDROID)
   #include "widgets/tmelodyitem.h"
-  #include "tintestwidget.h"
 #endif
 #include <QtCore/qtimer.h>
 #include <QtWidgets/qlabel.h>

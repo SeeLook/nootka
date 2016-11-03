@@ -26,7 +26,7 @@
   #include <ttouchmenu.h>
   #include <touch/ttouchparams.h>
   #include <ttouchmessage.h>
-  #include <widgets/tintestwidget.h>
+  #include <widgets/tquickaudiodialog.h>
 #endif
 #include <widgets/tpitchview.h>
 #include <guitar/tguitarview.h>
@@ -371,14 +371,14 @@ void TmainView::showInVolume() {
   if (m_pitch->isEnabled())
     m_pitch->setDisabled(true);
 
-  m_inVolWidget = new TinTestWidget(this);
-  connect(m_inVolWidget, &TinTestWidget::exit, this, &TmainView::inVolExit);
+  m_inVolWidget = new TquickAudioDialog(this);
+  connect(m_inVolWidget, &TquickAudioDialog::exit, this, &TmainView::inVolExit);
   m_inVolWidget->exec();
 }
 
 
 void TmainView::inVolExit(int exMessage) {
-  if (static_cast<TinTestWidget::EexitMessage>(exMessage) == TinTestWidget::e_accepted) {
+  if (static_cast<TquickAudioDialog::EexitMessage>(exMessage) == TquickAudioDialog::e_accepted) {
     m_pitch->setMinimalVolume(m_inVolWidget->pitchView()->minimalVolume());
     m_pitch->setIntonationAccuracy(m_inVolWidget->pitchView()->intonationAccuracy());
   }

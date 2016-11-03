@@ -17,11 +17,10 @@
  ***************************************************************************/
 
 
-#ifndef TINTESTWIDGET_H
-#define TINTESTWIDGET_H
+#ifndef TQUICKAUDIODIALOG_H
+#define TQUICKAUDIODIALOG_H
 
 
-#include "nootkasoundglobal.h"
 #include <QtWidgets/qdialog.h>
 
 
@@ -33,17 +32,17 @@ class QSlider;
 
 
 /**
- * @p TinTestWidget contains @p TpitchView and labels with detected pitch and frequency
+ * @p TquickAudioDialog contains @p TpitchView and labels with detected pitch and frequency
  * It is used to quick settings of input sound under mobile
  */
-class NOOTKASOUND_EXPORT TinTestWidget : public QDialog
+class TquickAudioDialog : public QDialog
 {
 
   Q_OBJECT
 
 public:
-  explicit TinTestWidget(QWidget* parent = nullptr);
-  virtual ~TinTestWidget();
+  explicit TquickAudioDialog(QWidget* parent = nullptr);
+  virtual ~TquickAudioDialog();
 
   enum EexitMessage {
     e_discarded = 0, e_accepted = 1, e_audioSettings = 2
@@ -74,4 +73,4 @@ private:
   QSlider                   *m_outVolSlider;
 };
 
-#endif // TINTESTWIDGET_H
+#endif // TQUICKAUDIODIALOG_H

@@ -37,7 +37,7 @@ class QGraphicsProxyWidget;
 class QAction;
 class TmelodyItem;
 class QMainWindow;
-class TinTestWidget;
+class TquickAudioDialog;
 
 
 #define   MAINVIEW    TmainView::instance()
@@ -144,7 +144,7 @@ private:
 #if defined (Q_OS_ANDROID)
   TmelodyItem                     *m_menuItem;
   QAction                         *m_inVolAct;
-  TinTestWidget                   *m_inVolWidget = nullptr;
+  TquickAudioDialog               *m_inVolWidget = nullptr;
 #endif
   static TmainView                *m_instance;
 };
