@@ -32,7 +32,7 @@ SOURCES +=  tabstractplayer.cpp\
             widgets/tvolumeview.cpp\
             widgets/tmelodyitem.cpp\
 #            widgets/tpcmview.cpp\
-            widgets/tintestwidget.cpp\
+            widgets/tquickaudiodialog.cpp\
             \
             stouch/SoundTouch.cpp\
             stouch/TDStretch.cpp\
@@ -80,7 +80,7 @@ HEADERS  += tartiniparams.h\
             widgets/tvolumeview.h\
             widgets/tmelodyitem.h\
 #            widgets/tpcmview.h\
-            widgets/tintestwidget.h\
+            widgets/tquickaudiodialog.h\
             \
             stouch\STTypes.h\
             stouch/SoundTouch.h\

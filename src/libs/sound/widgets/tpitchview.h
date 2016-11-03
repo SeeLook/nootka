@@ -54,7 +54,7 @@ class NOOTKASOUND_EXPORT TpitchView : public QWidget
 
   Q_OBJECT
 
-  friend class TinTestWidget;
+  friend class TquickAudioDialog;
 
 public:
   explicit TpitchView(TaudioIN *audioIn,  QWidget *parent = 0, bool pauseActive = true);
