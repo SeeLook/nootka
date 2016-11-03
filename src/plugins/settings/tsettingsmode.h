@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,10 +19,14 @@
 #ifndef TSETTINGSMODE_H
 #define TSETTINGSMODE_H
 
+/**
+  * Enumerator describing which page of settings dialog will be displayed 
+  */
 enum EsettingsMode {
-			e_settings = 0, // default settings dialog window with all pages
-			e_exam = 1, // Exam tab with preferences for exam
-			e_exercise = 2 // Exam tab with preferences for exercise
-		}; /** Enumerator described a kind of settings dialog will be displayed */
+      e_settings = 0, /**< default settings dialog window with all pages */
+      e_exam = 1,     /**< Exam tab with preferences for exam */
+      e_exercise = 2, /**< Exam tab with preferences for exercise */
+      e_audio = 3     /**< Audio settings page */
+    };
 
 #endif // TSETTINGSMODE_H

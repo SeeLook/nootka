@@ -681,9 +681,17 @@ void Tcanvas::correctAnimFinished() {
 
 
 bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+//   if (event->type() == QEvent::KeyPress) {
+//     auto ke = static_cast<QKeyEvent*>(event);
+//     if (ke->key() == static_cast<int>(Qt::Key_VolumeUp)) {
+//       if (m_exam && !m_certifyTip)
+//           emit certificateMagicKeys();
+//     }
+//   }
+#else
   if (event->type() == QEvent::MouseButtonPress) {
-    QMouseEvent *me = static_cast<QMouseEvent*>(event);
+    auto *me = static_cast<QMouseEvent*>(event);
     if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
         if (m_exam && !m_certifyTip)
           emit certificateMagicKeys();

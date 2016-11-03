@@ -96,36 +96,38 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
   connect(this, &TsettingsDialog::rejected, this, &TsettingsDialog::cancelSlot);
 #endif
 
-	if (mode == e_settings) {
-    navList->setCurrentRow(0);
-		changeSettingsWidget(1); // score settings must to exist
+  if (mode == e_settings) {
+      navList->setCurrentRow(0);
+      changeSettingsWidget(1); // score settings must to exist
 #if !defined (Q_OS_ANDROID)
-    changeSettingsWidget(3);
-    changeSettingsWidget(2); // instrument settings makes window big enough, to avoid re-sizing
-    setHighestPage(m_guitarSett);
-    QTimer::singleShot(150, [=] { hackSize(); } ); //HACK: adjust dialog to biggest page
+      changeSettingsWidget(3);
+      changeSettingsWidget(2); // instrument settings makes window big enough, to avoid re-sizing
+      setHighestPage(m_guitarSett);
+      QTimer::singleShot(150, [=] { hackSize(); } ); //HACK: adjust dialog to biggest page
 #endif
-		changeSettingsWidget(0);
-	} else {
+      changeSettingsWidget(0);
+  } else if (mode == e_audio) { // NOTE: so far it occurs under Android - maximized, so no need to hacking the size
+      changeSettingsWidget(3);
+  } else {
 #if defined (Q_OS_ANDROID)
-    addItem(qTR("QPlatformTheme", "Apply"), Tpath::img("check"));
-    addItem(qTR("QPlatformTheme", "Help"), Tpath::img("help"));
-    addItem(qTR("QPlatformTheme", "Cancel"), QLatin1String(":/mobile/exit.png"));
-    connect(navList, &QListWidget::currentRowChanged, [=] {
-          if (navList->currentRow() == 0)
-            accept();
-          else if (navList->currentRow() == 1)
-            helpSlot();
-          else
-            reject();
-    });
-    menuButton->hide();
+      addItem(qTR("QPlatformTheme", "Apply"), Tpath::img("check"));
+      addItem(qTR("QPlatformTheme", "Help"), Tpath::img("help"));
+      addItem(qTR("QPlatformTheme", "Cancel"), QLatin1String(":/mobile/exit.png"));
+      connect(navList, &QListWidget::currentRowChanged, [=] {
+            if (navList->currentRow() == 0)
+              accept();
+            else if (navList->currentRow() == 1)
+              helpSlot();
+            else
+              reject();
+      });
+      menuButton->hide();
 #else
-		navList->hide();
-		defaultBut->hide();
+      navList->hide();
+      defaultBut->hide();
 #endif
-		changeSettingsWidget(4);
-	}
+      changeSettingsWidget(4);
+  }
 }
 
 

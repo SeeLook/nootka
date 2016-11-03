@@ -88,6 +88,9 @@ public:
 signals:
 	void statusTip(const QString&);
   void sizeChanged(const QSize&);
+
+      /** When quick sound dialog required settings dialog */
+  void settingsRequired();
 	
 protected:
 	virtual void resizeEvent(QResizeEvent* event);
