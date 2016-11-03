@@ -22,11 +22,15 @@
 
 
 void TsettingsPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
+  Q_UNUSED(exam)
+
   EsettingsMode mode = e_settings;
   if (argument == QLatin1String("exam"))
       mode = e_exam;
   else if (argument == QLatin1String("exercise"))
       mode = e_exercise;
+  else if (argument == QLatin1String("audio"))
+      mode = e_audio;
   m_settings = new TsettingsDialog(parent, mode);
   Torders::Esettings lastValue;
   if (m_settings->exec() == QDialog::Accepted)

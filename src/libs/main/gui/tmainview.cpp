@@ -386,6 +386,7 @@ void TmainView::inVolExit(int exMessage) {
     m_pitch->setDisabled(false);
   m_inVolWidget->deleteLater();
   m_inVolWidget = nullptr;
+  QTimer::singleShot(10, [=]{ emit settingsRequired(); }); // emit with delay to let the dialog close
 }
 
 #endif
@@ -598,7 +599,7 @@ void TmainView::keyReleaseEvent(QKeyEvent* event) {
   if (k == Qt::Key_Menu)
     QTimer::singleShot(10, this, SLOT(mainMenuExec()));
   else if (k == Qt::Key_VolumeDown || k == Qt::Key_VolumeUp) {
-    if (!m_inVolWidget)
+    if (!m_inVolWidget && !m_results)
       QTimer::singleShot(10, [=]{ showInVolume(); });
   }
   QGraphicsView::keyReleaseEvent(event);

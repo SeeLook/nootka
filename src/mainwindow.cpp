@@ -171,6 +171,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 #if defined (Q_OS_ANDROID)
   connect(m_bar->aboutSimpleAct, &QAction::triggered, this, &MainWindow::aboutSlot);
+  connect(m_innerWidget, &TmainView::settingsRequired, this, &MainWindow::createSettingsDialog);
   m_innerWidget->flyActions()->append(m_bar->playMelody()); // default quick actions for mobile
   m_innerWidget->flyActions()->append(m_bar->recordMelody());
   m_innerWidget->flyActions()->append(m_pitchView->pauseAction());
@@ -304,7 +305,6 @@ void MainWindow::openFile(QString runArg) {
 void MainWindow::createSettingsDialog() {
 	if (m_score->isScorePlayed())
 		m_melButt->playMelodySlot(); // stop playing
-	QString args;
   if (m_examPlugin) {
       m_examPlugin->node()->emitBackValue(Torders::e_examSettings);
       return; // exam plugin will invoke settings plugin itself
@@ -313,7 +313,10 @@ void MainWindow::createSettingsDialog() {
 				m_melButt->recordMelodySlot(); // switch to multi mode
 			m_sound->prepareToConf();
 	}
-  TpluginsLoader *loader = new TpluginsLoader();
+  QString args;
+  if (sender() == m_innerWidget) // NOTE: so far TmainView emits signal related to settings only from quick audio dialog (Android)
+    args = QStringLiteral("audio");
+  auto loader = new TpluginsLoader();
   if (loader->load(TpluginsLoader::e_settings))
       loader->init(args, this);
 	Torders::Esettings lastValue = (Torders::Esettings)loader->lastValue();
