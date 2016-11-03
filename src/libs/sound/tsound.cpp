@@ -275,6 +275,11 @@ bool Tsound::isSnifferPaused() {
 }
 
 
+bool Tsound::isSniferStopped() {
+  return sniffer ? sniffer->isStoped() : true;
+}
+
+
 void Tsound::restoreAfterAnswer() {
   m_pitchView->setBgColor(Qt::transparent);
   m_pitchView->setDisabled(true);

@@ -84,6 +84,7 @@ public:
   void pauseSinffing();
   void unPauseSniffing();
   bool isSnifferPaused();
+  bool isSniferStopped();
 
 			/** Prepares sound to exam.
 			 * Given notes in params are level range notes and are put to sniffer ambitus. */

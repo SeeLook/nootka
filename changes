@@ -1,8 +1,10 @@
 1.???
+     - added notifications about too hi/low input volume
      - improved look of sound views, better fit to high DPI screens
     ANDROID
      - reduced paint operations, application works even 2-4 times faster
      - volume settings and pitch preview can be invoked with volume keys
+     - stop pitch detection when app is going background, restore when backs
     BUGS FIXES
      - other small fixes
 

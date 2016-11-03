@@ -82,8 +82,11 @@ void noteToKey(Tnote& n, TkeySignature k) {
       QNetworkAccessManager nam;
     }
 
-  TtouchMessage *m_touchMessage;
+  static TtouchMessage *m_touchMessage;
+  static bool m_isAppActive = true; /**< Whether Nootka is active (displayed) or suspended (and/or screen is off)  */
+  static bool m_wasPitchEnabled = false; /**< Stores state of pitch detection when Nootka becomes inactive screen is locked (off)  */
 #endif
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -195,6 +198,24 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
   connect(m_pitchView, &TpitchView::lowPCMvolume, this, &MainWindow::pcmStatusMessage);
   connect(m_pitchView, &TpitchView::hiPCMvolume, this, &MainWindow::pcmStatusMessage);
+
+#if defined (Q_OS_ANDROID)
+  connect(qApp, &QGuiApplication::applicationStateChanged, [=](Qt::ApplicationState state){
+      if (state == Qt::ApplicationActive) { // Nootka backs to live
+          if (!m_isAppActive) { // restore pitch detection state
+            if (m_wasPitchEnabled)
+              m_sound->go();
+            m_isAppActive = true;
+          }
+      } else { // Nootka goes to background
+          if (m_isAppActive) { // when it was active, store pitch detection state
+            m_wasPitchEnabled = !(m_sound->isSniferStopped() || m_sound->isSnifferPaused());
+            m_isAppActive = false;
+            m_sound->wait();
+          }
+      }
+  });
+#endif
 
   qApp->installEventFilter(this);
 }
