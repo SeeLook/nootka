@@ -386,7 +386,8 @@ void TmainView::inVolExit(int exMessage) {
     m_pitch->setDisabled(false);
   m_inVolWidget->deleteLater();
   m_inVolWidget = nullptr;
-  QTimer::singleShot(10, [=]{ emit settingsRequired(); }); // emit with delay to let the dialog close
+  if (static_cast<TquickAudioDialog::EexitMessage>(exMessage) == TquickAudioDialog::e_audioSettings)
+    QTimer::singleShot(10, [=]{ emit settingsRequired(); }); // emit with delay to let the dialog quit
 }
 
 #endif

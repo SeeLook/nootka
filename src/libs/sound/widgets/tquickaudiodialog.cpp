@@ -80,14 +80,13 @@ TquickAudioDialog::TquickAudioDialog(QWidget* parent) :
   m_exitButt = new QPushButton(QIcon(QStringLiteral(":/mobile/exit.png")), QString(), this);
     m_exitButt->setIconSize(QSize(Tmtr::fingerPixels(), Tmtr::fingerPixels()));
 
-  QString tuneText = TabstractSoundView::getStringsFreqText(Tcore::gl()->Gtune(), Tcore::gl()->A->a440diff);
-  QString br = QStringLiteral("<br>");
   m_tuneLab = new QLabel(this);
     labFont.setPixelSize(qRound(Aheight * 1.3));
     m_tuneLab->setFont(labFont);
     m_tuneLab->setStyleSheet(labelsStyle);
     m_tuneLab->setAlignment(Qt::AlignCenter);
-    m_tuneLab->setText(tuneText.replace(br, QString()).replace(QLatin1String("ALT_BR"), br));
+    m_tuneLab->setFixedSize(maxWidgetW, Aheight * 3);
+    setTuningText();
 
   // layout
   auto topButtLay = new QHBoxLayout;
@@ -114,6 +113,8 @@ TquickAudioDialog::TquickAudioDialog(QWidget* parent) :
   connect(m_exitButt, &QPushButton::clicked, this, &TquickAudioDialog::exitSlot);
   connect(m_sysVolButt, &QPushButton::clicked, this, &TquickAudioDialog::exitSlot);
   connect(m_outVolSlider, &QSlider::valueChanged, this, &TquickAudioDialog::volChangedSlot);
+  connect(pitchView(), &TpitchView::lowPCMvolume, this, &TquickAudioDialog::volumeWarningSlot);
+  connect(pitchView(), &TpitchView::hiPCMvolume, this, &TquickAudioDialog::volumeWarningSlot);
 
   if (SOUND->sniffer) {
     pitchView()->setAudioInput(SOUND->sniffer);
@@ -194,4 +195,16 @@ void TquickAudioDialog::keyPressEvent(QKeyEvent* e) {
   QDialog::keyReleaseEvent(e);
 }
 
+
+void TquickAudioDialog::volumeWarningSlot(const QString& message) {
+  m_tuneLab->setText(message);
+  QTimer::singleShot(7000, [=]{ setTuningText(); }); // revert label with tuning frequencies after 7s
+}
+
+
+void TquickAudioDialog::setTuningText() {
+  QString br = QStringLiteral("<br>");
+  QString tuneText = TabstractSoundView::getStringsFreqText(Tcore::gl()->Gtune(), Tcore::gl()->A->a440diff);
+  m_tuneLab->setText(tuneText.replace(br, QString()).replace(QLatin1String("ALT_BR"), br));
+}
 
