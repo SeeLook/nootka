@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,7 +29,7 @@ class TstrikedOutItem;
 
 
 /** 
- * This is QGraphicsView displaing note names. 
+ * This is QGraphicsView displaying note names. 
  * It pretends to behave like ordinary QLabel with setText() and text() methods 
  * but it manages Nootka related things like string numbers and question mark.
  * Also it performs transitional animations between texts.
@@ -61,8 +61,6 @@ public:
 	
 			/** Returns widget coordinates of text position */
 	QPoint textPos();
-	
-	static QString borderStyleText();
 	
 signals:
 	void blinkingFinished();
