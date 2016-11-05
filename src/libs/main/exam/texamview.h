@@ -32,11 +32,7 @@ class QLabel;
 
 #define    RESULTS    TexamView::instance()
 
-#if defined (Q_OS_ANDROID)
-  #define    REFRESH_TIME (250)
-#else
-  #define    REFRESH_TIME (100)
-#endif
+#define    REFRESH_TIME (250)
 
 /**
  * A @class TexamView represents status of exam.
