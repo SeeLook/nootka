@@ -906,7 +906,10 @@ void TmainScore::paintEvent(QPaintEvent* event) {
   }
   painter.setBrush(m_bgColor);
   painter.setPen(Qt::NoPen);
-  painter.drawRect(event->rect());
+  if (insertMode() == e_single)
+    painter.drawRect(0, 0, width(), height()); // refresh whole score to avoid artifacts
+  else
+    painter.drawRect(event->rect());
   QGraphicsView::paintEvent(event);
 }
 

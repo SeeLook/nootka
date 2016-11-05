@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,16 +22,11 @@
 #include <animations/tmovedanim.h>
 #include <graphics/tgraphicstexttip.h>
 #include <tcolor.h>
-#include <QApplication>
-#include <QGraphicsTextItem>
-#include <QGraphicsEffect>
-#include <QTimer>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qgraphicsitem.h>
+#include <QtWidgets/qgraphicseffect.h>
+#include <QtCore/qtimer.h>
 
-
-/*static*/
-QString TnoteNameLabel::borderStyleText() {
-	return "" ; //border: 1px solid palette(Text); border-radius: 10px;";
-}
 
 //################################################################################################
 //#################################   PUBLIC     #################################################
@@ -48,7 +43,7 @@ TnoteNameLabel::TnoteNameLabel(const QString& text, QWidget* parent) :
   setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//   setFrameShape(QFrame::NoFrame);
+  setFrameShape(QFrame::NoFrame);
 	
 	QGraphicsScene *scene = new QGraphicsScene(this);
 	setScene(scene);
@@ -133,7 +128,7 @@ void TnoteNameLabel::markText(const QColor& color) {
 
 
 void TnoteNameLabel::setStyleSheet(const QString& style) {
-	QGraphicsView::setStyleSheet(borderStyleText() + m_bgColorText + style);
+	QGraphicsView::setStyleSheet(m_bgColorText + style);
 	m_styleText = style;
 }
 
@@ -141,7 +136,7 @@ void TnoteNameLabel::setStyleSheet(const QString& style) {
 void TnoteNameLabel::setBackgroundColor(const QColor& color) {
 	m_bgColor = color;
 	m_bgColorText = Tcolor::bgTag(color);
-	QGraphicsView::setStyleSheet(borderStyleText() + m_bgColorText + m_styleText);
+	QGraphicsView::setStyleSheet(m_bgColorText + m_styleText);
 	repaint();
 }
 
@@ -215,7 +210,7 @@ void TnoteNameLabel::resizeEvent(QResizeEvent* event) {
 }
 
 void TnoteNameLabel::setQuestionMarkPos() {
-	QPointF zero = mapToScene(0, 0);
+// 	QPointF zero = mapToScene(0, 0);
 	m_questMark->setPos(m_textItem->pos().x() + m_textItem->boundingRect().width() * m_textItem->scale(), 
 											(height() - m_questMark->boundingRect().height() * m_questMark->scale()) / 2.0);
 }

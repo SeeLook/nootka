@@ -359,6 +359,9 @@ void MainWindow::createSettingsDialog() {
 			m_guitar->setVisible(gl->L->guitarEnabled);
       if (gl->S->isSingleNoteMode) // refresh note name
         m_noteName->setNoteName(m_noteName->getNoteName());
+//       QResizeEvent re(m_innerWidget->size(), m_innerWidget->size());
+//       qApp->notify(m_innerWidget->viewport(), &re);
+//       QTimer::singleShot(10, [=]{ updateSize(m_innerWidget->size()); });
 			m_isPlayerFree = true;
 	} else if (lastValue == Torders::e_settingsReset) {
       resetConfig = true;

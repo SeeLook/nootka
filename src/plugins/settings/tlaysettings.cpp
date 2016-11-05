@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,7 +55,7 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	m_hintBox->setCheckable(true);
 	m_hintBox->setChecked(m_layParams->hintsBarEnabled);
 // 	m_hintBox->setContentsMargins(1, 1, 1, 1);
-	TroundedLabel *hintsLab = new TroundedLabel("Bla, bla, bla...", this);
+	TroundedLabel *hintsLab = new TroundedLabel(QStringLiteral("Bla, bla, bla..."), this);
 	hintsLab->setAlignment(Qt::AlignCenter);
 	m_hintBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 #endif
@@ -86,7 +86,7 @@ TlaySettings::TlaySettings(TlayoutParams* layParams, QWidget* parent) :
 	QLabel *scoreLab = new QLabel(pixToHtml(getMelodyPixmap(mel)), this);
   delete mel;
 	scoreLab->setAlignment(Qt::AlignCenter);
-	scoreLab->setStyleSheet("border: 1px solid palette(Text); border-radius: 10px; background-color: palette(Base);");
+	scoreLab->setStyleSheet("background-color: palette(Base);");
 	auto *descLab = new QLabel("<br><big><big><b>" + tr("There is no Nootka without a score!") + "</b></big></big><br>" +
 			tr("But you can hide even all the rest of widgets to see a score only."), this);
 	descLab->setAlignment(Qt::AlignCenter);
