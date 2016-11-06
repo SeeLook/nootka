@@ -47,7 +47,7 @@ public:
 
       /** It paints fingerprint on the fretboard in place where note is.
       * If globals GshowOtherPos is true all possibilities are shown.
-      * If @param realStr is set is shown only on pointed string (if any).
+      * If @p realStr is set is shown only on pointed string (if any).
       * It returns true if something is shown.*/
   void setFinger(const Tnote& note);
   void setFinger(TfingerPos pos);
@@ -76,7 +76,7 @@ public:
       /** Returns QLineF represents given string [1 - 6] */
   QLineF stringLine(int realStr) { return m_strings[qBound(0, realStr - 1, 5)]->line(); }
 
-      /** Returns @param true when cursor is over the widget. */
+      /** Returns @p true when cursor is over the widget. */
   bool isCursorOverGuitar() { return m_isCursorOverGuitar; }
 
       /** Marks selected string or fret. Marking is cleaned when clearFingerBoard() is invoked. */
@@ -122,10 +122,10 @@ protected:
   void mousePressEvent(QMouseEvent *event);
   bool event(QEvent *event);
 
-  void paint();
+  void updateBgPixmap();
   Tnote posToNote(int str, int fret);
 
-      /** Determines string width by its note pitch. Sets loNote & hiNote */
+      /** Determines string width by its note pitch. Sets @p loNote & @p hiNote */
   void setTune();
   
   void fakePress(const QPoint& viewPos); /**< Imitates mouse press, available only for friendly classes  */
@@ -136,13 +136,13 @@ private:
   QRect 			m_fbRect; /**< Represents top left positions and size of a fingerboard */
   short 			m_strGap; /**< Distance between strings */
   short 			m_fretWidth; /**< Average width of fret */
-  short 			lastFret; /**< Position of the last fret (in whole widget coordinates) */
+  short 			m_lastFret; /**< Position of the last fret (in whole widget coordinates) */
   short 			m_curStr, m_curFret; /**< Actual position of cursor over the guitar in strings/frets coordinates */
   short 			m_loNote, m_hiNote; /**< Chromatic numbers of lowest note in tune and highest. */
   TfingerPos 	m_fingerPos; /**< It keeps position of selected fingerprint.*/
-  short 			m_fretsPos[24]; /**< @param fretsPos stores X positions of frets in global widget coordinates */
+  short 			m_fretsPos[24]; /**< @p fretsPos stores X positions of frets in global widget coordinates */
   qreal 			m_strWidth[6]; /**< Array of width each string. Width depends on fretboard height. */
-  qreal 			m_widthFromPitch[6]; /**< Base values from which m_strWidth is calculated determined from tune. */
+  qreal 			m_widthFromPitch[6]; /**< Base values from which @p m_strWidth is calculated determined from tune. */
   QColor 			m_strColors[6];
 
   QGraphicsScene 						*m_scene;

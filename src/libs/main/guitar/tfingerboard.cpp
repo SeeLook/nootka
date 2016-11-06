@@ -323,10 +323,10 @@ void TfingerBoard::updateSize(const QSize& newSize) {
   m_strGap = m_fbRect.height() / Tcore::gl()->Gtune()->stringNr();
   m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
   for (int i = 2; i < Tcore::gl()->GfretsNumber + 1; i++)
-      m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth-(i / 2));
-  lastFret = m_fretsPos[Tcore::gl()->GfretsNumber - 1];
-  if (lastFret > (m_fbRect.width() + 10))
-      m_fbRect.setWidth(lastFret - 8);
+      m_fretsPos[i - 1] = m_fretsPos[i - 2] + (m_fretWidth - (i / 2));
+  m_lastFret = m_fretsPos[Tcore::gl()->GfretsNumber - 1];
+  if (m_lastFret > (m_fbRect.width() + 10))
+      m_fbRect.setWidth(m_lastFret - 8);
 }
 
 //################################################################################################
@@ -593,7 +593,7 @@ void TfingerBoard::setTune() {
 }
 
 
-void TfingerBoard::paint() {
+void TfingerBoard::updateBgPixmap() {
   updateSize(size());
 // Let's paint
 	QPixmap pixmap(size());
@@ -825,7 +825,7 @@ void TfingerBoard::resizeEvent(QResizeEvent *){
     m_strWidth[3] = m_widthFromPitch[3] * wFactor;
     m_strWidth[4] = m_widthFromPitch[4] * wFactor;
     m_strWidth[5] = m_widthFromPitch[5] * wFactor;
-    paint();
+    updateBgPixmap();
 }
 
 
@@ -915,9 +915,9 @@ void TfingerBoard::paintQuestMark() {
 					markPoint.setY(m_questPos.str() * m_strGap - m_questMark->boundingRect().height() / 2);
     } else {
         if (m_questPos.str() *m_strGap < fbRect().height() / 2) // below string
-            markPoint = QPoint(lastFret + m_fretWidth, m_fbRect.y() + m_questPos.str() * m_strGap - m_strGap / 2);
+            markPoint = QPoint(m_lastFret + m_fretWidth, m_fbRect.y() + m_questPos.str() * m_strGap - m_strGap / 2);
         else //above string
-            markPoint = QPoint(lastFret + m_fretWidth, 
+            markPoint = QPoint(m_lastFret + m_fretWidth, 
                                m_fbRect.y() + (m_questPos.str()) * m_strGap 
                                - m_questMark->boundingRect().height() - m_strGap/2);
     }
@@ -939,13 +939,13 @@ void TfingerBoard::resizeRangeBox() {
             xxB = m_fretsPos[m_loFret-2] - 4;
         if (m_loFret == 0) {//  surely box for open strings
             if (m_hiFret == 0) { // one box over hole
-                xxB = lastFret + m_strGap;
+                xxB = m_lastFret + m_strGap;
                 xxE = width() - m_strGap;
             }
             else if (m_hiFret < Tcore::gl()->GfretsNumber) { // both, one over hole
                 m_rangeBox2->setPen(pen);
-                m_rangeBox2->setRect(0, 0, width() - lastFret - 2 * m_strGap, m_fbRect.height());
-                m_rangeBox2->setPos(lastFret + m_strGap , m_fbRect.y() - 4);
+                m_rangeBox2->setRect(0, 0, width() - m_lastFret - 2 * m_strGap, m_fbRect.height());
+                m_rangeBox2->setPos(m_lastFret + m_strGap , m_fbRect.y() - 4);
                 xxE = m_fretsPos[m_hiFret - 1] + 12;
             } else { // one - over whole guitar
                 xxE = width() - m_strGap;
@@ -983,7 +983,7 @@ TfingerPos TfingerBoard::pointToFinger(const QPoint& point) {
     int tx, ty = point.y();
     tx = mapToScene(point.x(), point.y()).x();
     strNr = qMin((ty - m_fbRect.y()) / m_strGap, (int)Tcore::gl()->Gtune()->stringNr());
-    if (tx < m_fbRect.x() || tx > lastFret)
+    if (tx < m_fbRect.x() || tx > m_lastFret)
       fretNr = 0;
     else {
       for (int i = 0; i < Tcore::gl()->GfretsNumber; i++) {
@@ -1008,7 +1008,7 @@ void TfingerBoard::paintFingerAtPoint(QPoint p) {
       int tx, ty = p.y();
       tx = mapToScene(p.x(), p.y()).x();
       strNr = (ty - m_fbRect.y()) / m_strGap;
-      if (tx < m_fbRect.x() || tx > lastFret /*or some mouse button*/ )
+      if (tx < m_fbRect.x() || tx > m_lastFret /*or some mouse button*/ )
           fretNr = 0;
       else {
           for (int i = 0; i < Tcore::gl()->GfretsNumber; i++) {
