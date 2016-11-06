@@ -150,7 +150,7 @@ void TexamView::questionStop() {
 	} else
 		m_exam->curQ()->time = t; // just elapsed time of single answer
 	if (isVisible())
-		m_reactTimeLab->setText(QLatin1String(" ") + Texam::formatReactTime(m_exam->curQ()->time) + QLatin1String(" "));
+		m_reactTimeLab->setText(space + Texam::formatReactTime(m_exam->curQ()->time) + space);
 }
 
 
@@ -175,7 +175,7 @@ void TexamView::startExam(Texam* exam) {
 	m_totalTime.start();
 	countTime();
 	answered();
-	m_averTimeLab->setText(QLatin1String(" ") + Texam::formatReactTime(m_exam->averageReactonTime()) + QLatin1String(" "));
+	m_averTimeLab->setText(space + Texam::formatReactTime(m_exam->averageReactonTime()) + space);
 	if (m_exam->melodies()) {
 		m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of current question)."));
 		m_halfLab->setStatusTip(TexTrans::halfMistakenTxt());
