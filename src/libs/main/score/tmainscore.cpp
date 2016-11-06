@@ -64,11 +64,16 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
   }
 
   m_instance = this;
+
+  setObjectName(QStringLiteral("m_mainScore"));
 	m_acts = new TscoreActions(this);
 
 	scoreScene()->setNameColor(Tcore::gl()->S->nameColor);
 	restoreNotesSettings();
-	addStaff(staff());
+  connect(lastStaff(), &TscoreStaff::noteChanged, this, &TmainScore::noteWasClickedMain);
+  if (Tcore::gl()->S->namesOnScore)
+      lastStaff()->noteSegment(0)->showNoteName();
+  lastStaff()->setExtraAccids(m_acts->extraAccids()->isChecked());
 
   createActions();
 // set preferred clef
@@ -277,6 +282,7 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::noteWasClickedMain(int index) {
+  qDebug() << "[TmainScore] << note was clicked";
 	TscoreStaff *st = SENDER_TO_STAFF;
 	if (!isExam() && insertMode() == e_single)
 		m_nameMenu->setNoteName(*(st->getNote(index)));
@@ -654,28 +660,31 @@ void TmainScore::deleteNoteName(int id) {
 //####################################################################################################
 
 void TmainScore::whenNoteWasChanged(int index, Tnote note) {
-	//We are sure that index is 0, cause others are disabled :-)
-    if (insertMode() == e_single && Tcore::gl()->S->showEnharmNotes) {
-      if (note.isValid()) {
-        TnotesList enharmList = note.getTheSameNotes(Tcore::gl()->S->doubleAccidentalsEnabled);
-        TnotesList::iterator it = enharmList.begin();
-        ++it;
-        if (it != enharmList.end())
-            TsimpleScore::setNote(1, *(it));
-        else
-            clearNote(1);
-        if (Tcore::gl()->S->doubleAccidentalsEnabled) {
+  //We are sure that index is 0, cause others are disabled :-)
+  if (insertMode() == e_single) {
+    if (Tcore::gl()->S->showEnharmNotes) {
+        if (note.isValid()) { // generate list of en-harmonic notes
+            TnotesList enharmList = note.getTheSameNotes(Tcore::gl()->S->doubleAccidentalsEnabled);
+            TnotesList::iterator it = enharmList.begin();
             ++it;
             if (it != enharmList.end())
-                TsimpleScore::setNote(2, *(it));
+                TsimpleScore::setNote(1, *(it));
             else
-                clearNote(2);
-        }
-        m_nameMenu->setNoteName(enharmList);
-      } else
-          m_nameMenu->setNoteName(note);
-    }
-    emit noteChanged(index, note);
+                clearNote(1);
+            if (Tcore::gl()->S->doubleAccidentalsEnabled) {
+                ++it;
+                if (it != enharmList.end())
+                    TsimpleScore::setNote(2, *(it));
+                else
+                    clearNote(2);
+            }
+            m_nameMenu->setNoteName(enharmList);
+        } else
+            m_nameMenu->setNoteName(note);
+    } else // or set single note
+        m_nameMenu->setNoteName(note);
+  }
+  emit noteChanged(index, note);
 }
 
 //####################################################################################################
@@ -934,21 +943,12 @@ void TmainScore::createActions() {
 void TmainScore::restoreNotesSettings() {
   if (Tcore::gl()->S->enharmNotesColor == -1)
       Tcore::gl()->S->enharmNotesColor = QColor(0, 162, 162); // turquoise
-// 	TscoreNote::setNameColor(Tcore::gl()->S->nameColor);
 	scoreScene()->right()->adjustSize();
 	if (Tcore::gl()->S->pointerColor == -1) {
 				Tcore::gl()->S->pointerColor = Tcolor::invert(palette().highlight().color());
 				Tcore::gl()->S->pointerColor.setAlpha(200);
 	}
 	scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
-// 	for (int i = 0; i < staff()->count(); i++)
-// 			staff()->noteSegment(0)->enableAccidToKeyAnim(true);
-// 		staff()->noteSegment(1)->setReadOnly(true);
-// 		staff()->noteSegment(1)->setColor(Tcore::gl()->S->enharmNotesColor);
-// 		staff()->noteSegment(2)->setReadOnly(true);
-// 		staff()->noteSegment(2)->setColor(Tcore::gl()->S->enharmNotesColor);
-// 		staff()->noteSegment(0)->enableAccidToKeyAnim(true);
-		
 }
 
 
@@ -1010,7 +1010,7 @@ void TmainScore::addStaff(TscoreStaff* st) {
 	if (Tcore::gl()->S->namesOnScore)
 			lastStaff()->noteSegment(0)->showNoteName();
 	lastStaff()->setExtraAccids(m_acts->extraAccids()->isChecked());
-// 	qDebug() << "staff Added";
+// 	qDebug() << "[TmainScore] staff Added";
 }
 
 
