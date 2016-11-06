@@ -342,15 +342,14 @@ void MainWindow::createSettingsDialog() {
       loader->init(args, this);
 	Torders::Esettings lastValue = (Torders::Esettings)loader->lastValue();
 	loader->deleteLater();
-		if (lastValue == Torders::e_settingsAccept) {
+  if (lastValue == Torders::e_settingsAccept) {
 			m_isPlayerFree = false;
 			m_sound->acceptSettings();
 			setSingleNoteMode(gl->S->isSingleNoteMode);
 			m_score->acceptSettings();
-			updateSize(m_innerWidget->size());
+      updateSize(m_innerWidget->size()); // layout settings of tool bar is approved here
 			if (gl->L->guitarEnabled && gl->instrument != e_noInstrument)
 					m_guitar->acceptSettings(); //refresh guitar
-			m_bar->setBarIconStyle(gl->L->iconTextOnToolBar, m_bar->iconSize().width());
 			m_innerWidget->setBarAutoHide(gl->L->toolBarAutoHide);
 #if !defined (Q_OS_ANDROID)
 			m_statusLabel->setVisible(gl->L->hintsBarEnabled);
@@ -359,9 +358,6 @@ void MainWindow::createSettingsDialog() {
 			m_guitar->setVisible(gl->L->guitarEnabled);
       if (gl->S->isSingleNoteMode) // refresh note name
         m_noteName->setNoteName(m_noteName->getNoteName());
-//       QResizeEvent re(m_innerWidget->size(), m_innerWidget->size());
-//       qApp->notify(m_innerWidget->viewport(), &re);
-//       QTimer::singleShot(10, [=]{ updateSize(m_innerWidget->size()); });
 			m_isPlayerFree = true;
 	} else if (lastValue == Torders::e_settingsReset) {
       resetConfig = true;

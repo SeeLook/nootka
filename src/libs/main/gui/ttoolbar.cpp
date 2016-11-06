@@ -34,9 +34,9 @@ TtoolBar* TtoolBar::m_instance = nullptr;
 
 
 TtoolBar::TtoolBar(const QString& version, QMainWindow* mainWindow) :
-	QToolBar(0),
-	aboutAct(0),
-	m_proxy(0)
+  QToolBar(nullptr),
+  aboutAct(nullptr),
+  m_proxy(nullptr)
 {
   if (m_instance) {
     qDebug() << "TtoolBar instance already exists";
@@ -352,38 +352,47 @@ void TtoolBar::setAfterAnswer() {
 
 
 void TtoolBar::setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS) {
+  bool doAdjust = false;
 	if (iconStyle != toolButtonStyle()) {
     setToolButtonStyle(iconStyle);
 		m_melButton->button()->setToolButtonStyle(iconStyle);
     m_scoreActs->button()->setToolButtonStyle(iconStyle);
+    doAdjust = true;
 	}
 	int tmpSize = iconS;
 	if (toolButtonStyle() == Qt::ToolButtonIconOnly)
-		iconS *= 1.4; // increase icons size when no text under
+    iconS = qRound(iconS * 1.4); // increase icons size when no text under them
 	if (toolButtonStyle() != Qt::ToolButtonTextOnly) {
 		if (iconS != iconSize().width()) {
-			setIconSize(QSize(iconS, iconS));
-        m_melButton->button()->setIconSize(QSize(iconS, iconS));
-        m_scoreActs->button()->setIconSize(QSize(iconS, iconS));
+      setIconSize(QSize(iconS, iconS));
+      m_melButton->button()->setIconSize(QSize(iconS, iconS));
+      m_scoreActs->button()->setIconSize(QSize(iconS, iconS));
+      doAdjust = true;
 		}
 	}
 #if !defined(Q_OS_ANDROID)
-  m_nootLabel->setMaximumHeight(tmpSize * 1.5);
+  int newLabelHeight = qRound(1.5 * tmpSize);
+  if (m_nootLabel->maximumHeight() != newLabelHeight) {
+    m_nootLabel->setMaximumHeight(tmpSize * 1.5);
+    doAdjust = true;
+  }
 #endif
-	adjustSize();
-	if (m_proxy)
-		m_proxy->adjustSize();
+  if (doAdjust) // It avoids flickering when settings are approved but size was unchanged
+    adjustSize();
 }
 
 
 void TtoolBar::setProxy(QGraphicsProxyWidget* proxy) {
-	m_proxy = proxy;
-  if (!TtouchProxy::touchEnabled()) {
-    if (m_proxy)
-      m_spacer->show();
-    else
-      m_spacer->hide();
-    update();
+  if (proxy != m_proxy) {
+    if (!TtouchProxy::touchEnabled()) {
+      if (proxy == nullptr)
+        m_spacer->show();
+      else
+        m_spacer->hide();
+      update();
+    }
+    m_proxy = proxy;
+    adjustSize();
   }
 }
 

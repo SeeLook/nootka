@@ -293,12 +293,11 @@ void TmainView::setBarAutoHide(bool autoHide) {
 			} else {
 				m_proxyBar->setWidget(m_tool);
 			}
-			QGraphicsDropShadowEffect *barBlur = new QGraphicsDropShadowEffect();
-			barBlur->setColor(palette().highlight().color());
-			barBlur->setOffset(0, 0);
-			barBlur->setBlurRadius(15);
-			m_proxyBar->setZValue(200);
-			m_proxyBar->setGraphicsEffect(barBlur);
+      auto *barDropShadow = new TdropShadowEffect;
+      barDropShadow->setColor(palette().highlight().color());
+      barDropShadow->setBlurRadius(15);
+      m_proxyBar->setZValue(200);
+      m_proxyBar->setGraphicsEffect(barDropShadow);
       if (TtouchProxy::touchEnabled())
         m_proxyBar->hide();
       else {
@@ -310,11 +309,11 @@ void TmainView::setBarAutoHide(bool autoHide) {
       }
 		} else {
 			if (m_proxyBar) {
-				m_proxyBar->setWidget(0);
-				m_proxyBar->setGraphicsEffect(0);
+				m_proxyBar->setWidget(nullptr);
+				m_proxyBar->setGraphicsEffect(nullptr);
 			}
 			m_mainLay->insertWidget(0, m_tool);
-			m_tool->setProxy(0);
+			m_tool->setProxy(nullptr);
 		}
   }
 }
