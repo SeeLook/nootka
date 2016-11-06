@@ -50,8 +50,8 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
   m_addNoteAnim(true),
   m_selectReadOnly(false), m_isDisabled(false)
 {
-  setObjectName("m_mainScore");
   setContentsMargins(2, 2, 2, 2);
+  addStaff(staff());
   if (!TscoreNote::touchEnabled())
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded); // it is off by default
   staff()->setZValue(11); // to be above next staves - TnoteControl requires it
