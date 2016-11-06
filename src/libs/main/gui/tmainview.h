@@ -75,7 +75,7 @@ public:
 	void setBarAutoHide(bool autoHide); /**< Makes tool bar permanently visible or displayed on demand (mouse action) */
 	bool isAutoHide() { return m_isAutoHide; }
 
-	virtual bool handleTouchEvent(QEvent *event);
+	bool handleTouchEvent(QEvent *event);
 
 #if defined (Q_OS_ANDROID)
       /** Redirected  from @p TmelodyItem::actions() the list of quick icons.
