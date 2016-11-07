@@ -34,20 +34,20 @@ class NOOTKACORE_EXPORT TscoreScordature : public TscoreItem
 {
 
 public:
-	
+
     TscoreScordature(TscoreScene* scene, TscoreStaff *staff);
-    
+
         /** Sets tune and displays it in given style. */
     void setTune(Ttune& tune);
-				/** Returns @p true when tune was different than standard and something is displayed. */
-		bool isScordatured() { return (bool)m_scordText; }
-    
+        /** Returns @p true when tune was different than standard and something is displayed. */
+    bool isScordatured() { return (bool)m_scordText; }
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
 
 private:
-    QGraphicsTextItem 	*m_scordText; // displayed scordature text
-    qreal 							m_height;
+    QGraphicsTextItem   *m_scordText; // displayed scordature text
+    qreal               m_height;
 
 };
 

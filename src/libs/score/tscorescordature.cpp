@@ -30,7 +30,7 @@ TscoreScordature::TscoreScordature(TscoreScene* scene, TscoreStaff* staff) :
   m_scordText(0),
   m_height(1)
 {
-	setFlag(QGraphicsItem::ItemHasNoContents);
+  setFlag(QGraphicsItem::ItemHasNoContents);
   setStaff(staff);
 //   setStatusTip(QObject::tr("Scordature of a guitar"));
 }
@@ -38,7 +38,7 @@ TscoreScordature::TscoreScordature(TscoreScene* scene, TscoreStaff* staff) :
 
 void TscoreScordature::setTune(Ttune& tune) {
   if (tune != Ttune::stdTune) {
-		int fSize = 12;
+    int fSize = 12;
     int nL = 0;
     for (int i = 1; i < 7; i++) {
         if ( tune[i] != Ttune::stdTune[i])
@@ -49,11 +49,11 @@ void TscoreScordature::setTune(Ttune& tune) {
     for (int i = 1; i <= tune.stringNr(); i++) {
         if ( tune[i] != Ttune::stdTune[i]) {
           if (c) { // string changed first was already written
-              if (nL > 3) { 
+              if (nL > 3) {
                 if (c % 2 == 0) // add line break to second entry in a row
                   scordText += "<br>";
                 else // space after first text entry
-                  scordText += " ";              
+                  scordText += " ";
               } else // single text in row, so line break after
                 scordText += "<br>";
           }
@@ -67,29 +67,29 @@ void TscoreScordature::setTune(Ttune& tune) {
         delete m_scordText;
     m_scordText = new QGraphicsTextItem();
     m_scordText->setParentItem(this);
-		m_scordText->setHtml(scordText);		
-		qreal xPos = 0.0, extraW = 2.0;
-		qreal yPos = staff()->upperLinePos() + 12;
-		if (staff()->isPianoStaff()) {
-			// This is in case of scordature on piano staff - it needs more space to look well
-			xPos = -1.0;
-			extraW = 3.0;
-			yPos = staff()->lowerLinePos() + 8.5;
-		} else if (staff()->scoreClef()->clef().type() != Tclef::e_treble_G &&
-					staff()->scoreClef()->clef().type() != Tclef::e_treble_G_8down)
-			yPos -= 4.0;
-		if (staff()->scoreKey())
-				extraW += KEY_WIDTH;
-		else
-				extraW += KEY_WIDTH / 2;
-		qreal factor = (CLEF_WIDTH + extraW) / m_scordText->boundingRect().width();
-		setScale(factor);
-		m_height = staff()->height() - yPos - 1;
-// 		qDebug() << m_height << m_scordText->boundingRect().height() * scale();
-		if (m_scordText->boundingRect().height() * scale() > m_height)
-			setScale(factor * (m_height / (m_scordText->boundingRect().height() * scale())));
-		setPos(xPos, yPos);
-		m_height = m_scordText->boundingRect().height();
+    m_scordText->setHtml(scordText);
+    qreal xPos = 0.0, extraW = 2.0;
+    qreal yPos = staff()->upperLinePos() + 12;
+    if (staff()->isPianoStaff()) {
+      // This is in case of scordature on piano staff - it needs more space to look well
+      xPos = -1.0;
+      extraW = 3.0;
+      yPos = staff()->lowerLinePos() + 8.5;
+    } else if (staff()->scoreClef()->clef().type() != Tclef::e_treble_G &&
+          staff()->scoreClef()->clef().type() != Tclef::e_treble_G_8down)
+      yPos -= 4.0;
+    if (staff()->scoreKey())
+        extraW += KEY_WIDTH;
+    else
+        extraW += KEY_WIDTH / 2;
+    qreal factor = (CLEF_WIDTH + extraW) / m_scordText->boundingRect().width();
+    setScale(factor);
+    m_height = staff()->height() - yPos - 1;
+//     qDebug() << m_height << m_scordText->boundingRect().height() * scale();
+    if (m_scordText->boundingRect().height() * scale() > m_height)
+      setScale(factor * (m_height / (m_scordText->boundingRect().height() * scale())));
+    setPos(xPos, yPos);
+    m_height = m_scordText->boundingRect().height();
   } else {
     if (m_scordText) {
       delete m_scordText;
@@ -101,9 +101,9 @@ void TscoreScordature::setTune(Ttune& tune) {
 
 QRectF TscoreScordature::boundingRect() const {
   if (m_scordText)
-		return QRectF(0, 0, (CLEF_WIDTH + KEY_WIDTH - 1), m_height);
-	else
-		return QRect();
+    return QRectF(0, 0, (CLEF_WIDTH + KEY_WIDTH - 1), m_height);
+  else
+    return QRect();
 }
 
 

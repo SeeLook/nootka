@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
- *   seelook@gmail.com        						                                 *
+ *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License       *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -28,28 +28,28 @@
 */
 class NOOTKACORE_EXPORT TpushButton : public QPushButton
 {
-	Q_OBJECT
+  Q_OBJECT
 public:
   TpushButton(const QString& text = QString(), QWidget *parent = 0);
-	void setChecked(bool isChecked);
-	bool isChecked() { return m_Ichecked; }
-	
-		/** Sets colors for checked button. 
-		 * It has influence on all buttons in the application.	 */
-	static void setCheckColor(QColor background = Qt::black, QColor text = Qt::white);
-	
-		/** Sets colors for this instance of checked button. */
-	void setThisColors(QColor background = Qt::black, QColor text = Qt::white);
-	
-	
+  void setChecked(bool isChecked);
+  bool isChecked() { return m_Ichecked; }
+
+    /** Sets colors for checked button.
+     * It has influence on all buttons in the application.   */
+  static void setCheckColor(QColor background = Qt::black, QColor text = Qt::white);
+
+    /** Sets colors for this instance of checked button. */
+  void setThisColors(QColor background = Qt::black, QColor text = Qt::white);
+
+
 private:
-	bool m_Ichecked;
-	static QColor m_textColor;
-	static QColor m_backColor;
-	QColor m_textThis;
-	QColor m_backThis;
-	
-	
+  bool m_Ichecked;
+  static QColor m_textColor;
+  static QColor m_backColor;
+  QColor m_textThis;
+  QColor m_backThis;
+
+
 };
 
 #endif // TPUSHBUTTON_H

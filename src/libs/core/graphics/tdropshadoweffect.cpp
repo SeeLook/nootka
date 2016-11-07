@@ -30,12 +30,12 @@ TdropShadowEffect::TdropShadowEffect(const QColor& color) :
   m_distance(4.0),
   m_blurRadius(20.0)
 {
-// 	setBlurRadius(10);
-// 	setOffset(4, 4);
-	if (color == -1)
-		setColor(qApp->palette().text().color());
-	else
-		setColor(color);
+//   setBlurRadius(10);
+//   setOffset(4, 4);
+  if (color == -1)
+    setColor(qApp->palette().text().color());
+  else
+    setColor(color);
 }
 
 //#################################################################################################

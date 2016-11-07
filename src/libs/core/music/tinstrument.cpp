@@ -21,29 +21,29 @@
 
 
 QString instrumentToText(Einstrument instr) {
-	if (instr == e_noInstrument)
-			return QApplication::translate("Einstrument", "other instrument");
-	if (instr == e_classicalGuitar)
-			return QApplication::translate("Einstrument", "Classical Guitar");
-	if (instr == e_electricGuitar)
-			return QApplication::translate("Einstrument", "Electric Guitar");
-	if (instr == e_bassGuitar)
-			return QApplication::translate("Einstrument", "Bass Guitar");
-	
-	return "";
+  if (instr == e_noInstrument)
+      return QApplication::translate("Einstrument", "other instrument");
+  if (instr == e_classicalGuitar)
+      return QApplication::translate("Einstrument", "Classical Guitar");
+  if (instr == e_electricGuitar)
+      return QApplication::translate("Einstrument", "Electric Guitar");
+  if (instr == e_bassGuitar)
+      return QApplication::translate("Einstrument", "Bass Guitar");
+
+  return "";
 }
 
 
 QString instrumentToGlyph(Einstrument instr) {
-	QString glyph;
-	switch (instr) {
-			case e_noInstrument: glyph = "v"; break;// singer symbol
-			case e_classicalGuitar: glyph = "h"; break; // classical guitar
-			case e_electricGuitar: glyph = "i"; break; // electric guitar
-			case e_bassGuitar: glyph = "j"; break; // bass guitar
-			default: glyph = ""; break;
-	}
-	return glyph;
+  QString glyph;
+  switch (instr) {
+      case e_noInstrument: glyph = "v"; break;// singer symbol
+      case e_classicalGuitar: glyph = "h"; break; // classical guitar
+      case e_electricGuitar: glyph = "i"; break; // electric guitar
+      case e_bassGuitar: glyph = "j"; break; // bass guitar
+      default: glyph = ""; break;
+  }
+  return glyph;
 }
 
 

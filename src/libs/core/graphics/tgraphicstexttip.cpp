@@ -157,7 +157,7 @@ QRectF TgraphicsTextTip::boundingRect() const {
 //#################################################################################################
 
 /** !!!!!!!!!!!!!!!
- * All moving methods will work properly only for items with no parent - those ones belong to scene directly 
+ * All moving methods will work properly only for items with no parent - those ones belong to scene directly
 */
 void TgraphicsTextTip::linkHoveredSlot(const QString& link) {
   if (link.isEmpty()) {

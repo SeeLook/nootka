@@ -24,25 +24,25 @@
 
 
 
-/** 
+/**
  * This class performs blinking of QGraphicsItem.
  */
 class NOOTKACORE_EXPORT TblinkingItem : public TabstractAnim
 {
-		Q_OBJECT
-    
+    Q_OBJECT
+
 public:
-	
-		explicit TblinkingItem(QGraphicsItem *item, QObject* parent = 0);
-		
-				
+
+    explicit TblinkingItem(QGraphicsItem *item, QObject* parent = 0);
+
+
 public slots:
-				/** Starts blinking animation. */
-		void startBlinking(int count = 2);
-		
-		
+        /** Starts blinking animation. */
+    void startBlinking(int count = 2);
+
+
 protected slots:
-		virtual void animationRoutine();		
+    virtual void animationRoutine();
 
 };
 

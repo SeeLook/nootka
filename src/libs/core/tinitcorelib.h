@@ -27,27 +27,27 @@ class QTranslator;
 class QApplication;
 class QStyle;
 
-/** 
+/**
  * Internal instance of Tglobals pointer used by in initCoreLibrary. *
  * It should be set during first call of @p Tglobals constructor
  */
 class NOOTKACORE_EXPORT Tcore
 {
 
-	friend class Tglobals;
-	
+  friend class Tglobals;
+
 public:
-	static Tglobals* gl() { return m_gl; } /** static global pointer to Tglobals */
+  static Tglobals* gl() { return m_gl; } /** static global pointer to Tglobals */
 #if defined (Q_OS_ANDROID)
   static QStyle* androidStyle;
 #endif
-	
+
 protected:
-	static void setGlobals(Tglobals *g) { m_gl = g; }
-	static void reset() { m_gl = 0; } /** Set pointer to @p Tglobals to 0 */
-	
+  static void setGlobals(Tglobals *g) { m_gl = g; }
+  static void reset() { m_gl = 0; } /** Set pointer to @p Tglobals to 0 */
+
 private:
-	static Tglobals *m_gl; 
+  static Tglobals *m_gl;
 
 };
 
@@ -63,7 +63,7 @@ NOOTKACORE_EXPORT bool initCoreLibrary();
  * Translator object has to be created before. */
 NOOTKACORE_EXPORT void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo);
 
-/** Checks nootka.ttf file and loads it. Returns true if successful.  
+/** Checks nootka.ttf file and loads it. Returns true if successful.
  * libNootkaCore has to be initialized first by initCoreLibrary() */
 NOOTKACORE_EXPORT bool loadNootkaFont(QApplication* a);
 

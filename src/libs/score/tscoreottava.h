@@ -30,8 +30,8 @@ class TscoreOttava : public TscoreItem
 
 public:
     TscoreOttava(TscoreStaff* staff, int beginNote, int endNote);
-    virtual ~TscoreOttava(); 
-		
+    virtual ~TscoreOttava();
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
 

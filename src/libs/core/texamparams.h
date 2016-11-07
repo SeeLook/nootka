@@ -34,12 +34,12 @@ class NOOTKACORE_EXPORT TexamParams
 
 public:
 
-			/** Actions after user mistake when next question is asked automatically. */
-	enum EafterMistake {
-		e_continue = 0, /** next question is asked immediately */
-		e_wait = 1, /** next question is asked after delay defined in @p previewDuration */
-		e_stop = 2 /** questioning is stopped, to get next one user has to click */
-	};
+      /** Actions after user mistake when next question is asked automatically. */
+  enum EafterMistake {
+    e_continue = 0, /** next question is asked immediately */
+    e_wait = 1, /** next question is asked after delay defined in @p previewDuration */
+    e_stop = 2 /** questioning is stopped, to get next one user has to click */
+  };
 
   bool autoNextQuest; /** Next question in en exam is given automatically after correct answer @def false */
   bool repeatIncorrect; /** If EautoNextQuest is true incorrect questions are asked again once @def true */
@@ -50,18 +50,18 @@ public:
   QString levelsDir; /** Path to dir with recent opened level file. @def system_home_path */
   bool closeWithoutConfirm; /** Do not ask anything when Nootka is closing. @def false */
   bool showNameOfAnswered; /** Displays note name of answered (if possible). @def false */
-  
+
 // PRACTICE/EXERCISING
   bool showCorrected; /** When answer was wrong, corrected one will be shown */
   bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. @def true */
   bool showWrongPlayed; /** Displays what pitch Nootka detected when played answer was wrong. @def false  */
-  
+
   int mistakePreview; /** How long mistakes are exposed to ask auto next question. @def 3000ms */
   int questionDelay; /** Wait time before every next question. */
   int correctPreview; /** Preview of answer correction.  */
-  
+
 // Displaying dialogues check box state
-	bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
+  bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
   bool showHelpOnStart; /** shows dialog with help on start en exam or exercise @def true */
   bool showVeryBeginHelp; /** When start exam or exercise dialog appears @def true */
 };

@@ -25,21 +25,21 @@
 #include <music/tnote.h>
 
 
-/** 
- * This is simple structure with 
- * @p note (Tnote) 
+/**
+ * This is simple structure with
+ * @p note (Tnote)
  * and position on the guitar @p pot (TfingerPos)
  */
-struct NOOTKACORE_EXPORT TQAgroup 
+struct NOOTKACORE_EXPORT TQAgroup
 {
-		TfingerPos pos;
-		Tnote note;
+    TfingerPos pos;
+    Tnote note;
 };
 
-		/** Global method to save TQAgroup to XML. (not valid) note and position are skipped. */
+    /** Global method to save TQAgroup to XML. (not valid) note and position are skipped. */
 NOOTKACORE_EXPORT void qaGroupToXml(TQAgroup& gr, QXmlStreamWriter& xml, const QString& tag = "qa");
 
-		/** Global method to get TQAgroup from XML. */
+    /** Global method to get TQAgroup from XML. */
 NOOTKACORE_EXPORT bool qaGroupFromXml(TQAgroup& gr, QXmlStreamReader& xml);
 
 

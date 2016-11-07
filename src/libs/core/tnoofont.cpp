@@ -22,23 +22,21 @@
 TnooFont::TnooFont(int pointSize) :
 	QFont("nootka", pointSize)
 {
-	setPixelSize(pointSize);
+  setPixelSize(pointSize);
   setBold(false);
   setWeight(50); // Normal
 }
 
 
 QString TnooFont::tag(const QString& tag, const QString& text, int fontSize, const QString& extraStyle) {
-	QString fSize = "";
-	if (fontSize)
-			fSize = QString("font-size: %1px;").arg(fontSize);
-	QString ex = extraStyle;
-	if (!extraStyle.isEmpty() && !extraStyle.endsWith(";"))
-			ex = extraStyle + ";";
-	return "<" + tag + " style=\"font-family: nootka;" + fSize + ex + "\">" + text + "</" + tag + ">";
+  QString fSize;
+  if (fontSize)
+      fSize = QString("font-size: %1px;").arg(fontSize);
+  QString ex = extraStyle;
+  if (!extraStyle.isEmpty() && !extraStyle.endsWith(QLatin1String(";")))
+      ex = extraStyle + QLatin1String(";");
+  return QLatin1String("<") + tag + QLatin1String(" style=\"font-family: nootka;") + fSize + ex + QLatin1String("\">")
+          + text + QLatin1String("</") + tag + QLatin1String(">");
 }
-
-
-
 
 

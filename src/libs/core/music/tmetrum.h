@@ -25,21 +25,21 @@ class NOOTKACORE_EXPORT Tmetrum
 {
 
 public:
-	enum Emeter {
-		e_none = 0,
-		e_2_4 = 1,
-		e_3_4 = 2,
-		e_4_4 = 4,
-		e_5_4 = 8,
-		e_6_4 = 16
-	};
-	
-	Tmetrum(Emeter meter = e_none) : m_meter(meter) {}
-	
-	Emeter meter() { return m_meter; }
-	
+  enum Emeter {
+    e_none = 0,
+    e_2_4 = 1,
+    e_3_4 = 2,
+    e_4_4 = 4,
+    e_5_4 = 8,
+    e_6_4 = 16
+  };
+
+  Tmetrum(Emeter meter = e_none) : m_meter(meter) {}
+
+  Emeter meter() { return m_meter; }
+
 private:
-	Emeter				m_meter;
+  Emeter        m_meter;
 };
 
 #endif // TMETRUM_H

@@ -25,49 +25,49 @@
 QEasingCurve easingC(QEasingCurve::InExpo);
 
 TcrossFadeTextAnim::TcrossFadeTextAnim(QGraphicsSimpleTextItem* textItem, QObject* parent) :
-	QObject(parent),
-	m_item(textItem)
+  QObject(parent),
+  m_item(textItem)
 {
-	setDuration(150);
+  setDuration(150);
 }
 
 
 void TcrossFadeTextAnim::startCrossFading(const QString& newText, const QColor& newColor) {
-	m_newText = newText;
-	m_newColor = newColor;
-	m_currStep = 0;
-	m_alpha = m_item->brush().color().alpha();
-	crossFadingSlot();
+  m_newText = newText;
+  m_newColor = newColor;
+  m_currStep = 0;
+  m_alpha = m_item->brush().color().alpha();
+  crossFadingSlot();
 }
 
 
 void TcrossFadeTextAnim::crossFadingSlot() {
-	m_currStep++;
-	if (m_currStep <= m_maxStep) {
-		if (m_currStep < m_maxStep / 2) { // fade out
-				setItemAlpha(m_item->brush().color().alpha() - (m_alpha / (m_maxStep / 2)));
-// 						easingC.valueForProgress((qreal)m_currStep / (m_maxStep / 2.0)));
-		} else { // fade in
-			if (m_currStep == m_maxStep / 2) {
-					m_item->setText(m_newText);
-					if (m_newColor != -1) 
-						m_item->setBrush(m_newColor);
-			}
-			setItemAlpha((m_currStep - (m_maxStep / 2)) * (m_alpha / (m_maxStep / 2)));
-// 				easingC.valueForProgress(((qreal)m_currStep - (m_maxStep / 2.0)) / (m_maxStep / 2.0)));
-		}
+  m_currStep++;
+  if (m_currStep <= m_maxStep) {
+    if (m_currStep < m_maxStep / 2) { // fade out
+        setItemAlpha(m_item->brush().color().alpha() - (m_alpha / (m_maxStep / 2)));
+//             easingC.valueForProgress((qreal)m_currStep / (m_maxStep / 2.0)));
+    } else { // fade in
+      if (m_currStep == m_maxStep / 2) {
+          m_item->setText(m_newText);
+          if (m_newColor != -1)
+            m_item->setBrush(m_newColor);
+      }
+      setItemAlpha((m_currStep - (m_maxStep / 2)) * (m_alpha / (m_maxStep / 2)));
+//         easingC.valueForProgress(((qreal)m_currStep - (m_maxStep / 2.0)) / (m_maxStep / 2.0)));
+    }
 		QTimer::singleShot(FADE_CLIP_TIME, this, SLOT(crossFadingSlot()));
-	} else {
-			setItemAlpha(m_alpha);
-			emit crossFadingFinished();
-	}
+  } else {
+      setItemAlpha(m_alpha);
+      emit crossFadingFinished();
+  }
 }
 
 
 void TcrossFadeTextAnim::setItemAlpha(int alpha) {
-		QColor color = m_item->brush().color();
-		color.setAlpha(alpha);
-		m_item->setBrush(QBrush(color));
+    QColor color = m_item->brush().color();
+    color.setAlpha(alpha);
+    m_item->setBrush(QBrush(color));
 }
 
 
