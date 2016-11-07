@@ -24,7 +24,7 @@
 #include <cmath>
 #include "tnote.h"
 
-/** 
+/**
  * Structure that stores pitch and its parameters as such as frequency and duration in [s].
  * It also stores numbers of start/end chunk of a note.
  * It may return average pitch of all registered pitches of a played note
@@ -37,13 +37,13 @@ class NOOTKACORE_EXPORT TnoteStruct
 {
 
 public:
-	TnoteStruct(const Tnote& p, qreal pF, qreal f = 0.0, qreal dur = 0.0) : pitch(p), pitchF(pF), freq(f), duration(dur) {}
-	
-	TnoteStruct() {	freq = 0; duration = 0; pitchF = 0;	} /** Default constructor  */
+  TnoteStruct(const Tnote& p, qreal pF, qreal f = 0.0, qreal dur = 0.0) : pitch(p), pitchF(pF), freq(f), duration(dur) {}
+
+  TnoteStruct() {  freq = 0; duration = 0; pitchF = 0;  } /** Default constructor  */
 
 
       /** Initializes and cleans @p TnoteStruct values  */
-	void init(int _index, int chunkNr, qreal floatPitch) {
+  void init(int _index, int chunkNr, qreal floatPitch) {
     startChunk = chunkNr;
     endChunk = chunkNr;
     pitchF = floatPitch;
@@ -82,48 +82,48 @@ public:
     pitchF = bestPitch;
   }
 
-			/** Checks is float value of a note pitch different than its root pitch in range of given threshold.
-			 * Returns @p TRUE if @p pitchF value is into threshold range or @p FALSE when not
-			 * This way intonation accuracy is checked */
-	bool inTune(float threshold) {
-		if (qAbs(pitchF - (float)qRound(pitchF)) >= threshold)
-			return false;
-		else
-			return true;
-	}
-	
+      /** Checks is float value of a note pitch different than its root pitch in range of given threshold.
+       * Returns @p TRUE if @p pitchF value is into threshold range or @p FALSE when not
+       * This way intonation accuracy is checked */
+  bool inTune(float threshold) {
+    if (qAbs(pitchF - (float)qRound(pitchF)) >= threshold)
+      return false;
+    else
+      return true;
+  }
+
       /** Sets values of note structure, or sets them to NULL if no values defined. */
-	void set(qreal midiPitch = 0.0, qreal f = 0.0, qreal dur = 0.0) {
-		midiPitch ? pitch = Tnote(qRound(midiPitch) - 47) : pitch = Tnote(); pitchF = midiPitch; freq = f; duration = dur;
-	}
-	
-	int     index;            /**< Note index in entire channel */
-	Tnote   pitch; 		        /**< Note pitch like C, D, E or C3, D#  */
-	qreal   pitchF; 	        /**< Chromatic note number in MIDI scale, C1 = 60 */
-	qreal   bestPitch;        /**< Closest value to rounded (perfect) pitch among all occurred pitches. */
-	int     basePitch;        /**< Midi value (rounded to integer) of a pitch */
-	qreal   freq; 		        /**< Frequency of a note */
-	qreal   duration;         /**< Duration of a note */
-	int     startChunk;       /**< Chunk in which note was noticed */
-	int     endChunk;         /**< Last chunk with this note */
-	float   maxVol;           /**< Loudest volume occurred */
-	float   minVol;           /**< Less volume occurred */
-	float   maxPCMvol;        /**< Maximal Raw PCM volume during whole note */
+  void set(qreal midiPitch = 0.0, qreal f = 0.0, qreal dur = 0.0) {
+    midiPitch ? pitch = Tnote(qRound(midiPitch) - 47) : pitch = Tnote(); pitchF = midiPitch; freq = f; duration = dur;
+  }
 
-	int     numChunks() { return endChunk - startChunk + 1; } /** Note duration in chunks */
+  int     index;            /**< Note index in entire channel */
+  Tnote   pitch;            /**< Note pitch like C, D, E or C3, D#  */
+  qreal   pitchF;           /**< Chromatic note number in MIDI scale, C1 = 60 */
+  qreal   bestPitch;        /**< Closest value to rounded (perfect) pitch among all occurred pitches. */
+  int     basePitch;        /**< Midi value (rounded to integer) of a pitch */
+  qreal   freq;             /**< Frequency of a note */
+  qreal   duration;         /**< Duration of a note */
+  int     startChunk;       /**< Chunk in which note was noticed */
+  int     endChunk;         /**< Last chunk with this note */
+  float   maxVol;           /**< Loudest volume occurred */
+  float   minVol;           /**< Less volume occurred */
+  float   maxPCMvol;        /**< Maximal Raw PCM volume during whole note */
 
-	qreal   totalAverage() { if (m_totalAver == 0.0) getTotalAverage(); return m_totalAver; } /** Average pitch of all chunk pitches */
-	qreal   shortAverage() { if (m_shortAver == 0.0) getShortAverage(); return m_shortAver; } /** Average pitch of all chunk pitches */
-	qreal   averageFreq() { return pitchToFreq(totalAverage()); } /** Average frequency of total average pitch */
-	qreal   averageShortFreq() { return pitchToFreq(shortAverage()); } /** Average frequency of total average pitch */
+  int     numChunks() { return endChunk - startChunk + 1; } /** Note duration in chunks */
 
-	QList<qreal>* pitches() { return &m_pList; } /** Pointer to list of pitches */
+  qreal   totalAverage() { if (m_totalAver == 0.0) getTotalAverage(); return m_totalAver; } /** Average pitch of all chunk pitches */
+  qreal   shortAverage() { if (m_shortAver == 0.0) getShortAverage(); return m_shortAver; } /** Average pitch of all chunk pitches */
+  qreal   averageFreq() { return pitchToFreq(totalAverage()); } /** Average frequency of total average pitch */
+  qreal   averageShortFreq() { return pitchToFreq(shortAverage()); } /** Average frequency of total average pitch */
+
+  QList<qreal>* pitches() { return &m_pList; } /** Pointer to list of pitches */
 
       /** Static method that converts given pitch to a frequency (in Hz) */
-	static qreal pitchToFreq(qreal midiPitch) { return std::pow(10.0, (midiPitch + 36.3763165622959152488) / 39.8631371386483481); }
+  static qreal pitchToFreq(qreal midiPitch) { return std::pow(10.0, (midiPitch + 36.3763165622959152488) / 39.8631371386483481); }
 
       /** Returns average pitch in given chunks range. First chunk is 1. */
-	qreal getAverage(unsigned int start, unsigned int stop) {
+  qreal getAverage(unsigned int start, unsigned int stop) {
     qreal sum = 0.0;
     int cnt = 0;
     for (int i = qMin<int>(start - 1, m_pList.size() - 1); i < qMin<int>(m_pList.size(), stop); ++i) {
@@ -131,7 +131,7 @@ public:
       cnt++;
     }
     return sum / cnt;
-	}
+  }
 
 private:
   QList<qreal>            m_pList;

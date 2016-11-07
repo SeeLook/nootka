@@ -22,17 +22,17 @@
 
 
 Tattempt::Tattempt() :
-	m_playedCounter(0),
-	m_sum(0),
-	m_totalTime(0),
-	m_prepTime(0)
+  m_playedCounter(0),
+  m_sum(0),
+  m_totalTime(0),
+  m_prepTime(0)
 {
 }
 
 
 void Tattempt::add(quint32 mistake) {
-	mistakes << mistake;
-	m_sum |= mistake;
+  mistakes << mistake;
+  m_sum |= mistake;
 }
 
 
@@ -41,19 +41,19 @@ Tattempt::~Tattempt()
 
 
 void Tattempt::updateEffectiveness() {
-	if (mistakes.size()) {
-		qreal effSum = 0.0;
-		m_sum = 0;
-		for (int i = 0; i < mistakes.size(); ++i) {
-			m_sum |= mistakes[i];
-			if (mistakes[i] == TQAunit::e_correct)
-					effSum += CORRECT_EFF;
-			else if (!(mistakes[i] & TQAunit::e_wrongNote) && !(mistakes[i] & TQAunit::e_wrongPos))
-					effSum += NOTBAD_EFF;
-		}
-		m_effectiveness = effSum / (qreal)mistakes.size();
-	} else
-		m_effectiveness = 0.0;
+  if (mistakes.size()) {
+    qreal effSum = 0.0;
+    m_sum = 0;
+    for (int i = 0; i < mistakes.size(); ++i) {
+      m_sum |= mistakes[i];
+      if (mistakes[i] == TQAunit::e_correct)
+          effSum += CORRECT_EFF;
+      else if (!(mistakes[i] & TQAunit::e_wrongNote) && !(mistakes[i] & TQAunit::e_wrongPos))
+          effSum += NOTBAD_EFF;
+    }
+    m_effectiveness = effSum / (qreal)mistakes.size();
+  } else
+    m_effectiveness = 0.0;
   if (effectiveness() >= 50.0) {
     if (m_sum & TQAunit::e_wrongNote) { // subtract e_wrongNote if summary has sufficient effectiveness
       m_sum = m_sum - TQAunit::e_wrongNote; // attempt was successful
@@ -64,44 +64,44 @@ void Tattempt::updateEffectiveness() {
 
 
 void Tattempt::toXml(QXmlStreamWriter& xml) const {
-	xml.writeStartElement("a"); // a like attempt
-		if (mistakes.size()) {
-			xml.writeStartElement("mistakes");
-			for (int i = 0; i < mistakes.size(); ++i)
-				xml.writeTextElement("m", QVariant(mistakes[i]).toString());
-			xml.writeEndElement(); // mistakes
-		}
-		if (m_playedCounter)
-			xml.writeTextElement("p", QVariant(m_playedCounter).toString());
-		if (m_totalTime)
-			xml.writeTextElement("tt", QVariant(m_totalTime).toString());
-		if (m_prepTime)
-			xml.writeTextElement("pt", QVariant(m_prepTime).toString());
-	xml.writeEndElement(); // a
+  xml.writeStartElement("a"); // a like attempt
+    if (mistakes.size()) {
+      xml.writeStartElement("mistakes");
+      for (int i = 0; i < mistakes.size(); ++i)
+        xml.writeTextElement("m", QVariant(mistakes[i]).toString());
+      xml.writeEndElement(); // mistakes
+    }
+    if (m_playedCounter)
+      xml.writeTextElement("p", QVariant(m_playedCounter).toString());
+    if (m_totalTime)
+      xml.writeTextElement("tt", QVariant(m_totalTime).toString());
+    if (m_prepTime)
+      xml.writeTextElement("pt", QVariant(m_prepTime).toString());
+  xml.writeEndElement(); // a
 }
 
 
 void Tattempt::fromXml(QXmlStreamReader& xml) {
-	m_playedCounter = 0;
-	while (xml.readNextStartElement()) {
-		if (xml.name() == "mistakes") {
-			mistakes.clear();
-			while (xml.readNextStartElement()) {
-				if (xml.name() == "m")
-					mistakes << xml.readElementText().toInt();
-				else
-					xml.skipCurrentElement();
-			}
-			updateEffectiveness();
-		} else if (xml.name() == "p")
-				m_playedCounter = xml.readElementText().toInt();
-		else if (xml.name() == "tt")
-				m_totalTime = xml.readElementText().toInt();
-		else if (xml.name() == "pt")
-				m_prepTime = xml.readElementText().toInt();
-		else
-			xml.skipCurrentElement();
-	}
+  m_playedCounter = 0;
+  while (xml.readNextStartElement()) {
+    if (xml.name() == "mistakes") {
+      mistakes.clear();
+      while (xml.readNextStartElement()) {
+        if (xml.name() == "m")
+          mistakes << xml.readElementText().toInt();
+        else
+          xml.skipCurrentElement();
+      }
+      updateEffectiveness();
+    } else if (xml.name() == "p")
+        m_playedCounter = xml.readElementText().toInt();
+    else if (xml.name() == "tt")
+        m_totalTime = xml.readElementText().toInt();
+    else if (xml.name() == "pt")
+        m_prepTime = xml.readElementText().toInt();
+    else
+      xml.skipCurrentElement();
+  }
 }
 
 

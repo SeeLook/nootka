@@ -51,24 +51,24 @@ TQAtype::Etype TQAtype::randNext() {
 
 
 void TQAtype::toXml(int id, QXmlStreamWriter& xml) {
-	xml.writeStartElement("qaType");
-		xml.writeAttribute("id", QVariant(id).toString());
-		xml.writeAttribute("score", QVariant(isNote()).toString());
-		xml.writeAttribute("name", QVariant(isName()).toString());
-		xml.writeAttribute("guitar", QVariant(isFret()).toString());
-		xml.writeAttribute("sound", QVariant(isSound()).toString());
-	xml.writeEndElement(); // qaType
+  xml.writeStartElement("qaType");
+    xml.writeAttribute("id", QVariant(id).toString());
+    xml.writeAttribute("score", QVariant(isNote()).toString());
+    xml.writeAttribute("name", QVariant(isName()).toString());
+    xml.writeAttribute("guitar", QVariant(isFret()).toString());
+    xml.writeAttribute("sound", QVariant(isSound()).toString());
+  xml.writeEndElement(); // qaType
 }
 
 
 int TQAtype::fromXml(QXmlStreamReader& xml) {
-	int id = QVariant(xml.attributes().value("id").toString()).toInt();
-	setAsNote(QVariant(xml.attributes().value("score").toString()).toBool());
-	setAsName(QVariant(xml.attributes().value("name").toString()).toBool());
-	setAsFret(QVariant(xml.attributes().value("guitar").toString()).toBool());
-	setAsSound(QVariant(xml.attributes().value("sound").toString()).toBool());
-	xml.skipCurrentElement();
-	return id;
+  int id = QVariant(xml.attributes().value("id").toString()).toInt();
+  setAsNote(QVariant(xml.attributes().value("score").toString()).toBool());
+  setAsName(QVariant(xml.attributes().value("name").toString()).toBool());
+  setAsFret(QVariant(xml.attributes().value("guitar").toString()).toBool());
+  setAsSound(QVariant(xml.attributes().value("sound").toString()).toBool());
+  xml.skipCurrentElement();
+  return id;
 }
 
 

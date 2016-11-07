@@ -23,27 +23,27 @@ QColor TpushButton::m_backColor = Qt::black;
 QColor TpushButton::m_textColor = Qt::white;
 
 void TpushButton::setCheckColor(QColor background, QColor text) {
-	m_backColor = background;
-	m_textColor = text;
+  m_backColor = background;
+  m_textColor = text;
 }
 
 
 
 TpushButton::TpushButton(const QString& text, QWidget* parent):
-	 QPushButton(text, parent),
-	 m_Ichecked(false)
+   QPushButton(text, parent),
+   m_Ichecked(false)
 {
-	m_textThis = m_textColor;
-	m_backThis = m_backColor;
+  m_textThis = m_textColor;
+  m_backThis = m_backColor;
 #if defined(Q_OS_MAC)
   setCheckable(true);
 #endif
 }
 
 void TpushButton::setThisColors(QColor background, QColor text) {
-	m_backThis = background;
-	m_textThis = text;
-	setChecked(isChecked()); // it will be refreshed when is checked
+  m_backThis = background;
+  m_textThis = text;
+  setChecked(isChecked()); // it will be refreshed when is checked
 }
 
 
@@ -55,13 +55,13 @@ void TpushButton::setChecked(bool isChecked) {
   else
       setStyleSheet("color: native");
 #else
-	if (isChecked)
-		setStyleSheet(QString("background-color: %1; color: %2; ")
-			.arg(m_backThis.name()).arg(m_textThis.name()));
-	else
-		setStyleSheet("background-color: native; color: native");
-#endif 
-	m_Ichecked = isChecked;
+  if (isChecked)
+    setStyleSheet(QString("background-color: %1; color: %2; ")
+      .arg(m_backThis.name()).arg(m_textThis.name()));
+  else
+    setStyleSheet("background-color: native; color: native");
+#endif
+  m_Ichecked = isChecked;
 }
 
 

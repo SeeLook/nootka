@@ -20,26 +20,26 @@
 
 
 TblinkingItem::TblinkingItem(QGraphicsItem* item, QObject* parent ):
-	TabstractAnim(item, parent)
+  TabstractAnim(item, parent)
 {
 }
 
 
 void TblinkingItem::startBlinking(int count) {
-	initAnim(0, count *2, 150);
+  initAnim(0, count *2, 150);
 }
 
 
 void TblinkingItem::animationRoutine() {
-		nextStep();
-		if (currentStep() <= stepsNumber()) {
-			if (currentStep() % 2) { // phase 1, 3, ...
-					item()->hide();
-			} else { // phase 2, 4, ...
-					item()->show();
-			}
-		} else 
-				stopAnim();
+    nextStep();
+    if (currentStep() <= stepsNumber()) {
+      if (currentStep() % 2) { // phase 1, 3, ...
+          item()->hide();
+      } else { // phase 2, 4, ...
+          item()->show();
+      }
+    } else
+        stopAnim();
 }
 
 

@@ -23,33 +23,33 @@
 #include "tchunk.h"
 
 
-/** 
+/**
  * A musical measure
  */
 class NOOTKACORE_EXPORT Tmeasure
 {
-	
+
 public:
-	Tmeasure(int nr);
-	
-	Tmetrum metrum() { return m_metrum; }
-	
-	int number() { return m_number; }
-	
-			/** Adds a note. For this moment it doesn't check duration (rhythm) */
-	void addNote(const Tchunk& n);
-	Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
-	Tchunk& lastNote() { return m_notes.last(); }
-	
-	void removeLastNote();
-	
-	int conunt() { return m_notes.size(); }
-	
+  Tmeasure(int nr);
+
+  Tmetrum metrum() { return m_metrum; }
+
+  int number() { return m_number; }
+
+      /** Adds a note. For this moment it doesn't check duration (rhythm) */
+  void addNote(const Tchunk& n);
+  Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
+  Tchunk& lastNote() { return m_notes.last(); }
+
+  void removeLastNote();	
+
+  int conunt() { return m_notes.size(); }
+
 private:
-	int								m_number;
-	Tmetrum						m_metrum;
-	QList<Tchunk>			m_notes;
-	
+  int                m_number;
+  Tmetrum            m_metrum;
+  QList<Tchunk>      m_notes;
+
 };
 
 #endif // TMEASURE_H

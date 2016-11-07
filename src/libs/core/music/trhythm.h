@@ -35,7 +35,7 @@ class Trhythm
 public:
 	
 	enum EnoteValue {
-		e_none = 0, e_whole = 1, e_half = 2, e_quarter = 4, e_eighth = 8, e_sixteenth = 16
+    e_none = 0, e_whole = 1, e_half = 2, e_quarter = 4, e_eighth = 8, e_sixteenth = 16
 	}; /** Describes note duration */
 	
 			/** Creates note value, by default it is quarter (without dot) */
@@ -48,7 +48,7 @@ public:
 		m_noteVal = nVal;
 		m_isRest = rest;
 		m_hasDot = dot;
-	}
+  }
 	
 	EnoteValue rhythm() { return m_noteVal; }
 	void setNoteValue(EnoteValue nVal) { m_noteVal = nVal; }
@@ -74,13 +74,13 @@ public:
 			if (pow(2, i - 1) == (int)m_noteVal)
 				return QString::fromStdString(rhythmStrings[i]);
 		}
-		return "";
-	}
-	
-	
+		return QString();
+  }
+
+
 private:
-	EnoteValue 							m_noteVal;
-	bool 										m_hasDot, m_isRest;
+  EnoteValue 							m_noteVal;
+  bool 										m_hasDot, m_isRest;
 };
 
 #endif // TRHYTHM_H

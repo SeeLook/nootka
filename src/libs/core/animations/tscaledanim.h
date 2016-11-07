@@ -25,22 +25,22 @@
 
 class NOOTKACORE_EXPORT TscaledAnim : public TabstractAnim
 {
-  Q_OBJECT  
-	
+  Q_OBJECT
+
 public:
-	explicit TscaledAnim(QGraphicsItem *item, QObject* parent = 0);
-	
-			/** Starts performing scaling. Start scale is current item scale. 
-			 * If @p midScale is set (0.0 or greater) this value will be achieved 
-			 * in the middle of animation time */
-	void startScaling(qreal endScale, qreal midScale = -1.0);
-	
+  explicit TscaledAnim(QGraphicsItem *item, QObject* parent = 0);
+
+      /** Starts performing scaling. Start scale is current item scale.
+       * If @p midScale is set (0.0 or greater) this value will be achieved
+       * in the middle of animation time */
+  void startScaling(qreal endScale, qreal midScale = -1.0);
+
 protected:
-	virtual void animationRoutine();
+  virtual void animationRoutine();
 
 private:
-	qreal				m_beginScale, m_midScale, m_endScale, m_scaleToGo;
-	
+  qreal        m_beginScale, m_midScale, m_endScale, m_scaleToGo;
+
 };
 
 #endif // TSCALEDANIM_H

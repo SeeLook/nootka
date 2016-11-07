@@ -19,19 +19,19 @@
 #include "tmeasure.h"
 
 Tmeasure::Tmeasure(int nr) :
-	m_number(nr),
-	m_metrum(Tmetrum::e_none)
+  m_number(nr),
+  m_metrum(Tmetrum::e_none)
 {
 
 }
 
 
 void Tmeasure::addNote(const Tchunk& n) {
-	m_notes << n;
+  m_notes << n;
 }
 
 
 void Tmeasure::removeLastNote() {
-	m_notes.removeLast();
+  m_notes.removeLast();
 }
 

@@ -19,34 +19,34 @@
 #include "tmorphedanim.h"
 
 TmorphedAnim::TmorphedAnim(QGraphicsEllipseItem* ellipse, QObject* parent) :
-	TabstractAnim(ellipse, parent),
-	m_ellipse(ellipse)
+  TabstractAnim(ellipse, parent),
+  m_ellipse(ellipse)
 {
 }
 
 
 void TmorphedAnim::startMorphing(const QLineF& line, qreal width, bool toLine) {
-	m_line = line;
-	m_toLine = toLine;
-	m_width = width;
-	m_startPos = m_ellipse->pos();
-	initAnim();
+  m_line = line;
+  m_toLine = toLine;
+  m_width = width;
+  m_startPos = m_ellipse->pos();
+  initAnim();
 }
 
 
 void TmorphedAnim::animationRoutine() {
-	nextStep();
-	if (currentStep() <= stepsNumber()) {
-		qreal ww, hh, easy;
-		easy = easyValue((qreal)currentStep() / (qreal)stepsNumber());
-		int mm = currentStep();
-// 		if (!m_toLine)
-// 			mm = qAbs(currentStep() - stepsNumber());
-		ww = m_ellipse->rect().width() + ((m_line.length() - m_ellipse->rect().width()) / (qreal)stepsNumber()) * mm * easy;
-		hh = m_ellipse->rect().height() + ((m_width - m_ellipse->rect().height()) / (qreal)stepsNumber()) * mm * easy;
-		m_ellipse->setRect(0, 0, ww, hh);
-	} else
-			stopAnim();
+  nextStep();
+  if (currentStep() <= stepsNumber()) {
+    qreal ww, hh, easy;
+    easy = easyValue((qreal)currentStep() / (qreal)stepsNumber());
+    int mm = currentStep();
+//     if (!m_toLine)
+//       mm = qAbs(currentStep() - stepsNumber());
+    ww = m_ellipse->rect().width() + ((m_line.length() - m_ellipse->rect().width()) / (qreal)stepsNumber()) * mm * easy;
+    hh = m_ellipse->rect().height() + ((m_width - m_ellipse->rect().height()) / (qreal)stepsNumber()) * mm * easy;
+    m_ellipse->setRect(0, 0, ww, hh);
+  } else
+      stopAnim();
 }
 
 

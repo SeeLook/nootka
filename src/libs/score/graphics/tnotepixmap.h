@@ -33,34 +33,34 @@ class Tnote;
  * This is static "container" for Tclef.
  * It is shared among TexamExecutor and charts to display current exam/exercise clef
  */
-class NOOTKACORE_EXPORT TnotePixmap 
+class NOOTKACORE_EXPORT TnotePixmap
 {
 public:
-	TnotePixmap() {}
-	static void setDefaultClef(const Tclef& cl) { m_clef = cl; }
-	static Tclef& clef() { return m_clef; }
-	
+  TnotePixmap() {}
+  static void setDefaultClef(const Tclef& cl) { m_clef = cl; }
+  static Tclef& clef() { return m_clef; }
+
 private:
-	static Tclef m_clef;
+  static Tclef m_clef;
 };
 
-			/**  Returns QPixmap with given note. @p factor determines its size	*/
-NOOTKACORE_EXPORT QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef = Tclef::e_treble_G, 
-											TkeySignature key = TkeySignature(0), qreal factor = 4.0, int strNr = 0);
+      /**  Returns QPixmap with given note. @p factor determines its size  */
+NOOTKACORE_EXPORT QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef = Tclef::e_treble_G,
+                      TkeySignature key = TkeySignature(0), qreal factor = 4.0, int strNr = 0);
 
-			/** Creates pixmap from a melody. Line are not breaking. */
+      /** Creates pixmap from a melody. Line are not breaking. */
 NOOTKACORE_EXPORT QPixmap getMelodyPixmap(Tmelody* mel, bool showStrings = false, qreal factor = 4.0);
 
-		/** Returns HTML <img> tag with given pixmap. */
+    /** Returns HTML <img> tag with given pixmap. */
 NOOTKACORE_EXPORT QString pixToHtml(const QPixmap& pix);
 
-		/** Returns HTML sting with note pixmap generated according to given params. */
+    /** Returns HTML sting with note pixmap generated according to given params. */
 NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, Tclef::Etype clef, TkeySignature key, qreal factor = 4.0, int strNr = 0);
 
-		/** Overloaded method - clef is taken from static  */
+    /** Overloaded method - clef is taken from static  */
 NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, bool defClef, TkeySignature key, qreal factor = 4.0, int strNr = 0);
 
-		/** Changes given sting to pixmap in given font size. 
+    /** Changes given sting to pixmap in given font size.
      * Nootka font is used and current palette colors. */
 NOOTKACORE_EXPORT QPixmap pixFromString(const QString& glif, const QFont& font, const QColor& color = -1);
 

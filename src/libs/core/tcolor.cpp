@@ -23,10 +23,10 @@ QColor Tcolor::shadow = Qt::gray;
 
 void Tcolor::setShadow(const QPalette& pal) {
 #if defined(Q_OS_MAC)
-		QColor shadowC(pal.text().color());
-		shadowC.setAlpha(50);
-		shadow = merge(shadowC, pal.base().color());
+    QColor shadowC(pal.text().color());
+    shadowC.setAlpha(50);
+    shadow = merge(shadowC, pal.base().color());
 #else
-		shadow = pal.shadow().color();
+    shadow = pal.shadow().color();
 #endif
 }

@@ -36,12 +36,12 @@
 class NOOTKACORE_EXPORT TgraphicsTextTip : public QGraphicsTextItem
 {
 
-	Q_OBJECT
+  Q_OBJECT
 
 public:
   TgraphicsTextTip(const QString& text, QColor bgColor = -1);
   TgraphicsTextTip();
-	virtual ~TgraphicsTextTip();
+  virtual ~TgraphicsTextTip();
 
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   virtual QRectF boundingRect() const;
@@ -50,14 +50,14 @@ public:
 
   void setScale(qreal sc);
 
-	qreal realW() { return boundingRect().width() * scale(); } /**< boundingRect().width() * scale() */
-	qreal realH() { return boundingRect().height() * scale(); } /**< boundingRect().height() * scale() */
+  qreal realW() { return boundingRect().width() * scale(); } /**< boundingRect().width() * scale() */
+  qreal realH() { return boundingRect().height() * scale(); } /**< boundingRect().height() * scale() */
 
       /** Sets current position respecting scene bounding rectangle.  */
-	void setFixPos(qreal xx, qreal yy) {
+  void setFixPos(qreal xx, qreal yy) {
       setPos(qBound(2.0, xx, scene()->width() - realW() - 5.0), qBound(2.0, yy, scene()->height() - realH() - 5.0));
-	}
-	void setFixPos(const QPointF& pp) { setFixPos(pp.x(), pp.y()); }
+  }
+  void setFixPos(const QPointF& pp) { setFixPos(pp.x(), pp.y()); }
 
   QColor bgColor() { return m_bgColor; } /**< Colorized background color of tip */
   void setBgColor(const QColor& col); /**< Sets background color of tip */
@@ -75,36 +75,36 @@ public:
       /** Adds drop shadow with defaults color/blur to an item. */
   static void setDropShadow(QGraphicsTextItem *tip, QColor shadowColor = -1);
 
-	void setTipMovable(bool mov) { m_movable = mov; setAcceptHoverEvents(true); }
-	bool isMovable() { return m_movable; }
+  void setTipMovable(bool mov) { m_movable = mov; setAcceptHoverEvents(true); }
+  bool isMovable() { return m_movable; }
 
-			/** It overrides this method to handle mouse cursor over the link */
-	void setTextInteractionFlags(Qt::TextInteractionFlags flags);
+      /** It overrides this method to handle mouse cursor over the link */
+  void setTextInteractionFlags(Qt::TextInteractionFlags flags);
 
 signals:
-	void clicked(); /**< When item was clicked but doesn't move */
-	void moved(); /**< When item was moved by user. setPoS() doesn't invoke it! */
+  void clicked(); /**< When item was clicked but doesn't move */
+  void moved(); /**< When item was moved by user. setPoS() doesn't invoke it! */
   void entered(); /**< Mouse entered on tip */
   void leaved(); /**< Mouse leaved tip */
 
 protected:
-	virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-	virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-	virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-	virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-	virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+  virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+  virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+  virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+  virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+  virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
-	void linkHoveredSlot(const QString & link);
+  void linkHoveredSlot(const QString & link);
 
 private:
   void initTimer();
 
 private:
-  QColor 							m_bgColor, m_baseColor, m_frameColor;
-	bool 								m_movable, m_mouseClick;
-	QPointF 						m_lastPos;
-	Qt::CursorShape			m_lastLinkCursor;
-  QTimer             *m_signalTimer; /**< Delays emitting click signals to properly release mouse event */
+  QColor               m_bgColor, m_baseColor, m_frameColor;
+  bool                 m_movable, m_mouseClick;
+  QPointF              m_lastPos;
+  Qt::CursorShape      m_lastLinkCursor;
+  QTimer              *m_signalTimer; /**< Delays emitting click signals to properly release mouse event */
 };
 
 #endif // TGRAPHICSTEXTTIP_H

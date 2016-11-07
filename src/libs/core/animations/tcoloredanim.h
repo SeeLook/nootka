@@ -22,37 +22,37 @@
 #include <nootkacoreglobal.h>
 #include "tabstractanim.h"
 
-/** 
+/**
  * This class performs transforming of colors.
  * Alpha channel is supported as well.
- * WARRING! For QGraphicsTextItem items, start color is taken from 
+ * WARRING! For QGraphicsTextItem items, start color is taken from
  * QGraphicsTextItem::defaultTextColor(), so declare it first
  */
 class NOOTKACORE_EXPORT TcoloredAnim : public TabstractAnim
 {
     Q_OBJECT
-    
-public:
-	
-	explicit TcoloredAnim(QGraphicsItem* item = 0, QObject* parent = 0);
 
-	void startColoring(const QColor &endColor, const QColor &midColor = -1);
-	
-	
+public:
+
+  explicit TcoloredAnim(QGraphicsItem* item = 0, QObject* parent = 0);
+
+  void startColoring(const QColor &endColor, const QColor &midColor = -1);
+
+
 protected slots:
-	void animationRoutine();
-	
+  void animationRoutine();
+
 private:
-			/** Grabs color of given item by examining its type. */
-	QColor getColorFromItem();
-	
-    
+      /** Grabs color of given item by examining its type. */
+  QColor getColorFromItem();
+
+
 private:
-    QColor 											 m_startColor, m_endColor, m_midColor, m_colorToGo;
-		QGraphicsLineItem						*m_line;
-		QGraphicsTextItem						*m_richText;
-		QGraphicsSimpleTextItem			*m_text;
-		QGraphicsEllipseItem				*m_ellipse;
+    QColor                        m_startColor, m_endColor, m_midColor, m_colorToGo;
+    QGraphicsLineItem            *m_line;
+    QGraphicsTextItem            *m_richText;
+    QGraphicsSimpleTextItem      *m_text;
+    QGraphicsEllipseItem        *m_ellipse;
 };
 
 #endif // TCOLOREDANIM_H

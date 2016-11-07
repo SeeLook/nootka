@@ -32,12 +32,12 @@ class QGraphicsSceneHoverEvent;
 class TscoreStaff;
 class TscoreScene;
 
-/** 
+/**
 * TscoreItem is base class for all items on the score:
 * staff, clef, key signature, notes, scordature etc..
-* It automatically adds created item to the TscoreScene 
+* It automatically adds created item to the TscoreScene
 * given as constructor parameter.
-* Also this class manages status tips. 
+* Also this class manages status tips.
 * If the status is set, it emits statusTip(QString) signal.
 */
 class NOOTKACORE_EXPORT TscoreItem : public QGraphicsObject
@@ -108,7 +108,7 @@ private:
   QString                    m_statusTip;
   TscoreScene               *m_scene;
   TscoreStaff               *m_staff;
-  bool											 m_hasCursor;
+  bool                       m_hasCursor;
 
 };
 

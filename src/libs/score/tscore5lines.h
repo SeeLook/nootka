@@ -22,7 +22,7 @@
 #include "nootkacoreglobal.h"
 #include "tscoreitem.h"
 
-/** 
+/**
  * This class represents five staff lines
  */
 class NOOTKACORE_EXPORT Tscore5lines : public TscoreItem
@@ -30,22 +30,22 @@ class NOOTKACORE_EXPORT Tscore5lines : public TscoreItem
 
 public:
   Tscore5lines(TscoreScene* scene);
-  
+
   void setWidth(qreal w); /** Staff lines width in scene coordinates. */
   qreal width() { return m_width; }
   qreal height() { return m_height; }
-  
+
   void setPianoStaff(bool isPiano); /** Adds grand staff lines or deletes them */
   bool isPianoStaff() { return m_isPianoStaff; }
-  
+
   void setDisabled(bool dis); /** Disables lines making them translucent and blurred */
-  
+
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
   virtual QRectF boundingRect() const;
-  
+
 private:
   void createLines(QList<QGraphicsLineItem*>& lines);
-  
+
 private:
   QList<QGraphicsLineItem*>          m_lines, m_lowLines; // five staff lines
   qreal                              m_width, m_height;

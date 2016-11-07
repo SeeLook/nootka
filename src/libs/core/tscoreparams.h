@@ -25,22 +25,22 @@
 #include <QColor>
 
 
-/** 
+/**
  * This is set of parameters related to score and note names
  */
 class NOOTKACORE_EXPORT TscoreParams
 {
 public:
-	
-	TscoreParams() : clef(Tclef::defaultType) {}
-	
+
+  TscoreParams() : clef(Tclef::defaultType) {}
+
 //============ score widget settings =============================================================
         /** if true shows other similar (enharmonic) notes on the staff:
         * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
     bool keySignatureEnabled;
     bool showKeySignName; // default true
     Tnote::EnameStyle nameStyleInKeySign;
-		
+
         /** Convention is:
         * if keyNameSuffix == " " constructor of Tglobals sets its default and
         * constructor of TkeySignatureView sets translatable value "major" and "minor"
@@ -50,15 +50,15 @@ public:
     QString majKeyNameSufix;
     QString minKeyNameSufix;
     QColor pointerColor;
-		Tclef::Etype& clef; // preferred clef - treble by default, reference to static Tclef::defaultType
-		bool isSingleNoteMode; // score mode (single or multi)
-		qreal scoreScale; // score scale - user preferred staff size
+    Tclef::Etype& clef; // preferred clef - treble by default, reference to static Tclef::defaultType
+    bool isSingleNoteMode; // score mode (single or multi)
+    qreal scoreScale; // score scale - user preferred staff size
     int tempo; // playback tempo
 
 //============= common with score widget and note name ==========================================
     bool doubleAccidentalsEnabled; //default true
     bool showEnharmNotes; // default true
-    
+
         /** On the very beginning it is -1 and then it is set in TscoreWidget constructor
         * as inversion of highlight color from palette() and put to TnoteName,
         * otherwise is taken from saved settings. */
