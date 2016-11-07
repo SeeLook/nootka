@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,35 +34,38 @@ class Tlevel;
  */
 class TabstractLevelPage : public TtouchArea
 {
-	Q_OBJECT
-	
+  Q_OBJECT
+
 public:
-	explicit TabstractLevelPage(TlevelCreatorDlg* creator);
-	virtual ~TabstractLevelPage();
-	
-	
-	virtual void loadLevel(Tlevel* level) {}
-  virtual void saveLevel(Tlevel* level) {}
-		
+  explicit TabstractLevelPage(TlevelCreatorDlg* creator);
+  virtual ~TabstractLevelPage();
+
+  virtual void loadLevel(Tlevel* level)  = 0;
+  virtual void saveLevel(Tlevel* level)  = 0;
+
 signals:
-	void levelChanged();
-	
+  void levelChanged();
+
 public slots:
-			/** This method is invoked from 'outside' when other widget changed a level settings.
-			 * Implement here routines to adjust widgets to changed level parameters. */
-	virtual void changed() {}
-	
+      /** This method is invoked from 'outside' when other widget changed a level settings.
+       * Implement here routines to adjust widgets to changed level parameters. */
+  virtual void changed()  = 0;
+
 protected:
-	static Tlevel* wLevel() { return m_workLevel; }
-	
+  static Tlevel* wLevel() { return m_workLevel; }
+
+      /** Generates status tip text from given parameters
+       * @p qType and @p aType are @p TQAtype::Etype values cast to int  */
+  QString tableTip(const QString& tipText, int qType, int aType, int fSize);
+
 protected slots:
-			/** Connect to this slot changes of every settings widget (check boxes, other switches).
-			 * It will invoke @p saveLevel(m_workLevel) and emit @p levelChanged() signal.	 */
-	virtual void changedLocal();
-	
+      /** Connect to this slot changes of every settings widget (check boxes, other switches).
+       * It will invoke @p saveLevel(m_workLevel) and emit @p levelChanged() signal.   */
+  virtual void changedLocal();
+
 private:
-	static Tlevel					*m_workLevel;
-	static int						 m_cnt; // to properly remove Tlevel after the last instance;
+  static Tlevel          *m_workLevel;
+  static int              m_cnt; // to properly remove Tlevel after the last instance;
 };
 
 #endif // TABSTRACTLEVELWIDGET_H

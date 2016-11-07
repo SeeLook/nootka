@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,10 +19,13 @@
 #include "tabstractlevelpage.h"
 #include "tlevelcreatordlg.h"
 #include <exam/tlevel.h>
+#include <tnoofont.h>
+#include <widgets/tquestionaswdg.h>
+
 
 /*static*/
-Tlevel* 								TabstractLevelPage::m_workLevel = 0;
-int 										TabstractLevelPage::m_cnt = 0;
+Tlevel*                 TabstractLevelPage::m_workLevel = 0;
+int                     TabstractLevelPage::m_cnt = 0;
 
 
 //#################################################################################################
@@ -30,28 +33,41 @@ int 										TabstractLevelPage::m_cnt = 0;
 //#################################################################################################
 
 TabstractLevelPage::TabstractLevelPage(TlevelCreatorDlg* creator) :
-	TtouchArea(0)
+  TtouchArea(0)
 {
-	if (!m_workLevel)
-		m_workLevel = new Tlevel();
-	m_cnt++;
-	connect(this, SIGNAL(levelChanged()), creator, SLOT(levelWasChanged()));
+  if (!m_workLevel)
+    m_workLevel = new Tlevel();
+  m_cnt++;
+  connect(this, SIGNAL(levelChanged()), creator, SLOT(levelWasChanged()));
 }
 
 
 TabstractLevelPage::~TabstractLevelPage()
 {
-	m_cnt--;
-	if (m_cnt == 0) {
-		delete m_workLevel;
-		m_workLevel = 0;
-	}		
+  m_cnt--;
+  if (m_cnt == 0) {
+    delete m_workLevel;
+    m_workLevel = 0;
+  }
 }
 
 
 void TabstractLevelPage::changedLocal() {
-	saveLevel(m_workLevel);
-	emit levelChanged();
+  saveLevel(m_workLevel);
+  emit levelChanged();
+}
+
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+QString TabstractLevelPage::tableTip(const QString& tipText, int qType, int aType, int fSize) {
+  return QLatin1String("<table valign=\"middle\" align=\"center\"><tr><td>")
+         + TnooFont::span(TquestionAsWdg::qaTypeSymbol(static_cast<TQAtype::Etype>(qType))
+         + QLatin1String("?"), fSize) + QLatin1String("</td><td align=\"center\">") + tipText + QLatin1String(" </td> ")
+         + QLatin1String("<td>")
+         + TnooFont::span(TquestionAsWdg::qaTypeSymbol(static_cast<TQAtype::Etype>(aType)) + QLatin1String("!"), fSize)
+         + QLatin1String("</td></tr></table>");
 }
 
 
