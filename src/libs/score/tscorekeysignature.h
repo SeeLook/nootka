@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,13 +16,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
 #ifndef TSCOREKEYSIGNATURE_H
 #define TSCOREKEYSIGNATURE_H
 
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
 #include <music/tclef.h>
-#include <QPointer>
+#include <QtCore/qpointer.h>
+
 
 #define KEY_HEIGHT (14.0) // Height of key signature item
 
@@ -38,18 +40,18 @@ class NOOTKACORE_EXPORT TscoreKeySignature : public TscoreItem
   Q_OBJECT
   
 public:
-    TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, char keySign = 0);
+    TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, qint8 keySign = 0);
     
         /** This methods get and set the key signature, and are called
-        * only from their parent @class TscoreWidgetSimple as continuation
+        * only from their parent @p TscoreWidgetSimple as continuation
         * his public methods */
-    void setKeySignature(char keySign);
-    char keySignature() { return m_keySignature; }
+    void setKeySignature(qint8 keySign);
+    qint8 keySignature() { return m_keySignature; }
     void setClef(Tclef clef);
 		
         /** Returns y coefficient of given note (0 - 7, 0 is c, 1 is d...).
          * It depends on Tclef value*/
-    char getPosOfAccid(int noteNr, bool flatKey = false);
+    qint8 getPosOfAccid(int noteNr, bool flatKey = false);
 		
 				/** Returns position point of accidental text in staff coordinates. @p noteNr is [0-7] range */
 		QPointF accidTextPos(int noteNr);
@@ -65,7 +67,15 @@ public:
 				/** Static method that calculates scale factor of key signature name appropriate for available space above clef. */
 		static void setKeyNameScale(QGraphicsTextItem *keyNameItem);
 		static const qreal relatedLine; /** Y position of upper staff line in item coordinates */
-  
+
+        /** Maximal key value possible to set, by default it is 7 */
+    qint8 maxKey() { return m_maxKey; }
+    void setMaxKey(int mk);
+
+        /** Minimal key value possible to set, by default it is -7 */
+    qint8 minKey() { return m_minKey; }
+    void setMinKey(int mk);
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
     virtual QRectF boundingRect() const;
     
@@ -78,7 +88,8 @@ protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
-    void increaseKey(int step); /** Adds @param step to key value. Only 1 or -1 values are accepted. */
+        /** Adds @p step to key value. Only 1 or -1 values are accepted. */
+    void increaseKey(int step);
 		void updateKeyName();
 		
 protected slots:
@@ -88,7 +99,7 @@ private:
         /** Array of text items with # or b signs*/
     QGraphicsSimpleTextItem 				*m_accidentals[7];
 		QPointer<QGraphicsTextItem>			 m_keyNameText;
-    char 												 		 m_keySignature;
+    qint8                            m_keySignature;
 		QPointer<TscoreKeySignature>		 m_lowKey;
     
         /** It keeps array of accidental symbol (# or b) positions
@@ -96,13 +107,13 @@ private:
         * @li [0] is position for f# and fb
         * @li [1] c# and
         * @li etc....    */
-    static char 										 m_posOfAccid[7];
-    static char 										 m_posOfAccidFlats[7];
+    static qint8                     m_posOfAccid[7];
+    static qint8                     m_posOfAccidFlats[7];
     Tclef  													 m_clef;
 		bool														 m_readOnly;
 		QColor 													 m_bgColor;
-		int															 m_clefOffset; /** accidental distance from upper staff line depends on clef */
-
+		int															 m_clefOffset; /**< accidental distance from upper staff line depends on clef */
+    qint8                            m_maxKey, m_minKey;
 };
 
 #endif // TSCOREKEYSIGNATURE_H

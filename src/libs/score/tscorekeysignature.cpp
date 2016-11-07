@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,9 +22,9 @@
 #include "tscorenote.h"
 #include "tscorestaff.h"
 #include <tnoofont.h>
-#include <QGraphicsView>
-#include <QGraphicsSceneHoverEvent>
-#include <QApplication>
+#include <QtWidgets/qgraphicsview.h>
+#include <QtWidgets/qgraphicssceneevent.h>
+#include <QtWidgets/qapplication.h>
 
 
 /*static*/
@@ -38,7 +38,7 @@ void TscoreKeySignature::setKeyNameScale(QGraphicsTextItem* keyNameItem) {
 }
 
 
-char TscoreKeySignature::m_posOfAccid[7] = {
+qint8 TscoreKeySignature::m_posOfAccid[7] = {
     0, // Fes & Fis (F#)
     3, // Ces (C#)
     -1, // Ges (G#)
@@ -48,7 +48,7 @@ char TscoreKeySignature::m_posOfAccid[7] = {
     4 // B   (H#)  (Bb - B#) in west
 };
 
-char TscoreKeySignature::m_posOfAccidFlats[7] = { 4, 1, 5, 2, 6, 3, 7 };
+qint8 TscoreKeySignature::m_posOfAccidFlats[7] = { 4, 1, 5, 2, 6, 3, 7 };
 
 
 int nOff(Tclef::Etype c) {
@@ -64,13 +64,15 @@ int nOff(Tclef::Etype c) {
 }
 /*end static*/
 
-TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, char keySign) :
+
+TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, qint8 keySign) :
   TscoreItem(scene),
   m_keySignature(keySign),
   m_clef(Tclef()),
   m_readOnly(false),
   m_bgColor(-1),
-  m_clefOffset(3)
+  m_clefOffset(3),
+  m_maxKey(7), m_minKey(-7)
 {
   setStaff(staff);
 	setParentItem(staff);
@@ -89,10 +91,10 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, c
 }
 
 
-void TscoreKeySignature::setKeySignature(char keySign) {
+void TscoreKeySignature::setKeySignature(qint8 keySign) {
   for (int i = 1; i < 8; i++) {
         int base = 0;
-        char sign = 1;
+        qint8 sign = 1;
         bool isFlat = false;
         int startVal = 48;
         if (keySign < 0) {
@@ -123,8 +125,8 @@ void TscoreKeySignature::setKeySignature(char keySign) {
 }
 
 
-char TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
-  char yPos;
+qint8 TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
+  qint8 yPos;
   if (flatKey)
     yPos = m_posOfAccidFlats[noteNr] + relatedLine + (m_clefOffset - 3);
   else {
@@ -200,6 +202,24 @@ void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem
 }
 
 
+void TscoreKeySignature::setMaxKey(int mk) {
+  m_maxKey = static_cast<qint8>(qBound(-7, mk, 7));
+  if (m_maxKey < m_minKey)
+    m_minKey = m_maxKey;
+  if (m_keySignature > m_maxKey)
+    setKeySignature(m_maxKey);
+}
+
+
+void TscoreKeySignature::setMinKey(int mk) {
+  m_minKey = static_cast<qint8>(qBound(-7, mk, 7));
+  if (m_minKey > m_maxKey)
+    m_maxKey = m_minKey ;
+  if (m_keySignature < m_minKey)
+    setKeySignature(m_minKey);
+}
+
+
 //##########################################################################################################
 //########################################## PROTECTED   ###################################################
 //##########################################################################################################
@@ -243,11 +263,13 @@ void TscoreKeySignature::untouched(const QPointF& scenePos) {
 
 
 void TscoreKeySignature::increaseKey(int step) {
-  char prevKey = m_keySignature;
+  qint8 prevKey = m_keySignature;
   if (step == 1) {
-      if (m_keySignature < 7) m_keySignature++;
+      if (m_keySignature < m_maxKey)
+        m_keySignature++;
   } else {
-      if (m_keySignature > -7) m_keySignature--;
+      if (m_keySignature > m_minKey)
+        m_keySignature--;
   }
   if (m_keySignature != prevKey)
     setKeySignature(m_keySignature);
@@ -256,8 +278,8 @@ void TscoreKeySignature::increaseKey(int step) {
 
 void TscoreKeySignature::updateKeyName() {
 	if (m_keyNameText) {
-			m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + "<br>" +
-															TkeySignature::getMinorName(m_keySignature));
+      m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + QLatin1String("<br>") +
+                              TkeySignature::getMinorName(m_keySignature));
 			setKeyNameScale(m_keyNameText);
 			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2 - 2.5,
 						-2.0 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());

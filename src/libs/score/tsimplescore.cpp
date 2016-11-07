@@ -157,13 +157,18 @@ TkeySignature TsimpleScore::keySignature() {
 
 
 void TsimpleScore::setEnableKeySign(bool isEnabled) {
-	if (isEnabled != (bool)staff()->scoreKey()) {
+  if (isEnabled != isKeySignEnabled()) {
 		scoreScene()->mouseEntersOnKey(false);
 		staff()->setEnableKeySign(isEnabled);
 		if (isEnabled)
 				staff()->scoreKey()->showKeyName(true);
 		resizeEvent(0);
 	}
+}
+
+
+bool TsimpleScore::isKeySignEnabled() {
+  return static_cast<bool>(staff()->scoreKey());
 }
 
 
@@ -300,6 +305,19 @@ void TsimpleScore::setBGcolor(QColor bgColor) {
   bgColor.setAlpha(230);
   viewport()->setStyleSheet(Tcolor::bgTag(bgColor));
 }
+
+
+void TsimpleScore::setMaxKeySign(int maxK) {
+  if (staff()->scoreKey())
+    staff()->scoreKey()->setMaxKey(maxK);
+}
+
+
+void TsimpleScore::setMinKeySign(int minK) {
+  if (staff()->scoreKey())
+    staff()->scoreKey()->setMinKey(minK);
+}
+
 
 //##########################################################################################################
 //##########################################   EVENTS    ###################################################

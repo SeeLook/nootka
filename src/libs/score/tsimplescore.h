@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,9 +24,9 @@
 #include <music/tclef.h>
 #include <music/tnote.h>
 #include <music/tkeysignature.h>
-#include <QGraphicsView>
-#include <QTime>
-#include <QPointer>
+#include <QtWidgets/qgraphicsview.h>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qpointer.h>
 
 
 class QTimer;
@@ -37,7 +37,9 @@ class TscoreStaff;
 class TscoreScene;
 
 
-/** This class implements score.  */
+/**
+ * This class implements score.
+ */
 class NOOTKACORE_EXPORT TsimpleScore : public QGraphicsView
 {
   Q_OBJECT
@@ -72,6 +74,7 @@ public:
   TkeySignature keySignature();
   void setKeySignature(TkeySignature keySign);
   virtual void setEnableKeySign(bool isEnabled);
+  bool isKeySignEnabled();
 
   void setEnabledDblAccid(bool isEnabled);
 
@@ -95,6 +98,9 @@ public:
   void addBGglyph(int instr); /** Adds background with glyph identified  kind of instrument. */
 
   virtual QSize sizeHint() const;
+
+  void setMaxKeySign(int maxK);
+  void setMinKeySign(int minK);
 
 signals:
       /** As long as QGraphicsScene items haven't got status tips TscoreItems has its own mechanism of tips.
