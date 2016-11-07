@@ -12,7 +12,7 @@ set(LEVEL_SRC
   tkeysigncombobox.cpp
   levelsettings.cpp
   questionssettings.cpp
-#   tmelodysettings.cpp
+  tmelodysettings.cpp
   rangesettings.cpp
 )
 

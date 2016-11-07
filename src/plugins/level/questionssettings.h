@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 
 
 #include "tabstractlevelpage.h"
+
 
 class QSpinBox;
 class Tlevel;
@@ -59,7 +60,6 @@ signals:
 
 public slots:
   void stringsCheckedSlot(bool checked);
-  void singleMultiSlot(); /** Responses for switching between single note/melody mode. */
   void melodyQuestionSlot(); /** Sets appropriate boxes for melodies in single note table */
   virtual void changed();
 
@@ -70,17 +70,15 @@ protected:
 
 private:
   QWidget 							*m_tableWdg;
-  QLabel 								*m_questLab; // QLabel with 'QUESTION' text
-  QLabel				 				*m_answLab; // fake QLabel to keep space
+  QLabel 								*m_questLab; /**< QLabel with 'QUESTION' text */
+  QLabel				 				*m_answLab; /**< fake QLabel to keep space */
   QLabel 								*m_asSoundLab, *m_asFretLab, *m_soundNooLab, *m_qSoundNooLab;
   QLabel								*m_guitarNooLab, *m_qGuitarNooLab;
   TquestionAsWdg 				*asNoteWdg, *asNameWdg, *asFretPosWdg, *asSoundWdg;
   QCheckBox 						*styleRequiredChB, *octaveRequiredChB, *showStrNrChB;
   QCheckBox 						*lowPosOnlyChBox;
   QComboBox 						*m_intonationCombo;
-  QGroupBox 						*m_singleGr, *m_melodiesGr;
-  QCheckBox 						*m_playMelodyChB, *m_writeMelodyChB, *m_finishOnTonicChB;
-  QSpinBox							*m_melodyLengthSpin;
+  QGroupBox 						*m_singleGr;
   TpaintHandler         *m_paintHandler;
 
 private slots:

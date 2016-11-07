@@ -23,7 +23,8 @@
 #include "accidsettings.h"
 #include "levelsettings.h"
 #include "rangesettings.h"
-// #include "tmelodysettings.h"
+#include "tmelodysettings.h"
+#include <tpath.h>
 #include <texamparams.h>
 #include <music/ttune.h>
 #include <widgets/troundedlabel.h>
@@ -46,20 +47,18 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 {
   isNotSaved = false;
   setWindowTitle(levelCreatorTxt());
-  setWindowIcon(QIcon(Tcore::gl()->path + "picts/levelCreator.png"));
+  setWindowIcon(QIcon(Tpath::img("levelCreator")));
 
-  addItem(TlevelSelector::levelFilterTxt(), Tcore::gl()->path + "picts/levelsSettings.png");
-  addItem(tr("Questions"), Tcore::gl()->path + "picts/questionsSettings.png");
-  addItem(tr("Accidentals"), Tcore::gl()->path + "picts/accidSettings.png");
-// 		navList->addItem(tr("Melodies"));
-//     navList->item(3)->setIcon(QIcon(Tcore::gl()->path + "picts/melodySett.png"));
-//     navList->item(3)->setTextAlignment(Qt::AlignCenter);
-  addItem(tr("Range"), Tcore::gl()->path + "picts/rangeSettings.png");
+  addItem(TlevelSelector::levelFilterTxt(), Tpath::img("levelsSettings"));
+  addItem(tr("Questions"), Tpath::img("questionsSettings"));
+  addItem("Melodies", Tpath::img("melodySett"));
+  addItem(tr("Accidentals"), Tpath::img("accidSettings"));
+  addItem(tr("Range"), Tpath::img("rangeSettings"));
 
   addPage(m_levelSett = new levelSettings(this));
   addPage(m_questSett = new questionsSettings(this));
+  addPage(m_meloSett = new TmelodySettings(this));
   addPage(m_accSett = new accidSettings(this));
-// 		addPage(m_meloSett = new TmelodySettings(this));
   addPage(m_rangeSett = new rangeSettings(this));
 
   if (Tcore::gl()->instrument == e_noInstrument)
@@ -76,7 +75,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 
 
   QPushButton *helpButt = buttonBox->addButton(QDialogButtonBox::Help);
-      helpButt->setIcon(QIcon(Tcore::gl()->path + "picts/help.png"));
+      helpButt->setIcon(QIcon(Tpath::img("help")));
       helpButt->setStatusTip(helpButtonTipText());
   okBut = buttonBox->addButton(tr("Check"), QDialogButtonBox::AcceptRole);
     okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
@@ -112,8 +111,8 @@ void TlevelCreatorDlg::levelWasChanged() {
 		m_questSett->changed();
 	if (sender() != m_accSett)
 		m_accSett->changed();
-// 	if (sender() != m_meloSett)
-// 		m_meloSett->changed();
+  if (sender() != m_meloSett)
+    m_meloSett->changed();
 	if (sender() != m_rangeSett)
 		m_rangeSett->changed();
 	levelNotSaved();
@@ -126,7 +125,7 @@ void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
 	if (!level.name.isEmpty()) {
 		m_questSett->loadLevel(&level);
 		m_accSett->loadLevel(&level);
-	// 		m_meloSett->loadLevel(&level);
+    m_meloSett->loadLevel(&level);
 		m_rangeSett->loadLevel(&level);
 	}
 	if (m_levelSett->levelSelector()->isSuitable()) {
@@ -141,7 +140,7 @@ void TlevelCreatorDlg::levelWasSelected(Tlevel level) {
 
 void TlevelCreatorDlg::levelNotSaved() {
 	if (!isNotSaved) {
-    navList->item(0)->setIcon(QIcon(Tcore::gl()->path + "picts/notSaved.png"));
+    navList->item(0)->setIcon(QIcon(Tpath::img("notSaved")));
     setWindowTitle(levelCreatorTxt() + QLatin1String("  (") + tr("level not saved!") + QLatin1String(")"));
 		isNotSaved = true;
 	}
@@ -161,7 +160,7 @@ void TlevelCreatorDlg::saveToFile() {
   Tlevel newLevel;
   m_questSett->saveLevel(&newLevel);
   m_accSett->saveLevel(&newLevel);
-// 		m_meloSett->saveLevel(&newLevel);
+  m_meloSett->saveLevel(&newLevel);
   m_rangeSett->saveLevel(&newLevel);
   if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
     // adjust fret range - validation will skip it for non guitar levels
@@ -214,7 +213,7 @@ void TlevelCreatorDlg::saveToFile() {
 
 void TlevelCreatorDlg::levelSaved() {
     isNotSaved = false;
-    navList->item(0)->setIcon(QIcon(Tcore::gl()->path+"picts/levelsSettings.png"));
+    navList->item(0)->setIcon(QIcon(Tpath::img("levelsSettings")));
     setWindowTitle(levelCreatorTxt());
 }
 

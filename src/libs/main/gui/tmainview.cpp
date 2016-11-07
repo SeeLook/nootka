@@ -196,14 +196,14 @@ void TmainView::addNoteName() {
     m_nameBgWidget = new TnameBgWidget(m_container);
     m_nameLay = new QBoxLayout(QBoxLayout::TopToBottom);
     m_nameLay->setContentsMargins(0, 0, 0, 0);
-    m_nameLay->addStretch();
+    m_nameLay->addStretch(1);
 #if defined (Q_OS_ANDROID)
     m_name->setMinimumWidth(qRound(width() * 0.4));
     m_nameLay->addWidget(m_name, 0, Qt::AlignCenter);
 #else
     m_nameLay->addWidget(m_name);
 #endif
-    m_nameLay->addStretch();
+    m_nameLay->addStretch(2);
     m_nameBgWidget->setLayout(m_nameLay);
     m_nameBgWidget->setContentsMargins(0, 0, 0, 0);
     m_nameSpacer = new QSpacerItem(5, 5);

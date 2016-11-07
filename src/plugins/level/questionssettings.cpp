@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,12 +31,6 @@
 // TODO make order with layout code!!!
 // It works fine: more horizontal for desktop and more vertical for mobile
 // but it is hard to read and understand
-
-QString tableTip(const QString& tipText, TQAtype::Etype qType, TQAtype::Etype aType, int fSize) {
-	return "<table valign=\"middle\" align=\"center\"><tr><td>" + 
-	TnooFont::span(TquestionAsWdg::qaTypeSymbol(qType) + "?", fSize) + "</td>" + "<td align=\"center\">" + tipText + " </td> " +
-	"<td>" + TnooFont::span(TquestionAsWdg::qaTypeSymbol(aType) + "!", fSize) + "</td></tr></table>";
-}
 
 questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     TabstractLevelPage(creator)
@@ -116,25 +110,6 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	m_qSoundNooLab->setFont(nf);
 	qaLay->addWidget(m_qSoundNooLab, 6, 5);
 	
-	QLabel *melodyLab = new QLabel(TnooFont::span("m", nootFontSize * 2, nooColor), this);
-	melodyLab->setAlignment(Qt::AlignCenter);
-  melodyLab->setMaximumWidth(melodyLab->sizeHint().width());
-	m_playMelodyChB = new QCheckBox(TexTrans::playMelodyTxt(), this);
-		m_playMelodyChB->setStatusTip(tableTip(TexTrans::playDescTxt(), TQAtype::e_asNote, TQAtype::e_asSound, nootFontSize));
-	m_writeMelodyChB = new QCheckBox(TexTrans::writeMelodyTxt(), this);
-		m_writeMelodyChB->setStatusTip(tableTip(TexTrans::writeDescTxt(), TQAtype::e_asSound, TQAtype::e_asNote, nootFontSize));
-// 		QCheckBox *m_repeatMelodyChB = new QCheckBox(tr("repeat melody"), this);
-	m_melodyLengthSpin = new QSpinBox(this);
-// 		m_melodyLengthSpin->setValue(5);
-		m_melodyLengthSpin->setMinimum(1);
-		m_melodyLengthSpin->setMaximum(50);
-		m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number."));
-	QLabel *lenghtLab = new QLabel(tr("Melody length"), this);
-		lenghtLab->setStatusTip(m_melodyLengthSpin->statusTip());
-		
-	m_finishOnTonicChB = new QCheckBox(tr("Melody ends on tonic note"), this);
-		m_finishOnTonicChB->setStatusTip(tr("Determines the last note of a melody.<br>When set, melody will be finished on tonic note of actual key signature."));
-	
 	m_tableWdg->setLayout(qaLay);
   m_paintHandler = new TpaintHandler(widget());
   m_paintHandler->setLayout(tabLay);
@@ -145,29 +120,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
       outTabLay->setContentsMargins(0, 0, 0, 0);
 			m_singleGr->setLayout(outTabLay);
 
-	auto melLay = new QVBoxLayout;
-#if !defined (Q_OS_ANDROID)
-		melLay->addWidget(melodyLab, 0, Qt::AlignCenter);
-#endif
-		melLay->addStretch();
-		melLay->addWidget(m_playMelodyChB);
-		melLay->addWidget(m_writeMelodyChB);
-// 			melLay->addWidget(m_repeatMelodyChB);
-		melLay->addStretch();
-		auto lenLay= new QHBoxLayout;
-			lenLay->addWidget(lenghtLab);
-			lenLay->addWidget(m_melodyLengthSpin);
-		melLay->addLayout(lenLay);
-#if defined (Q_OS_ANDROID)
-    melLay->addWidget(getLabelFromStatus(m_melodyLengthSpin, true, true));
-#endif
-		melLay->addWidget(m_finishOnTonicChB);
-#if defined (Q_OS_ANDROID)
-    melLay->addWidget(getLabelFromStatus(m_finishOnTonicChB, true, true));
-#endif
-		melLay->addStretch();
-	m_melodiesGr = new QGroupBox(tr("melodies"), this);
-			m_melodiesGr->setCheckable(true);
+
 #if defined (Q_OS_ANDROID)
     auto androidMelLay = new QHBoxLayout;
     melodyLab->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
@@ -176,13 +129,11 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
     m_melodiesGr->setLayout(androidMelLay);
     QVBoxLayout *grBoxLay = new QVBoxLayout;
 #else
-    m_melodiesGr->setLayout(melLay);
     auto grBoxLay = new QHBoxLayout;
 #endif
 		grBoxLay->addStretch();
 		grBoxLay->addWidget(m_singleGr);
 		grBoxLay->addStretch();
-		grBoxLay->addWidget(m_melodiesGr);
 		grBoxLay->addStretch();
 
 	mainLay->addLayout(grBoxLay);
@@ -243,11 +194,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 #endif
 	setLayout(mainLay);
 
-  connect(m_singleGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
-  connect(m_melodiesGr, SIGNAL(clicked()), this, SLOT(singleMultiSlot()));
-  connect(m_playMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
-  connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(melodyQuestionSlot()));
-  
+  connect(m_singleGr, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(asNoteWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
 	connect(asNameWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
 	connect(asFretPosWdg, SIGNAL(answerStateChanged()), this, SLOT(whenParamsChanged()));
@@ -258,9 +205,6 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 	connect(showStrNrChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(lowPosOnlyChBox, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
 	connect(m_intonationCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(whenParamsChanged()));
-	connect(m_playMelodyChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-	connect(m_writeMelodyChB, SIGNAL(clicked()), this, SLOT(whenParamsChanged()));
-	connect(m_melodyLengthSpin, SIGNAL(valueChanged(int)), this, SLOT(whenParamsChanged()));
 	connect(m_paintHandler, &TpaintHandler::paintMe, this, &questionsSettings::paintSlot);
 }
 
@@ -269,7 +213,7 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 //#################################################################################################
 
 void questionsSettings::loadLevel(Tlevel* level) {
-	blockSignals(true);
+  blockSignals(true);
     asNoteWdg->setAnswers(level->answersAs[TQAtype::e_asNote]);
     asNoteWdg->setChecked(level->questionAs.isNote()); // when it is false it cleans all checkBoxes to false
     asNameWdg->setAnswers(level->answersAs[TQAtype::e_asName]);
@@ -278,37 +222,15 @@ void questionsSettings::loadLevel(Tlevel* level) {
     asFretPosWdg->setChecked(level->questionAs.isFret());
     asSoundWdg->setAnswers(level->answersAs[TQAtype::e_asSound]);
     asSoundWdg->setChecked(level->questionAs.isSound());
-    
+
     octaveRequiredChB->setChecked(level->requireOctave);
     styleRequiredChB->setChecked(level->requireStyle);
     showStrNrChB->setChecked(level->showStrNr);
     lowPosOnlyChBox->setChecked(level->onlyLowPos);
-		m_intonationCombo->setCurrentIndex(level->intonation);
-		if (level->melodyLen == 1)
-			m_melodyLengthSpin->setRange(1, 1);
-		else
-			m_melodyLengthSpin->setRange(2, 50);
-		m_melodyLengthSpin->setValue(level->melodyLen);
-		m_finishOnTonicChB->setChecked(level->endsOnTonic);
-		saveLevel(wLevel());
-		if (wLevel()->canBeMelody()) {
-			m_melodiesGr->setChecked(true);
-			m_singleGr->setChecked(false);
-			if (level->questionAs.isNote() && level->answersAs[TQAtype::e_asNote].isSound())
-				m_playMelodyChB->setChecked(true);
-			else
-				m_playMelodyChB->setChecked(false);
-			if (level->questionAs.isSound() && level->answersAs[TQAtype::e_asSound].isNote())
-				m_writeMelodyChB->setChecked(true);
-			else
-				m_writeMelodyChB->setChecked(false);
-		} else {
-				m_singleGr->setChecked(true);
-				m_melodiesGr->setChecked(false);
-				m_playMelodyChB->setChecked(false);
-				m_writeMelodyChB->setChecked(false);
-		}
-	blockSignals(false);
+    m_intonationCombo->setCurrentIndex(level->intonation);
+    saveLevel(wLevel());
+    m_singleGr->setChecked(!wLevel()->canBeMelody());
+  blockSignals(false);
   adjustToLevel();
 }
 
@@ -322,41 +244,30 @@ void questionsSettings::saveLevel(Tlevel* level) {
   level->answersAs[TQAtype::e_asFretPos] = asFretPosWdg->getAnswers();
   level->questionAs.setAsSound(asSoundWdg->isChecked());
   level->answersAs[TQAtype::e_asSound] = asSoundWdg->getAnswers();
-  
+
   level->requireOctave = octaveRequiredChB->isChecked();
   level->requireStyle = styleRequiredChB->isChecked();
   level->showStrNr = showStrNrChB->isChecked();
   level->onlyLowPos = lowPosOnlyChBox->isChecked();
   level->intonation = m_intonationCombo->currentIndex();
-  
-  level->melodyLen = m_melodyLengthSpin->value();
-  level->endsOnTonic = m_finishOnTonicChB->isChecked();
 }
 
 
 void questionsSettings::setMelodiesEnabled(bool enableMelodies) {
   m_singleGr->blockSignals(true);
-  m_melodiesGr->blockSignals(true);
   m_singleGr->setChecked(!enableMelodies);
-  m_melodiesGr->setChecked(enableMelodies);
   if (enableMelodies) {
     asNameWdg->setChecked(false);
     asFretPosWdg->setChecked(false);
-    m_melodyLengthSpin->setRange(2, 50);
-  } else {
-    m_playMelodyChB->setChecked(false);
-    m_writeMelodyChB->setChecked(false);
-    m_melodyLengthSpin->setRange(1, 1);
   }
   asSoundWdg->setChecked(false); // reset it either for melodies or for single note
   asNoteWdg->setChecked(false); // reset it either for melodies or for single note
   m_singleGr->blockSignals(false);
-  m_melodiesGr->blockSignals(false);
 }
 
 
 void questionsSettings::changed() {
-
+  loadLevel(wLevel());
 }
 
 
@@ -383,15 +294,12 @@ void questionsSettings::adjustToLevel() {
     showStrNrChB->setDisabled(lowDisabled);
   }
 // Is sound input enabled to allow intonation check
-  if ((m_singleGr->isChecked() &&
-    (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())) ||
-    (m_melodiesGr->isChecked() && m_playMelodyChB->isChecked()) )
+  if (asNoteWdg->answerAsSound() || asNameWdg->answerAsSound() || asFretPosWdg->answerAsSound() || asSoundWdg->answerAsSound())
       m_intonationCombo->setDisabled(false);
   else
       m_intonationCombo->setDisabled(true);
 // Disable name styles when no name as question or answer
-  if (m_melodiesGr->isChecked() ||
-      !(asNameWdg->isChecked() || asNoteWdg->answerAsName() || asFretPosWdg->answerAsName() || asSoundWdg->answerAsName())) {
+  if (!(asNameWdg->isChecked() || asNoteWdg->answerAsName() || asFretPosWdg->answerAsName() || asSoundWdg->answerAsName())) {
       styleRequiredChB->setChecked(false);
       styleRequiredChB->setDisabled(true);
   } else {
@@ -403,6 +311,12 @@ void questionsSettings::adjustToLevel() {
 
 void questionsSettings::whenParamsChanged() {
   if (!signalsBlocked()) {
+    if (sender() == m_singleGr) {
+      if (m_singleGr->isChecked())
+        wLevel()->melodyLen = 1;
+      else
+        wLevel()->melodyLen = 2;
+    }
     adjustToLevel();
     changedLocal();
   }
@@ -459,24 +373,19 @@ void questionsSettings::stringsCheckedSlot(bool checked) {
 }
 
 
-void questionsSettings::singleMultiSlot() {
-	setMelodiesEnabled((sender() == m_singleGr && !m_singleGr->isChecked()) || (sender() == m_melodiesGr && m_melodiesGr->isChecked()));
-}
-
-
 void questionsSettings::melodyQuestionSlot() {
-	if (m_playMelodyChB->isChecked()) {
-			asNoteWdg->setAnswers(TQAtype(false, false, false, true));
-			asNoteWdg->setChecked(true);
-	} else {
-			asNoteWdg->setChecked(false);
-	}
-	if (m_writeMelodyChB->isChecked()) {
-			asSoundWdg->setAnswers(TQAtype(true, false, false, false));
-			asSoundWdg->setChecked(true);
-	} else {
-			asSoundWdg->setChecked(false);
-	}
+// 	if (m_playMelodyChB->isChecked()) {
+// 			asNoteWdg->setAnswers(TQAtype(false, false, false, true));
+// 			asNoteWdg->setChecked(true);
+// 	} else {
+// 			asNoteWdg->setChecked(false);
+// 	}
+// 	if (m_writeMelodyChB->isChecked()) {
+// 			asSoundWdg->setAnswers(TQAtype(true, false, false, false));
+// 			asSoundWdg->setChecked(true);
+// 	} else {
+// 			asSoundWdg->setChecked(false);
+// 	}
 }
 
 
