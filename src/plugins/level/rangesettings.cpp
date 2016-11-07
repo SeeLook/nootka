@@ -75,11 +75,13 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
   m_toSpinB = new QSpinBox(this);
   m_toSpinB->setMaximum(Tcore::gl()->GfretsNumber);
   m_toSpinB->setValue(3);
+  fretLay->addStretch(2);
   fretLay->addWidget(fromLab);
   fretLay->addWidget(m_fromSpinB);
   fretLay->addStretch(1);
   fretLay->addWidget(toLab);
   fretLay->addWidget(m_toSpinB);
+  fretLay->addStretch(2);
   m_noteAdjustButt = new QPushButton(tr("adjust note range"), this);
   m_noteAdjustButt->setStatusTip(tr("Adjust note range in a level to currently selected fret range"));
   m_fretGr->setLayout(fretLay);

@@ -232,7 +232,7 @@ void accidSettings::changed() {
 void accidSettings::enableAccids(bool enable) {
   if (enable) { // score and note names are enabled in the level
       m_accidGr->setDisabled(false);
-      setStatusTip("");
+      setStatusTip(QString());
   } else {
     m_accidGr->setDisabled(true);
     updateStatusTip();
