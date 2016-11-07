@@ -282,7 +282,6 @@ void TmainScore::setInsertMode(TmainScore::EinMode mode) {
 
 
 void TmainScore::noteWasClickedMain(int index) {
-  qDebug() << "[TmainScore] << note was clicked";
 	TscoreStaff *st = SENDER_TO_STAFF;
 	if (!isExam() && insertMode() == e_single)
 		m_nameMenu->setNoteName(*(st->getNote(index)));
