@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,19 +17,17 @@
  ***************************************************************************/
 
 
-
 #include "tlevel.h"
 #include "tinitcorelib.h"
 #include <music/ttune.h>
 #include <taudioparams.h>
 #include <tscoreparams.h>
-#include <QFile>
-#include <QMessageBox>
-#include <QApplication>
-#include <QXmlStreamWriter>
-#include <QXmlStreamWriter>
-#include <QVariant>
-#include <QDebug>
+#include <QtCore/qfile.h>
+#include <QtWidgets/qmessagebox.h>
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qxmlstream.h>
+#include <QtCore/qvariant.h>
+#include <QtCore/qdebug.h>
 
 
 /*static-------------------------------------------------------------------------------------------*/
@@ -70,13 +68,15 @@ bool Tlevel::couldBeLevel(qint32 ver) {
 }
 
 
-/** TlevelSelector context of translate() is used for backward compatibility with translations */
+/**
+ * TlevelSelector context of translate() is used for backward compatibility with translations
+ */
 void Tlevel::fileIOerrorMsg(QFile& f, QWidget* parent) {
-  if (f.fileName() != "") {
-      QMessageBox::critical(parent, "", QApplication::translate("TlevelSelector",
+  if (!f.fileName().isEmpty())
+      QMessageBox::critical(parent, QString(), QApplication::translate("TlevelSelector",
                                       "Cannot open file\n %1 \n for reading").arg(f.fileName()));
-  } else
-      QMessageBox::critical(parent, "", QApplication::translate("TlevelSelector", "No file name specified"));
+  else
+      QMessageBox::critical(parent, QString(), QApplication::translate("TlevelSelector", "No file name specified"));
 }
 
 
@@ -86,8 +86,7 @@ void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& er
         fr = 0;
         qDebug() << "Fret number in" << xml.name() << "was wrong but fixed";
         err = Tlevel::e_levelFixed;
-    }
-
+  }
 }
 
 
@@ -101,109 +100,107 @@ Tlevel::Tlevel() :
   hasInstrToFix(false)
 {
 // level parameters
-   name = QObject::tr("master of masters");
-   desc = QObject::tr("All possible options are turned on");
-   bool hasGuitar = true;
+  name = QObject::tr("master of masters");
+  desc = QObject::tr("All possible options are turned on");
+  bool hasGuitar = true;
 // QUESTIONS
-   if (Tcore::gl()->instrument == e_noInstrument)
-     hasGuitar = false;
-   questionAs = TQAtype(true, true, hasGuitar, true);
-   answersAs[0] = TQAtype(true, true, hasGuitar, true);
-   answersAs[1] = TQAtype(true, true, hasGuitar, true);
-   answersAs[2] = TQAtype(true, true, false, false);
-   answersAs[3] = TQAtype(true, true, hasGuitar, true);
-   requireOctave = true;
-   requireStyle = true;
-      /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
+  if (Tcore::gl()->instrument == e_noInstrument)
+    hasGuitar = false;
+  questionAs = TQAtype(true, true, hasGuitar, true);
+  answersAs[0] = TQAtype(true, true, hasGuitar, true);
+  answersAs[1] = TQAtype(true, true, hasGuitar, true);
+  answersAs[2] = TQAtype(true, true, false, false);
+  answersAs[3] = TQAtype(true, true, hasGuitar, true);
+  requireOctave = true;
+  requireStyle = true;
+    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
     *  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
     *  It can store multiple clefs (maybe in unknown future it will be used)
     *  0 - no clef and up to 15 different clefs    */
-   clef = Tclef(Tcore::gl()->S->clef);
+  clef = Tclef(Tcore::gl()->S->clef);
 
-   instrument = Tcore::gl()->instrument;
-   onlyLowPos = false;
-   onlyCurrKey = false;
-   intonation = Tcore::gl()->A->intonation;
+  instrument = Tcore::gl()->instrument;
+  onlyLowPos = false;
+  onlyCurrKey = false;
+  intonation = Tcore::gl()->A->intonation;
 // ACCIDENTALS
-   withSharps = true;
-   withFlats = true;
-   withDblAcc = true;
-   useKeySign = true;
-   isSingleKey  = false;
-   loKey = TkeySignature(-7);
-   hiKey = TkeySignature(7); // key range (7b to 7#)
-   manualKey = true;
-   forceAccids = true;
-   showStrNr = hasGuitar;
+  withSharps = true;
+  withFlats = true;
+  withDblAcc = true;
+  useKeySign = true;
+  isSingleKey  = false;
+  loKey = TkeySignature(-7);
+  hiKey = TkeySignature(7); // key range (7b to 7#)
+  manualKey = true;
+  forceAccids = true;
+  showStrNr = hasGuitar;
 // MELODIES
-    melodyLen = 1;
-    endsOnTonic = true;
-    requireInTempo = true;
+  melodyLen = 1;
+  endsOnTonic = true;
+  requireInTempo = true;
 // RANGE - for non guitar Tglobals will returns scale determined by clef
-   loNote = Tcore::gl()->loString();
-   hiNote = Tnote(Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber);
-   loFret = 0;
-   hiFret = Tcore::gl()->GfretsNumber;
-   for (int i = 0; i < 6; i++) {
-     if (i <= Tcore::gl()->Gtune()->stringNr())
-        usedStrings[i] = true;
-     else
-        usedStrings[i] = false;
-   }
+  loNote = Tcore::gl()->loString();
+  hiNote = Tnote(Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber);
+  loFret = 0;
+  hiFret = Tcore::gl()->GfretsNumber;
+  for (int i = 0; i < 6; i++) {
+    if (i <= Tcore::gl()->Gtune()->stringNr())
+      usedStrings[i] = true;
+    else
+      usedStrings[i] = false;
+  }
 }
 
 
 bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
-    bool ok = true;
-    in >> lev.name >> lev.desc;
-    in >> lev.questionAs;
-    in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
-    in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
-    quint8 sharedByte;
-    in >> lev.useKeySign >> sharedByte;
-    lev.isSingleKey = (bool)(sharedByte % 2);
-    lev.intonation = sharedByte / 2;
-    ok = getKeyFromStream(in, lev.loKey);
-    ok = getKeyFromStream(in, lev.hiKey);
-    in >> lev.manualKey >> lev.forceAccids;
-    in >>  lev.requireOctave >> lev.requireStyle;
+  bool ok = true;
+  in >> lev.name >> lev.desc;
+  in >> lev.questionAs;
+  in >> lev.answersAs[0] >> lev.answersAs[1] >> lev.answersAs[2] >> lev.answersAs[3];
+  in >> lev.withSharps >> lev.withFlats >> lev.withDblAcc;
+  quint8 sharedByte;
+  in >> lev.useKeySign >> sharedByte;
+  lev.isSingleKey = (bool)(sharedByte % 2);
+  lev.intonation = sharedByte / 2;
+  ok = getKeyFromStream(in, lev.loKey);
+  ok = getKeyFromStream(in, lev.hiKey);
+  in >> lev.manualKey >> lev.forceAccids;
+  in >>  lev.requireOctave >> lev.requireStyle;
 // RANGE
-    ok = getNoteFromStream(in, lev.loNote);
-    ok = getNoteFromStream(in, lev.hiNote);
-  /** Merged to quint16 since version 0.8.90 */
-    quint16 testClef;
-    in >> testClef;
-    qint8 lo, hi;
-    in >> lo >> hi;
-    if (lo < 0 || lo > 24) { // max frets number
-        lo = 0;
-        ok = false;
-    }
-    if (hi < 0 || hi > 24) { // max frets number
-        hi = Tcore::gl()->GfretsNumber;
-        ok = false;
-    }
-    lev.loFret = char(lo);
-    lev.hiFret = char(hi);
-  /** Previously is was bool type */
-    quint8 instr;
-    in >> instr;
-    in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
-            >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
-    in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
-    if (ver == lev.levelVersion) { // first version of level file structure
-        lev.clef = lev.fixClef(testClef); // determining/fixing a clef from first version
-        lev.instrument = lev.fixInstrument(instr); // determining/fixing an instrument type
-    } else {
-        lev.clef = Tclef((Tclef::Etype)testClef);
-        lev.instrument = (Einstrument)instr;
-    }
-//     qDebug() << lev.name << "ver:" << lev.levelVersionNr(ver) << "instrument:" <<
-//             instr << "saved as" << instrumentToText(lev.instrument);
-    lev.melodyLen = 1; // Those parameters was deployed in XML files
-    lev.endsOnTonic = false; // By settings those values their will be ignored
-    lev.requireInTempo = false;
-    return ok;
+  ok = getNoteFromStream(in, lev.loNote);
+  ok = getNoteFromStream(in, lev.hiNote);
+/** Merged to quint16 since version 0.8.90 */
+  quint16 testClef;
+  in >> testClef;
+  qint8 lo, hi;
+  in >> lo >> hi;
+  if (lo < 0 || lo > 24) { // max frets number
+      lo = 0;
+      ok = false;
+  }
+  if (hi < 0 || hi > 24) { // max frets number
+      hi = Tcore::gl()->GfretsNumber;
+      ok = false;
+  }
+  lev.loFret = char(lo);
+  lev.hiFret = char(hi);
+/** Previously is was bool type */
+  quint8 instr;
+  in >> instr;
+  in >> lev.usedStrings[0] >> lev.usedStrings[1] >> lev.usedStrings[2]
+          >> lev.usedStrings[3] >> lev.usedStrings[4] >>  lev.usedStrings[5];
+  in >> lev.onlyLowPos >> lev.onlyCurrKey >> lev.showStrNr;
+  if (ver == lev.levelVersion) { // first version of level file structure
+      lev.clef = lev.fixClef(testClef); // determining/fixing a clef from first version
+      lev.instrument = lev.fixInstrument(instr); // determining/fixing an instrument type
+  } else {
+      lev.clef = Tclef((Tclef::Etype)testClef);
+      lev.instrument = (Einstrument)instr;
+  }
+  lev.melodyLen = 1; // Those parameters was deployed in XML files
+  lev.endsOnTonic = false; // By settings those values their will be ignored
+  lev.requireInTempo = false;
+  return ok;
 }
 
 
@@ -212,34 +209,34 @@ Tlevel::EerrorType Tlevel::qaTypeFromXml(QXmlStreamReader& xml) {
   EerrorType er = e_level_OK;
   int id = qa.fromXml(xml);
   if (id == -1) {
-    questionAs = qa;
-    if (!questionAs.isNote() && !questionAs.isName() && !questionAs.isFret() && !questionAs.isSound()) {
-      qDebug() << "There are not any questions in a level. It makes no sense.";
-      return e_otherError;
-    }
+      questionAs = qa;
+      if (!questionAs.isNote() && !questionAs.isName() && !questionAs.isFret() && !questionAs.isSound()) {
+        qDebug() << "There are not any questions in a level. It makes no sense.";
+        return e_otherError;
+      }
   } else if (id >= 0 && id < 4) {
-    answersAs[id] = qa;
-    // verify every answersAs context and set corresponding questionAs to false when all were unset (false)
-    if (questionAs.isNote() &&
-      (!answersAs[0].isNote() && !answersAs[0].isName() && !answersAs[0].isFret() && !answersAs[0].isSound())) {
-        er = e_levelFixed;
-        questionAs.setAsNote(false);
-    }
-    if (questionAs.isName() &&
-      (!answersAs[1].isNote() && !answersAs[1].isName() && !answersAs[1].isFret() && !answersAs[1].isSound())) {
-        er = e_levelFixed;
-        questionAs.setAsName(false);
-    }
-    if (questionAs.isFret() &&
-      (!answersAs[2].isNote() && !answersAs[2].isName() && !answersAs[2].isFret() && !answersAs[2].isSound())) {
-        er = e_levelFixed;
-        questionAs.setAsFret(false);
-    }
-    if (questionAs.isSound() &&
-      (!answersAs[3].isNote() && !answersAs[3].isName() && !answersAs[3].isFret() && !answersAs[3].isSound())) {
-        er = e_levelFixed;
-        questionAs.setAsNote(false);
-    }
+      answersAs[id] = qa;
+      // verify every answersAs context and set corresponding questionAs to false when all were unset (false)
+      if (questionAs.isNote() &&
+        (!answersAs[0].isNote() && !answersAs[0].isName() && !answersAs[0].isFret() && !answersAs[0].isSound())) {
+          er = e_levelFixed;
+          questionAs.setAsNote(false);
+      }
+      if (questionAs.isName() &&
+        (!answersAs[1].isNote() && !answersAs[1].isName() && !answersAs[1].isFret() && !answersAs[1].isSound())) {
+          er = e_levelFixed;
+          questionAs.setAsName(false);
+      }
+      if (questionAs.isFret() &&
+        (!answersAs[2].isNote() && !answersAs[2].isName() && !answersAs[2].isFret() && !answersAs[2].isSound())) {
+          er = e_levelFixed;
+          questionAs.setAsFret(false);
+      }
+      if (questionAs.isSound() &&
+        (!answersAs[3].isNote() && !answersAs[3].isName() && !answersAs[3].isFret() && !answersAs[3].isSound())) {
+          er = e_levelFixed;
+          questionAs.setAsNote(false);
+      }
   }
   return er;
 }
@@ -253,13 +250,13 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     return e_noLevelInXml;
   }
   name = xml.attributes().value("name").toString();
-  if (name == "") {
-    qDebug() << "Level key has empty 'name' attribute";
-    return e_otherError;
+  if (name.isEmpty()) {
+      qDebug() << "Level key has empty 'name' attribute";
+      return e_otherError;
   } else if (name.size() > 29) {
-    name = name.left(29);
-    er = e_levelFixed;
-    qDebug() << "Name of a level was reduced to 29 characters:" << name;
+      name = name.left(29);
+      er = e_levelFixed;
+      qDebug() << "Name of a level was reduced to 29 characters:" << name;
   }
 //   }
   while (xml.readNextStartElement()) {
@@ -281,14 +278,14 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
           showStrNr = QVariant(xml.readElementText()).toBool();
         else if (xml.name() == "clef") {
           clef.setClef(Tclef::Etype(QVariant(xml.readElementText()).toInt()));
-          if (clef.name() == "") { // when clef has improper value its name returns ""
+          if (clef.name().isEmpty()) { // when clef has improper value its name returns empty string
             qDebug() << "Level had wrong/undefined clef. It was fixed to treble dropped.";
             clef.setClef(Tclef::e_treble_G_8down);
             er = e_levelFixed;
           }
         } else if (xml.name() == "instrument") {
           instrument = Einstrument(QVariant(xml.readElementText()).toInt());
-          if (instrumentToText(instrument) == "") {
+          if (instrumentToText(instrument).isEmpty()) {
             qDebug() << "Level had wrong instrument type. It was fixed to classical guitar.";
             instrument = e_classicalGuitar;
             er = e_levelFixed;
@@ -528,9 +525,11 @@ Einstrument Tlevel::detectInstrument(Einstrument currInstr) {
 
 
 //###################### HELPERS ################################################################
-/** Checking is any question enabled first and then checking appropriate answer type.
-     * Despite of level creator disables all questions with empty answers (set to false)
-     * better check this again to avoid further problems. */
+/**
+ * Checking is any question enabled first and then checking appropriate answer type.
+ * Despite of level creator disables all questions with empty answers (set to false)
+ * better check this again to avoid further problems. 
+ */
 bool Tlevel::canBeScore() {
   if (questionAs.isNote() ||
     (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) ||
