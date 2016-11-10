@@ -73,12 +73,12 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainPosY(0.0),
   m_accidental(0),
   m_index(index),
-  m_stringText(0), m_stringNr(0),
+  m_stringText(nullptr), m_stringNr(0),
   m_readOnly(false), m_emptyLinesVisible(true),
   m_nameText(0),
   m_ottava(0),
   m_bgColor(-1),
-  m_noteAnim(0), m_popUpAnim(0),
+  m_noteAnim(nullptr), m_popUpAnim(nullptr),
   m_selected(false),
   m_touchedToMove(false), m_wasTouched(false)
 {
@@ -298,26 +298,29 @@ void TscoreNote::markNote(QColor blurColor) {
 
 
 void TscoreNote::setString(int realNr) {
-	if (!m_stringText) {
+  if (realNr < 7) {
+      if (!m_stringText) {
         m_stringText = new QGraphicsSimpleTextItem();
-				m_stringText->setFont(TnooFont(5));
+        m_stringText->setFont(TnooFont(5));
         m_stringText->setBrush(QBrush(m_mainColor));
         m_stringText->setParentItem(this);
         m_stringText->setZValue(-1);
-    }
-    m_stringText->setText(QString("%1").arg(realNr));
-		m_stringText->setScale(5.0 / m_stringText->boundingRect().width());
-		m_stringNr = realNr;
-    setStringPos();
+      }
+      m_stringText->setText(QString("%1").arg(realNr));
+      m_stringText->setScale(5.0 / m_stringText->boundingRect().width());
+      m_stringNr = realNr;
+      setStringPos();
+  } else
+      removeString();
 }
 
 
 void TscoreNote::removeString() {
-		if (m_stringText) {
-        delete m_stringText;
-        m_stringText = 0;
-    }
-    m_stringNr = 0;
+  if (m_stringText) {
+      delete m_stringText;
+      m_stringText = nullptr;
+  }
+  m_stringNr = 0;
 }
 
 
@@ -369,7 +372,7 @@ void TscoreNote::showNoteName(const QColor& dropShadowColor) {
 
 void TscoreNote::removeNoteName() {
 	delete m_nameText;
-	m_nameText = 0;
+	m_nameText = nullptr;
 }
 
 
@@ -388,9 +391,9 @@ void TscoreNote::enableNoteAnim(bool enable, int duration) {
 	} else {
 			if (m_noteAnim) {
 				delete m_noteAnim;
-				m_noteAnim = 0;
+				m_noteAnim = nullptr;
 				delete m_accidAnim;
-				m_accidAnim = 0;
+				m_accidAnim = nullptr;
 			}
 	}
 }
