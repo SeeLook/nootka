@@ -315,12 +315,12 @@ void TpitchView::intoAnimFinished() {
 //#################################################################################################
 
 void TpitchView::paintEvent(QPaintEvent* ) {
-	if (m_bgColor != Qt::transparent) {
+  if (m_bgColor != Qt::transparent) {
     QPainter painter(this);
     painter.setPen(Qt::NoPen);
     painter.setBrush(QBrush(m_bgColor));
-    painter.drawRoundedRect(painter.viewport(), 10, 10);
-	}
+    painter.drawRect(painter.viewport());
+  }
 }
 
 

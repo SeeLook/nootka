@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,16 +22,16 @@
 #include "tscorenote.h"
 #include "tscorescene.h"
 #include <tnoofont.h>
-#include <QPainter>
-#include <QPalette>
-#include <QDebug>
-#include <QTimer>
-#include <QApplication>
-#include <QGraphicsSceneHoverEvent>
-#include <QGraphicsScene>
-#include <QGraphicsEffect>
-#include <QGraphicsView>
-
+#include <graphics/tdropshadoweffect.h>
+#include <QtGui/qpainter.h>
+#include <QtGui/qpalette.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qtimer.h>
+#include <QtWidgets/qapplication.h>
+#include <QtWidgets/qgraphicssceneevent.h>
+#include <QtWidgets/qgraphicsscene.h>
+#include <QtWidgets/qgraphicseffect.h>
+#include <QtWidgets/qgraphicsview.h>
 
 
 QLinearGradient TnoteControl::m_leftGrad;
@@ -49,10 +49,10 @@ QGraphicsDropShadowEffect* ItemHighLight() {
 
 TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	TscoreItem(scene),
-	m_scoreNote(0),
+	m_scoreNote(nullptr),
 	m_isEnabled(true), m_entered(false),
-	m_dblSharp(0), m_sharp(0), m_flat(0), m_dblFlat(0), m_accidGap(0),
-	m_underItem(0),
+	m_dblSharp(nullptr), m_sharp(nullptr), m_flat(nullptr), m_dblFlat(nullptr), m_accidGap(nullptr),
+	m_underItem(nullptr),
 	m_moveNote(false),
 	m_currAccid(0), m_prevAccidIt(0),
 	m_notesAdding(true),
@@ -80,6 +80,8 @@ TnoteControl::TnoteControl(TscoreStaff* staff, TscoreScene* scene) :
 	adjustSize();
 	connect(this, SIGNAL(statusTip(QString)), scene, SLOT(statusTipChanged(QString)));
 	connect(m_delayTimer, SIGNAL(timeout()), this, SLOT(showDelayed()));
+
+  setGraphicsEffect(new TdropShadowEffect);
 }
 
 
@@ -168,9 +170,9 @@ void TnoteControl::addAccidentals() {
 	} else {
 		if (m_dblSharp) {
 			delete m_dblSharp;
-			m_dblSharp = 0;
+			m_dblSharp = nullptr;
 			delete m_dblFlat;
-			m_dblFlat = 0;
+			m_dblFlat = nullptr;
 		}
 	}
 	if (isLeftPane())
@@ -201,7 +203,7 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
       painter->setBrush(QBrush(*m_gradient));
     else {
       QColor bc = qApp->palette().base().color();
-      bc.setAlpha(150);
+      bc.setAlpha(240);
       painter->setBrush(QBrush(bc));
     }
     painter->setPen(Qt::NoPen);
@@ -210,7 +212,7 @@ void TnoteControl::paint(QPainter* painter, const QStyleOptionGraphicsItem* opti
 #else
     qreal lowest = (staff()->isPianoStaff() ? staff()->lowerLinePos(): staff()->upperLinePos()) + 20.0;
 #endif
-    painter->drawRoundedRect(QRectF(0.0, baseY, WIDTH, lowest - staff()->upperLinePos()), 0.75, 0.75);
+    painter->drawRoundedRect(QRectF(0.0, baseY, WIDTH, lowest - staff()->upperLinePos()), 0.25, 0.25);
     if ((touchEnabled() && notesAddingEnabled()) || (m_entered && m_adding)) { // 'plus' symbol
       if (touchEnabled())
         painter->setPen(QPen(qApp->palette().text().color(), 0.4, Qt::SolidLine, Qt::RoundCap));
@@ -252,7 +254,7 @@ void TnoteControl::setScoreNote(TscoreNote* sn) {
 
 void TnoteControl::setAccidental(int acc) {
   m_currAccid = acc;
-  QGraphicsSimpleTextItem* it = 0;
+  QGraphicsSimpleTextItem* it = nullptr;
   if (acc == -2)
     it = m_dblFlat;
   else if (acc == -1)
@@ -335,15 +337,15 @@ void TnoteControl::itemSelected(const QPointF& cPos) {
       return;
     }
   }
-	QGraphicsItem *it = scene()->itemAt(mapToScene(cPos), scene()->views()[0]->transform());
-	if (it == 0 || it->parentItem() != this || it == m_accidGap)
+	auto it = scene()->itemAt(mapToScene(cPos), scene()->views()[0]->transform());
+	if (it == nullptr || it->parentItem() != this || it == m_accidGap)
     return;
 	if (it == m_name) {
-		hoverLeaveEvent(0);
+		hoverLeaveEvent(nullptr);
     QTimer::singleShot(5, [=]{ emit nameMenu(m_scoreNote); });
 	} else if (it == m_cross) {
 		staff()->removeNote(m_scoreNote->index());
-		hoverLeaveEvent(0);
+		hoverLeaveEvent(nullptr);
 	} else // accidentals remained
 			accidChanged(it);
 	
@@ -358,7 +360,7 @@ void TnoteControl::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
 
 void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 	scoreScene()->controlMoved();
-	QGraphicsItem *it = scene()->itemAt(mapToScene(event->pos()), scene()->views()[0]->transform());
+  auto it = scene()->itemAt(mapToScene(event->pos()), scene()->views()[0]->transform());
 	if (m_notesAdding) {
 		if (it == this) {
       if (!m_adding)
@@ -382,22 +384,22 @@ void TnoteControl::hoverMoveEvent(QGraphicsSceneHoverEvent* event) {
 				emit statusTip(tr("<b>double flat</b> - lowers a note by two semitones (whole tone).<br>On the guitar it is two frets down."));
 			else if (it == m_cross)
 				emit statusTip(tr("Click %1 to remove a note")
-					.arg(TnooFont::span("o", qApp->fontMetrics().boundingRect("A").height() * 2.0, "color: #ff0000"))); // red
+					.arg(TnooFont::span(QLatin1String("o"), qApp->fontMetrics().boundingRect(QLatin1String("A")).height() * 2.0, QLatin1String("color: #ff0000")))); // red
 			else if (it == m_name)
 				emit statusTip(tr("Click %1 to edit note name")
-					.arg(TnooFont::span("c", qApp->fontMetrics().boundingRect("A").height() * 1.5, 
-															"color: " + scoreScene()->nameColor().name())));
+					.arg(TnooFont::span(QLatin1String("c"), qApp->fontMetrics().boundingRect(QLatin1String("A")).height() * 1.5,
+															QLatin1String("color: ") + scoreScene()->nameColor().name())));
 			else if (!m_adding)
-				emit statusTip("");
+				emit statusTip(QString());
 			if (m_underItem)
-				m_underItem->setGraphicsEffect(0);
+				m_underItem->setGraphicsEffect(nullptr);
 			m_underItem = it;
 		}
 	} else if (m_underItem) {
-			m_underItem->setGraphicsEffect(0);
+			m_underItem->setGraphicsEffect(nullptr);
       if (!m_adding)
-        emit statusTip("");
-			m_underItem = 0;
+        emit statusTip(QString());
+			m_underItem = nullptr;
 	}
 }
 
@@ -408,8 +410,8 @@ void TnoteControl::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
 		update();
 	}
 	if (m_underItem) {
-		m_underItem->setGraphicsEffect(0);
-		m_underItem = 0;
+		m_underItem->setGraphicsEffect(nullptr);
+		m_underItem = nullptr;
 	}
 	hideWithDelay();
 	TscoreItem::hoverLeaveEvent(event);
@@ -463,7 +465,7 @@ void TnoteControl::accidChanged(QGraphicsItem* accidIt) {
 
 
 QGraphicsSimpleTextItem* TnoteControl::createNootkaTextItem(const QString& aText) {
-	QGraphicsSimpleTextItem *nooItem = new QGraphicsSimpleTextItem(aText, this);
+	auto nooItem = new QGraphicsSimpleTextItem(aText, this);
 	nooItem->setFont(TnooFont());
 	nooItem->setBrush(QBrush(qApp->palette().text().color()));
 	nooItem->setScale((WIDTH / nooItem->boundingRect().height()) * 1.12);
