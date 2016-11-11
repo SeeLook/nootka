@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,11 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
 #include "trandmelody.h"
 #include <music/tmelody.h>
 #include <music/trhythm.h>
-#include <QDebug>
-#include <QDateTime>
+#include <QtCore/qdebug.h>
+#include <QtCore/qdatetime.h>
 
 
 void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
@@ -55,18 +56,13 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 		mel->addNote(note);
 	}
 	if (onTonic) {
-		char tonicNoteNr;
-		if (mel->key().isMinor())
-			tonicNoteNr = TkeySignature::minorKeys[mel->key().value() + 7];
-		else
-			tonicNoteNr = TkeySignature::majorKeys[mel->key().value() + 7];
 		int cnt = -1, i = (qrand() % qList.size()) - 1; // start iteration from random value
 		while (cnt < qList.size()) {
 			i++;
 			if (i >= qList.size())
 				i = 0;
 			cnt++;
-			Tnote tonic(tonicNoteNr + 1, 0, TkeySignature::scalesDefArr[mel->key().value() + 7][tonicNoteNr]);
+      auto tonic = mel->key().tonicNote();
 			bool theSame = false;
 			if (tonic.compareNotes(qList[i].note, true))
 				theSame = true;

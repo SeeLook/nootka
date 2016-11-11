@@ -41,7 +41,7 @@ public:
     static QString majorNames[15], minorNames[15];
 
         /** Array with definitions of each scale.
-        * @param scalesDefArr[7] is C-major/a-minor and has 7 times 0 (no accids).
+        * @p scalesDefArr[7] is C-major/a-minor and has 7 times 0 (no accids).
         * The order os from 7b [0] to 7# [15]*/
     static const char scalesDefArr[15][7];
 
@@ -68,19 +68,20 @@ public:
     QString getMinorName() { return minorNames[m_key+7]; }
 
       /** Returns minor or major name depend on m_isMinor state. */
-    QString getName() { if (m_isMinor)
-                            return getMinorName();
-                        else
-                            return getMajorName();
-                  }
+    QString getName() { 
+      if (m_isMinor)
+          return getMinorName();
+      else
+          return getMajorName();
+    }
 
         /** Return QString with accidentals number and their symbol.
-         * f.e.: 7# for @param m_key = 7 (Cis-major).
-         * @param inHtml points when HTML syntax is used. If true # and b symbols
+         * f.e.: 7# for @p m_key = 7 (Cis-major).
+         * @p inHtml points when HTML syntax is used. If true # and b symbols
          * are formatted to better view. */
     QString accidNumber(bool inHtml = false);
 
-        /** Checks is given @class Tnote @param n in given @class TkeySignature @param k.
+        /** Checks is given note @p n in given key signature @p k.
         * In the method it checks all possibilities of the note n (flats, sharps, natural,
         * and returns either founded note or Tnote(0,0,0) if didn't find.*/
     static Tnote inKey(TkeySignature k, Tnote n);
@@ -89,6 +90,10 @@ public:
     void setMinor(bool isMinor) { m_isMinor = isMinor; }
 
     char value() { return m_key; }
+
+        /** Returns base (tonic) note of this key signature, i.e. for a-minor key it is note 'a'.
+         * By default note is in small octave, but it can be set through @p octave parameter. */
+    Tnote tonicNote(int octave = 0);
 
     /** Adds 'key' key to XML stream compatible with MusicXML format with current key signature
        * <key>
@@ -103,11 +108,11 @@ private:
     bool m_isMinor;
 
         /** Common part for static and no static inKey() methods.*/
-    static Tnote m_inKey(char val, Tnote n);
+    static Tnote inKeyPrivate(char val, Tnote n);
 };
 
+
 NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, TkeySignature &key);
-// NOOTKACORE_EXPORT QDataStream &operator>> (QDataStream &in, TkeySignature &key);
 
     /** This function is substitute of >> operator for @class TkeySignature.
     * It checks is Tnote valid, and return @value bool about it. */

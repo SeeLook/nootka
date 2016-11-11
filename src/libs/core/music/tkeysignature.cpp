@@ -20,9 +20,8 @@
 #include "tkeysignature.h"
 #include "tinitcorelib.h"
 #include <tscoreparams.h>
-#include <QXmlStreamWriter>
-#include <QXmlStreamReader>
-#include <QVariant>
+#include <QtCore/qxmlstream.h>
+#include <QtCore/qvariant.h>
 
 
 /*static*/
@@ -83,28 +82,8 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QStrin
 }
 
 Tnote TkeySignature::inKey(TkeySignature k, Tnote n) {
-    return m_inKey(k.value(), n);
+    return inKeyPrivate(k.value(), n);
 }
-
-/*private static*/
-Tnote TkeySignature::m_inKey(char val, Tnote n) {
-  int v = val + 7;
-  if (scalesDefArr[v][n.note - 1] == n.alter)
-      return n;
-  Tnote tmpN = n.showWithFlat();
-  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
-      return tmpN;
-  tmpN = n.showWithSharp();
-  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
-      return tmpN;
-  tmpN = n.showAsNatural();
-  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
-      return tmpN;
-
-  return Tnote(0, 0, 0);
-}
-
-/*end satic */
 
 
 TkeySignature::TkeySignature()
@@ -141,14 +120,20 @@ QString TkeySignature::accidNumber(bool inHtml) {
 
 
 Tnote TkeySignature::inKey(Tnote n) {
-    return m_inKey(value(), n);
+    return inKeyPrivate(value(), n);
+}
+
+
+Tnote TkeySignature::tonicNote(int octave) {
+  char tonicNoteNr = isMinor() ? minorKeys[value() + 7] : majorKeys[value() + 7];
+  return Tnote(tonicNoteNr + 1, octave, scalesDefArr[value() + 7][static_cast<int>(tonicNoteNr)]);
 }
 
 
 void TkeySignature::toXml(QXmlStreamWriter& xml) {
   xml.writeStartElement("key");
-    xml.writeTextElement("fifths", QVariant((int)value()).toString());
-    QString mode = isMinor() ? QStringLiteral("minor") : QStringLiteral("major");
+    xml.writeTextElement("fifths", QVariant(static_cast<int>(value())).toString());
+    QString mode = isMinor() ? QLatin1String("minor") : QLatin1String("major");
     xml.writeTextElement("mode", mode);
   xml.writeEndElement(); // key
 }
@@ -186,7 +171,6 @@ bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
     bool ok = true;
     qint8 kk;
     in >> kk;
-//     if (kk < -7 || kk > 7) {
     if (kk < -7 || kk > 22) {
         kk = 0; ok = false;
     }
@@ -197,9 +181,27 @@ bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
     return ok;
 }
 
-//QDataStream &operator >> (QDataStream &in, TkeySignature &key) {
-//    qint8 ky;
-//    in >> ky;
-//    key = TkeySignature(char(ky));
-//    return in;
-//}
+
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+Tnote TkeySignature::inKeyPrivate(char val, Tnote n) {
+  int v = val + 7;
+  if (scalesDefArr[v][n.note - 1] == n.alter)
+      return n;
+  Tnote tmpN = n.showWithFlat();
+  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+      return tmpN;
+  tmpN = n.showWithSharp();
+  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+      return tmpN;
+  tmpN = n.showAsNatural();
+  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+      return tmpN;
+
+  return Tnote(0, 0, 0);
+}
+
+
+
+
