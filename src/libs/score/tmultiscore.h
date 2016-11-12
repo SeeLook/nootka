@@ -66,7 +66,10 @@ public:
 
 	virtual void setNote(const Tnote& note); /**< Sets current note */
 	virtual void setNote(int index, const Tnote& note); /**< Sets note of @p index to @p note */
-	   Tnote getNote(int index);
+  Tnote getNote(int index);
+
+      /** Sets given @p nl list of notes on score */
+  void setNotes(QList<Tnote>& nl);
 
 	virtual void setEnableKeySign(bool isEnabled);
 

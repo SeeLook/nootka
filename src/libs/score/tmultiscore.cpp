@@ -154,6 +154,22 @@ Tnote TmultiScore::getNote(int index) {
 }
 
 
+void TmultiScore::setNotes(QList<Tnote>& nl) {
+  changeCurrentIndex(0);
+  bool animEnabled = ainmationsEnabled();
+  setAnimationsEnabled(false);
+  for (int i = 0; i < nl.size(); ++i) {
+    auto s = staves(i / staff()->maxNoteCount());
+    if (i > 0)
+        s->addNote(nl[i], isScoreDisabled());
+    else
+        setNote(0, nl[i]);
+  }
+  setAnimationsEnabled(animEnabled);
+  changeCurrentIndex(-1);
+}
+
+
 void TmultiScore::setEnableKeySign(bool isEnabled) {
   if (isEnabled != (bool)staff()->scoreKey()) {
     scoreScene()->mouseEntersOnKey(false);

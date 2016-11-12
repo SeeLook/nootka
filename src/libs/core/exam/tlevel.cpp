@@ -44,6 +44,7 @@
 const qint32 Tlevel::levelVersion = 0x95121701;
 const qint32 Tlevel::currentVersion = 0x95121705;
 
+
 int Tlevel::levelVersionNr(qint32 ver) {
   if ((ver - levelVersion) % 2)
       return -1; // invalid when rest of division is 1
@@ -91,7 +92,7 @@ void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& er
 
 
 void Tlevel::skipCurrentXmlKey(QXmlStreamReader& xml) {
-  qDebug() << "Unrecognized key:" << xml.name();
+  qDebug() << "[Tlevel] Unrecognized key:" << xml.name();
   xml.skipCurrentElement();
 }
 /*end static--------------------------------------------------------------------------------------*/
@@ -138,6 +139,8 @@ Tlevel::Tlevel() :
   melodyLen = 1;
   endsOnTonic = true;
   requireInTempo = true;
+  randMelody = e_randFromRange;
+  //   notesList is clean here
 // RANGE - for non guitar Tglobals will returns scale determined by clef
   loNote = Tcore::gl()->loString();
   hiNote = Tnote(Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber);
@@ -245,7 +248,7 @@ Tlevel::EerrorType Tlevel::qaTypeFromXml(QXmlStreamReader& xml) {
 Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
   EerrorType er = e_level_OK;
 //   if (xml.readNextStartElement()) {
-  if (xml.name() != "level") {
+  if (xml.name() != QLatin1String("level")) {
     qDebug() << "There is no 'level' key in that XML";
     return e_noLevelInXml;
   }
@@ -260,108 +263,122 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
   }
 //   }
   while (xml.readNextStartElement()) {
-    if (xml.name() == "description")
+    if (xml.name() == QLatin1String("description"))
       desc = xml.readElementText();
   // QUESTIONS
-    else if (xml.name() == "questions") {
+    else if (xml.name() == QLatin1String("questions")) {
       while (xml.readNextStartElement()) {
 //         qDebug() << "questions->" << xml.name();
-        if (xml.name() == "qaType") {
+        if (xml.name() == QLatin1String("qaType")) {
           er = qaTypeFromXml(xml);
           if (er == e_otherError)
             return er;
-        } else if (xml.name() == "requireOctave")
-          requireOctave = QVariant(xml.readElementText()).toBool();
-        else if (xml.name() == "requireStyle")
-          requireStyle = QVariant(xml.readElementText()).toBool();
-        else if (xml.name() == "showStrNr")
-          showStrNr = QVariant(xml.readElementText()).toBool();
-        else if (xml.name() == "clef") {
-          clef.setClef(Tclef::Etype(QVariant(xml.readElementText()).toInt()));
-          if (clef.name().isEmpty()) { // when clef has improper value its name returns empty string
-            qDebug() << "Level had wrong/undefined clef. It was fixed to treble dropped.";
-            clef.setClef(Tclef::e_treble_G_8down);
-            er = e_levelFixed;
-          }
-        } else if (xml.name() == "instrument") {
-          instrument = Einstrument(QVariant(xml.readElementText()).toInt());
-          if (instrumentToText(instrument).isEmpty()) {
-            qDebug() << "Level had wrong instrument type. It was fixed to classical guitar.";
-            instrument = e_classicalGuitar;
-            er = e_levelFixed;
-          }
-        } else if (xml.name() == "onlyLowPos")
-          onlyLowPos = QVariant(xml.readElementText()).toBool();
-        else if (xml.name() == "onlyCurrKey")
-          onlyCurrKey = QVariant(xml.readElementText()).toBool();
-        else if (xml.name() == "intonation")
-          intonation = QVariant(xml.readElementText()).toInt();
+        } else if (xml.name() == QLatin1String("requireOctave"))
+            requireOctave = QVariant(xml.readElementText()).toBool();
+        else if (xml.name() == QLatin1String("requireStyle"))
+            requireStyle = QVariant(xml.readElementText()).toBool();
+        else if (xml.name() == QLatin1String("showStrNr"))
+            showStrNr = QVariant(xml.readElementText()).toBool();
+        else if (xml.name() == QLatin1String("clef")) {
+            clef.setClef(Tclef::Etype(QVariant(xml.readElementText()).toInt()));
+            if (clef.name().isEmpty()) { // when clef has improper value its name returns empty string
+              qDebug() << "Level had wrong/undefined clef. It was fixed to treble dropped.";
+              clef.setClef(Tclef::e_treble_G_8down);
+              er = e_levelFixed;
+            }
+        } else if (xml.name() == QLatin1String("instrument")) {
+            instrument = Einstrument(QVariant(xml.readElementText()).toInt());
+            if (instrumentToText(instrument).isEmpty()) {
+              qDebug() << "Level had wrong instrument type. It was fixed to classical guitar.";
+              instrument = e_classicalGuitar;
+              er = e_levelFixed;
+            }
+        } else if (xml.name() == QLatin1String("onlyLowPos"))
+            onlyLowPos = QVariant(xml.readElementText()).toBool();
+        else if (xml.name() == QLatin1String("onlyCurrKey"))
+            onlyCurrKey = QVariant(xml.readElementText()).toBool();
+        else if (xml.name() == QLatin1String("intonation"))
+            intonation = QVariant(xml.readElementText()).toInt();
         else
-          skipCurrentXmlKey(xml);
-      }
-    } else if (xml.name() == "melodies") {
-        while (xml.readNextStartElement()) {
-          if (xml.name() == "melodyLength")
-            melodyLen = qBound(1, QVariant(xml.readElementText()).toInt(), 100);
-          else if (xml.name() == "endsOnTonic")
-            endsOnTonic = QVariant(xml.readElementText()).toBool();
-          else if (xml.name() == "requireInTempo")
-            requireInTempo = QVariant(xml.readElementText()).toBool();
-          else
             skipCurrentXmlKey(xml);
+      }
+    } else if (xml.name() == QLatin1String("melodies")) {
+        while (xml.readNextStartElement()) {
+          if (xml.name() == QLatin1String("melodyLength"))
+              melodyLen = qBound(1, QVariant(xml.readElementText()).toInt(), 100);
+          else if (xml.name() == ("endsOnTonic"))
+              endsOnTonic = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("requireInTempo"))
+              requireInTempo = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("randType"))
+              randMelody = static_cast<ErandMelody>(QVariant(xml.readElementText()).toInt());
+          else if (xml.name() == QLatin1String("keyOfrandList")) {
+              xml.readNextStartElement();
+              keyOfrandList.fromXml(xml);
+              xml.skipCurrentElement();
+          } else if (xml.name() == QLatin1String("noteList")) {
+              notesList.clear();
+              while (xml.readNextStartElement()) {
+                if (xml.name() == QLatin1String("n")) {
+                    notesList << Tnote();
+                    notesList.last().fromXml(xml);
+                    if (!notesList.last().isValid()) // skip empty notes
+                      notesList.removeLast();
+                } else
+                    skipCurrentXmlKey(xml);
+              }
+          } else
+              skipCurrentXmlKey(xml);
         }
-    } else if (xml.name() == "accidentals") {
+    } else if (xml.name() == QLatin1String("accidentals")) {
         while (xml.readNextStartElement()) {
 //           qDebug() << "accidentals->" << xml.name();
-          if (xml.name() == "withSharps")
-            withSharps = QVariant(xml.readElementText()).toBool();
-          else if (xml.name() == "withFlats")
-            withFlats = QVariant(xml.readElementText()).toBool();
-          else if (xml.name() == "withDblAcc")
-            withDblAcc = QVariant(xml.readElementText()).toBool();
-          else if (xml.name() == "useKeySign")
-            useKeySign = QVariant(xml.readElementText()).toBool();
-          else if (xml.name() == "loKey") {
+          if (xml.name() == QLatin1String("withSharps"))
+              withSharps = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("withFlats"))
+              withFlats = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("withDblAcc"))
+              withDblAcc = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("useKeySign"))
+              useKeySign = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("loKey")) {
               xml.readNextStartElement();
               loKey.fromXml(xml);
               xml.skipCurrentElement();
-          } else if (xml.name() == "hiKey") {
+          } else if (xml.name() == QLatin1String("hiKey")) {
               xml.readNextStartElement();
               hiKey.fromXml(xml);
               xml.skipCurrentElement();
           }
-          else if (xml.name() == "isSingleKey")
-            isSingleKey = QVariant(xml.readElementText()).toBool();
-          else if (xml.name() == "manualKey")
-            manualKey = QVariant(xml.readElementText()).toBool();
-          else if (xml.name() == "forceAccids")
-            forceAccids = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("isSingleKey"))
+              isSingleKey = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("manualKey"))
+              manualKey = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("forceAccids"))
+              forceAccids = QVariant(xml.readElementText()).toBool();
           else
             skipCurrentXmlKey(xml);
         }
-    } else if (xml.name() == "range") {
+    } else if (xml.name() == QLatin1String("range")) {
   // RANGE
-      while (xml.readNextStartElement()) {
-//         qDebug() << "range->" << xml.name();
-        if (xml.name() == "loFret")
-          fretFromXml(xml, loFret, er);
-        else if (xml.name() == "hiFret")
-          fretFromXml(xml, hiFret, er);
-        else if (xml.name() == "loNote")
-          loNote.fromXml(xml);
-//           loNote = tnoteFromXml(xml);
-        else if (xml.name() == "hiNote")
-          hiNote.fromXml(xml);
-//           hiNote = tnoteFromXml(xml);
-        else if (xml.name() == "useString") {
-          int id = xml.attributes().value("number").toInt();
-          if (id > 0 && id < 7)
-            usedStrings[id - 1] = QVariant(xml.readElementText()).toBool();
-        } else
-          skipCurrentXmlKey(xml);
-      }
+        while (xml.readNextStartElement()) {
+          if (xml.name() == QLatin1String("loFret"))
+              fretFromXml(xml, loFret, er);
+          else if (xml.name() == QLatin1String("hiFret"))
+              fretFromXml(xml, hiFret, er);
+          else if (xml.name() == QLatin1String("loNote"))
+              loNote.fromXml(xml);
+          else if (xml.name() == QLatin1String("hiNote"))
+              hiNote.fromXml(xml);
+          else if (xml.name() == QLatin1String("useString")) {
+              int id = xml.attributes().value(QLatin1String("number")).toInt();
+              if (id > 0 && id < 7)
+                usedStrings[id - 1] = QVariant(xml.readElementText()).toBool();
+          } else
+              skipCurrentXmlKey(xml);
+        }
     } else
-          skipCurrentXmlKey(xml);
+        skipCurrentXmlKey(xml);
   }
   if (canBeGuitar() && fixFretRange() == e_levelFixed) {
     er = e_levelFixed;
@@ -378,6 +395,17 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     er = e_levelFixed;
     qDebug() << "Lowest note in range was higher than the highest one. Fixed";
   }
+  if (notesList.isEmpty()) {
+      if (randMelody == e_randFromList) {
+        qDebug() << "[Tlevel] list of notes is empty but e_randFromList is set";
+        randMelody = e_randFromRange;
+      }
+  } else {
+      if (randMelody == e_randFromRange) {
+        qDebug() << "[Tlevel] has list of notes but e_randFromRange is set. List will be cleaned";
+        notesList.clear();
+      }
+  }
   if (xml.hasError()) {
     qDebug() << "level has error" << xml.errorString() << xml.lineNumber();
     return e_otherError;
@@ -387,7 +415,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 
 
 void Tlevel::writeToXml(QXmlStreamWriter& xml) {
-  xml.writeStartElement("level");
+  xml.writeStartElement(QLatin1String("level"));
     xml.writeAttribute("name", name);
     xml.writeTextElement("description", desc);
   // QUESTIONS
@@ -395,50 +423,60 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
       questionAs.toXml(-1, xml);
       for (int i = 0; i < 4; i++)
         answersAs[i].toXml(i, xml);
-      xml.writeTextElement("requireOctave", QVariant(requireOctave).toString());
-      xml.writeTextElement("requireStyle", QVariant(requireStyle).toString());
-      xml.writeTextElement("showStrNr", QVariant(showStrNr).toString());
-      xml.writeTextElement("clef", QVariant((int)clef.type()).toString());
-      xml.writeTextElement("instrument", QVariant((int)instrument).toString());
-      xml.writeTextElement("onlyLowPos", QVariant(onlyLowPos).toString());
-      xml.writeTextElement("onlyCurrKey", QVariant(onlyCurrKey).toString());
-      xml.writeTextElement("intonation", QVariant(intonation).toString());
+      xml.writeTextElement(QLatin1String("requireOctave"), QVariant(requireOctave).toString());
+      xml.writeTextElement(QLatin1String("requireStyle"), QVariant(requireStyle).toString());
+      xml.writeTextElement(QLatin1String("showStrNr"), QVariant(showStrNr).toString());
+      xml.writeTextElement(QLatin1String("clef"), QVariant((int)clef.type()).toString());
+      xml.writeTextElement(QLatin1String("instrument"), QVariant((int)instrument).toString());
+      xml.writeTextElement(QLatin1String("onlyLowPos"), QVariant(onlyLowPos).toString());
+      xml.writeTextElement(QLatin1String("onlyCurrKey"), QVariant(onlyCurrKey).toString());
+      xml.writeTextElement(QLatin1String("intonation"), QVariant(intonation).toString());
     xml.writeEndElement();
   // ACCIDENTALS
-    xml.writeStartElement("accidentals");
-      xml.writeTextElement("withSharps", QVariant(withSharps).toString());
-      xml.writeTextElement("withFlats", QVariant(withFlats).toString());
-      xml.writeTextElement("withDblAcc", QVariant(withDblAcc).toString());
-      xml.writeTextElement("useKeySign", QVariant(useKeySign).toString());
-      xml.writeStartElement("loKey");
+    xml.writeStartElement(QLatin1String("accidentals"));
+      xml.writeTextElement(QLatin1String("withSharps"), QVariant(withSharps).toString());
+      xml.writeTextElement(QLatin1String("withFlats"), QVariant(withFlats).toString());
+      xml.writeTextElement(QLatin1String("withDblAcc"), QVariant(withDblAcc).toString());
+      xml.writeTextElement(QLatin1String("useKeySign"), QVariant(useKeySign).toString());
+      xml.writeStartElement(QLatin1String("loKey"));
         loKey.toXml(xml);
       xml.writeEndElement(); // loKey
-      xml.writeStartElement("hiKey");
+      xml.writeStartElement(QLatin1String("hiKey"));
         hiKey.toXml(xml);
       xml.writeEndElement(); // hiKey
-      xml.writeTextElement("isSingleKey", QVariant(isSingleKey).toString());
-      xml.writeTextElement("manualKey", QVariant(manualKey).toString());
-      xml.writeTextElement("forceAccids", QVariant(forceAccids).toString());
+      xml.writeTextElement(QLatin1String("isSingleKey"), QVariant(isSingleKey).toString());
+      xml.writeTextElement(QLatin1String("manualKey"), QVariant(manualKey).toString());
+      xml.writeTextElement(QLatin1String("forceAccids"), QVariant(forceAccids).toString());
     xml.writeEndElement(); // accidentals
   // MELODIES
-    xml.writeStartElement("melodies");
-      xml.writeTextElement("melodyLength", QVariant(melodyLen).toString());
-      xml.writeTextElement("endsOnTonic", QVariant(endsOnTonic).toString());
-      xml.writeTextElement("requireInTempo", QVariant(requireInTempo).toString());
+    xml.writeStartElement(QLatin1String("melodies"));
+      xml.writeTextElement(QLatin1String("melodyLength"), QVariant(melodyLen).toString());
+      xml.writeTextElement(QLatin1String("endsOnTonic"), QVariant(endsOnTonic).toString());
+      xml.writeTextElement(QLatin1String("requireInTempo"), QVariant(requireInTempo).toString());
+      if (randMelody != e_randFromRange) { // write it only when needed
+        if (randMelody == e_randFromList) { // so far we have only this type implemented
+          xml.writeTextElement(QLatin1String("randType"), QVariant(static_cast<quint8>(randMelody)).toString());
+          xml.writeStartElement(QLatin1String("keyOfrandList"));
+            keyOfrandList.toXml(xml);
+          xml.writeEndElement(); // keyOfrandList
+          xml.writeStartElement(QLatin1String("noteList"));
+          for (int n = 0; n < notesList.count(); ++n)
+            notesList[n].toXml(xml, QLatin1String("n")); // XML note wrapped into <n> tag
+          xml.writeEndElement(); // noteList
+        }
+      }
     xml.writeEndElement(); // melodies
   // RANGE
-    xml.writeStartElement("range");
-      xml.writeTextElement("loFret", QVariant((qint8)loFret).toString());
-      xml.writeTextElement("hiFret", QVariant((qint8)hiFret).toString());
-      loNote.toXml(xml, "loNote");
-//       tnoteToXml("loNote", loNote, xml);
-      hiNote.toXml(xml, "hiNote");
-//       tnoteToXml("hiNote", hiNote, xml);
+    xml.writeStartElement(QLatin1String("range"));
+      xml.writeTextElement(QLatin1String("loFret"), QVariant((qint8)loFret).toString());
+      xml.writeTextElement(QLatin1String("hiFret"), QVariant((qint8)hiFret).toString());
+      loNote.toXml(xml, QLatin1String("loNote"));
+      hiNote.toXml(xml, QLatin1String("hiNote"));
       for (int i = 0; i < 6; i++) {
-        xml.writeStartElement("useString");
-        xml.writeAttribute("number", QVariant(i + 1).toString());
+        xml.writeStartElement(QLatin1String("useString"));
+        xml.writeAttribute(QLatin1String("number"), QVariant(i + 1).toString());
         xml.writeCharacters(QVariant(usedStrings[i]).toString());
-        xml.writeEndElement(); // string
+        xml.writeEndElement(); // useString
       }
     xml.writeEndElement(); // range
 
@@ -456,7 +494,10 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
 
       xml.setAutoFormatting(true);
       xml.writeStartDocument();
-      xml.writeComment("\nXML file of Nootka exam level.\nhttp://nootka.sf.net\nIt is strongly recommended to do not edit this file manually.\nUse Nootka level creator instead!\n");
+      xml.writeComment(QStringLiteral("\nXML file of Nootka exam level.\n"
+                       "http://nootka.sf.net\n"
+                       "It is strongly recommended to do not edit this file manually.\n"
+                       "Use Nootka level creator instead!\n"));
       level.writeToXml(xml);
       xml.writeEndDocument();
 

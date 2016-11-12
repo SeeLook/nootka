@@ -331,7 +331,12 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       if (m_penalty->isNot()) {
         curQ->addMelody(QString("%1").arg(m_exam->count()));
         curQ->melody()->setKey(curQ->key);
-        getRandomMelody(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
+        if (m_level.randMelody == Tlevel::e_randFromList) {
+            QList<TQAgroup> qaList;
+            m_supp->listForRandomNotes(curQ->key, qaList);
+            getRandomMelody(qaList, curQ->melody(), melodyLength, m_level.onlyCurrKey, false);
+        } else
+            getRandomMelody(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();

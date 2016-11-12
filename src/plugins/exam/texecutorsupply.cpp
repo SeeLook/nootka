@@ -172,69 +172,65 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 		m_level->onlyLowPos = true;
 
 	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
-// 		qDebug() << "Question list created fret by fret. Tune:" << Tcore::gl()->Gtune()->name << Tcore::gl()->Gtune()->stringNr();
-		if (m_level->instrument == e_noInstrument && Tcore::gl()->instrument != e_noInstrument) {
-// 			if (Tnote(Tcore::gl()->hiString().chromatic() + m_hiFret).chromatic() < m_level->hiNote.chromatic())
-// 					m_hiFret = m_level->hiNote.chromatic() - Tcore::gl()->hiString().chromatic();
-// 			if (Tnote(Tcore::gl()->loString().chromatic() + m_loFret).chromatic() > m_level->loNote.chromatic())
-// 				m_loFret = Tcore::gl()->loString().chromatic() - m_level->loNote.chromatic();
-			char hi = m_hiFret, lo = m_loFret;
-			if (!m_level->adjustFretsToScale(lo, hi))
-					qDebug() << "Cant adjust fret range. Corrections will be played!";
-			m_loFret = lo; 
-			m_hiFret = hi;
-		}
-		if (m_level->loFret != m_loFret || m_level->hiFret != m_hiFret)
-				qDebug() << "Fret range of a level adjusted to current instrument [" << m_loFret << m_hiFret << "]";
-		for(int s = 0; s < Tcore::gl()->Gtune()->stringNr(); s++) {
-				if (m_level->usedStrings[Tcore::gl()->strOrder(s)])// check string by strOrder
-						for (int f = m_loFret; f <= m_hiFret; f++) {
-								Tnote n = Tnote(Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(s) + 1).chromatic() + f);
-							if (n.chromatic() >= m_level->loNote.chromatic() &&
-										n.chromatic() <= m_level->hiNote.chromatic()) {
-								bool hope = true; // we still have hope that note is proper for the level
-								if (m_level->onlyLowPos) {
-									if (s > 0) {
-											// we have to check when note is on the lowest positions.
-											// Is it really lowest position when strOrder[s] is 0 - it is the highest sting
-											char diff = openStr[Tcore::gl()->strOrder(s-1)] - openStr[Tcore::gl()->strOrder(s)];
-											if( (f - diff) >= m_loFret && (f - diff) <= m_hiFret)
-													hope = false; //There is the same note on highest string
-											else
-													hope = true;
-									}
-								}
-								if (hope && m_level->useKeySign && m_level->onlyCurrKey)
-									hope = isNoteInKey(n);
-								if (hope) {
-										if (n.alter && (!m_level->withFlats && !m_level->withSharps))
-												continue;
-										else {
-											TfingerPos ff = TfingerPos(Tcore::gl()->strOrder(s) + 1, f);
-											addToList(list, n, ff);
-										}
-								}
-						}
-				}
-		}
-	} else {
-// 		qDebug() << "Question list created note by note";
-		for (int nNr = m_level->loNote.chromatic(); nNr <= m_level->hiNote.chromatic(); nNr++) {
-			Tnote n = Tnote(nNr);
-			bool hope = true; // we still have hope that note is proper for the level
-			if (hope && m_level->useKeySign && m_level->onlyCurrKey)
-					hope = isNoteInKey(n);
-			if (hope) {
-				if (n.alter && (!m_level->withFlats && !m_level->withSharps))
-						continue;
-				else {
-						TfingerPos ff = TfingerPos();
-						addToList(list, n, ff);
-				}
-		}
-		}
-	}	
-	
+//    qDebug() << "Question list created fret by fret. Tune:" << Tcore::gl()->Gtune()->name << Tcore::gl()->Gtune()->stringNr();
+      if (m_level->instrument == e_noInstrument && Tcore::gl()->instrument != e_noInstrument) {
+        char hi = m_hiFret, lo = m_loFret;
+        if (!m_level->adjustFretsToScale(lo, hi))
+            qDebug() << "Cant adjust fret range. Corrections will be played!";
+        m_loFret = lo; 
+        m_hiFret = hi;
+      }
+      if (m_level->loFret != m_loFret || m_level->hiFret != m_hiFret)
+          qDebug() << "Fret range of a level adjusted to current instrument [" << m_loFret << m_hiFret << "]";
+      for(int s = 0; s < Tcore::gl()->Gtune()->stringNr(); s++) {
+          if (m_level->usedStrings[Tcore::gl()->strOrder(s)])// check string by strOrder
+              for (int f = m_loFret; f <= m_hiFret; f++) {
+                  Tnote n = Tnote(Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(s) + 1).chromatic() + f);
+                if (n.chromatic() >= m_level->loNote.chromatic() &&
+                      n.chromatic() <= m_level->hiNote.chromatic()) {
+                  bool hope = true; // we still have hope that note is proper for the level
+                  if (m_level->onlyLowPos) {
+                    if (s > 0) {
+                        // we have to check when note is on the lowest positions.
+                        // Is it really lowest position when strOrder[s] is 0 - it is the highest sting
+                        char diff = openStr[Tcore::gl()->strOrder(s-1)] - openStr[Tcore::gl()->strOrder(s)];
+                        if( (f - diff) >= m_loFret && (f - diff) <= m_hiFret)
+                            hope = false; //There is the same note on highest string
+                        else
+                            hope = true;
+                    }
+                  }
+                  if (hope && m_level->useKeySign && m_level->onlyCurrKey)
+                    hope = isNoteInKey(n);
+                  if (hope) {
+                      if (n.alter && (!m_level->withFlats && !m_level->withSharps))
+                          continue;
+                      else {
+                        TfingerPos ff = TfingerPos(Tcore::gl()->strOrder(s) + 1, f);
+                        addToList(list, n, ff);
+                      }
+                  }
+              }
+          }
+      }
+  } else {
+//    qDebug() << "Question list created note by note";
+      for (int nNr = m_level->loNote.chromatic(); nNr <= m_level->hiNote.chromatic(); nNr++) {
+        Tnote n = Tnote(nNr);
+        bool hope = true; // we still have hope that note is proper for the level
+        if (hope && m_level->useKeySign && m_level->onlyCurrKey)
+            hope = isNoteInKey(n);
+        if (hope) {
+          if (n.alter && (!m_level->withFlats && !m_level->withSharps))
+              continue;
+          else {
+              TfingerPos ff = TfingerPos();
+              addToList(list, n, ff);
+          }
+        }
+      }
+  }
+
 //    for (int i = 0; i < list.size(); i++)
 //        qDebug() << i << (int)list[i].pos.str() << "f"
 //                << (int)list[i].pos.fret() << " note: "
@@ -316,6 +312,59 @@ Tnote TexecutorSupply::determineAccid(const Tnote& n) {
     }
     m_prevAccid = (Tnote::Ealter)nA.alter;
     return nA;
+}
+
+
+/**
+ * if level has key range @p !Tlevel::isSingleKey and notes comes only from current key @p Tlevel::onlyCurrKey
+ * transpose list to selected key. If double accidentals are allowed, keep intervals otherwise change to neutrals.
+ * If only current key is not used - simply copy @p Tlevel::notesList to @p qaList
+ */
+void TexecutorSupply::listForRandomNotes(TkeySignature k, QList<TQAgroup> &qaList) {
+  QList<Tnote> *listPtr = &m_level->notesList;
+  QList<Tnote> transposedList;
+  if (!m_level->isSingleKey) {
+      if (k.value() != m_level->keyOfrandList.value()) { // transpose
+          int hiNoteChrom = Tcore::gl()->hiNote().chromatic();
+          int loNoteChrom = Tcore::gl()->loNote().chromatic();
+          k.setMinor(false); // convert to major to correctly obtain transpose interval
+          // looking for highest and lowest notes in the list
+          int loInList = hiNoteChrom, hiInList = loNoteChrom;
+          int chromaticArr[m_level->notesList.size()]; // pack chromatic notes into array to reuse
+          for (int n = 0; n < m_level->notesList.size(); ++n) {
+              chromaticArr[n] = m_level->notesList[n].chromatic();
+              loInList = qMin(loInList, chromaticArr[n]);
+              hiInList = qMax(hiInList, chromaticArr[n]);
+          }
+          int step = qAbs(k.tonicNote().chromatic() - m_level->keyOfrandList.tonicNote().chromatic());
+          int upperInterval = hiNoteChrom - hiInList;
+          int lowerInterval = loInList - loNoteChrom;
+          if (upperInterval - step < lowerInterval - step) // better transpose down
+            step = step - 12; // so invert step (interval)
+          for (int n = 0; n < m_level->notesList.size(); ++n) {
+              int transChrom = chromaticArr[n] + step;
+              if (transChrom >= loNoteChrom && transChrom <= hiNoteChrom) {
+                Tnote note(transChrom);
+                if (m_level->onlyCurrKey)
+                  note = k.inKey(note);
+                if (note.isValid())
+                  transposedList << Tnote(transChrom);
+              }
+          }
+          listPtr = &transposedList;
+      }
+  }
+  // Workaround when transposition is impossible - there is not any note capable for it
+  if (listPtr == &transposedList && transposedList.isEmpty()) {
+    qDebug() << "[TexecutorSupply] transposition of notes list failed. Using list without transposition";
+    listPtr = &m_level->notesList;
+  }
+  for (int n = 0; n < listPtr->size(); ++n) {
+    // TODO: add positions if guitar is enabled
+    TQAgroup qaG;
+    qaG.note = listPtr->operator[](n);
+    qaList << qaG;
+  }
 }
 
 

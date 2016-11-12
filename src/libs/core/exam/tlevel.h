@@ -45,9 +45,16 @@ public:
 
   /** Possible errors during reading level file or XML key.*/
   enum EerrorType { e_level_OK = 0,
-                    e_levelFixed,     /**< level parameters were fixed */
-                    e_noLevelInXml,
-                    e_otherError
+      e_levelFixed,     /**< level parameters were fixed */
+      e_noLevelInXml,   /**< when XML stream has no <level> tag  */
+      e_otherError
+  };
+
+  /** Describes how to generate melody */
+  enum ErandMelody : quint8 {
+      e_randFromRange = 1, /**< melody is composed from notes in level range  */
+      e_randFromList = 2,  /**< melody is composed from list of notes (@p notesList) */
+      e_melodyFromSet = 4  /**< random melody from set of melodies. TDOD: NOT YET IMPLEMENTED  */
   };
 
 //------------------------- Managing level versions ------------------------------------------------------
@@ -81,8 +88,8 @@ public:
   static void skipCurrentXmlKey(QXmlStreamReader& xml);
 
 //--------------------------- level parameters ------------------------------------------------------------
-  QString           name; /**< Level name */
-  QString           desc; /**< description */
+  QString            name; /**< Level name */
+  QString            desc; /**< description */
 // QUESTIONS
   TQAtype            questionAs;
   TQAtype            answersAs[4];
@@ -105,6 +112,9 @@ public:
   quint16            melodyLen; /**< Notes count in a melody */
   bool               endsOnTonic;
   bool               requireInTempo;
+  ErandMelody        randMelody; /**< How melody is composed (from range, from notes list or from set of melodies) */
+  QList<Tnote>       notesList; /**< List with notes from which melody is composed */
+  TkeySignature      keyOfrandList; /**< Key signature of note list for composing random melodies */
 // RANGE
   Tnote              loNote; /**< Lowest level note */
   Tnote              hiNote; /**< Highest level note */

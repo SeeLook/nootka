@@ -1,4 +1,5 @@
 1.???
+     - melody can be randomized from selected notes, i.e. pentatonic scale
      - added notifications about too hi/low input volume
      - improved look of sound views, better fit to high DPI screens
     ANDROID
