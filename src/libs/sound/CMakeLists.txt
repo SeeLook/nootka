@@ -219,11 +219,11 @@ IF(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
-	add_definitions(-D__WINDOWS_WASAPI__)
-  add_definitions(-D__WINDOWS_DS__)
-  add_definitions(-D__WINDOWS_ASIO__)
-  add_definitions(-D__WINDOWS_MM__)
-  set(WIN_LIBS winmm ole32 dsound uuid ksuser) # uuid & ksuser are required by WASAPI
+# 	add_definitions(-D__WINDOWS_WASAPI__)
+#   add_definitions(-D__WINDOWS_DS__)
+#   add_definitions(-D__WINDOWS_ASIO__)
+#   add_definitions(-D__WINDOWS_MM__)
+#   set(WIN_LIBS winmm ole32 dsound uuid ksuser) # uuid & ksuser are required by WASAPI
 ENDIF(WIN32)
 
 if(APPLE)
@@ -350,8 +350,8 @@ set(LIB_NOOTKASOUND_SRC
 	trtaudioout.cpp
 	tsound.cpp
 	
-	rt/RtAudio.cpp
-	rt/RtMidi.cpp
+# 	rt/RtAudio.cpp
+# 	rt/RtMidi.cpp
 	
 	tartini/analysisdata.cpp
 	tartini/array1d.h
@@ -378,12 +378,15 @@ set(LIB_NOOTKASOUND_SRC
 )
 
 IF(WIN32)
+  add_subdirectory(rt)
+  set(WIN_LIBS RtAudio)
+
 	list(APPEND LIB_NOOTKASOUND_SRC
     tasioemitter.h
-		rt/asio.cpp
-		rt/asiodrivers.cpp
-		rt/asiolist.cpp
-		rt/iasiothiscallresolver.cpp
+# 		rt/asio.cpp
+# 		rt/asiodrivers.cpp
+# 		rt/asiolist.cpp
+# 		rt/iasiothiscallresolver.cpp
 	)
   list(APPEND LIB_NOOTKASOUND_SRC 
     stouch/SoundTouch.cpp
@@ -397,6 +400,11 @@ IF(WIN32)
     stouch/InterpolateCubic.cpp
     stouch/InterpolateLinear.cpp
     stouch/InterpolateShannon.cpp
+  )
+else (WIN32)
+  list(APPEND LIB_NOOTKASOUND_SRC
+    rt/RtAudio.cpp
+    rt/RtMidi.cpp
   )
 endif(WIN32)
 
