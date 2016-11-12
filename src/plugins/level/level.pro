@@ -13,7 +13,7 @@ SOURCES +=  tlevelplugin.cpp\
             tkeysigncombobox.cpp\
             levelsettings.cpp\
             questionssettings.cpp\
-          \#   tmelodysettings.cpp
+            tmelodysettings.cpp\
             rangesettings.cpp\
 
 HEADERS +=  tlevelplugin.h\
@@ -24,7 +24,7 @@ HEADERS +=  tlevelplugin.h\
             tkeysigncombobox.h\
             levelsettings.h\
             questionssettings.h\
-          \#   tmelodysettings.h
+            tmelodysettings.h\
             rangesettings.h\
 
 CONFIG += mobility warn_off

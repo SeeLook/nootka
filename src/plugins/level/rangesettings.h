@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 
 #include "tabstractlevelpage.h"
 
+
 class QGroupBox;
 class TlevelCreatorDlg;
 class QPushButton;
@@ -34,43 +35,45 @@ class Tlevel;
 
 class rangeSettings : public TabstractLevelPage
 {
-    Q_OBJECT
+
+  Q_OBJECT
+
 public:
     explicit rangeSettings(TlevelCreatorDlg* creator);
 
-		virtual void loadLevel(Tlevel* level);
-    virtual void saveLevel(Tlevel* level);
-		
-		TsimpleScore* scoreRange() { return m_scoreRang; }
+  virtual void loadLevel(Tlevel* level);
+  virtual void saveLevel(Tlevel* level);
+
+  TsimpleScore* scoreRange() { return m_scoreRang; }
 
 signals:
-    void rangeChanged();
-		
-				/** Emitted when any string is checked or unchecked. 
-				* Sends true when all string are selected, and false when not all. */
-    void allStringsChecked(bool);
-		
+  void rangeChanged();
+
+      /** Emitted when any string is checked or unchecked. 
+      * Sends true when all string are selected, and false when not all. */
+  void allStringsChecked(bool);
+
 public slots:
-	virtual void changed();
-	
+virtual void changed();
+
 protected:
-    virtual void changedLocal();
-		
+  virtual void changedLocal();
+
 private:
-		QGroupBox 			*m_fretGr, *m_stringsGr;
-    TsimpleScore 		*m_scoreRang;
-    QSpinBox 				*m_fromSpinB, *m_toSpinB;
-    QCheckBox 			*m_stringBut[6];
-		QPushButton			*m_fretAdjustButt, *m_noteAdjustButt;
+  QGroupBox 			*m_fretGr, *m_stringsGr;
+  TsimpleScore 		*m_scoreRang;
+  QSpinBox 				*m_fromSpinB, *m_toSpinB;
+  QCheckBox 			*m_stringBut[6];
+  QPushButton			*m_fretAdjustButt, *m_noteAdjustButt;
 #if defined (Q_OS_ANDROID)
-    QLabel          *m_fretAdjLabel, *m_noteAdjLabel, *m_strGrLabel;
+  QLabel          *m_fretAdjLabel, *m_noteAdjLabel, *m_strGrLabel;
 #endif
 
 private slots:
-    void stringSelected();
-    void whenParamsChanged();
-		void adjustFrets();
-		void adjustNotes();
+  void stringSelected();
+  void whenParamsChanged();
+  void adjustFrets();
+  void adjustNotes();
 
 };
 

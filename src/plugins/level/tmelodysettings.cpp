@@ -23,6 +23,8 @@
 #include <qtr.h>
 #include <tinitcorelib.h>
 #include <tmultiscore.h>
+// #include <tscorescene.h>
+// #include <tnotecontrol.h>
 #include <tscoreparams.h>
 #include <tnoofont.h>
 #include <QtWidgets/QtWidgets>
@@ -71,6 +73,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
   m_score->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
 //   m_score->addBGglyph(int(Tcore::gl()->instrument)); // TODO: make glyph centered or delete it at all
   m_score->setClef(Tclef(Tcore::gl()->S->clef));
+  m_score->setScoreDisabled(true);
 
   auto rightLay = new QVBoxLayout;
     auto questLay = new QHBoxLayout;
@@ -108,7 +111,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
     lay->addLayout(upperLay);
     lay->addWidget(m_score);
 
-  m_melGroup = new QGroupBox(tr("melodies"), this);
+  m_melGroup = new QGroupBox(qTR("TmelMan", "Melody"), this);
     m_melGroup->setCheckable(true);
     m_melGroup->setLayout(lay);
   auto mainLay = new QVBoxLayout;
@@ -121,92 +124,186 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
   connect(m_playMelodyChB, &QCheckBox::clicked, this, &TmelodySettings::changedLocal);
   connect(m_writeMelodyChB, &QCheckBox::clicked, this, &TmelodySettings::changedLocal);
   connect(m_melGroup, &QGroupBox::clicked, this, &TmelodySettings::changedLocal);
+  connect(m_randomRadio, &QRadioButton::clicked, this, &TmelodySettings::changedLocal);
+  connect(m_listRadio, &QRadioButton::clicked, this, &TmelodySettings::changedLocal);
+//   connect(m_score, &TmultiScore::noteWasChanged, this, &TmelodySettings::changedLocal);
 }
 
 
 void TmelodySettings::loadLevel(Tlevel* level) {
-  QSignalBlocker(this);
+  const QSignalBlocker blocker(this);
   m_melodyLengthSpin->setValue(level->melodyLen);
   m_finishOnChB->setChecked(level->endsOnTonic);
-  if (m_listRadio->isChecked()) {
-    // TODO save notes from score to level list, produce warning when score has less notes than two
+  m_randomRadio->setChecked(level->randMelody == Tlevel::e_randFromRange);
+  m_listRadio->setChecked(level->randMelody == Tlevel::e_randFromList);
+  m_playMelodyChB->setChecked(level->canBeMelody() && level->questionAs.isNote() && level->answersAs[TQAtype::e_asNote].isSound());
+  m_writeMelodyChB->setChecked(level->canBeMelody() && level->questionAs.isSound() && level->answersAs[TQAtype::e_asSound].isNote());
+  m_score->deleteNotes();
+//   m_score->scoreScene()->right()->enableToAddNotes(false);
+  if (level->randMelody == Tlevel::e_randFromList) {
+    m_score->setNotes(level->notesList);
+    m_score->setEnableKeySign(level->useKeySign);
+    if (level->useKeySign)
+      m_score->setKeySignature(level->keyOfrandList);
   }
 //   m_equalTempoChB->setChecked(level->requireInTempo);
-  changedLocal();
-  saveLevel(wLevel());
+  m_melGroup->setChecked(level->canBeMelody());
+  m_score->setScoreDisabled(level->randMelody == Tlevel::e_randFromRange);
+  saveLevel(workLevel());
+  if (level != workLevel())
+    changed();
+//   emit levelChanged();
 }
 
 
 void TmelodySettings::saveLevel(Tlevel* level) {
-  level->melodyLen = m_melodyLengthSpin->value();
-  level->endsOnTonic = m_finishOnChB->isChecked();
-//   level->requireInTempo = m_equalTempoChB->isChecked();
+  qDebug() << "[TmelodySettings] saving level" << (level == workLevel() ? QStringLiteral("work") : level->name);
+  if (m_melGroup->isChecked()) {
+      level->melodyLen = static_cast<quint16>(m_melodyLengthSpin->value());
+      level->endsOnTonic = m_finishOnChB->isChecked();
+      level->randMelody = m_randomRadio->isChecked() ? Tlevel::e_randFromRange : Tlevel::e_randFromList;
+      level->notesList.clear();
+      if (level->randMelody == Tlevel::e_randFromList) {
+        level->keyOfrandList = m_score->keySignature();
+        int loNoteId = 0, hiNoteId = 0;
+        for (int n = 0; n < m_score->notesCount(); ++n) {
+          auto note = m_score->getNote(n);
+          if (note.isValid()) // skip empty notes
+            level->notesList << note;
+          auto chromatic = note.chromatic();
+          if (chromatic > level->notesList[hiNoteId].chromatic())
+              hiNoteId = n;
+          else if (chromatic < level->notesList[loNoteId].chromatic())
+            loNoteId = n;
+        }
+        // overwrite fret range and note range
+        level->loFret = 0;
+        level->hiFret = Tcore::gl()->GfretsNumber;
+        if (level->isSingleKey) {
+            // narrow range when transposition will not be performed
+            level->loNote = level->notesList[loNoteId];
+            level->hiNote = level->notesList[hiNoteId];
+        } else {
+            // when the list will be transposed, set note range the same as whole instrument scale,
+            // otherwise ambitus of pitch detection would be not contain transposed notes
+            level->loNote = Tcore::gl()->loNote();
+            level->hiNote = Tcore::gl()->hiNote();
+        }
+      }
+//       fillLevelQA(level);
+    //   level->requireInTempo = m_equalTempoChB->isChecked();
+  }
+//   else // single note mode
+//       level->melodyLen = 1;
 }
 
 
 void TmelodySettings::changed() {
-  QSignalBlocker(this);
-  if (wLevel()->melodyLen > 1
-      && ((wLevel()->questionAs.isNote() && wLevel()->answersAs[TQAtype::e_asNote].isSound())
-      || (wLevel()->questionAs.isSound() && wLevel()->answersAs[TQAtype::e_asSound].isNote())
-      || (wLevel()->questionAs.isSound() && wLevel()->answersAs[TQAtype::e_asSound].isSound()))) {
-    // melodies are supported only for:
-    //        - question as note -> answer as sound (play score)
-    //        - question as sound -> answer as note (dictation)
-    //        - question as sound -> answer as sound (repeat melody)
+  const QSignalBlocker blocker(this);
+  if (workLevel()->melodyLen > 1
+//       && ((workLevel()->questionAs.isNote() && workLevel()->answersAs[TQAtype::e_asNote].isSound())
+//       || (workLevel()->questionAs.isSound() && workLevel()->answersAs[TQAtype::e_asSound].isNote())
+//       || (workLevel()->questionAs.isSound() && workLevel()->answersAs[TQAtype::e_asSound].isSound()))
+     ) {
+      // melodies are supported only for:
+      //        - question as note -> answer as sound (play score)
+      //        - question as sound -> answer as note (dictation)
+      //        - question as sound -> answer as sound (repeat melody)
       m_melGroup->setChecked(true);
-      m_melodyLengthSpin->setValue(wLevel()->melodyLen);
+      m_melodyLengthSpin->setValue(workLevel()->melodyLen);
+      if (workLevel()->melodyLen < 3) {
+          // m_equalTempoChB->setChecked(false);
+          // m_equalTempoChB->setDisabled(true);
+          m_finishOnChB->setChecked(false);
+          m_finishOnChB->setDisabled(true);
+      } else {
+          // m_equalTempoChB->setDisabled(false);
+          m_finishOnChB->setDisabled(false);
+      }
+      fillLevelQA(workLevel());
+      if (workLevel()->randMelody == Tlevel::e_randFromRange)
+        m_finishOnChB->setChecked(false);
+      m_finishOnChB->setDisabled(workLevel()->randMelody != Tlevel::e_randFromRange);
+      m_score->setScoreDisabled(workLevel()->randMelody == Tlevel::e_randFromRange);
   } else { // otherwise page is disabled
       m_melodyLengthSpin->setValue(1);
       m_melGroup->setChecked(false);
   }
-  m_score->setEnableKeySign(wLevel()->useKeySign);
-  if (wLevel()->useKeySign) {
-    if (wLevel()->isSingleKey) { // force the key that was set in accidentals page
-        m_score->setKeySignature(wLevel()->loKey);
-        m_score->setMaxKeySign(wLevel()->loKey.value()); // lock key signature change
-        m_score->setMinKeySign(wLevel()->loKey.value());
+  m_score->setEnableKeySign(workLevel()->useKeySign);
+  if (workLevel()->useKeySign) {
+    if (workLevel()->isSingleKey) { // force the key that was set in accidentals page
+        m_score->setKeySignature(workLevel()->loKey);
+        m_score->setMaxKeySign(workLevel()->loKey.value()); // lock key signature change
+        m_score->setMinKeySign(workLevel()->loKey.value());
     } else {
-        m_score->setMaxKeySign(wLevel()->hiKey.value());
-        m_score->setMinKeySign(wLevel()->loKey.value());
+        m_score->setMaxKeySign(workLevel()->hiKey.value());
+        m_score->setMinKeySign(workLevel()->loKey.value());
     }
   }
+  m_score->setEnabledDblAccid(workLevel()->withDblAcc);
+//   loadLevel(workLevel());
+//   changedLocal();
+}
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
+void TmelodySettings::changedLocal() {
+  if (signalsBlocked())
+    return;
+
+//   if (sender() == m_score) { // score is enabled here
+//     if (m_score->isKeySignEnabled() && workLevel()->onlyCurrKey) { // Check is changed note in current key
+//       if (m_score->currentIndex() > -1) {
+//         QColor mC = -1;
+//         if (!m_score->keySignature().inKey(m_score->getNote(m_score->currentIndex())).isValid())
+//           mC = Qt::red;
+//         m_score->noteFromId(m_score->currentIndex())->markNote(mC);
+//       }
+//     }
+//   }
+
+  const QSignalBlocker blocker(this);
+  if (sender() == m_melGroup)
+    m_melodyLengthSpin->setValue(m_melGroup->isChecked() ? 2 : 1);
+//   if (sender() == m_melodyLengthSpin) {
+//       if (m_melodyLengthSpin->value() < 3) {
+// //         m_equalTempoChB->setChecked(false);
+// //         m_equalTempoChB->setDisabled(true);
+//         m_finishOnChB->setChecked(false);
+//         m_finishOnChB->setDisabled(true);
+//       } else {
+// //         m_equalTempoChB->setDisabled(false);
+//         m_finishOnChB->setDisabled(false);
+//       }
+//   }
+//   if (sender() == m_playMelodyChB || sender() == m_writeMelodyChB) {
+//     if (m_melGroup->isChecked())
+//       fillLevelQA(workLevel());
+//   }
+//   if (sender() == m_randomRadio || sender() == m_listRadio) {
+//     if (m_listRadio->isChecked())
+//       m_finishOnChB->setChecked(false);
+//     m_finishOnChB->setDisabled(m_listRadio->isChecked());
+//     m_score->setScoreDisabled(m_randomRadio->isChecked());
+//   }
+  TabstractLevelPage::changedLocal();
+  changed();
 }
 
 
-void TmelodySettings::changedLocal() {
-  QSignalBlocker(this);
-  if (sender() == m_melGroup) {
-    if (m_melGroup->isChecked()) {
-        m_melodyLengthSpin->setValue(2);
-    } else {
-        m_melodyLengthSpin->setValue(1);
-    }
+void TmelodySettings::fillLevelQA(Tlevel* l) {
+  if (m_melGroup->isChecked()) {
+    l->questionAs.setAsNote(m_playMelodyChB->isChecked());
+    l->answersAs[TQAtype::e_asNote] = TQAtype(false, false, false, m_playMelodyChB->isChecked());
+    l->questionAs.setAsSound(m_writeMelodyChB->isChecked());
+    l->answersAs[TQAtype::e_asSound] = TQAtype(m_writeMelodyChB->isChecked(), false, false, false);
+    l->questionAs.setAsFret(false);
+    l->answersAs[TQAtype::e_asFretPos] = TQAtype(false, false, false, false);
+    l->questionAs.setAsName(false);
+    l->answersAs[TQAtype::e_asName] = TQAtype(false, false, false, false);
   }
-  if (sender() == m_melodyLengthSpin) {
-      if (m_melodyLengthSpin->value() < 3) {
-//         m_equalTempoChB->setChecked(false);
-//         m_equalTempoChB->setDisabled(true);
-        m_finishOnChB->setChecked(false);
-        m_finishOnChB->setDisabled(true);
-      } else {
-//         m_equalTempoChB->setDisabled(false);
-        m_finishOnChB->setDisabled(false);
-      }
-  }
-  if (sender() == m_playMelodyChB || sender() == m_writeMelodyChB) {
-    if (m_melGroup->isChecked()) {
-      wLevel()->questionAs.setAsNote(m_playMelodyChB->isChecked());
-      wLevel()->answersAs[TQAtype::e_asNote] = TQAtype(false, false, false, m_playMelodyChB->isChecked());
-      wLevel()->questionAs.setAsSound(m_writeMelodyChB->isChecked());
-      wLevel()->answersAs[TQAtype::e_asSound] = TQAtype(m_writeMelodyChB->isChecked(), false, false, false);
-      wLevel()->questionAs.setAsFret(false);
-      wLevel()->answersAs[TQAtype::e_asFretPos] = TQAtype(false, false, false, false);
-      wLevel()->questionAs.setAsName(false);
-      wLevel()->answersAs[TQAtype::e_asName] = TQAtype(false, false, false, false);
-    }
-  }
-  TabstractLevelPage::changedLocal();
 }
 
 

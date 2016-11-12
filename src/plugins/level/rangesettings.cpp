@@ -54,7 +54,7 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 #endif
   m_fretAdjustButt = new QPushButton(tr("adjust fret range"), this);
     m_fretAdjustButt->setStatusTip(tr("Adjust fret range in a level to currently selected note range"));
-  QGroupBox *notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
+  auto notesRangGr = new QGroupBox(TlevelPreview::notesRangeTxt(), this);
   scoreLay->addWidget(m_scoreRang);
   scoreLay->addWidget(m_fretAdjustButt);
 #if defined (Q_OS_ANDROID)
@@ -156,18 +156,17 @@ void rangeSettings::stringSelected() {
 
 
 void rangeSettings::loadLevel(Tlevel* level) {
-	blockSignals(true);
-		m_scoreRang->setClef(level->clef);
-		m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
-    m_scoreRang->setNote(0, level->loNote);
-    m_scoreRang->setNote(1, level->hiNote);
-    m_fromSpinB->setValue(level->loFret);
-    m_toSpinB->setValue(level->hiFret);
-    for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
-        m_stringBut[i]->setChecked(level->usedStrings[i]);
-    stringSelected();
-		saveLevel(wLevel());
-	blockSignals(false);
+  const QSignalBlocker blocker(this);
+  m_scoreRang->setClef(level->clef);
+  m_scoreRang->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
+  m_scoreRang->setNote(0, level->loNote);
+  m_scoreRang->setNote(1, level->hiNote);
+  m_fromSpinB->setValue(level->loFret);
+  m_toSpinB->setValue(level->hiFret);
+  for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
+      m_stringBut[i]->setChecked(level->usedStrings[i]);
+  stringSelected();
+  saveLevel(workLevel());
 }
 
 
@@ -189,7 +188,8 @@ void rangeSettings::whenParamsChanged() {
 
 
 void rangeSettings::saveLevel(Tlevel* level) {
-	// Fixing empty notes
+  if (level->randMelody != Tlevel::e_randFromRange) {
+    // Fixing empty notes
 		if (m_scoreRang->getNote(0).note == 0)
 				m_scoreRang->setNote(0, 
 										Tnote(qMax(Tcore::gl()->loString().chromatic(), m_scoreRang->lowestNote().chromatic())));
@@ -214,28 +214,31 @@ void rangeSettings::saveLevel(Tlevel* level) {
     for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
         level->usedStrings[i] = m_stringBut[i]->isChecked();
 		level->clef = m_scoreRang->clef();
+  }
 }
 
 
 void rangeSettings::changed() {
-	blockSignals(true);
-		if (wLevel()->canBeGuitar() || Tcore::gl()->instrument != e_noInstrument) {
-			m_fretGr->setDisabled(false);
-			m_stringsGr->setDisabled(false);
-			m_fretAdjustButt->setDisabled(false);
-			m_noteAdjustButt->setDisabled(false);
-		} else {
-			m_fretGr->setDisabled(true);
-			m_stringsGr->setDisabled(true);
-			m_fretAdjustButt->setDisabled(true);
-			m_noteAdjustButt->setDisabled(true);
-		}
-	blockSignals(false);
+  const QSignalBlocker blocker(this);
+  if (workLevel()->canBeGuitar() || Tcore::gl()->instrument != e_noInstrument) {
+        m_fretGr->setDisabled(false);
+        m_stringsGr->setDisabled(false);
+        m_fretAdjustButt->setDisabled(false);
+        m_noteAdjustButt->setDisabled(false);
+  } else {
+      m_fretGr->setDisabled(true);
+      m_stringsGr->setDisabled(true);
+      m_fretAdjustButt->setDisabled(true);
+      m_noteAdjustButt->setDisabled(true);
+  }
+  setDisabled(workLevel()->randMelody == Tlevel::e_randFromList);
+  loadLevel(workLevel());
+  changedLocal();
 }
 
 
 void rangeSettings::changedLocal() {
-    TabstractLevelPage::changedLocal();
+  TabstractLevelPage::changedLocal();
 }
 
 
@@ -245,8 +248,8 @@ void rangeSettings::adjustFrets() {
 	Tlevel lev;
 	saveLevel(&lev);
 	if (!lev.loNote.alter && !lev.hiNote.alter) { // when range doesn't use accidentals
-			lev.withFlats = wLevel()->withFlats; // maybe actual working level doses
-			lev.withSharps = wLevel()->withSharps;
+			lev.withFlats = workLevel()->withFlats; // maybe actual working level doses
+			lev.withSharps = workLevel()->withSharps;
 	} // checking routine requires it
 	if (lev.adjustFretsToScale(loF, hiF)) {
 			m_fromSpinB->setValue(loF);
