@@ -228,14 +228,16 @@ void questionsSettings::loadLevel(Tlevel* level) {
     showStrNrChB->setChecked(level->showStrNr);
     lowPosOnlyChBox->setChecked(level->onlyLowPos);
     m_intonationCombo->setCurrentIndex(level->intonation);
-    saveLevel(wLevel());
-    m_singleGr->setChecked(!wLevel()->canBeMelody());
+    saveLevel(workLevel());
+    m_singleGr->setChecked(!level->canBeMelody());
+    adjustToLevel();
   blockSignals(false);
-  adjustToLevel();
+//   adjustToLevel();
 }
 
 
 void questionsSettings::saveLevel(Tlevel* level) {
+//   qDebug() << "[questionsSettings] save level" << (level == workLevel() ? QStringLiteral("work") : level->name);
   level->questionAs.setAsNote(asNoteWdg->isChecked());
   level->answersAs[TQAtype::e_asNote] = asNoteWdg->getAnswers();
   level->questionAs.setAsName(asNameWdg->isChecked());
@@ -254,7 +256,7 @@ void questionsSettings::saveLevel(Tlevel* level) {
 
 
 void questionsSettings::setMelodiesEnabled(bool enableMelodies) {
-  m_singleGr->blockSignals(true);
+  const QSignalBlocker blocker(m_singleGr);
   m_singleGr->setChecked(!enableMelodies);
   if (enableMelodies) {
     asNameWdg->setChecked(false);
@@ -262,12 +264,11 @@ void questionsSettings::setMelodiesEnabled(bool enableMelodies) {
   }
   asSoundWdg->setChecked(false); // reset it either for melodies or for single note
   asNoteWdg->setChecked(false); // reset it either for melodies or for single note
-  m_singleGr->blockSignals(false);
 }
 
 
 void questionsSettings::changed() {
-  loadLevel(wLevel());
+  loadLevel(workLevel());
 }
 
 
@@ -313,9 +314,9 @@ void questionsSettings::whenParamsChanged() {
   if (!signalsBlocked()) {
     if (sender() == m_singleGr) {
       if (m_singleGr->isChecked())
-        wLevel()->melodyLen = 1;
+        workLevel()->melodyLen = 1;
       else
-        wLevel()->melodyLen = 2;
+        workLevel()->melodyLen = 2;
     }
     adjustToLevel();
     changedLocal();
@@ -373,20 +374,6 @@ void questionsSettings::stringsCheckedSlot(bool checked) {
 }
 
 
-void questionsSettings::melodyQuestionSlot() {
-// 	if (m_playMelodyChB->isChecked()) {
-// 			asNoteWdg->setAnswers(TQAtype(false, false, false, true));
-// 			asNoteWdg->setChecked(true);
-// 	} else {
-// 			asNoteWdg->setChecked(false);
-// 	}
-// 	if (m_writeMelodyChB->isChecked()) {
-// 			asSoundWdg->setAnswers(TQAtype(true, false, false, false));
-// 			asSoundWdg->setChecked(true);
-// 	} else {
-// 			asSoundWdg->setChecked(false);
-// 	}
-}
 
 
 

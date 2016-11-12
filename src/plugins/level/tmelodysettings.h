@@ -49,6 +49,9 @@ protected:
   virtual void changedLocal();
 
 private:
+  void fillLevelQA(Tlevel* l);
+
+private:
   QSpinBox               *m_melodyLengthSpin;
   QCheckBox              *m_finishOnChB, *m_equalTempoChB, *m_playMelodyChB, *m_writeMelodyChB;
   QGroupBox              *m_melGroup;

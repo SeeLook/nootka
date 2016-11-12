@@ -148,24 +148,23 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
 
 
 void accidSettings::loadLevel (Tlevel* level) {
-	blockSignals(true);
-    m_sharpsChB->setChecked(level->withSharps);
-    m_flatsChB->setChecked(level->withFlats);
-    m_doubleAccChB->setChecked(level->withDblAcc);
-		m_forceAccChB->setChecked(level->forceAccids);
-    m_keySignGr->setChecked(level->useKeySign);
-    if (level->isSingleKey)
-        m_singleKeyRadio->setChecked(true);
-    else
-        m_rangeKeysRadio->setChecked(true);
-    m_fromKeyCombo->setKeySignature(level->loKey);
-    m_toKeyCombo->setKeySignature(level->hiKey);
-    m_keyInAnswerChB->setChecked(level->manualKey);
-		m_currKeySignChBox->setChecked(level->onlyCurrKey);
-    keyRangeChanged();
-    changed();
-		saveLevel(wLevel());
-	blockSignals(false);
+  const QSignalBlocker blocker(this);
+  m_sharpsChB->setChecked(level->withSharps);
+  m_flatsChB->setChecked(level->withFlats);
+  m_doubleAccChB->setChecked(level->withDblAcc);
+  m_forceAccChB->setChecked(level->forceAccids);
+  m_keySignGr->setChecked(level->useKeySign);
+  if (level->isSingleKey)
+      m_singleKeyRadio->setChecked(true);
+  else
+      m_rangeKeysRadio->setChecked(true);
+  m_fromKeyCombo->setKeySignature(level->loKey);
+  m_toKeyCombo->setKeySignature(level->hiKey);
+  m_keyInAnswerChB->setChecked(level->manualKey);
+  m_currKeySignChBox->setChecked(level->onlyCurrKey);
+  keyRangeChanged();
+  changed();
+  saveLevel(workLevel());
 }
 
 
@@ -213,18 +212,17 @@ void accidSettings::saveLevel (Tlevel* level) {
 //#################### PUBLIC SLOTS #####################
 
 void accidSettings::changed() {
-  blockSignals(true);
-  if (wLevel()->canBeScore())
+  const QSignalBlocker blocker(this);
+  if (workLevel()->canBeScore())
 			enableKeys(true);
   else
 			enableKeys(false);
-  if ((wLevel()->answerIsNote() || wLevel()->answerIsName()) &&
-				(wLevel()->withDblAcc || wLevel()->withFlats || wLevel()->withSharps))
+  if ((workLevel()->answerIsNote() || workLevel()->answerIsName()) &&
+				(workLevel()->withDblAcc || workLevel()->withFlats || workLevel()->withSharps))
 			m_forceAccChB->setDisabled(false);
 	else
 			m_forceAccChB->setDisabled(true);
-  m_keyInAnswerChB->setDisabled(!wLevel()->answerIsNote()); // disable manual key check box if no score as an answer
-	blockSignals(false);
+  m_keyInAnswerChB->setDisabled(!workLevel()->answerIsNote()); // disable manual key check box if no score as an answer
 }
 
 
@@ -272,7 +270,7 @@ void accidSettings::keyRangeChanged() {
 
 
 void accidSettings::keySignChanged() {
-	blockSignals(true);
+  const QSignalBlocker blocker(this);
 	if (sender() == m_keySignGr) {
 		if (m_keySignGr->isChecked()) {
 			if (m_rangeKeysRadio->isChecked())
@@ -344,7 +342,6 @@ void accidSettings::keySignChanged() {
 			m_forceAccChB->setDisabled(false);
 	}
   changedLocal();
-	blockSignals(false);
 }
 
 

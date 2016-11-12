@@ -60,7 +60,6 @@ signals:
 
 public slots:
   void stringsCheckedSlot(bool checked);
-  void melodyQuestionSlot(); /** Sets appropriate boxes for melodies in single note table */
   virtual void changed();
 
 protected:

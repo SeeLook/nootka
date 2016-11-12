@@ -24,6 +24,7 @@
 #include "levelsettings.h"
 #include "rangesettings.h"
 #include "tmelodysettings.h"
+#include <qtr.h>
 #include <tpath.h>
 #include <texamparams.h>
 #include <music/ttune.h>
@@ -39,7 +40,7 @@
 #endif
 
 
-bool isNotSaved;
+static bool isNotSaved;
 
 
 TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
@@ -51,7 +52,7 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 
   addItem(TlevelSelector::levelFilterTxt(), Tpath::img("levelsSettings"));
   addItem(tr("Questions"), Tpath::img("questionsSettings"));
-  addItem("Melodies", Tpath::img("melodySett"));
+  addItem(qTR("TmelMan", "Melody"), Tpath::img("melodySett"));
   addItem(tr("Accidentals"), Tpath::img("accidSettings"));
   addItem(tr("Range"), Tpath::img("rangeSettings"));
 
@@ -99,8 +100,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
 #if defined (Q_OS_ANDROID)
   markChanges(this);
 #else
-  setWidesttPage(m_questSett);
-  setHighestPage(m_questSett);
+  setWidesttPage(m_meloSett);
+  setHighestPage(m_meloSett);
   QTimer::singleShot(10, this, [this]{ hackSize(); } ); //HACK: adjust dialog width to biggest page width
 #endif
 }
@@ -161,6 +162,7 @@ void TlevelCreatorDlg::saveToFile() {
   m_questSett->saveLevel(&newLevel);
   m_accSett->saveLevel(&newLevel);
   m_meloSett->saveLevel(&newLevel);
+  // luckily range settings will not write to level when range is set by melody page (random from list enabled)
   m_rangeSett->saveLevel(&newLevel);
   if (!newLevel.canBeGuitar() && !newLevel.answerIsSound() ) { // no guitar and no played sound  
     // adjust fret range - validation will skip it for non guitar levels

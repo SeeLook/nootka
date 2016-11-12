@@ -26,7 +26,7 @@ class TlevelCreatorDlg;
 class Tlevel;
 
 
-/** 
+/**
  * This is base class for level settings widget.
  * It has static Tlevel object which is working instance of a level
  * When subclass changes some level parameter it will emit @p levelChanged()
@@ -40,25 +40,31 @@ public:
   explicit TabstractLevelPage(TlevelCreatorDlg* creator);
   virtual ~TabstractLevelPage();
 
-  virtual void loadLevel(Tlevel* level)  = 0;
-  virtual void saveLevel(Tlevel* level)  = 0;
+  virtual void loadLevel(Tlevel* level) = 0;
+  virtual void saveLevel(Tlevel* level) = 0;
 
 signals:
   void levelChanged();
 
 public slots:
+
       /** This method is invoked from 'outside' when other widget changed a level settings.
        * Implement here routines to adjust widgets to changed level parameters. */
-  virtual void changed()  = 0;
+  virtual void changed() = 0;
+
 
 protected:
-  static Tlevel* wLevel() { return m_workLevel; }
+
+      /** Common level for all pages of level creator.
+       *  Every page stores there its settings and sets controls according to it */
+  static Tlevel* workLevel() { return m_workLevel; }
 
       /** Generates status tip text from given parameters
        * @p qType and @p aType are @p TQAtype::Etype values cast to int  */
   QString tableTip(const QString& tipText, int qType, int aType, int fSize);
 
 protected slots:
+
       /** Connect to this slot changes of every settings widget (check boxes, other switches).
        * It will invoke @p saveLevel(m_workLevel) and emit @p levelChanged() signal.   */
   virtual void changedLocal();
