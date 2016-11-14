@@ -33,7 +33,7 @@ class TscoreStaff;
 /**
  * This is subclass of TsimpleScore which adds support for multiple staves/systems
  */
-class TmultiScore : public TsimpleScore
+class NOOTKACORE_EXPORT TmultiScore : public TsimpleScore
 {
 	Q_OBJECT
 

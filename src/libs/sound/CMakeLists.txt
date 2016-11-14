@@ -378,7 +378,8 @@ set(LIB_NOOTKASOUND_SRC
 )
 
 IF(WIN32)
-  add_subdirectory(rt)
+  add_subdirectory( rt )
+  link_directories( ${CMAKE_BINARY_DIR}/src )
   set(WIN_LIBS RtAudio)
 
 	list(APPEND LIB_NOOTKASOUND_SRC
