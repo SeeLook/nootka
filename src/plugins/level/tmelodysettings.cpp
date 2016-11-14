@@ -23,8 +23,7 @@
 #include <qtr.h>
 #include <tinitcorelib.h>
 #include <tmultiscore.h>
-// #include <tscorescene.h>
-// #include <tnotecontrol.h>
+#include <tscorekeysignature.h>
 #include <tscoreparams.h>
 #include <tnoofont.h>
 #include <QtWidgets/QtWidgets>
@@ -33,7 +32,8 @@
 
 
 TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
-  TabstractLevelPage(creator)
+  TabstractLevelPage(creator),
+  m_tempMelLen(2)
 {
   auto questionsLab = new QLabel(qTR("TlevelCreatorDlg", "Questions") + QLatin1String(":"), this);
   int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
@@ -50,6 +50,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
   m_melodyLengthSpin = new QSpinBox(this);
     m_melodyLengthSpin->setMaximum(50);
     m_melodyLengthSpin->setMinimum(1);
+    m_melodyLengthSpin->setValue(2);
     m_melodyLengthSpin->setStatusTip(tr("Number of notes in a melody."));
     m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number."));
 
@@ -74,6 +75,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
 //   m_score->addBGglyph(int(Tcore::gl()->instrument)); // TODO: make glyph centered or delete it at all
   m_score->setClef(Tclef(Tcore::gl()->S->clef));
   m_score->setScoreDisabled(true);
+  m_score->setBGcolor(palette().window().color());
 
   auto rightLay = new QVBoxLayout;
     auto questLay = new QHBoxLayout;
@@ -138,26 +140,35 @@ void TmelodySettings::loadLevel(Tlevel* level) {
   m_listRadio->setChecked(level->randMelody == Tlevel::e_randFromList);
   m_playMelodyChB->setChecked(level->canBeMelody() && level->questionAs.isNote() && level->answersAs[TQAtype::e_asNote].isSound());
   m_writeMelodyChB->setChecked(level->canBeMelody() && level->questionAs.isSound() && level->answersAs[TQAtype::e_asSound].isNote());
+  if (level != workLevel()) // store value of melody length, to bring it back when user switches melody/single note
+      m_tempMelLen = level->melodyLen;
   m_score->deleteNotes();
-//   m_score->scoreScene()->right()->enableToAddNotes(false);
   if (level->randMelody == Tlevel::e_randFromList) {
-    m_score->setNotes(level->notesList);
-    m_score->setEnableKeySign(level->useKeySign);
-    if (level->useKeySign)
-      m_score->setKeySignature(level->keyOfrandList);
+      m_score->setBGcolor(palette().base().color());
+      m_score->setNotes(level->notesList);
+      m_score->setEnableKeySign(level->useKeySign);
+      if (level->useKeySign) {
+        m_score->setKeySignature(level->keyOfrandList);
+        m_score->setEnabledDblAccid(level->withDblAcc);
+        if (level->isSingleKey) {
+            m_score->setKeySignature(level->loKey);
+            m_score->staves(0)->scoreKey()->setReadOnly(true);
+        } else {
+            m_score->setKeySignature(level->keyOfrandList);
+            m_score->staves(0)->scoreKey()->setReadOnly(false);
+        }
+      }
+  } else {
+      m_score->setBGcolor(palette().window().color());
   }
 //   m_equalTempoChB->setChecked(level->requireInTempo);
-  m_melGroup->setChecked(level->canBeMelody());
+  m_melGroup->setChecked(level->melodyLen > 1);
   m_score->setScoreDisabled(level->randMelody == Tlevel::e_randFromRange);
   saveLevel(workLevel());
-  if (level != workLevel())
-    changed();
-//   emit levelChanged();
 }
 
 
 void TmelodySettings::saveLevel(Tlevel* level) {
-  qDebug() << "[TmelodySettings] saving level" << (level == workLevel() ? QStringLiteral("work") : level->name);
   if (m_melGroup->isChecked()) {
       level->melodyLen = static_cast<quint16>(m_melodyLengthSpin->value());
       level->endsOnTonic = m_finishOnChB->isChecked();
@@ -165,12 +176,14 @@ void TmelodySettings::saveLevel(Tlevel* level) {
       level->notesList.clear();
       if (level->randMelody == Tlevel::e_randFromList) {
         level->keyOfrandList = m_score->keySignature();
-        int loNoteId = 0, hiNoteId = 0;
         for (int n = 0; n < m_score->notesCount(); ++n) {
           auto note = m_score->getNote(n);
           if (note.isValid()) // skip empty notes
             level->notesList << note;
-          auto chromatic = note.chromatic();
+        }
+        int loNoteId = 0, hiNoteId = 0;
+        for (int n = 0; n < level->notesList.size(); ++n) {
+          auto chromatic = level->notesList[n].chromatic();
           if (chromatic > level->notesList[hiNoteId].chromatic())
               hiNoteId = n;
           else if (chromatic < level->notesList[loNoteId].chromatic())
@@ -180,9 +193,12 @@ void TmelodySettings::saveLevel(Tlevel* level) {
         level->loFret = 0;
         level->hiFret = Tcore::gl()->GfretsNumber;
         if (level->isSingleKey) {
-            // narrow range when transposition will not be performed
-            level->loNote = level->notesList[loNoteId];
-            level->hiNote = level->notesList[hiNoteId];
+            if (!level->notesList.isEmpty()) {
+              // narrow range when transposition will not be performed
+              level->loNote = level->notesList[loNoteId];
+              level->hiNote = level->notesList[hiNoteId];
+            } else
+              qDebug() << "{tmelodysettings} list is empty!";
         } else {
             // when the list will be transposed, set note range the same as whole instrument scale,
             // otherwise ambitus of pitch detection would be not contain transposed notes
@@ -190,59 +206,12 @@ void TmelodySettings::saveLevel(Tlevel* level) {
             level->hiNote = Tcore::gl()->hiNote();
         }
       }
-//       fillLevelQA(level);
-    //   level->requireInTempo = m_equalTempoChB->isChecked();
   }
-//   else // single note mode
-//       level->melodyLen = 1;
 }
 
 
 void TmelodySettings::changed() {
-  const QSignalBlocker blocker(this);
-  if (workLevel()->melodyLen > 1
-//       && ((workLevel()->questionAs.isNote() && workLevel()->answersAs[TQAtype::e_asNote].isSound())
-//       || (workLevel()->questionAs.isSound() && workLevel()->answersAs[TQAtype::e_asSound].isNote())
-//       || (workLevel()->questionAs.isSound() && workLevel()->answersAs[TQAtype::e_asSound].isSound()))
-     ) {
-      // melodies are supported only for:
-      //        - question as note -> answer as sound (play score)
-      //        - question as sound -> answer as note (dictation)
-      //        - question as sound -> answer as sound (repeat melody)
-      m_melGroup->setChecked(true);
-      m_melodyLengthSpin->setValue(workLevel()->melodyLen);
-      if (workLevel()->melodyLen < 3) {
-          // m_equalTempoChB->setChecked(false);
-          // m_equalTempoChB->setDisabled(true);
-          m_finishOnChB->setChecked(false);
-          m_finishOnChB->setDisabled(true);
-      } else {
-          // m_equalTempoChB->setDisabled(false);
-          m_finishOnChB->setDisabled(false);
-      }
-      fillLevelQA(workLevel());
-      if (workLevel()->randMelody == Tlevel::e_randFromRange)
-        m_finishOnChB->setChecked(false);
-      m_finishOnChB->setDisabled(workLevel()->randMelody != Tlevel::e_randFromRange);
-      m_score->setScoreDisabled(workLevel()->randMelody == Tlevel::e_randFromRange);
-  } else { // otherwise page is disabled
-      m_melodyLengthSpin->setValue(1);
-      m_melGroup->setChecked(false);
-  }
-  m_score->setEnableKeySign(workLevel()->useKeySign);
-  if (workLevel()->useKeySign) {
-    if (workLevel()->isSingleKey) { // force the key that was set in accidentals page
-        m_score->setKeySignature(workLevel()->loKey);
-        m_score->setMaxKeySign(workLevel()->loKey.value()); // lock key signature change
-        m_score->setMinKeySign(workLevel()->loKey.value());
-    } else {
-        m_score->setMaxKeySign(workLevel()->hiKey.value());
-        m_score->setMinKeySign(workLevel()->loKey.value());
-    }
-  }
-  m_score->setEnabledDblAccid(workLevel()->withDblAcc);
-//   loadLevel(workLevel());
-//   changedLocal();
+  loadLevel(workLevel());
 }
 
 //#################################################################################################
@@ -264,32 +233,41 @@ void TmelodySettings::changedLocal() {
 //     }
 //   }
 
-  const QSignalBlocker blocker(this);
-  if (sender() == m_melGroup)
-    m_melodyLengthSpin->setValue(m_melGroup->isChecked() ? 2 : 1);
-//   if (sender() == m_melodyLengthSpin) {
-//       if (m_melodyLengthSpin->value() < 3) {
-// //         m_equalTempoChB->setChecked(false);
-// //         m_equalTempoChB->setDisabled(true);
-//         m_finishOnChB->setChecked(false);
-//         m_finishOnChB->setDisabled(true);
-//       } else {
-// //         m_equalTempoChB->setDisabled(false);
-//         m_finishOnChB->setDisabled(false);
-//       }
-//   }
-//   if (sender() == m_playMelodyChB || sender() == m_writeMelodyChB) {
-//     if (m_melGroup->isChecked())
-//       fillLevelQA(workLevel());
-//   }
-//   if (sender() == m_randomRadio || sender() == m_listRadio) {
-//     if (m_listRadio->isChecked())
-//       m_finishOnChB->setChecked(false);
-//     m_finishOnChB->setDisabled(m_listRadio->isChecked());
-//     m_score->setScoreDisabled(m_randomRadio->isChecked());
-//   }
+  blockSignals(true);
+  if (sender() == m_melGroup) {
+    m_melodyLengthSpin->setValue(m_melGroup->isChecked() ? m_tempMelLen : 1);
+    workLevel()->melodyLen = m_melodyLengthSpin->value(); // save it now, because saveLevel will ignore it
+  }
+  if (sender() == m_melodyLengthSpin) {
+      if (m_melodyLengthSpin->value() == 1) // lock value of 1 if spin is enabled - melodies are active!
+        m_melodyLengthSpin->setValue(2);
+      m_tempMelLen = m_melodyLengthSpin->value();
+      if (m_melodyLengthSpin->value() == 2) {
+//         m_equalTempoChB->setChecked(false);
+//         m_equalTempoChB->setDisabled(true);
+        m_finishOnChB->setChecked(false);
+        m_finishOnChB->setDisabled(true);
+      } else {
+//         m_equalTempoChB->setDisabled(false);
+        m_finishOnChB->setDisabled(false);
+      }
+  }
+  if (sender() == m_playMelodyChB || sender() == m_writeMelodyChB) {
+    if (m_melGroup->isChecked())
+      fillLevelQA(workLevel());
+  }
+  if (sender() == m_randomRadio || sender() == m_listRadio) {
+    if (m_listRadio->isChecked()) {
+        m_finishOnChB->setChecked(false);
+        m_score->setBGcolor(palette().base().color());
+    } else {
+        m_score->setBGcolor(palette().window().color());
+    }
+    m_finishOnChB->setDisabled(m_listRadio->isChecked());
+    m_score->setScoreDisabled(m_randomRadio->isChecked());
+  }
+  blockSignals(false);
   TabstractLevelPage::changedLocal();
-  changed();
 }
 
 
