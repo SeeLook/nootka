@@ -23,7 +23,6 @@
 #include <QtWidgets/qapplication.h>
 
 
-
 void getExampleLevels(QList<Tlevel>& llist) {
   Tlevel l = Tlevel();
   int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
@@ -392,4 +391,85 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.onlyLowPos = false;
   l.melodyLen = 15;
   llist << l;
+//----------------------------------------------------------------------------
+  l = Tlevel();
+  l.name = QObject::tr("Pentatonic");
+  l.desc = QObject::tr("Play melody composed from pentatonic scale, every time in different key signature.");
+  l.questionAs.setAsFret(false); // no guitar
+  l.questionAs.setAsName(false); // no names
+  l.questionAs.setAsSound(false); // don't play
+  l.answersAs[0] = TQAtype(false, false, false, true); // score only
+  l.answersAs[1] = TQAtype(false, false, false,false);
+  l.answersAs[2] = TQAtype(false, false, false,false);
+  l.answersAs[3] = TQAtype(false, false, false,false);
+  l.withSharps = true;
+  l.withFlats = true;
+  l.withDblAcc = false;
+  l.useKeySign = true;
+  l.manualKey = false;
+  l.loKey = -1; // F-major
+  l.hiKey = 4; // E-major
+  l.forceAccids = false;
+  l.requireOctave = true;
+  l.requireStyle = false;
+  l.showStrNr = false;
+  //clef default, user/tune defined
+  //instrument default - selected by user
+  l.loNote = Tcore::gl()->loNote();
+  l.hiNote = Tcore::gl()->hiNote();
+  // l.hiFret = ; user defined
+  //     l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
+  l.onlyLowPos = true;
+  //     if (Tcore::gl()->instrument == e_noInstrument) // force instrument when not defined
+  //       l.instrument = Tcore::gl()->instrument;
+  l.melodyLen = 10;
+  l.endsOnTonic = false;
+  l.onlyCurrKey = true;
+  l.randMelody = Tlevel::e_randFromList;
+//   l.keyOfrandList; // C-major by default
+  quint8 pentaArr[5] = {1, 2, 3, 5, 6};
+  qint8 firstOctave = l.loNote.octave + (l.loNote.note == 1 ? 0 : 1); // increase octave if instr. scale doesn't start from note C
+  for (int n = 0; n < 10; ++n) {
+    l.notesList << Tnote(pentaArr[n % 5], firstOctave, 0);
+    if (n == 4)
+      firstOctave++;
+  }
+  llist << l;
+//----------------------------------------------------------------------------
+/*  if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar) {
+    l = Tlevel();
+    l.name = QObject::tr("Melody and open bass strings");
+    l.desc = QObject::tr("");
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
+    l.withSharps = true;
+    l.withFlats = false;
+    l.withDblAcc = false;
+    l.useKeySign = true;
+    l.manualKey = false;
+    l.loKey = 0;
+    l.hiKey = 3;
+    l.forceAccids = false;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    //clef default, user/tune defined
+    //instrument default - selected by user
+    l.loNote = Tcore::gl()->Gtune()->str(3);
+    l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 3);
+    l.hiFret = 3;
+    //     l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
+    l.onlyLowPos = true;
+    //     if (Tcore::gl()->instrument == e_noInstrument) // force instrument when not defined
+    //       l.instrument = Tcore::gl()->instrument;
+    l.melodyLen = 5;
+    l.endsOnTonic = true;
+    l.onlyCurrKey = true;
+    llist << l;
+  }*/
 }
