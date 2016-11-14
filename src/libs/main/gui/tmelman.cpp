@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
 #include "tmelman.h"
 #include "tmenu.h"
 #include "score/tmainscore.h"
@@ -146,7 +147,7 @@ void TmelMan::randomizeMelodySlot() {
 	}
 	Tmelody *mel = new Tmelody(QString(), m_score->keySignature());
   mel->setClef(m_score->clef().type());
-	getRandomMelody(ql, mel, 14, true, true);
+	getRandomMelodyNG(ql, mel, 14, true, true);
 	m_score->setMelody(mel);
 	delete mel;
 }
