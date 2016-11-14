@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,14 +22,14 @@
 #define TASIOEMITTER_H
 
 #include <QObject>
-#include "nootkasoundglobal.h"
+
 
 /** 
  * This is QObject that emits @p resetASIO() signal
  * @p RtApiAsio has static instance of it
  * end emits this signal when ASIO requires restart.
  */
-class NOOTKASOUND_EXPORT TASIOEmitter : public QObject
+class TASIOEmitter : public QObject
 {
 	Q_OBJECT
 	
