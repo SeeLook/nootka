@@ -87,17 +87,17 @@ QString getExamFileName(Texam* e) {
 
 TexamExecutor::TexamExecutor(QObject* parent) :
   QObject(parent),
-  m_exam(0),
   mW(MAINVIEW->mainWindow()),
+  m_supp(nullptr),
+  m_exam(nullptr),
+  m_snifferLocked(false),
   m_lockRightButt(false),
   m_goingClosed(false),
-  m_snifferLocked(false),
-  m_canvas(0),
-  m_supp(0),
-  m_penalty(0),
-  m_exercise(0),
+  m_canvas(nullptr),
+  m_penalty(nullptr),
+  m_exercise(nullptr),
   m_blindCounter(0),
-  m_rand(0)
+  m_rand(nullptr)
 {
 }
 
@@ -188,6 +188,7 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 	else
 		emit examMessage(Torders::e_examSingle);
 	m_supp = new TexecutorSupply(&m_level, this);
+  // TODO: when level has its own list of notes for melodies - it is wasting energy!
 	m_supp->createQuestionsList(m_questList);
   if (m_exam->melodies())
     m_melody = new TexamMelody(this);
@@ -317,7 +318,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 		}
     
     if (m_penalty->isNot() && curQ->questionAsFret() && curQ->answerAsFret())
-      curQ->qa  = m_questList[m_supp->getQAnrForGuitarOnly()];
+      curQ->qa = m_questList[m_supp->getQAnrForGuitarOnly()];
 
     if (m_penalty->isNot() && (curQ->questionAsNote() || curQ->answerAsNote())) {
         if (m_level.useKeySign)
@@ -335,9 +336,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             QList<TQAgroup> qaList;
             m_supp->listForRandomNotes(curQ->key, qaList);
             // ignore in key (4th param) of level, notes from list are already in key (if required)
-            getRandomMelody(qaList, curQ->melody(), melodyLength, false, false);
+            getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
         } else
-            getRandomMelody(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
+            getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();

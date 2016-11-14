@@ -93,3 +93,69 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 	}
 }
 
+
+/**
+ * Generates random melody with following way:
+ * If @p inKey is required creates list of notes in given key only
+ * Random algorithm works with phrases
+ * 1. Randomizes length of phrase (half of total length max)
+ * 2. Randomizes first note in the phrase (from whole list - scale)
+ * 3. Randomizes direction (ascending/descending)
+ * 4. Takes notes from the list starting from random first one in random direction.
+ * 5. etc, etc, until melody @p len is fulfilled
+ * 6. Looks for tonic note at the end if required (@p onTonic)
+ */
+void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
+  QList<TQAgroup>* qListPtr = &qList;
+  QList<TQAgroup> inKeyList;
+  if (inKey) { // create list with notes in required key signature only
+    for (TQAgroup qa : qList) {
+      TQAgroup g;
+      g.note = mel->key().inKey(qa.note);
+      if (g.note.isValid()) {
+        g.pos = qa.pos;
+        inKeyList << g;
+      }
+    }
+    if (inKeyList.isEmpty())
+      qDebug() << "[getRandomMelodyNG] Question list has no any note in key" << mel->key().getName();
+    else
+      qListPtr = &inKeyList;
+  }
+
+  qsrand(QDateTime::currentDateTime().toTime_t());
+  while (mel->length() < len) {
+    int phLen = len < 4 ? len : qBound(2, 2 + qrand() % (len / 2 - 1), len);
+    int dir = qrand() % 2 == 1 ? 1 : -1; // direction of melody (ascending or descending)
+    int noteId = qrand() % qListPtr->size();
+    int notesCnt = 0;
+    while (notesCnt < phLen && noteId < qListPtr->size() && mel->length() < len) {
+      auto curQA = &qListPtr->operator[](noteId);
+      mel->addNote(Tchunk(curQA->note, Trhythm(Trhythm::e_none), curQA->pos));
+      notesCnt++;
+      noteId += dir;
+      if (noteId < 0 || noteId == qListPtr->size())
+        break;
+    }
+  }
+  if (onTonic) {
+    auto tonic = mel->key().tonicNote();
+    QList<int> tonicList;
+    for (int n = 0; n < qListPtr->size(); ++n) {
+      auto qa = &qListPtr->operator[](n);
+      if (qa->note.note == tonic.note && qa->note.alter == tonic.alter)
+        tonicList << n;
+    }
+    if (tonicList.isEmpty())
+      qDebug() << "Tonic note of" << mel->key().getName() << "was not found";
+    else {
+      int tonicRandNr = tonicList[qrand() % tonicList.size()];
+      mel->note(mel->length() - 1)->g() = qListPtr->operator[](tonicRandNr).pos;
+      mel->note(mel->length() - 1)->p() = qListPtr->operator[](tonicRandNr).note;
+    }
+  }
+}
+
+
+
+

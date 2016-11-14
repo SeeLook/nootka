@@ -608,8 +608,8 @@ void TexecutorSupply::resetKeyRandom() {
 
 bool TexecutorSupply::isNoteInKey(Tnote& n) {
 	if (m_level->isSingleKey) {
-		if(m_level->loKey.inKey(n).note != 0)
-				return true;
+    if (m_level->loKey.inKey(n).isValid())
+        return true;
 		} else {
 				for (int k = m_level->loKey.value(); k <= m_level->hiKey.value(); k++) {
 					if (TkeySignature::inKey(TkeySignature(k), n).note != 0)
