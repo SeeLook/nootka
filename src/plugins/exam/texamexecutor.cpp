@@ -334,7 +334,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         if (m_level.randMelody == Tlevel::e_randFromList) {
             QList<TQAgroup> qaList;
             m_supp->listForRandomNotes(curQ->key, qaList);
-            getRandomMelody(qaList, curQ->melody(), melodyLength, m_level.onlyCurrKey, false);
+            // ignore in key (4th param) of level, notes from list are already in key (if required)
+            getRandomMelody(qaList, curQ->melody(), melodyLength, false, false);
         } else
             getRandomMelody(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
