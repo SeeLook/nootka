@@ -52,6 +52,7 @@ private:
   void fillLevelQA(Tlevel* l);
 
 private:
+  int                     m_tempMelLen; /**< Keeps the latest length of melody set. */
   QSpinBox               *m_melodyLengthSpin;
   QCheckBox              *m_finishOnChB, *m_equalTempoChB, *m_playMelodyChB, *m_writeMelodyChB;
   QGroupBox              *m_melGroup;

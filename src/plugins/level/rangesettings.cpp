@@ -166,6 +166,7 @@ void rangeSettings::loadLevel(Tlevel* level) {
   for (int i = 0; i < Tcore::gl()->Gtune()->stringNr(); i++)
       m_stringBut[i]->setChecked(level->usedStrings[i]);
   stringSelected();
+  setDisabled(level->randMelody == Tlevel::e_randFromList);
   saveLevel(workLevel());
 }
 
@@ -231,7 +232,6 @@ void rangeSettings::changed() {
       m_fretAdjustButt->setDisabled(true);
       m_noteAdjustButt->setDisabled(true);
   }
-  setDisabled(workLevel()->randMelody == Tlevel::e_randFromList);
   loadLevel(workLevel());
   changedLocal();
 }

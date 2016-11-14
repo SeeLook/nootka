@@ -228,11 +228,11 @@ void questionsSettings::loadLevel(Tlevel* level) {
     showStrNrChB->setChecked(level->showStrNr);
     lowPosOnlyChBox->setChecked(level->onlyLowPos);
     m_intonationCombo->setCurrentIndex(level->intonation);
+    m_singleGr->setChecked(level->melodyLen == 1);
     saveLevel(workLevel());
-    m_singleGr->setChecked(!level->canBeMelody());
-    adjustToLevel();
+//     adjustToLevel();
   blockSignals(false);
-//   adjustToLevel();
+  adjustToLevel();
 }
 
 
