@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,12 +21,13 @@
 
 
 #include "nootkacoreglobal.h"
-#include <QList>
+#include <QtCore/qlist.h>
+
 
 class Tlevel;
 
 
-		/** Fills given list with predefined levels. */
+    /** Fills given list with predefined levels. */
 void NOOTKACORE_EXPORT getExampleLevels(QList<Tlevel>& llist);
 
 
