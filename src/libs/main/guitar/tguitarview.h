@@ -19,6 +19,8 @@
 #ifndef TGUITARVIEW_H
 #define TGUITARVIEW_H
 
+
+#include <nootkacoreglobal.h>
 #include <QtWidgets/qgraphicsview.h>
 
 
@@ -41,7 +43,7 @@ class QTouchEvent;
  * to always displays current fret at the beginning of the view
  * and moves view position next to currently displayed fret.
  */
-class TguitarView : public QGraphicsView
+class NOOTKACORE_EXPORT TguitarView : public QGraphicsView
 {
 
 public:
@@ -51,7 +53,7 @@ public:
 
   QGraphicsProxyWidget* proxy() { return m_proxy; }
 
-      /** Depend on available screen size @class TguitarView can display
+      /** Depend on available screen size @p TguitarView can display
        * zoomed preview of actually touched fret or just propagate touch to guitar.
        * This method checks this necessity and sets appropriate switches:
        * @p isPreview(), preview scale (if any), fret mark

@@ -21,17 +21,19 @@
 #define TBGPIXMAP_H
 
 
+#include <nootkacoreglobal.h>
 #include <QtGui/qpixmap.h>
 
 
 #define   BG_PIX    TbgPixmap::instance()
+
 
 /**
  * QPixmap that contains background image of guitar body.
  * There is only single instance for whole application
  * If instrument is kind of other - pixmap is null
  */
-class TbgPixmap : public QPixmap
+class NOOTKACORE_EXPORT TbgPixmap : public QPixmap
 {
 
 public:

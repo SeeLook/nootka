@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,14 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-
 #ifndef TSCOREACTIONS_H
 #define TSCOREACTIONS_H
 
-#include <QObject>
-#include <QIcon>
-#include <QKeySequence>
+
+#include <nootkacoreglobal.h>
+#include <QtCore/qobject.h>
+#include <QtGui/qicon.h>
+#include <QtGui/qkeysequence.h>
 
 
 class QIcon;
@@ -36,57 +36,58 @@ class TpushButton;
 class QAction;
 class TmainScore;
 
-/** 
+
+/**
  * This class manages QActions in a score.
  * It has a tool bar button @p button() to display drop down menu.
  * Its action is available through @p mainAction().
  */
-class TscoreActions : public QObject
+class NOOTKACORE_EXPORT TscoreActions : public QObject
 {
 
-	Q_OBJECT
-	
+  Q_OBJECT
+
 public:
-	explicit TscoreActions(TmainScore* score);
+  explicit TscoreActions(TmainScore* score);
   virtual ~TscoreActions();
-  
-  QToolButton* button() { return m_button; } /** Button displaying score icon and drop down menu with score actions */
-  QWidgetAction* mainAction() { return m_mainAction; } /** This represents score button action. */
-	
-	QAction* zoomIn() { return m_inZoom; }
-	QAction* zoomOut() { return m_outZoom; }
-	
-	QAction* nextNote() { return m_nextNote; }
+
+  QToolButton* button() { return m_button; } /**< Button displaying score icon and drop down menu with score actions */
+  QWidgetAction* mainAction() { return m_mainAction; } /**< This represents score button action. */
+
+  QAction* zoomIn() { return m_inZoom; }
+  QAction* zoomOut() { return m_outZoom; }
+
+  QAction* nextNote() { return m_nextNote; }
   QAction* prevNote() { return m_prevNote; }
-	QAction* staffDown() { return m_staffDown; }
-	QAction* staffUp() { return m_staffUp; }
-	QAction* firstNote() { return m_firstNote; }
-	QAction* lastNote() { return m_lastNote; }
-	
-	QAction* deleteCurrentNote() { return m_delCurrNote; }
-	QAction* clearScore() { return m_clear; }
-	
-	QAction* extraAccids() { return m_accidsAct; }
-	QAction* noteNames() { return m_namesAct; }
-	
-	void disableActions(bool dis); /** Disables or enables all actions (theirs key shortcuts as well) */
-  void setForExam(bool isExam); /** Disables actions unused during exams or enables them back. */
-	
+  QAction* staffDown() { return m_staffDown; }
+  QAction* staffUp() { return m_staffUp; }
+  QAction* firstNote() { return m_firstNote; }
+  QAction* lastNote() { return m_lastNote; }
+
+  QAction* deleteCurrentNote() { return m_delCurrNote; }
+  QAction* clearScore() { return m_clear; }
+
+  QAction* extraAccids() { return m_accidsAct; }
+  QAction* noteNames() { return m_namesAct; }
+
+  void disableActions(bool dis); /**< Disables or enables all actions (theirs key shortcuts as well) */
+  void setForExam(bool isExam); /**< Disables actions unused during exams or enables them back. */
+
 private:
   TmainScore                  *m_score;
   QToolButton                 *m_button;
   Tmenu                       *m_menu;
   QWidgetAction               *m_mainAction;
-	QAction											*m_inZoom, *m_outZoom;
-	QAction											*m_staffDown, *m_staffUp, *m_firstNote ,*m_lastNote, *m_nextNote, *m_prevNote;
-	QAction											*m_clear, *m_delCurrNote;
-	QAction   									*m_accidsAct, *m_namesAct;
-	TscoreKeys									*m_keys;
-	QList<QAction*>							 m_actions; /** List of pointers to all actions */
-	
+  QAction                     *m_inZoom, *m_outZoom;
+  QAction                     *m_staffDown, *m_staffUp, *m_firstNote ,*m_lastNote, *m_nextNote, *m_prevNote;
+  QAction                     *m_clear, *m_delCurrNote;
+  QAction                     *m_accidsAct, *m_namesAct;
+  TscoreKeys                  *m_keys;
+  QList<QAction*>              m_actions; /**< List of pointers to all actions */
+
 private:
   QAction* createAction(const QString& t, const char* slot, const QKeySequence& k = QKeySequence(), const QIcon& i = QIcon());
-  
+
 };
 
 #endif // TSCOREACTIONS_H

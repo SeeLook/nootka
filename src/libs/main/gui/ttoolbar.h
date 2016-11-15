@@ -19,8 +19,11 @@
 #ifndef TTOOLBAR_H
 #define TTOOLBAR_H
 
+
+#include <nootkacoreglobal.h>
 #include <QtWidgets/qtoolbar.h>
 #include <QtCore/qpointer.h>
+
 
 class TscoreActions;
 class TnootkaLabel;
@@ -28,7 +31,9 @@ class TmelMan;
 class QMainWindow;
 class QAction;
 
+
 #define   TOOLBAR     TtoolBar::instance()
+
 
 /**
  * This is main tool bar in Nootka.
@@ -47,25 +52,25 @@ class QAction;
  * It has single instance available through @p instance()
  * defined also as a macro @p TOOLBAR
  */
-class TtoolBar : public QToolBar
+class NOOTKACORE_EXPORT TtoolBar : public QToolBar
 {
 
-	Q_OBJECT
+  Q_OBJECT
 
 public:
-	explicit TtoolBar(const QString& version, QMainWindow* mainWindow);
+  explicit TtoolBar(const QString& version, QMainWindow* mainWindow);
 
   virtual ~TtoolBar();
 
   static TtoolBar* instance() { return m_instance; }
 
-			/** Main actions */
-	QAction *settingsAct, *levelCreatorAct, *startExamAct, *analyseAct;
+      /** Main actions */
+  QAction *settingsAct, *levelCreatorAct, *startExamAct, *analyseAct;
   QAction *aboutAct, *aboutSimpleAct; /**< Button with Nootka logo and simple text & icon QAction */
 
-			/** Exam related */
-	QPointer<QAction> prevQuestAct, checkAct;
-	QPointer<QAction> nextQuestAct, repeatSndAct, correctAct, tuneForkAct, attemptAct;
+      /** Exam related */
+  QPointer<QAction> prevQuestAct, checkAct;
+  QPointer<QAction> nextQuestAct, repeatSndAct, correctAct, tuneForkAct, attemptAct;
 
       /** TmelMan and TscoreActions has to be set before call above actions!
        * @p addScoreActions() and @p addMelodyButton() have to be invoked before! */
@@ -78,40 +83,40 @@ public:
   QAction* recordMelody();
   QAction* playMelody();
 
-			/** Changes names and icons of actions suitable to normal mode.
-			 * Deletes actions related to exam.	 */
-	void actionsAfterExam();
+      /** Changes names and icons of actions suitable to normal mode.
+       * Deletes actions related to exam.   */
+  void actionsAfterExam();
 
     /** It inserts any given action before Nootka label which is always on the right side (the last). */
-	void addAction(QAction* a);
+  void addAction(QAction* a);
 
       /** Ramoves given QAction from tool bar. Makes it not visible. */
   void removeAction(QAction* a);
-	
-			/** Changes names and icons of actions suitable to exam.
-			 * Creates common actions used in exams/exercises.
-			 * Other ones (like @p repeatSndAct) has to be called separately. */
-	void actionsToExam();
+  
+      /** Changes names and icons of actions suitable to exam.
+       * Creates common actions used in exams/exercises.
+       * Other ones (like @p repeatSndAct) has to be called separately. */
+  void actionsToExam();
 
-	void createRepeatSoundAction(); /**< Creates @p repeatSndAct. Don't add to tool bar */
-	void createCorrectAction(); /**< Creates @p correctAct. Don't add to tool bar */
-	void createTuneForkAction(); /**< Creates @p tuneForkAct. Don't add to tool bar */
-	void createAttemptAction(); /**< Creates @p attemptAct. Don't add to tool bar */
+  void createRepeatSoundAction(); /**< Creates @p repeatSndAct. Don't add to tool bar */
+  void createCorrectAction(); /**< Creates @p correctAct. Don't add to tool bar */
+  void createTuneForkAction(); /**< Creates @p tuneForkAct. Don't add to tool bar */
+  void createAttemptAction(); /**< Creates @p attemptAct. Don't add to tool bar */
 
-			/** Removes actions for previous and next question @p prevQuestAct & @p nextQuestAct.
-			 * Adds check answer action (@p checkAct) 
-			 * and @p repeatSndAct when @p TRUE and @p tuneForkAct when @p TRUE	 */
-	void setForQuestion(bool repeatSound, bool tuneFork);
-	void setAfterAnswer(); /**< Removes actions required during answering */
+      /** Removes actions for previous and next question @p prevQuestAct & @p nextQuestAct.
+       * Adds check answer action (@p checkAct) 
+       * and @p repeatSndAct when @p TRUE and @p tuneForkAct when @p TRUE   */
+  void setForQuestion(bool repeatSound, bool tuneFork);
+  void setAfterAnswer(); /**< Removes actions required during answering */
 
-	void addMelodyButton(TmelMan* melBut);
-	void setMelodyButtonVisible(bool vis); /**< Hides or shows melody button */
+  void addMelodyButton(TmelMan* melBut);
+  void setMelodyButtonVisible(bool vis); /**< Hides or shows melody button */
 
   void addScoreActions(TscoreActions* scoreBut); /**< Adds button with associated menu with actions to manage the score. */
 
-	void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
+  void setBarIconStyle(Qt::ToolButtonStyle iconStyle, int iconS);
 
-	void setProxy(QGraphicsProxyWidget* proxy);
+  void setProxy(QGraphicsProxyWidget* proxy);
 
 #if defined (Q_OS_ANDROID)
       /** Initializes pointer to quick actions list (owned by @class TmelodyItem - see more there) */
@@ -120,18 +125,18 @@ public:
 #endif
 
 protected:
-	virtual void resizeEvent(QResizeEvent* event);
+  virtual void resizeEvent(QResizeEvent* event);
 
 private:
-	TmelMan													*m_melButton;
-  TscoreActions                   *m_scoreActs;
-	TnootkaLabel 										*m_nootLabel;
-	QGraphicsProxyWidget						*m_proxy;
-	QWidget 												*m_spacer;
+  TmelMan                          *m_melButton;
+  TscoreActions                    *m_scoreActs;
+  TnootkaLabel                     *m_nootLabel;
+  QGraphicsProxyWidget             *m_proxy;
+  QWidget                          *m_spacer;
 #if defined (Q_OS_ANDROID)
-  QList<QAction*>                 *m_flyActions;
+  QList<QAction*>                  *m_flyActions;
 #endif
-  static TtoolBar                 *m_instance;
+  static TtoolBar                  *m_instance;
 };
 
 #endif // TTOOLBAR_H

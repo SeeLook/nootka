@@ -20,13 +20,17 @@
 #ifndef TPROGRESSWIDGET_H
 #define TPROGRESSWIDGET_H
 
+
+#include <nootkacoreglobal.h>
 #include <QtWidgets/qwidget.h>
 
 class Texam;
 class QProgressBar;
 class QLabel;
 
+
 #define   PROGRESS    TprogressWidget::instance()
+
 
 /**
  * Displays progress bar of exam and some additional data about it.
@@ -38,7 +42,7 @@ class QLabel;
  * It has single instance available through @p instance()
  * defined also as a macro @p PROGRESS
  */
-class TprogressWidget : public QWidget
+class NOOTKACORE_EXPORT TprogressWidget : public QWidget
 {
 
   Q_OBJECT
@@ -64,11 +68,11 @@ protected:
   void updateLabels();
 
 private:
-  int 								      m_totalNr;
-  QLabel 						       *m_answLab, *m_totalLab;
-  QProgressBar 			       *m_bar;
-  Texam							       *m_exam;
-  static TprogressWidget   *m_instance;
+  int                        m_totalNr;
+  QLabel                    *m_answLab, *m_totalLab;
+  QProgressBar              *m_bar;
+  Texam                     *m_exam;
+  static TprogressWidget    *m_instance;
 };
 
 #endif // TPROGRESSWIDGET_H

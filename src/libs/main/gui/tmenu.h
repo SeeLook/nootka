@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,12 +19,14 @@
 #ifndef TMENU_H
 #define TMENU_H
 
-#include <QMenu>
+#include <nootkacoreglobal.h>
+#include <QtWidgets/qmenu.h>
 
 
 class TmenuHandler;
 
-/** 
+
+/**
  * Due to Nootka tool bar exists inside graphics proxy widget
  * menus handled by tool buttons have no proper parent and 
  * menu position can be wrong and window decorations are not respected.
@@ -32,54 +34,55 @@ class TmenuHandler;
  * This is QObject that emits @p emitShown() signal.
  * This signal is emitted from every Tmenu instance when it is displayed.
  * Then signal is handled by @class TmainView and menu position is adjusted properly.
- * 
+ *
  * Constructor automatically sets menu parent to central widget of main window
  * but it has to be declared first through @p setMainWidget().
  */
-class Tmenu : public QMenu
+class NOOTKACORE_EXPORT Tmenu : public QMenu
 {
+
 public:
-	explicit Tmenu(); /** Constructor automatically sets menu parent to central widget of main window through @p setMainWidget() */
+  explicit Tmenu(); /** Constructor automatically sets menu parent to central widget of main window through @p setMainWidget() */
+
+    /** Returns Nootka main window. 
+    * IT HAS TO BE INITIALIZED BY @p setMainWindow() in @p MainWindow constructor.   */
+  static QWidget* mainWidget() { return m_mainWidget; }
+  static void setMainWidget(QWidget* mainWindgetPtr) { m_mainWidget = mainWindgetPtr; }
   
-		/** Returns Nootka main window. 
-		* IT HAS TO BE INITIALIZED BY @p setMainWindow() in @class MainWindow constructor.	 */
-	static QWidget* mainWidget() { return m_mainWidget; }
-	static void setMainWidget(QWidget* mainWindgetPtr) { m_mainWidget = mainWindgetPtr; }
-	
-		/** This is QObject instance created with first Tmenu object.
-		 * It emits @p emitShown() signal when menu appears.
-		 * IT HAS TO BE DELETED MANUALLY by @p deleteMenuHandler(). */
+    /** This is QObject instance created with first Tmenu object.
+     * It emits @p emitShown() signal when menu appears.
+     * IT HAS TO BE DELETED MANUALLY by @p deleteMenuHandler(). */
   static TmenuHandler* menuHandler() { return m_menuHandler; }
   static void deleteMenuHandler();
-  
-protected:  
+
+protected:
   virtual void showEvent(QShowEvent* event);
-  
+
 private:
-  static QWidget								*m_statusWidget;
-	static QWidget								*m_mainWidget;
-  static TmenuHandler						*m_menuHandler;
+  static QWidget                  *m_statusWidget;
+  static QWidget                  *m_mainWidget;
+  static TmenuHandler             *m_menuHandler;
 };
 
 
-/** 
+/**
  * Simple QObject subclass that emits @p menuShown() signal 
  * with @class Tmenu object
  * after invoke @p emitShown() method.
  */
-class TmenuHandler : public QObject 
+class NOOTKACORE_EXPORT TmenuHandler : public QObject 
 {
-	
-	Q_OBJECT
-	
+
+  Q_OBJECT
+
 public:
-	TmenuHandler() : QObject() {}
-	
-	void emitShown(Tmenu* m) { emit menuShown(m); }
-	
+  TmenuHandler() : QObject() {}
+
+  void emitShown(Tmenu* m) { emit menuShown(m); }
+
 signals:
-	void menuShown(Tmenu*);
-	
+  void menuShown(Tmenu*);
+
 };
 
 #endif // TMENU_H

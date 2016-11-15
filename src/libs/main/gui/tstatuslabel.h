@@ -19,11 +19,16 @@
 #ifndef TSTATUSLABEL_H
 #define TSTATUSLABEL_H
 
+
+#include <nootkacoreglobal.h>
 #include <widgets/troundedlabel.h>
+
 
 class QTimer;
 
+
 #define   STATUS    TstatusLabel::instance()
+
 
 /**
  * This is a label with a role like a status bar.
@@ -32,7 +37,7 @@ class QTimer;
  * It has single instance available through @p instance()
  * defined also as a macro @p STATUS
  */
-class TstatusLabel : public TroundedLabel
+class NOOTKACORE_EXPORT TstatusLabel : public TroundedLabel
 {
 
   Q_OBJECT
