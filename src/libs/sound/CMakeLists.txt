@@ -17,8 +17,9 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       /opt/local/include
       /sw/include
       ${CMAKE_SOURCE_DIR}/fftw
+      ${CMAKE_SOURCE_DIR}/../fftw
       ${CMAKE_BINARY_DIR}/fftw
-			${CMAKE_BINARY_DIR}/../fftw
+      ${CMAKE_BINARY_DIR}/../fftw
   )
   IF(WIN32)
     find_library(FFTW3_LIBRARY
@@ -26,8 +27,9 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
         libfftw3f-3.dll
       PATHS
         ${CMAKE_SOURCE_DIR}/fftw
-        ${CMAKE_BINARY_DIR}/fftw
-				${CMAKE_BINARY_DIR}/../fftw
+        ${CMAKE_SOURCE_DIR}/../fftw
+          ${CMAKE_BINARY_DIR}/fftw
+        ${CMAKE_BINARY_DIR}/../fftw
     )
   ELSE(WIN32)
     find_library(FFTW3_LIBRARY
@@ -76,9 +78,9 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
+      ${CMAKE_SOURCE_DIR}/../libvorbis/include
       ${CMAKE_SOURCE_DIR}/libvorbis/include
-      ${CMAKE_BINARY_DIR}/libvorbis/include
-			${CMAKE_BINARY_DIR}/../libvorbis/include
+      ${CMAKE_BINARY_DIR}/../libvorbis/include
   )
   find_path(OGG_INCLUDE_DIR
     NAMES
@@ -89,17 +91,17 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /opt/local/include
       /sw/include
       ${CMAKE_SOURCE_DIR}/libogg/include
+      ${CMAKE_SOURCE_DIR}}/../libogg/include
       ${CMAKE_BINARY_DIR}/libogg/include
-			${CMAKE_BINARY_DIR}/../libogg/include
   )
   IF(WIN32)
     find_library(VORBIS_LIBRARY
       NAMES
         libvorbisfile.dll
       PATHS
-        ${CMAKE_SOURCE_DIR}/vorbis-tools
-        ${CMAKE_BINARY_DIR}/vorbis-tools
-				${CMAKE_BINARY_DIR}/../vorbis-tools
+      ${CMAKE_SOURCE_DIR}/vorbis-tools
+      ${CMAKE_SOURCE_DIR}}/../vorbis-tools
+      ${CMAKE_BINARY_DIR}/../vorbis-tools
     )
   ELSE(WIN32)
     find_library(VORBIS_LIBRARY
@@ -112,6 +114,7 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
         /opt/local/lib
         /sw/lib
         ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_SOURCE_DIR}}/../libvorbis/include
         ${CMAKE_CURRENT_SOURCE_DIR}
   )
   ENDIF(WIN32)
@@ -163,7 +166,7 @@ if (UNIX)
             /opt/local/lib
             /sw/lib
             ${CMAKE_BINARY_DIR}/../soundtouch
-						${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}
     )
 
     set(SOUNDTOUCH_INCLUDE_DIRS
@@ -349,9 +352,6 @@ set(LIB_NOOTKASOUND_SRC
 	trtaudioin.cpp
 	trtaudioout.cpp
 	tsound.cpp
-	
-# 	rt/RtAudio.cpp
-# 	rt/RtMidi.cpp
 	
 	tartini/analysisdata.cpp
 	tartini/array1d.h
