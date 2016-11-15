@@ -17,6 +17,10 @@
 #include <algorithm>
 #include "../useful.h"
 
+#ifndef M_PI
+  #define M_PI (3.14159265358979323846)
+#endif
+
 /** Construct a FastSmoothedAverageFilter
   * @param size The total width of the hanning window. To keep data centered use an odd size
   */
