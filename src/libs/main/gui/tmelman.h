@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,9 +19,12 @@
 #ifndef TMELMAN_H
 #define TMELMAN_H
 
-#include <QObject>
-#include <QIcon>
-#include <QKeySequence>
+
+#include <nootkacoreglobal.h>
+#include <QtCore/qobject.h>
+#include <QtGui/qicon.h>
+#include <QtGui/qkeysequence.h>
+
 
 class QGraphicsPixmapItem;
 class QAction;
@@ -32,11 +35,11 @@ class QToolButton;
 class TmainScore;
 
 
-/** 
+/**
  * Melody manager - graphically represented by QToolButton 
  * in Nootka tool bar with actions to manage melodies.
  */
-class TmelMan : public QObject
+class NOOTKACORE_EXPORT TmelMan : public QObject
 {
 	Q_OBJECT
 	

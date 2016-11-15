@@ -19,7 +19,10 @@
 #ifndef TRANDMELODY_H
 #define TRANDMELODY_H
 
+
+#include <nootkacoreglobal.h>
 #include <exam/tqagroup.h>
+
 
 class TkeySignature;
 class Tmelody;
@@ -32,10 +35,9 @@ class Tmelody;
     * Melody is finished on tonic note of the given key signature
     * when @p onTonic is set to @p true
     */
-void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+void NOOTKACORE_EXPORT getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
 
-
-void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+void NOOTKACORE_EXPORT getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
 
 
 #endif // TRANDMELODY_H

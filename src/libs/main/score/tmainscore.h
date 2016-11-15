@@ -19,8 +19,11 @@
 #ifndef TMAINSCORE_H
 #define TMAINSCORE_H
 
+
+#include <nootkacoreglobal.h>
 #include <tmultiscore.h>
 #include <QtCore/qpointer.h>
+
 
 class Tmelody;
 class TcornerProxy;
@@ -40,7 +43,9 @@ class QGraphicsRectItem;
 class QGraphicsTextItem;
 class QGraphicsSimpleTextItem;
 
+
 #define   SCORE    TmainScore::instance()
+
 
 /**
  * This is a main score of Nootka.
@@ -49,7 +54,7 @@ class QGraphicsSimpleTextItem;
  * It has single instance available through @p instance()
  * defined also as a macro @p SCORE
  */
-class TmainScore : public TmultiScore
+class NOOTKACORE_EXPORT TmainScore : public TmultiScore
 {
   Q_OBJECT
 
@@ -62,12 +67,12 @@ public:
   void setEnableEnharmNotes(bool isEnabled);
   void acceptSettings();
 
-  int widthToHeight(int hi); /** Returns width of score when its height is @p hi. */
+  int widthToHeight(int hi); /**< Returns width of score when its height is @p hi. */
 
-  virtual void setNote(const Tnote& note);
-  virtual void setNote(int index, const Tnote& note) { TmultiScore::setNote(index, note); }
+  virtual void setNote(const Tnote& note) override;
+  virtual void setNote(int index, const Tnote& note) override { TmultiScore::setNote(index, note); }
   void setMelody(Tmelody* mel);
-  void getMelody(Tmelody* mel, const QString& title = ""); /** Grabs all notes, key and time in a score to given @p mel */
+  void getMelody(Tmelody* mel, const QString& title = ""); /**< Grabs all notes, key and time in a score to given @p mel */
 
   void setInsertMode(EinMode mode);
 
@@ -88,17 +93,18 @@ public:
   void prepareKeyToAnswer(TkeySignature fakeKey, QString expectKeyName);
 
       /** Connects or disconnects reactions for clicking a note
-      * and showing enharmonic notes depends on is exam executing (disconnect)
-      * or not (connect).*/
+       * and showing enharmonic notes depends on is exam executing (disconnect)
+       * or not (connect).*/
   void isExamExecuting(bool isIt);
-  bool isExam() { return (bool)m_questMark; } /** @p True during exam/exercises */
+  bool isExam() { return (bool)m_questMark; } /**< @p True during exam/exercises */
+
       /** Internally it calls setScoreDisabled(false) to unlock and locks unused noteViews (1 & 2) again. */
   void unLockScore();
   virtual void setScoreDisabled(bool disabled);
-  void lockKeySignature(bool lock); /** Locks/unlocks key signature segment (if exists). */
+  void lockKeySignature(bool lock); /**< Locks/unlocks key signature segment (if exists). */
   void setKeyViewBg(QColor C);
   void setNoteViewBg(int id, QColor C);
-  void forceAccidental(Tnote::Ealter accid); /** Sets given accidental */
+  void forceAccidental(Tnote::Ealter accid); /**< Sets given accidental */
 
       /** Marks note with border and blur. It is used to show was answer correct or not. Default note number for single mode. */
   void markAnswered(QColor blurColor, int noteNr = 0);
@@ -116,7 +122,7 @@ public:
 
       /** Displays note name of first note or the second if given next to its note-head in a score. */
   void showNames(Tnote::EnameStyle st);
-  void deleteNoteName(int id); /** Deletes given instance of note name if it exist */
+  void deleteNoteName(int id); /**< Deletes given instance of note name if it exist */
 
       /** Returns note head rectangle if visible or empty QRectF.  */
   QRectF noteRect(int noteNr);
@@ -127,24 +133,24 @@ public:
   bool isScorePlayed() { return m_scoreIsPlayed; }
   TnoteName* noteName() { return m_nameMenu; }
 
-  bool isCorrectAnimPending() { return m_correctNoteNr > -1; } /** @p TRUE when animation is in progress. */
+  bool isCorrectAnimPending() { return m_correctNoteNr > -1; } /**< @p TRUE when animation is in progress. */
 
   void setBGcolor(const QColor& bgColor);
 
 signals:
   void noteChanged(int index, Tnote note);
 
-  void noteClicked(); /** This signal is emitted during an exam when expert answers are used. */
+  void noteClicked(); /**< This signal is emitted during an exam when expert answers are used. */
   void playbackFinished();
-  void correctingFinished(); /** Emitted when correction animation finish*/
+  void correctingFinished(); /**< Emitted when correction animation finish*/
 
 public slots:
   void whenNoteWasChanged(int index, Tnote note);
   void noteWasClickedMain(int index);
-  void setScordature(); /** Sets scordature to value kept in Tglobal. */
+  void setScordature(); /**< Sets scordature to value kept in Tglobal. */
   void expertNoteChanged();
   void onClefChanged(Tclef cl);
-  void playScore(); /** Plays (actually emits noteChanged()) all notes starting from the selected one. */
+  void playScore(); /**< Plays (actually emits noteChanged()) all notes starting from the selected one. */
 
 protected:
   virtual void resizeEvent(QResizeEvent* event) override;
@@ -167,9 +173,9 @@ protected slots:
   void playSlot();
 
 private:
-  void restoreNotesSettings(); /** Sets notes colors according to globals. */
-  void performScordatureSet(); /** Common method to set scordature */
-  void setQuestionMarkPos(); /** updates position of question mark in the middle of score view */
+  void restoreNotesSettings(); /**< Sets notes colors according to globals. */
+  void performScordatureSet(); /**< Common method to set scordature */
+  void setQuestionMarkPos(); /**< updates position of question mark in the middle of score view */
 
   virtual void addStaff(TscoreStaff* st = 0) override;
 
@@ -182,23 +188,23 @@ private:
   void createNoteName();
 
 private:
-  QGraphicsSimpleTextItem 		*m_questMark;
-  QGraphicsTextItem 					*m_questKey;
-  QList<QGraphicsRectItem*> 	 m_bgRects; // list of rectangles with highlights
-  TstrikedOutItem 						*m_strikeOut;
+  QGraphicsSimpleTextItem     *m_questMark;
+  QGraphicsTextItem           *m_questKey;
+  QList<QGraphicsRectItem*>    m_bgRects; /**< list of rectangles with highlights */
+  TstrikedOutItem             *m_strikeOut;
   QPointer<TblinkingItem>      m_bliking, m_keyBlinking;
-  int													 m_correctNoteNr;
-  Tnote												 m_goodNote;
-  TkeySignature								 m_goodKey;
-  Tnote::EnameStyle						 m_corrStyle;
+  int                          m_correctNoteNr;
+  Tnote                        m_goodNote;
+  TkeySignature                m_goodKey;
+  Tnote::EnameStyle            m_corrStyle;
 
-  TnoteName					 					*m_nameMenu;
-  QPointer<TscoreNote>				 m_currentNameSegment; /** Currently edited TscoreNote by menu. */
-  bool												 m_scoreIsPlayed;
-  QPointer<QTimer>						 m_playTimer;
-  TscoreActions								*m_acts; /** Score actions (tool bars icons/buttons) */
-  int 												 m_playedIndex;
-  bool 												 m_emitExpertNoteClicked;
+  TnoteName                   *m_nameMenu;
+  QPointer<TscoreNote>         m_currentNameSegment; /**< Currently edited TscoreNote by menu. */
+  bool                         m_scoreIsPlayed;
+  QPointer<QTimer>             m_playTimer;
+  TscoreActions                *m_acts; /**< Score actions (tool bars icons/buttons) */
+  int                          m_playedIndex;
+  bool                         m_emitExpertNoteClicked;
   static TmainScore           *m_instance;
   QColor                       m_bgColor;
 };

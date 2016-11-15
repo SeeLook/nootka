@@ -21,6 +21,7 @@
 #define TEXAMVIEW_H
 
 
+#include <nootkacoreglobal.h>
 #include <QtWidgets/qwidget.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qtimer.h>
@@ -34,6 +35,7 @@ class QLabel;
 
 #define    REFRESH_TIME (250)
 
+
 /**
  * A @class TexamView represents status of exam.
  * It displays times and numbers of valid/invalid questions.
@@ -45,8 +47,9 @@ class QLabel;
  * It has single instance available through @p instance()
  * defined also as a macro @p RESULTS
  */
-class TexamView : public QWidget
+class NOOTKACORE_EXPORT TexamView : public QWidget
 {
+
   Q_OBJECT
 
 public:
@@ -75,7 +78,7 @@ public:
   void stopExam() { m_timer->stop(); }
 
   void doNotdisplayTime() { m_timer->stop(); } /**< Stops displaying pending time */
-  void displayTime() { 	m_timer->start(REFRESH_TIME); } /**< Starts Refreshing elapsing time every 100 ms  */
+  void displayTime() {   m_timer->start(REFRESH_TIME); } /**< Starts Refreshing elapsing time every 100 ms  */
 
       /** Total time of the exam. */
   quint32 totalTime() {return quint32(m_startExamTime) + quint32(m_totalTime.elapsed() / 1000); }
@@ -96,17 +99,17 @@ public slots:
   void questionCountUpdate(); /**< Updates mistakes, correct, and 'not bad' numbers to current exam values */
 
 private:
-  bool 	      	    	m_showReact; /**< switches whether displays pending question time counter */
-  QLabel 	           *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
-  QLabel 	           *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
-  QTime 		          m_questionTime; /**< Elapsing time of a question - started with questionStart() and stopped with questionStop() */
-  int				          m_startExamTime; /**< Elapsed time from previous exam sessions */
-  QTimer 	           *m_timer;
-  QTime 		          m_totalTime; /**< Total time of an exam */
-  int 			          m_pausedAt; /**< when m_averTime was paused */
-  QSize			          m_sizeHint;
-  Texam		           *m_exam;
-  static TexamView   *m_instance;
+  bool                 m_showReact; /**< switches whether displays pending question time counter */
+  QLabel              *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
+  QLabel              *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
+  QTime                m_questionTime; /**< Elapsing time of a question - started with questionStart() and stopped with questionStop() */
+  int                  m_startExamTime; /**< Elapsed time from previous exam sessions */
+  QTimer              *m_timer;
+  QTime                m_totalTime; /**< Total time of an exam */
+  int                  m_pausedAt; /**< when m_averTime was paused */
+  QSize                m_sizeHint;
+  Texam               *m_exam;
+  static TexamView    *m_instance;
 
 private slots:
     void countTime();

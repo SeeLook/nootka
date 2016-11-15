@@ -3,7 +3,7 @@
 ########################################################################
 
 
-add_definitions(-DNOOTKAMAIN_LIBRARY)
+add_definitions(-DNOOTKACORE_LIBRARY)
 
 include_directories( . ../core ../score ../widgets ../sound ../misc )
 

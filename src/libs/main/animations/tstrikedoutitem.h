@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,10 @@
 #ifndef TGRAPHICSSTRIKEITEM_H
 #define TGRAPHICSSTRIKEITEM_H
 
+
+#include <nootkacoreglobal.h>
 #include <QGraphicsObject>
+
 
 class TblinkingItem;
 class QPen;
@@ -27,7 +30,7 @@ class QPen;
 /** This is QGraphicsObject element looks like striking cross over the given rectangle. 
  * Lines of striking are a bit longer than given rectangle size.
  * It recognizes a shape of item and strike can be 'X' or '--/---/---/---/---/---' */
-class TstrikedOutItem : public QGraphicsObject
+class NOOTKACORE_EXPORT TstrikedOutItem : public QGraphicsObject
 {
 		Q_OBJECT
     Q_PROPERTY(int alpha READ alpha WRITE setAlpha)
