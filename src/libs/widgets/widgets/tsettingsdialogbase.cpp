@@ -230,10 +230,8 @@ void TsettingsDialogBase::markChanges(QWidget *container) {
     connect(grB, &QGroupBox::clicked, menuButton, &TmenuWidget::animate);
   for(QPushButton *butt : container->findChildren<QPushButton*>())
     connect(butt, &QPushButton::clicked, menuButton, &TmenuWidget::animate);
-  for(QRadioButton *radio : container->findChildren<QRadioButton*>()) {
+  for(QRadioButton *radio : container->findChildren<QRadioButton*>())
     connect(radio, &QCheckBox::clicked, menuButton, &TmenuWidget::animate);
-    radio->setStyle(Tcore::androidStyle);
-  }
   for(QComboBox *combo : container->findChildren<QComboBox*>())
     connect(combo, SIGNAL(currentIndexChanged(int)), menuButton, SLOT(animate()));
   for(QSpinBox *spin : container->findChildren<QSpinBox*>())

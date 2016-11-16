@@ -99,10 +99,12 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
   
 #if defined (Q_OS_ANDROID)
   markChanges(this);
+  stackLayout->setCurrentIndex(2); // HACK: resize score, otherwise it will crash when get notes before become visible
+  stackLayout->setCurrentIndex(0);
 #else
   setWidesttPage(m_meloSett);
   setHighestPage(m_meloSett);
-  QTimer::singleShot(10, this, [this]{ hackSize(); } ); //HACK: adjust dialog width to biggest page width
+  QTimer::singleShot(10, this, [this]{ hackSize(); } ); // HACK: adjust dialog width to biggest page width
 #endif
 }
 
