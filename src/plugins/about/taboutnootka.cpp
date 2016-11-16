@@ -285,7 +285,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   connect(navList, SIGNAL(currentRowChanged(int)), this, SLOT(changeCurrentPage(int)));
 #if defined (Q_OS_ANDROID)
   cancelBut = buttonBox->addButton(QDialogButtonBox::Close);
-  cancelBut->setIcon(QIcon(QLatin1String(":/mobile/exit.png")));
+  cancelBut->setIcon(QIcon(Tpath::img("exit")));
   connect(cancelBut, &QPushButton::clicked, this, &TaboutNootka::accept);
 #else
   layout()->setSizeConstraint(QLayout::SetFixedSize);

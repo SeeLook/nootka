@@ -112,7 +112,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 #if defined (Q_OS_ANDROID)
       addItem(qTR("QPlatformTheme", "Apply"), Tpath::img("check"));
       addItem(qTR("QPlatformTheme", "Help"), Tpath::img("help"));
-      addItem(qTR("QPlatformTheme", "Cancel"), QLatin1String(":/mobile/exit.png"));
+      addItem(qTR("QPlatformTheme", "Cancel"), Tpath::img("exit"));
       connect(navList, &QListWidget::currentRowChanged, [=] {
             if (navList->currentRow() == 0)
               accept();

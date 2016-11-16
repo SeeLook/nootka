@@ -204,7 +204,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
                              qTR("QFileDialog", "&New Folder").replace(space, newLine).replace(QLatin1String("&"), QString()));
   if (Tandroid::getAPIlevelNr() < 19) // display SD card shortcut only below Kitkat
     addMenuItem(QIcon(QLatin1String(":/mobile/card.png")), tr("Memory card").replace(space, newLine));
-  m_cancelItem = addMenuItem(QIcon(QLatin1String(":/mobile/exit.png")), qTR("QShortcut", "Close"));
+  m_cancelItem = addMenuItem(QIcon(Tpath::img("exit")), qTR("QShortcut", "Close"));
 
 // upper location label, file name edit, extension combo
   m_locationLab = new QLabel(this);

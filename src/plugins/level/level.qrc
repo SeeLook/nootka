@@ -3,6 +3,7 @@
         <file>picts/accidSettings.png</file>
         <file>picts/levelsSettings.png</file>
         <file>picts/rangeSettings.png</file>
+        <file>picts/melodySett.png</file>
         <file>picts/notSaved.png</file>
     </qresource>
 </RCC>
