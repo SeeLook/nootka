@@ -122,11 +122,6 @@ questionsSettings::questionsSettings(TlevelCreatorDlg* creator) :
 
 
 #if defined (Q_OS_ANDROID)
-    auto androidMelLay = new QHBoxLayout;
-    melodyLab->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-    androidMelLay->addWidget(melodyLab);
-    androidMelLay->addLayout(melLay);
-    m_melodiesGr->setLayout(androidMelLay);
     QVBoxLayout *grBoxLay = new QVBoxLayout;
 #else
     auto grBoxLay = new QHBoxLayout;

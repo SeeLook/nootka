@@ -23,12 +23,14 @@
 #include <qtr.h>
 #include <tinitcorelib.h>
 #include <tmultiscore.h>
+#include <tscorescene.h>
 #include <tscorekeysignature.h>
 #include <tscoreparams.h>
 #include <tnoofont.h>
 #include <QtWidgets/QtWidgets>
-
-#include <QtCore/qdebug.h>
+#if defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+#endif
 
 
 TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
@@ -38,9 +40,11 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
   auto questionsLab = new QLabel(qTR("TlevelCreatorDlg", "Questions") + QLatin1String(":"), this);
   int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
   m_playMelodyChB = new QCheckBox(TexTrans::playMelodyTxt(), this);
-    m_playMelodyChB->setStatusTip(tableTip(TexTrans::playDescTxt(), TQAtype::e_asNote, TQAtype::e_asSound, nootFontSize));
   m_writeMelodyChB = new QCheckBox(TexTrans::writeMelodyTxt(), this);
-    m_writeMelodyChB->setStatusTip(tableTip(TexTrans::writeDescTxt(), TQAtype::e_asSound, TQAtype::e_asNote, nootFontSize));
+#if !defined (Q_OS_ANDROID)
+  m_playMelodyChB->setStatusTip(tableTip(TexTrans::playDescTxt(), TQAtype::e_asNote, TQAtype::e_asSound, nootFontSize));
+  m_writeMelodyChB->setStatusTip(tableTip(TexTrans::writeDescTxt(), TQAtype::e_asSound, TQAtype::e_asNote, nootFontSize));
+#endif
 
   QString nooColor = QString("color: %1").arg(palette().highlight().color().name());
   auto melodyLab = new QLabel(TnooFont::span("m", nootFontSize * 2, nooColor), this);
@@ -51,23 +55,24 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
     m_melodyLengthSpin->setMaximum(50);
     m_melodyLengthSpin->setMinimum(1);
     m_melodyLengthSpin->setValue(2);
-    m_melodyLengthSpin->setStatusTip(tr("Number of notes in a melody."));
     m_melodyLengthSpin->setStatusTip(tr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number."));
 
-  QLabel *lenghtLab = new QLabel(tr("Melody length"), this);
-  
+  auto melLenFormLay = new QFormLayout;
+    melLenFormLay->addRow(tr("Melody length"), m_melodyLengthSpin);
+
   m_finishOnChB = new QCheckBox(tr("Melody ends on tonic note"), this);
     m_finishOnChB->setStatusTip(tr("Determines the last note of a melody.<br>When set, melody will be finished on tonic note in actual key signature."));
 //   m_equalTempoChB = new QCheckBox(tr("Require equal tempo"), this);
 //     m_equalTempoChB->setStatusTip(tr("If set, doesn't matter how fast you will play but entire melody has to be played with the same tempo."));
 
-  auto randomLab = new QLabel(tr("Random melody") + QLatin1String(":"), this);
   m_randomRadio = new QRadioButton(tr("in selected range"), this);
   m_listRadio = new QRadioButton(tr("from notes below"), this);
   auto randButtGroup = new QButtonGroup(this);
     randButtGroup->addButton(m_randomRadio);
     randButtGroup->addButton(m_listRadio);
   m_randomRadio->setChecked(true);
+  m_randomRadio->setStatusTip(tr("Melodies are composed from a note range defined on the 'Range' page."));
+  m_listRadio->setStatusTip(tr("Melodies are composed from notes selected on the score below."));
 
   m_score = new TmultiScore(nullptr, this);
   m_score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -76,6 +81,10 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
   m_score->setClef(Tclef(Tcore::gl()->S->clef));
   m_score->setScoreDisabled(true);
   m_score->setBGcolor(palette().window().color());
+  m_score->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
+#if defined (Q_OS_ANDROID)
+    m_score->setFixedHeight(qRound(Tmtr::shortScreenSide() * 0.7));
+#endif
 
   auto rightLay = new QVBoxLayout;
     auto questLay = new QHBoxLayout;
@@ -87,30 +96,43 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
       questLay->addWidget(m_writeMelodyChB);
       questLay->addStretch(2);
   rightLay->addLayout(questLay);
-    auto melLengthLay = new QHBoxLayout;
+    #if defined (Q_OS_ANDROID)
+    auto melLengthLay = new QVBoxLayout;
+    #else
+      auto melLengthLay = new QHBoxLayout;
       melLengthLay->addStretch(2);
-      melLengthLay->addWidget(lenghtLab);
-      melLengthLay->addStretch(1);
-      melLengthLay->addWidget(m_melodyLengthSpin);
+    #endif
+      melLengthLay->addLayout(melLenFormLay);
+      #if defined (Q_OS_ANDROID)
+      melLengthLay->addWidget(getLabelFromStatus(m_melodyLengthSpin, true, true));
+      #else
       melLengthLay->addStretch(2);
+      #endif
       melLengthLay->addWidget(m_finishOnChB);
+      #if defined (Q_OS_ANDROID)
+      melLengthLay->addWidget(getLabelFromStatus(m_finishOnChB, true, true));
+      #else
       melLengthLay->addStretch(2);
+      #endif
   rightLay->addLayout(melLengthLay);
     auto randRadiosLay = new QVBoxLayout;
       randRadiosLay->addWidget(m_randomRadio);
+      #if defined (Q_OS_ANDROID)
+      randRadiosLay->addWidget(getLabelFromStatus(m_randomRadio, true, true));
+      #endif
       randRadiosLay->addWidget(m_listRadio);
-    auto randomLay = new QHBoxLayout;
-      randomLay->addStretch();
-      randomLay->addWidget(randomLab);
-      randomLay->addLayout(randRadiosLay);
-      randomLay->addStretch();
-  rightLay->addLayout(randomLay);
+      #if defined (Q_OS_ANDROID)
+      randRadiosLay->addWidget(getLabelFromStatus(m_listRadio, true, true));
+      #endif
+    auto randomLay = new QFormLayout;
+      randomLay->addRow(QLatin1String("      ") + tr("Random melody") + QLatin1String(":"), randRadiosLay);
 //   rightLay->addWidget(m_equalTempoChB);
   auto upperLay = new QHBoxLayout;
     upperLay->addWidget(melodyLab);
     upperLay->addLayout(rightLay);
   auto lay = new QVBoxLayout;
     lay->addLayout(upperLay);
+    lay->addLayout(randomLay);
     lay->addWidget(m_score);
 
   m_melGroup = new QGroupBox(qTR("TmelMan", "Melody"), this);
