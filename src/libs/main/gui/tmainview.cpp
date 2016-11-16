@@ -471,7 +471,7 @@ void TmainView::mainMenuExec() {
   if (!m_layParams->soundViewEnabled)
     menu.addAction(m_inVolAct);
   menu.addAction(m_tool->settingsAct);
-  QAction closeAct(QIcon(QLatin1String(":/mobile/exit.png")), qTR("QShortcut", "Close"), this);
+  QAction closeAct(QIcon(Tpath::img("exit")), qTR("QShortcut", "Close"), this);
   connect(&closeAct, &QAction::triggered, parentWidget(), &QWidget::close);
   menu.addAction(&closeAct);
   auto a = menu.exec();
