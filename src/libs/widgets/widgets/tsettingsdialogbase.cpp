@@ -29,6 +29,13 @@
 #endif
 #include <QtWidgets/QtWidgets>
 
+
+#if defined (Q_OS_WIN) // more time under Win to make space for icons
+  #define NAVLIST_REFRESH_TIME (500)
+#else
+  #define NAVLIST_REFRESH_TIME (100)
+#endif
+
 /* static */
 bool TsettingsDialogBase::touchEnabled() { return TtouchProxy::touchEnabled(); }
 
@@ -110,8 +117,10 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth());
                                            menuButton->setFixedSize(navList->width(), qRound(Tmtr::fingerPixels() * 0.7)); } );
 #else
-    QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
-      (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0)); } );
+    QTimer::singleShot(NAVLIST_REFRESH_TIME, this, [this] {
+      navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
+      (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0)); }
+    );
 #endif
 }
 
