@@ -1,16 +1,14 @@
 ########################################################################
 # MAIN CMAKE FILE FOR Nootka
 ########################################################################
- 
+
 cmake_minimum_required(VERSION 2.8.12)
 
 project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
 SET(Nootka_VERSION_MINOR  "3")
-SET(Nootka_VERSION_PATCH  "0-alpha")
-
-set(Nootka_ANDROID_VERSION "1.2A.7-rc3")
+SET(Nootka_VERSION_PATCH  "90")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -109,18 +107,20 @@ if(APPLE OR WIN32)
   get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
   if (WIN32)
     set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
-	else (WIN32)
+  else (WIN32)
     set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
   endif (WIN32)
 	install(FILES gpl DESTINATION "${INS_PREF}")
  LIST(APPEND langs
    "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
-										# So far not provided by Qt
-										#"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_fr.qm"
-                    #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_pl.qm"
-										)
+      # So far not provided by Qt
+      #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_es.qm"
+
+  )
 endif(APPLE OR WIN32)
 
 install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
