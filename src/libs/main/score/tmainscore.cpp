@@ -907,6 +907,7 @@ void TmainScore::resizeEvent(QResizeEvent* event) {
 }
 
 
+static bool m_repaint = true;
 void TmainScore::paintEvent(QPaintEvent* event) {
   QPainter painter(viewport());
   if (!BG_PIX->isNull() && event->rect().bottomRight().x() >= BG_PIX->globalPos().x()) {
@@ -914,10 +915,14 @@ void TmainScore::paintEvent(QPaintEvent* event) {
   }
   painter.setBrush(m_bgColor);
   painter.setPen(Qt::NoPen);
-  if (insertMode() == e_single)
-    painter.drawRect(0, 0, width(), height()); // refresh whole score to avoid artifacts
-  else
-    painter.drawRect(event->rect());
+  if (insertMode() == e_single) { // HACK: repaint single note score twice to avoid artifacts
+      if (m_repaint) {
+          m_repaint = false;
+          viewport()->update();
+      } else
+          m_repaint = true;
+  }
+  painter.drawRect(event->rect());
   QGraphicsView::paintEvent(event);
 }
 
