@@ -64,7 +64,8 @@ void TbgPixmap::update(const QSize& windowSize, int instr, int guitarHeight, int
             bodyPix = QPixmap(Tpath::img("body")).scaled(guitW, guitH, Qt::IgnoreAspectRatio); // size 800x535
             if (!rightHanded)
               bodyPix = bodyPix.transformed(t);
-            int bodyX = rightHanded ? XIIfretXpos + 7 : (windowSize.width() - (XIIfretXpos + 7)) - bodyPix.width();
+            int bodyX = rightHanded ? XIIfretXpos - 10 : (windowSize.width() - XIIfretXpos) - bodyPix.width() + 10;
+            // 10 is fingerboard X position
             m_pos = QPoint(bodyX, windowSize.height() - bodyPix.height());
             m_pickRect = QRect();
         } else {

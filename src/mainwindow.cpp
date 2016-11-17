@@ -603,11 +603,11 @@ void MainWindow::startExamPlugin(const QString& pluginArgs) {
 
 void MainWindow::updateSize(QSize newS) {
   setUpdatesEnabled(false);
-	m_statFontSize = (newS.height() / 10) / 4 - 2;
+  m_statFontSize = newS.height() / 40 - 2;
 #if defined (Q_OS_ANDROID) // keep Mobile font not too big
   m_statFontSize = qMin(m_statFontSize, fontMetrics().height());
 #endif
-	if (m_statFontSize < 0)
+	if (m_statFontSize < 1)
 		return;
 
 	if (gl->L->soundViewEnabled) {
@@ -638,10 +638,10 @@ void MainWindow::updateSize(QSize newS) {
   m_noteName->resize(baseH / 40);
 	m_statusLabel->setFixedHeight(newS.height() / 10);
 	QFont f = m_statusLabel->font();
-	f.setPointSize(m_statFontSize * 0.95);
+	f.setPointSize(qRound(m_statFontSize * 0.95));
 	QFontMetrics fMetr(f);
-	qreal fact = (qreal)(m_statFontSize * 1.4) / (qreal)fMetr.boundingRect("A").height();
-	f.setPointSize(f.pointSize() * fact);
+  qreal fact = (m_statFontSize * 1.4) / static_cast<qreal>(fMetr.boundingRect("A").height());
+  f.setPointSize(qRound(f.pointSize() * fact));
 	m_statusLabel->setFont(f);
 #endif
   if (m_progress) {
@@ -655,7 +655,7 @@ void MainWindow::updateSize(QSize newS) {
 #endif
 
   m_guitar->updateSize(QSize(m_innerWidget->width(), newGuitH));
-  BG_PIX->update(size(), (int)gl->instrument, newGuitH, m_guitar->posX12fret(), m_guitar->fbRect().right(), gl->GisRightHanded);
+  BG_PIX->update(newS, static_cast<int>(gl->instrument), newGuitH, m_guitar->posX12fret(), m_guitar->fbRect().right(), gl->GisRightHanded);
   m_guitar->setFixedHeight(newGuitH);
 	setUpdatesEnabled(true);
 }
