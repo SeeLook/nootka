@@ -123,11 +123,7 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
 	
 	m_mainLay = new QBoxLayout(QBoxLayout::TopToBottom);
   m_mainLay->setSpacing(0);
-  #if defined (Q_OS_ANDROID)
-    m_mainLay->setContentsMargins(0, 0, 0, 0);
-  #else
-		m_mainLay->setContentsMargins(2, 0, 2, 0);
-  #endif
+  m_mainLay->setContentsMargins(2, 0, 2, 0);
 		m_statAndPitchLay = new QBoxLayout(QBoxLayout::LeftToRight);
 #if !defined (Q_OS_ANDROID)
       m_statAndPitchLay->addWidget(m_status);

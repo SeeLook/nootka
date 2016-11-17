@@ -610,15 +610,8 @@ void TfingerBoard::updateBgPixmap() {
       painter.scale (-1, 1);
       painter.translate(-width(), 0);
   }
-    // guitar body
-  if (Tcore::gl()->instrument == e_classicalGuitar) {
-      int bodyX = Tcore::gl()->GisRightHanded ? posX12fret() + 7 : (BG_PIX->windowSize().width() - (posX12fret() + 7)) - BG_PIX->width();
-      painter.drawPixmap(bodyX, height() - BG_PIX->height(), *BG_PIX);
-  } else {
-      int bodyX = Tcore::gl()->GisRightHanded ? fbRect().right() - 1.449532710280374 * height() :
-                                        (BG_PIX->windowSize().width() - (fbRect().right() - 1.449532710280374 * height()) - BG_PIX->width());
-      painter.drawPixmap(bodyX, height() - BG_PIX->height() , *BG_PIX);
-  }
+  // guitar body
+  painter.drawPixmap(BG_PIX->globalPos().x(), height() - BG_PIX->height(), *BG_PIX);
   if (!Tcore::gl()->GisRightHanded)
     painter.resetTransform();
 
