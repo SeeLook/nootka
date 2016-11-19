@@ -191,7 +191,6 @@ bool TsimpleScore::isNoteDisabled(int index) {
 
 void TsimpleScore::setScoreDisabled(bool disabled) {
 	staff()->setDisabled(disabled);
-//   setAttribute(Qt::WA_TransparentForMouseEvents, disabled);
 }
 
 

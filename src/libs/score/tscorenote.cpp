@@ -73,7 +73,7 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainPosY(0.0),
   m_accidental(0),
   m_index(index),
-  m_stringText(nullptr), m_stringNr(0),
+  m_stringNr(0), m_stringText(nullptr),
   m_readOnly(false), m_emptyLinesVisible(true),
   m_nameText(0),
   m_ottava(0),
@@ -327,11 +327,13 @@ void TscoreNote::removeString() {
 void TscoreNote::setReadOnly(bool ro) {
   setAcceptHoverEvents(!ro);
   m_readOnly = ro;
-	m_emptyLinesVisible = !ro;
+  m_emptyLinesVisible = !ro;
   checkEmptyText();
+  update();
 }
 
-/** If @dropShadowColor is not set and m_nameText has already existed,
+
+/** If @p dropShadowColor is not set and @p m_nameText has already existed,
  * previously color remained. */
 void TscoreNote::showNoteName(const QColor& dropShadowColor) {
 	bool setColor = false;
@@ -436,8 +438,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->setBrush(QBrush(workBg));
     painter->drawRect(boundingRect());
 	}
-	if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor() &&
-			scoreScene()->right() && scoreScene()->right()->notesAddingEnabled()) {
+  if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor()) {
 		QColor emptyNoteColor;
 		if (m_mainNote->pen().style() == Qt::NoPen)
 			emptyNoteColor = qApp->palette().highlight().color();
@@ -636,8 +637,7 @@ void TscoreNote::initNoteCursor() {
 
 
 void TscoreNote::checkEmptyText() {
-	if (!isReadOnly() && staff()->selectableNotes() && !m_selected && m_mainPosY == 0 &&
-				scoreScene()->right() && scoreScene()->right()->notesAddingEnabled())
+  if (!isReadOnly() && (!staff()->selectableNotes() || (staff()->selectableNotes() && !m_selected)) && m_mainPosY == 0)
 		m_emptyText->show();
 	else
 		m_emptyText->hide();
@@ -645,7 +645,6 @@ void TscoreNote::checkEmptyText() {
 
 
 void TscoreNote::popUpAnimFinished() {
-// 	delete m_emptyText;
 	m_popUpAnim->deleteLater();
 	m_popUpAnim = 0;
 }
