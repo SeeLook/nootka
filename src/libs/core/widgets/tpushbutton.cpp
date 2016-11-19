@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2013 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,16 +17,24 @@
  ***************************************************************************/
 
 #include "tpushbutton.h"
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qpalette.h>
+
 
 /*static*/
 QColor TpushButton::m_backColor = Qt::black;
 QColor TpushButton::m_textColor = Qt::white;
+
 
 void TpushButton::setCheckColor(QColor background, QColor text) {
   m_backColor = background;
   m_textColor = text;
 }
 
+
+void setNativeColors(TpushButton* b) {
+  b->setStyleSheet(QString("background-color: %1; color: palette(text);").arg(qApp->palette().window().color().lighter(105).name()));
+}
 
 
 TpushButton::TpushButton(const QString& text, QWidget* parent):
@@ -38,6 +46,7 @@ TpushButton::TpushButton(const QString& text, QWidget* parent):
 #if defined(Q_OS_MAC)
   setCheckable(true);
 #endif
+  setNativeColors(this);
 }
 
 void TpushButton::setThisColors(QColor background, QColor text) {
@@ -51,17 +60,22 @@ void TpushButton::setChecked(bool isChecked) {
 #if defined(Q_OS_MAC)
   QPushButton::setChecked(isChecked);
   if (isChecked)
-      setStyleSheet(QString("color: %1; ").arg(m_textColor.name()));
+      setStyleSheet(QString("color: %1;").arg(m_textColor.name()));
   else
-      setStyleSheet("color: native");
+      setStyleSheet("color: palette(base);");
 #else
   if (isChecked)
-    setStyleSheet(QString("background-color: %1; color: %2; ")
-      .arg(m_backThis.name()).arg(m_textThis.name()));
+    setStyleSheet(QString("background-color: %1; color: %2;").arg(m_backThis.name()).arg(m_textThis.name()));
   else
-    setStyleSheet("background-color: native; color: native");
+    setNativeColors(this);
 #endif
   m_Ichecked = isChecked;
 }
+
+
+
+
+
+
 
 

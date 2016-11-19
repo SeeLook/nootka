@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,8 +24,6 @@ TroundedLabel::TroundedLabel(QWidget* parent) :
 	QLabel(parent)
 {
 	initBgColor();
-//   setFrameShape(StyledPanel);
-//   setFrameShadow(Sunken);
 }
 
 
@@ -33,8 +31,6 @@ TroundedLabel::TroundedLabel(QString txt, QWidget* parent) :
 	QLabel(txt, parent)
 {
 	initBgColor();
-//   setFrameShape(StyledPanel);
-//   setFrameShadow(Sunken);
 }
 
 
@@ -64,14 +60,9 @@ QString TroundedLabel::backgroundText() {
 
 //######################################### PRIVATE ######################################################
 void TroundedLabel::initBgColor() {
-#if defined(Q_OS_WIN32)
-				m_bgColor = qApp->palette().window().color().lighter(101);
-#else
-				m_bgColor = qApp->palette().window().color().lighter(105);
-#endif
-		m_bgColor.setAlpha(175);
-		QLabel::setStyleSheet(backgroundText());
-		m_styleText = "";
+  m_bgColor = qApp->palette().window().color().lighter(102);
+  QLabel::setStyleSheet(backgroundText());
+  m_styleText.clear();
 }
 
 
