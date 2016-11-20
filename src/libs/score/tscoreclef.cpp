@@ -141,7 +141,8 @@ void TscoreClef::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 void TscoreClef::touched(const QPointF& scenePos) {
   Q_UNUSED(scenePos)
-  m_tapTimer->start(300);
+  if (!readOnly())
+    m_tapTimer->start(300);
 #if defined (Q_OS_ANDROID)
   if (!readOnly() && !TtouchParams::i()->clefWasTouched && tMessage && !tMessage->isVisible() && tMessage->mainWindowOnTop()) {
     tMessage->setMessage(TtouchProxy::touchClefHelp(), 0);
