@@ -153,7 +153,7 @@ TmainView::TmainView(TlayoutParams* layParams, TtoolBar* toolW, QWidget* statLab
   m_menuItem->setPos(0, 0);
   connect(m_menuItem, &TmelodyItem::menuSignal, this, &TmainView::mainMenuExec);
 
-  m_inVolAct = new QAction(style()->standardIcon(QStyle::SP_MediaVolume), qTR("TsettingsDialog", "Sound"), this);
+  m_inVolAct = new QAction(QIcon(QStringLiteral(":/mobile/volume.png")), qTR("TsettingsDialog", "Sound"), this);
   connect(m_inVolAct, &QAction::triggered, this, &TmainView::showInVolume);
 #endif
   if (TtouchProxy::touchEnabled()) {

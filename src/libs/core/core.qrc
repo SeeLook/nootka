@@ -50,6 +50,7 @@
         <file>mobile/newDir.png</file>
         <file>mobile/card.png</file>
         <file>mobile/dir.png</file>
+        <file>mobile/volume.png</file>
         <file>picts/scr.png</file>
         <file>picts/fingerpoint.png</file>
     </qresource>
