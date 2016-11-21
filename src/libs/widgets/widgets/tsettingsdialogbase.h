@@ -82,7 +82,7 @@ protected:
 
 #if !defined (Q_OS_ANDROID)
     /** HACK: Avoiding using scroll bars when there is enough space on a desktop
-     * All settings pages rather inherit from @class TscrollArea and have scrolls.
+     * All settings pages rather inherit from @p TscrollArea and have scrolls.
      * It works out of a box on mobile, where settings dialog is maximized.
      * All derivative classes on desktop require to set
      * @p setWidesttPage() and @p setHighestPage() (hard-coded)
@@ -94,6 +94,7 @@ protected:
   void hackSize();
   void setWidesttPage(QAbstractScrollArea* page) { m_wiPage = page; }
   void setHighestPage(QAbstractScrollArea* page) { m_hiPage = page; }
+  virtual void resizeEvent(QResizeEvent * event) override;
 #endif
 
 //   void fitSize();

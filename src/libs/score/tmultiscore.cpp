@@ -58,6 +58,7 @@ TmultiScore::TmultiScore(QMainWindow* mw, QWidget* parent) :
   setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   setMaximumWidth(QWIDGETSIZE_MAX); // revert what TsimpleScore 'broke'
+  setMinimumHeight(200);
   setAlignment(Qt::AlignCenter);
 }
 
