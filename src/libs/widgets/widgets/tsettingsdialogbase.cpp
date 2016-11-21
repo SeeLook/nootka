@@ -116,11 +116,6 @@ TsettingsDialogBase::TsettingsDialogBase(QWidget *parent) :
     connect(menuButton, &TmenuWidget::clicked, this, &TsettingsDialogBase::tapMenu);
     QTimer::singleShot(100, this, [this] { navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth());
                                            menuButton->setFixedSize(navList->width(), qRound(Tmtr::fingerPixels() * 0.7)); } );
-#else
-    QTimer::singleShot(NAVLIST_REFRESH_TIME, this, [this] {
-      navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
-      (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0)); }
-    );
 #endif
 }
 
@@ -162,6 +157,20 @@ void TsettingsDialogBase::hackSize() {
   }
   stackLayout->setCurrentIndex(currIndex);
 }
+
+
+/**
+ * Adjust @p navList width according to vertical scroll bar visibility
+ * to keep icons and text always fully visible
+ */
+void TsettingsDialogBase::resizeEvent(QResizeEvent* event) {
+  QDialog::resizeEvent(event);
+  QTimer::singleShot(NAVLIST_REFRESH_TIME, this, [this] {
+    navList->setFixedWidth(navList->sizeHintForColumn(0) + 2 * navList->frameWidth() +
+    (navList->verticalScrollBar()->isVisible() ? navList->verticalScrollBar()->width() : 0));
+  });
+}
+
 #endif
 
 
