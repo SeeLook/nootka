@@ -28,7 +28,7 @@ TtouchStyle::TtouchStyle() :
 {
   qApp->setStyleSheet(
         QString("QMenu::item { height: %1px; margin: 5px; padding: 4px 10px 4px %2px; min-width: %3px; }").
-                      arg(Tmtr::fingerPixels() * 0.7).arg(Tmtr::fingerPixels() * 0.9).arg(Tmtr::longScreenSide() / 5) // height, left/right padding
+                      arg(Tmtr::fingerPixels() * 0.8).arg(Tmtr::fingerPixels() * 0.9).arg(Tmtr::longScreenSide() / 5) // height, left/right padding
       + QString("QListWidget::item { min-height: %1px; }").arg(Tmtr::fingerPixels() * 0.75) +
         QString("QSpinBox { min-width: %1px; }").arg(Tmtr::fingerPixels() * 2) +
         QString("QSpinBox::up-button { subcontrol-position: left; width: %1px; height: %1px;}").arg(Tmtr::fingerPixels() * 0.7) +
@@ -77,7 +77,7 @@ int TtouchStyle::pixelMetric(QStyle::PixelMetric metric, const QStyleOption* opt
 
   case PM_ExclusiveIndicatorHeight: // radio button ellipse size
   case PM_ExclusiveIndicatorWidth:
-    return qRound(Tmtr::fingerPixels() * 0.4);
+    return qRound(Tmtr::fingerPixels() * 0.5);
 
 //  case PM_MenuTearoffHeight:
 //    return Tmtr::fingerPixels();
