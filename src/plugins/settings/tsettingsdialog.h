@@ -52,7 +52,7 @@ public:
     void saveSettings();
     void restoreDefaults();
 
-#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
+#if !defined (Q_OS_ANDROID) && !defined(Q_OS_MAC) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
     void cancelSlot(); /** When user rejected settings. It is used to restore RtAudio previous state, so not for mobile. */
 #endif
 
@@ -76,7 +76,7 @@ private:
     void allDefaultsRequired();
     void helpSlot();
     void createAudioPage();
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && !defined (Q_OS_MAC)
     void rtApiSlot();
 #endif
 

@@ -30,7 +30,7 @@
 #include <QtWidgets/QtWidgets>
 
 
-#if defined (Q_OS_WIN) // more time under Win to make space for icons
+#if defined (Q_OS_WIN) || defined (Q_OS_MAC) // more time under Win to make space for icons
   #define NAVLIST_REFRESH_TIME (500)
 #else
   #define NAVLIST_REFRESH_TIME (100)
