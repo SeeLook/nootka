@@ -92,7 +92,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
   connect(this, &TsettingsDialog::accepted, this, &TsettingsDialog::saveSettings);
   connect(defaultBut, &QPushButton::clicked, this, &TsettingsDialog::restoreDefaults);
   connect(m_helpButt, &QPushButton::clicked, this, &TsettingsDialog::helpSlot);
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && !defined (Q_OS_MAC)
   connect(this, &TsettingsDialog::rejected, this, &TsettingsDialog::cancelSlot);
 #endif
 
@@ -131,7 +131,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 }
 
 
-#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
+#if !defined (Q_OS_ANDROID) && !defined(Q_OS_MAC) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
 void TsettingsDialog::cancelSlot() {
   if (m_sndInSett && Tcore::gl()->A->JACKorASIO != m_sndInSett->rtApiCheckBox()->isChecked())
     TrtAudio::setJACKorASIO(Tcore::gl()->A->JACKorASIO);
@@ -327,7 +327,7 @@ void TsettingsDialog::createAudioPage() {
 	m_audioTab->addTab(m_sndOutSett, tr("playing"));
 	m_audioSettingsPage->setLayout(audioLay);
 	connect(m_audioTab, SIGNAL(currentChanged(int)), m_sndInSett, SLOT(stopSoundTest()));
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && !defined (Q_OS_MAC)
 	connect(m_sndInSett, &AudioInSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
 	connect(m_sndOutSett, &AudioOutSettings::rtApiChanged, this, &TsettingsDialog::rtApiSlot);
 #endif
@@ -354,7 +354,7 @@ void TsettingsDialog::helpSlot() {
 }
 
 
-#if !defined (Q_OS_ANDROID)
+#if !defined (Q_OS_ANDROID) && !defined (Q_OS_MAC)
 void TsettingsDialog::rtApiSlot() {
   if (sender() == m_sndInSett) {
     m_sndOutSett->rtApiCheckBox()->setChecked(m_sndInSett->rtApiCheckBox()->isChecked());
