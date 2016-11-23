@@ -82,6 +82,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
   m_score->setScoreDisabled(true);
   m_score->setBGcolor(palette().window().color());
   m_score->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
+  m_score->enableNoteName(false);
 #if defined (Q_OS_ANDROID)
     m_score->setFixedHeight(qRound(Tmtr::shortScreenSide() * 0.7));
 #endif
