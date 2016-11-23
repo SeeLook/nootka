@@ -238,6 +238,16 @@ void TmultiScore::selectNote(int id) {
 }
 
 
+void TmultiScore::enableNoteName(bool enable) {
+  scoreScene()->right()->enableNoteName(enable);
+}
+
+
+bool TmultiScore::isNoteNameEnabled() {
+  return scoreScene()->right()->noteNameEnabled();
+}
+
+
 //####################################################################################################
 //#################################    PUBLIC SLOTS       ############################################
 //####################################################################################################

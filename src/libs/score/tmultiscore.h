@@ -82,6 +82,10 @@ public:
 	bool ainmationsEnabled() { return m_useAinim; }
 	void setAnimationsEnabled(bool aEnabled) { m_useAinim = aEnabled; }
 
+      /** Enables/disables note name symbol on right pane */
+  void enableNoteName(bool enable);
+  bool isNoteNameEnabled();
+
 	int notesCount(); /**< Total number of notes on the score */
 
 	void selectNote(int id); /**< Marks given note or cancel selection if @p -1 */
