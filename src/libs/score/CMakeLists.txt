@@ -20,6 +20,7 @@ set(LIB_NOOTKASCORE_SRC
 	tscorestaff.cpp
 	tscore5lines.cpp
 	tnotecontrol.cpp
+  tpaneitem.cpp
 	tscorelines.cpp
 	tsimplescore.cpp
 	tmultiscore.cpp
