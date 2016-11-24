@@ -18,6 +18,7 @@ SOURCES +=  graphics/tnotepixmap.cpp \
             tscorestaff.cpp \
             tscore5lines.cpp \
             tnotecontrol.cpp \
+            tpaneitem.cpp \
             tscorelines.cpp \
             tsimplescore.cpp \
             tmultiscore.cpp \
@@ -35,6 +36,7 @@ HEADERS  += graphics/tnotepixmap.h \
             tscorestaff.h \
             tscore5lines.h \
             tnotecontrol.h \
+            tpaneitem.h \
             tscorelines.h \
             tsimplescore.h \
             tmultiscore.h \

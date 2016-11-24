@@ -128,17 +128,17 @@ void TscoreScene::noteEntered(TscoreNote* sn) {
     if (controlledNotes()) {
       if (right()->isEnabled()) {
         if (sn->index() < sn->staff()->maxNoteCount() - 1)
-          right()->setPos(sn->pos().x() + sn->boundingRect().width(), 0.0);
+          right()->setPos(sn->pos().x() + sn->boundingRect().width(), (sn->parentItem()->boundingRect().height() - right()->boundingRect().height() + 6.0) / 2.0);
         else // Put right pane on the left if the last note on the staff
-          right()->setPos(sn->pos().x() - right()->boundingRect().width(), 0.0);
+          right()->setPos(sn->pos().x() - right()->boundingRect().width(), (sn->parentItem()->boundingRect().height() - right()->boundingRect().height() + 6.0) / 2.0);
         right()->setScoreNote(sn);
       }
       if (left()->isEnabled()) {
         if (sn->index() < sn->staff()->maxNoteCount() - 1)
-          left()->setPos(sn->pos().x() - left()->boundingRect().width(), 0.0);
+          left()->setPos(sn->pos().x() - left()->boundingRect().width(), (sn->parentItem()->boundingRect().height() - right()->boundingRect().height() + 6.0) / 2.0);
         else
-          left()->setPos(sn->pos().x() - left()->boundingRect().width()
-                         - (right()->isEnabled() ? right()->boundingRect().width() : 0.0), 0.0);
+          left()->setPos(sn->pos().x() - left()->boundingRect().width() - (right()->isEnabled() ? right()->boundingRect().width() : 0.0),
+                         (sn->parentItem()->boundingRect().height() - right()->boundingRect().height() + 6.0) / 2.0);
         left()->setScoreNote(sn);
       }
     }
@@ -244,8 +244,8 @@ void TscoreScene::initNoteCursor(TscoreNote* scoreNote) {
     m_workAccid->hide();
 		setPointedColor(workColor);
 		
-		m_rightBox = new TnoteControl(scoreNote->staff(), this);
-		m_leftBox = new TnoteControl(scoreNote->staff(), this);
+    m_rightBox = new TnoteControl(false, scoreNote->staff(), this);
+    m_leftBox = new TnoteControl(true, scoreNote->staff(), this);
 		m_leftBox->addAccidentals();
 	}
 }
