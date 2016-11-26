@@ -28,28 +28,7 @@
 class QGraphicsView;
 class TgraphicsTextTip;
 class Texam;
-
-/** HACK
- * Touching a tip doesn't work properly due to mouseMoveEvent spoils emitting clicked() signal.
- * This is workaround for it - to override mousePressEvent() and call clicked() there
- */
-class ThackedTouchTip : public TgraphicsTextTip {
-
-  Q_OBJECT
-
-public:
-  ThackedTouchTip(const QString& text, QColor bgColor = -1) :
-    TgraphicsTextTip(text, bgColor) {
-      setBaseColor(qApp->palette().text().color());
-      setDefaultTextColor(qApp->palette().base().color());
-    }
-
-protected:
-  virtual void mousePressEvent(QGraphicsSceneMouseEvent*) {
-    emit clicked();
-  }
-};
-
+class ThackedTouchTip;
 
 
 /**

@@ -205,7 +205,7 @@ void TmelodyItem::initialAnim() {
     QTimer::singleShot(10, [=]{ fingerPoint->start(); });
   });
 
-  auto gotIt = new TgraphicsTextTip(qTR("QDialogButtonBox", "OK") + QLatin1String(" !"), qApp->palette().highlight().color());
+  auto gotIt = new ThackedTouchTip(qTR("QDialogButtonBox", "OK") + QLatin1String(" !"), -1);
   gotIt->setDefaultTextColor(qApp->palette().base().color());
   gotIt->setParentItem(bgRect);
   gotIt->setScale(3.0);

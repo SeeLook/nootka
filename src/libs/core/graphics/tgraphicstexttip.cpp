@@ -19,12 +19,11 @@
 #include "tgraphicstexttip.h"
 #include "tdropshadoweffect.h"
 #include <tcolor.h>
-#include <QTextBlockFormat>
-#include <QTextCursor>
-#include <QPainter>
-#include <QGraphicsSceneHoverEvent>
-#include <QApplication>
-#include <QDebug>
+#include <QtGui/qtextformat.h>
+#include <QtGui/qtextcursor.h>
+#include <QtGui/qpainter.h>
+#include <QtWidgets/qgraphicssceneevent.h>
+#include <QtCore/qdebug.h>
 #include <QtCore/qtimer.h>
 
 

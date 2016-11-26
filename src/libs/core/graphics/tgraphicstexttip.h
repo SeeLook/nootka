@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,9 +19,12 @@
 #ifndef TGRAPHICSTEXTTIP_H
 #define TGRAPHICSTEXTTIP_H
 
+
 #include <nootkacoreglobal.h>
-#include <QGraphicsItem>
-#include <QGraphicsScene>
+#include <QtWidgets/qgraphicsitem.h>
+#include <QtWidgets/qgraphicsscene.h>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qpalette.h>
 
 
 /**
@@ -105,6 +108,29 @@ private:
   QPointF              m_lastPos;
   Qt::CursorShape      m_lastLinkCursor;
   QTimer              *m_signalTimer; /**< Delays emitting click signals to properly release mouse event */
+};
+
+
+
+/** HACK
+ * Touching a tip doesn't work properly due to mouseMoveEvent spoils emitting clicked() signal.
+ * This is workaround for it - to override mousePressEvent() and call clicked() there
+ */
+class ThackedTouchTip : public TgraphicsTextTip {
+
+  Q_OBJECT
+
+public:
+  ThackedTouchTip(const QString& text, QColor bgColor = -1) :
+    TgraphicsTextTip(text, bgColor) {
+      setBaseColor(qApp->palette().text().color());
+      setDefaultTextColor(qApp->palette().base().color());
+    }
+
+protected:
+  virtual void mousePressEvent(QGraphicsSceneMouseEvent*) override {
+    emit clicked();
+  }
 };
 
 #endif // TGRAPHICSTEXTTIP_H

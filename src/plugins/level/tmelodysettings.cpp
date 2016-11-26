@@ -76,9 +76,9 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
 
   m_score = new TmultiScore(nullptr, this);
   m_score->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  m_score->setClef(Tclef(Tcore::gl()->S->clef));
   m_score->setAmbitus(Tnote(Tcore::gl()->loString().chromatic()), Tnote(Tcore::gl()->hiNote().chromatic()));
 //   m_score->addBGglyph(int(Tcore::gl()->instrument)); // TODO: make glyph centered or delete it at all
-  m_score->setClef(Tclef(Tcore::gl()->S->clef));
   m_score->setScoreDisabled(true);
   m_score->setBGcolor(palette().window().color());
   m_score->scoreScene()->setPointedColor(Tcore::gl()->S->pointerColor);
@@ -170,9 +170,9 @@ void TmelodySettings::loadLevel(Tlevel* level) {
       m_score->setBGcolor(palette().base().color());
       m_score->setNotes(level->notesList);
       m_score->setEnableKeySign(level->useKeySign);
+      m_score->setEnabledDblAccid(level->withDblAcc);
       if (level->useKeySign) {
         m_score->setKeySignature(level->keyOfrandList);
-        m_score->setEnabledDblAccid(level->withDblAcc);
         if (level->isSingleKey) {
             m_score->setKeySignature(level->loKey);
             m_score->staves(0)->scoreKey()->setReadOnly(true);
