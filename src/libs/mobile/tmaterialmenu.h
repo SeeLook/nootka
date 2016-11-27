@@ -51,6 +51,9 @@ public:
       /** Action invoked after clicking of header widget. */
   void setAboutAction(QAction* a);
 
+      /** Action invoked after tapping top-right corner (settings icon) */
+  void setSettingsAction(QAction* s);
+
   QAction* exec();
 
 protected:
@@ -63,7 +66,7 @@ private:
   QVBoxLayout           *m_lay;
   TlabelWidget          *m_nootkaLabel;
   QTimer                *m_hideScrollTimer;
-  QAction               *m_selectedAction, *m_aboutAction;
+  QAction               *m_selectedAction, *m_aboutAction, *m_settingsAction;
   bool                   m_isMoving;
   QPointer<TtouchMenu>   m_menu;
   QPoint                 m_startPos;
@@ -87,6 +90,9 @@ public:
 
 signals:
   void clicked();
+
+      /** Tapped Top-Right corner with settings symbol. */
+  void settings();
 
 protected:
   virtual void paintEvent(QPaintEvent* e);

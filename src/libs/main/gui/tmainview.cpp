@@ -435,6 +435,7 @@ void TmainView::mainMenuExec() {
   m_mainMenuTap = false;
   TmaterialMenu menu(this);
   menu.setAboutAction(m_tool->aboutSimpleAct);
+  menu.setSettingsAction(m_tool->settingsAct);
   if (m_progress && m_results) { // exam/exercise is pending
     if (m_tool->checkAct && m_tool->checkAct->isVisible())
       menu.addAction(m_tool->checkAct);
@@ -466,7 +467,6 @@ void TmainView::mainMenuExec() {
   }
   if (!m_layParams->soundViewEnabled)
     menu.addAction(m_inVolAct);
-  menu.addAction(m_tool->settingsAct);
   QAction closeAct(QIcon(Tpath::img("exit")), qTR("QShortcut", "Close"), this);
   connect(&closeAct, &QAction::triggered, parentWidget(), &QWidget::close);
   menu.addAction(&closeAct);
