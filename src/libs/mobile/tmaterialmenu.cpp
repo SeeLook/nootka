@@ -27,16 +27,19 @@
 #include <tmtr.h>
 #include <QtWidgets/qlabel.h>
 
+
 #define ITEM_WIDTH (Tmtr::fingerPixels() * 5) // also max width of entire menu (plus margins)
+
 
 //=================================================================================
 //                                 class TmaterialMenu
 //=================================================================================
 TmaterialMenu::TmaterialMenu(QWidget* parent) :
   QWidget(parent),
-  m_selectedAction(0),
-  m_isMoving(false),
-  m_aboutAction(0)
+  m_selectedAction(nullptr),
+  m_aboutAction(nullptr),
+  m_settingsAction(nullptr),
+  m_isMoving(false)
 {
   setFixedHeight(qApp->desktop()->availableGeometry().height());
   auto w = new QWidget(this);
@@ -109,8 +112,21 @@ void TmaterialMenu::setAboutAction(QAction* a) {
 }
 
 
+void TmaterialMenu::setSettingsAction(QAction* s) {
+  if (m_settingsAction == nullptr) {
+    m_settingsAction = s;
+    connect(m_nootkaLabel, &TlabelWidget::settings, [=]{
+        m_selectedAction = m_settingsAction;
+        if (m_menu)
+          m_menu->close();
+    });
+  }
+}
+
+
+
 QAction* TmaterialMenu::exec() {
-  m_selectedAction = 0;
+  m_selectedAction = nullptr;
   setFixedWidth(m_scrollArea->sizeHint().width());
   auto menuLay = new QVBoxLayout;
   menuLay->setContentsMargins(0, 0, 0, 0);
@@ -121,7 +137,7 @@ QAction* TmaterialMenu::exec() {
   m_menu->setContentsMargins(0, 0, 0, 0);
   m_menu->exec(QPoint(), QPoint(-width(), 0));
   menuLay->removeWidget(this);
-  setParent(0);
+  setParent(nullptr);
   delete m_menu;
   return m_selectedAction;
 }
@@ -181,10 +197,15 @@ TlabelWidget::TlabelWidget(QWidget* parent) :
   QPixmap nootkaLogo(Tpath::img("logo"));
   QPixmap pixmap(nootkaLogo.size());
   pixmap.fill(m_color);
+  const int settWidth = qRound(nootkaLogo.height() * 0.4);
   QPainter p(&pixmap);
     p.setRenderHint(QPainter::SmoothPixmapTransform);
     p.setRenderHint(QPainter::Antialiasing);
     p.drawPixmap(0, 0, nootkaLogo);
+    p.setBrush(Qt::white);
+    const int ellWidth = qRound(settWidth * 1.4);
+    p.drawEllipse(nootkaLogo.width() - qRound(settWidth * 1.25), qRound(settWidth * -0.2), ellWidth, ellWidth);
+    p.drawPixmap(nootkaLogo.width() - settWidth, 2, QPixmap(Tpath::img("systemsettings")).scaledToWidth(settWidth, Qt::SmoothTransformation));
     p.setPen(QPen(Qt::white));
     QFont f(font());
     f.setPixelSize(20);
@@ -218,7 +239,11 @@ void TlabelWidget::paintEvent(QPaintEvent* e) {
 
 void TlabelWidget::mouseReleaseEvent(QMouseEvent* e) {
   QWidget::mouseReleaseEvent(e);
-  emit clicked();
+  const int t = qRound(Tmtr::fingerPixels() * 0.9);
+  if (e->pos().x() > width() - t && e->pos().y() < t)
+    emit settings();
+  else
+    emit clicked();
 }
 
 
