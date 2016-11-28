@@ -77,8 +77,10 @@ TquickAudioDialog::TquickAudioDialog(QWidget* parent) :
   m_sysVolButt = new QPushButton(QIcon(Tpath::img("systemsettings")), QString(), this);
   int bigIconH = qRound(Tmtr::fingerPixels() * 1.3);
     m_sysVolButt->setIconSize(QSize(bigIconH, bigIconH));
+    m_sysVolButt->setFlat(true);
   m_exitButt = new QPushButton(QIcon(Tpath::img("exit")), QString(), this);
     m_exitButt->setIconSize(QSize(Tmtr::fingerPixels(), Tmtr::fingerPixels()));
+    m_exitButt->setFlat(true);
 
   m_tuneLab = new QLabel(this);
     labFont.setPixelSize(qRound(Aheight * 1.3));

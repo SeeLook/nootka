@@ -53,7 +53,11 @@ public:
     p.end();
     auto *label = new QLabel(this);
     label->setContentsMargins(0, 0, 0, 0);
+#if defined (Q_OS_ANDROID)
+    label->setPixmap(pixmap.scaledToHeight(qRound(Tmtr::fingerPixels() * 1.4), Qt::SmoothTransformation));
+#else
     label->setPixmap(pixmap.scaledToWidth(qApp->desktop()->width() / 6, Qt::SmoothTransformation));
+#endif
     auto colorEffect = new QGraphicsColorizeEffect;
     colorEffect->setColor(m_color);
     label->setGraphicsEffect(colorEffect);
