@@ -414,8 +414,6 @@ AudioInSettings::AudioInSettings(TaudioParams* params, Ttune* tune, QWidget* par
   connect(m_topList,  &TlistMenu::currentRowChanged, this, &AudioInSettings::testSlot);
 #else
   connect(m_toolBox, SIGNAL(currentChanged(int)), this, SLOT(testSlot()));
-  connect(pitchView, &TpitchView::lowPCMvolume, this, &AudioInSettings::pcmStatusMessage);
-  connect(pitchView, &TpitchView::hiPCMvolume, this, &AudioInSettings::pcmStatusMessage);
   #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
     connect(m_JACK_ASIO_ChB, &QCheckBox::clicked, this, &AudioInSettings::JACKASIOSlot);
   #endif
@@ -781,11 +779,6 @@ void AudioInSettings::adjustInstrSlot(int instr) {
   }
 }
 
-
-void AudioInSettings::pcmStatusMessage(const QString& msg) {
-  QStatusTipEvent e(msg);
-  qApp->notify(this, &e);
-}
 
 #if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
 void AudioInSettings::JACKASIOSlot() {

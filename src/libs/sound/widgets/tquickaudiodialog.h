@@ -62,7 +62,6 @@ protected:
   void exitSlot();
   void sysVolSlot();
   void volChangedSlot(int v);
-  void volumeWarningSlot(const QString& message);
 
   virtual void keyPressEvent(QKeyEvent* e);
 
