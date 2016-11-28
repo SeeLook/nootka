@@ -63,7 +63,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 #endif
 
 	setWindowIcon(QIcon(Tpath::img("systemsettings")));
-  if (mode == e_settings) {
+  if (mode == e_settings || mode == e_audio) {
     addItem(tr("Common"), Tpath::img("global"));
     addItem(tr("Score"), Tpath::img("scoreSettings"));
     addItem(tr("Instrument"), Tpath::img("guitarSettings"));
@@ -87,7 +87,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
     cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
 
   connect(okBut, &QPushButton::clicked, this, &TsettingsDialog::accept);
-  if (mode == e_settings)
+  if (mode == e_settings || mode == e_audio)
     connect(navList, &QListWidget::currentRowChanged, this, &TsettingsDialog::changeSettingsWidget);
   connect(this, &TsettingsDialog::accepted, this, &TsettingsDialog::saveSettings);
   connect(defaultBut, &QPushButton::clicked, this, &TsettingsDialog::restoreDefaults);
@@ -107,6 +107,7 @@ TsettingsDialog::TsettingsDialog(QWidget *parent, EsettingsMode mode) :
 #endif
       changeSettingsWidget(0);
   } else if (mode == e_audio) { // NOTE: so far it occurs under Android - maximized, so no need to hacking the size
+      navList->setCurrentRow(3);
       changeSettingsWidget(3);
   } else {
 #if defined (Q_OS_ANDROID)
