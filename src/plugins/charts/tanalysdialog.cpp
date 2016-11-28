@@ -36,6 +36,8 @@
 #include "tquestionpoint.h"
 #include "ttipchart.h"
 #include "tyaxis.h"
+#include <tpath.h>
+#include <qtr.h>
 #include <QtWidgets/QtWidgets>
 
 
@@ -155,7 +157,7 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
     QString helpTipText = "<br>" + tr("Press %1 button to select an exam from a file.").
             arg("<a href=\"charts\"> " + pixToHtml(Tcore::gl()->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
             tr("Use %1 + mouse wheel or %2 buttons to zoom a chart.").
-            arg(modKey).arg(pixToHtml(Tcore::gl()->path + "picts/zoom-in.png", 26) + " " + pixToHtml(Tcore::gl()->path + "picts/zoom-out.png", 26)) + "<br>" +
+            arg(modKey).arg(pixToHtml(Tpath::img("zoom-in"), 26) + " " + pixToHtml(Tcore::gl()->path + "picts/zoom-out.png", 26)) + "<br>" +
             tr("Click and Drag the cursor to move the chart.") + "<br>";
 					TgraphicsTextTip *helpTip = new TgraphicsTextTip(helpTipText, Tcore::gl()->EanswerColor);
 						m_chart->scene->addItem(helpTip);
@@ -326,13 +328,13 @@ void TanalysDialog::createActions() {
   QWidgetAction* openToolButtonAction = new QWidgetAction(this);
   openToolButtonAction->setDefaultWidget(m_openButton);
 
-  m_closeAct = new QAction(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)), tr("Close analyzer window"), this);
+  m_closeAct = new QAction(QIcon(QIcon(Tpath::img("exit"))), tr("Close analyzer window"), this);
   connect(m_closeAct, SIGNAL(triggered()), this, SLOT(close()));
 
-  m_zoomInAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-in.png"), tr("zoom in"), this);
+  m_zoomInAct = new QAction(QIcon(Tpath::img("zoom-in")), qTR("QShortcut", "Zoom In"), this);
   connect(m_zoomInAct, SIGNAL(triggered()), this, SLOT(zoomInSlot()));
 
-  m_zoomOutAct = new QAction(QIcon(Tcore::gl()->path+"picts/zoom-out.png"), tr("zoom out"), this);
+  m_zoomOutAct = new QAction(QIcon(Tpath::img("zoom-out")), qTR("QShortcut", "Zoom Out"), this);
   connect(m_zoomOutAct, SIGNAL(triggered()), this, SLOT(zoomOutSlot()));
 // settings menu button
   m_inclWrongAct = new QAction(tr("include time of wrong answers to average"), this);

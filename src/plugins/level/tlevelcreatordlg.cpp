@@ -82,8 +82,8 @@ TlevelCreatorDlg::TlevelCreatorDlg(QWidget *parent) :
     okBut->setIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
     okBut->setStatusTip(tr("Check, Are your settings for the level possible to perform."));
   cancelBut = buttonBox->addButton(QDialogButtonBox::Close);
-    cancelBut->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
-  
+    cancelBut->setIcon(QIcon(Tpath::img("exit")));
+
   connect(okBut, SIGNAL(clicked()), this, SLOT(checkLevelSlot()));
   connect(m_levelSett->levelSelector(), &TlevelSelector::levelChanged, this, &TlevelCreatorDlg::levelWasSelected); // to load level to widgets
   connect(m_rangeSett, SIGNAL(rangeChanged()), this, SLOT(levelNotSaved()));

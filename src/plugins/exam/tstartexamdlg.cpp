@@ -149,7 +149,7 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
     m_helpButt->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setIconSize(m_helpButt);
   m_cancelBut = new QPushButton(this);
-    m_cancelBut->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCloseButton)));
+    m_cancelBut->setIcon(QIcon(Tpath::img("exit")));
     m_cancelBut->setStatusTip(qTR("QPlatformTheme", "Close"));
     m_cancelBut->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setIconSize(m_cancelBut);
