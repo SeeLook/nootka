@@ -116,11 +116,11 @@ TexamSummary::TexamSummary(Texam* exam, bool cont, QWidget* parent) :
       m_okButt->setText(qTR("QWizard", "Continue"));
       m_okButt->setIcon(QIcon(Tpath::img("exam")));
       m_closeButt = new QPushButton(qTR("QPlatformTheme", "Close"), this);
-      m_closeButt->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
+      m_closeButt->setIcon(QIcon(Tpath::img("exit")));
       m_closeButt->setIconSize(QSize(48, 48));
       connect(m_closeButt, &QPushButton::clicked, this, &TexamSummary::closeSlot);
   } else
-      m_okButt->setIcon(style()->standardIcon(QStyle::SP_DialogCloseButton));
+      m_okButt->setIcon(QIcon(Tpath::img("exit")));
   m_okButt->setIconSize(QSize(48, 48));
 
   auto buttLay = new QHBoxLayout;
