@@ -80,7 +80,6 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
           Tpath::img("donors"));                                                  // 5
   addItem(tr("Changes"), Tpath::img("chlog"));                                    // 6
   addItem(QStringLiteral("Qt"), Tpath::img("qt"));                                // 7
-//   addItem(QStringLiteral("Qt"), QLatin1String(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
 #if !defined (Q_OS_ANDROID)
   addItem(qTR("QShortcut", "Close"), Tpath::img("exit"));                         // 8
 #endif
