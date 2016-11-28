@@ -196,8 +196,6 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(m_score, &TmainScore::clefChanged, this, &MainWindow::adjustAmbitus);
   connect(m_guitar, &TfingerBoard::guitarClicked, this, &MainWindow::guitarWasClicked);
   connect(m_innerWidget, &TmainView::sizeChanged, this, &MainWindow::updateSize);
-  connect(m_pitchView, &TpitchView::lowPCMvolume, this, &MainWindow::pcmStatusMessage);
-  connect(m_pitchView, &TpitchView::hiPCMvolume, this, &MainWindow::pcmStatusMessage);
 
 #if defined (Q_OS_ANDROID)
   connect(qApp, &QGuiApplication::applicationStateChanged, [=](Qt::ApplicationState state){
@@ -304,14 +302,8 @@ void MainWindow::openFile(QString runArg) {
     file.close();
     if (Texam::couldBeExam(hdr)) {
       if (Texam::isExamVersion(hdr)) {
-//         prepareToExam();
         runArg.prepend(QLatin1String("file:")); // exam file path starts with 'file:' text
         startExamPlugin(runArg);
-//         m_examPlugin = new TpluginsLoader(this);
-//         if (m_examPlugin->load(TpluginsLoader::e_exam)) {
-//             connect(m_examPlugin->node(), &TpluginObject::value, this, &MainWindow::examMessageSlot);
-//             m_examPlugin->init(runArg, this);
-//         }
       }
     } else {
       if (Tlevel::couldBeLevel(hdr)) {
@@ -392,16 +384,10 @@ void MainWindow::openLevelCreator(QString levelFile) {
   bool ok;
   int levelNr = levelText.toInt(&ok);
   if (ok) {
-//     prepareToExam();
     QString args = QString("level:%1").arg(levelNr); // plugin run argument is string  'level:' with level number
     if (startExercise)
         args.append(QLatin1String(":exercise")); // and ';exercise' string if exercise has to be started
     startExamPlugin(args);
-//     m_examPlugin = new TpluginsLoader(this);
-//     if (m_examPlugin->load(TpluginsLoader::e_exam)) {
-//         connect(m_examPlugin->node(), &TpluginObject::value, this, &MainWindow::examMessageSlot);
-//         m_examPlugin->init(args, this);
-//     }
   }
   else
     m_sound->go(); // restore pitch detection
@@ -409,13 +395,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
 
 
 void MainWindow::startExamSlot() {
-// 	prepareToExam();
   startExamPlugin(QString());
-//   m_examPlugin = new TpluginsLoader(this);
-//   if (m_examPlugin->load(TpluginsLoader::e_exam)) {
-//     connect(m_examPlugin->node(), &TpluginObject::value, this, &MainWindow::examMessageSlot);
-//     m_examPlugin->init(QString(), this);
-//   }
 }
 
 
@@ -554,15 +534,6 @@ void MainWindow::adjustAmbitus() {
 		m_sound->sniffer->setAmbitus(loNote, hiNote);
 	} else
 		m_sound->setDefaultAmbitus();
-}
-
-
-void MainWindow::pcmStatusMessage(const QString& msg) {
-#if defined (Q_OS_ANDROID)
-
-#else
-  m_statusLabel->setMessage(msg, 7000);
-#endif
 }
 
 //#################################################################################################

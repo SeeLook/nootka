@@ -115,8 +115,6 @@ TquickAudioDialog::TquickAudioDialog(QWidget* parent) :
   connect(m_exitButt, &QPushButton::clicked, this, &TquickAudioDialog::exitSlot);
   connect(m_sysVolButt, &QPushButton::clicked, this, &TquickAudioDialog::exitSlot);
   connect(m_outVolSlider, &QSlider::valueChanged, this, &TquickAudioDialog::volChangedSlot);
-  connect(pitchView(), &TpitchView::lowPCMvolume, this, &TquickAudioDialog::volumeWarningSlot);
-  connect(pitchView(), &TpitchView::hiPCMvolume, this, &TquickAudioDialog::volumeWarningSlot);
 
   if (SOUND->sniffer) {
     pitchView()->setAudioInput(SOUND->sniffer);
@@ -195,12 +193,6 @@ void TquickAudioDialog::keyPressEvent(QKeyEvent* e) {
   else if (k == Qt::Key_VolumeUp)
     volUp();
   QDialog::keyReleaseEvent(e);
-}
-
-
-void TquickAudioDialog::volumeWarningSlot(const QString& message) {
-  m_tuneLab->setText(message);
-  QTimer::singleShot(7000, [=]{ setTuningText(); }); // revert label with tuning frequencies after 7s
 }
 
 

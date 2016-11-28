@@ -1,15 +1,24 @@
-1.???
+1.4.0
      - new method to make random melodies more... melodic
      - melody can be randomized from selected notes, i.e. pentatonic scale
      - so added level with pentatonic scales
-     - added notifications about too hi/low input volume
      - improved look of sound views, better fit to high DPI screens
     ANDROID
-     - reduced paint operations, application works even 2-4 times faster
+     - reduced number of paint operations, works even 2-4 times faster
      - volume settings and pitch preview can be invoked with volume keys
      - stop pitch detection when app is going background, restore when backs
     BUGS FIXES
      - other small fixes
+
+1.3.0 alpha1
+     - removed roundness of widget/tips
+     - scroll-able widgets can be flicked with mouse/finger
+     - improved scaling of dialog windows
+     - prepared code for further features
+    Under the hood
+     - Android and Desktop code are in the single branch now
+     - reorganized layout of libraries, score is in separate lib
+     - exam execution moved to plugin
 
 1.2A.7 rc3
     ANDROID

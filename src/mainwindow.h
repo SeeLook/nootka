@@ -90,7 +90,6 @@ protected slots:
         * It adjust ambitus to score possibilities if clef is differ than default
         * or to instrument scale if clef backs to default */
   void adjustAmbitus();
-  void pcmStatusMessage(const QString& msg);
 
 private:
   void startExamPlugin(const QString& pluginArgs);

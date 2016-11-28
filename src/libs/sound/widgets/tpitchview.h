@@ -89,19 +89,9 @@ public:
       /** Starts animation displaying correction of unclear sound.  */
   void outOfTuneAnim(float outTune, int duration = 300);
 
-      /** Text: Too low volume of input sound! */
-  static QString tooLowInputText() { return m_tooLowText; }
-
-      /** Text: Too high volume of input sound! */
-  static QString tooHighInputText() { return m_tooHighText; }
-
 signals:
       /** Emitted when correction animation finish */
   void correctingFinished();
-
-      /** Emitted when raw PCM volume is too high or too low for a few detected notes */
-  void lowPCMvolume(const QString&);
-  void hiPCMvolume(const QString&);
 
 
 protected slots:
@@ -142,7 +132,6 @@ private:
 	QAction           *m_pauseAct;
   void updatePauseActIcon(); /**< Depends on action state (checked or not) sets the icon */
 #endif
-  static QString     m_tooLowText, m_tooHighText;
 };
 
 #endif // TPITCHVIEW_H
