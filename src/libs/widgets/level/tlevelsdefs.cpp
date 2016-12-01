@@ -31,8 +31,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   else if (Tcore::gl()->instrument == e_noInstrument)
     octaveOffset = 1;
   //----------------------------------------------------------------------------
-  l.name = QObject::tr("open strings");
-  l.desc = QObject::tr("The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
+  l.name = QApplication::translate("Tlevel", "open strings");
+  l.desc = QApplication::translate("Tlevel", "The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
   l.questionAs.setAsSound(false);
   l.answersAs[0] = TQAtype(false, true, true, false); // q: score -- a: name, guitar
   l.answersAs[1] = TQAtype(true, false, true, false); // q: name -- a: score, guitar
@@ -67,13 +67,13 @@ void getExampleLevels(QList<Tlevel>& llist) {
   //     l.endsOnTonic = fasle;
   llist << l;
   //----------------------------------------------------------------------------
-  l.name = QObject::tr("C-major scale");
-  l.desc = QObject::tr("In first position. No accidentals, no sound.<br>Octave required.");
+  l.name = QApplication::translate("Tlevel", "C-major scale");
+  l.desc = QApplication::translate("Tlevel", "In first position. No accidentals, no sound.<br>Octave required.");
   l.questionAs.setAsSound(false);
   bool isGuitar = true;
   if (Tcore::gl()->instrument == e_noInstrument) {
     isGuitar = false;
-    l.desc = QObject::tr("Give note name in C-major scale or show note on the staff knowing its name.");
+    l.desc = QApplication::translate("Tlevel", "Give note name in C-major scale or show note on the staff knowing its name.");
   }
   l.instrument = Tcore::gl()->instrument;
   l.questionAs.setAsFret(isGuitar);
@@ -98,8 +98,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.intonation = 0; // do not check
   llist << l;
   //----------------------------------------------------------------------------
-  l.name = QObject::tr("All to V fret");
-  l.desc = QObject::tr("All chromatic notes till V-th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
+  l.name = QApplication::translate("Tlevel", "All to V fret");
+  l.desc = QApplication::translate("Tlevel", "All chromatic notes till V-th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
   l.questionAs.setAsSound(false);
   l.answersAs[0] = TQAtype(false, true, true, false);
   l.answersAs[1] = TQAtype(true, false, true, false);
@@ -221,8 +221,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   }
   //----------------------------------------------------------------------------
   l = Tlevel();
-  l.name = QObject::tr("Ear training");
-  l.desc = QObject::tr("Listen to a sound and show it on the staff.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
+  l.name = QApplication::translate("Tlevel", "Ear training");
+  l.desc = QApplication::translate("Tlevel", "Listen to a sound and show it on the staff.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
   l.questionAs.setAsFret(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsNote(false); // score only as an question
@@ -252,8 +252,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   //----------------------------------------------------------------------------
   if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar) {
     l = Tlevel();
-    l.name = QObject::tr("Melody on trebles");
-    l.desc = QObject::tr("Play short melody on treble strings with notes just on first three frets. Sharps keys only.");
+    l.name = QApplication::translate("Tlevel", "Melody on trebles");
+    l.desc = QApplication::translate("Tlevel", "Play short melody on treble strings with notes just on first three frets. Sharps keys only.");
     l.questionAs.setAsFret(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsSound(false); // don't play
@@ -288,8 +288,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   }
   //----------------------------------------------------------------------------
   l = Tlevel();
-  l.name = QObject::tr("Play scores");
-  l.desc = QObject::tr("Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
+  l.name = QApplication::translate("Tlevel", "Play scores");
+  l.desc = QApplication::translate("Tlevel", "Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
   l.questionAs.setAsFret(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
@@ -320,8 +320,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   llist << l;
   //----------------------------------------------------------------------------
   l = Tlevel();
-  l.name = QObject::tr("Sing scores");
-  l.desc = QObject::tr("Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - you can transpose.");
+  l.name = QApplication::translate("Tlevel", "Sing scores");
+  l.desc = QApplication::translate("Tlevel", "Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - you can transpose.");
   l.questionAs.setAsFret(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
@@ -393,8 +393,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   llist << l;
 //----------------------------------------------------------------------------
   l = Tlevel();
-  l.name = QObject::tr("Pentatonic");
-  l.desc = QObject::tr("Play melody composed from pentatonic scale, every time in different key signature.");
+  l.name = QApplication::translate("Tlevel", "Pentatonic");
+  l.desc = QApplication::translate("Tlevel", "Play melody composed from pentatonic scale, every time in different key signature.");
   l.questionAs.setAsFret(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
@@ -418,10 +418,8 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.loNote = Tcore::gl()->loNote();
   l.hiNote = Tcore::gl()->hiNote();
   // l.hiFret = ; user defined
-  //     l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
+  // l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
   l.onlyLowPos = true;
-  //     if (Tcore::gl()->instrument == e_noInstrument) // force instrument when not defined
-  //       l.instrument = Tcore::gl()->instrument;
   l.melodyLen = 10;
   l.endsOnTonic = false;
   l.onlyCurrKey = true;
@@ -436,40 +434,4 @@ void getExampleLevels(QList<Tlevel>& llist) {
   }
   llist << l;
 //----------------------------------------------------------------------------
-/*  if (Tcore::gl()->instrument == e_classicalGuitar || Tcore::gl()->instrument == e_electricGuitar) {
-    l = Tlevel();
-    l.name = QObject::tr("Melody and open bass strings");
-    l.desc = QObject::tr("");
-    l.questionAs.setAsFret(false); // no guitar
-    l.questionAs.setAsName(false); // no names
-    l.questionAs.setAsSound(false); // don't play
-    l.answersAs[0] = TQAtype(false, false, false, true); // score only
-    l.answersAs[1] = TQAtype(false, false, false,false);
-    l.answersAs[2] = TQAtype(false, false, false,false);
-    l.answersAs[3] = TQAtype(false, false, false,false);
-    l.withSharps = true;
-    l.withFlats = false;
-    l.withDblAcc = false;
-    l.useKeySign = true;
-    l.manualKey = false;
-    l.loKey = 0;
-    l.hiKey = 3;
-    l.forceAccids = false;
-    l.requireOctave = true;
-    l.requireStyle = false;
-    l.showStrNr = false;
-    //clef default, user/tune defined
-    //instrument default - selected by user
-    l.loNote = Tcore::gl()->Gtune()->str(3);
-    l.hiNote = Tnote(Tcore::gl()->hiString().chromatic() + 3);
-    l.hiFret = 3;
-    //     l.intonation = Tcore::gl()->A->intonation; // user preferences (in constructor)
-    l.onlyLowPos = true;
-    //     if (Tcore::gl()->instrument == e_noInstrument) // force instrument when not defined
-    //       l.instrument = Tcore::gl()->instrument;
-    l.melodyLen = 5;
-    l.endsOnTonic = true;
-    l.onlyCurrKey = true;
-    llist << l;
-  }*/
 }
