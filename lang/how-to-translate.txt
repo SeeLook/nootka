@@ -1,6 +1,6 @@
 
 ********************************************************************
-	HOW TO TRANSLATE NOOTKA
+  HOW TO TRANSLATE NOOTKA
 ********************************************************************
 
 
@@ -15,8 +15,7 @@ Translation with Qt Linguist or lokalize (this is recommended way)
     Linux users will prefer using package manager of their distribution. Linguist will be there.
     For Mac and Windows users:
       - form http://www.qt.io/download-open-source/ download online installer,
-        launch it and follow its instructions - select the latest verion of Qt.
-        If you don't need whole Qt just un-select all what can be un-selected.
+        launch it and follow its instructions - select the latest version of Qt for Desktop.
     or install lokalize.
   2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
       and change that xx in file name to your language code to get file name like f.e.: nootka_en.ts
@@ -56,9 +55,8 @@ Translation online trough LaunchPad:
 
   =====================================================================
 When translation will be ready or ( you give up :-( ), send me what you have:
-		seelook@gmail.com
+    seelook@gmail.com
       How to give some info about translator (you) you will find during translation
       Have good fun !!!
-  
-      
-      
+
+
