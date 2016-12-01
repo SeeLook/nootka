@@ -1,6 +1,6 @@
 
 ********************************************************************
-	HOW TO TRANSLATE NOOTKA
+  HOW TO TRANSLATE NOOTKA
 ********************************************************************
 
 
@@ -10,20 +10,19 @@ This process is very easy and does not require any programming skills,
 =====================================================================
 
 
-Translation with application: Qt Linguist or lokalize (this is recommended way)
+Translation with Qt Linguist or lokalize (this is recommended way)
   1. Install Qt Linguist:
     Linux users will prefer using package manager of their distribution. Linguist will be there.
     For Mac and Windows users:
       - form http://www.qt.io/download-open-source/ download online installer,
-        launch it and follow its instructions - select the latest version of Qt.
-        Select 'Desktop gcc' check box of the latest Qt version listed there
+        launch it and follow its instructions - select the latest version of Qt for Desktop.
     or install lokalize.
-  2. Download Nootka language file: https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/nootka_xx.ts?format=raw
-      and change that xx in file name to your language code to get file name like i.e.: nootka_en.ts
+  2. Download Nootka language file: http://nootka.googlecode.com/hg/lang/nootka_xx.ts
+      and change that xx in file name to your language code to get file name like f.e.: nootka_en.ts
   3. Open this file by Qt Linguist and translate - this is very easy.
   4. In every moment you can generate a "language package" form menu File->Release (file with *.qm extension)
       and put that file in Nootka installation directory into the lang folder 
-      i.e.: path_to_nootka/lang/nootka_en.qm
+      f.e.: path_to_nootka/lang/nootka_en.qm
       and run Nootka to see effects of the translation
       To test translation under Android version:
        - create Nootka folder on memory card of your device (or just in device memory if no card)
@@ -56,9 +55,8 @@ Translation online trough LaunchPad:
 
   =====================================================================
 When translation will be ready or ( you give up :-( ), send me what you have:
-		seelook@gmail.com
+    seelook@gmail.com
       How to give some info about translator (you) you will find during translation
       Have good fun !!!
-  
-      
-      
+
+
