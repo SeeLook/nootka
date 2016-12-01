@@ -317,7 +317,7 @@
     </message>
     <message>
         <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation>¡FUNCIONA SOLAMENTE PARA TARJETA DE SONIDO SENCILLA O CON ASIO O JACK!</translation>
+        <translation type="vanished">¡FUNCIONA SOLAMENTE PARA TARJETA DE SONIDO SENCILLA O CON ASIO O JACK!</translation>
     </message>
 </context>
 <context>
@@ -381,63 +381,63 @@
     </message>
     <message>
         <source>open strings</source>
-        <translation>cuerdas al aire</translation>
+        <translation type="vanished">cuerdas al aire</translation>
     </message>
     <message>
         <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation>La más simple. Sin armaduras, sin alteraciones dobles y sin sonido.&lt;br&gt;Automáticamente ajustado a la afinación actual.</translation>
+        <translation type="vanished">La más simple. Sin armaduras, sin alteraciones dobles y sin sonido.&lt;br&gt;Automáticamente ajustado a la afinación actual.</translation>
     </message>
     <message>
         <source>C-major scale</source>
-        <translation>Escala de C mayor (Sol mayor)</translation>
+        <translation type="vanished">Escala de C mayor (Sol mayor)</translation>
     </message>
     <message>
         <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation>En primera posición. Sin alteraciones, sin sonido.&lt;br&gt;Requiere octava.</translation>
+        <translation type="vanished">En primera posición. Sin alteraciones, sin sonido.&lt;br&gt;Requiere octava.</translation>
     </message>
     <message>
         <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation>Dar el nombre de la nota en la escala de C mayor (Sol mayor) o mostrar la nota en la partitura sabiendo su nombre.</translation>
+        <translation type="vanished">Dar el nombre de la nota en la escala de C mayor (Sol mayor) o mostrar la nota en la partitura sabiendo su nombre.</translation>
     </message>
     <message>
         <source>All to V fret</source>
-        <translation>Usar todas las notas hasta el traste V</translation>
+        <translation type="vanished">Usar todas las notas hasta el traste V</translation>
     </message>
     <message>
         <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation>Todas las notas cromáticas hasta el traste V, sin sonido.&lt;br&gt;Sin alteraciones dobles. Armaduras: C, G, D, A</translation>
+        <translation type="vanished">Todas las notas cromáticas hasta el traste V, sin sonido.&lt;br&gt;Sin alteraciones dobles. Armaduras: C, G, D, A</translation>
     </message>
     <message>
         <source>Ear training</source>
-        <translation>Entrenamiento del oído</translation>
+        <translation type="vanished">Entrenamiento del oído</translation>
     </message>
     <message>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation>Escucha un sonido y muéstralo en la partitura.&lt;br&gt;No se usan la guitarra, el nombre de las notas y la armadura.&lt;br&gt;Escala a - a&lt;sup&gt;2&lt;/sup&gt;.</translation>
+        <translation type="vanished">Escucha un sonido y muéstralo en la partitura.&lt;br&gt;No se usan la guitarra, el nombre de las notas y la armadura.&lt;br&gt;Escala a - a&lt;sup&gt;2&lt;/sup&gt;.</translation>
     </message>
     <message>
         <source>Melody on trebles</source>
-        <translation>Melodía en agudos</translation>
+        <translation type="vanished">Melodía en agudos</translation>
     </message>
     <message>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation>Interpretar una melodía breve en cuerdas agudas con notas solamente en los primeros tres trastes. Solamente claves agudas.</translation>
+        <translation type="vanished">Interpretar una melodía breve en cuerdas agudas con notas solamente en los primeros tres trastes. Solamente claves agudas.</translation>
     </message>
     <message>
         <source>Play scores</source>
-        <translation>Interpretar partituras</translation>
+        <translation type="vanished">Interpretar partituras</translation>
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Toma tu instrumento e interpreta con él...&lt;br&gt;Sin nombres de notas, sin trastes.¡Habilitadas las claves hasta 4 alteraciones y dobles alteraciones! Escala de toda la guitarra sin posiciones.</translation>
+        <translation type="vanished">Toma tu instrumento e interpreta con él...&lt;br&gt;Sin nombres de notas, sin trastes.¡Habilitadas las claves hasta 4 alteraciones y dobles alteraciones! Escala de toda la guitarra sin posiciones.</translation>
     </message>
     <message>
         <source>Sing scores</source>
-        <translation>Cantar partituras</translation>
+        <translation type="vanished">Cantar partituras</translation>
     </message>
     <message>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation>Simplemente canta una partitura...&lt;br&gt;Sin nombres de notas, sin trastes, sin claves y alteraciones dobles. La escala no importa porque las octavas se ignoran - puedes transponer.</translation>
+        <translation type="vanished">Simplemente canta una partitura...&lt;br&gt;Sin nombres de notas, sin trastes, sin claves y alteraciones dobles. La escala no importa porque las octavas se ignoran - puedes transponer.</translation>
     </message>
     <message>
         <source>major</source>
@@ -449,51 +449,51 @@
     </message>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation>Estándar: E A D G B E</translation>
+        <translation type="vanished">Estándar: E A D G B E</translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation>D bajado un tono: D A D G B E</translation>
+        <translation type="vanished">D bajado un tono: D A D G B E</translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation>Laúd ficticio: D A D F# B E</translation>
+        <translation type="vanished">Laúd ficticio: D A D F# B E</translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation>Abierto: D A D G A D</translation>
+        <translation type="vanished">Abierto: D A D G A D</translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation>Kouyanbaba: D A D A D F </translation>
+        <translation type="vanished">Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
         <source>Standard bass: E A D G</source>
-        <translation>Bajo estándar: E A D G</translation>
+        <translation type="vanished">Bajo estándar: E A D G</translation>
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation>Bajo en quintas: C G D A</translation>
+        <translation type="vanished">Bajo en quintas: C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation>Bajo de 5 cuerdas: B E A D G</translation>
+        <translation type="vanished">Bajo de 5 cuerdas: B E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation>Bajo de 6 cuerdas: B E A D G C</translation>
+        <translation type="vanished">Bajo de 6 cuerdas: B E A D G C</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation>Tú también puedes ayudar a mejorar Nootka.</translation>
+        <translation type="vanished">Tú también puedes ayudar a mejorar Nootka.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Requiere un poquito de inglés, por lo que si puedes leer el texto de abajo habrá algo en lo que puedas involucrarte.</translation>
+        <translation type="vanished">Requiere un poquito de inglés, por lo que si puedes leer el texto de abajo habrá algo en lo que puedas involucrarte.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation>No te preocupes. Esta ventana aparece solamente una vez por cada versión de Nootka. &lt;br&gt;Siempre puedes buscarla en el diálogo &apos;Acerca de Nootka&apos;</translation>
+        <translation type="vanished">No te preocupes. Esta ventana aparece solamente una vez por cada versión de Nootka. &lt;br&gt;Siempre puedes buscarla en el diálogo &apos;Acerca de Nootka&apos;</translation>
     </message>
     <message>
         <source>time [s]</source>
@@ -547,7 +547,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Ayuda</translation>
+        <translation type="vanished">Ayuda</translation>
     </message>
     <message>
         <source>License</source>
@@ -703,11 +703,11 @@
     </message>
     <message>
         <source>zoom in</source>
-        <translation>acercarlo</translation>
+        <translation type="vanished">acercarlo</translation>
     </message>
     <message>
         <source>zoom out</source>
-        <translation>alejarlo</translation>
+        <translation type="vanished">alejarlo</translation>
     </message>
     <message>
         <source>include time of wrong answers to average</source>
@@ -934,15 +934,15 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation>Psssst... Examen en marcha.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continuarlo&lt;/b&gt;&lt;br&gt;o&lt;br&gt;&lt;b&gt;Terminar&lt;/b&gt; para comprobar, guardar y salir&lt;br&gt;</translation>
+        <translation type="vanished">Psssst... Examen en marcha.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continuarlo&lt;/b&gt;&lt;br&gt;o&lt;br&gt;&lt;b&gt;Terminar&lt;/b&gt; para comprobar, guardar y salir&lt;br&gt;</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Continuar</translation>
+        <translation type="vanished">Continuar</translation>
     </message>
     <message>
         <source>Terminate</source>
-        <translation>Terminar</translation>
+        <translation type="vanished">Terminar</translation>
     </message>
     <message>
         <source>Save exam results as:</source>
@@ -954,11 +954,11 @@
     </message>
     <message>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation type="vanished">Guardar</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descartar</translation>
+        <translation type="vanished">Descartar</translation>
     </message>
     <message>
         <source>This note was not played!</source>
@@ -1269,15 +1269,15 @@
     </message>
     <message>
         <source>Close</source>
-        <translation>Cerrar</translation>
+        <translation type="vanished">Cerrar</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation>Continuar</translation>
+        <translation type="vanished">Continuar</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descartar</translation>
+        <translation type="vanished">Descartar</translation>
     </message>
     <message>
         <source>Results:</source>
@@ -1723,6 +1723,74 @@
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
         <translation>Interpreta melodías aleatorias de notación de piano en partitura doble. Armaduras con hasta cuatro alteraciones.</translation>
     </message>
+    <message>
+        <source>open strings</source>
+        <translation>cuerdas al aire</translation>
+    </message>
+    <message>
+        <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
+        <translation>La más simple. Sin armaduras, sin alteraciones dobles y sin sonido.&lt;br&gt;Automáticamente ajustado a la afinación actual.</translation>
+    </message>
+    <message>
+        <source>C-major scale</source>
+        <translation>Escala de C mayor (Sol mayor)</translation>
+    </message>
+    <message>
+        <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
+        <translation>En primera posición. Sin alteraciones, sin sonido.&lt;br&gt;Requiere octava.</translation>
+    </message>
+    <message>
+        <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
+        <translation>Dar el nombre de la nota en la escala de C mayor (Sol mayor) o mostrar la nota en la partitura sabiendo su nombre.</translation>
+    </message>
+    <message>
+        <source>All to V fret</source>
+        <translation>Usar todas las notas hasta el traste V</translation>
+    </message>
+    <message>
+        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <translation>Todas las notas cromáticas hasta el traste V, sin sonido.&lt;br&gt;Sin alteraciones dobles. Armaduras: C, G, D, A</translation>
+    </message>
+    <message>
+        <source>Ear training</source>
+        <translation>Entrenamiento del oído</translation>
+    </message>
+    <message>
+        <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
+        <translation>Escucha un sonido y muéstralo en la partitura.&lt;br&gt;No se usan la guitarra, el nombre de las notas y la armadura.&lt;br&gt;Escala a - a&lt;sup&gt;2&lt;/sup&gt;.</translation>
+    </message>
+    <message>
+        <source>Melody on trebles</source>
+        <translation>Melodía en agudos</translation>
+    </message>
+    <message>
+        <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
+        <translation>Interpretar una melodía breve en cuerdas agudas con notas solamente en los primeros tres trastes. Solamente claves agudas.</translation>
+    </message>
+    <message>
+        <source>Play scores</source>
+        <translation>Interpretar partituras</translation>
+    </message>
+    <message>
+        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
+        <translation>Toma tu instrumento e interpreta con él...&lt;br&gt;Sin nombres de notas, sin trastes.¡Habilitadas las claves hasta 4 alteraciones y dobles alteraciones! Escala de toda la guitarra sin posiciones.</translation>
+    </message>
+    <message>
+        <source>Sing scores</source>
+        <translation>Cantar partituras</translation>
+    </message>
+    <message>
+        <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
+        <translation>Simplemente canta una partitura...&lt;br&gt;Sin nombres de notas, sin trastes, sin claves y alteraciones dobles. La escala no importa porque las octavas se ignoran - puedes transponer.</translation>
+    </message>
+    <message>
+        <source>Pentatonic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TlevelCreatorDlg</name>
@@ -1835,7 +1903,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>Vale</translation>
+        <translation type="vanished">Vale</translation>
     </message>
 </context>
 <context>
@@ -2034,19 +2102,19 @@
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation>Interpretar</translation>
+        <translation type="vanished">Interpretar</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation>Grabar</translation>
+        <translation type="vanished">Grabar</translation>
     </message>
     <message>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation>Cuando la grabación está activada, no solamente se escriben las notas interpretadas una por una sino que tanto la selección del traste o del nombre de nota añade la nueva nota automáticamente.</translation>
+        <translation type="vanished">Cuando la grabación está activada, no solamente se escriben las notas interpretadas una por una sino que tanto la selección del traste o del nombre de nota añade la nueva nota automáticamente.</translation>
     </message>
     <message>
         <source>Generate</source>
-        <translation>Generar</translation>
+        <translation type="vanished">Generar</translation>
     </message>
     <message>
         <source>Generate a melody with random notes.</source>
@@ -2087,6 +2155,45 @@
     <message>
         <source>Generate melody</source>
         <translation>Generar melodía</translation>
+    </message>
+</context>
+<context>
+    <name>TmelodySettings</name>
+    <message>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
+        <translation>Número máximo de notas en una melodía. La longitud es un valor aleatorio entre 70% y 100% de ese número.</translation>
+    </message>
+    <message>
+        <source>Melody length</source>
+        <translation>Longitud de la melodía</translation>
+    </message>
+    <message>
+        <source>Melody ends on tonic note</source>
+        <translation>La melodía termina en una nota tónica</translation>
+    </message>
+    <message>
+        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
+        <translation>Determina la última nota de una melodía.&lt;br&gt;Cuando se establece, la melodía terminará en una nota tónica de la armadura actual.</translation>
+    </message>
+    <message>
+        <source>in selected range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from notes below</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are composed from notes selected on the score below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Random melody</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2614,7 +2721,7 @@
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARRING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Mostrar las alteraciones de la armadura también junto a las notas. &lt;b&gt;¡ADVERTENCIA! Nunca sucede en las partituras reales - úsalo solamente para propósitos teóricos.&lt;/b&gt;</translation>
+        <translation type="vanished">Mostrar las alteraciones de la armadura también junto a las notas. &lt;b&gt;¡ADVERTENCIA! Nunca sucede en las partituras reales - úsalo solamente para propósitos teóricos.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Show note names</source>
@@ -2875,15 +2982,15 @@
     </message>
     <message>
         <source>exercises</source>
-        <translation>ejercicios</translation>
+        <translation type="vanished">ejercicios</translation>
     </message>
     <message>
         <source>pass new exam</source>
-        <translation>aprobar un nuevo examen</translation>
+        <translation type="vanished">aprobar un nuevo examen</translation>
     </message>
     <message>
         <source>continue exam</source>
-        <translation>continuar examen</translation>
+        <translation type="vanished">continuar examen</translation>
     </message>
     <message>
         <source>Click and select an exam to continue</source>
@@ -2891,11 +2998,11 @@
     </message>
     <message>
         <source>Help</source>
-        <translation>Ayuda</translation>
+        <translation type="vanished">Ayuda</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation>Descartar</translation>
+        <translation type="vanished">Descartar</translation>
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
@@ -3077,7 +3184,7 @@
     </message>
     <message>
         <source>Start!</source>
-        <translation>¡Comenzar!</translation>
+        <translation type="vanished">¡Comenzar!</translation>
     </message>
     <message>
         <source>Start exercises or an exam</source>
@@ -3263,7 +3370,7 @@
     </message>
     <message>
         <source>Ok</source>
-        <translation>Vale</translation>
+        <translation type="vanished">Vale</translation>
     </message>
     <message>
         <source>Updates</source>
@@ -3325,7 +3432,7 @@
     </message>
     <message>
         <source>Accidentals used in exam.</source>
-        <translation>Se usan alteraciones en el examen.</translation>
+        <translation type="vanished">Se usan alteraciones en el examen.</translation>
     </message>
     <message>
         <source>force using appropriate accidental</source>
@@ -3345,7 +3452,7 @@
     </message>
     <message>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation>solamente una armadura seleccionada&lt;br&gt;para todo el examen.</translation>
+        <translation type="vanished">solamente una armadura seleccionada&lt;br&gt;para todo el examen.</translation>
     </message>
     <message>
         <source>range of keys</source>
@@ -3357,7 +3464,7 @@
     </message>
     <message>
         <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation>Seleccionar una armadura.&lt;br&gt;¡Las alteraciones apropiadas usadas en el examen&lt;br&gt; serán automáticamente seleccionadas!</translation>
+        <translation type="vanished">Seleccionar una armadura.&lt;br&gt;¡Las alteraciones apropiadas usadas en el examen&lt;br&gt; serán automáticamente seleccionadas!</translation>
     </message>
     <message>
         <source>select a key signature manually</source>
@@ -3365,7 +3472,7 @@
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation>Si se marca, el usuario tiene que seleccionar en el examen una armadura,&lt;br&gt;en caso contrario se muestra por la aplicación.</translation>
+        <translation type="vanished">Si se marca, el usuario tiene que seleccionar en el examen una armadura,&lt;br&gt;en caso contrario se muestra por la aplicación.</translation>
     </message>
     <message>
         <source>notes in current key signature only</source>
@@ -3373,7 +3480,7 @@
     </message>
     <message>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation>Solamente se toman las notas de la armadura actual.&lt;br&gt;Si la armadura se deshabilita las alteraciones no se usan.</translation>
+        <translation type="vanished">Solamente se toman las notas de la armadura actual.&lt;br&gt;Si la armadura se deshabilita las alteraciones no se usan.</translation>
     </message>
     <message>
         <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
@@ -3382,6 +3489,22 @@
     <message>
         <source>accidentals</source>
         <translation>alteraciones</translation>
+    </message>
+    <message>
+        <source>only one, selected key signature for whole exam.</source>
+        <translation>solamente una armadura seleccionada para todo el examen.</translation>
+    </message>
+    <message>
+        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
+        <translation>Seleccionar una armadura. ¡Las alteraciones apropiadas usadas en el examen serán automáticamente seleccionadas!</translation>
+    </message>
+    <message>
+        <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
+        <translation>Si se marca, el usuario tiene que seleccionar en el examen una armadura, en caso contrario se muestra por la aplicación.</translation>
+    </message>
+    <message>
+        <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
+        <translation>Solamente se toman las notas de la armadura actual. Si la armadura se deshabilita las alteraciones no se usan.</translation>
     </message>
 </context>
 <context>
@@ -3453,15 +3576,15 @@
     <name>questionsSettings</name>
     <message>
         <source>Melody length</source>
-        <translation>Longitud de la melodía</translation>
+        <translation type="vanished">Longitud de la melodía</translation>
     </message>
     <message>
         <source>Melody ends on tonic note</source>
-        <translation>La melodía termina en una nota tónica</translation>
+        <translation type="vanished">La melodía termina en una nota tónica</translation>
     </message>
     <message>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translation>Determina la última nota de una melodía.&lt;br&gt;Cuando se establece, la melodía terminará en una nota tónica de la armadura actual.</translation>
+        <translation type="vanished">Determina la última nota de una melodía.&lt;br&gt;Cuando se establece, la melodía terminará en una nota tónica de la armadura actual.</translation>
     </message>
     <message>
         <source>single note</source>
@@ -3469,7 +3592,7 @@
     </message>
     <message>
         <source>melodies</source>
-        <translation>melodías</translation>
+        <translation type="vanished">melodías</translation>
     </message>
     <message>
         <source>require octave</source>
@@ -3505,7 +3628,7 @@
     </message>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation>Número máximo de notas en una melodía. La longitud es un valor aleatorio entre 70% y 100% de ese número.</translation>
+        <translation type="vanished">Número máximo de notas en una melodía. La longitud es un valor aleatorio entre 70% y 100% de ese número.</translation>
     </message>
 </context>
 <context>
@@ -3540,7 +3663,11 @@
     </message>
     <message>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation>Desmarca cuerdas si quieres saltártelas &lt;br&gt;en un examen.</translation>
+        <translation type="vanished">Desmarca cuerdas si quieres saltártelas &lt;br&gt;en un examen.</translation>
+    </message>
+    <message>
+        <source>Uncheck strings if you want to skip them in an exam.</source>
+        <translation>Desmarca cuerdas si quieres saltártelas en un examen.</translation>
     </message>
 </context>
 </TS>

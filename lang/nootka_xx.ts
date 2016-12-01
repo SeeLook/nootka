@@ -374,66 +374,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>open strings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>C-major scale</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All to V fret</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Ear training</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Melody on trebles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Play scores</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sing scores</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>major</source>
         <translation type="unfinished"></translation>
     </message>
@@ -444,42 +384,6 @@
     <message>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Standard: E A D G B E </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dropped D: D A D G B E </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dummy Lute: D A D F# B E </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open: D A D G A D </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Kouyanbaba: D A D A D F </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Standard bass: E A D G</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bass in fifths: C G D A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>5-str. bass: B E A D G</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>6-str. bass: B E A D G C</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -580,10 +484,6 @@
         <source>People and companies who gave material support for the Nootka project</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TanalysDialog</name>
@@ -680,14 +580,6 @@
     </message>
     <message>
         <source>Close analyzer window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>zoom in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>zoom out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -941,26 +833,6 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1304,18 +1176,6 @@
     </message>
     <message>
         <source>Send exam file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1702,6 +1562,74 @@
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>open strings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>C-major scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All to V fret</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ear training</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melody on trebles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play scores</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sing scores</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pentatonic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TlevelCreatorDlg</name>
@@ -1810,10 +1738,6 @@
     </message>
     <message>
         <source>Level description:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2045,20 +1969,43 @@
         <source>Generate melody</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>TmelodySettings</name>
     <message>
-        <source>Play</source>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Record</source>
+        <source>Melody length</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
+        <source>Melody ends on tonic note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Generate</source>
+        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in selected range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from notes below</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are composed from notes selected on the score below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Random melody</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2892,26 +2839,6 @@
         <source>Latest exam</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>exercises</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>pass new exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>continue exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TstatisticTip</name>
@@ -3128,10 +3055,6 @@
         <source>Correct</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Start!</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Ttune</name>
@@ -3228,10 +3151,6 @@
         <source>Updates</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Ok</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TvolumeView</name>
@@ -3302,10 +3221,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>range of keys</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3314,23 +3229,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>select a key signature manually</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>notes in current key signature only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3342,7 +3245,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Accidentals used in exam.</source>
+        <source>only one, selected key signature for whole exam.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3414,23 +3329,7 @@
 <context>
     <name>questionsSettings</name>
     <message>
-        <source>Melody length</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Melody ends on tonic note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>single note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>melodies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3465,10 +3364,6 @@
         <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>rangeSettings</name>
@@ -3501,7 +3396,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
+        <source>Uncheck strings if you want to skip them in an exam.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
