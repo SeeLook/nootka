@@ -93,8 +93,8 @@ rangeSettings::rangeSettings(TlevelCreatorDlg* creator) :
 #endif
   guitLay->addStretch(1);
 
-  m_stringsGr = new QGroupBox(tr("available strings:"),this); // TODO: take <br> from translation
-  m_stringsGr->setStatusTip(tr("Uncheck strings if you want to skip them<br>in an exam."));
+  m_stringsGr = new QGroupBox(tr("available strings:"),this);
+  m_stringsGr->setStatusTip(tr("Uncheck strings if you want to skip them in an exam."));
   QGridLayout *strLay = new QGridLayout;
   for (int i = 0; i < 6; i++) {
       m_stringBut[i] = new QCheckBox(QString("%1").arg(i + 1),this);

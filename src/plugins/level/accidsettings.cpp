@@ -65,8 +65,8 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
 
   QVBoxLayout *rangeLay = new QVBoxLayout;
   rangeLay->setAlignment(Qt::AlignCenter);
-  m_singleKeyRadio = new QRadioButton(tr("single key"),this); // TODO: take <br> from translation
-  m_singleKeyRadio->setStatusTip(tr("only one, selected key signature<br>for whole exam."));
+  m_singleKeyRadio = new QRadioButton(tr("single key"),this);
+  m_singleKeyRadio->setStatusTip(tr("only one, selected key signature for whole exam."));
   m_rangeKeysRadio = new QRadioButton(tr("range of keys"),this);
   m_rangeKeysRadio->setStatusTip(tr("random key signature from selected range."));
   m_rangeButGr = new QButtonGroup(this);
@@ -82,8 +82,8 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   rangeLay->addWidget(getLabelFromStatus(m_rangeKeysRadio, true, true));
 #endif
   QHBoxLayout *comboLay = new QHBoxLayout;
-  m_fromKeyCombo = new TkeySignComboBox(this); // TODO: take <br> from translation, !!! fix also
-  m_fromKeyCombo->setStatusTip(tr("Select a key signature.<br>Appropriate accidentals used in exam<br>will be automatically selected !"));
+  m_fromKeyCombo = new TkeySignComboBox(this);
+  m_fromKeyCombo->setStatusTip(tr("Select a key signature. Appropriate accidentals used in exam will be automatically selected!"));
   m_fromKeyCombo->setKeySignature(TkeySignature(0));
   m_toKeyCombo = new TkeySignComboBox(this);
   m_toKeyCombo->setStatusTip(m_fromKeyCombo->statusTip());
@@ -98,8 +98,8 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   m_toKeyCombo->setStatusTip(QString());
 #endif
 
-  m_keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this); // TODO: take <br> from translation
-  m_keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature,<br>otherwise it is shown by application."));
+  m_keyInAnswerChB = new QCheckBox(tr("select a key signature manually"),this);
+  m_keyInAnswerChB->setStatusTip(tr("if checked, in exam user have to select a key signature, otherwise it is shown by application."));
   rangeLay->addWidget(m_keyInAnswerChB,0,Qt::AlignCenter);
 #if defined (Q_OS_ANDROID)
   rangeLay->addWidget(getLabelFromStatus(m_keyInAnswerChB, true, true));
@@ -111,8 +111,8 @@ accidSettings::accidSettings(TlevelCreatorDlg* creator) :
   m_keySignGr->setChecked(false);
   mainLay->addWidget(m_keySignGr, 0, Qt::AlignCenter);
 
-  m_currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this); // TODO: take <br> from translation
-  m_currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken.<br>If key signature is disabled accidentals are not used."));
+  m_currKeySignChBox = new QCheckBox(tr("notes in current key signature only"),this);
+  m_currKeySignChBox->setStatusTip(tr("Only notes from current key signature are taken. If key signature is disabled accidentals are not used."));
   mainLay->addWidget(m_currKeySignChBox, 0, Qt::AlignCenter);
 #if defined (Q_OS_ANDROID)
   mainLay->addWidget(getLabelFromStatus(m_currKeySignChBox, true, true));
