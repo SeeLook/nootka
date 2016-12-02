@@ -35,9 +35,7 @@
 #include <tscoreparams.h>
 #include <tlayoutparams.h>
 #include <tpath.h>
-#if defined (Q_OS_ANDROID)
-  #include <qtr.h>
-#endif
+#include <qtr.h>
 #include <QtWidgets/QtWidgets>
 
 
@@ -112,15 +110,14 @@ TfirstRunWizard::TfirstRunWizard(QWidget *parent) :
   addPage(helpPage);
 
   // grab 7-th note from translation
+  Tcore::gl()->S->seventhIs_B = m_page3->select7->is7th_B();
+  Tcore::gl()->S->nameStyleInNoteName = m_page3->nameStyle();
   if (TmiscTrans::note7txt().toLower() == QLatin1String("b")) {
-      Tcore::gl()->S->seventhIs_B = true; // rest S->nameStyleInNoteName
       if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
       else
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
-  }
-  else {
-      Tcore::gl()->S->seventhIs_B = false;
+  } else {
       Tcore::gl()->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
       if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
@@ -145,27 +142,27 @@ void TfirstRunWizard::done(int result) {
   if (result == QDialog::Rejected) { // restore defaults
     Tcore::gl()->instrument = e_classicalGuitar;
     m_page3->select7->set7th_B(TmiscTrans::note7txt().toLower() == QLatin1String("b"));
+    if (m_page3->localization.name().contains(QLatin1String("ru")))
+      m_page3->solfegeRadio->setChecked(true);
     m_page3->dblAccChB->setChecked(false);
     m_page3->enharmChB->setChecked(false);
     m_page3->useKeyChB->setChecked(false);
   }
+  Tcore::gl()->S->seventhIs_B = m_page3->select7->is7th_B();
+  Tcore::gl()->S->nameStyleInNoteName = m_page3->nameStyle();
+//   Tnote::defaultStyle = Tcore::gl()->S->nameStyleInNoteName;
+  Tcore::gl()->S->solfegeStyle = m_page3->localization.name().contains(QLatin1String("ru")) ? Tnote::e_russian_Ci : Tnote::e_italiano_Si;
   if (m_page3->select7->is7th_B()) {
-      Tcore::gl()->S->seventhIs_B = true;
-      Tcore::gl()->S->nameStyleInNoteName = Tnote::e_english_Bb;
       if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
       else
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_nederl_Bis;
   } else {
-      Tcore::gl()->S->seventhIs_B = false;
-      Tcore::gl()->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
       if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_italiano_Si;
       else
         Tcore::gl()->S->nameStyleInKeySign = Tnote::e_deutsch_His;
   }
-  if (QLocale::system().name().contains(QLatin1String("ru"))) // override name style for Russian localization
-    Tcore::gl()->S->nameStyleInNoteName = Tnote::e_russian_Ci;
   Tcore::gl()->S->doubleAccidentalsEnabled = m_page3->dblAccChB->isChecked();
   Tcore::gl()->S->showEnharmNotes = m_page3->enharmChB->isChecked();
   Tcore::gl()->S->keySignatureEnabled = m_page3->useKeyChB->isChecked();
@@ -317,8 +314,24 @@ Tpage_3::Tpage_3(QWidget *parent) :
   headLab->setAlignment(Qt::AlignCenter);
   select7 = new Select7note(this);
   select7->set7th_B(TmiscTrans::note7txt().toLower() == QLatin1String("b"));
-  scaleLab = new TscalePreviewLabel(select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb, false, this);
-  connect(select7, SIGNAL(seventhIsBchanged(bool)), this, SLOT(seventhNoteChanged(bool)));
+  m_nameStyle = select7->is7th_B()? Tnote::e_english_Bb : Tnote::e_norsk_Hb;
+  scaleLab = new TscalePreviewLabel(m_nameStyle, false, this);
+  connect(select7, &Select7note::seventhIsBchanged, this, &Tpage_3::seventhNoteChanged);
+
+  letterRadio = new QRadioButton(qTR("TnotationRadioGroup", "letter names"), this);
+  solfegeRadio = new QRadioButton(qTR("TnotationRadioGroup", "solfege names"), this);
+
+  auto notationGr = new QButtonGroup(this);
+  notationGr->addButton(solfegeRadio);
+  notationGr->addButton(letterRadio);
+  connect(notationGr, static_cast<void(QButtonGroup::*)(int, bool)>(&QButtonGroup::buttonToggled), this, &Tpage_3::notationSlot);
+
+  if (TmiscTrans::keyNameStyle() == QLatin1String("solfege"))
+    solfegeRadio->setChecked(true);
+  else
+    letterRadio->setChecked(true);
+  notationSlot();
+
   dblAccChB = new QCheckBox(tr("I know about double sharps (x) and double flats (bb)"), this);
   dblAccChB->setChecked(Tcore::gl()->S->doubleAccidentalsEnabled);
 
@@ -335,6 +348,13 @@ Tpage_3::Tpage_3(QWidget *parent) :
     lay->addStretch();
     lay->addWidget(select7);
     lay->addWidget(scaleLab, 0, Qt::AlignCenter);
+    auto notationLay = new QHBoxLayout;
+      notationLay->addStretch();
+      notationLay->addWidget(letterRadio);
+      notationLay->addStretch();
+      notationLay->addWidget(solfegeRadio);
+      notationLay->addStretch();
+    lay->addLayout(notationLay);
     lay->addStretch();
     lay->addWidget(dblAccChB, 0, Qt::AlignCenter);
     lay->addWidget(enharmChB, 0, Qt::AlignCenter);
@@ -345,6 +365,21 @@ Tpage_3::Tpage_3(QWidget *parent) :
 }
 
 void Tpage_3::seventhNoteChanged(bool is7_B) {
-        scaleLab->changeStyle(is7_B? Tnote::e_english_Bb : Tnote::e_norsk_Hb);
+  m_nameStyle = is7_B ? Tnote::e_english_Bb : Tnote::e_norsk_Hb;
+  scaleLab->changeStyle(m_nameStyle);
+  letterRadio->setChecked(true);
 }
+
+
+void Tpage_3::notationSlot() {
+  if (solfegeRadio->isChecked())
+    m_nameStyle = localization.name().contains(QLatin1String("ru")) ? Tnote::e_russian_Ci : Tnote::e_italiano_Si;
+  else
+    m_nameStyle = select7->is7th_B() ? Tnote::e_english_Bb : Tnote::e_norsk_Hb;
+  scaleLab->changeStyle(m_nameStyle);
+}
+
+
+
+
 
