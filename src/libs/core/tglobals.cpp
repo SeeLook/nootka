@@ -344,8 +344,10 @@ Tnote Tglobals::loString() {
 Tnote::EnameStyle Tglobals::getSolfegeStyle() {
     Tnote::EnameStyle solStyle = Tnote::e_italiano_Si;
     QString ll = lang;
-    if (ll.isEmpty())
-      ll = QLocale::system().name();
+    if (ll.isEmpty()) {
+      QLocale loc; // default locale (QLocale::setDefault()) grabs local LANG variable in contrary to QLocale::system() which not
+      ll = loc.name();
+    }
     if (ll.contains(QLatin1String("ru")))
       solStyle = Tnote::e_russian_Ci;
     return solStyle;
