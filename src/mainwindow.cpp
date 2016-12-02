@@ -100,9 +100,12 @@ MainWindow::MainWindow(QWidget *parent) :
   setObjectName(QStringLiteral("MainNootkaWindow"));
 #if !defined (Q_OS_ANDROID)
   setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
+  int w = qMax(qRound(qApp->primaryScreen()->size().width() * 0.75), 720); // initial width & height adjusted to screen resolution
+  int h = qMax(qRound(qApp->primaryScreen()->size().height() * 0.75), 480);
   setMinimumSize(720, 480);
   gl->config->beginGroup("General");
-  setGeometry(gl->config->value("geometry", QRect(50, 50, 750, 480)).toRect());
+  setGeometry(gl->config->value("geometry",
+                  QRect((qApp->primaryScreen()->size().width() - w) / 2, (qApp->primaryScreen()->size().height() - h) / 2, w, h)).toRect());
   gl->config->endGroup();
 #endif
   m_bgPix = new TbgPixmap;
