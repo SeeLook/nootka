@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                  				   *
- *   seelook@gmail.com   						                                       *
+ *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,14 +12,17 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 #ifndef TFIRSTRUNWIZZARD_H
 #define TFIRSTRUNWIZZARD_H
 
+
 #include <QtWidgets/qwizard.h>
+#include <music/tnote.h>
+#include <QtCore/qlocale.h>
 
 
 class QVBoxLayout;
@@ -101,9 +104,18 @@ public:
   Select7note *select7;
   QCheckBox *dblAccChB, *enharmChB, *useKeyChB;
   TscalePreviewLabel *scaleLab;
+  QRadioButton *solfegeRadio, *letterRadio;
 
-protected slots:
-		void seventhNoteChanged(bool is7_B);
+  Tnote::EnameStyle nameStyle() { return m_nameStyle; }
+
+  QLocale localization;
+
+protected:
+  void seventhNoteChanged(bool is7_B);
+  void notationSlot();
+
+private:
+  Tnote::EnameStyle         m_nameStyle;
 
 };
 

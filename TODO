@@ -10,8 +10,6 @@
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
-Translations:
- - remove <br> from some status strings (rangesettings.cpp, accidsettings.cpp)
  
 ============================================================================
 ANDROID:
@@ -31,7 +29,6 @@ To consideration:
     - full screen mode (TRUE by default)
     - home button actions
 
-Test scaling of alpha under Windows
 
 - NotaData of Tartini might be cleaned
 
@@ -107,6 +104,5 @@ TEXAMEXECUTOR
 
 TO CONSIDER:
   - In wizard: option for single note mode for very beginners
-  - simplify license text - take translations from Wine project
 
 

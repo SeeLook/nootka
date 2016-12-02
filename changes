@@ -2,6 +2,7 @@
      - new method to make random melodies more... melodic
      - melody can be randomized from selected notes, i.e. pentatonic scale
      - so added level with pentatonic scales
+     - solfege or letter note names can be selected during first run wizard
      - improved look of sound views, better fit to high DPI screens
     ANDROID
      - reduced number of paint operations, works even 2-4 times faster
