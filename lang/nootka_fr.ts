@@ -34,10 +34,6 @@
         <translation>Mauvaise armure</translation>
     </message>
     <message>
-        <source>Not bad, but:</source>
-        <translation type="vanished">Pas mal, mais :</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/charts/sorting.cpp" line="-3"/>
         <source>wrong accidentals</source>
         <translation>mauvaises altérations</translation>
@@ -53,18 +49,10 @@
         <translation>Mauvaises cordes</translation>
     </message>
     <message>
-        <source>Good answer!</source>
-        <translation type="vanished">Bonne réponse !</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="+8"/>
         <location filename="../src/plugins/charts/sorting.cpp" line="+1"/>
         <source>out of tune</source>
         <translation>désaccordé</translation>
-    </message>
-    <message>
-        <source>little valid notes</source>
-        <translation type="vanished">Peu de notes correctes</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/sorting.cpp" line="-10"/>
@@ -370,10 +358,6 @@
         <translation>Instrument</translation>
     </message>
     <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="vanished">NE FONCTIONNE QU&apos;AVEC UNE CARTE SON UNIQUE OU AVEC ASIO OU JACK !</translation>
-    </message>
-    <message>
         <location line="-58"/>
         <source>Selected notes and guitar positions will be played.</source>
         <translation>Les notes ou les positions sélectionnées seront jouées.</translation>
@@ -455,10 +439,6 @@
         <translation>Pour jouer des partitions</translation>
     </message>
     <message>
-        <source>Nootka level file</source>
-        <translation type="vanished">Fichier de niveau Nootka</translation>
-    </message>
-    <message>
         <location line="+4"/>
         <source>Nootka exam file</source>
         <translation>Fichier d&apos;examen Nootka</translation>
@@ -473,14 +453,6 @@
 <context>
     <name>QObject</name>
     <message>
-        <source>time [s]</source>
-        <translation type="vanished">temps [s]</translation>
-    </message>
-    <message>
-        <source>Melody on trebles</source>
-        <translation type="vanished">Mélodies dans les aigus</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/music/tkeysignature.h" line="+62"/>
         <source>major</source>
         <translation>majeur</translation>
@@ -491,109 +463,9 @@
         <translation>mineur</translation>
     </message>
     <message>
-        <source>Kouyanbaba: D A D A D F </source>
-        <translation type="vanished">Koyunbaba : ré la ré la ré fa (DADADF) </translation>
-    </message>
-    <message>
-        <source>C-major scale</source>
-        <translation type="vanished">Gamme de do majeur</translation>
-    </message>
-    <message>
-        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="vanished">Ceci nécessite quelques connaissances en anglais, mais si vous êtes en mesure de lire&lt;br&gt; un des textes ci-dessous alors vous pouvez vous pouvez participer.</translation>
-    </message>
-    <message>
-        <source>Standard: E A D G B E </source>
-        <translation type="vanished">Standard : mi la ré sol si mi (EADGBE) </translation>
-    </message>
-    <message>
-        <source>Open: D A D G A D </source>
-        <translation type="vanished">D modal/celte : ré la ré sol la ré (DADGAD) </translation>
-    </message>
-    <message>
-        <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation type="vanished">Donner le nom de la note dans la gamme de do majeur ou afficher la note sur la portée.</translation>
-    </message>
-    <message>
-        <source>You also can help with making Nootka better.</source>
-        <translation type="vanished">Vous pouvez également contribuer à améliorer Nootka.</translation>
-    </message>
-    <message>
-        <source>Dropped D: D A D G B E </source>
-        <translation type="vanished">Drop D : ré la ré sol si mi (DADGBE) </translation>
-    </message>
-    <message>
-        <source>Dummy Lute: D A D F# B E </source>
-        <translation type="vanished">Open D : ré la ré fa# si mi (DADF#BE) </translation>
-    </message>
-    <message>
-        <source>5-str. bass: B E A D G</source>
-        <translation type="vanished">Basse 5 cordes : B E A D G</translation>
-    </message>
-    <message>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="vanished">Toutes les notes chromatiques jusqu&apos;à la 5e frette, pas de son. &lt;br&gt; Pas d&apos;altération double. &lt;br&gt;Tonalités : do (C), sol (G), ré (D), la (A)</translation>
-    </message>
-    <message>
-        <source>Sing scores</source>
-        <translation type="vanished">Chant avec partition</translation>
-    </message>
-    <message>
-        <source>Play scores</source>
-        <translation type="vanished">Jeu avec partition</translation>
-    </message>
-    <message>
-        <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation type="vanished">En première position. &lt;br&gt;Pas d&apos;armure, pas de son. &lt;br&gt;Octave requise.</translation>
-    </message>
-    <message>
-        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="vanished">Ne vous inquiétez pas. Cette fenêtre n&apos;apparait qu&apos;une seule fois pour chaque nouvelle version de Nootka.&lt;br&gt; Elle est cependant toujours visible dans le menu « À propos de Nootka »</translation>
-    </message>
-    <message>
-        <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation type="vanished">Écouter un son et indiquez-le sur la portée. &lt;br&gt; La guitare, le nom des notes et les armures ne sont pas utilisés. &lt;br&gt;Gamme de la-la grande octave (A-A2).</translation>
-    </message>
-    <message>
-        <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation type="vanished">Chantez d&apos;après une partition... &lt;br&gt;Pas de nom de note, pas de guitare, pas de tonalité ni d&apos;altération double. &lt;br&gt;L&apos;étendue n&apos;a pas d&apos;importance car les octaves sont ignorées. &lt;br&gt; Vous pouvez transposer.</translation>
-    </message>
-    <message>
-        <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation type="vanished">Jouez une courte mélodie sur les cordes aiguës avec les notes des trois premières frettes. Altérations : dièses uniquement.</translation>
-    </message>
-    <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="vanished">Prenez votre instrument et jouez... &lt;br&gt;Pas de nom de note, pas de touche. &lt;br&gt;Tonalités jusqu&apos;à 4 altérations et altérations doubles possibles ! &lt;br&gt; Étendue complète du manche de la guitare sans les positions.</translation>
-    </message>
-    <message>
-        <source>Standard bass: E A D G</source>
-        <translation type="vanished">Basse standard : E A D G</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/exam/tlevel.cpp" line="+105"/>
         <source>All possible options are turned on</source>
         <translation>Toutes les options possibles sont activées</translation>
-    </message>
-    <message>
-        <source>Ear training</source>
-        <translation type="vanished">Entraînement de l&apos;oreille</translation>
-    </message>
-    <message>
-        <source>6-str. bass: B E A D G C</source>
-        <translation type="vanished">Basse 6 cordes : B E A D G C</translation>
-    </message>
-    <message>
-        <source>All to V fret</source>
-        <translation type="vanished">Jusqu&apos;à la 5e frette</translation>
-    </message>
-    <message>
-        <source>open strings</source>
-        <translation type="vanished">Cordes à vide</translation>
-    </message>
-    <message>
-        <source>Bass in fifths: C G D A</source>
-        <translation type="vanished">À la quinte : C G D A</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/texam.cpp" line="+424"/>
@@ -601,10 +473,6 @@
 %1</source>
         <translation>Impossible d&apos;enregistrer le fichier d&apos;examen :
 %1</translation>
-    </message>
-    <message>
-        <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation type="vanished">Le plus simple. &lt;br&gt;Pas d&apos;armure, pas d&apos;altération double, pas de son. &lt;br&gt;Ajusté automatiquement à l&apos;accordage de la guitare.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/tlevel.cpp" line="-1"/>
@@ -665,10 +533,6 @@
         <location filename="../src/plugins/about/taboutnootka.cpp" line="+114"/>
         <source>Code</source>
         <translation>Code</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="vanished">Aide</translation>
     </message>
     <message>
         <location line="-41"/>
@@ -762,10 +626,6 @@ version</translation>
         <translation>Analyser les résultats d&apos;un examen</translation>
     </message>
     <message>
-        <source>zoom in</source>
-        <translation type="vanished">Agrandir</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="+64"/>
         <source>Played number</source>
         <translation>Nombre de fois joué</translation>
@@ -818,10 +678,6 @@ version</translation>
         <translation>Accordage</translation>
     </message>
     <message>
-        <source>zoom out</source>
-        <translation type="vanished">Réduire</translation>
-    </message>
-    <message>
         <location line="-17"/>
         <source>level:</source>
         <translation>Niveau :</translation>
@@ -857,10 +713,6 @@ version</translation>
         <translation>Cliquez et glissez le curseur pour déplacer le graphique.</translation>
     </message>
     <message>
-        <source>ordered by:</source>
-        <translation type="vanished">Trié par :</translation>
-    </message>
-    <message>
         <location line="+202"/>
         <source>Maximize</source>
         <translation>Maximiser</translation>
@@ -889,10 +741,6 @@ version</translation>
         <location line="-113"/>
         <source>Question number</source>
         <translation>Nombre de questions </translation>
-    </message>
-    <message>
-        <source>question number</source>
-        <translation type="vanished">nombre de questions</translation>
     </message>
     <message>
         <location line="-104"/>
@@ -995,10 +843,6 @@ version</translation>
         <location line="+207"/>
         <source>too low</source>
         <translation>trop grave</translation>
-    </message>
-    <message>
-        <source>%1 was detected</source>
-        <translation type="vanished">%1 a été détecté</translation>
     </message>
     <message>
         <location line="-102"/>
@@ -1113,13 +957,6 @@ version</translation>
         <source>play melody</source>
         <translation>Jouer la mélodie</translation>
     </message>
-    <message numerus="yes">
-        <source>%n attempt(s)</source>
-        <translation type="vanished">
-            <numerusform>%n essai</numerusform>
-            <numerusform>%n essais</numerusform>
-        </translation>
-    </message>
     <message>
         <location line="+4"/>
         <source>attempt</source>
@@ -1142,10 +979,6 @@ version</translation>
 </context>
 <context>
     <name>TexamExecutor</name>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Enregistrer</translation>
-    </message>
     <message>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="+1680"/>
         <source>EXAM!</source>
@@ -1194,30 +1027,14 @@ version</translation>
         <translation>Si vous n&apos;enregistrez pas le fichier&lt;br&gt;vous perdrez tous les résultats !</translation>
     </message>
     <message>
-        <source>Continue</source>
-        <translation type="vanished">Continuer</translation>
-    </message>
-    <message>
         <location line="-104"/>
         <source>Such a pity.</source>
         <translation>Quel dommage !</translation>
     </message>
     <message>
-        <source>Terminate</source>
-        <translation type="vanished">Arrêter</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Annuler</translation>
-    </message>
-    <message>
         <location line="-1149"/>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Le niveau &lt;b&gt;%1&lt;b&gt;&lt;br&gt;n&apos;a aucun sens tant qu&apos;il n&apos;y aucune question à poser.&lt;br&gt;Il peut être réajusté.&lt;br&gt;Ajustez-le dans le « Créateur de niveaux » et réessayez.</translation>
-    </message>
-    <message>
-        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation type="vanished">Psssst... L&apos;examen est en cours.&lt;br&gt;Cliquez sur :&lt;br&gt;&lt;b&gt;Continuer&lt;/b&gt; pour poursuivre l&apos;examen&lt;br&gt;ou sur&lt;br&gt;&lt;b&gt;Arrêter&lt;/b&gt; pour vérifier, enregistrer et quitter.&lt;br&gt;</translation>
     </message>
     <message>
         <location line="+1102"/>
@@ -1283,10 +1100,6 @@ version</translation>
         <translation>appuyez sur la touche &lt;b&gt;Entrée&lt;/b&gt;</translation>
     </message>
     <message>
-        <source>tap %1</source>
-        <translation type="vanished">appuyez sur %1</translation>
-    </message>
-    <message>
         <location filename="../src/libs/misc/help/texamhelp.cpp" line="-65"/>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
         <translation>En cas d&apos;erreur, la question sera répétée, ce qui augmentera le nombre total de questions. Ce sont des questions pénalités.</translation>
@@ -1320,10 +1133,6 @@ version</translation>
         <location line="+5"/>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
         <translation>Si vous avez fait une erreur lors d&apos;un examen et que vous souhaitez faire répéter la question :</translation>
-    </message>
-    <message>
-        <source>Click %1 to stop.</source>
-        <translation type="vanished">Cliquez sur %1 pour arrêter.</translation>
     </message>
     <message>
         <location line="-13"/>
@@ -1559,10 +1368,6 @@ version</translation>
 <context>
     <name>TexamSummary</name>
     <message>
-        <source>Close</source>
-        <translation type="vanished">Fermer</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="-12"/>
         <source>Wrong key signatures</source>
         <translation>Mauvaises tonalités</translation>
@@ -1614,10 +1419,6 @@ version</translation>
         <translation>Types d&apos;erreurs</translation>
     </message>
     <message>
-        <source>Continue</source>
-        <translation type="vanished">Continuer</translation>
-    </message>
-    <message>
         <location line="+14"/>
         <source>Wrong positions on guitar</source>
         <translation>Mauvaise position sur la guitare</translation>
@@ -1651,10 +1452,6 @@ version</translation>
         <location line="+70"/>
         <source>Wrong notes</source>
         <translation>Mauvaises notes</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Annuler</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1820,7 +1617,7 @@ version</translation>
 <context>
     <name>TfirstRunWizard</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="+213"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="+210"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>La notation pour guitare utilise la clé de sol avec le chiffre « 8 » en-dessous bien que certains éditeurs oublient ce chiffre.&lt;br&gt;&lt;br&gt;Essayez de comprendre ceci. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Les deux images ci-dessus montrent la même note : do&lt;sup&gt;1&lt;/sup&gt;/c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note do/c de la première petite octave)&lt;/p&gt;</translation>
     </message>
@@ -1830,7 +1627,7 @@ version</translation>
         <translation>Pour écrire les notes pour la guitare basse, la &lt;b&gt; clé de fa&lt;b&gt; est utilisée mais les notes sont jouées une octave plus bas. La clé appropriée est la &lt;b&gt; clé de fa abaissée &lt;/b&gt; (avec le chiffre « 8 » noté en dessous) pour laquelle les notes sonnent exactement telles quelles sont écrites. C&apos;est cette clé qui est utilisée dans Nootka.</translation>
     </message>
     <message>
-        <location line="-152"/>
+        <location line="-151"/>
         <source>First run wizard</source>
         <translation>Assistant de configuration</translation>
     </message>
@@ -1864,12 +1661,12 @@ version</translation>
     </message>
     <message>
         <location line="+49"/>
-        <location line="+34"/>
+        <location line="+29"/>
         <source>Restore all default settings</source>
         <translation>Réinitialiser tous les paramètres</translation>
     </message>
     <message>
-        <location line="-77"/>
+        <location line="-72"/>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
         <translation>Sélectionnez une langue.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Redémarrage nécessaire !&lt;/span&gt;</translation>
     </message>
@@ -1905,17 +1702,9 @@ version</translation>
         <translation>Couleur de la corde/case sélectionnée</translation>
     </message>
     <message>
-        <source>right-handed players</source>
-        <translation type="vanished">Guitare pour droitier</translation>
-    </message>
-    <message>
         <location line="-66"/>
         <source>Remember to select the appropriate clef in Score settings.</source>
         <translation>N&apos;oubliez pas de sélectionner la clé appropriée dans les paramètres de la portée.</translation>
-    </message>
-    <message>
-        <source>marked frets</source>
-        <translation type="vanished">Repères de touche</translation>
     </message>
     <message>
         <location line="+68"/>
@@ -2024,10 +1813,6 @@ version</translation>
 <context>
     <name>TintonationCombo</name>
     <message>
-        <source>cents</source>
-        <translation type="vanished">cents</translation>
-    </message>
-    <message>
         <location filename="../src/libs/sound/widgets/tintonationview.cpp" line="+273"/>
         <source>do not check</source>
         <translation>ne pas vérifier</translation>
@@ -2041,10 +1826,6 @@ version</translation>
         <location line="-25"/>
         <source>intonation accuracy</source>
         <translation>Précision de l&apos;accordage</translation>
-    </message>
-    <message>
-        <source>gums pain</source>
-        <translation type="vanished">ça casse les oreilles !</translation>
     </message>
     <message>
         <location line="+26"/>
@@ -2373,10 +2154,6 @@ version</translation>
 <context>
     <name>TlevelHeaderWdg</name>
     <message>
-        <source>OK</source>
-        <translation type="vanished">OK</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/tlevelheaderwdg.cpp" line="+39"/>
         <source>Level description:</source>
         <translation>Description du niveau :</translation>
@@ -2568,10 +2345,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Pendant les examens %1, Nootka sera votre maître « à l&apos;ancienne ». Toute erreur sera pénalisée par des questions supplémentaires.&lt;br&gt;Lorsque vous réussissez un examen, vous obtenez un certificat !</translation>
     </message>
     <message>
-        <source>Using Nootka may be divided into three stages:</source>
-        <translation type="vanished">L&apos;utilisation de Nootka peut être divisée en trois étapes :</translation>
-    </message>
-    <message>
         <location line="+25"/>
         <source>II. Exercises and exams</source>
         <translation>II. Les exercices et examens</translation>
@@ -2634,10 +2407,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TmelMan</name>
     <message>
-        <source>Play</source>
-        <translation type="vanished">Lecture</translation>
-    </message>
-    <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="+49"/>
         <source>Generate melody</source>
         <translation>Générer la mélodie</translation>
@@ -2657,14 +2426,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="-105"/>
         <source>Melody</source>
         <translation>Mélodie</translation>
-    </message>
-    <message>
-        <source>Record</source>
-        <translation type="vanished">Enregistrer</translation>
-    </message>
-    <message>
-        <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="vanished">Avec l&apos;enregistrement, les notes jouées sont écrites une à une. Vous pouvez aussi ajouter une note en la choisissant sur le manche ou sur la portée.</translation>
     </message>
     <message>
         <location line="-14"/>
@@ -2690,10 +2451,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="-12"/>
         <source>Open melody file</source>
         <translation>Ouvrir un fichier de mélodie</translation>
-    </message>
-    <message>
-        <source>Generate</source>
-        <translation type="vanished">Générer</translation>
     </message>
     <message>
         <location line="-115"/>
@@ -2752,34 +2509,14 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TnootkaCertificate</name>
     <message>
-        <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
-        <translation type="vanished">&lt;small&gt;&lt;i&gt;Président du jury :&lt;/i&gt;&lt;b&gt; Nootka lui-même&lt;/b&gt;&lt;br&gt;&lt;i&gt;Jury d&apos;examen :&lt;/i&gt;&lt;br&gt;&lt;b&gt;M. le Professeur Processeur&lt;/b&gt; &amp;amp;&lt;br&gt;son assitante &lt;b&gt;Mme RAM&lt;/b&gt;&lt;br&gt;&lt;i&gt;Secrétaire :&lt;/i&gt;&lt;b&gt; M. Disque&lt;/b&gt;&lt;/small&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/exam/tnootkacertificate.cpp" line="+188"/>
         <source>Save this certificate to file in remembrance.</source>
         <translation>Enregistrer ce certificat dans un fichier en souvenir.</translation>
     </message>
     <message>
-        <source>Passing the exam on the level &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;having answered the required [QUESTNR] questions&lt;br&gt;in time &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt;&lt;br&gt;and achieving the score &lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt;</source>
-        <translation type="vanished">Ayant réussi l&apos;examen de niveau &lt;big&gt;&lt;b&gt;[LEVELNAME]&lt;/b&gt;&lt;/big&gt;,&lt;br&gt;en ayant répondu aux [QUESTNR] questions requises&lt;br&gt;en &lt;big&gt;&lt;b&gt;[TOTALTIME]&lt;/b&gt;&lt;/big&gt; et en ayant atteint le score de&lt;br&gt;&lt;big&gt;&lt;b&gt;[SCORE]&lt;/b&gt;&lt;/big&gt; de bonnes réponses.</translation>
-    </message>
-    <message>
         <location line="-5"/>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
         <translation>Félicitations !&lt;br&gt;Vous avez réussi l&apos;examen !</translation>
-    </message>
-    <message>
-        <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
-        <translation type="vanished">&lt;h1&gt;Certificat de réussite à l&apos;examen&lt;/h1&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;i&gt;stamp&lt;/i&gt;</source>
-        <translation type="vanished">&lt;i&gt;tampon&lt;/i&gt;</translation>
-    </message>
-    <message>
-        <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
-        <translation type="vanished">L&apos;élève &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; a reçu le</translation>
     </message>
     <message>
         <location line="+81"/>
@@ -2791,18 +2528,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+2"/>
         <source>You can still play with it and improve effectiveness.</source>
         <translation>Vous pouvez encore jouer et améliorer vos performances.</translation>
-    </message>
-    <message>
-        <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
-        <translation type="vanished">Le [DATE]</translation>
-    </message>
-    <message>
-        <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
-        <translation type="vanished">En tant que témoins de cet accomplissement,&lt;br&gt;nous avons l&apos;honneur de vous remettre&lt;br&gt;ce certificat le &lt;b&gt;[DATE]&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <source>&lt;h3&gt;Nootka Academy Of Music&lt;/h3&gt;</source>
-        <translation type="vanished">&lt;h3&gt;Académie de Musique Nootka&lt;/h3&gt;</translation>
     </message>
     <message>
         <location line="-143"/>
@@ -3015,10 +2740,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Octaves</translation>
     </message>
     <message>
-        <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
-        <translation type="vanished">Pour en savoir plus sur les &lt;i&gt;octaves&lt;/i&gt;, allez visiter &quot;https://fr.wikipedia.org/wiki/Octave_(musique)&quot;</translation>
-    </message>
-    <message>
         <location line="-46"/>
         <source>Previous note</source>
         <translation>Note précédente</translation>
@@ -3107,7 +2828,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>Tpage_2</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="+164"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="+163"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Sélectionnez une clé et une gamme de notes appropriées à votre instrument.</translation>
     </message>
@@ -3115,22 +2836,14 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>Tpage_3</name>
     <message>
-        <source>b</source>
-        <translation type="vanished">b</translation>
-    </message>
-    <message>
         <location line="+73"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation>Suivant le pays, la 7e note peut être si, B ou H en notation allemande.&lt;br&gt;Quelle notation utilisez-vous ?</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+27"/>
         <source>I know that e# is the same as f</source>
         <translation>Je sais que mi# (E#) est la même chose que fa (F)</translation>
-    </message>
-    <message>
-        <source>letters</source>
-        <translation type="vanished">solfège</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3163,10 +2876,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Intonation - accordage. Sont-ils justes ?</translation>
     </message>
     <message>
-        <source>Pitch recognition</source>
-        <translation type="vanished">Détection des notes</translation>
-    </message>
-    <message>
         <location line="+2"/>
         <source>Click note symbol to change it.</source>
         <translation>Cliquez sur la note pour la changer.</translation>
@@ -3184,10 +2893,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="+116"/>
         <source>Answered questions</source>
         <translation>Questions répondues</translation>
-    </message>
-    <message>
-        <source>Unanswered questions</source>
-        <translation type="vanished">Questions restantes</translation>
     </message>
     <message>
         <location filename="../src/libs/main/exam/tprogresswidget.h" line="+56"/>
@@ -3288,10 +2993,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Devinez une armure</translation>
     </message>
     <message>
-        <source>Show sound from position:</source>
-        <translation type="vanished">Indiquez la note jouée sur :</translation>
-    </message>
-    <message>
         <location line="-174"/>
         <source>Play or sing</source>
         <translation>Jouez ou chantez</translation>
@@ -3348,10 +3049,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Indiquez la note sur la portée</translation>
     </message>
     <message>
-        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <translation type="vanished">&lt;br&gt;&lt;b&gt;En tonalité de %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
         <location line="-88"/>
         <source>on %1 string.</source>
         <translation>Sur la corde %1.</translation>
@@ -3360,10 +3057,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+153"/>
         <source>Show on the staff note played on</source>
         <translation>Indiquez sur la portée la note jouée sur</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;En tonalité de %1.&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -3444,10 +3137,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 </context>
 <context>
     <name>TscoreActions</name>
-    <message>
-        <source>Score</source>
-        <translation type="vanished">Portée</translation>
-    </message>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="+51"/>
         <source>Zoom score out</source>
@@ -3758,10 +3447,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TstartExamDlg</name>
     <message>
-        <source>Help</source>
-        <translation type="vanished">Aide</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="-44"/>
         <source>Start exercises or an exam</source>
         <translation>Débuter un exercice ou un examen</translation>
@@ -3771,10 +3456,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+332"/>
         <source>Pass new exam on level:</source>
         <translation>Passer un nouvel examen :</translation>
-    </message>
-    <message>
-        <source>continue exam</source>
-        <translation type="vanished">Continuer un examen</translation>
     </message>
     <message>
         <location line="-320"/>
@@ -3832,17 +3513,9 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Saisissez votre nom ou votre pseudonyme.</translation>
     </message>
     <message>
-        <source>pass new exam</source>
-        <translation type="vanished">Passer un nouvel examen</translation>
-    </message>
-    <message>
         <location line="-264"/>
         <source>Latest exam</source>
         <translation>Dernier examen</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Fermer</translation>
     </message>
     <message>
         <location line="+114"/>
@@ -3858,10 +3531,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location filename="../src/libs/core/exam/textrans.h" line="-3"/>
         <source>Exam results</source>
         <translation>Résultats d&apos;examen</translation>
-    </message>
-    <message>
-        <source>exercises</source>
-        <translation type="vanished">Exercices</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="-22"/>
@@ -3967,10 +3636,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TtipMelody</name>
     <message>
-        <source>of</source>
-        <translation type="vanished">sur</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/charts/ttipmelody.cpp" line="+113"/>
         <source>time</source>
         <translation>temps</translation>
@@ -3982,10 +3647,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
             <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
             <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
         </translation>
-    </message>
-    <message>
-        <source>played</source>
-        <translation type="vanished">Joué</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -4033,10 +3694,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>À propos</translation>
     </message>
     <message>
-        <source>Check</source>
-        <translation type="vanished">Vérifier</translation>
-    </message>
-    <message>
         <location line="+135"/>
         <source>Level</source>
         <translation>Niveaux</translation>
@@ -4082,14 +3739,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Suivant</translation>
     </message>
     <message>
-        <source>Repeat</source>
-        <translation type="vanished">Répéter</translation>
-    </message>
-    <message>
-        <source>Start!</source>
-        <translation type="vanished">Commencer !</translation>
-    </message>
-    <message>
         <location line="+60"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
@@ -4104,10 +3753,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+54"/>
         <source>repeat previous question (backspace)</source>
         <translation>Répéter la question précédente (touche retour arrière)</translation>
-    </message>
-    <message>
-        <source>Analyze</source>
-        <translation type="vanished">Analyse</translation>
     </message>
     <message>
         <location line="+36"/>
@@ -4224,7 +3869,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 <context>
     <name>TupdateChecker</name>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="+97"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="+92"/>
         <source>Checking for updates. Please wait...</source>
         <translation>Vérification des mises à jour. Veuillez patienter...</translation>
     </message>
@@ -4264,10 +3909,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 </context>
 <context>
     <name>TupdateSummary</name>
-    <message>
-        <source>Ok</source>
-        <translation type="vanished">Ok</translation>
-    </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="+67"/>
         <source>News:</source>
@@ -4333,10 +3974,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
 </context>
 <context>
     <name>accidSettings</name>
-    <message>
-        <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="vanished">Lorsque cette case est cochée, l&apos;utilisateur doit choisir une tonalité,&lt;br&gt;sinon, la tonalité est affichée par l&apos;application.</translation>
-    </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="+51"/>
         <source>force using appropriate accidental</source>
@@ -4408,10 +4045,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Les bémols seront utilisés dans les questions et les réponses des examens.&lt;br&gt;Cochez cette case pour utiliser les tonalités écrites avec des bémols.</translation>
     </message>
     <message>
-        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="vanished">Sélectionnez une tonalité.&lt;br&gt;Pour l&apos;examen, les altérations appropriées&lt;br&gt;seront sélectionnées automatiquement !</translation>
-    </message>
-    <message>
         <location line="+33"/>
         <source>range of keys</source>
         <translation>Ensemble des tonalités</translation>
@@ -4425,18 +4058,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+34"/>
         <source>single key</source>
         <translation>Tonalité unique</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="vanished">Seules les notes dans la tonalité actuelle sont prises en compte.&lt;br&gt;Si les tonalités sont désactivées, les altérations ne sont pas utilisées.</translation>
-    </message>
-    <message>
-        <source>Accidentals used in exam.</source>
-        <translation type="vanished">Altérations utilisées dans l&apos;examen.</translation>
-    </message>
-    <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="vanished">Une seule tonalité pour l&apos;examen complet.</translation>
     </message>
     <message>
         <location line="-32"/>
@@ -4456,22 +4077,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+6"/>
         <source>none</source>
         <translation>Aucun</translation>
-    </message>
-    <message>
-        <source>for a fret:</source>
-        <translation type="vanished">Pour une frette :</translation>
-    </message>
-    <message>
-        <source>for a note:</source>
-        <translation type="vanished">Pour une note :</translation>
-    </message>
-    <message>
-        <source>for a key:</source>
-        <translation type="vanished">Pour une tonalité :</translation>
-    </message>
-    <message>
-        <source>for an accidental:</source>
-        <translation type="vanished">pour une altération :</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tgroupedqaunit.h" line="+89"/>
@@ -4553,21 +4158,9 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Note unique</translation>
     </message>
     <message>
-        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="vanished">Nombre maximum de notes dans une mélodie. La durée de la mélodie est une valeur aléatoire comprise entre 70 et 100 % de ce nombre.</translation>
-    </message>
-    <message>
         <location line="+47"/>
         <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
         <translation>Affiche sur quelle corde la réponse doit être donnée.&lt;br&gt;Attention, ceci peut être nécessaire ou, parfois, ne pas avoir de sens.</translation>
-    </message>
-    <message>
-        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translation type="vanished">Détermine la dernière note d&apos;une mélodie.&lt;br&gt;Si activé, la mélodie se terminera sur la tonique de l&apos;armure.</translation>
-    </message>
-    <message>
-        <source>Melody length</source>
-        <translation type="vanished">Durée de la mélodie</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -4585,10 +4178,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Octave requise</translation>
     </message>
     <message>
-        <source>melodies</source>
-        <translation type="vanished">Mélodies</translation>
-    </message>
-    <message>
         <location line="+28"/>
         <source>notes in the lowest position only</source>
         <translation>Uniquement les notes dans les positions les plus basses</translation>
@@ -4597,10 +4186,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="-10"/>
         <source>show string number in questions</source>
         <translation>Afficher le nombre de cordes dans les questions</translation>
-    </message>
-    <message>
-        <source>Melody ends on tonic note</source>
-        <translation type="vanished">La mélodie finit sur la tonique</translation>
     </message>
     <message>
         <location line="-17"/>
@@ -4654,10 +4239,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <location line="+30"/>
         <source>adjust note range</source>
         <translation>Ajuster l&apos;étendue des notes</translation>
-    </message>
-    <message>
-        <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="vanished">Décochez les cordes que vous souhaitez ignorer&lt;br&gt;dans un examen.</translation>
     </message>
 </context>
 </TS>
