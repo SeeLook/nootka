@@ -2176,12 +2176,12 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="396"/>
         <source>Pentatonic</source>
-        <translation type="unfinished"></translation>
+        <translation>Pentatonika</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="397"/>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Graj melodię złożoną z losowych dźwięków skali pentatonicznej, za każdym razem w innej tonacji.</translation>
     </message>
 </context>
 <context>
@@ -2657,27 +2657,27 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="68"/>
         <source>in selected range</source>
-        <translation type="unfinished"></translation>
+        <translation>w wybranym zakresie</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="69"/>
         <source>from notes below</source>
-        <translation type="unfinished"></translation>
+        <translation>z poniższych dźwięków</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="74"/>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie będą komponowane z zakresu dźwięków określonego na karcie &quot;Zakres&quot;.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="75"/>
         <source>Melodies are composed from notes selected on the score below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie będą komponowane z wybranych poniżej nut.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="129"/>
         <source>Random melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Losowa melodia</translation>
     </message>
 </context>
 <context>
