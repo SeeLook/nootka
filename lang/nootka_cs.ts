@@ -344,10 +344,6 @@
         <translation>Nástroj</translation>
     </message>
     <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="vanished">PRACUJE POUZE PRO JEDNU ZVUKOVOU KARTU NEBO S ASIO NEBO JACK!</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="103"/>
         <source>Grand Piano</source>
         <translation>Klavír, křídlo</translation>
@@ -468,102 +464,6 @@
         <translation>Všechny možné volby jsou zapnuty</translation>
     </message>
     <message>
-        <source>open strings</source>
-        <translation type="vanished">Volné struny</translation>
-    </message>
-    <message>
-        <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation type="vanished">Nejjednodušší. Bez předznamenání, bez dvojitých posuvek a bez hraní not&lt;br&gt;Automaticky upraveno na nynější zvuk.</translation>
-    </message>
-    <message>
-        <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation type="vanished">V první poloze. Bez posuvek, bez zvuku.&lt;br&gt;Požadována oktáva.</translation>
-    </message>
-    <message>
-        <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation type="vanished">Zadejte název noty v rozsahu C dur, nebo ukažte notu v notovém zápisu, jestliže znáte její název.</translation>
-    </message>
-    <message>
-        <source>All to V fret</source>
-        <translation type="vanished">Vše do V. pražce</translation>
-    </message>
-    <message>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="vanished">Všechny chromatické noty až do V. pražce, bez zvuku.&lt;br&gt;Bez dvojitých posuvek. Předznamenání: C, G, D, A</translation>
-    </message>
-    <message>
-        <source>Ear training</source>
-        <translation type="vanished">Cvičení sluchu</translation>
-    </message>
-    <message>
-        <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation type="vanished">Poslouchejte zvuk a ukažte jej v notovém zápisu.&lt;br&gt;Kytara, názvy not a předznamenání se nepoužívají.&lt;br&gt;Rozsah a - a&lt;sup&gt;2&lt;/sup&gt;.</translation>
-    </message>
-    <message>
-        <source>Melody on trebles</source>
-        <translation type="vanished">Melodie na sopránu</translation>
-    </message>
-    <message>
-        <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation type="vanished">Zahrát krátkou melodii na sopránových strunách s notami jen na prvních třech pražcích. Pouze předznamenání s křížky.</translation>
-    </message>
-    <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="vanished">Vezměte svůj nástroj a jen hrajte...&lt;br&gt;Žádné názvy not, žádný hmatník. Jsou povoleny stupnice až do čtyř posuvek! Rozsah celé kytary bez poloh.</translation>
-    </message>
-    <message>
-        <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation type="vanished">Pouze zpívejte noty...&lt;br&gt;Žádné názvy not, žádný hmatník, žádné stupnice a dvojité posuvky. Na rozsahu nezáleží, protože na oktávy se nebere zřetel - Můžete transponovat.</translation>
-    </message>
-    <message>
-        <source>Play scores</source>
-        <translation type="vanished">Přehrát noty</translation>
-    </message>
-    <message>
-        <source>Sing scores</source>
-        <translation type="vanished">Zpívat noty</translation>
-    </message>
-    <message>
-        <source>C-major scale</source>
-        <translation type="vanished">Stupnice C dur</translation>
-    </message>
-    <message>
-        <source>Standard: E A D G B E </source>
-        <translation type="vanished">Standardní: E A D G H E</translation>
-    </message>
-    <message>
-        <source>Dropped D: D A D G B E </source>
-        <translation type="vanished">Podladěné D:D A D G H E</translation>
-    </message>
-    <message>
-        <source>Dummy Lute: D A D F# B E </source>
-        <translation type="vanished">Napodobená loutna: D A D F# H E</translation>
-    </message>
-    <message>
-        <source>Open: D A D G A D </source>
-        <translation type="vanished">Otevřené: D A D G A D</translation>
-    </message>
-    <message>
-        <source>Kouyanbaba: D A D A D F </source>
-        <translation type="vanished">Kouyanbaba: D A D A D F </translation>
-    </message>
-    <message>
-        <source>Standard bass: E A D G</source>
-        <translation type="vanished">Standardní bas: E A D G</translation>
-    </message>
-    <message>
-        <source>Bass in fifths: C G D A</source>
-        <translation type="vanished">Bas v kvintách: C G D A</translation>
-    </message>
-    <message>
-        <source>5-str. bass: B E A D G</source>
-        <translation type="vanished">5 basových strun: B E A D G</translation>
-    </message>
-    <message>
-        <source>6-str. bass: B E A D G C</source>
-        <translation type="vanished">6 basových strun: B E A D G C</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/music/tkeysignature.h" line="62"/>
         <source>major</source>
         <translation>dur</translation>
@@ -579,18 +479,6 @@
 %1</source>
         <translation>Nelze uložit soubor se zkouškou:
 %1</translation>
-    </message>
-    <message>
-        <source>You also can help with making Nootka better.</source>
-        <translation type="vanished">I vy můžete pomoci s vylepšením Nootky.</translation>
-    </message>
-    <message>
-        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="vanished">Chce to alespoň trochu umět angličtinu, takže pokud dokážete přečíst text níže, najdete tam něco, do čeho se můžete zapojit.</translation>
-    </message>
-    <message>
-        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="vanished">Nedělejte si starosti. Toto okno se při vydání Nootky objeví jen jednou.&lt;br&gt;Naleznete je vždy v dialogovém okně O programu Nootka</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.cpp" line="87"/>
@@ -651,10 +539,6 @@
         <location filename="../src/plugins/about/taboutnootka.cpp" line="73"/>
         <source>About</source>
         <translation>O programu</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="vanished">Nápověda</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="77"/>
@@ -874,14 +758,6 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/plugins/charts/tyaxis.h" line="61"/>
         <source>Questions number</source>
         <translation>Číslo otázky</translation>
-    </message>
-    <message>
-        <source>zoom in</source>
-        <translation type="vanished">Přiblížit</translation>
-    </message>
-    <message>
-        <source>zoom out</source>
-        <translation type="vanished">Oddálit</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="340"/>
@@ -1110,14 +986,6 @@ je viděli a poslechli si správně.</translation>
         <translation>&lt;b&gt;Zdá se, že soubor se zkouškou je poškozený.&lt;/b&gt;&lt;br&gt;Lepší bude začít novou zkoušku na stejné úrovni</translation>
     </message>
     <message>
-        <source>Save</source>
-        <translation type="vanished">Uložit</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Odmítnout</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="166"/>
         <source>File: %1 
  is not valid exam file!</source>
@@ -1138,18 +1006,6 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="1345"/>
         <source>Such a pity.</source>
         <translation>Jaká škoda.</translation>
-    </message>
-    <message>
-        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation type="vanished">Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;&lt;b&gt;Pokračujte&lt;/b&gt; &lt;br&gt;nebo&lt;br&gt;&lt;b&gt;skončete&lt;/b&gt; pro ověření, uložení a ukončení&lt;br&gt;</translation>
-    </message>
-    <message>
-        <source>Continue</source>
-        <translation type="vanished">Pokračovat</translation>
-    </message>
-    <message>
-        <source>Terminate</source>
-        <translation type="vanished">Ukončit</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texamexecutor.cpp" line="1412"/>
@@ -1538,18 +1394,6 @@ není platným souborem zkoušky!</translation>
         <translation>Čas odpovědi</translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="vanished">Zavřít</translation>
-    </message>
-    <message>
-        <source>Continue</source>
-        <translation type="vanished">Pokračovat</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Zahodit</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="147"/>
         <source>Results:</source>
         <translation>Výsledky:</translation>
@@ -1774,22 +1618,22 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TfirstRunWizard</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="58"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="56"/>
         <source>First run wizard</source>
         <translation>Průvodce prvním spuštěním</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="77"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="75"/>
         <source>What instrument do you play?</source>
         <translation>Na jaký nástroj hrajete?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="210"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="207"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
         <translation>Pro psaní not pro basovou kytaru se používá &lt;b&gt;basový klíč&lt;/b&gt;, ale zahrané noty zní o oktávu níže. Správným klíčem je &lt;b&gt;basový snížený klíč&lt;/b&gt; (s číslicí &quot;osm&quot; dole), kde znějí noty přesně tak, jak jsou zapsány, a tento klíč se v Nootce používá pro basovou kytaru.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="213"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="210"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>Kytarový zápis používá houslový klíč s číslicí &quot;osm&quot; dole (i když na tuto číslici někteří vydavatelé zapomínají).&lt;br&gt;&lt;br&gt;Pokuste se pochopit toto. &lt;br&gt;&lt;br&gt;&lt;p&gt;&quot;%1&quot; &quot;%2&lt;br&gt;&lt;b&gt;&lt;big&gt;Oba dva obrázky nahoře ukazují tu samou notu: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(nota c v jednočárkové oktávě)&lt;/p&gt;</translation>
     </message>
@@ -1808,7 +1652,7 @@ není platným souborem zkoušky!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tglobalsettings.cpp" line="84"/>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="118"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="113"/>
         <source>Restore all default settings</source>
         <translation>Obnovit všechna výchozí nastavení</translation>
     </message>
@@ -2326,10 +2170,6 @@ ale nebyla uložena!</translation>
         <source>Level description:</source>
         <translation>Popis úrovně:</translation>
     </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">OK</translation>
-    </message>
 </context>
 <context>
     <name>TlevelPreview</name>
@@ -2568,22 +2408,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 </context>
 <context>
     <name>TmelMan</name>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Přehrát</translation>
-    </message>
-    <message>
-        <source>Record</source>
-        <translation type="vanished">Nahrávat</translation>
-    </message>
-    <message>
-        <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="vanished">Když je nastaveno nahrávání, jsou zapisovány nejen přehrávané noty, jak jdou za sebou, ale buď vybrání pražce nebo názvu noty přidá novou notu automaticky.</translation>
-    </message>
-    <message>
-        <source>Generate</source>
-        <translation type="vanished">Vytvořit</translation>
-    </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="39"/>
         <source>Play melody</source>
@@ -2943,7 +2767,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/libs/main/notename/tnotename.cpp" line="119"/>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation type="unfinished">Klepněte, abyste viděli, co se o &lt;i&gt;oktávách&lt;/i&gt; píše na &quot;http://cs.wikipedia.org/wiki/oktáva&quot;</translation>
+        <translation>Klepněte, abyste viděli, co se o &lt;i&gt;oktávách&lt;/i&gt; píše na &quot;http://cs.wikipedia.org/wiki/oktáva&quot;</translation>
     </message>
     <message>
         <location filename="../src/libs/main/notename/tnotename.cpp" line="122"/>
@@ -3000,7 +2824,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_2</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="241"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="238"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Vyberte klíč a rozsah not odpovídající vašemu nástroji.</translation>
     </message>
@@ -3008,22 +2832,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="314"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="311"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation>Sedmá nota může být H nebo B, v závislosti na zemi. &lt;br&gt;Jak je to u vás?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="322"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="335"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Vím o dvojitých křížcích (x) a o dvojitých béčcích (bb)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="325"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="338"/>
         <source>I know that e# is the same as f</source>
         <translation>Vím, že e# je to samé co f</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="328"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="341"/>
         <source>I know about key signatures</source>
         <translation>Vím o předznamenáních</translation>
     </message>
@@ -3390,10 +3214,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <source>Delete all notes</source>
         <translation>Smazat všechny noty</translation>
     </message>
-    <message>
-        <source>Score</source>
-        <translation type="vanished">Noty</translation>
-    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -3650,21 +3470,9 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Vytvořit novou úroveň</translation>
     </message>
     <message>
-        <source>exercises</source>
-        <translation type="vanished">Cvičení</translation>
-    </message>
-    <message>
-        <source>pass new exam</source>
-        <translation type="vanished">Složit novou zkoušku</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="139"/>
         <source>Click and select an exam to continue</source>
         <translation>Klepněte a vyberte zkoušku pro pokračování</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="vanished">Nápověda</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="240"/>
@@ -3725,14 +3533,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="88"/>
         <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
         <translation>Bude otevřeno dialogové okno pro vytvoření nové úrovně&lt;br&gt;.</translation>
-    </message>
-    <message>
-        <source>continue exam</source>
-        <translation type="vanished">Pokračovat ve zkoušce</translation>
-    </message>
-    <message>
-        <source>Discard</source>
-        <translation type="vanished">Odmítnout</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="63"/>
@@ -3904,10 +3704,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Tvůrce úrovní</translation>
     </message>
     <message>
-        <source>Start!</source>
-        <translation type="vanished">Spustit!</translation>
-    </message>
-    <message>
         <location filename="../src/libs/main/gui/ttoolbar.cpp" line="194"/>
         <source>Lessons</source>
         <translation>Lekce</translation>
@@ -4071,7 +3867,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TupdateChecker</name>
     <message>
-        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="138"/>
+        <location filename="../src/plugins/settings/tglobalsettings.cpp" line="133"/>
         <source>Checking for updates. Please wait...</source>
         <translation>Prověřuje se, zda již je novější vydání. Počkejte, prosím...</translation>
     </message>
@@ -4137,10 +3933,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="70"/>
         <source>No changes found.&lt;br&gt;This version is up to date.</source>
         <translation>Nebyly nalezeny žádné změny.&lt;br&gt;Tato verze je nejnovější.</translation>
-    </message>
-    <message>
-        <source>Ok</source>
-        <translation type="vanished">OK</translation>
     </message>
 </context>
 <context>
@@ -4226,10 +4018,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Používají se pouze noty z nynější tóniny. Pokud je předznamenání zakázáno, posuvky se nepoužívají.</translation>
     </message>
     <message>
-        <source>Accidentals used in exam.</source>
-        <translation type="vanished">Posuvky používané během zkoušky.</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="51"/>
         <source>force using appropriate accidental</source>
         <translation>Vynutit používání náležitých posuvek</translation>
@@ -4245,10 +4033,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Jedna tónina</translation>
     </message>
     <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="vanished">Pouze jedna vybraná tónina&lt;br&gt;pro celou zkoušku.</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="70"/>
         <source>range of keys</source>
         <translation>Rozsah tónin</translation>
@@ -4259,17 +4043,9 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Náhodně vybraná tónina z vybraného rozsahu.</translation>
     </message>
     <message>
-        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="vanished">Vybrat tóninu.&lt;br&gt;Příslušné posuvky používané během zkoušky&lt;br&gt;budou vybrány automaticky!</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="114"/>
         <source>notes in current key signature only</source>
         <translation>Pouze noty z nynější tóniny</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="vanished">Používají se pouze noty z nynější tóniny.&lt;br&gt;Pokud je předznamenání zakázáno, posuvky se nepoužívají.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="354"/>
@@ -4285,10 +4061,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/level/accidsettings.cpp" line="63"/>
         <source>use key signatures</source>
         <translation>Používat předznamenání</translation>
-    </message>
-    <message>
-        <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="vanished">Je-li zaškrtnuto, musí tóninu ve zkoušce vybrat uživatel,&lt;br&gt;jinak je ukázána programem.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.h" line="42"/>
@@ -4389,29 +4161,9 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Je-li zaškrtnuto, je požadován výběr platné oktávy</translation>
     </message>
     <message>
-        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="vanished">Nejvyšší počet not v melodii. Délka melodie je náhodná hodnota mezi 70 % and 100 % toho čísla.</translation>
-    </message>
-    <message>
-        <source>Melody length</source>
-        <translation type="vanished">Délka melodie</translation>
-    </message>
-    <message>
-        <source>Melody ends on tonic note</source>
-        <translation type="vanished">Melodie končí na notě tóniky</translation>
-    </message>
-    <message>
-        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
-        <translation type="vanished">Určuje poslední notu melodie.&lt;br&gt;Je-li nastaveno, melodie bude končit na notě tóniky (první stupeň tóniny) současného předznamenání.</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="116"/>
         <source>single note</source>
         <translation>Jedna nota</translation>
-    </message>
-    <message>
-        <source>melodies</source>
-        <translation type="vanished">Melodie</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="152"/>
@@ -4485,10 +4237,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/level/rangesettings.cpp" line="97"/>
         <source>Uncheck strings if you want to skip them in an exam.</source>
         <translation>Odznačte struny, pokud je při zkoušce chcete přeskočit.</translation>
-    </message>
-    <message>
-        <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="vanished">Odznačte struny, pokud je &lt;br&gt;při zkoušce chcete přeskočit.</translation>
     </message>
 </context>
 </TS>
