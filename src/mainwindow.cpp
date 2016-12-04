@@ -629,7 +629,8 @@ void MainWindow::updateSize(QSize newS) {
 #endif
 
   m_guitar->updateSize(QSize(m_innerWidget->width(), newGuitH));
-  BG_PIX->update(newS, static_cast<int>(gl->instrument), newGuitH, m_guitar->posX12fret(), m_guitar->fbRect().right(), gl->GisRightHanded);
+  BG_PIX->update(gl->L->guitarEnabled ? newS : QSize(), static_cast<int>(gl->instrument), newGuitH,
+                 m_guitar->posX12fret(), m_guitar->fbRect().right(), gl->GisRightHanded); // empty size when guitar is hidden by user
   m_guitar->setFixedHeight(newGuitH);
 	setUpdatesEnabled(true);
 }
