@@ -340,7 +340,6 @@ void TexecutorSupply::listForRandomNotes(TkeySignature k, QList<TQAgroup> &qaLis
 //           if (hiNoteChrom - (hiInList + step) < (loInList + (step - 12)) - loNoteChrom) //  equal option - transpose where is more space
           if (loInList + (step - 12) >= loNoteChrom) // prefer to transpose down
             step = step - 12;
-          qDebug() << "Transpose step" << step << k.getName() << m_level->keyOfrandList.getName();
           for (int n = 0; n < m_level->notesList.size(); ++n) {
               int transChrom = chromaticArr[n] + step;
               if (transChrom >= loNoteChrom && transChrom <= hiNoteChrom) {

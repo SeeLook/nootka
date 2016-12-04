@@ -438,7 +438,7 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->setBrush(QBrush(workBg));
     painter->drawRect(boundingRect());
 	}
-  if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor()) {
+  if (m_emptyLinesVisible && !m_selected && m_mainPosY == 0 && !hasCursor() && !isReadOnly()) {
 		QColor emptyNoteColor;
 		if (m_mainNote->pen().style() == Qt::NoPen)
 			emptyNoteColor = qApp->palette().highlight().color();
