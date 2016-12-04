@@ -9,6 +9,7 @@
      - volume settings and pitch preview can be invoked with volume keys
      - stop pitch detection when app is going background, restore when backs
     BUGS FIXES
+     - fixed positioning of tips with question content
      - other small fixes
 
 1.3.0 alpha1
