@@ -400,6 +400,7 @@ void TmainScore::setBGcolor(const QColor& bgColor) {
     m_bgColor = bgColor;
     m_bgColor.setAlpha(230);
     update();
+    QTimer::singleShot(500, [=]{ update(); }); // HACK: it improves a little bit refreshing score with highlighted background
   }
 }
 
