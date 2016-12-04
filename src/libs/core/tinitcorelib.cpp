@@ -36,14 +36,14 @@
 #endif
 
 
-Tglobals* Tcore::m_gl = 0;
+Tglobals* Tcore::m_gl = nullptr;
 
 #if defined (Q_OS_ANDROID)
   QStyle* Tcore::androidStyle = nullptr;
 #endif
 
 bool initCoreLibrary() {
-  if (Tcore::gl() == 0) {
+  if (Tcore::gl() == nullptr) {
     qDebug() << "Tglobals was not created. Construct it first!";
     return false;
   }
