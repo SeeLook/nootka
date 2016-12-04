@@ -27,6 +27,8 @@
 #include <tfingerpos.h>
 
 
+#define TIP_POS_NUM (4) /**< Number of possible tip positions depends on question/answer combination */
+
 class Tnote;
 class TnoteName;
 class TcombinedAnim;
@@ -56,16 +58,25 @@ class Tcanvas : public QObject
 
 public:
 
-	enum EtipPos {
-		e_guitarOver = 0, e_scoreOver = 1, e_nameOver = 2
-	}; /**< Describes a kind of tip position depended on q/a type - over what widget tip is placed */
+      /**
+       * Describes a kind of tip position depended on q/a type - over what widget tip is placed.
+       * Number of enumerators has to correspond with @p TIP_POS_NUM definition
+       */
+  enum EtipPos {
+    e_guitarOver = 0, e_scoreOver = 1, e_nameOver = 2, e_bottomRight
+  };
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+  Q_ENUM(EtipPos)
+#endif
 
 	Tcanvas(QGraphicsView* view, Texam* exam);
 	virtual ~Tcanvas();
 
-    /** Cross platform status message:
-     * - status bar on desktops (@class TstatusLabel)
-     * - pop up message on screen bottom for mobile (@class TtouchMessage) */
+    /**
+     * Cross platform status message:
+     * - status bar on desktops (@p TstatusLabel)
+     * - pop up message on screen bottom for mobile (@p TtouchMessage) 
+     */
   void setStatusMessage(const QString& text, int duration = 0);
 
   void changeExam(Texam* newExam); /**< Replaces exam pointer given in constructor to the new one. */
@@ -74,11 +85,15 @@ public:
 	void resultTip(TQAunit *answer, int time = 0); /**< show was question correct text, hides after given time */
 	void startTip(); /**< Text with help on an exam start */
 
-		/** Text with what to click after an answer.
+    /**
+     * Text with what to click after an answer.
      * @p isCorrect - was the question correct
-     * @p toCorrection - text how to see corrected answer will be shown. */
-	void whatNextTip(bool isCorrect, bool toCorrection = false);
-	void questionTip(); /**< Text with question context */
+     * @p toCorrection - text how to see corrected answer will be shown.
+     */
+  void whatNextTip(bool isCorrect, bool toCorrection = false);
+
+      /** Text with question context */
+  void questionTip();
 	void tryAgainTip(int time); /**< "Try again" text" */
 	void confirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
   void melodyCorrectMessage(); /**< Status message about how to correct a melody notes. */
@@ -99,8 +114,6 @@ public:
 	QFont tipFont(qreal factor = 1);
 	QString startTipText();
 
-			/** Paints animated exclamation mark over answering widget. */
-	void markAnswer(TQAtype::Etype qType, TQAtype::Etype aType);
 
 			/** Paints rectangle around given type of widget to mark where is answer. */
 	const QRect& getRect(TQAtype::Etype kindOf);
@@ -165,7 +178,6 @@ private:
 	QPointer<TcombinedAnim>				 m_correctAnim;
 	QTimer 												*m_timerToConfirm;
 	int 													 m_maxTipWidth;
-	bool 													 m_guitarFree, m_nameFree, m_scoreFree;
 	QSizeF												 m_prevSize;
 	QSize 												 m_newSize;
 	QGraphicsEllipseItem					*m_flyEllipse;
@@ -173,7 +185,7 @@ private:
 	QColor												 m_correctColor;
 	TnoteName											*m_noteName;
 	QPoint												 m_relPoint;
-	QPointF												 m_posOfQuestTips[3], m_posOfWhatTips[3], m_posOfConfirm;
+	QPointF												 m_posOfQuestTips[TIP_POS_NUM], m_posOfWhatTips[TIP_POS_NUM], m_posOfConfirm;
 	bool													 m_minimizedQuestion, m_melodyCorrectMessage;
 	EtipPos												 m_tipPos; /**< Kind of tip position */
 	int                            m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
@@ -191,6 +203,7 @@ private:
 	void updateRelatedPoint();
 	void createQuestionTip(); /**< Be sure that @p m_exam has already pointed current exam */
 	void fixWidthOverScore(TgraphicsTextTip* tip); /**< Scales tip if its width is bigger than score widget */
+  EtipPos determineTipPos();
 
 };
 

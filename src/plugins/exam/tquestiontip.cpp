@@ -109,9 +109,6 @@ QString TquestionTip::getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
 QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level, double scale) {
   QString br = QStringLiteral("<br>");
   QString sp = QStringLiteral(" ");
-  m_scoreFree = true;
-  m_nameFree = !(bool)question->melody(); // no name widget when level uses melodies
-  m_guitarFree = true;
   m_questText.clear();
   double sc = 4.0;
   if (scale) {
@@ -126,7 +123,6 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
   QString noteStr;
   switch (question->questionAs) {
       case TQAtype::e_asNote: {
-        m_scoreFree = false;
         if (question->answerAsNote()) {
             if (question->qa.note.alter != question->qa_2.note.alter)
                 m_questText += tr("Change enharmonically and show on the staff");
@@ -136,10 +132,8 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 								apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
 						      m_questText += getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
         } else if (question->answerAsName()) {
-            m_nameFree = false;
             m_questText += tr("Give name of");
 				} else if (question->answerAsFret()) {
-              m_guitarFree = false;
               m_questText += tr("Show on the guitar");
 				} else if (question->answerAsSound()) {
 									if (question->melody())
@@ -164,27 +158,23 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 			}
 
       case TQAtype::e_asName:
-        m_nameFree = false;
         noteStr = br + getNiceNoteName(question->qa.note, question->styleOfQuestion());
         if (question->answerAsNote()) {
-						m_scoreFree = false;
 						      m_questText += tr("Show on the staff") + noteStr;
 						if (level->useKeySign && level->manualKey) {
 							         m_questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
 						}
         } else if (question->answerAsName()) {
-            m_nameFree = false;
             noteStr = br + getNiceNoteName(question->qa.note, question->styleOfQuestion());
             if (question->qa.note.alter != question->qa_2.note.alter) {
                 m_questText += tr("Change enharmonically and give name of");
                 m_questText += noteStr + getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
             } else
                 m_questText += tr("Use another style to give name of") + noteStr;
-				} else if (question->answerAsFret()) {
-						m_guitarFree = false;
-						      m_questText += tr("Show on the guitar") + noteStr;
-				} else if (question->answerAsSound()) {
-						      m_questText += playOrSing(int(level->instrument)) + noteStr;
+        } else if (question->answerAsFret()) {
+            m_questText += tr("Show on the guitar") + noteStr;
+        } else if (question->answerAsSound()) {
+            m_questText += playOrSing(int(level->instrument)) + noteStr;
 				}
 				if (question->answerAsFret() || question->answerAsSound()) {
 						if (level->instrument != e_noInstrument && level->showStrNr && !level->onlyLowPos)
@@ -193,15 +183,12 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 			break;
 
       case TQAtype::e_asFretPos:
-        m_guitarFree = false;
         if (question->answerAsNote()) {
-						m_scoreFree = false;
 						      m_questText += tr("Show on the staff note played on");
 						if (level->useKeySign && level->manualKey) {
 							apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question->key.getName());
 						}
         } else if (question->answerAsName()) {
-            m_nameFree = false;
             m_questText += tr("Give name of");
 				} else if (question->answerAsFret()) {
               m_questText += tr("Show sound from position:", "... and string + fret numbers folowing");
@@ -220,7 +207,6 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 
       case TQAtype::e_asSound:
         if (question->answerAsNote()) {
-						m_scoreFree = false;
 						if (question->melody()) {
 								        m_questText += TexTrans::writeDescTxt();
 								if (level->useKeySign && level->manualKey && level->onlyCurrKey)
@@ -233,12 +219,10 @@ QString TquestionTip::getQuestion(TQAunit* question, int questNr, Tlevel* level,
 									           m_questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
 						}
         } else if (question->answerAsName()) {
-            m_nameFree = false;
             m_questText += tr("Give name of listened sound");
             if (level->forceAccids)
                 m_questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
 				} else if (question->answerAsFret()) {
-              m_guitarFree = false;
               m_questText += tr("Listened sound show on the guitar");
               if (level->showStrNr)
                 m_questText += br + sp + onStringTxt(question->qa.pos.str());
