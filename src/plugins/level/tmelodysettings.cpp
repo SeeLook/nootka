@@ -100,7 +100,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
     #if defined (Q_OS_ANDROID)
     auto melLengthLay = new QVBoxLayout;
     #else
-      auto melLengthLay = new QHBoxLayout;
+    auto melLengthLay = new QHBoxLayout;
       melLengthLay->addStretch(2);
     #endif
       melLengthLay->addLayout(melLenFormLay);
@@ -116,7 +116,11 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
       melLengthLay->addStretch(2);
       #endif
   rightLay->addLayout(melLengthLay);
+    #if defined (Q_OS_ANDROID)
     auto randRadiosLay = new QVBoxLayout;
+    #else
+    auto randRadiosLay = new QHBoxLayout;
+    #endif
       randRadiosLay->addWidget(m_randomRadio);
       #if defined (Q_OS_ANDROID)
       randRadiosLay->addWidget(getLabelFromStatus(m_randomRadio, true, true));
@@ -141,6 +145,9 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
     m_melGroup->setLayout(lay);
   auto mainLay = new QVBoxLayout;
     mainLay->addWidget(m_melGroup);
+#if defined (Q_OS_ANDROID) // add space at the bottom to allow touching score
+  mainLay->addSpacing(Tmtr::fingerPixels() / 2);
+#endif
   setLayout(mainLay);
 
   connect(m_melodyLengthSpin, SIGNAL(valueChanged(int)), this, SLOT(changedLocal()));
@@ -151,7 +158,7 @@ TmelodySettings::TmelodySettings(TlevelCreatorDlg* creator) :
   connect(m_melGroup, &QGroupBox::clicked, this, &TmelodySettings::changedLocal);
   connect(m_randomRadio, &QRadioButton::clicked, this, &TmelodySettings::changedLocal);
   connect(m_listRadio, &QRadioButton::clicked, this, &TmelodySettings::changedLocal);
-//   connect(m_score, &TmultiScore::noteWasChanged, this, &TmelodySettings::changedLocal);
+  connect(m_score, &TmultiScore::noteWasChanged, this, &TmelodySettings::changedLocal);
 }
 
 

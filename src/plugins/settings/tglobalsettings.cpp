@@ -84,6 +84,11 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   m_restAllDefaultsBut = new QPushButton(tr("Restore all default settings"), this);
   m_restAllDefaultsBut->setStatusTip(warringResetConfigTxt());
   lay->addWidget(m_restAllDefaultsBut, 0 , Qt::AlignCenter);
+#if defined (Q_OS_ANDROID)
+  lay->addWidget(new QLabel(
+                   QLatin1String("<span style=\"color: red;\">") + warringResetConfigTxt() + QLatin1String("</span>"),
+                   this), 0, Qt::AlignCenter); // reuse the same text as m_langCombo had
+#endif
   lay->addStretch(1);
   
   setLayout(lay);
