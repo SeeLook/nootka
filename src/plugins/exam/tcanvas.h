@@ -65,9 +65,9 @@ public:
   enum EtipPos {
     e_guitarOver = 0, e_scoreOver = 1, e_nameOver = 2, e_bottomRight
   };
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
-  Q_ENUM(EtipPos)
-#endif
+// #if (QT_VERSION >= QT_VERSION_CHECK(5, 5, 0))
+//   Q_ENUM(EtipPos)
+// #endif
 
 	Tcanvas(QGraphicsView* view, Texam* exam);
 	virtual ~Tcanvas();

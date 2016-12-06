@@ -310,7 +310,7 @@ void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
   m_whatTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
   m_whatTip->setTipMovable(true);
   connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-  connect(m_whatTip, &TgraphicsTextTip::moved, this, &Tcanvas::tipMoved);
+  connect(m_whatTip, SIGNAL(moved()), this, SLOT(tipMoved()));
 #endif
   setWhatNextPos();
 }
