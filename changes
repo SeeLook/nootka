@@ -7,6 +7,7 @@
     ANDROID
      - reduced number of paint operations, works even 2-4 times faster
      - volume settings and pitch preview can be invoked with volume keys
+     - settings menu entry is placed on the top menu label
      - stop pitch detection when app is going background, restore when backs
     BUGS FIXES
      - fixed positioning of tips with question content

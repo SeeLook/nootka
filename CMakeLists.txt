@@ -7,8 +7,8 @@ cmake_minimum_required(VERSION 2.8.12)
 project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
-SET(Nootka_VERSION_MINOR  "3")
-SET(Nootka_VERSION_PATCH  "90")
+SET(Nootka_VERSION_MINOR  "4")
+SET(Nootka_VERSION_PATCH  "0")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
