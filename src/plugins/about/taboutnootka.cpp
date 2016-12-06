@@ -49,8 +49,7 @@ QString transRow (const char* flag, const QString& lang, const QString& name, co
                  "<td>&nbsp;&nbsp;<img src=\"%1\">&nbsp;&nbsp;</td>"
                  "<td>&nbsp;&nbsp;&nbsp; %2 &nbsp;&nbsp;&nbsp;</td>"
                  "<td> <b>&nbsp; %3 &nbsp;</b> </td>"
-                 "<td>&nbsp;&nbsp; %4 </td></tr>"
-                 /*"<tr><td colspan=\"4\"><hr></td><tr/>"*/)
+                 "<td>&nbsp;&nbsp; %4 </td></tr>")
       .arg(Tpath::main + QLatin1String("picts/flags-") + QString(flag) + QLatin1String(".png"))
       .arg(lang)
       .arg(name)
@@ -71,12 +70,11 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 #endif
 
   addItem(tr("About"), Tpath::img("nootka-frame"));                               // 0
-  addItem(qTR("QShortcut", "Help"), Tpath::img("help-frame"));// 1
+  addItem(qTR("QShortcut", "Help"), Tpath::img("help-frame"));                    // 1
   addItem(authorsTxt(), Tpath::img("author"));                                    // 2
   addItem(tr("License"), Tpath::img("license"));                                  // 3
   addItem(tr("Support"), Tpath::img("support"));                                  // 4
-  addItem(tr("Donors",
-             "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"),
+  addItem(tr("Donors", "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"),
           Tpath::img("donors"));                                                  // 5
   addItem(tr("Changes"), Tpath::img("chlog"));                                    // 6
   addItem(QStringLiteral("Qt"), Tpath::img("qt"));                                // 7
@@ -219,8 +217,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
       in.setCodec("UTF-8");
       QStringList htmlText = in.readAll().replace(QLatin1String("  "), QLatin1String("&nbsp;&nbsp;")).split(QLatin1String("\n"));
       for (int i = 0; i < htmlText.size(); i++) {
-        if (htmlText[i].contains(QLatin1String("0.")) || htmlText[i].contains(QLatin1String("1.")))
-          htmlText[i] = QLatin1String("<u><b>&nbsp;") + htmlText[i] + QLatin1String("</b></u>");
+        if (htmlText[i].startsWith(QLatin1String("0.")) || htmlText[i].startsWith(QLatin1String("1.")))
+          htmlText[i] = QLatin1String("<span style=\"font-size: x-large; color: #0000ff\"><b>&nbsp;") + htmlText[i] + QLatin1String("</b></span>");
         else if (htmlText[i].contains(QLatin1String("======")))
           htmlText[i] = QStringLiteral("<br><hr><b><big><center>Nootka ONE</big></b></center><hr>");
         else if (htmlText[i].contains(QLatin1String("BUG")))
