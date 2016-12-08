@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ">
+<TS version="2.0" language="cs_CZ">
 <context>
     <name>AnswerText</name>
     <message>
@@ -2024,12 +2024,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="396"/>
         <source>Pentatonic</source>
-        <translation type="unfinished"></translation>
+        <translation>Pětitónová</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="397"/>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrávat melodii složenou z pětitónové (pentatonické) stupnice, pokaždé s jiným předznamenáním.</translation>
     </message>
 </context>
 <context>
@@ -2485,27 +2485,27 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="68"/>
         <source>in selected range</source>
-        <translation type="unfinished"></translation>
+        <translation>ve vybraném rozsahu</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="69"/>
         <source>from notes below</source>
-        <translation type="unfinished"></translation>
+        <translation>z not níže</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="74"/>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie jsou složeny z notového rozsahu stanoveného na stránce Rozsah.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="75"/>
         <source>Melodies are composed from notes selected on the score below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie jsou složeny z not vybraných v notovém zápisu níže.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="129"/>
         <source>Random melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhodná melodie</translation>
     </message>
 </context>
 <context>
@@ -3611,7 +3611,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="69"/>
         <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka se postupně přidáváním dalších a dalších funkcí stala velkým a složitým projektem.&lt;br&gt;Aby mohl být tento program vyvíjen dále,&lt;br&gt;pro dokončení verze pro Android (a posléze i pro další mobilní systémy),&lt;br&gt;je potřeba mít pro to vybavení.&lt;br&gt;Počítač, s nímž pracuji, je na to jednoduše příliš starý…&lt;br&gt;Dejte Nootce, prosím, dar.</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="76"/>

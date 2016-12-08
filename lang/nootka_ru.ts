@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.0" language="ru_RU">
 <context>
     <name>AnswerText</name>
     <message>
@@ -345,7 +345,7 @@
     </message>
     <message>
         <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="vanished">ЭТО РАБОТАЕТ ТОЛЬКО С ЕДИНСТВЕННОЙ АУДИО-КАРТОЙ ИЛИ С ASIO ИЛИ JACK!</translation>
+        <translation>ЭТО РАБОТАЕТ ТОЛЬКО С ЕДИНСТВЕННОЙ АУДИО-КАРТОЙ ИЛИ С ASIO ИЛИ JACK!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="103"/>
@@ -476,63 +476,63 @@
     </message>
     <message>
         <source>open strings</source>
-        <translation type="vanished">Открытые струны</translation>
+        <translation>Открытые струны</translation>
     </message>
     <message>
         <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
-        <translation type="vanished">Самый простой. Ни тональностей, ни двойных знаков альтерации и никакого звука.&lt;br&gt;Автоматически подстраивается под текущий строй.</translation>
+        <translation>Самый простой. Ни тональностей, ни двойных знаков альтерации и никакого звука.&lt;br&gt;Автоматически подстраивается под текущий строй.</translation>
     </message>
     <message>
         <source>C-major scale</source>
-        <translation type="vanished">До мажор</translation>
+        <translation>До мажор</translation>
     </message>
     <message>
         <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
-        <translation type="vanished">В первой позиции. Ни знаков альтерации, ни звука.&lt;br&gt;Требует правильную октаву.</translation>
+        <translation>В первой позиции. Ни знаков альтерации, ни звука.&lt;br&gt;Требует правильную октаву.</translation>
     </message>
     <message>
         <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation type="vanished">Назовите ноту в тональности До мажор или покажите её на нотоносце, зная её имя.</translation>
+        <translation>Назовите ноту в тональности До мажор или покажите её на нотоносце, зная её имя.</translation>
     </message>
     <message>
         <source>All to V fret</source>
-        <translation type="vanished">Всё до 5-го лада</translation>
+        <translation>Всё до 5-го лада</translation>
     </message>
     <message>
         <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="vanished">Все ноты хроматически до 5-го лада, без звука.&lt;br&gt;Без двойных знаков альтерации. Тональности: До, Соль, Ре, Ля</translation>
+        <translation>Все ноты хроматически до 5-го лада, без звука.&lt;br&gt;Без двойных знаков альтерации. Тональности: До, Соль, Ре, Ля</translation>
     </message>
     <message>
         <source>Ear training</source>
-        <translation type="vanished">Тренировка слуха</translation>
+        <translation>Тренировка слуха</translation>
     </message>
     <message>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation type="vanished">Слушайте звук и показывайте ноту на нотоносце.&lt;br&gt;Гитара, имена нот и тональности не используются. Диапазон ля - ля&lt;sup&gt;2&lt;/sup&gt;.</translation>
+        <translation>Слушайте звук и показывайте ноту на нотоносце.&lt;br&gt;Гитара, имена нот и тональности не используются. Диапазон ля - ля&lt;sup&gt;2&lt;/sup&gt;.</translation>
     </message>
     <message>
         <source>Melody on trebles</source>
-        <translation type="vanished">Мелодия на тонких струнах</translation>
+        <translation>Мелодия на тонких струнах</translation>
     </message>
     <message>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation type="vanished">Играть короткую мелодию на тонких струнах из нот на первых трех ладах. Только диезы.</translation>
+        <translation>Играть короткую мелодию на тонких струнах из нот на первых трех ладах. Только диезы.</translation>
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="vanished">Просто возьмите инструмент и играйте....&lt;br&gt;Никаких названий нот или гитарного грифа.&lt;br&gt;Тональности до 4-х знаков альтерации + двойные знаки альтерации! Используется полный диапазон гитары.</translation>
+        <translation>Просто возьмите инструмент и играйте....&lt;br&gt;Никаких названий нот или гитарного грифа.&lt;br&gt;Тональности до 4-х знаков альтерации + двойные знаки альтерации! Используется полный диапазон гитары.</translation>
     </message>
     <message>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation type="vanished">Просто пойте ноты...&lt;br&gt;Никаких названий нот или гитарного грифа, без тональностей и двойных знаков альтерации. Октава игнорируется.</translation>
+        <translation>Просто пойте ноты...&lt;br&gt;Никаких названий нот или гитарного грифа, без тональностей и двойных знаков альтерации. Октава игнорируется.</translation>
     </message>
     <message>
         <source>Play scores</source>
-        <translation type="vanished">Играть ноты</translation>
+        <translation>Играть ноты</translation>
     </message>
     <message>
         <source>Sing scores</source>
-        <translation type="vanished">Петь ноты</translation>
+        <translation>Петь ноты</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tkeysignature.h" line="62"/>
@@ -546,51 +546,51 @@
     </message>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation type="vanished">Стандартный: E A D G B E </translation>
+        <translation>Стандартный: E A D G B E </translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation type="vanished">Dropped D: D A D G B E </translation>
+        <translation>Dropped D: D A D G B E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation type="vanished">Dummy Lute: D A D F# B E </translation>
+        <translation>Dummy Lute: D A D F# B E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation type="vanished">Open: D A D G A D </translation>
+        <translation>Open: D A D G A D </translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
-        <translation type="vanished">Kouyanbaba: D A D A D F </translation>
+        <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
         <source>Standard bass: E A D G</source>
-        <translation type="vanished">Стандартный бас: E A D G</translation>
+        <translation>Стандартный бас: E A D G</translation>
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation type="vanished">Бас по квинтам: C G D A</translation>
+        <translation>Бас по квинтам: C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation type="vanished">Пятиструнный бас: B E A D G</translation>
+        <translation>Пятиструнный бас: B E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="vanished">Шестиструнный бас: B E A D G C</translation>
+        <translation>Шестиструнный бас: B E A D G C</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation type="vanished">Вы можете помочь сделать Нутку лучше.</translation>
+        <translation>Вы можете помочь сделать Нутку лучше.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="vanished">Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
+        <translation>Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="vanished">Не беспокойтесь. Это окно появляется один раз, после выхода новой версии Нутки.&lt;br&gt;Эту информацию всегда можно посмотреть в окне «О Нутке»</translation>
+        <translation>Не беспокойтесь. Это окно появляется один раз, после выхода новой версии Нутки.&lt;br&gt;Эту информацию всегда можно посмотреть в окне «О Нутке»</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.cpp" line="87"/>
@@ -654,7 +654,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Помощь</translation>
+        <translation>Помощь</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/taboutnootka.cpp" line="76"/>
@@ -877,11 +877,11 @@
     </message>
     <message>
         <source>zoom in</source>
-        <translation type="vanished">увеличить</translation>
+        <translation>увеличить</translation>
     </message>
     <message>
         <source>zoom out</source>
-        <translation type="vanished">уменьшить</translation>
+        <translation>уменьшить</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="340"/>
@@ -1171,23 +1171,23 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;&lt;b&gt;Continue&lt;/b&gt; it&lt;br&gt;or&lt;br&gt;&lt;b&gt;Terminate&lt;/b&gt; to check, save and exit&lt;br&gt;</source>
-        <translation type="vanished">Тссс... Идёт экзамен.&lt;br&gt;&lt;br&gt;&lt;b&gt;Продолжить&lt;/b&gt; его&lt;br&gt;или&lt;br&gt;&lt;b&gt;Завершить&lt;/b&gt; для проверки, сохранения и выхода&lt;br&gt;</translation>
+        <translation>Тссс... Идёт экзамен.&lt;br&gt;&lt;br&gt;&lt;b&gt;Продолжить&lt;/b&gt; его&lt;br&gt;или&lt;br&gt;&lt;b&gt;Завершить&lt;/b&gt; для проверки, сохранения и выхода&lt;br&gt;</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="vanished">Продолжить</translation>
+        <translation>Продолжить</translation>
     </message>
     <message>
         <source>Terminate</source>
-        <translation type="vanished">Завершить</translation>
+        <translation>Завершить</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="vanished">Сохранить</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1537,15 +1537,15 @@
     </message>
     <message>
         <source>Close</source>
-        <translation type="vanished">Закрыть</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <source>Continue</source>
-        <translation type="vanished">Продолжить</translation>
+        <translation>Продолжить</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="147"/>
@@ -2178,12 +2178,12 @@
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="396"/>
         <source>Pentatonic</source>
-        <translation type="unfinished"></translation>
+        <translation>Пентатоника</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="397"/>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Играть мелодию, составленную из нот пентатоники, каждый раз в разной тональности.</translation>
     </message>
 </context>
 <context>
@@ -2326,7 +2326,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation type="vanished">ОК</translation>
+        <translation>ОК</translation>
     </message>
 </context>
 <context>
@@ -2571,19 +2571,19 @@
     <name>TmelMan</name>
     <message>
         <source>Play</source>
-        <translation type="vanished">Воспроизведение</translation>
+        <translation>Воспроизведение</translation>
     </message>
     <message>
         <source>Record</source>
-        <translation type="vanished">Запись</translation>
+        <translation>Запись</translation>
     </message>
     <message>
         <source>When record is set, not only played notes are written one by one but either selecting fret or note name adds new note automatically.</source>
-        <translation type="vanished">Когда включена запись, записываются одна за другой не только воспроизводимые ноты, но и выбор лада или название ноты автоматически добавляют новую ноту.</translation>
+        <translation>Когда включена запись, записываются одна за другой не только воспроизводимые ноты, но и выбор лада или название ноты автоматически добавляют новую ноту.</translation>
     </message>
     <message>
         <source>Generate</source>
-        <translation type="vanished">Генерация</translation>
+        <translation>Генерация</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="39"/>
@@ -2662,27 +2662,27 @@
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="68"/>
         <source>in selected range</source>
-        <translation type="unfinished"></translation>
+        <translation>в выбранном диапазоне</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="69"/>
         <source>from notes below</source>
-        <translation type="unfinished"></translation>
+        <translation>из нижеперечисленных нот</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="74"/>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Мелодии составлены из нот, заданных на странице &apos;Диапазон&apos;.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="75"/>
         <source>Melodies are composed from notes selected on the score below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Мелодии составлены из нот, выбранных на нотном стане ниже.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="129"/>
         <source>Random melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Случайная мелодия</translation>
     </message>
 </context>
 <context>
@@ -3394,7 +3394,7 @@
     </message>
     <message>
         <source>Score</source>
-        <translation type="vanished">Нотоносец</translation>
+        <translation>Нотоносец</translation>
     </message>
 </context>
 <context>
@@ -3654,11 +3654,11 @@
     </message>
     <message>
         <source>exercises</source>
-        <translation type="vanished">Упражнения</translation>
+        <translation>Упражнения</translation>
     </message>
     <message>
         <source>pass new exam</source>
-        <translation type="vanished">Начать новый экзамен</translation>
+        <translation>Начать новый экзамен</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="139"/>
@@ -3667,7 +3667,7 @@
     </message>
     <message>
         <source>Help</source>
-        <translation type="vanished">Помощь</translation>
+        <translation>Помощь</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="240"/>
@@ -3731,11 +3731,11 @@
     </message>
     <message>
         <source>continue exam</source>
-        <translation type="vanished">Продолжить экзамен</translation>
+        <translation>Продолжить экзамен</translation>
     </message>
     <message>
         <source>Discard</source>
-        <translation type="vanished">Отмена</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="63"/>
@@ -3814,7 +3814,7 @@
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="69"/>
         <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Функция за функцией Nootka стала большим и сложным проектом.&lt;br&gt;Для дальнейшей разработки приложения,&lt;br&gt;и для того, чтобы завершить версию для Android (а позднее и для других мобильных платформ),&lt;br&gt;нужен более мощный компьютер.&lt;br&gt;Просто потому, что компьютер, на котором я работаю сейчас, уже устарел…&lt;br&gt;Поддержите пожалуйста разработку Nootka пожертвованиями.</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="76"/>
@@ -3909,7 +3909,7 @@
     </message>
     <message>
         <source>Start!</source>
-        <translation type="vanished">Начать!</translation>
+        <translation>Начать!</translation>
     </message>
     <message>
         <location filename="../src/libs/main/gui/ttoolbar.cpp" line="194"/>
@@ -4144,7 +4144,7 @@
     </message>
     <message>
         <source>Ok</source>
-        <translation type="vanished">ОК</translation>
+        <translation>ОК</translation>
     </message>
 </context>
 <context>
@@ -4231,7 +4231,7 @@
     </message>
     <message>
         <source>Accidentals used in exam.</source>
-        <translation type="vanished">Случайные знаки альтерации, используемые в экзамене.</translation>
+        <translation>Случайные знаки альтерации, используемые в экзамене.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="51"/>
@@ -4250,7 +4250,7 @@
     </message>
     <message>
         <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="vanished">только одна тональность используется во всем экзамене.</translation>
+        <translation>только одна тональность используется во всем экзамене.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="70"/>
@@ -4264,7 +4264,7 @@
     </message>
     <message>
         <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation type="vanished">Выберите тональность.&lt;br&gt;Соответствующие знаки альтерации для экзамена&lt;br&gt;будут выбраны автоматически !</translation>
+        <translation>Выберите тональность.&lt;br&gt;Соответствующие знаки альтерации для экзамена&lt;br&gt;будут выбраны автоматически !</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="114"/>
@@ -4273,7 +4273,7 @@
     </message>
     <message>
         <source>Only notes from current key signature are taken.&lt;br&gt;If key signature is disabled accidentals are not used.</source>
-        <translation type="vanished">Принимаются только ноты из текущей тональности.&lt;br&gt;Если тональности отлючены, то знаки альтерации не используются.</translation>
+        <translation>Принимаются только ноты из текущей тональности.&lt;br&gt;Если тональности отлючены, то знаки альтерации не используются.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="354"/>
@@ -4292,7 +4292,7 @@
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature,&lt;br&gt;otherwise it is shown by application.</source>
-        <translation type="vanished">если включено, то пользователь должен выбрать тональность,&lt;br&gt;иначе она отображается приложением.</translation>
+        <translation>если включено, то пользователь должен выбрать тональность,&lt;br&gt;иначе она отображается приложением.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.h" line="42"/>
@@ -4394,21 +4394,21 @@
     </message>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="vanished">Максимальное количество нот в мелодии. Длина мелодии - случайная величина в пределах между 70% и 100% от этого числа.</translation>
+        <translation>Максимальное количество нот в мелодии. Длина мелодии - случайная величина в пределах между 70% и 100% от этого числа.</translation>
     </message>
     <message>
         <source>Melody length</source>
-        <translation type="vanished">Длина мелодии</translation>
+        <translation>Длина мелодии</translation>
     </message>
     <message>
         <source>Melody ends on tonic note</source>
         <translatorcomment>Need to check. But now it seems to be correct.</translatorcomment>
-        <translation type="vanished">Мелодия завершается на тонике</translation>
+        <translation>Мелодия завершается на тонике</translation>
     </message>
     <message>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note of actual key signature.</source>
         <translatorcomment>Got it. Now think the translation is Ok.</translatorcomment>
-        <translation type="vanished">Определяет последнюю ноту мелодии.&lt;br&gt;Если включено, мелодия будет завершаться тоникой соответствующей основной тональности.</translation>
+        <translation>Определяет последнюю ноту мелодии.&lt;br&gt;Если включено, мелодия будет завершаться тоникой соответствующей основной тональности.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="116"/>
@@ -4417,7 +4417,7 @@
     </message>
     <message>
         <source>melodies</source>
-        <translation type="vanished">мелодий</translation>
+        <translation>мелодий</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="152"/>
@@ -4494,7 +4494,7 @@
     </message>
     <message>
         <source>Uncheck strings if you want to skip them&lt;br&gt;in an exam.</source>
-        <translation type="vanished">Отметьте только те струны, которые хотите использовать в экзамене.</translation>
+        <translation>Отметьте только те струны, которые хотите использовать в экзамене.</translation>
     </message>
 </context>
 </TS>
