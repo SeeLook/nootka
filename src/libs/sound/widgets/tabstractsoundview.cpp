@@ -74,9 +74,14 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
   tc = palette().color(palette().currentColorGroup(), QPalette::Text);
   disabledColor = palette().color(QPalette::Disabled, QPalette::Text);
   disabledColor.setAlpha(150);
+#if defined (Q_OS_MAC)
+    m_tickWidth = 2;
+    m_tickGap = 2;
+#else
   if (m_tickWidth == 0) {
     m_tickWidth = qRound((qApp->screens().first()->physicalDotsPerInchX() / 22.0) * 0.4);
     m_tickGap = qRound(m_tickWidth * 1.25);
+#endif
   }
 
 }
