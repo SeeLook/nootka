@@ -189,7 +189,7 @@ void rangeSettings::whenParamsChanged() {
 
 
 void rangeSettings::saveLevel(Tlevel* level) {
-  if (level->randMelody != Tlevel::e_randFromRange) {
+  if (level->randMelody == Tlevel::e_randFromRange) {
     // Fixing empty notes
 		if (m_scoreRang->getNote(0).note == 0)
 				m_scoreRang->setNote(0, 
