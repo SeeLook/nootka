@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
-SET(Nootka_VERSION_MINOR  "3")
+SET(Nootka_VERSION_MINOR  "5")
 SET(Nootka_VERSION_PATCH  "0-alpha")
 
 set(Nootka_ANDROID_VERSION "1.2A.4-beta2")
@@ -180,6 +180,7 @@ add_subdirectory( packaging ) # cpack rules
 # add_subdirectory( tests/plugtester )
 # add_subdirectory( tests/nootini )
 # add_subdirectory( tests/nootoxml )
-add_subdirectory( tests/scorek )
+# add_subdirectory( tests/scorek )
+add_subdirectory( tests/qml )
 
 

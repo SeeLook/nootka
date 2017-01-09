@@ -327,6 +327,9 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
   if (m_nameText)
     showNoteName();
   checkEmptyText();
+  if (beam()/* && beam()->last() == this*/)
+    beam()->performBeaming();
+//   staff()->fit();
   update();
 }
 
@@ -560,18 +563,18 @@ void TscoreNote::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     painter->drawRect(0.0, qMax(center.y() - 10.0, 0.0), m_width, qMin(center.y() + 10.0, m_height));
   }
   // for debug - index number, tie, group number, beam
-  painter->setPen(Qt::red);
-  QFont f(qApp->font());
-  f.setPointSize(1);
-  painter->setFont(f);
-  painter->drawText(QRectF(0.0, 6.0, width(), 1.5), Qt::AlignCenter, QString::number(index()));
-  painter->drawText(QRectF(0.0, 9.0, width(), 1.5), Qt::AlignCenter,
-                    (beam() ? "B " : "") + QString::number(m_group) + (note()->rtm.stemDown() ? " \\/" : " /\\"));
-  if (note()->rtm.tie()) {
-    Trhythm::Etie t = note()->rtm.tie();
-    painter->drawText(QRectF(0.0, 7.5, width(), 1.5), Qt::AlignCenter,
-                      QString("T%1").arg(t == Trhythm::e_tieStart ? "s" : (t == Trhythm::e_tieCont ? "c" : "e")));
-  }
+//   painter->setPen(Qt::red);
+//   QFont f(qApp->font());
+//   f.setPointSize(1);
+//   painter->setFont(f);
+//   painter->drawText(QRectF(0.0, 6.0, width(), 1.5), Qt::AlignCenter, QString::number(index()));
+//   painter->drawText(QRectF(0.0, 9.0, width(), 1.5), Qt::AlignCenter,
+//                     (beam() ? "B " : "") + QString::number(m_group) + (note()->rtm.stemDown() ? " \\/" : " /\\"));
+//   if (note()->rtm.tie()) {
+//     Trhythm::Etie t = note()->rtm.tie();
+//     painter->drawText(QRectF(0.0, 7.5, width(), 1.5), Qt::AlignCenter,
+//                       QString("T%1").arg(t == Trhythm::e_tieStart ? "s" : (t == Trhythm::e_tieCont ? "c" : "e")));
+//   }
 
   if (scoreScene()->currentNote() == this && m_touchedToMove) {
     painter->setPen(Qt::NoPen);

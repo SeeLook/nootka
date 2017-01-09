@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="/">
+    <!-- QML files -->
+    <file alias="Main.qml">qml/Main.qml</file>
+
+    <!-- Icons -->
+
+    <!-- Translations -->
+    
+
+  </qresource>
+</RCC>

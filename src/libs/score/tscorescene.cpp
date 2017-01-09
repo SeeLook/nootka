@@ -128,22 +128,22 @@ void TscoreScene::setPointedColor(const QColor& color) {
 
 void TscoreScene::setScoreMeter(TscoreMeter* m) {
   if (m == nullptr && m_scoreMeter) { // disable rhythms
-      m_workRhythm->setRhythm(Trhythm::e_none);
-      m_rightBox->setRhythm(m_workRhythm); // hide rhythm symbol on the right pane
+//       m_workRhythm->setRhythm(Trhythm::e_none);
+//       m_rightBox->setRhythm(m_workRhythm); // hide rhythm symbol on the right pane
       delete m_rhythmBox;
       m_rhythmBox = nullptr;
       m_workNote->setRhythm(*m_workRhythm); // bare note head
   } else if (m && m_scoreMeter == nullptr) { // enable rhythms
       m_workRhythm->setRhythm(Trhythm(m->meter()->lower() == 4 ? Trhythm::e_quarter : Trhythm::e_eighth));
-      m_rightBox->setRhythm(m_workRhythm);
-      m_rhythmBox = new TrhythmPane(0, this);
-      m_workNote->setRhythm(*m_workRhythm);
-      connect(m_rightBox, &TnoteControl::rhythmItemClicked, this, &TscoreScene::showRhythmPane, Qt::UniqueConnection);
-      connect(m_rhythmBox, &TrhythmPane::rhythmChanged, [=]{
-                m_workRhythm->setRhythm(*m_rhythmBox->rhythm());
-                m_workNote->setRhythm(*m_rhythmBox->rhythm());
-                m_rightBox->setRhythm(m_rhythmBox->rhythm());
-      });
+//       m_rightBox->setRhythm(m_workRhythm);
+//       m_rhythmBox = new TrhythmPane(0, this);
+//       m_workNote->setRhythm(*m_workRhythm);
+//       connect(m_rightBox, &TnoteControl::rhythmItemClicked, this, &TscoreScene::showRhythmPane, Qt::UniqueConnection);
+//       connect(m_rhythmBox, &TrhythmPane::rhythmChanged, [=]{
+//                 m_workRhythm->setRhythm(*m_rhythmBox->rhythm());
+//                 m_workNote->setRhythm(*m_rhythmBox->rhythm());
+//                 m_rightBox->setRhythm(m_rhythmBox->rhythm());
+//       });
   }
   m_scoreMeter = m;
 }
