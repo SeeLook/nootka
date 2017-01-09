@@ -160,6 +160,7 @@ void TlevelCreatorDlg::saveLevel() {
 
 
 void TlevelCreatorDlg::saveToFile() {
+  m_levelSett->saveButton()->clearFocus();
   Tlevel newLevel;
   m_questSett->saveLevel(&newLevel);
   m_accSett->saveLevel(&newLevel);
@@ -182,7 +183,7 @@ void TlevelCreatorDlg::saveToFile() {
   }
   // set instrument to none when it is not important for the level
   newLevel.instrument = newLevel.detectInstrument(Tcore::gl()->instrument);
-  TlevelHeaderWdg *saveDlg = new TlevelHeaderWdg(this);
+  auto saveDlg = new TlevelHeaderWdg(this);
   QStringList nameList = saveDlg->getLevelName();
   newLevel.name = nameList[0];
   newLevel.desc = nameList[1];
