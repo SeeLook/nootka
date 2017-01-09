@@ -2,16 +2,27 @@
 # CMakeList.txt src
 ########################################################################
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 set(CMAKE_AUTOMOC ON)
 
 
+find_package(Qt5Gui REQUIRED)
+if (Qt5Gui_FOUND)
+    if (Qt5Gui_VERSION VERSION_LESS 5.7.0)
+        message(FATAL_ERROR "Minimum supported Qt5 version is 5.7.0")
+    endif()
+else()
+    message(SEND_ERROR "The Qt5Gui library could not be found!")
+endif(Qt5Gui_FOUND)
+
+
+find_package(Qt5Qml REQUIRED)
+find_package(Qt5Quick REQUIRED)
+find_package(Qt5QuickControls2 REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
-# Force using c++11 if not set already - now it is mandatory
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 if(UNIX AND NOT APPLE)
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
@@ -46,12 +57,13 @@ if (APPLE) # Mac RPath
 endif (APPLE)
 
 
-add_subdirectory( libs/core )     # libNootkaCore
-add_subdirectory( libs/score )    # libNootkaScore
-add_subdirectory( libs/widgets )  # libNootkaWidgets
-add_subdirectory( libs/sound )    # libNootkaSound
-add_subdirectory( libs/misc )     # libNootkaMisc
-add_subdirectory( libs/main )     # libNootkaMain
+add_subdirectory( libs/scorek )
+# add_subdirectory( libs/core )     # libNootkaCore
+# add_subdirectory( libs/score )    # libNootkaScore
+# add_subdirectory( libs/widgets )  # libNootkaWidgets
+# add_subdirectory( libs/sound )    # libNootkaSound
+# add_subdirectory( libs/misc )     # libNootkaMisc
+# add_subdirectory( libs/main )     # libNootkaMain
 
 include_directories( libs/core libs/score libs/widgets libs/sound libs/misc libs/main )
 
@@ -71,28 +83,28 @@ if(MINGW)
 endif(MINGW)
 
 
-add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
-target_link_libraries(nootka
-		NootkaMain
-		Qt5::Widgets
-)
-
-
-if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
-  install(TARGETS nootka DESTINATION bin)
-else(UNIX AND NOT APPLE)
-  if(WIN32) 			# Windows
-    install(TARGETS nootka DESTINATION .)
-  else(WIN32) 			# MacOs
-    install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
-    install( CODE "
-    execute_process(COMMAND echo copying info.plist )
-    execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
-    )
-  endif(WIN32)
-endif(UNIX AND NOT APPLE)
-
-add_subdirectory( plugins )
+# add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
+# target_link_libraries(nootka
+# 		NootkaMain
+# 		Qt5::Widgets
+# )
+#
+#
+# if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+#   install(TARGETS nootka DESTINATION bin)
+# else(UNIX AND NOT APPLE)
+#   if(WIN32) 			# Windows
+#     install(TARGETS nootka DESTINATION .)
+#   else(WIN32) 			# MacOs
+#     install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
+#     install( CODE "
+#     execute_process(COMMAND echo copying info.plist )
+#     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
+#     )
+#   endif(WIN32)
+# endif(UNIX AND NOT APPLE)
+#
+# add_subdirectory( plugins )
 
 
 # get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )

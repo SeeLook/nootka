@@ -19,7 +19,7 @@
 #ifndef TMETER_H
 #define TMETER_H
 
-#include <nootkacoreglobal.h>
+#include "../scorekglobal.h"
 #include <QtCore/qxmlstream.h>
 #include <QtGui/qpixmap.h>
 
@@ -27,7 +27,7 @@
 /**
  * Describes musical time signature
  */
-class NOOTKACORE_EXPORT Tmeter
+class SCOREK_EXPORT Tmeter
 {
 
 public:

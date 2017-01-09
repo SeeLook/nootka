@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tmeter.h"
-#include "tnoofont.h"
+// #include "tnoofont.h"
 #include "trhythm.h"
 #include <QtGui/qfontmetrics.h>
 #include <QtGui/qpainter.h>
@@ -69,19 +69,20 @@ QPixmap Tmeter::pixmap(int fontSize, const QColor& c) {
   if (meter() == e_none)
     return QPixmap();
 
-  TnooFont font(fontSize);
-  QFontMetrics fm(font);
-  QString upperDigit = TnooFont::digit(upper());
-  QPixmap pix(QSize(fm.boundingRect(upperDigit).width() + 4, fontSize + 12)); // upper digit is usually wider
-  pix.fill(Qt::transparent);
-  QPainter p(&pix);
-  p.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing, true);
-  p.setFont(font);
-  p.setPen(c == -1 ? qApp->palette().text().color() : c);
-  p.setBrush(Qt::NoBrush);
-  p.drawText(QRect(0, 0, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, upperDigit);
-  p.drawText(QRect(0, fontSize / 2 - 1, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, TnooFont::digit(lower()));
-  return pix;
+//   TnooFont font(fontSize);
+//   QFontMetrics fm(font);
+//   QString upperDigit = TnooFont::digit(upper());
+//   QPixmap pix(QSize(fm.boundingRect(upperDigit).width() + 4, fontSize + 12)); // upper digit is usually wider
+//   /*/*pix.fill(Qt::transparent);
+//   QPainter p(&pix);
+//   p.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing, true);
+//   p.setFont(font);
+//   p.setPen(c == -1 ? qApp->palette().text().color() : c);
+//   p.setBrush(Qt::NoBrush);
+//   p.drawText(QRect(0, 0, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, upperDigit);
+//   p.drawText(QRect(0, fontSize / 2 - 1, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, TnooFont::digit(lower()));*/*/
+//   return pix;
+  return QPixmap();
 }
 
 

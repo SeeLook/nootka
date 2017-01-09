@@ -36,7 +36,7 @@
  * declared in Tglobals.
  * get(Tnote::EnameStyle style) static method returns proper style.
  */
-class NOOTKACORE_EXPORT TnameStyleFilter
+class SCOREK_EXPORT TnameStyleFilter
 {
 
 public:

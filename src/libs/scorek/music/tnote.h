@@ -1,28 +1,32 @@
 /***************************************************************************
- *   Copyright (C) 2006-2015 by Tomasz Bojczuk                             *
- *   seelook@gmail.com                                                     *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
- ***************************************************************************/
+*   Copyright (C) 2006-2017 by Tomasz Bojczuk                             *
+*   seelook@gmail.com                                                     *
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 3 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+*   This program is distributed in the hope that it will be useful,       *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+*   GNU General Public License for more details.                          *
+*                                                                         *
+*  You should have received a copy of the GNU General Public License      *
+*  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+***************************************************************************/
+
 #ifndef TNOTE_H
 #define TNOTE_H
+
 
 #include <string>
 #include <vector>
 #include <QtCore/qdatastream.h>
 #include <QtCore/qxmlstream.h>
-#include <nootkacoreglobal.h>
+#include <scorekglobal.h>
+#include "trhythm.h"
+
 
 class Tnote;
 
@@ -35,12 +39,12 @@ const std::string signsAcid[5] = {"bb","b","","#","x",};
 
 
 /**
- * This class provides the descriptions of classical notation for different variables in apps.
- * It helps to convert the letter notation (C D E ...) for Do Re Mi.
- * It supports accidentals (sharps, flats, double sharps and double flats.
- * General format for each note is its number.
+* This class provides the descriptions of classical notation for different variables in apps.
+* It helps to convert the letter notation (C D E ...) for Do Re Mi.
+* It supports accidentals (sharps, flats, double sharps and double flats.
+* General format for each note is its number.
 */
-class NOOTKACORE_EXPORT Tnote
+class SCOREK_EXPORT Tnote
 {
 
 public:
@@ -58,10 +62,12 @@ public:
         /** Ealter enumeration type describes all signs which can be before note in score.
         * It can be: @li e_None = 3 @li e_Sharp = 1 @li e_DoubleSharp=2
         * @li e_Flat= -1 @li e_DoubleFlat= -2 @li e_Natural=0  */
-  enum Ealter { e_Natural = 0, e_Sharp = 1, e_DoubleSharp = 2, e_Flat = -1, e_DoubleFlat = -2, e_None = 3 };
+  enum Ealter : char {
+    e_Natural = 0, e_Sharp = 1, e_DoubleSharp = 2, e_Flat = -1, e_DoubleFlat = -2, e_None = 3
+  };
 
-  char note; /** note variable is a number in "diatonic notation" (see constructor).*/
-  char octave; /** Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line". */
+  char note; /**< note variable is a number in "diatonic notation" (see constructor).*/
+  char octave; /**< Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line". */
 
         /** @param accidental means raising or dropping a note, so it ca be:
         * @li 2 for double sharp (x)
@@ -71,18 +77,30 @@ public:
         * @li -2 for double flat (bb) */
   char alter;
 
-        /** Construct object of Tnote from number of note, number of octave and optional
-        * accidental. The note number is:
+
+        /** Construct object of Tnote from number of note, number of octave
+        * and optionally accidental and rhythm (none by default).
+        * The note number is:
         * @li "1" for C
         * @li "2" for D1
         * @li .......
         * @li 7 for B (H in Deutsh)
         * If accidental is not defined, the note is natural.  */
-  Tnote(char diatonNote, char oct, char accid = 0);
+  Tnote(char diatonNote, char oct, char accid = 0, const Trhythm& r = Trhythm(Trhythm::e_none)) :
+      note(diatonNote),
+      octave(oct),
+      alter(accid),
+      rtm(r)
+    {}
 
-        /** The simple constructor, creates the note instance with 0 note -
+        /** The simple constructor, creates the note instance with 0 note and no rhythm.
         * It makes no sense in musical notation. It's needed for vectors. */
-  Tnote();
+  Tnote() :
+      note(0),
+      octave(0),
+      alter(e_Natural),
+      rtm(Trhythm(Trhythm::e_none))
+    {}
 
         /** Construct object of Tnote from number, that represents:
         * @li "1" for C1 in first octave
@@ -90,9 +108,52 @@ public:
         * @li .......
         * @li 13 for C2 in next octave
         * @li -12 for C in little octave etc....
-        * The sharp accidental is default. If You need others, you can use @p showWithFlat(). */
-  Tnote(short chromaticNrOfNote);
-  ~Tnote();
+        * The sharp accidental is default. If other are needed, use @p showWithFlat().
+        * Sets rhythm to @p r */
+  Tnote(short chromaticNrOfNote, const Trhythm& r = Trhythm(Trhythm::e_none)) :
+    rtm(r)
+  {
+    setChromatic(chromaticNrOfNote);
+  }
+
+      /** Constructs @class Tnote from other Tnote but with different rhythm @p r */
+  Tnote(const Tnote& other, const Trhythm& r) :
+    note(other.note),
+    octave(other.octave),
+    alter(other.alter),
+    rtm(r)
+  {}
+
+  ~Tnote() {}
+
+  Trhythm rtm; /**< Easy access to rhythm object */
+  Trhythm::Erhythm rhythm() const { return rtm.rhythm(); }
+
+      /** Sets rhythm parameters, Resets all previous values! */
+  void setRhythm(Trhythm::Erhythm r, bool rest = false, bool dot = false, bool triplet = false) {
+    rtm.setRhythm(r, rest, dot, triplet);
+  }
+
+  void setRhythm(const Trhythm& r) { rtm.setRhythm(r); }
+  void setRhythm(quint16 durationValue) { rtm.setRhythm(durationValue); } /**< Converts given value into rhythm */
+
+      /** Changes rhythmic value only, state of dot, triplet, beams remains unchanged */
+  void setRhythmValue(Trhythm::Erhythm nVal) { rtm.setRhythmValue(nVal); }
+
+      /** It converts std::string into rhythm value. Doesn't change state of triplet, dot or beam. */
+  void setRhythmValue(const std::string& nVal) { rtm.setRhythmValue(nVal); }
+
+  int weight() const { return rtm.weight(); } /**< Rhythm value cast to int: i.e. quarter is 4, half is 2 and so on */
+
+      /** Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8.
+      * Base value is defined in @p RVALUE macro */
+  int duration() const { return rtm.duration(); }
+  bool isRest() const { return rtm.isRest(); }
+  void setRest(bool rest) { rtm.setRest(rest); }
+  bool hasDot() const { return rtm.hasDot(); }
+  void setDot(bool dot) { rtm.setDot(dot); }
+  bool isTriplet() const { return rtm.isTriplet(); }
+  void setTriplet(bool tri) { rtm.setTriplet(tri); }
 
       /** Returns @p TRUE when note is valid. There are used 'undefined' notes with 0 - they are invalid. */
   bool isValid() const { return (note > 0 && note < 8); }
@@ -101,11 +162,17 @@ public:
   static EnameStyle defaultStyle;
 
   bool operator==(const Tnote N2) const {
-    return (note == N2.note && octave == N2.octave && alter == N2.alter);
+    return (note == N2.note && octave == N2.octave && alter == N2.alter && rtm == N2.rtm);
   }
 
   bool operator!=(const Tnote N2) const {
-    return ( note != N2.note || octave != N2.octave || alter != N2.alter);
+    return ( note != N2.note || octave != N2.octave || alter != N2.alter || rtm != N2.rtm);
+  }
+
+        /** Splits current note on two given rhythmic values */
+  Tnote split(const Trhythm& r1, const Trhythm& r2) {
+    setRhythm(r1);
+    return Tnote(note, octave, alter, r2);
   }
 
         /** @return List of Tnote objects, which are the same (in sound sense),
@@ -128,12 +195,14 @@ public:
       /** Return this note converted into double-flat or the same note if not possible. */
   Tnote showWithDoubleFlat() const;
 
-      /** This method compares actual note, with otherNote.
-        * @param otherNote
-        * @param ignoreOctave If 1 (TRUE) the octave values are ignored,
+      /**
+        * This method compares actual note, with otherNote @p otherNote.
+        * @p ignoreOctave, if @p TRUE - the octave values are ignored,
         * and method compares only number of note and accidental.
-        * @return 1 for TRUE or 0 if notes are different */
-  short compareNotes(const Tnote& otherNote, short ignoreOctave = 0) const;
+        */
+  bool compareNotes(const Tnote& otherNote, bool ignoreOctave = false) const {
+    return note == otherNote.note && alter == otherNote.alter && (ignoreOctave || octave == otherNote.octave);
+  }
 
   std::string getName(EnameStyle notation = e_norsk_Hb, bool showOctave = 1) const;
 
@@ -151,22 +220,26 @@ public:
         /** Returns note name formatted to HTML in default name style sets by @p defaultStyle. */
   QString toRichText(bool showOctave = true) const { return toRichText(defaultStyle, showOctave); }
 
-  short chromatic() const; /** Returns chromatic number of note f.e. C1 is 60 */
-  void setChromatic(short noteNr); /** Determines note, octave and accidental from chromatic value. */
+  short chromatic() const; /**< Returns chromatic number of note f.e. C1 is 60 */
+  void setChromatic(short noteNr); /**< Determines note, octave and accidental from chromatic value. */
 
-      /** Adds given @p tag or 'pitch' key to XML stream compatible with MusicXML format with current note
-       * Following elements can be prefixed with @p prefix (it is used i.e. to tuning in MusicXML)
-       * If @p attr and its @p val is set the attribute is added
-       * <pitch attr="val">
-       *     <prefix-step>G</prefix-step>
-       *     <prefix-octave>2</prefix-octave>
-       *     <prefix-alter>-1</prefix-alter>
-       * </pitch>  */
+      /**
+      * Adds given @p tag or 'pitch' key to XML stream compatible with MusicXML format with current note
+      * Following elements can be prefixed with @p prefix (it is used i.e. to tuning in MusicXML)
+      * If @p attr and its @p val is set the attribute is added
+      * <pitch attr="val">
+      *     <prefix-step>G</prefix-step>
+      *     <prefix-octave>2</prefix-octave>
+      *     <prefix-alter>-1</prefix-alter>
+      * </pitch>
+      */
   void toXml(QXmlStreamWriter& xml, const QString& tag = QStringLiteral("pitch"), const QString& prefix = QString(),
-             const QString& attr = QString(), const QString& val = QString()) const;
+            const QString& attr = QString(), const QString& val = QString()) const;
 
-      /** Reads this note from XML stream.
-       * It looks every note element prefixed with @p prefix. */
+      /**
+      * Reads this note from XML stream.
+      * It looks every note element prefixed with @p prefix.
+      */
   void fromXml(QXmlStreamReader& xml, const QString& prefix = QString());
 
 
@@ -181,10 +254,10 @@ private:
 };
     /** This function is substitute of >> operator for @class Tnote.
     * It checks is Tnote valid, and return Boolean about it. */
-NOOTKACORE_EXPORT bool getNoteFromStream(QDataStream &in, Tnote &n);
+SCOREK_EXPORT bool getNoteFromStream(QDataStream &in, Tnote &n);
 
-NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, const Tnote &n);
-NOOTKACORE_EXPORT QDataStream &operator>> (QDataStream &in, Tnote &n);
+SCOREK_EXPORT QDataStream &operator<< (QDataStream &out, const Tnote &n);
+SCOREK_EXPORT QDataStream &operator>> (QDataStream &in, Tnote &n);
 
 
 #endif
