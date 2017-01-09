@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,18 +20,21 @@
 #ifndef TKEYSIGNATURE_H
 #define TKEYSIGNATURE_H
 
-#include <nootkacoreglobal.h>
-#include <QString>
+
+#include <scorekglobal.h>
+#include <QtCore/QString>
 #include "tnote.h"
+
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
+
 
 /**
  * This class describes a key signature.
  * It keeps it in char type. Also it keeps info about mode (minor/major)
 */
-class NOOTKACORE_EXPORT TkeySignature
+class SCOREK_EXPORT TkeySignature
 {
 public:
     TkeySignature();
@@ -112,11 +115,11 @@ private:
 };
 
 
-NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, TkeySignature &key);
+SCOREK_EXPORT QDataStream &operator<< (QDataStream &out, TkeySignature &key);
 
     /** This function is substitute of >> operator for @class TkeySignature.
     * It checks is Tnote valid, and return @value bool about it. */
-NOOTKACORE_EXPORT bool getKeyFromStream(QDataStream &in, TkeySignature &k);
+SCOREK_EXPORT bool getKeyFromStream(QDataStream &in, TkeySignature &k);
 
 
 #endif // TKEYSIGNATURE_H

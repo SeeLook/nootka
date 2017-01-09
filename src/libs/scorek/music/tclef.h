@@ -20,14 +20,14 @@
 #ifndef TCLEF_H
 #define TCLEF_H
 
-#include <nootkacoreglobal.h>
+#include "../scorekglobal.h"
 #include <QString>
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
 
 
-class NOOTKACORE_EXPORT Tclef
+class SCOREK_EXPORT Tclef
 {
 
 public:

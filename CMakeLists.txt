@@ -1,17 +1,18 @@
 ########################################################################
 # MAIN CMAKE FILE FOR Nootka
 ########################################################################
-
-cmake_minimum_required(VERSION 2.8.12)
+ 
+cmake_minimum_required(VERSION 3.1.0)
 
 project(nootka)
 
-SET(Nootka_VERSION_MAJOR  "1")
-SET(Nootka_VERSION_MINOR  "4")
-SET(Nootka_VERSION_PATCH  "0")
+set(Nootka_VERSION_MAJOR  "1")
+set(Nootka_VERSION_MINOR  "5")
+set(Nootka_VERSION_PATCH  "0-alpha")
 
-SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
-SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
+
+set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
+set(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
 message(STATUS "
 ${PROJECT_NAME}-${Nootka_VERSION_FULL}
 " )
