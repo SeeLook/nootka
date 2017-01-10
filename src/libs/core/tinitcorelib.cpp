@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,12 +55,10 @@ bool initCoreLibrary() {
 
   Tcolor::setShadow(qApp->palette());
 #if defined(Q_OS_MAC)
-  TpushButton::setCheckColor(Tcore::gl()->S->pointerColor, qApp->palette().base().color());
   QDir dir(qApp->applicationDirPath());
   dir.cdUp();
   qApp->addLibraryPath(dir.path() + QLatin1String("/Frameworks"));
 #else
-  TpushButton::setCheckColor(qApp->palette().highlight().color(), qApp->palette().highlightedText().color() );
   qApp->addLibraryPath(qApp->applicationDirPath());
 #endif
 
@@ -96,18 +94,9 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
   translationsPath = Tpath::lang();
 #endif
 
-  /** Until Qt 5.2 version translations where inside qt_xx.ts files
-   * and all shipped with Qt for all supported languages.
-   * But since Qt 5.3 they are split into several files and Nootka requires just qtbase_xx.qm.
-   * qtbase_es.qm is missing so far but it was obtained and shipped with Nootka. */
-  QString qtlang = QStringLiteral("qtbase_");
-#if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
-  qtlang = QStringLiteral("qt_");
-#else
   if (loc.language() == QLocale::Spanish) // So far, there are missing
     translationsPath = Tpath::lang(); // TODO Check when those qtbase translations will be shipped with Qt
-#endif
-  if (qt.load(loc, qtlang, QString(), translationsPath))
+  if (qt.load(loc, QStringLiteral("qtbase_"), QString(), translationsPath))
     a->installTranslator(&qt);
 
 #if defined (Q_OS_ANDROID)

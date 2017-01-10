@@ -57,8 +57,8 @@ if (APPLE) # Mac RPath
 endif (APPLE)
 
 
-add_subdirectory( libs/scorek )
-# add_subdirectory( libs/core )     # libNootkaCore
+# add_subdirectory( libs/scorek )
+add_subdirectory( libs/core )     # libNootkaCore
 # add_subdirectory( libs/score )    # libNootkaScore
 # add_subdirectory( libs/widgets )  # libNootkaWidgets
 # add_subdirectory( libs/sound )    # libNootkaSound
@@ -69,8 +69,7 @@ include_directories( libs/core libs/score libs/widgets libs/sound libs/misc libs
 
 # nootka executable
 set(NOOTKA_SRC
-	main.cpp
-	mainwindow.cpp
+    main.cpp
 )
 
 
@@ -83,27 +82,34 @@ if(MINGW)
 endif(MINGW)
 
 
-# add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
-# target_link_libraries(nootka
-# 		NootkaMain
-# 		Qt5::Widgets
-# )
-#
-#
-# if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
-#   install(TARGETS nootka DESTINATION bin)
-# else(UNIX AND NOT APPLE)
-#   if(WIN32) 			# Windows
-#     install(TARGETS nootka DESTINATION .)
-#   else(WIN32) 			# MacOs
-#     install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
-#     install( CODE "
-#     execute_process(COMMAND echo copying info.plist )
-#     execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
-#     )
-#   endif(WIN32)
-# endif(UNIX AND NOT APPLE)
-#
+qt5_add_resources(NOOTKA_SRC nootka.qrc)
+
+
+add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
+target_link_libraries(nootka
+    NootkaCore
+    Qt5::Core
+    Qt5::Widgets
+    Qt5::Qml
+    Qt5::Quick
+    Qt5::QuickControls2
+)
+
+
+if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+  install(TARGETS nootka DESTINATION bin)
+else(UNIX AND NOT APPLE)
+  if(WIN32) 			# Windows
+    install(TARGETS nootka DESTINATION .)
+  else(WIN32) 			# MacOs
+    install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
+    install( CODE "
+    execute_process(COMMAND echo copying info.plist )
+    execute_process(COMMAND sh ${CMAKE_SOURCE_DIR}/packaging/mac/grabInfo.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX} )"
+    )
+  endif(WIN32)
+endif(UNIX AND NOT APPLE)
+
 # add_subdirectory( plugins )
 
 
