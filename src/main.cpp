@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,21 +16,24 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "mainwindow.h"
+
 #if defined (Q_OS_ANDROID)
   #include "ttouchstyle.h"
   #include <Android/tandroid.h>
-  // #include <QtWidgets/qstylefactory.h>
 #endif
 #include <tinitcorelib.h>
+#include <tpath.h>
 #include <tmtr.h>
-#include <QtCore/qpointer.h>
-#include <QtCore/qfile.h>
-#include <QtCore/qsettings.h>
 #include <QtWidgets/qapplication.h>
+#include <QtGui/qicon.h>
+#include <QtQml/qqmlapplicationengine.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qtranslator.h>
 #include <QtCore/qdatetime.h>
+#include <QtCore/qpointer.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qsettings.h>
+
 
 static QString logFile;
 
@@ -68,60 +71,57 @@ int main(int argc, char *argv[])
   qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
 
-	QTranslator qtTranslator;
-	QTranslator nooTranslator;
-	QPointer<QApplication> a = 0;
-	MainWindow *w = 0;
-	int exitCode;
-	bool firstTime = true;
-	QString confFile;
-	resetConfig = false;
-	do {
+  QTranslator qtTranslator;
+  QTranslator nooTranslator;
+  QPointer<QApplication> a = 0;
+  QQmlApplicationEngine *e = nullptr;
+
+  int exitCode;
+  bool firstTime = true;
+  QString confFile;
+  resetConfig = false;
+  do {
 #if !defined (Q_OS_ANDROID)
-		if (a) delete a;
-		if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
-				QFile f(confFile);
-				f.remove();
-		}
-		resetConfig = false;
+    if (a) delete a;
+    if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
+        QFile f(confFile);
+        f.remove();
+    }
+    resetConfig = false;
 #endif
-		a = new QApplication(argc, argv);
+    a = new QApplication(argc, argv);
     Tmtr::init(a);
-#if defined (Q_OS_ANDROID)
-    a->setStyle(new TtouchStyle);
-//     a->setStyle(QStyleFactory::create("Fusion"));
-#endif
-		gl = new Tglobals();
-		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-		confFile = gl->config->fileName();
-		if (!initCoreLibrary())
-			return 110;
-		prepareTranslations(a, qtTranslator, nooTranslator);
-		if (!loadNootkaFont(a))
-			return 111;
 
+    gl = new Tglobals();
+    gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+    confFile = gl->config->fileName();
+    if (!initCoreLibrary())
+      return 110;
+    prepareTranslations(a, qtTranslator, nooTranslator);
+    if (!loadNootkaFont(a))
+      return 111;
+
+    a->setWindowIcon(QIcon(Tpath::img("nootka")));
 // creating main window
-    w = new MainWindow();
+    e = new QQmlApplicationEngine(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
-#if defined (Q_OS_ANDROID)
-    w->showFullScreen();
-#else
-    w->show();
-#endif
+// #if defined (Q_OS_ANDROID)
+//     w->showFullScreen(); // TODO
+// #endif
 
     if (firstTime) {
 #if defined (Q_OS_ANDROID)
       QString androidArg = Tandroid::getRunArgument();
       if (!androidArg.isEmpty())
         w->openFile(androidArg);
-#else
-      if (argc > 1)
-        w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+#else // TODO
+//       if (argc > 1)
+//         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
 #endif
     }
-		firstTime = false;
-		exitCode = a->exec();
-		delete w;
+    firstTime = false;
+    exitCode = a->exec();
+    delete e;
     delete gl;
 #if defined (Q_OS_ANDROID)
     if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
@@ -132,11 +132,8 @@ int main(int argc, char *argv[])
     resetConfig = false; // do - while loop doesn't work with Android
     qApp->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries
 #endif
-	} while (resetConfig);
+  } while (resetConfig);
 
-#if defined (Q_OS_ANDROID)
-  Tcore::androidStyle->deleteLater();
-#endif
   delete a;
-	return exitCode;
+  return exitCode;
 }
