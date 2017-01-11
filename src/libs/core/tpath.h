@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,8 +19,10 @@
 #ifndef TPATH_H
 #define TPATH_H
 
+
 #include "nootkacoreglobal.h"
-#include <QtCore/qstring.h>
+#include <QtCore/qobject.h>
+
 
 /**
  * Set of static methods returning appropriate paths
@@ -36,19 +38,29 @@
  * @p sound() for sounds
  * @p lang() for translations
 */
-class NOOTKACORE_EXPORT Tpath
+class NOOTKACORE_EXPORT Tpath : public QObject
 {
+  Q_OBJECT
 
 public:
+  Tpath(QObject *parent = nullptr);
+  ~Tpath();
 
-  static QString main; /** Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
+  static QString main; /**< Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
 
-      /** Returns path to Nootka images (picts) with given image name.
+      /**
+       * Returns path to Nootka images (picts) with given image name.
        * By default a '.png' extensions is added
-       * but it can be changed through @p ext parameter. */
-  static QString img(const char* imageFileName, const char* ext = ".png") {
-      return QString("%1picts/%2%3").arg(main).arg(imageFileName).arg(ext);
-  }
+       * but it can be changed through @p ext parameter.
+       */
+  static QString img(const char* imageFileName, const char* ext = ".png");
+
+      /**
+       * Returns path to Nootka images (picts) with given image name.
+       * It is accessible from QML through @p Tpath::pix("image_name")
+       */
+  Q_INVOKABLE static QString pix(const QString& imageFileName);
+
 
       /** Returns a path to given ogg file with samples in sound resource directory */
   static QString sound(const char* soundFileName, const char* ext = ".ogg") {
@@ -69,6 +81,9 @@ public:
       return main + QLatin1String("lang");
 #endif
   }
+
+private:
+  static Tpath               *m_instance;
 };
 
 

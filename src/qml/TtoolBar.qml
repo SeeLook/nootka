@@ -30,7 +30,7 @@ ToolBar {
     HeadButton {
       id: settAct
       name: qsTr("Settings")
-      icon: "picts/systemsettings.png"
+      icon: Tpath.pix("systemsettings")
       tip: qsTr("Application preferences")
       onClicked: {
       }
@@ -38,19 +38,19 @@ ToolBar {
     HeadButton {
       id: levelAct
       name: qsTr("Level")
-      icon: "picts/levelCreator.png"
+      icon: Tpath.pix("levelCreator")
       tip: qsTr("Levels creator")
     }
 //     HeadButton {
 //       id: chartAct
 //       name: qsTr("Analyze", "could be Chart as well")
-//       icon: "picts/charts.png"
+//       icon: Tpath.pix("charts")
 //       tip: qsTr("Analysis of exam results")
 //     }
     HeadButton {
       id: examAct
       name: qsTr("Lessons")
-      icon: "picts/startExam.png"
+      icon: Tpath.pix("startExam")
       tip: qsTr("Start exercises or an exam")
     }
 

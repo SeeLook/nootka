@@ -27,6 +27,7 @@
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qicon.h>
 #include <QtQml/qqmlapplicationengine.h>
+#include <QtQml/qqmlcontext.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qtranslator.h>
 #include <QtCore/qdatetime.h>
@@ -75,6 +76,7 @@ int main(int argc, char *argv[])
   QTranslator nooTranslator;
   QPointer<QApplication> a = 0;
   QQmlApplicationEngine *e = nullptr;
+  Tpath pathObj;
 
   int exitCode;
   bool firstTime = true;
@@ -103,7 +105,9 @@ int main(int argc, char *argv[])
 
     a->setWindowIcon(QIcon(Tpath::img("nootka")));
 // creating main window
-    e = new QQmlApplicationEngine(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
+    e = new QQmlApplicationEngine;
+    e->rootContext()->setContextProperty(QStringLiteral("Tpath"), &pathObj);
+    e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 // #if defined (Q_OS_ANDROID)
 //     w->showFullScreen(); // TODO

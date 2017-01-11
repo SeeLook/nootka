@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,32 @@
 
 
 #include "tpath.h"
+#include <QtCore/qdebug.h>
+
 
 QString Tpath::main = QString();
+Tpath* Tpath::m_instance = nullptr;
 
+
+Tpath::Tpath(QObject* parent) :
+  QObject(parent)
+{
+  if (m_instance) {
+    qDebug() << "Tpath instance already exists";
+    return;
+  }
+  m_instance = this;
+}
+
+
+Tpath::~Tpath() { m_instance = nullptr; }
+
+
+QString Tpath::img(const char* imageFileName, const char* ext) {
+  return QString("%1picts/%2%3").arg(main).arg(imageFileName).arg(ext);
+}
+
+
+QString Tpath::pix(const QString& imageFileName) {
+  return QString("file:%1picts/%2.png").arg(main).arg(imageFileName);
+}
