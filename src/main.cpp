@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
 // creating main window
     e = new QQmlApplicationEngine;
     e->rootContext()->setContextProperty(QStringLiteral("Tpath"), &pathObj);
+    e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 // #if defined (Q_OS_ANDROID)

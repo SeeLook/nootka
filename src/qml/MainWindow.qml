@@ -23,13 +23,29 @@ import QtQuick.Window 2.0
 
 
 ApplicationWindow {
-  id: qrabWindow
+  id: nootkaWindow
   visible: true
   title: "Nootka"
 
-  width: Screen.desktopAvailableWidth / 2
-  height: Screen.desktopAvailableHeight / 2
+  width: {
+    var r = GLOB.getVar("General/geometry")
+    return (r && r.width >= 720) ? r.width : Math.max(Screen.desktopAvailableWidth * 0.75, 720)
+  }
+  height: {
+    var r = GLOB.getVar("General/geometry")
+    return (r && r.height >= 480) ? r.height : Math.max(Screen.desktopAvailableHeight * 0.75, 480)
+  }
+  x: {
+    var r = GLOB.getVar("General/geometry")
+    return (r && r.x >= 0) ? r.x : (Screen.desktopAvailableWidth - nootkaWindow.width) / 2
+  }
+  y: {
+    var r = GLOB.getVar("General/geometry")
+    return (r && r.y >= 0) ? r.y : (Screen.desktopAvailableHeight - nootkaWindow.height) / 2
+  }
 
   header: TtoolBar {}
+
+  Component.onCompleted: {}
 
 }
