@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,13 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
 #include "tmelody.h"
 #include "tnotestruct.h"
 #include "tclef.h"
-#include <QVariant>
-#include <QDebug>
-#include <QFile>
-#include <QDate>
+#include <QtCore/qvariant.h>
+#include <QtCore/qdebug.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qdatetime.h>
 
 
 /* local static */
@@ -37,7 +38,7 @@ Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
   m_title(title),
   m_tempo(120),
   m_key(k),
-  m_metrum(0),
+  m_meter(0),
   m_clef(Tclef::defaultType)
 {
 
@@ -66,7 +67,7 @@ void Tmelody::toXml(QXmlStreamWriter& xml) {
           xml.writeTextElement("divisions", "1");
           if (m_key.value() || m_key.isMinor())
             m_key.toXml(xml);
-          // time signature (metrum)
+          // time signature (meter)
           if (m_clef == Tclef::e_pianoStaff)
             xml.writeTextElement("staves", "2");
           Tclef(m_clef).toXml(xml);
@@ -97,7 +98,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
     if (xml.name() == "measure") {
       int nr = xml.attributes().value("number").toInt();
       m_measures << Tmeasure(nr);
-      // TODO set melody metrum for measure
+      // TODO set melody meter for measure
       while (xml.readNextStartElement()) {
 /** [attributes] */
         if (xml.name() == "attributes") {
@@ -123,7 +124,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                     clef2 = tmpClef;
               } else if (xml.name() == "key")
                   m_key.fromXml(xml);
-                // TODO set metrum for melody and for measure as well
+              // TODO set meter for melody and for measure as well
               else
                 xml.skipCurrentElement();
             }

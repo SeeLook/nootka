@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,13 +20,13 @@
 #define TMELODY_H
 
 
-#include <QString>
-#include <QList>
+#include <QtCore/qstring.h>
+#include <QtCore/qlist.h>
 #include "tkeysignature.h"
 #include "tmeasure.h"
 #include "tclef.h"
 
-class Tmetrum;
+class Tmeter;
 class TnoteStruct;
 
 /**
@@ -71,11 +71,11 @@ public:
 private:
   QString            m_title;
   QList<Tmeasure>    m_measures;
-  QList<Tchunk*>     m_notes; /**< List of pointers to ordered notes */
+  QList<Tchunk*>    m_notes; /**< List of pointers to ordered notes */
   int                m_tempo;
   TkeySignature      m_key;
-  Tmetrum           *m_metrum;
-  Tclef::Etype       m_clef;
+  Tmeter           *m_meter;
+  Tclef::Etype      m_clef;
 };
 
 #endif // TMELODY_H

@@ -224,7 +224,7 @@ TnotesList Tnote::getTheSameNotes(bool enableDbAccids) const {
 
 std::string Tnote::getName(Tnote::EnameStyle notation, bool showOctave) const {
   std::string noteStr;
-  if (note < 1 || note > 7) {
+  if (!isValid()) {
       std::cout << "Oops !! getName() with note=0\n";
       return "none";
   }

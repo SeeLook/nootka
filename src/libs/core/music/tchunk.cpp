@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,27 +36,27 @@ Tchunk::~Tchunk()
 
 
 void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
-  xml.writeStartElement("note");
+  xml.writeStartElement(QLatin1String("note"));
     if (m_rhythm.isRest() || !m_pitch.isValid())
-      xml.writeEmptyElement("rest");
+      xml.writeEmptyElement(QLatin1String("rest"));
     else
       m_pitch.toXml(xml);
     if (m_rhythm.rhythm() == Trhythm::e_none) {
       if (!m_rhythm.isRest() && m_pitch.isValid())
-        xml.writeTextElement("stem", "none");
+        xml.writeTextElement(QLatin1String("stem"), QLatin1String("none"));
     } else {
-      xml.writeTextElement("type", m_rhythm.xmlType());
+      xml.writeTextElement(QLatin1String("type"), m_rhythm.xmlType());
       if (m_rhythm.hasDot())
-        xml.writeEmptyElement("dot");
+        xml.writeEmptyElement(QLatin1String("dot"));
     }
-    xml.writeTextElement("duration", "1");
+    xml.writeTextElement(QLatin1String("duration"), QLatin1String("1"));
     if (validPos()) {
-      xml.writeStartElement("notations");
+      xml.writeStartElement(QLatin1String("notations"));
         g().toXml(xml);
       xml.writeEndElement();
     }
     if (staffNr)
-      xml.writeTextElement("staff", QString("%1").arg(*staffNr));
+      xml.writeTextElement(QLatin1String("staff"), QString("%1").arg(*staffNr));
   xml.writeEndElement(); // note
 }
 
@@ -66,25 +66,24 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
   bool ok = true;
   int stNr = 1;
-  m_rhythm.setNoteValue(Trhythm::e_none);
+  m_rhythm.setRhythmValue(Trhythm::e_none);
   while (xml.readNextStartElement()) {
-      if (xml.name() == "pitch")
-        m_pitch.fromXml(xml);
-      else if (xml.name() == "rest") {
-        m_rhythm.setRest(true);
-        xml.skipCurrentElement();
-      } else if (xml.name() == "type")
-        m_rhythm.setNoteValue(xml.readElementText().toStdString());
+      if (xml.name() == QLatin1String("pitch"))
+          m_pitch.fromXml(xml);
+      else if (xml.name() == QLatin1String("rest")) {
+          m_rhythm.setRest(true);
+          xml.skipCurrentElement();
+      } else if (xml.name() == QLatin1String("type"))
+          m_rhythm.setRhythmValue(xml.readElementText().toStdString());
       else if (xml.name() == QLatin1String("notations")) {
           xml.readNextStartElement();
           if (xml.name() == QLatin1String("technical"))
             m_fretPos.fromXml(xml);
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("voice")) {
-        if (xml.readElementText().toInt() != 1) {
-          ok = false;
-        }
-      } else if (xml.name() == "staff")
+          if (xml.readElementText().toInt() != 1)
+            ok = false;
+      } else if (xml.name() == QLatin1String("staff"))
           stNr = xml.readElementText().toInt();
       else
         xml.skipCurrentElement();

@@ -28,6 +28,7 @@ set(LIB_NOOTKACORE_SRC
 #   animations/tcrossfadetextanim.cpp
 
   music/tnote.cpp
+  music/trhythm.cpp
   music/tnamestylefilter.cpp
   music/ttune.cpp
   music/tclef.cpp

@@ -69,7 +69,7 @@ public:
   char note; /**< note variable is a number in "diatonic notation" (see constructor).*/
   char octave; /**< Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line". */
 
-        /** @param accidental means raising or dropping a note, so it ca be:
+        /** @p accidental means raising or dropping a note, so it ca be:
         * @li 2 for double sharp (x)
         * @li 1 for sharp (#)
         * @li 0 for natural
@@ -252,8 +252,10 @@ private:
   static std::string m_solmizationRu[7];
 
 };
-    /** This function is substitute of >> operator for @class Tnote.
-    * It checks is Tnote valid, and return Boolean about it. */
+    /**
+    * This function is substitute of >> operator for @p Tnote.
+    * It checks is Tnote valid, and return Boolean about it. 
+    */
 SCOREK_EXPORT bool getNoteFromStream(QDataStream &in, Tnote &n);
 
 SCOREK_EXPORT QDataStream &operator<< (QDataStream &out, const Tnote &n);
