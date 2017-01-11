@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="/">
+    <!-- QML files -->
+    <file alias="MainWindow.qml">qml/MainWindow.qml</file>
+    <file alias="HeadButton.qml">qml/HeadButton.qml</file>
+    <file alias="TtoolBar.qml">qml/TtoolBar.qml</file>
+
+
+  </qresource>
+</RCC>

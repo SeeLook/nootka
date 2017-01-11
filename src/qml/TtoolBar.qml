@@ -27,9 +27,6 @@ ToolBar {
   height: settAct.height
 
   RowLayout {
-//     anchors.topMargin: Screen.pixelDensity
-    anchors.fill: parent
-
     HeadButton {
       id: settAct
       name: qsTr("Settings")
@@ -57,6 +54,6 @@ ToolBar {
       tip: qsTr("Start exercises or an exam")
     }
 
-    Item { Layout.fillWidth: true }
+//     Item { Layout.fillWidth: true }
   }
 }
