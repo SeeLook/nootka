@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,30 +16,51 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMETRUM_H
-#define TMETRUM_H
+#ifndef TMETER_H
+#define TMETER_H
 
 #include <nootkacoreglobal.h>
+#include <QtCore/qxmlstream.h>
+#include <QtGui/qpixmap.h>
 
-class NOOTKACORE_EXPORT Tmetrum
+
+/**
+ * Describes musical time signature
+ */
+class NOOTKACORE_EXPORT Tmeter
 {
 
 public:
   enum Emeter {
     e_none = 0,
-    e_2_4 = 1,
-    e_3_4 = 2,
-    e_4_4 = 4,
-    e_5_4 = 8,
-    e_6_4 = 16
+    e_2_4 = 1, e_3_4 = 2, e_4_4 = 4, e_5_4 = 8, e_6_4 = 16, e_7_4 = 32,
+    e_3_8 = 64, e_5_8 = 128, e_6_8 = 256, e_7_8 = 512, e_9_8 = 1024, e_12_8 = 2048
   };
 
-  Tmetrum(Emeter meter = e_none) : m_meter(meter) {}
+  Tmeter(Emeter meter = e_none) : m_meter(meter) {}
 
-  Emeter meter() { return m_meter; }
+  Emeter meter() const { return m_meter; }
+
+  int upper() const; /**< Returns upper digit of time signature  */
+  int lower() const; /**< Returns lower digit of time signature  */
+
+    /** Returns numeric value representing duration of single measure,
+     * which is based on Trhythm calculation (RVALUE)
+     * 3/4 is 72, 4/4 is 96 (RVALUE), etc. */
+  quint16 duration() const;
+
+  QPixmap pixmap(int fontSize, const QColor& c = -1); /**< Returns QPixmap of this time signature with given font size and color. */
+
+  void toXml(QXmlStreamWriter& xml) const;
+  bool fromXml(QXmlStreamReader& xml);
+
+  void debug(const QString& text = QString()); /**< Prints current meter to std out with given text */
+
+  bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
+  bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }
 
 private:
   Emeter        m_meter;
 };
 
-#endif // TMETRUM_H
+#endif // TMETER_H

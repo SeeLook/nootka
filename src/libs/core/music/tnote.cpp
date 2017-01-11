@@ -1,23 +1,25 @@
 /***************************************************************************
- *   Copyright (C) 2006-2016 by Tomasz Bojczuk                             *
- *   seelook@gmail.com                                                     *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *  You should have received a copy of the GNU General Public License       *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
- ***************************************************************************/
+*   Copyright (C) 2006-2017 by Tomasz Bojczuk                             *
+*   seelook@gmail.com                                                     *
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 3 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+*   This program is distributed in the hope that it will be useful,       *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+*   GNU General Public License for more details.                          *
+*                                                                         *
+*  You should have received a copy of the GNU General Public License      *
+*  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+***************************************************************************/
+
 
 #include "tnote.h"
-#include <music/tnamestylefilter.h>
+#include "tnamestylefilter.h"
+
 
 #include <sstream>
 #include <string>
@@ -55,8 +57,6 @@ QString accidInSpan(char accid) {
 /*static*/
 std::string Tnote::m_solmization[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
 std::string Tnote::m_solmizationRu[7] = {"До", "Ре", "Ми", "Фа", "Соль", "Ля", "Си"};
-// QString Tnote::m_KodalySharps[6] = {"Di", "Ri", "", "Fi", "Si", "Li"};
-// QString Tnote::m_KodalyFlats[7] = {"", "Ra", "Me", "", "Se", "Le", "Te" };
 
 Tnote::EnameStyle Tnote::defaultStyle = Tnote::e_norsk_Hb;
 
@@ -64,31 +64,6 @@ Tnote::EnameStyle Tnote::defaultStyle = Tnote::e_norsk_Hb;
 //#############################################################################################
 //################################ PUBLIC #####################################################
 //#############################################################################################
-Tnote::Tnote ()
-{
-  note = 0;
-  octave = 0;
-  alter = Tnote::e_Natural;
-}
-
-
-Tnote::Tnote( char diatonNote, char oct, char accid)
-{
-  note = diatonNote;
-  octave = oct;
-  alter = accid;
-}
-
-
-Tnote::Tnote (short chromaticNrOfNote)
-{
-   setChromatic(chromaticNrOfNote);
-}
-
-
-Tnote::~Tnote ()
-{}
-
 
 void Tnote::setChromatic(short int noteNr) {
   switch ((noteNr + 143) % 12 + 1)  {
@@ -104,8 +79,8 @@ void Tnote::setChromatic(short int noteNr) {
       case 10: note = 6; alter = 0; break;
       case 11: note = 6; alter = 1; break;
       case 12: note = 7; alter = 0; break;
-   }
-   octave = ((noteNr + 143) / 12 - 12) ;
+  }
+  octave = ((noteNr + 143) / 12 - 12) ;
 }
 
 
@@ -218,21 +193,6 @@ Tnote Tnote::showWithDoubleFlat() const {
 }
 
 
-short Tnote::compareNotes(const Tnote& otherNote, short int ignoreOctave) const {
-  if (!ignoreOctave) {
-      if (note == otherNote.note && alter == otherNote.alter && octave == otherNote.octave)
-        return 1;
-      else
-        return 0;
-  } else {
-      if (note == otherNote.note && alter == otherNote.alter)
-        return 1;
-      else
-        return 0;
-  }
-}
-
-
 TnotesList Tnote::getTheSameNotes(bool enableDbAccids) const {
   TnotesList notesL;
   short cnt;//counter of notes. With double accids is 5 (4) without 3 (2)
@@ -264,7 +224,7 @@ TnotesList Tnote::getTheSameNotes(bool enableDbAccids) const {
 
 std::string Tnote::getName(Tnote::EnameStyle notation, bool showOctave) const {
   std::string noteStr;
-  if (note < 1 || note > 7) {
+  if (!isValid()) {
       std::cout << "Oops !! getName() with note=0\n";
       return "none";
   }
@@ -324,7 +284,7 @@ std::string Tnote::getName(Tnote::EnameStyle notation, bool showOctave) const {
         if ((notation == e_english_Bb) && (note == 7)) noteStr = "B";
             noteStr = noteStr + signsAcid[alter + 2];
         break;
-   }
+  }
   if (showOctave)
       noteStr = noteStr + CharToString(octave);
   return noteStr;

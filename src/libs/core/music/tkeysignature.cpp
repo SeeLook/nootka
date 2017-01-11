@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,8 +18,8 @@
 
 
 #include "tkeysignature.h"
-#include "tinitcorelib.h"
-#include <tscoreparams.h>
+// #include "tinitcorelib.h"
+// #include <tscoreparams.h>
 #include <QtCore/qxmlstream.h>
 #include <QtCore/qvariant.h>
 
@@ -59,14 +59,14 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QStrin
   auto minus = QStringLiteral("-");
   if (majSuf.isEmpty()) {
       majS = minus + majorSufixTxt();
-      Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
+//       Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
   } else
       if (majSuf != QLatin1String(" "))
         majS = minus + majSuf;
 
   if (minSuf.isEmpty()) {
       minS = minus + minorSufixTxt();
-      Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
+//       Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
   } else
     if (minSuf != QLatin1String(" "))
       minS = minus + minSuf;

@@ -1,35 +1,37 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
- *   seelook@gmail.com                                                     *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
- ***************************************************************************/
+*   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+*   seelook@gmail.com                                                     *
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 3 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+*   This program is distributed in the hope that it will be useful,       *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+*   GNU General Public License for more details.                          *
+*                                                                         *
+*  You should have received a copy of the GNU General Public License      *
+*  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+***************************************************************************/
 
 
 #ifndef TKEYSIGNATURE_H
 #define TKEYSIGNATURE_H
 
 #include <nootkacoreglobal.h>
-#include <QString>
+#include <QtCore/qstring.h>
 #include "tnote.h"
+
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
 
+
 /**
- * This class describes a key signature.
- * It keeps it in char type. Also it keeps info about mode (minor/major)
+* This class describes a key signature.
+* It keeps it in char type. Also it keeps info about mode (minor/major)
 */
 class NOOTKACORE_EXPORT TkeySignature
 {
@@ -51,14 +53,16 @@ public:
         * This is faster way then calculate it and takes less memory.*/
     static const char majorKeys[15], minorKeys[15];
 
-        /** This method fulfills majorNames and minorNames arrays
+        /**
+        * This method fulfills majorNames and minorNames arrays
         * appropriate keys names depends on naming style
         * and suffixes.
         * Convention of suffixes is:
         * - empty string "" means - suffix id default for language and taken from translations
         * - string with space " " means - suffix is empty
-        * - any other string means - it is as it is */
-    static void setNameStyle(Tnote::EnameStyle style, QString majSuf = "", QString minSuf = "");
+        * - any other string means - it is as it is
+        */
+    static void setNameStyle(Tnote::EnameStyle style, QString majSuf = QString(), QString minSuf = QString());
     static QString majorSufixTxt() { return QObject::tr("major"); }
     static QString minorSufixTxt() { return QObject::tr("minor"); }
 
@@ -76,9 +80,9 @@ public:
     }
 
         /** Return QString with accidentals number and their symbol.
-         * f.e.: 7# for @p m_key = 7 (Cis-major).
-         * @p inHtml points when HTML syntax is used. If true # and b symbols
-         * are formatted to better view. */
+        * f.e.: 7# for @p m_key = 7 (Cis-major).
+        * @p inHtml points when HTML syntax is used. If true # and b symbols
+        * are formatted to better view. */
     QString accidNumber(bool inHtml = false);
 
         /** Checks is given note @p n in given key signature @p k.
@@ -92,14 +96,15 @@ public:
     char value() { return m_key; }
 
         /** Returns base (tonic) note of this key signature, i.e. for a-minor key it is note 'a'.
-         * By default note is in small octave, but it can be set through @p octave parameter. */
+        * By default note is in small octave, but it can be set through @p octave parameter. */
     Tnote tonicNote(int octave = 0);
 
     /** Adds 'key' key to XML stream compatible with MusicXML format with current key signature
-       * <key>
-       * <fifths>-2</fifths>
-       * <mode>major</mode>
-       * </key>  */
+      * <key>
+      * <fifths>-2</fifths>
+      * <mode>major</mode>
+      * </key>  
+      */
   void toXml(QXmlStreamWriter& xml);
   void fromXml(QXmlStreamReader& xml); /** Reads this key signature from XML stream  */
 
@@ -114,7 +119,7 @@ private:
 
 NOOTKACORE_EXPORT QDataStream &operator<< (QDataStream &out, TkeySignature &key);
 
-    /** This function is substitute of >> operator for @class TkeySignature.
+    /** This function is substitute of >> operator for @p TkeySignature.
     * It checks is Tnote valid, and return @value bool about it. */
 NOOTKACORE_EXPORT bool getKeyFromStream(QDataStream &in, TkeySignature &k);
 

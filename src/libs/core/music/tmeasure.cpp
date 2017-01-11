@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 
 Tmeasure::Tmeasure(int nr) :
   m_number(nr),
-  m_metrum(Tmetrum::e_none)
+  m_meter(Tmeter::e_none)
 {
 
 }
