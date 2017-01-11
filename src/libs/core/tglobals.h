@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,8 @@
 #define TGLOBALS_H
 
 #include <nootkacoreglobal.h>
-#include <QtCore/qstring.h>
+#include <QtCore/qobject.h>
+#include <QtCore/qvariant.h>
 #include <QtGui/qcolor.h>
 #include <music/tnote.h>
 #include <music/tinstrument.h>
@@ -34,14 +35,26 @@ class QSettings;
 class TexamParams;
 class TaudioParams;
 
-class NOOTKACORE_EXPORT Tglobals
+#define   GLOB     Tglobals::instance()
+
+
+class NOOTKACORE_EXPORT Tglobals : public QObject
 {
+  Q_OBJECT
 
 public:
 
       /** If @p true, setting are loaded from temporary config file */
-  Tglobals();
+  Tglobals(QObject* parent = nullptr);
   ~Tglobals();
+
+      /**
+       * Instance (single for whole Nootka) of Tglobals class.
+       * Also avail through @p GLOB macro
+       */
+  static Tglobals* instance() { return m_instance; }
+
+  Q_INVOKABLE QVariant getVar(const QString& key);
 
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
@@ -112,8 +125,9 @@ public:
   TlayoutParams *L; /**< Main window Layout params. */
 
 private:
-  Ttune *m_tune; /**< current guitar tune */
-  qint8 m_order[6]; /**< Strings order is determined in @param setTune() method */
+  Ttune                     *m_tune; /**< current guitar tune */
+  qint8                      m_order[6]; /**< Strings order is determined in @param setTune() method */
+  static Tglobals           *m_instance;
 
 };
 #endif // TGLOBALS_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,14 +32,15 @@
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
 #endif
-#include <QDir>
-#include <QSettings>
-#include <QCoreApplication>
-#include <QDebug>
+#include <QtCore/qdir.h>
+#include <QtCore/qsettings.h>
+#include <QtCore/qcoreapplication.h>
+#include <QtCore/qdebug.h>
 
 
 /*static*/
 QString& Tglobals::path = Tpath::main;
+Tglobals* Tglobals::m_instance = nullptr;
 
 QString Tglobals::getInstPath(QString appInstPath) {
     QString p;
@@ -64,7 +65,8 @@ TtouchProxy* onlyOneTouchProxy = 0; // It is available through TtouchProxy::inst
 /*end static*/
 
 
-Tglobals::Tglobals() :
+Tglobals::Tglobals(QObject* parent) :
+  QObject(parent),
   m_tune(0)
 {
   version = NOOTKA_VERSION;
@@ -91,11 +93,12 @@ Tglobals::Tglobals() :
 #endif
   loadSettings(config);
 
-  if (Tcore::gl() == 0)
-    Tcore::setGlobals(this);
-  else {
-    qDebug() << "Tglobals instance has already existed. Application is terminating!";
-    exit(109);
+  if (!m_instance) {
+      Tcore::setGlobals(this); // TODO remove it, use GLOB macro instead
+      m_instance = this;
+  } else {
+      qDebug() << "Tglobals instance has already existed. Application is terminating!";
+      exit(109);
   }
   onlyOneTouchProxy = new TtouchProxy();
 }
@@ -112,12 +115,18 @@ Tglobals::~Tglobals() {
   delete onlyOneTouchProxy;
   delete TtouchParams::i();
   Tcore::reset();
+  m_instance = nullptr;
 }
 
 
 //##########################################################################################
 //#######################         PUBLIC         ###########################################
 //##########################################################################################
+
+QVariant Tglobals::getVar(const QString& key) {
+  return config->value(key);
+}
+
 
 void Tglobals::loadSettings(QSettings* cfg) {
   cfg->beginGroup("common");
