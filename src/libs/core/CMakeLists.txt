@@ -61,7 +61,7 @@ set(LIB_NOOTKACORE_SRC
 )
 
 
-qt5_add_resources(LIB_NOOTKACORE_SRC core.qrc)
+# qt5_add_resources(LIB_NOOTKACORE_SRC core.qrc)
 
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
