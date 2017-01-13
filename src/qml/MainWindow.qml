@@ -52,15 +52,22 @@ ApplicationWindow {
     Score {
       Layout.fillWidth: true
       Layout.fillHeight: true
-      clef: Tclef.PianoStaffClefs
+      clef: Tclef.Treble_G_8down
+
+      Note {
+          pitch: 1 + index % 7
+          octave: Math.floor(index / 7)
+          rhythm: Note.Quarter
+        }
 
       Repeater {
-            model: 16
+        id: nRep
+        model: 16
 
         Note {
           pitch: 1 + index % 7
           octave: Math.floor(index / 7)
-          rhythm: Note.Esixteenth
+          rhythm: Note.Sixteenth
         }
       }
     }
@@ -69,5 +76,16 @@ ApplicationWindow {
   }
 
   Component.onCompleted: {}
+  Timer {
+      interval: 200
+      running: true
+      repeat: true
+      onTriggered: {
+        var randNote3 = nRep.itemAt(Math.random() * nRep.model)
+        randNote3.pitch = 1 + Math.random() * 7
+        randNote3.octave = -1 + Math.random() * 4
+        randNote3.alter = Math.min(Math.max(-1, -2 + Math.random() * 5), 1)
+      }
+    }
 
 }
