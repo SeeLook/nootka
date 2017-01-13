@@ -21,6 +21,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 
+import Score 1.0
 
 ApplicationWindow {
   id: nootkaWindow
@@ -45,6 +46,29 @@ ApplicationWindow {
   }
 
   header: TtoolBar {}
+
+  ColumnLayout {
+    anchors.fill: parent
+    Score {
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      Note {
+        pitch: 6
+        octave: 1
+        alter: -1
+        rhythm: Note.Esixteenth
+      }
+      Note {
+        pitch: 5
+        octave: 0
+        alter: 1
+        rhythm: Note.Esixteenth
+      }
+    }
+
+    Rectangle { height: nootkaWindow.height / 3; Layout.fillWidth: true; color: "blue" }
+  }
 
   Component.onCompleted: {}
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -44,10 +44,20 @@ public:
       /** tag() method with span tag */
   static QString span(const QString& text, int fontSize = 0, const QString& extraStyle = QString()) {
                   return  tag("span", text, fontSize, extraStyle); }
-	
-      /** Overloaded method with current font size */
-// 	QString span(const QString& text, const QString& extraStyle = "") { return span(text, pointSize(), extraStyle); }
 
+      /** Bare digits starts from UNI-0x180 in nootka.ttf
+       * due to glyphs of ordinary numbers are used for strings (circled).
+       * This method returns proper string of given digit
+       */
+  static QString digit(quint8 d) { return (d / 10 ? QString(QChar(0x0180 + d / 10)) : QString()) + QString(QChar(0x0180 + d % 10)); }
+
+      /** Converts rhythm value (0, 1, 2, 4 - 16) into uni-code char number in Nootka font
+       * 0 (no rhythm returns full note head symbol)
+       * set @p stemUp to false to get symbols with stem down.
+       * Returned characters are optimized for score (staff lines height),
+       * to get just note symbol use 'n' and 'N' (stem down) instead
+       */
+  static quint16 getCharFromRhythm(quint16 rhythm, bool stemUp = true, bool rest = false);
 
 };
 

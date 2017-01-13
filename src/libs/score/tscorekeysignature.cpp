@@ -31,10 +31,10 @@
 const qreal TscoreKeySignature::relatedLine = 3.0;
 
 void TscoreKeySignature::setKeyNameScale(QGraphicsTextItem* keyNameItem) {
-		qreal factor = (KEY_WIDTH + 5.0) / (keyNameItem->boundingRect().width());
-		if (keyNameItem->boundingRect().height() * factor > 8.0) // 8.0 is a measure of height - about 4 staff lines.
-				factor = (8.0 / keyNameItem->boundingRect().height());
-		keyNameItem->setScale(factor);
+    qreal factor = (KEY_WIDTH + 5.0) / (keyNameItem->boundingRect().width());
+    if (keyNameItem->boundingRect().height() * factor > 8.0) // 8.0 is a measure of height - about 4 staff lines.
+        factor = (8.0 / keyNameItem->boundingRect().height());
+    keyNameItem->setScale(factor);
 }
 
 
@@ -52,15 +52,15 @@ qint8 TscoreKeySignature::m_posOfAccidFlats[7] = { 4, 1, 5, 2, 6, 3, 7 };
 
 
 int nOff(Tclef::Etype c) {
-	if (c == Tclef::e_treble_G || c == Tclef::e_treble_G_8down)
-		return 3;
-	if (c == Tclef::e_bass_F || c == Tclef::e_bass_F_8down)
-		return 5;
-	if (c == Tclef::e_alto_C)
-		return 2;
-	if (c == Tclef::e_tenor_C)
-		return 4;
-	return 3;
+  if (c == Tclef::e_treble_G || c == Tclef::e_treble_G_8down)
+    return 3;
+  if (c == Tclef::e_bass_F || c == Tclef::e_bass_F_8down)
+    return 5;
+  if (c == Tclef::e_alto_C)
+    return 2;
+  if (c == Tclef::e_tenor_C)
+    return 4;
+  return 3;
 }
 /*end static*/
 
@@ -75,19 +75,19 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, q
   m_maxKey(7), m_minKey(-7)
 {
   setStaff(staff);
-	setParentItem(staff);
+  setParentItem(staff);
 
   TnooFont font(5);
   for (int i = 0; i < 7; i++) {
-			m_accidentals[i] = new QGraphicsSimpleTextItem();
-			registryItem(m_accidentals[i]);
-			m_accidentals[i]->setBrush(qApp->palette().text().color());
-			m_accidentals[i]->setFont(font);
-			m_accidentals[i]->setScale(scoreScene()->accidScale());
-			m_accidentals[i]->hide();
-	}
+      m_accidentals[i] = new QGraphicsSimpleTextItem();
+      registryItem(m_accidentals[i]);
+      m_accidentals[i]->setBrush(qApp->palette().text().color());
+      m_accidentals[i]->setFont(font);
+      m_accidentals[i]->setScale(scoreScene()->accidScale());
+      m_accidentals[i]->hide();
+  }
     
-	setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
+  setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
 }
 
 
@@ -118,9 +118,9 @@ void TscoreKeySignature::setKeySignature(qint8 keySign) {
 //       (int)staff()->accidInKeyArray[2] << (int)staff()->accidInKeyArray[3] << 
 //       (int)staff()->accidInKeyArray[4] << (int)staff()->accidInKeyArray[5] << (int)staff()->accidInKeyArray[6];
     m_keySignature = keySign;
-		updateKeyName();
-		if (m_lowKey && m_keySignature != m_lowKey->keySignature())
-				m_lowKey->setKeySignature(m_keySignature);
+    updateKeyName();
+    if (m_lowKey && m_keySignature != m_lowKey->keySignature())
+        m_lowKey->setKeySignature(m_keySignature);
     emit keySignatureChanged();
 }
 
@@ -139,66 +139,66 @@ qint8 TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
 
 
 QPointF TscoreKeySignature::accidTextPos(int noteNr) {
-	if (noteNr >= 0 && noteNr < 7)
-			return mapToScene(m_accidentals[noteNr]->pos());
-	else 
-			return QPointF();
+  if (noteNr >= 0 && noteNr < 7)
+      return mapToScene(m_accidentals[noteNr]->pos());
+  else 
+      return QPointF();
 }
 
 
 void TscoreKeySignature::setClef(Tclef clef) {
-	if (clef.type() == Tclef::e_pianoStaff) {
-		m_clef = Tclef(Tclef::e_treble_G);
-		if (!m_lowKey) {
-				m_lowKey = new TscoreKeySignature(scoreScene(), staff());
-				m_lowKey->setParentItem(this);
-// 				m_lowKey->setPos(0.0, staff()->lowerLinePos() - 2.0);
-				m_lowKey->setPos(0.0, 14.0);
-				m_lowKey->setClef(Tclef(Tclef::e_bass_F));
-				m_lowKey->setZValue(30);
-// 				m_lowKey->setRelatedLine(2);
-// 				setRelatedLine(staff()->upperLinePos());
-				m_lowKey->setKeySignature(keySignature());
-				connect(m_lowKey, SIGNAL(keySignatureChanged()), this, SLOT(onLowKeyChanged()));
-		}
-	} else {
-		m_clef = clef;
-// 		setRelatedLine(staff()->upperLinePos());
-		if (m_lowKey) {
-			delete m_lowKey;
-		}
-	}
-	m_clefOffset = nOff(m_clef.type());
+  if (clef.type() == Tclef::e_pianoStaff) {
+    m_clef = Tclef(Tclef::e_treble_G);
+    if (!m_lowKey) {
+        m_lowKey = new TscoreKeySignature(scoreScene(), staff());
+        m_lowKey->setParentItem(this);
+//         m_lowKey->setPos(0.0, staff()->lowerLinePos() - 2.0);
+        m_lowKey->setPos(0.0, 14.0);
+        m_lowKey->setClef(Tclef(Tclef::e_bass_F));
+        m_lowKey->setZValue(30);
+//         m_lowKey->setRelatedLine(2);
+//         setRelatedLine(staff()->upperLinePos());
+        m_lowKey->setKeySignature(keySignature());
+        connect(m_lowKey, SIGNAL(keySignatureChanged()), this, SLOT(onLowKeyChanged()));
+    }
+  } else {
+    m_clef = clef;
+//     setRelatedLine(staff()->upperLinePos());
+    if (m_lowKey) {
+      delete m_lowKey;
+    }
+  }
+  m_clefOffset = nOff(m_clef.type());
   setKeySignature(keySignature());
 }
 
 
 void TscoreKeySignature::showKeyName(bool showIt) {
-	if (showIt) {
-		if (!m_keyNameText) {
-			m_keyNameText = new QGraphicsTextItem();
-			registryItem(m_keyNameText);
-			m_keyNameText->setZValue(7);
-			setKeySignature(keySignature());
-		}
-	}	else {
-			delete m_keyNameText;
-			m_keyNameText = 0;
-	}
+  if (showIt) {
+    if (!m_keyNameText) {
+      m_keyNameText = new QGraphicsTextItem();
+      registryItem(m_keyNameText);
+      m_keyNameText->setZValue(7);
+      setKeySignature(keySignature());
+    }
+  }  else {
+      delete m_keyNameText;
+      m_keyNameText = 0;
+  }
 }
 
 
 QRectF TscoreKeySignature::boundingRect() const{
-	  return QRectF(0, 0, KEY_WIDTH + 1.0, KEY_HEIGHT);
+    return QRectF(0, 0, KEY_WIDTH + 1.0, KEY_HEIGHT);
 }
 
 
 void TscoreKeySignature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
-	Q_UNUSED(option)
-	Q_UNUSED(widget)
-	if (m_bgColor != -1) {
-			paintBackground(painter, m_bgColor);
-	}
+  Q_UNUSED(option)
+  Q_UNUSED(widget)
+  if (m_bgColor != -1) {
+      paintBackground(painter, m_bgColor);
+  }
 }
 
 
@@ -225,41 +225,9 @@ void TscoreKeySignature::setMinKey(int mk) {
 //##########################################################################################################
 
 void TscoreKeySignature::onLowKeyChanged() {
-	setKeySignature(m_lowKey->keySignature());
+  setKeySignature(m_lowKey->keySignature());
 }
 
-
-void TscoreKeySignature::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-  if (!m_readOnly && event->button() == Qt::LeftButton) {
-		if (event->pos().y() > relatedLine + 4.0)
-			increaseKey(-1);
-		else if (event->pos().y() > 0.0) // ignore clicking on key name item
-			increaseKey(1);
-	}
-}
-
-
-void TscoreKeySignature::hoverEnterEvent(QGraphicsSceneHoverEvent* event) {
-	scoreScene()->mouseEntersOnKey(true);
-	TscoreItem::hoverEnterEvent(event);
-}
-
-
-void TscoreKeySignature::hoverLeaveEvent(QGraphicsSceneHoverEvent* event) {
-	scoreScene()->mouseEntersOnKey(false);
-	TscoreItem::hoverLeaveEvent(event);
-}
-
-
-void TscoreKeySignature::untouched(const QPointF& scenePos) {
-	if (!m_readOnly && !scenePos.isNull()) {
-    QPointF fingerPos = mapFromScene(scenePos);
-		if (fingerPos.y() > relatedLine + 4.0)
-			increaseKey(-1);
-		else if (fingerPos.y() > 0.0) // ignore clicking on key name item
-			increaseKey(1);
-	}
-}
 
 
 void TscoreKeySignature::increaseKey(int step) {
@@ -277,13 +245,13 @@ void TscoreKeySignature::increaseKey(int step) {
 
 
 void TscoreKeySignature::updateKeyName() {
-	if (m_keyNameText) {
+  if (m_keyNameText) {
       m_keyNameText->setHtml(TkeySignature::getMajorName(m_keySignature) + QLatin1String("<br>") +
                               TkeySignature::getMinorName(m_keySignature));
-			setKeyNameScale(m_keyNameText);
-			m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2 - 2.5,
-						-2.0 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
-			}
+      setKeyNameScale(m_keyNameText);
+      m_keyNameText->setPos((boundingRect().width() - m_keyNameText->boundingRect().width() * m_keyNameText->scale()) / 2 - 2.5,
+            -2.0 - m_keyNameText->boundingRect().height() * m_keyNameText->scale());
+      }
 }
 
 

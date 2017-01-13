@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,10 +22,11 @@
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
 #include <music/tclef.h>
-#include <QtCore/qpointer.h>
+#include <QPointer>
+#include <QElapsedTimer>
 
 
-class TclefMenu;
+// class TclefMenu;
 
 
 /**
@@ -72,22 +73,22 @@ protected slots:
 private:
   int getYclefPos(Tclef clef);
   int getClefPosInList(Tclef clef);
-  void getStatusTip(); /**< Generates and refresh status tip depends on readOnly() and isClickable() state. */
-  void showMenu();
+      /** Generates and refresh status tip depends on readOnly() and isClickable() state. */
+  void getStatusTip();
 
 private:
   Tclef                              m_clef;
-  TscoreClef                        *m_lowerClef;
+  QPointer<TscoreClef>               m_lowerClef;
   QGraphicsSimpleTextItem           *m_textClef;
-  QPointer<TclefMenu>                m_clefMenu;
-  QPointer<QMenu>                    m_menu;
+//   QPointer<TclefMenu>                m_clefMenu;
+//   QPointer<QMenu>                    m_menu;
 
   int                                m_currClefInList;
-      /** List of all clef types except empty (none clef) and piano staff. */
+      /** List of all clef types exept empty (none clef) and piano staff. */
   static QList<Tclef::Etype>         m_typesList;
   bool                               m_readOnly; // when TRUE clef is locked
-  QTimer                            *m_tapTimer;
-  QGraphicsSceneMouseEvent          *m_fakeMouseEvent;
+  QElapsedTimer                      m_tapTimer;
+
 };
 
 #endif // TSCORECLEF_H
