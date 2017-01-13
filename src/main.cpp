@@ -18,7 +18,6 @@
 
 
 #if defined (Q_OS_ANDROID)
-  #include "ttouchstyle.h"
   #include <Android/tandroid.h>
 #endif
 #include <tinitcorelib.h>
@@ -34,6 +33,9 @@
 #include <QtCore/qpointer.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qsettings.h>
+
+#include <declarative/descore.h>
+#include <declarative/denote.h>
 
 
 static QString logFile;
@@ -104,6 +106,10 @@ int main(int argc, char *argv[])
       return 111;
 
     a->setWindowIcon(QIcon(Tpath::img("nootka")));
+
+    qmlRegisterType<DeScore>("Score", 1, 0, "Score");
+    qmlRegisterType<DeNote>("Score", 1, 0, "Note");
+
 // creating main window
     e = new QQmlApplicationEngine;
     e->rootContext()->setContextProperty(QStringLiteral("Tpath"), &pathObj);

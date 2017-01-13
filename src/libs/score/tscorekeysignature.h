@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,83 +37,80 @@
 */
 class NOOTKACORE_EXPORT TscoreKeySignature : public TscoreItem
 {
+
   Q_OBJECT
-  
+
 public:
-    TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, qint8 keySign = 0);
-    
-        /** This methods get and set the key signature, and are called
-        * only from their parent @p TscoreWidgetSimple as continuation
-        * his public methods */
-    void setKeySignature(qint8 keySign);
-    qint8 keySignature() { return m_keySignature; }
-    void setClef(Tclef clef);
-		
-        /** Returns y coefficient of given note (0 - 7, 0 is c, 1 is d...).
-         * It depends on Tclef value*/
-    qint8 getPosOfAccid(int noteNr, bool flatKey = false);
-		
-				/** Returns position point of accidental text in staff coordinates. @p noteNr is [0-7] range */
-		QPointF accidTextPos(int noteNr);
-		
-		void showKeyName(bool showIt);
-		
-		void setReadOnly(bool readOnly) { m_readOnly = readOnly; if (m_lowKey) m_lowKey->setReadOnly(readOnly); }
-		bool readOnly() { return m_readOnly; }
-		
-				/** It sets background of the note segment. When sets to -1 means transparent - no background. */
-		void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
-		
-				/** Static method that calculates scale factor of key signature name appropriate for available space above clef. */
-		static void setKeyNameScale(QGraphicsTextItem *keyNameItem);
-		static const qreal relatedLine; /** Y position of upper staff line in item coordinates */
+  TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, qint8 keySign = 0);
 
-        /** Maximal key value possible to set, by default it is 7 */
-    qint8 maxKey() { return m_maxKey; }
-    void setMaxKey(int mk);
+      /** This methods get and set the key signature, and are called
+      * only from their parent @p TscoreWidgetSimple as continuation
+      * his public methods */
+  void setKeySignature(qint8 keySign);
+  qint8 keySignature() { return m_keySignature; }
+  void setClef(Tclef clef);
 
-        /** Minimal key value possible to set, by default it is -7 */
-    qint8 minKey() { return m_minKey; }
-    void setMinKey(int mk);
+      /** Returns y coefficient of given note (0 - 7, 0 is c, 1 is d...).
+        * It depends on Tclef value*/
+  qint8 getPosOfAccid(int noteNr, bool flatKey = false);
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-    virtual QRectF boundingRect() const;
-    
+      /** Returns position point of accidental text in staff coordinates. @p noteNr is [0-7] range */
+  QPointF accidTextPos(int noteNr);
+
+  void showKeyName(bool showIt);
+
+  void setReadOnly(bool readOnly) { m_readOnly = readOnly; if (m_lowKey) m_lowKey->setReadOnly(readOnly); }
+  bool readOnly() { return m_readOnly; }
+
+      /** It sets background of the note segment. When sets to -1 means transparent - no background. */
+  void setBackgroundColor(QColor bg) { m_bgColor = bg; update(); }
+
+      /** Static method that calculates scale factor of key signature name appropriate for available space above clef. */
+  static void setKeyNameScale(QGraphicsTextItem *keyNameItem);
+  static const qreal relatedLine; /** Y position of upper staff line in item coordinates */
+
+      /** Maximal key value possible to set, by default it is 7 */
+  qint8 maxKey() { return m_maxKey; }
+  void setMaxKey(int mk);
+
+      /** Minimal key value possible to set, by default it is -7 */
+  qint8 minKey() { return m_minKey; }
+  void setMinKey(int mk);
+
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+  virtual QRectF boundingRect() const;
+
 signals:
-    void keySignatureChanged();
+  void keySignatureChanged();
 
 protected:
-		virtual void untouched(const QPointF& scenePos);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
-        /** Adds @p step to key value. Only 1 or -1 values are accepted. */
-    void increaseKey(int step);
-		void updateKeyName();
-		
+      /** Adds @p step to key value. Only 1 or -1 values are accepted. */
+  void increaseKey(int step);
+  void updateKeyName();
+
 protected slots:
-		void onLowKeyChanged();
+  void onLowKeyChanged();
 
 private:
-        /** Array of text items with # or b signs*/
-    QGraphicsSimpleTextItem 				*m_accidentals[7];
-		QPointer<QGraphicsTextItem>			 m_keyNameText;
-    qint8                            m_keySignature;
-		QPointer<TscoreKeySignature>		 m_lowKey;
-    
-        /** It keeps array of accidental symbol (# or b) positions
-        * (in PosY coordinates from TnoteView)
-        * @li [0] is position for f# and fb
-        * @li [1] c# and
-        * @li etc....    */
-    static qint8                     m_posOfAccid[7];
-    static qint8                     m_posOfAccidFlats[7];
-    Tclef  													 m_clef;
-		bool														 m_readOnly;
-		QColor 													 m_bgColor;
-		int															 m_clefOffset; /**< accidental distance from upper staff line depends on clef */
-    qint8                            m_maxKey, m_minKey;
+      /** Array of text items with # or b signs*/
+  QGraphicsSimpleTextItem          *m_accidentals[7];
+  QPointer<QGraphicsTextItem>       m_keyNameText;
+  qint8                             m_keySignature;
+  QPointer<TscoreKeySignature>      m_lowKey;
+
+      /** It keeps array of accidental symbol (# or b) positions
+      * (in PosY coordinates from TnoteView)
+      * @li [0] is position for f# and fb
+      * @li [1] c# and
+      * @li etc....    */
+  static qint8                      m_posOfAccid[7];
+  static qint8                      m_posOfAccidFlats[7];
+  Tclef                             m_clef;
+  bool                              m_readOnly;
+  QColor                            m_bgColor;
+  int                               m_clefOffset; /**< accidental distance from upper staff line depends on clef */
+  qint8                             m_maxKey, m_minKey;
 };
 
 #endif // TSCOREKEYSIGNATURE_H
