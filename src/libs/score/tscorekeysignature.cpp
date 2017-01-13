@@ -51,14 +51,14 @@ qint8 TscoreKeySignature::m_posOfAccid[7] = {
 qint8 TscoreKeySignature::m_posOfAccidFlats[7] = { 4, 1, 5, 2, 6, 3, 7 };
 
 
-int nOff(Tclef::Etype c) {
-  if (c == Tclef::e_treble_G || c == Tclef::e_treble_G_8down)
+int nOff(Tclef::EclefType c) {
+  if (c == Tclef::Treble_G || c == Tclef::Treble_G_8down)
     return 3;
-  if (c == Tclef::e_bass_F || c == Tclef::e_bass_F_8down)
+  if (c == Tclef::Bass_F || c == Tclef::Bass_F_8down)
     return 5;
-  if (c == Tclef::e_alto_C)
+  if (c == Tclef::Alto_C)
     return 2;
-  if (c == Tclef::e_tenor_C)
+  if (c == Tclef::Tenor_C)
     return 4;
   return 3;
 }
@@ -131,7 +131,7 @@ qint8 TscoreKeySignature::getPosOfAccid(int noteNr, bool flatKey) {
     yPos = m_posOfAccidFlats[noteNr] + relatedLine + (m_clefOffset - 3);
   else {
     yPos = m_posOfAccid[noteNr] + relatedLine + (m_clefOffset - 3);
-    if (m_clef.type() == Tclef::e_tenor_C && (noteNr == 0 || noteNr == 2))
+    if (m_clef.type() == Tclef::Tenor_C && (noteNr == 0 || noteNr == 2))
         yPos += 7;
   }
   return yPos;
@@ -147,14 +147,14 @@ QPointF TscoreKeySignature::accidTextPos(int noteNr) {
 
 
 void TscoreKeySignature::setClef(Tclef clef) {
-  if (clef.type() == Tclef::e_pianoStaff) {
-    m_clef = Tclef(Tclef::e_treble_G);
+  if (clef.type() == Tclef::PianoStaffClefs) {
+    m_clef = Tclef(Tclef::Treble_G);
     if (!m_lowKey) {
         m_lowKey = new TscoreKeySignature(scoreScene(), staff());
         m_lowKey->setParentItem(this);
 //         m_lowKey->setPos(0.0, staff()->lowerLinePos() - 2.0);
         m_lowKey->setPos(0.0, 14.0);
-        m_lowKey->setClef(Tclef(Tclef::e_bass_F));
+        m_lowKey->setClef(Tclef(Tclef::Bass_F));
         m_lowKey->setZValue(30);
 //         m_lowKey->setRelatedLine(2);
 //         setRelatedLine(staff()->upperLinePos());

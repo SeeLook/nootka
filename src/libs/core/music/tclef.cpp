@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,90 +18,85 @@
 
 
 #include "tclef.h"
-#include <QApplication>
-#include <QXmlStreamWriter>
-
-Tclef::Etype Tclef::defaultType = Tclef::e_treble_G;
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qxmlstream.h>
 
 
-Tclef::Tclef(Tclef::Etype type)
-{
-    m_type = type;
-}
+Tclef::EclefType Tclef::defaultType = Tclef::Treble_G;
 
 
 QString Tclef::name() {
   switch(m_type) {
-    case e_treble_G:
+    case Treble_G:
       return QApplication::translate("Tclef", "treble");
-    case e_treble_G_8down:
+    case Treble_G_8down:
       return QApplication::translate("Tclef", "treble dropped");
-    case e_bass_F:
+    case Bass_F:
       return QApplication::translate("Tclef", "bass");
-    case e_bass_F_8down:
+    case Bass_F_8down:
       return QApplication::translate("Tclef", "bass dropped");
-    case e_alto_C:
+    case Alto_C:
       return QApplication::translate("Tclef", "alto");
-    case e_tenor_C:
+    case Tenor_C:
       return QApplication::translate("Tclef", "tenor");
-    case e_pianoStaff:
+    case PianoStaffClefs:
       return QApplication::translate("Tclef", "grand staff");
     default :
-      return "";
+      return QString();
   }
 }
 
 
 QString Tclef::desc() {
   switch(m_type) {
-    case e_treble_G:
+    case Treble_G:
       return QApplication::translate("Tclef", "clef G");
-    case e_treble_G_8down:
+    case Treble_G_8down:
       return QApplication::translate("Tclef", "clef G dropped octave down");
-    case e_bass_F:
+    case Bass_F:
       return QApplication::translate("Tclef", "clef F");
-    case e_bass_F_8down:
+    case Bass_F_8down:
       return QApplication::translate("Tclef", "clef F dropped octave down");
-    case e_alto_C:
+    case Alto_C:
       return QApplication::translate("Tclef", "clef C");
-    case e_tenor_C:
+    case Tenor_C:
       return QApplication::translate("Tclef", "clef C");
-    case e_pianoStaff:
+    case PianoStaffClefs:
       return QApplication::translate("Tclef", "treble and bass clefs");
     default :
-      return "";
+      return QString();
   }
 }
 
 
 void Tclef::toXml(QXmlStreamWriter& xml) {
   QString sign, line;
-  if (type() == e_treble_G || type() == e_treble_G_8down || type() == e_pianoStaff) {
-      sign = "G"; line = "2";
-  } else if (type() == e_bass_F || type() == e_bass_F_8down) {
-      sign = "F"; line = "4";
-  } else if (type() == e_alto_C) {
-      sign = "C"; line = "3";
-  } else if (type() == e_tenor_C) {
-      sign = "C"; line = "4";
+  if (type() == Treble_G || type() == Treble_G_8down || type() == PianoStaffClefs) {
+      sign =  QStringLiteral("G"); line = QStringLiteral("2");
+  } else if (type() == Bass_F || type() == Bass_F_8down) {
+      sign = QStringLiteral("F"); line = QStringLiteral("4");
+  } else if (type() == Alto_C) {
+      sign = QStringLiteral("C"); line = QStringLiteral("3");
+  } else if (type() == Tenor_C) {
+      sign = QStringLiteral("C"); line = QStringLiteral("4");
   } else {
       return;
   }
 
-  xml.writeStartElement("clef");
-    if (type() == e_pianoStaff)
-      xml.writeAttribute("number" , "1");
-    xml.writeTextElement("sign", sign);
-    xml.writeTextElement("line", line);
-    if (type() == e_bass_F_8down || type() == e_treble_G_8down)
-      xml.writeTextElement("clef-octave-change", "-1");
+  xml.writeStartElement(QLatin1String("clef"));
+    if (type() == PianoStaffClefs)
+      xml.writeAttribute(QLatin1String("number") , QLatin1String("1"));
+    xml.writeTextElement(QLatin1String("sign"), sign);
+    xml.writeTextElement(QLatin1String("line"), line);
+    if (type() == Bass_F_8down || type() == Treble_G_8down)
+      xml.writeTextElement(QLatin1String("clef-octave-change"), QLatin1String("-1"));
   xml.writeEndElement(); // clef
-  if (type() == e_pianoStaff) {
-    xml.writeStartElement("clef");
-      xml.writeAttribute("number" , "2");
-    xml.writeTextElement("sign", "F");
-    xml.writeTextElement("line", "4");
-  xml.writeEndElement(); // clef
+  if (type() == PianoStaffClefs) { // another 'clef' element
+    xml.writeStartElement(QLatin1String("clef"));
+      xml.writeAttribute(QLatin1String("number") , QLatin1String("2"));
+    xml.writeTextElement(QLatin1String("sign"), QLatin1String("F"));
+    xml.writeTextElement(QLatin1String("line"), QLatin1String("4"));
+    xml.writeEndElement(); // clef
   }
 }
 
@@ -110,35 +105,35 @@ void Tclef::fromXml(QXmlStreamReader& xml) {
   QString sign;
   int line, oc = 0;
   while (xml.readNextStartElement()) {
-    if (xml.name() == "sign")
-      sign = xml.readElementText();
-    else if (xml.name() == "line")
-      line = xml.readElementText().toInt();
-    else if (xml.name() == "clef-octave-change")
-      oc = xml.readElementText().toInt();
+    if (xml.name() == QLatin1String("sign"))
+        sign = xml.readElementText();
+    else if (xml.name() == QLatin1String("line"))
+        line = xml.readElementText().toInt();
+    else if (xml.name() == QLatin1String("clef-octave-change"))
+        oc = xml.readElementText().toInt();
     else
       xml.skipCurrentElement();
   }
-  m_type = e_none; // clef unsupported
-  if (sign == "G") {
-    if (line == 2) {
+  m_type = NoClef; // clef unsupported
+  if (sign == QLatin1String("G")) {
+      if (line == 2) {
         if (oc == -1)
-          m_type = e_treble_G_8down;
+            m_type = Treble_G_8down;
         else if (oc == 0)
-          m_type = e_treble_G;
-    }
-  } else if (sign == "F") {
+            m_type = Treble_G;
+      }
+  } else if (sign == QLatin1String("F")) {
       if (line == 4) {
         if (oc == -1)
-          m_type = e_bass_F_8down;
+            m_type = Bass_F_8down;
         else if (oc == 0)
-          m_type = e_bass_F;
+            m_type = Bass_F;
       }
-  } else if (sign == "C") {
+  } else if (sign == QLatin1String("C")) {
       if (line == 3)
-        m_type = e_alto_C;
+          m_type = Alto_C;
       else if (line == 4)
-        m_type = e_tenor_C;
+          m_type = Tenor_C;
   }
 }
 

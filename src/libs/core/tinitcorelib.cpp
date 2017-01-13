@@ -19,7 +19,7 @@
 #include "tinitcorelib.h"
 #include "music/ttune.h"
 #include "music/tkeysignature.h"
-#include "widgets/tpushbutton.h"
+#include "music/tclef.h"
 #include "tcolor.h"
 #include "tscoreparams.h"
 #include "tpath.h"
@@ -30,6 +30,7 @@
 #include <QtGui/qfontdatabase.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qdir.h>
+#include <QtQml/qqmlengine.h>
 #if defined (Q_OS_ANDROID)
   #include "Android/tandroid.h"
   #include <QtWidgets/qstylefactory.h>
@@ -47,6 +48,8 @@ bool initCoreLibrary() {
     qDebug() << "Tglobals was not created. Construct it first!";
     return false;
   }
+
+  qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", "You cannot create an instance of the Tclef.");
 
 #if defined (Q_OS_ANDROID)
   if (Tcore::androidStyle == nullptr)

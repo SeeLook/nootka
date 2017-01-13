@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,10 @@
 #ifndef TCLEF_H
 #define TCLEF_H
 
+
 #include <nootkacoreglobal.h>
-#include <QString>
+#include <QtCore/qobject.h>
+
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
@@ -29,41 +31,46 @@ class QXmlStreamWriter;
 
 class NOOTKACORE_EXPORT Tclef
 {
+  Q_GADGET
 
 public:
-    enum Etype {
-      e_none = 0, // clef not defined
-      e_treble_G = 1, // common treble clef
-      e_bass_F = 2, // bass clef
-      e_alto_C = 4,
-      e_treble_G_8down = 8, // treble clef with "8" digit below (guitar)
-      e_bass_F_8down = 16, // bass clef with "8" digit below (bass guitar)
-      e_tenor_C = 32,
-      e_pianoStaff = 128 // exactly is not a clef
-    };
+  enum EclefType {
+    NoClef = 0,             /**< clef not defined */
+    Treble_G = 1,           /**< common treble clef */
+    Bass_F = 2,             /**< bass clef */
+    Alto_C = 4,
+    Treble_G_8down = 8,     /**< treble clef with "8" digit below (guitar) */
+    Bass_F_8down = 16,      /**< bass clef with "8" digit below (bass guitar) */
+    Tenor_C = 32,
+    PianoStaffClefs = 128   /**< exactly it is not a clef */
+  };
 
-    Tclef(Etype type = e_treble_G);
+  Q_ENUM(EclefType)
 
-    Etype type() { return m_type; }
-    void setClef(Etype type) { m_type = type; }
+  Tclef(EclefType type = Treble_G) : m_type(type) {}
 
-    QString name(); // short name of a clef
-    QString desc(); // a clef description
+  EclefType type() { return m_type; }
+  void setClef(EclefType type) { m_type = type; }
 
-    /** Adds 'clef' key to XML stream compatible with MusicXML format with current clef
-       * <clef>
-       * <sign>G</sign>
-       * <line>2</line>
-       * <clef-octave-change>-1</clef-octave-change>
-       * </clef>  */
-  void toXml(QXmlStreamWriter& xml);
-  void fromXml(QXmlStreamReader& xml); /** Reads this clef from XML stream  */
+  QString name(); // short name of a clef
+  QString desc(); // a clef description
 
-  static Etype defaultType; /** Default clef type for whole application */
+     /**
+      * Adds 'clef' key to XML stream compatible with MusicXML format with current clef
+      * <clef>
+      * <sign>G</sign>
+      * <line>2</line>
+      * <clef-octave-change>-1</clef-octave-change>
+      * </clef>
+      */
+void toXml(QXmlStreamWriter& xml);
+void fromXml(QXmlStreamReader& xml); /** Reads this clef from XML stream  */
+
+static EclefType defaultType; /** Default clef type for whole application */
 
 
 private:
-    Etype m_type;
+  EclefType m_type;
 
 };
 

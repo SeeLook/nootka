@@ -52,18 +52,16 @@ ApplicationWindow {
     Score {
       Layout.fillWidth: true
       Layout.fillHeight: true
+      clef: Tclef.PianoStaffClefs
 
-      Note {
-        pitch: 6
-        octave: 1
-        alter: -1
-        rhythm: Note.Esixteenth
-      }
-      Note {
-        pitch: 5
-        octave: 0
-        alter: 1
-        rhythm: Note.Esixteenth
+      Repeater {
+            model: 16
+
+        Note {
+          pitch: 1 + index % 7
+          octave: Math.floor(index / 7)
+          rhythm: Note.Esixteenth
+        }
       }
     }
 

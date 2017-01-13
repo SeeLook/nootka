@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,19 +38,19 @@
 QChar TscoreClef::clefToChar(Tclef clef) {
   QChar ch;
   switch(clef.type()) {
-    case Tclef::e_none:
+    case Tclef::NoClef:
       ch = QChar(0); break;
-    case Tclef::e_treble_G:
+    case Tclef::Treble_G:
       ch = QChar(0xe172); break;
-    case Tclef::e_bass_F:
+    case Tclef::Bass_F:
       ch = QChar(0xe170); break;
-    case Tclef::e_alto_C:
+    case Tclef::Alto_C:
       ch = QChar(0xe16e); break;
-    case Tclef::e_treble_G_8down:
+    case Tclef::Treble_G_8down:
       ch = QChar(0xe173); break;
-    case Tclef::e_bass_F_8down:
+    case Tclef::Bass_F_8down:
       ch = QChar(0xe171); break;
-    case Tclef::e_tenor_C:
+    case Tclef::Tenor_C:
       ch = QChar(0xe16e); break;
     default :
       ch = QChar(0x20); break; // space
@@ -58,13 +58,13 @@ QChar TscoreClef::clefToChar(Tclef clef) {
   return ch;
 }
 
-QList<Tclef::Etype> TscoreClef::m_typesList = QList<Tclef::Etype>();
+QList<Tclef::EclefType> TscoreClef::m_typesList = QList<Tclef::EclefType>();
 
 
 
 TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   TscoreItem(scene),
-  m_clef(Tclef(Tclef::e_none)),
+  m_clef(Tclef(Tclef::NoClef)),
   m_textClef(0),
   m_readOnly(false)
 {
@@ -72,8 +72,8 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
   setParentItem(staff);
   setFlag(QGraphicsItem::ItemHasNoContents);
   if (m_typesList.size() == 0) // initialize types list
-    m_typesList << Tclef::e_treble_G << Tclef::e_bass_F << Tclef::e_bass_F_8down <<
-    Tclef::e_alto_C << Tclef::e_tenor_C << Tclef::e_treble_G_8down;
+    m_typesList << Tclef::Treble_G << Tclef::Bass_F << Tclef::Bass_F_8down <<
+    Tclef::Alto_C << Tclef::Tenor_C << Tclef::Treble_G_8down;
 
   m_textClef = new QGraphicsSimpleTextItem();
   registryItem(m_textClef);
@@ -85,20 +85,18 @@ TscoreClef::TscoreClef(TscoreScene* scene, TscoreStaff* staff, Tclef clef) :
 
 
 TscoreClef::~TscoreClef() {
-//   if (m_clefMenu)
-//     delete m_clefMenu;
 }
 
 
 void TscoreClef::setClef(Tclef clef) {
-  if (clef.type() == Tclef::e_pianoStaff) {
+  if (clef.type() == Tclef::PianoStaffClefs) {
     if (!m_lowerClef) {
-      m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::e_bass_F));
+      m_lowerClef = new TscoreClef(scoreScene(), staff(), Tclef(Tclef::Bass_F));
       m_lowerClef->setPos(0.5, getYclefPos(m_lowerClef->clef()) - (16.0 - staff()->lowerLinePos()) + 0.1);
       connect(m_lowerClef, SIGNAL(clefChanged(Tclef)), this, SLOT(lowerClefChanged(Tclef)));
     } else // clefs already set to piano mode
         return;
-    clef.setClef(Tclef::e_treble_G);
+    clef.setClef(Tclef::Treble_G);
   } else {
     if (m_lowerClef)
       delete m_lowerClef;
@@ -107,7 +105,7 @@ void TscoreClef::setClef(Tclef clef) {
       m_currClefInList = getClefPosInList(m_clef);
       m_textClef->setText(QString(clefToChar(m_clef.type())));
       qreal fineOff = 0.1;
-      if (clef.type() == Tclef::e_bass_F || clef.type() == Tclef::e_bass_F_8down)
+      if (clef.type() == Tclef::Bass_F || clef.type() == Tclef::Bass_F_8down)
         fineOff = 0.0;
       setPos(0.5, getYclefPos(m_clef) - (16.0 - staff()->upperLinePos()) + fineOff);
       getStatusTip();
@@ -186,7 +184,7 @@ void TscoreClef::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 
 
 void TscoreClef::lowerClefChanged(Tclef clef) {
-  if (clef.type() != Tclef::e_pianoStaff) // lower staff means piano staff already
+  if (clef.type() != Tclef::PianoStaffClefs) // lower staff means piano staff already
     emit clefChanged(clef);
 }
 
@@ -205,13 +203,13 @@ void TscoreClef::getStatusTip() {
 
 int TscoreClef::getYclefPos(Tclef clef) {
   int pos = 0;
-  if (clef.type() == Tclef::e_treble_G || clef.type() == Tclef::e_treble_G_8down)
+  if (clef.type() == Tclef::Treble_G || clef.type() == Tclef::Treble_G_8down)
     pos = 11;
-  else if (clef.type() == Tclef::e_bass_F|| clef.type() == Tclef::e_bass_F_8down)
+  else if (clef.type() == Tclef::Bass_F|| clef.type() == Tclef::Bass_F_8down)
     pos = 11;
-  else if (clef.type() == Tclef::e_alto_C)
+  else if (clef.type() == Tclef::Alto_C)
     pos = 11;
-  else if (clef.type() == Tclef::e_tenor_C)
+  else if (clef.type() == Tclef::Tenor_C)
     pos = 9;
   return pos;
 }

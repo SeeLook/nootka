@@ -45,7 +45,7 @@ private:
 };
 
       /**  Returns QPixmap with given note. @p factor determines its size  */
-NOOTKACORE_EXPORT QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef = Tclef::e_treble_G,
+NOOTKACORE_EXPORT QPixmap getNotePixmap(const Tnote& note, Tclef::EclefType clef = Tclef::e_treble_G,
                       TkeySignature key = TkeySignature(0), qreal factor = 4.0, int strNr = 0);
 
       /** Creates pixmap from a melody. Line are not breaking. */
@@ -55,7 +55,7 @@ NOOTKACORE_EXPORT QPixmap getMelodyPixmap(Tmelody* mel, bool showStrings = false
 NOOTKACORE_EXPORT QString pixToHtml(const QPixmap& pix);
 
     /** Returns HTML sting with note pixmap generated according to given params. */
-NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, Tclef::Etype clef, TkeySignature key, qreal factor = 4.0, int strNr = 0);
+NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, Tclef::EclefType clef, TkeySignature key, qreal factor = 4.0, int strNr = 0);
 
     /** Overloaded method - clef is taken from static  */
 NOOTKACORE_EXPORT QString wrapPixToHtml(const Tnote& note, bool defClef, TkeySignature key, qreal factor = 4.0, int strNr = 0);

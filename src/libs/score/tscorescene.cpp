@@ -19,18 +19,12 @@
 #include "tscorescene.h"
 #include "tscoremeter.h"
 #include "tscoremeasure.h"
-#include <graphics/tdropshadoweffect.h>
 #include <tnoofont.h>
 #include <music/trhythm.h>
 #include <music/tmeter.h>
 #include <QtWidgets/qgraphicseffect.h>
 #include <QtWidgets/qapplication.h>
 #include <QtCore/qdebug.h>
-
-
-#define WORK_HIDE_DELAY (5000)
-#define REST_Y (19.0)
-#define WORK_X (1.2) // x coordinate of the cursor note head
 
 
 TscoreScene::TscoreScene(QObject* parent) :

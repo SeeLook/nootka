@@ -50,7 +50,7 @@ public:
     QString majKeyNameSufix;
     QString minKeyNameSufix;
     QColor pointerColor;
-    Tclef::Etype& clef; // preferred clef - treble by default, reference to static Tclef::defaultType
+    Tclef::EclefType& clef; // preferred clef - treble by default, reference to static Tclef::defaultType
     bool isSingleNoteMode; // score mode (single or multi)
     qreal scoreScale; // score scale - user preferred staff size
     int tempo; // playback tempo

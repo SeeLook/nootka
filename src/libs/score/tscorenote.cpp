@@ -24,7 +24,6 @@
 #include "tscorebeam.h"
 #include "tscoretie.h"
 #include "tscorelines.h"
-#include <graphics/tdropshadoweffect.h>
 #include <music/tnote.h>
 #include <tnoofont.h>
 #include <QtCore/qeasingcurve.h>
@@ -39,7 +38,6 @@
 #include <QtCore/qdebug.h>
 
 
-#define SHORT_TAP_TIME (150) // 150 ms takes short tap - otherwise note is edited
 #define REST_Y (19.0)
 
 
@@ -241,7 +239,6 @@ void TscoreNote::selectNote(bool sel) {
 
 void TscoreNote::moveNote(int posY) {
 //     if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
-  bool theSame = (posY == m_mainPosY);
   if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
       if (m_mainNote->rhythm()->isRest()) {
           m_mainNote->setY(REST_Y);

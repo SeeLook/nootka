@@ -19,14 +19,12 @@
 #ifndef TSCORECLEF_H
 #define TSCORECLEF_H
 
+
 #include <nootkacoreglobal.h>
 #include "tscoreitem.h"
 #include <music/tclef.h>
 #include <QPointer>
 #include <QElapsedTimer>
-
-
-// class TclefMenu;
 
 
 /**
@@ -45,7 +43,7 @@ public:
   TscoreClef(TscoreScene *scene, TscoreStaff *staff, Tclef clef);
   ~TscoreClef();
 
-  Tclef clef() { return m_lowerClef ? Tclef::e_pianoStaff : m_clef; }
+  Tclef clef() { return m_lowerClef ? Tclef::PianoStaffClefs : m_clef; }
   void setClef(Tclef clef);
 
       /** Converts Tclef to appropriate QChar with clef glyph in nootka font. */
@@ -77,17 +75,14 @@ private:
   void getStatusTip();
 
 private:
-  Tclef                              m_clef;
-  QPointer<TscoreClef>               m_lowerClef;
-  QGraphicsSimpleTextItem           *m_textClef;
-//   QPointer<TclefMenu>                m_clefMenu;
-//   QPointer<QMenu>                    m_menu;
-
-  int                                m_currClefInList;
-      /** List of all clef types exept empty (none clef) and piano staff. */
-  static QList<Tclef::Etype>         m_typesList;
-  bool                               m_readOnly; // when TRUE clef is locked
-  QElapsedTimer                      m_tapTimer;
+  Tclef                                     m_clef;
+  QPointer<TscoreClef>                      m_lowerClef;
+  QGraphicsSimpleTextItem                  *m_textClef;
+  int                                       m_currClefInList;
+      /** List of all clef types except empty (none clef) and piano staff. */
+  static QList<Tclef::EclefType>            m_typesList;
+  bool                                      m_readOnly; // when TRUE clef is locked
+  QElapsedTimer                             m_tapTimer;
 
 };
 

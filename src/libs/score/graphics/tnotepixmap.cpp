@@ -34,10 +34,10 @@
 
 
 
-Tclef TnotePixmap::m_clef = Tclef(Tclef::e_treble_G_8down);
+Tclef TnotePixmap::m_clef = Tclef(Tclef::Treble_G_8down);
 
 
-QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef, TkeySignature key, qreal factor, int strNr) {
+QPixmap getNotePixmap(const Tnote& note, Tclef::EclefType clef, TkeySignature key, qreal factor, int strNr) {
   TscoreScene *scene = new TscoreScene();
   int notesCount = 1;
   if (note.note == 0) // no note in preview
@@ -63,7 +63,7 @@ QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef, TkeySignature key, q
       staff->setNote(0, note);
       topPix = staff->hiNotePos();
       bottomPix = staff->loNotePos() + 2;
-      if (clef == Tclef::e_pianoStaff) {
+      if (clef == Tclef::PianoStaffClefs) {
         Tnote tmpN = note;
         if (tmpN.chromatic() < 13)
           topPix = staff->lowerLinePos() - 4;
@@ -77,7 +77,7 @@ QPixmap getNotePixmap(const Tnote& note, Tclef::Etype clef, TkeySignature key, q
           strItem->setPos(6.5, staff->noteSegment(0)->notePos() - 1.0);
       }
   }
-  if (clef == Tclef::e_pianoStaff)
+  if (clef == Tclef::PianoStaffClefs)
     leftPix = -1;
   staff->setScale(factor);
   qreal pixWidth = scene->width();
@@ -142,7 +142,7 @@ QString wrapPixToHtml(const Tnote& note, bool defClef, TkeySignature key, qreal 
 }
 
 
-QString wrapPixToHtml(const Tnote& note, Tclef::Etype clef, TkeySignature key, qreal factor, int strNr) {
+QString wrapPixToHtml(const Tnote& note, Tclef::EclefType clef, TkeySignature key, qreal factor, int strNr) {
   return pixToHtml(getNotePixmap(note, clef, key, factor, strNr));
 }
 

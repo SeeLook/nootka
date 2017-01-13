@@ -197,7 +197,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
       lev.clef = lev.fixClef(testClef); // determining/fixing a clef from first version
       lev.instrument = lev.fixInstrument(instr); // determining/fixing an instrument type
   } else {
-      lev.clef = Tclef((Tclef::Etype)testClef);
+      lev.clef = Tclef((Tclef::EclefType)testClef);
       lev.instrument = (Einstrument)instr;
   }
   lev.melodyLen = 1; // Those parameters was deployed in XML files
@@ -280,10 +280,10 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
         else if (xml.name() == QLatin1String("showStrNr"))
             showStrNr = QVariant(xml.readElementText()).toBool();
         else if (xml.name() == QLatin1String("clef")) {
-            clef.setClef(Tclef::Etype(QVariant(xml.readElementText()).toInt()));
+            clef.setClef(Tclef::EclefType(QVariant(xml.readElementText()).toInt()));
             if (clef.name().isEmpty()) { // when clef has improper value its name returns empty string
               qDebug() << "Level had wrong/undefined clef. It was fixed to treble dropped.";
-              clef.setClef(Tclef::e_treble_G_8down);
+              clef.setClef(Tclef::Treble_G_8down);
               er = e_levelFixed;
             }
         } else if (xml.name() == QLatin1String("instrument")) {
@@ -511,20 +511,20 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
 
 Tclef Tlevel::fixClef(quint16 cl) {
     if (cl == 0) // For backward compatibility - 'no clef' never occurs
-        return Tclef(Tclef::e_treble_G_8down); // and versions before 0.8.90 kept here 0
+        return Tclef(Tclef::Treble_G_8down); // and versions before 0.8.90 kept here 0
     if (cl == 1) {
       Tnote lowest(6, -2, 0);
       if (canBeGuitar() || loNote.chromatic() < lowest.chromatic() )
-          return Tclef(Tclef::e_treble_G_8down);  // surely: 1 = e_treble_G was not intended here
+          return Tclef(Tclef::Treble_G_8down);  // surely: 1 = e_treble_G was not intended here
       else
-          return Tclef(Tclef::e_treble_G);
+          return Tclef(Tclef::Treble_G);
     }
     if (cl != 2 && cl != 4 && cl != 8 && cl != 16 && cl != 32 && cl != 64 && cl != 128) {
         qDebug() << "Fixed clef type. Previous value was:" << cl;
-        return Tclef(Tclef::e_treble_G_8down); // some previous mess - when levels didn't' support clefs
+        return Tclef(Tclef::Treble_G_8down); // some previous mess - when levels didn't' support clefs
     }
 
-    return Tclef((Tclef::Etype)cl);
+    return Tclef((Tclef::EclefType)cl);
 }
 
 
