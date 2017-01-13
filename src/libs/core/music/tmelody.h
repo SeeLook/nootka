@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -57,8 +57,8 @@ public:
   TkeySignature key() { return m_key; }
   void setKey(const TkeySignature& k) { m_key = k; }
 
-  Tclef::Etype clef() { return m_clef; }
-  void setClef(Tclef::Etype type) { m_clef = type; }
+  Tclef::EclefType clef() { return m_clef; }
+  void setClef(Tclef::EclefType type) { m_clef = type; }
 
   void toXml(QXmlStreamWriter& xml);
   bool fromXml(QXmlStreamReader& xml);
@@ -69,13 +69,13 @@ public:
   void fromNoteStruct(QList<TnoteStruct>& ns); /**< Converts given list to melody */
 
 private:
-  QString            m_title;
-  QList<Tmeasure>    m_measures;
-  QList<Tchunk*>    m_notes; /**< List of pointers to ordered notes */
-  int                m_tempo;
-  TkeySignature      m_key;
-  Tmeter           *m_meter;
-  Tclef::Etype      m_clef;
+  QString              m_title;
+  QList<Tmeasure>      m_measures;
+  QList<Tchunk*>       m_notes; /**< List of pointers to ordered notes */
+  int                  m_tempo;
+  TkeySignature        m_key;
+  Tmeter              *m_meter;
+  Tclef::EclefType     m_clef;
 };
 
 #endif // TMELODY_H

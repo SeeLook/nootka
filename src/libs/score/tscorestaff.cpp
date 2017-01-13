@@ -759,21 +759,21 @@ int TscoreStaff::shiftFromMeasure(int measureNr, int dur, QList<TscoreNote*>& no
 //##########################################################################################################
 
 void TscoreStaff::onClefChanged(Tclef clef) {
-  setPianoStaff(clef.type() == Tclef::e_pianoStaff);
+  setPianoStaff(clef.type() == Tclef::PianoStaffClefs);
   switch(clef.type()) {
-    case Tclef::e_treble_G:
+    case Tclef::Treble_G:
       m_offset = TnoteOffset(3, 2); break;
-    case Tclef::e_treble_G_8down:
+    case Tclef::Treble_G_8down:
       m_offset = TnoteOffset(3, 1); break;
-    case Tclef::e_bass_F:
+    case Tclef::Bass_F:
       m_offset = TnoteOffset(5, 0); break;
-    case Tclef::e_bass_F_8down:
+    case Tclef::Bass_F_8down:
       m_offset = TnoteOffset(5, -1); break;
-    case Tclef::e_alto_C:
+    case Tclef::Alto_C:
       m_offset = TnoteOffset(4, 1); break;
-    case Tclef::e_tenor_C:
+    case Tclef::Tenor_C:
       m_offset = TnoteOffset(2, 1); break;
-    case Tclef::e_pianoStaff:
+    case Tclef::PianoStaffClefs:
       m_offset = TnoteOffset(3, 2); break;
     default: break;
   }
@@ -851,7 +851,7 @@ bool TscoreStaff::hasSpaceFor(const Tnote& n) {
 //##########################################################################################################
 
 void TscoreStaff::onPianoStaffChanged(Tclef clef) {
-  setPianoStaff(clef.type() == Tclef::e_pianoStaff);
+  setPianoStaff(clef.type() == Tclef::PianoStaffClefs);
   scoreClef()->setClef(clef);
 }
 

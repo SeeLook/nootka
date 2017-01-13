@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +28,7 @@
 
 /* local static */
 /** Prints warring message and sets given clef reference to current default clef type. */
-void unsupportedClef(Tclef::Etype& clefType) {
+void unsupportedClef(Tclef::EclefType& clefType) {
   qDebug() << "Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
   clefType = Tclef::defaultType;
 }
@@ -60,23 +60,23 @@ void Tmelody::addNote(const Tchunk& n) {
 
 void Tmelody::toXml(QXmlStreamWriter& xml) {
   for (int m = 0; m < m_measures.size(); ++m) {
-    xml.writeStartElement("measure");
-      xml.writeAttribute("number", QVariant(measure(m).number()).toString());
+    xml.writeStartElement(QStringLiteral("measure"));
+      xml.writeAttribute(QStringLiteral("number"), QVariant(measure(m).number()).toString());
       if (measure(m).number() == 1) {
-        xml.writeStartElement("attributes");
-          xml.writeTextElement("divisions", "1");
+        xml.writeStartElement(QStringLiteral("attributes"));
+          xml.writeTextElement(QStringLiteral("divisions"), QStringLiteral("1"));
           if (m_key.value() || m_key.isMinor())
             m_key.toXml(xml);
           // time signature (meter)
-          if (m_clef == Tclef::e_pianoStaff)
-            xml.writeTextElement("staves", "2");
+          if (m_clef == Tclef::PianoStaffClefs)
+            xml.writeTextElement(QStringLiteral("staves"), QStringLiteral("2"));
           Tclef(m_clef).toXml(xml);
         xml.writeEndElement(); // attributes
       }
       int staffNr_1 = 1, staffNr_2 = 2;
       int *staffPtr = 0;
       for (int n = 0; n < measure(m).conunt(); ++n) {
-        if (m_clef == Tclef::e_pianoStaff) {
+        if (m_clef == Tclef::PianoStaffClefs) {
           if (measure(m).note(n).p().chromatic() > 12)
             staffPtr = & staffNr_1;
           else
@@ -95,42 +95,42 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
   m_measures.clear();
   while (xml.readNextStartElement()) {
 /** [measure] */
-    if (xml.name() == "measure") {
-      int nr = xml.attributes().value("number").toInt();
+    if (xml.name() == QLatin1String("measure")) {
+      int nr = xml.attributes().value(QStringLiteral("number")).toInt();
       m_measures << Tmeasure(nr);
       // TODO set melody meter for measure
       while (xml.readNextStartElement()) {
 /** [attributes] */
-        if (xml.name() == "attributes") {
+        if (xml.name() == QLatin1String("attributes")) {
           if (nr == 1) {
-            Tclef::Etype clef1 = Tclef::e_none, clef2 = Tclef::e_none;
+            Tclef::EclefType clef1 = Tclef::NoClef, clef2 = Tclef::NoClef;
             int staffCnt = 1;
             while (xml.readNextStartElement()) {
-              if (xml.name() == "staves") {
+              if (xml.name() == QLatin1String("staves")) {
                 staffCnt = xml.readElementText().toInt();
                 if (staffCnt > 2) {
                   qDebug() << "Read from more staves is unsupported";
                   staffCnt = 2;
                 }
-              } else if (xml.name() == "clef") {
+              } else if (xml.name() == QLatin1String("clef")) {
                 Tclef cl;
                 cl.fromXml(xml);
-                Tclef::Etype tmpClef = cl.type();
-                if (tmpClef == Tclef::e_none)
+                Tclef::EclefType tmpClef = cl.type();
+                if (tmpClef == Tclef::NoClef)
                     unsupportedClef(tmpClef);
-                if (clef1 == Tclef::e_none) // detecting piano staff
+                if (clef1 == Tclef::NoClef) // detecting piano staff
                     clef1 = tmpClef;
-                else if (clef2 == Tclef::e_none)
+                else if (clef2 == Tclef::NoClef)
                     clef2 = tmpClef;
-              } else if (xml.name() == "key")
+              } else if (xml.name() == QLatin1String("key"))
                   m_key.fromXml(xml);
               // TODO set meter for melody and for measure as well
               else
                 xml.skipCurrentElement();
             }
             if (staffCnt == 2) {
-              if (clef1 == Tclef::e_treble_G && clef2 == Tclef::e_bass_F)
-                m_clef = Tclef::e_pianoStaff;
+              if (clef1 == Tclef::Treble_G && clef2 == Tclef::Bass_F)
+                m_clef = Tclef::PianoStaffClefs;
               else
                 unsupportedClef(m_clef);
             } else
@@ -138,10 +138,10 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
           } else
               qDebug() << "Changing any melody attributes in the middle of a melody are not supported!";
 /** [note] */
-        } else if (xml.name() == "note") {
+        } else if (xml.name() == QLatin1String("note")) {
             int staffNr = 0;
             int *staffPtr = 0;
-            if (m_clef == Tclef::e_pianoStaff)
+            if (m_clef == Tclef::PianoStaffClefs)
               staffPtr = & staffNr;
             addNote(Tchunk(Tnote(), Trhythm()));
             bool voiceOk = lastMeasure().lastNote().fromXml(xml, staffPtr);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,7 +42,7 @@ public:
         /** Returns @p true when tune was different than standard and something is displayed. */
     bool isScordatured() { return (bool)m_scordText; }
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+    virtual void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*) {}
     virtual QRectF boundingRect() const;
 
 private:

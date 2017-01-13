@@ -149,7 +149,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
           S->pointerColor = cfg->value("pointerColor").value<QColor>(); //-1;
       else
           S->pointerColor = -1;
-      S->clef = Tclef::Etype(cfg->value("clef", (int)Tclef::e_treble_G_8down).toInt());
+      S->clef = Tclef::EclefType(cfg->value("clef", (int)Tclef::Treble_G_8down).toInt());
       S->isSingleNoteMode = cfg->value("singleNoteMode", false).toBool();
       S->tempo = cfg->value("tempo", 120).toInt();
       S->scoreScale = cfg->value("scoreScale", 1.0).toReal();

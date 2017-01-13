@@ -75,8 +75,8 @@ void TscoreScordature::setTune(Ttune& tune) {
       xPos = -1.0;
       extraW = 3.0;
       yPos = staff()->lowerLinePos() + 8.5;
-    } else if (staff()->scoreClef()->clef().type() != Tclef::e_treble_G &&
-          staff()->scoreClef()->clef().type() != Tclef::e_treble_G_8down)
+    } else if (staff()->scoreClef()->clef().type() != Tclef::Treble_G &&
+          staff()->scoreClef()->clef().type() != Tclef::Treble_G_8down)
       yPos -= 4.0;
     if (staff()->scoreKey())
         extraW += KEY_WIDTH;
@@ -107,6 +107,5 @@ QRectF TscoreScordature::boundingRect() const {
 }
 
 
-void TscoreScordature::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {}
 
 

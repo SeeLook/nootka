@@ -30,9 +30,6 @@ set(LIB_NOOTKASCORE_SRC
 )
 
 
-# qt5_add_resources(LIB_NOOTKASCORE_SRC score.qrc)
-
-
 add_library(NootkaScore SHARED ${LIB_NOOTKASCORE_SRC} )
 target_link_libraries(NootkaScore NootkaCore Qt5::Widgets)
 
