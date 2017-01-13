@@ -309,7 +309,9 @@ void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
   if (m_nameText)
     showNoteName();
   checkEmptyText();
-  update();
+  if (beam()/* && beam()->last() == this*/)
+    beam()->performBeaming();
+  staff()->fit();
 }
 
 
