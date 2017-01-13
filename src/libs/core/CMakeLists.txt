@@ -17,16 +17,6 @@ set(LIB_NOOTKACORE_SRC
   tpath.cpp
   tmtr.cpp
 
-#   animations/tabstractanim.cpp
-#   animations/tblinkingitem.cpp
-#   animations/tcoloredanim.cpp
-#   animations/tcombinedanim.cpp
-#   animations/tfadeanim.cpp
-#   animations/tmorphedanim.cpp
-#   animations/tmovedanim.cpp
-#   animations/tscaledanim.cpp
-#   animations/tcrossfadetextanim.cpp
-
   music/tnote.cpp
   music/trhythm.cpp
   music/tnamestylefilter.cpp
@@ -37,9 +27,7 @@ set(LIB_NOOTKACORE_SRC
   music/tchunk.cpp
   music/tmeasure.cpp
   music/tmelody.cpp
-
-#   graphics/tdropshadoweffect.cpp
-#   graphics/tgraphicstexttip.cpp
+  music/tmeter.cpp
 
   exam/tqatype.cpp
   exam/tqaunit.cpp
@@ -50,7 +38,6 @@ set(LIB_NOOTKACORE_SRC
   exam/textrans.h
   exam/tresulttext.cpp
 
-#   widgets/tpushbutton.cpp
 
   touch/ttouchproxy.cpp
 #   touch/ttoucharea.cpp
@@ -59,9 +46,6 @@ set(LIB_NOOTKACORE_SRC
   plugins/tplugininterface.h
   plugins/tpluginsloader.cpp
 )
-
-
-# qt5_add_resources(LIB_NOOTKACORE_SRC core.qrc)
 
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
