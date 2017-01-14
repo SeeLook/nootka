@@ -31,27 +31,22 @@ Item {
 
   Rectangle {
     id: bgRect
-    height: parent.height * 0.7
+    height: parent.height
     width: logo.width
     color: bgColor
-  }
-  Rectangle {
-    anchors.top: bgRect.bottom
-    color: "black"
-    height: parent.height * 0.3
-    width: logo.width
   }
 
   Image {
     id: logo
+    smooth: true
     anchors.top: parent.Top
     source: Tpath.pix("logo")
-    sourceSize.height: nootkaLabel.height * 0.8
+    sourceSize.height: nootkaLabel.height
   }
 
   Text {
     id: versText
-    y: nootkaLabel.height * 0.7
+    y: nootkaLabel.height * 0.72
     anchors.horizontalCenter: logo.horizontalCenter
     font.pixelSize: nootkaLabel.height * 0.2
     color: bgColor
@@ -63,5 +58,6 @@ Item {
     onEntered: bgColor = Qt.rgba(randColor(), randColor(), randColor(), 1)
     onExited: bgColor = "white"
   }
+
   function randColor() { return (80 + Math.random() * 150) / 255 }
 }
