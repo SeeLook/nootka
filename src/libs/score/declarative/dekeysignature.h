@@ -16,53 +16,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef DESCORE_H
-#define DESCORE_H
+#ifndef DEKEYSIGNATURE_H
+#define DEKEYSIGNATURE_H
 
 
-#include <QtQuick/qquickpainteditem.h>
-#include <music/tclef.h>
+#include <QtQuick/qquickitem.h>
 
 
-class TscoreScene;
-class TscoreStaff;
+class DeScore;
 
-
-
-class DeScore : public QQuickPaintedItem
+class DeKeySignature : public QQuickItem
 {
+
   Q_OBJECT
 
-  Q_PROPERTY(Tclef::EclefType clef READ clef WRITE setClef NOTIFY clefChanged)
+  Q_PROPERTY(int key READ keySignature WRITE setKeySignature NOTIFY keySignatureChanged)
+
+  friend class DeScore;
 
 public:
-  explicit DeScore(QQuickItem* parent = nullptr);
-  ~DeScore();
+  explicit DeKeySignature(QQuickItem* parent = nullptr);
+  ~DeKeySignature();
 
-  Tclef::EclefType clef();
-  void setClef(Tclef::EclefType c);
-
-  qint8 keySignature();
+  qint8 keySignature() { return m_key; }
   void setKeySignature(qint8 k);
 
-  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
-  void paint(QPainter* painter) override;
-
-
 signals:
-  void clefChanged();
   void keySignatureChanged();
 
-
 protected:
-  void itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData& value) override;
-
-  void hoverMoveEvent(QHoverEvent* event) override;
+  void setScore(DeScore* score) { m_score = score; }
 
 private:
-  TscoreScene             *m_scene;
-  TscoreStaff             *m_staff;
-  int                      m_staffNr;
+  qint8       m_key;
+  DeScore    *m_score;
+
 };
 
-#endif // DESCORE_H
+#endif // DEKEYSIGNATURE_H

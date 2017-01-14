@@ -21,7 +21,7 @@
 #include <tscorestaff.h>
 #include <music/tnote.h>
 
-#include <QtCore/QDebug>
+#include <QtCore/qdebug.h>
 
 
 DeNote::DeNote(QQuickItem* parent) :

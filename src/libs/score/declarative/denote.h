@@ -20,7 +20,7 @@
 #define DENOTE_H
 
 
-#include <QtQuick/QQuickItem>
+#include <QtQuick/qquickitem.h>
 
 
 class TscoreNote;

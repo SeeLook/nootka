@@ -61,8 +61,11 @@ public:
   void setNameColor(const QColor& nameC) { m_nameColor = nameC; }
   QColor nameColor() { return m_nameColor; }
 
-  qreal accidYoffset() { return m_accidYoffset; } /**< Y offset of accidental item */
-  qreal accidScale() { return m_accidScale; } /**< Scale of accidental text item */
+      /** Y offset of accidental item */
+  static qreal accidYoffset() { return m_accidYoffset; }
+
+      /** Scale of accidental text item */
+  static qreal accidScale() { return m_accidScale; }
 
   bool isRhythmEnabled() { return (bool)m_scoreMeter; } /**< @p TRUE when score has rhythm enabled. */
   TscoreMeter* scoreMeter() { return m_scoreMeter; } /**< Score meter - if it is @p nullptr - there is no rhythms */
@@ -74,10 +77,6 @@ signals:
   void statusTip(QString);
 
 protected:
-// note cursor
-  void setAccidYoffset(qreal aYo) { m_accidYoffset = aYo; }
-  void setAccidScale(qreal as) { m_accidScale = as; }
-
       /** Sets meter, enables rhythms if meter is valid or disables rhythm if it is @p nullptr.
        * This is global meter for all score items and it is managed through @class TscoreStaff */
   void setScoreMeter(TscoreMeter* m);
@@ -91,8 +90,8 @@ private:
   qint8                             m_dblAccFuse;
   char                              m_currentAccid;
   QColor                            m_nameColor;
-  qreal                             m_accidYoffset; /**< difference between y note position. */
-  qreal                             m_accidScale;
+  static const qreal                m_accidYoffset; /**< difference between y note position. */
+  static const qreal                m_accidScale;
   TscoreNote                       *m_scoreNote; /**< current note segment or NULL. */
   TscoreMeter                      *m_scoreMeter;
 };

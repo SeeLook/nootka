@@ -36,6 +36,7 @@
 
 #include <declarative/descore.h>
 #include <declarative/denote.h>
+#include <declarative/dekeysignature.h>
 
 
 static QString logFile;
@@ -109,6 +110,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<DeScore>("Score", 1, 0, "Score");
     qmlRegisterType<DeNote>("Score", 1, 0, "Note");
+    qmlRegisterType<DeKeySignature>("Score", 1, 0, "KeySignature");
 
 // creating main window
     e = new QQmlApplicationEngine;

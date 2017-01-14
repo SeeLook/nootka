@@ -19,18 +19,17 @@
 
 #include "descore.h"
 #include "denote.h"
+#include "dekeysignature.h"
 
 #include <tscorescene.h>
 #include <tscorestaff.h>
 #include <tscoreclef.h>
+#include <tscorekeysignature.h>
 #include <music/tmeter.h>
 
-#include <QtQuick/QSGNode>
-#include <QtQuick/QQuickWindow>
-#include <QtQuick/QSGSimpleTextureNode>
-#include <QtGui/QPainter>
-#include <QtWidgets/QApplication>
-#include <QtGui/QPalette>
+#include <QtGui/qpainter.h>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qpalette.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QElapsedTimer>
@@ -52,6 +51,7 @@ DeScore::DeScore(QQuickItem* parent) :
   QQuickPaintedItem(parent)
 {
   setRenderTarget(QQuickPaintedItem::FramebufferObject);
+//   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
   setAntialiasing(true);
 
   m_scene = new TscoreScene;
@@ -64,7 +64,6 @@ DeScore::DeScore(QQuickItem* parent) :
 
   staffNum++;
   m_staffNr = staffNum;
-
 }
 
 
@@ -85,8 +84,18 @@ void DeScore::setClef(Tclef::EclefType c) {
 }
 
 
-char DeScore::keySignature() {
-  return 0;
+qint8 DeScore::keySignature() {
+  return m_staff->scoreKey() ? m_staff->scoreKey()->keySignature() : 0;
+}
+
+
+void DeScore::setKeySignature(qint8 k) {
+  if (!m_staff->scoreKey())
+    m_staff->setEnableKeySign(true);
+  if (k != m_staff->scoreKey()->keySignature()) {
+    m_staff->scoreKey()->setKeySignature(k);
+    update();
+  }
 }
 
 
@@ -122,13 +131,28 @@ CHECKTIME(
 
 void DeScore::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData& value) {
   if (change == QQuickItem::ItemChildAddedChange) {
-    auto noteSegment = qobject_cast<DeNote*>(value.item);
-    if (noteSegment) {
-      qDebug() << "[DeScore" << m_staffNr << "] added note Segment" << (int)noteSegment->pitch() << (int)noteSegment->octave();
-      auto ns = m_staff->insertNote(m_staff->count(), *noteSegment->note(), true);
-      noteSegment->setNoteSegment(ns);
-//       ns->showNoteName(m_scene->nameColor());
-      update();
+    auto scoreNote = qobject_cast<DeNote*>(value.item);
+    if (scoreNote) { // changed item is a note
+        auto ns = m_staff->insertNote(m_staff->count(), *scoreNote->note(), true);
+        scoreNote->setNoteSegment(ns);
+        update();
+    } else {
+        auto scoreKey = qobject_cast<DeKeySignature*>(value.item);
+        if (scoreKey) {
+            if (m_staff->scoreKey()) {
+                qDebug() << "[DeScore] Only single key signature is supported!";
+                scoreKey->deleteLater();
+            } else {
+                qDebug() << "[DeScore] adding key signature";
+                scoreKey->setScore(this);
+                setKeySignature(scoreKey->keySignature());
+                m_staff->scoreKey()->showKeyName(true);
+                connect(scoreKey, &DeKeySignature::destroyed, [=]{
+                    m_staff->setEnableKeySign(false);
+                    update();
+                });
+            }
+        }
     }
   }
   QQuickItem::itemChange(change, value);
