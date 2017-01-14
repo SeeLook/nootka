@@ -31,8 +31,8 @@
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qpalette.h>
 
-#include <QtCore/QDebug>
-#include <QtCore/QElapsedTimer>
+#include <QtCore/qdebug.h>
+#include <QtCore/qelapsedtimer.h>
 
 #define CONCAT_(x,y) x##y
 #define CONCAT(x,y) CONCAT_(x,y)
@@ -43,8 +43,6 @@
     qDebug() << __FUNCTION__ << ":" << __LINE__ << " Elapsed time: " <<  CONCAT(sb_, __LINE__).nsecsElapsed() / 1000 << " μs.";
 
 
-
-static int staffNum = 0;
 
 
 DeScore::DeScore(QQuickItem* parent) :
@@ -61,9 +59,6 @@ DeScore::DeScore(QQuickItem* parent) :
   m_staff->setDisabled(true);
 
   setAcceptHoverEvents(true);
-
-  staffNum++;
-  m_staffNr = staffNum;
 }
 
 
@@ -77,7 +72,6 @@ Tclef::EclefType DeScore::clef() {  return m_staff->scoreClef()->clef().type(); 
 
 
 void DeScore::setClef(Tclef::EclefType c) {
-  qDebug() << "[DeScore" << m_staffNr << "] set clef" << c;
   m_staff->onClefChanged(Tclef(c));
   update();
   emit clefChanged();
@@ -114,8 +108,6 @@ void DeScore::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeomet
 
 void DeScore::paint(QPainter* painter) {
 CHECKTIME(
-//   qDebug() << "[DeScore" << m_staffNr << "] render" << boundingRect();
-
   if (!painter->paintEngine())
     return;
 
@@ -143,7 +135,6 @@ void DeScore::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemCh
                 qDebug() << "[DeScore] Only single key signature is supported!";
                 scoreKey->deleteLater();
             } else {
-                qDebug() << "[DeScore] adding key signature";
                 scoreKey->setScore(this);
                 setKeySignature(scoreKey->keySignature());
                 m_staff->scoreKey()->showKeyName(true);

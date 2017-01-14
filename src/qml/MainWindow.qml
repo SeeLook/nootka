@@ -54,7 +54,7 @@ ApplicationWindow {
       Layout.fillHeight: true
       clef: Tclef.Treble_G_8down
 
-      KeySignature { id: key; key: 7 }
+      KeySignature { id: key; key: -7 }
 
       Note {
           pitch: 1
@@ -79,7 +79,7 @@ ApplicationWindow {
 
   Component.onCompleted: {}
   Timer {
-      interval: 1000
+      interval: 5000
       running: true
       repeat: true
       onTriggered: {
