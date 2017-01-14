@@ -76,6 +76,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, q
 {
   setStaff(staff);
   setParentItem(staff);
+  setFlag(QGraphicsItem::ItemHasNoContents);
 
   TnooFont font(5);
   for (int i = 0; i < 7; i++) {
@@ -86,7 +87,7 @@ TscoreKeySignature::TscoreKeySignature(TscoreScene* scene, TscoreStaff* staff, q
       m_accidentals[i]->setScale(scoreScene()->accidScale());
       m_accidentals[i]->hide();
   }
-    
+
   setStatusTip(tr("Key signature - to change it, click above or below the staff or use mouse wheel."));
 }
 
@@ -152,18 +153,14 @@ void TscoreKeySignature::setClef(Tclef clef) {
     if (!m_lowKey) {
         m_lowKey = new TscoreKeySignature(scoreScene(), staff());
         m_lowKey->setParentItem(this);
-//         m_lowKey->setPos(0.0, staff()->lowerLinePos() - 2.0);
         m_lowKey->setPos(0.0, 14.0);
         m_lowKey->setClef(Tclef(Tclef::Bass_F));
         m_lowKey->setZValue(30);
-//         m_lowKey->setRelatedLine(2);
-//         setRelatedLine(staff()->upperLinePos());
         m_lowKey->setKeySignature(keySignature());
         connect(m_lowKey, SIGNAL(keySignatureChanged()), this, SLOT(onLowKeyChanged()));
     }
   } else {
     m_clef = clef;
-//     setRelatedLine(staff()->upperLinePos());
     if (m_lowKey) {
       delete m_lowKey;
     }

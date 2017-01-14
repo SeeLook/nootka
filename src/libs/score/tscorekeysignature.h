@@ -41,7 +41,7 @@ class NOOTKACORE_EXPORT TscoreKeySignature : public TscoreItem
   Q_OBJECT
 
 public:
-  TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, qint8 keySign = 0);
+  explicit TscoreKeySignature(TscoreScene *scene, TscoreStaff *staff, qint8 keySign = 0);
 
       /** This methods get and set the key signature, and are called
       * only from their parent @p TscoreWidgetSimple as continuation
@@ -77,8 +77,8 @@ public:
   qint8 minKey() { return m_minKey; }
   void setMinKey(int mk);
 
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
-  virtual QRectF boundingRect() const;
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
+  QRectF boundingRect() const override;
 
 signals:
   void keySignatureChanged();

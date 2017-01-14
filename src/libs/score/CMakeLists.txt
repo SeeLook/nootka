@@ -12,6 +12,7 @@ set(LIB_NOOTKASCORE_SRC
 
   declarative/descore.cpp
   declarative/denote.cpp
+  declarative/dekeysignature.cpp
 
   tscoreitem.cpp
   tscoreclef.cpp

@@ -117,13 +117,9 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   m_mainAccid->setParentItem(m_mainNote);
 
   m_mainAccid->setFont(TnooFont(5));
-  bool prepareScale = false;
-  if (scoreScene()->accidScale() == -1.0) { // only when first instance of TscoreNote is constructed
+  if (m_staticTip.isEmpty()) { // only when first instance of TscoreNote is constructed
       m_staticTip = tr("Click to enter a note, use horizontal scroll to change accidental.");
       m_selectedTip = QLatin1String("<br>") + tr("Right mouse button just selects a note.");
-      m_mainAccid->setText(getAccid(1));
-      scoreScene()->setAccidScale(6.0 / m_mainAccid->boundingRect().height());
-      prepareScale = true;
   }
   m_emptyText = new QGraphicsSimpleTextItem(QStringLiteral("n"), this);
     m_emptyText->setFont(TnooFont(8));
@@ -138,10 +134,6 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
     m_emptyText->hide();
 
   m_mainAccid->setScale(scoreScene()->accidScale());
-  if (prepareScale) {
-      scoreScene()->setAccidYoffset(m_mainAccid->boundingRect().height() * scoreScene()->accidScale() * 0.34);
-      m_mainAccid->setText(QString());
-  }
   m_mainAccid->setPos(-2.3, - scoreScene()->accidYoffset());
 
   setColor(m_mainColor);

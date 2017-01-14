@@ -297,21 +297,21 @@ void TscoreStaff::setNoteDisabled(int index, bool isDisabled) {
 void TscoreStaff::setEnableKeySign(bool isEnabled) {
   if (isEnabled != (bool)m_keySignature) {
     if (isEnabled) {
-      m_keySignature = new TscoreKeySignature(scoreScene(), this);
-      m_keySignature->setPos(6.5, upperLinePos() - TscoreKeySignature::relatedLine);
-      m_keySignature->setClef(m_clef->clef());
-      m_keySignature->setZValue(30);
-      connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
-      m_flyAccid = new QGraphicsSimpleTextItem;
-      registryItem(m_flyAccid);
-      m_flyAccid->setFont(TnooFont(5));
-      m_flyAccid->setScale(scoreScene()->accidScale());
-      m_flyAccid->setZValue(255);
-      m_flyAccid->hide();
-      if (m_scoreNotes.size())
-          m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->color());
-      if (m_scoreMeter)
-        m_scoreMeter->setPos(m_keySignature->x() + m_keySignature->boundingRect().width(), upperLinePos());
+        m_keySignature = new TscoreKeySignature(scoreScene(), this);
+        m_keySignature->setPos(6.5, upperLinePos() - TscoreKeySignature::relatedLine);
+        m_keySignature->setClef(m_clef->clef());
+        m_keySignature->setZValue(30);
+        connect(m_keySignature, SIGNAL(keySignatureChanged()), this, SLOT(onKeyChanged()));
+        m_flyAccid = new QGraphicsSimpleTextItem;
+        registryItem(m_flyAccid);
+        m_flyAccid->setFont(TnooFont(5));
+        m_flyAccid->setScale(scoreScene()->accidScale());
+        m_flyAccid->setZValue(255);
+        m_flyAccid->hide();
+        if (m_scoreNotes.size())
+            m_flyAccid->setBrush(m_scoreNotes[0]->mainNote()->color());
+        if (m_scoreMeter)
+          m_scoreMeter->setPos(m_keySignature->x() + m_keySignature->boundingRect().width(), upperLinePos());
     } else {
         m_keySignature->blockSignals(true);
         m_keySignature->setKeySignature(0);

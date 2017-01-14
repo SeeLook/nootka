@@ -27,11 +27,14 @@
 #include <QtCore/qdebug.h>
 
 
+/** Those values are valid as long as font size of accidentals is 5 and it is Nootka font */
+const qreal TscoreScene::m_accidYoffset = 2.04;
+const qreal TscoreScene::m_accidScale = 1.2;
+
+
 TscoreScene::TscoreScene(QObject* parent) :
   QGraphicsScene(parent),
   m_nameColor(Qt::darkCyan),
-  m_accidYoffset(0.0),
-  m_accidScale(-1.0),
   m_scoreNote(0),
   m_scoreMeter(nullptr)
 {
