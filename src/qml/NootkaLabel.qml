@@ -16,49 +16,52 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
+import QtGraphicalEffects 1.0
 
 
-ToolBar {
-  id: toolBar
-  height: settAct.height
+Item {
+  id: nootkaLabel
+  property alias version: versText.text
+  property color bgColor: "white"
 
-  RowLayout {
-    HeadButton {
-      id: settAct
-      name: qsTr("Settings")
-      icon: Tpath.pix("systemsettings")
-      tip: qsTr("Application preferences")
-      onClicked: {
-      }
-    }
-    HeadButton {
-      id: levelAct
-      name: qsTr("Level")
-      icon: Tpath.pix("levelCreator")
-      tip: qsTr("Levels creator")
-    }
-//     HeadButton {
-//       id: chartAct
-//       name: qsTr("Analyze", "could be Chart as well")
-//       icon: Tpath.pix("charts")
-//       tip: qsTr("Analysis of exam results")
-//     }
-    HeadButton {
-      id: examAct
-      name: qsTr("Lessons")
-      icon: Tpath.pix("startExam")
-      tip: qsTr("Start exercises or an exam")
-    }
+  height: parent.height
+  width: logo.width
 
-    Item { Layout.fillWidth: true }
+  Rectangle {
+    id: bgRect
+    height: parent.height * 0.7
+    width: logo.width
+    color: bgColor
   }
-  NootkaLabel {
-    version: "1.5.0-alpha"
-    anchors.right: parent.right
+  Rectangle {
+    anchors.top: bgRect.bottom
+    color: "black"
+    height: parent.height * 0.3
+    width: logo.width
   }
+
+  Image {
+    id: logo
+    anchors.top: parent.Top
+    source: Tpath.pix("logo")
+    sourceSize.height: nootkaLabel.height * 0.8
+  }
+
+  Text {
+    id: versText
+    y: nootkaLabel.height * 0.7
+    anchors.horizontalCenter: logo.horizontalCenter
+    font.pixelSize: nootkaLabel.height * 0.2
+    color: bgColor
+  }
+
+  MouseArea {
+    anchors.fill: parent
+    hoverEnabled: true
+    onEntered: bgColor = Qt.rgba(randColor(), randColor(), randColor(), 1)
+    onExited: bgColor = "white"
+  }
+  function randColor() { return (80 + Math.random() * 150) / 255 }
 }
