@@ -20,6 +20,7 @@
 #include "music/ttune.h"
 #include "music/tkeysignature.h"
 #include "music/tclef.h"
+#include "music/tmeter.h"
 #include "tcolor.h"
 #include "tscoreparams.h"
 #include "tpath.h"
@@ -50,6 +51,7 @@ bool initCoreLibrary() {
   }
 
   qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", "You cannot create an instance of the Tclef.");
+  qmlRegisterUncreatableType<Tmeter>("Score", 1, 0, "Tmeter", "You cannot create an instance of the Tmeter.");
 
 #if defined (Q_OS_ANDROID)
   if (Tcore::androidStyle == nullptr)

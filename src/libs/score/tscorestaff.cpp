@@ -359,7 +359,7 @@ void TscoreStaff::removeScordatute() {
 
 void TscoreStaff::setMeter(const Tmeter& m) {
   bool changed = false;
-  if (m.meter() != Tmeter::e_none && !m_scoreMeter) { // create score meter
+  if (m.meter() != Tmeter::NoMeter && !m_scoreMeter) { // create score meter
       m_scoreMeter = new TscoreMeter(scoreScene(), this);
       m_scoreMeter->setPos(6.5 + (m_keySignature ? m_keySignature->boundingRect().width() : 0.0), upperLinePos());
       m_scoreMeter->setZValue(30);
@@ -369,7 +369,7 @@ void TscoreStaff::setMeter(const Tmeter& m) {
             updateWidth();
             updateNotesPos();
       });
-  } else if (m_scoreMeter && m.meter() == Tmeter::e_none) { // delete meter
+  } else if (m_scoreMeter && m.meter() == Tmeter::NoMeter) { // delete meter
       delete m_scoreMeter;
       m_scoreMeter = nullptr;
       if (m_keySignature)

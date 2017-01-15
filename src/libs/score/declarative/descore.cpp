@@ -24,6 +24,7 @@
 #include <tscorescene.h>
 #include <tscorestaff.h>
 #include <tscoreclef.h>
+#include <tscoremeter.h>
 #include <tscorekeysignature.h>
 #include <music/tmeter.h>
 
@@ -55,7 +56,6 @@ DeScore::DeScore(QQuickItem* parent) :
   m_scene = new TscoreScene;
   m_staff = new TscoreStaff(m_scene, 0);
   m_staff->setStafNumber(0);
-  m_staff->setMeter(Tmeter(Tmeter::e_2_4));
   m_staff->setDisabled(true);
 
   setAcceptHoverEvents(true);
@@ -76,6 +76,19 @@ void DeScore::setClef(Tclef::EclefType c) {
   update();
   emit clefChanged();
 }
+
+
+Tmeter::Emeter DeScore::meter() { return m_staff->scoreMeter()->meter()->meter(); }
+
+
+void DeScore::setMeter(Tmeter::Emeter m) {
+  if (m_staff->count()) {
+    qDebug() << "[DeScore] Changing a meter when notes are on the score is not supported yet!";
+    return;
+  }
+  m_staff->setMeter(m);
+}
+
 
 
 qint8 DeScore::keySignature() {

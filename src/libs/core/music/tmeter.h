@@ -20,6 +20,7 @@
 #define TMETER_H
 
 #include <nootkacoreglobal.h>
+#include <QtCore/qobject.h>
 #include <QtCore/qxmlstream.h>
 #include <QtGui/qpixmap.h>
 
@@ -30,14 +31,19 @@
 class NOOTKACORE_EXPORT Tmeter
 {
 
+  Q_GADGET
+
 public:
+
   enum Emeter {
-    e_none = 0,
-    e_2_4 = 1, e_3_4 = 2, e_4_4 = 4, e_5_4 = 8, e_6_4 = 16, e_7_4 = 32,
-    e_3_8 = 64, e_5_8 = 128, e_6_8 = 256, e_7_8 = 512, e_9_8 = 1024, e_12_8 = 2048
+    NoMeter = 0,
+    Meter_2_4 = 1, Meter_3_4 = 2, Meter_4_4 = 4, Meter_5_4 = 8, Meter_6_4 = 16, Meter_7_4 = 32,
+    Meter_3_8 = 64, Meter_5_8 = 128, Meter_6_8 = 256, Meter_7_8 = 512, Meter_9_8 = 1024, Meter_12_8 = 2048
   };
 
-  Tmeter(Emeter meter = e_none) : m_meter(meter) {}
+  Q_ENUM(Emeter)
+
+  Tmeter(Emeter meter = NoMeter) : m_meter(meter) {}
 
   Emeter meter() const { return m_meter; }
 
