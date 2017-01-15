@@ -53,18 +53,19 @@ ApplicationWindow {
       Layout.fillWidth: true
       Layout.fillHeight: true
       clef: Tclef.Treble_G_8down
+      meter: Tmeter.Meter_5_8
 
       KeySignature { id: key; key: -7 }
 
       Note {
           pitch: 1
           octave: 1
-          rhythm: Note.Quarter
+          rhythm: Note.Eighth
         }
 
       Repeater {
         id: nRep
-        model: 4
+        model: 10
 
         Note {
           pitch: 1 + index % 7

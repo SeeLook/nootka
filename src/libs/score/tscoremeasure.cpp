@@ -138,7 +138,7 @@ void TscoreMeasure::changeMeter(const Tmeter& m) {
   m_duration = m.duration();
   m_free = duration();
   // TODO: recalculate measure, move notes if not fit to the meter to next measure or ask for notes from next
-  if (m.meter() == Tmeter::e_none) {
+  if (m.meter() == Tmeter::NoMeter) {
       for (TscoreNote* sn : m_notes) {
         sn->setRhythm(Trhythm(Trhythm::e_none));
       }

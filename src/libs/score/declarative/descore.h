@@ -22,6 +22,7 @@
 
 #include <QtQuick/qquickpainteditem.h>
 #include <music/tclef.h>
+#include <music/tmeter.h>
 
 
 class TscoreScene;
@@ -34,6 +35,7 @@ class DeScore : public QQuickPaintedItem
   Q_OBJECT
 
   Q_PROPERTY(Tclef::EclefType clef READ clef WRITE setClef NOTIFY clefChanged)
+  Q_PROPERTY(Tmeter::Emeter meter READ meter WRITE setMeter NOTIFY meterChanged)
 
 public:
   explicit DeScore(QQuickItem* parent = nullptr);
@@ -41,6 +43,9 @@ public:
 
   Tclef::EclefType clef();
   void setClef(Tclef::EclefType c);
+
+  Tmeter::Emeter meter();
+  void setMeter(Tmeter::Emeter m);
 
   qint8 keySignature();
   void setKeySignature(qint8 k);
@@ -51,6 +56,7 @@ public:
 
 signals:
   void clefChanged();
+  void meterChanged();
   void keySignatureChanged();
 
 

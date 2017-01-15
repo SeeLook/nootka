@@ -28,18 +28,18 @@
 
 int Tmeter::upper() const {
   switch (m_meter) {
-    case e_2_4: return 2;
-    case e_3_4:
-    case e_3_8: return 3;
-    case e_4_4: return 4;
-    case e_5_4:
-    case e_5_8: return 5;
-    case e_6_4:
-    case e_6_8: return 6;
-    case e_7_4:
-    case e_7_8: return 7;
-    case e_9_8: return 9;
-    case e_12_8: return 12;
+    case Meter_2_4: return 2;
+    case Meter_3_4:
+    case Meter_3_8: return 3;
+    case Meter_4_4: return 4;
+    case Meter_5_4:
+    case Meter_5_8: return 5;
+    case Meter_6_4:
+    case Meter_6_8: return 6;
+    case Meter_7_4:
+    case Meter_7_8: return 7;
+    case Meter_9_8: return 9;
+    case Meter_12_8: return 12;
     default: return 0;
   }
 }
@@ -58,7 +58,7 @@ int Tmeter::lower() const {
 
 
 quint16 Tmeter::duration() const {
-  if (e_none)
+  if (NoMeter)
     return 0;
   else
     return (RVALUE / lower()) * upper();
@@ -66,7 +66,7 @@ quint16 Tmeter::duration() const {
 
 
 QPixmap Tmeter::pixmap(int fontSize, const QColor& c) {
-  if (meter() == e_none)
+  if (meter() == NoMeter)
     return QPixmap();
 
   TnooFont font(fontSize);

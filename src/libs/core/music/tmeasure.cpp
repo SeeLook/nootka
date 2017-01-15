@@ -20,7 +20,7 @@
 
 Tmeasure::Tmeasure(int nr) :
   m_number(nr),
-  m_meter(Tmeter::e_none)
+  m_meter(Tmeter::NoMeter)
 {
 
 }
