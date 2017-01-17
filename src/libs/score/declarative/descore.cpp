@@ -28,6 +28,7 @@
 #include <tscorekeysignature.h>
 #include <tscorenote.h>
 #include <music/tmeter.h>
+#include <music/tnote.h>
 
 #include <QtGui/qpainter.h>
 #include <QtWidgets/qapplication.h>
@@ -101,6 +102,12 @@ void DeScore::setKeySignature(qint8 k) {
       staff(0)->update(); //TODO call update only when visible
     }
   }
+}
+
+
+void DeScore::append(const Tnote& n) {
+  lastStaff()->addNote(n, true);
+  m_staves.last()->update();
 }
 
 

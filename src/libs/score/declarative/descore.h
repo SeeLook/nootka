@@ -31,6 +31,7 @@
 class TscoreScene;
 class TscoreStaff;
 class DeStaff;
+class Tnote;
 
 
 class NOOTKACORE_EXPORT DeScore : public QQuickItem
@@ -57,6 +58,8 @@ public:
   qint8 keySignature();
   void setKeySignature(qint8 k);
 
+  void append(const Tnote& n);
+
 
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
 
@@ -76,6 +79,8 @@ protected:
   void deleteKeySlot();
 
   TscoreStaff* staff(int id) { return m_staves[id]->staff(); }
+  TscoreStaff* firstStaff() { return m_staves.first()->staff(); } /**< Exists always  */
+  TscoreStaff* lastStaff() { return m_staves.last()->staff(); }
 
 
 private:
