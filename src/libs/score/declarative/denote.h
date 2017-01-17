@@ -20,6 +20,7 @@
 #define DENOTE_H
 
 
+#include <nootkacoreglobal.h>
 #include <QtQuick/qquickitem.h>
 
 
@@ -27,7 +28,7 @@ class TscoreNote;
 class Tnote;
 
 
-class DeNote : public QQuickItem
+class NOOTKACORE_EXPORT DeNote : public QQuickItem
 {
   Q_OBJECT
 
@@ -69,6 +70,9 @@ signals:
   void octaveChanged();
   void alterChanged();
   void rhythmChanged();
+
+      /** Emitted when note was changed and its staff has to be repainted. */
+  void updateNote();
 
 
 protected:

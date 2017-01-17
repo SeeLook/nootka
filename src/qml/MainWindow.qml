@@ -49,30 +49,37 @@ ApplicationWindow {
 
   ColumnLayout {
     anchors.fill: parent
-    Score {
-      Layout.fillWidth: true
-      Layout.fillHeight: true
-      clef: Tclef.Treble_G_8down
-      meter: Tmeter.Meter_5_8
+    Flickable {
+        id: flickable
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        contentHeight: score.height
 
-      KeySignature { id: key; key: -7 }
+        Score {
+          id: score
 
-      Note {
-          pitch: 1
-          octave: 1
-          rhythm: Note.Eighth
+          clef: Tclef.Treble_G_8down
+          meter: Tmeter.Meter_5_8
+
+          KeySignature { id: key; key: -7 }
+
+          Note {
+              pitch: 1
+              octave: 1
+              rhythm: Note.Eighth
+            }
+
+          Repeater {
+            id: nRep
+            model: 10
+
+            Note {
+              pitch: 1 + index % 7
+              octave: Math.floor(index / 7)
+              rhythm: Note.Sixteenth
+            }
+          }
         }
-
-      Repeater {
-        id: nRep
-        model: 10
-
-        Note {
-          pitch: 1 + index % 7
-          octave: Math.floor(index / 7)
-          rhythm: Note.Sixteenth
-        }
-      }
     }
 
     Rectangle { height: nootkaWindow.height / 3; Layout.fillWidth: true; color: "blue" }
@@ -80,7 +87,7 @@ ApplicationWindow {
 
   Component.onCompleted: {}
   Timer {
-      interval: 5000
+      interval: 1000
       running: true
       repeat: true
       onTriggered: {

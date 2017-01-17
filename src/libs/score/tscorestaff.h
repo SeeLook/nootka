@@ -89,7 +89,14 @@ public:
 
   TscoreKeySignature* scoreKey() { return m_keySignature; }
 
+      /**
+       * Returns current key signature value [-7 to 7]
+       * or 127 if undefined - no key is used
+       */
+  qint8 keySignature();
+
   TscoreClef* scoreClef() { return m_clef; }
+  Tclef::EclefType clef();
 
   void setPianoStaff(bool isPiano);
   bool isPianoStaff() const { return m_isPianoStaff; }

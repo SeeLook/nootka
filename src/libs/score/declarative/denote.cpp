@@ -45,7 +45,7 @@ char DeNote::pitch() { return m_note->note; }
 void DeNote::setPitch(char p) {
   if (m_scoreNote) {
       m_scoreNote->staff()->setNote(m_scoreNote->index(), Tnote(p, m_note->octave, m_note->alter, m_note->rtm));
-      parentItem()->update();
+      emit updateNote();
   } else {
       m_note->note = p;
   }
@@ -59,7 +59,7 @@ char DeNote::octave() { return m_note->octave; }
 void DeNote::setOctave(char o) {
   if (m_scoreNote) {
       m_scoreNote->staff()->setNote(m_scoreNote->index(), Tnote(m_note->note, o, m_note->alter, m_note->rtm));
-      parentItem()->update();
+      emit updateNote();
   } else {
       m_note->octave = o;
   }
@@ -73,7 +73,7 @@ char DeNote::alter() { return m_note->alter; }
 void DeNote::setAlter(char a) {
   if (m_scoreNote) {
       m_scoreNote->staff()->setNote(m_scoreNote->index(), Tnote(m_note->note, m_note->octave, a, m_note->rtm));
-      parentItem()->update();
+      emit updateNote();
   } else {
       m_note->note = a;
   }
@@ -88,7 +88,7 @@ void DeNote::setRhythm(DeNote::Erhythm r) {
   if (m_scoreNote) {
       m_scoreNote->staff()->setNote(m_scoreNote->index(), Tnote(*m_note, Trhythm(static_cast<Trhythm::Erhythm>(r))));
       qDebug() << "[DeNote rhythm] on the score";
-      parentItem()->update();
+      emit updateNote();
   } else {
       m_note->setRhythm(Trhythm(static_cast<Trhythm::Erhythm>(r)));
       qDebug() << "[DeNote rhythm] Not set";

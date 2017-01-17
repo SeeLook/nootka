@@ -18,114 +18,108 @@
 
 
 #include "descore.h"
+#include "destaff.h"
 #include "denote.h"
 #include "dekeysignature.h"
 
-#include <tscorescene.h>
 #include <tscorestaff.h>
 #include <tscoreclef.h>
 #include <tscoremeter.h>
 #include <tscorekeysignature.h>
+#include <tscorenote.h>
 #include <music/tmeter.h>
 
 #include <QtGui/qpainter.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qpalette.h>
 
-#include <QtCore/qdebug.h>
-#include <QtCore/qelapsedtimer.h>
-
-#define CONCAT_(x,y) x##y
-#define CONCAT(x,y) CONCAT_(x,y)
-#define CHECKTIME(x)  \
-    QElapsedTimer CONCAT(sb_, __LINE__); \
-    CONCAT(sb_, __LINE__).start(); \
-    x \
-    qDebug() << __FUNCTION__ << ":" << __LINE__ << " Elapsed time: " <<  CONCAT(sb_, __LINE__).nsecsElapsed() / 1000 << " μs.";
+#include "checktime.h"
 
 
 
-
+/**
+ * @p parent() is Flickable and @p parentItem() is Flickable.contentItem
+ */
 DeScore::DeScore(QQuickItem* parent) :
-  QQuickPaintedItem(parent)
+  QQuickItem(parent),
+  m_flickContent(nullptr)
 {
-  setRenderTarget(QQuickPaintedItem::FramebufferObject);
-//   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
-  setAntialiasing(true);
-
-  m_scene = new TscoreScene;
-  m_staff = new TscoreStaff(m_scene, 0);
-  m_staff->setStafNumber(0);
-  m_staff->setDisabled(true);
-
   setAcceptHoverEvents(true);
+  m_staves << new DeStaff(this, 0, this);
 }
 
 
 DeScore::~DeScore()
 {
-  delete m_scene;
+  int stavesCount = m_staves.count();
+  for (int s = 0; s < stavesCount; ++s)
+    delete m_staves.takeLast();
 }
 
 
-Tclef::EclefType DeScore::clef() {  return m_staff->scoreClef()->clef().type(); }
+Tclef::EclefType DeScore::clef() {  return staff(0)->clef(); }
 
 
 void DeScore::setClef(Tclef::EclefType c) {
-  m_staff->onClefChanged(Tclef(c));
-  update();
+  for (int s = 0; s < m_staves.count(); ++s) {
+    QSignalBlocker(staff(s));
+    staff(s)->onClefChanged(Tclef(c));
+    m_staves[s]->update(); //TODO call update only when visible
+  }
   emit clefChanged();
 }
 
 
-Tmeter::Emeter DeScore::meter() { return m_staff->scoreMeter()->meter()->meter(); }
+Tmeter::Emeter DeScore::meter() { return Tmeter::NoMeter; } // TODO !!!!
 
 
 void DeScore::setMeter(Tmeter::Emeter m) {
-  if (m_staff->count()) {
+  if (staff(0)->count()) {
     qDebug() << "[DeScore] Changing a meter when notes are on the score is not supported yet!";
     return;
   }
-  m_staff->setMeter(m);
+  staff(0)->setMeter(m);
+  // TODO No need for update staff here AS LONG AS changing meter is not supported
 }
 
 
 
 qint8 DeScore::keySignature() {
-  return m_staff->scoreKey() ? m_staff->scoreKey()->keySignature() : 0;
+  return staff(0)->scoreKey() ? staff(0)->keySignature() : 0;
 }
 
 
 void DeScore::setKeySignature(qint8 k) {
-  if (!m_staff->scoreKey())
-    m_staff->setEnableKeySign(true);
-  if (k != m_staff->scoreKey()->keySignature()) {
-    m_staff->scoreKey()->setKeySignature(k);
-    update();
+  if (!staff(0)->scoreKey()) {
+    for (int s = 0; s < m_staves.count(); ++s) {
+      staff(s)->setEnableKeySign(true);
+    }
+  }
+  for (int s = 0; s < m_staves.count(); ++s) {
+    if (k != staff(0)->keySignature()) {
+      staff(s)->scoreKey()->setKeySignature(k);
+      staff(0)->update(); //TODO call update only when visible
+    }
   }
 }
 
 
 void DeScore::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   if (boundingRect().width() > 0 && newGeometry != oldGeometry) {
-    qDebug() << "[DeScore" << m_staffNr << "] resize" << oldGeometry << newGeometry << boundingRect();
-    m_scene->setSceneRect(0.0, 0.0, boundingRect().width(), boundingRect().height());
-    m_staff->setScale(newGeometry.height() / m_staff->height());
-    m_staff->setViewWidth((newGeometry.width() - 25) / m_staff->scale());
-    m_staff->setPos((m_staff->isPianoStaff() ? 2.1 : 1.0) * m_staff->scale(), 0.0);
-    update();
+    QTextStream o(stdout);
+    o << "\033[01;31m[DeScore]\033[01;00m " << newGeometry.width() << "x" << newGeometry.height() << "\n";
+    if (parentItem() && boundingRect().height() > 0) {
+      auto p = qobject_cast<QQuickItem*>(parent());
+      parentItem()->setWidth(boundingRect().width());
+      parentItem()->setHeight(p->height() * m_staves.count());
+      for (int s = 0; s < m_staves.count(); ++s) {
+        m_staves[s]->setWidth(boundingRect().width());
+        m_staves[s]->setHeight(p->height());
+        m_staves[s]->setY(s * p->height() * 0.7);
+      }
+    }
   }
   QQuickItem::geometryChanged(newGeometry, oldGeometry);
-}
-
-
-void DeScore::paint(QPainter* painter) {
-CHECKTIME(
-  if (!painter->paintEngine())
-    return;
-
-  m_scene->render(painter, boundingRect(), boundingRect());
-)
 }
 
 
@@ -133,28 +127,47 @@ CHECKTIME(
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
+void DeScore::componentComplete() {
+  QQuickItem::componentComplete();
+  if (!m_flickContent) {
+    m_flickContent = qobject_cast<QQuickItem*>(parent());
+    connect(m_flickContent, &QQuickItem::widthChanged, [=]{ setWidth(m_flickContent->width()); });
+    connect(m_flickContent, &QQuickItem::heightChanged, [=]{ setHeight(m_flickContent->height() * m_staves.count()); });
+    setWidth(m_flickContent->width());
+    setHeight(m_flickContent->height() * m_staves.count());
+  }
+}
+
+
+void DeScore::deleteKeySlot() {
+  for (int s = 0; s < m_staves.count(); ++s) {
+    staff(s)->setEnableKeySign(false);
+    staff(s)->update();
+  }
+}
+
 
 void DeScore::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData& value) {
   if (change == QQuickItem::ItemChildAddedChange) {
     auto scoreNote = qobject_cast<DeNote*>(value.item);
     if (scoreNote) { // changed item is a note
-        auto ns = m_staff->insertNote(m_staff->count(), *scoreNote->note(), true);
+        auto ns = staff(0)->insertNote(staff(0)->count(), *scoreNote->note(), true);
         scoreNote->setNoteSegment(ns);
-        update();
+        staff(0)->update();
+        connect(scoreNote, &DeNote::updateNote, [=]{
+            m_staves[scoreNote->noteSegment()->staff()->number()]->update();
+        });
     } else {
         auto scoreKey = qobject_cast<DeKeySignature*>(value.item);
         if (scoreKey) {
-            if (m_staff->scoreKey()) {
+            if (staff(0)->scoreKey()) {
                 qDebug() << "[DeScore] Only single key signature is supported!";
                 scoreKey->deleteLater();
             } else {
                 scoreKey->setScore(this);
                 setKeySignature(scoreKey->keySignature());
-                m_staff->scoreKey()->showKeyName(true);
-                connect(scoreKey, &DeKeySignature::destroyed, [=]{
-                    m_staff->setEnableKeySign(false);
-                    update();
-                });
+                staff(0)->scoreKey()->showKeyName(true);
+                connect(scoreKey, &DeKeySignature::destroyed, this, &DeScore::deleteKeySlot);
             }
         }
     }

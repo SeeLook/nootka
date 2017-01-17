@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -115,6 +115,17 @@ TscoreStaff::~TscoreStaff() {
 //####################################################################################################
 //########################################## PUBLIC ##################################################
 //####################################################################################################
+
+Tclef::EclefType TscoreStaff::clef() {
+  return scoreClef() ? scoreClef()->clef().type() : Tclef::NoClef;
+}
+
+
+qint8 TscoreStaff::keySignature() {
+  return scoreKey() ? scoreKey()->keySignature() : 127;
+}
+
+
 
 int TscoreStaff::noteToPos(const Tnote& note)  {
   int nPos = m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1));
