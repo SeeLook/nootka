@@ -129,26 +129,24 @@ qint8 TscoreStaff::keySignature() {
 
 int TscoreStaff::noteToPos(const Tnote& note)  {
   int nPos = m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 - (note.octave * 7 + (note.note - 1));
-  if (isPianoStaff() && nPos > lowerLinePos() - 5)
-    return nPos + 2;
-  else
-    return nPos;
+  return nPos + ((isPianoStaff() && nPos > lowerLinePos() - 5) ? 2 : 0);
 }
 
-    /** Calculation of note position works As folow:
-     * 1) expr: m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 returns y position of note C in offset octave
-     * 2) (note.octave * 7 + (note.note - 1)) is number of note to be set.
-     * 3) Subtraction of them gives position of the note on staff with current clef and it is displayed
-     * when this value is in staff scale. */
+/**
+ * Calculation of note position works As folow:
+ * 1) expr: m_offset.octave * 7 + m_offset.note + upperLinePos() - 1 returns y position of note C in offset octave
+ * 2) (note.octave * 7 + (note.note - 1)) is number of note to be set.
+ * 3) Subtraction of them gives position of the note on staff with current clef and it is displayed
+ * when this value is in staff scale.
+ */
 void TscoreStaff::setNote(int index, const Tnote& note) {
   if (index >= 0 && index < m_scoreNotes.size()) {
-    Tnote prevNote = *getNote(index);
-    if (note.isValid())
-        m_scoreNotes[index]->setNote(noteToPos(note), (int)note.alter, note);
-    else
-        m_scoreNotes[index]->setNote(0, 0, note);
-    if (prevNote != note) // check it only when note was really changed
-        checkNoteRange();
+    auto sn = noteSegment(index);
+    int prevPos = sn->notePos();
+    sn->setNote(note);
+    fit();
+    if (prevPos != sn->notePos()) // check it only when note was really changed
+      checkNoteRange();
   }
 }
 

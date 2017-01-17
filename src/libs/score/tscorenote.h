@@ -39,6 +39,7 @@ class TscoreTie;
 class NOOTKACORE_EXPORT TscoreNote : public TscoreItem
 {
 
+  friend class TscoreStaff;
   friend class TscoreMeasure;
   friend class TscoreBeam;
   friend class TscoreTie;
@@ -70,9 +71,6 @@ public:
       /** Adds blur effect to main note. If blurColor is -1 deletes the effect. */
   void markNote(QColor blurColor);
 
-  void moveNote(int posY);
-  void moveWorkNote(const QPointF& newPos);
-
       /** Returns true if note was selected */
   bool isSelected() const { return m_selected; }
   void selectNote(bool sel);
@@ -82,11 +80,7 @@ public:
         * This value has to be set through setNote() */
   Tnote* note() { return m_note; }
 
-      /** Sets note-head at given position and given accidental accidental. Also puts Tnote of it. */
-  void setNote(int notePos, int accNr, const Tnote& n);
-
   Trhythm* rhythm() const; /**< Returns Trhythm of note */
-  void setRhythm(const Trhythm& r); /**< Sets rhythm of note */
 
   void setRhythmEnabled(bool rhythmEnabled); /**< Switches rhythm on/off */
 
@@ -209,8 +203,13 @@ public slots:
   void hideNote(); /**< Hides main note */
 
 protected:
+    /** Sets note to @p n */
+  void setNote(const Tnote& n);
 
-  virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    /** Sets rhythm of note */
+  void setRhythm(const Trhythm& r);
+
+  void moveNote(int posY);
 
 private:
   TnoteItem                               *m_mainNote;
