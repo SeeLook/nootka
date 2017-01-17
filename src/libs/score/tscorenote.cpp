@@ -102,7 +102,6 @@ TscoreNote::TscoreNote(TscoreScene* scene, TscoreStaff* staff, int index) :
   setFlag(QGraphicsItem::ItemHasNoContents);
   m_height = staff->height();
   m_width = scene->isRhythmEnabled() ? 4.0 : 7.0;
-//   m_width = 7.0;
   m_mainColor = qApp->palette().text().color();
   m_note = new Tnote(); // empty note with no rhythm
 
@@ -173,16 +172,6 @@ Trhythm* TscoreNote::rhythm() const {
 }
 
 
-void TscoreNote::setRhythm(const Trhythm& r) {
-//   m_mainNote->setRhythm(r);
-//   Trhythm old(m_note->rtm);
-  m_note->setRhythm(r);
-//   m_note->rtm.setTie(old.tie());
-//   m_note->rtm.setStemDown(old.stemDown());
-  update();
-}
-
-
 void TscoreNote::adjustSize() {
   m_height = staff()->height();
   m_lines->adjustLines(this);
@@ -229,6 +218,7 @@ void TscoreNote::selectNote(bool sel) {
 }
 
 
+//TODO Move to protected
 void TscoreNote::moveNote(int posY) {
 //     if (posY == 0 || !(posY >= m_ambitMax - 1 && posY <= m_ambitMin)) {
   if (posY == 0 || !(posY >= 1 && posY <= m_height - 3)) {
@@ -267,7 +257,7 @@ void TscoreNote::moveNote(int posY) {
         }
     }
   }
-  for (int i = index() - 1; i >= 0; i--) { // check the previous notes for accidentals
+  for (int i = index() - 1; i >= 0; i--) { // check the previous notes for accidentals TODO: measure has to mange it
     if (staff()->noteSegment(i)->note()->note == noteNr + 1) {
         if (staff()->noteSegment(i)->note()->alter != 0 && m_accidental == 0) {
           if (newAccid.isEmpty())
@@ -285,28 +275,6 @@ void TscoreNote::moveNote(int posY) {
 }
 
 
-void TscoreNote::setNote(int notePos, int accNr, const Tnote& n) {
-  m_accidental = accNr;
-  *m_note = n;
-  m_mainNote->setRhythm(Trhythm(n.rhythm(), notePos == 0, n.hasDot(), n.isTriplet()));
-  moveNote(notePos);
-  if (m_mainPosY == 0) {
-    m_note->note = 0;
-    m_note->alter = 0;
-//     m_mainNote->setY(REST_Y);
-  }
-//   if (m_note->rhythm() != Trhythm::e_none)
-//     setRhythm(Trhythm(n.rhythm(), m_mainPosY == 0, n.hasDot(), n.isTriplet()));
-  changeWidth();
-  if (m_nameText)
-    showNoteName();
-  checkEmptyText();
-  if (beam()/* && beam()->last() == this*/)
-    beam()->performBeaming();
-  staff()->fit();
-}
-
-
 void TscoreNote::hideNote() {
   m_mainNote->hide();
   m_mainAccid->hide();
@@ -314,13 +282,6 @@ void TscoreNote::hideNote() {
   m_mainPosY = 0;
   m_accidental = 0;
   m_mainNote->setY(0);
-}
-
-
-void TscoreNote::moveWorkNote(const QPointF& newPos) {
-  QGraphicsSceneHoverEvent moveEvent(QEvent::GraphicsSceneHoverMove);
-  moveEvent.setPos(newPos);
-  hoverMoveEvent(&moveEvent);
 }
 
 
@@ -472,7 +433,7 @@ void TscoreNote::update() {
 //   if (note()->rtm != *m_mainNote->rhythm())
 //   qDebug() << d(this) << "UPDATE";
   m_mainNote->setRhythm(note()->rtm);
-  QGraphicsItem::update();
+//   QGraphicsItem::update();
 }
 
 
@@ -570,10 +531,32 @@ void TscoreNote::setPos(const QPointF& pos) {
 //#################################################################################################
 //########################################## PROTECTED   ##########################################
 //#################################################################################################
+void TscoreNote::setNote(const Tnote& n) {
+  m_accidental = static_cast<qint8>(n.alter);
+  *m_note = n;
+  m_mainNote->setRhythm(Trhythm(n.rhythm(), n.note == 0, n.hasDot(), n.isTriplet()));
+  moveNote(staff()->noteToPos(n));
+  if (m_mainPosY == 0) { // note position can be 0 because given note was out of staff range
+    m_note->note = 0;
+    m_note->alter = 0;
+  }
+  changeWidth();
+  if (m_nameText)
+    showNoteName();
+  checkEmptyText();
+  if (beam()/* && beam()->last() == this*/)
+    beam()->performBeaming();
+}
 
 
-void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+void TscoreNote::setRhythm(const Trhythm& r) {
+  m_note->setRhythm(r);
+  update();
+}
+
+
 /*
+void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
   if (scoreScene()->workPosY()) { // edit mode
     if (event->button() == Qt::LeftButton) {
         m_newAccid = scoreScene()->currentAccid();
@@ -634,8 +617,8 @@ void TscoreNote::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     else if (event->button() == Qt::RightButton)
       emit roNoteSelected(this, event->pos());
   }
-*/
 }
+*/
 
 
 
