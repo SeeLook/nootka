@@ -11,6 +11,7 @@ set(LIB_NOOTKASCORE_SRC
 #   graphics/tnotepixmap.cpp
 
   declarative/descore.cpp
+  declarative/destaff.cpp
   declarative/denote.cpp
   declarative/dekeysignature.cpp
 
@@ -30,6 +31,11 @@ set(LIB_NOOTKASCORE_SRC
   tscoremeter.cpp
 )
 
+
+get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+  message(STATUS "dir='${dir}'")
+endforeach()
 
 add_library(NootkaScore SHARED ${LIB_NOOTKASCORE_SRC} )
 target_link_libraries(NootkaScore NootkaCore Qt5::Widgets)
