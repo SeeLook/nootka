@@ -43,9 +43,12 @@ TnootkaLabel::TnootkaLabel(const QString& pixmapPath, QWidget* parent, QColor bg
     QGraphicsSimpleTextItem *ver = new QGraphicsSimpleTextItem(version);
     scene->addItem(ver);
     ver->setBrush(Qt::white);
+    QFont f = ver->font();
+    f.setBold(true);
     ver->setZValue(255);
+    ver->setFont(f);
     ver->setScale((m_pixItem->pixmap().height() / 3.5) / ver->boundingRect().height());
-    ver->setPos(m_pixItem->boundingRect().width() / 7.0,
+    ver->setPos((m_pixItem->boundingRect().width() - ver->boundingRect().width() * ver->scale()) / 2.0,
                 m_pixItem->pixmap().height() - ver->boundingRect().height() * ver->scale());
   }
   if (parent && parent->height() > m_pixItem->pixmap().height())
