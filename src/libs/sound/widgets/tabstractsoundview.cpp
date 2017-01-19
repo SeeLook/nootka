@@ -81,8 +81,8 @@ TabstractSoundView::TabstractSoundView(QWidget* parent) :
   if (m_tickWidth == 0) {
     m_tickWidth = qRound((qApp->screens().first()->physicalDotsPerInchX() / 22.0) * 0.4);
     m_tickGap = qRound(m_tickWidth * 1.25);
-#endif
   }
+#endif
 
 }
 
