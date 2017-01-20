@@ -59,7 +59,7 @@ endif (APPLE)
 
 # add_subdirectory( libs/scorek )
 add_subdirectory( libs/core )     # libNootkaCore
-add_subdirectory( libs/score )    # libNootkaScore
+# add_subdirectory( libs/score )    # libNootkaScore
 # add_subdirectory( libs/widgets )  # libNootkaWidgets
 # add_subdirectory( libs/sound )    # libNootkaSound
 # add_subdirectory( libs/misc )     # libNootkaMisc
@@ -70,6 +70,7 @@ include_directories( libs/core libs/score libs/widgets libs/sound libs/misc libs
 # nootka executable
 set(NOOTKA_SRC
     main.cpp
+    ttickcolors.cpp
 )
 
 
@@ -88,7 +89,7 @@ qt5_add_resources(NOOTKA_SRC nootka.qrc)
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
 target_link_libraries(nootka
     NootkaCore
-    NootkaScore
+#     NootkaScore
     Qt5::Core
     Qt5::Widgets
     Qt5::Qml

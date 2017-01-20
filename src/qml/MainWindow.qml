@@ -27,6 +27,9 @@ ApplicationWindow {
   id: nootkaWindow
   visible: true
   title: "Nootka"
+  color: activPal.window
+
+  SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
 
   width: {
     var r = GLOB.getVar("General/geometry")
@@ -49,54 +52,47 @@ ApplicationWindow {
 
   ColumnLayout {
     anchors.fill: parent
-    Flickable {
-        id: flickable
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        contentHeight: score.height
 
-        Score {
-          id: score
+    Row {
+      height: nootkaWindow.height / 12
+      width: nootkaWindow.width
+      Label {
+        text: "Bla bla bla"
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
+        height: parent.height
+        width: parent.width * 0.6
+      }
 
-          clef: Tclef.Treble_G_8down
-          meter: Tmeter.Meter_5_8
-
-          KeySignature { id: key; key: -7 }
-
-          Note {
-              pitch: 1
-              octave: 1
-              rhythm: Note.Eighth
-            }
-
-          Repeater {
-            id: nRep
-            model: 10
-
-            Note {
-              pitch: 1 + index % 7
-              octave: Math.floor(index / 7)
-              rhythm: Note.Sixteenth
-            }
-          }
-        }
+      PitchView {
+        id: volBar
+        height: parent.height
+        width: parent.width * 0.4
+      }
     }
 
-    Rectangle { height: nootkaWindow.height / 3; Layout.fillWidth: true; color: "blue" }
+    Score {
+      id: score
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+    }
+    
+    Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: "blue" }
   }
 
   Component.onCompleted: {}
-  Timer {
-      interval: 1000
-      running: true
-      repeat: true
-      onTriggered: {
-        var randNote3 = nRep.itemAt(Math.random() * nRep.model)
-        randNote3.pitch = 1 + Math.random() * 7
-        randNote3.octave = -1 + Math.random() * 4
-        randNote3.alter = Math.min(Math.max(-1, -2 + Math.random() * 5), 1)
-        key.key = -7 + Math.random() * 15
-      }
-    }
+//   Timer {
+//       interval: 1000
+//       running: true
+//       repeat: true
+//       onTriggered: {
+//         var randNote3 = nRep.itemAt(Math.random() * nRep.model)
+//         randNote3.pitch = 1 + Math.random() * 7
+//         randNote3.octave = -1 + Math.random() * 4
+//         randNote3.alter = Math.min(Math.max(-1, -2 + Math.random() * 5), 1)
+//         key.key = -7 + Math.random() * 15
+//       }
+//   }
 
 }

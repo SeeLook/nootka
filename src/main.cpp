@@ -34,9 +34,7 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qsettings.h>
 
-#include <declarative/descore.h>
-#include <declarative/denote.h>
-#include <declarative/dekeysignature.h>
+#include "ttickcolors.h"
 
 
 static QString logFile;
@@ -108,9 +106,8 @@ int main(int argc, char *argv[])
 
     a->setWindowIcon(QIcon(Tpath::img("nootka")));
 
-    qmlRegisterType<DeScore>("Score", 1, 0, "Score");
-    qmlRegisterType<DeNote>("Score", 1, 0, "Note");
-    qmlRegisterType<DeKeySignature>("Score", 1, 0, "KeySignature");
+    qmlRegisterType<TtickColors>("TtickColors", 1, 0, "TtickColors");
+
 
 // creating main window
     e = new QQmlApplicationEngine;
