@@ -16,13 +16,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TGLOBALS_H
 #define TGLOBALS_H
+
 
 #include <nootkacoreglobal.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qvariant.h>
+#include <QtCore/qrect.h>
 #include <QtGui/qcolor.h>
 #include <music/tnote.h>
 #include <music/tinstrument.h>
@@ -35,12 +36,15 @@ class QSettings;
 class TexamParams;
 class TaudioParams;
 
+
 #define   GLOB     Tglobals::instance()
 
 
 class NOOTKACORE_EXPORT Tglobals : public QObject
 {
   Q_OBJECT
+
+  Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
 
 public:
 
@@ -54,7 +58,15 @@ public:
        */
   static Tglobals* instance() { return m_instance; }
 
+      /**
+       * Returns settings value from given @p key.
+       * Notice: It is not current value but value directly read from configuration file 
+       */
   Q_INVOKABLE QVariant getVar(const QString& key);
+
+      /** Geometry of main Nootka window */
+  QRect geometry() { return m_geometry; }
+  void setGeometry(const QRect& g) { m_geometry = g; }
 
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
@@ -124,9 +136,13 @@ public:
   TaudioParams *A;  /** Audio parameters */
   TlayoutParams *L; /**< Main window Layout params. */
 
+signals:
+  void geometryChanged(); /**< It is never emitted :(  */
+
 private:
   Ttune                     *m_tune; /**< current guitar tune */
   qint8                      m_order[6]; /**< Strings order is determined in @param setTune() method */
+  QRect                      m_geometry;
   static Tglobals           *m_instance;
 
 };
