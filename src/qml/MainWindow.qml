@@ -21,7 +21,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 
-import Score 1.0
+
 
 ApplicationWindow {
   id: nootkaWindow
@@ -31,22 +31,12 @@ ApplicationWindow {
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
 
-  width: {
-    var r = GLOB.getVar("General/geometry")
-    return (r && r.width >= 720) ? r.width : Math.max(Screen.desktopAvailableWidth * 0.75, 720)
-  }
-  height: {
-    var r = GLOB.getVar("General/geometry")
-    return (r && r.height >= 480) ? r.height : Math.max(Screen.desktopAvailableHeight * 0.75, 480)
-  }
-  x: {
-    var r = GLOB.getVar("General/geometry")
-    return (r && r.x >= 0) ? r.x : (Screen.desktopAvailableWidth - nootkaWindow.width) / 2
-  }
-  y: {
-    var r = GLOB.getVar("General/geometry")
-    return (r && r.y >= 0) ? r.y : (Screen.desktopAvailableHeight - nootkaWindow.height) / 2
-  }
+  width: GLOB.geometry.width
+  height: GLOB.geometry.height
+  x: GLOB.geometry.x
+  y: GLOB.geometry.y
+
+//   onClosing: GLOB.geometry = Qt.rect(x ,y, width, height) TODO: enable it when time will come
 
   header: TtoolBar {}
 
@@ -57,6 +47,7 @@ ApplicationWindow {
       height: nootkaWindow.height / 12
       width: nootkaWindow.width
       Label {
+        id: statLab
         text: "Bla bla bla"
         verticalAlignment: Qt.AlignVCenter
         horizontalAlignment: Qt.AlignHCenter
@@ -65,7 +56,7 @@ ApplicationWindow {
       }
 
       PitchView {
-        id: volBar
+        id: pitchView
         height: parent.height
         width: parent.width * 0.4
       }
@@ -77,11 +68,10 @@ ApplicationWindow {
       Layout.fillHeight: true
 
     }
-    
+
     Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: "blue" }
   }
 
-  Component.onCompleted: {}
 //   Timer {
 //       interval: 1000
 //       running: true

@@ -44,9 +44,9 @@ Item {
   }
 
   Text {
+      id: clef
       x: 0.5
       y: 5
-      id: clef
       text: "\ue050"
       font { family: "Scorek"; pixelSize: 8 }
       color: activPal.text
