@@ -1,17 +1,26 @@
 <RCC>
-    <qresource prefix="/">
-        <file alias="MainWindow.qml">qml/MainWindow.qml</file>
-        <file alias="HeadButton.qml">qml/HeadButton.qml</file>
-        <file alias="TtoolBar.qml">qml/TtoolBar.qml</file>
-        <file alias="NootkaLabel.qml">qml/NootkaLabel.qml</file>
+  <qresource prefix="/">
+    <file alias="MainWindow.qml">qml/MainWindow.qml</file>
+    <file alias="TtoolBar.qml">qml/TtoolBar.qml</file>
+    <file alias="NootkaLabel.qml">qml/NootkaLabel.qml</file>
 
-        <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
-        <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
-        <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
+    <file alias="HeadButton.qml">qml/shared/HeadButton.qml</file>
+    <file alias="PagesDialog.qml">qml/shared/PagesDialog.qml</file>
 
-        <file alias="Score.qml">qml/score/Score.qml</file>
-        <file alias="Staff.qml">qml/score/Staff.qml</file>
-        <file alias="NoteSegment.qml">qml/score/NoteSegment.qml</file>
+    <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
+    <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
+    <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
 
-    </qresource>
+    <file alias="Score.qml">qml/score/Score.qml</file>
+    <file alias="Staff.qml">qml/score/Staff.qml</file>
+    <file alias="NoteSegment.qml">qml/score/NoteSegment.qml</file>
+
+    <file alias="TaboutNootka.qml">qml/about/TaboutNootka.qml</file>
+    <file alias="AboutPage.qml">qml/about/AboutPage.qml</file>
+    <file alias="HelpPage.qml">qml/about/HelpPage.qml</file>
+    <file alias="TextBackground.qml">qml/about/TextBackground.qml</file>
+
+    <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
+
+  </qresource>
 </RCC>

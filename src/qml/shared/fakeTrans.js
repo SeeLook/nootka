@@ -15,40 +15,12 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
- 
-import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Window 2.0
 
 
-ToolButton {
-  antialiasing: true
-  hoverEnabled: true
-
-  implicitWidth: Math.max(icon.width, butText.width) + Screen.pixelDensity * 2
-  implicitHeight: Screen.pixelDensity * 13 // 1.3 cm
-
-  property alias icon: icon.source
-  property alias name: butText.text
-  property alias tip: toolTip.text
-
-  Image {
-    id: icon
-    y: Screen.pixelDensity
-    sourceSize.height: Screen.pixelDensity * 8
-    anchors.horizontalCenter: butText.horizontalCenter
-  }
-  Text {
-    id: butText
-    font.pixelSize: Screen.pixelDensity * 2.5
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: icon.bottom
-  }
-
-  ToolTip {
-    id: toolTip
-    delay: 1000
-    timeout: 5000
-    visible: hovered && text != ""
-  }
+/**
+ * It masks standard translation function to skip string during lupdate.
+ * This way texts from qt translations can be reused without being doubled in Nootka translation
+ */
+function tr(context, source) {
+  return qsTranslate(context, source)
 }

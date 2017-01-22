@@ -1,3 +1,10 @@
+1.5.0
+     - porting visible part into QML
+
+1.4.1
+    BUGS FIXES
+     - Fixed issues with note range in custom created levels
+
 1.4.0
      - new method to make random melodies more... melodic
      - melody can be randomized from selected notes, i.e. pentatonic scale

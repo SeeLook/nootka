@@ -38,7 +38,16 @@ ApplicationWindow {
 
 //   onClosing: GLOB.geometry = Qt.rect(x ,y, width, height) TODO: enable it when time will come
 
-  header: TtoolBar {}
+  header: TtoolBar {
+    onAbout: {
+      var c = Qt.createComponent("qrc:/TaboutNootka.qml")
+      var a = c.createObject(nootkaWindow)
+    }
+    onSettings: {
+      var c = Qt.createComponent("qrc:/TaboutNootka.qml")
+      var a = c.createObject(nootkaWindow, {"title": "kaka"})
+    }
+  }
 
   ColumnLayout {
     anchors.fill: parent
