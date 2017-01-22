@@ -12,58 +12,32 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
 
 
-ToolBar {
-  id: toolBar
-  height: settAct.height
+Item {
 
-  signal settings()
-  signal about()
+  width: parent.width
+  height: parent.height
 
-  RowLayout {
-    HeadButton {
-      id: settAct
-      name: qsTr("Settings")
-      icon: Tpath.pix("systemsettings")
-      tip: qsTr("Application preferences")
-      onClicked: {
-        toolBar.settings()
+  Column {
+    anchors.fill: parent
+    Rectangle {
+      height: parent.height / 7
+      width: parent.width
+      color: nooLab.bgColor
+      NootkaLabel {
+        id: nooLab
+        active: false
+        anchors.horizontalCenter: parent.horizontalCenter
+        bgColor: randColor()
       }
     }
-    HeadButton {
-      id: levelAct
-      name: qsTr("Level")
-      icon: Tpath.pix("levelCreator")
-      tip: qsTr("Levels creator")
-    }
-//     HeadButton {
-//       id: chartAct
-//       name: qsTr("Analyze", "could be Chart as well")
-//       icon: Tpath.pix("charts")
-//       tip: qsTr("Analysis of exam results")
-//     }
-    HeadButton {
-      id: examAct
-      name: qsTr("Lessons")
-      icon: Tpath.pix("startExam")
-      tip: qsTr("Start exercises or an exam")
-    }
-
-    Item { Layout.fillWidth: true }
   }
-  NootkaLabel {
-    version: "1.5.0-alpha"
-    anchors.right: parent.right
-    onClicked: toolBar.about()
-  }
+  Component.onDestruction: console.log("about by bye")
 }

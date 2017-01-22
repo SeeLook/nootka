@@ -25,6 +25,9 @@ Item {
   id: nootkaLabel
   property alias version: versText.text
   property color bgColor: "white"
+  property alias active: mouseArea.hoverEnabled
+
+  signal clicked()
 
   height: parent.height
   width: logo.width
@@ -53,11 +56,14 @@ Item {
   }
 
   MouseArea {
+    id: mouseArea
     anchors.fill: parent
     hoverEnabled: true
-    onEntered: bgColor = Qt.rgba(randColor(), randColor(), randColor(), 1)
+    onEntered: bgColor = randColor()
     onExited: bgColor = "white"
+    onClicked: nootkaLabel.clicked()
   }
 
-  function randColor() { return (80 + Math.random() * 150) / 255 }
+  function randColorValue() { return (80 + Math.random() * 150) / 255 }
+  function randColor() { return Qt.rgba(randColorValue(), randColorValue(), randColorValue(), 1) }
 }

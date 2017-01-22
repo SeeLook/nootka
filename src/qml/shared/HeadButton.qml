@@ -15,55 +15,48 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
-
-
+ 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 
 
-ToolBar {
-  id: toolBar
-  height: settAct.height
+ToolButton {
+  antialiasing: true
+  hoverEnabled: true
 
-  signal settings()
-  signal about()
+  implicitWidth: Math.max(icon.width, butText.width) + factor * 2
+  implicitHeight: factor * 13 // 1.3 cm by default
 
-  RowLayout {
-    HeadButton {
-      id: settAct
-      name: qsTr("Settings")
-      icon: Tpath.pix("systemsettings")
-      tip: qsTr("Application preferences")
-      onClicked: {
-        toolBar.settings()
-      }
-    }
-    HeadButton {
-      id: levelAct
-      name: qsTr("Level")
-      icon: Tpath.pix("levelCreator")
-      tip: qsTr("Levels creator")
-    }
-//     HeadButton {
-//       id: chartAct
-//       name: qsTr("Analyze", "could be Chart as well")
-//       icon: Tpath.pix("charts")
-//       tip: qsTr("Analysis of exam results")
-//     }
-    HeadButton {
-      id: examAct
-      name: qsTr("Lessons")
-      icon: Tpath.pix("startExam")
-      tip: qsTr("Start exercises or an exam")
-    }
+  property alias icon: icon.source
+  property alias name: butText.text
+  property alias tip: toolTip.text
+  property real factor: Screen.pixelDensity
+  property alias color: bgRect.color
+  property alias fontSize: butText.font.pixelSize
 
-    Item { Layout.fillWidth: true }
+  Rectangle {
+    id: bgRect
+    anchors.fill: parent
+    color: "transparent"
   }
-  NootkaLabel {
-    version: "1.5.0-alpha"
-    anchors.right: parent.right
-    onClicked: toolBar.about()
+  Image {
+    id: icon
+    y: Screen.pixelDensity
+    sourceSize.height: factor * 8
+    anchors.horizontalCenter: butText.horizontalCenter
+  }
+  Text {
+    id: butText
+    font.pixelSize: factor * 2.5
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: icon.bottom
+  }
+
+  ToolTip {
+    id: toolTip
+    delay: 1000
+    timeout: 5000
+    visible: hovered && text != ""
   }
 }

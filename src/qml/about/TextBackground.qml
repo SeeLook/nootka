@@ -12,58 +12,29 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
-import QtQuick.Window 2.0
 
 
-ToolBar {
-  id: toolBar
-  height: settAct.height
+Rectangle {
+  id: root
+  color: activPal.base
+  width: parent.width; height: text.height
 
-  signal settings()
-  signal about()
+  property alias textColor: text.color
+  property alias font: text.font
+  property string text: ""
 
-  RowLayout {
-    HeadButton {
-      id: settAct
-      name: qsTr("Settings")
-      icon: Tpath.pix("systemsettings")
-      tip: qsTr("Application preferences")
-      onClicked: {
-        toolBar.settings()
-      }
-    }
-    HeadButton {
-      id: levelAct
-      name: qsTr("Level")
-      icon: Tpath.pix("levelCreator")
-      tip: qsTr("Levels creator")
-    }
-//     HeadButton {
-//       id: chartAct
-//       name: qsTr("Analyze", "could be Chart as well")
-//       icon: Tpath.pix("charts")
-//       tip: qsTr("Analysis of exam results")
-//     }
-    HeadButton {
-      id: examAct
-      name: qsTr("Lessons")
-      icon: Tpath.pix("startExam")
-      tip: qsTr("Start exercises or an exam")
-    }
+  SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
 
-    Item { Layout.fillWidth: true }
-  }
-  NootkaLabel {
-    version: "1.5.0-alpha"
-    anchors.right: parent.right
-    onClicked: toolBar.about()
+  Text {
+    id: text
+    anchors.centerIn: parent
+    text: '<font size="6"><b>' + root.text + '</b></font>'
+    textFormat: Text.StyledText
   }
 }
