@@ -64,12 +64,12 @@ Dialog {
         width: parent.width
         TextBackground { text: qsTr("Code"); }
         Text {
-          anchors.horizontalCenter: parent.horizontalCenter; width: parent.width
+          anchors.horizontalCenter: parent.horizontalCenter; width: parent.width; color: activPal.text
           text: "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>"
         }
         TextBackground { text: qsTr("Audio"); }
         Text {
-          anchors.horizontalCenter: parent.horizontalCenter; width: parent.width
+          anchors.horizontalCenter: parent.horizontalCenter; width: parent.width; color: activPal.text
           text: qsTr("editing and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>"
         }
         TextBackground { text: qsTr("Translators"); }
@@ -77,33 +77,33 @@ Dialog {
           columns: 4
           Layout.alignment: Qt.AlignVCenter
           Image { source: Tpath.pix("flags-cs"); }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;český "; textFormat: Text.RichText }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Pavel Fric</b> " }
-          Text { text: " <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;český "; textFormat: Text.RichText; color: activPal.text }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Pavel Fric</b> "; color: activPal.text }
+          Text { text: " <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"; color: activPal.text }
 
           Image { source: Tpath.pix("flags-de") }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;deutsch "; textFormat: Text.RichText}
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Johann C. Weihe</b> "; font.bold: true }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;deutsch "; textFormat: Text.RichText; color: activPal.text}
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Johann C. Weihe</b> "; font.bold: true; color: activPal.text }
           Text { text: " " }
 
           Image { source: Tpath.pix("flags-es") }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;español "; textFormat: Text.RichText }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>José Luis Marín</b> "; font.bold: true }
-          Text { text: " <a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;español "; textFormat: Text.RichText; color: activPal.text }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>José Luis Marín</b> "; font.bold: true; color: activPal.text }
+          Text { text: " <a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>"; color: activPal.text }
 
           Image { source: Tpath.pix("flags-fr") }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;français "; textFormat: Text.RichText }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Olivier Devineau,<br>&nbsp;&nbsp;&nbsp;&nbsp;Jean-Marc Lartigue</b> " }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;français "; textFormat: Text.RichText; color: activPal.text }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Olivier Devineau,<br>&nbsp;&nbsp;&nbsp;&nbsp;Jean-Marc Lartigue</b> "; color: activPal.text }
           Text { text: " " }
 
           Image { source: Tpath.pix("flags-pl") }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;polski "; textFormat: Text.RichText }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Tomasz Bojczuk</b> " }
-          Text { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;polski "; textFormat: Text.RichText; color: activPal.text }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Tomasz Bojczuk</b> "; color: activPal.text }
+          Text { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"; color: activPal.text }
 
           Image { source: Tpath.pix("flags-ru") }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;русский "; textFormat: Text.RichText }
-          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sergei Ivanov (tico-tico)<br>&nbsp;&nbsp;&nbsp;&nbsp;Timur Artykov</b> " }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;русский "; textFormat: Text.RichText; color: activPal.text }
+          Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sergei Ivanov (tico-tico)<br>&nbsp;&nbsp;&nbsp;&nbsp;Timur Artykov</b> "; color: activPal.text }
           Text { text: " " }
         }
 
@@ -118,6 +118,7 @@ Dialog {
                 "<li>" + createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen</li>" +
                 "<li>" + createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html</li>") +
                 "</ul>"
+          color: activPal.text
         }
         TextBackground { text: qsTr("Thanks"); }
         Text {
@@ -132,6 +133,7 @@ I will try to mention them in some random order:<br>
 <b>Translators (Pavel, Olivier, Sergei, José Luis and Johann)</b> for many, maaaany clues and comments.<br>
 <b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>
 <b>And all others that helped.</b><br>"
+          color: activPal.text
         }
       }
       Timer {

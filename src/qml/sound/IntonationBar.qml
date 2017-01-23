@@ -55,6 +55,7 @@ Item {
     font.family: "Nootka"
     font.pixelSize: intoBar.height * 0.8
     text: "n"
+    color: activPal.text
   }
 
   Repeater {

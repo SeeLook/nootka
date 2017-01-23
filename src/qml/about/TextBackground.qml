@@ -29,12 +29,11 @@ Rectangle {
   property alias font: text.font
   property string text: ""
 
-  SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
-
   Text {
     id: text
     anchors.centerIn: parent
     text: '<font size="6"><b>' + root.text + '</b></font>'
     textFormat: Text.StyledText
+    color: activPal.text
   }
 }
