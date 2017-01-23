@@ -21,6 +21,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
+import QtQuick.Controls.Styles 1.4
 
 
 ToolBar {
@@ -29,6 +30,11 @@ ToolBar {
 
   signal settings()
   signal about()
+
+  Rectangle { // background
+    anchors.fill: parent
+    color: activPal.window
+  }
 
   RowLayout {
     HeadButton {
@@ -66,4 +72,5 @@ ToolBar {
     anchors.right: parent.right
     onClicked: toolBar.about()
   }
+
 }

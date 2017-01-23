@@ -30,6 +30,7 @@ ApplicationWindow {
   color: activPal.window
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
+  SystemPalette { id: disdPal; colorGroup: SystemPalette.Inactive }
 
   width: GLOB.geometry.width
   height: GLOB.geometry.height
@@ -43,10 +44,7 @@ ApplicationWindow {
       var c = Qt.createComponent("qrc:/TaboutNootka.qml")
       var a = c.createObject(nootkaWindow)
     }
-    onSettings: {
-      var c = Qt.createComponent("qrc:/TaboutNootka.qml")
-      var a = c.createObject(nootkaWindow, {"title": "kaka"})
-    }
+    onSettings: {}
   }
 
   ColumnLayout {
@@ -62,6 +60,7 @@ ApplicationWindow {
         horizontalAlignment: Qt.AlignHCenter
         height: parent.height
         width: parent.width * 0.6
+        color: activPal.text
       }
 
       PitchView {

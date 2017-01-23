@@ -51,6 +51,7 @@ ToolButton {
     font.pixelSize: factor * 2.5
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: icon.bottom
+    color: activPal.text
   }
 
   ToolTip {
@@ -58,5 +59,13 @@ ToolButton {
     delay: 1000
     timeout: 5000
     visible: hovered && text != ""
+    contentItem: Text {
+      text: toolTip.text
+      color: activPal.highlightedText
+    }
+    background: Rectangle {
+      border.color: activPal.highlightedText
+      color: activPal.highlight
+    }
   }
 }
