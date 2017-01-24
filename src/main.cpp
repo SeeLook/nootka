@@ -34,7 +34,7 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qsettings.h>
 
-#include "ttickcolors.h"
+#include "tnootkaqml.h"
 
 
 static QString logFile;
@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
   QPointer<QApplication> a = 0;
   QQmlApplicationEngine *e = nullptr;
   Tpath pathObj;
+  TnootkaQML nooObj;
 
   int exitCode;
   bool firstTime = true;
@@ -106,13 +107,11 @@ int main(int argc, char *argv[])
 
     a->setWindowIcon(QIcon(Tpath::img("nootka")));
 
-    qmlRegisterType<TtickColors>("TtickColors", 1, 0, "TtickColors");
-
-
 // creating main window
     e = new QQmlApplicationEngine;
     e->rootContext()->setContextProperty(QStringLiteral("Tpath"), &pathObj);
     e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
+    e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 // #if defined (Q_OS_ANDROID)

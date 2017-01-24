@@ -70,7 +70,6 @@ include_directories( libs/core libs/score libs/widgets libs/sound libs/misc libs
 # nootka executable
 set(NOOTKA_SRC
     main.cpp
-    ttickcolors.cpp
 )
 
 

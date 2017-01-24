@@ -16,6 +16,8 @@ set(LIB_NOOTKACORE_SRC
   tnoofont.cpp
   tpath.cpp
   tmtr.cpp
+  tnootkaqml.cpp
+  ttickcolors.cpp
 
   music/tnote.cpp
   music/trhythm.cpp
@@ -43,8 +45,8 @@ set(LIB_NOOTKACORE_SRC
 #   touch/ttoucharea.cpp
   touch/ttouchparams.cpp
 
-  plugins/tplugininterface.h
-  plugins/tpluginsloader.cpp
+#   plugins/tplugininterface.h
+#   plugins/tpluginsloader.cpp
 )
 
 
