@@ -32,14 +32,8 @@ ToolButton {
   property alias name: butText.text
   property alias tip: toolTip.text
   property real factor: Screen.pixelDensity
-  property alias color: bgRect.color
   property alias fontSize: butText.font.pixelSize
 
-  Rectangle {
-    id: bgRect
-    anchors.fill: parent
-    color: "transparent"
-  }
   Image {
     id: icon
     y: Screen.pixelDensity
