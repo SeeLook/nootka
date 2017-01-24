@@ -22,7 +22,6 @@ import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 
 
-
 ApplicationWindow {
   id: nootkaWindow
   visible: true

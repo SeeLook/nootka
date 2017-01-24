@@ -19,10 +19,13 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 
+import Score 1.0
+
 
 Flickable {
   id: score
 
+  property int clef: Tclef.Treble_G_8down
   property alias bgColor: bgRect.color
 
   width: parent.width
@@ -38,7 +41,13 @@ Flickable {
 
   Column {
     Staff {
+      id: staff0
       number: 0
+      clef.type: score.clef
+      clef.onTypeChanged: {
+        // TODO: approve clef for all staves
+      }
     }
   }
+
 }

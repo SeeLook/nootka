@@ -25,7 +25,7 @@
 Tclef::EclefType Tclef::defaultType = Tclef::Treble_G;
 
 
-QString Tclef::name() {
+QString Tclef::name() const {
   switch(m_type) {
     case Treble_G:
       return QApplication::translate("Tclef", "treble");
@@ -47,7 +47,7 @@ QString Tclef::name() {
 }
 
 
-QString Tclef::desc() {
+QString Tclef::desc() const {
   switch(m_type) {
     case Treble_G:
       return QApplication::translate("Tclef", "clef G");

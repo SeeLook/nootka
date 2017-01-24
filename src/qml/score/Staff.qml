@@ -19,9 +19,13 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 
+import Score 1.0
+
 
 Item {
   id: staff
+
+  property alias clef: clef
 
   property real linesCount: 40
   property int number: -1
@@ -43,13 +47,11 @@ Item {
       }
   }
 
-  Text {
-      id: clef
-      x: 0.5
-      y: 5
-      text: "\ue050"
-      font { family: "Scorek"; pixelSize: 8 }
-      color: activPal.text
+  Clef {
+    id: clef
+    onTypeChanged: {
+      // TODO: approve clef change to the notes
+    }
   }
 
   Text { // staff number

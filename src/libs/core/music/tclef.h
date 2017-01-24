@@ -33,6 +33,8 @@ class NOOTKACORE_EXPORT Tclef
 {
   Q_GADGET
 
+  Q_PROPERTY(EclefType type READ type WRITE setClef)
+
 public:
   enum EclefType {
     NoClef = 0,             /**< clef not defined */
@@ -48,12 +50,14 @@ public:
   Q_ENUM(EclefType)
 
   Tclef(EclefType type = Treble_G) : m_type(type) {}
+  Tclef(const Tclef& other) { m_type = other.type(); }
+  ~Tclef() {}
 
-  EclefType type() { return m_type; }
+  EclefType type() const { return m_type; }
   void setClef(EclefType type) { m_type = type; }
 
-  QString name(); // short name of a clef
-  QString desc(); // a clef description
+  Q_INVOKABLE QString name() const; // short name of a clef
+  Q_INVOKABLE QString desc() const; // a clef description
 
      /**
       * Adds 'clef' key to XML stream compatible with MusicXML format with current clef
@@ -74,5 +78,6 @@ private:
 
 };
 
+Q_DECLARE_METATYPE(Tclef)
 
 #endif // TCLEF_H
