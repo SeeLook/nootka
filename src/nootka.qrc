@@ -13,6 +13,7 @@
 
     <file alias="Score.qml">qml/score/Score.qml</file>
     <file alias="Staff.qml">qml/score/Staff.qml</file>
+    <file alias="Clef.qml">qml/score/Clef.qml</file>
     <file alias="NoteSegment.qml">qml/score/NoteSegment.qml</file>
 
     <file alias="TaboutNootka.qml">qml/about/TaboutNootka.qml</file>

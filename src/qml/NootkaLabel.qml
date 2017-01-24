@@ -23,7 +23,6 @@ import QtGraphicalEffects 1.0
 
 Item {
   id: nootkaLabel
-  property alias version: versText.text
   property color bgColor: "white"
   property alias active: mouseArea.hoverEnabled
 
@@ -48,11 +47,11 @@ Item {
   }
 
   Text {
-    id: versText
     y: nootkaLabel.height * 0.72
     anchors.horizontalCenter: logo.horizontalCenter
     font.pixelSize: nootkaLabel.height * 0.2
     color: bgColor
+    text: Noo.version()
   }
 
   MouseArea {
