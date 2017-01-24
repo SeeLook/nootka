@@ -30,6 +30,9 @@ Item {
   property real linesCount: 40
   property int number: -1
   property real upperLine: 16.0
+  property KeySignature keySignature: null
+  property bool enableKeySign: false
+  property real firstNoteX: clef.width + (keySignature ? keySignature.width : 0) + 1 // TODO add meter
 
   height: linesCount
   width: score.width / scale
@@ -48,26 +51,49 @@ Item {
   }
 
   Clef {
-    id: clef
-    onTypeChanged: {
-      // TODO: approve clef change to the notes
-    }
+      id: clef
+      onTypeChanged: {
+        if (keySignature)
+          keySignature.changeClef(clef.type)
+        // TODO: approve clef change to the notes
+      }
   }
 
-  Text { // staff number
-      x: (clef.width - width) / 2
-      y: clef.y + 4.5
-      text: number + 1
-      visible: number > -1
-      font.pixelSize: 2
-      color: activPal.text
+  onEnableKeySignChanged: {
+      if (enableKeySign) {
+          if (!keySignature) {
+            var c = Qt.createComponent("qrc:/KeySignature.qml")
+            keySignature = c.createObject(staff, { "x": clef.x + clef.width + 1 })
+          }
+      } else {
+          if (keySignature)
+            keySignature.destroy()
+      }
   }
+
+  Text {
+    id: keyName
+    visible: enableKeySign && clef
+    x: 4.5
+    y: 5
+    font.pointSize: 1.5
+    text: keySignature ? Noo.majorKeyName(keySignature.key) + "<br>" + Noo.minorKeyName(keySignature.key) : ""
+  }
+
+//   Text { // measure number
+//       x: (clef.width - width) / 2
+//       y: clef.y + 4.5
+//       text: number + 1
+//       visible: number > -1
+//       font.pixelSize: 2
+//       color: activPal.text
+//   }
 
   Repeater {
       model: 8
       NoteSegment {
         notePos: upperLine + 11 - index
-        x: 15 + index * width
+        x: firstNoteX + index * width
       }
   }
 }

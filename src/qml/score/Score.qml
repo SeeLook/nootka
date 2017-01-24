@@ -27,6 +27,13 @@ Flickable {
 
   property int clef: Tclef.Treble_G_8down
   property alias bgColor: bgRect.color
+  property alias enableKeySign: staff0.enableKeySign
+
+  function keySignature() { return enableKeySign ? staff0.keySignature.key : 0 }
+  function setKeySignature(key) {
+    if (staff0.enableKeySign && key !== staff0.keySignature.key)
+      staff0.keySignature.key = key
+  }
 
   width: parent.width
 
@@ -44,6 +51,7 @@ Flickable {
       id: staff0
       number: 0
       clef.type: score.clef
+      enableKeySign: true
       clef.onTypeChanged: {
         // TODO: approve clef for all staves
       }

@@ -39,51 +39,53 @@ ApplicationWindow {
 //   onClosing: GLOB.geometry = Qt.rect(x ,y, width, height) TODO: enable it when time will come
 
   header: TtoolBar {
-    onAbout: {
-      var c = Qt.createComponent("qrc:/TaboutNootka.qml")
-      var a = c.createObject(nootkaWindow)
-    }
-    onSettings: {}
+      onAbout: {
+        var c = Qt.createComponent("qrc:/TaboutNootka.qml")
+        var a = c.createObject(nootkaWindow)
+      }
+      onSettings: {}
   }
 
   ColumnLayout {
-    anchors.fill: parent
+      anchors.fill: parent
 
-    Row {
-      height: nootkaWindow.height / 12
-      width: nootkaWindow.width
-      Label {
-        id: statLab
-        text: "Bla bla bla"
-        verticalAlignment: Qt.AlignVCenter
-        horizontalAlignment: Qt.AlignHCenter
-        height: parent.height
-        width: parent.width * 0.6
-        color: activPal.text
+      Row {
+        height: nootkaWindow.height / 12
+        width: nootkaWindow.width
+        Label {
+          id: statLab
+          text: "Bla bla bla"
+          verticalAlignment: Qt.AlignVCenter
+          horizontalAlignment: Qt.AlignHCenter
+          height: parent.height
+          width: parent.width * 0.6
+          color: activPal.text
+        }
+
+        PitchView {
+          id: pitchView
+          height: parent.height
+          width: parent.width * 0.4
+        }
       }
 
-      PitchView {
-        id: pitchView
-        height: parent.height
-        width: parent.width * 0.4
+      Score {
+        id: score
+        Layout.fillWidth: true
+        Layout.fillHeight: true
       }
-    }
 
-    Score {
-      id: score
-      Layout.fillWidth: true
-      Layout.fillHeight: true
-
-    }
-
-    Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: "blue" }
+      Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: activPal.window; border { width: 1; color: activPal.text } }
   }
 
 //   Timer {
-//       interval: 1000
+//       interval: 2000
 //       running: true
 //       repeat: true
 //       onTriggered: {
+//         score.enableKeySign = !score.enableKeySign
+//         if (score.enableKeySign)
+//           score.setKeySignature(-7 + Math.random() * 15)
 //         var randNote3 = nRep.itemAt(Math.random() * nRep.model)
 //         randNote3.pitch = 1 + Math.random() * 7
 //         randNote3.octave = -1 + Math.random() * 4
