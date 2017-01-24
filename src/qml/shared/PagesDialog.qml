@@ -23,18 +23,21 @@ import QtQuick.Window 2.0
 
 
 /**
-* Implements a dialog with navigation list on the left
-* Model has following fields:
-* 'icon', 'text' and 'page' - with path to qml file
-*/
+ * Implements a dialog with navigation list on the left
+ * Model has following fields:
+ * 'icon', 'text' and 'page' - with path to qml file
+ */
 Item {
-//  anchors.fill: parent
 
   property alias model: navList.model
   property alias stack: stack
-  property HeadButton prevButt: null
 
   Rectangle { color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
+  Rectangle { // highlight
+    id: butHigh; color: activPal.highlight; x: navList.x
+    parent: navList.contentItem
+    Behavior on y { SpringAnimation { spring: 2; damping: 0.1; duration: 500 } }
+  }
 
   Row {
     anchors { fill: parent }
@@ -48,19 +51,15 @@ Item {
 
       delegate: HeadButton {
         id: delegateButt
-        property var pageItem
         anchors.horizontalCenter: parent.Center
         name: buttonText
         icon: Tpath.pix(iconName)
-        factor: 1.5 * Screen.pixelDensity
+        factor: 1.6 * Screen.pixelDensity
         fontSize: nootkaWindow.font.pixelSize
         onClicked: {
           if (stack.index !== index) {
             stack.currentIndex = index
-            if (prevButt)
-              prevButt.color = "transparent"
-            prevButt = delegateButt
-            prevButt.color = activPal.highlight
+            butHigh.y = delegateButt.y
           }
         }
         Component.onCompleted: {
@@ -70,8 +69,9 @@ Item {
           for (var i = 0; i < navList.buttons.length; ++i) // center all buttons
             navList.buttons[i].width = w
           if (index === 0) {
-            prevButt = delegateButt
-            prevButt.color = activPal.highlight
+            butHigh.y =  delegateButt.y
+            butHigh.width = delegateButt.width
+            butHigh.height = delegateButt.height
           }
         }
       }
@@ -84,9 +84,7 @@ Item {
     StackLayout {
       id: stack
       width: parent.width - navList.width - Screen.pixelDensity * 2
-//      Layout.fillHeight: true
       height: parent.height
-//      anchors { left: navList.Right; margins: Screen.pixelDensity * 2 }
       currentIndex: 0
     }
   }
