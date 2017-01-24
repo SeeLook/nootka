@@ -20,6 +20,7 @@
 #include "ttickcolors.h"
 #include "nootkaconfig.h"
 #include "music/tmeter.h"
+#include "music/tkeysignature.h"
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qdebug.h>
 
@@ -58,4 +59,19 @@ QString TnootkaQML::version() { return NOOTKA_VERSION; }
 Tclef TnootkaQML::clef(int type) {
   return Tclef(static_cast<Tclef::EclefType>(type));
 }
+
+
+QString TnootkaQML::majorKeyName(int key) {
+  return TkeySignature(static_cast<char>(key)).getMajorName();
+}
+
+
+QString TnootkaQML::minorKeyName(int key) {
+  return TkeySignature(static_cast<char>(key)).getMinorName();
+}
+
+
+
+
+
 

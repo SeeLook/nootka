@@ -40,6 +40,8 @@ public:
 
   Q_INVOKABLE QString version();
   Q_INVOKABLE Tclef clef(int type);
+  Q_INVOKABLE QString majorKeyName(int key);
+  Q_INVOKABLE QString minorKeyName(int key);
 
 private:
   static TnootkaQML             *m_instance;

@@ -28,6 +28,8 @@ Text {
   property int type: Tclef.Treble_G
   property bool readOnly: false
 
+  width: 5.5
+
   x: 0.5
   y: 5
   text: "\ue050"
