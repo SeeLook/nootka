@@ -34,9 +34,10 @@ Item {
 
   Rectangle { color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
   Rectangle { // highlight
-    id: butHigh; color: activPal.highlight; x: navList.x
+    id: butHigh;
+    color: activPal.highlight; x: navList.x; width: navList.width
     parent: navList.contentItem
-    Behavior on y { SpringAnimation { spring: 2; damping: 0.1; duration: 500 } }
+    Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 500 }}
   }
 
   Row {
@@ -59,7 +60,7 @@ Item {
         onClicked: {
           if (stack.index !== index) {
             stack.currentIndex = index
-            butHigh.y = delegateButt.y
+            butHigh.y = y
           }
         }
         Component.onCompleted: {

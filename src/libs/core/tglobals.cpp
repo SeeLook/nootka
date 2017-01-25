@@ -71,7 +71,6 @@ Tglobals::Tglobals(QObject* parent) :
   m_tune(0)
 {
   version = NOOTKA_VERSION;
-//    path ; Is declared in main()
 
   qRegisterMetaTypeStreamOperators<Ttune>("Ttune");
   qRegisterMetaType<Tnote>("Tnote");
@@ -79,7 +78,7 @@ Tglobals::Tglobals(QObject* parent) :
   QCoreApplication::setOrganizationName(QStringLiteral("Nootka"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("nootka.sf.net"));
   if (qApp->applicationName() != QLatin1String("Nootini"))
-    QCoreApplication::setApplicationName(QStringLiteral("Nootka"));
+    QCoreApplication::setApplicationName(QStringLiteral("Nootka2"));
 
   E = new TexamParams();
   A = new TaudioParams();
@@ -129,6 +128,13 @@ QVariant Tglobals::getVar(const QString& key) {
 }
 
 
+void Tglobals::setUseAnimations(bool use) {
+  m_useAnimations = use;
+  emit useAnimationsChanged();
+}
+
+
+
 void Tglobals::loadSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("General"));
     m_geometry = cfg->value(QStringLiteral("geometry"), QRect()).toRect();
@@ -142,7 +148,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
   cfg->beginGroup(QLatin1String("common"));
       isFirstRun = cfg->value(QStringLiteral("isFirstRun"), true).toBool();
-      useAnimations = cfg->value(QStringLiteral("useAnimations"), true).toBool();
+      m_useAnimations = cfg->value(QStringLiteral("useAnimations"), true).toBool();
       enableTouch = cfg->value(QStringLiteral("enableTouch"), false).toBool();
       lang = cfg->value(QStringLiteral("language"), QString()).toString();
       instrumentToFix = cfg->value(QStringLiteral("instrumentToFix"), -1).toInt();
@@ -382,7 +388,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 
   cfg->beginGroup(QLatin1String("common"));
       cfg->setValue(QStringLiteral("isFirstRun"), isFirstRun);
-      cfg->setValue(QStringLiteral("useAnimations"), useAnimations);
+      cfg->setValue(QStringLiteral("useAnimations"), m_useAnimations);
       cfg->setValue(QStringLiteral("enableTouch"), enableTouch);
       cfg->setValue(QStringLiteral("doubleAccidentals"), S->doubleAccidentalsEnabled);
       cfg->setValue(QStringLiteral("showEnaharmonicNotes"), S->showEnharmNotes);

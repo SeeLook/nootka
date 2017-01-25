@@ -137,7 +137,7 @@ I will try to mention them in some random order:<br>
         }
       }
       Timer {
-        interval: 50; repeat: true; running: authorsPage.visible
+        interval: 50; repeat: true; running: GLOB.useAnimations && authorsPage.visible
         onTriggered: {
           if (authorsPage.visible && authorsPage.contentY < authorsPage.contentHeight - authorsPage.height)
             authorsPage.contentY = authorsPage.contentY + 1.0

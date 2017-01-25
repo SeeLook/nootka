@@ -45,6 +45,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_OBJECT
 
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
+  Q_PROPERTY(bool useAnimations READ useAnimations WRITE setUseAnimations NOTIFY useAnimationsChanged)
 
 public:
 
@@ -68,6 +69,10 @@ public:
   QRect geometry() { return m_geometry; }
   void setGeometry(const QRect& g) { m_geometry = g; }
 
+      /** To show GUI animations. */
+  bool useAnimations() { return m_useAnimations; }
+  void setUseAnimations(bool use);
+
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
   static QString& path; /**< Reference to Tpath::main - Nootka resources path */
@@ -79,7 +84,6 @@ public:
   bool isFirstRun; /**< to show or skip first run wizard*/
   QString lang; /**< Application language. If empty - selected from system info*/
   QSettings *config; /**< Pointer to QSettings instance of Nootka */
-  bool useAnimations; /**< to show GUI animations. */
   bool enableTouch; /**< When true, touch events are propagated */
 
         /** Due to bug in version 0.8.95 it keeps value of user declared instrument to fix incorrect levels
@@ -138,12 +142,14 @@ public:
 
 signals:
   void geometryChanged(); /**< It is never emitted :(  */
+  void useAnimationsChanged();
 
 private:
+  static Tglobals           *m_instance;
   Ttune                     *m_tune; /**< current guitar tune */
   qint8                      m_order[6]; /**< Strings order is determined in @param setTune() method */
   QRect                      m_geometry;
-  static Tglobals           *m_instance;
+  bool                       m_useAnimations;
 
 };
 #endif // TGLOBALS_H
