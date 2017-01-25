@@ -36,7 +36,7 @@ ApplicationWindow {
   x: GLOB.geometry.x
   y: GLOB.geometry.y
 
-//   onClosing: GLOB.geometry = Qt.rect(x ,y, width, height) TODO: enable it when time will come
+  onClosing: GLOB.geometry = Qt.rect(x ,y, width, height)
 
   header: TtoolBar {
       onAbout: {
@@ -79,7 +79,7 @@ ApplicationWindow {
   }
 
 //   Timer {
-//       interval: 2000
+//       interval: 1000
 //       running: true
 //       repeat: true
 //       onTriggered: {
@@ -90,7 +90,6 @@ ApplicationWindow {
 //         randNote3.pitch = 1 + Math.random() * 7
 //         randNote3.octave = -1 + Math.random() * 4
 //         randNote3.alter = Math.min(Math.max(-1, -2 + Math.random() * 5), 1)
-//         key.key = -7 + Math.random() * 15
 //       }
 //   }
 

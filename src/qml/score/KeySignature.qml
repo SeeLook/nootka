@@ -60,7 +60,8 @@ Item {
         text: key < 0 ? "\ue260" : "\ue262"
         x: index * 1.8
         y: (key < 0 ? flatPos[index] : sharpPos[index]) - (accidOff) + (clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
-        visible: index < Math.abs(key)
+        opacity: index < Math.abs(key) ? 1.0 : 0.0
+        Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { property: "opacity"; duration: 200 }}
       }
   }
 

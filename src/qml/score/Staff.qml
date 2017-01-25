@@ -76,6 +76,7 @@ Item {
     visible: enableKeySign && clef
     x: 4.5
     y: 5
+    color: activPal.text
     font.pointSize: 1.5
     text: keySignature ? Noo.majorKeyName(keySignature.key) + "<br>" + Noo.minorKeyName(keySignature.key) : ""
   }
