@@ -82,8 +82,8 @@ TmainScore::TmainScore(QMainWindow* mw, QWidget* parent) :
 // set note colors
 // 	restoreNotesSettings();
 	setScordature();
-	setAnimationsEnabled(Tcore::gl()->useAnimations);
-  enableAccidToKeyAnim(Tcore::gl()->useAnimations);
+	setAnimationsEnabled(Tcore::gl()->useAnimations());
+  enableAccidToKeyAnim(Tcore::gl()->useAnimations());
 	setEnabledDblAccid(Tcore::gl()->S->doubleAccidentalsEnabled);
 	setEnableKeySign(Tcore::gl()->S->keySignatureEnabled);
   setScoreScale(Tcore::gl()->S->scoreScale);
@@ -440,7 +440,7 @@ void TmainScore::isExamExecuting(bool isIt) {
 			m_questKey = 0;
 			setClefDisabled(false);
 			setNoteNameEnabled(true);
-      enableAccidToKeyAnim(Tcore::gl()->useAnimations);
+      enableAccidToKeyAnim(Tcore::gl()->m_useAnimations);
 	}
 	m_acts->setForExam(isIt);
 }
