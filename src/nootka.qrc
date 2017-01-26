@@ -25,6 +25,8 @@
     <file alias="LicensePage.qml">qml/about/LicensePage.qml</file>
     <file alias="TextBackground.qml">qml/about/TextBackground.qml</file>
 
+    <file alias="TsettingsDialog.qml">qml/settings/TsettingsDialog.qml</file>
+
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 
   </qresource>
