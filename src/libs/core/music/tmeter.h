@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,10 +19,10 @@
 #ifndef TMETER_H
 #define TMETER_H
 
+
 #include <nootkacoreglobal.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qxmlstream.h>
-#include <QtGui/qpixmap.h>
 
 
 /**
@@ -45,22 +45,28 @@ public:
 
   Tmeter(Emeter meter = NoMeter) : m_meter(meter) {}
 
-  Emeter meter() const { return m_meter; }
+  Q_INVOKABLE Emeter meter() const { return m_meter; }
 
-  int upper() const; /**< Returns upper digit of time signature  */
-  int lower() const; /**< Returns lower digit of time signature  */
+  Q_INVOKABLE int upper() const; /**< Returns upper digit of time signature  */
+  Q_INVOKABLE int lower() const; /**< Returns lower digit of time signature  */
 
-    /** Returns numeric value representing duration of single measure,
+      /**
+       * Returns text symbol of this time signature,
+       * containing Scorek (or Bravura) font characters
+       */
+  Q_INVOKABLE QString symbol() const;
+
+    /**
+     * Returns numeric value representing duration of single measure,
      * which is based on Trhythm calculation (RVALUE)
-     * 3/4 is 72, 4/4 is 96 (RVALUE), etc. */
-  quint16 duration() const;
-
-  QPixmap pixmap(int fontSize, const QColor& c = -1); /**< Returns QPixmap of this time signature with given font size and color. */
+     * 3/4 is 72, 4/4 is 96 (RVALUE), etc. 
+     */
+  Q_INVOKABLE quint16 duration() const;
 
   void toXml(QXmlStreamWriter& xml) const;
   bool fromXml(QXmlStreamReader& xml);
 
-  void debug(const QString& text = QString()); /**< Prints current meter to std out with given text */
+  Q_INVOKABLE void debug(const QString& text = QString()); /**< Prints current meter to std out with given text */
 
   bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
   bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }

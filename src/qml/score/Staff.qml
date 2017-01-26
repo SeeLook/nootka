@@ -31,8 +31,8 @@ Item {
   property int number: -1
   property real upperLine: 16.0
   property KeySignature keySignature: null
-  property bool enableKeySign: false
-  property real firstNoteX: clef.width + (keySignature ? keySignature.width : 0) + 1 // TODO add meter
+  property Meter meter: null
+  property real firstNoteX: clef.width + (keySignature ? keySignature.width : 0) + (meter ? meter.width : 0) + 1
 
   height: linesCount
   width: score.width / scale
@@ -59,36 +59,32 @@ Item {
       }
   }
 
-  onEnableKeySignChanged: {
-      if (enableKeySign) {
+  function enableKeySignature(en) { // key signature created on demand
+      if (en) {
           if (!keySignature) {
             var c = Qt.createComponent("qrc:/KeySignature.qml")
-            keySignature = c.createObject(staff, { "x": clef.x + clef.width + 1 })
+            keySignature = c.createObject(staff, { x: clef.x + clef.width + 1 })
+            if (meter) {
+              keySignature.onWidthChanged.connect(updateMeterPos)
+              updateMeterPos()
+            }
           }
       } else {
           if (keySignature)
             keySignature.destroy()
+          if (meter)
+            meter.x = clef.x + clef.width
       }
   }
 
-  Text {
-    id: keyName
-    visible: enableKeySign && clef
-    x: 4.5
-    y: 5
-    color: activPal.text
-    font.pointSize: 1.5
-    text: keySignature ? Noo.majorKeyName(keySignature.key) + "<br>" + Noo.minorKeyName(keySignature.key) : ""
+  onNumberChanged: { // meter created only for first staff
+      if (number === 0) {
+        var c = Qt.createComponent("qrc:/Meter.qml")
+        meter = c.createObject(staff, { x: keySignature ? keySignature.x + keySignature.width : clef.x + clef.width, y: 7 })
+        if (keySignature)
+          keySignature.onWidthChanged.connect(updateMeterPos)
+      }
   }
-
-//   Text { // measure number
-//       x: (clef.width - width) / 2
-//       y: clef.y + 4.5
-//       text: number + 1
-//       visible: number > -1
-//       font.pixelSize: 2
-//       color: activPal.text
-//   }
 
   Repeater {
       model: 8
@@ -96,5 +92,9 @@ Item {
         notePos: upperLine + 11 - index
         x: firstNoteX + index * width
       }
+  }
+
+  function updateMeterPos() {
+    meter.x = keySignature.x + keySignature.width
   }
 }

@@ -56,6 +56,9 @@ if (APPLE) # Mac RPath
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif (APPLE)
 
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+  add_definitions(-DQT_QML_DEBUG)
+endif ()
 
 # add_subdirectory( libs/scorek )
 add_subdirectory( libs/core )     # libNootkaCore

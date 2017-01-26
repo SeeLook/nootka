@@ -28,6 +28,7 @@ Item {
   property int key: 0
   property bool readOnly: false
 
+// those properties are private
   readonly property var sharpPos: [ 0, 3, -1, 2, 5, 1,  4 ]
   readonly property var flatPos: [ 4, 1, 5, 2, 6, 3, 7 ]
   property real accidOff: 0
@@ -57,7 +58,7 @@ Item {
       Text {
         font { family: "Scorek"; pixelSize: 8 }
         color: activPal.text
-        text: key < 0 ? "\ue260" : "\ue262"
+        text: key < 0 ? "\ue260" : "\ue262" // flat or sharp symbols
         x: index * 1.8
         y: (key < 0 ? flatPos[index] : sharpPos[index]) - (accidOff) + (clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
         opacity: index < Math.abs(key) ? 1.0 : 0.0

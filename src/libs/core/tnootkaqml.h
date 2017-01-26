@@ -20,15 +20,19 @@
 #define TNOOTKAQML_H
 
 
+#include <nootkacoreglobal.h>
 #include <QtCore/qobject.h>
-#include "music/tclef.h"
+
+
+class Tclef;
+class Tmeter;
 
 
 /**
  * Singleton object to manage (create) custom types from QML
  * In constructor it registers types accessible from QML in Nootka
  */
-class TnootkaQML : public QObject
+class NOOTKACORE_EXPORT TnootkaQML : public QObject
 {
 
   Q_OBJECT
@@ -40,6 +44,7 @@ public:
 
   Q_INVOKABLE QString version();
   Q_INVOKABLE Tclef clef(int type);
+  Q_INVOKABLE Tmeter meter(int m);
   Q_INVOKABLE QString majorKeyName(int key);
   Q_INVOKABLE QString minorKeyName(int key);
 

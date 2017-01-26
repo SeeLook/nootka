@@ -22,53 +22,51 @@ import QtQuick.Controls 2.0
 import Score 1.0
 
 
-Flickable {
-  id: score
+Text {
+  property bool readOnly: false
 
-  property int clef: Tclef.Treble_G_8down
-  property int meter: Tmeter.Meter_4_4
-  property alias bgColor: bgRect.color
-  property bool enableKeySign: false
-  property bool showKeyName: true
+  visible: staff.number === 0
+  font { family: "Scorek"; pixelSize: 8 }
+  color: activPal.text
+  text: staff.number === 0 ? Noo.meter(score.meter).symbol() : ""
 
-  function keySignature() { return enableKeySign ? staff0.keySignature.key : 0 }
-  function setKeySignature(key) {
-    if (enableKeySign && key !== staff0.keySignature.key)
-      staff0.keySignature.key = key
-  }
+  Drawer { // meter menu
+      id: meterDrawer
+      width: nootkaWindow.width / 4; height: nootkaWindow.height
 
-  width: parent.width
+      Grid {
+        width: parent.width
+        anchors.margins: nootkaWindow.font.pixelSize / 2
+        columns: 2
+        spacing: nootkaWindow.font.pixelSize / 2
 
-  contentWidth: score.width
-  contentHeight: score.height
+        Repeater {
+          model: 12
+          Button {
+            height: nootkaWindow.font.pixelSize * 5
+            width: parent.width / 2.1
+            Text {
+                id: buttText
+                property int meter: Noo.meter(Math.pow(2, index)).meter()
 
-  Rectangle {
-    id: bgRect
-    anchors.fill: score.contentItem
-    color: activPal.base
-  }
-
-  Column {
-      Staff {
-        id: staff0
-        number: 0
-        clef.type: score.clef
-        clef.onTypeChanged: {
-          // TODO: approve clef for all staves
-        }
-        Text { // key name
-          visible: showKeyName && enableKeySign
-          x: 4.5
-          y: 5
-          color: activPal.text
-          font.pointSize: 1.5
-          text: staff0.keySignature ? Noo.majorKeyName(staff0.keySignature.key) + "<br>" + Noo.minorKeyName(staff0.keySignature.key) : ""
+                anchors.horizontalCenter: parent.horizontalCenter
+                y: -nootkaWindow.font.pixelSize * 3.5
+                font { family: "Scorek"; pixelSize: nootkaWindow.font.pixelSize * 4 }
+                text: Noo.meter(meter).symbol()
+                color: activPal.text
+            }
+            onClicked: {
+                score.meter = buttText.meter
+                meterDrawer.close()
+            }
+          }
         }
       }
   }
 
-  onEnableKeySignChanged: {
-    staff0.enableKeySignature(enableKeySign)
+  MouseArea {
+      anchors.fill: parent
+      enabled: !readOnly
+      onClicked: meterDrawer.open()
   }
-
 }
