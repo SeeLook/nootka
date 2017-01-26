@@ -47,6 +47,7 @@ public:
   Q_INVOKABLE Tmeter meter(int m);
   Q_INVOKABLE QString majorKeyName(int key);
   Q_INVOKABLE QString minorKeyName(int key);
+  Q_INVOKABLE QString getLicense();
 
 private:
   static TnootkaQML             *m_instance;

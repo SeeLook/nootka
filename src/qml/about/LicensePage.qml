@@ -18,33 +18,26 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 
-import "fakeTrans.js" as Fake
 
+Flickable {
+  id: flick
+  clip: true
+  ScrollBar.vertical: ScrollBar {}
+  contentHeight: licenseText.height
 
-Dialog {
-  title: qsTr("About Nootka")
-  visible: true
-//  width: pages.width; height: pages.height
-
-  width: nootkaWindow.width * 0.75; height: nootkaWindow.height * 0.75
-
-  PagesDialog {
-    id: pages
+  Rectangle {
     anchors.fill: parent
-    model: ListModel { id: pageModel }
-    Component.onCompleted: {
-      pageModel.append({"iconName": "nootka-frame", "buttonText": qsTr("About"), "page": "About"})
-      pageModel.append({"iconName": "help-frame", "buttonText": Fake.tr("QShortcut", "Help"), "page": "Help"})
-      pageModel.append({"iconName": "author", "buttonText": qsTr("Authors"), "page": "Authors"})
-      pageModel.append({"iconName": "license", "buttonText": qsTr("License"), "page": "License"})
-      pageModel.append({"iconName": "support", "buttonText": qsTr("Support"), "page": "Support"})
-      pageModel.append({"iconName": "donors", "buttonText": qsTr("Donors", "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"), "page": "Donors"})
-      pageModel.append({"iconName": "chlog", "buttonText": qsTr("Changes"), "page": "Changes"})
-      pageModel.append({"iconName": "qt", "buttonText": "Qt", "page": "Qt"})
-    }
+    color: activPal.base
   }
 
+  TextEdit {
+    id: licenseText
+    textMargin: 10
+    wrapMode: TextEdit.Wrap
+    readOnly: true
+    width: flick.width
+    text: Noo.getLicense();
+  }
 }

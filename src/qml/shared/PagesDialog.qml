@@ -69,6 +69,11 @@ Item {
           navList.buttons.push(delegateButt)
           for (var i = 0; i < navList.buttons.length; ++i) // center all buttons
             navList.buttons[i].width = w
+          if (page) {
+            console.log("[Pages]", page)
+            var c = Qt.createComponent("qrc:/" + page + "Page.qml")
+            c.createObject(stack)
+          }
           if (index === 0) {
             butHigh.y =  delegateButt.y
             butHigh.width = delegateButt.width

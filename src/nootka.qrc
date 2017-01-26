@@ -21,6 +21,8 @@
     <file alias="TaboutNootka.qml">qml/about/TaboutNootka.qml</file>
     <file alias="AboutPage.qml">qml/about/AboutPage.qml</file>
     <file alias="HelpPage.qml">qml/about/HelpPage.qml</file>
+    <file alias="AuthorsPage.qml">qml/about/AuthorsPage.qml</file>
+    <file alias="LicensePage.qml">qml/about/LicensePage.qml</file>
     <file alias="TextBackground.qml">qml/about/TextBackground.qml</file>
 
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>

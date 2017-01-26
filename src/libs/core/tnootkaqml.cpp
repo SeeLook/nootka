@@ -20,9 +20,12 @@
 #include "ttickcolors.h"
 #include "nootkaconfig.h"
 #include "music/tmeter.h"
+#include "tpath.h"
 #include "music/tclef.h"
 #include "music/tkeysignature.h"
 #include <QtQml/qqmlengine.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qdir.h>
 #include <QtCore/qdebug.h>
 
 
@@ -78,6 +81,23 @@ QString TnootkaQML::minorKeyName(int key) {
 }
 
 
+QString TnootkaQML::getLicense() {
+  QFile file(Tpath::main + QLatin1String("gpl"));
+  QString license;
+  QTextStream in;
+  if (!file.exists()) { // Debian based
+      QDir d(Tpath::main);
+      d.cdUp();
+      file.setFileName(d.path() + QLatin1String("/doc/nootka/copyright"));
+  }
+  if(file.open(QFile::ReadOnly | QFile::Text)) {
+      QTextStream in(&file);
+      in.setCodec("UTF-8");
+      license = in.readAll();
+  }
+  file.close();
+  return license;
+}
 
 
 
