@@ -52,15 +52,15 @@ Item {
 
       delegate: HeadButton {
         id: delegateButt
-        anchors.horizontalCenter: parent.Center
         name: buttonText
         icon: Tpath.pix(iconName)
         factor: 1.6 * Screen.pixelDensity
         fontSize: nootkaWindow.font.pixelSize
-        onClicked: {
+        onPressed: {
           if (stack.index !== index) {
             stack.currentIndex = index
             butHigh.y = y
+            navList.ensureVisible(y, height)
           }
         }
         Component.onCompleted: {
@@ -82,6 +82,13 @@ Item {
         }
       }
       ScrollBar.vertical: ScrollBar {}
+      function ensureVisible(yy, hh) {
+        if (contentY >= yy)
+            contentY = yy;
+        else if (contentY + height <= yy + hh)
+            contentY = yy + hh - height;
+      }
+      Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}
     }
 
     Item { width: Screen.pixelDensity * 2; height: parent.height } // spacer
