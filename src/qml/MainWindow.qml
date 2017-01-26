@@ -43,7 +43,10 @@ ApplicationWindow {
         var c = Qt.createComponent("qrc:/TaboutNootka.qml")
         var a = c.createObject(nootkaWindow)
       }
-      onSettings: {}
+      onSettings: {
+        var c = Qt.createComponent("qrc:/TsettingsDialog.qml")
+        var a = c.createObject(nootkaWindow)
+      }
   }
 
   ColumnLayout {
