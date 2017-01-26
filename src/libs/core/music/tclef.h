@@ -78,6 +78,4 @@ private:
 
 };
 
-Q_DECLARE_METATYPE(Tclef)
-
 #endif // TCLEF_H

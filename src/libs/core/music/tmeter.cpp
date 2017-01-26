@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,12 +17,7 @@
  ***************************************************************************/
 
 #include "tmeter.h"
-#include "tnoofont.h"
 #include "trhythm.h"
-#include <QtGui/qfontmetrics.h>
-#include <QtGui/qpainter.h>
-#include <QtGui/qpalette.h>
-#include <QtWidgets/qapplication.h>
 #include <QtCore/qdebug.h>
 
 
@@ -65,23 +60,22 @@ quint16 Tmeter::duration() const {
 }
 
 
-QPixmap Tmeter::pixmap(int fontSize, const QColor& c) {
-  if (meter() == NoMeter)
-    return QPixmap();
+// \ue09f  Control character for denominator (lower) digit
+// \ue09e) Control character for numerator (upper) digit
+#define ZERO (0xe080) // first digit
 
-  TnooFont font(fontSize);
-  QFontMetrics fm(font);
-  QString upperDigit = TnooFont::digit(upper());
-  QPixmap pix(QSize(fm.boundingRect(upperDigit).width() + 4, fontSize + 12)); // upper digit is usually wider
-  pix.fill(Qt::transparent);
-  QPainter p(&pix);
-  p.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing, true);
-  p.setFont(font);
-  p.setPen(c == -1 ? qApp->palette().text().color() : c);
-  p.setBrush(Qt::NoBrush);
-  p.drawText(QRect(0, 0, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, upperDigit);
-  p.drawText(QRect(0, fontSize / 2 - 1, pix.width(), fontSize / 2 + 8), Qt::AlignCenter, TnooFont::digit(lower()));
-  return pix;
+
+QString Tmeter::symbol() const {
+  if (m_meter == NoMeter)
+    return QString();
+
+  QString s = QString::fromUtf8("\ue09e");
+  int u = upper();
+  if (u == 12)
+    s += QString::fromUtf8("\ue081\ue09e\ue082\ue09f\ue088");
+  else
+    s += QString(QChar(ZERO + u)) + QString::fromUtf8("\ue09f") + QString(QChar(ZERO + lower()));
+  return s;
 }
 
 

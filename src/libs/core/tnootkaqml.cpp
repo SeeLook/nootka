@@ -20,6 +20,7 @@
 #include "ttickcolors.h"
 #include "nootkaconfig.h"
 #include "music/tmeter.h"
+#include "music/tclef.h"
 #include "music/tkeysignature.h"
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qdebug.h>
@@ -39,6 +40,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
 
   qRegisterMetaType<Tclef>();
   qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", "You cannot create an instance of the Tclef.");
+  qRegisterMetaType<Tmeter>();
   qmlRegisterUncreatableType<Tmeter>("Score", 1, 0, "Tmeter", "You cannot create an instance of the Tmeter.");
   qmlRegisterType<TtickColors>("TtickColors", 1, 0, "TtickColors");
 }
@@ -58,6 +60,11 @@ QString TnootkaQML::version() { return NOOTKA_VERSION; }
 
 Tclef TnootkaQML::clef(int type) {
   return Tclef(static_cast<Tclef::EclefType>(type));
+}
+
+
+Tmeter TnootkaQML::meter(int m) {
+  return Tmeter(static_cast<Tmeter::Emeter>(m));
 }
 
 

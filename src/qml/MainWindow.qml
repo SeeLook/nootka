@@ -86,6 +86,9 @@ ApplicationWindow {
 //         score.enableKeySign = !score.enableKeySign
 //         if (score.enableKeySign)
 //           score.setKeySignature(-7 + Math.random() * 15)
+//         var m = Math.pow(2, Math.floor(1 + Math.random() * 11))
+//         console.log("meter " + m)
+//         score.meter = m
 //         var randNote3 = nRep.itemAt(Math.random() * nRep.model)
 //         randNote3.pitch = 1 + Math.random() * 7
 //         randNote3.octave = -1 + Math.random() * 4
