@@ -25,19 +25,20 @@ Flickable {
   id: flick
   clip: true
   ScrollBar.vertical: ScrollBar {}
-  contentHeight: licenseText.height
+  contentHeight: text.paintedHeight; contentWidth: text.paintedWidth
 
   Rectangle {
-    anchors.fill: parent
-    color: activPal.base
+      anchors.fill: parent
+      color: activPal.base
   }
 
   TextEdit {
-    id: licenseText
-    textMargin: 10
-    wrapMode: TextEdit.Wrap
-    readOnly: true
-    width: flick.width
-    text: Noo.getLicense();
+      id: text
+      textMargin: font.pixelSize
+      wrapMode: TextEdit.Wrap
+      readOnly: true
+      width: flick.width
+      color: activPal.text
+      text: Noo.getLicense();
   }
 }
