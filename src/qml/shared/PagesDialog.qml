@@ -35,7 +35,7 @@ Item {
   Rectangle { color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
   Rectangle { // highlight
     id: butHigh;
-    color: activPal.highlight; x: navList.x; width: navList.width
+    color: activPal.highlight; x: navList.x
     parent: navList.contentItem
     Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 500 }}
   }
@@ -49,6 +49,7 @@ Item {
       clip: true
       height: parent.height
       property var buttons: []
+      property HeadButton prevButt: null
 
       delegate: HeadButton {
         id: delegateButt
@@ -60,21 +61,27 @@ Item {
           if (stack.index !== index) {
             stack.currentIndex = index
             butHigh.y = y
+            butHigh.height = height
             navList.ensureVisible(y, height)
+            navList.prevButt.textColor = activPal.text
+            textColor = activPal.highlightedText
+            navList.prevButt = delegateButt
           }
         }
         Component.onCompleted: {
           var w = Math.max(navList.width, width)
           navList.width = w
+          butHigh.width = w
           navList.buttons.push(delegateButt)
-          for (var i = 0; i < navList.buttons.length; ++i) // center all buttons
+          for (var i = 0; i < navList.buttons.length; ++i) // keep buttons width the same
             navList.buttons[i].width = w
           if (page) {
-            console.log("[Pages]", page)
             var c = Qt.createComponent("qrc:/" + page + "Page.qml")
             c.createObject(stack)
           }
           if (index === 0) {
+            navList.prevButt = delegateButt
+            textColor = activPal.highlightedText
             butHigh.y =  delegateButt.y
             butHigh.width = delegateButt.width
             butHigh.height = delegateButt.height
