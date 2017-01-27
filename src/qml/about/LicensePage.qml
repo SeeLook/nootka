@@ -18,14 +18,13 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
 
 
 Flickable {
   id: flick
   clip: true
   ScrollBar.vertical: ScrollBar {}
-  contentHeight: text.paintedHeight; contentWidth: text.paintedWidth
+  contentHeight: text.paintedHeight; contentWidth: flick.width
 
   Rectangle {
       anchors.fill: parent
@@ -35,9 +34,9 @@ Flickable {
   TextEdit {
       id: text
       textMargin: font.pixelSize
+      width: flick.width
       wrapMode: TextEdit.Wrap
       readOnly: true
-      width: flick.width
       color: activPal.text
       text: Noo.getLicense();
   }

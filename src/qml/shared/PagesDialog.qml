@@ -42,6 +42,7 @@ Item {
 
   Row {
     anchors { fill: parent }
+    spacing: Screen.pixelDensity * 2
 
     // navigation list on the left
     ListView {
@@ -49,42 +50,49 @@ Item {
       clip: true
       height: parent.height
       property var buttons: []
+      property var pages: []
       property HeadButton prevButt: null
+      property int prevDelegate: -1
 
-      delegate: HeadButton {
-        id: delegateButt
-        name: buttonText
-        icon: Tpath.pix(iconName)
-        factor: 1.6 * Screen.pixelDensity
-        fontSize: nootkaWindow.font.pixelSize
-        onPressed: {
-          if (stack.index !== index) {
-            stack.currentIndex = index
-            butHigh.y = y
-            butHigh.height = height
-            navList.ensureVisible(y, height)
-            navList.prevButt.textColor = activPal.text
-            textColor = activPal.highlightedText
-            navList.prevButt = delegateButt
+      delegate: Component {
+        HeadButton {
+          id: delegateButt
+          name: buttonText
+          icon: Tpath.pix(iconName)
+          factor: 1.6 * Screen.pixelDensity
+          fontSize: nootkaWindow.font.pixelSize
+          onPressed: {
+            if (stack.currentItem !== navList.pages[index]) {
+              stack.push(navList.pages[index])
+              navList.pages[index] = stack.currentItem
+              butHigh.y = y
+              butHigh.height = height
+              navList.ensureVisible(y, height)
+              navList.prevButt.textColor = activPal.text
+              textColor = activPal.highlightedText
+              navList.prevButt = delegateButt
+            }
           }
-        }
-        Component.onCompleted: {
-          var w = Math.max(navList.width, width)
-          navList.width = w
-          butHigh.width = w
-          navList.buttons.push(delegateButt)
-          for (var i = 0; i < navList.buttons.length; ++i) // keep buttons width the same
-            navList.buttons[i].width = w
-          if (page) {
-            var c = Qt.createComponent("qrc:/" + page + "Page.qml")
-            c.createObject(stack)
-          }
-          if (index === 0) {
-            navList.prevButt = delegateButt
-            textColor = activPal.highlightedText
-            butHigh.y =  delegateButt.y
-            butHigh.width = delegateButt.width
-            butHigh.height = delegateButt.height
+          Component.onCompleted: {
+            if (index === navList.prevDelegate) // workaround to avoid loading delegate twice
+              return
+            navList.prevDelegate = index
+            navList.pages.push("qrc:/" + page + "Page.qml")
+            var w = Math.max(navList.width, width)
+            navList.width = w
+            butHigh.width = w
+            navList.buttons.push(delegateButt)
+            for (var i = 0; i < navList.buttons.length; ++i) // keep buttons width the same
+              navList.buttons[i].width = w
+            if (index === 0) {
+              navList.prevButt = delegateButt
+              textColor = activPal.highlightedText
+              butHigh.y =  delegateButt.y
+              butHigh.width = delegateButt.width
+              butHigh.height = delegateButt.height
+              stack.push("qrc:/" + page + "Page.qml")
+              navList.pages[0] = stack.currentItem
+            }
           }
         }
       }
@@ -98,14 +106,14 @@ Item {
       Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}
     }
 
-    Item { width: Screen.pixelDensity * 2; height: parent.height } // spacer
-
     // pages container on the right
-    StackLayout {
+    StackView {
       id: stack
       width: parent.width - navList.width - Screen.pixelDensity * 2
       height: parent.height
-      currentIndex: 0
+      // fade animations
+      pushEnter: Transition { PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 300 }}
+      pushExit: Transition { PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 300 }}
     }
   }
 }

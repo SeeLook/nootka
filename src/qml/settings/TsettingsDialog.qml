@@ -44,5 +44,6 @@ Dialog {
       pageModel.append({"iconName": "appearance", "buttonText": qsTr("Appearance"), "page": "Appearance"})
     }
   }
+  standardButtons: StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
 
 }
