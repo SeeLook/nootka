@@ -26,13 +26,14 @@ ToolButton {
   hoverEnabled: true
 
   implicitWidth: Math.max(icon.width, butText.width) + factor * 2
-  implicitHeight: factor * 13 // 1.3 cm by default
+  implicitHeight: butText.height + icon.height + Screen.pixelDensity * 2
 
   property alias icon: icon.source
   property alias name: butText.text
   property alias tip: toolTip.text
   property real factor: Screen.pixelDensity
   property alias fontSize: butText.font.pixelSize
+  property alias textColor: butText.color
 
   Image {
     id: icon
