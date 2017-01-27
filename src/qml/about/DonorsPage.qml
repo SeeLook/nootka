@@ -12,46 +12,35 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TNOOTKAQML_H
-#define TNOOTKAQML_H
+import QtQuick 2.7
+import QtQuick.Controls 2.0
 
 
-#include <nootkacoreglobal.h>
-#include <QtCore/qobject.h>
+Flickable {
+  id: flick
+  clip: true
+  ScrollBar.vertical: ScrollBar {}
+  contentHeight: text.paintedHeight; contentWidth: text.paintedWidth
 
+  Rectangle {
+      anchors.fill: parent
+      color: activPal.base
+  }
 
-class Tclef;
-class Tmeter;
-
-
-/**
- * Singleton object to manage (create) custom types from QML
- * In constructor it registers types accessible from QML in Nootka
- */
-class NOOTKACORE_EXPORT TnootkaQML : public QObject
-{
-
-  Q_OBJECT
-
-public:
-  explicit TnootkaQML(QObject* parent = nullptr);
-  ~TnootkaQML();
-
-
-  Q_INVOKABLE QString version();
-  Q_INVOKABLE Tclef clef(int type);
-  Q_INVOKABLE Tmeter meter(int m);
-  Q_INVOKABLE QString majorKeyName(int key);
-  Q_INVOKABLE QString minorKeyName(int key);
-  Q_INVOKABLE QString getLicense();
-  Q_INVOKABLE QString getChanges();
-
-private:
-  static TnootkaQML             *m_instance;
-};
-
-#endif // TNOOTKAQML_H
+  TextEdit {
+      id: text
+      width: flick.width
+      textMargin: font.pixelSize
+      wrapMode: TextEdit.Wrap
+      readOnly: true
+      textFormat: TextEdit.RichText
+      color: activPal.text
+      text: "Donors"
+  }
+}
+ 
+ 
