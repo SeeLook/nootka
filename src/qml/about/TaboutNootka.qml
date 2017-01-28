@@ -25,26 +25,23 @@ import "fakeTrans.js" as Fake
 
 
 Dialog {
-  title: qsTr("About Nootka")
   visible: true
+  title: qsTr("About Nootka")
 //  width: pages.width; height: pages.height
 
   width: nootkaWindow.width * 0.75; height: nootkaWindow.height * 0.75
 
-  PagesDialog {
-    id: pages
-    anchors.fill: parent
-    model: ListModel { id: pageModel }
-    Component.onCompleted: {
-      pageModel.append({"iconName": "nootka-frame", "buttonText": qsTr("About"), "page": "About"})
-      pageModel.append({"iconName": "help-frame", "buttonText": Fake.tr("QShortcut", "Help"), "page": "Help"})
-      pageModel.append({"iconName": "author", "buttonText": qsTr("Authors"), "page": "Authors"})
-      pageModel.append({"iconName": "license", "buttonText": qsTr("License"), "page": "License"})
-      pageModel.append({"iconName": "support", "buttonText": qsTr("Support"), "page": "Support"})
-      pageModel.append({"iconName": "donors", "buttonText": qsTr("Donors", "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"), "page": "Donors"})
-      pageModel.append({"iconName": "chlog", "buttonText": qsTr("Changes"), "page": "Changes"})
-      pageModel.append({"iconName": "qt", "buttonText": "Qt", "page": "Qt"})
-    }
+  PagesDialog { id: pages }
+
+  Component.onCompleted: {
+    pages.addItem("nootka-frame", qsTr("About"), "About")
+    pages.addItem("help-frame", Fake.tr("QShortcut", "Help"), "Help")
+    pages.addItem("author", qsTr("Authors"), "Authors")
+    pages.addItem("license", qsTr("License"), "License")
+    pages.addItem("support", qsTr("Support"), "Support")
+    pages.addItem("donors", qsTr("Donors", "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"), "Donors")
+    pages.addItem("chlog", qsTr("Changes"), "Changes")
+    pages.addItem("qt", "Qt", "Qt")
   }
 
 }
