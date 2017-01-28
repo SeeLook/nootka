@@ -29,8 +29,10 @@ import QtQuick.Window 2.0
  */
 Item {
 
-  property alias model: navList.model
   property alias stack: stack
+  property alias model: navList.model
+
+  anchors.fill: parent
 
   Rectangle { color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
   Rectangle { // highlight
@@ -38,6 +40,11 @@ Item {
     color: activPal.highlight; x: navList.x
     parent: navList.contentItem
     Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 500 }}
+  }
+
+  function addItem(icon, text, page) {
+    navList.pages.push("qrc:/" + page + "Page.qml")
+    model.append({ "iconName": icon, "buttonText": text })
   }
 
   Row {
@@ -53,6 +60,8 @@ Item {
       property var pages: []
       property HeadButton prevButt: null
       property int prevDelegate: -1
+
+      model: ListModel { id: pageModel }
 
       delegate: Component {
         HeadButton {
@@ -77,7 +86,6 @@ Item {
             if (index === navList.prevDelegate) // workaround to avoid loading delegate twice
               return
             navList.prevDelegate = index
-            navList.pages.push("qrc:/" + page + "Page.qml")
             var w = Math.max(navList.width, width)
             navList.width = w
             butHigh.width = w
@@ -90,7 +98,7 @@ Item {
               butHigh.y =  delegateButt.y
               butHigh.width = delegateButt.width
               butHigh.height = delegateButt.height
-              stack.push("qrc:/" + page + "Page.qml")
+              stack.push(navList.pages[0])
               navList.pages[0] = stack.currentItem
             }
           }
@@ -112,8 +120,8 @@ Item {
       width: parent.width - navList.width - Screen.pixelDensity * 2
       height: parent.height
       // fade animations
-      pushEnter: Transition { PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 300 }}
-      pushExit: Transition { PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 300 }}
+      pushEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 300 }}
+      pushExit: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 300 }}
     }
   }
 }

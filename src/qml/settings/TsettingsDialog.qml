@@ -21,29 +21,24 @@ import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 
-import "fakeTrans.js" as Fake
-
 
 Dialog {
-  title: "Nootka - " + qsTr("application's settings")
   visible: true
-//  width: pages.width; height: pages.height
-
   width: nootkaWindow.width * 0.75; height: nootkaWindow.height * 0.75
 
-  PagesDialog {
-    id: pages
-    anchors.fill: parent
-    model: ListModel { id: pageModel }
-    Component.onCompleted: {
-      pageModel.append({"iconName": "global", "buttonText": qsTr("Common"), "page": "Common"})
-      pageModel.append({"iconName": "scoreSettings", "buttonText": "Score", "page": "Score"})
-      pageModel.append({"iconName": "guitarSettings", "buttonText": qsTr("Instrument"), "page": "Instrument"})
-      pageModel.append({"iconName": "soundSettings", "buttonText": qsTr("Sound"), "page": "Sound"})
-      pageModel.append({"iconName": "questionsSettings", "buttonText": qsTr("Exercises") + "\n& " + qsTr("Exam"), "page": "Exam"})
-      pageModel.append({"iconName": "appearance", "buttonText": qsTr("Appearance"), "page": "Appearance"})
-    }
-  }
+  title: "Nootka - " + qsTr("application's settings")
+//  width: pages.width; height: pages.height
+
+  PagesDialog { id: pages }
   standardButtons: StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
+
+  Component.onCompleted: {
+    pages.addItem("global", qsTr("Common"), "Common")
+    pages.addItem("scoreSettings", "Score", "Score")
+    pages.addItem("guitarSettings", qsTr("Instrument"), "Instrument")
+    pages.addItem("soundSettings", qsTr("Sound"), "Sound")
+    pages.addItem("questionsSettings", qsTr("Exercises") + "\n& " + qsTr("Exam"), "Exam")
+    pages.addItem("appearance", qsTr("Appearance"), "Appearance")
+  }
 
 }
