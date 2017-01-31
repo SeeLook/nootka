@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,18 +124,15 @@ MainWindow::MainWindow(QWidget *parent) :
       if (supportDaysPass > 5) // display support dialog every five days
         QTimer::singleShot(2000, [=] { showSupportDialog(); });
       else { // check for updates
-        gl->config->beginGroup("Updates");
         m_updaterPlugin = new TpluginsLoader(this);
-        if (gl->config->value("enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
+        if (gl->config->value("Updates/enableUpdates", true).toBool() && m_updaterPlugin->load(TpluginsLoader::e_updater)) {
             connect(m_updaterPlugin->node(), &TpluginObject::value, this, &MainWindow::updaterMessagesSlot);
-            gl->config->endGroup(); // close settings note because updater need to open it again
             m_updaterPlugin->init(QStringLiteral("false"), this); // string argument stops displaying update dialog when no news were send
         } else
             delete m_updaterPlugin;
       }
   }
-  if (!gl->config->group().isEmpty()) // close settings group when was open
-    gl->config->endGroup();
+  gl->config->setValue("General/version", gl->version);
 
   Tnote::defaultStyle = gl->S->nameStyleInNoteName;
   m_sound = new Tsound(this);
@@ -497,10 +494,7 @@ void MainWindow::showSupportDialog() {
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_about))
     loader.init(QStringLiteral("support"), this);
-  gl->config->beginGroup("General");
-    gl->config->setValue("version", gl->version);
-    gl->config->setValue("supportDate", QDate::currentDate());
-  gl->config->endGroup();
+  gl->config->setValue("General/supportDate", QDate::currentDate());
   m_sound->go();
 }
 
