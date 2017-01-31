@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,10 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
-#include <QSettings>
+#include <QtCore/qsettings.h>
 #include "updatefunctions.h"
 #include "tupdatesummary.h"
+#include <nootkaconfig.h>
 #include <tinitcorelib.h>
 
 
@@ -32,9 +32,7 @@ void getUpdateRules(TupdateRules& updateRules) {
     updateRules.period = EupdatePeriod(Tcore::gl()->config->value("period", 0).toInt());
     updateRules.checkForAll = Tcore::gl()->config->value("checkForAll", true).toBool();
   Tcore::gl()->config->endGroup();
-  Tcore::gl()->config->beginGroup("General");
-    updateRules.curentVersion = Tcore::gl()->config->value("version", "").toString();
-  Tcore::gl()->config->endGroup();
+  updateRules.curentVersion = NOOTKA_VERSION;
 }
 
 void saveUpdateRules(TupdateRules& updateRules) {
