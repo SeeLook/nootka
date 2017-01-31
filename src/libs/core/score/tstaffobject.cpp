@@ -16,44 +16,51 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TNOOTKAQML_H
-#define TNOOTKAQML_H
+#include "tstaffobject.h"
+#include <QtCore/qdebug.h>
+#include "tscoreobject.h"
+#include "tnoteobject.h"
+#include "music/tnote.h"
 
 
-#include <nootkacoreglobal.h>
-#include <QtCore/qobject.h>
-
-
-class Tclef;
-class Tmeter;
-class Tnote;
-
-
-/**
- * Singleton object to manage (create) custom types from QML
- * In constructor it registers types accessible from QML in Nootka
- */
-class NOOTKACORE_EXPORT TnootkaQML : public QObject
+TstaffObject::TstaffObject(QObject* parent) :
+  QObject(parent),
+  m_score(nullptr),
+  m_upperLine(16.0),
+  m_staffItem(nullptr)
 {
-
-  Q_OBJECT
-
-public:
-  explicit TnootkaQML(QObject* parent = nullptr);
-  ~TnootkaQML();
+}
 
 
-  Q_INVOKABLE QString version();
-  Q_INVOKABLE Tclef clef(int type);
-  Q_INVOKABLE Tmeter meter(int m);
-  Q_INVOKABLE Tnote note(int pitch, int octave, int alter);
-  Q_INVOKABLE QString majorKeyName(int key);
-  Q_INVOKABLE QString minorKeyName(int key);
-  Q_INVOKABLE QString getLicense();
-  Q_INVOKABLE QString getChanges();
+TstaffObject::~TstaffObject() { qDebug() << "[TstaffObject] is going delete"; }
 
-private:
-  static TnootkaQML             *m_instance;
-};
 
-#endif // TNOOTKAQML_H
+void TstaffObject::setScore(TscoreObject* s) {
+  m_score = s;
+  setParent(s);
+  qDebug() << "TstaffObject got a score parent" << s;
+  m_score->addStaff(this);
+}
+
+
+void TstaffObject::addNote(const Tnote& n) {
+  auto noteObj = new TnoteObject(this, m_staffItem);
+  noteObj->setIndex(m_notes.count());
+  noteObj->setNote(n);
+  noteObj->setX(notesIndent() + noteObj->index() * 7.0);
+  m_notes.append(noteObj);
+  emit noteAdded(noteObj);
+}
+
+
+void TstaffObject::setUpperLine(qreal upLine) {
+  m_upperLine = upLine;
+  emit upperLineChanged();
+}
+
+
+void TstaffObject::setStaffItem(QQuickItem* si) {
+  m_staffItem = si;
+}
+
+

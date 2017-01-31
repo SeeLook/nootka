@@ -76,8 +76,13 @@ ApplicationWindow {
         id: score
         Layout.fillWidth: true
         Layout.fillHeight: true
+        Component.onCompleted: {
+          for (var n = 1; n < 8; ++n)
+            addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2)))
+        }
       }
 
+      // space for an instrument
       Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: activPal.window; border { width: 1; color: activPal.text } }
   }
 

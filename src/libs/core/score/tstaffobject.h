@@ -16,44 +16,58 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TNOOTKAQML_H
-#define TNOOTKAQML_H
+#ifndef TSTAFFOBJECT_H
+#define TSTAFFOBJECT_H
 
 
-#include <nootkacoreglobal.h>
+#include "nootkacoreglobal.h"
 #include <QtCore/qobject.h>
 
 
-class Tclef;
-class Tmeter;
+class QQuickItem;
+class TscoreObject;
+class TnoteObject;
 class Tnote;
 
 
-/**
- * Singleton object to manage (create) custom types from QML
- * In constructor it registers types accessible from QML in Nootka
- */
-class NOOTKACORE_EXPORT TnootkaQML : public QObject
+class NOOTKACORE_EXPORT  TstaffObject : public QObject
 {
 
   Q_OBJECT
 
+  Q_PROPERTY(TscoreObject* score READ score WRITE setScore)
+  Q_PROPERTY(qreal upperLine READ upperLine WRITE setUpperLine NOTIFY upperLineChanged)
+  Q_PROPERTY(QQuickItem* staffItem READ staffItem WRITE setStaffItem)
+  Q_PROPERTY(qreal notesIndent READ notesIndent WRITE setNotesIndent)
+
 public:
-  explicit TnootkaQML(QObject* parent = nullptr);
-  ~TnootkaQML();
+  explicit TstaffObject(QObject* parent = nullptr);
+  ~TstaffObject();
 
+  TscoreObject* score() { return m_score; }
+  void setScore(TscoreObject* s);
 
-  Q_INVOKABLE QString version();
-  Q_INVOKABLE Tclef clef(int type);
-  Q_INVOKABLE Tmeter meter(int m);
-  Q_INVOKABLE Tnote note(int pitch, int octave, int alter);
-  Q_INVOKABLE QString majorKeyName(int key);
-  Q_INVOKABLE QString minorKeyName(int key);
-  Q_INVOKABLE QString getLicense();
-  Q_INVOKABLE QString getChanges();
+  void addNote(const Tnote& n);
+
+  qreal upperLine() { return m_upperLine; }
+  void setUpperLine(qreal upLine);
+
+  QQuickItem* staffItem() { return m_staffItem; }
+  void setStaffItem(QQuickItem* si);
+
+  qreal notesIndent() { return m_notesIndent; }
+  void setNotesIndent(qreal ni) { m_notesIndent = ni; }
+
+signals:
+  void noteAdded(TnoteObject* note);
+  void upperLineChanged();
 
 private:
-  static TnootkaQML             *m_instance;
+  TscoreObject                  *m_score;
+  qreal                          m_upperLine;
+  QList<TnoteObject*>            m_notes;
+  QQuickItem                    *m_staffItem;
+  qreal                          m_notesIndent;
 };
 
-#endif // TNOOTKAQML_H
+#endif // TSTAFFOBJECT_H

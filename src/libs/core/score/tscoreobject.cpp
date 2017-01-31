@@ -16,44 +16,49 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TNOOTKAQML_H
-#define TNOOTKAQML_H
+#include "tscoreobject.h"
+#include "tstaffobject.h"
+#include "music/tmeter.h"
+#include "music/tnote.h"
+#include <QtCore/qdebug.h>
 
 
-#include <nootkacoreglobal.h>
-#include <QtCore/qobject.h>
 
-
-class Tclef;
-class Tmeter;
-class Tnote;
-
-
-/**
- * Singleton object to manage (create) custom types from QML
- * In constructor it registers types accessible from QML in Nootka
- */
-class NOOTKACORE_EXPORT TnootkaQML : public QObject
+TscoreObject::TscoreObject(QObject* parent) :
+  QObject(parent),
+  m_keySignEnabled(false),
+  m_clefOffset(TclefOffset(3, 1))
 {
-
-  Q_OBJECT
-
-public:
-  explicit TnootkaQML(QObject* parent = nullptr);
-  ~TnootkaQML();
+  m_meter = new Tmeter(Tmeter::Meter_4_4);
+}
 
 
-  Q_INVOKABLE QString version();
-  Q_INVOKABLE Tclef clef(int type);
-  Q_INVOKABLE Tmeter meter(int m);
-  Q_INVOKABLE Tnote note(int pitch, int octave, int alter);
-  Q_INVOKABLE QString majorKeyName(int key);
-  Q_INVOKABLE QString minorKeyName(int key);
-  Q_INVOKABLE QString getLicense();
-  Q_INVOKABLE QString getChanges();
+TscoreObject::~TscoreObject()
+{
+  delete m_meter;
+  qDebug() << "[TscoreObject] deleted";
+}
 
-private:
-  static TnootkaQML             *m_instance;
-};
 
-#endif // TNOOTKAQML_H
+void TscoreObject::setParent(QObject* p) {
+  QObject::setParent(p);
+  qDebug() << "[TscoreObject] parent changed to" << p;
+}
+
+
+void TscoreObject::addNote(const Tnote& n) {
+  m_staves.last()->addNote(n);
+}
+
+
+void TscoreObject::setKeySignatureEnabled(bool enKey) {
+  m_keySignEnabled = enKey;
+}
+
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+void TscoreObject::addStaff(TstaffObject* st) {
+  m_staves.append(st);
+}

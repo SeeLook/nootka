@@ -31,14 +31,18 @@ set(LIB_NOOTKACORE_SRC
   music/tmelody.cpp
   music/tmeter.cpp
 
-  exam/tqatype.cpp
-  exam/tqaunit.cpp
-  exam/tqagroup.cpp
-  exam/tattempt.cpp
-  exam/tlevel.cpp
-  exam/texam.cpp
-  exam/textrans.h
-  exam/tresulttext.cpp
+  score/tscoreobject.cpp
+  score/tstaffobject.cpp
+  score/tnoteobject.cpp
+
+#   exam/tqatype.cpp
+#   exam/tqaunit.cpp
+#   exam/tqagroup.cpp
+#   exam/tattempt.cpp
+#   exam/tlevel.cpp
+#   exam/texam.cpp
+#   exam/textrans.h
+#   exam/tresulttext.cpp
 
 
   touch/ttouchproxy.cpp
