@@ -25,6 +25,8 @@ import Score 1.0
 Flickable {
   id: score
 
+  TscoreObject { id: scoreObj; /*parent: score*/ }
+
   property int clef: Tclef.Treble_G_8down
   property int meter: Tmeter.Meter_4_4
   property alias bgColor: bgRect.color
@@ -71,4 +73,7 @@ Flickable {
     staff0.enableKeySignature(enableKeySign)
   }
 
+  function addNote(n) {
+    scoreObj.addNote(n)
+  }
 }

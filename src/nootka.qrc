@@ -16,7 +16,6 @@
     <file alias="Clef.qml">qml/score/Clef.qml</file>
     <file alias="KeySignature.qml">qml/score/KeySignature.qml</file>
     <file alias="Meter.qml">qml/score/Meter.qml</file>
-    <file alias="NoteSegment.qml">qml/score/NoteSegment.qml</file>
 
     <file alias="TaboutNootka.qml">qml/about/TaboutNootka.qml</file>
     <file alias="AboutPage.qml">qml/about/AboutPage.qml</file>

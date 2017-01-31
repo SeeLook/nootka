@@ -19,10 +19,12 @@
 #include "tnootkaqml.h"
 #include "ttickcolors.h"
 #include "nootkaconfig.h"
-#include "music/tmeter.h"
 #include "tpath.h"
+#include "music/tmeter.h"
 #include "music/tclef.h"
 #include "music/tkeysignature.h"
+#include "score/tscoreobject.h"
+#include "score/tstaffobject.h"
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdir.h>
@@ -45,6 +47,10 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", "You cannot create an instance of the Tclef.");
   qRegisterMetaType<Tmeter>();
   qmlRegisterUncreatableType<Tmeter>("Score", 1, 0, "Tmeter", "You cannot create an instance of the Tmeter.");
+
+  qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
+  qmlRegisterType<TstaffObject>("Score", 1, 0, "TstaffObject");
+
   qmlRegisterType<TtickColors>("TtickColors", 1, 0, "TtickColors");
 }
 
@@ -68,6 +74,11 @@ Tclef TnootkaQML::clef(int type) {
 
 Tmeter TnootkaQML::meter(int m) {
   return Tmeter(static_cast<Tmeter::Emeter>(m));
+}
+
+
+Tnote TnootkaQML::note(int pitch, int octave, int alter) {
+  return Tnote(static_cast<char>(pitch), static_cast<char>(octave), static_cast<char>(alter), Trhythm(Trhythm::e_quarter));
 }
 
 

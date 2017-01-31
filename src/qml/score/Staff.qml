@@ -29,7 +29,6 @@ Item {
 
   property real linesCount: 40
   property int number: -1
-  property real upperLine: 16.0
   property KeySignature keySignature: null
   property Meter meter: null
   property real firstNoteX: clef.width + (keySignature ? keySignature.width : 0) + (meter ? meter.width : 0) + 1
@@ -39,12 +38,14 @@ Item {
   scale: score.height / linesCount
   transformOrigin: Item.TopLeft
 
+  TstaffObject { id: staffObj; score: scoreObj; staffItem: staff; notesIndent: firstNoteX }
+
   Repeater { // staff lines
       model: 5
       Rectangle {
         x: 0.5
-        y: upperLine + 2 * index - 0.1
-        height: 0.18
+        y: staffObj.upperLine + 2 * index - 0.1
+        height: 0.2
         width: staff.width - 1.0
         color: activPal.text
       }
@@ -86,13 +87,13 @@ Item {
       }
   }
 
-  Repeater {
-      model: 8
-      NoteSegment {
-        notePos: upperLine + 11 - index
-        x: firstNoteX + index * width
-      }
-  }
+//   Repeater {
+//       model: 8
+//       NoteSegment {
+//         notePos: upperLine + 11// - index
+//         x: firstNoteX //+ index * width
+//       }
+//   }
 
   function updateMeterPos() {
     meter.x = keySignature.x + keySignature.width
