@@ -49,6 +49,8 @@ public:
 
   void addNote(const Tnote& n);
 
+  void setNote(int noteNr, const Tnote& n);
+
   qreal upperLine() { return m_upperLine; }
   void setUpperLine(qreal upLine);
 
@@ -59,7 +61,6 @@ public:
   void setNotesIndent(qreal ni) { m_notesIndent = ni; }
 
 signals:
-  void noteAdded(TnoteObject* note);
   void upperLineChanged();
 
 private:
