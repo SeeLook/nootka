@@ -145,7 +145,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
               staffPtr = & staffNr;
             addNote(Tchunk(Tnote(), Trhythm()));
             bool voiceOk = lastMeasure().lastNote().fromXml(xml, staffPtr);
-            if (!voiceOk || (staffPtr && !lastMeasure().lastNote().p().isValid() && lastMeasure().lastNote().r().rhythm() == Trhythm::e_none)) {
+            if (!voiceOk || (staffPtr && !lastMeasure().lastNote().p().isValid() && lastMeasure().lastNote().r().rhythm() == Trhythm::NoRhythm)) {
               lastMeasure().removeLastNote(); // it is not real import from piano staves
               m_notes.removeLast(); // it will work properly only for MusicXMLs exported through Nootka
             }

@@ -47,6 +47,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", "You cannot create an instance of the Tclef.");
   qRegisterMetaType<Tmeter>();
   qmlRegisterUncreatableType<Tmeter>("Score", 1, 0, "Tmeter", "You cannot create an instance of the Tmeter.");
+  qmlRegisterUncreatableType<Trhythm>("Score", 1, 0, "Trhythm", "You cannot create an instance of the Trhythm.");
 
   qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
   qmlRegisterType<TstaffObject>("Score", 1, 0, "TstaffObject");
@@ -77,8 +78,9 @@ Tmeter TnootkaQML::meter(int m) {
 }
 
 
-Tnote TnootkaQML::note(int pitch, int octave, int alter) {
-  return Tnote(static_cast<char>(pitch), static_cast<char>(octave), static_cast<char>(alter), Trhythm(Trhythm::e_quarter));
+Tnote TnootkaQML::note(int pitch, int octave, int alter, int rhythm, bool rest, bool dot) {
+  return Tnote(static_cast<char>(pitch), static_cast<char>(octave), static_cast<char>(alter),
+               Trhythm(static_cast<Trhythm::Erhythm>(rhythm), rest, dot, false));
 }
 
 

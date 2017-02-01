@@ -41,7 +41,7 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
       xml.writeEmptyElement(QLatin1String("rest"));
     else
       m_pitch.toXml(xml);
-    if (m_rhythm.rhythm() == Trhythm::e_none) {
+    if (m_rhythm.rhythm() == Trhythm::NoRhythm) {
       if (!m_rhythm.isRest() && m_pitch.isValid())
         xml.writeTextElement(QLatin1String("stem"), QLatin1String("none"));
     } else {
@@ -66,7 +66,7 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
   bool ok = true;
   int stNr = 1;
-  m_rhythm.setRhythmValue(Trhythm::e_none);
+  m_rhythm.setRhythmValue(Trhythm::NoRhythm);
   while (xml.readNextStartElement()) {
       if (xml.name() == QLatin1String("pitch"))
           m_pitch.fromXml(xml);

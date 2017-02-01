@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,8 +19,8 @@
 #ifndef TRHYTHM_H
 #define TRHYTHM_H
 
-#include <QtCore/qstring.h>
-#include <QtCore/qlist.h>
+
+#include <QtCore/qobject.h>
 #include <QtCore/qmath.h>
 
 
@@ -63,6 +63,8 @@ typedef QList<Trhythm> TrhythmList;
 class Trhythm
 {
 
+  Q_GADGET
+
 public:
 
       /**
@@ -73,8 +75,9 @@ public:
 
       /** Describes note duration */
   enum Erhythm : quint8 {
-    e_none = 0, e_whole = 1, e_half = 2, e_quarter = 3, e_eighth = 4, e_sixteenth = 5
+    NoRhythm = 0, Whole = 1, Half = 2, Quarter = 3, Eighth = 4, Sixteenth = 5
   };
+  Q_ENUM(Erhythm)
 
       /** Additional note preferences */
   enum Eprefs : quint8 {
@@ -91,7 +94,7 @@ public:
   };
 
       /** DEFAULT CONSTRUCTOR: by default it is quarter (without dot) */
-  Trhythm(Erhythm nVal = e_quarter, bool rest = false, bool dot = false, bool triplet = false)
+  Trhythm(Erhythm nVal = Quarter, bool rest = false, bool dot = false, bool triplet = false)
   {
     setRhythm(nVal, rest, dot, triplet);
   }
