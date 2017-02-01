@@ -52,7 +52,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 			pitch = pitch.showWithFlat(); // so prefer flats
 		else if (pitch.alter == -1 && mel->key().value() > 0) // sharps key signature
 			pitch = pitch.showWithSharp(); // so prefer sharps
-		Tchunk note(pitch, Trhythm(Trhythm::e_none), fPos);
+		Tchunk note(pitch, Trhythm(Trhythm::NoRhythm), fPos);
 		mel->addNote(note);
 	}
 	if (onTonic) {
@@ -131,7 +131,7 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
     int notesCnt = 0;
     while (notesCnt < phLen && noteId < qListPtr->size() && mel->length() < len) {
       auto curQA = &qListPtr->operator[](noteId);
-      mel->addNote(Tchunk(curQA->note, Trhythm(Trhythm::e_none), curQA->pos));
+      mel->addNote(Tchunk(curQA->note, Trhythm(Trhythm::NoRhythm), curQA->pos));
       notesCnt++;
       noteId += dir;
       if (noteId < 0 || noteId == qListPtr->size())

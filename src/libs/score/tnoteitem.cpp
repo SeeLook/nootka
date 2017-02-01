@@ -83,7 +83,7 @@ void TnoteItem::setY(qreal yPos) {
         m_stem->setLine(HALF_STEM, STEM_DOWN_Y, HALF_STEM, qMax(STEM_HEIGHT + STEM_DOWN_Y, MID_LINE - yPos));
       else
         m_stem->setLine(HEAD_WIDTH - HALF_STEM, STEM_UP_Y, HEAD_WIDTH - HALF_STEM,
-                qMin(-(STEM_HEIGHT + (m_rhythm->rhythm() > Trhythm::e_quarter && m_rhythm->hasDot() ? 1.0 : 0.0) - STEM_UP_Y), MID_LINE - yPos));
+                qMin(-(STEM_HEIGHT + (m_rhythm->rhythm() > Trhythm::Quarter && m_rhythm->hasDot() ? 1.0 : 0.0) - STEM_UP_Y), MID_LINE - yPos));
     }
     if (m_flag->isVisible()) {
       if (m_rhythm->stemDown())
@@ -124,9 +124,9 @@ void TnoteItem::setRhythm(const Trhythm& r) {
     *m_rhythm = r;
     int v = BASE_HEAD + qMin(static_cast<int>(m_rhythm->rhythm()), 3);
     if (m_stem) {
-      if (!m_rhythm->isRest() && m_rhythm->rhythm() > Trhythm::e_whole) {
+      if (!m_rhythm->isRest() && m_rhythm->rhythm() > Trhythm::Whole) {
             m_stem->show();
-          if (m_rhythm->beam() == Trhythm::e_noBeam && m_rhythm->rhythm() > Trhythm::e_quarter) {
+          if (m_rhythm->beam() == Trhythm::e_noBeam && m_rhythm->rhythm() > Trhythm::Quarter) {
               m_flag->setText(QString(QChar(FLAG_GLYPH + m_rhythm->rhythm() * 2 + (m_rhythm->stemDown() ? 1 : 0))));
                 m_flag->show();
           } else
@@ -154,7 +154,7 @@ void TnoteItem::paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
   painter->setFont(QFont(QStringLiteral("Scorek"), FONT_SIZE));
   painter->drawText(QPointF(0.0, 1.0), m_noteLetter);
   if (m_rhythm->hasDot()) {
-    painter->drawText(QPointF(m_rhythm->rhythm() == Trhythm::e_whole ? 3.5 : 2.9, 1.0 - static_cast<qreal>(static_cast<int>(y()) % 2)),
+    painter->drawText(QPointF(m_rhythm->rhythm() == Trhythm::Whole ? 3.5 : 2.9, 1.0 - static_cast<qreal>(static_cast<int>(y()) % 2)),
                       QString(QChar(DOT)));
   }
 }

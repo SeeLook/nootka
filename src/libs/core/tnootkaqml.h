@@ -46,7 +46,7 @@ public:
   Q_INVOKABLE QString version();
   Q_INVOKABLE Tclef clef(int type);
   Q_INVOKABLE Tmeter meter(int m);
-  Q_INVOKABLE Tnote note(int pitch, int octave, int alter);
+  Q_INVOKABLE Tnote note(int pitch, int octave, int alter, int rhythm = 3, bool rest = false, bool dot = false);
   Q_INVOKABLE QString majorKeyName(int key);
   Q_INVOKABLE QString minorKeyName(int key);
   Q_INVOKABLE QString getLicense();

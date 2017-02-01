@@ -86,7 +86,7 @@ public:
         * @li .......
         * @li 7 for B (H in Deutsh)
         * If accidental is not defined, the note is natural.  */
-  Tnote(char diatonNote, char oct, char accid = 0, const Trhythm& r = Trhythm(Trhythm::e_none)) :
+  Tnote(char diatonNote, char oct, char accid = 0, const Trhythm& r = Trhythm(Trhythm::NoRhythm)) :
       note(diatonNote),
       octave(oct),
       alter(accid),
@@ -99,7 +99,7 @@ public:
       note(0),
       octave(0),
       alter(e_Natural),
-      rtm(Trhythm(Trhythm::e_none))
+      rtm(Trhythm(Trhythm::NoRhythm))
     {}
 
         /** Construct object of Tnote from number, that represents:
@@ -110,7 +110,7 @@ public:
         * @li -12 for C in little octave etc....
         * The sharp accidental is default. If other are needed, use @p showWithFlat().
         * Sets rhythm to @p r */
-  Tnote(short chromaticNrOfNote, const Trhythm& r = Trhythm(Trhythm::e_none)) :
+  Tnote(short chromaticNrOfNote, const Trhythm& r = Trhythm(Trhythm::NoRhythm)) :
     rtm(r)
   {
     setChromatic(chromaticNrOfNote);

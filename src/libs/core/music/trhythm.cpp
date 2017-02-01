@@ -79,10 +79,10 @@ QString Trhythm::xmlType() const {
 
 void Trhythm::setRhythm(quint16 durationValue) {
   m_prefs = 0;
-  m_r = e_none;
+  m_r = NoRhythm;
   if (durationValue <= 96) {
       m_r = static_cast<Erhythm>(rArray[durationValue] & 7); // bit mask 11100000 to extract rhythm value
-      if (m_r != e_none) {
+      if (m_r != NoRhythm) {
         if (rArray[durationValue] & 64)
           m_prefs = e_dot;
         else if (rArray[durationValue] & 128)
@@ -91,7 +91,7 @@ void Trhythm::setRhythm(quint16 durationValue) {
   } else {
       if (durationValue == 144) { // "manually catch whole note with dot"
         m_prefs = e_dot;
-        m_r = e_whole;
+        m_r = Whole;
       }
   }
 }
@@ -101,7 +101,7 @@ void Trhythm::setRhythm(quint16 durationValue) {
  * In most cases it returns only single element list because subtracting can be resolved with only one rhythm value.
  */
 void Trhythm::sub(const Trhythm& r, TrhythmList& remained) const {
-  if (r.rhythm() == e_none) {
+  if (r.rhythm() == NoRhythm) {
       remained << *this;
       qDebug() << "[Trhythm] subtracting null rhythm! IS IT REALLY NECESSARY?";
   } else {
@@ -118,11 +118,11 @@ void Trhythm::sub(const Trhythm& r, TrhythmList& remained) const {
         return;
       }
       if (baseDur - subDur == 0) { // Return empty (null) rhythm when rhythms are the same
-        remained << Trhythm(e_none);
+        remained << Trhythm(NoRhythm);
         return;
       }
       Trhythm newR(baseDur - subDur, isRest());
-      if (newR.rhythm() != e_none) { // In most cases subtracting returns single rhythm
+      if (newR.rhythm() != NoRhythm) { // In most cases subtracting returns single rhythm
         remained << newR;
         return;
       }
@@ -134,38 +134,38 @@ void Trhythm::sub(const Trhythm& r, TrhythmList& remained) const {
 
       // For the rest cases list will contain two Trhythm elements
       if (baseDur == 36 && subDur == 6) // quarter with dot (4.) minus 16th = 4 and 16th
-          remained << Trhythm(e_quarter, isRest()) << Trhythm(e_eighth, isRest(), true);
+          remained << Trhythm(Quarter, isRest()) << Trhythm(Eighth, isRest(), true);
       else if (baseDur == 48) { // subtracting form half note
-          remained << Trhythm(e_quarter, isRest());
+          remained << Trhythm(Quarter, isRest());
           if (subDur == 6) // 2 - 16th = 4 and 8.
-              remained << Trhythm(e_eighth, isRest(), true);
+              remained << Trhythm(Eighth, isRest(), true);
           else if (subDur == 18) // 2 - 8. = 4 and 16th
-              remained << Trhythm(e_sixteenth, isRest());
+              remained << Trhythm(Sixteenth, isRest());
       } else if (baseDur == 72) { // subtracting from half with dot
-          remained << Trhythm(e_whole, isRest()); // whole is always first
+          remained << Trhythm(Whole, isRest()); // whole is always first
           if (baseDur == 6) // 2. - 16th = 2 and 8.
-              remained << Trhythm(e_eighth, isRest(), true);
+              remained << Trhythm(Eighth, isRest(), true);
           else if (baseDur == 12) // 2. - 8 = 2 and 8
-              remained << Trhythm(e_eighth, isRest());
+              remained << Trhythm(Eighth, isRest());
           else if (baseDur == 18) // 2. - 8. = 2 and 16th
-              remained << Trhythm(e_sixteenth, isRest());
+              remained << Trhythm(Sixteenth, isRest());
       } else if (baseDur == 96) { // subtracting from whole note
-          remained << Trhythm(e_whole, isRest(), true); // whole wit dot is always first
+          remained << Trhythm(Whole, isRest(), true); // whole wit dot is always first
           if (subDur == 6) // 1 - 16 = 2. and 8.
-            remained << Trhythm(e_eighth, isRest(), true);
+            remained << Trhythm(Eighth, isRest(), true);
           else if (baseDur == 12) // 1 - 8 = 2. and 8
-              remained << Trhythm(e_eighth, isRest());
+              remained << Trhythm(Eighth, isRest());
           else if (baseDur == 18) // 1 - 8. = 2. and 16th
-              remained << Trhythm(e_sixteenth, isRest());
+              remained << Trhythm(Sixteenth, isRest());
           else if (baseDur == 36) { // 1 - 4. = 2 and 16th
               remained[0].setDot(false); // revert a dot set above
-              remained << Trhythm(e_sixteenth, isRest());
+              remained << Trhythm(Sixteenth, isRest());
           }
       } else if (baseDur == 144) { // subtracting from whole and dot
           if (subDur <= 48) {
-              Trhythm half(e_half, isRest());
+              Trhythm half(Half, isRest());
               half.sub(r, remained);
-              remained.prepend(Trhythm(e_whole, isRest()));
+              remained.prepend(Trhythm(Whole, isRest()));
           }
       }
   }
@@ -173,7 +173,7 @@ void Trhythm::sub(const Trhythm& r, TrhythmList& remained) const {
 
 
 void Trhythm::split(TrhythmList& twoRhythms) const {
-  if (rhythm() == e_none || rhythm() == e_sixteenth)
+  if (rhythm() == NoRhythm || rhythm() == Sixteenth)
     return; // nothing to split
 
   if (hasDot()) {
@@ -210,7 +210,7 @@ void Trhythm::resolve(int problemDur, TrhythmList& solvList) {
       //       r1.setRest(note.isRest());
           solvList[1].setRhythm(smallestDur * step);
       //       r2.setRest(note.isRest());
-      } while (step < chunksNr - 1 && solvList[0].rhythm() != Trhythm::e_none && solvList[1].rhythm() != Trhythm::e_none);
+      } while (step < chunksNr - 1 && solvList[0].rhythm() != Trhythm::NoRhythm && solvList[1].rhythm() != Trhythm::NoRhythm);
   }
 }
 
@@ -229,7 +229,7 @@ QString Trhythm::string() const {
 
 
 void Trhythm::debug(const char* text) const {
-  if (m_r == e_none)
+  if (m_r == NoRhythm)
     qDebug() << text << "no rhythm";
   else {
     qDebug() << text << xmlType() << "| rest" << isRest() << "| dot" << hasDot() << "| triplet" << isTriplet() << "| duration" << duration()
