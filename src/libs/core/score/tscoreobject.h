@@ -63,6 +63,7 @@ public:
   void setParent(QObject* p);
 
   Q_INVOKABLE void addNote(const Tnote& n);
+  Q_INVOKABLE void setNote(int staffNr, int noteNr, const Tnote& n);
 
   bool keySignatureEnabled() const { return m_keySignEnabled; }
   void setKeySignatureEnabled(bool enKey);

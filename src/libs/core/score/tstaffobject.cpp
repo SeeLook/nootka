@@ -17,10 +17,11 @@
  ***************************************************************************/
 
 #include "tstaffobject.h"
-#include <QtCore/qdebug.h>
 #include "tscoreobject.h"
 #include "tnoteobject.h"
 #include "music/tnote.h"
+
+#include <QtCore/qdebug.h>
 
 
 TstaffObject::TstaffObject(QObject* parent) :
@@ -49,7 +50,15 @@ void TstaffObject::addNote(const Tnote& n) {
   noteObj->setNote(n);
   noteObj->setX(notesIndent() + noteObj->index() * 7.0);
   m_notes.append(noteObj);
-  emit noteAdded(noteObj);
+}
+
+
+void TstaffObject::setNote(int noteNr, const Tnote& n) {
+  if (noteNr < 0 || noteNr >= m_notes.count()) {
+    qDebug() << "[TstaffObject] There is no note with number" << noteNr;
+    return;
+  }
+  m_notes[noteNr]->setNote(n);
 }
 
 

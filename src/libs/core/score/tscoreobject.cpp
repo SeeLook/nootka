@@ -51,6 +51,16 @@ void TscoreObject::addNote(const Tnote& n) {
 }
 
 
+void TscoreObject::setNote(int staffNr, int noteNr, const Tnote& n) {
+  if (staffNr < 0 || staffNr >= m_staves.count()) {
+    qDebug() << "[TscoreObject] There is no staff number" << staffNr;
+    return;
+  }
+  m_staves[staffNr]->setNote(noteNr, n);
+}
+
+
+
 void TscoreObject::setKeySignatureEnabled(bool enKey) {
   m_keySignEnabled = enKey;
 }

@@ -73,7 +73,6 @@ Flickable {
     staff0.enableKeySignature(enableKeySign)
   }
 
-  function addNote(n) {
-    scoreObj.addNote(n)
-  }
+  function addNote(n) { scoreObj.addNote(n) }
+  function setNote(staff, nr, n) { scoreObj.setNote(staff, nr, n) }
 }

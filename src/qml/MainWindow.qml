@@ -77,8 +77,10 @@ ApplicationWindow {
         Layout.fillWidth: true
         Layout.fillHeight: true
         Component.onCompleted: {
-          for (var n = 1; n < 8; ++n)
-            addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2)))
+          for (var n = 1; n < 8; ++n) {
+            addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2)),
+                             1 + Math.random() * 4)
+          }
         }
       }
 
@@ -86,22 +88,23 @@ ApplicationWindow {
       Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: activPal.window; border { width: 1; color: activPal.text } }
   }
 
-//   Timer {
-//       interval: 1000
-//       running: true
-//       repeat: true
-//       onTriggered: {
+  Timer {
+      interval: 1000
+      running: true
+      repeat: true
+      onTriggered: {
+        var noteNr = Math.random() * 7
+        var rest = Math.floor((Math.random() * 100) % 2)
+        var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
+        var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)
+        score.setNote(0, noteNr, note)
 //         score.enableKeySign = !score.enableKeySign
 //         if (score.enableKeySign)
 //           score.setKeySignature(-7 + Math.random() * 15)
 //         var m = Math.pow(2, Math.floor(1 + Math.random() * 11))
 //         console.log("meter " + m)
 //         score.meter = m
-//         var randNote3 = nRep.itemAt(Math.random() * nRep.model)
-//         randNote3.pitch = 1 + Math.random() * 7
-//         randNote3.octave = -1 + Math.random() * 4
-//         randNote3.alter = Math.min(Math.max(-1, -2 + Math.random() * 5), 1)
-//       }
-//   }
+      }
+  }
 
 }
