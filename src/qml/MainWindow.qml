@@ -88,23 +88,23 @@ ApplicationWindow {
       Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: activPal.window; border { width: 1; color: activPal.text } }
   }
 
-  Timer {
-      interval: 1000
-      running: true
-      repeat: true
-      onTriggered: {
-        var noteNr = Math.random() * 7
-        var rest = Math.floor((Math.random() * 100) % 2)
-        var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
-        var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)
-        score.setNote(0, noteNr, note)
+//   Timer {
+//       interval: 1000
+//       running: true
+//       repeat: true
+//       onTriggered: {
+//         var noteNr = Math.random() * 7
+//         var rest = Math.floor((Math.random() * 100) % 2)
+//         var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
+//         var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)
+//         score.setNote(0, noteNr, note)
 //         score.enableKeySign = !score.enableKeySign
 //         if (score.enableKeySign)
 //           score.setKeySignature(-7 + Math.random() * 15)
 //         var m = Math.pow(2, Math.floor(1 + Math.random() * 11))
 //         console.log("meter " + m)
 //         score.meter = m
-      }
-  }
+//       }
+//   }
 
 }
