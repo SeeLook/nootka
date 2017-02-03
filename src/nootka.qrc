@@ -6,6 +6,7 @@
 
     <file alias="HeadButton.qml">qml/shared/HeadButton.qml</file>
     <file alias="PagesDialog.qml">qml/shared/PagesDialog.qml</file>
+    <file alias="Tile.qml">qml/shared/Tile.qml</file>
 
     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
@@ -29,6 +30,7 @@
     <file alias="TextBackground.qml">qml/about/TextBackground.qml</file>
 
     <file alias="TsettingsDialog.qml">qml/settings/TsettingsDialog.qml</file>
+    <file alias="GlobalPage.qml">qml/settings/GlobalPage.qml</file>
 
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 

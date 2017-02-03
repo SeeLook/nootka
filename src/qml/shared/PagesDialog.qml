@@ -31,6 +31,7 @@ Item {
 
   property alias stack: stack
   property alias model: navList.model
+  property alias pages: navList.pages
 
   anchors.fill: parent
 

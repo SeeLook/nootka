@@ -17,34 +17,46 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import QtQuick.Dialogs 1.2
+import QtQuick.Window 2.0
 
 
-Dialog {
-  visible: true
-  width: nootkaWindow.width * 0.75; height: nootkaWindow.height * 0.75
+Item {
 
-  title: "Nootka - " + qsTr("application's settings")
-//  width: pages.width; height: pages.height
+  property alias description: descText.text
+  property alias descriptionColor: descText.color
+  default property alias content: container.data
 
-  PagesDialog { id: pages }
-  standardButtons: StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
+  width: parent.width
+  height: descText.height + line.height + container.height + nootkaWindow.font.pixelSize
 
-  Component.onCompleted: {
-    pages.addItem("global", qsTr("Common"), "Global")
-    pages.addItem("scoreSettings", qsTr("Score"), "Score")
-    pages.addItem("guitarSettings", qsTr("Instrument"), "Instrument")
-    pages.addItem("soundSettings", qsTr("Sound"), "Sound")
-    pages.addItem("questionsSettings", qsTr("Exercises") + "\n& " + qsTr("Exam"), "Exam")
-    pages.addItem("appearance", qsTr("Appearance"), "Appearance")
-  }
+//   Rectangle { anchors.fill: parent }
 
-  onApply: {
-    for (var i = 0; i < pages.pages.length; ++i) {
-      if (typeof(pages.pages[i]) === 'object')
-        pages.pages[i].save()
+  Column {
+    id: col
+    spacing: nootkaWindow.font.pixelSize / 2
+    width: parent.width
+
+    Item {
+      id: container
+      width: childrenRect.width
+      height: childrenRect.height
+      anchors.horizontalCenter: parent.horizontalCenter
     }
-    close()
-  }
 
+    Text {
+      id: descText
+      anchors { horizontalCenter: parent.horizontalCenter; bottom: line.Top }
+      font.pixelSize: nootkaWindow.font.pixelSize * 0.9
+      textFormat: Text.RichText
+      horizontalAlignment: Text.AlignHCenter
+    }
+
+    Rectangle {
+      id: line
+      anchors.bottom: parent.Bottom
+      width: parent.width
+      height: nootkaWindow.font.pixelSize / 6
+      color: activPal.text
+    }
+  }
 }

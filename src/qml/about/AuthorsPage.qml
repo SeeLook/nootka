@@ -29,10 +29,12 @@ Flickable {
   ScrollBar.vertical: ScrollBar {}
 
   Column {
+    spacing: ttt.font.pixelSize
     id: aboutCont
     width: parent.width
     TextBackground { text: qsTranslate("TaboutNootka", "Code"); }
     Text {
+      id: ttt
       anchors.horizontalCenter: parent.horizontalCenter; width: parent.width; color: activPal.text
       text: "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>"
     }
@@ -45,32 +47,32 @@ Flickable {
     GridLayout {
       columns: 4
       Layout.alignment: Qt.AlignVCenter
-      Image { source: Tpath.pix("flags-cs"); }
+      Image { sourceSize.height: ttt.font.pixelSize * 2; source: Tpath.pix("flags-cs"); }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;český "; textFormat: Text.RichText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Pavel Fric</b> "; color: activPal.text }
       Text { text: " <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"; color: activPal.text }
 
-      Image { source: Tpath.pix("flags-de") }
+      Image { sourceSize.height: ttt.font.pixelSize * 2; source: Tpath.pix("flags-de") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;deutsch "; textFormat: Text.RichText; color: activPal.text}
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Johann C. Weihe</b> "; font.bold: true; color: activPal.text }
       Text { text: " " }
 
-      Image { source: Tpath.pix("flags-es") }
+      Image { sourceSize.height: ttt.font.pixelSize * 2; source: Tpath.pix("flags-es") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;español "; textFormat: Text.RichText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>José Luis Marín</b> "; font.bold: true; color: activPal.text }
       Text { text: " <a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>"; color: activPal.text }
 
-      Image { source: Tpath.pix("flags-fr") }
+      Image { sourceSize.height: ttt.font.pixelSize * 2; source: Tpath.pix("flags-fr") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;français "; textFormat: Text.RichText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Olivier Devineau,<br>&nbsp;&nbsp;&nbsp;&nbsp;Jean-Marc Lartigue</b> "; color: activPal.text }
       Text { text: " " }
 
-      Image { source: Tpath.pix("flags-pl") }
+      Image { sourceSize.height: ttt.font.pixelSize * 2; source: Tpath.pix("flags-pl") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;polski "; textFormat: Text.RichText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Tomasz Bojczuk</b> "; color: activPal.text }
       Text { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"; color: activPal.text }
 
-      Image { source: Tpath.pix("flags-ru") }
+      Image { sourceSize.height: ttt.font.pixelSize * 2; source: Tpath.pix("flags-ru") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;русский "; textFormat: Text.RichText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sergei Ivanov (tico-tico)<br>&nbsp;&nbsp;&nbsp;&nbsp;Timur Artykov</b> "; color: activPal.text }
       Text { text: " " }
