@@ -28,8 +28,10 @@ ApplicationWindow {
   title: "Nootka"
   color: activPal.window
 
+  property alias fontSize: nootkaWindow.font.pixelSize
+
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
-  SystemPalette { id: disdPal; colorGroup: SystemPalette.Inactive }
+  SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
 
   width: GLOB.geometry.width
   height: GLOB.geometry.height
@@ -46,6 +48,9 @@ ApplicationWindow {
       onSettings: {
         var c = Qt.createComponent("qrc:/TsettingsDialog.qml")
         var a = c.createObject(nootkaWindow)
+      }
+      onExam: {
+        randNotes()
       }
   }
 
@@ -106,5 +111,12 @@ ApplicationWindow {
 //         score.meter = m
 //       }
 //   }
+  function randNotes() {
+    var noteNr = Math.random() * 7
+    var rest = Math.floor((Math.random() * 100) % 2)
+    var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
+    var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)
+    score.setNote(0, noteNr, note)
+  }
 
 }

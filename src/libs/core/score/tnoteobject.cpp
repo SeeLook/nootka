@@ -166,7 +166,7 @@ void TnoteObject::setNote(const Tnote& n) {
   if (m_note->alter)
     m_alter->setX(-m_alter->width() - 0.1);
 
-  qDebug() << "[TnoteObject] set note" << m_note->toText() << m_note->rtm.string();
+  qDebug() << "[TnoteObject] set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY;
 }
 
 
