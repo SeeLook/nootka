@@ -51,32 +51,33 @@ Flickable {
           ListElement { flag:"ru"; lang: "русский" }
         }
 
-        content: Row {
+        Column {
           width: globalPage.width
-          spacing: langHead.font.pixelSize
+          height: langHead.height + viewItem.height
 
           Text {
             id: langHead;
-            text: qsTranslate("TglobalSettings", "Application language").replace(" ", "\n")
-            anchors.verticalCenter: parent.verticalCenter
+            text: qsTranslate("TglobalSettings", "Application language")
+            anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
+            color: activPal.text
           }
 
           Item {
             id: viewItem
-            width: parent.width - langHead.width
-            height: langHead.font.pixelSize * 8
-            anchors.left: langHead.Right
+            width: parent.width
+            height: fontSize * 8
 
             PathView {
               id: langView
 
               highlight: Component {
                 Rectangle {
-                  anchors.fill: langView.currentItem
-                  color: "transparent"
-                  border { width: fontSize / 3; color: activPal.highlight }
-                  radius: fontSize / 4
+                  width: langView.currentItem.width + fontSize / 2
+                  height: langView.currentItem.height + fontSize / 2
+                  color: Qt.rgba(activPal.highlight.r, activPal.highlight.g, activPal.highlight.b, 0.4)
+                  border { width: fontSize / 3; color: activPal.highlightedText }
+                  radius: fontSize / 2
                 }
               }
 
@@ -95,6 +96,7 @@ Flickable {
                       id: lText;
                       anchors { top: flagIcon.Bottom; horizontalCenter: parent.horizontalCenter }
                       text: flag == "" ? qsTranslate("TglobalSettings", lang) : lang
+                      color: activPal.text
                     }
                   }
                   MouseArea {
@@ -110,8 +112,8 @@ Flickable {
                 }
               }
               path: Path {
-                  startX: viewItem.x; startY: fontSize * 5
-                  PathLine { x: viewItem.width; y: fontSize * 5 }
+                  startX: viewItem.x + fontSize * 4; startY: fontSize * 4
+                  PathLine { x: viewItem.width; y: fontSize * 4 }
               }
             }
           }
@@ -121,6 +123,7 @@ Flickable {
     Tile {
       CheckBox {
         id: animChBox
+        anchors.horizontalCenter: parent.horizontalCenter
         text: qsTr("enable animations")
         checked: GLOB.useAnimations
       }
@@ -128,16 +131,18 @@ Flickable {
 
     Tile {
       Button {
+        anchors.horizontalCenter: parent.horizontalCenter
         text: qsTranslate("TglobalSettings", "Check for updates")
       }
     }
 
-    Item { height: nootkaWindow.font.pixelSize * 3; width: parent.width }
+    Item { height: fontSize * 3; width: parent.width }
 
     Tile {
       description: qsTranslate("TglobalSettings", "All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
       descriptionColor: "red"
-      content: Button {
+      Button {
+        anchors.horizontalCenter: parent.horizontalCenter
         text: qsTranslate("TglobalSettings", "Restore all default settings")
       }
     }
@@ -147,6 +152,11 @@ Flickable {
   function save() {
     GLOB.useAnimations = animChBox.checked
     GLOB.lang = langModel.get(langView.currentIndex).flag
+  }
+
+  function defaults() {
+    animChBox.checked = true
+    langView.currentIndex = 0
   }
 
 }

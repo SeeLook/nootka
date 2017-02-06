@@ -17,46 +17,39 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import QtQuick.Window 2.0
+import QtQuick.Controls 2.0
 
 
-Item {
+Frame {
 
   property alias description: descText.text
   property alias descriptionColor: descText.color
   default property alias content: container.data
 
   width: parent.width
-  height: descText.height + line.height + container.height + nootkaWindow.font.pixelSize
+  height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2
 
 //   Rectangle { anchors.fill: parent }
 
   Column {
-    id: col
-    spacing: nootkaWindow.font.pixelSize / 2
-    width: parent.width
-
-    Item {
-      id: container
-      width: childrenRect.width
-      height: childrenRect.height
-      anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    Text {
-      id: descText
-      anchors { horizontalCenter: parent.horizontalCenter; bottom: line.Top }
-      font.pixelSize: nootkaWindow.font.pixelSize * 0.9
-      textFormat: Text.RichText
-      horizontalAlignment: Text.AlignHCenter
-    }
-
-    Rectangle {
-      id: line
-      anchors.bottom: parent.Bottom
+      id: col
+      spacing: nootkaWindow.fontSize / 2
       width: parent.width
-      height: nootkaWindow.font.pixelSize / 6
-      color: activPal.text
-    }
+
+      Item {
+        id: container
+        width: parent.width - nootkaWindow.fontSize
+        height: childrenRect.height
+      }
+
+      Text {
+        id: descText
+        anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.Bottom }
+        font.pixelSize: nootkaWindow.fontSize * 0.9
+        textFormat: Text.RichText
+        horizontalAlignment: Text.AlignHCenter
+        color: enabled ? activPal.text : disdPal.text
+      }
+
   }
 }
