@@ -17,37 +17,51 @@
  ***************************************************************************/
 
 import QtQuick 2.7
+import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
+import QtQuick.Window 2.0
+import QtGraphicalEffects 1.0
 
 
-Dialog {
-  visible: true
-  width: nootkaWindow.width * 0.75; height: nootkaWindow.height * 0.75
+Item {
+  id: colorButton
+  property color color: "white"
+  property real offset: Screen.pixelDensity / 2
 
-  title: "Nootka - " + qsTr("application's settings")
-//  width: pages.width; height: pages.height
+  implicitWidth: nootkaWindow.fontSize * 4
+  implicitHeight: nootkaWindow.fontSize * 2
 
-  PagesDialog { id: pages }
-  standardButtons: StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
-
-  Component.onCompleted: {
-    pages.addItem("global", qsTr("Common"), "Global")
-    pages.addItem("scoreSettings", qsTr("Score"), "Score")
-    pages.addItem("guitarSettings", qsTr("Instrument"), "Instrument")
-    pages.addItem("soundSettings", qsTr("Sound"), "Sound")
-    pages.addItem("questionsSettings", qsTr("Exercises") + "\n& " + qsTr("Exam"), "Exam")
-    pages.addItem("appearance", qsTr("Appearance"), "Appearance")
+  Rectangle {
+    id: colorRect
+    anchors.fill: parent
+    radius: height / 2
+    color: enabled ? colorButton.color : disdPal.text
+    visible: false
   }
 
-  onApply: {
-    for (var i = 0; i < pages.pages.length; ++i) {
-      if (typeof(pages.pages[i]) === 'object')
-        pages.pages[i].save()
-    }
-    close()
+   DropShadow {
+    id: shadow
+    anchors.fill: colorRect
+    horizontalOffset: offset
+    verticalOffset: offset
+    radius: 8.0
+    samples: 17
+    color: activPal.shadow
+    source: colorRect
   }
 
-  onReset: {
-    pages.currentPage.defaults()
+  MouseArea {
+    anchors.fill: parent
+    onPressed: offset = 0
+    onReleased: offset = Screen.pixelDensity / 2
+    onClicked: colorDialog.open()
+  }
+
+  ColorDialog {
+    id: colorDialog
+    color: colorButton.color
+    onAccepted: colorButton.color = colorDialog.color
+    modality: Qt.WindowModal
+    showAlphaChannel: false
   }
 }

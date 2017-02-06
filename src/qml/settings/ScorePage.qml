@@ -1,0 +1,135 @@
+/***************************************************************************
+ *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   seelook@gmail.com                                                     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License	     *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
+
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.3
+
+
+Column {
+
+    spacing: nootkaWindow.fontSize
+
+    Row {
+      width: parent.width
+
+      ListView {
+        id: headList
+        orientation: ListView.Horizontal
+        spacing: nootkaWindow.fontSize
+        width: parent.width
+
+        model: ListModel {
+          ListElement { head: QT_TR_NOOP("Score settings") }
+          ListElement { head: QT_TR_NOOP("Key signatures") }
+          ListElement { head: QT_TR_NOOP("Clefs") }
+          ListElement { head: QT_TR_NOOP("Notes naming") }
+        }
+
+        delegate: Component {
+          Button {
+            text: (index + 1) + ". " + qsTranslate("TscoreSettings", head)
+            onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
+            highlighted: headList.currentIndex == index
+            Component.onCompleted: headList.height = Math.max(height, headList.height)
+          }
+        }
+      }
+    }
+    StackLayout {
+      id: swipePages
+      height: parent.height - headList.height
+      width: parent.width
+
+      Item {
+        Column {
+          anchors.fill: parent
+          spacing: nootkaWindow.fontSize / 2
+          Tile {
+            description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
+            Column {
+              width: parent.width
+              CheckBox {
+                id: singleNoteMode
+                text: qsTranslate("TscoreSettings", "use single note only")
+                anchors.horizontalCenter: parent.horizontalCenter
+              }
+              Frame {
+                width: parent.width * 0.95
+                anchors.horizontalCenter: parent.horizontalCenter
+                enabled: singleNoteMode.checked
+                Column {
+                  spacing: nootkaWindow.fontSize / 3
+                  anchors.fill: parent
+                  Tile {
+                    description: qsTranslate("TscoreSettings",
+                                            "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
+                    CheckBox {
+                      id: showEnharmNotes
+                      text: qsTranslate("TscoreSettings", "show enharmonic variants of notes")
+                      anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                  }
+                  Tile {
+                    Row {
+                      spacing: nootkaWindow.fontSize
+                      anchors.horizontalCenter: parent.horizontalCenter
+                      Text { color: enabled ? activPal.text : disdPal.text; text: qsTranslate("TscoreSettings", "color of enharmonic notes") }
+                      ColorButton { id: enharmNoteColor }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          Tile {
+            Row {
+              spacing: nootkaWindow.fontSize
+              anchors.horizontalCenter: parent.horizontalCenter
+              Text { color: activPal.text; text: qsTranslate("TscoreSettings", "note-cursor color") }
+              ColorButton { id: pointerColor }
+            }
+          }
+        }
+        Component.onCompleted: {
+          enharmNoteColor.color = GLOB.enharmNoteColor
+          showEnharmNotes.checked = GLOB.showEnharmNotes
+          singleNoteMode.checked = GLOB.singleNoteMode
+        }
+      }
+      Item {
+        Text {
+          text: "P2"
+          anchors.centerIn: parent
+        }
+      }
+      Item {
+        Text {
+          text: "P3"
+          anchors.centerIn: parent
+        }
+      }
+      Item {
+        Text {
+          text: "P4"
+          anchors.centerIn: parent
+        }
+      }
+    }
+
+}

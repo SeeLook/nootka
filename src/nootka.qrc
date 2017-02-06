@@ -31,6 +31,8 @@
 
     <file alias="TsettingsDialog.qml">qml/settings/TsettingsDialog.qml</file>
     <file alias="GlobalPage.qml">qml/settings/GlobalPage.qml</file>
+    <file alias="ScorePage.qml">qml/settings/ScorePage.qml</file>
+    <file alias="ColorButton.qml">qml/settings/ColorButton.qml</file>
 
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 
