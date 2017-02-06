@@ -44,7 +44,7 @@ Item {
     anchors.fill: colorRect
     horizontalOffset: offset
     verticalOffset: offset
-    radius: 8.0
+    radius: Screen.pixelDensity
     samples: 17
     color: activPal.shadow
     source: colorRect

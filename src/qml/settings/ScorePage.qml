@@ -60,39 +60,45 @@ Column {
         Column {
           anchors.fill: parent
           spacing: nootkaWindow.fontSize / 2
-          Tile {
-            description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
+          Frame {
+            width: parent.width
             Column {
+              spacing: nootkaWindow.fontSize / 2
               width: parent.width
-              CheckBox {
-                id: singleNoteMode
-                text: qsTranslate("TscoreSettings", "use single note only")
-                anchors.horizontalCenter: parent.horizontalCenter
+              Tile {
+                description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
+                CheckBox {
+                  id: singleNoteMode
+                  text: qsTranslate("TscoreSettings", "use single note only")
+                  anchors.horizontalCenter: parent.horizontalCenter
+                }
               }
-              Frame {
+
+              Tile {
+                enabled: singleNoteMode.checked
                 width: parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
+                description: qsTranslate("TscoreSettings",
+                                        "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
+                CheckBox {
+                  id: showEnharmNotes
+                  text: qsTranslate("TscoreSettings", "show enharmonic variants of notes")
+                  anchors.horizontalCenter: parent.horizontalCenter
+                }
+              }
+              Tile {
                 enabled: singleNoteMode.checked
-                Column {
-                  spacing: nootkaWindow.fontSize / 3
-                  anchors.fill: parent
-                  Tile {
-                    description: qsTranslate("TscoreSettings",
-                                            "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
-                    CheckBox {
-                      id: showEnharmNotes
-                      text: qsTranslate("TscoreSettings", "show enharmonic variants of notes")
-                      anchors.horizontalCenter: parent.horizontalCenter
-                    }
+                width: parent.width * 0.95
+                anchors.horizontalCenter: parent.horizontalCenter
+                Row {
+                  spacing: nootkaWindow.fontSize
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  Text {
+                    color: enabled ? activPal.text : disdPal.text
+                    text: qsTranslate("TscoreSettings", "color of enharmonic notes")
+                    anchors.verticalCenter: parent.verticalCenter
                   }
-                  Tile {
-                    Row {
-                      spacing: nootkaWindow.fontSize
-                      anchors.horizontalCenter: parent.horizontalCenter
-                      Text { color: enabled ? activPal.text : disdPal.text; text: qsTranslate("TscoreSettings", "color of enharmonic notes") }
-                      ColorButton { id: enharmNoteColor }
-                    }
-                  }
+                  ColorButton { id: enharmNoteColor }
                 }
               }
             }
@@ -101,7 +107,7 @@ Column {
             Row {
               spacing: nootkaWindow.fontSize
               anchors.horizontalCenter: parent.horizontalCenter
-              Text { color: activPal.text; text: qsTranslate("TscoreSettings", "note-cursor color") }
+              Text { color: activPal.text; text: qsTranslate("TscoreSettings", "note-cursor color"); anchors.verticalCenter: parent.verticalCenter }
               ColorButton { id: pointerColor }
             }
           }
@@ -132,4 +138,14 @@ Column {
       }
     }
 
+    function save() {
+      
+    }
+
+    function defaults() {
+      singleNoteMode.checked = false
+      showEnharmNotes.checked = false
+      enharmNoteColor.color = Qt.rgba(0, 0.6352941176470588, 0.6352941176470588, 1)
+      pointerColor.color = "pink"
+    }
 }
