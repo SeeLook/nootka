@@ -133,6 +133,15 @@ void Tglobals::setUseAnimations(bool use) {
   emit useAnimationsChanged();
 }
 
+bool Tglobals::showEnharmNotes() { return S->showEnharmNotes; }
+void Tglobals::setShowEnharmNotes(bool showEnharm) { S->showEnharmNotes = showEnharm; }
+
+QColor Tglobals::getEnharmNoteColor() { return S->enharmNotesColor; }
+void Tglobals::setEnharmNoteColor(const QColor& c) { S->enharmNotesColor = c; }
+
+bool Tglobals::isSingleNote() { return S->isSingleNoteMode; }
+void Tglobals::setSingleNote(bool sn) { S->isSingleNoteMode = sn; }
+
 
 
 void Tglobals::loadSettings(QSettings* cfg) {
@@ -179,10 +188,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->showEnharmNotes = cfg->value(QStringLiteral("showEnaharmonicNotes"), false).toBool();
       if (!S->isSingleNoteMode) // enharmonically equal notes can be enabled only in single note mode
           S->showEnharmNotes = false;
-      if (cfg->contains("enharmonicNotesColor"))
-          S->enharmNotesColor = cfg->value(QStringLiteral("enharmonicNotesColor")).value<QColor>(); //-1;
-      else
-          S->enharmNotesColor = -1;
+      S->enharmNotesColor = cfg->value(QStringLiteral("enharmonicNotesColor"), QColor(0, 162, 162)).value<QColor>(); // turquoise
       S->seventhIs_B = cfg->value(QStringLiteral("is7thNote_B"), true).toBool(); //true;
   cfg->endGroup();
 

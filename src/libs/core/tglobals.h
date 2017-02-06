@@ -47,6 +47,9 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
   Q_PROPERTY(bool useAnimations READ useAnimations WRITE setUseAnimations NOTIFY useAnimationsChanged)
   Q_PROPERTY(QString lang READ getLang WRITE setLang)
+  Q_PROPERTY(bool showEnharmNotes READ showEnharmNotes WRITE setShowEnharmNotes)
+  Q_PROPERTY(QColor enharmNoteColor READ getEnharmNoteColor WRITE setEnharmNoteColor)
+  Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote)
 
 public:
 
@@ -76,6 +79,15 @@ public:
 
   QString getLang() { return lang; }
   void setLang(const QString& l) { lang = l; }
+
+  bool showEnharmNotes();
+  void setShowEnharmNotes(bool showEnharm);
+
+  QColor getEnharmNoteColor();
+  void setEnharmNoteColor(const QColor& c);
+
+  bool isSingleNote();
+  void setSingleNote(bool sn);
 
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
