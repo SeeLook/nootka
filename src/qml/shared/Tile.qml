@@ -21,15 +21,12 @@ import QtQuick.Controls 2.0
 
 
 Frame {
-
   property alias description: descText.text
   property alias descriptionColor: descText.color
   default property alias content: container.data
 
   width: parent.width
   height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2
-
-//   Rectangle { anchors.fill: parent }
 
   Column {
       id: col
@@ -45,7 +42,7 @@ Frame {
       Text {
         id: descText
         anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.Bottom }
-        font.pixelSize: nootkaWindow.fontSize * 0.9
+        font.pixelSize: nootkaWindow.fontSize * 0.8
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
         color: enabled ? activPal.text : disdPal.text

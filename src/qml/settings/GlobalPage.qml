@@ -33,7 +33,7 @@ Flickable {
 
   Column {
     id: mainColumn
-    spacing: 15
+    spacing: nootkaWindow.fontSize / 2
     width: parent.width
 
     Tile {
