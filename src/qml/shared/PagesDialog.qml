@@ -18,7 +18,6 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 
 
@@ -32,6 +31,7 @@ Item {
   property alias stack: stack
   property alias model: navList.model
   property alias pages: navList.pages
+  property alias currentPage: stack.currentItem
 
   anchors.fill: parent
 
@@ -105,13 +105,16 @@ Item {
           }
         }
       }
-      ScrollBar.vertical: ScrollBar {}
+
+      ScrollBar.vertical: ScrollBar { active: true }
+
       function ensureVisible(yy, hh) {
         if (contentY >= yy)
             contentY = yy;
         else if (contentY + height <= yy + hh)
             contentY = yy + hh - height;
       }
+
       Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}
     }
 
