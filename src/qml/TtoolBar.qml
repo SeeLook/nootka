@@ -29,6 +29,7 @@ ToolBar {
 
   signal settings()
   signal about()
+  signal exam()
 
   Rectangle { // background
     anchors.fill: parent
@@ -41,9 +42,7 @@ ToolBar {
       name: qsTr("Settings")
       icon: Tpath.pix("systemsettings")
       tip: qsTr("Application preferences")
-      onClicked: {
-        toolBar.settings()
-      }
+      onClicked: toolBar.settings()
     }
     HeadButton {
       id: levelAct
@@ -62,6 +61,7 @@ ToolBar {
       name: qsTr("Lessons")
       icon: Tpath.pix("startExam")
       tip: qsTr("Start exercises or an exam")
+      onClicked: toolBar.exam()
     }
 
     Item { Layout.fillWidth: true }
