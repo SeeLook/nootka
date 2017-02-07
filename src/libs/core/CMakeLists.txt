@@ -15,7 +15,7 @@ set(LIB_NOOTKACORE_SRC
   tglobals.cpp
   tnoofont.cpp
   tpath.cpp
-  tmtr.cpp
+#   tmtr.cpp
   tnootkaqml.cpp
   ttickcolors.cpp
 
@@ -55,7 +55,12 @@ set(LIB_NOOTKACORE_SRC
 
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
-target_link_libraries(NootkaCore Qt5::Widgets)
+target_link_libraries(NootkaCore
+  Qt5::Gui
+  Qt5::Qml
+  Qt5::Quick
+  Qt5::QuickControls2
+  )
 
 
 if(UNIX AND NOT APPLE)   # Linux path for Nootka library

@@ -87,7 +87,7 @@ Tglobals::Tglobals(QObject* parent) :
   new TtouchParams;
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MAC) // I hate mess in Win registry
-  config = new QSettings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("Nootka")), qApp->applicationName());
+  config = new QSettings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("Nootka"), qApp->applicationName());
 #else
   config = new QSettings();
 #endif
