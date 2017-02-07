@@ -17,18 +17,18 @@
  ***************************************************************************/
 
 #include "tinstrument.h"
-#include <QApplication>
+#include <QtGui/qguiapplication.h>
 
 
 QString instrumentToText(Einstrument instr) {
   if (instr == e_noInstrument)
-      return QApplication::translate("Einstrument", "other instrument");
+      return QGuiApplication::translate("Einstrument", "other instrument");
   if (instr == e_classicalGuitar)
-      return QApplication::translate("Einstrument", "Classical Guitar");
+      return QGuiApplication::translate("Einstrument", "Classical Guitar");
   if (instr == e_electricGuitar)
-      return QApplication::translate("Einstrument", "Electric Guitar");
+      return QGuiApplication::translate("Einstrument", "Electric Guitar");
   if (instr == e_bassGuitar)
-      return QApplication::translate("Einstrument", "Bass Guitar");
+      return QGuiApplication::translate("Einstrument", "Bass Guitar");
 
   return "";
 }

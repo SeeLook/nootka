@@ -22,8 +22,9 @@
 #include "tcolor.h"
 #include "tscoreparams.h"
 #include "tpath.h"
-#include <QtWidgets/qapplication.h>
-#include <QtWidgets/qmessagebox.h>
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
+// #include <QtWidgets/qmessagebox.h>
 #include <QtCore/qtranslator.h>
 #include <QtCore/qlibraryinfo.h>
 #include <QtGui/qfontdatabase.h>
@@ -75,7 +76,7 @@ bool initCoreLibrary() {
 }
 
 
-void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
+void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) {
   if (!Tcore::gl())
     return;
 
@@ -112,12 +113,13 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 }
 
 
-bool loadNootkaFont(QApplication* a) {
+bool loadNootkaFont(QGuiApplication* a) {
     QFontDatabase fd;
   int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
   int fid2 = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
   if (fid == -1 || fid2 == -1) {
-      QMessageBox::critical(0, QString(), a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
+    qDebug() << "Can not load Nootka fonts!";
+//       QMessageBox::critical(0, QString(), a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
       return false;
   }
   return true;

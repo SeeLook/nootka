@@ -20,12 +20,13 @@
 #define TTICKCOLORS_H
 
 
+#include "nootkacoreglobal.h"
 #include <QtCore/QObject>
 #include <QtGui/QColor>
 #include <QtCore/QDebug>
 
 
-class TtickColors : public QObject
+class NOOTKACORE_EXPORT TtickColors : public QObject
 {
   Q_OBJECT
 

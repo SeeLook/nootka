@@ -20,7 +20,7 @@ endif(Qt5Gui_FOUND)
 find_package(Qt5Qml REQUIRED)
 find_package(Qt5Quick REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Gui REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
 
@@ -93,7 +93,7 @@ target_link_libraries(nootka
     NootkaCore
 #     NootkaScore
     Qt5::Core
-    Qt5::Widgets
+    Qt5::Gui
     Qt5::Qml
     Qt5::Quick
     Qt5::QuickControls2
