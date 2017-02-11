@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -86,9 +86,12 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
   QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
 #elif defined (Q_OS_MAC)
   QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system().uiLanguages().first() : Tcore::gl()->lang);
-#else
+#elif defined(Q_OS_WIN)
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
+#else // Linux - take language from LANG environment variable
   QLocale loc(Tcore::gl()->lang.isEmpty() ? qgetenv("LANG") : Tcore::gl()->lang);
 #endif
+
   QLocale::setDefault(loc);
 
   QString translationsPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
