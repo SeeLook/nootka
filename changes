@@ -1,3 +1,7 @@
+1.4.2
+    BUGS FIXES
+     - store current version properly to avoid false update message
+
 1.4.1
     BUGS FIXES
      - Fixed issues with note range in custom created levels
