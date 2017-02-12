@@ -22,6 +22,7 @@
 #if defined(Q_OS_WIN)
   #include "tasioemitter.h"
 #endif
+#include <QtCore/qdebug.h>
 
 
 
@@ -45,6 +46,18 @@ QStringList TaudioIN::getAudioDevicesList() {
 			devList.prepend("ALSA default");
 	return devList;
 }
+
+
+bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st) {
+  if (m_goingDelete || instance()->isStoped())
+    return true;
+  if (st)
+    qDebug() << "[TaudioIN] input buffer underflow";
+
+  instance()->finder()->copyToBuffer(inBuff, nBufferFrames);
+  return false;
+}
+
 
 
 TaudioIN*        			TaudioIN::m_instance = 0;
@@ -115,7 +128,7 @@ void TaudioIN::startListening() {
         openStream();
       if (startStream())
         setState(e_detecting);
-			qDebug() << "start listening";
+// 			qDebug() << "start listening";
 		}
   }
 }
@@ -138,11 +151,12 @@ void TaudioIN::stopListening() {
 //#################################################################################################
 
 void TaudioIN::playingFinishedSlot() {
-  if (state() == e_listening) {
+  if (detectingState() == e_detecting) {
     openStream();
     startStream();
   }
 }
+
 
 #if defined(Q_OS_WIN)
 void TaudioIN::ASIORestartSlot() {

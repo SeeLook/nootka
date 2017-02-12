@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,7 @@
 
 #ifndef TCOMMONLISTENER_H
 #define TCOMMONLISTENER_H
+
 
 #include "nootkasoundglobal.h"
 #include <music/tnote.h>
@@ -84,12 +85,12 @@ public:
   float minimalVolume();
 
 
-  void setAmbitus(Tnote loNote, Tnote hiNote);   /** Sets range of notes which are detected. Others are ignored. */
-  Tnote& loNote() { return m_loNote; } /** Returns lower boundary note of ambitus */
-  Tnote& hiNote() { return m_hiNote; } /** Returns upper boundary note of ambitus */
+  void setAmbitus(Tnote loNote, Tnote hiNote); /**< Sets range of notes which are detected. Others are ignored. */
+  Tnote& loNote() { return m_loNote; } /**< Returns lower boundary note of ambitus */
+  Tnote& hiNote() { return m_hiNote; } /**< Returns upper boundary note of ambitus */
 
-  qreal lastNotePitch() { return m_lastNote.pitchF; } /** Pitch of last detected note in double precision. */
-  TnoteStruct& lastNote() { return m_lastNote; } /** Pitch, frequency and duration of the last detected note. */
+  qreal lastNotePitch() { return m_lastNote.pitchF; } /**< Pitch of last detected note in double precision. */
+  TnoteStruct& lastNote() { return m_lastNote; } /**< Pitch, frequency and duration of the last detected note. */
 
   float lastChunkPitch() { return m_LastChunkPitch; }
 
@@ -98,7 +99,7 @@ public:
     else return false;
   }   /** Returns @p TRUE when @p pitch is in ambitus */
 
-  bool noteWasStarted() { return m_noteWasStarted; } /** @p TRUE when note started but not finished. */
+  bool noteWasStarted() { return m_noteWasStarted; } /**< @p TRUE when note started but not finished. */
 
       /** Sets pitch detection method. Currently three are available:
        * 0 - MPM (Philip McLeod Method) - default
@@ -111,10 +112,10 @@ public:
   void setStoppedByUser(bool userStop) { m_stoppedByUser = userStop; }
   bool stoppedByUser() { return m_stoppedByUser; }
 
-  quint8 intonationAccuracy(); /** Returns intonation accuracy sets in global audio settings. */
-  void setIntonationAccuracy(qint8 intAcc); /** Sets global value of intonation accuracy. It doesn't refresh intonation view. */
+  quint8 intonationAccuracy(); /**< Returns intonation accuracy sets in global audio settings. */
+  void setIntonationAccuracy(qint8 intAcc); /**< Sets global value of intonation accuracy. It doesn't refresh intonation view. */
 
-  int detectionRange() { return m_currentRange; } /** Integer value of @p TpitchFinder::Erange */
+  int detectionRange() { return m_currentRange; } /**< Integer value of @p TpitchFinder::Erange */
 #if !defined (Q_OS_ANDROID)
   void setDumpFileName(const QString& fName);
 #endif
@@ -136,8 +137,8 @@ signals:
 
 
 public slots:
-  virtual void startListening(); /** This virtual method is responsible for starting audio input */
-  virtual void stopListening(); /** This virtual method is responsible for stopping audio input */
+  virtual void startListening(); /**< This virtual method is responsible for starting audio input */
+  virtual void stopListening(); /**< This virtual method is responsible for stopping audio input */
 
 
 protected:

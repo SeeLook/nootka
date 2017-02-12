@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,13 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "trtaudioout.h"
 #include "toggscale.h"
 #include "tasioemitter.h"
 #include <taudioparams.h>
-#include <QDebug>
-#include <QTimer>
+#include <QtCore/qtimer.h>
+#include <QtCore/qdebug.h>
 #include <unistd.h>
 
 
@@ -55,7 +54,7 @@ QStringList TaudioOUT::getAudioDevicesList() {
           devList << convDevName(devInfo);
     }
     if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
-				devList.prepend("ALSA default");
+				devList.prepend(QStringLiteral("ALSA default"));
     return devList;
 }
 
