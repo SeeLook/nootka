@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,6 @@
 #define TRTAUDIOIN_H
 
 
-#include <QObject>
-#include <QDebug>
 #include "trtaudio.h"
 #include "tpitchfinder.h"
 #include "tcommonlistener.h"
@@ -34,13 +32,13 @@
 class NOOTKASOUND_EXPORT TaudioIN : public TcommonListener, public TrtAudio
 {
     Q_OBJECT
-    
+
 public:
     explicit TaudioIN(TaudioParams *params, QObject *parent = 0);
     ~TaudioIN();
 
   static TaudioIN* instance() { return m_instance; }
-    
+
         /** Returns list of audio input devices filtered by template audio format */
 	static QStringList getAudioDevicesList(); 
 	
@@ -53,18 +51,10 @@ public:
 public slots:
 	virtual void startListening();
 	virtual void stopListening();
-  
-protected:
-	static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st) {
-    if (m_goingDelete || instance()->isStoped())
-      return true;
-    if (st)
-      qDebug() << "input buffer underflow";
 
-    instance()->finder()->copyToBuffer(inBuff, nBufferFrames);
-    return false;
-	}
-  
+protected:
+  static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st);
+
 
 #if defined(Q_OS_WIN)
   void ASIORestartSlot();

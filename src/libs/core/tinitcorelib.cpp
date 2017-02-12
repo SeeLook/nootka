@@ -87,7 +87,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 #elif defined (Q_OS_MAC)
   QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system().uiLanguages().first() : Tcore::gl()->lang);
 #elif defined(Q_OS_WIN)
-  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
+  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system().uiLanguages().first() : Tcore::gl()->lang);
 #else // Linux - take language from LANG environment variable
   QLocale loc(Tcore::gl()->lang.isEmpty() ? qgetenv("LANG") : Tcore::gl()->lang);
 #endif

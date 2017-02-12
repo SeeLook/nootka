@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,12 +16,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "trtaudio.h"
 #include <taudioparams.h>
-#include <QStringList>
-#include <QDebug>
-#include <QFileInfo>
+#include <QtCore/qstringlist.h>
+#include <QtCore/qfileinfo.h>
+#include <QtCore/qdebug.h>
 
 
 /*static*/
@@ -42,7 +41,8 @@ TaudioObject*											TrtAudio::m_ao = 0;
 RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 bool 															TrtAudio::m_JACKorASIO = false;
 bool 															TrtAudio::forceUpdate = false;
-TrtAudio::EaudioState             TrtAudio::m_state = TrtAudio::e_iddle;
+bool 															TrtAudio::m_sendPlayingFinished = false;
+TrtAudio::EaudioState             TrtAudio::m_state = TrtAudio::e_idle;
 bool                              TrtAudio::m_areSplit = true;
 
 int                               m_preferredBF = 512;
@@ -353,6 +353,7 @@ bool TrtAudio::play() {
     }
   }
   m_state = e_playing;
+  m_sendPlayingFinished = true;
   rtDevice()->openStream(m_outParams, 0, RTAUDIO_SINT16, m_outSR, &m_bufferFrames, &playCallBack, 0, streamOptions);
 //   qDebug() << "[TrtAudio] stream is playing";
   return true;
@@ -455,7 +456,7 @@ void TrtAudio::closeStream() {
     stopStream();
     if (rtDevice() && rtDevice()->isStreamOpen()) {
       rtDevice()->closeStream();
-      m_state = e_iddle;
+      m_state = e_idle;
 //       qDebug("[TrtAudio] stream closed");
     }
   } catch (RtAudioError& e) {
@@ -594,9 +595,48 @@ void TrtAudio::restartASIO() {
 }
 #endif
 
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  if (m_cbOut) {
+    if (m_cbOut(outBuffer, nBufferFrames, status))
+      if (m_cbIn)
+        m_cbIn(inBuffer, nBufferFrames, status);
+  } else
+      if (m_cbIn)
+        m_cbIn(inBuffer, nBufferFrames, status);
+  return 0;
+}
 
 
+int TrtAudio::passInputCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  qint16 *in = (qint16*)inBuffer;
+  qint16 *out = (qint16*)outBuffer;
+  if (m_cbOut(outBuffer, nBufferFrames, status)) // none playing is performed
+      for (int i = 0; i < nBufferFrames; i++) { // then forward input
+          *out++ = *(in + i); // left channel
+          *out++ = *(in + i); // right channel
+      }
+  m_cbIn(inBuffer, nBufferFrames, status);
+  return 0;
+}
 
 
+int TrtAudio::playCallBack(void* outBuffer, void*, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  if (m_cbOut(outBuffer, nBufferFrames, status)) {
+    if (m_sendPlayingFinished) {
+      m_sendPlayingFinished = false;
+      ao()->emitPlayingFinished();
+    }
+  }
+  return 0;
+}
+
+
+int TrtAudio::listenCallBack(void*, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+  m_cbIn(inBuffer, nBufferFrames, status);
+  return 0;
+}
 
 
