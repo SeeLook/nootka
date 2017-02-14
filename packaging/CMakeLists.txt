@@ -165,6 +165,10 @@ message(STATUS "
 	")
 
 
+find_package(Qt5Core)
+get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
+get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
+
 if(WIN32)
 #   set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/nsis/Modules/")
 #   LIST(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/packaging/nsis/Modules")
@@ -172,20 +176,10 @@ if(WIN32)
     ${CMAKE_CURRENT_SOURCE_DIR}/nsis/definitions.nsh.in
     ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh
   )
-#   configure_file(
-#     ${CMAKE_CURRENT_SOURCE_DIR}/nsis/fileasoc.nsh
-#     ${CMAKE_BINARY_DIR}/nsis/fileasoc.nsh
-#   )
-#   configure_file(
-#     ${CMAKE_SOURCE_DIR}/picts/pack.ico
-#     ${CMAKE_BINARY_DIR}/nsis/pack.ico
-#   )
   
 	get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
 	get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY)
-	find_package(Qt5Core)
-	get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
-	get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
+
 	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
 
 	add_custom_target(deploy
@@ -239,9 +233,6 @@ ELSE(WIN32)
 ENDIF(WIN32)
 
 if (APPLE)
-  find_package(Qt5Core)
-  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
-  get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
   add_custom_target(deploy
     COMMAND echo "deploying..."
     COMMAND echo ${QT_BINARY_DIR}/../../bin
@@ -249,3 +240,15 @@ if (APPLE)
   )
 endif(APPLE)
 
+if (UNIX AND NOT APPLE)
+# appimage target
+# When older Linux system is used for build (i.e. Ubuntu Trusty 14.04)
+# and external PPA is used to take Qt version 5.6.2 - it uses own environment
+# during compilation (that Qt is installed into /opt):
+# $source /opt/qt56/bin/set-env.sh
+# To make this working, just call make appimage from another terminal
+# but not in the same one as the compilation process
+  add_custom_target(appimage
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/appimage/make-appimage.sh ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${QT_BINARY_DIR} ${Nootka_VERSION_FULL}
+  )
+endif()
