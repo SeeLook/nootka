@@ -9,6 +9,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
+find_package(Qt5Network REQUIRED)
 
 # Force using c++11 if not set already - now it is mandatory
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -73,8 +74,10 @@ endif(MINGW)
 
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
 target_link_libraries(nootka
-		NootkaMain
-		Qt5::Widgets
+    NootkaMain
+    Qt5::Widgets
+    Qt5::Network
+    Qt5::PrintSupport
 )
 
 
