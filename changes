@@ -1,6 +1,8 @@
 1.4.2
+     - added standalone AppImage for Linux
     BUGS FIXES
-     - store current version properly to avoid false update message
+     - don't stop pitch detection after playing a note
+     - avoid false update message
 
 1.4.1
     BUGS FIXES
