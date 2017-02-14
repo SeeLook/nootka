@@ -1,12 +1,11 @@
 #!/bin/sh
-appname=`basename $0 | sed s,\.sh$,,`
 
 dirname=`dirname $0`
 tmp="${dirname#?}"
 
 if [ "${dirname%$tmp}" != "/" ]; then
-dirname=$PWD/$dirname
+  dirname=$PWD/$dirname
 fi
-LD_LIBRARY_PATH=$dirname/lib/nootka
+LD_LIBRARY_PATH=$dirname/lib/nootka:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-$dirname/bin/$appname "$@" 
+$dirname/bin/nootka "$@" 
