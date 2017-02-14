@@ -68,18 +68,22 @@ void noteToKey(Tnote& n, TkeySignature k) {
 }
 
 
-// HACK: Workaround to force qtandroiddeploy include QtMultimedia, QtPrintSupport and QtAndroidExtras libs
-#if defined (Q_OS_ANDROID)
-  #include <QMediaPlayer>
-  #include <QtPrintSupport/QPrinter>
-  #include <QtAndroidExtras/QtAndroid>
-  #include <QtNetwork/qnetworkaccessmanager.h>
+// HACK: Workaround to force qt-OS-deploy tool include , QtPrintSupport and QtNetwork libs
+#include <QtPrintSupport/qprinter.h>
+#include <QtNetwork/qnetworkaccessmanager.h>
+void fakeLinuxLibsDemander() {
+  QPrinter printer;
+  QNetworkAccessManager nam;
+}
 
-    void fakeLibsDemander(QObject* parent) {
+
+#if defined (Q_OS_ANDROID) // QtMultimedia and QtAndroidExtras for Android
+  #include <QMediaPlayer>
+  #include <QtAndroidExtras/QtAndroid>
+
+    void fakeAndroidLibsDemander(QObject* parent) {
       QMediaPlayer dummyPlayer(parent);
       QtAndroid::androidActivity();
-      QPrinter printer;
-      QNetworkAccessManager nam;
     }
 
   static TtouchMessage *m_touchMessage;
