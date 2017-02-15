@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -86,14 +86,6 @@ Item {
           keySignature.onWidthChanged.connect(updateMeterPos)
       }
   }
-
-//   Repeater {
-//       model: 8
-//       NoteSegment {
-//         notePos: upperLine + 11// - index
-//         x: firstNoteX //+ index * width
-//       }
-//   }
 
   function updateMeterPos() {
     meter.x = keySignature.x + keySignature.width
