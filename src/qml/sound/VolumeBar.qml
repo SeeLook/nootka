@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -24,9 +24,9 @@ import QtGraphicalEffects 1.0
 Item {
   id: volBar
 
-  property real volume: 0.95
+  property real volume: 0.05
   property real minVol: 0.4
-  
+
   onWidthChanged: tc.resize(volBar.width - minText.width - noteText.width * 2)
 
   TtickColors { id: tc }
@@ -54,7 +54,7 @@ Item {
           var tickNr = vRep.model * index / 100
           tickNr <= volBar.volume * 100 ? tc.colorAt(tickNr) : disdPal.text
         }
-        width: (index * 9) < minVol * (volBar.width - minText.width - noteText.width * 1.5) ? pitchView.tickWidth / 1.5 : pitchView.tickWidth
+        width: (index * 9) < minVol * (volBar.width - minText.width - noteText.width * 1.5) ? pitchView.tickWidth / 2 : pitchView.tickWidth
         radius: pitchView.tickWidth / 2
         height: pitchView.tickWidth * 1.5 + ((volBar.height - pitchView.tickWidth * 4) / vRep.model) * index
         y: (parent.height - height) / 2
@@ -68,8 +68,8 @@ Item {
       x: volBar.width - width * 1.5
       anchors.verticalCenter: parent.verticalCenter
       font.family: "Nootka"
-      font.pixelSize: volBar.height * 0.8
-      text: "n"
+      font.pixelSize: volBar.height
+      text: "r"
       color: activPal.text
   }
 

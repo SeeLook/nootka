@@ -14,6 +14,10 @@ TRANSLATION CONTEXT CHANGES
   TpitchView -> PitchView
   TvolumeView -> VolumeBar
 
+
+============================================================================
+  Do we need Tmtr?? Make order with this!
+
 ============================================================================
 ANDROID:
     - quick icons:
