@@ -25,6 +25,8 @@
 #include "music/tkeysignature.h"
 #include "score/tscoreobject.h"
 #include "score/tstaffobject.h"
+#include "instruments/tguitarbg.h"
+
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdir.h>
@@ -53,6 +55,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TstaffObject>("Score", 1, 0, "TstaffObject");
 
   qmlRegisterType<TtickColors>("TtickColors", 1, 0, "TtickColors");
+
+  qmlRegisterType<TguitarBg>("Instruments", 1, 0, "GuitarBackground");
 }
 
 

@@ -37,6 +37,8 @@ set(LIB_NOOTKACORE_SRC
   score/tnoteobject.cpp
   score/tnotepair.cpp
 
+  instruments/tguitarbg.cpp
+
 #   exam/tqatype.cpp
 #   exam/tqaunit.cpp
 #   exam/tqagroup.cpp
