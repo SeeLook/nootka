@@ -71,7 +71,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj) :
   m_bg = qobject_cast<QQuickItem*>(comp.create());
   m_bg->setParentItem(this);
   QColor bgColor = qApp->palette().highlight().color();
-  bgColor.setAlpha(100);
+  bgColor.setAlpha(50);
   m_bg->setProperty("color", bgColor);
 
   comp.setData("import QtQuick 2.7; Rectangle {}", QUrl());
