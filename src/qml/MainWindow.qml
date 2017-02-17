@@ -83,8 +83,8 @@ ApplicationWindow {
         Layout.fillHeight: true
         Component.onCompleted: {
           for (var n = 1; n < 8; ++n) {
-            addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2)),
-                             1 + Math.random() * 4)
+            addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
+                             3 + Math.random() * 3))
           }
         }
       }
