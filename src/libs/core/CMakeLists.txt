@@ -33,7 +33,9 @@ set(LIB_NOOTKACORE_SRC
 
   score/tscoreobject.cpp
   score/tstaffobject.cpp
+  score/tmeasureobject.cpp
   score/tnoteobject.cpp
+  score/tnotepair.cpp
 
 #   exam/tqatype.cpp
 #   exam/tqaunit.cpp

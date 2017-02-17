@@ -25,6 +25,7 @@
 
 
 class TstaffObject;
+class TmeasureObject;
 class Tnote;
 
 
@@ -36,10 +37,13 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   Q_PROPERTY(qreal notePosY READ notePosY WRITE setNotePosY NOTIFY notePosYchanged)
 
 public:
-  explicit TnoteObject(TstaffObject* staffObj = nullptr, QQuickItem* parent = nullptr);
+  explicit TnoteObject(TstaffObject* staffObj = nullptr);
   ~TnoteObject();
 
   TstaffObject* staff() const { return m_staff; }
+
+  TmeasureObject* measure() { return m_measure; }
+  void setMeasure(TmeasureObject* m);
 
   Tnote* note() { return m_note; }
   void setNote(const Tnote& n);
@@ -47,16 +51,23 @@ public:
   qreal notePosY() const { return m_notePosY; }
   qreal setNotePosY(qreal y) { m_notePosY = y; emit notePosYchanged(); }
 
+      /**
+       * Note number in the staff
+       */
   int index() const { return m_index; }
   void setIndex(int id) { m_index = id; }
 
   qreal stemHeight() const { return m_stemHeight; }
-  void setStemHEight(qreal sh);
+  void setStemHeight(qreal sh);
 
   QColor color() { return m_head->property("color").value<QColor>(); }
   void setColor(const QColor& c);
 
   void setX(qreal xx);
+
+  qreal rightX();
+
+  qreal rhythmFactor();
 
 signals:
   void notePosYchanged();
@@ -69,11 +80,12 @@ protected:
 private:
 
   TstaffObject                *m_staff;
+  TmeasureObject              *m_measure;
   Tnote                       *m_note;
   int                          m_index;
   qreal                        m_notePosY;
   qreal                        m_x;
-  QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag;
+  QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag, *m_bg;
   QList<QQuickItem*>           m_upperLines, m_lowerLines;
   qreal                        m_stemHeight;
 

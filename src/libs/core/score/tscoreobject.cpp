@@ -18,6 +18,8 @@
 
 #include "tscoreobject.h"
 #include "tstaffobject.h"
+#include "tmeasureobject.h"
+#include "tnotepair.h"
 #include "music/tmeter.h"
 #include "music/tnote.h"
 #include <QtCore/qdebug.h>
@@ -30,6 +32,7 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_clefOffset(TclefOffset(3, 1))
 {
   m_meter = new Tmeter(Tmeter::Meter_4_4);
+  m_measures << new TmeasureObject(this);
 }
 
 
@@ -47,7 +50,11 @@ void TscoreObject::setParent(QObject* p) {
 
 
 void TscoreObject::addNote(const Tnote& n) {
-  m_staves.last()->addNote(n);
+  m_notes << n;
+  auto newSeg = new TnotePair(&m_notes.last());
+  m_segments << newSeg;
+  auto lastMeasure = m_measures.last();
+  lastMeasure->insertNote(lastMeasure->lastNoteId() - lastMeasure->firstNoteId(), newSeg);
 }
 
 
@@ -69,6 +76,9 @@ void TscoreObject::setKeySignatureEnabled(bool enKey) {
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
+
 void TscoreObject::addStaff(TstaffObject* st) {
   m_staves.append(st);
+  if (st->number() == 0) // initialize first measure staff
+    m_measures.first()->setStaff(st);
 }

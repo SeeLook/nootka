@@ -25,7 +25,7 @@ import Score 1.0
 Flickable {
   id: score
 
-  TscoreObject { id: scoreObj; /*parent: score*/ }
+  TscoreObject { id: scoreObj; }
 
   property int clef: Tclef.Treble_G_8down
   property int meter: Tmeter.Meter_4_4

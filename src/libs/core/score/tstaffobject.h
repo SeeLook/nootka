@@ -26,10 +26,15 @@
 
 class QQuickItem;
 class TscoreObject;
+class TmeasureObject;
 class TnoteObject;
+class TnotePair;
 class Tnote;
 
 
+/**
+ * 
+ */
 class NOOTKACORE_EXPORT  TstaffObject : public QObject
 {
 
@@ -39,6 +44,7 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
   Q_PROPERTY(qreal upperLine READ upperLine WRITE setUpperLine NOTIFY upperLineChanged)
   Q_PROPERTY(QQuickItem* staffItem READ staffItem WRITE setStaffItem)
   Q_PROPERTY(qreal notesIndent READ notesIndent WRITE setNotesIndent)
+  Q_PROPERTY(int firstMeasureNr READ firstMeasureNr NOTIFY firstMeasureNrChanged)
 
 public:
   explicit TstaffObject(QObject* parent = nullptr);
@@ -47,28 +53,57 @@ public:
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* s);
 
-  void addNote(const Tnote& n);
+  void addNote(TnotePair* np);
 
   void setNote(int noteNr, const Tnote& n);
 
+      /**
+       * Y coordinate of upper staff line
+       */
   qreal upperLine() { return m_upperLine; }
   void setUpperLine(qreal upLine);
 
   QQuickItem* staffItem() { return m_staffItem; }
   void setStaffItem(QQuickItem* si);
 
+      /**
+       * X coordinate of first note (or width of clef + key sign. + meter)
+       */
   qreal notesIndent() { return m_notesIndent; }
   void setNotesIndent(qreal ni) { m_notesIndent = ni; }
 
+  int firstMeasureNr();
+
+      /**
+       * Number of this staff. It is set by QML staff item
+       */
+  int number() const;
+
+  TmeasureObject* firstMeasure() { return m_measures.first(); }
+  TmeasureObject* lastMeasure() { return m_measures.last(); }
+
+      /**
+      * Multiplexer of rhythm gaps between notes.
+      * It changes to place all notes nicely over entire staff width
+      */
+  qreal gapFactor() { return m_gapFactor; }
+
 signals:
   void upperLineChanged();
+  void firstMeasureNrChanged();
+
+protected:
+  void fit();
+  void updateNotesPos(int startId);
 
 private:
   TscoreObject                  *m_score;
   qreal                          m_upperLine;
-  QList<TnoteObject*>            m_notes;
+  QList<TnotePair*>              m_notes;
+  QList<TmeasureObject*>         m_measures;
   QQuickItem                    *m_staffItem;
   qreal                          m_notesIndent;
+  qreal                          m_gapFactor;
 };
 
 #endif // TSTAFFOBJECT_H

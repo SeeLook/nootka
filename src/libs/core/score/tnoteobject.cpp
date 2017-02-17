@@ -20,10 +20,10 @@
 #include "tstaffobject.h"
 #include "tscoreobject.h"
 #include "music/tnote.h"
+
 #include <QtQml/qqmlengine.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
-
 #include <QtCore/qdebug.h>
 
 
@@ -38,14 +38,27 @@ static const QString accCharTable[6] = {
 };
 
 /**
- * Width of every accidental for Scorek font size set to 7.0
+ * Width of every accidental for Scorek font of pixel size set to 7.0
  * It was measured by QML and corresponds to QFont size @p QFont::setPointSizeF(5.5) (except of neutral)
  */
 static const qreal accWidthTable[6] = { 2.78125, 1.671875, 0.0, 1.765625, 2.03125, 2.34375 };
 
+/**
+ * Static array with space definitions for each rhythm value
+ */
+const qreal rtmGapArray[5][3] = {
+//  | bare | dot | triplet |
+    { 5.0,   6.0,   4.5}, // whole note
+    { 4.0,   5.0,   3.3}, // half note
+    { 2.0,   2.5,   1.3}, // quarter note
+    { 1.0,   1.5,   0.3}, // eighth note
+    { 0.15,  0.5,   0.0}  // sixteenth note
+};
 
-TnoteObject::TnoteObject(TstaffObject* staffObj, QQuickItem* parent) :
-  QQuickItem(parent),
+
+
+TnoteObject::TnoteObject(TstaffObject* staffObj) :
+  QQuickItem(staffObj->staffItem()),
   m_staff(staffObj),
   m_index(-1),
   m_stemHeight(6.0)
@@ -53,6 +66,13 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, QQuickItem* parent) :
   m_note = new Tnote();
   QQmlEngine engine;
   QQmlComponent comp(&engine, this);
+
+  comp.setData("import QtQuick 2.7; Rectangle { radius: 1 }", QUrl());
+  m_bg = qobject_cast<QQuickItem*>(comp.create());
+  m_bg->setParentItem(this);
+  QColor bgColor = qApp->palette().highlight().color();
+  bgColor.setAlpha(100);
+  m_bg->setProperty("color", bgColor);
 
   comp.setData("import QtQuick 2.7; Rectangle {}", QUrl());
   m_stem = qobject_cast<QQuickItem*>(comp.create());
@@ -71,9 +91,11 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, QQuickItem* parent) :
   comp.setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
   m_head = qobject_cast<QQuickItem*>(comp.create());
   m_head->setParentItem(this);
+  m_head->setProperty("id", QStringLiteral("head"));
 
   m_alter = qobject_cast<QQuickItem*>(comp.create());
   m_alter->setParentItem(m_head);
+  m_head->setProperty("id", QStringLiteral("alter"));
 
   m_flag = qobject_cast<QQuickItem*>(comp.create());
   m_flag->setParentItem(m_stem);
@@ -81,11 +103,17 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, QQuickItem* parent) :
 
 
   setColor(qApp->palette().text().color());
+  setHeight(staffObj->staffItem()->height());
 }
 
 
 TnoteObject::~TnoteObject() {
   delete m_note;
+}
+
+
+void TnoteObject::setMeasure(TmeasureObject* m) {
+  m_measure = m;
 }
 
 
@@ -166,13 +194,36 @@ void TnoteObject::setNote(const Tnote& n) {
   if (m_note->alter)
     m_alter->setX(-m_alter->width() - 0.1);
 
-  qDebug() << "[TnoteObject] set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY;
+  setWidth(m_alter->width() + m_head->width() + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
+
+  m_bg->setX(m_note->alter && m_alter->isVisible() ? -m_alter->width() - 0.4 : -0.4);
+  m_bg->setHeight(m_stem->height() + 4.0);
+  m_bg->setY(m_stem->y() - (m_note->rtm.stemDown() ? 3.25 : 1.25));
+  m_bg->setWidth(width());
+
+  qDebug() << "[TnoteObject] set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
 
 
 /** Overrides standard @p setX() method to shift note segment about accidental symbol width (if it is set) */
 void TnoteObject::setX(qreal xx) {
   QQuickItem::setX(xx + (m_note->alter ? m_alter->width() : 0.0));
+}
+
+
+/** shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor */
+qreal TnoteObject::rightX() {
+  return x() + width() + staff()->gapFactor() * rhythmFactor();
+}
+
+
+/** Returns gap factor after this note item depends on current rhythm value */
+qreal TnoteObject::rhythmFactor() {
+  if (m_note->rhythm() == Trhythm::NoRhythm)
+    return 0.0;
+
+  int add = m_note->hasDot() ? 1 : (m_note->isTriplet() ? 2 : 0);
+  return rtmGapArray[static_cast<int>(m_note->rhythm()) - 1][add];
 }
 
 
@@ -185,7 +236,8 @@ QString TnoteObject::getAccidText() {
 }
 
 
-/** Used glyphs are:
+/**
+ * Used glyphs are:
  * - note heads: @p 0xf4be @p 0xf4bd (half and black over-sized) and @p 0xf486 (whole smaller)
  * - rests: starts form 0xe4e3 (whole)
  */

@@ -16,80 +16,60 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSCOREOBJECT_H
-#define TSCOREOBJECT_H
+#ifndef TMEASUREOBJECT_H
+#define TMEASUREOBJECT_H
 
 
 #include "nootkacoreglobal.h"
 #include <QtCore/qobject.h>
 
 
-/**
- * Describes offset of a note.
- */
-class TclefOffset
-{
-public:
-  TclefOffset(qint8 noteOff = 0, qint8 octaveOff = 0) : note(noteOff), octave(octaveOff) {}
-
-  qint8 note;
-  qint8 octave;
-  int total() { return octave * 7 + note; }
-};
-
-
-
-class Tnote;
-class TnotePair;
+class TscoreObject;
 class TstaffObject;
-class TmeasureObject;
 class TnoteObject;
-class Tmeter;
-class Tnote;
+class TnotePair;
 
 
-
-class NOOTKACORE_EXPORT  TscoreObject : public QObject
+/**
+ * @class TmeasureObject is an implementation of the measure
+ */
+class NOOTKACORE_EXPORT TmeasureObject : public QObject
 {
-
   Q_OBJECT
 
-  Q_PROPERTY(QObject* parent READ parent WRITE setParent)
-
-  friend class TstaffObject;
-  friend class TmeasureObject;
-  friend class TnoteObject;
-
 public:
-  explicit TscoreObject(QObject* parent = nullptr);
-  ~TscoreObject();
 
-  void setParent(QObject* p);
+  explicit TmeasureObject(TscoreObject* parent = nullptr);
 
-  Q_INVOKABLE void addNote(const Tnote& n);
-  Q_INVOKABLE void setNote(int staffNr, int noteNr, const Tnote& n);
+  int number() const { return m_number; }
+  void setNumber(int nr);
 
-  bool keySignatureEnabled() const { return m_keySignEnabled; }
-  void setKeySignatureEnabled(bool enKey);
+  void insertNote(int id, TnotePair* np);
 
-  Tmeter* meter() const { return m_meter; }
+  TscoreObject* score() { return m_score; }
 
-  QList<Tnote>& notes();
+  TstaffObject* staff() { return m_staff; }
+  void setStaff(TstaffObject* st);
 
-protected:
-  void addStaff(TstaffObject* st);
+  TnotePair* first() { return m_notes.first(); }
+  TnotePair* last() { return m_notes.last(); }
 
-  TclefOffset clefOffset() const { return m_clefOffset; }
+      /**
+       * Staff index of the first measure note
+       */
+  int firstNoteId() const;
+
+      /**
+       * Staff index of the last measure note
+       */
+  int lastNoteId() const;
 
 private:
-  Tmeter                           *m_meter;
-  bool                              m_keySignEnabled;
-  TclefOffset                       m_clefOffset;
-  QList<TnotePair*>                 m_segments;
-  QList<TstaffObject*>              m_staves;
-  QList<TmeasureObject*>            m_measures;
-  QList<Tnote>                      m_notes;
+  TscoreObject                  *m_score;
+  TstaffObject                  *m_staff;
+  int                            m_number;
+  QList<TnotePair*>              m_notes;
 
 };
 
-#endif // TSCOREOBJECT_H
+#endif // TMEASUREOBJECT_H
