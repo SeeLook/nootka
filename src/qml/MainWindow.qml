@@ -18,7 +18,6 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 
 
@@ -54,7 +53,7 @@ ApplicationWindow {
       }
   }
 
-  ColumnLayout {
+  Column {
       anchors.fill: parent
 
       Row {
@@ -79,8 +78,8 @@ ApplicationWindow {
 
       Score {
         id: score
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+        width: parent.width
+        height: parent.height - header.height - instrument.height
         Component.onCompleted: {
           for (var n = 1; n < 8; ++n) {
             addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
@@ -89,8 +88,12 @@ ApplicationWindow {
         }
       }
 
-      // space for an instrument
-      Rectangle { height: nootkaWindow.height / 4; Layout.fillWidth: true; color: activPal.window; border { width: 1; color: activPal.text } }
+      Instrument {
+        id: instrument
+        height: nootkaWindow.height / 4
+        width: parent.width
+
+      }
   }
 
 //   Timer {
