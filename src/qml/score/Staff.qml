@@ -31,7 +31,7 @@ Item {
   property int number: -1
   property KeySignature keySignature: null
   property Meter meter: null
-  property real firstNoteX: clef.width + (keySignature ? keySignature.width : 0) + (meter ? meter.width : 0) + 1
+  property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
 
   height: linesCount
   width: score.width / scale
@@ -75,15 +75,6 @@ Item {
             keySignature.destroy()
           if (meter)
             meter.x = clef.x + clef.width
-      }
-  }
-
-  onNumberChanged: { // meter created only for first staff
-      if (number === 0) {
-        var c = Qt.createComponent("qrc:/Meter.qml")
-        meter = c.createObject(staff, { x: keySignature ? keySignature.x + keySignature.width : clef.x + clef.width, y: 7 })
-        if (keySignature)
-          keySignature.onWidthChanged.connect(updateMeterPos)
       }
   }
 

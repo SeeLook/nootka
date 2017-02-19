@@ -28,12 +28,13 @@ Flickable {
   TscoreObject { id: scoreObj; }
 
   property int clef: Tclef.Treble_G_8down
-  property int meter: Tmeter.Meter_4_4
+  property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
   property bool enableKeySign: false
   property bool showKeyName: true
 
   function keySignature() { return enableKeySign ? staff0.keySignature.key : 0 }
+
   function setKeySignature(key) {
     if (enableKeySign && key !== staff0.keySignature.key)
       staff0.keySignature.key = key
@@ -55,6 +56,7 @@ Flickable {
         id: staff0
         number: 0
         clef.type: score.clef
+        meter: Meter { parent: staff0 }
         clef.onTypeChanged: {
           // TODO: approve clef for all staves
         }

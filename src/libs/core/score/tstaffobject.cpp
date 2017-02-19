@@ -84,6 +84,15 @@ int TstaffObject::number() const {
   return m_staffItem ? m_staffItem->property("number").toInt() : 0;
 }
 
+
+void TstaffObject::setNotesIndent(qreal ni) {
+  if (m_notesIndent != ni) {
+    m_notesIndent = ni;
+    fit();
+  }
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
