@@ -46,9 +46,17 @@ public:
   Tmeter(Emeter meter = NoMeter) : m_meter(meter) {}
 
   Q_INVOKABLE Emeter meter() const { return m_meter; }
+  Q_INVOKABLE void setMeter(Emeter m) { m_meter = m; }
 
-  Q_INVOKABLE int upper() const; /**< Returns upper digit of time signature  */
-  Q_INVOKABLE int lower() const; /**< Returns lower digit of time signature  */
+      /**
+      * Returns upper digit of time signature
+      */
+  Q_INVOKABLE int upper() const;
+
+      /**
+      * Returns lower digit of time signature
+      */
+  Q_INVOKABLE int lower() const;
 
       /**
        * Returns text symbol of this time signature,
@@ -56,17 +64,20 @@ public:
        */
   Q_INVOKABLE QString symbol() const;
 
-    /**
-     * Returns numeric value representing duration of single measure,
-     * which is based on Trhythm calculation (RVALUE)
-     * 3/4 is 72, 4/4 is 96 (RVALUE), etc. 
-     */
+      /**
+      * Returns numeric value representing duration of single measure,
+      * which is based on Trhythm calculation (RVALUE)
+      * 3/4 is 72, 4/4 is 96 (RVALUE), etc. 
+      */
   Q_INVOKABLE quint16 duration() const;
 
   void toXml(QXmlStreamWriter& xml) const;
   bool fromXml(QXmlStreamReader& xml);
 
-  Q_INVOKABLE void debug(const QString& text = QString()); /**< Prints current meter to std out with given text */
+      /**
+      * Prints current meter to std out with given text
+      */
+  Q_INVOKABLE void debug(const QString& text = QString());
 
   bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
   bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }

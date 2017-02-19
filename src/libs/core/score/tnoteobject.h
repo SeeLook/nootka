@@ -63,10 +63,19 @@ public:
   QColor color() { return m_head->property("color").value<QColor>(); }
   void setColor(const QColor& c);
 
+      /**
+      * Overrides standard @p setX() method to shift note segment about accidental symbol width (if it is set)
+      */
   void setX(qreal xx);
 
+      /**
+      * shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor
+      */
   qreal rightX();
 
+      /**
+      * Returns gap factor after this note item depends on current rhythm value
+      */
   qreal rhythmFactor();
 
 signals:

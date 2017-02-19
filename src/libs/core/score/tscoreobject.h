@@ -55,6 +55,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_OBJECT
 
   Q_PROPERTY(QObject* parent READ parent WRITE setParent)
+  Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -73,8 +74,27 @@ public:
   void setKeySignatureEnabled(bool enKey);
 
   Tmeter* meter() const { return m_meter; }
+  void setMeter(int m);
+  int meterToInt();
+
+      /**
+      * Returns duration of given @param grNr group starting from measure beginning
+      * Describes grouping (beaming - beam connections) of notes in a single measure for current meter.
+      * This is a group of a few int values - each representing duration of the one group:
+      * - for 3/8 it is only single 36 value - whole measure under one beam
+      * - for 3/4 it is 24, 48, 72) - three groups
+      */
+  quint8 groupPos(int grNr) { return m_meterGroups[grNr]; }
+
+      /**
+      * Number of beaming groups for this meter
+      */
+  int groupCount() { return m_meterGroups.count(); }
 
   QList<Tnote>& notes();
+
+signals:
+  void meterChanged();
 
 protected:
   void addStaff(TstaffObject* st);
@@ -89,6 +109,7 @@ private:
   QList<TstaffObject*>              m_staves;
   QList<TmeasureObject*>            m_measures;
   QList<Tnote>                      m_notes;
+  QList<quint8>                     m_meterGroups;
 
 };
 
