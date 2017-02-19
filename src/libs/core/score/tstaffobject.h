@@ -70,7 +70,7 @@ public:
        * X coordinate of first note (or width of clef + key sign. + meter)
        */
   qreal notesIndent() { return m_notesIndent; }
-  void setNotesIndent(qreal ni) { m_notesIndent = ni; }
+  void setNotesIndent(qreal ni);
 
   int firstMeasureNr();
 
@@ -94,7 +94,7 @@ signals:
 
 protected:
   void fit();
-  void updateNotesPos(int startId);
+  void updateNotesPos(int startId = 0);
 
 private:
   TscoreObject                  *m_score;

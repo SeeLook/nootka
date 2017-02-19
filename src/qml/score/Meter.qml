@@ -23,12 +23,15 @@ import Score 1.0
 
 
 Text {
+  id: meter
+
   property bool readOnly: false
 
-  visible: staff.number === 0
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
-  text: staff.number === 0 ? Noo.meter(score.meter).symbol() : ""
+  text: Noo.meter(score.meter).symbol()
+  y: 7
+  x: parent.firstNoteX - width
 
   Drawer { // meter menu
       id: meterDrawer
@@ -57,6 +60,7 @@ Text {
             }
             onClicked: {
                 score.meter = buttText.meter
+                meter.text = buttText.text
                 meterDrawer.close()
             }
           }
