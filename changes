@@ -1,6 +1,13 @@
 1.5.0
      - porting visible part into QML
 
+1.4.2
+     - added standalone AppImage for Linux
+    BUGS FIXES
+     - don't stop pitch detection after playing a note
+     - avoid false update messages
+     - properly detect default language under Win 10
+
 1.4.1
     BUGS FIXES
      - Fixed issues with note range in custom created levels

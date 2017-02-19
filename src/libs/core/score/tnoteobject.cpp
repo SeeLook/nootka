@@ -205,19 +205,16 @@ void TnoteObject::setNote(const Tnote& n) {
 }
 
 
-/** Overrides standard @p setX() method to shift note segment about accidental symbol width (if it is set) */
 void TnoteObject::setX(qreal xx) {
   QQuickItem::setX(xx + (m_note->alter ? m_alter->width() : 0.0));
 }
 
 
-/** shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor */
 qreal TnoteObject::rightX() {
   return x() + width() + staff()->gapFactor() * rhythmFactor();
 }
 
 
-/** Returns gap factor after this note item depends on current rhythm value */
 qreal TnoteObject::rhythmFactor() {
   if (m_note->rhythm() == Trhythm::NoRhythm)
     return 0.0;
