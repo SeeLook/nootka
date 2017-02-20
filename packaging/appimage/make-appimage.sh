@@ -17,7 +17,7 @@
 # during compilation (that Qt is installed into /opt):                            #
 # $source /opt/qt56/bin/set-env.sh                                                #
 # To make this script working, just call make appimage from another terminal      #
-# but not in the same one as the compilation process                              #
+# but not in the same one as the configure process                                #
 ###################################################################################
 
 

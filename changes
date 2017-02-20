@@ -2,7 +2,8 @@
      - added standalone AppImage for Linux
     BUGS FIXES
      - don't stop pitch detection after playing a note
-     - avoid false update message
+     - avoid false update messages
+     - properly detect default language under Win 10
 
 1.4.1
     BUGS FIXES
