@@ -411,7 +411,8 @@ void TmainScore::setBGcolor(const QColor& bgColor) {
 
 void TmainScore::isExamExecuting(bool isIt) {
 	if (isIt) {
-      disconnect(this, &TmainScore::noteWasChanged, this, &TmainScore::whenNoteWasChanged);
+//      disconnect(this, &TmainScore::noteWasChanged, this, &TmainScore::whenNoteWasChanged);
+      disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
       disconnect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
       connect(this, &TmainScore::noteWasChanged, this, &TmainScore::expertNoteChanged);
 			setNoteNameEnabled(false);
@@ -427,8 +428,8 @@ void TmainScore::isExamExecuting(bool isIt) {
         staff()->noteSegment(2)->setColor(qApp->palette().text().color()); // when disabled - color is not black
       }
 	} else {
-// 			connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
-      connect(this, &TmainScore::noteWasChanged, this, &TmainScore::whenNoteWasChanged);
+      connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
+//      connect(this, &TmainScore::noteWasChanged, this, &TmainScore::whenNoteWasChanged);
       connect(m_nameMenu, &TnoteName::noteNameWasChanged, this, &TmainScore::menuChangedNote);
       disconnect(this, &TmainScore::noteWasChanged, this, &TmainScore::expertNoteChanged);
 // 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
