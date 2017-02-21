@@ -36,14 +36,14 @@ TstaffObject::TstaffObject(QObject* parent) :
 
 
 TstaffObject::~TstaffObject() { 
-  qDebug() << "[TstaffObject] is going delete";
+  qDebug() << debug() << "is going delete";
 }
 
 
 void TstaffObject::setScore(TscoreObject* s) {
   m_score = s;
   setParent(s);
-  qDebug() << "TstaffObject got a score parent" << s;
+  qDebug() << debug() << "got a score parent" << s;
   m_score->addStaff(this);
 }
 
@@ -55,9 +55,19 @@ void TstaffObject::addNote(TnotePair* np) {
 }
 
 
+void TstaffObject::appendNewNotes(int segmentId, int count) {
+  for (int n = segmentId; n < segmentId + count; ++n) {
+    auto np = m_score->noteSegment(n);
+    np->object()->setIndex(m_notes.count());
+    m_notes.append(np);
+  }
+  fit();
+}
+
+
 void TstaffObject::setNote(int noteNr, const Tnote& n) {
   if (noteNr < 0 || noteNr >= m_notes.count()) {
-    qDebug() << "[TstaffObject] There is no note with number" << noteNr;
+    qDebug() << debug() << "There is no note with number" << noteNr;
     return;
   }
 //   m_notes[noteNr]->setNote(n);
@@ -93,13 +103,20 @@ void TstaffObject::setNotesIndent(qreal ni) {
 }
 
 
+char TstaffObject::debug() {
+  QTextStream o(stdout);
+  o << "\033[01;34m[" << number() + 1 << " STAFF]\033[01;00m";
+  return 32; // fake
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
 void TstaffObject::fit() {
   if (m_notes.isEmpty()) {
-    qDebug() << "[TstaffObject] Empty staff - nothing to fit";
+    qDebug() << debug() << "Empty staff - nothing to fit";
     return;
   }
 
@@ -124,7 +141,7 @@ void TstaffObject::fit() {
 
 
 void TstaffObject::updateNotesPos(int startId) {
-  qDebug() << "updating notes positions from" << startId;
+  qDebug() << debug() << "updating notes positions from" << startId;
 
   if (startId == 0)
     m_notes[0]->object()->setX(m_notesIndent);

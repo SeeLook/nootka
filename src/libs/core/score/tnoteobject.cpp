@@ -24,6 +24,7 @@
 #include <QtQml/qqmlengine.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
+
 #include <QtCore/qdebug.h>
 
 
@@ -146,13 +147,17 @@ void TnoteObject::setColor(const QColor& c) {
  * - width
  */
 void TnoteObject::setNote(const Tnote& n) {
-  bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest();
+  bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest() || n.hasDot() != m_note->hasDot();
   bool updateStem = updateHead || (n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam);
 
   *m_note = n;
 
-  if (updateHead)
-    m_head->setProperty("text", getHeadText());
+  if (updateHead) {
+    QString headText = getHeadText();
+    if (m_note->hasDot())
+      headText.append(QStringLiteral("\ue1e7"));
+    m_head->setProperty("text", headText);
+  }
 
   if (m_note->isRest())
     m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
@@ -201,7 +206,7 @@ void TnoteObject::setNote(const Tnote& n) {
   m_bg->setY(m_stem->y() - (m_note->rtm.stemDown() ? 3.25 : 1.25));
   m_bg->setWidth(width());
 
-  qDebug() << "[TnoteObject] set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
+  qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
 
 
@@ -221,6 +226,13 @@ qreal TnoteObject::rhythmFactor() {
 
   int add = m_note->hasDot() ? 1 : (m_note->isTriplet() ? 2 : 0);
   return rtmGapArray[static_cast<int>(m_note->rhythm()) - 1][add];
+}
+
+
+char TnoteObject::debug() {
+  QTextStream o(stdout);
+  o << "   \033[01;29m[NOTE" << index() << "]\033[01;00m";
+  return 32; // fake
 }
 
 

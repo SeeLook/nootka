@@ -22,8 +22,9 @@
 #include "tnotepair.h"
 #include "music/tmeter.h"
 #include "music/tnote.h"
-#include <QtCore/qdebug.h>
 
+#include <QtCore/qdebug.h>
+#include "checktime.h"
 
 
 TscoreObject::TscoreObject(QObject* parent) :
@@ -33,7 +34,7 @@ TscoreObject::TscoreObject(QObject* parent) :
 {
   m_meter = new Tmeter(Tmeter::Meter_4_4);
   setMeter(4); // Tmeter::Meter_4_4
-  m_measures << new TmeasureObject(this);
+  m_measures << new TmeasureObject(0, this);
 }
 
 
@@ -50,12 +51,68 @@ void TscoreObject::setParent(QObject* p) {
 }
 
 
+/** @p static
+ * This method creates @p outList of notes that have pitch of @p n note
+ * but splits @p dur duration into possible rhythmic values.
+ */
+void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
+  // TODO: add ties
+  Trhythm rtm(dur); // try to obtain rhythm value
+  if (!rtm.isValid()) { // if it is not possible to express the duration in single rhythm - resolve it in multiple values
+      TrhythmList solvList;
+      Trhythm::resolve(dur, solvList);
+      for (int r = 0; r < solvList.count(); ++r)
+        outList << Tnote(n, Trhythm(solvList[r].rhythm(), n.isRest(), solvList[r].hasDot(), solvList[r].isTriplet()));
+  } else { // just single note in the list
+      rtm.setRest(n.isRest());
+      outList << Tnote(n, rtm);
+  }
+}
+
 void TscoreObject::addNote(const Tnote& n) {
-  m_notes << n;
-  auto newSeg = new TnotePair(&m_notes.last());
-  m_segments << newSeg;
+CHECKTIME (
+
   auto lastMeasure = m_measures.last();
-  lastMeasure->insertNote(lastMeasure->lastNoteId() - lastMeasure->firstNoteId(), newSeg);
+  if (lastMeasure->free() == 0) {
+    lastMeasure = new TmeasureObject(m_measures.count(), this);
+    lastMeasure->setStaff(lastStaff());
+    m_measures << lastMeasure;
+  }
+  int noteDur = n.duration();
+  if (noteDur > lastMeasure->free()) { // split note that is adding
+    int leftDuration = noteDur - lastMeasure->free();
+      QList<Tnote> notesToCurrent;
+      QList<Tnote> notesToNext;
+      int lastNoteId = m_segments.count();
+
+      solveList(n, lastMeasure->free(), notesToCurrent); // solve free duration in current measure
+      if (notesToCurrent.isEmpty())
+          qDebug() << "[TscoreObject] can't resolve duration of" << lastMeasure->free();
+      else {
+          appendNoteList(notesToCurrent);
+          lastMeasure->appendNewNotes(lastNoteId, notesToCurrent.count());
+      }
+
+      solveList(n, leftDuration, notesToNext); // solve remaining duration for the next measure
+      lastNoteId = m_segments.count(); // update id of the last note segment
+      if (notesToNext.isEmpty())
+          qDebug() << "[TscoreObject] can't resolve duration" << leftDuration;
+      else {
+          appendNoteList(notesToNext);
+          auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
+          newLastMeasure->setStaff(lastStaff());
+          m_measures << newLastMeasure;
+          newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count());
+      }
+  } else { // just add new note to the measure
+      m_notes << n;
+      int lastNoteId = m_segments.count();
+      auto newSeg = new TnotePair(&m_notes.last());
+      m_segments << newSeg;
+      lastMeasure->appendNewNotes(lastNoteId, 1);
+  }
+
+)
 }
 
 
@@ -120,3 +177,16 @@ void TscoreObject::addStaff(TstaffObject* st) {
   if (st->number() == 0) // initialize first measure staff
     m_measures.first()->setStaff(st);
 }
+
+
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+
+void TscoreObject::appendNoteList(QList<Tnote>& l) {
+  for (Tnote n : l) {
+    m_notes << n;
+    m_segments << new TnotePair(&m_notes.last());
+  }
+}
+

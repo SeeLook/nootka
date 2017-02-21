@@ -20,6 +20,9 @@
 #define TNOTEPAIR_H
 
 
+#include <QtCore/qobject.h>
+
+
 class Tnote;
 class TnoteObject;
 
@@ -37,9 +40,17 @@ public:
 
   void setNoteObject(TnoteObject* ob);
 
+    /**
+     * Number of rhythmical group in the measure, -1 (undefined) by default
+     */
+  qint8 rhythmGroup() { return m_group; }
+  void setRhythmGroup(qint8 g) { m_group = g; }
+  
+
 private:
   Tnote                   *m_note;
   TnoteObject             *m_noteObj;
+  qint8                    m_group = -1;
 };
 
 #endif // TNOTEPAIR_H
