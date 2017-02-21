@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -207,10 +207,8 @@ void Trhythm::resolve(int problemDur, TrhythmList& solvList) {
       do { // find when rhythms of two divided notes of duration are valid
           step++;
           solvList[0].setRhythm((chunksNr - step) * smallestDur);
-      //       r1.setRest(note.isRest());
           solvList[1].setRhythm(smallestDur * step);
-      //       r2.setRest(note.isRest());
-      } while (step < chunksNr - 1 && solvList[0].rhythm() != Trhythm::NoRhythm && solvList[1].rhythm() != Trhythm::NoRhythm);
+      } while (step < chunksNr - 1 && (!solvList[0].isValid() || !solvList[1].isValid()));
   }
 }
 

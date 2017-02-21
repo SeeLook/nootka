@@ -1,12 +1,12 @@
-888b      88                                    88                     
-8888b     88                             ,d     88                     
-88 `8b    88                             88     88                     
-88  `8b   88   ,adPPYba,    ,adPPYba,  MM88MMM  88   ,d8   ,adPPYYba,  
-88   `8b  88  a8"     "8a  a8"     "8a   88     88 ,a8"    ""     `Y8  
-88    `8b 88  8b       d8  8b       d8   88     8888[      ,adPPPPP88  
-88     `8888  "8a,   ,a8"  "8a,   ,a8"   88,    88`"Yba,   88,    ,88  
-88      `888   `"YbbdP"'    `"YbbdP"'    "Y888  88   `Y8a  `"8bbdP"Y8  
-                                                                       
+888b      88                                    88
+8888b     88                             ,d     88
+88 `8b    88                             88     88
+88  `8b   88   ,adPPYba,    ,adPPYba,  MM88MMM  88   ,d8   ,adPPYYba,
+88   `8b  88  a8"     "8a  a8"     "8a   88     88 ,a8"    ""     `Y8
+88    `8b 88  8b       d8  8b       d8   88     8888[      ,adPPPPP88
+88     `8888  "8a,   ,a8"  "8a,   ,a8"   88,    88`"Yba,   88,    ,88
+88      `888   `"YbbdP"'    `"YbbdP"'    "Y888  88   `Y8a  `"8bbdP"Y8
+
                                                          ... to play scores
 
 Nootka is an application to discover and learn classical score notation.
@@ -22,8 +22,9 @@ and helps with developing skills of playing and singing notes from a score.
                 I...   Requirements:                         #########################
 ######################################################################################
 - c++11 capable compiler (tested with gcc >=4.9 and clang)
-- Qt libraries (at least version 5.2)
-	In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network
+- cmake at least version 3.1.0 (http://cmake.org)
+- Qt libraries (at least version 5.7)
+	In particular: Qt5Core, Qt5Gui, Qt5PrintSupport, Qt5Network, Qt5Qml, Qt5QtQuick, Qt5QuickControls2
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
   both ogg and vorbis. Dll libraries are on mentioned site in vorbis-tools archive
   and headers are in libogg and libvorbis archives.
@@ -39,7 +40,7 @@ and helps with developing skills of playing and singing notes from a score.
                  II...    Building:                           ########################
 ######################################################################################
 In short:
-  cmake nootka_folder && make && make install
+  cmake nootka_sources && make && make install
 
 In details:
 1. Unpack Nootka tarball (archive)
@@ -111,7 +112,7 @@ In details:
 
 +++++++++++++++++++++++++++++ Qt Creator +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	Steps from 2 to 8 can be achieved also in Qt Creator - development IDE.
-	Just open CMakeLists.txt file placed in main Nootka archive folder and follow the instructions
+	Just open CMakeLists.txt file, placed in main Nootka archive folder and follow the instructions
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   !!!!!!!!!!!! GOOD LUCK !!!!!!!!!
@@ -124,16 +125,13 @@ you can easily generate rpm and deb package and Windows installer.
   cpack -G DEB
   (obviously dependencies for build debian packages are required)
   
-2. For rpm call
-  cpack -G RPM
-  
 3. To build Windows installer http://nsis.sourceforge.net is necessary.
 After installation there is nootka-utf8.nsi file. Launch it in nsis and the installer will be built.
   make deploy 
-has to be caled before!
-  
-  
-  
+has to be called before!
+
+
+
 ######################################################################################
 ####    How to prepare development environment under MacOs                          ##
 ######################################################################################
@@ -148,7 +146,7 @@ has to be caled before!
 3. Download and install QT libraries:
   go to 
     http://qt-project.org/downloads
-    and take Qt libraries version 5.2 or any above
+    and take Qt libraries version 5.7 or any above
     and install it.
 
 4. Now you can go to to Building section

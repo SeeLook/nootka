@@ -130,6 +130,9 @@ public:
       /** Rhythm value: i.e. sixteen is 16, quarter is 4, half is 2 and so on */
   quint8 weight() const { return rtm2weightArr[m_r]; }
 
+      /** Rhythm is valid when it is different than @p Trhythm::NoRhythm */
+  bool isValid() { return m_r != NoRhythm; }
+
       /** Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8.
        * Base value is defined in @p RVALUE macro */
   int duration() const {

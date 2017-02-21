@@ -69,7 +69,7 @@ public:
       * which is based on Trhythm calculation (RVALUE)
       * 3/4 is 72, 4/4 is 96 (RVALUE), etc. 
       */
-  Q_INVOKABLE quint16 duration() const;
+  Q_INVOKABLE int duration() const;
 
   void toXml(QXmlStreamWriter& xml) const;
   bool fromXml(QXmlStreamReader& xml);

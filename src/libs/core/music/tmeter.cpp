@@ -53,7 +53,7 @@ int Tmeter::lower() const {
 }
 
 
-quint16 Tmeter::duration() const {
+int Tmeter::duration() const {
   if (NoMeter)
     return 0;
   else
