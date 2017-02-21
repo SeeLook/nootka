@@ -24,6 +24,7 @@
 #include <QtCore/qobject.h>
 
 
+class QQuickItem;
 class TscoreObject;
 class TstaffObject;
 class TnoteObject;
@@ -39,10 +40,26 @@ class NOOTKACORE_EXPORT TmeasureObject : public QObject
 
 public:
 
-  explicit TmeasureObject(TscoreObject* parent = nullptr);
+  explicit TmeasureObject(int nr = -1, TscoreObject* parent = nullptr);
 
   int number() const { return m_number; }
   void setNumber(int nr);
+
+      /**
+       * Actual duration of all notes in the measure
+       */
+  int duration() const { return m_duration; }
+
+      /**
+       * Free 'rhythm space' remained in the measure
+       */
+  int free() const { return m_free; }
+
+      /**
+       * Adds list of @p count notes at the measure end starting from @p segmentId note number in the score
+       * Measure has to have already space for the whole list!
+       */
+  void appendNewNotes(int segmentId, int count);
 
   void insertNote(int id, TnotePair* np);
 
@@ -64,12 +81,28 @@ public:
        */
   int lastNoteId() const;
 
+      /**
+       * Prints debug message with [number MEASURE]
+       */
+  char debug();
+
+protected:
+      /**
+       * Sets appropriate @p setRhythmGroup of every note in the measure.
+       */
+  void updateRhythmicGroups();
+  void checkBarLine();
+
 private:
+  int                            m_number;
+  int                            m_duration;
+  int                            m_id;
   TscoreObject                  *m_score;
   TstaffObject                  *m_staff;
-  int                            m_number;
+  int                            m_free;
   QList<TnotePair*>              m_notes;
-
+  qint8                         *m_firstInGr; /**< qint8 is sufficient - measure never has more than 127 notes */
+  QQuickItem                    *m_barLine;
 };
 
 #endif // TMEASUREOBJECT_H

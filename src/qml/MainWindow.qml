@@ -81,12 +81,6 @@ ApplicationWindow {
         width: parent.width
         height: parent.height - header.height - instrument.height
         enableKeySign: true
-        Component.onCompleted: {
-          for (var n = 1; n < 8; ++n) {
-            addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
-                             3 + Math.random() * 3))
-          }
-        }
       }
 
       Instrument {
@@ -97,11 +91,20 @@ ApplicationWindow {
       }
   }
 
+//   Component.onCompleted: {
+//     for (var n = 1; n < 8; ++n) {
+//       score.addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
+//                        2 + Math.random() * 4))
+//     }
+//   }
+
 //   Timer {
-//       interval: 1000
+//       interval: 5000
 //       running: true
 //       repeat: true
 //       onTriggered: {
+//         score.addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
+//                                2 + Math.random() * 4))
 //         var noteNr = Math.random() * 7
 //         var rest = Math.floor((Math.random() * 100) % 2)
 //         var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
@@ -116,11 +119,13 @@ ApplicationWindow {
 //       }
 //   }
   function randNotes() {
-    var noteNr = Math.random() * 7
-    var rest = Math.floor((Math.random() * 100) % 2)
-    var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
-    var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)
-    score.setNote(0, noteNr, note)
+    score.addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
+                            2 + Math.random() * 4))
+//     var noteNr = Math.random() * 7
+//     var rest = Math.floor((Math.random() * 100) % 2)
+//     var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
+//     var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)
+//     score.setNote(0, noteNr, note)
   }
 
 }

@@ -53,7 +53,9 @@ bool initCoreLibrary() {
     Tcore::androidStyle = QStyleFactory::create(QStringLiteral("android"));
 #endif
 
+  Trhythm::initialize();
   Tcolor::setShadow(qApp->palette());
+
 #if defined(Q_OS_MAC)
   QDir dir(qApp->applicationDirPath());
   dir.cdUp();

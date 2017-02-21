@@ -29,6 +29,9 @@ class TmeasureObject;
 class Tnote;
 
 
+/**
+ * @class TnoteObject is @class QQuickItem derivative representing single note on the score
+ */
 class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
 {
 
@@ -64,19 +67,24 @@ public:
   void setColor(const QColor& c);
 
       /**
-      * Overrides standard @p setX() method to shift note segment about accidental symbol width (if it is set)
-      */
+       * Overrides standard @p setX() method to shift note segment about accidental symbol width (if it is set)
+       */
   void setX(qreal xx);
 
       /**
-      * shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor
-      */
+       * shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor
+       */
   qreal rightX();
 
       /**
-      * Returns gap factor after this note item depends on current rhythm value
-      */
+       * Returns gap factor after this note item depends on current rhythm value
+       */
   qreal rhythmFactor();
+
+      /**
+       * Prints to std out debug info about this note: [NOTE number] in color
+       */
+  char debug();
 
 signals:
   void notePosYchanged();

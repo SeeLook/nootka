@@ -77,6 +77,14 @@ public:
   void setMeter(int m);
   int meterToInt();
 
+  TnotePair* noteSegment(int id) { return m_segments[id]; }
+  TnotePair* firstSegment() { return m_segments.first(); }
+  TnotePair* lastSegment() { return m_segments.last(); }
+
+  TstaffObject* staff(int id) { return m_staves[id]; }
+  TstaffObject* firstStaff() { return m_staves.first(); }
+  TstaffObject* lastStaff() { return m_staves.last(); }
+
       /**
       * Returns duration of given @param grNr group starting from measure beginning
       * Describes grouping (beaming - beam connections) of notes in a single measure for current meter.
@@ -100,6 +108,13 @@ protected:
   void addStaff(TstaffObject* st);
 
   TclefOffset clefOffset() const { return m_clefOffset; }
+
+private:
+      /**
+       * Appends notes to @p m_notes list, creates corresponding @p TnotePair
+       * and adds them to @p m_segments list
+       */
+  void appendNoteList(QList<Tnote>& l);
 
 private:
   Tmeter                           *m_meter;

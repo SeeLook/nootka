@@ -55,6 +55,11 @@ public:
 
   void addNote(TnotePair* np);
 
+      /**
+       * Adds list of @p count notes at the staff end starting from @p segmentId note number in the score
+       */
+  void appendNewNotes(int segmentId, int count);
+
   void setNote(int noteNr, const Tnote& n);
 
       /**
@@ -83,10 +88,15 @@ public:
   TmeasureObject* lastMeasure() { return m_measures.last(); }
 
       /**
-      * Multiplexer of rhythm gaps between notes.
-      * It changes to place all notes nicely over entire staff width
-      */
+       * Multiplexer of rhythm gaps between notes.
+       * It changes to place all notes nicely over entire staff width
+       */
   qreal gapFactor() { return m_gapFactor; }
+
+      /**
+       * Prints to std out debug info about this staff: [nr STAFF] in color
+       */
+  char debug();
 
 signals:
   void upperLineChanged();
