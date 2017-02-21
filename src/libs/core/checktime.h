@@ -16,6 +16,6 @@
     QElapsedTimer CONCAT(sb_, __LINE__); \
     CONCAT(sb_, __LINE__).start(); \
     x \
-    qDebug() << __FUNCTION__ << ":" << __LINE__ << " Elapsed time: " <<  CONCAT(sb_, __LINE__).nsecsElapsed() / 1000 << " μs.";
+    qDebug() << __FILE__ << __FUNCTION__ << ":" << __LINE__ << " Elapsed time: " <<  CONCAT(sb_, __LINE__).nsecsElapsed() / 1000 << " μs.";
 
 
