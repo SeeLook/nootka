@@ -37,6 +37,10 @@ Item {
   width: Math.max(6, (Math.abs(key) + 1) * 1.8)
   height: 10
 
+  signal keySignatureChanged(var k)
+
+  onKeyChanged: keySignatureChanged(key)
+
 //   Rectangle { width: parent.width; height: 14; color: "#aaff0000"; y: 12 }
 
   function changeClef(c) {

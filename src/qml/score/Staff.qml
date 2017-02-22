@@ -34,8 +34,8 @@ Item {
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
 
   height: linesCount
-  width: score.width / scale
   scale: score.height / linesCount
+  width: score.width / scale
   transformOrigin: Item.TopLeft
 
   TstaffObject { id: staffObj; score: scoreObj; staffItem: staff; notesIndent: firstNoteX }

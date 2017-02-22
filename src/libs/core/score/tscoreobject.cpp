@@ -19,12 +19,15 @@
 #include "tscoreobject.h"
 #include "tstaffobject.h"
 #include "tmeasureobject.h"
+#include "tnoteobject.h"
 #include "tnotepair.h"
 #include "music/tmeter.h"
 #include "music/tnote.h"
 
 #include <QtCore/qdebug.h>
 #include "checktime.h"
+
+#define MIN_STAFF_FACTOR (1.2) // if TstaffObject::gapFactor is less than this value - new staff is necessary
 
 
 TscoreObject::TscoreObject(QObject* parent) :
@@ -73,9 +76,14 @@ void TscoreObject::addNote(const Tnote& n) {
 CHECKTIME (
 
   auto lastMeasure = m_measures.last();
-  if (lastMeasure->free() == 0) {
+  if (lastMeasure->free() == 0) { // new measure is needed
     lastMeasure = new TmeasureObject(m_measures.count(), this);
-    lastMeasure->setStaff(lastStaff());
+    auto lastSt = lastStaff();
+    if (lastSt->gapFactor() < MIN_STAFF_FACTOR) { // and new staff is needed as well
+      emit staffCreate();
+      lastSt = lastStaff();
+    }
+    lastStaff()->appendMeasure(lastMeasure);
     m_measures << lastMeasure;
   }
   int noteDur = n.duration();
@@ -100,14 +108,19 @@ CHECKTIME (
       else {
           appendNoteList(notesToNext);
           auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
-          newLastMeasure->setStaff(lastStaff());
+          auto lastSt = lastStaff();
+          if (lastSt->gapFactor() < 1.2) {
+            emit staffCreate();
+            lastSt = lastStaff();
+          }
+          lastSt->appendMeasure(newLastMeasure);
           m_measures << newLastMeasure;
           newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count());
       }
   } else { // just add new note to the measure
       m_notes << n;
       int lastNoteId = m_segments.count();
-      auto newSeg = new TnotePair(&m_notes.last());
+      auto newSeg = new TnotePair(lastNoteId, &m_notes.last());
       m_segments << newSeg;
       lastMeasure->appendNewNotes(lastNoteId, 1);
   }
@@ -121,7 +134,7 @@ void TscoreObject::setNote(int staffNr, int noteNr, const Tnote& n) {
     qDebug() << "[TscoreObject] There is no staff number" << staffNr;
     return;
   }
-  m_staves[staffNr]->setNote(noteNr, n);
+//   m_staves[staffNr]->setNote(noteNr, n);
 }
 
 
@@ -168,14 +181,31 @@ void TscoreObject::setMeter(int m) {
 int TscoreObject::meterToInt() { return static_cast<int>(m_meter->meter()); }
 
 
+qreal TscoreObject::stavesHeight() {
+  return m_staves.isEmpty() ? 0.0 : lastStaff()->staffItem()->y() + lastStaff()->staffItem()->height() * lastStaff()->scale();
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
 void TscoreObject::addStaff(TstaffObject* st) {
   m_staves.append(st);
-  if (st->number() == 0) // initialize first measure staff
-    m_measures.first()->setStaff(st);
+  if (m_staves.count() == 1) // initialize first measure of first staff
+    st->appendMeasure(m_measures.first());
+  connect(st, &TstaffObject::hiNotePosChanged, [=](int staffNr, qreal offset){
+    for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
+      m_staves[i]->staffItem()->setY(m_staves[i]->staffItem()->y() + offset);
+    emit stavesHeightChanged();
+  });
+  connect(st, &TstaffObject::loNotePosChanged, [=](int staffNr, qreal offset){
+    if (m_staves.size() > 1 && staffNr < m_staves.size() - 1) { // ignore change of the last staff
+      for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
+        m_staves[i]->staffItem()->setY(m_staves[i]->staffItem()->y() + offset);
+    }
+    emit stavesHeightChanged();
+  });
 }
 
 
@@ -186,7 +216,7 @@ void TscoreObject::addStaff(TstaffObject* st) {
 void TscoreObject::appendNoteList(QList<Tnote>& l) {
   for (Tnote n : l) {
     m_notes << n;
-    m_segments << new TnotePair(&m_notes.last());
+    m_segments << new TnotePair(m_segments.count(), &m_notes.last());
   }
 }
 

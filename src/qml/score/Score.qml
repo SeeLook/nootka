@@ -25,25 +25,43 @@ import Score 1.0
 Flickable {
   id: score
 
-  TscoreObject { id: scoreObj; }
+  TscoreObject {
+    id: scoreObj
+    onStaffCreate: {
+      var c = Qt.createComponent("qrc:/Staff.qml")
+      var prevStaffId = staves.length - 1
+      var lastStaff = c.createObject(score.contentItem, { "number": prevStaffId + 1, "clef.type": score.clef })
+      staves.push(lastStaff)
+      lastStaff.enableKeySignature(enableKeySign)
+      score.contentHeight = lastStaff.y + lastStaff.height * score.scale
+      score.contentY = score.contentHeight - score.height
+      lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
+    }
+  }
 
+  property alias scale: staff0.scale
   property int clef: Tclef.Treble_G_8down
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
   property bool enableKeySign: false
   property bool showKeyName: true
+  property var staves: []
 
   function keySignature() { return enableKeySign ? staff0.keySignature.key : 0 }
 
   function setKeySignature(key) {
-    if (enableKeySign && key !== staff0.keySignature.key)
-      staff0.keySignature.key = key
+    if (enableKeySign) {
+      for (var s = 0; s < staves.length; ++s)
+        if (key !== staves[s].keySignature.key)
+          staves[s].keySignature.key = key
+    }
   }
 
+  clip: true
   width: parent.width
 
   contentWidth: score.width
-  contentHeight: score.height
+  contentHeight: scoreObj.stavesHeight
 
   Rectangle {
     id: bgRect
@@ -51,28 +69,34 @@ Flickable {
     color: activPal.base
   }
 
-  Column {
-      Staff {
-        id: staff0
-        number: 0
-        clef.type: score.clef
-        meter: Meter { parent: staff0 }
-        clef.onTypeChanged: {
-          // TODO: approve clef for all staves
-        }
-        Text { // key name
-          visible: showKeyName && enableKeySign
-          x: 4.5
-          y: 5
-          color: activPal.text
-          font.pointSize: 1.5
-          text: staff0.keySignature ? Noo.majorKeyName(staff0.keySignature.key) + "<br>" + Noo.minorKeyName(staff0.keySignature.key) : ""
-        }
-      }
+  Staff {
+    id: staff0
+    number: 0
+    clef.type: score.clef
+    meter: Meter { parent: staff0 }
+    clef.onTypeChanged: {
+      // TODO: approve clef for all staves
+    }
+    Text { // key name
+      visible: showKeyName && enableKeySign
+      x: 4.5
+      y: 5
+      color: activPal.text
+      font.pointSize: 1.5
+      text: staff0.keySignature ? Noo.majorKeyName(staff0.keySignature.key) + "<br>" + Noo.minorKeyName(staff0.keySignature.key) : ""
+    }
+    Component.onCompleted: staves.push(staff0)
   }
 
   onEnableKeySignChanged: {
     staff0.enableKeySignature(enableKeySign)
+    if (enableKeySign)
+      staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
+    for (var s = 1; s < staves.length; ++s) {
+      staves[s].enableKeySignature(enableKeySign)
+      if (enableKeySign)
+        staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
+    }
   }
 
   function addNote(n) { scoreObj.addNote(n) }

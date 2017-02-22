@@ -21,9 +21,10 @@
 #include "tnoteobject.h"
 
 
-TnotePair::TnotePair(Tnote* n, TnoteObject* ob) :
+TnotePair::TnotePair(int index, Tnote* n, TnoteObject* ob) :
   m_note(n),
-  m_noteObj(ob)
+  m_noteObj(ob),
+  m_index(index)
 {
 
 }

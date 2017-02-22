@@ -38,6 +38,8 @@ class NOOTKACORE_EXPORT TmeasureObject : public QObject
 {
   Q_OBJECT
 
+  friend class TstaffObject;
+
 public:
 
   explicit TmeasureObject(int nr = -1, TscoreObject* parent = nullptr);
@@ -68,8 +70,11 @@ public:
   TstaffObject* staff() { return m_staff; }
   void setStaff(TstaffObject* st);
 
+  int noteCount() { return m_notes.count(); }
+  TnotePair* note(int nr) { return m_notes[nr]; }
   TnotePair* first() { return m_notes.first(); }
   TnotePair* last() { return m_notes.last(); }
+  bool isEmpty() { m_notes.isEmpty(); }
 
       /**
        * Staff index of the first measure note

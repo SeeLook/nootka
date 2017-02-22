@@ -68,12 +68,12 @@ TnoteObject::TnoteObject(TstaffObject* staffObj) :
   QQmlEngine engine;
   QQmlComponent comp(&engine, this);
 
-  comp.setData("import QtQuick 2.7; Rectangle { radius: 1 }", QUrl());
-  m_bg = qobject_cast<QQuickItem*>(comp.create());
-  m_bg->setParentItem(this);
-  QColor bgColor = qApp->palette().highlight().color();
-  bgColor.setAlpha(50);
-  m_bg->setProperty("color", bgColor);
+//   comp.setData("import QtQuick 2.7; Rectangle { radius: 1 }", QUrl());
+//   m_bg = qobject_cast<QQuickItem*>(comp.create());
+//   m_bg->setParentItem(this);
+//   QColor bgColor = qApp->palette().highlight().color();
+//   bgColor.setAlpha(50);
+//   m_bg->setProperty("color", bgColor);
 
   comp.setData("import QtQuick 2.7; Rectangle {}", QUrl());
   m_stem = qobject_cast<QQuickItem*>(comp.create());
@@ -201,10 +201,10 @@ void TnoteObject::setNote(const Tnote& n) {
 
   setWidth(m_alter->width() + m_head->width() + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
 
-  m_bg->setX(m_note->alter && m_alter->isVisible() ? -m_alter->width() - 0.4 : -0.4);
-  m_bg->setHeight(m_stem->height() + 4.0);
-  m_bg->setY(m_stem->y() - (m_note->rtm.stemDown() ? 3.25 : 1.25));
-  m_bg->setWidth(width());
+//   m_bg->setX(m_note->alter && m_alter->isVisible() ? -m_alter->width() - 0.4 : -0.4);
+//   m_bg->setHeight(m_stem->height() + 4.0);
+//   m_bg->setY(m_stem->y() - (m_note->rtm.stemDown() ? 3.25 : 1.25));
+//   m_bg->setWidth(width());
 
   qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
@@ -216,7 +216,7 @@ void TnoteObject::setX(qreal xx) {
 
 
 qreal TnoteObject::rightX() {
-  return x() + width() + staff()->gapFactor() * rhythmFactor();
+  return x() + width() + staff()->gapFactor() * rhythmFactor() - (m_note->alter ? m_alter->width() : 0.0);
 }
 
 
