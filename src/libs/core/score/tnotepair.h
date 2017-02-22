@@ -33,7 +33,7 @@ class TnoteObject;
 class TnotePair
 {
 public:
-  TnotePair(Tnote* n = nullptr, TnoteObject* ob = nullptr);
+  TnotePair(int index = -1, Tnote* n = nullptr, TnoteObject* ob = nullptr);
 
   Tnote* note() { return m_note; }
   TnoteObject* object() { return m_noteObj; }
@@ -45,12 +45,17 @@ public:
      */
   qint8 rhythmGroup() { return m_group; }
   void setRhythmGroup(qint8 g) { m_group = g; }
-  
+
+      /**
+       * Number of note in the score
+       */
+  quint32 index() { return m_index; }
 
 private:
   Tnote                   *m_note;
   TnoteObject             *m_noteObj;
   qint8                    m_group = -1;
+  quint16                  m_index;
 };
 
 #endif // TNOTEPAIR_H

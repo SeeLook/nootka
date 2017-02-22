@@ -38,7 +38,6 @@ public:
 };
 
 
-
 class Tnote;
 class TnotePair;
 class TstaffObject;
@@ -48,7 +47,9 @@ class Tmeter;
 class Tnote;
 
 
-
+/**
+ *
+ */
 class NOOTKACORE_EXPORT  TscoreObject : public QObject
 {
 
@@ -56,6 +57,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
 
   Q_PROPERTY(QObject* parent READ parent WRITE setParent)
   Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
+  Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -81,6 +83,17 @@ public:
   TnotePair* firstSegment() { return m_segments.first(); }
   TnotePair* lastSegment() { return m_segments.last(); }
 
+  int measuresCount() { return m_measures.count(); }
+  TmeasureObject* measure(int id) { return m_measures[id]; }
+  TmeasureObject* firstMeasure() { return m_measures.first(); }
+  TmeasureObject* lastMeasure() { return m_measures.last(); }
+
+      /**
+       * Total height of all staves
+       */
+  qreal stavesHeight();
+
+  int stavesCount() { return m_staves.count(); }
   TstaffObject* staff(int id) { return m_staves[id]; }
   TstaffObject* firstStaff() { return m_staves.first(); }
   TstaffObject* lastStaff() { return m_staves.last(); }
@@ -95,14 +108,16 @@ public:
   quint8 groupPos(int grNr) { return m_meterGroups[grNr]; }
 
       /**
-      * Number of beaming groups for this meter
-      */
+       * Number of beaming groups for this meter
+       */
   int groupCount() { return m_meterGroups.count(); }
 
   QList<Tnote>& notes();
 
 signals:
   void meterChanged();
+  void staffCreate();
+  void stavesHeightChanged();
 
 protected:
   void addStaff(TstaffObject* st);

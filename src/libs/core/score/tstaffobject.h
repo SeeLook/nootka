@@ -46,6 +46,8 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
   Q_PROPERTY(qreal notesIndent READ notesIndent WRITE setNotesIndent)
   Q_PROPERTY(int firstMeasureNr READ firstMeasureNr NOTIFY firstMeasureNrChanged)
 
+  friend class TscoreObject;
+
 public:
   explicit TstaffObject(QObject* parent = nullptr);
   ~TstaffObject();
@@ -53,14 +55,10 @@ public:
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* s);
 
-  void addNote(TnotePair* np);
-
       /**
-       * Adds list of @p count notes at the staff end starting from @p segmentId note number in the score
+       * Refreshes gap factor and note positions
        */
-  void appendNewNotes(int segmentId, int count);
-
-  void setNote(int noteNr, const Tnote& n);
+  void refresh();
 
       /**
        * Y coordinate of upper staff line
@@ -94,6 +92,26 @@ public:
   qreal gapFactor() { return m_gapFactor; }
 
       /**
+       * Y position of lowest note on the staff
+       */
+  qreal loNotePos() const { return m_loNotePos; }
+
+      /**
+       * Y position of highest note on the staff
+       */
+  qreal hiNotePos() const { return m_hiNotePos; }
+
+      /**
+       * Minimal height of the staff to display all its notes.
+       */
+  qreal minHeight() const { return m_loNotePos - (number() == 0 ? 0.0 : m_hiNotePos); }
+
+      /**
+       * Scaling factor of the staff
+       */
+  qreal scale();
+
+      /**
        * Prints to std out debug info about this staff: [nr STAFF] in color
        */
   char debug();
@@ -101,19 +119,33 @@ public:
 signals:
   void upperLineChanged();
   void firstMeasureNrChanged();
+  void loNotePosChanged(int staffNr, qreal offset);
+  void hiNotePosChanged(int staffNr, qreal offset);
 
 protected:
   void fit();
-  void updateNotesPos(int startId = 0);
+  void updateNotesPos(int startMeasure = 0);
+
+      /**
+       * Checks positions of all notes to find lowest and highest.
+       * @p doEmit determines whether this method sends appropriate signals
+       */
+  void checkNotesRange(bool doEmit = true);
+
+  void appendMeasure(TmeasureObject* m);
+
+private:
+  void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */
+  void findHighestNote(); /**< Checks all Y positions of staff notes to find highest one */
 
 private:
   TscoreObject                  *m_score;
   qreal                          m_upperLine;
-  QList<TnotePair*>              m_notes;
   QList<TmeasureObject*>         m_measures;
   QQuickItem                    *m_staffItem;
   qreal                          m_notesIndent;
   qreal                          m_gapFactor;
+  qreal                          m_loNotePos, m_hiNotePos;
 };
 
 #endif // TSTAFFOBJECT_H

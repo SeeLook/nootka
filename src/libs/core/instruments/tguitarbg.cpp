@@ -36,11 +36,7 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
 }
 
 
-#include <QtCore/qelapsedtimer.h>
-QElapsedTimer elti;
 void TguitarBg::paint(QPainter* painter) {
-  elti.restart();
-
 //   painter->setRenderHint(QPainter::Antialiasing, true);
 //   painter->setRenderHint(QPainter::TextAntialiasing, true);
 //   painter->fillRect(painter->viewport(), qApp->palette().window().color());
@@ -134,7 +130,6 @@ void TguitarBg::paint(QPainter* painter) {
     }
   }
 
-  qDebug() << "[TguitarBg] painting time" << elti.nsecsElapsed() / 1000 << "[μs]";
 }
 
 void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {

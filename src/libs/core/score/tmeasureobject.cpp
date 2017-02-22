@@ -68,9 +68,8 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
     noteObject->setNote(*np->note());
     np->setNoteObject(noteObject);
   }
-  m_staff->appendNewNotes(segmentId, count);
-  if (m_free == 0)
-    checkBarLine();
+  m_staff->refresh();
+  checkBarLine();
 }
 
 
@@ -79,13 +78,13 @@ void TmeasureObject::insertNote(int id, TnotePair* np) {
 
   m_notes.append(np);
   updateRhythmicGroups();
-  if (np->object() == nullptr) {
-    auto noteObject = new TnoteObject(m_staff);
-    noteObject->setMeasure(this);
-    noteObject->setNote(*np->note());
-    np->setNoteObject(noteObject);
-    m_staff->addNote(np);
-  }
+//   if (np->object() == nullptr) {
+//     auto noteObject = new TnoteObject(m_staff);
+//     noteObject->setMeasure(this);
+//     noteObject->setNote(*np->note());
+//     np->setNoteObject(noteObject);
+//     m_staff->addNote(np);
+//   }
 }
 
 
@@ -138,17 +137,17 @@ void TmeasureObject::updateRhythmicGroups() {
 
 
 void TmeasureObject::checkBarLine() {
-  if (!m_barLine) {
-    QQmlEngine engine;
-    QQmlComponent comp(&engine, this);
-    
-    comp.setData("import QtQuick 2.7; Rectangle { width: 0.3; height: 8 }", QUrl());
-    m_barLine = qobject_cast<QQuickItem*>(comp.create());
+  if (m_free == 0) {
+    auto lastNote = last()->object();
+    if (!m_barLine) {
+      QQmlEngine engine;
+      QQmlComponent comp(&engine, this);
+      comp.setData("import QtQuick 2.7; Rectangle { width: 0.3; height: 8 }", QUrl());
+      m_barLine = qobject_cast<QQuickItem*>(comp.create());
+      m_barLine->setParentItem(lastNote);
+      m_barLine->setProperty("color", lastNote->color());
+      m_barLine->setY(m_staff->upperLine());
+    }
+    m_barLine->setX(lastNote->rightX() - lastNote->x());
   }
-  auto lastNote = last()->object();
-  m_barLine->setParentItem(m_staff->staffItem());
-  m_barLine->setProperty("color", lastNote->color());
-  m_barLine->setX(lastNote->rightX() - 0.6);
-  m_barLine->setY(m_staff->upperLine());
-//   qDebug() << debug() << "check barline";
 }
