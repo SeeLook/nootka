@@ -31,7 +31,7 @@ Text {
   color: activPal.text
   text: Noo.meter(score.meter).symbol()
   y: 7
-  x: parent.firstNoteX - width
+  x: (parent.keySignature ? parent.keySignature.x + parent.keySignature.width : 0.5 + parent.clef.width) + 1.0
 
   Drawer { // meter menu
       id: meterDrawer
