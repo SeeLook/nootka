@@ -60,6 +60,15 @@ Item {
       }
   }
 
+  Text { // measure number
+      x: 1
+      y: staffObj.upperLine - (clef.type === Tclef.Treble_G || clef.type === Tclef.Treble_G_8down || clef.type === Tclef.Tenor_C ? 6 : 3)
+      text: staffObj.firstMeasureNr + 1
+      visible: number > 0 && staffObj.firstMeasureNr > 0
+      font.pixelSize: 2
+      color: activPal.text
+  }
+
   function enableKeySignature(en) { // key signature created on demand
       if (en) {
           if (!keySignature) {
