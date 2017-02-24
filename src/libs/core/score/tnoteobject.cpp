@@ -113,6 +113,14 @@ TnoteObject::~TnoteObject() {
 }
 
 
+void TnoteObject::setStaff(TstaffObject* staffObj) {
+  if (staffObj != m_staff) {
+    m_staff = staffObj;
+    setParentItem(m_staff->staffItem());
+  }
+}
+
+
 void TnoteObject::setMeasure(TmeasureObject* m) {
   m_measure = m;
 }

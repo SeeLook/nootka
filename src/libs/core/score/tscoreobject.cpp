@@ -27,7 +27,7 @@
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
-#define MIN_STAFF_FACTOR (1.2) // if TstaffObject::gapFactor is less than this value - new staff is necessary
+// #define MIN_STAFF_FACTOR (1.2) // if TstaffObject::gapFactor is less than this value - new staff is necessary
 
 
 TscoreObject::TscoreObject(QObject* parent) :
@@ -78,21 +78,15 @@ CHECKTIME (
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
     lastMeasure = new TmeasureObject(m_measures.count(), this);
-    auto lastSt = lastStaff();
-    if (lastSt->gapFactor() < MIN_STAFF_FACTOR) { // and new staff is needed as well
-      emit staffCreate();
-      lastSt = lastStaff();
-    }
-    lastStaff()->appendMeasure(lastMeasure);
     m_measures << lastMeasure;
+    lastStaff()->appendMeasure(lastMeasure);
   }
   int noteDur = n.duration();
   if (noteDur > lastMeasure->free()) { // split note that is adding
-    int leftDuration = noteDur - lastMeasure->free();
-      QList<Tnote> notesToCurrent;
-      QList<Tnote> notesToNext;
+      int leftDuration = noteDur - lastMeasure->free();
       int lastNoteId = m_segments.count();
 
+      QList<Tnote> notesToCurrent;
       solveList(n, lastMeasure->free(), notesToCurrent); // solve free duration in current measure
       if (notesToCurrent.isEmpty())
           qDebug() << "[TscoreObject] can't resolve duration of" << lastMeasure->free();
@@ -101,6 +95,7 @@ CHECKTIME (
           lastMeasure->appendNewNotes(lastNoteId, notesToCurrent.count());
       }
 
+      QList<Tnote> notesToNext;
       solveList(n, leftDuration, notesToNext); // solve remaining duration for the next measure
       lastNoteId = m_segments.count(); // update id of the last note segment
       if (notesToNext.isEmpty())
@@ -108,20 +103,14 @@ CHECKTIME (
       else {
           appendNoteList(notesToNext);
           auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
-          auto lastSt = lastStaff();
-          if (lastSt->gapFactor() < 1.2) {
-            emit staffCreate();
-            lastSt = lastStaff();
-          }
-          lastSt->appendMeasure(newLastMeasure);
           m_measures << newLastMeasure;
+          lastStaff()->appendMeasure(newLastMeasure);
           newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count());
       }
-  } else { // just add new note to the measure
+  } else { // just add new note to the last measure
       m_notes << n;
       int lastNoteId = m_segments.count();
-      auto newSeg = new TnotePair(lastNoteId, &m_notes.last());
-      m_segments << newSeg;
+      m_segments << new TnotePair(lastNoteId, &m_notes.last());
       lastMeasure->appendNewNotes(lastNoteId, 1);
   }
 
@@ -182,7 +171,10 @@ int TscoreObject::meterToInt() { return static_cast<int>(m_meter->meter()); }
 
 
 qreal TscoreObject::stavesHeight() {
-  return m_staves.isEmpty() ? 0.0 : lastStaff()->staffItem()->y() + lastStaff()->staffItem()->height() * lastStaff()->scale();
+  if (m_staves.isEmpty())
+    return 0.0;
+  auto last = lastStaff();
+  return last->staffItem()->y() + last->staffItem()->height() * last->scale();
 }
 
 
@@ -194,6 +186,7 @@ void TscoreObject::addStaff(TstaffObject* st) {
   m_staves.append(st);
   if (m_staves.count() == 1) // initialize first measure of first staff
     st->appendMeasure(m_measures.first());
+  // next staves position ca be set only when staffItem is set, see TstaffObject::setStaffItem() then
   connect(st, &TstaffObject::hiNotePosChanged, [=](int staffNr, qreal offset){
     for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
       m_staves[i]->staffItem()->setY(m_staves[i]->staffItem()->y() + offset);
@@ -208,6 +201,27 @@ void TscoreObject::addStaff(TstaffObject* st) {
   });
 }
 
+
+void TscoreObject::shiftMeasures(int firstId, int count) {
+  qDebug() << "[TscoreObject] shifting" << count << "measure(s) from" << firstId;
+  auto sourceStaff = m_measures[firstId]->staff();
+  TstaffObject* targetStaff = nullptr;
+  if (sourceStaff == lastStaff()) { // create new staff to shift measure(s) there
+      emit staffCreate();
+      targetStaff = lastStaff();
+  } else
+      targetStaff = m_staves[sourceStaff->number()];
+
+  for (int m = firstId; m < firstId + count; ++m) {
+    auto meas = m_measures[m];
+    for (int n = 0; n < meas->noteCount(); ++n)
+      meas->note(n)->object()->setStaff(targetStaff);
+
+    sourceStaff->takeMeasure(meas->number() - sourceStaff->firstMeasureNr());
+    targetStaff->appendMeasure(meas);
+  }
+  targetStaff->refresh();
+}
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

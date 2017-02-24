@@ -116,13 +116,28 @@ public:
 
 signals:
   void meterChanged();
+
+      /**
+       * Asks Score.qml about create new staff
+       */
   void staffCreate();
+  
+      /**
+       * Informs Score.qml that content widget height has to be adjusted to all staves height
+       */
   void stavesHeightChanged();
 
 protected:
   void addStaff(TstaffObject* st);
 
   TclefOffset clefOffset() const { return m_clefOffset; }
+
+      /**
+       * Shifts @p count measures starting from @p firstId among all score measures.
+       * It detects the staff the measure belongs to and finds the next one or creates a new staff if not exists.
+       * Also it manages ownership of initial (source) staff shifted notes and sets parent of every such note to target staff.
+       */
+  void shiftMeasures(int firstId, int count = 1);
 
 private:
       /**

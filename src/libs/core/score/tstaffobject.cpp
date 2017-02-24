@@ -31,20 +31,18 @@ TstaffObject::TstaffObject(QObject* parent) :
   m_score(nullptr),
   m_upperLine(16.0),
   m_staffItem(nullptr),
-  m_loNotePos(28.0), m_hiNotePos(12.0)
+  m_loNotePos(28.0), m_hiNotePos(8.0)
 {
 }
 
 
-TstaffObject::~TstaffObject() { 
-  qDebug() << debug() << "is going delete";
+TstaffObject::~TstaffObject() {
+  qDebug() << "[TstaffObject] is going delete";
 }
 
 
 void TstaffObject::setScore(TscoreObject* s) {
   m_score = s;
-  setParent(s);
-  qDebug() << debug() << this << "got a score parent" << s;
   m_score->addStaff(this);
 }
 
@@ -63,16 +61,15 @@ void TstaffObject::setUpperLine(qreal upLine) {
 
 void TstaffObject::setStaffItem(QQuickItem* si) {
   m_staffItem = si;
-  if (m_score->stavesCount() > 1) {
+  if (m_score->stavesCount() > 1) { // initial staff position, depends on lowest note in the previous staff
     auto prevStaff = m_score->staff(m_score->stavesCount() - 2);
-    m_staffItem->setY(prevStaff->staffItem()->y() + prevStaff->minHeight() * prevStaff->scale()); // scale of this staff is not set yet
+    m_staffItem->setY(prevStaff->staffItem()->y() + (prevStaff->loNotePos() - hiNotePos()) * prevStaff->scale()); // scale of this staff is not set yet
   }
-  qDebug() << debug() << "set staff item to" << m_staffItem;
 }
 
 
 int TstaffObject::firstMeasureNr() {
-  return m_measures.first()->number();
+  return m_measures.empty() ? 0 : m_measures.first()->number();
 }
 
 
@@ -111,28 +108,38 @@ void TstaffObject::fit() {
   }
 
   qreal factor = 2.5;
-  qreal m_gapsSum = 0.0;
-  qreal m_allNotesWidth = 0.0;
+  qreal gapsSum = 0.0;
+  m_allNotesWidth = 0.0;
 
   for (int m = 0; m < m_measures.size(); ++m) {
     auto measure = m_measures[m];
     for (int n = 0; n < measure->noteCount(); ++n) {
       auto note = measure->note(n)->object();
-      m_gapsSum += note->rhythmFactor();
+      gapsSum += note->rhythmFactor();
       m_allNotesWidth += note->width();
-      if (n > 1) {
-        factor = (m_staffItem->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;
-        //       if (factor < 1.0) { // shift current measure and the next ones
-        //         needShift = true;
-        //         break; // rest of the notes goes to the next staff
-        //       }
+      factor = (m_staffItem->width() - m_notesIndent - m_allNotesWidth - 1.0) / gapsSum;
+      if (factor < 0.8) { // shift current measure and the next ones
+        if (m == 0)
+            qDebug() << debug() << "!!!!!! Split this measure among staves !!!!!";
+        else {
+            for (int nn = n; nn >= 0; --nn) { // revert gapsSum and m_allNotesWidth to state at the end of the previous measure
+              auto revertNote = measure->note(nn)->object();
+              gapsSum -= revertNote->rhythmFactor();
+              m_allNotesWidth -= revertNote->width();
+            }
+            m_gapFactor = (m_staffItem->width() - m_notesIndent - m_allNotesWidth - 1.0) / gapsSum;  // allow factor bigger than 2.5
+            m_score->shiftMeasures(measure->number(), m_measures.count() - m);
+            updateNotesPos();
+            return;
+        }
+        break; // rest of the notes goes to the next staff
       }
     }
   }
 
   m_gapFactor = qBound(0.5, factor, 2.5); // notes in this staff are ready to positioning
   updateNotesPos();
-  qDebug() << debug() << "gap factor" << m_gapFactor << m_allNotesWidth << m_gapsSum;
+//   qDebug() << debug() << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() + 1;
 }
 
 
@@ -141,7 +148,8 @@ void TstaffObject::updateNotesPos(int startMeasure) {
   if (firstMeas->isEmpty())
     return;
 
-  qDebug() << debug() << "updating notes positions from" << startMeasure << "measure";
+  qDebug() << debug() << "updating notes positions from" << startMeasure << "measure" 
+            << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() + 1;
   TnoteObject* prevNote = nullptr;
   if (startMeasure == 0)
     firstMeas->first()->object()->setX(m_notesIndent);
@@ -178,7 +186,17 @@ void TstaffObject::checkNotesRange(bool doEmit) {
 void TstaffObject::appendMeasure(TmeasureObject* m) {
   m->setStaff(this);
   m_measures << m;
+  if (m_measures.count() == 1)
+    emit firstMeasureNrChanged();
 }
+
+
+void TstaffObject::takeMeasure(int id) {
+  m_measures.removeAt(id);
+  if (id == 0)
+    emit firstMeasureNrChanged();
+}
+
 
 
 //#################################################################################################

@@ -33,7 +33,7 @@ class Tnote;
 
 
 /**
- * 
+ * @class TstaffObject is C++ logic of Staff.qml
  */
 class NOOTKACORE_EXPORT  TstaffObject : public QObject
 {
@@ -107,6 +107,11 @@ public:
   qreal minHeight() const { return m_loNotePos - (number() == 0 ? 0.0 : m_hiNotePos); }
 
       /**
+       * Width of all notes on the staff
+       */
+  qreal allNotesWidth() { return m_allNotesWidth; }
+
+      /**
        * Scaling factor of the staff
        */
   qreal scale();
@@ -133,6 +138,7 @@ protected:
   void checkNotesRange(bool doEmit = true);
 
   void appendMeasure(TmeasureObject* m);
+  void takeMeasure(int id);
 
 private:
   void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */
@@ -146,6 +152,7 @@ private:
   qreal                          m_notesIndent;
   qreal                          m_gapFactor;
   qreal                          m_loNotePos, m_hiNotePos;
+  qreal                          m_allNotesWidth = 0.0;
 };
 
 #endif // TSTAFFOBJECT_H

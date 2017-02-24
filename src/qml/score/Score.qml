@@ -37,6 +37,7 @@ Flickable {
       score.contentY = score.contentHeight - score.height
       lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
     }
+    onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
   }
 
   property alias scale: staff0.scale
@@ -61,7 +62,7 @@ Flickable {
   width: parent.width
 
   contentWidth: score.width
-  contentHeight: scoreObj.stavesHeight
+//   contentHeight: Math.max(scoreObj.stavesHeight, score.height)
 
   Rectangle {
     id: bgRect
