@@ -44,6 +44,7 @@ public:
   ~TnoteObject();
 
   TstaffObject* staff() const { return m_staff; }
+  void setStaff(TstaffObject* staffObj);
 
   TmeasureObject* measure() { return m_measure; }
   void setMeasure(TmeasureObject* m);

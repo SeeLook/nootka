@@ -56,7 +56,7 @@ void TmeasureObject::setStaff(TstaffObject* st) {
 
 void TmeasureObject::appendNewNotes(int segmentId, int count) {
   // so far we are sure there is enough space for whole note list in this measure
-//   qDebug() << debug() << "append" << count << "note(s)";
+//   qDebug() << debug() << "append" << count << "note(s) from" << segmentId;
   for (int n = segmentId; n < segmentId + count; ++n)
     m_notes.append(m_score->noteSegment(n));
   updateRhythmicGroups();
