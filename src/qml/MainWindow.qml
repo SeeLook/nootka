@@ -119,8 +119,11 @@ ApplicationWindow {
 //       }
 //   }
   function randNotes() {
-    score.addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
-                            2 + Math.random() * 4))
+    var rest = (Math.random() * 100) % 6 > 4
+    var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
+    var note = rest ? 0 : 1 + Math.random() * 7
+    var octave = -2 + Math.random() * 5
+    score.addNote(Noo.note(note, octave, accid, 2 + Math.random() * 4, rest))
 //     var noteNr = Math.random() * 7
 //     var rest = Math.floor((Math.random() * 100) % 2)
 //     var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
