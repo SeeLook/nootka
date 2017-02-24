@@ -17,8 +17,10 @@
  ***************************************************************************/
 
 #include "tnoteobject.h"
-#include "tstaffobject.h"
 #include "tscoreobject.h"
+#include "tstaffobject.h"
+#include "tmeasureobject.h"
+#include "tnotepair.h"
 #include "music/tnote.h"
 
 #include <QtQml/qqmlengine.h>

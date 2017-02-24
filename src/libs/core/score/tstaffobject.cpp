@@ -101,6 +101,7 @@ char TstaffObject::debug() {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
+#define BARLINE_OFFSET (2.0)
 void TstaffObject::fit() {
   if (m_measures.isEmpty() || firstMeasure()->isEmpty()) {
     qDebug() << debug() << "Empty staff - nothing to fit";
@@ -113,6 +114,7 @@ void TstaffObject::fit() {
 
   for (int m = 0; m < m_measures.size(); ++m) {
     auto measure = m_measures[m];
+    m_allNotesWidth += m > 0 ? BARLINE_OFFSET : 0.0; // add bar line space
     for (int n = 0; n < measure->noteCount(); ++n) {
       auto note = measure->note(n)->object();
       gapsSum += note->rhythmFactor();
@@ -125,8 +127,10 @@ void TstaffObject::fit() {
             for (int nn = n; nn >= 0; --nn) { // revert gapsSum and m_allNotesWidth to state at the end of the previous measure
               auto revertNote = measure->note(nn)->object();
               gapsSum -= revertNote->rhythmFactor();
-              m_allNotesWidth -= revertNote->width();
+              m_allNotesWidth -= revertNote->width(); // take bar line space
             }
+            if (m > 0)
+              m_allNotesWidth -= BARLINE_OFFSET;
             m_gapFactor = (m_staffItem->width() - m_notesIndent - m_allNotesWidth - 1.0) / gapsSum;  // allow factor bigger than 2.5
             m_score->shiftMeasures(measure->number(), m_measures.count() - m);
             updateNotesPos();
@@ -139,7 +143,6 @@ void TstaffObject::fit() {
 
   m_gapFactor = qBound(0.5, factor, 2.5); // notes in this staff are ready to positioning
   updateNotesPos();
-//   qDebug() << debug() << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() + 1;
 }
 
 
@@ -149,7 +152,7 @@ void TstaffObject::updateNotesPos(int startMeasure) {
     return;
 
   qDebug() << debug() << "updating notes positions from" << startMeasure << "measure" 
-            << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() + 1;
+            << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() - firstMeasure()->first()->index() + 1;
   TnoteObject* prevNote = nullptr;
   if (startMeasure == 0)
     firstMeas->first()->object()->setX(m_notesIndent);
@@ -158,14 +161,15 @@ void TstaffObject::updateNotesPos(int startMeasure) {
 
   for (int m = startMeasure; m < m_measures.size(); ++m) {
     auto measure = m_measures[m];
+    qreal barOffset = m > 0 ? BARLINE_OFFSET : 0.0; // offset for first note after bar line
     for (int n = 0; n < measure->noteCount(); ++n) {
       auto note = measure->note(n)->object();
       if (prevNote)
-        note->setX(prevNote->rightX());
-      if (note == measure->last()->object())
-        measure->checkBarLine();
+        note->setX(prevNote->rightX() + barOffset);
       prevNote = note;
+      barOffset = 0.0;
     }
+    measure->checkBarLine();
   }
 }
 
