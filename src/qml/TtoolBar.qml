@@ -20,12 +20,13 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
-import QtQuick.Controls.Styles 1.4
 
 
 ToolBar {
   id: toolBar
   height: settAct.height
+
+  property alias scoreAct: scoreAct
 
   signal settings()
   signal about()
@@ -56,6 +57,12 @@ ToolBar {
 //       icon: Tpath.pix("charts")
 //       tip: qsTr("Analysis of exam results")
 //     }
+    HeadButton {
+      id: scoreAct
+      name: qsTr("Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well.")
+      icon: Tpath.pix("score")
+      tip: qsTr("Manage and navigate the score.")
+    }
     HeadButton {
       id: examAct
       name: qsTr("Lessons")
