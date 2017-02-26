@@ -24,20 +24,26 @@
 #include "music/tmeter.h"
 #include "music/tnote.h"
 
+#include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
-// #define MIN_STAFF_FACTOR (1.2) // if TstaffObject::gapFactor is less than this value - new staff is necessary
+
+#define WIDTH_CHANGE_DELAY (50) // when score width changes, give 50 ms before staves will be resized
 
 
 TscoreObject::TscoreObject(QObject* parent) :
   QObject(parent),
   m_keySignEnabled(false),
-  m_clefOffset(TclefOffset(3, 1))
+  m_clefOffset(TclefOffset(3, 1)),
+  m_width(0.0)
 {
   m_meter = new Tmeter(Tmeter::Meter_4_4);
   setMeter(4); // Tmeter::Meter_4_4
   m_measures << new TmeasureObject(0, this);
+  m_widthTimer = new QTimer(this);
+  m_widthTimer->setSingleShot(true);
+  connect(m_widthTimer, &QTimer::timeout, this, &TscoreObject::adjustScoreWidth);
 }
 
 
@@ -48,9 +54,20 @@ TscoreObject::~TscoreObject()
 }
 
 
+// TODO: Is it necessary at all?
 void TscoreObject::setParent(QObject* p) {
   QObject::setParent(p);
   qDebug() << "[TscoreObject] parent changed to" << p;
+}
+
+
+void TscoreObject::setWidth(qreal w) {
+  if (w != m_width) {
+    m_width = w;
+    if (m_widthTimer->isActive())
+      m_widthTimer->stop();
+    m_widthTimer->start(WIDTH_CHANGE_DELAY);
+  }
 }
 
 
@@ -73,7 +90,7 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
 }
 
 void TscoreObject::addNote(const Tnote& n) {
-CHECKTIME (
+// CHECKTIME (
 
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
@@ -114,7 +131,7 @@ CHECKTIME (
       lastMeasure->appendNewNotes(lastNoteId, 1);
   }
 
-)
+// )
 }
 
 
@@ -210,18 +227,67 @@ void TscoreObject::shiftMeasures(int firstId, int count) {
       emit staffCreate();
       targetStaff = lastStaff();
   } else
-      targetStaff = m_staves[sourceStaff->number()];
+      targetStaff = m_staves[sourceStaff->number() + 1];
 
   for (int m = firstId; m < firstId + count; ++m) {
     auto meas = m_measures[m];
     for (int n = 0; n < meas->noteCount(); ++n)
       meas->note(n)->object()->setStaff(targetStaff);
 
-    sourceStaff->takeMeasure(meas->number() - sourceStaff->firstMeasureNr());
-    targetStaff->appendMeasure(meas);
+    int measNr = meas->number();
+    sourceStaff->takeMeasure(measNr - sourceStaff->firstMeasureNr());
+    if (targetStaff->measuresCount())
+      targetStaff->insertMeasure(measNr - targetStaff->firstMeasureNr(), meas);
+    else
+      targetStaff->appendMeasure(meas);
   }
   targetStaff->refresh();
 }
+
+
+bool TscoreObject::checkStaffFreeSpace(TstaffObject* st, qreal availWidth) {
+  int sourceStaffNr = st->number();
+  if (sourceStaffNr < m_staves.count() - 1) { // is there next staff?
+    auto nextStaff = m_staves[sourceStaffNr + 1];
+    auto nextFirst = nextStaff->firstMeasure();
+    qreal estimateW = availWidth - nextFirst->allNotesWidth();
+    if (estimateW / (st->gapsSum() + nextFirst->gapsSum()) > 0.8) {
+      for (int n = 0; n < nextFirst->noteCount(); ++n)
+        nextFirst->note(n)->object()->setStaff(st);
+      nextStaff->takeMeasure(0);
+      st->appendMeasure(nextFirst);
+      if (nextStaff->measuresCount() == 0) { // staff became empty
+        if (nextStaff == lastStaff()) { // delete if if it was the last one
+            nextStaff->staffItem()->deleteLater();
+            m_staves.removeLast();
+            emit stavesHeightChanged();
+        } else { // or take measures from next-next staff
+            qDebug() << "[TscoreObject] filling empty measure";
+        }
+      }
+      return true;
+    }
+  }
+  return false;
+
+}
+
+
+void TscoreObject::adjustScoreWidth() {
+// CHECKTIME (
+  for (int s = 0; s < m_staves.count(); ++s) {
+    m_staves[s]->fit();
+    if (s > 0 && s < m_staves.count()) {
+      auto prev = m_staves[s - 1];
+      auto curr = m_staves[s];
+      auto sc = prev->scale();
+      curr->staffItem()->setY(prev->staffItem()->y() + (prev->loNotePos() - curr->hiNotePos() + 4.0) * sc); // TODO scordature!
+    }
+  }
+  emit stavesHeightChanged();
+// )
+}
+
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

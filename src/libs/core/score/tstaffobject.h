@@ -25,6 +25,7 @@
 
 
 class QQuickItem;
+class QTimer;
 class TscoreObject;
 class TmeasureObject;
 class TnoteObject;
@@ -82,8 +83,10 @@ public:
        */
   int number() const;
 
+  int measuresCount() { return m_measures.count(); }
   TmeasureObject* firstMeasure() { return m_measures.first(); }
   TmeasureObject* lastMeasure() { return m_measures.last(); }
+  TmeasureObject* measure(int id) { return m_measures[id]; }
 
       /**
        * Multiplexer of rhythm gaps between notes.
@@ -110,6 +113,8 @@ public:
        * Width of all notes on the staff
        */
   qreal allNotesWidth() { return m_allNotesWidth; }
+
+  qreal gapsSum() { return m_gapsSum; }
 
       /**
        * Scaling factor of the staff
@@ -138,6 +143,12 @@ protected:
   void checkNotesRange(bool doEmit = true);
 
   void appendMeasure(TmeasureObject* m);
+
+      /**
+       * Inserts given @p m measure at @p index position
+       * which is in current staff measures numerology
+       */
+  void insertMeasure(int index, TmeasureObject* m);
   void takeMeasure(int id);
 
 private:
@@ -153,6 +164,7 @@ private:
   qreal                          m_gapFactor;
   qreal                          m_loNotePos, m_hiNotePos;
   qreal                          m_allNotesWidth = 0.0;
+  qreal                          m_gapsSum = 0.0;
 };
 
 #endif // TSTAFFOBJECT_H

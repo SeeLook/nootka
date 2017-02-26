@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import QtQuick.Controls 2.0
 
 import Score 1.0
 
@@ -27,17 +26,21 @@ Flickable {
 
   TscoreObject {
     id: scoreObj
+    width: score.width / scale
     onStaffCreate: {
       var c = Qt.createComponent("qrc:/Staff.qml")
       var prevStaffId = staves.length - 1
       var lastStaff = c.createObject(score.contentItem, { "number": prevStaffId + 1, "clef.type": score.clef })
       staves.push(lastStaff)
       lastStaff.enableKeySignature(enableKeySign)
-      score.contentHeight = lastStaff.y + lastStaff.height * score.scale
       score.contentY = score.contentHeight - score.height
       lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
+      lastStaff.onDestroing.connect(removeLastStaff)
+      if (enableKeySign)
+        lastStaff.keySignature.key = keySignature()
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
+    function removeLastStaff() { staves.pop() } // remove last staff from staves[] list
   }
 
   property alias scale: staff0.scale

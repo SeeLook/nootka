@@ -66,6 +66,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj) :
   m_index(-1),
   m_stemHeight(6.0)
 {
+  setParent(m_staff->score()); // to avoid deleting with parent staff
   m_note = new Tnote();
   QQmlEngine engine;
   QQmlComponent comp(&engine, this);
@@ -94,11 +95,11 @@ TnoteObject::TnoteObject(TstaffObject* staffObj) :
   comp.setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
   m_head = qobject_cast<QQuickItem*>(comp.create());
   m_head->setParentItem(this);
-  m_head->setProperty("id", QStringLiteral("head"));
+//   m_head->setProperty("id", QStringLiteral("head"));
 
   m_alter = qobject_cast<QQuickItem*>(comp.create());
   m_alter->setParentItem(m_head);
-  m_head->setProperty("id", QStringLiteral("alter"));
+//   m_head->setProperty("id", QStringLiteral("alter"));
 
   m_flag = qobject_cast<QQuickItem*>(comp.create());
   m_flag->setParentItem(m_stem);
@@ -111,6 +112,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj) :
 
 
 TnoteObject::~TnoteObject() {
+//   qDebug() << debug() << "is going deleted";
   delete m_note;
 }
 
@@ -216,7 +218,7 @@ void TnoteObject::setNote(const Tnote& n) {
 //   m_bg->setY(m_stem->y() - (m_note->rtm.stemDown() ? 3.25 : 1.25));
 //   m_bg->setWidth(width());
 
-  qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
+//   qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
 
 
@@ -241,7 +243,7 @@ qreal TnoteObject::rhythmFactor() {
 
 char TnoteObject::debug() {
   QTextStream o(stdout);
-  o << "   \033[01;29m[NOTE" << index() << "]\033[01;00m";
+  o << "   \033[01;29m[NOTE " << index() << "]\033[01;00m";
   return 32; // fake
 }
 

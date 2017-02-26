@@ -87,6 +87,16 @@ public:
   int lastNoteId() const;
 
       /**
+       * Summarized width of all notes in this measure
+       */
+  qreal allNotesWidth() { return m_allNotesWidth; }
+
+      /**
+       * Sum of all rhythm spaces depending on rhythm values after every measure note
+       */
+  qreal gapsSum() { return m_gapsSum; }
+
+      /**
        * Prints debug message with [number MEASURE]
        */
   char debug();
@@ -98,6 +108,11 @@ protected:
   void updateRhythmicGroups();
   void checkBarLine();
 
+      /**
+       * Updates @p m_allNotesWidth @p m_allGaps according to current measure content
+       */
+  void refresh();
+
 private:
   int                            m_number;
   int                            m_duration;
@@ -108,6 +123,8 @@ private:
   QList<TnotePair*>              m_notes;
   qint8                         *m_firstInGr; /**< qint8 is sufficient - measure never has more than 127 notes */
   QQuickItem                    *m_barLine;
+  qreal                          m_allNotesWidth = 0.0;
+  qreal                          m_gapsSum = 0.0;
 };
 
 #endif // TMEASUREOBJECT_H

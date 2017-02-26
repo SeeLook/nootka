@@ -38,6 +38,7 @@ public:
 };
 
 
+class QTimer;
 class Tnote;
 class TnotePair;
 class TstaffObject;
@@ -58,6 +59,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(QObject* parent READ parent WRITE setParent)
   Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
+  Q_PROPERTY(qreal width READ width WRITE setWidth)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -68,6 +70,9 @@ public:
   ~TscoreObject();
 
   void setParent(QObject* p);
+
+  qreal width() { return m_width; }
+  void setWidth(qreal w);
 
   Q_INVOKABLE void addNote(const Tnote& n);
   Q_INVOKABLE void setNote(int staffNr, int noteNr, const Tnote& n);
@@ -139,6 +144,20 @@ protected:
        */
   void shiftMeasures(int firstId, int count = 1);
 
+      /**
+       * Checks for possibility to move first measure from the next staff to @p st staff
+       * if that measure can fit itself in @p availWidth space
+       */
+  bool checkStaffFreeSpace(TstaffObject* st, qreal availWidth);
+
+      /**
+       * Score width is handled by Score.qml, but it has to be known here.
+       * During window scaling width of score changes a few times before it is stabilized.
+       * To avoid scaling staves more times than one for width change,
+       * a timer guards the width change and call @p adjustScoreWidth() method only after delay
+       */
+  void adjustScoreWidth();
+
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair
@@ -150,11 +169,13 @@ private:
   Tmeter                           *m_meter;
   bool                              m_keySignEnabled;
   TclefOffset                       m_clefOffset;
+  qreal                             m_width;
   QList<TnotePair*>                 m_segments;
   QList<TstaffObject*>              m_staves;
   QList<TmeasureObject*>            m_measures;
   QList<Tnote>                      m_notes;
   QList<quint8>                     m_meterGroups;
+  QTimer                           *m_widthTimer;
 
 };
 
