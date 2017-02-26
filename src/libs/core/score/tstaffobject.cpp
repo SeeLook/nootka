@@ -24,6 +24,7 @@
 #include "music/tnote.h"
 
 #include <QtCore/qdebug.h>
+#include "checktime.h"
 
 
 TstaffObject::TstaffObject(QObject* parent) :
@@ -31,7 +32,7 @@ TstaffObject::TstaffObject(QObject* parent) :
   m_score(nullptr),
   m_upperLine(16.0),
   m_staffItem(nullptr),
-  m_loNotePos(28.0), m_hiNotePos(8.0)
+  m_loNotePos(28.0), m_hiNotePos(12.0)
 {
 }
 
@@ -63,7 +64,7 @@ void TstaffObject::setStaffItem(QQuickItem* si) {
   m_staffItem = si;
   if (m_score->stavesCount() > 1) { // initial staff position, depends on lowest note in the previous staff
     auto prevStaff = m_score->staff(m_score->stavesCount() - 2);
-    m_staffItem->setY(prevStaff->staffItem()->y() + (prevStaff->loNotePos() - hiNotePos()) * prevStaff->scale()); // scale of this staff is not set yet
+    m_staffItem->setY(prevStaff->staffItem()->y() + (prevStaff->loNotePos() - hiNotePos() + 4.0) * prevStaff->scale()); // TODO hasScordature
   }
 }
 
@@ -86,8 +87,7 @@ void TstaffObject::setNotesIndent(qreal ni) {
 }
 
 
-qreal TstaffObject::scale() { return staffItem()->property("scale").toReal(); }
-
+qreal TstaffObject::scale() { return m_staffItem ? staffItem()->property("scale").toReal() : 1.0; }
 
 
 char TstaffObject::debug() {
@@ -102,6 +102,7 @@ char TstaffObject::debug() {
 //#################################################################################################
 
 #define BARLINE_OFFSET (2.0)
+
 void TstaffObject::fit() {
   if (m_measures.isEmpty() || firstMeasure()->isEmpty()) {
     qDebug() << debug() << "Empty staff - nothing to fit";
@@ -109,35 +110,37 @@ void TstaffObject::fit() {
   }
 
   qreal factor = 2.5;
-  qreal gapsSum = 0.0;
+  m_gapsSum = 0.0;
   m_allNotesWidth = 0.0;
+  qreal availableWidth;
 
   for (int m = 0; m < m_measures.size(); ++m) {
     auto measure = m_measures[m];
-    m_allNotesWidth += m > 0 ? BARLINE_OFFSET : 0.0; // add bar line space
-    for (int n = 0; n < measure->noteCount(); ++n) {
-      auto note = measure->note(n)->object();
-      gapsSum += note->rhythmFactor();
-      m_allNotesWidth += note->width();
-      factor = (m_staffItem->width() - m_notesIndent - m_allNotesWidth - 1.0) / gapsSum;
-      if (factor < 0.8) { // shift current measure and the next ones
-        if (m == 0)
-            qDebug() << debug() << "!!!!!! Split this measure among staves !!!!!";
-        else {
-            for (int nn = n; nn >= 0; --nn) { // revert gapsSum and m_allNotesWidth to state at the end of the previous measure
-              auto revertNote = measure->note(nn)->object();
-              gapsSum -= revertNote->rhythmFactor();
-              m_allNotesWidth -= revertNote->width(); // take bar line space
-            }
-            if (m > 0)
-              m_allNotesWidth -= BARLINE_OFFSET;
-            m_gapFactor = (m_staffItem->width() - m_notesIndent - m_allNotesWidth - 1.0) / gapsSum;  // allow factor bigger than 2.5
-            m_score->shiftMeasures(measure->number(), m_measures.count() - m);
-            updateNotesPos();
-            return;
-        }
-        break; // rest of the notes goes to the next staff
+    m_allNotesWidth += measure->allNotesWidth() + (m > 0 ? BARLINE_OFFSET : 0.0); // add bar line space
+    m_gapsSum += measure->gapsSum();
+    availableWidth = m_score->width() - m_notesIndent - m_allNotesWidth - 1.0;
+    factor = availableWidth / m_gapsSum;
+    if (factor < 0.8) { // shift current measure and the next ones
+      if (m == 0) {
+          qDebug() << debug() << "!!!!!! Split this measure among staves !!!!!";
+          break;
+      } else {
+          m_gapsSum -= measure->gapsSum();
+          m_allNotesWidth -= measure->allNotesWidth();
+          if (m > 0)
+            m_allNotesWidth -= BARLINE_OFFSET;
+          m_gapFactor = (m_score->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;  // allow factor bigger than 2.5
+          m_score->shiftMeasures(measure->number(), m_measures.count() - m);
+          updateNotesPos();
+          return;
       }
+    }
+  }
+
+  if (factor > 1.5 && this != m_score->lastStaff()) {
+    if (m_score->checkStaffFreeSpace(this, availableWidth)) {
+      fit(); // staff got a new measure, calculate it again
+      return;
     }
   }
 
@@ -151,7 +154,7 @@ void TstaffObject::updateNotesPos(int startMeasure) {
   if (firstMeas->isEmpty())
     return;
 
-  qDebug() << debug() << "updating notes positions from" << startMeasure << "measure" 
+  qDebug() << debug() << "updating notes positions from" << startMeasure << "measure"
             << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() - firstMeasure()->first()->index() + 1;
   TnoteObject* prevNote = nullptr;
   if (startMeasure == 0)
@@ -188,20 +191,26 @@ void TstaffObject::checkNotesRange(bool doEmit) {
 
 
 void TstaffObject::appendMeasure(TmeasureObject* m) {
+  insertMeasure(measuresCount(), m);
+}
+
+
+void TstaffObject::insertMeasure(int index, TmeasureObject* m) {
+  qDebug() << debug() << "Inserting measure nr" << m->number() << "at" << index;
   m->setStaff(this);
-  m_measures << m;
+  m_measures.insert(index, m);
   if (m_measures.count() == 1)
     emit firstMeasureNrChanged();
 }
 
 
+
 void TstaffObject::takeMeasure(int id) {
+  qDebug() << debug() << "removing measure" << id << "among" << measuresCount();
   m_measures.removeAt(id);
-  if (id == 0)
+  if (id == 0 && measuresCount())
     emit firstMeasureNrChanged();
 }
-
-
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

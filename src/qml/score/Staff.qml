@@ -33,6 +33,8 @@ Item {
   property Meter meter: null
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
 
+  signal destroing()
+
   height: linesCount
   scale: score.height / linesCount
   width: score.width / scale
@@ -90,4 +92,5 @@ Item {
   function updateMeterPos() {
     meter.x = keySignature.x + keySignature.width
   }
+  Component.onDestruction: destroing()
 }

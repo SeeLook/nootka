@@ -64,10 +64,12 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   for (int n = segmentId; n < segmentId + count; ++n) {
     auto np = m_score->noteSegment(n);
     auto noteObject = new TnoteObject(m_staff);
+    noteObject->setIndex(np->index());
     noteObject->setMeasure(this);
     noteObject->setNote(*np->note());
     np->setNoteObject(noteObject);
   }
+  refresh();
   m_staff->refresh();
   checkBarLine();
 }
@@ -148,6 +150,18 @@ void TmeasureObject::checkBarLine() {
       m_barLine->setProperty("color", lastNote->color());
       m_barLine->setY(m_staff->upperLine());
     }
-    m_barLine->setX(lastNote->rightX() - lastNote->x());
+    qreal xOff = lastNote == m_staff->lastMeasure()->last()->object() ? 0.2 : 0.0; // fit line at the staff end
+    m_barLine->setX(lastNote->rightX() - lastNote->x() + xOff);
+  }
+}
+
+
+void TmeasureObject::refresh() {
+  m_gapsSum = 0.0;
+  m_allNotesWidth = 0.0;
+  for (int n = 0; n < m_notes.size(); ++n) {
+    auto noteObj = note(n)->object();
+    m_gapsSum += noteObj->rhythmFactor();
+    m_allNotesWidth += noteObj->width();
   }
 }
