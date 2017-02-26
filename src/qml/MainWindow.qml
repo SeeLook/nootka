@@ -51,6 +51,7 @@ ApplicationWindow {
       onExam: {
         randNotes()
       }
+      scoreAct.onClicked: score.scoreMenu.open()
   }
 
   Column {
@@ -76,11 +77,9 @@ ApplicationWindow {
         }
       }
 
-      Score {
+      MainScore {
         id: score
-        width: parent.width
-        height: parent.height - header.height - instrument.height
-        enableKeySign: true
+        scoreMenu.x: header.scoreAct.x
       }
 
       Instrument {
