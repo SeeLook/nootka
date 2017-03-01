@@ -46,12 +46,16 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
   Q_PROPERTY(QQuickItem* staffItem READ staffItem WRITE setStaffItem)
   Q_PROPERTY(qreal notesIndent READ notesIndent WRITE setNotesIndent)
   Q_PROPERTY(int firstMeasureNr READ firstMeasureNr NOTIFY firstMeasureNrChanged)
+  Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
 
   friend class TscoreObject;
 
 public:
   explicit TstaffObject(QObject* parent = nullptr);
   ~TstaffObject();
+
+  int number() const { return m_number; }
+  void setNumber(int nr) { m_number = nr; emit numberChanged(); }
 
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* s);
@@ -78,15 +82,10 @@ public:
 
   int firstMeasureNr();
 
-      /**
-       * Number of this staff. It is set by QML staff item
-       */
-  int number() const;
-
-  int measuresCount() { return m_measures.count(); }
-  TmeasureObject* firstMeasure() { return m_measures.first(); }
-  TmeasureObject* lastMeasure() { return m_measures.last(); }
-  TmeasureObject* measure(int id) { return m_measures[id]; }
+  int measuresCount() { return m_lastMeasureId - m_firstMeasureId + 1; }
+  TmeasureObject* firstMeasure();
+  TmeasureObject* lastMeasure();
+//   TmeasureObject* measure(int id) { return m_measures[id]; }
 
       /**
        * Multiplexer of rhythm gaps between notes.
@@ -129,12 +128,18 @@ public:
 signals:
   void upperLineChanged();
   void firstMeasureNrChanged();
+  void numberChanged();
   void loNotePosChanged(int staffNr, qreal offset);
   void hiNotePosChanged(int staffNr, qreal offset);
 
 protected:
   void fit();
   void updateNotesPos(int startMeasure = 0);
+
+  int firstMeasureId() { return m_firstMeasureId; }
+  void setFirstMeasureId(int firstId) { m_firstMeasureId = firstId; emit firstMeasureNrChanged(); }
+  int lastMeasureId() { return m_lastMeasureId; }
+  void setLastMeasureId(int lastId) { m_lastMeasureId = lastId; }
 
       /**
        * Checks positions of all notes to find lowest and highest.
@@ -149,7 +154,6 @@ protected:
        * which is in current staff measures numerology
        */
   void insertMeasure(int index, TmeasureObject* m);
-  void takeMeasure(int id);
 
 private:
   void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */
@@ -158,11 +162,12 @@ private:
 private:
   TscoreObject                  *m_score;
   qreal                          m_upperLine;
-  QList<TmeasureObject*>         m_measures;
   QQuickItem                    *m_staffItem;
   qreal                          m_notesIndent;
   qreal                          m_gapFactor;
   qreal                          m_loNotePos, m_hiNotePos;
+  int                            m_number;
+  int                            m_firstMeasureId, m_lastMeasureId;
   qreal                          m_allNotesWidth = 0.0;
   qreal                          m_gapsSum = 0.0;
 };

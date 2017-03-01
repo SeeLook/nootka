@@ -42,6 +42,12 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
 }
 
 
+TmeasureObject::~TmeasureObject()
+{
+  qDebug() << debug() << "is going delete";
+}
+
+
 void TmeasureObject::setNumber(int nr) {
   m_number = nr;
 }
@@ -50,6 +56,8 @@ void TmeasureObject::setNumber(int nr) {
 void TmeasureObject::setStaff(TstaffObject* st) {
   if (m_staff != st) {
     m_staff = st;
+    for (TnotePair* np : m_notes)
+      np->object()->setStaff(m_staff);
   }
 }
 

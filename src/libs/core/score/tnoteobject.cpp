@@ -95,11 +95,9 @@ TnoteObject::TnoteObject(TstaffObject* staffObj) :
   comp.setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
   m_head = qobject_cast<QQuickItem*>(comp.create());
   m_head->setParentItem(this);
-//   m_head->setProperty("id", QStringLiteral("head"));
 
   m_alter = qobject_cast<QQuickItem*>(comp.create());
   m_alter->setParentItem(m_head);
-//   m_head->setProperty("id", QStringLiteral("alter"));
 
   m_flag = qobject_cast<QQuickItem*>(comp.create());
   m_flag->setParentItem(m_stem);
@@ -121,7 +119,8 @@ void TnoteObject::setStaff(TstaffObject* staffObj) {
   if (staffObj != m_staff) {
     m_staff = staffObj;
     setParentItem(m_staff->staffItem());
-  }
+  } else
+    qDebug() << debug() << "has staff set already";
 }
 
 

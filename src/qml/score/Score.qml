@@ -29,18 +29,17 @@ Flickable {
     width: score.width / scale
     onStaffCreate: {
       var c = Qt.createComponent("qrc:/Staff.qml")
-      var prevStaffId = staves.length - 1
-      var lastStaff = c.createObject(score.contentItem, { "number": prevStaffId + 1, "clef.type": score.clef })
+      var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
       staves.push(lastStaff)
       lastStaff.enableKeySignature(enableKeySign)
-      score.contentY = score.contentHeight - score.height
+//       score.contentY = score.contentHeight - score.height
       lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
-      lastStaff.onDestroing.connect(removeLastStaff)
+      lastStaff.onDestroing.connect(removeStaff)
       if (enableKeySign)
         lastStaff.keySignature.key = keySignature()
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
-    function removeLastStaff() { staves.pop() } // remove last staff from staves[] list
+    function removeStaff(nr) { staves.splice(nr, 1) }
   }
 
   property alias scale: staff0.scale
@@ -50,6 +49,7 @@ Flickable {
   property bool enableKeySign: false
   property bool showKeyName: true
   property var staves: []
+  property real scaleFactor: 1.0
 
   function keySignature() { return enableKeySign ? staff0.keySignature.key : 0 }
 
@@ -65,7 +65,6 @@ Flickable {
   width: parent.width
 
   contentWidth: score.width
-//   contentHeight: Math.max(scoreObj.stavesHeight, score.height)
 
   Rectangle {
     id: bgRect
@@ -75,7 +74,6 @@ Flickable {
 
   Staff {
     id: staff0
-    number: 0
     clef.type: score.clef
     meter: Meter { parent: staff0 }
     clef.onTypeChanged: {
