@@ -28,11 +28,22 @@
 
 
 TguitarBg::TguitarBg(QQuickItem* parent) :
-  QQuickPaintedItem(parent)
+  QQuickPaintedItem(parent),
+  m_curStr(7), m_curFret(99), // none
+  m_active(false)
 {
+  setAcceptHoverEvents(true);
   setRenderTarget(QQuickPaintedItem::FramebufferObject);
   //   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
   setAntialiasing(true);
+}
+
+
+QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
+  qreal xPos = fbRect().x();
+  if (pos.fret())
+    xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
+  return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5);
 }
 
 
@@ -132,6 +143,10 @@ void TguitarBg::paint(QPainter* painter) {
 
 }
 
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
 void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
     QSize newSize = newGeometry.size().toSize();
@@ -146,6 +161,61 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
     if (m_lastFret > (m_fbRect.width() + 10))
       m_fbRect.setWidth(m_lastFret - 8);
 
+    emit fretWidthChanged();
+    emit stringsGapChanged();
+
     update();
+  }
+}
+
+
+void TguitarBg::hoverEnterEvent(QHoverEvent*) {
+  m_active = true;
+  emit activeChanged();
+}
+
+
+void TguitarBg::hoverLeaveEvent(QHoverEvent*) {
+  m_active = false;
+  emit activeChanged();
+}
+
+
+void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
+  if (!m_active)
+    hoverEnterEvent(nullptr);
+
+  paintFingerAtPoint(event->pos());
+}
+
+
+void TguitarBg::paintFingerAtPoint(QPoint p) {
+  int strNr = 7, fretNr = 99;
+  if ( (p.y() >= m_fbRect.y()) && (p.y() <= (height() - m_fbRect.y() - 4)) ) {
+    int tx = p.x(), ty = p.y();
+//     tx = mapToScene(p.x(), p.y()).x(); TODO lefthand guitars
+    strNr = (ty - m_fbRect.y()) / m_strGap;
+    if (tx < m_fbRect.x() || tx > m_lastFret)
+      fretNr = 0;
+    else {
+      for (int i = 0; i < GLOB->GfretsNumber; i++) {
+        if (tx <= m_fretsPos[i]) {
+          fretNr = i + 1;
+          break;
+        }
+      }
+    }
+  }
+
+  if (m_curStr != strNr || m_curFret != fretNr) {
+    if (fretNr > 0 && fretNr < 99) { // show finger
+        m_fingerPos = fretToPos(TfingerPos(static_cast<unsigned char>(strNr + 1), static_cast<unsigned char>(fretNr)));
+//       if (m_curStr != 7) m_workStrings[m_curStr]->hide();
+    } else { // show string line
+        m_fingerPos.setX(0.0);
+    }
+    emit fingerPosChanged();
+    m_curStr = strNr;
+    m_curFret = fretNr;
   }
 }

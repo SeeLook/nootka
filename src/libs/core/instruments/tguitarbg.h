@@ -21,6 +21,8 @@
 
 
 #include "nootkacoreglobal.h"
+#include <tfingerpos.h>
+
 #include <QtQuick/qquickpainteditem.h>
 
 
@@ -30,27 +32,71 @@
  */
 class NOOTKACORE_EXPORT TguitarBg : public QQuickPaintedItem
 {
+
   Q_OBJECT
+
+  Q_PROPERTY(bool active READ active NOTIFY activeChanged)
+  Q_PROPERTY(int fretWidth READ fretWidth NOTIFY fretWidthChanged)
+  Q_PROPERTY(int stringsGap READ stringsGap NOTIFY stringsGapChanged)
+  Q_PROPERTY(QPointF fingerPos READ fingerPos NOTIFY fingerPosChanged)
+
 
 public:
   TguitarBg(QQuickItem* parent = nullptr);
 
-  virtual void paint(QPainter* painter);
+      /**
+       * @p TRUE when mouse cursor is over
+       */
+  bool active() { return m_active; }
+
+      /**
+       * Average width of fret
+       */
+  int fretWidth() { return m_fretWidth; }
+
+      /**
+       * Distance between strings
+       */
+  int stringsGap() { return m_strGap; }
+
+  QPointF fingerPos() { return m_fingerPos; }
+
+  void paint(QPainter* painter) override;
 
       /**
        * Guitar fingerboard rectangle
        */
   QRect fbRect() { return m_fbRect; }
 
+      /**
+       * Returns scene coordinates of given guitar position (between bars)
+       */
+  QPointF fretToPos(const TfingerPos &pos);
+
+signals:
+  void activeChanged();
+  void fretWidthChanged();
+  void stringsGapChanged();
+  void fingerPosChanged();
+
 protected:
-  virtual void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
+  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
+  void hoverEnterEvent(QHoverEvent*) override;
+  void hoverLeaveEvent(QHoverEvent*) override;
+  void hoverMoveEvent(QHoverEvent* event) override;
+
+  void paintFingerAtPoint(QPoint p);
 
 private:
-  QRect       m_fbRect; /**< Represents top left positions and size of a fingerboard */
+  QRect        m_fbRect; /**< Represents top left positions and size of a fingerboard */
   int          m_strGap; /**< Distance between strings */
-  int         m_fretWidth; /**< Average width of fret */
-  int         m_lastFret; /**< Position of the last fret (in whole widget coordinates) */
-  int         m_fretsPos[24]; /**< @p fretsPos stores X positions of frets in global widget coordinates */
+  int          m_fretWidth; /**< Average width of fret */
+  int          m_lastFret; /**< Position of the last fret (in whole widget coordinates) */
+  int          m_fretsPos[24]; /**< @p fretsPos stores X positions of frets in global widget coordinates */
+  short        m_curStr, m_curFret; /**< Actual position of cursor over the guitar in strings/frets coordinates */
+
+  bool         m_active;
+  QPointF      m_fingerPos;
 
 };
 
