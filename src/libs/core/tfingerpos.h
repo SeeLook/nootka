@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,23 +39,47 @@ public:
       setPos(realStr, fret);
   }
 
-  quint8 str() { return (m_pos / 40) + 1; } /** Returns string number (real [1-6]) */
-  quint8 fret() { return m_pos % 40; } /** Returns fret number [0-40] */
+      /**
+       * Returns string number (real [1-6])
+       */
+  quint8 str() const { return (m_pos / 40) + 1; }
 
-  bool isValid() { return m_pos < 241; } /** Returns @p True when position is valid */
+      /**
+       * Returns fret number [0-40]
+       */
+  quint8 fret() const { return m_pos % 40; }
+
+      /**
+       * Returns @p True when position is valid
+       */
+  bool isValid() const { return m_pos < 241; }
 
   void setPos(unsigned char realStr, unsigned char fret) {
       m_pos = (realStr - 1) * 40 + fret;
   }
 
-  static const QString fretsList[25]; /** [STATIC] List of QString with roman representation of numbers 0-24. */
-  static QString romanFret(quint8 fret); /** [STATIC] Returns string with roman number of given value. Range [0-24] is supported */
-  QString romanFret() { return romanFret(fret()); } /** Returns string with roman number. Range [0-24] is supported */
+      /** [STATIC]
+       * List of QString with roman representation of numbers 0-24.
+       */
+  static const QString fretsList[25];
 
-  QString toHtml();  /** TfingerPos in HTML format as a string fe.: 3 XVII */
+      /** [STATIC]
+       * Returns string with roman number of given value. Range [0-24] is supported
+       */
+  static QString romanFret(quint8 fret);
 
-  bool operator==( TfingerPos f2) { return m_pos == f2.m_pos; }
-  bool operator!=( TfingerPos f2) { return m_pos != f2.m_pos; }
+      /**
+       * Returns string with roman number. Range [0-24] is supported
+       */
+  QString romanFret() { return romanFret(fret()); }
+
+      /**
+       * TfingerPos in HTML format as a string fe.: 3 XVII
+       */
+  QString toHtml() const;
+
+  bool operator==( TfingerPos f2) const { return m_pos == f2.m_pos; }
+  bool operator!=( TfingerPos f2) const { return m_pos != f2.m_pos; }
 
   friend QDataStream &operator<< (QDataStream &out, const TfingerPos &fPos) {
       out << fPos.m_pos;
@@ -67,8 +91,10 @@ public:
       return in;
   }
 
-      /** Writes XML structure with <string> and <fret> wrapped into <tag> (if not empty) - by default it is <technical> */
-  void toXml(QXmlStreamWriter& xml, const QString& tag = "technical");
+      /**
+       * Writes XML structure with <string> and <fret> wrapped into <tag> (if not empty) - by default it is <technical>
+       */
+  void toXml (QXmlStreamWriter& xml, const QString& tag = QLatin1String("technical")) const;
   void fromXml(QXmlStreamReader& xml);
 
   protected:

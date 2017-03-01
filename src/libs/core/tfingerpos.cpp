@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,32 +21,33 @@
 
 
 /* static */
-const QString TfingerPos::fretsList[25] = { "0",
-      "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
-      "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX",
-      "XI", "XII", "XIII", "XIV"
-    };
+const QString TfingerPos::fretsList[25] = { QStringLiteral("0"),
+      QStringLiteral("I"), QStringLiteral("II"), QStringLiteral("III"), QStringLiteral("IV"), QStringLiteral("V"),
+      QStringLiteral("VI"), QStringLiteral("VII"), QStringLiteral("VIII"), QStringLiteral("IX"), QStringLiteral("X"),
+      QStringLiteral("XI"), QStringLiteral("XII"), QStringLiteral("XIII"), QStringLiteral("XIV"), QStringLiteral("XV"),
+      QStringLiteral("XVI"), QStringLiteral("XVII"), QStringLiteral("XVIII"), QStringLiteral("XIX"), QStringLiteral("XX"),
+      QStringLiteral("XI"), QStringLiteral("XII"), QStringLiteral("XIII"), QStringLiteral("XIV")
+};
 
 
 QString TfingerPos::romanFret(quint8 fret) {
-    if (fret >= 0 && fret < 25)
-      return fretsList[fret];
-    else
-      return QString("");
+  if (fret >= 0 && fret < 25)
+    return fretsList[fret];
+  else
+    return QString();
 }
 
 
-QString TfingerPos::toHtml() {
-  //    return QString("<span style=\"font-size: 25px; font-family: nootka\">%1%2</span>").arg(pos.str()).arg(romanFret(pos.fret()));
-    return QString("<span style=\"font-size: xx-large; font-family: nootka\">%1</span><span style=\"font-size: xx-large;\">%2</span>").arg(str()).arg(fret());
+QString TfingerPos::toHtml() const {
+  return QString("<span style=\"font-size: xx-large; font-family: nootka\">%1</span><span style=\"font-size: xx-large;\">%2</span>").arg(str()).arg(fret());
 }
 
 
-void TfingerPos::toXml(QXmlStreamWriter& xml, const QString& tag) {
+void TfingerPos::toXml(QXmlStreamWriter& xml, const QString& tag) const {
   if (!tag.isEmpty())
     xml.writeStartElement(tag);
-  xml.writeTextElement("string", QString("%1").arg(str()));
-  xml.writeTextElement("fret", QString("%1").arg(fret()));
+  xml.writeTextElement(QLatin1String("string"), QString("%1").arg(str()));
+  xml.writeTextElement(QLatin1String("fret"), QString("%1").arg(fret()));
   if (!tag.isEmpty())
     xml.writeEndElement(); // tag
 }
@@ -55,9 +56,9 @@ void TfingerPos::toXml(QXmlStreamWriter& xml, const QString& tag) {
 void TfingerPos::fromXml(QXmlStreamReader& xml) {
   int s = 0, f = 50;
   while (xml.readNextStartElement()) {
-    if (xml.name() == "string")
+    if (xml.name() == QLatin1String("string"))
       s = xml.readElementText().toInt();
-    else if (xml.name() == "fret")
+    else if (xml.name() == QLatin1String("fret"))
       f = xml.readElementText().toInt();
     else
       xml.skipCurrentElement();
