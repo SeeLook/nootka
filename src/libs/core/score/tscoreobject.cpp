@@ -36,7 +36,7 @@ TscoreObject::TscoreObject(QObject* parent) :
   QObject(parent),
   m_keySignEnabled(false),
   m_clefOffset(TclefOffset(3, 1)),
-  m_width(0.0)
+  m_width(0.0), m_adjustInProgress(false)
 {
   m_meter = new Tmeter(Tmeter::Meter_4_4);
   setMeter(4); // Tmeter::Meter_4_4
@@ -200,6 +200,7 @@ qreal TscoreObject::stavesHeight() {
 //#################################################################################################
 
 void TscoreObject::addStaff(TstaffObject* st) {
+  st->setNumber(stavesCount());
   m_staves.append(st);
   if (m_staves.count() == 1) // initialize first measure of first staff
     st->appendMeasure(m_measures.first());
@@ -218,10 +219,11 @@ void TscoreObject::addStaff(TstaffObject* st) {
   });
 }
 
-
-void TscoreObject::shiftMeasures(int firstId, int count) {
-  qDebug() << "[TscoreObject] shifting" << count << "measure(s) from" << firstId;
-  auto sourceStaff = m_measures[firstId]->staff();
+/**
+ * More-less it means that staff @p sourceStaff has no space for @p count number of measures measures
+ * starting from @p measureNr, but those measures belong to it still
+ */
+void TscoreObject::startStaffFromMeasure(TstaffObject* sourceStaff, int measureNr, int count) {
   TstaffObject* targetStaff = nullptr;
   if (sourceStaff == lastStaff()) { // create new staff to shift measure(s) there
       emit staffCreate();
@@ -229,63 +231,50 @@ void TscoreObject::shiftMeasures(int firstId, int count) {
   } else
       targetStaff = m_staves[sourceStaff->number() + 1];
 
-  for (int m = firstId; m < firstId + count; ++m) {
-    auto meas = m_measures[m];
-    for (int n = 0; n < meas->noteCount(); ++n)
-      meas->note(n)->object()->setStaff(targetStaff);
-
-    int measNr = meas->number();
-    sourceStaff->takeMeasure(measNr - sourceStaff->firstMeasureNr());
-    if (targetStaff->measuresCount())
-      targetStaff->insertMeasure(measNr - targetStaff->firstMeasureNr(), meas);
-    else
-      targetStaff->appendMeasure(meas);
-  }
-  targetStaff->refresh();
+  for (int m = measureNr; m < measureNr + count; ++m)
+    m_measures[m]->setStaff(targetStaff);
+  targetStaff->setLastMeasureId(qMax(measureNr + count - 1, targetStaff->lastMeasureId()));
+  targetStaff->setFirstMeasureId(measureNr);
 }
 
 
-bool TscoreObject::checkStaffFreeSpace(TstaffObject* st, qreal availWidth) {
-  int sourceStaffNr = st->number();
-  if (sourceStaffNr < m_staves.count() - 1) { // is there next staff?
-    auto nextStaff = m_staves[sourceStaffNr + 1];
-    auto nextFirst = nextStaff->firstMeasure();
-    qreal estimateW = availWidth - nextFirst->allNotesWidth();
-    if (estimateW / (st->gapsSum() + nextFirst->gapsSum()) > 0.8) {
-      for (int n = 0; n < nextFirst->noteCount(); ++n)
-        nextFirst->note(n)->object()->setStaff(st);
-      nextStaff->takeMeasure(0);
-      st->appendMeasure(nextFirst);
-      if (nextStaff->measuresCount() == 0) { // staff became empty
-        if (nextStaff == lastStaff()) { // delete if if it was the last one
-            nextStaff->staffItem()->deleteLater();
-            m_staves.removeLast();
-            emit stavesHeightChanged();
-        } else { // or take measures from next-next staff
-            qDebug() << "[TscoreObject] filling empty measure";
-        }
+void TscoreObject::deleteStaff(TstaffObject* st) {
+  if (st->measuresCount() < 1) {
+      bool fixStaffNumbers = st != lastStaff();
+      m_staves.removeAt(st->number());
+      st->staffItem()->deleteLater();
+      if (fixStaffNumbers) {
+        for (int s = 0; s < stavesCount(); ++s)
+          m_staves[s]->setNumber(s);
       }
-      return true;
-    }
   }
-  return false;
-
 }
 
 
 void TscoreObject::adjustScoreWidth() {
-// CHECKTIME (
-  for (int s = 0; s < m_staves.count(); ++s) {
-    m_staves[s]->fit();
-    if (s > 0 && s < m_staves.count()) {
-      auto prev = m_staves[s - 1];
-      auto curr = m_staves[s];
-      auto sc = prev->scale();
-      curr->staffItem()->setY(prev->staffItem()->y() + (prev->loNotePos() - curr->hiNotePos() + 4.0) * sc); // TODO scordature!
-    }
+CHECKTIME (
+  m_adjustInProgress = true;
+  for (QList<TstaffObject*>::iterator s = m_staves.begin(); s != m_staves.end(); ++s) {
+    auto curr = *s;
+    curr->refresh();
+  }
+  m_adjustInProgress = false;
+  updateStavesPos();
+)
+}
+
+
+void TscoreObject::updateStavesPos() {
+  if (m_adjustInProgress)
+    return;
+  TstaffObject* prev = nullptr;
+  for (QList<TstaffObject*>::iterator s = m_staves.begin(); s != m_staves.end(); ++s) {
+    auto curr = *s;
+    if (prev && curr->number() < stavesCount() - 1)
+      curr->staffItem()->setY(prev->staffItem()->y() + (prev->loNotePos() - curr->hiNotePos() + 4.0) * prev->scale()); // TODO scordature!
+      prev = curr;
   }
   emit stavesHeightChanged();
-// )
 }
 
 

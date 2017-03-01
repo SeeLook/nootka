@@ -18,6 +18,7 @@
 
 import QtQuick 2.7
 import QtQuick.Controls 2.0
+import QtQuick.Window 2.0
 
 import Score 1.0
 
@@ -28,15 +29,14 @@ Item {
   property alias clef: clef
 
   property real linesCount: 40
-  property int number: -1
   property KeySignature keySignature: null
   property Meter meter: null
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
 
-  signal destroing()
+  signal destroing(var nr)
 
   height: linesCount
-  scale: score.height / linesCount
+  scale: (Math.min(score.height, Math.max(Screen.height / 4, Screen.pixelDensity * 70)) / linesCount) * score.scaleFactor
   width: score.width / scale
   transformOrigin: Item.TopLeft
 
@@ -66,7 +66,7 @@ Item {
       x: 1
       y: staffObj.upperLine - (clef.type === Tclef.Treble_G || clef.type === Tclef.Treble_G_8down || clef.type === Tclef.Tenor_C ? 6 : 3)
       text: staffObj.firstMeasureNr + 1
-      visible: number > 0 && staffObj.firstMeasureNr > 0
+      visible: staffObj.number > 0 && staffObj.firstMeasureNr > 0
       font.pixelSize: 2
       color: activPal.text
   }
@@ -92,5 +92,5 @@ Item {
   function updateMeterPos() {
     meter.x = keySignature.x + keySignature.width
   }
-  Component.onDestruction: destroing()
+  Component.onDestruction: destroing(staffObj.number)
 }

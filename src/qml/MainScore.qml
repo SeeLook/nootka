@@ -42,5 +42,17 @@ Score {
         text: qsTr("Show note names")
         checkable: true
       }
+      MenuItem {
+        id: zoomOut
+        text: qsTr("Zoom score out")
+        onTriggered: scaleFactor = Math.max(0.4, scaleFactor - 0.2)
+      }
+      MenuItem {
+        id: zoomIn
+        text: qsTr("Zoom score in")
+        onTriggered:  scaleFactor = Math.min(scaleFactor + 0.2, 1.0)
+      }
   }
+  Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOut.triggered() }
+  Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomIn.triggered() }
 }

@@ -138,17 +138,13 @@ protected:
   TclefOffset clefOffset() const { return m_clefOffset; }
 
       /**
-       * Shifts @p count measures starting from @p firstId among all score measures.
-       * It detects the staff the measure belongs to and finds the next one or creates a new staff if not exists.
+       * Shifts @p count measures starting from @p measureNr by setting first and last ids
+       * of the next measure to given @p sourceStaff
        * Also it manages ownership of initial (source) staff shifted notes and sets parent of every such note to target staff.
        */
-  void shiftMeasures(int firstId, int count = 1);
+  void startStaffFromMeasure(TstaffObject* sourceStaff, int measureNr, int count = 1);
 
-      /**
-       * Checks for possibility to move first measure from the next staff to @p st staff
-       * if that measure can fit itself in @p availWidth space
-       */
-  bool checkStaffFreeSpace(TstaffObject* st, qreal availWidth);
+  void deleteStaff(TstaffObject* st);
 
       /**
        * Score width is handled by Score.qml, but it has to be known here.
@@ -157,6 +153,10 @@ protected:
        * a timer guards the width change and call @p adjustScoreWidth() method only after delay
        */
   void adjustScoreWidth();
+
+  bool adjustInProgress() { return m_adjustInProgress; }
+
+  void updateStavesPos();
 
 private:
       /**
@@ -170,6 +170,7 @@ private:
   bool                              m_keySignEnabled;
   TclefOffset                       m_clefOffset;
   qreal                             m_width;
+  bool                              m_adjustInProgress;
   QList<TnotePair*>                 m_segments;
   QList<TstaffObject*>              m_staves;
   QList<TmeasureObject*>            m_measures;
