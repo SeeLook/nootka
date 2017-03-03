@@ -81,10 +81,16 @@ int TstaffObject::firstMeasureNr() {
 }
 
 
+/**
+ * Indent changes when key signature accidentals are added. It changes gap factor, can cause measure shifting.
+ * For multiple staves on the score, last staff gets indent change at the end of queue.
+ * Only then gap factor can be calculated.
+ */
 void TstaffObject::setNotesIndent(qreal ni) {
   if (m_notesIndent != ni) {
     m_notesIndent = ni;
-//     fit();
+    if (this == m_score->lastStaff())
+      m_score->onIndentChanged();
   }
 }
 
@@ -256,7 +262,7 @@ void TstaffObject::findLowestNote() {
 //     m_loNotePos = height();
 //     return;
 //   }
-  m_loNotePos =  upperLine() + 13.0; // TODO (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 13.0;
+  m_loNotePos =  upperLine() + 14.0; // TODO (isPianoStaff() ? lowerLinePos(): upperLinePos()) + 13.0;
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
     auto measure = m_score->measure(m);
     for (int n = 0; n < measure->noteCount(); ++n) {

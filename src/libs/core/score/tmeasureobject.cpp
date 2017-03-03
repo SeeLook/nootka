@@ -37,6 +37,7 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
   m_firstInGr(new qint8[1]),
   m_barLine(nullptr)
 {
+  clearAccidState();
   m_duration = m_score->meter()->duration();
   m_free = m_duration;
 }
@@ -74,8 +75,9 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
     auto noteObject = new TnoteObject(m_staff);
     noteObject->setIndex(np->index());
     noteObject->setMeasure(this);
-    noteObject->setNote(*np->note());
     np->setNoteObject(noteObject);
+    checkAccidentals();
+    noteObject->setNote(*np->note());
   }
   refresh();
   m_staff->refresh();
@@ -95,6 +97,14 @@ void TmeasureObject::insertNote(int id, TnotePair* np) {
 //     np->setNoteObject(noteObject);
 //     m_staff->addNote(np);
 //   }
+}
+
+
+void TmeasureObject::keySignatureChanged() {
+  for (int n = 0; n < m_notes.size(); ++n) {
+    m_notes[n]->object()->keySignatureChanged();
+  }
+  refresh();
 }
 
 
@@ -172,4 +182,24 @@ void TmeasureObject::refresh() {
     m_gapsSum += noteObj->rhythmFactor();
     m_allNotesWidth += noteObj->width();
   }
+}
+
+
+void TmeasureObject::checkAccidentals() {
+  clearAccidState();
+  for (int n = 0; n < m_notes.size(); ++n) {
+    auto np = note(n);
+    if (np->note()->isValid() && !np->note()->isRest())
+      m_accidsState[np->note()->note - 1] = np->note()->alter; // register accidental of a note
+  }
+}
+
+
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+
+void TmeasureObject::clearAccidState() {
+  for (int i = 0; i < 7; ++i)
+    m_accidsState[i] = 100; // note doesn't occur in a measure
 }

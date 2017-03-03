@@ -206,11 +206,8 @@ void TnoteObject::setNote(const Tnote& n) {
         m_stem->setVisible(false);
   }
 
-  m_alter->setProperty("text", getAccidText());
-  if (m_note->alter)
-    m_alter->setX(-m_alter->width() - 0.1);
-
-  setWidth(m_alter->width() + m_head->width() + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
+  updateAlter();
+  updateWidth();
 
 //   m_bg->setX(m_note->alter && m_alter->isVisible() ? -m_alter->width() - 0.4 : -0.4);
 //   m_bg->setHeight(m_stem->height() + 4.0);
@@ -222,12 +219,12 @@ void TnoteObject::setNote(const Tnote& n) {
 
 
 void TnoteObject::setX(qreal xx) {
-  QQuickItem::setX(xx + (m_note->alter ? m_alter->width() : 0.0));
+  QQuickItem::setX(xx + (m_accidText.isEmpty() ? 0.0 : m_alter->width()));
 }
 
 
 qreal TnoteObject::rightX() {
-  return x() + width() + staff()->gapFactor() * rhythmFactor() - (m_note->alter ? m_alter->width() : 0.0);
+  return x() + width() + staff()->gapFactor() * rhythmFactor() - (m_accidText.isEmpty() ? 0.0 : m_alter->width());
 }
 
 
@@ -252,7 +249,51 @@ char TnoteObject::debug() {
 //#################################################################################################
 
 QString TnoteObject::getAccidText() {
-  return accCharTable[m_note->alter + 2];
+  if (!m_note->isValid() || (m_note->rtm.tie() && m_note->rtm.tie() != Trhythm::e_tieStart)) // accidental only for starting tie
+    return QString();
+
+  QString a = accCharTable[m_note->alter + 2];
+  qint8 accidInKey = m_staff->score()->accidInKey(m_note->note - 1);
+  if (accidInKey) { // key signature has an accidental on this note
+    if (m_note->alter == 0) // show neutral if note has not any accidental
+        a = accCharTable[5];
+    else {
+      if (accidInKey == m_note->alter) { // accidental in key, do not show
+        if (m_staff->score()->showExtraAccids() && accidInKey) { // or user wants it at any cost
+            a.prepend(QStringLiteral("\ue26a"));
+            a.append(QStringLiteral("\ue26b"));
+        } else
+            a.clear();
+      }
+    }
+  }
+  int id = index() - 1; // check the previous notes for accidentals 
+  while (id >= 0 && m_staff->score()->noteSegment(id)->object()->measure() == measure()) {
+    if (m_staff->score()->noteSegment(id)->note()->note == m_note->note) {
+      char prevAlter = m_staff->score()->noteSegment(id)->note()->alter;
+      if (prevAlter != 0 && m_note->alter == 0) {
+          if (a.isEmpty())
+            a = accCharTable[5]; // and add neutral when some of previous notes with the same step had an accidental
+      } else if (prevAlter == 0 && m_note->alter == 0) // There was a neutral, do not display it twice
+          a.clear();
+      else if (accidInKey == m_note->alter && prevAlter != m_note->alter)
+          a = accCharTable[m_note->alter + 2]; // There is already accidental in key signature but some of the previous notes had another one, show it again
+      break;
+    }
+    id--;
+  }
+//   if (m_staff->score()->remindAccids() && m_measure->number() > 0) { TODO
+//     auto prevMeas = m_staff->score()->measure(m_measure->number() - 1);
+//     auto accidState = prevMeas->accidState(m_note->note - 1);
+//     if (accidState != 100 && accidState != 0 && a.isEmpty() && m_alter == 0) {
+//       a = a = accCharTable[5];
+//       m_alter->setProperty("color", QColor(255, 0, 0));
+//     } else if (accidState == 0 && accidInKey != 0) {
+//       a = accCharTable[m_note->alter + 2];
+//       m_alter->setProperty("color", QColor(255, 0, 0));
+//     }
+//   }
+  return a;
 }
 
 
@@ -285,6 +326,17 @@ QString TnoteObject::getFlagText() {
 }
 
 
+void TnoteObject::keySignatureChanged() {
+  updateAlter();
+  updateWidth();
+}
+
+
+//#################################################################################################
+//###################              PRIVATE             ############################################
+//#################################################################################################
+
+
 QQuickItem* TnoteObject::createAddLine(QQmlComponent& comp) {
   auto line = qobject_cast<QQuickItem*>(comp.create());
   line->setParentItem(this);
@@ -294,4 +346,17 @@ QQuickItem* TnoteObject::createAddLine(QQmlComponent& comp) {
   line->setVisible(false);
   line->setProperty("color", qApp->palette().text().color());
   return line;
+}
+
+
+void TnoteObject::updateAlter() {
+  m_accidText = getAccidText();
+  m_alter->setProperty("text", m_accidText);
+  if (!m_accidText.isEmpty())
+    m_alter->setX(-m_alter->width() - 0.1);
+}
+
+
+void TnoteObject::updateWidth() {
+  setWidth(m_alter->width() + m_head->width() + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
 }

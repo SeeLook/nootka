@@ -60,6 +60,8 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
+  Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature)
+  Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -79,6 +81,18 @@ public:
 
   bool keySignatureEnabled() const { return m_keySignEnabled; }
   void setKeySignatureEnabled(bool enKey);
+
+  int keySignature() { return static_cast<int>(m_keySignature); }
+  void setKeySignature(int k);
+
+  bool showExtraAccids() { return m_showExtraAccids; }
+  void setShowExtraAccids(bool accShow);
+
+      /**
+       * If set, reminds about accidentals changes occurred in previous measure
+       */
+  bool remindAccids() { return m_remindAccids; }
+  void setRemindAccids(bool doRemaind);
 
   Tmeter* meter() const { return m_meter; }
   void setMeter(int m);
@@ -158,6 +172,13 @@ protected:
 
   void updateStavesPos();
 
+  void onIndentChanged();
+
+      /**
+       * This array keeps values (-1, 0 or 1) for accidentals in key sign.
+       */
+  qint8 accidInKey(int k) { return m_accidInKeyArray[k]; }
+
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair
@@ -168,15 +189,20 @@ private:
 private:
   Tmeter                           *m_meter;
   bool                              m_keySignEnabled;
+  bool                              m_showExtraAccids;
+  bool                              m_remindAccids;
   TclefOffset                       m_clefOffset;
   qreal                             m_width;
   bool                              m_adjustInProgress;
+  bool                              m_keyChanged = false;
   QList<TnotePair*>                 m_segments;
   QList<TstaffObject*>              m_staves;
   QList<TmeasureObject*>            m_measures;
   QList<Tnote>                      m_notes;
   QList<quint8>                     m_meterGroups;
   QTimer                           *m_widthTimer;
+  qint8                             m_keySignature = 0;
+  qint8                             m_accidInKeyArray[7];
 
 };
 

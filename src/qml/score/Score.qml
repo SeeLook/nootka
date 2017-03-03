@@ -32,11 +32,11 @@ Flickable {
       var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
       staves.push(lastStaff)
       lastStaff.enableKeySignature(enableKeySign)
-//       score.contentY = score.contentHeight - score.height
+//       score.contentY = score.contentHeight - score.height TODO
       lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
       lastStaff.onDestroing.connect(removeStaff)
       if (enableKeySign)
-        lastStaff.keySignature.key = keySignature()
+        lastStaff.keySignature.key = staff0.keySignature.key
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
     function removeStaff(nr) { staves.splice(nr, 1) }
@@ -51,13 +51,13 @@ Flickable {
   property var staves: []
   property real scaleFactor: 1.0
 
-  function keySignature() { return enableKeySign ? staff0.keySignature.key : 0 }
-
   function setKeySignature(key) {
     if (enableKeySign) {
-      for (var s = 0; s < staves.length; ++s)
+      for (var s = 0; s < staves.length; ++s) {
         if (key !== staves[s].keySignature.key)
           staves[s].keySignature.key = key
+      }
+      scoreObj.keySignature = key
     }
   }
 
@@ -99,6 +99,7 @@ Flickable {
       if (enableKeySign)
         staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
     }
+    scoreObj.keySignatureEnabled = enableKeySign
   }
 
   function addNote(n) { scoreObj.addNote(n) }

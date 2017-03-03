@@ -38,7 +38,9 @@ class NOOTKACORE_EXPORT TmeasureObject : public QObject
 {
   Q_OBJECT
 
+  friend class TscoreObject;
   friend class TstaffObject;
+  friend class TnoteObject;
 
 public:
 
@@ -114,6 +116,15 @@ protected:
        */
   void refresh();
 
+  void checkAccidentals();
+
+  void keySignatureChanged();
+
+  qint8 accidState(int noteNr) { return m_accidsState[noteNr]; }
+
+private:
+  void clearAccidState();
+
 private:
   int                            m_number;
   int                            m_duration;
@@ -126,6 +137,7 @@ private:
   QQuickItem                    *m_barLine;
   qreal                          m_allNotesWidth = 0.0;
   qreal                          m_gapsSum = 0.0;
+  qint8                          m_accidsState[7];
 };
 
 #endif // TMEASUREOBJECT_H

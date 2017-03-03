@@ -39,6 +39,8 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
 
   Q_PROPERTY(qreal notePosY READ notePosY WRITE setNotePosY NOTIFY notePosYchanged)
 
+  friend class TmeasureObject;
+
 public:
   explicit TnoteObject(TstaffObject* staffObj = nullptr);
   ~TnoteObject();
@@ -63,6 +65,7 @@ public:
 
   qreal stemHeight() const { return m_stemHeight; }
   void setStemHeight(qreal sh);
+
 
   QColor color() { return m_head->property("color").value<QColor>(); }
   void setColor(const QColor& c);
@@ -95,6 +98,8 @@ protected:
   QString getHeadText();
   QString getFlagText();
 
+  void keySignatureChanged();
+
 private:
 
   TstaffObject                *m_staff;
@@ -106,9 +111,12 @@ private:
   QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag, *m_bg;
   QList<QQuickItem*>           m_upperLines, m_lowerLines;
   qreal                        m_stemHeight;
+  QString                      m_accidText;
 
 private:
   QQuickItem* createAddLine(QQmlComponent& comp);
+  void updateAlter();
+  void updateWidth();
 };
 
 #endif // TNOTEOBJECT_H
