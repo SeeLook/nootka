@@ -1,5 +1,6 @@
 1.5.0
      - porting visible part into QML
+     - option for enable/disable animations
 
 1.4.2
      - added standalone AppImage for Linux

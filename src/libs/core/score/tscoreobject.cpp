@@ -35,6 +35,8 @@
 TscoreObject::TscoreObject(QObject* parent) :
   QObject(parent),
   m_keySignEnabled(false),
+  m_showExtraAccids(false),
+  m_remindAccids(true),
   m_clefOffset(TclefOffset(3, 1)),
   m_width(0.0), m_adjustInProgress(false)
 {
@@ -44,6 +46,9 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_widthTimer = new QTimer(this);
   m_widthTimer->setSingleShot(true);
   connect(m_widthTimer, &QTimer::timeout, this, &TscoreObject::adjustScoreWidth);
+
+  for (int i = 0; i < 7; i++) // reset accidentals array
+    m_accidInKeyArray[i] = 0;
 }
 
 
@@ -71,26 +76,63 @@ void TscoreObject::setWidth(qreal w) {
 }
 
 
+void TscoreObject::setKeySignature(int k) {
+  if (m_keySignEnabled) {
+    qint8 key = static_cast<qint8>(k);
+    if (key != m_keySignature) {
+      m_keySignature = key;
+      for (int i = 1; i < 8; i++) {
+        qint8 sign = k < 0 ? -1 : 1;
+        int startVal = k < 0 ? 38 : 48;
+        if (i <= qAbs(k))
+          m_accidInKeyArray[(startVal + sign * (i * 4)) % 7] = sign;
+        else
+          m_accidInKeyArray[(startVal + sign * (i * 4)) % 7] = 0;
+      }
+      m_keyChanged = true;
+      for (TmeasureObject* m : m_measures)
+        m->keySignatureChanged();
+      adjustScoreWidth();
+    }
+  }
+}
+
+
 /** @p static
  * This method creates @p outList of notes that have pitch of @p n note
  * but splits @p dur duration into possible rhythmic values.
  */
 void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
-  // TODO: add ties
   Trhythm rtm(dur); // try to obtain rhythm value
   if (!rtm.isValid()) { // if it is not possible to express the duration in single rhythm - resolve it in multiple values
       TrhythmList solvList;
       Trhythm::resolve(dur, solvList);
-      for (int r = 0; r < solvList.count(); ++r)
+      for (int r = 0; r < solvList.count(); ++r) {
         outList << Tnote(n, Trhythm(solvList[r].rhythm(), n.isRest(), solvList[r].hasDot(), solvList[r].isTriplet()));
+      }
   } else { // just single note in the list
       rtm.setRest(n.isRest());
       outList << Tnote(n, rtm);
+  }
+  for (int r = 0; r < outList.count(); ++r) { // add ties (ligatures)
+    Trhythm::Etie tie = Trhythm::e_noTie;
+    if (r == 0) {
+        if (n.rtm.tie()) // there was tie before
+          tie = outList.count() == 1 ? Trhythm::e_tieEnd : Trhythm::e_tieCont; // continue it or finish
+        else // otherwise start a tie
+          tie = Trhythm::e_tieStart;
+    } else if (r == outList.count() - 1)
+        tie = Trhythm::e_tieEnd;
+    else
+        tie = Trhythm::e_tieCont;
+    outList[r].rtm.setTie(tie);
   }
 }
 
 void TscoreObject::addNote(const Tnote& n) {
 // CHECKTIME (
+
+  qDebug() << "note" << n.toText();
 
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
@@ -204,6 +246,7 @@ void TscoreObject::addStaff(TstaffObject* st) {
   m_staves.append(st);
   if (m_staves.count() == 1) // initialize first measure of first staff
     st->appendMeasure(m_measures.first());
+
   // next staves position ca be set only when staffItem is set, see TstaffObject::setStaffItem() then
   connect(st, &TstaffObject::hiNotePosChanged, [=](int staffNr, qreal offset){
     for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
@@ -265,6 +308,7 @@ CHECKTIME (
 
 
 void TscoreObject::updateStavesPos() {
+CHECKTIME (
   if (m_adjustInProgress)
     return;
   TstaffObject* prev = nullptr;
@@ -275,6 +319,15 @@ void TscoreObject::updateStavesPos() {
       prev = curr;
   }
   emit stavesHeightChanged();
+)
+}
+
+
+void TscoreObject::onIndentChanged() {
+  if (m_keyChanged) {
+    m_keyChanged = false;
+    adjustScoreWidth();
+  }
 }
 
 

@@ -14,6 +14,11 @@ TRANSLATION CONTEXT CHANGES
   TpitchView -> PitchView
   TvolumeView -> VolumeBar
 
+  Score actions
+
+============================================================================
+SCORE
+ - rich text for key names (accidentals would be in Nootka symbols)
 
 ============================================================================
   Do we need Tmtr?? Make order with this!
@@ -68,7 +73,7 @@ MINOR:
 - divide TexamExecutor class !!!!!
 - rhythms in score
 - in occasion of implementing rhythms, 
-      instead of signaling from TscoreNote to TscoreStaff call some methods of TscoreStaff directly from TscoreNote
+
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
@@ -95,7 +100,6 @@ MINOR:
 - proxy corner widgets may be animated (???)
 - add sound during wizard and About dialog (???)
 - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
-- enable/disable animations option
 - text only tool bar
 - migrate on preferring 48000 sample rate (ogg files and audio methods)
 - move status label out as a separate class and implement animations there (can be used in settings windows as well) 
