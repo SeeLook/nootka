@@ -62,7 +62,7 @@ Item {
       Text {
         font { family: "Scorek"; pixelSize: 8 }
         color: activPal.text
-        text: key < 0 ? "\ue260" : "\ue262" // flat or sharp symbols
+        text: key < 0 ? "\ue260" : (key > 0 ? "\ue262" : "") // flat or sharp symbols
         x: index * 1.8
         y: (key < 0 ? flatPos[index] : sharpPos[index]) - (accidOff) + (clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
         opacity: index < Math.abs(key) ? 1.0 : 0.0
