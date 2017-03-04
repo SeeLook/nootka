@@ -76,6 +76,7 @@ Item {
           if (!keySignature) {
             var c = Qt.createComponent("qrc:/KeySignature.qml")
             keySignature = c.createObject(staff, { x: clef.x + clef.width + 1 })
+            keySignature.changeClef(clef.type)
             if (meter) {
               keySignature.onWidthChanged.connect(updateMeterPos)
               updateMeterPos()
