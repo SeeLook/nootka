@@ -114,25 +114,10 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
       rtm.setRest(n.isRest());
       outList << Tnote(n, rtm);
   }
-  for (int r = 0; r < outList.count(); ++r) { // add ties (ligatures)
-    Trhythm::Etie tie = Trhythm::e_noTie;
-    if (r == 0) {
-        if (n.rtm.tie()) // there was tie before
-          tie = outList.count() == 1 ? Trhythm::e_tieEnd : Trhythm::e_tieCont; // continue it or finish
-        else // otherwise start a tie
-          tie = Trhythm::e_tieStart;
-    } else if (r == outList.count() - 1)
-        tie = Trhythm::e_tieEnd;
-    else
-        tie = Trhythm::e_tieCont;
-    outList[r].rtm.setTie(tie);
-  }
 }
 
 void TscoreObject::addNote(const Tnote& n) {
-// CHECKTIME (
-
-  qDebug() << "note" << n.toText();
+CHECKTIME (
 
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
@@ -150,6 +135,9 @@ void TscoreObject::addNote(const Tnote& n) {
       if (notesToCurrent.isEmpty())
           qDebug() << "[TscoreObject] can't resolve duration of" << lastMeasure->free();
       else {
+          notesToCurrent.first().rtm.setTie(Trhythm::e_tieStart);
+          if (notesToCurrent.count() == 2)
+            notesToCurrent.last().rtm.setTie(Trhythm::e_tieCont);
           appendNoteList(notesToCurrent);
           lastMeasure->appendNewNotes(lastNoteId, notesToCurrent.count());
       }
@@ -160,6 +148,12 @@ void TscoreObject::addNote(const Tnote& n) {
       if (notesToNext.isEmpty())
           qDebug() << "[TscoreObject] can't resolve duration" << leftDuration;
       else {
+          if (notesToNext.count() == 1)
+              notesToNext.first().rtm.setTie(Trhythm::e_tieEnd);
+          else {
+              notesToNext.first().rtm.setTie(Trhythm::e_tieCont);
+              notesToNext.last().rtm.setTie(Trhythm::e_tieEnd);
+          }
           appendNoteList(notesToNext);
           auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
           m_measures << newLastMeasure;
@@ -173,7 +167,7 @@ void TscoreObject::addNote(const Tnote& n) {
       lastMeasure->appendNewNotes(lastNoteId, 1);
   }
 
-// )
+)
 }
 
 

@@ -138,6 +138,7 @@ void TstaffObject::fit() {
           if (m > m_firstMeasureId)
             m_allNotesWidth -= BARLINE_OFFSET;
           m_gapFactor = (m_score->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;  // allow factor bigger than 2.5
+          measure->first()->object()->setFirstInStaff(true);
           m_score->startStaffFromMeasure(this, m, m_lastMeasureId - (m - 1));
           m_lastMeasureId = m - 1;
           updateNotesPos();
@@ -152,7 +153,7 @@ void TstaffObject::fit() {
 
   if (factor > 1.5 && this != m_score->lastStaff()) {
     int m = m_lastMeasureId + 1;
-    if (m >= m_score->measuresCount()) {
+    if (m >= m_score->measuresCount()) { // TODO delete debug message if not occurs
         qDebug() << debug() << "Next staff exists but there are no more measures. IT SHOULD NEVER HAPPEN!";
         return;
     } else {
@@ -164,9 +165,12 @@ void TstaffObject::fit() {
       if (availableWidth / tempGapSum > 0.8) {
         m_lastMeasureId = m;
         nextMeasure->setStaff(this);
+        nextMeasure->first()->object()->setFirstInStaff(false);
         nextStaff->setFirstMeasureId(m + 1); // if there is not next measure - next staff will be deleted
         if (nextStaff->measuresCount() < 1)
           m_score->deleteStaff(nextStaff);
+        else
+          m_score->firstMeasure()->first()->object()->setFirstInStaff(true);
         fit();
         checkNotesRange();
         return;
@@ -194,7 +198,7 @@ void TstaffObject::updateNotesPos(int startMeasure) {
 
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
     auto measure = m_score->measure(m);
-    if (measure->staff() != this) { // TODO delete if not occurs
+    if (measure->staff() != this) { // TODO delete debug message if not occurs
       qDebug() << debug() << "Something went wrong, measure" << measure->number() << "doesn't belong to staff" << m_number << "FIXING!";
       measure->setStaff(this);
     }

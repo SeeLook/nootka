@@ -18,6 +18,7 @@
     <file alias="Clef.qml">qml/score/Clef.qml</file>
     <file alias="KeySignature.qml">qml/score/KeySignature.qml</file>
     <file alias="Meter.qml">qml/score/Meter.qml</file>
+    <file alias="Tie.qml">qml/score/Tie.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
     <file alias="Guitar.qml">qml/instruments/Guitar.qml</file>
