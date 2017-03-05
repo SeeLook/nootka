@@ -30,7 +30,9 @@ class Tnote;
 
 
 /**
- * @class TnoteObject is @class QQuickItem derivative representing single note on the score
+ * @class TnoteObject is @class QQuickItem derivative representing single note on the score.
+ * It dynamically crates QML items: note head, alter (accidental) text, stem rectangle and rhythm flag.
+ * A tie item form Tie.qml when necessary
  */
 class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
 {
@@ -40,6 +42,7 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   Q_PROPERTY(qreal notePosY READ notePosY WRITE setNotePosY NOTIFY notePosYchanged)
 
   friend class TmeasureObject;
+  friend class TstaffObject;
 
 public:
   explicit TnoteObject(TstaffObject* staffObj = nullptr);
@@ -90,6 +93,8 @@ public:
        */
   char debug();
 
+  qreal tieWidth();
+
 signals:
   void notePosYchanged();
 
@@ -99,6 +104,29 @@ protected:
   QString getFlagText();
 
   void keySignatureChanged();
+
+  QQuickItem* tie() { return m_tie; }
+
+      /**
+       * @p TnoteObject manages tie itself whenever tie state changes, by calling exactly this method.
+       * Tie is simple Text QML item of tie symbol with horizontal scaling that determines tie width,
+       * but tie its not aware about next note position as long as next note X coordinate
+       * depends on this note width and rhythm factor.
+       * So @p setX() method usually called when staff factor is changing, updates tie width.
+       * @p tieWidth() returns desired tie width.
+       * Also @p TnoteObject objects takes care about breaking tie among staves.
+       * It sets tie glyph text to @p m_accidText when note with tie begins a staff
+       */
+  void checkTie();
+
+      /**
+       * @p TRUE when this note is first in the staff.
+       * This is used to determine whether to paint line break tie (before note head).
+       * @p setFirstInStaff() method is called by @p TstaffObject::fit()
+       * when measures are moved among staves.
+       */
+  bool firstInStaff() { return m_firstInStaff; }
+  void setFirstInStaff(bool isFirst);
 
 private:
 
@@ -112,11 +140,15 @@ private:
   QList<QQuickItem*>           m_upperLines, m_lowerLines;
   qreal                        m_stemHeight;
   QString                      m_accidText;
+  QQuickItem                  *m_tie = nullptr;
+  bool                         m_firstInStaff = false;
 
 private:
   QQuickItem* createAddLine(QQmlComponent& comp);
   void updateAlter();
   void updateWidth();
+  void updateNoteHead();
+  void updateTieScale();
 };
 
 #endif // TNOTEOBJECT_H

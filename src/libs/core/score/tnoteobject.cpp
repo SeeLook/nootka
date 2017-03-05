@@ -120,7 +120,7 @@ void TnoteObject::setStaff(TstaffObject* staffObj) {
     m_staff = staffObj;
     setParentItem(m_staff->staffItem());
   } else
-    qDebug() << debug() << "has staff set already";
+      qDebug() << debug() << "has staff set already";
 }
 
 
@@ -160,15 +160,12 @@ void TnoteObject::setColor(const QColor& c) {
 void TnoteObject::setNote(const Tnote& n) {
   bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest() || n.hasDot() != m_note->hasDot();
   bool updateStem = updateHead || (n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam);
+  bool updateTie = n.rtm.tie() != m_note->rtm.tie();
 
   *m_note = n;
 
-  if (updateHead) {
-    QString headText = getHeadText();
-    if (m_note->hasDot())
-      headText.append(QStringLiteral("\ue1e7"));
-    m_head->setProperty("text", headText);
-  }
+  if (updateHead)
+    updateNoteHead();
 
   if (m_note->isRest())
     m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
@@ -209,6 +206,9 @@ void TnoteObject::setNote(const Tnote& n) {
   updateAlter();
   updateWidth();
 
+  if (updateTie)
+    checkTie();
+
 //   m_bg->setX(m_note->alter && m_alter->isVisible() ? -m_alter->width() - 0.4 : -0.4);
 //   m_bg->setHeight(m_stem->height() + 4.0);
 //   m_bg->setY(m_stem->y() - (m_note->rtm.stemDown() ? 3.25 : 1.25));
@@ -220,6 +220,9 @@ void TnoteObject::setNote(const Tnote& n) {
 
 void TnoteObject::setX(qreal xx) {
   QQuickItem::setX(xx + (m_accidText.isEmpty() ? 0.0 : m_alter->width()));
+  updateTieScale();
+  if ((m_note->rtm.tie() == Trhythm::e_tieCont || m_note->rtm.tie() == Trhythm::e_tieEnd))
+    updateAlter();
 }
 
 
@@ -244,6 +247,26 @@ char TnoteObject::debug() {
 }
 
 
+void TnoteObject::checkTie() {
+  if (m_tie && (m_note->rtm.tie() == Trhythm::e_noTie || m_note->rtm.tie() == Trhythm::e_tieEnd)) {
+      delete m_tie;
+      m_tie = nullptr;
+  } else if (m_tie == nullptr && (m_note->rtm.tie() == Trhythm::e_tieStart || m_note->rtm.tie() == Trhythm::e_tieCont)) {
+      QQmlEngine engine;
+      QQmlComponent comp(&engine, QUrl(QStringLiteral("qrc:/Tie.qml")));
+      m_tie = qobject_cast<QQuickItem*>(comp.create());
+      m_tie->setParentItem(m_head);
+      m_tie->setProperty("color", qApp->palette().text().color());
+      updateTieScale();
+      m_tie->setX(m_head->width());
+  }
+}
+
+
+qreal TnoteObject::tieWidth() {
+  return staff()->gapFactor() * rhythmFactor() + (this == m_measure->last()->object() ? 1.5 : 0.0) + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.2);
+}
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -267,14 +290,14 @@ QString TnoteObject::getAccidText() {
       }
     }
   }
-  int id = index() - 1; // check the previous notes for accidentals 
+  int id = index() - 1; // check the previous notes for accidentals
   while (id >= 0 && m_staff->score()->noteSegment(id)->object()->measure() == measure()) {
     if (m_staff->score()->noteSegment(id)->note()->note == m_note->note) {
       char prevAlter = m_staff->score()->noteSegment(id)->note()->alter;
       if (prevAlter != 0 && m_note->alter == 0) {
           if (a.isEmpty())
             a = accCharTable[5]; // and add neutral when some of previous notes with the same step had an accidental
-      } else if (prevAlter == 0 && m_note->alter == 0) // There was a neutral, do not display it twice
+      } else if (prevAlter == m_note->alter) // do not display it twice
           a.clear();
       else if (accidInKey == m_note->alter && prevAlter != m_note->alter)
           a = accCharTable[m_note->alter + 2]; // There is already accidental in key signature but some of the previous notes had another one, show it again
@@ -332,6 +355,14 @@ void TnoteObject::keySignatureChanged() {
 }
 
 
+void TnoteObject::setFirstInStaff(bool isFirst) {
+  if (isFirst != m_firstInStaff) {
+    m_firstInStaff = isFirst;
+    updateAlter();
+  }
+}
+
+
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
@@ -349,8 +380,15 @@ QQuickItem* TnoteObject::createAddLine(QQmlComponent& comp) {
 }
 
 
+/**
+ * It checks also is this note first in the staff and has a tie.
+ * Additional tie is added then, because staff line break also broke the tie
+ */
 void TnoteObject::updateAlter() {
-  m_accidText = getAccidText();
+  if (m_firstInStaff && (m_note->rtm.tie() == Trhythm::e_tieCont || m_note->rtm.tie() == Trhythm::e_tieEnd))
+    m_accidText = QStringLiteral("\ue1fd");
+  else
+    m_accidText = getAccidText();
   m_alter->setProperty("text", m_accidText);
   if (!m_accidText.isEmpty())
     m_alter->setX(-m_alter->width() - 0.1);
@@ -359,4 +397,19 @@ void TnoteObject::updateAlter() {
 
 void TnoteObject::updateWidth() {
   setWidth(m_alter->width() + m_head->width() + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
+  updateTieScale();
+}
+
+
+void TnoteObject::updateNoteHead() {
+  QString headText = getHeadText();
+  if (m_note->hasDot())
+    headText.append(QStringLiteral("\ue1e7"));
+  m_head->setProperty("text", headText);
+}
+
+
+void TnoteObject::updateTieScale() {
+  if (m_tie)
+    m_tie->setProperty("xScale", tieWidth() / 2.90625);
 }
