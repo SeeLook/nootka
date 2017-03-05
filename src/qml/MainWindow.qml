@@ -79,6 +79,7 @@ ApplicationWindow {
 
       MainScore {
         id: score
+        height: (nootkaWindow.height * 2) / 3 - header.height
         scoreMenu.x: header.scoreAct.x
       }
 

@@ -36,6 +36,7 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
   setRenderTarget(QQuickPaintedItem::FramebufferObject);
   //   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
   setAntialiasing(true);
+  setTune();
 }
 
 
@@ -140,6 +141,65 @@ void TguitarBg::paint(QPainter* painter) {
         }
     }
   }
+// STRINGS
+  QFont strFont = qApp->font();
+  strFont.setPixelSize((int)qRound(0.75 * m_strGap));//setting font for digits
+  painter->setFont(strFont);
+  painter->setBrush(QBrush(Qt::NoBrush));
+  for (int i = 0; i < 6; i++) {
+//  drawing main strings
+    qreal lineYpos = m_fbRect.y() + m_strGap / 2 + i * m_strGap;
+    QLinearGradient strGrad(1.0, lineYpos - m_strWidth[i] / 2, 1.0, lineYpos + m_strWidth[i] / 2);
+    strGrad.setColorAt(0.0, m_strColors[i]);
+    strGrad.setColorAt(0.3, m_strColors[i]);
+    strGrad.setColorAt(0.7, m_strColors[i].darker());
+    painter->setPen(QPen(QBrush(strGrad), m_strWidth[i], Qt::SolidLine));
+    painter->drawLine(1, lineYpos, width() - 1 - m_strGap, lineYpos);
+    if (i < GLOB->Gtune()->stringNr()) {
+// drawing digits of strings in circles
+        painter->setPen(QPen(m_strColors[i], 1, Qt::SolidLine));
+        painter->setBrush(QBrush(QColor(0, 0, 0, 180)));
+        int circleX;
+        if (!GLOB->GisRightHanded) {
+            painter->scale (-1, 1);
+            painter->translate(-width(), 0);
+            circleX = 1;
+        } else
+            circleX = width() - 1 - m_strGap;
+        QRect elRect(circleX, m_fbRect.y() + i * m_strGap, m_strGap - 1, m_strGap - 1);
+        painter->drawEllipse(elRect);
+        painter->setPen(QPen(Qt::green,1,Qt::SolidLine));// in green color
+        painter->drawText(elRect, Qt::AlignCenter, QString::number(i + 1));
+        if (!GLOB->GisRightHanded) {
+            painter->translate(width(), 0);
+            painter->scale (-1, 1);
+        }
+  // shadow of the strings
+        painter->setPen(QPen(QColor(0, 0, 0, 150), m_strWidth[i], Qt::SolidLine)); // on the fingerboard
+        int yy = lineYpos + m_strWidth[i] * 1.5;// m_strGap * 0.2;
+        painter->drawLine(m_fbRect.x() - 6 + huesoW, yy, m_fbRect.x() + m_fbRect.width() - 1, yy);
+        painter->setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
+        painter->drawLine(m_fbRect.x() - 8, lineYpos - 2, m_fbRect.x() - 8 + huesoW , lineYpos - 2);
+        painter->drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1, m_fbRect.x() - 8 + huesoW, lineYpos + m_strWidth[i] - 1);
+        /*if (BG_PIX->pickUpRect().width()) { // shadow on the pickup if exist (bass or electric guitar)
+          int pickX = BG_PIX->pickUpRect().x();
+          if (!GLOB->GisRightHanded)
+              pickX = width() - (BG_PIX->pickUpRect().x() + BG_PIX->pickUpRect().width());
+          painter->setPen(QPen(QColor(28, 28, 28, 30), m_strWidth[i], Qt::SolidLine));
+          yy += m_strGap * 0.1;
+          int subW = qRound((qreal)BG_PIX->pickUpRect().width() * 0.15);
+          QPoint ps[5] = {
+                QPoint(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.12),
+                QPoint(pickX, yy + m_strGap * 0.12),
+                QPoint(pickX + subW, yy),
+                QPoint(pickX + BG_PIX->pickUpRect().width() - subW, yy),
+                QPoint(pickX + BG_PIX->pickUpRect().width() - subW * 0.3, yy + m_strGap * 0.15)
+          };
+          painter->drawPolyline(ps, 5);
+        }*/
+
+    }
+  }
 
 }
 
@@ -160,6 +220,13 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
     m_lastFret = m_fretsPos[GLOB->GfretsNumber - 1];
     if (m_lastFret > (m_fbRect.width() + 10))
       m_fbRect.setWidth(m_lastFret - 8);
+    qreal wFactor = newSize.height() / 150.0;
+    m_strWidth[0] = m_widthFromPitch[0] * wFactor;
+    m_strWidth[1] = m_widthFromPitch[1] * wFactor;
+    m_strWidth[2] = m_widthFromPitch[2] * wFactor;
+    m_strWidth[3] = m_widthFromPitch[3] * wFactor;
+    m_strWidth[4] = m_widthFromPitch[4] * wFactor;
+    m_strWidth[5] = m_widthFromPitch[5] * wFactor;
 
     emit fretWidthChanged();
     emit stringsGapChanged();
@@ -188,6 +255,9 @@ void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
   paintFingerAtPoint(event->pos());
 }
 
+//################################################################################################
+//################################################ PROTECTED #####################################
+//################################################################################################
 
 void TguitarBg::paintFingerAtPoint(QPoint p) {
   int strNr = 7, fretNr = 99;
@@ -214,8 +284,48 @@ void TguitarBg::paintFingerAtPoint(QPoint p) {
     } else { // show string line
         m_fingerPos.setX(0.0);
     }
-    emit fingerPosChanged();
     m_curStr = strNr;
     m_curFret = fretNr;
+    emit fingerPosChanged();
+    emit stringChanged();
   }
+}
+
+
+void TguitarBg::setTune() {
+  for (quint8 i = 0; i < GLOB->Gtune()->stringNr(); i++) {
+    if (GLOB->Gtune()->str(i + 1).chromatic() > 14) { // highest than cis1
+      m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
+      m_widthFromPitch[i] = 2; // and thinner
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > 10) { // highest than gis
+        m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
+        m_widthFromPitch[i] = 2.5; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > 4) { // highest than dis
+        m_strColors[i] = QColor(255, 255, 255, 150); // are nylon
+        m_widthFromPitch[i] = 3; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > 0) { // highest than b-1(contra)
+        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_widthFromPitch[i] = 3; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -5) { // highest than g-1(contra) 1-st string of bass
+        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_widthFromPitch[i] = 3.5; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -10) { // highest than d-1(contra)
+        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_widthFromPitch[i] = 4; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -15) { // highest than gis-2(subcontra)
+        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_widthFromPitch[i] = 4.5; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -20) { // highest than dis-1(contra)
+        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_widthFromPitch[i] = 5; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -25) { // highest than
+        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_widthFromPitch[i] = 6; // and more thick
+    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -30) { // highest than
+        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_widthFromPitch[i] = 7; // and more thick
+    }
+  }
+//   m_loNote = GLOB->loString().chromatic();
+//   m_hiNote = GLOB->hiString().chromatic() + GLOB->GfretsNumber;
 }

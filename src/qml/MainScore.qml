@@ -24,7 +24,6 @@ Score {
   id: mainScore
 
   width: parent.width
-  height: parent.height - header.height - instrument.height
 
   property alias scoreMenu: scoreMenu
 
