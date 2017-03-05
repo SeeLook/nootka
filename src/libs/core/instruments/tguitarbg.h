@@ -39,6 +39,7 @@ class NOOTKACORE_EXPORT TguitarBg : public QQuickPaintedItem
   Q_PROPERTY(int fretWidth READ fretWidth NOTIFY fretWidthChanged)
   Q_PROPERTY(int stringsGap READ stringsGap NOTIFY stringsGapChanged)
   Q_PROPERTY(QPointF fingerPos READ fingerPos NOTIFY fingerPosChanged)
+  Q_PROPERTY(int string READ currentString NOTIFY stringChanged)
 
 
 public:
@@ -48,6 +49,9 @@ public:
        * @p TRUE when mouse cursor is over
        */
   bool active() { return m_active; }
+
+  short currentString() { return m_curStr; }
+  short currentFret() { return m_curFret; }
 
       /**
        * Average width of fret
@@ -73,11 +77,14 @@ public:
        */
   QPointF fretToPos(const TfingerPos &pos);
 
+  Q_INVOKABLE qreal strWidth(int str) { return m_strWidth[str]; }
+
 signals:
   void activeChanged();
   void fretWidthChanged();
   void stringsGapChanged();
   void fingerPosChanged();
+  void stringChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
@@ -87,6 +94,11 @@ protected:
 
   void paintFingerAtPoint(QPoint p);
 
+      /**
+       * Determines string width by its note pitch. Sets @p loNote & @p hiNote
+       */
+  void setTune();
+
 private:
   QRect        m_fbRect; /**< Represents top left positions and size of a fingerboard */
   int          m_strGap; /**< Distance between strings */
@@ -94,6 +106,9 @@ private:
   int          m_lastFret; /**< Position of the last fret (in whole widget coordinates) */
   int          m_fretsPos[24]; /**< @p fretsPos stores X positions of frets in global widget coordinates */
   short        m_curStr, m_curFret; /**< Actual position of cursor over the guitar in strings/frets coordinates */
+  qreal        m_strWidth[6]; /**< Array of each string width. The width depends on fretboard height. */
+  qreal        m_widthFromPitch[6]; /**< Base values from which @p m_strWidth is calculated determined from tune. */
+  QColor       m_strColors[6];
 
   bool         m_active;
   QPointF      m_fingerPos;
