@@ -155,9 +155,18 @@ protected:
        */
   void insertMeasure(int index, TmeasureObject* m);
 
+  void deleteExtraTie();
+
 private:
   void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */
   void findHighestNote(); /**< Checks all Y positions of staff notes to find highest one */
+
+      /**
+       * Staff manages extra tie text when tie is broken among staves.
+       * It creates QML Text item and adds it to first note head in the staff.
+       * Whenever first note changes (measures are shifting), it check is that extra tie necessary
+       */
+  void createExtraTie(TnoteObject* parent);
 
 private:
   TscoreObject                  *m_score;
@@ -170,6 +179,7 @@ private:
   int                            m_firstMeasureId, m_lastMeasureId;
   qreal                          m_allNotesWidth = 0.0;
   qreal                          m_gapsSum = 0.0;
+  QQuickItem                    *m_extraTie = nullptr; /**< Tie at the staff beginning */
 };
 
 #endif // TSTAFFOBJECT_H

@@ -219,15 +219,13 @@ void TnoteObject::setNote(const Tnote& n) {
 
 
 void TnoteObject::setX(qreal xx) {
-  QQuickItem::setX(xx + (m_accidText.isEmpty() ? 0.0 : m_alter->width()));
   updateTieScale();
-  if ((m_note->rtm.tie() == Trhythm::e_tieCont || m_note->rtm.tie() == Trhythm::e_tieEnd))
-    updateAlter();
+  QQuickItem::setX(xx + (m_accidText.isEmpty() ? 0.0 : m_alter->width()));
 }
 
 
 qreal TnoteObject::rightX() {
-  return x() + width() + staff()->gapFactor() * rhythmFactor() - (m_accidText.isEmpty() ? 0.0 : m_alter->width());
+  return x() + width() + staff()->gapFactor() * rhythmFactor() - m_alter->width();
 }
 
 
@@ -355,14 +353,6 @@ void TnoteObject::keySignatureChanged() {
 }
 
 
-void TnoteObject::setFirstInStaff(bool isFirst) {
-  if (isFirst != m_firstInStaff) {
-    m_firstInStaff = isFirst;
-    updateAlter();
-  }
-}
-
-
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
@@ -380,13 +370,9 @@ QQuickItem* TnoteObject::createAddLine(QQmlComponent& comp) {
 }
 
 
-/**
- * It checks also is this note first in the staff and has a tie.
- * Additional tie is added then, because staff line break also broke the tie
- */
 void TnoteObject::updateAlter() {
-  if (m_firstInStaff && (m_note->rtm.tie() == Trhythm::e_tieCont || m_note->rtm.tie() == Trhythm::e_tieEnd))
-    m_accidText = QStringLiteral("\ue1fd");
+  if ((m_note->rtm.tie() == Trhythm::e_tieCont || m_note->rtm.tie() == Trhythm::e_tieEnd))
+    m_accidText.clear();
   else
     m_accidText = getAccidText();
   m_alter->setProperty("text", m_accidText);
@@ -410,6 +396,8 @@ void TnoteObject::updateNoteHead() {
 
 
 void TnoteObject::updateTieScale() {
-  if (m_tie)
+  if (m_tie) {
     m_tie->setProperty("xScale", tieWidth() / 2.90625);
+    m_tie->setProperty("stemDown", m_note->rtm.stemDown());
+  }
 }

@@ -23,6 +23,7 @@
 #include "tnotepair.h"
 #include "music/tnote.h"
 
+#include <QtQml/qqmlengine.h>
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
@@ -138,7 +139,7 @@ void TstaffObject::fit() {
           if (m > m_firstMeasureId)
             m_allNotesWidth -= BARLINE_OFFSET;
           m_gapFactor = (m_score->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;  // allow factor bigger than 2.5
-          measure->first()->object()->setFirstInStaff(true);
+          createExtraTie(measure->first()->object());
           m_score->startStaffFromMeasure(this, m, m_lastMeasureId - (m - 1));
           m_lastMeasureId = m - 1;
           updateNotesPos();
@@ -165,12 +166,12 @@ void TstaffObject::fit() {
       if (availableWidth / tempGapSum > 0.8) {
         m_lastMeasureId = m;
         nextMeasure->setStaff(this);
-        nextMeasure->first()->object()->setFirstInStaff(false);
+        deleteExtraTie();
         nextStaff->setFirstMeasureId(m + 1); // if there is not next measure - next staff will be deleted
         if (nextStaff->measuresCount() < 1)
           m_score->deleteStaff(nextStaff);
         else
-          m_score->firstMeasure()->first()->object()->setFirstInStaff(true);
+          createExtraTie(nextStaff->firstMeasure()->first()->object());
         fit();
         checkNotesRange();
         return;
@@ -244,6 +245,15 @@ void TstaffObject::insertMeasure(int index, TmeasureObject* m) {
   m->setStaff(this);
 }
 
+
+void TstaffObject::deleteExtraTie() {
+  if (m_extraTie) {
+    delete m_extraTie;
+    m_extraTie = nullptr;
+  }
+}
+
+
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
@@ -273,6 +283,24 @@ void TstaffObject::findLowestNote() {
       auto noteSeg = measure->note(n);
       m_loNotePos = qMax(qreal(noteSeg->object()->notePosY() + (noteSeg->note()->rtm.stemDown() ? 4 : 2)), m_loNotePos);
     }
+  }
+}
+
+
+void TstaffObject::createExtraTie(TnoteObject* parent) {
+  if (parent->note()->rtm.tie() == Trhythm::e_tieCont || parent->note()->rtm.tie() == Trhythm::e_tieEnd) {
+      if (!m_extraTie) {
+        QQmlEngine engine;
+        QQmlComponent comp(&engine, this);
+        comp.setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
+        m_extraTie = qobject_cast<QQuickItem*>(comp.create());
+        m_extraTie->setX(-2.346875); // 2.546875 tie glyph width
+      }
+      m_extraTie->setParentItem(parent->head());
+      m_extraTie->setProperty("text", parent->note()->rtm.stemDown() ? QStringLiteral("\ue204") : QStringLiteral("\ue1fd"));
+      m_extraTie->setY(parent->note()->rtm.stemDown() ? -1.0 : 0.0);
+  } else {
+      deleteExtraTie();
   }
 }
 

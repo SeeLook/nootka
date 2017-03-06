@@ -41,8 +41,9 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
 
   Q_PROPERTY(qreal notePosY READ notePosY WRITE setNotePosY NOTIFY notePosYchanged)
 
-  friend class TmeasureObject;
+  friend class TscoreObject;
   friend class TstaffObject;
+  friend class TmeasureObject;
 
 public:
   explicit TnoteObject(TstaffObject* staffObj = nullptr);
@@ -106,6 +107,7 @@ protected:
   void keySignatureChanged();
 
   QQuickItem* tie() { return m_tie; }
+  QQuickItem* head() { return m_head; }
 
       /**
        * @p TnoteObject manages tie itself whenever tie state changes, by calling exactly this method.
@@ -118,15 +120,6 @@ protected:
        * It sets tie glyph text to @p m_accidText when note with tie begins a staff
        */
   void checkTie();
-
-      /**
-       * @p TRUE when this note is first in the staff.
-       * This is used to determine whether to paint line break tie (before note head).
-       * @p setFirstInStaff() method is called by @p TstaffObject::fit()
-       * when measures are moved among staves.
-       */
-  bool firstInStaff() { return m_firstInStaff; }
-  void setFirstInStaff(bool isFirst);
 
 private:
 
@@ -141,7 +134,6 @@ private:
   qreal                        m_stemHeight;
   QString                      m_accidText;
   QQuickItem                  *m_tie = nullptr;
-  bool                         m_firstInStaff = false;
 
 private:
   QQuickItem* createAddLine(QQmlComponent& comp);
