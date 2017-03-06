@@ -265,8 +265,10 @@ void TscoreObject::startStaffFromMeasure(TstaffObject* sourceStaff, int measureN
   if (sourceStaff == lastStaff()) { // create new staff to shift measure(s) there
       emit staffCreate();
       targetStaff = lastStaff();
-  } else
+  } else {
       targetStaff = m_staves[sourceStaff->number() + 1];
+      targetStaff->deleteExtraTie();
+  }
 
   for (int m = measureNr; m < measureNr + count; ++m)
     m_measures[m]->setStaff(targetStaff);

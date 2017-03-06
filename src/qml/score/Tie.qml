@@ -20,11 +20,12 @@ import QtQuick 2.7
 
 
 Text {
+  id: tie
   property alias xScale: sc.xScale
+  property bool stemDown: false
 
-  font { family: "Scorek"; pixelSize: 8 }
-  text: "\ue1fd"
-  transformOrigin: Item.Left
+  font { family: "Scorek"; pixelSize: 7 }
+  text: stemDown ? "\ue204" : "\ue1fd"
   transform: Scale { id: sc }
-  y: -2.5
+  y: -0.5
 }
