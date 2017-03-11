@@ -119,12 +119,13 @@ ApplicationWindow {
 //       }
 //   }
   function randNotes() {
-    var rest = false //(Math.random() * 100) % 6 > 4
+    var rest = (Math.random() * 100)  > 90
 //     var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
     var accid = rest ? 0 : Math.min(Math.floor(Math.random() * 2), 1)
     var note = rest ? 0 : 1 + Math.random() * 7
     var octave = -2 + Math.random() * 5
-    score.addNote(Noo.note(note, octave, accid, 2 + Math.random() * 4, rest))
+    var rtm =  /*Math.random() * 100 > 50 ? 4 : 5 */ 2 + Math.random() * 4
+    score.addNote(Noo.note(note, octave, accid, rtm, rest))
 //     var noteNr = Math.random() * 7
 //     var rest = Math.floor((Math.random() * 100) % 2)
 //     var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)

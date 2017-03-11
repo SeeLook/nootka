@@ -132,6 +132,7 @@ public:
   int groupCount() { return m_meterGroups.count(); }
 
   QList<Tnote>& notes();
+  int notesCount() { return m_notes.count(); }
 
 signals:
   void meterChanged();
