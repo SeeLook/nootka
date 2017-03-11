@@ -21,6 +21,7 @@
 #include "tstaffobject.h"
 #include "tnoteobject.h"
 #include "tnotepair.h"
+#include "tbeamobject.h"
 #include "music/tmeter.h"
 #include "music/tnote.h"
 
@@ -58,7 +59,7 @@ void TmeasureObject::setStaff(TstaffObject* st) {
   if (m_staff != st) {
     m_staff = st;
     for (TnotePair* np : m_notes)
-      np->object()->setStaff(m_staff);
+      np->item()->setStaff(m_staff);
   }
 }
 
@@ -69,15 +70,24 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   for (int n = segmentId; n < segmentId + count; ++n)
     m_notes.append(m_score->noteSegment(n));
   updateRhythmicGroups();
-  // resolve beaming
+  int grWithBeam = beamGroup(segmentId);
   for (int n = segmentId; n < segmentId + count; ++n) {
     auto np = m_score->noteSegment(n);
-    auto noteObject = new TnoteObject(m_staff);
-    noteObject->setIndex(np->index());
+    auto noteObject = new TnoteObject(m_staff, np);
     noteObject->setMeasure(this);
     np->setNoteObject(noteObject);
     checkAccidentals();
     noteObject->setNote(*np->note());
+  }
+  if (grWithBeam > -1) {
+    auto firstInGrId = m_score->noteSegment(firstNoteId() + m_firstInGr[grWithBeam])->index();
+    while (firstInGrId < m_score->notesCount()) {
+      auto ns = m_score->noteSegment(firstInGrId);
+      if (ns->beam()) {
+        ns->beam()->prepareBeam();
+        break;
+      }
+    }
   }
   refresh();
   m_staff->refresh();
@@ -102,19 +112,19 @@ void TmeasureObject::insertNote(int id, TnotePair* np) {
 
 void TmeasureObject::keySignatureChanged() {
   for (int n = 0; n < m_notes.size(); ++n) {
-    m_notes[n]->object()->keySignatureChanged();
+    m_notes[n]->item()->keySignatureChanged();
   }
   refresh();
 }
 
 
 int TmeasureObject::firstNoteId() const {
-  return m_notes.count() ? m_notes.first()->object()->index() : 0;
+  return m_notes.count() ? m_notes.first()->index() : 0;
 }
 
 
 int TmeasureObject::lastNoteId() const {
-  return m_notes.count() ? m_notes.last()->object()->index() : 0;
+  return m_notes.count() ? m_notes.last()->index() : 0;
 }
 
 
@@ -158,7 +168,7 @@ void TmeasureObject::updateRhythmicGroups() {
 
 void TmeasureObject::checkBarLine() {
   if (m_free == 0) {
-    auto lastNote = last()->object();
+    auto lastNote = last()->item();
     if (!m_barLine) {
       QQmlEngine engine;
       QQmlComponent comp(&engine, this);
@@ -168,7 +178,7 @@ void TmeasureObject::checkBarLine() {
       m_barLine->setProperty("color", lastNote->color());
       m_barLine->setY(m_staff->upperLine());
     }
-    qreal xOff = lastNote == m_staff->lastMeasure()->last()->object() ? 0.2 : 0.0; // fit line at the staff end
+    qreal xOff = lastNote == m_staff->lastMeasure()->last()->item() ? 0.2 : 0.0; // fit line at the staff end
     m_barLine->setX(lastNote->rightX() - lastNote->x() + xOff);
   }
 }
@@ -178,7 +188,7 @@ void TmeasureObject::refresh() {
   m_gapsSum = 0.0;
   m_allNotesWidth = 0.0;
   for (int n = 0; n < m_notes.size(); ++n) {
-    auto noteObj = note(n)->object();
+    auto noteObj = note(n)->item();
     m_gapsSum += noteObj->rhythmFactor();
     m_allNotesWidth += noteObj->width();
   }
@@ -194,6 +204,29 @@ void TmeasureObject::checkAccidentals() {
   }
 }
 
+
+int TmeasureObject::beamGroup(int segmentId) {
+  int currGr = m_score->noteSegment(segmentId)->rhythmGroup();
+  int segId = m_firstInGr[currGr] + 1;
+  int grWithBeam = -1;
+  while (segId < m_notes.count() && m_notes[segId]->rhythmGroup() == currGr) {
+    auto noteSeg = m_notes[segId];
+    auto prevSeg = m_notes[segId - 1];
+    if (!noteSeg->note()->isRest() && !prevSeg->note()->isRest() // not a rest
+      && noteSeg->note()->rhythm() > Trhythm::Quarter // sixteenth or eighth
+      && prevSeg->note()->rhythm() > Trhythm::Quarter)
+    {
+        if (prevSeg->note()->rtm.beam() == Trhythm::e_noBeam) // start beam group
+          prevSeg->setBeam(new TbeamObject(prevSeg, this));
+        auto beam = prevSeg->beam();
+        if (noteSeg->beam() == nullptr)
+          beam->addNote(noteSeg);
+        grWithBeam = currGr;
+    }
+    segId++;
+  }
+  return grWithBeam;
+}
 
 //#################################################################################################
 //###################              PRIVATE             ############################################
