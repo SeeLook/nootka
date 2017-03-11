@@ -29,6 +29,7 @@ class TscoreObject;
 class TstaffObject;
 class TnoteObject;
 class TnotePair;
+class TbeamObject;
 
 
 /**
@@ -121,6 +122,13 @@ protected:
   void keySignatureChanged();
 
   qint8 accidState(int noteNr) { return m_accidsState[noteNr]; }
+
+      /**
+       * Checks notes rhythms of group @p segmentId belongs to
+       * for 8ths and 16ths and crates beams (@p TbeamObject) if they occurs
+       * It can be called before @p TnoteObject will be created
+       */
+  int beamGroup(int segmentId);
 
 private:
   void clearAccidState();
